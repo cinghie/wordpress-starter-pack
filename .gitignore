@@ -1,4 +1,4 @@
-# Root files
+# WP Root files
 *.log
 index.php
 wp-activate.php
@@ -22,6 +22,11 @@ xmlrpc.php
 /sitemap.xml
 /sitemap.xml.gz
 
-# Platform files
+# WP files
 wp-admin/
 wp-includes/
+
+# WP Content Files
+wp-content/languages/
+wp-content/upgrade/
+wp-content/index.php
