@@ -27,6 +27,7 @@ wp-admin/
 wp-includes/
 
 # WP Content Files
+!wp-content/themes/shapely/
 wp-content/themes/twentyfifteen/
 wp-content/themes/twentyseventeen/
 wp-content/themes/twentysixteen/
