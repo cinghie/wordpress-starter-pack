@@ -26,3 +26,7 @@ password: password
  - Create new user and delete the old one
  - On General Settings set Site Title
  - On Reading Settings remove flag from "Discourage search engines to index this site"
+ - Generate and set Akismet Anti-Spam
+ - Activate and set Wordfence Security
+ - Activate and set Yoast SEO
+ - Activate and set Google Analytics for WordPress
