@@ -28,5 +28,9 @@ wp-includes/
 
 # WP Content Files
 wp-content/languages/
+wp-content/themes/twentyfifteen/
+wp-content/themes/twentyseventeen/
+wp-content/themes/twentysixteen/
+wp-content/themes/index.php
 wp-content/upgrade/
 wp-content/index.php
