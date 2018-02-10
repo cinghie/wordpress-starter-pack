@@ -1,0 +1,115 @@
+# Translation of Stable (latest release) in Italian
+# This file is distributed under the same license as the Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2016-04-27 19:54:13+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/2.1.0-alpha\n"
+"Project-Id-Version: Stable (latest release)\n"
+
+#: inc/class-bjll-adminpage.php:9
+msgid "BJ Lazy Load Options"
+msgstr "Opzioni di BJ Lazy Load"
+
+#: inc/class-bjll-adminpage.php:18
+msgid "Apply to content"
+msgstr "Applica al contenuto"
+
+#: inc/class-bjll-adminpage.php:21 inc/class-bjll-adminpage.php:27
+#: inc/class-bjll-adminpage.php:33 inc/class-bjll-adminpage.php:39
+#: inc/class-bjll-adminpage.php:45 inc/class-bjll-adminpage.php:51
+msgid "Yes"
+msgstr "Sì"
+
+#: inc/class-bjll-adminpage.php:21 inc/class-bjll-adminpage.php:27
+#: inc/class-bjll-adminpage.php:33 inc/class-bjll-adminpage.php:39
+#: inc/class-bjll-adminpage.php:45 inc/class-bjll-adminpage.php:51
+msgid "No"
+msgstr "No"
+
+#: inc/class-bjll-adminpage.php:24
+msgid "Apply to text widgets"
+msgstr "Applica ai widget di testo"
+
+#: inc/class-bjll-adminpage.php:30
+msgid "Apply to post thumbnails"
+msgstr "Applica alle immagini in evidenza"
+
+#: inc/class-bjll-adminpage.php:36
+msgid "Apply to gravatars"
+msgstr "Applica ai gravatar"
+
+#: inc/class-bjll-adminpage.php:42
+msgid "Lazy load images"
+msgstr "Carica le immagini solo quando necessario"
+
+#: inc/class-bjll-adminpage.php:48
+msgid "Lazy load iframes"
+msgstr "Carica gli iframe solo quando necessario"
+
+#: inc/class-bjll-adminpage.php:54
+msgid "Placeholder Image URL"
+msgstr "URL dell'immagine temporanea"
+
+#: inc/class-bjll-adminpage.php:57
+msgid "Leave blank for default"
+msgstr "Lascia vuoto per il valore predefinito"
+
+#: inc/class-bjll-adminpage.php:60
+msgid "Skip images with classes"
+msgstr "Non applicare alle immagini che hanno le classi"
+
+#: inc/class-bjll-adminpage.php:63
+msgid "Comma separated. Example: \"no-lazy, lazy-ignore, image-235\""
+msgstr "Parole separate da virgola. Per esempio: \"no-lazy, lazy-ignore, image-235\""
+
+#: inc/class-bjll-adminpage.php:66
+msgid "Threshold"
+msgstr "Soglia"
+
+#: inc/class-bjll-adminpage.php:69
+msgid "How close to the viewport the element should be when we load it. In pixels. Example: 200"
+msgstr "Quanto vicino al viewport un elemento dovrebbe essere perché sia caricato. In pixel. Esempio: 200"
+
+#: inc/class-bjll-skip-post.php:37
+msgid "Lazy Loading"
+msgstr "Caricando"
+
+#: inc/class-bjll-skip-post.php:50
+msgid "Skip lazy loading for this page"
+msgstr "In questa pagina, carica le immagini nel modo tradizionale"
+
+#: inc/class-bjll-skip-post.php:50
+msgid "Skip lazy loading for this post"
+msgstr "In questo articolo, carica le immagini nel modo tradizionale"
+
+#: inc/scb/AdminPage.php:227
+msgid "Settings <strong>saved</strong>."
+msgstr "Impostazioni <strong>salvate</strong>."
+
+#: inc/scb/AdminPage.php:466
+msgid "Settings"
+msgstr "Impostazioni"
+
+#. Plugin Name of the plugin/theme
+msgid "BJ Lazy Load"
+msgstr "BJ Lazy Load"
+
+#. Plugin URI of the plugin/theme
+msgid "https://wordpress.org/plugins/bj-lazy-load/"
+msgstr "https://wordpress.org/plugins/bj-lazy-load/"
+
+#. Description of the plugin/theme
+msgid "Lazy image loading makes your site load faster and saves bandwidth."
+msgstr "Caricare le immagini solo se necessario rende più leggero e veloce il tuo sito e riduce il consumo di banda."
+
+#. Author of the plugin/theme
+msgid "Bjørn Johansen"
+msgstr "Bjørn Johansen"
+
+#. Author URI of the plugin/theme
+msgid "http://twitter.com/bjornjohansen"
+msgstr "http://twitter.com/bjornjohansen"
