@@ -1,7 +1,8 @@
 # Wordpress Starter Pack
 Wordpress Starter Pack is a ready-to-use Wordpress site with:
 
-- Shapely Theme: https://colorlib.com/wp/themes/shapely/
+- Shapely Theme: https://colorlib.com/wp/themes/shapely
+- Aqua Resizer: https://github.com/syamilmj/Aqua-Resizer
 
 # Install
 
@@ -23,4 +24,5 @@ password: password
 ## 4) Others
 
  - Create new user and delete the old one
- - 
+ - On General Settings set Site Title
+ - On Reading Settings remove flag from "Discourage search engines to index this site"
