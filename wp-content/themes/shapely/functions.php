@@ -1,7 +1,5 @@
 <?php
 
-require_once('aq_resizer.php');
-
 /**
  * Shapely functions and definitions.
  *
@@ -34,9 +32,9 @@ if ( ! function_exists( 'shapely_setup' ) ) :
 		 */
 		add_theme_support(
 			'custom-logo', array(
-				'height'     => 55,
-				'width'      => 135,
-				'flex-width' => true,
+				'height'      => 55,
+				'width'       => 135,
+				'flex-width'  => true,
 				'flex-height' => true,
 			)
 		);
@@ -116,74 +114,9 @@ if ( ! function_exists( 'shapely_setup' ) ) :
 		add_theme_support( 'wc-product-gallery-slider' );
 
 		add_theme_support( 'customize-selective-refresh-widgets' );
-		// Welcome screen
-		if ( is_admin() ) {
-			global $shapely_required_actions, $shapely_recommended_plugins;
-
-			$shapely_recommended_plugins = array(
-				'contact-form-7' => array(
-					'recommended' => false,
-				),
-				'fancybox-for-wordpress' => array(
-					'recommended' => false,
-				),
-				'wordpress-seo'          => array(
-					'recommended' => false,
-				),
-			);
-
-			/*
-			 * id - unique id; required
-			 * title
-			 * description
-			 * check - check for plugins (if installed)
-			 * plugin_slug - the plugin's slug (used for installing the plugin)
-			 *
-			 */
-			$path = WPMU_PLUGIN_DIR . '/shapely-companion/inc/views/shapely-demo-content.php';
-			if ( ! file_exists( $path ) ) {
-				$path = WP_PLUGIN_DIR . '/shapely-companion/inc/views/shapely-demo-content.php';
-				if ( ! file_exists( $path ) ) {
-					$path = false;
-				}
-			}
-
-			$shapely_required_actions = array(
-				array(
-					'id'          => 'shapely-req-ac-install-companion-plugin',
-					'title'       => Shapely_Notify_System::shapely_companion_title(),
-					'description' => Shapely_Notify_System::shapely_companion_description(),
-					'check'       => Shapely_Notify_System::shapely_has_plugin( 'shapely-companion' ),
-					'plugin_slug' => 'shapely-companion',
-				),
-				array(
-					'id'          => 'shapely-req-ac-install-wp-jetpack-plugin',
-					'title'       => Shapely_Notify_System::shapely_jetpack_title(),
-					'description' => Shapely_Notify_System::shapely_jetpack_description(),
-					'check'       => Shapely_Notify_System::shapely_has_plugin( 'jetpack' ),
-					'plugin_slug' => 'jetpack',
-				),
-				array(
-					'id'          => 'shapely-req-ac-install-contact-form-7',
-					'title'       => Shapely_Notify_System::shapely_cf7_title(),
-					'description' => Shapely_Notify_System::shapely_cf7_description(),
-					'check'       => Shapely_Notify_System::shapely_has_plugin( 'contact-form-7' ),
-					'plugin_slug' => 'contact-form-7',
-				),
-				array(
-					'id'       => 'shapely-req-import-content',
-					'title'    => esc_html__( 'Import content', 'shapely' ),
-					'external' => $path,
-					'check'    => Shapely_Notify_System::shapely_check_import_req(),
-				),
-
-			);
-
-			require get_template_directory() . '/inc/admin/welcome-screen/class-shapely-welcome.php';
-		}// End if().
 
 		// Enable Shortcodes in widgets
-		add_filter( 'widget_text','do_shortcode' );
+		add_filter( 'widget_text', 'do_shortcode' );
 
 	}
 endif;
@@ -330,15 +263,6 @@ function shapely_scripts() {
 
 add_action( 'wp_enqueue_scripts', 'shapely_scripts' );
 
-// Include Epsilon Framework
-require_once 'inc/libraries/epsilon-framework/class-epsilon-autoloader.php';
-$args = array(
-	'controls' => array( 'slider', 'toggle' ), // array of controls to load
-	'sections' => array( 'recommended-actions', 'pro' ), // array of sections to load
-);
-
-new Epsilon_Framework( $args );
-
 /**
  * Custom template tags for this theme.
  */
@@ -375,7 +299,12 @@ require get_template_directory() . '/inc/socialnav.php';
 require get_template_directory() . '/inc/class-shapely-related-posts.php';
 
 /**
- * Load the system checks ( used for notifications )
+ * Load the shapely class
  */
-require get_template_directory() . '/inc/admin/welcome-screen/class-shapely-notify-system.php';
+require get_template_directory() . '/inc/class-shapely.php';
 
+/**
+ * Load the shapely page builder class
+ */
+require get_template_directory() . '/inc/class-shapely-builder.php';
+Shapely_Builder::get_instance();

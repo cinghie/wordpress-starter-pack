@@ -155,6 +155,7 @@ class Epsilon_Section_Recommended_Actions extends WP_Customize_Section {
 						<span class="current-index" data-total="{{{ data.total_actions }}}">1</span> / {{{ data.total_actions }}}
 					</span>
 				<# } #>
+				<a href="#" class="epsilon-close-recommended-section"><span class="dashicons dashicons-arrow-up-alt2"></span></a>
 			</h3>
 			<div class="recommended-actions_container" id="plugin-filter">
 				<# if( data.actions.length > 0 ){ #>
@@ -201,7 +202,7 @@ class Epsilon_Section_Recommended_Actions extends WP_Customize_Section {
 								<# if( data.plugins[plugin].plugin_slug ){ #>
 									<div class="custom-plugin">
 										<p class="plugin-card-{{ data.plugins[plugin].plugin_slug }} action_button {{ data.plugins[plugin].class }}">
-											<a data-slug="{{ data.plugins[plugin].plugin_slug }}" class="{{ data.plugins[plugin].button_class }}" href="{{ data.plugins[plugin].url }}">{{{ data.plugins[plugin].button_label }}}</a>
+											<a data-slug="{{ data.plugins[plugin].plugin_slug }}" class="{{ data.plugins[plugin].button_class }} button-primary" href="{{ data.plugins[plugin].url }}">{{{ data.plugins[plugin].button_label }}}</a>
 										</p>
 									</div>
 								<# } #>
@@ -407,21 +408,21 @@ class Epsilon_Section_Recommended_Actions extends WP_Customize_Section {
 					add_query_arg(
 						array(
 							'action' => 'install-plugin',
-							'plugin' => $plugin_slug,
+							'plugin' => $this->_get_plugin_basename_from_slug( $plugin_slug ),
 						),
 						network_admin_url( 'update.php' )
 					),
-					'install-plugin_' . $plugin_slug
+					'install-plugin_' . $this->_get_plugin_basename_from_slug( $plugin_slug )
 				);
 				break;
 			case 'deactivate':
 				return add_query_arg(
 					array(
 						'action'        => 'deactivate',
-						'plugin'        => rawurlencode( $plugin_slug . '/' . $plugin_slug . '.php' ),
+						'plugin'        => rawurlencode( $this->_get_plugin_basename_from_slug( $plugin_slug ) ),
 						'plugin_status' => 'all',
 						'paged'         => '1',
-						'_wpnonce'      => wp_create_nonce( 'deactivate-plugin_' . $plugin_slug . '/' . $plugin_slug . '.php' ),
+						'_wpnonce'      => wp_create_nonce( 'deactivate-plugin_' . $this->_get_plugin_basename_from_slug( $plugin_slug ) ),
 					),
 					network_admin_url( 'plugins.php' )
 				);
@@ -430,10 +431,10 @@ class Epsilon_Section_Recommended_Actions extends WP_Customize_Section {
 				return add_query_arg(
 					array(
 						'action'        => 'activate',
-						'plugin'        => rawurlencode( $plugin_slug . '/' . $plugin_slug . '.php' ),
+						'plugin'        => rawurlencode( $this->_get_plugin_basename_from_slug( $plugin_slug ) ),
 						'plugin_status' => 'all',
 						'paged'         => '1',
-						'_wpnonce'      => wp_create_nonce( 'activate-plugin_' . $plugin_slug . '/' . $plugin_slug . '.php' ),
+						'_wpnonce'      => wp_create_nonce( 'activate-plugin_' . $this->_get_plugin_basename_from_slug( $plugin_slug ) ),
 					),
 					network_admin_url( 'plugins.php' )
 				);
@@ -443,7 +444,7 @@ class Epsilon_Section_Recommended_Actions extends WP_Customize_Section {
 					add_query_arg(
 						array(
 							'action' => 'upgrade-plugin',
-							'plugin' => rawurlencode( $plugin_slug . '/' . $plugin_slug . '.php' ),
+							'plugin' => rawurlencode( $this->_get_plugin_basename_from_slug( $plugin_slug ) ),
 						),
 						network_admin_url( 'update.php' )
 					),

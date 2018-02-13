@@ -2,6 +2,10 @@
   margin: -12px;
   width: 105%;
 
+  .repeater-field {
+    margin-bottom: 25px;
+  }
+
   .customize-control-title {
     padding: 12px;
   }
@@ -10,6 +14,9 @@
     width: 100%;
 
     .repeater-row {
+      .repeater-index {
+        display: none;
+      }
       .repeater-row-header {
         color: #555d66;
         background-color: #fff;
@@ -28,7 +35,7 @@
         border-left-color: #0073aa;
         &:before {
           font-family: 'Dashicons';
-          content: "\f545";
+          content: "\f333";
           vertical-align: middle;
           font-size: 15px;
           margin-right: 15px;
@@ -59,6 +66,47 @@
       .repeater-row-content {
         padding: 15px;
         background: #fff;
+        nav {
+          margin: -15px -15px 15px;
+          background: #f3f3f5;
+          border-bottom: #d3d3d4;
+          text-align: center;
+          box-sizing: border-box;
+          a {
+            color: #60676f;
+            box-sizing: border-box;
+            padding: 12px 15px;
+            margin-top: 3px;
+            display: inline-block;
+            text-decoration: none;
+            outline: none;
+            margin-right: 3px;
+            &:last-of-type {
+              margin-right: 0;
+            }
+
+            &:hover,
+            &:focus,
+            &.active {
+              outline: none;
+              color: #57a7c9;
+              background: #fff;
+              position: relative;
+              -webkit-box-shadow: none;
+              box-shadow: none;
+              &:before {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: #57a7c9;
+                display: block;
+                content: '';
+              }
+            }
+          }
+        }
         .customize-control-title {
           padding: initial;
         }
@@ -78,6 +126,11 @@
       &:hover {
         color: #f00;
       }
+    }
+
+    .epsilon-upsell-container {
+      display: block;
+      padding: 15px;
     }
   }
 }
@@ -103,10 +156,6 @@
 }
 
 body.adding-section {
-  .available-sections {
-    left: 0;
-    visibility: visible;
-  }
   .wp-full-overlay-main {
     left: 300px;
   }
@@ -136,6 +185,10 @@ body.adding-section {
   transition: left .18s;
   border-right: 1px solid #ddd;
   padding-top: 60px;
+  &.opened {
+    left: 0;
+    visibility: visible;
+  }
   .customize-section-title {
     display: none;
   }
@@ -255,5 +308,21 @@ body.adding-section {
   .epsilon-section-editor {
     left: initial;
     right: 35px;
+  }
+}
+
+.customize-control-epsilon-section-repeater {
+  .repeater-field-epsilon-customizer-navigation {
+    .epsilon-customizer-navigation {
+      width: 100%;
+      text-align: center;
+    }
+  }
+}
+
+.tab-panel {
+  display: none;
+  &.active {
+    display: block;
   }
 }

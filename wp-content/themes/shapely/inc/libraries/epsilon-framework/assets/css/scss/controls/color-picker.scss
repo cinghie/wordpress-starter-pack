@@ -1,7 +1,6 @@
 .epsilon-color-picker-title {
   margin-left: 50px;
   .epsilon-color-picker-description {
-    font-family: 'Open Sans';
     font-size: 13px;
     line-height: 16px;
     font-weight: initial;
@@ -31,7 +30,13 @@
     -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .15);
     -moz-box-shadow: 0 0 5px rgba(0, 0, 0, .15);
     box-shadow: 0 0 5px rgba(0, 0, 0, .15);
+    cursor: pointer;
   }
+}
+
+.lite {
+  opacity:0;
+  visibility:hidden;
 }
 
 .minicolors-position-left .minicolors-panel {

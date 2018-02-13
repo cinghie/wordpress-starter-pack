@@ -118,7 +118,7 @@ class Epsilon_Control_Upsell extends WP_Customize_Control {
 				<ul class="epsilon-upsell-options">
 					<# _.each(data.options, function( option, index) { #>
 						<li><i class="dashicons dashicons-editor-help">
-								<span class="mte-tooltip">{{ option.help }}</span>
+								<span class="mte-tooltip">{{{ option.help }}}</span>
 							</i>
 							{{ option.option }}
 						</li>
@@ -148,7 +148,7 @@ class Epsilon_Control_Upsell extends WP_Customize_Control {
 	/**
 	 * Empty
 	 *
-	 * @since 1.2.0
+	 * @since 1.0.0
 	 */
 	public function render_content() {
 

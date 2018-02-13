@@ -9,13 +9,13 @@ if ( ! defined( 'WPINC' ) ) {
 class Epsilon_Control_Icon_Picker extends WP_Customize_Control {
 
 	/**
-	 * @since 1.2.0
+	 * @since 1.0.0
 	 * @var string
 	 */
 	public $type = 'epsilon-icon-picker';
 
 	/**
-	 * @since 1.2.0
+	 * @since 1.0.0
 	 * @var array
 	 */
 	public $icons = array();
@@ -33,7 +33,7 @@ class Epsilon_Control_Icon_Picker extends WP_Customize_Control {
 	}
 
 	/**
-	 * @since 1.2.0
+	 * @since 1.0.0
 	 * @return array
 	 */
 	public function json() {
@@ -47,7 +47,7 @@ class Epsilon_Control_Icon_Picker extends WP_Customize_Control {
 	}
 
 	/**
-	 * @since 1.2.0
+	 * @since 1.0.0
 	 * @return mixed
 	 */
 	public function get_icons() {
@@ -66,8 +66,16 @@ class Epsilon_Control_Icon_Picker extends WP_Customize_Control {
 		}
 
 		$icons = $wp_filesystem->get_contents( $path );
+		$icons = json_decode( $icons );
 
-		return json_decode( $icons );
+		/**
+		 * In case the json could not be decoded, we return a new stdClass
+		 */
+		if ( null === $icons ) {
+			return new stdClass();
+		}
+
+		return $icons;
 	}
 
 	/**
@@ -111,7 +119,7 @@ class Epsilon_Control_Icon_Picker extends WP_Customize_Control {
 	/**
 	 * Empty, as it should be
 	 *
-	 * @since 1.2.0
+	 * @since 1.0.0
 	 */
 	public function render_content() {
 	}

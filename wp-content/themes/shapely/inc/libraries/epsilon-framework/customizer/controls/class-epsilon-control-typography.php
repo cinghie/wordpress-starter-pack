@@ -42,6 +42,12 @@ class Epsilon_Control_Typography extends WP_Customize_Control {
 	public $choices = array();
 
 	/**
+	 * @since 1.3.4
+	 * @var int
+	 */
+	public $styleHelper = 'full';
+
+	/**
 	 * @since  1.2.0
 	 * @access public
 	 * @var string
@@ -78,6 +84,33 @@ class Epsilon_Control_Typography extends WP_Customize_Control {
 		$json['fonts']        = $this->google_fonts();
 		$json['selectors']    = $this->set_selectors();
 		$json['stylesheet']   = $this->stylesheet;
+
+		$i = 0;
+
+		if ( in_array( 'font-family', $json['choices'] ) ) {
+			$i ++;
+		}
+
+		if ( in_array( 'font-weight', $json['choices'] ) ) {
+			$i ++;
+		}
+
+		if ( in_array( 'font-style', $json['choices'] ) ) {
+			$i ++;
+		}
+
+		if ( in_array( 'letter-spacing', $json['choices'] ) || in_array( 'line-height', $json['choices'] ) || in_array( 'font-size', $json['choices'] ) ) {
+			$i ++;
+		}
+
+		$arr = array(
+			1 => 'one',
+			2 => 'two',
+			3 => 'three',
+			4 => 'full',
+		);
+
+		$json['styleHelper'] = $arr[ $i ];
 
 		return $json;
 	}
@@ -192,8 +225,13 @@ class Epsilon_Control_Typography extends WP_Customize_Control {
 
 		$path   = EPSILON_PATH . '/assets/data/gfonts.json';
 		$gfonts = $wp_filesystem->get_contents( $path );
+		$gfonts = json_decode( $gfonts );
 
-		return json_decode( $gfonts );
+		if ( null === $gfonts ) {
+			return new stdClass();
+		}
+
+		return $gfonts;
 	}
 
 	/**
@@ -227,7 +265,7 @@ class Epsilon_Control_Typography extends WP_Customize_Control {
 			<input disabled type="hidden" class="epsilon-typography-input" id="hidden_input_{{{ data.id }}}" <# if ( data.value ) { value="{{{ data.value }}}"  } #> {{{ data.link }}}/>
 		</div>
 
-		<div class="epsilon-typography-container" data-unique-id="{{{ data.id }}}">
+		<div class="epsilon-typography-container group-of-{{ data.styleHelper }}" data-unique-id="{{{ data.id }}}">
 			<# if( _.contains( data.choices, 'font-family' ) ) { #>
 				<div class="epsilon-typography-font-family">
 					<select id="{{{ data.id }}}-font-family" class="epsilon-typography-input">
@@ -266,7 +304,7 @@ class Epsilon_Control_Typography extends WP_Customize_Control {
 						<label for="{{{ data.id }}}-font-size">
 							<?php echo esc_html__( 'Font Size', 'epsilon-framework' ); ?>
 						</label>
-						<div class="slider-container">
+						<div class="slider-container" data-slider-type="font-size">
 							<input data-default-font-size="{{{ data.fontDefaults[data.id]['font-size'] }}}" type="text" class="epsilon-typography-input rl-slider" id="{{{ data.id }}}-font-size" value="{{{ data.inputs['font-size'] }}}"/>
 							<div id="slider_{{{ data.id }}}-font-size" data-attr-min="0" data-attr-max="40" data-attr-step="1" class="ss-slider"></div>
 						</div>
@@ -275,7 +313,7 @@ class Epsilon_Control_Typography extends WP_Customize_Control {
 						<label for="{{{ data.id }}}-line-height">
 							<?php echo esc_html__( 'Line Height', 'epsilon-framework' ); ?>
 						</label>
-						<div class="slider-container">
+						<div class="slider-container" data-slider-type="line-height">
 							<input data-default-line-height="{{{ data.fontDefaults[data.id]['line-height'] }}}" type="text" class="epsilon-typography-input rl-slider" id="{{{ data.id }}}-line-height" value="{{{ data.inputs['line-height'] }}}"/>
 							<div id="slider_{{{ data.id }}}-line-height" data-attr-min="0" data-attr-max="40" data-attr-step="1" class="ss-slider"></div>
 						</div>
@@ -284,7 +322,7 @@ class Epsilon_Control_Typography extends WP_Customize_Control {
 						<label for="{{{ data.id }}}-letter-spacing">
 							<?php echo esc_html__( 'Letter Spacing', 'epsilon-framework' ); ?>
 						</label>
-						<div class="slider-container">
+						<div class="slider-container" data-slider-type="letter-spacing">
 							<input data-default-letter-spacing="{{{ data.fontDefaults[data.id]['letter-spacing'] }}}" type="text" class="epsilon-typography-input rl-slider" id="{{{ data.id }}}-letter-spacing" value="{{{ data.inputs['letter-spacing'] }}}"/>
 							<div id="slider_{{{ data.id }}}-letter-spacing" data-attr-min="0" data-attr-max="5" data-attr-step="0.1" class="ss-slider"></div>
 						</div>
