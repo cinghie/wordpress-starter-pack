@@ -1,3 +1,3 @@
 <?php
 
-//* Add your code here
+require_once('aq_resizer.php');
