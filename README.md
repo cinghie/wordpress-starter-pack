@@ -2,6 +2,7 @@
 Wordpress Starter Pack is a ready-to-use Wordpress site with:
 
 - Shapely Theme: https://colorlib.com/wp/themes/shapely
+- Shapely Theme child just created with style.css and functions.php
 - Aqua Resizer: https://github.com/syamilmj/Aqua-Resizer
 
 # Install
