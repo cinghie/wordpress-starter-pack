@@ -1,3 +1,15 @@
+# PhpStorm project files
+.idea
+
+# NetBeans project files
+nbproject
+
+# Windows thumbnail cache
+Thumbs.db
+
+# Mac DS_Store Files
+.DS_Store
+
 # WP Root files
 *.log
 index.php
@@ -16,7 +28,6 @@ wp-signup.php
 wp-trackback.php
 xmlrpc.php
 
-/.htaccess
 /license.txt
 /readme.html
 /sitemap.xml
@@ -31,6 +42,4 @@ wp-includes/
 wp-content/themes/twentyfifteen/
 wp-content/themes/twentyseventeen/
 wp-content/themes/twentysixteen/
-wp-content/themes/index.php
 wp-content/upgrade/
-wp-content/index.php
