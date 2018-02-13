@@ -24,12 +24,13 @@ password: password
 
 ## 4) Others
 
- - Create new user and delete the old one  
+ - Create new user and delete the old one with useername "admin"
  - On General Settings set Site Title  
  - On Reading Settings remove flag from "Discourage search engines to index this site"  
- - Generate and set Akismet Anti-Spam  
+ - Generate and set Akismet Anti-Spam https://akismet.com/ 
  - Activate and set Wordfence Security  
  - Activate and set Yoast SEO  
  - Activate and set Google Analytics for WordPress  
  - Activate and set WP Super Cache
  - Secure folder wp-admin with .htaccess and .htpasswd (http://www.htaccesstools.com/articles/password-protection)
+ - Edit Prevent Hot Linking and Prevent Spam Bot mysite.com in .htaccess 

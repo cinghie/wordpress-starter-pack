@@ -11,7 +11,7 @@
 # RewriteEngine on
 # RewriteCond %{HTTP_REFERER} !^$
 # RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?mysite.com [NC]
-# RewriteRule \.(jpg|jpeg|png|gif)$ - [NC,F,L]
+# RewriteRule \.(jpg|jpeg|png|gif|svg)$ - [NC,F,L]
 </IfModule>
 # END Prevent Hot Linking
 
