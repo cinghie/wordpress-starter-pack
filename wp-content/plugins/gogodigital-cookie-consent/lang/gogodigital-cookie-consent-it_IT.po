@@ -1,0 +1,77 @@
+# WordPress Blank Pot
+# Copyright (C) 2014 ...
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Gogodigital Cookie Consent 2.1.0\n"
+"Report-Msgid-Bugs-To: Translator Name <translations@example.com>\n"
+"POT-Creation-Date: 2018-02-14 11:32+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Gogodigital S.r.l.s. <info@gogodigital.it>\n"
+"Language-Team: Gogodigital S.r.l.s. <info@gogodigital.it>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Textdomain-Support: yesX-Generator: Poedit 1.6.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html_x:1,2c;esc_html__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_attr__;_ex:1,2c;_nx:4c,1,2;"
+"_nx_noop:4c,1,2;_x:1,2c;_n:1,2;_n_noop:1,2;__ngettext:1,2;"
+"__ngettext_noop:1,2;_c,_nc:4c,1,2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Generator: Poedit 2.0.6\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: gogodigital-cookie-consent.php:66
+msgid "Gogodigital Cookie Consent Settings"
+msgstr "Impostazione Gogodigital Cookie Consent"
+
+#: gogodigital-cookie-consent.php:123
+msgid "Theme"
+msgstr "Tema"
+
+#: gogodigital-cookie-consent.php:131
+msgid "Message"
+msgstr "Messaggio"
+
+#: gogodigital-cookie-consent.php:139
+msgid "Dismiss Message"
+msgstr "Messaggio di rimozione"
+
+#: gogodigital-cookie-consent.php:147
+msgid "Learn More Message"
+msgstr "Messaggio leggi tutto"
+
+#: gogodigital-cookie-consent.php:155
+msgid "Privacy Link"
+msgstr "Link alla Cookie Policy"
+
+#: gogodigital-cookie-consent.php:211 gogodigital-cookie-consent.php:213
+msgid "Dark Bottom"
+msgstr "Scuro in basso"
+
+#: gogodigital-cookie-consent.php:217 gogodigital-cookie-consent.php:219
+msgid "Dark Floating"
+msgstr "Scuro galleggiante"
+
+#: gogodigital-cookie-consent.php:223 gogodigital-cookie-consent.php:225
+msgid "Dark Top"
+msgstr "Scuro in alto"
+
+#: gogodigital-cookie-consent.php:229 gogodigital-cookie-consent.php:231
+msgid "Light Bottom"
+msgstr "Chiaro in basso"
+
+#: gogodigital-cookie-consent.php:235 gogodigital-cookie-consent.php:237
+msgid "Light Floating"
+msgstr "Chiaro galleggiante"
+
+#: gogodigital-cookie-consent.php:241 gogodigital-cookie-consent.php:243
+msgid "Light Top"
+msgstr "Chiaro in alto"
+
+#: gogodigital-cookie-consent.php:364
+msgid "Settings"
+msgstr "Impostazioni"
