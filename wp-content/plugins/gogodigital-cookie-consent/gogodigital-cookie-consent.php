@@ -316,7 +316,7 @@ function add_cookieconsent()
 function add_cookieconsent_custom() 
 {
 	$cookieconsent_options = get_option('cookieconsent_options');
-	$cookieconsent_dismiss = $cookieconsent_options["dismiss"] ? $cookieconsent_options["dismiss"] : 'Got It!';
+	$cookieconsent_dismiss = $cookieconsent_options["dismiss_message"] ? $cookieconsent_options["dismiss_message"] : 'Got It!';
 	$cookieconsent_message = $cookieconsent_options["message"] ? $cookieconsent_options["message"] : 'This website uses cookies to ensure you get the best experience on our website.';
 	$cookieconsent_theme   = $cookieconsent_options["theme"] ? $cookieconsent_options["theme"] : 'light-floating';
 
