@@ -1,0 +1,89 @@
+# WordPress Blank Pot
+# Copyright (C) 2014 ...
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Gogodigital Essentials 2.0.0\n"
+"Report-Msgid-Bugs-To: Gogodigital S.r.l.s. <info@gogodigital.it>\n"
+"POT-Creation-Date: 2018-02-19 09:26+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Gogodigital S.r.l.s. <info@gogodigital.it>\n"
+"Language-Team: Gogodigital S.r.l.s. <info@gogodigital.it>\n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Textdomain-Support: yesX-Generator: Poedit 1.6.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html_x:1,2c;esc_html__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;"
+"_x:1,2c;_n:1,2;_n_noop:1,2;__ngettext:1,2;__ngettext_noop:1,2;_c,"
+"_nc:4c,1,2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Generator: Poedit 2.0.6\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: gogodigital-essentials.php:49 gogodigital-essentials.php:66
+msgid "Gogodigital Essentials Settings"
+msgstr "Impostazione Gogodigital Essentials"
+
+#: gogodigital-essentials.php:107
+msgid "Framework Settings"
+msgstr "Impostazioni Framework"
+
+#: gogodigital-essentials.php:114
+msgid "Load Bootstrap"
+msgstr "Carica Bootstrap"
+
+#: gogodigital-essentials.php:122
+msgid "Load Fontawesome"
+msgstr "Carica Fontawesome"
+
+#: gogodigital-essentials.php:130
+msgid "Load jQuery UI"
+msgstr "Carica jQuery UI"
+
+#: gogodigital-essentials.php:138
+msgid "Load jQuery Mobile"
+msgstr "Carica jQuery Mobile"
+
+#: gogodigital-essentials.php:146
+msgid "Load Google Fonts"
+msgstr "Carica Google Fonts"
+
+#: gogodigital-essentials.php:154
+msgid "Widget Settings"
+msgstr "Impostazioni Widget"
+
+#: gogodigital-essentials.php:161
+msgid "Copyright Widget Position"
+msgstr "Posizione Copyright"
+
+#: gogodigital-essentials.php:169
+msgid "Copyright Top Widget Position"
+msgstr "Posizione Copyright Top"
+
+#: gogodigital-essentials.php:177
+msgid "Social Icons Widget Position"
+msgstr "Posizione Social Icons"
+
+#: gogodigital-essentials.php:227
+msgid ""
+"Select which <strong>Framework</strong> do you wanna load on your Wordpress "
+"Theme"
+msgstr ""
+"Seleziona quale <strong>Framework</strong> vuoi caricare nel tuo Tema "
+"Wordpress"
+
+#: gogodigital-essentials.php:235
+msgid ""
+"Select which <strong>Widget Position</strong> do you wanna register on your "
+"Wordpress Theme Widget"
+msgstr ""
+"Seleziona quale <strong>Posizione Widget</strong> vuoi registrare nel tuo "
+"Tema Wordpress"
+
+#: gogodigital-essentials.php:720
+msgid "Settings"
+msgstr "Impostazioni"
