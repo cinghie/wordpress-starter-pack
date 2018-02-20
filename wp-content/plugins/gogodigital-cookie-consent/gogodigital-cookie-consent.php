@@ -38,7 +38,7 @@ class CookieConsentSettingsPage
     }
 	
 	public function load_textdomain() {
-		load_plugin_textdomain('gogodigital-cookie-consent', false, basename( __DIR__ ).'/lang' );
+		load_plugin_textdomain('gogodigital-cookie-consent', false, basename( __DIR__ ).'/languages' );
 	}
 	
     /**
