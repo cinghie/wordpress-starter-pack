@@ -2,11 +2,12 @@
 
 /**
  * Plugin Name: Gogodigital Cookie Consent
- * Plugin URI: http://www.gogodigital.it/development/estensioni/wordpress/wordpress-gogodigital-cookie-consent
+ * Plugin URI: https://wordpress.org/plugins/gogodigital-cookie-consent
  * Description: Adding Cookie Consent script to a Wordpress site
  * Author: Gogodigital S.r.l.s.
- * Author URI: http://www.gogodigital.it
- * Version: 2.1.0
+ * Author URI: https://www.gogodigital.it
+ * Version: 2.1.1
+ * Text Domain: gogodigital-cookie-consent
  **/
  
 define( 'GOGO_CC_VERSION', '2.1.0' );
@@ -73,7 +74,7 @@ class CookieConsentSettingsPage
 				</form>
 			</div>
 			<div style="float: left; margin-left: 2%; width: 40%">
-                <?php include_once( 'sidebar.php' ); ?>
+                <?php include_once 'sidebar.php' ?>
 			</div>
 			<div style="clear: both"></div>
         </div>
@@ -184,7 +185,7 @@ class CookieConsentSettingsPage
      */
     public function theme_callback()
     {
-		$select  = '<select id="theme" name="cookieconsent_options[theme]" aria-describedby="timezone-description">';
+		$select  = '<select id="theme" name="cookieconsent_options[theme]">';
 		
 		if( $this->options['theme'] === 'dark-bottom' ) {
 			$select .= '<option value="dark-bottom" selected="selected">'.__('Dark Bottom','gogodigital-cookie-consent').'</option>';
@@ -286,15 +287,15 @@ if( is_admin() ) {
  */
 function add_cookieconsent() 
 {	
-	wp_enqueue_script( 'cookieconsent2-js', gogodigital_cookie_consent_get_plugin_url(). '/assets/js/cookieconsent.min.js', array(), '2.0.0', true );
+	wp_enqueue_script( 'cookieconsent2-js', gogodigital_cookie_consent_get_plugin_url(). '/assets/2.0.0/js/cookieconsent.min.js', array(), '2.0.0', true );
 }
 
 function add_cookieconsent_custom() 
 {
 	$cookieconsent_options = get_option('cookieconsent_options');
-	$cookieconsent_dismiss = $cookieconsent_options["dismiss_message"] ? $cookieconsent_options["dismiss_message"] : 'Got It!';
-	$cookieconsent_message = $cookieconsent_options["message"] ? $cookieconsent_options["message"] : 'This website uses cookies to ensure you get the best experience on our website.';
-	$cookieconsent_theme   = $cookieconsent_options["theme"] ? $cookieconsent_options["theme"] : 'light-floating';
+	$cookieconsent_dismiss = $cookieconsent_options['dismiss_message'] ? $cookieconsent_options['dismiss_message'] : 'Got It!';
+	$cookieconsent_message = $cookieconsent_options['message'] ? $cookieconsent_options['message'] : 'This website uses cookies to ensure you get the best experience on our website.';
+	$cookieconsent_theme   = $cookieconsent_options['theme'] ? $cookieconsent_options['theme'] : 'light-floating';
 	$cookieCustom = '<script type="text/javascript">window.cookieconsent_options = {
 		"theme": "'.$cookieconsent_theme.'",
 		"message": "'.$cookieconsent_message.'",

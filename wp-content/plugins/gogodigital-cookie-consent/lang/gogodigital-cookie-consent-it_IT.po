@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gogodigital Cookie Consent 2.1.0\n"
 "Report-Msgid-Bugs-To: Translator Name <translations@example.com>\n"
-"POT-Creation-Date: 2018-02-14 11:32+0100\n"
+"POT-Creation-Date: 2018-02-21 00:26+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Gogodigital S.r.l.s. <info@gogodigital.it>\n"
 "Language-Team: Gogodigital S.r.l.s. <info@gogodigital.it>\n"
@@ -17,61 +17,117 @@ msgstr ""
 "X-Textdomain-Support: yesX-Generator: Poedit 1.6.4\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html_x:1,2c;esc_html__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_attr__;_ex:1,2c;_nx:4c,1,2;"
-"_nx_noop:4c,1,2;_x:1,2c;_n:1,2;_n_noop:1,2;__ngettext:1,2;"
-"__ngettext_noop:1,2;_c,_nc:4c,1,2\n"
+"esc_attr_e;esc_attr_x:1,2c;esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;"
+"_x:1,2c;_n:1,2;_n_noop:1,2;__ngettext:1,2;__ngettext_noop:1,2;_c,_nc:4c,1,2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Generator: Poedit 2.0.6\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: gogodigital-cookie-consent.php:66
+#: gogodigital-cookie-consent.php:67
 msgid "Gogodigital Cookie Consent Settings"
 msgstr "Impostazione Gogodigital Cookie Consent"
 
-#: gogodigital-cookie-consent.php:123
+#: gogodigital-cookie-consent.php:104
 msgid "Theme"
 msgstr "Tema"
 
-#: gogodigital-cookie-consent.php:131
+#: gogodigital-cookie-consent.php:112
 msgid "Message"
 msgstr "Messaggio"
 
-#: gogodigital-cookie-consent.php:139
+#: gogodigital-cookie-consent.php:120
 msgid "Dismiss Message"
 msgstr "Messaggio di rimozione"
 
-#: gogodigital-cookie-consent.php:147
+#: gogodigital-cookie-consent.php:128
 msgid "Learn More Message"
 msgstr "Messaggio leggi tutto"
 
-#: gogodigital-cookie-consent.php:155
+#: gogodigital-cookie-consent.php:136
 msgid "Privacy Link"
 msgstr "Link alla Cookie Policy"
 
-#: gogodigital-cookie-consent.php:211 gogodigital-cookie-consent.php:213
+#: gogodigital-cookie-consent.php:191 gogodigital-cookie-consent.php:193
 msgid "Dark Bottom"
 msgstr "Scuro in basso"
 
-#: gogodigital-cookie-consent.php:217 gogodigital-cookie-consent.php:219
+#: gogodigital-cookie-consent.php:197 gogodigital-cookie-consent.php:199
 msgid "Dark Floating"
 msgstr "Scuro galleggiante"
 
-#: gogodigital-cookie-consent.php:223 gogodigital-cookie-consent.php:225
+#: gogodigital-cookie-consent.php:203 gogodigital-cookie-consent.php:205
 msgid "Dark Top"
 msgstr "Scuro in alto"
 
-#: gogodigital-cookie-consent.php:229 gogodigital-cookie-consent.php:231
+#: gogodigital-cookie-consent.php:209 gogodigital-cookie-consent.php:211
 msgid "Light Bottom"
 msgstr "Chiaro in basso"
 
-#: gogodigital-cookie-consent.php:235 gogodigital-cookie-consent.php:237
+#: gogodigital-cookie-consent.php:215 gogodigital-cookie-consent.php:217
 msgid "Light Floating"
 msgstr "Chiaro galleggiante"
 
-#: gogodigital-cookie-consent.php:241 gogodigital-cookie-consent.php:243
+#: gogodigital-cookie-consent.php:221 gogodigital-cookie-consent.php:223
 msgid "Light Top"
 msgstr "Chiaro in alto"
 
-#: gogodigital-cookie-consent.php:364
+#: gogodigital-cookie-consent.php:336
 msgid "Settings"
 msgstr "Impostazioni"
+
+#: sidebar.php:1
+msgid "Donate $5, $10 or $20"
+msgstr "Dona 5€, 10€ o 20€"
+
+#: sidebar.php:2
+msgid ""
+"If you like this plugin, consider supporting us donating the time to develop "
+"it"
+msgstr ""
+"Se ti piace questo plugin, aiutarci a svilupparlo effettuando una donazione"
+
+#: sidebar.php:11
+msgid "Some other ways to support this plugin"
+msgstr "Altri metodi per supportare questo plugin"
+
+#: sidebar.php:15
+msgid "Leave a ★★★★★ review on WordPress.org"
+msgstr "Lascia una recensione a ★★★★★ su WordPress.org"
+
+#: sidebar.php:20
+msgid "Tweet about this plugin"
+msgstr "Effettua un Tweet su questo plugin"
+
+#: sidebar.php:25
+msgid "Add the plugin to your favourites on Wordpress.org"
+msgstr "Aggiungi il plugin tra i tuoi preferiti dalla pagina su Wordpress.org"
+
+#: sidebar.php:29
+msgid "Looking for support?"
+msgstr "Hai bisogno di aiuto?"
+
+#: sidebar.php:30
+msgid ""
+"Please use the <a href=\"https://wordpress.org/support/plugin/gogodigital-"
+"cookie-consent\" target=\"_blank\">plugin support forums</a> on WordPress.org"
+msgstr ""
+"Puoi utilizzare <a href=\"https://wordpress.org/support/plugin/gogodigital-"
+"cookie-consent\" target=\"_blank\">il forum di supporto del plugin</a> su "
+"WordPress.org"
+
+#: sidebar.php:31
+msgid "Who are Us?"
+msgstr "Chi siamo?"
+
+#: sidebar.php:34
+msgid ""
+"is a young and innovative Web Agency that deals with Professional Web Sites "
+"for Companies and Persons, Responsive Web Sites, CMS Sites and Ecommerce "
+"Portals, Custom CMS, Applications for Apple and Android devices, SEO "
+"Optimization, Web Marketing, Email Marketing and Social Media Marketing"
+msgstr ""
+"è una giovane ed innovativa Web Agency che si occupa di Siti Web "
+"professionali per privati ed aziende, Siti Web Responsive, Siti CMS e "
+"Portali Ecommerce, CMS personalizzati, Applicazioni per dispositivi Apple ed "
+"Android, Ottimizzazione SEO, Web Marketing, Email Marketing, e Social Media "
+"Marketing"
