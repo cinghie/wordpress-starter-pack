@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gogodigital Essentials 2.0.0\n"
 "Report-Msgid-Bugs-To: Gogodigital S.r.l.s. <info@gogodigital.it>\n"
-"POT-Creation-Date: 2018-02-26 20:53+0100\n"
+"POT-Creation-Date: 2018-02-26 21:59+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Gogodigital S.r.l.s. <info@gogodigital.it>\n"
 "Language-Team: Gogodigital S.r.l.s. <info@gogodigital.it>\n"
@@ -27,7 +27,7 @@ msgstr ""
 msgid "Gogodigital Essentials Settings"
 msgstr "Impostazione Gogodigital Essentials"
 
-#: gogodigital-essentials.php:78 gogodigital-essentials.php:155
+#: gogodigital-essentials.php:78 gogodigital-essentials.php:187
 msgid "Widget Settings"
 msgstr "Impostazioni Widget"
 
@@ -36,49 +36,61 @@ msgid "Remember to add manually the Widget Code on your Wordpress Theme"
 msgstr ""
 "Ricordati di inserire manualmente il codice del Widget nel tuo tema Wordpress"
 
-#: gogodigital-essentials.php:108
+#: gogodigital-essentials.php:111
 msgid "Framework Settings"
 msgstr "Impostazioni Framework"
 
-#: gogodigital-essentials.php:115 gogodigital-essentials.php:279
-#: gogodigital-essentials.php:281 gogodigital-essentials.php:285
-#: gogodigital-essentials.php:287
+#: gogodigital-essentials.php:118 gogodigital-essentials.php:319
+#: gogodigital-essentials.php:321 gogodigital-essentials.php:325
+#: gogodigital-essentials.php:327
 msgid "Load Bootstrap"
 msgstr "Carica Bootstrap"
 
-#: gogodigital-essentials.php:123 gogodigital-essentials.php:312
-#: gogodigital-essentials.php:314 gogodigital-essentials.php:318
-#: gogodigital-essentials.php:320
+#: gogodigital-essentials.php:126 gogodigital-essentials.php:352
+#: gogodigital-essentials.php:354 gogodigital-essentials.php:358
+#: gogodigital-essentials.php:360
 msgid "Load Fontawesome"
 msgstr "Carica Fontawesome"
 
-#: gogodigital-essentials.php:131 gogodigital-essentials.php:345
-#: gogodigital-essentials.php:347
+#: gogodigital-essentials.php:134 gogodigital-essentials.php:385
+#: gogodigital-essentials.php:387
 msgid "Load jQuery UI"
 msgstr "Carica jQuery UI"
 
-#: gogodigital-essentials.php:139 gogodigital-essentials.php:372
-#: gogodigital-essentials.php:374
+#: gogodigital-essentials.php:142 gogodigital-essentials.php:412
+#: gogodigital-essentials.php:414
 msgid "Load jQuery Mobile"
 msgstr "Carica jQuery Mobile"
 
-#: gogodigital-essentials.php:147
+#: gogodigital-essentials.php:150
 msgid "Load Google Fonts"
 msgstr "Carica Google Fonts"
 
-#: gogodigital-essentials.php:162
+#: gogodigital-essentials.php:161
+msgid "Miscellaneous Settings"
+msgstr "Impostazioni Varie"
+
+#: gogodigital-essentials.php:168
+msgid "Google Analytics Code"
+msgstr "Codice Google Analytics"
+
+#: gogodigital-essentials.php:176
+msgid "Disable Theme Update"
+msgstr "Disattiva Aggiornamento Tema"
+
+#: gogodigital-essentials.php:194
 msgid "Copyright Widget Position"
 msgstr "Posizione Copyright"
 
-#: gogodigital-essentials.php:170
+#: gogodigital-essentials.php:202
 msgid "Copyright Top Widget Position"
 msgstr "Posizione Copyright Top"
 
-#: gogodigital-essentials.php:178
+#: gogodigital-essentials.php:210
 msgid "Social Icons Widget Position"
 msgstr "Posizione Social Icons"
 
-#: gogodigital-essentials.php:236
+#: gogodigital-essentials.php:276
 msgid ""
 "Select which <strong>Framework</strong> do you wanna load on your Wordpress "
 "Theme"
@@ -86,7 +98,7 @@ msgstr ""
 "Seleziona quale <strong>Framework</strong> vuoi caricare nel tuo Tema "
 "Wordpress"
 
-#: gogodigital-essentials.php:244
+#: gogodigital-essentials.php:284
 msgid ""
 "Select which <strong>Widget Position</strong> do you wanna register on your "
 "Wordpress Theme Widget"
@@ -94,45 +106,57 @@ msgstr ""
 "Seleziona quale <strong>Posizione Widget</strong> vuoi registrare nel tuo "
 "Tema Wordpress"
 
-#: gogodigital-essentials.php:273 gogodigital-essentials.php:275
+#: gogodigital-essentials.php:313 gogodigital-essentials.php:315
 msgid "Not Load Bootstrap"
 msgstr "Non Caricare Bootstrap"
 
-#: gogodigital-essentials.php:306 gogodigital-essentials.php:308
+#: gogodigital-essentials.php:346 gogodigital-essentials.php:348
 msgid "Not Load Fontawesome"
 msgstr "Non Caricare Fontawesome"
 
-#: gogodigital-essentials.php:339 gogodigital-essentials.php:341
+#: gogodigital-essentials.php:379 gogodigital-essentials.php:381
 msgid "Not Load jQuery UI"
 msgstr "Non Caricare jQuery UI"
 
-#: gogodigital-essentials.php:366 gogodigital-essentials.php:368
+#: gogodigital-essentials.php:406 gogodigital-essentials.php:408
 msgid "Not Load jQuery Mobile"
 msgstr "Non Caricare jQuery Mobile"
 
-#: gogodigital-essentials.php:392
+#: gogodigital-essentials.php:432
 msgid "Comma separated Fonts like \"Open Sans,Roboto\""
 msgstr "Separa i Font con la virgola per esempio \"Open Sans,Roboto\""
 
-#: gogodigital-essentials.php:405 gogodigital-essentials.php:407
-#: gogodigital-essentials.php:432 gogodigital-essentials.php:434
-#: gogodigital-essentials.php:459 gogodigital-essentials.php:461
+#: gogodigital-essentials.php:444
+msgid "Example: UA-XXXXX-Y"
+msgstr "Esempio: UA-XXXXX-Y"
+
+#: gogodigital-essentials.php:457 gogodigital-essentials.php:459
+msgid "No"
+msgstr "No"
+
+#: gogodigital-essentials.php:463 gogodigital-essentials.php:465
+msgid "Yes"
+msgstr "Si"
+
+#: gogodigital-essentials.php:484 gogodigital-essentials.php:486
+#: gogodigital-essentials.php:511 gogodigital-essentials.php:513
+#: gogodigital-essentials.php:538 gogodigital-essentials.php:540
 msgid "Not Active"
 msgstr "Non Attivo"
 
-#: gogodigital-essentials.php:411 gogodigital-essentials.php:413
-#: gogodigital-essentials.php:438 gogodigital-essentials.php:440
-#: gogodigital-essentials.php:465 gogodigital-essentials.php:467
+#: gogodigital-essentials.php:490 gogodigital-essentials.php:492
+#: gogodigital-essentials.php:517 gogodigital-essentials.php:519
+#: gogodigital-essentials.php:544 gogodigital-essentials.php:546
 msgid "Active"
 msgstr "Attivo"
 
-#: gogodigital-essentials.php:737
+#: gogodigital-essentials.php:841
 msgid "Settings"
 msgstr "Impostazioni"
 
 #: sidebar.php:1
 msgid "Donate €5, €10 or €20"
-msgstr "Dona 5€, 10€ o 20€ "
+msgstr "Dona 5€, 10€ o 20€"
 
 #: sidebar.php:2
 msgid ""
@@ -168,7 +192,7 @@ msgid ""
 msgstr ""
 "Puoi utilizzare <a href=\"https://wordpress.org/support/plugin/gogodigital-"
 "essentials\" target=\"_blank\">il forum di supporto del plugin</a> su "
-"WordPress.org."
+"WordPress.org"
 
 #: sidebar.php:31
 msgid "Who are Us?"
