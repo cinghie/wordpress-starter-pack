@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gogodigital Cookie Consent 2.1.0\n"
 "Report-Msgid-Bugs-To: Translator Name <translations@example.com>\n"
-"POT-Creation-Date: 2018-02-26 15:54+0100\n"
+"POT-Creation-Date: 2018-02-26 20:53+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Gogodigital S.r.l.s. <info@gogodigital.it>\n"
 "Language-Team: Gogodigital S.r.l.s. <info@gogodigital.it>\n"
@@ -71,7 +71,7 @@ msgstr "Chiaro galleggiante"
 msgid "Light Top"
 msgstr "Chiaro in alto"
 
-#: gogodigital-cookie-consent.php:336
+#: gogodigital-cookie-consent.php:345
 msgid "Settings"
 msgstr "Impostazioni"
 
