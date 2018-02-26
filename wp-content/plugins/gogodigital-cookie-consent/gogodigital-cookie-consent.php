@@ -10,7 +10,7 @@
  * Text Domain: gogodigital-cookie-consent
  **/
  
-define( 'GOGO_CC_VERSION', '2.1.0' );
+define( 'GOGO_CC_VERSION', '2.1.1' );
 define( 'GOGO_CC_PATH', plugin_dir_path(__FILE__) );
 define( 'GOGO_CC_URL', plugin_dir_url(__FILE__) );
 
@@ -290,12 +290,16 @@ function add_cookieconsent()
 	wp_enqueue_script( 'cookieconsent2-js', gogodigital_cookie_consent_get_plugin_url(). '/assets/2.0.0/js/cookieconsent.min.js', array(), '2.0.0', true );
 }
 
+/**
+ * Adding Cookie Consent custom js
+ */
 function add_cookieconsent_custom() 
 {
 	$cookieconsent_options = get_option('cookieconsent_options');
 	$cookieconsent_dismiss = $cookieconsent_options['dismiss_message'] ? $cookieconsent_options['dismiss_message'] : 'Got It!';
 	$cookieconsent_message = $cookieconsent_options['message'] ? $cookieconsent_options['message'] : 'This website uses cookies to ensure you get the best experience on our website.';
 	$cookieconsent_theme   = $cookieconsent_options['theme'] ? $cookieconsent_options['theme'] : 'light-floating';
+
 	$cookieCustom = '<script type="text/javascript">window.cookieconsent_options = {
 		"theme": "'.$cookieconsent_theme.'",
 		"message": "'.$cookieconsent_message.'",
@@ -308,6 +312,7 @@ function add_cookieconsent_custom()
 	}		
 	
 	$cookieCustom .= '};</script>';
+
     echo $cookieCustom;
 }
 
@@ -316,6 +321,7 @@ add_action( 'wp_head', 'add_cookieconsent_custom' );
 
 /**
  * Get Plugin URL
+ *
  * @return string
  */
 function gogodigital_cookie_consent_get_plugin_url()
@@ -328,14 +334,19 @@ function gogodigital_cookie_consent_get_plugin_url()
 
 /**
  * Settings Button on Plugins Panel
+ *
+ * @return string
  */
-function gogodigital_cookie_consent_plugin_action_links($links, $file) {
+function gogodigital_cookie_consent_plugin_action_links($links, $file)
+{
 	static $this_plugin;
 	if ( ! $this_plugin ) $this_plugin = plugin_basename( __FILE__ );
 	if ( $file == $this_plugin ){
 		$settings_link = '<a href="options-general.php?page=cookie-consent-settings">' . __( 'Settings', 'gogodigital-cookie-consent' ) . '</a>';
 		array_unshift( $links, $settings_link );
 	}
+
 	return $links;
 }
+
 add_filter( 'plugin_action_links', 'gogodigital_cookie_consent_plugin_action_links', 10, 2 );

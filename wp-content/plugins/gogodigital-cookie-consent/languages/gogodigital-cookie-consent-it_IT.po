@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gogodigital Cookie Consent 2.1.0\n"
 "Report-Msgid-Bugs-To: Translator Name <translations@example.com>\n"
-"POT-Creation-Date: 2018-02-21 00:26+0100\n"
+"POT-Creation-Date: 2018-02-26 15:54+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Gogodigital S.r.l.s. <info@gogodigital.it>\n"
 "Language-Team: Gogodigital S.r.l.s. <info@gogodigital.it>\n"
@@ -76,7 +76,7 @@ msgid "Settings"
 msgstr "Impostazioni"
 
 #: sidebar.php:1
-msgid "Donate $5, $10 or $20"
+msgid "Donate €5, €10 or €20"
 msgstr "Dona 5€, 10€ o 20€"
 
 #: sidebar.php:2
