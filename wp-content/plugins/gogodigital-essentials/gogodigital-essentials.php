@@ -2,11 +2,12 @@
 
 /**
  * Plugin Name: Gogodigital Essentials
- * Plugin URI: https://github.com/cinghie/wordpress-gogo-bootstrap
+ * Plugin URI: https://wordpress.org/plugins/gogodigital-essentials
  * Description: Manage Essentials settings on your Wordpress site
  * Author: Gogodigital S.r.l.s.
+ * Author URI: https://www.gogodigital.it
  * Version: 2.0.0
- * Author URI: http://www.gogodigital.it
+ * Text Domain: gogodigital-essentials
  **/
 
 define( 'GOGO_ESSENTIALS_VERSION', '2.0.0' );
@@ -37,7 +38,7 @@ class EssentialsSettingsPage
     }
 
 	public function load_textdomain() {
-		load_plugin_textdomain('gogodigital-essentials', false, basename( __DIR__ ).'/lang' );
+		load_plugin_textdomain('gogodigital-essentials', false, basename( __DIR__ ).'/languages' );
 	}
 
     /**
@@ -73,9 +74,9 @@ class EssentialsSettingsPage
                 </form>
             </div>
             <div style="float: left; margin-left: 2%; width: 40%">
-	            <?php include_once( 'sidebar.php' ); ?>
-                <h3 style="border-top: 1px solid #ddd; padding-top: 12px">Widget Settings</h3>
-                <p>Remember to add manually the Widget Code on your Wordpress Theme</p>
+	            <?php include_once 'sidebar.php' ?>
+                <h3 style="border-top: 1px solid #ddd; padding-top: 12px"><?php echo  __( 'Widget Settings', 'gogodigital-essentials' ) ?></h3>
+                <p><?php echo  __( 'Remember to add manually the Widget Code on your Wordpress Theme', 'gogodigital-essentials' ) ?></p>
                 <p class="description" id="tagline-description" style="background-color: #fcf8e3; border-color: #faebcc; border-radius: 4px; color: #8a6d3b; padding: 10px">
                     if ( is_active_sidebar( 'footer-copyright' ) ) { dynamic_sidebar( 'footer-copyright' ); }
                 </p>
@@ -192,29 +193,37 @@ class EssentialsSettingsPage
     {
         $new_input = array();
 
-        if( isset( $input['bootstrap'] ) )
-            $new_input['bootstrap'] = sanitize_text_field( $input['bootstrap'] );
+        if( isset( $input['bootstrap'] ) ) {
+	        $new_input['bootstrap'] = sanitize_text_field( $input['bootstrap'] );
+        }
 
-        if( isset( $input['fontawesome'] ) )
+        if( isset( $input['fontawesome'] ) ) {
             $new_input['fontawesome'] = sanitize_text_field( $input['fontawesome'] );
+        }
 
-        if( isset( $input['jqueryui'] ) )
+        if( isset( $input['jqueryui'] ) ) {
             $new_input['jqueryui'] = sanitize_text_field( $input['jqueryui'] );
+        }
 
-        if( isset( $input['jquerymobile'] ) )
+        if( isset( $input['jquerymobile'] ) ) {
             $new_input['jquerymobile'] = sanitize_text_field( $input['jquerymobile'] );
+        }
 
-        if( isset( $input['googlefonts'] ) )
+        if( isset( $input['googlefonts'] ) ) {
             $new_input['googlefonts'] = sanitize_text_field( $input['googlefonts'] );
+        }
 
-        if( isset( $input['widgetcopyright'] ) )
+        if( isset( $input['widgetcopyright'] ) ) {
             $new_input['widgetcopyright'] = sanitize_text_field( $input['widgetcopyright'] );
+        }
 
-        if( isset( $input['widgetcopyrighttop'] ) )
+        if( isset( $input['widgetcopyrighttop'] ) ) {
             $new_input['widgetcopyrighttop'] = sanitize_text_field( $input['widgetcopyrighttop'] );
+        }
 
-        if( isset( $input['widgetsocialicons'] ) )
+        if( isset( $input['widgetsocialicons'] ) ) {
             $new_input['widgetsocialicons'] = sanitize_text_field( $input['widgetsocialicons'] );
+        }
 
         return $new_input;
     }
@@ -260,22 +269,22 @@ class EssentialsSettingsPage
     {
         $select  = '<select id="bootstrap" name="essentials_options[bootstrap]">';
 
-        if($this->options['bootstrap'] == "not-load") {
-            $select .= '<option value="not-load" selected="selected">Not Load Bootstrap</option>';
+        if( $this->options['bootstrap'] === 'not-load' ) {
+            $select .= '<option value="not-load" selected="selected">'.__( 'Not Load Bootstrap', 'gogodigital-essentials' ).'</option>';
         } else {
-            $select .= '<option value="not-load">Not Load Bootstrap</option>';
+            $select .= '<option value="not-load">'.__( 'Not Load Bootstrap', 'gogodigital-essentials' ).'</option>';
         }
 
-        if($this->options['bootstrap'] == "load-3.3.7") {
-            $select .= '<option value="load-3.3.7" selected="selected">Load Bootstrap 3.3.7</option>';
-        } else {
-            $select .= '<option value="load-3.3.7">Load Bootstrap 3.3.7</option>';
-        }
+	    if( $this->options['bootstrap'] === 'load-4.0.0' ) {
+		    $select .= '<option value="load-4.0.0" selected="selected">'.__( 'Load Bootstrap', 'gogodigital-essentials' ).' 4.0.0</option>';
+	    } else {
+		    $select .= '<option value="load-4.0.0">'.__( 'Load Bootstrap', 'gogodigital-essentials' ).' 4.0.0</option>';
+	    }
 
-        if($this->options['bootstrap'] == "load-4.0.0") {
-            $select .= '<option value="load-4.0.0" selected="selected">Load Bootstrap 4.0.0</option>';
+        if( $this->options['bootstrap'] === 'load-3.3.7' ) {
+            $select .= '<option value="load-3.3.7" selected="selected">'.__( 'Load Bootstrap', 'gogodigital-essentials' ).' 3.3.7</option>';
         } else {
-            $select .= '<option value="load-4.0.0">Load Bootstrap 4.0.0</option>';
+            $select .= '<option value="load-3.3.7">'.__( 'Load Bootstrap', 'gogodigital-essentials' ).' 3.3.7</option>';
         }
 
         $select .= '</select>';
@@ -293,22 +302,22 @@ class EssentialsSettingsPage
     {
         $select  = '<select id="fontawesome" name="essentials_options[fontawesome]">';
 
-        if($this->options['fontawesome'] == "not-load") {
-            $select .= '<option value="not-load" selected="selected">Not Load Fontawesome</option>';
+        if( $this->options['fontawesome'] === 'not-load' ) {
+            $select .= '<option value="not-load" selected="selected">'.__( 'Not Load Fontawesome', 'gogodigital-essentials' ).'</option>';
         } else {
-            $select .= '<option value="not-load">Not Load Fontawesome</option>';
+            $select .= '<option value="not-load">'.__( 'Not Load Fontawesome', 'gogodigital-essentials' ).'</option>';
         }
 
-        if($this->options['fontawesome'] == "load-4.7.0") {
-            $select .= '<option value="load-4.7.0"" selected="selected">Load Fontawesome 4.7.0</option>';
-        } else {
-            $select .= '<option value="load-4.7.0"">Load Fontawesome 4.7.0</option>';
-        }
+	    if( $this->options['fontawesome'] === 'load-5.0.6' ) {
+		    $select .= '<option value="load-5.0.6" selected="selected">'.__( 'Load Fontawesome', 'gogodigital-essentials' ).' 5.0.6</option>';
+	    } else {
+		    $select .= '<option value="load-5.0.6">'.__( 'Load Fontawesome', 'gogodigital-essentials' ).' 5.0.6</option>';
+	    }
 
-        if($this->options['fontawesome'] == "load-5.0.6") {
-            $select .= '<option value="load-5.0.6" selected="selected">Load Fontawesome 5.0.6</option>';
+        if( $this->options['fontawesome'] === 'load-4.7.0' ) {
+            $select .= '<option value="load-4.7.0"" selected="selected">'.__( 'Load Fontawesome', 'gogodigital-essentials' ).' 4.7.0</option>';
         } else {
-            $select .= '<option value="load-5.0.6">Load Bootstrap 5.0.6</option>';
+            $select .= '<option value="load-4.7.0"">'.__( 'Load Fontawesome', 'gogodigital-essentials' ).' 4.7.0</option>';
         }
 
         $select .= '</select>';
@@ -326,16 +335,16 @@ class EssentialsSettingsPage
 	{
 		$select  = '<select id="jqueryui" name="essentials_options[jqueryui]">';
 
-		if($this->options['jqueryui'] == "not-load") {
-			$select .= '<option value="not-load" selected="selected">Not Load jQuery UI</option>';
+		if( $this->options['jqueryui'] === 'not-load' ) {
+			$select .= '<option value="not-load" selected="selected">'.__( 'Not Load jQuery UI', 'gogodigital-essentials' ).'</option>';
 		} else {
-			$select .= '<option value="not-load">Not Load jQuery UI</option>';
+			$select .= '<option value="not-load">'.__( 'Not Load jQuery UI', 'gogodigital-essentials' ).'</option>';
 		}
 
-		if($this->options['jqueryui'] == "load-1.12.1") {
-			$select .= '<option value="load-1.12.1" selected="selected">Load jQuery UI 1.12.1</option>';
+		if( $this->options['jqueryui'] === 'load-1.12.1' ) {
+			$select .= '<option value="load-1.12.1" selected="selected">'.__( 'Load jQuery UI', 'gogodigital-essentials' ).' 1.12.1</option>';
 		} else {
-			$select .= '<option value="load-1.12.1">Load jQuery UI 1.12.1</option>';
+			$select .= '<option value="load-1.12.1">'.__( 'Load jQuery UI', 'gogodigital-essentials' ).' 1.12.1</option>';
 		}
 
 		$select .= '</select>';
@@ -353,16 +362,16 @@ class EssentialsSettingsPage
     {
         $select  = '<select id="jquerymobile" name="essentials_options[jquerymobile]">';
 
-        if($this->options['jquerymobile'] == "not-load") {
-            $select .= '<option value="not-load" selected="selected">Not Load jQuery Mobile</option>';
+        if( $this->options['jquerymobile'] === 'not-load' ) {
+            $select .= '<option value="not-load" selected="selected">'.__( 'Not Load jQuery Mobile', 'gogodigital-essentials' ).'</option>';
         } else {
-            $select .= '<option value="not-load">Not Load jQuery Mobile</option>';
+            $select .= '<option value="not-load">'.__( 'Not Load jQuery Mobile', 'gogodigital-essentials' ).'</option>';
         }
 
-        if($this->options['jquerymobile'] == "load-1.4.5") {
-            $select .= '<option value="load-1.4.5" selected="selected">Load jQuery Mobile 1.4.5</option>';
+        if( $this->options['jquerymobile'] === 'load-1.4.5' ) {
+            $select .= '<option value="load-1.4.5" selected="selected">'.__( 'Load jQuery Mobile', 'gogodigital-essentials' ).' 1.4.5</option>';
         } else {
-            $select .= '<option value="load-1.4.5">Load jQuery Mobile 1.4.5</option>';
+            $select .= '<option value="load-1.4.5">'.__( 'Load jQuery Mobile', 'gogodigital-essentials' ).' 1.4.5</option>';
         }
 
         $select .= '</select>';
@@ -380,7 +389,7 @@ class EssentialsSettingsPage
     {
         printf(
             '<input type="text" class="widefat" id="googlefonts" name="essentials_options[googlefonts]" value="%s" />
-             <p class="description" id="tagline-description">Comma separated Fonts like "Open Sans,Roboto"</p>',
+             <p class="description" id="tagline-description">'.__( 'Comma separated Fonts like "Open Sans,Roboto"', 'gogodigital-essentials' ).'</p>',
             isset( $this->options['googlefonts'] ) ? esc_attr( $this->options['googlefonts']) : ''
         );
     }
@@ -392,16 +401,16 @@ class EssentialsSettingsPage
     {
         $select  = '<select id="widgetcopyright" name="essentials_options[widgetcopyright]" aria-describedby="widget-copyright">';
 
-        if($this->options['widgetcopyright'] == "not-active") {
-            $select .= '<option value="not-active" selected="selected">Not Active</option>';
+        if( $this->options['widgetcopyright'] === 'not-active' ) {
+            $select .= '<option value="not-active" selected="selected">'.__( 'Not Active', 'gogodigital-essentials' ).'</option>';
         } else {
-            $select .= '<option value="not-active">Not Active</option>';
+            $select .= '<option value="not-active">'.__( 'Not Active', 'gogodigital-essentials' ).'</option>';
         }
 
-        if($this->options['widgetcopyright'] == "active") {
-            $select .= '<option value="active" selected="selected">Active</option>';
+        if( $this->options['widgetcopyright'] === 'active' ) {
+            $select .= '<option value="active" selected="selected">'.__( 'Active', 'gogodigital-essentials' ).'</option>';
         } else {
-            $select .= '<option value="active">Active</option>';
+            $select .= '<option value="active">'.__( 'Active', 'gogodigital-essentials' ).'</option>';
         }
 
         $select .= '</select>';
@@ -419,16 +428,16 @@ class EssentialsSettingsPage
     {
         $select  = '<select id="widgetcopyrighttop" name="essentials_options[widgetcopyrighttop]" aria-describedby="widget-copyright-top">';
 
-        if($this->options['widgetcopyrighttop'] == "not-active") {
-            $select .= '<option value="not-active" selected="selected">Not Active</option>';
+        if( $this->options['widgetcopyrighttop'] === 'not-active' ) {
+            $select .= '<option value="not-active" selected="selected">'.__( 'Not Active', 'gogodigital-essentials' ).'</option>';
         } else {
-            $select .= '<option value="not-active">Not Active</option>';
+            $select .= '<option value="not-active">'.__( 'Not Active', 'gogodigital-essentials' ).'</option>';
         }
 
-        if($this->options['widgetcopyrighttop'] == "active") {
-            $select .= '<option value="active" selected="selected">Active</option>';
+        if( $this->options['widgetcopyrighttop'] === 'active' ) {
+            $select .= '<option value="active" selected="selected">'.__( 'Active', 'gogodigital-essentials' ).'</option>';
         } else {
-            $select .= '<option value="active">Active</option>';
+            $select .= '<option value="active">'.__( 'Active', 'gogodigital-essentials' ).'</option>';
         }
 
         $select .= '</select>';
@@ -446,16 +455,16 @@ class EssentialsSettingsPage
     {
         $select  = '<select id="widgetsocialicons" name="essentials_options[widgetsocialicons]" aria-describedby="widget-social-icons">';
 
-        if($this->options['widgetsocialicons'] == "not-active") {
-            $select .= '<option value="not-active" selected="selected">Not Active</option>';
+        if( $this->options['widgetsocialicons'] === 'not-active' ) {
+            $select .= '<option value="not-active" selected="selected">'.__( 'Not Active', 'gogodigital-essentials' ).'</option>';
         } else {
-            $select .= '<option value="not-active">Not Active</option>';
+            $select .= '<option value="not-active">'.__( 'Not Active', 'gogodigital-essentials' ).'</option>';
         }
 
-        if($this->options['widgetsocialicons'] == "active") {
-            $select .= '<option value="active" selected="selected">Active</option>';
+        if( $this->options['widgetsocialicons'] === 'active' ) {
+            $select .= '<option value="active" selected="selected">'.__( 'Active', 'gogodigital-essentials' ).'</option>';
         } else {
-            $select .= '<option value="active">Active</option>';
+            $select .= '<option value="active">'.__( 'Active', 'gogodigital-essentials' ).'</option>';
         }
 
         $select .= '</select>';
@@ -480,58 +489,58 @@ if( is_admin() )  {
 
 $essentials_options = get_option('essentials_options');
 
-$googlefonts = str_replace(array(" ",","), array("+","|"), $essentials_options['googlefonts']);
-$googlefonts = "https://fonts.googleapis.com/css?family=".$googlefonts;
+$googlefonts = str_replace(array( ' ', ',' ), array( '+', '|' ), $essentials_options['googlefonts']);
+$googlefonts = 'https://fonts.googleapis.com/css?family=' . $googlefonts;
 
 // Load Bootstrap
 if( isset( $essentials_options['bootstrap'] ) ) {
-    if ($essentials_options["bootstrap"] === "load-3.3.7") {
+    if ( $essentials_options['bootstrap'] === 'load-3.3.7' ) {
         add_action('wp_enqueue_scripts', 'theme_add_bootstrap_337');
-    } elseif($essentials_options["bootstrap"] === "load-4.0.0") {
+    } elseif( $essentials_options['bootstrap'] === 'load-4.0.0' ) {
         add_action('wp_enqueue_scripts', 'theme_add_bootstrap_400');
     }
 }
 
 // Load Fontawesome
 if( isset( $essentials_options['fontawesome'] ) ) {
-    if ($essentials_options["fontawesome"] === "load-4.7.0") {
+    if ( $essentials_options['fontawesome'] === 'load-4.7.0' ) {
         add_action('wp_enqueue_scripts', 'theme_add_fontawesome_470');
-    } elseif($essentials_options["fontawesome"] === "load-5.0.6") {
+    } elseif( $essentials_options['fontawesome'] === 'load-5.0.6' ) {
         add_action('wp_enqueue_scripts', 'theme_add_fontawesome_506');
     }
 }
 
 // Load jQuery UI
 if( isset( $essentials_options['jqueryui'] ) ) {
-    if ($essentials_options["jqueryui"] === "load-1.12.1") {
+    if ( $essentials_options['jqueryui'] === 'load-1.12.1' ) {
         add_action('wp_enqueue_scripts', 'theme_add_jqueryui');
     }
 }
 
 // Load jQuery Mobile
 if( isset( $essentials_options['jquerymobile'] ) ) {
-    if ($essentials_options["jquerymobile"] === "load-1.4.5") {
+    if ( $essentials_options['jquerymobile'] === 'load-1.4.5' ) {
         add_action('wp_enqueue_scripts', 'theme_add_jquerymobile');
     }
 }
 
 // Load Google Fonts
 if( isset( $essentials_options['googlefonts'] ) ) {
-    if ($essentials_options['googlefonts'] != "" ) {
+    if ( $essentials_options['googlefonts'] !== '' ) {
         add_action('wp_enqueue_scripts', 'theme_add_googlefonts');
     }
 }
 
 // Load Copyright Widget Position
 if( isset( $essentials_options['widgetcopyright'] ) ) {
-    if ($essentials_options["widgetcopyright"] === "active") {
+    if ( $essentials_options['widgetcopyright'] === 'active' ) {
         add_action( 'widgets_init', 'footer_copyright_widgets_init' );
     }
 }
 
 // Load Copyright Top Widget Position
 if( isset( $essentials_options['widgetcopyrighttop'] ) ) {
-    if ($essentials_options["widgetcopyrighttop"] === "active") {
+    if ( $essentials_options['widgetcopyrighttop'] === 'active' ) {
         add_action( 'widgets_init', 'footer_copyright_top1_widgets_init' );
         add_action( 'widgets_init', 'footer_copyright_top2_widgets_init' );
         add_action( 'widgets_init', 'footer_copyright_top3_widgets_init' );
@@ -541,7 +550,7 @@ if( isset( $essentials_options['widgetcopyrighttop'] ) ) {
 
 // Load Social Icons Widget Position
 if( isset( $essentials_options['widgetsocialicons'] ) ) {
-    if ($essentials_options["widgetsocialicons"] === "active") {
+    if ( $essentials_options['widgetsocialicons'] === 'active' ) {
         add_action( 'widgets_init', 'socialicons_widgets_init' );
     }
 }
@@ -551,7 +560,7 @@ if( isset( $essentials_options['widgetsocialicons'] ) ) {
  */
 function theme_add_bootstrap_337()
 {
-	wp_enqueue_style( 'bootstrap', gogodigital_essentials_get_plugin_url() . '/assets/bootstrap/3.3.7/bootstrap.min.css', array(), '3.3.7', 'all');
+	wp_enqueue_style( 'bootstrap', gogodigital_essentials_get_plugin_url() . '/assets/bootstrap/3.3.7/bootstrap.min.css', array(), '3.3.7');
 	wp_enqueue_script( 'bootstrap', gogodigital_essentials_get_plugin_url(). '/assets/bootstrap/3.3.7/bootstrap.min.js', array(), '3.3.7', true );
 }
 
@@ -560,7 +569,7 @@ function theme_add_bootstrap_337()
  */
 function theme_add_bootstrap_400()
 {
-	wp_enqueue_style( 'bootstrap', gogodigital_essentials_get_plugin_url() . '/assets/bootstrap/4.0.0/bootstrap.min.css', array(), '4.0.0', 'all');
+	wp_enqueue_style( 'bootstrap', gogodigital_essentials_get_plugin_url() . '/assets/bootstrap/4.0.0/bootstrap.min.css', array(), '4.0.0');
 	wp_enqueue_script( 'bootstrap', gogodigital_essentials_get_plugin_url(). '/assets/bootstrap/4.0.0/bootstrap.min.js', array(), '4.0.0', true );
 }
 
@@ -569,7 +578,7 @@ function theme_add_bootstrap_400()
  */
 function theme_add_fontawesome_470()
 {
-	wp_enqueue_style( 'fontawesome', gogodigital_essentials_get_plugin_url() . '/assets/fontawesome/4.7.0/font-awesome.min.css', array(), '4.7.0', 'all');
+	wp_enqueue_style( 'fontawesome', gogodigital_essentials_get_plugin_url() . '/assets/fontawesome/4.7.0/font-awesome.min.css', array(), '4.7.0');
 }
 
 /**
@@ -577,7 +586,7 @@ function theme_add_fontawesome_470()
  */
 function theme_add_fontawesome_506()
 {
-	wp_enqueue_style( 'fontawesome', gogodigital_essentials_get_plugin_url() . '/assets/fontawesome/5.0.6/fontawesome.min.css', array(), '5.0.6', 'all');
+	wp_enqueue_style( 'fontawesome', gogodigital_essentials_get_plugin_url() . '/assets/fontawesome/5.0.6/fontawesome.min.css', array(), '5.0.6');
 }
 
 /**
@@ -585,7 +594,7 @@ function theme_add_fontawesome_506()
  */
 function theme_add_jqueryui()
 {
-	wp_enqueue_style( 'jqueryui', gogodigital_essentials_get_plugin_url() . '/assets/jqueryui/jquery-ui.min.css', array(), '1.12.1', 'all');
+	wp_enqueue_style( 'jqueryui', gogodigital_essentials_get_plugin_url() . '/assets/jqueryui/jquery-ui.min.css', array(), '1.12.1');
 	wp_enqueue_script( 'jqueryui', gogodigital_essentials_get_plugin_url(). '/assets/jqueryui/jquery-ui.min.js', array(), '1.12.1', true );
 }
 
@@ -594,7 +603,7 @@ function theme_add_jqueryui()
  */
 function theme_add_jquerymobile()
 {
-    wp_enqueue_style( 'jquerymobile', gogodigital_essentials_get_plugin_url() . '/assets/jquerymobile/jquery.mobile-1.4.5.min.css', array(), '1.4.5', 'all');
+    wp_enqueue_style( 'jquerymobile', gogodigital_essentials_get_plugin_url() . '/assets/jquerymobile/jquery.mobile-1.4.5.min.css', array(), '1.4.5');
     wp_enqueue_script( 'jquerymobile', gogodigital_essentials_get_plugin_url(). '/assets/jquerymobile/jquery.mobile-1.4.5.min.js', array(), '1.4.5', true );
 }
 
@@ -699,24 +708,32 @@ function socialicons_widgets_init()
 
 /**
  * Get Plugin URL
+ *
  * @return string
  */
 function gogodigital_essentials_get_plugin_url()
 {
-    if ( !function_exists('plugins_url') )
-        return get_option('siteurl') . '/wp-content/plugins/' . plugin_basename(dirname(__FILE__));
-    return plugins_url(plugin_basename(dirname(__FILE__)));
+    if ( !function_exists('plugins_url') ) {
+	    return get_option('siteurl') . '/wp-content/plugins/' . plugin_basename( __DIR__ );
+    }
+
+    return plugins_url(plugin_basename( __DIR__ ));
 }
 
 /**
  * Settings Button on Plugins Panel
+ *
+ * @param $links
+ * @param $file
+ *
+ * @return mixed
  */
 function gogodigital_essentials_plugin_action_links($links, $file) {
 
 	static $this_plugin;
 	if ( ! $this_plugin ) $this_plugin = plugin_basename( __FILE__ );
 
-	if ( $file == $this_plugin ){
+	if ( $file === $this_plugin ) {
 		$settings_link = '<a href="options-general.php?page=essentials-settings">' . __( 'Settings', 'gogodigital-essentials' ) . '</a>';
 		array_unshift( $links, $settings_link );
 	}
