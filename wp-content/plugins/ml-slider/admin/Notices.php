@@ -37,14 +37,14 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 	 * @param array $plugin Plugin details
 	 */
 	public function __construct($plugin) {
-        $this->ads = $this->is_metasliderpro_installed() ? $this->pro_notices() : $this->lite_notices();
+        $this->ads = metaslider_pro_is_installed() ? $this->pro_notices() : $this->lite_notices();
         
         // To avoid showing the user ads off the start, lets wait
         $this->notices_content = ($this->ad_delay_has_finished()) ? $this->ads : array();
         $this->plugin = $plugin;
 
         // If $notices_content is empty, we still want to offer seasonal ads
-        if (empty($this->notices_content) && !$this->is_metasliderpro_installed()) {
+        if (empty($this->notices_content) && !metaslider_pro_is_installed()) {
             $this->notices_content = $this->valid_seasonal_notices();
         }
         
@@ -186,7 +186,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 				'button_link' => 'https://www.metaslider.com/survey-pro',
                 'button_meta' => 'lets_start',
                 'dismiss_time' => 'pro_survey',
-                'hide_time' => __('forever', 'ml-slider'),
+                'hide_time' => '',
 				'supported_positions' => array('header'),
 			),
         );
@@ -329,16 +329,6 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
     }
 
 	/**
-     * Check to disable ads on the Pro version. The parent function returns 
-     * false if installed, so this is reversed and shouldn't be used for the validity function
-     *
-	 * @return bool 
-	 */
-	protected function is_metasliderpro_installed() {
-		return !parent::is_plugin_installed('ml-slider-pro', false);
-	}
-
-	/**
 	 * Check to see if UpdraftPlus is installed
      *
 	 * @return bool 
@@ -444,7 +434,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 	 */
 	protected function ad_delay_has_finished() {
 
-        if (metaslider_is_pro_installed()) {
+        if (metaslider_pro_is_installed()) {
 
             // If they are pro don't check anything but show the pro ad.
             return true;
@@ -493,7 +483,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
      */
     public function show_dashboard_notices() {
         $current_page = get_current_screen();
-        if ('dashboard' === $current_page->base && metaslider_sees_notices($this->plugin)) {
+        if ('dashboard' === $current_page->base && metaslider_user_sees_notices($this->plugin)) {
 
             // Override the delay to show the thankyou notice on activation
             // if (!empty($_GET['ms_activated'])) {
