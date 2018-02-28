@@ -601,7 +601,7 @@ if( isset( $essentials_options['jquerymobile'] ) ) {
 }
 
 // Load Google Fonts
-if( isset( $essentials_options['googlefonts'] ) ){
+if( isset( $essentials_options['googlefonts'] ) ) {
 	$googlefonts = str_replace(array( ' ', ',' ), array( '+', '|' ), $essentials_options['googlefonts']);
 	$googlefonts = 'https://fonts.googleapis.com/css?family=' . $googlefonts;
 
@@ -611,14 +611,14 @@ if( isset( $essentials_options['googlefonts'] ) ){
 }
 
 // Load Google Analytics
-if( isset( $essentials_options['googleanalytics'] ) ){
+if( isset( $essentials_options['googleanalytics'] ) ) {
 	if ( $essentials_options['googleanalytics'] !== '' ) {
 		add_action( 'wp_head', 'add_google_analytics' );
 	}
 }
 
 // Disable Theme Update
-if( isset( $essentials_options['themeupdate'] ) ){
+if( isset( $essentials_options['themeupdate'] ) ) {
 	if ( $essentials_options['themeupdate'] === 'yes' ) {
 		add_filter( 'http_request_args', function ( $response, $url ) {
 			if ( 0 === strpos( $url, 'https://api.wordpress.org/themes/update-check' ) ) {

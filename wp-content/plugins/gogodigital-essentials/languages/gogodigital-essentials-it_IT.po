@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gogodigital Essentials 2.0.0\n"
 "Report-Msgid-Bugs-To: Gogodigital S.r.l.s. <info@gogodigital.it>\n"
-"POT-Creation-Date: 2018-02-26 21:59+0100\n"
+"POT-Creation-Date: 2018-02-27 18:57+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Gogodigital S.r.l.s. <info@gogodigital.it>\n"
 "Language-Team: Gogodigital S.r.l.s. <info@gogodigital.it>\n"
@@ -150,7 +150,7 @@ msgstr "Non Attivo"
 msgid "Active"
 msgstr "Attivo"
 
-#: gogodigital-essentials.php:841
+#: gogodigital-essentials.php:856
 msgid "Settings"
 msgstr "Impostazioni"
 
@@ -211,6 +211,12 @@ msgstr ""
 "Responsive, Siti CMS e Portali Ecommerce, CMS personalizzati, Applicazioni "
 "per dispositivi Apple ed Android, Ottimizzazione SEO, Web Marketing, Email "
 "Marketing, e Social Media Marketing"
+
+#~ msgid "Redirect on Failed Login Url"
+#~ msgstr "Url di Redirect al Login Fallito"
+
+#~ msgid "Example: http://www.MYSITE.EXT"
+#~ msgstr "Esempio: http://www.MIOSITO.EST"
 
 #, fuzzy
 #~| msgid "Load Fontawesome"
