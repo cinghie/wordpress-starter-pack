@@ -27,7 +27,7 @@ msgstr "In questa pagina, puoi aggiornare le tue impostazioni di Akismet e veder
 msgid "Used by millions, Akismet is quite possibly the best way in the world to <strong>protect your blog from spam</strong>. It keeps your site protected even while you sleep. To get started: activate the Akismet plugin and then go to your Akismet Settings page to set up your API key."
 msgstr "Usato da milioni di persone, Akismet è probabilmente il miglior modo al mondo per <strong>proteggere il tuo blog dallo spam</strong>. Protegge il tuo sito anche mentre dormi. Per iniziare: attiva il plugin e poi vai alla pagina delle Impostazioni di Akismet per impostare la tua chiave API."
 
-#. #-#-#-#-#  akismet-code.pot (Akismet Anti-Spam 4.0.2)  #-#-#-#-#
+#. #-#-#-#-#  akismet-code.pot (Akismet Anti-Spam 4.0.3)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: class.akismet-admin.php:95 class.akismet-admin.php:98
 msgid "Akismet Anti-Spam"
@@ -129,7 +129,7 @@ msgstr "Non c'erano commenti da controllare. Akismet controlla solo i commenti i
 msgid "Checking for Spam"
 msgstr "Controllo dello spam in corso "
 
-#: class.akismet.php:452
+#: class.akismet.php:492
 msgid "Comment not found."
 msgstr "Non è stato trovato il commento."
 
@@ -597,11 +597,11 @@ msgstr "Akismet ha identificato questi commenti come spam durante un ricontrollo
 msgid "Akismet cleared this comment during an automatic retry."
 msgstr "Akismet ha ripulito questo commento durante un nuovo tentativo automatico."
 
-#: class.akismet.php:1208
+#: class.akismet.php:1248
 msgid "Please <a href=\"%1$s\">upgrade WordPress</a> to a current version, or <a href=\"%2$s\">downgrade to version 2.4 of the Akismet plugin</a>."
 msgstr "Per favore <a href=\"%1$s\"> aggiornare WordPress </a> ad una versione recente, o fare il <a href=\"%2$s\"> downgrade alla versione 2.4 del plugin Akismet </a>."
 
-#: class.akismet.php:1208
+#: class.akismet.php:1248
 msgid "Akismet %s requires WordPress %s or higher."
 msgstr "Akismet %s richiede WordPress %s or successivo."
 
