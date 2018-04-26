@@ -12,21 +12,21 @@ Thumbs.db
 
 # WP Root files
 *.log
-index.php
-wp-activate.php
-wp-blog-header.php
-wp-comments-post.php
-wp-config.php
-wp-config-sample.php
-wp-cron.php
-wp-links-opml.php
-wp-load.php
-wp-login.php
-wp-mail.php
-wp-settings.php
-wp-signup.php
-wp-trackback.php
-xmlrpc.php
+/index.php
+/wp-activate.php
+/wp-blog-header.php
+/wp-comments-post.php
+/wp-config.php
+/wp-config-sample.php
+/wp-cron.php
+/wp-links-opml.php
+/wp-load.php
+/wp-login.php
+/wp-mail.php
+/wp-settings.php
+/wp-signup.php
+/wp-trackback.php
+/xmlrpc.php
 
 /license.txt
 /licenza.html
@@ -48,4 +48,6 @@ wp-content/themes/twentyseventeen/
 wp-content/themes/twentysixteen/
 wp-content/upgrade/
 
+# WP Included
+!wp-content/languages/
 !wp-content/themes/shapely/
