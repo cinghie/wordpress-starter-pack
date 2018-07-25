@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Akismet Anti-Spam - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2017-09-30 14:25:03+0000\n"
+"PO-Revision-Date: 2018-05-31 07:56:21+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,74 @@ msgstr ""
 "X-Generator: GlotPress/2.4.0-alpha\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - Akismet Anti-Spam - Stable (latest release)\n"
+
+#: views/notice.php:139
+msgid " Please <a href=\"%s\">enable</a> or <a href=\"%s\">disable</a> this feature. <a href=\"%s\" id=\"akismet-privacy-notice-control-notice-info-link\" target=\"_blank\">More information</a>."
+msgstr "<a href=\"%s\">enable</a> or <a href=\"%s\">Disattiva</a> questa opzione. <a href=\"%s\" id=\"akismet-privacy-notice-control-notice-info-link\" target=\"_blank\">Leggi di più</a>."
+
+#: views/notice.php:137
+msgid "Akismet & Privacy."
+msgstr "Akismet & Privacy."
+
+#: views/config.php:160
+msgid "Do not display privacy notice."
+msgstr "Non visualizzare l'informativa sulla privacy."
+
+#: views/config.php:159
+msgid "Display a privacy notice under your comment forms."
+msgstr "Visualizza l'informativa sulla privacy nei form dei commenti."
+
+#: views/config.php:158
+msgid "Akismet privacy notice"
+msgstr "Informativa sulla privacy di Akismet"
+
+#: views/config.php:155
+msgid "Privacy"
+msgstr "Privacy"
+
+#: class.akismet-admin.php:86
+msgid "We collect information about visitors who comment on Sites that use our Akismet anti-spam service. The information we collect depends on how the User sets up Akismet for the Site, but typically includes the commenter's IP address, user agent, referrer, and Site URL (along with other information directly provided by the commenter such as their name, username, email address, and the comment itself)."
+msgstr "Raccogliamo informazioni sui visitatori che commentano il sito e che usano il nostro servizio Akismet anti-spam. Le informazioni raccolte dipendono da come l'utente ha impostato Akismet, ma normalmente le informazioni includono l'indirizzo IP di chi commenta, lo user agent, il referrer, e l'URL del sito (insieme ad altre informazioni fornite direttamente dall'utente che commenta, come nome, username, indirizzo email, e il testo stesso del commento). "
+
+#: class.akismet.php:226
+msgid "Comment discarded."
+msgstr "Commento scartato."
+
+#: class.akismet-rest-api.php:132
+msgid "This site's API key is hardcoded and cannot be deleted."
+msgstr "La API key di questo sito è scritta direttamente nel codice sorgente e non può essere eliminata."
+
+#: class.akismet-rest-api.php:116
+msgid "The value provided is not a valid and registered API key."
+msgstr "Il valore fornito non corrisponde ad una API key valida e registrata."
+
+#: class.akismet-rest-api.php:110
+msgid "This site's API key is hardcoded and cannot be changed via the API."
+msgstr "La API key di questo sito è scritta direttamente nel codice sorgente e non può essere modificata tramite API."
+
+#: class.akismet-rest-api.php:71 class.akismet-rest-api.php:80
+msgid "The time period for which to retrieve stats. Options: 60-days, 6-months, all"
+msgstr "Lasso di tempo per recuperare le statistiche. Opzioni: 60-giorni, 6-mesi, tutti"
+
+#: class.akismet-rest-api.php:56
+msgid "If true, show the number of approved comments beside each comment author in the comments list page."
+msgstr "Se è impostato su \"true\", mostra nella pagina dei commenti il numero di commenti approvati accanto ad ogni autore. "
+
+#: class.akismet-rest-api.php:51
+msgid "If true, Akismet will automatically discard the worst spam automatically rather than putting it in the spam folder."
+msgstr "Se impostato su true, Akismet scarterà automaticamente lo spam peggiore piuttosto che spostarlo nella cartella di spam."
+
+#: class.akismet-rest-api.php:27
+msgid "A 12-character Akismet API key. Available at akismet.com/get/"
+msgstr "Una API key di Akismet di 12 caratteri. Disponibile su akismet.com/get/"
+
+#: class.akismet-admin.php:395
+msgid "(%1$s%)"
+msgstr "(%1$s%)"
+
+#: views/notice.php:49
+msgid "Your site can&#8217;t connect to the Akismet servers."
+msgstr "Il tuo sito non riesce a connettersi ai server di Akismet."
 
 #: views/start.php:97
 msgid "An Akismet API key has been defined in the %s file for this site."
@@ -27,7 +95,7 @@ msgstr "In questa pagina, puoi aggiornare le tue impostazioni di Akismet e veder
 msgid "Used by millions, Akismet is quite possibly the best way in the world to <strong>protect your blog from spam</strong>. It keeps your site protected even while you sleep. To get started: activate the Akismet plugin and then go to your Akismet Settings page to set up your API key."
 msgstr "Usato da milioni di persone, Akismet è probabilmente il miglior modo al mondo per <strong>proteggere il tuo blog dallo spam</strong>. Protegge il tuo sito anche mentre dormi. Per iniziare: attiva il plugin e poi vai alla pagina delle Impostazioni di Akismet per impostare la tua chiave API."
 
-#. #-#-#-#-#  akismet-code.pot (Akismet Anti-Spam 4.0.6)  #-#-#-#-#
+#. #-#-#-#-#  akismet-code.pot (Akismet Anti-Spam 4.0.8)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: class.akismet-admin.php:111 class.akismet-admin.php:114
 msgid "Akismet Anti-Spam"
@@ -97,11 +165,11 @@ msgstr "Statistiche dettagliate "
 msgid "Statistics"
 msgstr "Statistiche "
 
-#: class.akismet-admin.php:1164
+#: class.akismet-admin.php:1167
 msgid "Used by millions, Akismet is quite possibly the best way in the world to <strong>protect your blog from spam</strong>. It keeps your site protected even while you sleep. To get started, just go to <a href=\"admin.php?page=akismet-key-config\">your Akismet Settings page</a> to set up your API key."
 msgstr "Usato da milioni di persone, Akismet è probabilmente il miglior modo al mondo di <strong>proteggere il tuo blog dallo spam</strong>.  Protegge il tuo sito anche mentre dormi. Per iniziare vai alla <a href=\"admin.php?page=akismet-key-config\">pagina delle Impostazioni di Akismet </a> per impostare la tua chiave  API."
 
-#: class.akismet-admin.php:1161
+#: class.akismet-admin.php:1164
 msgid "Used by millions, Akismet is quite possibly the best way in the world to <strong>protect your blog from spam</strong>. Your site is fully configured and being protected, even while you sleep."
 msgstr "Usato da milioni di persone, Akismet è probabilmente il miglior modo al mondo per <strong>proteggere il tuo blog dallo spam</strong>. Il tuo sito è configurato e protetto completamente, anche mentre dormi. "
 

@@ -1338,39 +1338,43 @@ class wfUtils {
 		return $URL;
 	}
 	public static function IP2Country($IP){
-		require_once('wfGeoIP.php');
-		
-		if (filter_var($IP, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== false) {
-			$gi = geoip_open(dirname(__FILE__) . "/GeoIPv6.dat", WF_GEOIP_STANDARD);
-			$country = geoip_country_code_by_addr_v6($gi, $IP);
-		} else {
-			$gi = geoip_open(dirname(__FILE__) . "/GeoIP.dat", WF_GEOIP_STANDARD);
-			$country = geoip_country_code_by_addr($gi, $IP);
+		if (version_compare(phpversion(), '5.4.0', '<')) {
+			return '';
 		}
-		geoip_close($gi);
-		return $country ? $country : '';
+		
+		if (!class_exists('wfGeoIP2')) {
+			require_once(dirname(__FILE__) . '/../models/common/wfGeoIP2.php');
+		}
+		
+		try {
+			$geoip = wfGeoIP2::shared();
+			$code = $geoip->countryCode($IP);
+			return is_string($code) ? $code : '';
+		}
+		catch (Exception $e) {
+			//Ignore
+		}
+		
+		return '';
 	}
 	public static function geoIPVersion() {
-		require_once('wfGeoIP.php');
-		$version = array();
-		
-		$gi = geoip_open(dirname(__FILE__) . "/GeoIP.dat", WF_GEOIP_STANDARD);
-		$v = @geoip_database_info($gi);
-		if ($v !== null) {
-			$version[] = $v;
-		}
-		geoip_close($gi);
-		
-		if (self::hasIPv6Support()) {
-			$gi = geoip_open(dirname(__FILE__) . "/GeoIPv6.dat", WF_GEOIP_STANDARD);
-			$v = @geoip_database_info($gi);
-			if ($v !== null) {
-				$version[] = $v;
-			}
-			geoip_close($gi);
+		if (version_compare(phpversion(), '5.4.0', '<')) {
+			return 0;
 		}
 		
-		return $version;
+		if (!class_exists('wfGeoIP2')) {
+			require_once(dirname(__FILE__) . '/../models/common/wfGeoIP2.php');
+		}
+		
+		try {
+			$geoip = wfGeoIP2::shared();
+			return $geoip->version();
+		}
+		catch (Exception $e) {
+			//Ignore
+		}
+		
+		return 0;
 	}
 	public static function siteURLRelative(){
 		if(is_multisite()){
@@ -2565,6 +2569,79 @@ class wfUtils {
 			}
 		}
 		return new DateTime($timestring);
+	}
+	
+	/**
+	 * Base64URL-encodes the given payload. This is identical to base64_encode except it substitutes characters
+	 * not safe for use in URLs.
+	 * 
+	 * @param string $payload
+	 * @return string
+	 */
+	public static function base64url_encode($payload) {
+		$intermediate = base64_encode($payload);
+		$intermediate = rtrim($intermediate, '=');
+		$intermediate = str_replace('+', '-', $intermediate);
+		$intermediate = str_replace('/', '_', $intermediate);
+		return $intermediate;
+	}
+	
+	/**
+	 * Base64URL-decodes the given payload. This is identical to base64_encode except it allows for the characters
+	 * substituted by base64url_encode.
+	 * 
+	 * @param string $payload
+	 * @return string
+	 */
+	public static function base64url_decode($payload) {
+		$intermediate = str_replace('_', '/', $payload);
+		$intermediate = str_replace('-', '+', $intermediate);
+		$intermediate = base64_decode($intermediate);
+		return $intermediate;
+	}
+	
+	/**
+	 * Returns a signed JWT for the given payload. Payload is expected to be an array suitable for JSON-encoding.
+	 * 
+	 * @param array $payload
+	 * @param int $maxAge How long the JWT will be considered valid.
+	 * @return string
+	 */
+	public static function generateJWT($payload, $maxAge = 604800 /* 7 days */) {
+		$payload['_exp'] = time() + $maxAge;
+		$key = wfConfig::get('longEncKey');
+		$header = '{"alg":"HS256","typ":"JWT"}';
+		$body = self::base64url_encode($header) . '.' . self::base64url_encode(json_encode($payload));
+		$signature = hash_hmac('sha256', $body, $key, true);
+		return $body . '.' . self::base64url_encode($signature);
+	}
+	
+	/**
+	 * Decodes and returns the payload of a JWT. This also validates the signature.
+	 * 
+	 * @param string $token
+	 * @return array|bool The decoded payload or false if the token is invalid or fails validation.
+	 */
+	public static function decodeJWT($token) {
+		$components = explode('.', $token);
+		if (count($components) != 3) {
+			return false;
+		}
+		
+		$key = wfConfig::get('longEncKey');
+		$body = $components[0] . '.' . $components[1];
+		$signature = hash_hmac('sha256', $body, $key, true);
+		$testSignature = self::base64url_decode($components[2]);
+		if (!hash_equals($signature, $testSignature)) {
+			return false;
+		}
+		
+		$json = self::base64url_decode($components[1]);
+		$payload = @json_decode($json, true);
+		if (isset($payload['_exp']) && $payload['_exp'] < time()) {
+			return false;
+		}
+		return $payload;
 	}
 }
 
