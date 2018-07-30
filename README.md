@@ -57,4 +57,5 @@ password: password
  - Regenerate Thumbnails  
  - Smush  
  - TinyMCE Advanced
+ - UpdraftPlus - Backup/Restore
  - WordPress Popular Posts
