@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Jetpack by WordPress.com - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-07-10 09:54:08+0000\n"
+"PO-Revision-Date: 2018-07-27 07:05:45+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -826,6 +826,11 @@ msgstr "Questa caratteristica è stata abilitata da un amministratore del sito. 
 msgid "%(moduleName)s has been disabled by a site administrator. {{link}}Learn more{{/link}}."
 msgstr "Il modulo %(moduleName)s è stato disabilitato da un amministratore del sito. {{link}}Scopri di più{{/link}}."
 
+#: _inc/jetpack-strings.php:229
+msgctxt "Search term."
+msgid "tos"
+msgstr "ToS (Termini di Servizio)"
+
 #: _inc/jetpack-strings.php:400
 msgid "Allows you to compose content with links, lists, and other styles using the Markdown syntax."
 msgstr "Consente di comporre i contenuti con link, elenchi e altri stili utilizzando la sintassi Markdown."
@@ -1627,6 +1632,11 @@ msgctxt "label for formatting JSON"
 msgid "Minify"
 msgstr "Minificare"
 
+#: 3rd-party/debug-bar/class.jetpack-search-debug-bar.php:116
+msgctxt "Text displayed when there is no information"
+msgid "None"
+msgstr "Nessuna informazione."
+
 #: 3rd-party/debug-bar/class.jetpack-search-debug-bar.php:26
 #: _inc/jetpack-strings.php:690
 msgid "Jetpack Search"
@@ -2098,9 +2108,21 @@ msgstr "Processo di onboarding fallito: %s"
 msgid "Not valid onboarding data."
 msgstr "Dati di onboarding non validi."
 
+#: _inc/jetpack-strings.php:709
+msgid "Thanks for choosing Jetpack Professional. Jetpack is now backing up your content in real-time, indexing your content for search, scanning for security threats, and granting access to premium themes."
+msgstr "Grazie per aver scelto il piano Professional. Jetpack sta facendo il backup del tuoi contenuti, facendo la scansione alla ricerca di potenziali minacce alla sicurezza del sito, e assicurando l'accesso ai temi premium. "
+
+#: _inc/jetpack-strings.php:711
+msgid "With Jetpack Professional, you can create the perfect site with one of over 300 professionally-designed WordPress themes, including more than 200 premium themes. Customize your content with a variety of widgets, or add unlimited videos to your posts and pages -- displayed free of ads or watermarks."
+msgstr "Con il piano Professional di Jetpack puoi creare il sito perfetto per le tue necessità, scegliendo uno tra gli oltre 300 temi per WordPress, inclusi più di 200 temi premium. Personalizza i tuoi contenuti con i widget, o aggiungi un numero illimitato di video alle tue pagine e ai tuoi articoli - è tutto mostrato e disponibile senza ads o watermark. "
+
 #: _inc/jetpack-strings.php:714 _inc/jetpack-strings.php:723
 msgid "Growing your following is easy with your Professional plan, thanks to content sharing and scheduling, SEO tools, and built-in subscription options. You can monetize your site with a simple payment button and in-line ads, and monitor the success of your efforts by integrating with Google Analytics."
 msgstr "Far crescere il seguito dei tuoi follower è facile con il piano Professional, grazie alle opzioni di condivisione e programmazione dei contenuti, agli strumenti per la SEO e le opzioni di sottoscrizione. Puoi anche monetizzare il tuo sito semplicemente aggiungendo un pulsante per il pagamento e ads. Puoi anche gestire e controllare il successo dei tuoi sforzi integrando Google Analytics. "
+
+#: _inc/jetpack-strings.php:693
+msgid "Your Jetpack plan gives you everything you need to keep your hard work safe, including on-demand backups and malware scans with one-click restores and issue resolution. Your site will be fully protected against spam, malicious code, and brute force login attempts."
+msgstr "Il piano Professional di Jetpack ti offre tutto ciò che ti serve per mantenere il tuo lavoro al sicuro. Nel piano è inclusa anche l'opzione di backup on-demand e scansione malware, oltre all'opzione per ristabilire il sito con un backup. Il tuo sito sarà inoltre protetto contro lo spam, codice malevolo o potenzialmente pericoloso, e tentativi di login brute force."
 
 #: _inc/jetpack-strings.php:715
 msgid "Start exploring Jetpack Professional now to see all the benefits of your new plan."
@@ -2118,6 +2140,14 @@ msgstr "Rivedi le opzioni SEO"
 msgid "Welcome Professional"
 msgstr "Benvenuto su Professional"
 
+#: _inc/jetpack-strings.php:700
+msgid "Thanks for choosing Jetpack Premium. Jetpack is now backing up your site, scanning for  security threats, and enabling monetization features."
+msgstr "Grazie per aver scelto il piano Premium. Jetpack sta facendo il backup del tuoi contenuti, facendo la scansione alla ricerca di potenziali minacce alla sicurezza del sito, e assicurando l'accesso ai temi premium."
+
+#: _inc/jetpack-strings.php:702
+msgid "With Jetpack Premium, you can create the perfect site, no matter its purpose. Customize your site’s appearance with one of more than 100 free themes, or enhance your content with unlimited HD video -- all hosted free of ads or watermarks."
+msgstr "Con Jetpack Premium puoi creare il tuo sito perfetto, non importa quale sia il suo scopo finale. Personalizza l'aspetto del tuo sito scegliendo uno tra più di 100 temi gratuiti, o esalta i tuoi contenuti con spazio illimitato di storaggio per video in HD - tutto è offerto gratuitamente senza ads o watermark."
+
 #: _inc/jetpack-strings.php:704
 msgid "Using Jetpack’s powerful sharing tools, you can automatically share your newest posts on social media, or schedule your content to be re-shared at any date or time you choose. And along with growing your following, you can grow your business with tools like payment buttons and ads."
 msgstr "Usando i potenti strumenti di condivisione di Jetpack, puoi automaticamente condividere i tuoi articoli più recenti sui social media, oppure programmarli per essere ricondivisi il giorno che vuoi, all'ora che vuoi. E mentre fai crescere il seguito dei tuoi follower, puoi anche far crescere la tua attività con un pulsante per il pagamento e gli ads."
@@ -2133,6 +2163,10 @@ msgstr "Monetizza il tuo sito con gli ads"
 #: _inc/jetpack-strings.php:707
 msgid "Welcome Premium"
 msgstr "benvenuto su Premium"
+
+#: _inc/jetpack-strings.php:694
+msgid "Thanks for choosing Jetpack Personal. Jetpack is now backing up your site and scanning for security threats."
+msgstr "Grazie per aver scelto li piano Personal. Jetpack sta ora facendo il backup del tuo sito e facendo la scansione alla ricerca di potenziali minacce alla sicurezza del sito."
 
 #: _inc/jetpack-strings.php:696
 msgid "With Jetpack Personal, you have access to more than 100 free, professionally-designed WordPress themes. Choose the theme that best fits your site and customize colors, images, or add a variety of new widgets."
@@ -2582,6 +2616,10 @@ msgstr "Concedici del tempo per raccogliere tutti i dati in modo tale da visuali
 msgid "Okay, got it!"
 msgstr "Ok, fatto!"
 
+#: _inc/jetpack-strings.php:486
+msgid "By clicking the button below, you agree to our fascinating {{tosLink}}Terms of Service{{/tosLink}} and to {{shareDetailsLink}}share details{{/shareDetailsLink}} with WordPress.com"
+msgstr "Cliccando qui sotto, accetti i nostri interessanti {{tosLink}}Termini di servizio{{/tosLink}} e la {{shareDetailsLink}}condivisione delle informazioni{{/shareDetailsLink}} con WordPress.com"
+
 #: _inc/jetpack-strings.php:320
 msgid "Archives"
 msgstr "Archivi"
@@ -2736,6 +2774,10 @@ msgstr "Quante foto vuoi che siano visualizzate?"
 #: modules/widgets/flickr/form.php:32
 msgid "Leave the Flickr RSS URL field blank to display <a target=\"_blank\" href=\"%s\">interesting</a> Flickr photos."
 msgstr "Lascia vuoto il campo relativo all'URL del feed RSS di Flickr per mostrare <a target=\"_blank\" href=\"%s\">foto interessanti</a> prese da Flickr"
+
+#: modules/widgets/flickr/form.php:26
+msgid "To find your Flickr RSS URL, go to your photostream, add \"?details=1\" to the URL, and hit enter. Scroll down until you see the RSS icon or the \"Latest\" link. Right-click on either options and copy the URL. Paste into the box above."
+msgstr "Per trovare il tuo URL del feed RSS di Flickr, vai al tuo flusso di foto, apri il menu \"Altro\" e fai clic su \"Modifica\". Scorri la pagina verso il basso fino a quando non visualizzi l'icona RSS o il link \"più recente\". Fai clic con il pulsante destro del mouse su entrambi e copia l'URL. Incollalo nella casella sopra."
 
 #: modules/widgets/flickr.php:151
 msgid "(Only admins can see this message)"
@@ -3087,6 +3129,14 @@ msgstr "Siti seguiti"
 msgid "Something Else"
 msgstr "Altro"
 
+#: class.jetpack-debugger.php:379
+msgid "I have security concerns / my site is hacked."
+msgstr "Ho problemi di sicurezza / Il mio sito è stato vittima di un hacker"
+
+#: class.jetpack-debugger.php:374
+msgid "I'm having trouble connecting Jetpack to WordPress.com."
+msgstr "Sto riscontrando problemi con il collegamento di Jetpack a WordPress.com"
+
 #: modules/masterbar/masterbar.php:270
 msgctxt "Title for Reader sub-menu that contains followed sites, likes, and recommendations"
 msgid "Streams"
@@ -3095,6 +3145,15 @@ msgstr "Stream"
 #: modules/masterbar/masterbar.php:260
 msgid "Reader"
 msgstr "Reader"
+
+#: class.jetpack-debugger.php:380
+msgid "My site is down / I can't access my site."
+msgstr "Il mio sito è offline / Non riesco ad accedere al mio sito"
+
+#: modules/masterbar/masterbar.php:686
+msgctxt "admin bar menu group label"
+msgid "Manage"
+msgstr "Gestisci"
 
 #: class.jetpack-debugger.php:222
 msgid "Go to connection screen."
@@ -3177,6 +3236,11 @@ msgstr "Ottieni una risoluzione più veloce alle tue domande al supporto."
 #: _inc/jetpack-strings.php:662
 msgid "Protect your site from spam."
 msgstr "Proteggi il tuo sito dallo spam."
+
+#: _inc/jetpack-strings.php:617
+msgctxt "A heading for a block of related posts."
+msgid "Related"
+msgstr "Correlati"
 
 #: _inc/jetpack-strings.php:657
 msgid "Real-time site backups and automatic threat resolution."
@@ -3337,6 +3401,10 @@ msgstr "Gestisci connessione sito"
 #: _inc/jetpack-strings.php:437
 msgid "Theme enhancements"
 msgstr "Miglioramento dei temi"
+
+#: _inc/jetpack-strings.php:562
+msgid "Brute force attack protection and downtime monitoring"
+msgstr "Protezione da attacchi di forza bruta e monitoraggio del downtime"
 
 #: _inc/jetpack-strings.php:410
 msgctxt "Settings header"
@@ -3687,6 +3755,10 @@ msgstr "Sito connesso"
 #: _inc/jetpack-strings.php:37
 msgid "Updated settings."
 msgstr "Impostazioni aggiornate. "
+
+#: _inc/jetpack-strings.php:38
+msgid "Error updating settings. %(error)s"
+msgstr "Errore nell'aggiornamento delle impostazioni. %(error)s"
 
 #: _inc/jetpack-strings.php:40
 msgid "Regenerated Post by Email address."
@@ -4502,6 +4574,10 @@ msgstr "Attiva Ads"
 msgid "Video Hosting"
 msgstr "Video Hosting"
 
+#: _inc/jetpack-strings.php:202
+msgid "We support all Jetpack users, regardless of plan. But customers on a paid subscription enjoy priority support so that security issues are identified and fixed for you as soon as possible."
+msgstr "Prestiamo supporto a tutti gli utenti Jetpack, non importa quale piano abbiano. Tuttavia, i clienti con un piano a pagamento posso usufruire del supporto prioritario, di modo che possiamo identificare e risolvere al più presto possibile i problemi legati alla sicurezza."
+
 #: _inc/jetpack-strings.php:164 _inc/jetpack-strings.php:325
 msgid "View your earnings"
 msgstr "Guarda i tuoi guadagni"
@@ -4812,6 +4888,15 @@ msgstr "Strumenti SEO"
 msgid "Sorry, you cannot view this resource."
 msgstr "Mi dispiace, non puoi vedere questa risorsa!"
 
+#: class.jetpack-idc.php:606
+msgid ""
+"No. <a href=\"%1$s\">%2$s</a> is a new and different website that's separate from\n"
+"\t\t\t\t\t<a href=\"%3$s\">%4$s</a>. It requires  a new connection to WordPress.com for new stats and subscribers."
+msgstr ""
+"No. <a href=\"%1$s\">%2$s</a> è un sito nuovo e diverso che è separato da\n"
+"\n"
+"\t\t\t\t\t<a href=\"%3$s\">%4$s</a>. Questo richiede una nuova connessione a WordPress.com per nuove statistiche e sottoscrizioni."
+
 #: class.jetpack-idc.php:591
 msgid "Migrate Stats &amp; Subscribers"
 msgstr "Migra Statistiche &amp; Sottoscrizioni"
@@ -4835,6 +4920,22 @@ msgstr "Aggiusta la connessione di Jetpack"
 #: class.jetpack-idc.php:495
 msgid "Confirm Safe Mode"
 msgstr "Conferma la Safe Mode"
+
+#: class.jetpack-idc.php:510
+msgid ""
+"If this is a separate and new website, or the new home of <a href=\"%1$s\">%2$s</a>,\n"
+"\t\t\t\t\twe recommend turning Safe Mode off, and re-establishing your connection to WordPress.com."
+msgstr ""
+"Se questo è un sito nuovo e/o diverso, o se è la nuova destinazione di <a href=\"%1$s\">%2$s</a>,\n"
+"\t\t\t\t\tnoi raccomandiamo di disabilitare il Safe Mode, e ristabilire la connessione con WordPress.com."
+
+#: class.jetpack-idc.php:473
+msgid ""
+"Is this website a temporary duplicate of <a href=\"%1$s\">%2$s</a> for the purposes\n"
+"\t\t\t\t\tof testing, staging or development? If so, we recommend keeping it in Safe Mode."
+msgstr ""
+"Questo sito è un duplicato temporaneo di <a href=\"%1$s\">%2$s</a> creato con il fine di\n"
+"\t\t\t\t\ttest, staging o sviluppo? Se la risposta è sì, ti raccomandiamo di mantenerlo in Safe Mode."
 
 #: class.jetpack-connection-banner.php:561
 msgid "or visit our site for the full feature list."
@@ -4871,6 +4972,14 @@ msgstr "Connettiti a WordPress.com per iniziare"
 #: class.jetpack-connection-banner.php:548
 msgid "Jetpack includes other features that help you customize your site including Custom CSS, Contact Forms, Galleries and Carousels, Notifications and Subscriptions, Configurable Widgets, and many more."
 msgstr "Jetpack include altre funzionalità che ti aiuta a personalizzare il tuo sito, includendo CSS aggiuntivo, Form di contatto, Gallerie e Caroselli, Notifiche e Sottoscrizioni, Widget configurabili e molto altro ancora."
+
+#: class.jetpack-idc.php:450
+msgid ""
+"Please confirm Safe Mode or fix the Jetpack connection. Select one of the options below or <a href=\"%1$s\">learn\n"
+"\t\t\t\t\tmore about Safe Mode</a>."
+msgstr ""
+"Conferma lo stato di Safe Mode o risolvi la connessione con Jetpack. Seleziona una delle opzioni di qui sotto o <a href=\"%1$s\">leggi\n"
+"\t\t\t\t\tdi più riguardo la modalità Safe Mode</a>."
 
 #: class.jetpack-connection-banner.php:514
 msgid "When Jetpack is connected to WordPress.com, head over to the Apps tab within Jetpack for direct links to the mobile and desktop apps."
@@ -5972,6 +6081,10 @@ msgstr "Le funzionalità possono essere attivate o disattivate in qualsiasi mome
 msgid "Jetpack's recommended features include:"
 msgstr "Le funzionalità consigliate di Jetpack includono:"
 
+#: _inc/jetpack-strings.php:602
+msgid "Activate recommended features"
+msgstr "Attiva le funzionalità consigliate"
+
 #: _inc/jetpack-strings.php:585
 msgid "Cheatin' uh?"
 msgstr "Cheatin' uh?"
@@ -6021,6 +6134,10 @@ msgstr "Ci diresti perché? Rispondendo a {{a}}due semplici domande{{/a}} ci aiu
 #: _inc/jetpack-strings.php:571
 msgid "What would you like to see on your Jetpack Dashboard?"
 msgstr "Che cosa ti piacerebbe vedere nella tua bacheca Jetpack?"
+
+#: class.jetpack-connection-banner.php:985
+msgid "Connect to, or create, a WordPress.com account to start using Jetpack, and activate our powerful security, traffic and customization services."
+msgstr "Connettiti con il tuo account WordPress.com o creane uno nuovo per iniziare a usare Jetpack. Questo ti permetterà di accedere alle funzionalità di sicurezza, traffico e personalizzazione. "
 
 #: _inc/jetpack-strings.php:542
 msgctxt "Header. Noun: Protect is a module of Jetpack."
@@ -6219,6 +6336,10 @@ msgstr "{{a}}Contatta il supporto{{/a}}"
 msgid "Jetpack is monitoring your site. If we think your site is down, you will receive an email."
 msgstr "Jetpack sta monitorando il tuo sito. Se pensiamo che il tuo sito non sia raggiungibile, riceverai una mail."
 
+#: _inc/jetpack-strings.php:97
+msgid "{{a}}Turn on plugin autoupdates{{/a}}"
+msgstr "{{a}}Attiva gli aggiornamenti automatici del plugin{{/a}}"
+
 #: _inc/jetpack-strings.php:109
 msgid "{{a}}View details at VaultPress.com{{/a}}"
 msgstr "{{a}}Visualizza dettagli su VaultPress.com{{/a}}"
@@ -6265,6 +6386,14 @@ msgstr "Aggiornamenti plugin"
 msgid "Jetpack is improving and optimizing your image speed."
 msgstr "Jetpack sta migliorando e ottimizzando la velocità della tua immagine."
 
+#: _inc/jetpack-strings.php:82
+msgid "Downtime monitoring"
+msgstr "Controllo di downtime"
+
+#: _inc/jetpack-strings.php:91
+msgid "{{a}}Activate{{/a}} to enhance the performance and speed of your images."
+msgstr "{{a}}Attiva{{/a}} per migliorare la performance e la velocità delle tue immagini."
+
 #: _inc/jetpack-strings.php:62
 msgid "{{a}}View backup details{{/a}}."
 msgstr "{{a}}Visualizza i dettagli del backup{{/a}}."
@@ -6310,6 +6439,10 @@ msgstr "Chiave non valida"
 #: _inc/jetpack-strings.php:51 _inc/jetpack-strings.php:158
 msgid "Spam Protection"
 msgstr "Protezione dallo spam"
+
+#: _inc/jetpack-strings.php:86
+msgid "{{a}}Activate Monitor{{/a}} to receive email notifications if your site goes down."
+msgstr "{{a}}Attiva Monitor{{/a}} per ricevere notifiche se il tuo sito va offline."
 
 #: _inc/jetpack-strings.php:60 _inc/jetpack-strings.php:148
 #: _inc/jetpack-strings.php:151
@@ -7281,6 +7414,13 @@ msgstr "Hai un feedback su Jetpack?"
 #: views/admin/network-admin-footer.php:19
 msgid "An <span>Automattic</span> Airline"
 msgstr "Una compagnia aerea di proprietà di <span>Automattic</span>"
+
+#. #-#-#-#-#  jetpack-code.pot (Jetpack by WordPress.com 6.3.2)  #-#-#-#-#
+#. Plugin URI of the plugin/theme
+#. #-#-#-#-#  jetpack-code.pot (Jetpack by WordPress.com 6.3.2)  #-#-#-#-#
+#. Author URI of the plugin/theme
+msgid "https://jetpack.com"
+msgstr "https://jetpack.com"
 
 #: modules/module-extras.php:62
 msgid "%s (Jetpack)"
@@ -8441,6 +8581,10 @@ msgstr "Fatto! È stata appena inviata un'e-mail per confermare l'abbonamento. P
 msgid "Logged Out"
 msgstr "Disconnesso"
 
+#: modules/videopress/class.videopress-player.php:344
+msgid "You do not have sufficient <a rel=\"nofollow\" href=\"%s\" rel=\"noopener noreferrer\" target=\"_blank\">freedom levels</a> to view this video. Support free software and upgrade."
+msgstr "Non hai un sufficiente <a rel=\"nofollow\" href=\"%s\" rel=\"noopener noreferrer\" target=\"_blank\">livello di libertà</a> per visualizzare questo video. Sostieni il software libero e passa alla versione successiva."
+
 #: modules/sharedaddy/sharing-sources.php:95
 msgid " (Opens in new window)"
 msgstr " (Si apre in una nuova finestra)"
@@ -8900,6 +9044,10 @@ msgstr "Fai clic qui per vedere lo slideshow."
 msgid "Tweets by @%s"
 msgstr "Tweets da @%s"
 
+#: modules/sharedaddy/sharing.php:186
+msgid "This plugin will work without it, but multibyte support is used <a href=\"%s\" rel=\"noopener noreferrer\" target=\"_blank\">if available</a>. You may see minor problems with Tweets and other sharing services."
+msgstr "Il plugin funzionerà anche senza questo, ma verrà utilizzato il supporto a multibyte, <a href=\"%s\" rel=\"noopener noreferrer\" target=\"_blank\">se disponibile</a>. Potresti riscontrare dei problemi secondari con i tweet e altri servizi di condivisione."
+
 #: modules/protect/math-fallback.php:53
 msgid "<strong>You failed to correctly answer the math problem.</strong>  This is used to combat spam when the Protect API is unavailable.  Please use your browser's back button to return to the login form, press the \"refresh\" button to generate a new math problem, and try to log in again."
 msgstr "<strong>Non hai risposto correttamente al problema di matematica.</strong> Questo metodo viene utilizzato per contrastare lo spam quando l'API di Protect non è disponibile. Per ritornare al modulo di accesso, utilizza il pulsante \"Indietro\" del browser, fai clic sul pulsante \"Aggiorna\" per generare un nuovo problema di matematica e prova di nuovo ad accedere."
@@ -9290,6 +9438,10 @@ msgid ""
 "With Carousel active, any standard WordPress galleries or single images you have embedded in posts or pages will\n"
 "\t\tlaunch a full-screen photo browsing experience with comments and EXIF metadata."
 msgstr "Attivando Carousel, ogni galleria standard di WordPress che hai inserito in articoli o pagine apparirà come una presentazione di immagini a schermo intero con commenti e metadata EXIF."
+
+#: modules/monitor.php:55
+msgid "Nobody likes downtime, and that's why Downtime Monitor is on the job, keeping tabs on your site by checking it every five minutes. As soon as any downtime is detected, you will receive an email notification alerting you to the issue. That way you can act quickly, to get your site back online again!"
+msgstr "A nessuno piacciono i tempi di inattivitàed è per questo che Jetpack Monitor è al lavoro e gestisce le schede sul tuo sito controllandolo ogni cinque minuti. Non appena verranno rilevati tempi di inattività, riceverai una notifica e-mail che ti segnalerà il problema. In questo modo potrai agire rapidamente per rimettere online il sito."
 
 #: modules/module-headings.php:39
 msgctxt "Jumpstart Description"
@@ -11089,6 +11241,14 @@ msgstr ""
 "\n"
 "Buon divertimento,\n"
 "il Team di WordPress.com "
+
+#: modules/custom-css/custom-css.php:1007
+msgid ""
+"New to CSS? Start with a <a href=\"http://www.htmldog.com/guides/cssbeginner/\" rel=\"noopener noreferrer\" target=\"_blank\">beginner tutorial</a>. Questions?\n"
+"\t\tAsk in the <a href=\"https://wordpress.org/support/forum/themes-and-templates\" rel=\"noopener noreferrer\" target=\"_blank\">Themes and Templates forum</a>."
+msgstr ""
+"Sei agli inizi con il CSS? Vai al <a href=\"http://www.htmldog.com/guides/cssbeginner/\" rel=\"noopener noreferrer\" target=\"_blank\">tutorial per principianti</a>. Domande?\n"
+"\t\tChiedi nel <a href=\"https://wordpress.org/support/forum/themes-and-templates\" rel=\"noopener noreferrer\" target=\"_blank\">forum di Temi e Modelli</a>."
 
 #: modules/contact-form/grunion-form-view.php:169
 msgctxt "%1$s = \"Click here\" in an HTML link"
@@ -13004,3 +13164,7 @@ msgstr "L‛utente è stato disconnesso con successo."
 #: modules/contact-form/grunion-form-view.php:175
 msgid "Feedback"
 msgstr "Riscontro"
+
+#: class.jetpack-cli.php:206
+msgid "Jetpack has been successfully disconnected for %s."
+msgstr "Jetpack è stato disconnesso con successo da %s."
