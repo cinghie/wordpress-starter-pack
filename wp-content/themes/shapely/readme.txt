@@ -2,17 +2,17 @@
 
 Theme Name: Shapely
 Theme URI: https://colorlib.com/wp/shapely/
-Version: 1.2.0
-Tested up to: WP 4.8
+Version: 1.2.3
+Tested up to: WP 4.9
 
 Author: Aigars Silkalns
 Author URI: https://colorlib.com/wp/
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl.html
 -------------------------------------------------------
-Shapely theme, Copyright 2017 colorlib.com
+Shapely theme, Copyright 2018 colorlib.com
 Shapely WordPress theme is distributed under the terms of the GNU GPL
-Shapely is based on Underscores http://underscores.me/, (C) 2012-2017 Automattic, Inc.
+Shapely is based on Underscores http://underscores.me/, (C) 2012-2018 Automattic, Inc.
 -------------------------------------------------------
 
 == Description ==
@@ -60,6 +60,13 @@ This page template is used to create the Parallax homepage from our demo : https
 
 
 == Changelog ==
+
+= 1.2.3 =
+* Implemented milestone: https://github.com/puikinsh/shapely/milestone/7?closed=1
+
+= 1.2.2 =
+* Implemented milestone: https://github.com/puikinsh/shapely/milestone/6?closed=1
+
 = 1.2.0 =
 
 * Implemented milestone https://github.com/puikinsh/shapely/milestone/4

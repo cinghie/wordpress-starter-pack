@@ -26,6 +26,7 @@ class Epsilon_Framework {
 		'customizer-navigation',
 		'color-scheme',
 		'button-group',
+		'separator',
 	);
 	/**
 	 * By default, it loads all sections
@@ -88,6 +89,7 @@ class Epsilon_Framework {
 					'controls',
 					'sections',
 					'panels',
+					'plugin',
 					'path',
 					'backup',
 					'plugin_uri',
@@ -101,10 +103,12 @@ class Epsilon_Framework {
 			$this->$k = $v;
 		}
 
-		/**
-		 * Let's initiate a backup instance
-		 */
-		$backup = Epsilon_Content_Backup::get_instance();
+		if ( $this->backup ) {
+			/**
+			 * Let's initiate a backup instance
+			 */
+			$backup = Epsilon_Content_Backup::get_instance();
+		}
 
 		/**
 		 * Define Framework uri and paths
@@ -115,6 +119,11 @@ class Epsilon_Framework {
 		 * Enqueue scripts and styles
 		 */
 		$this->start_enqueues();
+
+		/**
+		 * Add quick links
+		 */
+		$this->add_action_links();
 
 		/**
 		 * AJAX handling moved to a different class
@@ -153,6 +162,13 @@ class Epsilon_Framework {
 		 * Expose Manager to the Epsilon Customizer class.
 		 */
 		Epsilon_Customizer::get_instance( $wp_customize );
+	}
+
+	/**
+	 * Add quick links to point in customizer
+	 */
+	public function add_action_links() {
+		add_filter( 'page_row_actions', array( 'Epsilon_Customizer', 'add_action_links' ), 99, 2 );
 	}
 
 	/**
@@ -265,12 +281,4 @@ class Epsilon_Framework {
 		define( 'EPSILON_PATH', $dir . $this->path . '/epsilon-framework' );
 		define( 'EPSILON_BACKUP', $this->backup );
 	}
-
-	/**
-	 * @deprecated since 1.1.0
-	 */
-	public static function get_image_sizes() {
-		return Epsilon_Helper::get_image_sizes();
-	}
-
 }
