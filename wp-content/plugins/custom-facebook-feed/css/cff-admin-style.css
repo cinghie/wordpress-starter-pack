@@ -801,7 +801,7 @@
 
 /* FB login button */
 #cff-admin .cff_admin_btn,
-#cff-admin #cff_admin_cancel_btn{
+#cff-admin .cff-admin-cancel-btn{
 	display: inline-block;
 	clear: both;
 	padding: 0 21px 0 20px;
@@ -822,7 +822,7 @@
 	transition: all 0.5s ease-in-out;
 }
 #cff-admin .cff_admin_btn:hover,
-#cff-admin #cff_admin_cancel_btn:hover{
+#cff-admin .cff-admin-cancel-btn:hover{
 	background-color: #3880c4;
 	color: #fff;
 
@@ -906,12 +906,12 @@
 #cff-admin .cff_modal_box .cff_admin_btn{
 	margin-top: 10px;
 }
-#cff-admin #cff_admin_cancel_btn{
+#cff-admin .cff-admin-cancel-btn{
 	margin-right: 5px;
     background: #ddd;
     color: #555;
 }
-#cff-admin #cff_admin_cancel_btn:hover{
+#cff-admin .cff-admin-cancel-btn:hover{
 	background: #ccc;
 	color: #333;
 }
@@ -935,4 +935,42 @@
 #cff-admin .cff_modal_box p{
 	font-size: 14px;
 	line-height: 1.6;
+}
+
+/* Choose token */
+#cff-admin #cff-own, #cff-admin #cff-public{
+	display: none;
+}
+#cff-admin .cff-token-radios{
+	width: 265px;
+    text-align: left;
+    margin-left: 110px;
+}
+#cff-admin .cff-token-radios input{
+	position: relative;
+    top: 2px;
+}
+#cff-admin .cff_modal_box .cff-disabled{
+	background: #EEE;
+    color: #aaa;
+    cursor: default;
+}
+#cff-admin .cff-token-question-own,
+#cff-admin .cff-token-question-public{
+	position: relative;
+    top: 2px;
+    left: 3px;
+    font-size: 15px;
+    opacity: 0.8;
+    margin: 0;
+}
+#cff-admin .cff-token-question-own:hover,
+#cff-admin .cff-token-question-public:hover{
+    opacity: 1;
+    color: #005e8c;
+}
+#cff-admin #cff-token-intro .cff-tooltip{
+	font-size: 13px;
+    background: #f0f0f0;
+    padding: 10px 15px;
 }

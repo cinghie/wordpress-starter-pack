@@ -117,9 +117,12 @@
 #cff .cff-author-img{
   float: left;
   width: 40px;
+  height: 40px;
   margin: 0 0 0 -100% !important;
   font-size: 0;
   background: #eee;
+
+  background: url('../img/cff-avatar.png') no-repeat;
 }
 #cff .cff-author img{
   float: left;
@@ -127,7 +130,6 @@
   padding: 0 !important;
   border: none !important;
   font-size: 0;
-  background: #eee;
 }
 #cff .cff-author .cff-author-text span.cff-page-name{
   display: table-cell;

@@ -3,7 +3,7 @@
 Plugin Name: Custom Facebook Feed
 Plugin URI: http://smashballoon.com/custom-facebook-feed
 Description: Add completely customizable Facebook feeds to your WordPress site
-Version: 2.7
+Version: 2.7.1
 Author: Smash Balloon
 Author URI: http://smashballoon.com/
 License: GPLv2 or later
@@ -24,7 +24,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-define('CFFVER', '2.7');
+define('CFFVER', '2.7.1');
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 //Include admin
@@ -1311,7 +1311,7 @@ function display_cff($atts) {
                     //Set the author image as a variable. If it already exists then don't query the api for it again.
                     $cff_author_img_var = '$cff_author_img_' . $cff_from_id;
                     if ( !isset($$cff_author_img_var) ) $$cff_author_img_var = 'https://graph.facebook.com/' . $cff_from_id . '/picture?type=square';
-                    $cff_author .= '<div class="cff-author-img"><a '.$cff_author_link_atts.'><img src="'.$$cff_author_img_var.'" title="'.$cff_author_name.'" alt="'.$cff_author_name.'" width=40 height=40></a></div>';
+                    $cff_author .= '<div class="cff-author-img"><a '.$cff_author_link_atts.'><img src="'.$$cff_author_img_var.'" title="'.$cff_author_name.'" alt="'.$cff_author_name.'" width=40 height=40 onerror="this.style.display=\'none\'"></a></div>';
 
                     $cff_author .= '</div>'; //End .cff-author
 

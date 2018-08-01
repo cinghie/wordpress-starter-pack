@@ -47,7 +47,7 @@ function cff_settings_page() {
     $cff_cache_time_unit    = 'cff_cache_time_unit';
     $cff_locale             = 'cff_locale';
     // Read in existing option value from database
-    $show_access_token_val = get_option( $show_access_token );
+    $show_access_token_val = true;
     $access_token_val = get_option( $access_token );
     $page_id_val = get_option( $page_id );
     $cff_page_type_val = get_option( $cff_page_type, 'page' );
@@ -73,7 +73,7 @@ function cff_settings_page() {
         // See if the user has posted us some information. If they did, this hidden field will be set to 'Y'.
         if( isset($_POST[ $hidden_field_name ]) && $_POST[ $hidden_field_name ] == 'Y' ) {
             // Read their posted value
-            isset( $_POST[ $show_access_token ] ) ? $show_access_token_val = sanitize_text_field( $_POST[ $show_access_token ] ) : $show_access_token_val = '';
+            isset( $_POST[ $show_access_token ] ) ? $show_access_token_val = true : $show_access_token_val = true;
             isset( $_POST[ $access_token ] ) ? $access_token_val = sanitize_text_field( $_POST[ $access_token ] ) : $access_token_val = '';
             isset( $_POST[ $page_id ] ) ? $page_id_val = sanitize_text_field( $_POST[ $page_id ] ) : $page_id_val = '';
             isset( $_POST[ $cff_page_type ] ) ? $cff_page_type_val = sanitize_text_field( $_POST[ $cff_page_type ] ) : $cff_page_type_val = '';
@@ -86,7 +86,7 @@ function cff_settings_page() {
             if (isset($_POST[ 'cff_timezone' ]) ) $cff_timezone = sanitize_text_field( $_POST[ 'cff_timezone' ] );
 
             // Save the posted value in the database
-            update_option( $show_access_token, $show_access_token_val );
+            update_option( $show_access_token, true );
             update_option( $access_token, $access_token_val );
             update_option( $page_id, $page_id_val );
             update_option( $cff_page_type, $cff_page_type_val );
@@ -135,13 +135,65 @@ function cff_settings_page() {
 
             <div id="cff_fb_login_modal">
                 <div class="cff_modal_box">
-                    <p>We're teaming up with our good friends at <span class="cff_srlogo">SlickRemix</b> <img src="<?php echo plugins_url( 'img/slick-remix.png' , __FILE__ ) ?>"></span> to provide you with an easy way to connect to Facebook. Simply log into your Facebook account using the button below and approve the plugin to connect your account.</p>
 
-                    <p><a href="javascript:void(0);" id="cff_admin_cancel_btn">Cancel</a>
+                    <div id="cff-token-intro">
+                        <p>I am displaying a feed from a Facebook page that:</p>
+                        <div class="cff-token-radios">
+                            <div>
+                                <input type="radio" id="cff-token-own" name="token-perm" value="own" />
+                                <label for="cff-token-own">I am an admin of</label>&nbsp;<a href="javascript:void(0);" class="cff-tooltip-link cff-token-question-own"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
 
-                        <a href="https://www.facebook.com/dialog/oauth?scope=manage_pages&client_id=1123168491105924&redirect_uri=https://www.slickremix.com/facebook-token/&state=<?php echo admin_url('admin.php?page=cff-top'); ?>" class="cff_admin_btn"><i class="fa fa-facebook-square"></i> <?php _e( 'Continue', 'custom-facebook-feed' ); ?></a></p>
+                                <p class="cff-tooltip cff-more-info"><?php _e("Select this option if you are an admin of the Facebook page you want to display a feed from.", 'custom-facebook-feed'); ?></p>
+                            </div>
+                            <div>
+                                <input type="radio" id="cff-token-public" name="token-perm" value="public" />
+                                <label for="cff-token-public">I am <b>NOT</b> an admin of</label>&nbsp;<a href="javascript:void(0);" class="cff-tooltip-link cff-token-question-public"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
 
-                    <p style="font-size: 11px; margin-top: 25px;"><b>Please note:</b> this does not give us permission to manage your Facebook pages, it simply allows the plugin to see a list of the pages you manage and retrieve an Access Token.</p>
+                                <p class="cff-tooltip cff-more-info"><?php _e("Select this option if you need to display a feed from a Facebook page that you are not an admin of.", 'custom-facebook-feed'); ?></p>
+                            </div>
+                        </div>
+                            
+                        <p>
+                            <a href="javascript:void(0);" id="cff_admin_cancel_btn_2" class="cff-admin-cancel-btn">Cancel</a>
+                            <a href="javascript:void(0);" class="cff_admin_btn cff-disabled" id="cff_token_perm_selected"><?php _e( 'Continue', 'custom-facebook-feed' ); ?></a>
+                        </p>
+                    </div>
+
+                    <div id="cff-own">
+                        <p>Log into your Facebook account using the button below and approve the plugin to connect your account.</p>
+
+                        <p><a href="javascript:void(0);" id="cff_admin_cancel_btn_3" class="cff-admin-cancel-btn">Cancel</a>
+
+                            <?php
+                            $admin_url_state = admin_url('admin.php?page=cff-top');
+                            //If the admin_url isn't returned correctly then use a fallback
+                            if( $admin_url_state == '/wp-admin/admin.php?page=cff-top' || $admin_url_state == '/wp-admin/admin.php?page=cff-top&tab=configuration' ){
+                                $admin_url_state = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                            }
+                            ?>
+                            <a href="https://www.facebook.com/dialog/oauth?client_id=1332798716823516&redirect_uri=https://smashballoon.com/fb-1332798716823516-redirect/&scope=manage_pages&state=<?php echo $admin_url_state; ?>" class="cff_admin_btn"><i class="fa fa-facebook-square"></i> <?php _e( 'Continue', 'custom-facebook-feed' ); ?></a></p>
+
+                            <p style="font-size: 11px; margin-top: 25px;"><b>Please note:</b> this does not give us permission to manage your Facebook pages, it simply allows the plugin to see a list of the pages you manage and retrieve an Access Token.</p>
+                    </div>
+
+                    <div id="cff-public">
+                        <p>We're teaming up with our good friends at <span class="cff_srlogo">SlickRemix</b> <img src="<?php echo plugins_url( 'img/slick-remix.png' , __FILE__ ) ?>"></span> to provide you with an easy way to connect to Facebook. Simply log into your Facebook account using the button below and approve the plugin to connect your account.</p>
+
+
+                        <p><a href="javascript:void(0);" id="cff_admin_cancel_btn" class="cff-admin-cancel-btn">Cancel</a>
+
+                            <?php
+                            $admin_url_state = admin_url('admin.php?page=cff-top');
+                            //If the admin_url isn't returned correctly then use a fallback
+                            if( $admin_url_state == '/wp-admin/admin.php?page=cff-top' || $admin_url_state == '/wp-admin/admin.php?page=cff-top&tab=configuration' ){
+                                $admin_url_state = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                            }
+                            ?>
+                            <a href="https://www.facebook.com/dialog/oauth?scope=manage_pages&client_id=1123168491105924&redirect_uri=https://www.slickremix.com/facebook-token/&state=<?php echo $admin_url_state; ?>" class="cff_admin_btn"><i class="fa fa-facebook-square"></i> <?php _e( 'Continue', 'custom-facebook-feed' ); ?></a></p>
+
+                            <p style="font-size: 11px; margin-top: 25px;"><b>Please note:</b> this does not give us permission to manage your Facebook pages, it simply allows the plugin to see a list of the pages you manage and retrieve an Access Token.</p>
+                    </div>
+
                 </div>
             </div>
 
@@ -176,7 +228,12 @@ function cff_settings_page() {
                     <?php
                     } else {
                     //Show the pages they manage
-                        echo '<p style="background: #dceada; border: 1px solid #6ca365; padding: 15px 20px; border-radius: 5px;">Select one of the pages below to get an Access Token.<br /><b><u>Important:</u> This Access Token will allow you to display posts from <u>any</u> public Facebook page, not just the one selected.</b></p>';
+
+                        if( isset($_GET['own']) ){
+                            echo '<p style="background: #F7E6E6; border: 1px solid #BA7B7B; padding: 15px 20px; border-radius: 5px;">Select one of the pages below to get an Access Token for that page.<br /><b><u>Important:</u></b> This Access Token will only be able to display content from the <b>selected page</b>.</p>';
+                        } else {
+                            echo '<p style="background: #dceada; border: 1px solid #6ca365; padding: 15px 20px; border-radius: 5px;">Select one of the pages below to get an Access Token.<br /><b><u>Important:</u> This Access Token will allow you to display posts from <u>any</u> public Facebook page, not just the one selected.</b></p>';
+                        }
 
                         foreach ( $pages_data_arr->data as $page => $page_data ) {
                             echo '<div class="cff-managed-page ';
@@ -220,26 +277,11 @@ function cff_settings_page() {
                         </td>
                     </tr>
 
-                    <!-- <tr valign="top">
-                        <th scope="row" style="padding-bottom: 10px;"><?php _e('Enter my own Access Token', 'custom-facebook-feed'); ?><br /><i style="font-weight: normal; font-size: 12px;"><?php _e('This is Recommended', 'custom-facebook-feed'); ?></i></th>
-                        <td>
-                            <input name="cff_show_access_token" type="checkbox" id="cff_show_access_token" <?php if($show_access_token_val == true) echo "checked"; ?> />&nbsp;<a class="cff-tooltip-link" href="JavaScript:void(0);"><?php _e("What is this?", 'custom-facebook-feed'); ?></a>
-                            <p class="cff-tooltip cff-more-info"><?php _e("A Facebook Access Token is not required to use this plugin, but we recommend it so that you're not reliant on the token built into the plugin. If you have your own token then you can check this box and enter it here. To get your own Access Token you can follow these <a href='https://smashballoon.com/custom-facebook-feed/access-token/' target='_blank'>step-by-step instructions</a>", 'custom-facebook-feed'); ?>.</p>
-                        </td>
-                    </tr> -->
-
                     <tr valign="top">
-                        <th scope="row" style="padding-bottom: 10px;"><?php _e('Enter my Access Token', 'custom-facebook-feed'); ?><br /><i style="font-weight: normal; font-size: 12px; color: red;"><?php _e('Required', 'custom-facebook-feed'); ?></i></th>
+                        <th scope="row" style="padding-bottom: 10px;"><?php _e('Facebook Access Token', 'custom-facebook-feed'); ?><br /><i style="font-weight: normal; font-size: 12px; color: red;"><?php _e('Required', 'custom-facebook-feed'); ?></i></th>
                         <td>
-                            <input name="cff_show_access_token" type="checkbox" id="cff_show_access_token" <?php if($show_access_token_val == true) echo "checked"; ?> />&nbsp;<a class="cff-tooltip-link" href="JavaScript:void(0);"><?php _e("What is this?", 'custom-facebook-feed'); ?></a>
+                            <textarea name="cff_access_token" id="cff_access_token" style="min-width: 60%;"><?php esc_attr_e( $access_token_val ); ?></textarea><br /><a class="cff-tooltip-link" style="margin-left: 3px;" href="JavaScript:void(0);"><?php _e("What is this?", 'custom-facebook-feed'); ?></a>
                             <p class="cff-tooltip cff-more-info"><?php _e("In order to connect to Facebook and get a feed, you need to use an Access Token. To get one, simply use the blue button above to log into your Facebook account. You will then receive a token that will be used to connect to Facebook's API. If you already have an Access Token then you can enter it here.", 'custom-facebook-feed'); ?></p>
-                        </td>
-                    </tr>
-
-                    <tr valign="top" class="cff-access-token-hidden">
-                        <th scope="row" style="padding-bottom: 10px;"><?php _e('Facebook Access Token', 'custom-facebook-feed'); ?></th>
-                        <td>
-                            <textarea name="cff_access_token" id="cff_access_token" style="min-width: 60%;"><?php esc_attr_e( $access_token_val ); ?></textarea>
 
                             <div class="cff-notice cff-profile-error cff-access-token">
                                 <?php _e("<p>This doesn't appear to be an Access Token. Please be sure that you didn't enter your App Secret instead of your Access Token.<br />Your App ID and App Secret are used to obtain your Access Token; simply paste them into the fields in the last step of the <a href='https://smashballoon.com/custom-facebook-feed/access-token/' target='_blank'>Access Token instructions</a> and click '<b>Get my Access Token</b>'.</p>", 'custom-facebook-feed'); ?>
@@ -654,7 +696,6 @@ foreach ( $plugins as $plugin_path => $plugin ) {
 ?>
 
 ## PLUGIN SETTINGS: ##
-Use own Access Token:   <?php echo get_option( 'cff_show_access_token' ) ."\n"; ?>
 Access Token:           <?php echo get_option( 'cff_access_token' ) ."\n"; ?>
 Page ID:                <?php echo get_option( 'cff_page_id' ) ."\n"; ?>
 Page Type:              <?php echo get_option( 'cff_page_type' ) ."\n"; ?>
