@@ -191,9 +191,8 @@ jQuery(document).ready(function($) {
 	$('#cff_fb_login').on('click', function(){
 		$('#cff_fb_login_modal').show();
 	});
-	$('#cff_admin_cancel_btn, #cff_admin_cancel_btn_2, #cff_admin_cancel_btn_3').on('click', function(){
-		$('#cff_fb_login_modal, #cff-public, #cff-own').hide();
-		$('#cff-token-intro').show();
+	$('#cff_admin_cancel_btn').on('click', function(){
+		$('#cff_fb_login_modal').hide();
 	});
 
 	//Select a page for token
@@ -206,23 +205,6 @@ jQuery(document).ready(function($) {
 		//Check the own access token setting so it reveals token field
 		if( $('#cff_show_access_token:checked').length < 1 ){
 			$("#cff_show_access_token").trigger("change").prop( "checked", true );
-		}
-	});
-
-	//Token radio change event
-	$('input[type=radio][name=token-perm]').change(function() {
-	   $('.cff_admin_btn').removeClass('cff-disabled');
-	});
-	if( $('input[type=radio][name=token-perm]').is(":checked") ){
-	   $('.cff_admin_btn').removeClass('cff-disabled');
-	}
-
-	$('#cff_token_perm_selected').on('click', function(){
-		if( !$(this).hasClass('cff-disabled') ){
-			var cffTokenRadioVal = $('input[name=token-perm]:checked').val();
-			if( cffTokenRadioVal == 'own' ) $('#cff-own').show();
-			if( cffTokenRadioVal == 'public' ) $('#cff-public').show();
-			$('#cff-token-intro').hide();
 		}
 	});
 

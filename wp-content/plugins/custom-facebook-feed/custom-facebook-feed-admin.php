@@ -136,63 +136,21 @@ function cff_settings_page() {
             <div id="cff_fb_login_modal">
                 <div class="cff_modal_box">
 
-                    <div id="cff-token-intro">
-                        <p>I am displaying a feed from a Facebook page that:</p>
-                        <div class="cff-token-radios">
-                            <div>
-                                <input type="radio" id="cff-token-own" name="token-perm" value="own" />
-                                <label for="cff-token-own">I am an admin of</label>&nbsp;<a href="javascript:void(0);" class="cff-tooltip-link cff-token-question-own"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                    <p>Log into your Facebook account using the button below and approve the plugin to connect your account.</p>
 
-                                <p class="cff-tooltip cff-more-info"><?php _e("Select this option if you are an admin of the Facebook page you want to display a feed from.", 'custom-facebook-feed'); ?></p>
-                            </div>
-                            <div>
-                                <input type="radio" id="cff-token-public" name="token-perm" value="public" />
-                                <label for="cff-token-public">I am <b>NOT</b> an admin of</label>&nbsp;<a href="javascript:void(0);" class="cff-tooltip-link cff-token-question-public"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                    <p><a href="javascript:void(0);" id="cff_admin_cancel_btn" class="cff-admin-cancel-btn">Cancel</a>
 
-                                <p class="cff-tooltip cff-more-info"><?php _e("Select this option if you need to display a feed from a Facebook page that you are not an admin of.", 'custom-facebook-feed'); ?></p>
-                            </div>
-                        </div>
-                            
-                        <p>
-                            <a href="javascript:void(0);" id="cff_admin_cancel_btn_2" class="cff-admin-cancel-btn">Cancel</a>
-                            <a href="javascript:void(0);" class="cff_admin_btn cff-disabled" id="cff_token_perm_selected"><?php _e( 'Continue', 'custom-facebook-feed' ); ?></a>
-                        </p>
-                    </div>
+                    <?php
+                    $admin_url_state = admin_url('admin.php?page=cff-top');
+                    //If the admin_url isn't returned correctly then use a fallback
+                    if( $admin_url_state == '/wp-admin/admin.php?page=cff-top' || $admin_url_state == '/wp-admin/admin.php?page=cff-top&tab=configuration' ){
+                        $admin_url_state = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                    }
+                    ?>
 
-                    <div id="cff-own">
-                        <p>Log into your Facebook account using the button below and approve the plugin to connect your account.</p>
+                    <a href="https://api.smashballoon.com/facebook-login.php?state=<?php echo $admin_url_state; ?>" class="cff_admin_btn"><i class="fa fa-facebook-square"></i> <?php _e( 'Continue', 'custom-facebook-feed' ); ?></a></p>                    
 
-                        <p><a href="javascript:void(0);" id="cff_admin_cancel_btn_3" class="cff-admin-cancel-btn">Cancel</a>
-
-                            <?php
-                            $admin_url_state = admin_url('admin.php?page=cff-top');
-                            //If the admin_url isn't returned correctly then use a fallback
-                            if( $admin_url_state == '/wp-admin/admin.php?page=cff-top' || $admin_url_state == '/wp-admin/admin.php?page=cff-top&tab=configuration' ){
-                                $admin_url_state = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-                            }
-                            ?>
-                            <a href="https://www.facebook.com/dialog/oauth?client_id=1332798716823516&redirect_uri=https://smashballoon.com/fb-1332798716823516-redirect/&scope=manage_pages&state=<?php echo $admin_url_state; ?>" class="cff_admin_btn"><i class="fa fa-facebook-square"></i> <?php _e( 'Continue', 'custom-facebook-feed' ); ?></a></p>
-
-                            <p style="font-size: 11px; margin-top: 25px;"><b>Please note:</b> this does not give us permission to manage your Facebook pages, it simply allows the plugin to see a list of the pages you manage and retrieve an Access Token.</p>
-                    </div>
-
-                    <div id="cff-public">
-                        <p>We're teaming up with our good friends at <span class="cff_srlogo">SlickRemix</b> <img src="<?php echo plugins_url( 'img/slick-remix.png' , __FILE__ ) ?>"></span> to provide you with an easy way to connect to Facebook. Simply log into your Facebook account using the button below and approve the plugin to connect your account.</p>
-
-
-                        <p><a href="javascript:void(0);" id="cff_admin_cancel_btn" class="cff-admin-cancel-btn">Cancel</a>
-
-                            <?php
-                            $admin_url_state = admin_url('admin.php?page=cff-top');
-                            //If the admin_url isn't returned correctly then use a fallback
-                            if( $admin_url_state == '/wp-admin/admin.php?page=cff-top' || $admin_url_state == '/wp-admin/admin.php?page=cff-top&tab=configuration' ){
-                                $admin_url_state = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-                            }
-                            ?>
-                            <a href="https://www.facebook.com/dialog/oauth?scope=manage_pages&client_id=1123168491105924&redirect_uri=https://www.slickremix.com/facebook-token/&state=<?php echo $admin_url_state; ?>" class="cff_admin_btn"><i class="fa fa-facebook-square"></i> <?php _e( 'Continue', 'custom-facebook-feed' ); ?></a></p>
-
-                            <p style="font-size: 11px; margin-top: 25px;"><b>Please note:</b> this does not give us permission to manage your Facebook pages, it simply allows the plugin to see a list of the pages you manage and retrieve an Access Token.</p>
-                    </div>
+                    <p style="font-size: 11px; margin-top: 25px;"><b>Please note:</b> this does not give us permission to manage your Facebook pages, it simply allows the plugin to see a list of the pages you manage and retrieve an Access Token.</p>
 
                 </div>
             </div>
@@ -228,12 +186,7 @@ function cff_settings_page() {
                     <?php
                     } else {
                     //Show the pages they manage
-
-                        if( isset($_GET['own']) ){
-                            echo '<p style="background: #F7E6E6; border: 1px solid #BA7B7B; padding: 15px 20px; border-radius: 5px;">Select one of the pages below to get an Access Token for that page.<br /><b><u>Important:</u></b> This Access Token will only be able to display content from the <b>selected page</b>.</p>';
-                        } else {
-                            echo '<p style="background: #dceada; border: 1px solid #6ca365; padding: 15px 20px; border-radius: 5px;">Select one of the pages below to get an Access Token.<br /><b><u>Important:</u> This Access Token will allow you to display posts from <u>any</u> public Facebook page, not just the one selected.</b></p>';
-                        }
+                        echo '<p style="background: #dceada; border: 1px solid #6ca365; padding: 15px 20px; border-radius: 5px;">Select one of the pages below to get an Access Token.<br /><b><u>Important:</u> This Access Token will allow you to display posts from <u>any</u> public Facebook page, not just the one selected.</b></p>';
 
                         foreach ( $pages_data_arr->data as $page => $page_data ) {
                             echo '<div class="cff-managed-page ';
@@ -596,7 +549,7 @@ function cff_settings_page() {
               var js, fjs = d.getElementsByTagName(s)[0];
               if (d.getElementById(id)) return;
               js = d.createElement(s); js.id = id;
-              js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&appId=640861236031365&version=v2.0";
+              js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&appId=&version=v2.0";
               fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));</script>
             <div class="fb-like" data-href="https://wordpress.org/plugins/custom-facebook-feed/" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true" style="display: block; float: left; margin-right: 20px;"></div>

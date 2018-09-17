@@ -3,7 +3,7 @@ Contributors: smashballoon
 Tags: Facebook, Facebook feed, Facebook posts, Facebook wall, Facebook page
 Requires at least: 3.0
 Tested up to: 4.9
-Stable tag: 2.7.1
+Stable tag: 2.7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -11,7 +11,7 @@ The Custom Facebook Feed allows you to display completely customizable Facebook 
 
 == Description ==
 
-Display a **completely customizable**, **responsive** and **search engine crawlable** version of your Facebook feed on your website. Completely match the look and feel of the site with tons of customization options!
+Display **completely customizable**, **responsive** and **search engine crawlable** Facebook feeds on your website. Display **multiple feeds** from **any public Facebook page**, and completely match the look and feel of the site with tons of customization options!
 
 *"The perfect plugin with amazing support! What else do you want? Get it!"* - [JoeJeffries](http://wordpress.org/support/topic/you-dont-already-have-this)
 
@@ -21,14 +21,14 @@ Display a **completely customizable**, **responsive** and **search engine crawla
 
 = Features =
 
+* **Super simple to set up** - 1 minute quick setup with no Facebook Developer App required
+* **Display feeds from ANY Facebook page** - even ones you aren't an admin of
 * **Completely Customizable** - By default the Facebook feed will adopt the style of your website, but can be completely customized to look however you like - with tons of styling and customization options!
 * Facebook feed content is **crawlable by search engines** adding SEO value to your site - other Facebook plugins embed the feed using iframes which are not crawlable
 * Completely **responsive** and mobile optimized - layout looks great on any screen size and in any container width
 * Display **feeds from multiple different Facebook pages** and use the shortcode to embed them into a page, post or widget anywhere on your site
-* Show **events** from your Facebook feed with name, date/time, location and description
 * Add your own **custom CSS**
 * **Caching** means that your Facebook posts load lightning fast. Set your own caching time - check for new posts on Facebook every few seconds, minutes, hours or days. You decide.
-* **Super simple to set up**. Just enter your Facebook page ID and you're done.
 * Show and hide certain parts of each Facebook post
 * Show or hide the Facebook profile picture and name of the author above each post
 * Display Facebook posts by just the page owner, everyone who posts on your Facebook page, or only other people
@@ -265,11 +265,15 @@ You no longer need your own Access Token to use the Custom Facebook Feed Plugin,
 
 == Changelog ==
 
+= 2.7.2 =
+* **Important:** If you are displaying a feed from a Facebook page which you are *not* an admin of then it is advised that you obtain a new Access Token in the plugin using the "Log in and get my Access Token" button. This will switch you from using the "SlickRemix" app to using our own "Smash Balloon" Facebook app which was recently approved by Facebook, and will prevent you from experiencing any potential interuptions in your feeds going forward. This will be the final time this is required.
+* Fix: Fixed a rare issue caused by some themes including the JavaScript file incorrectly
+
 = 2.7.1 =
 * Tweak: Made some adjustments to the Access Token login process
 
 = 2.7 =
-* New: Now easily get your own Access Token to avoid any Facebook connection issues. Simply click the blue "Log in and get my Access Token" button on the plugin's settings page and connect your Facebook account to get your token. The Access Token will work to get posts from ANY Facebook page. Thanks to our friends at SlickRemix for powering our new login and getting the plugin back up and running again!
+* New: Now easily get your own Facebook Access Token to avoid any Facebook connection issues. Simply click the blue "Log in and get my Access Token" button on the plugin's settings page and connect your Facebook account to get your token. The Access Token will work to get posts from ANY Facebook page. Thanks to our friends at SlickRemix for powering our new login and getting the plugin back up and running again!
 * Tweak: Removed the minimum caching time if you're using your own Page Access Token
 
 = 2.6.4 =
