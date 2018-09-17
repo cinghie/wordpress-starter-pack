@@ -25,9 +25,7 @@ https://it.wordpress.org/
 "http://localhost/wordpress" with your site url
 ```
 
-## 4) Import wordpress.sql to your database
-
-Admin user
+## 4) Import wordpress.sql to your database and login with:
 
 username: admin  
 password: password
