@@ -35,6 +35,7 @@ password: password
  - Create new user and delete the old one with useername "admin"
  - On General Settings set Site Title  
  - On Reading Settings remove flag from "Discourage search engines to index this site"  
+ - On Permalink Settings regenerate permalink
  - Generate and set Akismet Anti-Spam https://akismet.com/  
  - Activate and set Google Analytics for WordPress  
  - Activate and set Yoast SEO 
@@ -43,25 +44,37 @@ password: password
  - Activate and set WPS Hide Login
  - Remember to delete all unused plugins
  - Secure folder wp-admin with .htaccess and .htpasswd (http://www.htaccesstools.com/articles/password-protection)
- - Edit Prevent Hot Linking and Prevent Spam Bot mysite.com in .htaccess 
+ - Edit Prevent Hot Linking and Prevent Spam Bot mysite.com in .htaccess
+ - Remove unused plugins for update security   
  
-## 6) Others:
+## 6) All plugins used:
 
  - Advanced Custom Fields + ACF Yoast Plugin  
  - Autoptimize  
  - BJ Lazy Load  
- - Coming Soon Page & Maintenance Mode by SeedProd  
+ - Coming Soon Page & Maintenance Mode by SeedProd 
+ - Contact Form 7   
  - Custom Facebook Feed 
  - Custom Twitter Feeds
  - FancyBox for WordPress  
  - Gogodigital Cookie Consent  
+ - Gogodigital Essentials  
+ - Google Analytics for WordPress by MonsterInsights  
+ - Gutenberg  
  - Health Check & Troubleshooting  
  - Instagram Feed  
+ - Jetpack by WordPress.com  
  - MailChimp per Wordpress  
  - MetaSlider  
  - Post Types Order  
  - Regenerate Thumbnails  
+ - Shapely Companion  
  - Smush  
  - TinyMCE Advanced
- - UpdraftPlus - Backup/Restore
+ - UpdraftPlus - Backup/Restore  
+ - Wordfence Security  
+ - WordPress Popular Posts  
+ - WP Super Cache  
  - WordPress Popular Posts
+ - WPS Hide Login  
+ - Yoast SEO  
