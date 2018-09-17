@@ -19,14 +19,20 @@ git clone https://github.com/cinghie/wordpress-starter-pack.git wordpress
 
 https://it.wordpress.org/
 
-## 3) Import wordpress.sql to your database
+## 3) Edit wordpress.sql, replacing:
+
+```
+"http://localhost/wordpress" with your site url
+```
+
+## 4) Import wordpress.sql to your database
 
 Admin user
 
 username: admin  
 password: password
 
-## 4) What to do:
+## 5) What to do:
 
  - Create new user and delete the old one with useername "admin"
  - On General Settings set Site Title  
@@ -41,7 +47,7 @@ password: password
  - Secure folder wp-admin with .htaccess and .htpasswd (http://www.htaccesstools.com/articles/password-protection)
  - Edit Prevent Hot Linking and Prevent Spam Bot mysite.com in .htaccess 
  
-## 5) Others:
+## 6) Others:
 
  - Advanced Custom Fields + ACF Yoast Plugin  
  - Autoptimize  
