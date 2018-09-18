@@ -74,7 +74,7 @@ password: password
  - UpdraftPlus - Backup/Restore  
  - Wordfence Security  
  - WordPress Popular Posts  
+ - WP Mail Logging
  - WP Super Cache  
- - WordPress Popular Posts
  - WPS Hide Login  
  - Yoast SEO  
