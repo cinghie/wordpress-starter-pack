@@ -67,6 +67,7 @@ password: password
  - MailChimp per Wordpress  
  - MetaSlider  
  - Post Types Order  
+ - Redirection
  - Regenerate Thumbnails  
  - Shapely Companion  
  - Smush  
@@ -75,6 +76,7 @@ password: password
  - Wordfence Security  
  - WordPress Popular Posts  
  - WP Mail Logging
+ - WP Optimize
  - WP Super Cache  
  - WPS Hide Login  
  - Yoast SEO  
