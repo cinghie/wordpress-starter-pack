@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Yoast SEO - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-09-25 13:32:48+0000\n"
+"PO-Revision-Date: 2018-10-04 15:57:28+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,6 +36,10 @@ msgid "There is a new notification."
 msgid_plural "There are new notifications."
 msgstr[0] "C'è una nuova notifica. "
 msgstr[1] "Ci sono nuove notifiche. "
+
+#: admin/config-ui/fields/class-field-separator.php:25
+msgid "Colon"
+msgstr "Due punti"
 
 #. translators: %1$s expands to Yoast SEO, %2$s: 'SEO' plugin name of possibly
 #. conflicting plugin with regard to the creation of duplicate SEO meta.
@@ -75,15 +79,15 @@ msgstr[1] "%d giorni"
 
 #: languages/wordpress-seojs.php:219
 msgid "Enter a step title"
-msgstr "Inserisci un titolo per il passaggio "
+msgstr "Inserisci un titolo del passaggio "
 
 #: languages/wordpress-seojs.php:200
 msgid "Optional. This can give you better control over the styling of the steps."
-msgstr "Opzionale. Questo di fornisce un controlo migliore dello stile dei passaggi. "
+msgstr "Opzionale. Questo ti fornisce un controllo migliore dello stile dei passaggi. "
 
 #: languages/wordpress-seojs.php:197
 msgid "CSS class(es) to apply to the steps"
-msgstr "CSS classe(i) da applicare ai passaggi "
+msgstr "Classe(i) CSS da applicare ai passaggi "
 
 #: languages/wordpress-seojs.php:188
 msgid "minutes"
@@ -111,7 +115,7 @@ msgstr "Copia l'errore "
 
 #: languages/wordpress-seojs.php:17
 msgid "An error occurred loading the %s primary taxonomy picker."
-msgstr "Si è verificato un errore durante il caricamento del selettive della tassonomia primaria %s. "
+msgstr "Si è verificato un errore durante il caricamento del selettore della tassonomia primaria %s. "
 
 #. translators: %1$s expands to Yoast.
 #: inc/class-structured-data-blocks.php:61
@@ -196,23 +200,23 @@ msgstr "Indica come contenuto centrale"
 
 #: languages/wordpress-seojs.php:234
 msgid "Move step down"
-msgstr "Sposta un passaggio in basso"
+msgstr "Sposta passaggio in basso"
 
 #: languages/wordpress-seojs.php:231
 msgid "Move step up"
-msgstr "Sposta un passaggio in alto"
+msgstr "Sposta passaggio in alto"
 
 #: languages/wordpress-seojs.php:228
 msgid "Insert step"
-msgstr "Inserisci un passaggio"
+msgstr "Inserisci passaggio"
 
 #: languages/wordpress-seojs.php:225
 msgid "Delete step"
-msgstr "Elimina un passaggio"
+msgstr "Elimina passaggio"
 
 #: languages/wordpress-seojs.php:146
 msgid "Add image"
-msgstr "Aggiungi un immagine"
+msgstr "Aggiungi un'immagine"
 
 #: languages/wordpress-seojs.php:222
 msgid "Enter a step description"
@@ -260,7 +264,7 @@ msgstr "Anteprima dello Snippet"
 
 #: languages/wordpress-seojs.php:39
 msgid "Analysis results"
-msgstr "Risultati dell'analisi:"
+msgstr "Risultati dell'analisi"
 
 #: languages/wordpress-seojs.php:75
 msgid "Learn more about the Keyword Analysis."
@@ -600,11 +604,11 @@ msgstr "Anteprima dell'URL"
 
 #: languages/yoast-components.php:235
 msgid "Please provide a meta description by editing the snippet below. If you don’t, Google will try to find a relevant part of your post to show in the search results."
-msgstr "Fornisci una descrizione meta editando lo snippet sotto. Se non lo fai, Google cercherà di indovinare dal tuo articolo cosa è rilevante per mostrarlo nei risultati di ricerca."
+msgstr "Inserisci una descrizione meta editando lo snippet qui sotto. Se non lo fai, Google cercherà di indovinare dal tuo articolo cosa è rilevante per mostrarlo nei risultati di ricerca."
 
 #: languages/yoast-components.php:203
 msgid "Insert snippet variable"
-msgstr "Inserisci la variabile nello snippet"
+msgstr "Inserisci una variabile"
 
 #: inc/class-wpseo-replace-vars.php:1304 languages/wordpress-seojs.php:272
 msgid "Tagline"
@@ -616,7 +620,7 @@ msgstr "Pagina"
 
 #: languages/wordpress-seojs.php:26 languages/yoast-components.php:220
 msgid "Modify your meta description by editing it right here"
-msgstr "Modifica la tua descrizione meta scrivendola qua sotto."
+msgstr "Modifica la tua descrizione meta scrivendola qui"
 
 #: inc/class-wpseo-replace-vars.php:1347
 msgid "description (custom taxonomy)"
@@ -1440,7 +1444,7 @@ msgstr "Leggibilità: %1$sBuona%2$s"
 #. closing strong tag.
 #: admin/formatter/class-metabox-formatter.php:107
 msgid "SEO: %1$sNot available%2$s"
-msgstr "SEO: %1$snodisponibile%2$s"
+msgstr "SEO: %1$snon disponibile%2$s"
 
 #. translators: %1$s expands to an opening strong tag, %2$s expands to a
 #. closing strong tag.
@@ -3011,7 +3015,7 @@ msgstr "Trattino"
 #: admin/config-ui/fields/class-field-separator.php:20
 #: admin/views/tabs/metas/paper-content/general/title-separator.php:13
 msgid "Choose the symbol to use as your title separator. This will display, for instance, between your post title and site name. Symbols are shown in the size they'll appear in the search results."
-msgstr "Scegli il simbolo fa utilizzare come separatore del titolo. Apparirà, ad esempio, fra il titolo del tuo articolo ed il nome del sito. I simboli sono visualizzati nella dimensione con cui appariranno nei risultati delle ricerche."
+msgstr "Scegli il simbolo da utilizzare come separatore del titolo. Apparirà, ad esempio, fra il titolo del tuo articolo ed il nome del sito. I simboli sono visualizzati nella dimensione con cui appariranno nei risultati delle ricerche."
 
 #: admin/config-ui/fields/class-field-person-name.php:19
 msgid "The name of the person"
@@ -3386,7 +3390,7 @@ msgstr "Buon lavoro! Non siamo in grado di individuare nessun problema SEO."
 
 #: admin/views/partial-alerts-errors.php:12
 msgid "We have detected the following issues that affect the SEO of your site."
-msgstr "Abbiamo individuato i seguenti problemi che riguardano il SEO del tuo sito."
+msgstr "Abbiamo individuato i seguenti problemi che riguardano la SEO del tuo sito."
 
 #: admin/formatter/class-metabox-formatter.php:162
 #: admin/views/partial-alerts-errors.php:11 languages/yoast-components.php:158
@@ -4332,7 +4336,7 @@ msgstr "%1$s viene fornito con alcuni strumenti integrati molto potenti:"
 
 #: admin/pages/tools.php:31
 msgid "This tool allows you to quickly change important files for your SEO, like your robots.txt and, if you have one, your .htaccess file."
-msgstr "Questo strumento consente di modificare rapidamente file importanti per il SEO, come il vostro robots.txt e, se ne avete uno, il file .htaccess."
+msgstr "Questo strumento consente di modificare rapidamente file importanti per la SEO, come il vostro robots.txt e, se ne avete uno, il file .htaccess."
 
 #: admin/pages/tools.php:30
 msgid "File editor"
@@ -4340,7 +4344,7 @@ msgstr "Modifica file"
 
 #: admin/pages/tools.php:25
 msgid "Import settings from other SEO plugins and export your settings for re-use on (another) blog."
-msgstr "Importa le impostazioni da altri plugin per il SEO ed esportale per il riutilizzo su un altro blog."
+msgstr "Importa le impostazioni da altri plugin per la SEO ed esportale per riutilizzarle su un altro blog."
 
 #: admin/pages/tools.php:24
 msgid "Import and Export"
@@ -5341,7 +5345,7 @@ msgstr "Parola chiave principale"
 
 #: languages/wordpress-seojs.php:29 languages/yoast-seo-js.php:436
 msgid "Snippet preview"
-msgstr "Anteprima snippet"
+msgstr "Anteprima dello snippet"
 
 #: admin/import/class-import-settings.php:164
 msgid "No settings found in file."
