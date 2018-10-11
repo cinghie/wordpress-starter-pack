@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 4.9.x - Development package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-09-22 06:55:05+0000\n"
+"PO-Revision-Date: 2018-10-08 11:53:09+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -8303,7 +8303,7 @@ msgstr ""
 "\n"
 "%s\n"
 "\n"
-"Dopo l'attivazione, riceverai un altra email con i dettagli per il login."
+"Dopo l'attivazione, riceverai un'altra email con i dettagli per il login."
 
 #. translators: New user notification email. 1: User login, 2: User IP address,
 #. 3: Settings screen URL
