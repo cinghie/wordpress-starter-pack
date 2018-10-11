@@ -15,7 +15,7 @@ Wordpress Starter Pack is a ready-to-use Wordpress site with:
 git clone https://github.com/cinghie/wordpress-starter-pack.git wordpress
 ```
 
-## 2) Download and install Wordpress last version in the some folder:
+## 2) Download and insert Wordpress last version in the some folder:
 
 https://it.wordpress.org/
 
@@ -30,7 +30,9 @@ https://it.wordpress.org/
 username: admin  
 password: password
 
-## 5) What to do:
+## 5) Copy wp-config-sample.php as wp-config.php setting db params
+
+## 6) What to do:
 
  - Create new user and delete the old one with useername "admin"
  - On General Settings set Site Title  
@@ -47,7 +49,7 @@ password: password
  - Edit Prevent Hot Linking and Prevent Spam Bot mysite.com in .htaccess
  - Remove unused plugins for update security   
  
-## 6) All plugins used:
+## 7) All plugins used:
 
  - Advanced Custom Fields + ACF Yoast Plugin  
  - Autoptimize  
