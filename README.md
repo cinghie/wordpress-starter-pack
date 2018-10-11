@@ -72,6 +72,7 @@ password: password
  - Redirection
  - Regenerate Thumbnails  
  - Shapely Companion  
+ - Social Media and Share Icons (Ultimate Social Media)  
  - Smush  
  - TinyMCE Advanced
  - UpdraftPlus - Backup/Restore  
