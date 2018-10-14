@@ -54,15 +54,11 @@ Set database connection params
  - Edit Prevent Hot Linking and Prevent Spam Bot mysite.com in .htaccess
  - Remove unused plugins for update security   
  
-## /) If you want use another theme 
+## 7) If you want use another theme 
 
- - Generate a child theme and select it as your theme:  
- 
- https://childtheme-generator.com/create-child-theme  
+ - Generate a child theme and select it as your theme:  https://childtheme-generator.com/create-child-theme  
 
- - Add to child theme last version of ac
- 
- https://github.com/syamilmj/Aqua-Resizer  
+ - Add to child theme last version of Acqua Resizer  https://github.com/syamilmj/Aqua-Resizer  
  
  - Add to function.php this code  
  
