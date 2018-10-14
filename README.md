@@ -34,7 +34,7 @@ password: password
 
 Set database connection params
 
-## 6) What to do:
+## 6) What to do
 
  - On Permalink Settings regenerate permalink  
  - Create new user and delete the old one with username "admin"  
@@ -54,7 +54,27 @@ Set database connection params
  - Edit Prevent Hot Linking and Prevent Spam Bot mysite.com in .htaccess
  - Remove unused plugins for update security   
  
-## 7) All plugins used:
+## /) If you want use another theme 
+
+ - Generate a child theme and select it as your theme:  
+ 
+ https://childtheme-generator.com/create-child-theme  
+
+ - Add to child theme last version of ac
+ 
+ https://github.com/syamilmj/Aqua-Resizer  
+ 
+ - Add to function.php this code  
+ 
+ ```
+require_once 'aq_resizer.php';
+
+function hide_wordpress_version() {
+	return '';
+}
+ ```
+ 
+## 8) All plugins used
 
  - Advanced Custom Fields + ACF Yoast Plugin  
  - Autoptimize  
