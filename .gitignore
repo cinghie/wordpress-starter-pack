@@ -11,6 +11,7 @@ Thumbs.db
 .DS_Store
 
 # WP Root files
+.htaccess
 *.log
 /index.php
 /wp-activate.php
