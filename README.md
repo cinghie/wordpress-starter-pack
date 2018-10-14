@@ -38,6 +38,7 @@ Set database connection params
 
  - On Permalink Settings regenerate permalink  
  - Create new user and delete the old one with username "admin"  
+ - On Woccomerce -> Settings -> General set Shop information
  - On General Settings set Site Title  
  - On Reading Settings remove flag from "Discourage search engines to index this site"  
  - Generate and set Akismet Anti-Spam https://akismet.com/  
