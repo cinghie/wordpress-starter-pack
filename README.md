@@ -12,7 +12,7 @@ Wordpress Starter Pack is a ready-to-use Wordpress site with:
 ## 1) Copy folder with git from Terminal
 
 ```
-git clone https://github.com/cinghie/wordpress-starter-pack.git wordpress
+git clone -b woocommerce https://github.com/cinghie/wordpress-starter-pack.git wooocommerce
 ```
 
 ## 2) Download and insert Wordpress last version in the some folder:
@@ -22,7 +22,7 @@ https://it.wordpress.org/
 ## 3) Edit wordpress.sql, replacing:
 
 ```
-"http://localhost/wordpress" with your site url
+"http://localhost/wooocommerce" with your site url
 ```
 
 ## 4) Import wordpress.sql to your database and login with:
