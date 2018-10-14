@@ -30,14 +30,16 @@ https://it.wordpress.org/
 username: admin  
 password: password
 
-## 5) Copy wp-config-sample.php as wp-config.php setting db params
+## 5) Copy wp-config-sample.php as wp-config.php  
+
+Set database connection params
 
 ## 6) What to do:
 
- - Create new user and delete the old one with useername "admin"
+ - On Permalink Settings regenerate permalink  
+ - Create new user and delete the old one with username "admin"  
  - On General Settings set Site Title  
  - On Reading Settings remove flag from "Discourage search engines to index this site"  
- - On Permalink Settings regenerate permalink
  - Generate and set Akismet Anti-Spam https://akismet.com/  
  - Activate and set Google Analytics for WordPress  
  - Activate and set Yoast SEO 
