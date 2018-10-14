@@ -46,7 +46,6 @@ Set database connection params
  - Activate and set Wordfence Security  
  - Activate and set WP Super Cache
  - Activate and set WPS Hide Login
- - Remember to delete all unused plugins
  - Secure folder wp-admin with .htaccess and .htpasswd (http://www.htaccesstools.com/articles/password-protection)
  - Edit Prevent Hot Linking and Prevent Spam Bot mysite.com in .htaccess
  - Remove unused plugins for update security   
@@ -71,7 +70,8 @@ Set database connection params
  - MailChimp per Wordpress  
  - MetaSlider  
  - Post Types Order  
- - Redirection
+ - Redirection  
+ - Really Simple SSL  
  - Regenerate Thumbnails  
  - Shapely Companion  
  - Social Media and Share Icons (Ultimate Social Media)  
@@ -79,9 +79,12 @@ Set database connection params
  - TinyMCE Advanced
  - UpdraftPlus - Backup/Restore  
  - Wordfence Security  
+ - WordPress Importer  
  - WordPress Popular Posts  
- - WP Mail Logging
- - WP Optimize
+ - WP Instagram Widget  
+ - WP Mail Logging  
+ - WP Optimize  
+ - WP Pagenavi  
  - WP Super Cache  
  - WPS Hide Login  
  - Yoast SEO  

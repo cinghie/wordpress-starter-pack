@@ -1,0 +1,109 @@
+# Translation of Plugins - WP Instagram Widget - Stable (latest release) in Italian
+# This file is distributed under the same license as the Plugins - WP Instagram Widget - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2017-09-24 15:37:39+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/2.4.0-alpha\n"
+"Language: it\n"
+"Project-Id-Version: Plugins - WP Instagram Widget - Stable (latest release)\n"
+
+#. Author URI of the plugin/theme
+msgid "https://scott.ee"
+msgstr "https://scott.ee"
+
+#. Author of the plugin/theme
+msgid "Scott Evans"
+msgstr "Scott Evans"
+
+#. Description of the plugin/theme
+msgid "A WordPress widget for showing your latest Instagram photos."
+msgstr "Una widget di WordPress per mostrare le tue ultime foto da Instagram."
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/scottsweb/wp-instagram-widget"
+msgstr "https://github.com/scottsweb/wp-instagram-widget"
+
+#. Plugin Name of the plugin/theme
+msgid "WP Instagram Widget"
+msgstr "WP Instagram Widget"
+
+#: wp-instagram-widget.php:276
+msgid "Instagram did not return any images."
+msgstr "La risposta da Instagram non conteneva immagini."
+
+#: wp-instagram-widget.php:244
+msgid "Instagram Image"
+msgstr "Immagine di Instagram"
+
+#: wp-instagram-widget.php:220 wp-instagram-widget.php:228
+#: wp-instagram-widget.php:232
+msgid "Instagram has returned invalid data."
+msgstr "La risposta da Instagram ha restituito dati non validi."
+
+#: wp-instagram-widget.php:212
+msgid "Instagram did not return a 200."
+msgstr "La risposta da Instragram non aveva codice 200."
+
+#: wp-instagram-widget.php:208
+msgid "Unable to communicate with Instagram."
+msgstr "Non è stato possibile comunicare con Instagram."
+
+#: wp-instagram-widget.php:170
+msgid "Link text"
+msgstr "Testo del link"
+
+#: wp-instagram-widget.php:167
+msgid "New window (_blank)"
+msgstr "Nuova finestra (_blank)"
+
+#: wp-instagram-widget.php:166
+msgid "Current window (_self)"
+msgstr "Finestra corrente (_self)"
+
+#: wp-instagram-widget.php:164
+msgid "Open links in"
+msgstr "Apri i link in"
+
+#: wp-instagram-widget.php:161
+msgid "Original"
+msgstr "Dimensioni originali"
+
+#: wp-instagram-widget.php:160
+msgid "Large"
+msgstr "Grande"
+
+#: wp-instagram-widget.php:159
+msgid "Small"
+msgstr "Piccola"
+
+#: wp-instagram-widget.php:158
+msgid "Thumbnail"
+msgstr "Miniatura"
+
+#: wp-instagram-widget.php:156
+msgid "Photo size"
+msgstr "Grandezza"
+
+#: wp-instagram-widget.php:155
+msgid "Number of photos"
+msgstr "Numero di foto"
+
+#: wp-instagram-widget.php:153
+msgid "Title"
+msgstr "Titolo"
+
+#: wp-instagram-widget.php:142
+msgid "Follow Me!"
+msgstr "Seguimi!"
+
+#: wp-instagram-widget.php:56
+msgid "Displays your latest Instagram photos"
+msgstr "Mostra le tue ultime foto da Instagram"
+
+#: wp-instagram-widget.php:53 wp-instagram-widget.php:139
+msgid "Instagram"
+msgstr "Instagram"
