@@ -46,6 +46,10 @@ Set database connection params
  - Activate and set Wordfence Security  
  - Activate and set WP Super Cache
  - Activate and set WPS Hide Login
+ - Disallow file editing adding to wp-config.php
+ ```
+ define('DISALLOW_FILE_EDIT', true);
+ ```
  - Secure folder wp-admin with .htaccess and .htpasswd (http://www.htaccesstools.com/articles/password-protection)
  - Edit Prevent Hot Linking and Prevent Spam Bot mysite.com in .htaccess
  - Remove unused plugins for update security   
