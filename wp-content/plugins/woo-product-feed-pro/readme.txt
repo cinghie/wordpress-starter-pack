@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 4.9
-Stable tag: 3.6.7
+Stable tag: 3.6.8
 
 == Description ==
 
@@ -263,6 +263,9 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 3.6.8 (2018-10-15) =
+* Completed the list of Google Shopping fields available. Also changed the g:adwords_redirect field to g:ads_redirect
 
 = 3.6.7 (2018-10-10) =
 * Fixed a bug: When the Yoast SEO plugin was active and products were placed inside a category but no primary category was defined the plugin would not put the category in the product feed. This has now been fixed.
@@ -1077,6 +1080,9 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 3.6.8 =
+Completed the list of Google Shopping fields available. Also changed the g:adwords_redirect field to g:ads_redirect
 
 = 3.6.7 =
 Fixed a bug: When the Yoast SEO plugin was active and products were placed inside a category but no primary category was defined the plugin would not put the category in the product feed. This has now been fixed.

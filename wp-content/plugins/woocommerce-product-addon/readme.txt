@@ -4,7 +4,7 @@ Tags: woocommerce, pesonalized products, woocommerce variations, woocommerce pro
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
 Tested up to: 4.9
-Stable tag: 14.2
+Stable tag: 14.2.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -81,6 +81,8 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
+= 14.2.1 October 14, 2018
+* Bug fixed: [Bug fixed for version 14.2.1](https://wordpress.org/support/topic/fatal-error-since-update-4/)
 = 14.2 October 14, 2018 =
 * Feature: [Support Added for WooCommerce Bundled Product](https://clients.najeebmedia.com/forums/topic/issue-with-bundled-products/)
 * Feature: Image popup icon is remove, but can shown using filter 'ppom_show_image_popup'

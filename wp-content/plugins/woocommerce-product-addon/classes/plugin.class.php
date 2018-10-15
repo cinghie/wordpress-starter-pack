@@ -486,21 +486,21 @@ class NM_PersonalizedProduct {
 		return $res;
 	}
 	
-	// function get_product_meta($meta_id) {
+	function get_product_meta($meta_id) {
 		
-	// 	if( !$meta_id )
-	// 		return ;
+		if( !$meta_id )
+			return ;
 			
-	// 	if ($meta_id == 'None')
-	// 		return;
+		if ($meta_id == 'None')
+			return;
 			
-	// 	global $wpdb;
+		global $wpdb;
 		
-	// 	$qry = "SELECT * FROM " . $wpdb->prefix . PPOM_TABLE_META . " WHERE productmeta_id = $meta_id";
-	// 	$res = $wpdb->get_row ( $qry );
+		$qry = "SELECT * FROM " . $wpdb->prefix . PPOM_TABLE_META . " WHERE productmeta_id = $meta_id";
+		$res = $wpdb->get_row ( $qry );
 		
-	// 	return $res;
-	// }
+		return $res;
+	}
 	
 
 	/*
