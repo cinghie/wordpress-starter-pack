@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Yoast SEO - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-10-04 15:57:28+0000\n"
+"PO-Revision-Date: 2018-10-15 09:04:07+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -188,7 +188,7 @@ msgstr[1] "Controlla %1$si template dell'archivio%2$s per i seguenti tipi di con
 
 #: languages/yoast-components.php:176
 msgid "Are you trying to use multiple keywords? You should add them separately below."
-msgstr "Stai cercando di utilizzare più parole chiave? Dovresti aggiungerle separatamente sotto."
+msgstr "Stai cercando di utilizzare più frasi chiave? Dovresti aggiungerle separatamente sotto."
 
 #: languages/yoast-components.php:179
 msgid "Focus keyword:"
@@ -1544,7 +1544,7 @@ msgstr "https://yoa.st/1uk"
 msgid "https://yoa.st/1uj"
 msgstr "https://yoa.st/1uj"
 
-#: admin/metabox/class-metabox.php:298
+#: admin/metabox/class-metabox.php:306
 #: admin/taxonomy/class-taxonomy-metabox.php:69
 msgid "Meta box"
 msgstr "Meta box"
@@ -3247,7 +3247,7 @@ msgstr "Modifica &#8220;%s&#8221;"
 msgid "Premium"
 msgstr "Premium"
 
-#: admin/metabox/class-metabox.php:429
+#: admin/metabox/class-metabox.php:437
 #: admin/taxonomy/class-taxonomy-metabox.php:245
 msgid "Go Premium"
 msgstr "Passa a Premium"
@@ -3305,7 +3305,7 @@ msgstr "Impostazioni dei Breadcrumbs"
 msgid "Make primary"
 msgstr "Rendi primario"
 
-#: admin/metabox/class-metabox.php:383 admin/metabox/class-metabox.php:386
+#: admin/metabox/class-metabox.php:391 admin/metabox/class-metabox.php:394
 #: admin/taxonomy/class-taxonomy-metabox.php:135
 #: admin/taxonomy/class-taxonomy-metabox.php:138
 msgid "Content optimization"
@@ -3660,7 +3660,7 @@ msgstr "%1$sLa tua homepage non può essere indicizzata dai motori di ricerca%2$
 msgid "Once Weekly"
 msgstr "Una volta alla settimana"
 
-#: admin/metabox/class-metabox.php:442 admin/metabox/class-metabox.php:445
+#: admin/metabox/class-metabox.php:450 admin/metabox/class-metabox.php:453
 msgid "Add-ons"
 msgstr "Add-ons"
 
@@ -3702,7 +3702,7 @@ msgstr "Team Yoast"
 msgid "The first true all-in-one SEO solution for WordPress, including on-page content analysis, XML sitemaps and much more."
 msgstr "La prima vera soluzione SEO tutto-in-uno per WordPress, compresa l&#8217;analisi dei contenuti su ogni pagina, sitemap XML e molto altro."
 
-#. #-#-#-#-#  wordpress-seo-code.pot (Yoast SEO 8.3)  #-#-#-#-#
+#. #-#-#-#-#  wordpress-seo-code.pot (Yoast SEO 8.4)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: admin/capabilities/class-capability-manager-integration.php:68
 msgid "Yoast SEO"
@@ -4928,7 +4928,7 @@ msgstr "Disattivare %s"
 msgid "The %1$s plugin might cause issues when used in conjunction with %2$s."
 msgstr "I plugin %1$s potrebbero causare problemi quando utilizzati in combinazione con %2$s."
 
-#: admin/class-yoast-form.php:505 admin/metabox/class-metabox.php:604
+#: admin/class-yoast-form.php:505 admin/metabox/class-metabox.php:612
 #: admin/taxonomy/class-taxonomy-fields-presenter.php:106
 msgid "Upload Image"
 msgstr "Carica immagine"
@@ -5063,7 +5063,7 @@ msgstr "molto difficile"
 
 #: languages/yoast-seo-js.php:34
 msgid "Try to make shorter sentences, using less difficult words to improve readability."
-msgstr "Prova a creare frasi più brevi, usa parole meno difficili per migliorare la leggibilità. "
+msgstr "Prova a creare frasi più brevi, usando parole meno difficili per migliorare la leggibilità. "
 
 #: languages/yoast-seo-js.php:30
 msgid "difficult"
@@ -5250,11 +5250,11 @@ msgstr "SEO: OK"
 msgid "SEO: No Focus Keyword"
 msgstr "SEO: Parola chiave principale mancante"
 
-#: admin/metabox/class-metabox.php:814
+#: admin/metabox/class-metabox.php:822
 msgid "SEO issue: The featured image should be at least 200 by 200 pixels to be picked up by Facebook and other social media sites."
 msgstr "Problema SEO: l'immagine in evidenza deve avere una dimensione di almeno 200 per 200 pixel per poter essere utilizzata da Facebook e altri social media."
 
-#: admin/metabox/class-metabox.php:242 admin/taxonomy/class-taxonomy.php:231
+#: admin/metabox/class-metabox.php:250 admin/taxonomy/class-taxonomy.php:231
 msgid "(no parent)"
 msgstr "(nessun genitore)"
 
@@ -5435,7 +5435,7 @@ msgstr "Rimuovi la pagina del blog dai breadcrumb"
 msgid "%s Breadcrumbs"
 msgstr "%s Breadcrumb"
 
-#: admin/class-config.php:124 admin/metabox/class-metabox.php:826
+#: admin/class-config.php:124 admin/metabox/class-metabox.php:834
 #: admin/taxonomy/class-taxonomy.php:131
 msgid "Use Image"
 msgstr "Usa immagine"
@@ -5615,8 +5615,8 @@ msgstr "Console di ricerca"
 msgid "Tools"
 msgstr "Strumenti"
 
-#: admin/metabox/class-metabox.php:403 admin/metabox/class-metabox.php:411
-#: admin/metabox/class-metabox.php:414
+#: admin/metabox/class-metabox.php:411 admin/metabox/class-metabox.php:419
+#: admin/metabox/class-metabox.php:422
 msgid "Advanced"
 msgstr "Avanzate"
 

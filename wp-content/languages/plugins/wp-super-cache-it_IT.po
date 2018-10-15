@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - WP Super Cache - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-10-12 14:07:33+0000\n"
+"PO-Revision-Date: 2018-10-14 16:56:17+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -357,6 +357,10 @@ msgstr "Dal momento che stai utilizzando mod_rewrite per servire i file della ca
 msgid "index.html files have been added in key directories, but unless directory indexes are disabled, it is probably better to store the cache files outside of the web root of %s"
 msgstr "I file index.html sono stati aggiunti nelle directory chiave, a meno che le directory index siano disabilitate, è probabile che sia meglio salvare i file della cache fuori dalla root web di %s."
 
+#: wp-cache.php:1148
+msgid "You are using expert mode to serve cache files so the plugin has added <q>Options -Indexes</q> to the .htaccess file in the cache directory to disable indexes. However, if that does not work, you should contact your system administrator or support and ask for them to be disabled, or use simple mode and move the cache outside of the web root."
+msgstr "Stai usando la modalità esperta per servire i file nella cache così il plugin ha aggiunto <q>Opzioni-Index</q> all'interno del file .htaccess nella directory della cache per disabilitare l'index. Comunque, se questo non funziona, dovresti contattare il tuo amministratore di sistema o il supporto e chiedere la sua disabilitazione, oppure puoi usare la modalità semplice per spostare la cache fuori dalla root web."
+
 #: wp-cache.php:1146
 msgid "The plugin detected a bare directory index in your cache directory, which would let visitors see your cache files directly and might expose private posts."
 msgstr "Il plugin ha individuato un index delle directory vuoto all'interno della directory della cache che permetterebbe ai visitatori di vedere i tuoi file in cache e potrebbe esporre articoli privati."
@@ -408,6 +412,36 @@ msgstr "WP Super Cache"
 #: wp-cache.php:3762
 msgid "Delete cache of the current page"
 msgstr "Eliminare la cache della pagina corrente"
+
+#: wp-cache.php:3709
+msgid ""
+"Dear User,\n"
+"\n"
+"WP Super Cache was removed from your blog but the mod_rewrite rules\n"
+"in your .htaccess were not.\n"
+"\n"
+"Please edit the following file and remove the code\n"
+"between 'BEGIN WPSuperCache' and 'END WPSuperCache'. Please backup the file first!\n"
+"\n"
+"%s\n"
+"\n"
+"Regards,\n"
+"WP Super Cache Plugin\n"
+"https://wordpress.org/plugins/wp-super-cache/"
+msgstr ""
+"Caro Utente \n"
+"\n"
+"WP Super Cache è stato rimosso dal tuo blog ma le regole di mod_rewrite\n"
+"non sono state rimosse da .htaccess.\n"
+"\n"
+"Modifica il seguente file e rimuovi il codice\n"
+"contenuto tra 'BEGIN WPSuperCache' e 'END WPSuperCache'. Prima esegui il backup!\n"
+"\n"
+"%s\n"
+"\n"
+"Distinti saluti,\n"
+"WP Super Cache Plugin\n"
+"https://wordpress.org/plugins/wp-super-cache/"
 
 #: wp-cache.php:3709
 msgid "Supercache Uninstall Problems"
@@ -645,6 +679,10 @@ msgstr "Modifica <code>%s</code> aggiungendo la seguente linea:<br /> <code>defi
 msgid "<strong>Error: WP_CACHE is not enabled</strong> in your <code>wp-config.php</code> file and I couldn&#8217;t modify it."
 msgstr "<strong>Errore: WP_CACHE non è attivo</strong> nel tuo file <code>wp-config.php</code> ed il plugin non é in grado di modificarlo."
 
+#: wp-cache.php:2586
+msgid "<h4>WP_CACHE constant set to false</h4><p>The WP_CACHE constant is used by WordPress to load the code that serves cached pages. Unfortunately, it is set to false. Please edit your wp-config.php and add or edit the following line above the final require_once command:<br /><br /><code>define('WP_CACHE', true);</code></p>"
+msgstr "<h4>Costante WP_CACHE impostata a false</h4><p>La costante WP_CACHE viene utilizzata da WordPress per caricare il codice necessario per servire le pagine in cache. Sfortunatamente, é impostata a false. Modifica il tuo wp-config.php ed aggiungi o modifica la seguente linea al di sopra del comando require_once:<br /><br /><code>define('WP_CACHE', true);</code></p>"
+
 #: wp-cache.php:2562
 msgid "<li>Open <em>%1$s</em> in a text editor.</li><li>Change the text <em>CACHEHOME</em> to <em>%2$s</em></li><li> Save the file and copy it to <em>%3$s</em> and refresh this page.</li>"
 msgstr "<li>Apri <em>%1$s</em> con un editor di testo.</li><li>Modifica il testo da <em>CACHEHOME</em> a <em>%2$s</em></li><li>Salva il file e copialo in <em>%3$s</em>, quindi ricarica questa pagina.</li>"
@@ -750,6 +788,14 @@ msgstr "(solo richieste per il registro provenienti da questo indirizzo IP. Il t
 msgid "IP Address"
 msgstr "Indirizzo IP"
 
+#: wp-cache.php:2082
+msgid "Fix problems with the plugin by debugging it here. It will log to a file in your cache directory."
+msgstr "Correggi i problemi con il plugin facendo il debug qui. Gli errori saranno salvati all'interno di un file nella cache della directory."
+
+#: wp-cache.php:2089
+msgid "Currently logging to: %s (%s)"
+msgstr "Al momento sei loggato come: %s (%s)"
+
 #: wp-cache.php:1987
 msgid "Save Files"
 msgstr "Salva i file"
@@ -805,6 +851,10 @@ msgstr "Pagine"
 #: wp-cache.php:1920
 msgid "Single Posts"
 msgstr "Articoli singoli"
+
+#: wp-cache.php:1917
+msgid "Do not cache the following page types. See the <a href=\"https://codex.wordpress.org/Conditional_Tags\">Conditional Tags</a> documentation for a complete discussion on each type."
+msgstr "Non effettuare la cache per le seguenti pagine. Per maggiori informazioni, leggi la documentazione sui <a href=\"https://codex.wordpress.org/Conditional_Tags\">tag condizionali</a>."
 
 #: wp-cache.php:1888
 msgid "Save UA Strings"
@@ -1228,6 +1278,10 @@ msgstr "Verifica la cache del tuo sito cliccando sul pulsante qui sotto."
 msgid "Cache Tester"
 msgstr "Verifica cache"
 
+#: wp-cache.php:1215
+msgid "Notice: Simple caching enabled but Supercache mod_rewrite rules from expert mode detected. Cached files will be served using those rules. If your site is working ok, please ignore this message. Otherwise, you can edit the .htaccess file in the root of your install and remove the SuperCache rules."
+msgstr "Avviso: il caching semplice è attivato ma sono state rilevate delle regole Supercache mod_rewrite della modaità esperta. I file della cache saranno serviti utilizzando queste regole. Se il tuo sito funziona correttamente, ignora questo messaggio. Altrimenti, modifica il file .htaccess file nella root della tua installazione e rimuovi le regole di SuperCache."
+
 #: wp-cache.php:1206
 msgid "Caching Off"
 msgstr "Cache non attiva"
@@ -1449,6 +1503,10 @@ msgstr "Attiva la cache per utilizzare questa funzione"
 msgid "Configuration file changed, some values might be wrong. Load the page again from the \"Settings\" menu to reset them."
 msgstr "La configurazione del file é stata modificata: alcuni valori potrebbero essere errati. Ricarica nuovamente la pagina dal menu delle \"Impostazioni\" per ripristinare."
 
+#: wp-cache.php:861
+msgid "Notice: <em>Expert mode caching enabled</em>. Showing Advanced Settings Page by default."
+msgstr "Avviso: <em>Modalità esperta attiva</em>. Le impostazioni avanzate sono la pagina di avvio predefinita."
+
 #: wp-cache.php:850
 msgid "WP Super Cache Settings"
 msgstr "Impostazioni WP Super Cache"
@@ -1457,9 +1515,17 @@ msgstr "Impostazioni WP Super Cache"
 msgid "<strong>Warning!</strong> You attempted to enable compression but <code>zlib.output_compression</code> is enabled. See #21 in the Troubleshooting section of the readme file."
 msgstr "<strong>Attenzione!</strong> hai provato ad attivare la compressione mentre la <code>zlib.output_compression</code> é attiva. Vai alla n.ro 21 della sezione Troubleshooting presente nel file readme."
 
+#: wp-cache.php:463
+msgid "It appears you have WordPress installed in a sub directory as described <a href=\"https://codex.wordpress.org/Giving_WordPress_Its_Own_Directory\">here</a>. Unfortunately, WordPress writes to the .htaccess in the install directory, not where your site is served from.<br />When you update the rewrite rules in this plugin you will have to copy the file to where your site is hosted. This will be fixed in the future."
+msgstr "Sembra che tu hai installato WordPress in una sotto directory come descritto <a href=\"https://codex.wordpress.org/Giving_WordPress_Its_Own_Directory\">qui</a>. Sfortunatamente, WordPress scrive il file .htaccess nella directory di installazione e non dove il tuo sito viene servito.<br />Quando aggiorni le regole di rewrite in questo plugin devi copiare il file dove il suo sito è ospitato. Questo problema verrà corretto nelle versioni future."
+
 #: wp-cache.php:462
 msgid ".htaccess file may need to be moved"
 msgstr "Il file .htaccess dovrebbe essere spostato"
+
+#: wp-cache.php:443
+msgid "The following Apache modules are missing. The plugin will work in simple mode without them but in expert mode, your visitors may see corrupted pages or out of date content however."
+msgstr "Non sono presenti i seguenti moduli Apache. Senza questi moduli, il plugin funzionerà in modalità semplice, ma in modalità esperta, i tuoi visitatori potrebbero visualizzare delle pagine non aggiornate e/o corrotte."
 
 #: wp-cache.php:442
 msgid "Missing Apache Modules"
@@ -1488,6 +1554,14 @@ msgstr "Cancella le regole mod_rewrite del plugin in %s.htaccess presenti tra <c
 #: wp-cache.php:420 wp-cache.php:429
 msgid "Scroll down the Advanced Settings page and click the <strong>Update Mod_Rewrite Rules</strong> button."
 msgstr "Vai al fondo della pagina delle impostazioni avanzate e clicca il pulsante <strong>Aggiorna le regole Mod_Rewrite</strong>."
+
+#: wp-cache.php:419
+msgid "Set the plugin to simple mode and enable mobile support."
+msgstr "Imposta il plugin in modalità semplice ed attiva il supporto mobile."
+
+#: wp-cache.php:418
+msgid "Mobile support requires extra rules in your .htaccess file, or you can set the plugin to simple mode. Here are your options (in order of difficulty):"
+msgstr "Il supporto mobile richiede delle regole extra nel tuo file .htaccess, altrimenti puoi impostare il plugin in modalità semplice. Qui puoi trovare le opzioni (in ordine di difficoltà):"
 
 #: wp-cache.php:417 wp-cache.php:428
 msgid "The rewrite rules required by this plugin have changed or are missing. "
@@ -1552,6 +1626,10 @@ msgstr "Il file di configurazione di WP Super Cache è <code>%s/wp-cache-config.
 #: wp-cache.php:336
 msgid "Read Only Mode. Configuration cannot be changed."
 msgstr "Modalita di sola lettura. La configurazione non può essere modificata."
+
+#: wp-cache.php:330
+msgid "It appears that mod_rewrite is not installed. Sometimes this check isn&#8217;t 100% reliable, especially if you are not using Apache. Please verify that the mod_rewrite module is loaded. It is required for serving Super Cache static files in expert mode. You will still be able to simple mode."
+msgstr "Sembra che il mod_rewrite non sia installato. Alcune volte questo controllo potrebbe non essere attendibile al 100%, specialmente se non usi Apache. Verifica che sia stato caricato il modulo mod_rewrite. Il modulo è obbligatorio per servire i file statici di Super Cache in modalità esperta. Avrai comunque la possibilità di utilizzare la modalità semplice."
 
 #: wp-cache.php:329
 msgid "Mod rewrite may not be installed!"
@@ -1773,6 +1851,10 @@ msgstr "Questi <a href=\"http://en.wikipedia.org/wiki/CNAME_record\">CNAMES</a> 
 msgid "Additional CNAMES"
 msgstr "Ulteriori CNAMES"
 
+#: ossdl-cdn.php:225
+msgid "Excludes something from being rewritten if one of the above strings is found in the URL. Use a comma as the delimiter like this, <code>.php, .flv, .do</code>, and always include <code>.php</code> (default)."
+msgstr "Escludi qualcosa dalla scrittura se una delle stringhe precedenti è trovata nell'URL. Usa una virgola come separatore, per esempio <code>.php, .flv, .do</code>, e includi sempre <code>.php</code> (predefinito)."
+
 #: ossdl-cdn.php:222
 msgid "Exclude if substring"
 msgstr "Escludi se una sotto stringa"
@@ -1804,3 +1886,7 @@ msgstr "Puoi definire dei differenti URL CDN per ogni sito di un network multi-s
 #: ossdl-cdn.php:184
 msgid "<strong style=\"color: red\">WARNING:</strong> Test some static urls e.g., %s  to ensure your CDN service is fully working before saving changes."
 msgstr "<strong style=\"color: red\">ATTENZIONE:</strong> Prova alcuni url statici ad esempio, %s  prima di salvare le modifiche giusto per assicurarti che il tuo servizio CDN funzioni correttamente."
+
+#: ossdl-cdn.php:183
+msgid "Your website probably uses lots of static files. Image, Javascript and CSS files are usually static files that could just as easily be served from another site or CDN. Therefore, this plugin replaces any links in the <code>wp-content</code> and <code>wp-includes</code> directories (except for PHP files) on your site with the URL you provide below. That way you can either copy all the static content to a dedicated host or mirror the files to a CDN by <a href=\"https://knowledgelayer.softlayer.com/faq/how-does-origin-pull-work\" target=\"_blank\">origin pull</a>."
+msgstr "Probabilmente il tuo sito fa uso di molti file statici. I file immagine, Javascript e CSS sono generalmente dei file statici che potrebbero essere facilmente serviti da un altro sito o CDN. Quindi questo plugin sostituirà ogni link presente nelle cartelle <code>wp-content</code> e <code>wp-includes</code> (ad eccezione dei file PHP) del tuo sito con l'URL che inserisci qui sotto. In quel modo potrai copiare tutti i contenuti statici presso un host dedicato o fare un mirror dei file verso un CDN via <a href=\"https://knowledgelayer.softlayer.com/faq/how-does-origin-pull-work\" target=\"_blank\">origin pull</a>."
