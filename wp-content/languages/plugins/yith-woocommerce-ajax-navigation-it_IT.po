@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Ajax Product Filter - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-10-14 23:39:59+0000\n"
+"PO-Revision-Date: 2018-10-17 19:00:59+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,6 +14,10 @@ msgstr ""
 #. Author of the plugin/theme
 msgid "YITH"
 msgstr "YITH"
+
+#. Plugin URI of the plugin/theme
+msgid "https://wordpress.org/plugins/yith-woocommerce-ajax-navigation/"
+msgstr "https://wordpress.org/plugins/yith-woocommerce-ajax-navigation/"
 
 #: plugin-fw/yit-plugin.php:190
 msgid "License"
@@ -56,6 +60,21 @@ msgstr "Repository YITH"
 msgctxt "Privacy Policy Content"
 msgid "Payments"
 msgstr "Pagamenti"
+
+#: plugin-fw/lib/privacy/yit-privacy.php:69
+msgctxt "Privacy Policy Content"
+msgid "What we share with others"
+msgstr "Cosa condividiamo con altri"
+
+#: plugin-fw/lib/privacy/yit-privacy.php:66
+msgctxt "Privacy Policy Content"
+msgid "Who on our team has access"
+msgstr "Chi del nostro team ha accesso"
+
+#: plugin-fw/lib/privacy/yit-privacy.php:63
+msgctxt "Privacy Policy Content"
+msgid "What we collect and store"
+msgstr "Cosa raccogliamo e conserviamo"
 
 #: plugin-fw/lib/privacy/yit-privacy.php:24
 msgctxt "Privacy Policy Guide Title"

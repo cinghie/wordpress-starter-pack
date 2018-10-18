@@ -144,7 +144,7 @@ if( ! function_exists( 'yit_plugin_fw_row_meta' ) ){
 
 					else{
 						if( isset( $base_uri[ $field ] ) ) {
-							$url = $base_uri[ $field ] . $slug;
+							$url = apply_filters( "yith_plugin_row_meta_{$field}_url",  $base_uri[ $field ] . $slug, $field, $slug, $base_uri );
 						}
 					}
 				}

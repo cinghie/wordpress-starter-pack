@@ -3,8 +3,8 @@
 Contributors: yithemes
 Tags: woocommerce,yith woocommerce colors and labels variations,yith woocommerce zoom magnifier,yith woocommerce wishlist,yith woocommerce ajax product filter,yith woocommerce ajax search,yith woocommerce catalog mode,yith woocommerce advanced reviews, yith woocommerce badges management,yith woocommerce cart messages,yith woocommerce review reminder,yith woocommerce quick view,yith woocommerce mailchimp,yith woocommerce stripe,yith woocommerce request a quote,yith woocommerce tab manager,yith woocommerce multi vendor
 Requires at least: 3.5.1
-Tested up to: 4.9.8
-Stable tag: 1.6.1
+Tested up to: 4.9
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -118,9 +118,9 @@ Multi store and live chat<br />
 8. YITH WooCommerce Order Tracking add an easy tool to manage order shipping information of your shop and to notified your customers about the shipping.
 9. YITH WooCommerce Catalog Mode, a plugin for disabling sales in your e-commerce and turn it into an e-commerce into an online catalogue.
 10. YITH Authorize.net allows your users to pay using the Authorize.net network services. It requires WooCommerce to work. WooCommerce 2.3.x compatible.
-11. YITH Woocommerce Cart Messages plugin let you add custom messages in the cart page and/or in the checkout page.
+11. YITH WooCommerce Cart Messages plugin let you add custom messages in the cart page and/or in the checkout page.
 12. YITH WooCommerce Stripe plugin let you add a new payment gateway based on Stripe.com
-13. YITH Woocommerce Request A Quote plugin lets your customers ask for an estimate of a list of products they are interested into.
+13. YITH WooCommerce Request A Quote plugin lets your customers ask for an estimate of a list of products they are interested into.
 14. YITH WooCommerce Review Reminder allows you to send a reminder to customers with an invitation to do a review of the items purchased.
 15. YITH WooCommerce Quick View adds the possibility to have a quick preview of the products right from product list
 16. YITH WooCommerce Multi Vendor is a plugin developed to switch your website into a platform hosting more than one shop, like a multivendor marketplace.
@@ -131,7 +131,7 @@ Multi store and live chat<br />
 21. YITH WooCommerce Mailchimp integrate MailChimp into your e-commerce shop to manage users' subscription directly from your store. WooCommerce 2.3.x compatible.
 22. YITH WooCommerce Waiting List enables registered users to request an email notification when an out-of-stock product comes back into stock.
 23. YITH WooCommerce EU VAT manage correctly your European customers with their own tax laws about digital goods.
-24. YITH WooCommerce Product Add-Ons in "Single Prodcut" page
+24. YITH WooCommerce Product Add-Ons in "Single Product" page
 
 == Frequently Asked Questions ==
 
@@ -154,6 +154,16 @@ You can get additional features of the plugins installed with the premium versio
 YITH Essential Kit for WooCommerce #1 will add a new submenu called "YITH Essential Kit for WooCommerce #1" under "YIT Plugins" menu. Here you are able to activate/deactivate all the plugins within.
 
 == Changelog ==
+
+= 2.0.1 =
+* Update: Backward compatibility with external plugins using methods from version 1.x.x
+
+= 2.0.0 =
+* Update: YITH Plugin Framework
+* Update: All YITH modules are now external to this plugin
+* New: Lighter than any previous version
+* New: Support to WordPress 4.9.8
+* New: Support to WooCommerce 3.5
 
 = 1.6.1 =
 * Update: YITH Plugin Framework

@@ -19,7 +19,7 @@ if ( !class_exists( 'YIT_Plugin_Licence' ) ) {
      * Setting Page to Manage Plugins
      *
      * @class      YIT_Plugin_Licence
-     * @package    Yithemes
+     * @package    YITH
      * @since      1.0
      * @author     Andrea Grillo      <andrea.grillo@yithemes.com>
      */
@@ -63,7 +63,7 @@ if ( !class_exists( 'YIT_Plugin_Licence' ) ) {
             }
 
             $this->_settings = array(
-                'parent_page' => 'yit_plugin_panel',
+                'parent_page' => 'yith_plugin_panel',
                 'page_title'  => __( 'License Activation', 'yith-plugin-fw' ),
                 'menu_title'  => __( 'License Activation', 'yith-plugin-fw' ),
                 'capability'  => 'manage_options',

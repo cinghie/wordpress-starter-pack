@@ -9,138 +9,240 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly
+	exit; // Exit if accessed directly
 }
 
 if ( ! current_user_can( 'activate_plugins' ) ) {
-  ?>
+	?>
     <div id="message" class="updated notice is-dismissible">
-        <p><?php _e( 'Sorry, you don\'t have sufficient permission to access to this page.', 'yith-essential-kit-for-woocommerce-1' ) ?></p></div>
-<?php
-   return;
+        <p><?php _e( 'Sorry, you don\'t have sufficient permission to access to this page.', 'yith-essential-kit-for-woocommerce-1' ) ?></p>
+    </div>
+	<?php
+	return;
 }
 
 //--- read module list -----------------------------
-
-$modules = $this->get_admin_modules_list();
-$modules  = apply_filters( $this->_plugin_list_filter_module_name , $modules ) ;
-$active_modules = $this->active_modules();
+global $yith_jetpack_1;
+global $pagenow;
+$modules = array();
+$modules = apply_filters( $this->_plugin_list_filter_module_name, $yith_jetpack_1->modules );
+//$active_modules           = $this->active_modules();
+$active_modules       = array();
 $module_inserted_list = array();
-$module_inserted_old_list = get_option( YITH_JetPack::MODULE_LIST_OPTION_NAME , array() );
-$recommended_modules_list = apply_filters( 'yith_jetpack_recommended_list' , array() );
 
-$count_all = count( $modules );
-$count_active = count( $active_modules );
+$count_all      = count( $modules );
+$count_active   = count( $active_modules );
 $count_inactive = $count_all - $count_active;
-$count_recommended = count( $recommended_modules_list );
 
 $plugin_filter_status = ! isset( $_GET['plugin_status'] ) ? 'all' : $_GET['plugin_status'];
+$date_format          = __( 'M j, Y @ H:i', 'yith-essential-kit-for-woocommerce-1' );
 
-
-$refer_id = 0;
-$theme = wp_get_theme();
-$uri  = $theme->get( 'ThemeURI' );
-$is_referral_theme = strstr( $uri , 'despacho' );
-
-if( defined( 'YITH_REFER_ID' ) ) {
-    $refer_id = YITH_REFER_ID;
-} else if ( $is_referral_theme ) {
-    $refer_id = 1036888;
-}
 //--------------------------------------------------
-if ( isset( $_GET['message'] ) && $_GET['message'] == 'activated' ) : ?>
-    <div id="message" class="updated notice is-dismissible">
-        <p><?php _e( 'Module <strong>activated</strong>.', 'yith-essential-kit-for-woocommerce-1' ) ?></p></div>
-<?php elseif ( isset( $_GET['message'] ) && $_GET['message'] == 'deactivated' ) : ?>
-    <div id="message" class="updated notice is-dismissible">
-        <p><?php _e( 'Module <strong>deactivated</strong>.', 'yith-essential-kit-for-woocommerce-1' ); ?></p></div>
-<?php
-elseif ( isset( $_GET['message'] ) && $_GET['message'] == 'activated-all' ) : ?>
-    <div id="message" class="updated notice is-dismissible">
-        <p><?php _e( 'Modules <strong>activated</strong>.', 'yith-essential-kit-for-woocommerce-1' ) ?></p></div>
-<?php
-elseif ( isset( $_GET['message'] ) && $_GET['message'] == 'deactivated-all' ) : ?>
-    <div id="message" class="updated notice is-dismissible">
-        <p><?php _e( 'Modules <strong>deactivated</strong>.', 'yith-essential-kit-for-woocommerce-1' ); ?></p></div>
-<?php endif ?>
+?>
 
 <div class="wrap">
     <h1><?php echo $this->_menu_title; ?></h1>
 
-    <p><?php _e( "Here you can activate or deactive some of our plugins to enhance your e-commerce site.", 'yith-essential-kit-for-woocommerce-1' ) ?></p>
-
-    <div class="tablenav top">
-        <div class="alignleft actions">
-            <p>
-                <a href="<?php echo wp_nonce_url( add_query_arg( array( 'action' => 'activate', 'module' => 'all' ) ), 'activate-yit-plugin' ) ?>"><?php !( $plugin_filter_status == 'recommended' ) ? _e( 'Activate all', 'yith-essential-kit-for-woocommerce-1' ) : _e( 'Activate recommended', 'yith-essential-kit-for-woocommerce-1' )  ?></a> |
-                <a href="<?php echo wp_nonce_url( add_query_arg( array( 'action' => 'deactivate', 'module' => 'all' ) ), 'deactivate-yit-plugin' ) ?>"><?php !( $plugin_filter_status == 'recommended' ) ? _e( 'Deactivate all', 'yith-essential-kit-for-woocommerce-1' ) : _e( 'Deactivate recommended', 'yith-essential-kit-for-woocommerce-1' ) ?></a>
-            </p>
-        </div>
-    </div>
-
+    <p class="yith-essential-kit-intro-text"><?php _e( "Here you can activate or deactive some of our plugins to enhance your e-commerce site.", 'yith-essential-kit-for-woocommerce-1' ) ?></p>
+    <div class="yith-jetpack-message">Plugin enabled</div>
     <div class="wp-list-table widefat plugin-install-network yith-jetpack">
 
-        <?php
-        echo '<ul class="subsubsub">';
-
-       echo '<li class="all"><a href="'.esc_url( add_query_arg( array( 'plugin_status' => 'all' ) ) ).'" '.( $plugin_filter_status=='all' ? 'class="current"' : '' ).'>'.__( 'All', 'yith-essential-kit-for-woocommerce-1' ).' <span class="count">('.$count_all.')</span></a> |</li>
-            <li class="active"><a href="'.esc_url( add_query_arg( array( 'plugin_status' => 'active' ) ) ).'" '.( $plugin_filter_status=='active' ? 'class="current"' : '' ).'>'.__( 'Active', 'yith-essential-kit-for-woocommerce-1' ).' <span class="count">('.$count_active.')</span></a> |</li>
-            <li class="inactive"><a href="'.esc_url( add_query_arg( array( 'plugin_status' => 'inactive' ) ) ).'" '.( $plugin_filter_status=='inactive' ? 'class="current"' : '' ).'>'.__( 'Inactive', 'yith-essential-kit-for-woocommerce-1' ).' <span class="count">('.$count_inactive.')</span></a></li>';
-      if( $count_recommended > 0 ) {
-        echo  '<li class="recommended">| <a href="'.esc_url( add_query_arg( array( 'plugin_status' => 'recommended' ) ) ).'" '.( $plugin_filter_status=='recommended' ? 'class="current"' : '' ).'>'.__( 'Recommended', 'yith-essential-kit-for-woocommerce-1' ).' <span class="count">('.$count_recommended.')</span></a></li>';
-      }
-
-        echo '</ul>';
-        ?>
-
         <div id="the-list">
+			<?php $new_data = false;
+			$modules_info   = get_site_transient( 'yith_essential_kit_modules_info' );
+			foreach ( $modules as $module ): ?>
+				<?php
+				$details_link = network_admin_url( 'plugin-install.php?tab=plugin-information&amp;plugin=' . $module['slug'] . '&amp;TB_iframe=true&amp;width=600&amp;height=550' );
 
-            <?php
+				if ( ! function_exists( 'plugins_api' ) ) {
+					include_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
+				}
+				if ( ! isset( $modules_info[ $module['slug'] ] ) ) {
+					//transient is empty
+					$info_to_store = plugins_api( 'plugin_information', array(
+						'slug'   => $module['slug'],
+						'fields' => array(
+							'short_description',
+							'active_installs',
+							'rating'
+						)
+					) );
+					if ( ! is_wp_error( $info_to_store ) ) {
 
-            uasort( $modules , array( $this, 'sort_modules' ) );
+						$module_info                     = array(
+							'module_name'              => $info_to_store->name,
+							'module_version'           => $info_to_store->version,
+							'module_rating'            => $info_to_store->rating,
+							'module_num_ratings'       => $info_to_store->num_ratings,
+							'module_downloads'         => $info_to_store->downloaded,
+							'module_updated'           => $info_to_store->last_updated,
+							'module_homepage'          => $info_to_store->homepage,
+							'module_short_description' => $info_to_store->short_description,
+							'module_active_installs'   => $info_to_store->active_installs
+						);
+						$modules_info[ $module['slug'] ] = $module_info;
+						$new_data                        = true;
+					} else {
+						$module_info = array(
+							'module_name'    => $module['name'],
+							'module_version' => $module['version'],
+						);
+					}
+				} else {
+					//transient is ok
+					$module_info = $modules_info[ $module['slug'] ];
+				}
 
-            foreach ( $modules as $key => $module_data ) {
+				//set variables for each value of the array
+				extract( $module_info );
 
-                $module_inserted_list[] = $key;
+				$is_module_installed = $yith_jetpack_1->is_plugin_installed( $module['slug'] );
+				$is_module_active    = $yith_jetpack_1->is_plugin_active( $module['slug'] );
 
-                $is_active = in_array( $key, array_keys( $active_modules ) );
-                $is_new = ! in_array( $key, $module_inserted_old_list );
-                $is_recommended = in_array( $key, $recommended_modules_list );
+				$is_premium_installed = $yith_jetpack_1->is_premium_installed( $module['slug'] );
+				$is_premium_active    = $yith_jetpack_1->is_premium_active( $module['slug'] );
+				$init                 = isset( $module['init'] ) ? '/' . $module['init'] : '/init.php';
 
-                $premium_dir = isset( $module_data[ 'premium-dir' ] ) ? $module_data[ 'premium-dir' ] : $key;
-                $is_premium_installed = file_exists( WP_PLUGIN_DIR . '/' . $premium_dir . '-premium' );
+				$active_module_version = $is_module_installed ? get_plugin_data( WP_PLUGIN_DIR . '/' . $module['slug'] . $init ) : false;
 
-                if ( ( $plugin_filter_status == 'active' && ! $is_active ) || ( $plugin_filter_status == 'inactive' && $is_active ) || ( $plugin_filter_status == 'recommended' && !$is_recommended ) ) {
-                    continue;
-                }
+				/** ACTION LINKS **/
+				$more_links = array();
 
-                $this->print_single_plugin( $module_data, $is_active , $is_new , $is_recommended , $is_premium_installed , $refer_id );
+				$action_links = $yith_jetpack_1->print_action_buttons( $module['slug'], $is_module_active );
 
-            }
+				/**
+				 * MORE DETAILS LINK
+				 */
+				$details_link = network_admin_url( 'plugin-install.php?tab=plugin-information&amp;plugin=' . $module['slug'] .
+				                                   '&amp;TB_iframe=true&amp;width=600&amp;height=550' );
 
-            update_option( YITH_JetPack::MODULE_LIST_OPTION_NAME, $module_inserted_list );
+				$more_links[] = '<a href="' . esc_url( $details_link ) . '" class="thickbox" aria-label="' . esc_attr( sprintf( __( 'More information about %s' ), $module_name ) ) . '" data-title="' . esc_attr( $module_name ) . '">' . __( 'More Details' ) . '</a>';
 
-            ?>
+				/**
+				 * ICONS
+				 */
+				$is_new         = isset( $module['new'] ) ? $module['new'] : false;
+				$is_recommended = isset( $module['recommended'] ) ? $module['recommended'] : false;
 
+				/**
+				 * BUY/ACTIVATE PREMIUM MODULE
+				 */
+				if ( $is_premium_active ) {
+					$premium_url = '#';
+					$btn_class   = 'btn-premium installed';
+					$btn_title   = __( 'Premium Activated' );
+					$new_tab     = '';
+				} else if ( $is_premium_installed ) {
+					$premium_dir = isset( $module['premium-dir'] ) ? $module['premium-dir'] : $module['slug'] . '-premium';
+					$premium_url = wp_nonce_url( add_query_arg( array(
+						'action' => 'activate',
+						'plugin' => $premium_dir . $init
+					), admin_url( 'plugins.php' ) ), 'activate-plugin_' . $premium_dir . $init );
+					$btn_class   = 'btn-premium toactive';
+					$btn_title   = __( 'Activate Premium' );
+					$new_tab     = '';
+				} else {
+					$premium_url = 'https://yithemes.com/themes/plugins/' . ( isset( $module['premium-slug'] ) ? $module['premium-slug'] : $module['slug'] );
+					$btn_class   = 'btn-premium tobuy';
+					$btn_title   = __( 'Buy Premium Version' );
+					$new_tab     = 'target = "_blank"';
+				}
+
+				$more_links[] = '<a class="' . $btn_class . '" ' . $new_tab . ' href="' . $premium_url . '" data-title="' . esc_attr( $module_name ) . '">' . $btn_title . '</a>';
+
+				?>
+                <div class="plugin-card <?php echo $module['slug'] ?>">
+                    <div class="plugin-card-top">
+						<?php if ( $is_new ) : ?>
+                            <span class="product-icon"><img
+                                        src="<?php echo YJP_ASSETS_URL . '/images/badge-new.png'; ?>"
+                                        alt="New Icon"></span>
+						<?php elseif ( $is_recommended ) : ?>
+                            <span class="product-icon"><img
+                                        src="<?php echo YJP_ASSETS_URL . '/images/badge-recommended.png'; ?>"
+                                        alt="New Icon"></span>
+						<?php endif ?>
+                        <a href="<?php echo esc_url( $details_link ); ?>" class="thickbox"><img
+                                    src="https://ps.w.org/<?php echo $module['slug']; ?>/assets/icon-128x128.jpg"
+                                    class="plugin-icon" alt=""></a>
+
+                        <div class="name column-name">
+                            <h3>
+                                <a class="thickbox" href="<?php echo $details_link; ?>">
+									<?php echo $module_name; ?>
+
+                                </a>
+                            </h3>
+                            <span>
+                                    <?php
+                                    echo isset( $active_module_version['Version'] ) ? $active_module_version['Version'] : $module_version;
+                                    if ( isset( $active_module_version['Version'] ) && ( $module_version != $active_module_version['Version'] ) ) {
+	                                    echo ' ' . __( sprintf( '(Version %s available)', $module_version ), 'yith-essential-kit-for-woocommerce-1' );
+                                    }
+                                    ?>
+                                </span>
+                        </div>
+                        <div class="action-links">
+							<?php
+							if ( $action_links ) {
+								echo '<div class="plugin-action-buttons">' . $action_links . '</div>';
+							}
+							?>
+
+							<?php
+							if ( $more_links ) {
+								echo '<ul class="plugin-action-buttons"><li>' . implode( '</li><li>', $more_links ) . '</li></ul>';
+							}
+							?>
+                        </div>
+                        <div class="desc column-description">
+                            <p><?php echo $module_short_description; ?></p>
+                            <p class="authors"><cite>By <a href="https://yithemes.com" target="_blank"
+                                                           title="plugin author YITH">YITH</a></cite></p>
+                        </div>
+                    </div>
+                    <div class="plugin-card-bottom">
+                        <div class="column-updated">
+                            <strong><?php _e( 'Last Updated:' ); ?></strong> <span>
+								<?php printf( __( '%s ago' ), human_time_diff( strtotime( $module_updated ) ) ); ?>
+							</span>
+                        </div>
+						<?php if ( isset( $module_rating ) ) : ?>
+                            <div class="vers column-rating">
+								<?php wp_star_rating( array(
+									'rating' => $module_rating,
+									'type'   => 'percent',
+									'number' => $module_num_ratings
+								) ); ?>
+                                <span class="num-ratings">(<?php echo number_format_i18n( $module_num_ratings ); ?>
+                                    )</span>
+                            </div>
+                            <div class="column-downloaded">
+								<?php
+								if ( $module_active_installs >= 1000000 ) {
+									$active_installs_text = _x( '1+ Million', 'Active plugin installs' );
+								} else {
+									$active_installs_text = number_format_i18n( $module_active_installs ) . '+';
+								}
+
+								if ( $module_downloads >= 1000000 ) {
+									$download_text = _x( '1+ Million', 'Downloaded' );
+								} else {
+									$download_text = number_format_i18n( $module_downloads ) . '+';
+								}
+								printf( __( '%s Download, %s Active Installs' ), $download_text, $active_installs_text );
+								?>
+                            </div>
+						<?php endif; ?>
+                    </div>
+
+                </div>
+			<?php
+			endforeach;
+			if ( $new_data ) {
+				set_site_transient( 'yith_essential_kit_modules_info', $modules_info, 12 * HOUR_IN_SECONDS );
+			}
+			?>
         </div>
     </div>
 </div>
-
-<script>
-    jQuery(document).ready(function ($) {
-
-        $('ul.plugin-action-buttons li a:not(disabled)').on('click', 'a.button', function (e) {
-            $(this).prepend('<span class="update-message updating-message"></span>');
-        });
-
-    });
-</script>
-
-<style type="text/css">
-    .plugin-card .updating-message:before {
-        display: inline-block;
-        margin-top: 3px;
-        font: 400 20px/1 dashicons;
-        color: #d54e21;
-    }
-</style>
