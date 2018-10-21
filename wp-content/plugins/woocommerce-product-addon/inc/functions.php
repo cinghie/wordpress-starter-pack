@@ -193,26 +193,6 @@ function ppom_get_product_price( $product ) {
 }
 
 /**
- * check wheather ppom setting allow to send file as attachment
- * @since 8.1
- **/
-function ppom_send_file_in_attachment($product_id) {
-	
-	$product_meta = get_post_meta ( $product_id, '_product_meta_id', true );
-	
-	if ($product_meta == 0 || $product_meta == 'None')
-		return false;
-	
-	$single_form = PPOM()-> get_product_meta ( $product_meta );
-	if( $single_form -> send_file_attachment == 'yes'){
-		return true;
-	} else {
-		return false;
-	}
-	
-}
-
-/**
  * adding cart items to order
  * @since 8.2
  **/
@@ -515,76 +495,6 @@ function ppom_has_posted_field_value( $posted_fields, $field ) {
 	return apply_filters('ppom_has_posted_field_value', $has_value, $posted_fields, $field);
 }
 
-function ppom_load_file_upload_js($product) {
-	
-	$product_meta_id = get_post_meta ( $product -> ID, '_product_meta_id', true );
-	
-	if ($product_meta_id == "" || $product_meta_id == 'None')
-		return;
-		
-	$product_meta = PPOM() -> get_product_meta($product_meta_id);
-	
-	$ppom_fields = json_decode ( $product_meta->the_meta );
-	
-	$file_inputs = array();
-	
-	
-	foreach($ppom_fields as $field){
-		
-		
-		if( $field->type == 'file' ){
-		
-			$file_cost = $field -> file_cost == '' ? array('') : array(sprintf(__("File Charges (%s)", "nm_personalizedproduct"), $field->title) => array('fee' => $field -> file_cost, 'taxable' => $field->onetime_taxable));
-			$file_cost = json_encode($file_cost);
-			
-			$field -> editing_tools = ppom_get_editing_tools($field -> editing_tools);
-			$field -> file_cost = $file_cost;
-			$field -> cropping_ratio = $field ->cropping_ratio == '' ? NULL : explode("\n", $field ->cropping_ratio);
-			
-			// aviary crop preset
-			if( $field -> cropping_ratio != '') {
-				
-				$crop_preset = $field -> cropping_ratio;
-				$js_crop_preset = '';
-				if($crop_preset){
-					$js_crop_preset = '[';
-					foreach($crop_preset as $preset){
-						$js_crop_preset .= "'".str_replace('/', 'x', $preset)."',";
-					}
-					$js_crop_preset = rtrim($js_crop_preset, ',');
-					$js_crop_preset .= ']';
-				}
-				
-				$field -> aviary_crop_preset = $js_crop_preset;
-			}
-			
-			$file_inputs[] = $field;
-		}
-	}
-	
-	if( empty( $file_inputs ) ) return;
-	
-	// ppom_pa($file_inputs);
-	
-	wp_enqueue_script( 'ppom-file-upload', PPOM()->plugin_meta['url'].'/js/file-upload.js', array('jquery', 'plupload'), '8.4', true);
-	$ppom_file_vars = array('file_inputs'		=> $file_inputs,
-							'delete_file_msg'	=> __("Are you sure?", "ppom"),
-							'aviary_api_key'	=> $product_meta -> aviary_api_key,
-							'plupload_runtime'	=> (ppom_if_browser_is_ie()) ? 'html5,html4' : 'html5,silverlight,html4,browserplus,gear');
-	wp_localize_script( 'ppom-file-upload', 'ppom_file_vars', $ppom_file_vars);
-	
-	// if Aviary Editor is used
-	if($product_meta -> aviary_api_key != ''){
-		
-		if(is_ssl()){
-			wp_enqueue_script( 'aviary-api', '//dme0ih8comzn4.cloudfront.net/js/feather.js');	
-		}else{
-			wp_enqueue_script( 'aviary-api', '//feather.aviary.com/imaging/v1/editor.js');	
-		}
-	}
-}
-
-
 function ppom_is_aviary_installed() {
 
 	if( is_plugin_active('nm-aviary-photo-editing-addon/index.php') ){
@@ -779,7 +689,7 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 			
 			$option_price	= isset($option['price']) ? $option['price'] : '';
 			// This filter change prices for Currency switcher
-			$option_price	= apply_filters('ppom_option_price', $option_price, $option, $meta, $product);
+			$option_price	= apply_filters('ppom_option_price', $option_price);
 			
 			// Price matrix discount
 			$discount	= isset($meta['discount']) && $meta['discount'] == 'on' ? true : false;
@@ -1076,6 +986,9 @@ function ppom_get_field_option_price( $field_meta, $option_label ) {
 		}
 	}
 	
+	// For currency switcher
+	$option_price = apply_filters('ppom_option_price', $option_price);
+	
 	return apply_filters("ppom_field_option_price", wc_format_decimal($option_price), $field_meta, $option_label);
 }
 
@@ -1098,7 +1011,8 @@ function ppom_get_field_option_price_by_id( $data_name, $option, $product) {
 			if(strpos($option['price'],'%') !== false){
 					$option_price = ppom_get_amount_after_percentage($product->get_price(), $option['price']);
 			}else {
-				$option_price = $option['price'];
+				// For currency switcher
+				$option_price = apply_filters('ppom_option_price', $option['price']);
 			}
 		}
 	}

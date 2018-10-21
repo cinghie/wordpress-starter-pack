@@ -4,7 +4,7 @@ Tags: woocommerce, pesonalized products, woocommerce variations, woocommerce pro
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
 Tested up to: 4.9
-Stable tag: 14.2.1
+Stable tag: 14.3
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -81,6 +81,9 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
+= 14.3 October 16, 2018
+* Bug fixed: [A bug related Advanced Export Order plugin fixed](https://wordpress.org/support/topic/error-with-export-plugin/)
+* Bug fixed: [WooCommerce Currency Switcher issue fixed on cart page for addons price](https://wordpress.org/support/topic/woocommerce-currency-switcher-and-ppom/#post-10782102)
 = 14.2.1 October 14, 2018
 * Bug fixed: [Bug fixed for version 14.2.1](https://wordpress.org/support/topic/fatal-error-since-update-4/)
 = 14.2 October 14, 2018 =

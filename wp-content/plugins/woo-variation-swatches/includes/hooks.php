@@ -1,4 +1,5 @@
 <?php
+	
 	defined( 'ABSPATH' ) or die( 'Keep Quit' );
 	
 	add_action( 'wp_ajax_nopriv_wvs_get_available_variations', 'wvs_get_available_product_variations' );
@@ -25,4 +26,3 @@
 		
 		add_filter( 'woocommerce_product_data_panels', 'add_wvs_pro_preview_tab_panel' );
 	}
-	

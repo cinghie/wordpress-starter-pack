@@ -132,7 +132,8 @@ class PPOM_Rest {
         }
             
         $product_id = intval( $product_id );
-        if( ! $meta_id = ppom_has_product_meta( $product_id ) ) {
+	    $ppom		= new PPOM_Meta( $product_id );
+        if( ! $ppom->is_exists ) {
             
             $response_info = array('status'=>'no_meta',
                                     'message' => __('No Meta Found', 'ppom')
@@ -141,12 +142,11 @@ class PPOM_Rest {
         }
         
         
-        $ppom_meta = PPOM() -> get_product_meta ( $meta_id );
-        $ppom_fields = json_decode( $ppom_meta->the_meta );
+        $ppom_fields = $ppom->fields;
         
         $ppom_fields = $this->filter_required_keys_only($ppom_fields);
         
-       $response_info = array('status'=>'success',
+        $response_info = array('status'=>'success',
                             'message' => __("Meta found {$meta_id}", 'ppom'),
                             'meta_id'   => intval($meta_id),
                             'product_id'=> $product_id,
@@ -194,20 +194,18 @@ class PPOM_Rest {
             return new WP_REST_Response( $response_info );
         }
             
+        
         $product_id = intval( $product_id );
-        $ppom_meta  = array();
-        if( $meta_id = ppom_has_product_meta( $product_id ) ) {
-            
-            $ppom_meta = PPOM() -> get_product_meta ( $meta_id );
-        }
+	    $ppom		= new PPOM_Meta( $product_id );
+        $ppom_settings = $ppom->settings;
         
         $ppom_fields = json_decode( stripslashes($all_data['fields']), true );
         
         $meta_response = array();
-        if( empty($ppom_meta) ) {
+        if( empty($ppom_settings) ) {
             $meta_response = $this->save_new_meta_data($product_id, $ppom_fields);
         } else {
-            $meta_response = $this->update_meta_data($ppom_meta, $ppom_fields, $product_id);
+            $meta_response = $this->update_meta_data($ppom_settings, $ppom_fields, $product_id);
         }
         
         
@@ -258,16 +256,13 @@ class PPOM_Rest {
         }
             
         $product_id = intval( $product_id );
-        $ppom_meta  = array();
-        if( $meta_id = ppom_has_product_meta( $product_id ) ) {
-            
-            $ppom_meta = PPOM() -> get_product_meta ( $meta_id );
-        }
+	    $ppom		= new PPOM_Meta( $product_id );
+        $ppom_settings = $ppom->settings;
         
         $delete_fields = json_decode( stripslashes($all_data['fields']) );
         
         $meta_response = array();
-        $meta_response = $this -> delete_meta_data( $ppom_meta, $delete_fields, $product_id );
+        $meta_response = $this -> delete_meta_data( $ppom_settings, $delete_fields, $product_id );
         
         // ppom_pa($ppom_fields);
         

@@ -4,7 +4,7 @@
 	 * Plugin URI: https://wordpress.org/plugins/woo-variation-swatches/
 	 * Description: Beautiful colors, images and buttons variation swatches for woocommerce product attributes. Requires WooCommerce 3.2+
 	 * Author: Emran Ahmed
-	 * Version: 1.0.43
+	 * Version: 1.0.44
 	 * Domain Path: /languages
 	 * Requires at least: 4.8
 	 * Tested up to: 4.9
@@ -20,7 +20,7 @@
 		
 		final class Woo_Variation_Swatches {
 			
-			protected $_version = '1.0.43';
+			protected $_version = '1.0.44';
 			
 			protected static $_instance = null;
 			private          $_settings_api;
@@ -65,7 +65,7 @@
 					require_once $this->include_path( 'functions.php' );
 					require_once $this->include_path( 'hooks.php' );
 					require_once $this->include_path( 'themes-support.php' );
-					// require_once $this->include_path( 'class-woo-variation-swatches-export-import.php' );
+					require_once $this->include_path( 'class-woo-variation-swatches-export-import.php' );
 				}
 			}
 			
@@ -291,13 +291,14 @@
 				
 				$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 				
-				// Don't load JS on IE11
-				if ( ! wvs_is_ie11() ) {
-					wp_enqueue_script( 'woo-variation-swatches', $this->assets_uri( "/js/frontend{$suffix}.js" ), array( 'jquery' ), $this->version(), true );
-					wp_localize_script( 'woo-variation-swatches', 'woo_variation_swatches_options', apply_filters( 'woo_variation_swatches_js_options', array(
-						'is_product_page' => is_product()
-					) ) );
+				if ( wvs_is_ie11() ) {
+					wp_enqueue_script( 'bluebird', esc_url( "https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.5.2/bluebird{$suffix}.js" ), array(), '3.5.2' );
 				}
+				
+				wp_enqueue_script( 'woo-variation-swatches', $this->assets_uri( "/js/frontend{$suffix}.js" ), array( 'jquery', 'wp-util' ), $this->version(), true );
+				wp_localize_script( 'woo-variation-swatches', 'woo_variation_swatches_options', apply_filters( 'woo_variation_swatches_js_options', array(
+					'is_product_page' => is_product()
+				) ) );
 				
 				if ( $this->get_option( 'stylesheet' ) ) {
 					wp_enqueue_style( 'woo-variation-swatches', $this->assets_uri( "/css/frontend{$suffix}.css" ), array(), $this->version() );

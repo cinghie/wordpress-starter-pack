@@ -4,38 +4,8 @@
  * @since 8.0
  **/
 
-ppom_direct_access_not_allowed();
+if( ! defined("ABSPATH") ) die("Not Allowed");
 
-
-// since 8.1 - sending files in email as attachment
-function ppom_send_files_in_email($files_moved, $order_id) {
-    
-    // if( ! $files_moved ) return;
-    $attachments = array();
-    foreach($files_moved as $files) {
-    
-        foreach($files as $product_id => $file_path) {
-    
-            if( ppom_send_file_in_attachment($product_id) ) {
-                $attachments[] = $file_path;
-            }
-        }
-            
-    }
-    
-    if( ! $attachments ) return;
-    
-    $subject = sprintf( __("Files uploaded - Order %d", 'ppom'), $order_id);
-    $message = __("Following file(s) have been uploaded against this order", 'ppom');
-    $message = apply_filters('ppom_message_file_attachment', $message);
-    
-    $site_name = get_bloginfo('name');
-    $site_admin = get_bloginfo('admin_email');
-    
-    $headers = "From: {$site_name} <$site_admin> \r\n";
-    
-    wp_mail($site_admin, $subject, $message, $headers, $attachments);
-}
 
 // Saving Cropped image when posted from product page.
 function ppom_hooks_save_cropped_image( $ppom_fields, $posted_data ) {
@@ -70,7 +40,7 @@ function ppom_hooks_save_cropped_image( $ppom_fields, $posted_data ) {
 }
 
 // Convert option price if currency swithcer found
-function ppom_hooks_convert_price($option_price, $option, $meta, $product) {
+function ppom_hooks_convert_price( $option_price ) {
 	
 	if( has_filter('woocs_exchange_value') && !empty($option_price) ) {
 		global $WOOCS;
@@ -210,6 +180,8 @@ function ppom_hooks_load_input_scripts( $product ) {
 			$field['options'] = ppom_convert_options_to_key_val($field['options'], $field, $product);
 		}
 		
+		// Allow other types to be hooked
+		$type = apply_filters('ppom_load_input_script_type', $type, $field, $product);
 		
 		switch( $type ) {
 		    
@@ -663,7 +635,7 @@ function ppom_hooks_convert_option_json_to_string($row, $order) {
         // Scanning only key prefix products_
         if (strpos($key, 'products_') !== false) {
             
-            $row[$key] = apply_filters('ppom_order_display_value', $value);
+            $row[$key] = $value;
         }
     }
     return $row;

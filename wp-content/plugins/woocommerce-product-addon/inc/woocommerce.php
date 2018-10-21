@@ -571,13 +571,10 @@ function ppom_woocommerce_alter_price($price, $product) {
 
 function ppom_hide_variation_price_html($show, $parent, $variation) {
 	
-	if( ! $selected_meta_id = ppom_has_product_meta( $parent->get_id()) ) return $show;
-		
+	$product_id = $parent->get_id();
+	$ppom		= new PPOM_Meta( $product_id );
 	
-	$ppom_settings = PPOM() -> get_product_meta ( $selected_meta_id );
-	if( empty($ppom_settings) ) return $show;
-	
-	if( $ppom_settings -> dynamic_price_display != 'hide' ) {
+	if( $ppom->price_display != 'hide' ) {
 		$show = false;
 	}
 	

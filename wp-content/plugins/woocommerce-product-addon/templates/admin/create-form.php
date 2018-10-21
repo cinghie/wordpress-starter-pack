@@ -233,6 +233,9 @@ function render_input_settings($settings, $values = '') {
 				$tr_class	.= ' ppom-field-hide';
 			}
 			
+			if(($meta_type == 'editing_tools' || $meta_type == 'photo_editing') && !ppom_is_aviary_installed()){
+				continue;
+			}
 			
 			$colspan	= ($data ['type'] == 'html-conditions' ? 'colspan="2"' : '' );
 			

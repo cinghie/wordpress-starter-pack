@@ -8,7 +8,7 @@
 		class Woo_Variation_Swatches_Export_Import {
 			
 			private $export_type = 'product';
-			private $column_id   = 'woo_variation_swatches_attribute_types';
+			private $column_id   = 'attributes_type';
 			
 			public function __construct() {
 				
@@ -16,109 +16,91 @@
 				// "woocommerce_{$this->export_type}_export_column_names"
 				//add_filter( 'woocommerce_product_export_column_names', 'add_woo_variation_gallery_export_column' );
 				
-				//add_filter( "woocommerce_product_export_{$this->export_type}_default_columns", array( $this, 'export_column_name' ) );
-				//add_filter( "woocommerce_product_export_{$this->export_type}_column_{$this->column_id}", array( $this, 'export_column_data' ), 10, 3 );
+				add_filter( "woocommerce_product_export_{$this->export_type}_default_columns", array( $this, 'export_column_name' ) );
+				add_filter( "woocommerce_product_export_{$this->export_type}_column_{$this->column_id}", array( $this, 'export_column_data' ), 10, 3 );
 				
-				add_filter( 'woocommerce_product_export_row_data', array( $this, 'prepare_attributes_for_export' ), 10, 2 );
+				// add_filter( 'woocommerce_product_export_row_data', array( $this, 'prepare_attributes_for_export' ), 10, 3 );
 				
 				// IMPORT
-				//add_filter( 'woocommerce_csv_product_import_mapping_options', array( $this, 'import_column_name' ) );
-				//add_filter( 'woocommerce_csv_product_import_mapping_default_columns', array( $this, 'default_import_column_name' ) );
-				//add_action( 'woocommerce_product_import_inserted_product_object', array( $this, 'process_wc_import' ), 10, 2 );
+				add_filter( 'woocommerce_csv_product_import_mapping_options', array( $this, 'import_column_name' ) );
+				add_filter( 'woocommerce_csv_product_import_mapping_default_columns', array( $this, 'default_import_column_name' ) );
+				add_action( 'woocommerce_product_import_inserted_product_object', array( $this, 'process_wc_import' ), 10, 2 );
 				
 			}
 			
 			public function prepare_attributes_for_export( $row, $product ) {
-				
-				//print_r( $row); die;
-				//if ( $this->is_column_exporting( 'attributes' ) ) {
-				$attributes         = $product->get_attributes();
-				$default_attributes = $product->get_default_attributes();
-				
-				
-				if ( count( $attributes ) ) {
-					$i = 1;
-					foreach ( $attributes as $attribute_name => $attribute ) {
-						/* translators: %s: attribute number */
-						// $row[ 'attributes:type' . $i ] = sprintf( __( 'Attribute %d type', 'woocommerce' ), $i );
-						//$x[ 'attributes:type' . $i ] = sprintf( __( 'Attribute %d type', 'woocommerce' ), $i );
-						/* translators: %s: attribute number */
-						//$this->column_names[ 'attributes:value' . $i ] = sprintf( __( 'Attribute %d value(s)', 'woocommerce' ), $i );
-						/* translators: %s: attribute number */
-						//$this->column_names[ 'attributes:visible' . $i ] = sprintf( __( 'Attribute %d visible', 'woocommerce' ), $i );
-						/* translators: %s: attribute number */
-						//$this->column_names[ 'attributes:taxonomy' . $i ] = sprintf( __( 'Attribute %d global', 'woocommerce' ), $i );
-						
-						//
-						
-						//
-						//print_r( $attribute);
-						if ( is_a( $attribute, 'WC_Product_Attribute' ) ) {
-							if ( $attribute->is_taxonomy() ) {
-								$attr = wc_get_attribute( $attribute->get_id() );
-								
-								//print_r($attr);
-								
-								$row[ 'attributes:name' . $i ] = $row[ 'attributes:name' . $i ] . '#' . $attr->type;
-							} else {
-								$row[ 'attributes:name' . $i ] = $row[ 'attributes:name' . $i ] . '#' . 'select';
-							}
-							//$attr = wc_get_attribute( $attribute->get_id() );
-							//$row[ 'attributes:type' . $i ] =  $attr->type;
-							//$x[ 'attributes:type' . $i ] = $attr->type;
-							//	$row[ 'attributes:type' . $i ] =  $attr->type;
-						} else {
-							//$row[ 'attributes:type' . $i ] = $attr->type;
-						}
-						
-						//print_r($attr);
-						
-						$i ++;
-					}
-				}
-				//}
-				//print_r($row);
-				//die(__FILE__);
-				// array_push( $row, $x);
 				return $row;
-				
 			}
 			
 			public function export_column_name( $columns ) {
 				
 				// column slug => column name
-				$columns[ $this->column_id ] = esc_html__( 'Woo Variation Swatches Attributes types', 'woo-variation-gallery' );
+				$columns[ $this->column_id ] = 'Swatches Attributes';
 				
 				return $columns;
 			}
 			
 			public function export_column_data( $value, $product, $column_id ) {
-				$product_id     = $product->get_id();
-				$gallery_images = get_post_meta( $product_id, 'woo_variation_gallery_images', true );
-				$images         = array();
 				
-				foreach ( $gallery_images as $image_id ) {
-					$image = wp_get_attachment_image_src( $image_id, 'full' );
-					
-					if ( $image ) {
-						$images[] = $image[ 0 ];
+				$attributes = $product->get_attributes();
+				
+				$types = array();
+				
+				if ( count( $attributes ) ) {
+					foreach ( $attributes as $attribute_name => $attribute ) {
+						
+						if ( is_a( $attribute, 'WC_Product_Attribute' ) ) {
+							
+							if ( $attribute->is_taxonomy() ) {
+								$attr  = wc_get_attribute( $attribute->get_id() );
+								$name  = wc_attribute_label( $attribute->get_name(), $product );
+								$terms = $attribute->get_terms();
+								
+								if ( ! in_array( $name, $types ) && $attr->type !== 'select' ) {
+									$types[ $name ]            = array();
+									$types[ $name ][ 'name' ]  = $name;
+									$types[ $name ][ 'type' ]  = $attr->type;
+									$types[ $name ][ 'terms' ] = array();
+									
+									foreach ( $terms as $term ) {
+										$types[ $name ][ 'terms' ][ $term->name ]            = array();
+										$types[ $name ][ 'terms' ][ $term->name ][ 'name' ]  = $term->name;
+										$types[ $name ][ 'terms' ][ $term->name ][ 'color' ] = sanitize_hex_color( get_term_meta( $term->term_id, 'product_attribute_color', true ) );
+										
+										$term_image_id = get_term_meta( $term->term_id, 'product_attribute_image', true );
+										
+										$types[ $name ][ 'terms' ][ $term->name ][ 'image' ] = $term_image_id ? wp_get_attachment_image_url( $term_image_id, 'full' ) : '';
+										
+										
+										$types[ $name ][ 'terms' ][ $term->name ][ 'show_tooltip' ] = get_term_meta( $term->term_id, 'show_tooltip', true );
+										$types[ $name ][ 'terms' ][ $term->name ][ 'tooltip_text' ] = get_term_meta( $term->term_id, 'tooltip_text', true );
+										
+										$tooltip_image_id = get_term_meta( $term->term_id, 'tooltip_image', true );
+										
+										$types[ $name ][ 'terms' ][ $term->name ][ 'tooltip_image' ] = $tooltip_image_id ? wp_get_attachment_image_url( $tooltip_image_id, 'full' ) : '';
+										$types[ $name ][ 'terms' ][ $term->name ][ 'image_size' ]    = get_term_meta( $term->term_id, 'product_attribute_image', true );
+										
+									}
+								}
+							}
+						}
 					}
 				}
 				
-				return implode( ',', $images );
+				return $types ? wp_json_encode( $types ) : '';
 			}
 			
 			
 			public function import_column_name( $columns ) {
 				// column slug => column name
-				$columns[ $this->column_id ] = esc_html__( 'Woo Variation Gallery Images', 'woo-variation-gallery' );
+				$columns[ $this->column_id ] = 'Swatches Attributes';
 				
 				return $columns;
 			}
 			
 			public function default_import_column_name( $columns ) {
 				// potential column name => column slug
-				$columns[ esc_html__( 'Woo Variation Gallery Images', 'woo-variation-gallery' ) ] = $this->column_id;
+				$columns[ esc_html__( 'Swatches Attributes', 'woo-variation-gallery' ) ] = $this->column_id;
 				
 				return $columns;
 			}
@@ -129,15 +111,46 @@
 				
 				if ( isset( $data[ $this->column_id ] ) && ! empty( $data[ $this->column_id ] ) ) {
 					
+					$raw_data = (array) json_decode( $data[ $this->column_id ], true );
 					
-					$woo_variation_gallery = array();
-					$raw_gallery_images    = (array) explode( ',', $data[ $this->column_id ] );
+					$done_taxonomy = array();
+					$done_terms    = array();
 					
-					foreach ( $raw_gallery_images as $url ) {
-						$woo_variation_gallery[] = $this->get_attachment_id_from_url( $url, $product_id );
+					foreach ( $raw_data as $attr_name => $attr ) {
+						$id       = wc_attribute_taxonomy_id_by_name( $attr_name );
+						$taxonomy = wc_attribute_taxonomy_name( $attr_name );
+						
+						
+						if ( in_array( $id, $done_taxonomy ) ) {
+							continue;
+						}
+						
+						if ( $id ) {
+							array_push( $done_taxonomy, $id );
+							
+							wc_update_attribute( $id, array( 'type' => $attr[ 'type' ] ) );
+							
+							
+							foreach ( $attr[ 'terms' ] as $term_name => $term_data ) {
+								
+								$term = get_term_by( 'name', $term_name, $taxonomy );
+								
+								if ( in_array( $id, $done_terms ) ) {
+									continue;
+								}
+								
+								if ( $term ) {
+									array_push( $done_terms, $term->term_id );
+									
+									$color = ! empty( $term_data[ 'color' ] ) ? sanitize_hex_color( $term_data[ 'color' ] ) : '';
+									update_term_meta( $term->term_id, 'product_attribute_color', $color );
+									
+									$image_id = ! empty( $term_data[ 'image' ] ) ? $this->get_attachment_id_from_url( $term_data[ 'image' ], 0 ) : '';
+									update_term_meta( $term->term_id, 'product_attribute_image', $image_id );
+								}
+							}
+						}
 					}
-					
-					update_post_meta( $product_id, 'woo_variation_gallery_images', array_values( $woo_variation_gallery ) );
 				}
 			}
 			
@@ -227,5 +240,5 @@
 			
 		}
 		
-		// new Woo_Variation_Swatches_Export_Import();
+		new Woo_Variation_Swatches_Export_Import();
 	endif;

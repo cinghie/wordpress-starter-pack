@@ -142,7 +142,7 @@ class NM_PersonalizedProduct {
 		 add_filter('ppom_order_display_value', 'ppom_hooks_format_order_value', 999, 3);
 		 
 		 // Compatible with currency switcher for option prices
-		 add_filter('ppom_option_price', 'ppom_hooks_convert_price', 10, 4);
+		 add_filter('ppom_option_price', 'ppom_hooks_convert_price', 10);
 		 add_filter('ppom_cart_line_total', 'ppom_hooks_convert_price_back');
 		 add_filter('ppom_cart_fixed_fee', 'ppom_hooks_convert_price_back');
 		 
@@ -224,8 +224,6 @@ class NM_PersonalizedProduct {
 		 **/
 		add_filter('manage_product_posts_columns' , 'ppom_admin_show_product_meta', 999);
 		add_action( 'manage_product_posts_custom_column' , 'ppom_admin_product_meta_column', 999, 2 );
-		
-		add_action('ppom_after_files_moved', 'ppom_send_files_in_email', 10, 2 );
 		
 		/**
 		 * re-calculate price matrix prices if 
@@ -503,94 +501,6 @@ class NM_PersonalizedProduct {
 	}
 	
 
-	/*
-	 * 9- adding files link in order email
-	 */
-	function add_files_link_in_email($order, $is_admin){
-		
-		if (sizeof ( $order->get_items () ) > 0) {
-			foreach ( $order->get_items () as $item ) {
-		
-				// ppom_pa($item);
-		
-				$selected_meta_id = get_post_meta ( $item ['product_id'], '_product_meta_id', true );
-				
-				$single_meta = $this -> get_product_meta ( $selected_meta_id);
-					
-				if ( $single_meta == NULL )
-					continue;
-				$product_meta = json_decode ( $single_meta->the_meta );
-		
-				if($product_meta){
-						
-					foreach ( $product_meta as $meta => $data ) {
-							
-						if ($data -> type == 'file' || $data -> type == 'facebook') {
-							
-							$product_files = '';
-							if(isset($item['product_attached_files'])) {
-								
-								$product_files =  is_array($item['product_attached_files'])  ? $item['product_attached_files'] : unserialize( $item['product_attached_files'] );	//explode(',', $item[$data -> title]);	
-							}
-							
-							$product_files = $product_files[$data -> title];
-							$product_id = $item ['product_id'];
-								
-							// ppom_pa($product_files); exit;
-							
-							if ($product_files) {
-								
-								echo '<strong>';
-								printf(__('File attached %s', 'ppom'), $data->title);
-								echo '</strong>';
-									
-								$files_found = 0;
-								foreach ( $product_files as $file ) {
-										
-									$files_found++;
-									$ext = strtolower ( substr ( strrchr ( $file, '.' ), 1 ) );
-										
-									if ($ext == 'png' || $ext == 'jpg' || $ext == 'gif' || $ext == 'jpeg')
-										$src_thumb = ppom_get_dir_url( true ) . $file;
-									else
-										$src_thumb = PPOM_URL . '/images/file.png';
-										
-									$src_file = ppom_get_dir_url() . $file;
-										
-									if(!file_exists($src_file)){
-										$file_name = nm_get_order_id($order) . '-' . $product_id . '-' . $file;		// from version 3.4
-										$src_file = ppom_get_dir_url() . 'confirmed/' . $file_name;
-									}else{
-										$file_name = $file;
-										$src_file = ppom_get_dir_url() . '/' . $file_name;
-									}
-										
-										
-									echo '<table>';
-									echo '<tr><td width="100"><img src="' . esc_url($src_thumb) . '"><td><td><a href="' . esc_url($src_file) . '">' . sprintf(__ ( "Download %s", 'ppom'), $file).'</a> ' . ppom_get_filesize_in_kb ( $file_name ) . '</td>';
-										
-									$edited_path = ppom_get_dir_path() . 'edits/' . $file;
-									if (file_exists($edited_path)) {
-										$file_url_edit = ppom_get_dir_url() .  'edits/' . $file;
-										echo '<td><a href="' . esc_url($file_url_edit) . '" target="_blank">' . __ ( 'Download edited image', 'ppom') . '</a></td>';
-									}
-										
-									echo '</tr>';
-									echo '</table>';
-								}
-							}
-		
-							
-						}
-					}
-				}
-		
-			}
-		}
-	}
-
-
-	
 	public static function activate_plugin() {
 		global $wpdb;
 	

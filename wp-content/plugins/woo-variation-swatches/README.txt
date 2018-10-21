@@ -114,8 +114,6 @@ In the free WooCommerce attribute variation plugin, besides creating size, brand
 * Automatic updates and exclusive technical support
 
 = Sites Built With WooCommerce Variation Swatches Plugin =
-<blockquote>
-
 
 <blockquote>
 <ul>
@@ -187,13 +185,11 @@ In the free WooCommerce attribute variation plugin, besides creating size, brand
    </ul>
 </li>
 
-
 <li> Built With: Nitro WooCommerce Theme
    <ul>
    		<li><a target="_blank" href="http://bit.ly/woovs-demo-nitro">sethsoldtimes.com | Niche: Dise Golf Store </a></li>
    </ul>
 </li>
-
 
 <li> Built With: Domino WooCommerce Theme
    <ul>
@@ -206,7 +202,6 @@ In the free WooCommerce attribute variation plugin, besides creating size, brand
    		<li><a target="_blank" href="http://bit.ly/kuteshop-vws-demo">torbice.s | Niche: Bag and Baggage Store </a></li>
    </ul>
 </li>
-
 </ul>
 </blockquote>
 
@@ -324,6 +319,11 @@ And your are ready to go.
 12. Global Variation Color Swatches Attribute List Preview
 
 == Changelog ==
+
+= 1.0.44 =
+
+* Add: IE-11 Support
+* Add: Exporter-Importer
 
 = 1.0.43 =
 

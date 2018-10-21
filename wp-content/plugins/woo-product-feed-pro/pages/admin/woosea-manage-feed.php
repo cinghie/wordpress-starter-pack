@@ -107,6 +107,8 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 				$class = "";
 
 				foreach ($cron_projects as $key=>$val){
+				
+					//echo '<pre>' . print_r( $val, true ) . '</pre>';
 
 					if($val['active'] == "true"){
 						$checked = "checked";

@@ -263,4 +263,10 @@ jQuery(document).ready(function($) {
 			}
 		}
 	});
+
+  	// Check if we need to UP the processing percentage 
+	$("table tbody").find('input[name="manage_record"]').each(function(){
+               	var hash = this.value;
+		var status = $(".woo-product-feed-pro-blink_off_"+hash).text();
+	});
 });

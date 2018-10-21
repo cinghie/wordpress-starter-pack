@@ -45,6 +45,13 @@ class WooSEA_Get_Products {
 	}
 
 	/**
+	 * Strip unwanted UTF chars from string
+	 */
+	public function woosea_utf8_for_xml( $string ){
+    		return preg_replace ('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', ' ', $string);
+	}	
+
+	/**
          * Function that will create an append with Google Analytics UTM parameters
          * Removes UTM paramaters that are left blank
 	 */
@@ -933,6 +940,11 @@ class WooSEA_Get_Products {
 				$nr_batches = ceil($published_products/750);
 			}
 		}
+
+		// TEST BATCHES
+		// $nr_batches = 5;
+
+
 		$offset_step_size = ceil($published_products/$nr_batches);
 
 		/**
@@ -1171,6 +1183,10 @@ class WooSEA_Get_Products {
 			// Strip out the non-line-brake character
 			$product_data['description'] = str_replace("&#xa0;", "", $product_data['description']);
 			$product_data['short_description'] = str_replace("&#xa0;", "", $product_data['short_description']);
+
+			// Strip strange UTF chars
+			$product_data['description'] = $this->woosea_utf8_for_xml( $product_data['description'] );
+			$product_data['short_description'] = $this->woosea_utf8_for_xml( $product_data['short_description'] );
 
 			/**
 		 	* Check of we need to add Google Analytics UTM parameters
@@ -1425,7 +1441,6 @@ class WooSEA_Get_Products {
                         		// Strip HTML from (short) description
                         		$product_data['description'] = strip_tags($product_data['description']);
                         		$product_data['short_description'] = strip_tags($product_data['short_description']);
-
                         		// Strip out Visual Composer short codes
                         		$product_data['description'] = preg_replace( '/\[(.*?)\]/', ' ', $product_data['description'] );
                         		$product_data['short_description'] = preg_replace( '/\[(.*?)\]/', ' ', $product_data['short_description'] );
@@ -1433,6 +1448,10 @@ class WooSEA_Get_Products {
                         		// Strip out the non-line-brake character
                         		$product_data['description'] = str_replace("&#xa0;", "", $product_data['description']);
                         		$product_data['short_description'] = str_replace("&#xa0;", "", $product_data['short_description']);
+			
+					// Strip unwanted UTF8 chars
+					$product_data['description'] = $this->woosea_utf8_for_xml( $product_data['description'] );
+					$product_data['short_description'] = $this->woosea_utf8_for_xml( $product_data['short_description'] );
 				}
 
 				/**
