@@ -40,20 +40,23 @@ wp-admin/
 wp-includes/
 
 # WP Content Files
+wp-content/backup-db/*
+wp-content/backups/*
+wp-content/cache/*
 wp-content/languages/themes/twentyfifteen-it_IT.po
 wp-content/languages/themes/twentyseventeen-it_IT.po
 wp-content/languages/themes/twentysixteen-it_IT.po
 wp-content/mu-plugins/
 wp-content/plugins/gogodigital-joomla-to-wordpress/
 wp-content/plugins/hello.php
-wp-content/themes/twentyfifteen/
-wp-content/themes/twentyseventeen/
-wp-content/themes/twentysixteen/
 wp-content/upgrade/
+wp-content/wflogs/*
 wp-content/wp-cache-config.php
 
 # WP Included
 !wp-content/languages/
+!wp-content/themes/storefront/
+!wp-content/themes/storefront-child/
 !wp-content/themes/shapely/
 !wp-content/themes/shapely-child/
 !wp-content/themes/wp-bootstrap-starter/
