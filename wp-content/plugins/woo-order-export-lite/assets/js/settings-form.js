@@ -271,6 +271,52 @@ jQuery( document ).ready( function( $ ) {
 		} )
 	} )
 
+
+
+	$( '.segment_choice' ).click( function () {
+
+		$('.segment_choice').removeClass('active');
+		$(this).addClass('active');
+
+		$('.settings-segment').removeClass('active');
+		$( '#' + $( this ).data( 'segment' ) + '_unselected_segment' ).addClass('active');
+
+		window.location.href = $(this).attr('href');
+
+                jQuery('.tab-actions-forms .segment-form').removeClass('active').find('input,select').val('');
+	} );
+
+	setTimeout( function () {
+		if (window.location.hash.indexOf('segment') !== -1) {
+			$('.segment_choice[href="'+ window.location.hash +'"]').click()
+		} else {
+			$('.segment_choice').first().click()
+		}
+	}, 1000 );
+
+
+	let text_area = $( '#destination-email-body' );
+
+	$( '#show-email-body' ).click( function () {
+		text_area.toggle();
+	} );
+
+	setTimeout( function (  ) {
+		if ( ! $( '#destination-email-body textarea' ).val() ) {
+			text_area.hide();
+		}
+	}, 0);
+
+
+	$( '#clear_selected_fields' ).click( function () {
+		var confirm = window.confirm(localize_settings_form.remove_all_fields_confirm);
+		if ( confirm ) {
+			if ( $( '#order_fields .mapping_row-delete_field' ).length > 0 ) {
+				$( '#order_fields .mapping_row-delete_field' ).click();
+			}
+		}
+	} );
+
 } )
 
 function remove_custom_field( item ) {
@@ -278,153 +324,276 @@ function remove_custom_field( item ) {
 	return false;
 }
 
-function create_fields( format , format_changed) {
-	jQuery( '#export_job_settings' ).prepend( jQuery( "#fields_control_products" ) );
-	jQuery( '#export_job_settings' ).prepend( jQuery( "#fields_control_coupons" ) );
-	jQuery( "#order_fields" ).html();
-	jQuery( "#modal_content" ).html( "" );
+function make_repeat_options( index ) {
+	var repeat_select = jQuery( '<select name="duplicated_fields_settings[' + index + '][repeat]"></select>' );
+	var repeat_options_html = {};
+
+	jQuery.each(localize_settings_form.repeats, function(key, currentValue) {
+		repeat_select.append( '<option value="' + key + '">' + currentValue + '</option>' );
+		repeat_options_html[key] = [];
+	});
+
+	var duplicate_settings = window.duplicated_fields_settings[index] || {};
+	repeat_select.val(duplicate_settings.repeat);
+
+	// rows options
+	if ( index === 'products' ) {
+		var populate_check_on = duplicate_settings.populate_other_columns === '1' ? 'checked' : '';
+		var populate_check_off = duplicate_settings.populate_other_columns === '1' ? '' : 'checked';
+		var populate_check_html = '<div class="">' +
+		                          '<label>' +  localize_settings_form.js_tpl_popup.fill_order_columns_label + '</label>' +
+		                          '<label>' +
+		                          '<input type=radio name="duplicated_fields_settings[' + index + '][populate_other_columns]" value=1 ' + populate_check_on + ' >' +
+		                          localize_settings_form.js_tpl_popup.for_all_rows_label + '</label>' +
+		                          '<label>' +
+		                          '<input type=radio name="duplicated_fields_settings[' + index + '][populate_other_columns]" value=0 ' + populate_check_off + ' >' +
+		                          localize_settings_form.js_tpl_popup.for_first_row_only_label + '</label>' +
+		                          '</div>';
+		repeat_options_html['rows'].push(populate_check_html);
+	}
+
+	// columns options
+	var max_cols        = ( typeof(duplicate_settings.max_cols) !== 'undefined' ) ? duplicate_settings.max_cols : "10";
+
+	var max_cols_html = '<div class="">' +
+	                    '<label>' + localize_settings_form.js_tpl_popup.add + '</label>' +
+	                    '<input type=text size=2 name="duplicated_fields_settings['+ index +'][max_cols]" value="'+ max_cols +'"> ' +
+	                    '<label>' + localize_settings_form.repeats.columns + '</label>' +
+	                    '</div>';
+
+	var grouping_by_product_check = duplicate_settings.group_by === 'product' ? 'checked' : '';
+	var group_by_item_check_html = '<div class="">' +
+	                               '<input type="hidden" name="duplicated_fields_settings[' + index + '][group_by]" value="as_independent_columns" >' +
+	                               '<input type="checkbox" name="duplicated_fields_settings[' + index + '][group_by]" value="product" ' + grouping_by_product_check +'>' +
+	                               '<label>' + localize_settings_form.js_tpl_popup.grouping_by[index] +'</label>' +
+	                               '</div>';
+	repeat_options_html['columns'].push(max_cols_html);
+	repeat_options_html['columns'].push(group_by_item_check_html);
+
+	// inside one cell options
+	var line_delimiter  = ( typeof(duplicate_settings.line_delimiter) !== 'undefined' ) ? duplicate_settings.line_delimiter : '\\n';
+	var line_delimiter_html = '<div class="">' +
+	                          '<label>' + localize_settings_form.js_tpl_popup.split_values_by +
+	                          '<input class="input-delimiter" type=text size=1 name="duplicated_fields_settings['+ index +'][line_delimiter]" value="'+ line_delimiter +'">' +
+	                          '</label>' +
+	                          '</div>';
+	repeat_options_html['inside_one_cell'].push(line_delimiter_html);
+
+	var popup_options = jQuery('<div class=""></div>');
+	popup_options.append(jQuery('<div class="segment-header">' + '<label>' + localize_settings_form.js_tpl_popup.add + ' ' + index + ' '  + localize_settings_form.js_tpl_popup.as + '</label>' + '</div>').append(repeat_select) );
+
+	jQuery.each(repeat_options_html, function(key, currentValue) {
+		popup_options.append(jQuery('<div class="display_as duplicate_' + key + '_options"></div>').append(currentValue));
+	});
+
+	popup_options.append("<hr>");
+
+	repeat_select.off('change').on('change', function(){
+		jQuery(this).parent().siblings('.display_as').removeClass('active');
+		jQuery(this).parent().siblings('.duplicate_' + this.value + '_options').addClass('active');
+	}).trigger('change');
+
+	return popup_options;
+}
+
+function create_selected_fields( old_output_format, format , format_changed) {
+
+	var $old_format_order_fields = jQuery( "#order_fields" ).clone();
+
+        setTimeout(function () {
+            create_unselected_fields( old_output_format, format , format_changed, $old_format_order_fields );
+        }, 0);
+
+	//jQuery( '#export_job_settings' ).prepend( jQuery( "#fields_control_products" ) );
+	//jQuery( '#export_job_settings' ).prepend( jQuery( "#fields_control_coupons" ) );
+
+        jQuery( "#fields .fields-control-block").addClass('hidden');
+        jQuery( "#order_fields").addClass('non_flat_height');
+
+	/*
+	Clone elements for using in create_modal_fields ($old_format_order_fields) and
+	before insert fields in 'order_fields' element ($old_format_modal_content) for
+	able to migrate checkbox values from pop up to 'order_fields' element and vice versa
+	*/
 
 	var html = '';
-	jQuery.each( window['order_fields'], function( index, value ) {
-		var checked = ( value.checked == 1 ) ? 'checked' : '';
-		var colname = value.colname;
+        var fields_control_block_elements = [];
 
-		colname     = escapeStr(colname);
-		value.label = escapeStr(value.label);
-		index       = escapeStr(index);
-		value.value = escapeStr(value.value);
+	if ( is_flat_format( format ) ) {
+		fields_control_block_elements.push( make_repeat_options( 'products' ) );
+		fields_control_block_elements.push( make_repeat_options( 'coupons' ) );
+	}
 
-//                         console.log(index);
-//                         console.log(value);
+	jQuery.each( window['selected_order_fields'], function( i, value ) {
 
-		if(format_changed) {
-			if( is_flat_format( format ) )
-				colname = value.label;
-			else if ( is_xml_format( format ) )
-				colname = to_xml_tags( index );
-			else
-				colname = index;;
-		}
+            var index   = value.key;
+            var colname = value.colname;
 
+            colname     = escapeStr(colname);
+            value.label = escapeStr(value.label);
+            index       = escapeStr(index);
+            value.value = escapeStr(value.value);
 
-		if ( index == 'products' || index == 'coupons' ) {
-			var sel_rows = ( value.repeat == 'rows' ) ? 'checked' : '';
-			var sel_cols = ( value.repeat == 'columns' ) ? 'checked' : '';
-			var max_cols = ( typeof(value.max_cols) !== 'undefined' ) ? value.max_cols : "10";
-			var modal = '<div id="modal-manage-' + index + '" style="display:none;"><p>';
-			modal += create_modal_fields( format, index, format_changed);
-			modal += '</p></div>';
-			jQuery( "#modal_content" ).append( modal );
-			var row = '<li class="mapping_row segment_' + value.segment + '">\
-                                                        <div class="mapping_col_1">\
-                                                                <input type=hidden name="orders[segment][' + index + ']"  value="' + value.segment + '">\
-                                                                <input type=hidden name="orders[label][' + index + ']"  value="' + value.label + '">\
-                                                                <input type=hidden name="orders[exported][' + index + ']"  value="0">\
-                                                                <input type=checkbox name="orders[exported][' + index + ']"  ' + checked + ' value="1">\
-                                                        </div>\
-                                                        <div class="mapping_col_2">' + value.label + '</div>\
-                                                        <div class="mapping_col_3">';
-			if ( is_flat_format( format ) ) {
+            if(format_changed) {
+                if( is_flat_format( format ) )
+                    colname = value.label;
+                else if ( is_xml_format( format ) )
+                    colname = to_xml_tags( index );
+                else
+                    colname = index;
+            }
 
-				var popup_options = localize_settings_form.js_tpl_popup;
-				popup_options = popup_options.replace('%s', '<input type=radio name="orders[repeat][' + index + ']" value="columns" ' + sel_cols + ' >')
-				popup_options = popup_options.replace('%s', '<input type=text size=2 name="orders[max_cols][' + index + ']" value="'+max_cols+'">')
-				popup_options = popup_options.replace('%s', '<input type=radio name="orders[repeat][' + index + ']" value="rows" ' + sel_rows + ' >')
-				row += 	popup_options;
-			}
-			row += '<input class="mapping_fieldname" type=input name="orders[colname][' + index + ']" value="' + colname + '">\
-                                                        <input type="button" class="button-primary" id="btn_modal_manage_' + index + '" value="' + localize_settings_form.set_up_fields_to_export + '" /><a href="#TB_inline?width=600&height=550&inlineId=modal-manage-' + index + '" class="thickbox " id="link_modal_manage_' + index + '"> </a></div>\
-                                                </li>\
+            if ( index == 'products' || index == 'coupons' ) {
+
+                var row = '';
+
+                jQuery( "#fields_control .segment_" + index ).remove();
+
+                if( ! is_flat_format( format ) ) {
+                    // TODO fix segment names for product and coupon fields
+                    row = '<li class="mapping_row segment_' + value.segment + 's' + ' flat-'+ index +'-group" style="display: none">\
+                            <div class="mapping_col_1" style="width: 10px">\
+                                    <input type=hidden name="orders[][segment]"  value="' + value.segment + '">\
+                                    <input type=hidden name="orders[][key]"  value="' + index + '">\
+                                    <input type=hidden name="orders[][label]"  value="' + value.label + '">\
+                                    <input type=hidden name="orders[][format]"  value="'+ value.format +'">\
+                            </div>\
+                            <div class="mapping_col_2">' + value.label + '</div>\
+                            <div class="mapping_col_3">';
+                    row += '<div class="segment_' + index + '">';
+                    row += '<input class="mapping_fieldname" type=input name="orders[][colname]" value="' + colname + '">';
+                    row += '</div>';
+                    row += '</div>';
+                    row += '<ul id="sortable_'+ index +'">'+ create_group_fields( format, index, format_changed, old_output_format, $old_format_order_fields) +'</ul>';
+                    row += '</li>';
+                } else {
+                    row = '<div class="hide flat-'+ index +'-group">';
+                    row += '<input type=hidden name="orders[][segment]"  value="' + value.segment + '">';
+                    row += '<input type=hidden name="orders[][key]"  value="' + index + '">';
+                    row += '<input class="mapping_fieldname" type=hidden name="orders[][colname]" value="' + colname + '">';
+                    row += '<input type=hidden name="orders[][label]"  value="' + value.label + '">';
+                    row += '<input type=hidden name="orders[][format]"  value="'+ value.format +'"></div>';
+
+                }
+
+            }
+            else {
+
+                if ( ! is_flat_format( format ) && ( value.segment === "products" || value.segment === "coupons" ) ) {
+                    return true;
+                }
+
+                var value_part = ''
+                var label_part = '';
+                var delete_btn = '<div class="mapping_col_3 mapping_row-delete_field_block"><a href="" class="mapping_row-delete_field"><span class="dashicons dashicons-trash"></span></a></div>';
+                var label_prefix = '';
+				var index_api = index;
+
+                if ( index.indexOf( 'static_field' ) >= 0 ) {
+                    value_part = '<div class="mapping_col_3"><input class="mapping_fieldname" type=input name="orders[][value]" value="' + value.value + '"></div>';
+                }
+
+                // label prefix for products and coupons
+                if ( is_flat_format(format) ) {
+                    if ( value.segment === 'products' ) {
+                        label_prefix = '[P] ';
+						index_api = index_api.replace("plain_products_", "");
+                    }
+                    if ( value.segment === 'coupons' ) {
+                        label_prefix = '[C] ';
+						index_api = index_api.replace("plain_coupons_", "");
+                    }
+                }
+                var row = '<li class="mapping_row segment_' + value.segment + '">\
+                            <div class="mapping_col_1" style="width: 10px">\
+                                    <input type=hidden name="orders[][segment]"  value="' + value.segment + '">\
+                                    <input type=hidden name="orders[][key]"  value="' + index + '">\
+                                    <input type=hidden name="orders[][label]"  value="' + value.label + '">\
+                                    <input type=hidden name="orders[][format]"  value="' + value.format + '">\
+                            </div>\
+                            <div class="mapping_col_2" title="'+index_api+'">' + '<span class="field-prefix">' + label_prefix + '</span>' + value.label + label_part + '</div>\
+                            <div class="mapping_col_3"><input class="mapping_fieldname" type=input name="orders[][colname]" value="' + colname + '"></div> ' + value_part + delete_btn + '\
+                        </li>\
                         ';
-		}
-		else {
-			var value_part = ''
-			var label_part = '';
-			if ( index.indexOf( 'custom_field' ) >= 0 ) {
-				value_part = '<div class="mapping_col_3"><input class="mapping_fieldname" type=input name="orders[value][' + index + ']" value="' + value.value + '"></div>';
-				label_part = '<a href="#" onclick="return remove_custom_field(this);" style="float: right;"><span class="ui-icon ui-icon-trash"></span></a>';
-			}
-			else if ( index.charAt( 0 ) == '_'  || !value.default) {
-				label_part = '<a href="#" onclick="return remove_custom_field(this);" style="float: right;"><span class="ui-icon ui-icon-trash"></span></a>';
-			}
+            }
 
-			var row = '<li class="mapping_row segment_' + value.segment + '">\
-                                                        <div class="mapping_col_1">\
-                                                                <input type=hidden name="orders[segment][' + index + ']"  value="' + value.segment + '">\
-                                                                <input type=hidden name="orders[label][' + index + ']"  value="' + value.label + '">\
-                                                                <input type=hidden name="orders[exported][' + index + ']"  value="0">\
-                                                                <input type=checkbox name="orders[exported][' + index + ']"  ' + checked + ' value="1">\
-                                                        </div>\
-                                                        <div class="mapping_col_2">' + value.label + label_part + '</div>\
-                                                        <div class="mapping_col_3"><input class="mapping_fieldname" type=input name="orders[colname][' + index + ']" value="' + colname + '"></div> ' + value_part + '\
-                                                </li>\
-                        ';
-		}
-		html += row;
+            html += row;
+
 	} );
 
 	jQuery( "#order_fields" ).html( html );
-	jQuery( '#modal-manage-products' ).prepend( jQuery( "#fields_control_products" ) );
-	jQuery( '#modal-manage-coupons' ).prepend( jQuery( "#fields_control_coupons" ) );
-	jQuery( "#fields_control_products" ).css( 'display', 'inline-block' );
-	jQuery( "#fields_control_coupons" ).css( 'display', 'inline-block' );
-	add_bind_for_custom_fields( 'products', output_format, jQuery( "#sort_products" ) );
-	add_bind_for_custom_fields( 'coupons', output_format, jQuery( "#sort_coupons" ) );
 
+        if ( ! jQuery( "#fields .fields-control-block").html() ) {
+	        fields_control_block_elements.forEach(function(currentValue){
+		        jQuery( "#fields .fields-control-block").append(currentValue);
+	        });
+        }
+
+        if ( fields_control_block_elements.length > 0 ) {
+            jQuery( "#fields .fields-control-block").removeClass('hidden');
+	        jQuery( "#order_fields").removeClass('non_flat_height');
+        }
+
+        add_bind_for_custom_fields( 'products', output_format, jQuery( "#order_fields" ) );
+        add_bind_for_custom_fields( 'coupons', output_format, jQuery( "#order_fields" ) );
+
+        jQuery( "#sortable_products" ).sortable();
+        jQuery( "#sortable_coupons" ).sortable();
+
+        check_sortable_groups();
+
+        moving_products_and_coupons_group_blocks_to_first_item(output_format);
 }
 
+function create_group_fields( format, index_p, format_changed ) {
 
+    var html = '';
 
-function create_modal_fields( format, index_p, format_changed ) {
-	//console.log( 'order_' + index_p + '_fields', window['order_' + index_p + '_fields'] );
+    jQuery.each( window['selected_order_' + index_p + '_fields'], function( i, value ) {
 
-	var modal = "<div id='sort_" + index_p + "'>";
-	jQuery.each( window['order_' + index_p + '_fields'], function( index, value ) {
-		var checked = ( value.checked == 1 ) ? 'checked' : '';
-		var colname = value.colname;
+        var index   = value.key;
+	var colname = value.colname;
 
-//                         console.log(index);
-//                         console.log(value);
+        colname     = escapeStr(colname);
+        value.label = escapeStr(value.label);
+        index       = escapeStr(index);
+        value.value = escapeStr(value.value);
 
+        if(format_changed) {
+            if( is_flat_format( format ) ) {
+                colname = value.label;
+            } else {
+                colname = index.replace('plain_' + index_p + '_', '');
+                if ( is_xml_format( format ) )
+                        colname = to_xml_tags( colname );
+            }
+        }
 
-		colname     = escapeStr(colname);
-		value.label = escapeStr(value.label);
-		index       = escapeStr(index);
-		value.value = escapeStr(value.value);
+        var value_part = '';
+        var label_part = '';
+        var delete_btn = '<div class="mapping_col_3 mapping_row-delete_field_block"><a href="#" class="mapping_row-delete_field"><span class="dashicons dashicons-trash"></span></a></div>';
 
-		if(format_changed) {
-			if( is_flat_format( format ) )
-				colname = value.label;
-			else if ( is_xml_format( format ) )
-				colname = to_xml_tags( index );
-			else
-				colname = index;;
-		}
+        if ( index.indexOf( 'static_field' ) >= 0 ) {
+                value_part = '<div class="mapping_col_3"><input class="mapping_fieldname" type=input name="' + index_p + '[][value]" value="' + value.value + '"></div>';
+        }
 
-		var value_part = ''
-		var label_part = '';
-		if ( index.indexOf( 'custom_field' ) >= 0 ) {
-			value_part = '<div class="mapping_col_3"><input class="mapping_fieldname" type=input name="' + index_p + '[value][' + index + ']" value="' + value.value + '"></div>';
-			label_part = '<a href="#" onclick="return remove_custom_field(this);" style="float: right;"><span class="ui-icon ui-icon-trash"></span></a>';
-		}
-		else if ( index.charAt( 0 ) == '_'  || index.substr( 0,3 ) == 'pa_' || !value.default) {
-			label_part = '<a href="#" onclick="return remove_custom_field(this);" style="float: right;"><span class="ui-icon ui-icon-trash"></span></a>';
-		}
+        var row = '<li class="mapping_row segment_' + index_p + '">\
+                    <div class="mapping_col_1" style="width: 10px">\
+                        <input type=hidden name="'+ index_p +'[][label]"  value="' + value.label + '">\
+                        <input type=hidden name="'+ index_p +'[][key]"  value="' + index + '">\
+                        <input type=hidden name="'+ index_p +'[][segment]"  value="' + index_p + '">\
+                        <input type=hidden name="'+ index_p +'[][format]"  value="' + value.format + '">\
+                    </div>\
+                    <div class="mapping_col_2" title="'+index+'">' + value.label + label_part + '</div>\
+                    <div class="mapping_col_3"><input class="mapping_fieldname" type=input name="'+ index_p +'[][colname]" value="' + colname + '"></div> ' + value_part + delete_btn + '\
+            </li>\
+            ';
 
-		var row = '<li class="mapping_row segment_modal_' + index + '">\
-                                                        <div class="mapping_col_1">\
-                                                                <input type=hidden name="' + index_p + '[label][' + index + ']"  value="' + value.label + '">\
-                                                                <input type=hidden name="' + index_p + '[exported][' + index + ']"  value="0">\
-                                                                <input type=checkbox name="' + index_p + '[exported][' + index + ']"  ' + checked + ' value="1">\
-                                                        </div>\
-                                                        <div class="mapping_col_2">' + value.label + label_part + '</div>\
-                                                        <div class="mapping_col_3"><input class="mapping_fieldname" type=input name="' + index_p + '[colname][' + index + ']" value="' + colname + '"></div>' + value_part + '\
-                                                </li>\
-                        ';
-		modal += row;
-	} );
-	modal += "</div>";
-	return modal;
+        html += row;
+
+    } );
+
+    return html;
 }
 
 //for XML labels
@@ -458,30 +627,15 @@ function show_summary_report(ext) {
 	} else  {
 		jQuery( '#summary_report_by_products' ).hide();
 		jQuery( '#summary_setup_fields' ).hide();
-		jQuery( '#summary_report_by_products_checkbox' ).prop('checked', false);
+		jQuery( '#summary_report_by_products_checkbox' ).prop('checked', false).trigger('change');
 	}
 }
 
 function modal_buttons()
 {
-	jQuery('body').on('click', '#btn_modal_manage_products', function() {
-
-		jQuery('input[name=custom_meta_products_mode]').change();
-		jQuery('#link_modal_manage_products').click();
-
-		return false;
-	});
-
-	jQuery('body').on('click', '#btn_modal_manage_coupons', function() {
-
-		jQuery('#custom_meta_coupons_mode_all').attr('checked', 'checked');
-		jQuery('#custom_meta_coupons_mode_all').change();
-		jQuery('#custom_meta_coupons_mode_all').change();
-		jQuery('#link_modal_manage_coupons').click();
-
-		return false;
-	});
-
+    jQuery('input[name=custom_meta_products_mode]').change();
+    jQuery('#custom_meta_coupons_mode_all').attr('checked', 'checked');
+    jQuery('#custom_meta_coupons_mode_all').change();
 }
 
 jQuery( document ).ready( function( $ ) {
@@ -511,13 +665,20 @@ jQuery( document ).ready( function( $ ) {
 //		jQuery( '#' + output_format + '_options' ).show();
 
 	//jQuery('#fields').toggle(); //debug
-	create_fields( output_format, false );
+	create_selected_fields( null, output_format, false );
 	$( '#test_reply_div' ).hide();
 //		jQuery( '#' + output_format + '_options' ).hide();
 
 	jQuery( "#sort_products" ).sortable()/*.disableSelection()*/;
 	jQuery( "#sort_coupons" ).sortable()/*.disableSelection()*/;
-	jQuery( "#order_fields" ).sortable({ scroll: true, scrollSensitivity: 100, scrollSpeed: 100 });/*.disableSelection()*/;
+	jQuery( "#order_fields" ).sortable({
+            scroll: true,
+            scrollSensitivity: 100,
+            scrollSpeed: 100,
+            stop: function ( event, ui ) {
+                moving_products_and_coupons_group_blocks_to_first_item(jQuery( '.output_format:checked' ).val());
+            }
+        });
 
 
 	modal_buttons();
@@ -559,8 +720,11 @@ jQuery( document ).ready( function( $ ) {
 			jQuery( this ).next().addClass( 'ui-icon-triangle-1-n' );
 			jQuery( '#' + output_format + '_options' ).hide();
 			jQuery( '#' + new_format + '_options' ).show();
+			old_output_format = output_format;
 			output_format = new_format;
-			create_fields( output_format, true )
+                        synch_selected_fields(old_output_format, output_format);
+                        create_selected_fields( old_output_format, output_format, true );
+			jQuery( '.field_section' ).prop('checked', true);
 			jQuery( '#output_preview, #output_preview_csv' ).hide();
 //				jQuery( '#fields' ).hide();
 //				jQuery( '#fields_control' ).hide();
@@ -579,6 +743,7 @@ jQuery( document ).ready( function( $ ) {
 			}
 		}
 
+                check_sortable_groups();
 	} );
 
 	$( '#date_format_block select' ).change( function() {
@@ -842,7 +1007,7 @@ jQuery( document ).ready( function( $ ) {
 				return false;
 			}
 		}
-		if ( $( '#order_fields input[type=checkbox]:checked' ).size() == 0 )
+		if ( $( '#order_fields > li' ).size() == 0 )
 		{
 			alert( export_messages.no_fields );
 			return false;
@@ -873,7 +1038,7 @@ jQuery( document ).ready( function( $ ) {
 			}
 		}
 
-		if ( $( '#order_fields input[type=checkbox]:checked' ).size() == 0 )
+		if ( $( '#order_fields > li' ).size() == 0 )
 		{
 			alert( export_messages.no_fields );
 			return false;
@@ -910,20 +1075,23 @@ jQuery( document ).ready( function( $ ) {
 			return false;
 		}
 		setFormSubmitting();
-
 		var data = 'json=' + makeJsonVar( $( '#export_job_settings' ) )
 		data = data + "&action=order_exporter&method=save_settings&mode=" + mode + "&id=" + job_id;
 		$.post( ajaxurl, data, function( response ) {
-//			if ( mode == '<?php echo WC_Order_Export_Manage::EXPORT_SCHEDULE; ?>' ) {
-//				document.location = '<?php echo admin_url( 'admin.php?page=wc-order-export&tab=schedules&save=y' ) ?>';
-//			} else if ( mode == '<?php echo WC_Order_Export_Manage::EXPORT_PROFILE; ?>' ) {
-//				document.location = '<?php echo admin_url( 'admin.php?page=wc-order-export&tab=profiles&save=y' ) ?>';
-//			} else if ( mode == '<?php echo WC_Order_Export_Manage::EXPORT_ORDER_ACTION; ?>' ) {
-//				document.location = '<?php echo admin_url( 'admin.php?page=wc-order-export&tab=order_actions&save=y' ) ?>';
-//			} else {
-//				document.location = '<?php echo admin_url( 'admin.php?page=wc-order-export&tab=export&save=y' ) ?>';
-//			}
 			document.location = settings_form.save_settings_url;
+		}, "json" );
+		return false;
+	} );
+	$( "#save-only-btn" ).click( function() {
+		if (!validateExport()) {
+			return false;
+		}
+		setFormSubmitting();
+		var data = 'json=' + makeJsonVar( $( '#export_job_settings' ) )
+		data = data + "&action=order_exporter&method=save_settings&mode=" + mode + "&id=" + job_id;
+		$('#Settings_updated').hide();
+		$.post( ajaxurl, data, function( response ) {
+				$('#Settings_updated').show().delay(5000).fadeOut();
 		}, "json" );
 		return false;
 	} );
@@ -964,16 +1132,131 @@ jQuery( document ).ready( function( $ ) {
 	show_summary_report( output_format );
 	if( !summary_mode )
 		jQuery('#summary_setup_fields').hide();
+
 	//logic for setup link
 	jQuery( "#summary_report_by_products_checkbox" ).change( function() {
-		if( jQuery(this).prop('checked') )
-			jQuery('#summary_setup_fields').show();
-		else
-			jQuery('#summary_setup_fields').hide();
+		var summary_report_fields = [];
+		summary_report_fields.push($('#products_unselected_segment input[value="plain_products_summary_report_total_qty"]').parents('li'));
+		summary_report_fields.push($('#products_unselected_segment input[value="plain_products_summary_report_total_amount"]').parents('li'));
+
+            jQuery('#manage_fields').toggleClass('summary-products-report', !!jQuery(this).prop('checked'));
+
+            $('#unselected_fields .segment_choice').removeClass('active');
+            $('#unselected_fields_list .settings-segment').removeClass('active');
+
+            if (jQuery(this).prop('checked')) {
+                var segment = 'products';
+
+                // hide product fields starts with 'line' and 'qty'
+	            $( '#products_unselected_segment input, #order_fields input' ).map( function () {
+		            var matches = $( this ).attr( 'value' ).match( /plain_products_(line|qty).*/ );
+		            if ( matches ) {
+			            $( this ).closest( '.mapping_row' ).hide();
+		            }
+	            } );
+
+	            // purge summary report fields before insert
+	            $('#order_fields input[value="plain_products_summary_report_total_qty"]').closest('.mapping_row').remove();
+	            $('#order_fields input[value="plain_products_summary_report_total_amount"]').closest('.mapping_row').remove();
+
+	            // insert summary report fields
+	            jQuery.each( summary_report_fields, function( i, value ) {
+		            $(value).show();
+		            var $field_to_copy = $(value).clone();
+		            $field_to_copy
+			            .attr('style', '')
+			            .addClass('ui-draggabled')
+			            .removeClass('segment_field')
+			            .find('input').prop('disabled', false);
+
+		            jQuery('#manage_fields #order_fields').append($field_to_copy);
+	            } );
+
+            } else {
+                var segment = window.location.hash.replace('#segment=', '');
+
+	            // show product fields starts with 'line' and 'qty'
+	            $( '#products_unselected_segment input, #order_fields input' ).map( function () {
+		            var matches = $( this ).attr( 'value' ).match( /plain_products_(line|qty).*/ );
+		            if ( matches ) {
+			            $( this ).closest( '.mapping_row' ).show();
+		            }
+	            } );
+
+	            // purge summary report fields
+	            $('#order_fields input[value="plain_products_summary_report_total_qty"]').closest('.mapping_row').remove();
+	            $('#order_fields input[value="plain_products_summary_report_total_amount"]').closest('.mapping_row').remove();
+
+	            jQuery.each( summary_report_fields, function( i, value ) {
+		            $(value).hide();
+	            } );
+            }
+
+            $('#unselected_fields .segment_choice[data-segment="'+ segment +'"]').addClass('active');
+            $('#unselected_fields_list .settings-segment#'+ segment +'_unselected_segment').addClass('active');
+
 	});
+
+        setTimeout(function () {
+           jQuery( "#summary_report_by_products_checkbox" ).trigger('change');
+        }, 1)
 
 	// this line must be last , we don't have any errors
 	jQuery('#JS_error_onload').hide();
+
+        jQuery('#order_fields').on('click', '.mapping_row-delete_field', function () {
+
+            $(this).closest('.mapping_row').remove();
+
+            check_sortable_groups();
+
+            return false;
+        });
+
+        jQuery('.tab-controls .tab-actions-buttons .add-meta').on('click', function () {
+
+            jQuery('.tab-actions-forms .segment-form').removeClass('active');
+
+            if (jQuery('.tab-actions-forms .div_meta.segment-form.' +
+                jQuery('#unselected_fields .segment_choice.active').attr('data-segment') + '-segment'
+            ).length) {
+                jQuery('.tab-actions-forms .div_meta.segment-form.' +
+                    jQuery('#unselected_fields .segment_choice.active').attr('data-segment') + '-segment'
+                ).addClass('active');
+            } else {
+                jQuery('.tab-actions-forms .div_meta.segment-form.all-segments').addClass('active');
+            }
+
+            return false;
+        });
+
+        jQuery('.tab-controls .tab-actions-buttons .add-custom').on('click', function () {
+
+            jQuery('.tab-actions-forms .segment-form').removeClass('active');
+
+            if (jQuery('.tab-actions-forms .div_custom.segment-form.' +
+                jQuery('#unselected_fields .segment_choice.active').attr('data-segment') + '-segment'
+            ).length) {
+                jQuery('.tab-actions-forms .div_custom.segment-form.' +
+                    jQuery('#unselected_fields .segment_choice.active').attr('data-segment') + '-segment'
+                ).addClass('active');
+            } else {
+                jQuery('.tab-actions-forms .div_custom.segment-form.all-segments').addClass('active');
+            }
+
+            return false;
+        });
+
+        jQuery('.tab-controls .button-cancel').on('click', function () {
+
+            jQuery(this).closest('.segment-form')
+                    .removeClass('active')
+                    .find('input,select').val('');
+
+            return false;
+        });
+
+
 } );
 
 function is_flat_format(format) {
@@ -991,4 +1274,370 @@ function reset_date_filter_for_cron() {
 		jQuery( "#to_date" ).val("");
 		try_color_date_filter();
 	}
+}
+
+function create_unselected_fields( old_output_format, format , format_changed, old_format_order_fields ) {
+
+    var $unselected_fields_list = jQuery('#unselected_fields_list');
+
+    var $unselected_segment_id = '%s_unselected_segment';
+
+    var active_segment_id = $unselected_fields_list.find('.section.active').attr('id');
+
+    $unselected_fields_list.html("");
+    $unselected_fields_list.append( make_segments( $unselected_segment_id ) );
+
+    if (active_segment_id) {
+        jQuery('#unselected_fields_list #' + active_segment_id).addClass('active');
+    }
+
+    jQuery.each( window['all_fields'], function( segment, fields ) {
+
+        fields.forEach(function (value) {
+
+            var $unselected_field_segment = jQuery( '#' + sprintf( $unselected_segment_id, segment ) );
+            var index = value.key;
+
+            $unselected_field_segment.append(
+                make_unselected_field( index, value, format, format_changed, segment )
+            );
+
+            activate_draggable_field(
+                $unselected_field_segment.find('.segment_field'),
+                segment,
+                format
+            );
+        })
+
+    });
+}
+
+function make_segments($segment_id) {
+
+    var $segments_list = jQuery('<ul></ul>');
+
+    jQuery.each( window['order_segments'], function( index, label ) {
+        var $segment = jQuery('<div id="' + sprintf($segment_id, index)  + '" class="section settings-segment"></div>')
+        $segments_list.append($segment);
+    });
+
+    return $segments_list;
+}
+
+function sprintf( format ) {
+	for ( var i = 1; i < arguments.length; i ++ ) {
+		format = format.replace( /%s/, arguments[i] );
+	}
+	return format;
+}
+
+function make_unselected_field($index, $field_data, $format, $format_changed, $segment ) {
+
+    var label_part = '';
+    var label_prefix = '';
+    var value_part = '';
+
+    var $mapping_col_1 = jQuery('<div class="mapping_col_1" style="width: 10px"></div>');
+
+    var $mapping_col_2 = jQuery('<div class="mapping_col_2" title="'+escapeStr($index)+'"></div>');
+    var $mapping_col_3 = jQuery('<div class="mapping_col_3"></div>');
+
+    var colname = escapeStr($field_data.colname);
+
+    var _index = $index;
+
+    if ( is_flat_format($format) && ['products', 'coupons'].indexOf($segment) > -1 ) {
+        _index = 'plain_' + $segment + '_' + $index;
+    }
+
+    if($format_changed) {
+        if( is_flat_format( $format ) )
+            colname = $field_data.label;
+        else {
+
+            colname = $index;
+
+            if ( is_xml_format( $format ) )
+                    colname = to_xml_tags( colname );
+        }
+    }
+
+    if ( ! is_flat_format($format) && ['products', 'coupons'].indexOf($segment) > -1 ) {
+
+        $mapping_col_1
+                .append( make_input( 'hidden', null, $segment + '[][label]' , $field_data.label, false ) )
+                .append( make_input( 'hidden', null, $segment + '[][format]' , $field_data.format, false ) )
+                .append( make_input( 'hidden', null, $segment + '[][segment]' , $segment, false ) )
+                .append( make_input( 'hidden', null, $segment + '[][key]' , $index, false ) );
+
+        $mapping_col_3.append( make_input( 'input', 'mapping_fieldname', $segment + '[][colname]', colname ) );
+
+        if ( $index.indexOf( 'static_field' ) >= 0 ) {
+            value_part = '<div class="mapping_col_3 custom-field-value"><input class="mapping_fieldname" type=input name="' + $segment + '[][value]" value="' + $field_data.value + '"></div>';
+        }
+
+    } else {
+
+        if ( $segment === 'products' ) {
+                label_prefix = '[P] '
+        }
+
+        if ( $segment === 'coupons' ) {
+                label_prefix = '[C] '
+        }
+
+        $mapping_col_1
+                .append( make_input( 'hidden', null, 'orders[][segment]' , $segment, false ) )
+                .append( make_input( 'hidden', null, 'orders[][key]' , _index, false ) )
+                .append( make_input( 'hidden', null, 'orders[][label]' , $field_data.label, false ) )
+                .append( make_input( 'hidden', null, 'orders[][format]' , $field_data.format, false ) );
+
+        $mapping_col_3.append( make_input( 'input', 'mapping_fieldname', 'orders[][colname]', colname ) );
+
+        if ( $index.indexOf( 'static_field' ) >= 0 ) {
+            value_part = '<div class="mapping_col_3 custom-field-value"><input class="mapping_fieldname" type=input name="' + 'orders[][value]" value="' + $field_data.value + '"></div>';
+        }
+
+    }
+    var delete_btn = '<div class="mapping_col_3 mapping_row-delete_field_block"><a href="#" class="mapping_row-delete_field"><span class="dashicons dashicons-trash"></span></a></div>';
+
+    $mapping_col_2.append( '<span class="field-prefix">' + label_prefix + '</span>' + $field_data.label + label_part );
+
+    if ( $index.charAt( 0 ) === '_'  || $index.substr( 0,3 ) === 'pa_' || !$field_data.default || $index.indexOf( 'static_field' ) > -1) {
+            $mapping_col_2.append( '<a href="#" onclick="return remove_custom_field(this);" class="mapping_row-delete_custom_field" style="float: right;"><span class="ui-icon ui-icon-trash"></span></a>' );
+    }
+
+    var $field = jQuery('<li class="mapping_row segment_field segment_'+ $segment +'"></li>');
+
+    $field
+        .append( $mapping_col_1 )
+        .append( $mapping_col_2 )
+        .append( $mapping_col_3 )
+        .append( value_part )
+        .append( delete_btn );
+
+    $field.find('input').prop('disabled', 'disabled');
+
+    return $field;
+}
+
+function make_input( $type, $classes, $name, $field_data, $is_checked ) {
+
+    var $input = jQuery('<input>');
+
+    $input.prop('type', $type);
+
+    if ( $classes && jQuery.isArray($classes) ) {
+        $input.addClass($classes.join(' '));
+    }
+
+    $input.prop('name', $name);
+    $input.attr('value', $field_data);
+
+    if ( $is_checked ) {
+            $input.prop('checked', 'checked');
+    }
+
+    return $input;
+}
+
+function check_sortable_groups () {
+    jQuery('#sortable_products').closest('.mapping_row').toggle(!!jQuery('#sortable_products li').length);
+    jQuery('#sortable_coupons').closest('.mapping_row').toggle(!!jQuery('#sortable_coupons li').length);
+}
+
+function activate_draggable_field (el, segment, format) {
+
+    var no_flat_sortable_selector = '#manage_fields #order_fields #sortable_' + segment;
+    var flat_sortable_selector    = '#manage_fields #order_fields';
+
+    el.draggable({
+        connectToSortable: [no_flat_sortable_selector, flat_sortable_selector].join(','),
+        helper: "clone",
+        revert: "invalid",
+	    start: function ( event, ui ) {
+		    jQuery(ui.helper[0]).removeClass( 'blink' );
+	    },
+        stop: function ( event, ui ) {
+	        el.removeClass( 'blink' );
+
+            var moved_to_sortable      = jQuery(ui.helper[0]).closest(flat_sortable_selector).length;
+            var move_to_sortable_group = jQuery(ui.helper[0]).closest(no_flat_sortable_selector).length;
+
+            if (!moved_to_sortable) {
+                return;
+            }
+
+            moving_products_and_coupons_group_blocks_to_first_item(format);
+
+	        // change static field key index to prevent fields with identical keys
+	        var tmp_prefix = ['products', 'coupons'].indexOf(segment) === -1 ? '' : 'plain_' + segment + '_';
+	        if ( jQuery(ui.helper[0]).find('input[value*="' + tmp_prefix + 'static_field"]').length > 0 ) {
+		        var suffix = 0;
+		        jQuery('#order_fields input[value*="' + tmp_prefix + 'static_field_"]').each(function () {
+
+			        var match = jQuery(this).attr('value').match(/.*static_field_(\d+)/);
+
+			        if (!match) {
+				        return true;
+			        }
+
+			        var n = parseInt(match[1]);
+
+			        if(n > suffix) {
+				        suffix = n;
+			        }
+		        });
+
+		        var field_key = tmp_prefix + 'static_field_' + (suffix + 1);
+		        jQuery(ui.helper[0]).find('input[name="orders[][key]"]').first().val(field_key);
+	        }
+            // end change static field key
+
+            var moving_copy_original_el = jQuery(ui.helper[0]);
+
+            moving_copy_original_el
+                .attr('style', '')
+                .addClass('ui-draggabled')
+                .removeClass('segment_field')
+                .find('input').prop('disabled', false);
+
+
+            if (is_flat_format(format) || move_to_sortable_group || ['products', 'coupons'].indexOf(segment) === -1) {
+                return;
+            }
+
+            jQuery(no_flat_sortable_selector).append(moving_copy_original_el.clone());
+
+            moving_copy_original_el.remove();
+
+            check_sortable_groups();
+        },
+  });
+
+}
+
+function moving_products_and_coupons_group_blocks_to_first_item(format) {
+
+    if ( is_flat_format ( format ) ) {
+
+        var first_products_field = jQuery('#order_fields [value*="plain_products_"]').first().closest('li');
+        var first_coupons_field  = jQuery('#order_fields [value*="plain_coupons_"]').first().closest('li');
+
+        if (first_products_field.length) {
+            var products_group_block = jQuery('#order_fields .flat-products-group').clone();
+            jQuery('#order_fields .flat-products-group').remove();
+            first_products_field.before(products_group_block);
+        }
+
+        if (first_coupons_field.length) {
+            var coupons_group_block = jQuery('#order_fields .flat-coupons-group').clone();
+            jQuery('#order_fields .flat-coupons-group').remove();
+            first_coupons_field.before(coupons_group_block);
+        }
+
+        return;
+    }
+
+    var first_products_field = jQuery('#order_fields [name="products[][key]"]').first().closest('li');
+
+    if (!jQuery('#sortable_products > li').length && first_products_field.length) {
+        var products_group_block = jQuery('#order_fields .flat-products-group').clone();
+        jQuery('#order_fields .flat-products-group').remove();
+        first_products_field.before(products_group_block);
+    }
+
+    var first_coupons_field  = jQuery('#order_fields [name="coupons[][key]"]').first().closest('li');
+
+    if (!jQuery('#sortable_coupons > li').length && first_coupons_field.length) {
+        var coupons_group_block = jQuery('#order_fields .flat-coupons-group').clone();
+        jQuery('#order_fields .flat-coupons-group').remove();
+        first_coupons_field.before(coupons_group_block);
+    }
+}
+
+function synch_selected_fields (old_format, new_format) {
+
+    var settings = jQuery('#export_job_settings').serializeJSON();
+
+    if (is_flat_format(old_format) && is_flat_format(new_format)) {
+        window['selected_order_fields']             = settings.orders || [];
+        window['selected_order_products_fields']    = [];
+        window['selected_order_coupons_fields']     = [];
+        return;
+    }
+
+    if (!is_flat_format(old_format) && !is_flat_format(new_format)) {
+        window['selected_order_fields']             = settings.orders || [];
+        window['selected_order_products_fields']    = settings.products || [];
+        window['selected_order_coupons_fields']     = settings.coupons || [];
+        return;
+    }
+
+    if (is_flat_format(old_format) && !is_flat_format(new_format)) {
+
+        var products = [];
+        var coupons  = [];
+        var orders   = [];
+
+        (settings.orders || []).forEach(function (item) {
+
+            if (item.key.indexOf('plain_products') > -1) {
+                item.key = item.key.replace('plain_products_', '');
+                products.push(item);
+                return true;
+            }
+
+            if (item.key.indexOf('plain_coupons') > -1) {
+                item.key = item.key.replace('plain_coupons_', '');
+                coupons.push(item);
+                return true;
+            }
+
+            orders.push(item);
+        });
+
+        window['selected_order_fields']           = orders;
+        window['selected_order_products_fields']  = products;
+        window['selected_order_coupons_fields']   = coupons;
+
+        return;
+    }
+
+    if (!is_flat_format(old_format) && is_flat_format(new_format)) {
+
+        var products = [];
+        var coupons  = [];
+        var orders   = [];
+
+        (settings.products || []).forEach(function (item) {
+            item.key     = 'plain_products_' + item.key;
+            products.push(item);
+        });
+
+        (settings.coupons || []).forEach(function (item) {
+            item.key     = 'plain_coupons_' + item.key;
+            coupons.push(item);
+        });
+
+        (settings.orders || []).forEach(function (item) {
+
+            orders.push(item);
+
+            if (item.key === 'products') {
+                orders = orders.concat(products);
+            }
+
+            if (item.key === 'coupons') {
+                orders = orders.concat(coupons);
+            }
+        });
+
+        window['selected_order_fields']           = orders;
+        window['selected_order_products_fields']  = [];
+        window['selected_order_coupons_fields']   = [];
+
+        return;
+    }
+
 }

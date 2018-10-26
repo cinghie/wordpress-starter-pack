@@ -615,29 +615,26 @@ class NM_PersonalizedProduct {
 			$meta_in = implode(",", $_POST['ppom_meta']);
 			$qry = "SELECT * FROM ". $wpdb->prefix . PPOM_TABLE_META." WHERE productmeta_id IN (".$meta_in.");";
 			$all_meta = $wpdb->get_results ( $qry, ARRAY_A );
-			// ppom_pa($all_meta); exit;
 			
 			if( ! $all_meta){
 				die( __("No meta found, make sure you selected meta and then export", "ppom") );
 			}
 			
 			$all_meta = $this -> add_slashes_array($all_meta);
+			// $all_meta = esc_html($all_meta);
 			// ppom_pa($all_meta); exit;
-			$filename = 'ppom-export.csv';
-			$delimiter = '|';
+			$postfix = time();
+			$filename = "ppom-export-{$postfix}.json";
 			
 			 // tell the browser it's going to be a csv file
-		    header('Content-Type: application/csv');
+		    header('Content-Type: application/json');
 		    // tell the browser we want to save it instead of displaying it
 		    header('Content-Disposition: attachement; filename="'.$filename.'";');
 		    
 			// open raw memory as file so no temp files needed, you might run out of memory though
 		    $f = fopen('php://output', 'w'); 
-		    // loop over the input array
-		    foreach ($all_meta as $line) { 
-		        // generate csv lines from the inner arrays
-		        fputcsv($f, $line, $delimiter); 
-		    }
+		    
+		    fwrite($f, json_encode($all_meta));
 		    // rewrind the "file" with the csv lines
 		    @fseek($f, 0);
 		   
@@ -653,10 +650,21 @@ class NM_PersonalizedProduct {
 	
 	function add_slashes_array($arr){
 		asort($arr);
+		$ReturnArray = array();
 		foreach ($arr as $k => $v)
-	        $ReturnArray[$k] = (is_array($v)) ? $this->add_slashes_array($v) : addslashes($v);
+	        $ReturnArray[$k] = (is_array($v)) ? $this->add_slashes_array($v) : addslashes( esc_html($v) );
 	    return $ReturnArray;
 	}
+	
+	function ppom_decode_entities($arr){
+		// asort($arr);
+		$ReturnArray = array();
+		foreach ($arr as $k => $v)
+			// ppom_pa($v);
+	        $ReturnArray[$k] = (is_array($v) || is_object($v)) ? $this->ppom_decode_entities($v) : html_entity_decode($v);
+	    return $ReturnArray;
+	}
+	
 	
 	function ppom_import_meta(){
 		
@@ -666,64 +674,47 @@ class NM_PersonalizedProduct {
 	    $file = $_FILES['ppom_csv']['tmp_name'];
 	    $handle = fopen($file,"r");
 	    
-	    $qry = "INSERT INTO ".$wpdb->prefix . PPOM_TABLE_META;
-	    $qry .= " (
-	    			aviary_api_key, 
-	    			productmeta_style,
-	    			productmeta_categories,
-	    			send_file_attachment,
-	    			show_cart_thumb,
-	    			productmeta_validation,
-	    			productmeta_created,
-	    			productmeta_name,
-	    			the_meta,
-	    			dynamic_price_display
-	    			) VALUES";
-	    	
+	    $ppom_meta = '';
+		if ($handle) {
+		    while (!feof($handle)) {
+		      $ppom_meta .= fgetss($handle, 50000);
+		    }
+		
+		    fclose($handle);
+		}
+		
+		$ppom_meta = json_decode($ppom_meta);
+		$ppom_meta = $this->ppom_decode_entities($ppom_meta);
+		// ppom_pa( $ppom_meta ); exit;
 	    
-	    $cols = array();
+	    
 	    $meta_count = 0;
-	    //loop through the csv file and insert into database
-	    do {
-	        				
-            // ppom_pa($cols);
-            if($cols){
-	            foreach( $cols as $key => $val ) {
-		            $cols[$key] = trim( $cols[$key] );
-		            //$cols[$key] = iconv('UCS-2', 'UTF-8', $cols[$key]."\0") ;
-		            $cols[$key] = str_replace('""', '"', $cols[$key]);
-		            $cols[$key] = preg_replace("/^\"(.*)\"$/sim", "$1", $cols[$key]);
-	        	}
-            }
-        	
-        	 if ( isset($cols[0]) ) {
-        	 	
-        	 	$meta_count++;
-	        	$qry .= "(	
-	        				'".$cols[0]."',
-	        				'".$cols[1]."',
-	        				'".$cols[2]."',
-	        				'".$cols[3]."',
-	        				'".$cols[4]."',
-	        				'".$cols[5]."',
-	        				'".$cols[7]."',
-	        				'".$cols[8]."',
-	        				'".$cols[9]."',
-	        				'".$cols[10]."'
-	        				),";
-	        				
-        	// ppom_pa($cols); 
-	        }
-	    } while ($cols = fgetcsv($handle,5000,"|"));
+	    foreach($ppom_meta as $meta) {
+	    	
+	    	$table = $wpdb->prefix . PPOM_TABLE_META;
+	    	$qry = "INSERT INTO {$table} SET ";
+	    	$meta_count++;
+	    	
+	    		foreach($meta as $key => $val) {
+	    			
+	    			if( $key == 'productmeta_id' ) continue;
+	    			
+	    			if( $key == 'productmeta_name' ) {
+	    				$val = 'Copy of '.$val;
+	    			}
+	    			
+	    			$qry .= "{$key}='{$val}',";
+	    		}
+	    		
+	    		$qry = substr($qry, 0, -1);
+	    		// print $qry; exit;
+	    		$res = $wpdb->query( $qry );
 	    
-	    $qry = substr($qry, 0, -1);
+			    /*$wpdb->show_errors();
+			    $wpdb->print_error();
+			    exit;*/
+	    }
 	    
-	    // print $qry; exit;
-	    $res = $wpdb->query( $qry );
-	    
-	    // $wpdb->show_errors();
-	    // $wpdb->print_error();
-	    // exit;
 	    
 	    $response = array('class'=>'updated', 'message'=> sprintf(__("%d meta(s) imported successfully.", "ppom"),$meta_count));
 	    set_transient("ppom_meta_imported", $response, 30);

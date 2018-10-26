@@ -4,12 +4,12 @@
 	 * Plugin URI: https://wordpress.org/plugins/woo-variation-swatches/
 	 * Description: Beautiful colors, images and buttons variation swatches for woocommerce product attributes. Requires WooCommerce 3.2+
 	 * Author: Emran Ahmed
-	 * Version: 1.0.44
+	 * Version: 1.0.45
 	 * Domain Path: /languages
 	 * Requires at least: 4.8
 	 * Tested up to: 4.9
 	 * WC requires at least: 3.2
-	 * WC tested up to: 3.4
+	 * WC tested up to: 3.5
 	 * Text Domain: woo-variation-swatches
 	 * Author URI: https://getwooplugins.com/
 	 */
@@ -20,7 +20,7 @@
 		
 		final class Woo_Variation_Swatches {
 			
-			protected $_version = '1.0.44';
+			protected $_version = '1.0.45';
 			
 			protected static $_instance = null;
 			private          $_settings_api;

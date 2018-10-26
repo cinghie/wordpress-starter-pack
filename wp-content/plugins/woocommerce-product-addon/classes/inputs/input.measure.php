@@ -67,7 +67,7 @@ class NM_Measure_wooproduct extends PPOM_Inputs{
 								'desc' => __ ( 'Insert the error message for validation.', "ppom" ) 
 						),
 						
-						'use_units' => array (
+						/*'use_units' => array (
 								'type' => 'checkbox',
 								'title' => __ ( 'Use Units', 'ppom' ),
 								'desc' => __ ( 'If you have multiple units against this option, otherwise product base price will be used.', 'ppom' )
@@ -77,7 +77,7 @@ class NM_Measure_wooproduct extends PPOM_Inputs{
 								'type' => 'paired-measure',
 								'title' => __ ( 'Add Units', "ppom" ),
 								'desc' => __ ( 'Unit with price (optionally)', "ppom" )
-						),
+						),*/
 				
 						'max' => array (
 								'type' => 'text',

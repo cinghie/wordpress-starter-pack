@@ -5,7 +5,7 @@ Tags: woocommerce,export,order,xls,csv,xml,woo export lite,export orders,orders 
 Requires PHP: 5.3.0
 Requires at least: 4.7
 Tested up to: 4.9
-Stable tag: 1.5.6
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,7 +46,7 @@ Please create a topic in the "Support" section with any ideas or suggestions for
 
 > Pro Version
 
-> Are you looking to have your WooCommerce products drop shipped from a third party? Our plugin can help you export your orders to CSV/XML/etc and send them to your drop shipper. You can even automate this process with [Pro version](https://algolplus.com/plugins/downloads/woocommerce-order-export/) .
+> Are you looking to have your WooCommerce products drop shipped from a third party? Our plugin can help you export your orders to CSV/XML/etc and send them to your drop shipper. You can even automate this process with [Pro version](https://algolplus.com/plugins/downloads/advanced-order-export-for-woocommerce-pro/) .
 
 
 
@@ -66,7 +66,7 @@ Need help? Create ticket in [helpdesk system](https://algolplus.freshdesk.com). 
 Check [some snippets](https://algolplus.com/plugins/snippets-plugins/) for popular plugins or review  [this page](https://algolplus.com/plugins/code-samples/) to study how to extend the plugin.
 
 = I want to add a product attribute to the export  =
-Check screenshot #5! You should open section "Set up fields", scroll down to field "Products", click button  "Set up fields", select field in the dropdown, type column title and press button "Add field".
+Check screenshot #5! You should open section "Set up fields", open section "Products"(right column), click button "Add field", select field in 2nd dropdown, type column title and press button "Confirm".
 
 = I can't filter/export custom attribute for Simple Product =
 I'm sorry, but it's impossible. You should add this attribute to Products>Attributes at first and use "Filter by Product Taxonomies".
@@ -102,6 +102,10 @@ Yes, you can email a request to aprokaev@gmail.com. We intensively develop this 
 6. Select orders to export and use "bulk action".
 
 == Changelog ==
+
+= 2.0.0 - 2018-10-24 =
+* It's a **major update**. Backup settings (tab "Tools") before upgrading
+* New section "Set up fields to export"  - simplify UI, format fields, allow duplicates
 
 = 1.5.6 - 2018-08-30 =
 * Added filter by user custom fields

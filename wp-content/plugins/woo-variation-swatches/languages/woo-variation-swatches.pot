@@ -24,7 +24,7 @@ msgstr ""
 msgid "WooCommerce Variation Swatches Settings"
 msgstr ""
 
-#: ../includes/class-wvs-settings-api.php:86, ../includes/class-wvs-settings-api.php:99, ../includes/functions.php:1032
+#: ../includes/class-wvs-settings-api.php:86, ../includes/class-wvs-settings-api.php:99, ../includes/functions.php:1039
 msgid "Swatches Settings"
 msgstr ""
 
@@ -247,27 +247,27 @@ msgstr ""
 msgid "Choose an Image"
 msgstr ""
 
-#: ../includes/functions.php:533
+#: ../includes/functions.php:540
 msgid "Select terms"
 msgstr ""
 
-#: ../includes/functions.php:544
+#: ../includes/functions.php:551
 msgid "Select all"
 msgstr ""
 
-#: ../includes/functions.php:545
+#: ../includes/functions.php:552
 msgid "Select none"
 msgstr ""
 
-#: ../includes/functions.php:551
+#: ../includes/functions.php:558
 msgid "Add new %s"
 msgstr ""
 
-#: ../includes/functions.php:551, ../includes/functions.php:553
+#: ../includes/functions.php:558, ../includes/functions.php:560
 msgid "Add new"
 msgstr ""
 
-#: ../includes/functions.php:712, ../includes/functions.php:784, ../includes/functions.php:857, ../includes/functions.php:928
+#: ../includes/functions.php:719, ../includes/functions.php:791, ../includes/functions.php:864, ../includes/functions.php:935
 msgid "Choose an option"
 msgstr ""
 

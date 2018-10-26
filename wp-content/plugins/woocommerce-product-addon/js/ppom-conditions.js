@@ -320,6 +320,10 @@ function ppom_get_element_value( field_name ) {
             value_found = jQuery('input[name="ppom[fields]['+field_name+'][]"]:checked').attr('data-label');
             break;
             
+        case 'imageselect':
+            value_found = jQuery('input[name="ppom[fields]['+field_name+']"]:checked').attr('data-title');
+            break;
+            
     }
     
     if( element_type === 'checkbox') {

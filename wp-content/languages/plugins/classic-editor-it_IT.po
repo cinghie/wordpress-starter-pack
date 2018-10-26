@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Classic Editor - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-10-19 09:26:22+0000\n"
+"PO-Revision-Date: 2018-10-25 00:48:06+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,13 +11,17 @@ msgstr ""
 "Language: it\n"
 "Project-Id-Version: Plugins - Classic Editor - Stable (latest release)\n"
 
-#: classic-editor.php:184
-msgid "Use the Gutenberg editor by default and include optional links back to the Classic editor."
-msgstr "Imposta Gutenberg Editor come editor predefinito ma includi anche i link alternativi per utilizzare il Classic Editor."
+#: classic-editor.php:311
+msgid "Edit (Block editor)"
+msgstr "Modifica (Block Editor)"
 
-#: classic-editor.php:178
-msgid "Replace the Gutenberg editor with the Classic editor."
-msgstr "Sostituisci Gutenberg Editor con il Classic Editor."
+#: classic-editor.php:185
+msgid "Replace the Block editor with the Classic editor."
+msgstr "Sostituisci il Block Editor con il Classic Editor."
+
+#: classic-editor.php:191
+msgid "Use the Block editor by default and include optional links back to the Classic editor."
+msgstr "Imposta il Block Editor come predefinito ma includi anche i link alternativi per utilizzare il Classic Editor."
 
 #: classic-edit-form-advanced.php:481
 msgid "Inserting Media"
@@ -295,7 +299,7 @@ msgstr "Impostazioni di pubblicazione"
 msgid "Page Attributes"
 msgstr "Attributi della pagina"
 
-#: classic-editor.php:417
+#: classic-editor.php:453
 msgid "Permalink saved"
 msgstr "Permalink salvato"
 
@@ -308,7 +312,7 @@ msgid "F j, Y"
 msgstr "j F Y"
 
 #. translators: 1: month, 2: day, 3: year, 4: hour, 5: minute
-#: classic-editor.php:401
+#: classic-editor.php:437
 msgid "%1$s %2$s, %3$s @ %4$s:%5$s"
 msgstr "%2$s %1$s %3$s alle %4$s : %5$s"
 
@@ -317,75 +321,75 @@ msgctxt "post format"
 msgid "Format"
 msgstr "Formato"
 
-#: classic-editor.php:416
+#: classic-editor.php:452
 msgid "Saving Draft&#8230;"
 msgstr "Salvataggio bozza&#8230;"
 
-#: classic-editor.php:412
+#: classic-editor.php:448
 msgid "Password Protected"
 msgstr "Protetto da password"
 
-#: classic-editor.php:403
+#: classic-editor.php:439
 msgid "No more comments found."
 msgstr "Nessun altro commento trovato."
 
-#: classic-editor.php:402
+#: classic-editor.php:438
 msgid "Show more comments"
 msgstr "Mostra altri commenti"
 
-#: classic-editor.php:399
+#: classic-editor.php:435
 msgid "Published on:"
 msgstr "Pubblicato il:"
 
-#: classic-editor.php:398
+#: classic-editor.php:434
 msgid "Schedule for:"
 msgstr "Pianifica per:"
 
-#: classic-editor.php:397
+#: classic-editor.php:433
 msgid "Publish on:"
 msgstr "Pubblica il:"
 
-#: classic-editor.php:415
+#: classic-editor.php:451
 msgid "The changes you made will be lost if you navigate away from this page."
 msgstr "Se si abbandona questa pagina i cambiamenti effettuati verranno persi."
 
-#: classic-editor.php:298
+#: classic-editor.php:329
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: classic-editor.php:406
+#: classic-editor.php:442
 msgid "Update"
 msgstr "Aggiorna"
 
-#: classic-editor.php:410
+#: classic-editor.php:446
 msgid "Public"
 msgstr "Pubblico"
 
-#: classic-editor.php:411
+#: classic-editor.php:447
 msgid "Public, Sticky"
 msgstr "Pubblico, in evidenza"
 
-#: classic-editor.php:409
+#: classic-editor.php:445
 msgid "Private"
 msgstr "Privato"
 
-#: classic-editor.php:395
+#: classic-editor.php:431
 msgid "OK"
 msgstr "OK"
 
-#: classic-editor.php:413
+#: classic-editor.php:449
 msgid "Privately Published"
 msgstr "Pubblicato privatamente"
 
-#: classic-editor.php:407
+#: classic-editor.php:443
 msgid "Save as Pending"
 msgstr "Salva come in sospeso"
 
-#: classic-editor.php:408
+#: classic-editor.php:444
 msgid "Save Draft"
 msgstr "Salva bozza"
 
-#: classic-editor.php:396
+#: classic-editor.php:432
 msgid "Cancel"
 msgstr "Annulla"
 
@@ -401,7 +405,7 @@ msgstr "Revisioni"
 msgid "Excerpt"
 msgstr "Riassunto"
 
-#: classic-edit-form-advanced.php:297 classic-editor.php:404
+#: classic-edit-form-advanced.php:297 classic-editor.php:440
 msgid "Publish"
 msgstr "Pubblica"
 
@@ -413,11 +417,11 @@ msgstr "Commenti"
 msgid "Author"
 msgstr "Autore"
 
-#: classic-editor.php:414
+#: classic-editor.php:450
 msgid "Published"
 msgstr "Pubblicato"
 
-#: classic-editor.php:405
+#: classic-editor.php:441
 msgid "Schedule"
 msgstr "Pianifica"
 
@@ -466,16 +470,16 @@ msgstr "Classic Editor"
 msgid "https://wordpress.org"
 msgstr "https://it.wordpress.org/plugins/classic-editor/"
 
-#: classic-editor.php:165
+#: classic-editor.php:172
 msgid "Classic editor settings"
 msgstr "Impostazioni Classic Editor"
 
 #. translators: %s: post title
-#: classic-editor.php:335
+#: classic-editor.php:371
 msgid "Edit &#8220;%s&#8221; in the classic editor"
 msgstr "Modifica &#8220;%s&#8221; con il Classic Editor"
 
-#: classic-editor.php:243
+#: classic-editor.php:274
 msgid "(Classic)"
 msgstr "con il Classic Editor"
 
@@ -483,10 +487,6 @@ msgstr "con il Classic Editor"
 msgid "Enables the WordPress classic editor and the old-style Edit Post screen layout (TinyMCE, meta boxes, etc.). Supports the older plugins that extend this screen."
 msgstr "Abilita il Classic Editor di WordPress e il layout vecchio stile della schermata di modifica (TinyMCE, Meta Box, ad altre funzioni). Supporta i precedenti plugin che estendono questa funzionalità."
 
-#: classic-editor.php:286 classic-editor.php:338
+#: classic-editor.php:317 classic-editor.php:374
 msgid "Edit (Classic)"
 msgstr "Modifica (Classic Editor)"
-
-#: classic-editor.php:280
-msgid "Edit (Gutenberg)"
-msgstr "Modifica (Gutenberg Editor)"

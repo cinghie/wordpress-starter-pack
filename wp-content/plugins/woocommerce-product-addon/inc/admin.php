@@ -32,7 +32,15 @@ function ppom_admin_product_meta_column( $column, $post_id ) {
 			
             $ppom_settings_url = admin_url( 'admin.php?page=ppom');
             
-            if ( $ppom->settings ){
+            if( $ppom->has_multiple_meta() ) {
+            	foreach($ppom->meta_id as $meta_id) {
+            		$ppom_setting = $ppom->get_settings_by_id($meta_id);
+            		$meta_title		= stripslashes($ppom_setting->productmeta_name);
+                	$url_edit = add_query_arg(array('productmeta_id'=> $ppom_setting->productmeta_id, 'do_meta'=>'edit'), $ppom_settings_url);
+                	echo sprintf(__('<a href="%s">%s</a>', "ppom"), $url_edit, $meta_title);
+                	echo ', ';
+            	}
+            } else if ( $ppom->settings ){
                 $url_edit = add_query_arg(array('productmeta_id'=> $ppom->meta_id, 'do_meta'=>'edit'), $ppom_settings_url);
                 echo sprintf(__('<a href="%s">%s</a>', "ppom"), $url_edit, $ppom->meta_title);
             }else{
@@ -45,37 +53,42 @@ function ppom_admin_product_meta_column( $column, $post_id ) {
 }
 
 function ppom_admin_product_meta_metabox() {
+	
 	add_meta_box ( 'ppom-select-meta', __ ( 'Select PPOM Meta', 'ppom' ), 'ppom_meta_list', 'product', 'side', 'default' );
 }
 
 function ppom_meta_list( $post ) {
     
-	$existing_meta_id = get_post_meta ( $post->ID, '_product_meta_id', true );
-	$all_meta = PPOM() -> get_product_meta_all ();
+  	$ppom		= new PPOM_Meta( $post->ID );
+	$all_meta	= PPOM() -> get_product_meta_all ();
 	
-	echo '<p>';
 	
-	echo '<select name="ppom_product_meta" id="ppom_product_meta" class="select">';
-	echo '<option selected="selected"> ' . __('None', 'ppom'). '</option>';
+	
+	$html = '<p>';
+	
+	$html .= '<select name="ppom_product_meta" id="ppom_product_meta" class="select">';
+	$html .= '<option selected="selected"> ' . __('None', 'ppom'). '</option>';
 	
 	foreach ( $all_meta as $meta ) {
 			
-		echo '<option value="'.esc_attr($meta->productmeta_id) . '" ';
-		echo selected($existing_meta_id, $meta->productmeta_id);
-		echo ' id="select_meta_group-' . $meta->productmeta_id . '">';
-		echo $meta->productmeta_name;
-		echo '</option>';
+		$html .= '<option value="'.esc_attr($meta->productmeta_id) . '" ';
+		$html .= selected($ppom->single_meta_id, $meta->productmeta_id, false);
+		$html .= 'id="select_meta_group-' . $meta->productmeta_id . '">';
+		$html .= stripslashes($meta->productmeta_name);
+		$html .= '</option>';
 	}
-	echo '</select>';
+	$html .= '</select>';
 	
-	if( $existing_meta_id != 'None' ) {
+	if( $ppom->single_meta_id != 'None' ) {
 		
 		$ppom_setting = admin_url('admin.php?page=ppom');
-		$url_edit = add_query_arg(array('productmeta_id'=> $existing_meta_id, 'do_meta'=>'edit'), $ppom_setting);
-		echo '<a href="'.esc_url($url_edit).'" title="Edit"><span class="dashicons dashicons-edit"></span></a>';
+		$url_edit = add_query_arg(array('productmeta_id'=> $ppom->single_meta_id, 'do_meta'=>'edit'), $ppom_setting);
+		$html .= '<a href="'.esc_url($url_edit).'" title="Edit"><span class="dashicons dashicons-edit"></span></a>';
 	}
 	
-	echo '</p>';
+	$html .= '</p>';
+	
+	echo apply_filters('ppom_select_meta_in_product', $html, $ppom, $all_meta);
 	
 	do_action('ppom_meta_box_after_list', $post);
 }
@@ -85,11 +98,11 @@ function ppom_meta_list( $post ) {
  */
 function ppom_admin_process_product_meta( $post_id ) {
 	
-    /* ppom_pa($_POST); exit; */
+     //ppom_pa($_POST); exit; 
+     
+     $ppom_meta_selected = isset($_POST ['ppom_product_meta']) ? $_POST ['ppom_product_meta'] : '';
     
-    if($_POST ['ppom_product_meta'] != '') {
-    	update_post_meta ( $post_id, '_product_meta_id', $_POST ['ppom_product_meta'] );
-    }
+	update_post_meta ( $post_id, '_product_meta_id', $ppom_meta_selected );
     
     do_action('ppom_proccess_meta', $post_id);
 }

@@ -6,16 +6,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( class_exists( 'WOE_Formatter_sv' ) ) {
 	return;
 }
+include_once 'abstract-class-woe-formatter-plain-format.php';
 
-abstract class WOE_Formatter_sv extends WOE_Formatter {
+abstract class WOE_Formatter_sv extends WOE_Formatter_Plain_Format {
 	var $enclosure;
 	var $linebreak;
 	var $delimiter;
 	var $encoding;
-	var $rows;
 
-	public function __construct( $mode, $filename, $settings, $format, $labels, $field_formats, $date_format ) {
-		parent::__construct( $mode, $filename, $settings, $format, $labels, $field_formats, $date_format );
+	public function __construct( $mode, $filename, $settings, $format, $labels, $field_formats, $date_format, $offset ) {
+		parent::__construct( $mode, $filename, $settings, $format, $labels, $field_formats, $date_format, $offset );
 
 		$this->enclosure = $this->convert_literals( isset( $this->settings['enclosure'] ) ? $this->settings['enclosure'] : '' );
 		$this->linebreak = $this->convert_literals( isset( $this->settings['linebreak'] ) ? $this->settings['linebreak'] : '' );
@@ -30,6 +30,7 @@ abstract class WOE_Formatter_sv extends WOE_Formatter {
 	}
 
 	public function start( $data = '' ) {
+		$data = $this->make_header($data);
 		$data = apply_filters( "woe_{$this->format}_header_filter", $data );
 		$this->prepare_array( $data );
 		parent::start( $data );
@@ -57,42 +58,48 @@ abstract class WOE_Formatter_sv extends WOE_Formatter {
 	}
 
 	public function output( $rec ) {
-		$this->prepare_array( $rec );
-		$rec = parent::output( $rec );
-
-		if ( $this->has_output_filter ) {
-			$rec = apply_filters( "woe_{$this->format}_output_filter", $rec, $this );
-			if ( ! $rec ) {
-				return;
+		$rows = parent::output( $rec );
+		foreach ( $rows as $row ) {
+			$this->prepare_array( $row );
+			if ( $this->has_output_filter ) {
+				$row = apply_filters( "woe_{$this->format}_output_filter", $row, $this );
+				if ( ! $row ) {
+					return;
+				}
 			}
-		}
 
-		if ( $this->mode == 'preview' ) {
-			$this->rows[] = $rec;
-		} else {
-			if ( ! apply_filters( "woe_{$this->format}_custom_output_func", false, $this->handle, $rec,
-				$this->delimiter, $this->linebreak, $this->enclosure, false ) ) {
-				if ( $this->enclosure !== '' ) {
-					fputcsv( $this->handle, $rec, $this->delimiter, $this->enclosure );
-				} else {
-					fwrite( $this->handle, implode( $this->delimiter, $rec ) . $this->linebreak );
+			if ( $this->mode == 'preview' ) {
+				$this->rows[] = $row;
+			} else {
+				if ( ! apply_filters( "woe_{$this->format}_custom_output_func", false, $this->handle, $row,
+					$this->delimiter, $this->linebreak, $this->enclosure, false ) ) {
+					if ( $this->enclosure !== '' ) {
+						fputcsv( $this->handle, $row, $this->delimiter, $this->enclosure );
+					} else {
+						fwrite( $this->handle, implode( $this->delimiter, $row ) . $this->linebreak );
+					}
 				}
 			}
 		}
+
 	}
 
 	public function finish() {
+		$this->try_apply_summary_report_fields();
+		
 		if ( $this->mode == 'preview' ) {
 			$this->rows = apply_filters( "woe_{$this->format}_preview_rows", $this->rows );
 			fwrite( $this->handle, '<table>' );
 			if ( count( $this->rows ) < 2 ) {
 				$this->rows[] = array( __( '<td colspan=10><b>No results</b></td>', 'woo-order-export-lite' ) );
 			}
-			foreach ( $this->rows as $rec ) {
-				$rec = array_map( function ( $a ) {
-					return '<td>' . $a . '';
-				}, $rec );
-				fwrite( $this->handle, '<tr><td>' . join( '</td><td>', $rec ) . "</td><tr>\n" );
+			foreach ( $this->rows as $num=>$rec ) {
+				if ( $num == 0 AND $this->settings['display_column_names'] ) {
+					fwrite( $this->handle,
+						'<tr style="font-weight:bold"><td>' . join( '</td><td>', $rec ) . "</td><tr>\n" );
+				} else {
+					fwrite( $this->handle, '<tr><td>' . join( '</td><td>', $rec ) . "</td><tr>\n" );
+				}
 			}
 			fwrite( $this->handle, '</table>' );
 		} else {

@@ -18,7 +18,7 @@
 /**
  * Admin class
  *
- * @author Yithemes
+ * @author YITH
  * @package YITH Infinite Scrolling
  * @version 1.0.0
  */
@@ -164,11 +164,7 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 		 * @use plugin_action_links_{$plugin_file_name}
 		 */
 		public function action_links( $links ) {
-
-			$links[] = '<a href="' . admin_url( "admin.php?page={$this->_panel_page}" ) . '">' . __( 'Settings', 'yith-infinite-scrolling' ) . '</a>';
-			if ( ! ( defined( 'YITH_INFS_PREMIUM' ) && YITH_INFS_PREMIUM ) ) {
-				$links[] = '<a href="' . $this->get_premium_landing_uri() . '" target="_blank">' . __( 'Premium Version', 'yith-infinite-scrolling' ) . '</a>';
-			}
+			$links = yith_add_action_links( $links, $this->_panel_page, false );
 			return $links;
 		}
 

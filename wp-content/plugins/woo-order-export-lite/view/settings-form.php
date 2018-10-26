@@ -2,7 +2,6 @@
 if ( !defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
-add_thickbox();
 /**
  * @var WC_Order_Export_Admin $WC_Order_Export WC_Order_Export_Admin instance
  * @var string $mode ( now | profiles | cron | order-action )
@@ -15,39 +14,70 @@ $settings                 = WC_Order_Export_Manage::get( $mode, $id );
 $settings                 = apply_filters('woe_settings_page_prepare', $settings );
 $order_custom_meta_fields = WC_Order_Export_Data_Extractor_UI::get_all_order_custom_meta_fields();
 $readonly_php = WC_Order_Export_Admin::user_can_add_custom_php() ? '' : 'readonly';
+
+function print_formats_field( $type, $segment = "" ) {
+	if ( ! $type && $type !== 'meta' && $type !== 'field' ) {
+        return '';
+    }
+	$margin_left = 'meta' == $type ? '1px' : '4px';
+    // colname_custom_field
+    $id = $segment ? 'format_custom_' . $type . '_' . $segment : 'format_custom_' . $type;
+
+	$formats_fields_html =
+		'<label for="' . $id . '">' .
+		__( 'Field format', 'woo-order-export-lite' ) . ':' .
+		'</label>' .
+        '<select type="text" id="' . $id . '" style="max-width: 215px; margin-left: ' . $margin_left . '">' .
+		'<option value="" >' . __('-', 'woo-order-export-lite') . '</option>';
+
+	foreach ( WC_Order_Export_Data_Extractor_UI::get_format_fields() as $format_id => $format_label ) {
+		$formats_fields_html .= "<option value='$format_id' >$format_label</option>";
+	};
+	$formats_fields_html .= '</select>';
+
+	return $formats_fields_html;
+}
+
+
+
 ?>
 
 <script>
 	var mode = '<?php echo $mode ?>';
 	var job_id = '<?php echo $id ?>';
 	var output_format = '<?php echo $settings[ 'format' ] ?>';
-	var order_fields = <?php echo json_encode( $settings[ 'order_fields' ] ) ?>;
-	var order_products_fields = <?php echo json_encode( $settings[ 'order_product_fields' ] ) ?>;
-	var order_coupons_fields = <?php echo json_encode( $settings[ 'order_coupon_fields' ] ) ?>;
+	var selected_order_fields = <?php echo json_encode( $settings[ 'order_fields' ] ) ?>;
+	var selected_order_products_fields = <?php echo json_encode( $settings[ 'order_product_fields' ] ) ?>;
+	var selected_order_coupons_fields = <?php echo json_encode( $settings[ 'order_coupon_fields' ] ) ?>;
+	var duplicated_fields_settings = <?php echo json_encode( $settings[ 'duplicated_fields_settings' ] ) ?>;
+	var all_fields = <?php echo json_encode( WC_Order_Export_Manage::make_all_fields( $settings[ 'format' ] ) ); ?>;
 	var order_custom_meta_fields = <?php echo json_encode( $order_custom_meta_fields ) ?>;
 	var order_products_custom_meta_fields = <?php echo json_encode( WC_Order_Export_Data_Extractor_UI::get_product_custom_fields() ) ?>;
 	var order_order_item_custom_meta_fields = <?php echo json_encode( WC_Order_Export_Data_Extractor_UI::get_product_itemmeta() ) ?>;
 	var order_coupons_custom_meta_fields = <?php echo json_encode( WC_Order_Export_Data_Extractor_UI::get_all_coupon_custom_meta_fields() ) ?>;
+	var order_segments = <?php echo json_encode( WC_Order_Export_Data_Extractor_UI::get_order_segments() ) ?>;
+	var field_formats = <?php echo json_encode( WC_Order_Export_Data_Extractor_UI::get_format_fields() ) ?>;
 	var summary_mode = <?php echo $settings['summary_report_by_products'] ?>;
 </script>
 
 
-<?php include 'modal-controls.php'; ?>
 <form method="post" id="export_job_settings">
 	<?php if ( $mode !== WC_Order_Export_Manage::EXPORT_NOW ): ?>
 		<div style="width: 100%;">&nbsp;</div>
 	<?php endif; ?>
 
 	<div id="my-left" style="float: left; width: 49%; max-width: 500px;">
-		<?php 
-			if ( $mode === WC_Order_Export_Manage::EXPORT_PROFILE ): 
+		<?php
+			if ( $mode === WC_Order_Export_Manage::EXPORT_PROFILE ):
 				include 'pro-version/top-profile.php';
-			elseif ( $mode === WC_Order_Export_Manage::EXPORT_ORDER_ACTION ): 
+			elseif ( $mode === WC_Order_Export_Manage::EXPORT_ORDER_ACTION ):
 				include 'pro-version/top-order-actions.php';
-			elseif ( $mode === WC_Order_Export_Manage::EXPORT_SCHEDULE ): 
+			elseif ( $mode === WC_Order_Export_Manage::EXPORT_SCHEDULE ):
 				include 'pro-version/top-scheduled-jobs.php';
-			endif; 
+			endif;
 		?>
+
+                <input type="hidden" name="settings[version]" value="<?php echo isset($settings[ 'version' ]) ? $settings[ 'version' ] : '2.0' ?>">
 
 		<?php if ( $show[ 'date_filter' ] ) : ?>
 			<div id="my-export-date-field" class="my-block">
@@ -85,7 +115,6 @@ $readonly_php = WC_Order_Export_Admin::user_can_add_custom_php() ? '' : 'readonl
 
 				<button id="my-quick-export-btn" class="button-primary"><?php _e( 'Express export', 'woo-order-export-lite' ) ?></button>
 				<div id="summary_report_by_products" style="display:inline-block"><input type="hidden" name="settings[summary_report_by_products]" value="0"/><label><input type="checkbox" id=summary_report_by_products_checkbox name="settings[summary_report_by_products]" value="1" <?php checked($settings[ 'summary_report_by_products' ]) ?> /> <?php _e( "Summary Report By Products", 'woo-order-export-lite' ) ?></label>
-					&nbsp;&nbsp;<label id="summary_setup_fields"><a href="#TB_inline?width=600&height=550&inlineId=modal-manage-products" class="thickbox " id="link_modal_manage_products_summary"><?php _e( 'Set up fields', 'woo-order-export-lite' ) ?></a></label>
 				</div>
 			</div>
 			<br>
@@ -118,24 +147,20 @@ $readonly_php = WC_Order_Export_Admin::user_can_add_custom_php() ? '' : 'readonl
 				<input type=hidden name="settings[format_xls_use_xls_format]" value=0>
 				<input type=hidden name="settings[format_xls_display_column_names]" value=0>
 				<input type=hidden name="settings[format_xls_auto_width]" value=0>
-				<input type=hidden name="settings[format_xls_populate_other_columns_product_rows]" value=0>
 				<input type=hidden name="settings[format_xls_direction_rtl]" value=0>
 				<input type=checkbox name="settings[format_xls_use_xls_format]" value=1 <?php if ( @$settings[ 'format_xls_use_xls_format' ] ) echo 'checked'; ?>  id="format_xls_use_xls_format">  <?php _e( 'Export as .xls (Binary File Format)', 'woo-order-export-lite' ) ?><br>
 				<input type=checkbox checked disabled><?php _e( 'Use sheet name', 'woo-order-export-lite' ) ?></b><input type=text name="settings[format_xls_sheet_name]" value='<?php echo $settings[ 'format_xls_sheet_name' ] ?>' size=10><br>
 				<input type=checkbox name="settings[format_xls_display_column_names]" value=1 <?php if ( @$settings[ 'format_xls_display_column_names' ] ) echo 'checked'; ?>  >  <?php _e( 'Output column titles as first line', 'woo-order-export-lite' ) ?><br>
 				<input type=checkbox name="settings[format_xls_auto_width]" value=1 <?php if ( @$settings[ 'format_xls_auto_width' ] ) echo 'checked'; ?>  >  <?php _e( 'Auto column width', 'woo-order-export-lite' ) ?><br>
-				<input type=checkbox name="settings[format_xls_populate_other_columns_product_rows]" value=1 <?php if ( @$settings[ 'format_xls_populate_other_columns_product_rows' ] ) echo 'checked'; ?>  >  <?php _e( 'Populate other columns if products exported as rows', 'woo-order-export-lite' ) ?><br>
 				<input type=checkbox name="settings[format_xls_direction_rtl]" value=1 <?php if ( @$settings[ 'format_xls_direction_rtl' ] ) echo 'checked'; ?>  >  <?php _e( 'Right-to-Left direction', 'woo-order-export-lite' ) ?><br>
 			</div>
 			<div id='CSV_options' style='display:none'><strong><?php _e( 'CSV options', 'woo-order-export-lite' ) ?></strong><br>
 				<input type=hidden name="settings[format_csv_add_utf8_bom]" value=0>
 				<input type=hidden name="settings[format_csv_display_column_names]" value=0>
-				<input type=hidden name="settings[format_csv_populate_other_columns_product_rows]" value=0>
 				<input type=hidden name="settings[format_csv_delete_linebreaks]" value=0>
 				<input type=hidden name="settings[format_csv_item_rows_start_from_new_line]" value=0>
 				<input type=checkbox name="settings[format_csv_add_utf8_bom]" value=1 <?php if ( @$settings[ 'format_csv_add_utf8_bom' ] ) echo 'checked'; ?>  > <?php _e( 'Output UTF-8 BOM', 'woo-order-export-lite' ) ?><br>
 				<input type=checkbox name="settings[format_csv_display_column_names]" value=1 <?php if ( @$settings[ 'format_csv_display_column_names' ] ) echo 'checked'; ?>  >  <?php _e( 'Output column titles as first line', 'woo-order-export-lite' ) ?><br>
-				<input type=checkbox name="settings[format_csv_populate_other_columns_product_rows]" value=1 <?php if ( @$settings[ 'format_csv_populate_other_columns_product_rows' ] ) echo 'checked'; ?>  >  <?php _e( 'Populate other columns if products exported as rows', 'woo-order-export-lite' ) ?><br>
 				<input type=checkbox name="settings[format_csv_delete_linebreaks]" value=1 <?php if ( @$settings[ 'format_csv_delete_linebreaks' ] ) echo 'checked'; ?>  >  <?php _e( 'Convert line breaks to literals', 'woo-order-export-lite' ) ?><br>
 				<input type=checkbox name="settings[format_csv_item_rows_start_from_new_line]" value=1 <?php if ( @$settings[ 'format_csv_item_rows_start_from_new_line' ] ) echo 'checked'; ?>  >  <?php _e( 'Item rows start from new line', 'woo-order-export-lite' ) ?><br>
 				<?php _e( 'Enclosure', 'woo-order-export-lite' ) ?> <input type=text name="settings[format_csv_enclosure]" value='<?php echo $settings[ 'format_csv_enclosure' ] ?>' size=1>
@@ -162,10 +187,8 @@ $readonly_php = WC_Order_Export_Admin::user_can_add_custom_php() ? '' : 'readonl
             <div id='TSV_options' style='display:none'><strong><?php _e( 'TSV options', 'woo-order-export-lite' ) ?></strong><br>
                 <input type=hidden name="settings[format_tsv_add_utf8_bom]" value=0>
                 <input type=hidden name="settings[format_tsv_display_column_names]" value=0>
-                <input type=hidden name="settings[format_tsv_populate_other_columns_product_rows]" value=0>
                 <input type=checkbox name="settings[format_tsv_add_utf8_bom]" value=1 <?php if ( @$settings[ 'format_tsv_add_utf8_bom' ] ) echo 'checked'; ?>  > <?php _e( 'Output UTF-8 BOM', 'woo-order-export-lite' ) ?><br>
                 <input type=checkbox name="settings[format_tsv_display_column_names]" value=1 <?php if ( @$settings[ 'format_tsv_display_column_names' ] ) echo 'checked'; ?>  >  <?php _e( 'Output column titles as first line', 'woo-order-export-lite' ) ?><br>
-                <input type=checkbox name="settings[format_tsv_populate_other_columns_product_rows]" value=1 <?php if ( @$settings[ 'format_tsv_populate_other_columns_product_rows' ] ) echo 'checked'; ?>  >  <?php _e( 'Populate other columns if products exported as rows', 'woo-order-export-lite' ) ?><br>
 				<?php _e( 'Line Break', 'woo-order-export-lite' ) ?><input type=text name="settings[format_tsv_linebreak]" value='<?php echo $settings[ 'format_tsv_linebreak' ] ?>' size=4><br>
 				<?php if ( function_exists( 'iconv' ) ): ?>
 					<?php _e( 'Character encoding', 'woo-order-export-lite' ) ?><input type=text name="settings[format_tsv_encoding]" value="<?php echo $settings[ 'format_tsv_encoding' ] ?>"><br>
@@ -217,7 +240,7 @@ $readonly_php = WC_Order_Export_Admin::user_can_add_custom_php() ? '' : 'readonl
 					<div id="custom_time_format_block" style="<?php echo in_array( @$settings[ 'time_format' ], $time_format ) ? 'display: none' : '' ?>">
 						<input type="text" name="settings[time_format]" value="<?php echo $settings[ 'time_format' ] ?>">
 					</div>
-				</div>		
+				</div>
 			</div>
 		</div>
 		<br/>
@@ -308,7 +331,7 @@ $readonly_php = WC_Order_Export_Admin::user_can_add_custom_php() ? '' : 'readonl
 	</div>
 
 	<div id="my-right" style="float: left; width: 48%; margin: 0px 10px; max-width: 500px;">
-		<?php 
+		<?php
 		if ( in_array( $mode, array( WC_Order_Export_Manage::EXPORT_SCHEDULE, WC_Order_Export_Manage::EXPORT_ORDER_ACTION ) ) ):
 			include "pro-version/destinations.php";
 		endif; ?>
@@ -379,8 +402,12 @@ $readonly_php = WC_Order_Export_Admin::user_can_add_custom_php() ? '' : 'readonl
 					if ( $settings[ 'product_categories' ] )
 						foreach ( $settings[ 'product_categories' ] as $cat ) {
 							$cat_term = get_term( $cat, 'product_cat' );
+							if ($cat_term) {
+							    ?>
+                                <option selected value="<?php echo $cat_term->term_id ?>"> <?php echo $cat_term->name; ?></option>
+								<?php
+                            }
 							?>
-							<option selected value="<?php echo $cat_term->term_id ?>"> <?php echo $cat_term->name; ?></option>
 						<?php } ?>
 				</select>
 				<span class="wc-oe-header"><?php _e( 'Vendor/creator', 'woo-order-export-lite' ) ?></span>
@@ -543,7 +570,7 @@ $readonly_php = WC_Order_Export_Admin::user_can_add_custom_php() ? '' : 'readonl
 							<option selected value="<?php echo $user_id ?>"> <?php echo $user->display_name; ?></option>
 					<?php } ?>
 				</select>
-				
+
 				<span class="wc-oe-header"><?php _e( 'User roles', 'woo-order-export-lite' ) ?></span>
 				<select id="user_roles" name="settings[user_roles][]" multiple="multiple" style="width: 100%; max-width: 25%;">
 					<?php
@@ -578,7 +605,7 @@ $readonly_php = WC_Order_Export_Admin::user_can_add_custom_php() ? '' : 'readonl
                 <br>
                 <select id="user_custom_fields_check" multiple name="settings[user_custom_fields][]" style="width: 100%; max-width: 25%;">
 					<?php
-					if ( $settings[ 'user_custom_fields' ] )
+					if ( ! empty($settings[ 'user_custom_fields' ]) )
 						foreach ( $settings[ 'user_custom_fields' ] as $value ) {
 							?>
                             <option selected value="<?php echo $value; ?>"> <?php echo $value; ?></option>
@@ -688,7 +715,7 @@ $readonly_php = WC_Order_Export_Admin::user_can_add_custom_php() ? '' : 'readonl
 		</div>
 
 		<br>
-		
+
 		<div class="my-block">
 			<span class="my-hide-next "><?php _e( 'Filter by item and metadata', 'woo-order-export-lite' ) ?>
 				<span class="ui-icon ui-icon-triangle-1-s my-icon-triangle"></span></span>
@@ -716,7 +743,7 @@ $readonly_php = WC_Order_Export_Admin::user_can_add_custom_php() ? '' : 'readonl
 							<option selected value="<?php echo $name; ?>"> <?php echo $name; ?></option>
 						<?php } ?>
 				</select>
-				
+
 				<span class="wc-oe-header"><?php _e( 'Item metadata', 'woo-order-export-lite' ) ?></span>
 				<br>
 				<select id="item_metadata">
@@ -724,9 +751,9 @@ $readonly_php = WC_Order_Export_Admin::user_can_add_custom_php() ? '' : 'readonl
 						<optgroup label="<?php echo ucwords($type); ?>">
 						<?php foreach ( $meta_keys as $item_meta_key ) { ?>
 							<option value="<?php echo $type.":".$item_meta_key; ?>" ><?php echo $item_meta_key; ?></option>
-						<?php } ?>				
+						<?php } ?>
 						</optgroup>
-					<?php } ?>				
+					<?php } ?>
 				</select>
 				<select id="item_metadata_compare" class="select_compare">
 					<option>=</option>
@@ -742,10 +769,10 @@ $readonly_php = WC_Order_Export_Admin::user_can_add_custom_php() ? '' : 'readonl
 							<option selected value="<?php echo $meta; ?>"> <?php echo $meta; ?></option>
 						<?php } ?>
 				</select>
-				
+
 			</div>
 		</div>
-		
+
 	</div>
 
 	<div class="clearfix"></div>
@@ -754,67 +781,205 @@ $readonly_php = WC_Order_Export_Admin::user_can_add_custom_php() ? '' : 'readonl
 		<span id='adjust-fields-btn' class="my-hide-next "><?php _e( 'Set up fields to export', 'woo-order-export-lite' ) ?>
 			<span class="ui-icon ui-icon-triangle-1-s my-icon-triangle"></span></span>
 		<div id="manage_fields" style="display: none;">
-			<br>
-			<div id='fields_control' style='display:none'>
-				<div class='div_meta' style='display:none'>
-					<label style="width: 40%;"><?php _e( 'Meta key', 'woo-order-export-lite' ) ?>:
-					<select id='select_custom_meta_order'>
-							<?php
-							foreach ( $order_custom_meta_fields as $meta_id => $meta_name ) {
-								echo "<option value='$meta_name' >$meta_name</option>";
-							};
-							?>
-						</select></label>
-					<label style="width: 40%;"><?php _e( 'Column name', 'woo-order-export-lite' ) ?>:<input type='text' id='colname_custom_meta'/></label>
+            <div style="display: grid; grid-template-columns: 10fr 1fr 10fr;">
+                <div class="clear"></div>
+                <div></div>
+                <div >
+                    <br class="clear"/>
+                </div>
+                <div id='fields' style='display:none;'>
+                    <div class="fields-control-block"></div>
+                    <br>
+                    <div class="fields-control">
+                        <div style="display: inline-block; float: left">
+                            <label style="font-size: medium;">
+		                        <?php _e( 'Drag rows to reorder exported fields', 'woo-order-export-lite' ) ?>
+                            </label>
+                        </div>
+                        <div style="display: inline-block; float: right; margin-bottom: 15px">
+                            <a id="clear_selected_fields" class="button" style="background-color: #bb77ae; color: white;: ">
+		                        <?php _e( 'Remove all fields', 'woo-order-export-lite' ) ?>
+                            </a>
+                        </div>
+                    </div>
+                    <div >
+                        <br class="clear"/>
+                    </div>
+                    <ul id="order_fields"></ul>
+                </div>
+                <div></div>
+                <div id='unselected_fields'>
+                    <ul class="subsubsub">
+                        <?php $segments = WC_Order_Export_Data_Extractor_UI::get_order_segments(); ?>
+		                <?php foreach ( $segments as $id => $segment_title ): ?>
+                            <li>
+                                <a class="segment_choice"
+                                   data-segment="<?php echo $id; ?>" href="#segment=<?php echo $id; ?>">
+					                <?php echo $segment_title; ?>
+                                </a>
+				                <?php echo( end( $segments ) == $segment_title ? '' : ' | ' ); ?>
+                            </li>
+		                <?php endforeach; ?>
+                    </ul>
+                    <br class="clear">
+                    <div class="tab-controls">
+                        <div class="tab-actions-buttons">
+                            <span class="tab-actions-buttons__title">
+                                <strong><?php _e( 'Actions', 'woo-order-export-lite' ) ?>:</strong>
+                            </span>
+                            <button class='button-secondary add-meta'>
+                                <?php _e( 'Add field', 'woo-order-export-lite' ) ?>
+                            </button>
+                            <button  class='button-secondary add-custom'>
+                                <?php _e( 'Add static field', 'woo-order-export-lite' ) ?>
+                            </button>
+                        </div>
+                        <div class="tab-actions-forms">
+                            <div class='div_meta segment-form all-segments'>
+                                <label for="select_custom_meta_order">
+                                    <?php _e( 'Meta key', 'woo-order-export-lite' ) ?>:
+                                </label><br/>
+                                <select id='select_custom_meta_order'>
+                                    <?php
+                                    foreach ( $order_custom_meta_fields as $meta_id => $meta_name ) {
+                                            echo "<option value='$meta_name' >$meta_name</option>";
+                                    };
+                                    ?>
+                                </select>
+                                <div id="custom_meta_order_mode" style="margin-bottom: 10px;">
+                                    <input style="width: 80%;" type='text' id='text_custom_meta_order' placeholder="<?php _e('or type meta key here', 'woo-order-export-lite') ?>"/><br>
+                                </div>
+                                <div style="margin-bottom: 8px;">
+                                    <input id="custom_meta_order_mode_used" type="checkbox" name="custom_meta_order_mode" value="used"> <?php _e('Hide unused fields', 'woo-order-export-lite') ?>
+                                </div>
+                                <hr>
+                                <div style="margin-top: 20px;"><label for="colname_custom_meta"><?php _e( 'Column name', 'woo-order-export-lite' ) ?>:</label><input type='text' id='colname_custom_meta'/>
+                                </div>
+                                <div style="margin-top: 20px;">
+                                    <?php echo print_formats_field('meta'); ?>
+                                </div>
+                                <div style="text-align: right;">
+                                    <button  id='button_custom_meta' class='button-secondary'><?php _e( 'Confirm', 'woo-order-export-lite' ) ?></button>
+                                    <button  class='button-secondary button-cancel'><?php _e( 'Cancel', 'woo-order-export-lite' ) ?></button>
+                                </div>
+                            </div>
+                            <div class='div_custom segment-form all-segments'>
+                                <div>
+                                    <label for="colname_custom_field"><?php _e( 'Column name', 'woo-order-export-lite' ) ?>:</label>
+                                    <input type='text' id='colname_custom_field'/>
+                                </div>
+                                <div>
+                                    <label for="value_custom_field"><?php _e( 'Value', 'woo-order-export-lite' ) ?>:</label>
+                                    <input type='text' id='value_custom_field'/>
+                                </div>
+                                <div>
+		                            <?php echo print_formats_field('field'); ?>
+                                </div>
+                                <div style="text-align: right;">
+                                    <button  id='button_custom_field' class='button-secondary'><?php _e( 'Confirm', 'woo-order-export-lite' ) ?></button>
+                                    <button   class='button-secondary button-cancel'><?php _e( 'Cancel', 'woo-order-export-lite' ) ?></button>
+                                </div>
+                            </div>
+                            <div class='div_meta products-segment segment-form products-add-field' >
+                                <div id="custom_meta_products_mode" class="hide">
+                                    <label><input id="custom_meta_products_mode_used" type="checkbox" name="custom_meta_products_mode" value="used"> <?php _e('Hide unused fields', 'woo-order-export-lite') ?></label>
+                                </div>
+                                <label for="select_custom_meta_products"><?php _e('Product fields', 'woo-order-export-lite')?>:</label><select id='select_custom_meta_products'></select>
 
-					<div id="custom_meta_order_mode">
-						<label style="width: 40%;"><input style="width: 80%;" type='text' id='text_custom_meta_order' placeholder="<?php _e('or type meta key here', 'woo-order-export-lite') ?>"/><br></label>
-						<label><input id="custom_meta_order_mode_used" type="checkbox" name="custom_meta_order_mode" value="used"> <?php _e('Hide unused fields', 'woo-order-export-lite') ?></label>
-					</div>
-					<div style="text-align: right;">
-						<button  id='button_custom_meta' class='button-secondary'><?php _e( 'Confirm', 'woo-order-export-lite' ) ?></button>
-						<button  class='button-secondary button_cancel'><?php _e( 'Cancel', 'woo-order-export-lite' ) ?></button>
-					</div>
-				</div>
-				<div class='div_custom' style='display:none;'>
-					<label style="width: 40%;"><?php _e( 'Column name', 'woo-order-export-lite' ) ?>:<input type='text' id='colname_custom_field'/></label>
-					<label style="width: 40%;"><?php _e( 'Value', 'woo-order-export-lite' ) ?>:<input type='text' id='value_custom_field'/></label>
-					<div style="text-align: right;">
-						<button  id='button_custom_field' class='button-secondary'><?php _e( 'Confirm', 'woo-order-export-lite' ) ?></button>
-						<button   class='button-secondary button_cancel'><?php _e( 'Cancel', 'woo-order-export-lite' ) ?></button>
-					</div>
-				</div>
-				<div class='div1'><span><strong><?php _e( 'Use sections', 'woo-order-export-lite' ) ?>:</strong></span> <?php
-					foreach ( WC_Order_Export_Data_Extractor_UI::get_order_segments() as $section_id => $section_name ) {
-						echo "<label ><input type=checkbox value=$section_id checked class='field_section'>$section_name &nbsp;</label>";
-					}
-					?>
-				</div>
-				<div class='div2'>
-					<span><strong><?php _e( 'Actions', 'woo-order-export-lite' ) ?>:</strong></span>
-					<button  id='orders_add_custom_meta' class='button-secondary'><?php _e( 'Add field', 'woo-order-export-lite' ) ?></button>
-					<br><br>
-					<button  id='orders_add_custom_field' class='button-secondary'><?php _e( 'Add static field', 'woo-order-export-lite' ) ?></button>
-                    <br><br>
-                    <button id='hide_unchecked' class='button button-secondary'>
-                        <div style="padding:0px;"><?php _e( 'Hide unused fields', 'woo-order-export-lite' ) ?></div>
-                        <div style="padding:0px;display:none"><?php _e( 'Show unused fields', 'woo-order-export-lite' ) ?></div>
-                    </button>
-				</div>
-			</div>
-			<div id='fields' style='display:none;'>
-				<br>
-				<div class="mapping_col_2">
-					<label style="margin-left: 3px;">
-						<input type="checkbox" name="orders_all"> <?php _e( 'Select all', 'woo-order-export-lite' ) ?></label>
-				</div>
-				<label class="mapping_col_3" style="color: red; font-size: medium;">
-					<?php _e( 'Drag rows to reorder exported fields', 'woo-order-export-lite' ) ?>
-				</label>
-				<br>
-				<ul id="order_fields"></ul>
+                                <label for="select_custom_meta_order_items"><?php _e('Order item fields', 'woo-order-export-lite')?>:</label><select id='select_custom_meta_order_items'></select>
+                                <label>&nbsp;</label><input style="width: 80%;" type='text' id='text_custom_meta_order_items' placeholder="<?php _e('or type meta key here', 'woo-order-export-lite') ?>"/><br>
+                                <div style="width: 80%; text-align: center;"><?php _e('OR', 'woo-order-export-lite') ?></div>
+                                <label><?php _e('Taxonomy', 'woo-order-export-lite')?>:</label><select id='select_custom_taxonomies_products'>
+                                    <option></option>
+                                    <?php
+                                    foreach (WC_Order_Export_Data_Extractor_UI::get_product_taxonomies() as $tax_id => $tax_name) {
+                                        echo "<option value='__$tax_name' >__$tax_name</option>";
+                                    };
+                                    ?>
+                                </select>
+                                <hr>
+                                <div style="margin-top: 15px;"></div>
+                                <label><?php _e('Column name', 'woo-order-export-lite')?>:</label><input type='text' id='colname_custom_meta_products'/>
+                                <div style="margin-top: 15px;"></div>
+	                            <?php echo print_formats_field('meta', 'products'); ?>
+                                <div style="text-align: right;">
+                                    <button  id='button_custom_meta_products' class='button-secondary'><?php _e('Confirm', 'woo-order-export-lite')?></button>
+                                    <button  class='button-secondary button-cancel'><?php _e( 'Cancel', 'woo-order-export-lite' ) ?></button>
+                                </div>
+                            </div>
+                            <div class='div_custom products-segment segment-form products-add-static-field'>
+                                <div>
+                                    <label for="colname_custom_field_products"><?php _e('Column name', 'woo-order-export-lite')?>:</label>
+                                    <input type='text' id='colname_custom_field_products'/>
+                                </div>
+                                <div>
+                                    <label for="value_custom_field_products"><?php _e('Value', 'woo-order-export-lite')?>:</label>
+                                    <input type='text' id='value_custom_field_products'/>
+                                </div>
+                                <div>
+		                            <?php echo print_formats_field('field', 'products'); ?>
+                                </div>
+                                <div style="text-align: right;">
+                                    <button  id='button_custom_field_products' class='button-secondary'><?php _e('Confirm', 'woo-order-export-lite')?></button>
+                                    <button  class='button-secondary button-cancel'><?php _e( 'Cancel', 'woo-order-export-lite' ) ?></button>
+                                </div>
+                            </div>
+                            <div class='div_meta coupons-segment segment-form coupons-add-field' >
+                                <label><?php _e('Meta key', 'woo-order-export-lite')?>:</label><div id="custom_meta_coupons_mode" style="display: none;">
+                                    <label><input id="custom_meta_coupons_mode_used" type="checkbox" name="custom_meta_coupons_mode" value="used"> <?php _e('Hide unused fields', 'woo-order-export-lite') ?></label>
+                                </div>
+                                <br>
+                                <select id='select_custom_meta_coupons'></select>
+                                <input style="width: 80%;margin-bottom: 10px;" type='text' id='text_custom_meta_coupons' placeholder="<?php _e('or type meta key here', 'woo-order-export-lite') ?>"/><br/>
+                                <hr>
+                                <label><?php _e('Column name', 'woo-order-export-lite')?>:</label><input type='text' id='colname_custom_meta_coupons'/></label>
+                                <div style="margin-top: 20px;">
+	                                <?php echo print_formats_field('meta', 'coupons'); ?>
+                                </div>
+                                <div style="text-align: right;">
+                                    <button  id='button_custom_meta_coupons' class='button-secondary'><?php _e('Confirm', 'woo-order-export-lite')?></button>
+                                    <button  class='button-secondary button-cancel'><?php _e( 'Cancel', 'woo-order-export-lite' ) ?></button>
+                                </div>
+                            </div>
+                            <div class='div_custom coupons-segment segment-form coupons-add-static-field'>
+                                <div>
+                                    <label for="colname_custom_field_coupons"><?php _e('Column name', 'woo-order-export-lite')?>:</label>
+                                    <input type='text' id='colname_custom_field_coupons'/>
+                                </div>
+                                <div>
+                                    <label for="value_custom_field_coupons"><?php _e('Value', 'woo-order-export-lite')?>:</label>
+                                    <input type='text' id='value_custom_field_coupons'/>
+                                </div>
+                                <div>
+		                            <?php echo print_formats_field('field', 'coupons'); ?>
+                                </div>
+                                <div style="text-align: right;">
+                                    <button  id='button_custom_field_coupons' class='button-secondary'>
+                                        <?php _e('Confirm', 'woo-order-export-lite')?>
+                                    </button>
+                                    <button  class='button-secondary button-cancel'>
+                                        <?php _e( 'Cancel', 'woo-order-export-lite' ) ?>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-			</div>
+                    <div id="unselected_fields_list"></div>
+
+
+<!--                    <div class="section settings-segment" id="order_segment">-->
+<!--                        <h1>ORDER</h1>-->
+<!--                    </div>-->
+<!--                    <div class="section settings-segment" id="products_segment">-->
+<!--                        <h1>PRODUCT</h1>-->
+<!--                    </div>-->
+<!--                    <div class="section settings-segment" id="coupons_segment">-->
+<!--                        <h1>COUPON</h1>-->
+<!--                    </div>-->
+
+                </div>
+            </div>
 			<div id="modal_content" style="display: none;"></div>
 		</div>
 
@@ -823,7 +988,13 @@ $readonly_php = WC_Order_Export_Admin::user_can_add_custom_php() ? '' : 'readonl
 	<div id=JS_error_onload style='color:red;font-size: 120%;'><?php echo sprintf(__( "If you see this message after page load, user interface won't work correctly!<br>There is a JS error (<a target=blank href='%s'>read here</a> how to view it). Probably, it's a conflict with another plugin or active theme.", 'woo-order-export-lite' ) , "https://codex.wordpress.org/Using_Your_Browser_to_Diagnose_JavaScript_Errors#Step_3:_Diagnosis"); ?></div>
 	<p class="submit">
 		<input type="submit" id='preview-btn' class="button-secondary preview-btn"  data-limit="<?php echo ($mode === WC_Order_Export_Manage::EXPORT_ORDER_ACTION ? 1 : 5); ?>" value="<?php _e( 'Preview', 'woo-order-export-lite' ) ?>" title="<?php _e( 'Might be different from actual export!', 'woo-order-export-lite' ) ?>" />
-		<input type="submit" id='save-btn' class="button-primary" value="<?php _e( 'Save settings', 'woo-order-export-lite' ) ?>" />
+	<?php if($mode == 'now'): ?>
+		<input type="submit" id='save-only-btn' class="button-primary" value="<?php _e( 'Save settings', 'woo-order-export-lite' ) ?>" />
+	<?php else: ?>
+		<input type="submit" id='save-btn' class="button-primary" value="<?php _e( 'Save & Exit', 'woo-order-export-lite' ) ?>" />
+		<input type="submit" id='save-only-btn' class="button-secondary" value="<?php _e( 'Save settings', 'woo-order-export-lite' ) ?>" />
+	<?php endif; ?>
+		
 		<?php if ( $show[ 'export_button' ] ) { ?>
 			<input type="submit" id='export-btn' class="button-secondary" value="<?php _e( 'Export', 'woo-order-export-lite' ) ?>" />
 		<?php } ?>
@@ -841,6 +1012,8 @@ $readonly_php = WC_Order_Export_Admin::user_can_add_custom_php() ? '' : 'readonl
 			<?php endforeach ?>
 		</span>
 	</p>
+	<div id=Settings_updated style='display:none;color:green;font-size: 120%;'><?php _e( "Settings were successfully updated!", 'woo-order-export-lite' )?></div>
+	
 	<?php if ( $show[ 'export_button' ] OR $show[ 'export_button_plain' ] ) { ?>
 		<div id="progress_div" style="display: none;">
 			<h1 class="title-cancel"><?php _e( "Press 'Esc' to cancel the export", 'woo-order-export-lite' ) ?></h1>

@@ -28,6 +28,21 @@ if ( ! class_exists( 'YITH_WooCommerce_Zoom_Magnifier' ) ) {
 		 */
 		public $obj = null;
 
+        /**
+         * @var string Premium version landing link
+         */
+        protected $_premium_landing = 'http://yithemes.com/themes/plugins/yith-woocommerce-zoom-magnifier/';
+
+        /**
+         * @var string Plugin official documentation
+         */
+        protected $_official_documentation = 'https://docs.yithemes.com/yith-woocommerce-zoom-magnifier/';
+
+        /**
+         * @var string Plugin panel page
+         */
+        protected $_panel_page = 'yith_woocommerce_zoom-magnifier_panel';
+
 		/**
 		 * Constructor
 		 *
@@ -90,7 +105,15 @@ if ( ! class_exists( 'YITH_WooCommerce_Zoom_Magnifier' ) ) {
 		 * @since 1.0.0
 		 */
 		public function init() {
+
 			$this->_image_sizes();
+
+            /* === Show Plugin Information === */
+
+            add_filter( 'plugin_action_links_' . plugin_basename( YITH_YWZM_DIR . '/' . basename( YITH_YWZM_FILE ) ), array( $this, 'action_links' ) );
+
+            add_filter( 'yith_show_plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 5 );
+
 		}
 
 
@@ -111,5 +134,34 @@ if ( ! class_exists( 'YITH_WooCommerce_Zoom_Magnifier' ) ) {
 
 			add_image_size( 'shop_magnifier', $width, $height, $crop );
 		}
+
+        /**
+         * Action links
+         *
+         *
+         * @return void
+         * @since    1.3.5
+         * @author   Daniel Sanchez <daniel.sanchez@yithemes.com>
+         */
+        public function action_links( $links ) {
+            $links = yith_add_action_links( $links, $this->_panel_page, false );
+            return $links;
+        }
+        /**
+         * Plugin Row Meta
+         *
+         *
+         * @return void
+         * @since    1.3.5
+         * @author   Daniel Sanchez <daniel.sanchez@yithemes.com>
+         */
+        public function plugin_row_meta( $new_row_meta_args, $plugin_meta, $plugin_file, $plugin_data, $status, $init_file = 'YITH_YWZM_FREE_INIT' ) {
+            if ( defined( $init_file ) && constant( $init_file ) == $plugin_file ) {
+                $new_row_meta_args['slug'] = YITH_YWZM_SLUG;
+            }
+
+            return $new_row_meta_args;
+        }
+
 	}
 }

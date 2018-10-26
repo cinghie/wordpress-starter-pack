@@ -54,14 +54,40 @@ class PPOM_Meta {
         	return $this->meta_id == null ? false : true;
         }
         
+        
+        // since 15.0 multiple meta can be set against single product
+        // so we have to set one active one meta for compatiblility isues
+        function single_meta_id() {
+            
+            $single_meta = $this->meta_id;
+            
+            if( $this->has_multiple_meta() ) {
+    		    $single_meta = $this->meta_id[0];
+    		}
+    		
+    		return $single_meta;
+        }
+        
+        function has_multiple_meta() {
+            
+            $multiple_meta = false;
+            
+            if( is_array($this->meta_id) ) {
+                $multiple_meta = true;
+            }
+            
+            return $multiple_meta;
+        }
+        
         // getting settings
         function settings() {
             
             if( ! $this->is_exists() )
     			return null;
     			
+    		$meta_id = $this->single_meta_id;
+    			
     		global $wpdb;
-    		$meta_id = $this->meta_id;
     		$qry = "SELECT * FROM " . $wpdb->prefix . PPOM_TABLE_META . " WHERE productmeta_id = {$meta_id}";
     		$meta_settings = $wpdb->get_row ( $qry );
     		
@@ -78,12 +104,29 @@ class PPOM_Meta {
     			
     		// Meta created without any fields
             if( ! $this->settings() ) return null;
+            
+            $meta_fields = array();
+            global $wpdb;
+            if( $this->has_multiple_meta() ) {
+                
+                foreach( $this->meta_id as $meta_id ) {
+                    
+        		    $qry = "SELECT the_meta FROM " . $wpdb->prefix . PPOM_TABLE_META . " WHERE productmeta_id = {$meta_id}";
+        		    $fields = $wpdb->get_var ( $qry );
+        		  //  var_dump($fields);
+                    $fields = json_decode ( $fields, true );
+        		    $meta_fields = array_merge($meta_fields, $fields);
+                }
+            } else {
+                $meta_id = $this->meta_id;
+                $qry = "SELECT the_meta FROM " . $wpdb->prefix . PPOM_TABLE_META . " WHERE productmeta_id = {$meta_id}";
+    		    $fields = $wpdb->get_var ( $qry );
+                $meta_fields = json_decode ( $fields, true );
+            }
     			
-            $fields_meta = json_decode ( $this->settings()->the_meta, true );
+            // if( empty($meta_fields) ) return null;
             
-            if( empty($fields_meta) ) return null;
-            
-            return apply_filters('ppom_meta_fields', $fields_meta, $this);
+            return apply_filters('ppom_meta_fields', $meta_fields, $this);
         }
         
         // check meta settings: ajax validation
@@ -149,7 +192,7 @@ class PPOM_Meta {
     		// Meta created without any fields
             if( ! $this->settings() ) return null;
             
-            $meta_title = $this->settings()->productmeta_name;
+            $meta_title = stripslashes($this->settings()->productmeta_name);
     			
             return apply_filters('ppom_meta_title', $meta_title, $this);
         }

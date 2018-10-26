@@ -4,7 +4,7 @@ Tags: woocommerce, pesonalized products, woocommerce variations, woocommerce pro
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
 Tested up to: 4.9
-Stable tag: 14.3
+Stable tag: 15.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -42,6 +42,7 @@ Drag & Drop input fields with many options. Prices can also be added with option
 * Compatible with [Advanced Order Export For WooCommerce](https://najeebmedia.com/2018/06/30/how-to-export-ppom-order-fields/)
 
 = Pro Version =
+* Multiple Meta - [Assign multiple metas groups to single product](https://najeebmedia.com/2018/10/25/ppom-version-15-0-multiple-meta/)
 * Measure Input - [Demo](https://ppom.nmediahosting.com/product/ppom-measure-input/)
 * Color Picker - [Demo](https://ppom.nmediahosting.com/product/woo-album-1/)
 * Color Palette - [Demo](https://ppom.nmediahosting.com/product/woo-album-1/)
@@ -81,7 +82,13 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
-= 14.3 October 16, 2018
+= 15.0 October 25, 2018 =
+* Feature: [Multiple metas can be attached with single product (PRO)](https://najeebmedia.com/2018/10/25/ppom-version-15-0-multiple-meta/)
+* Feature: Better import/export feature added
+* Bug fixed: [Price issue with different role fixed on cart page](https://clients.najeebmedia.com/forums/topic/ppom-issue-when-cart-has-existing-item-for-logged-in-users/)
+* Bug fixed: [Conditional logic issue with Image DropDown fixed](https://clients.najeebmedia.com/forums/topic/condition-not-working-for-image-dropdown/#post-9705)
+* Bug fixed: [Variable product prices not shown](https://wordpress.org/support/topic/variation-price-does-not-show/)
+= 14.3 October 16, 2018 =
 * Bug fixed: [A bug related Advanced Export Order plugin fixed](https://wordpress.org/support/topic/error-with-export-plugin/)
 * Bug fixed: [WooCommerce Currency Switcher issue fixed on cart page for addons price](https://wordpress.org/support/topic/woocommerce-currency-switcher-and-ppom/#post-10782102)
 = 14.2.1 October 14, 2018

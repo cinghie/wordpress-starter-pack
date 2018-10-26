@@ -5,8 +5,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class WOE_Formatter_Xml extends WOE_Formatter {
 
-	public function __construct( $mode, $filename, $settings, $format, $labels, $field_formats, $date_format ) {
-		parent::__construct( $mode, $filename, $settings, $format, $labels, $field_formats, $date_format );
+	public function __construct( $mode, $filename, $settings, $format, $labels, $field_formats, $date_format, $offset ) {
+		parent::__construct( $mode, $filename, $settings, $format, $labels, $field_formats, $date_format, $offset );
 
 		$this->linebreak = apply_filters( "woe_xml_output_linebreak", "\n" );
 	}
@@ -37,14 +37,20 @@ class WOE_Formatter_Xml extends WOE_Formatter {
 
 		$labels = $this->labels['order'];
 		$rec    = apply_filters( 'woe_xml_prepare_record', $rec );
-		foreach ( $rec as $field => $value ) {
-			$value = apply_filters( 'woe_xml_prepare_field_' . $field, $value, $rec );
-			if ( is_array( $value ) ) {
-				$childs = $xml->addChild( $labels[ $field ] ); // add Products
-				if ( $field == "products" ) {
+
+		foreach ( $labels->get_labels() as $label_data ) {
+			$original_key = $label_data['key'];
+			$label = $label_data['label'];
+			$key = $label_data['parent_key'] ? $label_data['parent_key'] : $original_key;
+
+			$field_value = apply_filters( 'woe_xml_prepare_field_' . $original_key, $rec[$key], $rec );
+
+			if ( is_array( $field_value ) ) {
+				$childs = $xml->addChild( $label ); // add Products
+				if ( $original_key == "products" ) {
 					$child_tag    = $this->settings['product_tag'];
 					$child_labels = $this->labels['products'];
-				} elseif ( $field == "coupons" ) {
+				} elseif ( $original_key == "coupons" ) {
 					$child_tag    = $this->settings['coupon_tag'];
 					$child_labels = $this->labels['coupons'];
 				} else {
@@ -53,26 +59,28 @@ class WOE_Formatter_Xml extends WOE_Formatter {
 					$child_labels = array();
 				}
 				// modify children using filters
-				$child_tag    = apply_filters( 'woe_xml_child_tagname_' . $field, $child_tag, $value, $rec );
-				$child_labels = apply_filters( 'woe_xml_child_labels_' . $field, $child_labels, $value, $rec );
+				$child_tag    = apply_filters( 'woe_xml_child_tagname_' . $original_key, $child_tag, $field_value, $rec );
+				$child_labels = apply_filters( 'woe_xml_child_labels_' . $original_key, $child_labels, $field_value, $rec );
 
-				foreach ( $value as $child_key => $child_elements ) {
+				foreach ( $field_value as $child_key => $child_element ) {
 					$tag_name = $child_tag ? $child_tag : $child_key;
 					// add nested Product if array!
 					$child = $childs->addChild( $tag_name,
-						is_array( $child_elements ) ? null : $this->prepare_string( $child_elements ) );
-					// products/coupons	
-					if ( is_array( $child_elements ) ) {
-						foreach ( $child_elements as $field_child => $value_child ) {
-							if ( isset( $child_labels[ $field_child ] ) ) {
-								$child->addChild( $child_labels[ $field_child ],
-									$this->prepare_string( $value_child ) );
+						is_array( $child_element ) ? null : $this->prepare_string( $child_element ) );
+					// products/coupons
+					if ( is_array( $child_element ) ) {
+						foreach ( $child_labels->get_labels() as $child_label_data ) {
+							$child_original_key = $child_label_data['key'];
+							$child_label = $child_label_data['label'];
+							$child_key = $child_label_data['parent_key'] ? $child_label_data['parent_key'] : $child_original_key;
+							if ( isset( $child_element[ $child_key ] ) ) {
+								$child->addChild( $child_label, $this->prepare_string( $child_element[ $child_key ] ) );
 							}
 						}
 					}
 				}
 			} else {
-				$xml->addChild( $labels[ $field ], $this->prepare_string( $value ) );
+				$xml->addChild( $label, $this->prepare_string( $field_value ) );
 			}
 		}
 

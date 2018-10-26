@@ -21,6 +21,19 @@
 	
 	add_filter( 'woocommerce_dropdown_variation_attribute_options_html', 'wvs_variation_attribute_options_html', 200, 2 );
 	
+	// Add WooCommerce Default Image
+	add_filter( 'wp_get_attachment_image_attributes', function ( $attr ) {
+		
+		$classes = (array) explode( ' ', $attr[ 'class' ] );
+		
+		array_push( $classes, 'wp-post-image' );
+		
+		$attr[ 'class' ] = implode( ' ', array_unique( $classes ) );
+		
+		return $attr;
+	}, 9 );
+	
+	
 	if ( ! class_exists( 'Woo_Variation_Swatches_Pro' ) ) {
 		add_filter( 'woocommerce_product_data_tabs', 'add_wvs_pro_preview_tab' );
 		

@@ -22,7 +22,7 @@ if (isset ( $_REQUEST ['productmeta_id'] ) && $_REQUEST ['do_meta'] == 'edit') {
 	$ppom		= new PPOM_Meta();
 	$ppom_settings = $ppom->get_settings_by_id($product_meta_id);
 	
-	$productmeta_name 		= (isset($ppom_settings -> productmeta_name) ? $ppom_settings -> productmeta_name : '');
+	$productmeta_name 		= (isset($ppom_settings -> productmeta_name) ? stripslashes($ppom_settings->productmeta_name) : '');
 	$enable_ajax_validation = (isset($ppom_settings -> productmeta_validation) ? $ppom_settings -> productmeta_validation : '');
     $dynamic_price_hide  	= (isset($ppom_settings -> dynamic_price_display) ? $ppom_settings -> dynamic_price_display : '');
     $send_file_attachment  	= (isset($ppom_settings -> send_file_attachment) ? $ppom_settings -> send_file_attachment : '');
@@ -30,7 +30,7 @@ if (isset ( $_REQUEST ['productmeta_id'] ) && $_REQUEST ['do_meta'] == 'edit') {
 	$aviary_api_key 		= (isset($ppom_settings -> aviary_api_key) ? $ppom_settings -> aviary_api_key : '');
 	$productmeta_style 		= (isset($ppom_settings -> productmeta_style) ? $ppom_settings -> productmeta_style : '');
 	$productmeta_categories	= (isset($ppom_settings -> productmeta_categories) ? $ppom_settings -> productmeta_categories : '');
-	$product_meta 			= $fields_meta = json_decode ( $ppom_settings->the_meta, true );
+	$product_meta 			= json_decode ( $ppom_settings->the_meta, true );
 	
 	// var_dump($single_productmeta->the_meta);
 	// ppom_pa ( $product_meta );

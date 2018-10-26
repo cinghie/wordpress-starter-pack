@@ -569,6 +569,8 @@ function ppom_get_field_meta_by_dataname( $product_id, $data_name ) {
 	$field_meta = '';
 	foreach($ppom->fields as $field) {
 	
+		if( ! ppom_is_field_visible($field) ) continue;
+		
 		if( !empty($field['data_name']) && sanitize_key($field['data_name']) == $data_name) {
 			$field_meta = $field;
 			break;

@@ -2,7 +2,7 @@
 /**
  * Frontend class
  *
- * @author Yithemes
+ * @author YITH
  * @package YITH Infinite Scrolling
  * @version 1.0.0
  */

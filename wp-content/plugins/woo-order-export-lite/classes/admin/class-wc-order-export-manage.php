@@ -14,7 +14,7 @@ class WC_Order_Export_Manage {
 	const EXPORT_SCHEDULE     = 'cron';
 	const EXPORT_ORDER_ACTION = 'order-action';
 
-	public static $edit_existing_job = false;
+        public static $edit_existing_job = false;
 
 	static function get_days() {
 		return array(
@@ -69,6 +69,7 @@ class WC_Order_Export_Manage {
 		return update_option( $name, $jobs, false );
 	}
 
+
 	static function make_new_settings( $in ) {
 		$new_settings = $in['settings'];
 
@@ -91,7 +92,7 @@ class WC_Order_Export_Manage {
 			'shipping_methods',
 			'user_roles',
 			'user_names',
-			'user_custom_fields',
+			'user_custom_fields',			
 			'coupons',
 			'billing_locations',
 			'payment_methods',
@@ -109,6 +110,8 @@ class WC_Order_Export_Manage {
 
 		$settings       = self::get( $in['mode'], $in['id'] );
 		$settings['id'] = $in['id'];
+		$settings['duplicated_fields_settings'] = isset( $in['duplicated_fields_settings'] ) ? $in['duplicated_fields_settings'] : array();
+
 		// setup new values for same keys
 		foreach ( $new_settings as $key => $val ) {
 			$settings[ $key ] = $val;
@@ -116,49 +119,30 @@ class WC_Order_Export_Manage {
 
 		$sections = array(
 			'orders'   => 'order_fields',
-			'products' => 'order_product_fields',
-			'coupons'  => 'order_coupon_fields',
 		);
+
+		$flat_formats = array( 'XLS', 'CSV', 'TSV' );
+		if ( ! in_array($new_settings['format'], $flat_formats) ) {
+			$sections[ 'products' ] = 'order_product_fields';
+			$sections[ 'coupons' ] = 'order_coupon_fields';
+		}
+
 		foreach ( $sections as $section => $fieldset ) {
-			$new_order_fields = array();
-			$in_sec           = $in[ $section ];
-
-			if ( $in_sec['colname'] ) {
-				foreach ( $in_sec['colname'] as $field => $colname ) {
-					$opts = array(
-						"checked" => $in_sec['exported'][ $field ],
-						"colname" => $colname,
-						"label"   => $in_sec['label'][ $field ],
-					);
-					// for products & coupons
-					if ( isset( $in_sec['repeat'][ $field ] ) ) {
-						$opts["repeat"] = $in_sec['repeat'][ $field ];
-					}
-					if ( isset( $in_sec['max_cols'][ $field ] ) ) {
-						$opts["max_cols"] = $in_sec['max_cols'][ $field ];
-					}
-					//for orders
-					if ( isset( $in_sec['segment'][ $field ] ) ) {
-						$opts["segment"] = $in_sec['segment'][ $field ];
-					}
-					//for static fields
-					if ( isset( $in_sec['value'][ $field ] ) ) {
-						$opts["value"] = $in_sec['value'][ $field ];
-					}
-					$new_order_fields[ $field ] = $opts;
-				}
-			}
-
-			$settings[ $fieldset ] = $new_order_fields;
+			$section_fields = isset( $in[ $section ] ) ? $in[ $section ] : array();
+			$settings[ $fieldset ] = $section_fields;
 		}
 
 		return self::apply_defaults( $in['mode'], $settings );
 	}
 
 	static function get( $mode, $id = false ) {
-		$all_jobs = self::get_export_settings_collection( $mode );
+
+                $all_jobs = self::get_export_settings_collection( $mode );
 
 		if ( $mode == self::EXPORT_NOW ) { // one job
+                        if ( ! isset( $all_jobs['version'] ) ) {
+                            $all_jobs = self::convert_settings_to_version_2($mode, $all_jobs);
+                        }
 			return self::apply_defaults( $mode, $all_jobs );
 		} elseif ( $id === false ) {
 			if ( empty( $all_jobs ) OR ! is_array( $all_jobs ) ) {
@@ -166,20 +150,27 @@ class WC_Order_Export_Manage {
 			}
 
 			return array_map( function ( $item ) use ( $mode ) {
+
+                                if ( ! isset( $item['version'] ) ) {
+                                    $item = self::convert_settings_to_version_2($mode, $item);
+                                }
+
 				return WC_Order_Export_Manage::apply_defaults( $mode, $item );
 			}, $all_jobs );
 		}
 
 		$settings = isset( $all_jobs[ $id ] ) ? $all_jobs[ $id ] : array();
 
+                if ( ! isset( $settings['version'] ) ) {
+                    $settings = self::convert_settings_to_version_2($mode, $settings);
+                }
+
 		return self::apply_defaults( $mode, $settings );
 	}
 
-	static function apply_defaults( $mode, $settings ) {
-
-		$settings = apply_filters( "woe_before_apply_default_settings", $settings, $mode );
-
-		$defaults = array(
+	private static function get_defaults( $mode ) {
+		return array(
+			'version'                                        => '2.0',
 			'mode'                                           => $mode,
 			'title'                                          => '',
 			'skip_empty_file'                                => true,
@@ -214,21 +205,18 @@ class WC_Order_Export_Manage {
 			'format_xls_sheet_name'                          => __( 'Orders', 'woo-order-export-lite' ),
 			'format_xls_display_column_names'                => 1,
 			'format_xls_auto_width'                          => 1,
-			'format_xls_populate_other_columns_product_rows' => 1,
 			'format_xls_direction_rtl'                       => 0,
 			'format_csv_enclosure'                           => '"',
 			'format_csv_delimiter'                           => ',',
 			'format_csv_linebreak'                           => '\r\n',
 			'format_csv_display_column_names'                => 1,
 			'format_csv_add_utf8_bom'                        => 0,
-			'format_csv_populate_other_columns_product_rows' => 1,
 			'format_csv_item_rows_start_from_new_line'       => 0,
 			'format_csv_encoding'                            => 'UTF-8',
 			'format_csv_delete_linebreaks'                   => 0,
 			'format_tsv_linebreak'                           => '\r\n',
 			'format_tsv_display_column_names'                => 1,
 			'format_tsv_add_utf8_bom'                        => 0,
-			'format_tsv_populate_other_columns_product_rows' => 1,
 			'format_tsv_encoding'                            => 'UTF-8',
 			'format_xml_root_tag'                            => 'Orders',
 			'format_xml_order_tag'                           => 'Order',
@@ -259,7 +247,30 @@ class WC_Order_Export_Manage {
 			'export_unmarked_orders'                         => 0,
 
 			'summary_report_by_products' => 0,
+			'duplicated_fields_settings' => array(
+				'products' =>
+					array(
+						'repeat'                 => 'rows',
+						'populate_other_columns' => '1',
+						'max_cols'               => '10',
+						'line_delimiter'         => '\\n',
+						'group_by'               => 'product',
+					),
+				'coupons'  =>
+					array(
+						'repeat'         => 'rows',
+						'max_cols'       => '10',
+						'line_delimiter' => '\\n',
+						'group_by'       => 'product',
+					),
+			),
 		);
+	}
+
+	static function apply_defaults( $mode, $settings ) {
+		$settings = apply_filters( "woe_before_apply_default_settings", $settings, $mode );
+
+		$defaults = self::get_defaults( $mode );
 
 		if ( ! isset( $settings['format'] ) ) {
 			$settings['format'] = 'XLS';
@@ -269,25 +280,156 @@ class WC_Order_Export_Manage {
 			$settings['export_rule_field'] = 'modified';
 		}
 
-		if ( ! isset( $settings['order_fields'] ) ) {
-			$settings['order_fields'] = array();
-		}
-		self::merge_settings_and_default( $settings['order_fields'],
-			WC_Order_Export_Data_Extractor_UI::get_order_fields( $settings['format'] ) );
+		foreach ( array( 'order_fields', 'order_product_fields', 'order_coupon_fields' ) as $index ) {
+			if ( ! isset( $settings[ $index ] ) ) {
+				$additional_fields = self::move_fields_key( self::get_default_fields( $index, $settings['format'] ) );
+				self::remove_unchecked_fields($additional_fields);
+				$settings[ $index ] = $additional_fields;
+				if ( 'order_fields' !== $index ) {
+					$map_segment = array(
+						'order_product_fields' => 'products',
+						'order_coupon_fields' => 'coupons',
+					);
 
-		if ( ! isset( $settings['order_product_fields'] ) ) {
-			$settings['order_product_fields'] = array();
-		}
-		self::merge_settings_and_default( $settings['order_product_fields'],
-			WC_Order_Export_Data_Extractor_UI::get_order_product_fields( $settings['format'] ) );
+					$settings['order_fields'] = array_merge(
+						$settings['order_fields'],
+						array_map( function ( $value ) use ( $map_segment, $index ) {
+							$value['segment'] = $map_segment[ $index ];
+							$value['key'] = 'plain_' . $map_segment[ $index ] . '_' . $value['key'];
 
-		if ( ! isset( $settings['order_coupon_fields'] ) ) {
-			$settings['order_coupon_fields'] = array();
+							return $value;
+						}, $additional_fields )
+					);
+				}
+			}
 		}
-		self::merge_settings_and_default( $settings['order_coupon_fields'],
-			WC_Order_Export_Data_Extractor_UI::get_order_coupon_fields( $settings['format'] ) );
 
 		return array_merge( $defaults, $settings );
+	}
+
+	private static function get_default_fields($index, $format) {
+		$result = array();
+		switch ($index) {
+			case 'order_fields':
+				$result = WC_Order_Export_Data_Extractor_UI::get_order_fields( $format );
+				break;
+			case 'order_product_fields':
+				$result = WC_Order_Export_Data_Extractor_UI::get_order_product_fields( $format );
+				break;
+			case 'order_coupon_fields':
+				$result = WC_Order_Export_Data_Extractor_UI::get_order_coupon_fields( $format );
+				break;
+		};
+
+		return $result;
+	}
+
+	private static function remove_unchecked_fields(&$fields) {
+		foreach ( $fields as $key => $field ) {
+			if (empty($field['checked'])){
+				unset($fields[$key]);
+			} elseif ( isset($field['checked']) ) {
+				unset($fields[$key]['checked']);
+			}
+		}
+		$fields = array_values($fields);
+	}
+
+	private static function move_fields_key( $fields ) {
+
+		return array_map( function ( $key, $value ) {
+			if ( ! key_exists( 'key', $value ) ) {
+				$value['key'] = $key;
+			}
+
+			return $value;
+		}, array_keys( $fields ), $fields );
+	}
+
+	static function merge_settings_and_default_new( &$opt, $defaults ) {
+
+		$opt = self::move_fields_key($opt);
+		$defaults = self::move_fields_key($defaults);
+
+
+		foreach ( $defaults as $v ) {
+			$exists = false;
+			foreach ( $opt as $num_index => $option ) {
+				if ( $v['key'] == $option['key'] ) {
+					//set default attribute OR add to option
+					if ( isset( $v['default'] ) ) {
+						$option['default'] = $v['default'];
+					}
+					//set default format OR add to option
+					if ( isset( $v['format'] ) ) {
+						$option['format'] = $v['format'];
+					}
+					// overwrite labels for localization
+					$option['label'] = $v['label'];
+
+					$exists = true;
+					break;
+				}
+			};
+
+			if ( ! $exists ) {
+				if ( self::$edit_existing_job AND $v['checked'] == "1" ) {
+					$v['checked'] = "0";
+				}
+				$opt[] = $v;
+			}
+		};
+	}
+
+	public static function make_all_fields( $format ) {
+		$order_fields = array();
+		foreach ( array_keys( WC_Order_Export_Data_Extractor_UI::get_order_segments() ) as $segment ) {
+			if ( 'products' == $segment ) {
+				$method = "get_order_product_fields";
+				$filter = "woe_get_order_product_fields";
+			} elseif ( 'coupons' == $segment ) {
+				$method = "get_order_coupon_fields";
+				$filter = "woe_get_order_coupon_fields";
+			} elseif ( 'misc' == $segment ) {
+				$method = "get_order_fields_misc";
+				$filter = "woe_get_order_fields"; //add ALL custom Order fields to last tab
+			} else {
+				$method = "get_order_fields_" . $segment;
+				$filter = "woe_get_order_fields_" . $segment;
+			} 
+			 
+			if ( method_exists( 'WC_Order_Export_Data_Extractor_UI', $method ) ) {
+				// woe_get_order_fields_common	filter
+				$segment_fields = array();
+				$default_segment_fields = array_merge(
+					WC_Order_Export_Data_Extractor_UI::$method( $format ), 
+					apply_filters( $filter, array(), $format )
+				);
+				foreach ( $default_segment_fields as $key => $value ) {
+					$order_field            = $value;
+					$order_field['colname'] = $value['label'];
+					$order_field['key']     = $key;
+					$order_field['default']     = 1;
+					unset( $order_field['checked'] );
+					$segment_fields[] = $order_field;
+				}
+
+				$order_fields[ $segment ] = $segment_fields;
+			}
+		}
+
+		return $order_fields;
+	}
+
+	private static function process_fields( $fields ) {
+
+		return array_map( function ( $key, $value ) {
+			if ( ! key_exists( 'key', $value ) ) {
+				$value['key'] = $key;
+			}
+
+			return $value;
+		}, array_keys( $fields ), $fields );
 	}
 
 	static function merge_settings_and_default( &$opt, $defaults ) {
@@ -301,7 +443,7 @@ class WC_Order_Export_Manage {
 				if ( isset( $v['format'] ) ) {
 					$opt[ $k ]['format'] = $v['format'];
 				}
-				// overwrite labels for localization	
+				// overwrite labels for localization
 				$opt[ $k ]['label'] = $v['label'];
 			} else {
 				if ( self::$edit_existing_job AND $v['checked'] == "1" ) {
@@ -464,4 +606,207 @@ class WC_Order_Export_Manage {
 
 		return $data;
 	}
+
+	//backup only existing settings
+	private static function backup_settings_before_version_2( $mode ){
+		$name = self::get_settings_name_for_mode( $mode );
+		$current_settings = get_option( $name, array() );
+		$new_settings = get_option( $name."-V1", array() );
+		// backup only once!
+		if( !empty($current_settings) AND empty($new_settings) ) {
+			update_option( $name."-V1", $current_settings, false );
+		}
+	}
+	
+        protected static function convert_settings_to_version_2 ( $mode, $settings ) {
+
+            if ( ! $settings ) {
+                return $settings;
+            }
+			self::backup_settings_before_version_2($mode);
+            
+            $flat_formats   = array( 'XLS', 'CSV', 'TSV' );
+            $is_flat_format = in_array($settings['format'], $flat_formats);
+            $is_json_format = $settings['format'] === 'JSON';
+
+            $order_fields               = array();
+            $order_coupon_fields        = array();
+            $order_product_fields       = array();
+            $duplicated_fields_settings = array();
+
+	        if ( ! empty($settings['order_fields']['products']['checked']) ) {
+		        if (isset($settings['order_product_fields'])) {
+
+			        foreach ($settings['order_product_fields'] as $key => $values) {
+
+				        if ( ! $values['checked'] ) {
+					        continue;
+				        }
+
+				        $field = array(
+					        'key'     => $key,
+					        'label'   => $values['label'],
+					        'colname' => $values['colname'],
+					        'format'  => isset($values['format']) ? $values['format'] : 'string',
+				        );
+
+				        if ( $is_flat_format ) {
+					        $field['key']     = 'plain_products_' . $key;
+					        $field['segment'] = 'products';
+				        }
+
+				        // start FOR STATIC FIELDS
+				        if ( isset( $values['value'] ) ) {
+					        $field['value'] = $values['value'];
+				        }
+				        // end FOR STATIC FIELDS
+
+
+				        $order_product_fields[] = $field;
+			        }
+		        }
+	        } else {
+		        $order_fields[] = array(
+			        'key'     => 'products',
+			        'label'   => __( 'Products', 'woo-order-export-lite' ),
+			        'colname' => $is_json_format ? 'products' : 'Products',
+			        'segment' => 'product',
+			        'format'  => 'string',
+		        );
+	        }
+
+
+	        if ( ! empty($settings['order_fields']['coupons']['checked']) ) {
+		        if ( isset( $settings['order_coupon_fields'] ) ) {
+			        foreach ($settings['order_coupon_fields'] as $key => $values) {
+
+				        if ( ! $values['checked'] ) {
+					        continue;
+				        }
+
+				        $field = array(
+					        'key'     => $key,
+					        'label'   => $values['label'],
+					        'colname' => $values['colname'],
+					        'format'  => isset($values['format']) ? $values['format'] : 'string',
+				        );
+
+				        if ( $is_flat_format ) {
+					        $field['key']     = 'plain_coupons_' . $key;
+					        $field['segment'] = 'coupons';
+				        }
+
+				        // start FOR STATIC FIELDS
+				        if ( isset( $values['value'] ) ) {
+					        $field['value'] = $values['value'];
+				        }
+				        if ( preg_match( '/^custom_field_(\d+)/', $key, $matches ) ) {
+					        $field['key'] = "static_field_" . $matches[1];
+				        }
+				        // end FOR STATIC FIELDS
+
+				        $order_coupon_fields[] = $field;
+			        }
+		        }
+	        } else {
+		        $order_fields[] = array(
+			        'key'     => 'coupons',
+			        'label'   => __( 'Coupons', 'woo-order-export-lite' ),
+			        'colname' => $is_json_format ? 'coupons' : 'Coupons',
+			        'segment' => 'coupon',
+			        'format'  => 'string',
+		        );
+	        }
+
+
+	        if ( isset( $settings['format'] ) ) {
+		        $old_populate_option_values = array(
+			        isset( $settings['format_xls_populate_other_columns_product_rows'] ) && $settings['format_xls_populate_other_columns_product_rows'] == '1' && $settings['format'] == 'XLS',
+			        isset( $settings['format_csv_populate_other_columns_product_rows'] ) && $settings['format_csv_populate_other_columns_product_rows'] == '1' && $settings['format'] == 'CSV',
+			        isset( $settings['format_tsv_populate_other_columns_product_rows'] ) && $settings['format_tsv_populate_other_columns_product_rows'] == '1' && $settings['format'] == 'TSV',
+		        );
+
+		        $old_populate_option_values = array_filter( $old_populate_option_values );
+
+		        $populate = ! empty( $old_populate_option_values );
+	        } else {
+		        // by default
+		        $populate = true;
+	        }
+
+            if (isset($settings['order_fields'])) {
+                foreach ($settings['order_fields'] as $key => $values) {
+
+                    if ( ! $values['checked'] ) {
+                        continue;
+                    }
+                    if ( ! isset($values['segment']) ) {
+	                    $values['segment'] = 'common';
+                    }
+	                $order_field = array(
+		                'key'     => $key,
+		                'label'   => $values['label'],
+		                'colname' => $values['colname'],
+		                'segment' => $values['segment'],
+		                'format'  => isset($values['format']) ? $values['format'] : 'string',
+	                );
+
+                    // start FOR STATIC FIELDS
+	                if ( isset( $values['value'] ) ) {
+		                $order_field['value'] = $values['value'];
+	                }
+	                if ( $is_flat_format ) {
+		                if ( preg_match( '/^custom_field_(\d+)/', $key, $matches ) ) {
+			                $order_field['key'] = "static_field_" . $matches[1];
+		                }
+	                }
+	                // end FOR STATIC FIELDS
+
+                    $order_fields[] = $order_field;
+
+
+                    if ( $key === 'products' && $is_flat_format) {
+                        $order_fields = array_merge($order_fields, $order_product_fields);
+                    }
+
+                    if ( $key === 'coupons' && $is_flat_format) {
+                        $order_fields = array_merge($order_fields, $order_coupon_fields);
+                    }
+
+                    if ( in_array( $key, array( 'products', 'coupons' ) ) ) {
+                        $duplicated_fields_settings[$key] = array(
+                            'repeat'         => isset($values['repeat']) ? $values['repeat'] : 'rows',
+                            'max_cols'       => isset($values['max_cols']) ? $values['max_cols'] : '10',
+                            'line_delimiter' => '\\n',
+                        );
+                        if ( $key == 'products' ) {
+	                        $duplicated_fields_settings[$key]['populate_other_columns'] = $populate ? '1' : '0';
+                        }
+                    }
+                }
+            }
+
+            if ( $duplicated_fields_settings ) {
+                $settings['duplicated_fields_settings'] = $duplicated_fields_settings;
+            }
+
+	        $defaults = self::get_defaults( $settings['mode'] );
+	        if ( ! isset( $duplicated_fields_settings['products'] ) ) {
+		        $settings['duplicated_fields_settings']['products'] = $defaults['duplicated_fields_settings']['products'];
+	        }
+	        if ( ! isset( $duplicated_fields_settings['coupons'] ) ) {
+		        $settings['duplicated_fields_settings']['coupons'] = $defaults['duplicated_fields_settings']['coupons'];
+	        }
+
+            $settings['order_fields'] = $order_fields;
+
+            $settings['order_product_fields'] = $is_flat_format ? array() : $order_product_fields;
+            $settings['order_coupon_fields']  = $is_flat_format ? array() : $order_coupon_fields;
+
+            unset($duplicated_fields_settings, $order_coupon_fields, $order_product_fields, $order_fields);
+
+            return $settings;
+        }
+
+
 }

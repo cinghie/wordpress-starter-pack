@@ -520,22 +520,29 @@
 		function wvs_product_option_terms( $attribute_taxonomy, $i ) {
 			// $attribute_taxonomy, $i
 			// $tax, $i
-			global $thepostid;
+			global $post, $thepostid, $product_object;
 			if ( in_array( $attribute_taxonomy->attribute_type, array_keys( wvs_available_attributes_types() ) ) ) {
 				
 				$taxonomy = wc_attribute_taxonomy_name( $attribute_taxonomy->attribute_name );
+				
+				$product_id = $thepostid;
+				
+				if ( is_null( $thepostid ) && isset( $_POST[ 'post_id' ] ) ) {
+					$product_id = absint( $_POST[ 'post_id' ] );
+				}
 				
 				$args = array(
 					'orderby'    => 'name',
 					'hide_empty' => 0,
 				);
+				
 				?>
                 <select multiple="multiple" data-placeholder="<?php esc_attr_e( 'Select terms', 'woo-variation-swatches' ); ?>" class="multiselect attribute_values wc-enhanced-select" name="attribute_values[<?php echo $i; ?>][]">
 					<?php
 						$all_terms = get_terms( $taxonomy, apply_filters( 'woocommerce_product_attribute_terms', $args ) );
 						if ( $all_terms ) :
 							foreach ( $all_terms as $term ) :
-								echo '<option value="' . esc_attr( $term->term_id ) . '" ' . selected( has_term( absint( $term->term_id ), $taxonomy, $thepostid ), true, false ) . '>' . esc_attr( apply_filters( 'woocommerce_product_attribute_term_name', $term->name, $term ) ) . '</option>';
+								echo '<option value="' . esc_attr( $term->term_id ) . '" ' . selected( has_term( absint( $term->term_id ), $taxonomy, $product_id ), true, false ) . '>' . esc_attr( apply_filters( 'woocommerce_product_attribute_term_name', $term->name, $term ) ) . '</option>';
 							endforeach;
 						endif;
 					?>
@@ -553,7 +560,7 @@
                     <button class="button fr plus add_new_attribute"><?php esc_html_e( 'Add new', 'woo-variation-swatches' ); ?></button>
 				<?php endif; ?>
 				<?php
-				do_action( 'after_wvs_product_option_terms_button', $attribute_taxonomy, $taxonomy );
+				do_action( 'after_wvs_product_option_terms_button', $attribute_taxonomy, $taxonomy, $product_id );
 			}
 		}
 	endif;

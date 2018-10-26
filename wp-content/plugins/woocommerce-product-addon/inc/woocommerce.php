@@ -60,8 +60,9 @@ function ppom_woocommerce_show_fields() {
     
     $ppom_html = '<div id="ppom-box-'.esc_attr(PPOM()->productmeta_id).'" class="ppom-wrapper">';
     
-    $template_vars = array('ppom_settings'  => $ppom->settings,
-    						'product'	=> $product);
+    $template_vars = array('ppom_settings'  	=> $ppom->settings,
+    						'product'			=> $product,
+    						'ppom_fields_meta'	=> $ppom->fields);
     ob_start();
     ppom_load_template ( 'render-fields.php', $template_vars );
     $ppom_html .= ob_get_clean();
@@ -191,7 +192,7 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 	$ppom_quantities_include_base = false;
 	$ppom_total_discount = 0;
 	$ppon_onetime_cost = 0;
-	$ppomm_measures = 0;
+	$ppomm_measures = 1;	// meassure need to be multiple with each so it will be 1
 	
 	
 	// If quantities field found then we need to get total quantity to get correct matrix price
@@ -230,6 +231,7 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 						
 						$option_price = ppom_get_field_option_price_by_id($option['data_name'], $option, $wc_product);
 					}
+					
 					$total_option_price += wc_format_decimal( $option_price, wc_get_price_decimals());
 					break;
 				
@@ -291,21 +293,8 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 					$measer_qty = isset($option['qty']) ? $option['qty'] : 0;
 					$option_price = $option['price'];
 					
+					$ppomm_measures			*= $measer_qty;
 					
-					if( $option['use_units'] != 'no' ) {
-					
-						// verify prices from server due to security
-						if( isset($option['data_name']) && isset($option['option_id'])) {
-							
-							$option_price = ppom_get_field_option_price_by_id($option['data_name'], $option, $wc_product);
-						}
-						$total_option_price += $option_price * $measer_qty;
-						$total_option_price	= wc_format_decimal( $total_option_price, wc_get_price_decimals());
-					} else {
-					
-						$ppom_item_org_price	= $option_price;
-						$ppomm_measures			+= $measer_qty;
-					}
 					
 					break;
 					
@@ -367,8 +356,7 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 	
 	// If measures found, Multiply it with options
 	if( $ppomm_measures > 0 ) {
-		
-		$total_option_price = $total_option_price * $ppomm_measures;
+		// $total_option_price = $total_option_price * $ppomm_measures;
 		$ppom_item_org_price = $ppom_item_org_price * $ppomm_measures;
 	}
 	
@@ -574,7 +562,7 @@ function ppom_hide_variation_price_html($show, $parent, $variation) {
 	$product_id = $parent->get_id();
 	$ppom		= new PPOM_Meta( $product_id );
 	
-	if( $ppom->price_display != 'hide' ) {
+	if( $ppom->is_exists && $ppom->price_display != 'hide' ) {
 		$show = false;
 	}
 	

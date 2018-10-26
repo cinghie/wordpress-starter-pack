@@ -35,10 +35,10 @@ window.onload = function () {
 			return undefined;
 		}
 	} );
-	
+
 	//force style for popup!
-	var style = jQuery('<style>#TB_ajaxContent { overflow: auto !important; }</style>');
-    jQuery('html > head').append(style);
+//	var style = jQuery('<style>#TB_ajaxContent { overflow: auto !important; }</style>');
+//    jQuery('html > head').append(style);
 };
 
 function bind_events() {
@@ -63,15 +63,16 @@ function bind_events() {
                 jQuery.each( response, function( index, value ) {
                     options += '<option>' + value + '</option>';
                 } );
-                var $select = jQuery( '<div id="select_custom_fields--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top;' 
+                var $select = jQuery( '<div id="select_custom_fields--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top;'
                     + 'display: ' + (('LIKE' === val_op || 'NOT SET' === val_op|| 'IS SET' === val_op) ? 'none' : 'inline-block') + ';">'
                     + '<select id="select_custom_fields">' + options + '</select></div>' );
                 $select.insertBefore( jQuery( '#add_custom_fields' ) )
-                $select.find('select').select2({ tags: true });
+                $select.find('select').select2_i18n({ tags: true });
             }
             else {
                 jQuery( '<input type="text" id="select_custom_fields" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_custom_fields' ) );
             }
+	        jQuery( '#custom_fields_compare').trigger('change');
         }, 'json' );
     } );
     jQuery( '#add_custom_fields' ).click( function() {
@@ -97,7 +98,7 @@ function bind_events() {
 	                jQuery( '#custom_fields_check' ).append( '<option selected="selected" value="' + result + '">' + result + '</option>' );
                 }
 
-                jQuery( '#custom_fields_check' ).select2();
+                jQuery( '#custom_fields_check' ).select2_i18n();
 
                 jQuery( '#custom_fields_check option' ).each( function() {
                     jQuery( '#custom_fields_check option[value=\"' + jQuery( this ).val() + '\"]:not(:last)' ).remove();
@@ -142,7 +143,7 @@ function bind_events() {
             method: "get_products_attributes_values",
             action: "order_exporter"
         };
-        
+
         var val_op = jQuery( '#attributes_compare' ).val();
         jQuery( '#text_attributes' ).val( '' );
 
@@ -155,11 +156,11 @@ function bind_events() {
                 jQuery.each( response, function( index, value ) {
                     options += '<option>' + value + '</option>';
                 } );
-                var $select = jQuery( '<div id="select_attributes--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top;' 
+                var $select = jQuery( '<div id="select_attributes--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top;'
                     + 'display: ' + (('LIKE' === val_op) ? 'none' : 'inline-block') + ';">'
                     + '<select id="select_attributes">' + options + '</select></div>' );
                 $select.insertBefore( jQuery( '#add_attributes' ) )
-                $select.find('select').select2({ tags: true });
+                $select.find('select').select2_i18n({ tags: true });
             }
             else {
                 jQuery( '<input type="text" id="select_attributes" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_attributes' ) );
@@ -185,7 +186,7 @@ function bind_events() {
             if ( f ) {
 
                 jQuery( '#attributes_check' ).append( '<option selected="selected" value="' + val + '">' + val + '</option>' );
-                jQuery( '#attributes_check' ).select2(select2WODropdownOpts);
+                jQuery( '#attributes_check' ).select2_i18n(select2WODropdownOpts);
 
                 jQuery( '#attributes_check option' ).each( function() {
                     jQuery( '#attributes_check option[value=\"' + jQuery( this ).val() + '\"]:not(:last)' ).remove();
@@ -222,7 +223,7 @@ function bind_events() {
             method: "get_products_itemmeta_values",
             action: "order_exporter"
         };
-        
+
         var val_op = jQuery( '#itemmeta_compare' ).val();
         jQuery( '#text_itemmeta' ).val( '' );
 
@@ -234,11 +235,11 @@ function bind_events() {
                 jQuery.each( response, function( index, value ) {
                     options += '<option>' + value + '</option>';
                 } );
-                var $select = jQuery( '<div id="select_itemmeta--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top;' 
+                var $select = jQuery( '<div id="select_itemmeta--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top;'
                     + 'display: ' + (('LIKE' === val_op) ? 'none' : 'inline-block') + ';">'
                     + '<select id="select_itemmeta">' + options + '</select></div>' );
                 $select.insertBefore( jQuery( '#add_itemmeta' ) )
-                $select.find('select').select2({ tags: true });
+                $select.find('select').select2_i18n({ tags: true });
             }
             else {
                 jQuery( '<input type="text" id="select_itemmeta" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_itemmeta' ) );
@@ -265,7 +266,7 @@ function bind_events() {
             if ( f ) {
 
                 jQuery( '#itemmeta_check' ).append( '<option selected="selected" value="' + val + '">' + val + '</option>' );
-                jQuery( '#itemmeta_check' ).select2(select2WODropdownOpts);
+                jQuery( '#itemmeta_check' ).select2_i18n(select2WODropdownOpts);
 
                 jQuery( '#itemmeta_check option' ).each( function() {
                     jQuery( '#itemmeta_check option[value=\"' + jQuery( this ).val() + '\"]:not(:last)' ).remove(); // jQuerySelectorEscape ?
@@ -313,7 +314,7 @@ function bind_events() {
                 var $select = jQuery( '<div id="select_taxonomies--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top; display: inline-block;">'
                     + '<select id="select_taxonomies">' + options + '</select></div>' );
                 $select.insertBefore( jQuery( '#add_taxonomies' ) )
-                $select.find('select').select2({ tags: true });
+                $select.find('select').select2_i18n({ tags: true });
             }
             else {
                 jQuery( '<input type="text" id="select_taxonomies" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_taxonomies' ) );
@@ -339,7 +340,7 @@ function bind_events() {
             if ( f ) {
 
                 jQuery( '#taxonomies_check' ).append( '<option selected="selected" value="' + val + '">' + val + '</option>' );
-                jQuery( '#taxonomies_check' ).select2(select2WODropdownOpts);
+                jQuery( '#taxonomies_check' ).select2_i18n(select2WODropdownOpts);
 
                 jQuery( '#taxonomies_check option' ).each( function() {
                     jQuery( '#taxonomies_check option[value=\"' + jQuery( this ).val() + '\"]:not(:last)' ).remove();
@@ -386,11 +387,11 @@ function bind_events() {
                 jQuery.each( response, function( index, value ) {
                     options += '<option>' + value + '</option>';
                 } );
-                var $select = jQuery( '<div id="select_product_custom_fields--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top;' 
+                var $select = jQuery( '<div id="select_product_custom_fields--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top;'
                     + 'display: ' + (('LIKE' === val_op) ? 'none' : 'inline-block') + ';">'
                     + '<select id="select_product_custom_fields">' + options + '</select></div>' );
                 $select.insertBefore( jQuery( '#add_product_custom_fields' ) )
-                $select.find('select').select2({ tags: true });
+                $select.find('select').select2_i18n({ tags: true });
             }
             else {
                 jQuery( '<input type="text" id="select_product_custom_fields" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_product_custom_fields' ) );
@@ -415,7 +416,7 @@ function bind_events() {
             if ( f ) {
 
                 jQuery( '#product_custom_fields_check' ).append( '<option selected="selected" value="' + val + '">' + val + '</option>' );
-                jQuery( '#product_custom_fields_check' ).select2(select2WODropdownOpts);
+                jQuery( '#product_custom_fields_check' ).select2_i18n(select2WODropdownOpts);
 
                 jQuery( '#product_custom_fields_check option' ).each( function() {
                     jQuery( '#product_custom_fields_check option[value=\"' + jQuery( this ).val() + '\"]:not(:last)' ).remove();
@@ -470,20 +471,22 @@ function bind_events() {
     jQuery( '#button_custom_field' ).click( function() {
         var colname = jQuery( '#colname_custom_field' ).val();
         var value = jQuery( '#value_custom_field' ).val();
+        var format_field = jQuery( '#format_custom_field' ).val();
         if ( !colname )
         {
             alert( export_messages.empty_column_name );
 			jQuery( '#colname_custom_field' ).focus();
             return false
         }
-        /*if ( !value )
-        {
-            alert( 'empty Value' );
-			jQuery( '#value_custom_field' ).focus();
-            return false
-        }*/
-        add_custom_field( jQuery( "#order_fields" ), 'orders', output_format, colname, value );
+
+        var segment = jQuery('.segment_choice.active').attr('data-segment');
+
+        add_custom_field( jQuery( "#" + segment + '_unselected_segment' ), 'orders', output_format, colname, value, segment, format_field );
+
         reset_field_contorls();
+
+        jQuery(this).siblings('.button-cancel').trigger('click');
+
         return false;
     } );
 
@@ -496,8 +499,8 @@ function bind_events() {
             jQuery( '#select_custom_meta_order' ).html( options );
         }
         else {
-            var data = jQuery( '#export_job_settings' ).serialize()
-            data = data + "&action=order_exporter&method=get_used_custom_order_meta";
+            var json = makeJsonVar(jQuery( '#export_job_settings' ));
+            var data = "json="+ json +"&action=order_exporter&method=get_used_custom_order_meta";
 
             jQuery.post( ajaxurl, data, function( response ) {
                 if ( response ) {
@@ -530,7 +533,7 @@ function bind_events() {
 	        jQuery( '#select_custom_meta_order_items' ).prop( "disabled", false );
         }
         else {
-            jQuery('#modal-manage-products').html(jQuery('#TB_ajaxContent').html());
+//            jQuery('#modal-manage-products').html(jQuery('#TB_ajaxContent').html());
             var data = jQuery( '#export_job_settings' ).serialize(),
                 data_products = data + "&action=order_exporter&method=get_used_custom_products_meta&mode=" + mode + "&id=" + job_id,
                 data_order_items = data + "&action=order_exporter&method=get_used_custom_order_items_meta&mode=" + mode + "&id=" + job_id;
@@ -557,7 +560,7 @@ function bind_events() {
 		        }
 	        }, 'json' );
 
-            jQuery('#modal-manage-products').html('');
+//            jQuery('#modal-manage-products').html('');
         }
     });
 	jQuery('input[name=custom_meta_products_mode]').trigger('change');
@@ -589,6 +592,7 @@ function bind_events() {
     jQuery( '#button_custom_meta' ).click( function() {
         var label = jQuery( '#select_custom_meta_order' ).val();
         var colname = jQuery( '#colname_custom_meta' ).val();
+        var format_field = jQuery( '#format_custom_meta' ).val();
 		if (! label) //try custom text
 			label = jQuery( '#text_custom_meta_order' ).val();;
         if ( !label )
@@ -603,8 +607,15 @@ function bind_events() {
 			jQuery( '#colname_custom_meta' ).focus();
             return false
         }
-        add_custom_meta( jQuery( "#order_fields" ), 'orders', output_format, label, colname );
+
+        var segment = jQuery('.segment_choice.active').attr('data-segment');
+
+        add_custom_meta( jQuery( "#" + segment + '_unselected_segment' ), 'orders', output_format, label, colname, segment, format_field );
+
         reset_field_contorls();
+
+        jQuery(this).siblings('.button-cancel').trigger('click');
+
         return false;
     } );
 
@@ -631,7 +642,7 @@ function bind_events() {
 
                 var $select = jQuery( '<div id="text_shipping_locations--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top; display: inline-block;"><select id="text_shipping_locations">' + options + '</select></div>' );
                 $select.insertBefore( jQuery( '#add_shipping_locations' ) )
-                $select.find('select').select2({ tags: true });
+                $select.find('select').select2_i18n({ tags: true });
             }
             else {
                 jQuery( '<input type="text" id="text_shipping_locations" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_shipping_locations' ) );
@@ -657,7 +668,7 @@ function bind_events() {
             if ( f ) {
 
                 jQuery( '#shipping_locations_check' ).append( '<option selected="selected" value="' + val + '">' + val + '</option>' );
-                jQuery( '#shipping_locations_check' ).select2(select2WODropdownOpts);
+                jQuery( '#shipping_locations_check' ).select2_i18n(select2WODropdownOpts);
 
                 jQuery( '#shipping_locations_check option' ).each( function() {
                     jQuery( '#shipping_locations_check option[value=\"' + jQuery( this ).val() + '\"]:not(:last)' ).remove();
@@ -690,7 +701,7 @@ function bind_events() {
                 var $select = jQuery( '<div id="text_billing_locations--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top; display: inline-block;">'
                     + '<select id="text_billing_locations">' + options + '</select></div>' );
                 $select.insertBefore( jQuery( '#add_billing_locations' ) )
-                $select.find('select').select2({ tags: true });
+                $select.find('select').select2_i18n({ tags: true });
             }
             else {
                 jQuery( '<input type="text" id="text_billing_locations" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_billing_locations' ) );
@@ -716,7 +727,7 @@ function bind_events() {
             if ( f ) {
 
                 jQuery( '#billing_locations_check' ).append( '<option selected="selected" value="' + val + '">' + val + '</option>' );
-                jQuery( '#billing_locations_check' ).select2(select2WODropdownOpts);
+                jQuery( '#billing_locations_check' ).select2_i18n(select2WODropdownOpts);
 
                 jQuery( '#billing_locations_check option' ).each( function() {
                     jQuery( '#billing_locations_check option[value=\"' + jQuery( this ).val() + '\"]:not(:last)' ).remove();
@@ -727,8 +738,8 @@ function bind_events() {
         }
         return false;
     } )
-	
-	
+
+
     // ITEM NAMES
     jQuery( '#item_names' ).change( function() {
 
@@ -750,7 +761,7 @@ function bind_events() {
 
                 var $select = jQuery( '<div id="text_item_names--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top; display: inline-block;"><select id="text_item_names">' + options + '</select></div>' );
                 $select.insertBefore( jQuery( '#add_item_names' ) )
-                $select.find('select').select2({ tags: true });
+                $select.find('select').select2_i18n({ tags: true });
             }
             else {
                 jQuery( '<input type="text" id="text_item_names" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_item_names' ) );
@@ -776,7 +787,7 @@ function bind_events() {
             if ( f ) {
 
                 jQuery( '#item_names_check' ).append( '<option selected="selected" value="' + val + '">' + val + '</option>' );
-                jQuery( '#item_names_check' ).select2(select2WODropdownOpts);
+                jQuery( '#item_names_check' ).select2_i18n(select2WODropdownOpts);
 
                 jQuery( '#item_names_check option' ).each( function() {
                     jQuery( '#item_names_check option[value=\"' + jQuery( this ).val() + '\"]:not(:last)' ).remove();
@@ -787,7 +798,7 @@ function bind_events() {
         }
         return false;
     } );
-	
+
     // ITEM METADATA
     jQuery( '#item_metadata' ).change( function() {
 
@@ -809,7 +820,7 @@ function bind_events() {
 
                 var $select = jQuery( '<div id="text_item_metadata--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top; display: inline-block;"><select id="text_item_metadata">' + options + '</select></div>' );
                 $select.insertBefore( jQuery( '#add_item_metadata' ) )
-                $select.find('select').select2({ tags: true });
+                $select.find('select').select2_i18n({ tags: true });
             }
             else {
                 jQuery( '<input type="text" id="text_item_metadata" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_item_metadata' ) );
@@ -835,7 +846,7 @@ function bind_events() {
             if ( f ) {
 
                 jQuery( '#item_metadata_check' ).append( '<option selected="selected" value="' + val + '">' + val + '</option>' );
-                jQuery( '#item_metadata_check' ).select2(select2WODropdownOpts);
+                jQuery( '#item_metadata_check' ).select2_i18n(select2WODropdownOpts);
 
                 jQuery( '#item_metadata_check option' ).each( function() {
                     jQuery( '#item_metadata_check option[value=\"' + jQuery( this ).val() + '\"]:not(:last)' ).remove();
@@ -846,16 +857,7 @@ function bind_events() {
         }
         return false;
     } );
-	
 
-	
-
-	jQuery( '#summary_report_by_products_checkbox' ).on('change', function() {
-		jQuery('#manage_fields').parent().toggle(jQuery('#summary_report_by_products_checkbox').val());
-    } );
-	if( jQuery('#summary_report_by_products_checkbox').prop('checked') ) {
-		jQuery('#manage_fields').parent().hide();
-    }
 }
 
 function bind_events_users() {
@@ -887,7 +889,7 @@ function bind_events_users() {
 				                      ) + ';">'
 				                      + '<select id="select_user_custom_fields">' + options + '</select></div>' );
 				$select.insertBefore( jQuery( '#add_user_custom_fields' ) )
-				$select.find( 'select' ).select2( {tags: true} );
+				$select.find( 'select' ).select2_i18n( {tags: true} );
 			}
 			else {
 				jQuery( '<input type="text" id="select_user_custom_fields" style="margin-right: 8px;">' ).insertBefore(
@@ -921,7 +923,7 @@ function bind_events_users() {
 						'#user_custom_fields_check' ).append( '<option selected="selected" value="' + result + '">' + result + '</option>' );
 				}
 
-				jQuery( '#user_custom_fields_check' ).select2();
+				jQuery( '#user_custom_fields_check' ).select2_i18n();
 
 				jQuery( '#user_custom_fields_check option' ).each( function () {
 					jQuery( '#user_custom_fields_check option[value=\"' + jQuery( this ).val() + '\"]:not(:last)' ).remove();
@@ -958,6 +960,7 @@ function add_bind_for_custom_fields( prefix, output_format, $to ) {
     jQuery( '#button_custom_field_' + prefix + '' ).click( function() {
         var colname = jQuery( '#colname_custom_field_' + prefix + '' ).val();
         var value = jQuery( '#value_custom_field_' + prefix + '' ).val();
+        var format_field = jQuery( '#format_custom_field_' + prefix + '' ).val();
         if ( !colname )
         {
             alert( export_messages.empty_column_name );
@@ -970,9 +973,18 @@ function add_bind_for_custom_fields( prefix, output_format, $to ) {
 			jQuery( '#value_custom_field_' + prefix + '' ).focus();
             return false
         }
+
         jQuery( '#colname_custom_field_' + prefix + '' ).val( "" );
+
         jQuery( '#value_custom_field_' + prefix + '' ).val( "" );
-        add_custom_field( $to, prefix, output_format, colname, value );
+	    jQuery( '#format_custom_field_' + prefix + '' ).val( "" );
+
+        var segment = jQuery('.segment_choice.active').attr('data-segment');
+
+        add_custom_field( jQuery( "#" + segment + '_unselected_segment' ), prefix, output_format, colname, value, segment, format_field );
+
+        jQuery(this).siblings('.button-cancel').trigger('click');
+
         return false;
     } );
 
@@ -981,17 +993,30 @@ function add_bind_for_custom_fields( prefix, output_format, $to ) {
 		var prefix_items = 'order_items',
             original_prefix = prefix,
 			prefix_items_select = jQuery( '#select_custom_meta_' + prefix_items + '' ),
-			prefix_product_select = jQuery( '#select_custom_meta_' + prefix + '' );
+			prefix_product_select = jQuery( '#select_custom_meta_' + prefix + '' ),
+			prefix_product_text = jQuery( '#text_custom_meta_' + prefix + '' ),
+			prefix_items_text = jQuery( '#text_custom_meta_' + prefix_items + '' );
 
-		var type = ( prefix_items_select.val() || prefix_product_select.val() ) ? 'meta' : 'taxonomies';
+		var type = (
+                    prefix_items_select.val() ||
+                    prefix_product_select.val() ||
+                    prefix_product_text.val() ||
+                    prefix_items_text.val()
+                ) ? 'meta' : 'taxonomies';
+
 		if ( 'meta' === type ) {
-			original_prefix = prefix_product_select.val() ? prefix : prefix_items;
+			original_prefix = prefix_product_select.val() || prefix_product_text.val() ? prefix : prefix_items;
 		} else {
 			original_prefix = prefix;
         }
 		type = type + '_' + original_prefix;
 		var label = jQuery( '#select_custom_' + type + '' ).val();
 		var colname = jQuery( '#colname_custom_meta_' + prefix + '' ).val();
+		var field_format = jQuery( '#format_custom_meta_' + prefix + '' ).val();
+
+                if (! label ) //try custom text
+                    label = jQuery( '#text_custom_' + type ).val();
+
 		if ( !label )
 		{
 			alert( export_messages.empty_meta_key_and_taxonomy );
@@ -1005,19 +1030,37 @@ function add_bind_for_custom_fields( prefix, output_format, $to ) {
 			alert( export_messages.empty_column_name );
 			return false
 		}
-		add_custom_meta( $to, prefix, output_format, label, colname );
+
+                var segment = jQuery('.segment_choice.active').attr('data-segment');
+
+                add_custom_meta( jQuery( "#" + segment + '_unselected_segment' ), prefix, output_format, label, colname, segment, field_format );
+
+                jQuery(this).siblings('.button-cancel').trigger('click');
+
 		jQuery( '#select_custom_' + type + '' ).val( "" );
 		jQuery( '#colname_custom_meta_' + prefix + '' ).val( "" );
+		jQuery( '#format_custom_meta_' + prefix + '' ).val( "" );
 		return false;
 	} );
 
 }
 
 function reset_field_contorls() {
-    jQuery( '#fields_control' ).find( 'input' ).val( '' );
+    jQuery( '.tab-actions-forms' )
+        .find( 'input,select' )
+        .val( '' );
+}
+
+function reset_field_contorls_() {
+    jQuery( '#fields_control' )
+        .find( 'input' )
+        .not('.segment_products input')
+        .not('.segment_coupons input')
+        .val( '' );
     jQuery( "#fields_control > div" ).hide();
     jQuery( "#fields_control .div1" ).show();
     jQuery( "#fields_control .div2" ).show();
+    jQuery( "#fields_control .flat_format_controls" ).show();
 }
 
 function formatItem( item ) {
@@ -1032,58 +1075,154 @@ function formatItem( item ) {
     return markup;
 }
 
-function add_custom_field( to, index_p, format, colname, value ) {
+function add_custom_field( to, index_p, format, colname, value, segment, format_field ) {
 
     value   = escapeStr(value);
     colname = escapeStr(colname);
-    var arr = jQuery( 'input[name*=' + index_p + '\\[label\\]\\[custom_field]' );
-    var count = arr.length;
 
-    var max = 0;
-    for(var i=0; i<count; i++) {
-        var n = parseInt(arr[i].name.replace(index_p+'[label][custom_field_', '').replace(']','')); // fixed for popups
-        if(n > max) {
-            max = n;
+    if ( is_flat_format(format) ) {
+	    _index = 'plain_' + index_p + '_';
+	    _index_p = 'orders[]';
+    } else {
+	    _index = '';
+	    _index_p = index_p + '[]';
+    }
+
+    var label_prefix = '';
+
+    if (is_flat_format(format)) {
+
+        if (segment === 'products' ) {
+            label_prefix = '[P] '
+        }
+
+        if (segment === 'coupons' ) {
+            label_prefix = '[C] '
         }
     }
-    count = max+1;
+
+    var suffix = 0;
+
+    jQuery('#unselected_fields input[value*="static_field_"]').each(function () {
+
+        var match = jQuery(this).attr('value').match(/static_field_(\d+)/);
+
+        if (!match) {
+            return true;
+        }
+
+        var n = parseInt(match[1]);
+
+        if(n > suffix) {
+            suffix = n;
+        }
+    });
+
+    var field_key = 'static_field_' + (suffix + 1);
+
+    var delete_btn = '<div class="mapping_col_3 mapping_row-delete_field_block"><a href="#" class="mapping_row-delete_field"><span class="dashicons dashicons-trash"></span></a></div>';
 
 //    console.log( to, index_p, format, colname, value );
-    var row = '<li class="mapping_row segment_modal_' + index_p + '">\
-                                                        <div class="mapping_col_1">\
-                                                                <input type=hidden name="' + index_p + '[exported][custom_field_' + count + ']"  value="0">\
-                                                                <input type=checkbox name="' + index_p + '[exported][custom_field_' + count + ']"  value="1" checked>\
-                                                                <input class="mapping_fieldname" type=hidden name="' + index_p + '[segment][custom_field_' + count + ']" value="misc">\
-                                                                <input class="mapping_fieldname" type=hidden name="' + index_p + '[label][custom_field_' + count + ']" value="' + colname + '">\
-                                                        </div>\
-                                                        <div class="mapping_col_2">' + colname + '<a href="#" onclick="return remove_custom_field(this);" style="float: right;"><span class="ui-icon ui-icon-trash"></span></a></div>\
-                                                        <div class="mapping_col_3"><input class="mapping_fieldname" type=input name="' + index_p + '[colname][custom_field_' + count + ']" value="' + colname + '"></div>\
-                                                        <div class="mapping_col_3"><input class="mapping_fieldname" type=input name="' + index_p + '[value][custom_field_' + count + ']" value="' + value + '"></div>\
-                                                </li>\
-                        ';
-    to.append( row );
+    var row = jQuery('<li class="mapping_row segment_field segment_'+ segment +'">\
+                    <div class="mapping_col_1" style="width: 10px">\
+                            <input class="mapping_fieldname" type=hidden name="' + _index_p + '[segment]" value="'+ (segment ? segment : 'misc') +'">\
+                            <input class="mapping_fieldname" type=hidden name="' + _index_p + '[key]" value="'+ _index + field_key +'">\
+                            <input class="mapping_fieldname" type=hidden name="' + _index_p + '[label]" value="' + colname + '">\
+                            <input class="mapping_fieldname" type=hidden name="' + _index_p + '[format]" value="' + format_field + '">\
+                    </div>\
+                    <div class="mapping_col_2" title="'+field_key+'">' + '<span class="field-prefix">' + label_prefix + '</span>' + colname + '<a href="#" onclick="return remove_custom_field(this);" class="mapping_row-delete_custom_field" style="float: right;"><span class="ui-icon ui-icon-trash"></span></a></div>\
+                    <div class="mapping_col_3"><input class="mapping_fieldname" type=input name="' + _index_p + '[colname]" value="' + colname + '"></div>\
+                    <div class="mapping_col_3 custom-field-value"><input class="mapping_fieldname" type=input name="' + _index_p + '[value]" value="' + value + '"></div>'+ delete_btn +'\
+            </li>\
+                        ');
 
-	scroll_to_added_field( to );
+    row.find('input').prop('disabled', 'disabled');
+
+    to.prepend( row );
+
+    activate_draggable_field(
+        to.find('.segment_field').first(),
+        segment,
+        format
+    );
+
+	to.find('.segment_field').first().addClass('blink');
+
+    var field = {
+        key: field_key,
+        colname: colname,
+        'default': 0,
+        label: colname,
+        format: 'string',
+        value: value,
+    };
+
+    window.all_fields[segment].unshift(field);
 }
 
-function add_custom_meta( to, index_p, format, label, colname ) {
+function add_custom_meta( to, index_p, format, label, colname, segment, format_field ) {
 
     label   = escapeStr(label);
     colname = escapeStr(colname);
 
-//    console.log();
-    var row = '<li class="mapping_row segment_modal_' + index_p + '">\
-                                                        <div class="mapping_col_1">\
-                                                                <input type=hidden name="' + index_p + '[exported][' + label + ']"   value="0">\
-                                                                <input type=checkbox name="' + index_p + '[exported][' + label + ']"   value="1" checked>\
-                                                                <input class="mapping_fieldname" type=hidden name="' + index_p + '[label][' + label + ']" value="' + label + '">\
-                                                        </div>\
-                                                        <div class="mapping_col_2">' + label + '<a href="#" onclick="return remove_custom_field(this);" style="float: right;"><span class="ui-icon ui-icon-trash"></span></a></div>\
-                                                        <div class="mapping_col_3"><input class="mapping_fieldname" type=input name="' + index_p + '[colname][' + label + ']" value="' + colname + '"></div>\
-                                                </li>\
-                        ';
-    to.append( row );
-	scroll_to_added_field( to );
+    if ( is_flat_format(format) ) {
+            _index = 'plain_' + index_p + '_' + label;
+            _index_p = 'orders[]';
+    } else {
+            _index = label;
+            _index_p = index_p + '[]';
+    }
+
+    var label_prefix = '';
+
+    if (is_flat_format(format)) {
+
+        if (segment === 'products' ) {
+            label_prefix = '[P] '
+        }
+
+        if (segment === 'coupons' ) {
+            label_prefix = '[C] '
+        }
+    }
+
+    var delete_btn = '<div class="mapping_col_3 mapping_row-delete_field_block"><a href="#" class="mapping_row-delete_field"><span class="dashicons dashicons-trash"></span></a></div>';
+
+    var row = jQuery('<li class="mapping_row segment_field segment_'+ segment +'">\
+        <div class="mapping_col_1" style="width: 10px">\
+                <input class="mapping_fieldname" type=hidden name="' + _index_p + '[segment]" value="'+ (segment ? segment : 'misc') +'">\
+                <input class="mapping_fieldname" type=hidden name="' + _index_p + '[key]" value="'+ _index +'">\
+                <input class="mapping_fieldname" type=hidden name="' + _index_p + '[label]" value="' + label + '">\
+                <input class="mapping_fieldname" type=hidden name="' + _index_p + '[format]" value="' + format_field + '">\
+        </div>\
+        <div class="mapping_col_2" title="'+label+'">' + '<span class="field-prefix">' + label_prefix + '</span>' + label + '<a href="#" onclick="return remove_custom_field(this);" class="mapping_row-delete_custom_field" style="float: right;"><span class="ui-icon ui-icon-trash"></span></a></div>\
+        <div class="mapping_col_3"><input class="mapping_fieldname" type=input name="' + _index_p + '[colname]" value="' + colname + '"></div>'+ delete_btn +'\
+</li>\
+                        ');
+
+    row.find('input').prop('disabled', 'disabled');
+
+    to.prepend( row );
+
+    activate_draggable_field(
+        to.find('.segment_field').first(),
+        segment,
+        format
+    );
+
+	to.find('.segment_field').first().addClass('blink');
+
+    var field = {
+        key: label,
+        colname: colname,
+        'default': 0,
+        label: label,
+        segment: segment,
+        format: 'string',
+        value: 'undefined',
+    };
+
+    window.all_fields[segment].unshift(field);
 }
 
 function scroll_to_added_field( to ) {
@@ -1100,65 +1239,74 @@ function formatItemSelection( item ) {
     return item.text;
 }
 
+jQuery.fn.extend(
+	{
+		select2_i18n: function ($attrs) {
+		    if ( typeof $attrs !== 'object' ) {
+		        $attrs = {};
+            }
+			$attrs = Object.assign({ language: script_data.select2_locale }, $attrs);
+			jQuery(this).select2($attrs);
+		}
+	} );
+
 function select2_inits()
 {
-    jQuery( "#from_status, #to_status" ).select2({
-        multiple: true
-    });
-    jQuery( "#statuses" ).select2();
-    jQuery( "#shipping_methods" ).select2();
-    jQuery( "#user_roles" ).select2();
-    jQuery( "#payment_methods" ).select2();
-    jQuery( "#attributes" ).select2( {
+    jQuery( "#from_status, #to_status" ).select2_i18n({multiple: true});
+    jQuery( "#statuses" ).select2_i18n();
+    jQuery( "#shipping_methods" ).select2_i18n();
+    jQuery( "#user_roles" ).select2_i18n();
+    jQuery( "#payment_methods" ).select2_i18n();
+    jQuery( "#attributes" ).select2_i18n( {
         width: 150
     } );
-    jQuery( "#attributes_check" ).select2(select2WODropdownOpts);
-    jQuery( "#itemmeta" ).select2( {
+    jQuery( "#attributes_check" ).select2_i18n(select2WODropdownOpts);
+    jQuery( "#itemmeta" ).select2_i18n( {
         width: 220
     } );
-    jQuery( "#itemmeta_check" ).select2(select2WODropdownOpts);
+    jQuery( "#itemmeta_check" ).select2_i18n(select2WODropdownOpts);
 
-    jQuery( "#custom_fields" ).select2( {
+    jQuery( "#custom_fields" ).select2_i18n( {
         width: 150
     } );
-    jQuery( "#custom_fields_check" ).select2();
+    jQuery( "#custom_fields_check" ).select2_i18n();
 
-    jQuery( "#product_custom_fields" ).select2( {
+    jQuery( "#product_custom_fields" ).select2_i18n( {
         width: 150
     } );
-    jQuery( "#product_custom_fields_check" ).select2(select2WODropdownOpts);
+    jQuery( "#product_custom_fields_check" ).select2_i18n(select2WODropdownOpts);
 
-	jQuery( "#user_custom_fields" ).select2( {
+	jQuery( "#user_custom_fields" ).select2_i18n( {
 		width: 150
 	} );
-	jQuery( "#user_custom_fields_check" ).select2();
+	jQuery( "#user_custom_fields_check" ).select2_i18n();
 
-    jQuery( "#taxonomies" ).select2( {
+    jQuery( "#taxonomies" ).select2_i18n( {
         width: 150
     } );
-    jQuery( "#taxonomies_check" ).select2(select2WODropdownOpts);
+    jQuery( "#taxonomies_check" ).select2_i18n(select2WODropdownOpts);
 
-    jQuery( "#shipping_locations" ).select2( {
+    jQuery( "#shipping_locations" ).select2_i18n( {
         width: 150
     } );
-    jQuery( "#shipping_locations_check" ).select2(select2WODropdownOpts);
+    jQuery( "#shipping_locations_check" ).select2_i18n(select2WODropdownOpts);
 
-    jQuery( "#billing_locations" ).select2( {
+    jQuery( "#billing_locations" ).select2_i18n( {
         width: 150
     } );
-    jQuery( "#billing_locations_check" ).select2(select2WODropdownOpts);
+    jQuery( "#billing_locations_check" ).select2_i18n(select2WODropdownOpts);
 
-    jQuery( "#item_names" ).select2( {
+    jQuery( "#item_names" ).select2_i18n( {
         width: 150
     } );
-    jQuery( "#item_names_check" ).select2(select2WODropdownOpts);
+    jQuery( "#item_names_check" ).select2_i18n(select2WODropdownOpts);
 
-    jQuery( "#item_metadata" ).select2( {
+    jQuery( "#item_metadata" ).select2_i18n( {
         width: 150
     } );
-    jQuery( "#item_metadata_check" ).select2(select2WODropdownOpts);
+    jQuery( "#item_metadata_check" ).select2_i18n(select2WODropdownOpts);
 
-    jQuery( "#product_categories" ).select2( {
+    jQuery( "#product_categories" ).select2_i18n( {
         ajax: {
             url: ajaxurl,
             dataType: 'json',
@@ -1189,7 +1337,7 @@ function select2_inits()
         templateSelection: formatItemSelection // omitted for brevity, see the source of this page
     } );
 
-    jQuery( "#product_vendors" ).select2( {
+    jQuery( "#product_vendors" ).select2_i18n( {
         ajax: {
             url: ajaxurl,
             dataType: 'json',
@@ -1220,7 +1368,7 @@ function select2_inits()
         templateSelection: formatItemSelection // omitted for brevity, see the source of this page
     } );
 
-    jQuery( "#products" ).select2( {
+    jQuery( "#products" ).select2_i18n( {
         ajax: {
             url: ajaxurl,
             dataType: 'json',
@@ -1251,7 +1399,7 @@ function select2_inits()
         templateSelection: formatItemSelection // omitted for brevity, see the source of this page
     } );
 
-    jQuery( "#user_names" ).select2( {
+    jQuery( "#user_names" ).select2_i18n( {
         ajax: {
             url: ajaxurl,
             dataType: 'json',
@@ -1282,7 +1430,7 @@ function select2_inits()
         templateSelection: formatItemSelection // omitted for brevity, see the source of this page
     } );
 
-    jQuery( "#coupons" ).select2( {
+    jQuery( "#coupons" ).select2_i18n( {
         ajax: {
             url: ajaxurl,
             dataType: 'json',
@@ -1339,7 +1487,7 @@ function jQuerySelectorEscape(expression) {
       return expression.replace(/[!"#$%&'()*+,.\/:;<=>?@\[\\\]^`{|}~]/g, '\\$&');
 }
 
-//for warning 
+//for warning
 function setup_alert_date_filter() {
 	default_date_filter_color = jQuery( "#my-date-filter" ).css('color');
 	try_color_date_filter();
@@ -1347,9 +1495,9 @@ function setup_alert_date_filter() {
 	jQuery( '#to_date' ).change( function() { try_color_date_filter(); });
 }
 function try_color_date_filter() {
-	var color = default_date_filter_color;	
-	if( jQuery( "#from_date" ).val() || jQuery( "#to_date" ).val() ) 
-		 color = 'red'; 
+	var color = default_date_filter_color;
+	if( jQuery( "#from_date" ).val() || jQuery( "#to_date" ).val() )
+		 color = 'red';
 	jQuery( "#my-date-filter" ).css('color', color);
 }
 
@@ -1357,7 +1505,7 @@ jQuery( document ).ready( function ($) {
 
 	$( "#the-list" ).sortable( { handle: '.woe-row-sort-handle' } );
 
-	$( '.wp-wrap .column-order' ).hide();
+	$( '.check-column .order_part' ).hide();
 
 	$start_reorder_button = $( '#start_reorder' );
 	$apply_reorder_button = $( '#apply_reorder' );
@@ -1369,8 +1517,10 @@ jQuery( document ).ready( function ($) {
 		$apply_reorder_button.show();
 		$cancel_reorder_button.show();
 
-        $( '.wp-wrap .check-column' ).hide();
-        $( '.wp-wrap .column-order' ).show();
+		$( '.check-column .cb_part' ).hide();
+		$( '.check-column .order_part' ).show();
+
+
 	} );
 
 	$apply_reorder_button.click( function ( e ) {
@@ -1378,8 +1528,8 @@ jQuery( document ).ready( function ($) {
 		$apply_reorder_button.hide();
 		$cancel_reorder_button.hide();
 
-		$( '.wp-wrap .check-column' ).show();
-		$( '.wp-wrap .column-order' ).hide();
+		$( '.check-column .cb_part' ).show();
+		$( '.check-column .order_part' ).hide();
 
 		jQuery.ajax({
 			url: ajaxurl,
@@ -1404,8 +1554,8 @@ jQuery( document ).ready( function ($) {
 		$apply_reorder_button.hide();
 		$cancel_reorder_button.hide();
 
-		$( '.wp-wrap .check-column' ).show();
-		$( '.wp-wrap .column-order' ).hide();
+		$( '.check-column .cb_part' ).show();
+		$( '.check-column .order_part' ).hide();
 
 		$( $order_ids ).each( function ( $key, $job_id ) {
 			$element = $( '[data-job_id="' + $job_id + '"' ).detach();

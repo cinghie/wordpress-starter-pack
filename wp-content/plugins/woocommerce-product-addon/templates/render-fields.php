@@ -6,7 +6,7 @@
  * */
 if( ! defined("ABSPATH") ) die("Not Allowed");
 
-$ppom_fields_meta = json_decode ( $ppom_settings -> the_meta, true );
+// $ppom_fields_meta = json_decode ( $ppom_settings -> the_meta, true );
 // ppom_pa($ppom_fields_meta);
 
 // echo '<input type="hidden" name="woo_option_price">';	// it will be populated while dynamic prices set in script.js

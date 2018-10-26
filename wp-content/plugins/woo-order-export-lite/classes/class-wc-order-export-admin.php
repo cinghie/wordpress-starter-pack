@@ -552,6 +552,7 @@ class WC_Order_Export_Admin {
 	public function thematic_enqueue_scripts() {
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 		wp_enqueue_script( 'jquery-ui-sortable' );
+		wp_enqueue_script( 'jquery-ui-draggable' );
 		wp_enqueue_style( 'jquery-style',
 			'//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css' );
 		$this->enqueue_select2_scripts();
@@ -569,10 +570,34 @@ class WC_Order_Export_Admin {
 				WOE_VERSION );
 
 			$localize_settings_form = array(
-				'set_up_fields_to_export' => __( 'Set up fields to export', 'woo-order-export-lite' ),
-				'js_tpl_popup'            => __( 'Add %s as %s columns %s as rows', 'woo-order-export-lite' ),
+                            'add_fields_to_export' => __('Add %s fields', 'woo-order-export-lite'),
+                            'repeats' => array(
+	                            'rows'                    => __( 'rows', 'woo-order-export-lite' ),
+	                            'columns'                 => __( 'columns', 'woo-order-export-lite' ),
+	                            'inside_one_cell'         => __( 'one row', 'woo-order-export-lite' ),
+                            ),
+                            'js_tpl_popup'         => array(
+	                            'add'                      => __( 'Add', 'woo-order-export-lite' ),
+	                            'as'                       => __( 'as', 'woo-order-export-lite' ),
+	                            'split_values_by'          => __( 'Split values by', 'woo-order-export-lite' ),
+	                            'fill_order_columns_label' => __( 'Fill order columns for', 'woo-order-export-lite' ),
+	                            'for_all_rows_label'       => __( 'all rows', 'woo-order-export-lite' ),
+	                            'for_first_row_only_label' => __( '1st row only', 'woo-order-export-lite' ),
+	                            'grouping_by'              => array(
+		                            'products' => __( 'Grouping by product', 'woo-order-export-lite' ),
+		                            'coupons'  => __( 'Grouping by coupon', 'woo-order-export-lite' ),
+	                            ),
+                            ),
+                            'index'                => array(
+                            'product_pop_up_title' => __('Set up product fields', 'woo-order-export-lite'),
+                            'coupon_pop_up_title'  => __('Set up coupon fields', 'woo-order-export-lite'),
+                            'products'             => __('products', 'woo-order-export-lite'),
+                            'coupons'              => __('coupons', 'woo-order-export-lite'),
+                        ),
+                            'remove_all_fields_confirm' => __('Remove all fields?', 'woo-order-export-lite'),
+
 			);
-			wp_localize_script( 'settings-form', 'localize_settings_form', $localize_settings_form );
+                        wp_localize_script( 'settings-form', 'localize_settings_form', $localize_settings_form );
 
 
 			$settings_form = array(
@@ -624,11 +649,16 @@ class WC_Order_Export_Admin {
 			'empty'                       => __( 'empty', 'woo-order-export-lite' ),
 		);
 		wp_localize_script( 'export', 'export_messages', $translation_array );
+
+		$script_data = array(
+            'locale'=> get_locale(),
+            'select2_locale'=> $this->get_select2_locale(),
+        );
+
+		wp_localize_script( 'export', 'script_data', $script_data );
 	}
 
-	private function enqueue_select2_scripts() {
-		wp_enqueue_script( 'select22', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.js',
-			array( 'jquery' ), '4.0.3' );
+	private function get_select2_locale() {
 		$locale          = get_locale();
 		$select2_locales = array(
 			'de_DE' => 'de',
@@ -640,12 +670,24 @@ class WC_Order_Export_Admin {
 			'fr_FR' => 'fr',
 			'es_ES' => 'es',
 		);
-		if ( array_key_exists( $locale, $select2_locales ) ) {
-			$select2_locale = $select2_locales[ $locale ];
-			wp_enqueue_script( "select22-{$select2_locale}",
-				"https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/i18n/{$select2_locale}.js" );
+
+		return isset( $select2_locales[ $locale ] ) ? $select2_locales[ $locale ] : 'en';
+    }
+
+	private function enqueue_select2_scripts() {
+		wp_enqueue_script( 'select22', $this->url_plugin . 'assets/js/select2/select2.full.js',
+			array( 'jquery' ) );
+
+
+		if ( $select2_locale = $this->get_select2_locale() ) {
+		    // enable by default
+		    if ( $select2_locale !== 'en' ) {
+			    wp_enqueue_script( "select22-i18n-{$select2_locale}",
+				    $this->url_plugin . "assets/js/select2/i18n/{$select2_locale}.js", array( 'jquery', 'select22' ) );
+            }
 		}
-		wp_enqueue_style( 'select2-css', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css',
+
+		wp_enqueue_style( 'select2-css', $this->url_plugin . 'assets/css/select2/select2.min.css',
 			array(), WC_VERSION );
 	}
 
@@ -772,7 +814,7 @@ class WC_Order_Export_Admin {
 		die();
 	}
 
-	//Works since Wordpress 4.7 
+	//Works since Wordpress 4.7
 	function export_orders_bulk_action( $actions ) {
 		$settings = WC_Order_Export_Manage::get( WC_Order_Export_Manage::EXPORT_NOW );
 		WC_Order_Export_Manage::set_correct_file_ext( $settings );

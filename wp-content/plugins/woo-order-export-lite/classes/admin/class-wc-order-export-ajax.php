@@ -316,7 +316,7 @@ class WC_Order_Export_Ajax {
 		$format   = basename( $_GET['format'] );
 		$filename = $this->get_temp_file_name();
 		delete_transient( $this->tempfile_prefix . $_GET['file_id'] );
-		
+
 		$download_name = get_transient( $this->tempfile_prefix . 'download_filename' );
 		$this->send_headers( $format, $download_name );
 		$this->send_contents_delete_file( $filename );

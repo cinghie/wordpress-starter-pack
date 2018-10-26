@@ -40,6 +40,10 @@ if ( $attachment_ids ) {
                 $classes[] = 'last';
             }
 
+            if( $loop == 0  && defined( 'YWCFAV_PREMIUM') ){
+	            $classes[] =  'ywfav_magnifier_thumbnail';
+            }
+
             $image       = wp_get_attachment_image( $attachment_id, apply_filters( 'single_product_small_thumbnail_size', 'shop_thumbnail' ) );
             $image_class = esc_attr( implode( ' ', $classes ) );
             $image_title = esc_attr( get_the_title( $attachment_id ) );

@@ -856,13 +856,15 @@ function populate_conditional_elements() {
 						'input[name="title"]').val();
 				var conditional_elements_value = jQuery(item).find(
 						'input[name="data_name"]').val();
-				// console.log(conditional_elements);
+				/*console.log(input_type);
+				console.log(conditional_elements_value);*/
 
 				if (conditional_elements !== '' 
 					&& (input_type === 'select' 
 							|| input_type === 'radio' 
 							|| input_type === 'checkbox' 
-							|| input_type === 'image')){
+							|| input_type === 'image'
+							|| input_type === 'imageselect')){
 					
 					jQuery('select[name="condition_elements"]')
 					.append(
@@ -910,9 +912,10 @@ function load_conditional_values(element) {
 
 					
 					var opt = '';
-					jQuery(item).find('input:text[name="options[option]"], input:text[name="pre-upload-title"]').each(function(i, item){
+					jQuery(item).find('input:text[name="options[option]"], input:text[name="pre-upload-title"], input:text[name="imageselect-title"]')
+					.each(function(i, item){
 						
-						//console.log(jQuery(item).val());
+						console.log(jQuery(item).val());
 						opt = jQuery(item).val();
 						var existing_value2 = jQuery(element).parent().find('select[name="condition_element_values"]').attr("data-existingvalue");
 						var selected = (opt === existing_value2) ? 'selected = "selected"' : '';

@@ -1,359 +1,175 @@
-#, fuzzy
+# Copyright (C) 2018 YITH Essential Kit for WooCommerce #1
+# This file is distributed under the same license as the YITH Essential Kit for WooCommerce #1 package.
 msgid ""
 msgstr ""
-"Project-Id-Version: YITH ESSENTIAL KIT FOR WOOCOMMERCE 1\n"
-"POT-Creation-Date: 2018-10-17 11:30+0200\n"
-"PO-Revision-Date: 2015-09-29 10:23+0100\n"
-"Last-Translator: Giustino Borzacchiello <giustinob@gmail.com>\n"
-"Language-Team: YIThemes <plugins@yithemes.com>\n"
-"Language: en\n"
+"Project-Id-Version: YITH Essential Kit for WooCommerce #1 2.0.1\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/init\n"
+"POT-Creation-Date: 2018-10-23 14:40:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2\n"
-"X-Poedit-Basepath: .\n"
-"Plural-Forms: nplurals=2; plural=n!=1;\n"
-"X-Poedit-KeywordsList: __ ;_e;_n:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
-"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-SearchPath-0: ..\n"
+"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: ../migration.php:47
+#: migration.php:17 migration.php:18
+msgid "YITH Essential Kit Migration"
+msgstr ""
+
+#: migration.php:47
 msgid "YITH Essential Kit for WooCommerce migration panel"
 msgstr ""
 
-#: ../migration.php:50
+#: migration.php:50
 msgid ""
 "From version 2.0 of our plugin, modules are no longer bundled with the zip "
 "file. This means you should download them from wordpress.org repository "
 "first."
 msgstr ""
 
-#: ../migration.php:53
+#: migration.php:53
 msgid "This page will do the job for you."
 msgstr ""
 
-#: ../plugin-fw/lib/privacy/yit-privacy.php:24
-msgctxt "Privacy Policy Guide Title"
-msgid "YITH Plugins"
-msgstr ""
-
-#: ../plugin-fw/lib/privacy/yit-privacy.php:59
-msgctxt "Privacy Policy Content"
-msgid ""
-"This sample language includes the basics around what personal data your "
-"store may be collecting, storing and sharing, as well as who may have access "
-"to that data. Depending on what settings are enabled and which additional "
-"plugins are used, the specific information shared by your store will vary. "
-"We recommend consulting with a lawyer when deciding what information to "
-"disclose on your privacy policy."
-msgstr ""
-
-#: ../plugin-fw/lib/privacy/yit-privacy.php:63
-msgctxt "Privacy Policy Content"
-msgid "What we collect and store"
-msgstr ""
-
-#: ../plugin-fw/lib/privacy/yit-privacy.php:66
-msgctxt "Privacy Policy Content"
-msgid "Who on our team has access"
-msgstr ""
-
-#: ../plugin-fw/lib/privacy/yit-privacy.php:69
-msgctxt "Privacy Policy Content"
-msgid "What we share with others"
-msgstr ""
-
-#: ../plugin-fw/lib/privacy/yit-privacy.php:72
-msgctxt "Privacy Policy Content"
-msgid "Payments"
-msgstr ""
-
-#: ../plugin-fw/lib/yit-cpt-unlimited.php:625
-#, php-format
-msgctxt "taxonomy general name"
-msgid "%s Categories"
-msgstr ""
-
-#: ../plugin-fw/lib/yit-cpt-unlimited.php:626
-msgctxt "taxonomy singular name"
-msgid "Category"
-msgstr ""
-
-#: ../plugin-fw/lib/yit-cpt-unlimited.php:1633
-msgid "Upload multiple files"
-msgstr ""
-
-#: ../plugin-fw/lib/yit-plugin-panel.php:389
-#: ../plugin-fw/lib/yit-plugin-subpanel.php:156
-#: ../plugin-fw/templates/panel/woocommerce/woocommerce-form.php:11
-msgid "Save Changes"
-msgstr ""
-
-#: ../plugin-fw/lib/yit-plugin-panel.php:394
-#: ../plugin-fw/lib/yit-plugin-subpanel.php:161
-msgid "Reset to default"
-msgstr ""
-
-#: ../plugin-fw/licence/lib/yit-licence.php:186
-#, php-format
-msgctxt "%s = field name"
-msgid "%s field cannot be empty"
-msgstr ""
-
-#: ../plugin-fw/licence/lib/yit-theme-licence.php:159
-msgid ""
-"I cannot find the license key for activating the theme I have bought some "
-"time ago. Where can I find it?"
-msgstr ""
-
-#: ../plugin-fw/licence/lib/yit-theme-licence.php:163
-msgid ""
-"If you have purchased one of our products before 27 January 2015, you can "
-"benefit from support and updates (the services offered with the license)\n"
-"                    until 27 January 2016 and you do not have to purchase it "
-"again to get a new license key, because, before this date, your license used "
-"to be activated automatically by our system.\n"
-"                    After 27 January 2016, instead, if you want to benefit "
-"from support and updates you have to buy a new license and activate it "
-"through the license key you will be\n"
-"                    provided with and that you can find in your YITH "
-"account, in section \"My licenses\"."
-msgstr ""
-
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:24
-msgid "YITH License Activation"
-msgstr ""
-
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:28
-msgid ""
-"Have you updated your licenses? Have you asked for an extension? Update "
-"information concerning your products."
-msgstr ""
-
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:30
-msgid "Update license information"
-msgstr ""
-
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:43
-msgid "Product to activate"
-msgid_plural "Products to activate"
-msgstr[0] ""
-msgstr[1] ""
-
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:65
-msgid "Activate"
-msgstr ""
-
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:84
-msgid "Activated"
-msgstr ""
-
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:90
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:168
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:198
-msgid "Product Name"
-msgstr ""
-
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:92
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:170
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:201
-msgid "Email"
-msgstr ""
-
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:93
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:171
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:202
-msgid "License Key"
-msgstr ""
-
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:96
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:205
-msgid "Expires"
-msgstr ""
-
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:99
-msgid "Remaining"
-msgstr ""
-
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:101
-msgid "Club Subscription"
-msgstr ""
-
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:105
-msgid "License Actions"
-msgstr ""
-
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:146
-msgid "Deactivate"
-msgstr ""
-
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:151
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:208
-msgid "Renew"
-msgstr ""
-
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:164
-msgid "Banned"
-msgstr ""
-
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:194
-msgid "Expired"
-msgstr ""
-
-#: ../plugin-fw/licence/templates/panel/activation/activation-panel.php:230
-msgid "Order again"
-msgstr ""
-
-#: ../plugin-fw/templates/fields/customtabs.php:28
-msgid "Close all"
-msgstr ""
-
-#: ../plugin-fw/templates/fields/customtabs.php:28
-msgid "Expand all"
-msgstr ""
-
-#: ../plugin-fw/templates/fields/customtabs.php:37
-#: ../plugin-fw/templates/fields/customtabs.php:81
-msgid "Remove"
-msgstr ""
-
-#: ../plugin-fw/templates/fields/customtabs.php:46
-#: ../plugin-fw/templates/fields/customtabs.php:89
-msgid "Name"
-msgstr ""
-
-#: ../plugin-fw/templates/fields/customtabs.php:52
-#: ../plugin-fw/templates/fields/customtabs.php:94
-msgid "Value"
-msgstr ""
-
-#: ../plugin-fw/templates/fields/customtabs.php:53
-msgid "Content of the tab. (HTML is supported)"
-msgstr ""
-
-#: ../plugin-fw/templates/fields/customtabs.php:65
-msgid "Add custom product tab"
-msgstr ""
-
-#: ../plugin-fw/templates/fields/customtabs.php:106
-msgid "Do you want to remove the custom tab?"
-msgstr ""
-
-#: ../plugin-fw/templates/fields/icons.php:58
-msgid "Set Default"
-msgstr ""
-
-#: ../plugin-fw/templates/fields/image-gallery.php:34
-#: ../plugin-fw/templates/fields/image-gallery.php:39
-msgid "Delete image"
-msgstr ""
-
-#: ../plugin-fw/templates/fields/image-gallery.php:39
-msgid "Add Images to Gallery"
-msgstr ""
-
-#: ../plugin-fw/templates/fields/image-gallery.php:39
-msgid "Add to gallery"
-msgstr ""
-
-#: ../plugin-fw/templates/fields/image-gallery.php:39
-msgid "Add images"
-msgstr ""
-
-#: ../plugin-fw/templates/fields/image-gallery.php:39
-msgid "Delete"
-msgstr ""
-
-#: ../plugin-fw/templates/fields/sidebars.php:22
-msgid "Left sidebar"
-msgstr ""
-
-#: ../plugin-fw/templates/fields/sidebars.php:25
-msgid "Right sidebar"
-msgstr ""
-
-#: ../plugin-fw/templates/fields/sidebars.php:28
-#: ../plugin-fw/templates/fields/sidebars.php:31
-msgid "No sidebar"
-msgstr ""
-
-#: ../plugin-fw/templates/fields/sidebars.php:39
-msgid "Left Sidebar"
-msgstr ""
-
-#: ../plugin-fw/templates/fields/sidebars.php:41
-#: ../plugin-fw/templates/fields/sidebars.php:54
-msgid "Choose a sidebar"
-msgstr ""
-
-#: ../plugin-fw/templates/fields/sidebars.php:52
-msgid "Right Sidebar"
-msgstr ""
-
-#: ../plugin-fw/templates/fields/upload.php:18
-#: ../plugin-fw/templates/metaboxes/types/icon-list.php:70
-#: ../plugin-fw/templates/panel/woocommerce/woocommerce-upload.php:40
-msgid "Upload"
-msgstr ""
-
-#: ../plugin-fw/templates/fields/upload.php:19
-msgid "Reset"
-msgstr ""
-
-#: ../plugin-fw/templates/panel/woocommerce/woocommerce-form.php:17
-msgid "Reset Defaults"
-msgstr ""
-
-#: ../plugin-fw/yit-plugin.php:76
-msgctxt "Plugin Row Meta"
-msgid "Live Demo"
-msgstr ""
-
-#: ../plugin-fw/yit-plugin.php:81
-msgctxt "Plugin Row Meta"
-msgid "Documentation"
-msgstr ""
-
-#: ../plugin-fw/yit-plugin.php:86
-msgctxt "Plugin Row Meta"
-msgid "Support"
-msgstr ""
-
-#: ../plugin-fw/yit-plugin.php:91
-msgctxt "Plugin Row Meta"
-msgid "Premium version"
-msgstr ""
-
-#: ../plugin-fw/yit-plugin.php:186
-msgctxt "Action links"
-msgid "Settings"
-msgstr ""
-
-#: ../templates/yith-list-plugins.php:18
+#: templates/yith-list-plugins.php:18
 msgid "Sorry, you don't have sufficient permission to access to this page."
 msgstr ""
 
-#: ../templates/yith-list-plugins.php:46
+#: templates/yith-list-plugins.php:38
+msgid "M j, Y @ H:i"
+msgstr ""
+
+#: templates/yith-list-plugins.php:46
 msgid ""
 "Here you can activate or deactive some of our plugins to enhance your e-"
 "commerce site."
 msgstr ""
 
-#: ../templates/yith-list-plugins.php:206
+#: templates/yith-list-plugins.php:119
+msgid "More information about %s"
+msgstr ""
+
+#: templates/yith-list-plugins.php:119
+msgid "More Details"
+msgstr ""
+
+#: templates/yith-list-plugins.php:133
+msgid "Premium Activated"
+msgstr ""
+
+#: templates/yith-list-plugins.php:142
+msgid "Activate Premium"
+msgstr ""
+
+#: templates/yith-list-plugins.php:147
+msgid "Buy Premium Version"
+msgstr ""
+
+#: templates/yith-list-plugins.php:206
 msgid "Last Updated:"
 msgstr ""
 
-#: ../templates/yith-list-plugins.php:223
+#: templates/yith-list-plugins.php:207
+msgid "%s ago"
+msgstr ""
+
+#: templates/yith-list-plugins.php:223
 msgctxt "Active plugin installs"
 msgid "1+ Million"
 msgstr ""
 
-#: ../templates/yith-list-plugins.php:229
+#: templates/yith-list-plugins.php:229
 msgctxt "Downloaded"
 msgid "1+ Million"
 msgstr ""
 
-#: ../yith-jetpack.php:538 ../yith-jetpack.php:560
+#: templates/yith-list-plugins.php:233
+msgid "%s Download, %s Active Installs"
+msgstr ""
+
+#: yith-jetpack.php:159
+msgid "Modules List"
+msgstr ""
+
+#. #-#-#-#-#  yith-essential-kit-for-woocommerce-1.pot (YITH Essential Kit for WooCommerce #1 2.0.1)  #-#-#-#-#
+#. Author of the plugin/theme
+#: yith-jetpack.php:211
+msgid "YITH"
+msgstr ""
+
+#: yith-jetpack.php:341 yith-jetpack.php:372 yith-jetpack.php:402
+msgid "Error during request"
+msgstr ""
+
+#: yith-jetpack.php:346
+msgid "Module %s enabled"
+msgstr ""
+
+#: yith-jetpack.php:347
+msgid "Activation error for plugin %s"
+msgstr ""
+
+#: yith-jetpack.php:377
+msgid "Module %s disabled"
+msgstr ""
+
+#: yith-jetpack.php:378
+msgid "Deactivation error for module %s"
+msgstr ""
+
+#: yith-jetpack.php:407
+msgid "Module %s installed"
+msgstr ""
+
+#: yith-jetpack.php:408
+msgid "Installation error for plugin %s"
+msgstr ""
+
+#: yith-jetpack.php:487
+msgid "install %s now"
+msgstr ""
+
+#: yith-jetpack.php:487
+msgid "Install now"
+msgstr ""
+
+#: yith-jetpack.php:498
+msgid "Deactivate %s now"
+msgstr ""
+
+#: yith-jetpack.php:498
+msgid "Deactivate"
+msgstr ""
+
+#: yith-jetpack.php:514
+msgid "activate %s now"
+msgstr ""
+
+#: yith-jetpack.php:514
+msgid "Activate"
+msgstr ""
+
+#: yith-jetpack.php:538 yith-jetpack.php:560
 msgid "Please wait for next page to load..."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "YITH Essential Kit for WooCommerce #1"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://wordpress.org/plugins/yith-essential-kit-for-woocommerce-1/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"With <code><strong>YITH Essential Kit for WooCommerce #1</strong></code> you "
+"will be free to add new and powerful features to make your e-commerce site "
+"unique. Activate the plugin you want and start using your site to a new and "
+"improved level. <a href=\"https://yithemes.com/\" target=\"_blank\">Find new "
+"awesome plugins on <strong>YITH</strong></a>"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://yithemes.com/"
 msgstr ""

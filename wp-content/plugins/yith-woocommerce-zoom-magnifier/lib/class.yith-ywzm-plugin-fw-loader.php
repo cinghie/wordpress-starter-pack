@@ -68,14 +68,6 @@ if ( ! class_exists( 'YITH_YWZM_Plugin_FW_Loader' ) ) {
 
 			add_action( 'plugins_loaded', array( $this, 'plugin_fw_loader' ), 15 );
 
-			//Add action links
-			add_filter( 'plugin_action_links_' . plugin_basename( YITH_YWZM_DIR . '/' . basename( YITH_YWZM_FILE ) ), array(
-				$this,
-				'action_links'
-			) );
-
-			add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 4 );
-
 			//  Add stylesheets and scripts files
 			add_action( 'admin_menu', array( $this, 'register_panel' ), 5 );
 
@@ -173,54 +165,6 @@ if ( ! class_exists( 'YITH_YWZM_Plugin_FW_Loader' ) ) {
 			if ( file_exists( $premium_tab_template ) ) {
 				include_once( $premium_tab_template );
 			}
-		}
-
-		/**
-		 * Action Links
-		 *
-		 * add the action links to plugin admin page
-		 *
-		 * @param $links | links plugin array
-		 *
-		 * @return   mixed Array
-		 * @since    1.0
-		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
-		 * @return mixed
-		 * @use plugin_action_links_{$plugin_file_name}
-		 */
-		public function action_links( $links ) {
-			$links[] = '<a href="' . admin_url( "admin.php?page={$this->_panel_page}" ) . '">' . __( 'Settings', 'yith-woocommerce-zoom-magnifier' ) . '</a>';
-
-			if ( defined( 'YITH_YWZM_FREE_INIT' ) ) {
-				$links[] = '<a href="' . $this->_premium_landing . '" target="_blank">' . __( 'Premium Version', 'yith-woocommerce-zoom-magnifier' ) . '</a>';
-			}
-
-			return $links;
-		}
-
-		/**
-		 * plugin_row_meta
-		 *
-		 * add the action links to plugin admin page
-		 *
-		 * @param $plugin_meta
-		 * @param $plugin_file
-		 * @param $plugin_data
-		 * @param $status
-		 *
-		 * @return   Array
-		 * @since    1.0
-		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
-		 * @use plugin_row_meta
-		 */
-		public function plugin_row_meta( $plugin_meta, $plugin_file, $plugin_data, $status ) {
-			if ( ( defined( 'YITH_YWZM_INIT' ) && ( YITH_YWZM_INIT == $plugin_file ) ) ||
-			     ( defined( 'YITH_YWZM_FREE_INIT' ) && ( YITH_YWZM_FREE_INIT == $plugin_file ) )
-			) {
-				$plugin_meta[] = '<a href="' . $this->_official_documentation . '" target="_blank">' . __( 'Plugin Documentation', 'yith-woocommerce-zoom-magnifier' ) . '</a>';
-			}
-
-			return $plugin_meta;
 		}
 
 		public function register_pointer() {
