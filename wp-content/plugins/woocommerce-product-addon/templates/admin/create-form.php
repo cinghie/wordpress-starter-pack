@@ -528,7 +528,7 @@ function render_input_types($name, $value = '', $data) {
 					
 				foreach ($value['rules'] as $condition){
 					
-					
+					$element_values = isset($condition['element_values']) ? stripslashes($condition['element_values']) : '';
 					// conditional elements
 					$html_input .= '<div class="webcontact-rules" id="rule-box-'.$rule_i.'">';
 					$html_input .= '<br><strong>'.__('Rule # ', "ppom") . $rule_i++ .'</strong><br>';
@@ -553,7 +553,7 @@ function render_input_types($name, $value = '', $data) {
 					$html_input	.= '</select> ';
 					
 					// conditional elements values
-					$html_input .= '<select name="condition_element_values" data-existingvalue="'.$condition['element_values'].'"></select>';
+					$html_input .= '<select name="condition_element_values" data-existingvalue="'.esc_attr($element_values).'"></select>';
 					$html_input	.= '<img class="add_rule" src="'.esc_url($add_option_img).'" title="add rule" alt="add rule" style="cursor:pointer; margin:0 3px;">';
 					$html_input	.= '<img class="remove_rule" src="'.esc_url($del_option_img).'" title="remove rule" alt="remove rule" style="cursor:pointer; margin:0 3px;">';
 					$html_input .= '</div>';

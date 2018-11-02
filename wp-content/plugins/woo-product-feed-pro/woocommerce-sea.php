@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: WooCommerce Product Feed PRO 
- * Version:     3.6.9
+ * Version:     3.7.1
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -45,7 +45,7 @@ if (!defined('ABSPATH')) {
 /**
  * Plugin versionnumber, please do not override
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '3.6.9' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '3.7.1' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 
 if ( ! defined( 'WOOCOMMERCESEA_FILE' ) ) {
@@ -951,6 +951,34 @@ function woosea_project_cancel(){
 add_action( 'wp_ajax_woosea_project_cancel', 'woosea_project_cancel' );
 
 /**
+ * Get the processing status of a project feed
+ */
+function woosea_project_processing_status(){
+	$project_hash = sanitize_text_field($_POST['project_hash']);
+        $feed_config = get_option( 'cron_projects' );
+	$proc_perc = 0;
+
+        foreach ( $feed_config as $key => $val ) {
+                if ($val['project_hash'] == $project_hash){
+			if($val['running'] == "ready"){
+				$proc_perc = 100;
+			} else {
+				$proc_perc = round(($val['nr_products_processed']/$val['nr_products'])*100);
+			}
+		}
+	}	
+
+        $data = array (
+                'proc_perc' => $proc_perc,
+        );
+
+        echo json_encode($data);
+        wp_die();
+	
+}
+add_action( 'wp_ajax_woosea_project_processing_status', 'woosea_project_processing_status' );
+
+/**
  * Refresh a project 
  */
 function woosea_project_refresh(){
@@ -970,6 +998,46 @@ function woosea_project_refresh(){
 	}
 }
 add_action( 'wp_ajax_woosea_project_refresh', 'woosea_project_refresh' );
+
+/**
+ * Add or remove custom attributes to the feed configuration drop-downs
+ */
+function woosea_add_attributes() {
+	$attribute_name = sanitize_text_field($_POST['attribute_name']);
+	$attribute_value = sanitize_text_field($_POST['attribute_value']);
+	$active = sanitize_text_field($_POST['active']);
+
+//	unset($extra_attributes);
+//	delete_option('woosea_extra_attributes');
+
+       	if(!get_option( 'woosea_extra_attributes' )){
+		if($active == "true"){
+			$extra_attributes = array(
+				$attribute_value => $attribute_name
+			);
+			update_option ( 'woosea_extra_attributes', $extra_attributes, 'yes');
+		}
+        } else {
+		$extra_attributes = get_option( 'woosea_extra_attributes' );
+		if(!in_array($attribute_name, $extra_attributes)){
+			if($active == "true"){
+				$add_attribute = array (
+					$attribute_value => $attribute_name
+				);
+				$extra_attributes = array_merge ($extra_attributes, $add_attribute);	
+				update_option ( 'woosea_extra_attributes', $extra_attributes, 'yes');
+			}
+		} else {
+			if($active == "false"){
+				// remove from extra attributes array	
+				$extra_attributes = array_diff($extra_attributes, array($attribute_value => $attribute_name));	
+				update_option ( 'woosea_extra_attributes', $extra_attributes, 'yes');
+			}
+		}
+	}	
+	$extra_attributes = get_option( 'woosea_extra_attributes' );
+}
+add_action( 'wp_ajax_woosea_add_attributes', 'woosea_add_attributes' );
 
 /**
  * Change status of a project from active to inactive or visa versa

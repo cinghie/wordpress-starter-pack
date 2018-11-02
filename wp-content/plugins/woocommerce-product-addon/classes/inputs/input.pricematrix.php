@@ -42,6 +42,11 @@ class NM_PriceMatrix_wooproduct extends PPOM_Inputs{
 								'title' => __ ( 'Title', "ppom" ),
 								'desc' => __ ( 'It will as section heading wrapped in h2', "ppom" )
 						),
+						'data_name' => array (
+								'type' => 'text',
+								'title' => __ ( 'Data name', "ppom" ),
+								'desc' => __ ( 'REQUIRED: The identification name of this field, that you can insert into body email configuration. Note:Use only lowercase characters and underscores.', "ppom" )
+						),
 						'description' => array (
 								'type' => 'textarea',
 								'title' => __ ( 'Description', "ppom" ),

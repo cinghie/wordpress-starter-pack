@@ -136,6 +136,7 @@ foreach( $ppom_fields_meta as $meta ) {
                 	$min	= isset( $meta['min'] ) ? $meta['min'] : '';
                 	$max	= isset( $meta['max'] ) ? $meta['max'] : '';
                 	$step	= isset( $meta['step'] ) ? $meta['step'] : '';
+                	$ph 	= isset( $meta['placeholder'] ) ? $meta['placeholder'] : '';
                 	
                     $ppom_field_setting = array(  
                     				'id'        => $data_name,
@@ -148,6 +149,7 @@ foreach( $ppom_fields_meta as $meta ) {
                                     'min'		=> $min,
                                     'max'		=> $max,
                                     'step'		=> $step,
+                                    'placeholder'	=> $ph,
                                     );
                                     
                     if( !empty($_GET[$data_name]) ) {
@@ -472,6 +474,7 @@ foreach( $ppom_fields_meta as $meta ) {
 					$ppom_field_setting = array(  
 								  'id'        => $data_name,
 					              'type'      => $type,
+					              'label'     => $field_label,
 					              'name'      => "ppom[fields][{$data_name}]",
 					              'html'		=> $field_html,
 					              );

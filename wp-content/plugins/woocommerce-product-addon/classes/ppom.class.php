@@ -197,6 +197,39 @@ class PPOM_Meta {
             return apply_filters('ppom_meta_title', $meta_title, $this);
         }
         
+        // Since 15.1: checking if all meta has unique datanames
+        function has_unique_datanames() {
+            
+            if( ! $this->fields() ) return false;
+            
+            $has_unique = true;
+            $datanames_array = array();
+            
+            foreach( $this->fields() as $field ) {
+                
+                $type = isset($field['type']) ? $field['type'] : '';
+                
+                // pricematrix does not have dataname
+                if( $type == 'pricematrix' ) continue;
+                
+                if( !isset($field['data_name']) ) {
+                    $has_unique = false;
+                    break;
+                }
+                
+                if( in_array($field['data_name'], $datanames_array) ) {
+                    
+                    $has_unique = false;
+                    break;
+                }
+                
+                $datanames_array[] = $field['data_name'];
+                
+            }
+            
+            // ppom_pa($datanames_array);
+            return $has_unique;
+        }
         
         /* ============== Get settings by metaid  ================= */
         function get_settings_by_id( $meta_id ) {

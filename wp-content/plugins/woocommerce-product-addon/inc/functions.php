@@ -109,6 +109,7 @@ if( ! function_exists('ppom_wpml_translate') ) {
 	     * source: https://wpml.org/wpml-hook/wpml_translate_single_string/
 	     */
 	    
+	    $field_value = stripslashes($field_value);
 		return apply_filters('wpml_translate_single_string', $field_value, $domain, $field_name );
 		//WMPL
 	}
@@ -1143,6 +1144,7 @@ function ppom_get_price_matrix_chunk($product, $option_prices, $ppom_item_order_
 	$matrix_found = '';
 	
 	$pricematrix_field = ppom_has_field_by_type(ppom_get_product_id($product), 'pricematrix');
+	// ppom_pa($pricematrix_field);
 	
 	if ( ! $pricematrix_field ) return $matrix_found;
 	

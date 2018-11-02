@@ -1090,6 +1090,7 @@ class NM_Form {
          
         $type       = $this -> get_attribute_value( 'type', $args);
         $id         = $this -> get_attribute_value( 'id', $args);
+        $label      = $this -> get_attribute_value('label', $args);
         $field_html = $this -> get_attribute_value( 'html', $args);
         
         // var_dump($field_html);
@@ -1097,6 +1098,10 @@ class NM_Form {
         $input_wrapper_class = apply_filters('ppom_input_wrapper_class', $input_wrapper_class, $args);
         $html       = '<div class="'.$input_wrapper_class.'">';
        
+        if( $label ) {
+            
+            $field_html = $field_html . $label;
+        }
         
         $html   .= stripslashes( $field_html );
         

@@ -48,6 +48,16 @@ class NM_Section_wooproduct extends PPOM_Inputs{
 								'title' => __ ( 'Content', 'ppom' ),
 								'desc' => __ ( 'Add your text/HTML here.', 'ppom' ) 
 						),
+						'description' => array (
+								'type' => 'textarea',
+								'title' => __ ( 'Description', 'ppom' ),
+								'desc' => __ ( 'Small description, it will be diplay near name title.', 'ppom' ) 
+						),
+						'desc_tooltip' => array (
+								'type' => 'checkbox',
+								'title' => __ ( 'Show tooltip (PRO)', 'ppom' ),
+								'desc' => __ ( 'Show Description in Tooltip with Help Icon', 'ppom' )
+						),
 						'width' => array (
 								'type' => 'select',
 								'title' => __ ( 'Width', 'ppom' ),

@@ -4,7 +4,7 @@ Tags: woocommerce, pesonalized products, woocommerce variations, woocommerce pro
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
 Tested up to: 4.9
-Stable tag: 15.0
+Stable tag: 15.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -82,6 +82,14 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
+= 15.1 October 30, 2018 =
+* Feature: Text input now have placeholder option
+* Feature: Section/HTML input now have description and desc_tooltip options
+* Feature: If unique datanames not found, it will not render fields but an alert/info message.
+* Bug fixed: Image dropdown was not working due to JS error
+* Bug fixed: Conditional logic issue fixed when options have quote (')
+* Warning: A warning removed on cart page
+* Compatibility: WC latest version checked
 = 15.0 October 25, 2018 =
 * Feature: [Multiple metas can be attached with single product (PRO)](https://najeebmedia.com/2018/10/25/ppom-version-15-0-multiple-meta/)
 * Feature: Better import/export feature added

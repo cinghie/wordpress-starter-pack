@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 4.9
-Stable tag: 3.6.9
+Stable tag: 3.7.1
 
 == Description ==
 
@@ -263,6 +263,13 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 3.7.1 (2018-10-31) =
+* Bug fixed that was introduced in version 3.7.0, it caused a fatal error upon creation of new feeds
+
+= 3.7.0 (2018-10-31) =
+* Added an attributes setting feature so missing custom attributes can be enabled and used for configuration and optimisation of your product feeds.
+* We finally made the progress status message dynamical so you no longer need to refresh your browser to see what the status of your product feed is.
 
 = 3.6.9 (2018-10-19) =
 * Fixed a bug: build in stricter UTF8 checks for the description and short_description attributes
@@ -1083,6 +1090,13 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 3.7.1 =
+The 3.7.0 version caused a fatal error upon creation of new feeds. This has been solved now.
+
+= 3.7.0 =
+Added an attributes setting feature so missing custom attributes can be enabled and used for configuration and optimisation of your product feeds.
+We finally made the progress status message dynamical so you no longer need to refresh your browser to see what the status of your product feed is.
 
 = 3.6.9 =
 Fixed a bug: build in stricter UTF8 checks for the description and short_description attributes

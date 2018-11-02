@@ -129,7 +129,7 @@ class WooSEA_Get_Products {
         	global $wpdb;
         	$list = array();
 
-		$sql = "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM " . $wpdb->prefix . "postmeta" . " AS meta, " . $wpdb->prefix . "posts" . " AS posts WHERE meta.post_id=".$productId." AND meta.post_id = posts.id AND posts.post_type like  '%product%' AND meta.meta_key NOT LIKE 'pyre%' AND meta.meta_key NOT LIKE 'sbg_%' AND meta.meta_key NOT LIKE 'wccaf_%' AND meta.meta_key NOT LIKE 'rp_%' AND (meta.meta_key NOT LIKE '\_%' OR meta.meta_key LIKE '\_woosea%' OR meta.meta_key LIKE '\_yoast%' OR meta.meta_key='_product_attributes') GROUP BY meta.meta_key ORDER BY meta.meta_key ASC";
+		$sql = "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM " . $wpdb->prefix . "postmeta" . " AS meta, " . $wpdb->prefix . "posts" . " AS posts WHERE meta.post_id=".$productId." AND meta.post_id = posts.id GROUP BY meta.meta_key ORDER BY meta.meta_key ASC";
 	      	$data = $wpdb->get_results($sql);
 
         	if (count($data)) {
@@ -855,7 +855,6 @@ class WooSEA_Get_Products {
 		// Write each row of the products array
 		foreach ($products as $row) {
 
-
 			foreach ($row as $k => $v){
 			
 				$pieces = explode ("','", $v);
@@ -882,6 +881,8 @@ class WooSEA_Get_Products {
 				}
 			
 				if ($feed_config['fields'] == "google_local"){
+					$pieces = preg_replace("/[^a-zA-Z 0-9.,]+/", "", $pieces );
+
 					$blaat = fputcsv($fp, $pieces, $csv_delimiter, chr(0));
 				} else {
 					$blaat = fputcsv($fp, $pieces, $csv_delimiter, '"');
@@ -943,7 +944,6 @@ class WooSEA_Get_Products {
 
 		// TEST BATCHES
 		// $nr_batches = 5;
-
 
 		$offset_step_size = ceil($published_products/$nr_batches);
 
@@ -1384,7 +1384,7 @@ class WooSEA_Get_Products {
 				 * We need to check if this product has individual custom product attributes
 				 */
 				global $wpdb;
-                		$sql = "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM " . $wpdb->prefix . "postmeta" . " AS meta, " . $wpdb->prefix . "posts" . " AS posts WHERE meta.post_id=".$product_data['id']." AND meta.post_id = posts.id AND posts.post_type LIKE  '%product%' AND meta.meta_key NOT LIKE 'pyre%' AND meta.meta_key NOT LIKE 'sbg_%' AND meta.meta_key NOT LIKE 'wccaf_%' AND meta.meta_key NOT LIKE 'rp_%' AND (meta.meta_key NOT LIKE '\_%' OR meta.meta_key LIKE '\_woosea%' OR meta.meta_key LIKE '\_yoast%' OR meta.meta_key='_product_attributes') GROUP BY meta.meta_key ORDER BY meta.meta_key ASC";              
+                		$sql = "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM " . $wpdb->prefix . "postmeta" . " AS meta, " . $wpdb->prefix . "posts" . " AS posts WHERE meta.post_id=".$product_data['id']." AND meta.post_id = posts.id GROUP BY meta.meta_key ORDER BY meta.meta_key ASC";              
 				$data = $wpdb->get_results($sql);
                 		if (count($data)) {
                         		foreach ($data as $key => $value) {
@@ -1568,7 +1568,7 @@ class WooSEA_Get_Products {
                                  * We need to check if this product has individual custom product attributes
                                  */
                                 global $wpdb;
-                                $sql = "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM " . $wpdb->prefix . "postmeta" . " AS meta, " . $wpdb->prefix . "posts" . " AS posts WHERE meta.post_id=".$product_data['item_group_id']." AND meta.post_id = posts.id AND posts.post_type LIKE  '%product%' AND meta.meta_key NOT LIKE 'pyre%' AND meta.meta_key NOT LIKE 'sbg_%' AND meta.meta_key NOT LIKE 'wccaf_%' AND meta.meta_key NOT LIKE 'rp_%' AND (meta.meta_key NOT LIKE '\_%' OR meta.meta_key LIKE '\_woosea%' OR meta.meta_key LIKE '\_yoast%' OR meta.meta_key='_product_attributes') GROUP BY meta.meta_key ORDER BY meta.meta_key ASC";
+                                $sql = "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM " . $wpdb->prefix . "postmeta" . " AS meta, " . $wpdb->prefix . "posts" . " AS posts WHERE meta.post_id=".$product_data['item_group_id']." AND meta.post_id = posts.id GROUP BY meta.meta_key ORDER BY meta.meta_key ASC";
                                 $data = $wpdb->get_results($sql);
                                 if (count($data)) {
                                         foreach ($data as $key => $value) {
@@ -2019,9 +2019,7 @@ class WooSEA_Get_Products {
 					array_push ($xml_piece, $xml_product);
 					unset($xml_product);
 				}
-
 				//error_log(print_r($product_data, TRUE));
-
 				unset($product_data);	
 			}
 		endwhile;

@@ -396,6 +396,13 @@ public function get_mapping_attributes_dropdown() {
         	);
 
 		$attributes = array_merge($attributes, $static);
+
+		// Did the user checked extra attributes
+		if(get_option( 'woosea_extra_attributes' )){
+			$extra_attributes = get_option( 'woosea_extra_attributes' );
+			array_walk($extra_attributes, function(&$value, $key) { $value .= ' (Added Custom attribute)';});
+			$attributes = array_merge($attributes, $extra_attributes);
+		}
 		return $attributes;
 	}
 

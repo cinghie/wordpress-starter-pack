@@ -1,6 +1,23 @@
 jQuery(document).ready(function($) {
 	var project_hash = null;
 	var project_status = null;
+	var get_value = null;
+	var tab_value = null;
+
+	// make sure to only check the feed status on the woosea_manage_feed page
+	url = new URL(window.location.href);
+	if (url.searchParams.get('page')) {
+		get_value = window.location.href.match(/(?<=page=)(.*?)[^&]+/)[0];
+ 	}
+	if (url.searchParams.get('tab')) {
+		tab_value = window.location.href.match(/(?<=tab=)(.*?)[^&]+/)[0];
+	}    
+
+  	if (get_value == 'woosea_manage_feed') {
+		$(document).on('ready',function(){
+			myInterval = setInterval(woosea_check_perc,3000);
+		});
+	}
 
 	$(".dismiss-review-notification").click(function(){
 		$(".review-notification").remove();	
@@ -26,25 +43,40 @@ jQuery(document).ready(function($) {
     	$("td[colspan=8]").find("div").parents("tr").hide();
 
 	$('.checkbox-field').change(function(index, obj){
-    		project_hash = $(this).val();
-		project_status = $(this).prop("checked")
 
-                jQuery.ajax({
-                	method: "POST",
-                        url: ajaxurl,
-                        data: { 'action': 'woosea_project_status', 'project_hash': project_hash, 'active': project_status }
-                })
+		if(get_value == 'woosea_manage_settings' && tab_value == 'woosea_manage_attributes'){
+			var attribute_value = $(this).val();
+			var attribute_name = $(this).attr('name');
+			var attribute_status = $(this).prop("checked");
 
-         	$("table tbody").find('input[name="manage_record"]').each(function(){
-			var hash = this.value;
-			if(hash == project_hash){
-				if (project_status == false){
-					$(this).parents("tr").addClass('strikethrough');
-				} else {
-					$(this).parents("tr").removeClass('strikethrough');
-				}
-                	}
-            	});
+	                jQuery.ajax({
+ 		               	method: "POST",
+               	         	url: ajaxurl,
+                        	data: { 'action': 'woosea_add_attributes', 'attribute_name': attribute_name, 'attribute_value': attribute_value, 'active': attribute_status }
+                	})
+		} else if (tab_value == 'woosea_manage_settings') {
+    			project_hash = $(this).val();
+			project_status = $(this).prop("checked");
+
+	                jQuery.ajax({
+ 		               	method: "POST",
+               	         	url: ajaxurl,
+                        	data: { 'action': 'woosea_project_status', 'project_hash': project_hash, 'active': project_status }
+                	})
+
+         		$("table tbody").find('input[name="manage_record"]').each(function(){
+				var hash = this.value;
+				if(hash == project_hash){
+					if (project_status == false){
+						$(this).parents("tr").addClass('strikethrough');
+					} else {
+						$(this).parents("tr").removeClass('strikethrough');
+					}
+                		}
+            		});
+		} else {
+			// Do nothing, waste of resources
+		}
 	});
 
 	// Check if user would like to enable WPML support
@@ -256,7 +288,8 @@ jQuery(document).ready(function($) {
 					if(hash == project_hash){
 						$(".woo-product-feed-pro-blink_off_"+hash).text(function () {
                                         		$(this).addClass('woo-product-feed-pro-blink_me');
-    							return $(this).text().replace("ready", "processing"); 
+							myInterval = setInterval(woosea_check_perc,500);
+							//return $(this).text().replace("ready", "processing (0%)"); 
 						});	
 					}
             			});
@@ -264,9 +297,34 @@ jQuery(document).ready(function($) {
 		}
 	});
 
-  	// Check if we need to UP the processing percentage 
-	$("table tbody").find('input[name="manage_record"]').each(function(){
-               	var hash = this.value;
-		var status = $(".woo-product-feed-pro-blink_off_"+hash).text();
-	});
+	function woosea_check_perc(){
+  		// Check if we need to UP the processing percentage 
+		$("table tbody").find('input[name="manage_record"]').each(function(){
+       	        	var hash = this.value;
+
+			jQuery.ajax({
+                		method: "POST",
+                      	 	 url: ajaxurl,
+                       		 data: { 'action': 'woosea_project_processing_status', 'project_hash': hash }
+               		})
+
+             	        .done(function( data ) {
+                        	data = JSON.parse( data );
+
+				if(data.proc_perc < 100){
+					return $("#woosea_proc_"+hash).text("processing ("+data.proc_perc+"%)");
+				} else if(data.proc_perc = 100){
+					clearInterval(myInterval);
+					return $("#woosea_proc_"+hash).text("ready");
+				} else {
+					clearInterval(myInterval);
+					//return $(this).removeClass('woo-product-feed-pro-blink_me');	
+					return $("#woosea_proc_"+hash).text("ready");
+				}
+                        })
+                        .fail(function( data ) {
+                                console.log('Failed AJAX Call :( /// Return Data: ' + data);
+                        });
+		});
+	}
 });

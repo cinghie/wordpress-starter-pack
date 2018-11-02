@@ -41,29 +41,61 @@ if($license_information['notice'] == "true"){
 	$notifications_box['message_type'] = $license_information['message_type'];
 	$notifications_box['message'] = $license_information['message'];
 }
-?>
 
-<div id="dialog" title="Basic dialog">
-	<p>
-     		<div id="dialogText"></div>
-      	</p>
-</div>
+/**
+ * Change default footer text, asking to review our plugin
+ **/
+function my_footer_text($default) {
+    return 'If you like our <strong>WooCommerce Product Feed PRO</strong> plugin please leave us a <a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="woo-product-feed-pro-ratingRequest">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. Thanks in advance!';
+}
+add_filter('admin_footer_text', 'my_footer_text');
+
+                	
+//we check if the page is visited by click on the tabs or on the menu button.
+//then we get the active tab.
+$active_tab = "woosea_manage_settings";
+$header_text = "Plugin settings";
+if(isset($_GET["tab"])) {
+	if($_GET["tab"] == "woosea_manage_settings"){
+        	$active_tab = "woosea_manage_settings";
+		$header_text = "Plugin settings";
+     	} else {
+             	$active_tab = "woosea_manage_attributes";
+		$header_text = "Attribute settings";
+		$license_information['message'] = "This plugin, by default, only shows a limit amount of custom attributes in the configuration and filter/rule drop-downs. We have done so for performance reasons. You can however add missing custom attributes by enabling them below. After enabling a custom attribute it shows in the drop-downs during configuration so you can use them for your product feeds.";
+	}
+}
+?>	
 
 <div class="wrap">
+
         <div class="woo-product-feed-pro-form-style-2">
                 <tbody class="woo-product-feed-pro-body">
-                        <div class="woo-product-feed-pro-form-style-2-heading">Plugin settings</div>
-
-                        <div class="<?php _e($license_information['message_type']); ?>">
+                        <div class="woo-product-feed-pro-form-style-2-heading">
+				<?php
+					print "$header_text";
+				?>
+			</div>
+                        
+			<div class="<?php _e($license_information['message_type']); ?>">
                                 <p><?php _e($license_information['message'], 'sample-text-domain' ); ?></p>
                         </div>
 
+        	    	<!-- wordpress provides the styling for tabs. -->
+			<h2 class="nav-tab-wrapper">
+                		<!-- when tab buttons are clicked we jump back to the same page but with a new parameter that represents the clicked tab. accordingly we make it active -->
+                		<a href="?page=woosea_manage_settings&tab=woosea_manage_settings" class="nav-tab <?php if($active_tab == 'woosea_manage_settings'){echo 'nav-tab-active';} ?> "><?php _e('Plugin settings', 'sandbox'); ?></a>
+                		<a href="?page=woosea_manage_settings&tab=woosea_manage_attributes" class="nav-tab <?php if($active_tab == 'woosea_manage_attributes'){echo 'nav-tab-active';} ?>"><?php _e('Attribute settings', 'sandbox'); ?></a>
+            		</h2>
+
 			<div class="woo-product-feed-pro-table-wrapper">
 				<div class="woo-product-feed-pro-table-left">
+					<?php
+					if($active_tab == "woosea_manage_settings"){
+					?>
+
 			       		<table class="woo-product-feed-pro-table">
-						<tr>
-						</tr>
-	
+						<tr><td colspan="2">&nbsp;</td></tr>	
 						<form action="" method="post">
 						<tr>
 							<td>
@@ -141,9 +173,6 @@ if($license_information['notice'] == "true"){
 							</td>
 						</tr>
 
-
-
-
 						<tr id="remarketing">
 							<td>
 								<span>Enable Google Dynamic Remarketing:</span>
@@ -171,6 +200,71 @@ if($license_information['notice'] == "true"){
 						?>
 						</form>
 					</table>
+					<?php
+					} else {
+					?>
+					<table>
+						<?php
+						if(!get_option( 'woosea_extra_attributes' )){
+							$extra_attributes = array();
+						} else {
+							$extra_attributes = get_option( 'woosea_extra_attributes' );
+						}
+
+					       	global $wpdb;
+        					$list = array();
+        					$sql = "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM " . $wpdb->prefix . "postmeta" . " AS meta, " . $wpdb->prefix . "posts" . " AS posts WHERE meta.post_id = posts.id AND posts.post_type LIKE '%product%'
+GROUP BY meta.meta_key ORDER BY meta.meta_key ASC;";
+        					$data = $wpdb->get_results($sql);
+
+					        if (count($data)) {
+                					foreach ($data as $key => $value) {
+
+                        					if (!preg_match("/_product_attributes/i",$value->name)){
+                                					$value_display = str_replace("_", " ",$value->name);
+                                					$list["custom_attributes_" . $value->name] = ucfirst($value_display);
+                        					} else {
+                                					$sql = "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM " . $wpdb->prefix . "postmeta" . " AS meta, " . $wpdb->prefix . "posts" . " AS posts WHERE meta.post_id = posts.id AND posts.post_type LIKE '%product%' AND meta.meta_key='_product_attributes';";
+                                					$data = $wpdb->get_results($sql);
+                                					if (count($data)) {
+                                        					foreach ($data as $key => $value) {
+                                                					$product_attr = unserialize($value->type);
+                                                					foreach ($product_attr as $key => $arr_value) {
+                                                        					$value_display = str_replace("_", " ",$arr_value['name']);
+                                                        					$list["custom_attributes_" . $key] = ucfirst($value_display);
+                                                					}
+                                        					}
+                                					}
+                        					}
+                					}
+        					}
+						print "<tr><td colspan=\"2\">&nbsp;</td></tr>";
+						print "<tr><td><strong>Attribute name</strong></td><td><strong>Enable or disable</strong></td></tr>";
+
+						foreach ($list as $key => $value){
+							
+							if(in_array($value, $extra_attributes)){
+								$checked = "checked";
+							} else {
+								$checked = "";
+							}
+
+							print "<tr id=\"$key\"><td><span>$value</span></td>";
+							print "<td>";
+							?>
+                                                                <label class="woo-product-feed-pro-switch">
+                                                                <input type="hidden" name="manage_attribute" value="<?php print "$key";?>"><input type="checkbox" id="attribute_active" name="<?php print "$value";?>" class="checkbox-field" value="<?php print "$key";?>" <?php print "$checked";?>>
+								<div class="woo-product-feed-pro-slider round"></div>
+                                                                </label>
+							<?php
+							print "</td>";
+							print "</tr>";
+						}
+						?>
+					</table>
+					<?php
+					}
+					?>
 				</div>
 
 				<div class="woo-product-feed-pro-table-right">
@@ -223,16 +317,16 @@ if($license_information['notice'] == "true"){
                                         <tr>
                                                 <td>
                                                         <ul>
-                                                                <li><strong>1. <a href="https://adtribes.io/can-i-add-mother-products-to-my-feed-and-leave-out-the-variations/" target="_blank">Can I leave out mother products?</a></strong></li>
-                                                                <li><strong>2. <a href="https://adtribes.io/add-gtin-mpn-upc-ean-product-condition-optimised-title-and-brand-attributes/" target="_blank">Adding GTIN, Brand, MPN and more</a></strong></li>
-                                                                <li><strong>3. <a href="https://adtribes.io/woocommerce-structured-data-bug/" target="_blank">WooCommerce structured data markup bug</a></strong></li>
-                                                                <li><strong>4. <a href="https://adtribes.io/how-to-create-filters-for-your-product-feed/" target="_blank">How to create filters for your product feed</a></strong></li>
-                                                                <li><strong>5. <a href="https://adtribes.io/wpml-support/" target="_blank">Enable WPML support</a></strong></li>
+                                                                <li><strong>1. <a href="https://adtribes.io/adding-missing-custom-attributes/" target="_blank">Adding missing custom attributes</a></strong></li>
+                                                                <li><strong>2. <a href="https://adtribes.io/can-i-add-mother-products-to-my-feed-and-leave-out-the-variations/" target="_blank">Can I leave out mother products?</a></strong></li>
+                                                                <li><strong>3. <a href="https://adtribes.io/add-gtin-mpn-upc-ean-product-condition-optimised-title-and-brand-attributes/" target="_blank">Adding GTIN, Brand, MPN and more</a></strong></li>
+                                                                <li><strong>4. <a href="https://adtribes.io/woocommerce-structured-data-bug/" target="_blank">WooCommerce structured data markup bug</a></strong></li>
+                                                                <li><strong>5. <a href="https://adtribes.io/how-to-create-filters-for-your-product-feed/" target="_blank">How to create filters for your product feed</a></strong></li>
+                                                                <li><strong>6. <a href="https://adtribes.io/wpml-support/" target="_blank">Enable WPML support</a></strong></li>
                                                         </ul>
                                                 </td>
                                         </tr>
                                 </table><br/>
-
 
 				</div>
 			</div>

@@ -389,7 +389,7 @@ function ppom_hooks_load_input_scripts( $product ) {
 	wp_localize_script('ppom-price', 'ppom_input_vars', $ppom_input_vars);
 	
 	// Conditional fields
-	if( !empty($ppom_conditional_fields) ) {
+	if( !empty($ppom_conditional_fields) || apply_filters('ppom_enqueue_conditions_js', false)) {
 		$ppom_input_vars['conditions'] = $ppom_conditional_fields;
 		
 		wp_enqueue_script( 'ppom-conditions', PPOM_URL.'/js/ppom-conditions.js', array('jquery','ppom-inputs'), PPOM_DB_VERSION, true);

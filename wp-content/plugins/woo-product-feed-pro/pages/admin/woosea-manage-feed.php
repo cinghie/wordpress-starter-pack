@@ -135,9 +135,9 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 						<?php
 							if ($val['running'] == "processing"){
 								$proc_perc = round(($val['nr_products_processed']/$val['nr_products'])*100);
-								print "<td><span class=\"woo-product-feed-pro-blink_me\">$val[running] ($proc_perc%)</span></td>";
+								print "<td><span class=\"woo-product-feed-pro-blink_me\" id=\"woosea_proc_$val[project_hash]\">$val[running] ($proc_perc%)</span></td>";
 							} else {
-								print "<td><span class=\"woo-product-feed-pro-blink_off_$val[project_hash]\">$val[running]</span></td>";
+								print "<td><span class=\"woo-product-feed-pro-blink_off_$val[project_hash]\" id=\"woosea_proc_$val[project_hash]\">$val[running]</span></td>";
 							}
 						?>
 						<td>
@@ -283,11 +283,12 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 					<tr>
 						<td>
 							<ul>
-								<li><strong>1. <a href="https://adtribes.io/can-i-add-mother-products-to-my-feed-and-leave-out-the-variations/" target="_blank">Can I leave out mother products?</a></strong></li>
-								<li><strong>2. <a href="https://adtribes.io/add-gtin-mpn-upc-ean-product-condition-optimised-title-and-brand-attributes/" target="_blank">Adding GTIN, Brand, MPN and more</a></strong></li>
-								<li><strong>3. <a href="https://adtribes.io/woocommerce-structured-data-bug/" target="_blank">WooCommerce structured data markup bug</a></strong></li>
-								<li><strong>4. <a href="https://adtribes.io/how-to-create-filters-for-your-product-feed/" target="_blank">How to create filters for your product feed</a></strong></li>
-						 		<li><strong>5. <a href="https://adtribes.io/wpml-support/" target="_blank">Enable WPML support</a></strong></li>
+								<li><strong>1. <a href="https://adtribes.io/adding-missing-custom-attributes/" target="_blank">Adding missing custom attributes</a></strong></li>
+								<li><strong>2. <a href="https://adtribes.io/can-i-add-mother-products-to-my-feed-and-leave-out-the-variations/" target="_blank">Can I leave out mother products?</a></strong></li>
+								<li><strong>3. <a href="https://adtribes.io/add-gtin-mpn-upc-ean-product-condition-optimised-title-and-brand-attributes/" target="_blank">Adding GTIN, Brand, MPN and more</a></strong></li>
+								<li><strong>4. <a href="https://adtribes.io/woocommerce-structured-data-bug/" target="_blank">WooCommerce structured data markup bug</a></strong></li>
+								<li><strong>5. <a href="https://adtribes.io/how-to-create-filters-for-your-product-feed/" target="_blank">How to create filters for your product feed</a></strong></li>
+						 		<li><strong>6. <a href="https://adtribes.io/wpml-support/" target="_blank">Enable WPML support</a></strong></li>
 							</ul>
 						</td>
 					</tr>
