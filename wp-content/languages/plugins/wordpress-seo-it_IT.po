@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Yoast SEO - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-10-23 12:09:27+0000\n"
+"PO-Revision-Date: 2018-10-28 10:16:01+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -90,7 +90,7 @@ msgstr "%1$sFrase chiave nel titolo%2$s: il titolo SEO contiene la frase esatta 
 #. anchor end tag
 #: languages/yoast-seo-js.php:347
 msgid "%1$sImage alt attributes%3$s: Images on this page do not have alt attributes with words from your keyphrase. %2$sFix that%3$s!"
-msgstr "%1$sAttributo alt dell'immagine%3$s: le immagini in questa pagina non hanno l'attributo alt formato dalla parole della tua frase chiave. %2$sTi suggeriamo di correggerle%3$s!"
+msgstr "%1$sAttributo alt dell'immagine%3$s: le immagini in questa pagina non hanno l'attributo alt formato dalle parole della tua frase chiave. %2$sTi suggeriamo di correggerle%3$s!"
 
 #. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the
 #. anchor end tag
@@ -1427,7 +1427,7 @@ msgstr "Mostra tutti i tipi di contenuto"
 
 #. translators: %1$s resolves to the opening tag of the link to the comment
 #. setting page, %2$s resolves to the closing tag of the link
-#: admin/class-admin-init.php:183
+#: admin/class-admin-init.php:184
 msgid "To fix this uncheck the box in front of the \"Break comments into pages...\" on the %1$sComment settings page%2$s."
 msgstr "Per risolvere il problema, deseleziona il box \"Dividi i commenti in pagine...\" nella %1$spagina di impostazione dei commenti%2$s."
 
@@ -2195,7 +2195,7 @@ msgstr "Integra al meglio %2$s con %1$s per l'analisi del contenuto!"
 
 #. translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version,
 #. %3$s expands to the plugin name
-#: admin/class-admin-init.php:340
+#: admin/class-admin-init.php:341
 msgid "%1$s and %2$s can work together a lot better by adding a helper plugin. Please install %3$s to make your life better."
 msgstr "%1$s e %2$s possono lavorare insieme molto meglio con l'aggiunta di un plugin helper. Installa %3$s per rendere la tua vita migliore."
 
@@ -3684,11 +3684,11 @@ msgstr "Bacheca"
 
 #. translators: %1$s resolves to the starting tag of the link to the permalink
 #. settings page, %2$s resolves to the closing tag of the link
-#: admin/class-admin-init.php:230
+#: admin/class-admin-init.php:231
 msgid "You can fix this on the %1$sPermalink settings page%2$s."
 msgstr "Puoi correggerlo nella %1$sPagina delle impostazioni dei permalink%2$s."
 
-#: admin/class-admin-init.php:178
+#: admin/class-admin-init.php:179
 msgid "Paging comments is enabled, this is not needed in 999 out of 1000 cases, we recommend to disable it."
 msgstr "La paginazione dei commenti è abilitata, ciò non è necessario in 999 casi su 1000, noi raccomandiamo di disabilitarla."
 
@@ -3922,7 +3922,7 @@ msgstr "eseguito %1$s di %2$s."
 
 #. translators: 1: is a link to 'admin_url /
 #. admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag
-#: admin/class-admin-init.php:430
+#: admin/class-admin-init.php:431
 msgid "We've updated our SEO score algorithm. %1$sRecalculate the SEO scores%2$s for all posts and pages."
 msgstr "Abbiamo aggiornato i nostri algoritmi per il punteggio SEO. %1$sRicalcola il punteggio SEO%2$s per tutti gli articoli e le pagine."
 
@@ -3934,7 +3934,7 @@ msgstr "Team Yoast"
 msgid "The first true all-in-one SEO solution for WordPress, including on-page content analysis, XML sitemaps and much more."
 msgstr "La prima vera soluzione SEO tutto-in-uno per WordPress, compresa l&#8217;analisi dei contenuti su ogni pagina, sitemap XML e molto altro."
 
-#. #-#-#-#-#  wordpress-seo-code.pot (Yoast SEO 9.0.2)  #-#-#-#-#
+#. #-#-#-#-#  wordpress-seo-code.pot (Yoast SEO 9.0.3)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: admin/capabilities/class-capability-manager-integration.php:68
 msgid "Yoast SEO"
@@ -4936,7 +4936,7 @@ msgstr "Nome sito web"
 msgid "Webmaster Tools"
 msgstr "Strumenti per Webmaster"
 
-#: admin/class-admin-init.php:226
+#: admin/class-admin-init.php:227
 msgid "You do not have your postname in the URL of your posts and pages, it is highly recommended that you do. Consider setting your permalink structure to <strong>/%postname%/</strong>."
 msgstr "Non appare il titolo dell'articolo nella URL dei tuoi articoli e pagine, si consiglia di inserirlo. Imposta la struttura del tuo permalink con <strong>/%postname%/</strong>."
 
@@ -5638,11 +5638,11 @@ msgstr "Impostazioni"
 
 #. translators: %1$s resolves to the opening tag of the link to the reading
 #. settings, %1$s resolves to the closing tag for the link
-#: admin/class-admin-init.php:150
+#: admin/class-admin-init.php:151
 msgid "You must %1$sgo to your Reading Settings%2$s and uncheck the box for Search Engine Visibility."
 msgstr "Devi %1$sandare nelle Impostazioni Lettura%2$s e rimuovere la casella di spunta per la Visibilità ai motori di ricerca."
 
-#: admin/class-admin-init.php:147
+#: admin/class-admin-init.php:148
 msgid "Huge SEO Issue: You're blocking access to robots."
 msgstr "Grande problema SEO: stai bloccando l'accesso ai robot."
 
@@ -5736,16 +5736,16 @@ msgstr "SEO"
 #. translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version,
 #. %3$s expands to the plugin name
 #: admin/class-admin-gutenberg-compatibility-notification.php:72
-#: admin/class-admin-init.php:287 admin/class-admin-init.php:390
+#: admin/class-admin-init.php:288 admin/class-admin-init.php:391
 msgid "%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues."
 msgstr "%1$s ha scoperto che stai utilizzando la versione %2$s di %3$s, aggiorna all'ultima versione per evitare problemi di compatibilità."
 
-#: admin/class-admin-init.php:216
+#: admin/class-admin-init.php:217
 msgid "Just another WordPress site"
 msgstr "Solo un altro sito WordPress"
 
 #. translators: 1: link open tag; 2: link close tag.
-#: admin/class-admin-init.php:120
+#: admin/class-admin-init.php:121
 msgid "You still have the default WordPress tagline, even an empty one is probably better. %1$sYou can fix this in the customizer%2$s."
 msgstr "Hai ancora il motto standard di WordPress, persino un motto vuoto è probabilmente migliore. %1$sPuoi correggerlo in personalizza%2$s."
 

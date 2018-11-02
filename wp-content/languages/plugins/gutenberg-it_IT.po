@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-10-25 19:01:06+0000\n"
+"PO-Revision-Date: 2018-11-01 12:20:52+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3425,10 +3425,6 @@ msgstr "Seleziona una categoria"
 msgid "Block type names must be strings."
 msgstr "I nomi dei blocchi devono essere stringhe."
 
-#. Author of the plugin/theme
-msgid "Gutenberg Team"
-msgstr "Il team Gutenberg"
-
 #: gutenberg.php:63 gutenberg.php:64
 msgid "Demo"
 msgstr "Dimostrazione"
@@ -3514,3 +3510,7 @@ msgstr "Modifica &#8220;%s&#8221; con l'editor classico"
 #: lib/client-assets.php:386
 msgid "%s from now"
 msgstr "%s da ora"
+
+#. Author of the plugin/theme
+msgid "Gutenberg Team"
+msgstr "Team Gutenberg"
