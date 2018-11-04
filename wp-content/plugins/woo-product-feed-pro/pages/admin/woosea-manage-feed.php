@@ -115,7 +115,6 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 						$class = "";
 					} else {
 						$checked = "";
-						$class = "woo-product-feed-pro-strikethrough";
 					}
 
 					if(isset($val['filename'])){

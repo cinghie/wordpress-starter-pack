@@ -54,7 +54,7 @@ jQuery(document).ready(function($) {
                	         	url: ajaxurl,
                         	data: { 'action': 'woosea_add_attributes', 'attribute_name': attribute_name, 'attribute_value': attribute_value, 'active': attribute_status }
                 	})
-		} else if (tab_value == 'woosea_manage_settings') {
+		} else if (get_value == 'woosea_manage_feed') {
     			project_hash = $(this).val();
 			project_status = $(this).prop("checked");
 
@@ -288,8 +288,8 @@ jQuery(document).ready(function($) {
 					if(hash == project_hash){
 						$(".woo-product-feed-pro-blink_off_"+hash).text(function () {
                                         		$(this).addClass('woo-product-feed-pro-blink_me');
-							myInterval = setInterval(woosea_check_perc,500);
-							//return $(this).text().replace("ready", "processing (0%)"); 
+							myInterval = setInterval(woosea_check_perc,100);
+							return $(this).text().replace("ready", "processing (0%)"); 
 						});	
 					}
             			});
@@ -315,10 +315,11 @@ jQuery(document).ready(function($) {
 					return $("#woosea_proc_"+hash).text("processing ("+data.proc_perc+"%)");
 				} else if(data.proc_perc = 100){
 					clearInterval(myInterval);
+					$("#woosea_proc_"+hash).removeClass('woo-product-feed-pro-blink_me');	
 					return $("#woosea_proc_"+hash).text("ready");
 				} else {
 					clearInterval(myInterval);
-					//return $(this).removeClass('woo-product-feed-pro-blink_me');	
+					$("#woosea_proc_"+hash).removeClass('woo-product-feed-pro-blink_me');	
 					return $("#woosea_proc_"+hash).text("ready");
 				}
                         })

@@ -107,7 +107,12 @@ class WooSEA_Get_Products {
 		} else {
 			# Strip first & from utm 
 			if($parentId > 0){
-				$utm_part = "&".ltrim($utm_part, '&');
+				# Even though variation products always have parameters in the URL we still need to check and make sure they are there
+				if(strpos($link, '?') !== false){
+					$utm_part = "&".ltrim($utm_part, '&');
+				} else {
+					$utm_part = "?".ltrim($utm_part, '&');
+				}
 			} else {
 				$utm_part = "?".ltrim($utm_part, '&');
 			}
@@ -374,6 +379,7 @@ class WooSEA_Get_Products {
 
 				// Start with a clean shipping zone
 				$zone_details = array();
+				$zone_details['country'] = "";
 
 				// Start with a clean postal code
 				$postal_code = array();
@@ -881,9 +887,13 @@ class WooSEA_Get_Products {
 				}
 			
 				if ($feed_config['fields'] == "google_local"){
-					$pieces = preg_replace("/[^a-zA-Z 0-9.,]+/", "", $pieces );
-
-					$blaat = fputcsv($fp, $pieces, $csv_delimiter, chr(0));
+					$tab_line = "";
+					foreach ($pieces as $t_key => $t_value){
+						$tab_line .= $t_value . "$csv_delimiter";
+					}
+					$tab_line = rtrim($tab_line, $csv_delimiter);
+					$tab_line .= PHP_EOL;
+					fwrite($fp, $tab_line);
 				} else {
 					$blaat = fputcsv($fp, $pieces, $csv_delimiter, '"');
 				}
@@ -1222,16 +1232,23 @@ class WooSEA_Get_Products {
                         $product_data['sale_price_start_date'] = $this->get_sale_date($this->childID, "_sale_price_dates_from");
                         $product_data['sale_price_end_date'] = $this->get_sale_date($this->childID, "_sale_price_dates_to");
 			$product_data['sale_price_effective_date'] = $product_data['sale_price_start_date'] ."/".$product_data['sale_price_end_date'];
+			if($product_data['sale_price_effective_date'] == "/"){
+				$product_data['sale_price_effective_date'] = "";
+			}
+
+
 			$product_data['image'] = wp_get_attachment_url($product->get_image_id());
 		
 			// For variable products I need to get the product gallery images of the simple mother product	
 			if($product_data['item_group_id'] > 0){
 				$parent_product = wc_get_product( $product_data['item_group_id'] );
-				$gallery_ids = $parent_product->get_gallery_image_ids();
-				$gal_id=1;
-				foreach ($gallery_ids as $gallery_key => $gallery_value){
-					$product_data["image_" . $gal_id] = wp_get_attachment_url($gallery_value);
-					$gal_id++;
+				if(is_object($parent_product)){
+					$gallery_ids = $parent_product->get_gallery_image_ids();
+					$gal_id=1;
+					foreach ($gallery_ids as $gallery_key => $gallery_value){
+						$product_data["image_" . $gal_id] = wp_get_attachment_url($gallery_value);
+						$gal_id++;
+					}
 				}
 			} else {
 				$gallery_ids = $product->get_gallery_image_ids();
@@ -1691,6 +1708,7 @@ class WooSEA_Get_Products {
                                                		}
 						}
 					}
+					$product_data['raw_categories'] = $catname;
 				} else {
 					foreach ($categories as $key => $value){
 	                                        if (!$catname){
@@ -1727,7 +1745,7 @@ class WooSEA_Get_Products {
 						}
 					}
 				}
-
+	                        $product_data['raw_categories'] = $catname;
 				$product_data['category_link'] = $catlink;
 				$product_data['categories'] = $catname;
                      	} 

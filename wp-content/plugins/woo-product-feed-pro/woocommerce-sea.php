@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: WooCommerce Product Feed PRO 
- * Version:     3.7.1
+ * Version:     3.7.4
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -45,7 +45,7 @@ if (!defined('ABSPATH')) {
 /**
  * Plugin versionnumber, please do not override
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '3.7.1' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '3.7.4' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 
 if ( ! defined( 'WOOCOMMERCESEA_FILE' ) ) {
@@ -390,7 +390,7 @@ function woosea_hook_header() {
 	// Make ajaxurl available on all pages
 	echo '<script type="text/javascript">
            var ajaxurl = "' . admin_url('admin-ajax.php') . '";
-         </script>';
+        </script>';
 	
         // JS for adding the tracking code into the template
         wp_register_script( 'woosea_tracking-js', plugin_dir_url( __FILE__ ) . 'js/woosea_tracking.js', WOOCOMMERCESEA_PLUGIN_VERSION, true  );

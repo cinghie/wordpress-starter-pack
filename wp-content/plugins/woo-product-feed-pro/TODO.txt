@@ -6,7 +6,6 @@ TO-DO:
 2. Remarketing and structured data fix, check if prices are correct (VAT issue) - on variation pages it shows prices without VAT in the structured data
 3. Remarketing tags not yet on thank-you purchase page
 4. Incomplete remarketing tag on cart-page
-5. Fix status update blinking percentage, it should update automatically
 6. Attribute mapping page sometimes freezes when there are too many attributes in the drop-down (make drop-downs smaller, remove non-relevant ones)
 7. Tracking & conversion
 	- dynamic dropdowns in GA / tracking page for values

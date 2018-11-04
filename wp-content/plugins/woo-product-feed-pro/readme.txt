@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 4.9
-Stable tag: 3.7.1
+Stable tag: 3.7.4
 
 == Description ==
 
@@ -263,6 +263,18 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 3.7.4 (2018-11-02) =
+* Fixed some cosmetic issues with regards to the blinking status messages
+* Fixed a bug: when a product feed project was disabled one could no longer enable it. This has now been solved
+
+= 3.7.3 (2018-11-02) =
+* On popular demand we fixed some Google Local Products Inventory feed issues: the store code attribute was surrounded with non UTF chars, the sale price effective date contained a slash when no sale date was set. Also Google requires it to be a txt file (and not tsv or csv).
+* Fixed a bug: the attribute Category (not used for mapping) was empty for variation products. This has now been fixed. The plugin will use the parent product category for it.
+
+= 3.7.2 (2018-11-02) =
+* Fixed a minor bug: variation products that did not have parameters in the URL for which the plugin appended Google Analytics and AdTribes parameters the landingpage URL's contained no questionmark before the parameters
+* Fixed a bug on the get_gallery_image_ids() call
 
 = 3.7.1 (2018-10-31) =
 * Bug fixed that was introduced in version 3.7.0, it caused a fatal error upon creation of new feeds
@@ -1090,6 +1102,18 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 3.7.4 =
+Fixed some cosmetic issues with regards to the blinking status messages
+Fixed a bug: when a product feed project was disabled one could no longer enable it. This has now been solved
+
+= 3.7.3 =
+On popular demand we fixed some Google Local Products Inventory feed issues: the store code attribute was surrounded with non UTF chars, the sale price effective date contained a slash when no sale date was set. Also Google requires it to be a txt file (and not tsv or csv).
+Fixed a bug: the attribute Category (not used for mapping) was empty for variation products. This has now been fixed. The plugin will use the parent product category for it.
+
+= 3.7.2 =
+Fixed a minor bug: variation products that did not have parameters in the URL for which the plugin appended Google Analytics and AdTribes parameters the landingpage URL's contained no questionmark before the parameters
+Fixed a bug on the get_gallery_image_ids() call
 
 = 3.7.1 =
 The 3.7.0 version caused a fatal error upon creation of new feeds. This has been solved now.
