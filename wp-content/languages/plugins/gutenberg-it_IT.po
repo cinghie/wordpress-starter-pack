@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-11-01 12:20:52+0000\n"
+"PO-Revision-Date: 2018-11-03 23:46:56+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1120,13 +1120,13 @@ msgstr "Stiamo lavorando a stretto contatto con Cloudflare per correggere questo
 msgid "Your site uses Cloudflare, which provides a Web Application Firewall (WAF) to secure your site against attacks. Unfortunately, some of these WAF rules are incorrectly blocking legitimate access to your site, preventing Gutenberg from functioning correctly."
 msgstr "Il tuo sito utilizza Cloudflare, che fornisce un Web Application Firewall (WAF) per proteggere il tuo sito dagli attacchi. Sfortunatamente alcune di queste regole WAF stanno erroneamente bloccando accessi legittimi al tuo sito, impedendo a Gutenberg di funzionare correttamente."
 
-#: post-content.php:46
-msgid "Imagine everything that WordPress can do is available to you quickly and in the same place on the interface. No need to figure out HTML tags, classes, or remember complicated shortcode syntax. That&#8217;s the spirit behind the inserter—the <code>(+)</code> button you&#8217;ll see around the editor—which allows you to browse all available content blocks and add them into your post. Plugins and themes are able to register their own, opening up all sort of possibilities for rich editing and publishing."
-msgstr "Immagina che tutto quello che WordPress può fare sia disponibile velocemente e nella stessa posizione dell'interfaccia. Nessuna necessità di capire tag HTML e classi o ricordare le complicate sintassi dei shortcode. È l'anima che sta dietro allo strumento di inserimento —il pulsante <code>(+)</code> che vedi vicino all'editor— che ti permette di scorrere tutti i blocchi di contenuto disponibili e aggiungerli nel tuo articolo. Plugin e temi possono registrare i loro propri blocchi, offrendo così ogni tipo di possibilità per formattazioni avanzate e pubblicazione."
-
 #: lib/compat.php:362
 msgid "If you have a Cloudflare Pro account, log in to Cloudflare, visit the Firewall settings page, open the \"Cloudflare Rule Set\" details, open the \"Cloudflare WordPress\" ruleset, then set the rules \"WP0025A\" and \"WP0025B\" to \"Disable\"."
 msgstr "Se hai un account Cloudflare Pro, accedi a Cloudflare, vai alla pagina delle impostazioni del Firewall, apri i dettagli per \"Cloudflare Rule Set\", apri la sezione di regole \"Cloudflare WordPress\", quindi imposta le regole \"WP0025A\" e \"WP0025B\" su \"Disable\"."
+
+#: post-content.php:46
+msgid "Imagine everything that WordPress can do is available to you quickly and in the same place on the interface. No need to figure out HTML tags, classes, or remember complicated shortcode syntax. That&#8217;s the spirit behind the inserter—the <code>(+)</code> button you&#8217;ll see around the editor—which allows you to browse all available content blocks and add them into your post. Plugins and themes are able to register their own, opening up all sort of possibilities for rich editing and publishing."
+msgstr "Immagina che tutto quello che WordPress può fare sia disponibile velocemente e nella stessa posizione dell'interfaccia. Nessuna necessità di capire tag HTML e classi o ricordare le complicate sintassi dei shortcode. È l'anima che sta dietro allo strumento di inserimento —il pulsante <code>(+)</code> che vedi vicino all'editor— che ti permette di scorrere tutti i blocchi di contenuto disponibili e aggiungerli nel tuo articolo. Plugin e temi possono registrare i loro propri blocchi, offrendo così ogni tipo di possibilità per formattazioni avanzate e pubblicazione."
 
 #: post-content.php:6
 msgid "The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of <em>pieces of content</em>—somewhat similar to LEGO bricks—that you can move around and interact with. Move your cursor around and you&#8217;ll notice the different blocks light up with outlines and arrows. Press the arrows to reposition blocks quickly, without fearing about losing things in the process of copying and pasting."
@@ -1165,18 +1165,6 @@ msgstr "Cloudflare sta bloccando le richieste dalle REST API."
 #: lib/class-wp-rest-search-controller.php:358
 msgid "Invalid type parameter."
 msgstr "Tipo di parametro non valido."
-
-#: lib/compat.php:217
-msgid "This post was previously edited in Gutenberg. You can continue in the Classic Editor, but you may lose data and formatting."
-msgstr "Questo articolo è stato precedentemente modificato con Gutenberg. Puoi continuare con l'editor classico, ma potresti perdere dati e formattazione."
-
-#: lib/compat.php:237 lib/compat.php:384
-msgid "Continue to Classic Editor"
-msgstr "Continua sull'editor classico"
-
-#: lib/compat.php:230
-msgid "Because this post does not have revisions, you will not be able to revert any changes you make in the Classic Editor."
-msgstr "Poiché questo articolo non ha revisioni, non potrai annullare le modifiche che effettuerai con l'editor classico."
 
 #: languages/gutenberg-translations.php:2134
 msgid "Small"
@@ -1235,6 +1223,18 @@ msgstr "Puoi anche <a href=\"%s\">sfogliare le revisioni precedenti</a> e ripris
 #: lib/class-wp-rest-search-controller.php:246
 msgid "URL to the object."
 msgstr "L'URL dell'oggetto."
+
+#: lib/compat.php:230
+msgid "Because this post does not have revisions, you will not be able to revert any changes you make in the Classic Editor."
+msgstr "Poiché questo articolo non ha revisioni, non potrai annullare le modifiche che effettuerai con l'editor classico."
+
+#: lib/compat.php:217
+msgid "This post was previously edited in Gutenberg. You can continue in the Classic Editor, but you may lose data and formatting."
+msgstr "Questo articolo è stato precedentemente modificato con Gutenberg. Puoi continuare con l'editor classico, ma potresti perdere dati e formattazione."
+
+#: lib/compat.php:237 lib/compat.php:384
+msgid "Continue to Classic Editor"
+msgstr "Continua sull'editor classico"
 
 #: languages/gutenberg-translations.php:600
 msgid "Keep as HTML"
@@ -1796,10 +1796,6 @@ msgstr "Visualizza un elenco di tutte le categorie del tuo sito."
 msgid "Error loading block: %s"
 msgstr "Errore durante il caricamento del blocco: %s"
 
-#: languages/gutenberg-translations.php:169
-msgid "It’s the classic WordPress editor and it’s a block! Drop the editor right in."
-msgstr "È l'editor classico di WordPress ed è un blocco! Abbandona subito l'editor."
-
 #: languages/gutenberg-translations.php:680
 msgid "Highlight a quote from your post or page by displaying it as a graphic element."
 msgstr "Evidenzia una citazione dal tuo articolo o pagina mostrandola come elemento grafico."
@@ -1840,6 +1836,10 @@ msgstr "Aggiungi alla barra degli strumenti"
 #: languages/gutenberg-translations.php:225
 msgid "Add a full-width image or video, and layer text over it — great for headers."
 msgstr "Aggiungi un'immagine a larghezza piena o un video e con un testo sovrapposto — ottima per gli header."
+
+#: languages/gutenberg-translations.php:169
+msgid "It’s the classic WordPress editor and it’s a block! Drop the editor right in."
+msgstr "Stai usando l'editor classico di WordPress e questo è un blocco! Abbandona subito l'editor."
 
 #: languages/gutenberg-translations.php:79
 msgid "Name:"
@@ -3480,10 +3480,6 @@ msgstr "Slug"
 msgid "Feedback"
 msgstr "Feedback"
 
-#: gutenberg.php:312 gutenberg.php:462
-msgid "Classic Editor"
-msgstr "Editor classico"
-
 #: lib/register.php:126
 msgid "Send Trackbacks"
 msgstr "Invia trackback"
@@ -3501,16 +3497,20 @@ msgstr "(senza titolo)"
 msgid "Gutenberg requires WordPress 4.9.8 or later to function properly. Please upgrade WordPress before activating Gutenberg."
 msgstr "Gutenberg richiede WordPress 4.9.8 o successivo per funzionare correttamente. Aggiorna WordPress prima di attivare Gutenberg."
 
-#. translators: %s: post title
-#: gutenberg.php:308
-msgid "Edit &#8220;%s&#8221; in the classic editor"
-msgstr "Modifica &#8220;%s&#8221; con l'editor classico"
-
 #. translators: %s: duration
 #: lib/client-assets.php:386
 msgid "%s from now"
 msgstr "%s da ora"
 
+#. translators: %s: post title
+#: gutenberg.php:308
+msgid "Edit &#8220;%s&#8221; in the classic editor"
+msgstr "Modifica &#8220;%s&#8221; con il Classic Editor "
+
 #. Author of the plugin/theme
 msgid "Gutenberg Team"
 msgstr "Team Gutenberg"
+
+#: gutenberg.php:312 gutenberg.php:462
+msgid "Classic Editor"
+msgstr "Editor classico"
