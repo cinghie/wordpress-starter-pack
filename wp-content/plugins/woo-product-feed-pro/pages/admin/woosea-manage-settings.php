@@ -27,6 +27,9 @@ if (!in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 
 if ($versions['PHP'] < 5.6){
         $notifications_box = $notifications_obj->get_admin_notifications ( '11', 'false' );
+	$php_validation = "False";
+} else {
+	$php_validation = "True";
 }
 
 if ($versions['WooCommerce'] < 3){
@@ -59,6 +62,9 @@ if(isset($_GET["tab"])) {
 	if($_GET["tab"] == "woosea_manage_settings"){
         	$active_tab = "woosea_manage_settings";
 		$header_text = "Plugin settings";
+	} elseif ($_GET["tab"] == "woosea_system_check"){
+        	$active_tab = "woosea_system_check";
+		$header_text = "Plugin systems check";
      	} else {
              	$active_tab = "woosea_manage_attributes";
 		$header_text = "Attribute settings";
@@ -86,7 +92,8 @@ if(isset($_GET["tab"])) {
                 		<!-- when tab buttons are clicked we jump back to the same page but with a new parameter that represents the clicked tab. accordingly we make it active -->
                 		<a href="?page=woosea_manage_settings&tab=woosea_manage_settings" class="nav-tab <?php if($active_tab == 'woosea_manage_settings'){echo 'nav-tab-active';} ?> "><?php _e('Plugin settings', 'sandbox'); ?></a>
                 		<a href="?page=woosea_manage_settings&tab=woosea_manage_attributes" class="nav-tab <?php if($active_tab == 'woosea_manage_attributes'){echo 'nav-tab-active';} ?>"><?php _e('Attribute settings', 'sandbox'); ?></a>
-            		</h2>
+                		<a href="?page=woosea_manage_settings&tab=woosea_system_check" class="nav-tab <?php if($active_tab == 'woosea_system_check'){echo 'nav-tab-active';} ?>"><?php _e('Plugin systems check', 'sandbox'); ?></a>
+          		</h2>
 
 			<div class="woo-product-feed-pro-table-wrapper">
 				<div class="woo-product-feed-pro-table-left">
@@ -95,7 +102,8 @@ if(isset($_GET["tab"])) {
 					?>
 
 			       		<table class="woo-product-feed-pro-table">
-						<tr><td colspan="2">&nbsp;</td></tr>	
+                                                <tr><td><strong>Plugin setting</strong></td><td><strong>On / Off</strong></td></tr>
+
 						<form action="" method="post">
 						<tr>
 							<td>
@@ -201,9 +209,36 @@ if(isset($_GET["tab"])) {
 						</form>
 					</table>
 					<?php
+					} elseif ($active_tab == "woosea_system_check"){
+						// Check if the product feed directory is writeable
+						$upload_dir = wp_upload_dir();
+						$external_base = $upload_dir['basedir'];
+                				$external_path = $external_base . "/woo-product-feed-pro/";
+						
+						if (is_writable($external_path)) {
+							$directory_perm = "True";
+						} else {
+							$directory_perm = "False";
+						}
+
+						// Check if the cron is enabled
+						if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
+							$cron_enabled = "False";
+						} else {
+							$cron_enabled = "True";
+						}
+
+						print "<table class=\"woo-product-feed-pro-table\">";
+						print "<tr><td><strong>System check</strong></td><td><strong>Status</strong></td></tr>";
+						print "<tr><td>WP-Cron enabled</td><td>$cron_enabled</td></tr>";
+						print "<tr><td>PHP-version sufficient</td><td>$php_validation ($versions[PHP])</td></tr>";
+						print "<tr><td>Product feed directory writable</td><td>$directory_perm</td></tr>";
+						print "<tr><td colspan=\"2\">&nbsp;</td></tr>";
+						print "</table>";
+
 					} else {
 					?>
-					<table>
+					<table class="woo-product-feed-pro-table">
 						<?php
 						if(!get_option( 'woosea_extra_attributes' )){
 							$extra_attributes = array();
@@ -238,8 +273,7 @@ GROUP BY meta.meta_key ORDER BY meta.meta_key ASC;";
                         					}
                 					}
         					}
-						print "<tr><td colspan=\"2\">&nbsp;</td></tr>";
-						print "<tr><td><strong>Attribute name</strong></td><td><strong>Enable or disable</strong></td></tr>";
+						print "<tr><td><strong>Attribute name</strong></td><td><strong>On / Off</strong></td></tr>";
 
 						foreach ($list as $key => $value){
 							

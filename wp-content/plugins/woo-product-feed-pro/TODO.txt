@@ -1,6 +1,10 @@
 So you found my to-do list for this plugin? Well, hope you enjoy the little sneak preview of what's coming. 
 Missing some features you might like? Drop me a line at support@adtribes.io and we might just add it to the list. Thanks!
 
+NEXT RELEASE
+- manual refresh button does not always trigger a refresh
+- empty Shipping XML nodes
+
 TO-DO:
 1. Add support for g:tax, see: https://support.google.com/merchants/answer/6324454?hl=en
 2. Remarketing and structured data fix, check if prices are correct (VAT issue) - on variation pages it shows prices without VAT in the structured data

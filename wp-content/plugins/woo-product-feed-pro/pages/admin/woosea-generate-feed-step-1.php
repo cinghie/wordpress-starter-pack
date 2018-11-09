@@ -66,7 +66,7 @@ function woosea_hierarchical_term_tree($category, $prev_mapped){
                     	if (array_key_exists($woo_category, $prev_mapped)){
                         	$mapped_category = $prev_mapped[$woo_category];
                              	$mapped_active_class = "input-field-large-active";
-                     	}
+			}
 
 			if($sub_category->parent == 0){
 				$r .= "<tr>";

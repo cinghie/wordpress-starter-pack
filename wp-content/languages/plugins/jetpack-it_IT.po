@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Jetpack by WordPress.com - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-10-14 09:41:31+0000\n"
+"PO-Revision-Date: 2018-11-07 10:54:08+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3936,10 +3936,6 @@ msgstr "Usa il Markdown per i post"
 msgid "Track each scroll load (7 posts by default) as a page view in Google Analytics"
 msgstr "Traccia ogni scaricamento di scroll (7 post di default) come un'unica page view su Google Analytics"
 
-#: _inc/jetpack-strings.php:580
-msgid "Currently in {{a}}Development Mode{{/a}} (some features are disabled) because: {{reasons/}}"
-msgstr "Al momento in {{a}}Modalità Sviluppo{{/a}} (alcune funzionalità sono disabilitate) perché: {{reasons/}}"
-
 #: _inc/jetpack-strings.php:577
 msgid "{{li}}The jetpack_development_mode filter is active{{/li}}"
 msgstr "{li}}Il filtro jetpack_development_mode è attivo{{/li}}"
@@ -3951,6 +3947,10 @@ msgstr "{{li}}La costante JETPACK_DEV_DEBUG è definita{{/li}}"
 #: _inc/jetpack-strings.php:579
 msgid "{{li}}Your site URL lacks a dot (e.g. http://localhost){{/li}}"
 msgstr "{{li}}All'URL del tuo sito manca un punto (es. http://localhost){{/li}}"
+
+#: _inc/jetpack-strings.php:580
+msgid "Currently in {{a}}Development Mode{{/a}} (some features are disabled) because: {{reasons/}}"
+msgstr "Attualmente in {{a}}Modalità di sviluppo{{/a}} (alcune funzioni sono disabilitate) perché: {{reasons/}}"
 
 #: modules/widgets/twitter-timeline.php:363
 msgid "# of Tweets Shown (1 to 20):"
@@ -6544,10 +6544,6 @@ msgstr "Impostazioni per %(slug)s attive."
 msgid "To automatically back up your entire site, please {{a}}install and activate{{/a}} VaultPress."
 msgstr "Per fare il backup automatico di tutto il tuo sito {{a}}installa e attiva{{/a}} VaultPress."
 
-#: _inc/jetpack-strings.php:64
-msgid "To automatically back up your entire site, please {{a}}upgrade your account{{/a}}."
-msgstr "Per fare il backup automatico di tutto il tuo sito {{a}}aggiorna il tuo account{{/a}}."
-
 #: _inc/jetpack-strings.php:50 _inc/jetpack-strings.php:66
 #: _inc/jetpack-strings.php:85 _inc/jetpack-strings.php:115
 #: _inc/jetpack-strings.php:264 _inc/jetpack-strings.php:268
@@ -6559,6 +6555,10 @@ msgstr "Non disponibile in Dev Mode."
 #: _inc/jetpack-strings.php:112
 msgid "Loading…"
 msgstr "Caricando..."
+
+#: _inc/jetpack-strings.php:64
+msgid "To automatically back up your entire site, please {{a}}upgrade your account{{/a}}."
+msgstr "Per effettuare il backup automatico dell’intero sito, {{a}}aggiorna il tuo account{{/a}}."
 
 #: _inc/jetpack-strings.php:11 _inc/jetpack-strings.php:647
 #: _inc/jetpack-strings.php:653

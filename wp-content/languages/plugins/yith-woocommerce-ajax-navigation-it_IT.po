@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Ajax Product Filter - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-10-17 19:00:59+0000\n"
+"PO-Revision-Date: 2018-11-08 21:45:06+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -15,35 +15,49 @@ msgstr ""
 msgid "YITH"
 msgstr "YITH"
 
+#. Description of the plugin/theme
+msgid "<code><strong>YITH WooCommerce AJAX Product Filter</strong></code> allows your users to find the product they are looking for as quickly as possible. Thanks to the plugin you will be able to set up one or more search filters for your WooCommerce products, improve the user experience and give the impression of being in a big and reliable store. <a href=\"https://yithemes.com/\" target=\"_blank\">Find new awesome plugins by <strong>YITH</strong></a>"
+msgstr "<code><strong>YITH WooCommerce AJAX Product Filter</strong></code> permette ai tuoi utenti di trovare il prodotto che stanno cercando nel modo più rapido possibile. Grazie a questo plugin potrai impostare uno o più filtri di ricerca per i tuoi prodotti WooCommerce, migliorare l'esperienza utente e trasmettere ai tuoi utenti la sensazione di trovarsi in un grande store affidabile. <a href=\"https://yithemes.com/\" target=\"_blank\">Scopri altri fantastici plugin su <strong>YITH</strong></a>."
+
 #. Plugin URI of the plugin/theme
 msgid "https://wordpress.org/plugins/yith-woocommerce-ajax-navigation/"
 msgstr "https://wordpress.org/plugins/yith-woocommerce-ajax-navigation/"
 
-#: plugin-fw/yit-plugin.php:190
+#: widgets/class.yith-wcan-reset-navigation-widget.php:23
+msgctxt "[Plugin Name]"
+msgid "Reset all filters set by YITH WooCommerce Ajax Product Filter"
+msgstr "Reimposta tutti i filtri applicati con YITH WooCommerce Ajax Reset Filter"
+
+#: widgets/class.yith-wcan-navigation-widget.php:39
+msgctxt "[Plugin Name] Admin: Widget Title"
+msgid "YITH WooCommerce Ajax Product Filter"
+msgstr "YITH WooCommerce Ajax Product Filter"
+
+#: plugin-fw/yit-plugin.php:191
 msgid "License"
 msgstr "Licenza"
 
-#: plugin-fw/yit-plugin.php:186
+#: plugin-fw/yit-plugin.php:187
 msgctxt "Action links"
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: plugin-fw/yit-plugin.php:91
+#: plugin-fw/yit-plugin.php:92
 msgctxt "Plugin Row Meta"
 msgid "Premium version"
 msgstr "Versione premium"
 
-#: plugin-fw/yit-plugin.php:86
+#: plugin-fw/yit-plugin.php:87
 msgctxt "Plugin Row Meta"
 msgid "Support"
 msgstr "Supporto"
 
-#: plugin-fw/yit-plugin.php:81
+#: plugin-fw/yit-plugin.php:82
 msgctxt "Plugin Row Meta"
 msgid "Documentation"
 msgstr "Documentazione"
 
-#: plugin-fw/yit-plugin.php:76
+#: plugin-fw/yit-plugin.php:77
 msgctxt "Plugin Row Meta"
 msgid "Live Demo"
 msgstr "Demo live"
@@ -55,6 +69,10 @@ msgstr "Attivazione della licenza YITH"
 #: plugin-fw/lib/yit-upgrade.php:295
 msgid "YITH Repository"
 msgstr "Repository YITH"
+
+#: plugin-fw/lib/yit-upgrade.php:95
+msgid "An unexpected error occurred, please try again later. Thanks!"
+msgstr "Si è verificato un errore inaspettato, riprova più tardi. Grazie!"
 
 #: plugin-fw/lib/privacy/yit-privacy.php:72
 msgctxt "Privacy Policy Content"
@@ -75,6 +93,11 @@ msgstr "Chi del nostro team ha accesso"
 msgctxt "Privacy Policy Content"
 msgid "What we collect and store"
 msgstr "Cosa raccogliamo e conserviamo"
+
+#: plugin-fw/lib/privacy/yit-privacy.php:59
+msgctxt "Privacy Policy Content"
+msgid "This sample language includes the basics around what personal data your store may be collecting, storing and sharing, as well as who may have access to that data. Depending on what settings are enabled and which additional plugins are used, the specific information shared by your store will vary. We recommend consulting with a lawyer when deciding what information to disclose on your privacy policy."
+msgstr "Questo esempio include gli elementi di base sulla raccolta dei dati personali, la memorizzazione e la condivisione, nonché su chi è autorizzato ad accedere a tali dati. In base alle impostazioni abilitate e ai moduli di estensione aggiuntivi utilizzati, le informazioni specifiche condivise dal nostro negozio possono variare. Ti consigliamo di consultare un legale al momento di decidere quali informazioni divulgare nell'informativa sulla privacy."
 
 #: plugin-fw/lib/privacy/yit-privacy.php:24
 msgctxt "Privacy Policy Guide Title"
@@ -602,6 +625,18 @@ msgstr "Aggiorna informazioni licenza"
 #: plugin-fw/licence/templates/panel/activation/activation-panel.php:28
 msgid "Have you updated your licenses? Have you asked for an extension? Update information concerning your products."
 msgstr "Hai aggiornato la tua licenza? Hai richiesto un'estensione? Aggiorna le informazioni dei tuoi prodotti."
+
+#: plugin-fw/licence/lib/yit-theme-licence.php:163
+msgid ""
+"If you have purchased one of our products before 27 January 2015, you can benefit from support and updates (the services offered with the license)\n"
+"                    until 27 January 2016 and you do not have to purchase it again to get a new license key, because, before this date, your license used to be activated automatically by our system.\n"
+"                    After 27 January 2016, instead, if you want to benefit from support and updates you have to buy a new license and activate it through the license key you will be\n"
+"                    provided with and that you can find in your YITH account, in section \"My licenses\"."
+msgstr ""
+"Se hai acquistato uno dei nostri prodotti prima del 27 gennaio 2015, potrai usufruire di supporto e aggiornamenti (servizi inclusi nella licenza)\n"
+"fino al 27 gennaio 2016 e non dovrai riacquistare il prodotto per ottenere una chiave di licenza, poiché prima di questa data il tuo prodotto veniva automaticamente attivato dal nostro sistema.\n"
+"Dopo il 27 gennaio 2016, invece, se vorrai usufruire di supporto e aggiornamenti dovrai acquistare una nuova licenza e attivarla con il codice che ti verrà\n"
+"fornito e che puoi trovare nella tua area riservata su YITH, nella sezione \"My licenses\"."
 
 #: plugin-fw/licence/lib/yit-theme-licence.php:159
 msgid "I cannot find the license key for activating the theme I have bought some time ago. Where can I find it?"

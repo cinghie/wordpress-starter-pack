@@ -7,10 +7,10 @@ jQuery(document).ready(function($) {
 	// make sure to only check the feed status on the woosea_manage_feed page
 	url = new URL(window.location.href);
 	if (url.searchParams.get('page')) {
-		get_value = window.location.href.match(/(?<=page=)(.*?)[^&]+/)[0];
+		get_value = url.searchParams.get('page');
  	}
 	if (url.searchParams.get('tab')) {
-		tab_value = window.location.href.match(/(?<=tab=)(.*?)[^&]+/)[0];
+		tab_value = url.searchParams.get('tab');
 	}    
 
   	if (get_value == 'woosea_manage_feed') {
@@ -40,7 +40,7 @@ jQuery(document).ready(function($) {
 	});
 
 
-    	$("td[colspan=8]").find("div").parents("tr").hide();
+   	$("td[colspan=8]").find("div").parents("tr").hide();
 
 	$('.checkbox-field').change(function(index, obj){
 
@@ -215,7 +215,6 @@ jQuery(document).ready(function($) {
 	})	
 
 	$(".actions").delegate("span", "click", function() {
-
    		var id=$(this).attr('id');
 		var idsplit = id.split('_');
 		var project_hash = idsplit[1];
@@ -288,7 +287,7 @@ jQuery(document).ready(function($) {
 					if(hash == project_hash){
 						$(".woo-product-feed-pro-blink_off_"+hash).text(function () {
                                         		$(this).addClass('woo-product-feed-pro-blink_me');
-							myInterval = setInterval(woosea_check_perc,100);
+							myInterval = setInterval(woosea_check_perc,500);
 							return $(this).text().replace("ready", "processing (0%)"); 
 						});	
 					}
@@ -313,7 +312,7 @@ jQuery(document).ready(function($) {
 
 				if(data.proc_perc < 100){
 					return $("#woosea_proc_"+hash).text("processing ("+data.proc_perc+"%)");
-				} else if(data.proc_perc = 100){
+				} else if(data.proc_perc == 100){
 					clearInterval(myInterval);
 					$("#woosea_proc_"+hash).removeClass('woo-product-feed-pro-blink_me');	
 					return $("#woosea_proc_"+hash).text("ready");

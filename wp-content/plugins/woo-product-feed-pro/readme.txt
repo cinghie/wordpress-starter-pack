@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 4.9
-Stable tag: 3.7.4
+Stable tag: 3.8.0
 
 == Description ==
 
@@ -263,6 +263,29 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 3.8.0 (2018-11-09) =
+* Fixed a delimiter issue for Google's Local Product Inventory feeds on special request from @muranomidwest
+
+= 3.7.9 (2018-11-09) =
+* Fixed a minor bug: the g:postal_code field format is, for example, 94002-95460. The default WooCommerce annotation is 94002...95460 so this was resulting in warnings in Google's Merchant Center. We have now fixed this bug so the g:postal_code meets up to Google's requirements.
+
+= 3.7.8 (2018-11-09) =
+* Rebuild parts of the category mapping functionality as some users experienced mappings that did not get saved or screens that froze.
+* We have added a plugin systems check tab which shows if the basic requirements for this plugin are met.
+
+= 3.7.7 (2018-11-06) =
+* Shipping classes with a 0 shipping cost are no longer added to the product feeds
+
+= 3.7.6 (2018-11-06) =
+* Fixed a bug: the plugin was adding prefixes and suffixes to attribute values that were empty. Prefixes and suffixes are no longer added to empty attribute values.
+* Fixed a bug: fputcsv was causing issues with CSV files. Replaced this PHP function with an oldfashioned fopen and fwrite. This has now been solved.
+* Fixed a bug: Eval function was throwing and error for Shipping Class formula's that were not truly a formula. This has now been solved.
+
+= 3.7.5 (2018-11-05) =
+* Checked and tested the plugin for WooCommerce 3.5. compatibility
+* Fixed a bug: in some browsers, such as Safari, the attribute enabling/disabling feature was not working due to a JS-error. This has now been solved.
+* Added support for shipping costs formula's. The [qty] field is now supported for all your shipping classes.
 
 = 3.7.4 (2018-11-02) =
 * Fixed some cosmetic issues with regards to the blinking status messages
@@ -1102,6 +1125,30 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 3.8.0 =
+Fixed a delimiter issue for Google's Local Product Inventory feeds on special request from @muranomidwest
+
+= 3.7.9 =
+Fixed a minor bug: the g:postal_code field format is, for example, 94002-95460. The default WooCommerce annotation is 94002...95460 so this was resulting in warnings in Google's Merchant Center. We have now fixed this bug so the g:postal_code meets up to Google's require
+ments.
+
+= 3.7.8 =
+Rebuild parts of the category mapping functionality as some users experienced mappings that did not get saved or screens that froze.
+We have added a plugin systems check tab which shows if the basic requirements for this plugin are met.
+
+= 3.7.7 =
+Shipping classes with a 0 shipping cost are no longer added to the product feeds
+
+= 3.7.6 =
+Fixed a bug: the plugin was adding prefixes and suffixes to attribute values that were empty. Prefixes and suffixes are no longer added to empty attribute values.
+Fixed a bug: fputcsv was causing issues with CSV files. Replaced this PHP function with an oldfashioned fopen and fwrite. This has now been solved.
+Fixed a bug: Eval function was throwing and error for Shipping Class formula's that were not truly a formula. This has now been solved.
+
+= 3.7.5 =
+Checked and tested the plugin for WooCommerce 3.5. compatibility
+Fixed a bug: in some browsers, such as Safari, the attribute enabling/disabling feature was not working due to a JS-error. This has now been solved.
+Added support for shipping costs formula's. The [qty] field is now supported for all your shipping classes.
 
 = 3.7.4 =
 Fixed some cosmetic issues with regards to the blinking status messages

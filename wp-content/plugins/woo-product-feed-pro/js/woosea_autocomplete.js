@@ -5438,23 +5438,24 @@ jQuery(document).ready(function($) {
  	     		input: '.js-autosuggest',     
 		       	source: google_taxonomy,
 			hint: true,
-			loadingAnimation: true,
+			loadingAnimation: false,
 			items: 10,
-			minLength: 2,
+			minLength: 4,
 			alignWidth: false,
 			debug: true
        	 	});
 		jQuery( ".autocomplete_" + rowCount ).focus();
 
-		jQuery(this).blur(function (){
-			var minimum = 2;
+
+        	jQuery(this).on('change', function(){ // on change of state
+			var minimum = 1;
 			var len = jQuery(this).val().length;
 			var project_hash = $("#project_hash").val();
 			var criteria = $("#" + rowCount).val();
+			var map_to_category = jQuery(this).val();
 
 			if (len >= minimum){
-				jQuery(this).blur(function(){
-					var map_to_category = jQuery(this).val();
+				if ( !isNaN(parseInt(map_to_category)) ) {
 
 					jQuery.ajax({
                         			method: "POST",
@@ -5464,7 +5465,6 @@ jQuery(document).ready(function($) {
                 		
 					.done(function( data ) {
                         			data = JSON.parse( data );
-					
 						jQuery(data.className).removeClass("input-field-large");
 						jQuery(data.className).addClass("input-field-large-active");
 					})
@@ -5473,51 +5473,31 @@ jQuery(document).ready(function($) {
                         			console.log('Failed AJAX Call :( /// Return Data: ' + data);
            					console.log('Category mapping failed!');
 		     			});										
-				});
-				jQuery(this).closest("input").removeClass("input-field-large");
-				jQuery(this).closest("input").addClass("input-field-large-active");
+//					jQuery(this).closest("input").removeClass("input-field-large");
+//					jQuery(this).closest("input").addClass("input-field-large-active");
+				}
 			} else {
 				var map_to_category = "";
 
 				jQuery.ajax({
                         		method: "POST",
-                        		url: ajaxurl,
-                       	 		data: { 'action': 'woosea_add_cat_mapping', 'rowCount': rowCount, 'map_to_category': map_to_category, 'className': className, 'project_hash': project_hash, 'criteria': criteria  }
-                		})
-				jQuery(this).closest("input").removeClass("input-field-large-active");
-				jQuery(this).closest("input").addClass("input-field-large");
-			}
-		});
-
-		jQuery(this).click(function (){
-			var len = jQuery(this).val().length;
-                        var criteria = $("#" + rowCount).val();
-
-			if (len < 1){
-				var map_to_category = "";
-
-				jQuery.ajax({
-                        		method: "POST",
-                        		url: ajaxurl,
+                       			url: ajaxurl,
                        	 		data: { 'action': 'woosea_add_cat_mapping', 'rowCount': rowCount, 'map_to_category': map_to_category, 'className': className, 'project_hash': project_hash, 'criteria': criteria  }
                 		})
 
 			     	.done(function( data ) {
                                 	data = JSON.parse( data );
 
-                                    	jQuery(data.className).removeClass("input-field-large");
-                                    	jQuery(data.className).addClass("input-field-large-active");
+					jQuery(data.className).closest("input").removeClass("input-field-large-active");
+					jQuery(data.className).closest("input").addClass("input-field-large");
                               	})
 
                               	.fail(function( data ) {
                                 	console.log('Failed AJAX Call :( /// Return Data: ' + data);
                               		console.log('category mapping failed');
-				});	
-			
- 
-//				jQuery(this).closest("input").removeClass("input-field-large-active");
-//				jQuery(this).closest("input").addClass("input-field-large");
+				});
 			}
 		});
+
 	});
 });

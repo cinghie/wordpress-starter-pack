@@ -33,7 +33,6 @@
 		return $attr;
 	}, 9 );
 	
-	
 	if ( ! class_exists( 'Woo_Variation_Swatches_Pro' ) ) {
 		add_filter( 'woocommerce_product_data_tabs', 'add_wvs_pro_preview_tab' );
 		

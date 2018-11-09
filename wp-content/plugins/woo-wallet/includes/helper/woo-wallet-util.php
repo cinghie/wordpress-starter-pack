@@ -42,12 +42,36 @@ if ( ! function_exists( 'is_wallet_rechargeable_cart' ) ) {
 
 }
 
-if ( ! function_exists( 'get_woowallet_cart_total' ) ) {
+if( !function_exists( 'get_woowallet_coupon_cashback_amount' ) ){
+    /**
+     * Get coupon cash-back amount from cart.
+     * @return Number
+     */
+    function get_woowallet_coupon_cashback_amount(){
+        $coupon_cashback_amount = 0;
+        if ( is_user_logged_in() ) {
+            foreach (WC()->cart->get_applied_coupons() as $code) {
+                $coupon = new WC_Coupon( $code);
+                $_is_coupon_cashback = get_post_meta( $coupon->get_id(), '_is_coupon_cashback', true );
+                if ( 'yes' === $_is_coupon_cashback) {
+                    $coupon_cashback_amount += WC()->cart->get_coupon_discount_amount( $code, WC()->cart->display_cart_ex_tax);
+                }
+            }
+        }
+        return $coupon_cashback_amount;
+    }
+    
+}
 
+if ( ! function_exists( 'get_woowallet_cart_total' ) ) {
+    /**
+     * Get WooCommerce cart total.
+     * @return number
+     */
     function get_woowallet_cart_total() {
         $cart_total = 0;
         if ( is_array( wc()->cart->cart_contents) && sizeof( wc()->cart->cart_contents) > 0 ) {
-            $cart_total = wc()->cart->get_subtotal( 'edit' ) + wc()->cart->get_taxes_total() + wc()->cart->get_shipping_total( 'edit' ) - wc()->cart->get_discount_total();
+            $cart_total = wc()->cart->get_subtotal( 'edit' ) + wc()->cart->get_taxes_total() + wc()->cart->get_shipping_total( 'edit' ) - wc()->cart->get_discount_total() + get_woowallet_coupon_cashback_amount();
         }
         return apply_filters( 'woowallet_cart_total', $cart_total );
     }
@@ -55,7 +79,10 @@ if ( ! function_exists( 'get_woowallet_cart_total' ) ) {
 }
 
 if ( ! function_exists( 'is_enable_wallet_partial_payment' ) ) {
-
+    /**
+     * Check if enable partial payment.
+     * @return Boolean
+     */
     function is_enable_wallet_partial_payment() {
         $is_enable = false;
         $cart_total = get_woowallet_cart_total();
@@ -67,15 +94,38 @@ if ( ! function_exists( 'is_enable_wallet_partial_payment' ) ) {
 
 }
 
-if ( ! function_exists( 'get_order_partial_payment_amount' ) ) {
+if( !function_exists( 'is_partial_payment_order_item' ) ){
+    /**
+     * Check if order item is partial payment instance.
+     * @param Int $item_id
+     * @param WC_Order_Item_Fee $item
+     * @return boolean
+     */
+    function is_partial_payment_order_item($item_id, $item){
+        if( get_metadata( 'order_item', $item_id, '_legacy_fee_key', true ) && '_via_wallet_partial_payment' === get_metadata( 'order_item', $item_id, '_legacy_fee_key', true ) ){
+            return true;
+        }
+        else if ( 'via_wallet' === strtolower(str_replace( ' ', '_', $item->get_name( 'edit' ) ) ) ) {
+            return true;
+        }
+        return false;
+    }
+    
+}
 
+if ( ! function_exists( 'get_order_partial_payment_amount' ) ) {
+    /**
+     * Get total partial payment amount from an order.
+     * @param Int $order_id
+     * @return Number
+     */
     function get_order_partial_payment_amount( $order_id ) {
         $via_wallet = 0;
         $order = wc_get_order( $order_id );
         if ( $order ) {
             $line_items_fee = $order->get_items( 'fee' );
             foreach ( $line_items_fee as $item_id => $item ) {
-                if ( 'via_wallet' === strtolower(str_replace( ' ', '_', $item->get_name( 'edit' ) ) ) ) {
+                if(is_partial_payment_order_item($item_id, $item)){
                     $via_wallet += $item->get_total( 'edit' );
                 }
             }
@@ -86,7 +136,10 @@ if ( ! function_exists( 'get_order_partial_payment_amount' ) ) {
 }
 
 if ( ! function_exists( 'update_wallet_partial_payment_session' ) ) {
-
+    /**
+     * Refresh WooCommerce session for partial payment.
+     * @param boolean $set
+     */
     function update_wallet_partial_payment_session( $set = false ) {
         wc()->session->set( 'is_wallet_partial_payment', $set );
     }
@@ -217,7 +270,7 @@ if ( ! function_exists( 'get_wallet_transactions' ) ) {
             'order'      => 'DESC',
             'join_type'  => 'INNER',
             'limit'      => '',
-            'nocache'    => false
+            'nocache'    => is_multisite() ? true : false
         );
         $args = apply_filters( 'woo_wallet_transactions_query_args', $args );
         $args = wp_parse_args( $args, $default_args );
@@ -289,6 +342,33 @@ if ( ! function_exists( 'get_wallet_transactions' ) ) {
         return $result;
     }
 
+}
+
+if(!function_exists('get_wallet_transaction')){
+    function get_wallet_transaction($transaction_id){
+        global $wpdb;
+        $sql = "SELECT * FROM {$wpdb->base_prefix}woo_wallet_transactions WHERE transaction_id = {$transaction_id}";
+        $transaction = $wpdb->get_row($sql);
+        return $transaction;
+    }
+}
+
+if(!function_exists('get_wallet_transaction_type')){
+    /**
+     * Return transaction type by transaction id
+     * @since 1.2.7
+     * @global object $wpdb
+     * @param int $transaction_id
+     * @return type(string) | false
+     */
+    function get_wallet_transaction_type($transaction_id){
+        global $wpdb;
+        $transaction = $wpdb->get_row("SELECT type FROM {$wpdb->base_prefix}woo_wallet_transactions WHERE transaction_id = {$transaction_id}");
+        if( $transaction ){
+            return $transaction->type;
+        }
+        return false;
+    }
 }
 
 if ( ! function_exists( 'update_wallet_transaction' ) ) {

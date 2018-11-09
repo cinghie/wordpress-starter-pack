@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Classic Editor - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-10-25 00:48:06+0000\n"
+"PO-Revision-Date: 2018-11-06 05:57:24+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -307,10 +307,6 @@ msgstr "Permalink salvato"
 msgid "Metadata"
 msgstr "Metadati"
 
-#: classic-edit-form-advanced.php:699 classic-edit-form-advanced.php:702
-msgid "F j, Y"
-msgstr "j F Y"
-
 #. translators: 1: month, 2: day, 3: year, 4: hour, 5: minute
 #: classic-editor.php:437
 msgid "%1$s %2$s, %3$s @ %4$s:%5$s"
@@ -434,10 +430,6 @@ msgstr "Collaboratori di WordPress"
 msgid "<a href=\"https://wordpress.org/support/\">Support Forums</a>"
 msgstr "<a href=\"https://it.wordpress.org/forums/\">Forum di Supporto</a>"
 
-#: classic-edit-form-advanced.php:699 classic-edit-form-advanced.php:702
-msgid "g:i a"
-msgstr "G:i:s"
-
 #: classic-edit-form-advanced.php:438
 msgid "<a href=\"https://codex.wordpress.org/Posts_Add_New_Screen\">Documentation on Writing and Editing Posts</a>"
 msgstr "<a href=\"https://codex.wordpress.org/Posts_Add_New_Screen\">Documentazione sulla scrittura e la modifica degli articoli</a> (in inglese)"
@@ -456,11 +448,6 @@ msgstr "Ultima modifica di %1$s il giorno %2$s alle ore %3$s"
 #: classic-edit-form-advanced.php:553
 msgid "We&#8217;re backing up this post in your browser, just in case."
 msgstr "Stiamo facendo una copia di questo articolo nel tuo browser, per ogni evenienza."
-
-#. translators: Publish box date format, see https://secure.php.net/date
-#: classic-edit-form-advanced.php:190
-msgid "M j, Y @ H:i"
-msgstr "j F Y @ G:i:s"
 
 #. Plugin Name of the plugin/theme
 msgid "Classic Editor"
@@ -490,3 +477,16 @@ msgstr "Abilita il Classic Editor di WordPress e il layout vecchio stile della s
 #: classic-editor.php:317 classic-editor.php:374
 msgid "Edit (Classic)"
 msgstr "Modifica (Classic Editor)"
+
+#: classic-edit-form-advanced.php:699 classic-edit-form-advanced.php:702
+msgid "g:i a"
+msgstr "H:i:s"
+
+#. translators: Publish box date format, see https://secure.php.net/date
+#: classic-edit-form-advanced.php:190
+msgid "M j, Y @ H:i"
+msgstr "l j F Y @ H:i:s"
+
+#: classic-edit-form-advanced.php:699 classic-edit-form-advanced.php:702
+msgid "F j, Y"
+msgstr "l j F Y"

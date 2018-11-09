@@ -18,7 +18,9 @@ class WooSEA_Get_Admin_Notifications {
                 $file = $path . "/". $filename ."." ."log";
 
 		// Remove the previous file, preventing the file from becoming to big
-		unlink($file);
+		if ( file_exists ( $file ) ){
+			unlink($file);
+		}
 
                 // External location for downloading the file   
                 $external_base = $upload_dir['baseurl'];
