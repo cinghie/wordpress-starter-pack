@@ -5,7 +5,7 @@ Plugin URI: http://ultimatelysocial.com
 Description: Easy to use and 100% FREE social media plugin which adds social media icons to your website with tons of customization features!. 
 Author: UltimatelySocial
 Author URI: http://ultimatelysocial.com
-Version: 2.0.7
+Version: 2.0.8
 License: GPLv2 or later
 */
 
@@ -57,7 +57,7 @@ register_activation_hook(__FILE__, 'sfsi_activate_plugin' );
 register_deactivation_hook(__FILE__, 'sfsi_deactivate_plugin');
 register_uninstall_hook(__FILE__, 'sfsi_Unistall_plugin');
 
-if(!get_option('sfsi_pluginVersion') || get_option('sfsi_pluginVersion') < 2.07)
+if(!get_option('sfsi_pluginVersion') || get_option('sfsi_pluginVersion') < 2.08)
 {
 	add_action("init", "sfsi_update_plugin");
 }
@@ -511,6 +511,17 @@ function sfsi_admin_notice()
 	{
 		?>
 		<style type="text/css">
+			
+			div.sfsi_show_premium_notification{
+				float: left;
+    			width: 94.2%;
+    			margin-left: 37px;
+    			margin-top: 15px;
+    			padding: 8px;
+				background-color: #38B54A;
+				color: #fff;
+				font-size: 18px;
+			}    					
 			.sfsi_show_premium_notification a{
 			   	color: #fff;
 			}
@@ -528,7 +539,7 @@ function sfsi_admin_notice()
 			    cursor: pointer;
 			}
 		</style>
-	    <div class="updated sfsi_show_premium_notification" style="<?php echo $style; ?>background-color: #38B54A; color: #fff; font-size: 18px;">
+	    <div class="updated sfsi_show_premium_notification" style="<?php //echo $style; ?>">
 			<div class="alignleft" style="margin: 9px 0;">
 				BIG NEWS : There is now a <b><a href="https://www.ultimatelysocial.com/usm-premium/?utm_source=usmi_settings_page&utm_campaign=notification_banner&utm_medium=banner" target="_blank">Premium Ultimate Social Media Plugin</a></b> available with many more cool features : <a href="https://www.ultimatelysocial.com/usm-premium/?utm_source=usmi_settings_page&utm_campaign=notification_banner&utm_medium=banner" target="_blank">Check it out</a>
 			</div>
@@ -549,8 +560,20 @@ function sfsi_admin_notice()
 		{
 			?>
 			<style type="text/css">
+				div.sfsi_show_premium_cumulative_count_notification{
+				   	color: #fff;
+				   	float: left;
+	    			width: 94.2%;
+	    			margin-left: 37px;
+	    			margin-top: 15px;
+	    			padding: 8px;
+					background-color: #38B54A;
+					color: #fff;
+					font-size: 18px;
+				}
 				.sfsi_show_premium_cumulative_count_notification a{
 				   	color: #fff;
+
 				}
 				form.sfsi_premiumCumulativeCountNoticeDismiss {
 				    display: inline-block;
@@ -566,7 +589,7 @@ function sfsi_admin_notice()
 				    cursor: pointer;
 				}
 			</style>
-		    <div class="updated sfsi_show_premium_cumulative_count_notification" style="<?php echo $style; ?>background-color: #38B54A; color: #fff; font-size: 18px;">
+		    <div class="updated sfsi_show_premium_cumulative_count_notification">
 				<div class="alignleft" style="margin: 9px 0;">
 					<b>Recently switched to https?</b> If you don’t want to lose the Facebook share & like counts <a href="https://www.ultimatelysocial.com/usm-premium/?utm_source=usmi_settings_page&utm_campaign=https_share_counts&utm_medium=banner" target="_blank">have a look at our Premium Plugin</a>, we found a fix for that: <a href="https://www.ultimatelysocial.com/usm-premium/?utm_source=usmi_settings_page&utm_campaign=https_share_counts&utm_medium=banner" target="_blank">Check it out</a>
 				</div>
@@ -576,6 +599,7 @@ function sfsi_admin_notice()
 						<input type="submit" name="dismiss" value="Dismiss" />
 					</form>
 				</div>
+				<div style=”clear:both”></div>
 			</div>
 			<?php
 		} 
