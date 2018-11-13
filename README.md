@@ -73,12 +73,17 @@ function hide_wordpress_version() {
 ## 8) All plugins used
 
  - Advanced Custom Fields + ACF Yoast Plugin  
+ - Akismet Anti-Spam  
+ - All-in-One WP Migration  
  - Autoptimize  
  - BJ Lazy Load  
+ - Classic Editor  
  - Coming Soon Page & Maintenance Mode by SeedProd 
  - Contact Form 7   
- - Custom Facebook Feed 
- - Custom Twitter Feeds
+ - Custom Facebook Feed  
+ - Custom Twitter Feeds  
+ - Disable Comments  
+ - Disable REST API  
  - FancyBox for WordPress  
  - Gogodigital Cookie Consent  
  - Gogodigital Essentials  
@@ -94,10 +99,10 @@ function hide_wordpress_version() {
  - Really Simple SSL  
  - Regenerate Thumbnails  
  - Shapely Companion  
- - Social Media and Share Icons (Ultimate Social Media)  
  - Smush  
- - TinyMCE Advanced
- - UpdraftPlus - Backup/Restore  
+ - Social Media and Share Icons (Ultimate Social Media)  
+ - TinyMCE Advanced  
+ - Widget Importer & Exporter  
  - Wordfence Security  
  - WordPress Importer  
  - WordPress Popular Posts  
