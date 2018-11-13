@@ -150,6 +150,7 @@ foreach( $ppom_fields_meta as $meta ) {
                                     'max'		=> $max,
                                     'step'		=> $step,
                                     'placeholder'	=> $ph,
+                                    'autocomplete' => "false",
                                     );
                                     
                     if( !empty($_GET[$data_name]) ) {

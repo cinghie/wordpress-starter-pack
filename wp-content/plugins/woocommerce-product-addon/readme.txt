@@ -4,7 +4,7 @@ Tags: woocommerce, pesonalized products, woocommerce variations, woocommerce pro
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
 Tested up to: 4.9
-Stable tag: 15.1
+Stable tag: 15.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -82,6 +82,10 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
+= 15.2 October 30, 2018 =
+* Feature: Filter add for date formats apply_filters('ppom_date_formats', $formats)
+* Feature: Autocomplete for PPOM fields turned off
+* Feature: [Re-order with meta settings](https://wordpress.org/support/topic/ppom-meta-not-populating-with-order-again/#post-10833975)
 = 15.1 October 30, 2018 =
 * Feature: Text input now have placeholder option
 * Feature: Section/HTML input now have description and desc_tooltip options

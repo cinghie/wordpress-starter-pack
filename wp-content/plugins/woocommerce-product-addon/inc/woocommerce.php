@@ -800,14 +800,13 @@ function ppom_woocommerce_order_item_meta($item_id, $cart_item, $order_id) {
 		return;
 	}
 	
-	
 	$ppom_meta = ppom_make_meta_data( $cart_item, 'order' );
-	// var_dump($ppom_meta); exit;
 	foreach( $ppom_meta as $key => $meta ) {
 		
 		ppom_add_order_item_meta($item_id, $key, $meta['value']);
 	}
-	
+	// Since 15.2, saving all fields as another meta
+	ppom_add_order_item_meta($item_id, '_ppom_fields', $cart_item ['ppom']);
 }
 
 // Changing order item meta key to label
@@ -826,7 +825,6 @@ function ppom_woocommerce_order_key( $display_key, $meta, $item ) {
 function ppom_woocommerce_order_value( $display_value, $meta=null, $item=null ) {
 	
 	if( is_null($item) ) return $display_value;
-	
 	
 	if ($item->get_type() != 'line_item') return $display_value;
 	

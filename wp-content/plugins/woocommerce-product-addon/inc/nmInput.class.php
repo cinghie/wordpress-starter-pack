@@ -159,6 +159,7 @@ class NM_Form {
         $html       .= 'name="'.esc_attr($name).'" ';
         $html       .= 'class="'.esc_attr($classes).'" ';
         $html       .= 'placeholder="'.esc_attr($placeholder).'" ';
+        $html       .= 'autocomplete="off" ';
         $html       .= 'data-type="'.esc_attr($type).'" ';
         
         // Adding min/max for number input
@@ -263,6 +264,7 @@ class NM_Form {
         $html       .= 'name="'.esc_attr($name).'" ';
         $html       .= 'class="'.esc_attr($classes).'" ';
         $html       .= 'placeholder="'.esc_attr($placeholder).'" ';
+        $html       .= 'autocomplete="false" ';
         $html       .= 'data-type="'.esc_attr($type).'" ';
         
         // Adding min/max for number input

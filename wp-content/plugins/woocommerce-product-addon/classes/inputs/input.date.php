@@ -103,16 +103,7 @@ class NM_Date_wooproduct extends PPOM_Inputs{
 				'type' => 'select',
 				'title' => __ ( 'Date formats', 'ppom' ),
 				'desc' => __ ( 'Select date format. (if jQuery enabled above)', 'ppom' ),
-				'options' => array (
-						'mm/dd/yy' => 'Default - mm/dd/yyyy',
-						'dd/mm/yy' => 'dd/mm/yyyy',
-						'yy-mm-dd' => 'ISO 8601 - yy-mm-dd',
-						'd M, y' => 'Short - d M, y',
-						'd MM, y' => 'Medium - d MM, y',
-						'DD, d MM, yy' => 'Full - DD, d MM, yy',
-						'\'day\' d \'of\' MM \'in the year\' yy' => 'With text - \'day\' d \'of\' MM \'in the year\' yy',
-						'\'Month\' MM \'day\' d \'in the year\' yy' => 'With text - \'Month\' January \'day\' 7 \'in the year\' yy'
-				) 
+				'options' => ppom_get_date_formats(),
 		),
 		'year_range' => array (
 				'type' => 'text',
