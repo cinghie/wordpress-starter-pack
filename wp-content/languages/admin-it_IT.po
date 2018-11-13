@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 4.9.x - Administration package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-11-09 10:31:43+0000\n"
+"PO-Revision-Date: 2018-11-13 18:37:23+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1376,13 +1376,13 @@ msgstr "Puoi anche cercare i plugin preferiti di un utente utilizzando il link P
 msgid "If you want to install a plugin that you&#8217;ve downloaded elsewhere, click the Upload Plugin button above the plugins list. You will be prompted to upload the .zip package, and once uploaded, you can activate the new plugin."
 msgstr "Se vuoi installare un plugin che hai scaricato da qualche parte fai clic sul link Carica che si trova sopra l'elenco dei plugin. Ti verrà richiesto di caricare il pacchetto .zip ed una volta caricato potrai attivare il nuovo plugin."
 
-#: wp-admin/plugin-install.php:90
-msgid "If you know what you&#8217;re looking for, Search is your best bet. The Search screen has options to search the WordPress Plugin Directory for a particular Term, Author, or Tag. You can also search the directory by selecting popular tags. Tags in larger type mean more plugins have been labeled with that tag."
-msgstr "Se sai cosa stai cercando la Ricerca è allora la miglior soluzione. La schermata di ricerca ha una opzione per ricercare nella Directory dei Plugin di WordPress.org in base ad uno specifico termine, autore e tag. Puoi anche cercare nella directory ricercando i tag più popolari. I tag più popolari in linea di massima indicano che più plugin sono stati contrassegnati con essi."
-
 #: wp-admin/theme-editor.php:28
 msgid "Begin by choosing a theme to edit from the dropdown menu and clicking the Select button. A list then appears of the theme&#8217;s template files. Clicking once on any file name causes the file to appear in the large Editor box."
 msgstr "Comincia selezionando  un tema da modificare dal menu a discesa e fai clic sul pulsante seleziona. Verrà mostrato l'elenco di tutti i file del tema. Facendo clic una volta sul nome di uno dei file, questo verrà aperto nell'editor dei temi."
+
+#: wp-admin/plugin-install.php:90
+msgid "If you know what you&#8217;re looking for, Search is your best bet. The Search screen has options to search the WordPress Plugin Directory for a particular Term, Author, or Tag. You can also search the directory by selecting popular tags. Tags in larger type mean more plugins have been labeled with that tag."
+msgstr "Se sai cosa stai cercando la Ricerca è allora la miglior soluzione. La schermata di ricerca ha una opzione per ricercare nella Directory dei Plugin di WordPress.org in base ad uno specifico termine, autore e tag. Puoi anche cercare nella directory ricercando i tag più popolari. I tag più popolari in linea di massima indicano che più plugin sono stati contrassegnati con essi."
 
 #: wp-admin/setup-config.php:292
 msgid "<strong>ERROR</strong>: \"Table Prefix\" is invalid."
@@ -1683,6 +1683,10 @@ msgstr "La sezione Widget disponibili contiene tutti i widget che è possibile u
 msgid "If you have marked themes as favorites on WordPress.org, you can browse them here."
 msgstr "Se hai segnato dei temi come preferiti su WordPress.org, puoi sfogliarli qui. "
 
+#: wp-admin/update-core.php:571
+msgid "<strong>Themes and Plugins</strong> &mdash; To update individual themes or plugins from this screen, use the checkboxes to make your selection, then <strong>click on the appropriate &#8220;Update&#8221; button</strong>. To update all of your themes or plugins at once, you can check the box at the top of the section to select all before clicking the update button."
+msgstr "<strong>Temi e plugin</strong> &mdash; Per aggiornare singolarmente i temi ed i plugin da questa schermata, usa le caselle di controllo per effettuare la tua scelta, quindi <strong>fai clic sul pulsante &#8220;Aggiorna&#8221;</strong>. Per aggiornare in blocco tutti i temi e i plugin, puoi utilizzare la casella di controllo posizionata in cima alla sezione per selezionarli tutti insieme prima di fare clic sul pulsante &#8220;Aggiorna&#8221;."
+
 #: wp-admin/tools.php:60
 msgid "If you want to convert your categories to tags (or vice versa), use the <a href=\"%s\">Categories and Tags Converter</a> available from the Import screen."
 msgstr "Se desideri convertire le categorie in tag (o viceversa), utilizza lo strumento <a href=\"%s\">convertitore di categorie e tag</a> disponibile nella pagina Importa."
@@ -1698,10 +1702,6 @@ msgstr "Cosa vuoi fare con i contenuti che appartengono a questo utente?"
 #: wp-admin/user-new.php:395
 msgid "Create a brand new user and add them to this site."
 msgstr "Crea un nuovo utente ed aggiungilo a questo sito."
-
-#: wp-admin/update-core.php:571
-msgid "<strong>Themes and Plugins</strong> &mdash; To update individual themes or plugins from this screen, use the checkboxes to make your selection, then <strong>click on the appropriate &#8220;Update&#8221; button</strong>. To update all of your themes or plugins at once, you can check the box at the top of the section to select all before clicking the update button."
-msgstr "<strong>Temi e plugin</strong> &mdash; Per aggiornare singolarmente i temi ed i plugin da questa schermata, usa le caselle di controllo per effettuare la tua scelta, quindi <strong>fai clic sul pulsante &#8220;Aggiorna&#8221;</strong>. Per aggiornare in blocco tutti i temi e i plugin, puoi utilizzare la casella di controllo posizionata in cima alla sezione per selezionarli tutti insieme prima di fare clic sul pulsante &#8220;Aggiorna&#8221;."
 
 #: wp-admin/plugin-install.php:88
 msgid "Adding Plugins"
@@ -4235,10 +4235,6 @@ msgstr "Un aggiornamento automatico di WordPress non è stato completato – <a 
 msgid "An automated WordPress update has failed to complete! Please notify the site administrator."
 msgstr "Un aggiornamento automatico di WordPress non è stato completato! Informa l’amministratore del sito."
 
-#: wp-admin/includes/plugin-install.php:612
-msgid "WordPress.org Plugin Page &#187;"
-msgstr "Pagina dei plugin di WordPress.org &#187;"
-
 #: wp-admin/includes/post.php:1341
 msgid "Change Permalinks"
 msgstr "Modifica permalink"
@@ -4793,6 +4789,10 @@ msgstr "Impossibile rimuovere completamente il plugin %s."
 msgid "<a href=\"https://wordpress.org/support/forum/multisite/\">Support Forums</a>"
 msgstr "<a href=\"https://wordpress.org/support/forum/multisite/\">Forum di supporto</a>"
 
+#: wp-admin/options-writing.php:30
+msgid "Post via email settings allow you to send your WordPress installation an email with the content of your post. You must set up a secret email account with POP3 access to use this, and any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret."
+msgstr "Le impostazioni per la pubblicazione tramite email permettono di inviare alla propria installazione di WordPress una mail contenente l'articolo. Si deve impostare una casella email segreta con accesso POP3 da utilizzare per questo scopo, ogni email ricevuta a questo indirizzo verrà pubblicata, quindi è una buona idea mantenere questo indirizzo veramente segreto."
+
 #: wp-admin/options-discussion.php:176
 msgid "When a comment contains any of these words in its content, name, URL, email, or IP address, it will be put in the trash. One word or IP address per line. It will match inside words, so &#8220;press&#8221; will match &#8220;WordPress&#8221;."
 msgstr "Quando un commento contiene una qualsiasi di queste parole, nel testo, nel nome, nella URL, nell'email o nell'indirizzo IP, verrà spostato nel cestino. Inserire una singola parola o un indirizzo IP per ciascuna riga. Verranno cercate corrispondenze anche all'interno delle parole, quindi ad esempio la parola &#8220;press&#8221; troverà una corrispondenza in &#8220;WordPress&#8221;."
@@ -4815,18 +4815,6 @@ msgstr "%s (già utilizzato nella struttura dei permalink)"
 msgid "%s added to permalink structure"
 msgstr "%s aggiunto alla struttura dei permalink"
 
-#: wp-admin/options-writing.php:30
-msgid "Post via email settings allow you to send your WordPress installation an email with the content of your post. You must set up a secret email account with POP3 access to use this, and any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret."
-msgstr "Le impostazioni per la pubblicazione tramite email permettono di inviare alla propria installazione di WordPress una mail contenente l'articolo. Si deve impostare una casella email segreta con accesso POP3 da utilizzare per questo scopo, ogni email ricevuta a questo indirizzo verrà pubblicata, quindi è una buona idea mantenere questo indirizzo veramente segreto."
-
-#: wp-admin/options-reading.php:24
-msgid "You can choose what&#8217;s displayed on the homepage of your site. It can be posts in reverse chronological order (classic blog), or a fixed/static page. To set a static homepage, you first need to create two <a href=\"%s\">Pages</a>. One will become the homepage, and the other will be where your posts are displayed."
-msgstr "È possibile decidere cosa deve essere visualizzato nella pagina principale del sito. Possono essere articoli in ordine cronologico inverso (il classico blog) o una pagina statica/fissa. Per impostare una pagina iniziale statica, per prima cosa è necessario creare due <a href=\"%s\">Pagine</a>. Una diventerà la pagina iniziale, l'altra sarà quella dove verranno visualizzati gli articoli."
-
-#: wp-admin/options-discussion.php:167
-msgid "When a comment contains any of these words in its content, name, URL, email, or IP address, it will be held in the <a href=\"edit-comments.php?comment_status=moderated\">moderation queue</a>. One word or IP address per line. It will match inside words, so &#8220;press&#8221; will match &#8220;WordPress&#8221;."
-msgstr "Quando un commento contiene una di queste parole, nel testo, nel nome, nella URL, nella email o nell'indirizzo IP, verrà posto nella <a href=\"edit-comments.php?comment_status=moderated\">coda di moderazione</a>. Inserire una singola parola o indirizzo IP per riga. Verranno cercate corrispondenze anche all'interno delle parole, quindi &#8220;press&#8221;  troverà una corrispondenza in &#8220;WordPress&#8221;."
-
 #. translators: %s: permalink structure tag
 #: wp-admin/options-permalink.php:234
 msgid "%s (Category slug. Nested sub-categories appear as nested directories in the URL.)"
@@ -4836,6 +4824,14 @@ msgstr "%s (Slug di categoria. le sotto categorie annidate appaiono nella URL co
 #: wp-admin/options-permalink.php:232
 msgid "%s (The sanitized post title (slug).)"
 msgstr "%s (La versione sanificata del titolo dell'articolo (slug).)"
+
+#: wp-admin/options-reading.php:24
+msgid "You can choose what&#8217;s displayed on the homepage of your site. It can be posts in reverse chronological order (classic blog), or a fixed/static page. To set a static homepage, you first need to create two <a href=\"%s\">Pages</a>. One will become the homepage, and the other will be where your posts are displayed."
+msgstr "È possibile decidere cosa deve essere visualizzato nella pagina principale del sito. Possono essere articoli in ordine cronologico inverso (il classico blog) o una pagina statica/fissa. Per impostare una pagina iniziale statica, per prima cosa è necessario creare due <a href=\"%s\">Pagine</a>. Una diventerà la pagina iniziale, l'altra sarà quella dove verranno visualizzati gli articoli."
+
+#: wp-admin/options-discussion.php:167
+msgid "When a comment contains any of these words in its content, name, URL, email, or IP address, it will be held in the <a href=\"edit-comments.php?comment_status=moderated\">moderation queue</a>. One word or IP address per line. It will match inside words, so &#8220;press&#8221; will match &#8220;WordPress&#8221;."
+msgstr "Quando un commento contiene una di queste parole, nel testo, nel nome, nella URL, nella email o nell'indirizzo IP, verrà posto nella <a href=\"edit-comments.php?comment_status=moderated\">coda di moderazione</a>. Inserire una singola parola o indirizzo IP per riga. Verranno cercate corrispondenze anche all'interno delle parole, quindi &#8220;press&#8221;  troverà una corrispondenza in &#8220;WordPress&#8221;."
 
 #. translators: %s: permalink structure tag
 #: wp-admin/options-permalink.php:236
@@ -4940,15 +4936,19 @@ msgstr "Anteprima:"
 msgid "Your theme does not natively support menus, but you can use them in sidebars by adding a &#8220;Navigation Menu&#8221; widget on the <a href=\"%s\">Widgets</a> screen."
 msgstr "Il tuo tema non supporta nativamente i menu, ma puoi utilizzare i menu nelle sidebar aggiungendo un widget &#8220;Menu personalizzato&#8221; tramite la schermata <a href=\"%s\">Widget</a>."
 
+#: wp-admin/nav-menus.php:520
+msgid "This screen is used for managing your navigation menus."
+msgstr "Questa schermata viene utilizzata per gestire i menu di navigazione personalizzati."
+
+#: wp-admin/includes/ms.php:981
+msgid "<strong>Users</strong> &mdash; This displays the users associated with this site. You can also change their role, reset their password, or remove them from the site. Removing the user from the site does not remove the user from the network."
+msgstr "<strong>Utenti</strong> &mdash; Qui vengono visualizzati gli utenti associati a questo sito. Puoi cambiare il loro ruolo, azzerare la loro password o rimuoverli dal sito. Rimuovendo un utente dal sito non si rimuove l'utente da tutto il network."
+
 #. translators: 1: Widgets admin screen URL, 2 and 3: The name of the default
 #. themes
 #: wp-admin/nav-menus.php:522
 msgid "Menus can be displayed in locations defined by your theme, even used in sidebars by adding a &#8220;Navigation Menu&#8221; widget on the <a href=\"%1$s\">Widgets</a> screen. If your theme does not support the navigation menus feature (the default themes, %2$s and %3$s, do), you can learn about adding this support by following the Documentation link to the side."
 msgstr "I menu possono venir visualizzati nelle posizioni definite dal tuo tema ed anche essere utilizzati nelle sidebar aggiungendo un widget &#8220;Menu personalizzato&#8221; tramite la schermata <a href=\"%1$s\">Widget</a>. Se il tuo tema non supporta la funzionalità di menu personalizzati  (i temi standard, %2$s e %3$s, lo fanno), puoi imparare come aggiungere tale supporto seguendo il link alla Documentazione qui a lato."
-
-#: wp-admin/nav-menus.php:520
-msgid "This screen is used for managing your navigation menus."
-msgstr "Questa schermata viene utilizzata per gestire i menu di navigazione personalizzati."
 
 #: wp-admin/includes/ms.php:983
 msgid "<strong>Settings</strong> &mdash; This page shows a list of all settings associated with this site. Some are created by WordPress and others are created by plugins you activate. Note that some fields are grayed out and say Serialized Data. You cannot modify these values due to the way the setting is stored in the database."
@@ -4957,10 +4957,6 @@ msgstr "<strong>Impostazioni</strong> &mdash; Questa pagina mostra un elenco di 
 #: wp-admin/includes/ms.php:982
 msgid "<strong>Themes</strong> &mdash; This area shows themes that are not already enabled across the network. Enabling a theme in this menu makes it accessible to this site. It does not activate the theme, but allows it to show in the site&#8217;s Appearance menu. To enable a theme for the entire network, see the <a href=\"%s\">Network Themes</a> screen."
 msgstr "<strong>Temi</strong> &mdash; Questa area visualizza i temi non ancora abilitati sulla rete. Abilitando un tema in questo menu lo si rende accessibile a questo sito. Non attiva il tema ma permette di visualizzarlo nel sito sotto il menu Aspetto. Per abilitare un tema per tutto il network, si veda la schermata <a href=\"%s\">Temi del network</a>."
-
-#: wp-admin/includes/ms.php:981
-msgid "<strong>Users</strong> &mdash; This displays the users associated with this site. You can also change their role, reset their password, or remove them from the site. Removing the user from the site does not remove the user from the network."
-msgstr "<strong>Utenti</strong> &mdash; Qui vengono visualizzati gli utenti associati a questo sito. Puoi cambiare il loro ruolo, azzerare la loro password o rimuoverli dal sito. Rimuovendo un utente dal sito non si rimuove l'utente da tutto il network."
 
 #: wp-admin/includes/ms.php:980
 msgid "<strong>Info</strong> &mdash; The site URL is rarely edited as this can cause the site to not work properly. The Registered date and Last Updated date are displayed. Network admins can mark a site as archived, spam, deleted and mature, to remove from public listings or disable."
@@ -5362,6 +5358,10 @@ msgstr "<strong>ERRORE</strong>: inserisci un indirizzo email."
 #: wp-admin/includes/schema.php:907
 msgid "You must provide a valid email address."
 msgstr "Occorre fornire un indirizzo email valido."
+
+#: wp-admin/includes/plugin-install.php:612
+msgid "WordPress.org Plugin Page &#187;"
+msgstr "Pagina dei plugin WordPress.org &#187;"
 
 #: wp-admin/includes/media.php:2456 wp-admin/includes/nav-menu.php:361
 #: wp-admin/includes/nav-menu.php:649
@@ -8402,6 +8402,10 @@ msgstr "In questa sottosezione si dovrebbe riportare quali informazioni vengono 
 msgid "In this section you should provide a contact method for privacy-specific concerns. If you are required to have a Data Protection Officer, list their name and full contact details here as well."
 msgstr "In questa sezione si dovrebbe segnalare un metodo di contatto per problemi riguardanti la privacy. Se è necessario disporre di un Responsabile della Protezione dei Dati (DPO), elencare qui il loro nome e i dettagli completi del contatto."
 
+#: wp-admin/includes/misc.php:1765
+msgid "European data protection law requires data about European residents which is transferred outside the European Union to be safeguarded to the same standards as if the data was in Europe. So in addition to listing where data goes, you should describe how you ensure that these standards are met either by yourself or by your third party providers, whether that is through an agreement such as Privacy Shield, model clauses in your contracts, or binding corporate rules."
+msgstr "La normativa europea sulla protezione dei dati richiede che i dati riguardanti i residenti europei trasferiti al di fuori dell'Unione Europea siano tutelati secondo gli stessi standard come se i dati fossero in Europa. Cosi oltre a elencare dove vengono spostati i dati, dovresti descrivere in che modo vengono assicurati che questi standard siano soddisfatti da parte tua o dai tuoi fornitori di terze parti, sia attraverso un accordo come il Privacy Shield, clausole nei tuoi contratti o regole aziendali vincolanti."
+
 #: wp-admin/includes/misc.php:1700
 msgid "You should also note any collection and retention of sensitive personal data, such as data concerning health."
 msgstr "Dovresti anche prendere nota della raccolta e della conservazione di dati personali sensibili, come i dati relativi alla salute."
@@ -8413,10 +8417,6 @@ msgstr "In questa sezione dovresti elencare tutti i trasferimenti di dati del si
 #: wp-admin/includes/misc.php:1740
 msgid "By default WordPress does not collect any analytics data. However, many web hosting accounts collect some anonymous analytics data. You may also have installed a WordPress plugin that provides analytics services. In that case, add information from that plugin here."
 msgstr "Di default WordPress non raccoglie dati statistici. Tuttavia, molti account di hosting Web raccolgono dati statistici anonimi. Potresti aver installato anche un plugin per WordPress che fornisce servizi di analisi. In tal caso, aggiungi qui le informazioni da quel plugin."
-
-#: wp-admin/includes/misc.php:1765
-msgid "European data protection law requires data about European residents which is transferred outside the European Union to be safeguarded to the same standards as if the data was in Europe. So in addition to listing where data goes, you should describe how you ensure that these standards are met either by yourself or by your third party providers, whether that is through an agreement such as Privacy Shield, model clauses in your contracts, or binding corporate rules."
-msgstr "La normativa europea sulla protezione dei dati richiede che i dati riguardanti i residenti europei trasferiti al di fuori dell'Unione Europea siano tutelati secondo gli stessi standard come se i dati fossero in Europa. Cosi oltre a elencare dove vengono spostati i dati, dovresti descrivere in che modo vengono assicurati che questi standard siano soddisfatti da parte tua o dai tuoi fornitori di terze parti, sia attraverso un accordo come il Privacy Shield, clausole nei tuoi contratti o regole aziendali vincolanti."
 
 #: wp-admin/includes/misc.php:1721
 msgid "By default, WordPress does not include a contact form. If you use a contact form plugin, use this subsection to note what personal data is captured when someone submits a contact form, and how long you keep it. For example, you may note that you keep contact form submissions for a certain period for customer service purposes, but you do not use the information submitted through them for marketing purposes."
@@ -8507,13 +8507,13 @@ msgstr "Se hai un account e accedi a questo sito, verrà impostato un cookie tem
 msgid "If you edit or publish an article, an additional cookie will be saved in your browser. This cookie includes no personal data and simply indicates the post ID of the article you just edited. It expires after 1 day."
 msgstr "Se modifichi o pubblichi un articolo, un cookie aggiuntivo verrà salvato nel tuo browser. Questo cookie non include dati personali, ma indica semplicemente l'ID dell'articolo appena modificato. Scade dopo 1 giorno."
 
-#: wp-admin/includes/misc.php:1730
-msgid "When you log in, we will also set up several cookies to save your login information and your screen display choices. Login cookies last for two days, and screen options cookies last for a year. If you select &quot;Remember Me&quot;, your login will persist for two weeks. If you log out of your account, the login cookies will be removed."
-msgstr "Quando effettui l'accesso, verranno impostati diversi cookie per salvare le tue informazioni di accesso e le tue opzioni di visualizzazione dello schermo. I cookie di accesso durano due giorni mentre i cookie per le opzioni dello schermo durano un anno. Se selezioni &quot;Ricordami&quot;, il tuo accesso persisterà per due settimane. Se esci dal tuo account, i cookie di accesso verranno rimossi."
-
 #: wp-admin/includes/misc.php:1734
 msgid "Articles on this site may include embedded content (e.g. videos, images, articles, etc.). Embedded content from other websites behaves in the exact same way as if the visitor has visited the other website."
 msgstr "Gli articoli su questo sito possono includere contenuti incorporati (ad esempio video, immagini, articoli, ecc.). I contenuti incorporati da altri siti web si comportano esattamente allo stesso modo come se il visitatore avesse visitato l'altro sito web."
+
+#: wp-admin/includes/misc.php:1730
+msgid "When you log in, we will also set up several cookies to save your login information and your screen display choices. Login cookies last for two days, and screen options cookies last for a year. If you select &quot;Remember Me&quot;, your login will persist for two weeks. If you log out of your account, the login cookies will be removed."
+msgstr "Quando effettui l'accesso, verranno impostati diversi cookie per salvare le tue informazioni di accesso e le tue opzioni di visualizzazione dello schermo. I cookie di accesso durano due giorni mentre i cookie per le opzioni dello schermo durano un anno. Se selezioni &quot;Ricordami&quot;, il tuo accesso persisterà per due settimane. Se esci dal tuo account, i cookie di accesso verranno rimossi."
 
 #: wp-admin/includes/misc.php:1753
 msgid "If you leave a comment, the comment and its metadata are retained indefinitely. This is so we can recognize and approve any follow-up comments automatically instead of holding them in a moderation queue."
@@ -11670,6 +11670,10 @@ msgstr "Ti servono dei riscontri alle modifiche del design di un sito? WordPress
 msgid "Ever encounter a scenario where two designers walk into a project and designer A overrides designer B&#8217;s beautiful changes? WordPress 4.9&#8217;s design lock feature (similar to post locking) secures your draft design so that no one can make changes to it or erase all your hard work."
 msgstr "Non ti è mai capitato uno scenario nel quale due progettisti lavorano sullo stesso progetto ed il progettista A cambia le fantastiche modifiche fatte dal progettista B? La funzionalità di blocco del design di WordPress 4.9 (simile al blocco degli articoli) garantisce che la bozza del tuo progetto sia sicura e che nessun altro possa effettuare modifiche o cancellare il tuo duro lavoro."
 
+#: wp-admin/about.php:266
+msgid "When you edit themes and plugins directly, WordPress 4.9 will politely warn you that this is a dangerous practice. It will recommend that you backup your files before saving, so they don&#8217;t get overwritten by the next update. Take the safe route: your future self will thank you. Your team and customers will thank you."
+msgstr "Quando modifichi direttamente temi o plugin, WordPress 4.9 ti avviserà gentilmente che si tratta di una pratica pericolosa. Ti raccomanderà di effettuare un backup dei tuoi file prima di salvare, così che non vengano sovrascritti dal prossimo aggiornamento. Prendi la via più sicura: il tuo futuro io ti ringrazierà. Il tuo team ed i tuoi clienti ti ringrazieranno."
+
 #: wp-admin/about.php:312
 msgid "Were you confused by the steps to create a new menu? Perhaps no longer! We&#8217;ve ironed out the UX for a smoother menu creation process. Newly updated copy will guide you."
 msgstr "Hai avuto dei problemi per i passi necessari a creare un nuovo menu? Ora forse non più! Abbiamo realizzato la nuova interfaccia utente per un processo di creazione dei menu più semplice. Questo nuovo sistema ti guiderà nei vari passaggi."
@@ -11687,10 +11691,6 @@ msgstr "Miglioramenti alle API JS di Personalizza"
 #: wp-admin/about.php:188
 msgid "Major Customizer Improvements, Code Error Checking, and More! %s"
 msgstr "Miglioramenti importanti per Personalizza, controllo degli errori nel codice e molto altro ancora! %s"
-
-#: wp-admin/about.php:266
-msgid "When you edit themes and plugins directly, WordPress 4.9 will politely warn you that this is a dangerous practice. It will recommend that you backup your files before saving, so they don&#8217;t get overwritten by the next update. Take the safe route: your future self will thank you. Your team and customers will thank you."
-msgstr "Quando modifichi direttamente temi o plugin, WordPress 4.9 ti avviserà gentilmente che si tratta di una pratica pericolosa. Ti raccomanderà di effettuare un backup dei tuoi file prima di salvare, così che non vengano sovrascritti dal prossimo aggiornamento. Prendi la via più sicura: il tuo futuro io ti ringrazierà. Il tuo team ed i tuoi clienti ti ringrazieranno."
 
 #: wp-admin/about.php:305
 msgid "When you switch themes, widgets sometimes think they can just up and move location. Improvements in WordPress 4.9 offer more persistent menu and widget placement when you decide it&#8217;s time for a new theme. Additionally, you can preview installed themes or download, install, and preview new themes right. Nothing says handy like being able to preview before you deploy. "
