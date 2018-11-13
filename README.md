@@ -12,7 +12,7 @@ Wordpress Starter Pack is a ready-to-use Wordpress site with:
 ## 1) Copy folder with git from Terminal
 
 ```
-git clone -b woocommerce https://github.com/cinghie/wordpress-starter-pack.git wooocommerce
+git clone -b woocommerce https://github.com/cinghie/wordpress-starter-pack.git woocommerce
 ```
 
 ## 2) Download and insert Wordpress last version in the some folder:
@@ -22,7 +22,7 @@ https://it.wordpress.org/
 ## 3) Edit wordpress.sql, replacing:
 
 ```
-"http://localhost/wooocommerce" with your site url
+"http://localhost/woocommerce" with your site url
 ```
 
 ## 4) Import wordpress.sql to your database and login with:
@@ -74,12 +74,17 @@ function hide_wordpress_version() {
 ## 8) All plugins used
 
  - Advanced Custom Fields + ACF Yoast Plugin  
+ - Akismet Anti-Spam  
+ - All-in-One WP Migration  
  - Autoptimize  
  - BJ Lazy Load  
+ - Classic Editor  
  - Coming Soon Page & Maintenance Mode by SeedProd 
  - Contact Form 7   
- - Custom Facebook Feed 
- - Custom Twitter Feeds
+ - Custom Facebook Feed  
+ - Custom Twitter Feeds  
+ - Disable Comments  
+ - Disable REST API  
  - FancyBox for WordPress  
  - Gogodigital Cookie Consent  
  - Gogodigital Essentials  
@@ -95,10 +100,10 @@ function hide_wordpress_version() {
  - Really Simple SSL  
  - Regenerate Thumbnails  
  - Shapely Companion  
- - Social Media and Share Icons (Ultimate Social Media)  
  - Smush  
- - TinyMCE Advanced
- - UpdraftPlus - Backup/Restore  
+ - Social Media and Share Icons (Ultimate Social Media)  
+ - TinyMCE Advanced  
+ - Widget Importer & Exporter  
  - Wordfence Security  
  - WordPress Importer  
  - WordPress Popular Posts  
