@@ -11,7 +11,6 @@ Thumbs.db
 .DS_Store
 
 # WP Root files
-.htaccess
 *.log
 /index.php
 /wp-activate.php
@@ -29,6 +28,7 @@ Thumbs.db
 /wp-trackback.php
 /xmlrpc.php
 
+/LICENSE
 /license.txt
 /licenza.html
 /readme.html
@@ -40,6 +40,7 @@ wp-admin/
 wp-includes/
 
 # WP Content Files
+wp-content/ai1wm-backups/*
 wp-content/backup-db/*
 wp-content/backups/*
 wp-content/cache/*
@@ -49,11 +50,17 @@ wp-content/languages/themes/twentysixteen-it_IT.po
 wp-content/mu-plugins/
 wp-content/plugins/gogodigital-joomla-to-wordpress/
 wp-content/plugins/hello.php
-wp-content/upgrade/
+wp-content/upgrade/*
 wp-content/wflogs/*
 wp-content/wp-cache-config.php
 
 # WP Included
+!wp-content/ai1wm-backups/.htaccess
+!wp-content/ai1wm-backups/index.php
+!wp-content/ai1wm-backups/web.config
+!wp-content/cache/.htaccess
+!wp-content/cache/index.html
+!wp-content/languages/
 !wp-content/languages/
 !wp-content/themes/storefront/
 !wp-content/themes/storefront-child/
