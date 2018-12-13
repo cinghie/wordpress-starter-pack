@@ -49,6 +49,7 @@ wp-content/languages/themes/twentysixteen-it_IT.po
 wp-content/mu-plugins/*
 wp-content/plugins/gogodigital-joomla-to-wordpress/
 wp-content/plugins/hello.php
+wp-content/themes/*
 wp-content/upgrade/*
 wp-content/wflogs/*
 wp-content/wp-cache-config.php
