@@ -2,10 +2,7 @@
 $domain = $_SERVER['HTTP_HOST'];
 $plugin_settings = get_option( 'plugin_settings' );
 $license_information = get_option( 'license_information' );
-$license_information['license_valid'] = "yes";
-$error = "false";
-$disabled = "";
-$plugin_data = get_plugin_data( __FILE__ );
+$license_information['license_valid'] = "yes"; // This is only temp untill we activate the license module again
 
 $versions = array (
 	"PHP" => (float)phpversion(),
@@ -40,9 +37,11 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 	$notifications_box = $notifications_obj->get_admin_notifications ( '12', 'false' );
 }
 
-if($license_information['notice'] == "true"){
-	$notifications_box['message_type'] = $license_information['message_type'];
-	$notifications_box['message'] = $license_information['message'];
+if(array_key_exists('notice', $license_information)){
+	if($license_information['notice'] == "true"){
+		$notifications_box['message_type'] = $license_information['message_type'];
+		$notifications_box['message'] = $license_information['message'];
+	}
 }
 
 /**
@@ -65,6 +64,9 @@ if(isset($_GET["tab"])) {
 	} elseif ($_GET["tab"] == "woosea_system_check"){
         	$active_tab = "woosea_system_check";
 		$header_text = "Plugin systems check";
+	} elseif ($_GET["tab"] == "woosea_license_check"){
+        	$active_tab = "woosea_license_check";
+		$header_text = "License";
      	} else {
              	$active_tab = "woosea_manage_attributes";
 		$header_text = "Attribute settings";
@@ -82,10 +84,17 @@ if(isset($_GET["tab"])) {
 					print "$header_text";
 				?>
 			</div>
-                        
+       
+			<?php
+			if(array_key_exists('message', $license_information)){
+			?>
 			<div class="<?php _e($license_information['message_type']); ?>">
                                 <p><?php _e($license_information['message'], 'sample-text-domain' ); ?></p>
                         </div>
+			<?php
+			}
+			?>
+
 
         	    	<!-- wordpress provides the styling for tabs. -->
 			<h2 class="nav-tab-wrapper">
@@ -93,7 +102,8 @@ if(isset($_GET["tab"])) {
                 		<a href="?page=woosea_manage_settings&tab=woosea_manage_settings" class="nav-tab <?php if($active_tab == 'woosea_manage_settings'){echo 'nav-tab-active';} ?> "><?php _e('Plugin settings', 'sandbox'); ?></a>
                 		<a href="?page=woosea_manage_settings&tab=woosea_manage_attributes" class="nav-tab <?php if($active_tab == 'woosea_manage_attributes'){echo 'nav-tab-active';} ?>"><?php _e('Attribute settings', 'sandbox'); ?></a>
                 		<a href="?page=woosea_manage_settings&tab=woosea_system_check" class="nav-tab <?php if($active_tab == 'woosea_system_check'){echo 'nav-tab-active';} ?>"><?php _e('Plugin systems check', 'sandbox'); ?></a>
-          		</h2>
+                		<a href="?page=woosea_manage_settings&tab=woosea_license_check" class="nav-tab <?php if($active_tab == 'woosea_license_check'){echo 'nav-tab-active';} ?>"><?php _e('License', 'sandbox'); ?></a>
+	  		</h2>
 
 			<div class="woo-product-feed-pro-table-wrapper">
 				<div class="woo-product-feed-pro-table-left">
@@ -209,6 +219,39 @@ if(isset($_GET["tab"])) {
 						</form>
 					</table>
 					<?php
+					} elseif ($active_tab == "woosea_license_check"){
+					?>
+                                        <table class="woo-product-feed-pro-table">
+                                                <tr>
+                                                        <td>
+                                                                <span>License e-mail:</span>
+                                                        </td>
+                                                        <td>
+                                                                <input type="text" class="input-field-large" id="license-email" name="license-email" value="<?php print "$license_information[license_email]";?>">
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                <span>License key:</span>
+                                                        </td>
+                                                        <td>
+                                                                <input type="text" class="input-field-large" id="license-key" name="license-key" value="<?php print "$license_information[license_key]";?>">
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td colspan="2"><i>Please note that leaving your license details you allow us to automatically validate your license once a day.</i></td>
+                                                </tr>
+                                                <tr>
+                                                        <td colspan="2">
+                                                                <input type="submit" id="checklicense" value="Activate license">
+								<!--
+                                                                <input type="submit" id="deactivate_license" value="Deactivate license">
+								-->
+                                                        </td>
+                                                </tr>
+
+                                        </table>
+					<?php
 					} elseif ($active_tab == "woosea_system_check"){
 						// Check if the product feed directory is writeable
 						$upload_dir = wp_upload_dir();
@@ -264,10 +307,12 @@ GROUP BY meta.meta_key ORDER BY meta.meta_key ASC;";
                                 					if (count($data)) {
                                         					foreach ($data as $key => $value) {
                                                 					$product_attr = unserialize($value->type);
-                                                					foreach ($product_attr as $key => $arr_value) {
-                                                        					$value_display = str_replace("_", " ",$arr_value['name']);
-                                                        					$list["custom_attributes_" . $key] = ucfirst($value_display);
-                                                					}
+                                                					if(!empty($product_attr)){
+												foreach ($product_attr as $key => $arr_value) {
+                                                        						$value_display = str_replace("_", " ",$arr_value['name']);
+                                                        						$list["custom_attributes_" . $key] = ucfirst($value_display);
+                                                						}
+											}
                                         					}
                                 					}
                         					}

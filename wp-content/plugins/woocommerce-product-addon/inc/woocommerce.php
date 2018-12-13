@@ -164,7 +164,7 @@ function ppom_woocommerce_add_cart_item_data($cart, $product_id) {
 	if( ! $ppom->settings ) return $cart;
 	
 	// ADDED WC BUNDLES COMPATIBILITY
-	if ( class_exists('WC_Bundles') && wc_pb_is_bundled_cart_item( $product_id )) {
+	if ( function_exists('wc_pb_is_bundled_cart_item') && wc_pb_is_bundled_cart_item( $cart_item )) {
 		return $cart;
 	}
 	
@@ -236,7 +236,7 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 					// verify prices from server due to security
 					if( isset($option['data_name']) && isset($option['option_id'])) {
 						
-						$option_price = ppom_get_field_option_price_by_id($option['data_name'], $option, $wc_product);
+						$option_price = ppom_get_field_option_price_by_id($option, $wc_product);
 					}
 					
 					$total_option_price += wc_format_decimal( $option_price, wc_get_price_decimals());
@@ -248,7 +248,7 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 					// verify prices from server due to security
 					if( isset($option['data_name']) && isset($option['option_id'])) {
 						
-						$option_price = ppom_get_field_option_price_by_id($option['data_name'], $option, $wc_product);
+						$option_price = ppom_get_field_option_price_by_id($option, $wc_product);
 					}
 					$ppon_onetime_cost += wc_format_decimal( $option_price, wc_get_price_decimals());
 					break;
@@ -306,23 +306,23 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 					break;
 					
 			}
+			
+			
+			/**
+			 * @since 15.4: Updating options weight
+			 **/
+			if( ppom_pro_is_installed() ) {
+				$option_weight = ppom_get_field_option_weight_by_id($option, $product_id);
+				if( $option_weight > 0 ) {
+					$new_weight = $wc_product->get_weight() + $option_weight;
+					$wc_product->set_weight($new_weight);
+				}
+			}
+			
 		}
 	}
 	
 	
-	if( $ppom_quantities_price > 0 ) {
-		
-		// $total_option_price = $ppom_quantities_price;
-		/*$ppom_item_org_price = $ppom_quantities_price;*/
-		$total_option_price = ($total_option_price * $ppom_total_quantities);
-		
-		
-		if( ! $ppom_quantities_include_base ) {
-			// $ppom_item_org_price = ($ppom_item_org_price * $ppom_total_quantities);
-			$ppom_item_org_price = 0;
-		}
-	}
-		
 	// ppom_pa($matrix_found);
 	if( !empty($matrix_found) ) {
 		
@@ -361,6 +361,17 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 		}
 	}
 	
+	if( $ppom_quantities_price > 0 ) {
+		
+		if( ! $ppom_quantities_include_base ) {
+			// $ppom_item_org_price = ($ppom_item_org_price * $ppom_total_quantities);
+			$ppom_item_org_price = 0;
+			
+			// when base price is NOT included the quantity is updated so it must be multiplied by options
+			$total_option_price = ($total_option_price * $ppom_total_quantities);
+		}
+	}
+	
 	// If measures found, Multiply it with options
 	if( $ppomm_measures > 0 ) {
 		// $total_option_price = $total_option_price * $ppomm_measures;
@@ -376,7 +387,7 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 	
 	$cart_line_total = ($ppom_item_org_price + $total_option_price + $ppom_quantities_price - $ppom_total_discount);
 	
-	$cart_line_total	= apply_filters('ppom_cart_line_total', $cart_line_total);
+	$cart_line_total	= apply_filters('ppom_cart_line_total', $cart_line_total, $cart_items, $values);
 	
 	// var_dump($cart_line_total);
 	
@@ -387,9 +398,8 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 
 function ppom_calculate_totals_from_session( $cart ) {
 	$cart->calculate_totals();
-	// ppom_pa(WC()->session->cart);
-	
 }
+
 
 function ppom_woocommerce_add_fixed_fee( $cart ) {
 	
@@ -421,10 +431,12 @@ function ppom_woocommerce_add_fixed_fee( $cart ) {
 				// 	$taxable = false;
 				// }
 				
-				$fee_price	= apply_filters('ppom_cart_fixed_fee', $fee_price);
+				$fee_price	= apply_filters('ppom_cart_fixed_fee', $fee_price, $fee, $cart);
 				
-				$cart -> add_fee( sprintf(__( "%s", 'ppom'), esc_html($label)), $fee_price, $taxable );
-				$fee_no++;
+				if( $fee_price != 0 ) {
+					$cart -> add_fee( sprintf(__( "%s", 'ppom'), esc_html($label)), $fee_price, $taxable );
+					$fee_no++;
+				}
 			} 
 		}
 	}
@@ -463,7 +475,7 @@ function ppom_woocommerce_add_item_meta($item_meta, $cart_item) {
 	// ppom_pa($cart_item['ppom']);
 	
 	// ADDED WC BUNDLES COMPATIBILITY
-	if ( class_exists('WC_Bundles') && wc_pb_is_bundled_cart_item( $cart_item )) {
+	if ( function_exists('wc_pb_is_bundled_cart_item') && wc_pb_is_bundled_cart_item( $cart_item )) {
 		return $item_meta;
 	}
 	
@@ -497,6 +509,8 @@ function ppom_woocommerce_add_item_meta($item_meta, $cart_item) {
 		
 	}
 	
+	// Debuggin weight
+	// $item_meta[] = array('name'	=> 'weight', 'value' => WC()->cart->get_cart_contents_weight(), 'hidden' => false);
 	return $item_meta;
 }
 
@@ -586,11 +600,12 @@ function ppom_woocommerce_set_max_quantity( $max_quantity, $product ) {
 	
 	$last_range = array();
 	
-	$ppom_quantities_found = ppom_has_field_by_type( $product_id, 'quantities' );
-	if($ppom_quantities_found){
-		foreach($ppom_quantities_found as $meta){
+	$ppom_matrix_found = ppom_has_field_by_type( $product_id, 'pricematrix' );
+	if($ppom_matrix_found){
+		foreach($ppom_matrix_found as $meta){
 			
 			$options = $meta['options'];
+			// ppom_pa($options);
 			$ranges	 = ppom_convert_options_to_key_val($options, $meta, $product);
 			$last_range = end($ranges);
 			$qty_ranges = explode('-', $last_range['raw']);
@@ -610,9 +625,9 @@ function ppom_woocommerce_set_quantity_step( $quantity_step, $product ) {
 		
 	$last_range = array();
 	
-	$ppom_quantities_found = ppom_has_field_by_type( $product_id, 'quantities' );
-	if($ppom_quantities_found){
-		foreach($ppom_quantities_found as $meta){
+	$ppom_matrix_found = ppom_has_field_by_type( $product_id, 'pricematrix' );
+	if($ppom_matrix_found){
+		foreach($ppom_matrix_found as $meta){
 			
 			$quantity_step = empty($meta['qty_step']) ? 1 : $meta['qty_step'];
 		}
@@ -796,7 +811,7 @@ function ppom_woocommerce_order_item_meta($item_id, $cart_item, $order_id) {
 	}
 	
 	// ADDED WC BUNDLES COMPATIBILITY
-	if ( class_exists('WC_Bundles') && wc_pb_is_bundled_cart_item( $cart_item )) {
+	if ( function_exists('wc_pb_is_bundled_cart_item') && wc_pb_is_bundled_cart_item( $cart_item )) {
 		return;
 	}
 	

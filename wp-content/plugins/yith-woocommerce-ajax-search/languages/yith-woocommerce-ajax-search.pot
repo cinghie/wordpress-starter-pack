@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the YITH WooCommerce Ajax Search package.
 msgid ""
 msgstr ""
-"Project-Id-Version: YITH WooCommerce Ajax Search 1.6.1\n"
+"Project-Id-Version: YITH WooCommerce Ajax Search 1.6.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/init\n"
-"POT-Creation-Date: 2018-10-23 11:55:17+00:00\n"
+"POT-Creation-Date: 2018-12-05 12:03:02+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,26 +12,26 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: class.yith-wcas-admin.php:125
+#: class.yith-wcas-admin.php:135
 msgid "Settings"
 msgstr ""
 
-#: class.yith-wcas-admin.php:126
+#: class.yith-wcas-admin.php:136
 msgid "Premium Version"
 msgstr ""
 
-#: class.yith-wcas-admin.php:132 class.yith-wcas-admin.php:133
+#: class.yith-wcas-admin.php:142 class.yith-wcas-admin.php:143
 msgid "Ajax Search"
 msgstr ""
 
-#. #-#-#-#-#  init.pot (YITH WooCommerce Ajax Search 1.6.1)  #-#-#-#-#
+#. #-#-#-#-#  yith-woocommerce-ajax-search.pot (YITH WooCommerce Ajax Search 1.6.2)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
-#: class.yith-wcas-admin.php:204 plugin-options/settings-options.php:24
+#: class.yith-wcas-admin.php:214 plugin-options/settings-options.php:24
 #: plugin-options/settings-options.php:31
 msgid "YITH WooCommerce Ajax Search"
 msgstr ""
 
-#: class.yith-wcas-admin.php:218
+#: class.yith-wcas-admin.php:228
 msgid "YITH WooCommerce Ajax Search Updated"
 msgstr ""
 
@@ -49,6 +49,26 @@ msgstr ""
 msgid ""
 "YITH WooCommerce Ajax Search is enabled but not effective. It requires "
 "WooCommerce in order to work."
+msgstr ""
+
+#: plugin-options/gutenberg/blocks.php:17
+msgctxt "[gutenberg]: block name"
+msgid "Ajax Search"
+msgstr ""
+
+#: plugin-options/gutenberg/blocks.php:18
+msgctxt "[gutenberg]: block description"
+msgid "Show Ajax Search Form"
+msgstr ""
+
+#: plugin-options/gutenberg/blocks.php:22
+msgctxt "[gutenberg]: keywords"
+msgid "Ajax Search"
+msgstr ""
+
+#: plugin-options/gutenberg/blocks.php:23
+msgctxt "[gutenberg]: keywords"
+msgid "Search"
 msgstr ""
 
 #: plugin-options/settings-options.php:21

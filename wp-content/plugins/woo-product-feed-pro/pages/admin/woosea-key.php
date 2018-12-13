@@ -85,7 +85,7 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2"><i>Please note that we will automatically validate your license once a day.</i></td>
+							<td colspan="2"><span class="ui-icon ui-icon-alert"></span> <i>Please note that we will automatically validate your license once a day.</i></td>
 						</tr>
                                 		<tr>
                                         		<td colspan="2">

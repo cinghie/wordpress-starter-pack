@@ -104,30 +104,7 @@ echo '<p><a class="btn btn-primary" href="'.$url_cancel.'">'.__('&laquo; Existin
 		</table>
 
 	</div>
-	<!-- Photo editing with Aviary -->
-	<div>
-		<h2><?php _e('Aviary API Key (Photo Editing)', "ppom")?></h2>
-		<hr>
-		<div class="col col-5">
 
-			<a class="btn btn-primary" href="http://aviary.com/web" target="_blank"><?php _e('Learn about Aviary', "ppom")?></a></td>
-		</div>
-		<div class="col col-5">
-			<?php if (ppom_is_aviary_installed()) {?>
-				<input type="text" name="aviary_api_key"
-					value="<?php echo $aviary_api_key?>" /> <br />
-					<p class="s-font"><?php _e('Enter Aviary API Key.', "ppom")?>
-					<br><?php _e('You need to get your API key from Aviary to use this. It is free as long as you need paid features', "ppom")?></p>
-				<?php }else{?>
-					<p class="s-font">
-						<a href="http://www.najeebmedia.com/photo-editing-add-on-for-n-media-website-contact-form/" class="btn btn-success btn-primary" target="_blank"><?php _e('Buy this Add-on', "ppom")?></a>
-						<a href="http://webcontact.wordpresspoets.com/demo-of-photo-editing/" class="btn btn-primary" target="_blank"><?php _e('See Demo', "ppom")?></a>
-					</p>
-					
-			<?php }?>
-		</div>
-		<div class="clear"></div>
-	</div>
 	<!--------------------- END formbox-1 ---------------------------------------->
 
 	<div id="formbox-2" style="background: #f1f1f1;">
@@ -312,7 +289,14 @@ function render_input_types($name, $value = '', $data) {
 			
 			$plc_option = (!empty($placeholders)) ? $placeholders[0] : __('Option','ppom');
 			$plc_price = (!empty($placeholders)) ? $placeholders[1] : __('Price (optional)', 'ppom');
-			$plc_id = (!empty($placeholders)) ? $placeholders[2] : __('Unique Option ID)', 'ppom');
+			
+			$weight_unit = get_option('woocommerce_weight_unit');
+			$plc_weight = (isset($placeholders[2]) && !empty($placeholders)) ? $placeholders[2] : __("Weight-{$weight_unit} (PRO only)", 'ppom');
+			if( ppom_pro_is_installed() ) {
+				$plc_weight = (isset($placeholders[2]) && !empty($placeholders)) ? $placeholders[2] : __("Weight-{$weight_unit} (optional)", 'ppom');
+			}
+			
+			$plc_id = (isset($placeholders[3]) && !empty($placeholders)) ? $placeholders[3] : __('Unique Option ID)', 'ppom');
 			
 			$add_option_img = $plugin_meta['url'].'/images/plus.png';
 			$del_option_img = $plugin_meta['url'].'/images/minus.png';
@@ -320,15 +304,19 @@ function render_input_types($name, $value = '', $data) {
 			
 			$html_input .= '<ul class="ppom-options-container">';
 			
+			
 			if($value){
 				foreach ($value as $option){
 					
+					$weight = isset($option['weight']) ? $option['weight'] : '';
 					$option_id = ppom_get_option_id($option);
 					
 					$html_input .= '<li class="data-options">';
 					$html_input .= '<span class="dashicons dashicons-move"></span>';
 					$html_input .= '<input type="text" class="option-title" name="options[option]" value="'.esc_attr(stripslashes($option['option'])).'" placeholder="'.$plc_option.'">';
 					$html_input .= '<input type="text" class="option-price" name="options[price]" value="'.esc_attr($option['price']).'" placeholder="'.$plc_price.'">';
+					$html_input .= '<input type="text" class="option-weight" name="options[weight]" value="'.esc_attr($weight).'" placeholder="'.$plc_weight.'">';
+					
 					$html_input .= '<input type="text" class="option-id" name="options[id]" value="'.esc_attr($option_id).'" placeholder="'.$plc_id.'">';
 					$html_input	.= '<img class="add_option" src="'.esc_url($add_option_img).'" title="add rule" alt="add rule" style="cursor:pointer; margin:0 3px;">';
 					$html_input	.= '<img class="remove_option" src="'.esc_url($del_option_img).'" title="remove rule" alt="remove rule" style="cursor:pointer; margin:0 3px;">';
@@ -339,6 +327,7 @@ function render_input_types($name, $value = '', $data) {
 				$html_input .= '<span class="dashicons dashicons-move"></span>';
 				$html_input .= '<input type="text" class="option-title" name="options[option]" placeholder="'.$plc_option.'">';
 				$html_input .= '<input type="text" class="option-price" name="options[price]" placeholder="'.$plc_price.'">';
+				$html_input .= '<input type="text" class="option-weight" name="options[weight]" placeholder="'.$plc_weight.'">';
 				$html_input .= '<input type="text" class="option-id" name="options[id]" placeholder="'.$plc_id.'">';
 				$html_input	.= '<img class="add_option" src="'.esc_url($add_option_img).'" title="add rule" alt="add rule" style="cursor:pointer; margin:0 3px;">';
 				$html_input	.= '<img class="remove_option" src="'.esc_url($del_option_img).'" title="remove rule" alt="remove rule" style="cursor:pointer; margin:0 3px;">';
@@ -348,6 +337,7 @@ function render_input_types($name, $value = '', $data) {
 			$html_input	.= '<ul/>';
 			
 			break;
+			
 			
 		case 'paired-quantity' :
 			

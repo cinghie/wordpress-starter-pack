@@ -1,6 +1,6 @@
 === WooCommerce Variation Swatches ===
 Contributors: EmranAhmed, wpeshaan, getwooplugins
-Tags: woocommerce variation, woocommerce, variation swatches, woocommerce attributes, product attributes, product color, product size, variable product attributes, variation product swatches, color variation swatch, image variation swatch
+Tags: woocommerce variation, woocommerce, variation swatches, woocommerce attributes, product attributes, product color, product size, variable product attributes, variation product swatches, color variation swatch, image variation swatch, printful color swatches
 Requires at least: 4.8
 Tested up to: 4.9
 Requires PHP: 5.6
@@ -69,7 +69,8 @@ In the free WooCommerce attribute variation plugin, besides creating size, brand
 * Work on Variable Product Quick View Popup   
 * Compatible with popular WooCommerce themes and plugins 
 * Frequently Updated And Secured Codebase 
-* Option to disable default plugin stylesheet for theme developer   
+* Option to disable default plugin stylesheet for theme developer
+* Enable Color Swatches For Printful Technology
 * Compatible With Popular WooCommerce Plugins Including <a href="http://bit.ly/woovs-org-item-page">WooCommerce Variation Image Gallery</a>  
 
 = PREMIUM FEATURES OF WOOCOMMERCE VARIATION SWATCHES =
@@ -264,10 +265,6 @@ In the free WooCommerce attribute variation plugin, besides creating size, brand
 <ul>
 <li><a target="_blank" href="http://bit.ly/getwoopluginsgroup">Join Our Facebook Group</a></li>
 </ul>
-<h4>For contribution</h4>
-<ul>
-<li><a target="_blank" href="https://github.com/EmranAhmed/woo-variation-swatches/?utm_source=wordpress.org&utm_medium=README&utm_campaign=woo-variation-swatches">Github Repo</a></li>
-</ul>
 <h4>For more information</h4>
 <ul>
 <li><a target="_blank" href="https://getwooplugins.com/?utm_source=wordpress.org&utm_medium=README&utm_campaign=woo-variation-swatches">Visit Our Official Website</a></li>
@@ -358,6 +355,24 @@ And your are ready to go.
 12. Global Variation Color Swatches Attribute List Preview
 
 == Changelog ==
+
+= 1.0.50 =
+
+* Fix: Archive more click issue.
+* Add: Adiva Theme support.
+
+= 1.0.49 =
+
+* Fix: Gecko theme support
+* Add: Set default Shape style to Squared Shape
+
+= 1.0.48 =
+
+* Fix: Some speed issue.
+
+= 1.0.47 =
+
+* Add: Filter `disable_wvs_body_class` to disable or enable body class.
 
 = 1.0.46 =
 

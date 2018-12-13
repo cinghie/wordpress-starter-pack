@@ -1,12 +1,12 @@
-=== WooCommerce Product Feed PRO  ===
+=== Product Feed PRO for WooCommerce  ===
 Contributors: jorisverwater,evavangelooven
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=j_verwater%40hotmail%2ecom&lc=NL&item_name=Donation%20WooCommerce%20Product%20Feed%20Pro%20%2d%20AdTribes%2eio&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
-Tested up to: 4.9
-Stable tag: 3.8.0
+Tested up to: 5.0
+Stable tag: 3.9.6
 
 == Description ==
 
@@ -21,7 +21,7 @@ Offer free and advanced, intuitive, tooling and plugins for website owners and m
 == Plugin Features ==
 
 = Unlimited number of products =
-No limitations on the number of products you can put in your product feeds. This makes the AdTribes.io WooCommerce Product Feed PRO plugin suitable for small, medium and big webshops.
+No limitations on the number of products you can put in your product feeds. This makes the AdTribes.io Product Feed PRO for WooCommerce plugin suitable for small, medium and big webshops.
 
 = Unlimited number of product feeds =
 No limitations on the number of product feeds.
@@ -192,12 +192,12 @@ Our plugin supports WPML (WPML Multilingual CMS)
 
 === From within Wordpress ===
 1. Visit ‘Plugins > Add New’;
-1. Search for ‘WooCommerce Product Feed PRO’;
-1. Activate ‘WooCommerce Product Feed PRO’ from your plugins page.
+1. Search for ‘Product Feed PRO for WooCommerce’;
+1. Activate ‘Product Feed PRO for WooCommerce’ from your plugins page.
 
 === Manually ===
 1. Upload the woo-product-feed-pro folder to your /wp-content/plugins/ directory;
-1. Activate ‘WooCommerce Product Feed PRO’ from your plugins page.
+1. Activate ‘Product Feed PRO for WooCommerce’ from your plugins page.
 
 == Frequently Asked Questions ==
 
@@ -263,6 +263,66 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 3.9.6 (2018-12-11) =
+* Removed the option to create Google Shopping / Merchant Center CSV feeds. The only option left is XML feeds. Current CSV feeds remain working ofcourse.
+* Added support for "fee percentage" Shipping formula's
+
+= 3.9.5 (2018-12-10) =
+* Tested for Wordpress 5.0 compatibility, no issues found
+* Added support for diacritics characters in the optimized title field
+
+= 3.9.4 (2018-12-03) =
+* Added functionality: one can now create rules saying: if attribute X is empty use the value from attribute Y
+* Added functionality: free shipping zones are now also added to product feeds, even when the price is 0
+
+= 3.9.3 (2018-12-02) =
+* Fixed a bug: the last release (3.9.2) broke support for Cyrillic characters. This has now been fixed.
+
+= 3.9.2 (2018-11-29) =
+* Fixed a validation bug where spaces where not allowed in the optimized product title field. This has been fixed now.
+
+= 3.9.1 (2018-11-29) =
+* Added stricter encoding on the product name, description and short description attributes in order to prevent warnings in Google's Merchant Center
+
+= 3.9.0 (2018-11-29) =
+* Product feeds are now only being refreshed when the complete update of a feed has finished. Previously we updated product feeds on the fly which caused issues when for example Google Shopping was retrieving the product feed at the exact same time.
+* You can now create filter and rules on catalogue and search visibility 
+* When the sale price of a product is equal to the regular price of a product the product is not on sale, we are now removing the sale price from feeds when this is happening
+* Changed the default price mapping for Google Shopping and Facebook feeds to the regular price attribute
+* Fixed a PHP Notice for products that are eligable for free shipping as the minimum shipping product price was reached.
+* Fixed a PHP Warning which showed when plugin users had no product attributes at all
+
+= 3.8.9 (2018-11-23) =
+* Enabled license check module again. This is just the checking module and page. Licenses are not required yet for the Elite features.
+
+= 3.8.8 (2018-11-23) =
+* Fixed a bug: shipping zones that had a cost of 0 were removed from the feed. Those are now being added again as those got disapproved by Google.
+* Fixed a bug: removed the admin-url ajax URL for safety reasons.
+
+= 3.8.7 (2018-11-23) =
+* Name change of plugin as we got a trademark complaint from Automattic, the owner of the WooCommerce brand
+
+= 3.8.6 (2018-11-21) =
+* New feature: we have added the functionality to copy existing product feed configurations to a new product feed. Just hit the copy project icon on the Manage Feeds page.
+
+= 3.8.5 (2018-11-19) =
+* Fixed a bug: shipping zone fix for users who put region, country, postal code or price in the zone name itself
+* Added a correction check for shipping cost formula's that have wrongly been inserted by users
+
+= 3.8.4 (2018-11-18) =
+* Fixed a bug: some shipping zones were incomplete in product feeds. Issue has been solved.
+
+= 3.8.3 (2018-11-17) =
+* Fixed a bug: text delimiters for custom feed CSV's were missing. Issue has been solved.
+
+= 3.8.2 (2018-11-16) =
+* Fixed a bug for United States and Australian Shipping cost settings. There are no longer empty shipping XML nodes in the feed.
+
+= 3.8.1 (2018-11-16) =
+* Fixed a color/size/material bug: the plugin was not adding product colors, sizes and materials according to Google's Merchant Center requirements when products had multiple values for this. This has now been fixed
+* Fixed a SimpleXMLElement PHP warning causing PHP warnings in the logs (thanks Simon for your help in this one, appreciated!)
+* Checked compatibility with WooCommerce 3.5.1
 
 = 3.8.0 (2018-11-09) =
 * Fixed a delimiter issue for Google's Local Product Inventory feeds on special request from @muranomidwest
@@ -1125,6 +1185,66 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 3.9.6 =
+Removed the option to create Google Shopping / Merchant Center CSV feeds. The only option left is XML feeds. Current CSV feeds remain working ofcourse.
+Added support for "fee percentage" Shipping formula's
+
+= 3.9.5 =
+Tested for Wordpress 5.0 compatibility, no issues found
+Added support for diacritics characters in the optimized title field
+
+= 3.9.4 =
+Added functionality: one can now create rules saying: if attribute X is empty use the value from attribute Y
+Added functionality: free shipping zones are now also added to product feeds, even when the price is 0
+
+= 3.9.3 =
+Fixed a bug: the last release (3.9.2) broke support for Cyrillic characters. This has now been fixed.
+
+= 3.9.2 =
+Fixed a validation bug where spaces where not allowed in the optimized product title field. This has been fixed now.
+
+= 3.9.1 =
+Added stricter encoding on the product name, description and short description attributes in order to prevent warnings in Google's Merchant Center
+
+= 3.9.0 =
+Product feeds are now only being refreshed when the complete update of a feed has finished. Previously we updated product feeds on the fly which caused issues when for example Google Shopping was retrieving the product feed at the exact same time.
+You can now create filter and rules on catalogue and search visibility
+When the sale price of a product is equal to the regular price of a product the product is not on sale, we are now removing the sale price from feeds when this is happening
+Changed the default price mapping for Google Shopping and Facebook feeds to the regular price attribute
+Fixed a PHP Notice for products that are eligable for free shipping as the minimum shipping product price was reached.
+Fixed a PHP Warning which showed when plugin users had no product attributes at all
+
+= 3.8.9 =
+Enabled license check module again. This is just the checking module and page. Licenses are not required yet for the Elite features.
+
+= 3.8.8 =
+Fixed a bug: shipping zones that had a cost of 0 were removed from the feed. Those are now being added again as those got disapproved by Google.
+Fixed a bug: removed the admin-url ajax URL for safety reasons.
+
+= 3.8.7 =
+Name change of plugin as we got a trademark complaint from Automattic, the owner of the WooCommerce brand
+
+= 3.8.6 =
+New feature: we have added the functionality to copy existing product feed configurations to a new product feed. Just hit the copy project icon on the Manage Feeds page.
+
+= 3.8.5 =
+Fixed a bug: shipping zone fix for users who put region, country, postal code or price in the zone name itself
+Added a correction check for shipping cost formula's that have wrongly been inserted by users
+
+= 3.8.4 =
+Fixed a bug: some shipping zones were incomplete in product feeds. Issue has been solved.
+
+= 3.8.3 =
+Fixed a bug: text delimiters for custom feed CSV's were missing. Issue has been solved.
+
+= 3.8.2 =
+Fixed a bug for United States and Australian Shipping cost settings. There are no longer empty shipping XML nodes in the feed.
+
+= 3.8.1 =
+Fixed a color/size/material bug: the plugin was not adding product colors, sizes and materials according to Google's Merchant Center requirements when products had multiple values for this. This has now been fixed
+Fixed a SimpleXMLElement PHP warning causing PHP warnings in the logs (thanks Simon for your help in this one, appreciated!)
+Checked compatibility with WooCommerce 3.5.1
 
 = 3.8.0 =
 Fixed a delimiter issue for Google's Local Product Inventory feeds on special request from @muranomidwest

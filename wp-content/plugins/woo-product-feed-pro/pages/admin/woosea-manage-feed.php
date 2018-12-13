@@ -1,7 +1,6 @@
 <?php
 $cron_projects = get_option( 'cron_projects' );
 $license_information = get_option( 'license_information' );
-$error = "false";
 $count_variation = wp_count_posts('product_variation');
 $count_single = wp_count_posts('product');
 $published_single = $count_single->publish;
@@ -70,6 +69,10 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
                 <tbody class="woo-product-feed-pro-body">
 			<?php
 			if (array_key_exists('debug', $_GET)){
+
+				// KILL SWITCH, THIS WILL REMOVE ALL YOUR FEED PROJECTS
+				// delete_option( 'cron_projects');
+
 				if(sanitize_text_field($_GET['debug']) == "true"){
 					$external_debug_file = $notifications_obj->woosea_debug_informations ($versions, $product_numbers, $order_rows, $cron_projects);
 				?>	
@@ -91,7 +94,7 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 			<div class="woo-product-feed-pro-table-wrapper">
 			<div class="woo-product-feed-pro-table-left">
 
-		        <table class="woo-product-feed-pro-table">
+		        <table id="woosea_main_table" class="woo-product-feed-pro-table">
 			<tr>
 				<td><strong>Active</strong></td>
 				<td><strong>Project name and channel</strong></td>
@@ -128,7 +131,7 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
                                                         <div class="woo-product-feed-pro-slider round"></div>
                                                 </label>
 						</td>
-						<td><span><?php print "$projectname<br/</span><span class=\"woo-product-feed-pro-channel\">Channel: $val[name]</span>";?></span></td>
+						<td><span><?php print "$projectname</span><br/><span class=\"woo-product-feed-pro-channel\">Channel: $val[name]</span>";?></span></td>
 						<td><span><?php print "$val[fileformat]";?></span></td>
 						<td><span><?php print "$val[cron]";?></span></td>
 						<?php
@@ -147,11 +150,14 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 								?>
 									<?php
 									if ($val['active'] == "true"){
+										print "<span class=\"trash ui-icon ui-icon-copy\" id=\"copy_$val[project_hash]\" title=\"copy project\" style=\"display: inline-block;\"></span>";
 										print "<span class=\"ui-icon ui-icon-refresh\" id=\"refresh_$val[project_hash]\" title=\"manually refresh productfeed\" style=\"display: inline-block;\"></span>";
-										print "<a href=\"$val[external_file]\" target=\"_blank\"><span class=\"ui-icon ui-icon-arrowthickstop-1-s\" id=\"download\" title=\"download productfeed\" style=\"display: inline-block\"></span></a>";
+										
+										if($val['running'] != "not run yet"){
+											print "<a href=\"$val[external_file]\" target=\"_blank\"><span class=\"ui-icon ui-icon-arrowthickstop-1-s\" id=\"download\" title=\"download productfeed\" style=\"display: inline-block\"></span></a>";
+										}
 									}?>
 									<span class="trash ui-icon ui-icon-trash" id="trash_<?php print "$val[project_hash]";?>" title="delete project and productfeed" style="display: inline-block;"></span>
-
 								<?php
 								} else {
 									print "<span class=\"ui-icon ui-icon-cancel\" id=\"cancel_$val[project_hash]\" title=\"cancel processing productfeed\" style=\"display: inline-block;\"></span>";
@@ -166,7 +172,7 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 								<table class="woo-product-feed-pro-inline_manage">
 
 									<?php
-									if (($val['running'] == "ready") OR ($val['running'] == "stopped")){
+									if (($val['running'] == "ready") OR ($val['running'] == "stopped") OR($val['running'] == "not run yet")){
 									?>
 									<tr>
 										<td>
@@ -194,10 +200,10 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 										<td>
 											<strong>Feed URL</strong><br/>
 											<?php
-											if ($val['active'] == "true"){
+											if (($val['active'] == "true") AND ($val['running'] != "not run yet")){
 											 	print "<span class=\"ui-icon ui-icon-caret-1-e\" style=\"display: inline-block;\"></span> $val[external_file]";
 											} else {
-												print "<span class=\"ui-icon ui-icon-alert\"></span> Whoops, there is no active product feed for this project as the project has been disabled.";
+												print "<span class=\"ui-icon ui-icon-alert\"></span> Whoops, there is no active product feed for this project as the project has been disabled or did not run yet.";
 											}
 											?>
 										</td>

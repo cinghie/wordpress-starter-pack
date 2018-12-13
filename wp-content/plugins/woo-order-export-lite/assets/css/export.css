@@ -583,13 +583,15 @@ input.date{
 }
 
 #d-schedule-3 .block,
-#d-schedule-4 .block {
+#d-schedule-4 .block,
+#d-schedule-5 .block {
     margin-left: 20px;
     margin-right: 5px;
 }
 
 #d-schedule-3 .block.disabled,
-#d-schedule-4 .block.disabled {
+#d-schedule-4 .block.disabled,
+#d-schedule-5 .block.disabled {
     pointer-events: none;
     opacity: 0.7;
 }

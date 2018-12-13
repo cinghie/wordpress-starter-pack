@@ -71,11 +71,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</tr>
 
 			<tr>
-				<td><?php esc_html_e( 'Communication with WordPress.org', 'health-check' ); ?></td>
-				<td class="health-check-site-status-test" data-site-status="dotorg_communication">
-					<span class="spinner is-active"></span>
-				</td>
-			</tr>
+                <td><?php esc_html_e( 'Communication with WordPress.org', 'health-check' ); ?></td>
+                <td class="health-check-site-status-test" data-site-status="dotorg_communication">
+                    <span class="spinner is-active"></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td><?php esc_html_e( 'REST API availability', 'health-check' ); ?></td>
+                <td class="health-check-site-status-test" data-site-status="rest_availability">
+                    <span class="spinner is-active"></span>
+                </td>
+            </tr>
 
 			<tr>
 				<td><?php esc_html_e( 'HTTPS status', 'health-check' ); ?></td>

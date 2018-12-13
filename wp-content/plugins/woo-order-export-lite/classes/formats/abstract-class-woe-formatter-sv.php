@@ -14,7 +14,16 @@ abstract class WOE_Formatter_sv extends WOE_Formatter_Plain_Format {
 	var $delimiter;
 	var $encoding;
 
-	public function __construct( $mode, $filename, $settings, $format, $labels, $field_formats, $date_format, $offset ) {
+	public function __construct(
+		$mode,
+		$filename,
+		$settings,
+		$format,
+		$labels,
+		$field_formats,
+		$date_format,
+		$offset
+	) {
 		parent::__construct( $mode, $filename, $settings, $format, $labels, $field_formats, $date_format, $offset );
 
 		$this->enclosure = $this->convert_literals( isset( $this->settings['enclosure'] ) ? $this->settings['enclosure'] : '' );
@@ -30,7 +39,7 @@ abstract class WOE_Formatter_sv extends WOE_Formatter_Plain_Format {
 	}
 
 	public function start( $data = '' ) {
-		$data = $this->make_header($data);
+		$data = $this->make_header( $data );
 		$data = apply_filters( "woe_{$this->format}_header_filter", $data );
 		$this->prepare_array( $data );
 		parent::start( $data );
@@ -86,14 +95,14 @@ abstract class WOE_Formatter_sv extends WOE_Formatter_Plain_Format {
 
 	public function finish() {
 		$this->try_apply_summary_report_fields();
-		
+
 		if ( $this->mode == 'preview' ) {
 			$this->rows = apply_filters( "woe_{$this->format}_preview_rows", $this->rows );
 			fwrite( $this->handle, '<table>' );
 			if ( count( $this->rows ) < 2 ) {
 				$this->rows[] = array( __( '<td colspan=10><b>No results</b></td>', 'woo-order-export-lite' ) );
 			}
-			foreach ( $this->rows as $num=>$rec ) {
+			foreach ( $this->rows as $num => $rec ) {
 				if ( $num == 0 AND $this->settings['display_column_names'] ) {
 					fwrite( $this->handle,
 						'<tr style="font-weight:bold"><td>' . join( '</td><td>', $rec ) . "</td><tr>\n" );

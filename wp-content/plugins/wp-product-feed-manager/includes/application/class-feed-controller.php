@@ -128,7 +128,7 @@ if ( ! class_exists( 'WPPFM_Feed_Controller_Class' ) ) :
 			$stored = explode( '|', $trans );
 			$prev_feed_size = $stored[0];
 			$prev_feed_counter = $stored[1];
-			$curr_feed_size = filesize( $feed_file );
+			$curr_feed_size = file_exists( $feed_file ) ? filesize( $feed_file ) : 0;
 			
 			// if file size is 0, return true
 			if ( false === $curr_feed_size ) { return true; }
@@ -154,7 +154,7 @@ if ( ! class_exists( 'WPPFM_Feed_Controller_Class' ) ) :
 		 * @return array with feed ids in the queue or an empty array
 		 */
 		protected static function get_feed_queue() {
-			return get_site_option( 'wppfm_feed_queue' );
+			return get_site_option( 'wppfm_feed_queue', array() );
 		}
 	}
 	

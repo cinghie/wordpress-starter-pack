@@ -61,10 +61,11 @@ function ppom_meta_list( $post ) {
     
   	$ppom		= new PPOM_Meta( $post->ID );
 	$all_meta	= PPOM() -> get_product_meta_all ();
-	
-	
+	$ppom_setting = admin_url('admin.php?page=ppom');
 	
 	$html = '<p>';
+	
+	$html .= '<a class="button button-primary" href="'.esc_url($ppom_setting).'">Create New Meta</a>';
 	
 	$html .= '<select name="ppom_product_meta" id="ppom_product_meta" class="select">';
 	$html .= '<option selected="selected"> ' . __('None', 'ppom'). '</option>';
@@ -81,7 +82,6 @@ function ppom_meta_list( $post ) {
 	
 	if( $ppom->single_meta_id != 'None' ) {
 		
-		$ppom_setting = admin_url('admin.php?page=ppom');
 		$url_edit = add_query_arg(array('productmeta_id'=> $ppom->single_meta_id, 'do_meta'=>'edit'), $ppom_setting);
 		$html .= '<a href="'.esc_url($url_edit).'" title="Edit"><span class="dashicons dashicons-edit"></span></a>';
 	}
@@ -100,7 +100,7 @@ function ppom_admin_process_product_meta( $post_id ) {
 	
      //ppom_pa($_POST); exit; 
      
-     $ppom_meta_selected = isset($_POST ['ppom_product_meta']) ? $_POST ['ppom_product_meta'] : '';
+    $ppom_meta_selected = isset($_POST ['ppom_product_meta']) ? $_POST ['ppom_product_meta'] : '';
     
 	update_post_meta ( $post_id, '_product_meta_id', $ppom_meta_selected );
     

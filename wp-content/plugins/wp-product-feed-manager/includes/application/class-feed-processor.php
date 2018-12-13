@@ -238,7 +238,7 @@ if ( ! class_exists( 'WPPFM_Feed_Processor_Class' ) ) :
 			if ( $product_placeholder ) {
 				// The wppfm_feed_item_value filter allows users to modify the data that goes into the feed. The $data variable contains an array
 				// with all the data that goes into the feed, with the items name as key
-				$product_placeholder = apply_filters( 'wppfm_feed_completed', $product_placeholder, $this->_feed_data->feedId, $product_id );
+				$product_placeholder = apply_filters( 'wppfm_feed_item_value', $product_placeholder, $this->_feed_data->feedId, $product_id );
 				
 				return $this->write_product_object( $product_placeholder, $this->_feed_data->feedId, $product_id );
 			} else {

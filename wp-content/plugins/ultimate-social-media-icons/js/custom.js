@@ -71,9 +71,14 @@ function sfsi_float_widget(s) {
     
     function i() {
         r = "Microsoft Internet Explorer" === navigator.appName ? a - document.documentElement.scrollTop :a - window.pageYOffset, 
-        Math.abs(r) > 0 ? (window.removeEventListener("scroll", i), a -= r * o, SFSI("#sfsi_floater").css({
+        Math.abs(r) > 0 ?
+         (window.removeEventListener("scroll", i), 
+          a -= r * o, 
+          SFSI("#sfsi_floater").css({
             top:(a + t).toString() + "px"
-        }), setTimeout(i, n)) :window.addEventListener("scroll", i, !1);
+          }), 
+          setTimeout(i, n)) :
+        window.addEventListener("scroll", i, !1);
 	}
     
     function e() {
@@ -91,14 +96,13 @@ function sfsi_float_widget(s) {
 			SFSI("#sfsi_floater").css("top",documentheight+"px");
 		}
 	}
-
     if ("center" == s)
 	{
 		var t = ( SFSI(window).height() - SFSI("#sfsi_floater").height() ) / 2;
 	}
 	else if ("bottom" == s)
 	{
-		var t = window.innerHeight - SFSI("#sfsi_floater").height();
+		var t = window.innerHeight - (SFSI("#sfsi_floater").height() + parseInt(SFSI('#sfsi_floater').css('margin-bottom')));
 	}
 	else
 	{
@@ -155,7 +159,7 @@ function sfsfi_getCookie(s) {
 
 function sfsi_hideFooter() {}
 
-window.onerror = function() {}, SFSI = jQuery.noConflict(), SFSI(window).load(function() {
+window.onerror = function() {}, SFSI = jQuery, SFSI(window).on('load',function() {
     SFSI("#sfpageLoad").fadeOut(2e3);
 });
 
@@ -164,7 +168,16 @@ var global_error = 0;
 SFSI(document).ready(function(s) {
 
 	//changes done {Monad}
-	
+	//putting it before to make sure it registers before the mobile click function
+    SFSI(document).on('click','.inerCnt a[href=""]',function(event){
+        //check if not mobile
+        if(!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
+            //execute
+            // console.log('abc');
+            event.preventDefault();
+        }
+    });
+
     SFSI("head").append('<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />'), 
     SFSI("head").append('<meta http-equiv="Pragma" content="no-cache" />'), SFSI("head").append('<meta http-equiv="Expires" content="0" />'), 
     SFSI(document).click(function(s) {
@@ -203,6 +216,10 @@ SFSI(document).ready(function(s) {
         var s = SFSI(this).parent().find("input:radio:first");
         "sfsi_popup_border_shadow" == s.attr("name") && sfsi_make_popBox();
     }), /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? SFSI("img.sfsi_wicon").on("click", function(s) {
+        if(SFSI(s.target).parent().attr('href')==""){
+            s.preventDefault();
+        }
+
         s.stopPropagation();
         var i = SFSI("#sfsi_floater_sec").val();
         SFSI("div.sfsi_wicons").css("z-index", "0"), SFSI(this).parent().parent().parent().siblings("div.sfsi_wicons").find(".inerCnt").find("div.sfsi_tool_tip_2").hide(), 

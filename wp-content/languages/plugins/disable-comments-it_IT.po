@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Disable Comments - Development (trunk) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-03-25 15:02:11+0000\n"
+"PO-Revision-Date: 2018-12-04 17:46:03+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,16 +11,21 @@ msgstr ""
 "Language: it\n"
 "Project-Id-Version: Plugins - Disable Comments - Development (trunk)\n"
 
-#: disable-comments.php:388
+#: includes/settings-page.php:49
+msgctxt "settings page title"
+msgid "Disable Comments"
+msgstr "Disabilita commenti"
+
+#: disable-comments.php:396
 msgctxt "settings menu title"
 msgid "Disable Comments"
-msgstr "Disabilita Commenti"
+msgstr "Disabilita commenti"
 
 #: includes/tools-page.php:97
 msgid "%s: Deleting comments will remove existing comment entries in the database and cannot be reverted without a database backup."
 msgstr "%s: L'eliminazione dei commenti rimuoverà ogni commento esistente nella voce del tipo di database e non può essere ripristinato senza un backup del database."
 
-#: disable-comments.php:380
+#: disable-comments.php:388
 msgid "Tools"
 msgstr "Strumenti"
 
@@ -36,15 +41,11 @@ msgstr "Commenti non disponibili per l'eliminazione."
 msgid "All comments have been deleted for %ss."
 msgstr "Tutti i commenti sono stati eliminati per %ss"
 
-#: includes/tools-page.php:86
-msgid "%s: This function and will affect your entire site. Use it only if you want to delete comments <em>everywhere</em>."
-msgstr "%s: This function and will affect your entire site. Use it only if you want to delete comments <em>everywhere</em>."
-
 #: includes/tools-page.php:102
 msgid "Total Comments:"
 msgstr "Commenti totali:"
 
-#: disable-comments.php:400 includes/tools-page.php:7
+#: disable-comments.php:408 includes/tools-page.php:7
 #: includes/tools-page.php:103
 msgid "Delete Comments"
 msgstr "Elimina Commenti"
@@ -69,7 +70,11 @@ msgstr "Per alcuni tipi di contenuto"
 msgid "Comment Deletion Complete"
 msgstr "Eliminazione dei commenti completata"
 
-#: disable-comments.php:379
+#: includes/tools-page.php:86
+msgid "%s: This function and will affect your entire site. Use it only if you want to delete comments <em>everywhere</em>."
+msgstr "%s: questa funzione interesserà l'intero sito (backend e frontend). Usala solo se vuoi eliminare i commenti <em>ovunque</em>."
+
+#: disable-comments.php:387
 msgid "Settings"
 msgstr "Impostazioni"
 
@@ -77,7 +82,7 @@ msgstr "Impostazioni"
 msgid "Save Changes"
 msgstr "Salva modifiche"
 
-#: disable-comments.php:240 disable-comments.php:325
+#: disable-comments.php:244 disable-comments.php:324 disable-comments.php:330
 msgid "Comments are closed."
 msgstr "I commenti sono disabilitati."
 
@@ -85,13 +90,7 @@ msgstr "I commenti sono disabilitati."
 msgid "Disable Comments requires WordPress version %s or greater."
 msgstr "Disabilita Commenti richiede la versione di Wordpress %s o maggiore."
 
-#. #-#-#-#-#  disable-comments-code.pot (Disable Comments 1.7.1)  #-#-#-#-#
-#. Plugin Name of the plugin/theme
-#: includes/settings-page.php:49
-msgid "Disable Comments"
-msgstr "Disabilita Commenti"
-
-#: disable-comments.php:317
+#: disable-comments.php:316
 msgid "The <em>Disable Comments</em> plugin is active, but isn't configured to do anything yet. Visit the <a href=\"%s\">configuration page</a> to choose which post types to disable comments on."
 msgstr "Il plugin <em>Disabilita Commenti</em> è attivo, ma non è configurato ancora per fare niente. Visita la <a href=\"%s\">pagina di configurazione</a> per scegliere su quali tipologie di post disabilitare i commenti."
 
@@ -99,11 +98,11 @@ msgstr "Il plugin <em>Disabilita Commenti</em> è attivo, ma non è configurato 
 msgid "Everywhere"
 msgstr "Ovunque"
 
-#: disable-comments.php:289
+#: disable-comments.php:291
 msgid "Note: The <em>Disable Comments</em> plugin is currently active, and comments are completely disabled on: %s. Many of the settings below will not be applicable for those post types."
 msgstr "Il plugin <em>Disabilita Commenti</em> è attualmente attivo, e i commenti sono completamente disabilitati su: %s. Molte delle impostazioni che seguono non saranno applicate a queste tipologie di post. "
 
-#: disable-comments.php:289
+#: disable-comments.php:291
 msgid ", "
 msgstr ", "
 
@@ -167,14 +166,6 @@ msgstr "<em>Disabilita Commenti</em> è Network Activated. Le impostazione che s
 msgid "It seems that a caching/performance plugin is active on this site. Please manually invalidate that plugin's cache after making any changes to the settings below."
 msgstr "Sembra che un plugin caching/performance è attivo su questo sito. Ti preghiamo di cancellare manualmente la cache del plugin dopo aver effettuato qualsiasi cambiamento alle impostazioni che seguono."
 
-#. Description of the plugin/theme
-msgid "Allows administrators to globally disable comments on their site. Comments can be disabled according to post type."
-msgstr "Permetti agli amministratori di disabilitare globalmente i commenti sui loro siti. I commenti possono essere disabilitati in base alle tipologie di post."
-
-#. Plugin URI of the plugin/theme
-msgid "https://wordpress.org/plugins/disable-comments/"
-msgstr "https://wordpress.org/plugins/disable-comments/"
-
 #. Author URI of the plugin/theme
 msgid "http://www.rayofsolaris.net/"
 msgstr "http://www.rayofsolaris.net/"
@@ -184,3 +175,15 @@ msgstr "http://www.rayofsolaris.net/"
 #: includes/tools-page.php:86 includes/tools-page.php:97
 msgid "Warning"
 msgstr "Attenzione"
+
+#. Plugin URI of the plugin/theme
+msgid "https://wordpress.org/plugins/disable-comments/"
+msgstr "https://it.wordpress.org/plugins/disable-comments/"
+
+#. Plugin Name of the plugin/theme
+msgid "Disable Comments"
+msgstr "Disable Comments"
+
+#. Description of the plugin/theme
+msgid "Allows administrators to globally disable comments on their site. Comments can be disabled according to post type."
+msgstr "Permette agli amministratori di disabilitare globalmente i commenti sui loro siti. I commenti possono essere disabilitati in base ai tipi di contenuto (post type)."

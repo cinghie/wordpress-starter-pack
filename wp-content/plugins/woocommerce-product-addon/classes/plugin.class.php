@@ -238,6 +238,10 @@ class NM_PersonalizedProduct {
 		// Remmove form-control class for certain input types like
 		// image
 		add_filter('ppom_input_classes', array($this, 'input_classes'), 99, 2);
+		
+		// WCFM - wc-frontend-manager
+		add_action( 'end_wcfm_products_manage', array( &$this, 'wcfm_ppom_meta' ), 583 );
+		add_action( 'after_wcfm_products_manage_meta_save', array( &$this, 'wcfm_ppom_meta_update' ), 580, 2 );
 	}
 	
 	/*
@@ -471,6 +475,39 @@ class NM_PersonalizedProduct {
 		}
 		
 		return $classes;
+	}
+	
+	function wcfm_ppom_meta( $product_id ) {
+		
+		$ppom		= new PPOM_Meta( $product_id );
+		$all_meta	= PPOM() -> get_product_meta_all ();
+		$ppom_setting = admin_url('admin.php?page=ppom');
+		
+		$html = '';
+		$html = apply_filters('ppom_select_meta_in_product', $html, $ppom, $all_meta);
+		
+		if( !$html ) return;
+		
+		?>
+		<div class="page_collapsible products_manage_policies simple variable grouped external booking" id="wcfm_products_manage_form_policies_head"><label class="fa fa-list"></label><?php _e('PPOM Fields', 'wc-frontend-manager'); ?><span></span></div>
+		<div class="wcfm-container simple variable external grouped booking">
+			<div id="wcfm_products_manage_form_policies_expander" class="wcfm-content">
+				
+				<?php
+				
+				echo $html;
+				?>
+		</div>
+		</div>
+		<!-- end collapsible -->
+		<div class="wcfm_clearfix"></div>
+		<?php
+	}
+	
+	function wcfm_ppom_meta_update($new_product_id, $wcfm_products_manage_form_data) {
+		
+		$ppom_meta_selected = isset($wcfm_products_manage_form_data['ppom_product_meta']) ? $wcfm_products_manage_form_data['ppom_product_meta'] : '';
+    	update_post_meta ( $new_product_id, '_product_meta_id', $ppom_meta_selected );
 	}
 	
 	

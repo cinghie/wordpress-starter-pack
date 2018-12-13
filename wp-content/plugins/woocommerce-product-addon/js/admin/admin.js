@@ -686,6 +686,7 @@ function save_form_meta() {
 								jQuery(this).find('.data-options').each(function(i, option_box){
 									var option_set = {	option: jQuery(option_box).find('input[name="options[option]"]').val(),
 														price: jQuery(option_box).find('input[name="options[price]"]').val(),
+														weight: jQuery(option_box).find('input[name="options[weight]"]').val(),
 														id: jQuery(option_box).find('input[name="options[id]"]').val(),};
 									
 									all_options.push(option_set);

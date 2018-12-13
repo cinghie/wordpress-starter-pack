@@ -1,7 +1,7 @@
 <?php
 /**
- * Plugin Name: WooCommerce Product Feed PRO 
- * Version:     3.8.0
+ * Plugin Name: Product Feed PRO for WooCommerce
+ * Version:     3.9.6
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -17,18 +17,18 @@
  */
 
 /** 
- * WooCommerce Product Feed PRO is free software: you can redistribute it and/or modify
+ * Product Feed PRO for WooCommerce is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * any later version.
  *
- * WooCommerce Product Feed PRO is distributed in the hope that it will be useful,
+ * Product Feed PRO for WooCommerce is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with WooCommerce Product Feed PRO. If not, see <http://www.gnu.org/licenses/>.
+ * along with Product Feed PRO for WooCommerce. If not, see <http://www.gnu.org/licenses/>.
  */
 
 /** 
@@ -45,7 +45,7 @@ if (!defined('ABSPATH')) {
 /**
  * Plugin versionnumber, please do not override
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '3.8.0' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '3.9.6' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 
 if ( ! defined( 'WOOCOMMERCESEA_FILE' ) ) {
@@ -114,8 +114,8 @@ function woosea_scripts($hook) {
 	wp_enqueue_script( 'woosea_manage-js' );
 
 	// JS for managing keys
-	// wp_register_script( 'woosea_key-js', plugin_dir_url( __FILE__ ) . 'js/woosea_key.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
-	// wp_enqueue_script( 'woosea_key-js' );
+	wp_register_script( 'woosea_key-js', plugin_dir_url( __FILE__ ) . 'js/woosea_key.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
+	wp_enqueue_script( 'woosea_key-js' );
 }
 add_action( 'admin_enqueue_scripts' , 'woosea_scripts' );
 
@@ -345,7 +345,7 @@ function woosea_request_review(){
 		$is_active = $current_time-$first_activation;
 
 		if(($nr_projects > 0) AND ($is_active > $show_after) AND ($notification_interaction != "yes")){
-		echo '<div class="notice notice-info review-notification is-dismissible"><font color="green" style="font-weight:bold";><p>Hey, I noticed you have been using my plugin, WooCommerce Product Feed PRO, for over a week now and have created product feed projects with it - that\'s awesome! Could you please do me a BIG favor and give it a 5-star rating on WordPress? Just to help us spread the word and boost my motivation.<br/>~ Joris Verwater<br><ul><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="dismiss-review-notification">Ok, you deserve it</a></li><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="#" class="dismiss-review-notification">Nope, maybe later</a></li><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="#" class="dismiss-review-notification">I already did</a></li></ul></p></font></div>';	
+		echo '<div class="notice notice-info review-notification is-dismissible"><font color="green" style="font-weight:bold";><p>Hey, I noticed you have been using my plugin, Product Feed PRO for WooCommerce, for over a week now and have created product feed projects with it - that\'s awesome! Could you please do me a BIG favor and give it a 5-star rating on WordPress? Just to help us spread the word and boost my motivation.<br/>~ Joris Verwater<br><ul><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="dismiss-review-notification">Ok, you deserve it</a></li><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="#" class="dismiss-review-notification">Nope, maybe later</a></li><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="#" class="dismiss-review-notification">I already did</a></li></ul></p></font></div>';	
 		}
 	}
 }
@@ -384,18 +384,17 @@ register_activation_hook(__FILE__, 'woosea_create_db_table');
  * Add some JS and mark-up code on every front-end page in order to get the conversion tracking to work
  */
 function woosea_hook_header() {
-	$marker = sprintf('<!-- This website runs the WooCommerce Product Feed PRO AdTribes.io plugin -->');
+	$marker = sprintf('<!-- This website runs the Product Feed PRO for WooCommerce by AdTribes.io plugin -->');
 	echo "\n${marker}\n";
 
 	// Make ajaxurl available on all pages
-	echo '<script type="text/javascript">
-           var ajaxurl = "' . admin_url('admin-ajax.php') . '";
-        </script>';
+//	echo '<script type="text/javascript">
+//           var ajaxurl = "' . admin_url('admin-ajax.php') . '";
+//        </script>';
 	
         // JS for adding the tracking code into the template
-        wp_register_script( 'woosea_tracking-js', plugin_dir_url( __FILE__ ) . 'js/woosea_tracking.js', WOOCOMMERCESEA_PLUGIN_VERSION, true  );
-        wp_enqueue_script( 'woosea_tracking-js' );
-
+//        wp_register_script( 'woosea_tracking-js', plugin_dir_url( __FILE__ ) . 'js/woosea_tracking.js', WOOCOMMERCESEA_PLUGIN_VERSION, true  );
+//        wp_enqueue_script( 'woosea_tracking-js' );
 }
 add_action('wp_head','woosea_hook_header');
 
@@ -411,8 +410,8 @@ function woosea_inject_ajax( $order_id ){
 
 	update_option('last_order_id', $order_id);
 
-	$jscode = sprintf('<script type="text/javascript">var ajaxurl = "' . admin_url('admin-ajax.php') . '";</script>');
-	echo "\n${jscode}\n\n";
+//	$jscode = sprintf('<script type="text/javascript">var ajaxurl = "' . admin_url('admin-ajax.php') . '";</script>');
+//	echo "\n${jscode}\n\n";
 }
 add_action( 'woocommerce_thankyou', 'woosea_inject_ajax' );
 
@@ -430,7 +429,7 @@ add_action( 'woosea_check_license', 'woosea_license_valid'); // check if license
  * Add WooCommerce SEA plugin to Menu
  */
 function woosea_menu_addition(){
-            add_menu_page(__('WooCommerce Product Feed PRO', 'woosea-feed'), __('Product Feed Pro', 'woosea-feed'), 'manage_options', __FILE__, 'woosea_generate_pages', 'dashicons-chart-bar',99);
+            add_menu_page(__('Product Feed PRO for WooCommerce', 'woosea-feed'), __('Product Feed Pro', 'woosea-feed'), 'manage_options', __FILE__, 'woosea_generate_pages', 'dashicons-chart-bar',99);
             add_submenu_page(__FILE__, __('Feed configuration', 'woosea-feed'), __('Create feed', 'woosea-feed'), 'manage_options', __FILE__, 'woosea_generate_pages');
             add_submenu_page(__FILE__, __('Manage feeds', 'woosea-feed'), __('Manage feeds', 'woosea-feed'), 'manage_options', 'woosea_manage_feed', 'woosea_manage_feed');
             add_submenu_page(__FILE__, __('Settings', 'woosea-feed'), __('Settings', 'woosea-feed'), 'manage_options', 'woosea_manage_settings', 'woosea_manage_settings');
@@ -638,7 +637,7 @@ function woosea_product_delete_meta_price( $product = null ) {
 
 	if($structured_data_fix == "yes"){
 
-		if ( '' !== $product->get_price() ) {
+		if ( '' !== $product->get_regular_price() ) {
 			$product_id = get_the_id();
 			
 			// Get product condition
@@ -662,8 +661,7 @@ function woosea_product_delete_meta_price( $product = null ) {
 					if(is_object( $variable_product ) ) {
 
 						// Structured data error here, it ignores VAT when prices has been entered without VAT
-						$product_price = $variable_product->get_price();
-
+						$product_price = $variable_product->get_regular_price();
 
 						// Get product condition
 						$condition = ucfirst( get_post_meta( $variation_id, '_woosea_condition', true ) );
@@ -768,9 +766,11 @@ function woosea_product_delete_meta_price( $product = null ) {
 
 				}
 	   		} else {
+				$pr = $product->get_price_html();
+
 				$markup_offer = array(
  	           	            	'@type' => 'Offer',
-                       			'price' => wc_format_decimal( $product->get_price(), wc_get_price_decimals() ),
+                       			'price' => wc_format_decimal( $product->get_regular_price(), wc_get_price_decimals() ),
 					'priceCurrency' => $shop_currency,
 					'itemCondition' => 'http://schema.org/'.$json_condition.'',
 					'availability'  => 'https://schema.org/' . $stock = ( $product->is_in_stock() ? 'InStock' : 'OutOfStock' ),
@@ -962,6 +962,8 @@ function woosea_project_processing_status(){
                 if ($val['project_hash'] == $project_hash){
 			if($val['running'] == "ready"){
 				$proc_perc = 100;
+			} elseif($val['running'] == "not run yet"){
+				$proc_perc = 999; // Fake, otherwise the copied feed will be generated immediatly
 			} else {
 				$proc_perc = round(($val['nr_products_processed']/$val['nr_products'])*100);
 			}
@@ -977,6 +979,65 @@ function woosea_project_processing_status(){
 	
 }
 add_action( 'wp_ajax_woosea_project_processing_status', 'woosea_project_processing_status' );
+
+/**
+ * Copy a project 
+ */
+function woosea_project_copy(){
+	$project_hash = sanitize_text_field($_POST['project_hash']);
+        $feed_config = get_option( 'cron_projects' );
+
+	$max_key = max(array_keys($feed_config));
+	$add_project = array();
+        $upload_dir = wp_upload_dir();
+ 	$external_base = $upload_dir['baseurl'];
+
+        foreach ( $feed_config as $key => $val ) {
+                if ($val['project_hash'] == $project_hash){
+			$val['projectname'] = "Copy ". $val['projectname'];
+			$val['project_hash'] =  bin2hex(openssl_random_pseudo_bytes(16));
+			$val['filename'] = $val['project_hash'];
+			$val['utm_campaign'] = "Copy ". $val['utm_campaign'];
+			$val['last_updated'] = "";
+			$val['running'] = "not run yet";
+
+			// Construct product feed URL
+        		$external_path = $external_base . "/woo-product-feed-pro/" . $val['fileformat'];
+                        $val['external_file'] = $external_path . "/" . sanitize_file_name($val['filename']) . "." . $val['fileformat'];
+
+			// To build the new project row on the manage feed page
+			$projecthash = $val['project_hash'];
+			$projectname = $val['projectname'];
+			$channel = $val['name'];
+			$fileformat = $val['fileformat'];
+			$interval = $val['cron'];
+			$external_file = $val['external_file'];
+
+			// Save the copied project
+			$new_key = $max_key+1;
+                        $add_project[$new_key] = $val;
+                        array_push($feed_config, $add_project[$new_key]);
+			update_option( 'cron_projects', $feed_config, '', 'yes');
+			
+			// Do not start processing, user wants to make changes to the copied project
+			$copy_status = "true";
+		}
+	}
+
+        $data = array (
+		'project_hash'	=> $projecthash,
+		'channel'	=> $channel,
+		'projectname' 	=> $projectname,
+		'fileformat' 	=> $fileformat,
+		'interval'	=> $interval,
+		'external_file'	=> $external_file,
+                'copy_status' 	=> $copy_status
+        );
+
+        echo json_encode($data);
+        wp_die();
+}
+add_action( 'wp_ajax_woosea_project_copy', 'woosea_project_copy' );
 
 /**
  * Refresh a project 
@@ -2085,7 +2146,11 @@ function woosea_license_valid(){
 function woosea_create_all_feeds(){
 	$feed_config = array();
 	$feed_config = get_option( 'cron_projects' );
-	$nr_projects = count($feed_config);
+	if(empty($feed_config)){
+		$nr_projects = 0;
+	} else {
+		$nr_projects = count($feed_config);
+	}
 	$cron_start_date = date("d M Y H:i");	
 	$cron_start_time = time();
 	$hour = date('H');

@@ -27,7 +27,7 @@ if ( ! class_exists( 'WPPFM_Variations_Class' ) ) :
 		public static function fill_product_data_with_variation_data( &$product_data, $woocommerce_variation_data, $wpmr_variation_data, $feed_language ) {
 			$permalink = array_key_exists( 'permalink' , $product_data ) ? $product_data['permalink'] : ''; // some channels don't require permalinks
 			$conversions = self::variation_conversion_table( $woocommerce_variation_data, $permalink, $feed_language );
-			$third_party_attribute_keywords = explode( ',', get_option( 'wppfm_third_party_attribute_keywords', '%wpmr%,%cpf%,%unit%,%bto%,%yoast%' ) );
+//			$third_party_attribute_keywords = explode( ',', get_option( 'wppfm_third_party_attribute_keywords', '%wpmr%,%cpf%,%unit%,%bto%,%yoast%' ) );
 			$variation_attributes = $woocommerce_variation_data->get_variation_attributes();
 			
 			foreach( $product_data as $key => $field_value ) {

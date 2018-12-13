@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Ajax Product Filter - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-11-08 21:45:06+0000\n"
+"PO-Revision-Date: 2018-12-12 23:46:31+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -595,7 +595,7 @@ msgstr "Scadenza"
 #: plugin-fw/licence/templates/panel/activation/activation-panel.php:171
 #: plugin-fw/licence/templates/panel/activation/activation-panel.php:202
 msgid "License Key"
-msgstr "Chiave di licenza"
+msgstr "Chiave della licenza"
 
 #: plugin-fw/licence/lib/yit-licence.php:189
 #: plugin-fw/licence/templates/panel/activation/activation-panel.php:92

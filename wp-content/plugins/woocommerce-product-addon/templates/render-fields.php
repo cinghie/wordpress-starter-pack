@@ -37,7 +37,7 @@ echo '</div>';
 
 echo '<div class="form-row align-items-center ppom-section-collapse">';
 
-// ppom_pa($_GET);
+$posted_values = isset($_POST['ppom']['fields']) ? $_POST['ppom']['fields'] : '';
 $section_started = false;
 $ppom_field_counter = 0;
 
@@ -76,9 +76,63 @@ foreach( $ppom_fields_meta as $meta ) {
 	
 	$classes = apply_filters('ppom_input_classes', $classes, $meta);
 	
-	// Old values from $_GET
-	$default_value  = ( isset($_GET[$data_name] ) ? $_GET[$data_name] : $default_value);
 	
+	// current values from $_GET/$_POST
+	if( isset($posted_values[$data_name]) ) {
+		// ppom_pa($posted_values);
+		
+		switch ($type) {
+		
+			case 'image':
+				$image_data  = $posted_values[$data_name];
+				foreach($image_data as $data){
+					unset($default_value);
+					$default_value[] = json_decode( stripslashes($data), true);
+				}
+				break;
+				
+			default:
+				$default_value  = $posted_values[$data_name];
+				break;
+			}
+			
+	} else if( isset($_GET[$data_name]) ) {
+		// When Cart Edit addon used
+		$default_value  = $_GET[$data_name];
+	} else {
+		
+		// Default values in settings
+		switch ($type) {
+			
+			case 'textarea':
+				
+				if( is_numeric($default_value) ) {
+					$content_post = get_post( intval($default_value) );
+					$content = !empty($content_post) ? $content_post->post_content : '';
+					$content = apply_filters('the_content', $content);
+					$default_value = str_replace(']]>', ']]&gt;', $content);
+				}
+				break;
+				
+			case 'checkbox':
+				$default_value = isset($meta['checked']) ? explode("\n", $meta['checked']) : '';
+				break;
+				
+			case 'select':
+			case 'radio':
+			case 'timezone':
+			case 'palettes':
+			case 'image':
+				$default_value = isset($meta['selected']) ? $meta['selected'] : '';
+				break;
+				
+		}
+		
+	}
+	
+	// Stripslashes: default values
+	$default_value = ! is_array($default_value) ? stripslashes($default_value) : $default_value;
+	$default_value = apply_filters("ppom_field_default_value", $default_value, $meta, $product);
 	
 	//WPML
 	$title			= ppom_wpml_translate($title, 'PPOM');
@@ -137,6 +191,7 @@ foreach( $ppom_fields_meta as $meta ) {
                 	$max	= isset( $meta['max'] ) ? $meta['max'] : '';
                 	$step	= isset( $meta['step'] ) ? $meta['step'] : '';
                 	$ph 	= isset( $meta['placeholder'] ) ? $meta['placeholder'] : '';
+                	$default_value = strip_tags($default_value);
                 	
                     $ppom_field_setting = array(  
                     				'id'        => $data_name,
@@ -153,10 +208,7 @@ foreach( $ppom_fields_meta as $meta ) {
                                     'autocomplete' => "false",
                                     );
                                     
-                    if( !empty($_GET[$data_name]) ) {
-                	
-                		$default_value = $_GET[$data_name];
-                	}
+                    
                     
                     $ppom_field_setting = apply_filters('ppom_field_setting', $ppom_field_setting, $meta);
                     echo NMForm() -> Input($ppom_field_setting, $default_value);
@@ -169,6 +221,7 @@ foreach( $ppom_fields_meta as $meta ) {
                 	$step	= isset( $meta['step'] ) ? $meta['step'] : '';
                 	$use_units = isset( $meta['use_units'] ) ? $meta['use_units'] : '';
                 	$options = ppom_convert_options_to_key_val($options, $meta, $product);
+                	$default_value = strip_tags($default_value);
             
                     $ppom_field_setting = array(  
                     				'id'        => $data_name,
@@ -185,10 +238,6 @@ foreach( $ppom_fields_meta as $meta ) {
                                     'use_units'=> $use_units,
                                     );
                                     
-                    if( !empty($_GET[$data_name]) ) {
-                	
-                		$default_value = $_GET[$data_name];
-                	}
                     
                     $ppom_field_setting = apply_filters('ppom_field_setting', $ppom_field_setting, $meta);
                     echo NMForm() -> Input($ppom_field_setting, $default_value);
@@ -196,16 +245,9 @@ foreach( $ppom_fields_meta as $meta ) {
                 	
                 case 'textarea':
                 	
-                	if( !empty($default_value) ){
-                		$content_post = get_post( intval($default_value) );
-						$content = !empty($content_post) ? $content_post->post_content : '';
-						$content = apply_filters('the_content', $content);
-						$default_value = str_replace(']]>', ']]&gt;', $content);
-                	}
+                	if( !empty($default_value) ) {
                 	
-                	if( !empty($_GET[$data_name]) ) {
-                	
-                		$default_value = str_replace(']]>', ']]&gt;', $_GET[$data_name]);
+                		$default_value = str_replace(']]>', ']]&gt;', $default_value);
                 	}
 					
 					// Cols & Rows
@@ -233,15 +275,8 @@ foreach( $ppom_fields_meta as $meta ) {
                 case 'checkbox':
                 	
                 	$options = ppom_convert_options_to_key_val($options, $meta, $product);
-					$checked = isset($meta['checked']) ? explode("\n", $meta['checked']) : '';
 					$taxable		= (isset( $meta['onetime_taxable'] ) ? $meta['onetime_taxable'] : '' );
 					
-					
-					if( !empty($_GET[$data_name]) ) {
-                	
-                		$checked = $_GET[$data_name];
-                	}
-		
 					$onetime = isset($meta['onetime']) ? $meta['onetime'] : '';
 					$ppom_field_setting = array(  
 								  'id'      	=> $data_name,
@@ -257,7 +292,7 @@ foreach( $ppom_fields_meta as $meta ) {
 					              );
 					
 					$ppom_field_setting = apply_filters('ppom_field_setting', $ppom_field_setting, $meta);
-					echo NMForm() -> Input($ppom_field_setting, $checked);
+					echo NMForm() -> Input($ppom_field_setting, $default_value);
 					break;
 					
 				case 'select':
@@ -265,14 +300,8 @@ foreach( $ppom_fields_meta as $meta ) {
                 	$options = ppom_convert_options_to_key_val($options, $meta, $product);
                 	$onetime = isset($meta['onetime']) ? $meta['onetime'] : '';
                 	$taxable = (isset( $meta['onetime_taxable'] ) ? $meta['onetime_taxable'] : '' );
-					$selected = isset($meta['selected']) ? $meta['selected'] : '';
                 	
-                	if( !empty($_GET[$data_name]) ) {
-                	
-                		$selected = $_GET[$data_name];
-                	}
-                	
-					$ppom_field_setting = array(  
+                	$ppom_field_setting = array(  
 								  'id'        => $data_name,
 					              'type'      => 'select',
 					              'name'      => "ppom[fields][{$data_name}]",
@@ -286,7 +315,30 @@ foreach( $ppom_fields_meta as $meta ) {
 					              );
 					
 					$ppom_field_setting = apply_filters('ppom_field_setting', $ppom_field_setting, $meta);
-					echo NMForm() -> Input($ppom_field_setting, $selected);
+					echo NMForm() -> Input($ppom_field_setting, $default_value);
+					break;
+					
+				case 'radio':
+                	
+                	$options = ppom_convert_options_to_key_val($options, $meta, $product);
+                	$onetime = isset($meta['onetime']) ? $meta['onetime'] : '';
+                	$taxable		= (isset( $meta['onetime_taxable'] ) ? $meta['onetime_taxable'] : '' );
+                	
+					$ppom_field_setting = array(  
+								  'id'        => $data_name,
+					              'type'      => 'radio',
+					              'name'      => "ppom[fields][{$data_name}]",
+					              //'classes'   => $classes, // apply default class: form-check-input
+                                  'label'     => $field_label,
+                                  'title'		=> $title,
+                                  'attributes'=> $ppom_field_attributes,
+					              'options'   => $options,
+					              'onetime'		=> $onetime,
+					              'taxable'		=> $taxable,
+					              );
+					
+					$ppom_field_setting = apply_filters('ppom_field_setting', $ppom_field_setting, $meta);
+					echo NMForm() -> Input($ppom_field_setting, $default_value);
 					break;
 					
 				case 'timezone':
@@ -294,13 +346,7 @@ foreach( $ppom_fields_meta as $meta ) {
                 	$regions		= isset($meta['regions']) ? $meta['regions'] : 'All';
                 	$show_time		= isset($meta['show_time']) ? $meta['show_time'] : '';
                 	$first_option	= isset($meta['first_option']) ? $meta['first_option'] : '';
-					$selected		= isset($meta['selected']) ? $meta['selected'] : '';
-                	
-                	if( !empty($_GET[$data_name]) ) {
-                	
-                		$selected = $_GET[$data_name];
-                	}
-                	
+					
                 	$options = ppom_array_get_timezone_list($regions, $show_time);
                 	if( !empty($first_option) ) {
                 		$options[''] = sprintf(__("%s","ppom"), $first_option);
@@ -320,36 +366,7 @@ foreach( $ppom_fields_meta as $meta ) {
 					              );
 					
 					$ppom_field_setting = apply_filters('ppom_field_setting', $ppom_field_setting, $meta);
-					echo NMForm() -> Input($ppom_field_setting, $selected);
-					break;
-					
-				case 'radio':
-                	
-                	$options = ppom_convert_options_to_key_val($options, $meta, $product);
-                	$onetime = isset($meta['onetime']) ? $meta['onetime'] : '';
-                	$taxable		= (isset( $meta['onetime_taxable'] ) ? $meta['onetime_taxable'] : '' );
-					$selected = isset($meta['selected']) ? $meta['selected'] : '';
-                	
-                	if( !empty($_GET[$data_name]) ) {
-                	
-                		$selected = $_GET[$data_name];
-                	}
-                	
-					$ppom_field_setting = array(  
-								  'id'        => $data_name,
-					              'type'      => 'radio',
-					              'name'      => "ppom[fields][{$data_name}]",
-					              //'classes'   => $classes, // apply default class: form-check-input
-                                  'label'     => $field_label,
-                                  'title'		=> $title,
-                                  'attributes'=> $ppom_field_attributes,
-					              'options'   => $options,
-					              'onetime'		=> $onetime,
-					              'taxable'		=> $taxable,
-					              );
-					
-					$ppom_field_setting = apply_filters('ppom_field_setting', $ppom_field_setting, $meta);
-					echo NMForm() -> Input($ppom_field_setting, $selected);
+					echo NMForm() -> Input($ppom_field_setting, $default_value);
 					break;
 					
 				case 'palettes':
@@ -360,12 +377,6 @@ foreach( $ppom_fields_meta as $meta ) {
     				$onetime = isset($meta['onetime']) ? $meta['onetime'] : '';
                 	$taxable		= (isset( $meta['onetime_taxable'] ) ? $meta['onetime_taxable'] : '' );
                 	$display_circle	= (isset($meta['circle']) && $meta['circle'] == 'on') ? true : false;
-                	$selected = isset($meta['selected']) ? $meta['selected'] : '';
-					
-					if( !empty($_GET[$data_name]) ) {
-                	
-                		$selected = $_GET[$data_name];
-                	}
                 	
 					$ppom_field_setting = array(  
                     				'id'        => $data_name,
@@ -384,19 +395,13 @@ foreach( $ppom_fields_meta as $meta ) {
                                     );
                     
                     $ppom_field_setting = apply_filters('ppom_field_setting', $ppom_field_setting, $meta);
-                    echo NMForm() -> Input($ppom_field_setting, $selected);
+                    echo NMForm() -> Input($ppom_field_setting, $default_value);
                 	break;
                 	
             	case 'image':
 					
 					$images	= isset($meta['images']) ? $meta['images'] : array();
 					$show_popup	= isset($meta['show_popup']) ? $meta['show_popup'] : '';
-					$selected = isset($meta['selected']) ? $meta['selected'] : '';
-					
-					if( !empty($_GET[$data_name]) ) {
-                	
-                		$selected = $_GET[$data_name];
-                	}
 					
 					$ppom_field_setting = array(  
                     				'id'        => $data_name,
@@ -412,7 +417,7 @@ foreach( $ppom_fields_meta as $meta ) {
                                     );
                     
                     $ppom_field_setting = apply_filters('ppom_field_setting', $ppom_field_setting, $meta);
-                    echo NMForm() -> Input($ppom_field_setting, $selected);
+                    echo NMForm() -> Input($ppom_field_setting, $default_value);
                 	break;
                 	
                 	case 'pricematrix':

@@ -11,11 +11,12 @@
 		
 		class WVS_Settings_API {
 			
-			private $setting_name       = 'woo_variation_swatches';
-			private $theme_feature_name = 'woo-variation-swatches';
+			private $setting_name           = 'woo_variation_swatches';
+			private $transient_setting_name = '_temp_woo_variation_swatches_options';
+			private $theme_feature_name     = 'woo-variation-swatches';
 			private $slug;
 			private $plugin_class;
-			private $defaults           = array();
+			private $defaults               = array();
 			
 			private $fields = array();
 			
@@ -35,7 +36,9 @@
 				
 				add_action( 'admin_init', array( $this, 'settings_init' ), 90 );
 				
-				add_action( 'pre_update_option', array( $this, 'before_update' ), 10, 3 );
+				// add_action( 'pre_update_option', array( $this, 'before_update' ), 10, 3 );
+				
+				add_action( "pre_update_option_{$this->settings_name}", array( $this, 'before_update' ), 10, 3 );
 				
 				add_filter( 'plugin_action_links_' . $this->plugin_class->basename(), array( $this, 'plugin_action_links' ) );
 				
@@ -53,9 +56,11 @@
 			}
 			
 			public function before_update( $value, $option, $old_value ) {
-				if ( $this->settings_name === $option ) {
-					// Here We will do magic :D
-				}
+				//if ( $this->settings_name === $option ) {
+				// Here We will do magic :D
+				// delete_transient( $this->transient_setting_name );
+				
+				//}
 				
 				return $value;
 			}
@@ -175,8 +180,10 @@
 			public function get_option( $option ) {
 				$default = $this->get_default( $option );
 				// $all_defaults = wp_list_pluck( $this->get_defaults(), 'value' );
+				
 				$options = get_option( $this->settings_name );
-				$is_new  = ( ! is_array( $options ) && is_bool( $options ) );
+				
+				$is_new = ( ! is_array( $options ) && is_bool( $options ) );
 				
 				// Theme Support
 				if ( current_theme_supports( $this->theme_feature_name ) ) {

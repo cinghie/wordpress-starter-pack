@@ -72,7 +72,7 @@ class WooSEA_google_shopping {
 					"name" => "Price",
 					"feed_name" => "g:price",
 					"format" => "required",
-					"woo_suggest" => "price",
+					"woo_suggest" => "regular_price",
 				),
 				"Sale price" => array(
 					"name" => "sale_price",

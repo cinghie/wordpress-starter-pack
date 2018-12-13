@@ -94,9 +94,11 @@ AND meta.meta_key NOT LIKE 'pyre%' AND meta.meta_key NOT LIKE 'sbg_%' AND meta.m
       				if (count($data)) {
      					foreach ($data as $key => $value) {
 						$product_attr = unserialize($value->type);
-						foreach ($product_attr as $key => $arr_value) {
-							$value_display = str_replace("_", " ",$arr_value['name']);
-               	     					$list["custom_attributes_" . $key] = ucfirst($value_display);
+						if(!empty($product_attr)){
+							foreach ($product_attr as $key => $arr_value) {
+								$value_display = str_replace("_", " ",$arr_value['name']);
+               	     						$list["custom_attributes_" . $key] = ucfirst($value_display);
+							}
 						}
 					}
 				}
@@ -209,13 +211,16 @@ public function get_mapping_attributes_dropdown() {
             		"quantity" => "Quantity [Stock]",
 			"product_type" => "Product Type",
 			"content_type" => "Content Type",
+                        "exclude_from_catalog" => "Excluded from catalog",
+                        "exclude_from_search" => "Excluded from search",
+                        "exclude_from_all" => "Excluded from all (hidden)",
 			"publication_date" => "Publication date",
 			"item_group_id" => "Item group ID",
 			"weight" => "Weight",
             		"width" => "Width",
             		"height" => "Height",
             		"length" => "Length",
-			"shipping" => "Shipping price",
+			"shipping" => "Shipping",
             		"visibility" => "Visibility",
             		"rating_total" => "Total rating",
             		"rating_average" => "Average rating",
@@ -325,6 +330,9 @@ public function get_mapping_attributes_dropdown() {
 			"feature_image" => "Feature image",
                         "product_type" => "Product Type",
                         "content_type" => "Content Type",
+			"exclude_from_catalog" => "Excluded from catalog",
+                        "exclude_from_search" => "Excluded from search",
+                        "exclude_from_all" => "Excluded from all (hidden)",
 			"publication_date" => "Publication date",
 			"currency" => "Currency",
     			"categories" => "Category",
@@ -352,7 +360,7 @@ public function get_mapping_attributes_dropdown() {
                         "width" => "Width",
                         "height" => "Height",
                         "length" => "Length",
-                        "shipping" => "Shipping price",
+                        "shipping" => "Shipping",
 			"visibility" => "Visibility",
                         "rating_total" => "Total rating",
                         "rating_average" => "Average rating",

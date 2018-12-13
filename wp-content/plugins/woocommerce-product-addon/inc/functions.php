@@ -996,8 +996,9 @@ function ppom_get_field_option_price( $field_meta, $option_label ) {
 }
 
 // Getting field option price by ID
-function ppom_get_field_option_price_by_id( $data_name, $option, $product) {
+function ppom_get_field_option_price_by_id( $option, $product ) {
 	
+	$data_name = isset($option['data_name']) ? $option['data_name'] : '';
 	$option_id = isset($option['option_id']) ? $option['option_id'] : '';
 	
 	$field_meta = ppom_get_field_meta_by_dataname( ppom_get_product_id($product), $data_name );
@@ -1023,8 +1024,11 @@ function ppom_get_field_option_price_by_id( $data_name, $option, $product) {
 	return apply_filters("ppom_field_option_price_by_id", wc_format_decimal($option_price), $field_meta, $option_id, $product);
 }
 
-// Getting field option title by ID
-function ppom_get_field_option_title_by_id( $data_name, $option_id, $product_id) {
+// Getting field option weight by ID
+function ppom_get_field_option_weight_by_id( $option, $product_id ) {
+	
+	$data_name = isset($option['data_name']) ? $option['data_name'] : '';
+	$option_id = isset($option['option_id']) ? $option['option_id'] : '';
 	
 	$field_meta = ppom_get_field_meta_by_dataname( $product_id, $data_name );
 	
@@ -1032,16 +1036,16 @@ function ppom_get_field_option_title_by_id( $data_name, $option_id, $product_id)
 	
 	if( ! isset( $field_meta['options']) || $field_meta['type'] == 'bulkquantity' || $field_meta['type'] == 'cropper' ) return 0;
 	
-	$option_price = 0;
+	$option_weight = 0;
 	foreach( $field_meta['options'] as $option ) {
 		
-		if( $option['id'] == $option_id && isset($option['label']) && $option['label'] != '' ) {
+		if( $option['id'] == $option_id && isset($option['weight']) && $option['weight'] != '' ) {
 			
-			$option_label = $option['label'];
+			$option_weight = $option['weight'];
 		}
 	}
 	
-	return apply_filters("ppom_field_option_label_by_id", wc_format_decimal($option_label), $field_meta, $option_id, $product_id);
+	return apply_filters("ppom_field_option_weight_by_id", wc_format_decimal($option_weight), $field_meta, $option_id, $product_id);
 }
 
 // check if PPOM PRO is installed

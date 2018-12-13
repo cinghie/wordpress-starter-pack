@@ -4,7 +4,7 @@
  * WP Product Feed Support Class.
  *
  * @package WP Product Feed Manager/Application/Classes
- * @version 1.1.1
+ * @version 1.1.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -52,8 +52,13 @@ if ( ! class_exists( 'WPPFM_Feed_Support_Class' ) ) :
 		public function check_query_result_on_specific_row( $query_split, $product_data ) {
 			$queries_class = new WPPFM_Feed_Queries_Class;
 			$current_data = key_exists( $query_split[ 1 ], $product_data) ? $product_data[$query_split[ 1 ]] : '';
+			
+			// the following attributes can or will contain an array so surpress the type warning for these attributes
+			$suppress_type_warning_attributes = apply_filters( 'wppfm_suppress_type_warning_attributes', array(
+				'_wp_attachement_metadata'
+			) );
 
-			if ( is_array( $current_data) ) { // A user had this once where he had an attribute that only showed "Array()"  as value
+			if ( is_array( $current_data ) && ! in_array( $query_split[ 1 ], $suppress_type_warning_attributes ) ) { // A user had this once where he had an attribute that only showed "Array()"  as value
 				$product_id = key_exists( 'ID', $product_data ) ? $product_data[ 'ID' ] : 'unknown';
 				$product_title = key_exists( 'post_title', $product_data ) ? $product_data[ 'post_title' ] : 'unknown';
 

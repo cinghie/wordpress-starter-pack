@@ -144,8 +144,7 @@ function ppom_update_option_prices() {
         var option_label_with_qty = option.label+' x ' + ppom_get_order_quantity();
         
         var matrix_price    = parseFloat(option.price) *  ppom_get_order_quantity();
-        var formatted_option_price  = ppom_get_wc_price( matrix_price );
-        ppom_add_price_item_in_table( option_label_with_qty, formatted_option_price);
+        ppom_add_price_item_in_table( option_label_with_qty, matrix_price, 'ppom-matrix-price');
         
         // Totals the options
         // ppom_option_total += parseFloat(matrix_price);
@@ -179,8 +178,7 @@ function ppom_update_option_prices() {
         var price_tag = ppom_get_wc_price(option.price);
         var option_label_with_qty = option.label+' - '+jQuery(price_tag).html()+' x '+option.quantity;
         
-        var formatted_option_price  = ppom_get_wc_price( option_price_with_qty );
-        ppom_add_price_item_in_table( option_label_with_qty, formatted_option_price);
+        ppom_add_price_item_in_table( option_label_with_qty, option_price_with_qty, 'ppom-quantities-price');
         
         
     });
@@ -199,14 +197,12 @@ function ppom_update_option_prices() {
         var option_label_with_qty = option.label+' - '+ppom_get_formatted_price(option.price)+' x '+option.quantity;
         
         var option_price_with_qty   = parseFloat(option.quantity) * parseFloat(option.price);
-        var formatted_option_price  = ppom_get_wc_price( option_price_with_qty );
-        ppom_add_price_item_in_table( option_label_with_qty, formatted_option_price);
+        ppom_add_price_item_in_table( option_label_with_qty, option_price_with_qty, 'ppom-bulkquantity-price');
         ppom_option_total += option_price_with_qty;
         
         // Base price
         var base_label  = ppom_input_vars.product_base_label;
-        var base_price  =  ppom_get_wc_price(option.base);
-        ppom_add_price_item_in_table( base_label, base_price);
+        ppom_add_price_item_in_table( base_label, option.base, 'ppom-bulkquantity-baseprice');
         ppom_option_total += parseFloat(option.base);
         
     });
@@ -228,8 +224,7 @@ function ppom_update_option_prices() {
         var price_tag = ppom_get_wc_price(option.price);
         var option_label_with_qty = option.label+' - '+jQuery(price_tag).html()+' x '+ppom_get_order_quantity();
         
-        var formatted_option_price  = ppom_get_wc_price( option_price_with_qty );
-        ppom_add_price_item_in_table( option_label_with_qty, formatted_option_price);
+        ppom_add_price_item_in_table( option_label_with_qty, option_price_with_qty, 'ppom-variable-price');
         
     });
     /** ====== Options price variable =========== ***/
@@ -246,8 +241,7 @@ function ppom_update_option_prices() {
         if( option.apply !== 'onetime') return;
         var option_label_with_qty = option.label
         
-        var formatted_option_price  = ppom_get_wc_price( option.price );
-        ppom_add_price_item_in_table( option_label_with_qty, formatted_option_price);
+        ppom_add_price_item_in_table( option_label_with_qty, option.price, 'ppom-fixed-price');
         
         // Totals the options
         ppom_option_total += parseFloat(option.price);
@@ -258,8 +252,7 @@ function ppom_update_option_prices() {
     
     /** ====== Options total price =========== ***/
     if( ppom_has_variable ) {
-        var option_total_price        = ppom_get_wc_price(ppom_option_total);
-        ppom_add_price_item_in_table( ppom_input_vars.option_total_label, option_total_price, 'ppom-option-total');
+        ppom_add_price_item_in_table( ppom_input_vars.option_total_label, ppom_option_total, 'ppom-option-total-price');
     }
     /** ====== Options total price =========== ***/
     
@@ -273,6 +266,12 @@ function ppom_update_option_prices() {
     });
     
     
+    /** ====== Hide Product total price is zero ===== **/
+    
+        if( ppom_product_base_price == 0 ){
+            ppom_show_base_price = false;
+        }
+    /** ====== Hide Product total price is zero ===== **/
     
     
     /** ====== Product base price =========== ***/
@@ -282,7 +281,7 @@ function ppom_update_option_prices() {
         var price_tag = ppom_get_wc_price(ppom_product_base_price);
         var product_base_label  = ppom_input_vars.product_base_label+' - '+jQuery(price_tag).html()+' x '+ppom_get_order_quantity();
         productBasePrice        = ppom_get_order_quantity() * parseFloat(ppom_product_base_price);
-        ppom_add_price_item_in_table( product_base_label, ppom_get_wc_price(productBasePrice), 'ppom-product-base');
+        ppom_add_price_item_in_table( product_base_label, productBasePrice, 'ppom-product-base-price');
     }
     /** ====== Product base price =========== ***/
     
@@ -320,9 +319,7 @@ function ppom_update_option_prices() {
             ppom_total_discount        += option.price;
         }
         
-        
-        var formatted_option_price  = ppom_get_wc_price( ppom_total_discount, true );
-        ppom_add_price_item_in_table( option_label_with_qty, formatted_option_price);
+        ppom_add_price_item_in_table( option_label_with_qty, ppom_total_discount, 'ppom-discount-price');
         
         // Totals the options
         // ppom_option_total += parseFloat(option.price);
@@ -379,21 +376,19 @@ function ppom_update_option_prices() {
         ppom_total_price = ppom_total_price * parseFloat(ppom_measure_found);
     }
     
-    
     var per_unit_price          = ppom_get_formatted_price(parseFloat(ppom_total_price / ppom_get_order_quantity()));
-    var per_unit_label          = ' ('+ppom_get_wc_price(per_unit_price).html()+' / '+ppom_input_vars.per_unit_label+')';
+    var per_unit_label          = '';
     
     if ( show_per_unit_price && ppom_get_order_quantity() > 0 ) {
-        ppom_total_price            = ppom_get_wc_price(ppom_total_price).html()+ per_unit_label;
-    } else {
-        ppom_total_price            = ppom_get_wc_price(ppom_total_price);
+        per_unit_label          = ' ('+ppom_get_wc_price(per_unit_price).html()+' / '+ppom_input_vars.per_unit_label+')';
     }
     
     
     /** ====== Measures ===================**/
     
-    ppom_add_price_item_in_table( total_price_label, ppom_total_price, 'ppom-total-without-fixed');
+    ppom_add_price_item_in_table( total_price_label, ppom_total_price, 'ppom-total-without-fixed', per_unit_label);
     /** ====== Total without fixed/onetime fee =========== ***/
+    
 }
 
 
@@ -404,8 +399,23 @@ function ppom_calculate_totals(ppom_total_discount, productBasePrice, ppom_optio
 }
 
 // Adding TDs item in price container
-function ppom_add_price_item_in_table( label, price, item_class) {
+function ppom_add_price_item_in_table( label, price, item_class, append_to_price) {
     
+    var formatted_price = '';
+    
+    if(price == 0) return;
+    
+    if( price !== '' ) {
+        if( item_class === 'ppom-discount-price' ) {
+            formatted_price     = ppom_get_wc_price(price, true);
+        } else {
+            formatted_price     = ppom_get_wc_price(price);
+        }
+    }
+    
+    if( append_to_price !== undefined ) {
+        formatted_price = formatted_price.html() + append_to_price;
+    }
     
     ppomPriceListContainerRow = jQuery('<tr/>')
                                 .addClass('ppom-option-price-list')
@@ -424,11 +434,22 @@ function ppom_add_price_item_in_table( label, price, item_class) {
                                 .addClass('ppom-label-item')
                                 .appendTo( ppomPriceListContainerRow );
                                 
-    // Price Item
-    var totalWithoutFixedLabel  = jQuery('<th/>')
-                                .html( price )
-                                .addClass('ppom-price-item')
-                                .appendTo( ppomPriceListContainerRow );
+    if( price === '' ) {
+        totalWithoutFixedLabel.attr('colspan', '2');
+    } else {
+                                
+        // Price Item
+        var totalWithoutFixedLabel  = jQuery('<th/>')
+                                    .html( formatted_price )
+                                    .addClass('ppom-price-item')
+                                    .appendTo( ppomPriceListContainerRow );
+    }
+                                
+    jQuery.event.trigger({type: "ppom_option_price_added",
+            price: price,
+            item: item_class,
+            time: new Date()
+            });
 }
 
 // Adding Li item in price container

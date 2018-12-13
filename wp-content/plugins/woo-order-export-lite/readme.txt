@@ -2,10 +2,10 @@
 Contributors: algolplus
 Donate link: https://algolplus.com/plugins/
 Tags: woocommerce,export,order,xls,csv,xml,woo export lite,export orders,orders export,csv export,xml export,xls export,tsv
-Requires PHP: 5.3.0
+Requires PHP: 5.4.0
 Requires at least: 4.7
-Tested up to: 4.9
-Stable tag: 2.0.0
+Tested up to: 5.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,9 +103,17 @@ Yes, you can email a request to aprokaev@gmail.com. We intensively develop this 
 
 == Changelog ==
 
+= 2.0.1 - 2018-11-14 =
+* Fixed bug - "total weight" and "count of unique products" were empty
+* Fixed bug - message "wrong Select2 loaded"
+* Fixed bug - UI issues after switching formats (CSV-XML-CSV)
+* Shows some instructions if user gets popup with empty error message
+* Shows warning if XML can not be built (PHP extension is not installed)
+
 = 2.0.0 - 2018-10-24 =
 * It's a **major update**. Backup settings (tab "Tools") before upgrading
 * New section "Set up fields to export"  - simplify UI, format fields, allow duplicates
+* Compatible with Woocommerce 3.5
 
 = 1.5.6 - 2018-08-30 =
 * Added filter by user custom fields

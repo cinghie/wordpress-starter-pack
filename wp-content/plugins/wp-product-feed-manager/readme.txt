@@ -3,9 +3,9 @@
 Contributors: Wpmarketingrobot, Michel Jongbloed, AukeJomm
 Tags: Google Merchant Export, Product feed, woocommerce, Google product feed export, google, shopping, Google Adwords, Google Merchant, wooCommerce export, woocommerce variations, e-commerce, google merchant product feed, product variations, variations export, wp-e-commerce export, wp marketing robot
 Requires at least: 4.6
-Tested up to: 4.9
+Tested up to: 5.0
 Requires PHP: 5.6
-Stable tag: 1.12.0
+Stable tag: 1.12.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,12 @@ In case it does please do submit your feed in your Google Merchant center and ch
 3. Save and generate your feed
 
 == Changelog ==
+= 1.12.1 - 30/11/2018 =
+* Fixed an issue where error loggings would not write correctly to the logging file
+* Fixed an issue where the plugin would log a type error when using the Image Galery source in a filter setting
+* Added a default setting (empty array) to the feed queue when first called
+* Restored the wppfm_feed_item_value filter
+
 = 1.12.0 - 03/11/2018 =
 * Changed the way the xml header is send to the background process to prevent the Wordfence plugin from seeing it as a XSS vulnerability
 * Added a notification option so users get an email if an automatic feed update failed

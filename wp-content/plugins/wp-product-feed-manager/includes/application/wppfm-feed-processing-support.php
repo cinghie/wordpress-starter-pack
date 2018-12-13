@@ -190,7 +190,7 @@ trait WPPFM_Processing_Support {
 	 * @param string $combined_string
 	 * @return array
 	 */
-	protected function get_combined_sources_from_combined_string( $combined_string ) {
+	public function get_combined_sources_from_combined_string( $combined_string ) {
 		$result					 = array();
 		$combined_string_array	 = explode( '|', $combined_string );
 
@@ -1315,7 +1315,7 @@ trait WPPFM_Processing_Support {
 			if ( $images > $max_nr_images ) { break; }
 		}
 
-		return $image_urls;
+		return ! empty( $image_urls ) ? $image_urls : '';
 	}
 
 	protected function get_product_tags( $id ) {

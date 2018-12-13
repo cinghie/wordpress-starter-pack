@@ -388,7 +388,6 @@ class NM_Form {
         $onetime    = $args['onetime'];
         $taxable	= $args['taxable'];
         
-        
         // Options
         $options    = $this -> get_attribute_value('options', $args);
         
@@ -426,6 +425,7 @@ class NM_Form {
             $option_id      = isset($value['option_id']) ? $value['option_id'] : '';
             $raw_label      = $value['raw'];
             $without_tax    = $value['without_tax'];
+            $opt_percent    = isset($value['percent']) ? $value['percent']: '';
             
             if( is_array($selected_value) ){
             
@@ -441,6 +441,7 @@ class NM_Form {
                 $html   .= 'value="'.esc_attr($key).'" ';
                 $html   .= 'data-price="'.esc_attr($option_price).'" ';
                 $html   .= 'data-optionid="'.esc_attr($option_id).'" ';
+                $html   .= 'data-percent="'.esc_attr($opt_percent).'"';
                 $html   .= 'data-label="'.esc_attr($raw_label).'"';
                 $html   .= 'data-title="'.esc_attr($title).'"'; // Input main label/title
                 $html   .= 'data-onetime="'.esc_attr($onetime).'"';
@@ -730,7 +731,7 @@ class NM_Form {
         }
         
         $html .= '<div class="ppom-palettes ppom-palettes-'.esc_attr($id).'">';
-		foreach($options as $key => $value)
+     	foreach($options as $key => $value)
 		{
 			// First Separate color code and label
 			$color_label_arr = explode('-', $key);
@@ -740,14 +741,15 @@ class NM_Form {
 				$color_label = trim($color_label_arr[1]);
 			}
 			
-			$option_label = $value['label'];
-        	$option_price = $value['price'];
+			$option_label   = $value['label'];
+        	$option_price   = $value['price'];
         	$raw_label      = $value['raw'];
         	$without_tax    = $value['without_tax'];
 
-			$option_id = sanitize_key($id."-".$option_label);
+			$option_id      = $value['option_id'];
 			
 			$checked_option = '';
+
 			if( ! empty($default_value) ){
         
                 $checked_option = checked( $default_value, $key, false );
@@ -761,7 +763,7 @@ class NM_Form {
 				$html   .= 'data-title="'.esc_attr($title).'"'; // Input main label/title
 				$html .= 'type="radio" ';
 				$html .= 'name="'.esc_attr($name).'" ';
-				$html .= 'value="'.esc_attr($color_code).'" ';
+				$html .= 'value="'.esc_attr($raw_label).'" ';
 				$html .= 'data-onetime="'.esc_attr($onetime).'"';
                 $html .= 'data-taxable="'.esc_attr($taxable).'"';
                 $html .= 'data-without_tax="'.esc_attr($without_tax).'"';
@@ -916,6 +918,7 @@ class NM_Form {
 					$image_title_price = $image_title . ' ' . ($image_price > 0 ? '(+'.wc_price($image_price).')' : '');
 					
 					$checked_option = '';
+					
 					
 					if( ! empty($default_value) ){
 					    

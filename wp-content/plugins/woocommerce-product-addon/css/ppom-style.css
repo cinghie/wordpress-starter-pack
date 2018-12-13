@@ -3,6 +3,7 @@
 .ppom-wrapper{
     padding: 0 !important;
     clear:both;
+    margin-bottom:15px;
 }
 
 .ppom-wrapper span.show_description{

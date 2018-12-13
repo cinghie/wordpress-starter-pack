@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: WooCommerce Product Feed Manager\n"
-"POT-Creation-Date: 2018-11-03 12:50+0100\n"
+"POT-Creation-Date: 2018-11-19 19:27+0100\n"
 "PO-Revision-Date: 2018-08-20 20:39+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -183,23 +183,14 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#. translators: %s: link to the support page
-#: includes/libraries/wppfm-async-request.php:124
-#, php-format
-msgid ""
-"2166 - Failed to make a wp_remote_post connection. Please open the Settings "
-"page, click the Clear feed process button and try again. If the issue "
-"persists, open a support ticket at %s."
-msgstr ""
-
-#: includes/libraries/wppfm-background-process.php:547
+#: includes/libraries/wppfm-background-process.php:542
 #, php-format
 msgid "Every %d minute"
 msgid_plural "Every %d minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/libraries/wppfm-background-process.php:586
+#: includes/libraries/wppfm-background-process.php:581
 msgid ""
 "Could not schedule the cron event required to start the feed process. Please "
 "check if your wp cron is configured correctly and is running."
@@ -1184,12 +1175,6 @@ msgstr ""
 
 #: wp-product-feed-manager.php:74
 msgid "Unserializing instances of this class is not allowed"
-msgstr ""
-
-#. translators: %s: Plugin name
-#: wp-product-feed-manager.php:232
-#, php-format
-msgid "You have insufficient rights to use %s"
 msgstr ""
 
 #. Plugin Name of the plugin/theme

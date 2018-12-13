@@ -24,7 +24,7 @@ class WC_Order_Export_Admin {
 			// load scripts on our pages only
 			if ( isset( $_GET['page'] ) && $_GET['page'] == 'wc-order-export' ) {
 				add_action( 'admin_enqueue_scripts', array( $this, 'thematic_enqueue_scripts' ) );
-				add_filter( 'script_loader_src', array( $this, 'script_loader_src' ), 10, 2 );
+				add_filter( 'script_loader_src', array( $this, 'script_loader_src' ), 999, 2 );
 			}
 			add_action( 'wp_ajax_order_exporter', array( $this, 'ajax_gate' ) );
 
@@ -134,7 +134,7 @@ class WC_Order_Export_Admin {
 					'woo-order-export-lite' ); ?></p>
         </div>
 		<?php
-		update_option( $this->activation_notice_option, true, false);
+		update_option( $this->activation_notice_option, true, false );
 	}
 
 	public function add_action_links( $links ) {
@@ -570,34 +570,34 @@ class WC_Order_Export_Admin {
 				WOE_VERSION );
 
 			$localize_settings_form = array(
-                            'add_fields_to_export' => __('Add %s fields', 'woo-order-export-lite'),
-                            'repeats' => array(
-	                            'rows'                    => __( 'rows', 'woo-order-export-lite' ),
-	                            'columns'                 => __( 'columns', 'woo-order-export-lite' ),
-	                            'inside_one_cell'         => __( 'one row', 'woo-order-export-lite' ),
-                            ),
-                            'js_tpl_popup'         => array(
-	                            'add'                      => __( 'Add', 'woo-order-export-lite' ),
-	                            'as'                       => __( 'as', 'woo-order-export-lite' ),
-	                            'split_values_by'          => __( 'Split values by', 'woo-order-export-lite' ),
-	                            'fill_order_columns_label' => __( 'Fill order columns for', 'woo-order-export-lite' ),
-	                            'for_all_rows_label'       => __( 'all rows', 'woo-order-export-lite' ),
-	                            'for_first_row_only_label' => __( '1st row only', 'woo-order-export-lite' ),
-	                            'grouping_by'              => array(
-		                            'products' => __( 'Grouping by product', 'woo-order-export-lite' ),
-		                            'coupons'  => __( 'Grouping by coupon', 'woo-order-export-lite' ),
-	                            ),
-                            ),
-                            'index'                => array(
-                            'product_pop_up_title' => __('Set up product fields', 'woo-order-export-lite'),
-                            'coupon_pop_up_title'  => __('Set up coupon fields', 'woo-order-export-lite'),
-                            'products'             => __('products', 'woo-order-export-lite'),
-                            'coupons'              => __('coupons', 'woo-order-export-lite'),
-                        ),
-                            'remove_all_fields_confirm' => __('Remove all fields?', 'woo-order-export-lite'),
+				'add_fields_to_export'      => __( 'Add %s fields', 'woo-order-export-lite' ),
+				'repeats'                   => array(
+					'rows'            => __( 'rows', 'woo-order-export-lite' ),
+					'columns'         => __( 'columns', 'woo-order-export-lite' ),
+					'inside_one_cell' => __( 'one row', 'woo-order-export-lite' ),
+				),
+				'js_tpl_popup'              => array(
+					'add'                      => __( 'Add', 'woo-order-export-lite' ),
+					'as'                       => __( 'as', 'woo-order-export-lite' ),
+					'split_values_by'          => __( 'Split values by', 'woo-order-export-lite' ),
+					'fill_order_columns_label' => __( 'Fill order columns for', 'woo-order-export-lite' ),
+					'for_all_rows_label'       => __( 'all rows', 'woo-order-export-lite' ),
+					'for_first_row_only_label' => __( '1st row only', 'woo-order-export-lite' ),
+					'grouping_by'              => array(
+						'products' => __( 'Grouping by product', 'woo-order-export-lite' ),
+						'coupons'  => __( 'Grouping by coupon', 'woo-order-export-lite' ),
+					),
+				),
+				'index'                     => array(
+					'product_pop_up_title' => __( 'Set up product fields', 'woo-order-export-lite' ),
+					'coupon_pop_up_title'  => __( 'Set up coupon fields', 'woo-order-export-lite' ),
+					'products'             => __( 'products', 'woo-order-export-lite' ),
+					'coupons'              => __( 'coupons', 'woo-order-export-lite' ),
+				),
+				'remove_all_fields_confirm' => __( 'Remove all fields?', 'woo-order-export-lite' ),
 
 			);
-                        wp_localize_script( 'settings-form', 'localize_settings_form', $localize_settings_form );
+			wp_localize_script( 'settings-form', 'localize_settings_form', $localize_settings_form );
 
 
 			$settings_form = array(
@@ -651,9 +651,9 @@ class WC_Order_Export_Admin {
 		wp_localize_script( 'export', 'export_messages', $translation_array );
 
 		$script_data = array(
-            'locale'=> get_locale(),
-            'select2_locale'=> $this->get_select2_locale(),
-        );
+			'locale'         => get_locale(),
+			'select2_locale' => $this->get_select2_locale(),
+		);
 
 		wp_localize_script( 'export', 'script_data', $script_data );
 	}
@@ -672,19 +672,19 @@ class WC_Order_Export_Admin {
 		);
 
 		return isset( $select2_locales[ $locale ] ) ? $select2_locales[ $locale ] : 'en';
-    }
+	}
 
 	private function enqueue_select2_scripts() {
 		wp_enqueue_script( 'select22', $this->url_plugin . 'assets/js/select2/select2.full.js',
-			array( 'jquery' ) );
+			array( 'jquery' ), '4.0.3' );
 
 
 		if ( $select2_locale = $this->get_select2_locale() ) {
-		    // enable by default
-		    if ( $select2_locale !== 'en' ) {
-			    wp_enqueue_script( "select22-i18n-{$select2_locale}",
-				    $this->url_plugin . "assets/js/select2/i18n/{$select2_locale}.js", array( 'jquery', 'select22' ) );
-            }
+			// enable by default
+			if ( $select2_locale !== 'en' ) {
+				wp_enqueue_script( "select22-i18n-{$select2_locale}",
+					$this->url_plugin . "assets/js/select2/i18n/{$select2_locale}.js", array( 'jquery', 'select22' ) );
+			}
 		}
 
 		wp_enqueue_style( 'select2-css', $this->url_plugin . 'assets/css/select2/select2.min.css',
@@ -699,6 +699,8 @@ class WC_Order_Export_Admin {
 		) {
 			return $src;
 		}
+		
+		return "";
 	}
 
 	public function render( $view, $params = array(), $path_views = null ) {

@@ -73,7 +73,6 @@ if ( ! class_exists( 'WPPFM_Admin_Page' ) ) :
 			<button type="button" id="disposible-notice-button" class="notice-dismiss"></button>
 			</div>';
 		}
-
 	}
 
 	

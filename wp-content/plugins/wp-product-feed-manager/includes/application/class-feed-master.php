@@ -421,16 +421,16 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 
 			return array_merge( $result ); // and resort the result before returning
 		}
-
+		
 		/**
 		 * returns all active column names that are stored in the feed attributes
 		 * 
 		 * @param array $attribute
 		 * @return array
 		 */
-		private function get_db_column_name_from_attribute( $attribute ) {
+		public function get_db_column_name_from_attribute( $attribute ) {
 			$column_names = array();
-
+			
 			if ( property_exists( $attribute, 'isActive' ) && $attribute->isActive ) { // only select the active attributes
 				// source columns
 				if ( ! empty( $attribute->value ) ) {

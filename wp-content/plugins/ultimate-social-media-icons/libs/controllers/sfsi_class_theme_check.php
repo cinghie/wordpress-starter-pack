@@ -41,20 +41,24 @@ class sfsi_ThemeCheck
 			    
 			    for($i=0;$i<count($finalArr);$i++) {
 			              
-			            if(is_array($finalArr[$i])){
+			            if( is_array($finalArr[$i]) 
 
-			                $arrVal = $finalArr[$i];
+			            	// Theme name should be non-empty
+			            	&& isset($finalArr[$i][0]) && !empty($finalArr[$i][0])
+			            ){
 
-			                    $themeArr 					   = array();
-			                    $themeArr['themeName']         = preg_replace('/^[,\s]+|[\s,]+$/', '', trim($arrVal[0]));
-			                    $themeArr['noBrainerKeywords'] = $this->sfsi_plus_string_to_arr(preg_replace('/^[,\s]+|[\s,]+$/', '', trim($arrVal[1])));
-			                    $themeArr['separateKeywords']  = $this->sfsi_plus_string_to_arr(preg_replace('/^[,\s]+|[\s,]+$/', '', trim($arrVal[2])));
-			                    $themeArr['negativeKeywords']  = $this->sfsi_plus_string_to_arr(preg_replace('/^[,\s]+|[\s,]+$/', '', trim($arrVal[3])));
-			                    $themeArr['headline']          = (isset($arrVal[4]) && strlen(trim($arrVal[4]))==0)? "You like ".trim($arrVal[0])." ?" : trim($arrVal[4]);
-			                    $themeArr['themeLink']         = trim($arrVal[5]);
-			                    $themeArr['bottomtext']        = (isset($arrVal[6]) && strlen(trim($arrVal[6]))==0)? "See all ".strtolower(trim($arrVal[0]))."-themed-icons": trim($arrVal[6]);                   
+		                	$arrVal = $finalArr[$i];
 
-			                    array_push($themeDataArr, (object)$themeArr);
+		                    $themeArr 					   = array();
+		                    $themeArr['themeName']         = preg_replace('/^[,\s]+|[\s,]+$/', '', trim($arrVal[0]));
+		                    $themeArr['noBrainerKeywords'] = $this->sfsi_plus_string_to_arr(preg_replace('/^[,\s]+|[\s,]+$/', '', trim($arrVal[1])));
+		                    $themeArr['separateKeywords']  = $this->sfsi_plus_string_to_arr(preg_replace('/^[,\s]+|[\s,]+$/', '', trim($arrVal[2])));
+		                    $themeArr['negativeKeywords']  = $this->sfsi_plus_string_to_arr(preg_replace('/^[,\s]+|[\s,]+$/', '', trim($arrVal[3])));
+		                    $themeArr['headline']          = (isset($arrVal[4]) && strlen(trim($arrVal[4]))==0)? "You like ".trim($arrVal[0])." ?" : trim($arrVal[4]);
+		                    $themeArr['themeLink']         = trim($arrVal[5]);
+		                    $themeArr['bottomtext']        = (isset($arrVal[6]) && strlen(trim($arrVal[6]))==0)? "See all ".strtolower(trim($arrVal[0]))."-themed-icons": trim($arrVal[6]);                   
+
+		                    array_push($themeDataArr, (object)$themeArr);
 			            } 
 			    }
 		    }	    	

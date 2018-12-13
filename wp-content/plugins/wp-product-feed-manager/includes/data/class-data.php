@@ -189,7 +189,7 @@ if ( ! class_exists( 'WPPFM_Data_Class' ) ) :
 			$main_data = $this->convert_data_to_feed_data( $main_feed_data[ 0 ] );
 			$main_data->attributes = array();
 			
-			$channel = $this->_queries->get_channel_short_name_from_db( $main_feed_data[ 0 ][ 'channel' ] );
+			$channel = trim( $this->_queries->get_channel_short_name_from_db( $main_feed_data[ 0 ][ 'channel' ] ) );
 			$is_custom = function_exists( 'channel_is_custom_channel' ) ? channel_is_custom_channel( $channel ) : false;
 
 			// read the output fields
@@ -275,24 +275,8 @@ if ( ! class_exists( 'WPPFM_Data_Class' ) ) :
 		}
 
 		// WPPFM_CHANNEL_RELATED
-		private function get_advised_inputs( $channel ) {
-			if( ! $channel ) { 
-				wppfm_write_log_file( 'Error 3821 - Could not identify the selected channel id' );
-				return false;
-			}
-			
-			$channel_base_class	 = new WPPFM_Channel();
-			$channel_short_name	 = $channel_base_class->get_channel_short_name( $channel );
-			
-			$class_name	 = 'WPPFM_' . ucfirst( $channel_short_name ) . '_Feed_Class';
-
-			// make sure the class is registered correctly
-			if( ! class_exists( $class_name ) ) {
-				include_channels();
-			}
-
-			$feed_class	 = new $class_name();
-
+		private function get_advised_inputs( $channel_id ) {
+			$feed_class = new WPPFM_Google_Feed_Class();
 			// as long as only woocommerce is supported, I can get away with only switching on a specific channel
 			return $feed_class->woocommerce_to_feed_fields();
 		}

@@ -209,7 +209,7 @@
 								'rounded' => esc_html__( 'Rounded Shape', 'woo-variation-swatches' ),
 								'squared' => esc_html__( 'Squared Shape', 'woo-variation-swatches' )
 							),
-							'default' => 'rounded'
+							'default' => 'squared'
 						)
 					) )
 				)

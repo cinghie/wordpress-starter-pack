@@ -674,19 +674,11 @@ ul.tab_3_icns label {
 ul.tab_3_icns li .icns_tab_3, ul.tab_3_icns li .radio {
     float: left;
 }
-.tab3 .sub_row {
-    float: left;
-    margin: 35px 0 0 4%;
-    width: 90%}
+
 .tab3 .sub_row h4 {
     color: #a4a9ad!important;
 }
-.tab3 .sub_row label {
-    float: left;
-    margin: 0 20px;
-    line-height: 36px;
-    font-size: 18px;
-}
+
 .tab3 .sub_row p {
     padding-top: 18px!important;
     clear: both;
@@ -1116,12 +1108,7 @@ ul.icn_listing li .right_info a {
 ul.tab_3_list li span {
     font-family: helveticabold;
 }
-.tab3 .Shuffle_auto {
-    float: left;
-    width: 80%;
-    position: relative;
-    top: -93px;
-}
+
 #accordion .tab4 h4, #accordion1 .tab4 h4 {
     color: #414951;
     font-size: 20px;
@@ -1137,9 +1124,6 @@ ul.tab_3_list li span {
 .tab3 .Shuffle_auto .sub_sub_box .tab_3_option {
     padding-top: 0!important;
     margin-bottom: 10px!important;
-}
-.tab3 .sub_row {
-    margin-top: 10px!important;
 }
 .tab4 {
     padding-top: 35px!important;
@@ -1689,12 +1673,7 @@ h2.optional {
 .linkedin_section .link_4>label.anthr_labl {
     height: 94px;
 }
-.tab3 .tab_3_sav {
-    padding-top: 0;
-    margin: -69px auto 20px;
-    position: relative;
-    z-index: 9;
-}
+
 .mediam_txt {
     font-family: helveticabold;
 }
@@ -2261,7 +2240,7 @@ ul.cstmskin_iconlist {
     top: -8px;
     white-space: pre;
     width: 33px;
-	height: 20px;
+	height: 24px;
     z-index: 9;
 }
 .sfsi_wicons a.sficn, .sfsi_wicons .sfsi_inside a, .sfsi_Sicons div a
@@ -2278,3 +2257,24 @@ ul.cstmskin_iconlist {
 }
 .sfsi_wicons a{box-shadow:none !important;}
 a.sficn{ cursor: pointer; }
+.sfsi_Sicons .fb_iframe_widget>span{
+        vertical-align:top!important;
+}
+.sfsi_Sicons .sf_fb{
+    margin:0 0 0 5px !important;
+}
+.sfsi_Sicons .sf_google{
+    margin:-1px 10px !important;
+}
+
+.disabled_checkbox .sfsi_right_info:before {
+    position: absolute;
+    content: "";
+    width: 45%;
+    height: 60px;
+    display: inline-block;
+    z-index: 99;
+    margin-left: -40px;
+    margin-top: -14px;
+    background: rgba(255,255,255,.8);
+}

@@ -4,7 +4,7 @@
  * WP Email Class.
  *
  * @package WP Product Feed Manager/Application/Classes
- * @version 1.1.0
+ * @version 1.2.0
  * @since 2.3.0
  */
 
@@ -49,7 +49,11 @@ Should this problem persist, please open a support ticket.', WPPFM_EDD_SL_ITEM_N
 		 * @param string $message the message
 		 */
 		private static function send( $to, $subject, $message ) {
-			return wp_mail( $to, $subject, $message );
+			if ( is_email( $to ) ) {
+				return wp_mail( $to, $subject, $message );
+			} else {
+				return false;
+			}
 		}
 	}
 

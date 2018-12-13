@@ -320,8 +320,6 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 		$lock_duration = ( property_exists( $this, 'queue_lock_time' ) ) ? $this->queue_lock_time : 30; // 30 seconds
 		$lock_duration = apply_filters( $this->identifier . '_queue_lock_time', $lock_duration );
 
-		do_action( 'wppfm_feed_process_locked', $this->feed_data->feedId );
-
 		set_site_transient( $this->identifier . '_process_lock', microtime(), $lock_duration );
 	}
 
@@ -334,9 +332,6 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	 */
 	protected function unlock_process() {
 		delete_site_transient( $this->identifier . '_process_lock' );
-
-		do_action( 'wppfm_feed_process_unlocked', $this->feed_data->feedId );
-		
 		return $this;
 	}
 	

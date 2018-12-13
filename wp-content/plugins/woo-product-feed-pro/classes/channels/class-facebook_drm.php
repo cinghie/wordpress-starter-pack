@@ -57,7 +57,7 @@ class WooSEA_facebook_drm {
 					"name" => "price",
 					"feed_name" => "g:price",
 					"format" => "required",
-					"woo_suggest" => "price",
+					"woo_suggest" => "regular_price",
 				),
 				"gtin" => array(
 					"name" => "gtin",

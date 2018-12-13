@@ -225,7 +225,7 @@ function wppfm_valueOptionsSingleInputValue( rowId, sourceLevel, valueEditorLeve
 
 function wppfm_addFeedStatusChecker( feedId ) {
     return '<script type="text/javascript">var wppfmStatusCheck_' + feedId + ' = null; '
-        + '(function(){ wppfmStatusCheck_' + feedId + ' = window.setInterval( wppfm_checkAndSetStatus_' + feedId + ', 5000, ' + feedId + ' ); })(); '
+        + '(function(){ wppfmStatusCheck_' + feedId + ' = window.setInterval( wppfm_checkAndSetStatus_' + feedId + ', 10000, ' + feedId + ' ); })(); '
         + 'function wppfm_checkAndSetStatus_' + feedId + '( feedId ) {'
             + 'wppfm_getCurrentFeedStatus( feedId, function( result ) {'
                 + 'var data = JSON.parse( result );'

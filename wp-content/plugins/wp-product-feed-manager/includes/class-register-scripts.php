@@ -27,7 +27,7 @@ if ( ! class_exists( 'WPPFM_Register_Scripts' ) ) :
 			$this->_uri = $_SERVER[ 'REQUEST_URI' ];
 
 			$premium_version_nr		 = WPPFM_EDD_SL_ITEM_NAME === 'WP Product Feed Manager' ? 'fr-' : 'pr-'; // prefix for version stamp depending on premium or free version
-			$action_level			 = 2; // for future use
+			$action_level			 = 2;
 			$this->_version_stamp	 = defined( 'WP_DEBUG' ) && WP_DEBUG ? time() : $premium_version_nr . WPPFM_VERSION_NUM;
 			$this->_js_min			 = defined( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min';
 

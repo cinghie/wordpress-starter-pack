@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Product Feed Manager\n"
-"POT-Creation-Date: 2018-11-03 12:39+0100\n"
-"PO-Revision-Date: 2018-11-03 12:43+0100\n"
+"POT-Creation-Date: 2018-11-19 19:29+0100\n"
+"PO-Revision-Date: 2018-11-19 19:29+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: nl_NL\n"
@@ -221,27 +221,14 @@ msgstr "U heeft geen toestemming om de plugin updates te installeren"
 msgid "Error"
 msgstr "Fout"
 
-#. translators: %s: link to the support page
-#: includes/libraries/wppfm-async-request.php:124
-#, php-format
-msgid ""
-"2166 - Failed to make a wp_remote_post connection. Please open the Settings "
-"page, click the Clear feed process button and try again. If the issue "
-"persists, open a support ticket at %s."
-msgstr ""
-"2166 - Kon geen verbinding maken met een wp_remote_post. Open de "
-"Instellingen pagina, klik op de Feed verwerking opschonen knop en probeer "
-"het nog eens. Als het probleem blijft aanhouden, open dan een "
-"ondersteuningsaanvraag op %s."
-
-#: includes/libraries/wppfm-background-process.php:547
+#: includes/libraries/wppfm-background-process.php:542
 #, php-format
 msgid "Every %d minute"
 msgid_plural "Every %d minutes"
 msgstr[0] "Elke %d minuut"
 msgstr[1] "Elke %d minuten"
 
-#: includes/libraries/wppfm-background-process.php:586
+#: includes/libraries/wppfm-background-process.php:581
 msgid ""
 "Could not schedule the cron event required to start the feed process. Please "
 "check if your wp cron is configured correctly and is running."
@@ -1322,12 +1309,6 @@ msgstr "Klonen is niet toegestaan"
 msgid "Unserializing instances of this class is not allowed"
 msgstr "Niet-serializende exemplaren van deze klasse zijn niet toegestaan"
 
-#. translators: %s: Plugin name
-#: wp-product-feed-manager.php:232
-#, php-format
-msgid "You have insufficient rights to use %s"
-msgstr "U hebt onvoldoende rechten om %s te gebruiken"
-
 #. Plugin Name of the plugin/theme
 msgid "WooCommerce Product Feed Manager"
 msgstr "WooCommerce product feed Manager"
@@ -1348,6 +1329,19 @@ msgstr ""
 #. Author of the plugin/theme
 msgid "Michel Jongbloed"
 msgstr "Michel Jongbloed"
+
+#~ msgid ""
+#~ "2166 - Failed to make a wp_remote_post connection. Please open the "
+#~ "Settings page, click the Clear feed process button and try again. If the "
+#~ "issue persists, open a support ticket at %s."
+#~ msgstr ""
+#~ "2166 - Kon geen verbinding maken met een wp_remote_post. Open de "
+#~ "Instellingen pagina, klik op de Feed verwerking opschonen knop en probeer "
+#~ "het nog eens. Als het probleem blijft aanhouden, open dan een "
+#~ "ondersteuningsaanvraag op %s."
+
+#~ msgid "You have insufficient rights to use %s"
+#~ msgstr "U hebt onvoldoende rechten om %s te gebruiken"
 
 #~ msgid "You are not allowed to do this!"
 #~ msgstr "Deze actie is niet toegestaan!"

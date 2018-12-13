@@ -155,42 +155,47 @@ jQuery( document ).ready( function( $ ) {
 	}
 
 
-	$( '#schedule-1,#schedule-2,#schedule-3,#schedule-4' ).change( function() {
+	$( '#schedule-1,#schedule-2,#schedule-3,#schedule-4,#schedule-5' ).change( function() {
 		if ( $( '#schedule-1' ).is( ':checked' ) && $( '#schedule-1' ).val() == 'schedule-1' ) {
 			$( '#d-schedule-2 input:not(input[type=radio])' ).attr( 'disabled', true )
 			$( '#d-schedule-2 select' ).attr( 'disabled', true )
 			$( '#d-schedule-1 input:not(input[type=radio])' ).attr( 'disabled', false )
 			$( '#d-schedule-1 select' ).attr( 'disabled', false )
 			$( '#d-schedule-3 .block' ).addClass( 'disabled' );
-                        $( '#d-schedule-4 .block' ).addClass( 'disabled' );
+            $( '#d-schedule-4 .block' ).addClass( 'disabled' );
+            $( '#d-schedule-5 .block' ).addClass( 'disabled' );
 		} else if( $( '#schedule-2' ).is( ':checked' ) && $( '#schedule-2' ).val() == 'schedule-2' ) {
 			$( '#d-schedule-1 input:not(input[type=radio])' ).attr( 'disabled', true )
 			$( '#d-schedule-1 select' ).attr( 'disabled', true )
 			$( '#d-schedule-2 select' ).attr( 'disabled', false )
 			$( '#d-schedule-2 input:not(input[type=radio]) ' ).attr( 'disabled', false )
 			$( '#d-schedule-3 .block' ).addClass( 'disabled' );
-                        $( '#d-schedule-4 .block' ).addClass( 'disabled' );
+            $( '#d-schedule-4 .block' ).addClass( 'disabled' );
+            $( '#d-schedule-5 .block' ).addClass( 'disabled' );
 		} else if( $( '#schedule-3' ).is( ':checked' ) && $( '#schedule-3' ).val() == 'schedule-3' ) {
 			$( '#d-schedule-1 input:not(input[type=radio])' ).attr( 'disabled', true )
 			$( '#d-schedule-1 select' ).attr( 'disabled', true )
-
 			$( '#d-schedule-2 input:not(input[type=radio])' ).attr( 'disabled', true )
 			$( '#d-schedule-2 select' ).attr( 'disabled', true )
-
 			$( '#d-schedule-3 .block' ).removeClass( 'disabled' );
-
-                        $( '#d-schedule-4 .block' ).addClass( 'disabled' );
+			$( '#d-schedule-4 .block' ).addClass( 'disabled' );
+			$( '#d-schedule-5 .block' ).addClass( 'disabled' );
 		} else if( $( '#schedule-4' ).is( ':checked' ) && $( '#schedule-4' ).val() == 'schedule-4' ) {
-
-                        $( '#d-schedule-1 input:not(input[type=radio])' ).attr( 'disabled', true )
+			$( '#d-schedule-1 input:not(input[type=radio])' ).attr( 'disabled', true )
 			$( '#d-schedule-1 select' ).attr( 'disabled', true )
-
 			$( '#d-schedule-2 input:not(input[type=radio])' ).attr( 'disabled', true )
 			$( '#d-schedule-2 select' ).attr( 'disabled', true )
-
-                        $( '#d-schedule-3 .block' ).addClass( 'disabled' );
-
+			$( '#d-schedule-3 .block' ).addClass( 'disabled' );
 			$( '#d-schedule-4 .block' ).removeClass( 'disabled' );
+			$( '#d-schedule-5 .block' ).addClass( 'disabled' );
+		} else if( $( '#schedule-5' ).is( ':checked' ) && $( '#schedule-5' ).val() == 'schedule-5' ) {
+			$( '#d-schedule-1 input:not(input[type=radio])' ).attr( 'disabled', true )
+			$( '#d-schedule-1 select' ).attr( 'disabled', true )
+			$( '#d-schedule-2 input:not(input[type=radio])' ).attr( 'disabled', true )
+			$( '#d-schedule-2 select' ).attr( 'disabled', true )
+			$( '#d-schedule-3 .block' ).addClass( 'disabled' );
+			$( '#d-schedule-4 .block' ).addClass( 'disabled' );
+			$( '#d-schedule-5 .block' ).removeClass( 'disabled' );
 		}
 	} );
 	$( '#schedule-1' ).change()
@@ -290,7 +295,8 @@ jQuery( document ).ready( function( $ ) {
 		if (window.location.hash.indexOf('segment') !== -1) {
 			$('.segment_choice[href="'+ window.location.hash +'"]').click()
 		} else {
-			$('.segment_choice').first().click()
+			$('.segment_choice').first().addClass('active');
+			$('.settings-segment').first().addClass('active');
 		}
 	}, 1000 );
 
@@ -334,7 +340,8 @@ function make_repeat_options( index ) {
 	});
 
 	var duplicate_settings = window.duplicated_fields_settings[index] || {};
-	repeat_select.val(duplicate_settings.repeat);
+	var repeat_value = ( typeof( duplicate_settings.repeat ) !== 'undefined' ) ? duplicate_settings.repeat : "rows";
+	repeat_select.val( repeat_value );
 
 	// rows options
 	if ( index === 'products' ) {
@@ -813,12 +820,16 @@ jQuery( document ).ready( function( $ ) {
 		var data = 'json=' + makeJsonVar( $( '#export_job_settings' ) );
 		var estimate_data = data + "&action=order_exporter&method=estimate&mode=" + mode + "&id=" + job_id;
 		$.post( ajaxurl, estimate_data, function( response ) {
-				if ( response.total !== undefined ) {
-					jQuery( '#output_preview_total' ).find( 'span' ).html( response.total );
-					jQuery( '#preview_actions' ).removeClass( 'hide' );
+				if (!response || typeof response.total == 'undefined') {
+					woe_show_error_message(response);
+					return;
 				}
+				jQuery( '#output_preview_total' ).find( 'span' ).html( response.total );
+				jQuery( '#preview_actions' ).removeClass( 'hide' );
 			}, "json"
-		);
+		).fail( function( xhr, textStatus, errorThrown ) {
+			woe_show_error_message( xhr.responseText );
+		});
 
 		function showPreview( response ) {
 			var id = 'output_preview';
@@ -889,12 +900,14 @@ jQuery( document ).ready( function( $ ) {
 				url: ajaxurl,
 				dataType: "json",
 				error: function( xhr, status, error ) {
-					alert( xhr.responseText );
+					woe_show_error_message( xhr.responseText );
 					progress( 100, jQuery( '#progressBar' ) );
 				},
 				success: function( response ) {
-					if ( typeof response.error !== 'undefined') {
-						alert( response.error );
+					if ( !response) {
+						woe_show_error_message(response);
+					} else if ( typeof response.error !== 'undefined') {
+						woe_show_error_message( response.error );
 					} else {
 						get_all( response.start, ( response.start / window.count ) * 100, method )
 					}
@@ -1052,9 +1065,13 @@ jQuery( document ).ready( function( $ ) {
 			url: ajaxurl,
 			dataType: "json",
 			error: function( xhr, status, error ) {
-				alert( xhr.responseText.replace(/<\/?[^>]+(>|$)/g, "") );
+				woe_show_error_message( xhr.responseText.replace(/<\/?[^>]+(>|$)/g, "") );
 			},
 			success: function( response ) {
+				if (!response || typeof response['total'] == 'undefined') {
+					woe_show_error_message(response);
+					return;
+				}
 				window.count = response['total'];
 				window.file_id = response['file_id'];
 				console.log( window.count );
@@ -1177,8 +1194,12 @@ jQuery( document ).ready( function( $ ) {
 
 	            // show product fields starts with 'line' and 'qty'
 	            $( '#products_unselected_segment input, #order_fields input' ).map( function () {
-		            var matches = $( this ).attr( 'value' ).match( /plain_products_(line|qty).*/ );
-		            if ( matches ) {
+	            	var $value = $( this ).attr( 'value' );
+	            	if ( typeof $value === 'undefined' ) {
+	            		return;
+		            }
+	            	
+		            if ( $value.match( /plain_products_(line|qty).*/ ) ) {
 			            $( this ).closest( '.mapping_row' ).show();
 		            }
 	            } );
@@ -1640,4 +1661,10 @@ function synch_selected_fields (old_format, new_format) {
         return;
     }
 
+}
+
+function woe_show_error_message(text) {
+	if (!text)
+		 text = "Please, open section 'Misc Settings' and \n mark checkbox 'Enable debug output' \n to see exact error message";
+	alert(text);
 }

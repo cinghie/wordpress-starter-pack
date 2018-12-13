@@ -229,6 +229,24 @@ jQuery(document).ready(function($) {
 			);
 		}
 
+		if (action == "copy"){
+
+			var popup_dialog = confirm("Are you sure you want to copy this feed?");
+			if (popup_dialog == true){
+       			jQuery.ajax({
+                			method: "POST",
+                       	 		url: ajaxurl,
+                        		data: { 'action': 'woosea_project_copy', 'project_hash': project_hash }
+                		})
+
+                        	.done(function( data ) {
+					data = JSON.parse( data );
+					$('#woosea_main_table').append('<tr class><td>&nbsp;</td><td colspan="5"><span>The plugin is creating a new product feed now: <b><i>"' + data.projectname + '"</i></b>. Please refresh your browser to manage the copied product feed project.</span></span></td></tr>');
+				})
+            		}
+		}
+
+
 		if (action == "trash"){
 
 			var popup_dialog = confirm("Are you sure you want to delete this feed?");
@@ -316,6 +334,8 @@ jQuery(document).ready(function($) {
 					clearInterval(myInterval);
 					$("#woosea_proc_"+hash).removeClass('woo-product-feed-pro-blink_me');	
 					return $("#woosea_proc_"+hash).text("ready");
+				} else if(data.proc_perc == 999){
+					// Do not do anything
 				} else {
 					clearInterval(myInterval);
 					$("#woosea_proc_"+hash).removeClass('woo-product-feed-pro-blink_me');	

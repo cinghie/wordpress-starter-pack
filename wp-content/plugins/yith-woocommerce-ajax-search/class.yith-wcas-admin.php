@@ -74,7 +74,7 @@ if( !class_exists( 'YITH_WCAS_Admin' ) ) {
             $this->version = $version;
 
             add_action( 'admin_menu', array( $this, 'register_panel' ), 5) ;
-
+			add_action( 'init', array( $this, 'gutenberg_integration' ) );
             //Add action links
 			add_filter( 'plugin_action_links_' . plugin_basename( YITH_WCAS_DIR . '/' . basename( YITH_WCAS_FILE ) ), array( $this, 'action_links' ) );
 			add_filter( 'yith_show_plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 5 );
@@ -87,6 +87,16 @@ if( !class_exists( 'YITH_WCAS_Admin' ) ) {
             do_action( 'yith_wcas_loaded' );
 		 }
 
+
+	    /**
+	     * Gutenberg Integration
+	     */
+	    public function gutenberg_integration() {
+		    if ( function_exists( 'yith_plugin_fw_gutenberg_add_blocks' ) ) {
+			    $blocks = include_once( YITH_WCAS_DIR . 'plugin-options/gutenberg/blocks.php' );
+			    yith_plugin_fw_gutenberg_add_blocks( $blocks );
+		    }
+	    }
 
         /**
          * Action Links

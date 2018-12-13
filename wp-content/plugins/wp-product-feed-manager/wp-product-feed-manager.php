@@ -3,8 +3,8 @@
  * Plugin Name: WP Product Feed Manager
  * Plugin URI: https://www.wpmarketingrobot.com
  * Description: An easy to use WordPress plugin that generates and submits your product feeds to merchant centres.
- * Version: 1.12.0
- * Modified: 03-11-2018
+ * Version: 1.12.1
+ * Modified: 30-11-2018
  * Author: Michel Jongbloed
  * Author URI: https://www.wpmarketingrobot.com
  * Requires at least: 4.6
@@ -16,7 +16,7 @@
  * WC requires at least: 3.0
  * WC tested up to: 3.5
  *
- * This program is free software: you can redistribute it and/or modify
+ * This plugin is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -26,6 +26,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * You should have received a copy of the GNU General Public License
  * You can read the GNU General Public License here <http://www.gnu.org/licenses/>.
 */
 
@@ -46,7 +47,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 		/**
 		 * @var string containing the version number of the plugin
 		 */
-		public $version = '1.12.0';
+		public $version = '2.3.3';
 
 		/**
 		 * @var string countaining the authors name
@@ -219,25 +220,22 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 			// include the wordpress pluggable.php file on forehand to prevent a "Call to undefined function wp_get_current_user()" error
 			// https://wp-types.com/forums/topic/mandrill-wp_mail-has-been-declared-by-another-process-or-plugin-need-fix/
 			if ( is_admin() && in_array (basename($_SERVER['PHP_SELF']), array('options-general.php') ) && isset( $_GET['page'] ) && $_GET['page'] == 'email_template' ) {
-				require_once( ABSPATH . 'wp-includes/pluggable.php' );
+				require_once ( ABSPATH . 'wp-includes/pluggable.php' );
 			}
 
-			if ( is_admin() ) {
-				// include the admin menu and the includes file
-				require_once ( __DIR__ . '/includes/application/wppfm-feed-processing-support.php' );
-				require_once ( __DIR__ . '/includes/user-interface/wppfm-admin-menu.php' );
-				require_once ( __DIR__ . '/includes/data/wppfm-admin-functions.php' );
-				require_once ( __DIR__ . '/includes/user-interface/wppfm-messaging.php' );
-				require_once ( __DIR__ . '/includes/wppfm-wpincludes.php' );
+			// to prevent a fatal error about not finding the is_plugin_active function
+			require_once ( ABSPATH . 'wp-admin/includes/plugin.php' );
 
-				// include all required classes
-				include_classes();
-				include_channels();
-			} else {
-				require_once ( __DIR__ . '/includes/user-interface/wppfm-messaging.php' );
-				/* translators: %s: Plugin name */
-				wppfm_show_wp_warning( sprintf( __( 'You have insufficient rights to use %s', 'wp-product-feed-manager' ), WPPFM_EDD_SL_ITEM_NAME ) );
-			}
+			// include the admin menu and the includes file
+			require_once ( __DIR__ . '/includes/application/wppfm-feed-processing-support.php' );
+			require_once ( __DIR__ . '/includes/user-interface/wppfm-admin-menu.php' );
+			require_once ( __DIR__ . '/includes/data/wppfm-admin-functions.php' );
+			require_once ( __DIR__ . '/includes/user-interface/wppfm-messaging.php' );
+			require_once ( __DIR__ . '/includes/wppfm-wpincludes.php' );
+
+			// include all required classes
+			include_classes();
+			include_channels();
 		}
 		
 		/* --------------------------------------------------------------------------------------------------*

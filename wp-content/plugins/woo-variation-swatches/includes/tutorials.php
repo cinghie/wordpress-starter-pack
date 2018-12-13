@@ -13,7 +13,7 @@
                     The option turns product attribute variation select options drop down into color swatches. It’s the best fit options for the variable products comes with multiple attribute variations.
                 </div>
                 <div class="tutorial-buttons">
-                    <a href="http://bit.ly/tutorial-tab-01" target="_blank" class="button button-live-demo">Live Demo</a>
+                    <a href="http://bit.ly/plugin-tutorial-tab-color-demo" target="_blank" class="button button-live-demo">Live Demo</a>
                     <a href="http://bit.ly/wvs-tuts-01" target="_blank" class="button button-docs">Documentation</a>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                     Images variation does more than color swatches. When it comes to display images as product variation, this option comes handy and highly engaging for conversion.
                 </div>
                 <div class="tutorial-buttons">
-                    <a href="http://bit.ly/tutorial-tab-02" target="_blank" class="button button-live-demo">Live Demo</a>
+                    <a href="http://bit.ly/plugin-demo-image-tab" target="_blank" class="button button-live-demo">Live Demo</a>
                     <a href="http://bit.ly/wvs-tuts-02" target="_blank" class="button button-docs">Documentation</a>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                     When comes to show available product size, quantity and other variation related details, button/label swatch boost conversion extensively. It allows selecting customers to select their desired product variation quickly.
                 </div>
                 <div class="tutorial-buttons">
-                    <a href="http://bit.ly/tutorial-tab-03" target="_blank" class="button button-live-demo">Live Demo</a>
+                    <a href="http://bit.ly/button-plugin-demo-tab" target="_blank" class="button button-live-demo">Live Demo</a>
                     <a href="http://bit.ly/wvs-tuts-03" target="_blank" class="button button-docs">Documentation</a>
                 </div>
             </div>

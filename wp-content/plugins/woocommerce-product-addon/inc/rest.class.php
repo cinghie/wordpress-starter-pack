@@ -141,7 +141,7 @@ class PPOM_Rest {
             return new WP_REST_Response( $response_info );
         }
         
-        
+        $meta_id = $ppom->single_meta_id;
         $ppom_fields = $ppom->fields;
         
         $ppom_fields = $this->filter_required_keys_only($ppom_fields);
@@ -720,12 +720,19 @@ class PPOM_Rest {
             
             foreach( $ppom_fields as $field ) {
                 
-                $new_ppom_fields[] = array('title' => $field->title,
-                                            'type' => $field->type,
-                                            'data_name' => $field->data_name,
-                                            'description' => $field->description,
-                                            'required' => $field->required,
-                                            'options'   => isset($field->options) ? $field->options : null);
+                $title  = isset($field['title']) ? $field['title'] : '';
+                $type   = isset($field['type']) ? $field['type'] : '';
+                $data_name = isset($field['data_name']) ? $field['data_name'] : '';
+                $description = isset($field['description']) ? $field['description'] : '';
+                $required = isset($field['required']) ? $field['required'] : '';
+                $options = isset($field['options']) ? $field['options'] : '';
+                
+                $new_ppom_fields[] = array('title'      => $title,
+                                            'type'      => $type,
+                                            'data_name' => $data_name,
+                                            'description'=> $description,
+                                            'required'  => $required,
+                                            'options'   => $options);
             }
         }
         

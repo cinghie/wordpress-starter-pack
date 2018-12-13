@@ -3,8 +3,8 @@ Contributors: nmedia
 Tags: woocommerce, pesonalized products, woocommerce variations, woocommerce product variations, woocommerce extra fields, woocommerce extra options, woocommerce personalized product, woocommerce t-shirt design, woocommerce product fields, woocommerce plugin, woocommerce addons, woocommerce product addons
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
-Tested up to: 4.9
-Stable tag: 15.2
+Tested up to: 5.0
+Stable tag: 15.5
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -42,6 +42,7 @@ Drag & Drop input fields with many options. Prices can also be added with option
 * Compatible with [Advanced Order Export For WooCommerce](https://najeebmedia.com/2018/06/30/how-to-export-ppom-order-fields/)
 
 = Pro Version =
+* Weight options - [Weight can be assgined for options](https://najeebmedia.com/2018/11/20/ppom-options-now-have-weight/)
 * Multiple Meta - [Assign multiple metas groups to single product](https://najeebmedia.com/2018/10/25/ppom-version-15-0-multiple-meta/)
 * Measure Input - [Demo](https://ppom.nmediahosting.com/product/ppom-measure-input/)
 * Color Picker - [Demo](https://ppom.nmediahosting.com/product/woo-album-1/)
@@ -82,6 +83,23 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
+= 15.5 December 8, 2018 =
+* Feature: [Hide Price Row when it is zero](https://clients.najeebmedia.com/forums/topic/hide-options-totals-when-quantity-0/)
+* Bug Fixed: Cart total was not correct when Variation Quantities used with Price Matrix, it's resolved.
+* Bug fixed: [Variation Quantities price not calcuated correct if base price included, it was multiplying options with validation quantities](https://wordpress.org/support/topic/total-price-on-single-product-page-is-not-equal-to-carts-total/)
+= 15.4.1 November 28, 2018 =
+* Bug fixed: [Textarea input has product description as default value](https://wordpress.org/support/topic/woocommerce-product-descriptions-show-in-order-form/)
+= 15.4 November 26, 2018 =
+* Feature: Product total will not be shown in price table if product price is set to 0 (zero)
+* Feature: Vendors can Now select PPOM with [WC Frontend Manager for Marketplace](https://wordpress.org/plugins/wc-frontend-manager/)
+* Feature: [Image dropdown price and title now sent in cart](https://wordpress.org/support/topic/addon-image-dropdown-does-not-work-properly/)
+* Feature: [Weight added to options (PRO Version)](https://najeebmedia.com/2018/11/20/ppom-options-now-have-weight/)
+* Feature: Posted values will be retained on product page if error occur
+* Bug fixed: Fixed Price addon - Now cart quntity cannot be updated if price is being used with Fixed/Package Price Addon
+= 15.3 November 17, 2018 =
+* Feature: Placeholder option added for Number type input
+* Bug fixed: REST API issue fixed for fetch PPOM fields
+* Bug fixed: [WC Bundled Product plugin conflict fixed](https://wordpress.org/support/topic/fatal-error-when-used-with-product-bundles-plugin/)
 = 15.2 October 30, 2018 =
 * Feature: Filter add for date formats apply_filters('ppom_date_formats', $formats)
 * Feature: Autocomplete for PPOM fields turned off
