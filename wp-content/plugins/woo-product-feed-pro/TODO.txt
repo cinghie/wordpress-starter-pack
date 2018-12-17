@@ -1,38 +1,43 @@
 So you found my to-do list for this plugin? Well, hope you enjoy the little sneak preview of what's coming. 
 Missing some features you might like? Drop me a line at support@adtribes.io and we might just add it to the list. Thanks!
 
-NEXT RELEASE
-- Echt goede WP-Cron check inbouwen
+TO DO BEFORE ELITE RELEASE:
+
+Plugin functionalities:
+- Add support for WPML - WooCommerce Multilingual (Multi-currency)
+- Build a better WP Cron check, current one is not good enough
+- Add support for Google Shopping product review feeds - https://developers.google.com/product-review-feeds/
+- Kloppen de dynamic remarketing prijzen? Lijkt erop dat alleen de duurste variation prijs gebruikt wordt? Sowieso complete remarketing hertesten!
+
+
+Adtribes.io website changes:
 - Confirmation email aanpassen: links naar blogs, FAQ en algemene voorwaarden
 - Search functionaliteit bouwen die zoekt op Blog posts en pages
-- Structured data price klopt niet (ex VAT invoeren, incl VAT tonen)
-- Kloppen de dynamic remarketing prijzen? Lijkt erop dat alleen de duurste variation prijs gebruikt wordt? Sowieso complete remarketing hertesten!
 - Er zitten maar 3 attributen in de URL waardoor structured data price ook niet klopt: https://adtribes.io/product/create-custom-feed/?attribute_pa_size=small&attribute_pa_color=yellow&attribute_kleurtje=White%2FBlack
 - WP Logo aanpassen, in het midden uitlijnen en AdTribes toevoegen
 - Op de blog en alle andere pagina's buttons / links opnemen naar de WP-download pagina en de Elite pagina
-- Logo plaatsen op website zelf 
-- Add Feed for Google Shopping product reviews, see: https://developers.google.com/product-review-feeds/
-- Bug in custom feeds: als je all default velden weghaald en dan weer nieuwe gaat toevoegen gaat die kapot (NaN in config)
+- Logo plaatsen op website zelf
+- Icon maken voor in WP-admin menu 
 
-BLOG ARTICLES:
+
+Write blog articles:
+- handleiding schrijven voor hele Shopping & Facebook proces
 - how to only include products from 1 specific category in your product feed
+- explain the different price attributes of the plugin
 - how to send a debug.log to our support department (debug=true uitleg).
+- how to create a g:product_type mapping (Category path)
 
 
-TO-DO:
-1. Add support for g:tax, see: https://support.google.com/merchants/answer/6324454?hl=en
-2. Remarketing and structured data fix, check if prices are correct (VAT issue) - on variation pages it shows prices without VAT in the structured data
-3. Remarketing tags not yet on thank-you purchase page
-4. Incomplete remarketing tag on cart-page
-7. Tracking & conversion
+OTHER ISSUES:
+- Remarketing and structured data fix, check if prices are correct (VAT issue) - on variation pages it shows prices without VAT in the structured data
+- Remarketing tags not yet on thank-you purchase page
+- Incomplete remarketing tag on cart-page
+- Tracking & conversion
 	- dynamic dropdowns in GA / tracking page for values
-8. Add support for Composite products: https://woocommerce.com/products/composite-products/
-9. Add support for Bundled products: https://woocommerce.com/products/product-bundles/
-10. Add more complex rules based on more than just 1 condition (AND)
-11. Support Amazon templates
-13. Cron interval configurable for user (exact timing instead of just daily,twicedaily or hourly)
-14. Add localisation (at least for nl_NL and nl_BE / fr_BE) - https://codex.wordpress.org/I18n_for_WordPress_Developers#Translating_Plugins_and_Themes
-15. Create unique grey icons for admin menu
-17. AMAZON integration:
-- requires a professional seller account, 39 dollar a month, before being able to create a developer account
-- only than we can use their AWS service needed to connect our plugin
+- Add support for Composite products: https://woocommerce.com/products/composite-products/
+- Add support for Bundled products: https://woocommerce.com/products/product-bundles/
+- Add more complex rules based on more than just 1 condition (AND)
+- Add localisation (at least for nl_NL and nl_BE / fr_BE) - https://codex.wordpress.org/I18n_for_WordPress_Developers#Translating_Plugins_and_Themes
+- AMAZON integration:
+	- requires a professional seller account, 39 dollar a month, before being able to create a developer account
+	- only than we can use their AWS service needed to connect our plugin

@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 5.0
-Stable tag: 3.9.6
+Stable tag: 4.0.0
 
 == Description ==
 
@@ -263,6 +263,19 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 4.0.0 (2018-12-17) =
+* Fixed another issue with cached prices ending up in product feeds.
+
+= 3.9.9 (2018-12-16) =
+* Added support for Cyrillic characters for CSV files.
+
+= 3.9.8 (2018-12-16) =
+* Fixed a bug: caching caused product feeds to contain wrong and changing prices in product feeds. This only happened on very rare occaccions but has been fixed now.
+
+= 3.9.7 (2018-12-14) =
+* Fixed a bug: when all pre-defined fields for custom feeds where deleted and new fields were added the product feed would break. This has now been fixed.
+* Made improvements to the JSON (structured data fix for the WooCommerce bug)
 
 = 3.9.6 (2018-12-11) =
 * Removed the option to create Google Shopping / Merchant Center CSV feeds. The only option left is XML feeds. Current CSV feeds remain working ofcourse.
@@ -1185,6 +1198,19 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 4.0.0 =
+Fixed another issue with cached prices ending up in product feeds.
+
+= 3.9.9 =
+Added support for Cyrillic characters for CSV files.
+
+= 3.9.8 =
+Fixed a bug: caching caused product feeds to contain wrong and changing prices in product feeds. This only happened on very rare occaccions but has been fixed now.
+
+= 3.9.7 =
+Fixed a bug: when all pre-defined fields for custom feeds where deleted and new fields were added the product feed would break. This has now been fixed.
+Made improvements to the JSON (structured data fix for the WooCommerce bug)
 
 = 3.9.6 =
 Removed the option to create Google Shopping / Merchant Center CSV feeds. The only option left is XML feeds. Current CSV feeds remain working ofcourse.

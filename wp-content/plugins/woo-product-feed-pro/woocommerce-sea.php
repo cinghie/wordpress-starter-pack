@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     3.9.6
+ * Version:     4.0.0
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -45,7 +45,7 @@ if (!defined('ABSPATH')) {
 /**
  * Plugin versionnumber, please do not override
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '3.9.6' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.0.0' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 
 if ( ! defined( 'WOOCOMMERCESEA_FILE' ) ) {
@@ -605,10 +605,12 @@ function woosea_find_matching_product_variation( $product, $attributes ) {
         unset( $attributes[ $key ] );
         $attributes[ sprintf( 'attribute_%s', $key ) ] = $value;
     }
- 
+
     if( class_exists('WC_Data_Store') ) {
         $data_store = WC_Data_Store::load( 'product' );
-        return $data_store->find_matching_product_variation( $product, $attributes );
+
+//	return ( new \WC_Product_Data_Store_CPT() )->find_matching_product_variation(new \WC_Product( $product ),$attributes);
+     	return $data_store->find_matching_product_variation( $product, $attributes );
     } else {
         return $product->get_matching_variation( $attributes );
     }
@@ -637,9 +639,11 @@ function woosea_product_delete_meta_price( $product = null ) {
 
 	if($structured_data_fix == "yes"){
 
-		if ( '' !== $product->get_regular_price() ) {
+		$pr_woo = wc_get_price_to_display($product);
+
+//		if ( '' !== $product->get_regular_price() ) {
 			$product_id = get_the_id();
-			
+		
 			// Get product condition
 			$condition = ucfirst( get_post_meta( $product_id, '_woosea_condition', true ) );
 			if(!$condition){
@@ -652,16 +656,27 @@ function woosea_product_delete_meta_price( $product = null ) {
 				// We should first check if there are any _GET parameters available
 				// When there are not we are on a variable product page but not on a specific variable one
 				// In that case we need to put in the AggregateOffer structured data
-				$variation_id = woosea_find_matching_product_variation( $product, $_GET );
 				$nr_get = count($_GET);
-	
-				if($nr_get > 0){
-					$variable_product = wc_get_product($variation_id);
-					
-					if(is_object( $variable_product ) ) {
 
+				if($nr_get > 0){
+					//$variation_id = woosea_find_matching_product_variation( $product, $_GET );
+					$mother_id = wc_get_product()->get_id();
+					$children_ids = $product->get_children();
+
+					foreach ($children_ids as &$child_val) {
+                             	   		$product_variations = new WC_Product_Variation( $child_val );
+                                		$variations = array_filter($product_variations->get_variation_attributes());
+						$intersect = array_intersect($_GET, $variations);
+
+						if($variations == $intersect){
+							$variation_id = $child_val;
+						}
+					}
+					$variable_product = wc_get_product($variation_id);
+				
+					if(is_object( $variable_product ) ) {
 						// Structured data error here, it ignores VAT when prices has been entered without VAT
-						$product_price = $variable_product->get_regular_price();
+						$product_price = wc_get_price_to_display($variable_product);
 
 						// Get product condition
 						$condition = ucfirst( get_post_meta( $variation_id, '_woosea_condition', true ) );
@@ -736,26 +751,15 @@ function woosea_product_delete_meta_price( $product = null ) {
 						}
 					}
 				} else {
+					// This is a variation product page but no variation has been selected. WooCommerce always shows the price of the lowest priced
+					// variation product. That is why we also put this in the JSON
 					// When there are no parameters in the URL (so for normal users, not coming via Google Shopping URL's) show the old WooCommwerce JSON
-                                	$prices  = $product->get_variation_prices();
-                                	$lowest  = reset( $prices['price'] );
-                                	$highest = end( $prices['price'] );
-
-                                	if ( $lowest === $highest ) {
-                                        	$markup_offer = array(
-                                                	'@type' => 'Offer',
-                                                	'price' => wc_format_decimal( $lowest, wc_get_price_decimals() ),
-                                        	);
-                                	} else {
-                                        	$markup_offer = array(
-                                                	'@type'     => 'AggregateOffer',
-                                                	'lowPrice'  => wc_format_decimal( $lowest, wc_get_price_decimals() ),
-                                                	'highPrice' => wc_format_decimal( $highest, wc_get_price_decimals() ),
-                                        	);
-                                	}
-
+					$product_price = wc_get_price_to_display($product);
+			             	
                         		$markup_offer += array(
-                                		'priceCurrency' => $shop_currency,
+                                		'@type'         => 'Offer',
+						'price'		=> $product_price,
+						'priceCurrency' => $shop_currency,
                                 		'availability'  => 'https://schema.org/' . ( $product->is_in_stock() ? 'InStock' : 'OutOfStock' ),
                                 		'seller'        => array(
                                         		'@type' => 'Organization',
@@ -766,11 +770,9 @@ function woosea_product_delete_meta_price( $product = null ) {
 
 				}
 	   		} else {
-				$pr = $product->get_price_html();
-
 				$markup_offer = array(
  	           	            	'@type' => 'Offer',
-                       			'price' => wc_format_decimal( $product->get_regular_price(), wc_get_price_decimals() ),
+                       			'price' => wc_format_decimal( wc_get_price_to_display($product), wc_get_price_decimals() ),
 					'priceCurrency' => $shop_currency,
 					'itemCondition' => 'http://schema.org/'.$json_condition.'',
 					'availability'  => 'https://schema.org/' . $stock = ( $product->is_in_stock() ? 'InStock' : 'OutOfStock' ),
@@ -784,7 +786,7 @@ function woosea_product_delete_meta_price( $product = null ) {
 					),
                       		);
             		}
-		}
+//		}
 	} else {
 		// Just use the old WooCommerce buggy setting
                 if ( '' !== $product->get_price() ) {

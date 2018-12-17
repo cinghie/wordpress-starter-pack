@@ -99,7 +99,7 @@ if( ! function_exists( 'yith_wcbr_get_terms' ) ){
 
 		// remove empty terms when hide_empty is set
 		if( isset( $args['hide_empty'] ) && $args['hide_empty'] ){
-			add_filter( 'get_terms', '_yith_wcbr_remove_empty_terms', 15, 2 );
+			remove_filter( 'get_terms', '_yith_wcbr_remove_empty_terms', 15 );
 		}
 		
 		return $terms;

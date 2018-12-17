@@ -37,9 +37,14 @@ jQuery(document).ready(function($) {
 	// Add a mapping row to the table for field mappings
 	jQuery(".add-field-mapping").click(function(){
 		var channel_hash = $('#channel_hash').val();
-                var prevRow = $("tr.rowCount:last input[type=hidden]").val();
+		var prevRow = $("tr.rowCount:last input[type=hidden]").val();
 		var addrow_value = $('#addrow').val();
-		
+
+		// When user deletes all default fields
+		if (prevRow === undefined){
+			prevRow = 0;
+		}
+
 		var rowCount = Number(prevRow) + Number(addrow_value);
 		var newrow_value = Number(addrow_value) + Number(1);
 		$('#addrow').val(newrow_value);
@@ -72,6 +77,11 @@ jQuery(document).ready(function($) {
 		var channel_hash = $('#channel_hash').val();
                 var prevRow = $("tr.rowCount:last input[type=hidden]").val();
 		var addrow_value = $('#addrow').val();
+
+		// When user deletes all default fields
+		if (prevRow === undefined){
+			prevRow = 0;
+		}
 		
 		var rowCount = Number(prevRow) + Number(addrow_value);
 		var newrow_value = Number(addrow_value) + Number(1);

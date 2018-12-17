@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 5.0.x - Development - Administration package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-12-13 08:42:07+0000\n"
+"PO-Revision-Date: 2018-12-15 15:01:55+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -267,7 +267,7 @@ msgstr "Ciao! Sono un fattorino ciclista di giorno, aspirante attore di notte e 
 msgid "This is an example page. It's different from a blog post because it will stay in one place and will show up in your site navigation (in most themes). Most people start with an About page that introduces them to potential site visitors. It might say something like this:"
 msgstr "Questa è una pagina di esempio. Differisce da un articolo di un blog perchè rimane sempre allos tesso posto e (in molti temi) appare nel menu di navigazione. Molte persone iniziano con una pagina di Informazioni che li presentano ai visitatori del sito. Potrebbe apparire una presentazione del tipo:"
 
-#: wp-admin/includes/post.php:2227
+#: wp-admin/includes/post.php:2233
 msgid "This action is still supported in the classic editor, but is deprecated in the block editor."
 msgstr "Questa azione è ancora supportata nel Classic Editor, ma è deprecata nel Block Editor."
 
@@ -1229,7 +1229,7 @@ msgstr "Aggiungi una richiesta di esportazione dei dati personali"
 msgid "An email will be sent to the user at this email address asking them to verify the request."
 msgstr "Una email verrà inviata all'utente chiedendogli di verificare la richiesta."
 
-#: wp-admin/includes/plugin-install.php:595
+#: wp-admin/includes/plugin-install.php:596
 msgid "Requires PHP Version:"
 msgstr "Richiede PHP:"
 
@@ -1518,12 +1518,12 @@ msgid "Theme Installation"
 msgstr "Installazione temi"
 
 #. translators: %s: user's display name
-#: wp-admin/includes/post.php:1628
+#: wp-admin/includes/post.php:1634
 msgid "%s is already editing this post."
 msgstr "%s sta già modificando questo articolo."
 
 #. translators: %s: user's display name
-#: wp-admin/includes/post.php:1625
+#: wp-admin/includes/post.php:1631
 msgid "%s is already editing this post. Do you want to take over?"
 msgstr "%s sta già modificando questo articolo. Vuoi prenderne il posto?"
 
@@ -1531,7 +1531,7 @@ msgstr "%s sta già modificando questo articolo. Vuoi prenderne il posto?"
 msgid "<a href=\"https://codex.wordpress.org/Network_Admin_Sites_Screen\">Documentation on Site Management</a>"
 msgstr "<a href=\"https://codex.wordpress.org/Network_Admin_Sites_Screen\">Documentazione sulla gestione del sito</a> (in inglese)"
 
-#: wp-admin/includes/plugin-install.php:522 wp-admin/update.php:123
+#: wp-admin/includes/plugin-install.php:523 wp-admin/update.php:123
 msgid "Plugin Installation"
 msgstr "Installazione plugin"
 
@@ -1539,7 +1539,7 @@ msgstr "Installazione plugin"
 msgid "Custom installation script."
 msgstr "Script di installazione personalizzato."
 
-#: wp-admin/includes/plugin-install.php:602
+#: wp-admin/includes/plugin-install.php:603
 msgid "Active Installations:"
 msgstr "Installazioni attive:"
 
@@ -1785,7 +1785,7 @@ msgid "Current Background Image"
 msgstr "Immagine di sfondo corrente"
 
 #: wp-admin/includes/class-wp-plugin-install-list-table.php:608
-#: wp-admin/includes/plugin-install.php:606
+#: wp-admin/includes/plugin-install.php:607
 msgctxt "Active plugin installations"
 msgid "Less Than 10"
 msgstr "Meno di 10"
@@ -1795,7 +1795,7 @@ msgid "Sorry, you are not allowed to attach files to this post."
 msgstr "Non hai il permesso per allegare dei file a questo articolo."
 
 #: wp-admin/includes/plugin-install.php:239
-#: wp-admin/includes/plugin-install.php:612 wp-admin/freedoms.php:84
+#: wp-admin/includes/plugin-install.php:613 wp-admin/freedoms.php:84
 #: wp-admin/plugins.php:418 wp-admin/plugin-install.php:82
 msgid "https://wordpress.org/plugins/"
 msgstr "https://it.wordpress.org/plugins/"
@@ -2457,17 +2457,17 @@ msgstr "Il tuo file %s ha un prefisso di tabella del database vuoto, tale possib
 msgid "The constant %s cannot be defined when installing WordPress."
 msgstr "La costante %s non può essere definita quando si installa WordPress."
 
-#: wp-admin/includes/plugin-install.php:626
+#: wp-admin/includes/plugin-install.php:627
 msgid "Reviews"
 msgstr "Recensioni"
 
-#: wp-admin/includes/plugin-install.php:627
+#: wp-admin/includes/plugin-install.php:628
 msgid "Read all reviews on WordPress.org or write your own!"
 msgstr "Leggi le recensioni su WordPress.org oppure scrivi la tua!"
 
 #. translators: 1: number of stars (used to determine singular/plural), 2:
 #. number of reviews
-#: wp-admin/includes/plugin-install.php:633
+#: wp-admin/includes/plugin-install.php:634
 msgid "Reviews with %1$d star: %2$s. Opens in a new window."
 msgid_plural "Reviews with %1$d stars: %2$s. Opens in a new window."
 msgstr[0] "Recensioni con %1$d stella: %2$d. Si apre in una nuova finestra."
@@ -2481,7 +2481,7 @@ msgstr "Allega al contenuto esistente"
 msgid "Theme zip file"
 msgstr "File zip del tema"
 
-#: wp-admin/includes/post.php:1451
+#: wp-admin/includes/post.php:1457
 msgid "Click the image to edit or update"
 msgstr "Fai clic sull’immagine per modificare o aggiornare"
 
@@ -3022,11 +3022,11 @@ msgstr "Ottieni la versione %s"
 msgid "Toggle panel: %s"
 msgstr "Commuta il pannello: %s"
 
-#: wp-admin/includes/post.php:1377
+#: wp-admin/includes/post.php:1383
 msgid "Edit permalink"
 msgstr "Modifica permalink"
 
-#: wp-admin/includes/post.php:1666
+#: wp-admin/includes/post.php:1672
 msgid "Saving revision&hellip;"
 msgstr "Salva revisione&hellip;"
 
@@ -3774,7 +3774,7 @@ msgid "Plugins updated successfully."
 msgstr "I plugin sono stati aggiornati."
 
 #: wp-admin/includes/class-wp-plugin-install-list-table.php:606
-#: wp-admin/includes/plugin-install.php:604
+#: wp-admin/includes/plugin-install.php:605
 msgctxt "Active plugin installations"
 msgid "1+ Million"
 msgstr "Oltre un milione"
@@ -4246,7 +4246,7 @@ msgstr "<strong>Incompatibile</strong> con la tua versione di WordPress"
 msgid "<strong>Compatible</strong> with your version of WordPress"
 msgstr "<strong>Compatibile</strong> con la tua versione di WordPress"
 
-#: wp-admin/includes/plugin-install.php:640
+#: wp-admin/includes/plugin-install.php:641
 msgid "%d star"
 msgid_plural "%d stars"
 msgstr[0] "%d stella"
@@ -4312,17 +4312,17 @@ msgctxt "themes"
 msgid "Recently Updated"
 msgstr "Aggiornati di recente"
 
-#: wp-admin/includes/plugin-install.php:499
+#: wp-admin/includes/plugin-install.php:500
 msgctxt "Plugin installer section title"
 msgid "Reviews"
 msgstr "Recensioni"
 
-#: wp-admin/includes/plugin-install.php:616
-#: wp-admin/includes/plugin-install.php:670
+#: wp-admin/includes/plugin-install.php:617
+#: wp-admin/includes/plugin-install.php:671
 msgid "Donate to this plugin &#187;"
 msgstr "Dona per questo plugin &#187;"
 
-#: wp-admin/includes/plugin-install.php:650
+#: wp-admin/includes/plugin-install.php:651
 msgid "Contributors"
 msgstr "Contributori"
 
@@ -5378,7 +5378,7 @@ msgstr "Posizioni del tema"
 msgid "Assigned Menu"
 msgstr "Menu assegnati"
 
-#: wp-admin/includes/post.php:1667
+#: wp-admin/includes/post.php:1673
 msgid "Your latest changes were saved as a revision."
 msgstr "Le ultime modifiche sono state salvate come revisione."
 
@@ -5697,10 +5697,6 @@ msgstr "Seleziona una opzione"
 msgid "$image needs to be an WP_Image_Editor object"
 msgstr "$image deve essere un oggetto WP_Image_Editor"
 
-#: wp-admin/includes/dashboard.php:1566
-msgid "Welcome to WordPress!"
-msgstr "Benvenuto su WordPress!"
-
 #: wp-admin/includes/dashboard.php:1577
 msgid "or, <a href=\"%s\">change your theme completely</a>"
 msgstr "oppure <a href=\"%s\">cambia completamente il tuo tema</a>"
@@ -5803,6 +5799,10 @@ msgstr "Una volta che hai teminato fai clic su &#8220;Esegui l&#8217;installazio
 #: wp-admin/includes/dashboard.php:1592
 msgid "Add an About page"
 msgstr "Aggiungi una pagina info"
+
+#: wp-admin/includes/dashboard.php:1566
+msgid "Welcome to WordPress!"
+msgstr "Benvenuto in WordPress!"
 
 #: wp-admin/includes/class-wp-plugin-install-list-table.php:112
 msgctxt "Plugin Installer"
@@ -6088,7 +6088,7 @@ msgstr "Inserisci il link di un URL o fai clic sopra per il predefinito"
 
 #: wp-admin/includes/class-wp-themes-list-table.php:230
 #: wp-admin/includes/class-wp-theme-install-list-table.php:419
-#: wp-admin/includes/plugin-install.php:573
+#: wp-admin/includes/plugin-install.php:574
 msgid "Version:"
 msgstr "Versione:"
 
@@ -6379,10 +6379,6 @@ msgstr "Modifica questa voce se desideri eseguire più installazioni di WordPres
 msgid "Table prefix (if you want to run more than one WordPress in a single database)"
 msgstr "Prefisso tabelle (se desideri eseguire più WordPress con un solo database)"
 
-#: wp-admin/setup-config.php:153
-msgid "Welcome to WordPress. Before getting started, we need some information on the database. You will need to know the following items before proceeding."
-msgstr "Benvenuti in WordPress. Prima di iniziare abbiamo bisogno di alcune informazioni sul database. Devi conoscere i seguenti dati prima di procedere."
-
 #: wp-admin/setup-config.php:203
 msgctxt "example username"
 msgid "username"
@@ -6403,6 +6399,10 @@ msgstr "Il file %1$s esiste già. Se occorre azzerare una qualsiasi configurazio
 msgid "The file %1$s already exists one level above your WordPress installation. If you need to reset any of the configuration items in this file, please delete it first. You may try <a href=\"%2$s\">installing now</a>."
 msgstr "Il file %1$s esiste già ad un livello superiore a quello dell'installazione di WordPress. Se occorre azzerare una qualsiasi configurazione di questo file, prima eliminalo. &Egrave; possibile provare ora <a href=\"%2$s\">ad installare</a>."
 
+#: wp-admin/setup-config.php:153
+msgid "Welcome to WordPress. Before getting started, we need some information on the database. You will need to know the following items before proceeding."
+msgstr "Benvenuto in WordPress. Prima di iniziare abbiamo bisogno di alcune informazioni sul database. Devi conoscere i seguenti dati prima di procedere."
+
 #. translators: %s: wp-config.php
 #: wp-admin/maint/repair.php:37
 msgid "To allow use of this page to automatically repair database problems, please add the following line to your %s file. Once this line is added to your config, reload this page."
@@ -6412,32 +6412,32 @@ msgstr "Per permettere l'uso di questa pagina per riparare automaticamente i pro
 msgid "No comments awaiting moderation."
 msgstr "Nessun commento in attesa di moderazione"
 
-#: wp-admin/includes/plugin-install.php:496
+#: wp-admin/includes/plugin-install.php:497
 msgctxt "Plugin installer section title"
 msgid "FAQ"
 msgstr "FAQ"
 
-#: wp-admin/includes/plugin-install.php:495
+#: wp-admin/includes/plugin-install.php:496
 msgctxt "Plugin installer section title"
 msgid "Installation"
 msgstr "Installazione"
 
-#: wp-admin/includes/plugin-install.php:494
+#: wp-admin/includes/plugin-install.php:495
 msgctxt "Plugin installer section title"
 msgid "Description"
 msgstr "Descrizione"
 
-#: wp-admin/includes/plugin-install.php:497
+#: wp-admin/includes/plugin-install.php:498
 msgctxt "Plugin installer section title"
 msgid "Screenshots"
 msgstr "Schermate di esempio"
 
-#: wp-admin/includes/plugin-install.php:498
+#: wp-admin/includes/plugin-install.php:499
 msgctxt "Plugin installer section title"
 msgid "Changelog"
 msgstr "Changelog"
 
-#: wp-admin/includes/plugin-install.php:500
+#: wp-admin/includes/plugin-install.php:501
 msgctxt "Plugin installer section title"
 msgid "Other Notes"
 msgstr "Altre note"
@@ -6446,7 +6446,7 @@ msgstr "Altre note"
 msgid "You should update your web.config now."
 msgstr "Dovresti aggiornare il web.config ora."
 
-#: wp-admin/includes/plugin-install.php:614
+#: wp-admin/includes/plugin-install.php:615
 msgid "Plugin Homepage &#187;"
 msgstr "Homepage del plugin &#187;"
 
@@ -6860,7 +6860,7 @@ msgstr "Poiché si tratta di un'installazione multisito, è possibile aggiungere
 
 #: wp-admin/credits.php:21 wp-admin/freedoms.php:23
 msgid "Welcome to WordPress %s"
-msgstr "Benvenuto su WordPress %s"
+msgstr "Benvenuto in WordPress %s"
 
 #: wp-admin/about.php:458
 msgid "Go to Dashboard &rarr; Home"
@@ -8212,6 +8212,10 @@ msgstr "<strong>Discussione</strong>  &mdash; &Egrave; possibile attivare e disa
 msgid "<strong>%s</strong> &mdash; This allows you to associate an image with your post without inserting it. This is usually useful only if your theme makes use of the image as a post thumbnail on the home page, a custom header, etc."
 msgstr "<strong>%s</strong>  &mdash; Ti permette di associare una immagine all'articolo senza doverla inserire direttamente nel testo. Questo è utile se il tuo tema utilizza le immagini come miniatura nella pagina principale, una testata personalizzata, etc. "
 
+#: wp-admin/edit.php:208
+msgid "You can refine the list to show only posts in a specific category or from a specific month by using the dropdown menus above the posts list. Click the Filter button after making your selection. You also can refine the list by clicking on the post author, category or tag in the posts list."
+msgstr "&Egrave; possibile organizzare  la lista per visualizzare solo gli articoli di una specifica categoria o di un mese specifico, utilizzando i menu a scomparsa sopra la lista degli articoli. Cliccare sul pulsante filtra dopo aver effettuato la selezione. &Egrave; possibile organizzare la visualizzazione cliccando sull'autore dell'articolo. sulla categoria o sui tag nella lista degli articoli."
+
 #: wp-admin/edit.php:205
 msgid "You can hide/display columns based on your needs and decide how many posts to list per screen using the Screen Options tab."
 msgstr "&Egrave; possibile mostrare/nascondere le colonne e stabilire quanti articoli mostrare per schermata, utilizzando l'etichetta Impostazione schermo."
@@ -8223,10 +8227,6 @@ msgstr "&Egrave; possibile organizzare la visualizzazione di questa schermata in
 #: wp-admin/edit.php:215
 msgid "Hovering over a row in the posts list will display action links that allow you to manage your post. You can perform the following actions:"
 msgstr "Posizionandosi con il mouse sopra una riga nella lista degli articoli, si attiveranno dei link che permettono di gestire l'articolo. &Egrave; possibile eseguire le seguenti azioni:"
-
-#: wp-admin/edit.php:208
-msgid "You can refine the list to show only posts in a specific category or from a specific month by using the dropdown menus above the posts list. Click the Filter button after making your selection. You also can refine the list by clicking on the post author, category or tag in the posts list."
-msgstr "&Egrave; possibile organizzare  la lista per visualizzare solo gli articoli di una specifica categoria o di un mese specifico, utilizzando i menu a scomparsa sopra la lista degli articoli. Cliccare sul pulsante filtra dopo aver effettuato la selezione. &Egrave; possibile organizzare la visualizzazione cliccando sull'autore dell'articolo. sulla categoria o sui tag nella lista degli articoli."
 
 #: wp-admin/plugins.php:557
 msgid "Search Installed Plugins"
@@ -9519,7 +9519,7 @@ msgstr "Posizione"
 msgid "Save Widget"
 msgstr "Salva widget"
 
-#: wp-admin/includes/misc.php:1084 wp-admin/includes/post.php:1827
+#: wp-admin/includes/misc.php:1084 wp-admin/includes/post.php:1833
 #: wp-admin/widgets.php:342
 msgid "Error while saving."
 msgstr "Errore durante il salvataggio."
@@ -9740,7 +9740,7 @@ msgstr[1] "Attivi di recente  <span class=\"count\">(%s)</span>"
 msgid "Sorry, you are not allowed to edit this attachment."
 msgstr "Non sei autorizzato a modificare questo allegato."
 
-#: wp-admin/edit-tags.php:156 wp-admin/includes/post.php:1833
+#: wp-admin/edit-tags.php:156 wp-admin/includes/post.php:1839
 #: wp-admin/includes/class-wp-screen.php:282 wp-admin/async-upload.php:47
 #: wp-admin/post.php:20 wp-admin/post.php:44 wp-admin/post.php:123
 #: wp-admin/term.php:38 wp-admin/media-upload.php:46
@@ -10970,24 +10970,24 @@ msgstr "Cerca plugin"
 msgid "Plugin zip file"
 msgstr "File zip del plugin"
 
-#: wp-admin/includes/plugin-install.php:622
+#: wp-admin/includes/plugin-install.php:623
 msgid "(based on %s rating)"
 msgid_plural "(based on %s ratings)"
 msgstr[0] "(basato su %s valutazione)"
 msgstr[1] "(basato su %s valutazioni)"
 
 #: wp-admin/includes/class-wp-plugin-install-list-table.php:601
-#: wp-admin/includes/plugin-install.php:577
+#: wp-admin/includes/plugin-install.php:578
 msgid "Last Updated:"
 msgstr "Ultimo aggiornamento:"
 
 #. translators: %s: version number
-#: wp-admin/includes/plugin-install.php:588
-#: wp-admin/includes/plugin-install.php:598
+#: wp-admin/includes/plugin-install.php:589
+#: wp-admin/includes/plugin-install.php:599
 msgid "%s or higher"
 msgstr "%s o superiore"
 
-#: wp-admin/includes/plugin-install.php:620
+#: wp-admin/includes/plugin-install.php:621
 msgid "Average Rating"
 msgstr "Valutazione media"
 
@@ -11359,7 +11359,7 @@ msgstr "Un nuovo sito targato WordPress"
 msgid "Just another %s site"
 msgstr "Ecco un altro sito %s"
 
-#: wp-admin/includes/plugin-install.php:681
+#: wp-admin/includes/plugin-install.php:682
 msgid "<strong>Warning:</strong> This plugin has <strong>not been marked as compatible</strong> with your version of WordPress."
 msgstr "<strong>Attenzione:</strong> questo plugin <strong>non &egrave;</strong> compatibile con questa versione di WordPress."
 
@@ -11375,12 +11375,12 @@ msgstr "C'&egrave; un plugin che non funziona correttamente."
 msgid "The plugin does not have a valid header."
 msgstr "Il plugin ha un'intestazione non valida."
 
-#: wp-admin/includes/plugin-install.php:710
+#: wp-admin/includes/plugin-install.php:711
 msgid "Install Update Now"
 msgstr "Aggiorna adesso"
 
 #. translators: %s: Plugin version
-#: wp-admin/includes/plugin-install.php:715
+#: wp-admin/includes/plugin-install.php:716
 msgid "Newer Version (%s) Installed"
 msgstr "Installata la versione pi&ugrave; recente (%s)"
 
@@ -11469,7 +11469,7 @@ msgstr "WordPress è già all&#8217;ultima versione."
 msgid "Installing the latest version&#8230;"
 msgstr "Installazione dell&#8217;ultima versione in corso&#8230;"
 
-#: wp-admin/includes/plugin-install.php:679
+#: wp-admin/includes/plugin-install.php:680
 msgid "<strong>Warning:</strong> This plugin has <strong>not been tested</strong> with your current version of WordPress."
 msgstr "<strong>Attenzione:</strong> questo plugin <strong>non &egrave; stato testato</strong> con questa versione di WordPress."
 
@@ -11745,19 +11745,19 @@ msgid_plural "%s blocks not updated, somebody is editing them."
 msgstr[0] "%s blocco non aggiornato, qualcun'altro lo sta modificando."
 msgstr[1] "%s blocchi non aggiornati, qualcun'altro li sta modificando."
 
-#: wp-admin/includes/plugin-install.php:612
+#: wp-admin/includes/plugin-install.php:613
 msgid "WordPress.org Plugin Page &#187;"
 msgstr "Pagina dei plugin WordPress.org &#187;"
 
-#: wp-admin/includes/plugin-install.php:585
+#: wp-admin/includes/plugin-install.php:586
 msgid "Requires WordPress Version:"
 msgstr "Richiede WordPress:"
 
-#: wp-admin/includes/plugin-install.php:718
+#: wp-admin/includes/plugin-install.php:719
 msgid "Latest Version Installed"
 msgstr "Hai già installato l'ultima versione"
 
-#: wp-admin/includes/plugin-install.php:592
+#: wp-admin/includes/plugin-install.php:593
 msgid "Compatible up to:"
 msgstr "Testato fino alla versione:"
 

@@ -4,7 +4,7 @@
  *
  * @package    Widget_Importer_Exporter
  * @subpackage Functions
- * @copyright  Copyright (c) 2013 - 2017, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2017, ChurchThemes.com
  * @link       https://churchthemes.com/plugins/widget-importer-exporter/
  * @license    GPLv2 or later
  * @since      0.1
@@ -26,7 +26,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function wie_add_mime_types( $mime_types ) {
 
-	$mime_types['wie'] = 'application/json';
+	//$mime_types['wie'] = 'application/json'; // 5.0.1 breaking change: https://make.wordpress.org/core/2018/12/13/backwards-compatibility-breaks-in-5-0-1/
+	$mime_types['wie'] = 'text/plain';
 
 	return $mime_types;
 

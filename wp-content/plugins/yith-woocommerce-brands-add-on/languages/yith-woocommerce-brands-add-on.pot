@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: YITH WooCommerce Brands Add-On\n"
-"POT-Creation-Date: 2018-10-09 11:24+0200\n"
+"POT-Creation-Date: 2018-12-17 18:26+0100\n"
 "PO-Revision-Date: 2015-04-30 17:08+0100\n"
 "Last-Translator: Nicola Mustone <mail@nicolamustone.it>\n"
 "Language-Team: Your Inspiration Themes <plugins@yithemes.com>\n"
@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1.1\n"
+"X-Generator: Poedit 2.2\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e;_n:1,2;__ngettext:1,2;"
 "__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;"
 "_nx_noop:4c,1,2\n"
@@ -21,12 +21,10 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: ../plugin-fw\n"
 
 #: ../includes/class.yith-wcbr-admin.php:72
-#: ../includes/class.yith-wcbr-admin.php:315
 msgid "Settings"
 msgstr ""
 
 #: ../includes/class.yith-wcbr-admin.php:73
-#: ../includes/class.yith-wcbr-admin.php:319
 msgid "Premium Version"
 msgstr ""
 
@@ -56,72 +54,170 @@ msgstr ""
 
 #: ../includes/class.yith-wcbr-admin.php:264
 #: ../includes/class.yith-wcbr-admin.php:265
-#: ../includes/class.yith-wcbr.php:118 ../includes/class.yith-wcbr.php:134
+#: ../includes/class.yith-wcbr-shortcode.php:60
+#: ../includes/class.yith-wcbr.php:122 ../includes/class.yith-wcbr.php:138
 msgid "Brands"
 msgstr ""
 
-#: ../includes/class.yith-wcbr-admin.php:339
-msgid "Plugin Documentation"
+#: ../includes/class.yith-wcbr-shortcode.php:57
+msgid "YITH Product Brand"
 msgstr ""
 
-#: ../includes/class.yith-wcbr.php:119
-msgid "Brand"
+#: ../includes/class.yith-wcbr-shortcode.php:59
+msgid "Adds brand name and logo for a specific product, wherever you want"
 msgstr ""
 
-#: ../includes/class.yith-wcbr.php:120
-msgid "All Brands"
+#: ../includes/class.yith-wcbr-shortcode.php:65
+#: ../includes/class.yith-wcbr-shortcode.php:128
+msgid "Title"
 msgstr ""
 
-#: ../includes/class.yith-wcbr.php:121
-msgid "Edit Brand"
+#: ../includes/class.yith-wcbr-shortcode.php:68
+msgid "Text to enter as shortcode title"
 msgstr ""
 
-#: ../includes/class.yith-wcbr.php:122
-msgid "View Brand"
+#: ../includes/class.yith-wcbr-shortcode.php:73
+msgid "Product_id"
+msgstr ""
+
+#: ../includes/class.yith-wcbr-shortcode.php:76
+msgid ""
+"Enter product ID that will be used to retrieve brands; leave empty to use "
+"global product (if defined)"
+msgstr ""
+
+#: ../includes/class.yith-wcbr-shortcode.php:81
+#: ../includes/class.yith-wcbr-shortcode.php:138
+msgid "Show logo"
+msgstr ""
+
+#: ../includes/class.yith-wcbr-shortcode.php:84
+msgid "Show Logo"
+msgstr ""
+
+#: ../includes/class.yith-wcbr-shortcode.php:85
+msgid "Do not show Logo"
+msgstr ""
+
+#: ../includes/class.yith-wcbr-shortcode.php:87
+msgid ""
+"Whether to show logo or not. Please, note that if you don't mark at least "
+"one between Show Logo or Show Title, default option value will take effect"
+msgstr ""
+
+#: ../includes/class.yith-wcbr-shortcode.php:92
+#: ../includes/class.yith-wcbr-shortcode.php:147
+msgid "Show Title"
+msgstr ""
+
+#: ../includes/class.yith-wcbr-shortcode.php:95
+msgid "Show title"
+msgstr ""
+
+#: ../includes/class.yith-wcbr-shortcode.php:96
+msgid "Do not show title"
+msgstr ""
+
+#: ../includes/class.yith-wcbr-shortcode.php:98
+msgid ""
+"Whether to show title or not. Please, note that if you don't mark at "
+"least one between Show Logo or Show Title, default option value will take "
+"effect"
+msgstr ""
+
+#: ../includes/class.yith-wcbr-shortcode.php:122
+msgctxt "[gutenberg]: block name"
+msgid "YITH Brands Product Brand"
+msgstr ""
+
+#: ../includes/class.yith-wcbr-shortcode.php:123
+msgctxt "[gutenberg]: block description"
+msgid "Adds brand name and logo for a specific product, wherever you want"
+msgstr ""
+
+#: ../includes/class.yith-wcbr-shortcode.php:133
+msgid "Product_id (leave empty to use global product)"
+msgstr ""
+
+#: ../includes/class.yith-wcbr-shortcode.php:141
+msgctxt "[gutenberg]: Help text"
+msgid "Hide logo"
+msgstr ""
+
+#: ../includes/class.yith-wcbr-shortcode.php:142
+msgctxt "[gutenberg]: Help text"
+msgid "Show logo"
+msgstr ""
+
+#: ../includes/class.yith-wcbr-shortcode.php:150
+msgctxt "[gutenberg]: Help text"
+msgid "Hide title"
+msgstr ""
+
+#: ../includes/class.yith-wcbr-shortcode.php:151
+msgctxt "[gutenberg]: Help text"
+msgid "Show title"
 msgstr ""
 
 #: ../includes/class.yith-wcbr.php:123
-msgid "Update Brand"
+msgid "Brand"
 msgstr ""
 
 #: ../includes/class.yith-wcbr.php:124
-msgid "Add New Brand"
+msgid "All Brands"
 msgstr ""
 
 #: ../includes/class.yith-wcbr.php:125
-msgid "New Brand Name"
+msgid "Edit Brand"
 msgstr ""
 
 #: ../includes/class.yith-wcbr.php:126
-msgid "Parent Brand"
+msgid "View Brand"
 msgstr ""
 
 #: ../includes/class.yith-wcbr.php:127
-msgid "Parent Brand:"
+msgid "Update Brand"
 msgstr ""
 
 #: ../includes/class.yith-wcbr.php:128
-msgid "Search Brands"
+msgid "Add New Brand"
 msgstr ""
 
 #: ../includes/class.yith-wcbr.php:129
-msgid "Separate brands with commas"
+msgid "New Brand Name"
 msgstr ""
 
 #: ../includes/class.yith-wcbr.php:130
+msgid "Parent Brand"
+msgstr ""
+
+#: ../includes/class.yith-wcbr.php:131
+msgid "Parent Brand:"
+msgstr ""
+
+#: ../includes/class.yith-wcbr.php:132
+msgid "Search Brands"
+msgstr ""
+
+#: ../includes/class.yith-wcbr.php:133
+msgid "Separate brands with commas"
+msgstr ""
+
+#: ../includes/class.yith-wcbr.php:134
 msgid "No Brands Found"
 msgstr ""
 
-#: ../init.php:115
+#: ../init.php:116
+#, php-format
 msgid ""
-"YITH WooCommerce Brands Add-on is enabled but not effective. It requires "
-"WooCommerce in order to work."
+"%s is enabled but not effective. It requires WooCommerce in order to work."
 msgstr ""
 
-#: ../init.php:125
+#: ../init.php:126
+#, php-format
 msgid ""
-"You can't activate the free version of YITH WooCommerce Brands while you "
-"are using the premium one."
+"You can't activate the free version of %s while you are using the premium "
+"one."
 msgstr ""
 
 #: ../plugin-options/settings-options.php:20

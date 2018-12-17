@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Yoast SEO - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-12-12 21:14:01+0000\n"
+"PO-Revision-Date: 2018-12-13 22:16:17+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -50,6 +50,11 @@ msgstr "Incolla le tue impostazioni da un'altra installazione di Yoast SEO."
 #: admin/views/tabs/tool/wpseo-import.php:19
 msgid "Import of settings is only supported on servers that run PHP 5.3 or higher."
 msgstr "L'importazione delle impostazioni è supportata solo sui server che eseguono PHP 5.3 o versioni successive."
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/views/tabs/tool/wpseo-export.php:29
+msgid "Export your %1$s settings here, to copy them on another site."
+msgstr "Esporta le impostazioni di %1$s qui, per poi copiarle in un altro sito."
 
 #: admin/views/licenses.php:90
 msgid "Improve sharing on Facebook and Pinterest"

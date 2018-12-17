@@ -834,7 +834,8 @@ class WooSEA_Get_Products {
 					$tab_line .= PHP_EOL;
 					fwrite($fp, $tab_line);
 				} else {
-					$pieces = array_map("utf8_decode", $pieces);
+					fputs( $fp, $bom = chr(0xEF) . chr(0xBB) . chr(0xBF) );
+					//$pieces = array_map("utf8_decode", $pieces);
 					$tofile = fputcsv($fp, $pieces, $csv_delimiter, '"');
 				}
 
@@ -1228,16 +1229,16 @@ class WooSEA_Get_Products {
                         $product_data['rating_total'] = $product->get_rating_count();
                         $product_data['rating_average'] = $product->get_average_rating();
 	                $product_data['shipping'] = 0;
-
-			$tax_rates = WC_Tax::get_rates( $product->get_tax_class() );
+			
+			$tax_rates = WC_Tax::get_base_tax_rates( $product->get_tax_class() );
 			$shipping_class_id = $product->get_shipping_class_id();
                 	$shipping_class= $product->get_shipping_class();
 			$class_cost_id = "class_cost_".$shipping_class_id;
-			
+		
 			// Get prices including taxes
-			$product_data['price'] = wc_format_localized_price(wc_get_price_including_tax($product,array('price'=> $product->get_price())));
-			$product_data['regular_price'] = wc_format_localized_price(wc_get_price_including_tax($product, array('price'=> $product->get_regular_price())));
+			$product_data['price'] = wc_format_localized_price(wc_get_price_to_display($product));
 			$product_data['sale_price'] = wc_format_localized_price(wc_get_price_including_tax($product, array('price'=> $product->get_sale_price())));
+			$product_data['regular_price'] = wc_format_localized_price(wc_get_price_including_tax($product, array('price'=> $product->get_regular_price())));
 
 			if($product_data['regular_price'] == $product_data['sale_price']){
 				$product_data['sale_price'] = "";
@@ -1255,16 +1256,15 @@ class WooSEA_Get_Products {
 			} else {
 				$tax_rates[1]['rate'] = 0;
 			}
-			$product_data['price_forced'] = wc_format_localized_price( wc_get_price_excluding_tax($product,array('price'=> $product->get_price())) * (100+$tax_rates[1]['rate'])/100);
-			$product_data['regular_price_forced'] = wc_format_localized_price(wc_get_price_excluding_tax($product, array('price'=> $product->get_regular_price())) + (100+$tax_rates[1]['rate'])/100);
+			$product_data['price_forced'] = wc_format_localized_price(wc_get_price_excluding_tax($product,array('price'=> $product->get_price())) * (100+$tax_rates[1]['rate'])/100);
+			$product_data['regular_price_forced'] = wc_format_localized_price(wc_get_price_excluding_tax($product, array('price'=> $product->get_regular_price())) * (100+$tax_rates[1]['rate'])/100);
 
 			if(!empty($product->get_sale_price())){
-				$product_data['sale_price_forced'] = wc_format_localized_price(wc_get_price_excluding_tax($product, array('price'=> $product->get_sale_price())) + (100+$tax_rates[1]['rate'])/100);
+				$product_data['sale_price_forced'] = wc_format_localized_price(wc_get_price_excluding_tax($product, array('price'=> $product->get_sale_price())) * (100+$tax_rates[1]['rate'])/100);
 			}
 			$product_data['net_price'] = wc_format_localized_price($product->get_price());
 			$product_data['net_regular_price'] = wc_format_localized_price($product->get_regular_price());
 			$product_data['net_sale_price'] = wc_format_localized_price($product->get_sale_price());
-
 			$price = wc_format_localized_price(wc_get_price_including_tax($product,array('price'=> $product->get_price())));
 			if($product_data['sale_price'] > 0){
 				$price = $product_data['sale_price'];

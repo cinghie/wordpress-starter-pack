@@ -68,6 +68,9 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 			add_action( 'init', array( $this, 'register_taxonomy' ) );
 			add_filter( 'yith_wcan_product_taxonomy_type', array( $this, 'add_ajax_navigation_taxonomy' ) );
 
+			// register shortcodes
+			add_action( 'init', array( 'YITH_WCBR_Shortcode', 'init' ), 5 );
+
 			// add brand template to products page
 			add_action( 'woocommerce_product_meta_end', array( $this, 'add_single_product_brand_template' ) );
 
@@ -76,7 +79,8 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 			add_action( 'yith_before_shop_page_meta', array( $this, 'add_archive_brand_template' ), 7 );
 
 			// enqueue styles
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
+			add_action( 'init', array( $this, 'register_scripts' ) );
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 			// register taxonomy as product taxonomy for YIT Layout
 			add_filter( 'yit_layout_option_is_product_tax', array( $this, 'register_layout' ) );
@@ -195,12 +199,12 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 		/* === FRONTEND METHODS === */
 
 		/**
-		 * Enqueue frontend scripts
+		 * Register frontend scripts
 		 *
 		 * @return void
-		 * @since 1.0.0
+		 * @since 1.3.0
 		 */
-		public function enqueue() {
+		public function register_scripts() {
 			// include payment form template
 			$template_name = 'brands.css';
 			$locations = array(
@@ -222,11 +226,17 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 			}
 
 			wp_register_style( 'yith-wcbr', $template );
+		}
 
-			if( is_product() || is_tax( self::$brands_taxonomy ) ){
-				do_action( 'yith_wcbr_enqueue_frontend_style' );
-				wp_enqueue_style( 'yith-wcbr' );
-			}
+		/**
+		 * Enqueue frontend scripts
+		 *
+		 * @return void
+		 * @since 1.0.0
+		 */
+		public function enqueue_scripts() {
+			do_action( 'yith_wcbr_enqueue_frontend_style' );
+			wp_enqueue_style( 'yith-wcbr' );
 		}
 
 		/**
@@ -249,18 +259,21 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 
 			add_image_size( 'yith_wcbr_logo_size', $single_thumb_width, $single_thumb_height, $single_thumb_crop );
 		}
-		
+
 		/**
 		 * Include template for brands on single product page
 		 *
 		 * @param $product_id int|bool Current product id; leave empty to use global product
+		 * @param $title string Title to show when using in shortcode
+		 * @param $show_logo string|bool Whether to show logo or not (yes - no; false to use default)
+		 * @param $show_title string|bool Whether to show title or not (yes - no; false to use default)
 		 *
 		 * @return void
 		 * @since 1.0.0
 		 */
-		public function add_single_product_brand_template( $product_id = false ) {
+		public function add_single_product_brand_template( $product_id = false, $title = '', $show_logo = false, $show_title = false ) {
 			global $product;
-			
+
 			$current_product = $product_id ? wc_get_product( $product_id ) : $product;
 			$current_product_id = yit_get_product_id( $current_product );
 
@@ -272,8 +285,20 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 			$brands_label = get_option( 'yith_wcbr_brands_label' );
 			$product_brands = get_the_terms( $current_product_id, self::$brands_taxonomy );
 			$product_has_brands = ! is_wp_error( $product_brands ) && $product_brands;
+			$content_to_show = get_option( 'yith_wcbr_single_product_brands_content' );
+
+			if( $show_logo == 'yes' && $show_title == 'yes' ){
+				$content_to_show = 'both';
+			}
+			elseif( $show_logo == 'yes' ){
+				$content_to_show = 'logo';
+			}
+			elseif( $show_title == 'yes' ){
+				$content_to_show = 'name';
+			}
 
 			$args = array(
+				'title' => $title,
 				'product' => $current_product,
 				'product_id' => $current_product_id,
 				'brands_taxonomy' => $brands_taxonomy,
@@ -282,7 +307,8 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 				'term_list_sep' => $term_list_sep,
 				'brands_label' => $brands_label,
 				'product_brands' => $product_brands,
-				'product_has_brands' => $product_has_brands
+				'product_has_brands' => $product_has_brands,
+				'content_to_show' => $content_to_show
 			);
 
 			// include payment form template

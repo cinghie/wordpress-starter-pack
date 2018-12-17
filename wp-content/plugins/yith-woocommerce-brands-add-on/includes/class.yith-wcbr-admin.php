@@ -110,9 +110,9 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 
 			if( $screen->id == 'edit-' . YITH_WCBR::$brands_taxonomy || $screen->id == 'yith-plugins_page_yith_wcbr_panel' ){
 				wp_enqueue_media();
-				wp_enqueue_script( 'yith-wcbr', YITH_WCBR_URL . 'assets/js/admin/' . $path . 'yith-wcbr' . $suffix . '.js', array( 'jquery' ), false, true );
+				wp_enqueue_script( 'yith-wcbr-admin', YITH_WCBR_URL . 'assets/js/admin/' . $path . 'yith-wcbr' . $suffix . '.js', array( 'jquery' ), false, true );
 
-				wp_localize_script( 'yith-wcbr', 'yith_wcbr', array(
+				wp_localize_script( 'yith-wcbr-admin', 'yith_wcbr', array(
 					'labels' => array(
 						'upload_file_frame_title' => __( 'Choose an image', 'yith-woocommerce-brands-add-on' ),
 						'upload_file_frame_button' => __( 'Use image', 'yith-woocommerce-brands-add-on' )

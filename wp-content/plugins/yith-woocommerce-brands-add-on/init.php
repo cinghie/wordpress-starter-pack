@@ -3,9 +3,9 @@
  * Plugin Name: YITH WooCommerce Brands Add-on
  * Plugin URI: https://yithemes.com/themes/plugins/yith-woocommerce-brands-add-on/
  * Description: <code><strong>YITH WooCommerce Brands Add-on</strong></code> allows organizing products by brand and improve your shop user experience and your visibility on serach engines. Let your customers browse your shop based on their favourite brands and just with a few clicks. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce on <strong>YITH</strong></a>
- * Version: 1.2.4
+ * Version: 1.3.0
  * Author: YITH
- * Author URI: http://yithemes.com/
+ * Author URI: https://yithemes.com/
  * Text Domain: yith-woocommerce-brands-add-on
  * Domain Path: /languages/
  * WC requires at least: 2.5.0
@@ -39,7 +39,7 @@ if ( ! defined( 'YITH_WCBR' ) ) {
 }
 
 if ( ! defined( 'YITH_WCBR_VERSION' ) ) {
-	define( 'YITH_WCBR_VERSION', '1.2.4' );
+	define( 'YITH_WCBR_VERSION', '1.3.0' );
 }
 
 if ( ! defined( 'YITH_WCBR_URL' ) ) {
@@ -74,6 +74,7 @@ if( ! function_exists( 'yith_brands_constructor' ) ) {
 
 		require_once( YITH_WCBR_INC . 'functions.yith-wcbr.php' );
 		require_once( YITH_WCBR_INC . 'class.yith-wcbr.php' );
+		require_once( YITH_WCBR_INC . 'class.yith-wcbr-shortcode.php' );
 
 		// Let's start the game
 		YITH_WCBR();
