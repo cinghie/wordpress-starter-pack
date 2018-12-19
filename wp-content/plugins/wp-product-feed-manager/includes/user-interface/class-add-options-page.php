@@ -12,12 +12,11 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! class_exists( 'WPPFM_Add_Options_Page' ) ) :
 
 	class WPPFM_Add_Options_Page extends WPPFM_Admin_Page {
-
 		private $_options_form;
 
 		public function __construct() {
 			parent::__construct();
-
+			
 			add_option( 'wp_enqueue_scripts', WPPFM_i18n_Scripts::wppfm_settings_i18n() );
 			add_option( 'wp_enqueue_scripts', WPPFM_i18n_Scripts::wppfm_backup_list_i18n() );
 			$this->prepare_options_form();

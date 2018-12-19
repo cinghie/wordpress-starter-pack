@@ -165,7 +165,6 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 			$descr = '' !== $description ? $description : $title;
 			$description_string = method_exists( $this, 'data_string' ) ? $this->data_string( $descr ) 
 				: $this->convert_to_character_data_string( $descr );
-			$wppfm_plugin_data = get_plugin_data( WPPFM_PLUGIN_DIR.'wp-product-feed-manager.php' );
 			$title_tag = '<wf-connection-string>';
 			
 			return '<?xml version="1.0"?>

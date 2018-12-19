@@ -9,16 +9,13 @@ Plugin functionalities:
 - Add support for Google Shopping product review feeds - https://developers.google.com/product-review-feeds/
 - Kloppen de dynamic remarketing prijzen? Lijkt erop dat alleen de duurste variation prijs gebruikt wordt? Sowieso complete remarketing hertesten!
 
-
 Adtribes.io website changes:
 - Confirmation email aanpassen: links naar blogs, FAQ en algemene voorwaarden
 - Search functionaliteit bouwen die zoekt op Blog posts en pages
 - Er zitten maar 3 attributen in de URL waardoor structured data price ook niet klopt: https://adtribes.io/product/create-custom-feed/?attribute_pa_size=small&attribute_pa_color=yellow&attribute_kleurtje=White%2FBlack
-- WP Logo aanpassen, in het midden uitlijnen en AdTribes toevoegen
 - Op de blog en alle andere pagina's buttons / links opnemen naar de WP-download pagina en de Elite pagina
 - Logo plaatsen op website zelf
 - Icon maken voor in WP-admin menu 
-
 
 Write blog articles:
 - handleiding schrijven voor hele Shopping & Facebook proces
@@ -27,11 +24,11 @@ Write blog articles:
 - how to send a debug.log to our support department (debug=true uitleg).
 - how to create a g:product_type mapping (Category path)
 
-
 OTHER ISSUES:
 - Remarketing and structured data fix, check if prices are correct (VAT issue) - on variation pages it shows prices without VAT in the structured data
 - Remarketing tags not yet on thank-you purchase page
 - Incomplete remarketing tag on cart-page
+- Cascading category mapping
 - Tracking & conversion
 	- dynamic dropdowns in GA / tracking page for values
 - Add support for Composite products: https://woocommerce.com/products/composite-products/

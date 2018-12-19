@@ -1009,7 +1009,7 @@ trait WPPFM_Processing_Support {
 			unset($product[$key]);
 			$product[$split[0]] = $tags_value;
 		}
-
+		
 		return $product;
 	}
 		
@@ -1046,10 +1046,10 @@ trait WPPFM_Processing_Support {
 	 * @param string $value_string
 	 * @return string
 	 */
-	protected function convert_to_xml_value( $value_string ) {
+	public function convert_to_xml_value( $value_string ) {
 		$string_without_tags = strip_tags( $value_string );
 		$prep_string = str_replace( array( '&amp;', '&lt;', '&gt;', '&apos;', '&quot;', '&nbsp;' ), array( '&', '<', '>', '\'', '"', 'nbsp;' ), $string_without_tags );
-		$clean_xml_string = str_replace( array( '&', '<', '>', '\'', '"', 'nbsp;', '`' ), array( '&amp;', '&lt;', '&gt;', '&apos;', '&quot;', '&nbsp;', '' ), $prep_string );
+		$clean_xml_string = str_replace( array( '&', '<', '>', '\'', '"', 'nbsp;', '`' ), array( '&amp;', '&lt;', '&gt;', '&apos;', '&quot;', ' ', '' ), $prep_string );
 		return $clean_xml_string;
 	}
 

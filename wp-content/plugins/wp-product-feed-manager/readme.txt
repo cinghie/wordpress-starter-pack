@@ -5,7 +5,7 @@ Tags: Google Merchant Export, Product feed, woocommerce, Google product feed exp
 Requires at least: 4.6
 Tested up to: 5.0
 Requires PHP: 5.6
-Stable tag: 1.12.1
+Stable tag: 1.12.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,11 @@ In case it does please do submit your feed in your Google Merchant center and ch
 3. Save and generate your feed
 
 == Changelog ==
+= 1.12.2 - 14/12/2018 =
+* Restored the wppfm_feed_item_value filter name
+* Improved the German translation
+* Checked compatibility with Wordpress version 5.0
+
 = 1.12.1 - 30/11/2018 =
 * Fixed an issue where error loggings would not write correctly to the logging file
 * Fixed an issue where the plugin would log a type error when using the Image Galery source in a filter setting

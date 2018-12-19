@@ -8,6 +8,51 @@ function my_footer_text($default) {
 add_filter('admin_footer_text', 'my_footer_text');
 
 /**
+ * Since WP 5.01 form elements are no longer allowed tags for non-admin users
+ * With the function below we add the form elements again to the allowed tags
+ **/
+if(!function_exists('woosea_add_allowed_tags')) {
+	function woosea_add_allowed_tags($tags) {
+		// form
+		$tags['form'] = array(
+          		'action' => true,
+          		'accept' => true,
+          		'accept-charset' => true,
+          		'enctype' => true,
+          		'method' => true,
+          		'name' => true,
+          		'target' => true,
+			'id' => true,
+			'class' => true,
+        	);
+
+		// input
+		$tags['input'] = array(
+			'class' => true,
+			'id'    => true,
+			'name'  => true,
+			'value' => true,
+			'type'  => true,
+		);
+		// select
+		$tags['select'] = array(
+			'class'  => true,
+			'id'     => true,
+			'name'   => true,
+			'value'  => true,
+			'type'   => true,
+		);
+		// select options
+		$tags['option'] = array(
+			'selected' => true,
+		);
+		return $tags;
+	}
+	add_filter('wp_kses_allowed_html', 'woosea_add_allowed_tags');
+}
+//$allowed_tags = wp_kses_allowed_html( 'post' );
+
+/**
  * Create notification object
  */
 $notifications_obj = new WooSEA_Get_Admin_Notifications;
@@ -50,7 +95,7 @@ if (array_key_exists('project_hash', $_GET)){
                         	<p><?php _e($notifications_box['message'], 'sample-text-domain' ); ?></p>
                 	</div>
 
-			<form action="" method="post">
+			<form method="post">
 			<input type="hidden" name="page" value="filters">
 			<table class="woo-product-feed-pro-table" id="woosea-ajax-table" border="1">
 				<thead>
@@ -357,13 +402,13 @@ if (array_key_exists('project_hash', $_GET)){
                                                 ?>
 							<input type="hidden" name="project_hash" value="<?php print "$project[project_hash]";?>">
                 		                	<input type="hidden" name="step" value="100">
-                       	       				<input type="button" class="delete-row" value="- Delete">&nbsp;<input type="button" class="add-filter" value="+ Add standard filter">&nbsp;<input type="button" class="add-rule" value="+ Add rule">&nbsp;<input type="submit" value="Save" />
+                       	       				<input type="button" class="delete-row" value="- Delete">&nbsp;<input type="button" class="add-filter" value="+ Add filter">&nbsp;<input type="button" class="add-rule" value="+ Add rule">&nbsp;<input type="submit" value="Save">
 						<?php
 						} else {
 						?>
 							<input type="hidden" name="project_hash" value="<?php print "$project[project_hash]";?>">
                 		                	<input type="hidden" name="step" value="5">
-                       	       				<input type="button" class="delete-row" value="- Delete">&nbsp;<input type="button" class="add-filter" value="+ Add standard filter">&nbsp;<input type="button" class="add-rule" value="+ Add rule">&nbsp;<input type="submit" value="Save / Continue" />
+                       	       				<input type="button" class="delete-row" value="- Delete">&nbsp;<input type="button" class="add-filter" value="+ Add filter">&nbsp;<input type="button" class="add-rule" value="+ Add rule">&nbsp;<input type="submit" value="Continue">
 						<?php
 						}
 						?>

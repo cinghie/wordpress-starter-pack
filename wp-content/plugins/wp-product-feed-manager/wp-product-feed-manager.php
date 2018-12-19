@@ -3,19 +3,19 @@
  * Plugin Name: WP Product Feed Manager
  * Plugin URI: https://www.wpmarketingrobot.com
  * Description: An easy to use WordPress plugin that generates and submits your product feeds to merchant centres.
- * Version: 1.12.1
- * Modified: 30-11-2018
+ * Version: 1.12.2
+ * Modified: 14-12-2018
  * Author: Michel Jongbloed
  * Author URI: https://www.wpmarketingrobot.com
  * Requires at least: 4.6
- * Tested up to: 4.9
+ * Tested up to: 5.0
  *
  * Text Domain: wp-product-feed-manager
  * Domain Path: /languages
  * 
  * WC requires at least: 3.0
  * WC tested up to: 3.5
- *
+  *
  * This plugin is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -47,7 +47,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 		/**
 		 * @var string containing the version number of the plugin
 		 */
-		public $version = '2.3.3';
+		public $version = '1.12.2';
 
 		/**
 		 * @var string countaining the authors name
@@ -108,7 +108,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 			
 			// register my version
 			add_option( 'myplugin_version', WPPFM_VERSION_NUM );
-			
+
 			// register my schedule
 			add_action( 'wppfm_feed_update_schedule', array( $this, 'activate_feed_update_schedules' ) );
 			add_action( 'wp_ajax_dismiss_admin_notice', array( $this, 'dismiss_admin_notice' ) );
@@ -131,7 +131,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 		 */
 		private function define_constants() {
 			// Store the name of the plugin
-			if ( ! defined( 'WPPFM_PLUGIN_NAME' ) ) { define( 'WPPFM_PLUGIN_NAME', trim( dirname( plugin_basename( __FILE__ ) ), '/' ) ); }
+			if ( ! defined( 'WPPFM_PLUGIN_NAME' ) ) { define( 'WPPFM_PLUGIN_NAME', 'wp-product-feed-manager' ); }
 
 			// Store the directory of the plugin
 			if ( ! defined( 'WPPFM_PLUGIN_DIR' ) ) { define( 'WPPFM_PLUGIN_DIR', plugin_dir_path( __FILE__ ) ); }
@@ -231,6 +231,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 			require_once ( __DIR__ . '/includes/user-interface/wppfm-admin-menu.php' );
 			require_once ( __DIR__ . '/includes/data/wppfm-admin-functions.php' );
 			require_once ( __DIR__ . '/includes/user-interface/wppfm-messaging.php' );
+			require_once ( __DIR__ . '/includes/user-interface/wppfm-url-functions.php' );
 			require_once ( __DIR__ . '/includes/wppfm-wpincludes.php' );
 
 			// include all required classes

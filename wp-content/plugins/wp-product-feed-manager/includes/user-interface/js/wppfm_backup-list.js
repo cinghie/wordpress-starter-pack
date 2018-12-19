@@ -46,7 +46,7 @@ function wppfm_backupsTable( list ) {
 		var backup = list[i].split( '&&' );
 		var fileName = backup[0];
 		var fileDate = backup[1];
-
+		
         htmlCode += '<tr id="feed-row"';
         if ( i % 2 === 0 ) { htmlCode += ' class="alternate"'; } // alternate background color per row
         htmlCode += '>';

@@ -126,7 +126,7 @@ function wppfm_write_log_file( $error_message, $filename = 'error' ) {
  * @return string
  */
 function wppfm_log_http_requests( $response, $args, $url ) {
-	if ( false !== is_wp_error( $response ) && stripos( $_SERVER[ 'REQUEST_URI' ], '/wp-admin/admin.php?page=' . WPPFM_PLUGIN_NAME ) ) {
+	if ( false !== is_wp_error( $response ) && wppfm_on_any_own_plugin_page() ) {
 		$logfile = WPPFM_PLUGIN_DIR . 'http_request_error.log';
 		file_put_contents( $logfile, sprintf( "### %s, URL: %s\nREQUEST: %sRESPONSE: %s\n", date( 'c' ), $url, print_r( $args, true ), print_r( $response, true ) ), FILE_APPEND );
 	}

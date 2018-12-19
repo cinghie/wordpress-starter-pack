@@ -277,6 +277,7 @@ if ( ! class_exists( 'WPPFM_Data_Class' ) ) :
 		// WPPFM_CHANNEL_RELATED
 		private function get_advised_inputs( $channel_id ) {
 			$feed_class = new WPPFM_Google_Feed_Class();
+
 			// as long as only woocommerce is supported, I can get away with only switching on a specific channel
 			return $feed_class->woocommerce_to_feed_fields();
 		}

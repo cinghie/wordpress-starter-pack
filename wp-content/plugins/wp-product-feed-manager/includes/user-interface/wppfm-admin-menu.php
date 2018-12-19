@@ -72,6 +72,7 @@ add_filter( 'plugin_action_links_' . WPPFM_PLUGIN_CONSTRUCTOR, 'wppfm_plugins_ac
  */
 function wppfm_main_admin_page() {
 	$start = new WPPFM_Main_Admin_Page ();
+
 	// now let's get things going
 	$start->show();
 }

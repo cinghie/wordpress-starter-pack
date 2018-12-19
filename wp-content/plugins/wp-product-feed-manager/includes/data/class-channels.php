@@ -206,7 +206,7 @@ if ( ! class_exists( 'WPPFM_Channel' ) ) :
 					return $this->get_channel_file_version( $channel_name, $rerun_counter );
 				}
 			} else {
-				if ( false !== stripos( $_SERVER[ 'REQUEST_URI' ], '/wp-admin/admin.php?page=' . WPPFM_PLUGIN_NAME ) ) {
+				if ( wppfm_on_any_own_plugin_page() ) {
 					/* translators: %s: Name of a channel */
 					echo wppfm_show_wp_error( sprintf( __( 'Channel %s is not installed correctly. Please try to Deactivate and then Activate the Feed Manager Plugin in your Plugins page.', 'wp-product-feed-manager' ), $channel_name ) );
 					wppfm_write_log_file( sprintf( 'Error: Channel %s is not installed correctly.', $channel_name ) );

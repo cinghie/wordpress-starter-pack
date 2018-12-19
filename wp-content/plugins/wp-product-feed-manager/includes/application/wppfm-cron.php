@@ -24,6 +24,7 @@ function wppfm_update_feeds() {
 	require_once ( __DIR__ . '/../wppfm-wpincludes.php' );
 	require_once ( __DIR__ . '/../data/wppfm-admin-functions.php' );
 	require_once ( __DIR__ . '/../user-interface/wppfm-messaging.php' );	
+	require_once ( __DIR__ . '/../user-interface/wppfm-url-functions.php' );
 	require_once ( __DIR__ . '/../application/wppfm-feed-processing-support.php' );
 
 	// WooCommerce needs to be installed and active

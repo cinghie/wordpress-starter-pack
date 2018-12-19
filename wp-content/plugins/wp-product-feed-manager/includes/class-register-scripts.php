@@ -27,7 +27,7 @@ if ( ! class_exists( 'WPPFM_Register_Scripts' ) ) :
 			$this->_uri = $_SERVER[ 'REQUEST_URI' ];
 
 			$premium_version_nr		 = WPPFM_EDD_SL_ITEM_NAME === 'WP Product Feed Manager' ? 'fr-' : 'pr-'; // prefix for version stamp depending on premium or free version
-			$action_level			 = 2;
+			$action_level			 = 2; // for future use
 			$this->_version_stamp	 = defined( 'WP_DEBUG' ) && WP_DEBUG ? time() : $premium_version_nr . WPPFM_VERSION_NUM;
 			$this->_js_min			 = defined( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min';
 
@@ -53,8 +53,8 @@ if ( ! class_exists( 'WPPFM_Register_Scripts' ) ) :
 			wp_enqueue_script( 'wppfm_message-handling-script', WPPFM_PLUGIN_URL . '/includes/user-interface/js/wppfm_msg_events' . $this->_js_min . '.js', array( 'jquery' ), $this->_version_stamp, true );
 
 			// do not load the other scripts unless a wppfm page is on
-			if ( stripos( $this->_uri, '/wp-admin/admin.php?page=' . WPPFM_PLUGIN_NAME ) === false ) { return; }
-
+			if ( ! wppfm_on_own_main_plugin_page() ) { return; }
+			
 			wp_register_style( 'wp-product-feed-manager', WPPFM_PLUGIN_URL . '/css/wppfm_admin-page' . $this->_js_min . '.css', '', $this->_version_stamp, 'screen' );
 			wp_enqueue_style( 'wp-product-feed-manager' );
 			
@@ -107,7 +107,7 @@ if ( ! class_exists( 'WPPFM_Register_Scripts' ) ) :
 			wp_enqueue_script( 'wppfm_message-handling-script', WPPFM_PLUGIN_URL . '/includes/user-interface/js/wppfm_msg_events' . $this->_js_min . '.js', array( 'jquery' ), $this->_version_stamp, true );
 
 			// do not load the other scripts unless a wppfm settings page is on
-			if ( stripos( $this->_uri, '/wp-admin/admin.php?page=wppfm-options-page' ) === false ) { return; }
+			if ( ! wppfm_on_plugins_settings_page() ) { return; }
 
 			wp_register_style( 'wp-product-feed-manager-setting', WPPFM_PLUGIN_URL . '/css/wppfm_setting-page' . $this->_js_min . '.css', '', $this->_version_stamp, 'screen' );
 			wp_enqueue_style( 'wp-product-feed-manager-setting' );
@@ -141,7 +141,7 @@ if ( ! class_exists( 'WPPFM_Register_Scripts' ) ) :
 		}
 
 		public function wppfm_register_level_one_scripts() {
-			if ( stripos( $this->_uri, '/wp-admin/admin.php?page=' . WPPFM_PLUGIN_NAME ) === false ) { return; }
+			if ( ! wppfm_on_own_main_plugin_page() ) { return; }
 			
 			$data				 = new WPPFM_Data_Class;
 			$installed_channels	 = $data->get_channels();
@@ -154,7 +154,7 @@ if ( ! class_exists( 'WPPFM_Register_Scripts' ) ) :
 		}
 		
 		public function wppfm_register_level_two_scripts() {
-			if ( stripos( $this->_uri, '/wp-admin/admin.php?page=' . WPPFM_PLUGIN_NAME ) === false ) { return; }
+			if ( ! wppfm_on_own_main_plugin_page() ) { return; }
 
 			wp_enqueue_script( 'wppfm_channel-functions-script', WPPFM_PLUGIN_URL . '/includes/application/js/wppfm_channel-functions.js', 
 				array( 'jquery' ), $this->_version_stamp, true );

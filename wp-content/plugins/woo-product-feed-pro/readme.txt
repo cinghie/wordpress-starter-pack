@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 5.0
-Stable tag: 4.0.0
+Stable tag: 4.0.1
 
 == Description ==
 
@@ -263,6 +263,9 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 4.0.1 (2018-12-18) =
+* Added form tags to the allowed HTML keys using the wp_kses_allowed_html function as they had been removed in the WP 5.01 release. This solves the "A variable mismatch has been detected" error.
 
 = 4.0.0 (2018-12-17) =
 * Fixed another issue with cached prices ending up in product feeds.
@@ -1198,6 +1201,9 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 4.0.1 =
+Added form tags to the allowed HTML keys using the wp_kses_allowed_html function as they had been removed in the WP 5.01 release. This solves the "A variable mismatch has been detected" error.
 
 = 4.0.0 =
 Fixed another issue with cached prices ending up in product feeds.
