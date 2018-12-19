@@ -2,8 +2,8 @@
 Contributors: socialdude
 Tags: social media, share, buttons, social widget, icons, share icons, share buttons, sharing icons, sharing buttons, social share, sharing, social sharing
 Requires at least: 3.0
-Tested up to: 4.9.8
-Stable tag: 2.0.8
+Tested up to: 5.0
+Stable tag: 2.1.0
 License: GPLv2 
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -275,9 +275,18 @@ You cannot use the same plugin twice, however you can install both the USM as we
 
 == Changelog ==
 
+= 2.1.0 =
+* Solved: removed deprecated jQuery functions
+* Solved: Rectangle icon alignemnt problem on some themes
+
+= 2.0.9 =
+* Banner for animation section in Question 4 added
+* Different icon for mouseover section pointing in premium in Question 4 added
+* Removed theme icon banner if no match
+
 = 2.0.8 =
 * Solved: Notification bar cannot be seen anymore
-* Solved: cleared the float elements after notice.
+* Solved: cleared the float elements after notice
 
 = 2.0.7 =
 * Round green follow button doesn't show - fixed
@@ -727,5 +736,5 @@ You cannot use the same plugin twice, however you can install both the USM as we
 
 == Upgrade Notice ==
 
-= 2.0.8 =
+= 2.1.0 =
 Please upgrade

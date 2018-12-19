@@ -1,6 +1,7 @@
 <?php
 /* unserialize all saved option for second section options */
 $option3 =  unserialize(get_option('sfsi_section3_options',false));
+$option1 =  unserialize(get_option('sfsi_section1_options',false));
 
 /*
  * Sanitize, escape and validate values
@@ -13,6 +14,9 @@ $option3['sfsi_shuffle_Firstload'] 		= (isset($option3['sfsi_shuffle_Firstload']
 $option3['sfsi_shuffle_interval'] 		= (isset($option3['sfsi_shuffle_interval'])) ? sanitize_text_field($option3['sfsi_shuffle_interval']) : '';
 $option3['sfsi_shuffle_intervalTime'] 	= (isset($option3['sfsi_shuffle_intervalTime'])) ? intval($option3['sfsi_shuffle_intervalTime']) : '';
 
+$option3['sfsi_mouseOver_effect_type'] = (isset($option3['sfsi_mouseOver_effect_type'])) ? sanitize_text_field($option3['sfsi_mouseOver_effect_type']) : 'same_icons';
+
+$mouseover_other_icons_transition_effect = (isset($option3['mouseover_other_icons_transition_effect'])) ? sanitize_text_field($option3['mouseover_other_icons_transition_effect']) : 'flip';
 ?>
 
 <!-- Section 3 "What design & animation do you want to give your icons?" main div Start -->
@@ -127,17 +131,6 @@ $option3['sfsi_shuffle_intervalTime'] 	= (isset($option3['sfsi_shuffle_intervalT
                          {
                              echo '<span class="row_17_5 twitter_section" style="background-position:-235px 0;"></span>';
                          }
-                         
-       //                   if(get_option("share_skin"))
-       //                   {
-       //                      $icon = get_option("share_skin");
-       //                      echo '<span class="row_17_6 share_section sfsi-bgimage" style="background: url('.$icon.') no-repeat;"></span>';
-       //                   }
-						 // else
-       //                   {
-       //                       echo '<span class="row_17_6 share_section" style="background-position:-293px 0;"></span>';
-       //                   }
-                         
                          if(get_option("youtube_skin"))
                          {
                             $icon = get_option("youtube_skin");
@@ -180,101 +173,13 @@ $option3['sfsi_shuffle_intervalTime'] 	= (isset($option3['sfsi_shuffle_intervalT
                      ?>
                 </div>
            	</li>
+
            	<li>
-			<div class="sf_si_our_prmium_plugin-add">
-			    <div class="sf_si_prmium_head"><h2>New: <span>In our Premium Plugin we added:</span></h2></div>
-			    <div class="sf_si_default_design">
-					<ul>
-                         <li>
-                             <h4>A) More default design styles</h4>
-                            </li>
-                         <li>
-                                <div class="sfsi_row_table">
-                                    <div class="sfsi_first_icon_field sfsi_cool_font_weight">
-                                     <h2>Cool style</h2>  
-                                    </div>
-                                    <div class="sfsi_second_icon_img">
-                                        <img src="<?php  echo SFSI_PLUGURL; ?>images/sfsi_cool_icon_spread.png" />
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="sfsi_row_table">
-                                    <div class="sfsi_first_icon_field sfsi_cool_font_weight">
-                                        <h2>Waxed Wood</h2>
-                                    </div>
-                                    <div class="sfsi_second_icon_img">
-                                        <img src="<?php  echo SFSI_PLUGURL; ?>images/sfsi_vaxwoodi_icon_spread.png" />
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="sfsi_row_table">
-                                    <div class="sfsi_first_icon_field sfsi_cool_font_weight">
-                                        <h2>Black Grunge</h2>
-                                    </div>
-                                    <div class="sfsi_second_icon_img">
-                                        <img src="<?php  echo SFSI_PLUGURL; ?>images/sfsi_black_icon_spread.png" />
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="sfsi_row_table">
-                                    <div class="sfsi_first_icon_more">
-                                        <h2>(and many more)</h2>
-                                    </div>
-                                </div>
-                            </li>
-                         <li>
-                             <h4 class="sfsi_second_themedTitle">B) Themed styles<span> (to match the content of your site)</span></h4>
-                            </li>
-                         <li>
-                                <div class="sfsi_row_table">
-                                    <div class="sfsi_first_icon_field">
-                                        <h2>Lovehearts</h2>
-                                        <p>(e.g. for girly sites or just sites with a heart)</p>
-                                    </div>
-                                    <div class="sfsi_second_icon_img">
-                                        <img src="<?php  echo SFSI_PLUGURL; ?>images/sfsi_loveheart_icon_spread.png" />
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="sfsi_row_table">
-                                    <div class="sfsi_first_icon_field">
-                                        <h2>Computers</h2>
-                                        <p>(e.g. for IT/tech sites)</p>
-                                    </div>
-                                    <div class="sfsi_second_icon_img">
-                                        <img src="<?php  echo SFSI_PLUGURL; ?>images/sfsi_computer_icon_spread.png" />
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="sfsi_row_table">
-                                    <div class="sfsi_first_icon_field">
-                                        <h2>Dogs</h2>
-                                        <p>(e.g. for dog/pet sites)</p>
-                                    </div>
-                                    <div class="sfsi_second_icon_img">
-                                        <img src="<?php  echo SFSI_PLUGURL; ?>images/sfsi_dogi_icon_spread.png" />
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="sfsi_row_table">
-                                    <div class="sfsi_first_icon_more">
-                                        <h2>(and many more)</h2>
-                                    </div>
-                                </div>
-                            </li>
-                    </ul>
-			    </div>
-				<div class="sf_si_all_features_premium">
-					<a  href="https://www.ultimatelysocial.com/usm-premium/?utm_source=usmi_settings_page&utm_campaign=more_icons_designs&utm_medium=banner" target="_blank">See all features Premium Plugin</a>
-				</div>
-		    </div>
+
+                <?php include_once(SFSI_DOCROOT.'/views/subviews/que4/banner.php'); ?>
+
             </li>
+
            	<li>
             	<p style="font-weight: bold; margin: 12px 0 0;">
                         Need icons for another theme? Let us know in the
@@ -287,38 +192,8 @@ $option3['sfsi_shuffle_intervalTime'] 	= (isset($option3['sfsi_shuffle_intervalT
 		</ul>
 		<!--icon themes section start -->
       
-		<!--icon Animation section start -->
-		<div class="sub_row stand sec_new" style="margin-left: 0px;">
-			<h3>Animate them</h3>
-			<p class="radio_section tab_3_option">
-        		<input name="sfsi_mouseOver" <?php echo ( $option3['sfsi_mouseOver']=='yes') ?  'checked="true"' : '' ;?>  type="checkbox" value="yes" class="styled"  />
-            	<label>Mouse-Over effects</label>
-            
-                <div class="drop_lsts">
-                    <select name="sfsi_mouseOver_effect"  id="sfsi_mouseOver_effect" class="styled">
-                        <option value="fade_in" <?php echo ( $option3['sfsi_mouseOver_effect']=='fade_in') ? 'selected="true"' :'' ;?>>Fade In</option>
-                        <option value="scale" <?php echo ( $option3['sfsi_mouseOver_effect']=='scale') ?  'selected="true"' : '' ;?>>Scale</option>
-                        <option value="combo" <?php echo ( $option3['sfsi_mouseOver_effect']=='combo') ?  'selected="true"' : '' ;?>>Combo</option>
-                    </select>
-                </div>
-            </p>
-            <div class="Shuffle_auto"><p class="radio_section tab_3_option">
-                <input name="sfsi_shuffle_icons" <?php echo ( $option3['sfsi_shuffle_icons']=='yes') ?  'checked="true"' : '' ;?>  type="checkbox" value="yes" class="styled"  />
-                <label>Shuffle them automatically</label>
-                <div class="sub_sub_box shuffle_sub"  >
-                    <p class="radio_section tab_3_option">
-                        <input name="sfsi_shuffle_Firstload" <?php echo ( $option3['sfsi_shuffle_Firstload']=='yes') ?  'checked="true"' : '' ;?>  type="checkbox" value="yes" class="styled"  />
-                        <label>When site is first loaded</label>
-                    </p>
-                    <p class="radio_section tab_3_option">
-                        <input name="sfsi_shuffle_interval" <?php echo ( $option3['sfsi_shuffle_interval']=='yes') ?  'checked="true"' : '' ;?>  type="checkbox" value="yes" class="styled"  />
-                        <label>Every</label>
-                        <input class="smal_inpt" type="text" name="sfsi_shuffle_intervalTime" value="<?php echo ( $option3['sfsi_shuffle_intervalTime']!='') ?   $option3['sfsi_shuffle_intervalTime'] : '' ;?>"><label>seconds</label>
-                    </p>
-                </div>
-    	   	</div>
-		</div>
-        <!--END icon Animation section   start -->
+        <?php include_once(SFSI_DOCROOT.'/views/subviews/que4/animatethem.php'); ?>
+
     </div>
     
     <?php sfsi_ask_for_help(3); ?>

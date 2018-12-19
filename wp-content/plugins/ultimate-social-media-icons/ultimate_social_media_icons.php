@@ -5,7 +5,7 @@ Plugin URI: http://ultimatelysocial.com
 Description: Easy to use and 100% FREE social media plugin which adds social media icons to your website with tons of customization features!. 
 Author: UltimatelySocial
 Author URI: http://ultimatelysocial.com
-Version: 2.0.8
+Version: 2.1.0
 License: GPLv2 or later
 */
 
@@ -19,6 +19,11 @@ define('SFSI_PLUGURL',    plugin_dir_url(__FILE__));
 define('SFSI_WEBROOT',    str_replace(getcwd(), home_url(), dirname(__FILE__)));
 define('SFSI_SUPPORT_FORM','https://goo.gl/wgrtUV');
 define('SFSI_DOMAIN','ultimate-social-media-icons');
+
+$wp_upload_dir = wp_upload_dir();
+define('SFSI_UPLOAD_DIR_BASEURL', trailingslashit($wp_upload_dir['baseurl']));
+
+define('SFSI_ALLICONS',serialize(array("rss","email","facebook","twitter","google","share","youtube","pinterest","instagram")));
 
 function sfsi_get_current_page_url()
 {
@@ -38,15 +43,18 @@ function sfsi_get_current_page_url()
 }
 
 /* load all files  */
+include(SFSI_DOCROOT.'/libs/sfsi_install_uninstall.php');
+
+include(SFSI_DOCROOT.'/helpers/common_helper.php');
 include(SFSI_DOCROOT.'/libs/controllers/sfsi_socialhelper.php');
 include(SFSI_DOCROOT.'/libs/controllers/sfsi_class_theme_check.php');
-include(SFSI_DOCROOT.'/libs/sfsi_install_uninstall.php');
 include(SFSI_DOCROOT.'/libs/controllers/sfsi_buttons_controller.php');
 include(SFSI_DOCROOT.'/libs/controllers/sfsi_iconsUpload_contoller.php');
-include(SFSI_DOCROOT.'/libs/sfsi_Init_JqueryCss.php');
 include(SFSI_DOCROOT.'/libs/controllers/sfsi_floater_icons.php');
 include(SFSI_DOCROOT.'/libs/controllers/sfsi_frontpopUp.php');
 include(SFSI_DOCROOT.'/libs/controllers/sfsiocns_OnPosts.php');
+
+include(SFSI_DOCROOT.'/libs/sfsi_Init_JqueryCss.php');
 include(SFSI_DOCROOT.'/libs/sfsi_widget.php');
 include(SFSI_DOCROOT.'/libs/sfsi_subscribe_widget.php');
 include(SFSI_DOCROOT.'/libs/sfsi_custom_social_sharing_data.php');
@@ -57,7 +65,7 @@ register_activation_hook(__FILE__, 'sfsi_activate_plugin' );
 register_deactivation_hook(__FILE__, 'sfsi_deactivate_plugin');
 register_uninstall_hook(__FILE__, 'sfsi_Unistall_plugin');
 
-if(!get_option('sfsi_pluginVersion') || get_option('sfsi_pluginVersion') < 2.08)
+if(!get_option('sfsi_pluginVersion') || get_option('sfsi_pluginVersion') < 2.10)
 {
 	add_action("init", "sfsi_update_plugin");
 }
@@ -948,20 +956,22 @@ function sfsi_getdomain($url)
 add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), "sfsi_actionLinks", -10 );
 function sfsi_actionLinks($links)
 {
-	$links[] = '<a target="_blank" href="https://goo.gl/auxJ9C#no-topic-0" id="sfsi_deactivateButton" style="color:#FF0000;"><b>Need help?</b></a>';	
-	$links[] = '<a target="_blank" href="https://www.ultimatelysocial.com/usm-premium/?utm_source=usmi_manage_plugin_page&utm_campaign=check_out_pro_version&utm_medium=banner" id="sfsi_deactivateButton" style="color:#38B54A;"><b>Check out pro version</b></a>';
+	unset($links['edit']);    
+	$links['a'] = '<a target="_blank" href="https://goo.gl/auxJ9C#no-topic-0" id="sfsi_deactivateButton" style="color:#FF0000;"><b>Need help?</b></a>';	
+	//$links[] = '<a target="_blank" href="https://www.ultimatelysocial.com/usm-premium/?utm_source=usmi_manage_plugin_page&utm_campaign=check_out_pro_version&utm_medium=banner" id="sfsi_deactivateButton" style="color:#38B54A;"><b>Check out pro version</b></a>';
 	
-	if(isset($links["edit"]) && !empty($links["edit"])){
+	/*if(isset($links["edit"]) && !empty($links["edit"])){
 		$links[] = @$links["edit"];		
-	}
+	}*/
 
-	$slug = plugin_basename(dirname(__FILE__));
-	$links[$slug] = @$links["deactivate"].'<i class="sfsi-deactivate-slug"></i>';
+	//$slug = plugin_basename(dirname(__FILE__));
+	//$links[$slug] = @$links["deactivate"].'<i class="sfsi-deactivate-slug"></i>';
 
-	$links[] = '<a href="'.admin_url("/admin.php?page=sfsi-options").'">Settings</a>';
+	$links['e'] = '<a href="'.admin_url("/admin.php?page=sfsi-options").'">Settings</a>';
 
-	unset($links["deactivate"]);
-	unset($links['edit']);
+    	ksort($links);
+
+	//unset($links["deactivate"]);
 	return $links;
 }
 
@@ -1313,7 +1323,7 @@ function sfsi_ask_for_help($viewNumber){ ?>
 	
 		<img src="<?php echo SFSI_PLUGURL."images/questionmark.png";?>"/>
 		
-		<span>Questions? <a target="_blank" href="https://goo.gl/ctiyJM"><b>Ask us</b></a> — we will respond asap!</span>
+		<span>Questions? <a target="_blank" href="#" onclick="event.preventDefault();sfsi_open_chat(event)"><b>Ask us</b></a></span>
 
 	</div>
 

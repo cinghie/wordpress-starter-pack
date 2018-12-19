@@ -175,6 +175,7 @@ function sfsi_options_updater3()
     $sfsi_actvite_theme             = isset($_POST["sfsi_actvite_theme"]) ? $_POST["sfsi_actvite_theme"] : 'no'; 
     $sfsi_mouseOver                 = isset($_POST["sfsi_mouseOver"]) ? $_POST["sfsi_mouseOver"] : 'no'; 
     $sfsi_mouseOver_effect          = isset($_POST["sfsi_mouseOver_effect"]) ? $_POST["sfsi_mouseOver_effect"] : 'fade_in'; 
+    $sfsi_mouseover_effect_type     = isset($_POST["sfsi_mouseover_effect_type"]) ? $_POST["sfsi_mouseover_effect_type"] : 'same_icons'; 
     $sfsi_shuffle_icons             = isset($_POST["sfsi_shuffle_icons"]) ? $_POST["sfsi_shuffle_icons"] : 'no'; 
     $sfsi_shuffle_Firstload         = isset($_POST["sfsi_shuffle_Firstload"]) ? $_POST["sfsi_shuffle_Firstload"] : 'no'; 
     $sfsi_shuffle_interval          = isset($_POST["sfsi_shuffle_interval"]) ? $_POST["sfsi_shuffle_interval"] : 'no'; 
@@ -193,6 +194,7 @@ function sfsi_options_updater3()
         /* animations options */
         'sfsi_mouseOver'                    => sanitize_text_field($sfsi_mouseOver),
         'sfsi_mouseOver_effect'             => sanitize_text_field($sfsi_mouseOver_effect),
+        'sfsi_mouseover_effect_type'        => sanitize_text_field($sfsi_mouseover_effect_type),
         'sfsi_shuffle_icons'                => sanitize_text_field($sfsi_shuffle_icons),
         'sfsi_shuffle_Firstload'            => sanitize_text_field($sfsi_shuffle_Firstload),
         'sfsi_shuffle_interval'             => sanitize_text_field($sfsi_shuffle_interval),
@@ -937,6 +939,7 @@ function sfsi_returningElement($element) {return $element[0];}
 add_action('wp_ajax_bannerOption','sfsi_bannerOption');
 
 function sfsi_bannerOption(){
+
     error_reporting(0);
 
     if(get_option("show_new_notification") == "yes"){
@@ -980,31 +983,31 @@ function sfsi_bannerOption(){
       }
 
 
-      if(!$matchFound){
+      // if(!$matchFound){
             
-            echo '<div class="sfsi_new_notification_cat">
-                    <div class="sfsi_new_notification_header_cat">
-                        <h1>New feature: Tailored icons</h1>
-                        <h3>The <a href="https://www.ultimatelysocial.com/themed-icons-search/?utm_source=usmi_settings_page&utm_campaign=themed_icons_search&utm_medium=banner" target="_blank">Premium Plugin</a> Includes these icons...</h3>
-                        <div class="sfsi_new_notification_cross_cat">X</div>
-                    </div>
+      //       echo '<div class="sfsi_new_notification_cat">
+      //               <div class="sfsi_new_notification_header_cat">
+      //                   <h1>New feature: Tailored icons</h1>
+      //                   <h3>The <a href="https://www.ultimatelysocial.com/themed-icons-search/?utm_source=usmi_settings_page&utm_campaign=themed_icons_search&utm_medium=banner" target="_blank">Premium Plugin</a> Includes these icons...</h3>
+      //                   <div class="sfsi_new_notification_cross_cat">X</div>
+      //               </div>
                     
-                    <div class="sfsi_new_notification_body_link_cat">
-                        <a class ="tailored_icons_img" href="https://www.ultimatelysocial.com/themed-icons-search/?utm_source=usmi_settings_page&utm_campaign=themed_icons_search&utm_medium=banner" target="_blank">
-                            <div class="sfsi_new_notification_body_cat">
-                                <div class="sfsi_new_notification_image_cat">
-                                       <img src="'.SFSI_PLUGURL.'images/WPPlugin_V3.png" id="newImg" />
-                                </div>
-                            </div>
-                        </a>
-                        <div class="bottom_text">
-                            <a target="_blank" href="https://www.ultimatelysocial.com/themed-icons-search/?utm_source=usmi_settings_page&utm_campaign=themed_icons_search&utm_medium=banner" >
-                                See more-themed-icons >
-                            </a>
-                        </div>    
-                    </div>
-                </div>';   
-      }
+      //               <div class="sfsi_new_notification_body_link_cat">
+      //                   <a class ="tailored_icons_img" href="https://www.ultimatelysocial.com/themed-icons-search/?utm_source=usmi_settings_page&utm_campaign=themed_icons_search&utm_medium=banner" target="_blank">
+      //                       <div class="sfsi_new_notification_body_cat">
+      //                           <div class="sfsi_new_notification_image_cat">
+      //                                  <img src="'.SFSI_PLUGURL.'images/WPPlugin_V3.png" id="newImg" />
+      //                           </div>
+      //                       </div>
+      //                   </a>
+      //                   <div class="bottom_text">
+      //                       <a target="_blank" href="https://www.ultimatelysocial.com/themed-icons-search/?utm_source=usmi_settings_page&utm_campaign=themed_icons_search&utm_medium=banner" >
+      //                           See more-themed-icons >
+      //                       </a>
+      //                   </div>    
+      //               </div>
+      //           </div>';   
+      // }
         
         echo '<script type="text/javascript">
                 jQuery("body").on("click", ".sfsi_new_notification_cross", function(){
@@ -1034,7 +1037,21 @@ function sfsi_bannerOption(){
                     });
                 });
         </script>';
-    }   
+    }
+    die();
+}
+add_action('wp_ajax_sfsiOfflineChatMessage','sfsi_OfflineChatMessage');
+
+function sfsi_OfflineChatMessage(){
+    error_reporting(0);
+    extract($_POST);
+    $body="<table><tr><th>Site:</th><td>".home_url()."</td></tr><tr><th>Plugin:</th><td>Old Plugin</td></tr><tr><th>Email:</th><td>".$email."</td></tr><tr><th>Message:</th><td>".$message."</td></tr></table>";
+    $sent=wp_mail('help@ultimatelysocial.com',"New question from user",$body,array('Content-Type: text/html; charset=UTF-8'));
+    if(isset($sent)&&(true===$sent)){
+        echo "success";
+    }else{
+        echo "failure";
+    }
     die();
 }
 ?>

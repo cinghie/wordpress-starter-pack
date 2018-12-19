@@ -24,6 +24,23 @@
 			
 			<?php @include(SFSI_DOCROOT.'/views/subviews/que3/sfsi_que3_place_via_after_posts.php'); ?>
 
+		<!--**********************  Show pinterest over image hover  post****************************************-->
+
+			<li class="sfsi_show_via_onhover disabled_checkbox">
+				
+				<div class="radio_section tb_4_ck">
+					<span class="checkbox" style="background-position:0px 0px!important;width:31px"></span>
+					<input name="" type="checkbox" disable value="" class="hide" style="display:none;"  /></div>
+				
+				<div class="sfsi_right_info">
+					
+	                <p style="display:block">
+						<span class="sfsi_toglepstpgspn" style="width:50%;display:inline-block;float:left;">Show a Pinterest icon over images on mouse-over </span> <span><a href="https://www.ultimatelysocial.com/usm-premium/?utm_source=usmi_settings_page&utm_campaign=pinterest_icon_mouse_over&utm_medium=link" target="_blank" style="font-weight:800">Premium feature</a></span>
+					</p>
+					
+				</div>
+			</li>
+
 	</ul>
 	
 	

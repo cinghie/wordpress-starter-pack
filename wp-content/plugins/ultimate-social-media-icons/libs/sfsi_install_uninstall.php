@@ -12,7 +12,7 @@ function sfsi_update_plugin()
     }
     
     //Install version
-    update_option("sfsi_pluginVersion", "2.08");
+    update_option("sfsi_pluginVersion", "2.10");
 
     if(!get_option('sfsi_serverphpVersionnotification'))
     {
@@ -79,6 +79,19 @@ function sfsi_update_plugin()
         /*Youtube Channelid settings*/
         if(!isset($option4['sfsi_youtube_channelId'])){
             $option4['sfsi_youtube_channelId'] = '';            
+        }
+    }
+
+    $option3 = unserialize(get_option('sfsi_section3_options',false));
+    
+    if(isset($option3) && !empty($option3))
+    {
+        if(!isset($option3['sfsi_mouseOver_effect_type'])){
+            $option3['sfsi_mouseOver_effect_type'] = 'same_icons';
+        }
+
+        if(!isset($option3['mouseover_other_icons_transition_effect'])){
+            $option3['mouseover_other_icons_transition_effect'] = 'flip';
         }
     }
 
@@ -388,13 +401,18 @@ function sfsi_activate_plugin()
 	if(!isset($option3) || empty($option3)){
 
         /* Design and animation option  */
-        $options3=array('sfsi_mouseOver'=>'no',
-            'sfsi_mouseOver_effect'=>'fade_in',
-            'sfsi_shuffle_icons'=>'no',
-            'sfsi_shuffle_Firstload'=>'no',
-            'sfsi_shuffle_interval'=>'no',
-            'sfsi_shuffle_intervalTime'=>'',                              
-            'sfsi_actvite_theme'=>'default' );
+        $options3 = array(
+
+            'sfsi_mouseOver'             =>'no',
+            'sfsi_mouseOver_effect'      =>'fade_in',
+            'sfsi_mouseOver_effect_type' => 'same_icons',
+            'mouseover_other_icons_transition_effect' => 'flip',
+            'sfsi_shuffle_icons'         =>'no',
+            'sfsi_shuffle_Firstload'     =>'no',
+            'sfsi_shuffle_interval'      =>'no',
+            'sfsi_shuffle_intervalTime'  =>'',                              
+            'sfsi_actvite_theme'         =>'default' 
+        );
         add_option('sfsi_section3_options',  serialize($options3));
     }
     
