@@ -87,18 +87,28 @@ function ppom_woocommerce_show_fields() {
 
 function ppom_woocommerce_validate_product($passed, $product_id, $qty) {
     
-	$ppom		= new PPOM_Meta( $product_id );
-	
-	if( $ppom->ajax_validation_enabled ) {
-		return $passed;
+  	$ppom		= new PPOM_Meta( $product_id );
+  	if( ! $ppom->ajax_validation_enabled ) {
+		$passed = ppom_check_validation($product_id, $_POST);
 	}
 	
-	return ppom_check_validation($product_id, $_POST);
+	if(isset($_POST['ppom']['fields'])) {
+    	if( ppom_is_price_attached_with_fields($_POST['ppom']['fields'], $product_id) &&
+    		empty($_POST['ppom']['ppom_option_price'])
+    	 ) {
+    		$error_message = __('Sorry, an error has occurred. Please enable JavaScript or contact site owner.','ppom');
+			ppom_wc_add_notice( $error_message );
+			$passed = false;
+			return $passed;
+    	}
+    }
+    
+    return $passed;
 }
 
 function ppom_woocommerce_ajax_validate() {
 	
-	// ppom_pa($_POST);
+	// ppom_pa($_POST); exit;
 	$errors_found = array();
 	
 	$product_id = $_POST['ppom_product_id'];
@@ -107,16 +117,32 @@ function ppom_woocommerce_ajax_validate() {
 	$all_notices = wc_get_notices();
 	wc_clear_notices();
 	
+	$reponse = array();
 	if( ! $passed ) {
-		$errors_found = $all_notices['error'];
+		ob_start();
+		foreach($all_notices as $type => $message) {
+			
+			if( $type != 'error' ) continue;
+			wc_get_template( "notices/{$type}.php", array(
+				'messages' => $message )
+			);
+		}
+		
+		$all_notices = wc_kses_notice( ob_get_clean() );
+		$reponse = array('status'=>'error', 'message'=>$all_notices);
+	} else {
+		$reponse = array('status'=>'success');
 	}
+	// $all_notices = '<div class="">'.$all_notices.'</div>';
+	// ppom_pa($all_notices);
 	
-	wp_send_json( array_unique($errors_found) );
+	wp_send_json( $reponse );
 }
 
 function ppom_check_validation($product_id, $post_data, $passed=true) {
 	
 	$ppom		= new PPOM_Meta( $product_id );
+	
 	if( ! $ppom->fields ) return $passed;
 	
 	$ppom_posted_fields = isset($post_data['ppom']['fields']) ? $post_data['ppom']['fields'] : null;
@@ -148,7 +174,7 @@ function ppom_check_validation($product_id, $post_data, $passed=true) {
 			$passed = false;
 		}
 	}
-		
+	
 	/*var_dump($passed);
 	ppom_pa($post_data); exit;*/
 	
@@ -803,25 +829,26 @@ function ppom_woocommerce_cart_update_validate( $cart_validated, $cart_item_key,
 }
 
 
-function ppom_woocommerce_order_item_meta($item_id, $cart_item, $order_id) {
+function ppom_woocommerce_order_item_meta($item, $cart_item_key, $values, $order) {
 	
-
-	if ( ! isset ( $cart_item ['ppom']['fields'] )) {
+	if ( ! isset ( $values ['ppom']['fields'] )) {
 		return;
 	}
-	
 	// ADDED WC BUNDLES COMPATIBILITY
-	if ( function_exists('wc_pb_is_bundled_cart_item') && wc_pb_is_bundled_cart_item( $cart_item )) {
+	if ( function_exists('wc_pb_is_bundled_cart_item') && wc_pb_is_bundled_cart_item( $values )) {
 		return;
 	}
 	
-	$ppom_meta = ppom_make_meta_data( $cart_item, 'order' );
+	$ppom_meta = ppom_make_meta_data( $values, 'order' );
+	// ppom_pa($ppom_meta); exit;
 	foreach( $ppom_meta as $key => $meta ) {
 		
-		ppom_add_order_item_meta($item_id, $key, $meta['value']);
+		echo $item->get_id();
+		$item->update_meta_data($key, $meta['value']);
 	}
+	
 	// Since 15.2, saving all fields as another meta
-	ppom_add_order_item_meta($item_id, '_ppom_fields', $cart_item ['ppom']);
+	$item->update_meta_data('_ppom_fields', $values ['ppom']);
 }
 
 // Changing order item meta key to label

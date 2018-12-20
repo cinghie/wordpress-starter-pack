@@ -180,6 +180,9 @@ function ppom_hooks_load_input_scripts( $product ) {
 			$field['options'] = ppom_convert_options_to_key_val($field['options'], $field, $product);
 		}
 		
+		
+		$decimal_palces = wc_get_price_decimals();
+		
 		// Allow other types to be hooked
 		$type = apply_filters('ppom_load_input_script_type', $type, $field, $product);
 		
@@ -276,6 +279,7 @@ function ppom_hooks_load_input_scripts( $product ) {
     	        wp_enqueue_script( 'ppom-file-upload', PPOM_URL.'/js/file-upload.js', array('jquery', 'plupload','ppom-price'), PPOM_VERSION, true);
     	    	$plupload_lang = !empty($field['language']) ? $field['language'] : 'en';
     	    	// wp_enqueue_script( 'pluploader-language', PPOM_URL.'/js/plupload-2.1.2/js/i18n/'.$plupload_lang.'.js');
+    	    	$file_upload_nonce_action = "ppom_uploading_file_action";
 				$ppom_file_vars = array('ajaxurl' => admin_url( 'admin-ajax.php', (is_ssl() ? 'https' : 'http') ),
 										'plugin_url' => PPOM_URL,
 										'file_upload_path_thumb' => ppom_get_dir_url(true),
@@ -285,11 +289,13 @@ function ppom_hooks_load_input_scripts( $product ) {
 										'delete_file_msg'	=> __("Are you sure?", "ppom"),
 										'plupload_runtime'	=> (ppom_if_browser_is_ie()) ? 'html5,html4' : 'html5,silverlight,html4,browserplus,gear',
 										'croppie_options'	=> $croppie_options,
+										'ppom_file_upload_nonce'	=> wp_create_nonce( $file_upload_nonce_action ),
 										);
 				wp_localize_script( 'ppom-file-upload', 'ppom_file_vars', $ppom_file_vars);
     	    	break;
     	    	
-    	    case 'file':
+    	    //2- inc/hooks.php replace case 'file'
+			case 'file':
     	    	$ppom_file_inputs[] = $field;
     	    	
     	    	$file_upload_pre_scripts = array('jquery', 'plupload','ppom-price');
@@ -308,6 +314,7 @@ function ppom_hooks_load_input_scripts( $product ) {
 				wp_enqueue_script( 'ppom-file-upload', PPOM_URL.'/js/file-upload.js', $file_upload_pre_scripts,  PPOM_VERSION, true);
     	    	$plupload_lang = !empty($field['language']) ? $field['language'] : 'en';
     	    	// wp_enqueue_script( 'pluploader-language', PPOM_URL.'/js/plupload-2.1.2/js/i18n/'.$plupload_lang.'.js');
+    	    	$file_upload_nonce_action = "ppom_uploading_file_action";
 				$ppom_file_vars = array('ajaxurl' => admin_url( 'admin-ajax.php', (is_ssl() ? 'https' : 'http') ),
 										'plugin_url' => PPOM_URL,
 										'file_upload_path_thumb' => ppom_get_dir_url(true),
@@ -316,7 +323,8 @@ function ppom_hooks_load_input_scripts( $product ) {
 										'file_inputs'		=> $ppom_file_inputs,
 										'delete_file_msg'	=> __("Are you sure?", "ppom"),
 										'aviary_api_key'	=> $ppom_meta_settings -> aviary_api_key,
-										'plupload_runtime'	=> (ppom_if_browser_is_ie()) ? 'html5,html4' : 'html5,silverlight,html4,browserplus,gear');
+										'plupload_runtime'	=> (ppom_if_browser_is_ie()) ? 'html5,html4' : 'html5,silverlight,html4,browserplus,gear',
+										'ppom_file_upload_nonce'	=> wp_create_nonce( $file_upload_nonce_action ));
 				wp_localize_script( 'ppom-file-upload', 'ppom_file_vars', $ppom_file_vars);
 				
 				break;
@@ -326,6 +334,11 @@ function ppom_hooks_load_input_scripts( $product ) {
 					
 					$field['options'] = stripslashes($field['options']);
 				break;
+				
+				case 'fixedprice':
+					// Fixed price addon has option to control decimnal places
+					$decimal_palces = !empty($field['decimal_place']) ? $field['decimal_place'] : wc_get_price_decimals();
+					break;
 		}
 		
 			// Conditional fields
@@ -367,7 +380,7 @@ function ppom_hooks_load_input_scripts( $product ) {
 	$ppom_input_vars['wc_thousand_sep']	= wc_get_price_thousand_separator();
 	$ppom_input_vars['wc_currency_pos']	= get_option( 'woocommerce_currency_pos' );
 	$ppom_input_vars['wc_decimal_sep']	= get_option('woocommerce_price_decimal_sep');
-	$ppom_input_vars['wc_no_decimal']	= get_option('woocommerce_price_num_decimals');
+	$ppom_input_vars['wc_no_decimal']	= $decimal_palces;
 	$ppom_input_vars['wc_product_price']= ppom_get_product_price($product);
 	$ppom_input_vars['product_base_label'] = __("Product Price", "ppom");
 	$ppom_input_vars['option_total_label'] = __("Option Total", "ppom");
@@ -532,6 +545,10 @@ function ppom_hooks_register_wpml( $meta_data ) {
 }
 
 function ppom_hooks_input_wrapper_class($input_wrapper_class, $field_meta) {
+
+	if( ! isset($field_meta['logic']) ) {
+		$input_wrapper_class .= ' ppom-c-show';
+	}
 	
 	if( isset($field_meta['logic']) && $field_meta['logic'] != 'on' ) 
 		return $input_wrapper_class;

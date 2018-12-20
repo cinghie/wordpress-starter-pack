@@ -402,6 +402,7 @@ foreach( $ppom_fields_meta as $meta ) {
 					
 					$images	= isset($meta['images']) ? $meta['images'] : array();
 					$show_popup	= isset($meta['show_popup']) ? $meta['show_popup'] : '';
+					$multiple_allowed	= isset($meta['multiple_allowed']) ? $meta['multiple_allowed'] : '';
 					
 					$ppom_field_setting = array(  
                     				'id'        => $data_name,
@@ -411,7 +412,7 @@ foreach( $ppom_fields_meta as $meta ) {
                                     'label'     => $field_label,
                                     'title'		=> $title,
                                     'legacy_view'	=> (isset($meta['legacy_view'])) ? $meta['legacy_view'] : '',
-									'multiple_allowed' => $meta['multiple_allowed'],
+									'multiple_allowed' => $multiple_allowed,
 									'images'	=> $meta['images'],
                                     'show_popup'=> $show_popup,
                                     );
@@ -493,6 +494,7 @@ foreach( $ppom_fields_meta as $meta ) {
 				case 'audio':
 					
 					$audios	= isset($meta['audio']) ? $meta['audio'] : array();
+					$multiple_allowed	= isset($meta['multiple_allowed']) ? $meta['multiple_allowed'] : '';
 					// $audios = ppom_convert_options_to_key_val($audios, $meta, $product);
 				
 					$ppom_field_setting = array(  
@@ -505,7 +507,7 @@ foreach( $ppom_fields_meta as $meta ) {
                                     /*'legacy_view'	=> (isset($meta['legacy_view'])) ? $meta['legacy_view'] : '',
 									'popup_width'	=> $popup_width,
 									'popup_height'	=> $popup_height,*/
-									'multiple_allowed' => $meta['multiple_allowed'],
+									'multiple_allowed' => $multiple_allowed,
 									'audios'		=> $audios,
                                     
                                     );
@@ -617,6 +619,7 @@ foreach( $ppom_fields_meta as $meta ) {
 						$first_option	= isset($meta['first_option']) ? $meta['first_option'] : '';
 						$unit_plural	= isset($meta['unit_plural']) ? $meta['unit_plural'] : '';
 						$unit_single	= isset($meta['unit_single']) ? $meta['unit_single'] : '';
+						$decimal_place	= isset($meta['decimal_place']) ? $meta['decimal_place'] : '';
 						$options = ppom_convert_options_to_key_val($options, $meta, $product);
 						
 						$ppom_field_setting = array(
@@ -632,6 +635,7 @@ foreach( $ppom_fields_meta as $meta ) {
 								'unit_plural'	=> $unit_plural,
 								'unit_single'	=> $unit_single,
 								'title'			=> $title,
+								'decimal_place' => $decimal_place,
 						);
 						
 						$ppom_field_setting = apply_filters('ppom_field_setting', $ppom_field_setting, $meta);

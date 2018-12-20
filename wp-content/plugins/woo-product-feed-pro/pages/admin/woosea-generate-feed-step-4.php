@@ -8,51 +8,6 @@ function my_footer_text($default) {
 add_filter('admin_footer_text', 'my_footer_text');
 
 /**
- * Since WP 5.01 form elements are no longer allowed tags for non-admin users
- * With the function below we add the form elements again to the allowed tags
- **/
-if(!function_exists('woosea_add_allowed_tags')) {
-	function woosea_add_allowed_tags($tags) {
-		// form
-		$tags['form'] = array(
-          		'action' => true,
-          		'accept' => true,
-          		'accept-charset' => true,
-          		'enctype' => true,
-          		'method' => true,
-          		'name' => true,
-          		'target' => true,
-			'id' => true,
-			'class' => true,
-        	);
-
-		// input
-		$tags['input'] = array(
-			'class' => true,
-			'id'    => true,
-			'name'  => true,
-			'value' => true,
-			'type'  => true,
-		);
-		// select
-		$tags['select'] = array(
-			'class'  => true,
-			'id'     => true,
-			'name'   => true,
-			'value'  => true,
-			'type'   => true,
-		);
-		// select options
-		$tags['option'] = array(
-			'selected' => true,
-		);
-		return $tags;
-	}
-	add_filter('wp_kses_allowed_html', 'woosea_add_allowed_tags');
-}
-//$allowed_tags = wp_kses_allowed_html( 'post' );
-
-/**
  * Create notification object
  */
 $notifications_obj = new WooSEA_Get_Admin_Notifications;

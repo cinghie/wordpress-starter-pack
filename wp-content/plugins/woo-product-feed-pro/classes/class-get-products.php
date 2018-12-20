@@ -45,6 +45,25 @@ class WooSEA_Get_Products {
 	}
 
 	/**
+	 * An improved function for the strip_tags
+	 * Removing tags but replacing them with spaces instead of just removing them
+	 */
+	public function rip_tags( $string ) { 
+    		// ----- remove HTML TAGs ----- 
+    		$string = preg_replace ('/<[^>]*>/', ' ', $string); 
+    
+    		// ----- remove control characters ----- 
+    		$string = str_replace("\r", '', $string);    // --- replace with empty space
+    		$string = str_replace("\n", ' ', $string);   // --- replace with space
+    		$string = str_replace("\t", ' ', $string);   // --- replace with space
+    
+    		// ----- remove multiple spaces ----- 
+    		$string = trim(preg_replace('/ {2,}/', ' ', $string));
+    
+    		return $string; 
+	}
+
+	/**
 	 * Strip unwanted UTF chars from string
 	 */
 	public function woosea_utf8_for_xml( $string ){
@@ -1146,8 +1165,8 @@ class WooSEA_Get_Products {
 			$product_data['short_description'] = html_entity_decode((str_replace("\r", "", $post->post_excerpt)), ENT_QUOTES | ENT_XML1, 'UTF-8');
 
 			// Strip HTML from (short) description
-			$product_data['description'] = strip_tags($product_data['description']);
-			$product_data['short_description'] = strip_tags($product_data['short_description']);
+			$product_data['description'] = $this->rip_tags($product_data['description']);
+			$product_data['short_description'] = $this->rip_tags($product_data['short_description']);
 
 			// Strip out Visual Composer short codes
 			$product_data['description'] = preg_replace( '/\[(.*?)\]/', ' ', $product_data['description'] );
@@ -1412,8 +1431,8 @@ class WooSEA_Get_Products {
                         		$product_data['short_description'] = html_entity_decode((str_replace("\r", "", $variable_description)), ENT_QUOTES | ENT_XML1, 'UTF-8');
 
                         		// Strip HTML from (short) description
-                        		$product_data['description'] = strip_tags($product_data['description']);
-                        		$product_data['short_description'] = strip_tags($product_data['short_description']);
+                        		$product_data['description'] = $this->rip_tags($product_data['description']);
+                        		$product_data['short_description'] = $this->rip_tags($product_data['short_description']);
                         		// Strip out Visual Composer short codes
                         		$product_data['description'] = preg_replace( '/\[(.*?)\]/', ' ', $product_data['description'] );
                         		$product_data['short_description'] = preg_replace( '/\[(.*?)\]/', ' ', $product_data['short_description'] );

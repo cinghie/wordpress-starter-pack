@@ -418,7 +418,7 @@ function ppom_make_meta_data( $cart_item, $context="cart" ){
 	
 	
 	// ppom_pa($ppom_meta);
-	return apply_filters('ppom_meta_data', $ppom_meta, $cart_item);
+	return apply_filters('ppom_meta_data', $ppom_meta, $cart_item, $context);
 }
 
 /**
@@ -707,7 +707,7 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 				if(strpos($option_price,'%') !== false){
 					$option_price = ppom_get_amount_after_percentage($product->get_price(), $option_price);
 					// check if price is fixed and taxable
-					if(isset($meta['onetime']) && $meta['onetime'] == 'on' && $meta['onetime_taxable'] == 'on') {
+					if(isset($meta['onetime']) && $meta['onetime'] == 'on' && isset($meta['onetime_taxable']) && $meta['onetime_taxable'] == 'on') {
 						$option_price_without_tax = $option_price;
 						$option_price = ppom_get_price_including_tax($option_price, $product);
 					}
@@ -717,7 +717,7 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 				} else {
 					
 					// check if price is fixed and taxable
-					if(isset($meta['onetime']) && $meta['onetime'] == 'on' && $meta['onetime_taxable'] == 'on') {
+					if(isset($meta['onetime']) && $meta['onetime'] == 'on' && isset($meta['onetime_taxable']) && $meta['onetime_taxable'] == 'on') {
 						$option_price_without_tax = $option_price;
 						$option_price = ppom_get_price_including_tax($option_price, $product);
 					}
@@ -1137,7 +1137,8 @@ function ppom_price( $price ) {
 	$price_format			= get_woocommerce_price_format();
 	$negative       		= $price < 0;
 	
-	$wc_price = number_format( $price,$decimals, $decimal_separator, $thousand_separator );
+	// $wc_price = number_format( $price,$decimals, $decimal_separator, $thousand_separator );
+	$wc_price = number_format( abs($price), $decimals, $decimal_separator, $thousand_separator );
 	$formatted_price = ( $negative ? '-' : '' ) . sprintf( $price_format, get_woocommerce_currency_symbol(), $wc_price );
 	return apply_filters('ppom_woocommerce_price', $formatted_price);
 }
@@ -1189,4 +1190,46 @@ function ppom_get_date_formats() {
 				);
 				
 	return apply_filters('ppom_date_formats', $formats);
+}
+
+// Security: checking if attached fields have price
+function ppom_is_price_attached_with_fields( $fields_posted, $product_id) {
+	
+	
+	$is_price_attached = false;
+	
+	$option_price = 0;
+	foreach($fields_posted as $data_name => $value) {
+		
+		$field_meta = ppom_get_field_meta_by_dataname($product_id, $data_name);
+		$field_type	= isset($field_meta['type']) ? $field_meta['type'] : '';
+		
+		switch( $field_type ) {
+			
+			case 'checkbox':
+				if( is_array($value) ) {
+					foreach($value as $cb_value) {
+						$option_price 	+= ppom_get_field_option_price($field_meta, $cb_value);
+					}
+				}
+			break;
+			
+			default:
+				$option_price 	+= ppom_get_field_option_price($field_meta, $value);
+				break;
+		}
+	}
+	
+	if($option_price > 0) {
+		$is_price_attached = true;
+	}
+	
+	// If price matrix attached
+	if( isset($_POST['ppom']['ppom_pricematrix']) ) {
+		$is_price_attached = true;
+	}
+	
+	// exit;
+	
+	return apply_filters('ppom_option_price_attached', $is_price_attached, $fields_posted, $product_id);
 }

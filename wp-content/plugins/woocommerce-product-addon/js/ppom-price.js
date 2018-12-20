@@ -176,7 +176,7 @@ function ppom_update_option_prices() {
         if( ! show_option_price_indivisually ) return ;
         
         var price_tag = ppom_get_wc_price(option.price);
-        var option_label_with_qty = option.label+' - '+jQuery(price_tag).html()+' x '+option.quantity;
+        var option_label_with_qty = option.label+' '+jQuery(price_tag).html()+' x '+option.quantity;
         
         ppom_add_price_item_in_table( option_label_with_qty, option_price_with_qty, 'ppom-quantities-price');
         
@@ -194,7 +194,7 @@ function ppom_update_option_prices() {
             ppom_show_base_price = false;
         }
         
-        var option_label_with_qty = option.label+' - '+ppom_get_formatted_price(option.price)+' x '+option.quantity;
+        var option_label_with_qty = option.label+' '+ppom_get_formatted_price(option.price)+' x '+option.quantity;
         
         var option_price_with_qty   = parseFloat(option.quantity) * parseFloat(option.price);
         ppom_add_price_item_in_table( option_label_with_qty, option_price_with_qty, 'ppom-bulkquantity-price');
@@ -220,9 +220,9 @@ function ppom_update_option_prices() {
         // console.log(show_option_price_indivisually);
         // Check if to shos options or not
         if( ! show_option_price_indivisually ) return ;
-        
         var price_tag = ppom_get_wc_price(option.price);
-        var option_label_with_qty = option.label+' - '+jQuery(price_tag).html()+' x '+ppom_get_order_quantity();
+        
+        var option_label_with_qty = option.label+' '+jQuery(price_tag).html()+' x '+ppom_get_order_quantity();
         
         ppom_add_price_item_in_table( option_label_with_qty, option_price_with_qty, 'ppom-variable-price');
         
@@ -279,7 +279,7 @@ function ppom_update_option_prices() {
     if( ppom_show_base_price ) {
         
         var price_tag = ppom_get_wc_price(ppom_product_base_price);
-        var product_base_label  = ppom_input_vars.product_base_label+' - '+jQuery(price_tag).html()+' x '+ppom_get_order_quantity();
+        var product_base_label  = ppom_input_vars.product_base_label+' '+jQuery(price_tag).html()+' x '+ppom_get_order_quantity();
         productBasePrice        = ppom_get_order_quantity() * parseFloat(ppom_product_base_price);
         ppom_add_price_item_in_table( product_base_label, productBasePrice, 'ppom-product-base-price');
     }
@@ -299,7 +299,7 @@ function ppom_update_option_prices() {
             var option_label_with_qty = ppom_input_vars.total_discount_label+' ('+option.percent+')';
         } else {
             var price_tag = ppom_get_wc_price(option.price);
-            var option_label_with_qty = ppom_input_vars.total_discount_label+' - '+price_tag.html();
+            var option_label_with_qty = ppom_input_vars.total_discount_label+' '+price_tag.html();
         }
         
         
@@ -477,13 +477,14 @@ function ppom_get_wc_price( price, is_discount ) {
     
     var do_discount     = is_discount || false;
     
-    var wcPriceWithCurrency = jQuery("#ppom-price-cloner").clone();
-    var ppom_formatted_price = ppom_get_formatted_price(price);
+    var wcPriceWithCurrency     = jQuery("#ppom-price-cloner").clone();
+    var ppom_formatted_price    = ppom_get_formatted_price(price);
+    var is_negative             = parseFloat(price) < 0;
     
     wcPriceWithCurrency.find('.ppom-price').html( ppom_formatted_price );
     
     // Adding (-) symbol
-    if( do_discount ) {
+    if( do_discount || is_negative) {
         wcPriceWithCurrency.prepend('-');
     }
     return wcPriceWithCurrency;
@@ -580,7 +581,7 @@ function ppom_update_get_prices() {
     	        var measure_price = checked_option_price * jQuery(this).val();
     	        console.log(checked_option_price);
     	        console.log(measure_price);
-    	        checked_option_title = checked_option_title+' - '+
+    	        checked_option_title = checked_option_title+' '+
     	                                ppom_get_formatted_price(checked_option_price)+'x'
     	                                +jQuery(this).val();
     	        
@@ -713,7 +714,7 @@ function ppom_get_formatted_price( price ) {
     var decimal_separator= ppom_input_vars.wc_decimal_sep;
 	var no_of_decimal    = ppom_input_vars.wc_no_decimal;
 	
-	var formatted_price = parseFloat(price);
+	var formatted_price = Math.abs( parseFloat(price) );
 	formatted_price = formatted_price.toFixed(no_of_decimal);
 	formatted_price = formatted_price.toString().replace('.', decimal_separator);
 	formatted_price = ppom_add_thousand_seperator(formatted_price);

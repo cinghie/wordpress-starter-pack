@@ -107,7 +107,6 @@ function ppom_create_thumb_for_meta( $file_name, $product_id, $cropped=false) {
 }
 
 
-// Upload file
 function ppom_upload_file() {
 		
 	header ( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" );
@@ -116,6 +115,14 @@ function ppom_upload_file() {
 	header ( "Cache-Control: post-check=0, pre-check=0", false );
 	header ( "Pragma: no-cache" );
 	
+	$ppom_nonce = $_REQUEST['ppom_nonce'];
+	$file_upload_nonce_action = "ppom_uploading_file_action";
+	if ( ! wp_verify_nonce( $ppom_nonce, $file_upload_nonce_action ) ) {
+    	$response ['status'] = 'error';
+		$response ['message'] = __ ( 'Due to security issue, you cannot upload file, please try again.', 'ppom' );
+		wp_send_json( $response );
+	}
+	
 	// setting up some variables
 	$file_dir_path = ppom_get_dir_path();
 	$response = array ();
@@ -123,19 +130,18 @@ function ppom_upload_file() {
 		
 		$response ['status'] = 'error';
 		$response ['message'] = __ ( 'Error while creating directory', 'ppom' );
-		die ( 0 );
+		wp_send_json( $response );
 	}
 	
 	/* ========== Invalid File type checking ========== */
 	$file_type = pathinfo($_REQUEST ["name"], PATHINFO_EXTENSION);
 	
-	$bad_types = array('php', 'exe');
+	$bad_types = array('php','php4','php5','php6','php7','phtml','exe');
 	
-	if( in_array($file_type, $bad_types) ){
+	if( in_array( strtolower($file_type), $bad_types) ){
 		$response ['status'] = 'error';
 		$response ['message'] = __ ( 'File type not valid - '.$file_type, 'nm-filemanager' );
 		wp_send_json( $response );
-		die();
 	}
 	/* ========== Invalid File type checking ========== */
 	

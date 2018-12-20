@@ -432,7 +432,7 @@ class NM_Form {
                 foreach($selected_value as $s){
                     $html   .= '<option '.selected( $s, $key, false ).' value="'.esc_attr($key).'" ';
                     $html   .= 'data-price="'.esc_attr($option_price).'" ';
-                    $html   .= 'data-label="'.esc_attr($option_label).'"';
+                    $html   .= 'data-label="'.esc_attr($option_label).'" ';
                     $html   .= 'data-onetime="'.esc_attr($onetime).'"';
                     $html   .= '>'.$option_label.'</option>';
                 }
@@ -441,12 +441,12 @@ class NM_Form {
                 $html   .= 'value="'.esc_attr($key).'" ';
                 $html   .= 'data-price="'.esc_attr($option_price).'" ';
                 $html   .= 'data-optionid="'.esc_attr($option_id).'" ';
-                $html   .= 'data-percent="'.esc_attr($opt_percent).'"';
-                $html   .= 'data-label="'.esc_attr($raw_label).'"';
-                $html   .= 'data-title="'.esc_attr($title).'"'; // Input main label/title
-                $html   .= 'data-onetime="'.esc_attr($onetime).'"';
-                $html   .= 'data-taxable="'.esc_attr($taxable).'"';
-                $html   .= 'data-without_tax="'.esc_attr($without_tax).'"';
+                $html   .= 'data-percent="'.esc_attr($opt_percent).'" ';
+                $html   .= 'data-label="'.esc_attr($raw_label).'" ';
+                $html   .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
+                $html   .= 'data-onetime="'.esc_attr($onetime).'" ';
+                $html   .= 'data-taxable="'.esc_attr($taxable).'" ';
+                $html   .= 'data-without_tax="'.esc_attr($without_tax).'" ';
                 $html   .= 'data-data_name="'.esc_attr($id).'"';
                 $html   .= '>'.$option_label.'</option>';
             }
@@ -1342,7 +1342,7 @@ class NM_Form {
                     $raw_label      = $size['raw'];
                     $without_tax    = $size['without_tax'];
     	            
-    	            $html   .= '<option '.selected( $selected_value, $key, false ).' ';
+    	            $html   .= '<option ';
                     $html   .= 'value="'.esc_attr($key).'" ';
                     $html   .= 'data-price="'.esc_attr($option_price).'" ';
                     $html   .= 'data-label="'.esc_attr($raw_label).'" ';
@@ -1360,16 +1360,8 @@ class NM_Form {
     	}
     	
     	$html   .= '</div>';    // ppom-croppie-preview
-    	
-    	$html   .= '<a href="#" style="display:none" data-fileid="'.esc_attr($args['id']).'" class="btn btn-info ppom-croppie-btn">';
-    	$html   .= __('Confirm and Preview', 'ppom').'</a>';
     	$html   .= '</div>'; //ppom-croppie-wrapper
-    	// Loading Modals
-		$modal_vars = array('file_id' => $args['id'], 'image_full'=>'', 'image_title'=>$args['label']);
-		ob_start();
-        ppom_load_template('v10/cropper-modals.php', $modal_vars);
-        $html .= ob_get_clean();
-        
+    
         $html   .= '</div>';    //form-group
         
         // filter: nmforms_input_htmls
@@ -1442,6 +1434,8 @@ class NM_Form {
         
         $html       .= '>';  // Closing select
         
+        $unit_decimal_places = !empty($args['decimal_place']) ? $args['decimal_place'] : wc_get_price_decimals();
+        
         // ppom_pa($options);
         foreach($options as $key => $value) {
             
@@ -1453,7 +1447,8 @@ class NM_Form {
             $unit_price     = 0;
             $fixed_qty      = 0;
             if( $value['price'] ) {
-                $unit_price     = $value['price']/$value['raw'];
+                $unit_price	= wc_format_decimal( $value['price']/$value['raw'], intval($unit_decimal_places));
+                // $unit_price     = $value['price']/$value['raw'];
                 $fixed_qty      = $value['raw'];
             }
             
@@ -1464,6 +1459,7 @@ class NM_Form {
                     $html   .= 'data-price="'.esc_attr($option_price).'" ';
                     $html   .= 'data-label="'.esc_attr($option_label).'"';
                     $html   .= 'data-unitprice="'.esc_attr($unit_price).'"'; 
+                    $html   .= 'data-decimal_place="'.esc_attr($unit_decimal_places).'"'; 
                     $html   .= 'data-qty="'.esc_attr($fixed_qty).'"';
                     $html   .= '>'.$option_label.'</option>';
                 }
@@ -1473,7 +1469,8 @@ class NM_Form {
                 $html   .= 'data-price="'.esc_attr($option_price).'" ';
                 $html   .= 'data-label="'.esc_attr($raw_label).'"';
                 $html   .= 'data-title="'.esc_attr($title).'"'; // Input main label/title
-                $html   .= 'data-unitprice="'.esc_attr($unit_price).'"'; 
+                $html   .= 'data-unitprice="'.esc_attr($unit_price).'"';
+                $html   .= 'data-decimal_place="'.esc_attr($unit_decimal_places).'"'; 
                 $html   .= 'data-qty="'.esc_attr($fixed_qty).'"';
                 $html   .= '>'.$option_label.'</option>';
             }

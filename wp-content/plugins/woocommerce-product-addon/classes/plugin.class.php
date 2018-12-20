@@ -49,6 +49,7 @@ class NM_PersonalizedProduct {
 		/** ============ NEW Hooks ==================== */
 		
 		add_action( 'wp_enqueue_scripts', 'ppom_hooks_scripts' );
+		add_action( 'admin_bar_menu',   'ppom_admin_bar_menu', 1000 );
 		
 		// Rendering fields on product page
 		add_action ( 'woocommerce_before_add_to_cart_button', 'ppom_woocommerce_show_fields', 15);
@@ -105,9 +106,10 @@ class NM_PersonalizedProduct {
 		/**
 		 * Adding item_meta to orders 2.0 it is in classes/class-wc-checkout function:
 		** create_order() 
-		**
+		** woocommerce_new_order_item is deprecated
 		*/
-		add_action ( 'woocommerce_add_order_item_meta', 'ppom_woocommerce_order_item_meta', 10, 3);
+		// add_action ( 'woocommerce_new_order_item', 'ppom_woocommerce_order_item_meta', 10, 3);
+		add_action ( 'woocommerce_checkout_create_order_line_item', 'ppom_woocommerce_order_item_meta', 99, 4);
 		
 		// Changing display to label in orders
 		add_filter( 'woocommerce_order_item_display_meta_key', 'ppom_woocommerce_order_key', 10, 3);
@@ -217,6 +219,10 @@ class NM_PersonalizedProduct {
 		// Export & Import Meta
 		add_action( 'admin_post_ppom_import_meta', array($this, 'ppom_import_meta') );
 		add_action( 'admin_post_ppom_export_meta', array($this, 'ppom_export_meta') );
+		
+		// Applying meta
+		add_action( 'admin_post_ppom_attach', array($this, 'ppom_attach_meta') );
+		add_action( 'template_redirect', array($this, 'show_wc_custom_message'));
 		
 		/**
 		 * adding extra column in products list for meta show
@@ -757,6 +763,31 @@ class NM_PersonalizedProduct {
 	    set_transient("ppom_meta_imported", $response, 30);
 	    wp_redirect(  admin_url( 'admin.php?page=ppom' ) );
    		exit;
+	}
+	
+	
+	function ppom_attach_meta() {
+		
+		$product_id = isset($_GET['productid']) ? $_GET['productid'] : '';
+		$meta_id = isset($_GET['metaid']) ? $_GET['metaid'] : '';
+		$meta_title = isset($_GET['metatitle']) ? $_GET['metatitle'] : '';
+		
+		$ppom_meta = array($meta_id);
+		update_post_meta ( $product_id, '_product_meta_id', $ppom_meta );
+		
+		
+		$product_url = add_query_arg('ppom_title', $meta_title, get_permalink($product_id));
+		wp_redirect( $product_url );
+   		exit;
+	}
+	
+	function show_wc_custom_message() {
+		
+	    if ( is_product() && isset($_GET['ppom_title'])) {
+	    	
+	    	$meta_title = $_GET['ppom_title'];
+	    	wc_add_notice( sprintf(__("PPOM Meta Successfully Changed to - %s", 'ppom'), $meta_title));
+	    }
 	}
 	
 	

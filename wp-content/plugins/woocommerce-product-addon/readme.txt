@@ -4,7 +4,7 @@ Tags: woocommerce, pesonalized products, woocommerce variations, woocommerce pro
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
 Tested up to: 5.0
-Stable tag: 15.5
+Stable tag: 16.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -83,6 +83,19 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
+= 16.0 December 8, 2018 =
+* Feature: Now Multi Meta can be sortable Thanks @Chris Hearn for providing script
+* Feature: Awesome Admin Panel
+* Feature: Now PPOM Meta can be applied from Product Page on Frontend Using Admin Bar :):)
+* Feature: Ajax Validation will now have nice UI for errors
+* Feature: [Deprecated hook woocommerce_new_order_item is replaced with woocommerce_checkout_create_order_line_item](https://stackoverflow.com/questions/29666820/woocommerce-which-hook-to-replace-deprecated-woocommerce-add-order-item-meta)
+* Feature: [Image cropper input preview and confirm button is removed](https://clients.najeebmedia.com/forums/topic/image-cropper-issue/#post-10136)
+* Bug fixed: [Package price decimal place issue fixed](https://clients.najeebmedia.com/forums/topic/woocommerce-package-price-decimal-point/#post-10137)
+* Bug fixed: [Price checking when JS disabled now validate](https://clients.najeebmedia.com/forums/topic/javascript-disabled-ppom-inputs-with-additional-costs-not-added-to-total-cost/)
+* Bug fixed: Tooltip hover sometime not work, it is fixed
+* Bug fixed: File Upload Security increased with more filters
+* Bug fixed: [Negative option price now has better display](https://wordpress.org/support/topic/better-display-of-negative-numbers/)
+* Tweaks: HTML attribute issue fixed
 = 15.5 December 8, 2018 =
 * Feature: [Hide Price Row when it is zero](https://clients.najeebmedia.com/forums/topic/hide-options-totals-when-quantity-0/)
 * Bug Fixed: Cart total was not correct when Variation Quantities used with Price Matrix, it's resolved.
