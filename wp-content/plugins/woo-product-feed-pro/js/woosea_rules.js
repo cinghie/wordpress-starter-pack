@@ -3,8 +3,7 @@ jQuery(document).ready(function($) {
 	// Add standard filters
         jQuery(".add-filter").click(function(){
 		// Count amount of rows, used to create the form array field and values
-		// var rowCount = $('#woosea-ajax-table >tbody >tr').length-1;
-
+		var TrueRowCount = $('#woosea-ajax-table >tbody >tr').length-1;
 		var rowCount = Math.round(new Date().getTime() + (Math.random() * 100));
 
 		jQuery.ajax({
@@ -14,7 +13,12 @@ jQuery(document).ready(function($) {
       		})
      	 	.done(function( data ) {
 			data = JSON.parse( data );
-        		$( '#woosea-ajax-table' ).append('<tr><td><input type="hidden" name="rules[' + data.rowCount + '][rowCount]" value="' + data.rowCount + '"><input type="checkbox" name="record" class="checkbox-field"></td><td><i>Standard filter:</i></td><td><select name="rules[' + data.rowCount + '][attribute]" id="rules_' + data.rowCount + '">' + data.dropdown + '</select></td><td><select name="rules[' + data.rowCount + '][condition]" class="select-field"><option value="contains">contains</option><option value="containsnot">does not contain</option><option value="=">is equal to</option><option value="!=">is not equal to</option><option value=">">is greater than</option><option value=">=">is greater or equal to</option><option value="<">is less than</option><option value="=<">is less or equal to</option><option value="empty">is empty</option></select></td><td><input type="text" name="rules[' + rowCount + '][criteria]" class="input-field-large" id="criteria_' + data.rowCount + '"></td><td><input type="checkbox" name="rules[' + rowCount + '][cs]" class="checkbox-field" alt="Case sensitive"></td><td><select name="rules[' + rowCount + '][than]" class="select-field"><optgroup label="Action">Action:<option value="exclude"> Exclude</option><option value="include_only">Include only</option></optgroup></select></td><td>&nbsp;</td></tr>');
+
+			if(TrueRowCount == 0){
+        			$( '#woosea-ajax-table tbody' ).prepend('<tr><td><input type="hidden" name="rules[' + data.rowCount + '][rowCount]" value="' + data.rowCount + '"><input type="checkbox" name="record" class="checkbox-field"></td><td><i>Filter:</i></td><td><select name="rules[' + data.rowCount + '][attribute]" id="rules_' + data.rowCount + '">' + data.dropdown + '</select></td><td><select name="rules[' + data.rowCount + '][condition]" class="select-field"><option value="contains">contains</option><option value="containsnot">does not contain</option><option value="=">is equal to</option><option value="!=">is not equal to</option><option value=">">is greater than</option><option value=">=">is greater or equal to</option><option value="<">is less than</option><option value="=<">is less or equal to</option><option value="empty">is empty</option></select></td><td><input type="text" name="rules[' + rowCount + '][criteria]" class="input-field-large" id="criteria_' + data.rowCount + '"></td><td><input type="checkbox" name="rules[' + rowCount + '][cs]" class="checkbox-field" alt="Case sensitive"></td><td><select name="rules[' + rowCount + '][than]" class="select-field"><optgroup label="Action">Action:<option value="exclude"> Exclude</option><option value="include_only">Include only</option></optgroup></select></td><td>&nbsp;</td></tr>');
+			} else {
+        			$('<tr><td><input type="hidden" name="rules[' + data.rowCount + '][rowCount]" value="' + data.rowCount + '"><input type="checkbox" name="record" class="checkbox-field"></td><td><i>Filter:</i></td><td><select name="rules[' + data.rowCount + '][attribute]" id="rules_' + data.rowCount + '">' + data.dropdown + '</select></td><td><select name="rules[' + data.rowCount + '][condition]" class="select-field"><option value="contains">contains</option><option value="containsnot">does not contain</option><option value="=">is equal to</option><option value="!=">is not equal to</option><option value=">">is greater than</option><option value=">=">is greater or equal to</option><option value="<">is less than</option><option value="=<">is less or equal to</option><option value="empty">is empty</option></select></td><td><input type="text" name="rules[' + rowCount + '][criteria]" class="input-field-large" id="criteria_' + data.rowCount + '"></td><td><input type="checkbox" name="rules[' + rowCount + '][cs]" class="checkbox-field" alt="Case sensitive"></td><td><select name="rules[' + rowCount + '][than]" class="select-field"><optgroup label="Action">Action:<option value="exclude"> Exclude</option><option value="include_only">Include only</option></optgroup></select></td><td>&nbsp;</td></tr>').insertBefore( ".rules-buttons");
+			}
 
                 	// Check if user selected a data manipulation condition
                 	jQuery("#rules_" + rowCount).on("change", function(){

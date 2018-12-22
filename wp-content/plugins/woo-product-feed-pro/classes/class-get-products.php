@@ -435,7 +435,6 @@ class WooSEA_Get_Products {
 				}	
 			}
 		}
-		//error_log(print_r($shipping_arr, TRUE));
 		return $shipping_arr;
 	}
 
@@ -815,6 +814,11 @@ class WooSEA_Get_Products {
 		
 		// Append or write to file
 		$fp = fopen($file, 'a+');
+		
+		// Set proper UTF encoding BOM for CSV files
+		if($header == "true"){
+			fputs( $fp, $bom = chr(0xEF) . chr(0xBB) . chr(0xBF) );
+		}		
 
 		// Write each row of the products array
 		foreach ($products as $row) {
@@ -853,8 +857,6 @@ class WooSEA_Get_Products {
 					$tab_line .= PHP_EOL;
 					fwrite($fp, $tab_line);
 				} else {
-					fputs( $fp, $bom = chr(0xEF) . chr(0xBB) . chr(0xBF) );
-					//$pieces = array_map("utf8_decode", $pieces);
 					$tofile = fputcsv($fp, $pieces, $csv_delimiter, '"');
 				}
 
@@ -2040,8 +2042,6 @@ class WooSEA_Get_Products {
 					array_push ($xml_piece, $xml_product);
 					unset($xml_product);
 				}
-			
-			//	error_log(print_r($product_data, TRUE));
 				unset($product_data);	
 			}
 		endwhile;
@@ -2393,7 +2393,7 @@ class WooSEA_Get_Products {
 						}
 
 						// Check if a rule has been set for Google categories
-						if ($product_data[$pr_array['than_attribute']] == "google_category"){
+						if (!empty($product_data[$pr_array['than_attribute']]) AND ($product_data[$pr_array['than_attribute']] == "google_category")){
 							$pr_array['than_attribute'] = "categories";
 							$category_id = explode("-", $pr_array['newvalue']);
 							$pr_array['newvalue'] = $category_id[0];

@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 5.0
-Stable tag: 4.0.3
+Stable tag: 4.0.4
 
 == Description ==
 
@@ -263,6 +263,10 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 4.0.4 (2018-12-20) =
+* Cleaned-up HTML of the rules and filter pages and made some changes to the jQuery checks for that functionality. Hoping it will take away the variable mismatch detection.
+* Fixed a bug: Byte Order Marks where added to every line for CSV feeds whereas it should only appear only once. This issue has been fixed.
 
 = 4.0.3 (2018-12-20) =
 * Improved the way the plugin cleans up the description and short description attributes from HTML. It now replaces some of the HTML with whitespaces instead of just removing it making the description and short description better to read. Thanks Stan B for your suggestion. Much appreciated!
@@ -1207,6 +1211,10 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 4.0.4 =
+Cleaned-up HTML of the rules and filter pages and made some changes to the jQuery checks for that functionality. Hoping it will take away the variable mismatch detection.
+Fixed a bug: Byte Order Marks where added to every line for CSV feeds whereas it should only appear only once. This issue has been fixed.
 
 = 4.0.3 =
 Improved the way the plugin cleans up the description and short description attributes from HTML. It now replaces some of the HTML with whitespaces instead of just removing it making the description and short description better to read.
