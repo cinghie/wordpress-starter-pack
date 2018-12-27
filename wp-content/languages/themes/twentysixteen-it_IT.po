@@ -293,22 +293,6 @@ msgstr "Appare sotto al contenuto degli articoli e delle pagine."
 msgid "Content Bottom 2"
 msgstr "Sotto al contenuto 2"
 
-#. translators: If there are characters in your language that are not supported
-#. by Merriweather, translate this to 'off'. Do not translate into your own
-#. language.
-#: functions.php:276
-msgctxt "Merriweather font: on or off"
-msgid "on"
-msgstr "Attivo"
-
-#. translators: If there are characters in your language that are not supported
-#. by Montserrat, translate this to 'off'. Do not translate into your own
-#. language.
-#: functions.php:281
-msgctxt "Montserrat font: on or off"
-msgid "on"
-msgstr "Attivo"
-
 #: functions.php:229
 msgid "Sidebar"
 msgstr "Barra laterale"
