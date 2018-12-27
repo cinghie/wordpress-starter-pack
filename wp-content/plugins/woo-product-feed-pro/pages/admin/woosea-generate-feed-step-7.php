@@ -63,7 +63,9 @@ if($channel_data['taxonomy'] != "none"){
  * Get main currency
  **/
 $currency = get_woocommerce_currency();
-
+if(isset($project['WCML'])){
+	$currency = $project['WCML'];
+}
 /**
  * Create channel attribute object
  **/

@@ -4,13 +4,11 @@ Missing some features you might like? Drop me a line at support@adtribes.io and 
 TO DO BEFORE ELITE RELEASE:
 
 Plugin functionalities:
-- Add support for WPML - WooCommerce Multilingual (Multi-currency)
-- Build a better WP Cron check, current one is not good enough
-- Add support for Google Shopping product review feeds - https://developers.google.com/product-review-feeds/
-- Kloppen de dynamic remarketing prijzen? Lijkt erop dat alleen de duurste variation prijs gebruikt wordt? Sowieso complete remarketing hertesten!
+- Add WPML currency switcher support
+- Check JSON again
 
 Adtribes.io website changes:
-- Confirmation email aanpassen: links naar blogs, FAQ en algemene voorwaarden
+- Clean categories, products, website before going live again!!
 - Search functionaliteit bouwen die zoekt op Blog posts en pages
 - Er zitten maar 3 attributen in de URL waardoor structured data price ook niet klopt: https://adtribes.io/product/create-custom-feed/?attribute_pa_size=small&attribute_pa_color=yellow&attribute_kleurtje=White%2FBlack
 - Op de blog en alle andere pagina's buttons / links opnemen naar de WP-download pagina en de Elite pagina
@@ -18,13 +16,12 @@ Adtribes.io website changes:
 - Icon maken voor in WP-admin menu 
 
 Write blog articles:
-- handleiding schrijven voor hele Shopping & Facebook proces
-- how to only include products from 1 specific category in your product feed
 - explain the different price attributes of the plugin
-- how to send a debug.log to our support department (debug=true uitleg).
-- how to create a g:product_type mapping (Category path)
 
 OTHER ISSUES:
+- Add support for WPML - WooCommerce Multilingual (Multi-currency)
+- Build a better WP Cron check, current one is not good enough
+- Add support for Google Shopping product review feeds - https://developers.google.com/product-review-feeds/
 - Remarketing and structured data fix, check if prices are correct (VAT issue) - on variation pages it shows prices without VAT in the structured data
 - Remarketing tags not yet on thank-you purchase page
 - Incomplete remarketing tag on cart-page

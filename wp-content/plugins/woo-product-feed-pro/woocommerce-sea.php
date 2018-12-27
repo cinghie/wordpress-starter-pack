@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     4.0.4
+ * Version:     4.0.7
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -45,7 +45,7 @@ if (!defined('ABSPATH')) {
 /**
  * Plugin versionnumber, please do not override
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.0.4' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.0.7' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 
 if ( ! defined( 'WOOCOMMERCESEA_FILE' ) ) {
@@ -465,16 +465,6 @@ add_action( 'wp_ajax_woosea_ajax', 'woosea_ajax' );
  */
 function woosea_categories_dropdown() {
 	$rowCount = sanitize_text_field($_POST['rowCount']);
-
-	// Check if WPML is active, switch language?
-//        if(isset($project['WPML'])){
-//                if ( function_exists('icl_object_id') ) {
-//                        // Get WPML language
-//                        global $sitepress;
-//                        $lang = $project['WPML'];
-//                        $sitepress->switch_lang($lang);
-//                }
-//        }
 
 	$orderby = 'name';
 	$order = 'asc';

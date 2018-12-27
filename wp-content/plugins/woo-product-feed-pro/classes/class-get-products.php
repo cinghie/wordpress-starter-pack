@@ -258,7 +258,9 @@ class WooSEA_Get_Products {
 	public function woosea_get_installment ($project_config, $productId){
 		$installment = "";
                 $currency = get_woocommerce_currency();
-
+		if(isset($project_config['WCML'])){
+			$currency = $project_config['WCML'];
+		}
 		$installment_months = get_post_meta($productId, '_woosea_installment_months', true);
 		$installment_amount = get_post_meta($productId, '_woosea_installment_amount', true);
 
@@ -399,9 +401,10 @@ class WooSEA_Get_Products {
 					if($v->id == "free_shipping"){
 						$minimum_fee = $v->min_amount;
 						if ($price >= $minimum_fee){
-							//unset($shipping_arr);
-							//$shipping_arr = array();
-                              	  			$currency = get_woocommerce_currency();
+							$currency = get_woocommerce_currency();
+							if(isset($project_config['WCML'])){
+								$currency = $project_config['WCML'];
+							}
 							$shipping_cost = 0;
                                 			$zone_details['price'] = trim($currency." ".$shipping_cost);
 						} else {
@@ -412,6 +415,9 @@ class WooSEA_Get_Products {
 
 					if($shipping_cost >= 0){
                               	  		$currency = get_woocommerce_currency();
+						if(isset($project_config['WCML'])){
+							$currency = $project_config['WCML'];
+						}
                                 		$zone_details['price'] = trim($currency." ".$shipping_cost);
 					}
 	
@@ -1019,6 +1025,15 @@ class WooSEA_Get_Products {
 			if($status != "publish") { continue; }
 
 			$product_data['id'] = get_the_ID();
+
+			// Add support for WooCommerce Multilangual - WCML
+			if(isset($project_config['WCML'])){
+                   		global $woocommerce_wpml;
+                        	$multi_currency = $woocommerce_wpml->get_multi_currency();
+                       	 	$multi_currency->prices->prices_init();
+                        	$wcml_price = $multi_currency->prices->get_product_price_in_currency( $product_data['id'] , $project_config['WCML']);
+			}
+
 			$product_data['title'] = $product->get_title();
                         $product_data['title'] = $this->woosea_utf8_for_xml( $product_data['title'] );
 			$product_data['mother_title'] = $product->get_title();
@@ -1213,6 +1228,9 @@ class WooSEA_Get_Products {
 			$product_data['quantity'] = $this->clean_quantity( $this->childID, "_stock" );
 			$product_data['visibility'] = $this->get_attribute_value( $this->childID,"_visibility" );
 			$product_data['currency'] = get_woocommerce_currency();
+			if(isset($project_config['WCML'])){
+				$product_data['currency'] = $project_config['WCML'];
+			}
                         $product_data['sale_price_start_date'] = $this->get_sale_date($this->childID, "_sale_price_dates_from");
                         $product_data['sale_price_end_date'] = $this->get_sale_date($this->childID, "_sale_price_dates_to");
 			$product_data['sale_price_effective_date'] = $product_data['sale_price_start_date'] ."/".$product_data['sale_price_end_date'];
@@ -1256,8 +1274,13 @@ class WooSEA_Get_Products {
                 	$shipping_class= $product->get_shipping_class();
 			$class_cost_id = "class_cost_".$shipping_class_id;
 		
-			// Get prices including taxes
-			$product_data['price'] = wc_format_localized_price(wc_get_price_to_display($product));
+			$product_data['price'] = wc_format_localized_price(wc_get_price_including_tax($product, array('price'=> $product->get_price())));
+
+			// Override price when WCML price is different than the non-translated price	
+			if((isset($project_config['WCML'])) AND ($product_data['price'] !== $wcml_price)){
+				$product_data['price'] = $wcml_price;
+			}
+
 			$product_data['sale_price'] = wc_format_localized_price(wc_get_price_including_tax($product, array('price'=> $product->get_sale_price())));
 			$product_data['regular_price'] = wc_format_localized_price(wc_get_price_including_tax($product, array('price'=> $product->get_regular_price())));
 
@@ -1421,6 +1444,7 @@ class WooSEA_Get_Products {
 
 				$product_variations = new WC_Product_Variation( $product_data['id'] );
     				$variations = $product_variations->get_variation_attributes();
+
 				$append = "";
 
         			$variable_description = get_post_meta( $product_data['id'], '_variation_description', true );
@@ -1529,14 +1553,16 @@ class WooSEA_Get_Products {
 					
 						$taxonomy = str_replace("attribute_","",$kk);
 						$term = get_term_by('slug', $vv, $taxonomy); 
-				
+			
 						if($term){
 							$append = ucfirst($term->name);
 							$vv = $append;
-	
+
 							if (!empty($append)){	
+
 								// Prevent duplicate attribute values from being added to the product name
 								if(!preg_match("/" . preg_quote($product_data['title'], '/') . "/", $append)){
+
 									$product_data['title'] = $product_data['title']." ".$append;
 								}
 							}

@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 5.0
-Stable tag: 4.0.4
+Stable tag: 4.0.7
 
 == Description ==
 
@@ -72,7 +72,10 @@ Use the product tag information for your product feeds or to create filters and 
 Product feed statistics showing you the amount of products in yor product feed after every update and refresh.
 
 = WPML =
-Our plugin supports WPML (WPML Multilingual CMS)
+Our plugin supports WPML
+
+= WCML - WooCommerce Multilingual =
+Our plugin supports WooCommerce Multilangual, especially the currency switcher
 
 = Google Shopping product feed tutorial =
 [youtube https://www.youtube.com/watch?v=2XzxwKDufGw]
@@ -86,7 +89,8 @@ Our plugin supports WPML (WPML Multilingual CMS)
 * > 100 pre-configured product feed channel-templates for ~ 200 countries;
 * Create custom product feeds;
 * XML, CSV, TSV and TXT formats;
-* Supports WPML
+* Supports WPML (version 4.1 and higher)
+* Supports WCML, WooCommerce Multilingual
 * Tracks conversions and sales;
 * Intuitive interface;
 * Supports product variations / variables;
@@ -263,6 +267,17 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 4.0.7 (2018-12-27) =
+* We have added WooCommerce Multilingual support, especially the currency switcher. WooCommerce Multilangual is an addition onto the popular WPML-plugin
+* We have improved our WPML support (version 4.1 and higher)
+
+= 4.0.6 (2018-12-24) =
+* Added a Google Shopping tutorial to the plugin
+
+= 4.0.5 (2018-12-22) =
+* Switched On/Off title's of toggle's
+* Cleaned-up HTML of the Google Analytics configuration page so no variable mismatch will show after submitting this page.
 
 = 4.0.4 (2018-12-20) =
 * Cleaned-up HTML of the rules and filter pages and made some changes to the jQuery checks for that functionality. Hoping it will take away the variable mismatch detection.
@@ -1211,6 +1226,17 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 4.0.7 =
+We have added WooCommerce Multilingual support, especially the currency switcher. WooCommerce Multilangual is an addition onto the popular WPML-plugin
+We have improved our WPML support (version 4.1 and higher)
+
+= 4.0.6 =
+Added a Google Shopping tutorial to the plugin
+
+= 4.0.5 =
+Switched On/Off title's of toggle's
+Cleaned-up HTML of the Google Analytics configuration page so no variable mismatch will show after submitting this page.
 
 = 4.0.4 =
 Cleaned-up HTML of the rules and filter pages and made some changes to the jQuery checks for that functionality. Hoping it will take away the variable mismatch detection.

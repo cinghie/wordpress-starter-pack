@@ -111,6 +111,17 @@ if (array_key_exists('project_hash', $_GET)){
        		 				$list_lang = $sitepress->get_active_languages();
 						$nr_lang = count($list_lang);
 
+						$wcml_currencies = array();
+						// Check if WCML plugin is active
+						if ( function_exists('wcml_loader') ) {
+							$wcml_settings = get_option('_wcml_settings');
+							$currencies = $wcml_settings['currency_options'];
+
+							foreach ($currencies as $cur_key => $cur_val){
+								array_push($wcml_currencies, $cur_key);
+							}
+						}
+
 						if($nr_lang > 0){
                                 		     	if (isset($manage_project)){
 								print "<tr>";
@@ -127,6 +138,23 @@ if (array_key_exists('project_hash', $_GET)){
 								print "</select>";
 								print "</td>";
 								print "</tr>";
+
+								if(count($wcml_currencies) > 0){
+									print "<tr>";
+									print "<td><span>WCML Currency:</span></td>";
+									print "<td>";
+									print "<select name=\"WPML\" disabled>";
+									foreach ($wcml_currencies as $key => $value){
+										if($value == $project['WCML']){
+											print "<option value=\"$value\" selected>$value</option>";
+										} else {
+											print "<option value=\"$value\">$value</option>";
+										}
+									}
+									print "</select>";
+									print "</td>";
+									print "</tr>";
+								}
 							} else {
 								print "<tr>";
 								print "<td><span>WPML Language:</span></td>";
@@ -142,6 +170,24 @@ if (array_key_exists('project_hash', $_GET)){
 								print "</select>";
 								print "</td>";
 								print "</tr>";
+
+								if(count($wcml_currencies) > 0){
+									$my_currency = get_woocommerce_currency();
+									print "<tr>";
+									print "<td><span>WCML Currency:</span></td>";
+									print "<td>";
+									print "<select name=\"WCML\">";
+									foreach ($wcml_currencies as $key => $value){
+										if($value == $my_currency){
+											print "<option value=\"$value\" selected>$value</option>";
+										} else {
+											print "<option value=\"$value\">$value</option>";
+										}
+									}
+									print "</select>";
+									print "</td>";
+									print "</tr>";
+								}
 							}
 						}
 					}
@@ -386,13 +432,13 @@ if (array_key_exists('project_hash', $_GET)){
                                         <tr>
                                                 <td>
                                                         <ul>
-                                                                <li><strong>1. <a href="https://adtribes.io/adding-missing-custom-attributes/" target="_blank">Adding missing custom attributes</a></strong></li>
-                                                                <li><strong>2. <a href="https://adtribes.io/can-i-add-mother-products-to-my-feed-and-leave-out-the-variations/" target="_blank">Can I leave out mother products?</a></strong></li>
-                                                                <li><strong>3. <a href="https://adtribes.io/add-gtin-mpn-upc-ean-product-condition-optimised-title-and-brand-attributes/" target="_blank">Adding GTIN, Brand, MPN and more</a></strong></li>
-                                                                <li><strong>4. <a href="https://adtribes.io/woocommerce-structured-data-bug/" target="_blank">WooCommerce structured data markup bug</a></strong></li>
-                                                                <li><strong>5. <a href="https://adtribes.io/how-to-create-filters-for-your-product-feed/" target="_blank">How to create filters for your product feed</a></strong></li>
+                					        <li><strong>1. <a href="https://adtribes.io/setting-up-your-first-google-shopping-product-feed/" target="_blank">Create a Google Shopping feed</a></strong></li>
+                                                                <li><strong>2. <a href="https://adtribes.io/how-to-create-filters-for-your-product-feed/" target="_blank">How to create filters for your product feed</a></strong></li>
+                                                                <li><strong>3. <a href="https://adtribes.io/how-to-create-rules/" target="_blank">How to set rules for your product feed</a></strong></li>
+                                                                <li><strong>4. <a href="https://adtribes.io/add-gtin-mpn-upc-ean-product-condition-optimised-title-and-brand-attributes/" target="_blank">Adding GTIN, Brand, MPN and more</a></strong></li>
+                                                                <li><strong>5. <a href="https://adtribes.io/woocommerce-structured-data-bug/" target="_blank">WooCommerce structured data markup bug</a></strong></li>
                                                                 <li><strong>6. <a href="https://adtribes.io/wpml-support/" target="_blank">Enable WPML support</a></strong></li>
-                                                        </ul>
+							</ul>
                                                 </td>
                                         </tr>
                                 </table><br/>

@@ -43,16 +43,16 @@ if (array_key_exists('project_hash', $_GET)){
 ?>
 	<div class="wrap">
 		<div class="woo-product-feed-pro-form-style-2">
-		<table class="woo-product-feed-pro-table">
 			<tbody class="woo-product-feed-pro-body">
-			<div class="woo-product-feed-pro-form-style-2-heading">Conversion tracking & Google Analytics settings</div>
+				<div class="woo-product-feed-pro-form-style-2-heading">Conversion tracking & Google Analytics settings</div>
 
-                        <div class="<?php _e($notifications_box['message_type']); ?>">
-                                <p><?php _e($notifications_box['message'], 'sample-text-domain' ); ?></p>
-                        </div>
+                        	<div class="<?php _e($notifications_box['message_type']); ?>">
+                                	<p><?php _e($notifications_box['message'], 'sample-text-domain' ); ?></p>
+                        	</div>
 	
-			<form action="" method="post">
-			<input type="hidden" name="page" value="analytics">
+				<form id="googleanalytics" method="post">
+		
+				<table class="woo-product-feed-pro-table">
 				<tr>
 					<td><span>Enable conversion tracking: </span></td>
 					<td>
@@ -109,25 +109,25 @@ if (array_key_exists('project_hash', $_GET)){
 						if(isset($manage_project)){
 							?>
 							<input type="hidden" name="channel_hash" value="<?php print "$project[channel_hash]";?>">
-							<input type="hidden" name="project_update" id="project_update" value="yes" />
+							<input type="hidden" name="project_update" id="project_update" value="yes">
 							<input type="hidden" name="project_hash" value="<?php print "$project[project_hash]";?>">
 							<input type="hidden" name="step" value="100">
-							<input type="submit" value="Save"/>
+							<input type="submit" id="savebutton" value="Save">
 							<?php
 						} else {
 						?>
 							<input type="hidden" name="channel_hash" value="<?php print "$project[channel_hash]";?>">
 							<input type="hidden" name="project_hash" value="<?php print "$project[project_hash]";?>">
 							<input type="hidden" name="step" value="101">
-							<input type="submit" value="Generate Product Feed"/>
+							<input type="submit" id="savebutton" value="Generate Product Feed">
 						<?php
 						}
 						?>
 					</td>
 				</tr>
-			</form>
+				</table>
+				</form>
 			</tbody>
-		</table>
 		</div>
 	</div>
 
