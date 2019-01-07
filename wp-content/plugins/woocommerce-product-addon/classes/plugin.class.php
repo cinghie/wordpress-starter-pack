@@ -297,7 +297,7 @@ class NM_PersonalizedProduct {
   		if (!in_array($product->get_type(), array('variable', 'grouped', 'external'))) {
   			// only if can be purchased
   			if ($ppom->is_exists) {
-  				return __('Select options', 'woocommerce');
+  				$text = apply_filters('ppom_select_option_text', __('Select options', 'woocommerce'), $text, $product);
   			}
   		}
   		return $text;

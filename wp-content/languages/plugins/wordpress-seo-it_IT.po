@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Yoast SEO - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-12-19 20:38:58+0000\n"
+"PO-Revision-Date: 2019-01-07 10:59:40+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,10 @@ msgstr ""
 "X-Generator: GlotPress/2.4.0-alpha\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - Yoast SEO - Stable (latest release)\n"
+
+#: admin/class-recalibration-beta.php:42
+msgid "Get an even better analysis"
+msgstr "Ottieni un'analisi ancora migliore"
 
 #. translators: %s expands to Yoast SEO
 #: admin/views/sidebar.php:65
@@ -529,7 +533,7 @@ msgstr "%1$sDistribuzione dei sottotitoli%2$s: magnifico lavoro!"
 #. maximum percentage.
 #: languages/yoast-seo-js.php:90
 msgid "%1$sSentence length%2$s: %3$s of the sentences contain more than %4$s words, which is more than the recommended maximum of %5$s. %6$sTry to shorten the sentences%2$s."
-msgstr "%1$sLunghezza delle frasi%2$s: il %3$s delle frasi contengono più di %4$s words, che supera la lunghezza massima suggerita di %5$s. %6$sProva a scrivere frasi più corte%2$s."
+msgstr "%1$sLunghezza delle frasi%2$s: il %3$s delle frasi contiene più di %4$s parole, che supera la lunghezza massima suggerita di %5$s. %6$sProva a scrivere frasi più corte%2$s."
 
 #. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor
 #. end tag
@@ -1818,12 +1822,6 @@ msgstr "Puoi usare i box qui sotto per fare la verifica con i differenti Webmast
 msgid "Learn more about the Webmaster Tools verification"
 msgstr "Leggi di più sulla verifica con i Webmaster Tools"
 
-#: languages/yoast-components.php:176
-#: admin/views/tabs/dashboard/features.php:54
-#: admin/class-recalibration-beta.php:36
-msgid "On"
-msgstr "Attivato"
-
 #. translators: %s expands to a feature's name
 #: admin/views/tabs/network/features.php:47
 #: admin/views/tabs/dashboard/features.php:47
@@ -1834,13 +1832,6 @@ msgstr "Aiuto su: %s"
 #: admin/views/tabs/dashboard/features.php:26
 msgid "%1$s comes with a lot of features. You can enable / disable some of them below. Clicking the question mark gives more information about the feature."
 msgstr "%1$s ha molte caratteristiche. Qui sotto, puoi abilitare - disabilitare alcune di queste. Facendo cic sul punto interrogativo, potrai avere più informazioni sulle caratteristiche."
-
-#: languages/yoast-components.php:179
-#: admin/views/class-yoast-feature-toggles.php:130
-#: admin/views/tabs/dashboard/features.php:55
-#: admin/class-recalibration-beta.php:37
-msgid "Off"
-msgstr "Disattivato"
 
 #. translators: 1: Yoast SEO, 2: translated version of "Off"
 #: admin/views/class-yoast-feature-toggles.php:128
@@ -4016,7 +4007,7 @@ msgstr "Archivi %s"
 #. translators: %s expands to the search phrase.
 #: inc/options/class-wpseo-option-titles.php:205
 msgid "You searched for %s"
-msgstr "Si è cercato %s"
+msgstr "Hai cercato %s"
 
 #. translators: %s expands to a twitter user name.
 #: inc/options/class-wpseo-option-social.php:180
@@ -4598,7 +4589,7 @@ msgstr "Pagine 404"
 
 #: admin/views/tabs/metas/paper-content/special-pages.php:21
 msgid "Search pages"
-msgstr "Ricerca pagine"
+msgstr "Pagine di ricerca"
 
 #. translators: %s expands to <code>noindex, follow</code>.
 #: admin/views/tabs/metas/paper-content/special-pages.php:15

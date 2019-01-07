@@ -200,9 +200,11 @@ function ppom_get_product_price( $product ) {
 function ppom_make_meta_data( $cart_item, $context="cart" ){
 	
 	if( ! isset($cart_item['ppom']['fields']) ) return $cart_item;
-		
+	
+	$ppom_meta_ids = array();	
 	// removing id field
-	if (isset( $cart_item ['ppom'] ['fields']['id'] )) {
+	if ( !empty( $cart_item ['ppom'] ['fields']['id'] )) {
+		$ppom_meta_ids = explode(',', $cart_item ['ppom'] ['fields']['id']);
 		unset( $cart_item ['ppom'] ['fields']['id']);
 	}
 	
@@ -213,9 +215,8 @@ function ppom_make_meta_data( $cart_item, $context="cart" ){
 		// if no value
 		if( $value == '' ) continue;
 		
-		
 		$product_id = $cart_item['data'] ->post_type == 'product' ? $cart_item['data']->get_id() : $cart_item['data']->get_parent_id();
-		$field_meta = ppom_get_field_meta_by_dataname( $product_id, $key );
+		$field_meta = ppom_get_field_meta_by_dataname( $product_id, $key, $ppom_meta_ids);
 		
 		// ppom_pa($field_meta);
 		// If field deleted while it's in cart
@@ -364,7 +365,7 @@ function ppom_make_meta_data( $cart_item, $context="cart" ){
 				
 				$product = new WC_Product($product_id);
 				$options_filter	 = ppom_convert_options_to_key_val($field_meta['options'], $field_meta, $product);
-			
+				
 				foreach($options_filter as $option_key => $option) {
 	                    
                     $option_value = stripslashes($option['raw']);
@@ -404,7 +405,6 @@ function ppom_make_meta_data( $cart_item, $context="cart" ){
 				$meta_data = array('name'=>$field_title, 'value'=>stripcslashes($value));
 				break;
 		}
-		
 		
 		// Getting option price if field have
 		$option_price = ppom_get_field_option_price( $field_meta, $value );
@@ -474,9 +474,10 @@ function ppom_get_editing_tools( $editing_tools ){
  **/
 function ppom_has_posted_field_value( $posted_fields, $field ) {
 	
-	$has_value = false;
+	$has_value	= false;
 	
-	$data_name = $field['data_name'];
+	$data_name	= $field['data_name'];
+	$type		= $field['type'] ;
 	
 	if( !empty($posted_fields) ) {
 		foreach($posted_fields as $field_key => $value){
@@ -484,9 +485,30 @@ function ppom_has_posted_field_value( $posted_fields, $field ) {
 			
 			if( $field_key == $data_name) {
 				
-				if( $value != '' ) {
-					$has_value = true;
+				
+				switch( $type ) {
+					
+					case 'quantities':
+						$quantities_field = $value;
+						$quantity = 0;
+						foreach($quantities_field as $option => $qty) {
+							$quantity += intval($qty);
+						}
+						
+						if( $quantity > 0 ) {
+							$has_value = true;
+						}
+						
+					break;
+					
+					default:
+						if( $value != '' ) {
+							$has_value = true;
+						}
+					break;
+						
 				}
+				
 				
 				if( $has_value ) break;
 			}
@@ -521,10 +543,12 @@ function ppom_settings_link($links) {
 	
 	$quote_url = "https://najeebmedia.com/get-quote/";
 	$ppom_setting_url = admin_url( 'admin.php?page=ppom');
+	$video_url = 'https://najeebmedia.com/wordpress-plugin/woocommerce-personalized-product-option/#ppom-quick-video';
 	
 	$ppom_links = array();
 	$ppom_links[] = sprintf(__('<a href="%s">Add Fields</a>', 'ppom'), esc_url($ppom_setting_url) );
-	$ppom_links[] = sprintf(__('<a href="%s">Request for Customized Solution</a>', 'ppom'), esc_url($quote_url) );
+	$ppom_links[] = sprintf(__('<a href="%s" target="_blank">Quick Video Guide</a>', 'ppom'), esc_url($video_url) );
+	$ppom_links[] = sprintf(__('<a href="%s">Customized Solution</a>', 'ppom'), esc_url($quote_url) );
 	
 	foreach($ppom_links as $link) {
 		
@@ -560,15 +584,22 @@ function ppom_has_product_meta( $product_id ) {
 }
 
 // Get field type by data_name
-function ppom_get_field_meta_by_dataname( $product_id, $data_name ) {
+function ppom_get_field_meta_by_dataname( $product_id, $data_name, $ppom_id=null ) {
 	
 	$ppom		= new PPOM_Meta( $product_id );
-	if( ! $ppom->fields ) return '';
 	
-	$data_name = apply_filters('ppom_get_field_by_dataname_dataname', $data_name, $product_id);
+	$ppom_fields= $ppom->fields;
+	
+	if( !empty($ppom_id) ) {
+		$ppom_fields = $ppom->get_fields_by_id($ppom_id);
+	}
+	
+	if( ! $ppom_fields ) return '';
+	
+	$data_name = apply_filters('ppom_get_field_by_dataname_dataname', $data_name, $ppom_id);
 	
 	$field_meta = '';
-	foreach($ppom->fields as $field) {
+	foreach($ppom_fields as $field) {
 	
 		if( ! ppom_is_field_visible($field) ) continue;
 		
@@ -682,6 +713,8 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 	foreach($options as $option) {
 		
 		if( isset($option['option']) ) {
+			
+			$option = ppom_translation_options($option);
 			
 			$option_price_without_tax	= '';
 			$option_label	= $option['option'];
@@ -996,12 +1029,14 @@ function ppom_get_field_option_price( $field_meta, $option_label ) {
 }
 
 // Getting field option price by ID
-function ppom_get_field_option_price_by_id( $option, $product ) {
+function ppom_get_field_option_price_by_id( $option, $product, $ppom_meta_ids ) {
 	
 	$data_name = isset($option['data_name']) ? $option['data_name'] : '';
 	$option_id = isset($option['option_id']) ? $option['option_id'] : '';
 	
-	$field_meta = ppom_get_field_meta_by_dataname( ppom_get_product_id($product), $data_name );
+	// soon we will remove this product param
+	$product_id = null;
+	$field_meta = ppom_get_field_meta_by_dataname($product_id , $data_name, $ppom_meta_ids );
 	
 	if( empty($field_meta) ) return 0;
 	
@@ -1025,12 +1060,14 @@ function ppom_get_field_option_price_by_id( $option, $product ) {
 }
 
 // Getting field option weight by ID
-function ppom_get_field_option_weight_by_id( $option, $product_id ) {
+function ppom_get_field_option_weight_by_id( $option, $ppom_meta_ids ) {
 	
 	$data_name = isset($option['data_name']) ? $option['data_name'] : '';
 	$option_id = isset($option['option_id']) ? $option['option_id'] : '';
 	
-	$field_meta = ppom_get_field_meta_by_dataname( $product_id, $data_name );
+	// soon we will remove this product param
+	$product_id = null;
+	$field_meta = ppom_get_field_meta_by_dataname( $product_id, $data_name, $ppom_meta_ids );
 	
 	if( empty($field_meta) ) return 0;
 	
@@ -1045,7 +1082,7 @@ function ppom_get_field_option_weight_by_id( $option, $product_id ) {
 		}
 	}
 	
-	return apply_filters("ppom_field_option_weight_by_id", wc_format_decimal($option_weight), $field_meta, $option_id, $product_id);
+	return apply_filters("ppom_field_option_weight_by_id", wc_format_decimal($option_weight), $field_meta, $option_id, $ppom_meta_ids);
 }
 
 // check if PPOM PRO is installed
@@ -1193,15 +1230,18 @@ function ppom_get_date_formats() {
 }
 
 // Security: checking if attached fields have price
-function ppom_is_price_attached_with_fields( $fields_posted, $product_id) {
+function ppom_is_price_attached_with_fields( $fields_posted ) {
 	
 	
 	$is_price_attached = false;
 	
 	$option_price = 0;
+	$ppom_id = $fields_posted['id'];
 	foreach($fields_posted as $data_name => $value) {
 		
-		$field_meta = ppom_get_field_meta_by_dataname($product_id, $data_name);
+		// soon prodcut_id will be removed
+		$product_id = null;
+		$field_meta = ppom_get_field_meta_by_dataname($product_id, $data_name, $ppom_id);
 		$field_type	= isset($field_meta['type']) ? $field_meta['type'] : '';
 		
 		switch( $field_type ) {

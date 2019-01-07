@@ -1,11 +1,11 @@
 So you found my to-do list for this plugin? Well, hope you enjoy the little sneak preview of what's coming. 
 Missing some features you might like? Drop me a line at support@adtribes.io and we might just add it to the list. Thanks!
 
-TO DO BEFORE ELITE RELEASE:
-
 Plugin functionalities:
-- Add WPML currency switcher support
 - Check JSON again
+
+BLOG:
+- Change WPML article, add support for multi-currency text
 
 Adtribes.io website changes:
 - Clean categories, products, website before going live again!!
@@ -15,11 +15,8 @@ Adtribes.io website changes:
 - Logo plaatsen op website zelf
 - Icon maken voor in WP-admin menu 
 
-Write blog articles:
-- explain the different price attributes of the plugin
-
 OTHER ISSUES:
-- Add support for WPML - WooCommerce Multilingual (Multi-currency)
+- add OR filters and rules
 - Build a better WP Cron check, current one is not good enough
 - Add support for Google Shopping product review feeds - https://developers.google.com/product-review-feeds/
 - Remarketing and structured data fix, check if prices are correct (VAT issue) - on variation pages it shows prices without VAT in the structured data

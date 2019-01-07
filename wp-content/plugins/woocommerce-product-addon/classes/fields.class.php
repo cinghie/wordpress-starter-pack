@@ -74,6 +74,7 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
         wp_enqueue_style('PPOM-field', PPOM_URL."/scripts/ppom-admin.css");
         wp_enqueue_script('PPOM-field', PPOM_URL."/scripts/ppom-admin.js", array('PPOM-swal','PPOM-select2','PPOM-tabletojson','PPOM-datatables','PPOM-tooltip','jquery-ui-core', 'jquery-ui-sortable'), PPOM_VERSION, true);
 
+		wp_enqueue_media ();
 
         $ppom_admin_meta = array(
 	      'plugin_admin_page' => admin_url( 'admin.php?page=ppom'),

@@ -22,7 +22,8 @@ class PPOM_Meta {
             //Now we are creating properties agains each methods in our Alpha class.
             $methods = get_class_methods( $this );
             $excluded_methods = array('__construct', 
-                                        'get_settings_by_id');
+                                        'get_settings_by_id',
+                                        'get_fields_by_id');
                                         
             foreach ( $methods as $method ) {
                 if ( ! in_array($method, $excluded_methods) ) {
@@ -127,6 +128,32 @@ class PPOM_Meta {
             // if( empty($meta_fields) ) return null;
             
             return apply_filters('ppom_meta_fields', $meta_fields, $this);
+        }
+        
+        // Getting fields by meta id
+        function get_fields_by_id( $ppom_id ) {
+            
+            $meta_fields = array();
+            global $wpdb;
+            if( is_array($ppom_id) ) {
+                
+                foreach( $ppom_id as $meta_id ) {
+                    
+        		    $qry = "SELECT the_meta FROM " . $wpdb->prefix . PPOM_TABLE_META . " WHERE productmeta_id = {$meta_id}";
+        		    $fields = $wpdb->get_var ( $qry );
+                    $fields = json_decode ( $fields, true );
+        		    $meta_fields = array_merge($meta_fields, $fields);
+                }
+            } else {
+                $meta_id = $ppom_id;
+                $qry = "SELECT the_meta FROM " . $wpdb->prefix . PPOM_TABLE_META . " WHERE productmeta_id = {$meta_id}";
+    		    $fields = $wpdb->get_var ( $qry );
+                $meta_fields = json_decode ( $fields, true );
+            }
+    			
+            // if( empty($meta_fields) ) return null;
+            
+            return apply_filters('ppom_meta_fields_by_id', $meta_fields, $ppom_id, $this);
         }
         
         // check meta settings: ajax validation

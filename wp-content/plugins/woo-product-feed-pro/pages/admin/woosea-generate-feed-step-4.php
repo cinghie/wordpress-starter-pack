@@ -69,7 +69,7 @@ if (array_key_exists('project_hash', $_GET)){
         			</thead>
       
 				<?php
-				if(isset($project['rules'])){
+				//if(isset($project['rules'])){
 					print "<tbody class=\"woo-product-feed-pro-body\">";
 					if(isset($project['rules'])){
 						foreach ($project['rules'] as $rule_key => $rule_array){
@@ -196,8 +196,11 @@ if (array_key_exists('project_hash', $_GET)){
 					}
 					
 					// RULES SECTION
+
 					if (isset($project['rules2'])){
+
 						foreach($project['rules2'] as $rule2_key => $rule2_array){
+
 							if(isset($project['rules2'][$rule2_key]['criteria'])){
 								$criteria = $project['rules2'][$rule2_key]['criteria'];
 							} else {
@@ -350,7 +353,7 @@ if (array_key_exists('project_hash', $_GET)){
 						}
 					}
 					print "</tbody>";
-				}
+				//}
 				?>
 				<tbody>
 				<tr class="rules-buttons">
@@ -361,6 +364,7 @@ if (array_key_exists('project_hash', $_GET)){
                                                 if(isset($manage_project)){
                                                 ?>
 							<input type="hidden" name="project_hash" value="<?php print "$project[project_hash]";?>">
+                		                	<input type="hidden" name="page" value="filters_rules">
                 		                	<input type="hidden" name="step" value="100">
                        	       				<input type="button" class="delete-row" value="- Delete">&nbsp;<input type="button" class="add-filter" value="+ Add filter">&nbsp;<input type="button" class="add-rule" value="+ Add rule">&nbsp;<input type="submit" id="savebutton" value="Save">
 						<?php

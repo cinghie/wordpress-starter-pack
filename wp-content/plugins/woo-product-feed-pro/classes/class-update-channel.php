@@ -54,7 +54,7 @@ class WooSEA_Update_Project {
 	public static function update_project_data($project) {
 		if(get_option( 'cron_projects' )){
 			$cron_projects = get_option( 'cron_projects' );
-			
+		
 			foreach ($cron_projects as $key=>$val){		
 				if(!empty($val)){
 					if($val['project_hash'] == $project['project_hash']){
@@ -67,6 +67,7 @@ class WooSEA_Update_Project {
 	}
 
 	public static function update_project($project_data){
+
 		if(!array_key_exists('project_hash', $project_data)){
                 	$upload_dir = wp_upload_dir();
                 	$external_base = $upload_dir['baseurl'];
@@ -120,7 +121,7 @@ class WooSEA_Update_Project {
 				}
 			}
 		}
-		
+	
 		/**
 		 * Update project hash with new values
 		 */
@@ -149,8 +150,6 @@ class WooSEA_Update_Project {
                 $external_path = $external_base . "/woo-product-feed-pro/" . $project_config['fileformat'];
 		$project_config['external_file'] = $external_path . "/" . sanitize_file_name($project_config['filename']) . "." . $project_config['fileformat'];
 
-
-
 		if((array_key_exists('page', $project_data)) AND ($project_data['page'] == "analytics")){
 			/**
 			 * Did the Google Analytics UTM code part got disabled?
@@ -164,10 +163,6 @@ class WooSEA_Update_Project {
 			if(!array_key_exists('adtribes_conversion', $project_data)) {
 				unset($project_config['adtribes_conversion']);
 			}
-
-
-
-
 		}
 
 		/**
@@ -180,21 +175,23 @@ class WooSEA_Update_Project {
 			}
 		}
 
-		if((array_key_exists('page', $project_data)) AND ($project_data['page'] == "filters")){
-			/**
-			 * Did all the filters got removed
-			 */
+		/**
+		 * Did all the filters got removed
+	  	 */
+                if((array_key_exists('page', $project_data)) AND ($project_data['page'] == "filters_rules")){
 			if(!array_key_exists('rules', $project_data)) {
 				unset($project_config['rules']);
 			}
+		}
 
-			/**
-		 	* Did all the rules got removed
-		 	*/
+		/**
+		 * Did all the rules got removed
+		 */
+                if((array_key_exists('page', $project_data)) AND ($project_data['page'] == "filters_rules")){
 			if(!array_key_exists('rules2', $project_data)) {
 				unset($project_config['rules2']);
 			}
-		}	
+		}
  
 		/**
 		 * Update cron with new project settings

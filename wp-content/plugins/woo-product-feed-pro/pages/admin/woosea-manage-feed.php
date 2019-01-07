@@ -229,17 +229,29 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 			</table>
 			</div>
 			<div class="woo-product-feed-pro-table-right">
-				<!--
-				<table class="woo-product-feed-pro-table">
-        		                <tr>
-						<td><strong>Tutorials</strong></td>
-					</tr>
-					<tr>
-						<td><br/><br/><br/><br/></td>
-					</tr>
-				</table><br/>
-				-->
 
+				<!--
+                                <table class="woo-product-feed-pro-table">
+                                        <tr>
+                                                <td><strong>Why upgrade to Elite?</strong></td>
+                                        </tr>
+                                        <tr>
+                                                <td>
+                                                        Enjoy all priviliges of our Elite features and priority support and upgrade to the Elite version of our plugin now!
+                                                        <ul>
+                                                                <li><strong>1.</strong> Priority support: get your feeds live faster</li>
+                                                                <li><strong>2.</strong> More products approved by Google</li>
+                                                                <li><strong>3.</strong> Add GTIN, brand and more fields to your store</li>
+                                                                <li><strong>4.</strong> Exclude individual products from your feeds</li>
+                                                                <li><strong>5.</strong> WPML support</li>
+                                                         </ul>
+                                                        <strong>
+                                                        <a href="https://adtribes.io/pro-vs-elite/?utm_source=$domain&utm_medium=plugin&utm_campaign=upgrade-elite" target="_blank">Upgrade to Elite here!</a>
+                                                        </strong>
+                                                </td>
+                                        </tr>
+                                </table><br/>
+				-->
 
                                 <table class="woo-product-feed-pro-table">
                                         <tr>
@@ -258,29 +270,6 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
                                         </tr>
                                 </table><br/>
 
-				<!--
-                                <table class="woo-product-feed-pro-table">
-                                        <tr>
-                                                <td><strong>Why upgrade to Elite?</strong></td>
-                                        </tr>
-                                        <tr>
-                                                <td>
-                                                        Enjoy all priviliges of our Elite features and priority support and upgrade to the Elite version of our plugin now!
-                                                        <ul>
-                                                                <li><strong>1.</strong> Priority support: get your feeds live faster</li>
-								<li><strong>2.</strong> More products approved by Google</li>
-                                                                <li><strong>3.</strong> Add GTIN, brand and more fields to your store</li>
-                                                                <li><strong>4.</strong> Exclude individual products from your feeds</li>
-                                                                <li><strong>5.</strong> WPML support</li>
-							 </ul>
-							<strong>
-                                                        <a href="https://adtribes.io/pro-vs-elite/?utm_source=$domain&utm_medium=plugin&utm_campaign=upgrade-elite" target="_blank">Upgrade to Elite here!</a>
-                                                	</strong>
-						</td>
-                                        </tr>
-                                </table><br/>
-				-->
-
 				<table class="woo-product-feed-pro-table">
         		                <tr>
 						<td><strong>Our latest blog articles</strong></td>
@@ -298,7 +287,6 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 						</td>
 					</tr>
 				</table><br/>
-
 
 				<table class="woo-product-feed-pro-table">
         		                <tr>

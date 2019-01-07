@@ -37,6 +37,13 @@ class WooSEA_Activation {
 					"taxonomy" => "none",
 					"utm_source" => "Google DSA",
                         		"type" => "Advertising" ),
+                 		"Google Product Review Feed" => array (
+                        		"channel_hash" => md5("Google Product Review"),
+                        		"name" => "Google Product Review",
+					"fields" => "google_product_review",
+					"taxonomy" => "none",
+					"utm_source" => "Google Product Review",
+                        		"type" => "Advertising" ),
                  		"Google Local Products Feed" => array (
                         		"channel_hash" => md5("Google Local Products"),
                         		"name" => "Google Local Products",
@@ -912,7 +919,15 @@ class WooSEA_Activation {
 					"utm_source" => "Stylight.ie",
                         		"type" => "Comparison shopping engine" ),
   				),
-			"Israel" => array (),
+			"Israel" => array (
+                		"Zap.co.il" => array (
+                        		"channel_hash" => md5("Zap.co.il"),
+                        		"name" => "Zap.co.il",
+					"fields" => "zap",
+					"taxonomy" => "none",
+					"utm_source" => "Zap.co.il",
+                        		"type" => "Comparison shopping engine" ),
+			),
   		        "Italy" => array (
                 		"ShopAlike" => array (
                         		"channel_hash" => md5("ShopAlike.it"),

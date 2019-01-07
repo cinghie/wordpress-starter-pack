@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 5.0
-Stable tag: 4.0.7
+Stable tag: 4.1.6
 
 == Description ==
 
@@ -181,6 +181,7 @@ Our plugin supports WooCommerce Multilangual, especially the currency switcher
 * Livingo.de
 * Medizinfuchs.de
 * <a href="https://www.moebel.de" target="_blank">Moebel.de</a>
+* <a href="https://www.zap.co.il" target="_blank">Zap.co.il</a>
 * My Best Brands
 * Preis.de
 * Rakuten
@@ -267,6 +268,37 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 4.1.6 (2019-01-03) =
+* Changed the inner workings of the 'contains' rules for the shipping field. Whereas previously this rule replaced the entire string now it does a proper string replace only replacing the exact 'contains' part of the rule.
+* Fixed a bug: previously saved filters and rules on shipping fields got deleted when configuration changes were made to the feed. This issue has been solved now.
+* Changed the plugin's icon in the WP-admin menu to our Adtribes.io logo
+
+= 4.1.5 (2019-01-03) =
+* Fixed a bug for Facebook CSV feeds where the identifier_exists field is not needed and caused some columns to contain the value "yes", always. This issue has been solved.
+
+= 4.1.4 (2019-01-03) =
+* Added multiply rule feature for shipping prices
+* Added product review information to the plugin, this however cannot be used for feeds yet
+* Prepared the plugin for launch of the paid Elte features
+
+= 4.1.3 (2018-12-30) =
+* Fixed a bug for the Zap.co.il template
+
+= 4.1.2 (2018-12-29) =
+* Fixed a bug for the Zap.co.il template
+
+= 4.1.1 (2018-12-29) =
+* Fixed a bug: rules and filters could not be deleted. This issue has been fixed.
+
+= 4.1.0 (2018-12-28) =
+* Fixed another rules and filter display bug
+
+= 4.0.9 (2018-12-28) =
+* Added a default feed template for the Israelian price comparison Zap.co.il
+
+= 4.0.8 (2018-12-27) =
+* Fixed a rule displaying bug. The rule was actually working fine but it was not showing in the configuration page.
 
 = 4.0.7 (2018-12-27) =
 * We have added WooCommerce Multilingual support, especially the currency switcher. WooCommerce Multilangual is an addition onto the popular WPML-plugin
@@ -1226,6 +1258,37 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 4.1.6 =
+Changed the inner workings of the 'contains' rules for the shipping field. Whereas previously this rule replaced the entire string now it does a proper string replace only replacing the exact 'contains' part of the rule.
+Fixed a bug: previously saved filters and rules on shipping fields got deleted when configuration changes were made to the feed. This issue has been solved now.
+Changed the plugin's icon in the WP-admin menu to our Adtribes.io logo
+
+= 4.1.5 =
+Fixed a bug for Facebook CSV feeds where the identifier_exists field is not needed and caused some columns to contain the value "yes", always. This issue has been solved.
+
+= 4.1.4 =
+Added multiply rule feature for shipping prices
+Added product review information to the plugin, this however cannot be used for feeds yet
+Prepared the plugin for launch of the paid Elte features
+
+= 4.1.3 =
+Fixed a bug for the Zap.co.il template
+
+= 4.1.2 =
+Fixed a bug for the Zap.co.il template
+
+= 4.1.1 =
+Fixed a bug: rules and filters could not be deleted. This issue has been fixed.
+
+= 4.1.0 =
+Fixed another rules and filter display bug
+
+= 4.0.9 =
+Added a default feed template for the Israelian price comparison Zap.co.il
+
+= 4.0.8 =
+Fixed a rule displaying bug. The rule was actually working fine but it was not showing in the configuration page.
 
 = 4.0.7 =
 We have added WooCommerce Multilingual support, especially the currency switcher. WooCommerce Multilangual is an addition onto the popular WPML-plugin

@@ -2,7 +2,13 @@
 $domain = $_SERVER['HTTP_HOST'];
 $plugin_settings = get_option( 'plugin_settings' );
 $license_information = get_option( 'license_information' );
-$license_information['license_valid'] = "yes"; // This is only temp untill we activate the license module again
+
+$license_information['license_valid'] = "true"; // This is only temp untill we activate the license module again
+
+$elite_disable = "";
+if($license_information['license_valid'] == "false"){
+	$elite_disable = "disabled";
+}
 
 $versions = array (
 	"PHP" => (float)phpversion(),
@@ -125,9 +131,9 @@ if(isset($_GET["tab"])) {
 								<?php
 								$structured_data_fix = get_option ('structured_data_fix');
  	                                                       	if($structured_data_fix == "yes"){
-                                                                	print "<input type=\"checkbox\" id=\"fix_json_ld\" name=\"fix_json_ld\" class=\"checkbox-field\" checked>";
+                                                                	print "<input type=\"checkbox\" id=\"fix_json_ld\" name=\"fix_json_ld\" class=\"checkbox-field\" checked $elite_disable>";
 							 	} else {
-                                                                	print "<input type=\"checkbox\" id=\"fix_json_ld\" name=\"fix_json_ld\" class=\"checkbox-field\">";
+                                                                	print "<input type=\"checkbox\" id=\"fix_json_ld\" name=\"fix_json_ld\" class=\"checkbox-field\" $elite_disable>";
                                                         	}
                                                         	?>
                                                         	<div class="woo-product-feed-pro-slider round"></div>
@@ -144,9 +150,9 @@ if(isset($_GET["tab"])) {
                                                         	<?php
 								$add_unique_identifiers = get_option ('add_unique_identifiers');
                                                         	if($add_unique_identifiers == "yes"){
-                                                                	print "<input type=\"checkbox\" id=\"add_identifiers\" name=\"add_identifiers\" class=\"checkbox-field\" checked>";
+                                                                	print "<input type=\"checkbox\" id=\"add_identifiers\" name=\"add_identifiers\" class=\"checkbox-field\" checked $elite_disable>";
 							 	} else {
-                                                                	print "<input type=\"checkbox\" id=\"add_identifiers\" name=\"add_identifiers\" class=\"checkbox-field\">";
+                                                                	print "<input type=\"checkbox\" id=\"add_identifiers\" name=\"add_identifiers\" class=\"checkbox-field\" $elite_disable>";
                                                         	}
                                                         	?>
                                                         	<div class="woo-product-feed-pro-slider round"></div>
@@ -162,9 +168,9 @@ if(isset($_GET["tab"])) {
                                                         	<?php
 								$add_wpml_support = get_option ('add_wpml_support');
                                                         	if($add_wpml_support == "yes"){
-                                                                	print "<input type=\"checkbox\" id=\"add_wpml_support\" name=\"add_wpml_support\" class=\"checkbox-field\" checked>";
+                                                                	print "<input type=\"checkbox\" id=\"add_wpml_support\" name=\"add_wpml_support\" class=\"checkbox-field\" checked $elite_disable>";
 							 	} else {
-                                                                	print "<input type=\"checkbox\" id=\"add_wpml_support\" name=\"add_wpml_support\" class=\"checkbox-field\">";
+                                                                	print "<input type=\"checkbox\" id=\"add_wpml_support\" name=\"add_wpml_support\" class=\"checkbox-field\" $elite_disable>";
                                                         	}
                                                         	?>
                                                         	<div class="woo-product-feed-pro-slider round"></div>
@@ -347,26 +353,8 @@ GROUP BY meta.meta_key ORDER BY meta.meta_key ASC;";
 				</div>
 
 				<div class="woo-product-feed-pro-table-right">
-				
-
-                                <table class="woo-product-feed-pro-table">
-                                        <tr>
-                                                <td><strong>We’ve got you covered!</strong></td>
-                                        </tr>
-                                        <tr>
-                                                <td>
-                                                        Need assistance? Check out our:
-                                                        <ul>
-                                                                <li><strong><a href="https://adtribes.io/support/" target="_blank">Frequently Asked Questions</a></strong></li>
-                                                                <li><strong><a href="https://www.youtube.com/channel/UCXp1NsK-G_w0XzkfHW-NZCw" target="_blank">YouTube tutorials</a></strong></li>
-                                                                <li><strong><a href="https://adtribes.io/blog/" target="_blank">Blog</a></strong></li>
-                                                        </ul>
-                                                        Or just reach out to us at  <strong><a href="https://wordpress.org/support/plugin/woo-product-feed-pro/" target="_blank">the support forum</a></strong> and we'll make sure your product feeds will be up-and-running within no-time.
-                                                </td>
-                                        </tr>
-                                </table><br/>
-
-				<!--
+			
+				<!--	
                                 <table class="woo-product-feed-pro-table">
                                         <tr>
                                                 <td><strong>Why upgrade to Elite?</strong></td>
@@ -388,6 +376,23 @@ GROUP BY meta.meta_key ORDER BY meta.meta_key ASC;";
                                         </tr>
                                 </table><br/>
 				-->
+
+                                <table class="woo-product-feed-pro-table">
+                                        <tr>
+                                                <td><strong>We’ve got you covered!</strong></td>
+                                        </tr>
+                                        <tr>
+                                                <td>
+                                                        Need assistance? Check out our:
+                                                        <ul>
+                                                                <li><strong><a href="https://adtribes.io/support/" target="_blank">Frequently Asked Questions</a></strong></li>
+                                                                <li><strong><a href="https://www.youtube.com/channel/UCXp1NsK-G_w0XzkfHW-NZCw" target="_blank">YouTube tutorials</a></strong></li>
+                                                                <li><strong><a href="https://adtribes.io/blog/" target="_blank">Blog</a></strong></li>
+                                                        </ul>
+                                                        Or just reach out to us at  <strong><a href="https://wordpress.org/support/plugin/woo-product-feed-pro/" target="_blank">the support forum</a></strong> and we'll make sure your product feeds will be up-and-running within no-time.
+                                                </td>
+                                        </tr>
+                                </table><br/>
 
                                 <table class="woo-product-feed-pro-table">
                                         <tr>

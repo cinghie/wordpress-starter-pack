@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     4.0.7
+ * Version:     4.1.6
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -43,10 +43,12 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Plugin versionnumber, please do not override
+ * Plugin versionnumber, please do not override.
+ * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.0.7' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.1.6' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
+define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
 if ( ! defined( 'WOOCOMMERCESEA_FILE' ) ) {
         define( 'WOOCOMMERCESEA_FILE', __FILE__ );
@@ -59,6 +61,11 @@ if ( ! defined( 'WOOCOMMERCESEA_PATH' ) ) {
 if ( ! defined( 'WOOCOMMERCESEA_BASENAME' ) ) {
         define( 'WOOCOMMERCESEA_BASENAME', plugin_basename( WOOCOMMERCESEA_FILE ) );
 }
+
+if ( ! defined( 'WOOCOMMERCESEA_PLUGIN_URL' ) ) { 
+	define( 'WOOCOMMERCESEA_PLUGIN_URL', plugins_url() . '/' . WOOCOMMERCESEA_PLUGIN_NAME_SHORT ); 
+}
+
 
 /**
  * Enqueue css assets
@@ -146,7 +153,7 @@ function woosea_plugin_action_links($links, $file) {
 		// link to what ever you want
         	$plugin_links[] = '<a href="https://adtribes.io/support/" target="_blank">Support</a>';
         	$plugin_links[] = '<a href="https://adtribes.io/blog/" target="_blank">Blog</a>';
-        	//$plugin_links[] = '<a href="https://adtribes.io/pro-vs-elite/?utm_source=adminpage&utm_medium=pluginpage&utm_campaign=upgrade-elite&utm_term=upgrade to elite" target="_blank">Upgrade to Elite</a>';
+        	//$plugin_links[] = '<a href="https://adtribes.io/pro-vs-elite/?utm_source=adminpage&utm_medium=pluginpage&utm_campaign=upgrade-elite&utm_term=upgrade to elite" target="_blank" style="color:green;"><b>Go Elite</b></a>';
         	//$plugin_links[] = '<a href="https://adtribes.io/pro-vs-elite/?utm_source=adminpage&utm_medium=pluginpage&utm_campaign=upgrade-elite&utm_term=premium support" target="_blank">Premium Support</a>';
  
         	// add the links to the list of links already there
@@ -429,7 +436,8 @@ add_action( 'woosea_check_license', 'woosea_license_valid'); // check if license
  * Add WooCommerce SEA plugin to Menu
  */
 function woosea_menu_addition(){
-            add_menu_page(__('Product Feed PRO for WooCommerce', 'woosea-feed'), __('Product Feed Pro', 'woosea-feed'), 'manage_options', __FILE__, 'woosea_generate_pages', 'dashicons-chart-bar',99);
+            //add_menu_page(__('Product Feed PRO for WooCommerce', 'woosea-feed'), __('Product Feed Pro', 'woosea-feed'), 'manage_options', __FILE__, 'woosea_generate_pages', 'dashicons-chart-bar',99);
+            add_menu_page(__('Product Feed PRO for WooCommerce', 'woosea-feed'), __('Product Feed Pro', 'woosea-feed'), 'manage_options', __FILE__, 'woosea_generate_pages', esc_url( WOOCOMMERCESEA_PLUGIN_URL . '/images/icon-16x16.png'),99);
             add_submenu_page(__FILE__, __('Feed configuration', 'woosea-feed'), __('Create feed', 'woosea-feed'), 'manage_options', __FILE__, 'woosea_generate_pages');
             add_submenu_page(__FILE__, __('Manage feeds', 'woosea-feed'), __('Manage feeds', 'woosea-feed'), 'manage_options', 'woosea_manage_feed', 'woosea_manage_feed');
             add_submenu_page(__FILE__, __('Settings', 'woosea-feed'), __('Settings', 'woosea-feed'), 'manage_options', 'woosea_manage_settings', 'woosea_manage_settings');
@@ -570,6 +578,14 @@ function woosea_register_license(){
                 'license_key'           => $license_key,
                 'notice'                => $notice,
         );
+
+        if($license_valid == "false"){
+                // The Elite settings get disabled when license is not valid
+                delete_option ('structured_data_fix');
+                delete_option ('add_unique_identifiers');
+                delete_option ('add_wpml_support');
+	}
+
         update_option("license_information", $license_information);
 
 }
@@ -2164,9 +2180,11 @@ function woosea_license_valid(){
                 $license_information['notice'] = $json_return['notice'];
 
                 update_option ('license_information', $license_information);
-//                delete_option ('structured_data_fix');
-//                delete_option ('add_unique_identifiers');
-//		delete_option ('add_wpml_support');
+
+		// The Elite settings get disabled when license is not valid
+                // delete_option ('structured_data_fix');
+                // delete_option ('add_unique_identifiers');
+		// delete_option ('add_wpml_support');
         } else {
                 $license_information['message'] = $json_return['message'];
                 $license_information['message_type'] = $json_return['message_type'];

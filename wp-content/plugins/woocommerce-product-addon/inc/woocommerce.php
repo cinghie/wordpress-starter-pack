@@ -69,7 +69,8 @@ function ppom_woocommerce_show_fields() {
     
     $template_vars = array('ppom_settings'  	=> $ppom->settings,
     						'product'			=> $product,
-    						'ppom_fields_meta'	=> $ppom->fields);
+    						'ppom_fields_meta'	=> $ppom->fields,
+    						'ppom_id'			=> $ppom->meta_id);
     ob_start();
     ppom_load_template ( 'render-fields.php', $template_vars );
     $ppom_html .= ob_get_clean();
@@ -93,7 +94,8 @@ function ppom_woocommerce_validate_product($passed, $product_id, $qty) {
 	}
 	
 	if(isset($_POST['ppom']['fields'])) {
-    	if( ppom_is_price_attached_with_fields($_POST['ppom']['fields'], $product_id) &&
+		
+		if( ppom_is_price_attached_with_fields($_POST['ppom']['fields']) &&
     		empty($_POST['ppom']['ppom_option_price'])
     	 ) {
     		$error_message = __('Sorry, an error has occurred. Please enable JavaScript or contact site owner.','ppom');
@@ -212,6 +214,13 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 	$wc_product = $cart_items['data'];
 	$product_id = ppom_get_product_id($wc_product);
 	
+	$ppom_meta_ids = array();	
+	// removing id field
+	if ( !empty( $values ['ppom'] ['fields']['id'] )) {
+		$ppom_meta_ids = explode(',', $values ['ppom'] ['fields']['id']);
+		unset( $values ['ppom'] ['fields']['id']);
+	}
+	
 	$ppom_item_org_price	= floatval(ppom_get_product_price($wc_product));
 	$ppom_item_order_qty	= floatval($cart_items['quantity']);
 	
@@ -262,7 +271,7 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 					// verify prices from server due to security
 					if( isset($option['data_name']) && isset($option['option_id'])) {
 						
-						$option_price = ppom_get_field_option_price_by_id($option, $wc_product);
+						$option_price = ppom_get_field_option_price_by_id($option, $wc_product, $ppom_meta_ids);
 					}
 					
 					$total_option_price += wc_format_decimal( $option_price, wc_get_price_decimals());
@@ -274,7 +283,7 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 					// verify prices from server due to security
 					if( isset($option['data_name']) && isset($option['option_id'])) {
 						
-						$option_price = ppom_get_field_option_price_by_id($option, $wc_product);
+						$option_price = ppom_get_field_option_price_by_id($option, $wc_product, $ppom_meta_ids);
 					}
 					$ppon_onetime_cost += wc_format_decimal( $option_price, wc_get_price_decimals());
 					break;
@@ -338,7 +347,7 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 			 * @since 15.4: Updating options weight
 			 **/
 			if( ppom_pro_is_installed() ) {
-				$option_weight = ppom_get_field_option_weight_by_id($option, $product_id);
+				$option_weight = ppom_get_field_option_weight_by_id($option, $ppom_meta_ids);
 				if( $option_weight > 0 ) {
 					$new_weight = $wc_product->get_weight() + $option_weight;
 					$wc_product->set_weight($new_weight);
