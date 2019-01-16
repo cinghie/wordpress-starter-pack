@@ -15,10 +15,6 @@ msgstr ""
 msgid "Twenty Nineteen"
 msgstr "Twenty Nineteen"
 
-#. Description of the theme
-msgid "A new Gutenberg-ready theme."
-msgstr "Un nuovo tema compatibile con l'editor dei blocchi (Gutenberg)."
-
 #. translators: %s: parent post link
 #: single.php:31
 msgid "<span class=\"meta-nav\">Published in</span><span class=\"post-title\">%s</span>"
@@ -56,7 +52,7 @@ msgstr "Menu nel footer"
 msgid "Back"
 msgstr "Indietro"
 
-#: inc/template-functions.php:208
+#: inc/template-functions.php:209
 msgid "More"
 msgstr "Di più"
 
@@ -167,9 +163,9 @@ msgstr "Menu link ai social"
 msgid "Skip to content"
 msgstr "Salta al contenuto"
 
-#: image.php:52 template-parts/content/content.php:49
+#: image.php:52 template-parts/content/content-page.php:27
+#: template-parts/content/content.php:49
 #: template-parts/content/content-single.php:40
-#: template-parts/content/content-page.php:27
 msgid "Pages:"
 msgstr "Pagine:"
 
@@ -233,7 +229,7 @@ msgstr "Lascia un commento"
 msgid "Comments"
 msgstr "Commenti"
 
-#: classes/class-twentynineteen-walker-comment.php:92
+#: classes/class-twentynineteen-walker-comment.php:100
 msgid "Your comment is awaiting moderation."
 msgstr "Il tuo commento è in attesa di moderazione."
 
@@ -253,7 +249,7 @@ msgstr[1] "%d commenti"
 msgid "Published by %s"
 msgstr "Pubblicato da %s"
 
-#: classes/class-twentynineteen-walker-comment.php:87
+#: classes/class-twentynineteen-walker-comment.php:95
 msgid "Edit"
 msgstr "Modifica"
 
@@ -328,12 +324,12 @@ msgstr "Lascia un commento<span class=\"screen-reader-text\"> su %s</span>"
 msgid "Posted by"
 msgstr "Pubblicato da"
 
-#: classes/class-twentynineteen-walker-comment.php:59
+#: classes/class-twentynineteen-walker-comment.php:67
 msgid "%s <span class=\"screen-reader-text says\">says:</span>"
 msgstr "%s <span class=\"screen-reader-text says\">ha detto:</span>"
 
 #. translators: 1: comment date, 2: comment time
-#: classes/class-twentynineteen-walker-comment.php:79
+#: classes/class-twentynineteen-walker-comment.php:87
 msgid "%1$s at %2$s"
 msgstr "%1$s alle %2$s"
 
@@ -346,10 +342,10 @@ msgstr "Archivi per %s:"
 msgid "Primary"
 msgstr "Principale"
 
-#. translators: %s: Name of current post. Only visible to screen readers.
 #. translators: %s: Name of current post. Only visible to screen readers
-#: inc/template-tags.php:120 template-parts/content/content-page.php:41
-#: template-parts/header/entry-header.php:32
+#. translators: %s: Name of current post. Only visible to screen readers.
+#: template-parts/content/content-page.php:41
+#: template-parts/header/entry-header.php:32 inc/template-tags.php:120
 msgid "Edit <span class=\"screen-reader-text\">%s</span>"
 msgstr "Modifica <span class=\"screen-reader-text\">%s</span>"
 
