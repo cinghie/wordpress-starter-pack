@@ -62,7 +62,7 @@ final class WooWallet {
     private function define_constants() {
         $this->define( 'WOO_WALLET_ABSPATH', dirname(WOO_WALLET_PLUGIN_FILE) . '/' );
         $this->define( 'WOO_WALLET_PLUGIN_FILE', plugin_basename(WOO_WALLET_PLUGIN_FILE) );
-        $this->define( 'WOO_WALLET_PLUGIN_VERSION', '1.2.8' );
+        $this->define( 'WOO_WALLET_PLUGIN_VERSION', '1.2.9' );
     }
 
     /**
@@ -259,6 +259,9 @@ final class WooWallet {
         }
         if (class_exists( 'WeDevs_Dokan' ) ) {
             include_once( WOO_WALLET_ABSPATH . 'includes/marketplace/dokan/class-woo-wallet-dokan.php' );
+        }
+        if(class_exists('WCFMmp')){
+            include_once( WOO_WALLET_ABSPATH . 'includes/marketplace/wcfmmp/class-woo-wallet-wcfmmp.php' );
         }
     }
     /**

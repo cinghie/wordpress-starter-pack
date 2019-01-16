@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     4.1.6
+ * Version:     4.2.5
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -46,7 +46,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.1.6' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.2.5' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -509,6 +509,58 @@ function woosea_save_adwords_conversion_id() {
 }
 add_action( 'wp_ajax_woosea_save_adwords_conversion_id', 'woosea_save_adwords_conversion_id' );
 
+/**
+ * Mass map categories to the correct Google Shopping category taxonomy
+ */
+function woosea_add_mass_cat_mapping(){
+	$project_hash = sanitize_text_field($_POST['project_hash']);
+	$catMappings = $_POST['catMappings'];
+	
+	// I need to sanitize the catMappings Array
+	$mappings = array();
+	foreach ($catMappings as $mKey => $mVal){
+		$mKey = sanitize_text_field($mKey);
+		$mVal = sanitize_text_field($mVal);
+		$piecesVal = explode("||", $mVal);
+		$mappings[$piecesVal[1]] = array(
+			"rowCount"		=> $piecesVal[1],
+			"categoryId"		=> $piecesVal[1],
+			"criteria"		=> $piecesVal[0],
+			"map_to_category"	=> $piecesVal[2],
+
+		);
+	}
+	
+	$project = WooSEA_Update_Project::get_project_data(sanitize_text_field($project_hash));
+	// This happens during configuration of a new feed
+        if(empty($project)){
+		$project_temp = get_option( 'channel_project' );
+       		if(array_key_exists('mappings', $project_temp)){
+			$project_temp['mappings'] = $mappings + $project_temp['mappings'];
+		} else {
+ 			$project_temp['mappings'] = $mappings;
+		}
+                update_option( 'channel_project',$project_temp,'','yes');
+	} else {
+		// Only update the ones that changed
+		foreach ($mappings as $categoryId => $catArray){
+			if (array_key_exists($categoryId, $project['mappings'])){
+				$project['mappings'][$categoryId] = $catArray;
+			} else {
+				$project['mappings'][$categoryId] = $catArray;
+			}
+		}
+		$project_updated = WooSEA_Update_Project::update_project_data($project);
+	}
+	$data = array (
+		'status_mapping' 	=> "true",
+	);
+
+	echo json_encode($data);
+	wp_die();
+
+}
+add_action( 'wp_ajax_woosea_add_mass_cat_mapping', 'woosea_add_mass_cat_mapping' );
 
 /**
  * Map categories to the correct Google Shopping category taxonomy
@@ -527,12 +579,13 @@ function woosea_add_cat_mapping() {
 	// This is during the configuration of a new feed
 	if(empty($project)){
 		$project_temp = get_option( 'channel_project' );
-		$project['mappings'][$rowCount]['rowCount'] = $rowCount;
-		$project['mappings'][$rowCount]['categoryId'] = $rowCount;
-		$project['mappings'][$rowCount]['criteria'] = $criteria;
-		$project['mappings'][$rowCount]['map_to_category'] = $map_to_category;
-                $project_fill = array_merge($project_temp, $project);
-                update_option( 'channel_project',$project_fill,'','yes');
+	
+		$project_temp['mappings'][$rowCount]['rowCount'] = $rowCount;
+		$project_temp['mappings'][$rowCount]['categoryId'] = $rowCount;
+		$project_temp['mappings'][$rowCount]['criteria'] = $criteria;
+		$project_temp['mappings'][$rowCount]['map_to_category'] = $map_to_category;
+
+                update_option( 'channel_project',$project_temp,'','yes');
 		$status_mapping = "true";
 		// This is updating an existing product feed
 	} else {
@@ -584,6 +637,7 @@ function woosea_register_license(){
                 delete_option ('structured_data_fix');
                 delete_option ('add_unique_identifiers');
                 delete_option ('add_wpml_support');
+                delete_option ('add_aelia_support');
 	}
 
         update_option("license_information", $license_information);
@@ -1184,6 +1238,21 @@ function woosea_add_wpml (){
 	}
 }
 add_action( 'wp_ajax_woosea_add_wpml', 'woosea_add_wpml' );
+
+/**
+ * This function enables the setting to add 
+ * Aelia support 
+ */
+function woosea_add_aelia (){
+        $status = sanitize_text_field($_POST['status']);
+
+	if ($status == "off"){
+		update_option( 'add_aelia_support', 'no', 'yes');
+	} else {
+		update_option( 'add_aelia_support', 'yes', 'yes');
+	}
+}
+add_action( 'wp_ajax_woosea_add_aelia', 'woosea_add_aelia' );
 
 /**
  * This function enables the setting to use
@@ -2182,14 +2251,21 @@ function woosea_license_valid(){
                 update_option ('license_information', $license_information);
 
 		// The Elite settings get disabled when license is not valid
-                // delete_option ('structured_data_fix');
-                // delete_option ('add_unique_identifiers');
-		// delete_option ('add_wpml_support');
+                delete_option ('structured_data_fix');
+                delete_option ('add_unique_identifiers');
+		delete_option ('add_wpml_support');
         } else {
-                $license_information['message'] = $json_return['message'];
-                $license_information['message_type'] = $json_return['message_type'];
-                $license_information['license_valid'] = "true";
-                $license_information['notice'] = $json_return['notice'];
+		if(empty($json_return)){
+	               	$license_information['message'] = "Could not connect to AdTribes.io to validate your license. We will try again tomorrow.";
+                	$license_information['message_type'] = "notice notice-error is-dismissible";
+                	$license_information['license_valid'] = "true";
+                	$license_information['notice'] = "false";
+		} else {
+                	$license_information['message'] = $json_return['message'];
+                	$license_information['message_type'] = $json_return['message_type'];
+                	$license_information['license_valid'] = "true";
+                	$license_information['notice'] = $json_return['notice'];
+		}
 
                 update_option ('license_information', $license_information);
         }

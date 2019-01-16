@@ -144,23 +144,23 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 						?>
 						<td>
 							<div class="actions">
-								<span class="gear ui-icon ui-icon-gear" id="gear_<?php print "$val[project_hash]";?>" title="project settings" style="display: inline-block;"></span>
+								<span class="gear dashicons dashicons-admin-generic" id="gear_<?php print "$val[project_hash]";?>" title="project settings" style="display: inline-block;"></span>
 								<?php 
 								if ($val['running'] != "processing"){
 								?>
 									<?php
 									if ($val['active'] == "true"){
-										print "<span class=\"trash ui-icon ui-icon-copy\" id=\"copy_$val[project_hash]\" title=\"copy project\" style=\"display: inline-block;\"></span>";
-										print "<span class=\"ui-icon ui-icon-refresh\" id=\"refresh_$val[project_hash]\" title=\"manually refresh productfeed\" style=\"display: inline-block;\"></span>";
+										print "<span class=\"dashicons dashicons-admin-page\" id=\"copy_$val[project_hash]\" title=\"copy project\" style=\"display: inline-block;\"></span>";
+										print "<span class=\"dashicons dashicons-update\" id=\"refresh_$val[project_hash]\" title=\"manually refresh productfeed\" style=\"display: inline-block;\"></span>";
 										
 										if($val['running'] != "not run yet"){
-											print "<a href=\"$val[external_file]\" target=\"_blank\"><span class=\"ui-icon ui-icon-arrowthickstop-1-s\" id=\"download\" title=\"download productfeed\" style=\"display: inline-block\"></span></a>";
+											print "<a href=\"$val[external_file]\" target=\"_blank\"><span class=\"dashicons dashicons-download\" id=\"download\" title=\"download productfeed\" style=\"display: inline-block\"></span></a>";
 										}
 									}?>
-									<span class="trash ui-icon ui-icon-trash" id="trash_<?php print "$val[project_hash]";?>" title="delete project and productfeed" style="display: inline-block;"></span>
+									<span class="trash dashicons dashicons-trash" id="trash_<?php print "$val[project_hash]";?>" title="delete project and productfeed" style="display: inline-block;"></span>
 								<?php
 								} else {
-									print "<span class=\"ui-icon ui-icon-cancel\" id=\"cancel_$val[project_hash]\" title=\"cancel processing productfeed\" style=\"display: inline-block;\"></span>";
+									print "<span class=\"dashicons dashicons-dismiss\" id=\"cancel_$val[project_hash]\" title=\"cancel processing productfeed\" style=\"display: inline-block;\"></span>";
 								}
 								?>	
 							</div>
@@ -177,20 +177,20 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 									<tr>
 										<td>
 											<strong>Change settings</strong><br/>
-											<span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span> <a href="admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php&action=edit_project&step=0&project_hash=<?php print "$val[project_hash]";?>&channel_hash=<?php print "$val[channel_hash]";?>">General settings</a><br/>
+											<span class="dashicons dashicons-arrow-right" style="display: inline-block;"></span> <a href="admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php&action=edit_project&step=0&project_hash=<?php print "$val[project_hash]";?>&channel_hash=<?php print "$val[channel_hash]";?>">General settings</a><br/>
 											<?php
 											if ($val['fields'] == "standard"){
-												print "<span class=\"u-icon ui-icon-caret-1-e\" style=\"display: inline-block;\"></span> <a href=\"admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php&action=edit_project&step=2&project_hash=$val[project_hash]&channel_hash=$val[channel_hash]\">Attribute selection</a></br/>";
+												print "<span class=\"dashicons dashicons-arrow-right\" style=\"display: inline-block;\"></span> <a href=\"admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php&action=edit_project&step=2&project_hash=$val[project_hash]&channel_hash=$val[channel_hash]\">Attribute selection</a></br/>";
 											} else {
-												print "<span class=\"ui-icon ui-icon-caret-1-e\" style=\"display: inline-block;\"></span> <a href=\"admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php&action=edit_project&step=7&project_hash=$val[project_hash]&channel_hash=$val[channel_hash]\">Attribute mapping</a><br/>";
+												print "<span class=\"dashicons dashicons-arrow-right\" style=\"display: inline-block;\"></span> <a href=\"admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php&action=edit_project&step=7&project_hash=$val[project_hash]&channel_hash=$val[channel_hash]\">Attribute mapping</a><br/>";
 											}
 											
 											if ($val['taxonomy'] != "none"){
-												print "<span class=\"ui-icon ui-icon-caret-1-e\" style=\"display: inline-block;\"></span> <a href=\"admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php&action=edit_project&step=1&project_hash=$val[project_hash]&channel_hash=$val[channel_hash]\">Category mapping</a><br/>";
+												print "<span class=\"dashicons dashicons-arrow-right\" style=\"display: inline-block;\"></span> <a href=\"admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php&action=edit_project&step=1&project_hash=$val[project_hash]&channel_hash=$val[channel_hash]\">Category mapping</a><br/>";
 											}
 											?>
-											<span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span> <a href="admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php&action=edit_project&step=4&project_hash=<?php print "$val[project_hash]";?>&channel_hash=<?php print "$val[channel_hash]";?>">Feed filters and rules</a><br/>
-											<span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span> <a href="admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php&action=edit_project&step=5&project_hash=<?php print "$val[project_hash]";?>&channel_hash=<?php print "$val[channel_hash]";?>">Conversion tracking and Google Analytics settings</a><br/>
+											<span class="dashicons dashicons-arrow-right" style="display: inline-block;"></span> <a href="admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php&action=edit_project&step=4&project_hash=<?php print "$val[project_hash]";?>&channel_hash=<?php print "$val[channel_hash]";?>">Feed filters and rules</a><br/>
+											<span class="dashicons dashicons-arrow-right" style="display: inline-block;"></span> <a href="admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php&action=edit_project&step=5&project_hash=<?php print "$val[project_hash]";?>&channel_hash=<?php print "$val[channel_hash]";?>">Conversion tracking and Google Analytics settings</a><br/>
 										</td>
 									</tr>
 									<?php
@@ -201,9 +201,9 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 											<strong>Feed URL</strong><br/>
 											<?php
 											if (($val['active'] == "true") AND ($val['running'] != "not run yet")){
-											 	print "<span class=\"ui-icon ui-icon-caret-1-e\" style=\"display: inline-block;\"></span> $val[external_file]";
+											 	print "<span class=\"dashicons dashicons-arrow-right\" style=\"display: inline-block;\"></span> $val[external_file]";
 											} else {
-												print "<span class=\"ui-icon ui-icon-alert\"></span> Whoops, there is no active product feed for this project as the project has been disabled or did not run yet.";
+												print "<span class=\"dashicons dashicons-warning\"></span> Whoops, there is no active product feed for this project as the project has been disabled or did not run yet.";
 											}
 											?>
 										</td>
@@ -221,7 +221,7 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 			} else {
 				?>
 				<tr>
-					<td colspan="6"><br/><span class="ui-icon ui-icon-alert"></span> You didn't configured a product feed yet, <a href="admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php">please create one first</a> or read our tutorial on <a href="https://adtribes.io/setting-up-your-first-google-shopping-product-feed/" target="_blank">how to set up your very first Google Shopping product feed</a>.<br/><br/></td>
+					<td colspan="6"><br/><span class="dashicons dashicons-warning"></span> You didn't configured a product feed yet, <a href="admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php">please create one first</a> or read our tutorial on <a href="https://adtribes.io/setting-up-your-first-google-shopping-product-feed/" target="_blank">how to set up your very first Google Shopping product feed</a>.<br/><br/></td>
 				</tr>
 				<?php
 			}

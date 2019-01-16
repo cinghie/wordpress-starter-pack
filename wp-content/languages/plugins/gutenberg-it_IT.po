@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-12-12 17:49:31+0000\n"
+"PO-Revision-Date: 2019-01-07 13:40:14+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,10 @@ msgstr ""
 "X-Generator: GlotPress/2.4.0-alpha\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - Gutenberg - Stable (latest release)\n"
+
+#: languages/gutenberg-translations.php:370 build/block-library/index.js:12
+msgid "Sorry, we cannot preview this embedded content in the editor."
+msgstr "Non possiamo vedere nell'editor l'anteprima di questo contenuto incorporato."
 
 #: languages/gutenberg-translations.php:2499 build/editor/index.js:50
 msgctxt "Word count type. Do not translate!"
@@ -51,7 +55,7 @@ msgid "Document (selected)"
 msgstr "Documento (selezionato)"
 
 #. Translators: Use this to specify the CSS font family for the default font
-#: lib/client-assets.php:1216
+#: lib/client-assets.php:1198
 msgctxt "CSS Font Family for Editor Font"
 msgid "Noto Serif"
 msgstr "Noto Serif"
@@ -268,8 +272,8 @@ msgid "Blocks"
 msgstr "Blocchi"
 
 #: languages/gutenberg-translations.php:2355 build/format-library/index.js:12
-msgid "Link inserted"
-msgstr "Link inserito"
+msgid "Link inserted."
+msgstr "Link inserito."
 
 #: languages/gutenberg-translations.php:2349 build/format-library/index.js:12
 msgid "Warning: the link has been inserted but may have errors. Please test it."
@@ -281,19 +285,19 @@ msgid_plural "%s blocks selected."
 msgstr[0] "%s blocchi selezionati."
 msgstr[1] ""
 
-#: lib/client-assets.php:1003 languages/gutenberg-translations.php:2279
+#: lib/client-assets.php:985 languages/gutenberg-translations.php:2279
 #: build/editor/index.js:50
 msgid "Thumbnail"
 msgstr "Miniatura"
 
-#: lib/client-assets.php:1006 languages/gutenberg-translations.php:2243
+#: lib/client-assets.php:988 languages/gutenberg-translations.php:2243
 #: build/editor/index.js:50
 msgid "Full Size"
 msgstr "Dimensione reale"
 
 #: languages/gutenberg-translations.php:2228 build/editor/index.js:50
-msgid "Link selected"
-msgstr "Link selezionato"
+msgid "Link selected."
+msgstr "Link selezionato."
 
 #: languages/gutenberg-translations.php:2123 build/editor/index.js:50
 msgid "Start writing with text or HTML"
@@ -331,8 +335,8 @@ msgstr "Allinea il testo al centro"
 msgid "Align text left"
 msgstr "Allinea il testo a sinistra"
 
-#: lib/client-assets.php:1293 languages/gutenberg-translations.php:744
-#: build/block-library/index.js:12 build/editor/index.js:50
+#: lib/client-assets.php:1275 languages/gutenberg-translations.php:744
+#: build/editor/index.js:50 build/block-library/index.js:12
 msgid "Start writing or type / to choose a block"
 msgstr "Inizia a scrivere o digita / per scegliere un blocco"
 
@@ -1120,8 +1124,8 @@ msgstr "Mostra i media a destra"
 msgid "Show media on left"
 msgstr "Mostra i media a sinistra"
 
-#: languages/gutenberg-translations.php:443 build/block-library/index.js:12
-#: build/format-library/index.js:12
+#: languages/gutenberg-translations.php:443 build/format-library/index.js:12
+#: build/block-library/index.js:12
 msgid "Open in New Tab"
 msgstr "Apri in una nuova scheda"
 
@@ -1147,7 +1151,7 @@ msgctxt "term"
 msgid "Search %s"
 msgstr "Ricerca %s"
 
-#: lib/client-assets.php:1004 languages/gutenberg-translations.php:2282
+#: lib/client-assets.php:986 languages/gutenberg-translations.php:2282
 #: build/editor/index.js:50
 msgid "Medium"
 msgstr "Medio"
@@ -1375,8 +1379,8 @@ msgstr "Questo file è vuoto."
 msgid "Sorry, this file type is not supported here."
 msgstr "Questo tipo di file non è supportato."
 
-#: languages/gutenberg-translations.php:1545 build/edit-post/index.js:12
-#: build/editor/index.js:50
+#: languages/gutenberg-translations.php:1545 build/editor/index.js:50
+#: build/edit-post/index.js:12
 msgid "Manage All Reusable Blocks"
 msgstr "Gestisci tutti i blocchi riutilizzabili"
 
@@ -1392,7 +1396,7 @@ msgstr "Modalità a Schermo Intero"
 msgid "View Posts"
 msgstr "Visualizza gli articoli"
 
-#: post-content.php:31
+#: post-content.php:39
 msgid "Beautiful landscape"
 msgstr "Panorama stupendo"
 
@@ -1626,156 +1630,156 @@ msgstr "Inserisce un nuovo blocco dopo i blocchi selezionati."
 msgid "Keyboard Shortcuts"
 msgstr "Scorciatoie da tastiera"
 
-#: post-content.php:171
+#: post-content.php:179
 msgid "Thanks for testing Gutenberg!"
 msgstr "Grazie per aver testato Gutenberg!"
 
-#: post-content.php:163
+#: post-content.php:171
 msgid "Help build Gutenberg"
 msgstr "Aiuta a costruire Gutenberg"
 
 #. translators: %s: Gutenberg GitHub repository URL
-#: post-content.php:154
+#: post-content.php:162
 msgid "If you want to learn more about how to build additional blocks, or if you are interested in helping with the project, head over to the <a href=\"%s\">GitHub repository</a>."
 msgstr "Se vuoi imparare di più su come sviluppare blocchi aggiuntivi o sei interessato a dare una mano al progetto, vai al <a href=\"%s\">repository su GitHub</a>."
 
-#: post-content.php:145
+#: post-content.php:153
 msgid "The WordPress community"
 msgstr "La comunità di WordPress"
 
-#: post-content.php:145
+#: post-content.php:153
 msgid "Code is Poetry"
 msgstr "Il codice è poesia"
 
-#: post-content.php:141
+#: post-content.php:149
 msgid "You can build any block you like, static or dynamic, decorative or plain. Here&#8217;s a pullquote block:"
 msgstr "Puoi sviluppare qualsiasi blocco tu voglia, statico o dinamico, decorativo o semplice. Ecco il blocco di una citazione in evidenza:"
 
-#: post-content.php:131
+#: post-content.php:139
 msgid "Any block can opt into these alignments. The embed block has them also, and is responsive out of the box:"
 msgstr "Qualsiasi blocco può usufruire di questi allineamenti. Anche i blocchi incorporati hanno i loro e sono già predisposti per essere responsivi:"
 
-#: post-content.php:127
+#: post-content.php:135
 msgid "The above is a gallery with just two images. It&#8217;s an easier way to create visually appealing layouts, without having to deal with floats. You can also easily convert the gallery back to individual images again, by using the block switcher."
 msgstr "Quella sopra è una galleria con sole due immagini. È un modo facile di creare layout ad impatto visivo, senza dover combattere con i float. Puoi anche riconvertire facilmente la galleria in immagini individuali, utilizzando la funzione di cambio blocco."
 
-#: post-content.php:116
+#: post-content.php:124
 msgid "Sure, the full-wide image can be pretty big. But sometimes the image is worth it."
 msgstr "Certo, l'immagine a larghezza piena può essere molto grande. Ma qualche volta l'immagine lo merita."
 
-#: post-content.php:112
+#: post-content.php:120
 msgid "Accessibility is important &mdash; don&#8217;t forget image alt attribute"
 msgstr "L'accessibilità è importante — non dimenticare l'attributo alt dell'immagine"
 
-#: post-content.php:108
+#: post-content.php:116
 msgid "If you combine the new <strong>wide</strong> and <strong>full-wide</strong> alignments with galleries, you can create a very media rich layout, very quickly:"
 msgstr "Se combini i nuovi allineamenti <strong>a larghezza ampia</strong> e <strong>a larghezza piena</strong> con le gallerie, puoi creare un layout multimediale molto avanzato, molto velocemente:"
 
-#: post-content.php:104
+#: post-content.php:112
 msgid "Media Rich"
 msgstr "Formattazione avanzata dei media"
 
-#: post-content.php:100
+#: post-content.php:108
 msgid "You can change the amount of columns in your galleries by dragging a slider in the block inspector in the sidebar."
 msgstr "Puoi cambiare la quantità di colonne delle tue gallerie trascinando un selettore nel blocco inspector della barra laterale."
 
-#: post-content.php:88
+#: post-content.php:96
 msgid "Blocks can be anything you need. For instance, you may want to add a subdued quote as part of the composition of your text, or you may prefer to display a giant stylized one. All of these options are available in the inserter."
 msgstr "I blocchi possono essere qualsiasi cosa di cui hai bisogno. Per esempio potresti voler aggiungere una citazione non invasiva come parte della composizione del tuo testo, oppure potresti preferire visualizzarne una gigante. Tutte queste opzioni sono disponibili con lo strumento di inserimento."
 
-#: post-content.php:84
+#: post-content.php:92
 msgid "The information corresponding to the source of the quote is a separate text field, similar to captions under images, so the structure of the quote is protected even if you select, modify, or remove the source. It&#8217;s always easy to add it back."
 msgstr "L'informazione corrispondente alla fonte della citazione è un campo di testo separato, simile alle didascalie sotto le immagini, così la struttura della citazione è protetta anche se selezioni, modifichi o rimuovi la fonte. È sempre facile aggiungerla di nuovo."
 
-#: post-content.php:79
+#: post-content.php:87
 msgid "Matt Mullenweg, 2017"
 msgstr "Matt Mullenweg, 2017"
 
-#: post-content.php:78
+#: post-content.php:86
 msgid "The editor will endeavor to create a new page and post building experience that makes writing rich posts effortless, and has “blocks” to make it easy what today might take shortcodes, custom HTML, or “mystery meat” embed discovery."
 msgstr "L'editor proverà a creare una nuova esperienza di costruzione di pagine e articoli che agevolerà la scrittura di articoli con formattazione avanzata, e con i “blocchi” renderà semplice quello che oggi è ottenuto con shortcode, HTML personalizzato ed embed discovery di “provenienza incerta”."
 
-#: post-content.php:73
+#: post-content.php:81
 msgid "A huge benefit of blocks is that you can edit them in place and manipulate your content directly. Instead of having fields for editing things like the source of a quote, or the text of a button, you can directly change the content. Try editing the following quote:"
 msgstr "Un enorme beneficio dei blocchi è che puoi modificarli dove sono e modificare il tuo contenuto direttamente. Invece di avere campi per modificare cose come la fonte di una citazione o il testo di un pulsante, puoi cambiare direttamente il contenuto. Prova a modificare la citazione seguente:"
 
-#: post-content.php:69
+#: post-content.php:77
 msgid "Visual Editing"
 msgstr "Modifiche visuali"
 
-#: post-content.php:60
+#: post-content.php:68
 msgid "And <em>Lists</em> like this one of course :)"
 msgstr "Ed <em>elenchi</em> come questo naturalmente :)"
 
-#: post-content.php:59
+#: post-content.php:67
 msgid "Layout blocks, like Buttons, Hero Images, Separators, etc."
 msgstr "Blocchi di layout come pulsanti, immagini a tutto schermo (hero), separatori, ecc ecc."
 
-#: post-content.php:58
+#: post-content.php:66
 msgid "Embeds, like YouTube, Tweets, or other WordPress posts."
 msgstr "Oggetti da incorporare come YouTube, Tweet o altri articoli di WordPress."
 
-#: post-content.php:57
+#: post-content.php:65
 msgid "Galleries"
 msgstr "Gallerie"
 
-#: post-content.php:56
+#: post-content.php:64
 msgid "Images &amp; Videos"
 msgstr "Immagini e video"
 
-#: post-content.php:55
+#: post-content.php:63
 msgid "Text &amp; Headings"
 msgstr "Testi e titoli"
 
-#: post-content.php:50
+#: post-content.php:58
 msgid "Go give it a try, you may discover things WordPress can already add into your posts that you didn&#8217;t know about. Here&#8217;s a short list of what you can currently find there:"
 msgstr "Provalo, potresti scoprire cosa WordPress può già aggiungere nei tuoi articoli che non ti aspetti. Ecco un elenco di cosa puoi trovare in questo momento:"
 
-#: post-content.php:46
+#: post-content.php:54
 msgid "Imagine everything that WordPress can do is available to you quickly and in the same place on the interface. No need to figure out HTML tags, classes, or remember complicated shortcode syntax. That&#8217;s the spirit behind the inserter—the <code>(+)</code> button you&#8217;ll see around the editor—which allows you to browse all available content blocks and add them into your post. Plugins and themes are able to register their own, opening up all sort of possibilities for rich editing and publishing."
 msgstr "Immagina che tutto quello che WordPress può fare sia disponibile velocemente e nella stessa posizione dell'interfaccia. Nessuna necessità di capire tag HTML e classi o ricordare le complicate sintassi dei shortcode. È l'anima che sta dietro allo strumento di inserimento —il pulsante <code>(+)</code> che vedi vicino all'editor— che ti permette di scorrere tutti i blocchi di contenuto disponibili e aggiungerli nel tuo articolo. Plugin e temi possono registrare i loro propri blocchi, offrendo così ogni tipo di possibilità per formattazioni avanzate e pubblicazione."
 
-#: post-content.php:42
+#: post-content.php:50
 msgid "The <em>Inserter</em> Tool"
 msgstr "Lo strumento di <em>inserimento</em>"
 
-#: post-content.php:38
+#: post-content.php:46
 msgid "Try selecting and removing or editing the caption, now you don&#8217;t have to be careful about selecting the image or other text by mistake and ruining the presentation."
 msgstr "Prova a selezionare e rimuovere o modificare la didascalia, ora non devi più stare attento nel selezionare l'immagine o altro testo per errore e rovinarne la presentazione."
 
-#: post-content.php:32
+#: post-content.php:40
 msgid "If your theme supports it, you&#8217;ll see the \"wide\" button on the image toolbar. Give it a try."
 msgstr "Se il tuo tema lo supporta vedrai un pulsante \"larghezza ampia\" nella barra degli strumenti dell'immagine. Provalo."
 
-#: post-content.php:26
+#: post-content.php:34
 msgid "Handling images and media with the utmost care is a primary focus of the new editor. Hopefully, you&#8217;ll find aspects of adding captions or going full-width with your pictures much easier and robust than before."
 msgstr "Gestire immagini e media con la massima attenzione è un obiettivo primario del nuovo editor. Speriamo che troverai gli aspetti di aggiungere didascalie o di rendere le tue foto a larghezza piena più facili e solidi di prima."
 
-#: post-content.php:22
+#: post-content.php:30
 msgid "A Picture is Worth a Thousand Words"
 msgstr "Un'immagine vale più di mille parole"
 
-#: post-content.php:18
+#: post-content.php:26
 msgid "Headings are separate blocks as well, which helps with the outline and organization of your content."
 msgstr "Anche i titoli sono blocchi separati, i quali aiutano a strutturare e organizzare il tuo contenuto."
 
-#: post-content.php:14
+#: post-content.php:22
 msgid "... like this one, which is right aligned."
 msgstr "... come questo, allineato a destra."
 
-#: post-content.php:10
+#: post-content.php:18
 msgid "What you are reading now is a <strong>text block</strong> the most basic block of all. The text block has its own controls to be moved freely around the post..."
 msgstr "Quello che stai leggendo adesso è un <strong>blocco di testo</strong> il più semplice di tutti i blocchi. Il blocco di testo ha le sue opzioni per essere liberamente mosso nell'articolo..."
 
-#: post-content.php:6
+#: post-content.php:14
 msgid "The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of <em>pieces of content</em>—somewhat similar to LEGO bricks—that you can move around and interact with. Move your cursor around and you&#8217;ll notice the different blocks light up with outlines and arrows. Press the arrows to reposition blocks quickly, without fearing about losing things in the process of copying and pasting."
 msgstr "L'obiettivo di questo nuovo editor è di rendere l'aggiunta di contenuto con formattazione avanzata in WordPress semplice e piacevole. L'intero articolo è composto da <em>pezzi di  contenuto</em> —un po' simili ai mattoncini LEGO— che puoi muovere e con cui puoi interagire. Muovi il puntatore e noterai i vari blocchi evidenziarsi con bordi e frecce. Premi le frecce per riposizionare velocemente i blocchi, evitando la paura di perdere qualcosa durante il copia e incolla."
 
-#: post-content.php:2
+#: post-content.php:10
 msgid "Of Mountains &amp; Printing Presses"
 msgstr "Di montagne e macchine da stampa"
 
-#: lib/client-assets.php:1135
+#: lib/client-assets.php:1117
 msgid "Welcome to the Gutenberg Editor"
 msgstr "Benvenuto nell'editor Gutenberg"
 
@@ -2117,7 +2121,7 @@ msgstr "Linea ampia"
 msgid "Short Line"
 msgstr "Linea breve"
 
-#: lib/client-assets.php:1005 languages/gutenberg-translations.php:2285
+#: lib/client-assets.php:987 languages/gutenberg-translations.php:2285
 #: build/editor/index.js:50
 msgid "Large"
 msgstr "Grande"
@@ -2239,8 +2243,8 @@ msgstr "Sei pronto a inviare per la revisione?"
 msgid "Click “Preview” to load a preview of this page, so you can make sure you’re happy with your blocks."
 msgstr "Fai clic su “Anteprima” per caricare un'anteprima di questa pagina, così puoi controllare di essere soddisfatto dei tuoi blocchi."
 
-#: languages/gutenberg-translations.php:945 build/block-library/index.js:12
-#: build/editor/index.js:50
+#: languages/gutenberg-translations.php:945 build/editor/index.js:50
+#: build/block-library/index.js:12
 msgid "Replace image"
 msgstr "Sostituisci immagine"
 
@@ -2510,8 +2514,8 @@ msgstr "Chiudi il plugin"
 msgid "Editor settings"
 msgstr "Impostazioni dell'editor"
 
-#: languages/gutenberg-translations.php:573 build/block-library/index.js:12
-#: build/editor/index.js:50
+#: languages/gutenberg-translations.php:573 build/editor/index.js:50
+#: build/block-library/index.js:12
 msgid "Link Settings"
 msgstr "Impostazioni link"
 
@@ -2619,7 +2623,7 @@ msgstr "Dimensioni personalizzate"
 msgid "Upload an image"
 msgstr "Carica una immagine"
 
-#: lib/client-assets.php:959 languages/gutenberg-translations.php:968
+#: lib/client-assets.php:941 languages/gutenberg-translations.php:968
 #: build/blocks/index.js:2
 msgid "Layout Elements"
 msgstr "Elementi del Layout"
@@ -2918,7 +2922,7 @@ msgstr "Scrivi un riassunto (facoltativo)"
 msgid "Allow Comments"
 msgstr "Permetti di commentare"
 
-#: lib/client-assets.php:1194
+#: lib/client-assets.php:1176
 msgid "Default template"
 msgstr "Template predefinito"
 
@@ -2953,7 +2957,7 @@ msgstr[1] "%d risultati trovati."
 msgid "Saved"
 msgstr "Salvato"
 
-#: lib/client-assets.php:969 languages/gutenberg-translations.php:974
+#: lib/client-assets.php:951 languages/gutenberg-translations.php:974
 #: build/blocks/index.js:2
 msgid "Embeds"
 msgstr "Incorporamenti"
@@ -3119,8 +3123,8 @@ msgstr "Trova l'originale"
 msgid "Copy All Content"
 msgstr "Copia tutto il contenuto"
 
-#: languages/gutenberg-translations.php:396 build/edit-post/index.js:12
-#: build/block-library/index.js:12 build/editor/index.js:50
+#: languages/gutenberg-translations.php:396 build/editor/index.js:50
+#: build/block-library/index.js:12 build/edit-post/index.js:12
 msgid "Copied!"
 msgstr "Copiato!"
 
@@ -3149,8 +3153,8 @@ msgstr "Blocco"
 msgid "Document"
 msgstr "Documento"
 
-#: languages/gutenberg-translations.php:1433 build/edit-post/index.js:12
-#: build/editor/index.js:50
+#: languages/gutenberg-translations.php:1433 build/editor/index.js:50
+#: build/edit-post/index.js:12
 msgid "Featured Image"
 msgstr "Immagine in evidenza"
 
@@ -3241,12 +3245,12 @@ msgstr[1] "%d risultati trovati, utilizza i tasti freccia su e giù per navigare
 
 #: languages/gutenberg-translations.php:1502
 #: packages/block-library/src/latest-comments/index.php:31
-#: build/edit-post/index.js:12 build/editor/index.js:50
+#: build/editor/index.js:50 build/edit-post/index.js:12
 msgid "(no title)"
 msgstr "(senza titolo)"
 
-#: languages/gutenberg-translations.php:420 build/edit-post/index.js:12
-#: build/block-library/index.js:12 build/editor/index.js:50
+#: languages/gutenberg-translations.php:420 build/editor/index.js:50
+#: build/block-library/index.js:12 build/edit-post/index.js:12
 msgid "URL"
 msgstr "URL"
 
@@ -3254,8 +3258,8 @@ msgstr "URL"
 msgid "Submit"
 msgstr "Invio"
 
-#: languages/gutenberg-translations.php:1088 build/edit-post/index.js:12
-#: build/editor/index.js:50 build/components/index.js:19
+#: languages/gutenberg-translations.php:1088 build/editor/index.js:50
+#: build/edit-post/index.js:12 build/components/index.js:19
 msgid "Close"
 msgstr "Chiudi"
 
@@ -3327,8 +3331,8 @@ msgstr "Seleziona"
 msgid "Select or Upload Media"
 msgstr "Seleziona o carica media"
 
-#: languages/gutenberg-translations.php:953 build/block-library/index.js:12
-#: build/editor/index.js:50
+#: languages/gutenberg-translations.php:953 build/editor/index.js:50
+#: build/block-library/index.js:12
 msgid "Video"
 msgstr "Video"
 
@@ -3408,8 +3412,8 @@ msgstr "linea orizzontale"
 msgid "Separator"
 msgstr "Separatore"
 
-#: languages/gutenberg-translations.php:794 build/block-library/index.js:12
-#: build/editor/index.js:50
+#: languages/gutenberg-translations.php:794 build/editor/index.js:50
+#: build/block-library/index.js:12
 msgid "Quote"
 msgstr "Citazione"
 
@@ -3527,8 +3531,8 @@ msgstr "Visualizzazione in modalità griglia"
 msgid "List View"
 msgstr "Visualizzazione in modalità elenco"
 
-#: languages/gutenberg-translations.php:601 build/block-library/index.js:12
-#: build/format-library/index.js:12
+#: languages/gutenberg-translations.php:601 build/format-library/index.js:12
+#: build/block-library/index.js:12
 msgid "photo"
 msgstr "foto"
 
@@ -3536,13 +3540,13 @@ msgstr "foto"
 msgid "Image Settings"
 msgstr "Impostazioni immagine"
 
-#: languages/gutenberg-translations.php:594 build/block-library/index.js:12
-#: build/editor/index.js:50 build/format-library/index.js:12
+#: languages/gutenberg-translations.php:594 build/editor/index.js:50
+#: build/format-library/index.js:12 build/block-library/index.js:12
 msgid "Image"
 msgstr "Immagine"
 
-#: languages/gutenberg-translations.php:529 build/edit-post/index.js:12
-#: build/block-library/index.js:12 build/editor/index.js:50
+#: languages/gutenberg-translations.php:529 build/editor/index.js:50
+#: build/block-library/index.js:12 build/edit-post/index.js:12
 msgid "Preview"
 msgstr "Anteprima"
 
@@ -3615,8 +3619,8 @@ msgstr "Ritaglia immagini"
 msgid "Gallery Settings"
 msgstr "Impostazioni galleria"
 
-#: languages/gutenberg-translations.php:463 build/block-library/index.js:12
-#: build/editor/index.js:50
+#: languages/gutenberg-translations.php:463 build/editor/index.js:50
+#: build/block-library/index.js:12
 msgid "Gallery"
 msgstr "Galleria"
 
@@ -3651,10 +3655,6 @@ msgstr "blog"
 #: languages/gutenberg-translations.php:312 build/block-library/index.js:12
 msgid "post"
 msgstr "articolo"
-
-#: languages/gutenberg-translations.php:370 build/block-library/index.js:12
-msgid "Previews for this are unavailable in the editor, sorry!"
-msgstr "L'anteprima di questo non è disponibile nell'editor."
 
 #: languages/gutenberg-translations.php:367 build/block-library/index.js:12
 msgid "Embedded content from %s"
@@ -3696,8 +3696,8 @@ msgstr "Modifica immagine"
 msgid "Columns"
 msgstr "Colonne"
 
-#: languages/gutenberg-translations.php:169 build/block-library/index.js:12
-#: build/format-library/index.js:12
+#: languages/gutenberg-translations.php:169 build/format-library/index.js:12
+#: build/block-library/index.js:12
 msgid "Code"
 msgstr "Codice"
 
@@ -3705,8 +3705,8 @@ msgstr "Codice"
 msgid "Write code…"
 msgstr "Scrivi codice..."
 
-#: languages/gutenberg-translations.php:149 build/block-library/index.js:12
-#: build/editor/index.js:50
+#: languages/gutenberg-translations.php:149 build/editor/index.js:50
+#: build/block-library/index.js:12
 msgid "Categories"
 msgstr "Categorie"
 
@@ -3726,8 +3726,8 @@ msgstr "Aggiungi testo..."
 msgid "Button"
 msgstr "Pulsante"
 
-#: languages/gutenberg-translations.php:121 build/block-library/index.js:12
-#: build/editor/index.js:50 build/format-library/index.js:12
+#: languages/gutenberg-translations.php:121 build/editor/index.js:50
+#: build/format-library/index.js:12 build/block-library/index.js:12
 msgid "Apply"
 msgstr "Applica"
 
@@ -3743,13 +3743,13 @@ msgstr "Colore di sfondo"
 msgid "Block has been deleted or is unavailable."
 msgstr "Il blocco è stato eliminato o non è disponibile."
 
-#: lib/client-assets.php:974 languages/gutenberg-translations.php:977
+#: lib/client-assets.php:956 languages/gutenberg-translations.php:977
 #: build/blocks/index.js:2
 msgid "Reusable Blocks"
 msgstr "Blocchi riutilizzabili"
 
-#: languages/gutenberg-translations.php:87 build/block-library/index.js:12
-#: build/editor/index.js:50 build/format-library/index.js:12
+#: languages/gutenberg-translations.php:87 build/editor/index.js:50
+#: build/format-library/index.js:12 build/block-library/index.js:12
 msgid "Edit"
 msgstr "Modifica"
 
@@ -3761,8 +3761,8 @@ msgstr "Modifica audio"
 msgid "Write caption…"
 msgstr "Scrivi una didascalia..."
 
-#: languages/gutenberg-translations.php:72 build/block-library/index.js:12
-#: build/editor/index.js:50
+#: languages/gutenberg-translations.php:72 build/editor/index.js:50
+#: build/block-library/index.js:12
 msgid "Audio"
 msgstr "Audio"
 
@@ -3811,17 +3811,17 @@ msgstr "Larghezza piena"
 msgid "Wide width"
 msgstr "Larghezza ampia"
 
-#: lib/client-assets.php:964 languages/gutenberg-translations.php:971
+#: lib/client-assets.php:946 languages/gutenberg-translations.php:971
 #: build/blocks/index.js:2
 msgid "Widgets"
 msgstr "Widget"
 
-#: lib/client-assets.php:954 languages/gutenberg-translations.php:965
+#: lib/client-assets.php:936 languages/gutenberg-translations.php:965
 #: build/blocks/index.js:2
 msgid "Formatting"
 msgstr "Formattazione"
 
-#: lib/client-assets.php:949 languages/gutenberg-translations.php:962
+#: lib/client-assets.php:931 languages/gutenberg-translations.php:962
 #: build/blocks/index.js:2
 msgid "Common Blocks"
 msgstr "Blocchi comuni"
@@ -3842,7 +3842,7 @@ msgstr "Allinea a sinistra"
 msgid "Printing since 1440. This is the development plugin for the new block editor in core."
 msgstr "La stampa dal 1440. Questo è il plugin di sviluppo per il nuovo editor a blocchi del core."
 
-#: lib/client-assets.php:1292 languages/gutenberg-translations.php:2126
+#: lib/client-assets.php:1274 languages/gutenberg-translations.php:2126
 #: build/editor/index.js:50
 msgid "Add title"
 msgstr "Aggiungi titolo"
@@ -3901,7 +3901,7 @@ msgid "Format"
 msgstr "Formato"
 
 #: lib/register.php:88 languages/gutenberg-translations.php:1467
-#: build/edit-post/index.js:12 build/editor/index.js:50
+#: build/editor/index.js:50 build/edit-post/index.js:12
 msgid "Publish"
 msgstr "Pubblica"
 
@@ -3911,7 +3911,7 @@ msgid "Metadata"
 msgstr "Metadati"
 
 #: lib/register.php:81 languages/gutenberg-translations.php:82
-#: build/block-library/index.js:12 build/editor/index.js:50
+#: build/editor/index.js:50 build/block-library/index.js:12
 msgid "Save"
 msgstr "Salva"
 

@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Checkout Manager
 Plugin URI: https://wordpress.org/plugins/woocommerce-checkout-manager/
 Description: Manages WooCommerce Checkout, the advanced way.
-Version: 4.2.3
+Version: 4.2.5
 Author: Visser Labs
 Author URI: http://www.visser.com.au
 Contributors: visser, Emark
@@ -13,7 +13,7 @@ Text Domain: woocommerce-checkout-manager
 Domain Path: /languages/
 
 WC requires at least: 2.3
-WC tested up to: 3.4
+WC tested up to: 3.5.3
 */
 
 /*
@@ -95,7 +95,7 @@ add_action( 'wp_head','wooccm_display_front' );
 add_action( 'wp_head','wooccm_billing_hide_required' );
 add_action( 'wp_head','wooccm_shipping_hide_required' );
 // @mod - wooccm_run_color_inner does not exist
-// add_action(	'wooccm_run_color_innerpicker','wooccm_run_color_inner'); run color inside options page (proto)
+// add_action( 'wooccm_run_color_innerpicker', 'wooccm_run_color_inner' ); run color inside options page (proto)
 add_action( 'woocommerce_before_checkout_form', 'wooccm_override_this' );
 add_filter( 'woocommerce_billing_fields', 'wooccm_checkout_billing_fields' );
 add_filter( 'woocommerce_default_address_fields', 'wooccm_checkout_default_address_fields' );
@@ -114,14 +114,14 @@ add_action( 'woocommerce_checkout_process', 'wooccm_custom_checkout_process' );
 add_action( 'woocommerce_checkout_process', 'wooccm_billing_custom_checkout_process' );
 add_action( 'woocommerce_checkout_process', 'wooccm_shipping_custom_checkout_process' );
 
-add_action( 'woocommerce_before_checkout_form', 'wooccm_upload_billing_scripts');
-add_action( 'woocommerce_before_checkout_form', 'wooccm_upload_shipping_scripts');
-add_action(	'woocommerce_before_checkout_form', 'wooccm_billing_scripts');
-add_action(	'woocommerce_before_checkout_form', 'wooccm_shipping_scripts');
-add_action(	'woocommerce_before_checkout_form', 'wooccm_billing_override_this');
-add_action(	'woocommerce_before_checkout_form', 'wooccm_shipping_override_this');
-add_action( 'woocommerce_before_checkout_form', 'wooccm_scripts');
-add_action( 'woocommerce_before_checkout_form', 'wooccm_upload_scripts');
+add_action( 'woocommerce_before_checkout_form', 'wooccm_upload_billing_scripts' );
+add_action( 'woocommerce_before_checkout_form', 'wooccm_upload_shipping_scripts' );
+add_action(	'woocommerce_before_checkout_form', 'wooccm_billing_scripts' );
+add_action(	'woocommerce_before_checkout_form', 'wooccm_shipping_scripts' );
+add_action(	'woocommerce_before_checkout_form', 'wooccm_billing_override_this' );
+add_action(	'woocommerce_before_checkout_form', 'wooccm_shipping_override_this' );
+add_action( 'woocommerce_before_checkout_form', 'wooccm_scripts' );
+add_action( 'woocommerce_before_checkout_form', 'wooccm_upload_scripts' );
 
 add_action( 'woocommerce_checkout_fields', 'wooccm_order_notes' );
 add_filter( 'parse_query', 'wooccm_query_list' );
@@ -153,16 +153,16 @@ switch( wooccm_checkout_additional_positioning() ) {
 
 if( wooccm_validator_changename() ) {
 
-	add_action('woocommerce_before_cart', 'wooccm_before_checkout');
-	add_action('woocommerce_admin_order_data_after_order_details', 'wooccm_before_checkout');
-	add_action('woocommerce_before_my_account', 'wooccm_before_checkout');
-	add_action('woocommerce_email_header', 'wooccm_before_checkout');
-	add_action('woocommerce_before_checkout_form', 'wooccm_before_checkout');
-	add_action('woocommerce_after_cart', 'wooccm_after_checkout');
-	add_action('woocommerce_admin_order_data_after_shipping_address', 'wooccm_after_checkout');
-	add_action('woocommerce_after_my_account', 'wooccm_after_checkout');
-	add_action('woocommerce_email_footer', 'wooccm_after_checkout');
-	add_action('woocommerce_after_checkout_form', 'wooccm_after_checkout');
+	add_action( 'woocommerce_before_cart', 'wooccm_before_checkout' );
+	add_action( 'woocommerce_admin_order_data_after_order_details', 'wooccm_before_checkout' );
+	add_action( 'woocommerce_before_my_account', 'wooccm_before_checkout' );
+	add_action( 'woocommerce_email_header', 'wooccm_before_checkout' );
+	add_action( 'woocommerce_before_checkout_form', 'wooccm_before_checkout' );
+	add_action( 'woocommerce_after_cart', 'wooccm_after_checkout' );
+	add_action( 'woocommerce_admin_order_data_after_shipping_address', 'wooccm_after_checkout' );
+	add_action( 'woocommerce_after_my_account', 'wooccm_after_checkout' );
+	add_action( 'woocommerce_email_footer', 'wooccm_after_checkout' );
+	add_action( 'woocommerce_after_checkout_form', 'wooccm_after_checkout' );
 
 }
 
@@ -235,7 +235,7 @@ function wooccm_jquery_init() {
 		wp_enqueue_style( 'farbtastic' );
 		wp_enqueue_script( 'farbtastic', admin_url( '/js/farbtastic.js' ) );
 
-		wp_enqueue_style('dashicons');
+		wp_enqueue_style( 'dashicons' );
 
 		wp_enqueue_style( 'magnific-popup', plugins_url( 'includes/pickers/magnificpopup/dist/magnific-popup.css', WOOCCM_RELPATH ) );
 		wp_enqueue_script( 'magnific-popup', plugins_url( 'includes/pickers/magnificpopup/dist/jquery.magnific-popup.js', WOOCCM_RELPATH ) );

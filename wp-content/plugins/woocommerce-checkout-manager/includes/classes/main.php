@@ -708,19 +708,20 @@ function wooccm_woocommerce_delivery_notes_compat( $fields, $order ) {
 
 }
 
-function wooccm_order_notes( $fields ) {
+function wooccm_order_notes( $fields = array() ) {
 
 	$options = get_option( 'wccs_settings' );
 
-	if( !empty($options['checkness']['noteslabel']) ) {
+	if( !empty( $options['checkness']['noteslabel'] ) ) {
 		$fields['order']['order_comments']['label'] = $options['checkness']['noteslabel'];
 	}
-	if( !empty($options['checkness']['notesplaceholder']) ) {
+	if( !empty( $options['checkness']['notesplaceholder'] ) ) {
 		$fields['order']['order_comments']['placeholder'] = $options['checkness']['notesplaceholder'];
 	}
-	if( !empty($options['checkness']['notesenable']) ) {
+	if( !empty( $options['checkness']['notesenable'] ) ) {
 		unset($fields['order']['order_comments']);
 	}
+
 	return $fields;
 
 }

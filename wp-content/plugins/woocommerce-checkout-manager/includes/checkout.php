@@ -19,19 +19,25 @@ function wooccm_checkout_additional_positioning() {
 
 }
 
-function wooccm_checkout_default_address_fields( $fields ) {
+function wooccm_checkout_default_address_fields( $fields = array() ) {
 
 	// Billing fields
 	$options = get_option( 'wccs_settings3' );
 	$buttons = ( isset( $options['billing_buttons'] ) ? $options['billing_buttons'] : false );
-	if( !empty( $buttons ) ) {
-		foreach( $buttons as $btn ) {
-			if( !empty( $btn['cow'] ) && empty( $btn['deny_checkout'] ) ) {
-				$key = $btn['cow'];
-				if( isset( $fields[$key] ) )
-					$fields[$key]['required'] = ( isset( $btn['checkbox'] ) ? $btn['checkbox'] : ( isset( $fields[$key]['required'] ) ? $fields[$key]['required'] : false ) );
-			}
+
+	if( empty( $buttons ) )
+		return $fields;
+
+	foreach( $buttons as $btn ) {
+
+		if( !empty( $btn['cow'] ) && empty( $btn['deny_checkout'] ) ) {
+			$key = $btn['cow'];
+
+			if( isset( $fields[$key] ) )
+				$fields[$key]['required'] = ( isset( $btn['checkbox'] ) ? absint( $btn['checkbox'] ) : ( isset( $fields[$key]['required'] ) ? absint( $fields[$key]['required'] ) : false ) );
+
 		}
+
 	}
 
 	return $fields;
@@ -468,7 +474,7 @@ function wooccm_custom_checkout_field_process() {
 
 }
 
-function wooccm_remove_fields_filter_billing( $fields ) {
+function wooccm_remove_fields_filter_billing( $fields = array() ) {
 
 	global $woocommerce;
 
@@ -495,11 +501,12 @@ function wooccm_remove_fields_filter_billing( $fields ) {
 		}
 
 	}
+
 	return $fields;
 
 }
 
-function wooccm_remove_fields_filter_shipping( $fields ) {
+function wooccm_remove_fields_filter_shipping( $fields = array() ) {
 
 	global $woocommerce;
 
@@ -515,12 +522,16 @@ function wooccm_remove_fields_filter_shipping( $fields ) {
 		$multiCategoriesArrayx = explode(',',$multiCategoriesx);
 		$_product = $values['data'];
 
-		if( ($woocommerce->cart->cart_contents_count > 1) && ($_product->needs_shipping()) ){
-			remove_filter('woocommerce_checkout_fields','wooccm_remove_fields_filter',15);
+		if(
+			( $woocommerce->cart->cart_contents_count > 1 ) && 
+			( $_product->needs_shipping() )
+		) {
+			remove_filter( 'woocommerce_checkout_fields', 'wooccm_remove_fields_filter', 15 );
 			break;
 		}
 
 	}
+
 	return $fields;
 
 }

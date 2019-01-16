@@ -1,4 +1,6 @@
 <?php
+$my_currency = get_woocommerce_currency();
+$aelia_currencies = apply_filters('wc_aelia_cs_enabled_currencies', $my_currency);
 /**
  * Change default footer text, asking to review our plugin
  **/
@@ -99,6 +101,39 @@ if (array_key_exists('project_hash', $_GET)){
 					</td>
 				</tr>
 				<?php
+                                $add_aelia_support = get_option ('add_aelia_support');
+                                if($add_aelia_support == "yes"){
+					if (count($aelia_currencies) > 0){
+						 if (isset($manage_project)){
+							print "<tr>";
+							print "	<td><span>Aelia Currency:</span></td>";
+							print "	<td>";
+							print "	<select name=\"AELIA\" disabled>";
+								foreach ($aelia_currencies as $key => $value){
+									if($value == $project['AELIA']){
+										print "<option value=\"$value\" selected>$value</option>";
+									} else {
+										print "<option value=\"$value\">$value</option>";
+									}
+								}
+							print "</select>";
+							print "</td>";
+							print "</tr>";
+						} else {
+							print "<tr>";
+							print "	<td><span>Aelia Currency:</span></td>";
+							print "	<td>";
+							print "	<select name=\"AELIA\">";
+							foreach ($aelia_currencies as $key => $value){
+								print "<option value=\"$value\" selected>$value</option>";
+							}
+							print "</select>";
+							print "</td>";
+							print "</tr>";
+						}
+					}
+				}
+
 
 				if ( function_exists('icl_object_id') ) {
 

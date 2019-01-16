@@ -75,9 +75,13 @@ jQuery(document).ready(function($) {
                 		}
             		});
 		} else {
+			console.log("woops!!");
+
 			// Do nothing, waste of resources
 		}
 	});
+
+
 
 	// Check if user would like to enable WPML support
 	$('#add_wpml_support').on('change', function(){ // on change of state
@@ -95,6 +99,26 @@ jQuery(document).ready(function($) {
                         	method: "POST",
                         	url: ajaxurl,
                         	data: { 'action': 'woosea_add_wpml', 'status': "off" }
+                	})
+		}
+	})	
+
+	// Check if user would like to enable Aelia Currency Switcher support
+	$('#add_aelia_support').on('change', function(){ // on change of state
+   		if(this.checked){
+
+			// Checkbox is on
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_add_aelia', 'status': "on" }
+                	})
+		} else {
+			// Checkbox is off
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_add_aelia', 'status': "off" }
                 	})
 		}
 	})	

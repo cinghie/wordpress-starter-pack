@@ -52,9 +52,10 @@ class WooSEA_Update_Project {
 	 * Update individual project configuration
 	 */
 	public static function update_project_data($project) {
+
 		if(get_option( 'cron_projects' )){
 			$cron_projects = get_option( 'cron_projects' );
-		
+	
 			foreach ($cron_projects as $key=>$val){		
 				if(!empty($val)){
 					if($val['project_hash'] == $project['project_hash']){

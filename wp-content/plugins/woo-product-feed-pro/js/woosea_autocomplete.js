@@ -5430,6 +5430,114 @@ jQuery(document).ready(function($) {
 "5644 - Vehicles & Parts > Vehicles > Watercraft > Yachts",
 		];
 
+
+        jQuery(".dashicons-arrow-down").click(function(){
+		var className = $(this).attr("class").split(' ')[2];
+		var rowCount = className.split("_")[2]
+		var map_to_category = $(".autocomplete_" + rowCount).val();
+		var project_hash = $("#project_hash").val();
+		var minimum = 1;
+		var len = map_to_category.length;
+		var copied_criteria = $("#" + rowCount).val();
+		var rows = $('#woosea-ajax-mapping-table tbody tr.catmapping').length;
+		var $tr = $(this).closest('tr');
+		var fromRow = $('#woosea-ajax-mapping-table tr').index($tr)-1;
+		var toAjax = new Array();
+	
+		var mainCriteria = $("#" + rowCount).val();
+		var mainMapping = mainCriteria + "||" + rowCount + "||" + map_to_category;
+		$('.autocomplete_' + rowCount).addClass("input-field-large-active");
+		toAjax.push(mainMapping);	
+
+		$('.mother_' + rowCount).each(function( index, obj ) {
+
+			var classes = $(this).attr("class");
+			var classNameLoop = $(this).attr("class").split(' ')[3];
+			var rowCountLoop = classNameLoop.split("_")[1]
+			var criteria = $("#" + rowCountLoop).val();
+
+			var catMappings = criteria + "||" + rowCountLoop + "||" + map_to_category;
+			toAjax.push(catMappings); // filling the array
+
+			$('.mother_' + rowCount).attr('value', map_to_category);
+			$('.autocomplete_' + rowCountLoop).addClass("input-field-large-active");
+		});
+
+
+		jQuery.ajax({
+                	method: "POST",
+                        url: ajaxurl,
+                       	data: { 'action': 'woosea_add_mass_cat_mapping', 'project_hash': project_hash, 'catMappings': toAjax  }
+                })
+			
+		.done(function( data ) {
+                        	data = JSON.parse( data );
+				jQuery(data.className).removeClass("input-field-large");
+				jQuery(data.className).addClass("input-field-large-active");
+		})
+                	
+		.fail(function( data ) {
+                	  console.log('Failed AJAX Call :( /// Return Data: ' + data);
+           		console.log('Category mapping failed!');
+		});									
+	});
+	
+
+        jQuery(".dashicons-arrow-down-alt").click(function(){
+		var className = $(this).attr("class").split(' ')[2];
+		var rowCount = className.split("_")[2]
+		var map_to_category = $(".autocomplete_" + rowCount).val();
+		var project_hash = $("#project_hash").val();
+		var minimum = 1;
+		var len = map_to_category.length;
+		var copied_criteria = $("#" + rowCount).val();
+		var rows = $('#woosea-ajax-mapping-table tbody tr.catmapping').length;
+		var $tr = $(this).closest('tr');
+		var fromRow = $('#woosea-ajax-mapping-table tr').index($tr)-1;
+
+		if (len >= minimum){
+			if ( !isNaN(parseInt(map_to_category)) ) {
+	
+				var i = 0;
+				var toAjax = new Array();
+
+				// Update the mappings
+				$('.js-autosuggest').each(function( index, obj ) {
+					i++;
+					var classNameLoop = $(this).attr("class").split(' ')[3];
+					var rowCountLoop = classNameLoop.split("_")[1]
+					var criteria = $("#" + rowCountLoop).val();
+		
+					// Only start copying when copied category mapping is found
+					if(i > fromRow){
+						var catMappings = criteria + "||" + rowCountLoop + "||" + map_to_category;
+						toAjax.push(catMappings); // filling the array
+						$('.autocomplete_' + rowCountLoop).attr('value', map_to_category);
+						$('.autocomplete_' + rowCountLoop).addClass("input-field-large-active");
+					}
+				});
+
+				jQuery.ajax({
+                			method: "POST",
+                        		url: ajaxurl,
+                       			data: { 'action': 'woosea_add_mass_cat_mapping', 'project_hash': project_hash, 'catMappings': toAjax  }
+                		})
+			
+				.done(function( data ) {
+                        		data = JSON.parse( data );
+					jQuery(data.className).removeClass("input-field-large");
+					jQuery(data.className).addClass("input-field-large-active");
+				})
+                	
+				.fail(function( data ) {
+                	  		console.log('Failed AJAX Call :( /// Return Data: ' + data);
+           				console.log('Category mapping failed!');
+		     		});										
+			}
+		}
+	});
+
+
         jQuery(".js-autosuggest").click(function(){
 		var className = $(this).attr("class").split(' ')[3];
 		var rowCount = className.split("_")[1]
@@ -5454,6 +5562,8 @@ jQuery(document).ready(function($) {
 			var criteria = $("#" + rowCount).val();
 			var map_to_category = jQuery(this).val();
 
+			jQuery(".autocomplete_" + rowCount).addClass("input-field-large-active");
+			
 			if (len >= minimum){
 				if ( !isNaN(parseInt(map_to_category)) ) {
 
@@ -5473,8 +5583,6 @@ jQuery(document).ready(function($) {
                         			console.log('Failed AJAX Call :( /// Return Data: ' + data);
            					console.log('Category mapping failed!');
 		     			});										
-//					jQuery(this).closest("input").removeClass("input-field-large");
-//					jQuery(this).closest("input").addClass("input-field-large-active");
 				}
 			} else {
 				var map_to_category = "";
@@ -5498,6 +5606,5 @@ jQuery(document).ready(function($) {
 				});
 			}
 		});
-
 	});
 });

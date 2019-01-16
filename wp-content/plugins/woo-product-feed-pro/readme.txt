@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 5.0
-Stable tag: 4.1.6
+Stable tag: 4.2.5
 
 == Description ==
 
@@ -76,6 +76,9 @@ Our plugin supports WPML
 
 = WCML - WooCommerce Multilingual =
 Our plugin supports WooCommerce Multilangual, especially the currency switcher
+
+= Aelia Currency Switcher =
+Our plugin supports the Aelia Currency Switcher
 
 = Google Shopping product feed tutorial =
 [youtube https://www.youtube.com/watch?v=2XzxwKDufGw]
@@ -268,6 +271,33 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 4.2.5 (2019-01-16) =
+* Adding suffixes to the link attribute contained a space. We have now changed this so the space gets removed, allowing you to append (static) paramaters to your URL
+
+= 4.2.4 (2019-01-16) =
+* The installment amount field was only accepting numbers and not floating numbers (with a . or ,). We have changed this so the field also accepts decimal values.
+
+= 4.2.3 (2019-01-15) =
+* Fixed a bug: The Google Analytics and AdTribes conversion tracking buttons did not save when changed. This issue has been solved.
+
+= 4.2.2 (2019-01-15) =
+* Added support for the Aelia Currency Switcher
+
+= 4.2.1 (2019-01-11) =
+* Added cascading mother / child category mapping feature
+
+= 4.2.0 (2019-01-11) =
+* Category mapping made even easier: as of this release it is possible to, with one go, copy existing category mappings to all other categories. This saves you valuable time when you want to map all your categories to one or just a few Google taxonomy categories.
+
+= 4.1.9 (2019-01-08) =
+* Added support (template) for the Italian Comparison website Trovaprezzi.it
+
+= 4.1.8 (2019-01-08) =
+* Replaced the jQuery UI icons by the official WP dashicons as some user reported not being able to see the jQuery UI icons as those got removed by there theme's
+
+= 4.1.7 (2019-01-07) =
+* Improved license-module of plugin
 
 = 4.1.6 (2019-01-03) =
 * Changed the inner workings of the 'contains' rules for the shipping field. Whereas previously this rule replaced the entire string now it does a proper string replace only replacing the exact 'contains' part of the rule.
@@ -1258,6 +1288,33 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 4.2.5 =
+Adding suffixes to the link attribute contained a space. We have now changed this so the space gets removed, allowing you to append (static) paramaters to your URL
+
+= 4.2.4 =
+The installment amount field was only accepting numbers and not floating numbers (with a . or ,). We have changed this so the field also accepts decimal values.
+
+= 4.2.3 =
+Fixed a bug: The Google Analytics and AdTribes conversion tracking buttons did not save when changed. This issue has been solved.
+
+= 4.2.2 =
+Added support for the Aelia Currency Switcher
+
+= 4.2.1 =
+Added cascading mother / child category mapping feature
+
+= 4.2.0 =
+Category mapping made even easier: as of this release it is possible to, with one go, copy existing category mappings to all other categories. This saves you valuable time when you want to map all your categories to one or just a few Google taxonomy categories.
+
+= 4.1.9 =
+Added support (template) for the Italian Comparison website Trovaprezzi.it
+
+= 4.1.8 =
+Replaced the jQuery UI icons by the official WP dashicons as some user reported not being able to see the jQuery UI icons as those got removed by there theme's
+
+= 4.1.7 =
+Improved license-module of plugin
 
 = 4.1.6 =
 Changed the inner workings of the 'contains' rules for the shipping field. Whereas previously this rule replaced the entire string now it does a proper string replace only replacing the exact 'contains' part of the rule.

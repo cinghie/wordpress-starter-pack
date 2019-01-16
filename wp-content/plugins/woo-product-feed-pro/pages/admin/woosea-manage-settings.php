@@ -3,8 +3,6 @@ $domain = $_SERVER['HTTP_HOST'];
 $plugin_settings = get_option( 'plugin_settings' );
 $license_information = get_option( 'license_information' );
 
-$license_information['license_valid'] = "true"; // This is only temp untill we activate the license module again
-
 $elite_disable = "";
 if($license_information['license_valid'] == "false"){
 	$elite_disable = "disabled";
@@ -177,7 +175,24 @@ if(isset($_GET["tab"])) {
                                                 		</label>
 							</td>
 						</tr>
-
+						<tr>
+							<td>
+								<span>Enable Aelia Currency Switcher support: (<a href="https://adtribes.io/aelia-currency-switcher-feature/" target="_blank">Read more about this)</a></span>
+							</td>
+							<td>
+                                                		<label class="woo-product-feed-pro-switch">
+                                                        	<?php
+								$add_aelia_support = get_option ('add_aelia_support');
+                                                        	if($add_aelia_support == "yes"){
+                                                                	print "<input type=\"checkbox\" id=\"add_aelia_support\" name=\"add_aeli_support\" class=\"checkbox-field\" checked $elite_disable>";
+							 	} else {
+                                                                	print "<input type=\"checkbox\" id=\"add_aelia_support\" name=\"add_aeli_support\" class=\"checkbox-field\" $elite_disable>";
+                                                        	}
+                                                        	?>
+                                                        	<div class="woo-product-feed-pro-slider round"></div>
+                                                		</label>
+							</td>
+						</tr>
 						<tr>
 							<td>
 								<span>Use mother main image for variations</span>

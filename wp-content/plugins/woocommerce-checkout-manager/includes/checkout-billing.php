@@ -31,9 +31,8 @@ function wooccm_checkout_billing_fields( $fields = array() ) {
 				$fields[$key]['type'] = $btn['type'];
 			}
 
-			if( $btn['cow'] !== 'country' || $btn['cow'] !== 'state' ) {
+			if( $btn['cow'] !== 'country' || $btn['cow'] !== 'state' )
 				$fields[$key]['placeholder'] = ( isset( $btn['placeholder'] ) ? $btn['placeholder'] : '' );
-			}
 
 			// Default to Position wide
 			$btn['position'] = ( isset( $btn['position'] ) ? $btn['position'] : 'form-row-wide' );
@@ -51,12 +50,12 @@ function wooccm_checkout_billing_fields( $fields = array() ) {
 			$fields[$key]['color'] = ( isset( $btn['colorpickerd'] ) ? $btn['colorpickerd'] : '' );
 			$fields[$key]['colorpickertype'] = ( isset( $btn['colorpickertype'] ) ? $btn['colorpickertype'] : '' );
 			$fields[$key]['order'] = ( isset( $btn['order'] ) ? $btn['order'] : '' );
+			$fields[$key]['priority'] = ( isset( $btn['priority'] ) ? $btn['priority'] : $fields[$key]['order'] );
 			$fields[$key]['fancy'] = ( isset( $btn['fancy'] ) ? $btn['fancy'] : '' );
 
 			// Check if Multi-checkbox has options assigned to it
-			if( $btn['type'] == 'multicheckbox' && empty( $btn['option_array'] ) ) {
+			if( $btn['type'] == 'multicheckbox' && empty( $btn['option_array'] ) )
 				$btn['disabled'] = true;
-			}
 
 			// Bolt on address-field for address-based fields
 			if( in_array( $btn['cow'], $billing ) )
@@ -80,9 +79,8 @@ function wooccm_checkout_billing_fields( $fields = array() ) {
 			}
 
 			// Remove disabled fields
-			if( !empty( $btn['disabled'] ) ) {
+			if( !empty( $btn['disabled'] ) )
 				unset( $fields[$key] );
-			}
 
 		}
 
@@ -91,9 +89,8 @@ function wooccm_checkout_billing_fields( $fields = array() ) {
 	// Resort the fields by order
 	$fields[] = uasort( $fields, 'wooccm_sort_fields' );
 
-	if( $fields[0] ) {
+	if( $fields[0] )
 		unset( $fields[0] );
-	}
 
 	return $fields;
 

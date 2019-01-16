@@ -743,6 +743,8 @@ class WooSEA_Get_Products {
 								$product = $xml->addChild('SHOPITEM');
 							} elseif ($feed_config['name'] == "Zap.co.il") {
 								$product = $productz->addChild('PRODUCT');
+							} elseif ($feed_config['name'] == "Trovaprezzi.it") {
+								$product = $xml->addChild('Offer');
 							} elseif ($feed_config['name'] == "Google Product Review") {
 								$product = $reviewz->addChild('review');
 							} else {
@@ -1354,16 +1356,17 @@ class WooSEA_Get_Products {
 			$shipping_class_id = $product->get_shipping_class_id();
                 	$shipping_class= $product->get_shipping_class();
 			$class_cost_id = "class_cost_".$shipping_class_id;
+
 		
-			$product_data['price'] = wc_format_localized_price(wc_get_price_including_tax($product, array('price'=> $product->get_price())));
+			$product_data['price'] = wc_get_price_including_tax($product, array('price'=> $product->get_price()));
 
 			// Override price when WCML price is different than the non-translated price	
 			if((isset($project_config['WCML'])) AND ($product_data['price'] !== $wcml_price)){
 				$product_data['price'] = $wcml_price;
 			}
 
-			$product_data['sale_price'] = wc_format_localized_price(wc_get_price_including_tax($product, array('price'=> $product->get_sale_price())));
-			$product_data['regular_price'] = wc_format_localized_price(wc_get_price_including_tax($product, array('price'=> $product->get_regular_price())));
+			$product_data['sale_price'] = wc_get_price_including_tax($product, array('price'=> $product->get_sale_price()));
+			$product_data['regular_price'] = wc_get_price_including_tax($product, array('price'=> $product->get_regular_price()));
 
 			if($product_data['regular_price'] == $product_data['sale_price']){
 				$product_data['sale_price'] = "";
@@ -1381,19 +1384,50 @@ class WooSEA_Get_Products {
 			} else {
 				$tax_rates[1]['rate'] = 0;
 			}
-			$product_data['price_forced'] = wc_format_localized_price(wc_get_price_excluding_tax($product,array('price'=> $product->get_price())) * (100+$tax_rates[1]['rate'])/100);
-			$product_data['regular_price_forced'] = wc_format_localized_price(wc_get_price_excluding_tax($product, array('price'=> $product->get_regular_price())) * (100+$tax_rates[1]['rate'])/100);
+			$product_data['price_forced'] = wc_get_price_excluding_tax($product,array('price'=> $product->get_price())) * (100+$tax_rates[1]['rate'])/100;
+			$product_data['regular_price_forced'] = wc_get_price_excluding_tax($product, array('price'=> $product->get_regular_price())) * (100+$tax_rates[1]['rate'])/100;
 
 			if(!empty($product->get_sale_price())){
-				$product_data['sale_price_forced'] = wc_format_localized_price(wc_get_price_excluding_tax($product, array('price'=> $product->get_sale_price())) * (100+$tax_rates[1]['rate'])/100);
+				$product_data['sale_price_forced'] = wc_get_price_excluding_tax($product, array('price'=> $product->get_sale_price())) * (100+$tax_rates[1]['rate'])/100;
 			}
-			$product_data['net_price'] = wc_format_localized_price($product->get_price());
-			$product_data['net_regular_price'] = wc_format_localized_price($product->get_regular_price());
-			$product_data['net_sale_price'] = wc_format_localized_price($product->get_sale_price());
-			$price = wc_format_localized_price(wc_get_price_including_tax($product,array('price'=> $product->get_price())));
+			$product_data['net_price'] = $product->get_price();
+			$product_data['net_regular_price'] = $product->get_regular_price();
+			$product_data['net_sale_price'] = $product->get_sale_price();
+			$price = wc_get_price_including_tax($product,array('price'=> $product->get_price()));
 			if($product_data['sale_price'] > 0){
 				$price = $product_data['sale_price'];
 			}
+
+			// Do we need to convert all of the above prices with the Aelia Currency Switcher
+			if(isset($project_config['AELIA'])){
+				$from_currency = get_woocommerce_currency();
+				$product_data['price'] = apply_filters('wc_aelia_cs_convert', $product_data['price'], $from_currency, $project_config['AELIA']);
+				$product_data['regular_price'] = apply_filters('wc_aelia_cs_convert', $product_data['regular_price'], $from_currency, $project_config['AELIA']);
+				$product_data['sale_price'] = apply_filters('wc_aelia_cs_convert', $product_data['sale_price'], $from_currency, $project_config['AELIA']);
+				$product_data['price_forced'] = apply_filters('wc_aelia_cs_convert', $product_data['price_forced'], $from_currency, $project_config['AELIA']);
+				$product_data['regular_price_forced'] = apply_filters('wc_aelia_cs_convert', $product_data['regular_price_forced'], $from_currency, $project_config['AELIA']);
+				if(!empty($product->get_sale_price())){
+					$product_data['sale_price_forced'] = apply_filters('wc_aelia_cs_convert', $product_data['sale_price_forced'], $from_currency, $project_config['AELIA']);
+				}	
+				$product_data['net_price'] = apply_filters('wc_aelia_cs_convert', $product_data['net_price'], $from_currency, $project_config['AELIA']);
+				$product_data['net_regular_price'] = apply_filters('wc_aelia_cs_convert', $product_data['net_regular_price'], $from_currency, $project_config['AELIA']);
+				$product_data['net_sale_price'] = apply_filters('wc_aelia_cs_convert', $product_data['net_sale_price'], $from_currency, $project_config['AELIA']);
+			}
+
+			// Localize the price attributes
+			$product_data['price'] = wc_format_localized_price($product_data['price']);
+			$product_data['regular_price'] = wc_format_localized_price($product_data['regular_price']);
+			$product_data['sale_price'] = wc_format_localized_price($product_data['sale_price']);
+			$product_data['price_forced'] = wc_format_localized_price($product_data['price_forced']);
+			$product_data['regular_price_forced'] = wc_format_localized_price($product_data['regular_price_forced']);;
+			if(!empty($product->get_sale_price())){
+				$product_data['sale_price_forced'] = wc_format_localized_price($product_data['sale_price_forced']);;
+			}	
+			$product_data['net_price'] = wc_format_localized_price($product_data['net_price']);;
+			$product_data['net_regular_price'] = wc_format_localized_price($product_data['net_regular_price']);;
+			$product_data['net_sale_price'] = wc_format_localized_price($product_data['net_sale_price']);;
+	
+
 
 			$product_data['shipping'] =  $this->woosea_get_shipping_cost($class_cost_id, $project_config, $price, $tax_rates, $shipping_zones);
 			$shipping_str = $product_data['shipping'];
@@ -1629,6 +1663,9 @@ class WooSEA_Get_Products {
                                 	}
                         	}
 
+
+			
+
 				// User does need to also add the attributes to the feed otherwise they cannot be appended to the productname
 				foreach($variations as $kk => $vv){
 					$custom_key = $kk; 
@@ -1646,7 +1683,7 @@ class WooSEA_Get_Products {
 
 								// Prevent duplicate attribute values from being added to the product name
 								if(!preg_match("/" . preg_quote($product_data['title'], '/') . "/", $append)){
-
+															
 									$product_data['title'] = $product_data['title']." ".$append;
 								}
 							}
@@ -2124,7 +2161,12 @@ class WooSEA_Get_Products {
 													$xml_product[$attr_value['attribute']."_$ca[1]"] = "$attr_value[prefix] ". $product_data[$attr_value['mapfrom']] ." $attr_value[suffix]";	
 												} else {
 													if(strlen($product_data[$attr_value['mapfrom']])){
-														$xml_product[$attr_value['attribute']] = "$attr_value[prefix] ". $product_data[$attr_value['mapfrom']] ." $attr_value[suffix]";	
+														
+														if(($attr_value['attribute'] == "g:link") OR ($attr_value['attribute'] == "link")){
+															$xml_product[$attr_value['attribute']] = "$attr_value[prefix] ". $product_data[$attr_value['mapfrom']] ."$attr_value[suffix]";	
+														} else {
+															$xml_product[$attr_value['attribute']] = "$attr_value[prefix] ". $product_data[$attr_value['mapfrom']] ." $attr_value[suffix]";	
+														}
 													}
 												}
 											}

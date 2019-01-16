@@ -4,8 +4,8 @@ Contributors: visser, visser.labs, Emark
 Donate link: https://www.visser.com.au/donations/
 Tags: woocommerce, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
 Requires at least: 3.0
-Tested up to: 4.9.6
-Stable tag: 4.2.3
+Tested up to: 5.0.3
+Stable tag: 4.2.5
 License: GPLv2 or later
 
 Manages WooCommerce Checkout, the advanced way.
@@ -134,6 +134,12 @@ Example:
 8. Customize Checkout fields from the WooCheckout menu item in the WordPress Administration.
 
 == Changelog ==
+
+= 4.2.5 =
+* Fixed: Updated required field to match WooCommerce 3.5+ (thanks @sirachote)
+
+= 4.2.4 =
+* Fixed: Checkout field sorting issue in WC 3.5.1 onwards (thanks all)
 
 = 4.2.3 =
 * Changed: Hide translation notice in error log

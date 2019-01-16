@@ -33,7 +33,7 @@ function wooccm_checkout_field_text_handler( $field = '', $key, $args, $value ) 
 	$required = false;
 	if( $args['wooccm_required'] ) {
 		$args['class'][] = 'validate-required';
-		$required = ' <span class="required">*</span>';
+		$required = '&nbsp;<abbr class="required" title="' . esc_attr__( 'required', 'woocommerce' ) . '">*</abbr>';
 	}
 
 	$args['maxlength'] = ( $args['maxlength'] ) ? 'maxlength="' . absint( $args['maxlength'] ) . '"' : '';
@@ -106,7 +106,7 @@ function wooccm_checkout_field_textarea_handler( $field = '', $key, $args, $valu
 
 	if( $args['wooccm_required'] ) {
 		$args['class'][] = 'validate-required';
-		$required = ' <span class="required">*</span>';
+		$required = '&nbsp;<abbr class="required" title="' . esc_attr__( 'required', 'woocommerce' ) . '">*</abbr>';
 	} else {
 		$required = '';
 	}
@@ -185,7 +185,7 @@ function wooccm_checkout_field_password_handler( $field = '', $key, $args, $valu
 
 	if( $args['wooccm_required'] ) {
 		$args['class'][] = 'validate-required';
-		$required = ' <span class="required">*</span>';
+		$required = '&nbsp;<abbr class="required" title="' . esc_attr__( 'required', 'woocommerce' ) . '">*</abbr>';
 	} else {
 		$required = '';
 	}
@@ -260,7 +260,7 @@ function wooccm_checkout_field_radio_handler( $field = '', $key, $args, $value )
 
 	if( $args['wooccm_required'] ) {
 		$args['class'][] = 'validate-required';
-		$required = ' <span class="required">*</span>';
+		$required = '&nbsp;<abbr class="required" title="' . esc_attr__( 'required', 'woocommerce' ) . '">*</abbr>';
 	} else {
 		$required = '';
 	}
@@ -310,7 +310,7 @@ function wooccm_checkout_field_select_handler( $field = '', $key, $args, $value 
 
 	if( $args['wooccm_required'] ) {
 		$args['class'][] = 'validate-required';
-		$required = ' <span class="required">*</span>';
+		$required = '&nbsp;<abbr class="required" title="' . esc_attr__( 'required', 'woocommerce' ) . '">*</abbr>';
 	} else {
 		$required = '';
 	}
@@ -369,7 +369,7 @@ function wooccm_checkout_field_checkbox_handler( $field = '', $key, $args, $valu
 
 	if( $args['wooccm_required'] ) {
 		$args['class'][] = 'validate-required';
-		$required = ' <span class="required">*</span>';
+		$required = '&nbsp;<abbr class="required" title="' . esc_attr__( 'required', 'woocommerce' ) . '">*</abbr>';
 	} else {
 		$required = '';
 	}
@@ -421,7 +421,7 @@ function wooccm_checkout_field_state_handler( $field = '', $key, $args, $value )
 		if( !empty( $states ) ) {
 			if( !in_array( 'validate-required', $args['class'] ) )
 				$args['class'][] = 'validate-required';
-			$required = ' <span class="required">*</span>';
+				$required = '&nbsp;<abbr class="required" title="' . esc_attr__( 'required', 'woocommerce' ) . '">*</abbr>';
 		} else {
 			$args['class'][] = 'woocommerce-validated';
 		}
@@ -540,7 +540,7 @@ function wooccm_checkout_field_country_handler( $field = '', $key, $args, $value
 
 	if( $args['wooccm_required'] ) {
 		$args['class'][] = 'validate-required';
-		$required = ' <span class="required">*</span>';
+		$required = '&nbsp;<abbr class="required" title="' . esc_attr__( 'required', 'woocommerce' ) . '">*</abbr>';
 	} else {
 		$required = '';
 	}
@@ -644,7 +644,7 @@ function wooccm_checkout_field_multiselect_handler( $field = '', $key, $args, $v
 
 	if( $args['wooccm_required'] ) {
 		$args['class'][] = 'validate-required';
-		$required = ' <span class="required">*</span>';
+		$required = '&nbsp;<abbr class="required" title="' . esc_attr__( 'required', 'woocommerce' ) . '">*</abbr>';
 	} else {
 		$required = '';
 	}
@@ -698,7 +698,7 @@ function wooccm_checkout_field_multicheckbox_handler( $field = '', $key, $args, 
 
 	if( $args['wooccm_required'] ) {
 		$args['class'][] = 'validate-required';
-		$required = ' <span class="required">*</span>';
+		$required = '&nbsp;<abbr class="required" title="' . esc_attr__( 'required', 'woocommerce' ) . '">*</abbr>';
 	} else {
 		$required = '';
 	}
@@ -752,7 +752,7 @@ function wooccm_checkout_field_colorpicker_handler( $field = '', $key, $args, $v
 
 	if( $args['wooccm_required'] ) {
 		$args['class'][] = 'validate-required';
-		$required = ' <span class="required">*</span>';
+		$required = '&nbsp;<abbr class="required" title="' . esc_attr__( 'required', 'woocommerce' ) . '">*</abbr>';
 	} else {
 		$required = '';
 	}
@@ -799,7 +799,7 @@ function wooccm_checkout_field_datepicker_handler( $field = '', $key, $args, $va
 
 	if( $args['wooccm_required'] ) {
 		$args['class'][] = 'validate-required';
-		$required = ' <span class="required">*</span>';
+		$required = '&nbsp;<abbr class="required" title="' . esc_attr__( 'required', 'woocommerce' ) . '">*</abbr>';
 	} else {
 		$required = '';
 	}
@@ -840,7 +840,7 @@ function wooccm_checkout_field_timepicker_handler( $field = '', $key, $args, $va
 
 	if( $args['wooccm_required'] ) {
 		$args['class'][] = 'validate-required';
-		$required = ' <span class="required">*</span>';
+		$required = '&nbsp;<abbr class="required" title="' . esc_attr__( 'required', 'woocommerce' ) . '">*</abbr>';
 	} else {
 		$required = '';
 	}
@@ -883,7 +883,7 @@ function wooccm_checkout_field_upload_handler( $field = '', $key, $args, $value 
 
 	if( $args['wooccm_required'] ) {
 		$args['class'][] = 'validate-required';
-		$required = ' <span class="required">*</span>';
+		$required = '&nbsp;<abbr class="required" title="' . esc_attr__( 'required', 'woocommerce' ) . '">*</abbr>';
 	} else {
 		$required = '';
 	}

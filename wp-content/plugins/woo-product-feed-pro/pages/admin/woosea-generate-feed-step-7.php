@@ -66,6 +66,11 @@ $currency = get_woocommerce_currency();
 if(isset($project['WCML'])){
 	$currency = $project['WCML'];
 }
+
+if(isset($project['AELIA'])){
+	$currency = $project['AELIA'];
+}
+
 /**
  * Create channel attribute object
  **/
@@ -222,7 +227,7 @@ if(isset($_POST['product_variations'])){
 
 									<?php
 									if(array_key_exists('static_value', $attribute_array)){
-										print "<input type=\"text\" name=\"attributes[$attribute_key][mapfrom]\" class=\"input-field-midsmall\" value=\"$attribute_array[mapfrom]\"><input type=\"hidden\" name=\"attributes[$attribute_key][static_value]\" value=\"true\">";
+				error_log(print_r($project, TRUE));						print "<input type=\"text\" name=\"attributes[$attribute_key][mapfrom]\" class=\"input-field-midsmall\" value=\"$attribute_array[mapfrom]\"><input type=\"hidden\" name=\"attributes[$attribute_key][static_value]\" value=\"true\">";
 									} else {
 										?>
 										<select name="attributes[<?php print "$attribute_key";?>][mapfrom]" class="select-field">

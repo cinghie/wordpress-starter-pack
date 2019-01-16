@@ -2,6 +2,9 @@ So you found my to-do list for this plugin? Well, hope you enjoy the little snea
 Missing some features you might like? Drop me a line at support@adtribes.io and we might just add it to the list. Thanks!
 
 Plugin functionalities:
+- Add support for Google Product Review feeds
+- Add possibility to create OR rules
+- Add hierarchy category dropdown in filters/rules (exclude on identical subcategory names removes all)
 - Check JSON again
 
 BLOG:
@@ -16,13 +19,11 @@ Adtribes.io website changes:
 - Icon maken voor in WP-admin menu 
 
 OTHER ISSUES:
-- add OR filters and rules
 - Build a better WP Cron check, current one is not good enough
 - Add support for Google Shopping product review feeds - https://developers.google.com/product-review-feeds/
 - Remarketing and structured data fix, check if prices are correct (VAT issue) - on variation pages it shows prices without VAT in the structured data
 - Remarketing tags not yet on thank-you purchase page
 - Incomplete remarketing tag on cart-page
-- Cascading category mapping
 - Tracking & conversion
 	- dynamic dropdowns in GA / tracking page for values
 - Add support for Composite products: https://woocommerce.com/products/composite-products/

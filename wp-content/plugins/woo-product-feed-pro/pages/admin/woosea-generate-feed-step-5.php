@@ -112,6 +112,7 @@ if (array_key_exists('project_hash', $_GET)){
 							<input type="hidden" name="project_update" id="project_update" value="yes">
 							<input type="hidden" name="project_hash" value="<?php print "$project[project_hash]";?>">
 							<input type="hidden" name="step" value="100">
+							<input type="hidden" name="page" value="analytics">
 							<input type="submit" id="savebutton" value="Save">
 							<?php
 						} else {
@@ -119,6 +120,7 @@ if (array_key_exists('project_hash', $_GET)){
 							<input type="hidden" name="channel_hash" value="<?php print "$project[channel_hash]";?>">
 							<input type="hidden" name="project_hash" value="<?php print "$project[project_hash]";?>">
 							<input type="hidden" name="step" value="101">
+							<input type="hidden" name="page" value="analytics">
 							<input type="submit" id="savebutton" value="Generate Product Feed">
 						<?php
 						}

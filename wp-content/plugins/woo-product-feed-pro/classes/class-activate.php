@@ -953,7 +953,7 @@ class WooSEA_Activation {
                  		"Trovaprezzi" => array (
                         		"channel_hash" => md5("Trovaprezzi.it"),
                         		"name" => "Trovaprezzi.it",
-					"fields" => "customfeed",
+					"fields" => "trovaprezzi",
 					"taxonomy" => "none",
 					"utm_source" => "Trovaprezzi.it",
                         		"type" => "Comparison shopping engine" ),

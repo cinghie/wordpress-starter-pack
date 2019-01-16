@@ -22,7 +22,7 @@ jQuery(document).ready(function($) {
 	// Validate woosea installment amount
         $( "#_woosea_installment_amount" ).blur("input", function(){
 		var input=$(this);
-		var re = /^[0-9]*$/;
+		var re = /^[0-9.,]*$/;
 		var woosea_installment_amount=re.test(input.val());
 		// Check for allowed characters
 		if (!woosea_installment_amount){

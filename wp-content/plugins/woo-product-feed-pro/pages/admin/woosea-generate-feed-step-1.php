@@ -7,6 +7,8 @@ function my_footer_text($default) {
 }
 add_filter('admin_footer_text', 'my_footer_text');
 
+delete_option( 'woosea_cat_mapping' );
+
 /**
  * Create notification object
  */
@@ -53,9 +55,12 @@ function woosea_hierarchical_term_tree($category, $prev_mapped){
     	);
 
     	$next = get_terms('product_cat', $args);
+	$nr_categories = count($next);
+	$yo = 0;
 
     	if ($next) {
         	foreach ($next as $sub_category) {
+			$yo++;
 			$x = $sub_category->term_id;
 			$woo_category = $sub_category->name;
                      	$woo_category_id = $sub_category->term_id;
@@ -68,15 +73,36 @@ function woosea_hierarchical_term_tree($category, $prev_mapped){
                              	$mapped_active_class = "input-field-large-active";
 			}
 
+			// These are main categories
 			if($sub_category->parent == 0){
-				$r .= "<tr>";
+
+    				$args = array(
+        				'parent' 	=> $sub_category->term_id,
+					'hide_empty'    => false,
+        				'no_found_rows' => true,
+    				);
+
+    				$subcat = get_terms('product_cat', $args);
+				$nr_subcats = count($subcat);
+
+				$r .= "<tr class=\"catmapping\">";
             			$r .= "<td><input type=\"hidden\" name=\"mappings[$x][rowCount]\" value=\"$x\"><input type=\"hidden\" name=\"mappings[$x][categoryId]\" value=\"$woo_category_id\"><input type=\"hidden\" name=\"mappings[$x][criteria]\" class=\"input-field-large\" id=\"$woo_category_id\" value='$woo_category'>$woo_category ($sub_category->count)</td>";
 				$r .= "<td><input type=\"search\" name=\"mappings[$x][map_to_category]\" class=\"$mapped_active_class js-typeahead js-autosuggest autocomplete_$x\" value=\"$mapped_category\"></td>";
+				if(($yo == $nr_categories) AND ($nr_subcats == 0)){
+					$r .= "<td><span class=\"copy_category_$x\" style=\"display: inline-block;\" title=\"Copy this category to all others\"></span></td>";
+				} else {
+					if($nr_subcats > 0){
+						$r .= "<td><span class=\"dashicons dashicons-arrow-down copy_category_$x\" style=\"display: inline-block;\" title=\"Copy this category to subcategories\"></span><span class=\"dashicons dashicons-arrow-down-alt copy_category_$x\" style=\"display: inline-block;\" title=\"Copy this category to all others\"></span></td>";
+					} else {
+						$r .= "<td><span class=\"dashicons dashicons-arrow-down-alt copy_category_$x\" style=\"display: inline-block;\" title=\"Copy this category to all others\"></span></td>";
+					}
+				}
 				$r .= "</tr>";
 			} else {
-				$r .= "<tr>";
+				$r .= "<tr class=\"catmapping\">";
             			$r .= "<td><input type=\"hidden\" name=\"mappings[$x][rowCount]\" value=\"$x\"><input type=\"hidden\" name=\"mappings[$x][categoryId]\" value=\"$woo_category_id\"><input type=\"hidden\" name=\"mappings[$x][criteria]\" class=\"input-field-large\" id=\"$woo_category_id\" value='$woo_category'>-- $woo_category ($sub_category->count)</td>";
-				$r .= "<td><input type=\"search\" name=\"mappings[$x][map_to_category]\" class=\"$mapped_active_class js-typeahead js-autosuggest autocomplete_$x\" value=\"$mapped_category\"></td>";
+				$r .= "<td><input type=\"search\" name=\"mappings[$x][map_to_category]\" class=\"$mapped_active_class js-typeahead js-autosuggest autocomplete_$x mother_$sub_category->parent\" value=\"$mapped_category\"></td>";
+				$r .= "<td><span class=\"copy_category_$x\" style=\"display: inline-block;\" title=\"Copy this category to all others\"></span></td>";
 				$r .= "</tr>";
 			}
 			$r .= $sub_category->term_id !== 0 ? woosea_hierarchical_term_tree($sub_category->term_id, $prev_mapped) : null;
@@ -102,6 +128,7 @@ function woosea_hierarchical_term_tree($category, $prev_mapped){
             			<tr>
                 			<th>Your category <i>(Number of products)</i></th>
 					<th><?php print "$channel_data[name]";?> category</th>
+					<th></th>
             			</tr>
         		</thead>
        
@@ -125,7 +152,7 @@ function woosea_hierarchical_term_tree($category, $prev_mapped){
  			<form action="" method="post">
    
 			<tr>
-				<td colspan="2">
+				<td colspan="3">
                                 <input type="hidden" id="channel_hash" name="channel_hash" value="<?php print "$project[channel_hash]";?>">
 			  	<?php
                                 	if(isset($manage_project)){
