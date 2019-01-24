@@ -11,16 +11,16 @@ function ppom_woocommerce_show_fields() {
     
    global $product;
     
-    
     // @Reason: variable product render fields twice. To stop this we add following code.
-    if( apply_filters('ppom_remove_duplicate_fields', true) &&  $product->get_type() == 'variable' && current_filter() == 'woocommerce_before_add_to_cart_button') {
+    /*if( apply_filters('ppom_remove_duplicate_fields', true) &&  $product->get_type() == 'variable' && current_filter() == 'woocommerce_before_add_to_cart_button') {
     	return;
-    }
+    }*/
     
-    $product_id = ppom_get_product_id( $product ); 
+    if( current_filter() == 'woocommerce_single_variation' && did_action('woocommerce_before_add_to_cart_button') !== 1 ) return;
+    
+	$product_id = ppom_get_product_id( $product ); 
 	$ppom		= new PPOM_Meta( $product_id );
-	
-	
+
 	if( ! $ppom->fields ) return '';
 	 
 	if( ! $ppom->has_unique_datanames ) {
@@ -67,7 +67,7 @@ function ppom_woocommerce_show_fields() {
     
     $ppom_html = '<div id="ppom-box-'.esc_attr(PPOM()->productmeta_id).'" class="ppom-wrapper">';
     
-    $template_vars = array('ppom_settings'  	=> $ppom->settings,
+    $template_vars = array('ppom_settings'  	=> $ppom->ppom_settings,
     						'product'			=> $product,
     						'ppom_fields_meta'	=> $ppom->fields,
     						'ppom_id'			=> $ppom->meta_id);
@@ -189,7 +189,7 @@ function ppom_woocommerce_add_cart_item_data($cart, $product_id) {
 	if( ! isset($_POST['ppom']) ) return $cart;
 	
 	$ppom		= new PPOM_Meta( $product_id );
-	if( ! $ppom->settings ) return $cart;
+	if( ! $ppom->ppom_settings ) return $cart;
 	
 	// ADDED WC BUNDLES COMPATIBILITY
 	if ( function_exists('wc_pb_is_bundled_cart_item') && wc_pb_is_bundled_cart_item( $cart_item )) {
@@ -214,10 +214,10 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 	$wc_product = $cart_items['data'];
 	$product_id = ppom_get_product_id($wc_product);
 	
-	$ppom_meta_ids = array();	
+	$ppom_meta_ids = '';	
 	// removing id field
 	if ( !empty( $values ['ppom'] ['fields']['id'] )) {
-		$ppom_meta_ids = explode(',', $values ['ppom'] ['fields']['id']);
+		$ppom_meta_ids = $values ['ppom'] ['fields']['id'];
 		unset( $values ['ppom'] ['fields']['id']);
 	}
 	

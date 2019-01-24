@@ -1000,7 +1000,15 @@ class WooSEA_Activation {
 			"Kuwait" => array (),
 			"Kyrgyzstan" => array (),
 			"Laos" => array (),
-			"Latvia" => array (),
+			"Latvia" => array (
+                        	"Salidzini.lv" => array (
+                                        "channel_hash" => md5("Salidzini.lv"),
+                                        "name" => "Salidzini.lv",
+                                        "fields" => "salidzini",
+                                        "taxonomy" => "none",
+                                        "utm_source" => "Salidzini.lv",
+                                        "type" => "Comparison shopping engine" ),
+			),
 			"Lebanon" => array (),
 			"Lesotho" => array (),
 			"Liberia" => array (),

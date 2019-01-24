@@ -162,7 +162,7 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 								} else {
 									print "<span class=\"dashicons dashicons-dismiss\" id=\"cancel_$val[project_hash]\" title=\"cancel processing productfeed\" style=\"display: inline-block;\"></span>";
 								}
-								?>	
+								?>
 							</div>
 						</td>
 					</tr>
@@ -182,7 +182,7 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 											if ($val['fields'] == "standard"){
 												print "<span class=\"dashicons dashicons-arrow-right\" style=\"display: inline-block;\"></span> <a href=\"admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php&action=edit_project&step=2&project_hash=$val[project_hash]&channel_hash=$val[channel_hash]\">Attribute selection</a></br/>";
 											} else {
-												print "<span class=\"dashicons dashicons-arrow-right\" style=\"display: inline-block;\"></span> <a href=\"admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php&action=edit_project&step=7&project_hash=$val[project_hash]&channel_hash=$val[channel_hash]\">Attribute mapping</a><br/>";
+												print "<span class=\"dashicons dashicons-arrow-right\" style=\"display: inline-block;\"></span> <a href=\"admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php&action=edit_project&step=7&project_hash=$val[project_hash]&channel_hash=$val[channel_hash]\">Field mapping</a><br/>";
 											}
 											
 											if ($val['taxonomy'] != "none"){

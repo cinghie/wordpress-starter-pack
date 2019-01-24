@@ -362,7 +362,7 @@ class WooSEA_Get_Products {
 			// g:service = "Method title - Shipping class costs"
 			// for example, g:service = "Estimated Shipping - Heavy shipping". g:price would be 180			
                	      	$shipping_methods     = $zone['shipping_methods'];
-	
+
 			foreach ($shipping_methods as $k => $v){
 
 				if($v->enabled == "yes"){
@@ -443,16 +443,24 @@ class WooSEA_Get_Products {
 					// FREE SHIPPING COSTS IF MINIMUM FEE REACHED
 					if($v->id == "free_shipping"){
 						$minimum_fee = $v->min_amount;
+						$currency = get_woocommerce_currency();
+						if(isset($project_config['WCML'])){
+							$currency = $project_config['WCML'];
+						}
+
+						// Only Free Shipping when prodict price is over or equal to minimum order fee	
 						if ($price >= $minimum_fee){
-							$currency = get_woocommerce_currency();
-							if(isset($project_config['WCML'])){
-								$currency = $project_config['WCML'];
-							}
 							$shipping_cost = 0;
                                 			$zone_details['price'] = trim($currency." ".$shipping_cost);
 						} else {
-							// No need to add the free shipping zone as it is not eligable
-							break;
+							// There are no free shipping requirements
+							if($v->requires == ""){
+								$shipping_cost = 0;
+        	                        			$zone_details['price'] = trim($currency." ".$shipping_cost);
+							} else {
+								// No need to add the free shipping zone as it is not eligable
+								break;
+							}
 						}
 					}
 
@@ -467,7 +475,7 @@ class WooSEA_Get_Products {
 					// This shipping zone has postal codes so multiply the zone details
 					$nr_postals = count($postal_code);
 					if ($nr_postals > 0){
-						if(!empty($shipping_cost)){
+						//if(!empty($shipping_cost)){
 							for ($x = 0; $x <= count($postal_code); ) {
 								$zone_count++;
 								if(!empty($postal_code[$x])){
@@ -476,7 +484,7 @@ class WooSEA_Get_Products {
 								}
 								$x++;	
 							}
-						}			
+						//}		
 					} else {
 						$zone_count++;
 						$shipping_arr[$zone_count] = $zone_details;
@@ -694,6 +702,15 @@ class WooSEA_Get_Products {
 					$xml->addChild('agency', 'AdTribes.io');
 					$xml->addChild('email', 'support@adtribes.io');
 					$xml->asXML($file);
+				} elseif ($feed_config['name'] == "Salidzini.lv") {
+					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><root></root>');
+					$xml->addChild('datetime', date('Y-m-d H:i:s'));
+					$xml->addChild('title', htmlspecialchars($feed_config['projectname']));
+					$xml->addChild('link', site_url());
+					$xml->addChild('description', 'WooCommerce Product Feed PRO - This product feed is created with the free Advanced Product Feed PRO for WooCommerce plugin from AdTribes.io. For all your support questions check out our FAQ on https://www.adtribes.io or e-mail to: support@adtribes.io ');
+					$xml->addChild('agency', 'AdTribes.io');
+					$xml->addChild('email', 'support@adtribes.io');
+					$xml->asXML($file);
 				} elseif ($feed_config['name'] == "Google Product Review") {
 					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><feed></feed>');	
 					$xml->addAttribute('xmlns:vc', 'http://www.w3.org/2007/XMLSchema-versioning');
@@ -743,6 +760,8 @@ class WooSEA_Get_Products {
 								$product = $xml->addChild('SHOPITEM');
 							} elseif ($feed_config['name'] == "Zap.co.il") {
 								$product = $productz->addChild('PRODUCT');
+							} elseif ($feed_config['name'] == "Salidzini.lv") {
+								$product = $xml->addChild('item');
 							} elseif ($feed_config['name'] == "Trovaprezzi.it") {
 								$product = $xml->addChild('Offer');
 							} elseif ($feed_config['name'] == "Google Product Review") {
@@ -1399,8 +1418,10 @@ class WooSEA_Get_Products {
 			}
 
 			// Do we need to convert all of the above prices with the Aelia Currency Switcher
-			if(isset($project_config['AELIA'])){
+			if((isset($project_config['AELIA'])) AND (!empty($GLOBALS['woocommerce-aelia-currencyswitcher'])) AND (get_option ('add_aelia_support') == "yes")){
 				$from_currency = get_woocommerce_currency();
+			
+				// Get Aelia currency conversion prices
 				$product_data['price'] = apply_filters('wc_aelia_cs_convert', $product_data['price'], $from_currency, $project_config['AELIA']);
 				$product_data['regular_price'] = apply_filters('wc_aelia_cs_convert', $product_data['regular_price'], $from_currency, $project_config['AELIA']);
 				$product_data['sale_price'] = apply_filters('wc_aelia_cs_convert', $product_data['sale_price'], $from_currency, $project_config['AELIA']);
@@ -1412,9 +1433,44 @@ class WooSEA_Get_Products {
 				$product_data['net_price'] = apply_filters('wc_aelia_cs_convert', $product_data['net_price'], $from_currency, $project_config['AELIA']);
 				$product_data['net_regular_price'] = apply_filters('wc_aelia_cs_convert', $product_data['net_regular_price'], $from_currency, $project_config['AELIA']);
 				$product_data['net_sale_price'] = apply_filters('wc_aelia_cs_convert', $product_data['net_sale_price'], $from_currency, $project_config['AELIA']);
+	
+				// Get Aelia manually inserted currency prices
+				$regular_aelia_prices = get_post_meta($product_data['id'], '_regular_currency_prices', true);
+				$regular_aelia_prices = trim($regular_aelia_prices, "}");
+				$regular_aelia_prices = trim($regular_aelia_prices, "{");
+
+				if(strlen($regular_aelia_prices) > 2){
+					$regular_aelia_pieces = explode(",", $regular_aelia_prices);
+					foreach ($regular_aelia_pieces as $rap_k => $rap_v){
+						$regulars = explode(":", $rap_v);
+						$reg_cur = trim($regulars[0], "\"");
+						$reg_val = trim($regulars[1], "\"");
+						if($reg_cur == $project_config['AELIA']){
+							$product_data['price'] = $reg_val;
+						}
+					}
+				}
+
+				$sale_aelia_prices = get_post_meta($product_data['id'], '_sale_currency_prices', true);
+				$sale_aelia_prices = trim($sale_aelia_prices, "}");
+				$sale_aelia_prices = trim($sale_aelia_prices, "{");
+
+				if(strlen($sale_aelia_prices) > 2){
+					$sale_aelia_pieces = explode(",", $sale_aelia_prices);
+					foreach ($sale_aelia_pieces as $sap_k => $sap_v){
+						$sales = explode(":", $sap_v);
+						$sale_cur = trim($sales[0], "\"");
+						$sale_val = trim($sales[1], "\"");
+						if($sale_cur == $project_config['AELIA']){
+							$product_data['sale_price'] = $sale_val;
+						}
+					}
+				}
+			
 			}
 
 			// Localize the price attributes
+
 			$product_data['price'] = wc_format_localized_price($product_data['price']);
 			$product_data['regular_price'] = wc_format_localized_price($product_data['regular_price']);
 			$product_data['sale_price'] = wc_format_localized_price($product_data['sale_price']);
@@ -2900,6 +2956,7 @@ class WooSEA_Get_Products {
 			$allowed = 0;
 		}
 
+
 		foreach ($project_rules as $pr_key => $pr_array){
 			if(array_key_exists($pr_array['attribute'], $product_data)){
 
@@ -3187,7 +3244,11 @@ class WooSEA_Get_Products {
 				if($pr_array['condition'] == "empty"){
 					$allowed = 0;
 				} elseif($pr_array['condition'] == "="){
-					$allowed = 0;
+					if($pr_array['than'] == "exclude"){
+						$allowed = 1;
+					} else {
+						$allowed = 0;
+					}
 				} elseif($pr_array['condition'] == "contains"){
 					if($pr_array['than'] == "exclude"){
 						$allowed = 1;
@@ -3195,7 +3256,6 @@ class WooSEA_Get_Products {
 						$allowed = 0;
 					}
 				} else {
-
 					if($pr_array['than'] == "exclude"){
 						$allowed = 0;
 					} else {

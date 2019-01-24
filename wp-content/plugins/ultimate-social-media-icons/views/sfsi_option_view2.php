@@ -150,7 +150,7 @@ if("id"== $option2['sfsi_youtubeusernameorid'] && isset($option2['sfsi_youtubeus
     <!-- EMAIL ICON -->
     <?php
 		$feedId 		= sanitize_text_field(get_option('sfsi_feed_id',false));
-		$connectToFeed 	= "http://www.specificfeeds.com/?".base64_encode("userprofile=wordpress&feed_id=".$feedId);
+		$connectToFeed 	= "https://www.specificfeeds.com/?".base64_encode("userprofile=wordpress&feed_id=".$feedId);
 	?>
     <div class="row email_section">
         <h2 class="sfsicls_email">Email</h2>
@@ -158,7 +158,7 @@ if("id"== $option2['sfsi_youtubeusernameorid'] && isset($option2['sfsi_youtubeus
         
         <div class="inr_cont">
         <p>
-         	Allows your visitors to subscribe to your site (on  <a href="http://www.specificfeeds.com/widgets/emailSubscribeEncFeed/<?php echo $feedId; ?>/<?php echo base64_encode(8); ?>" target="_new">this screen</a>) and receive new posts automatically by email.
+         	Allows your visitors to subscribe to your site (on  <a href="https://www.specificfeeds.com/widgets/emailSubscribeEncFeed/<?php echo $feedId; ?>/<?php echo base64_encode(8); ?>" target="_new">this screen</a>) and receive new posts automatically by email.
         </p>
         <p>Please pick which icon type you want to use:</p>
            <ul class="tab_2_email_sec">

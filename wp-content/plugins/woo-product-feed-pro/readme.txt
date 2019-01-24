@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 5.0
-Stable tag: 4.2.5
+Stable tag: 4.3.4
 
 == Description ==
 
@@ -170,6 +170,7 @@ Our plugin supports the Aelia Currency Switcher
 * TheNextAd
 * Webgains
 * Crowdfox
+* <a href="https://www.salidzini.lv" target="_blank">Salidzini.lv</a>
 * Real.de
 * Allyouneed
 * Apomio
@@ -271,6 +272,35 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 4.3.4 (2019-01-23) =
+* Further improved support for the Aelia currency switcher
+
+= 4.3.3 (2019-01-23) =
+* Improved support for the Aelia currency switcher, the plugin now also accepts manually entered prices (regular and sale price)
+
+= 4.3.2 (2019-01-22) =
+* Fixed a bug: exclude rules that were set on product attributes that were empty did not work. Issue has been fixed.
+* Another attempt to fix the variable mismatch issue
+
+= 4.3.1 (2019-01-21) =
+* Fixed the variable mismatch error that existed for users who also used WPML
+
+= 4.3.0 (2019-01-20) =
+* Added support for the Latvia Comparison Shopping Engine Salidzini.lv
+
+= 4.2.9 (2019-01-19) =
+* Added links to relevant tutorials
+* Added some license checks
+
+= 4.2.8 (2019-01-17) =
+* Fixed a bug: when a Free Shipping zone was configured and limited to certain postal code's and shipping was restricted to one country the free shipping did not end up in the feed. Issue has been fixed.
+
+= 4.2.7 (2019-01-17) =
+* Fixed a bug: adding static values in the attribute field mapping page was not working. Issue has been fixed.
+
+= 4.2.6 (2019-01-16) =
+* Added the override column to the Facebook feed template so besided the base Facebook feed one can now also create country and language override feeds for Facebook
 
 = 4.2.5 (2019-01-16) =
 * Adding suffixes to the link attribute contained a space. We have now changed this so the space gets removed, allowing you to append (static) paramaters to your URL
@@ -1288,6 +1318,35 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 4.3.4 =
+Further improved support for the Aelia currency switcher
+
+= 4.3.3 =
+Improved support for the Aelia currency switcher, the plugin now also accepts manually entered prices (regular and sale price)
+
+= 4.3.2 =
+Fixed a bug: exclude rules that were set on product attributes that were empty did not work. Issue has been fixed.
+Another attempt to fix the variable mismatch issue
+
+= 4.3.1 =
+Fixed the variable mismatch error that existed for users who also used WPML
+
+= 4.3.0 =
+Added support for the Latvia Comparison Shopping Engine Salidzini.lv
+
+= 4.2.9 =
+Added links to relevant tutorials
+Added some license checks
+
+= 4.2.8 =
+Fixed a bug: when a Free Shipping zone was configured and limited to certain postal code's and shipping was restricted to one country the free shipping did not end up in the feed. Issue has been fixed.
+
+= 4.2.7 =
+Fixed a bug: adding static values in the attribute field mapping page was not working. Issue has been fixed.
+
+= 4.2.6 =
+Added the override column to the Facebook feed template so besided the base Facebook feed one can now also create country and language override feeds for Facebook
 
 = 4.2.5 =
 Adding suffixes to the link attribute contained a space. We have now changed this so the space gets removed, allowing you to append (static) paramaters to your URL

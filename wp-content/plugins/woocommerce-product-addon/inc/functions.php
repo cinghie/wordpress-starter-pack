@@ -147,17 +147,20 @@ if ( ! function_exists('nm_get_order_id') ) {
 function ppom_get_product_id( $product ) {
 		
 	$product_id = '';
-	if ( version_compare( WC_VERSION, '2.7', '<' ) ) {  
+	if ( version_compare( WOOCOMMERCE_VERSION, '2.7', '<' ) ) {  
 	
 		// vesion less then 2.7
-		$product_id = $product -> ID;
+		$product_id = isset($product->id) ? $product->id : $product->ID;
 	} else {
 		
-		if( $product->get_type() == 'variation' ) {
-			$product_id = $product->get_parent_id();
-		}else {
+		if( is_a($product, 'WC_Product') ) {
 
-			$product_id = $product -> get_id();
+			if( $product->get_type() == 'variation' ) {
+				$product_id = $product->get_parent_id();
+			}else {
+
+				$product_id = $product -> get_id();
+			}
 		}
 	}
 
@@ -201,10 +204,10 @@ function ppom_make_meta_data( $cart_item, $context="cart" ){
 	
 	if( ! isset($cart_item['ppom']['fields']) ) return $cart_item;
 	
-	$ppom_meta_ids = array();	
+	$ppom_meta_ids = '';	
 	// removing id field
 	if ( !empty( $cart_item ['ppom'] ['fields']['id'] )) {
-		$ppom_meta_ids = explode(',', $cart_item ['ppom'] ['fields']['id']);
+		$ppom_meta_ids = $cart_item ['ppom'] ['fields']['id'];
 		unset( $cart_item ['ppom'] ['fields']['id']);
 	}
 	
@@ -214,11 +217,10 @@ function ppom_make_meta_data( $cart_item, $context="cart" ){
 		
 		// if no value
 		if( $value == '' ) continue;
-		
-		$product_id = $cart_item['data'] ->post_type == 'product' ? $cart_item['data']->get_id() : $cart_item['data']->get_parent_id();
+		$product_id = ppom_get_product_id($cart_item['data']);
+		// $cart_item['data'] ->post_type == 'product' ? $cart_item['data']->get_id() : $cart_item['data']->get_parent_id();
 		$field_meta = ppom_get_field_meta_by_dataname( $product_id, $key, $ppom_meta_ids);
 		
-		// ppom_pa($field_meta);
 		// If field deleted while it's in cart
 		if( empty($field_meta) ) continue;
 		
@@ -558,31 +560,6 @@ function ppom_settings_link($links) {
   	return $links;
 }
 
-// check if product has meta Returns Meta ID if true otherwise null
-function ppom_has_product_meta( $product_id ) {
-	
-	$ppom_meta_id = get_post_meta ( $product_id, PPOM_PRODUCT_META_KEY, true );
-	
-	if( $ppom_meta_id == 0 || $ppom_meta_id == 'None' ) {
-	
-		$ppom_meta_id = null;
-	}
-	
-	if( $ppom_meta_id == null ) {
-		
-		if($meta_found = ppom_has_category_meta( $product_id ) ){
-    		
-    		/**
-    		 * checking product against categories
-    		 * @since 6.4
-    		 */
-    		$ppom_meta_id = $meta_found;
-    	}
-	}
-	
-	return $ppom_meta_id;
-}
-
 // Get field type by data_name
 function ppom_get_field_meta_by_dataname( $product_id, $data_name, $ppom_id=null ) {
 	
@@ -660,45 +637,7 @@ function ppom_load_bootstrap_css() {
 	return apply_filters('ppom_bootstrap_css', $return);
 }
 
-function ppom_has_category_meta( $product_id ) {
-		
-	$p_categories = get_the_terms($product_id, 'product_cat');
-	$meta_found = false;
-	 if($p_categories){
-	 	
-	 	global $wpdb;
-		$ppom_table = $wpdb->prefix . PPOM_TABLE_META;
-		
-		$qry = "SELECT * FROM {$ppom_table}";
-		$qry .= " WHERE productmeta_categories != ''";
-		$meta_with_cats = $wpdb->get_results ( $qry );
-		
-		
-		foreach($meta_with_cats as $meta_cats){
-			
-			if( $meta_found )	//if we found any meta so dont need to loop again
-				continue;
-			
-			if( $meta_cats->productmeta_categories == 'All' ) {
-				$meta_found = $meta_cats->productmeta_id;
-			}else{
-				//making array of meta cats
-				$meta_cat_array = explode("\n", $meta_cats->productmeta_categories);
-				
-				//Now iterating the p_categories to check it's slug in meta cats
-				foreach($p_categories as $cat) {
-					
-					if( in_array($cat->slug, $meta_cat_array) ) {
-						$meta_found = $meta_cats->productmeta_id;
-					}
-				}
-			}
 
-		}
-	 }
-	 
-	 return $meta_found;
-}
 
 function ppom_convert_options_to_key_val($options, $meta, $product) {
 	
@@ -1040,21 +979,52 @@ function ppom_get_field_option_price_by_id( $option, $product, $ppom_meta_ids ) 
 	
 	if( empty($field_meta) ) return 0;
 	
-	if( ! isset( $field_meta['options']) || $field_meta['type'] == 'bulkquantity' || $field_meta['type'] == 'cropper' ) return 0;
+	$field_type = isset($field_meta['type']) ? $field_meta['type'] : '';
+	
+	if( $field_type == 'bulkquantity' || $field_type == 'cropper' ) return 0;
 	
 	$option_price = 0;
-	foreach( $field_meta['options'] as $option ) {
+	
+	switch( $field_type ) {
 		
-		if( $option['id'] == $option_id && isset($option['price']) && $option['price'] != '' ) {
+		case 'image':
 			
-			if(strpos($option['price'],'%') !== false){
-					$option_price = ppom_get_amount_after_percentage($product->get_price(), $option['price']);
-			}else {
-				// For currency switcher
-				$option_price = apply_filters('ppom_option_price', $option['price']);
+			if( isset( $field_meta['images']) ) {
+				foreach( $field_meta['images'] as $option ) {
+				
+					$image_id	= $field_meta['data_name'].'-'.$option['id'];
+					if( $image_id == $option_id && isset($option['price']) && $option['price'] != '' ) {
+						
+						if(strpos($option['price'],'%') !== false){
+								$option_price = ppom_get_amount_after_percentage($product->get_price(), $option['price']);
+						}else {
+							// For currency switcher
+							$option_price = apply_filters('ppom_option_price', $option['price']);
+						}
+					}
+				}
 			}
-		}
+		break;
+		
+		default:
+			
+			if( isset( $field_meta['options']) ) {
+				foreach( $field_meta['options'] as $option ) {
+			
+					if( $option['id'] == $option_id && isset($option['price']) && $option['price'] != '' ) {
+						
+						if(strpos($option['price'],'%') !== false){
+								$option_price = ppom_get_amount_after_percentage($product->get_price(), $option['price']);
+						}else {
+							// For currency switcher
+							$option_price = apply_filters('ppom_option_price', $option['price']);
+						}
+					}
+				}
+			}
+		break;
 	}
+	
 	
 	return apply_filters("ppom_field_option_price_by_id", wc_format_decimal($option_price), $field_meta, $option_id, $product);
 }

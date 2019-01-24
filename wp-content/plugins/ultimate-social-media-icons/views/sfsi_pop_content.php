@@ -9,8 +9,8 @@ define('ress_readmore_button', $ress_readmore_button);
 define('rss_readmore_text2', $rss_readmore_text2);
 
 $feedId 		= sanitize_text_field(get_option('sfsi_feed_id',false));
-$connectToFeed 	= "http://www.specificfeeds.com/?".base64_encode("userprofile=wordpress&feed_id=".$feedId);
-$connectFeedLgn	= "http://www.specificfeeds.com/?".base64_encode("userprofile=wordpress&feed_id=".$feedId."&logintype=login");
+$connectToFeed 	= "https://www.specificfeeds.com/?".base64_encode("userprofile=wordpress&feed_id=".$feedId);
+$connectFeedLgn	= "https://www.specificfeeds.com/?".base64_encode("userprofile=wordpress&feed_id=".$feedId."&logintype=login");
 ?>
 
 <div class="pop-overlay read-overlay sfsi_feedClaimingOverlay" >
@@ -259,7 +259,7 @@ $pin_url= isset($option2['sfsi_pinterest_pageUrl']) && !empty($option2['sfsi_pin
 
 <div class="pop-overlay read-overlay demail-1" >
     <div class="pop_up_box sfsi_pop_up " >
-       <h4>Note: Also if you already offer a newsletter it makes sense to offer this option too, because it will get you <span class="mediam_txt">more readers</span>, as explained <a href="http://www.specificfeeds.com/rss" target="_new" style="color:#5A6570;display: inline;text-decoration:underline">here</a>. </h4>
+       <h4>Note: Also if you already offer a newsletter it makes sense to offer this option too, because it will get you <span class="mediam_txt">more readers</span>, as explained <a href="https://www.specificfeeds.com/rss" target="_new" style="color:#5A6570;display: inline;text-decoration:underline">here</a>. </h4>
        <div class="button"><a href="javascript:;" class="hideemailpop" title="Ok, keep it active for the time being,I want to see how it works">Ok, keep it active for the time being, <br />
 I want to see how it works</a></div>
        <a href="javascript:;" id="deac_email2" title="Deactivate it">Deactivate it</a>

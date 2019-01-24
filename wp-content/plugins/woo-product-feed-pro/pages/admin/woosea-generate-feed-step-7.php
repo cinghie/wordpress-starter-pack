@@ -138,7 +138,7 @@ if(isset($_POST['product_variations'])){
 							foreach($row_value as $row_k => $row_v){
 								if ($row_v['format'] == "required"){
 								?>
-								<tr class="rowCount">
+								<tr class="rowCount <?php print"$c";?>">
 									<td><input type="hidden" name="attributes[<?php print "$c";?>][rowCount]" value="<?php print "$c";?>"><input type="checkbox" name="record" class="checkbox-field"></td>
 									<td>
 										<select name="attributes[<?php print"$c"; ?>][attribute]" class="select-field">
@@ -211,7 +211,7 @@ if(isset($_POST['product_variations'])){
 								$suffix = $project['attributes'][$attribute_key]['suffix'];
 							}
 							?>
-							<tr class="rowCount">	
+							<tr class="rowCount <?php print "$attribute_key";?>">	
 								<td><input type="hidden" name="attributes[<?php print "$attribute_key";?>][rowCount]" value="<?php print "$attribute_key";?>"><input type="checkbox" name="record" class="checkbox-field"></td>
 								<td>
 									<select name="attributes[<?php print"$attribute_key"; ?>][attribute]" class="select-field">
@@ -227,7 +227,7 @@ if(isset($_POST['product_variations'])){
 
 									<?php
 									if(array_key_exists('static_value', $attribute_array)){
-				error_log(print_r($project, TRUE));						print "<input type=\"text\" name=\"attributes[$attribute_key][mapfrom]\" class=\"input-field-midsmall\" value=\"$attribute_array[mapfrom]\"><input type=\"hidden\" name=\"attributes[$attribute_key][static_value]\" value=\"true\">";
+										print "<input type=\"text\" name=\"attributes[$attribute_key][mapfrom]\" class=\"input-field-midsmall\" value=\"$attribute_array[mapfrom]\"><input type=\"hidden\" name=\"attributes[$attribute_key][static_value]\" value=\"true\">";
 									} else {
 										?>
 										<select name="attributes[<?php print "$attribute_key";?>][mapfrom]" class="select-field">

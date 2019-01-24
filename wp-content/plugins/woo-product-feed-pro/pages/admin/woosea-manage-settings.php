@@ -3,9 +3,16 @@ $domain = $_SERVER['HTTP_HOST'];
 $plugin_settings = get_option( 'plugin_settings' );
 $license_information = get_option( 'license_information' );
 
-$elite_disable = "";
+$elite_disable = "enabled";
 if($license_information['license_valid'] == "false"){
 	$elite_disable = "disabled";
+}
+
+if(empty($license_information['license_email'])){
+	$license_information['license_email'] = "";
+}
+if(empty($license_information['license_key'])){
+	$license_information['license_key'] = "";
 }
 
 $versions = array (
@@ -80,15 +87,17 @@ if(isset($_GET["tab"])) {
 ?>	
 
 <div class="wrap">
-
+ 
         <div class="woo-product-feed-pro-form-style-2">
                 <tbody class="woo-product-feed-pro-body">
                         <div class="woo-product-feed-pro-form-style-2-heading">
+				<span>
 				<?php
 					print "$header_text";
 				?>
+				</span>
 			</div>
-       
+      
 			<?php
 			if(array_key_exists('message', $license_information)){
 			?>
@@ -119,7 +128,7 @@ if(isset($_GET["tab"])) {
                                                 <tr><td><strong>Plugin setting</strong></td><td><strong>Off / On</strong></td></tr>
 
 						<form action="" method="post">
-						<tr>
+						<tr class="<?php print"$elite_disable";?>" id="json_option">
 							<td>
 								<span>Increase the number of products that will be approved in Google's Merchant Center:<br/>
 								This option will fix WooCommerce's (JSON-LD) structured data bug and add extra structured data elements to your pages (<a href="https://adtribes.io/woocommerce-structured-data-bug/" target="_blank">Read more about this)</a></span>
@@ -139,7 +148,7 @@ if(isset($_GET["tab"])) {
 							</td>
 						</tr>
 
-						<tr>
+						<tr class="<?php print"$elite_disable";?>" id="identifier_option">
 							<td>
 								<span>Add GTIN, MPN, UPC, EAN, Product condition, Optimised title, Installment, Unit measure and Brand attributes to your store: (<a href="https://adtribes.io/add-gtin-mpn-upc-ean-product-condition-optimised-title-and-brand-attributes/" target="_blank">Read more about this)</a></span>
 							</td>
@@ -157,7 +166,8 @@ if(isset($_GET["tab"])) {
                                                 		</label>
 							</td>
 						</tr>
-						<tr>
+		
+						<tr class="<?php print"$elite_disable";?>" id="wpml_option">
 							<td>
 								<span>Enable WPML support: (<a href="https://adtribes.io/wpml-support/" target="_blank">Read more about this)</a></span>
 							</td>
@@ -175,7 +185,8 @@ if(isset($_GET["tab"])) {
                                                 		</label>
 							</td>
 						</tr>
-						<tr>
+
+						<tr class="<?php print"$elite_disable";?>" id="aelia_option">
 							<td>
 								<span>Enable Aelia Currency Switcher support: (<a href="https://adtribes.io/aelia-currency-switcher-feature/" target="_blank">Read more about this)</a></span>
 							</td>

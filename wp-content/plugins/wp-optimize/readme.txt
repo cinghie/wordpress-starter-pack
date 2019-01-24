@@ -4,7 +4,7 @@ Donate link: https://david.dw-perspective.org.uk/donate
 Tags: comments, spam, optimize, database, revisions, users, posts, trash, schedule, automatic, clean, phpmyadmin, meta, postmeta, responsive, mobile
 Requires at least: 3.8
 Tested up to: 5.0
-Stable tag: 2.2.10
+Stable tag: 2.2.11
 License: GPLv2+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -142,6 +142,11 @@ Please check your database for corrupted tables. That can happen, usually your w
 4. Settings
 
 == Changelog ==
+
+= 2.2.11 - 16/Jan/2019 =
+
+* FIX: A regression in the "identify table by owner" feature caused optimizing to silently fail on some tables
+* TWEAK: Added ability to exclude lazy load images by class
 
 = 2.2.10 - 11/Jan/2019 =
 
@@ -461,4 +466,4 @@ Please check your database for corrupted tables. That can happen, usually your w
 * Fix Interface
 
 == Upgrade Notice ==
-* 2.2.10 : Fix a few annoyances/errors on some installs. A recommended update for all.
+* 2.2.11 : Fix a silent failure in optimization for some tables. A recommended update for all.

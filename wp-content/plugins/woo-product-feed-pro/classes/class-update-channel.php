@@ -151,7 +151,7 @@ class WooSEA_Update_Project {
                 $external_path = $external_base . "/woo-product-feed-pro/" . $project_config['fileformat'];
 		$project_config['external_file'] = $external_path . "/" . sanitize_file_name($project_config['filename']) . "." . $project_config['fileformat'];
 
-		if((array_key_exists('page', $project_data)) AND ($project_data['page'] == "analytics")){
+		if((array_key_exists('woosea_page', $project_data)) AND ($project_data['woosea_page'] == "analytics")){
 			/**
 			 * Did the Google Analytics UTM code part got disabled?
 			 */
@@ -179,7 +179,7 @@ class WooSEA_Update_Project {
 		/**
 		 * Did all the filters got removed
 	  	 */
-                if((array_key_exists('page', $project_data)) AND ($project_data['page'] == "filters_rules")){
+                if((array_key_exists('woosea_page', $project_data)) AND ($project_data['woosea_page'] == "filters_rules")){
 			if(!array_key_exists('rules', $project_data)) {
 				unset($project_config['rules']);
 			}
@@ -188,7 +188,7 @@ class WooSEA_Update_Project {
 		/**
 		 * Did all the rules got removed
 		 */
-                if((array_key_exists('page', $project_data)) AND ($project_data['page'] == "filters_rules")){
+                if((array_key_exists('woosea_page', $project_data)) AND ($project_data['woosea_page'] == "filters_rules")){
 			if(!array_key_exists('rules2', $project_data)) {
 				unset($project_config['rules2']);
 			}

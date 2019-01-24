@@ -44,7 +44,7 @@ $option8['sfsi_form_button_background'] = (isset($option8['sfsi_form_button_back
         <?php sfsi_curl_error_notification(); ?>
     </div>
 	<?php
-		$connectToFeed = "http://www.specificfeeds.com/?".base64_encode("userprofile=wordpress&feed_id=".$feedId);
+		$connectToFeed = "https://www.specificfeeds.com/?".base64_encode("userprofile=wordpress&feed_id=".$feedId);
 	?>
     <p>
 		In addition to the email- and follow-icon you can also show a subscription form which maximizes chances that people subscribe to your site.

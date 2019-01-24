@@ -194,7 +194,7 @@
  <!-- all pops of plugin under sfsi_pop_content.php file -->
  <?php include(SFSI_DOCROOT.'/views/sfsi_pop_content.php'); ?>
 </div> <!-- START Admin view for plugin-->
-<?php if(in_array(get_site_url(),['http://www.managingio.com','http://blog-latest.socialshare.com','http://wp.192.168.0.135.xip.io'])): ?>
+<?php if(in_array(get_site_url(),array('http://www.managingio.com','http://blog-latest.socialshare.com'))): ?>
     <div style="text-align:center">
         <input type="text" name="domain" id="sfsi_domain_input" style="width:40%;min-height: :40px;text-align:center;margin:0 auto" placeholder="Enter Domian to check its theme" />
         <div class="save_button">

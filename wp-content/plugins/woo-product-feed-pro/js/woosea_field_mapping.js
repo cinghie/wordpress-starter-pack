@@ -144,7 +144,8 @@ jQuery(document).ready(function($) {
 
 	jQuery('.select-field').change(function(){
 		if ($(this).val() == "static_value") {
-			var rownr = $(this).closest("tr").prevAll("tr").length;
+//			var rownr = $(this).closest("tr").prevAll("tr").length;
+			var rownr = $(this).closest('tr').attr("class").split(' ')[1];
 			$(this).replaceWith('<input type="text" name="attributes[' + rownr + '][mapfrom]" class="input-field-midsmall"><input type="hidden" name="attributes[' + rownr + '][static_value]" value="true">');
 		}
 	});

@@ -51,9 +51,6 @@ if (array_key_exists('project_hash', $_GET)){
                 	</div>
 			<form id="rulesandfilters" method="post">
 
-			<!--
-			<input type="hidden" name="page" value="filters">
-			-->
 			<table class="woo-product-feed-pro-table" id="woosea-ajax-table" border="1">
 				<thead>
             				<tr>
@@ -364,7 +361,7 @@ if (array_key_exists('project_hash', $_GET)){
                                                 if(isset($manage_project)){
                                                 ?>
 							<input type="hidden" name="project_hash" value="<?php print "$project[project_hash]";?>">
-                		                	<input type="hidden" name="page" value="filters_rules">
+                		                	<input type="hidden" name="woosea_page" value="filters_rules">
                 		                	<input type="hidden" name="step" value="100">
                        	       				<input type="button" class="delete-row" value="- Delete">&nbsp;<input type="button" class="add-filter" value="+ Add filter">&nbsp;<input type="button" class="add-rule" value="+ Add rule">&nbsp;<input type="submit" id="savebutton" value="Save">
 						<?php

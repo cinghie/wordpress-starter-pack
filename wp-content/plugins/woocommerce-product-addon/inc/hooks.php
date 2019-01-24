@@ -145,7 +145,7 @@ function ppom_hooks_load_input_scripts( $product ) {
     $ppom		= new PPOM_Meta( $product_id );
 	if( ! $ppom->fields ) return '';
 	
-    $ppom_meta_settings = $ppom->settings;
+    $ppom_meta_settings = $ppom->ppom_settings;
     $ppom_meta_fields = $ppom->fields;
     
     $ppom_inputs        	= array();
@@ -630,7 +630,7 @@ function ppom_hooks_render_shortcode( $atts ) {
     					'default_error_message'	=> __('it is a required field.', 'ppom'));
     wp_localize_script( 'woopa-ajax-validation', 'woopa_vars', $woopa_vars);*/
     
-    $template_vars = array('ppom_settings'  => $ppom->settings,
+    $template_vars = array('ppom_settings'  => $ppom->ppom_settings,
     						'product'	=> $product);
     
     ppom_load_template ( 'v10/render-fields.php', $template_vars );

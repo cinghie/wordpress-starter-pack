@@ -17,6 +17,11 @@ class WooSEA_facebook_drm {
 					"format" => "required",
 					"woo_suggest" => "id",
 				),
+				"override" => array(
+					"name" => "override",
+					"feed_name" => "g:override",
+					"format" => "optional",
+				),
 				"availability" => array(
 					"name" => "availability",
 					"feed_name" => "g:availability",

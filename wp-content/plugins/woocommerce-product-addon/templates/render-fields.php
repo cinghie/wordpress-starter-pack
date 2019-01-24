@@ -377,6 +377,7 @@ foreach( $ppom_fields_meta as $meta ) {
     				$onetime = isset($meta['onetime']) ? $meta['onetime'] : '';
                 	$taxable		= (isset( $meta['onetime_taxable'] ) ? $meta['onetime_taxable'] : '' );
                 	$display_circle	= (isset($meta['circle']) && $meta['circle'] == 'on') ? true : false;
+                	$multiple_allowed	= isset($meta['multiple_allowed']) ? $meta['multiple_allowed'] : '';
                 	
 					$ppom_field_setting = array(  
                     				'id'        => $data_name,
@@ -391,6 +392,7 @@ foreach( $ppom_fields_meta as $meta ) {
                                     'onetime'		=> $onetime,
 					            	'taxable'		=> $taxable,
 					            	'display_circle'	=> $display_circle,
+					            	'multiple_allowed' => $multiple_allowed,
                                     
                                     );
                     
