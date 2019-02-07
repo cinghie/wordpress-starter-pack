@@ -324,6 +324,7 @@ class WooSEA_Get_Products {
 		$zone_details = array();
 		$base_location = wc_get_base_location();
 		$base_country = $base_location['country'];
+		$from_currency = get_woocommerce_currency();
 
 		// Normal shipping set-up
 		$zone_count = count($shipping_arr)+1;
@@ -356,126 +357,177 @@ class WooSEA_Get_Products {
 				} else {
 					// Unknown shipping zone type
 				}
-			}
+		
+				// Get the g:services and g:prices, because there could be multiple services the $shipping_arr could multiply again
+				// g:service = "Method title - Shipping class costs"
+				// for example, g:service = "Estimated Shipping - Heavy shipping". g:price would be 180			
+            	   	      	$shipping_methods     = $zone['shipping_methods'];
 
-			// Get the g:services and g:prices, because there could be multiple services the $shipping_arr could multiply again
-			// g:service = "Method title - Shipping class costs"
-			// for example, g:service = "Estimated Shipping - Heavy shipping". g:price would be 180			
-               	      	$shipping_methods     = $zone['shipping_methods'];
+				foreach ($shipping_methods as $k => $v){
 
-			foreach ($shipping_methods as $k => $v){
-
-				if($v->enabled == "yes"){
-					if(empty($zone_details['country'])){
-						$zone_details['service'] = $zone['zone_name'] ." ". $v->title;					
-					} else {
-						$zone_details['service'] = $zone['zone_name'] ." ". $v->title ." ".$zone_details['country'];					
-					}
-					$taxable = $v->tax_status;
-
-					if(isset($v->instance_settings['cost'])){
-						$shipping_cost = $v->instance_settings['cost'];
-						if(!$shipping_cost){
-							$shipping_cost = 0;
+					if($v->enabled == "yes"){
+						if(empty($zone_details['country'])){
+							$zone_details['service'] = $zone['zone_name'] ." ". $v->title;					
+						} else {
+							$zone_details['service'] = $zone['zone_name'] ." ". $v->title ." ".$zone_details['country'];					
 						}
+						$taxable = $v->tax_status;
 
-						if($taxable == "taxable"){
-							foreach ($tax_rates as $k => $w){
-								if((isset($w['shipping'])) and ($w['shipping'] == "yes")){
-									$rate = (($w['rate']+100)/100);
-									$shipping_cost = str_replace(",", ".", $shipping_cost);
-									$shipping_cost = $shipping_cost*$rate;
-									$shipping_cost = round($shipping_cost, 2);
-								}
+						if(isset($v->instance_settings['cost'])){
+							$shipping_cost = $v->instance_settings['cost'];
+							if(!$shipping_cost){
+								$shipping_cost = 0;
 							}
-						}
-					}
 
-					// CLASS SHIPPING COSTS
-        		                 if(isset($v->instance_settings[$class_cost_id])){
-						if (is_numeric($v->instance_settings[$class_cost_id])){
-							//$shipping_cost = ($v->instance_settings[$class_cost_id]+$shipping_cost);
-							$shipping_cost = $v->instance_settings[$class_cost_id];
-	
+                        				// Do we need to convert the shipping costswith the Aelia Currency Switcher
+                        				if((isset($project_config['AELIA'])) AND (!empty($GLOBALS['woocommerce-aelia-currencyswitcher'])) AND (get_option ('add_aelia_support') == "yes")){
+                               					if(!array_key_exists('base_currency', $project_config)){
+                               	        	 			$from_currency = get_woocommerce_currency();
+                               	 				} else {
+                                        				$from_currency = $project_config['base_currency'];
+                                				}
+
+                                				// Get Aelia currency conversion prices
+                                				$shipping_cost = apply_filters('wc_aelia_cs_convert', $shipping_cost, $from_currency, $project_config['AELIA']);
+							}
+
 							if($taxable == "taxable"){
 								foreach ($tax_rates as $k => $w){
-
 									if((isset($w['shipping'])) and ($w['shipping'] == "yes")){
 										$rate = (($w['rate']+100)/100);
+										$shipping_cost = str_replace(",", ".", $shipping_cost);
 										$shipping_cost = $shipping_cost*$rate;
 										$shipping_cost = round($shipping_cost, 2);
 									}
 								}
 							}
-						} else {
+						}
+
+						// CLASS SHIPPING COSTS
+        		        	     	if(isset($v->instance_settings[$class_cost_id])){
+							if (is_numeric($v->instance_settings[$class_cost_id])){
 							$shipping_cost = $v->instance_settings[$class_cost_id];
-							$shipping_cost = str_replace("[qty]", "1", $shipping_cost);	
-						    	$mathString = trim($shipping_cost);     // trim white spaces
-							if (preg_match("/fee percent/", $mathString)){
- 								$shipcost_piece = explode("+", $mathString);
-								$mathString = trim($shipcost_piece[0]);
-							}
 
-    							$mathString = str_replace ('..', '.', $mathString);    // remove input mistakes from users using shipping formula's
-    							$mathString = preg_replace ('[^0-9\+-\*\/\(\)]', '', $mathString);    // remove any non-numbers chars; exception for math operators
-							$mathString = str_replace(array('\'', '"', ','), '', $mathString); 
+								// Do we need to convert the shipping costswith the Aelia Currency Switcher
+                                                		if((isset($project_config['AELIA'])) AND (!empty($GLOBALS['woocommerce-aelia-currencyswitcher'])) AND (get_option ('add_aelia_support') == "yes")){
+                                					if(!array_key_exists('base_currency', $project_config)){
+                                        					$from_currency = get_woocommerce_currency();
+                                					} else {
+                                        					$from_currency = $project_config['base_currency'];
+                                					}
 
-							if(!empty($mathString)){
-								eval("\$mathString = $mathString;");
-								$shipping_cost = $mathString;
-				
+                                                     	   		// Get Aelia currency conversion prices
+                                                        		$shipping_cost = apply_filters('wc_aelia_cs_convert', $shipping_cost, $from_currency, $project_config['AELIA']);
+                                                		}
+	
 								if($taxable == "taxable"){
 									foreach ($tax_rates as $k => $w){
 
 										if((isset($w['shipping'])) and ($w['shipping'] == "yes")){
 											$rate = (($w['rate']+100)/100);
-											if(is_numeric($shipping_cost)){
-												$shipping_cost = $shipping_cost*$rate;
-												$shipping_cost = round($shipping_cost, 2);
+											$shipping_cost = $shipping_cost*$rate;
+											$shipping_cost = round($shipping_cost, 2);
+										}
+									}
+								}
+							} else {
+								$shipping_cost = $v->instance_settings[$class_cost_id];
+								$shipping_cost = str_replace("[qty]", "1", $shipping_cost);	
+							    	$mathString = trim($shipping_cost);     // trim white spaces
+								if (preg_match("/fee percent/", $mathString)){
+ 									$shipcost_piece = explode("+", $mathString);
+									$mathString = trim($shipcost_piece[0]);
+								}
+
+    								$mathString = str_replace ('..', '.', $mathString);    // remove input mistakes from users using shipping formula's
+    								$mathString = preg_replace ('[^0-9\+-\*\/\(\)]', '', $mathString);    // remove any non-numbers chars; exception for math operators
+								$mathString = str_replace(array('\'', '"', ','), '', $mathString); 
+
+								if(!empty($mathString)){
+									eval("\$mathString = $mathString;");
+									$shipping_cost = $mathString;
+				
+									if($taxable == "taxable"){
+										foreach ($tax_rates as $k => $w){
+
+											if((isset($w['shipping'])) and ($w['shipping'] == "yes")){
+												$rate = (($w['rate']+100)/100);
+												if(is_numeric($shipping_cost)){
+													$shipping_cost = $shipping_cost*$rate;
+													$shipping_cost = round($shipping_cost, 2);
+												}
 											}
 										}
 									}
 								}
+
+								// Do we need to convert the shipping costswith the Aelia Currency Switcher
+                                          	     	 	if((isset($project_config['AELIA'])) AND (!empty($GLOBALS['woocommerce-aelia-currencyswitcher'])) AND (get_option ('add_aelia_support') == "yes")){
+                                					if(!array_key_exists('base_currency', $project_config)){
+                                        					$from_currency = get_woocommerce_currency();
+                                					} else {
+                                        					$from_currency = $project_config['base_currency'];
+                                					}
+                                                       	 		// Get Aelia currency conversion prices
+                                                        		$shipping_cost = apply_filters('wc_aelia_cs_convert', $shipping_cost, $from_currency, $project_config['AELIA']);
+                                                		}
 							}
-						}
-                            		}
+                            			}
 
-					// FREE SHIPPING COSTS IF MINIMUM FEE REACHED
-					if($v->id == "free_shipping"){
-						$minimum_fee = $v->min_amount;
-						$currency = get_woocommerce_currency();
-						if(isset($project_config['WCML'])){
-							$currency = $project_config['WCML'];
-						}
+						// FREE SHIPPING COSTS IF MINIMUM FEE REACHED
+						if($v->id == "free_shipping"){
+							$minimum_fee = $v->min_amount;
+                                			if(!array_key_exists('base_currency', $project_config)){
+                                 	      	 		$currency = get_woocommerce_currency();
+                                			} else {
+                                        			$currency = $project_config['base_currency'];
+                                			}
+ 
+							if(isset($project_config['WCML'])){
+								$currency = $project_config['WCML'];
+							}
+							if(isset($project_config['AELIA'])){
+								$currency = $project_config['AELIA'];
+							}
 
-						// Only Free Shipping when prodict price is over or equal to minimum order fee	
-						if ($price >= $minimum_fee){
-							$shipping_cost = 0;
-                                			$zone_details['price'] = trim($currency." ".$shipping_cost);
-						} else {
-							// There are no free shipping requirements
-							if($v->requires == ""){
+							// Only Free Shipping when prodict price is over or equal to minimum order fee	
+							if ($price >= $minimum_fee){
 								$shipping_cost = 0;
-        	                        			$zone_details['price'] = trim($currency." ".$shipping_cost);
+                                				$zone_details['price'] = trim($currency." ".$shipping_cost);
 							} else {
-								// No need to add the free shipping zone as it is not eligable
-								break;
+								// There are no free shipping requirements
+								if($v->requires == ""){
+									$shipping_cost = 0;
+        	                        				$zone_details['price'] = trim($currency." ".$shipping_cost);
+								} else {
+									// No need to add the free shipping zone as it is not eligable
+									break;
+								}
 							}
 						}
-					}
 
-					if($shipping_cost >= 0){
-                              	  		$currency = get_woocommerce_currency();
-						if(isset($project_config['WCML'])){
-							$currency = $project_config['WCML'];
+						if($shipping_cost >= 0){
+                       		       	  		$currency = get_woocommerce_currency();
+							if(isset($project_config['WCML'])){
+								$currency = $project_config['WCML'];
+							} else {
+								if(isset($project_config['AELIA'])){
+									$currency = $project_config['AELIA'];
+								} else {
+	                       	    	   	  			if(!array_key_exists('base_currency', $project_config)){
+        	                                				$currency = get_woocommerce_currency();
+                	                				} else {
+                        	                				$currency = $project_config['base_currency'];
+									}
+								}
+							}
+                                			$zone_details['price'] = trim($currency." ".$shipping_cost);
 						}
-                                		$zone_details['price'] = trim($currency." ".$shipping_cost);
-					}
 	
-					// This shipping zone has postal codes so multiply the zone details
-					$nr_postals = count($postal_code);
-					if ($nr_postals > 0){
-						//if(!empty($shipping_cost)){
+						// This shipping zone has postal codes so multiply the zone details
+						$nr_postals = count($postal_code);
+						if ($nr_postals > 0){
+							//if(!empty($shipping_cost)){
 							for ($x = 0; $x <= count($postal_code); ) {
 								$zone_count++;
 								if(!empty($postal_code[$x])){
@@ -485,11 +537,12 @@ class WooSEA_Get_Products {
 								$x++;	
 							}
 						//}		
-					} else {
-						$zone_count++;
-						$shipping_arr[$zone_count] = $zone_details;
-					}
-				}	
+						} else {
+							$zone_count++;
+							$shipping_arr[$zone_count] = $zone_details;
+						}
+					}	
+				}
 			}
 		}
 		return $shipping_arr;
@@ -802,28 +855,33 @@ class WooSEA_Get_Products {
 										}
 									}
 								} elseif ($k == "shipping"){
-
-									$ship = explode("||", $v);
-                                                                      	foreach ($ship as $kk => $vv){
-										$ship_zone = $product->addChild('shipping');
-                                                                            	$ship_split = explode(":", $vv);
+									$expl = "||";
+									if(strpos($v, $expl)) {
+										$ship = explode("||", $v);
+                                                                      		foreach ($ship as $kk => $vv){
+											$ship_zone = $product->addChild('shipping');
+                                                                            		$ship_split = explode(":", $vv);
 		
-                                                                            	foreach($ship_split as $ship_piece){
-                                                                                	$piece_value = explode("##", $ship_piece);
-                                                                                      	if (preg_match("/WOOSEA_COUNTRY/", $ship_piece)){
-                                                                                		$shipping_country = $ship_zone->addChild('country', htmlspecialchars($piece_value[1]));
-                                                                                      	} elseif (preg_match("/WOOSEA_REGION/", $ship_piece)){
-                                                                                		$shipping_region = $ship_zone->addChild('region', htmlspecialchars($piece_value[1]));
-                                                                                     	} elseif (preg_match("/WOOSEA_POSTAL_CODE/", $ship_piece)){
-                                                                                		$postal_code = $ship_zone->addChild('postal_code', htmlspecialchars($piece_value[1]));
-                                                                                    	} elseif (preg_match("/WOOSEA_SERVICE/", $ship_piece)){
-                                                                                		$shipping_service = $ship_zone->addChild('service', htmlspecialchars($piece_value[1]));
-                                                                                     	} elseif (preg_match("/WOOSEA_PRICE/", $ship_piece)){
-                                                                                		$shipping_price = $ship_zone->addChild('price', htmlspecialchars($piece_value[1]));
-                                                                                      	} else {
-                                                                                        	// DO NOT ADD ANYTHING
-                                                                                      	}
-                                                                             	}
+                                                                           	 	foreach($ship_split as $ship_piece){
+                                                                                		$piece_value = explode("##", $ship_piece);
+                                                                                 	     	if (preg_match("/WOOSEA_COUNTRY/", $ship_piece)){
+                                                                                			$shipping_country = $ship_zone->addChild('country', htmlspecialchars($piece_value[1]));
+                                                                              	        	} elseif (preg_match("/WOOSEA_REGION/", $ship_piece)){
+                                                                               		 		$shipping_region = $ship_zone->addChild('region', htmlspecialchars($piece_value[1]));
+                                                                            	         	} elseif (preg_match("/WOOSEA_POSTAL_CODE/", $ship_piece)){
+                                                                               		 		$postal_code = $ship_zone->addChild('postal_code', htmlspecialchars($piece_value[1]));
+                                                                              	      		} elseif (preg_match("/WOOSEA_SERVICE/", $ship_piece)){
+                                                                                			$shipping_service = $ship_zone->addChild('service', htmlspecialchars($piece_value[1]));
+                                                                                     		} elseif (preg_match("/WOOSEA_PRICE/", $ship_piece)){
+                                                                                			$shipping_price = $ship_zone->addChild('price', htmlspecialchars($piece_value[1]));
+                                                                                      		} else {
+                                                                                        		// DO NOT ADD ANYTHING
+                                                                                      		}
+                                                                             		}
+										}
+									} else {
+										$child = "shipping";
+										$product->$k = $v;	
 									}
 								} elseif ($k == "category_link"){
 									$category = $product->addChild('category_links');
@@ -887,7 +945,7 @@ class WooSEA_Get_Products {
          * Returns relative and absolute file path
 	 */	
 	public function woosea_create_csvtxt_feed ( $products, $feed_config, $header ) {
-		
+
 		$upload_dir = wp_upload_dir();
 		$base = $upload_dir['basedir'];
  		$path = $base . "/woo-product-feed-pro/" . $feed_config['fileformat'];
@@ -958,12 +1016,45 @@ class WooSEA_Get_Products {
 				if ($feed_config['fields'] == "google_local"){
 					$tab_line = "";
 
-					foreach ($pieces as $t_key => $t_value){
-						$tab_line .= $t_value . "$csv_delimiter";
+					if($header == "false"){
+                				// Get the store codes
+                                		//$stores_local = array_key_first($feed_config['attributes']);
+						foreach ($feed_config['attributes'] as $k=>$v){
+						    	if(preg_match('/\|/', $k)){
+								$stores_local = $k;
+							}
+						}
+
+						$store_ids = explode("|", $stores_local);
+						if(is_array($store_ids)){
+						
+							foreach ($store_ids as $store_key => $store_value){
+								$pieces[0] = $store_value;
+								foreach ($pieces as $t_key => $t_value){
+									$tab_line .= $t_value . "$csv_delimiter";
+								}
+								$tab_line = rtrim($tab_line, $csv_delimiter);
+								$tab_line .= PHP_EOL;
+							}		
+							fwrite($fp, $tab_line);
+						} else {
+							// Only one store code entered
+							foreach ($pieces as $t_key => $t_value){
+								$tab_line .= $t_value . "$csv_delimiter";
+							}
+							
+							$tab_line = rtrim($tab_line, $csv_delimiter);
+							$tab_line .= PHP_EOL;
+							fwrite($fp, $tab_line);
+						}
+					} else {
+						foreach ($pieces as $t_key => $t_value){
+							$tab_line .= $t_value . "$csv_delimiter";
+						}
+						$tab_line = rtrim($tab_line, $csv_delimiter);
+						$tab_line .= PHP_EOL;
+						fwrite($fp, $tab_line);
 					}
-					$tab_line = rtrim($tab_line, $csv_delimiter);
-					$tab_line .= PHP_EOL;
-					fwrite($fp, $tab_line);
 				} else {
 					$tofile = fputcsv($fp, $pieces, $csv_delimiter, '"');
 				}
@@ -1419,8 +1510,12 @@ class WooSEA_Get_Products {
 
 			// Do we need to convert all of the above prices with the Aelia Currency Switcher
 			if((isset($project_config['AELIA'])) AND (!empty($GLOBALS['woocommerce-aelia-currencyswitcher'])) AND (get_option ('add_aelia_support') == "yes")){
-				$from_currency = get_woocommerce_currency();
-			
+				if(!array_key_exists('base_currency', $project_config)){
+					$from_currency = get_woocommerce_currency();
+				} else {
+					$from_currency = $project_config['base_currency'];
+				}		
+
 				// Get Aelia currency conversion prices
 				$product_data['price'] = apply_filters('wc_aelia_cs_convert', $product_data['price'], $from_currency, $project_config['AELIA']);
 				$product_data['regular_price'] = apply_filters('wc_aelia_cs_convert', $product_data['regular_price'], $from_currency, $project_config['AELIA']);
@@ -1435,7 +1530,11 @@ class WooSEA_Get_Products {
 				$product_data['net_sale_price'] = apply_filters('wc_aelia_cs_convert', $product_data['net_sale_price'], $from_currency, $project_config['AELIA']);
 	
 				// Get Aelia manually inserted currency prices
-				$regular_aelia_prices = get_post_meta($product_data['id'], '_regular_currency_prices', true);
+				if($product->is_type('simple')){
+					$regular_aelia_prices = get_post_meta($product_data['id'], '_regular_currency_prices', true);
+				} else {
+					$regular_aelia_prices = get_post_meta($product_data['id'], 'variable_regular_currency_prices', true);
+				}
 				$regular_aelia_prices = trim($regular_aelia_prices, "}");
 				$regular_aelia_prices = trim($regular_aelia_prices, "{");
 
@@ -1446,12 +1545,16 @@ class WooSEA_Get_Products {
 						$reg_cur = trim($regulars[0], "\"");
 						$reg_val = trim($regulars[1], "\"");
 						if($reg_cur == $project_config['AELIA']){
-							$product_data['price'] = $reg_val;
+							$product_data['regular_price'] = $reg_val;
 						}
 					}
 				}
 
-				$sale_aelia_prices = get_post_meta($product_data['id'], '_sale_currency_prices', true);
+				if($product->is_type('simple')){
+					$sale_aelia_prices = get_post_meta($product_data['id'], '_sale_currency_prices', true);
+				} else {
+					$sale_aelia_prices = get_post_meta($product_data['id'], 'variable_sale_currency_prices', true);
+				}
 				$sale_aelia_prices = trim($sale_aelia_prices, "}");
 				$sale_aelia_prices = trim($sale_aelia_prices, "{");
 
@@ -1466,11 +1569,10 @@ class WooSEA_Get_Products {
 						}
 					}
 				}
-			
+
 			}
 
 			// Localize the price attributes
-
 			$product_data['price'] = wc_format_localized_price($product_data['price']);
 			$product_data['regular_price'] = wc_format_localized_price($product_data['regular_price']);
 			$product_data['sale_price'] = wc_format_localized_price($product_data['sale_price']);
@@ -1965,14 +2067,18 @@ class WooSEA_Get_Products {
 			 * Rules execution
 			 */
 			if (array_key_exists('rules2', $project_config)){
-				$product_data = $this->woocommerce_sea_rules( $project_config['rules2'], $product_data ); 
+				if(is_array($product_data)){
+					$product_data = $this->woocommerce_sea_rules( $project_config['rules2'], $product_data ); 
+				}
 			}
 
 			/**
 			 * Filter execution
 			 */
 			if (array_key_exists('rules', $project_config)){
-				$product_data = $this->woocommerce_sea_filters( $project_config['rules'], $product_data ); 
+				if(is_array($product_data)){
+					$product_data = $this->woocommerce_sea_filters( $project_config['rules'], $product_data ); 
+				}
 			}
 
 			/**
@@ -2220,6 +2326,8 @@ class WooSEA_Get_Products {
 														
 														if(($attr_value['attribute'] == "g:link") OR ($attr_value['attribute'] == "link")){
 															$xml_product[$attr_value['attribute']] = "$attr_value[prefix] ". $product_data[$attr_value['mapfrom']] ."$attr_value[suffix]";	
+														} elseif(($attr_value['attribute'] == "g:id") OR ($attr_value['attribute'] == "id")){
+															$xml_product[$attr_value['attribute']] = "$attr_value[prefix]". $product_data[$attr_value['mapfrom']] ."$attr_value[suffix]";	
 														} else {
 															$xml_product[$attr_value['attribute']] = "$attr_value[prefix] ". $product_data[$attr_value['mapfrom']] ." $attr_value[suffix]";	
 														}
@@ -2956,8 +3064,8 @@ class WooSEA_Get_Products {
 			$allowed = 0;
 		}
 
-
 		foreach ($project_rules as $pr_key => $pr_array){
+
 			if(array_key_exists($pr_array['attribute'], $product_data)){
 
 				foreach ($product_data as $pd_key => $pd_value){
@@ -3037,53 +3145,96 @@ class WooSEA_Get_Products {
 									break;
 							}
 						} elseif (is_array($pd_value)){
+						
 							// Tis can either be a shipping or product_tag array
 							if($pr_array['attribute'] == "product_tag"){
 								foreach ($pd_value as $k => $v){
 									switch ($pr_array['condition']) {
 										case($pr_array['condition'] = "contains"):
 											if ((preg_match('/'.$pr_array['criteria'].'/', $v))){
-												$allowed = 0;	
+												if($pr_array['than'] == "include_only"){
+													$allowed = 1;
+												} else {
+													$allowed = 0;
+												}
+											} else {
+												$allowed = 0;
 											}
 											break;
 										case($pr_array['condition'] = "containsnot"):
 											if ((!preg_match('/'.$pr_array['criteria'].'/', $v))){
+												if($pr_array['than'] == "include_only"){
+													$allowed = 1;
+												} else {
+													$allowed = 0;
+												}
+											} else {
 												$allowed = 0;
 											}
 											break;
 										case($pr_array['condition'] = "="):
 											if (($v == $pr_array['criteria'])){
+												if($pr_array['than'] == "include_only"){
+													$allowed = 1;
+												} else {
+													$allowed = 0;
+												}
+											} else {
 												$allowed = 0;
 											}
 											break;
 										case($pr_array['condition'] = "!="):
 											if (($v != $pr_array['criteria'])){
-												$allowed = 0;
+												if($pr_array['than'] == "include_only"){
+													$allowed = 1;
+												} else {	
+													$allowed = 0;
+												}
 											}
 											break;
 										case($pr_array['condition'] = ">"):
 											if (($v > $pr_array['criteria'])){
-												$allowed = 0;
+												if($pr_array['than'] == "include_only"){
+													$allowed = 1;
+												} else {	
+													$allowed = 0;
+												}
 											}
     											break;
 										case($pr_array['condition'] = ">="):
 											if (($v >= $pr_array['criteria'])){
-												$allowed = 0;
+												if($pr_array['than'] == "include_only"){
+													$allowed = 1;
+												} else {	
+													$allowed = 0;
+												}
 											}
 											break;
 										case($pr_array['condition'] = "<"):
 											if (($v < $pr_array['criteria'])){
-												$allowed = 0;
+												if($pr_array['than'] == "include_only"){
+													$allowed = 1;
+												} else {	
+													$allowed = 0;
+												}
 											}
 											break;
 										case($pr_array['condition'] = "=<"):
 											if (($v <= $pr_array['criteria'])){
-												$allowed = 0;
+												if($pr_array['than'] == "include_only"){
+													$allowed = 1;
+												} else {	
+													$allowed = 0;
+												}
 											}
 											break;
 										case($pr_array['condition'] = "empty"):
 											if (strlen($v) < 1){
-												$allowed = 0;
+												if($pr_array['than'] == "include_only"){
+													$allowed = 1;
+												} else {	
+													$allowed = 0;
+												}
 											}
 											break;
 										default:

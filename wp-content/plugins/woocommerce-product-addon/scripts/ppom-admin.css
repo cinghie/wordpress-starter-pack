@@ -208,8 +208,14 @@ ul.ppom-options-container li {
 }
 .ppom-tabs .ppom-handle-all-fields,
 .ppom-tabs .ppom-handle-condition,
-.ppom-tabs .ppom-handle-paired {
+.ppom-tabs .ppom-handle-paired,
+.ppom-tabs .ppom-handle-fontsfamily-fields,
+.ppom-tabs .ppom-handle-customfonts-fields {
     display: none;
+}
+.ppom-handle-fontsfamily-fields textarea,
+.ppom-handle-customfonts-fields textarea{
+    min-height: 206px;
 }
 .ppom-tabs  .ppom-tabs-label {
     display: inline-block;

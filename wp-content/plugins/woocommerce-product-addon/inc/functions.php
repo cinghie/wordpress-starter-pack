@@ -502,6 +502,14 @@ function ppom_has_posted_field_value( $posted_fields, $field ) {
 						}
 						
 					break;
+
+					case 'fonts':
+
+						if (isset($value['font']) && $value['font'] != '') {
+							$has_value = true;
+						}
+						
+					break;
 					
 					default:
 						if( $value != '' ) {
@@ -890,9 +898,16 @@ function ppom_generate_html_for_files( $file_names, $input_type, $item ) {
 			$order_html .= '<tr><td><a href="'.esc_url($ppom_file_url).'">';
 			$order_html .= '<img class="img-thumbnail" style="width:'.esc_attr(ppom_get_thumbs_size()).'" src="'.esc_url($ppom_file_thumb_url).'">';
 			$order_html .= '</a></td>';
-			$order_html .= '<td><a class="button" href="'.esc_url($ppom_file_url).'">';
-			$order_html .= __('Download File', 'ppom');
-			$order_html .= '</a></td></tr>';
+			
+			
+			// Requested by Kevin, hiding downloading file button after order on thank you page
+			// @since version 16.6
+			if( is_admin() ) {
+				$order_html .= '<td><a class="button" href="'.esc_url($ppom_file_url).'">';
+				$order_html .= __('Download File', 'ppom');
+				$order_html .= '</a></td>';
+			}
+			$order_html .= '</tr>';
 			
 			if( $input_type == 'cropper' ) {
 				
@@ -901,9 +916,16 @@ function ppom_generate_html_for_files( $file_names, $input_type, $item ) {
 					$order_html .= '<tr><td><a href="'.esc_url($cropped_url).'">';
 					$order_html .= '<img style="width:'.esc_attr(ppom_get_thumbs_size()).'" class="img-thumbnail" src="'.esc_url($cropped_url).'">';
 					$order_html .= '</a></td>';
-					$order_html .= '<td><a class="button" href="'.esc_url($cropped_url).'">';
-					$order_html .= __('Cropped', 'ppom');
-					$order_html .= '</a></td></tr>';
+					
+					// Requested by Kevin, hiding downloading file button after order on thank you page
+					// @since version 16.6
+					if( is_admin() ) {
+						$order_html .= '<td><a class="button" href="'.esc_url($cropped_url).'">';
+						$order_html .= __('Cropped', 'ppom');
+						$order_html .= '</a></td>';
+					}
+					$order_html .= '</tr>';
+					
 			} elseif( file_exists($file_edit_path) ) {
 				
 				$edit_file_name = ppom_file_get_name($file_name, $item->get_product_id());

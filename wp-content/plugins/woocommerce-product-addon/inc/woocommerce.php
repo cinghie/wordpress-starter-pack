@@ -51,15 +51,14 @@ function ppom_woocommerce_show_fields() {
         
         $ppom_bs_modal_css = PPOM_URL.'/css/bootstrap/bootstrap.modal.css';
         // $ppom_bs_css = '//stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css';
-        $ppom_popper_cdn = '//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js';
         
-        
+        // Description Tooltips JS File
+        wp_enqueue_script('ppom-tooltip', PPOM_URL."/scripts/ppom-tooltip.js", array('jquery') );
+
         wp_enqueue_style( 'ppom-bootstrap', $ppom_bs_css);
         wp_enqueue_style( 'ppom-bootstrap-modal', $ppom_bs_modal_css);
         
-        
-        wp_enqueue_script( 'ppom-popper', $ppom_popper_cdn, array('jquery'));
-        wp_enqueue_script( 'bootstrap-js', $ppom_bs_js, array('jquery','ppom-popper'));
+        wp_enqueue_script( 'bootstrap-js', $ppom_bs_js, array('jquery', 'ppom-tooltip'));
     }
     
     do_action('ppom_after_scripts_loaded', PPOM() -> productmeta_id, $product);
@@ -168,8 +167,8 @@ function ppom_check_validation($product_id, $post_data, $passed=true) {
 		if( ! ppom_has_posted_field_value($ppom_posted_fields, $field) ) {
 			
 			// Note: Checkbox is being validate by hook: ppom_has_posted_field_value
-			
-			$error_message = ($field['error_message'] != '') ? $title.": ".$field['error_message'] : "{$title} is a required field";
+			// $error_message = isset($field['error_message']) ? $field['error_message'] : '';
+			$error_message = (isset($field['error_message']) && $field['error_message'] != '') ? $title.": ".$field['error_message'] : "{$title} is a required field";
 			$error_message = sprintf ( __ ( '%s', 'ppom' ), $error_message );
 			$error_message = stripslashes ($error_message);
 			ppom_wc_add_notice( $error_message );

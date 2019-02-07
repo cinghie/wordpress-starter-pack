@@ -29,6 +29,11 @@ class WOE_Formatter_Xls extends WOE_Formatter_Plain_Format {
 		$this->string_format_force = apply_filters( "woe_{$format}_string_format_force", false );
 
 		$field_formats = $this->field_formats['order']; // overwrite! probably modified by parent
+		
+		if ( $this->settings['force_general_format'] ) {
+			foreach( array( "string", "date", "money", "number" ) as $type)
+				add_filter( "woe_xls_{$type}_format_fields", function($fields) { return array(); });
+		}
 
 		$this->string_format_fields = isset( $field_formats['string'] ) ? $field_formats['string'] : array();
 		$this->string_format_fields = apply_filters( "woe_{$format}_string_format_fields",
@@ -38,8 +43,11 @@ class WOE_Formatter_Xls extends WOE_Formatter_Plain_Format {
 		$this->date_format_fields = apply_filters( "woe_{$format}_date_format_fields", $this->date_format_fields );
 
 		$this->money_format_fields = isset( $field_formats['money'] ) ? $field_formats['money'] : array();
-		$this->money_format_fields = apply_filters( "woe_{$format}_date_money_fields", $this->money_format_fields );
+		$this->money_format_fields = apply_filters( "woe_{$format}_money_format_fields", $this->money_format_fields );
 
+		$this->number_format_fields = isset( $field_formats['number'] ) ? $field_formats['number'] : array();
+		$this->number_format_fields = apply_filters( "woe_{$format}_number_format_fields", $this->number_format_fields );
+		
 		if ( $mode != 'preview' ) {
 			//more memory for XLS?
 			ini_set( 'memory_limit', '512M' );
@@ -66,10 +74,9 @@ class WOE_Formatter_Xls extends WOE_Formatter_Plain_Format {
 			}
 
 			// Excel uses another format!	
-			$this->date_format  = apply_filters( 'woe_xls_date_format',
-				$this->convert_php_date_format( $date_format ) );
-			$this->money_format = apply_filters( 'woe_xls_money_format',
-				PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00 );
+			$this->date_format  = apply_filters( 'woe_xls_date_format', $this->convert_php_date_format( $date_format ) );
+			$this->money_format = apply_filters( 'woe_xls_money_format', PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00 );
+			$this->number_format = apply_filters( 'woe_xls_number_format', PHPExcel_Style_NumberFormat::FORMAT_NUMBER );
 			// Excel will format!
 			$this->auto_format_dates             = false;
 			$this->format_number_fields_original = $this->format_number_fields;
@@ -142,32 +149,26 @@ class WOE_Formatter_Xls extends WOE_Formatter_Plain_Format {
 				$this->last_row ++;
 				$pos = 0;
 				foreach ( $row as $field => $text ) {
-					if ( $this->string_format_force OR $this->field_format_is( $field,
-							$this->string_format_fields ) ) {// STRING
-						$this->objPHPExcel->getActiveSheet()->getStyleByColumnAndRow( $pos,
-							$this->last_row )->getNumberFormat()->setFormatCode( PHPExcel_Style_NumberFormat::FORMAT_TEXT );
-						$this->objPHPExcel->getActiveSheet()->setCellValueExplicitByColumnAndRow( $pos, $this->last_row,
-							$text );
-					} elseif ( $this->format_number_fields_original AND $this->field_format_is( $field,
-							$this->money_format_fields ) ) { // MONEY
-						$this->objPHPExcel->getActiveSheet()->getStyleByColumnAndRow( $pos,
-							$this->last_row )->getNumberFormat()->setFormatCode( $this->money_format );
-						$this->objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow( $pos, $this->last_row,
-							$text );
+					if ( $this->string_format_force OR $this->field_format_is( $field,$this->string_format_fields ) ) {// STRING
+						$this->objPHPExcel->getActiveSheet()->getStyleByColumnAndRow( $pos,$this->last_row )->getNumberFormat()->setFormatCode( PHPExcel_Style_NumberFormat::FORMAT_TEXT );
+						$this->objPHPExcel->getActiveSheet()->setCellValueExplicitByColumnAndRow( $pos, $this->last_row, $text );
+					} elseif ( $this->format_number_fields_original AND $this->field_format_is( $field, $this->money_format_fields ) ) { // MONEY
+						$this->objPHPExcel->getActiveSheet()->getStyleByColumnAndRow( $pos, $this->last_row )->getNumberFormat()->setFormatCode( $this->money_format );
+						$this->objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow( $pos, $this->last_row, $text );
+					} elseif ( $this->format_number_fields_original AND $this->field_format_is( $field, $this->number_format_fields ) ) { // NUMBER
+						$this->objPHPExcel->getActiveSheet()->getStyleByColumnAndRow( $pos, $this->last_row )->getNumberFormat()->setFormatCode( $this->number_format );
+						$this->objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow( $pos, $this->last_row, $text );
 					} elseif ( $this->field_format_is( $field, $this->date_format_fields ) ) {// DATE!
-						$this->objPHPExcel->getActiveSheet()->getStyleByColumnAndRow( $pos,
-							$this->last_row )->getNumberFormat()->setFormatCode( $this->date_format );
+						$this->objPHPExcel->getActiveSheet()->getStyleByColumnAndRow( $pos, $this->last_row )->getNumberFormat()->setFormatCode( $this->date_format );
 						if ( $text ) {
 							if ( empty( $this->settings['global_job_settings']['time_format'] ) ) { // must remove time!
 								$text = date( "Y-m-d", strtotime( $text ) );
 							}
 							$text = PHPExcel_Shared_Date::PHPToExcel( new DateTime( $text ) );
-							$this->objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow( $pos, $this->last_row,
-								$text );
+							$this->objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow( $pos, $this->last_row, $text );
 						}
 					} else {
-						$this->objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow( $pos, $this->last_row,
-							$text );
+						$this->objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow( $pos, $this->last_row, $text );
 					}
 					do_action( "woe_xls_format_cell", $this, $field, $text, $row, $pos );
 					$pos ++;

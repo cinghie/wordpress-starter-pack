@@ -8,103 +8,145 @@
 */ 
 if( ! defined('ABSPATH') ) die('Not Allowed');
 
+$ppom_site_url = 'https://najeebmedia.com/wordpress-plugin/woocommerce-personalized-product-option/';
 ?>
 
 <div class="ppom-nm-plugins-wrapper">
 
-	<div class="modal fade" id="ppom-nm-plugins-modal">
-		<div class="modal-dialog modal-lg">
-		    <div class="modal-content">
-		        <div class="modal-header">
-		            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		            <img alt="N-Media" src="<?php echo esc_url(PPOM_URL.'/images/nmedia-logo.png')?>" class="ppom-nm-logo">
-		            <h4 class="modal-title"><?php _e('N-Media Plugins', 'ppom');?></h4>
-		        </div>
-		        <div class="modal-body">
+	<div id="ppom-nm-plugins-modal" class="ppom-modal-box" style="display: none;">
+		    
+	    <header> 
+	        <img alt="N-Media" src="<?php echo esc_url(PPOM_URL.'/images/nmedia-logo.png')?>" class="ppom-nm-logo">
+	        <h3><?php _e('PPOM Addons', 'ppom');?></h3>
+	    </header>
 
-			    	<div class="row">
+	    <div class="ppom-modal-body">
+	    	<div class="row">
 
-			    		<!-- WooCommerce Checkout Fields Manager -->
-			    		<div class="col-md-12">
-			    			<div class="ppom-nm-card-block">
-			    				<div class="ppom-card-header">
-				    				<h3><?php _e('WooCommerce Checkout Fields Manager', 'ppom');?></h3>
-			    				</div>
-			    				<div class="ppom-card-body">
-				    				<p><?php _e('This plugin can control all field on checkout page. Even default billing and shipping fields can be edit, re-order or delete. More fields can also be added in three areas of checkout page like Billing, Shipping and after Order Notes. Also file/image can also be uploaded.', 'ppom');?></p>
-			    				</div>
-				    			<div class="ppom-card-footer">
-				    				<a class="btn btn-info" href="https://najeebmedia.com/wordpress-plugin/woocommerce-checkout-field-editor-plugin/"><?php _e('More Info...', 'ppom');?></a>
-				    			</div>
-			    			</div>
-			    		</div>
+	    		<!-- Addon - Texter -->
+	    		<div class="col-md-12">
+	    			<div class="ppom-nm-card-block">
+	    				<div class="ppom-card-header">
+		    				<h3><?php _e('Addon - Texter', 'ppom');?></h3>
+	    				</div>
+	    				<div class="ppom-card-body">
+		    				<p><?php _e('PPOM Texter Addon is the best and simple solution for web2print business using WooCommerce. Now define a fixed position and area for Text in your Templates like on Mug, T-shirt or Visiting Cards with preset font style, family, size. The client will fill the text with his all of its attributes and send to cart. It’s like a smart Product Designer. Multiple templates can also be attached to one product.', 'ppom');?></p>
+	    				</div>
+		    			<div class="ppom-card-footer">
+		    				<a class="btn btn-info" href="<?php echo esc_url($ppom_site_url) ?>#ppom-texter" target="_blank"><?php _e('More Info...', 'ppom');?></a>
+		    			</div>
+	    			</div>
+	    		</div>
 
-			    		<!-- WooCommerce 2Checkout Payment Gateway Plugin -->
-			    		<div class="col-md-12">
-			    			<div class="ppom-nm-card-block">
-			    				<div class="ppom-card-header">
-				    				<h3><?php _e('WooCommerce 2Checkout Payment Gateway Plugin', 'ppom');?></h3>
-			    				</div>
-			    				<div class="ppom-card-body">
-				    				<p><?php _e('WooCommerce payment gateway plugin for 2Checkout which accept payments from client. Fully supported with WordPress and WooCommerce latest versions. 2Checkout latest API 2.0 compatible.', 'ppom');?></p>
-			    				</div>
-				    			<div class="ppom-card-footer">
-				    				<a href="https://najeebmedia.com/wordpress-plugin/woocommerce-2checkout-payment-gateway-with-inline-support/" class="btn btn-info"><?php _e('More Info...', 'ppom');?></a>
-				    			</div>
-			    			</div>
-			    		</div>
+	    		<!-- Addon - Fields PopUp -->
+	    		<div class="col-md-12">
+	    			<div class="ppom-nm-card-block">
+	    				<div class="ppom-card-header">
+		    				<h3><?php _e('Addon - Fields PopUp', 'ppom');?></h3>
+	    				</div>
+	    				<div class="ppom-card-body">
+		    				<p><?php _e('PPOM Fields PopUp wrap all PPOM fields inside a popup. A product with large number of fields can now has simple button with customized label. To enable this PopUp just one click required in product edit page. For more details please visit Demo or watch video.', 'ppom');?></p>
+	    				</div>
+		    			<div class="ppom-card-footer">
+		    				<a href="<?php echo esc_url($ppom_site_url) ?>#fieldspopup" class="btn btn-info" target="_blank"><?php _e('More Info...', 'ppom');?></a>
+		    			</div>
+	    			</div>
+	    		</div>
 
-			    		<!-- WooCommerce Product Designer -->
-			    		<div class="col-md-12">
-			    			<div class="ppom-nm-card-block">
-			    				<div class="ppom-card-header">
-				    				<h3><?php _e('WooCommerce Product Designer', 'ppom');?></h3>
-			    				</div>
-			    				<div class="ppom-card-body">
-				    				<p><?php _e('If you looking simple and perfect web2print solution for your clients where they can use your Product Templates like T-Shirt, Mugs or Phone cases and Customize it before checkout. You are at right page.', 'ppom');?></p>
-			    				</div>
-				    			<div class="ppom-card-footer">
-				    				<a href="https://najeebmedia.com/wordpress-plugin/woocommerce-product-designer/" class="btn btn-info"><?php _e('More Info...', 'ppom');?></a>
-				    			</div>
-			    			</div>
-			    		</div>
+	    		<!-- Addon - Image DropDown -->
+	    		<div class="col-md-12">
+	    			<div class="ppom-nm-card-block">
+	    				<div class="ppom-card-header">
+		    				<h3><?php _e('Addon - Image DropDown', 'ppom');?></h3>
+	    				</div>
+	    				<div class="ppom-card-body">
+		    				<p><?php _e('PPOM Image DropDown Addon show images inside a select box. The title, description, and prices can be added along with all images. It’s best when you have a long list of images and don’t want to use Image Type input.', 'ppom');?></p>
+	    				</div>
+		    			<div class="ppom-card-footer">
+		    				<a href="<?php echo esc_url($ppom_site_url) ?>#imagedropdown" class="btn btn-info" target="_blank"><?php _e('More Info...', 'ppom');?></a>
+		    			</div>
+	    			</div>
+	    		</div>
 
-			    		<!-- WooCommerce Store Customizer -->
-			    		<div class="col-md-12">
-			    			<div class="ppom-nm-card-block">
-			    				<div class="ppom-card-header">
-				    				<h3><?php _e('WooCommerce Store Customizer', 'ppom');?></h3>
-			    				</div>
-			    				<div class="ppom-card-body">
-				    				<p><?php _e('Control your Store the way you like. Add unlimited tabs, Enquiry forms and much much more.', 'ppom');?></p>
-			    				</div>
-				    			<div class="ppom-card-footer">
-				    				<a href="https://najeebmedia.com/wordpress-plugin/woocommerce-customizer/" class="btn btn-info"><?php _e('More Info...', 'ppom');?></a>
-				    			</div>
-			    			</div>
-			    		</div>
+	    		<!-- Addon - Bulk Quantity for Options -->
+	    		<div class="col-md-12">
+	    			<div class="ppom-nm-card-block">
+	    				<div class="ppom-card-header">
+		    				<h3><?php _e('Addon - Bulk Quantity for Options', 'ppom');?></h3>
+	    				</div>
+	    				<div class="ppom-card-body">
+		    				<p><?php _e('Bulk Quantity for Options Addon allow store admin to set discount prices for each options. This Addon is best tool for companies like Printin, designing and who looking to sale products with options with different prices.', 'ppom');?></p>
+	    				</div>
+		    			<div class="ppom-card-footer">
+		    				<a href="<?php echo esc_url($ppom_site_url) ?>#bulkquantity" class="btn btn-info" target="_blank"><?php _e('More Info...', 'ppom');?></a>
+		    			</div>
+	    			</div>
+	    		</div>
 
-			    		<!-- WooCommerce Vendor and Member Conversation -->
-			    		<div class="col-md-12">
-			    			<div class="ppom-nm-card-block">
-			    				<div class="ppom-card-header">
-				    				<h3><?php _e('WooCommerce Vendor and Member Conversation', 'ppom');?></h3>
-			    				</div>
-			    				<div class="ppom-card-body">
-				    				<p><?php _e('WooCommece only plugin allows Vendors and Customers to communication after checkout. Awesome UI allow both to send messages and files. Conversation is bound with orders.', 'ppom');?></p>
-			    				</div>
-				    			<div class="ppom-card-footer">
-				    				<a href="https://najeebmedia.com/wordpress-plugin/woocommerce-file-upload-plugin-after-checkout/" class="btn btn-info"><?php _e('More Info...', 'ppom');?></a>
-				    			</div>
-			    			</div>
-			    		</div>
-			    	</div>   
+	    		<!-- Addon - Google Font and Map Picker -->
+	    		<div class="col-md-12">
+	    			<div class="ppom-nm-card-block">
+	    				<div class="ppom-card-header">
+		    				<h3><?php _e('Addon - Google Font and Map Picker', 'ppom');?></h3>
+	    				</div>
+	    				<div class="ppom-card-body">
+		    				<p><?php _e('Google Font and Map Picker has two input fields. Font selector loads fonts from Google and client can pick font and can see live preview of font effect. Admin can also filter font families and set Custom Fonts. Google Map fetch coordinate based on address and show map.', 'ppom');?></p>
+	    				</div>
+		    			<div class="ppom-card-footer">
+		    				<a href="<?php echo esc_url($ppom_site_url) ?>#googlefontandmappicker" class="btn btn-info" target="_blank"><?php _e('More Info...', 'ppom');?></a>
+		    			</div>
+	    			</div>
+	    		</div>
 
-		        </div>
-		        <div class="modal-footer">
-		            <button type="button" class="btn btn-white" data-dismiss="modal"><?php _e('Cancel', 'ppom');?></button>
-		        </div>
-		    </div>
-		</div>
+	    		<!-- Addon - WooCommerce Package Price -->
+	    		<div class="col-md-12">
+	    			<div class="ppom-nm-card-block">
+	    				<div class="ppom-card-header">
+		    				<h3><?php _e('Addon - WooCommerce Package Price', 'ppom');?></h3>
+	    				</div>
+	    				<div class="ppom-card-body">
+		    				<p><?php _e('Sometimes prices are very complex like for a printing company, they are selling their visiting cards in Packages.So Package Price Add-on allows admin to set prices against package. It’s usage is very simple, just add quantity (package) and it’s price. There is also option to set unit like you are selling visiting cards then unit may called as “cards”.', 'ppom');?></p>
+	    				</div>
+		    			<div class="ppom-card-footer">
+		    				<a href="<?php echo esc_url($ppom_site_url) ?>#woocommercepackageprice" class="btn btn-info" target="_blank"><?php _e('More Info...', 'ppom');?></a>
+		    			</div>
+	    			</div>
+	    		</div>
+
+	    		<!-- Addon - Domain Checker -->
+	    		<div class="col-md-12">
+	    			<div class="ppom-nm-card-block">
+	    				<div class="ppom-card-header">
+		    				<h3><?php _e('Addon - Domain Checker', 'ppom');?></h3>
+	    				</div>
+	    				<div class="ppom-card-body">
+		    				<p><?php _e('Domain Checker Addon will check any domain’s availability. Adds domain to cart if it’s not already registered. A simple solution to sell domains with WooCommerce PPOM. Customized messages for domain availability/not-availability. Ajax base script to check domain and show result.', 'ppom');?></p>
+	    				</div>
+		    			<div class="ppom-card-footer">
+		    				<a href="<?php echo esc_url($ppom_site_url) ?>#domainchecker" class="btn btn-info" target="_blank"><?php _e('More Info...', 'ppom');?></a>
+		    			</div>
+	    			</div>
+	    		</div>
+
+	    		<!-- Addon - Cart Edit -->
+	    		<div class="col-md-12">
+	    			<div class="ppom-nm-card-block">
+	    				<div class="ppom-card-header">
+		    				<h3><?php _e('Addon - Cart Edit', 'ppom');?></h3>
+	    				</div>
+	    				<div class="ppom-card-body">
+		    				<p><?php _e('PPOM Cart Edit Addon allow clients to edit fields once these are added to cart on cart page. It has also option to show all meta fields in different column on cart page. Extra column can be disable from Settings -> PPOM Cart tab.', 'ppom');?></p>
+	    				</div>
+		    			<div class="ppom-card-footer">
+		    				<a href="<?php echo esc_url($ppom_site_url) ?>#cartedit" class="btn btn-info" target="_blank"><?php _e('More Info...', 'ppom');?></a>
+		    			</div>
+	    			</div>
+	    		</div>
+	    	</div>
+	    </div>
+	    
+	    <footer>
+	    	<button type="button" class="btn btn-default close-model ppom-js-modal-close"><?php _e('Close' , 'ppom-addon-pdf'); ?></button>
+	    </footer>
 	</div>
 </div>

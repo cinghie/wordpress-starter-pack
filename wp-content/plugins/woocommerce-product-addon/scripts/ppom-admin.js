@@ -24,7 +24,7 @@ jQuery(function($){
         12- Clone New Fields
         13- Clone Existing Fields
         14- Saving PPOM IDs In Existing Meta File
-        15- Open Product Modal In Existing Meta File
+        15- Open Product Modal In Existing Meta File (removed)
         16- Handle Fields Tabs
         17- Handle Media Images Of Following Inputs Types
         18- Add Fields Conditions
@@ -504,15 +504,6 @@ jQuery(function($){
             
         }, 'json');
     });
-    
-
-    /**
-        15- Open Product Modal In Existing Meta File
-    **/
-    $('#ppom-product-modal').on('show.bs.modal', function (e) {
-        
-        $(".ppom-table").DataTable();
-    });
 
 
     /**
@@ -531,14 +522,30 @@ jQuery(function($){
             div.find('.ppom-handle-condition').hide();
             div.find('.ppom-handle-paired').hide();
             div.find('.ppom-handle-all-fields').show();
+            div.find('.ppom-handle-customfonts-fields').hide();
+            div.find('.ppom-handle-fontsfamily-fields').hide();
         }else if(id == 'tab3'){
             div.find('.ppom-handle-condition').hide();
             div.find('.ppom-handle-all-fields').hide();
             div.find('.ppom-handle-paired').show();
+            div.find('.ppom-handle-customfonts-fields').hide();
+            div.find('.ppom-handle-fontsfamily-fields').hide();
+        }else if(id == 'tab4'){
+            div.find('.ppom-handle-condition').hide();
+            div.find('.ppom-handle-all-fields').hide();
+            div.find('.ppom-handle-customfonts-fields').hide();
+            div.find('.ppom-handle-fontsfamily-fields').show();
+        }else if(id == 'tab5'){
+            div.find('.ppom-handle-condition').hide();
+            div.find('.ppom-handle-all-fields').hide();
+            div.find('.ppom-handle-fontsfamily-fields').hide();
+            div.find('.ppom-handle-customfonts-fields').show();
         }else{
             div.find('.ppom-handle-all-fields').hide();
             div.find('.ppom-handle-paired').hide();
             div.find('.ppom-handle-condition').show();
+            div.find('.ppom-handle-customfonts-fields').hide();
+            div.find('.ppom-handle-fontsfamily-fields').hide();
         }
     });
 

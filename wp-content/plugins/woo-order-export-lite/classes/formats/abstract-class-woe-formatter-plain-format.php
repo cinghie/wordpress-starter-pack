@@ -281,6 +281,15 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 	protected function try_apply_summary_report_fields() {
 		if ( $this->summary_report ) {
 			$this->summary_processing = true;
+			
+			//sort by name 
+			$first_row = reset($_SESSION['woe_summary_products']);
+			if ( isset( $first_row['name'] ) ) {
+				uasort($_SESSION['woe_summary_products'], function($a,$b) {
+					return strcmp($a['name'],$b['name']);
+				});
+			}
+			
 			do_action( 'woe_summary_before_output' );
 			if ( $this->mode == 'preview' ) {
 				if ( empty( $this->rows ) ) // no headers!

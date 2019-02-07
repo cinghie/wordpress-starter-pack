@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     4.3.4
+ * Version:     4.5.3
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -46,7 +46,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.3.4' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.5.3' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -151,11 +151,16 @@ function woosea_plugin_action_links($links, $file) {
     	if ($file == $this_plugin) {
  
 		// link to what ever you want
-        	$plugin_links[] = '<a href="https://adtribes.io/support/" target="_blank">Support</a>';
-        	$plugin_links[] = '<a href="https://adtribes.io/blog/" target="_blank">Blog</a>';
-        	//$plugin_links[] = '<a href="https://adtribes.io/pro-vs-elite/?utm_source=adminpage&utm_medium=pluginpage&utm_campaign=upgrade-elite&utm_term=upgrade to elite" target="_blank" style="color:green;"><b>Go Elite</b></a>';
-        	//$plugin_links[] = '<a href="https://adtribes.io/pro-vs-elite/?utm_source=adminpage&utm_medium=pluginpage&utm_campaign=upgrade-elite&utm_term=premium support" target="_blank">Premium Support</a>';
- 
+		$host = $_SERVER['HTTP_HOST'];
+        	$plugin_links[] = '<a href="https://adtribes.io/support/?utm_source='.$host.'&utm_medium=pluginpage&utm_campaign=support" target="_blank">Support</a>';
+        	$plugin_links[] = '<a href="https://adtribes.io/blog/?utm_source='.$host.'&utm_medium=pluginpage&utm_campaign=blog" target="_blank">Blog</a>';
+		                
+		$license_information = get_option( 'license_information' );
+                if($license_information['license_valid'] <> "true"){
+        		$plugin_links[] = '<a href="https://adtribes.io/pro-vs-elite/?utm_source='.$host.'&utm_medium=pluginpage&utm_campaign=go elite" target="_blank" style="color:green;"><b>Go Elite</b></a>';
+        		$plugin_links[] = '<a href="https://adtribes.io/pro-vs-elite/?utm_source='.$host.'&utm_medium=pluginpage&utm_campaign=premium support" target="_blank">Premium Support</a>';
+		} 
+
         	// add the links to the list of links already there
 		foreach($plugin_links as $link) {
 			array_unshift($links, $link);
@@ -352,7 +357,7 @@ function woosea_request_review(){
 		$is_active = $current_time-$first_activation;
 
 		if(($nr_projects > 0) AND ($is_active > $show_after) AND ($notification_interaction != "yes")){
-		echo '<div class="notice notice-info review-notification is-dismissible"><font color="green" style="font-weight:bold";><p>Hey, I noticed you have been using my plugin, Product Feed PRO for WooCommerce, for over a week now and have created product feed projects with it - that\'s awesome! Could you please do me a BIG favor and give it a 5-star rating on WordPress? Just to help us spread the word and boost my motivation.<br/>~ Joris Verwater<br><ul><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="dismiss-review-notification">Ok, you deserve it</a></li><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="#" class="dismiss-review-notification">Nope, maybe later</a></li><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="#" class="dismiss-review-notification">I already did</a></li></ul></p></font></div>';	
+		echo '<div class="notice notice-info review-notification is-dismissible"><font color="green" style="font-weight:bold";><p>Hey, I noticed you have been using our plugin, Product Feed PRO for WooCommerce, for over a week now and have created product feed projects with it - that\'s awesome! Could you please do Eva and me a BIG favor and give it a 5-star rating on WordPress? Just to help us spread the word and boost our motivation.<br/>~ Eva and Joris<br><ul><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="dismiss-review-notification">Ok, you deserve it</a></li><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="#" class="dismiss-review-notification">Nope, maybe later</a></li><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="#" class="dismiss-review-notification">I already did</a></li></ul></p></font></div>';	
 		}
 	}
 }
@@ -436,12 +441,15 @@ add_action( 'woosea_check_license', 'woosea_license_valid'); // check if license
  * Add WooCommerce SEA plugin to Menu
  */
 function woosea_menu_addition(){
-            //add_menu_page(__('Product Feed PRO for WooCommerce', 'woosea-feed'), __('Product Feed Pro', 'woosea-feed'), 'manage_options', __FILE__, 'woosea_generate_pages', 'dashicons-chart-bar',99);
-            add_menu_page(__('Product Feed PRO for WooCommerce', 'woosea-feed'), __('Product Feed Pro', 'woosea-feed'), 'manage_options', __FILE__, 'woosea_generate_pages', esc_url( WOOCOMMERCESEA_PLUGIN_URL . '/images/icon-16x16.png'),99);
-            add_submenu_page(__FILE__, __('Feed configuration', 'woosea-feed'), __('Create feed', 'woosea-feed'), 'manage_options', __FILE__, 'woosea_generate_pages');
-            add_submenu_page(__FILE__, __('Manage feeds', 'woosea-feed'), __('Manage feeds', 'woosea-feed'), 'manage_options', 'woosea_manage_feed', 'woosea_manage_feed');
-            add_submenu_page(__FILE__, __('Settings', 'woosea-feed'), __('Settings', 'woosea-feed'), 'manage_options', 'woosea_manage_settings', 'woosea_manage_settings');
-//            add_submenu_page(__FILE__, __('Upgrade to Elite', 'woosea-elite-feed'), __('Upgrade to Elite', 'woosea-elite-feed'), 'manage_options', 'woosea_key', 'woosea_upgrade_elite');
+		add_menu_page(__('Product Feed PRO for WooCommerce', 'woosea-feed'), __('Product Feed Pro', 'woosea-feed'), 'manage_options', __FILE__, 'woosea_generate_pages', esc_url( WOOCOMMERCESEA_PLUGIN_URL . '/images/icon-16x16.png'),99);
+            	add_submenu_page(__FILE__, __('Feed configuration', 'woosea-feed'), __('Create feed', 'woosea-feed'), 'manage_options', __FILE__, 'woosea_generate_pages');
+            	add_submenu_page(__FILE__, __('Manage feeds', 'woosea-feed'), __('Manage feeds', 'woosea-feed'), 'manage_options', 'woosea_manage_feed', 'woosea_manage_feed');
+            	add_submenu_page(__FILE__, __('Settings', 'woosea-feed'), __('Settings', 'woosea-feed'), 'manage_options', 'woosea_manage_settings', 'woosea_manage_settings');
+		
+		$license_information = get_option( 'license_information' );
+		if($license_information['license_valid'] <> "true"){
+            		add_submenu_page(__FILE__, __('Upgrade to Elite', 'woosea-elite-feed'), __('Upgrade to Elite', 'woosea-elite-feed'), 'manage_options', 'woosea_manage_settings&tab=woosea_license_check', 'woosea_upgrade_elite');
+		}
 }
 
 /**
@@ -2224,7 +2232,7 @@ function woosea_license_valid(){
         $license_information = get_option('license_information');
 
         $curl = curl_init();
-        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=1.0.0";
+        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=4.5.3";
 
         curl_setopt_array($curl, array(
                 CURLOPT_RETURNTRANSFER => 1,
@@ -2254,6 +2262,7 @@ function woosea_license_valid(){
                 delete_option ('structured_data_fix');
                 delete_option ('add_unique_identifiers');
 		delete_option ('add_wpml_support');
+		delete_option ('add_aelia_support');
         } else {
 		if(empty($json_return)){
 	               	$license_information['message'] = "Could not connect to AdTribes.io to validate your license. We will try again tomorrow.";

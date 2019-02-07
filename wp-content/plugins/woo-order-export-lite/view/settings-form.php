@@ -15,6 +15,20 @@ $settings                 = apply_filters( 'woe_settings_page_prepare', $setting
 $order_custom_meta_fields = WC_Order_Export_Data_Extractor_UI::get_all_order_custom_meta_fields();
 $readonly_php             = WC_Order_Export_Admin::user_can_add_custom_php() ? '' : 'readonly';
 
+$pdf_format_available_options = array(
+	'orientation' => array(
+		'P' => 'Portrait',
+		'L' => 'Landscape',
+	),
+	'page_size'   => array(
+		'A3'     => 'A3',
+		'A4'     => 'A4',
+		'A5'     => 'A5',
+		'letter' => 'Letter',
+		'legal'  => 'Legal',
+	),
+);
+
 function print_formats_field( $type, $segment = "" ) {
 	if ( ! $type && $type !== 'meta' && $type !== 'field' ) {
 		return '';
@@ -43,7 +57,7 @@ function print_formats_field( $type, $segment = "" ) {
 
 <script>
 	var mode = '<?php echo $mode ?>';
-	var job_id = '<?php echo $id ?>';
+	var job_id = '<?php echo esc_js($id) ?>';
 	var output_format = '<?php echo $settings['format'] ?>';
 	var selected_order_fields = <?php echo json_encode( $settings['order_fields'] ) ?>;
 	var selected_order_products_fields = <?php echo json_encode( $settings['order_product_fields'] ) ?>;
@@ -57,6 +71,10 @@ function print_formats_field( $type, $segment = "" ) {
 	var order_segments = <?php echo json_encode( WC_Order_Export_Data_Extractor_UI::get_order_segments() ) ?>;
 	var field_formats = <?php echo json_encode( WC_Order_Export_Data_Extractor_UI::get_format_fields() ) ?>;
 	var summary_mode = <?php echo $settings['summary_report_by_products'] ?>;
+
+	jQuery( document ).ready( function ( $ ) {
+		$( 'input.color_pick' ).wpColorPicker();
+	} );
 </script>
 
 
@@ -171,6 +189,7 @@ function print_formats_field( $type, $segment = "" ) {
                 <input type=hidden name="settings[format_xls_display_column_names]" value=0>
                 <input type=hidden name="settings[format_xls_auto_width]" value=0>
                 <input type=hidden name="settings[format_xls_direction_rtl]" value=0>
+                <input type=hidden name="settings[format_xls_force_general_format]" value=0>
                 <input type=checkbox name="settings[format_xls_use_xls_format]"
                        value=1 <?php if ( @$settings['format_xls_use_xls_format'] ) {
 					echo 'checked';
@@ -191,6 +210,10 @@ function print_formats_field( $type, $segment = "" ) {
                        value=1 <?php if ( @$settings['format_xls_direction_rtl'] ) {
 					echo 'checked';
 				} ?> > <?php _e( 'Right-to-Left direction', 'woo-order-export-lite' ) ?><br>
+                <input type=checkbox name="settings[format_xls_force_general_format]"
+                       value=1 <?php if ( @$settings['format_xls_force_general_format'] ) {
+					echo 'checked';
+				} ?> > <?php _e( 'Force general format for all cells', 'woo-order-export-lite' ) ?><br>
             </div>
             <div id='CSV_options' style='display:none'><strong><?php _e( 'CSV options',
 						'woo-order-export-lite' ) ?></strong><br>
@@ -235,9 +258,9 @@ function print_formats_field( $type, $segment = "" ) {
             </div>
             <div id='XML_options' style='display:none'><strong><?php _e( 'XML options',
 						'woo-order-export-lite' ) ?></strong><br>
-				<?php if( !class_exists("XMLWriter") ): ?>		
+				<?php if( !class_exists("XMLWriter") ): ?>
 					<div style="color:red"><?php _e( 'Please, install/enable PHP XML Extension!','woo-order-export-lite' ) ?></div>
-				<?php endif ?>		
+				<?php endif ?>
                 <input type=hidden name="settings[format_xml_self_closing_tags]" value=0>
                 <span class="xml-title"><?php _e( 'Prepend XML', 'woo-order-export-lite' ) ?></span><input type=text
                                                                                                               name="settings[format_xml_prepend_raw_xml]"
@@ -296,7 +319,149 @@ function print_formats_field( $type, $segment = "" ) {
 				<?php endif ?>
             </div>
 
-            <br>
+            <div id='PDF_options' style='display:none'><strong><?php _e( 'PDF options',
+				        'woo-order-export-lite' ) ?></strong><br>
+                <input type=hidden name="settings[format_pdf_display_column_names]" value=0>
+                <input type=checkbox name="settings[format_pdf_display_column_names]"
+                       value=1 <?php if ( @$settings['format_pdf_display_column_names'] ) {
+			        echo 'checked';
+		        } ?> > <?php _e( 'Output column titles as first line', 'woo-order-export-lite' ) ?>
+
+		        (
+                <input type=hidden name="settings[format_pdf_repeat_header]" value=0>
+                <input type=checkbox name="settings[format_pdf_repeat_header]"
+                       value=1 <?php if ( @$settings['format_pdf_repeat_header'] ) {
+		            echo 'checked';
+	            } ?> > <?php _e( 'repeat at each page', 'woo-order-export-lite' ) ?>)<br>
+
+
+              <div class="pdf_two_col_block">
+	            <?php _e( 'Orientation', 'woo-order-export-lite' ) ?><br>
+                <select name="settings[format_pdf_orientation]">
+                    <?php foreach ( $pdf_format_available_options['orientation'] as $orientation => $label ): ?>
+                        <option value="<?php echo $orientation; ?>" <?php echo selected($orientation == $settings['format_pdf_orientation']); ?> ><?php echo $label; ?></option>
+                    <?php endforeach;?>
+                </select>
+              </div>
+
+              <div class="pdf_two_col_block">
+	            <?php _e( 'Page size', 'woo-order-export-lite' ) ?><br>
+                <select name="settings[format_pdf_page_size]">
+		            <?php foreach ( $pdf_format_available_options['page_size'] as $size => $label ): ?>
+                        <option value="<?php echo $size; ?>" <?php echo selected($size == $settings['format_pdf_page_size']); ?> ><?php echo $label; ?></option>
+		            <?php endforeach;?>
+                </select>
+              </div>
+
+              <div class="pdf_two_col_block">
+		        <?php _e( 'Font size', 'woo-order-export-lite' ) ?><br>
+                <input type=number name="settings[format_pdf_font_size]" value='<?php echo $settings['format_pdf_font_size'] ?>' min=1 size=3><br>
+              </div>
+
+              <div class="pdf_two_col_block">
+	            <?php _e( 'Page numbers', 'woo-order-export-lite' );
+
+	            $align_types = array(
+		            'L'       => __( 'Left align', 'woo-order-export-lite' ),
+		            'C'       => __( 'Center align', 'woo-order-export-lite' ),
+		            'R'       => __( 'Right align', 'woo-order-export-lite' ),
+	            );
+
+                ?><br>
+                <select name="settings[format_pdf_pagination]">
+	                <?php foreach ( array_merge( $align_types, array( 'disable' => __( 'No page numbers', 'woo-order-export-lite' ) ) ) as $align => $label ): ?>
+                        <option value="<?php echo $align; ?>" <?php echo selected($align == $settings['format_pdf_pagination']); ?> ><?php echo $label; ?></option>
+		            <?php endforeach;?>
+                </select>
+              </div>
+
+
+
+              <div class="pdf_two_col_block">
+	            <?php _e( 'Page header text', 'woo-order-export-lite' ) ?><br>
+                <input type=text name="settings[format_pdf_header_text]" value='<?php echo $settings['format_pdf_header_text'] ?>'>
+              </div>
+              <div class="pdf_two_col_block">
+	            <?php _e( 'Columns width', 'woo-order-export-lite' ) ?>
+                <input title="<?php _e( 'comma separated list', 'woo-order-export-lite' ) ?>" type=text name="settings[format_pdf_cols_width]" value='<?php echo $settings['format_pdf_cols_width'] ?>'>
+              </div>
+              
+              <div class="pdf_two_col_block">
+	            <?php _e( 'Page footer text', 'woo-order-export-lite' ) ?><br>
+                <input type=text name="settings[format_pdf_footer_text]" value='<?php echo $settings['format_pdf_footer_text'] ?>'>
+              </div>
+              <div class="pdf_two_col_block">
+	            <?php _e( 'Columns align', 'woo-order-export-lite' ) ?>
+                <input title="<?php _e( 'comma separated list', 'woo-order-export-lite' ) ?>" type=text name="settings[format_pdf_cols_align]" value='<?php echo $settings['format_pdf_cols_align'] ?>'>
+              </div>
+
+
+              <div class="pdf_two_col_block">
+                 <?php _e( 'Fit table to page width', 'woo-order-export-lite' ) ?><br>
+	            <input type="radio" name="settings[format_pdf_fit_page_width]" value=1 <?php checked( @$settings['format_pdf_fit_page_width'] ); ?> ><?php _e( 'Yes', 'woo-order-export-lite' ); ?>
+	            <input type="radio" name="settings[format_pdf_fit_page_width]" value=0 <?php checked( !@$settings['format_pdf_fit_page_width'] ); ?> ><?php _e( 'No', 'woo-order-export-lite' ); ?>
+              </div>
+<hr>
+              <div class="pdf_two_col_block">
+	            <?php _e( 'Table header text color', 'woo-order-export-lite' ) ?>
+                <input type=text class="color_pick" name="settings[format_pdf_table_header_text_color]" value='<?php echo $settings['format_pdf_table_header_text_color'] ?>'>
+              </div>
+              <div class="pdf_two_col_block">
+	            <?php _e( 'Table header background color', 'woo-order-export-lite' ) ?>
+                <input type=text class="color_pick" name="settings[format_pdf_table_header_background_color]" value='<?php echo $settings['format_pdf_table_header_background_color'] ?>'>
+              </div>
+
+              <div class="pdf_two_col_block">
+	            <?php _e( 'Table row text color', 'woo-order-export-lite' ) ?>
+                <input type=text class="color_pick" name="settings[format_pdf_table_row_text_color]" value='<?php echo $settings['format_pdf_table_row_text_color'] ?>'>
+              </div>
+              <div class="pdf_two_col_block">
+	            <?php _e( 'Table row background color', 'woo-order-export-lite' ) ?>
+                <input type=text class="color_pick" name="settings[format_pdf_table_row_background_color]" value='<?php echo $settings['format_pdf_table_row_background_color'] ?>'>
+              </div>
+
+              <div class="pdf_two_col_block">
+	            <?php _e( 'Page header text color', 'woo-order-export-lite' ) ?>
+                <input type=text class="color_pick" name="settings[format_pdf_page_header_text_color]" value='<?php echo $settings['format_pdf_page_header_text_color'] ?>'>
+              </div>
+              <div class="pdf_two_col_block">
+	            <?php _e( 'Page footer text color', 'woo-order-export-lite' ) ?>
+                <input type=text class="color_pick" name="settings[format_pdf_page_footer_text_color]" value='<?php echo $settings['format_pdf_page_footer_text_color'] ?>'>
+              </div>
+
+                <hr>
+
+                <div class="pdf_two_col_block">
+                    <input type="button" class="button button-primary image-upload-button" value="<?php _e( 'Select Logo', 'woocommerce-pickingpal' ) ?>">
+                    <input type="hidden" name="settings[format_pdf_logo_source]" value='<?php echo $settings['format_pdf_logo_source'] ?>'>
+                    <br>
+                    <?php $source = $settings['format_pdf_logo_source'] ? $settings['format_pdf_logo_source'] : '';?>
+                    <img src="<?php echo $source; ?>" height="100" width="100" class="<?php echo ! $source ? 'hidden' : ''; ?>">
+                    <br>
+                    <input type="button" class="button button-warning image-clear-button <?php echo ! $source ? 'hidden' : ''; ?>" value="<?php _e( 'Remove logo', 'woocommerce-pickingpal' ) ?>">
+                </div>
+                <div class="pdf_two_col_block">
+		            <?php _e( 'Logo align', 'woo-order-export-lite' ) ?>
+                    <select name="settings[format_pdf_logo_align]">
+			            <?php foreach ( $align_types as $align => $label ): ?>
+                            <option value="<?php echo $align; ?>" <?php echo selected($align == $settings['format_pdf_logo_align']); ?> ><?php echo $label; ?></option>
+			            <?php endforeach;?>
+                    </select>
+                </div>
+                <div class="pdf_two_col_block">
+		            <?php _e( 'Logo height', 'woo-order-export-lite' ) ?>
+                    <br>
+                    <input type="number" name="settings[format_pdf_logo_height]" value='<?php echo $settings['format_pdf_logo_height'] ?>' min="0">
+                </div>
+                <div class="pdf_two_col_block">
+		            <?php _e( 'Logo width', 'woo-order-export-lite' ) ?> ( <?php _e( '0 - auto scale', 'woo-order-export-lite' ) ?> )
+                    <br>
+                    <input type="number" name="settings[format_pdf_logo_width]" value='<?php echo $settings['format_pdf_logo_width'] ?>' min="0">
+                </div>
+
+            </div>
+
+            <hr>
             <div id="my-date-time-format" class="">
                 <div id="date_format_block">
                     <span class="wc-oe-header"><?php _e( 'Date', 'woo-order-export-lite' ) ?></span>
@@ -1254,7 +1419,7 @@ function print_formats_field( $type, $segment = "" ) {
                data-limit="<?php echo( $mode === WC_Order_Export_Manage::EXPORT_ORDER_ACTION ? 1 : 5 ); ?>"
                value="<?php _e( 'Preview', 'woo-order-export-lite' ) ?>"
                title="<?php _e( 'Might be different from actual export!', 'woo-order-export-lite' ) ?>"/>
-		<?php if ( $mode == 'now' ): ?>
+		<?php if ( $mode == WC_Order_Export_Manage::EXPORT_NOW ): ?>
             <input type="submit" id='save-only-btn' class="button-primary"
                    value="<?php _e( 'Save settings', 'woo-order-export-lite' ) ?>"/>
 		<?php else: ?>
@@ -1277,6 +1442,12 @@ function print_formats_field( $type, $segment = "" ) {
             <input type="submit" id='copy-to-profiles' class="button-secondary"
                    value="<?php _e( 'Save as a profile', 'woo-order-export-lite' ) ?>"/>
 		<?php endif; ?>
+		
+		<?php if ( $mode === WC_Order_Export_Manage::EXPORT_NOW ): ?>
+            <input type="submit" id='reset-profile' class="button-secondary"
+                   value="<?php _e( 'Reset settings', 'woo-order-export-lite' ) ?>"/>
+		<?php endif; ?>
+                   
         <span id="preview_actions" class="hide">
 			<strong id="output_preview_total"><?php echo sprintf( __( 'Export total: %s orders',
 					'woo-order-export-lite' ), '<span></span>' ) ?></strong>
@@ -1311,6 +1482,7 @@ function print_formats_field( $type, $segment = "" ) {
 <form id='export_wo_pb_form' method='post' target='export_wo_pb_window'>
     <input name="action" type="hidden" value="order_exporter">
     <input name="method" type="hidden" value="plain_export">
+    <?php wp_nonce_field( 'woe_nonce', 'woe_nonce' ); ?>
     <input name="mode" type="hidden" value="<?php echo $mode ?>">
     <input name="id" type="hidden" value="<?php echo $id ?>">
     <input name="json" type="hidden">

@@ -22,11 +22,11 @@ abstract class WOE_Formatter {
 	var $format_number_fields;
 	var $counter_value;
 
-	protected $filename;
+	var $filename;
 
-	protected $decimals;
-	protected $decimal_separator;
-	protected $thousands_separator;
+	var $decimals;
+	var $decimal_separator;
+	var $thousands_separator;
 
 	public function __construct(
 		$mode,

@@ -906,3 +906,18 @@ input.date{
     top: 5px;
     right: 5px;
 }
+
+.pdf_two_col_block {
+    display: inline-block;
+    width: 48%;
+    vertical-align: top;
+}
+
+.pdf_two_col_block input[type=number]{
+    width: 40%;
+}
+
+#unselected_fields_list {
+    overflow-y: scroll;
+    height: 700px;
+}

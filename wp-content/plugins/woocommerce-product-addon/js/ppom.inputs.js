@@ -10,7 +10,7 @@
  
  jQuery(function($){
      
-    $('[data-toggle="tooltip"]').tooltip({container:'body', trigger:'hover'});
+    // $('[data-toggle="tooltip"]').tooltip({container:'body', trigger:'hover'});
     
     // Measure
     $('.ppom-measure').on('change', '.ppom-measure-unit', function(e){
@@ -128,7 +128,7 @@
             // Palettes
             case 'palettes':
                 
-                $(".ppom-single-palette").tooltip({container: 'body'});
+                // $(".ppom-single-palette").tooltip({container: 'body'});
                 break;
             // Bulk quantity
             case 'bulkquantity':

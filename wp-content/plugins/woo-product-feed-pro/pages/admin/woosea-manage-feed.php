@@ -6,6 +6,7 @@ $count_single = wp_count_posts('product');
 $published_single = $count_single->publish;
 $published_variation = $count_variation->publish;
 $published_products = $published_single+$published_variation;
+$host = $_SERVER['HTTP_HOST'];
 
 $product_numbers = array (
 	"Single products" => $published_single,
@@ -87,6 +88,16 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 					</div><br/>
 				<?php
 				}
+			} else {
+                                if($license_information['license_valid'] <> "true"){
+				?>
+					<div class="notice notice-info is-dismissible">
+                				<p>
+						Please note: some of the advanced features, such as WPML support, Aelia currency switcher support, WooCommerce structured data JSON fix and the addition of extra fields, such as brand, GTIN and MPN on the product edit pages are Elite features of this plugin. You will need to acquire a license on <a href="https://adtribes.io/pro-vs-elite/?utm_source=<?php print"$host";?>&utm_medium=manage-feed&utm_content=notification" target="_blank">AdTribes.io</a> to unlock these features.
+						</p>
+					</div>
+				<?php
+				}
 			}
 			?>
 
@@ -154,7 +165,7 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 										print "<span class=\"dashicons dashicons-update\" id=\"refresh_$val[project_hash]\" title=\"manually refresh productfeed\" style=\"display: inline-block;\"></span>";
 										
 										if($val['running'] != "not run yet"){
-											print "<a href=\"$val[external_file]\" target=\"_blank\"><span class=\"dashicons dashicons-download\" id=\"download\" title=\"download productfeed\" style=\"display: inline-block\"></span></a>";
+											print "<a href=\"$val[external_file]\" target=\"_blank\" class=\"dashicons dashicons-download\" id=\"download\" title=\"download productfeed\" style=\"display: inline-block\"></a>";
 										}
 									}?>
 									<span class="trash dashicons dashicons-trash" id="trash_<?php print "$val[project_hash]";?>" title="delete project and productfeed" style="display: inline-block;"></span>
@@ -221,7 +232,7 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 			} else {
 				?>
 				<tr>
-					<td colspan="6"><br/><span class="dashicons dashicons-warning"></span> You didn't configured a product feed yet, <a href="admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php">please create one first</a> or read our tutorial on <a href="https://adtribes.io/setting-up-your-first-google-shopping-product-feed/" target="_blank">how to set up your very first Google Shopping product feed</a>.<br/><br/></td>
+					<td colspan="6"><br/><span class="dashicons dashicons-warning"></span> You didn't configured a product feed yet, <a href="admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php">please create one first</a> or read our tutorial on <a href="https://adtribes.io/setting-up-your-first-google-shopping-product-feed/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=first shopping feed" target="_blank">how to set up your very first Google Shopping product feed</a>.<br/><br/></td>
 				</tr>
 				<?php
 			}
@@ -229,8 +240,9 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 			</table>
 			</div>
 			<div class="woo-product-feed-pro-table-right">
-
-				<!--
+				<?php
+				if($license_information['license_valid'] <> "true"){
+				?>
                                 <table class="woo-product-feed-pro-table">
                                         <tr>
                                                 <td><strong>Why upgrade to Elite?</strong></td>
@@ -244,14 +256,17 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
                                                                 <li><strong>3.</strong> Add GTIN, brand and more fields to your store</li>
                                                                 <li><strong>4.</strong> Exclude individual products from your feeds</li>
                                                                 <li><strong>5.</strong> WPML support</li>
-                                                         </ul>
+                                                               	<li><strong>6.</strong> Aelia currency switcher support</li>
+							 </ul>
                                                         <strong>
-                                                        <a href="https://adtribes.io/pro-vs-elite/?utm_source=$domain&utm_medium=plugin&utm_campaign=upgrade-elite" target="_blank">Upgrade to Elite here!</a>
+                                                        <a href="https://adtribes.io/pro-vs-elite/?utm_source=<?php print"$host";?>&utm_medium=manage-feed&utm_campaign=why-upgrade-box" target="_blank">Upgrade to Elite here!</a>
                                                         </strong>
                                                 </td>
                                         </tr>
                                 </table><br/>
-				-->
+				<?php
+				}
+				?>
 
                                 <table class="woo-product-feed-pro-table">
                                         <tr>
@@ -261,9 +276,9 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
                                                 <td>
                                                         Need assistance? Check out our:
                                                         <ul>
-                                                                <li><strong><a href="https://adtribes.io/support/" target="_blank">Frequently Asked Questions</a></strong></li>
+                                                                <li><strong><a href="https://adtribes.io/support/?utm_source=<?php print"$host";?>&utm_medium=manage-feed&utm_campaign=faq" target="_blank">Frequently Asked Questions</a></strong></li>
                                                                 <li><strong><a href="https://www.youtube.com/channel/UCXp1NsK-G_w0XzkfHW-NZCw" target="_blank">YouTube tutorials</a></strong></li>
-                                                                <li><strong><a href="https://adtribes.io/blog/" target="_blank">Blog</a></strong></li>
+                                                                <li><strong><a href="https://adtribes.io/blog/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=blog" target="_blank">Blog</a></strong></li>
                                                         </ul>
                                                         Or just reach out to us at  <strong><a href="https://wordpress.org/support/plugin/woo-product-feed-pro/" target="_blank">the support forum</a></strong> and we'll make sure your product feeds will be up-and-running within no-time.
                                                 </td>
@@ -277,12 +292,15 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 					<tr>
 						<td>
 							<ul>
-								<li><strong>1. <a href="https://adtribes.io/setting-up-your-first-google-shopping-product-feed/" target="_blank">Create a Google Shopping feed</a></strong></li>
-								<li><strong>2. <a href="https://adtribes.io/how-to-create-filters-for-your-product-feed/" target="_blank">How to create filters for your product feed</a></strong></li>
-								<li><strong>3. <a href="https://adtribes.io/how-to-create-rules/" target="_blank">How to set rules for your product feed</a></strong></li>
-								<li><strong>4. <a href="https://adtribes.io/add-gtin-mpn-upc-ean-product-condition-optimised-title-and-brand-attributes/" target="_blank">Adding GTIN, Brand, MPN and more</a></strong></li>
-								<li><strong>5. <a href="https://adtribes.io/woocommerce-structured-data-bug/" target="_blank">WooCommerce structured data markup bug</a></strong></li>
-						 		<li><strong>6. <a href="https://adtribes.io/wpml-support/" target="_blank">Enable WPML support</a></strong></li>
+								<li><strong>1. <a href="https://adtribes.io/setting-up-your-first-google-shopping-product-feed/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=first shopping feed" target="_blank">Create a Google Shopping feed</a></strong></li>
+								<li><strong>2. <a href="https://adtribes.io/how-to-create-filters-for-your-product-feed/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=how to create filters" target="_blank">How to create filters for your product feed</a></strong></li>
+								<li><strong>3. <a href="https://adtribes.io/how-to-create-rules/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=how to create rules" target="_blank">How to set rules for your product feed</a></strong></li>
+								<li><strong>4. <a href="https://adtribes.io/add-gtin-mpn-upc-ean-product-condition-optimised-title-and-brand-attributes/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=adding fields" target="_blank">Adding GTIN, Brand, MPN and more</a></strong></li>
+								<li><strong>5. <a href="https://adtribes.io/woocommerce-structured-data-bug/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=structured data bug" target="_blank">WooCommerce structured data markup bug</a></strong></li>
+						 		<li><strong>6. <a href="https://adtribes.io/wpml-support/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=wpml support" target="_blank">Enable WPML support</a></strong></li>
+							
+						 		<li><strong>7. <a href="https://adtribes.io/aelia-currency-switcher-feature/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=aelia support" target="_blank">Enable Aelia currency switcher support</a></strong></li>
+							
 							</ul>
 						</td>
 					</tr>

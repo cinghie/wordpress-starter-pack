@@ -146,14 +146,14 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
                 SELECT      post.ID as id,post.post_title as text,att.ID as photo_id,att.guid as photo_url
                 FROM        " . $wpdb->posts . " as post
                 LEFT JOIN  " . $wpdb->posts . " AS att ON post.ID=att.post_parent AND att.post_type='attachment'
-                WHERE       post.post_title LIKE '%{$like}%'
+                WHERE       post.post_title LIKE %s
                 AND         post.post_type = 'product'
                 AND         post.post_status <> 'trash'
                 GROUP BY    post.ID
                 ORDER BY    post.post_title
                 LIMIT " . intval( $limit );
 
-		$products = $wpdb->get_results( $query );
+		$products = $wpdb->get_results( $wpdb->prepare($query, '%'.$like.'%') );
 		foreach ( $products as $key => $product ) {
 			if ( $product->photo_id ) {
 				$photo                       = wp_get_attachment_image_src( $product->photo_id, 'thumbnail' );
@@ -190,14 +190,14 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 		$query = "
                 SELECT      post.post_title as id, post.post_title as text
                 FROM        " . $wpdb->posts . " as post
-                WHERE       post.post_title LIKE '%{$like}%'
+                WHERE       post.post_title LIKE %s
                 AND         post.post_type = 'shop_coupon'
                 AND         post.post_status <> 'trash'
                 ORDER BY    post.post_title
                 LIMIT 0,10
         ";
 
-		return $wpdb->get_results( $query );
+		return $wpdb->get_results( $wpdb->prepare($query, '%'.$like.'%') );
 	}
 
 	public static function get_categories_like( $like ) {
@@ -602,22 +602,23 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 	}
 
 
-	public static function get_order_fields( $format ) {
-		$map = array();
-		foreach (
-			array(
+	public static function get_order_fields( $format, $segments = array() ) {
+		if ( ! $segments ) {
+			$segments = array(
 				'common',
 				'user',
 				'billing',
 				'shipping',
-				'product',
-				'coupon',
+				'products',
+				'coupons',
 				'cart',
 				'ship_calc',
 				'totals',
 				'misc',
-			) as $segment
-		) {
+			);
+		}
+		$map = array();
+		foreach ( $segments as $segment ) {
 			$method      = "get_order_fields_" . $segment;
 			$map_segment = self::$method();
 
@@ -796,6 +797,11 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 				'checked' => 0,
 				'format'  => 'string',
 			),
+			'billing_citystatezip_us' => array(
+				'label'   => __( 'City, State Zip (Billing)', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'string',
+			),
 			'billing_state_full'   => array(
 				'label'   => __( 'State Name (Billing)', 'woo-order-export-lite' ),
 				'checked' => 0,
@@ -881,6 +887,11 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 				'checked' => 0,
 				'format'  => 'string',
 			),
+			'shipping_citystatezip_us' => array(
+				'label'   => __( 'City, State Zip (Shipping)', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'string',
+			),
 			'shipping_state_full'   => array(
 				'label'   => __( 'State Name (Shipping)', 'woo-order-export-lite' ),
 				'checked' => 0,
@@ -905,7 +916,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 	}
 
 	// meta
-	public static function get_order_fields_product() {
+	public static function get_order_fields_products() {
 		return array(
 			'products' => array(
 				'label'    => __( 'Products', 'woo-order-export-lite' ),
@@ -917,7 +928,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 	}
 
 	// meta
-	public static function get_order_fields_coupon() {
+	public static function get_order_fields_coupons() {
 		return array(
 			'coupons' => array(
 				'label'    => __( 'Coupons', 'woo-order-export-lite' ),

@@ -39,7 +39,8 @@ if (isset($args['horizontal_layout']) && $args['horizontal_layout'] == 'on') { ?
         	<td>
         		<?php
         		
-        			$the_price = !empty($opt['price']) ? $opt['price'] : $product->get_price();
+        			$product_price = $product->get_type() == 'simple' ? $product->get_price() : '';
+        			$the_price = !empty($opt['price']) ? $opt['price'] : $product_price;
         			
         			$min = (isset($opt['min']) ? $opt['min'] : 0 );
         			$max = (isset($opt['max']) ? $opt['max'] : 10000 );
@@ -94,7 +95,10 @@ if (isset($args['horizontal_layout']) && $args['horizontal_layout'] == 'on') { ?
                 		<?php
 	            			$min	= (isset($opt['min']) ? $opt['min'] : 0 );
 	            			$max	= (isset($opt['max']) ? $opt['max'] : 10000 );
-	            			$the_price = !empty($opt['price']) ? $opt['price'] : $product->get_price();
+	            			
+	            			$product_price = $product->get_type() == 'simple' ? $product->get_price() : '';
+        					$the_price = !empty($opt['price']) ? $opt['price'] : $product_price;
+        				
 	            			$label  = $opt['option'];
 	            			$name	= $args['name'].'['.$label.']';
 	            			

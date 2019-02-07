@@ -145,6 +145,9 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 				$html .= '<label for="tab3" id="tab3" class="ppom-tabs-label">'.esc_html__( 'Add Images', 'ppom' ).'</label>';
 				}else if($fields_type == 'audio'){
 				$html .= '<label for="tab3" id="tab3" class="ppom-tabs-label">'.esc_html__( 'Add Audio/Video ', 'ppom' ).'</label>';
+				}else if ($fields_type == 'fonts') {
+				$html .= '<label for="tab4" id="tab4" class="ppom-tabs-label">'.esc_html__( 'Fonts Family ', 'ppom' ).'</label>';	
+				$html .= '<label for="tab5" id="tab5" class="ppom-tabs-label">'.esc_html__( 'Custom Fonts ', 'ppom' ).'</label>';	
 				}
 			
 			$html .= '</div>';
@@ -176,6 +179,12 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
                 }
                 if ($fields_meta_key== 'logic') {
                 	$col = 'col-md-6 ppom-handle-condition ppom-checkboxe-style';	
+                }
+
+                if ($fields_meta_key == 'fonts') {
+                    $col = 'col-md-12 ppom-handle-fontsfamily-fields';
+                }else if ($fields_meta_key == 'custom_fonts') {
+                    $col = 'col-md-12 ppom-handle-customfonts-fields';
                 }
 
                 $html .= '<div data-meta-id="'.esc_attr($fields_meta_key).'" class="'.esc_attr($col).'">';

@@ -87,14 +87,14 @@ if( ! function_exists( 'yith_wcbr_get_terms' ) ){
 		}
 		
 		if( version_compare( $wp_version, '4.5', '<' ) ){
-			$terms = get_terms( $taxonomy, $args );
+			$terms = get_terms( $taxonomy, apply_filters( 'yith_wcbr_get_terms_args', $args ) );
 		}
 		else{
 			$args = array_merge( $args, array(
 				'taxonomy' => $taxonomy
 			) );
 			
-			$terms = get_terms( $args );
+			$terms = get_terms( apply_filters( 'yith_wcbr_get_terms_args', $args ) );
 		}
 
 		// remove empty terms when hide_empty is set

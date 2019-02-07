@@ -174,19 +174,22 @@ function ppom_update_option_prices() {
         // If Matrix price found then do not calculate each option prices
         if( ppom_has_matrix ) return;
         
+        // console.log(option);
+        
         if( option.include !== 'on'){
             ppom_show_base_price = false;
         } else {
             wc_product_qty.val(1);
         }
         
-        var option_price_with_qty   = parseFloat(option.quantity) * parseFloat(option.price);
+        var variation_price = option.price !== '' ? option.price : ppom_product_base_price;
+        var option_price_with_qty   = parseFloat(option.quantity) * parseFloat(variation_price);
         // Totals the options
         ppom_option_total += option_price_with_qty;
         
         if( ! show_option_price_indivisually ) return ;
         
-        var price_tag = ppom_get_wc_price(option.price);
+        var price_tag = ppom_get_wc_price(variation_price);
         var option_label_with_qty = option.label+' '+jQuery(price_tag).html()+' x '+option.quantity;
         
         ppom_add_price_item_in_table( option_label_with_qty, option_price_with_qty, 'ppom-quantities-price');
@@ -670,7 +673,8 @@ function ppom_update_get_prices() {
     		
     		var option_price = {};
     		
-    		option_price.price      = jQuery(this).attr('data-price');
+    		option_price.price      = ppom_product_base_price; //jQuery(this).attr('data-price');
+    // 		console.log(ppom_product_base_price);
             option_price.label      = jQuery(this).attr('data-label');
             option_price.quantity   = (jQuery(this).val() === '' ) ? 0 :  jQuery(this).val();
             option_price.include    = jQuery(this).attr('data-includeprice');

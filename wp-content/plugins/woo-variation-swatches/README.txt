@@ -356,6 +356,10 @@ And your are ready to go.
 
 == Changelog ==
 
+= 1.0.53 =
+
+* Fix: IE 11, CSS flexbox issue
+
 = 1.0.52 =
 
 * Add: Yith Product filter support

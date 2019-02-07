@@ -762,8 +762,10 @@ class WC_Order_Export_Engine {
 	}
 
 	public static function is_plain_format( $format ) {
-		$flat_formats = array( 'xls', 'csv', 'tsv' );
+		return in_array( strtolower( $format ), self::get_plain_formats() );
+	}
 
-		return in_array( strtolower( $format ), $flat_formats );
+	public static function get_plain_formats() {
+		return array( 'xls', 'csv', 'tsv', 'pdf' );
 	}
 }

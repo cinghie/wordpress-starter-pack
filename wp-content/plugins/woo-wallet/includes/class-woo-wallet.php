@@ -21,10 +21,15 @@ final class WooWallet {
     public $settings_api = null;
 
     /**
-     * wallet instance
+     * wallet instance.
      * @var Woo_Wallet_Wallet 
      */
     public $wallet = null;
+    /**
+     * Cashback instance.
+     * @var Woo_Wallet_Cashback 
+     */
+    public $cashback = null;
     /**
      * Wallet REST API
      * @var WooWallet_API 
@@ -62,7 +67,7 @@ final class WooWallet {
     private function define_constants() {
         $this->define( 'WOO_WALLET_ABSPATH', dirname(WOO_WALLET_PLUGIN_FILE) . '/' );
         $this->define( 'WOO_WALLET_PLUGIN_FILE', plugin_basename(WOO_WALLET_PLUGIN_FILE) );
-        $this->define( 'WOO_WALLET_PLUGIN_VERSION', '1.2.9' );
+        $this->define( 'WOO_WALLET_PLUGIN_VERSION', '1.3.1' );
     }
 
     /**
@@ -101,10 +106,18 @@ final class WooWallet {
         include_once( WOO_WALLET_ABSPATH . 'includes/helper/woo-wallet-util.php' );
         include_once( WOO_WALLET_ABSPATH . 'includes/helper/woo-wallet-update-functions.php' );
         include_once( WOO_WALLET_ABSPATH . 'includes/class-woo-wallet-install.php' );
+        
         include_once( WOO_WALLET_ABSPATH . 'includes/class-woo-wallet-settings-api.php' );
         $this->settings_api = new Woo_Wallet_Settings_API();
+        
         include_once( WOO_WALLET_ABSPATH . 'includes/class-woo-wallet-wallet.php' );
         $this->wallet = new Woo_Wallet_Wallet();
+        
+        include_once( WOO_WALLET_ABSPATH . 'includes/class-woo-wallet-cashback.php' );
+        $this->cashback = new Woo_Wallet_Cashback();
+        
+        include_once( WOO_WALLET_ABSPATH . 'includes/class-woo-wallet-widgets.php' );
+        
         if ( $this->is_request( 'admin' ) ) {
             include_once( WOO_WALLET_ABSPATH . 'includes/class-woo-wallet-settings.php' );
             include_once( WOO_WALLET_ABSPATH . 'includes/class-woo-wallet-extensions.php' );
@@ -133,6 +146,7 @@ final class WooWallet {
         register_activation_hook(WOO_WALLET_PLUGIN_FILE, array( 'Woo_Wallet_Install', 'install' ) );
         add_filter( 'plugin_action_links_' . plugin_basename(WOO_WALLET_PLUGIN_FILE), array( $this, 'plugin_action_links' ) );
         add_action( 'init', array( $this, 'init' ), 5);
+        add_action( 'widgets_init', array($this, 'woo_wallet_widget_init') );
         add_action( 'woocommerce_loaded', array( $this, 'woocommerce_loaded_callback' ) );
         add_action( 'rest_api_init', array( $this, 'rest_api_init' ) );
         do_action( 'woo_wallet_init' );
@@ -172,7 +186,16 @@ final class WooWallet {
             flush_rewrite_rules();
             update_option( '_wallet_enpoint_added', true );
         }
+        
+        add_action('deleted_user', array($this, 'delete_user_transaction_records'));
     }
+    /**
+     * WooWallet init widget
+     */
+    public function woo_wallet_widget_init(){
+        register_widget('Woo_Wallet_Topup');
+    }
+
     /**
      * Load WooCommerce dependent class file.
      */
@@ -273,6 +296,11 @@ final class WooWallet {
         if ( $item->get_type() == 'fee' ) {
             update_metadata( 'order_item', $item_id, '_legacy_fee_key', $item->legacy_fee_key );
         }
+    }
+    
+    public function delete_user_transaction_records($id){
+        global $wpdb;
+        $wpdb->query($wpdb->prepare( "DELETE t.*, tm.* FROM {$wpdb->base_prefix}woo_wallet_transactions t JOIN {$wpdb->base_prefix}woo_wallet_transaction_meta tm ON t.transaction_id = tm.transaction_id WHERE t.user_id = %d", $id ));
     }
 
     /**

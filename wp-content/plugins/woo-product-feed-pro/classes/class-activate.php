@@ -37,13 +37,6 @@ class WooSEA_Activation {
 					"taxonomy" => "none",
 					"utm_source" => "Google DSA",
                         		"type" => "Advertising" ),
-                 		"Google Product Review Feed" => array (
-                        		"channel_hash" => md5("Google Product Review"),
-                        		"name" => "Google Product Review",
-					"fields" => "google_product_review",
-					"taxonomy" => "none",
-					"utm_source" => "Google Product Review",
-                        		"type" => "Advertising" ),
                  		"Google Local Products Feed" => array (
                         		"channel_hash" => md5("Google Local Products"),
                         		"name" => "Google Local Products",

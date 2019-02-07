@@ -2,6 +2,7 @@
 $domain = $_SERVER['HTTP_HOST'];
 $plugin_settings = get_option( 'plugin_settings' );
 $license_information = get_option( 'license_information' );
+$host = $_SERVER['HTTP_HOST'];
 
 $elite_disable = "enabled";
 if($license_information['license_valid'] == "false"){
@@ -131,7 +132,7 @@ if(isset($_GET["tab"])) {
 						<tr class="<?php print"$elite_disable";?>" id="json_option">
 							<td>
 								<span>Increase the number of products that will be approved in Google's Merchant Center:<br/>
-								This option will fix WooCommerce's (JSON-LD) structured data bug and add extra structured data elements to your pages (<a href="https://adtribes.io/woocommerce-structured-data-bug/" target="_blank">Read more about this)</a></span>
+								This option will fix WooCommerce's (JSON-LD) structured data bug and add extra structured data elements to your pages (<a href="https://adtribes.io/woocommerce-structured-data-bug/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_content=structured data bug" target="_blank">Read more about this)</a></span>
 							</td>
 							<td>
                                                 		<label class="woo-product-feed-pro-switch">
@@ -150,7 +151,7 @@ if(isset($_GET["tab"])) {
 
 						<tr class="<?php print"$elite_disable";?>" id="identifier_option">
 							<td>
-								<span>Add GTIN, MPN, UPC, EAN, Product condition, Optimised title, Installment, Unit measure and Brand attributes to your store: (<a href="https://adtribes.io/add-gtin-mpn-upc-ean-product-condition-optimised-title-and-brand-attributes/" target="_blank">Read more about this)</a></span>
+								<span>Add GTIN, MPN, UPC, EAN, Product condition, Optimised title, Installment, Unit measure and Brand attributes to your store: (<a href="https://adtribes.io/add-gtin-mpn-upc-ean-product-condition-optimised-title-and-brand-attributes/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_content=adding fields" target="_blank">Read more about this)</a></span>
 							</td>
 							<td>
                                                 		<label class="woo-product-feed-pro-switch">
@@ -169,7 +170,7 @@ if(isset($_GET["tab"])) {
 		
 						<tr class="<?php print"$elite_disable";?>" id="wpml_option">
 							<td>
-								<span>Enable WPML support: (<a href="https://adtribes.io/wpml-support/" target="_blank">Read more about this)</a></span>
+								<span>Enable WPML support: (<a href="https://adtribes.io/wpml-support/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_content=wpml support" target="_blank">Read more about this)</a></span>
 							</td>
 							<td>
                                                 		<label class="woo-product-feed-pro-switch">
@@ -188,7 +189,7 @@ if(isset($_GET["tab"])) {
 
 						<tr class="<?php print"$elite_disable";?>" id="aelia_option">
 							<td>
-								<span>Enable Aelia Currency Switcher support: (<a href="https://adtribes.io/aelia-currency-switcher-feature/" target="_blank">Read more about this)</a></span>
+								<span>Enable Aelia Currency Switcher support: (<a href="https://adtribes.io/aelia-currency-switcher-feature/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_content=aelia support" target="_blank">Read more about this)</a></span>
 							</td>
 							<td>
                                                 		<label class="woo-product-feed-pro-switch">
@@ -275,10 +276,17 @@ if(isset($_GET["tab"])) {
                                                 </tr>
                                                 <tr>
                                                         <td colspan="2">
+							<?php
+							if($license_information['license_valid'] <> "true"){
+							?>
                                                                 <input type="submit" id="checklicense" value="Activate license">
-								<!--
-                                                                <input type="submit" id="deactivate_license" value="Deactivate license">
-								-->
+							<?php
+							} else {
+							?>
+                                                                <input type="submit" id="checklicense" value="License already active">
+							<?php
+							}
+							?>
                                                         </td>
                                                 </tr>
 
@@ -341,7 +349,7 @@ GROUP BY meta.meta_key ORDER BY meta.meta_key ASC;";
                                                 					$product_attr = unserialize($value->type);
                                                 					if(!empty($product_attr)){
 												foreach ($product_attr as $key => $arr_value) {
-                                                        						$value_display = str_replace("_", " ",$arr_value['name']);
+                                                        						$value_display = str_replace("_", "",$arr_value['name']);
                                                         						$list["custom_attributes_" . $key] = ucfirst($value_display);
                                                 						}
 											}
@@ -353,7 +361,9 @@ GROUP BY meta.meta_key ORDER BY meta.meta_key ASC;";
 						print "<tr><td><strong>Attribute name</strong></td><td><strong>On / Off</strong></td></tr>";
 
 						foreach ($list as $key => $value){
-							
+							// Trim spaces before and after			
+							$value = trim($value);	
+	
 							if(in_array($value, $extra_attributes)){
 								$checked = "checked";
 							} else {
@@ -379,8 +389,10 @@ GROUP BY meta.meta_key ORDER BY meta.meta_key ASC;";
 				</div>
 
 				<div class="woo-product-feed-pro-table-right">
-			
-				<!--	
+
+				<?php
+                                if($license_information['license_valid'] <> "true"){
+                                ?>
                                 <table class="woo-product-feed-pro-table">
                                         <tr>
                                                 <td><strong>Why upgrade to Elite?</strong></td>
@@ -394,14 +406,17 @@ GROUP BY meta.meta_key ORDER BY meta.meta_key ASC;";
                                                                 <li><strong>3.</strong> Add GTIN, brand and more fields to your store</li>
                                                                 <li><strong>4.</strong> Exclude individual products from your feeds</li>
                                                                 <li><strong>5.</strong> WPML support</li>
+                                                                <li><strong>6.</strong> Aelia currency switcher support</li>
                                                          </ul>
                                                         <strong>
-                                                        <a href="https://adtribes.io/pro-vs-elite/?utm_source=$domain&utm_medium=plugin&utm_campaign=upgrade-elite" target="_blank">Upgrade to Elite here!</a>
+                                                        <a href="https://adtribes.io/pro-vs-elite/?utm_source=<?php print"$host";?>&utm_medium=manage-settings&utm_campaign=why-upgrade-box" target="_blank">Upgrade to Elite here!</a>
                                                         </strong>
                                                 </td>
                                         </tr>
                                 </table><br/>
-				-->
+				<?php
+				}
+				?>
 
                                 <table class="woo-product-feed-pro-table">
                                         <tr>
@@ -411,15 +426,16 @@ GROUP BY meta.meta_key ORDER BY meta.meta_key ASC;";
                                                 <td>
                                                         Need assistance? Check out our:
                                                         <ul>
-                                                                <li><strong><a href="https://adtribes.io/support/" target="_blank">Frequently Asked Questions</a></strong></li>
+                                                                <li><strong><a href="https://adtribes.io/support/?utm_source=<?php print"$host";?>&utm_medium=manage-settings&utm_campaign=faq" target="_blank">Frequently Asked Questions</a></strong></li>
                                                                 <li><strong><a href="https://www.youtube.com/channel/UCXp1NsK-G_w0XzkfHW-NZCw" target="_blank">YouTube tutorials</a></strong></li>
-                                                                <li><strong><a href="https://adtribes.io/blog/" target="_blank">Blog</a></strong></li>
+                                                                <li><strong><a href="https://adtribes.io/blog/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_campaign=blog" target="_blank">Blog</a></strong></li>
                                                         </ul>
                                                         Or just reach out to us at  <strong><a href="https://wordpress.org/support/plugin/woo-product-feed-pro/" target="_blank">the support forum</a></strong> and we'll make sure your product feeds will be up-and-running within no-time.
                                                 </td>
                                         </tr>
                                 </table><br/>
 
+	
                                 <table class="woo-product-feed-pro-table">
                                         <tr>
                                                 <td><strong>Our latest blog articles</strong></td>
@@ -427,17 +443,19 @@ GROUP BY meta.meta_key ORDER BY meta.meta_key ASC;";
                                         <tr>
                                                 <td>
                                                         <ul>
-                                                                <li><strong>1. <a href="https://adtribes.io/setting-up-your-first-google-shopping-product-feed/" target="_blank">Create a Google Shopping feed</a></strong></li>
-                                                                <li><strong>2. <a href="https://adtribes.io/how-to-create-filters-for-your-product-feed/" target="_blank">How to create filters for your product feed</a></strong></li>
-                                                                <li><strong>3. <a href="https://adtribes.io/how-to-create-rules/" target="_blank">How to set rules for your product feed</a></strong></li>
-                                                                <li><strong>4. <a href="https://adtribes.io/add-gtin-mpn-upc-ean-product-condition-optimised-title-and-brand-attributes/" target="_blank">Adding GTIN, Brand, MPN and more</a></strong></li>
-                                                                <li><strong>5. <a href="https://adtribes.io/woocommerce-structured-data-bug/" target="_blank">WooCommerce structured data markup bug</a></strong></li>
-                                                                <li><strong>6. <a href="https://adtribes.io/wpml-support/" target="_blank">Enable WPML support</a></strong></li>
-							</ul>
+                                                                <li><strong>1. <a href="https://adtribes.io/setting-up-your-first-google-shopping-product-feed/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_campaign=first shopping feed" target="_blank">Create a Google Shopping feed</a></strong></li>
+                                                                <li><strong>2. <a href="https://adtribes.io/how-to-create-filters-for-your-product-feed/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_campaign=how to create filters" target="_blank">How to create filters for your product feed</a></strong></li>
+                                                                <li><strong>3. <a href="https://adtribes.io/how-to-create-rules/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_campaign=how to create rules" target="_blank">How to set rules for your product feed</a></strong></li>
+                                                                <li><strong>4. <a href="https://adtribes.io/add-gtin-mpn-upc-ean-product-condition-optimised-title-and-brand-attributes/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_campaign=adding fields" target="_blank">Adding GTIN, Brand, MPN and more</a></strong></li>
+                                                                <li><strong>5. <a href="https://adtribes.io/woocommerce-structured-data-bug/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_campaign=structured data bug" target="_blank">WooCommerce structured data markup bug</a></strong></li>
+                                                                <li><strong>6. <a href="https://adtribes.io/wpml-support/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_campaign=wpml support" target="_blank">Enable WPML support</a></strong></li>
+
+                                                                <li><strong>7. <a href="https://adtribes.io/aelia-currency-switcher-feature/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_campaign=aelia support" target="_blank">Enable Aelia currency switcher support</a></strong></li>
+						    </ul>
                                                 </td>
                                         </tr>
                                 </table><br/>
-
+		
 				</div>
 			</div>
 		</tbody>

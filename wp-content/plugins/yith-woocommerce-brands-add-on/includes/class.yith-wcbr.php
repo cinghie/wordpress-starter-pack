@@ -88,7 +88,6 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 			// add brand taxonomy to ones WooCommerce uses to alter count basing on products visibility
 			add_filter( 'woocommerce_change_term_counts', array( $this, 'change_term_counts' ) );
 
-
             // Set Brand taxonomy term when you duplicate the product
             add_action( 'woocommerce_product_duplicate', array( $this,'woocommerce_product_duplicate' ),10,2 );
 		}
@@ -289,7 +288,7 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 			$brands_label = get_option( 'yith_wcbr_brands_label' );
 			$product_brands = get_the_terms( $current_product_id, self::$brands_taxonomy );
 			$product_has_brands = ! is_wp_error( $product_brands ) && $product_brands;
-			$content_to_show = get_option( 'yith_wcbr_single_product_brands_content' );
+			$content_to_show = get_option( 'yith_wcbr_single_product_brands_content', 'both' );
 
 			if( $show_logo == 'yes' && $show_title == 'yes' ){
 				$content_to_show = 'both';
@@ -399,8 +398,7 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 
         }
 
-
-        /**
+		/**
 		 * Returns single instance of the class
 		 *
 		 * @return \YITH_WCBR

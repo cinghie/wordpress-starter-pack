@@ -1,4 +1,4 @@
-# Copyright (C) 2018 WooCommerce Variation Swatches
+# Copyright (C) 2019 WooCommerce Variation Swatches
 # This file is distributed under the same license as the WooCommerce Variation Swatches package.
 msgid ""
 msgstr ""
@@ -16,7 +16,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../includes/class-wvs-customizer.php:34, ../woo-variation-swatches.php:565
+#: ../includes/class-wvs-customizer.php:34, ../woo-variation-swatches.php:568
 msgid "WooCommerce Variation Swatches"
 msgstr ""
 
@@ -243,7 +243,7 @@ msgstr ""
 msgid "Choose a color"
 msgstr ""
 
-#: ../includes/functions.php:372, ../woo-variation-swatches.php:368
+#: ../includes/functions.php:372, ../woo-variation-swatches.php:371
 msgid "Choose an Image"
 msgstr ""
 
@@ -339,66 +339,66 @@ msgstr ""
 msgid "Please share the reason"
 msgstr ""
 
-#: ../woo-variation-swatches.php:369
+#: ../woo-variation-swatches.php:372
 msgid "Add Attribute"
 msgstr ""
 
-#: ../woo-variation-swatches.php:370
+#: ../woo-variation-swatches.php:373
 msgid "Add"
 msgstr ""
 
-#: ../woo-variation-swatches.php:371
+#: ../woo-variation-swatches.php:374
 msgid "Cancel"
 msgstr ""
 
-#: ../woo-variation-swatches.php:372
+#: ../woo-variation-swatches.php:375
 msgid "Use Image"
 msgstr ""
 
-#: ../woo-variation-swatches.php:373
+#: ../woo-variation-swatches.php:376
 msgid "Add Media"
 msgstr ""
 
-#: ../woo-variation-swatches.php:381
+#: ../woo-variation-swatches.php:384
 msgid "Quick Feedback"
 msgstr ""
 
-#: ../woo-variation-swatches.php:460, ../woo-variation-swatches.php:460
+#: ../woo-variation-swatches.php:463, ../woo-variation-swatches.php:463
 msgid "Read Documentation"
 msgstr ""
 
-#: ../woo-variation-swatches.php:462
+#: ../woo-variation-swatches.php:465
 msgid "Facing issue?"
 msgstr ""
 
-#: ../woo-variation-swatches.php:462
+#: ../woo-variation-swatches.php:465
 msgid "Please open a ticket."
 msgstr ""
 
-#: ../woo-variation-swatches.php:477
+#: ../woo-variation-swatches.php:480
 msgid "Go Pro"
 msgstr ""
 
-#: ../woo-variation-swatches.php:530
+#: ../woo-variation-swatches.php:533
 msgid "Please check PHP version requirement."
 msgstr ""
 
-#: ../woo-variation-swatches.php:532
+#: ../woo-variation-swatches.php:535
 msgid "It's required to use latest version of PHP to use <strong>WooCommerce Variation Swatches</strong>."
 msgstr ""
 
-#: ../woo-variation-swatches.php:544
+#: ../woo-variation-swatches.php:547
 msgid "WooCommerce"
 msgstr ""
 
-#: ../woo-variation-swatches.php:552
+#: ../woo-variation-swatches.php:555
 msgid "<strong>WooCommerce Variation Swatches</strong> is an add-on of "
 msgstr ""
 
-#: ../woo-variation-swatches.php:565
+#: ../woo-variation-swatches.php:568
 msgid "Currently, you are using older version of WooCommerce. It's recommended to use latest version of WooCommerce to work with %s."
 msgstr ""
 
-#: ../woo-variation-swatches.php:660
+#: ../woo-variation-swatches.php:663
 msgid "WooCommerce Variation Swatches Plugin try to load \"%s\" but template \"%s\" was not found."
 msgstr ""

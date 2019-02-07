@@ -111,9 +111,11 @@ class NM_PersonalizedProduct_Admin extends NM_PersonalizedProduct {
 			echo '</div>';
 			echo '<br>';
 
+			do_action('ppom_pdf_setting_action');
+			
 			echo '<div class="ppom-nm-plugins-block">';
 				echo '<a class="btn btn-yellow ppom-import-export-btn" href=""><span class="dashicons dashicons-download"></span> ' . __ ( 'Import Meta', "ppom" ) . '</a>';
-				echo '<a class="ppom-nm-plugins" href="#" data-toggle="modal" data-target="#ppom-nm-plugins-modal">N-Media More Plugins</a>';
+				echo '<a class="ppom-nm-plugins" href="#"  data-modal-id="ppom-nm-plugins-modal">PPOM More Addons</a>';
 				ppom_load_template ( 'admin/ppom-nm-plugins.php' );
 			echo '</div>';
 			

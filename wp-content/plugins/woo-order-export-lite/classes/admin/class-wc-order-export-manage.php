@@ -65,8 +65,13 @@ class WC_Order_Export_Manage {
 
 	static function save_export_settings_collection( $mode, $jobs ) {
 		$name = self::get_settings_name_for_mode( $mode );
+		$result = update_option( $name, $jobs, false );
+		
+		if ( $mode == self::EXPORT_SCHEDULE ) {
+			WC_Order_Export_Cron::try_install_job( true ); // must delete existing job!
+		}
 
-		return update_option( $name, $jobs, false );
+		return $result;
 	}
 
 
@@ -108,8 +113,16 @@ class WC_Order_Export_Manage {
 			}
 		}
 
+		if ( ! isset( $in['mode'] ) ) {
+			$in['mode'] = null;
+		}
+
+		if ( ! isset( $in['id'] ) ) {
+			$in['id'] = null;
+		}
+
 		$settings                               = self::get( $in['mode'], $in['id'] );
-		$settings['id']                         = $in['id'];
+		$settings['id']                         = (int)$in['id'];
 		$settings['duplicated_fields_settings'] = isset( $in['duplicated_fields_settings'] ) ? $in['duplicated_fields_settings'] : array();
 
 		// setup new values for same keys
@@ -121,8 +134,7 @@ class WC_Order_Export_Manage {
 			'orders' => 'order_fields',
 		);
 
-		$flat_formats = array( 'XLS', 'CSV', 'TSV' );
-		if ( ! in_array( $new_settings['format'], $flat_formats ) ) {
+		if ( ! WC_Order_Export_Engine::is_plain_format( $new_settings['format'] ) ) {
 			$sections['products'] = 'order_product_fields';
 			$sections['coupons']  = 'order_coupon_fields';
 		}
@@ -207,6 +219,7 @@ class WC_Order_Export_Manage {
 			'format_xls_display_column_names'          => 1,
 			'format_xls_auto_width'                    => 1,
 			'format_xls_direction_rtl'                 => 0,
+			'format_xls_force_general_format'          => 0,
 			'format_csv_enclosure'                     => '"',
 			'format_csv_delimiter'                     => ',',
 			'format_csv_linebreak'                     => '\r\n',
@@ -226,6 +239,29 @@ class WC_Order_Export_Manage {
 			'format_xml_prepend_raw_xml'               => '',
 			'format_xml_append_raw_xml'                => '',
 			'format_xml_self_closing_tags'             => 1,
+
+			'format_pdf_display_column_names'          => 1,
+			'format_pdf_repeat_header'                 => 1,
+			'format_pdf_orientation'                   => 'L',
+			'format_pdf_page_size'                     => 'A4',
+			'format_pdf_font_size'                     => 8,
+			'format_pdf_header_text'                   => '',
+			'format_pdf_footer_text'                   => '',
+			'format_pdf_pagination'                    => 'C',
+			'format_pdf_fit_page_width'                => 0,
+			'format_pdf_cols_width'                   => '25',
+			'format_pdf_cols_align'                   => 'L',
+			'format_pdf_page_header_text_color'        => '#000000',
+			'format_pdf_page_footer_text_color'        => '#000000',
+			'format_pdf_table_header_text_color'       => '#000000',
+			'format_pdf_table_header_background_color' => '#FFFFFF',
+			'format_pdf_table_row_text_color'          => '#000000',
+			'format_pdf_table_row_background_color'    => '#FFFFFF',
+			'format_pdf_logo_source'                   => '',
+			'format_pdf_logo_width'                    => 0,
+			'format_pdf_logo_height'                   => 15,
+			'format_pdf_logo_align'                    => 'R',
+
 			'all_products_from_order'                  => 1,
 			'skip_refunded_items'                      => 1,
 			'skip_suborders'                           => 0,
@@ -302,6 +338,31 @@ class WC_Order_Export_Manage {
 						}, $additional_fields )
 					);
 				}
+			}
+		}
+
+		// add parent fields if not exists
+		foreach ( array( 'products', 'coupons' ) as $main_field ) {
+			if ( in_array( $main_field, wp_list_pluck( $settings['order_fields'], 'key' ) ) ) {
+				continue;
+			}
+
+			$add = false;
+
+			// get correct structure
+			$default = self::move_fields_key( WC_Order_Export_Data_Extractor_UI::get_order_fields( $settings['format'], (array) $main_field ) );
+			self::remove_unchecked_fields( $default );
+
+			foreach ( $settings['order_fields'] as $num_index => $field ) {
+				if ( $main_field === $field['segment'] ) {
+					array_splice( $settings['order_fields'], $num_index, 0, $default );
+					$add = true;
+					break;
+				}
+			}
+
+			if ( ! $add ) {
+				$settings['order_fields'][] = $default;
 			}
 		}
 
@@ -461,13 +522,13 @@ class WC_Order_Export_Manage {
 			$all_jobs = $options;// just replace
 		} elseif ( $mode == self::EXPORT_SCHEDULE ) {
 			if ( $id ) {
-				$options['schedule']['last_run'] = isset( $all_jobs[ $id ] ) ? $all_jobs[ $id ]['schedule']['last_run'] : current_time( "timestamp",
-					0 );
-				$options['schedule']['next_run'] = WC_Order_Export_Cron::next_event_timestamp_for_schedule( $options['schedule'],
-					$id );
+				$options['schedule']['last_run'] = isset( $all_jobs[ $id ] ) ? $all_jobs[ $id ]['schedule']['last_run'] : current_time( "timestamp", 0 );
+				$options['schedule']['last_report_sent'] = isset( $all_jobs[ $id ] ) ? $all_jobs[ $id ]['schedule']['last_report_sent'] : current_time( "timestamp", 0 );
+				$options['schedule']['next_run'] = WC_Order_Export_Cron::next_event_timestamp_for_schedule( $options['schedule'], $id );
 				$all_jobs[ $id ]                 = $options;
 			} else {
 				$options['schedule']['last_run'] = current_time( "timestamp", 0 );
+				$options['schedule']['last_report_sent'] = current_time( "timestamp", 0 );
 				$options['schedule']['next_run'] = WC_Order_Export_Cron::next_event_timestamp_for_schedule( $options['schedule'] );
 				$all_jobs[]                      = $options; // new job
 				end( $all_jobs );
@@ -484,10 +545,6 @@ class WC_Order_Export_Manage {
 		}
 
 		self::save_export_settings_collection( $mode, $all_jobs );
-
-		if ( $mode == self::EXPORT_SCHEDULE ) {
-			WC_Order_Export_Cron::install_job();
-		}
 
 		return $id;
 	}
@@ -626,8 +683,7 @@ class WC_Order_Export_Manage {
 		}
 		self::backup_settings_before_version_2( $mode );
 
-		$flat_formats   = array( 'XLS', 'CSV', 'TSV' );
-		$is_flat_format = in_array( $settings['format'], $flat_formats );
+		$is_flat_format = WC_Order_Export_Engine::is_plain_format( $settings['format'] );
 		$is_json_format = $settings['format'] === 'JSON';
 
 		$order_fields               = array();
@@ -659,6 +715,9 @@ class WC_Order_Export_Manage {
 					// start FOR STATIC FIELDS
 					if ( isset( $values['value'] ) ) {
 						$field['value'] = $values['value'];
+					}
+					if ( preg_match( '/^custom_field_(\d+)/', $key, $matches ) ) {
+						$field['key'] = "static_field_" . $matches[1];
 					}
 					// end FOR STATIC FIELDS
 
@@ -756,10 +815,8 @@ class WC_Order_Export_Manage {
 				if ( isset( $values['value'] ) ) {
 					$order_field['value'] = $values['value'];
 				}
-				if ( $is_flat_format ) {
-					if ( preg_match( '/^custom_field_(\d+)/', $key, $matches ) ) {
-						$order_field['key'] = "static_field_" . $matches[1];
-					}
+				if ( preg_match( '/^custom_field_(\d+)/', $key, $matches ) ) {
+					$order_field['key'] = "static_field_" . $matches[1];
 				}
 				// end FOR STATIC FIELDS
 
@@ -805,7 +862,6 @@ class WC_Order_Export_Manage {
 		$settings['order_coupon_fields']  = $is_flat_format ? array() : $order_coupon_fields;
 
 		unset( $duplicated_fields_settings, $order_coupon_fields, $order_product_fields, $order_fields );
-
 		return $settings;
 	}
 

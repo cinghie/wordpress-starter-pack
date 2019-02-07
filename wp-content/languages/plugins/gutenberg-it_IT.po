@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-01-23 14:38:10+0000\n"
+"PO-Revision-Date: 2019-02-06 17:52:21+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -86,7 +86,7 @@ msgstr[1] "%d parole"
 
 #: languages/gutenberg-translations.php:1281 build/edit-post/index.js:12
 msgid "Top Toolbar"
-msgstr "Barra degli strumenti superiore"
+msgstr "Barra degli strumenti in alto"
 
 #: languages/gutenberg-translations.php:709 build/block-library/index.js:12
 msgid "Mark the excerpt of this content. Content before this block will be shown in the excerpt on your archives page."
@@ -1394,7 +1394,7 @@ msgstr "Titolo"
 
 #: languages/gutenberg-translations.php:1293 build/edit-post/index.js:12
 msgid "Fullscreen Mode"
-msgstr "Modalità a Schermo Intero"
+msgstr "Modalità a schermo intero"
 
 #: languages/gutenberg-translations.php:1233 build/edit-post/index.js:12
 msgid "View Posts"
@@ -3720,7 +3720,7 @@ msgstr "Visualizza la gerarchia"
 
 #: languages/gutenberg-translations.php:143 build/block-library/index.js:12
 msgid "Categories Settings"
-msgstr "Impostazioni categorie"
+msgstr "Impostazioni delle categorie"
 
 #: languages/gutenberg-translations.php:127 build/block-library/index.js:12
 msgid "Add text…"
@@ -3759,7 +3759,7 @@ msgstr "Modifica"
 
 #: languages/gutenberg-translations.php:31 build/block-library/index.js:12
 msgid "Edit audio"
-msgstr "Modifica audio"
+msgstr "Modifica l'audio"
 
 #: languages/gutenberg-translations.php:67 build/block-library/index.js:12
 msgid "Write caption…"
@@ -4003,7 +4003,7 @@ msgstr "Feedback"
 
 #: gutenberg.php:84 gutenberg.php:85
 msgid "Demo"
-msgstr "Dimostrazione"
+msgstr "Demo"
 
 #: languages/gutenberg-translations.php:140
 #: packages/block-library/src/latest-posts/index.php:36

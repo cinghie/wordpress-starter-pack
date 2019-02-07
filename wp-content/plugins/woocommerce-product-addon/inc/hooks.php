@@ -612,13 +612,14 @@ function ppom_hooks_render_shortcode( $atts ) {
         $ppom_bs_modal_css = PPOM_URL.'/css/bootstrap/bootstrap.modal.css';
         // $ppom_bs_css = '//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css';
         $ppom_bs_js_cdn  = '//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js';
-        $ppom_popper_cdn = '//cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js';
         
         wp_enqueue_style( 'ppom-bootstrap', $ppom_bs_css);
         wp_enqueue_style( 'ppom-bootstrap-modal', $ppom_bs_modal_css);
+
+        // Description Tooltips JS File
+        wp_enqueue_script('PPOM-tooltip', PPOM_URL."/scripts/ppom-tooltip.js", array('jquery') );
         
-        wp_enqueue_script( 'ppom-popper', $ppom_popper_cdn, array('jquery'));
-        wp_enqueue_script( 'bootstrap-js', $ppom_bs_js_cdn, array('jquery','ppom-popper'));
+        wp_enqueue_script( 'bootstrap-js', $ppom_bs_js_cdn, array('jquery'));
     }
     
     // ajax validation script

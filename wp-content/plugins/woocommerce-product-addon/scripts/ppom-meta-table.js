@@ -21,7 +21,7 @@ jQuery(function($){
         1- Apply DataTable JS Library To PPOM Meta List
     **/
 	$('#ppom-meta-table').DataTable();
-
+	var append_overly_model =  ("<div class='ppom-modal-overlay ppom-js-modal-close'></div>");
 
     /**
         2- Delete Selected Products
@@ -112,13 +112,19 @@ jQuery(function($){
     $('#ppom-meta-table_wrapper').on('click','a.ppom-products-modal', function(e){
         
         e.preventDefault();
+
+        $(".ppom-table").DataTable();
         var ppom_id = $(this).data('ppom_id'); 
         var get_url = ajaxurl+'?action=ppom_get_products&ppom_id='+ppom_id;
-        
+	    var model_id = $(this).attr('data-formmodal-id');
+	    
 	    $.get( get_url, function(html){
-	        $('#ppom-product-modal .modal-body').html(html);
+	        $('#ppom-product-modal .ppom-modal-body').html(html);
 	        $("#ppom_id").val(ppom_id);
-	        $('#ppom-product-modal').modal('show', {backdrop: 'static'});
+        	$("body").append(append_overly_model);
+	        $(".ppom-table").DataTable();
+	        $('#'+model_id).fadeIn();
+
 	    });
     });
 

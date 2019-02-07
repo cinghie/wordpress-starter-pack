@@ -107,7 +107,7 @@ $all_forms = PPOM() -> get_product_meta_all();
 						</td>
 						<td><?php echo ppom_admin_simplify_meta($productmeta -> the_meta)?></td>
 						<td>
-							<a class="btn btn-primary ppom-products-modal" data-ppom_id="<?php echo esc_attr($productmeta ->productmeta_id); ?>"><?php _e('Attach to Products', "ppom")?></a>
+							<a class="btn btn-primary ppom-products-modal" data-ppom_id="<?php echo esc_attr($productmeta ->productmeta_id); ?>" data-formmodal-id="ppom-product-modal"><?php _e('Attach to Products', "ppom")?></a>
 						</td>
 						<td>
 							<a id="del-file-<?php echo esc_attr($productmeta -> productmeta_id); ?>" href="#" class="button button-sm ppom-delete-single-product" data-product-id="<?php echo esc_attr($productmeta -> productmeta_id); ?>"><span class="dashicons dashicons-no"></span></a>
@@ -124,27 +124,22 @@ $all_forms = PPOM() -> get_product_meta_all();
 </div>
 
 <!-- Product Modal -->
-<div class="modal fade" id="ppom-product-modal">
-	<div class="modal-dialog modal-lg">
-	    <div class="modal-content">
-	        <form id="ppom-product-form">
-	            <input type="hidden" name="action" value="ppom_attach_ppoms"/>
-	            <input type="hidden" name="ppom_id" id="ppom_id">
-	        <div class="modal-header">
-	            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	            <h4 class="modal-title"><?php _e('WooCommerce Products', 'ppom');?></h4>
-	        </div>
+<div id="ppom-product-modal" class="ppom-modal-box" style="display: none;">
+	<form id="ppom-product-form">		
+		<input type="hidden" name="action" value="ppom_attach_ppoms"/>
+        <input type="hidden" name="ppom_id" id="ppom_id">
+	    
+	    <header> 
+	        <h3><?php _e('WooCommerce Products', 'ppom');?></h3>
+	    </header>
 
-	        <div class="modal-body">
+	    <div class="ppom-modal-body">
 
-	        <!-- Dynamic contents -->
-	        </div>
-
-	        <div class="modal-footer">
-	            <button type="button" class="btn btn-white" data-dismiss="modal"><?php _e('Cancel', 'ppom');?></button>
-	            <button type="submit" class="btn btn-info"><?php _e('Save', 'ppom'); ?></button>
-	        </div>
-	        </form>
 	    </div>
-	</div>
+	    
+	    <footer>
+	    	<button type="button" class="btn btn-default close-model ppom-js-modal-close"><?php _e('Close' , 'ppom-addon-pdf'); ?></button>
+	    	<button type="submit" class="btn btn-info"><?php _e('Save', 'ppom'); ?></button>
+	    </footer>
+	</form>
 </div>

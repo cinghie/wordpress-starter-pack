@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 5.0
-Stable tag: 4.3.4
+Stable tag: 4.5.3
 
 == Description ==
 
@@ -272,6 +272,65 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 4.5.3 (2019-02-06) =
+* Fixed a bug: in the attribute enable/disable settings page some attributes could not be enabled. Changing the settings was not saved. This has been fixed now.
+
+= 4.5.2 (2019-02-05) =
+* Added support for adding mutiple store codes to Google Local Product Inventory Feeds
+
+= 4.5.1 (2019-02-04) =
+* The Redis Object Caching support was causing issues with some of our users so we removed support for the Redis Object Caching again (temporarly)
+
+= 4.5.0 (2019-02-03) =
+* Added the possibility to add prefix and suffixes before and after the id
+
+= 4.4.9 (2019-02-03) =
+* Removed upgrade notices for members who bought an Elite license
+
+= 4.4.8 (2019-02-03) =
+* Fixed a bug: the Aelia currency switch enable/disable option was broken, it could not be turned off. This issue has been fixed.
+
+= 4.4.7 (2019-02-03) =
+* Fixed a bug: include_only filters on tags were not working. This issue has been fixed.
+* Added compatibility for the Redit Object Caching plugin
+* Added some more license checks
+
+= 4.4.6 (2019-01-31) =
+* Solved a PHP warning that showed up when creating filters on quantity fields
+
+= 4.4.5 (2019-01-31) =
+* Final preparations made for the launch of the Elite features. Added lots of notifications, help texts and utm parameters
+
+= 4.4.4 (2019-01-30) =
+* Added notifications to the manage feeds page with regards to the Elite features
+
+= 4.4.3 (2019-01-30) =
+* Disabled the chart feature for now as Chart.js seems to conflict with some theme's
+
+= 4.4.2 (2019-01-29) =
+* New feature: introduced a chart feature for every individual product feed showing the amount of products per feed after each refresh.
+
+= 4.4.1 (2019-01-29) =
+* Fixed a bug: rules to change shipping costs for non Google shopping/Facebook feeds where not working. This issue has been fixed now.
+
+= 4.4.0 (2019-01-28) =
+* Fixed a bug: manually entered Aelia prices for variation products did not make it to the product feed. This issue has been fixed now.
+
+= 4.3.9 (2019-01-27) =
+* Fixed a bug: when a shipping zone was applicable for multiple countries it only put in the last country in the feed. This issue has been fixed now.
+
+= 4.3.8 (2019-01-26) =
+* Removed the template for Google Product Review Feeds as it was not fiished yet
+
+= 4.3.7 (2019-01-25) =
+* Fixed a bug: Aelia base currency was always showing as a shipping currency prefix after updating the currency setting of a product feed. This has been fixed now.
+
+= 4.3.6 (2019-01-25) =
+* Fixed a bug: there was a double currency prefix with shipping costs. This has been solved.
+
+= 4.3.5 (2019-01-25) =
+* Added Aelia exchange rate features for shipping costs
 
 = 4.3.4 (2019-01-23) =
 * Further improved support for the Aelia currency switcher
@@ -1318,6 +1377,65 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 4.5.3 =
+Fixed a bug: in the attribute enable/disable settings page some attributes could not be enabled. Changing the settings was not saved. This has been fixed now.
+
+= 4.5.2 =
+Added support for adding mutiple store codes to Google Local Product Inventory Feeds
+
+= 4.5.1 =
+Removed Redis Object Caching support as it was causing issues with some of our users
+
+= 4.5.0 =
+Added the possibility to add prefix and suffixes before and after the id
+
+= 4.4.9 =
+Removed upgrade notices for members who bought an Elite license
+
+= 4.4.8 =
+Fixed a bug: the Aelia currency switch enable/disable option was broken, it could not be turned off. This issue has been fixed.
+
+= 4.4.7 =
+Fixed a bug: include_only filters on tags were not working. This issue has been fixed.
+Added compatibility for the Redit Object Caching plugin
+Added some more license checks
+
+= 4.4.6 =
+Solved a PHP warning that showed up when creating filters on quantity fields
+
+= 4.4.5 =
+Final preparations made for the launch of the Elite features. Added lots of notifications, help texts and utm parameters
+
+= 4.4.4 =
+Added notifications to the manage feeds page with regards to the Elite features
+
+= 4.4.3 =
+Disabled the chart feature for now as Chart.js seems to conflict with some theme's
+
+= 4.4.2 =
+New feature: introduced a chart feature for every individual product feed showing the amount of products per feed after each refresh.
+
+= 4.4.1 =
+Fixed a bug: rules to change shipping costs for non Google shopping/Facebook feeds where not working. This issue has been fixed now.
+
+= 4.4.0 =
+Fixed a bug: manually entered Aelia prices for variation products did not make it to the product feed. This issue has been fixed now.
+
+= 4.3.9 =
+Fixed a bug: when a shipping zone was applicable for multiple countries it only put in the last country in the feed. This issue has been fixed now.
+
+= 4.3.8 =
+Removed the template for Google Product Review Feeds as it was not fiished yet
+
+= 4.3.7 =
+Fixed a bug: Aelia base currency was always showing as a shipping currency prefix after updating the currency setting of a product feed. This has been fixed now.
+
+= 4.3.6 =
+Fixed a bug: there was a double currency prefix with shipping costs. This has been solved.
+
+= 4.3.5 =
+Added Aelia exchange rate features for shipping costs
 
 = 4.3.4 =
 Further improved support for the Aelia currency switcher

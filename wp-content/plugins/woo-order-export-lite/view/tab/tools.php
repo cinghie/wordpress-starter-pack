@@ -27,13 +27,14 @@ $type_labels = ! $WC_Order_Export::is_full_version() ? array() : array(
 <div class="clearfix"></div>
 <div id="woe-admin" class="container-fluid wpcontent">
     <form>
+        <?php wp_nonce_field( 'woe_nonce', 'woe_nonce' ); ?>
         <div class="woe-tab" id="woe-tab-general">
             <div class="woe-box woe-box-main">
-                <h2 class="woe-box-title"><?php _e( 'Export settings', 'woo-order-export-lite' ) ?></h2>
+                <h3 class="woe-box-title"><?php _e( 'Export settings', 'woo-order-export-lite' ) ?></h3>
                 <div class="row">
                     <div class="col-sm-12 form-group">
-                        <h6 class="woe-fake-label"><?php _e( 'Copy these settings and use it to migrate plugin to another WordPress install.',
-								'woo-order-export-lite' ) ?></h6>
+                        <p><?php _e( 'Copy these settings and use it to migrate plugin to another WordPress install.',
+								'woo-order-export-lite' ) ?></p>
                     </div>
                     <div class="col-sm-8 form-group woe-input-simple">
                         <select id="tools-export-selector">
@@ -52,10 +53,10 @@ $type_labels = ! $WC_Order_Export::is_full_version() ? array() : array(
 								<?php endforeach; ?>
 							<?php endforeach; ?>
                         </select>
-                        <textarea rows="7" id="tools-export-text" class='tools-textarea'></textarea>
-                        <p class="help-block"><?php _e( 'Just click inside the textarea and copy (Ctrl+C)',
-								'woo-order-export-lite' ) ?></p>
+                        <textarea rows="10" id="tools-export-text" class='tools-textarea'></textarea>
                     </div>
+                        <p><?php _e( 'Just click inside the textarea and copy (Ctrl+C)',
+								'woo-order-export-lite' ) ?></p>
                 </div>
             </div>
         </div>
@@ -63,23 +64,27 @@ $type_labels = ! $WC_Order_Export::is_full_version() ? array() : array(
     <form method="post">
         <div class="woe-tab" id="woe-tab-general">
             <div class="woe-box woe-box-main">
-                <h2 class="woe-box-title"><?php _e( 'Import settings', 'woo-order-export-lite' ) ?></h2>
+                <h3 class="woe-box-title"><?php _e( 'Import settings', 'woo-order-export-lite' ) ?></h3>
                 <div class="row">
                     <div class="col-sm-12 form-group">
-                        <h6 class="woe-fake-label"><?php _e( 'Paste text into this field to import settings into the current WordPress install.',
-								'woo-order-export-lite' ) ?></h6>
-                    </div>
-                    <div class="col-sm-8 form-group woe-input-simple">
-                        <textarea rows="7" id="tools-import-text" name="tools-import"></textarea>
-                        <p class="help-block"><?php _e( 'This process will overwrite your settings for "Advanced Order Export For WooCommerce" !',
+                        <p><?php _e( 'Paste text into this field to import settings into the current WordPress install.',
 								'woo-order-export-lite' ) ?></p>
                     </div>
+                    <div class="col-sm-8 form-group woe-input-simple">
+                        <textarea rows="10" id="tools-import-text" name="tools-import"></textarea>
+                    </div>
+                        <p ><?php _e( 'This process will overwrite your settings for "Advanced Order Export For WooCommerce" !',
+								'woo-order-export-lite' ) ?></p>
                 </div>
                 <div class="row">
                     <div class="col-sm-2 form-group col-md-offset-7">
                         <input disabled type="submit" class="woe-btn-tools"
                                value="<?php _e( 'Import', 'woo-order-export-lite' ) ?>" name="woe-tools-import"
                                id="submit-import">
+
+                        <div id=Settings_updated
+         style='display:none;color:green;font-size: 120%;padding-bottom: 10px;'><?php _e( "Settings were successfully updated!",
+			'woo-order-export-lite' ) ?></div>
                     </div>
                 </div>
             </div>
@@ -106,10 +111,12 @@ $type_labels = ! $WC_Order_Export::is_full_version() ? array() : array(
 				e.preventDefault();
 				$( document.activeElement ).blur();
 			} else {
+                                $('#Settings_updated').hide();
 				var data = $( '#woe-admin form' ).serialize();
 				data = data + "&action=order_exporter&method=save_tools";
 				$.post( ajaxurl, data, function ( response ) {
-					document.location = '<?php echo admin_url( 'admin.php?page=wc-order-export&tab=tools&save=y' ) ?>';
+                                    $( '#tools-import-text' ).val('');
+                                    $('#Settings_updated').show().delay(5000).fadeOut();
 				}, "json" );
 				return false;
 			}

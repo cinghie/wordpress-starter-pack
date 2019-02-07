@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - WooCommerce - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-01-20 20:47:28+0000\n"
+"PO-Revision-Date: 2019-01-31 04:41:00+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -6294,17 +6294,17 @@ msgstr "%1$s è in esaurimento. Restano %2$d unità."
 msgid "You cannot add another \"%s\" to your cart."
 msgstr "Non puoi aggiungere un ulteriore \"%s\" nel carrello."
 
-#. translators: %s: field name
-#: includes/class-wc-checkout.php:683
-msgid "Billing %s"
-msgstr "Fatturazione %s"
-
 #. translators: %s: product name
 #: includes/wc-template-functions.php:1969 includes/wc-cart-functions.php:123
 #: includes/class-wc-frontend-scripts.php:549 includes/class-wc-cart.php:1037
 #: includes/class-wc-cart.php:1065
 msgid "View cart"
 msgstr "Visualizza carrello"
+
+#. translators: %s: field name
+#: includes/class-wc-checkout.php:683
+msgid "Billing %s"
+msgstr "%s di fatturazione"
 
 #: includes/class-wc-ajax.php:852 includes/class-wc-ajax.php:859
 #: includes/class-wc-ajax.php:932

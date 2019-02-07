@@ -1,24 +1,18 @@
 So you found my to-do list for this plugin? Well, hope you enjoy the little sneak preview of what's coming. 
 Missing some features you might like? Drop me a line at support@adtribes.io and we might just add it to the list. Thanks!
 
+Urgent issues:
+- Add multi-site proposition
+- Notifications cannot be deleted?
+
 Plugin functionalities:
 - Add support for Google Product Review feeds
 - Add possibility to create OR rules
 - Change root XML node for custom feeds
 - Check JSON again
 
-BLOG:
-- Change WPML article, add support for multi-currency text
-
-Adtribes.io website changes:
-- Clean categories, products, website before going live again!!
-- Search functionaliteit bouwen die zoekt op Blog posts en pages
-- Er zitten maar 3 attributen in de URL waardoor structured data price ook niet klopt: https://adtribes.io/product/create-custom-feed/?attribute_pa_size=small&attribute_pa_color=yellow&attribute_kleurtje=White%2FBlack
-- Op de blog en alle andere pagina's buttons / links opnemen naar de WP-download pagina en de Elite pagina
-- Logo plaatsen op website zelf
-
 OTHER ISSUES:
-- Add a CSV upload feature for filling the woosea attributes, both for simple and variation products
+- Add a CSV upload feature (or UI) for filling the woosea attributes, both for simple and variation products
 - Add hierarchy category dropdown in filters/rules (exclude on identical subcategory names removes all)
 - Build a better WP Cron check, current one is not good enough
 - Add support for Google Shopping product review feeds - https://developers.google.com/product-review-feeds/

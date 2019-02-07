@@ -438,7 +438,7 @@ class WC_Order_Export_Data_Extractor {
 		//  we have to use variations , if user sets product attributes
 		if ( $settings['products'] AND $settings['product_attributes'] ) {
 			$values               = self::sql_subset( $settings['products'] );
-			$sql                  = "SELECT DISTINCT ID FROM {$wpdb->posts} AS products WHERE products.post_type in ('product','product_variation') AND products.post_status<>'trash' AND post_parent IN ($values)";
+			$sql                  = "SELECT DISTINCT ID FROM {$wpdb->posts} AS products WHERE products.post_type in ('product','product_variation') AND products.post_status<>'trash' AND post_parent<>0 AND post_parent IN ($values)";
 			$settings['products'] = $wpdb->get_col( $sql );
 			if ( empty( $settings['products'] ) ) // failed condition!
 			{
@@ -494,7 +494,7 @@ class WC_Order_Export_Data_Extractor {
 			// get products and variations!
 			$product_category_where = "AND orderitemmeta_product.meta_value IN
 				(
-					SELECT DISTINCT ID FROM {$wpdb->posts} AS product_category_variations WHERE post_parent IN ($product_category_where)
+					SELECT DISTINCT ID FROM {$wpdb->posts} AS product_category_variations WHERE post_parent<>0 AND post_parent IN ($product_category_where)
 					UNION
 					$product_category_where
 				)
@@ -1243,6 +1243,7 @@ class WC_Order_Export_Data_Extractor {
 		$product_fields_with_tags = array( 'product_variation', 'post_content', 'post_excerpt' );
 		$products                 = array();
 		$i                        = 0;
+
 		foreach ( $order->get_items( 'line_item' ) as $item_id => $item ) {
 			do_action( "woe_get_order_product_item", $item );
 			if ( $options['export_refunds'] AND $item['qty'] == 0 ) // skip zero items, when export refunds
@@ -1425,7 +1426,7 @@ class WC_Order_Export_Data_Extractor {
 						'full' ) : false;
 					$row[ $field ] = is_array( $images_src ) ? current( $images_src ) : '';
 				} elseif ( $field == 'full_category_names' ) {
-					$row[ $field ] = self::get_product_category_full( $product );
+					$row[ $field ] = self::get_product_category_full( $product_id );
 				} elseif ( isset( $static_vals[ $field ] ) ) {
 					$row[ $field ] = $static_vals[ $field ];
 				} elseif ( isset( $item_meta[ $field ] ) ) {    //meta from order
@@ -1485,12 +1486,12 @@ class WC_Order_Export_Data_Extractor {
 	 *
 	 * @return string
 	 */
-	public static function get_product_category_full( $product ) {
+	public static function get_product_category_full( $product_id ) {
 		$full_names = array();
-		if ( ! $product ) {
+		if ( ! $product_id ) {
 			return '';
 		}
-		$prod_terms = get_the_terms( $product->get_id(), 'product_cat' );
+		$prod_terms = get_the_terms( $product_id, 'product_cat' );
 		if ( ! $prod_terms ) {
 			return '';
 		}
@@ -1639,12 +1640,13 @@ class WC_Order_Export_Data_Extractor {
 		// extra WP_User
 		$user = ! empty( $order_meta['_customer_user'] ) ? get_userdata( $order_meta['_customer_user'] ) : false;
 		// setup missed fields for full addresses
-		foreach ( array( '_billing_address_2', '_shipping_address_2' ) as $optional_field ) {
+		foreach ( array( '_billing_address_1', '_billing_address_2', '_shipping_address_1', '_shipping_address_2' ) as $optional_field ) {
 			if ( ! isset( $order_meta[ $optional_field ] ) ) {
 				$order_meta[ $optional_field ] = '';
 			}
 		}
 
+		$order_meta = apply_filters( 'woe_fetch_order_meta', $order_meta, $order_id );
 
 		// fill as it must
 		foreach ( $labels['order']->get_fetch_fields() as $field ) {
@@ -1749,8 +1751,12 @@ class WC_Order_Export_Data_Extractor {
 				$row[ $field ]  = isset( $country_states[ $shipping_state ] ) ? html_entity_decode( $country_states[ $shipping_state ] ) : $shipping_state;
 			} elseif ( $field == 'billing_citystatezip' ) {
 				$row[ $field ] = self::get_city_state_postcode_field_value( $order, 'billing' );
+			} elseif ( $field == 'billing_citystatezip_us' ) {
+				$row[ $field ] = self::get_city_state_postcode_field_value( $order, 'billing', true);
 			} elseif ( $field == 'shipping_citystatezip' ) {
 				$row[ $field ] = self::get_city_state_postcode_field_value( $order, 'shipping' );
+			} elseif ( $field == 'shipping_citystatezip_us' ) {
+				$row[ $field ] = self::get_city_state_postcode_field_value( $order, 'shipping', true);
 			} elseif ( $field == 'products' OR $field == 'coupons' ) {
 				if ( isset( $data[ $field ] ) ) {
 					$row[ $field ] = $data[ $field ];
@@ -1865,7 +1871,7 @@ class WC_Order_Export_Data_Extractor {
 		return $row;
 	}
 
-	public static function get_city_state_postcode_field_value( $order, $type ) {
+	public static function get_city_state_postcode_field_value( $order, $type, $us_format = false  ) {
 		if ( $type != 'shipping' && $type != 'billing' ) {
 			return null;
 		}
@@ -1880,7 +1886,14 @@ class WC_Order_Export_Data_Extractor {
 				'get_' . $field_name ) ? $order->{'get_' . $field_name}() : $order->{$field_name};
 		}
 
-		return join( ", ", $citystatepostcode );
+		if( $us_format ) {
+			//reformat as "Austin, TX 95076"
+			$parts[] = $citystatepostcode[ $type . '_city' ] ;
+			$parts[] = trim( $citystatepostcode[ $type . '_state' ] . " " . $citystatepostcode[ $type . '_postcode' ] );
+		} else {
+			$parts = $citystatepostcode;
+		}	
+		return join( ", ", $parts );
 	}
 
 	public static function get_order_shipping_tax_refunded( $order_id ) {
@@ -1922,6 +1935,7 @@ class WC_Order_Export_Data_Extractor {
 			'_line_tax',
 			'method_id',
 			'cost',
+			'_reduced_stock',
 		) );
 
 		$result = array();

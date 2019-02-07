@@ -792,7 +792,7 @@ class NM_Form {
     		}
 		
 			$html .= '<span class="ppom-single-palette" ';
-			$html	.= 'title="'.esc_attr($option_label).'" data-html="true" data-toggle="tooltip"';
+			$html	.= 'title="'.esc_attr($option_label).'" data-ppom-tooltip="ppom_tooltip"';
 			$html	.= 'style="background-color:'.esc_attr($color_code).';';
 			$html	.= 'width:'.esc_attr($args['color_width']).'px;';
 			$html	.= 'height:'.esc_attr($args['color_height']).'px;';
@@ -967,7 +967,7 @@ class NM_Form {
 					
 					$html .= '<label>';
 					$html .= '<div class="pre_upload_image '.esc_attr($classes).'" ';
-					$html .= 'title="'.esc_attr($image_title_price).'" data-html="true" data-toggle="tooltip">';
+					$html .= 'title="'.esc_attr($image_title_price).'" data-ppom-tooltip="ppom_tooltip">';
 						if ($args['multiple_allowed'] == 'on') {
 							$html	.= '<input type="checkbox" ';
 							$html   .= 'id="'.esc_attr($option_id).'"';
@@ -1262,7 +1262,7 @@ class NM_Form {
 			$html .= 'href="javascript:;" ';
 			$html .= 'class="btn btn-primary '.esc_attr($args['button_class']).'">';
 			$html .= $args['button_label'] . '</a>';
-			$html .= '<span class="ppom-dragdrop-text">'.__('Drag file(s) here', 'ppom').'</span>';
+			$html .= '<span class="ppom-dragdrop-text">'.__('Drag file here', 'ppom').'</span>';
 		$html .= '</div>';		//ppom-file-container
 
 		if($args['dragdrop']){

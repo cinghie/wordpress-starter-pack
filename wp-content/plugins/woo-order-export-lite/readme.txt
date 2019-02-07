@@ -5,7 +5,7 @@ Tags: woocommerce,export,order,xls,csv,xml,woo export lite,export orders,orders 
 Requires PHP: 5.4.0
 Requires at least: 4.7
 Tested up to: 5.0
-Stable tag: 2.0.1
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,6 +102,18 @@ Yes, you can email a request to aprokaev@gmail.com. We intensively develop this 
 6. Select orders to export and use "bulk action".
 
 == Changelog ==
+
+= 2.1.0 - 2019-02-06 =
+* New format - **PDF**
+* Fixed some vulnerabilities
+* Added button "Reset settings"
+* Section "Setup fields" works on phone/tablet
+* New XLS option to avoid formatting - "Force general format for all cells"
+* Fixed bug - fields "Summary Report Total xxxx" stayed at bottom
+* Fixed bug -  "Summary report" was not sorted by item name
+* Fixed bug - fields reset when  user switches between flat formats
+* Fixed bug - field "full categories" was empty for variations
+* Tested for jQuery 3.0+
 
 = 2.0.1 - 2018-11-14 =
 * Fixed bug - "total weight" and "count of unique products" were empty
