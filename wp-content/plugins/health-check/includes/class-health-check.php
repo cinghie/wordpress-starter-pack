@@ -202,16 +202,13 @@ class Health_Check {
 	 * @return void
 	 */
 	public function enqueues() {
-		// Don't enqueue anything unless we're on the health check page
-		if ( ! isset( $_GET['page'] ) || 'health-check' !== $_GET['page'] ) {
-
-			/*
-			 * Special consideration, if warnings are not dismissed we need to display
-			 * our modal, and thus require our styles, in other locations, before bailing.
-			 */
-			if ( ! Health_Check_Troubleshoot::has_seen_warning() ) {
-				wp_enqueue_style( 'health-check', HEALTH_CHECK_PLUGIN_URL . '/assets/css/health-check.css', array(), HEALTH_CHECK_PLUGIN_VERSION );
-			}
+		/*
+		 * Don't enqueue anything unless we're on the health check page
+		 *
+		 * Special consideration, if warnings are not dismissed we need to display
+		 * our modal, and thus require our styles, in other locations, before bailing.
+		 */
+		if ( ( ! isset( $_GET['page'] ) || 'health-check' !== $_GET['page'] ) && Health_Check_Troubleshoot::has_seen_warning() ) {
 			return;
 		}
 
@@ -299,11 +296,14 @@ class Health_Check {
 			$plugin_data['slug'] = $plugin_file;
 		}
 
+		// If a slug isn't present, use the plugin's name
+		$plugin_name = ( isset( $plugin_data['slug'] ) ? $plugin_data['slug'] : sanitize_title( $plugin_data['Name'] ) );
+
 		$actions['troubleshoot'] = sprintf(
 			'<a href="%s">%s</a>',
 			esc_url( add_query_arg( array(
-				'health-check-troubleshoot-plugin' => ( isset( $plugin_data['slug'] ) ? $plugin_data['slug'] : sanitize_title( $plugin_data['Name'] ) ),
-				'_wpnonce'                         => wp_create_nonce( 'health-check-troubleshoot-plugin-' . $plugin_data['slug'] ),
+				'health-check-troubleshoot-plugin' => $plugin_name,
+				'_wpnonce'                         => wp_create_nonce( 'health-check-troubleshoot-plugin-' . $plugin_name ),
 			), admin_url( 'plugins.php' ) ) ),
 			esc_html__( 'Troubleshoot', 'health-check' )
 		);
