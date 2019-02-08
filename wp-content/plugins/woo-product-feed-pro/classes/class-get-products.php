@@ -1586,10 +1586,15 @@ class WooSEA_Get_Products {
 			$product_data['net_regular_price'] = wc_format_localized_price($product_data['net_regular_price']);;
 			$product_data['net_sale_price'] = wc_format_localized_price($product_data['net_sale_price']);;
 	
+			foreach($project_config['attributes'] as $attr_key => $attr_arr){
+				if(is_array($attr_arr)){
+					if($attr_arr['attribute'] == "g:shipping"){
+						$product_data['shipping'] =  $this->woosea_get_shipping_cost($class_cost_id, $project_config, $price, $tax_rates, $shipping_zones);
+						$shipping_str = $product_data['shipping'];
+					}
+				}
+			}
 
-
-			$product_data['shipping'] =  $this->woosea_get_shipping_cost($class_cost_id, $project_config, $price, $tax_rates, $shipping_zones);
-			$shipping_str = $product_data['shipping'];
 			$product_data['installment'] = $this->woosea_get_installment($project_config, $product_data['id']);
 			$product_data['weight'] = ($product->get_weight()) ? $product->get_weight() : false;
                         $product_data['height'] = ($product->get_height()) ? $product->get_height() : false;
@@ -2192,9 +2197,8 @@ class WooSEA_Get_Products {
 											$attr_line .= ",'".$shipping_str."'";
                                                             			}	
 								 	 } else {
-										
 										if(strlen($product_data[$attr_value['mapfrom']])){
-                                                                        		$attr_line .= ",'".$attr_value['prefix']. "".$product_data[$attr_value['mapfrom']]."" .$attr_value['suffix']."'";
+                                                                        		$attr_line .= ",'".$attr_value['prefix']. " ".$product_data[$attr_value['mapfrom']]." " .$attr_value['suffix']."'";
 										} else {
 											$attr_line .= ",''";
 										}
