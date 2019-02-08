@@ -92,7 +92,6 @@ function hide_wordpress_version() {
  - Health Check & Troubleshooting  
  - Instagram Feed  
  - Jetpack by WordPress.com  
- - MailChimp per Wordpress  
  - MetaSlider  
  - Post Types Order  
  - Redirection  
