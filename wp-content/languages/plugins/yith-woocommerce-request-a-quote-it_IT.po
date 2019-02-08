@@ -1,0 +1,1335 @@
+# Translation of Plugins - YITH WooCommerce Request A Quote - Stable (latest release) in Italian
+# This file is distributed under the same license as the Plugins - YITH WooCommerce Request A Quote - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2018-05-10 14:49:54+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/2.4.0-alpha\n"
+"Language: it\n"
+"Project-Id-Version: Plugins - YITH WooCommerce Request A Quote - Stable (latest release)\n"
+
+#: plugin-options/settings-options.php:123
+msgid "Your personal data will be used to process your request, support your experience throughout this website, and for other purposes described in our  [privacy_policy]."
+msgstr "I tuoi dati personali verranno utilizzati durante l'elaborazione della richiesta, della tua esperienza all'interno di questo sito web e per altri scopi descritti nella nostra [privacy_policy]."
+
+#: plugin-options/settings-options.php:118
+msgid "Request a quote Privacy Policy"
+msgstr "Privacy policy di Request a Quote"
+
+#: plugin-options/settings-options.php:110
+msgid "I have read and agree to the website terms and conditions."
+msgstr "Ho letto e accetto i termini e condizioni del sito."
+
+#: plugin-options/settings-options.php:106
+#: plugin-options/settings-options.php:119
+msgid "You can use the shortcode [terms] and [privacy_policy] (from WooCommerce 3.4.0)"
+msgstr "Puoi utilizzare gli shortcode [terms] e [privacy_policy] (a partire da WooCommerce 3.4.0)"
+
+#: plugin-options/settings-options.php:105
+msgid "Request a quote Privacy Policy Label"
+msgstr "Etichetta Politica sulla privacy di Request a Quote"
+
+#: plugin-options/settings-options.php:97
+msgid "Add Privacy Policy"
+msgstr "Aggiungi Privacy Policy"
+
+#: plugin-options/settings-options.php:92
+msgid "Form - Settings"
+msgstr "Modulo - impostazioni"
+
+#: plugin-fw/lib/yit-upgrade.php:89
+msgid "An unexpected error occurred, please try again later. Thanks!"
+msgstr "Si è verificato un errore inaspettato, per favore prova di nuovo più tardi. Grazie!"
+
+#: plugin-fw/templates/fields/select-buttons.php:33
+msgid "Deselect All"
+msgstr "Deseleziona tutto"
+
+#: plugin-fw/templates/fields/ajax-products.php:16
+msgid "Search Product"
+msgstr "Cerca prodotto"
+
+#: plugin-fw/templates/fields/ajax-posts.php:58
+msgid "Search Posts"
+msgstr "Cerca articoli"
+
+#: plugin-fw/templates/fields/select-buttons.php:26
+msgid "Select All"
+msgstr "Seleziona tutto"
+
+#: plugin-fw/templates/fields/icons.php:58
+msgid "Set Default"
+msgstr "Imposta come predefinito"
+
+#: templates/request-quote-view.php:56
+msgid " SKU:"
+msgstr "SKU:"
+
+#: templates/admin/premium.php:502
+msgid "Enrich your proposal by adding shipping fees. You can optionally choose whether to let users select or not a %1$sshipping method different from the one specified in the quote%2$s during the checkout process. "
+msgstr "Arricchisci la tua proposta aggiungendo le spese di spedizione. Puoi facoltativamente scegliere se permettere agli utenti di selezionare o meno un %1$smetodo di spedizione diverso da quello specificato nel preventivo%2$s durante il processo di acquisto. "
+
+#: templates/admin/premium.php:499
+msgid "Prevent changes to shipping method "
+msgstr "Impedisci cambiamenti al metodo di spedizione"
+
+#: templates/admin/premium.php:483
+msgid "And that's not all! You can also %1$sprevent the users from editing the checkout fields%2$s and avoid changes of the data previously inserted. "
+msgstr "E non è tutto! Puoi anche %1$simpedire agli utenti di modificare i campi del checkout%2$s ed evitare il cambiamento dei dati precedentemente inseriti. "
+
+#: templates/admin/premium.php:480
+msgid "You can edit the users' shipping and billing addresses while creating the quote. This is useful, for example, if your users wish to receive the order at a different address rather than the one available on their profile."
+msgstr "Puoi modificare gli indirizzi di spedizione e fatturazione degli utenti mentre crei il preventivo. Questo può risultare utile nel caso in cui, ad esempio, i tuoi utenti desiderino ricevere l'ordine ad un indirizzo diverso da quello disponibile sul loro profilo. "
+
+#: templates/admin/premium.php:477
+msgid "Edit the shipping and billing addresses"
+msgstr "Modifica gli indirizzi di spedizione e fatturazione "
+
+#: templates/admin/premium.php:632
+msgid "Today your store has a new edge!"
+msgstr "Ora il tuo negozio ha un nuovo vantaggio! "
+
+#: templates/admin/premium.php:629
+msgid "In a few steps, you can %1$screate a new quote from the backend%2$s of your website and forward it to the email address you entered: users will receive the quote for the list of products they have chosen and will be able to decide whether they want to %1$saccept%2$s or %1$srefuse%2$s the special offer you designed for them."
+msgstr "In pochi passaggi puoi %1$screare un nuovo preventivo dal backend%2$s del tuo sito ed inoltrarlo all'indirizzo email che hai inserito: gli utenti riceveranno il preventivo inerente la lista di prodotti che hanno scelto e potranno decidere se %1$saccettare%2$s o %1$srifiutare%2$s l'offerta speciale a loro destinata. "
+
+#: templates/admin/premium.php:626
+msgid "Do you want to send a tempting offer to your customers? Today, with YITH WooCommerce Request a Quote, that's easy!"
+msgstr "Vuoi inviare un'offerta accattivante ai tuoi clienti? Oggi è semplicissimo, con YITH WooCommerce Request a Quote!"
+
+#: templates/admin/premium.php:623
+msgid "Create quote by admin"
+msgstr "Creare preventivi da amministratore"
+
+#: includes/class.yith-request-quote.php:723
+msgid "Product added to the list!"
+msgstr "Prodotto aggiunto alla lista!"
+
+#: includes/class.yith-request-quote.php:705
+msgid "Please choose product options&hellip;"
+msgstr "Per favore scegli il prodotto options&hellip;"
+
+#: includes/class.yith-request-quote.php:701
+msgid "%s is a required field"
+msgid_plural "%s are required fields"
+msgstr[0] "%s è un campo richiesto "
+msgstr[1] "%s sono campi richiesti "
+
+#: templates/admin/premium.php:607
+msgid "You may constantly receive quote requests to which you cannot reply in a fast way. This means losing possible customers every day.%3$s Never fear! Our %1$sYITH WooCommerce Request a Quote allows you to create and send automatic replies to users%2$s, including a quote calculated on the original price of the products. %3$sThe perfect solution if your users don't know the prices if you have decided to hide them. "
+msgstr "Può capitare di ricevere constantemente richieste di preventivo alle quali non è possibile rispondere rapidamente. Questo significa perdere possibili clienti ogni giorno.%3$s Nessun timore! Il nostro  %1$sYITH WooCommerce Request a Quote ti permette di creare e inviare risposte automatiche ai tuoi utenti%2$s, inclusive di preventivo calcolato sul prezzo di listino del prodotto. %3$s"
+
+#: templates/admin/premium.php:605
+msgid "CREATE THE QUOTES IN AN AUTOMATIC WAY"
+msgstr "CREA I PREVENTIVI IN MODO AUTOMATICO"
+
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:97
+msgid "Club Subscription"
+msgstr "Club Subscription"
+
+#: plugin-fw/licence/lib/yit-licence.php:686
+msgid "Current product is not included in your YITH Club Subscription key"
+msgstr "Questo prodotto non è incluso nella tua chiave di licenza YITH Club Subscription"
+
+#: templates/admin/premium.php:595
+msgid "You made the proposal to your user who decides to accept it. What does happen now? %1$sThe most logical thing!%2$s User is redirected to the checkout page to complete the order according to the quote received. Easy and fast."
+msgstr "Hai fatto la proposta ad un tuo utente il quale decide di accettare. Cosa succede ora? %1$sLa cosa più logica!%2$s L'utente è reindirizzato alla pagina checkout per completare l'ordine in base al preventivo ricevuto. Semplice e veloce. "
+
+#: templates/admin/premium.php:592
+msgid "QUICKLY TO CHECKOUT"
+msgstr "VELOCEMENTE AL CHECKOUT "
+
+#: templates/admin/premium.php:576
+msgid "Choose the action to make soon after users send the request: %1$snotify%2$s them of the successful outcome or %1$sredirect%2$s them to the specific page that your marketing strategy provides."
+msgstr "Scegli l'azione da compiere subito dopo che gli utenti inviano la richiesta: %1$snotifica%2$s dell'esito riuscito o %1$sreindirizza%2$s alla pagina specifica prevista dalla tua strategia di marketing."
+
+#: templates/admin/premium.php:574
+msgid "REQUEST SENDING CONFIRMATION"
+msgstr "CONFERMA INVIO RICHIESTA"
+
+#: templates/admin/premium.php:386
+msgid "Two widgets, different for style, allow you to show to users the %1$scomplete list of products%2$s they selected to request the quote to send to site administrator."
+msgstr "Due widget, diversi per stile, ti permettono di mostrare agli utenti la %1$slista completa dei prodotti%2$s che hanno selezionato per richiedere il preventivo da inviare all'amministratore del sito. "
+
+#: plugin-fw/lib/yit-plugin-panel.php:330
+#: plugin-fw/lib/yit-plugin-panel.php:333
+msgid "How to install premium version"
+msgstr "Come installare la versione premium"
+
+#. Author of the plugin/theme
+msgid "YITHEMES"
+msgstr "YITHEMES"
+
+#: includes/class.yith-request-quote-admin.php:122
+msgid "Changelog (current version %s)"
+msgstr "Changelog (versione attuale %s)"
+
+#: includes/class.yith-request-quote-admin.php:118
+msgid "WordPress support forum"
+msgstr "Forum di supporto WordPress"
+
+#: includes/class.yith-request-quote-admin.php:114
+msgid "Premium live demo"
+msgstr "Anteprima versione premium"
+
+#: includes/class.yith-request-quote-admin.php:110
+msgid "Free Vs Premium"
+msgstr "Free Vs Premium"
+
+#: includes/class.yith-request-quote-admin.php:106
+msgid "Discovery premium version"
+msgstr "Scopri la versione premium"
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:175
+msgid "Enable this email notification"
+msgstr "Abilita le notifiche per questa email"
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:173
+msgid "Enable/Disable"
+msgstr "Abilita/disabilita"
+
+#. Author URI of the plugin/theme
+msgid "http://yithemes.com/"
+msgstr "http://yithemes.com/"
+
+#. Description of the plugin/theme
+msgid "The YITH Woocommerce Request A Quote plugin lets your customers ask for an estimate of a list of products they are interested into."
+msgstr "Il plugin YITH Woocommerce Request A Quote permette ai tuoi clienti di richiedere un preventivo per una lista di prodotti a cui sono interessati. "
+
+#: yith-woocommerce-request-a-quote.php:106
+msgid "YITH Woocommerce Request A Quote is enabled but not effective. It requires WooCommerce in order to work."
+msgstr "YITH WooCommerce Request A Quote è attivo ma non funzionante. Il plugin richiede WooCommerce per funzionare correttamente."
+
+#: yith-woocommerce-request-a-quote.php:46
+msgid "You can't activate the free version of YITH Woocommerce Request A Quote while you are using the premium one."
+msgstr "Non puoi attivare la versione gratuita di YITH WooCommerce Request A Quote mentre stai usando quella premium."
+
+#: templates/request-quote-view.php:147
+msgid "Update List"
+msgstr "Aggiorna Elenco"
+
+#: templates/request-quote-view.php:36
+msgid "Remove this item"
+msgstr "Rimuovi questo elemento"
+
+#: templates/request-quote-view.php:23
+msgid "Total"
+msgstr "Totale"
+
+#: templates/request-quote-view.php:13
+msgid "No products in list"
+msgstr "Nessun prodotto in elenco"
+
+#: templates/request-quote-form.php:57
+msgid "Send Your Request"
+msgstr "Invia la tua richiesta"
+
+#: templates/request-quote-form.php:37
+msgid "Notes on your request..."
+msgstr "Note nella tua richiesta..."
+
+#: templates/request-quote-form.php:36
+msgid "Message"
+msgstr "Messaggio"
+
+#: templates/request-quote-form.php:19
+msgid "Send the request"
+msgstr "Invia la richiesta"
+
+#: templates/emails/request-quote.php:24
+msgid "Subtotal"
+msgstr "Subtotale"
+
+#: templates/emails/request-quote.php:23 templates/request-quote-view.php:22
+msgid "Quantity"
+msgstr "Quantità"
+
+#: templates/emails/request-quote.php:22 templates/request-quote-view.php:21
+msgid "Product"
+msgstr "Prodotto"
+
+#: templates/emails/request-quote.php:17
+msgid "Request Quote"
+msgstr "Richiedi Preventivo"
+
+#: templates/emails/request-quote.php:13
+msgid "You received a quote request from %s. The request is the following:"
+msgstr "Hai ricevuto una richiesta di preventivo da %s. La richiesta è la seguente:"
+
+#: templates/emails/plain/request-quote.php:53
+#: templates/emails/request-quote.php:58
+msgid "Email:"
+msgstr "Email:"
+
+#: templates/emails/plain/request-quote.php:52
+#: templates/emails/request-quote.php:57
+msgid "Name:"
+msgstr "Nome:"
+
+#: templates/emails/plain/request-quote.php:50
+#: templates/emails/request-quote.php:55
+msgid "Customer details"
+msgstr "Dettagli cliente"
+
+#: templates/emails/plain/request-quote.php:45
+#: templates/emails/request-quote.php:52
+msgid "Customer message"
+msgstr "Messaggio del cliente"
+
+#: templates/emails/plain/request-quote.php:15
+msgid "You have received a quote request from %s. The request is the following:"
+msgstr "Hai ricevuto una richiesta di preventivo da %s. La richiesta è la seguente:"
+
+#: templates/admin/premium.php:564
+msgid "A new feature for your e-commerce. New users requesting a quote have the possibility to %1$sregister an account%2$s in the shop"
+msgstr "Una nuova funzionalità per il tuo e-commerce. I nuovi utenti che richiedono un preventivo hanno la possibilità di %1$sregistrare un account%2$s nel negozio"
+
+#: templates/admin/premium.php:561
+msgid "ACCOUNT REGISTRATION"
+msgstr "REGISTRAZIONE ACCOUNT "
+
+#: templates/admin/premium.php:545
+msgid "A chance to insert a list of %1$s\"Out of stock\"%2$s products in the quote by simply clicking  \"Add to quote\" button"
+msgstr "Possibilità di inserire nel preventivo una lista di prodotti %1$snon disponibili%2$s facendo semplicemente clic sul pulsante \"Aggiungi al preventivo\""
+
+#: templates/admin/premium.php:543
+msgid "OUT OF STOCK PRODUCTS"
+msgstr "PRODOTTI NON DISPONIBILI"
+
+#: templates/admin/premium.php:533
+msgid "With this Premium Version plugin, any file can be attached to emails. %1$sQuotes will be richer!%2$s"
+msgstr "Con la versione premium del plugin, qualsiasi file può essere allegato alle email. %1$sI preventivi saranno più ricchi!%2$s"
+
+#: templates/admin/premium.php:530
+msgid "EMAIL ATTACHMENT"
+msgstr "ALLEGATO EMAIL"
+
+#: templates/admin/premium.php:514
+msgid "PDF can be downloaded at any time in %1$s\"My Account\"%2$s page. Certainly useful for those customers who lost the quote attached to your email."
+msgstr "Il PDF può essere scaricato in qualsiasi momento nella pagina %1$s\"My Account\"%2$s. Sicuramente utile per quei clienti che hanno perso il preventivo allegato alla tua email. "
+
+#: templates/admin/premium.php:512
+msgid "PDF DOWNLOAD"
+msgstr "SCARICA PDF"
+
+#: templates/admin/premium.php:467
+msgid "Special customers deserve special prices! This plugin allows to %1$schange prices in the quote%2$s without altering prices in the shop."
+msgstr "I clienti speciali meritano prezzi speciali! Questo plugin ti permette di %1$scambiare i prezzi nel preventivo%2$s senza modificare i prezzi nel negozio. "
+
+#: templates/admin/premium.php:464
+msgid "PRICE CHANGE"
+msgstr "CAMBIAMENTO PREZZO"
+
+#: templates/admin/premium.php:448
+msgid "It's easy to add %1$sadditional and shipping costs%2$s and create a quote as accurate as possible."
+msgstr "È semplice aggiungere %1$scosti aggiuntivi e di spedizione%2$s e creare un preventivo quanto più accurato possibile."
+
+#: templates/admin/premium.php:446
+msgid "ADDITIONAL COSTS"
+msgstr "COSTI AGGIUNTIVI"
+
+#: templates/admin/premium.php:436
+msgid "By activating %1$sPDF Paging%2$s, customers do not have to scroll the page repeatedly. Thanks to PDF wide contents they can carefully read your offer."
+msgstr "Attivando la %1$spaginazione PDF%2$s, i clienti non devono scorrere ripetutamente la pagina. Grazie agli ampi contenuti del PDF possono leggere attentamente la tua offerta. "
+
+#: templates/admin/premium.php:433
+msgid "PDF PAGING"
+msgstr "PAGINAZIONE PDF"
+
+#: templates/admin/premium.php:417
+msgid "To add a %1$scustom text%2$s with the most appropriate and useful information."
+msgstr "Per aggiungere un %1$stesto personalizzato%2$s con le informazioni più appropriate ed utili. "
+
+#: templates/admin/premium.php:415
+msgid "PDF FOOTER"
+msgstr "FOOTER DEL PDF"
+
+#: templates/admin/premium.php:405
+msgid "All users registered in your store can see all quote requests they have sent from %s\"My Account\"%s page and check details, included the current status for them."
+msgstr "Tutti gli utenti registrati al tuo store possono verificare l’elenco delle loro richieste di preventivo ed il loro stato direttamente dalla pagina %s'Il Mio Account'%s."
+
+#: templates/admin/premium.php:402
+msgid "Recent requests in \"My Account\""
+msgstr "LE ULTIME RICHIESTE SU “IL MIO ACCOUNT”"
+
+#: templates/admin/premium.php:384
+msgid "Widgets"
+msgstr "Widget"
+
+#: templates/admin/premium.php:374
+msgid "Choose the best form to send your quote offer: send the quote and the list of selected products either in the email body, or as PDF attachment or both of them. Everyone with their own style and needs."
+msgstr "Scegli se inviare il preventivo con la tabella dei prodotti selezionati direttamente nell’email, come allegato PDF, oppure in entrambi. Scegli la forma che meglio si addice alle tue esigenze e alle tue preferenze. Ognuno con il proprio stile!"
+
+#: templates/admin/premium.php:371
+msgid "Send PDF attachment"
+msgstr "INVIA ALLEGATO PDF"
+
+#: templates/admin/premium.php:355
+msgid "You made a good offer, one that cannot be rejected, and you want to urge your customer to purchase by %ssetting an expiration date for the proposal you are offering?%s Add the expiration date directly from the request page while you are writing your undeniable proposal."
+msgstr "Hai fatto una buona offerta, quasi irrinunciabile, e vuoi mettere fretta al tuo utente, %scomunicargli una data limite oltre la quale la proposta non avrà più validità?%s Inserisci la data di scadenza direttamente dalla pagina dettaglio della richiesta in fase di compilazione della proposta che vuoi inoltrare."
+
+#: templates/admin/premium.php:352
+msgid "A QUOTE WITH EXPIRATION"
+msgstr "UN PREVENTIVO A SCADENZA"
+
+#: templates/admin/premium.php:341
+msgid "Users can decide whether to %1$saccept%2$s or %1$sreject%2$s your quote proposal directly from the email they've got. Two simple choice options, that show professionalism and that your users will certainly appreciate. In case they accept, they will be redirected to the order checkout."
+msgstr "L’utente può decidere di %1$saccettare%2$s o %1$srifiutare%2$s la tua proposta direttamente dall'email che tu invii. Due possibilità comode e professionali che il tuo utente certamente gradirà. In caso accettasse, sarà rimandato direttamente al checkout dell’ordine."
+
+#: templates/admin/premium.php:338
+msgid "ACCEPT OR REJECT?"
+msgstr "Accetti o rifiuti?"
+
+#: templates/admin/premium.php:323
+msgid "The best of interaction with your users. They send their request and you can answer so simply, just need to access your admin panel. A few steps to send the right proposal that %spersuades%s your customer to purchase."
+msgstr "Massima interazione con i tuoi utenti. Loro inviano la loro richiesta e tu puoi rispondere comodamente inserendo i dati dal tuo pannello di amministrazione. Pochi passi per inviare la proposta giusta che %sconvinca%s il tuo utente ad acquistare."
+
+#: templates/admin/premium.php:320
+msgid "SEND THE QUOTE"
+msgstr "Invia Preventivo"
+
+#: templates/admin/premium.php:310
+msgid "Every request you get is treated like an order! Yes, that's it. As soon as a user sends a quote request, you will see it in WooCommerce \"Orders\" section. %sMany details for each request%s, from current status to the username that generated it. A rich page specifically created to have everything there and at a hand's grasp."
+msgstr "Ogni richiesta viene vista come un ordine! Proprio così. Quando una di esse viene inviata dagli utenti, risulta subito disponibile tra la sezione 'Ordini' di WooCommerce. %sTanti dettagli per ogni richiesta%s, dallo stato attuale sino al nome dell’utente che l’ha generato. Una ricca pagina dedicata per avere tutto a disposizione."
+
+#: templates/admin/premium.php:307
+msgid "REQUEST MANAGEMENT"
+msgstr "GESTIONE DELLA RICHIESTA"
+
+#: templates/admin/premium.php:292
+msgid "The plugin includes a default form for %ssending emails%s, but if you feel you're not satisfied by the form you find there, you can enjoy creating your contact form using %1$s\"Contact Form 7\"%2$s, %1$s\"Gravity Form\"%2$s and %1$s\"YITH Contact Form\"%2$s. %3$sThree external plugins that, once correctly set, work perfectly to improve your plugin features."
+msgstr "Il plugin integra un modulo predefinito per %sl'invio delle email%s generate, ma se non ti senti soddisfatto, divertiti a creare i tuoi moduli di contatto con %1$s\"Contact Form 7\"%2$s, %1$s\"Gravity Form\"%2$s e %1$s\"YITH Contact Form\"%2$s. %3$sTre plugin esterni che, correttamente configurati, sono perfettamente compatibili con le funzionalità del plugin."
+
+#: templates/admin/premium.php:289
+msgid "REQUEST FORM"
+msgstr "MODULO DI RICHIESTA"
+
+#: templates/admin/premium.php:280
+msgid "A specific option allows you to filter users to which applying plugin features. You can choose among %1$sregistered%2$s users, %1$sunregistered%2$s ones or let the plugin work for all of them without making any distinction. "
+msgstr "Un'opzione apposita ti permette di filtrare gli utenti cui mettere a disposizione le funzionalità del plugin. Puoi scegliere tra utenti %1$sregistrati%2$s, tra quelli non registrati, o decidere di non fare distinzione alcuna."
+
+#: templates/admin/premium.php:277
+msgid "USER FILTERS"
+msgstr "TIPOLOGIA UTENTI"
+
+#: templates/admin/premium.php:262
+msgid "A dedicated list where you can add those products that have to be excluded from quote requests. Enable the specific option and \"Add to Quote\" button will %snot be displayed%s for products in this table. "
+msgstr "Una lista dedicata in cui aggiungere i prodotti che vuoi escludere dalle richieste di preventivo. Abilitando l’opzione apposita i prodotti in questione %snon saranno accompagnati%s dal pulsante 'Aggiungi al preventivo' solitamente previsto dal plugin."
+
+#: templates/admin/premium.php:259
+msgid "EXCLUSION TABLE"
+msgstr "TABELLA DELLE ESCLUSIONI"
+
+#: templates/admin/premium.php:250
+msgid "Suppose that you do not want to show price for products in your shop. Just a click and your wish comes true. Enable the option \"Hide Price\" and it's done!"
+msgstr "Si supponga che non si desidera visualizzare il prezzo per i prodotti nel tuo negozio. Basta un click e il tuo desiderio si avvera. Attivare l'opzione \"Nascondi prezzo\" ed è fatta!"
+
+#: templates/admin/premium.php:248
+msgid "HIDE PRODUCT PRICE"
+msgstr "NASCONDI IL PREZZO DEI PRODOTTI"
+
+#: templates/admin/premium.php:233
+msgid "Give users the opportunity to add one or more products to their list for a quote request from many different pages in your shop, and %snot just from product detail page%s. Enable this option and the button will be shown also in other pages of your store."
+msgstr "Dai la possibilità ai tuoi utenti di aggiungere uno o più prodotti alla loro lista di richiesta preventivo anche in %spagine diverse da quella del dettaglio prodotto%s. Abilita l'opzione ed il pulsante sarà disponibile insieme al prodotto anche nelle altre pagine del tuo store."
+
+#: templates/admin/premium.php:230
+msgid "NOT JUST IN PRODUCT PAGE"
+msgstr "NON SOLO NELLA PAGINA PRODOTTO"
+
+#: templates/admin/premium.php:220
+msgid "Choose the style you prefer for your %s\"Add to Quote\"%s button! In the plugin option panel users will be able to find a section to set colours and text for the button"
+msgstr "Scegli lo stile che preferisci per il tuo pulsante %s\"Aggiungi al Preventivo\"%s! Nel pannello opzioni del plugin gli utenti troveranno una sezione per impostare i colori e il testo per il pulsante"
+
+#: templates/admin/premium.php:217
+msgid "CUSTOMISED BUTTON"
+msgstr "PULSANTE PERSONALIZZATO"
+
+#: templates/admin/premium.php:209
+msgid "Premium Features"
+msgstr "Funzionalità premium"
+
+#: templates/admin/premium.php:203 templates/admin/premium.php:645
+msgid "to the premium version"
+msgstr "alla versione premium"
+
+#: templates/admin/premium.php:202 templates/admin/premium.php:644
+msgid "UPGRADE"
+msgstr "AGGIORNA"
+
+#: templates/admin/premium.php:199 templates/admin/premium.php:641
+msgid "Upgrade to %1$spremium version%2$s of %1$sYITH WooCommerce Request a Quote%2$s to benefit from all features!"
+msgstr "Aggiorna alla %1$sversione premium%2$s di %1$sYITH WooCommerce Request a Quote%2$s per beneficiare di tutte le caratteristiche!"
+
+#: templates/add-to-quote.php:16
+msgid "The product is already in quote request list!"
+msgstr "Il prodotto si trova già nell'elenco di richiesta preventivo!"
+
+#: plugin-options/settings-options.php:79
+msgid "Hide \"Add to cart\" button"
+msgstr "Nascondi pulsante \"Aggiungi al carrello\""
+
+#: plugin-options/settings-options.php:75
+msgid "Add to quote"
+msgstr "Aggiungi al preventivo"
+
+#: plugin-options/settings-options.php:71
+msgid "Button/Link text"
+msgstr "Testo del pulsante/collegamento"
+
+#: plugin-options/settings-options.php:65
+msgid "Button"
+msgstr "Pulsante"
+
+#: plugin-options/settings-options.php:64
+msgid "Link"
+msgstr "Collegamento"
+
+#: plugin-options/settings-options.php:59
+msgid "Button type"
+msgstr "Tipo di pulsante"
+
+#: plugin-options/settings-options.php:50
+msgid "Page contents: [yith_ywraq_request_quote]"
+msgstr "Contenuti pagina: [yith_ywraq_request_quote]"
+
+#: plugin-options/settings-options.php:49
+msgid "Request Quote Page"
+msgstr "Pagina Richiesta Preventivo"
+
+#: plugin-options/settings-options.php:43
+msgid "Request a Quote - General settings"
+msgstr "Request a Quote - Impostazioni generali"
+
+#: plugin-options/settings-options.php:33
+msgid "By purchasing the premium version of the plugin, you will benefit from the advanced features of the product and you will get one year of free update and support through our platform available 24h/24."
+msgstr "Acquistando la versione premium del plugin potrai usufruire delle caratteristiche avanzate del prodotto, oltre a ottenere un anno di aggiornamenti gratuiti e di supporto attraverso la nostra piattaforma disponibile 24h/24."
+
+#: plugin-options/settings-options.php:32
+msgid "Get Support and Pro Features"
+msgstr "Ottieni supporto e funzionalità premium"
+
+#: plugin-options/settings-options.php:30
+msgid "YITH WooCommerce Request A Quote"
+msgstr "YITH WooCommerce Request A Quote"
+
+#: plugin-options/settings-options.php:26
+msgid "Upgrade to the PREMIUM VERSION of YITH Woocommerce Request A Quote to benefit from all features!"
+msgstr "Passa alla VERSIONE PREMIUM di YITH Woocommerce Request A Quote per usufruire di tutte le funzionalità!"
+
+#: plugin-options/settings-options.php:25
+msgid "Discover the Advanced Features"
+msgstr "Scopri le funzionalità avanzate"
+
+#. #-#-#-#-#  yith-woocommerce-request-a-quote-code.pot (YITH Woocommerce
+#. Request A Quote 1.3.5)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: plugin-options/settings-options.php:24
+msgid "YITH Woocommerce Request A Quote"
+msgstr "YITH WooCommerce Request A Quote"
+
+#: plugin-options/settings-options.php:21
+msgid "Upgrade to the PREMIUM VERSION"
+msgstr "Aggiorna alla VERSIONE PREMIUM"
+
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:17
+msgid "Reset Defaults"
+msgstr "Ripristina impostazioni iniziali"
+
+#: plugin-fw/templates/fields/upload.php:19
+msgid "Reset"
+msgstr "Reimposta"
+
+#: plugin-fw/templates/fields/sidebars.php:52
+msgid "Right Sidebar"
+msgstr "Barra laterale destra"
+
+#: plugin-fw/templates/fields/sidebars.php:39
+msgid "Left Sidebar"
+msgstr "Barra laterale sinistra"
+
+#: plugin-fw/templates/fields/sidebars.php:41
+#: plugin-fw/templates/fields/sidebars.php:54
+msgid "Choose a sidebar"
+msgstr "Scegli una barra laterale"
+
+#: plugin-fw/templates/fields/sidebars.php:25
+msgid "Right sidebar"
+msgstr "Barra laterale destra"
+
+#: plugin-fw/templates/fields/sidebars.php:28
+#: plugin-fw/templates/fields/sidebars.php:31
+msgid "No sidebar"
+msgstr "Nessuna barra laterale"
+
+#: plugin-fw/templates/fields/sidebars.php:22
+msgid "Left sidebar"
+msgstr "Barra laterale sinistra"
+
+#: plugin-fw/templates/fields/image-gallery.php:39
+msgid "Delete"
+msgstr "Elimina"
+
+#: plugin-fw/templates/fields/image-gallery.php:39
+msgid "Add images"
+msgstr "Aggiungi immagini"
+
+#: plugin-fw/templates/fields/image-gallery.php:39
+msgid "Add to gallery"
+msgstr "Aggiungi alla galleria"
+
+#: plugin-fw/templates/fields/image-gallery.php:39
+msgid "Add Images to Gallery"
+msgstr "Aggiungi immagini alla galleria"
+
+#: plugin-fw/templates/fields/image-gallery.php:34
+#: plugin-fw/templates/fields/image-gallery.php:39
+msgid "Delete image"
+msgstr "Rimuovi immagine"
+
+#: plugin-fw/templates/metaboxes/types/icon-list.php:92
+msgid "(Default: <i %s></i> )"
+msgstr "(Default: <i %s></i> )"
+
+#: plugin-fw/templates/metaboxes/types/icon-list.php:90
+msgid "(Default: %s <img src=\"%s\"/>)"
+msgstr "(Default: %s <img src=\"%s\"/>)"
+
+#: plugin-fw/templates/fields/customtabs.php:106
+msgid "Do you want to remove the custom tab?"
+msgstr "Vuoi rimuovere la scheda personalizzata?"
+
+#: plugin-fw/templates/fields/customtabs.php:65
+msgid "Add custom product tab"
+msgstr "Aggiungi scheda prodotto personalizzata"
+
+#: plugin-fw/templates/fields/customtabs.php:53
+#: plugin-fw/templates/fields/customtabs.php:95
+msgid "Content of the tab. (HTML is supported)"
+msgstr "Contenuto della scheda (codice HTML supportato)."
+
+#: plugin-fw/templates/fields/customtabs.php:52
+#: plugin-fw/templates/fields/customtabs.php:94
+msgid "Value"
+msgstr "Valore"
+
+#: plugin-fw/templates/fields/customtabs.php:28
+msgid "Expand all"
+msgstr "Espandi tutti"
+
+#: plugin-fw/templates/fields/customtabs.php:28
+msgid "Close all"
+msgstr "Chiudi tutti"
+
+#: plugin-fw/templates/metaboxes/types/icon-list.php:76
+msgid "Image preview"
+msgstr "Anteprima immagine"
+
+#: plugin-fw/templates/fields/upload.php:18
+#: plugin-fw/templates/metaboxes/types/icon-list.php:70
+#: plugin-fw/templates/panel/woocommerce/woocommerce-upload.php:40
+msgid "Upload"
+msgstr "Carica"
+
+#: plugin-fw/templates/fields/customtabs.php:37
+#: plugin-fw/templates/fields/customtabs.php:81
+msgid "Remove"
+msgstr "Rimuovi"
+
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:228
+msgid "Renew license"
+msgstr "Rinnova la licenza"
+
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:226
+msgid "Order again"
+msgstr "Acquista di nuovo"
+
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:190
+msgid "Expired"
+msgstr "Non più valido"
+
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:160
+msgid "Banned"
+msgstr "Bloccato"
+
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:147
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:204
+msgid "Renew"
+msgstr "Rinnova"
+
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:142
+msgid "Deactivate"
+msgstr "Disattiva"
+
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:126
+msgid "%1s out of %2s"
+msgstr "%1s di %2s"
+
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:101
+msgid "License Actions"
+msgstr "Azioni licenza"
+
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:95
+msgid "Remaining"
+msgstr "Tempo rimanente"
+
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:92
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:201
+msgid "Expires"
+msgstr "Scadenza"
+
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:86
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:164
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:194
+msgid "Product Name"
+msgstr "Nome prodotto"
+
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:80
+msgid "Activated"
+msgstr "Attivato"
+
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:61
+msgid "Activate"
+msgstr "Attiva"
+
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:42
+msgid "Product to activate"
+msgid_plural "Products to activate"
+msgstr[0] "Prodotto da attivare"
+msgstr[1] "Prodotti da attivare"
+
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:29
+msgid "Update license information"
+msgstr "Aggiorna informazioni licenza"
+
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:27
+msgid "Have you updated your licenses? Have you asked for an extension? Update information concerning your products."
+msgstr "Hai aggiornato la tua licenza? Hai richiesto un'estensione? Aggiorna le informazioni dei tuoi prodotti."
+
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:23
+msgid "Yithemes License Activation"
+msgstr "Attivazione licenza YIThemes"
+
+#: plugin-fw/licence/lib/yit-theme-licence.php:163
+msgid ""
+"If you have purchased one of our products before 27 January 2015, you can benefit from support and updates (the services offered with the license)\n"
+"                    until 27 January 2016 and you do not have to purchase it again to get a new license key, because, before this date, your license used to be activated automatically by our system.\n"
+"                    After 27 January 2016, instead, if you want to benefit from support and updates you have to buy a new license and activate it through the license key you will be\n"
+"                    provided with and that you can find in your YIThemes account, in section \"My licenses\"."
+msgstr ""
+"Se hai acquistato uno dei nostri prodotti prima del 27 gennaio 2015, potrai usufruire di supporto e aggiornamenti (servizi inclusi nella licenza)\n"
+"fino al 27 gennaio 2016 e non dovrai riacquistare il prodotto per ottenere una chiave di licenza, poiché prima di questa data il tuo prodotto veniva automaticamente attivato dal nostro sistema.\n"
+"Dopo il 27 gennaio 2016, invece, se vorrai usufruire di supporto e aggiornamenti dovrai acquistare una nuova licenza e attivarla con il codice che ti verrà\n"
+"fornito e che puoi trovare nella tua area riservata su YIThemes, nella sezione \"My licenses\"."
+
+#: plugin-fw/licence/lib/yit-theme-licence.php:159
+msgid "I cannot find the license key for activating the theme I have bought some time ago. Where can I find it?"
+msgstr "Non riesco a trovare la chiave di licenza per l'attivazione del tema che ho acquistato diverso tempo fa. Dove posso trovarla?"
+
+#: plugin-fw/licence/lib/yit-theme-licence.php:117
+#: plugin-fw/licence/lib/yit-theme-licence.php:118
+msgid "%s"
+msgstr "%s"
+
+#: plugin-fw/licence/lib/yit-plugin-licence.php:67
+#: plugin-fw/licence/lib/yit-plugin-licence.php:68
+#: plugin-fw/licence/lib/yit-theme-licence.php:69
+#: plugin-fw/licence/lib/yit-theme-licence.php:70
+#: plugin-fw/licence/lib/yit-theme-licence.php:109
+#: plugin-fw/licence/lib/yit-theme-licence.php:110
+msgid "License Activation"
+msgstr "Attivazione licenza"
+
+#: plugin-fw/licence/lib/yit-licence.php:688
+msgid "License key deactivated for website"
+msgstr "Chiave di licenza disattivata per il sito web"
+
+#: plugin-fw/licence/lib/yit-licence.php:687
+msgid "License successfully activated"
+msgstr "Licenza attivata con successo"
+
+#: plugin-fw/licence/lib/yit-licence.php:687
+msgid "Great"
+msgstr "Grande!"
+
+#: plugin-fw/licence/lib/yit-licence.php:685
+msgid "License key has been banned"
+msgstr "La chiave di licenza è stata bloccata"
+
+#: plugin-fw/licence/lib/yit-licence.php:684
+msgid "License key has expired"
+msgstr "La chiave di licenza è scaduta"
+
+#: plugin-fw/licence/lib/yit-licence.php:683
+msgid "Invalid security key"
+msgstr "Chiave di sicurezza non valida"
+
+#: plugin-fw/licence/lib/yit-licence.php:682
+msgid "Invalid instance ID"
+msgstr "Istanza ID non valida"
+
+#: plugin-fw/licence/lib/yit-licence.php:681
+msgid "Maximum number of activations exceeded"
+msgstr "Hai raggiunto il numero massimo di attivazioni"
+
+#: plugin-fw/licence/lib/yit-licence.php:680
+msgid "Software has been deactivated"
+msgstr "Il software è stato disattivato"
+
+#: plugin-fw/licence/lib/yit-licence.php:679
+msgid "Invalid license key"
+msgstr "Chiave di licenza non valida"
+
+#: plugin-fw/licence/lib/yit-licence.php:678
+msgid "Invalid Request"
+msgstr "Richiesta non valida"
+
+#: plugin-fw/licence/lib/yit-licence.php:192
+msgid "Are you sure you want to deactivate the license for current site?"
+msgstr "Sei sicuro di voler disattivare la licenza per questo sito?"
+
+#: plugin-fw/licence/lib/yit-licence.php:191
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:89
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:167
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:198
+msgid "License Key"
+msgstr "Chiave di licenza"
+
+#: plugin-fw/licence/lib/yit-licence.php:190
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:88
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:166
+#: plugin-fw/licence/templates/panel/activation/activation-panel.php:197
+#: templates/request-quote-form.php:30
+msgid "Email"
+msgstr "Email"
+
+#: plugin-fw/licence/lib/yit-licence.php:189
+msgid "Unable to contact the remote server, please try again later. Thanks!"
+msgstr "Impossibile contattare il server remoto, prova più tardi. Grazie!"
+
+#: plugin-fw/licence/lib/yit-licence.php:188
+msgid "%s and %s fields cannot be empty"
+msgstr "I campi %s e %s non possono essere vuoti"
+
+#: plugin-fw/licence/lib/yit-licence.php:187
+msgctxt "%s = field name"
+msgid "%s field cannot be empty"
+msgstr "Il campo %s non può essere vuoto"
+
+#: plugin-fw/lib/yit-upgrade.php:585
+msgid "Update Plugin"
+msgstr "Aggiorna plugin"
+
+#: plugin-fw/lib/yit-upgrade.php:578
+msgid "You do not have sufficient permissions to update the plugins for this site."
+msgstr "Non sei in possesso delle autorizzazioni necessarie per aggiornare i plugin in questo sito."
+
+#: plugin-fw/lib/yit-upgrade.php:574
+msgid "You can't update the plugins for this site."
+msgstr "Non è possibile aggiornare i plugin per questo sito."
+
+#: plugin-fw/lib/yit-upgrade.php:501
+msgid "There is a new version of %1$s available. <a href=\"%2$s\" class=\"thickbox yit-changelog-button open-plugin-details-modal\" title=\"%3$s\">View version %4$s details</a> or <a href=\"%5$s\">update now</a>."
+msgstr "È disponibile una nuova versioni di %1$s. <a href=\"%2$s\" class=\"thickbox yit-changelog-button open-plugin-details-modal\" title=\"%3$s\">Visualizza i dettagli della versione %4$s</a> oppure <a href=\"%5$s\">aggiorna adesso</a>."
+
+#: plugin-fw/lib/yit-upgrade.php:499
+msgid "There is a new version of %1$s available. <a href=\"%2$s\" class=\"thickbox yit-changelog-button open-plugin-details-modal\" title=\"%3$s\">View version %4$s details</a>. <em>Automatic update is unavailable for this plugin, please <a href=\"%5$s\" title=\"License activation\">activate</a> your copy of %6s.</em>"
+msgstr "È disponibile una nuova versione di %1$s. <a href=\"%2$s\" class=\"thickbox yit-changelog-button open-plugin-details-modal\" title=\"%3$s\">Visualizza i dettagli della versione %4$s</a>. <em>Gli aggiornamenti automatici non sono disponibili per questo plugin, per piacere <a href=\"%5$s\" title=\"License activation\">attivi</a> la sua copia di %6s.</em>"
+
+#: plugin-fw/lib/yit-upgrade.php:497
+msgid "There is a new version of %1$s available. <a href=\"%2$s\" class=\"thickbox yit-changelog-button open-plugin-details-modal\" title=\"%3$s\">View version %4$s details</a>. <em>You have to activate the plugin on a single site of the network to benefit from automatic updates.</em>"
+msgstr "È disponibile una nuova versione di %1$s. <a href=\"%2$s\" class=\"thickbox yit-changelog-button open-plugin-details-modal\" title=\"%3$s\">Visualizza i dettagli della versione %4$s</a>. <em>Per poter usufruire degli aggiornamenti automatici è necessario attivare il plugin su un solo sito.</em>"
+
+#: plugin-fw/lib/yit-upgrade.php:495
+msgid "There is a new version of %1$s available. <a href=\"%2$s\" class=\"thickbox yit-changelog-button open-plugin-details-modal\" title=\"%3$s\">View version %4$s details</a>."
+msgstr "È disponibile una nuova versione di %1$s. <a href=\"%2$s\" class=\"thickbox yit-changelog-button open-plugin-details-modal\" title=\"%3$s\">Visualizza i dettagli della versione %4$s</a>."
+
+#: plugin-fw/lib/yit-upgrade.php:335
+msgid "Could not create Temporary file."
+msgstr "Non è stato possibile creare il file temporaneo."
+
+#: plugin-fw/lib/yit-upgrade.php:322
+msgid "Invalid URL Provided."
+msgstr "L'URL inserito non è valido."
+
+#: plugin-fw/lib/yit-upgrade.php:288
+msgid "YIThemes Repository"
+msgstr "Repository YIThemes"
+
+#: plugin-fw/lib/yit-upgrade.php:188
+msgid "Update now."
+msgstr "Aggiorna adesso."
+
+#: plugin-fw/lib/yit-upgrade.php:187
+msgid "please <a href=\"%activate_link%\">activate</a> your copy of %plugin_name%."
+msgstr "per favore, <a href=\"%activate_link%\">attiva</a> la tua copia di %plugin_name%."
+
+#: plugin-fw/lib/yit-upgrade.php:186
+msgid "Automatic update is unavailable for this plugin,"
+msgstr "L'aggiornamento automatico non è disponibile per questo plugin,"
+
+#: plugin-fw/lib/yit-upgrade.php:185
+msgid "View version %latest% details."
+msgstr "Visualizza i dettagli della versione %latest%."
+
+#: plugin-fw/lib/yit-upgrade.php:184
+msgid "There is a new version of %plugin_name% available."
+msgstr "Una nuova versione di %plugin_name% è disponibile."
+
+#: plugin-fw/lib/yit-pointers.php:85
+msgid ""
+"From now on, you can find the option panel of YITH plugins in YITH Plugins menu.\n"
+"                                    Every time one of our plugins is added, a new entry will be added to this menu.\n"
+"                                    For example, after the update, plugin options (such as for YITH WooCommerce Wishlist, YITH WooCommerce Ajax Search, etc.)\n"
+"                                    will be moved from previous location to YITH Plugins tab."
+msgstr ""
+"Da ora in poi, troverai tutte le opzioni dei tuoi plugin nel menu YITH Plugins.\n"
+"Ogni volta che aggiornerai i nostri plugin, troverai una nuova voce in questo menu.\n"
+"Per esempio, dopo l'aggiornamento, le opzioni del plugin (come per esempio quelle di YITH WooCommerce Wishlist, YITH WooCommerce Ajax Search etc.)\n"
+"saranno trasferite nella scheda YITH Plugins."
+
+#: plugin-fw/lib/yit-pointers.php:84
+msgid "Plugins Upgraded"
+msgstr "Plugin aggiornati"
+
+#: plugin-fw/lib/yit-pointers.php:74 plugin-fw/lib/yit-pointers.php:90
+msgid "and"
+msgstr "e"
+
+#: plugin-fw/lib/yit-pointers.php:73 plugin-fw/lib/yit-pointers.php:89
+msgid "Discover all our plugins available on:"
+msgstr "Scopri tutti i plugin disponibili su:"
+
+#: plugin-fw/lib/yit-pointers.php:71
+msgid ""
+"From now on, you can find all plugin options in YITH Plugins menu.\n"
+"                                     Plugin customization settings will be available as a new entry in YITH Plugins menu."
+msgstr ""
+"Da ora in poi, puoi trovare tutte le opzioni dei tuoi plugin nel menu YITH Plugins.\n"
+"Troverai le impostazioni di personalizzazione sotto una nuova voce nel menu YITH Plugins."
+
+#: plugin-fw/lib/yit-pointers.php:70
+msgid "Plugins Activated"
+msgstr "I plugin sono stati attivati"
+
+#: plugin-fw/lib/yit-plugin-panel.php:534
+msgid "Sorting successful."
+msgstr "Ordinamento effettuato con successo."
+
+#: plugin-fw/lib/yit-plugin-panel.php:533
+msgid "Sorry, import is disabled."
+msgstr "Ci dispiace, l'importazione è stata disabilitata."
+
+#: plugin-fw/lib/yit-plugin-panel.php:532
+msgid "The added file is not valid."
+msgstr "Il file aggiunto non è valido."
+
+#: plugin-fw/lib/yit-plugin-panel.php:531
+msgid "An error has occurred during import. Please try again."
+msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
+
+#: plugin-fw/lib/yit-plugin-panel.php:530
+msgid "Database imported correctly."
+msgstr "Database importato in modo corretto."
+
+#: plugin-fw/lib/yit-plugin-panel.php:528
+#: plugin-fw/lib/yit-plugin-panel.php:529
+msgid "Element updated correctly."
+msgstr "Elemento aggiornato correttamente"
+
+#: plugin-fw/lib/yit-plugin-panel.php:527
+msgid "Element deleted correctly."
+msgstr "Elemento rimosso in modo corretto."
+
+#: plugin-fw/lib/yit-plugin-panel.php:526
+msgid "Settings reset"
+msgstr "Impostazioni ripristinate"
+
+#: plugin-fw/lib/yit-plugin-panel.php:525
+msgid "Settings saved"
+msgstr "Impostazioni salvate"
+
+#: plugin-fw/lib/yit-plugin-panel.php:524
+msgid "The element you have entered already exists. Please, enter another name."
+msgstr "L'elemento inserito esiste già. Per favore, inserisci un altro nome."
+
+#: plugin-fw/lib/yit-plugin-panel.php:390
+#: plugin-fw/lib/yit-plugin-subpanel.php:161
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:18
+msgid "Are you sure?"
+msgstr "Sei sicuro?"
+
+#: plugin-fw/lib/yit-plugin-panel.php:389
+#: plugin-fw/lib/yit-plugin-subpanel.php:160
+msgid "Reset to default"
+msgstr "Ripristina configurazione predefinita"
+
+#: plugin-fw/lib/yit-plugin-panel.php:387
+#: plugin-fw/lib/yit-plugin-subpanel.php:158
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
+msgid "If you continue with this action, you will reset all options in this page."
+msgstr "Se prosegui con questa azione, tutte le opzioni di questa pagina saranno reimpostate."
+
+#: plugin-fw/lib/yit-plugin-panel.php:384
+#: plugin-fw/lib/yit-plugin-subpanel.php:155
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:11
+msgid "Save Changes"
+msgstr "Salva modifiche"
+
+#: plugin-fw/lib/yit-plugin-panel.php:72
+msgid "Plugin Settings"
+msgstr "Impostazioni plugin"
+
+#: plugin-fw/lib/yit-plugin-panel-wc.php:382
+msgid "The changes you have made will be lost if you leave this page."
+msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:1633
+msgid "Upload multiple files"
+msgstr "Carica file multipli"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:1631
+msgid "Add %s from images"
+msgstr "Aggiungi %s dalle immagini"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:1482
+#: plugin-fw/templates/fields/customtabs.php:46
+#: plugin-fw/templates/fields/customtabs.php:89
+#: templates/request-quote-form.php:24
+msgid "Name"
+msgstr "Nome"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:1475
+msgid "Show frontend of the %s"
+msgstr "Mostra front end di %s"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:1222
+#: plugin-fw/lib/yit-cpt-unlimited.php:1235
+msgid "Quick links"
+msgstr "Collegamenti rapidi"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:1130
+msgid "layout settings"
+msgstr "impostazioni di layout"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:1089
+msgid "Layout for single page of this portfolio"
+msgstr "Layout per pagina singola per questo portfolio"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:1088
+msgid "Single layout"
+msgstr "Layout singolo"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:1083
+msgid "Set univocal name for each category page URL."
+msgstr "Imposta un nome univoco per l'URL della pagina di ciascuna categoria."
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:1082
+msgid "Taxonomy Rewrite"
+msgstr "Riscrivi tassonomia"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:1077
+msgid "If you want to use categories in the portfolio, set a name for taxonomy. Name should be a slug (must not contain capital letters nor spaces) and must not be more than 32 characters long (database structure restriction)."
+msgstr "Se vuoi aggiungere delle categorie nel portfolio, imposta un nome per la tassonomia. Il nome dovrà essere in forma di slug (non deve contenere caratteri maiuscoli né spazi) e non più lungo di 32 caratteri (restrizione di database)."
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:1076
+msgid "Taxonomy"
+msgstr "Tassonomia"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:1071
+msgid "Set a label in plural (title of portfolio if empty)"
+msgstr "Imposta un'etichetta plurale (titolo del portfolio se vuoto)"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:1070
+msgid "Label in Plural"
+msgstr "Etichetta plurale"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:1065
+msgid "Set a label in singular (title of portfolio if empty)"
+msgstr "Imposta un'etichetta singolare (titolo del portfolio se vuoto)"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:1064
+msgid "Label in Singular"
+msgstr "Etichetta singolare"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:1059
+msgid "Univocal identification name in the URL for each product (slug from post if empty)"
+msgstr "Nome identificativo univoco nell'URL per singolo prodotto (usa slug dal post se vuoto)"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:1058
+msgid "Rewrite"
+msgstr "Riscrivi"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:1052
+msgid "Layout for this %s"
+msgstr "Layout per questo %s"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:1051
+msgid "Type"
+msgstr "Tipologia"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:1042
+msgid "%s Settings"
+msgstr "Impostazioni %s"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:724
+msgid "Categories"
+msgstr "Categorie"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:635
+msgid "Category"
+msgstr "Categoria"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:634
+msgid "New Category Name"
+msgstr "Nuovo nome categoria"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:633
+msgid "Add New Category"
+msgstr "Aggiungi nuova categoria"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:632
+msgid "Update Category"
+msgstr "Aggiorna categoria"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:631
+msgid "Edit Category"
+msgstr "Modifica categoria"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:630
+msgid "Parent Category:"
+msgstr "Categoria genitore:"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:629
+msgid "Parent Category"
+msgstr "Categoria genitore"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:628
+msgid "All Categories"
+msgstr "Tutte le categorie"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:627
+#: plugin-fw/templates/fields/ajax-terms.php:57
+msgid "Search Categories"
+msgstr "Cerca categorie"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:626
+msgctxt "taxonomy singular name"
+msgid "Category"
+msgstr "Categoria"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:625
+msgctxt "taxonomy general name"
+msgid "%s Categories"
+msgstr "%s Categorie"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:468
+#: plugin-fw/lib/yit-cpt-unlimited.php:582
+msgid "No %s found in Trash"
+msgstr "Nessun %s trovato nel cestino"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:467
+#: plugin-fw/lib/yit-cpt-unlimited.php:581
+msgid "No %s found"
+msgstr "Nessun %s trovato"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:466
+#: plugin-fw/lib/yit-cpt-unlimited.php:580
+msgid "Search %s"
+msgstr "Cerca %s"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:465
+#: plugin-fw/lib/yit-cpt-unlimited.php:579
+#: plugin-fw/lib/yit-cpt-unlimited.php:1251
+#: plugin-fw/lib/yit-cpt-unlimited.php:1305
+msgid "View %s"
+msgstr "Visualizza %s"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:464
+#: plugin-fw/lib/yit-cpt-unlimited.php:578
+msgid "All %s"
+msgstr "Tutti %s"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:463
+#: plugin-fw/lib/yit-cpt-unlimited.php:577
+msgid "New %s"
+msgstr "Nuovo %s"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:462
+#: plugin-fw/lib/yit-cpt-unlimited.php:576
+#: plugin-fw/lib/yit-cpt-unlimited.php:1267
+#: plugin-fw/lib/yit-cpt-unlimited.php:1304
+msgid "Edit %s"
+msgstr "Modifica %s"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:461
+#: plugin-fw/lib/yit-cpt-unlimited.php:575
+msgid "Add New %s"
+msgstr "Aggiungi nuovo %s"
+
+#: plugin-fw/lib/yit-cpt-unlimited.php:460
+#: plugin-fw/lib/yit-cpt-unlimited.php:574
+#: plugin-fw/lib/yit-cpt-unlimited.php:719
+#: plugin-fw/lib/yit-cpt-unlimited.php:1632
+msgid "Add %s"
+msgstr "Aggiungi %s"
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:228
+msgid "Multipart"
+msgstr "Multipart"
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:227
+msgid "HTML"
+msgstr "HTML"
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:226
+msgid "Plain text"
+msgstr "Testo"
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:222
+msgid "Choose format for the email to be sent."
+msgstr "Scegli il formato per l'email da inviare."
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:220
+msgid "Email type"
+msgstr "Tipo di email"
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:215
+msgid "This field lets you modify the main heading contained within the email notification. Leave blank to use the default heading: <code>%s</code>."
+msgstr "Questo campo ti permette di modificare l'intestazione principale dell'email. Lascialo vuoto per utilizzare l'intestazione di default: <code>%s</code>."
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:213
+msgid "Email Heading"
+msgstr "Intestazione Email"
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:209
+msgid "Send a carbon copy to the user"
+msgstr "Invia una copia carbone all'utente"
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:207
+msgid "Send CC copy"
+msgstr "Invia copia in CC"
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:202
+msgid "Enter recipients (comma separated) for this email. Defaults to <code>%s</code>"
+msgstr "Inserisci i destinatari (separandoli con virgola) di questa email. Invia di default a <code>%s</code>"
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:200
+msgid "Recipient(s)"
+msgstr "Destinatario/i"
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:195
+msgid "This field lets you modify the email subject line. Leave it blank to use default subject: <code>%s</code>."
+msgstr "Questo campo consente di modificare l'oggetto dell'email. Lasciare vuoto per utilizzare le impostazioni predefinite: <code>%s</code> ."
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:193
+msgid "Subject"
+msgstr "Oggetto"
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:186
+msgid "\"From\" Email Address"
+msgstr "\"Da\" Indirizzo Email"
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:179
+msgid "\"From\" Name"
+msgstr "\"Da\" Nome"
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:84
+msgid "There was a problem in sending your request. Please try again."
+msgstr "Si è verificato un errore durante l'invio della tua richiesta. Riprova."
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:82
+msgid "Your request has been sent successfully"
+msgstr "La tua richiesta è stata inviata correttamente"
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:35
+msgid "[Request a quote]"
+msgstr "[Richiedi un preventivo]"
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:34
+msgid "Request a quote"
+msgstr "Richiedi un preventivo"
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:32
+msgid "This email is sent when a user clicks on \"Request a quote\" button"
+msgstr "Questa email è inviata dopo che un utente ha fatto clic sul pulsante \"Richiedi un preventivo\""
+
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:31
+msgid "Email to request a quote"
+msgstr "Email per richiedere un preventivo"
+
+#: includes/class.yith-request-quote.php:566
+msgid "Your list is empty, add products to the list to send a request"
+msgstr "Il tuo elenco è vuoto, aggiungi dei prodotti per inviare la tua richiesta"
+
+#: includes/class.yith-request-quote.php:562
+msgid "Please enter a valid email"
+msgstr "Inserisci un indirizzo email valido"
+
+#: includes/class.yith-request-quote.php:558
+msgid "Please enter a name"
+msgstr "Inserisci un nome"
+
+#: includes/class.yith-request-quote.php:437
+msgid "Product added!"
+msgstr "Articolo aggiunto!"
+
+#: includes/class.yith-request-quote.php:430
+msgid "Error occurred while adding product to Request a Quote list."
+msgstr "Si è verificato un errore mentre il prodotto veniva aggiunto all'elenco per richiedere un preventivo."
+
+#: includes/class.yith-request-quote.php:282
+#: includes/class.yith-request-quote.php:440
+#: includes/class.yith-request-quote.php:486
+#: includes/class.yith-request-quote.php:726
+msgid "Product already in the list."
+msgstr "Il prodotto è già in elenco."
+
+#: includes/class.yith-request-quote-frontend.php:201
+#: includes/functions.yith-request-quote.php:387
+msgid "Browse the list"
+msgstr "Scorri l'elenco"
+
+#: includes/class.yith-request-quote-frontend.php:152
+msgid "Your list is empty"
+msgstr "Il tuo elenco è vuoto"
+
+#: includes/class.yith-request-quote-admin.php:102
+#: includes/class.yith-request-quote-admin.php:314
+msgid "Plugin Documentation"
+msgstr "Documentazione plugin"
+
+#: includes/class.yith-request-quote-admin.php:241
+msgctxt "page_slug"
+msgid "request-quote"
+msgstr "richiedi-preventivo"
+
+#: includes/class.yith-request-quote-admin.php:192
+#: includes/class.yith-request-quote-admin.php:193
+#: includes/class.yith-request-quote-admin.php:242
+msgid "Request a Quote"
+msgstr "Richiedi un Preventivo"
+
+#: includes/class.yith-request-quote-admin.php:186
+msgid "Exclusion List"
+msgstr "Elenco Esclusioni"
+
+#: includes/class.yith-request-quote-admin.php:185
+msgid "Layout"
+msgstr "Layout"
+
+#: includes/class.yith-request-quote-admin.php:182
+#: includes/class.yith-request-quote-admin.php:288
+msgid "Premium Version"
+msgstr "Versione premium"
+
+#: includes/class.yith-request-quote-admin.php:178
+#: includes/class.yith-request-quote-admin.php:286
+#: plugin-fw/lib/yit-cpt-unlimited.php:1048
+#: plugin-fw/lib/yit-cpt-unlimited.php:1196
+#: plugin-fw/lib/yit-cpt-unlimited.php:1202
+#: plugin-fw/lib/yit-plugin-panel.php:73
+msgid "Settings"
+msgstr "Impostazioni"
