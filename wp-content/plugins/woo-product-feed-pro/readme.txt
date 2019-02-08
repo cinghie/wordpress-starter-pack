@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 5.0
-Stable tag: 4.5.3
+Stable tag: 4.5.5
 
 == Description ==
 
@@ -272,6 +272,12 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 4.5.5 (2019-02-07) =
+* When users add an item_group_id to simple products this causes products to get disapproved in Google's merchant center. Build in a check that always removes the g:item_group_id for simple products.
+
+= 4.5.4 (2019-02-07) =
+* Fixed a bug: the attribute price incl. VAT did not always contained the price incl. VAT due to active caching plugins. This has been fixed now.
 
 = 4.5.3 (2019-02-06) =
 * Fixed a bug: in the attribute enable/disable settings page some attributes could not be enabled. Changing the settings was not saved. This has been fixed now.
@@ -1377,6 +1383,12 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 4.5.5 =
+When users add an item_group_id to simple products this causes products to get disapproved in Google's merchant center. Build in a check that always removes the g:item_group_id for simple products.
+
+= 4.5.4 =
+Fixed a bug: the attribute price incl. VAT did not always contained the price incl. VAT due to active caching plugins. This has been fixed now.
 
 = 4.5.3 =
 Fixed a bug: in the attribute enable/disable settings page some attributes could not be enabled. Changing the settings was not saved. This has been fixed now.

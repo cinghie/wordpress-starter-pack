@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     4.5.3
+ * Version:     4.5.5
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -46,7 +46,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.5.3' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.5.5' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -744,7 +744,24 @@ function woosea_product_delete_meta_price( $product = null ) {
 				
 					if(is_object( $variable_product ) ) {
 						// Structured data error here, it ignores VAT when prices has been entered without VAT
-						$product_price = wc_get_price_to_display($variable_product);
+					
+						$qty = 1;
+						$product_price = wc_get_price_to_display($variable_product, array('qty' => $qty));
+						$tax_rates = WC_Tax::get_base_tax_rates( $product->get_tax_class() );
+                        			
+						// Workaround for price caching issues
+                        			if(!empty($tax_rates)){
+                                			foreach ($tax_rates as $tk => $tv){
+                                        			if($tv['rate'] > 0){
+                                                			$tax_rates[1]['rate'] = $tv['rate'];
+                                        			} else {
+                                                			$tax_rates[1]['rate'] = 0;
+                                        			}
+                                			}
+                        			} else {
+                                			$tax_rates[1]['rate'] = 0;
+                        			}
+                        			$product_price = wc_get_price_excluding_tax($variable_product,array('price'=> $variable_product->get_price())) * (100+$tax_rates[1]['rate'])/100;
 
 						// Get product condition
 						$condition = ucfirst( get_post_meta( $variation_id, '_woosea_condition', true ) );
@@ -838,9 +855,24 @@ function woosea_product_delete_meta_price( $product = null ) {
 
 				}
 	   		} else {
+                             	// Workaround for price caching issues
+         	               	$tax_rates = WC_Tax::get_base_tax_rates( $product->get_tax_class() );   
+			 	if(!empty($tax_rates)){
+                               		foreach ($tax_rates as $tk => $tv){
+                                        	if($tv['rate'] > 0){
+                                                	$tax_rates[1]['rate'] = $tv['rate'];
+                                              	} else {
+                                                     	$tax_rates[1]['rate'] = 0;
+                                              	}
+                                      	}
+                            	} else {
+                                	$tax_rates[1]['rate'] = 0;
+                               	}
+                             	$product_price = wc_get_price_excluding_tax($product,array('price'=> $product->get_price())) * (100+$tax_rates[1]['rate'])/100;
+
 				$markup_offer = array(
  	           	            	'@type' => 'Offer',
-                       			'price' => wc_format_decimal( wc_get_price_to_display($product), wc_get_price_decimals() ),
+                       			'price' => $product_price,
 					'priceCurrency' => $shop_currency,
 					'itemCondition' => 'http://schema.org/'.$json_condition.'',
 					'availability'  => 'https://schema.org/' . $stock = ( $product->is_in_stock() ? 'InStock' : 'OutOfStock' ),
@@ -2232,7 +2264,7 @@ function woosea_license_valid(){
         $license_information = get_option('license_information');
 
         $curl = curl_init();
-        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=4.5.3";
+        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=4.5.5";
 
         curl_setopt_array($curl, array(
                 CURLOPT_RETURNTRANSFER => 1,

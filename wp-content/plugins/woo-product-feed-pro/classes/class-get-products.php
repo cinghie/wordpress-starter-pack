@@ -1260,6 +1260,7 @@ class WooSEA_Get_Products {
 			}
 
                        	$product_data['item_group_id'] = $this->parentID;
+
 			$categories = array_unique(wc_get_product_cat_ids( $product_data['id'] ));
 
 			// Check if the Yoast plugin is installed and active
@@ -1821,9 +1822,6 @@ class WooSEA_Get_Products {
                                 	}
                         	}
 
-
-			
-
 				// User does need to also add the attributes to the feed otherwise they cannot be appended to the productname
 				foreach($variations as $kk => $vv){
 					$custom_key = $kk; 
@@ -2093,12 +2091,20 @@ class WooSEA_Get_Products {
 					$product_data['categories'] = "";	
 				}
 			}
+
 			/**
 			 * When a product is a variable product we need to delete the original product from the feed, only the originals are allowed
 			 */
 			if(($product->is_type('variable')) AND ($product_data['item_group_id'] == 0)){
 		        	$product_data = array();
                         	$product_data = null;	
+			}
+
+			/**
+			 * And item_group_id is not allowed for simple products, prevent users from adding this to the feedd
+			 */
+			if($product->is_type('simple')){
+				unset($product_data['item_group_id']);
 			}
 
 			/**
