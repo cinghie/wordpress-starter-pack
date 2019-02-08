@@ -1019,8 +1019,10 @@ class WooSEA_Get_Products {
 					if($header == "false"){
                 				// Get the store codes
                                 		//$stores_local = array_key_first($feed_config['attributes']);
+						error_log(print_r($feed_config['attributes'], TRUE));
+
 						foreach ($feed_config['attributes'] as $k=>$v){
-						    	if(preg_match('/\|/', $k)){
+						    	if(preg_match('/\|/', $k)){ 
 								$stores_local = $k;
 							}
 						}
@@ -1030,12 +1032,15 @@ class WooSEA_Get_Products {
 						
 							foreach ($store_ids as $store_key => $store_value){
 								$pieces[0] = $store_value;
-								foreach ($pieces as $t_key => $t_value){
-									$tab_line .= $t_value . "$csv_delimiter";
-								}
-								$tab_line = rtrim($tab_line, $csv_delimiter);
-								$tab_line .= PHP_EOL;
-							}		
+
+								if(!empty($store_value)){
+									foreach ($pieces as $t_key => $t_value){
+										$tab_line .= $t_value . "$csv_delimiter";
+									}
+									$tab_line = rtrim($tab_line, $csv_delimiter);
+									$tab_line .= PHP_EOL;
+								}	
+							}	
 							fwrite($fp, $tab_line);
 						} else {
 							// Only one store code entered
@@ -1468,17 +1473,14 @@ class WooSEA_Get_Products {
                 	$shipping_class= $product->get_shipping_class();
 			$class_cost_id = "class_cost_".$shipping_class_id;
 
-		
+			// Get product prices
 			$product_data['price'] = wc_get_price_including_tax($product, array('price'=> $product->get_price()));
-
 			// Override price when WCML price is different than the non-translated price	
 			if((isset($project_config['WCML'])) AND ($product_data['price'] !== $wcml_price)){
 				$product_data['price'] = $wcml_price;
 			}
-
 			$product_data['sale_price'] = wc_get_price_including_tax($product, array('price'=> $product->get_sale_price()));
 			$product_data['regular_price'] = wc_get_price_including_tax($product, array('price'=> $product->get_regular_price()));
-
 			if($product_data['regular_price'] == $product_data['sale_price']){
 				$product_data['sale_price'] = "";
 			}
@@ -1593,6 +1595,20 @@ class WooSEA_Get_Products {
 						$shipping_str = $product_data['shipping'];
 					}
 				}
+			}
+
+			// Google Dynamic Remarketing feeds require the English price notation
+			if ($project_config['name'] == "Google Remarketing - DRM"){
+				$product_data['price'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['price'])));
+				$product_data['regular_price'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['regular_price'])));
+				$product_data['sale_price'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['sale_price'])));
+				$product_data['regular_price_forced'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['regular_price_forced'])));
+				if(!empty($product->get_sale_price())){
+					$product_data['sale_price_forced'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['sale_price_forced'])));
+				}
+				$product_data['net_price'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['net_price'])));
+				$product_data['net_regular_price'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['net_regular_price'])));
+				$product_data['net_sale_price'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['net_sale_price'])));
 			}
 
 			$product_data['installment'] = $this->woosea_get_installment($project_config, $product_data['id']);

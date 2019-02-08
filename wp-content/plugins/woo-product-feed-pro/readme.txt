@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 5.0
-Stable tag: 4.5.7
+Stable tag: 4.5.9
 
 == Description ==
 
@@ -272,6 +272,13 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 4.5.9 (2019-02-09) =
+* Minor fix where the store code for Google's Local Product Inventory Feeds did not make it to the feed when only 1 shop was added
+
+= 4.5.8 (2019-02-08) =
+* Prices for Google's Dynamic Remarketing Feeds now always use '.' as the decimal mark as required by Google.
+* Structured data prices are now rounded to two decimals.
 
 = 4.5.7 (2019-02-08) =
 * When a suffix was placed behind an attribute on the field mapping page, no space was put between the attribute value and the suffix for CSV feeds only. This has been solved.
@@ -1389,6 +1396,13 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 4.5.9 =
+Minor fix where the store code for Google's Local Product Inventory Feeds did not make it to the feed when only 1 shop was added
+
+= 4.5.8 =
+Prices for Google's Dynamic Remarketing Feeds now always use '.' as the decimal mark as required by Google.
+Structured data prices are now rounded to two decimals.
 
 = 4.5.7 =
 When a suffix was placed behind an attribute on the field mapping page, no space was put between the attribute value and the suffix for CSV feeds only. This has been solved.
