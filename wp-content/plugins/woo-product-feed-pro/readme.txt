@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 5.0
-Stable tag: 4.5.9
+Stable tag: 4.6.0
 
 == Description ==
 
@@ -273,7 +273,11 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 
 === Changelog ===
 
-= 4.5.9 (2019-02-09) =
+= 4.6.0 (2019-02-09) =
+* Added the possibility to add wc_post_id_ before the item_group_id without a space between it
+* Added shipping support for local pickup
+
+= 4.5.9 (2019-02-08) =
 * Minor fix where the store code for Google's Local Product Inventory Feeds did not make it to the feed when only 1 shop was added
 
 = 4.5.8 (2019-02-08) =
@@ -1396,6 +1400,10 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 4.6.0 =
+Added the possibility to add wc_post_id_ before the item_group_id without a space between it
+Added shipping support for local pickup
 
 = 4.5.9 =
 Minor fix where the store code for Google's Local Product Inventory Feeds did not make it to the feed when only 1 shop was added

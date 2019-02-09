@@ -1018,9 +1018,6 @@ class WooSEA_Get_Products {
 
 					if($header == "false"){
                 				// Get the store codes
-                                		//$stores_local = array_key_first($feed_config['attributes']);
-						error_log(print_r($feed_config['attributes'], TRUE));
-
 						foreach ($feed_config['attributes'] as $k=>$v){
 						    	if(preg_match('/\|/', $k)){ 
 								$stores_local = $k;
@@ -1587,7 +1584,7 @@ class WooSEA_Get_Products {
 			$product_data['net_price'] = wc_format_localized_price($product_data['net_price']);;
 			$product_data['net_regular_price'] = wc_format_localized_price($product_data['net_regular_price']);;
 			$product_data['net_sale_price'] = wc_format_localized_price($product_data['net_sale_price']);;
-	
+
 			foreach($project_config['attributes'] as $attr_key => $attr_arr){
 				if(is_array($attr_arr)){
 					if($attr_arr['attribute'] == "g:shipping"){
@@ -1595,6 +1592,11 @@ class WooSEA_Get_Products {
 						$shipping_str = $product_data['shipping'];
 					}
 				}
+			}
+
+			if (array_key_exists('shipping', $project_config['attributes'])){
+				$product_data['shipping'] =  $this->woosea_get_shipping_cost($class_cost_id, $project_config, $price, $tax_rates, $shipping_zones);
+				$shipping_str = $product_data['shipping'];
 			}
 
 			// Google Dynamic Remarketing feeds require the English price notation
@@ -2352,7 +2354,7 @@ class WooSEA_Get_Products {
 														
 														if(($attr_value['attribute'] == "g:link") OR ($attr_value['attribute'] == "link")){
 															$xml_product[$attr_value['attribute']] = "$attr_value[prefix] ". $product_data[$attr_value['mapfrom']] ."$attr_value[suffix]";	
-														} elseif(($attr_value['attribute'] == "g:id") OR ($attr_value['attribute'] == "id")){
+														} elseif(($attr_value['attribute'] == "g:id") OR ($attr_value['attribute'] == "id") OR ($attr_value['attribute'] == "g:item_group_id")){
 															$xml_product[$attr_value['attribute']] = "$attr_value[prefix]". $product_data[$attr_value['mapfrom']] ."$attr_value[suffix]";	
 														} else {
 															$xml_product[$attr_value['attribute']] = "$attr_value[prefix] ". $product_data[$attr_value['mapfrom']] ." $attr_value[suffix]";	
