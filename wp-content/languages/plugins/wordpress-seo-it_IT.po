@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Yoast SEO - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-02-03 11:50:21+0000\n"
+"PO-Revision-Date: 2019-02-09 20:58:07+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,9 +11,99 @@ msgstr ""
 "Language: it\n"
 "Project-Id-Version: Plugins - Yoast SEO - Stable (latest release)\n"
 
+#: admin/class-meta-columns.php:78
+msgid "Keyphrase"
+msgstr "Frase chiave"
+
+#: languages/wordpress-seojs.php:133 languages/yoast-components.php:110
+msgid "Free"
+msgstr "Gratuito"
+
+#. translators: %1$s expands to the link to the article, %2$s closes the link
+#. to the article
+#: admin/views/tabs/metas/paper-content/media-content.php:41
+msgid "Please carefully consider the implications and %1$sread this post%2$s if you want more information about the impact of showing media in search results."
+msgstr "Prendi in considerazione attentamente le implicazioni e %1$sleggi questo articolo%2$s se vuoi avere maggiori informazioni sull'impatto che ha mostrare i media nei risultati di ricerca."
+
+#: admin/views/tabs/metas/paper-content/media-content.php:38
+msgid "By enabling this option, attachment URLs become visible to both your visitors and Google. To add value to your website, they should contain useful information, or they might have a negative impact on your ranking."
+msgstr "Abilitando questa opzione, l'URL degli allegati diventa visibile sia per i tuoi visitatori sia per Google. Per aggiungere valore al tuo sito, essi dovrebbero contenere informazioni utili; diversamente, potrebbero avere un impatto negativo sul tuo posizionamento."
+
+#. translators: %1$s: Yoast SEO.
+#: admin/links/class-link-table-accessible-notifier.php:46
+msgid "For this feature to work, %1$s needs to create a table in your database. We were unable to create this table automatically."
+msgstr "Perché questa opzione funzioni, %1$s deve creare una tabella nel tuo database. Non è stato possibile creare questa tabella in automatico."
+
+#. translators: %1$s: link to knowledge base article about solving table issue.
+#. %2$s: is anchor closing.
+#. translators: %1$s: link to knowledge base article about solving PHP issue.
+#. %2$s: is anchor closing.
+#: admin/links/class-link-table-accessible-notifier.php:51
+#: admin/links/class-link-compatibility-notifier.php:53
+msgid "Please read the following %1$sknowledge base article%2$s to find out how to resolve this problem."
+msgstr "Leggi il seguente %1$sarticolo nella documentazipone base%2$s per trovare la soluzione a questo problema."
+
+#. translators: %1$s: Yoast SEO. %2$s: PHP version %3$s: The current PHP
+#. version.
+#: admin/links/class-link-compatibility-notifier.php:46
+msgid "For this feature to work %1$s requires at least PHP version %2$s. We have detected PHP version %3$s on this website."
+msgstr "Affinché questa caratteristica funzioni in %1$s è necessario aver installato almeno la versione %2$s di PHP. Su questo sito abbiamo rilevato la versione  %3$s di PHP."
+
+#. translators: %1$s: Yoast SEO. %2$s: Version number of Yoast SEO. %3$s:
+#. strong opening tag, %4$s: strong closing tag
+#. translators: %1$s: Yoast SEO. %2$s: Version number of Yoast SEO.
+#: admin/links/class-link-table-accessible-notifier.php:38
+#: admin/links/class-link-compatibility-notifier.php:38
+msgid "The %3$sText link counter%4$s feature (introduced in %1$s %2$s) is currently disabled."
+msgstr "Il %3$sContatore dei link del testo%4$s (introdotto con %1$s %2$s) è al momento attuale disabilitato."
+
+#. translators: 1: link to yoast.com post about internal linking suggestion. 2:
+#. is anchor closing.
+#: admin/links/class-link-notifier.php:94
+msgid "The Text link counter feature provides insights in how many links are found in your text and how many links are referring to your text. This is very helpful when you are improving your %1$sinternal linking%2$s."
+msgstr "La funzione Contatore dei link di testo fornisce informazioni sul numero di link trovati nel testo e sul numero di link a cui si riferiscono. Questo è molto utile quando stai migliorando il tuo sistema di %1$slink interni%2$s."
+
+#: admin/links/class-link-notifier.php:91
+msgid "Count links"
+msgstr "Conta i link"
+
+#: admin/links/class-link-notifier.php:90
+msgid "All you have to do is press the following button and we'll go through all your texts for you."
+msgstr "Devi solo fare clic sul pulsante seguente e noi faremo l'analisi di tutti i testi per te."
+
+#: admin/links/class-link-notifier.php:89
+msgid "To make sure all the links in your texts are counted, we need to analyze all your texts."
+msgstr "Per essere sicuri che tutti i link nel testo siano contati, abbiamo bisogno di analizzare tutti i tuoi testi."
+
+#: admin/class-recalibration-beta.php:69
+msgid "Simply switch the toggle to \"on\" and you'll be able to use the recalibrated analysis. At the same time, we'll add you to our specific mailing list. We'll only email you about your experiences with this recalibration!"
+msgstr "Seleziona \"on\" e potrai usare le analisi Ricalibrate. Nello stesso tempo, ti aggiungeremo alla nostra speciale mailing list. Ti scriveremo solo in relazione alla tua esperienza con questa nuova ricalibrazione!"
+
+#. translators: 1: link opening tag, 2: link closing tag, 3: strong opening
+#. tag, 4: strong closing tag
+#: admin/class-recalibration-beta.php:43
+msgid "We have %1$srecalibrated our analysis%2$s. With the new analysis, we will get even closer to how Google sees your website. It would be %3$sawesome%4$s if you would like to %3$sbeta test this feature%4$s for us!"
+msgstr "Abbiamo le nostre %1$snuove analisi Ricalibrate%2$s. Con queste nuove analisi, ci avviciniamo sempre più a come Google vede il tuo sito web. Sarebbe %3$smagnifico%4$s se tu testassi %3$squesta funzione in beta%4$s per noi!"
+
 #: admin/class-recalibration-beta.php:39
 msgid "Get an even better analysis"
 msgstr "Ottieni un'analisi ancora migliore"
+
+#. translators: %1$s expands to the requested url
+#: admin/exceptions/class-file-size-exception.php:40
+msgid "Cannot get the size of %1$s because of unknown reasons."
+msgstr "Non puoi avere la dimensione di %1$s per un motivo sconosciuto."
+
+#. translators: %1$s expands to the requested url
+#: admin/exceptions/class-file-size-exception.php:23
+msgid "Cannot get the size of %1$s because it is hosted externally."
+msgstr "Non puoi avere la dimensione di %1$s perché è su un servizio di hosting esterno."
+
+#. translators: 1: link opening tag to the features page, 2: link closing tag,
+#. 3: Link to KB article, 4: expands to Yoast SEO
+#: admin/notifiers/class-recalibration-beta.php:75
+msgid "We'd love for you to try our new and improved %4$s analysis! Use the toggle on the %1$sFeatures tab%2$s in your %4$s settings. %3$sRead more about the new analysis%2$s."
+msgstr "Ci piacerebbe farti provare le nostre nuove e migliorate %4$s analisi! Seleziona on nella %1$sScheda delle funzionalità%2$s nelle tue impostazioni di %4$s. %3$sLeggi di più riguardo le nuova analisi%2$s."
 
 #. translators: %s expands to Yoast SEO
 #: admin/views/sidebar.php:65
@@ -34,6 +124,84 @@ msgstr "Gratuito:"
 msgid "Page %s"
 msgstr "Pagina %s"
 
+#. Translators: %1$d expands to the number of images containing an alt
+#. attribute with the keyword, * %2$d expands to the total number of images,
+#. %3$s and %4$s expand to a link on yoast.com, * %5$s expands to the anchor
+#. end tag.
+#: languages/yoast-seo-js.php:412
+msgid "%3$sImage alt attributes%5$s: Out of %2$d images on this page, %1$d have alt attributes with words from your keyphrase or synonyms. That's a bit much. %4$sOnly include the keyphrase or its synonyms when it really fits the image%5$s."
+msgstr "%3$sAttributo alt dell'immagine%5$s: su %2$d immagini in questa pagina, %1$d hanno l'attributo alt con parole della tua frase chiave o dei suoi sinonimi. È un po' troppo. %4$sDovresti inserire la frase chiave o i suoi sinonimi solo quando davvero descrivono l'immagine%5$s."
+
+#. Translators: %1$s expands to a link on yoast.com, * %2$s expands to the
+#. anchor end tag.
+#: languages/yoast-seo-js.php:406
+msgid "%1$sImage alt attributes%2$s: Good job!"
+msgstr "%1$sAttributo alt dell'immagine%2$s: ottimo lavoro!"
+
+#. Translators: %1$d expands to the number of images containing an alt
+#. attribute with the keyword, * %2$d expands to the total number of images,
+#. %3$s and %4$s expand to links on yoast.com, * %5$s expands to the anchor end
+#. tag.
+#: languages/yoast-seo-js.php:401
+msgid "%3$sImage alt attributes%5$s: Out of %2$d images on this page, only %1$d has an alt attribute that reflects the topic of your text. %4$sAdd your keyphrase or synonyms to the alt tags of more relevant images%5$s!"
+msgid_plural "%3$sImage alt attributes%5$s: Out of %2$d images on this page, only %1$d have alt attributes that reflect the topic of your text. %4$sAdd your keyphrase or synonyms to the alt tags of more relevant images%5$s!"
+msgstr[0] "%3$sAttributo alt dell'immagine%5$s: su %2$d immagini in questa pagina, solo %1$d ha l'attributo alt che riflette l'argomento del tuo testo.%4$sDovresti inserire la frase chiave o i suoi sinonimi nel tag alt delle immagini più importanti!%5$s."
+msgstr[1] "%3$sAttributo alt dell'immagine%5$s: su %2$d immagini in questa pagina, solo %1$d hanno l'attributo alt che riflette l'argomento del tuo testo.%4$sDovresti inserire la frase chiave o i suoi sinonimi nel tag alt delle immagini più importanti!%5$s."
+
+#. Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the
+#. anchor end tag
+#: languages/yoast-seo-js.php:395
+msgid "%1$sImage alt attributes%3$s: Images on this page do not have alt attributes that reflect the topic of your text. %2$sAdd your keyphrase or synonyms to the alt tags of relevant images%3$s!"
+msgstr "%1$sAttributo alt dell'immagine%3$s: le immagini in questa pagina non hanno l'attributo alt che riflette l'argomento del tuo testo %2$sDovresti inserire la frase chiave o i suoi sinonimi nel tag alt delle immagini più importanti%3$s!"
+
+#. Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the
+#. anchor end tag
+#: languages/yoast-seo-js.php:390
+msgid "%1$sImage alt attributes%3$s: Images on this page have alt attributes, but you have not set your keyphrase. %2$sFix that%3$s!"
+msgstr "%1$sAttributo alt dell'immagine%3$s: le immagini in questa pagina hanno l'attributo alt ma tu non hai impostato la frase chiave. %2$sInseriscila ora%3$s!"
+
+#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor
+#. end tag, %3$d expands to the number of subheadings containing the keyphrase.
+#: languages/yoast-seo-js.php:323
+msgid "%1$sKeyphrase in subheading%2$s: %3$s of your higher-level subheadings reflects the topic of your copy. Good job!"
+msgid_plural "%1$sKeyphrase in subheading%2$s: %3$s of your higher-level subheadings reflect the topic of your copy. Good job!"
+msgstr[0] "%1$sFrase chiave nei sottotitoli%2$s: %3$s dei tuoi sottotitoli di livello più alto riflette l'argomento del tuo contenuto. Ottimo lavoro!"
+msgstr[1] "%1$sFrase chiave nei sottotitoli%2$s: %3$s dei tuoi sottotitoli di livello più alto riflettono l'argomento del tuo contenuto. Ottimo lavoro!"
+
+#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor
+#. end tag, %3$d expands to the number of subheadings containing the keyphrase.
+#: languages/yoast-seo-js.php:318
+msgid "%1$sKeyphrase in subheading%2$s: Your higher-level subheading reflects the topic of your copy. Good job!"
+msgstr "%1$sFrase chiave nei sottotitoli%2$s: il sottotitolo di livello più alto riflette l'argomento del tuo contenuto. Perfetto!"
+
+#. Translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to
+#. the anchor end tag.
+#: languages/yoast-seo-js.php:313
+msgid "%1$sKeyphrase in subheading%3$s: More than 75%% of your higher-level subheadings reflect the topic of your copy. That's too much. %2$sDon't over-optimize%3$s!"
+msgstr "%1$sFrase chiave nei sottotitoli%3$s: più del 75%% dei sottotitoli del livello più alto riflettono l'argomento del tuo contenuto. Questo è troppo. %2$sNon esagerare%3$s!"
+
+#. Translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to
+#. the anchor end tag.
+#: languages/yoast-seo-js.php:309
+msgid "%1$sKeyphrase in subheading%3$s: %2$sUse more keyphrases or synonyms in your higher-level subheadings%3$s!"
+msgstr "%1$sFrase chiave nei sottotitoli%3$s: %2$susa di più le frasi chiave o i loro sinonimi nei sottotitoli di livello più alto%3$s!"
+
+#: languages/wordpress-seojs.php:80
+msgid "Focus keyphrase (beta)"
+msgstr "Frase chiave (beta)"
+
+#: languages/wordpress-seojs.php:57
+msgid "Recalibration beta is active"
+msgstr "La ricalibrazione beta è attiva"
+
+#: languages/wordpress-seojs.php:47
+msgid "Readability analysis (beta)"
+msgstr "Analisi di leggibilità (beta)"
+
+#: languages/wordpress-seojs.php:5
+msgid "We're sorry! Unfortunately, the recalibrated analysis beta doesn't work as intended with your current setup {{bold}}yet{{/bold}}. Please deactivate the recalibration beta under \"SEO - General - Features\" and please try again later. We value your input! If you can't access the feature page, please contact your administrator. "
+msgstr "Ci spiace davvero! Purtroppo le analisi Ricalibrate non funzionano  {{bold}}ancorat{{/bold}} come dovrebbero con le tue attuali impostazioni. Disattiva le analisi Ricalibrate in versione beta in \"SEO - Generale - Funzionalità\" e prova ad attivarle di nuovo più avanti. Apprezziamo il tuo contibuto! Se non accedi alla pagina delle funzionalità, contatta l'amministratore del tuo sito."
+
 #. translators: 1: object ID; 2: object type.
 #: src/models/indexable.php:174
 msgid "Indexable deleted for object %1$s with type %2$s"
@@ -53,6 +221,41 @@ msgstr "L'indicizzazione è creata per l'oggetto %1$s con il tipo %2$s"
 msgid "Indexable meta deleted."
 msgstr "L'indicizzazione per i meta è eliminata. "
 
+#. translators: 1: ID; 2: value of a meta key.
+#: src/models/indexable-meta.php:99
+msgid "Indexable meta saved for indexable id %1$s with meta key %2$s"
+msgstr "Un meta indicizzabile è stato salvato per l'id %1$s con la chiave meta %2$s"
+
+#. translators: 1: ID; 2: value of a meta key.
+#: src/models/indexable-meta.php:60
+msgid "Indexable meta created for indexable id %1$s with meta key %2$s"
+msgstr "Un meta indicizzabile è stato creato per l'id %1$s con la chiave meta %2$s"
+
+#. translators: 1: expands to the indexable id. 2: expand to the meta key
+#: src/exceptions/no-indexable-found.php:100
+msgid "There is no meta found for indexable id %1$s and meta key %2$s."
+msgstr "Non ci sono meta indicizzabili per l'id %1$s e la chiave meta %2$s."
+
+#. translators: 1: expands to the author id
+#: src/exceptions/no-indexable-found.php:82
+msgid "There is no indexable found for author id %1$s."
+msgstr "Non è stato trovato alcun risultato indicizzabile per l'autore con id %1$s."
+
+#. translators: 1: expands to the term id. 2: expand to the taxonomy
+#: src/exceptions/no-indexable-found.php:64
+msgid "There is no primary term found for post id %1$s and taxonomy %2$s."
+msgstr "Non è stato trovato alcun termine principale per l'articolo con id %1$s e la tassonomia %2$s."
+
+#. translators: 1: expands to the term id. 2: expand to the taxonomy
+#: src/exceptions/no-indexable-found.php:45
+msgid "There is no indexable found for term id %1$s and taxonomy %2$s."
+msgstr "Non sono stati trovati risultati indicizzabili per il termine con id %1$s e la tassonomia %2$s."
+
+#. translators: %1$s expands to the post id
+#: src/exceptions/no-indexable-found.php:27
+msgid "There is no indexable found for post id %1$s."
+msgstr "Non è stato trovato nulla da indicizzare per l'articolo con id %1$s."
+
 #. translators: %1$s expands to the method name. %2$s expands to the class name
 #: src/exceptions/missing-method.php:27
 msgid "Method %1$s() does not exist in class %2$s"
@@ -64,6 +267,34 @@ msgstr "Il metodo  %1$s() non esiste nella classe %2$s"
 msgid "%1$sSingle title%3$s: H1s should only be used as your main title. Find all H1s in your text that aren't your main title and %2$schange them to a lower heading level%3$s!"
 msgstr "%1$sUnico titolo%3$s: gli H1 dovrebbero essere usati soltanto come titolo principale. Trova tutti gli H1 nel tuo testo che non sono il tuo titolo principale e %2$smodificali con un livello di titolo inferiore%3$s!"
 
+#: languages/yoast-seo-js.php:239
+msgid "%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!"
+msgid_plural "%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!"
+msgstr[0] "%1$sDensità della frase chiave%2$s: la frase chiave è stata trovata %5$d volta. Questo è più del massimo suggerito di %3$d volte per un testo di questa lunghezza. %4$sNon esagerare%2$s!"
+msgstr[1] "%1$sDensità della frase chiave%2$s: la frase chiave è stata trovata %5$d volte. Questo è più del massimo suggerito di %3$d volte per un testo di questa lunghezza. %4$sNon esagerare%2$s!"
+
+#: languages/yoast-seo-js.php:236
+msgid "%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!"
+msgid_plural "%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!"
+msgstr[0] "%1$sDensità della frase chiave%2$s: la frase chiave è stata trovata %5$d volta. Questo è più del massimo suggerito di %3$d volte per un testo di questa lunghezza. %4$sNon esagerare%2$s!"
+msgstr[1] "%1$sDensità della frase chiave%2$s: la frase chiave è stata trovata %5$d volte. Questo è più del massimo suggerito di %3$d volte per un testo di questa lunghezza. %4$sNon esagerare%2$s!"
+
+#: languages/yoast-seo-js.php:233
+msgid "%1$sKeyphrase density%2$s: The focus keyphrase was found %3$d time. This is great!"
+msgid_plural "%1$sKeyphrase density%2$s: The focus keyphrase was found %3$d times. This is great!"
+msgstr[0] "%1$sDensità della frase chiave%2$s: la frase chiave è stata trovata  %3$d volta. Questo è ottimo!"
+msgstr[1] "%1$sDensità della frase chiave%2$s: la frase chiave è stata trovata  %3$d volte. Questo è ottimo!"
+
+#: languages/yoast-seo-js.php:230
+msgid "%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!"
+msgid_plural "%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!"
+msgstr[0] "%1$sDensità della frase chiave%2$s: la frase chiave è stata trovata %5$d volta. Questo è meno del minimo suggerito di %3$d volte per un testo di questa lunghezza. %4$sInserisci la tua frase chiave%2$s!"
+msgstr[1] "%1$sDensità della frase chiave%2$s: la frase chiave è stata trovata %5$d volte. Questo è meno del minimo suggerito di %3$d volte per un testo di questa lunghezza. %4$sInserisci la tua frase chiave%2$s!"
+
+#: languages/yoast-seo-js.php:227
+msgid "%1$sKeyphrase density%2$s: The focus keyphrase was found 0 times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!"
+msgstr "%1$sDensità della frase chiave%2$s: la frase chiave è stata trovata 0 volte. Questo è meno del minimo suggerito di %3$d volte per un testo di questa lunghezza. %4$sInserisci la tua frase chiave%2$s!"
+
 #. translators: %s expands to Yoast SEO Premium
 #: admin/watchers/class-slug-change-watcher.php:219
 msgid "With %s, you can easily create such redirects."
@@ -72,6 +303,11 @@ msgstr "Con %s, tu puoi facilmente creare tali reindirizzamenti (redirect)."
 #: admin/views/tabs/tool/wpseo-import.php:38
 msgid "Paste your settings from another Yoast SEO installation."
 msgstr "Incolla le tue impostazioni da un'altra installazione di Yoast SEO."
+
+#. translators: 1: Import settings button string from below.
+#: admin/views/tabs/tool/wpseo-import.php:27
+msgid "Import settings by pasting the settings you copied from another site here and clicking \"%s\"."
+msgstr "Importa le impostazioni incollando le impostazioni che hai copiato da un altro sito e fai clic su \"%s\"."
 
 #: admin/views/tabs/tool/wpseo-import.php:19
 msgid "Import of settings is only supported on servers that run PHP 5.3 or higher."
@@ -98,6 +334,11 @@ msgstr "Queste sono le impostazioni per il plugin %1$s di %2$s"
 #: admin/class-export.php:45
 msgid "You do not have the required rights to export settings."
 msgstr "Non hai i diritti necessari per esportare le impostazioni."
+
+#. translators: %1$s expands to Import settings
+#: admin/class-export.php:51
+msgid "Copy all these settings to another site's %1$s tab and click \"%1$s\" there."
+msgstr "Copia tutte queste impostazioni nella scheda %1$s di un altro sito e fai clic \"%1$s\" lì."
 
 #: inc/class-wpseo-admin-bar-menu.php:229
 msgid "Google Ads"
@@ -1675,6 +1916,10 @@ msgstr "Gli URL di categoria all'interno di WordPress usano un prefisso, solitam
 msgid "Help on the category prefix setting"
 msgstr "Aiuto per le impostazioni del prefisso delle categorie"
 
+#: admin/views/tabs/metas/taxonomies.php:48
+msgid "Category URLs"
+msgstr "URL delle categorie."
+
 #: admin/views/tabs/metas/paper-content/rss-content.php:19
 msgid "Learn more about the available variables"
 msgstr "Ulteriori informazioni sulle variabili disponibili"
@@ -1808,6 +2053,11 @@ msgstr "Puoi usare i box qui sotto per fare la verifica con i differenti Webmast
 msgid "Learn more about the Webmaster Tools verification"
 msgstr "Leggi di più sulla verifica con i Webmaster Tools"
 
+#: languages/yoast-components.php:179 admin/class-recalibration-beta.php:33
+#: admin/views/tabs/dashboard/features.php:54
+msgid "On"
+msgstr "On"
+
 #. translators: %s expands to a feature's name
 #: admin/views/tabs/dashboard/features.php:47
 #: admin/views/tabs/network/features.php:47
@@ -1818,6 +2068,12 @@ msgstr "Aiuto su: %s"
 #: admin/views/tabs/dashboard/features.php:26
 msgid "%1$s comes with a lot of features. You can enable / disable some of them below. Clicking the question mark gives more information about the feature."
 msgstr "%1$s ha molte caratteristiche. Qui sotto, puoi abilitare - disabilitare alcune di queste. Facendo cic sul punto interrogativo, potrai avere più informazioni sulle caratteristiche."
+
+#: languages/yoast-components.php:182 admin/class-recalibration-beta.php:34
+#: admin/views/tabs/dashboard/features.php:55
+#: admin/views/class-yoast-feature-toggles.php:130
+msgid "Off"
+msgstr "Off"
 
 #. translators: 1: Yoast SEO, 2: translated version of "Off"
 #: admin/views/class-yoast-feature-toggles.php:128
@@ -1908,6 +2164,10 @@ msgstr "Consenti ai motori di ricerca di mostrare %s nei risultati delle ricerch
 #: frontend/class-frontend.php:1183 admin/menu/class-admin-menu.php:89
 msgid "Search Appearance"
 msgstr "Aspetto della ricerca"
+
+#: admin/config-ui/fields/class-field-post-type-visibility.php:19
+msgid "Please specify what content types you would like to appear in search engines. If you do not know the differences between these, it's best to choose the default settings."
+msgstr "Specifica quali tipi di contenuti desideri visualizzare nei motori di ricerca. Se non conosci le differenze tra questi, è meglio scegliere le impostazioni predefinite."
 
 #. Translators: %1$s expands to the name of the post type. The options given to
 #. the user are "visible" and "hidden"
@@ -2303,6 +2563,16 @@ msgstr "Ehi, la tua SEO sta andando abbastanza bene! Guarda le statistiche:"
 msgid "You don't have any published posts, your SEO scores will appear here once you make your first post!"
 msgstr "Non hai pubblicato nessun post, i tuoi punteggi SEO appariranno qui appena scriverari il tuo primo post!"
 
+#: admin/config-ui/fields/class-field-title-intro.php:19
+msgid "On this page, you can change the name of your site and choose which separator to use. The separator will display, for instance, between your post title and site name. Symbols are shown in the size they'll appear in the search results. Choose the one that fits your brand best or takes up the least space in the snippets."
+msgstr "In questa pagina, puoi cambiare il nome del tuo sito e scegliere quale separatore utilizzare. Il separatore sarà mostrato, ad esempio, fra il titolo dell'articolo e il nome del sito. I simboli dei separatori qui sotto sono visualizzati nelle dimensioni con le quali appariranno nei risultati della ricerca. Scegli quello più adatto al tuo brand o quello che occupa meno spazio negli snippet."
+
+#. translators: %1$s is the plugin name, %2$s is a link opening tag, %3$s is a
+#. link closing tag.
+#: admin/config-ui/fields/class-field-social-profiles-intro.php:21
+msgid "%1$s can tell search engines about your social media profiles. These will be used in Google's Knowledge Graph. There are additional sharing options in the %1$s Social settings. %2$sRead more%3$s about these options."
+msgstr "%1$s può comunicare ai motori di ricerca quali sono i tuoi profili social. Questi saranno utilizzati nel Knowledge Graph di Google. Ci sono ulteriori opzioni di condivisione nelle impostazioni avanzate di %1$s. %2$sLeggi maggiori dettagli%3$s su queste opzioni."
+
 #: admin/config-ui/fields/class-field-site-type.php:28
 msgid "Something else"
 msgstr "Altro"
@@ -2336,6 +2606,20 @@ msgstr "Un blog"
 msgid "What does the site %1$s represent?"
 msgstr "Che tipo di sito è %1$s?"
 
+#: admin/config-ui/fields/class-field-multiple-authors.php:21
+msgid "If you choose no, your author archives will be deactivated to prevent  duplicate content issues."
+msgstr "Se scegli no, i tuoi archivi autore saranno disattivati per prevenire problemi con contenuti duplicati."
+
+#: admin/config-ui/fields/class-field-google-search-console-intro.php:28
+msgid "Note: we don't store your data in any way and don't have full access to your account. Your privacy is safe with us."
+msgstr "Nota: non conserviamo i tuoi dati in nessun modo e non abbiamo un accesso completo al tuo account. La tua privacy è al sicuro con noi."
+
+#. translators: %1$s is the plugin name. %2$s is a link start tag to a Yoast
+#. help page, %3$s is the link closing tag.
+#: admin/config-ui/fields/class-field-google-search-console-intro.php:22
+msgid "%1$s integrates with Google Search Console, a must-have tool for site owners. It provides you with information about the health of your site. Don't have a Google account or is your site not activated yet? Find out %2$show to connect Google Search Console to your site%3$s."
+msgstr "%1$s si integra con la Console di Google Search, un tool irrinunciabile per i proprietari di siti. Ti fornisce informazioni sulla salute del tuo sito.  Non hai ancora un account Google o il tuo sito non è ancora attivato Scopri %2$scome collegare la Console di Google Search Console al tuo sito%3$s."
+
 #: admin/config-ui/fields/class-field-environment.php:24
 msgid "Option B: My site is under construction and should not be indexed"
 msgstr "Opzione B: il mio sito è in costruzione e non deve essere indicizzato"
@@ -2344,9 +2628,17 @@ msgstr "Opzione B: il mio sito è in costruzione e non deve essere indicizzato"
 msgid "Option A: My site is live and ready to be indexed"
 msgstr "Opzione A: il mio sito è online e pronto per essere indicizzato"
 
+#: admin/config-ui/fields/class-field-environment.php:21
+msgid "Choose under construction if you want to keep the site out of the index of search engines. Don't forget to activate it once you're ready to publish your site."
+msgstr "Scegli la modalità in costruzione se vuoi tenere il tuo sito fuori dall'indice dei motori di ricerca. Non dimenticare di cambiare questa impostazione quando il tuo sito è pronto per essere pubblicato."
+
 #: admin/config-ui/fields/class-field-environment.php:19
 msgid "Please specify if your site is under construction or already active."
 msgstr "Indica se il tuo sito è ancora in costruzione o già online."
+
+#: admin/config-ui/fields/class-field-company-or-person.php:21
+msgid "This information will be used in Google's Knowledge Graph Card, the big block of information you see on the right side of the search results."
+msgstr "Questa informazione sarà utilizzata nella Knowledge Graph Card di Google, il blocco di informazioni che vedi nella parte destra dei risultati di ricerca."
 
 #: admin/config-ui/fields/class-field-company-or-person.php:19
 msgid "Does your site represent a person or company?"
