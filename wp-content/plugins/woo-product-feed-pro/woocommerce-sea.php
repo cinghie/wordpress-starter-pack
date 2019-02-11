@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     4.6.0
+ * Version:     4.6.1
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -46,7 +46,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.6.0' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.6.1' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -705,6 +705,19 @@ function woosea_product_delete_meta_price( $product = null ) {
 	$shop_url  = home_url();
 	$shop_currency = get_woocommerce_currency();
 
+	// Sisplay URL of current page. 
+	if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+		$link = "https"; 
+	} else {
+   		 $link = "http"; 
+	}  
+	// Here append the common URL characters. 
+	$link .= "://"; 
+	// Append the host(domain name, ip) to the URL. 
+	$link .= $_SERVER['HTTP_HOST']; 
+	// Append the requested resource location to the URL 
+	$link .= $_SERVER['REQUEST_URI']; 
+      
 	if($structured_data_fix == "yes"){
 
 		$pr_woo = wc_get_price_to_display($product);
@@ -714,6 +727,7 @@ function woosea_product_delete_meta_price( $product = null ) {
 		
 			// Get product condition
 			$condition = ucfirst( get_post_meta( $product_id, '_woosea_condition', true ) );
+
 			if(!$condition){
 				$json_condition = "NewCondition";
 			} else {
@@ -794,6 +808,7 @@ function woosea_product_delete_meta_price( $product = null ) {
 								'name'  => $shop_name,
 								'url'   => $shop_url,
 							),
+							'url'		=> $link
 						);
 					} else {
 						// AggregateOffer
@@ -816,6 +831,7 @@ function woosea_product_delete_meta_price( $product = null ) {
                                                 				'name'  => $shop_name,
                                                 				'url'   => $shop_url,
                                         				), 
+								'url'		=> $link
 			                		);
                                 		} else {
                                         		$markup_offer = array(
@@ -833,6 +849,7 @@ function woosea_product_delete_meta_price( $product = null ) {
                                         	        		'name'  => $shop_name,
                                                 			'url'   => $shop_url,
                                         			),
+								'url'		=> $link
 			        	        	);
 						}
 					}
@@ -847,11 +864,13 @@ function woosea_product_delete_meta_price( $product = null ) {
 						'price'		=> $product_price,
 						'priceCurrency' => $shop_currency,
                                 		'availability'  => 'https://schema.org/' . ( $product->is_in_stock() ? 'InStock' : 'OutOfStock' ),
-                                		'seller'        => array(
+        	                                'sku'           => $product->get_sku(),
+				 		'seller'        => array(
                                         		'@type' => 'Organization',
                                         		'name'  => $shop_name,
                                         		'url'   => $shop_url,
                                 		),
+						'url'		=> $link
                         		);
 
 				}
@@ -886,6 +905,7 @@ function woosea_product_delete_meta_price( $product = null ) {
 						'name'  => $shop_name,
 						'url'   => $shop_url,
 					),
+					'url'		=> $link
                       		);
             		}
 //		}
@@ -2266,7 +2286,7 @@ function woosea_license_valid(){
         $license_information = get_option('license_information');
 
         $curl = curl_init();
-        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=4.6.0";
+        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=4.6.1";
 
         curl_setopt_array($curl, array(
                 CURLOPT_RETURNTRANSFER => 1,
