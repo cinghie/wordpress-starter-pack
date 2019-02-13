@@ -4,7 +4,7 @@ Tags: woocommerce, pesonalized products, woocommerce variations, woocommerce pro
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
 Tested up to: 5.0
-Stable tag: 16.6
+Stable tag: 16.7
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -83,6 +83,8 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
+= 16.7 February 12, 2019 =
+* Bug fixed: [JS error fixed causing issue to show/calculate prices on product page on some sites](https://wordpress.org/support/topic/javascript-error-in-ppom-addon/)
 = 16.6 February 6, 2019 =
 * Bug fxed: Variation quantities issue fixed with variable products.
 * Tweaks: Scroll for collapse disabled

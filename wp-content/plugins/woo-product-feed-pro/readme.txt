@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 5.0
-Stable tag: 4.6.1
+Stable tag: 4.6.3
 
 == Description ==
 
@@ -272,6 +272,13 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 4.6.3 (2019-02-13) =
+* Fixed another bug where strictly configured PHP instances crashed on using empty on a function.
+* Added notifications
+
+= 4.6.2 (2019-02-12) =
+* Fixed a bug where strictly configured PHP instances crashed on using empty on a function.
 
 = 4.6.1 (2019-02-11) =
 * Added the product URL to the structured data snippet
@@ -1403,6 +1410,13 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 4.6.3 =
+Fixed another bug where strictly configured PHP instances crashed on using empty on a function.
+Added notifications
+
+= 4.6.2 =
+Fixed a bug where strictly configured PHP instances crashed on using empty on a function.
 
 = 4.6.1 =
 Added the product URL to the structured data snippet

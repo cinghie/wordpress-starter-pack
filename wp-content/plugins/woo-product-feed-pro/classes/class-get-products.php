@@ -1497,7 +1497,7 @@ class WooSEA_Get_Products {
 			$product_data['price_forced'] = wc_get_price_excluding_tax($product,array('price'=> $product->get_price())) * (100+$tax_rates[1]['rate'])/100;
 			$product_data['regular_price_forced'] = wc_get_price_excluding_tax($product, array('price'=> $product->get_regular_price())) * (100+$tax_rates[1]['rate'])/100;
 
-			if(!empty($product->get_sale_price())){
+			if($product->get_sale_price()){
 				$product_data['sale_price_forced'] = wc_get_price_excluding_tax($product, array('price'=> $product->get_sale_price())) * (100+$tax_rates[1]['rate'])/100;
 			}
 			$product_data['net_price'] = $product->get_price();
@@ -1522,7 +1522,7 @@ class WooSEA_Get_Products {
 				$product_data['sale_price'] = apply_filters('wc_aelia_cs_convert', $product_data['sale_price'], $from_currency, $project_config['AELIA']);
 				$product_data['price_forced'] = apply_filters('wc_aelia_cs_convert', $product_data['price_forced'], $from_currency, $project_config['AELIA']);
 				$product_data['regular_price_forced'] = apply_filters('wc_aelia_cs_convert', $product_data['regular_price_forced'], $from_currency, $project_config['AELIA']);
-				if(!empty($product->get_sale_price())){
+				if($product->get_sale_price()){
 					$product_data['sale_price_forced'] = apply_filters('wc_aelia_cs_convert', $product_data['sale_price_forced'], $from_currency, $project_config['AELIA']);
 				}	
 				$product_data['net_price'] = apply_filters('wc_aelia_cs_convert', $product_data['net_price'], $from_currency, $project_config['AELIA']);
@@ -1578,7 +1578,7 @@ class WooSEA_Get_Products {
 			$product_data['sale_price'] = wc_format_localized_price($product_data['sale_price']);
 			$product_data['price_forced'] = wc_format_localized_price($product_data['price_forced']);
 			$product_data['regular_price_forced'] = wc_format_localized_price($product_data['regular_price_forced']);;
-			if(!empty($product->get_sale_price())){
+			if($product->get_sale_price()){
 				$product_data['sale_price_forced'] = wc_format_localized_price($product_data['sale_price_forced']);;
 			}	
 			$product_data['net_price'] = wc_format_localized_price($product_data['net_price']);;
@@ -1605,7 +1605,7 @@ class WooSEA_Get_Products {
 				$product_data['regular_price'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['regular_price'])));
 				$product_data['sale_price'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['sale_price'])));
 				$product_data['regular_price_forced'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['regular_price_forced'])));
-				if(!empty($product->get_sale_price())){
+				if($product->get_sale_price()){
 					$product_data['sale_price_forced'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['sale_price_forced'])));
 				}
 				$product_data['net_price'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['net_price'])));

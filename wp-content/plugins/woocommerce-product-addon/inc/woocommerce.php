@@ -58,7 +58,7 @@ function ppom_woocommerce_show_fields() {
         wp_enqueue_style( 'ppom-bootstrap', $ppom_bs_css);
         wp_enqueue_style( 'ppom-bootstrap-modal', $ppom_bs_modal_css);
         
-        wp_enqueue_script( 'bootstrap-js', $ppom_bs_js, array('jquery', 'ppom-tooltip'));
+        // wp_enqueue_script( 'bootstrap-js', $ppom_bs_js, array('jquery', 'ppom-tooltip'));
     }
     
     do_action('ppom_after_scripts_loaded', PPOM() -> productmeta_id, $product);

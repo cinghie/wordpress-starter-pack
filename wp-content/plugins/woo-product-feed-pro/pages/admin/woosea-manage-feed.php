@@ -93,7 +93,13 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 				?>
 					<div class="notice notice-info is-dismissible">
                 				<p>
-						Please note: some of the advanced features, such as WPML support, Aelia currency switcher support, WooCommerce structured data JSON fix and the addition of extra fields, such as brand, GTIN and MPN on the product edit pages are Elite features of this plugin. You will need to acquire a license on <a href="https://adtribes.io/pro-vs-elite/?utm_source=<?php print"$host";?>&utm_medium=manage-feed&utm_content=notification" target="_blank">AdTribes.io</a> to unlock these features.
+						<strong>Would you like to get more out of your product feeds? Upgrade to the Elite version of the plugin and you will get:</strong><br/></br/>
+						<span class="dashicons dashicons-yes"></span>GTIN, Brand, MPN, EAN, Condition and more fields for your product feeds [<a href="https://adtribes.io/add-gtin-mpn-upc-ean-product-condition-optimised-title-and-brand-attributes/?utm_source=oplader.org&utm_medium=manage-feed&utm_campaign=adding%20fields" target="_blank">read more</a>];<br/>
+						<span class="dashicons dashicons-yes"></span>Enhanched structured data on your product pages: more products approved in your Google Merchant Center [<a href="https://adtribes.io/woocommerce-structured-data-bug/?utm_source=oplader.org&utm_medium=manage-feed&utm_campaign=structured%20data%20bug" target="_blank">read more</a>];<br/>
+						<span class="dashicons dashicons-yes"></span>WPML support - including their currency switcher [<a href="https://adtribes.io/wpml-support/?utm_source=oplader.org&utm_medium=manage-feed&utm_campaign=wpml%20support" target="_blank">read more</a>];<br/>
+						<span class="dashicons dashicons-yes"></span>Aelia currency switcher support [<a href="https://adtribes.io/aelia-currency-switcher-feature/?utm_source=oplader.org&utm_medium=manage-feed&utm_campaign=aelia%20support" target="_blank">read more</a>];<br/>
+						<span class="dashicons dashicons-yes"></span>Priority support;<br/><br/>
+ 						Than upgrade to the <a href="https://adtribes.io/pro-vs-elite/?utm_source=<?php print"$host";?>&utm_medium=manage-feed&utm_content=notification" target="_blank">Elite version of our plugin</a> to unlock these features.
 						</p>
 					</div>
 				<?php

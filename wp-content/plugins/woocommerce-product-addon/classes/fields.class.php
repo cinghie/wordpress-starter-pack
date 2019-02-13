@@ -36,7 +36,7 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
         
         // Bootstrap Files
         wp_enqueue_style('PPOM-bs', PPOM_URL."/scripts/bootstrap.min.css");
-        wp_enqueue_script('PPOM-bs', PPOM_URL."/scripts/bootstrap.min.js", array('jquery'), PPOM_VERSION, true);        
+        // wp_enqueue_script('PPOM-bs', PPOM_URL."/scripts/bootstrap.min.js", array('jquery'), PPOM_VERSION, true);        
 
         // Bulk Quantity Addon JS File
         wp_enqueue_script('PPOM-bulkquantity', PPOM_URL."/scripts/ppom-bulkquantity.js", array('jquery'), PPOM_VERSION, true);

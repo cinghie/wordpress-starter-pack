@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 5.0.x package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-02-11 11:13:44+0000\n"
+"PO-Revision-Date: 2019-02-12 07:53:20+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3072,7 +3072,7 @@ msgstr "(Modifica)"
 #: wp-includes/class-walker-comment.php:282
 #: wp-includes/class-walker-comment.php:336
 msgid "%1$s at %2$s"
-msgstr "%1$s alle %2$s"
+msgstr "%1$s @ %2$s"
 
 #: wp-includes/class-walker-comment.php:275
 #: wp-includes/class-walker-comment.php:344
@@ -14220,7 +14220,7 @@ msgstr "Mostra altri commenti"
 #. translators: 1: month, 2: day, 3: year, 4: hour, 5: minute
 #: wp-includes/script-loader.php:1434 wp-includes/script-loader.php:1462
 msgid "%1$s %2$s, %3$s @ %4$s:%5$s"
-msgstr "%2$s %1$s %3$s alle %4$s : %5$s"
+msgstr "%2$s %1$s %3$s @ %4$s : %5$s"
 
 #: wp-includes/script-loader.php:1432
 msgid "Published on:"
