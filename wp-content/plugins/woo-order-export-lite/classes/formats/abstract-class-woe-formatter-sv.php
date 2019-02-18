@@ -73,7 +73,7 @@ abstract class WOE_Formatter_sv extends WOE_Formatter_Plain_Format {
 			if ( $this->has_output_filter ) {
 				$row = apply_filters( "woe_{$this->format}_output_filter", $row, $this );
 				if ( ! $row ) {
-					return;
+					continue;
 				}
 			}
 

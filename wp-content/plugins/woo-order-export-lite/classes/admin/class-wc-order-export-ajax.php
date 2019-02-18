@@ -11,13 +11,13 @@ class WC_Order_Export_Ajax {
 	public function save_settings() {
 
 		$settings = WC_Order_Export_Manage::make_new_settings( $_POST );
-
+/*
 		array_walk_recursive($settings, function(&$_value, $_key) {
 		    if ($_key !== 'custom_php_code'  AND $_key !== 'email_body') {
 			$_value = esc_attr($_value);
 		    }
 		});
-
+*/
 		$id       = WC_Order_Export_Manage::save_export_settings( $_POST['mode'], (int)$_POST['id'], $settings );
 		echo json_encode( array( 'id' => $id ) );
 	}

@@ -8,7 +8,5 @@ class WooSEA_Deactivate_Cleanup {
         public static function deactivate_cleanup() {
                 wp_clear_scheduled_hook('woosea_cron_hook');
                 wp_clear_scheduled_hook('woosea_check_license');
-                delete_option( 'channel_statics');
-                delete_option('license_information');
 	}
 }

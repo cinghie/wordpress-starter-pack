@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     4.6.3
+ * Version:     4.6.6
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -46,7 +46,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.6.3' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.6.6' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -493,8 +493,11 @@ function woosea_categories_dropdown() {
 
 	$categories_dropdown = "<select name=\"rules[$rowCount][criteria]\">";
 	$product_categories = get_terms( 'product_cat', $cat_args );
+
+//	error_log(print_r($product_categories, TRUE));
+
 	foreach ($product_categories as $key => $category) {
-		$categories_dropdown .= "<option value=\"$category->name\">$category->name</option>";	
+		$categories_dropdown .= "<option value=\"$category->name\">$category->name ($category->slug)</option>";	
 
 	}
 	$categories_dropdown .= "</select>";
@@ -1512,18 +1515,17 @@ add_action( 'woocommerce_product_options_general_product_data', 'woosea_custom_g
  * This function saves the input from the extra fields on the single product edit page
  */
 function woosea_save_custom_general_fields($post_id){
-
-        $woocommerce_brand      		= sanitize_text_field($_POST['_woosea_brand']);
-        $woocommerce_gtin       		= sanitize_text_field($_POST['_woosea_gtin']);
-        $woocommerce_upc        		= sanitize_text_field($_POST['_woosea_upc']);
-        $woocommerce_mpn        		= sanitize_text_field($_POST['_woosea_mpn']);
-        $woocommerce_ean        		= sanitize_text_field($_POST['_woosea_ean']);
-        $woocommerce_title      		= sanitize_text_field($_POST['_woosea_optimized_title']);
-        $woocommerce_unit_pricing_measure 	= sanitize_text_field($_POST['_woosea_unit_pricing_measure']);
-        $woocommerce_unit_pricing_base_measure 	= sanitize_text_field($_POST['_woosea_unit_pricing_base_measure']);
-        $woocommerce_installment_months      	= sanitize_text_field($_POST['_woosea_installment_months']);
-        $woocommerce_installment_amount      	= sanitize_text_field($_POST['_woosea_installment_amount']);
-        $woocommerce_condition      		= sanitize_text_field($_POST['_woosea_condition']);
+        $woocommerce_brand      		= empty($_POST['_woosea_brand']) ? '' : sanitize_text_field($_POST['_woosea_brand']);
+        $woocommerce_gtin       		= empty($_POST['_woosea_gtin']) ? '' : sanitize_text_field($_POST['_woosea_gtin']);
+        $woocommerce_upc        		= empty($_POST['_woosea_upc']) ? '' : sanitize_text_field($_POST['_woosea_upc']);
+        $woocommerce_mpn        		= empty($_POST['_woosea_mpn']) ? '' : sanitize_text_field($_POST['_woosea_mpn']);
+        $woocommerce_ean        		= empty($_POST['_woosea_ean']) ? '' : sanitize_text_field($_POST['_woosea_ean']);
+        $woocommerce_title      		= empty($_POST['_woosea_optimized_title']) ? '' : sanitize_text_field($_POST['_woosea_optimized_title']);
+        $woocommerce_unit_pricing_measure 	= empty($_POST['_woosea_unit_pricing_measure']) ? '' : sanitize_text_field($_POST['_woosea_unit_pricing_measure']);
+        $woocommerce_unit_pricing_base_measure 	= empty($_POST['_woosea_unit_pricing_base_measure']) ? '' : sanitize_text_field($_POST['_woosea_unit_pricing_base_measure']);
+        $woocommerce_installment_months      	= empty($_POST['_woosea_installment_months']) ? '' : sanitize_text_field($_POST['_woosea_installment_months']);
+        $woocommerce_installment_amount      	= empty($_POST['_woosea_installment_amount']) ? '' : sanitize_text_field($_POST['_woosea_installment_amount']);
+        $woocommerce_condition      		= empty($_POST['_woosea_condition']) ? '' : sanitize_text_field($_POST['_woosea_condition']);
 	if(!empty($_POST['_woosea_exclude_product'])){
 		$woocommerce_exclude_product 		= sanitize_text_field($_POST['_woosea_exclude_product']);
 	} else {
@@ -2286,7 +2288,7 @@ function woosea_license_valid(){
         $license_information = get_option('license_information');
 
         $curl = curl_init();
-        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=4.6.3";
+        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=4.6.6";
 
         curl_setopt_array($curl, array(
                 CURLOPT_RETURNTRANSFER => 1,

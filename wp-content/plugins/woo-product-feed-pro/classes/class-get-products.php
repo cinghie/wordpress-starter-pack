@@ -1494,9 +1494,13 @@ class WooSEA_Get_Products {
 			} else {
 				$tax_rates[1]['rate'] = 0;
 			}
-			$product_data['price_forced'] = wc_get_price_excluding_tax($product,array('price'=> $product->get_price())) * (100+$tax_rates[1]['rate'])/100;
-			$product_data['regular_price_forced'] = wc_get_price_excluding_tax($product, array('price'=> $product->get_regular_price())) * (100+$tax_rates[1]['rate'])/100;
 
+			if($product->get_price()){
+				$product_data['price_forced'] = wc_get_price_excluding_tax($product,array('price'=> $product->get_price())) * (100+$tax_rates[1]['rate'])/100;
+			}
+			if($product->get_regular_price()){
+				$product_data['regular_price_forced'] = wc_get_price_excluding_tax($product, array('price'=> $product->get_regular_price())) * (100+$tax_rates[1]['rate'])/100;
+			}
 			if($product->get_sale_price()){
 				$product_data['sale_price_forced'] = wc_get_price_excluding_tax($product, array('price'=> $product->get_sale_price())) * (100+$tax_rates[1]['rate'])/100;
 			}
@@ -1576,8 +1580,12 @@ class WooSEA_Get_Products {
 			$product_data['price'] = wc_format_localized_price($product_data['price']);
 			$product_data['regular_price'] = wc_format_localized_price($product_data['regular_price']);
 			$product_data['sale_price'] = wc_format_localized_price($product_data['sale_price']);
-			$product_data['price_forced'] = wc_format_localized_price($product_data['price_forced']);
-			$product_data['regular_price_forced'] = wc_format_localized_price($product_data['regular_price_forced']);;
+                        if($product->get_price()){
+				$product_data['price_forced'] = wc_format_localized_price($product_data['price_forced']);
+			}
+                        if($product->get_regular_price()){
+				$product_data['regular_price_forced'] = wc_format_localized_price($product_data['regular_price_forced']);;
+			}
 			if($product->get_sale_price()){
 				$product_data['sale_price_forced'] = wc_format_localized_price($product_data['sale_price_forced']);;
 			}	
@@ -1671,7 +1679,7 @@ class WooSEA_Get_Products {
 					}
 				}
 			}
-
+			
 			/**
 			 * Get Custom Attributes for Single products
 			 */
@@ -1850,21 +1858,14 @@ class WooSEA_Get_Products {
 					$custom_key = $kk; 
 
 					if (isset($project_config['product_variations']) AND ($project_config['product_variations'] == "on")){
-					
 						$taxonomy = str_replace("attribute_","",$kk);
 						$term = get_term_by('slug', $vv, $taxonomy); 
-			
-						if($term){
-							$append = ucfirst($term->name);
-							$vv = $append;
-
-							if (!empty($append)){	
-
-								// Prevent duplicate attribute values from being added to the product name
-								if(!preg_match("/" . preg_quote($product_data['title'], '/') . "/", $append)){
-															
-									$product_data['title'] = $product_data['title']." ".$append;
-								}
+		
+						if($vv){
+							$append = ucfirst($vv);
+							// Prevent duplicate attribute values from being added to the product name
+							if(!preg_match("/" . preg_quote($product_data['title'], '/') . "/", $append)){
+								$product_data['title'] = $product_data['title']." ".$append;
 							}
 						}
 					}
@@ -3176,7 +3177,9 @@ class WooSEA_Get_Products {
 						
 							// Tis can either be a shipping or product_tag array
 							if($pr_array['attribute'] == "product_tag"){
-								foreach ($pd_value as $k => $v){
+								if(in_array($pr_array['criteria'], $pd_value)) {
+									$v = $pr_array['criteria'];
+
 									switch ($pr_array['condition']) {
 										case($pr_array['condition'] = "contains"):
 											if ((preg_match('/'.$pr_array['criteria'].'/', $v))){

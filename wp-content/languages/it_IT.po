@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 5.0.x package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-02-12 07:53:20+0000\n"
+"PO-Revision-Date: 2019-02-13 18:14:43+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -53,7 +53,7 @@ msgstr "La risposta non è una risposta JSON valida."
 
 #: wp-includes/js/dist/format-library.js:1284
 msgid "Unlink"
-msgstr "Togli link"
+msgstr "Scollegare"
 
 #: wp-includes/js/dist/format-library.js:1255
 msgid "Link removed."
@@ -404,15 +404,15 @@ msgstr "Scrivi elenco…"
 
 #: wp-includes/js/dist/block-library.js:10132
 msgid "numbered list"
-msgstr "lista numerata"
+msgstr "elenco numerato"
 
 #: wp-includes/js/dist/block-library.js:10132
 msgid "ordered list"
-msgstr "Lista numerata"
+msgstr "elenco ordinato"
 
 #: wp-includes/js/dist/block-library.js:10132
 msgid "bullet list"
-msgstr "lista puntata"
+msgstr "elenco puntato"
 
 #: wp-includes/js/dist/block-library.js:10124
 msgid "Create a bulleted or numbered list."
@@ -449,7 +449,7 @@ msgstr "commenti recenti"
 
 #: wp-includes/js/dist/block-library.js:9709
 msgid "Display a list of your most recent comments."
-msgstr "Visualizza una lista dei tuoi commenti più recenti."
+msgstr "Visualizza un elenco dei tuoi commenti più recenti."
 
 #: wp-includes/js/dist/block-library.js:9708
 msgid "Latest Comments"
@@ -2262,11 +2262,11 @@ msgstr "Riduci rientro voci elenco"
 
 #: wp-includes/js/dist/editor.js:20922
 msgid "Convert to ordered list"
-msgstr "Converti in lista ordinata"
+msgstr "Converti in elenco ordinato"
 
 #: wp-includes/js/dist/editor.js:20910
 msgid "Convert to unordered list"
-msgstr "Converti in lista non ordinata"
+msgstr "Converti in elenco non ordinato"
 
 #: wp-includes/js/dist/editor.js:20106
 msgid "(%s: %s)"
@@ -2534,27 +2534,27 @@ msgstr "Grigio molto chiaro"
 
 #: wp-includes/js/dist/editor.js:8277
 msgid "Vivid cyan blue"
-msgstr "blu ciano intenso"
+msgstr "Blu ciano intenso"
 
 #: wp-includes/js/dist/editor.js:8273
 msgid "Pale cyan blue"
-msgstr "blu ciano pallido"
+msgstr "Blu ciano pallido"
 
 #: wp-includes/js/dist/editor.js:8269
 msgid "Vivid green cyan"
-msgstr "ciano verde intenso"
+msgstr "Ciano verde intenso"
 
 #: wp-includes/js/dist/editor.js:8265
 msgid "Light green cyan"
-msgstr "ciano verde chiaro"
+msgstr "Ciano verde chiaro"
 
 #: wp-includes/js/dist/editor.js:8261
 msgid "Luminous vivid amber"
-msgstr "ambra intenso luminoso"
+msgstr "Ambra intenso luminoso"
 
 #: wp-includes/js/dist/editor.js:8257
 msgid "Luminous vivid orange"
-msgstr "arancione intenso luminoso"
+msgstr "Arancione intenso luminoso"
 
 #: wp-includes/js/dist/editor.js:8253
 msgid "Vivid red"
@@ -2644,7 +2644,7 @@ msgstr "Dimensione del font: %s"
 
 #: wp-includes/js/dist/components.js:31019
 msgid "Font Size"
-msgstr "Dimensione carattere"
+msgstr "Dimensione del font"
 
 #: wp-includes/js/dist/components.js:31016
 msgctxt "font size name"
@@ -3848,7 +3848,7 @@ msgstr "Questo utente non esiste."
 
 #: wp-includes/ms-functions.php:184
 msgid "User cannot be added to this site."
-msgstr "L'utente non può essere aggiunto a questo sito"
+msgstr "L'utente non può essere aggiunto a questo sito."
 
 #: wp-includes/ms-functions.php:161
 msgid "The requested user does not exist."
@@ -4381,7 +4381,7 @@ msgstr "Precedente"
 #: wp-includes/class-wp-editor.php:1156
 msgctxt "find/replace"
 msgid "Next"
-msgstr "Prossimo"
+msgstr "Successivo"
 
 #: wp-includes/class-wp-editor.php:1155
 msgctxt "find/replace"
@@ -4485,7 +4485,7 @@ msgstr "Spazio senza interruzioni"
 
 #: wp-includes/class-wp-editor.php:1118
 msgid "Emoticons"
-msgstr "Emoticons"
+msgstr "Emoticon"
 
 #: wp-includes/class-wp-editor.php:1117
 #: wp-includes/js/dist/block-library.js:1664
@@ -4702,7 +4702,7 @@ msgstr "Taglia"
 
 #: wp-includes/class-wp-editor.php:1045
 msgid "Decrease indent"
-msgstr "Decrementa rientro"
+msgstr "Riduci il rientro"
 
 #: wp-includes/class-wp-editor.php:1044
 msgid "Increase indent"
@@ -4888,7 +4888,7 @@ msgstr "Il sito non è ancora stato attivato. Se hai dei problemi nell'attivare 
 
 #: wp-includes/ms-load.php:93
 msgid "This site is no longer available."
-msgstr "Questo sito non è più disponibile"
+msgstr "Questo sito non è più disponibile."
 
 #: wp-includes/query.php:839
 msgid "https://codex.wordpress.org/Function_Reference/is_main_query"
@@ -4933,7 +4933,7 @@ msgstr "Impossibile dividere termini condivisi."
 #. translators: 1: Taxonomy term slug
 #: wp-includes/taxonomy.php:2709
 msgid "The slug &#8220;%s&#8221; is already in use by another term."
-msgstr "L'abbreviazione &#8220;%s&#8221; è già utilizzata da un altro termine"
+msgstr "Lo slug &#8220;%s&#8221; è già utilizzato da un altro termine."
 
 #: wp-includes/taxonomy.php:2355
 msgid "Could not insert term relationship into the database."
@@ -8658,7 +8658,7 @@ msgstr "Sposta sopra"
 #: wp-includes/class-wp-customize-nav-menus.php:949
 #: wp-includes/js/dist/editor.js:15947
 msgid "Move down"
-msgstr "Muovi giù"
+msgstr "Sposta sotto"
 
 #: wp-includes/class-wp-customize-widgets.php:683
 msgid "Move to another area&hellip;"
@@ -9185,7 +9185,7 @@ msgstr "Blocco pubblicato."
 
 #: wp-includes/post.php:247
 msgid "Blocks list"
-msgstr "Lista blocchi"
+msgstr "Elenco dei blocchi"
 
 #: wp-includes/post.php:246
 msgid "Blocks list navigation"
@@ -10574,7 +10574,7 @@ msgstr "[%1$s] Commento: \"%2$s\""
 
 #: wp-includes/pluggable.php:1505
 msgid "You can see all comments on this post here:"
-msgstr "Puoi vedere tutti i commenti su questo post qui:"
+msgstr "Puoi vedere tutti i commenti su questo articolo qui:"
 
 #. translators: 1: Comment author URL
 #. translators: %s: user email address
@@ -10602,7 +10602,7 @@ msgstr "[%1$s] Pingback: \"%2$s\""
 
 #: wp-includes/pluggable.php:1494
 msgid "You can see all pingbacks on this post here:"
-msgstr "Puoi vedere tutti i pingbacks su questo post qui:"
+msgstr "Puoi vedere tutti i pingback a questo articolo qui:"
 
 #. translators: 1: Post title
 #: wp-includes/pluggable.php:1489
@@ -10616,7 +10616,7 @@ msgstr "[%1$s] Trackback: \"%2$s\""
 
 #: wp-includes/pluggable.php:1483
 msgid "You can see all trackbacks on this post here:"
-msgstr "Puoi vedere tutti i trackback su questo post qui:"
+msgstr "Puoi vedere tutti i trackback a questo articolo qui:"
 
 #. translators: 1: Comment text
 #: wp-includes/pluggable.php:1482 wp-includes/pluggable.php:1493
@@ -10785,7 +10785,7 @@ msgstr "Se vuoi nascondere i termini non assegnati agli articoli. "
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-terms-controller.php:956
 msgid "Sort collection by term attribute."
-msgstr "Ordina la raccolta per l'per attributo del termine"
+msgstr "Ordina la raccolta per attributo del termine."
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-terms-controller.php:896
 msgid "The parent term ID."
@@ -11425,11 +11425,11 @@ msgstr "L'utente corrente può assegnare termini nella tassonomia %s."
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-posts-controller.php:2282
 msgid "The current user can change the author on this post."
-msgstr "L'utente corrente può modificare l'autore di questo post."
+msgstr "L'utente corrente può modificare l'autore di questo articolo."
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-posts-controller.php:2266
 msgid "The current user can sticky this post."
-msgstr "L'utente corrente può mettere in evidenza questo post."
+msgstr "L'utente corrente può mettere in evidenza questo articolo."
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-posts-controller.php:2249
 msgid "The current user can post unfiltered HTML markup and JavaScript."
@@ -12013,7 +12013,7 @@ msgstr "Se evitare il cestino e cancellare definitivamente."
 #: wp-includes/rest-api/endpoints/class-wp-rest-comments-controller.php:76
 #: wp-includes/rest-api/endpoints/class-wp-rest-comments-controller.php:98
 msgid "The password for the parent post of the comment (if the post is password protected)."
-msgstr "La password per l'articolo genitore del commento(se l'articolo è protetto con password)"
+msgstr "La password per l'articolo genitore del commento (se l'articolo è protetto con password)."
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-comments-controller.php:65
 #: wp-includes/rest-api/endpoints/class-wp-rest-comments-controller.php:1207
@@ -12284,7 +12284,7 @@ msgstr "Hai appena incollato codice HTML?"
 
 #: wp-includes/widgets/class-wp-widget-text.php:518
 msgid "Did you know there is a &#8220;Custom HTML&#8221; widget now? You can find it by scanning the list of available widgets on this screen. Check it out to add some custom code to your site!"
-msgstr "Lo sai che ora c'è un nuovo widget &#8220;HTML personalizzato&#8221;? Puoi trovarlo scorrendo la lista dei widget disponibili in questa schermata. Provalo per aggiungere del codice personalizzato al tuo sito!"
+msgstr "Lo sai che ora c'è un nuovo widget &#8220;HTML personalizzato&#8221;? Puoi trovarlo scorrendo l'elenco dei widget disponibili in questa schermata. Provalo per aggiungere del codice personalizzato al tuo sito!"
 
 #: wp-includes/widgets/class-wp-widget-text.php:516
 msgid "Did you know there is a &#8220;Custom HTML&#8221; widget now? You can find it by pressing the &#8220;<a class=\"add-widget\" href=\"#\">Add a Widget</a>&#8221; button and searching for &#8220;HTML&#8221;. Check it out to add some custom code to your site!"
@@ -12825,7 +12825,7 @@ msgstr "Categorie"
 
 #: wp-includes/widgets/class-wp-widget-categories.php:27
 msgid "A list or dropdown of categories."
-msgstr "Una lista o un elenco a discesa di categorie."
+msgstr "Un elenco o un menu a discesa di categorie."
 
 #: wp-includes/widgets/class-wp-widget-pages.php:145
 msgid "Page IDs, separated by commas."
@@ -12877,7 +12877,7 @@ msgstr "Pagine"
 
 #: wp-includes/widgets/class-wp-widget-pages.php:27
 msgid "A list of your site&#8217;s Pages."
-msgstr "La lista delle pagine del tuo sito."
+msgstr "L'elenco delle pagine del tuo sito."
 
 #: wp-includes/date.php:450
 msgid "The following values do not describe a valid date: month %1$s, day %2$s."
@@ -14734,7 +14734,7 @@ msgstr "Italiano"
 
 #: wp-includes/script-loader.php:1154
 msgid "Irish"
-msgstr "Irish"
+msgstr "Irlandese"
 
 #: wp-includes/script-loader.php:1153
 msgid "Indonesian"
@@ -14742,7 +14742,7 @@ msgstr "Indonesiano"
 
 #: wp-includes/script-loader.php:1152
 msgid "Icelandic"
-msgstr "Icelandic"
+msgstr "Islandese"
 
 #: wp-includes/script-loader.php:1151
 msgid "Hungarian"
@@ -15479,7 +15479,7 @@ msgstr "https://it.wordpress.org/support/forums/"
 
 #: wp-includes/admin-bar.php:171
 msgid "Feedback"
-msgstr "Riscontro"
+msgstr "Feedback"
 
 #: wp-includes/admin-bar.php:163
 msgid "Support Forums"
@@ -15701,7 +15701,7 @@ msgstr "Ti sei autenticato correttamente."
 #. translators: 1: Browser cookie documentation URL
 #: wp-login.php:902
 msgid "<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href=\"%s\">enable cookies</a> to use WordPress."
-msgstr "<strong>ERRORE</strong>: i cookies sono bloccati o non supportati dal tuo browser. Per utilizzare WordPress devi <a href=\"%s\">abilitare i cookie</a>."
+msgstr "<strong>ERRORE</strong>: i cookie sono bloccati o non supportati dal tuo browser. Per utilizzare WordPress devi <a href=\"%s\">abilitare i cookie</a>."
 
 #: wp-login.php:898 wp-includes/admin-bar.php:164 wp-includes/wp-db.php:1062
 #: wp-includes/wp-db.php:1595 wp-includes/wp-db.php:1753
