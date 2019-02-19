@@ -7,6 +7,7 @@ Urgent issues:
 
 Plugin functionalities:
 - Add support for Google Product Review feeds
+- Add support for Google Actions: https://support.google.com/merchants/answer/7378924
 - Add possibility to create OR rules
 - Change root XML node for custom feeds
 - Check JSON again

@@ -1482,9 +1482,6 @@ class WooSEA_Get_Products {
 				$product_data['sale_price'] = "";
 			}
 
-			// Workaround for price caching issues
-			//error_log(print_r($tax_rates, TRUE));
-
 			if(!empty($tax_rates)){	
 				foreach ($tax_rates as $tk => $tv){
 					if($tv['rate'] > 0){
@@ -1498,16 +1495,14 @@ class WooSEA_Get_Products {
 			}
 
 
-			//error_log("Tax rate:" . $tax_rates[1]['rate']);
-
 			if($product->get_price()){
-				$product_data['price_forced'] = wc_get_price_excluding_tax($product,array('price'=> $product->get_price())) * (100+$tax_rates[1]['rate'])/100;
+				$product_data['price_forced'] = round(wc_get_price_excluding_tax($product,array('price'=> $product->get_price())) * (100+$tax_rates[1]['rate'])/100,2);
 			}
 			if($product->get_regular_price()){
-				$product_data['regular_price_forced'] = wc_get_price_excluding_tax($product, array('price'=> $product->get_regular_price())) * (100+$tax_rates[1]['rate'])/100;
+				$product_data['regular_price_forced'] = round(wc_get_price_excluding_tax($product, array('price'=> $product->get_regular_price())) * (100+$tax_rates[1]['rate'])/100,2);
 			}
 			if($product->get_sale_price()){
-				$product_data['sale_price_forced'] = wc_get_price_excluding_tax($product, array('price'=> $product->get_sale_price())) * (100+$tax_rates[1]['rate'])/100;
+				$product_data['sale_price_forced'] = round(wc_get_price_excluding_tax($product, array('price'=> $product->get_sale_price())) * (100+$tax_rates[1]['rate'])/100,2);
 			}
 			$product_data['net_price'] = $product->get_price();
 			$product_data['net_regular_price'] = $product->get_regular_price();
@@ -1618,16 +1613,20 @@ class WooSEA_Get_Products {
 
 			// Google Dynamic Remarketing feeds require the English price notation
 			if ($project_config['name'] == "Google Remarketing - DRM"){
-				$product_data['price'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['price'])));
-				$product_data['regular_price'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['regular_price'])));
-				$product_data['sale_price'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['sale_price'])));
-				$product_data['regular_price_forced'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['regular_price_forced'])));
-				if($product->get_sale_price()){
-					$product_data['sale_price_forced'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['sale_price_forced'])));
+				$thousand_separator = wc_get_price_thousand_separator();
+
+				if($thousand_separator != ','){
+					$product_data['price'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['price'])));
+					$product_data['regular_price'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['regular_price'])));
+					$product_data['sale_price'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['sale_price'])));
+					$product_data['regular_price_forced'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['regular_price_forced'])));
+					if($product->get_sale_price()){
+						$product_data['sale_price_forced'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['sale_price_forced'])));
+					}
+					$product_data['net_price'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['net_price'])));
+					$product_data['net_regular_price'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['net_regular_price'])));
+					$product_data['net_sale_price'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['net_sale_price'])));
 				}
-				$product_data['net_price'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['net_price'])));
-				$product_data['net_regular_price'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['net_regular_price'])));
-				$product_data['net_sale_price'] = floatval(str_replace(',', '.', str_replace('.', '', $product_data['net_sale_price'])));
 			}
 
 			$product_data['installment'] = $this->woosea_get_installment($project_config, $product_data['id']);
