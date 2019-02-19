@@ -1,13 +1,14 @@
-# PhpStorm project files
+# PhpStorm
 .idea
 
-# NetBeans project files
+# NetBeans
 nbproject
 
-# Windows thumbnail cache
+# Windows
 Thumbs.db
+sh.exe.stackdump
 
-# Mac DS_Store Files
+# Mac
 .DS_Store
 
 # WP Root files
