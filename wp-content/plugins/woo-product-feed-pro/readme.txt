@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 5.0
-Stable tag: 4.6.6
+Stable tag: 4.6.9
 
 == Description ==
 
@@ -272,6 +272,15 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 4.6.9 (2019-02-19) =
+* Fixed a bug where some of the wp_enqueue_script where loaded outside the scope of our plugin. This issue has been fixed now.
+
+= 4.6.8 (2019-02-18) =
+* Reverted part of the previous release as it contained untested features of an upcoming release. Mea culpa.
+
+= 4.6.7 (2019-02-18) =
+* Added a feature to exclude TAX from structured data price fields on product pages
 
 = 4.6.6 (2019-02-18) =
 * Fixed a bug where filters on product tags where only working for products that had one tag attached to them. Filters on products that have multiple product tags are working now aswell.
@@ -1421,6 +1430,15 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 4.6.9 =
+Fixed a bug where some of the wp_enqueue_script where loaded outside the scope of our plugin. This issue has been fixed now.
+
+= 4.6.8 =
+Reverted part of the previous release as it contained untested features of an upcoming release. Mea culpa.
+
+= 4.6.7 =
+Added a feature to exclude TAX from structured data price fields on product pages
 
 = 4.6.6 =
 Fixed a bug where filters on product tags where only working for products that had one tag attached to them. Filters on products that have multiple product tags are working now aswell.

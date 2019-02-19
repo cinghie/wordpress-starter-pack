@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     4.6.6
+ * Version:     4.6.9
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -46,7 +46,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.6.6' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.6.9' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -92,37 +92,39 @@ function woosea_scripts($hook) {
 	wp_enqueue_script('jquery-ui-dialog');
 	wp_enqueue_script('jquery-ui-calender');
 
-	// Bootstrap typeahead
-	wp_register_script( 'typeahead-js', plugin_dir_url( __FILE__ ) . 'js/typeahead.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
-	wp_enqueue_script( 'typeahead-js' );
+     	if (preg_match("/product-feed-pro/i",$hook)){
+		// Bootstrap typeahead
+		wp_register_script( 'typeahead-js', plugin_dir_url( __FILE__ ) . 'js/typeahead.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
+		wp_enqueue_script( 'typeahead-js' );
 
-	// JS for adding input field validation
-	wp_register_script( 'woosea_validation-js', plugin_dir_url( __FILE__ ) . 'js/woosea_validation.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
-	wp_enqueue_script( 'woosea_validation-js' );
+		// JS for adding input field validation
+		wp_register_script( 'woosea_validation-js', plugin_dir_url( __FILE__ ) . 'js/woosea_validation.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
+		wp_enqueue_script( 'woosea_validation-js' );
 
-	// JS for autocomplete
-	wp_register_script( 'woosea_autocomplete-js', plugin_dir_url( __FILE__ ) . 'js/woosea_autocomplete.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
-	wp_enqueue_script( 'woosea_autocomplete-js' );
+		// JS for autocomplete
+		wp_register_script( 'woosea_autocomplete-js', plugin_dir_url( __FILE__ ) . 'js/woosea_autocomplete.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
+		wp_enqueue_script( 'woosea_autocomplete-js' );
 
-	// JS for adding table rows to the rules page
-	wp_register_script( 'woosea_rules-js', plugin_dir_url( __FILE__ ) . 'js/woosea_rules.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
-	wp_enqueue_script( 'woosea_rules-js' );
+		// JS for adding table rows to the rules page
+		wp_register_script( 'woosea_rules-js', plugin_dir_url( __FILE__ ) . 'js/woosea_rules.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
+		wp_enqueue_script( 'woosea_rules-js' );
 
-	// JS for adding table rows to the field mappings page
-	wp_register_script( 'woosea_field_mapping-js', plugin_dir_url( __FILE__ ) . 'js/woosea_field_mapping.js', '', WOOCOMMERCESEA_PLUGIN_VERSION, true );
-	wp_enqueue_script( 'woosea_field_mapping-js' );
+		// JS for adding table rows to the field mappings page
+		wp_register_script( 'woosea_field_mapping-js', plugin_dir_url( __FILE__ ) . 'js/woosea_field_mapping.js', '', WOOCOMMERCESEA_PLUGIN_VERSION, true );
+		wp_enqueue_script( 'woosea_field_mapping-js' );
 
-	// JS for getting channels
-	wp_register_script( 'woosea_channel-js', plugin_dir_url( __FILE__ ) . 'js/woosea_channel.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
-	wp_enqueue_script( 'woosea_channel-js' );
+		// JS for getting channels
+		wp_register_script( 'woosea_channel-js', plugin_dir_url( __FILE__ ) . 'js/woosea_channel.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
+		wp_enqueue_script( 'woosea_channel-js' );
 
-	// JS for manage projects page
-	wp_register_script( 'woosea_manage-js', plugin_dir_url( __FILE__ ) . 'js/woosea_manage.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
-	wp_enqueue_script( 'woosea_manage-js' );
+		// JS for manage projects page
+		wp_register_script( 'woosea_manage-js', plugin_dir_url( __FILE__ ) . 'js/woosea_manage.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
+		wp_enqueue_script( 'woosea_manage-js' );
 
-	// JS for managing keys
-	wp_register_script( 'woosea_key-js', plugin_dir_url( __FILE__ ) . 'js/woosea_key.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
-	wp_enqueue_script( 'woosea_key-js' );
+		// JS for managing keys
+		wp_register_script( 'woosea_key-js', plugin_dir_url( __FILE__ ) . 'js/woosea_key.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
+		wp_enqueue_script( 'woosea_key-js' );
+	}
 }
 add_action( 'admin_enqueue_scripts' , 'woosea_scripts' );
 
@@ -646,6 +648,7 @@ function woosea_register_license(){
         if($license_valid == "false"){
                 // The Elite settings get disabled when license is not valid
                 delete_option ('structured_data_fix');
+                delete_option ('structured_vat');
                 delete_option ('add_unique_identifiers');
                 delete_option ('add_wpml_support');
                 delete_option ('add_aelia_support');
@@ -770,7 +773,13 @@ function woosea_product_delete_meta_price( $product = null ) {
                         			if(!empty($tax_rates)){
                                 			foreach ($tax_rates as $tk => $tv){
                                         			if($tv['rate'] > 0){
-                                                			$tax_rates[1]['rate'] = $tv['rate'];
+
+                                                               		$structured_vat = get_option ('structured_vat');
+                                                                	if($structured_vat == "yes"){
+                                                				$tax_rates[1]['rate'] = 0;
+									} else {
+										$tax_rates[1]['rate'] = $tv['rate'];
+									}
                                         			} else {
                                                 			$tax_rates[1]['rate'] = 0;
                                         			}
@@ -880,10 +889,17 @@ function woosea_product_delete_meta_price( $product = null ) {
 	   		} else {
                              	// Workaround for price caching issues
          	               	$tax_rates = WC_Tax::get_base_tax_rates( $product->get_tax_class() );   
+
 			 	if(!empty($tax_rates)){
                                		foreach ($tax_rates as $tk => $tv){
                                         	if($tv['rate'] > 0){
-                                                	$tax_rates[1]['rate'] = $tv['rate'];
+
+                                                 	$structured_vat = get_option ('structured_vat');
+                                                       	if($structured_vat == "yes"){
+                                                     		$tax_rates[1]['rate'] = 0;
+							} else {
+                                                		$tax_rates[1]['rate'] = $tv['rate'];
+							}
                                               	} else {
                                                      	$tax_rates[1]['rate'] = 0;
                                               	}
@@ -1290,6 +1306,20 @@ function woosea_enable_structured_data (){
 add_action( 'wp_ajax_woosea_enable_structured_data', 'woosea_enable_structured_data' );
 
 /**
+ * This function enables the setting to remove VAT from 
+ * structured data prices
+ */
+function woosea_structured_vat (){
+        $status = sanitize_text_field($_POST['status']);
+	if ($status == "off"){
+		update_option( 'structured_vat', 'no', 'yes');
+	} else {
+		update_option( 'structured_vat', 'yes', 'yes');
+	}
+}
+add_action( 'wp_ajax_woosea_structured_vat', 'woosea_structured_vat' );
+
+/**
  * This function enables the setting to add 
  * WPML support 
  */
@@ -1362,6 +1392,31 @@ function woosea_add_identifiers (){
 	}
 }
 add_action( 'wp_ajax_woosea_add_identifiers', 'woosea_add_identifiers' );
+
+
+/**
+ * Add a title tab.
+ */
+//add_filter( 'woocommerce_product_data_tabs', 'woosea_custom_product_tab', 10, 1 );
+
+function woosea_custom_product_tab( $default_tabs ) {
+    $default_tabs['custom_tab'] = array(
+        'label'   =>  __( 'AdTribes.io Product Title', 'domain' ),
+        'target'  =>  'woosea_title_tab_data',
+        'priority' => 15,
+        'class'   => array()
+    );
+    return $default_tabs;
+}
+
+//add_action( 'woocommerce_product_data_panels', 'woosea_title_tab_data' );
+ 
+function woosea_title_tab_data() {
+	echo '<div id="woosea_title_tab_data" class="panel woocommerce_options_panel">';
+	echo 'blat';
+	echo '</div>';
+}
+
 
 /**
  * This function add the actual fields to the edit product page for single products 
@@ -2288,7 +2343,7 @@ function woosea_license_valid(){
         $license_information = get_option('license_information');
 
         $curl = curl_init();
-        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=4.6.6";
+        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=4.6.9";
 
         curl_setopt_array($curl, array(
                 CURLOPT_RETURNTRANSFER => 1,

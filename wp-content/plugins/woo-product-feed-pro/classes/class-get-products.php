@@ -1483,6 +1483,8 @@ class WooSEA_Get_Products {
 			}
 
 			// Workaround for price caching issues
+			//error_log(print_r($tax_rates, TRUE));
+
 			if(!empty($tax_rates)){	
 				foreach ($tax_rates as $tk => $tv){
 					if($tv['rate'] > 0){
@@ -1494,6 +1496,9 @@ class WooSEA_Get_Products {
 			} else {
 				$tax_rates[1]['rate'] = 0;
 			}
+
+
+			//error_log("Tax rate:" . $tax_rates[1]['rate']);
 
 			if($product->get_price()){
 				$product_data['price_forced'] = wc_get_price_excluding_tax($product,array('price'=> $product->get_price())) * (100+$tax_rates[1]['rate'])/100;
@@ -1521,7 +1526,11 @@ class WooSEA_Get_Products {
 				}		
 
 				// Get Aelia currency conversion prices
+
+				//error_log("price before:" . $product_data['price']);
 				$product_data['price'] = apply_filters('wc_aelia_cs_convert', $product_data['price'], $from_currency, $project_config['AELIA']);
+				//error_log("price after:" . $product_data['price']);
+
 				$product_data['regular_price'] = apply_filters('wc_aelia_cs_convert', $product_data['regular_price'], $from_currency, $project_config['AELIA']);
 				$product_data['sale_price'] = apply_filters('wc_aelia_cs_convert', $product_data['sale_price'], $from_currency, $project_config['AELIA']);
 				$product_data['price_forced'] = apply_filters('wc_aelia_cs_convert', $product_data['price_forced'], $from_currency, $project_config['AELIA']);

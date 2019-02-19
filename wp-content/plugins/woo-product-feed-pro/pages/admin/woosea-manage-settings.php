@@ -149,6 +149,25 @@ if(isset($_GET["tab"])) {
 							</td>
 						</tr>
 
+						<tr class="<?php print"$elite_disable";?>" id="structured_vat_option">
+							<td>
+								<span>Exclude TAX from structured data prices</span>
+							</td>
+							<td>
+                                                		<label class="woo-product-feed-pro-switch">
+								<?php
+								$structured_vat = get_option ('structured_vat');
+ 	                                                       	if($structured_vat == "yes"){
+                                                                	print "<input type=\"checkbox\" id=\"no_structured_vat\" name=\"no_structured_vat\" class=\"checkbox-field\" checked $elite_disable>";
+							 	} else {
+                                                                	print "<input type=\"checkbox\" id=\"no_structured_vat\" name=\"no_structured_vat\" class=\"checkbox-field\" $elite_disable>";
+                                                        	}
+                                                        	?>
+                                                        	<div class="woo-product-feed-pro-slider round"></div>
+                                                		</label>
+							</td>
+						</tr>
+
 						<tr class="<?php print"$elite_disable";?>" id="identifier_option">
 							<td>
 								<span>Add GTIN, MPN, UPC, EAN, Product condition, Optimised title, Installment, Unit measure and Brand attributes to your store: (<a href="https://adtribes.io/add-gtin-mpn-upc-ean-product-condition-optimised-title-and-brand-attributes/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_content=adding fields" target="_blank">Read more about this)</a></span>

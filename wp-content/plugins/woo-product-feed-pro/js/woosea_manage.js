@@ -227,6 +227,14 @@ jQuery(document).ready(function($) {
 		}
 	})	
 
+	$('#structured_vat_option').on('click', function(){ // on change of state
+		var license_active = $(this).closest('tr').attr("class");
+		console.log(license_active);
+		if(license_active == "disabled"){ 
+			var popup_dialog = alert("We are sorry, removing the VAT from the structured data prices is an Elite feature of this plugin. Please visit AdTribes.io to acquire a license and enable this option.");
+		}
+	})	
+
 	$('#wpml_option').on('click', function(){ // on change of state
 		var license_active = $(this).closest('tr').attr("class");
 		if(license_active == "disabled"){ 
@@ -267,6 +275,27 @@ jQuery(document).ready(function($) {
                 	})
 		}
 	})	
+
+	// Check if user wants to display structured data prices excluding VAT
+	$('#no_structured_vat').on('change', function(){ // on change of state
+
+   		if(this.checked){
+			// Checkbox is on
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_structured_vat', 'status': "on" }
+                	})
+		} else {
+			// Checkbox is off
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_structured_vat', 'status': "off" }
+                	})
+		}
+	})	
+
 
 	$(".actions").delegate("span", "click", function() {
    		var id=$(this).attr('id');

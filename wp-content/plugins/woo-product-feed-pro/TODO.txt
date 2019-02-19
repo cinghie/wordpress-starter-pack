@@ -2,7 +2,7 @@ So you found my to-do list for this plugin? Well, hope you enjoy the little snea
 Missing some features you might like? Drop me a line at support@adtribes.io and we might just add it to the list. Thanks!
 
 Urgent issues:
-- Add category slug in category filter drop-down
+- Add product title manipulation feature
 - Build in even better structured data support (and rename that option) - see structured data testing tool
 
 Plugin functionalities:
