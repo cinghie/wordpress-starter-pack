@@ -410,7 +410,7 @@ GROUP BY meta.meta_key ORDER BY meta.meta_key ASC;";
 				<div class="woo-product-feed-pro-table-right">
 
 				<?php
-                                if($license_information['license_valid'] <> "true"){
+                                if((empty($license_information['license_valid'])) OR ($license_information['license_valid'] <> "true")){
                                 ?>
                                 <table class="woo-product-feed-pro-table">
                                         <tr>

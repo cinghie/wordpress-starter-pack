@@ -128,7 +128,7 @@
                 return;
             }
 
-            if ( ! loading && ! finished && ( t.scrollTop() + t.height() ) >= ( elem.offset().top + elem.height() ) ) {
+            if ( ! loading && ! finished && ( t.scrollTop() + t.height() ) >= ( elem.offset().top - ( 2 * elem.height() ) ) ) {
                 main_ajax();
             }
         })

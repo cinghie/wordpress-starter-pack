@@ -22,7 +22,6 @@ $plugins = array(
 		'slug'     => 'yith-woocommerce-cart-messages',
 		'free'     => 'YITH_YWCM_FREE_INIT',
 		'premium'  => 'YITH_YWCM_INIT',
-		'init'     => 'yith-cart-messages.php',
 		'required' => false,
 	),
 	'yith-woocommerce-ajax-navigation'              => array(
@@ -44,7 +43,7 @@ $plugins = array(
 		'name'        => 'YITH WooCommerce Request a Quote',
 		'slug'        => 'yith-woocommerce-request-a-quote',
 		'free'        => 'YITH_YWRAQ_FREE_INIT',
-		'premium'     => 'YITH_YWRAQ_INIT',
+		'premium'     => 'YITH_YWRAQ_PREMIUM',
 		'init'        => 'yith-woocommerce-request-a-quote.php',
 		'required'    => false,
 		'recommended' => true
@@ -104,13 +103,6 @@ $plugins = array(
 		'slug'     => 'yith-live-chat',
 		'free'     => 'YLC_FREE_INIT',
 		'premium'  => 'YLC_INIT',
-		'required' => false,
-	),
-	'yith-woocommerce-eu-vat'                       => array(
-		'name'     => 'YITH WooCommerce EU VAT',
-		'slug'     => 'yith-woocommerce-eu-vat',
-		'free'     => 'YITH_YWEV_FREE_INIT',
-		'premium'  => 'YITH_YWEV_PREMIUM',
 		'required' => false,
 	),
 	'yith-woocommerce-mailchimp'                    => array(

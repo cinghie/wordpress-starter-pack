@@ -3,7 +3,7 @@ Contributors: yithemes
 Tags: yith, infinite scrolling, ajax pagination, infinite scroll, load more
 Requires at least: 4.0
 Tested up to: 5.0
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,12 @@ Full documentation is available [here](http://yithemes.com/docs-plugins/yith-inf
 1. The plugin admin page.
 
 == Changelog ==
+
+= 1.1.4 =
+
+* New: Support to WordPress 5.0.2.
+* Update: Plugin Core.
+* Tweak: Better ajax performance on scroll event action.
 
 = 1.1.3 =
 
@@ -133,7 +139,8 @@ Or, if you have created your own language pack, or have an update for an existin
 
 == Upgrade notice ==
 
-= 1.1.3 =
+= 1.1.4 =
 
-* New: Support to WordPress 5.0.0.
+* New: Support to WordPress 5.0.2.
 * Update: Plugin Core.
+* Tweak: Better ajax performance on scroll event action.

@@ -3,8 +3,8 @@
 Contributors: yithemes
 Tags: woocommerce,yith woocommerce colors and labels variations,yith woocommerce zoom magnifier,yith woocommerce wishlist,yith woocommerce ajax product filter,yith woocommerce ajax search,yith woocommerce catalog mode,yith woocommerce advanced reviews, yith woocommerce badges management,yith woocommerce cart messages,yith woocommerce review reminder,yith woocommerce quick view,yith woocommerce mailchimp,yith woocommerce stripe,yith woocommerce request a quote,yith woocommerce tab manager,yith woocommerce multi vendor
 Requires at least: 3.5.1
-Tested up to: 4.9
-Stable tag: 2.0.2
+Tested up to: 5.1
+Stable tag: 2.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -86,9 +86,6 @@ Products<br />
 * [YITH WooCommerce Order Tracking](https://wordpress.org/plugins/yith-woocommerce-order-tracking)
 <br />Add an easy tool to manage order shipping information of your WooCommerce shop and to notified your customers about the shipping.
 
-* [YITH WooCommerce EU VAT](https://wordpress.org/plugins/yith-woocommerce-eu-vat)
-<br />Manage correctly your European customers with their own tax laws about digital goods. It requires WooCommerce to work.
-
 Multi store and live chat<br />
 
 * [YITH WooCommerce Multi Vendor](https://wordpress.org/plugins/yith-woocommerce-product-vendors)
@@ -130,7 +127,6 @@ Multi store and live chat<br />
 20. YITH WooCommerce Tab Manager plugin let you add custom tabs in single product page
 21. YITH WooCommerce Mailchimp integrate MailChimp into your e-commerce shop to manage users' subscription directly from your store. WooCommerce 2.3.x compatible.
 22. YITH WooCommerce Waiting List enables registered users to request an email notification when an out-of-stock product comes back into stock.
-23. YITH WooCommerce EU VAT manage correctly your European customers with their own tax laws about digital goods.
 24. YITH WooCommerce Product Add-Ons in "Single Product" page
 
 == Frequently Asked Questions ==
@@ -154,6 +150,11 @@ You can get additional features of the plugins installed with the premium versio
 YITH Essential Kit for WooCommerce #1 will add a new submenu called "YITH Essential Kit for WooCommerce #1" under "YIT Plugins" menu. Here you are able to activate/deactivate all the plugins within.
 
 == Changelog ==
+
+= 2.0.3 =
+* Update: YITH Plugin Framework
+* Update: Removed YITH EU Vat module (no longer supported, it still works if you have it installed)
+* Update: Plugin activation checks for YITH WooCommercer Request a Quote module
 
 = 2.0.2 =
 * Update: YITH Plugin Framework

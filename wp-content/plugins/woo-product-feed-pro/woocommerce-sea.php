@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     4.7.1
+ * Version:     4.7.3
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -10,13 +10,15 @@
  * Developer:   Joris Verwater, Eva van Gelooven
  * License:     GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
- * Text Domain: wporg
+ * Requires at least: 4.6
+ * Tested up to: 5.0 
+ *
+ * Text Domain: woo-product-feed-pro
  * Domain Path: /languages
+ *
  * WC requires at least: 3.0
  * WC tested up to: 3.5
- */
-
-/** 
+ *
  * Product Feed PRO for WooCommerce is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -46,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.7.1' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.7.3' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -2343,7 +2345,7 @@ function woosea_license_valid(){
         $license_information = get_option('license_information');
 
         $curl = curl_init();
-        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=4.7.1";
+        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=4.7.3";
 
         curl_setopt_array($curl, array(
                 CURLOPT_RETURNTRANSFER => 1,

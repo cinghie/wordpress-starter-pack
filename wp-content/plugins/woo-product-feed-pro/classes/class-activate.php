@@ -1752,6 +1752,31 @@ class WooSEA_Activation {
                  * Function for checking if license is valid
                  */
                 if (!wp_next_scheduled( 'woosea_check_license' ) ) {
+
+			if(!get_option("license_information")){
+	        		$license_valid = "false";
+        			$message = "Thank you for becoming a user of our product feed pro plugin, much appreciated! Some of the features of this plugin have been locked as you are using the free version of this plugin. The added extra fields such as Brand and GTIN, WPML support, Aelia currency switcher support and the WooCommerce structured data bug fix are Elite features of this plugin. You can get <a href=\"https://adtribes.io/pro-vs-elite/?utm_source=$domain&utm_medium=plugin&utm_campaign=upgrade-elite\" target=\"_blank\">your license key here</a>.";
+	        		$message_type = "notice notice-info is-dismissible";
+        			$notice = "true";
+
+			        $license_information = array (
+        	        		'license_valid'         => $license_valid,
+        	        		'license_created'       => $license_created,
+                			'message'               => $message,
+                			'message_type'          => $message_type,
+          		      		'license_email'         => "",
+              		  		'license_key'           => "",
+                			'notice'                => $notice,
+        			);
+        			update_option ('license_information', $license_information);
+
+                		update_option ('structured_data_fix', 'no', 'yes');
+                		update_option ('structured_vat', 'no', 'yes');
+               			update_option ('add_unique_identifiers', 'no', 'yes');
+               	 		update_option ('add_wpml_support', 'no', 'yes');
+                		update_option ('add_aelia_support', 'no', 'yes');
+			}
+
                         wp_schedule_event ( time(), 'daily', 'woosea_check_license');
                 }
 
