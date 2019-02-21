@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Really Simple SSL - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-01-14 19:34:59+0000\n"
+"PO-Revision-Date: 2019-02-20 16:16:02+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -138,6 +138,10 @@ msgstr "* Il riparatore dei contenuti misti smetterà di funzionare"
 #: class-admin.php:3112
 msgid "Deactivating the plugin while keeping SSL will do the following:"
 msgstr "Disattivare il plugin mentre si mantiene SSL eseguirà quanto segue:"
+
+#: class-admin.php:2550
+msgid "UM Tagging allows you to @tag or @mention all users on your platform."
+msgstr "Tagging UM ti consente di @tag o @mention tutti gli utenti sulla tua piattaforma."
 
 #: class-admin.php:2529
 msgid "Really Simple SSL pro optimizes your SSL configuration: extensive scan for mixed content issues, access to premium support, HSTS and more!"

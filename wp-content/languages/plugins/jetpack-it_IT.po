@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Jetpack by WordPress.com - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-12-28 14:23:21+0000\n"
+"PO-Revision-Date: 2019-02-19 22:46:41+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -8610,13 +8610,13 @@ msgstr "Disconnesso"
 msgid "You do not have sufficient <a rel=\"nofollow\" href=\"%s\" rel=\"noopener noreferrer\" target=\"_blank\">freedom levels</a> to view this video. Support free software and upgrade."
 msgstr "Non hai un sufficiente <a rel=\"nofollow\" href=\"%s\" rel=\"noopener noreferrer\" target=\"_blank\">livello di libertà</a> per visualizzare questo video. Sostieni il software libero e passa alla versione successiva."
 
-#: modules/widget-visibility/widget-conditions.php:100
-msgid "Search results"
-msgstr "Risultati di ricerca"
-
 #: modules/subscriptions.php:657
 msgid "Notify me of new posts by email."
 msgstr "Avvertimi via email alla pubblicazione di un nuovo articolo."
+
+#: modules/widget-visibility/widget-conditions.php:100
+msgid "Search results"
+msgstr "Risultati della ricerca"
 
 #: modules/sharedaddy/sharing-sources.php:95
 msgid " (Opens in new window)"

@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 5.0.x - Administration package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-01-08 08:29:12+0000\n"
+"PO-Revision-Date: 2019-02-13 18:22:00+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -239,7 +239,7 @@ msgstr "https://wordpress.org/support/forum/how-to-and-troubleshooting"
 
 #: wp-admin/maint/repair.php:147
 msgid "Some database problems could not be repaired. Please copy-and-paste the following list of errors to the <a href=\"%s\">WordPress support forums</a> to get additional assistance."
-msgstr "Alcuni problemi del database non sono stati riparati. Fai copia e incolla della seguente lista di errori sul <a href=\"%s\">Forum di supporto di WordPress (in inglese)</a> per avere ulteriore assistenza."
+msgstr "Alcuni problemi del database non sono stati riparati. Fai copia e incolla del seguente elenco di errori sul <a href=\"%s\">Forum di supporto di WordPress (in inglese)</a> per avere ulteriore assistenza."
 
 #. translators: 1: table name, 2: error message,
 #: wp-admin/maint/repair.php:139
@@ -892,7 +892,7 @@ msgstr "<a href=\"https://codex.wordpress.org/Pages_Screen\">Documentazione sull
 
 #: wp-admin/edit.php:249
 msgid "You can also perform the same types of actions, including narrowing the list by using the filters, acting on a page using the action links that appear when you hover over a row, or using the Bulk Actions menu to edit the metadata for multiple pages at once."
-msgstr "&Egrave; possibile anche eseguire lo stesso tipo di azioni, compresa la riduzione della lista tramite i filtri, agendo su una pagina utilizzando i link delle azioni che appaiono quando si passa sopra ad una riga con il mouse oppure utilizzando il menu Azioni di Gruppo per modificare in una sola volta i metadati di più pagine alla volta."
+msgstr "&Egrave; possibile anche eseguire lo stesso tipo di azioni, compresa la riduzione dell'elenco tramite i filtri, agendo su una pagina utilizzando i link delle azioni che appaiono quando si passa sopra ad una riga con il mouse oppure utilizzando il menu Azioni di Gruppo per modificare in una sola volta i metadati di più pagine alla volta."
 
 #: wp-admin/edit.php:248
 msgid "Managing pages is very similar to managing posts, and the screens can be customized in the same way."
@@ -920,7 +920,7 @@ msgstr "<strong>Anteprima</strong> mostra l'aspetto dell'articolo così come qua
 
 #: wp-admin/edit.php:219
 msgid "<strong>Trash</strong> removes your post from this list and places it in the trash, from which you can permanently delete it."
-msgstr "<strong>Cestina</strong> rimuove l'articolo da questa lista e lo sposta nel cestino, dove può essere eliminato definitivamente."
+msgstr "<strong>Cestina</strong> rimuove l'articolo da questo elenco e lo sposta nel cestino, dove può essere eliminato definitivamente."
 
 #: wp-admin/edit.php:218
 msgid "<strong>Quick Edit</strong> provides inline access to the metadata of your post, allowing you to update post details without leaving this screen."
@@ -932,7 +932,7 @@ msgstr "<strong>Modifica</strong> apre la pagina di modifica dell'articolo. Si p
 
 #: wp-admin/edit.php:215
 msgid "Hovering over a row in the posts list will display action links that allow you to manage your post. You can perform the following actions:"
-msgstr "Posizionandosi con il mouse sopra una riga nella lista degli articoli, si attiveranno dei link che permettono di gestire l'articolo. &Egrave; possibile eseguire le seguenti azioni:"
+msgstr "Posizionandosi con il mouse sopra una riga nell'elenco degli articoli, si attiveranno dei link che permettono di gestire l'articolo. &Egrave; possibile eseguire le seguenti azioni:"
 
 #: wp-admin/edit.php:208
 msgid "You can refine the list to show only posts in a specific category or from a specific month by using the dropdown menus above the posts list. Click the Filter button after making your selection. You also can refine the list by clicking on the post author, category or tag in the posts list."
@@ -940,7 +940,7 @@ msgstr "&Egrave; possibile organizzare  la lista per visualizzare solo gli artic
 
 #: wp-admin/edit.php:207
 msgid "You can view posts in a simple title list or with an excerpt using the Screen Options tab."
-msgstr "Puoi visualizzare gli articoli in una semplice lista di titoli o con un riassunto utilizzando la linguetta impostazioni schermo."
+msgstr "Puoi visualizzare gli articoli in un semplice elenco di titoli o con un riassunto utilizzando la linguetta impostazioni schermo."
 
 #: wp-admin/edit.php:206
 msgid "You can filter the list of posts by post status using the text links above the posts list to only show posts with that status. The default view is to show all posts."
@@ -1177,7 +1177,7 @@ msgstr "Dettagli e anteprima"
 
 #: wp-admin/theme-install.php:227
 msgid "Themes list"
-msgstr "Lista dei temi"
+msgstr "Elenco dei temi"
 
 #: wp-admin/theme-install.php:223
 msgid "Edit Filters"
@@ -1211,7 +1211,7 @@ msgstr "Popolari"
 
 #: wp-admin/theme-install.php:157
 msgid "Filter themes list"
-msgstr "Filtra la lista dei temi"
+msgstr "Filtra l'elenco dei temi"
 
 #: wp-admin/theme-install.php:150
 msgid "The Theme Installer screen requires JavaScript."
@@ -1231,7 +1231,7 @@ msgstr "Per installare il tema così da poterne vedere una anteprima con il cont
 
 #: wp-admin/theme-install.php:109
 msgid "Once you have generated a list of themes, you can preview and install any of them. Click on the thumbnail of the theme you&#8217;re interested in previewing. It will open up in a full-screen Preview page to give you a better idea of how that theme will look."
-msgstr "Una volta generata una lista di temi è possibile vedere in anteprima ed installare uno qualsiasi di essi. Fare clic sulla miniatura del tema a cui si è interessati vedere in anteprima. Si aprirà una anteprima a pieno schermo che fornirà una migliore visione di come appare il tema."
+msgstr "Una volta generato un elenco di temi è possibile vedere in anteprima ed installare uno qualsiasi di essi. Fare clic sulla miniatura del tema che si è interessati a vedere in anteprima. Si aprirà una anteprima a pieno schermo che fornirà una migliore visione di come appare il tema."
 
 #. translators: %s: /wp-content/themes
 #: wp-admin/theme-install.php:98
@@ -1679,7 +1679,7 @@ msgstr "Uno degli utenti selezionati non è membro di questo sito."
 
 #: wp-admin/users.php:75
 msgid "Users list"
-msgstr "Lista degli utenti"
+msgstr "Elenco degli utenti"
 
 #: wp-admin/users.php:74
 msgid "Users list navigation"
@@ -1687,7 +1687,7 @@ msgstr "Navigazione lista degli utenti"
 
 #: wp-admin/users.php:73
 msgid "Filter users list"
-msgstr "Filtra la lista degli utenti"
+msgstr "Filtra l'elenco degli utenti"
 
 #: wp-admin/users.php:68
 msgid "<a href=\"https://codex.wordpress.org/Roles_and_Capabilities\">Descriptions of Roles and Capabilities</a>"
@@ -1711,7 +1711,7 @@ msgstr "Con <strong>Modifica</strong> si verrà portati ad una schermata dove mo
 
 #: wp-admin/users.php:47
 msgid "Hovering over a row in the users list will display action links that allow you to manage users. You can perform the following actions:"
-msgstr "Passando con il mouse su una riga della lista degli utenti, verranno mostrati dei link che permetteranno di gestire gli Utenti. &Egrave; possibile effettuare le seguenti azioni:"
+msgstr "Passando con il mouse su una riga dell'elenco degli utenti, verranno mostrati dei link che permetteranno di gestire gli Utenti. &Egrave; possibile effettuare le seguenti azioni:"
 
 #: wp-admin/users.php:43
 msgid "You can view all posts made by a user by clicking on the number under the Posts column."
@@ -1719,7 +1719,7 @@ msgstr "&Egrave; possibile vedere tutti gli articoli di un utente facendo clic s
 
 #: wp-admin/users.php:42
 msgid "You can filter the list of users by User Role using the text links above the users list to show All, Administrator, Editor, Author, Contributor, or Subscriber. The default view is to show all users. Unused User Roles are not listed."
-msgstr "Puoi filtrare l'elenco degli utenti per Ruolo utente utilizzando i link di testo sopra l'elenco degli utenti per visualizzare Tutti,gli Amministratori, gli Editori, gli Autori, i Contribuenti o i Sottoscrittori. Di base la vista mostra tutti gli utenti. I Ruoli non utilizzati non vengono elencati."
+msgstr "Puoi filtrare l'elenco degli utenti per ruolo utente utilizzando i link di testo sopra l'elenco degli utenti per visualizzare tutti gli Amministratori, gli Editori, gli Autori, i Contribuenti o i Sottoscrittori. Di base la vista mostra tutti gli utenti. I ruoli non utilizzati non vengono elencati."
 
 #: wp-admin/users.php:41
 msgid "You can hide/display columns based on your needs and decide how many users to list per screen using the Screen Options tab."
@@ -2096,7 +2096,7 @@ msgstr "Aggiungi un widget"
 
 #: wp-admin/widgets.php:444
 msgid "This will clear all items from the inactive widgets list. You will not be able to restore any customizations."
-msgstr "Questo eliminerà tutti gli elementi dalla lista dei widget inattivi. Non potrai recuperare le personalizzazioni. "
+msgstr "Questo eliminerà tutti gli elementi dall'elenco dei widget inattivi. Non potrai recuperare le personalizzazioni. "
 
 #: wp-admin/widgets.php:434
 msgid "Clear Inactive Widgets"
@@ -2688,15 +2688,15 @@ msgstr "File multimediale allegato."
 
 #: wp-admin/upload.php:219
 msgid "Media items list"
-msgstr "Lista elementi multimediali"
+msgstr "Elenco degli elementi multimediali"
 
 #: wp-admin/upload.php:218
 msgid "Media items list navigation"
-msgstr "Navigazione lista elementi multimendiali"
+msgstr "Navigazione dell'elenco degli elementi multimediali"
 
 #: wp-admin/upload.php:217
 msgid "Filter media items list"
-msgstr "Filtra la lista degli elementi media"
+msgstr "Filtra l'elenco degli elementi media"
 
 #: wp-admin/upload.php:207
 msgid "If a media file has not been attached to any content, you will see that in the Uploaded To column, and can click on Attach to launch a small popup that will allow you to search for existing content and attach the file."
@@ -2716,7 +2716,7 @@ msgstr "Azioni disponibili"
 
 #: wp-admin/upload.php:194
 msgid "You can narrow the list by file type/status or by date using the dropdown menus above the media table."
-msgstr "Puoi limitare la lista per tipo/stato del file oppure per data utilizzando il menu a comparsa sopra la tabella degli elementi media."
+msgstr "Puoi limitare l'elenco per tipo/stato del file oppure per data utilizzando il menu a comparsa sopra la tabella degli elementi media."
 
 #: wp-admin/upload.php:193
 msgid "All the files you&#8217;ve uploaded are listed in the Media Library, with the most recent uploads listed first. You can use the Screen Options tab to customize the display of this screen."
@@ -2749,7 +2749,7 @@ msgstr "Per cancellare elementi media, fare clic sul pulsante «Selezione multip
 
 #: wp-admin/upload.php:51 wp-admin/upload.php:195
 msgid "You can view your media in a simple visual grid or a list with columns. Switch between these views using the icons to the left above the media."
-msgstr "Puoi visualizzare gli elementi media in una semplice vista a griglia o in una lista a colonne. Per passare da una vista all'altra utilizzare le icone poste a sinistra sopra gli elementi media."
+msgstr "Puoi visualizzare gli elementi media in una semplice vista a griglia o in un elenco a colonne. Per passare da una vista all'altra utilizzare le icone poste a sinistra sopra gli elementi media."
 
 #: wp-admin/upload.php:50
 msgid "All the files you&#8217;ve uploaded are listed in the Media Library, with the most recent uploads listed first."
@@ -8000,15 +8000,15 @@ msgstr "Linguetta di Aiuto contestuale"
 
 #: wp-admin/includes/class-wp-screen.php:712
 msgid "Items list"
-msgstr "Lista elementi"
+msgstr "Elenco degli elementi"
 
 #: wp-admin/includes/class-wp-screen.php:711
 msgid "Items list navigation"
-msgstr "Lista elementi di navigazione"
+msgstr "Elenco degli elementi di navigazione"
 
 #: wp-admin/includes/class-wp-screen.php:710
 msgid "Filter items list"
-msgstr "Filtra la lista degli elementi"
+msgstr "Filtra l'elenco degli elementi"
 
 #: wp-admin/includes/class-wp-screen.php:282 wp-admin/post.php:20
 msgid "A post ID mismatch has been detected."

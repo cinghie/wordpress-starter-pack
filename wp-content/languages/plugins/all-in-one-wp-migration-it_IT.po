@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - All-in-One WP Migration - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-02-09 14:40:00+0000\n"
+"PO-Revision-Date: 2019-02-14 11:03:38+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -67,6 +67,39 @@ msgstr "Ti mancano ancora due passaggi:<br /><strong>1. Devi salvare la struttur
 msgid "<strong>%s</strong> is not the latest version. You must <a href=\"%s\">update the plugin</a> before you can use it. <br />"
 msgstr "<strong>%s</strong> non è la versione più recente. Devi <a href=\"%s\">aggiornare il plugin</a> prima di poterlo usare.<br />"
 
+#: lib/controller/class-ai1wm-main-controller.php:759
+msgid "The file that you are trying to import is over the maximum upload file size limit of <strong>%s</strong>.<br />You can remove this restriction by purchasing our <a href=\"https://servmask.com/products/unlimited-extension\" target=\"_blank\">Unlimited Extension</a>."
+msgstr "Il file che stai cercando di importare supera la dimensione massima di caricamento di file di <strong>%s</strong>.<br />Puoi rimuovere questa restrizione acquistando la nostra <a href=\"https://servmask.com/products/unlimited-extension\" target=\"_blank\">Unlimited Extension</a>."
+
+#: lib/controller/class-ai1wm-main-controller.php:752
+msgid "The file type that you have tried to upload is not compatible with this plugin. Please ensure that your file is a <strong>.wpress</strong> file that was created with the All-in-One WP migration plugin. <a href=\"https://help.servmask.com/knowledgebase/invalid-backup-file/\" target=\"_blank\">Technical details</a>"
+msgstr "Il tipo di file che hai cercato di caricare non è compatibile con questo plugin. Assicurati che il tuo file sia un file <strong>.wpress</strong> creato con il plugin All-in-One WP Migration. <a href=\"https://help.servmask.com/knowledgebase/invalid-backup-file/\" target=\"_blank\">Dettagli tecnici</a>"
+
+#: lib/view/main/multisite-notice.php:30
+msgid "WordPress Multisite is supported via our All in One WP Migration Multisite Extension. You can get a copy of it here"
+msgstr "WordPress multisito è supportato tramite la nostra Multisite Extension per All in One WP Migration. Puoi ottenerne una copia qui"
+
+#: lib/view/main/storage-index-notice.php:31
+#: lib/view/main/backups-webconfig-notice.php:31
+#: lib/view/main/backups-index-notice.php:31
+#: lib/view/main/wordpress-htaccess-notice.php:31
+#: lib/view/main/backups-htaccess-notice.php:31
+msgid "All in One WP Migration is not able to create <strong>%s</strong> file. Try to change permissions of the parent folder or send us an email at <a href=\"mailto:support@servmask.com\">support@servmask.com</a> for assistance."
+msgstr "All in One WP Migration non può creare il file <strong>%s</strong>. Prova a modificare i permessi della cartella genitore oppure inviaci un'email a <a href=\"mailto:support@servmask.com\">support@servmask.com</a> per ottenere assistenza."
+
+#: lib/view/main/backups-path-notice.php:31
+#: lib/view/main/storage-path-notice.php:31
+msgid "All in One WP Migration is not able to create <strong>%s</strong> folder. You will need to create this folder and grant it read/write/execute permissions (0777) for the All in One WP Migration plugin to function properly."
+msgstr "All in One WP Migration non può creare la cartella <strong>%s</strong>. Devi creare questa cartella e garantire i permessi di lettura/scrittura/esecuzione (0777) per il plugin All in One WP Migration perché questo funzioni correttamente."
+
+#: lib/view/import/import-buttons.php:66
+msgid "<h3>Site could not be imported!</h3><p>Please make sure that storage directory <strong>%s</strong> has read and write permissions.</p>"
+msgstr "<h3>Il sito non può essere importato!</h3><p>Assicurati che la directory <strong>%s</strong> abbia i permessi di lettura e scrittura.</p>"
+
+#: lib/view/backups/index.php:107
+msgid "<h3>Site could not create backups!</h3><p>Please make sure that storage directory <strong>%s</strong> has read and write permissions.</p>"
+msgstr "<h3>Il sito non può creare i backup!</h3><p>Assicurati che la directory <strong>%s</strong> abbia i permessi di lettura e scrittura.</p>"
+
 #: lib/view/import/pro.php:32
 msgid "or"
 msgstr "o"
@@ -111,6 +144,10 @@ msgstr "Sto esportando il database...<br />%d%% completato<br />%s record salvat
 #: lib/controller/class-ai1wm-main-controller.php:855
 msgid "Restoring a backup is available via Unlimited extension. <a href=\"https://servmask.com/products/unlimited-extension\" target=\"_blank\">Get it here</a>"
 msgstr "Il ripristino di un backup è disponibile tramite la nostra estensione Unlimited. <a href=\"https://servmask.com/products/unlimited-extension\" target=\"_blank\">Ottienila qui</a>"
+
+#: lib/controller/class-ai1wm-main-controller.php:235
+msgid "All-in-One WP Migration Command"
+msgstr "Comando All-in-One WP Migration"
 
 #: lib/controller/class-ai1wm-main-controller.php:632
 msgid "Preparing to export..."
@@ -546,7 +583,7 @@ msgstr "nel database"
 
 #: lib/view/export/find-replace.php:34
 msgid "<another-text>"
-msgstr "<altro-testo>"
+msgstr "<another-text>"
 
 #: lib/view/export/find-replace.php:33 lib/view/export/find-replace.php:41
 msgid "Replace with"
