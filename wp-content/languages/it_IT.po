@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 5.0.x package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-02-13 18:14:43+0000\n"
+"PO-Revision-Date: 2019-02-20 21:05:25+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2341,7 +2341,7 @@ msgstr "Questo blocco contiene contenuto inaspettato o non valido."
 #: wp-includes/js/dist/editor.js:16531
 msgctxt "imperative verb"
 msgid "Resolve"
-msgstr "Risolvi"
+msgstr "Correggi"
 
 #: wp-includes/js/dist/editor.js:16520 wp-includes/js/dist/editor.js:29903
 msgid "Convert to Blocks"
@@ -2350,7 +2350,7 @@ msgstr "Converti in blocchi"
 #. translators: Dialog title to fix block content
 #: wp-includes/js/dist/editor.js:16512
 msgid "Resolve Block"
-msgstr "Risolvere il blocco"
+msgstr "Correggi blocco"
 
 #: wp-includes/js/dist/editor.js:16505
 msgid "Convert to Classic Block"
