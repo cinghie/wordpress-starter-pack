@@ -3109,7 +3109,7 @@ class WooSEA_Get_Products {
 		}
 
 		foreach ($project_rules as $pr_key => $pr_array){
-
+	
 			if(array_key_exists($pr_array['attribute'], $product_data)){
 
 				foreach ($product_data as $pd_key => $pd_value){
@@ -3423,10 +3423,12 @@ class WooSEA_Get_Products {
 									}
 									break;
 								case($pr_array['condition'] = "empty"):
-										
+									
 									if ((strlen($pd_value) < 1) && ($pr_array['than'] == "exclude")){
 										$allowed = 0;
-									} elseif ((strlen($pd_value > 0)) && ($pr_array['than'] == "include_only")){
+									} elseif ((strlen($pd_value) > 0) && ($pr_array['than'] == "exclude")){
+										$allowed = 0;
+									} elseif ((strlen($pd_value) > 0) && ($pr_array['than'] == "include_only")){
 										$allowed = 0;
 									}
 									break;
@@ -3439,7 +3441,11 @@ class WooSEA_Get_Products {
 			} else {
 				// A empty rule has been set on an attribute that is not in a product anyhow. Still, remove this product from the feed
 				if($pr_array['condition'] == "empty"){
-					$allowed = 0;
+					if($pr_array['than'] == "exclude"){
+						$allowed = 0;
+					} else {
+						$allowed = 1;
+					}
 				} elseif($pr_array['condition'] == "="){
 					if($pr_array['than'] == "exclude"){
 						$allowed = 1;
