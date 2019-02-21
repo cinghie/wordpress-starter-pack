@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 5.0
-Stable tag: 4.7.3
+Stable tag: 4.7.4
 
 == Description ==
 
@@ -272,6 +272,10 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 4.7.4 (2019-02-21) =
+* Fixed an issue where the ancestor categoryId was added to Yandex feeds (only when the Yoast SEO plugin was not installed) even though that ancestor category was not activated. This issue has been fixed now.
+* Added a template for Zbosi.cz
 
 = 4.7.3 (2019-02-20) =
 * WooCommerce 3.5 compatibility message is not showing. This should fix that as our plugin is compatible.
@@ -1442,6 +1446,10 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 4.7.4 =
+Fixed an issue where the ancestor categoryId was added to Yandex feeds (only when the Yoast SEO plugin was not installed) even though that ancestor category was not activated. This issue has been fixed now.
+Added a template for Zbosi.cz
 
 = 4.7.3 =
 WooCommerce 3.5 compatibility message is not showing. This should fix that as our plugin is compatible.

@@ -742,7 +742,7 @@ class WooSEA_Get_Products {
 					$shop->addChild('agency', 'AdTribes.io');
 					$shop->addChild('email', 'support@adtribes.io');
 					$xml->asXML($file);
-				} elseif ($feed_config['name'] == "Heureka.cz") {
+				} elseif ($feed_config['name'] == "Heureka.cz" || $feed_config['name'] == "Zbozi.cz") {
 					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><SHOP></SHOP>');	
 					$xml->addAttribute('xmlns', 'https://www.zbozi.cz/ns/offer/1.0');
 					$xml->asXML($file);
@@ -809,7 +809,7 @@ class WooSEA_Get_Products {
 						if (is_array ( $value ) ) {
 							if ($feed_config['name'] == "Yandex") {
 								$product = $offers->addChild('offer');
-							} elseif ($feed_config['name'] == "Heureka.cz") {
+							} elseif ($feed_config['name'] == "Heureka.cz" || $feed_config['name'] == "Zbozi.cz") {
 								$product = $xml->addChild('SHOPITEM');
 							} elseif ($feed_config['name'] == "Zap.co.il") {
 								$product = $productz->addChild('PRODUCT');
@@ -1265,9 +1265,20 @@ class WooSEA_Get_Products {
 
 			$categories = array_unique(wc_get_product_cat_ids( $product_data['id'] ));
 
+			// This is a category fix for Yandex, probably needed for all channels
+			// When Yoast is not installed and a product is linked to multiple categories
+			// The ancestor categoryId does not need to be in the feed
+			if ($project_config['name'] == "Yandex") {
+				$cat_alt = array();
+				$cat_terms = get_the_terms( $product_data['id'], 'product_cat' );
+                       		foreach($cat_terms as $cat_term){
+                        		$cat_alt[] = $cat_term->term_id;
+                      		}
+				$categories = $cat_alt;
+			}
+
 			// Check if the Yoast plugin is installed and active
 			if ( class_exists('WPSEO_Primary_Term') ){
-
 				$product_id = $product_data['id'];
 				$primary_cat_id=get_post_meta($product_id ,'_yoast_wpseo_primary_product_cat',true);
  				$category_path = $this->woosea_get_term_parents( $primary_cat_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
@@ -1324,7 +1335,6 @@ class WooSEA_Get_Products {
 				}
 			} else {
 				foreach ($categories as $key => $value){
-
 					if (!$catname){
 	                                        $product_cat = get_term($value, 'product_cat');
 
@@ -1521,11 +1531,7 @@ class WooSEA_Get_Products {
 				}		
 
 				// Get Aelia currency conversion prices
-
-				//error_log("price before:" . $product_data['price']);
 				$product_data['price'] = apply_filters('wc_aelia_cs_convert', $product_data['price'], $from_currency, $project_config['AELIA']);
-				//error_log("price after:" . $product_data['price']);
-
 				$product_data['regular_price'] = apply_filters('wc_aelia_cs_convert', $product_data['regular_price'], $from_currency, $project_config['AELIA']);
 				$product_data['sale_price'] = apply_filters('wc_aelia_cs_convert', $product_data['sale_price'], $from_currency, $project_config['AELIA']);
 				$product_data['price_forced'] = apply_filters('wc_aelia_cs_convert', $product_data['price_forced'], $from_currency, $project_config['AELIA']);
@@ -1958,9 +1964,10 @@ class WooSEA_Get_Products {
 
 				// Get versioned product categories
 				$categories = wc_get_product_cat_ids( $product_data['item_group_id'] );
- 
+
 				// Check if the Yoast plugin is installed and active
 				if ( class_exists('WPSEO_Primary_Term') ){
+
 					$product_id = $product_data['item_group_id'];
 					$primary_cat_id=get_post_meta($product_id ,'_yoast_wpseo_primary_product_cat',true);
 
@@ -2044,7 +2051,7 @@ class WooSEA_Get_Products {
 					foreach ($categories as $key => $value){
 	                                        if (!$catname){
                                                         $product_cat = get_term($value, 'product_cat');
-
+						
 							if($product_cat->parent > 0){
 								$set_parent = $product_cat->parent;
 							}

@@ -276,7 +276,7 @@ class WooSEA_Activation {
                   		"Zbozi.cz" => array (
                         		"channel_hash" => md5("Zbozi.cz"),
                         		"name" => "Zbozi.cz",
-					"fields" => "heureka",
+					"fields" => "zbozi",
 					"taxonomy" => "none",
 					"utm_source" => "Zbozi.cz",
                         		"type" => "Comparison shopping engine" ),
