@@ -3466,11 +3466,10 @@ class WooSEA_Get_Products {
 									}
 									break;
 								case($pr_array['condition'] = "empty"):
-									
 									if ((strlen($pd_value) < 1) && ($pr_array['than'] == "exclude")){
 										$allowed = 0;
 									} elseif ((strlen($pd_value) > 0) && ($pr_array['than'] == "exclude")){
-										$allowed = 0;
+										$allowed = 1;
 									} elseif ((strlen($pd_value) > 0) && ($pr_array['than'] == "include_only")){
 										$allowed = 0;
 									}

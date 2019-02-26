@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 5.1
-Stable tag: 4.8.5
+Stable tag: 4.8.6
 
 == Description ==
 
@@ -272,6 +272,9 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 4.8.6 (2019-02-26) =
+* The filter bug fix of release 4.7.5 changed the behaviour for exclude filters on empty fields. Made changes so it defaults back to the old behaviour for exclude filters.
 
 = 4.8.5 (2019-02-26) =
 * Removed ancestor category from all feeds when not selected
@@ -1483,6 +1486,9 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 4.8.6 =
+The filter bug fix of release 4.7.5 changed the behaviour for exclude filters on empty fields. Made changes so it defaults back to the old behaviour for exclude filters.
 
 = 4.8.5 =
 Removed ancestor category from all feeds when not selected
