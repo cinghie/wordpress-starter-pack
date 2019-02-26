@@ -184,7 +184,8 @@ public function get_mapping_attributes_dropdown() {
         	$attributes = array(
    			"id" => "Product Id",
             		"sku" => "SKU", 
-			"sku_id" => "SKU_ID",
+			"sku_id" => "SKU_ID (Facebook)",
+			"sku_item_group_id" => "SKU_ITEM_GROUP_ID (Facebook)",
 			"title" => "Product name",
 			"mother_title" => "Product name mother product",
 			"description" => "Product description",
@@ -309,8 +310,24 @@ public function get_mapping_attributes_dropdown() {
 		 */
 		$dropdown .= "<optgroup label='Other fields'><strong>Other fields</strong>";
 		$dropdown .= "<option value='product_tag'>Product tags</option>";              
+		$dropdown .= "<option value='menu_order'>Menu order</option>";              
 		$dropdown .= "</optgroup>";
 
+                // Did the user checked extra attributes
+                if(get_option( 'woosea_extra_attributes' )){
+                        $extra_attributes = get_option( 'woosea_extra_attributes' );
+	                if($extra_attributes){
+				array_walk($extra_attributes, function(&$value, $key) { $value .= ' (Added Custom attribute)';});
+			 	$dropdown .= "<optgroup label='Added Custom Attributes'><strong>Added Custom Attributes</strong>";
+
+                 	       foreach ($extra_attributes as $key => $value) {
+                        	        if (strpos($value, 0, 1) !== "_") {
+                               	        	$dropdown .= "<option value='$key'>" . ucfirst($value) . "</option>";
+                               		}
+                        	}
+                        	$dropdown .="</optgroup>";
+                	}
+                }
 		return $dropdown;
 	}
 
@@ -320,7 +337,8 @@ public function get_mapping_attributes_dropdown() {
                 $attributes = array(
                         "id" => "Product Id",
                         "sku" => "SKU", 
-			"sku_id" => "SKU_ID",
+			"sku_id" => "SKU_ID (Facebook)",
+			"sku_item_group_id" => "SKU_ITEM_GROUP_ID (Facebook)",
 			"title" => "Product name",
 			"mother_title" => "Product name mother product",
 			"description" => "Product description",
@@ -401,6 +419,7 @@ public function get_mapping_attributes_dropdown() {
             		"static_value" => "Static value",
 			"calculated" => "Plugin calculation",
 			"product_tag" => "Product tags",
+			"menu_order" => "Menu order",
         	);
 
 		$attributes = array_merge($attributes, $static);

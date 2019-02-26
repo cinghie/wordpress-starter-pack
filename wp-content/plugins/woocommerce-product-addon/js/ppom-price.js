@@ -56,6 +56,7 @@ jQuery(function($){
         // console.log(variation);
         
         ppom_product_base_price = variation.display_price;
+        ppom_update_variation_quatity(variation.display_price);
         ppom_update_option_prices();
     } );
     
@@ -673,12 +674,13 @@ function ppom_update_get_prices() {
     		
     		var option_price = {};
     		
-    		option_price.price      = ppom_product_base_price; //jQuery(this).attr('data-price');
+    		option_price.price      = jQuery(this).attr('data-price');
     // 		console.log(ppom_product_base_price);
             option_price.label      = jQuery(this).attr('data-label');
             option_price.quantity   = (jQuery(this).val() === '' ) ? 0 :  jQuery(this).val();
             option_price.include    = jQuery(this).attr('data-includeprice');
             option_price.apply      = 'quantities';
+            option_price.usebase_price      = jQuery(this).attr('data-usebase_price');
             ppom_quantities_qty     += parseInt(option_price.quantity);
             
             options_price_added.push( option_price );
@@ -807,4 +809,15 @@ function ppom_delete_option_from_price_table( field_name, option_id ) {
             ppom_update_option_prices();
         break;
     }
+}
+
+// Update variation quantity price if baseprice is set = yes
+function ppom_update_variation_quatity ( price ) {
+    
+    jQuery('input.ppom-quantity').each(function(i, q){
+        
+        if( jQuery(q).attr('data-usebase_price') == 'yes' ) {
+            jQuery(q).attr('data-price', price);
+        }
+    });
 }

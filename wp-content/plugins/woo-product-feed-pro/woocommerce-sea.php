@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     4.7.5
+ * Version:     4.8.5
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -10,8 +10,8 @@
  * Developer:   Joris Verwater, Eva van Gelooven
  * License:     GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
- * Requires at least: 4.6
- * Tested up to: 5.0 
+ * Requires at least: 4.5
+ * Tested up to: 5.1 
  *
  * Text Domain: woo-product-feed-pro
  * Domain Path: /languages
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.7.5' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.8.5' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -94,7 +94,16 @@ function woosea_scripts($hook) {
 	wp_enqueue_script('jquery-ui-dialog');
 	wp_enqueue_script('jquery-ui-calender');
 
+	// Only register and enqueue JS scripts from within the plugin itself
      	if (preg_match("/product-feed-pro/i",$hook)){
+	        // JS files for ChartJS
+        	wp_register_script( 'woosea_chart-bundle-js', plugin_dir_url( __FILE__ ) . 'js/Chart.bundle.js', WOOCOMMERCESEA_PLUGIN_VERSION, true  );
+        	wp_enqueue_script( 'woosea_chart-bundle-js' );
+
+        	// Minimized JS files for ChartJS
+        	wp_register_script( 'woosea_chart-bundle-min-js', plugin_dir_url( __FILE__ ) . 'js/Chart.bundle.min.js', WOOCOMMERCESEA_PLUGIN_VERSION, true  );
+        	wp_enqueue_script( 'woosea_chart-bundle-min-js' );	
+
 		// Bootstrap typeahead
 		wp_register_script( 'typeahead-js', plugin_dir_url( __FILE__ ) . 'js/typeahead.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
 		wp_enqueue_script( 'typeahead-js' );
@@ -359,9 +368,13 @@ function woosea_request_review(){
 		$current_time = time();
 		$show_after = 604800; // Show only after one week
 		$is_active = $current_time-$first_activation;
+		$page = basename($_SERVER['REQUEST_URI']);
 
-		if(($nr_projects > 0) AND ($is_active > $show_after) AND ($notification_interaction != "yes")){
-		echo '<div class="notice notice-info review-notification is-dismissible"><font color="green" style="font-weight:bold";><p>Hey, I noticed you have been using our plugin, Product Feed PRO for WooCommerce, for over a week now and have created product feed projects with it - that\'s awesome! Could you please do Eva and me a BIG favor and give it a 5-star rating on WordPress? Just to help us spread the word and boost our motivation.<br/>~ Eva and Joris<br><ul><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="dismiss-review-notification">Ok, you deserve it</a></li><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="#" class="dismiss-review-notification">Nope, maybe later</a></li><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="#" class="dismiss-review-notification">I already did</a></li></ul></p></font></div>';	
+		if (preg_match("/woo-product-feed-pro|woosea_manage_feed|woosea_manage_settings/i",$page)){
+
+			if(($nr_projects > 0) AND ($is_active > $show_after) AND ($notification_interaction != "yes")){
+			echo '<div class="notice notice-info review-notification is-dismissible"><font color="green" style="font-weight:bold";><p>Hey, I noticed you have been using our plugin, Product Feed PRO for WooCommerce, for over a week now and have created product feed projects with it - that\'s awesome! Could you please do Eva and me a BIG favor and give it a 5-star rating on WordPress? Just to help us spread the word and boost our motivation.<br/>~ Eva and Joris<br><ul><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="dismiss-review-notification">Ok, you deserve it</a></li><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="#" class="dismiss-review-notification">Nope, maybe later</a></li><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="#" class="dismiss-review-notification">I already did</a></li></ul></p></font></div>';	
+			}
 		}
 	}
 }
@@ -497,8 +510,6 @@ function woosea_categories_dropdown() {
 
 	$categories_dropdown = "<select name=\"rules[$rowCount][criteria]\">";
 	$product_categories = get_terms( 'product_cat', $cat_args );
-
-//	error_log(print_r($product_categories, TRUE));
 
 	foreach ($product_categories as $key => $category) {
 		$categories_dropdown .= "<option value=\"$category->name\">$category->name ($category->slug)</option>";	
@@ -1088,7 +1099,8 @@ function woosea_project_cancel(){
                       	$feed_config[$key]['last_updated'] = date("d M Y H:i");
 
                    	// In 1 minute from now check the amount of products in the feed and update the history count
-                     	wp_schedule_single_event( time() + 60, 'woosea_update_project_stats', array($val['project_hash']) );
+                     	wp_cache_flush();
+			wp_schedule_single_event( time() + 60, 'woosea_update_project_stats', array($val['project_hash']) );
 		}
 	}		
 	update_option( 'cron_projects', $feed_config);	
@@ -1289,7 +1301,7 @@ add_action( 'wp_ajax_woosea_project_status', 'woosea_project_status' );
  */
 function woosea_review_notification() {
 	// Update review notification status
-        update_option( 'woosea_review_interaction', 'yes');
+        update_option( 'woosea_review_interaction', 'yes', 'yes');
 }
 add_action( 'wp_ajax_woosea_review_notification', 'woosea_review_notification' );
 
@@ -2345,7 +2357,7 @@ function woosea_license_valid(){
         $license_information = get_option('license_information');
 
         $curl = curl_init();
-        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=4.7.5";
+        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=4.8.5";
 
         curl_setopt_array($curl, array(
                 CURLOPT_RETURNTRANSFER => 1,
@@ -2720,6 +2732,11 @@ function woosea_my_rss_box() {
 	
 		// Get a SimplePie feed object from the specified feed source.
 		$rss = fetch_feed( $feed );
+		
+		$maxitems = 0;
+		$rss_items = array();
+		$rss_title = "";
+
 		if (!is_wp_error( $rss ) ) : // Checks that the object is created correctly 
 		    // Figure out how many total items there are, and choose a limit 
 		    $maxitems = $rss->get_item_quantity( 5 ); 

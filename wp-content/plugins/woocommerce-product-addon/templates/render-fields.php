@@ -141,7 +141,7 @@ foreach( $ppom_fields_meta as $meta ) {
 	// Generating field label
 	$show_asterisk		= ( !empty($required) ) ? '<span class="show_required"> *</span>' : '';
 	$show_description	= ( !empty($description) ) ? '<span class="show_description">'.$description.'</span>' : '';
-	$show_description	= apply_filters('ppom_field_description', $show_description, $meta);
+	$show_description	= apply_filters('ppom_field_description', $description, $meta);
 	
 	$field_label = $title . $show_asterisk . $show_description;
 	

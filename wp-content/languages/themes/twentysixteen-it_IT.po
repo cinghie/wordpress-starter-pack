@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Themes - Twenty Sixteen package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-12-12 12:47:33+0000\n"
+"PO-Revision-Date: 2019-02-18 20:32:34+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -64,14 +64,14 @@ msgid "Dark Gray"
 msgstr "Grigio scuro"
 
 #. translators: %s: Name of current post
-#: template-parts/content.php:29 inc/template-tags.php:194
+#: inc/template-tags.php:194 template-parts/content.php:29
 msgid "Continue reading<span class=\"screen-reader-text\"> \"%s\"</span>"
 msgstr "Leggi tutto<span class=\"screen-reader-text\"> \"%s\"</span>"
 
 #. translators: %s: Name of current post
-#: template-parts/content.php:53 template-parts/content-page.php:39
-#: template-parts/content-search.php:28 template-parts/content-search.php:43
-#: template-parts/content-single.php:47 image.php:88
+#: image.php:88 template-parts/content.php:53
+#: template-parts/content-single.php:47 template-parts/content-search.php:28
+#: template-parts/content-search.php:43 template-parts/content-page.php:39
 msgid "Edit<span class=\"screen-reader-text\"> \"%s\"</span>"
 msgstr "Modifica<span class=\"screen-reader-text\"> \"%s\"</span>"
 
@@ -108,7 +108,7 @@ msgstr "Menu social nel piè di pagina"
 msgid "Footer Primary Menu"
 msgstr "Menu primario nel piè di pagina"
 
-#: functions.php:246
+#: functions.php:267
 msgid "Add widgets here to appear in your sidebar."
 msgstr "I widget aggiunti qui appariranno nella tua barra laterale."
 
@@ -118,11 +118,11 @@ msgstr "In evidenza"
 
 #: template-parts/content-none.php:28
 msgid "It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help."
-msgstr "Sembra che non siamo riusciti a trovare ciò che cercavi. Forse una ricerca potrebbe essere di aiuto."
+msgstr "Non riusciamo a trovare quello che cerchi. Forse eseguire una ricerca potrebbe essere di aiuto."
 
 #: template-parts/content-none.php:23
 msgid "Sorry, but nothing matched your search terms. Please try again with some different keywords."
-msgstr "Non vi è nulla che corrisponda ai tuoi criteri di ricerca. Prova di nuovo utilizzando altre parole chiave."
+msgstr "Non c’è nessuna corrispondenza con i termini di ricerca che hai indicato. Riprova con termini diversi."
 
 #: template-parts/content-none.php:19
 msgid "Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
@@ -244,8 +244,8 @@ msgctxt "Used before full size attachment link."
 msgid "Full size"
 msgstr "Dimensione reale"
 
-#: template-parts/content.php:36 template-parts/content-page.php:24
-#: template-parts/content-single.php:26 image.php:58
+#: image.php:58 template-parts/content.php:36
+#: template-parts/content-single.php:26 template-parts/content-page.php:24
 msgid "Pages:"
 msgstr "Pagine:"
 
@@ -265,43 +265,59 @@ msgstr "Menu"
 msgid "Skip to content"
 msgstr "Salta al contenuto"
 
-#: functions.php:386
+#: functions.php:407
 msgid "expand child menu"
 msgstr "apri i menu child"
 
-#: functions.php:387
+#: functions.php:408
 msgid "collapse child menu"
 msgstr "chiudi i menu child"
 
 #. translators: If there are characters in your language that are not supported
 #. by Inconsolata, translate this to 'off'. Do not translate into your own
 #. language.
-#: functions.php:306
+#: functions.php:327
 msgctxt "Inconsolata font: on or off"
 msgid "on"
 msgstr "on"
 
-#: functions.php:256
+#: functions.php:277
 msgid "Content Bottom 1"
 msgstr "Sotto al contenuto 1"
 
-#: functions.php:258 functions.php:270
+#: functions.php:279 functions.php:291
 msgid "Appears at the bottom of the content on posts and pages."
 msgstr "Appare sotto al contenuto degli articoli e delle pagine."
 
-#: functions.php:268
+#: functions.php:289
 msgid "Content Bottom 2"
 msgstr "Sotto al contenuto 2"
 
-#: functions.php:244
+#. translators: If there are characters in your language that are not supported
+#. by Merriweather, translate this to 'off'. Do not translate into your own
+#. language.
+#: functions.php:317
+msgctxt "Merriweather font: on or off"
+msgid "on"
+msgstr "on"
+
+#. translators: If there are characters in your language that are not supported
+#. by Montserrat, translate this to 'off'. Do not translate into your own
+#. language.
+#: functions.php:322
+msgctxt "Montserrat font: on or off"
+msgid "on"
+msgstr "on"
+
+#: functions.php:265
 msgid "Sidebar"
 msgstr "Barra laterale"
 
-#: functions.php:93 header.php:66
+#: header.php:66 functions.php:93
 msgid "Social Links Menu"
 msgstr "Menu link ai social"
 
-#: functions.php:92 header.php:53
+#: header.php:53 functions.php:92
 msgid "Primary Menu"
 msgstr "Menu principale"
 
@@ -321,17 +337,17 @@ msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
 msgstr[0] "Un pensiero riguardo &ldquo;%2$s&rdquo;"
 msgstr[1] "%1$s pensieri riguardo &ldquo;%2$s&rdquo;"
 
-#: archive.php:53 template-parts/content.php:40
-#: template-parts/content-page.php:28 template-parts/content-single.php:30
-#: search.php:41 index.php:50 image.php:62
+#: index.php:50 archive.php:53 search.php:41 image.php:62
+#: template-parts/content.php:40 template-parts/content-single.php:30
+#: template-parts/content-page.php:28
 msgid "Page"
 msgstr "Pagina"
 
-#: archive.php:52 search.php:40 index.php:49
+#: index.php:49 archive.php:52 search.php:40
 msgid "Next page"
 msgstr "Pagina successiva"
 
-#: archive.php:51 search.php:39 index.php:48
+#: index.php:48 archive.php:51 search.php:39
 msgid "Previous page"
 msgstr "Pagina precedente"
 

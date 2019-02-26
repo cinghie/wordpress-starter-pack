@@ -299,7 +299,7 @@ function ppom_admin_update_form_meta() {
 	} else {
 		
 		$resp = array (
-				'message' => __ ( 'No changes found, please change and try again.', 'ppom' ),
+				'message' => __ ( 'Form updated successfully.', 'ppom' ),
 				'status' => 'success',
 				'productmeta_id' => $productmeta_id 
 		);

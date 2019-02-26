@@ -32,7 +32,7 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
     */ 
     function load_script($hook) {
 
-        if( $hook != 'woocommerce_page_ppom' ) { return ''; }
+		if( ! isset($_GET['page']) || $_GET['page'] != 'ppom') return;
         
         // Bootstrap Files
         wp_enqueue_style('PPOM-bs', PPOM_URL."/scripts/bootstrap.min.css");

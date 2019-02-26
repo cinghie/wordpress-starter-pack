@@ -16,7 +16,7 @@ function ppom_woocommerce_show_fields() {
     	return;
     }*/
     
-    if( current_filter() == 'woocommerce_single_variation' && did_action('woocommerce_before_add_to_cart_button') !== 1 ) return;
+    // if( current_filter() == 'woocommerce_single_variation' && did_action('woocommerce_before_add_to_cart_button') !== 1 ) return;
     
 	$product_id = ppom_get_product_id( $product ); 
 	$ppom		= new PPOM_Meta( $product_id );
@@ -228,9 +228,12 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 	// ppom_pa($option_prices);
 	$total_option_price = 0;
 	$ppom_matrix_price = 0;
+	
 	$ppom_quantities_price = 0;
-	$ppom_total_quantities = 0;
+	$ppom_quantities_usebaseprice = false;
 	$ppom_quantities_include_base = false;
+	
+	$ppom_total_quantities = 0;
 	$ppom_total_discount = 0;
 	$ppon_onetime_cost = 0;
 	$ppomm_measures = 1;	// meassure need to be multiple with each so it will be 1
@@ -252,6 +255,7 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 
 	// Check if price is set by matrix
 	$matrix_found = ppom_get_price_matrix_chunk($wc_product, $option_prices, $ppom_item_order_qty);
+	// ppom_pa($matrix_found);
 	
 	// Calculating option prices
 	if($option_prices) {
@@ -316,8 +320,11 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 					// Note: May need to add matrix price like in quantites (above)
 					
 					$ppom_quantities_price += wc_format_decimal(($option['price'] * $option['quantity']), wc_get_price_decimals());
-		
 					$ppom_quantities_price += isset($option['base']) ? $option['base'] : 0;
+					
+					if(isset($option['usebase_price']) && $option['usebase_price'] == 'yes') {
+						$ppom_quantities_usebaseprice = true;
+					}
 					break;
 					
 				// Fixed price addon
@@ -389,11 +396,23 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 				 * when discount is in PRICE not Percent then applied to whole price Base+Option)
 				 * so need to get per unit discount
 				 **/
-				$discount_per_unit = $matrix_found['price'] / $ppom_item_order_qty;
-				$ppom_total_discount += $discount_per_unit;
+				 
+				 /*
+				 ** @since 16.8
+				 ** When each variation has own quantity, then cart quantity is disabled only one price is set
+				 ** not indivisual
+				 **/
+				 if( ! $ppom_quantities_usebaseprice ) {
+				 	
+				 	$ppom_total_discount += $matrix_found['price'];
+				 } else {
+					$discount_per_unit = $matrix_found['price'] / $ppom_item_order_qty;
+					$ppom_total_discount += $discount_per_unit;
+				 }
 			}
 		}
 	}
+	
 	
 	if( $ppom_quantities_price > 0 ) {
 		
@@ -422,8 +441,6 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 	$cart_line_total = ($ppom_item_org_price + $total_option_price + $ppom_quantities_price - $ppom_total_discount);
 	
 	$cart_line_total	= apply_filters('ppom_cart_line_total', $cart_line_total, $cart_items, $values);
-	
-	// var_dump($cart_line_total);
 	
 	$wc_product -> set_price($cart_line_total);
 	

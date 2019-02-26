@@ -174,6 +174,7 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 											print "<a href=\"$val[external_file]\" target=\"_blank\" class=\"dashicons dashicons-download\" id=\"download\" title=\"download productfeed\" style=\"display: inline-block\"></a>";
 										}
 									}?>
+                                                                        <a href="admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php&action=edit_project&step=8&project_hash=<?php print "$val[project_hash]";?>&channel_hash=<?php print "$val[channel_hash]";?>" class="trash dashicons dashicons-chart-line" id="chart_<?php print "$val[project_hash]";?>" title="amount of products in feed productfeed" style="display: inline-block;" target="_blank"></a>
 									<span class="trash dashicons dashicons-trash" id="trash_<?php print "$val[project_hash]";?>" title="delete project and productfeed" style="display: inline-block;"></span>
 								<?php
 								} else {

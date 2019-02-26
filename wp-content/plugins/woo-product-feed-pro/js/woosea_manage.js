@@ -20,13 +20,15 @@ jQuery(document).ready(function($) {
 	}
 
 	$(".dismiss-review-notification").click(function(){
-		$(".review-notification").remove();	
       
 	        jQuery.ajax({
                 	method: "POST",
                         url: ajaxurl,
                         data: { 'action': 'woosea_review_notification' }
                 })
+
+		$(".review-notification").remove();	
+
 	});
 
 	$(".notice-dismiss").click(function(){

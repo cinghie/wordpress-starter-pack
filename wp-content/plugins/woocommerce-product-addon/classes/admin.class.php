@@ -65,13 +65,13 @@ class NM_PersonalizedProduct_Admin extends NM_PersonalizedProduct {
 			
 			if ($page ['parent_slug'] == '') {
 				
-				$menu = add_options_page ( __ ( $page ['page_title'] . ' Settings', "ppom" ), __ ( $page ['menu_title'] . ' Settings', "ppom" ), $page ['cap'], $page ['slug'], array (
+				$menu = add_options_page ( __ ( 'PPOM Settings', "ppom" ), __ ( 'PPOM Settings', "ppom" ), $page ['cap'], $page ['slug'], array (
 						$this,
 						$page ['callback'] 
 				), $this->plugin_meta ['logo'], $this->plugin_meta ['menu_position'] );
 			} else {
 				
-				$menu = add_submenu_page ( $page ['parent_slug'], __ ( $page ['page_title'], "ppom" ), __ ( $page ['menu_title'] . ' Settings', "ppom" ), $page ['cap'], $page ['slug'], array (
+				$menu = add_submenu_page ( $page ['parent_slug'], __ ( $page ['page_title'], "ppom" ), __ ( 'PPOM Settings', "ppom" ), $page ['cap'], $page ['slug'], array (
 						$this,
 						$page ['callback'] 
 				) );
@@ -112,6 +112,7 @@ class NM_PersonalizedProduct_Admin extends NM_PersonalizedProduct {
 			echo '<br>';
 
 			do_action('ppom_pdf_setting_action');
+			do_action('ppom_enquiryform_setting_action');
 			
 			echo '<div class="ppom-nm-plugins-block">';
 				echo '<a class="btn btn-yellow ppom-import-export-btn" href=""><span class="dashicons dashicons-download"></span> ' . __ ( 'Import Meta', "ppom" ) . '</a>';

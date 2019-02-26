@@ -53,9 +53,9 @@ class NM_PersonalizedProduct {
 		
 		// Rendering fields on product page
 		add_action ( 'woocommerce_before_add_to_cart_button', 'ppom_woocommerce_show_fields', 15);
-		if( apply_filters('ppom_remove_duplicate_fields', true) ) {
-			add_action ( 'woocommerce_single_variation', 'ppom_woocommerce_show_fields', 15);
-		}
+		// if( apply_filters('ppom_remove_duplicate_fields', true) ) {
+		// 	add_action ( 'woocommerce_single_variation', 'ppom_woocommerce_show_fields', 15);
+		// }
 		
 		
 		// Validating before add to cart
@@ -423,7 +423,8 @@ class NM_PersonalizedProduct {
 				$nm_updated = 0;
 				foreach( $post_ids as $post_id ) {
 							
-					update_post_meta ( $post_id, '_product_meta_id', substr($action, 10) );
+					$meta_id  = array( intval(substr($action, 10)) );
+					update_post_meta ( $post_id, '_product_meta_id', $meta_id );
 			
 					$nm_updated++;
 				}

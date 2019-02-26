@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
-Tested up to: 5.0
-Stable tag: 4.7.5
+Tested up to: 5.1
+Stable tag: 4.8.5
 
 == Description ==
 
@@ -272,6 +272,40 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 4.8.5 (2019-02-26) =
+* Removed ancestor category from all feeds when not selected
+
+= 4.8.4 (2019-02-26) =
+* Re-introduced feature: added a chart on the plugin settings page for every individual product feed showing the amount of products per feed after each refresh.
+* Fixed an undifined variables issue for the RSS box (thanks alx359 for spotting this one)
+
+= 4.8.3 (2019-02-26) =
+* Fixed a bug for Prisjakt and Pricerunner feeds where the ancestor category was added to the feed even when it was not selected.
+
+= 4.8.2 (2019-02-25) =
+* Added a SKU_ITEM_GROUP_ID attribute for Facebook feeds
+
+= 4.8.1 (2019-02-24) =
+* Added the product menu order attribute and filter/rule feature
+
+= 4.8.0 (2019-02-23) =
+* Fixed a bug: the review notification screen started showing up all over the WP-admin section and could not be dismissed. This issue has been fixed.
+* Added extra custom attributes to the filter drop-downs
+
+= 4.7.9 (2019-02-22) =
+* Added support for Cyrillic characters in the variation product name appends
+
+= 4.7.8 (2019-02-22) =
+* Checked for WordPress 5.1 compatibility
+* Fixed a Yandex feed bug for missing CategoryIds for variation products
+
+= 4.7.7 (2019-02-22) =
+* Fixed an issue where the ancestor categoryId was added to Yandex feeds for variation products only, even though that ancestor category was not activated. This issue has been fixed now.
+
+= 4.7.6 (2019-02-21) =
+* Added object caching flushing
+* Changed Zbosi.cz header to http
 
 = 4.7.5 (2019-02-21) =
 * Fixed a bug where flters on empty values where not working for include_only filters
@@ -1449,6 +1483,40 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 4.8.5 =
+Removed ancestor category from all feeds when not selected
+
+= 4.8.4 =
+Re-introduced feature: added a chart on the plugin settings page for every individual product feed showing the amount of products per feed after each refresh.
+Fixed an undifined variables issue for the RSS box (thanks alx359 for spotting this one)
+
+= 4.8.3 =
+Fixed a bug for Prisjakt and Pricerunner feeds where the ancestor category was added to the feed even when it was not selected.
+
+= 4.8.2 =
+Added a SKU_ITEM_GROUP_ID attribute for Facebook feeds
+
+= 4.8.1 =
+Added the product menu order attribute and filter/rule feature
+
+= 4.8.0 =
+Fixed a bug: the review notification screen started showing up all over the WP-admin section and could not be dismissed. This issue has been fixed.
+Added extra custom attributes to the filter drop-downs
+
+= 4.7.9 =
+Added support for Cyrillic characters in the variation product name appends
+
+= 4.7.8 =
+Checked for WordPress 5.1 compatibility
+Fixed a Yandex feed bug for missing CategoryIds for variation products
+
+= 4.7.7 =
+Fixed an issue where the ancestor categoryId was added to Yandex feeds for variation products only, even though that ancestor category was not activated. This issue has been fixed now.
+
+= 4.7.6 =
+Added object caching flushing
+Changed Zbosi.cz header to http
 
 = 4.7.5 =
 Fixed a bug where flters on empty values where not working for include_only filters

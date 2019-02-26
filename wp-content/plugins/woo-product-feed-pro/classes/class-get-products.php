@@ -744,7 +744,7 @@ class WooSEA_Get_Products {
 					$xml->asXML($file);
 				} elseif ($feed_config['name'] == "Heureka.cz" || $feed_config['name'] == "Zbozi.cz") {
 					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><SHOP></SHOP>');	
-					$xml->addAttribute('xmlns', 'https://www.zbozi.cz/ns/offer/1.0');
+					$xml->addAttribute('xmlns', 'http://www.zbozi.cz/ns/offer/1.0');
 					$xml->asXML($file);
 				} elseif ($feed_config['name'] == "Zap.co.il") {
 					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><STORE></STORE>');
@@ -1256,24 +1256,40 @@ class WooSEA_Get_Products {
 				$product_data['exclude_from_all'] = "yes";
 			}
 			// End product visibility logic
-
+                       	$product_data['item_group_id'] = $this->parentID;
+			
 			if (!empty($product_data['sku'])){
 				$product_data['sku_id'] = $product_data['sku']."_".$product_data['id'];
-			}
 
-                       	$product_data['item_group_id'] = $this->parentID;
+				if ($project_config['fields'] == "facebook_drm"){
+					if($product_data['item_group_id'] > 0){
+						$product_data['sku_item_group_id'] = $product_data['sku']."_".$product_data['item_group_id'];
+					} else {
+						$product_data['sku_item_group_id'] = $product_data['sku']."_".$product_data['id'];
+					}
+				}
+			}
 
 			$categories = array_unique(wc_get_product_cat_ids( $product_data['id'] ));
 
 			// This is a category fix for Yandex, probably needed for all channels
 			// When Yoast is not installed and a product is linked to multiple categories
 			// The ancestor categoryId does not need to be in the feed
-			if ($project_config['name'] == "Yandex") {
+                        $double_categories = array(
+                        	0 => "Yandex",
+                              	1 => "Prisjakt.se",
+                              	2 => "Pricerunner.se",
+                              	3 => "Pricerunner.dk",
+                     	);
+                                
+                     	if (in_array($project_config['name'], $double_categories)){
 				$cat_alt = array();
 				$cat_terms = get_the_terms( $product_data['id'], 'product_cat' );
-                       		foreach($cat_terms as $cat_term){
-                        		$cat_alt[] = $cat_term->term_id;
-                      		}
+                       		if($cat_terms){
+					foreach($cat_terms as $cat_term){
+        	                		$cat_alt[] = $cat_term->term_id;
+                	      		}
+				}
 				$categories = $cat_alt;
 			}
 
@@ -1433,6 +1449,7 @@ class WooSEA_Get_Products {
 
 			$product_data['quantity'] = $this->clean_quantity( $this->childID, "_stock" );
 			$product_data['visibility'] = $this->get_attribute_value( $this->childID,"_visibility" );
+			$product_data['menu_order'] =  get_post_field( 'menu_order', $product_data['id'] );
 			$product_data['currency'] = get_woocommerce_currency();
 			if(isset($project_config['WCML'])){
 				$product_data['currency'] = $project_config['WCML'];
@@ -1867,13 +1884,13 @@ class WooSEA_Get_Products {
                                 	}
                         	}
 
-				// User does need to also add the attributes to the feed otherwise they cannot be appended to the productname
+				// Add attribute values to the variation product names to make them unique
 				foreach($variations as $kk => $vv){
 					$custom_key = $kk; 
 
 					if (isset($project_config['product_variations']) AND ($project_config['product_variations'] == "on")){
 						$taxonomy = str_replace("attribute_","",$kk);
-						$term = get_term_by('slug', $vv, $taxonomy); 
+						$term = get_term_by('name', $vv, $taxonomy); 
 		
 						if($vv){
 							$append = ucfirst($vv);
@@ -1964,6 +1981,29 @@ class WooSEA_Get_Products {
 
 				// Get versioned product categories
 				$categories = wc_get_product_cat_ids( $product_data['item_group_id'] );
+
+                        	// This is a category fix for Yandex, probably needed for all channels
+                        	// When Yoast is not installed and a product is linked to multiple categories
+                        	// The ancestor categoryId does not need to be in the feed
+				$double_categories = array(
+					0 => "Yandex",
+					1 => "Prisjakt.se",
+					2 => "Pricerunner.se",
+					3 => "Pricerunner.dk",
+				);
+
+				if (in_array($project_config['name'], $double_categories)){
+                                	$cat_alt = array();
+                                	$cat_terms = get_the_terms( $product_data['item_group_id'], 'product_cat' );
+                                	if($cat_terms){
+                                        	foreach($cat_terms as $cat_term){
+                                                	$cat_alt[] = $cat_term->term_id;
+                                        	}
+                                	}
+                                	$categories = $cat_alt;
+                        	}
+
+				
 
 				// Check if the Yoast plugin is installed and active
 				if ( class_exists('WPSEO_Primary_Term') ){
@@ -2524,6 +2564,7 @@ class WooSEA_Get_Products {
 						delete_option( $batch_project );
 
 						// In 2 minutes from now check the amount of products in the feed and update the history count
+						wp_cache_flush();
 						wp_schedule_single_event( time() + 120, 'woosea_update_project_stats', array($val['project_hash']) );
 					} else {
 						$feed_config[$key]['nr_products_processed'] = $nr_prods_processed;
@@ -2532,6 +2573,7 @@ class WooSEA_Get_Products {
 						// Set new scheduled event for next batch in 3 seconds
 						if($offset_step_size < $published_products){
         						if (! wp_next_scheduled ( 'woosea_create_batch_event', array($feed_config[$key]['project_hash']) ) ) {
+								wp_cache_flush();
 								wp_schedule_single_event( time() + 2, 'woosea_create_batch_event', array($feed_config[$key]['project_hash']) );
 								$batch_project = "batch_project_".$feed_config[$key]['project_hash'];
 								update_option( $batch_project, $val);
@@ -2560,6 +2602,7 @@ class WooSEA_Get_Products {
 							delete_option( $batch_project );
 
 							// In 2 minutes from now check the amount of products in the feed and update the history count
+							wp_cache_flush();	
 							wp_schedule_single_event( time() + 120, 'woosea_update_project_stats', array($val['project_hash']) );
 						}
 					}

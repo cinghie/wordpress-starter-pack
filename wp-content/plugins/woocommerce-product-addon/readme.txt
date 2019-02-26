@@ -1,10 +1,10 @@
-=== WooCommerce Product Addons ===
+=== WooCommerce PPOM ===
 Contributors: nmedia
-Tags: woocommerce, pesonalized products, woocommerce variations, woocommerce product variations, woocommerce extra fields, woocommerce extra options, woocommerce personalized product, woocommerce t-shirt design, woocommerce product fields, woocommerce plugin, woocommerce addons, woocommerce product addons
+Tags: woocommerce, woocommerce pesonalized products, woocommerce custom fields, variations, woocommerce product variations, woocommerce extra fields, woocommerce extra options, woocommerce personalized product, woocommerce t-shirt design, woocommerce product fields, woocommerce plugin, woocommerce addons, woocommerce product addons
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
 Tested up to: 5.0
-Stable tag: 16.7
+Stable tag: 16.8.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -83,6 +83,12 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
+= 16.8.1 February 25, 2019 =
+* Bug fixed: [Screen options and Product Data tabs were not working due to last update, it is fixed](https://wordpress.org/support/topic/product-data-tabs-not-working-3/)
+= 16.8 February 13, 2019 =
+* Tweaks: PPOM Settings menu was not translating, fixed.
+* Bug fixed: [Tooltip issue fixed](https://clients.najeebmedia.com/forums/topic/html-displaying-in-tooltip-text/)
+* Bug fixed: Admin css not loaded when used with RTL languages
 = 16.7 February 12, 2019 =
 * Bug fixed: [JS error fixed causing issue to show/calculate prices on product page on some sites](https://wordpress.org/support/topic/javascript-error-in-ppom-addon/)
 = 16.6 February 6, 2019 =

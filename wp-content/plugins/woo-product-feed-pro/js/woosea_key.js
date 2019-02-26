@@ -27,7 +27,7 @@ jQuery(document).ready(function($) {
 		var license_key = $('#license-key').val();
 
 		jQuery.ajax({
-    			url: 'https://www.adtribes.io/check/license.php?key=' + license_key + '&email=' + license_email + '&domain=' + root_domain + '&version=4.7.5',
+    			url: 'https://www.adtribes.io/check/license.php?key=' + license_key + '&email=' + license_email + '&domain=' + root_domain + '&version=4.8.5',
 			jsonp: 'callback',
     			dataType: 'jsonp',
 			type: 'GET',

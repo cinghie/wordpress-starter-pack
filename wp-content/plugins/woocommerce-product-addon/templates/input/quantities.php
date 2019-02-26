@@ -39,8 +39,9 @@ if (isset($args['horizontal_layout']) && $args['horizontal_layout'] == 'on') { ?
         	<td>
         		<?php
         		
-        			$product_price = $product->get_type() == 'simple' ? $product->get_price() : '';
-        			$the_price = !empty($opt['price']) ? $opt['price'] : $product_price;
+        			$product_price	= $product->get_type() == 'simple' ? $product->get_price() : '';
+        			$the_price		= !empty($opt['price']) ? $opt['price'] : $product_price;
+        			$usebaseprice	= !empty($opt['price']) ? 'no' : 'yes';
         			
         			$min = (isset($opt['min']) ? $opt['min'] : 0 );
         			$max = (isset($opt['max']) ? $opt['max'] : 10000 );
@@ -63,6 +64,7 @@ if (isset($args['horizontal_layout']) && $args['horizontal_layout'] == 'on') { ?
     				$input_html	.= 'data-label="'.esc_attr($label).'" ';
     				$input_html	.= 'data-includeprice="'.esc_attr($args['include_productprice']).'" ';
     				$input_html	.= 'name="'.esc_attr($name).'" type="number" class="ppom-quantity" ';
+    				$input_html	.= 'data-usebase_price="'.esc_attr($usebaseprice).'" ';
     				$input_html	.= 'value="'.esc_attr($selected_val).'" data-price="'.esc_attr($the_price).'">';          
     				
     				echo $input_html;
@@ -98,6 +100,7 @@ if (isset($args['horizontal_layout']) && $args['horizontal_layout'] == 'on') { ?
 	            			
 	            			$product_price = $product->get_type() == 'simple' ? $product->get_price() : '';
         					$the_price = !empty($opt['price']) ? $opt['price'] : $product_price;
+        					$usebaseprice	= !empty($opt['price']) ? 'no' : 'yes';
         				
 	            			$label  = $opt['option'];
 	            			$name	= $args['name'].'['.$label.']';
@@ -118,6 +121,7 @@ if (isset($args['horizontal_layout']) && $args['horizontal_layout'] == 'on') { ?
             				$input_html	.= 'data-label="'.esc_attr($label).'" ';
             				$input_html	.= 'data-includeprice="'.esc_attr($args['include_productprice']).'" ';
             				$input_html	.= 'name="'.esc_attr($name).'" type="number" class="ppom-quantity" ';
+            				$input_html	.= 'data-usebase_price="'.esc_attr($usebaseprice).'" ';
             				$input_html	.= 'value="'.esc_attr($selected_val).'" placeholder="0" data-price="'.esc_attr($the_price).'">';
             				
             				echo $input_html;

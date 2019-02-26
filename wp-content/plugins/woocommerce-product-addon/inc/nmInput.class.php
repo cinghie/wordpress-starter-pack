@@ -426,11 +426,13 @@ class NM_Form {
             $raw_label      = $value['raw'];
             $without_tax    = $value['without_tax'];
             $opt_percent    = isset($value['percent']) ? $value['percent']: '';
+            $option_class   = "ppom-option-{$option_id}";
             
             if( is_array($selected_value) ){
             
                 foreach($selected_value as $s){
                     $html   .= '<option '.selected( $s, $key, false ).' value="'.esc_attr($key).'" ';
+                    $html   .= 'class="'.esc_attr($option_class).'" ';
                     $html   .= 'data-price="'.esc_attr($option_price).'" ';
                     $html   .= 'data-label="'.esc_attr($option_label).'" ';
                     $html   .= 'data-onetime="'.esc_attr($onetime).'"';
@@ -439,6 +441,7 @@ class NM_Form {
             } else {
                 $html   .= '<option '.selected( $selected_value, $key, false ).' ';
                 $html   .= 'value="'.esc_attr($key).'" ';
+                $html   .= 'class="'.esc_attr($option_class).'" ';
                 $html   .= 'data-price="'.esc_attr($option_price).'" ';
                 $html   .= 'data-optionid="'.esc_attr($option_id).'" ';
                 $html   .= 'data-percent="'.esc_attr($opt_percent).'" ';
