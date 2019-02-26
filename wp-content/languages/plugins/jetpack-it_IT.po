@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Jetpack by WordPress.com - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-02-19 22:46:41+0000\n"
+"PO-Revision-Date: 2019-02-25 22:03:26+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3897,10 +3897,6 @@ msgstr "Devi inserire l'ID del sito per disconnettere un sub-sito"
 msgid "Site ID must be provided to register a sub-site."
 msgstr "Devi inserire l'ID del sito per registrare un sub-sito"
 
-#: class.jetpack-network-sites-list-table.php:60
-msgid "View"
-msgstr "Vedi"
-
 #: class.jetpack-jitm.php:99
 msgid "New free service: Show Canada Post shipping rates on your store!"
 msgstr "New free service: Show Canada Post shipping rates on your store!"
@@ -3923,6 +3919,10 @@ msgid "Cleaned up %d video."
 msgid_plural "Cleaned up a total of %d videos."
 msgstr[0] "Cleaned up %d video."
 msgstr[1] "Cleaned up a total of %d videos."
+
+#: class.jetpack-network-sites-list-table.php:60
+msgid "View"
+msgstr "Visualizzare"
 
 #: class.frame-nonce-preview.php:113
 msgid "Sorry, you are not allowed to preview drafts."
@@ -7186,7 +7186,7 @@ msgstr "Ritratto"
 #: modules/related-posts/class.related-posts-customize.php:217
 #: modules/widgets/googleplus-badge.php:258
 msgid "Layout"
-msgstr "Disposizione"
+msgstr "Layout"
 
 #: modules/widgets/googleplus-badge.php:251
 msgid "Width"
@@ -7416,10 +7416,6 @@ msgstr "Per saperne di più"
 msgid "Network Settings"
 msgstr "Impostazioni di Rete"
 
-#: views/admin/network-admin-footer.php:22
-msgid "Privacy Policy"
-msgstr "Informativa sulla privacy"
-
 #: views/admin/network-settings.php:36
 msgid "Protect whitelist"
 msgstr "Proteggi la lista bianca"
@@ -7458,6 +7454,10 @@ msgstr "Una compagnia aerea di proprietà di <span>Automattic</span>"
 #. Author URI of the plugin/theme
 msgid "https://jetpack.com"
 msgstr "https://jetpack.com"
+
+#: views/admin/network-admin-footer.php:22
+msgid "Privacy Policy"
+msgstr "Privacy Policy"
 
 #: modules/module-extras.php:62
 msgid "%s (Jetpack)"
@@ -12013,11 +12013,6 @@ msgstr "Ora: "
 msgid "Transparent"
 msgstr "Trasparente"
 
-#: modules/contact-form/admin.php:390 modules/contact-form/admin.php:392
-#: modules/contact-form/admin.php:764
-msgid "Trash"
-msgstr "Cestina"
-
 #: _inc/jetpack-strings.php:384 _inc/lib/class.core-rest-api-endpoints.php:1831
 #: modules/after-the-deadline/config-options.php:93
 msgid "Use automatically detected language to proofread posts and pages"
@@ -12167,6 +12162,11 @@ msgstr "Casella di controllo"
 #: modules/minileven/minileven.php:278
 msgid "Yes"
 msgstr "Sì"
+
+#: modules/contact-form/admin.php:390 modules/contact-form/admin.php:392
+#: modules/contact-form/admin.php:764
+msgid "Trash"
+msgstr "Elimina"
 
 #: class.jetpack.php:4391
 msgctxt "%1$s = deactivation URL, %2$s = \"Deactivate {list of Jetpack module/feature names}"

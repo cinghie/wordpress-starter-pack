@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-02-20 21:04:59+0000\n"
+"PO-Revision-Date: 2019-02-25 19:03:22+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -27,8 +27,8 @@ msgstr "Si è verificato un errore; probabilmente il feed non è attivo. Riprova
 msgid "RSS Error:"
 msgstr "Errore RSS:"
 
-#: languages/gutenberg-translations.php:2562 build/editor/index.js:50
-#: build/block-library/index.js:12
+#: languages/gutenberg-translations.php:2562 build/block-library/index.js:12
+#: build/editor/index.js:50
 msgctxt "block style"
 msgid "Default"
 msgstr "Predefinito"
@@ -143,6 +143,14 @@ msgstr "Aggiungi il testo del pulsante..."
 #: languages/gutenberg-translations.php:882 build/block-library/index.js:12
 msgid "Button text"
 msgstr "Testo del pulsante"
+
+#: languages/gutenberg-translations.php:879 build/block-library/index.js:12
+msgid "Optional placeholder…"
+msgstr "Placeholder opzionale…"
+
+#: languages/gutenberg-translations.php:876 build/block-library/index.js:12
+msgid "Optional placeholder text"
+msgstr "Testo placeholder opzionale"
 
 #: languages/gutenberg-translations.php:873 build/block-library/index.js:12
 msgid "Add label…"
@@ -406,12 +414,12 @@ msgid_plural "%s blocks selected."
 msgstr[0] "%s blocchi selezionati."
 msgstr[1] ""
 
-#: languages/gutenberg-translations.php:2433 lib/client-assets.php:825
+#: lib/client-assets.php:825 languages/gutenberg-translations.php:2433
 #: build/editor/index.js:50
 msgid "Thumbnail"
 msgstr "Miniatura"
 
-#: languages/gutenberg-translations.php:2397 lib/client-assets.php:828
+#: lib/client-assets.php:828 languages/gutenberg-translations.php:2397
 #: build/editor/index.js:50
 msgid "Full Size"
 msgstr "Dimensione reale"
@@ -456,8 +464,8 @@ msgstr "Allinea il testo al centro"
 msgid "Align text left"
 msgstr "Allinea il testo a sinistra"
 
-#: languages/gutenberg-translations.php:771 lib/client-assets.php:1149
-#: build/editor/index.js:50 build/block-library/index.js:12
+#: lib/client-assets.php:1149 languages/gutenberg-translations.php:771
+#: build/block-library/index.js:12 build/editor/index.js:50
 msgid "Start writing or type / to choose a block"
 msgstr "Inizia a scrivere o digita / per scegliere un blocco"
 
@@ -555,7 +563,7 @@ msgstr "Incorporamento"
 #: languages/gutenberg-translations.php:2574 build/block-library/index.js:12
 msgctxt "block title"
 msgid "Classic"
-msgstr "Blocco classico"
+msgstr "Editor classico"
 
 #: languages/gutenberg-translations.php:2568 build/block-library/index.js:12
 msgctxt "block style"
@@ -1183,8 +1191,8 @@ msgstr "Mostra i media a destra"
 msgid "Show media on left"
 msgstr "Mostra i media a sinistra"
 
-#: languages/gutenberg-translations.php:457 build/format-library/index.js:12
-#: build/block-library/index.js:12
+#: languages/gutenberg-translations.php:457 build/block-library/index.js:12
+#: build/format-library/index.js:12
 msgid "Open in New Tab"
 msgstr "Apri in una nuova scheda"
 
@@ -1210,7 +1218,7 @@ msgctxt "term"
 msgid "Search %s"
 msgstr "Ricerca %s"
 
-#: languages/gutenberg-translations.php:2436 lib/client-assets.php:826
+#: lib/client-assets.php:826 languages/gutenberg-translations.php:2436
 #: build/editor/index.js:50
 msgid "Medium"
 msgstr "Medio"
@@ -1500,7 +1508,7 @@ msgstr "Cambia il tipo di blocco dopo aver aggiunto un nuovo paragrafo."
 
 #: languages/gutenberg-translations.php:1418 build/edit-post/index.js:12
 msgid "Spotlight Mode"
-msgstr "Modalità in evidenza"
+msgstr "Modalità in risalto"
 
 #: languages/gutenberg-translations.php:2173 build/editor/index.js:50
 msgid "Tags help users and search engines navigate your site and find your content. Add a few keywords to describe your post."
@@ -1899,7 +1907,7 @@ msgstr "Pannello di pubblicazione dell'editor"
 
 #: languages/gutenberg-translations.php:1044 build/block-library/index.js:12
 msgid "Muted"
-msgstr "Smorzato"
+msgstr "Silenzioso"
 
 #: languages/gutenberg-translations.php:1041 build/block-library/index.js:12
 msgid "Video Settings"
@@ -2089,7 +2097,7 @@ msgstr "Punti"
 msgid "Wide Line"
 msgstr "Linea ampia"
 
-#: languages/gutenberg-translations.php:2439 lib/client-assets.php:827
+#: lib/client-assets.php:827 languages/gutenberg-translations.php:2439
 #: build/editor/index.js:50
 msgid "Large"
 msgstr "Grande"
@@ -2138,8 +2146,8 @@ msgstr "Scrivi il nome del file..."
 msgid "Edit file"
 msgstr "Modifica file"
 
-#: languages/gutenberg-translations.php:403
-#: build/list-reusable-blocks/index.js:1 build/block-library/index.js:12
+#: languages/gutenberg-translations.php:403 build/block-library/index.js:12
+#: build/list-reusable-blocks/index.js:1
 msgid "File"
 msgstr "File"
 
@@ -2203,8 +2211,8 @@ msgstr "Sei pronto a inviare per la revisione?"
 msgid "Click “Preview” to load a preview of this page, so you can make sure you’re happy with your blocks."
 msgstr "Fai clic su “Anteprima” per caricare un'anteprima di questa pagina, così puoi controllare di essere soddisfatto dei tuoi blocchi."
 
-#: languages/gutenberg-translations.php:1057 build/editor/index.js:50
-#: build/block-library/index.js:12
+#: languages/gutenberg-translations.php:1057 build/block-library/index.js:12
+#: build/editor/index.js:50
 msgid "Replace image"
 msgstr "Sostituisci immagine"
 
@@ -2391,8 +2399,8 @@ msgstr "Chiudi il plugin"
 msgid "Editor settings"
 msgstr "Impostazioni dell'editor"
 
-#: languages/gutenberg-translations.php:592 build/editor/index.js:50
-#: build/block-library/index.js:12
+#: languages/gutenberg-translations.php:592 build/block-library/index.js:12
+#: build/editor/index.js:50
 msgid "Link Settings"
 msgstr "Impostazioni link"
 
@@ -2420,8 +2428,8 @@ msgstr "Dimensione dell'immagine"
 msgid "Height"
 msgstr "Altezza"
 
-#: languages/gutenberg-translations.php:577 build/format-library/index.js:12
-#: build/block-library/index.js:12
+#: languages/gutenberg-translations.php:577 build/block-library/index.js:12
+#: build/format-library/index.js:12
 msgid "Width"
 msgstr "Larghezza"
 
@@ -2974,7 +2982,7 @@ msgid "Copy All Content"
 msgstr "Copia tutto il contenuto"
 
 #: languages/gutenberg-translations.php:417 build/edit-post/index.js:12
-#: build/editor/index.js:50 build/block-library/index.js:12
+#: build/block-library/index.js:12 build/editor/index.js:50
 msgid "Copied!"
 msgstr "Copiato!"
 
@@ -3044,8 +3052,8 @@ msgstr "Barra unificata degli strumenti dell'editor"
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: languages/gutenberg-translations.php:588 build/components/index.js:19
-#: build/block-library/index.js:12
+#: languages/gutenberg-translations.php:588 build/block-library/index.js:12
+#: build/components/index.js:19
 msgid "Reset"
 msgstr "Reimpostare"
 
@@ -3099,14 +3107,14 @@ msgstr[1] "%d risultati trovati, utilizza i tasti freccia su e giù per navigare
 msgid "(no title)"
 msgstr "(senza titolo)"
 
-#: languages/gutenberg-translations.php:434 build/editor/index.js:50
-#: build/block-library/index.js:12
+#: languages/gutenberg-translations.php:434 build/block-library/index.js:12
+#: build/editor/index.js:50
 msgid "URL"
 msgstr "URL"
 
 #: languages/gutenberg-translations.php:2379 build/editor/index.js:50
 msgid "Submit"
-msgstr "Invio"
+msgstr "Invia"
 
 #: languages/gutenberg-translations.php:1200 build/edit-post/index.js:12
 #: build/editor/index.js:50 build/components/index.js:19
@@ -3138,8 +3146,8 @@ msgstr "Corsivo"
 msgid "Bold"
 msgstr "Grassetto"
 
-#: languages/gutenberg-translations.php:837 build/components/index.js:19
-#: build/block-library/index.js:12
+#: languages/gutenberg-translations.php:837 build/block-library/index.js:12
+#: build/components/index.js:19
 msgid "Number of items"
 msgstr "Numero di elementi"
 
@@ -3182,8 +3190,8 @@ msgstr "Seleziona"
 msgid "Select or Upload Media"
 msgstr "Seleziona o carica media"
 
-#: languages/gutenberg-translations.php:1065 build/editor/index.js:50
-#: build/block-library/index.js:12
+#: languages/gutenberg-translations.php:1065 build/block-library/index.js:12
+#: build/editor/index.js:50
 msgid "Video"
 msgstr "Video"
 
@@ -3263,8 +3271,8 @@ msgstr "linea orizzontale"
 msgid "Separator"
 msgstr "Separatore"
 
-#: languages/gutenberg-translations.php:821 build/editor/index.js:50
-#: build/block-library/index.js:12
+#: languages/gutenberg-translations.php:821 build/block-library/index.js:12
+#: build/editor/index.js:50
 msgid "Quote"
 msgstr "Citazione"
 
@@ -3378,8 +3386,8 @@ msgstr "Visualizzazione in modalità griglia"
 msgid "List View"
 msgstr "Visualizzazione in modalità elenco"
 
-#: languages/gutenberg-translations.php:620 build/format-library/index.js:12
-#: build/block-library/index.js:12
+#: languages/gutenberg-translations.php:620 build/block-library/index.js:12
+#: build/format-library/index.js:12
 msgid "photo"
 msgstr "foto"
 
@@ -3387,13 +3395,13 @@ msgstr "foto"
 msgid "Image Settings"
 msgstr "Impostazioni immagine"
 
-#: languages/gutenberg-translations.php:613 build/editor/index.js:50
-#: build/format-library/index.js:12 build/block-library/index.js:12
+#: languages/gutenberg-translations.php:613 build/block-library/index.js:12
+#: build/editor/index.js:50 build/format-library/index.js:12
 msgid "Image"
 msgstr "Immagine"
 
 #: languages/gutenberg-translations.php:538 build/edit-post/index.js:12
-#: build/editor/index.js:50 build/block-library/index.js:12
+#: build/block-library/index.js:12 build/editor/index.js:50
 msgid "Preview"
 msgstr "Anteprima"
 
@@ -3466,8 +3474,8 @@ msgstr "Ritaglia immagini"
 msgid "Gallery Settings"
 msgstr "Impostazioni galleria"
 
-#: languages/gutenberg-translations.php:477 build/editor/index.js:50
-#: build/block-library/index.js:12
+#: languages/gutenberg-translations.php:477 build/block-library/index.js:12
+#: build/editor/index.js:50
 msgid "Gallery"
 msgstr "Galleria"
 
@@ -3477,7 +3485,7 @@ msgstr "Modifica galleria"
 
 #: languages/gutenberg-translations.php:173 build/block-library/index.js:12
 msgid "Classic"
-msgstr "Classico"
+msgstr "Editor classico"
 
 #: languages/gutenberg-translations.php:313 build/block-library/index.js:12
 msgid "video"
@@ -3539,8 +3547,8 @@ msgstr "Modifica immagine"
 msgid "Columns"
 msgstr "Colonne"
 
-#: languages/gutenberg-translations.php:184 build/format-library/index.js:12
-#: build/block-library/index.js:12
+#: languages/gutenberg-translations.php:184 build/block-library/index.js:12
+#: build/format-library/index.js:12
 msgid "Code"
 msgstr "Codice"
 
@@ -3548,8 +3556,8 @@ msgstr "Codice"
 msgid "Write code…"
 msgstr "Scrivi codice..."
 
-#: languages/gutenberg-translations.php:164 build/editor/index.js:50
-#: build/block-library/index.js:12
+#: languages/gutenberg-translations.php:164 build/block-library/index.js:12
+#: build/editor/index.js:50
 msgid "Categories"
 msgstr "Categorie"
 
@@ -3573,8 +3581,8 @@ msgstr "Aggiungi testo..."
 msgid "Button"
 msgstr "Pulsante"
 
-#: languages/gutenberg-translations.php:124 build/editor/index.js:50
-#: build/format-library/index.js:12 build/block-library/index.js:12
+#: languages/gutenberg-translations.php:124 build/block-library/index.js:12
+#: build/editor/index.js:50 build/format-library/index.js:12
 msgid "Apply"
 msgstr "Applica"
 
@@ -3594,8 +3602,8 @@ msgstr "Il blocco è stato eliminato o non è disponibile."
 msgid "Reusable Blocks"
 msgstr "Blocchi riutilizzabili"
 
-#: languages/gutenberg-translations.php:87 build/editor/index.js:50
-#: build/format-library/index.js:12 build/block-library/index.js:12
+#: languages/gutenberg-translations.php:87 build/block-library/index.js:12
+#: build/editor/index.js:50 build/format-library/index.js:12
 msgid "Edit"
 msgstr "Modifica"
 
@@ -3611,8 +3619,8 @@ msgstr "Scrivi una didascalia..."
 msgid "Use URL"
 msgstr "Usa l'URL"
 
-#: languages/gutenberg-translations.php:72 build/editor/index.js:50
-#: build/block-library/index.js:12
+#: languages/gutenberg-translations.php:72 build/block-library/index.js:12
+#: build/editor/index.js:50
 msgid "Audio"
 msgstr "Audio"
 
@@ -3689,7 +3697,7 @@ msgstr "Allinea a sinistra"
 msgid "Printing since 1440. This is the development plugin for the new block editor in core."
 msgstr "La stampa dal 1440. Questo è il plugin di sviluppo per il nuovo editor a blocchi del core."
 
-#: languages/gutenberg-translations.php:2280 lib/client-assets.php:1148
+#: lib/client-assets.php:1148 languages/gutenberg-translations.php:2280
 #: build/editor/index.js:50
 msgid "Add title"
 msgstr "Aggiungi titolo"
@@ -3735,8 +3743,8 @@ msgstr "Pubblica"
 msgid "Metadata"
 msgstr "Metadati"
 
-#: languages/gutenberg-translations.php:82 build/editor/index.js:50
-#: build/block-library/index.js:12
+#: languages/gutenberg-translations.php:82 build/block-library/index.js:12
+#: build/editor/index.js:50
 msgid "Save"
 msgstr "Salva"
 
@@ -3776,9 +3784,8 @@ msgid "Demo"
 msgstr "Demo"
 
 #: languages/gutenberg-translations.php:153
-#: packages/block-library/src/rss/index.php:35
 #: packages/block-library/src/latest-posts/index.php:35
-#: build/block-library/index.js:12
+#: packages/block-library/src/rss/index.php:35 build/block-library/index.js:12
 msgid "(Untitled)"
 msgstr "(senza titolo)"
 

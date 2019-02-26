@@ -4,10 +4,11 @@
 # NetBeans project files
 nbproject
 
-# Windows thumbnail cache
+# Windows files
+sh.exe.stackdump
 Thumbs.db
 
-# Mac DS_Store Files
+# Mac Files
 .DS_Store
 
 # WP Root files

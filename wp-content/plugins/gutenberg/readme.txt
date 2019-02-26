@@ -79,6 +79,10 @@ See also <a href="https://github.com/WordPress/gutenberg/blob/master/CONTRIBUTIN
 
 == Changelog ==
 
+Bug fixes in 5.1.1:
+
+- Fixes a Firefox regression causing block content to be deleted.
+
 Features:
 
 - Add a new Search block.
