@@ -71,14 +71,14 @@ class NM_PriceMatrix_wooproduct extends PPOM_Inputs{
 			'visibility' => array (
 					'type' => 'select',
 					'title' => __ ( 'Visibility', 'ppom' ),
-					'desc' => __ ( 'Set field visibility based on user.', 'ppom'),
+					'desc' => __ ( 'Set field visibility based on user.', "ppom"),
 					'options'	=> ppom_field_visibility_options(),
 					'default'	=> 'everyone',
 			),
 			'visibility_role' => array (
 					'type' => 'text',
 					'title' => __ ( 'User Roles', 'ppom' ),
-					'desc' => __ ( 'Role separated by comma.', 'ppom'),
+					'desc' => __ ( 'Role separated by comma.', "ppom"),
 					'hidden' => true,
 			),
 			'desc_tooltip' => array (

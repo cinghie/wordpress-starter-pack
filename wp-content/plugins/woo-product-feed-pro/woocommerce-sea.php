@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     4.8.6
+ * Version:     4.9.1
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.8.6' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '4.9.1' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -1237,7 +1237,7 @@ function woosea_add_attributes() {
 		}
         } else {
 		$extra_attributes = get_option( 'woosea_extra_attributes' );
-		if(!in_array($attribute_name, $extra_attributes)){
+		if(!in_array($attribute_name, $extra_attributes,TRUE)){
 			if($active == "true"){
 				$add_attribute = array (
 					$attribute_value => $attribute_name
@@ -2357,7 +2357,7 @@ function woosea_license_valid(){
         $license_information = get_option('license_information');
 
         $curl = curl_init();
-        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=4.8.6";
+        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=4.9.1";
 
         curl_setopt_array($curl, array(
                 CURLOPT_RETURNTRANSFER => 1,
@@ -2644,6 +2644,9 @@ add_action( 'wp_ajax_nopriv_woosea_set_cookie','woosea_set_cookie');
 function woosea_continue_batch($project_hash){
 	$batch_project = "batch_project_".$project_hash;
 	$val = get_option( $batch_project );
+
+	// Flush caching
+	wp_cache_flush();
 
 	if (!empty($val)){
 		$line = new WooSEA_Get_Products;

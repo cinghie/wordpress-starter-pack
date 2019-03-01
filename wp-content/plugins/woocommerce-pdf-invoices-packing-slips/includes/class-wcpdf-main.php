@@ -100,11 +100,23 @@ class Main {
 				if ( !$document ) { // something went wrong, continue trying with other documents
 					continue;
 				}
+				$filename = $document->get_filename();
+				$pdf_path = $tmp_path . $filename;
+
+				// if this file already exists in the temp path, we'll reuse it if it's not older than 60 seconds
+				if (file_exists($pdf_path)) {
+					// get last modification date
+					if ($filemtime = filemtime($pdf_path)) {
+						$time_difference = time() - $filemtime;
+						if ( $time_difference < apply_filters( 'wpo_wcpdf_reuse_attachment_age', 60 ) ) {
+							$attachments[] = $pdf_path;
+							continue;
+						}
+					}
+				}
 
 				// get pdf data & store
 				$pdf_data = $document->get_pdf();
-				$filename = $document->get_filename();
-				$pdf_path = $tmp_path . $filename;
 				file_put_contents ( $pdf_path, $pdf_data );
 				$attachments[] = $pdf_path;
 
@@ -175,6 +187,11 @@ class Main {
 			wp_die( __( 'Some of the export parameters are missing.', 'woocommerce-pdf-invoices-packing-slips' ) );
 		}
 
+		// debug enabled by URL
+		if ( isset( $_GET['debug'] ) ) {
+			$this->enable_debug();
+		}
+
 		// Generate the output
 		$document_type = sanitize_text_field( $_GET['document_type'] );
 
@@ -220,6 +237,10 @@ class Main {
 
 			if ( $document ) {
 				$output_format = WPO_WCPDF()->settings->get_output_format( $document_type );
+				// allow URL override
+				if ( isset( $_GET['output'] ) && in_array( $_GET['output'], array( 'html', 'pdf' ) ) ) {
+					$output_format = $_GET['output'];
+				}
 				switch ( $output_format ) {
 					case 'html':
 						add_filter( 'wpo_wcpdf_use_path', '__return_false' );

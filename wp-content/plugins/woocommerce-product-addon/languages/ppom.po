@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PPOM Translation\n"
-"POT-Creation-Date: 2019-02-01 21:42+0500\n"
-"PO-Revision-Date: 2019-02-01 21:43+0500\n"
+"POT-Creation-Date: 2019-02-27 13:01+0500\n"
+"PO-Revision-Date: 2019-02-27 13:01+0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -21,7 +21,7 @@ msgid "PPOM"
 msgstr ""
 
 #: classes/admin.class.php:68 classes/admin.class.php:74
-msgid " Settings"
+msgid "PPOM Settings"
 msgstr ""
 
 #: classes/admin.class.php:95
@@ -45,85 +45,85 @@ msgstr ""
 msgid "Add PPOM Meta Group"
 msgstr ""
 
-#: classes/admin.class.php:117 templates/admin/existing-meta.php:24
+#: classes/admin.class.php:118 templates/admin/existing-meta.php:24
 msgid "Import Meta"
 msgstr ""
 
-#: classes/admin.class.php:198
+#: classes/admin.class.php:199
 msgid "Provide API key below:"
 msgstr ""
 
-#: classes/admin.class.php:199
+#: classes/admin.class.php:200
 msgid ""
 "If you don't know your API key, please login into your: <a target=\"_blank\" "
 "href=\"http://wordpresspoets.com/member-area\">Member area</a>"
 msgstr ""
 
-#: classes/admin.class.php:202
+#: classes/admin.class.php:203
 msgid "Entery API key"
 msgstr ""
 
-#: classes/fields.class.php:107 classes/fields.class.php:184
-#: classes/fields.class.php:185 inc/admin.php:427 inc/admin.php:443
-#: inc/files.php:82 inc/functions.php:726 inc/hooks.php:389
+#: classes/fields.class.php:107 classes/fields.class.php:193
+#: classes/fields.class.php:194 inc/admin.php:427 inc/admin.php:443
+#: inc/files.php:82 inc/functions.php:734 inc/hooks.php:389
 #: inc/nmInput.class.php:152 inc/nmInput.class.php:217
 #: inc/nmInput.class.php:245 inc/nmInput.class.php:324
-#: inc/nmInput.class.php:402 inc/nmInput.class.php:493
-#: inc/nmInput.class.php:572 inc/nmInput.class.php:655
-#: inc/nmInput.class.php:730 inc/nmInput.class.php:840
-#: inc/nmInput.class.php:1045 inc/nmInput.class.php:1110
-#: inc/nmInput.class.php:1174 inc/nmInput.class.php:1254
-#: inc/nmInput.class.php:1334 inc/nmInput.class.php:1415
-#: inc/nmInput.class.php:1453 inc/woocommerce.php:172 inc/woocommerce.php:471
+#: inc/nmInput.class.php:402 inc/nmInput.class.php:496
+#: inc/nmInput.class.php:575 inc/nmInput.class.php:658
+#: inc/nmInput.class.php:733 inc/nmInput.class.php:843
+#: inc/nmInput.class.php:1048 inc/nmInput.class.php:1113
+#: inc/nmInput.class.php:1177 inc/nmInput.class.php:1257
+#: inc/nmInput.class.php:1339 inc/nmInput.class.php:1420
+#: inc/nmInput.class.php:1458 inc/woocommerce.php:172 inc/woocommerce.php:488
 #: templates/render-fields.php:352
 #, php-format
 msgid "%s"
 msgstr ""
 
-#: classes/fields.class.php:271
+#: classes/fields.class.php:280
 msgid "Option"
 msgstr ""
 
-#: classes/fields.class.php:272 classes/fields.class.php:417
-#: classes/fields.class.php:430
+#: classes/fields.class.php:281 classes/fields.class.php:426
+#: classes/fields.class.php:439
 msgid "Price (optional)"
 msgstr ""
 
-#: classes/fields.class.php:280
+#: classes/fields.class.php:289
 msgid "Unique Option ID)"
 msgstr ""
 
-#: classes/fields.class.php:339 classes/fields.class.php:352
-#: classes/fields.class.php:427
+#: classes/fields.class.php:348 classes/fields.class.php:361
+#: classes/fields.class.php:436
 msgid "option"
 msgstr ""
 
-#: classes/fields.class.php:340 classes/fields.class.php:353
-#: classes/fields.class.php:381 classes/fields.class.php:391
+#: classes/fields.class.php:349 classes/fields.class.php:362
+#: classes/fields.class.php:390 classes/fields.class.php:400
 msgid "price (if any)"
 msgstr ""
 
-#: classes/fields.class.php:341 classes/fields.class.php:354
+#: classes/fields.class.php:350 classes/fields.class.php:363
 msgid "Min. Qty"
 msgstr ""
 
-#: classes/fields.class.php:342 classes/fields.class.php:355
+#: classes/fields.class.php:351 classes/fields.class.php:364
 msgid "Max. Qty"
 msgstr ""
 
-#: classes/fields.class.php:371
+#: classes/fields.class.php:380
 msgid "Unique ID)"
 msgstr ""
 
-#: classes/fields.class.php:380 classes/fields.class.php:390
+#: classes/fields.class.php:389 classes/fields.class.php:399
 msgid "Unit"
 msgstr ""
 
-#: classes/fields.class.php:414
+#: classes/fields.class.php:423
 msgid "Label"
 msgstr ""
 
-#: classes/fields.class.php:415 classes/fields.class.php:428
+#: classes/fields.class.php:424 classes/fields.class.php:437
 #: classes/inputs/input.audio.php:61 classes/inputs/input.checkbox.php:73
 #: classes/inputs/input.color.php:78 classes/inputs/input.cropper.php:69
 #: classes/inputs/input.date.php:66 classes/inputs/input.daterange.php:62
@@ -138,63 +138,63 @@ msgstr ""
 msgid "Width"
 msgstr ""
 
-#: classes/fields.class.php:416 classes/fields.class.php:429
+#: classes/fields.class.php:425 classes/fields.class.php:438
 msgid "Height"
 msgstr ""
 
-#: classes/fields.class.php:504 classes/fields.class.php:576
+#: classes/fields.class.php:513 classes/fields.class.php:585
 msgid "Show"
 msgstr ""
 
-#: classes/fields.class.php:505 classes/fields.class.php:577
+#: classes/fields.class.php:514 classes/fields.class.php:586
 msgid "Hide"
 msgstr ""
 
-#: classes/fields.class.php:510
+#: classes/fields.class.php:519
 msgid "only if"
 msgstr ""
 
-#: classes/fields.class.php:515 classes/fields.class.php:582
+#: classes/fields.class.php:524 classes/fields.class.php:591
 msgid "All"
 msgstr ""
 
-#: classes/fields.class.php:516 classes/fields.class.php:583
+#: classes/fields.class.php:525 classes/fields.class.php:592
 msgid "Any"
 msgstr ""
 
-#: classes/fields.class.php:521
+#: classes/fields.class.php:530
 msgid "of the following matches"
 msgstr ""
 
-#: classes/fields.class.php:536 classes/fields.class.php:593
+#: classes/fields.class.php:545 classes/fields.class.php:602
 msgid "Rule "
 msgstr ""
 
-#: classes/fields.class.php:549 classes/fields.class.php:603
+#: classes/fields.class.php:558 classes/fields.class.php:612
 msgid "is"
 msgstr ""
 
-#: classes/fields.class.php:550 classes/fields.class.php:604
+#: classes/fields.class.php:559 classes/fields.class.php:613
 msgid "not"
 msgstr ""
 
-#: classes/fields.class.php:551 classes/fields.class.php:605
+#: classes/fields.class.php:560 classes/fields.class.php:614
 msgid "greater than"
 msgstr ""
 
-#: classes/fields.class.php:552 classes/fields.class.php:606
+#: classes/fields.class.php:561 classes/fields.class.php:615
 msgid "less than"
 msgstr ""
 
-#: classes/fields.class.php:587
+#: classes/fields.class.php:596
 msgid " of the following matches"
 msgstr ""
 
-#: classes/fields.class.php:631 classes/fields.class.php:679
+#: classes/fields.class.php:640 classes/fields.class.php:688
 msgid "Select/Upload Image"
 msgstr ""
 
-#: classes/fields.class.php:725 classes/inputs/input.audio.php:81
+#: classes/fields.class.php:734 classes/inputs/input.audio.php:81
 msgid "Select Audio/Video"
 msgstr ""
 
@@ -1463,25 +1463,25 @@ msgstr ""
 
 #: classes/inputs/input.quantities.php:141
 #: classes/inputs/input.quantities.php:184 templates/input/quantities.php:21
-#: templates/input/quantities.php:79
+#: templates/input/quantities.php:81
 msgid "Options"
 msgstr ""
 
 #: classes/inputs/input.quantities.php:155
 #: classes/inputs/input.quantities.php:185 inc/hooks.php:395
-#: templates/input/quantities.php:37 templates/input/quantities.php:80
+#: templates/input/quantities.php:37 templates/input/quantities.php:82
 msgid "Quantity"
 msgstr ""
 
-#: classes/inputs/input.quantities.php:222 templates/input/quantities.php:134
+#: classes/inputs/input.quantities.php:222 templates/input/quantities.php:138
 msgid "Options Total: "
 msgstr ""
 
-#: classes/inputs/input.quantities.php:225 templates/input/quantities.php:137
+#: classes/inputs/input.quantities.php:225 templates/input/quantities.php:141
 msgid "Product Total: "
 msgstr ""
 
-#: classes/inputs/input.quantities.php:229 templates/input/quantities.php:141
+#: classes/inputs/input.quantities.php:229 templates/input/quantities.php:145
 msgid "Grand Total: "
 msgstr ""
 
@@ -1554,7 +1554,7 @@ msgid "Just for info e.g: Select your option."
 msgstr ""
 
 #: classes/inputs/input.select.php:145 classes/inputs/input.timezone.php:140
-#: classes/plugin.class.php:299
+#: classes/plugin.class.php:291
 msgid "Select options"
 msgstr ""
 
@@ -1676,30 +1676,30 @@ msgstr ""
 msgid "It will show current local time."
 msgstr ""
 
-#: classes/plugin.class.php:376 classes/plugin.class.php:377
+#: classes/plugin.class.php:360 classes/plugin.class.php:361
 #, php-format
 msgid "nm_action_%d"
 msgstr ""
 
-#: classes/plugin.class.php:385 classes/plugin.class.php:386
+#: classes/plugin.class.php:369 classes/plugin.class.php:370
 msgid "Remove Meta"
 msgstr ""
 
-#: classes/plugin.class.php:497 templates/admin/products-list.php:31
+#: classes/plugin.class.php:482 templates/admin/products-list.php:31
 #: templates/admin/products-list.php:71
 msgid "PPOM Fields"
 msgstr ""
 
-#: classes/plugin.class.php:662 classes/plugin.class.php:689
+#: classes/plugin.class.php:647 classes/plugin.class.php:674
 msgid "No meta found, make sure you selected meta and then export"
 msgstr ""
 
-#: classes/plugin.class.php:761
+#: classes/plugin.class.php:746
 #, php-format
 msgid "%d meta(s) imported successfully."
 msgstr ""
 
-#: classes/plugin.class.php:788
+#: classes/plugin.class.php:773
 #, php-format
 msgid "PPOM Meta Successfully Changed to - %s"
 msgstr ""
@@ -1747,7 +1747,7 @@ msgid "Form updated successfully"
 msgstr ""
 
 #: inc/admin.php:302
-msgid "No changes found, please change and try again."
+msgid "Form updated successfully."
 msgstr ""
 
 #: inc/admin.php:323 inc/admin.php:346
@@ -1770,7 +1770,7 @@ msgstr ""
 msgid "By Role"
 msgstr ""
 
-#: inc/files.php:98 inc/functions.php:916
+#: inc/files.php:98 inc/functions.php:924
 msgid "Cropped"
 msgstr ""
 
@@ -1811,26 +1811,26 @@ msgstr ""
 msgid "Total"
 msgstr ""
 
-#: inc/functions.php:551
+#: inc/functions.php:559
 #, php-format
 msgid "<a href=\"%s\">Add Fields</a>"
 msgstr ""
 
-#: inc/functions.php:552
+#: inc/functions.php:560
 #, php-format
 msgid "<a href=\"%s\" target=\"_blank\">Quick Video Guide</a>"
 msgstr ""
 
-#: inc/functions.php:553
+#: inc/functions.php:561
 #, php-format
 msgid "<a href=\"%s\">Customized Solution</a>"
 msgstr ""
 
-#: inc/functions.php:899
+#: inc/functions.php:907
 msgid "Download File"
 msgstr ""
 
-#: inc/functions.php:930
+#: inc/functions.php:938
 msgid "Edited"
 msgstr ""
 
@@ -1877,24 +1877,24 @@ msgid ""
 "\" data-optionid=\"%s\">"
 msgstr ""
 
-#: inc/nmInput.class.php:833
+#: inc/nmInput.class.php:836
 msgid "Images not selected"
 msgstr ""
 
-#: inc/nmInput.class.php:1167
+#: inc/nmInput.class.php:1170
 msgid "audios not selected"
 msgstr ""
 
-#: inc/nmInput.class.php:1265
-msgid "Drag file here"
+#: inc/nmInput.class.php:1269
+msgid "Drag File Here"
 msgstr ""
 
-#: inc/nmInput.class.php:1271 inc/nmInput.class.php:1344
-#: inc/nmInput.class.php:1350
+#: inc/nmInput.class.php:1276 inc/nmInput.class.php:1349
+#: inc/nmInput.class.php:1355
 msgid "Drag file/directory here"
 msgstr ""
 
-#: inc/nmInput.class.php:1389
+#: inc/nmInput.class.php:1394
 msgid "Select Size"
 msgstr ""
 
@@ -1972,11 +1972,11 @@ msgid ""
 "Sorry, an error has occurred. Please enable JavaScript or contact site owner."
 msgstr ""
 
-#: inc/woocommerce.php:499
+#: inc/woocommerce.php:516
 msgid "Total will be calcuated in Cart"
 msgstr ""
 
-#: inc/woocommerce.php:833
+#: inc/woocommerce.php:850
 #, php-format
 msgid "Sorry, maximum quantity is %d."
 msgstr ""

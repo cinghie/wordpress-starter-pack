@@ -87,21 +87,21 @@ class NM_Text_wooproduct extends PPOM_Inputs{
 				'width' => array (
 						'type' => 'select',
 						'title' => __ ( 'Width', 'ppom' ),
-						'desc' => __ ( 'Type field width in % e.g: 50%', 'ppom'),
+						'desc' => __ ( 'Type field width in % e.g: 50%', "ppom"),
 						'options'	=> ppom_get_input_cols(),
 						'default'	=> 12,
 				),
 				'visibility' => array (
 						'type' => 'select',
 						'title' => __ ( 'Visibility', 'ppom' ),
-						'desc' => __ ( 'Set field visibility based on user.', 'ppom'),
+						'desc' => __ ( 'Set field visibility based on user.', "ppom"),
 						'options'	=> ppom_field_visibility_options(),
 						'default'	=> 'everyone',
 				),
 				'visibility_role' => array (
 						'type' => 'text',
 						'title' => __ ( 'User Roles', 'ppom' ),
-						'desc' => __ ( 'Role separated by comma.', 'ppom'),
+						'desc' => __ ( 'Role separated by comma.', "ppom"),
 						'hidden' => true,
 				),
 				'required' => array (

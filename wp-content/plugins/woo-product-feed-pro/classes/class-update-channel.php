@@ -21,7 +21,7 @@ class WooSEA_Update_Project {
 		foreach ($channel_statics as $key=>$val){		
 			
 			foreach ($val as $k=>$v){
-				if ($channel_hash == $v['channel_hash']){	
+				if ($channel_hash === $v['channel_hash']){	
 					$channel_data = $v;
 				}
 			}        
@@ -39,7 +39,7 @@ class WooSEA_Update_Project {
 	
 			foreach ($cron_projects as $key=>$val){		
 				if(!empty($val)){
-					if($val['project_hash'] == $project_hash){
+					if($val['project_hash'] === $project_hash){
 						$project_config = $val;
 					}	
 				}
@@ -58,7 +58,7 @@ class WooSEA_Update_Project {
 	
 			foreach ($cron_projects as $key=>$val){		
 				if(!empty($val)){
-					if($val['project_hash'] == $project['project_hash']){
+					if($val['project_hash'] === $project['project_hash']){
 						$cron_projects[$key] = $project;
 						update_option('cron_projects', $cron_projects);
 					}	
@@ -79,7 +79,7 @@ class WooSEA_Update_Project {
 			foreach ($channel_statics as $key=>$val){		
 			
 				foreach ($val as $k=>$v){
-					if ($project_data['channel_hash'] == $v['channel_hash']){	
+					if ($project_data['channel_hash'] === $v['channel_hash']){	
 						$project_fill = array_merge($v, $project_data);
 						$project_fill['project_hash'] = bin2hex(openssl_random_pseudo_bytes(16));
 
@@ -113,7 +113,7 @@ class WooSEA_Update_Project {
 				if(!empty($val)){
 					foreach ($val as $k=>$v){
 						if(!is_array($v)){
-							if (($v == $project_hash) AND ($k == "project_hash")){
+							if (($v === $project_hash) AND ($k === "project_hash")){
 								$project_config = $val;
 								$remove_key = $key;
 							}	

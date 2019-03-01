@@ -13,26 +13,26 @@ $all_forms = PPOM() -> get_product_meta_all();
 
 <div class="text-center ppom-import-export-block ppom-meta-card-block" style="display: none">
 	
-	<h3><?php _e( 'Import PPOM Meta', 'ppom'); ?></h3>
+	<h3><?php _e( 'Import PPOM Meta', "ppom"); ?></h3>
 	
 	<form method="post" action="admin-post.php" enctype="multipart/form-data">
 		<input type="hidden" name="action" value="ppom_import_meta" />
 		<label for="file-upload" class="btn btn-success">
-			<span><?php _e( 'Choose a file…', 'ppom'); ?></span>
+			<span><?php _e( 'Choose a file…', "ppom"); ?></span>
 			<input id="file-upload" type="file" name="ppom_csv" style="display: none;">
 		</label>
-		<input type="submit" class="btn btn-primary" value="<?php _e( 'Import Meta', 'ppom'); ?>">
+		<input type="submit" class="btn btn-primary" value="<?php _e( 'Import Meta', "ppom"); ?>">
 	</form>
 
 	<div class="text-right ppom-cancle-import-export-wrap">
-		<button class="btn btn-danger ppom-cancle-import-export-btn"><?php _e( 'Cancel', 'ppom'); ?></button>
+		<button class="btn btn-danger ppom-cancle-import-export-btn"><?php _e( 'Cancel', "ppom"); ?></button>
 	</div>
 
 	<div class="clear" ></div>
 </div>
 
 <div class="wrapper">
-	<h2 class="ppom-heading-style"><?php _e( 'PPOM Meta List', 'ppom'); ?></h2>
+	<h2 class="ppom-heading-style"><?php _e( 'PPOM Meta List', "ppom"); ?></h2>
 </div>
 
 
@@ -43,9 +43,9 @@ $all_forms = PPOM() -> get_product_meta_all();
 
 		<div class="ppom-product-table-header">
 			
-			<span class="ppom-product-count-span"><?php _e( 'Select', 'ppom'); ?> "<span id="selected_products_count">0</span>"<?php _e( ' PPOM Meta', 'ppom'); ?></span>
+			<span class="ppom-product-count-span"><?php _e( 'Select', "ppom"); ?> "<span id="selected_products_count">0</span>"<?php _e( ' PPOM Meta', "ppom"); ?></span>
 			<a class="btn btn-danger" id="ppom_delete_selected_products_btn"><?php _e( 'Delete', 'ppom' ) ?></a>
-			<button class="btn btn-yellow" id="export_selected_products_btn"><?php _e( 'Export', 'ppom'); ?></button>
+			<button class="btn btn-yellow" id="export_selected_products_btn"><?php _e( 'Export', "ppom"); ?></button>
 			<span class="pull-right"><strong><?php echo count($all_forms); ?> <?php _e( 'Items', 'ppom' ); ?></strong></span>
 			<span class="clear"></span>
 		</div>
@@ -89,7 +89,7 @@ $all_forms = PPOM() -> get_product_meta_all();
 					$url_edit     = add_query_arg(array('productmeta_id'=> $productmeta ->productmeta_id, 'do_meta'=>'edit'));
 					$url_clone    = add_query_arg(array('productmeta_id'=> $productmeta ->productmeta_id, 'do_meta'=>'clone'));
 					$url_products = admin_url( 'edit.php?post_type=product', (is_ssl() ? 'https' : 'http') );
-					$product_link = '<a href="'.esc_url($url_products).'">'.__('Products', 'ppom').'</a>';
+					$product_link = '<a href="'.esc_url($url_products).'">'.__('Products', "ppom").'</a>';
 					?>
 					<tr>
 						<td class="ppom-meta-table-checkbox-mr ppom-checkboxe-style">
@@ -130,7 +130,7 @@ $all_forms = PPOM() -> get_product_meta_all();
         <input type="hidden" name="ppom_id" id="ppom_id">
 	    
 	    <header> 
-	        <h3><?php _e('WooCommerce Products', 'ppom');?></h3>
+	        <h3><?php _e('WooCommerce Products', "ppom");?></h3>
 	    </header>
 
 	    <div class="ppom-modal-body">
@@ -139,7 +139,7 @@ $all_forms = PPOM() -> get_product_meta_all();
 	    
 	    <footer>
 	    	<button type="button" class="btn btn-default close-model ppom-js-modal-close"><?php _e('Close' , 'ppom-addon-pdf'); ?></button>
-	    	<button type="submit" class="btn btn-info"><?php _e('Save', 'ppom'); ?></button>
+	    	<button type="submit" class="btn btn-info"><?php _e('Save', "ppom"); ?></button>
 	    </footer>
 	</form>
 </div>

@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 5.1
-Stable tag: 4.8.6
+Stable tag: 4.9.1
 
 == Description ==
 
@@ -272,6 +272,21 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 4.9.1 (2019-02-28) =
+* Fixed some PHP bugs: non-strict MD5 comparisons fixed in most places as making most in_array functions strict comparisons (thanks Daniel & Stephan for this, greatly appreciated!)
+
+= 4.9.0 (2019-02-28) =
+* Fixed a bug: sale prices excluding VAT that were added to the feed that had no value got added as a sale price of 0 where it should have been empty. Issue has been fixed now.
+
+= 4.8.9 (2019-02-27) =
+* Fixed a bug: for variation products the plugin was adding the slug to the product name for dynamic attributes. This needed to be the dynamic attribute name. Issue has been fixed now.
+
+= 4.8.8 (2019-02-27) =
+* Added some more cache flushing
+
+= 4.8.7 (2019-02-27) =
+* Forcing the prices excluding VAT to be rounded on two decimals
 
 = 4.8.6 (2019-02-26) =
 * The filter bug fix of release 4.7.5 changed the behaviour for exclude filters on empty fields. Made changes so it defaults back to the old behaviour for exclude filters.
@@ -1486,6 +1501,21 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 4.9.1 =
+Fixed some PHP bugs: non-strict MD5 comparisons fixed in most places as making most in_array functions strict comparisons (thanks Daniel & Stephan for this, greatly appreciated!)
+
+= 4.9.0 =
+Fixed a bug: sale prices excluding VAT that were added to the feed that had no value got added as a sale price of 0 where it should have been empty. Issue has been fixed now.
+
+= 4.8.9 =
+Fixed a bug: for variation products the plugin was adding the slug to the product name for dynamic attributes. This needed to be the dynamic attribute name. Issue has been fixed now.
+
+= 4.8.8 =
+Added some more cache flushing
+
+= 4.8.7 =
+Forcing the prices excluding VAT to be rounded on two decimals
 
 = 4.8.6 =
 The filter bug fix of release 4.7.5 changed the behaviour for exclude filters on empty fields. Made changes so it defaults back to the old behaviour for exclude filters.

@@ -86,12 +86,12 @@ if(isset($_POST['product_variations'])){
 
 	$channels_with_item_id = array('google_shopping','facebook_drm');
 
-	if (in_array($project['fields'],$channels_with_item_id)){
+	if (in_array($project['fields'],$channels_with_item_id,TRUE)){
 
 		$attributes["Detailed product description"]["Item group ID"]["format"] = "required";
 		$attributes["Detailed product description"]["Item group ID"]["woo_suggest"] = "item_group_id";
 
-		if (in_array($project['fields'],$channels_with_item_id)){
+		if (in_array($project['fields'],$channels_with_item_id,TRUE)){
 			$attributes["Detailed product description"]["Item group ID"]["feed_name"] = "g:item_group_id";
 		} else {
 			$attributes["Detailed product description"]["Item group ID"]["feed_name"] = "item_group_id";

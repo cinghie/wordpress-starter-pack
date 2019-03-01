@@ -64,7 +64,7 @@ class NM_Timezone_wooproduct extends PPOM_Inputs{
 				'regions' => array (
 						'type' => 'textarea',
 						'title' => __ ( 'Regions', 'ppom' ),
-						'desc' => __ ( 'All,AFRICA, AMERICA, ANTARCTICA, ASIA, ATLANTIC, AUSTRALIA, EUROPE, INDIAN, PACIFIC', 'ppom'),
+						'desc' => __ ( 'All,AFRICA, AMERICA, ANTARCTICA, ASIA, ATLANTIC, AUSTRALIA, EUROPE, INDIAN, PACIFIC', "ppom"),
 						'default'	=> 'All',
 				),
 				'class' => array (
@@ -75,21 +75,21 @@ class NM_Timezone_wooproduct extends PPOM_Inputs{
 				'width' => array (
 						'type' => 'select',
 						'title' => __ ( 'Width', 'ppom' ),
-						'desc' => __ ( 'Select width column', 'ppom'),
+						'desc' => __ ( 'Select width column', "ppom"),
 						'options'	=> ppom_get_input_cols(),
 						'default'	=> 12,
 				),
 				'visibility' => array (
 						'type' => 'select',
 						'title' => __ ( 'Visibility', 'ppom' ),
-						'desc' => __ ( 'Set field visibility based on user.', 'ppom'),
+						'desc' => __ ( 'Set field visibility based on user.', "ppom"),
 						'options'	=> ppom_field_visibility_options(),
 						'default'	=> 'everyone',
 				),
 				'visibility_role' => array (
 						'type' => 'text',
 						'title' => __ ( 'User Roles', 'ppom' ),
-						'desc' => __ ( 'Role separated by comma.', 'ppom'),
+						'desc' => __ ( 'Role separated by comma.', "ppom"),
 						'hidden' => true,
 				),
 				'desc_tooltip' => array (
@@ -137,7 +137,7 @@ class NM_Timezone_wooproduct extends PPOM_Inputs{
 		
 		$_html .= '>';
 		
-		$_html .= '<option value="">'.__('Select options', 'ppom').'</option>';
+		$_html .= '<option value="">'.__('Select options', "ppom").'</option>';
 		
 		foreach($options as $opt)
 		{

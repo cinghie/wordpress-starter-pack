@@ -284,7 +284,7 @@ function ppom_hooks_load_input_scripts( $product ) {
 										'plugin_url' => PPOM_URL,
 										'file_upload_path_thumb' => ppom_get_dir_url(true),
 										'file_upload_path' => ppom_get_dir_url(),
-										'mesage_max_files_limit'	=> __(' files allowed only', 'ppom'),
+										'mesage_max_files_limit'	=> __(' files allowed only', "ppom"),
 										'file_inputs'		=> $ppom_file_inputs,
 										'delete_file_msg'	=> __("Are you sure?", "ppom"),
 										'plupload_runtime'	=> (ppom_if_browser_is_ie()) ? 'html5,html4' : 'html5,silverlight,html4,browserplus,gear',
@@ -319,7 +319,7 @@ function ppom_hooks_load_input_scripts( $product ) {
 										'plugin_url' => PPOM_URL,
 										'file_upload_path_thumb' => ppom_get_dir_url(true),
 										'file_upload_path' => ppom_get_dir_url(),
-										'mesage_max_files_limit'	=> __(' files allowed only', 'ppom'),
+										'mesage_max_files_limit'	=> __(' files allowed only', "ppom"),
 										'file_inputs'		=> $ppom_file_inputs,
 										'delete_file_msg'	=> __("Are you sure?", "ppom"),
 										'aviary_api_key'	=> $ppom_meta_settings -> aviary_api_key,
@@ -601,6 +601,12 @@ function ppom_hooks_render_shortcode( $atts ) {
     
     // main css
     wp_enqueue_style( 'ppom-main', PPOM_URL.'/css/ppom-style.css');
+    
+    // PPOM Simple Popup files load
+    wp_enqueue_style( 'ppom-sm-popup', PPOM_URL.'/css/ppom-simple-popup.css');
+    wp_enqueue_script('PPOM-sm-popup', PPOM_URL."/js/ppom-simple-popup.js", array('jquery') );
+    
+
     if ( $ppom->inline_css != '') {
 		wp_add_inline_style( 'ppom-main', $ppom->inline_css );
     }
@@ -628,7 +634,7 @@ function ppom_hooks_render_shortcode( $atts ) {
     }
     	
     $woopa_vars = array('fields_meta' => stripslashes($ppom_meta_saved_settings -> the_meta),
-    					'default_error_message'	=> __('it is a required field.', 'ppom'));
+    					'default_error_message'	=> __('it is a required field.', "ppom"));
     wp_localize_script( 'woopa-ajax-validation', 'woopa_vars', $woopa_vars);*/
     
     $template_vars = array('ppom_settings'  => $ppom->ppom_settings,

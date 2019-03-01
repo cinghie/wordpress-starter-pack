@@ -18,7 +18,7 @@ if (isset($args['horizontal_layout']) && $args['horizontal_layout'] == 'on') { ?
 	<table class="table table-bordered table-hover">
        <thead> 
 	    <tr>
-	       <th><?php _e('Options', 'ppom');?></th>
+	       <th><?php _e('Options', "ppom");?></th>
         <?php foreach($options as $opt){ ?>
         	<th>
     			<label class="quantities-lable"> <?php echo stripslashes(trim($opt['option'])); ?>
@@ -34,7 +34,7 @@ if (isset($args['horizontal_layout']) && $args['horizontal_layout'] == 'on') { ?
 	    </thead>
 	    
 	    <tr>
-	        <th><?php _e('Quantity', 'ppom');?></th>
+	        <th><?php _e('Quantity', "ppom");?></th>
         <?php foreach($options as $opt){ ?>
         	<td>
         		<?php
@@ -78,8 +78,8 @@ if (isset($args['horizontal_layout']) && $args['horizontal_layout'] == 'on') { ?
 	<table class="table table-bordered table-hover">
 	    <thead>
     	    <tr>
-    	        <th><?php _e('Options', 'ppom');?></th>
-    	        <th><?php _e('Quantity', 'ppom');?></th>
+    	        <th><?php _e('Options', "ppom");?></th>
+    	        <th><?php _e('Quantity', "ppom");?></th>
     	    </tr>
     	</thead>
         <?php foreach($options as $opt){ ?>
@@ -135,13 +135,13 @@ if (isset($args['horizontal_layout']) && $args['horizontal_layout'] == 'on') { ?
 
 <div id="display-total-price">
 	<span style="display:none;font-weight:700" class="ppom-total-option-price">
-		<?php echo __("Options Total: ", 'ppom'); printf(__(get_woocommerce_price_format(), 'ppom'), get_woocommerce_currency_symbol(), '<span class="ppom-price"></span>');?>
+		<?php echo __("Options Total: ", "ppom"); printf(__(get_woocommerce_price_format(), "ppom"), get_woocommerce_currency_symbol(), '<span class="ppom-price"></span>');?>
 	</span><br>
 	<span style="display:none;font-weight:700" class="ppom-total-price">
-		<?php echo __("Product Total: ", 'ppom'); printf(__(get_woocommerce_price_format(), 'ppom'), get_woocommerce_currency_symbol(), '<span class="ppom-price"></span>');?>
+		<?php echo __("Product Total: ", "ppom"); printf(__(get_woocommerce_price_format(), "ppom"), get_woocommerce_currency_symbol(), '<span class="ppom-price"></span>');?>
 	</span>
 	<span style="display:none;font-weight:700" class="ppom-grand-total-price">
 	<hr style="margin: 0">
-		<?php echo __("Grand Total: ", 'ppom'); printf(__(get_woocommerce_price_format(), 'ppom'), get_woocommerce_currency_symbol(), '<span class="ppom-price"></span>');?>
+		<?php echo __("Grand Total: ", "ppom"); printf(__(get_woocommerce_price_format(), "ppom"), get_woocommerce_currency_symbol(), '<span class="ppom-price"></span>');?>
 	</span>
 </div>

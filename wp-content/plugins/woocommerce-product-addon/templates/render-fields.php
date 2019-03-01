@@ -30,7 +30,7 @@ echo '<input type="hidden" name="ppom_cart_key" value="'.esc_attr($cart_key).'">
 // Price placeholder, it will be cloned via js in ppom-price.js
 echo '<div id="ppom-price-cloner-wrapper">';
 echo '<span id="ppom-price-cloner">';
-printf(__(get_woocommerce_price_format(), 'ppom'), get_woocommerce_currency_symbol(), '<span class="ppom-price"></span>');
+printf(__(get_woocommerce_price_format(), "ppom"), get_woocommerce_currency_symbol(), '<span class="ppom-price"></span>');
 echo '</span>';
 echo '</div>';
 
@@ -61,7 +61,7 @@ foreach( $ppom_fields_meta as $meta ) {
 	if( ! ppom_is_field_visible($meta) ) continue;
 	
 	if( empty($data_name) ) {
-	    printf(__("Please provide data name property for %s", 'ppom'), $title);
+	    printf(__("Please provide data name property for %s", "ppom"), $title);
 	    continue;
 	}
 	// Dataname senatize
@@ -141,7 +141,7 @@ foreach( $ppom_fields_meta as $meta ) {
 	// Generating field label
 	$show_asterisk		= ( !empty($required) ) ? '<span class="show_required"> *</span>' : '';
 	$show_description	= ( !empty($description) ) ? '<span class="show_description">'.$description.'</span>' : '';
-	$show_description	= apply_filters('ppom_field_description', $description, $meta);
+	$show_description	= apply_filters('ppom_field_description', $show_description, $meta);
 	
 	$field_label = $title . $show_asterisk . $show_description;
 	

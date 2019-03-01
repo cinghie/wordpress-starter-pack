@@ -4,7 +4,7 @@ Tags: woocommerce, woocommerce pesonalized products, woocommerce custom fields, 
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
 Tested up to: 5.0
-Stable tag: 16.8.1
+Stable tag: 16.9
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -83,6 +83,11 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
+= 16.9 February 27, 2019 =
+* Bug fixed: [Image PopUp not working in legacy view, it's fixed](https://wordpress.org/support/topic/image-option/)
+* Bug fixed: [Title and Description is set to same size in last update, now fixed](https://wordpress.org/support/topic/title-vs-description/)
+* Tweaks: Translation updated for "only if" to "Nur wenn", Thanks Danial
+* Tweaks: [Some strings translations added](https://clients.najeebmedia.com/forums/topic/translate-text/)
 = 16.8.1 February 25, 2019 =
 * Bug fixed: [Screen options and Product Data tabs were not working due to last update, it is fixed](https://wordpress.org/support/topic/product-data-tabs-not-working-3/)
 = 16.8 February 13, 2019 =

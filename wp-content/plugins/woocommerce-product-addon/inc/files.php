@@ -95,7 +95,7 @@ function ppom_create_thumb_for_meta( $file_name, $product_id, $cropped=false) {
 		$ppom_html	.= '<td><a href="'.esc_url($cropped_url).'" class="lightbox et_pb_lightbox_image" itemprop="image" title="'.esc_attr($file_name).'">';
 		$ppom_html	.= '<img class="img-thumbnail" style="width:'.esc_attr($ppom_cart_meta_thumb_size).'" src="'.esc_url($cropped_url).'">';
 		$ppom_html	.= '</a></td>';
-		$ppom_html	.= '<td>' .__('Cropped', 'ppom').'</td>';
+		$ppom_html	.= '<td>' .__('Cropped', "ppom").'</td>';
 		$ppom_html	.= '</tr>';
 	}
 	
@@ -309,7 +309,7 @@ function ppom_delete_file() {
     	
     		
     } else {
-    	printf(__("Error while deleting file %s", 'ppom'), $file_path );
+    	printf(__("Error while deleting file %s", "ppom"), $file_path );
     }
 
     die ( 0 );
@@ -378,7 +378,7 @@ function ppom_uploaded_file_preview($file_name, $settings){
 		
 		list($fw, $fh) 	= getimagesize( $file_path );
 		$file_meta		= $fw . '(w) x '.$fh.'(h)';
-		$file_meta		.= ' - '.__('Size: ', 'ppom') . ppom_get_filesize_in_kb($file_name);
+		$file_meta		.= ' - '.__('Size: ', "ppom") . ppom_get_filesize_in_kb($file_name);
 		
 		$thumb_url = ppom_get_dir_url( true ) . $file_name . '?nocache='.time();
 		
@@ -394,7 +394,7 @@ function ppom_uploaded_file_preview($file_name, $settings){
 		
 		// Tools group
 		$file_tools .= '<div class="btn-group" role="group" aria-label="Tools">';
-		$file_tools .= '<a href="#" class="nm-file-tools btn btn-primary u_i_c_tools_del" title="'.__('Remove', 'ppom').'"><span class="fa fa-times"></span></a>';
+		$file_tools .= '<a href="#" class="nm-file-tools btn btn-primary u_i_c_tools_del" title="'.__('Remove', "ppom").'"><span class="fa fa-times"></span></a>';
 		
 		if( apply_filters('ppom_show_image_popup', false) ) {
 			$file_tools .= '<a href="#" data-toggle="modal" data-target="#modalFile'.esc_attr($file_id).'" class="btn btn-primary"><span class="fa fa-expand"></span></a>';
@@ -409,17 +409,17 @@ function ppom_uploaded_file_preview($file_name, $settings){
 			
 			$cropping_preset = isset($settings['aviary_crop_preset']) ? $settings['aviary_crop_preset'] : '';
 			
-			$file_tools .= '<a href="javascript:;" onclick="launch_aviary_editor(\''.$file_id.'\', \''.ppom_get_dir_url() . $file_name.'\', \''.$file_name.'\', \''.$editing_tools.'\', \''.$cropping_preset.'\')" class="nm-file-tools btn btn-primary" title="'.__('Edit image', 'ppom').'"><span class="fa fa-pencil"></span></a>';
+			$file_tools .= '<a href="javascript:;" onclick="launch_aviary_editor(\''.$file_id.'\', \''.ppom_get_dir_url() . $file_name.'\', \''.$file_name.'\', \''.$editing_tools.'\', \''.$cropping_preset.'\')" class="nm-file-tools btn btn-primary" title="'.__('Edit image', "ppom").'"><span class="fa fa-pencil"></span></a>';
 			
 		}
 			
 		
 	}else{
 		
-		$file_meta		.= __('Size: ', 'ppom') . ppom_get_filesize_in_kb($file_name);
+		$file_meta		.= __('Size: ', "ppom") . ppom_get_filesize_in_kb($file_name);
 		$thumb_url		= PPOM_URL . '/images/file.png';
 		
-		$file_tools .= '<a class="btn btn-primary nm-file-tools u_i_c_tools_del" href="" title="'.__('Remove', 'ppom').'"><span class="fa fa-times"></span></a>';	//delete icon
+		$file_tools .= '<a class="btn btn-primary nm-file-tools u_i_c_tools_del" href="" title="'.__('Remove', "ppom").'"><span class="fa fa-times"></span></a>';	//delete icon
 	}
 	
 	$file_tools .= '</div>';

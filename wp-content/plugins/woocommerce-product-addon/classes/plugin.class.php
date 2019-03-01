@@ -185,14 +185,6 @@ class NM_PersonalizedProduct {
 		add_action ( 'woocommerce_process_product_meta', 'ppom_admin_process_product_meta');
 		
 		
-		/*
-		 * plugin localization being initiated here
-		 */
-		add_action ( 'init', array (
-				$this,
-				'wpp_textdomain' 
-		) );
-		
 		/**
 		 * change add to cart text on shop page
 		 */
@@ -341,15 +333,7 @@ class NM_PersonalizedProduct {
 	  
 	  
 	
-	// i18n and l10n support here
-	// plugin localization
-	function wpp_textdomain() {
-		
-		$locale_dir = dirname( plugin_basename( dirname(__FILE__) ) ) . '/languages';
-		
-		load_plugin_textdomain('ppom', false, $locale_dir);
-		
-	}
+	
 	
 	
 	function wp_loaded() {
@@ -373,8 +357,8 @@ class NM_PersonalizedProduct {
 				?>
 <script type="text/javascript">
 						jQuery(document).ready(function() {
-							jQuery('<option>').val('<?php printf(__("nm_action_%d", 'ppom'), $meta->productmeta_id)?>', 'ppom').text('<?php _e($meta->productmeta_name)?>').appendTo("select[name='action']");
-							jQuery('<option>').val('<?php printf(__("nm_action_%d", 'ppom'), $meta->productmeta_id)?>').text('<?php _e($meta->productmeta_name)?>').appendTo("select[name='action2']");
+							jQuery('<option>').val('<?php printf(__("nm_action_%d", "ppom"), $meta->productmeta_id)?>', "ppom").text('<?php _e($meta->productmeta_name)?>').appendTo("select[name='action']");
+							jQuery('<option>').val('<?php printf(__("nm_action_%d", "ppom"), $meta->productmeta_id)?>').text('<?php _e($meta->productmeta_name)?>').appendTo("select[name='action2']");
 						});
 					</script>
 <?php
@@ -382,8 +366,8 @@ class NM_PersonalizedProduct {
 			?>
 <script type="text/javascript">
 					jQuery(document).ready(function() {
-						jQuery('<option>').val('nm_delete_meta').text('<?php _e('Remove Meta', 'ppom')?>').appendTo("select[name='action']");
-						jQuery('<option>').val('nm_delete_meta').text('<?php _e('Remove Meta', 'ppom')?>').appendTo("select[name='action2']");
+						jQuery('<option>').val('nm_delete_meta').text('<?php _e('Remove Meta', "ppom")?>').appendTo("select[name='action']");
+						jQuery('<option>').val('nm_delete_meta').text('<?php _e('Remove Meta', "ppom")?>').appendTo("select[name='action2']");
 					});
 				</script>
 <?php
@@ -786,7 +770,7 @@ class NM_PersonalizedProduct {
 	    if ( is_product() && isset($_GET['ppom_title'])) {
 	    	
 	    	$meta_title = $_GET['ppom_title'];
-	    	wc_add_notice( sprintf(__("PPOM Meta Successfully Changed to - %s", 'ppom'), $meta_title));
+	    	wc_add_notice( sprintf(__("PPOM Meta Successfully Changed to - %s", "ppom"), $meta_title));
 	    }
 	}
 	

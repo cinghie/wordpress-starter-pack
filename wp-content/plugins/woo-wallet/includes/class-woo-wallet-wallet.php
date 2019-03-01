@@ -45,21 +45,15 @@ if ( ! class_exists( 'Woo_Wallet_Wallet' ) ) {
             }
             $this->set_user_id( $user_id );
             $this->wallet_balance = 0;
-            $args = apply_filters( 'woo_wallet_wc_price_args', array(
-                'ex_tax_label' => false,
-                'currency' => '',
-                'decimal_separator' => wc_get_price_decimal_separator(),
-                'thousand_separator' => wc_get_price_thousand_separator(),
-                'decimals' => wc_get_price_decimals(),
-                'price_format' => get_woocommerce_price_format(),
-                    ), $this->user_id );
             if ( $this->user_id ) {
                 $credit_amount = array_sum(wp_list_pluck( get_wallet_transactions( array( 'user_id' => $this->user_id, 'where' => array( array( 'key' => 'type', 'value' => 'credit' ) ) ) ), 'amount' ) );
                 $debit_amount = array_sum(wp_list_pluck( get_wallet_transactions( array( 'user_id' => $this->user_id, 'where' => array( array( 'key' => 'type', 'value' => 'debit' ) ) ) ), 'amount' ) );
                 $balance = $credit_amount - $debit_amount;
                 $this->wallet_balance = apply_filters( 'woo_wallet_current_balance', $balance, $this->user_id );
+                /* This code will be removed in version 1.3.5 */
+                update_user_meta($this->user_id, '_current_woo_wallet_balance', $this->wallet_balance);
             }
-            return 'view' === $context ? wc_price( $this->wallet_balance, $args ) : number_format( $this->wallet_balance, wc_get_price_decimals(), '.', '' );
+            return 'view' === $context ? wc_price( $this->wallet_balance, woo_wallet_wc_price_args($this->user_id) ) : number_format( $this->wallet_balance, wc_get_price_decimals(), '.', '' );
         }
 
         /**
@@ -151,7 +145,7 @@ if ( ! class_exists( 'Woo_Wallet_Wallet' ) ) {
             if ( $partial_payment_amount && !get_post_meta( $order_id, '_partial_pay_through_wallet_compleate', true ) ) {
                 $transaction_id = $this->debit( $order->get_customer_id(), $partial_payment_amount, __( 'For order payment #', 'woo-wallet' ) . $order->get_order_number() );
                 if ( $transaction_id ) {
-                    $order->add_order_note(sprintf( __( '%s paid through wallet', 'woo-wallet' ), wc_price( $partial_payment_amount ) ) );
+                    $order->add_order_note(sprintf( __( '%s paid through wallet', 'woo-wallet' ), wc_price( $partial_payment_amount, woo_wallet_wc_price_args($order->get_customer_id()) ) ) );
                     update_wallet_transaction_meta( $transaction_id, '_partial_payment', true, $order->get_customer_id() );
                     update_post_meta( $order_id, '_partial_pay_through_wallet_compleate', $transaction_id );
                     do_action( 'woo_wallet_partial_payment_completed', $transaction_id, $order );
@@ -162,9 +156,10 @@ if ( ! class_exists( 'Woo_Wallet_Wallet' ) ) {
         public function process_cancelled_order( $order_id ) {
             $order = wc_get_order( $order_id );
             /** credit partial payment amount * */
-            if ( get_post_meta( $order_id, '_via_wallet_payment', true ) && get_post_meta( $order_id, '_partial_pay_through_wallet_compleate', true ) ) {
-                $this->credit( $order->get_customer_id(), get_post_meta( $order_id, '_via_wallet_payment', true ), sprintf( __( 'Your order with ID #%s has been cancelled and hence your wallet amount has been refunded!', 'woo-wallet' ), $order->get_order_number() ) );
-                $order->add_order_note(sprintf( __( 'Wallet amount %s has been credited to customer upon cancellation', 'woo-wallet' ), wc_price( get_post_meta( $order_id, '_via_wallet_payment', true ) ) ) );
+            $partial_payment_amount = get_order_partial_payment_amount( $order_id );
+            if ( $partial_payment_amount && get_post_meta( $order_id, '_partial_pay_through_wallet_compleate', true ) ) {
+                $this->credit( $order->get_customer_id(), $partial_payment_amount, sprintf( __( 'Your order with ID #%s has been cancelled and hence your wallet amount has been refunded!', 'woo-wallet' ), $order->get_order_number() ) );
+                $order->add_order_note(sprintf( __( 'Wallet amount %s has been credited to customer upon cancellation', 'woo-wallet' ), $partial_payment_amount ) );
                 delete_post_meta( $order_id, '_partial_pay_through_wallet_compleate' );
             }
 
@@ -202,8 +197,9 @@ if ( ! class_exists( 'Woo_Wallet_Wallet' ) ) {
             } else if ( $type == 'debit' ) {
                 $balance -= $amount;
             }
-            if ( $wpdb->insert( "{$wpdb->base_prefix}woo_wallet_transactions", apply_filters( 'woo_wallet_transactions_args', array( 'blog_id' => $GLOBALS['blog_id'], 'user_id' => $this->user_id, 'type' => $type, 'amount' => $amount, 'balance' => $balance, 'currency' => get_woocommerce_currency(), 'details' => $details ), array( '%d', '%d', '%s', '%f', '%f', '%s', '%s' ) ) ) ) {
+            if ( $wpdb->insert( "{$wpdb->base_prefix}woo_wallet_transactions", apply_filters( 'woo_wallet_transactions_args', array( 'blog_id' => $GLOBALS['blog_id'], 'user_id' => $this->user_id, 'type' => $type, 'amount' => $amount, 'balance' => $balance, 'currency' => get_woocommerce_currency(), 'details' => $details, 'date' => current_time('mysql') ), array( '%d', '%d', '%s', '%f', '%f', '%s', '%s', '%s' ) ) ) ) {
                 $transaction_id = $wpdb->insert_id;
+                update_user_meta($this->user_id, '_current_woo_wallet_balance', $balance);
                 clear_woo_wallet_cache( $this->user_id );
                 do_action( 'woo_wallet_transaction_recorded', $transaction_id, $this->user_id, $amount, $type);
                 $email_admin = WC()->mailer()->emails['Woo_Wallet_Email_New_Transaction'];

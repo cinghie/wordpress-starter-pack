@@ -32,7 +32,7 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
     */ 
     function load_script($hook) {
 
-		if( ! isset($_GET['page']) || $_GET['page'] != 'ppom') return;
+		if( ! isset($_GET['page']) || $_GET['page'] != "ppom") return;
         
         // Bootstrap Files
         wp_enqueue_style('PPOM-bs', PPOM_URL."/scripts/bootstrap.min.css");
@@ -277,16 +277,16 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 			
 			case 'paired' :
 				
-				$plc_option = (!empty($placeholders)) ? $placeholders[0] : __('Option','ppom');
-				$plc_price = (!empty($placeholders)) ? $placeholders[1] : __('Price (optional)', 'ppom');
+				$plc_option = (!empty($placeholders)) ? $placeholders[0] : __('Option',"ppom");
+				$plc_price = (!empty($placeholders)) ? $placeholders[1] : __('Price (optional)', "ppom");
 			
 				$weight_unit = get_option('woocommerce_weight_unit');
-				$plc_weight = (isset($placeholders[2]) && !empty($placeholders)) ? $placeholders[2] : __("Weight-{$weight_unit} (PRO only)", 'ppom');
+				$plc_weight = (isset($placeholders[2]) && !empty($placeholders)) ? $placeholders[2] : __("Weight-{$weight_unit} (PRO only)", "ppom");
 				if( ppom_pro_is_installed() ) {
-					$plc_weight = (isset($placeholders[2]) && !empty($placeholders)) ? $placeholders[2] : __("Weight-{$weight_unit} (optional)", 'ppom');
+					$plc_weight = (isset($placeholders[2]) && !empty($placeholders)) ? $placeholders[2] : __("Weight-{$weight_unit} (optional)", "ppom");
 				}
 			
-				$plc_id = (isset($placeholders[3]) && !empty($placeholders)) ? $placeholders[3] : __('Unique Option ID)', 'ppom');
+				$plc_id = (isset($placeholders[3]) && !empty($placeholders)) ? $placeholders[3] : __('Unique Option ID)', "ppom");
 
 				$opt_index0  = 1;
 				$html_input .= '<ul class="ppom-options-container ppom-options-sortable">';
@@ -377,7 +377,7 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 				
 				$add_option_img = $plugin_meta['url'].'/images/plus.png';
 				$del_option_img = $plugin_meta['url'].'/images/minus.png';
-				$plc_id = (!empty($placeholders)) ? $placeholders[2] : __('Unique ID)', 'ppom');
+				$plc_id = (!empty($placeholders)) ? $placeholders[2] : __('Unique ID)', "ppom");
 				
 				if($value){
 					foreach ($value as $option){

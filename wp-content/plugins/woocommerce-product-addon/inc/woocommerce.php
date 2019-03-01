@@ -25,7 +25,7 @@ function ppom_woocommerce_show_fields() {
 	 
 	if( ! $ppom->has_unique_datanames ) {
 		
-		printf(__("<div class='error'>Some of your fields has duplicated datanames, please fix it</div>"), 'ppom');
+		printf(__("<div class='error'>Some of your fields has duplicated datanames, please fix it</div>"), "ppom");
 		return;
 	}
 	
@@ -34,6 +34,11 @@ function ppom_woocommerce_show_fields() {
     
     // main css
     wp_enqueue_style( 'ppom-main', PPOM_URL.'/css/ppom-style.css');
+
+    wp_enqueue_style( 'ppom-sm-popup', PPOM_URL.'/css/ppom-simple-popup.css');
+    wp_enqueue_script('PPOM-sm-popup', PPOM_URL."/js/ppom-simple-popup.js", array('jquery') );
+
+    
     if ( $ppom->inline_css != '') {
 		wp_add_inline_style( 'ppom-main', $ppom->inline_css );
     }
@@ -97,7 +102,7 @@ function ppom_woocommerce_validate_product($passed, $product_id, $qty) {
 		if( ppom_is_price_attached_with_fields($_POST['ppom']['fields']) &&
     		empty($_POST['ppom']['ppom_option_price'])
     	 ) {
-    		$error_message = __('Sorry, an error has occurred. Please enable JavaScript or contact site owner.','ppom');
+    		$error_message = __('Sorry, an error has occurred. Please enable JavaScript or contact site owner.',"ppom");
 			ppom_wc_add_notice( $error_message );
 			$passed = false;
 			return $passed;
@@ -485,7 +490,7 @@ function ppom_woocommerce_add_fixed_fee( $cart ) {
 				$fee_price	= apply_filters('ppom_cart_fixed_fee', $fee_price, $fee, $cart);
 				
 				if( $fee_price != 0 ) {
-					$cart -> add_fee( sprintf(__( "%s", 'ppom'), esc_html($label)), $fee_price, $taxable );
+					$cart -> add_fee( sprintf(__( "%s", "ppom"), esc_html($label)), $fee_price, $taxable );
 					$fee_no++;
 				}
 			} 

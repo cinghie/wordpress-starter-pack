@@ -314,7 +314,7 @@ if (array_key_exists('project_hash', $_GET)){
 								</td>
 								<?php
 									$manipulators = array('multiply','divide','plus','minus');
-									if (in_array($project['rules2'][$rule2_key]['condition'], $manipulators)){
+									if (in_array($project['rules2'][$rule2_key]['condition'], $manipulators,TRUE)){
 										print "<td colspan=3></td>";
 									} else {	
 									?>

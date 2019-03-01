@@ -68,7 +68,7 @@ function ppom_meta_list( $post ) {
 	$html .= '<a class="button button-primary" href="'.esc_url($ppom_setting).'">Create New Meta</a>';
 	
 	$html .= '<select name="ppom_product_meta" id="ppom_product_meta" class="select">';
-	$html .= '<option selected="selected"> ' . __('None', 'ppom'). '</option>';
+	$html .= '<option selected="selected"> ' . __('None', "ppom"). '</option>';
 	
 	foreach ( $all_meta as $meta ) {
 			
@@ -424,7 +424,7 @@ function ppom_admin_bar_menu() {
 	$bar_title = "Edit PPOM ({$ppom->meta_title})";
 	$wp_admin_bar->add_node( array(
 		'id'     => 'ppom-setting-bar',
-		'title'  => sprintf(__( "%s", 'ppom'), $bar_title ),
+		'title'  => sprintf(__( "%s", "ppom"), $bar_title ),
 		'href'  => $ppom_setting_url,
 	) );
 	
@@ -440,7 +440,7 @@ function ppom_admin_bar_menu() {
 			$bar_title = "Apply {$meta->productmeta_name}";
 			$wp_admin_bar->add_node( array(
 			'id'    	=> "ppom-setting-bar-{$meta->productmeta_id}",
-			'title' 	=> sprintf(__( "%s", 'ppom'), $bar_title ),
+			'title' 	=> sprintf(__( "%s", "ppom"), $bar_title ),
 			'href'  	=> $apply_link,
 			'parent'	=> 'ppom-setting-bar',
 		) );

@@ -270,7 +270,7 @@ class WooSEA_Get_Products {
 				$name = $parent->name;
 			}
 
-			if ($parent->parent && ( $parent->parent != $parent->term_id ) && !in_array( $parent->parent, $visited )){
+			if ($parent->parent && ( $parent->parent != $parent->term_id ) && !in_array( $parent->parent, $visited, TRUE )){
 				$visited[] = $parent->parent;
 				$chain .= $this->woosea_get_term_parents( $parent->parent, $taxonomy, $link, $separator, $nicename, $visited );
 			}
@@ -1282,7 +1282,7 @@ class WooSEA_Get_Products {
                               	3 => "Pricerunner.dk",
                      	);
                                 
-                     	if (in_array($project_config['name'], $double_categories)){
+                     	if (in_array($project_config['name'], $double_categories, TRUE)){
 				$cat_alt = array();
 				$cat_terms = get_the_terms( $product_data['id'], 'product_cat' );
                        		if($cat_terms){
@@ -1531,9 +1531,16 @@ class WooSEA_Get_Products {
 			if($product->get_sale_price()){
 				$product_data['sale_price_forced'] = round(wc_get_price_excluding_tax($product, array('price'=> $product->get_sale_price())) * (100+$tax_rates[1]['rate'])/100,2);
 			}
-			$product_data['net_price'] = $product->get_price();
-			$product_data['net_regular_price'] = $product->get_regular_price();
-			$product_data['net_sale_price'] = $product->get_sale_price();
+
+			$product_data['net_price'] = round($product->get_price(),2);
+			$product_data['net_regular_price'] = round($product->get_regular_price(),2);
+			$product_data['net_sale_price'] = round($product->get_sale_price(),2);
+		
+			// We do not want to have 0 sale price values in the feed	
+			if($product_data['net_sale_price'] == 0){
+				$product_data['net_sale_price'] = "";
+			}
+
 			$price = wc_get_price_including_tax($product,array('price'=> $product->get_price()));
 			if($product_data['sale_price'] > 0){
 				$price = $product_data['sale_price'];
@@ -1890,8 +1897,12 @@ class WooSEA_Get_Products {
 
 					if (isset($project_config['product_variations']) AND ($project_config['product_variations'] == "on")){
 						$taxonomy = str_replace("attribute_","",$kk);
-						$term = get_term_by('name', $vv, $taxonomy); 
-		
+						$term = get_term_by('slug', $vv, $taxonomy); 
+						
+						if($term->name){
+							$vv = $term->name;
+						}
+	
 						if($vv){
 							$append = ucfirst($vv);
 							// Prevent duplicate attribute values from being added to the product name
@@ -1992,7 +2003,7 @@ class WooSEA_Get_Products {
 					3 => "Pricerunner.dk",
 				);
 
-				if (in_array($project_config['name'], $double_categories)){
+				if (in_array($project_config['name'], $double_categories, TRUE)){
                                 	$cat_alt = array();
                                 	$cat_terms = get_the_terms( $product_data['item_group_id'], 'product_cat' );
                                 	if($cat_terms){
@@ -2490,6 +2501,9 @@ class WooSEA_Get_Products {
 	public function woosea_project_update($project_hash, $offset_step_size){
         	$feed_config = get_option( 'cron_projects' );
 		$nr_projects = count ($feed_config);
+
+        	// Flush caching
+        	wp_cache_flush();
 
 		// Information for debug log
 		$count_variation = wp_count_posts('product_variation');
@@ -3157,7 +3171,7 @@ class WooSEA_Get_Products {
 
 				foreach ($product_data as $pd_key => $pd_value){
 					// Check is there is a rule on specific attributes
-					if(in_array($pd_key, $pr_array)){
+					if(in_array($pd_key, $pr_array, TRUE)){
 
 						if($pd_key == "price"){
 							$pd_value = @number_format($pd_value,2);
@@ -3235,7 +3249,7 @@ class WooSEA_Get_Products {
 						
 							// Tis can either be a shipping or product_tag array
 							if($pr_array['attribute'] == "product_tag"){
-								if(in_array($pr_array['criteria'], $pd_value)) {
+								if(in_array($pr_array['criteria'], $pd_value, TRUE)) {
 									$v = $pr_array['criteria'];
 
 									switch ($pr_array['condition']) {

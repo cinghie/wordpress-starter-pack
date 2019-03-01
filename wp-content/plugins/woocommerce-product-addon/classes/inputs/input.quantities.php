@@ -76,21 +76,21 @@ class NM_Quantities_wooproduct extends PPOM_Inputs{
 			'width' => array (
 					'type' => 'select',
 					'title' => __ ( 'Width', 'ppom' ),
-					'desc' => __ ( 'Select width column', 'ppom'),
+					'desc' => __ ( 'Select width column', "ppom"),
 					'options'	=> ppom_get_input_cols(),
 					'default'	=> 12,
 			),
 			'visibility' => array (
 					'type' => 'select',
 					'title' => __ ( 'Visibility', 'ppom' ),
-					'desc' => __ ( 'Set field visibility based on user.', 'ppom'),
+					'desc' => __ ( 'Set field visibility based on user.', "ppom"),
 					'options'	=> ppom_field_visibility_options(),
 					'default'	=> 'everyone',
 			),
 			'visibility_role' => array (
 					'type' => 'text',
 					'title' => __ ( 'User Roles', 'ppom' ),
-					'desc' => __ ( 'Role separated by comma.', 'ppom'),
+					'desc' => __ ( 'Role separated by comma.', "ppom"),
 					'hidden' => true,
 			),
 			'desc_tooltip' => array (
@@ -138,7 +138,7 @@ class NM_Quantities_wooproduct extends PPOM_Inputs{
 		<div class="nm-horizontal-layout">
 			<table class="shop_table cart sizes-input">
 			    <tr>
-			        <th><?php _e('Options', 'ppom');?></th>
+			        <th><?php _e('Options', "ppom");?></th>
 	            <?php foreach($options as $opt){ ?>
                 	<th>
             			<label class="quantities-lable"> <?php echo stripslashes(trim($opt['option'])); ?>
@@ -152,7 +152,7 @@ class NM_Quantities_wooproduct extends PPOM_Inputs{
 	            <?php } ?>
 			    </tr>
 			    <tr>
-			        <th><?php _e('Quantity', 'ppom');?></th>
+			        <th><?php _e('Quantity', "ppom");?></th>
 	            <?php foreach($options as $opt){ ?>
                 	<td>
                 		<?php
@@ -181,8 +181,8 @@ class NM_Quantities_wooproduct extends PPOM_Inputs{
 		<?php } else { ?>
 			<table class="shop_table cart sizes-input">
 			    <tr>
-			        <th><?php _e('Options', 'ppom');?></th>
-			        <th><?php _e('Quantity', 'ppom');?></th>
+			        <th><?php _e('Options', "ppom");?></th>
+			        <th><?php _e('Quantity', "ppom");?></th>
 			    </tr>
 	            <?php foreach($options as $opt){ ?>
 				    <tr>
@@ -219,14 +219,14 @@ class NM_Quantities_wooproduct extends PPOM_Inputs{
 		
 		<div id="display-total-price">
 			<span style="display:none;font-weight:700" class="ppom-total-option-price">
-				<?php echo __("Options Total: ", 'ppom'); printf(__(get_woocommerce_price_format(), 'ppom'), get_woocommerce_currency_symbol(), '<span class="ppom-price"></span>');?>
+				<?php echo __("Options Total: ", "ppom"); printf(__(get_woocommerce_price_format(), "ppom"), get_woocommerce_currency_symbol(), '<span class="ppom-price"></span>');?>
 			</span><br>
 			<span style="display:none;font-weight:700" class="ppom-total-price">
-				<?php echo __("Product Total: ", 'ppom'); printf(__(get_woocommerce_price_format(), 'ppom'), get_woocommerce_currency_symbol(), '<span class="ppom-price"></span>');?>
+				<?php echo __("Product Total: ", "ppom"); printf(__(get_woocommerce_price_format(), "ppom"), get_woocommerce_currency_symbol(), '<span class="ppom-price"></span>');?>
 			</span>
 			<span style="display:none;font-weight:700" class="ppom-grand-total-price">
 			<hr style="margin: 0">
-				<?php echo __("Grand Total: ", 'ppom'); printf(__(get_woocommerce_price_format(), 'ppom'), get_woocommerce_currency_symbol(), '<span class="ppom-price"></span>');?>
+				<?php echo __("Grand Total: ", "ppom"); printf(__(get_woocommerce_price_format(), "ppom"), get_woocommerce_currency_symbol(), '<span class="ppom-price"></span>');?>
 			</span>
 		</div>
 		

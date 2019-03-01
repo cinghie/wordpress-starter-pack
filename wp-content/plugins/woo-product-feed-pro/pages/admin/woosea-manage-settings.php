@@ -383,7 +383,7 @@ GROUP BY meta.meta_key ORDER BY meta.meta_key ASC;";
 							// Trim spaces before and after			
 							$value = trim($value);	
 	
-							if(in_array($value, $extra_attributes)){
+							if(in_array($value, $extra_attributes,TRUE)){
 								$checked = "checked";
 							} else {
 								$checked = "";

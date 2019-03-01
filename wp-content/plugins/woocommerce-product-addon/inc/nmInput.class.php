@@ -230,7 +230,7 @@ class NM_Form {
           
           if( $use_units ) {
           $html .= '<div class="form-check form-check-inline">';
-            // $html .= '<button class="btn btn-outline-secondary ppom-measure-btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'.__('Select','ppom').'</button>';
+            // $html .= '<button class="btn btn-outline-secondary ppom-measure-btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'.__('Select',"ppom").'</button>';
             // $html .= '<div class="dropdown-menu">';
             
                 foreach($options as $option) {
@@ -240,9 +240,9 @@ class NM_Form {
                     $option_id = $option['option_id'];
                     $unit    = $option['raw'];
                     $html .= '<input checked name="ppom[unit]['.$id.']" value="'.esc_attr($unit).'" class="form-check-input ppom-measure-unit" type="radio" id="'.esc_attr($option_id).'" data-apply="measure" ';
-                    $html .= sprintf(__('data-use_units="'.esc_attr($use_units).'" data-price="%s" data-label="%s" data-data_name="%s" data-unit="%s" data-optionid="%s">','ppom'), $option['price'], esc_attr($data_label), $id, $unit, $option_id);
+                    $html .= sprintf(__('data-use_units="'.esc_attr($use_units).'" data-price="%s" data-label="%s" data-data_name="%s" data-unit="%s" data-optionid="%s">',"ppom"), $option['price'], esc_attr($data_label), $id, $unit, $option_id);
                     $html .= '<label class="form-check-label" id="'.esc_attr($option_id).'">';
-                    $html .= sprintf(__("%s",'ppom'), $option['label']);
+                    $html .= sprintf(__("%s","ppom"), $option['label']);
                     $html .= '</label>';
                 }
                 
@@ -254,7 +254,7 @@ class NM_Form {
               
                 $option_id = "{$id}_unit";
                 $html .= '<input style="display:none" value="" checked name="ppom[unit]['.$id.']" class="form-check-input ppom-measure-unit" type="radio" id="'.esc_attr($option_id).'" data-apply="measure" ';
-                $html .= sprintf(__('data-use_units="no" data-price="%s" data-label="%s" data-data_name="%s" data-optionid="%s">','ppom'), ppom_get_product_price($product), esc_attr($label), $id, $option_id);
+                $html .= sprintf(__('data-use_units="no" data-price="%s" data-label="%s" data-data_name="%s" data-optionid="%s">',"ppom"), ppom_get_product_price($product), esc_attr($label), $id, $option_id);
                     
           }// Units used closed
           
@@ -833,7 +833,7 @@ class NM_Form {
 	    // Options
 	   // ppom_pa($args['images']);
 		$images    = isset($args['images']) ? $args['images'] : '';
-		if ( ! $images ) return __("Images not selected", 'ppom');
+		if ( ! $images ) return __("Images not selected", "ppom");
 
         $input_wrapper_class = $this->get_default_setting_value('global', 'input_wrapper_class', $id);
         $input_wrapper_class = apply_filters('ppom_input_wrapper_class', $input_wrapper_class, $args);
@@ -868,7 +868,7 @@ class NM_Form {
 				if( ! empty($default_value) ){
 	        
 	                $checked = ($image['title'] == $default_value ? 'checked = "checked"' : '' );
-	                $checked_option = checked( $default_value, $key, false );
+	                $checked_option = checked( $default_value, $image['title'], false );
 	            }
 				
 				$html .= '<div class="pre_upload_image '.esc_attr($classes).'">';
@@ -876,7 +876,7 @@ class NM_Form {
 				if( !empty($image_link) ) {
 				    $html .= '<a href="'.esc_url($image_link).'"><img class="img-thumbnail" src="'.esc_url($image_url).'" /></a>';
 				} else {
-				    $html .= '<img data-toggle="modal" class="img-thumbnail"  data-target="#modalImage'.esc_attr($image_id).'" src="'.esc_url($image_url).'" />';
+				    $html .= '<img class="img-thumbnail"  data-model-id="modalImage'.esc_attr($image_id).'" src="'.esc_url($image_url).'" />';
 				}
 				
 				// Loading Modals
@@ -1167,7 +1167,7 @@ class NM_Form {
         
 	    // Options
 		$audios    = isset($args['audios']) ? $args['audios'] : '';
-		if ( ! $audios ) return __("audios not selected", 'ppom');
+		if ( ! $audios ) return __("audios not selected", "ppom");
 
         $input_wrapper_class = $this->get_default_setting_value('global', 'input_wrapper_class', $id);
         $input_wrapper_class = apply_filters('ppom_input_wrapper_class', $input_wrapper_class, $args);
@@ -1265,13 +1265,15 @@ class NM_Form {
 			$html .= 'href="javascript:;" ';
 			$html .= 'class="btn btn-primary '.esc_attr($args['button_class']).'">';
 			$html .= $args['button_label'] . '</a>';
-			$html .= '<span class="ppom-dragdrop-text">'.__('Drag file here', 'ppom').'</span>';
+			$html .= '<span class="ppom-dragdrop-text">';
+			$html .= __("Drag File Here", "ppom");
+			$html .= '</span>';
 		$html .= '</div>';		//ppom-file-container
 
 		if($args['dragdrop']){
 			
 			$html .= '<div class="ppom-droptext">';
-				$html .= __('Drag file/directory here', 'ppom');
+				$html .= __('Drag file/directory here', "ppom");
 			$html .= '</div>';
 		}
     	
@@ -1344,13 +1346,13 @@ class NM_Form {
 			$html .= 'href="javascript:;" ';
 			$html .= 'class="btn btn-primary '.esc_attr($args['button_class']).'">';
 			$html .= $args['button_label'] . '</a>';
-			$html .= '<span class="ppom-dragdrop-text">'.__('Drag file/directory here', 'ppom').'</span>';
+			$html .= '<span class="ppom-dragdrop-text">'.__('Drag file/directory here', "ppom").'</span>';
 		$html .= '</div>';		//ppom-file-container
 
 		if($args['dragdrop']){
 			
 			$html .= '<div class="ppom-droptext">';
-				$html .= __('Drag file/directory here', 'ppom');
+				$html .= __('Drag file/directory here', "ppom");
 			$html .= '</div>';
 		}
     	
@@ -1389,7 +1391,7 @@ class NM_Form {
                     $html   .= '>'.$option_label.'</option>';
     	        }
     	        
-    	        $html .= '<option selected="selected">'.__('Select Size', 'ppom').'</option>';
+    	        $html .= '<option selected="selected">'.__('Select Size', "ppom").'</option>';
     	   $html    .= '</select>';
     	   
     	}

@@ -244,7 +244,7 @@ function ppom_make_meta_data( $cart_item, $context="cart" ){
 						$total_qty += $qty;	
 					}
 				}
-				$qty_values[] = __('Total','ppom').' = '.$total_qty;
+				$qty_values[] = __('Total',"ppom").' = '.$total_qty;
 				$meta_data = array('name'=>$field_title, 'value'=>implode(",",$qty_values));
 				// A placeholder key to handle qunantity display in item meta data under myaccount
 				$ppom_meta['ppom_has_quantities'] = $total_qty;
@@ -556,9 +556,9 @@ function ppom_settings_link($links) {
 	$video_url = 'https://najeebmedia.com/wordpress-plugin/woocommerce-personalized-product-option/#ppom-quick-video';
 	
 	$ppom_links = array();
-	$ppom_links[] = sprintf(__('<a href="%s">Add Fields</a>', 'ppom'), esc_url($ppom_setting_url) );
-	$ppom_links[] = sprintf(__('<a href="%s" target="_blank">Quick Video Guide</a>', 'ppom'), esc_url($video_url) );
-	$ppom_links[] = sprintf(__('<a href="%s">Customized Solution</a>', 'ppom'), esc_url($quote_url) );
+	$ppom_links[] = sprintf(__('<a href="%s">Add Fields</a>', "ppom"), esc_url($ppom_setting_url) );
+	$ppom_links[] = sprintf(__('<a href="%s" target="_blank">Quick Video Guide</a>', "ppom"), esc_url($video_url) );
+	$ppom_links[] = sprintf(__('<a href="%s">Customized Solution</a>', "ppom"), esc_url($quote_url) );
 	
 	foreach($ppom_links as $link) {
 		
@@ -904,7 +904,7 @@ function ppom_generate_html_for_files( $file_names, $input_type, $item ) {
 			// @since version 16.6
 			if( is_admin() ) {
 				$order_html .= '<td><a class="button" href="'.esc_url($ppom_file_url).'">';
-				$order_html .= __('Download File', 'ppom');
+				$order_html .= __('Download File', "ppom");
 				$order_html .= '</a></td>';
 			}
 			$order_html .= '</tr>';
@@ -921,7 +921,7 @@ function ppom_generate_html_for_files( $file_names, $input_type, $item ) {
 					// @since version 16.6
 					if( is_admin() ) {
 						$order_html .= '<td><a class="button" href="'.esc_url($cropped_url).'">';
-						$order_html .= __('Cropped', 'ppom');
+						$order_html .= __('Cropped', "ppom");
 						$order_html .= '</a></td>';
 					}
 					$order_html .= '</tr>';
@@ -935,7 +935,7 @@ function ppom_generate_html_for_files( $file_names, $input_type, $item ) {
 				$order_html .= '<img style="width:'.esc_attr(ppom_get_thumbs_size()).'" class="img-thumbnail" src="'.esc_url($edit_thumb_url).'">';
 				$order_html .= '</a></td>';
 				$order_html .= '<td><a class="button" href="'.esc_url($edit_url).'">';
-				$order_html .= __('Edited', 'ppom');
+				$order_html .= __('Edited', "ppom");
 				$order_html .= '</a></td></tr>';
 			}
 	}

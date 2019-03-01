@@ -53,7 +53,7 @@ if( ! defined('ABSPATH' ) ){ exit; }
 	<!-- All fields inputs name show -->
 	<div id="ppom_fields_model_id" class="ppom-modal-box ppom-fields-name-model">
 	    <header> 
-	        <h3><?php _e('Select Field', 'ppom'); ?></h3>
+	        <h3><?php _e('Select Field', "ppom"); ?></h3>
 	    </header>
 	    <div class="ppom-modal-body">
 	        <ul class="list-group list-inline">
@@ -79,7 +79,7 @@ if( ! defined('ABSPATH' ) ){ exit; }
             </ul>
 	    </div>
 	    <footer>
-	    	<button type="button" class="btn btn-default close-model ppom-js-modal-close"><?php _e('Close' , 'ppom'); ?></button>
+	    	<button type="button" class="btn btn-default close-model ppom-js-modal-close"><?php _e('Close' , "ppom"); ?></button>
 	    </footer>
 	</div>
 
@@ -183,8 +183,8 @@ if( ! defined('ABSPATH' ) ){ exit; }
 							    </div>
 							    <footer> 
 							        <span class="ppom-req-field-id"></span>
-	                                <button type="button" class="btn btn-default close-model ppom-js-modal-close"><?php _e('Close', 'ppom'); ?></button>
-	                                <button class="btn btn-primary ppom-update-field ppom-add-fields-js-action" data-field-index='<?php echo esc_attr($f_index); ?>' data-field-type='<?php echo esc_attr($field_type); ?>' ><?php _e('Update Field', 'ppom'); ?></button> 
+	                                <button type="button" class="btn btn-default close-model ppom-js-modal-close"><?php _e('Close', "ppom"); ?></button>
+	                                <button class="btn btn-primary ppom-update-field ppom-add-fields-js-action" data-field-index='<?php echo esc_attr($f_index); ?>' data-field-type='<?php echo esc_attr($field_type); ?>' ><?php _e('Update Field', "ppom"); ?></button> 
 							    </footer>
 						    <?php 
 	                        $ppom_field_index = $f_index;
@@ -208,8 +208,8 @@ if( ! defined('ABSPATH' ) ){ exit; }
 		            <thead>
 		                <tr>            
 		                    <th colspan="6">
-		                        <button type="button" class="btn btn-primary" data-modal-id="ppom_fields_model_id"><?php _e('Add field', 'ppom'); ?></button>
-		                        <button type="button" class="btn btn-danger ppom_remove_field"><?php _e('Remove', 'ppom'); ?></button>
+		                        <button type="button" class="btn btn-primary" data-modal-id="ppom_fields_model_id"><?php _e('Add field', "ppom"); ?></button>
+		                        <button type="button" class="btn btn-danger ppom_remove_field"><?php _e('Remove', "ppom"); ?></button>
 		                    </th>  
 		                </tr>
 		                <tr class="ppom-thead-bg">
@@ -220,12 +220,12 @@ if( ! defined('ABSPATH' ) ){ exit; }
 									<span></span>
 								</label>
 		                    </th>
-		                    <th><?php _e('Data Name', 'ppom'); ?></th>
-		                    <th><?php _e('Type', 'ppom'); ?></th>
-		                    <th><?php _e('Title', 'ppom'); ?></th>
-		                    <th><?php _e('Placeholder', 'ppom'); ?></th>
-		                    <th><?php _e('Required', 'ppom'); ?></th>
-		                    <th><?php _e('Actions', 'ppom'); ?></th> 
+		                    <th><?php _e('Data Name', "ppom"); ?></th>
+		                    <th><?php _e('Type', "ppom"); ?></th>
+		                    <th><?php _e('Title', "ppom"); ?></th>
+		                    <th><?php _e('Placeholder', "ppom"); ?></th>
+		                    <th><?php _e('Required', "ppom"); ?></th>
+		                    <th><?php _e('Actions', "ppom"); ?></th> 
 		                </tr>                       
 		            </thead>
 		            <tfoot>
@@ -237,12 +237,12 @@ if( ! defined('ABSPATH' ) ){ exit; }
 									<span></span>
 								</label>
 		                    </th>
-		                    <th><?php _e('Data Name', 'ppom'); ?></th>
-		                    <th><?php _e('Type', 'ppom'); ?></th>
-		                    <th><?php _e('Title', 'ppom'); ?></th>
-		                    <th><?php _e('Placeholder', 'ppom'); ?></th>
-		                    <th><?php _e('Required', 'ppom'); ?></th>
-		                    <th><?php _e('Actions', 'ppom'); ?></th>
+		                    <th><?php _e('Data Name', "ppom"); ?></th>
+		                    <th><?php _e('Type', "ppom"); ?></th>
+		                    <th><?php _e('Title', "ppom"); ?></th>
+		                    <th><?php _e('Placeholder', "ppom"); ?></th>
+		                    <th><?php _e('Required', "ppom"); ?></th>
+		                    <th><?php _e('Actions', "ppom"); ?></th>
 		                </tr>
 		                <tr>            
 		                    <th colspan="12">
@@ -288,8 +288,8 @@ if( ! defined('ABSPATH' ) ){ exit; }
                                 <td class="ppom_meta_field_plchlder"><?php echo $the_placeholder; ?></td>
                                 <td class="ppom_meta_field_req"><?php echo $_ok; ?></td> 
                                 <td>
-                                    <button class="btn  ppom_copy_field" data-field-type="<?php echo esc_attr($field_type); ?>" title="<?php _e('Copy Field','ppom'); ?>" id="<?php echo esc_attr($f_index); ?>"><i class="fa fa-clone" aria-hidden="true"></i></button>
-                                    <button class="btn ppom-edit-field" data-modal-id="ppom_field_model_<?php echo esc_attr($f_index); ?>" id="<?php echo esc_attr($f_index); ?>" title="<?php _e('Edit Field','ppom'); ?>"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                    <button class="btn  ppom_copy_field" data-field-type="<?php echo esc_attr($field_type); ?>" title="<?php _e('Copy Field',"ppom"); ?>" id="<?php echo esc_attr($f_index); ?>"><i class="fa fa-clone" aria-hidden="true"></i></button>
+                                    <button class="btn ppom-edit-field" data-modal-id="ppom_field_model_<?php echo esc_attr($f_index); ?>" id="<?php echo esc_attr($f_index); ?>" title="<?php _e('Edit Field',"ppom"); ?>"><i class="fa fa-pencil" aria-hidden="true"></i></button>
                                 </td>
 	                        </tr> 
 	                        <?php   
