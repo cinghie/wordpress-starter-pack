@@ -1174,6 +1174,13 @@ class WooSEA_Activation {
 					"taxonomy" => "none",
 					"utm_source" => "TheNextAd",
                         		"type" => "Advertising" ),
+     				"Daisycon huis & tuin" => array (
+                        		"channel_hash" => md5("Daisyconhuisentuin"),
+                        		"name" => "Daisycon huis & tuin",
+					"fields" => "daisyconhuisentuin",
+				      	"taxonomy" => "google_shopping",
+					"utm_source" => "Daisycon",
+                        		"type" => "Advertising" ),
         			),
 			"New Zealand" => array (),
 			"Nicaragua" => array (),

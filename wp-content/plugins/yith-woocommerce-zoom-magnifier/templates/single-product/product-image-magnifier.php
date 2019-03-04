@@ -20,7 +20,10 @@ $slider_items = get_option ( 'yith_wcmg_slider_items', 3 );
 if ( ! isset( $slider_items ) || ( $slider_items == null ) ) {
     $slider_items = 3;
 }
-
+$extra_classes = apply_filters( 'yith_wcmg_single_product_image_extra_classes', array() );
+if( is_array( $extra_classes ) ){
+    $extra_classes = implode( " ", $extra_classes );
+}
 ?>
 <div class="images<?php if ( $is_IE ): ?> ie<?php endif ?>">
 
@@ -32,10 +35,10 @@ if ( ! isset( $slider_items ) || ( $slider_items == null ) ) {
         $image_link  = wp_get_attachment_url ( get_post_thumbnail_id () );
         list( $magnifier_url, $magnifier_width, $magnifier_height ) = wp_get_attachment_image_src ( get_post_thumbnail_id (), "shop_magnifier" );
 
-        echo apply_filters ( 'woocommerce_single_product_image_html', sprintf ( '<a href="%s" itemprop="image" class="yith_magnifier_zoom woocommerce-main-image" title="%s">%s</a>', $magnifier_url, $image_title, $image ), $post->ID );
+        echo apply_filters ( 'woocommerce_single_product_image_html', sprintf ( '<a href="%s" itemprop="image" class="yith_magnifier_zoom woocommerce-main-image %s" title="%s">%s</a>', $magnifier_url,$extra_classes, $image_title, $image ), $post->ID );
 
     } else {
-        echo apply_filters ( 'woocommerce_single_product_image_html', sprintf ( '<a href="%s" itemprop="image" class="yith_magnifier_zoom woocommerce-main-image"><img src="%s" alt="Placeholder" /></a>', $placeholder, $placeholder ), $post->ID );
+        echo apply_filters ( 'woocommerce_single_product_image_html', sprintf ( '<a href="%s" itemprop="image" class="yith_magnifier_zoom woocommerce-main-image %s"><img src="%s" alt="Placeholder" /></a>', $placeholder, $extra_classes, $placeholder ), $post->ID );
     }
     ?>
 

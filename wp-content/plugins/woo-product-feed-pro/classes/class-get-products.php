@@ -1618,14 +1618,14 @@ class WooSEA_Get_Products {
 				$product_data['price_forced'] = wc_format_localized_price($product_data['price_forced']);
 			}
                         if($product->get_regular_price()){
-				$product_data['regular_price_forced'] = wc_format_localized_price($product_data['regular_price_forced']);;
+				$product_data['regular_price_forced'] = wc_format_localized_price($product_data['regular_price_forced']);
 			}
 			if($product->get_sale_price()){
-				$product_data['sale_price_forced'] = wc_format_localized_price($product_data['sale_price_forced']);;
+				$product_data['sale_price_forced'] = wc_format_localized_price($product_data['sale_price_forced']);
 			}	
-			$product_data['net_price'] = wc_format_localized_price($product_data['net_price']);;
-			$product_data['net_regular_price'] = wc_format_localized_price($product_data['net_regular_price']);;
-			$product_data['net_sale_price'] = wc_format_localized_price($product_data['net_sale_price']);;
+			$product_data['net_price'] = wc_format_localized_price($product_data['net_price']);
+			$product_data['net_regular_price'] = wc_format_localized_price($product_data['net_regular_price']);
+			$product_data['net_sale_price'] = wc_format_localized_price($product_data['net_sale_price']);
 
 			foreach($project_config['attributes'] as $attr_key => $attr_arr){
 				if(is_array($attr_arr)){
@@ -1899,7 +1899,7 @@ class WooSEA_Get_Products {
 						$taxonomy = str_replace("attribute_","",$kk);
 						$term = get_term_by('slug', $vv, $taxonomy); 
 						
-						if($term->name){
+						if($term && $term->name){
 							$vv = $term->name;
 						}
 	
@@ -3107,7 +3107,7 @@ class WooSEA_Get_Products {
 
 								case($pr_array['condition'] = "empty"):
 									if(empty($product_data[$pr_array['attribute']])){
-										$product_data[$pr_array['attribute']] = $product_data[$pr_array['than_attribute']];
+										$product_data[$pr_array['than_attribute']] = $pr_array['newvalue'];
 									}
 									break;
 								case($pr_array['condition'] = "replace"):
