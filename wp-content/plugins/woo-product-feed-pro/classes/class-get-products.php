@@ -632,74 +632,73 @@ class WooSEA_Get_Products {
 				$xml = simplexml_load_file($file, 'SimpleXMLElement', LIBXML_NOCDATA);
 				$aantal = count($products);
 
-				if ($xml === FALSE){
-					// Something went wrong reading the XML file
-				} else {
-					if ($aantal > 0){
-						foreach ($products as $key => $value){
+				if (($xml !== FALSE) AND ($aantal > 0)){
+					foreach ($products as $key => $value){
 
-							if (is_array ( $value ) ) {
-								if(!empty( $value )){
-									$product = $xml->channel->addChild('item');
-									foreach ($value as $k => $v){
-										if ($k == "g:shipping"){
-											$ship = explode("||", $v);
-											foreach ($ship as $kk => $vv){
-												$sub_count = substr_count($vv, '##');
-												$shipping = $product->addChild($k, '',htmlspecialchars($namespace['g']));
-												$ship_split = explode(":", $vv);
+						if (is_array ( $value ) ) {
+							if(!empty( $value )){
+								$product = $xml->channel->addChild('item');
+								foreach ($value as $k => $v){
+									if ($k == "g:shipping"){
+										$ship = explode("||", $v);
+										foreach ($ship as $kk => $vv){
+											$sub_count = substr_count($vv, '##');
+											$shipping = $product->addChild($k, '',htmlspecialchars($namespace['g']));
+											$ship_split = explode(":", $vv);
 											
-												foreach($ship_split as $ship_piece){
+											foreach($ship_split as $ship_piece){
 
-													$piece_value = explode("##", $ship_piece);
-													if (preg_match("/WOOSEA_COUNTRY/", $ship_piece)){
-                                                       								$shipping_country = $shipping->addChild('g:country', $piece_value[1], $namespace['g']);
-													} elseif (preg_match("/WOOSEA_REGION/", $ship_piece)){
-                                                       								$shipping_region = $shipping->addChild('g:region', $piece_value[1], $namespace['g']);
-													} elseif (preg_match("/WOOSEA_POSTAL_CODE/", $ship_piece)){
-														$shipping_price = $shipping->addChild('g:postal_code', $piece_value[1], $namespace['g']);
-													} elseif (preg_match("/WOOSEA_SERVICE/", $ship_piece)){
-                                                       								$shipping_service = $shipping->addChild('g:service', $piece_value[1], $namespace['g']);
-													} elseif (preg_match("/WOOSEA_PRICE/", $ship_piece)){
-														$shipping_price = $shipping->addChild('g:price',trim($piece_value[1]),$namespace['g']);
-													} else {
-														// DO NOT ADD ANYTHING
-													}
+												$piece_value = explode("##", $ship_piece);
+												if (preg_match("/WOOSEA_COUNTRY/", $ship_piece)){
+                                                       							$shipping_country = $shipping->addChild('g:country', $piece_value[1], $namespace['g']);
+												} elseif (preg_match("/WOOSEA_REGION/", $ship_piece)){
+                                                       							$shipping_region = $shipping->addChild('g:region', $piece_value[1], $namespace['g']);
+												} elseif (preg_match("/WOOSEA_POSTAL_CODE/", $ship_piece)){
+													$shipping_price = $shipping->addChild('g:postal_code', $piece_value[1], $namespace['g']);
+												} elseif (preg_match("/WOOSEA_SERVICE/", $ship_piece)){
+                                                       							$shipping_service = $shipping->addChild('g:service', $piece_value[1], $namespace['g']);
+												} elseif (preg_match("/WOOSEA_PRICE/", $ship_piece)){
+													$shipping_price = $shipping->addChild('g:price',trim($piece_value[1]),$namespace['g']);
+												} else {
+													// DO NOT ADD ANYTHING
 												}
 											}
-										// Fix issue with additional images for Google Shopping
-										} elseif (preg_match("/g:additional_image_link/i",$k)){
-                                       	                				$link = $product->addChild('g:additional_image_link', $v, $namespace['g']);
-											//$product->$k = $v;
-										} elseif ($k == "g:installment"){
-											if(!empty($v)){
-												$installment_split = explode(":", $v);
-												$installment = $product->addChild($k, '', $namespace['g']);
-                                                       						$installment_months = $installment->addChild('g:months', $installment_split[0], $namespace['g']);
-                                                       						$installment_amount = $installment->addChild('g:amount', $installment_split[1], $namespace['g']);
-											}
-										} elseif ($k == "g:color" || $k == "g:size" || $k == "g:material"){
-											if(!empty($v)){
-												$attr_split = explode(",", $v);
-												$nr_attr = count($attr_split)-1;
-												$attr_value = "";											
-	
-												for ($x = 0; $x <= $nr_attr; $x++){
-													$attr_value .= trim($attr_split[$x])."/";
-												}	
-												$attr_value = rtrim($attr_value,"/");	
-												$product->$k = $attr_value;							
-											}						
-										} else {
-											$product->$k = $v;
 										}
+									// Fix issue with additional images for Google Shopping
+									} elseif (preg_match("/g:additional_image_link/i",$k)){
+                                       	               				$link = $product->addChild('g:additional_image_link', $v, $namespace['g']);
+										//$product->$k = $v;
+									} elseif ($k == "g:installment"){
+										if(!empty($v)){
+											$installment_split = explode(":", $v);
+											$installment = $product->addChild($k, '', $namespace['g']);
+                                                      					$installment_months = $installment->addChild('g:months', $installment_split[0], $namespace['g']);
+                                                       					$installment_amount = $installment->addChild('g:amount', $installment_split[1], $namespace['g']);
+										}
+									} elseif ($k == "g:color" || $k == "g:size" || $k == "g:material"){
+										if(!empty($v)){
+											$attr_split = explode(",", $v);
+											$nr_attr = count($attr_split)-1;
+											$attr_value = "";											
+	
+											for ($x = 0; $x <= $nr_attr; $x++){
+												$attr_value .= trim($attr_split[$x])."/";
+											}	
+											$attr_value = rtrim($attr_value,"/");	
+											$product->$k = $attr_value;							
+										}						
+									} else {
+										$product->$k = $v;
 									}
 								}
-							}	
-						}
+							}
+						}	
 					}
 				}
-				$xml->asXML($file);
+
+				if(is_object($xml)){
+					$xml->asXML($file);
+				}
 				unset($products);
 			}
 			unset($xml);
@@ -2502,9 +2501,6 @@ class WooSEA_Get_Products {
         	$feed_config = get_option( 'cron_projects' );
 		$nr_projects = count ($feed_config);
 
-        	// Flush caching
-        	wp_cache_flush();
-
 		// Information for debug log
 		$count_variation = wp_count_posts('product_variation');
 		$count_single = wp_count_posts('product');
@@ -2578,7 +2574,6 @@ class WooSEA_Get_Products {
 						delete_option( $batch_project );
 
 						// In 2 minutes from now check the amount of products in the feed and update the history count
-						wp_cache_flush();
 						wp_schedule_single_event( time() + 120, 'woosea_update_project_stats', array($val['project_hash']) );
 					} else {
 						$feed_config[$key]['nr_products_processed'] = $nr_prods_processed;
@@ -2587,7 +2582,6 @@ class WooSEA_Get_Products {
 						// Set new scheduled event for next batch in 3 seconds
 						if($offset_step_size < $published_products){
         						if (! wp_next_scheduled ( 'woosea_create_batch_event', array($feed_config[$key]['project_hash']) ) ) {
-								wp_cache_flush();
 								wp_schedule_single_event( time() + 2, 'woosea_create_batch_event', array($feed_config[$key]['project_hash']) );
 								$batch_project = "batch_project_".$feed_config[$key]['project_hash'];
 								update_option( $batch_project, $val);
@@ -2616,7 +2610,6 @@ class WooSEA_Get_Products {
 							delete_option( $batch_project );
 
 							// In 2 minutes from now check the amount of products in the feed and update the history count
-							wp_cache_flush();	
 							wp_schedule_single_event( time() + 120, 'woosea_update_project_stats', array($val['project_hash']) );
 						}
 					}

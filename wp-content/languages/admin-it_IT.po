@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 5.1.x - Development - Administration package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-02-22 08:38:15+0000\n"
+"PO-Revision-Date: 2019-03-06 11:02:23+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -290,18 +290,6 @@ msgstr "<a href=\"%s\">Ulteriori informazioni sull'aggiornamento di PHP</a>."
 msgid "Copy this section to clipboard"
 msgstr "Copia questa sezione negli appunti"
 
-#: wp-admin/includes/class-wp-plugin-install-list-table.php:670
-msgid "This plugin doesn&#8217;t work with your version of PHP. "
-msgstr "Questo plugin non funziona con la tua versione di PHP."
-
-#: wp-admin/includes/class-wp-plugin-install-list-table.php:661
-msgid "This plugin doesn&#8217;t work with your version of WordPress. "
-msgstr "Questo plugin non funziona con la tua versione di WordPress."
-
-#: wp-admin/includes/class-wp-plugin-install-list-table.php:637
-msgid "This plugin doesn&#8217;t work with your versions of WordPress and PHP. "
-msgstr "Questo plugin non funziona con le tue versioni di WordPress e PHP."
-
 #. translators: %s: "Update WordPress" screen URL
 #: wp-admin/includes/class-wp-plugin-install-list-table.php:649
 #: wp-admin/includes/class-wp-plugin-install-list-table.php:665
@@ -312,6 +300,18 @@ msgstr "<a href=\"%s\">Aggiorna WordPress</a>."
 #: wp-admin/includes/class-wp-plugin-install-list-table.php:641
 msgid "<a href=\"%1$s\">Please update WordPress</a>, and then <a href=\"%2$s\">learn more about updating PHP</a>."
 msgstr "<a href=\"%1$s\">Aggiorna WordPress</a>, e <a href=\"%2$s\">scopri di più sull'aggiornamento di PHP</a>."
+
+#: wp-admin/includes/class-wp-plugin-install-list-table.php:670
+msgid "This plugin doesn&#8217;t work with your version of PHP."
+msgstr "Questo plugin non funziona con la tua versione di PHP."
+
+#: wp-admin/includes/class-wp-plugin-install-list-table.php:661
+msgid "This plugin doesn&#8217;t work with your version of WordPress."
+msgstr "Questo plugin non funziona con la tua versione di WordPress."
+
+#: wp-admin/includes/class-wp-plugin-install-list-table.php:637
+msgid "This plugin doesn&#8217;t work with your versions of WordPress and PHP."
+msgstr "Questo plugin non funziona con le tue versioni di WordPress e PHP."
 
 #. translators: %s: default category
 #: wp-admin/edit-tags.php:588

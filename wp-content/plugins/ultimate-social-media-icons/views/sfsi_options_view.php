@@ -18,7 +18,7 @@
         jQuery(document).ready(function(e) {
             jQuery(".sfsi_show_notification").click(function(){
                 SFSI.ajax({
-                    url:ajax_object.ajax_url,
+                    url:sfsi_icon_ajax_object.ajax_url,
                     type:"post",
                     data: {action: "notification_read"},
                     success:function(msg){

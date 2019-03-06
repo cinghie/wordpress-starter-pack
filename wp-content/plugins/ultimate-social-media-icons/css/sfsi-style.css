@@ -1395,14 +1395,14 @@ h2.optional {
     overflow: hidden;
 }
 .fb_tool_bdr .sfsi_inside .icon1 {
-    margin: 2px 0 2px 0;
+    margin: 0 0 -5px 0;
     height: 28px;
     display: inline-block;
     float: none;
     width: 62px;
 }
 .fb_tool_bdr .sfsi_inside .icon2 {
-    margin: 2px 0 2px 0 ;
+    margin: -2px 0 -2px 0 ;
     height: 20px;
     width: 49px;
     display: inline-block;
@@ -1508,7 +1508,7 @@ h2.optional {
 	float: left;
 }
 .twt_tool_bdr .sfsi_inside .icon1 {
-    margin: -4px 0 0px 0 !important;
+    margin: -4px 0 -6px 0 !important;
     display: inline-block;
     float: none;
     width: 61px;
@@ -1575,9 +1575,10 @@ h2.optional {
 .linkedin_tool_bdr .sfsi_inside {
     text-align: center;
     float: left;
-    width: 100%}
+    width: 100%
+}
 .linkedin_tool_bdr .sfsi_inside .icon1{
-    margin: 2px 0;
+    margin: 4px 0;
     display: inline-block;
     float: none;
     height: 20px;

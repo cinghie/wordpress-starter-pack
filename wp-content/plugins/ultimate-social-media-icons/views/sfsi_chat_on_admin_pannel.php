@@ -5,7 +5,7 @@ $current_user=wp_get_current_user();
 $email = $current_user->user_email;
 ?>
 <div id="sfsi_jivo_offline_chat" style="display:none">
-	<a href="" style="float:right;font-size:40px;margin-right:5px;color:#888;text-decoration: none;"  onclick="sfsi_close_offline_chat(event)">&times;</a>
+	<a href="" style="float:right;font-size:20px;margin-right:5px;color:#888;text-decoration: none;"  onclick="sfsi_close_offline_chat(event)">X</a>
 	<p style="text-align:center" class="heading-text">No chat agent are available, However <span style="text-decoration: underline">we'll still respond quickly</span>.
 		<!-- <a target="_blank" href="https://goo.gl/MU6pTN#no-topic-0" >we'll still respond quickly</a> -->
 	</p>
@@ -70,7 +70,7 @@ var sfsi_jivo_init=function(){ var widget_id =window.sfsi_plus_jivo_widget_id= '
 var sfsi_dummy_chat_icon={};
 sfsi_dummy_chat_icon.element=document.createElement('div');
 sfsi_dummy_chat_icon.element.id="sfsi_dummy_chat_icon";
-sfsi_dummy_chat_icon.element.style="position:fixed; bottom:0;right:10px;width:350px;height:74px;cursor:pointer;background-image:url('<?php echo SFSI_PLUGURL.'images/Chat_with_us_bar.svg' ?>');background-size: 374px 101px;border-top-left-radius: 8px;border-top-right-radius: 8px;";
+sfsi_dummy_chat_icon.element.style="position:fixed; bottom:0;right:10px;width:350px;height:74px;cursor:pointer;background-image:url('<?php echo SFSI_PLUGURL.'images/Chat_with_us_bar_light_green.png' ?>');background-position: -12.5px -11.5px;background-size: 374px 101px;border-top-left-radius: 8px;border-top-right-radius: 8px;";
 function sfsi_open_chat(){
 	if(window.jivo_api){
 		if( window.jivo_api.chatMode()==='online'){

@@ -2,8 +2,8 @@
 Contributors: socialdude
 Tags: social media, share, buttons, social widget, icons, share icons, share buttons, sharing icons, sharing buttons, social share, sharing, social sharing
 Requires at least: 3.0
-Tested up to: 5.1
-Stable tag: 2.1.1
+Tested up to: 5.0.3
+Stable tag: 2.1.4
 License: GPLv2 
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -274,8 +274,17 @@ You cannot use the same plugin twice, however you can install both the USM as we
 
 
 == Changelog ==
+= 2.1.4 =
+* Solved: Email validation for Offline chat.
+* Solved: Premium notification breaking the dashboard structure.
+* Solved: changed option for linkedin count.
+* Solved: ajax_object conflict with themes.
+
+= 2.1.2 =
+* Solved: Text optimized
+
 = 2.1.1 =
-* Solved: curl calls to wp_remote calls.
+* Solved: design changes for chat.
 * Solved: unexpected charactor  "[" error for php version 5.3. 
 
 = 2.1.0 =
@@ -740,5 +749,5 @@ You cannot use the same plugin twice, however you can install both the USM as we
 
 == Upgrade Notice ==
 
-= 2.1.1 =
+= 2.1.4 =
 Please upgrade
