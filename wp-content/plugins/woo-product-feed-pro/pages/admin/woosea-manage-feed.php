@@ -195,7 +195,7 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 									<tr>
 										<td>
 											<strong>Change settings</strong><br/>
-											<span class="dashicons dashicons-arrow-right" style="display: inline-block;"></span> <a href="admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php&action=edit_project&step=0&project_hash=<?php print "$val[project_hash]";?>&channel_hash=<?php print "$val[channel_hash]";?>">General settings</a><br/>
+											<span class="dashicons dashicons-arrow-right" style="display: inline-block;"></span> <a href="admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php&action=edit_project&step=0&project_hash=<?php print "$val[project_hash]";?>&channel_hash=<?php print "$val[channel_hash]";?>">General feed settings</a><br/>
 											<?php
 											if ($val['fields'] == "standard"){
 												print "<span class=\"dashicons dashicons-arrow-right\" style=\"display: inline-block;\"></span> <a href=\"admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php&action=edit_project&step=2&project_hash=$val[project_hash]&channel_hash=$val[channel_hash]\">Attribute selection</a></br/>";

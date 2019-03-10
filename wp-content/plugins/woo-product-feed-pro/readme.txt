@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 5.1
-Stable tag: 4.9.6
+Stable tag: 5.0.0
 
 == Description ==
 
@@ -272,6 +272,18 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 5.0.0 (2019-03-08) =
+* Fixed a PHP undefined variable warning
+
+= 4.9.9 (2019-03-08) =
+* Added a feature: one can select to only include the default product variation in feeds instead of all variations
+
+= 4.9.8 (2019-03-07) =
+* Fixed a bug: product tag filters for products that did not have product tags configured did not work. This issue has been fixed.
+
+= 4.9.7 (2019-03-07) =
+* Fixed a bug: processing of feeds for which the original feed was deleted did not work. This issue has been fixed.
 
 = 4.9.6 (2019-03-05) =
 * Removed the wp_flush_cache option again as it was performing site performance issues
@@ -1516,6 +1528,18 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 5.0.0 =
+Fixed a PHP undefined variable warning
+
+= 4.9.9 =
+Added a feature: one can select to only include the default product variation in feeds instead of all variations 
+
+= 4.9.8 =
+Fixed a bug: product tag filters for products that did not have product tags configured did not work. This issue has been fixed.
+
+= 4.9.7 =
+Fixed a bug: processing of feeds for which the original feed was deleted did not work. This issue has been fixed.
 
 = 4.9.6 =
 Removed the wp_flush_cache option again as it was performing site performance issues

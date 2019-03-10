@@ -601,7 +601,7 @@ class WooSEA_Get_Products {
 		}
 
 		// Check if file exists, if it does: delete it first so we can create a new updated one
-		if ( (file_exists( $file )) AND ($header == "true") AND ($feed_config['nr_products_processed'] == 0) ) {
+		if ( (file_exists( $file )) AND ($header == "true") AND ($feed_config['nr_products_processed'] == 0) || !file_exists( $file ) ) {
 			unlink ( $file );
 		}	
 
@@ -703,7 +703,7 @@ class WooSEA_Get_Products {
 			}
 			unset($xml);
 		} else {
-			if ( ($header == "true") AND ($feed_config['nr_products_processed'] == 0) ) {
+			if ( ($header == "true") AND ($feed_config['nr_products_processed'] == 0) || !file_exists( $file ) ) {
 
 				if ($feed_config['name'] == "Yandex") {
 					$main_currency = get_woocommerce_currency();
@@ -1715,6 +1715,8 @@ class WooSEA_Get_Products {
 			               		array_push ($product_data["product_tag"], $term->name);
 					}
 				}
+			} else {
+				$product_data["product_tag"] = array();
 			}
 			
 			/**
@@ -1789,6 +1791,16 @@ class WooSEA_Get_Products {
 
 				$product_variations = new WC_Product_Variation( $product_data['id'] );
     				$variations = $product_variations->get_variation_attributes();
+				
+				// Determine the default variation product
+				$variation_pass = "true";
+				$mother_product = new WC_Product( $product_data['item_group_id'] );
+				$def_attributes = $mother_product->get_default_attributes();
+				$diff_result = array_diff($variations, $def_attributes);
+
+				if(isset($project_config['default_variations']) AND (!empty($diff_result))){	
+					$variation_pass = "false";
+				}
 
 				$append = "";
 
@@ -2185,6 +2197,14 @@ class WooSEA_Get_Products {
 			 * When a product is a variable product we need to delete the original product from the feed, only the originals are allowed
 			 */
 			if(($product->is_type('variable')) AND ($product_data['item_group_id'] == 0)){
+		        	$product_data = array();
+                        	$product_data = null;	
+			}
+
+			/**
+			 * Remove variation products that are not THE default variation product
+			 */
+			if((isset($variation_pass)) AND ($variation_pass == "false")){
 		        	$product_data = array();
                         	$product_data = null;	
 			}
@@ -3159,11 +3179,12 @@ class WooSEA_Get_Products {
 		}
 
 		foreach ($project_rules as $pr_key => $pr_array){
-	
+
 			if(array_key_exists($pr_array['attribute'], $product_data)){
 
 				foreach ($product_data as $pd_key => $pd_value){
 					// Check is there is a rule on specific attributes
+
 					if(in_array($pd_key, $pr_array, TRUE)){
 
 						if($pd_key == "price"){
@@ -3242,6 +3263,7 @@ class WooSEA_Get_Products {
 						
 							// Tis can either be a shipping or product_tag array
 							if($pr_array['attribute'] == "product_tag"){
+
 								if(in_array($pr_array['criteria'], $pd_value, TRUE)) {
 									$v = $pr_array['criteria'];
 
@@ -3331,6 +3353,74 @@ class WooSEA_Get_Products {
 												} else {	
 													$allowed = 0;
 												}
+											}
+											break;
+										default:
+											break;
+									}
+								} else {
+									switch ($pr_array['condition']) {
+										case($pr_array['condition'] = "contains"):
+											if($pr_array['than'] == "include_only"){
+												$allowed = 0;
+											} else {
+												$allowed = 0;
+											}
+											break;
+										case($pr_array['condition'] = "containsnot"):
+											if($pr_array['than'] == "include_only"){
+												$allowed = 1;
+											} else {
+												$allowed = 0;
+											}
+											break;
+										case($pr_array['condition'] = "="):
+											if($pr_array['than'] == "include_only"){
+												$allowed = 0;
+											} else {
+												$allowed = 0;
+											}
+											break;
+										case($pr_array['condition'] = "!="):
+											if($pr_array['than'] == "include_only"){
+												$allowed = 1;
+											} else {	
+												$allowed = 0;
+											}
+											break;
+										case($pr_array['condition'] = ">"):
+											if($pr_array['than'] == "include_only"){
+												$allowed = 0;
+											} else {	
+												$allowed = 0;
+											}
+    											break;
+										case($pr_array['condition'] = ">="):
+											if($pr_array['than'] == "include_only"){
+												$allowed = 0;
+											} else {	
+												$allowed = 0;
+											}
+											break;
+										case($pr_array['condition'] = "<"):
+											if($pr_array['than'] == "include_only"){
+												$allowed = 0;
+											} else {	
+												$allowed = 0;
+											}
+											break;
+										case($pr_array['condition'] = "=<"):
+											if($pr_array['than'] == "include_only"){
+												$allowed = 0;
+											} else {	
+												$allowed = 0;
+											}
+											break;
+										case($pr_array['condition'] = "empty"):
+											if($pr_array['than'] == "include_only"){
+												$allowed = 1;
+											} else {	
+												$allowed = 0;
 											}
 											break;
 										default:

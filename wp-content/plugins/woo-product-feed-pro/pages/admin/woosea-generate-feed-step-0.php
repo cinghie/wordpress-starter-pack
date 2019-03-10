@@ -96,7 +96,7 @@ if (array_key_exists('project_hash', $_GET)){
 				?>
 
 
-		<div class="woo-product-feed-pro-form-style-2-heading">File name, format and channel</div>
+		<div class="woo-product-feed-pro-form-style-2-heading">General feed settings</div>
        
 		<form action="" id="myForm" method="post" name="myForm">
 		
@@ -388,6 +388,21 @@ if (array_key_exists('project_hash', $_GET)){
                                                                 print "<input type=\"checkbox\" id=\"variations\" name=\"product_variations\" class=\"checkbox-field\" checked>";
                                                         } else {
                                                                 print "<input type=\"checkbox\" id=\"variations\" name=\"product_variations\" class=\"checkbox-field\">";
+                                                        }
+                                                        ?>
+                                                        <div class="woo-product-feed-pro-slider round"></div>
+                                                </label>
+					</td>
+				</tr>
+				<tr id="default_variation">
+					<td><span>Only include default product variation:</span></td>
+					<td>
+                                                <label class="woo-product-feed-pro-switch">
+                                                        <?php
+                                                        if(isset($project['default_variations'])){
+                                                                print "<input type=\"checkbox\" id=\"default_variations\" name=\"default_variations\" class=\"checkbox-field\" checked>";
+                                                        } else {
+                                                                print "<input type=\"checkbox\" id=\"default_variations\" name=\"default_variations\" class=\"checkbox-field\">";
                                                         }
                                                         ?>
                                                         <div class="woo-product-feed-pro-slider round"></div>

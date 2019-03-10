@@ -3,6 +3,8 @@ Missing some features you might like? Drop me a line at support@adtribes.io and 
 
 Urgent issues:
 - Add product title manipulation feature
+- Zbozi / Heureka category taxonomy
+- Zbozi / Heureka add same named attributes: https://wordpress.org/support/topic/multiple-attributes-with-the-same-name/#post-11287592
 
 Plugin functionalities:
 - Add support for Google Product Review feeds

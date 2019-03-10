@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-03-06 13:29:54+0000\n"
+"PO-Revision-Date: 2019-03-10 14:50:04+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3285,7 +3285,7 @@ msgstr "Converti in lista non ordinata"
 
 #: build/block-library/index.js:12
 msgid "List"
-msgstr "Lista"
+msgstr "Elenco"
 
 #: build/block-library/index.js:12
 msgid "recent posts"
