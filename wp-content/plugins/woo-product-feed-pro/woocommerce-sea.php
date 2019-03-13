@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     5.0.0
+ * Version:     5.0.4
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '5.0.0' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '5.0.4' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -752,6 +752,9 @@ function woosea_product_delete_meta_price( $product = null ) {
 			} else {
 				$json_condition = $condition."Condition";
 			}                	
+
+                        // Assume prices will be valid until the end of next year, unless on sale and there is an end date.
+                        $price_valid_until = date( 'Y-12-31', current_time( 'timestamp', true ) + YEAR_IN_SECONDS );
 			
 			if ( $product->is_type( 'variable' ) ) {
 				// We should first check if there are any _GET parameters available
@@ -774,10 +777,8 @@ function woosea_product_delete_meta_price( $product = null ) {
 						}
 					}
 					$variable_product = wc_get_product($variation_id);
-				
+	
 					if(is_object( $variable_product ) ) {
-						// Structured data error here, it ignores VAT when prices has been entered without VAT
-					
 						$qty = 1;
 						$product_price = wc_get_price_to_display($variable_product, array('qty' => $qty));
 						$tax_rates = WC_Tax::get_base_tax_rates( $product->get_tax_class() );
@@ -805,6 +806,7 @@ function woosea_product_delete_meta_price( $product = null ) {
 
 						// Get product condition
 						$condition = ucfirst( get_post_meta( $variation_id, '_woosea_condition', true ) );
+
 						if(!$condition){
 							$json_condition = "NewCondition";
 						} else {
@@ -818,22 +820,27 @@ function woosea_product_delete_meta_price( $product = null ) {
                         			} else {
                                 			$availability = "InStock";
                         			}
+                                
+						if ( $variable_product->is_on_sale() && $variable_product->get_date_on_sale_to() ) {
+                                        		$price_valid_until = date( 'Y-m-d', $variable_product->get_date_on_sale_to()->getTimestamp() );
+                                		}
 
 						$markup_offer = array(
-							'@type'         => 'Offer',
-							'price'		=> $product_price,
-							'priceCurrency' => $shop_currency,
-							'itemCondition' => 'http://schema.org/'.$json_condition.'',
-							'availability'  => 'https://schema.org/'.$availability.'',
-							'sku'           => $product->get_sku(),
-							'image'         => wp_get_attachment_url( $product->get_image_id() ),
-							'description'   => $product->get_description(),
-							'seller'        => array(
-								'@type' => 'Organization',
-								'name'  => $shop_name,
-								'url'   => $shop_url,
+							'@type'         	=> 'Offer',
+							'price'			=> $product_price,
+						        'priceValidUntil'    	=> $price_valid_until,
+							'priceCurrency' 	=> $shop_currency,
+							'itemCondition' 	=> 'https://schema.org/'.$json_condition.'',
+							'availability'  	=> 'https://schema.org/'.$availability.'',
+							'sku'           	=> $product->get_sku(),
+							'image'         	=> wp_get_attachment_url( $product->get_image_id() ),
+							'description'   	=> $product->get_description(),
+							'seller'        	=> array(
+								'@type' 	=> 'Organization',
+								'name'  	=> $shop_name,
+								'url'   	=> $shop_url,
 							),
-							'url'		=> $link
+							'url'			=> $link
 						);
 					} else {
 						// AggregateOffer
@@ -846,7 +853,7 @@ function woosea_product_delete_meta_price( $product = null ) {
                               		                  	'@type' => 'Offer',
                                 	               	 	'price' => wc_format_decimal( $lowest, wc_get_price_decimals() ),
                                         	       		'priceCurrency' => $shop_currency,
-								'itemCondition' => 'http://schema.org/'.$json_condition.'',
+								'itemCondition' => 'https://schema.org/'.$json_condition.'',
                                         			'availability'  => 'https://schema.org/' . $stock = ( $product->is_in_stock() ? 'InStock' : 'OutOfStock' ),
                                    	     				'sku'           => $product->get_sku(),
                                         				'image'         => wp_get_attachment_url( $product->get_image_id() ),
@@ -864,7 +871,7 @@ function woosea_product_delete_meta_price( $product = null ) {
                                              		   	'lowPrice'  => wc_format_decimal( $lowest, wc_get_price_decimals() ),
                         	             		        'highPrice' => wc_format_decimal( $highest, wc_get_price_decimals() ),
                                 		              	'priceCurrency' => $shop_currency,
-								'itemCondition' => 'http://schema.org/'.$json_condition.'',
+								'itemCondition' => 'https://schema.org/'.$json_condition.'',
 								'availability'  => 'https://schema.org/' . $stock = ( $product->is_in_stock() ? 'InStock' : 'OutOfStock' ),
         	                                		'sku'           => $product->get_sku(),
                 	                        		'image'         => wp_get_attachment_url( $product->get_image_id() ),
@@ -923,11 +930,15 @@ function woosea_product_delete_meta_price( $product = null ) {
                              	$product_price = wc_get_price_excluding_tax($product,array('price'=> $product->get_price())) * (100+$tax_rates[1]['rate'])/100;
 				$product_price = round($product_price, 2);
 
+                        	// Assume prices will be valid until the end of next year, unless on sale and there is an end date.
+                        	$price_valid_until = date( 'Y-12-31', current_time( 'timestamp', true ) + YEAR_IN_SECONDS );
+
 				$markup_offer = array(
  	           	            	'@type' => 'Offer',
                        			'price' => $product_price,
+				        'priceValidUntil'    => $price_valid_until,
 					'priceCurrency' => $shop_currency,
-					'itemCondition' => 'http://schema.org/'.$json_condition.'',
+					'itemCondition' => 'https://schema.org/'.$json_condition.'',
 					'availability'  => 'https://schema.org/' . $stock = ( $product->is_in_stock() ? 'InStock' : 'OutOfStock' ),
 					'sku'           => $product->get_sku(),
 					'image'         => wp_get_attachment_url( $product->get_image_id() ),
@@ -945,7 +956,9 @@ function woosea_product_delete_meta_price( $product = null ) {
 		// Just use the old WooCommerce buggy setting
                 if ( '' !== $product->get_price() ) {
 
-                        if ( $product->is_type( 'variable' ) ) {
+			$price_valid_until = date( 'Y-12-31', current_time( 'timestamp', true ) + YEAR_IN_SECONDS );
+                        
+			if ( $product->is_type( 'variable' ) ) {
                                 $prices  = $product->get_variation_prices();
                                 $lowest  = reset( $prices['price'] );
                                 $highest = end( $prices['price'] );
@@ -955,6 +968,7 @@ function woosea_product_delete_meta_price( $product = null ) {
                                         $markup_offer = array(
                                                 '@type' => 'Offer',
                                                 'price' => wc_format_decimal( $lowest, wc_get_price_decimals() ),
+				               	'priceValidUntil'    => $price_valid_until,
 					        'priceCurrency' => $shop_currency,
                                         );
 
@@ -974,12 +988,19 @@ function woosea_product_delete_meta_price( $product = null ) {
                         		);
                                 }
                         } else {
+                                if ( $product->is_on_sale() && $product->get_date_on_sale_to() ) {
+                                        $price_valid_until = date( 'Y-m-d', $product->get_date_on_sale_to()->getTimestamp() );
+                                }
+
+				$permalink = get_permalink( $product->get_id() );
                                 $markup_offer = array(
                                         '@type' => 'Offer',
                                         'price' => wc_format_decimal( $product->get_price(), wc_get_price_decimals() ),
+			                'priceValidUntil'    => $price_valid_until,
 					'priceCurrency' => $shop_currency,
                                 	'availability'  => 'https://schema.org/' . ( $product->is_in_stock() ? 'InStock' : 'OutOfStock' ),
-                               		 'seller'        => array(
+                               	        'url'           => $permalink,
+					'seller'        => array(
                                         	'@type' => 'Organization',
                                         	'name'  => $shop_name,
                                         	'url'   => $shop_url,
@@ -1524,6 +1545,24 @@ function woosea_custom_general_fields() {
 			)
 		);
 
+		// Add product age_group drop-down
+		woocommerce_wp_select(
+			array(
+				'id'		=> '_woosea_age_group',
+				'label'		=> __( 'Age group', 'woocommerce' ),
+				'desc_tip'	=> 'true',
+				'description'	=> __( 'Select the product age group.', 'woocommerce' ),
+				'options'	=> array (
+					''		=> __( '', 'woocommerce' ),
+					'newborn'	=> __( 'newborn', 'woocommerce' ),
+					'infant'	=> __( 'infant', 'woocommerce' ),
+					'toddler'	=> __( 'toddler', 'woocommerce' ),
+					'kids'		=> __( 'kids', 'woocommerce' ),
+					'adult'		=> __( 'adult', 'woocommerce' ),
+				)
+			)
+		);
+
         	// Unit pricing measure Field
         	woocommerce_wp_text_input(
                 	array(
@@ -1594,6 +1633,8 @@ function woosea_save_custom_general_fields($post_id){
         $woocommerce_installment_months      	= empty($_POST['_woosea_installment_months']) ? '' : sanitize_text_field($_POST['_woosea_installment_months']);
         $woocommerce_installment_amount      	= empty($_POST['_woosea_installment_amount']) ? '' : sanitize_text_field($_POST['_woosea_installment_amount']);
         $woocommerce_condition      		= empty($_POST['_woosea_condition']) ? '' : sanitize_text_field($_POST['_woosea_condition']);
+        $woocommerce_age_group    		= empty($_POST['_woosea_age_group']) ? '' : sanitize_text_field($_POST['_woosea_age_group']);
+
 	if(!empty($_POST['_woosea_exclude_product'])){
 		$woocommerce_exclude_product 		= sanitize_text_field($_POST['_woosea_exclude_product']);
 	} else {
@@ -1626,6 +1667,9 @@ function woosea_save_custom_general_fields($post_id){
  
 	if(isset($woocommerce_condition))
                 update_post_meta( $post_id, '_woosea_condition', $woocommerce_condition);
+
+	if(isset($woocommerce_age_group))
+                update_post_meta( $post_id, '_woosea_age_group', $woocommerce_age_group);
 
 	if(isset($woocommerce_installment_months))
                 update_post_meta( $post_id, '_woosea_installment_months', esc_attr($woocommerce_installment_months));
@@ -1796,6 +1840,30 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			)
 		);
 
+		// Add product age_group drop-down
+		woocommerce_wp_select(
+			array(
+				'id'		=> '_woosea_age_group['.$loop.']',
+				'label'		=> __( 'Product age group', 'woocommerce' ),
+				'placeholder'	=> 'Product age group',
+				'desc_tip'	=> 'true',
+				'description'	=> __( 'Select the product age group.', 'woocommerce' ),
+                                'value'       	=> get_post_meta($variation->ID, '_woosea_age_group', true),
+                                'wrapper_class' => 'form-row form-row-full',
+				'options'	=> array (
+					''		=> __( '', 'woocommerce' ),
+					'newborn'	=> __( 'newborn', 'woocommerce' ),
+					'infant'	=> __( 'infant', 'woocommerce' ),
+					'toddler'	=> __( 'toddler', 'woocommerce' ),
+					'kids'		=> __( 'kids', 'woocommerce' ),
+					'adult'		=> __( 'adult', 'woocommerce' ),
+				)
+			)
+		);
+
+
+
+
 		// Exclude product from feed
 		woocommerce_wp_checkbox(
 			array(
@@ -1905,6 +1973,13 @@ function woosea_save_custom_variable_fields( $post_id ) {
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_condition[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_condition', stripslashes( sanitize_text_field( $_condition[$i] )));
+                        }
+
+                // Product age group
+                $_age_group = $_POST['_woosea_age_group'];
+                        $variation_id = (int) $variable_post_id[$i];
+                        if ( isset( $_age_group[$i] ) ) {
+                                update_post_meta( $variation_id, '_woosea_age_group', stripslashes( sanitize_text_field( $_age_group[$i] )));
                         }
 
                 // Exclude product from feed
@@ -2356,7 +2431,7 @@ function woosea_license_valid(){
         $license_information = get_option('license_information');
 
         $curl = curl_init();
-        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=5.0.0";
+        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=5.0.4";
 
         curl_setopt_array($curl, array(
                 CURLOPT_RETURNTRANSFER => 1,

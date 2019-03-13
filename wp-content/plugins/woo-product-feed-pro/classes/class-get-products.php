@@ -789,17 +789,18 @@ class WooSEA_Get_Products {
 				$aantal = count($products);
 
 				if ($aantal > 0){
-					if ($feed_config['name'] == "Yandex") {
-						$offers = $xml->shop[0]->addChild('offers');
+
+					if (($feed_config['name'] == "Yandex") AND ($feed_config['nr_products_processed'] == 0)) {
+						$shop = $xml->shop->addChild('offers');
 					}
 
 					// For ZAP template
-					if ($feed_config['name'] == "Zap.co.il") {
+					if (($feed_config['name'] == "Zap.co.il") AND ($feed_config['nr_products_processed'] == 0)) {
 						$productz = $xml->addChild('PRODUCTS');
 					}
 
 					// For Google Product review template
-					if($feed_config['name'] == "Google Product Review"){
+					if (($feed_config['name'] == "Google Product Review") AND ($feed_config['nr_products_processed'] == 0)) {
 						$reviewz = $xml->addChild('reviews');
 					}
 
@@ -807,11 +808,11 @@ class WooSEA_Get_Products {
 
 						if (is_array ( $value ) ) {
 							if ($feed_config['name'] == "Yandex") {
-								$product = $offers->addChild('offer');
+								$product = $xml->shop->offers->addChild('offer');
 							} elseif ($feed_config['name'] == "Heureka.cz" || $feed_config['name'] == "Zbozi.cz") {
 								$product = $xml->addChild('SHOPITEM');
 							} elseif ($feed_config['name'] == "Zap.co.il") {
-								$product = $productz->addChild('PRODUCT');
+								$product = $xml->PRODUCTS->addChild('PRODUCT');
 							} elseif ($feed_config['name'] == "Salidzini.lv") {
 								$product = $xml->addChild('item');
 							} elseif ($feed_config['name'] == "Trovaprezzi.it") {

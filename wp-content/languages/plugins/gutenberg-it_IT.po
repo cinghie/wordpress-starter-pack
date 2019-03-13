@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-03-10 14:50:04+0000\n"
+"PO-Revision-Date: 2019-03-12 14:30:28+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1931,7 +1931,7 @@ msgstr "Mostra conteggio articoli"
 
 #: build/block-library/index.js:12
 msgid "Archives Settings"
-msgstr "Impostazioni archivio"
+msgstr "Impostazioni degli archivi"
 
 #: gutenberg.php:94
 msgid "https://wordpress.org/support/plugin/gutenberg"
@@ -1974,7 +1974,7 @@ msgstr "Seleziona l'anno"
 #: packages/block-library/src/archives/index.php:35
 #: build/block-library/index.js:12
 msgid "Archives"
-msgstr "Archivio"
+msgstr "Archivi"
 
 #: build/block-editor/index.js:1
 msgid "Very dark gray"
