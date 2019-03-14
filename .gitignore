@@ -51,7 +51,6 @@ wp-content/languages/themes/twentysixteen-it_IT.po
 wp-content/mu-plugins/
 wp-content/plugins/gogodigital*
 !wp-content/plugins/gogodigital-cookie-consent
-!wp-content/plugins/gogodigital-essentials
 wp-content/plugins/hello.php
 wp-content/upgrade/*
 wp-content/wflogs/*
