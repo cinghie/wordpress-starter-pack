@@ -1788,13 +1788,13 @@ class WooSEA_Get_Products {
 			 * Versioned products need a seperate approach
 			 * Get data for these products based on the mother products item group id 
 			 */
+			$variation_pass = "true";
 			if( ($product_data['item_group_id'] > 0) ){
 
 				$product_variations = new WC_Product_Variation( $product_data['id'] );
     				$variations = $product_variations->get_variation_attributes();
 				
 				// Determine the default variation product
-				$variation_pass = "true";
 				$mother_product = new WC_Product( $product_data['item_group_id'] );
 				$def_attributes = $mother_product->get_default_attributes();
 				$diff_result = array_diff($variations, $def_attributes);

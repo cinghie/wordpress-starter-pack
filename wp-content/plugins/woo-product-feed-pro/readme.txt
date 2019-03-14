@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 5.1
-Stable tag: 5.0.4
+Stable tag: 5.0.6
 
 == Description ==
 
@@ -272,6 +272,12 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 5.0.6 (2019-03-14) =
+* Fixed another priceValidUntil structured data markup issue
+
+= 5.0.5 (2019-03-13) =
+* Fixed a bug when enabling the select default variant only option
 
 = 5.0.4 (2019-03-12) =
 * Added priceValidUntil and url structured data mark-up to default WooCommerce structured data and added it to the structured data markup feature of this plugin
@@ -1540,6 +1546,12 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 5.0.6 =
+Fixed another priceValidUntil structured data markup issue
+
+= 5.0.5 =
+Fixed a bug when enabling the select default variant only option
 
 = 5.0.4 =
 Added priceValidUntil and url structured data mark-up to default WooCommerce structured data and added it to the structured data markup feature of this plugin

@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 5.1.x - Development package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-03-13 07:59:06+0000\n"
+"PO-Revision-Date: 2019-03-14 18:04:23+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3947,7 +3947,7 @@ msgstr[1] "Ci sono %d errori che devono essere corretti prima che tu possa salva
 #. translators: %s: URL to the Customizer to load the autosaved version
 #: wp-includes/script-loader.php:1398
 msgid "There is a more recent autosave of your changes than the one you are previewing. <a href=\"%s\">Restore the autosave</a>"
-msgstr "C'è un salvataggio automatico più recente delle tue modifiche rispetto a quello che stai visualizzando. <a href=\"%s\">Ripristina il salvataggio automatico</a>"
+msgstr "C'è un salvataggio automatico delle tue modifiche più recente di quello che stai visualizzando. <a href=\"%s\">Ripristina il salvataggio automatico</a>"
 
 #: wp-includes/script-loader.php:1394
 msgid "Are you sure you&#8217;d like to discard your unpublished changes?"

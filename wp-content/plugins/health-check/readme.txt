@@ -2,8 +2,8 @@
 Tags: health check
 Contributors: wordpressdotorg, westi, pento, Clorith
 Requires at least: 4.0
-Tested up to: 5.0
-Stable tag: 1.2.5
+Tested up to: 5.1
+Stable tag: 1.2.6
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,7 +39,10 @@ Are you unfamiliar with how to clear your cookies? No worries, you may also clos
 
 == Changelog ==
 
-= v1.2.5=
+= v1.2.6 =
+* Security: Harden the consistency checker, further limiting what files can be looked up to only include core files. Independently reported by Julien Legras of [Synacktiv](https://synacktiv.com) and Tim Coen of [Tim Coen IT Security & Development](https://security-consulting.icu/).
+
+= v1.2.5 =
 * Fix: Ensure the REST API status test runs as intended.
 * Fix: Remove warning on plugin screens when premium plugins are used.
 * Fix: Backup reminder would not remain dismissed in all scenarios after the recent update.
