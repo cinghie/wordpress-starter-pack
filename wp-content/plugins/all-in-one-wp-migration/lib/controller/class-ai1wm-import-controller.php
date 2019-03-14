@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2014-2019 ServMask Inc.
+ * Copyright (C) 2014-2018 ServMask Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,10 +23,6 @@
  * ╚══════╝╚══════╝╚═╝  ╚═╝  ╚═══╝  ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	die( 'Kangaroos cannot jump here' );
-}
-
 class Ai1wm_Import_Controller {
 
 	public static function index() {
@@ -44,8 +40,9 @@ class Ai1wm_Import_Controller {
 		}
 
 		// Set priority
-		if ( ! isset( $params['priority'] ) ) {
-			$params['priority'] = 10;
+		$priority = 10;
+		if ( isset( $params['priority'] ) ) {
+			$priority = (int) $params['priority'];
 		}
 
 		// Set secret key
@@ -73,7 +70,7 @@ class Ai1wm_Import_Controller {
 
 			// Loop over filters
 			while ( $hooks = current( $filters ) ) {
-				if ( intval( $params['priority'] ) === key( $filters ) ) {
+				if ( $priority === key( $filters ) ) {
 					foreach ( $hooks as $hook ) {
 						try {
 
@@ -84,20 +81,12 @@ class Ai1wm_Import_Controller {
 							Ai1wm_Log::import( $params );
 
 						} catch ( Ai1wm_Import_Retry_Exception $e ) {
-							if ( defined( 'WP_CLI' ) ) {
-								WP_CLI::error( sprintf( __( 'Unable to import. Error code: %s. %s', AI1WM_PLUGIN_NAME ), $e->getCode(), $e->getMessage() ) );
-							} else {
-								status_header( $e->getCode() );
-								echo json_encode( array( 'errors' => array( array( 'code' => $e->getCode(), 'message' => $e->getMessage() ) ) ) );
-							}
+							status_header( $e->getCode() );
+							echo json_encode( array( 'errors' => array( array( 'code' => $e->getCode(), 'message' => $e->getMessage() ) ) ) );
 							exit;
 						} catch ( Exception $e ) {
-							if ( defined( 'WP_CLI' ) ) {
-								WP_CLI::error( sprintf( __( 'Unable to import: %s', AI1WM_PLUGIN_NAME ), $e->getMessage() ) );
-							} else {
-								Ai1wm_Status::error( __( 'Unable to import', AI1WM_PLUGIN_NAME ), $e->getMessage() );
-								Ai1wm_Notification::error( __( 'Unable to import', AI1WM_PLUGIN_NAME ), $e->getMessage() );
-							}
+							Ai1wm_Status::error( __( 'Unable to import', AI1WM_PLUGIN_NAME ), $e->getMessage() );
+							Ai1wm_Notification::error( __( 'Unable to import', AI1WM_PLUGIN_NAME ), $e->getMessage() );
 							Ai1wm_Directory::delete( ai1wm_storage_path( $params ) );
 							exit;
 						}
@@ -111,10 +100,6 @@ class Ai1wm_Import_Controller {
 
 					// Do request
 					if ( $completed === false || ( $next = next( $filters ) ) && ( $params['priority'] = key( $filters ) ) ) {
-						if ( defined( 'WP_CLI' ) ) {
-							continue;
-						}
-
 						if ( isset( $params['ai1wm_manual_import'] ) || isset( $params['ai1wm_manual_restore'] ) ) {
 							echo json_encode( $params );
 							exit;
@@ -134,7 +119,6 @@ class Ai1wm_Import_Controller {
 				next( $filters );
 			}
 		}
-		return $params;
 	}
 
 	public static function buttons() {
@@ -153,14 +137,7 @@ class Ai1wm_Import_Controller {
 			apply_filters( 'ai1wm_import_gcloud_storage', Ai1wm_Template::get_content( 'import/button-gcloud-storage' ) ),
 			apply_filters( 'ai1wm_import_azure_storage', Ai1wm_Template::get_content( 'import/button-azure-storage' ) ),
 			apply_filters( 'ai1wm_import_glacier', Ai1wm_Template::get_content( 'import/button-glacier' ) ),
-			apply_filters( 'ai1wm_import_pcloud', Ai1wm_Template::get_content( 'import/button-pcloud' ) ),
-			apply_filters( 'ai1wm_import_webdav', Ai1wm_Template::get_content( 'import/button-webdav' ) ),
-			apply_filters( 'ai1wm_import_s3_client', Ai1wm_Template::get_content( 'import/button-s3-client' ) ),
 		);
-	}
-
-	public static function pro() {
-		return Ai1wm_Template::get_content( 'import/pro' );
 	}
 
 	public static function http_import_headers( $headers = array() ) {
