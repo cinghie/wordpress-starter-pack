@@ -86,7 +86,6 @@ function hide_wordpress_version() {
  - Disable REST API  
  - FancyBox for WordPress  
  - Gogodigital Cookie Consent  
- - Gogodigital Essentials  
  - Google Analytics for WordPress by MonsterInsights  
  - Gutenberg  
  - Health Check & Troubleshooting  
@@ -95,7 +94,6 @@ function hide_wordpress_version() {
  - MetaSlider  
  - Post Types Order  
  - Redirection  
- - Really Simple SSL  
  - Regenerate Thumbnails  
  - Shapely Companion  
  - Smush  
@@ -103,7 +101,6 @@ function hide_wordpress_version() {
  - TinyMCE Advanced  
  - Widget Importer & Exporter  
  - Wordfence Security  
- - WordPress Importer  
  - WordPress Popular Posts  
  - WP Instagram Widget  
  - WP Mail Logging  

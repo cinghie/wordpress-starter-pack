@@ -41,10 +41,10 @@ wp-admin/
 wp-includes/
 
 # WP Content Files
-wp-content/ai1wm-backups/*
-wp-content/backup-db/*
-wp-content/backups/*
-wp-content/cache/*
+wp-content/ai1wm-backups/
+wp-content/backup-db/
+wp-content/backups/
+wp-content/cache/
 wp-content/languages/themes/twentyfifteen-it_IT.po
 wp-content/languages/themes/twentyseventeen-it_IT.po
 wp-content/languages/themes/twentysixteen-it_IT.po
@@ -52,8 +52,8 @@ wp-content/mu-plugins/
 wp-content/plugins/gogodigital*
 !wp-content/plugins/gogodigital-cookie-consent
 wp-content/plugins/hello.php
-wp-content/upgrade/*
-wp-content/wflogs/*
+wp-content/upgrade/
+wp-content/wflogs/
 wp-content/wp-cache-config.php
 
 # WP Included
