@@ -57,9 +57,6 @@ wp-content/wflogs/
 wp-content/wp-cache-config.php
 
 # WP Included
-!wp-content/ai1wm-backups/.htaccess
-!wp-content/ai1wm-backups/index.php
-!wp-content/ai1wm-backups/web.config
 !wp-content/cache/.htaccess
 !wp-content/cache/index.html
 !wp-content/languages/
