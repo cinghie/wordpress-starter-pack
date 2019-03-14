@@ -1,6 +1,13 @@
 <?php
 
 /**
+ * Add Aqua Resizer
+ *
+ * @see https://github.com/syamilmj/Aqua-Resizer
+ */
+require_once 'aq_resizer.php';
+
+/**
  * Storefront automatically loads the core CSS even if using a child theme as it is more efficient
  * than @importing it in the child theme style.css file.
  *
@@ -20,13 +27,32 @@ function sf_child_theme_dequeue_style() {
 }
 
 /**
- * Note: DO NOT! alter or remove the code above this text and only add your custom PHP functions below this text.
+ * Hide Wordpress Version
+ *
+ * @return string
  */
-
-require_once 'aq_resizer.php';
-
 function hide_wordpress_version() {
 	return '';
 }
 
 add_filter('the_generator', 'hide_wordpress_version');
+
+/**
+ * Prevent update notification for plugin
+ * http://www.thecreativedev.com/disable-updates-for-specific-plugin-in-wordpress/
+ * Place in theme functions.php or at bottom of wp-config.php
+ *
+ * @param $value
+ *
+ * @return mixed
+ */
+function disable_plugin_updates($value)
+{
+	if (is_object($value) && isset($value, $value->response['all-in-one-wp-migration/all-in-one-wp-migration.php'])) {
+		unset($value->response['all-in-one-wp-migration/all-in-one-wp-migration.php'] );
+	}
+
+	return $value;
+}
+
+add_filter( 'site_transient_update_plugins', 'disable_plugin_updates' );
