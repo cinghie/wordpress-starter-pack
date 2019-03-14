@@ -16,36 +16,43 @@ $email = $current_user->user_email;
 	<div class="clear"></div>
 	<div class="tabs">
 		<div id="sfsi_technical" class="tab-content" style="text-align:center;display:block">
-			<p>Please ask your question in the...</p>
+			<h5>Please ask your question in the...</h5>
 			<div class="support-forum-green-div">
-				<a target="_blank" href="https://goo.gl/auxJ9C#no-topic-0" class="support-forum-green-bg">
+				<!-- <span style="width: 25%">   </span> -->
+				<a target="_blank" href="https://goo.gl/auxJ9C#no-topic-0" class="support-forum-green-bg" stype='width: 25%'>
 	                <img src="<?php echo SFSI_PLUGURL ?>images/support.png">
 	                <p class="support-forum">Support Forum</p>
 	            </a>
+	            <span class="sfsi-button-right-side" stype='width: 25%'><span class="sfsi-button-right-side-icon"></span>Click here</span>
 	        </div>
-	        <p class="sfsi-button-right-side" ><span class="sfsi-button-right-side-icon"></span>Click here</p>
-			<p>We‘ll respond <span style="text-decoration: underline;font-weight:500">quickly!</span></p>
+	        <!-- <p class="sfsi-button-right-side" ><span class="sfsi-button-right-side-icon"></span>Click here</p> -->
+			<h5>We‘ll respond <span style="text-decoration: underline;"><b>quickly!</b></span></h5>
 		</div>
 		<div id="sfsi_sales" class="tab-content" style="display:none">
 			
 			<div style="display:block" class="before_message_sent">
-				<p class="right-message" style="display:none">Please also check the <a href="">FAQ</a></p>	
+
+				<!-- <p class="right-message" style="display:none">Please also check the <a href="">FAQ</a></p>	 -->
 				<form action="#" method="POST" >
 					<div>
-						<label for="question">Your question: </label>
-						<textarea id="question" name="question"></textarea>
+						<div for="question" class="label">
+							Your question:
+							<!-- <span class="right-message">Please also check the <a href=""><i>FAQ</i></a></span> -->
+						</div>
+						<textarea id="question" name="question" placeholder="Your question..."></textarea>
 					</div>
 					<div>
-						<div style="width:60%;float:left">
-							<label for="email">Your email:</label>
-							<input type="email" name="email" value="<?php echo $email; ?>">
-						</div>
-						<div style="width:35%;float:right">
-							<input type="submit" value="Send message">
+						<div>
+							<div for="email" class="label email">Your email: </div>
+							<div>
+								<input type="email" name="email" value="<?php echo $email; ?>" placeholder="your@email.com" style="width:60%;float:left">
+								<input type="submit" value="Send message" class="submit" style="width:37%;float:right">
+							</div>
 						</div>
 						<div class="clear"></div>
 					</div>
 				</form>
+
 			</div>
 			<div style="display:none" class="after_message_sent">
 				<h2>Thank you!</h2>

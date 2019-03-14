@@ -24,7 +24,7 @@ function sfsi_delete_CusIcon(s, i) {
         icon_name:i.attr("name")
     };
     SFSI.ajax({
-        url:ajax_object.ajax_url,
+        url:sfsi_icon_ajax_object.ajax_url,
         type:"post",
         data:e,
         dataType:"json",
@@ -146,7 +146,7 @@ function sfsi_customskin_upload(s, ref)
     };
 	
 	SFSI.ajax({
-        url:ajax_object.ajax_url,
+        url:sfsi_icon_ajax_object.ajax_url,
         type:"post",
         data:e,
         success:function(msg) {
@@ -174,7 +174,7 @@ function deleteskin_icon(s)
     };
 	
 	SFSI.ajax({
-        url:ajax_object.ajax_url,
+        url:sfsi_icon_ajax_object.ajax_url,
         type:"post",
         data:e,
 		dataType: "json",
@@ -200,7 +200,7 @@ function SFSI_done()
 	e = { action:"Iamdone" };
 	
 	SFSI.ajax({
-        url:ajax_object.ajax_url,
+        url:sfsi_icon_ajax_object.ajax_url,
         type:"post",
         data:e,
         success:function(msg) {
@@ -219,7 +219,7 @@ function sfsi_newcustomicon_upload(s) {
         custom_imgurl:i
     };
     SFSI.ajax({
-        url:ajax_object.ajax_url,
+        url:sfsi_icon_ajax_object.ajax_url,
         type:"post",
         data:e,
         dataType:"json",
@@ -261,7 +261,7 @@ function sfsi_update_step1() {
 		nonce:nonce
     };
     SFSI.ajax({
-        url:ajax_object.ajax_url,
+        url:sfsi_icon_ajax_object.ajax_url,
         type:"post",
         data:I,
         async:!0,
@@ -332,7 +332,7 @@ function sfsi_update_step2() {
 		nonce:nonce
     };
     SFSI.ajax({
-        url:ajax_object.ajax_url,
+        url:sfsi_icon_ajax_object.ajax_url,
         type:"post",
         data:M,
         async:!0,
@@ -383,7 +383,7 @@ function sfsi_update_step3() {
 		nonce:nonce
     };
     SFSI.ajax({
-        url:ajax_object.ajax_url,
+        url:sfsi_icon_ajax_object.ajax_url,
         type:"post",
         data:d,
         async:!0,
@@ -482,7 +482,7 @@ function sfsi_update_step4() {
 		nonce:nonce
     };
     return SFSI.ajax({
-        url:ajax_object.ajax_url,
+        url:sfsi_icon_ajax_object.ajax_url,
         type:"post",
         data:$,
         dataType:"json",
@@ -581,7 +581,7 @@ function sfsi_update_step5() {
 		nonce:nonce
     };
 	SFSI.ajax({
-        url:ajax_object.ajax_url,
+        url:sfsi_icon_ajax_object.ajax_url,
         type:"post",
         data:T,
         dataType:"json",
@@ -632,7 +632,7 @@ function sfsi_update_step6() {
 		nonce:nonce
     };
     SFSI.ajax({
-        url:ajax_object.ajax_url,
+        url:sfsi_icon_ajax_object.ajax_url,
         type:"post",
         data:n,
         dataType:"json",
@@ -683,7 +683,7 @@ function sfsi_update_step7() {
 		nonce:nonce
     };
 	 SFSI.ajax({
-        url:ajax_object.ajax_url,
+        url:sfsi_icon_ajax_object.ajax_url,
         type:"post",
         data:f,
         dataType:"json",
@@ -772,7 +772,7 @@ function sfsi_update_step8()
 		nonce:nonce
     };
 	SFSI.ajax({
-        url:ajax_object.ajax_url,
+        url:sfsi_icon_ajax_object.ajax_url,
         type:"post",
         data:f,
         dataType:"json",
@@ -828,7 +828,7 @@ function sfsi_update_step9()
         nonce:nonce
     };
     SFSI.ajax({
-        url:ajax_object.ajax_url,
+        url:sfsi_icon_ajax_object.ajax_url,
         type:"post",
         data:f,
         dataType:"json",
@@ -1622,7 +1622,7 @@ function create_suscriber_form()
 		button:SFSI('input[name="sfsi_form_button_text"]').val()
 	};
 	SFSI.ajax({
-        url:ajax_object.ajax_url,
+        url:sfsi_icon_ajax_object.ajax_url,
         type:"post",
         data:data,
         success:function(s) {
@@ -1642,7 +1642,7 @@ if(typeof SFSI != 'undefined'){
         SFSI(document).on("click", btnClass, function(){
             
             SFSI.ajax({
-                url:ajax_object.ajax_url,
+                url:sfsi_icon_ajax_object.ajax_url,
                 type:"post",
                 data:{action: ajaxAction},
                 success:function(e) {
@@ -1845,16 +1845,16 @@ SFSI(document).ready(function(s) {
 		palettes: true
 	}),
 	SFSI("div#sfsiid_linkedin").find(".icon4").find("a").find("img").mouseover(function() {
-        SFSI(this).attr("src", ajax_object.plugin_url + "images/visit_icons/linkedIn_hover.svg");
+        SFSI(this).attr("src", sfsi_icon_ajax_object.plugin_url + "images/visit_icons/linkedIn_hover.svg");
     }),
 	SFSI("div#sfsiid_linkedin").find(".icon4").find("a").find("img").mouseleave(function() {
-        SFSI(this).attr("src", ajax_object.plugin_url + "images/visit_icons/linkedIn.svg");
+        SFSI(this).attr("src", sfsi_icon_ajax_object.plugin_url + "images/visit_icons/linkedIn.svg");
     }),
 	SFSI("div#sfsiid_youtube").find(".icon1").find("a").find("img").mouseover(function() {
-        SFSI(this).attr("src", ajax_object.plugin_url + "images/visit_icons/youtube_hover.svg");
+        SFSI(this).attr("src", sfsi_icon_ajax_object.plugin_url + "images/visit_icons/youtube_hover.svg");
     }),
 	SFSI("div#sfsiid_youtube").find(".icon1").find("a").find("img").mouseleave(function() {
-        SFSI(this).attr("src", ajax_object.plugin_url + "images/visit_icons/youtube.svg");
+        SFSI(this).attr("src", sfsi_icon_ajax_object.plugin_url + "images/visit_icons/youtube.svg");
     }),
 	SFSI("div#sfsiid_facebook").find(".icon1").find("a").find("img").mouseover(function() {
         SFSI(this).css("opacity", "0.9");
@@ -1968,7 +1968,7 @@ SFSI(document).ready(function(s) {
 			nonce:nonce
         };
         SFSI.ajax({
-            url:ajax_object.ajax_url,
+            url:sfsi_icon_ajax_object.ajax_url,
             type:"post",
             data:s,
             dataType:"json",
@@ -1994,7 +1994,7 @@ SFSI(document).ready(function(s) {
 			nonce:nonce
         };
         SFSI.ajax({
-            url:ajax_object.ajax_url,
+            url:sfsi_icon_ajax_object.ajax_url,
             type:"post",
             data:s,
             dataType:"json",
@@ -2470,13 +2470,31 @@ SFSI(document).ready(function(){
         event&event.preventDefault();
         // console.log(event);
         var target=SFSI(this).parents('.tab-content');
+        var message= SFSI(this).find('textarea[name="question"]').val();
+        var email=SFSI(this).find('input[name="email"]').val();
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        
+        if(""===email || false===re.test(String(email).toLowerCase())){
+            // console.log(SFSI(this).find('input[name="email"]'));
+            SFSI(this).find('input[name="email"]').css('background-color','red');
+            SFSI(this).find('input[name="email"]').on('keyup',function(){
+                var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                var email = SFSI(this).val();
+                // console.log(email,re.test(String(email).toLowerCase()) );
+                if(""!==email && true===re.test(String(email).toLowerCase())){
+                    SFSI(this).css('background-color','#fff');
+                }
+            })
+            return false;
+
+        }
         SFSI.ajax({
-            url:ajax_object.ajax_url,
+            url:sfsi_icon_ajax_object.ajax_url,
             type:"post",
             data:{
                 action: "sfsiOfflineChatMessage",
-                message: SFSI(this).find('textarea[name="question"]').val(),
-                email:   SFSI(this).find('input[name="email"]').val(),
+                message: message,
+                email:   email,
             }
         }).done(function(){
             target.find('.before_message_sent').hide();

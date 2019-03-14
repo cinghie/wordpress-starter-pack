@@ -2435,3 +2435,146 @@ div#sfsi_plus_langnotice,div#sfsi_plus_addThis_removal_notice,div#sfsi_error_rep
         width:400px;
     }
 }
+
+#sfsi_jivo_offline_chat{border: 3px solid #ececec;}
+
+#sfsi_jivo_offline_chat{padding-bottom: 30px;}
+
+#sfsi_jivo_offline_chat .heading-text {font-size: 14px;}
+
+#sfsi_jivo_offline_chat .tabs{background-color: #ededed;}
+
+
+#sfsi_jivo_offline_chat .tab-changer li p{
+    padding: 8px !important;
+}
+
+#sfsi_jivo_offline_chat .tab-changer .tab-link p{
+    font-size: 21px !important;
+    font-weight: 500;
+    color: #000000;
+}
+
+
+#sfsi_jivo_offline_chat .tab-changer .tab-link p span{
+    font-size: 14px !important;
+    font-weight: 400;
+    color: #000000;
+}
+
+#sfsi_jivo_offline_chat .tab-changer .active p span{
+    color: #ffffff;
+}
+
+#sfsi_jivo_offline_chat .tabs #sfsi_sales{
+    padding: 30px 30px 40px 30px;
+    background: #ededed;
+}
+
+
+#sfsi_jivo_offline_chat .tabs #sfsi_sales .label{
+    margin-bottom: 8px;
+    font-size: 17px;
+    font-weight: 500;
+    color: #000000;
+}
+
+
+#sfsi_jivo_offline_chat .tabs #sfsi_sales .email{
+    margin-top: 15px;
+}
+
+#sfsi_jivo_offline_chat .tabs #sfsi_sales .right-message{
+    font-size: 14px;
+    color: #000000;
+}
+
+#sfsi_jivo_offline_chat .tabs #sfsi_sales textarea{
+    padding: 10px !important;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 0 !important;
+}
+
+#sfsi_jivo_offline_chat .tabs #sfsi_sales input{
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 0 !important;
+}
+
+#sfsi_jivo_offline_chat .tabs #sfsi_sales input[type="submit"], #sfsi_jivo_offline_chat .tabs #sfsi_sales .after_message_sent button{
+        background: #52b250;
+}
+
+
+#sfsi_jivo_offline_chat #sfsi_technical{
+    padding: 57px;
+    background-color: #ededed
+}
+
+#sfsi_technical h5{
+    font-size: 18px;
+    color: #000000;
+    margin: 10px;
+}
+
+#sfsi_technical h5 b{
+    font-weight: 700;
+}
+
+#sfsi_jivo_offline_chat #sfsi_technical .sfsi-button-right-side{
+    font-size: 12px!important;
+    font-weight: 700;
+    margin-top: 0px!important;
+    margin-left: 0px!important;
+    color: #000000;
+    position: absolute;
+    padding: 12px;
+}
+
+#sfsi_jivo_offline_chat .tabs .support-forum-green-div{
+    text-align: center;
+    margin: 20px 0 25px 0;
+}
+
+#sfsi_jivo_offline_chat .tabs .support-forum-green-div a{
+    padding: 12px 25px;
+    background: #52b250;
+}
+
+#sfsi_jivo_offline_chat  #sfsi_technical .support-forum-green-div .support-forum-green-bg p{
+    padding: 0;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+#sfsi_jivo_offline_chat #sfsi_technical .support-forum-green-div .support-forum-green-bg img{
+    height: 28px;
+    position: relative;
+    top: 9px;
+    padding-right: 5px;
+    margin-top: 0px;
+}
+
+#sfsi_jivo_offline_chat #sfsi_technical .sfsi-button-right-side .sfsi-button-right-side-icon{padding-right: -1px;}
+
+#sfsi_jivo_offline_chat .tabs #sfsi_sales .after_message_sent h3 {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+#sfsi_jivo_offline_chat .tabs #sfsi_sales .after_message_sent h2 {
+    font-size: 35px;
+    font-weight: 700;
+    margin: 25px 0;
+}
+
+#sfsi_jivo_offline_chat .tabs #sfsi_sales .after_message_sent button {
+    width: auto;
+    margin-top: 6px;
+    padding: 8px 30px;
+    font-size: 16px;
+    background: #52b250;
+}

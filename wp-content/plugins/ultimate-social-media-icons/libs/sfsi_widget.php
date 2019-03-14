@@ -1124,11 +1124,11 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 					 }
                  }
 
-				$cFrom  = isset($sfsi_section2_options['sfsi_linkedIn_countsFrom']) && !empty($sfsi_section2_options['sfsi_linkedIn_countsFrom']) ? $sfsi_section2_options['sfsi_linkedIn_countsFrom'] : false;
+				$cFrom  = isset($sfsi_section4_options['sfsi_linkedIn_countsFrom']) && !empty($sfsi_section4_options['sfsi_linkedIn_countsFrom']) ? $sfsi_section4_options['sfsi_linkedIn_countsFrom'] : false;
 
-				$disp  = isset($sfsi_section2_options['sfsi_linkedIn_countsDisplay']) && !empty($sfsi_section2_options['sfsi_linkedIn_countsDisplay']) ? $sfsi_section2_options['sfsi_linkedIn_countsDisplay'] : false;
+				$disp  = isset($sfsi_section4_options['sfsi_linkedIn_countsDisplay']) && !empty($sfsi_section4_options['sfsi_linkedIn_countsDisplay']) ? $sfsi_section4_options['sfsi_linkedIn_countsDisplay'] : false;
 
-				$dcount  = isset($sfsi_section2_options['sfsi_display_counts']) && !empty($sfsi_section2_options['sfsi_display_counts']) ? $sfsi_section2_options['sfsi_display_counts'] : false;
+				$dcount  = isset($sfsi_section4_options['sfsi_display_counts']) && !empty($sfsi_section4_options['sfsi_display_counts']) ? $sfsi_section4_options['sfsi_display_counts'] : false;
 
                  /* fecth no of counts if active in admin section */   
 				 if($disp=="yes" &&$dcount=="yes")
@@ -1221,8 +1221,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				}
             break;    
     }
-    $icons="";
-    
+    $icons="";    
 	/* apply size of icon */
     if($is_front==0)
     {
@@ -1299,8 +1298,6 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 	{
 		$margin_bot = "30px;";
     }
-    
-	
     if(isset($icon) && !empty($icon) && filter_var($icon, FILTER_VALIDATE_URL))
 	{
 		$icons.= "<div style='width:".$icon_width."px; height:".$icon_width."px;margin-left:".$icons_space."px;margin-bottom:".$margin_bot."' class='".$itemselector." ".$cmcls."'>";
@@ -1310,12 +1307,10 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				$icons.= "<a class='".$class." sficn' effect='".$mouse_hover_effect."' $new_window  href='".$url."' id='sfsiid_".$icon_name."' alt='".$alt_text."' style='opacity:".$icon_opacity."' >";     
 					$icons.= "<img alt='".$alt_text."' title='".$alt_text."' src='".$icon."' width='".$icons_size."' height='".$icons_size."' style='".$border_radius.$padding_top."' class='sfcm sfsi_wicon' effect='".$mouse_hover_effect."'   />"; 
 				$icons.= '</a>';
-	   
 	   if(isset($counts) &&  $counts!='')
 	   {
 			$icons.= '<span class="bot_no '.$bt_class.'">'.$counts.'</span>';  
-	   }
-		 
+	   }	
 	   if($hoverSHow && !empty($hoverdiv))
 	   {	
 			$icons.= '<div class="sfsi_tool_tip_2 '.$toolClass.' '.$toolT_cls.'" style="width:'.$width.'px ;opacity:0;z-index:-1;margin-left:-'.$twt_margin.'px;" id="sfsiid_'.$icon_name.'">';
@@ -1324,7 +1319,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 			$icons.= "</div>";
 	   }
 	   $icons.="</div>";
-	   $icons.="</div>";
+	   $icons.="</div>";	   
 	}
    return  $icons;       
 }

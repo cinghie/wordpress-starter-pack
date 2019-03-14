@@ -981,7 +981,97 @@ function sfsi_bannerOption(){
             }
         }
       }
+    
+      if(!$matchFound){
+        foreach ($themeDataArr as $themeDataObj) {
 
+            if(isset($themeDataObj->themeName) && strlen($themeDataObj->themeName)>0){
+    
+                $themeName          = $themeDataObj->themeName;
+                $noBrainerKeywords  = $themeDataObj->noBrainerKeywords;
+                $separateKeywords   = $themeDataObj->separateKeywords;
+                $negativeKeywords   = $themeDataObj->negativeKeywords;
+                $noBrainerAndSeparateKeywords = array_merge($noBrainerKeywords,$separateKeywords);
+
+
+                if($objThemeCheck->sfsi_plus_check_type_of_metaTitleWithNoBrainerAndSeparateAndNegativeKeywords($themeName,$noBrainerKeywords,$separateKeywords,$noBrainerAndSeparateKeywords,$negativeKeywords,$domainname)==$themeName)
+            {
+                $matchFound = true;         
+
+                $themeName = strtolower($themeName);
+
+                $objThemeCheck->sfsi_plus_bannereHtml(
+                        $themeDataObj->headline, 
+                        $themeDataObj->themeLink, 
+                        SFSI_PLUGURL.'images/website_theme/'.$themeName.'.png', 
+                        $themeDataObj->bottomtext
+                    );
+
+                break;
+            }
+        }
+      }
+    }
+    if(!$matchFound){
+        foreach ($themeDataArr as $themeDataObj) {
+
+            if(isset($themeDataObj->themeName) && strlen($themeDataObj->themeName)>0){
+    
+                $themeName          = $themeDataObj->themeName;
+                $noBrainerKeywords  = $themeDataObj->noBrainerKeywords;
+                $separateKeywords   = $themeDataObj->separateKeywords;
+                $negativeKeywords   = $themeDataObj->negativeKeywords;
+                $noBrainerAndSeparateKeywords = array_merge($noBrainerKeywords,$separateKeywords);
+
+
+                if($objThemeCheck->sfsi_plus_check_type_of_metaKeywordsWithNoBrainerAndSeparateAndNegativeKeywords($themeName,$noBrainerKeywords,$separateKeywords,$noBrainerAndSeparateKeywords,$negativeKeywords,$domainname)==$themeName)
+            {
+                $matchFound = true;         
+
+                $themeName = strtolower($themeName);
+
+                $objThemeCheck->sfsi_plus_bannereHtml(
+                        $themeDataObj->headline, 
+                        $themeDataObj->themeLink, 
+                        SFSI_PLUGURL.'images/website_theme/'.$themeName.'.png', 
+                        $themeDataObj->bottomtext
+                    );
+
+                break;
+            }
+        }
+      }
+    }
+    if(!$matchFound){
+        foreach ($themeDataArr as $themeDataObj) {
+
+            if(isset($themeDataObj->themeName) && strlen($themeDataObj->themeName)>0) {
+    
+                $themeName          = $themeDataObj->themeName;
+                $noBrainerKeywords  = $themeDataObj->noBrainerKeywords;
+                $separateKeywords   = $themeDataObj->separateKeywords;
+                $negativeKeywords   = $themeDataObj->negativeKeywords;
+                $noBrainerAndSeparateKeywords = array_merge($noBrainerKeywords,$separateKeywords);
+
+
+                if($objThemeCheck->sfsi_plus_check_type_of_metaDescriptionWithNoBrainerAndSeparateAndNegativeKeywords($themeName,$noBrainerKeywords,$separateKeywords,$noBrainerAndSeparateKeywords,$negativeKeywords,$domainname)==$themeName)
+            {
+                $matchFound = true;         
+
+                $themeName = strtolower($themeName);
+
+                $objThemeCheck->sfsi_plus_bannereHtml(
+                        $themeDataObj->headline, 
+                        $themeDataObj->themeLink, 
+                        SFSI_PLUGURL.'images/website_theme/'.$themeName.'.png', 
+                        $themeDataObj->bottomtext
+                    );
+
+                break;
+            }
+        }
+      }
+    }
 
       // if(!$matchFound){
             
@@ -1012,7 +1102,7 @@ function sfsi_bannerOption(){
         echo '<script type="text/javascript">
                 jQuery("body").on("click", ".sfsi_new_notification_cross", function(){
                     SFSI.ajax({
-                        url:ajax_object.ajax_url,
+                        url:sfsi_icon_ajax_object.ajax_url,
                         type:"post",
                         data: {action: "new_notification_read"},
                         success:function(msg){
@@ -1025,7 +1115,7 @@ function sfsi_bannerOption(){
                 });
                 jQuery("body").on("click", ".sfsi_new_notification_cross_cat", function(){
                     SFSI.ajax({
-                        url:ajax_object.ajax_url,
+                        url:sfsi_icon_ajax_object.ajax_url,
                         type:"post",
                         data: {action: "new_notification_read"},
                         success:function(msg){
