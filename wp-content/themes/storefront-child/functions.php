@@ -27,6 +27,18 @@ function sf_child_theme_dequeue_style() {
 }
 
 /**
+ * Add JS and Styles to Theme
+ */
+function add_theme_scripts() {
+	// Add FontAwesome
+	wp_enqueue_style( 'fontawesome', get_template_directory_uri() . './../storefront-child/assets/css/fontawesome.min.css',false,'5.7.2');
+	// Add custom.js
+	wp_enqueue_script( 'custom-js', get_template_directory_uri() . './../storefront-child/assets/js/custom.js', array ( 'jquery' ), '1.0', true);
+}
+
+add_action( 'wp_enqueue_scripts', 'add_theme_scripts' );
+
+/**
  * Hide Wordpress Version
  *
  * @return string
@@ -39,8 +51,6 @@ add_filter('the_generator', 'hide_wordpress_version');
 
 /**
  * Prevent update notification for plugin
- * http://www.thecreativedev.com/disable-updates-for-specific-plugin-in-wordpress/
- * Place in theme functions.php or at bottom of wp-config.php
  *
  * @param $value
  *
