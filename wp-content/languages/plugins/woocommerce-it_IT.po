@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - WooCommerce - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-03-13 21:53:09+0000\n"
+"PO-Revision-Date: 2019-03-15 00:22:18+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -47,10 +47,6 @@ msgstr "Ci siamo accorti che hai un editor a blocchi disponibile: prova WooComme
 msgid "account erasure request"
 msgstr "richiesta di cancellazione account"
 
-#: includes/import/abstract-wc-product-importer.php:444
-msgid "Variation cannot be imported: Parent product cannot be a product variation"
-msgstr "La variante non può essere importata: il prodotto principale non può essere una variante"
-
 #: includes/api/v2/class-wc-rest-system-status-tools-v2-controller.php:553
 msgid "Database upgrade routine has been scheduled to run in the background."
 msgstr "La routine dell'aggiornamento del database è stata pianificata per essere eseguita in background."
@@ -66,6 +62,10 @@ msgstr "Il "
 #: includes/abstracts/abstract-wc-rest-terms-controller.php:541
 msgid "Default product category cannot be deleted."
 msgstr "La categoria prodotti predefinita non può essere eliminata."
+
+#: includes/import/abstract-wc-product-importer.php:444
+msgid "Variation cannot be imported: Parent product cannot be a product variation"
+msgstr "La variazione non può essere importata: il prodotto principale non può essere una variante"
 
 #: includes/admin/class-wc-admin-customize.php:41
 msgid "WooCommerce Endpoints"
@@ -95,10 +95,6 @@ msgstr "configurazione del pagamento ed etichette di spedizione scontate"
 msgid "Sorry to see you go."
 msgstr "Siamo spiacenti di vederti andare via."
 
-#: includes/admin/class-wc-admin-setup-wizard.php:2015
-msgid "automated taxes and discounted shipping labels"
-msgstr "tasse automatiche ed etichette di spedizione scontate"
-
 #: includes/admin/class-wc-admin-api-keys.php:240
 msgid "You do not have permission to revoke API Keys"
 msgstr "Non hai i permessi necessari per revocare le chiavi API"
@@ -110,6 +106,10 @@ msgstr "Non hai i permessi necessari per revocare questa chiave API"
 #: includes/admin/class-wc-admin-api-keys.php:63
 msgid "You do not have permission to edit this API Key"
 msgstr "Non hai i permessi necessari per modificare questa chiave API"
+
+#: includes/admin/class-wc-admin-setup-wizard.php:2015
+msgid "automated taxes and discounted shipping labels"
+msgstr "imposte automatiche ed etichette di spedizione scontate"
 
 #. translators: %1$s: Order ID. %2$s: Order date
 #: templates/emails/plain/email-order-details.php:25
@@ -1405,7 +1405,7 @@ msgstr "Impossibile impostare gli attributi a causa del prodotto principale non 
 
 #: includes/admin/class-wc-admin-assets.php:170
 msgid "This action cannot be reversed. Are you sure you wish to erase personal data from the selected orders?"
-msgstr "Questa azione non può essere effettuata. Sei sicuro di voler cancellare i dati personali dagli ordini selezionati?"
+msgstr "Questa azione è irreversibile. Desideri eliminare i dati personali dagli ordini selezionati?"
 
 #. translators: %d: shipping package number
 #: includes/wc-cart-functions.php:229
@@ -1871,10 +1871,6 @@ msgstr "Tutte le sessioni attive e i %d carrelli salvati sono stati eliminati."
 msgid "This tool will delete all customer session data from the database, including current carts and saved carts in the database."
 msgstr "Questo strumento eliminerà tutti i dati della sessione del cliente dal database, inclusi i carrelli correnti e i carrelli salvati nel database."
 
-#: includes/api/v2/class-wc-rest-product-variations-v2-controller.php:167
-msgid "Parent product does not match current variation."
-msgstr "Il prodotto principale non corrisponde alla variante corrente."
-
 #: includes/api/v2/class-wc-rest-order-refunds-v2-controller.php:388
 msgid "If the payment was refunded via the API."
 msgstr "Se il pagamento era stato rimborsato tramite l'API."
@@ -1982,6 +1978,10 @@ msgstr "Gestore negozio"
 msgid "Limit result set to products with a specific attribute. Use the taxonomy name/attribute slug."
 msgstr "Limita i risultati ai prodotti con uno specifico attributo. Usa il nome della tassonomia o lo slug dell'attributo."
 
+#: includes/api/v2/class-wc-rest-product-variations-v2-controller.php:167
+msgid "Parent product does not match current variation."
+msgstr "Il prodotto principale non corrisponde alla variazione corrente."
+
 #: includes/admin/views/html-admin-page-status-report.php:674
 msgid "WooCommerce pages"
 msgstr "Pagine WooCommerce"
@@ -2084,10 +2084,6 @@ msgstr "Pagamento sicuro"
 msgid "Legacy API"
 msgstr "API legacy"
 
-#: includes/admin/settings/class-wc-settings-accounts.php:200
-msgid "Retain cancelled orders"
-msgstr "Conserva gli ordini cancellati"
-
 #: includes/admin/settings/class-wc-settings-accounts.php:210
 msgid "Retain completed orders for a specified duration before anonymizing the personal data within them."
 msgstr "Trattieni gli ordini completati per un determinato periodo prima di rendere anonimi i dati personali in essi contenuti."
@@ -2095,10 +2091,6 @@ msgstr "Trattieni gli ordini completati per un determinato periodo prima di rend
 #: includes/admin/settings/class-wc-settings-accounts.php:209
 msgid "Retain completed orders"
 msgstr "Trattieni ordini completati"
-
-#: includes/admin/settings/class-wc-settings-accounts.php:201
-msgid "Cancelled orders are unpaid and may have been cancelled by the store owner or customer. They will be trashed after the specified duration."
-msgstr "Gli ordini annullati non sono pagati e potrebbero essere annullati dal cliente o dal proprietario del negozio. Dopo un determinato periodo verranno spostati nel cestino."
 
 #: includes/admin/settings/class-wc-settings-accounts.php:192
 msgid "Failed orders are unpaid and may have been abandoned by the customer. They will be trashed after the specified duration."
@@ -2115,6 +2107,14 @@ msgstr "Gli ordini in sospeso non sono pagati e potrebbero essere abbandonati da
 #: includes/admin/settings/class-wc-settings-general.php:200
 msgid "Enable coupons"
 msgstr "Abilita i codici promozionali"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:200
+msgid "Retain cancelled orders"
+msgstr "Conserva gli ordini annullati"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:201
+msgid "Cancelled orders are unpaid and may have been cancelled by the store owner or customer. They will be trashed after the specified duration."
+msgstr "Gli ordini annullati non sono stati pagati e potrebbero essere stati annullati dal proprietario del negozio o dal cliente. Dopo un determinato periodo verranno spostati nel cestino."
 
 #: includes/customizer/class-wc-shop-customizer.php:800
 #: includes/admin/settings/class-wc-settings-accounts.php:152
@@ -2985,10 +2985,6 @@ msgstr "Password API in produzione"
 msgid "Live API username"
 msgstr "Nome utente API in produzione"
 
-#: includes/gateways/paypal/includes/settings-paypal.php:65
-msgid "Send notifications when an IPN is received from PayPal indicating refunds, chargebacks and cancellations."
-msgstr "Invia notifiche quando si riceve un IPN da PayPal indicante rimborsi, revoche e cancellazioni."
-
 #: includes/gateways/paypal/includes/settings-paypal.php:63
 msgid "Enable IPN email notifications"
 msgstr "Abilita le notifiche e-mail IPN"
@@ -3126,6 +3122,10 @@ msgstr "L'impostazione consentita minima è %d"
 #: includes/customizer/class-wc-shop-customizer.php:651
 msgid "Images will display using the aspect ratio in which they were uploaded"
 msgstr "Le immagini saranno visualizzate utilizzando le proporzioni con cui sono state caricate"
+
+#: includes/gateways/paypal/includes/settings-paypal.php:65
+msgid "Send notifications when an IPN is received from PayPal indicating refunds, chargebacks and cancellations."
+msgstr "Invia notifiche quando si riceve un IPN da PayPal indicante rimborsi, revoche e annullamenti."
 
 #: includes/class-wc-customer-download.php:299
 msgid "Invalid permission ID."
@@ -3291,10 +3291,6 @@ msgstr "%s fa"
 msgid "Change status to completed"
 msgstr "Modifica lo stato in \"Completato\""
 
-#: includes/admin/list-tables/class-wc-admin-list-table-orders.php:139
-msgid "Change status to on-hold"
-msgstr "Modifica lo stato in \"In sospeso\""
-
 #: includes/admin/list-tables/class-wc-admin-list-table-orders.php:138
 msgid "Change status to processing"
 msgstr "Modifica lo stato in \"In elaborazione\""
@@ -3321,6 +3317,10 @@ msgstr "Per ricevere gli aggiornamenti e il supporto per questa estensione, devi
 msgid "Create your first coupon"
 msgstr "Crea il tuo primo codice promozionale"
 
+#: includes/admin/list-tables/class-wc-admin-list-table-orders.php:139
+msgid "Change status to on-hold"
+msgstr "Modifica lo stato a \"In sospeso\""
+
 #: includes/admin/helper/class-wc-helper-compat.php:159
 msgid "The WooCommerce Helper plugin is no longer needed. <a href=\"%s\">Manage subscriptions</a> from the extensions tab instead."
 msgstr "Il plugin WooCommerce Helper non è più necessario. Invece <a href=\"%s\">gestisci gli abbonamenti</a> dalla scheda delle estensioni."
@@ -3328,11 +3328,6 @@ msgstr "Il plugin WooCommerce Helper non è più necessario. Invece <a href=\"%s
 #: includes/admin/class-wc-admin-webhooks.php:117
 msgid "Webhook topic unknown. Please select a valid topic."
 msgstr "Argomento webhook non conosciuto. Seleziona un argomento valido."
-
-#. translators: %s: webhook name
-#: includes/admin/class-wc-admin-webhooks-table-list.php:84
-msgid "Delete \"%s\" permanently"
-msgstr "Elimina \"%s\" definitivamente"
 
 #: includes/admin/class-wc-admin-setup-wizard.php:2059
 msgid "Continue with Jetpack"
@@ -3349,6 +3344,11 @@ msgstr "impostazioni di pagamento"
 #: includes/admin/class-wc-admin-setup-wizard.php:2009
 msgid "payment setup and automated taxes"
 msgstr "impostazioni di pagamento e imposte automatiche"
+
+#. translators: %s: webhook name
+#: includes/admin/class-wc-admin-webhooks-table-list.php:84
+msgid "Delete \"%s\" permanently"
+msgstr "Elimina \"%s\" in modo permanente"
 
 #: includes/admin/class-wc-admin-setup-wizard.php:1404
 msgid "Email address to receive payments"
@@ -4010,14 +4010,6 @@ msgstr "%d indicizzazioni aggiunte"
 msgid "Reset usage tracking"
 msgstr "Reimposta tracciamento dell'utente"
 
-#: includes/api/v2/class-wc-rest-system-status-tools-v2-controller.php:181
-msgid "This option will delete ALL of your tax rates, use with caution. This action cannot be reversed."
-msgstr "Questa opzione eliminerà TUTTE le aliquote, utilizzala con attenzione. Questa azione non può essere effettuata."
-
-#: includes/api/v2/class-wc-rest-system-status-tools-v2-controller.php:177
-msgid "Delete tax rates"
-msgstr "Elimina aliquote"
-
 #: includes/api/v2/class-wc-rest-system-status-tools-v2-controller.php:167
 msgid "Create default WooCommerce pages"
 msgstr "Crea pagine predefinite WooCommerce"
@@ -4085,10 +4077,6 @@ msgstr "Altra linea di indirizzo opzionale per la posizione della tua azienda."
 msgid "The street address for your business location."
 msgstr "Indirizzo per la posizione della tua azienda."
 
-#: includes/admin/settings/class-wc-settings-general.php:59
-msgid "This is where your business is located. Tax rates and shipping rates will use this address."
-msgstr "Questa è la posizione della tua azienda. Le aliquote e le tariffe di spedizione verranno inviate a questo indirizzo."
-
 #: includes/admin/plugin-updates/views/html-notice-untested-extensions-modal.php:44
 msgid "As this is a major update, we strongly recommend creating a backup of your site before updating."
 msgstr "Poiché questo è un aggiornamento importante, consigliamo vivamente di creare un backup del tuo sito prima di aggiornarlo."
@@ -4097,10 +4085,6 @@ msgstr "Poiché questo è un aggiornamento importante, consigliamo vivamente di 
 #: includes/admin/plugin-updates/views/html-notice-untested-extensions-modal.php:14
 msgid "The following active plugin(s) have not declared compatibility with WooCommerce %s yet and should be updated and examined further before you proceed:"
 msgstr "Il/i plugin seguente/i non è/sono ancora compatibili con WooCommerce %s e deve/devono essere aggiornato/i ed esaminato/i ulteriormente prima che tu possa procedere:"
-
-#: includes/admin/plugin-updates/views/html-notice-untested-extensions-modal.php:21
-msgid "This is a major update, are you sure you're ready?"
-msgstr "Aggiornamento importante, procedere?"
 
 #: includes/admin/plugin-updates/views/html-notice-untested-extensions-modal.php:30
 #: includes/admin/plugin-updates/views/html-notice-untested-extensions-inline.php:19
@@ -4121,6 +4105,22 @@ msgstr "Dati: %1$.2fMB + Indice: %2$.2fMB"
 #: includes/admin/plugin-updates/class-wc-plugin-updates.php:220
 msgid "unknown"
 msgstr "sconosciuta"
+
+#: includes/admin/plugin-updates/views/html-notice-untested-extensions-modal.php:21
+msgid "This is a major update, are you sure you're ready?"
+msgstr "Questo è un aggiornamento di versione principale, desideri procedere?"
+
+#: includes/api/v2/class-wc-rest-system-status-tools-v2-controller.php:181
+msgid "This option will delete ALL of your tax rates, use with caution. This action cannot be reversed."
+msgstr "Questa opzione eliminerà TUTTE le aliquote d'imposta, da utilizzare con cautela. Questa azione è irreversibile."
+
+#: includes/api/v2/class-wc-rest-system-status-tools-v2-controller.php:177
+msgid "Delete tax rates"
+msgstr "Elimina aliquote d'imposta"
+
+#: includes/admin/settings/class-wc-settings-general.php:59
+msgid "This is where your business is located. Tax rates and shipping rates will use this address."
+msgstr "Questa è la posizione della tua azienda. Le aliquote di imposta e le tariffe di spedizione utilizzeranno questo indirizzo."
 
 #: includes/admin/meta-boxes/views/html-order-items.php:239
 msgid "Add shipping"
@@ -4311,7 +4311,7 @@ msgstr "Non possiamo connettere il tuo negozio con Jetpack"
 
 #: includes/admin/class-wc-admin-setup-wizard.php:2007
 msgid "payment setup, automated taxes and discounted shipping labels"
-msgstr "configurazione dei pagamenti, tasse automatiche ed etichette di spedizione scontate"
+msgstr "configurazione dei pagamenti, imposte automatiche ed etichette di spedizione scontate"
 
 #: includes/admin/class-wc-admin-setup-wizard.php:1889
 msgid "Storefront Theme"
@@ -4896,7 +4896,7 @@ msgstr "Vuoi esportare i meta personalizzati?"
 
 #: includes/admin/views/html-admin-page-product-export.php:56
 msgid "Product variations"
-msgstr "Variante di prodotto"
+msgstr "Variazioni di prodotto"
 
 #: includes/admin/importers/views/html-product-csv-import-form.php:100
 msgid "Show advanced options"
@@ -5445,10 +5445,6 @@ msgid_plural "Note: You currently have <a href=\"%1$s\">%2$d paid extensions</a>
 msgstr[0] "Nota: Attualmente hai <a href=\"%1$s\">%2$d estensione a pagamento</a> che dovrebbe essere aggiornata prima di WooCommerce."
 msgstr[1] "Nota: Attualmente hai <a href=\"%1$s\">%2$d estensioni a pagamento</a> che dovrebbero essere aggiornate prima di WooCommerce."
 
-#: includes/admin/class-wc-admin-assets.php:402
-msgid "Are you sure you want to delete this log?"
-msgstr "Sei sicuro di voler eliminare questo log?"
-
 #: includes/admin/class-wc-admin-importers.php:113
 msgid "Import <strong>products</strong> to your store via a csv file."
 msgstr "Importa i <strong>prodotti</strong> nel tuo negozio da un file CSV.."
@@ -5513,6 +5509,10 @@ msgstr "Visualizza le tariffe di Canada Post in tempo reale al momento della ver
 #: includes/admin/class-wc-admin-customize.php:42
 msgid "WooCommerce Endpoint"
 msgstr "Endpoint WooCommerce"
+
+#: includes/admin/class-wc-admin-assets.php:402
+msgid "Are you sure you want to delete this log?"
+msgstr "Desideri eliminare questo log?"
 
 #: includes/admin/class-wc-admin-setup-wizard.php:715
 #: includes/admin/class-wc-admin-setup-wizard.php:730
@@ -5636,7 +5636,7 @@ msgstr "Chuquisaca"
 #. translators: %s: logout url
 #: includes/shortcodes/class-wc-shortcode-my-account.php:65
 msgid "Are you sure you want to log out? <a href=\"%s\">Confirm and log out</a>"
-msgstr "Sei sicuro di voler uscire?  <a href=\"%s\">Esci</a>"
+msgstr "Desideri uscire? <a href=\"%s\">Conferma ed esci</a>"
 
 #: includes/api/class-wc-rest-authentication.php:549
 msgid "Unknown request method."
@@ -5690,7 +5690,7 @@ msgstr "Un elenco di termini della tassonomia usati per la visibilità dei prodo
 
 #: includes/api/v2/class-wc-rest-system-status-v2-controller.php:499
 msgid "Terms in the product visibility taxonomy."
-msgstr "Termini nella tassanomia della visibilità dei prodotti."
+msgstr "Termini nella tassonomia della visibilità dei prodotti."
 
 #. translators: 1: first result 2: last result 3: total results
 #: templates/loop/result-count.php:34
@@ -6027,7 +6027,7 @@ msgstr "Il pagamento non può essere registrato - ID Autorizzazione: %1$s, Stato
 #. translators: %s: order ID.
 #: includes/gateways/paypal/includes/class-wc-gateway-paypal-ipn-handler.php:282
 msgid "Order #%s has been marked paid by PayPal IPN, but was previously cancelled. Admin handling required."
-msgstr "L'ordine #%s è stato contrassegnato come pagato da PayPal IPN, ma era stato in precedenza cancellato. È necessario l'intervento di un amministratore."
+msgstr "L'ordine #%s è stato contrassegnato come pagato da PayPal IPN, ma era stato in precedenza annullato. È necessario l'intervento di un amministratore."
 
 #: includes/gateways/bacs/class-wc-gateway-bacs.php:311
 msgid "Bank"
@@ -6208,11 +6208,6 @@ msgstr "Cerca categorie"
 msgid "Order status set to %s."
 msgstr "Stato dell'ordine impostato a %s."
 
-#: includes/class-wc-order-item-fee.php:131
-#: includes/class-wc-order-item-product.php:60
-msgid "Invalid tax class"
-msgstr "Classe fiscale non valida"
-
 #: includes/class-wc-order-item-product.php:84
 msgid "Invalid variation ID"
 msgstr "ID variazione non valido"
@@ -6240,6 +6235,11 @@ msgstr "Aggiorna tag"
 #: includes/class-wc-post-types.php:99
 msgid "New category name"
 msgstr "Nome nuova categoria"
+
+#: includes/class-wc-order-item-fee.php:131
+#: includes/class-wc-order-item-product.php:60
+msgid "Invalid tax class"
+msgstr "Classe d'imposta non valida"
 
 #: includes/class-wc-install.php:1201
 msgid "Visit premium customer support"
@@ -6553,10 +6553,6 @@ msgstr "Questo tema ha template obsoleti?"
 msgid "Database tables."
 msgstr "Tabelle del database"
 
-#: includes/api/v2/class-wc-rest-system-status-tools-v2-controller.php:134
-msgid "Delete orphaned variations"
-msgstr "Cancella le variazioni orfane"
-
 #: includes/api/v2/class-wc-rest-system-status-v2-controller.php:490
 msgid "Taxonomy terms for product/order statuses."
 msgstr "Termini della tassonomia per gli stati del prodotto/ordine."
@@ -6576,6 +6572,10 @@ msgstr "Richiesta remota POST."
 #: includes/api/v2/class-wc-rest-system-status-v2-controller.php:275
 msgid "Remote POST successful?"
 msgstr "RIchiesta remota POST con successo?"
+
+#: includes/api/v2/class-wc-rest-system-status-tools-v2-controller.php:134
+msgid "Delete orphaned variations"
+msgstr "Elimina le variazioni orfane"
 
 #: includes/api/v2/class-wc-rest-system-status-v2-controller.php:125
 msgid "WooCommerce version."
@@ -6804,7 +6804,7 @@ msgstr "Variabili PHP Max input."
 
 #: includes/api/v2/class-wc-rest-products-v2-controller.php:2142
 msgid "Limit result set to products with a specific tax class."
-msgstr "Limita l'insieme dei risultati ai prodotti con una specifica classe fiscale."
+msgstr "Limita l'insieme dei risultati ai prodotti con una specifica classe d'imposta."
 
 #: includes/api/v2/class-wc-rest-product-reviews-v2-controller.php:159
 #: includes/api/v1/class-wc-rest-product-reviews-controller.php:532
@@ -7289,10 +7289,6 @@ msgstr "fsockopen/cUrl"
 msgid "Multibyte string"
 msgstr "stringa multibyte"
 
-#: includes/admin/views/html-admin-page-status-logs-db.php:26
-msgid "Are you sure you want to clear all logs from the database?"
-msgstr "Sei sicuro di voler cancellare tutti i log dal database?"
-
 #: includes/admin/views/html-admin-page-status-logs.php:19
 msgid "Delete log"
 msgstr "Elimina registro attività"
@@ -7305,6 +7301,10 @@ msgstr "Elimina tutti i log"
 #: includes/admin/views/html-admin-page-status-report.php:81
 msgid "To allow logging, make %1$s writable or define a custom %2$s."
 msgstr "Per consentire la registrazione, rendere %1$s scrivibile o definire una %2$s personalizzata."
+
+#: includes/admin/views/html-admin-page-status-logs-db.php:26
+msgid "Are you sure you want to clear all logs from the database?"
+msgstr "Desideri eliminare tutti i log dal database?"
 
 #: includes/admin/settings/views/html-webhooks-edit.php:134
 msgid "REST API version used in the webhook deliveries."
@@ -7366,7 +7366,7 @@ msgstr "Abilita la modalità di debug"
 
 #: includes/admin/settings/class-wc-settings-shipping.php:290
 msgid "Are you sure you want to delete this zone? This action cannot be undone."
-msgstr "Sei sicuro di voler eliminare questa zona? Questa azione non è annullabile."
+msgstr "Desideri eliminare questa zona? Questa azione è irreversibile."
 
 #: includes/admin/settings/class-wc-settings-shipping.php:47
 #: includes/admin/settings/views/html-admin-page-shipping-zones.php:8
@@ -7574,7 +7574,7 @@ msgstr "Dettaglio %1$s #%2$s"
 #. translators: %s: tax rates count
 #: includes/admin/importers/class-wc-tax-rate-importer.php:179
 msgid "Import complete - imported %s tax rates."
-msgstr "Importazione completa - importate %s aliquote fiscali."
+msgstr "Importazione completa - importate %s aliquote d'imposta."
 
 #: includes/admin/class-wc-admin-status.php:61
 msgid "Tool does not exist."
@@ -7976,7 +7976,7 @@ msgstr "Il metodo '%s' non è stato implementato. Dev'essere sovrascritto nella 
 
 #: includes/abstracts/abstract-wc-product.php:900
 msgid "Invalid product tax status."
-msgstr "Stato non valido per la tassa sul prodotto."
+msgstr "Stato non valido per l'imposta sul prodotto."
 
 #: i18n/countries.php:120
 msgid "Ireland"
@@ -8254,7 +8254,7 @@ msgstr "Won Nord Coreano"
 
 #: includes/shipping/flat-rate/includes/settings-flat-rate.php:10
 msgid "Use <code>[qty]</code> for the number of items, <br/><code>[cost]</code> for the total cost of items, and <code>[fee percent=\"10\" min_fee=\"20\" max_fee=\"\"]</code> for percentage based fees."
-msgstr "Usa <code>[qty]</code> per il numero di prodotti, <br/><code>[cost]</code> per il costo totale dei prodotti, e <code>[fee percent=\"10\" min_fee=\"20\" max_fee=\"\"]</code> per le tasse basate sulla percentuale."
+msgstr "Usa <code>[qty]</code> per il numero di articoli, <br/><code>[cost]</code> per il costo totale degli articoli, e <code>[fee percent=\"10\" min_fee=\"20\" max_fee=\"\"]</code> per le tasse su base percentuale."
 
 #: includes/admin/views/html-notice-updating.php:23
 msgid "Taking a while? Click here to run it now."
@@ -8995,14 +8995,6 @@ msgstr "Un identificatore alfanumerico per la risorsa."
 msgid "A human-readable description of the resource."
 msgstr "Descrizione della risorsa interpretabile da un essere umano."
 
-#: includes/api/v1/class-wc-rest-tax-classes-controller.php:340
-msgid "Tax class name."
-msgstr "Nome della classe di tassazione."
-
-#: includes/class-wc-form-handler.php:492
-msgid "Payment method deleted."
-msgstr "Metodo di pagamento cancellato."
-
 #: includes/class-wc-post-types.php:385
 msgid "Orders navigation"
 msgstr "Navigazione degli ordini"
@@ -9111,10 +9103,6 @@ msgstr "Stato webhook."
 #: includes/api/v1/class-wc-rest-webhook-deliveries-controller.php:251
 msgid "Request headers."
 msgstr "Intestazioni della richiesta."
-
-#: includes/api/v1/class-wc-rest-taxes-controller.php:618
-msgid "Whether or not this is a compound rate."
-msgstr "Se questa è una tassa composta o meno."
 
 #: includes/api/v2/class-wc-rest-webhooks-v2-controller.php:166
 #: includes/api/v1/class-wc-rest-webhooks-controller.php:680
@@ -9262,6 +9250,18 @@ msgstr "Ordine in sospeso"
 msgid "This is an order notification sent to customers containing order details after an order is placed on-hold."
 msgstr "Questa è una notifica d'ordine inviata ai clienti contenente i dettagli dell'ordine dopo che quest'ultimo è stato contrassgnato come \"In sospeso\"."
 
+#: includes/class-wc-form-handler.php:492
+msgid "Payment method deleted."
+msgstr "Metodo di pagamento eliminato."
+
+#: includes/api/v1/class-wc-rest-tax-classes-controller.php:340
+msgid "Tax class name."
+msgstr "Nome della classe d'imposta."
+
+#: includes/api/v1/class-wc-rest-taxes-controller.php:618
+msgid "Whether or not this is a compound rate."
+msgstr "Se questa è una imposta composta o meno."
+
 #. translators: %s: dimension unit
 #: includes/api/v2/class-wc-rest-product-variations-v2-controller.php:867
 #: includes/api/v1/class-wc-rest-products-controller.php:2464
@@ -9398,16 +9398,6 @@ msgstr "Importo totale dello sconto per l'ordine"
 msgid "Total shipping amount for the order."
 msgstr "Costo totale spedizione per l'ordine."
 
-#: includes/api/v2/class-wc-rest-orders-v2-controller.php:935
-#: includes/api/v1/class-wc-rest-orders-controller.php:1004
-msgid "Total shipping tax amount for the order."
-msgstr "Costo totale delle tasse sulla spedizione per l'ordine."
-
-#: includes/api/v2/class-wc-rest-orders-v2-controller.php:953
-#: includes/api/v1/class-wc-rest-orders-controller.php:1022
-msgid "Sum of all taxes."
-msgstr "Somma di tutte le tasse."
-
 #: includes/api/v2/class-wc-rest-orders-v2-controller.php:988
 #: includes/api/v1/class-wc-rest-orders-controller.php:1028
 msgid "Billing address."
@@ -9486,11 +9476,6 @@ msgstr "Nome tassa."
 #: includes/api/v1/class-wc-rest-orders-controller.php:1543
 msgid "Discount total."
 msgstr "Totale sconto."
-
-#: includes/api/v2/class-wc-rest-orders-v2-controller.php:1595
-#: includes/api/v1/class-wc-rest-orders-controller.php:1548
-msgid "Discount total tax."
-msgstr "Totale sconto sulle tasse."
 
 #: includes/api/v1/class-wc-rest-product-attribute-terms-controller.php:201
 msgid "Term name."
@@ -10087,18 +10072,6 @@ msgstr "Definisce se l'attributo può essere usato come variazione."
 msgid "Shipping method ID is required."
 msgstr "L'ID del metodo di spedizione è necessario."
 
-#: includes/api/v2/class-wc-rest-product-variations-v2-controller.php:895
-#: includes/api/v2/class-wc-rest-product-categories-v2-controller.php:155
-#: includes/api/v2/class-wc-rest-products-v2-controller.php:1898
-#: includes/api/v1/class-wc-rest-product-categories-controller.php:226
-#: includes/api/v1/class-wc-rest-products-controller.php:2160
-#: includes/api/v1/class-wc-rest-products-controller.php:2492
-#: includes/api/class-wc-rest-product-categories-controller.php:155
-#: includes/api/class-wc-rest-products-controller.php:1134
-#: includes/api/class-wc-rest-product-variations-controller.php:648
-msgid "The date the image was created, in the site's timezone."
-msgstr "La data in cui è stata creata l'immagine, nel fuso orario del sito."
-
 #: includes/api/v2/class-wc-rest-order-refunds-v2-controller.php:470
 #: includes/api/v2/class-wc-rest-orders-v2-controller.php:1220
 #: includes/api/v1/class-wc-rest-order-refunds-controller.php:428
@@ -10116,6 +10089,18 @@ msgstr "Valore delle vendite."
 #: includes/api/v1/class-wc-rest-orders-controller.php:949
 msgid "Currency the order was created with, in ISO format."
 msgstr "La valuta usata per creare l'ordine, in formato ISO."
+
+#: includes/api/v2/class-wc-rest-product-variations-v2-controller.php:895
+#: includes/api/v2/class-wc-rest-product-categories-v2-controller.php:155
+#: includes/api/v2/class-wc-rest-products-v2-controller.php:1898
+#: includes/api/v1/class-wc-rest-product-categories-controller.php:226
+#: includes/api/v1/class-wc-rest-products-controller.php:2160
+#: includes/api/v1/class-wc-rest-products-controller.php:2492
+#: includes/api/class-wc-rest-product-categories-controller.php:155
+#: includes/api/class-wc-rest-products-controller.php:1134
+#: includes/api/class-wc-rest-product-variations-controller.php:648
+msgid "The date the image was created, in the site's timezone."
+msgstr "La data in cui è stata creata l'immagine, nel fuso orario del sito."
 
 #: includes/api/v2/class-wc-rest-order-refunds-v2-controller.php:508
 #: includes/api/v2/class-wc-rest-orders-v2-controller.php:1255
@@ -10318,18 +10303,6 @@ msgstr "Visibilità catalogo."
 msgid "Product regular price."
 msgstr "Prezzo di listino del prodotto."
 
-#: includes/api/v2/class-wc-rest-product-variations-v2-controller.php:907
-#: includes/api/v2/class-wc-rest-product-categories-v2-controller.php:167
-#: includes/api/v2/class-wc-rest-products-v2-controller.php:1910
-#: includes/api/v1/class-wc-rest-product-categories-controller.php:232
-#: includes/api/v1/class-wc-rest-products-controller.php:2166
-#: includes/api/v1/class-wc-rest-products-controller.php:2498
-#: includes/api/class-wc-rest-product-categories-controller.php:167
-#: includes/api/class-wc-rest-products-controller.php:1146
-#: includes/api/class-wc-rest-product-variations-controller.php:660
-msgid "The date the image was last modified, in the site's timezone."
-msgstr "La data di ultima modifica dell'immagine, nel fuso orario del sito."
-
 #: includes/api/v1/class-wc-rest-products-controller.php:1915
 msgid "Download type, this controls the schema on the front-end."
 msgstr "Tipo di download, controlla lo schema nel front-end."
@@ -10351,6 +10324,18 @@ msgstr "Se stai gestendo il magazzino, questo controlla se gli ordini arretrati 
 #: includes/api/class-wc-rest-product-variations-controller.php:632
 msgid "Shipping class ID."
 msgstr "ID della classe di spedizione."
+
+#: includes/api/v2/class-wc-rest-product-variations-v2-controller.php:907
+#: includes/api/v2/class-wc-rest-product-categories-v2-controller.php:167
+#: includes/api/v2/class-wc-rest-products-v2-controller.php:1910
+#: includes/api/v1/class-wc-rest-product-categories-controller.php:232
+#: includes/api/v1/class-wc-rest-products-controller.php:2166
+#: includes/api/v1/class-wc-rest-products-controller.php:2498
+#: includes/api/class-wc-rest-product-categories-controller.php:167
+#: includes/api/class-wc-rest-products-controller.php:1146
+#: includes/api/class-wc-rest-product-variations-controller.php:660
+msgid "The date the image was last modified, in the site's timezone."
+msgstr "La data di ultima modifica dell'immagine, nel fuso orario del sito."
 
 #: includes/api/v2/class-wc-rest-products-v2-controller.php:1791
 #: includes/api/v1/class-wc-rest-products-controller.php:2053
@@ -10649,6 +10634,21 @@ msgstr "Slug  della classe di spedizione."
 #: includes/api/v1/class-wc-rest-report-sales-controller.php:302
 msgid "Average net daily sales."
 msgstr "Vendite nette medie giornaliere."
+
+#: includes/api/v2/class-wc-rest-orders-v2-controller.php:935
+#: includes/api/v1/class-wc-rest-orders-controller.php:1004
+msgid "Total shipping tax amount for the order."
+msgstr "Importo totale delle imposte sulla spedizione per l'ordine."
+
+#: includes/api/v2/class-wc-rest-orders-v2-controller.php:953
+#: includes/api/v1/class-wc-rest-orders-controller.php:1022
+msgid "Sum of all taxes."
+msgstr "Somma di tutte le imposte."
+
+#: includes/api/v2/class-wc-rest-orders-v2-controller.php:1595
+#: includes/api/v1/class-wc-rest-orders-controller.php:1548
+msgid "Discount total tax."
+msgstr "Totale imposte sullo sconto."
 
 #: includes/admin/views/html-notice-updating.php:21
 msgid "Your database is being updated in the background."
@@ -11097,28 +11097,6 @@ msgstr "La data di ultima modifica del cliente, nel fuso orario del sito."
 msgid "The email address for the customer."
 msgstr "L'indirizzo email per il cliente."
 
-#: includes/api/v2/class-wc-rest-customers-v2-controller.php:182
-#: includes/api/v1/class-wc-rest-customers-controller.php:672
-#: includes/api/class-wc-rest-customers-controller.php:135
-msgid "Customer login name."
-msgstr "Nome d'accesso del cliente."
-
-#: includes/api/v2/class-wc-rest-customers-v2-controller.php:195
-#: includes/api/v1/class-wc-rest-customers-controller.php:723
-#: includes/api/class-wc-rest-customers-controller.php:148
-msgid "List of billing address data."
-msgstr "Lista dei dati dell'indirizzo di fatturazione."
-
-#: includes/api/v2/class-wc-rest-customers-v2-controller.php:258
-#: includes/api/v1/class-wc-rest-customers-controller.php:786
-#: includes/api/class-wc-rest-customers-controller.php:211
-msgid "List of shipping address data."
-msgstr "Lista dei dati dell'indirizzo di spedizione."
-
-#: includes/api/v1/class-wc-rest-customers-controller.php:910
-msgid "Limit result set to resources with a specific email."
-msgstr "Limita i risultati alle risorse con uno specifico indirizzo email."
-
 #: includes/api/v2/class-wc-rest-setting-options-v2-controller.php:84
 #: includes/api/v2/class-wc-rest-coupons-v2-controller.php:76
 #: includes/api/v2/class-wc-rest-product-variations-v2-controller.php:657
@@ -11176,6 +11154,28 @@ msgstr "Limita i risultati alle risorse con uno specifico indirizzo email."
 #: includes/abstracts/abstract-wc-rest-terms-controller.php:66
 msgid "Unique identifier for the resource."
 msgstr "Identificatore univoco per la risorsa."
+
+#: includes/api/v2/class-wc-rest-customers-v2-controller.php:182
+#: includes/api/v1/class-wc-rest-customers-controller.php:672
+#: includes/api/class-wc-rest-customers-controller.php:135
+msgid "Customer login name."
+msgstr "Nome d'accesso del cliente."
+
+#: includes/api/v2/class-wc-rest-customers-v2-controller.php:195
+#: includes/api/v1/class-wc-rest-customers-controller.php:723
+#: includes/api/class-wc-rest-customers-controller.php:148
+msgid "List of billing address data."
+msgstr "Lista dei dati dell'indirizzo di fatturazione."
+
+#: includes/api/v2/class-wc-rest-customers-v2-controller.php:258
+#: includes/api/v1/class-wc-rest-customers-controller.php:786
+#: includes/api/class-wc-rest-customers-controller.php:211
+msgid "List of shipping address data."
+msgstr "Lista dei dati dell'indirizzo di spedizione."
+
+#: includes/api/v1/class-wc-rest-customers-controller.php:910
+msgid "Limit result set to resources with a specific email."
+msgstr "Limita i risultati alle risorse con uno specifico indirizzo email."
 
 #: includes/api/v1/class-wc-rest-customers-controller.php:916
 msgid "Limit result set to resources with a specific role."
@@ -11255,11 +11255,6 @@ msgstr "La data di creazione del rimborso dell'ordine, nel fuso orario del sito.
 msgid "Refund amount."
 msgstr "Valore del rimborso."
 
-#: includes/api/v2/class-wc-rest-coupons-v2-controller.php:473
-#: includes/api/v1/class-wc-rest-coupons-controller.php:536
-msgid "Maximum order amount allowed when using the coupon."
-msgstr "Il valore massimo dell'ordine permesso utilizzando il codice promozionale."
-
 #: includes/api/v2/class-wc-rest-order-refunds-v2-controller.php:428
 #: includes/api/v2/class-wc-rest-orders-v2-controller.php:1184
 #: includes/api/v2/class-wc-rest-orders-v2-controller.php:1312
@@ -11274,6 +11269,11 @@ msgstr "Il valore massimo dell'ordine permesso utilizzando il codice promozional
 #: includes/api/v1/class-wc-rest-orders-controller.php:1532
 msgid "Item ID."
 msgstr "ID elemento."
+
+#: includes/api/v2/class-wc-rest-coupons-v2-controller.php:473
+#: includes/api/v1/class-wc-rest-coupons-controller.php:536
+msgid "Maximum order amount allowed when using the coupon."
+msgstr "Il valore massimo dell'ordine permesso utilizzando il codice promozionale."
 
 #: includes/api/v2/class-wc-rest-coupons-v2-controller.php:534
 #: includes/api/v1/class-wc-rest-coupons-controller.php:572
@@ -11493,10 +11493,6 @@ msgstr "La zona non esiste!"
 msgid "Add shipping method"
 msgstr "Aggiungi metodo di spedizione"
 
-#: includes/admin/settings/views/html-admin-page-shipping-classes.php:60
-msgid "Cancel changes"
-msgstr "Cancella modifiche"
-
 #: includes/admin/settings/views/html-admin-page-shipping-zone-methods.php:112
 msgid "You can add multiple shipping methods within this zone. Only customers within the zone will see them."
 msgstr "Puoi aggiungere più metodi di spedizione a questa zona. Solo i clienti all'interno della zona potranno vederli."
@@ -11600,10 +11596,6 @@ msgstr "Imposta metodo di pagamento di default"
 msgid "Shipping method could not be added. Please retry."
 msgstr "Impossibile aggiungere il metodo di spedizione. Riprova."
 
-#: includes/admin/settings/class-wc-settings-advanced.php:190
-msgid "Delete payment method"
-msgstr "Cancella metodo di pagamento"
-
 #: includes/class-wc-query.php:127
 #: includes/admin/settings/class-wc-settings-payment-gateways.php:37
 #: includes/admin/settings/class-wc-settings-payment-gateways.php:56
@@ -11659,10 +11651,6 @@ msgstr "Endpoint per la pagina \"Il mio account &rarr; Metodi di pagamento\"."
 msgid "No shipping classes have been created."
 msgstr "Non è stata creata nessuna classe di spedizione."
 
-#: includes/admin/settings/class-wc-settings-advanced.php:191
-msgid "Endpoint for the delete payment method page."
-msgstr "Endpoint per la pagina di cancellazione del metodo di pagamento."
-
 #: includes/admin/settings/class-wc-settings-advanced.php:200
 msgid "Endpoint for the setting a default payment method page."
 msgstr "Endpoint per la pagina di impostazione del metodo di pagamento di default."
@@ -11671,6 +11659,18 @@ msgstr "Endpoint per la pagina di impostazione del metodo di pagamento di defaul
 #: includes/admin/settings/class-wc-settings-general.php:138
 msgid "Sell to all countries, except for&hellip;"
 msgstr "Vendi in tutte le nazioni, tranne for&hellip;"
+
+#: includes/admin/settings/views/html-admin-page-shipping-classes.php:60
+msgid "Cancel changes"
+msgstr "Annulla modifiche"
+
+#: includes/admin/settings/class-wc-settings-advanced.php:190
+msgid "Delete payment method"
+msgstr "Elimina metodo di pagamento"
+
+#: includes/admin/settings/class-wc-settings-advanced.php:191
+msgid "Endpoint for the delete payment method page."
+msgstr "Endpoint per la pagina di eliminazione del metodo di pagamento."
 
 #: includes/admin/meta-boxes/views/html-order-items.php:275
 msgid "Note: the refund reason will be visible by the customer."
@@ -11693,13 +11693,13 @@ msgstr "Modifica elemento"
 msgid "Pre-discount:"
 msgstr "Prima dello sconto:"
 
-#: includes/admin/meta-boxes/views/html-order-item.php:160
-msgid "Delete item"
-msgstr "Cancella elemento"
-
 #: includes/admin/meta-boxes/views/html-order-items.php:217
 msgid "Add item(s)"
 msgstr "Aggiungi prodotto(i)"
+
+#: includes/admin/meta-boxes/views/html-order-item.php:160
+msgid "Delete item"
+msgstr "Elimina elemento"
 
 #: includes/admin/meta-boxes/views/html-variation-admin.php:171
 #: includes/admin/meta-boxes/views/html-product-data-inventory.php:50
@@ -11738,10 +11738,6 @@ msgstr "Impara di più sui codici promozionali"
 msgid "Ready to start selling something awesome?"
 msgstr "Sei pronto a vendere qualcosa di fantastico?"
 
-#: includes/admin/class-wc-admin-assets.php:338
-msgid "Are you sure you wish to delete this note? This action cannot be undone."
-msgstr "Sei sicuro di voler eliminare questa nota? Questa azione non può essere annullata."
-
 #: includes/abstracts/abstract-wc-rest-controller.php:401
 msgid "List of created resources."
 msgstr "Elenco di risorse create."
@@ -11749,10 +11745,6 @@ msgstr "Elenco di risorse create."
 #: includes/abstracts/abstract-wc-rest-controller.php:409
 msgid "List of updated resources."
 msgstr "Elenco di risorse aggiornate."
-
-#: includes/abstracts/abstract-wc-rest-controller.php:417
-msgid "List of delete resources."
-msgstr "elenco di risorse cancellate."
 
 #: includes/admin/class-wc-admin-help.php:42
 #: includes/admin/class-wc-admin-help.php:44
@@ -11774,13 +11766,6 @@ msgstr "ID non valido."
 #: includes/abstracts/abstract-wc-rest-terms-controller.php:532
 msgid "Resource does not support trashing."
 msgstr "La risorsa non può essere cestinata."
-
-#: includes/api/v1/class-wc-rest-customers-controller.php:495
-#: includes/api/v1/class-wc-rest-product-attributes-controller.php:372
-#: includes/api/v1/class-wc-rest-taxes-controller.php:472
-#: includes/abstracts/abstract-wc-rest-terms-controller.php:549
-msgid "The resource cannot be deleted."
-msgstr "La risorsa non può essere cancellata."
 
 #: includes/admin/class-wc-admin-setup-wizard.php:1552
 msgid "A simple offline gateway that lets you accept a check as method of payment."
@@ -11948,13 +11933,6 @@ msgstr "%s non può essere cestinato."
 msgid "Cannot create existing %s."
 msgstr "Impossibile creare %s. Esiste già."
 
-#: includes/api/v1/class-wc-rest-webhooks-controller.php:702
-#: includes/api/class-wc-rest-product-reviews-controller.php:929
-#: includes/abstracts/abstract-wc-rest-posts-controller.php:624
-#: includes/abstracts/abstract-wc-rest-crud-controller.php:535
-msgid "Limit response to resources published after a given ISO8601 compliant date."
-msgstr "Limita la risposta alle risorse pubblicate dopo una data in formato ISO8601."
-
 #: includes/api/v2/class-wc-rest-setting-options-v2-controller.php:376
 #: includes/api/v2/class-wc-rest-system-status-tools-v2-controller.php:83
 #: includes/api/v2/class-wc-rest-shipping-methods-v2-controller.php:79
@@ -11979,6 +11957,13 @@ msgstr "Limita la risposta alle risorse pubblicate dopo una data in formato ISO8
 #: includes/abstracts/abstract-wc-rest-shipping-zones-controller.php:65
 msgid "Sorry, you cannot list resources."
 msgstr "Non puoi creare una lista delle risorse."
+
+#: includes/api/v1/class-wc-rest-webhooks-controller.php:702
+#: includes/api/class-wc-rest-product-reviews-controller.php:929
+#: includes/abstracts/abstract-wc-rest-posts-controller.php:624
+#: includes/abstracts/abstract-wc-rest-crud-controller.php:535
+msgid "Limit response to resources published after a given ISO8601 compliant date."
+msgstr "Limita la risposta alle risorse pubblicate dopo una data in formato ISO8601."
 
 #: includes/api/v1/class-wc-rest-webhooks-controller.php:723
 #: includes/abstracts/abstract-wc-rest-terms-controller.php:706
@@ -12077,11 +12062,6 @@ msgstr "Non è possibile accettare più di %s prodotti per questa richiesta."
 msgid "Save to account"
 msgstr "Salva nel tuo conto"
 
-#: includes/api/v1/class-wc-rest-product-reviews-controller.php:193
-#: includes/api/class-wc-rest-product-reviews-controller.php:204
-msgid "Sorry, you cannot delete this resource."
-msgstr "Non puoi cancellare la risorsa."
-
 #: includes/api/v2/class-wc-rest-product-reviews-v2-controller.php:68
 #: includes/api/v1/class-wc-rest-customers-controller.php:215
 #: includes/api/v1/class-wc-rest-product-attributes-controller.php:210
@@ -12133,6 +12113,26 @@ msgstr "Limita i risultati alle risorse con uno slug specifico."
 #: includes/abstracts/abstract-wc-rest-terms-controller.php:92
 msgid "Required to be true, as resource does not support trashing."
 msgstr "È necessario che sia vero, poiché le risorse non possono essere cestinate."
+
+#: includes/abstracts/abstract-wc-rest-controller.php:417
+msgid "List of delete resources."
+msgstr "Elenco di risorse eliminate."
+
+#: includes/api/v1/class-wc-rest-customers-controller.php:495
+#: includes/api/v1/class-wc-rest-product-attributes-controller.php:372
+#: includes/api/v1/class-wc-rest-taxes-controller.php:472
+#: includes/abstracts/abstract-wc-rest-terms-controller.php:549
+msgid "The resource cannot be deleted."
+msgstr "La risorsa non può essere eliminata."
+
+#: includes/api/v1/class-wc-rest-product-reviews-controller.php:193
+#: includes/api/class-wc-rest-product-reviews-controller.php:204
+msgid "Sorry, you cannot delete this resource."
+msgstr "Non puoi eliminare la risorsa."
+
+#: includes/admin/class-wc-admin-assets.php:338
+msgid "Are you sure you wish to delete this note? This action cannot be undone."
+msgstr "Desideri eliminare questa nota? Questa azione è irreversibile."
 
 #: i18n/locale-info.php:96 i18n/locale-info.php:106 i18n/locale-info.php:116
 msgctxt "Canadian Tax Rates"
@@ -12213,7 +12213,7 @@ msgstr "Pagamento dell'ordine %s rimborsato"
 
 #: includes/emails/class-wc-email-cancelled-order.php:32
 msgid "Cancelled order emails are sent to chosen recipient(s) when orders have been marked cancelled (if they were previously processing or on-hold)."
-msgstr "Le email di cancellazione dell'ordine vengono inviate ai destinatari selezionati quando gli ordini vengono cancellati (se in precedenza erano in lavorazione o in sospeso)."
+msgstr "Le email di annullamento dell'ordine vengono inviate ai destinatari selezionati quando gli ordini vengono annullati (se in precedenza erano in lavorazione o in sospeso)."
 
 #: templates/single-product-reviews.php:71
 msgid "Be the first to review &ldquo;%s&rdquo;"
@@ -12306,21 +12306,9 @@ msgstr "Tariffa standard"
 msgid "State / Zone"
 msgstr "Stato / Regione"
 
-#: includes/api/legacy/v3/class-wc-api-taxes.php:631
-msgid "You do not have permission to delete tax classes"
-msgstr "Non hai i permessi per cancellare le classi d'imposta"
-
-#: includes/api/legacy/v3/class-wc-api-taxes.php:647
-msgid "Could not delete the tax class"
-msgstr "Impossibile cancellare la classe d'imposta"
-
 #: includes/api/legacy/v3/class-wc-api-taxes.php:681
 msgid "You do not have permission to read the tax classes count"
 msgstr "Non hai i permessi per visualizzare il conteggio delle classi d'imposta"
-
-#: includes/api/legacy/v3/class-wc-api-taxes.php:343
-msgid "You do not have permission to delete tax rates"
-msgstr "Non hai i permessi per cancellare le aliquote d'imposta"
 
 #: includes/api/legacy/v3/class-wc-api-taxes.php:373
 msgid "You do not have permission to read the taxes count"
@@ -12338,21 +12326,29 @@ msgstr "Non hai i permessi per creare le classi d'imposta"
 msgid "Tax class already exists"
 msgstr "Classe d'imposta già esistente"
 
-#: includes/api/legacy/v3/class-wc-api-taxes.php:351
-msgid "Could not delete the tax rate"
-msgstr "Impossibile cancellare l'aliquota d'imposta"
-
 #: includes/api/legacy/v3/class-wc-api-taxes.php:259
 msgid "You do not have permission to edit tax rates"
 msgstr "Non hai i permessi per modificare le aliquote d'imposta"
 
+#: includes/api/legacy/v3/class-wc-api-taxes.php:631
+msgid "You do not have permission to delete tax classes"
+msgstr "Non hai i permessi per eliminare le classi d'imposta"
+
+#: includes/api/legacy/v3/class-wc-api-taxes.php:647
+msgid "Could not delete the tax class"
+msgstr "Impossibile eliminare la classe d'imposta"
+
+#: includes/api/legacy/v3/class-wc-api-taxes.php:343
+msgid "You do not have permission to delete tax rates"
+msgstr "Non hai i permessi per eliminare le aliquote d'imposta"
+
+#: includes/api/legacy/v3/class-wc-api-taxes.php:351
+msgid "Could not delete the tax rate"
+msgstr "Impossibile eliminare l'aliquota d'imposta"
+
 #: includes/api/legacy/v3/class-wc-api-products.php:2835
 msgid "A product attribute term with the provided ID could not be found"
 msgstr "Impossibile trovare il termine degli attributi prodotto con l'ID specificato"
-
-#: includes/api/legacy/v3/class-wc-api-products.php:2992
-msgid "You do not have permission to delete product attribute terms"
-msgstr "Non hai i permessi per cancellare i termini degli attributi prodotto"
 
 #: includes/api/legacy/v3/class-wc-api-products.php:3135
 #: includes/api/legacy/v3/class-wc-api-products.php:3170
@@ -12375,10 +12371,6 @@ msgstr "Non hai i permessi per modificare le classi di spedizione prodotto"
 msgid "Could not edit the shipping class"
 msgstr "Impossibile modificare la classe di spedizione"
 
-#: includes/api/legacy/v3/class-wc-api-products.php:3312
-msgid "You do not have permission to delete product shipping classes"
-msgstr "Non hai i permessi per cancellare le classi di spedizione prodotto"
-
 #: includes/api/legacy/v3/class-wc-api-products.php:3232
 msgid "Product shipping class parent is invalid"
 msgstr "Il genitore della classe di spedizione prodotto non è valido"
@@ -12386,10 +12378,6 @@ msgstr "Il genitore della classe di spedizione prodotto non è valido"
 #: includes/api/legacy/v3/class-wc-api-products.php:3176
 msgid "A product shipping class with the provided ID could not be found"
 msgstr "Impossibile trovare la classe di spedizione prodotto con l'ID specificato"
-
-#: includes/api/legacy/v3/class-wc-api-products.php:3318
-msgid "Could not delete the shipping class"
-msgstr "Impossibile cancellare la classe di spedizione"
 
 #: includes/api/legacy/v3/class-wc-api-taxes.php:128
 msgid "You do not have permission to read tax rate"
@@ -12402,6 +12390,18 @@ msgstr "Impossibile trovare l'aliquota d'imposta con l'ID specificato"
 #: includes/api/legacy/v3/class-wc-api-taxes.php:189
 msgid "You do not have permission to create tax rates"
 msgstr "Non hai i permessi per creare le aliquote d'imposta"
+
+#: includes/api/legacy/v3/class-wc-api-products.php:2992
+msgid "You do not have permission to delete product attribute terms"
+msgstr "Non hai i permessi per eliminare i termini degli attributi dei prodotti"
+
+#: includes/api/legacy/v3/class-wc-api-products.php:3312
+msgid "You do not have permission to delete product shipping classes"
+msgstr "Non hai i permessi per eliminare le classi di spedizione dei prodotti"
+
+#: includes/api/legacy/v3/class-wc-api-products.php:3318
+msgid "Could not delete the shipping class"
+msgstr "Impossibile eliminare la classe di spedizione"
 
 #: includes/api/legacy/v3/class-wc-api-products.php:934
 msgid "A product tag with the provided ID could not be found"
@@ -12418,10 +12418,6 @@ msgstr "Non hai i permessi per modificare i tag del prodotto"
 #: includes/api/legacy/v3/class-wc-api-products.php:1029
 msgid "Could not edit the tag"
 msgstr "Impossibile modificare il tag"
-
-#: includes/api/legacy/v3/class-wc-api-products.php:1052
-msgid "You do not have permission to delete product tag"
-msgstr "Non hai i permessi per cancellare i tag del prodotto"
 
 #: includes/api/legacy/v3/class-wc-api-products.php:1058
 msgid "Could not delete the tag"
@@ -12440,14 +12436,6 @@ msgstr "La categoria prodotto genitore non è valida"
 msgid "Could not edit the category"
 msgstr "Impossibile modificare la categoria"
 
-#: includes/api/legacy/v3/class-wc-api-products.php:855
-msgid "You do not have permission to delete product category"
-msgstr "Non hai i permessi per cancellare le categorie di prodotto"
-
-#: includes/api/legacy/v3/class-wc-api-products.php:861
-msgid "Could not delete the category"
-msgstr "Impossibile cancellare la categoria"
-
 #: includes/api/legacy/v3/class-wc-api-products.php:890
 #: includes/api/legacy/v3/class-wc-api-products.php:928
 msgid "You do not have permission to read product tags"
@@ -12464,6 +12452,18 @@ msgstr "Non hai i permessi per modificare le categorie di prodotto"
 #: includes/api/legacy/v3/class-wc-api-products.php:712
 msgid "You do not have permission to create product categories"
 msgstr "Non hai i permessi per creare le categorie di prodotto"
+
+#: includes/api/legacy/v3/class-wc-api-products.php:1052
+msgid "You do not have permission to delete product tag"
+msgstr "Non hai i permessi per eliminare i tag del prodotto"
+
+#: includes/api/legacy/v3/class-wc-api-products.php:855
+msgid "You do not have permission to delete product category"
+msgstr "Non hai i permessi per eliminare le categorie dei prodotti"
+
+#: includes/api/legacy/v3/class-wc-api-products.php:861
+msgid "Could not delete the category"
+msgstr "Impossibile eliminare la categoria"
 
 #: includes/admin/views/html-admin-page-status-report.php:193
 msgid "How to update your PHP version"
@@ -12539,7 +12539,7 @@ msgstr "Le tue modifiche saranno perse se esci da questa pagina senza salvare."
 
 #: includes/admin/settings/views/html-settings-tax.php:17
 msgid "\"%s\" tax rates"
-msgstr "\"%s\" aliquote d'imposta"
+msgstr "Aliquote d'imposta \"%s\""
 
 #: includes/admin/settings/class-wc-settings-emails.php:300
 msgid "Manual"
@@ -13716,11 +13716,6 @@ msgstr "Nuova password (lascia in bianco per non modificare)"
 msgid "Current password (leave blank to leave unchanged)"
 msgstr "Password attuale (lascia in bianco per non modificare)"
 
-#. translators: %1$s: app name, %2$s: URL
-#: templates/auth/form-login.php:34
-msgid "To connect to %1$s you need to be logged in. Log in to your store below, or <a href=\"%2$s\">cancel and return to %1$s</a>"
-msgstr "Per connetterti a %1$s devi prima accedere. Accedi al tuo negozio da qui sotto, o <a href=\"%2$s\">cancella e torna a %1$s</a>"
-
 #: templates/myaccount/my-address.php:41
 msgid "The following addresses will be used on the checkout page by default."
 msgstr "I seguenti indirizzi saranno usati come predefiniti al momento del checkout."
@@ -13815,6 +13810,11 @@ msgstr "Questa funzione non dovrebbe essere chiamata prima di woocommerce_init."
 msgid "Apply coupon"
 msgstr "Applica codice promozionale"
 
+#. translators: %1$s: app name, %2$s: URL
+#: templates/auth/form-login.php:34
+msgid "To connect to %1$s you need to be logged in. Log in to your store below, or <a href=\"%2$s\">cancel and return to %1$s</a>"
+msgstr "Per connetterti a %1$s devi prima accedere. Accedi al tuo negozio qui sotto, oppure <a href=\"%2$s\">annulla e torna a %1$s</a>"
+
 #. translators: %s: number of orders
 #: includes/libraries/action-scheduler/classes/ActionScheduler_wpPostStore_PostStatusRegistrar.php:37
 #: includes/class-wc-post-types.php:543
@@ -13827,9 +13827,21 @@ msgstr[1] "Falliti <span class=\"count\">(%s)</span>"
 msgid "Select options"
 msgstr "Scegli"
 
-#: includes/emails/class-wc-email-cancelled-order.php:31
-msgid "Cancelled order"
-msgstr "Ordine cancellato"
+#: includes/emails/class-wc-email-customer-refunded-order.php:226
+#: includes/emails/class-wc-email.php:619
+#: includes/emails/class-wc-email-customer-completed-order.php:136
+#: includes/emails/class-wc-email-cancelled-order.php:140
+#: includes/emails/class-wc-email-failed-order.php:138
+#: includes/emails/class-wc-email-new-order.php:145
+#: includes/gateways/paypal/includes/settings-paypal.php:12
+#: includes/gateways/bacs/class-wc-gateway-bacs.php:82
+#: includes/gateways/simplify-commerce/class-wc-gateway-simplify-commerce.php:190
+#: includes/gateways/cod/class-wc-gateway-cod.php:108
+#: includes/gateways/cheque/class-wc-gateway-cheque.php:58
+#: includes/shipping/legacy-flat-rate/includes/settings-flat-rate.php:19
+#: includes/shipping/legacy-free-shipping/class-wc-shipping-legacy-free-shipping.php:97
+msgid "Enable/Disable"
+msgstr "Abilita/Disabilita"
 
 #: includes/emails/class-wc-email-customer-refunded-order.php:228
 #: includes/emails/class-wc-email.php:621
@@ -13855,22 +13867,6 @@ msgstr "Destinatario(i)"
 #: includes/emails/class-wc-email-new-order.php:160
 msgid "Subject"
 msgstr "Oggetto"
-
-#: includes/emails/class-wc-email-customer-refunded-order.php:226
-#: includes/emails/class-wc-email.php:619
-#: includes/emails/class-wc-email-customer-completed-order.php:136
-#: includes/emails/class-wc-email-cancelled-order.php:140
-#: includes/emails/class-wc-email-failed-order.php:138
-#: includes/emails/class-wc-email-new-order.php:145
-#: includes/gateways/paypal/includes/settings-paypal.php:12
-#: includes/gateways/bacs/class-wc-gateway-bacs.php:82
-#: includes/gateways/simplify-commerce/class-wc-gateway-simplify-commerce.php:190
-#: includes/gateways/cod/class-wc-gateway-cod.php:108
-#: includes/gateways/cheque/class-wc-gateway-cheque.php:58
-#: includes/shipping/legacy-flat-rate/includes/settings-flat-rate.php:19
-#: includes/shipping/legacy-free-shipping/class-wc-shipping-legacy-free-shipping.php:97
-msgid "Enable/Disable"
-msgstr "Abilita/Disabilita"
 
 #: includes/emails/class-wc-email.php:634
 #: includes/emails/class-wc-email-customer-completed-order.php:151
@@ -14008,10 +14004,6 @@ msgstr "File non trovato."
 msgid "Hide template"
 msgstr "Nascondi template"
 
-#: includes/emails/class-wc-email.php:1002
-msgid "Are you sure you want to delete this template file?"
-msgstr "Sei sicuro di voler eliminare questo file di template?"
-
 #: includes/gateways/bacs/class-wc-gateway-bacs.php:84
 msgid "Enable bank transfer"
 msgstr "Abilita bonifico bancario"
@@ -14041,20 +14033,6 @@ msgstr "Abilita bonifico bancario"
 #: includes/widgets/class-wc-widget-rating-filter.php:28
 msgid "Title"
 msgstr "Titolo"
-
-#: includes/gateways/paypal/includes/settings-paypal.php:20
-#: includes/gateways/bacs/class-wc-gateway-bacs.php:90
-#: includes/gateways/simplify-commerce/class-wc-gateway-simplify-commerce.php:199
-#: includes/gateways/cheque/class-wc-gateway-cheque.php:66
-#: includes/shipping/legacy-flat-rate/includes/settings-flat-rate.php:27
-#: includes/shipping/legacy-local-delivery/class-wc-shipping-legacy-local-delivery.php:125
-#: includes/shipping/free-shipping/class-wc-shipping-free-shipping.php:81
-#: includes/shipping/legacy-free-shipping/class-wc-shipping-legacy-free-shipping.php:105
-#: includes/shipping/flat-rate/includes/settings-flat-rate.php:16
-#: includes/shipping/local-pickup/class-wc-shipping-local-pickup.php:82
-#: includes/shipping/legacy-local-pickup/class-wc-shipping-legacy-local-pickup.php:104
-msgid "This controls the title which the user sees during checkout."
-msgstr "Quest'opzione controlla il titolo che gli utenti vedono durante il pagamento."
 
 #: includes/gateways/bacs/class-wc-gateway-bacs.php:39
 #: includes/gateways/bacs/class-wc-gateway-bacs.php:91
@@ -14100,6 +14078,20 @@ msgstr "In attesa di pagamento con bonifico"
 #: includes/gateways/bacs/class-wc-gateway-bacs.php:392
 msgid "BSB"
 msgstr "BSB"
+
+#: includes/gateways/paypal/includes/settings-paypal.php:20
+#: includes/gateways/bacs/class-wc-gateway-bacs.php:90
+#: includes/gateways/simplify-commerce/class-wc-gateway-simplify-commerce.php:199
+#: includes/gateways/cheque/class-wc-gateway-cheque.php:66
+#: includes/shipping/legacy-flat-rate/includes/settings-flat-rate.php:27
+#: includes/shipping/legacy-local-delivery/class-wc-shipping-legacy-local-delivery.php:125
+#: includes/shipping/free-shipping/class-wc-shipping-free-shipping.php:81
+#: includes/shipping/legacy-free-shipping/class-wc-shipping-legacy-free-shipping.php:105
+#: includes/shipping/flat-rate/includes/settings-flat-rate.php:16
+#: includes/shipping/local-pickup/class-wc-shipping-local-pickup.php:82
+#: includes/shipping/legacy-local-pickup/class-wc-shipping-legacy-local-pickup.php:104
+msgid "This controls the title which the user sees during checkout."
+msgstr "Quest'opzione controlla il titolo che gli utenti vedono durante il pagamento."
 
 #: includes/gateways/bacs/class-wc-gateway-bacs.php:402
 msgid "IFSC"
@@ -14314,6 +14306,10 @@ msgstr "Sandbox"
 msgid "Get your API keys from your Simplify account: Settings > API Keys."
 msgstr "Ottieni le tue chiavi API dal tuo account Simplify: Impostazioni > Chiavi API."
 
+#: includes/gateways/simplify-commerce/class-wc-gateway-simplify-commerce.php:214
+msgid "Standard will display the credit card fields on your store (SSL required). %1$s Hosted Payments will display a Simplify Commerce modal dialog on your store (if SSL) or will redirect the customer to Simplify Commerce hosted page (if not SSL). %1$s Note: Hosted Payments need a new API Key pair with the hosted payments flag selected. %2$sFor more details check the Simplify Commerce docs%3$s."
+msgstr "Standard mostrerà i dati della carta di credito nel tuo negozio (richiede il supporto SSL). I Pagamenti gestiti da terze parti mostreranno una finestra di dialogo Simplify Commerce (se SSL è disponibile) oppure reinderizzerà il cliente a una pagina   terze parti di Simplify Commerce (se SSL non è disponibile). %1$s Nota: I pagamenti gestiti da terze parti richiedono una nuova coppia di API Key con il con il flag per i pagamenti di terze parti selezionato. %2$s Per maggiori informazioni controlla di documenti di Simplify Commerce%3$s."
+
 #: includes/gateways/simplify-commerce/class-wc-gateway-simplify-commerce.php:661
 msgid "Cancel order &amp; restore cart"
 msgstr "Annulla ordine e ripristina carrello"
@@ -14336,10 +14332,6 @@ msgstr "Tutte le nazioni abilitate"
 #: includes/shipping/legacy-local-pickup/class-wc-shipping-legacy-local-pickup.php:134
 msgid "Select some countries"
 msgstr "Seleziona qualche nazione"
-
-#: includes/gateways/simplify-commerce/class-wc-gateway-simplify-commerce.php:214
-msgid "Standard will display the credit card fields on your store (SSL required). %1$s Hosted Payments will display a Simplify Commerce modal dialog on your store (if SSL) or will redirect the customer to Simplify Commerce hosted page (if not SSL). %1$s Note: Hosted Payments need a new API Key pair with the hosted payments flag selected. %2$sFor more details check the Simplify Commerce docs%3$s."
-msgstr "Standard mostrerà i dati della carta di credito nel tuo negozio (richiede il supporto SSL). I Pagamenti gestiti da terze parti mostreranno una finestra di dialogo Simplify Commerce (se SSL è disponibile) oppure reinderizzerà il cliente a una pagina   terze parti di Simplify Commerce (se SSL non è disponibile). %1$s Nota: I pagamenti gestiti da terze parti richiedono una nuova coppia di API Key con il con il flag per i pagamenti di terze parti selezionato. %2$s Per maggiori informazioni controlla di documenti di Simplify Commerce%3$s."
 
 #: includes/shipping/legacy-flat-rate/includes/settings-flat-rate.php:118
 #: includes/shipping/legacy-flat-rate/includes/settings-flat-rate.php:124
@@ -14437,10 +14429,6 @@ msgstr "Le email per un nuovo ordine vengono inviate alla lista dei destinatari 
 #: includes/gateways/simplify-commerce/class-wc-gateway-simplify-commerce.php:628
 msgid "Order #%s"
 msgstr "Ordine #%s"
-
-#: includes/shipping/legacy-flat-rate/includes/settings-flat-rate.php:12
-msgid "Supports the following placeholders: <code>[qty]</code> = number of items, <code>[cost]</code> = cost of items, <code>[fee percent=\"10\" min_fee=\"20\"]</code> = Percentage based fee."
-msgstr "Supporta i seguenti placeholder: <code>[qty]</code> = numero di elementi, <code>[cost]</code> = costo degli elementi, <code>[fee percent=\"10\" min_fee=\"20\"]</code> = Tassa percentuale."
 
 #: includes/shipping/legacy-flat-rate/includes/settings-flat-rate.php:12
 #: includes/shipping/flat-rate/includes/settings-flat-rate.php:10
@@ -14786,11 +14774,6 @@ msgstr "Errore di pagamento Simplify: %s."
 msgid "Order #%1$s has been marked on-hold due to a reversal - PayPal reason code: %2$s"
 msgstr "L'ordine #%1$s è stato sospeso per procedura di reso in corso - Codice motivazione PayPal: %2$s"
 
-#. translators: %1$s: order ID, %2$s: order link.
-#: includes/gateways/paypal/includes/class-wc-gateway-paypal-ipn-handler.php:337
-msgid "Order #%1$s has had a reversal cancelled. Please check the status of payment and update the order status accordingly here: %2$s"
-msgstr "La procedura di reso per l'ordine #%1$s è stata cancellata. Controlla lo stato del pagamento ed aggiorna di conseguenza lo stato dell'ordine qui: %2$s"
-
 #: includes/gateways/bacs/class-wc-gateway-bacs.php:139
 msgid "Account name"
 msgstr "Nome account"
@@ -14911,6 +14894,23 @@ msgstr "Un codice promozionale per spedizione gratuita valido"
 #: includes/shipping/legacy-free-shipping/class-wc-shipping-legacy-free-shipping.php:131
 msgid "Free shipping requires..."
 msgstr "La spedizione gratuita richiede..."
+
+#: includes/emails/class-wc-email-cancelled-order.php:31
+msgid "Cancelled order"
+msgstr "Ordine annullato"
+
+#. translators: %1$s: order ID, %2$s: order link.
+#: includes/gateways/paypal/includes/class-wc-gateway-paypal-ipn-handler.php:337
+msgid "Order #%1$s has had a reversal cancelled. Please check the status of payment and update the order status accordingly here: %2$s"
+msgstr "La procedura di reso per l'ordine #%1$s è stata annullata. Controlla lo stato del pagamento e aggiorna di conseguenza lo stato dell'ordine qui: %2$s"
+
+#: includes/emails/class-wc-email.php:1002
+msgid "Are you sure you want to delete this template file?"
+msgstr "Desideri eliminare questo file di template?"
+
+#: includes/shipping/legacy-flat-rate/includes/settings-flat-rate.php:12
+msgid "Supports the following placeholders: <code>[qty]</code> = number of items, <code>[cost]</code> = cost of items, <code>[fee percent=\"10\" min_fee=\"20\"]</code> = Percentage based fee."
+msgstr "Supporta i seguenti placeholder: <code>[qty]</code> = numero di articoli, <code>[cost]</code> = costo degli articoli, <code>[fee percent=\"10\" min_fee=\"20\"]</code> = Tassa percentuale."
 
 #: includes/api/legacy/v2/class-wc-api-products.php:2196
 msgid "Invalid product SKU"
@@ -15275,14 +15275,6 @@ msgstr "Carrello aggiornato."
 msgid "The cart has been filled with the items from your previous order."
 msgstr "Gli articoli del tuo precedente ordine sono stati inseriti nel carrello."
 
-#: includes/class-wc-form-handler.php:678
-msgid "Order cancelled by customer."
-msgstr "Ordine cancellato dal cliente."
-
-#: includes/class-wc-form-handler.php:681
-msgid "Your order was cancelled."
-msgstr "Il tuo ordine è stato cancellato."
-
 #: includes/class-wc-form-handler.php:906
 msgid "%s is a required field"
 msgid_plural "%s are required fields"
@@ -15528,10 +15520,6 @@ msgstr "Inserisci la tua password attuale."
 #: includes/class-wc-form-handler.php:264
 msgid "Please re-enter your password."
 msgstr "Reinserisci la tua password."
-
-#: includes/class-wc-form-handler.php:686
-msgid "Your order can no longer be cancelled. Please contact us if you need assistance."
-msgstr "Il tuo ordine non può essere cancellato. Contattaci se hai bisogno di aiuto."
 
 #: includes/class-wc-form-handler.php:797
 msgid "Please choose the quantity of items you wish to add to your cart&hellip;"
@@ -15949,6 +15937,18 @@ msgstr "Il codice promozionale \"%s\" è stato già applicato e non può essere 
 msgid "%s has been removed from your cart because it can no longer be purchased. Please contact us if you need assistance."
 msgstr "%s è stato rimosso dal tuo carrello perché non può più essere acquistato. Contattaci se hai bisogno di aiuto."
 
+#: includes/class-wc-form-handler.php:678
+msgid "Order cancelled by customer."
+msgstr "Ordine annullato dal cliente."
+
+#: includes/class-wc-form-handler.php:681
+msgid "Your order was cancelled."
+msgstr "Il tuo ordine è stato annullato."
+
+#: includes/class-wc-form-handler.php:686
+msgid "Your order can no longer be cancelled. Please contact us if you need assistance."
+msgstr "Il tuo ordine non può essere più annullato. Contattaci se hai bisogno di assistenza."
+
 #: includes/admin/views/html-admin-page-status-report.php:58
 msgid "Home URL"
 msgstr "Home URL"
@@ -16021,6 +16021,10 @@ msgstr "PHP Max Input Vars"
 msgid "The maximum number of variables your server can use for a single function to avoid overloads."
 msgstr "Il numero massimo di variabili che il tuo server usa per una singola funzione per evitare overload."
 
+#: includes/admin/views/html-admin-page-status-report.php:233
+msgid "Suhosin is an advanced protection system for PHP installations. It was designed to protect your servers on the one hand against a number of well known problems in PHP applications and on the other hand against potential unknown vulnerabilities within these applications or the PHP core itself. If enabled on your server, Suhosin may need to be configured to increase its data submission limits."
+msgstr "Suhonsin è un sistema di protezione avanzato per installazioni PHP. È stato progettato per proteggere i tuoi server sia contro una serie di problemi ben noti delle applicazioni PHP e sia contro potenziali vulnerabilità all'interno di queste applicazioni o all'interno dello stesso nucleo di PHP. Se abilitato sul tuo server, Suhosin potrebbe dover essere configurato per aumentare il limite dei dati inviati.  "
+
 #: includes/admin/views/html-admin-page-status-report.php:244
 msgid "The version of MySQL installed on your hosting server."
 msgstr "La versione di MySQL installata sul tuo server."
@@ -16045,10 +16049,6 @@ msgstr "I servizi di pagamento possono usare cURL per comunicare con i server al
 #: includes/admin/views/html-admin-page-status-report.php:284
 msgid "Your server does not have fsockopen or cURL enabled - PayPal IPN and other scripts which communicate with other servers will not work. Contact your hosting provider."
 msgstr "Il server non ha né fsockopen né cURL abilitati - PayPal IPN ed altri script che comunicano con gli altri server non funzioneranno. Rivolgersi al fornitore di hosting."
-
-#: includes/admin/views/html-admin-page-status-report.php:233
-msgid "Suhosin is an advanced protection system for PHP installations. It was designed to protect your servers on the one hand against a number of well known problems in PHP applications and on the other hand against potential unknown vulnerabilities within these applications or the PHP core itself. If enabled on your server, Suhosin may need to be configured to increase its data submission limits."
-msgstr "Suhonsin è un sistema di protezione avanzato per installazioni PHP. È stato progettato per proteggere i tuoi server sia contro una serie di problemi ben noti delle applicazioni PHP e sia contro potenziali vulnerabilità all'interno di queste applicazioni o all'interno dello stesso nucleo di PHP. Se abilitato sul tuo server, Suhosin potrebbe dover essere configurato per aumentare il limite dei dati inviati.  "
 
 #: includes/admin/views/html-admin-page-status-report.php:291
 msgid "Some webservices like shipping use SOAP to get information from remote servers, for example, live shipping quotes from FedEx require SOAP to be installed."
@@ -16297,10 +16297,6 @@ msgstr "Lancia il Setup Wizard"
 msgid "Run the updater"
 msgstr "Eseguire il programma di aggiornamento"
 
-#: includes/admin/views/html-notice-update.php:31
-msgid "It is strongly recommended that you backup your database before proceeding. Are you sure you wish to run the updater now?"
-msgstr "Si raccomanda vivamente di eseguire il backup del database prima di procedere. Sei sicuro di eseguire il programma di aggiornamento adesso?"
-
 #: includes/admin/views/html-report-by-date.php:41
 msgid "Custom:"
 msgstr "Personalizzato:"
@@ -16352,6 +16348,20 @@ msgstr "Codice promozionale non valido"
 msgid "You do not have permission to create coupons"
 msgstr "Non hai i permessi necessari per creare codici promozionali"
 
+#: includes/api/legacy/v2/class-wc-api-coupons.php:261
+#: includes/api/legacy/v2/class-wc-api-coupons.php:365
+#: includes/api/legacy/v3/class-wc-api-coupons.php:259
+#: includes/api/legacy/v3/class-wc-api-coupons.php:363
+msgid "Invalid coupon type - the coupon type must be any of these: %s"
+msgstr "Tipo di codice promozionale non valido - il tipo di codice promozionale deve essere uno qualunque di questi: %s"
+
+#: includes/api/legacy/v2/class-wc-api-coupons.php:350
+#: includes/api/legacy/v2/class-wc-api-coupons.php:358
+#: includes/api/legacy/v3/class-wc-api-coupons.php:348
+#: includes/api/legacy/v3/class-wc-api-coupons.php:356
+msgid "Failed to update coupon"
+msgstr "Impossibile aggiornare il codice promozionale"
+
 #. translators: %s: parameter
 #: includes/api/legacy/v2/class-wc-api-server.php:430
 #: includes/api/legacy/v2/class-wc-api-products.php:228
@@ -16369,20 +16379,6 @@ msgstr "Non hai i permessi necessari per creare codici promozionali"
 #: includes/class-wc-auth.php:171
 msgid "Missing parameter %s"
 msgstr "Parametro mancante %s"
-
-#: includes/api/legacy/v2/class-wc-api-coupons.php:261
-#: includes/api/legacy/v2/class-wc-api-coupons.php:365
-#: includes/api/legacy/v3/class-wc-api-coupons.php:259
-#: includes/api/legacy/v3/class-wc-api-coupons.php:363
-msgid "Invalid coupon type - the coupon type must be any of these: %s"
-msgstr "Tipo di codice promozionale non valido - il tipo di codice promozionale deve essere uno qualunque di questi: %s"
-
-#: includes/api/legacy/v2/class-wc-api-coupons.php:350
-#: includes/api/legacy/v2/class-wc-api-coupons.php:358
-#: includes/api/legacy/v3/class-wc-api-coupons.php:348
-#: includes/api/legacy/v3/class-wc-api-coupons.php:356
-msgid "Failed to update coupon"
-msgstr "Impossibile aggiornare il codice promozionale"
 
 #: includes/api/legacy/v2/class-wc-api-customers.php:231
 #: includes/api/legacy/v1/class-wc-api-customers.php:186
@@ -16419,12 +16415,6 @@ msgstr "Non hai il permesso di vedere questo cliente"
 #: includes/api/legacy/v3/class-wc-api-customers.php:730
 msgid "You do not have permission to edit this customer"
 msgstr "Non hai il permesso di modificare questo cliente"
-
-#: includes/api/legacy/v2/class-wc-api-customers.php:746
-#: includes/api/legacy/v1/class-wc-api-customers.php:461
-#: includes/api/legacy/v3/class-wc-api-customers.php:736
-msgid "You do not have permission to delete this customer"
-msgstr "Non hai il permesso di cancellare questo cliente"
 
 #: includes/api/legacy/v2/class-wc-api-json-handler.php:54
 #: includes/api/legacy/v1/class-wc-api-json-handler.php:55
@@ -16508,11 +16498,6 @@ msgstr "Non hai i permessi necessari per creare note ordine"
 #: includes/api/legacy/v3/class-wc-api-orders.php:1352
 msgid "Order note is required"
 msgstr "Nota ordine obbligatoria"
-
-#: includes/api/legacy/v2/class-wc-api-orders.php:1450
-#: includes/api/legacy/v3/class-wc-api-orders.php:1495
-msgid "Permanently deleted order note"
-msgstr "Nota ordine cancellata permanentemente"
 
 #: includes/api/legacy/v2/class-wc-api-orders.php:1586
 #: includes/api/legacy/v3/class-wc-api-orders.php:1631
@@ -16620,27 +16605,6 @@ msgstr "Non puoi modificare l'attributo"
 msgid "You do not have permission to delete product attributes"
 msgstr "Non hai i permessi necessari per leggere gli attributi del prodotto"
 
-#: includes/api/legacy/v2/class-wc-api-products.php:2155
-#: includes/api/legacy/v3/class-wc-api-products.php:2715
-msgid "Could not delete the attribute"
-msgstr "Impossibile cancellare l'attributo"
-
-#: includes/api/legacy/v2/class-wc-api-resource.php:390
-#: includes/api/legacy/v2/class-wc-api-products.php:468
-#: includes/api/legacy/v2/class-wc-api-products.php:2173
-#: includes/api/legacy/v1/class-wc-api-resource.php:333
-#: includes/api/legacy/v3/class-wc-api-resource.php:394
-#: includes/api/legacy/v3/class-wc-api-taxes.php:354
-#: includes/api/legacy/v3/class-wc-api-taxes.php:665
-#: includes/api/legacy/v3/class-wc-api-products.php:527
-#: includes/api/legacy/v3/class-wc-api-products.php:871
-#: includes/api/legacy/v3/class-wc-api-products.php:1063
-#: includes/api/legacy/v3/class-wc-api-products.php:2734
-#: includes/api/legacy/v3/class-wc-api-products.php:3012
-#: includes/api/legacy/v3/class-wc-api-products.php:3323
-msgid "Deleted %s"
-msgstr "Cancellato %s"
-
 #: includes/api/legacy/v2/class-wc-api-reports.php:322
 #: includes/api/legacy/v1/class-wc-api-reports.php:475
 #: includes/api/legacy/v3/class-wc-api-reports.php:326
@@ -16677,42 +16641,11 @@ msgstr "Non hai il permesso di vedere questo %s"
 msgid "You do not have permission to edit this %s"
 msgstr "Non hai il permesso di modificare questo %s"
 
-#: includes/api/legacy/v2/class-wc-api-resource.php:131
-#: includes/api/legacy/v2/class-wc-api-webhooks.php:515
-#: includes/api/legacy/v1/class-wc-api-resource.php:107
-#: includes/api/legacy/v3/class-wc-api-resource.php:133
-#: includes/api/legacy/v3/class-wc-api-webhooks.php:515
-msgid "You do not have permission to delete this %s"
-msgstr "Non hai il permesso di cancellare questo %s"
-
-#: includes/api/legacy/v2/class-wc-api-resource.php:372
-#: includes/api/legacy/v1/class-wc-api-resource.php:313
-#: includes/api/legacy/v3/class-wc-api-resource.php:374
-msgid "Permanently deleted customer"
-msgstr "Cliente eliminato definitivamente"
-
 #: includes/api/legacy/v2/class-wc-api-resource.php:374
 #: includes/api/legacy/v1/class-wc-api-resource.php:315
 #: includes/api/legacy/v3/class-wc-api-resource.php:376
 msgid "The customer cannot be deleted"
 msgstr "Il cliente non può essere eliminato"
-
-#: includes/api/legacy/v2/class-wc-api-resource.php:382
-#: includes/api/legacy/v2/class-wc-api-products.php:455
-#: includes/api/legacy/v1/class-wc-api-resource.php:323
-#: includes/api/legacy/v3/class-wc-api-resource.php:384
-#: includes/api/legacy/v3/class-wc-api-products.php:514
-#: includes/api/legacy/v3/class-wc-api-products.php:3005
-msgid "This %s cannot be deleted"
-msgstr "Questo %s non può essere cancellato"
-
-#: includes/api/legacy/v2/class-wc-api-resource.php:386
-#: includes/api/legacy/v2/class-wc-api-products.php:464
-#: includes/api/legacy/v1/class-wc-api-resource.php:327
-#: includes/api/legacy/v3/class-wc-api-resource.php:388
-#: includes/api/legacy/v3/class-wc-api-products.php:523
-msgid "Permanently deleted %s"
-msgstr "Cancellato definitivamente %s"
 
 #: includes/api/legacy/v2/class-wc-api-server.php:164
 #: includes/api/legacy/v1/class-wc-api-server.php:168
@@ -17075,6 +17008,73 @@ msgstr "Il codice promozionale esiste già"
 #: includes/api/legacy/v3/class-wc-api-orders.php:1197
 msgid "Coupon discount total must be a positive amount."
 msgstr "Lo sconto totale del codice promozionale deve avere un importo positivo."
+
+#: includes/api/legacy/v2/class-wc-api-customers.php:746
+#: includes/api/legacy/v1/class-wc-api-customers.php:461
+#: includes/api/legacy/v3/class-wc-api-customers.php:736
+msgid "You do not have permission to delete this customer"
+msgstr "Non hai il permesso di eliminare questo cliente"
+
+#: includes/api/legacy/v2/class-wc-api-products.php:2155
+#: includes/api/legacy/v3/class-wc-api-products.php:2715
+msgid "Could not delete the attribute"
+msgstr "Impossibile eliminare l'attributo"
+
+#: includes/api/legacy/v2/class-wc-api-resource.php:390
+#: includes/api/legacy/v2/class-wc-api-products.php:468
+#: includes/api/legacy/v2/class-wc-api-products.php:2173
+#: includes/api/legacy/v1/class-wc-api-resource.php:333
+#: includes/api/legacy/v3/class-wc-api-resource.php:394
+#: includes/api/legacy/v3/class-wc-api-taxes.php:354
+#: includes/api/legacy/v3/class-wc-api-taxes.php:665
+#: includes/api/legacy/v3/class-wc-api-products.php:527
+#: includes/api/legacy/v3/class-wc-api-products.php:871
+#: includes/api/legacy/v3/class-wc-api-products.php:1063
+#: includes/api/legacy/v3/class-wc-api-products.php:2734
+#: includes/api/legacy/v3/class-wc-api-products.php:3012
+#: includes/api/legacy/v3/class-wc-api-products.php:3323
+msgid "Deleted %s"
+msgstr "Eliminato %s"
+
+#: includes/api/legacy/v2/class-wc-api-resource.php:131
+#: includes/api/legacy/v2/class-wc-api-webhooks.php:515
+#: includes/api/legacy/v1/class-wc-api-resource.php:107
+#: includes/api/legacy/v3/class-wc-api-resource.php:133
+#: includes/api/legacy/v3/class-wc-api-webhooks.php:515
+msgid "You do not have permission to delete this %s"
+msgstr "Non hai il permesso di eliminare questo %s"
+
+#: includes/api/legacy/v2/class-wc-api-resource.php:382
+#: includes/api/legacy/v2/class-wc-api-products.php:455
+#: includes/api/legacy/v1/class-wc-api-resource.php:323
+#: includes/api/legacy/v3/class-wc-api-resource.php:384
+#: includes/api/legacy/v3/class-wc-api-products.php:514
+#: includes/api/legacy/v3/class-wc-api-products.php:3005
+msgid "This %s cannot be deleted"
+msgstr "Questo %s non può essere eliminato"
+
+#: includes/api/legacy/v2/class-wc-api-resource.php:372
+#: includes/api/legacy/v1/class-wc-api-resource.php:313
+#: includes/api/legacy/v3/class-wc-api-resource.php:374
+msgid "Permanently deleted customer"
+msgstr "Cliente eliminato in modo permanente"
+
+#: includes/api/legacy/v2/class-wc-api-orders.php:1450
+#: includes/api/legacy/v3/class-wc-api-orders.php:1495
+msgid "Permanently deleted order note"
+msgstr "Nota ordine eliminata in modo permanente"
+
+#: includes/api/legacy/v2/class-wc-api-resource.php:386
+#: includes/api/legacy/v2/class-wc-api-products.php:464
+#: includes/api/legacy/v1/class-wc-api-resource.php:327
+#: includes/api/legacy/v3/class-wc-api-resource.php:388
+#: includes/api/legacy/v3/class-wc-api-products.php:523
+msgid "Permanently deleted %s"
+msgstr "Eliminato %s in modo permanente"
+
+#: includes/admin/views/html-notice-update.php:31
+msgid "It is strongly recommended that you backup your database before proceeding. Are you sure you wish to run the updater now?"
+msgstr "È fortemente raccomandato effettuare un backup del database prima di procedere. Desideri eseguire la procedura di aggiornamento ora?"
 
 #: includes/admin/settings/class-wc-settings-general.php:211
 msgid "Calculate coupon discounts sequentially"
@@ -17445,14 +17445,6 @@ msgstr "Indirizzo di spedizione del cliente"
 msgid "Customer billing address"
 msgstr "Indirizzo di fatturazione del cliente"
 
-#: includes/admin/settings/views/settings-tax.php:47
-msgid "Optionally control which tax class shipping gets, or leave it so shipping tax is based on the cart items themselves."
-msgstr "Controlla opzionalmente quale aliquota ha la spedizione, o lascia invariato così che l'aliquota si basi su quella applicata ai prodotti nel carrello."
-
-#: includes/admin/settings/views/settings-tax.php:53
-msgid "Shipping tax class based on cart items"
-msgstr "Aliquota per la spedizione basata sui prodotti del carrello"
-
 #: includes/admin/settings/views/settings-tax.php:58
 msgid "Rounding"
 msgstr "Arrotondamento"
@@ -17460,10 +17452,6 @@ msgstr "Arrotondamento"
 #: includes/admin/settings/views/settings-tax.php:59
 msgid "Round tax at subtotal level, instead of rounding per line"
 msgstr "Arrotonda le imposte nel subtotale, invece di arrotondare per ogni riga"
-
-#: includes/admin/settings/views/settings-tax.php:66
-msgid "Additional tax classes"
-msgstr "Aliquote addizionali"
 
 #: includes/admin/settings/views/settings-tax.php:67
 msgid "List additional tax classes below (1 per line). This is in addition to the default \"Standard rate\"."
@@ -17541,10 +17529,6 @@ msgstr "Attiva i pulsanti AJAX aggiungi al carrello negli archivi"
 msgid "Rate&nbsp;%"
 msgstr "Aliquota&nbsp;%"
 
-#: includes/admin/settings/views/html-settings-tax.php:32
-msgid "Choose a priority for this tax rate. Only 1 matching rate per priority will be used. To define multiple tax rates for a single area you need to specify a different priority per rate."
-msgstr "Scegliere una priorità per questa aliquota. Sarà usato solo 1 aliquota corrispondente per priorità. Per definire multiple aliquote d'imposta per una singola area è necessario specificare una diversa priorità per aliquota."
-
 #: includes/admin/settings/views/html-settings-tax.php:33
 msgid "Choose whether or not this is a compound rate. Compound tax rates are applied on top of other tax rates."
 msgstr "Scegli se questa è un'aliquota composta. Le aliquote d'imposta composte vengono applicate sulle altre aliquote d'imposta."
@@ -17603,10 +17587,6 @@ msgstr "ID imposta."
 #: includes/admin/settings/views/settings-tax.php:32
 msgid "Calculate tax based on"
 msgstr "Calcolo imposte in base a"
-
-#: includes/admin/settings/views/settings-tax.php:46
-msgid "Shipping tax class"
-msgstr "Categoria della tassa di spedizione"
 
 #: includes/admin/settings/views/settings-tax.php:100
 msgid "Price display suffix"
@@ -17677,18 +17657,9 @@ msgstr "Valutazione del prodotto"
 msgid "Shipping destination"
 msgstr "Destinazione della spedizione"
 
-#: includes/admin/settings/class-wc-settings-tax.php:61
-#: includes/admin/settings/views/settings-tax.php:13
-msgid "Tax options"
-msgstr "Opzioni tasse"
-
 #: includes/admin/settings/class-wc-settings-tax.php:62
 msgid "Standard rates"
 msgstr "Aliquote standard"
-
-#: includes/admin/settings/class-wc-settings-tax.php:69
-msgid "%s rates"
-msgstr "%s aliquote"
 
 #: includes/admin/settings/class-wc-settings-tax.php:193
 msgid "Country code"
@@ -17939,6 +17910,35 @@ msgstr "Codice promozionale creato"
 msgid "Coupons can be applied from the cart and checkout pages."
 msgstr "I codici promozionali possono essere inseriti dalle pagine carrello e checkout."
 
+#: includes/admin/settings/views/settings-tax.php:47
+msgid "Optionally control which tax class shipping gets, or leave it so shipping tax is based on the cart items themselves."
+msgstr "Controlla opzionalmente quale classe d'imposta viene applicata alle spese di spedizione, oppure fai in modo che la tassa applicata alle spese di spedizione si basi sui prodotti nel carrello."
+
+#: includes/admin/settings/views/settings-tax.php:53
+msgid "Shipping tax class based on cart items"
+msgstr "Classe d'imposta per la spedizione basata sui prodotti del carrello"
+
+#: includes/admin/settings/views/settings-tax.php:66
+msgid "Additional tax classes"
+msgstr "Aliquote d'imposta aggiuntive"
+
+#: includes/admin/settings/views/html-settings-tax.php:32
+msgid "Choose a priority for this tax rate. Only 1 matching rate per priority will be used. To define multiple tax rates for a single area you need to specify a different priority per rate."
+msgstr "Seleziona una priorità per questa aliquota d'imposta. Soltanto 1 aliquota corrispondente per priorità verrà utilizzata. Per definire aliquote d'imposta multiple per una singola area è necessario specificare una diversa priorità per aliquota."
+
+#: includes/admin/settings/class-wc-settings-tax.php:69
+msgid "%s rates"
+msgstr "Aliquote %s"
+
+#: includes/admin/settings/views/settings-tax.php:46
+msgid "Shipping tax class"
+msgstr "Classe d'imposta della spedizione"
+
+#: includes/admin/settings/class-wc-settings-tax.php:61
+#: includes/admin/settings/views/settings-tax.php:13
+msgid "Tax options"
+msgstr "Opzioni imposte"
+
 #: includes/admin/meta-boxes/views/html-variation-admin.php:219
 #: includes/admin/meta-boxes/views/html-product-data-inventory.php:99
 #: includes/admin/reports/class-wc-report-stock.php:176
@@ -18084,10 +18084,6 @@ msgstr "Aggiungi variazione"
 msgid "Create variations from all attributes"
 msgstr "Crea variazioni da tutti gli attributi"
 
-#: includes/admin/meta-boxes/views/html-product-data-variations.php:57
-msgid "Delete all variations"
-msgstr "Eliminare tutte le varianti"
-
 #: includes/admin/meta-boxes/views/html-product-data-variations.php:59
 msgid "Toggle &quot;Enabled&quot;"
 msgstr "Attivare o disattivare &quot;Abilitato&quot;"
@@ -18189,11 +18185,6 @@ msgstr "Vai alla prossima pagina"
 #: includes/admin/meta-boxes/views/html-product-data-variations.php:143
 msgid "Go to the last page"
 msgstr "Vai all'ultima pagina"
-
-#: includes/admin/meta-boxes/class-wc-meta-box-product-images.php:56
-#: includes/admin/meta-boxes/class-wc-meta-box-product-images.php:76
-msgid "Delete image"
-msgstr "Cancella immagine"
 
 #: includes/admin/meta-boxes/class-wc-meta-box-product-images.php:76
 msgid "Add to gallery"
@@ -18369,10 +18360,6 @@ msgstr "Abilita questa opzione per abilitare la gestione dell'inventario nelle v
 #: includes/admin/meta-boxes/views/html-variation-admin.php:115
 msgid "Variation price (required)"
 msgstr "Prezzo di variazione (richiesto)"
-
-#: includes/admin/meta-boxes/views/html-variation-admin.php:131
-msgid "Cancel schedule"
-msgstr "Annulla pianifica"
 
 #: includes/admin/meta-boxes/views/html-variation-admin.php:297
 #: includes/admin/meta-boxes/views/html-variation-admin.php:314
@@ -18735,16 +18722,6 @@ msgstr "Descrizione variazione"
 msgid "%s coupons used in total"
 msgstr "%s codici promozionali usati in totale"
 
-#: includes/api/v2/class-wc-rest-product-variations-v2-controller.php:802
-#: includes/api/v2/class-wc-rest-products-v2-controller.php:1678
-#: includes/api/v1/class-wc-rest-products-controller.php:1940
-#: includes/api/v1/class-wc-rest-products-controller.php:2399
-#: includes/api/v1/class-wc-rest-taxes-controller.php:635
-#: includes/api/class-wc-rest-products-controller.php:913
-#: includes/api/class-wc-rest-product-variations-controller.php:554
-msgid "Tax class."
-msgstr "Categoria della tassa"
-
 #: includes/export/class-wc-product-csv-exporter.php:139
 #: includes/admin/importers/class-wc-product-csv-importer-controller.php:533
 #: includes/admin/importers/class-wc-product-csv-importer-controller.php:698
@@ -18988,10 +18965,6 @@ msgstr "Venduto per un valore di %1$s negli ultimi %2$d giorni"
 msgid "Top earners"
 msgstr "Introiti maggiori"
 
-#: includes/admin/reports/class-wc-report-taxes-by-code.php:159
-msgid "This is the sum of the \"Tax rows\" tax amount within your orders."
-msgstr "Questa è la somma delle imposte delle aliquote dei tuoi ordini."
-
 #: includes/admin/meta-boxes/views/html-product-data-linked-products.php:44
 msgid "Upsells are products which you recommend instead of the currently viewed product, for example, products that are more profitable or better quality or more expensive."
 msgstr "Gli Up-sell sono prodotti che raccomandi invece del prodotto attualmente visualizzato, per esempio, i prodotti che sono più redditizi o di migliore qualità o più costosi."
@@ -19022,6 +18995,10 @@ msgstr "Azzera"
 #: includes/admin/reports/class-wc-report-low-in-stock.php:25
 msgid "No low in stock products found."
 msgstr "Nessun prodotto in esaurimento trovato."
+
+#: includes/admin/meta-boxes/views/html-variation-admin.php:131
+msgid "Cancel schedule"
+msgstr "Annulla pianificazione"
 
 #: includes/admin/meta-boxes/views/html-order-items.php:275
 msgid "Reason for refund (optional):"
@@ -19096,6 +19073,29 @@ msgstr "%s vendite nette medie mensili"
 msgid "Average net sales amount"
 msgstr "Importo medio vendite nette"
 
+#: includes/admin/meta-boxes/class-wc-meta-box-product-images.php:56
+#: includes/admin/meta-boxes/class-wc-meta-box-product-images.php:76
+msgid "Delete image"
+msgstr "Elimina immagine"
+
+#: includes/admin/meta-boxes/views/html-product-data-variations.php:57
+msgid "Delete all variations"
+msgstr "Eliminare tutte le variazioni"
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:159
+msgid "This is the sum of the \"Tax rows\" tax amount within your orders."
+msgstr "Questa è la somma degli importi delle imposte dei tuoi ordini."
+
+#: includes/api/v2/class-wc-rest-product-variations-v2-controller.php:802
+#: includes/api/v2/class-wc-rest-products-v2-controller.php:1678
+#: includes/api/v1/class-wc-rest-products-controller.php:1940
+#: includes/api/v1/class-wc-rest-products-controller.php:2399
+#: includes/api/v1/class-wc-rest-taxes-controller.php:635
+#: includes/api/class-wc-rest-products-controller.php:913
+#: includes/api/class-wc-rest-product-variations-controller.php:554
+msgid "Tax class."
+msgstr "Classe d'imposta."
+
 #: includes/admin/class-wc-admin-setup-wizard.php:1746
 msgid "Offline Payments"
 msgstr "Pagamenti Offline"
@@ -19115,10 +19115,6 @@ msgstr "Ruoli resettati correttamente"
 #: includes/api/v2/class-wc-rest-system-status-tools-v2-controller.php:510
 msgid "Terms successfully recounted"
 msgstr "Termini ricontati correttamente"
-
-#: includes/api/v2/class-wc-rest-system-status-tools-v2-controller.php:530
-msgid "Tax rates successfully deleted"
-msgstr "Aliquota cancellata con successo"
 
 #: includes/api/v2/class-wc-rest-system-status-tools-v2-controller.php:540
 msgid "Usage tracking settings successfully reset."
@@ -19198,10 +19194,6 @@ msgstr "Rimuovere immagine"
 msgid "Use image"
 msgstr "Usa immagine"
 
-#: includes/admin/class-wc-admin-taxonomies.php:343
-msgid "Attribute terms can be assigned to products and variations.<br/><br/><b>Note</b>: Deleting a term will remove it from all products and variations to which it has been assigned. Recreating a term will not automatically assign it back to products."
-msgstr "I termini degli attributi possono essere assegnati ai prodotti e alle varianti.<br/><br/><b>NB</b>: Cancellando un termine, verrà rimosso da tutti i prodotti e varianti dove è stato utilizzato. Ricreando il termine non verrà automaticamente ripristinato nei prodotti."
-
 #: includes/admin/settings/views/html-webhooks-edit.php:56
 #: includes/admin/class-wc-admin-webhooks-table-list.php:50
 msgid "Topic"
@@ -19252,14 +19244,6 @@ msgstr "Il CSV non è valido."
 #: includes/admin/importers/class-wc-tax-rate-importer.php:191
 msgid "All done!"
 msgstr "Fatto tutto!"
-
-#: includes/admin/importers/class-wc-tax-rate-importer.php:191
-msgid "View tax rates"
-msgstr "Visualizza aliquote"
-
-#: includes/admin/importers/class-wc-tax-rate-importer.php:229
-msgid "Import tax rates"
-msgstr "Importa aliquote"
 
 #: includes/admin/importers/class-wc-tax-rate-importer.php:258
 #: includes/admin/importers/views/html-product-csv-import-form.php:31
@@ -19411,6 +19395,21 @@ msgstr "Indirizzo"
 msgid "No billing address set."
 msgstr "Nessun indirizzo di fatturazione impostato."
 
+#: includes/admin/meta-boxes/views/html-order-shipping.php:39
+#: includes/admin/meta-boxes/views/html-order-shipping.php:41
+#: includes/admin/meta-boxes/class-wc-meta-box-order-data.php:405
+#: includes/admin/meta-boxes/class-wc-meta-box-order-data.php:407
+msgid "Other"
+msgstr "Altro"
+
+#: includes/admin/meta-boxes/class-wc-meta-box-order-data.php:431
+msgid "Load shipping address"
+msgstr "Carica l'indirizzo di spedizione"
+
+#: includes/admin/meta-boxes/class-wc-meta-box-order-data.php:442
+msgid "No shipping address set."
+msgstr "Nessun indirizzo di spedizione impostato."
+
 #: templates/emails/email-addresses.php:32 templates/single-product/meta.php:31
 #: templates/order/order-details-customer.php:35
 #: templates/order/order-details-customer.php:53
@@ -19437,21 +19436,6 @@ msgstr "Nessun indirizzo di fatturazione impostato."
 #: includes/wc-account-functions.php:346
 msgid "N/A"
 msgstr "N/A"
-
-#: includes/admin/meta-boxes/views/html-order-shipping.php:39
-#: includes/admin/meta-boxes/views/html-order-shipping.php:41
-#: includes/admin/meta-boxes/class-wc-meta-box-order-data.php:405
-#: includes/admin/meta-boxes/class-wc-meta-box-order-data.php:407
-msgid "Other"
-msgstr "Altro"
-
-#: includes/admin/meta-boxes/class-wc-meta-box-order-data.php:431
-msgid "Load shipping address"
-msgstr "Carica l'indirizzo di spedizione"
-
-#: includes/admin/meta-boxes/class-wc-meta-box-order-data.php:442
-msgid "No shipping address set."
-msgstr "Nessun indirizzo di spedizione impostato."
 
 #. translators: %d file count
 #: includes/class-wc-ajax.php:807
@@ -19480,11 +19464,6 @@ msgstr "aggiunto il %1$s alle %2$s"
 #: includes/admin/views/html-admin-page-status-report.php:590
 msgid "by %s"
 msgstr "by %s"
-
-#: includes/class-wc-ajax.php:1308
-#: includes/admin/meta-boxes/class-wc-meta-box-order-notes.php:57
-msgid "Delete note"
-msgstr "Cancella nota"
 
 #: includes/admin/meta-boxes/class-wc-meta-box-order-notes.php:70
 msgid "Add note"
@@ -19644,11 +19623,6 @@ msgstr "Definisce se l'intero prodotto o meno è soggetto ad imposte, oppure sol
 msgid "Standard"
 msgstr "Standard"
 
-#: includes/admin/meta-boxes/views/html-product-data-general.php:169
-#: includes/admin/meta-boxes/views/html-variation-admin.php:316
-msgid "Choose a tax class for this product. Tax classes are used to apply different tax rates specific to certain types of product."
-msgstr "Selezionate una aliquota di imposta per questo prodotto. Le aliquote sono utilizzate per applicare imposte specifiche per certi tipi di prodotto."
-
 #: includes/admin/meta-boxes/views/html-variation-admin.php:91
 #: includes/admin/meta-boxes/views/html-product-data-inventory.php:37
 #: includes/admin/views/html-quick-edit-product.php:167
@@ -19665,10 +19639,6 @@ msgstr "Abilita gestione inventario nei prodotti"
 #: includes/admin/views/html-bulk-edit-product.php:269
 msgid "Stock qty"
 msgstr "Quantità in stock"
-
-#: includes/admin/meta-boxes/views/html-product-data-inventory.php:52
-msgid "Stock quantity. If this is a variable product this value will be used to control stock for all variations, unless you define stock at variation level."
-msgstr "Quantità Stock Articolo. Se questo è un prodotto variabile questo valore verrà utilizzato per controllare lo stock a magazzino per tutti i tipi, a meno di definire il magazzino per ogni variante."
 
 #: includes/wc-product-functions.php:870
 msgid "Do not allow"
@@ -19769,10 +19739,6 @@ msgctxt "Tax status"
 msgid "None"
 msgstr "Esente"
 
-#: includes/admin/importers/class-wc-tax-rate-importer.php:245
-msgid "Hi there! Upload a CSV file containing tax rates to import the contents into your shop. Choose a .csv file to upload, then click \"Upload file and import\"."
-msgstr "Ciao, carica un file CSV contenente le aliquote fiscali per importarne il contenuto nel tuo negozio. Scegli un file .csv da caricare, quindi fai clic su \"Carica e importa file\"."
-
 #: includes/admin/class-wc-admin-setup-wizard.php:1563
 #: includes/gateways/cod/class-wc-gateway-cod.php:56
 #: includes/gateways/cod/class-wc-gateway-cod.php:118
@@ -19841,13 +19807,6 @@ msgstr "Aggiungi Webhook"
 msgid "Product categories for your store can be managed here. To change the order of categories on the front-end you can drag and drop to sort them. To see more categories listed click the \"screen options\" link at the top-right of this page."
 msgstr "Le categorie di prodotti per il tuo negozio possono essere gestite da qui. Per modificare l'ordine delle categorie sul front-end è possibile trascinarle e rilasciarle per ordinarle. Per visualizzare altre categorie elencate cliccare sul link \"opzioni dello schermo \" nella parte superiore della pagina."
 
-#. translators: %d: count
-#: includes/admin/class-wc-admin-webhooks.php:226
-msgid "%d webhook permanently deleted."
-msgid_plural "%d webhooks permanently deleted."
-msgstr[0] "%d webhook permanentemente eliminato."
-msgstr[1] "%d webhook permanentemente eliminati."
-
 #. translators: %d: amount of expired transients
 #: includes/api/v2/class-wc-rest-system-status-tools-v2-controller.php:436
 msgid "%d transients rows cleared"
@@ -19860,10 +19819,6 @@ msgstr "I prodotti virtuali sono immateriali e non vengono spediti."
 #: includes/admin/meta-boxes/class-wc-meta-box-order-data.php:506
 msgid "Customer notes about the order"
 msgstr "Note del cliente circa l'ordine"
-
-#: includes/api/v2/class-wc-rest-system-status-tools-v2-controller.php:176
-msgid "Delete WooCommerce tax rates"
-msgstr "Cancella TUTTE le aliquote create"
 
 #: includes/admin/class-wc-admin-webhooks-table-list.php:218
 msgid "You do not have permission to edit Webhooks"
@@ -19961,6 +19916,51 @@ msgstr "Valore del codice promozionale."
 msgid "Check this box if the coupon grants free shipping. A <a href=\"%s\" target=\"_blank\">free shipping method</a> must be enabled in your shipping zone and be set to require \"a valid free shipping coupon\" (see the \"Free Shipping Requires\" setting)."
 msgstr "Seleziona questa casella se il codice promozionale offre la spedizione gratuita. La <a href=\"%s\" target=\"_blank\">spedizione gratuita</a> deve essere abilitata nella tua zona di spedizione e configurata per richiedere un \"coupon di spedizione gratuita valido\" (vedi l'impostazione \"La spedizione gratuita richiede...\")."
 
+#: includes/api/v2/class-wc-rest-system-status-tools-v2-controller.php:530
+msgid "Tax rates successfully deleted"
+msgstr "Aliquote d'imposta eliminate con successo"
+
+#: includes/class-wc-ajax.php:1308
+#: includes/admin/meta-boxes/class-wc-meta-box-order-notes.php:57
+msgid "Delete note"
+msgstr "Elimina nota"
+
+#. translators: %d: count
+#: includes/admin/class-wc-admin-webhooks.php:226
+msgid "%d webhook permanently deleted."
+msgid_plural "%d webhooks permanently deleted."
+msgstr[0] "%d webhook eliminato in modo permanente."
+msgstr[1] "%d webhook eliminati in modo permanente."
+
+#: includes/admin/class-wc-admin-taxonomies.php:343
+msgid "Attribute terms can be assigned to products and variations.<br/><br/><b>Note</b>: Deleting a term will remove it from all products and variations to which it has been assigned. Recreating a term will not automatically assign it back to products."
+msgstr "I termini degli attributi possono essere assegnati a prodotti e variazioni.<br/><br/><b>Nota</b>: L'eliminazione di un termine comporta la rimozione dello stesso da tutti i prodotti e variazioni a cui era stato assegnato. Ricreando il termine non verrà automaticamente riassegnato ai prodotti."
+
+#: includes/admin/meta-boxes/views/html-product-data-inventory.php:52
+msgid "Stock quantity. If this is a variable product this value will be used to control stock for all variations, unless you define stock at variation level."
+msgstr "Quantità a magazzino. Se questo è un prodotto variabile questo valore verrà utilizzato per controllare il magazzino di tutte le variazioni, a meno di definire una quantità diversa a livello di variazione."
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:191
+msgid "View tax rates"
+msgstr "Visualizza aliquote d'imposta"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:229
+msgid "Import tax rates"
+msgstr "Importa aliquote d'imposta"
+
+#: includes/admin/meta-boxes/views/html-product-data-general.php:169
+#: includes/admin/meta-boxes/views/html-variation-admin.php:316
+msgid "Choose a tax class for this product. Tax classes are used to apply different tax rates specific to certain types of product."
+msgstr "Seleziona una classe di imposta per questo prodotto. Le classi di imposta sono utilizzate per applicare differenti aliquote di imposta specifiche per alcuni tipi di prodotto."
+
+#: includes/api/v2/class-wc-rest-system-status-tools-v2-controller.php:176
+msgid "Delete WooCommerce tax rates"
+msgstr "Elimina le aliquote d'imposta"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:245
+msgid "Hi there! Upload a CSV file containing tax rates to import the contents into your shop. Choose a .csv file to upload, then click \"Upload file and import\"."
+msgstr "Ciao! Carica un file CSV contenente le aliquote d'imposta per importarne il contenuto nel tuo negozio. Scegli un file .csv da caricare, quindi fai clic su \"Carica e importa file\"."
+
 #: includes/admin/class-wc-admin-pointers.php:90
 msgid "Choose a type for this product. Simple is suitable for most physical goods and services (we recommend setting up a simple product for now)."
 msgstr "Scegli un tipo per questo prodotto. Semplice va bene per la maggior parte dei beni fisici e servizi (raccomandiamo di configure un prodotto semplice per ora)."
@@ -20015,12 +20015,6 @@ msgstr "Prodotto aggiornato. <a href=\"%s\">Vedi Prodotto</a>"
 #: includes/admin/class-wc-admin-post-types.php:163
 msgid "Custom field updated."
 msgstr "Campo personalizzato aggiornato."
-
-#: includes/admin/class-wc-admin-post-types.php:124
-#: includes/admin/class-wc-admin-post-types.php:145
-#: includes/admin/class-wc-admin-post-types.php:164
-msgid "Custom field deleted."
-msgstr "Campo personalizzato cancellato."
 
 #: includes/admin/class-wc-admin-post-types.php:125
 msgid "Product updated."
@@ -20078,13 +20072,6 @@ msgstr[0] "%s prodotto non aggiornato, qualcuno lo sta modificando."
 msgstr[1] "%s prodotti non aggiornati, qualcuno li sta modificando."
 
 #. translators: %s: product count
-#: includes/admin/class-wc-admin-post-types.php:195
-msgid "%s product permanently deleted."
-msgid_plural "%s products permanently deleted."
-msgstr[0] "%s prodotto cancellato permanentemente."
-msgstr[1] "%s prodotti cancellati permanentemente."
-
-#. translators: %s: product count
 #: includes/admin/class-wc-admin-post-types.php:197
 msgid "%s product moved to the Trash."
 msgid_plural "%s products moved to the Trash."
@@ -20113,13 +20100,6 @@ msgstr[0] "%s ordine non aggiornato, qualcuno li sta modificando."
 msgstr[1] "%s ordini non aggiornati, qualcuno li sta modificando."
 
 #. translators: %s: order count
-#: includes/admin/class-wc-admin-post-types.php:208
-msgid "%s order permanently deleted."
-msgid_plural "%s orders permanently deleted."
-msgstr[0] "%s ordine cancellato permanentemente."
-msgstr[1] "%s ordini cancellati permanentemente."
-
-#. translators: %s: order count
 #: includes/admin/class-wc-admin-post-types.php:210
 msgid "%s order moved to the Trash."
 msgid_plural "%s orders moved to the Trash."
@@ -20146,13 +20126,6 @@ msgid "%s coupon not updated, somebody is editing it."
 msgid_plural "%s coupons not updated, somebody is editing them."
 msgstr[0] "%s codice promozionale non aggiornato, qualcuno lo sta modificando."
 msgstr[1] "%s codici promozionali non aggiornati, qualcuno li sta modificando."
-
-#. translators: %s: coupon count
-#: includes/admin/class-wc-admin-post-types.php:221
-msgid "%s coupon permanently deleted."
-msgid_plural "%s coupons permanently deleted."
-msgstr[0] "%s codice promozionale cancellato permanentemente."
-msgstr[1] "%s codici promozionali cancellati permanentemente."
 
 #. translators: %s: coupon count
 #: includes/admin/class-wc-admin-post-types.php:223
@@ -20734,13 +20707,6 @@ msgstr "Impostazione pagina"
 msgid "Let's go!"
 msgstr "Via!"
 
-#: includes/admin/settings/views/html-webhooks-edit.php:204
-#: includes/admin/meta-boxes/class-wc-meta-box-order-actions.php:63
-#: includes/admin/class-wc-admin-webhooks-table-list.php:92
-#: includes/admin/class-wc-admin-webhooks-table-list.php:206
-msgid "Delete permanently"
-msgstr "Elimina definitivamente"
-
 #: includes/class-wc-install.php:433
 msgctxt "Page title"
 msgid "My account"
@@ -20871,6 +20837,40 @@ msgstr "Codice promozionale salvato."
 msgid "Coupon updated."
 msgstr "Codice promozionale aggiornato."
 
+#: includes/admin/class-wc-admin-post-types.php:124
+#: includes/admin/class-wc-admin-post-types.php:145
+#: includes/admin/class-wc-admin-post-types.php:164
+msgid "Custom field deleted."
+msgstr "Campo personalizzato eliminato."
+
+#: includes/admin/settings/views/html-webhooks-edit.php:204
+#: includes/admin/meta-boxes/class-wc-meta-box-order-actions.php:63
+#: includes/admin/class-wc-admin-webhooks-table-list.php:92
+#: includes/admin/class-wc-admin-webhooks-table-list.php:206
+msgid "Delete permanently"
+msgstr "Elimina in modo permanente"
+
+#. translators: %s: product count
+#: includes/admin/class-wc-admin-post-types.php:195
+msgid "%s product permanently deleted."
+msgid_plural "%s products permanently deleted."
+msgstr[0] "%s prodotto eliminato in modo permanente."
+msgstr[1] "%s prodotti eliminati in modo permanente."
+
+#. translators: %s: order count
+#: includes/admin/class-wc-admin-post-types.php:208
+msgid "%s order permanently deleted."
+msgid_plural "%s orders permanently deleted."
+msgstr[0] "%s ordine eliminato in modo permanente."
+msgstr[1] "%s ordini eliminati in modo permanente."
+
+#. translators: %s: coupon count
+#: includes/admin/class-wc-admin-post-types.php:221
+msgid "%s coupon permanently deleted."
+msgid_plural "%s coupons permanently deleted."
+msgstr[0] "%s codice promozionale eliminato in modo permanente."
+msgstr[1] "%s codici promozionali eliminati in modo permanente."
+
 #: templates/single-product/tabs/description.php:25
 #: includes/wc-template-functions.php:1660
 #: includes/export/class-wc-product-csv-exporter.php:108
@@ -20982,10 +20982,6 @@ msgstr "Menù ordine variazione (determina la posizione nella lista delle variaz
 msgid "Enter a value (fixed or %)"
 msgstr "Inserisci un valore (fisso o %)"
 
-#: includes/admin/class-wc-admin-assets.php:233
-msgid "Are you sure you want to delete all variations? This cannot be undone."
-msgstr "Sei sicuro di voler cancellare tutte le varianti? Questa operazione non può essere annullata."
-
 #: includes/admin/class-wc-admin-assets.php:234
 msgid "Last warning, are you sure?"
 msgstr "Ultimo avvertimento, sei sicuro?"
@@ -20999,22 +20995,6 @@ msgstr "Scegli immagine"
 #: includes/admin/class-wc-admin-assets.php:236
 msgid "Set variation image"
 msgstr "Impostare immagine per la variazione"
-
-#: includes/admin/class-wc-admin-assets.php:237
-msgid "variation added"
-msgstr "variante aggiunta"
-
-#: includes/admin/class-wc-admin-assets.php:238
-msgid "variations added"
-msgstr "varianti aggiunte"
-
-#: includes/admin/class-wc-admin-assets.php:239
-msgid "No variations added"
-msgstr "Nessuna variante aggiunta"
-
-#: includes/admin/class-wc-admin-assets.php:240
-msgid "Are you sure you want to remove this variation?"
-msgstr "Sei sicuro di voler rimuovere questa variante?"
 
 #: includes/admin/class-wc-admin-assets.php:241
 msgid "Sale start date (YYYY-MM-DD format or leave blank)"
@@ -21044,10 +21024,6 @@ msgstr "%qty% variazioni"
 #: includes/admin/class-wc-admin-assets.php:415
 msgid "Select an option&hellip;"
 msgstr "Seleziona un'opzione&hellip;"
-
-#: includes/admin/class-wc-admin-assets.php:292
-msgid "Are you sure you wish to delete this tax column? This action cannot be undone."
-msgstr "Sei sicuro di voler eliminare questa imposta? Questo processo non è annullabile."
 
 #: includes/admin/class-wc-admin-assets.php:293
 msgid "Remove this item meta?"
@@ -21143,10 +21119,6 @@ msgstr "Nessun cliente selezionato"
 #: includes/admin/class-wc-admin-assets.php:335
 msgid "Could not grant access - the user may already have permission for this file or billing email is not set. Ensure the billing email is set, and the order has been saved."
 msgstr "Impossibile concedere l'accesso - l'utente potrebbe già avere il permesso per questo file o l'email di fatturazione non è impostata. Assicurarsi che l'email di fatturazione sia impostata e che l'ordine sia stato salvato."
-
-#: includes/admin/class-wc-admin-assets.php:336
-msgid "Are you sure you want to revoke access to this download?"
-msgstr "Sei sicuro di voler revocare l'accesso per questo download?"
 
 #: includes/admin/class-wc-admin-assets.php:337
 msgid "You cannot add the same tax rate twice!"
@@ -21248,39 +21220,11 @@ msgstr "Termini"
 msgid "No attributes currently exist."
 msgstr "Attualmente non esistono attributi."
 
-#: includes/admin/class-wc-admin-attributes.php:460
-msgid "Are you sure you want to delete this attribute?"
-msgstr "Sei sicuro di voler eliminare questo attributo?"
-
 #: includes/admin/class-wc-admin-dashboard.php:176
 msgid "<strong>%s order</strong> awaiting processing"
 msgid_plural "<strong>%s orders</strong> awaiting processing"
 msgstr[0] "<strong>%s ordine</strong> in attesa di elaborazione"
 msgstr[1] "<strong>%s ordini</strong> in attesa di elaborazione"
-
-#: templates/myaccount/my-address.php:53
-#: includes/libraries/action-scheduler/classes/ActionScheduler_wpPostStore_PostTypeRegistrar.php:35
-#: includes/class-wc-post-types.php:309 includes/class-wc-post-types.php:375
-#: includes/class-wc-post-types.php:440
-#: includes/admin/settings/views/html-admin-page-shipping-classes.php:54
-#: includes/admin/settings/views/html-admin-page-shipping-zones.php:78
-#: includes/admin/settings/views/html-admin-page-shipping-zone-methods.php:123
-#: includes/admin/class-wc-admin-post-types.php:752
-#: includes/admin/meta-boxes/class-wc-meta-box-order-data.php:313
-#: includes/admin/meta-boxes/class-wc-meta-box-order-data.php:429
-#: includes/admin/class-wc-admin-attributes.php:307
-#: includes/admin/class-wc-admin-webhooks-table-list.php:82
-#: includes/admin/reports/class-wc-report-stock.php:135
-#: includes/admin/reports/class-wc-report-customer-list.php:159
-#: includes/admin/list-tables/class-wc-admin-list-table-orders.php:406
-msgid "Edit"
-msgstr "Modifica"
-
-#: includes/admin/class-wc-admin-dashboard.php:187
-msgid "<strong>%s order</strong> on-hold"
-msgid_plural "<strong>%s orders</strong> on-hold"
-msgstr[0] "<strong>%s ordine</strong> in attesa"
-msgstr[1] "<strong>%s ordini</strong> in attesa"
 
 #: includes/admin/class-wc-admin-dashboard.php:247
 msgid "<strong>%s product</strong> low in stock"
@@ -21313,6 +21257,24 @@ msgstr "Copia in una nuova bozza"
 #: includes/admin/class-wc-admin-duplicate-product.php:103
 msgid "No product to duplicate has been supplied!"
 msgstr "Nessun prodotto da duplicare è stato fornito!"
+
+#: templates/myaccount/my-address.php:53
+#: includes/libraries/action-scheduler/classes/ActionScheduler_wpPostStore_PostTypeRegistrar.php:35
+#: includes/class-wc-post-types.php:309 includes/class-wc-post-types.php:375
+#: includes/class-wc-post-types.php:440
+#: includes/admin/settings/views/html-admin-page-shipping-classes.php:54
+#: includes/admin/settings/views/html-admin-page-shipping-zones.php:78
+#: includes/admin/settings/views/html-admin-page-shipping-zone-methods.php:123
+#: includes/admin/class-wc-admin-post-types.php:752
+#: includes/admin/meta-boxes/class-wc-meta-box-order-data.php:313
+#: includes/admin/meta-boxes/class-wc-meta-box-order-data.php:429
+#: includes/admin/class-wc-admin-attributes.php:307
+#: includes/admin/class-wc-admin-webhooks-table-list.php:82
+#: includes/admin/reports/class-wc-report-stock.php:135
+#: includes/admin/reports/class-wc-report-customer-list.php:159
+#: includes/admin/list-tables/class-wc-admin-list-table-orders.php:406
+msgid "Edit"
+msgstr "Modifica"
 
 #: includes/admin/class-wc-admin-setup-wizard.php:1410
 msgid "PayPal Standard"
@@ -21352,10 +21314,6 @@ msgstr "Per maggiori informazioni:"
 msgid "About WooCommerce"
 msgstr "Info su WooCommerce"
 
-#: includes/admin/class-wc-admin-importers.php:114
-msgid "Import <strong>tax rates</strong> to your store via a csv file."
-msgstr "Importazione delle <strong>aliquote fiscali</strong> per il tuo negozio tramite un file CSV."
-
 #: includes/class-wc-install.php:1182
 #: includes/admin/class-wc-admin-menus.php:79
 #: includes/admin/views/html-admin-page-status-report.php:604
@@ -21388,6 +21346,14 @@ msgstr "Base etichetta prodotto"
 msgid "Product attribute base"
 msgstr "Base attributi prodotto"
 
+#: includes/admin/class-wc-admin-permalink-settings.php:123
+msgid "Shop base"
+msgstr "Shop base"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:127
+msgid "Shop base with category"
+msgstr "Shop base con categoria"
+
 #: templates/cart/cart.php:30 templates/cart/cart.php:74
 #: templates/emails/email-order-details.php:44
 #: templates/checkout/review-order.php:26 templates/checkout/form-pay.php:27
@@ -21404,14 +21370,6 @@ msgstr "Base attributi prodotto"
 #: includes/wc-account-functions.php:211
 msgid "Product"
 msgstr "Prodotto"
-
-#: includes/admin/class-wc-admin-permalink-settings.php:123
-msgid "Shop base"
-msgstr "Shop base"
-
-#: includes/admin/class-wc-admin-permalink-settings.php:127
-msgid "Shop base with category"
-msgstr "Shop base con categoria"
 
 #: includes/wc-product-functions.php:856
 #: includes/admin/reports/class-wc-report-stock.php:116
@@ -21672,20 +21630,6 @@ msgctxt "enhanced select"
 msgid "Please enter %qty% or more characters"
 msgstr "Inserire %qty% o più caratteri"
 
-#: includes/class-wc-frontend-scripts.php:574
-#: includes/admin/class-wc-admin-setup-wizard.php:169
-#: includes/admin/class-wc-admin-assets.php:119
-msgctxt "enhanced select"
-msgid "Please delete 1 character"
-msgstr "Cancella 1 carattere"
-
-#: includes/class-wc-frontend-scripts.php:575
-#: includes/admin/class-wc-admin-setup-wizard.php:170
-#: includes/admin/class-wc-admin-assets.php:120
-msgctxt "enhanced select"
-msgid "Please delete %qty% characters"
-msgstr "Cancella %qty% caratteri"
-
 #. translators: %s: decimal
 #: includes/admin/class-wc-admin-assets.php:164
 msgid "Please enter in decimal (%s) format without thousand separators."
@@ -21717,11 +21661,6 @@ msgstr "Lo stato dell'ordine è cambiato da %1$s a %2$s."
 #: includes/class-wc-order-item-product.php:206
 msgid "Backordered"
 msgstr "Ordine in attesa"
-
-#. translators: %d: Number of variations
-#: includes/admin/class-wc-admin-assets.php:229
-msgid "Are you sure you want to link all variations? This will create a new variation for each and every possible combination of variation attributes (max %d per run)."
-msgstr "Desideri collegare tutte le varianti? Questo creerà una nuova variante per ciascuna e per ogni possibile combinazione degli attributi di variazione (max %d per esecuzione)."
 
 #. translators: %d: downloads count
 #. translators: 1: current item count
@@ -21852,10 +21791,6 @@ msgstr "Stato di WooCommerce"
 msgid "If you find a bug within WooCommerce core you can create a ticket via <a href=\"%1$s\">Github issues</a>. Ensure you read the <a href=\"%2$s\">contribution guide</a> prior to submitting your report. To help us solve your issue, please be as descriptive as possible and include your <a href=\"%3$s\">system status report</a>."
 msgstr "Se trovi un bug nel core di WooCommerce, puoi creare un ticket tramite <a href=\"%1$s\">GitHub</a>. Assicurati di leggere la <a href=\"%2$s\">guida per contributori</a> prima di inviare la segnalazione. Per aiutarci a risolvere il problema, sii il più descrittivo possibile ed includi il tuo <a href=\"%3$s\">report dello stato del sistema</a>."
 
-#: includes/admin/class-wc-admin-importers.php:114
-msgid "WooCommerce tax rates (CSV)"
-msgstr "WooCommerce Aliquote d'imposta (CSV)"
-
 #: includes/shipping/local-pickup/class-wc-shipping-local-pickup.php:31
 #: includes/shipping/local-pickup/class-wc-shipping-local-pickup.php:83
 #: includes/shipping/legacy-local-pickup/class-wc-shipping-legacy-local-pickup.php:105
@@ -21929,14 +21864,6 @@ msgstr "Galleria prodotto"
 msgid "Give your new product a name here. This is a required field and will be what your customers will see in your store."
 msgstr "Dai un nome al tuo nuovo prodotto qui. Questo è un campo obbligatorio e sarà ciò che i clienti vedranno nel tuo negozio."
 
-#: includes/admin/class-wc-admin-assets.php:291
-msgid "Are you sure you wish to delete this refund? This action cannot be undone."
-msgstr "Sei sicuro di voler eliminare questo rimborso? Questa azione non è reversibile."
-
-#: includes/admin/class-wc-admin-assets.php:290
-msgid "Are you sure you wish to process this refund? This action cannot be undone."
-msgstr "Sei sicuro di voler effettuare questo rimborso? Questa azione non è reversibile."
-
 #: includes/admin/class-wc-admin-meta-boxes.php:129
 msgid "%s notes"
 msgstr "Note %s"
@@ -21993,6 +21920,79 @@ msgstr "Slug/riferimento unico per l'attributo; deve essere lungo al massimo 28 
 #: includes/wc-attribute-functions.php:452
 msgid "Slug \"%s\" is not allowed because it is a reserved term. Change it, please."
 msgstr "Lo slug \"%s\" non è permesso perché è un termine riservato. Inseriscine uno diverso."
+
+#: includes/class-wc-frontend-scripts.php:574
+#: includes/admin/class-wc-admin-setup-wizard.php:169
+#: includes/admin/class-wc-admin-assets.php:119
+msgctxt "enhanced select"
+msgid "Please delete 1 character"
+msgstr "Elimina 1 carattere"
+
+#: includes/class-wc-frontend-scripts.php:575
+#: includes/admin/class-wc-admin-setup-wizard.php:170
+#: includes/admin/class-wc-admin-assets.php:120
+msgctxt "enhanced select"
+msgid "Please delete %qty% characters"
+msgstr "Elimina %qty% caratteri"
+
+#: includes/admin/class-wc-admin-dashboard.php:187
+msgid "<strong>%s order</strong> on-hold"
+msgid_plural "<strong>%s orders</strong> on-hold"
+msgstr[0] "<strong>%s ordine</strong> in sospeso"
+msgstr[1] "<strong>%s ordini</strong> in sospeso"
+
+#: includes/admin/class-wc-admin-assets.php:292
+msgid "Are you sure you wish to delete this tax column? This action cannot be undone."
+msgstr "Desideri eliminare questa imposta? Questa azione è irreversibile."
+
+#: includes/admin/class-wc-admin-assets.php:291
+msgid "Are you sure you wish to delete this refund? This action cannot be undone."
+msgstr "Desideri eliminare questo rimborso? Questa azione è irreversibile."
+
+#: includes/admin/class-wc-admin-assets.php:290
+msgid "Are you sure you wish to process this refund? This action cannot be undone."
+msgstr "Desideri effettuare questo rimborso? Questa azione è irreversibile."
+
+#: includes/admin/class-wc-admin-assets.php:240
+msgid "Are you sure you want to remove this variation?"
+msgstr "Desideri rimuovere questa variazione?"
+
+#: includes/admin/class-wc-admin-assets.php:336
+msgid "Are you sure you want to revoke access to this download?"
+msgstr "Desideri revocare l'accesso a questo download?"
+
+#: includes/admin/class-wc-admin-attributes.php:460
+msgid "Are you sure you want to delete this attribute?"
+msgstr "Desideri eliminare questo attributo?"
+
+#: includes/admin/class-wc-admin-assets.php:237
+msgid "variation added"
+msgstr "variazione aggiunta"
+
+#: includes/admin/class-wc-admin-assets.php:238
+msgid "variations added"
+msgstr "variazioni aggiunte"
+
+#: includes/admin/class-wc-admin-assets.php:239
+msgid "No variations added"
+msgstr "Nessuna variazione aggiunta"
+
+#. translators: %d: Number of variations
+#: includes/admin/class-wc-admin-assets.php:229
+msgid "Are you sure you want to link all variations? This will create a new variation for each and every possible combination of variation attributes (max %d per run)."
+msgstr "Desideri collegare tutte le variazioni? Questo creerà una nuova variazione per ogni possibile combinazione degli attributi di variazione (max %d per esecuzione)."
+
+#: includes/admin/class-wc-admin-assets.php:233
+msgid "Are you sure you want to delete all variations? This cannot be undone."
+msgstr "Desideri eliminare tutte le variazioni? Questa azione è irreversibile."
+
+#: includes/admin/class-wc-admin-importers.php:114
+msgid "Import <strong>tax rates</strong> to your store via a csv file."
+msgstr "Importa le <strong>aliquote d'imposta</strong> nel tuo negozio tramite un file csv."
+
+#: includes/admin/class-wc-admin-importers.php:114
+msgid "WooCommerce tax rates (CSV)"
+msgstr "Aliquote d'imposta WooCommerce (CSV)"
 
 #: i18n/states/PH.php:18
 msgid "Albay"
