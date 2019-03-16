@@ -20,4 +20,7 @@ FontAwesome License: SIL Open Font License - http://scripts.sil.org/OFL
 Images License: GNU General Public License v2 or later
 */
 
-
+.site-info {
+    margin: 0 auto;
+    text-align: center;
+}

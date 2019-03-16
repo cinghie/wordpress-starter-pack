@@ -66,3 +66,42 @@ function disable_plugin_updates($value)
 }
 
 add_filter( 'site_transient_update_plugins', 'disable_plugin_updates' );
+
+/**
+ * Register Footer Credits Widget
+ */
+function footer_credits_widgets_init()
+{
+	register_sidebar( array(
+		'name'          => 'Footer Credits',
+		'id'            => 'footer-credits',
+		'before_widget' => '<div class="credits">',
+		'after_widget'  => '</div>',
+	) );
+}
+
+add_action( 'widgets_init', 'footer_credits_widgets_init' );
+
+/**
+ * Theme Credits
+ */
+function storefront_credit() {
+	?>
+	<div class="site-info">
+		<?php if ( is_active_sidebar( 'footer-credits' ) ) : ?>
+			<?php dynamic_sidebar( 'footer-credits' ); ?>
+		<?php else: ?>
+			<?php echo esc_html( apply_filters( 'storefront_copyright_text', $content = '&copy; ' . get_bloginfo( 'name' ) . ' ' . date( 'Y' ) ) ); ?>
+			<?php if ( apply_filters( 'storefront_credit_link', true ) ) { ?>
+				<br />
+				<?php
+				if ( apply_filters( 'storefront_privacy_policy_link', true ) && function_exists( 'the_privacy_policy_link' ) ) {
+					the_privacy_policy_link( '', '<span role="separator" aria-hidden="true"></span>' );
+				}
+				?>
+				<?php echo '<a href="https://woocommerce.com" target="_blank" title="' . esc_attr__( 'WooCommerce - The Best eCommerce Platform for WordPress', 'storefront' ) . '" rel="author">' . esc_html__( 'Built with Storefront &amp; WooCommerce', 'storefront' ) . '</a>.'; ?>
+			<?php } ?>
+		<?php endif ?>
+	</div><!-- .site-info -->
+	<?php
+}
