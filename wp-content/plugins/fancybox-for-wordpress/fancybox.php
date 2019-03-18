@@ -1,25 +1,42 @@
 <?php
+/**
+* Plugin Name: FancyBox for WordPress
+* Plugin URI: https://wordpress.org/plugins/fancybox-for-wordpress/
+* Description: Integrates <a href="http://fancyapps.com/fancybox/3/">FancyBox 3</a> into WordPress.
+* Version: 3.2.0
+* Author: Colorlib
+* Author URI: https://colorlib.com/wp/
+* Tested up to: 5.1
+* Requires: 4.6 or higher
+* License: GPLv3 or later
+* License URI: http://www.gnu.org/licenses/gpl-3.0.html
+* Requires PHP: 5.6
+* Text Domain: colorlib-login-customizer
+* Domain Path: /languages
+*
+* Copyright 2008-2016 	Janis Skarnelis 	http://twitter.com/moskis/
+* Copyright 2016-2019 	Colorlib 		support@colorlib.com
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License, version 3, as
+* published by the Free Software Foundation.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
 
-/*
-Plugin Name: FancyBox for WordPress
-Plugin URI: https://wordpress.org/plugins/fancybox-for-wordpress/
-Description: Integrates <a href="http://fancyapps.com/fancybox/3/">FancyBox 3</a> into WordPress.
-Version: 3.1.9
-Author: Colorlib
-Author URI: https://colorlib.com/wp/
-
- * FancyBox is Copyright (c) 2008 - 2010 Janis Skarnelis
- * Dual licensed under the MIT and GPL licenses:
- * http://www.opensource.org/licenses/mit-license.php
- * http://www.gnu.org/licenses/gpl.html
-
- */
 
 /**
  * Plugin Init
  */
 // Constants
-define( 'FBFW_VERSION', '3.1.9' );
+define( 'FBFW_VERSION', '3.2.0' );
 define( 'FBFW_PATH', plugin_dir_path( __FILE__ ) );
 define( 'FBFW_URL', plugin_dir_url( __FILE__ ) );
 define( 'FBFW_PLUGIN_BASE', plugin_basename( __FILE__ ) );
@@ -155,6 +172,7 @@ function mfbfw_enqueue_scripts() {
 
 	// Register Scripts
 	wp_register_script( 'fancybox', FBFW_URL . 'assets/js/jquery.fancybox.js', $jquery, '1.3.4', $footer ); // Main Fancybox script
+
 	// Enqueue Scripts
 	wp_enqueue_script( 'fancybox' ); // Load fancybox
 
@@ -168,10 +186,8 @@ function mfbfw_enqueue_scripts() {
 
 	// Register Styles
 	wp_register_style( 'fancybox', FBFW_URL . 'assets/css/fancybox.css', false, '1.3.4' ); // Main Fancybox style
-	wp_register_style( 'fancybox-ie', FBFW_URL . 'assets/css/fancybox.ie.css', array( 'fancybox' ), '1.3.4' ); // Main Fancybox style fixes for IE6-8
 	// Enqueue Styles
 	wp_enqueue_style( 'fancybox' );
-	wp_enqueue_style( 'fancybox-ie' );
 
 	// Make IE specific styles load only on IE6-8
 	$wp_styles->add_data( 'fancybox-ie', 'conditional', 'lt IE 9' );
@@ -275,7 +291,23 @@ function mfbfw_init() {
 		}
 
 		// Supported file extensions
-		var thumbnails = jQuery("a:has(img)").not(".nolightbox").not('.envira-gallery-link').not('.ngg-simplelightbox').filter( function() { return /\.(jpe?g|png|gif|mp4|webp|bmp|pdf)(\?[^/]*)*$/i.test(jQuery(this).attr('href')) });
+
+        <?php
+        if(isset($mfbfw['exclude_pdf']) && 'on' == $mfbfw['exclude_pdf']){
+        ?>
+        var thumbnails = jQuery("a:has(img)").not(".nolightbox").not('.envira-gallery-link').not('.ngg-simplelightbox').filter(function () {
+            return /\.(jpe?g|png|gif|mp4|webp|bmp)(\?[^/]*)*$/i.test(jQuery(this).attr('href'))
+        });
+        <?php
+        } else {
+        ?>
+        var thumbnails = jQuery("a:has(img)").not(".nolightbox").not('.envira-gallery-link').not('.ngg-simplelightbox').filter(function () {
+            return /\.(jpe?g|png|gif|mp4|webp|bmp|pdf)(\?[^/]*)*$/i.test(jQuery(this).attr('href'))
+        });
+        <?php
+        }
+        ?>
+
 
 		// Add data-type iframe for links that are not images or videos.
         var iframeLinks = jQuery('.fancyboxforwp').filter( function() { return ! /\.(jpe?g|png|gif|mp4|webp|bmp|pdf)(\?[^/]*)*$/i.test(jQuery(this).attr('href')) }).filter( function() { return ! /vimeo|youtube/i.test(jQuery(this).attr('href')) });

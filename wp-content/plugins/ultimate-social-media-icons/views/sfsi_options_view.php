@@ -82,6 +82,20 @@
         <h1>Welcome to the Ultimate Social Icons and Share Plugin!</h1>
         
         <div class="welcometext">
+
+            <p>Simply answer the questions below (at least the first 3) by clicking on them - that`s it!</p>
+           
+            <p><a style="text-decoration: none;" href="javascript:void(0)"><?php _e( 'New:' ); ?> </a><?php _e('Our new Premium Plugin allows many more placement options, better sharing features (e.g. define which text &amp; images will get shared), optimization for mobile, <a class="sfsi_unbold_link" target="_blank" href="https://www.ultimatelysocial.com/extra-icon-style/">more icon design styles</a>, <a class="sfsi_unbold_link" target="_blank" href="https://www.ultimatelysocial.com/animated-social-media-icons/">animated icons</a>, <a class="sfsi_unbold_link" target="_blank" href="https://www.ultimatelysocial.com/themed-icons-search/">themed icons</a>, and <a class="sfsi_unbold_link" href="https://www.ultimatelysocial.com/usm-premium/?utm_source=usmplus_settings_page&utm_campaign=notification_banner&utm_medium=banner" target="_blank">much more</a>.' ); ?> 
+                <a class="pop-up" href="#" data-id="sfsi_quickpay-overlay" onclick="sfsi_open_quick_checkout(event)" >
+                    <?php _e('Go premium now'); ?>
+                </a>
+            </p>
+
+
+            <p><?php  _e( 'Please' ); ?> <a target="_blank" style="text-decoration: underline;" href="https://goo.gl/auxJ9C#no-topic-0"><?php  _e( 'give us feedback,' ); ?></a><?php  _e( ' and tell us how we can make the plugin better. Thank you!.' ); ?></p>
+
+        </div>
+        <!-- <div class="welcometext">
            
            <p>Simple answer the questions below (at least the first 3) by clicking on them - that's it! </p>
 
@@ -90,13 +104,7 @@
 
            <p>For questions and suggestions please raise a ticket in the <a target="_blank" href="https://goo.gl/auxJ9C#no-topic-0">Support Forum.</a></p> 
 
-            <!--            <p>Get started by clicking on the first question below. Once done, go to the <a href="<?php //echo admin_url('/widgets.php');?>">widget area</a> and move the widget to the sidebar so that your icons are displayed.</p>
-
-            <p><a style="text-decoration: none;" href="javascript:void(0)">New: </a>In our new Premium Plugin many other different placement options are supported, e.g. place the icons floating/statically on the place by defining margins, only show them on certain pages, show them only on mobile etc. etc. <a href="https://www.ultimatelysocial.com/usm-premium/?utm_source=usmi_settings_page&utm_campaign=top_introduction&utm_medium=banner" target="_blank">See all features</a></p>
-            
-            <p>Please <a target="_blank" style="text-decoration: underline;" href="https://goo.gl/auxJ9C#no-topic-0">give us feedback</a> and tell us how we can make the plugin better. Thank you!.</p> -->
-
-        </div>
+        </div> -->
         
         <div class="supportforum">
             <div class="support-container">

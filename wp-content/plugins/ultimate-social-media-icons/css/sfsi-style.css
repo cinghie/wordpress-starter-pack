@@ -1402,9 +1402,9 @@ h2.optional {
     width: 62px;
 }
 .fb_tool_bdr .sfsi_inside .icon2 {
-    margin: -2px 0 -2px 0 ;
-    height: 20px;
-    width: 49px;
+    margin: -2px 0 -9px 0 ;
+    height: 22px;
+    width: 53px;
     display: inline-block;
 	overflow: hidden;
 }
@@ -2278,4 +2278,7 @@ a.sficn{ cursor: pointer; }
     margin-left: -40px;
     margin-top: -14px;
     background: rgba(255,255,255,.8);
+}
+#sfsi_floater .fb_tool_bdr .sfsi_inside .icon2{
+    margin: -2px 0 -5px 0;
 }

@@ -12,7 +12,7 @@ function sfsi_update_plugin()
     }
     
     //Install version
-    update_option("sfsi_pluginVersion", "2.14");
+    update_option("sfsi_pluginVersion", "2.15");
 
     if(!get_option('sfsi_serverphpVersionnotification'))
     {
@@ -64,7 +64,12 @@ function sfsi_update_plugin()
             "sfsi_instagram_count" => ""
         );
         add_option('sfsi_instagram_sf_count',  serialize($sfsi_instagram_sf_count));
-    }    
+    }else{
+        $sfsi_instagram_sf_count = unserialize(get_option('sfsi_instagram_sf_count',false));
+        $sfsi_instagram_sf_count["date_sf"] = $sfsi_instagram_sf_count["date"];
+        $sfsi_instagram_sf_count["date_instagram"] = $sfsi_instagram_sf_count["date"];
+        update_option('sfsi_instagram_sf_count',$sfsi_instagram_sf_count);
+    }
 
     $option4 = unserialize(get_option('sfsi_section4_options',false));
 
@@ -323,7 +328,7 @@ function sfsi_activate_plugin()
                 'sfsi_email_display'=>'yes',
                 'sfsi_facebook_display'=>'yes',
                 'sfsi_twitter_display'=>'yes',
-                'sfsi_google_display'=>'yes',
+                'sfsi_google_display'=>'no',
                 'sfsi_pinterest_display'=>'no',
                 'sfsi_instagram_display'=>'no',
                 'sfsi_linkedin_display'=>'no',
@@ -490,12 +495,12 @@ function sfsi_activate_plugin()
             'sfsi_rssIcon_order'		=>'1',
             'sfsi_emailIcon_order'		=>'2',	
             'sfsi_facebookIcon_order'	=>'3',
-            'sfsi_googleIcon_order'		=>'4',
-            'sfsi_twitterIcon_order'	=>'5',
-            'sfsi_youtubeIcon_order'	=>'7',
-            'sfsi_pinterestIcon_order'	=>'8',
-            'sfsi_linkedinIcon_order'	=>'9',
-            'sfsi_instagramIcon_order'	=>'10',
+            'sfsi_twitterIcon_order'	=>'4',
+            'sfsi_youtubeIcon_order'	=>'5',
+            'sfsi_pinterestIcon_order'	=>'7',
+            'sfsi_linkedinIcon_order'	=>'8',
+            'sfsi_instagramIcon_order'	=>'9',
+            'sfsi_googleIcon_order'		=>'10',
             'sfsi_CustomIcons_order'	=>'',
             'sfsi_rss_MouseOverText'	=>'RSS',
             'sfsi_email_MouseOverText'	=>'Follow by Email',
@@ -642,7 +647,8 @@ function sfsi_activate_plugin()
     
     /*Extra important options*/
     $sfsi_instagram_sf_count = array(
-        "date" => strtotime(date("Y-m-d")),
+        "date_sf" => strtotime(date("Y-m-d")),
+        "date_instagram" => strtotime(date("Y-m-d")),
         "sfsi_sf_count" => "",
         "sfsi_instagram_count" => ""
     );

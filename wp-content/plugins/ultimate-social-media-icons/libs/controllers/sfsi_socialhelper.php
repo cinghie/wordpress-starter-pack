@@ -386,9 +386,9 @@ class sfsi_SocialHelper
 		$sfsi_instagram_sf_count = unserialize(get_option('sfsi_instagram_sf_count',false));
 		
 		/*if date is empty (for decrease request count)*/
-		if(empty($sfsi_instagram_sf_count["date"]))
+		if(empty($sfsi_instagram_sf_count["date_instagram"]))
 		{
-			$sfsi_instagram_sf_count["date"] = strtotime(date("Y-m-d"));
+			$sfsi_instagram_sf_count["date_instagram"] = strtotime(date("Y-m-d"));
 			$counts = $this->sfsi_get_instagramFollowersCount($user_name);
 			$sfsi_instagram_sf_count["sfsi_instagram_count"] = $counts;
 			update_option('sfsi_instagram_sf_count',  serialize($sfsi_instagram_sf_count));
@@ -400,7 +400,7 @@ class sfsi_SocialHelper
 			{
 				$diff = date_diff(
 				 	date_create(
-						date("Y-m-d", $sfsi_instagram_sf_count["date"])
+						date("Y-m-d", $sfsi_instagram_sf_count["date_instagram"])
 					),
 					date_create(
 						date("Y-m-d")
@@ -408,7 +408,7 @@ class sfsi_SocialHelper
 			}	
 			if((isset($diff) && $diff->format("%a") < 1) || 1 == 1)	
 			{
-				$sfsi_instagram_sf_count["date"] = strtotime(date("Y-m-d"));
+				$sfsi_instagram_sf_count["date_instagram"] = strtotime(date("Y-m-d"));
 				$counts = $this->sfsi_get_instagramFollowersCount($user_name);
 				$sfsi_instagram_sf_count["sfsi_instagram_count"] = $counts;
 				update_option('sfsi_instagram_sf_count',  serialize($sfsi_instagram_sf_count));
@@ -464,12 +464,17 @@ class sfsi_SocialHelper
 	/* get no of subscribers from specificfeeds for current blog */
 	public function SFSI_getFeedSubscriber($feedid)
 	{
-		$sfsi_instagram_sf_count = unserialize(get_option('sfsi_instagram_sf_count',false));
+		$sfsi_instagram_sf_count_option = get_option('sfsi_instagram_sf_count',false);
+		if(is_array($sfsi_instagram_sf_count_option)){
+			$sfsi_instagram_sf_count = $sfsi_instagram_sf_count_option;
+		}else{
+			$sfsi_instagram_sf_count = unserialize($sfsi_instagram_sf_count_option);
+		}
 		
 		/*if date is empty (for decrease request count)*/
-		if(empty($sfsi_instagram_sf_count["date"]))
+		if(empty($sfsi_instagram_sf_count["date_sf"]))
 		{
-			$sfsi_instagram_sf_count["date"] = strtotime(date("Y-m-d"));
+			$sfsi_instagram_sf_count["date_sf"] = strtotime(date("Y-m-d"));
 			$counts = $this->SFSI_getFeedSubscriberCount($feedid);
 			$sfsi_instagram_sf_count["sfsi_sf_count"] = $counts;
 			update_option('sfsi_instagram_sf_count',  serialize($sfsi_instagram_sf_count));
@@ -481,15 +486,15 @@ class sfsi_SocialHelper
 			{
 				$diff = date_diff(
 				 	date_create(
-						date("Y-m-d", $sfsi_instagram_sf_count["date"])
+						date("Y-m-d", $sfsi_instagram_sf_count["date_sf"])
 					),
 					date_create(
 						date("Y-m-d")
 				));
 			}
-			if((isset($diff) && $diff->format("%a") >= 1))
+			if((isset($diff) && $diff->format("%a") >= 1)||$sfsi_instagram_sf_count["sfsi_sf_count"]=="")
 			{
-				$sfsi_instagram_sf_count["date"] = strtotime(date("Y-m-d"));
+				$sfsi_instagram_sf_count["date_sf"] = strtotime(date("Y-m-d"));
 				$counts = $this->SFSI_getFeedSubscriberCount($feedid);
 				$sfsi_instagram_sf_count["sfsi_sf_count"] = $counts;
 				update_option('sfsi_instagram_sf_count',  serialize($sfsi_instagram_sf_count));
