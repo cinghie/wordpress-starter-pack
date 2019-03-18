@@ -1416,8 +1416,8 @@ class WooSEA_Get_Products {
 			$product_data['short_description'] = str_replace("&#xa0;", "", $product_data['short_description']);
 
 			// Strip strange UTF chars
-			$product_data['description'] = $this->woosea_utf8_for_xml( $product_data['description'] );
-			$product_data['short_description'] = $this->woosea_utf8_for_xml( $product_data['short_description'] );
+			$product_data['description'] = trim($this->woosea_utf8_for_xml($product_data['description']));
+			$product_data['short_description'] = trim($this->woosea_utf8_for_xml($product_data['short_description']));
 
 			/**
 		 	* Check of we need to add Google Analytics UTM parameters
@@ -3012,13 +3012,15 @@ class WooSEA_Get_Products {
 								case($pr_array['condition'] = "contains"):
 									if ((preg_match('/'.$pr_array['criteria'].'/', $pd_value))){
 										// Specifically for shipping price rules
-										if(is_array($product_data[$pr_array['than_attribute']])){
-											$arr_size = (count($product_data[$pr_array['than_attribute']])-1);
-											for ($x = 0; $x <= $arr_size; $x++) {
-												$product_data[$pr_array['than_attribute']][$x]['price'] = $pr_array['newvalue'];	
-											}	
-										} else {
-											$product_data[$pr_array['than_attribute']] = $pr_array['newvalue'];
+										if(!empty($product_data[$pr_array['than_attribute']])){
+											if(is_array($product_data[$pr_array['than_attribute']])){
+												$arr_size = (count($product_data[$pr_array['than_attribute']])-1);
+												for ($x = 0; $x <= $arr_size; $x++) {
+													$product_data[$pr_array['than_attribute']][$x]['price'] = $pr_array['newvalue'];	
+												}	
+											} else {
+												$product_data[$pr_array['than_attribute']] = $pr_array['newvalue'];
+											}
 										}
 									}
 									break;

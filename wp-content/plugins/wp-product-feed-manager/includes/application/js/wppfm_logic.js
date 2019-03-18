@@ -2,38 +2,53 @@
 var _feedHolder;
 
 function wppfm_editCategories() {
-	if ( ! wppfm_isCustomChannel( _feedHolder['channel'] ) ) {
-		var currentCategories = _feedHolder['mainCategory'].split( ' > ' );
-		var cat_length = currentCategories.length;
-		var cat_selectors = jQuery( '#lvl_' + ( cat_length ) ).html() !== '' ? cat_length + 1 : cat_length;
+	var cat_lvl_selector = jQuery( '#category-selector-lvl' );
+
+	if ( ! wppfm_isCustomChannel( _feedHolder[ 'channel' ] ) ) {
+		var currentCategories = _feedHolder[ 'mainCategory' ].split( ' > ' );
+		var cat_length        = currentCategories.length;
+		var cat_selectors     = jQuery( '#lvl_' + ( cat_length ) ).html() !== '' ? cat_length + 1 : cat_length;
 
 		jQuery( '#selected-categories' ).hide();
 		jQuery( '#lvl_0' ).prop( 'disabled', false );
 
-		for ( var i=0; i<cat_selectors; i++ ) {
-			if ( ! currentCategories[i] ) { jQuery( '#lvl_' + i ).val( '0' ); }
-			jQuery( '#lvl_' + i ).show();
+		for ( var i = 0; i < cat_selectors; i ++ ) {
+			var levelElement = jQuery( '#lvl_' + i );
+
+			if ( ! currentCategories[ i ] ) {
+				levelElement.val( '0' );
+			}
+			levelElement.show();
 		}
 	} else {
 		// as the user selected a free format, just show a text input control
-		jQuery( '#category-selector-lvl' ).html( wppfm_freeCategoryInputCntrl( 'default', _feedHolder['feedId'], _feedHolder['mainCategory'] ) );
-		jQuery( '#category-selector-lvl' ).prop( 'disabled', false );
+		cat_lvl_selector.html(
+			wppfm_freeCategoryInputCntrl(
+				'default',
+				_feedHolder[ 'feedId' ],
+				_feedHolder[ 'mainCategory' ]
+			)
+		);
+		cat_lvl_selector.prop( 'disabled', false );
 	}
 }
 
 function wppfm_generateFeed() {
 	if ( jQuery( '#file-name' ).val() !== '' ) {
-		if ( _feedHolder['categoryMapping'] && _feedHolder['categoryMapping'].length > 0 ) {
+		if ( _feedHolder[ 'categoryMapping' ] && _feedHolder[ 'categoryMapping' ].length > 0 ) {
 			wppfm_generateAndSaveFeed();
 		} else {
-			var userInput = confirm( wppfm_feed_settings_form_vars.no_category_selected );
+			var userInput = confirm(
+				wppfm_feed_settings_form_vars.no_category_selected
+			);
 
 			if ( userInput === true ) {
 				wppfm_generateAndSaveFeed();
 			}
 		}
 	} else {
-		jQuery( '#alert-message' ).html( '<p>' + wppfm_feed_settings_form_vars.file_name_required + '</p>' );
+		jQuery( '#alert-message' ).
+			html( '<p>' + wppfm_feed_settings_form_vars.file_name_required + '</p>' );
 		jQuery( '#success-message' ).show();
 	}
 }
@@ -42,37 +57,44 @@ function wppfm_saveFeedData() {
 	if ( jQuery( '#file-name' ).val() !== '' ) {
 		wppfm_saveFeed();
 	} else {
-		jQuery( '#alert-message' ).html( '<p>' + wppfm_feed_settings_form_vars.file_name_required + '</p>' );
+		jQuery( '#alert-message' ).
+			html( '<p>' + wppfm_feed_settings_form_vars.file_name_required + '</p>' );
 		jQuery( '#success-message' ).show();
 	}
 }
 
 function getCombinedValue( rowId, sourceLevel ) {
-	var c = 1;
+	var c             = 1;
 	var combinedValue = '';
-	var oldValue = _feedHolder.getCombinedOutputValue( rowId, sourceLevel );
-	
-	while ( jQuery( '#combined-input-field-cntrl-' + rowId + '-' + sourceLevel + '-' + c ).val() ) {
-		var idString =  rowId + '-' + sourceLevel + '-' + c;
-		
-		var selectedValue = jQuery( '#combined-input-field-cntrl-' + idString ).val();
-		
-		combinedValue += c > 1 ? jQuery( '#combined-separator-cntrl-' + idString ).val() + '#' : '' ;
-		
+	var oldValue      = _feedHolder.getCombinedOutputValue( rowId, sourceLevel );
+
+	while ( jQuery( '#combined-input-field-cntrl-' + rowId + '-' + sourceLevel + '-' + c ).
+		val() ) {
+		var idString = rowId + '-' + sourceLevel + '-' + c;
+
+		var selectedValue = jQuery( '#combined-input-field-cntrl-' + idString ).
+			val();
+
+		combinedValue += c > 1 ?
+			jQuery( '#combined-separator-cntrl-' + idString ).val() + '#' :
+			'';
+
 		if ( selectedValue !== 'static' ) {
-			combinedValue += selectedValue !== 'select' ? selectedValue + '|' : '';
+			combinedValue += selectedValue !== 'select' ?
+				selectedValue + '|' :
+				'';
 		} else if ( jQuery( '#static-input-field-' + idString ).val() ) {
 			combinedValue += selectedValue + '#' + jQuery( '#static-input-field-' + idString ).val() + '|';
 		} else {
 			combinedValue = oldValue + '|';
 			break; // if one of the static input fields is still empty, return the old value
 		}
-		
-		c++;
+
+		c ++;
 	}
-	
+
 	combinedValue = combinedValue.substring( 0, combinedValue.length - 1 ); // remove the last |
-	
+
 	return c > 1 ? combinedValue : false; // need at least two fields to be valid
 }
 
@@ -91,14 +113,16 @@ function wppfm_staticValueChanged( id, level, combinationLevel ) {
 }
 
 function wppfm_changedOutputSelection( level ) {
-	if ( jQuery( '#output-field-cntrl-' + level ).val() !== 'no-value' ) {
-		wppfm_activateOptionalFieldRow( level, jQuery( '#output-field-cntrl-' + level ).val() );
+	var outputFieldControlElement = jQuery( '#output-field-cntrl-' + level );
+
+	if ( outputFieldControlElement.val() !== 'no-value' ) {
+		wppfm_activateOptionalFieldRow( level, outputFieldControlElement.val() );
 	}
 }
 
 function wppfm_hasExtraSourceRow( nrOfSources, value ) {
 	if ( value.length > 0 ) {
-		return value[nrOfSources - 1].hasOwnProperty( 'c' ) ? true : false;
+		return value[ nrOfSources - 1 ].hasOwnProperty( 'c' );
 	} else {
 		return false;
 	}
@@ -106,7 +130,10 @@ function wppfm_hasExtraSourceRow( nrOfSources, value ) {
 
 function wppfm_changedCustomOutputTitle() {
 	var title = jQuery( '#custom-output-title-input' ).val();
-	if ( title ) { wppfm_activateCustomFieldRow( title ); }
+
+	if ( title ) {
+		wppfm_activateCustomFieldRow( title );
+	}
 }
 
 function wppfm_deleteSpecificFeed( id, title ) {
@@ -114,14 +141,16 @@ function wppfm_deleteSpecificFeed( id, title ) {
 
 	if ( userInput === true ) {
 		wppfm_deleteFeed( id, title );
-		console.log( 'File ' + title + ' removed from server.');
+		console.log( 'File ' + title + ' removed from server.' );
 		wppfm_show_success_message( wppfm_feed_list_form_vars.feed_removed.replace( '%feedname%', title ) );
 	}
 }
 
 function wppfm_alertRemoveChannel() {
 	var userInput = confirm( wppfm_manage_channels_vars.confirm_removing_channel );
-	if ( true !== userInput ) { return false; }
+	if ( true !== userInput ) {
+		return false;
+	}
 }
 
 function wppfm_valueOptionChanged( rowId, sourceLevel, valueEditorLevel ) {
@@ -133,8 +162,9 @@ function wppfm_valueOptionChanged( rowId, sourceLevel, valueEditorLevel ) {
 	jQuery( '#value-editor-input-span-' + rowId + '-' + sourceLevel + '-' + valueEditorLevel ).html( selectorCode );
 }
 
-function wppfm_getCorrectValueSelector( rowId, sourceLevel, valueEditorLevel, type, value, endValue ) {
-	var selectorCode = "";
+function wppfm_getCorrectValueSelector(
+	rowId, sourceLevel, valueEditorLevel, type, value, endValue ) {
+	var selectorCode = '';
 
 	// TODO: the type is now based on the value and on the text. Should be only value as this makes it
 	// easier to work with different languages
@@ -183,21 +213,35 @@ function wppfm_getCorrectValueSelector( rowId, sourceLevel, valueEditorLevel, ty
 }
 
 function wppfm_deactivateFeed( id ) {
-	wppfm_switchFeedStatus( id, function ( result ) { wppfm_updateFeedRowStatus( id, parseInt( result ) ); } );
+	wppfm_switchFeedStatus(
+		id,
+		function( result ) {
+			wppfm_updateFeedRowStatus( id, parseInt( result ) );
+		}
+	);
 }
 
 function wppfm_duplicateFeed( id, feedName ) {
-	wppfm_duplicateExistingFeed( id, function ( result ) {
-		if ( result ) { wppfm_show_success_message( wppfm_feed_list_form_vars.added_feed_copy.replace( '%feedname%', feedName ) ); }
-	} );
+	wppfm_duplicateExistingFeed(
+		id,
+		function( result ) {
+			if ( result ) {
+				wppfm_show_success_message( wppfm_feed_list_form_vars.added_feed_copy.replace( '%feedname%', feedName ) );
+			}
+		}
+	);
 }
 
-function wppfm_viewFeed( url ) { window.open( url ); }
+function wppfm_viewFeed( url ) {
+	window.open( url );
+}
 
-function wppfm_addRowValueEditor( rowId, sourceLevel, valueEditorLevel, values ) {
+function wppfm_addRowValueEditor(
+	rowId, sourceLevel, valueEditorLevel, values ) {
 	// add the change values controls
 	jQuery( '#end-row-id-' + rowId ).remove();
-	jQuery( '#row-' + rowId ).append( wppfm_valueEditor( rowId, sourceLevel, valueEditorLevel, values ) + wppfm_endrow( rowId ) );
+	jQuery( '#row-' + rowId ).
+		append( wppfm_valueEditor( rowId, sourceLevel, valueEditorLevel, values ) + wppfm_endrow( rowId ) );
 
 	// and remove the edit values control
 	jQuery( '#value-editor-input-query-add-span-' + rowId + '-' + sourceLevel + '-' + valueEditorLevel ).remove();
@@ -205,59 +249,87 @@ function wppfm_addRowValueEditor( rowId, sourceLevel, valueEditorLevel, values )
 
 /**
  * wppfm_getFeedObject gets the data from an existing feed and stores it in a Feed object
- * 
+ *
  * @param {type} feedId
  * @param {type} callback
  * @returns {undefined}
  */
 function wppfm_getFeedObject( feedId, callback ) {
 
-	wppfm_getFeedData( feedId, function ( feedData ) {
+	wppfm_getFeedData(
+		feedId,
+		function( feedData ) {
 
-		if ( '0' !== feedData ) {
+			if ( '0' !== feedData ) {
 
-			var data = JSON.parse( feedData )[0];
-			
-			var newFeedObject = new Feed( data['product_feed_id'], data['title'], 
-				data['include_variations'], data['is_aggregator'], String( data['channel'] ), data['main_category'],
-				data['category_mapping'], data['url'], data['source'], data['country'], data['language'], data['feed_title'], 
-				data['feed_description'], data['schedule'], '', data['status_id'] );
+				var data = JSON.parse( feedData )[ 0 ];
 
-			callback( newFeedObject );
-		} else {
-			callback( 0 );
+				var newFeedObject = new Feed(
+					data[ 'product_feed_id' ],
+					data[ 'title' ],
+					data[ 'include_variations' ],
+					data[ 'is_aggregator' ],
+					String( data[ 'channel' ] ),
+					data[ 'main_category' ],
+					data[ 'category_mapping' ],
+					data[ 'url' ],
+					data[ 'source' ],
+					data[ 'country' ],
+					data[ 'language' ],
+					data[ 'feed_title' ],
+					data[ 'feed_description' ],
+					data[ 'schedule' ],
+					'',
+					data[ 'status_id' ]
+				);
+
+				callback( newFeedObject );
+			} else {
+				callback( 0 );
+			}
 		}
-	} );
+	);
 }
 
 function wppfm_addValueEditorQuery( rowId, sourceLevel, conditionLevel ) {
 	if ( wppfm_changeValueIsFilled( rowId, sourceLevel, conditionLevel ) ) {
-		if ( wppfm_queryIsFilled( rowId, ( sourceLevel - 1 ), 1 ) ) {
+		if ( wppfm_queryIsFilled(
+			rowId,
+			(
+				sourceLevel - 1
+			),
+			1
+		)
+		) {
 			wppfm_showEditValueQuery( rowId, sourceLevel, conditionLevel, true );
 		} else {
 			alert( wppfm_feed_settings_form_vars.query_requirements );
 		}
-	} else { alert( wppfm_feed_settings_form_vars.first_fill_in_change_value ); }
+	} else {
+		alert( wppfm_feed_settings_form_vars.first_fill_in_change_value );
+	}
 }
 
 function wppfm_queryStringToQueryObject( queryString ) {
-	var queryObject = { };
+	var queryObject = {};
 
 	if ( queryString ) {
-		for ( var key in queryString ) { queryObject = wppfm_convertQueryStringToQueryObject( queryString[key] ); }
+		for ( var key in queryString ) {
+			queryObject = wppfm_convertQueryStringToQueryObject( queryString[ key ] );
+		}
 	}
 
 	return queryObject;
 }
 
 function wppfm_valueStringToValueObject( valueString ) {
-	var valueObject = { };
+	var valueObject = {};
 
 	if ( valueString ) {
 		for ( var key in valueString ) {
 			// do not process the query part of the string
 			if ( key !== 'q' ) {
-				valueObject = wppfm_convertValueStringToValueObject( valueString[key] );
+				valueObject = wppfm_convertValueStringToValueObject( valueString[ key ] );
 			}
 		}
 	}
@@ -266,41 +338,41 @@ function wppfm_valueStringToValueObject( valueString ) {
 }
 
 function wppfm_convertQueryStringToQueryObject( queryString ) {
-	var queryObject = { };
+	var queryObject = {};
 
 	var stringSplit = queryString.split( '#' );
 
-	if ( stringSplit[0] === '1' || stringSplit[0] === '2' ) {
-		queryObject.preCondition = stringSplit[0];
+	if ( stringSplit[ 0 ] === '1' || stringSplit[ 0 ] === '2' ) {
+		queryObject.preCondition = stringSplit[ 0 ];
 	} else {
 		queryObject.preCondition = '0';
 	}
 
-	queryObject.source = stringSplit[1];
-	queryObject.condition = stringSplit[2];
-	queryObject.value = stringSplit[3] ? stringSplit[3] : '';
-	queryObject.endValue = stringSplit[5] ? stringSplit[5] : '';
+	queryObject.source    = stringSplit[ 1 ];
+	queryObject.condition = stringSplit[ 2 ];
+	queryObject.value     = stringSplit[ 3 ] ? stringSplit[ 3 ] : '';
+	queryObject.endValue  = stringSplit[ 5 ] ? stringSplit[ 5 ] : '';
 
 	return queryObject;
 }
 
 function wppfm_resortObject( object ) {
-	var result = [ ];
-	var i = 1;
+	var result = [];
+	var i      = 1;
 
 	// re-sort the conditions
 	for ( var element in object ) {
-		var o = { };
-		for ( var key in object[element] ) {
+		var o = {};
+		for ( var key in object[ element ] ) {
 			if ( key !== 'q' ) { // exclude q as key
-				o[i] = object[element][key];
+				o[ i ] = object[ element ][ key ];
 				result.push( o );
 			} else {
-				result[i - 1].q = object[element][key];
+				result[ i - 1 ].q = object[ element ][ key ];
 			}
 		}
 
-		i++;
+		i ++;
 	}
 
 	// don't return an empty {} string
@@ -308,44 +380,45 @@ function wppfm_resortObject( object ) {
 }
 
 function wppfm_convertValueStringToValueObject( valueString ) {
-	var valueObject = { };
-	var valueSplit = valueString.split( '#' );
+	var valueObject = {};
+	var valueSplit  = valueString.split( '#' );
 
-	valueObject.preCondition = valueSplit[0];
-	valueObject.condition = valueSplit[1];
-	valueObject.value = valueSplit[2];
-	valueObject.endValue = valueSplit[3] ? valueSplit[3] : '';
+	valueObject.preCondition = valueSplit[ 0 ];
+	valueObject.condition    = valueSplit[ 1 ];
+	valueObject.value        = valueSplit[ 2 ];
+	valueObject.endValue     = valueSplit[ 3 ] ? valueSplit[ 3 ] : '';
 
 	return valueObject;
 }
 
 function wppfm_makeCleanQueryObject() {
-	var queryObject = { };
+	var queryObject = {};
 
 	queryObject.preCondition = 'if';
-	queryObject.source = 'select';
-	queryObject.condition = '';
-	queryObject.value = '';
-	queryObject.endValue = '';
+	queryObject.source       = 'select';
+	queryObject.condition    = '';
+	queryObject.value        = '';
+	queryObject.endValue     = '';
 
 	return queryObject;
 }
 
 function wppfm_makeCleanValueObject() {
-	var valueObject = { };
+	var valueObject = {};
 
 	valueObject.preCondition = 'change';
-	valueObject.condition = 'overwrite';
-	valueObject.value = '';
-	valueObject.endValue = '';
+	valueObject.condition    = 'overwrite';
+	valueObject.value        = '';
+	valueObject.endValue     = '';
 
 	return valueObject;
 }
 
-function wppfm_addNewItemToCategoryString( level, oldString, newValue, separator ) {
+function wppfm_addNewItemToCategoryString(
+	level, oldString, newValue, separator ) {
 	var categoryLevel = oldString.split( separator ).length;
-	
-	if( oldString === wppfm_feed_settings_form_vars.map_to_default_category || level === '0' ) {
+
+	if ( oldString === wppfm_feed_settings_form_vars.map_to_default_category || level === '0' ) {
 		return newValue;
 	} else {
 		if ( categoryLevel <= level ) {
@@ -353,13 +426,12 @@ function wppfm_addNewItemToCategoryString( level, oldString, newValue, separator
 		} else {
 			var pos = 0;
 
-			for ( var i=0; i<level; i++ ) {
-				pos = oldString.indexOf( separator, pos + 1 );
-
+			for ( var i = 0; i < level; i ++ ) {
+				pos         = oldString.indexOf( separator, pos + 1 );
 				var oldPart = oldString.substring( 0, pos );
-
-				return oldPart + separator + newValue;
 			}
+
+			return oldPart + separator + newValue;
 		}
 	}
 }

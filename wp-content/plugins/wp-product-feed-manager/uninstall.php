@@ -5,31 +5,36 @@
  * @version 3.5.0
  */
 
-if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) { exit; }
+if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
+	exit;
+}
 
-/**
- * @var link to global wordpress database functions
- */
 global $wpdb;
 
 $upload_dir = wp_upload_dir();
 
-if ( ! class_exists( 'WPPFM_Folders_Class' ) ) {
-	require_once ( __DIR__ . '/includes/setup/class-folders.php' );
+if ( ! class_exists( 'WPPFM_Folders' ) ) {
+	require_once( __DIR__ . '/includes/setup/class-wppfm-folders.php' );
 }
 
 // stop the scheduled feed update actions
 wp_clear_scheduled_hook( 'wppfm_feed_update_schedule' );
 
 // remove the support folders
-WPPFM_Folders_Class::delete_folder( $upload_dir['basedir'] . '/wppfm-channels' );
-WPPFM_Folders_Class::delete_folder( $upload_dir['basedir'] . '/wppfm-feeds' );
-WPPFM_Folders_Class::delete_folder( $upload_dir['basedir'] . '/wppfm-logs' );
+WPPFM_Folders::delete_folder( $upload_dir['basedir'] . '/wppfm-channels' );
+WPPFM_Folders::delete_folder( $upload_dir['basedir'] . '/wppfm-feeds' );
+WPPFM_Folders::delete_folder( $upload_dir['basedir'] . '/wppfm-logs' );
 
-$tables = array( $wpdb->prefix . 'feedmanager_country', $wpdb->prefix . 'feedmanager_feed_status',
-	$wpdb->prefix . 'feedmanager_field_categories',	$wpdb->prefix . 'feedmanager_channel', 
-	$wpdb->prefix . 'feedmanager_product_feed', $wpdb->prefix . 'feedmanager_product_feedmeta',
-	$wpdb->prefix . 'feedmanager_source', $wpdb->prefix . 'feedmanager_errors' );
+$tables = array(
+	$wpdb->prefix . 'feedmanager_country',
+	$wpdb->prefix . 'feedmanager_feed_status',
+	$wpdb->prefix . 'feedmanager_field_categories',
+	$wpdb->prefix . 'feedmanager_channel',
+	$wpdb->prefix . 'feedmanager_product_feed',
+	$wpdb->prefix . 'feedmanager_product_feedmeta',
+	$wpdb->prefix . 'feedmanager_source',
+	$wpdb->prefix . 'feedmanager_errors'
+);
 
 // remove the feedmanager tables
 foreach ( $tables as $table ) {
@@ -41,13 +46,11 @@ unregister_plugin();
 
 /**
  * Removes the registration info from the database
- * 
- * @return nothing
  */
 function unregister_plugin() {
 	// retrieve the license from the database
 	$license = get_option( 'wppfm_lic_key' );
-	
+
 	delete_option( 'wppfm_db_version' );
 	delete_option( 'wppfm_lic_status' );
 	delete_option( 'wppfm_lic_status_date' );
@@ -69,18 +72,20 @@ function unregister_plugin() {
 
 	if ( $license ) { // if the plugin is a licensed version then deactivate it on the license server
 		// data to send in our API request
-		$api_params = array( 
-			'edd_action'=> 'deactivate_license', 
-			'license'   => $license, 
-			'item_name' => urlencode( 'Woocommerce Google Feed Manager' ), // the name of the plugin in EDD
-			'url'       => home_url()
+		$api_params = array(
+			'edd_action' => 'deactivate_license',
+			'license'    => $license,
+			'item_name'  => urlencode( 'Woocommerce Google Feed Manager' ),
+			'url'        => home_url(),
 		);
 
 		// Call the custom API.
-		wp_remote_post( 'https://www.wpmarketingrobot.com/', array(
-			'timeout'   => 15,
-			'sslverify' => false,
-			'body'      => $api_params
-		) );
+		wp_remote_post(
+			'https://www.wpmarketingrobot.com/',
+			array(
+				'timeout' => 15,
+				'body'    => $api_params,
+			)
+		);
 	}
 }

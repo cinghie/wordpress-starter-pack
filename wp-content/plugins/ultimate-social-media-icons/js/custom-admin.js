@@ -2344,7 +2344,21 @@ SFSI(document).ready(function(s) {
         SFSI('input[name="float_on_page"][value="yes"]').parent().find("span.checkbox").attr("style", "background-position:0px -0px;"),
 		jQuery(a).children(".checkbox").css("background-position", "0px 0px" ), toggleflotpage(a));
     });*/
-	
+	window.sfsi_initialization_checkbox_count=0;
+    window.sfsi_initialization_checkbox=setInterval(function(){
+        // console.log(jQuery('.radio_section.tb_4_ck>span.checkbox').length,jQuery('.radio_section.tb_4_ck>input.styled').length);
+        if(jQuery('.radio_section.tb_4_ck>span.checkbox').length<jQuery('.radio_section.tb_4_ck>input.styled').length){
+            window.sfsi_initialization_checkbox_count++;
+            console.log('not initialized',window.sfsi_initialization_checkbox_count);
+            if(window.sfsi_initialization_checkbox_count>12){
+                // alert('Some script from diffrent plugin is interfearing with "Ultimate Social Icons" js files and checkbox couldn\'t be initialized. ');
+                // window.clearInterval(window.sfsi_initialization_checkbox);
+            }
+        }else{
+            console.log('all initialized',window.sfsi_initialization_checkbox_count);
+            window.clearInterval(window.sfsi_initialization_checkbox);
+        }
+    },1000);
 });
 
 //for utube channel name and id
@@ -2362,7 +2376,6 @@ function showhideutube(ref)
 		SFSI(ref).parent(".enough_waffling").next(".cstmutbtxtwpr").children(".cstmutbchnlnmewpr").slideUp();
 	}
 }
-
 function checkforinfoslction(ref)
 {
 	var pos = jQuery(ref).children(".checkbox").css("background-position");
@@ -2507,4 +2520,18 @@ function sfsi_close_offline_chat(e){
 
     SFSI('#sfsi_jivo_offline_chat').hide();
     SFSI('#sfsi_dummy_chat_icon').show();
+}
+function sfsi_open_quick_checkout(e){
+    e&&e.preventDefault();
+    console.log(jQuery('.sfsi_quick-pay-box'));
+    jQuery('.sfsi_quick-pay-box').show();
+}
+function sfsi_close_quickpay(e){
+    e&&e.preventDefault();
+    jQuery('.sfsi_quickpay-overlay').hide();
+}
+function sfsi_quickpay_container_click(event){
+    if(jQuery(event.target).hasClass('sellcodes-quick-purchase')){
+        jQuery(jQuery(event.target).find('p.sc-button img')[0]).click();
+    }
 }

@@ -1,80 +1,88 @@
 /*global wppfm_backup_list_form_vars */
 function wppfm_resetBackupsList() {
-    var backupListData = null;
-    var listHtml = '';
+	var backupListData    = null;
+	var listHtml          = '';
+	var backupListElement = jQuery( '#wppfm-backups-list' );
 
-    wppfm_getBackupsList( function ( list ) {
-        if ( '0' !== list ) {
-            backupListData = JSON.parse( list );
+	wppfm_getBackupsList(
+		function( list ) {
+			if ( '0' !== list ) {
+				backupListData = JSON.parse( list );
 
-            // convert the data to html code
-            listHtml = wppfm_backupsTable( backupListData );
-        }
-        else {
-            listHtml = wppfm_emptyBackupsTable();
-        }
+				// convert the data to html code
+				listHtml = wppfm_backupsTable( backupListData );
+			} else {
+				listHtml = wppfm_emptyBackupsTable();
+			}
 
-        jQuery( '#wppfm-backups-list' ).empty(); // first clear the feedlist
+			backupListElement.empty(); // first clear the feedlist
 
-        jQuery( '#wppfm-backups-list' ).append( listHtml );
-    } );
+			backupListElement.append( listHtml );
+		}
+	);
 }
 
 /**
  * Restores the options on the settings page
  */
 function wppfm_resetOptionSettings() {
-	wppfm_getSettingsOptions( function ( optionsString ) {
-		
-		if ( optionsString ) {
-			var options = JSON.parse( optionsString );
-			
-			jQuery( '#wppfm_auto_feed_fix_mode' ).prop( "checked", options[0] === "true" ? true : false );
-			jQuery( '#wppfm_background_processing_mode' ).prop( "checked", options[3] === "true" ? true : false );
-			
-			jQuery( '#wppfm_third_party_attr_keys' ).val( options[1] );
-			jQuery( '#wppfm_notice_mailaddress' ).val( options[2] );
+	wppfm_getSettingsOptions(
+		function( optionsString ) {
+
+			if ( optionsString ) {
+				var options = JSON.parse( optionsString );
+
+				jQuery( '#wppfm_auto_feed_fix_mode' ).prop( 'checked', options[ 0 ] === 'true' );
+				jQuery( '#wppfm_background_processing_mode' ).prop( 'checked', options[ 3 ] === 'true' );
+
+				jQuery( '#wppfm_third_party_attr_keys' ).val( options[ 1 ] );
+				jQuery( '#wppfm_notice_mailaddress' ).val( options[ 2 ] );
+			}
 		}
-	} );
+	);
 }
 
 function wppfm_backupsTable( list ) {
-    var htmlCode = '';
+	var htmlCode = '';
 
-    for ( var i = 0; i < list.length; i++ ) {
+	for ( var i = 0; i < list.length; i ++ ) {
 
-		var backup = list[i].split( '&&' );
-		var fileName = backup[0];
-		var fileDate = backup[1];
-		
-        htmlCode += '<tr id="feed-row"';
-        if ( i % 2 === 0 ) { htmlCode += ' class="alternate"'; } // alternate background color per row
-        htmlCode += '>';
+		var backup   = list[ i ].split( '&&' );
+		var fileName = backup[ 0 ];
+		var fileDate = backup[ 1 ];
+
+		htmlCode += '<tr id="feed-row"';
+		if ( i % 2 === 0 ) {
+			htmlCode += ' class="alternate"';
+		} // alternate background color per row
+		htmlCode += '>';
 		htmlCode += '<td id="file-name">' + fileName + '</td>';
 		htmlCode += '<td id="file-date">' + fileDate + '</td>';
 		htmlCode += '<td id="actions"><strong><a href="javascript:void(0);" onclick="wppfm_deleteBackupFile(\'' + fileName + '\')">' + wppfm_backup_list_form_vars.list_delete + ' </a>';
-        htmlCode += '| <a href="javascript:void(0);" onclick="wppfm_restoreBackupFile(\'' + fileName + '\')">' + wppfm_backup_list_form_vars.list_restore + ' </a>';
-        htmlCode += '| <a href="javascript:void(0);" onclick="wppfm_duplicateBackupFile(\'' + fileName + '\')">' + wppfm_backup_list_form_vars.list_duplicate + ' </a></strong></td>';
+		htmlCode += '| <a href="javascript:void(0);" onclick="wppfm_restoreBackupFile(\'' + fileName + '\')">' + wppfm_backup_list_form_vars.list_restore + ' </a>';
+		htmlCode += '| <a href="javascript:void(0);" onclick="wppfm_duplicateBackupFile(\'' + fileName + '\')">' + wppfm_backup_list_form_vars.list_duplicate + ' </a></strong></td>';
 		htmlCode += '</tr>';
-    }
+	}
 
-    return htmlCode;
+	return htmlCode;
 }
 
 function wppfm_emptyBackupsTable() {
-    var htmlCode = '';
+	var htmlCode = '';
 
-    htmlCode += '<tr>';
-    htmlCode += '<td colspan = 4>' + wppfm_backup_list_form_vars.no_backup + '</td>';
-    htmlCode += '</tr>';
+	htmlCode += '<tr>';
+	htmlCode += '<td colspan = 4>' + wppfm_backup_list_form_vars.no_backup + '</td>';
+	htmlCode += '</tr>';
 
-    return htmlCode;
+	return htmlCode;
 }
 
 /**
  * Document ready actions
  */
-jQuery( document ).ready( function () {
-    // fill the backups list
-    wppfm_resetBackupsList();
-} );
+jQuery( document ).ready(
+	function() {
+		// fill the backups list
+		wppfm_resetBackupsList();
+	}
+);

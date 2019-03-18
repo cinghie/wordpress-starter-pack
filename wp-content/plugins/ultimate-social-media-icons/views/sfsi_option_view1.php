@@ -17,9 +17,7 @@
 	$option1['sfsi_twitter_display'] 	= 	(isset($option1['sfsi_twitter_display']))
 												? sanitize_text_field($option1['sfsi_twitter_display'])
 												: 'yes';
-	$option1['sfsi_google_display'] 	= 	(isset($option1['sfsi_google_display']))
-												? sanitize_text_field($option1['sfsi_google_display'])
-												: 'yes';
+
 	$option1['sfsi_youtube_display'] 	= 	(isset($option1['sfsi_youtube_display']))
 												? sanitize_text_field($option1['sfsi_youtube_display'])
 												: 'no';
@@ -31,6 +29,9 @@
 												: 'no';
 	$option1['sfsi_instagram_display'] 	= 	(isset($option1['sfsi_instagram_display']))
 												? sanitize_text_field($option1['sfsi_instagram_display'])
+                                                : 'no';
+    $option1['sfsi_google_display'] 	= 	(isset($option1['sfsi_google_display']))
+												? sanitize_text_field($option1['sfsi_google_display'])
 												: 'no';
 ?>
 
@@ -101,18 +102,7 @@
             </div>
         </li>
         <!-- END TWITTER ICON -->
-       
-        <!-- GOOGLE ICON -->
-        <li class="gary_bg">
-            <div class="radio_section tb_4_ck"><input name="sfsi_google_display" <?php echo ($option1['sfsi_google_display']=='yes') ?  'checked="true"' : '' ;?> id="sfsi_google_display" type="checkbox" value="yes" class="styled"  /></div>
-            <span class="sfsicls_ggle_pls">Google+</span> 
-            <div class="right_info">
-            <p><span>Strongly recommended:</span> Increasingly important and beneficial for SEO.
-                <label class="expanded-area" ></label>
-            </p>
-            </div>
-        </li>
-        <!-- END GOOGLE ICON -->
+   
     
         <!-- YOUTUBE ICON -->
         <li>
@@ -153,7 +143,19 @@
             </div>
         </li>
         <!-- END INSTAGRAM ICON -->
-        
+         
+             
+        <!-- GOOGLE ICON -->
+        <li class="">
+            <div class="radio_section tb_4_ck"><input name="sfsi_google_display" <?php echo ($option1['sfsi_google_display']=='yes') ?  'checked="false"' : '' ;?> id="sfsi_google_display" type="checkbox" value="yes" class="styled"  /></div>
+            <span class="sfsicls_ggle_pls">Google+</span> 
+            <div class="right_info">
+            <p><span>Deprecated:</span> Google+ be closed/will close soon.
+                <label class="expanded-area" ></label>
+            </p>
+            </div>
+        </li>
+        <!-- END GOOGLE ICON -->
         
         <!-- Custom icon section start here -->
         <?php

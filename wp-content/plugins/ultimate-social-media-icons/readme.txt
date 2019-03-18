@@ -2,8 +2,8 @@
 Contributors: socialdude
 Tags: social media, share, buttons, social widget, icons, share icons, share buttons, sharing icons, sharing buttons, social share, sharing, social sharing
 Requires at least: 3.0
-Tested up to: 5.0.3
-Stable tag: 2.1.4
+Tested up to: 5.1
+Stable tag: 2.1.5
 License: GPLv2 
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -274,11 +274,20 @@ You cannot use the same plugin twice, however you can install both the USM as we
 
 
 == Changelog ==
+= 2.1.5 =
+* Solved: Google plus is deprecated
+* Solved: SF count not shown
+* Solved: SF subscribe form opens blank page in some cases
+
 = 2.1.4 =
+* Solved: Changed theme check url to match bloginfo url.
+
+= 2.1.3 =
 * Solved: Email validation for Offline chat.
 * Solved: Premium notification breaking the dashboard structure.
-* Solved: changed option for linkedin count.
+* Solved: changed option for linkedin count
 * Solved: ajax_object conflict with themes.
+* Solved: new keyword check from page title, page keywords and page description.
 
 = 2.1.2 =
 * Solved: Text optimized
@@ -749,5 +758,5 @@ You cannot use the same plugin twice, however you can install both the USM as we
 
 == Upgrade Notice ==
 
-= 2.1.4 =
+= 2.1.5 =
 Please upgrade

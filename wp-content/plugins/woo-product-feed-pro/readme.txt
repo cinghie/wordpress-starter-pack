@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 5.1
-Stable tag: 5.0.6
+Stable tag: 5.1.0
 
 == Description ==
 
@@ -272,6 +272,18 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 5.1.0 (2019-03-18) =
+* Fixed a bug where category mappings that contained apastrophe were not saved. This issue has been fixed now.
+
+= 5.0.9 (2019-03-17) =
+* Fixed an issue where empty rules on product descriptions contained only shortcodes did not work
+
+= 5.0.8 (2019-03-17) =
+* Fixed a PHP warning that showed in the logs when a than-rule was set on an empty or non-excisiting attribute
+
+= 5.0.7 (2019-03-16) =
+* Added 6 new fields to the product edit pages which you can use for your product feeds: cost of good sold, multipack, is bundle, energy efficiency class, minimum energy efficiency class and maximum energy efficiency class
 
 = 5.0.6 (2019-03-14) =
 * Fixed another priceValidUntil structured data markup issue
@@ -1546,6 +1558,18 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 5.1.0 =
+Fixed a bug where category mappings that contained apastrophe were not saved. This issue has been fixed now.
+
+= 5.0.9 =
+Fixed an issue where empty rules on product descriptions contained only shortcodes did not work
+
+= 5.0.8 =
+Fixed a PHP warning that showed in the logs when a than-rule was set on an empty or non-excisiting attribute
+
+= 5.0.7 =
+Added 6 new fields to the product edit pages which you can use for your product feeds: cost of good sold, multipack, is bundle, energy efficiency class, minimum energy efficiency class and maximum energy efficiency class
 
 = 5.0.6 =
 Fixed another priceValidUntil structured data markup issue

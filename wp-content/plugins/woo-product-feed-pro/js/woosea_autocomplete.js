@@ -5541,7 +5541,7 @@ jQuery(document).ready(function($) {
         jQuery(".js-autosuggest").click(function(){
 		var className = $(this).attr("class").split(' ')[3];
 		var rowCount = className.split("_")[1]
-
+			
 		jQuery( ".autocomplete_" + rowCount ).typeahead({
  	     		input: '.js-autosuggest',     
 		       	source: google_taxonomy,
@@ -5556,6 +5556,7 @@ jQuery(document).ready(function($) {
 
 
         	jQuery(this).on('change', function(){ // on change of state
+
 			var minimum = 1;
 			var len = jQuery(this).val().length;
 			var project_hash = $("#project_hash").val();
@@ -5563,7 +5564,7 @@ jQuery(document).ready(function($) {
 			var map_to_category = jQuery(this).val();
 
 			jQuery(".autocomplete_" + rowCount).addClass("input-field-large-active");
-			
+		
 			if (len >= minimum){
 				if ( !isNaN(parseInt(map_to_category)) ) {
 

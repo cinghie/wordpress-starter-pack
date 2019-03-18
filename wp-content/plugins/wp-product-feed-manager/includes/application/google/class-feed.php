@@ -3,11 +3,13 @@
  * WP Product Feed Manager Google Feed Class.
  *
  * @package WP Product Feed Manager/Channels
- * @version 6.1
+ * @version 7.0
  */
 
 // Prevent direct access
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 
@@ -16,14 +18,20 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 	 */
 	class WPPFM_Google_Feed_Class extends WPPFM_Feed_Master_Class {
 
-		private $_version = '6.1';
+		private $_version = '7.0';
 
-		public function __construct() { parent::__construct(); }
-		
-		public function get_version() { return $this->_version; }
+		public function __construct() {
+			parent::__construct();
+		}
 
-		public function get_file_text() { return $this->generate_file_text( '1', 'google_product_category', 'description', 'xml' ); }
-		
+		public function get_version() {
+			return $this->_version;
+		}
+
+		public function get_file_text() {
+			return $this->generate_file_text( '1', 'google_product_category', 'description', 'xml' );
+		}
+
 		public function woocommerce_to_feed_fields() {
 			$fields = new stdClass();
 
@@ -45,13 +53,13 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 
 			return $fields;
 		}
-		
+
 		// overrides the set_feed_output_attribute_levels function in WPPFM_Feed_Master_Class
 		// ALERT! This function is equivalent for the setGoogleOutputAttributeLevels() function in google-source.js
 		public function set_feed_output_attribute_levels( &$main_data ) {
 			$country = $main_data->country;
-			
-			for ( $i = 0; $i < count( $main_data->attributes ); $i++ ) {
+
+			for ( $i = 0; $i < count( $main_data->attributes ); $i ++ ) {
 				if ( '0' === $main_data->attributes[ $i ]->fieldLevel ) {
 					switch ( $main_data->attributes[ $i ]->fieldName ) {
 						case 'google_product_category':
@@ -75,7 +83,7 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 						case 'age_group':
 						case 'color':
 						case 'size':
-							if ( in_array( $country, $this->special_clothing_group_countries() ) 
+							if ( in_array( $country, $this->special_clothing_group_countries() )
 								&& $this->google_clothing_and_accessories( $main_data->mainCategory ) === true ) {
 								$main_data->attributes[ $i ]->fieldLevel = 1;
 							} else {
@@ -83,14 +91,14 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 							}
 
 							break;
-							
+
 						case 'tax':
-		                    // In accordance with the Google Feed Specifications update of september 2015
+							// In accordance with the Google Feed Specifications update of september 2015
 							$main_data->attributes[ $i ]->fieldLevel = 'US' === $country ? 1 : 4;
 							break;
-							
+
 						case 'shipping':
-		                    // In accordance with the Google Feed Specifications update of september 2015
+							// In accordance with the Google Feed Specifications update of september 2015
 							$main_data->attributes[ $i ]->fieldLevel = in_array( $country, $this->special_shipping_countries() ) ? 1 : 4;
 							break;
 
@@ -98,19 +106,23 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 							break;
 					}
 
-					$main_data->attributes[ $i ]->isActive = 
-						$this->set_attribute_status( (int) $main_data->attributes[ $i ]->fieldLevel, 
-						$main_data->attributes[ $i ]->value );
+					$main_data->attributes[ $i ]->isActive =
+						$this->set_attribute_status( (int) $main_data->attributes[ $i ]->fieldLevel, $main_data->attributes[ $i ]->value );
 				}
 			}
 		}
-		
-		public function keys_that_have_sub_tags() { return array( 'installment', 'loyalty_points', 'shipping', 'tax' ); }
-		
-		// ALERT! This function is equivalent to the wppfm_doublesFieldsAllowed() function in the wppfm_google-source.js file
-		public function keys_that_can_be_used_more_than_once() { return array( 'display_ads_similar_id', 'excluded_destination', 'adwords_labels', 'shipping' ); }
 
-		public function sub_keys_for_sub_tags() { return array(
+		public function keys_that_have_sub_tags() {
+			return array( 'installment', 'loyalty_points', 'shipping', 'tax' );
+		}
+
+		// ALERT! This function is equivalent to the wppfm_doublesFieldsAllowed() function in the wppfm_google-source.js file
+		public function keys_that_can_be_used_more_than_once() {
+			return array( 'display_ads_similar_id', 'excluded_destination', 'adwords_labels', 'shipping' );
+		}
+
+		public function sub_keys_for_sub_tags() {
+			return array(
 				'installment-months',
 				'installment-amount',
 				'loyalty_points-name',
@@ -123,20 +135,27 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 				'tax-country',
 				'tax-region',
 				'tax-rate',
-				'tax-tax_ship'
+				'tax-tax_ship',
 			);
 		}
 
 		// ALERT! This function is equivalent to the googleSpecialClothingGroupCountries() function in google-source.js
 		private function special_clothing_group_countries() {
-			return array( 'US', 'GB', 'DE', 'FR', 'JP', 'BR' ); // Brazil added based on the new Feed Specifications from september 2015
+			return array(
+				'US',
+				'GB',
+				'DE',
+				'FR',
+				'JP',
+				'BR',
+			); // Brazil added based on the new Feed Specifications from september 2015
 		}
-		
+
 		// ALERT! This function is equivalent to the googleSpecialShippingCountries() function in google-source.js
 		private function special_shipping_countries() {
 			return array( 'US', 'GB', 'DE', 'AU', 'FR', 'CH', 'CZ', 'NL', 'IT', 'ES', 'JP' );
 		}
-		
+
 		// ALERT! This function is equivalent to the googleSpecialProductCountries() function in google-source.js
 		private function special_product_countries() {
 			return array( 'US', 'GB', 'DE', 'AU', 'FR', 'CH', 'CZ', 'NL', 'IT', 'ES', 'JP', 'BR' );
@@ -145,39 +164,41 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 		private function google_clothing_and_accessories( $category ) {
 			return stristr( $category, 'Apparel & Accessories' ) !== false ? true : false;
 		}
-		
+
 		private function google_needs_product_cat( $category ) {
-			return stristr( $category, 'Apparel & Accessories' ) !== false 
-				|| stristr( $category, 'Media' ) !== false 
+			return stristr( $category, 'Apparel & Accessories' ) !== false
+				|| stristr( $category, 'Media' ) !== false
 				|| stristr( $category, 'Software' ) !== false ? true : false;
 		}
-		
+
 		private function google_requires_brand( $category ) {
 			return false === stristr( $category, 'Media' ) ? true : false;
 		}
-		
+
 		protected function header( $title, $description = '' ) {
 			// the check for convert_to_data_string function can be remove when all users have switched to plugin version 1.6 or higher
-			$title_string = method_exists( $this, 'data_string' ) ? $this->data_string( $title ) 
+			$title_string       = method_exists( $this, 'data_string' ) ? $this->data_string( $title )
 				: $this->convert_to_character_data_string( $title );
-			$home_link = method_exists( $this, 'data_string' ) ? $this->data_string( get_option( 'home' ) ) 
+			$home_link          = method_exists( $this, 'data_string' ) ? $this->data_string( get_option( 'home' ) )
 				: $this->convert_to_character_data_string( get_option( 'home' ) );
-			$descr = '' !== $description ? $description : $title;
-			$description_string = method_exists( $this, 'data_string' ) ? $this->data_string( $descr ) 
+			$descr              = '' !== $description ? $description : $title;
+			$description_string = method_exists( $this, 'data_string' ) ? $this->data_string( $descr )
 				: $this->convert_to_character_data_string( $descr );
-			$title_tag = '<wf-connection-string>';
-			
+			$title_tag          = '<wf-connection-string>';
+
 			return '<?xml version="1.0"?>
 					<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
 					<channel>
 					<title>' . $title_string . '</title>'
-					. $title_tag . $home_link . '</link>
+			       . $title_tag . $home_link . '</link>
 					<description>' . $description_string . '</description>';
 		}
-		
-		protected function footer() { return '</channel></rss>'; }
+
+		protected function footer() {
+			return '</channel></rss>';
+		}
 	}
-	
-// end of WPPFM_Google_Feed_Class
+
+	// end of WPPFM_Google_Feed_Class
 
 endif;

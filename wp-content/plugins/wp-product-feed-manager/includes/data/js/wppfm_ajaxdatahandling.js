@@ -6,12 +6,14 @@ function wppfm_getFeedList( callback ) {
 		MyAjax.ajaxurl,
 		{
 			action: 'myajax-get-list-of-feeds',
-			postFeedsListNonce: MyAjax.postFeedsListNonce
+			postFeedsListNonce: MyAjax.postFeedsListNonce,
 
-		}, function ( response ) {
-			
-		callback( wppfm_validateResponse( response ) );
-	} );
+		},
+		function( response ) {
+
+			callback( wppfm_validateResponse( response ) );
+		}
+	);
 }
 
 function wppfm_getBackupsList( callback ) {
@@ -20,12 +22,14 @@ function wppfm_getBackupsList( callback ) {
 		MyAjax.ajaxurl,
 		{
 			action: 'myajax-get-list-of-backups',
-			postBackupListNonce: MyAjax.postBackupListNonce
+			postBackupListNonce: MyAjax.postBackupListNonce,
 
-		}, function ( response ) {
+		},
+		function( response ) {
 
-		callback( wppfm_validateResponse( response ) );
-	} );
+			callback( wppfm_validateResponse( response ) );
+		}
+	);
 }
 
 function wppfm_getSettingsOptions( callback ) {
@@ -34,17 +38,19 @@ function wppfm_getSettingsOptions( callback ) {
 		MyAjax.ajaxurl,
 		{
 			action: 'myajax-get-settings-options',
-			postSetupOptionsNonce: MyAjax.postSetupOptionsNonce
+			postSetupOptionsNonce: MyAjax.postSetupOptionsNonce,
 
-		}, function ( response ) {
+		},
+		function( response ) {
 
-		callback( wppfm_validateResponse( response ) );
-	} );
+			callback( wppfm_validateResponse( response ) );
+		}
+	);
 }
 
 /**
  * Reads and returns all possible output fields from the selected merchant
- * 
+ *
  * @param {int} feedId
  * @param {int} channelId
  * @param callback
@@ -58,17 +64,19 @@ function wppfm_getOutputFields( feedId, channelId, callback ) {
 			action: 'myajax-get-output-fields',
 			feedId: feedId,
 			channelId: channelId,
-			outputFieldsNonce: MyAjax.outputFieldsNonce
+			outputFieldsNonce: MyAjax.outputFieldsNonce,
 
-		}, function ( response ) {
+		},
+		function( response ) {
 
-		callback( wppfm_validateResponse( response ) );
-	} );
+			callback( wppfm_validateResponse( response ) );
+		}
+	);
 }
 
 /**
  * Reads and returns all possible source fields from the selected source
- * 
+ *
  * @param {int} sourceId
  * @param callback
  * @returns list with input fields
@@ -80,12 +88,14 @@ function wppfm_getSourceFields( sourceId, callback ) {
 		{
 			action: 'myajax-get-input-fields',
 			sourceId: sourceId,
-			inputFieldsNonce: MyAjax.inputFieldsNonce
+			inputFieldsNonce: MyAjax.inputFieldsNonce,
 
-		}, function ( response ) {
+		},
+		function( response ) {
 
-		callback( wppfm_validateResponse( response ) );
-	} );
+			callback( wppfm_validateResponse( response ) );
+		}
+	);
 }
 
 function wppfm_getMainFeedFilters( feedId, callback ) {
@@ -95,12 +105,14 @@ function wppfm_getMainFeedFilters( feedId, callback ) {
 		{
 			action: 'myajax-get-main-feed-filters',
 			feedId: feedId,
-			inputFeedFiltersNonce: MyAjax.inputFeedFiltersNonce
+			inputFeedFiltersNonce: MyAjax.inputFeedFiltersNonce,
 
-		}, function ( response ) {
+		},
+		function( response ) {
 
-		callback( wppfm_validateResponse( response ) );
-	} );
+			callback( wppfm_validateResponse( response ) );
+		}
+	);
 }
 
 function wppfm_getNextCategories( channelId, requestedLevel, parentCategory, language, callback ) {
@@ -113,18 +125,20 @@ function wppfm_getNextCategories( channelId, requestedLevel, parentCategory, lan
 			requestedLevel: requestedLevel,
 			parentCategory: parentCategory,
 			fileLanguage: language,
-			nextCategoryNonce: MyAjax.nextCategoryNonce
+			nextCategoryNonce: MyAjax.nextCategoryNonce,
 
-		}, function ( response ) {
-			
-		response = response.trim();
+		},
+		function( response ) {
 
-		if ( response.substr( response.length - 1 ) === '0' ) {
-			response = response.substring( 0, response.length - 1 );
+			response = response.trim();
+
+			if ( response.substr( response.length - 1 ) === '0' ) {
+				response = response.substring( 0, response.length - 1 );
+			}
+
+			callback( wppfm_validateResponse( response ) );
 		}
-
-		callback( wppfm_validateResponse( response ) );
-	} );
+	);
 }
 
 function wppfm_getCategoryListsFromString( channelId, mainCategoriesString, language, callback ) {
@@ -136,12 +150,14 @@ function wppfm_getCategoryListsFromString( channelId, mainCategoriesString, lang
 			channelId: channelId,
 			mainCategories: mainCategoriesString,
 			fileLanguage: language,
-			categoryListsNonce: MyAjax.categoryListsNonce
+			categoryListsNonce: MyAjax.categoryListsNonce,
 
-		}, function ( response ) {
+		},
+		function( response ) {
 
-		callback( wppfm_validateResponse( response ) );
-	} );
+			callback( wppfm_validateResponse( response ) );
+		}
+	);
 }
 
 function wppfm_updateFeedToDb( feed, metaData, callback ) {
@@ -150,27 +166,29 @@ function wppfm_updateFeedToDb( feed, metaData, callback ) {
 		MyAjax.ajaxurl,
 		{
 			action: 'myajax-update-feed-data',
-			feedId: feed['feedId'],
-			channelId: feed['channel'],
-			includeVariations: feed['includeVariations'],
-			isAggregator: feed['isAggregator'],
-			countryId: feed['country'],
-			language: feed['language'],
-			sourceId: feed['dataSource'],
-			title: feed['title'],
-			feedTitle: feed['feedTitle'],
-			feedDescription: feed['feedDescription'],
-			defaultCategory: feed['mainCategory'],
-			url: feed['url'],
-			status: feed['status'],
-			schedule: feed['updateSchedule'],
-			feedFilter: feed['feedFilter'] ? feed['feedFilter'][0]['meta_value'] : '',
+			feedId: feed[ 'feedId' ],
+			channelId: feed[ 'channel' ],
+			includeVariations: feed[ 'includeVariations' ],
+			isAggregator: feed[ 'isAggregator' ],
+			countryId: feed[ 'country' ],
+			language: feed[ 'language' ],
+			sourceId: feed[ 'dataSource' ],
+			title: feed[ 'title' ],
+			feedTitle: feed[ 'feedTitle' ],
+			feedDescription: feed[ 'feedDescription' ],
+			defaultCategory: feed[ 'mainCategory' ],
+			url: feed[ 'url' ],
+			status: feed[ 'status' ],
+			schedule: feed[ 'updateSchedule' ],
+			feedFilter: feed[ 'feedFilter' ] ? feed[ 'feedFilter' ][ 0 ][ 'meta_value' ] : '',
 			metaData: JSON.stringify( metaData ),
-			updateFeedDataNonce: MyAjax.updateFeedDataNonce
-		}, function ( response ) {
+			updateFeedDataNonce: MyAjax.updateFeedDataNonce,
+		},
+		function( response ) {
 
-		callback( wppfm_validateResponse( response ) );
-	} );
+			callback( wppfm_validateResponse( response ) );
+		}
+	);
 }
 
 function wppfm_updateFeedFile( feed_id, callback ) {
@@ -180,25 +198,29 @@ function wppfm_updateFeedFile( feed_id, callback ) {
 			action: 'myajax-update-feed-file',
 			dataType: 'text',
 			feedId: feed_id,
-			updateFeedFileNonce: MyAjax.updateFeedFileNonce
+			updateFeedFileNonce: MyAjax.updateFeedFileNonce,
 
-		}, function ( response ) {
+		},
+		function( response ) {
 
-		callback( wppfm_validateResponse( response ) );
-	} );
+			callback( wppfm_validateResponse( response ) );
+		}
+	);
 }
 
 function wppfm_getCurrentFeedStatus( feedId, callback ) {
- 	jQuery.post(
- 		MyAjax.ajaxurl,
- 		{
- 			action: 'myajax-get-feed-status',
- 			sourceId: feedId,
- 			feedStatusNonce: MyAjax.feedStatusNonce
+	jQuery.post(
+		MyAjax.ajaxurl,
+		{
+			action: 'myajax-get-feed-status',
+			sourceId: feedId,
+			feedStatusNonce: MyAjax.feedStatusNonce,
 
- 		}, function ( response ) {
- 			callback( wppfm_validateResponse( response ) );
- 		} );
+		},
+		function( response ) {
+			callback( wppfm_validateResponse( response ) );
+		}
+	);
 }
 
 function wppfm_getFeedData( feedId, callback ) {
@@ -208,12 +230,14 @@ function wppfm_getFeedData( feedId, callback ) {
 		{
 			action: 'myajax-get-feed-data',
 			sourceId: feedId,
-			feedDataNonce: MyAjax.feedDataNonce
+			feedDataNonce: MyAjax.feedDataNonce,
 
-		}, function ( response ) {
+		},
+		function( response ) {
 
-		callback( wppfm_validateResponse( response ) );
-	} );
+			callback( wppfm_validateResponse( response ) );
+		}
+	);
 }
 
 function wppfm_switchFeedStatus( feedId, callback ) {
@@ -223,12 +247,14 @@ function wppfm_switchFeedStatus( feedId, callback ) {
 		{
 			action: 'myajax-switch-feed-status',
 			feedId: feedId,
-			switchFeedStatusNonce: MyAjax.switchFeedStatusNonce
+			switchFeedStatusNonce: MyAjax.switchFeedStatusNonce,
 
-		}, function ( response ) {
+		},
+		function( response ) {
 
-		callback( wppfm_validateResponse( response ) );
-	} );
+			callback( wppfm_validateResponse( response ) );
+		}
+	);
 }
 
 function wppfm_duplicateExistingFeed( feedId, callback ) {
@@ -238,14 +264,18 @@ function wppfm_duplicateExistingFeed( feedId, callback ) {
 		{
 			action: 'myajax-duplicate-existing-feed',
 			feedId: feedId,
-			duplicateFeedNonce: MyAjax.duplicateFeedNonce
+			duplicateFeedNonce: MyAjax.duplicateFeedNonce,
 
-		}, function ( response ) {
+		},
+		function( response ) {
 
-		if ( response.trim() ) { wppfm_resetFeedList(); }
-		
-		callback( wppfm_validateResponse( response ) );
-	} );
+			if ( response.trim() ) {
+				wppfm_resetFeedList();
+			}
+
+			callback( wppfm_validateResponse( response ) );
+		}
+	);
 }
 
 function wppfm_logMessageOnServer( message, fileName, callback ) {
@@ -256,12 +286,14 @@ function wppfm_logMessageOnServer( message, fileName, callback ) {
 			action: 'myajax-log-message',
 			messageList: message,
 			fileName: fileName,
-			logMessageNonce: MyAjax.logMessageNonce
+			logMessageNonce: MyAjax.logMessageNonce,
 
-		}, function ( result ) {
+		},
+		function( result ) {
 
-		callback( result.trim() );
-	} );
+			callback( result.trim() );
+		}
+	);
 }
 
 function wppfm_auto_feed_fix_mode( selection, callback ) {
@@ -271,12 +303,14 @@ function wppfm_auto_feed_fix_mode( selection, callback ) {
 		{
 			action: 'myajax-auto-feed-fix-mode-selection',
 			fix_selection: selection,
-			updateAutoFeedFixNonce: MyAjax.setAutoFeedFixNonce
-			
-		}, function ( response ) {
+			updateAutoFeedFixNonce: MyAjax.setAutoFeedFixNonce,
 
-		callback( response.trim() );
-	} );
+		},
+		function( response ) {
+
+			callback( response.trim() );
+		}
+	);
 }
 
 function wppfm_background_processing_mode( selection, callback ) {
@@ -286,163 +320,195 @@ function wppfm_background_processing_mode( selection, callback ) {
 		{
 			action: 'myajax-background-processing-mode-selection',
 			mode_selection: selection,
-			backgroundModeNonce: MyAjax.setBackgroundModeNonce
-			
-		}, function ( response ) {
+			backgroundModeNonce: MyAjax.setBackgroundModeNonce,
 
-		callback( response.trim() );
-	} );
+		},
+		function( response ) {
+
+			callback( response.trim() );
+		}
+	);
 }
 
 function wppfm_change_third_party_attribute_keywords( keywords, callback ) {
-	
+
 	jQuery.post(
 		MyAjax.ajaxurl,
-	{
-		action: 'myajax-third-party-attribute-keywords',
-		keywords: keywords,
-		thirdPartyKeywordsNonce: MyAjax.setThirdPartyKeywordsNonce
-		
-	}, function( response ) {
-	
-		callback( response.trim() );
-	} );
+		{
+			action: 'myajax-third-party-attribute-keywords',
+			keywords: keywords,
+			thirdPartyKeywordsNonce: MyAjax.setThirdPartyKeywordsNonce,
+
+		},
+		function( response ) {
+
+			callback( response.trim() );
+		}
+	);
 }
 
 function wppfm_change_notice_mailaddress( mailAddress, callback ) {
-	
+
 	jQuery.post(
 		MyAjax.ajaxurl,
-	{
-		action: 'myajax-set-notice-mailaddress',
-		mailaddress: mailAddress,
-		noticeMailaddressNonce: MyAjax.setNoticeMailaddressNonce
-		
-	}, function( response ) {
-	
-		callback( response.trim() );
-	} );
+		{
+			action: 'myajax-set-notice-mailaddress',
+			mailaddress: mailAddress,
+			noticeMailaddressNonce: MyAjax.setNoticeMailaddressNonce,
+
+		},
+		function( response ) {
+
+			callback( response.trim() );
+		}
+	);
 }
 
 function wppfm_change_background_processing_time_limit( limit, callback ) {
-	
+
 	jQuery.post(
 		MyAjax.ajaxurl,
-	{
-		action: 'myajax-background-processing-time-limit',
-		limit: limit,
-		batchProcessingLimitNonce: MyAjax.setBatchProcessingLimitNonce
-		
-	}, function( response ) {
-	
-		callback( response.trim() );
-	} );
+		{
+			action: 'myajax-background-processing-time-limit',
+			limit: limit,
+			batchProcessingLimitNonce: MyAjax.setBatchProcessingLimitNonce,
+
+		},
+		function( response ) {
+
+			callback( response.trim() );
+		}
+	);
 }
 
 function wppfm_clear_feed_process_data( callback ) {
 	jQuery.post(
 		MyAjax.ajaxurl,
-	{
-		action: 'myajax-clear-feed-process-data',
-		clearFeedNonce: MyAjax.setClearFeedProcessNonce
-		
-	}, function( response ) {
-		
-		callback( response );
-	} );
+		{
+			action: 'myajax-clear-feed-process-data',
+			clearFeedNonce: MyAjax.setClearFeedProcessNonce,
+
+		},
+		function( response ) {
+
+			callback( response );
+		}
+	);
 }
 
 function wppfm_reinitiate_plugin( callback ) {
 	jQuery.post(
 		MyAjax.ajaxurl,
-	{
-		action: 'myajax-reinitiate-plugin',
-		reInitiateNonce: MyAjax.setReInitiateNonce
-		
-	}, function( response ) {
-		
-		callback( response );
-	} );
+		{
+			action: 'myajax-reinitiate-plugin',
+			reInitiateNonce: MyAjax.setReInitiateNonce,
+
+		},
+		function( response ) {
+
+			callback( response );
+		}
+	);
 }
 
 /**
  * Takes the response of an ajax call and checks if it's ok. When not, it will display the error and return
  * an empty list.
- * 
- * @param {type} response
+ *
+ * @param {String} response
  * @returns {String}
  */
 function wppfm_validateResponse( response ) {
-	
+
 	response = response.trim(); // remove php ajax response white spaces
 
 	// when the response contains no error message
-	if ( response.indexOf( "<div id='error'>" ) < 0 && response.indexOf( "<b>Fatal error</b>" ) < 0
-		&& response.indexOf( "<b>Notice</b>" ) < 0 && response.indexOf( "<b>Warning</b>" ) < 0
-		&& response.indexOf( "<b>Catchable fatal error</b>" ) < 0 && response.indexOf( '<div id="error">' ) < 0 ) {
+	if ( response.indexOf( '<div id=\'error\'>' ) < 0 && response.indexOf( '<b>Fatal error</b>' ) < 0 && response.indexOf( '<b>Notice</b>' ) < 0 && response.indexOf( '<b>Warning</b>' ) < 0 && response.indexOf( '<b>Catchable fatal error</b>' ) < 0 && response.indexOf( '<div id="error">' ) < 0 ) {
 
-		if ( response.indexOf( "[]" ) < 0 ) {
+		if ( response.indexOf( '[]' ) < 0 ) {
 
 			if ( response !== '' ) {
 
-				return( response );
+				return (
+					response
+				);
 			} else {
 
-				return ( '1' );
+				return (
+					'1'
+				);
 			}
 		} else { // if it has an error message
 
 			// return an empty list
-			return( '0' );
+			return (
+				'0'
+			);
 		}
 	} else {
 
 		wppfm_show_error_message( response.replace( '[]', '' ) );
 		wppfm_hide_feed_spinner();
-		
-		wppfm_logMessageOnServer( response, 'error', function ( result ) {
 
-			// return an empty list
-			return( '0' );
-		} );
+		wppfm_logMessageOnServer(
+			response,
+			'error',
+			function( result ) {
+
+				// return an empty list
+				return (
+					'0'
+				);
+			}
+		);
 	}
 }
 
 /**
  * Deletes a specific feed file
- * 
+ *
  * This function first removes the file from the server and than from the feed database.
  * After that it will refresh the Feed List.
- * 
+ *
  * @param {int} id
  * @param {string} feedTitle
  * @returns nothing
  */
 function wppfm_deleteFeed( id, feedTitle ) {
+	var feedSpinnerElement     = jQuery( '#feed-spinner' );
+	var feedListMessageElement = jQuery( '#feed-list-message' );
+
 	// clear old messages
-	jQuery( '#feed-list-message' ).empty();
+	feedListMessageElement.empty();
 
 	// remove the file
-	wppfm_removeFeedFile( function () {
-		jQuery( '#feed-spinner' ).show();
+	wppfm_removeFeedFile(
+		function() {
+			feedSpinnerElement.show();
 
-		// delete the file entry in the database
-		wppfm_deleteFeedFromDb( id, function ( response ) {
-			jQuery( '#feed-spinner' ).show();
-			
-			response = response.trim();
+			// delete the file entry in the database
+			wppfm_deleteFeedFromDb(
+				id,
+				function( response ) {
+					feedSpinnerElement.show();
 
-			if ( response === '1' ) {
-				// reset the feed list
-				wppfm_resetFeedList();
-				jQuery( '#feed-spinner' ).hide();
-			} else {
-				// report the result to the user
-				jQuery( '#feed-list-message' ).append( response );
-				jQuery( '#feed-spinner' ).hide();
-			}
-		}, id );
-	}, feedTitle );
+					response = response.trim();
+
+					if ( response === '1' ) {
+						// reset the feed list
+						wppfm_resetFeedList();
+						feedSpinnerElement.hide();
+					} else {
+						// report the result to the user
+						feedListMessageElement.append( response );
+						feedSpinnerElement.hide();
+					}
+				},
+				id
+			);
+		},
+		feedTitle
+	);
 }
 
 function wppfm_removeFeedFile( callback, feedTitle ) {
@@ -452,12 +518,14 @@ function wppfm_removeFeedFile( callback, feedTitle ) {
 		{
 			action: 'myajax-delete-feed-file',
 			fileTitle: feedTitle,
-			deleteFeedNonce: MyAjax.deleteFeedNonce
+			deleteFeedNonce: MyAjax.deleteFeedNonce,
 
-		}, function ( response ) {
+		},
+		function( response ) {
 
-		callback( wppfm_validateResponse( response ) );
-	} );
+			callback( wppfm_validateResponse( response ) );
+		}
+	);
 }
 
 function wppfm_deleteFeedFromDb( feedId, callback ) {
@@ -467,12 +535,14 @@ function wppfm_deleteFeedFromDb( feedId, callback ) {
 		{
 			action: 'myajax-delete-feed',
 			feedId: feedId,
-			deleteFeedNonce: MyAjax.deleteFeedNonce
+			deleteFeedNonce: MyAjax.deleteFeedNonce,
 
-		}, function ( response ) {
+		},
+		function( response ) {
 
-		callback( wppfm_validateResponse( response ) );
-	} );
+			callback( wppfm_validateResponse( response ) );
+		}
+	);
 }
 
 function wppfm_checkNextFeedInQueue( callback ) {
@@ -480,12 +550,14 @@ function wppfm_checkNextFeedInQueue( callback ) {
 		MyAjax.ajaxurl,
 		{
 			action: 'myajax-get-next-feed-in-queue',
-			nextFeedInQueueNonce: MyAjax.nextFeedInQueueNonce
-			
-		}, function ( response ) {
+			nextFeedInQueueNonce: MyAjax.nextFeedInQueueNonce,
 
-		callback( wppfm_validateResponse( response ) );
-	} );
+		},
+		function( response ) {
+
+			callback( wppfm_validateResponse( response ) );
+		}
+	);
 }
 
 function wppfm_initiateBackup( fileName, callback ) {
@@ -495,12 +567,14 @@ function wppfm_initiateBackup( fileName, callback ) {
 		{
 			action: 'myajax-backup-current-data',
 			fileName: fileName,
-			backupNonce: MyAjax.backupNonce
-			
-		}, function ( response ) {
+			backupNonce: MyAjax.backupNonce,
 
-		callback( wppfm_validateResponse( response ) );
-	} );
+		},
+		function( response ) {
+
+			callback( wppfm_validateResponse( response ) );
+		}
+	);
 }
 
 function wppfm_deleteBackup( fileName, callback ) {
@@ -510,12 +584,14 @@ function wppfm_deleteBackup( fileName, callback ) {
 		{
 			action: 'myajax-delete-backup-file',
 			fileName: fileName,
-			deleteBackupNonce: MyAjax.deleteBackupNonce
-			
-		}, function ( response ) {
+			deleteBackupNonce: MyAjax.deleteBackupNonce,
 
-		callback( wppfm_validateResponse( response ) );
-	} );
+		},
+		function( response ) {
+
+			callback( wppfm_validateResponse( response ) );
+		}
+	);
 }
 
 function wppfm_restoreBackup( fileName, callback ) {
@@ -525,12 +601,14 @@ function wppfm_restoreBackup( fileName, callback ) {
 		{
 			action: 'myajax-restore-backup-file',
 			fileName: fileName,
-			restoreBackupNonce: MyAjax.restoreBackupNonce
-			
-		}, function ( response ) {
+			restoreBackupNonce: MyAjax.restoreBackupNonce,
 
-		callback( wppfm_validateResponse( response ) );
-	} );
+		},
+		function( response ) {
+
+			callback( wppfm_validateResponse( response ) );
+		}
+	);
 }
 
 function wppfm_duplicateBackup( fileName, callback ) {
@@ -540,10 +618,12 @@ function wppfm_duplicateBackup( fileName, callback ) {
 		{
 			action: 'myajax-duplicate-backup-file',
 			fileName: fileName,
-			duplicateBackupNonce: MyAjax.duplicateBackupNonce
-			
-		}, function ( response ) {
+			duplicateBackupNonce: MyAjax.duplicateBackupNonce,
 
-		callback( wppfm_validateResponse( response ) );
-	} );
+		},
+		function( response ) {
+
+			callback( wppfm_validateResponse( response ) );
+		}
+	);
 }

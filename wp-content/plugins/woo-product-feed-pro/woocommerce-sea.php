@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     5.0.6
+ * Version:     5.1.0
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '5.0.6' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '5.1.0' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -777,12 +777,27 @@ function woosea_product_delete_meta_price( $product = null ) {
 						}
 					}
 					$variable_product = wc_get_product($variation_id);
-	
+
 					if(is_object( $variable_product ) ) {
 						$qty = 1;
 						$product_price = wc_get_price_to_display($variable_product, array('qty' => $qty));
 						$tax_rates = WC_Tax::get_base_tax_rates( $product->get_tax_class() );
-                        			
+						
+						//$markup = array();                        	
+						//$markup = apply_filters( 'woocommerce_structured_data_product', $markup, $variable_product, $variation_id );
+
+						//function filter_woocommerce_structured_data_product($markup,$variable_product,$variation_id) {
+						//	$woosea_brand = ucfirst( get_post_meta( $markup['variation_id'], '_woosea_brand', true ) );
+						//	if ( empty( $markup[ 'brand' ] ) ) {
+						//		$markup[ 'brand' ] = array(
+						//			'@type'	=> 'Brand',
+						//			'name'	=> $woosea_brand,
+						//		);
+						//	}		
+						//	return $markup;
+						//}
+						//add_filter( 'woocommerce_structured_data_product', 'filter_woocommerce_structured_data_product', 10, 3 );
+	
 						// Workaround for price caching issues
                         			if(!empty($tax_rates)){
                                 			foreach ($tax_rates as $tk => $tv){
@@ -1600,9 +1615,113 @@ function woosea_custom_general_fields() {
                         	'id'          => '_woosea_installment_amount',
                         	'label'       => __( 'Installment amount', 'woocommerce' ),
                        	 	'desc_tip'    => 'true',
-                        	'description' => __( 'Enter the amount the nuyer has to pay per month.', 'woocommerce' ),
+                        	'description' => __( 'Enter the amount the bbuyer has to pay per month.', 'woocommerce' ),
                 	)
         	);
+
+        	// Cost of goods sold
+        	woocommerce_wp_text_input(
+                	array(
+                        	'id'          => '_woosea_cost_of_good_sold',
+                        	'label'       => __( 'Cost of goods sold', 'woocommerce' ),
+                       	 	'desc_tip'    => 'true',
+                        	'description' => __( 'Enter the cost of good you are selling.', 'woocommerce' ),
+                	)
+        	);
+
+        	// Multipack
+        	woocommerce_wp_text_input(
+                	array(
+                        	'id'          => '_woosea_multipack',
+                        	'label'       => __( 'Multipack', 'woocommerce' ),
+                       	 	'desc_tip'    => 'true',
+                        	'description' => __( 'Enter the multipack amount.', 'woocommerce' ),
+                	)
+        	);
+
+		// Is bundle
+		woocommerce_wp_select(
+			array(
+				'id'		=> '_woosea_is_bundle',
+				'label'		=> __( 'Is bundle', 'woocommerce' ),
+				'desc_tip'	=> 'true',
+				'description'	=> __( 'Select the is bundle value.', 'woocommerce' ),
+				'options'	=> array (
+					''		=> __( '', 'woocommerce' ),
+					'yes'		=> __( 'yes', 'woocommerce' ),
+					'no'		=> __( 'no', 'woocommerce' ),
+				)
+			)
+		);
+
+		// Energy efficiency class
+		woocommerce_wp_select(
+			array(
+				'id'		=> '_woosea_energy_efficiency_class',
+				'label'		=> __( 'Energy efficiency class', 'woocommerce' ),
+				'desc_tip'	=> 'true',
+				'description'	=> __( 'Select the product energy efficiency class.', 'woocommerce' ),
+				'options'	=> array (
+					''		=> __( '', 'woocommerce' ),
+					'A+++'		=> __( 'A+++', 'woocommerce' ),
+					'A++'		=> __( 'A++', 'woocommerce' ),
+					'A+'		=> __( 'A+', 'woocommerce' ),
+					'A'		=> __( 'A', 'woocommerce' ),
+					'B'		=> __( 'B', 'woocommerce' ),
+					'C'		=> __( 'C', 'woocommerce' ),
+					'D'		=> __( 'D', 'woocommerce' ),
+					'E'		=> __( 'E', 'woocommerce' ),
+					'F'		=> __( 'F', 'woocommerce' ),
+					'G'		=> __( 'G', 'woocommerce' ),
+				)
+			)
+		);
+
+		// Minimum energy efficiency class
+		woocommerce_wp_select(
+			array(
+				'id'		=> '_woosea_min_energy_efficiency_class',
+				'label'		=> __( 'Minimum energy efficiency class', 'woocommerce' ),
+				'desc_tip'	=> 'true',
+				'description'	=> __( 'Select the minimum product energy efficiency class.', 'woocommerce' ),
+				'options'	=> array (
+					''		=> __( '', 'woocommerce' ),
+					'A+++'		=> __( 'A+++', 'woocommerce' ),
+					'A++'		=> __( 'A++', 'woocommerce' ),
+					'A+'		=> __( 'A+', 'woocommerce' ),
+					'A'		=> __( 'A', 'woocommerce' ),
+					'B'		=> __( 'B', 'woocommerce' ),
+					'C'		=> __( 'C', 'woocommerce' ),
+					'D'		=> __( 'D', 'woocommerce' ),
+					'E'		=> __( 'E', 'woocommerce' ),
+					'F'		=> __( 'F', 'woocommerce' ),
+					'G'		=> __( 'G', 'woocommerce' ),
+				)
+			)
+		);
+
+		// Maximum energy efficiency class
+		woocommerce_wp_select(
+			array(
+				'id'		=> '_woosea_max_energy_efficiency_class',
+				'label'		=> __( 'Maximum energy efficiency class', 'woocommerce' ),
+				'desc_tip'	=> 'true',
+				'description'	=> __( 'Select the maximum product energy efficiency class.', 'woocommerce' ),
+				'options'	=> array (
+					''		=> __( '', 'woocommerce' ),
+					'A+++'		=> __( 'A+++', 'woocommerce' ),
+					'A++'		=> __( 'A++', 'woocommerce' ),
+					'A+'		=> __( 'A+', 'woocommerce' ),
+					'A'		=> __( 'A', 'woocommerce' ),
+					'B'		=> __( 'B', 'woocommerce' ),
+					'C'		=> __( 'C', 'woocommerce' ),
+					'D'		=> __( 'D', 'woocommerce' ),
+					'E'		=> __( 'E', 'woocommerce' ),
+					'F'		=> __( 'F', 'woocommerce' ),
+					'G'		=> __( 'G', 'woocommerce' ),
+				)
+			)
+		);
 
 		// Exclude product from feed
 		woocommerce_wp_checkbox(
@@ -1623,18 +1742,26 @@ add_action( 'woocommerce_product_options_general_product_data', 'woosea_custom_g
  * This function saves the input from the extra fields on the single product edit page
  */
 function woosea_save_custom_general_fields($post_id){
-        $woocommerce_brand      		= empty($_POST['_woosea_brand']) ? '' : sanitize_text_field($_POST['_woosea_brand']);
-        $woocommerce_gtin       		= empty($_POST['_woosea_gtin']) ? '' : sanitize_text_field($_POST['_woosea_gtin']);
-        $woocommerce_upc        		= empty($_POST['_woosea_upc']) ? '' : sanitize_text_field($_POST['_woosea_upc']);
-        $woocommerce_mpn        		= empty($_POST['_woosea_mpn']) ? '' : sanitize_text_field($_POST['_woosea_mpn']);
-        $woocommerce_ean        		= empty($_POST['_woosea_ean']) ? '' : sanitize_text_field($_POST['_woosea_ean']);
-        $woocommerce_title      		= empty($_POST['_woosea_optimized_title']) ? '' : sanitize_text_field($_POST['_woosea_optimized_title']);
-        $woocommerce_unit_pricing_measure 	= empty($_POST['_woosea_unit_pricing_measure']) ? '' : sanitize_text_field($_POST['_woosea_unit_pricing_measure']);
-        $woocommerce_unit_pricing_base_measure 	= empty($_POST['_woosea_unit_pricing_base_measure']) ? '' : sanitize_text_field($_POST['_woosea_unit_pricing_base_measure']);
-        $woocommerce_installment_months      	= empty($_POST['_woosea_installment_months']) ? '' : sanitize_text_field($_POST['_woosea_installment_months']);
-        $woocommerce_installment_amount      	= empty($_POST['_woosea_installment_amount']) ? '' : sanitize_text_field($_POST['_woosea_installment_amount']);
-        $woocommerce_condition      		= empty($_POST['_woosea_condition']) ? '' : sanitize_text_field($_POST['_woosea_condition']);
-        $woocommerce_age_group    		= empty($_POST['_woosea_age_group']) ? '' : sanitize_text_field($_POST['_woosea_age_group']);
+        $woocommerce_brand      			= empty($_POST['_woosea_brand']) ? '' : sanitize_text_field($_POST['_woosea_brand']);
+        $woocommerce_gtin       			= empty($_POST['_woosea_gtin']) ? '' : sanitize_text_field($_POST['_woosea_gtin']);
+        $woocommerce_upc        			= empty($_POST['_woosea_upc']) ? '' : sanitize_text_field($_POST['_woosea_upc']);
+        $woocommerce_mpn        			= empty($_POST['_woosea_mpn']) ? '' : sanitize_text_field($_POST['_woosea_mpn']);
+        $woocommerce_ean        			= empty($_POST['_woosea_ean']) ? '' : sanitize_text_field($_POST['_woosea_ean']);
+        $woocommerce_title      			= empty($_POST['_woosea_optimized_title']) ? '' : sanitize_text_field($_POST['_woosea_optimized_title']);
+        $woocommerce_unit_pricing_measure 		= empty($_POST['_woosea_unit_pricing_measure']) ? '' : sanitize_text_field($_POST['_woosea_unit_pricing_measure']);
+        $woocommerce_unit_pricing_base_measure 		= empty($_POST['_woosea_unit_pricing_base_measure']) ? '' : sanitize_text_field($_POST['_woosea_unit_pricing_base_measure']);
+        $woocommerce_installment_months      		= empty($_POST['_woosea_installment_months']) ? '' : sanitize_text_field($_POST['_woosea_installment_months']);
+        $woocommerce_installment_amount      		= empty($_POST['_woosea_installment_amount']) ? '' : sanitize_text_field($_POST['_woosea_installment_amount']);
+        $woocommerce_condition      			= empty($_POST['_woosea_condition']) ? '' : sanitize_text_field($_POST['_woosea_condition']);
+        $woocommerce_age_group    			= empty($_POST['_woosea_age_group']) ? '' : sanitize_text_field($_POST['_woosea_age_group']);
+
+        $woocommerce_cost_of_good_sold    		= empty($_POST['_woosea_cost_of_good_sold']) ? '' : sanitize_text_field($_POST['_woosea_cost_of_good_sold']);
+        $woocommerce_multipack    			= empty($_POST['_woosea_multipack']) ? '' : sanitize_text_field($_POST['_woosea_multipack']);
+        $woocommerce_is_bundle    			= empty($_POST['_woosea_is_bundle']) ? '' : sanitize_text_field($_POST['_woosea_is_bundle']);
+        $woocommerce_energy_efficiency_class    	= empty($_POST['_woosea_energy_efficiency_class']) ? '' : sanitize_text_field($_POST['_woosea_energy_efficiency_class']);
+        $woocommerce_min_energy_efficiency_class    	= empty($_POST['_woosea_min_energy_efficiency_class']) ? '' : sanitize_text_field($_POST['_woosea_min_energy_efficiency_class']);
+        $woocommerce_max_energy_efficiency_class    	= empty($_POST['_woosea_max_energy_efficiency_class']) ? '' : sanitize_text_field($_POST['_woosea_max_energy_efficiency_class']);
+
 
 	if(!empty($_POST['_woosea_exclude_product'])){
 		$woocommerce_exclude_product 		= sanitize_text_field($_POST['_woosea_exclude_product']);
@@ -1680,6 +1807,24 @@ function woosea_save_custom_general_fields($post_id){
 
 	if(isset($woocommerce_exclude_product))
                 update_post_meta( $post_id, '_woosea_exclude_product', esc_attr($woocommerce_exclude_product));
+
+	if(isset($woocommerce_cost_of_good_sold))
+                update_post_meta( $post_id, '_woosea_cost_of_good_sold', esc_attr($woocommerce_cost_of_good_sold));
+	
+	if(isset($woocommerce_multipack))
+                update_post_meta( $post_id, '_woosea_multipack', esc_attr($woocommerce_multipack));
+	
+	if(isset($woocommerce_is_bundle))
+                update_post_meta( $post_id, '_woosea_is_bundle', esc_attr($woocommerce_is_bundle));
+	
+	if(isset($woocommerce_energy_efficiency_class))
+                update_post_meta( $post_id, '_woosea_energy_efficiency_class', esc_attr($woocommerce_energy_efficiency_class));
+	
+	if(isset($woocommerce_min_energy_efficiency_class))
+                update_post_meta( $post_id, '_woosea_min_energy_efficiency_class', esc_attr($woocommerce_min_energy_efficiency_class));
+	
+	if(isset($woocommerce_max_energy_efficiency_class))
+                update_post_meta( $post_id, '_woosea_max_energy_efficiency_class', esc_attr($woocommerce_max_energy_efficiency_class));
 }
 add_action( 'woocommerce_process_product_meta', 'woosea_save_custom_general_fields' );
 
@@ -1862,8 +2007,127 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			)
 		);
 
+                // Cost of good sold
+                woocommerce_wp_text_input(
+                        array(
+                                'id'          => '_woosea_cost_of_good_sold['.$loop.']',
+                                'label'       => __( '<br>Cost of good sold', 'woocommerce' ),
+                                'placeholder' => 'Cost of good sold',
+                                'desc_tip'    => 'true',
+                                'description' => __( 'Enter the cost of good sold.', 'woocommerce' ),
+                                'value'       => get_post_meta($variation->ID, '_woosea_cost_of_good_sold', true),
+                                'wrapper_class' => 'form-row-last',
+                        )
+                );
 
+                // Multipack
+                woocommerce_wp_text_input(
+                        array(
+                                'id'          => '_woosea_multipack['.$loop.']',
+                                'label'       => __( '<br>Multipack', 'woocommerce' ),
+                                'placeholder' => 'Multipack amount',
+                                'desc_tip'    => 'true',
+                                'description' => __( 'Enter the multipack amount here.', 'woocommerce' ),
+                                'value'       => get_post_meta($variation->ID, '_woosea_multipack', true),
+                                'wrapper_class' => 'form-row-last',
+                        )
+                );
 
+		// Is bundle
+		woocommerce_wp_select(
+			array(
+				'id'		=> '_woosea_is_bundle['.$loop.']',
+				'label'		=> __( 'Is bundle', 'woocommerce' ),
+				'placeholder'	=> 'Is bundle',
+				'desc_tip'	=> 'true',
+				'description'	=> __( 'Select the is bundle value.', 'woocommerce' ),
+                                'value'       	=> get_post_meta($variation->ID, '_woosea_is_bundle', true),
+                                'wrapper_class' => 'form-row form-row-full',
+				'options'	=> array (
+					''		=> __( '', 'woocommerce' ),
+					'yes'		=> __( 'yes', 'woocommerce' ),
+					'no'		=> __( 'no', 'woocommerce' ),
+				)
+			)
+		);
+
+		// Energy efficiency class
+		woocommerce_wp_select(
+			array(
+				'id'		=> '_woosea_energy_efficiency_class['.$loop.']',
+				'label'		=> __( 'Energy efficiency class', 'woocommerce' ),
+				'placeholder'	=> 'Energy efficiency class',
+				'desc_tip'	=> 'true',
+				'description'	=> __( 'Select the energy efficiency class.', 'woocommerce' ),
+                                'value'       	=> get_post_meta($variation->ID, '_woosea_energy_efficiency_class', true),
+                                'wrapper_class' => 'form-row form-row-full',
+				'options'	=> array (
+					''		=> __( '', 'woocommerce' ),
+					'A+++'		=> __( 'A+++', 'woocommerce' ),
+					'A++'		=> __( 'A++', 'woocommerce' ),
+					'A+'		=> __( 'A+', 'woocommerce' ),
+					'A'		=> __( 'A', 'woocommerce' ),
+					'B'		=> __( 'B', 'woocommerce' ),
+					'C'		=> __( 'C', 'woocommerce' ),
+					'D'		=> __( 'D', 'woocommerce' ),
+					'E'		=> __( 'E', 'woocommerce' ),
+					'F'		=> __( 'F', 'woocommerce' ),
+					'G'		=> __( 'G', 'woocommerce' ),
+				)
+			)
+		);
+
+		// Minimum energy efficiency class
+		woocommerce_wp_select(
+			array(
+				'id'		=> '_woosea_min_energy_efficiency_class['.$loop.']',
+				'label'		=> __( 'Minimum energy efficiency class', 'woocommerce' ),
+				'placeholder'	=> 'Minimum energy efficiency class',
+				'desc_tip'	=> 'true',
+				'description'	=> __( 'Select the minimum energy efficiency class.', 'woocommerce' ),
+                                'value'       	=> get_post_meta($variation->ID, '_woosea_min_energy_efficiency_class', true),
+                                'wrapper_class' => 'form-row form-row-full',
+				'options'	=> array (
+					''		=> __( '', 'woocommerce' ),
+					'A+++'		=> __( 'A+++', 'woocommerce' ),
+					'A++'		=> __( 'A++', 'woocommerce' ),
+					'A+'		=> __( 'A+', 'woocommerce' ),
+					'A'		=> __( 'A', 'woocommerce' ),
+					'B'		=> __( 'B', 'woocommerce' ),
+					'C'		=> __( 'C', 'woocommerce' ),
+					'D'		=> __( 'D', 'woocommerce' ),
+					'E'		=> __( 'E', 'woocommerce' ),
+					'F'		=> __( 'F', 'woocommerce' ),
+					'G'		=> __( 'G', 'woocommerce' ),
+				)
+			)
+		);
+
+		// Maximum energy efficiency class
+		woocommerce_wp_select(
+			array(
+				'id'		=> '_woosea_max_energy_efficiency_class['.$loop.']',
+				'label'		=> __( 'Maximum energy efficiency class', 'woocommerce' ),
+				'placeholder'	=> 'Maximum energy efficiency class',
+				'desc_tip'	=> 'true',
+				'description'	=> __( 'Select the maximum energy efficiency class.', 'woocommerce' ),
+                                'value'       	=> get_post_meta($variation->ID, '_woosea_max_energy_efficiency_class', true),
+                                'wrapper_class' => 'form-row form-row-full',
+				'options'	=> array (
+					''		=> __( '', 'woocommerce' ),
+					'A+++'		=> __( 'A+++', 'woocommerce' ),
+					'A++'		=> __( 'A++', 'woocommerce' ),
+					'A+'		=> __( 'A+', 'woocommerce' ),
+					'A'		=> __( 'A', 'woocommerce' ),
+					'B'		=> __( 'B', 'woocommerce' ),
+					'C'		=> __( 'C', 'woocommerce' ),
+					'D'		=> __( 'D', 'woocommerce' ),
+					'E'		=> __( 'E', 'woocommerce' ),
+					'F'		=> __( 'F', 'woocommerce' ),
+					'G'		=> __( 'G', 'woocommerce' ),
+				)
+			)
+		);
 
 		// Exclude product from feed
 		woocommerce_wp_checkbox(
@@ -1981,6 +2245,48 @@ function woosea_save_custom_variable_fields( $post_id ) {
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_age_group[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_age_group', stripslashes( sanitize_text_field( $_age_group[$i] )));
+                        }
+
+
+                // Cost of good sold
+                $_cost_of_good_sold = $_POST['_woosea_cost_of_good_sold'];
+                        $variation_id = (int) $variable_post_id[$i];
+                        if ( isset( $_cost_of_good_sold[$i] ) ) {
+                                update_post_meta( $variation_id, '_woosea_cost_of_good_sold', stripslashes( sanitize_text_field( $_cost_of_good_sold[$i] )));
+                        }
+
+                // Multipack
+                $_multipack = $_POST['_woosea_multipack'];
+                        $variation_id = (int) $variable_post_id[$i];
+                        if ( isset( $_multipack[$i] ) ) {
+                                update_post_meta( $variation_id, '_woosea_multipack', stripslashes( sanitize_text_field( $_multipack[$i] )));
+                        }
+                // Is bundle
+                $_is_bundle = $_POST['_woosea_is_bundle'];
+                        $variation_id = (int) $variable_post_id[$i];
+                        if ( isset( $_is_bundle[$i] ) ) {
+                                update_post_meta( $variation_id, '_woosea_is_bundle', stripslashes( sanitize_text_field( $_is_bundle[$i] )));
+                        }
+
+                // Energy efficiency class
+                $_energy_efficiency_class = $_POST['_woosea_energy_efficiency_class'];
+                        $variation_id = (int) $variable_post_id[$i];
+                        if ( isset( $_energy_efficiency_class[$i] ) ) {
+                                update_post_meta( $variation_id, '_woosea_energy_efficiency_class', stripslashes( sanitize_text_field( $_energy_efficiency_class[$i] )));
+                        }
+
+                // Minimum energy efficiency class
+                $_min_energy_efficiency_class = $_POST['_woosea_min_energy_efficiency_class'];
+                        $variation_id = (int) $variable_post_id[$i];
+                        if ( isset( $_min_energy_efficiency_class[$i] ) ) {
+                                update_post_meta( $variation_id, '_woosea_min_energy_efficiency_class', stripslashes( sanitize_text_field( $_min_energy_efficiency_class[$i] )));
+                        }
+
+                // Maximum energy efficiency class
+                $_max_energy_efficiency_class = $_POST['_woosea_max_energy_efficiency_class'];
+                        $variation_id = (int) $variable_post_id[$i];
+                        if ( isset( $_max_energy_efficiency_class[$i] ) ) {
+                                update_post_meta( $variation_id, '_woosea_max_energy_efficiency_class', stripslashes( sanitize_text_field( $_max_energy_efficiency_class[$i] )));
                         }
 
                 // Exclude product from feed
@@ -2432,7 +2738,7 @@ function woosea_license_valid(){
         $license_information = get_option('license_information');
 
         $curl = curl_init();
-        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=5.0.6";
+        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=5.1.0";
 
         curl_setopt_array($curl, array(
                 CURLOPT_RETURNTRANSFER => 1,

@@ -4,31 +4,32 @@ function wppfm_storeSourceValue( level, currentMetaValue, type, valueToStore ) {
 	console.log( 'currentMetaValue:', currentMetaValue );
 	console.log( 'type:', type );
 	console.log( 'valueToStore:', valueToStore );
-	
-	var newValue = '';
-	var o = currentMetaValue ? JSON.parse( currentMetaValue ) : { };
-	
-	if ( o && 't' in o ) { return currentMetaValue; } // do not change the meta value if it contains the main category
+
+	var o = currentMetaValue ? JSON.parse( currentMetaValue ) : {};
+
+	if ( o && 't' in o ) {
+		return currentMetaValue;
+	} // do not change the meta value if it contains the main category
 
 	if ( valueToStore && type !== 'clear' ) {
 
-		var t = { }, s = { };
+		var t = {}, s = {};
 
-		s[type] = valueToStore;
+		s[ type ] = valueToStore;
 
 		t.s = s;
 
 		if ( o.hasOwnProperty( 'm' ) ) {
 
-			if ( !o.m[level] ) {
+			if ( ! o.m[ level ] ) {
 
-				o.m[level] = t;
+				o.m[ level ] = t;
 			} else {
 
-				o.m[level].s = s;
+				o.m[ level ].s = s;
 			}
 		} else {
-			var m = [ ];
+			var m = [];
 
 			m.push( t );
 			o.m = m;
@@ -39,12 +40,12 @@ function wppfm_storeSourceValue( level, currentMetaValue, type, valueToStore ) {
 
 			if ( o.m.length > 1 ) {
 
-				if ( !o.m[level].c ) {
+				if ( ! o.m[ level ].c ) {
 
 					o.m.splice( level, 1 );
 				} else {
 
-					delete o.m[level].s;
+					delete o.m[ level ].s;
 				}
 			} else {
 
@@ -52,11 +53,13 @@ function wppfm_storeSourceValue( level, currentMetaValue, type, valueToStore ) {
 			}
 		} else {
 
-			o = { };
+			o = {};
 		}
 	}
 
-	newValue = typeof ( o ) && !jQuery.isEmptyObject( o ) ? JSON.stringify( o ) : '';
+	var newValue = typeof (
+		o
+	) && ! jQuery.isEmptyObject( o ) ? JSON.stringify( o ) : '';
 
 	console.log( 'result:', newValue );
 	return newValue;
@@ -69,48 +72,49 @@ function wppfm_storeConditionValue( sourceLevel, conditionLevel, currentMetaValu
 	console.log( 'currentMetaValue:', currentMetaValue );
 	console.log( 'newCondition:', newCondition );
 
-	var newValue = '';
-	var o = currentMetaValue ? JSON.parse( currentMetaValue ) : { };
+	var o            = currentMetaValue ? JSON.parse( currentMetaValue ) : {};
 	var conditionPos = conditionLevel - 1;
-	var t = { };
-	var q = { };
+	var t            = {};
+	var q            = {};
 
 	if ( newCondition ) {
 
-		if ( !o.hasOwnProperty( 'm' ) ) {
+		if ( ! o.hasOwnProperty( 'm' ) ) {
 
-			var m = [ ];
+			var m = [];
 
 			m.push( t );
 			o.m = m;
 		}
 
-		if ( o.m[sourceLevel] && o.m[sourceLevel].hasOwnProperty( 'c' ) ) {
+		if ( o.m[ sourceLevel ] && o.m[ sourceLevel ].hasOwnProperty( 'c' ) ) {
 
-			q[conditionLevel] = newCondition;
+			q[ conditionLevel ] = newCondition;
 
-			if ( o.m[sourceLevel].c.hasOwnProperty( conditionPos ) ) {
+			if ( o.m[ sourceLevel ].c.hasOwnProperty( conditionPos ) ) {
 
-				o.m[sourceLevel].c[conditionPos] = q;
+				o.m[ sourceLevel ].c[ conditionPos ] = q;
 			} else {
 
-				o.m[sourceLevel].c.push( q );
+				o.m[ sourceLevel ].c.push( q );
 			}
 		} else {
 
-			var c = [ ];
+			var c = [];
 
-			q[conditionLevel] = newCondition;
+			q[ conditionLevel ] = newCondition;
 
 			c.push( q );
 
 			t.c = c;
 
-			o.m[sourceLevel].c = c;
+			o.m[ sourceLevel ].c = c;
 		}
 	}
 
-	newValue = typeof ( o ) && !jQuery.isEmptyObject( o ) ? JSON.stringify( o ) : '';
+	var newValue = typeof (
+		o
+	) && ! jQuery.isEmptyObject( o ) ? JSON.stringify( o ) : '';
 
 	console.log( 'result:', newValue );
 	return newValue;
@@ -122,29 +126,30 @@ function wppfm_storeCombinedValue( sourceLevel, currentMetaValue, valueToStore )
 	console.log( 'currentMetaValue:', currentMetaValue );
 	console.log( 'valueToStore:', valueToStore );
 
-	var newValue = '';
-	var o = currentMetaValue ? JSON.parse( currentMetaValue ) : { };
+	var o = currentMetaValue ? JSON.parse( currentMetaValue ) : {};
 
 	if ( valueToStore ) {
 
-		var m = [ ], t = { }, s = { };
+		var m = [], t = {}, s = {};
 
-		if ( !o.hasOwnProperty( 'm' ) ) {
+		if ( ! o.hasOwnProperty( 'm' ) ) {
 
 			m.push( t );
 			o.m = m;
 		}
 
-		if ( !o.m[sourceLevel].hasOwnProperty( 's' ) ) {
+		if ( ! o.m[ sourceLevel ].hasOwnProperty( 's' ) ) {
 
-			s['source'] = 'combined';
-			o.m[sourceLevel].s = s;
+			s[ 'source' ]        = 'combined';
+			o.m[ sourceLevel ].s = s;
 		}
 
-		o.m[sourceLevel].s.f = valueToStore;
+		o.m[ sourceLevel ].s.f = valueToStore;
 	}
 
-	newValue = typeof ( o ) && !jQuery.isEmptyObject( o ) ? JSON.stringify( o ) : '';
+	var newValue = typeof (
+		o
+	) && ! jQuery.isEmptyObject( o ) ? JSON.stringify( o ) : '';
 
 	console.log( 'result:', newValue );
 
@@ -159,26 +164,25 @@ function wppfm_storeValueChange( sourceLevel, valueEditorLevel, valueToStore, ac
 	console.log( 'action:', action );
 	console.log( 'currentMetaValue:', currentMetaValue );
 
-	var newValue = '';
-	var o = currentMetaValue ? JSON.parse( currentMetaValue ) : { };
-	var t = { };
+	var o = currentMetaValue ? JSON.parse( currentMetaValue ) : {};
+	var t = {};
 
 	if ( valueToStore && action === 'add' ) {
 
-		t[sourceLevel + 1] = valueToStore;
+		t[ sourceLevel + 1 ] = valueToStore;
 
 		if ( o.hasOwnProperty( 'v' ) ) {
 
-			if ( o.v[sourceLevel] && o.v[sourceLevel].hasOwnProperty( 'q' ) ) {
+			if ( o.v[ sourceLevel ] && o.v[ sourceLevel ].hasOwnProperty( 'q' ) ) {
 
-				o.v[sourceLevel][valueEditorLevel + 1] = valueToStore;
+				o.v[ sourceLevel ][ valueEditorLevel + 1 ] = valueToStore;
 			} else {
 
-				o.v[sourceLevel] = t;
+				o.v[ sourceLevel ] = t;
 			}
 		} else {
 
-			var v = [ ];
+			var v = [];
 
 			v.push( t );
 			o.v = v;
@@ -189,12 +193,12 @@ function wppfm_storeValueChange( sourceLevel, valueEditorLevel, valueToStore, ac
 
 			if ( o.v.length > 1 ) {
 
-				if ( !o.v[sourceLevel].q ) {
+				if ( ! o.v[ sourceLevel ].q ) {
 
 					o.v.splice( sourceLevel, 1 );
 				} else {
 
-					delete o.v[sourceLevel].s;
+					delete o.v[ sourceLevel ].s;
 				}
 			} else {
 
@@ -202,11 +206,13 @@ function wppfm_storeValueChange( sourceLevel, valueEditorLevel, valueToStore, ac
 			}
 		} else {
 
-			o = { };
+			o = {};
 		}
 	}
 
-	newValue = typeof ( o ) && !jQuery.isEmptyObject( o ) ? JSON.stringify( o ) : '';
+	var newValue = typeof (
+		o
+	) && ! jQuery.isEmptyObject( o ) ? JSON.stringify( o ) : '';
 
 	console.log( 'result:', newValue );
 
@@ -219,22 +225,23 @@ function wppfm_removeCombinedValue( sourceLevel, combinedLevel, currentMetaValue
 	console.log( 'combinedLevel:', combinedLevel );
 	console.log( 'currentMetaValue:', currentMetaValue );
 
-	var newValue = '';
-	var o = currentMetaValue ? JSON.parse( currentMetaValue ) : { };
+	var o = currentMetaValue ? JSON.parse( currentMetaValue ) : {};
 
-	if ( o.hasOwnProperty( 'm' ) && o.m[sourceLevel].hasOwnProperty( 's' ) && o.m[sourceLevel].s.hasOwnProperty( 'f' ) ) {
+	if ( o.hasOwnProperty( 'm' ) && o.m[ sourceLevel ].hasOwnProperty( 's' ) && o.m[ sourceLevel ].s.hasOwnProperty( 'f' ) ) {
 
-		if ( o.m[sourceLevel].s.f ) {
+		if ( o.m[ sourceLevel ].s.f ) {
 
-			var combinedValues = o.m[sourceLevel].s.f.split( '|' );
+			var combinedValues = o.m[ sourceLevel ].s.f.split( '|' );
 
 			combinedValues.splice( combinedLevel - 1, 1 );
 
-			o.m[sourceLevel].s.f = wppfm_makeCombinedValuesStringFromArray( combinedValues );
+			o.m[ sourceLevel ].s.f = wppfm_makeCombinedValuesStringFromArray( combinedValues );
 		}
 	}
 
-	newValue = typeof ( o ) && !jQuery.isEmptyObject( o ) ? JSON.stringify( o ) : '';
+	var newValue = typeof (
+		o
+	) && ! jQuery.isEmptyObject( o ) ? JSON.stringify( o ) : '';
 
 	console.log( 'result:', newValue );
 
@@ -247,24 +254,24 @@ function wppfm_removeConditionValue( sourceLevel, conditionLevel, currentMetaVal
 	console.log( 'conditionLevel:', conditionLevel );
 	console.log( 'currentMetaValue:', currentMetaValue );
 
-	var newValue = '';
-	var o = currentMetaValue ? JSON.parse( currentMetaValue ) : { };
+	var o   = currentMetaValue ? JSON.parse( currentMetaValue ) : {};
+	var coi = null;
 
-	if ( o && o.hasOwnProperty( 'm' ) && o.m[sourceLevel] && o.m[sourceLevel].hasOwnProperty( 'c' ) ) {
+	if ( o && o.hasOwnProperty( 'm' ) && o.m[ sourceLevel ] && o.m[ sourceLevel ].hasOwnProperty( 'c' ) ) {
 
-		if ( o.m[sourceLevel].c[conditionLevel] ) {
+		if ( o.m[ sourceLevel ].c[ conditionLevel ] ) {
 
-			if ( o.m[sourceLevel].c.length > 1 ) {
+			if ( o.m[ sourceLevel ].c.length > 1 ) {
 
 				// remove the correct condition
-				o.m[sourceLevel].c.splice( conditionLevel, 1 );
+				o.m[ sourceLevel ].c.splice( conditionLevel, 1 );
 
 				// and resort the remaining conditions
-				o.m[sourceLevel].c = wppfm_resortObject( o.m[sourceLevel].c );
+				o.m[ sourceLevel ].c = wppfm_resortObject( o.m[ sourceLevel ].c );
 			} else {
 
 				// check what is left in the mapping part
-				var coi = wppfm_countObjectItems( o.m );
+				coi = wppfm_countObjectItems( o.m );
 
 				if ( coi > 2 ) {
 
@@ -276,18 +283,18 @@ function wppfm_removeConditionValue( sourceLevel, conditionLevel, currentMetaVal
 						if ( o.hasOwnProperty( 'v' ) ) {
 
 							// when the object also has a v element only remove the m element
-							delete o.m[sourceLevel];
+							delete o.m[ sourceLevel ];
 						} else {
 
 							// but when the object only has an m element then empty the object
-							o = { };
+							o = {};
 						}
 					} else {
 
-						if ( o.m[sourceLevel].hasOwnProperty( 's' ) ) {
+						if ( o.m[ sourceLevel ].hasOwnProperty( 's' ) ) {
 
 							// remove the condition
-							delete o.m[sourceLevel].c;
+							delete o.m[ sourceLevel ].c;
 
 							// and remove the source that was selected as the condition would be met
 							o.m.splice( [ sourceLevel + 1 ], 1 );
@@ -296,20 +303,20 @@ function wppfm_removeConditionValue( sourceLevel, conditionLevel, currentMetaVal
 							if ( o.hasOwnProperty( 'v' ) ) {
 
 								// when the object also has a v element only remove the m element
-								delete o.m[sourceLevel];
+								delete o.m[ sourceLevel ];
 							} else {
 
-								// but when the object only has an m elemen then empty the object
-								o = { };
+								// but when the object only has an m element then empty the object
+								o = {};
 							}
 						}
 					}
 				}
 			}
 		}
-	} else if ( o && o.hasOwnProperty( 'm' ) && o.m[sourceLevel] && o.m[sourceLevel].hasOwnProperty( 's' ) ) {
+	} else if ( o && o.hasOwnProperty( 'm' ) && o.m[ sourceLevel ] && o.m[ sourceLevel ].hasOwnProperty( 's' ) ) {
 
-		var coi = wppfm_countObjectItems( o.m );
+		coi = wppfm_countObjectItems( o.m );
 
 		if ( coi > 1 ) {
 
@@ -319,16 +326,18 @@ function wppfm_removeConditionValue( sourceLevel, conditionLevel, currentMetaVal
 			if ( o.hasOwnProperty( 'v' ) ) {
 
 				// when the object also has a v element only remove the m element
-				delete o.m[sourceLevel];
+				delete o.m[ sourceLevel ];
 			} else {
 
-				// but when the object only has an m elemen then empty the object
-				o = { };
+				// but when the object only has an m element then empty the object
+				o = {};
 			}
 		}
 	}
 
-	newValue = typeof ( o ) && !jQuery.isEmptyObject( o ) ? JSON.stringify( o ) : '';
+	var newValue = typeof (
+		o
+	) && ! jQuery.isEmptyObject( o ) ? JSON.stringify( o ) : '';
 
 	console.log( 'result:', newValue );
 
@@ -341,20 +350,19 @@ function wppfm_removeQueryValue( sourceLevel, conditionLevel, currentMetaValue )
 	console.log( 'conditionLevel:', conditionLevel );
 	console.log( 'currentMetaValue:', currentMetaValue );
 
-	var newValue = '';
-	var o = currentMetaValue ? JSON.parse( currentMetaValue ) : { };
+	var o = currentMetaValue ? JSON.parse( currentMetaValue ) : {};
 
-	if ( o && o.hasOwnProperty( 'v' ) && o.v[sourceLevel] && o.v[sourceLevel].hasOwnProperty( 'q' ) ) {
+	if ( o && o.hasOwnProperty( 'v' ) && o.v[ sourceLevel ] && o.v[ sourceLevel ].hasOwnProperty( 'q' ) ) {
 
-		if ( o.v[sourceLevel].q[conditionLevel - 1] ) {
+		if ( o.v[ sourceLevel ].q[ conditionLevel - 1 ] ) {
 
-			if ( o.v[sourceLevel].q.length > 1 ) {
+			if ( o.v[ sourceLevel ].q.length > 1 ) {
 
 				// remove the correct condition
-				o.v[sourceLevel].q.splice( ( conditionLevel - 1 ), 1 );
+				o.v[ sourceLevel ].q.splice( ( conditionLevel - 1 ), 1 );
 
 				// and resort the remaining conditions
-				o.v[sourceLevel].q = wppfm_resortObject( o.v[sourceLevel].q );
+				o.v[ sourceLevel ].q = wppfm_resortObject( o.v[ sourceLevel ].q );
 			} else {
 
 				// check what is left in the mapping part
@@ -370,28 +378,28 @@ function wppfm_removeQueryValue( sourceLevel, conditionLevel, currentMetaValue )
 						if ( o.hasOwnProperty( 'm' ) ) {
 
 							// when the object also has an m element only remove the v element
-							delete o.v[sourceLevel];
+							delete o.v[ sourceLevel ];
 						} else {
 
-							// but when the object only has a v elemen then empty the object
-							o = { };
+							// but when the object only has a v element then empty the object
+							o = {};
 						}
 					} else {
 
-						if ( o.v[sourceLevel].hasOwnProperty( '1' ) ) {
+						if ( o.v[ sourceLevel ].hasOwnProperty( '1' ) ) {
 
 							// remove the condition
-							delete o.v[sourceLevel].q;
+							delete o.v[ sourceLevel ].q;
 						} else {
 
 							if ( o.hasOwnProperty( 'm' ) ) {
 
 								// when the object also has an m element only remove the v element
-								delete o.v[sourceLevel];
+								delete o.v[ sourceLevel ];
 							} else {
 
-								// but when the object only has an m elemen then empty the object
-								o = { };
+								// but when the object only has an m element then empty the object
+								o = {};
 							}
 						}
 					}
@@ -400,7 +408,9 @@ function wppfm_removeQueryValue( sourceLevel, conditionLevel, currentMetaValue )
 		}
 	}
 
-	newValue = typeof ( o ) && !jQuery.isEmptyObject( o ) ? JSON.stringify( o ) : '';
+	var newValue = typeof (
+		o
+	) && ! jQuery.isEmptyObject( o ) ? JSON.stringify( o ) : '';
 
 	console.log( 'result:', newValue );
 
@@ -413,11 +423,7 @@ function wppfm_removeEditValuesValue( sourceLevel, valueEditorLevel, currentMeta
 	console.log( 'valueEditorLevel:', valueEditorLevel );
 	console.log( 'currentMetaValue:', currentMetaValue );
 
-	var newValue = '';
-	var o = currentMetaValue ? JSON.parse( currentMetaValue ) : { };
-
-	var newValue = '';
-	var o = currentMetaValue ? JSON.parse( currentMetaValue ) : { };
+	var o = currentMetaValue ? JSON.parse( currentMetaValue ) : {};
 
 	if ( 'v' in o ) {
 
@@ -430,10 +436,12 @@ function wppfm_removeEditValuesValue( sourceLevel, valueEditorLevel, currentMeta
 		}
 	} else {
 
-		o = { };
+		o = {};
 	}
 
-	newValue = typeof ( o ) && !jQuery.isEmptyObject( o ) ? JSON.stringify( o ) : '';
+	var newValue = typeof (
+		o
+	) && ! jQuery.isEmptyObject( o ) ? JSON.stringify( o ) : '';
 
 	console.log( 'result:', newValue );
 
@@ -448,48 +456,49 @@ function wppfm_storeQueryValue( sourceLevel, queryLevel, currentMetaValue, newQu
 	console.log( 'currentMetaValue:', currentMetaValue );
 	console.log( 'newQuery:', newQuery );
 
-	var newValue = '';
-	var o = currentMetaValue ? JSON.parse( currentMetaValue ) : { };
+	var o            = currentMetaValue ? JSON.parse( currentMetaValue ) : {};
 	var conditionPos = queryLevel - 1;
-	var t = { };
-	var vq = { };
+	var t            = {};
+	var vq           = {};
 
 	if ( newQuery ) {
 
-		if ( !o.hasOwnProperty( 'v' ) ) {
+		if ( ! o.hasOwnProperty( 'v' ) ) {
 
-			var v = [ ];
+			var v = [];
 
 			v.push( t );
 			o.v = v;
 		}
 
-		if ( o.v[sourceLevel] && o.v[sourceLevel].hasOwnProperty( 'q' ) ) {
+		if ( o.v[ sourceLevel ] && o.v[ sourceLevel ].hasOwnProperty( 'q' ) ) {
 
-			vq[queryLevel] = newQuery;
+			vq[ queryLevel ] = newQuery;
 
-			if ( o.v[sourceLevel].q.hasOwnProperty( conditionPos ) ) {
+			if ( o.v[ sourceLevel ].q.hasOwnProperty( conditionPos ) ) {
 
-				o.v[sourceLevel].q[conditionPos] = vq;
+				o.v[ sourceLevel ].q[ conditionPos ] = vq;
 			} else {
 
-				o.v[sourceLevel].q.push( vq );
+				o.v[ sourceLevel ].q.push( vq );
 			}
 		} else {
 
-			var q = [ ];
+			var q = [];
 
-			vq[queryLevel] = newQuery;
+			vq[ queryLevel ] = newQuery;
 
 			q.push( vq );
 
 			t.q = q;
 
-			o.v[sourceLevel].q = q;
+			o.v[ sourceLevel ].q = q;
 		}
 	}
 
-	newValue = typeof ( o ) && !jQuery.isEmptyObject( o ) ? JSON.stringify( o ) : '';
+	var newValue = typeof (
+		o
+	) && ! jQuery.isEmptyObject( o ) ? JSON.stringify( o ) : '';
 
 	console.log( 'result:', newValue );
 	return newValue;
@@ -499,10 +508,12 @@ function wppfm_makeCombinedValuesStringFromArray( combinedValuesArray ) {
 
 	var combinedValuesString = '';
 
-	for ( var i = 0; i < combinedValuesArray.length; i++ ) {
+	for ( var i = 0; i < combinedValuesArray.length; i ++ ) {
 
-		combinedValuesString += combinedValuesArray[i];
-		combinedValuesString += i < ( combinedValuesArray.length - 1 ) ? '|' : '';
+		combinedValuesString += combinedValuesArray[ i ];
+		combinedValuesString += i < (
+			combinedValuesArray.length - 1
+		) ? '|' : '';
 	}
 
 	return combinedValuesString;
@@ -514,33 +525,35 @@ function changeFeedFilterValue( workValue, newValues, changedFilterLevel ) {
 	console.log( 'newValues:', newValues );
 	console.log( 'changedFilterLevel:', changedFilterLevel );
 
+	var filterObject = [];
+
 	if ( workValue ) {
-		var filterObject = JSON.parse( workValue[0]['meta_value'] );
+		filterObject = JSON.parse( workValue[ 0 ][ 'meta_value' ] );
 	} else {
-		var filterObject = [ ];
-		
-		workValue = [ ]; // build a new empty workValue
-		var m = { 'meta_value' : '' };
-		workValue.push(m);
+		filterObject = [];
+
+		workValue = []; // build a new empty workValue
+		var m     = {'meta_value': ''};
+		workValue.push( m );
 	}
-	
+
 	var nrFilters = filterObject.length;
 
-	var newValueString = newValues[0] + '#' + newValues[1] + '#' + newValues[2];
-	newValueString += newValues[2] !== '4' && newValues[2] !== '5' ? '#' + newValues[3] : '';
+	var newValueString = newValues[ 0 ] + '#' + newValues[ 1 ] + '#' + newValues[ 2 ];
+	newValueString    += newValues[ 2 ] !== '4' && newValues[ 2 ] !== '5' ? '#' + newValues[ 3 ] : '';
 
 	if ( changedFilterLevel <= nrFilters ) {
-		filterObject[changedFilterLevel - 1][changedFilterLevel] = newValueString;
+		filterObject[ changedFilterLevel - 1 ][ changedFilterLevel ] = newValueString;
 	} else {
 
-		var n = { };
+		var n = {};
 
-		n[changedFilterLevel] = newValueString;
+		n[ changedFilterLevel ] = newValueString;
 		//filterObject.push( n );
-		filterObject[changedFilterLevel - 1] = n;
+		filterObject[ changedFilterLevel - 1 ] = n;
 	}
 
-	workValue[0]['meta_value'] = JSON.stringify( filterObject );
+	workValue[ 0 ][ 'meta_value' ] = JSON.stringify( filterObject );
 
 	console.log( 'result:', JSON.stringify( workValue ) );
 
@@ -552,25 +565,25 @@ function removeFeedFilterLevel( workValue, levelToRemove ) {
 	console.log( 'workValue:', workValue );
 	console.log( 'levelToRemove:', levelToRemove );
 
-	var filterObject = workValue ? JSON.parse( workValue[0]['meta_value'] ) : { };
-	var returnFilterObject = [ ];
-	var i = 0;
+	var filterObject       = workValue ? JSON.parse( workValue[ 0 ][ 'meta_value' ] ) : {};
+	var returnFilterObject = [];
+	var i                  = 0;
 
 	for ( var key in filterObject ) {
-		
+
 		if ( parseInt( key ) !== levelToRemove - 1 ) {
 
-			var v = { };
-			v[i+1] = filterObject[key][parseInt(key)+1];
-			
-			returnFilterObject[i] = v;
+			var v      = {};
+			v[ i + 1 ] = filterObject[ key ][ parseInt( key ) + 1 ];
 
-			i++;
+			returnFilterObject[ i ] = v;
+
+			i ++;
 		}
 	}
 
 	if ( returnFilterObject.length > 0 ) {
-		workValue[0]['meta_value'] = JSON.stringify( returnFilterObject );
+		workValue[ 0 ][ 'meta_value' ] = JSON.stringify( returnFilterObject );
 		console.log( 'result:', JSON.stringify( workValue ) );
 	} else {
 		workValue = '';

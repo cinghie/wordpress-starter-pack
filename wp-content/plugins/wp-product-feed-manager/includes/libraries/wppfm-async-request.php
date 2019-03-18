@@ -1,5 +1,7 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Abstract WPPFM_Async_Request class derived from https://github.com/A5hleyRich/wp-background-processing.
@@ -46,39 +48,39 @@ abstract class WPPFM_Async_Request {
 
 	/**
 	 * File Path
-	 * 
+	 *
 	 * (default value: empty string)
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $file_path = '';
-	
+
 	/**
 	 * Contains the general data of the feed
-	 * 
+	 *
 	 * (default value: empty string)
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $feed_data = '';
-	
+
 	/**
 	 * Contains general pre feed production data
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $pre_data;
-	
+
 	/**
 	 * Contains the channels category title and description title
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $channel_details;
-	
+
 	/**
 	 * Contains the relations between the WooCommerce and channel fields
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $relations_table;
@@ -88,15 +90,16 @@ abstract class WPPFM_Async_Request {
 	 */
 	public function __construct() {
 		$this->identifier = $this->prefix . '_' . $this->action;
-		
+
 		add_action( 'wp_ajax_' . $this->identifier, array( $this, 'maybe_handle' ) );
 		add_action( 'wp_ajax_nopriv_' . $this->identifier, array( $this, 'maybe_handle' ) );
 	}
-	
+
 	/**
 	 * Set data used during the request
 	 *
 	 * @param array $data Data.
+	 *
 	 * @return $this
 	 */
 	public function data( $data ) {
@@ -114,16 +117,19 @@ abstract class WPPFM_Async_Request {
 		if ( get_option( 'wppfm_disabled_background_mode', 'false' ) === 'false' ) {
 			$url  = add_query_arg( $this->get_query_args(), $this->get_query_url() );
 			$args = $this->get_post_args();
-			
+
 			// start the background process
 			$response = wp_remote_post( esc_url_raw( $url ), $args );
-			
+
 			// @since 2.3.0
 			if ( wp_remote_retrieve_response_code( $response ) >= 300 ) {
-				return new WP_Error( 'unexpected_http_response_code', sprintf(
-					'Unexpected HTTP response code: %s',
-					intval( wp_remote_retrieve_response_code( $response ) )
-				) );
+				return new WP_Error(
+					'unexpected_http_response_code',
+					sprintf(
+						'Unexpected HTTP response code: %s',
+						intval( wp_remote_retrieve_response_code( $response ) )
+					)
+				);
 			}
 
 			return $response;
@@ -173,11 +179,8 @@ abstract class WPPFM_Async_Request {
 		}
 
 		return array(
-//			'timeout'   => 0.01,
-//			'blocking'  => false,
-			'body'      => $this->data,
-			'cookies'   => stripslashes_deep( $_COOKIE ),
-			'sslverify' => apply_filters( 'https_local_ssl_verify', false ),
+			'body'    => $this->data,
+			'cookies' => stripslashes_deep( $_COOKIE ),
 		);
 	}
 
@@ -189,7 +192,7 @@ abstract class WPPFM_Async_Request {
 	public function maybe_handle() {
 		// Don't lock up other requests while processing
 		session_write_close();
-		
+
 		check_ajax_referer( $this->identifier, 'nonce' );
 
 		$this->handle();

@@ -1,111 +1,175 @@
-function wppfm_activateFeedCategory( id ) {
-	if( id !== 'wppfm_all_categories_selected' ) {
+function wppfm_activateFeedCategoryMapping( id ) {
+	if ( id !== 'wppfm_all_categories_selected' ) {
+		var feedSelectorElement = jQuery( '#feed-selector-' + id );
+
 		wppfm_activateFeedCategorySelector( id );
 
-		var children = jQuery( '#feed-selector-' + id ).attr( "data-children" ) ? JSON.parse( jQuery( '#feed-selector-' + id ).attr( "data-children" ) ) : [ ];
+		var children = feedSelectorElement.attr( 'data-children' ) ? JSON.parse( feedSelectorElement.attr( 'data-children' ) ) : [];
 
-		for ( var i = 0; i < children.length; i++ ) { wppfm_activateFeedCategorySelector( children[i] ); }
+		for ( var i = 0; i < children.length; i ++ ) {
+			wppfm_activateFeedCategorySelector( children[ i ] );
+		}
 	} else {
-		
-		var allIds = jQuery('tbody#wppfm-category-mapping-body').children('tr');
-		
-		for ( var i = 0; i < allIds.length; i++ ) { wppfm_activateFeedCategorySelector( jQuery( allIds[i] ).children('th').children('input').val() ); }
+
+		var allIds = jQuery( 'tbody#wppfm-category-mapping-body' ).children( 'tr' );
+
+		for ( var j = 0; j < allIds.length; j ++ ) {
+			wppfm_activateFeedCategorySelector( jQuery( allIds[ j ] ).children( 'th' ).children( 'input' ).val() );
+		}
 	}
 }
 
 function wppfm_activateFeedCategorySelector( id ) {
 
 	// some channels use your own shop's categories
-	var usesOwnCategories = wppfm_channelUsesOwnCategories( _feedHolder['channel'] );
-	var feedCategoryText = usesOwnCategories ? 'shopCategory' : 'default';
+	var usesOwnCategories   = wppfm_channelUsesOwnCategories( _feedHolder[ 'channel' ] );
+	var feedCategoryText    = usesOwnCategories ? 'shopCategory' : 'default';
+	var feedSelectorElement = jQuery( '#feed-selector-' + id );
+	var feedCategoryElement = jQuery( '#feed-category-' + id );
+
 	// activate the category in the feedHolder
 	_feedHolder.activateCategory( id, usesOwnCategories );
 
 	// get the children of this selector if any
-	var children = jQuery( '#feed-selector-' + id ).attr( "data-children" ) ? JSON.parse( jQuery( '#feed-selector-' + id ).attr( "data-children" ) ) : [ ];
+	var children = feedSelectorElement.attr( 'data-children' ) ? JSON.parse( feedSelectorElement.attr( 'data-children' ) ) : [];
 
-	if ( jQuery( '#feed-category-' + id ).html() === '' ) {
-		jQuery( '#feed-category-' + id ).html( wppfm_mapToDefaultCategoryElement( id, feedCategoryText ) );
+	if ( feedCategoryElement.html() === '' ) {
+		feedCategoryElement.html( wppfm_mapToDefaultCategoryElement( id, feedCategoryText ) );
 	}
 
-	jQuery( '#feed-selector-' + id ).prop( 'checked', true );
+	feedSelectorElement.prop( 'checked', true );
 
-	for ( var i = 0; i < children.length; i++ ) { wppfm_activateFeedCategorySelector( children[i] ); }
+	for ( var i = 0; i < children.length; i ++ ) {
+		wppfm_activateFeedCategorySelector( children[ i ] );
+	}
 }
 
-function wppfm_deactivateFeedCategory( id ) {
+function wppfm_activateFeedCategorySelection( id ) {
+	if ( id !== 'wppfm_all_categories_selected' ) {
+		var feedSelectorElement = jQuery( '#feed-selector-' + id );
+		var children            = feedSelectorElement.attr( 'data-children' ) ? JSON.parse( feedSelectorElement.attr( 'data-children' ) ) : [];
 
-	if( id !== 'wppfm_all_categories_selected' ) {
+		feedSelectorElement.prop( 'checked', true );
+
+		for ( var i = 0; i < children.length; i ++ ) {
+			wppfm_activateFeedCategorySelection( children[ i ] );
+		}
+	} else {
+
+		var allIds = jQuery( 'tbody#wppfm-category-mapping-body' ).children( 'tr' );
+
+		for ( var j = 0; j < allIds.length; j ++ ) {
+			wppfm_activateFeedCategorySelection( jQuery( allIds[ j ] ).children( 'th' ).children( 'input' ).val() );
+		}
+	}
+}
+
+function wppfm_deactivateFeedCategorySelection( id ) {
+	if ( id !== 'wppfm_all_categories_selected' ) {
+		var feedSelectorElement = jQuery( '#feed-selector-' + id );
+		var children            = feedSelectorElement.attr( 'data-children' ) ? JSON.parse( feedSelectorElement.attr( 'data-children' ) ) : [];
+
+		feedSelectorElement.prop( 'checked', false );
+
+		for ( var i = 0; i < children.length; i ++ ) {
+			wppfm_deactivateFeedCategorySelection( children[ i ] );
+		}
+	} else {
+
+		var allIds = jQuery( 'tbody#wppfm-category-mapping-body' ).children( 'tr' );
+
+		for ( var j = 0; j < allIds.length; j ++ ) {
+			wppfm_deactivateFeedCategorySelection( jQuery( allIds[ j ] ).children( 'th' ).children( 'input' ).val() );
+		}
+	}
+}
+
+function wppfm_deactivateFeedCategoryMapping( id ) {
+
+	if ( id !== 'wppfm_all_categories_selected' ) {
+		var feedSelectorElement = jQuery( '#feed-selector-' + id );
+
 		wppfm_deactivateFeedCategorySelector( id, true );
 
-		var children = jQuery( '#feed-selector-' + id ).attr( "data-children" ) ? JSON.parse( jQuery( '#feed-selector-' + id ).attr( "data-children" ) ) : [ ];
+		var children = feedSelectorElement.attr( 'data-children' ) ? JSON.parse( feedSelectorElement.attr( 'data-children' ) ) : [];
 
-		for ( var i = 0; i < children.length; i++ ) { wppfm_deactivateFeedCategorySelector( children[i], false ); }
+		for ( var i = 0; i < children.length; i ++ ) {
+			wppfm_deactivateFeedCategorySelector( children[ i ], false );
+		}
 	} else {
-		
-		var allIds = jQuery('tbody#wppfm-category-mapping-body').children('tr');
-		
-		for ( var i = 0; i < allIds.length; i++ ) { wppfm_deactivateFeedCategorySelector( jQuery( allIds[i] ).children('th').children('input').val() ); }
+
+		var allIds = jQuery( 'tbody#wppfm-category-mapping-body' ).children( 'tr' );
+
+		for ( var i = 0; i < allIds.length; i ++ ) {
+			wppfm_deactivateFeedCategorySelector( jQuery( allIds[ i ] ).children( 'th' ).children( 'input' ).val() );
+		}
 	}
 }
 
 function wppfm_contains_special_characters( string ) {
 	var specialChars = '%^#<>{}[]\/~`@?:;=&';
-	
-	for( var i=0; i < specialChars.length; i++ ) {
-		if ( string.indexOf( specialChars[i] ) > -1 ) return true;
+
+	for ( var i = 0; i < specialChars.length; i ++ ) {
+		if ( string.indexOf( specialChars[ i ] ) > - 1 ) {
+			return true;
+		}
 	}
-	
+
 	return false;
 }
 
 function wppfm_deactivateFeedCategorySelector( id, parent ) {
+	var feedSelectorElement = jQuery( '#feed-selector-' + id );
 
 	_feedHolder.deactivateCategory( id );
 
 	jQuery( '#feed-category-' + id ).html( '' );
 	jQuery( '#category-selector-catmap-' + id ).hide();
 
-	jQuery( '#feed-selector-' + id ).prop( 'checked', false );
+	feedSelectorElement.prop( 'checked', false );
 
 	if ( ! parent ) {
-		var children = jQuery( '#feed-selector-' + id ).attr( "data-children" ) ? JSON.parse( jQuery( '#feed-selector-' + id ).attr( "data-children" ) ) : [ ];
-		for ( var i = 0; i < children.length; i++ ) { wppfm_deactivateFeedCategorySelector( children[i], false ); }
+		var children = feedSelectorElement.attr( 'data-children' ) ? JSON.parse( feedSelectorElement.attr( 'data-children' ) ) : [];
+		for ( var i = 0; i < children.length; i ++ ) {
+			wppfm_deactivateFeedCategorySelector( children[ i ], false );
+		}
 	}
 }
 
 /**
  * Shows and hides the category sub level selectors depending on the selected level
- * 
- * @param {int} currentLevelId
- * @returns {nothing}
+ *
+ * @param {string} currentLevelId
  */
 function wppfm_hideSubs( currentLevelId ) {
 
 	// identify the level from the level id
-	var level = currentLevelId.match( /(\d+)$/ )[0];
+	var level    = currentLevelId.match( /(\d+)$/ )[ 0 ];
 	var idString = currentLevelId.substring( 0, currentLevelId.length - level.length );
 
 	// only show sub fields that are at or before the selected level. Hide the rest
-	for ( var i = 7; i > level; i-- ) {
-		jQuery( '#' + idString + i ).css( 'display', 'none' );
-		jQuery( '#' + idString + i ).empty();
+	for ( var i = 7; i > level; i -- ) {
+		var categorySubLevelSelector = jQuery( '#' + idString + i );
+		categorySubLevelSelector.css( 'display', 'none' );
+		categorySubLevelSelector.empty();
 	}
 }
 
 /**
  * Takes a field string from a source input string and splits it up even when a pipe character
  * is used in a combined source input string
- * 
+ *
  * @since 2.3.0
  * @param {string} fieldString
  * @returns {array}
  */
 function wppfm_splitCombinedFieldElements( fieldString ) {
-	if ( ! fieldString ) { return []; }
-	
-	var reg = /\|[0-9]/; // pipe splitter plus a number directly after it
-	var result = [];
+	if ( ! fieldString ) {
+		return [];
+	}
+
+	var reg        = /\|[0-9]/; // pipe splitter plus a number directly after it
+	var result     = [];
 	var sliceStart = 0;
 
 	// fetch the separate field strings and put them in the result array
@@ -114,10 +178,10 @@ function wppfm_splitCombinedFieldElements( fieldString ) {
 		result.push( fieldString.substring( sliceStart, ind ) );
 		fieldString = fieldString.slice( ind + 1 );
 	}
-	
+
 	// then add the final field string to the result array
 	result.push( fieldString );
-	
+
 	return result;
 }
 
@@ -156,13 +220,15 @@ function disableFeedActionButtons() {
 }
 
 function wppfm_show_error_message( message ) {
-	jQuery( '#error-message' ).empty();
-	jQuery( '#error-message' ).append( '<p>' + message + '</p>' );
-	jQuery( '#error-message' ).show();
+	var errorMessageSelector = jQuery( '#error-message' );
+	errorMessageSelector.empty();
+	errorMessageSelector.append( '<p>' + message + '</p>' );
+	errorMessageSelector.show();
 }
 
 function wppfm_show_success_message( message ) {
-	jQuery( '#success-message' ).empty();
-	jQuery( '#success-message' ).append( '<p>' + message + '</p>' );
-	jQuery( '#success-message' ).show();
+	var successMessageSelector = jQuery( '#success-message' );
+	successMessageSelector.empty();
+	successMessageSelector.append( '<p>' + message + '</p>' );
+	successMessageSelector.show();
 }

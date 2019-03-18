@@ -528,3 +528,52 @@ I want to see how it works</a></div>
 		 </script>
     </div>    
 </div>        
+
+<!-- quickpay overlay -->
+<div class="pop-overlay read-overlay sfsi_quickpay-overlay" style="background:rgba(255,255,255,.6);z-index:9999;overflow-y:auto" >
+  <script type="text/javascript" src="https://sellcodes.com/quick_purchase/XdHlrQnc/embed.js"></script>
+  <div class="pop_up_box sfsi_pop_up" style="padding-left: 0;padding-right: 0;padding-top:0;margin-top:7%;width:50%;" >
+    <div class="" >
+      <h2 style="font-size: 30px; padding: 30px 10px ; border:1px solid #eee;background:#fbfbfb;text-align:center" >How do you want to pay?</h2>
+    </div>   
+    <div class="sfsi_quick-pay-box" style="display:none" >
+      <div>
+        <div class="sfsi_row sfsi_text_center">
+          <div class="sfsi_col_6" style="text-align: right; vertical-align: middle;">
+              <div class="sellcodes-quick-purchase" onclick="sfsi_quickpay_container_click(event)" style="margin-right: 15px; padding: 18px 40px !important;cursor:pointer">
+                <p class="sc-button" data-product-id="XdHlrQnc" data-option-id="ftHaa2zt" data-paymethod="0">
+                  <img src="<?php echo SFSI_PLUGURL; ?>images/visa.png" />
+                  <img src="<?php echo SFSI_PLUGURL; ?>images/mastercard.png" />
+                </p>
+                
+              </div>
+          </div>
+          <div class="sfsi_col_6"  style="text-align: left; vertical-align: middle;">
+             <div class="sellcodes-quick-purchase" onclick="sfsi_quickpay_container_click(event)"  style="margin-left: 0px;cursor:pointer">
+                <p class="sc-button" data-product-id="XdHlrQnc" data-option-id="ftHaa2zt" data-paymethod="1">
+                  <img src="<?php echo SFSI_PLUGURL; ?>images/paypal-1.png"/>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="sfsi_subheading" style="text-align: center;color:#888;margin:20px;" >Click will establish a connection to Sellcodes.com</div>
+      </div>
+      <div class="sfsi_quick-pay-box_container"  style="background: #fbfbfb;padding-top: 20px;padding-bottom: 20px;border-top:1px solid #eee" >
+        <div class="sfsi_quick-pay-box_on_box" style="background: transparent; padding: 0 10px; display:block; width: 97%; position: absolute; font-weight: 700; letter-spacing: 2px; text-align: center; font-size: 20px; color: #000000;" ><span style="background: #fbfbfb; padding: 0 20px;">Key points</span></div>
+        <div style="margin:10px 70px;border-radius:10px;border:1px solid #bbb;font-size: 17px;line-height: 28px;" >
+          <ol style="padding: 15px 20px 10px 10px; font-size: 18px; letter-spacing: 0.5px; color: #000000;">
+            <li>You‘ll get access to <a href="https://www.ultimatelysocial.com/usm-premium/" target="_black" style="color: #000000;">all premium features</a></li>
+            <li>The plugin is <b>priced really fairly</b> starting at <del>44.98 USD</del> today: 40% off!</li>
+            <li><b>Use it for lifetime:</b> Support and updates are limited to 1 year, however after that it will not be disabled, you can keep using the plugin (even if you don‘t renew)</li>
+            <li>One license is valid for one site (as support is included), but we <b>offer 20% discounts</b> for all future purchases</li>
+            <li>We provide a <b>14 day money-back guarantee</b> if you‘re not satisfied for <u>any reason</u></li>
+          </ol>
+          <div style="text-align: center;margin-bottom:20px; color: #000000; letter-spacing: 0.5px;" >Still have questions? <a href="" onclick="event.preventDefault();sfsi_open_chat();sfsi_close_quickpay()" style="display:inline;font-weight: inherit; color: #000000;">Please ask!</a></div>
+        </div>
+        <div style="text-align: center;font-size:20px; margin: 40px 0 25px 0; letter-spacing: 1px;" >
+          <a href="" onclick="event.preventDefault();sfsi_close_quickpay();" style="color: #000000; font-weight: 700;">Close</a>
+        </div>  
+      </div>
+    </div>
+  </div>
+</div>
