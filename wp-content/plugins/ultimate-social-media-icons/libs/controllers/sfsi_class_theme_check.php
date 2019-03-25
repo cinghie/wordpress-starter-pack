@@ -306,12 +306,12 @@ class sfsi_ThemeCheck
  	public function sfsi_plus_GetMetaKeywords($domainname){
  		$url = get_bloginfo('url'); 
  		$res= wp_remote_get($url);
- 		$meta_local = ["title"=>[],"description"=>[],"keyword"=>[]];
+ 		$meta_local = array("title"=>array(),"description"=>array(),"keyword"=>array());
  		if ( is_array( $res ) && ! is_wp_error( $res ) ) {
 		    $body    = $res['body']; // use the content
-			$meta = [];
+			$meta = array();
 		    if(false==class_exists("DomDocument")) {
-		    	$metas=[];
+		    	$metas=array();
 	    		preg_match_all( '/\<meta.+name="(\w*)".+content="(.*)"/i', $body, $metas);
 	    		preg_match_all( '/\<meta.+property="og:(\w*)".+content="(.*)"/i', $body, $metas2);
 	    		// $metas[1]=array_merge($metas[1],$metas2[1]);
