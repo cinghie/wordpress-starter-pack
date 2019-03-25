@@ -278,6 +278,10 @@ abstract class Order_Document {
 		do_action( 'wpo_wcpdf_delete_document', $this );
 	}
 
+	public function is_allowed() {
+		return apply_filters( 'wpo_wcpdf_document_is_allowed', true, $this );
+	}
+
 	public function exists() {
 		return !empty( $this->data['date'] );
 	}
@@ -724,6 +728,9 @@ abstract class Order_Document {
 
 		$emails = array();
 		foreach ($wc_emails as $class => $email) {
+			if ( !is_object( $email ) ) {
+				continue;
+			}
 			if ( !in_array( $email->id, $non_order_emails ) ) {
 				switch ($email->id) {
 					case 'new_order':

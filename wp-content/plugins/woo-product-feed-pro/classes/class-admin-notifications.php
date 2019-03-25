@@ -113,6 +113,10 @@ class WooSEA_Get_Admin_Notifications {
 				$message = "Add important attributes, such as Brand, GTIN, condition and many more to create a perfect Google Shopping feed or fix the WooCommerce structured data bug so less products get disapproved in Google's Merchant Center.";
 				$message_type = "notice notice-info";
 				break;
+			case 15:
+				$message = "Manipulate your product data to improve the quality of your product feeds and online marketing campaigns. Manipulating your product data is an extremely powerfull feature. Check out an example we have created in our blog post: <b><u><a href=\"https://adtribes.io/feature-product-data-manipulation/\" target=\"_blank\">Manipulating product data</a></u></b>";
+				$message_type = "notice notice-info";
+				break;
 		}
 		
 		$this->notification_details['message'] = $message;

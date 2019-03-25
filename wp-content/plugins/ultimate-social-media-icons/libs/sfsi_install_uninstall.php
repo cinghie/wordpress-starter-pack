@@ -12,7 +12,7 @@ function sfsi_update_plugin()
     }
     
     //Install version
-    update_option("sfsi_pluginVersion", "2.15");
+    update_option("sfsi_pluginVersion", "2.17");
 
     if(!get_option('sfsi_serverphpVersionnotification'))
     {

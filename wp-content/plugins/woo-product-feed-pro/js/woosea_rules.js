@@ -1,6 +1,61 @@
 jQuery(document).ready(function($) {
 
 	// Add standard filters
+        jQuery(".add-field-manipulation").click(function(){
+		var TrueRowCount = $('#woosea-ajax-table >tbody >tr').length-1;
+		var rowCount = Math.round(new Date().getTime() + (Math.random() * 100));
+		var plusCount = Math.round(new Date().getTime() + (Math.random() * 100));
+		
+		jQuery.ajax({
+     		   	method: "POST",
+        		url: ajaxurl,
+        		data: { 'action': 'woosea_ajax', 'rowCount': rowCount }
+      		})
+ 
+     	 	.done(function( data ) {
+			data = JSON.parse( data );
+
+			if(TrueRowCount == 0){
+        			$( '#woosea-ajax-table' ).find('tbody:first').append('<tr><td valign="top"><input type="hidden" name="field_manipulation[' + data.rowCount + '][rowCount]" value="' + data.rowCount + '"><input type="checkbox" name="record" class="checkbox-field"></td><td valign="top"><select name="field_manipulation[' + data.rowCount + '][product_type]" class="select-field"><option value="all">Simple and variable</option><option value="simple">Simple</option><option value="variable">Variable</option></select></td></td><td valign="top"><select name="field_manipulation[' + data.rowCount + '][attribute]" id="field_manipulation_' + data.rowCount + '">' + data.dropdown + '</select></td><td class="becomes_fields_' + data.rowCount + '" valign="top"><select name="field_manipulation[' + data.rowCount + '][becomes][1][attribute]" id="field_manipulation_becomes_attribute_' + data.rowCount + '">' + data.dropdown + '</select></td><td><span class="dashicons dashicons-plus field_extra field_manipulation_extra_' + data.rowCount + '" style="display: inline-block;" title="Add an attribute to this field"></span></td></tr>');
+			} else {
+
+        			$('<tr><td valign="top"><input type="hidden" name="field_manipulation[' + data.rowCount + '][rowCount]" value="' + data.rowCount + '"><input type="checkbox" name="record" class="checkbox-field"></td><td valign="top"><select name="field_manipulation[' + data.rowCount + '][product_type]" class="select-field"><option value="all">Simple and variable</option><option value="simple">Simple</option><option value="variable">Variable</option></select></td></td><td valign="top"><select name="field_manipulation[' + data.rowCount + '][attribute]" id="field_manipulation_' + data.rowCount + '">' + data.dropdown + '</select></td><td class="becomes_fields_' + data.rowCount + '" valign="top"><select name="field_manipulation[' + data.rowCount + '][becomes][1][attribute]" id="field_manipulation_becomes_' + data.rowCount + '">' + data.dropdown + '</select><td><span class="dashicons dashicons-plus field_extra field_manipulation_extra_' + data.rowCount + '" style="display: inline-block;" title="Add an attribute to this field"></span></td></tr>').insertBefore(".rules-buttons");
+			}
+
+                        // Check if user selected a data manipulation condition
+                        jQuery(".field_manipulation_extra_" + rowCount).on("click", function(){
+				plusCount = Math.round(new Date().getTime() + (Math.random() * 100));
+                                jQuery(".becomes_fields_" + rowCount).append('<br/><select name="field_manipulation[' + data.rowCount + '][becomes][' + plusCount + '][attribute]" id="field_manipulation_becomes_attribute_' + data.rowCount + '">' + data.dropdown + '</select>');
+			});
+
+                })
+                .fail(function( data ) {
+                        console.log('Failed AJAX Call :( /// Return Data: ' + data);
+                });
+	});
+
+        // Add extra fields to existing field manipulations
+	jQuery(".field_extra").click(function(){
+	    	var className = $(this).attr("class").split(' ')[3];
+                var rowCount = className.split("_")[3];
+		var plusCount = Math.round(new Date().getTime() + (Math.random() * 100));
+
+                jQuery.ajax({
+                        method: "POST",
+                        url: ajaxurl,
+                        data: { 'action': 'woosea_ajax', 'rowCount': rowCount }
+                })
+
+                .done(function( data ) {
+                        data = JSON.parse( data );
+                	jQuery(".becomes_fields_" + rowCount).append('<br/><select name="field_manipulation[' + rowCount + '][becomes][' + plusCount + '][attribute]" id="field_manipulation_becomes_attribute_' + rowCount + '">' + data.dropdown + '</select>');
+	         })
+                .fail(function( data ) {
+                        console.log('Failed AJAX Call :( /// Return Data: ' + data);
+                });
+	});
+
+	// Add standard filters
         jQuery(".add-filter").click(function(){
 		// Count amount of rows, used to create the form array field and values
 		var TrueRowCount = $('#woosea-ajax-table >tbody >tr').length-1;

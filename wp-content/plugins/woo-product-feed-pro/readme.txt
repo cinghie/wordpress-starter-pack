@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
 Requires at least: 4.5
 Tested up to: 5.1
-Stable tag: 5.1.0
+Stable tag: 5.1.4
 
 == Description ==
 
@@ -272,6 +272,22 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 5.1.4 (2019-03-25) =
+* Added PARAM support for Yandex feeds
+
+= 5.1.3 (2019-03-24) =
+* Added PARAM support for Zbozi.cz and Heureka.cz product feeds
+
+= 5.1.2 (2019-03-22) =
+* New powerful feature: product data manipulation. Combine different fields and attributes to one piece of product data to improve the quality of your product feeds
+* Fixed some PHP warnings that showed upon activation of the plugin
+* Fixed naming of Ricardo.ch
+* Added Ricarco.ch template
+
+= 5.1.1 (2019-03-19) =
+* Added support for named attributes for Zbozi.ch and Heureka.cz
+* Fixed an issue where comparisons on numeric numbers bigger than 1000 did not work
 
 = 5.1.0 (2019-03-18) =
 * Fixed a bug where category mappings that contained apastrophe were not saved. This issue has been fixed now.
@@ -1558,6 +1574,22 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 5.1.4 =
+Added PARAM support for Yandex feeds
+
+= 5.1.3 =
+Added PARAM support for Zbozi.cz and Heureka.cz product feeds
+
+= 5.1.2 =
+New powerful feature: product data manipulation. Combine different fields and attributes to one piece of product data to improve the quality of your product feeds
+Fixed some PHP warnings that showed upon activation of the plugin
+Fixed naming of Ricardo.ch
+Added Ricarco.ch template
+
+= 5.1.1 =
+Added support for named attributes for Zbozi.ch and Heureka.cz
+Fixed an issue where comparisons on numeric numbers bigger than 1000 did not work
 
 = 5.1.0 =
 Fixed a bug where category mappings that contained apastrophe were not saved. This issue has been fixed now.

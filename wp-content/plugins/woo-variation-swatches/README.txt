@@ -318,6 +318,10 @@ And your are ready to go.
 
 == Changelog ==
 
+= 1.0.55 =
+
+* Add: Oxygen Theme Support CSS
+
 = 1.0.54 =
 
 * Fix: Load Assets without CDN.

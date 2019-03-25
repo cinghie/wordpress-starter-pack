@@ -202,6 +202,15 @@ class WooSEA_Update_Project {
 				unset($project_config['rules2']);
 			}
 		}
+
+		/**
+		 * Did all the field manipulations  got removed
+		 */
+                if((array_key_exists('woosea_page', $project_data)) AND ($project_data['woosea_page'] == "field_manipulation")){
+			if(!array_key_exists('field_manipulation', $project_data)) {
+				unset($project_config['field_manipulation']);
+			}
+		}
  
 		/**
 		 * Update cron with new project settings

@@ -1508,6 +1508,7 @@ function sfsfi_getCookie(s) {
 }
 
 function sfsi_hideFooter() {}
+
 window.onerror = function() {},
 SFSI = jQuery,
 SFSI(window).on('load',function() {
@@ -1632,7 +1633,6 @@ function create_suscriber_form()
 }
 
 var global_error = 0;
-
 if(typeof SFSI != 'undefined'){
 
     function sfsi_dismiss_notice(btnClass,ajaxAction){

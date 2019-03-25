@@ -180,6 +180,31 @@ class WooSEA_zbozi {
                                         "feed_name" => "RELEASE_DATE",
                                         "format" => "optional",
                                 ),
+                                "LENGTH" => array(
+                                        "name" => "LENGTH",
+                                        "feed_name" => "LENGTH",
+                                        "format" => "optional",
+                                ),
+                                "VOLUME" => array(
+                                        "name" => "VOLUME",
+                                        "feed_name" => "VOLUME",
+                                        "format" => "optional",
+                                ),
+                                "SIZE" => array(
+                                        "name" => "SIZE",
+                                        "feed_name" => "SIZE",
+                                        "format" => "optional",
+                                ),
+                                "COLOR" => array(
+                                        "name" => "COLOR",
+                                        "feed_name" => "COLOR",
+                                        "format" => "optional",
+                                ),
+                                "PURPOSE" => array(
+                                        "name" => "PURPOSE",
+                                        "feed_name" => "PURPOSE",
+                                        "format" => "optional",
+                                ),
 			),
 		);
 		return $zbozi;

@@ -1424,12 +1424,12 @@ class WooSEA_Activation {
 					"taxonomy" => "none",
 					"utm_source" => "Kauftipp.ch",
                         		"type" => "Comparison shopping engine" ),
- 				"Richardo" => array (
-                        		"channel_hash" => md5("Richardo.ch"),
-                        		"name" => "Richardo.ch",
-					"fields" => "customfeed",
+ 				"Ricardo" => array (
+                        		"channel_hash" => md5("Ricardo.ch"),
+                        		"name" => "Ricardo.ch",
+					"fields" => "ricardo",
 					"taxonomy" => "none",
-					"utm_source" => "Richardo.ch",
+					"utm_source" => "Ricardo.ch",
                         		"type" => "Marketplace" ),
                  		"Spartoo" => array (
                         		"channel_hash" => md5("Spartoo.ch"),
@@ -1761,6 +1761,10 @@ class WooSEA_Activation {
                 if (!wp_next_scheduled( 'woosea_check_license' ) ) {
 
 			if(!get_option("license_information")){
+
+				$domain = $_SERVER['HTTP_HOST'];
+
+				$license_created = "";
 	        		$license_valid = "false";
         			$message = "Thank you for becoming a user of our product feed pro plugin, much appreciated! Some of the features of this plugin have been locked as you are using the free version of this plugin. The added extra fields such as Brand and GTIN, WPML support, Aelia currency switcher support and the WooCommerce structured data bug fix are Elite features of this plugin. You can get <a href=\"https://adtribes.io/pro-vs-elite/?utm_source=$domain&utm_medium=plugin&utm_campaign=upgrade-elite\" target=\"_blank\">your license key here</a>.";
 	        		$message_type = "notice notice-info is-dismissible";
@@ -1781,6 +1785,7 @@ class WooSEA_Activation {
                 		update_option ('structured_vat', 'no', 'yes');
                			update_option ('add_unique_identifiers', 'no', 'yes');
                	 		update_option ('add_wpml_support', 'no', 'yes');
+               	 		update_option ('add_manipulation_support', 'no', 'yes');
                 		update_option ('add_aelia_support', 'no', 'yes');
 			}
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     5.1.0
+ * Version:     5.1.4
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '5.1.0' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '5.1.4' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -664,6 +664,7 @@ function woosea_register_license(){
                 delete_option ('structured_vat');
                 delete_option ('add_unique_identifiers');
                 delete_option ('add_wpml_support');
+                delete_option ('add_manipulation_support');
                 delete_option ('add_aelia_support');
 	}
 
@@ -1371,6 +1372,21 @@ add_action( 'wp_ajax_woosea_structured_vat', 'woosea_structured_vat' );
 
 /**
  * This function enables the setting to add 
+ * Product data manipulation support 
+ */
+function woosea_add_manipulation (){
+        $status = sanitize_text_field($_POST['status']);
+
+	if ($status == "off"){
+		update_option( 'add_manipulation_support', 'no', 'yes');
+	} else {
+		update_option( 'add_manipulation_support', 'yes', 'yes');
+	}
+}
+add_action( 'wp_ajax_woosea_add_manipulation', 'woosea_add_manipulation' );
+
+/**
+ * This function enables the setting to add 
  * WPML support 
  */
 function woosea_add_wpml (){
@@ -1442,31 +1458,6 @@ function woosea_add_identifiers (){
 	}
 }
 add_action( 'wp_ajax_woosea_add_identifiers', 'woosea_add_identifiers' );
-
-
-/**
- * Add a title tab.
- */
-//add_filter( 'woocommerce_product_data_tabs', 'woosea_custom_product_tab', 10, 1 );
-
-function woosea_custom_product_tab( $default_tabs ) {
-    $default_tabs['custom_tab'] = array(
-        'label'   =>  __( 'AdTribes.io Product Title', 'domain' ),
-        'target'  =>  'woosea_title_tab_data',
-        'priority' => 15,
-        'class'   => array()
-    );
-    return $default_tabs;
-}
-
-//add_action( 'woocommerce_product_data_panels', 'woosea_title_tab_data' );
- 
-function woosea_title_tab_data() {
-	echo '<div id="woosea_title_tab_data" class="panel woocommerce_options_panel">';
-	echo 'blat';
-	echo '</div>';
-}
-
 
 /**
  * This function add the actual fields to the edit product page for single products 
@@ -2706,6 +2697,9 @@ function woosea_generate_pages(){
 		case 8:
 			load_template( plugin_dir_path( __FILE__ ) . '/pages/admin/woosea-statistics-feed.php' );
 			break;
+		case 9:
+			load_template( plugin_dir_path( __FILE__ ) . '/pages/admin/woosea-generate-feed-step-9.php' );
+			break;
 		case 100:
 			load_template( plugin_dir_path( __FILE__ ) . '/pages/admin/woosea-manage-feed.php' );
 			break;
@@ -2738,7 +2732,7 @@ function woosea_license_valid(){
         $license_information = get_option('license_information');
 
         $curl = curl_init();
-        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=5.1.0";
+        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=5.1.4";
 
         curl_setopt_array($curl, array(
                 CURLOPT_RETURNTRANSFER => 1,
@@ -2768,6 +2762,7 @@ function woosea_license_valid(){
                 delete_option ('structured_data_fix');
                 delete_option ('add_unique_identifiers');
 		delete_option ('add_wpml_support');
+		delete_option ('add_manipulation_support');
 		delete_option ('add_aelia_support');
         } else {
 		if(empty($json_return)){

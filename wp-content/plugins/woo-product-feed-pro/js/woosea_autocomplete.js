@@ -5433,7 +5433,7 @@ jQuery(document).ready(function($) {
 
         jQuery(".dashicons-arrow-down").click(function(){
 		var className = $(this).attr("class").split(' ')[2];
-		var rowCount = className.split("_")[2]
+		var rowCount = className.split("_")[2];
 		var map_to_category = $(".autocomplete_" + rowCount).val();
 		var project_hash = $("#project_hash").val();
 		var minimum = 1;

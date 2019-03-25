@@ -60,9 +60,9 @@ function wppfm_freeCategoryChanged( type, id ) {
  */
 function wppfm_constructNewFeed() {
 	var daysIntervalElement            = jQuery( '#days-interval' );
-	var updateScheduleHourElement      = jQuery( 'update-schedule-hours' );
-	var updateScheduleMinutesElement   = jQuery( 'update-schedule-minutes' );
-	var updateScheduleFrequencyElement = jQuery( 'update-schedule-frequency' );
+	var updateScheduleHourElement      = jQuery( '#update-schedule-hours' );
+	var updateScheduleMinutesElement   = jQuery( '#update-schedule-minutes' );
+	var updateScheduleFrequencyElement = jQuery( '#update-schedule-frequency' );
 
 	// get all the data from the input fields
 	var fileName          = jQuery( '#file-name' ).val();

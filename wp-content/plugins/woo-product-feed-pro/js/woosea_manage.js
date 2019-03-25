@@ -81,7 +81,25 @@ jQuery(document).ready(function($) {
 		}
 	});
 
+	// Check if user would like to enable product data manipulation support
+	$('#add_manipulation_support').on('change', function(){ // on change of state
+   		if(this.checked){
 
+			// Checkbox is on
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_add_manipulation', 'status': "on" }
+                	})
+		} else {
+			// Checkbox is off
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_add_manipulation', 'status': "off" }
+                	})
+		}
+	})	
 
 	// Check if user would like to enable WPML support
 	$('#add_wpml_support').on('change', function(){ // on change of state

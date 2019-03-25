@@ -63,6 +63,25 @@ if( !function_exists( 'get_woowallet_coupon_cashback_amount' ) ){
     
 }
 
+if(!function_exists('get_woo_wallet_cart_fee_total')){
+    /**
+     * Get total fee amount from cart.
+     * @return number
+     */
+    function get_woo_wallet_cart_fee_total(){
+        $fee_amount = 0;
+        $fees = wc()->cart->get_fees();
+        if($fees){
+            foreach ($fees as $fee_key => $fee){
+                if('_via_wallet_partial_payment' != $fee_key){
+                    $fee_amount += $fee->amount;
+                }
+            }
+        }
+        return $fee_amount;
+    }
+}
+
 if ( ! function_exists( 'get_woowallet_cart_total' ) ) {
     /**
      * Get WooCommerce cart total.
@@ -71,7 +90,7 @@ if ( ! function_exists( 'get_woowallet_cart_total' ) ) {
     function get_woowallet_cart_total() {
         $cart_total = 0;
         if ( !is_admin() && is_array( wc()->cart->cart_contents) && sizeof( wc()->cart->cart_contents) > 0 ) {
-            $cart_total = wc()->cart->get_subtotal( 'edit' ) + wc()->cart->get_taxes_total() + wc()->cart->get_shipping_total( 'edit' ) - wc()->cart->get_discount_total() + get_woowallet_coupon_cashback_amount();
+            $cart_total = wc()->cart->get_subtotal( 'edit' ) + wc()->cart->get_taxes_total() + wc()->cart->get_shipping_total( 'edit' ) - wc()->cart->get_discount_total() + get_woowallet_coupon_cashback_amount() + get_woo_wallet_cart_fee_total();
         }
         return apply_filters( 'woowallet_cart_total', $cart_total );
     }
@@ -126,11 +145,11 @@ if ( ! function_exists( 'get_order_partial_payment_amount' ) ) {
             $line_items_fee = $order->get_items( 'fee' );
             foreach ( $line_items_fee as $item_id => $item ) {
                 if(is_partial_payment_order_item($item_id, $item)){
-                    $via_wallet += $item->get_total( 'edit' );
+                    $via_wallet += $item->get_total( 'edit' ) + $item->get_total_tax( 'edit' );
                 }
             }
         }
-        return abs( $via_wallet );
+        return apply_filters('woo_wallet_order_partial_payment_amount', abs( $via_wallet ), $order_id);
     }
 
 }

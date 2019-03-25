@@ -5,7 +5,7 @@ Tags: Google Merchant Export, Product feed, woocommerce, Google product feed exp
 Requires at least: 4.6
 Tested up to: 5.1
 Requires PHP: 5.6
-Stable tag: 1.13.0
+Stable tag: 1.13.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,9 @@ In case it does please do submit your feed in your Google Merchant center and ch
 3. Save and generate your feed
 
 == Changelog ==
+= 1.13.1 - 24/03/2019 =
+* Fixed an issue where the Update Schedule values where not correctly read from the Feed Edit form
+
 = 1.13.0 - 16/03/2019 =
 * Restructured the code to better comply with the WordPress coding standards and cleaned up some code
 * Fixed an issue where the feed process would fail when the product_type source was selected

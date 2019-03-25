@@ -89,6 +89,7 @@ class Main {
 
 		// reload translations because WC may have switched to site locale (by setting the plugin_locale filter to site locale in wc_switch_to_site_locale())
 		WPO_WCPDF()->translations();
+		do_action( 'wpo_wcpdf_reload_attachment_translations' );
 
 		$attach_to_document_types = $this->get_documents_for_email( $email_id, $order );
 		foreach ( $attach_to_document_types as $document_type ) {
@@ -109,15 +110,32 @@ class Main {
 					if ($filemtime = filemtime($pdf_path)) {
 						$time_difference = time() - $filemtime;
 						if ( $time_difference < apply_filters( 'wpo_wcpdf_reuse_attachment_age', 60 ) ) {
-							$attachments[] = $pdf_path;
-							continue;
+							// check if file is still being written to
+							$fp = fopen($pdf_path, 'r+');
+							if ( $locked = $this->file_is_locked( $fp ) ) {
+								// optional delay (ms) to double check if the write process is finished
+								$delay = intval( apply_filters( 'wpo_wcpdf_attachment_locked_file_delay', 250 ) );
+								if ( $delay > 0 ) {
+									usleep( $delay * 1000 );
+									$locked = $this->file_is_locked( $fp );
+								}
+							}
+							fclose($fp);
+
+							if ( !$locked ) {
+								$attachments[] = $pdf_path;
+								continue;
+							} else {
+								// make sure this gets logged
+								throw new \Exception("Failed attachment, file locked");
+							}
 						}
 					}
 				}
 
 				// get pdf data & store
 				$pdf_data = $document->get_pdf();
-				file_put_contents ( $pdf_path, $pdf_data );
+				file_put_contents ( $pdf_path, $pdf_data, LOCK_EX );
 				$attachments[] = $pdf_path;
 
 				do_action( 'wpo_wcpdf_email_attachment', $pdf_path, $document_type, $document );
@@ -136,6 +154,18 @@ class Main {
 		remove_filter( 'wcpdf_disable_deprecation_notices', '__return_true' );
 
 		return $attachments;
+	}
+
+	public function file_is_locked( $fp ) {
+		if (!flock($fp, LOCK_EX|LOCK_NB, $wouldblock)) {
+			if ($wouldblock) {
+				return true; // file is locked
+			} else {
+				return true; // can't lock for whatever reason (could be locked in Windows + PHP5.3)
+			}
+		} else {
+			return false; // not locked
+		}
 	}
 
 	public function get_documents_for_email( $email_id, $order ) {
