@@ -179,6 +179,7 @@
                 <div class="radio_section tb_4_ck">
                 	<input name="sfsiICON_<?php echo $i; ?>"  checked="true" type="checkbox" value="yes" class="styled" element-type="cusotm-icon"  />
                 </div>
+                <input type="hidden" name="nonce" value="<?php echo wp_create_nonce('deleteIcons'); ?>">
                 <span class="custom-img">
                 	<img class="sfcm" src="<?php echo (!empty($icons[$i])) ?  esc_url($icons[$i]) : SFSI_PLUGURL.'images/custom.png';?>" id="CImg_<?php echo $i; ?>"/>
                 </span> 

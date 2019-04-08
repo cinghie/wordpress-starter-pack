@@ -34,6 +34,7 @@ $email = $current_user->user_email;
 
 				<!-- <p class="right-message" style="display:none">Please also check the <a href="">FAQ</a></p>	 -->
 				<form action="#" method="POST" >
+					<?php wp_nonce_field( 'OfflineChatMessage','nonce' ) ?>
 					<div>
 						<div for="question" class="label">
 							Your question:
