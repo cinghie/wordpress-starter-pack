@@ -10,63 +10,46 @@ class WooSEA_google_product_review {
                 $sitename = get_option('blogname');
 
         	$google_product_review = array(
-			"Local product inventory fields" => array(
-				"Store code" => array(
-					"name" => "Store code",
-					"feed_name" => "store code",
+			"Product review fields" => array(
+				"product_name" => array(
+					"name" => "product_name",
+					"feed_name" => "product_name",
+					"format" => "required",
+					"woo_suggest" => "title",
+				),
+				"product_url" => array(
+					"name" => "product_url",
+					"feed_name" => "product_url",
+					"format" => "required",
+					"woo_suggest" => "link",
+				),
+				"brand" => array(
+					"name" => "brand",
+					"feed_name" => "brand",
 					"format" => "required",
 				),
-				"Itemid" => array(
-					"name" => "Itemid",
-					"feed_name" => "itemid",
+				"gtin" => array(
+					"name" => "gtin",
+					"feed_name" => "gtin",
 					"format" => "required",
-					"woo-suggest" => "id",
 				),
-				"Quantity" => array(
-					"name" => "Quantity",
-					"feed_name" => "quantity",
+				"mpn" => array(
+					"name" => "mpn",
+					"feed_name" => "mpn",
 					"format" => "required",
-					"woo_suggest" => "quantity",
 				),
-				"Price" => array(
-					"name" => "Price",
-					"feed_name" => "price",
+				"sku" => array(
+					"name" => "sku",
+					"feed_name" => "sku",
 					"format" => "required",
-					"woo_suggest" => "price",
+					"woo_suggest" => "sku",
 				),
-				"Sale price" => array(
-					"name" => "Sale price",
-					"feed_name" => "Sale price",
-					"format" => "optional",
-					"woo_suggest" => "sale_price",
+				"reviews" => array(
+					"name" => "reviews",
+					"feed_name" => "reviews",
+					"format" => "required",
+					"woo_suggest" => "reviews",
 				),
-                                "Sale price effective date" => array(
-                                        "name" => "Sale price effective date",
-                                        "feed_name" => "sale price effective date",
-                                        "format" => "optional",
-                                        "woo_suggest" => "sale_price_effective_date",
-                                ),
-                                "Availability" => array(
-                                        "name" => "Availability",
-                                        "feed_name" => "availability",
-                                        "format" => "optional",
-                                        "woo_suggest" => "availability",
-                                ),
-                                "Weeks of supply" => array(
-                                        "name" => "Weeks of supply",
-                                        "feed_name" => "weeks of supply",
-                                        "format" => "optional",
-                                ),
-                                "Pickup method" => array(
-                                        "name" => "Pickup method",
-                                        "feed_name" => "pickup method",
-                                        "format" => "optional",
-                                ),
-                                "Pickup sla" => array(
-                                        "name" => "Pickup sla",
-                                        "feed_name" => "pickup sla",
-                                        "format" => "optional",
-                                ),
 			),
 		);
 		return $google_product_review;

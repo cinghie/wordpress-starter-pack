@@ -12,7 +12,7 @@ function sfsi_update_plugin()
     }
     
     //Install version
-    update_option("sfsi_pluginVersion", "2.17");
+    update_option("sfsi_pluginVersion", "2.20");
 
     if(!get_option('sfsi_serverphpVersionnotification'))
     {
@@ -955,7 +955,7 @@ function sfsi_rating_msg()
 
                 event.stopImmediatePropagation();
 
-                var data = {'action':'sfsi_hideRating'};
+                var data = {'action':'sfsi_hideRating' , 'nonce':'<?php echo wp_create_nonce('sfsi_hideRating'); ?>'};
 
                 jQuery.ajax({
                     url: "<?php echo admin_url( 'admin-ajax.php' ); ?>",
@@ -987,6 +987,13 @@ function sfsi_rating_msg()
 add_action('wp_ajax_sfsi_hideRating','sfsi_HideRatingDiv', 0);
 function sfsi_HideRatingDiv()
 {
+    if ( !wp_verify_nonce( $_POST['nonce'], "sfsi_hideRating")) {
+        echo  json_encode(array('res'=>"error")); exit;
+    }
+    if(!current_user_can('manage_options')){ echo json_encode(array('res'=>'not allowed'));die(); }
+
+
+    
     update_option('sfsi_RatingDiv','yes');
     echo  json_encode(array("success")); exit;
 }

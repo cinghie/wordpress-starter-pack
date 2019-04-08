@@ -20,7 +20,7 @@
                 SFSI.ajax({
                     url:sfsi_icon_ajax_object.ajax_url,
                     type:"post",
-                    data: {action: "notification_read"},
+                    data: {action: "notification_read",nonce: "<?php echo wp_create_nonce('notification_read'); ?>"},
                     success:function(msg){
                         if(jQuery.trim(msg) == 'success')
                         {
@@ -205,6 +205,7 @@
 <?php if(in_array(get_site_url(),array('http://www.managingio.com','http://blog-latest.socialshare.com'))): ?>
     <div style="text-align:center">
         <input type="text" name="domain" id="sfsi_domain_input" style="width:40%;min-height: :40px;text-align:center;margin:0 auto" placeholder="Enter Domian to check its theme" />
+        <input type="text" name="sfsi_domain_input_nonce"  value="<?php echo wp_create_nonce('bannerOption'); ?>">
         <div class="save_button">
           <img src="<?php echo SFSI_PLUGURL; ?>images/ajax-loader.gif" class="loader-img" />
         <a href="javascript:;" id="sfsi_check_theme_of_domain_btn" title="Check">Check the Theme</a>
@@ -217,7 +218,8 @@
                     type:"post",
                     data:{
                         'action':'bannerOption',
-                        'domain':$('#sfsi_domain_input').val()
+                        'domain':$('#sfsi_domain_input').val(),
+                        'nonce': $('#sfsi_domain_input_nonce').val(),
                     },
                     success:function(s) {
         			     var sfsi_container = $("html,body");
@@ -236,7 +238,9 @@
 
 <script type="text/javascript">
     var e = {
-        action:"bannerOption"
+        action:"bannerOption",
+        'nonce': '<?php echo wp_create_nonce('bannerOption'); ?>',
+
     };
     jQuery.ajax({
         url: "<?php echo admin_url( 'admin-ajax.php' ); ?>",

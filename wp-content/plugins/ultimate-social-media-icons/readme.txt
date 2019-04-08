@@ -3,7 +3,7 @@ Contributors: socialdude
 Tags: social media, share, buttons, social widget, icons, share icons, share buttons, sharing icons, sharing buttons, social share, sharing, social sharing
 Requires at least: 3.5
 Tested up to: 5.1
-Stable tag: 2.1.7
+Stable tag: 2.2.0
 License: GPLv2 
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,6 +67,7 @@ We released a Premium Plugin with many more exciting features:
 
 Have a look at the [Premium Plugin features](https://www.ultimatelysocial.com/usm-premium/)
 
+Note: this plugin uses the third party provider SpecificFeeds.com for the subscription feature, enabling you to allow your visitors to subscribe to your site and get new posts automatically by email. Upon installation of the plugin a feed will be set up on SpecificFeeds, transmitting your IP address. This is required for this feature to work.
 
 == Installation ==
 Extract the zip file and drop the contents into the wp-content/plugins/ directory of your WordPress installation. Then activate the plugin from the plugins page.
@@ -274,12 +275,20 @@ You cannot use the same plugin twice, however you can install both the USM as we
 
 
 == Changelog ==
-= 2.1.7 =
-* Solved: save button not working.
+= 2.2.0 =
+* Solved: Critical security patch.
 
+= 2.1.9 =
+* Solved: Security patch.
+
+= 2.1.8 =
+* Solved: Security update.
+
+= 2.1.7 =
+* Solved: Save button not working.
 
 = 2.1.6 =
-* Solved: compatablity issue with older versions.
+* Solved: Compatablity issue with older versions.
 
 = 2.1.5 =
 * Solved: google plus is deprecated
@@ -766,5 +775,5 @@ You cannot use the same plugin twice, however you can install both the USM as we
 
 == Upgrade Notice ==
 
-= 2.1.7 =
+= 2.2.0 =
 Please upgrade

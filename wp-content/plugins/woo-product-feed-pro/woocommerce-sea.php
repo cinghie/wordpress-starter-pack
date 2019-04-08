@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     5.1.4
+ * Version:     5.2.7
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '5.1.4' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '5.2.7' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -1714,6 +1714,16 @@ function woosea_custom_general_fields() {
 			)
 		);
 
+        	// Is promotion
+        	woocommerce_wp_text_input(
+                	array(
+                        	'id'          => '_woosea_is_promotion',
+                        	'label'       => __( 'Is promotion', 'woocommerce' ),
+                       	 	'desc_tip'    => 'true',
+                        	'description' => __( 'Enter your promotion ID.', 'woocommerce' ),
+                	)
+        	);
+
 		// Exclude product from feed
 		woocommerce_wp_checkbox(
 			array(
@@ -1752,7 +1762,7 @@ function woosea_save_custom_general_fields($post_id){
         $woocommerce_energy_efficiency_class    	= empty($_POST['_woosea_energy_efficiency_class']) ? '' : sanitize_text_field($_POST['_woosea_energy_efficiency_class']);
         $woocommerce_min_energy_efficiency_class    	= empty($_POST['_woosea_min_energy_efficiency_class']) ? '' : sanitize_text_field($_POST['_woosea_min_energy_efficiency_class']);
         $woocommerce_max_energy_efficiency_class    	= empty($_POST['_woosea_max_energy_efficiency_class']) ? '' : sanitize_text_field($_POST['_woosea_max_energy_efficiency_class']);
-
+        $woocommerce_is_promotion    			= empty($_POST['_woosea_is_promotion']) ? '' : sanitize_text_field($_POST['_woosea_is_promotion']);
 
 	if(!empty($_POST['_woosea_exclude_product'])){
 		$woocommerce_exclude_product 		= sanitize_text_field($_POST['_woosea_exclude_product']);
@@ -1816,6 +1826,9 @@ function woosea_save_custom_general_fields($post_id){
 	
 	if(isset($woocommerce_max_energy_efficiency_class))
                 update_post_meta( $post_id, '_woosea_max_energy_efficiency_class', esc_attr($woocommerce_max_energy_efficiency_class));
+
+	if(isset($woocommerce_is_promotion))
+                update_post_meta( $post_id, '_woosea_is_promotion', esc_attr($woocommerce_is_promotion));
 }
 add_action( 'woocommerce_process_product_meta', 'woosea_save_custom_general_fields' );
 
@@ -2120,6 +2133,19 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			)
 		);
 
+                // Is promotion
+                woocommerce_wp_text_input(
+                        array(
+                                'id'          => '_woosea_is_promotion['.$loop.']',
+                                'label'       => __( '<br>Is promotion', 'woocommerce' ),
+                                'placeholder' => 'Is promotion',
+                                'desc_tip'    => 'true',
+                                'description' => __( 'Enter your promotion ID', 'woocommerce' ),
+                                'value'       => get_post_meta($variation->ID, '_woosea_is_promotion', true),
+                                'wrapper_class' => 'form-row-last',
+                        )
+                );
+		
 		// Exclude product from feed
 		woocommerce_wp_checkbox(
 			array(
@@ -2252,7 +2278,16 @@ function woosea_save_custom_variable_fields( $post_id ) {
                         if ( isset( $_multipack[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_multipack', stripslashes( sanitize_text_field( $_multipack[$i] )));
                         }
-                // Is bundle
+               
+                // Is promotion
+                $_is_promotion = $_POST['_woosea_is_promotion'];
+                        $variation_id = (int) $variable_post_id[$i];
+                        if ( isset( $_is_promotion[$i] ) ) {
+                                update_post_meta( $variation_id, '_woosea_is_promotion', stripslashes( sanitize_text_field( $_is_promotion[$i] )));
+                        }
+ 
+
+		 // Is bundle
                 $_is_bundle = $_POST['_woosea_is_bundle'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_is_bundle[$i] ) ) {
@@ -2732,7 +2767,7 @@ function woosea_license_valid(){
         $license_information = get_option('license_information');
 
         $curl = curl_init();
-        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=5.1.4";
+        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=5.2.7";
 
         curl_setopt_array($curl, array(
                 CURLOPT_RETURNTRANSFER => 1,

@@ -147,9 +147,6 @@ jQuery(document).ready(function($) {
 		}	
 	});
 
-
-
-
 	// Validate woosea Optimized title field
         $( "#_woosea_optimized_title" ).blur("input", function(){
 		var input=$(this);

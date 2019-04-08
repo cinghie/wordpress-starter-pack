@@ -112,7 +112,11 @@ jQuery(document).ready(function($) {
 
   		$("#own-input-field").each(function() {
 			var input=$(this).val();
-			var re = /^[a-zA-Z_-]*$/;
+			var re = /^[a-zA-Zа-яА-Я_-]*$/;
+			if (input.indexOf("PARAM_") >= 0){
+				var re = /^[a-zA-Z а-яА-Я_-]*$/;
+			}
+
                 	var minLength = 2;
                 	var maxLength = 50;
 			

@@ -2,8 +2,8 @@
 Contributors: yithemes
 Tags: woocommerce, quick view, woocommerce quick view, products quick view
 Requires at least: 4.0
-Tested up to: 5.0
-Stable tag: 1.3.7
+Tested up to: 5.1
+Stable tag: 1.3.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,75 +42,81 @@ Full documentation is available [here](http://yithemes.com/docs-plugins/yith-woo
 
 == Changelog ==
 
+= 1.3.8 = Released Apr 02 - 2019
+
+* New: Support to WooCommerce 3.6.0 RC1
+* Update: Plugin Core
+* Fix: Style issue on Storefront theme
+
 = 1.3.7 = Released Feb 21 - 2019
 
-* New: Support to WooCommerce 3.5.5.
-* New: Support to WordPress 5.1.0.
-* Update: Plugin Core.
-* Fix: Conflict with YITH WooCommerce Gift Card form in checkout page.
+* New: Support to WooCommerce 3.5.5
+* New: Support to WordPress 5.1.0
+* Update: Plugin Core
+* Fix: Conflict with YITH WooCommerce Gift Card form in checkout page
 
 = 1.3.6 = Released Dec 06 - 2018
 
-* New: Support to WooCommerce 3.5.2.
-* New: Support to WordPress 5.0.0.
-* Update: Plugin Core.
+* New: Support to WooCommerce 3.5.2
+* New: Support to WordPress 5.0.0
+* Update: Plugin Core
 
 = 1.3.5 = Released Oct 24 - 2018
 
-* New: Support to WooCommerce 3.5.0.
-* Update: Plugin Core.
+* New: Support to WooCommerce 3.5.0
+* Update: Plugin Core
 
 = 1.3.4 = Released Oct 05 - 2018
 
-* New: Support to WooCommerce 3.5.0 RC1.
-* New: Compatibility with YITH WooCommerce Gift Card.
-* Update: Plugin Core.
+* New: Support to WooCommerce 3.5.0 RC1
+* New: Compatibility with YITH WooCommerce Gift Card
+* Update: Plugin Core
 
 = 1.3.3 = Released Sep 27 - 2018
 
-* Update: Plugin Core.
-* Dev: New filter "yith_wcqv_show_quick_view_button".
+* Update: Plugin Core
+* Dev: New filter "yith_wcqv_show_quick_view_button"
 
 = 1.3.2 = Released Sep 12 - 2018
 
-* New: Support to WooCommerce 3.4.5.
-* New: Support to WordPress 4.9.8.
-* Update: Plugin Core.
-* Fix: Now is possible use shortcode [yith_quick_view] without specify the "product_id" parameter.
+* New: Support to WooCommerce 3.4.5
+* New: Support to WordPress 4.9.8
+* Update: Plugin Core
+* Fix: Now is possible use shortcode [yith_quick_view] without specify the "product_id" parameter
 
 = 1.3.1 = Released May 30 - 2018
 
-* New: Support to WooCommerce 3.4.0.
-* New: Support to WordPress 4.9.6.
-* Update: Plugin Core.
-* Fix: Product image zoom in Quick View modal.
-* Fix: Removed redirect to single product page after add to cart.
-* Fix: WPML compatibility issue.
+* New: Support to WooCommerce 3.4.0
+* New: Support to WordPress 4.9.6
+* Update: Plugin Core
+* Fix: Product image zoom in Quick View modal
+* Fix: Removed redirect to single product page after add to cart
+* Fix: WPML compatibility issue
 
 = 1.3.0 = Released Feb 01 - 2018
 
-* New: Support to WooCommerce 3.3.0.
-* New: Support to WordPress 4.9.2.
-* Update: Plugin Core.
+* New: Support to WooCommerce 3.3.0
+* New: Support to WordPress 4.9.2
+* Update: Plugin Core
 
 = 1.2.2 = Released Oct 11 - 2017
 
-* New: Support to WooCommerce 3.2.0 RC2.
-* New: Support to WordPress 4.8.2.
-* Fix: Compatibility issue with YITH WooCommerce Product Bundles.
-* Update: Plugin Core.
+* New: Support to WooCommerce 3.2.0 RC2
+* New: Support to WordPress 4.8.2
+* Fix: Compatibility issue with YITH WooCommerce Product Bundles
+* Update: Plugin Core
 
 = 1.2.1 = Released Apr 05 - 2017
 
-* Fix: Compatibility issue with YITH WooCommerce Wishlist.
-* Update: Plugin Core.
+* Fix: Compatibility issue with YITH WooCommerce Wishlist
+* Update: Plugin Core
 
 = 1.2.0 = Released Mar 31 - 2017
 
-* New: Support to WordPress 4.7.3.
-* New: Support to WooCommerce 3.0.0 RC2.
-* New: Shortcode [yith_quick_view product_id="" label=""] for print "quick view" button of specified product.
-* Update: Plugin Core.
+* New: Support to WordPress 4.7.3
+* New: Support to WooCommerce 3.0.0 RC2
+* New: Shortcode [yith_quick_view product_id="" label=""] for print "quick view" button of specified product
+* Update: Plugin Core
 
 = 1.1.4 = Released Oct 24 - 2016
 
@@ -205,9 +211,8 @@ Or, if you have created your own language pack, or have an update for an existin
 
 == Upgrade notice ==
 
-= 1.3.7 = Released Feb 21 - 2019
+= 1.3.8 = Released Apr 02 - 2019
 
-* New: Support to WooCommerce 3.5.5.
-* New: Support to WordPress 5.1.0.
-* Update: Plugin Core.
-* Fix: Conflict with YITH WooCommerce Gift Card form in checkout page.
+* New: Support to WooCommerce 3.6.0 RC1
+* Update: Plugin Core
+* Fix: Style issue on Storefront theme

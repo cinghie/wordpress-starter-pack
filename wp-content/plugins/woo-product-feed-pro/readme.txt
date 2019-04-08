@@ -3,10 +3,10 @@ Contributors: jorisverwater,evavangelooven
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=j_verwater%40hotmail%2ecom&lc=NL&item_name=Donation%20WooCommerce%20Product%20Feed%20Pro%20%2d%20AdTribes%2eio&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
-Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger
+Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.1
-Stable tag: 5.1.4
+Stable tag: 5.2.7
 
 == Description ==
 
@@ -109,12 +109,14 @@ Our plugin supports the Aelia Currency Switcher
 * Supports the official Facebook for WooCommerce plugin (SKU_ID parameter)
 * Supports Yoasts primary category feature
 * Supports Yith brand attributes
+* Supports WooCommerce Product Bundles
 * Supports WooCommerce Dynamic Pricing & Discounts from RightPress
 * Supports WC Fields Factory
 
 === Channels ===
 * Custom feeds
 * Google Shopping
+* Google Product Reviews
 * Google DRM / Dynamic remarketing
 * Google Merchant Promotions feed
 * Google DSA (Dynamic Search Ads)
@@ -122,6 +124,7 @@ Our plugin supports the Aelia Currency Switcher
 * Google Local Products Inventory
 * Facebook Dynamic Ad’s / remarketing
 * Bing Shopping
+* Pinterest
 * <a href="https://yandex.com/support/market-tech-requirements/index.html" target="_blank">Yandex</a>
 * ShopMania
 * Shopping.com
@@ -272,6 +275,46 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 5.2.7 (2019-04-07) =
+* Added support for the official WooCommerce Product Bundles (https://woocommerce.com/products/product-bundles/)
+
+= 5.2.6 (2019-04-04) =
+* Added the "is promotion" attribute for Google Merchant Promotion feeds
+
+= 5.2.5 (2019-04-02) =
+* Fixed a category mapping issue. The preg match was matching too many results, mainly accessories
+
+= 5.2.4 (2019-04-02) =
+* Fixed another exotic category mapping issue that occured when users left some category mappings blank
+
+= 5.2.3 (2019-04-02) =
+* Fixed a bug: plugin was added main category names to a category mapping, even when that main category was not active for a product. This caused unexpected category mappings in product feeds. This has been solved now.
+
+= 5.2.2 (2019-04-01) =
+* Added support for usage of whitespaces in the so-called PARAM_ nodes for Yandex, Zbozi and Heureka feeds.
+
+= 5.2.1 (2019-03-31) =
+* Reverted back some of the rule fixes from the previous release as it caused non Google feeds to become empty
+
+= 5.2.0 (2019-03-29) =
+* Fixed a Pinterest bug, templare was not loading
+* Fixed rules that were created on Google category attributes
+
+= 5.1.9 (2019-03-29) =
+* Added support for Pinterest, our plugin now contains a default template for it
+
+= 5.1.8 (2019-03-29) =
+* Added support for Google Product Review feeds
+
+= 5.1.7 (2019-03-27) =
+* Added support for Cyrrilic characters in PARAM_ parameters for Yandex, Zbozi and Heureka feeds.
+
+= 5.1.6 (2019-03-26) =
+* Build in another check for when users add a variable product to their product feed that isn't really a variable product. This caused the plugin to get stuck when processing product feeds.
+
+= 5.1.5 (2019-03-26) =
+* Build in a check for when users add a variable product to their product feed that isn't really a variable product. This caused the plugin to get stuck when processing product feeds.
 
 = 5.1.4 (2019-03-25) =
 * Added PARAM support for Yandex feeds
@@ -1574,6 +1617,46 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 5.2.7 =
+Added support for the official WooCommerce Product Bundles (https://woocommerce.com/products/product-bundles/)
+
+= 5.2.6 =
+Added the "is promotion" attribute for Google Merchant Promotion feeds
+
+= 5.2.5 =
+Fixed a category mapping issue. The preg match was matching too many results, mainly accessories
+
+= 5.2.4 =
+Fixed another exotic category mapping issue that occured when users left some category mappings blank
+
+= 5.2.3 =
+Fixed a bug: plugin was added main category names to a category mapping, even when that main category was not active for a product. This caused unexpected category mappings in product feeds. This has been solved now.
+
+= 5.2.2 =
+Added support for usage of whitespaces in the so-called PARAM_ nodes for Yandex, Zbozi and Heureka feeds.
+
+= 5.2.1 =
+Reverted back some of the rule fixes from the previous release as it caused non Google feeds to become empty
+
+= 5.2.0 =
+Fixed a Pinterest bug, templare was not loading
+Fixed rules that were created on Google category attributes
+
+= 5.1.9 =
+Added support for Pinterest, our plugin now contains a default template for it
+
+= 5.1.8 =
+Added support for Google Product Review feeds
+
+= 5.1.7 =
+Added support for Cyrrilic characters in PARAM_ parameters for Yandex, Zbozi and Heureka feeds.
+
+= 5.1.6 =
+Build in another check for when users add a variable product to their product feed that isn't really a variable product. This caused the plugin to get stuck when processing product feeds.
+
+= 5.1.5 =
+Build in a check for when users add a variable product to their product feed that isn't really a variable product. This caused the plugin to get stuck when processing product feeds.
 
 = 5.1.4 =
 Added PARAM support for Yandex feeds

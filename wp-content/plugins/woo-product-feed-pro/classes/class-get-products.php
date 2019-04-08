@@ -20,23 +20,6 @@ class WooSEA_Get_Products {
         }
 
 	/**
- 	 * Get all product cats for a product by ID, including hierarchy
- 	 * @param  int $product_id
- 	 * @return array
- 	 */
-//	public function wc_get_product_cat_ids( $product_id ) {
-//
-//		$product_cats = wp_get_post_terms( $product_id, 'product_cat', array( "fields" => "ids" ) );
-//
-//		error_log(print_r($product_cats, TRUE));
-//
-//	        foreach ( $product_cats as $product_cat ) {
-//      	        $product_cats = array_merge( $product_cats, get_ancestors( $product_cat, 'product_cat' ) );
-//    	}
-//        	return $product_cats;
-//	}
-
-	/**
 	 * Function to add CDATA brackets to title, short_description and description attributes
 	 */
 	protected function woosea_append_cdata( $string ){
@@ -68,9 +51,14 @@ class WooSEA_Get_Products {
 	 */
 	public function woosea_get_reviews ( $product_data, $product ) {
 		$approved_reviews = array();
+		$prod_id = $product_data['id'];
+
+		if($product_data['product_type'] == "variation"){
+			$prod_id = $product_data['item_group_id'];
+		}
 
             	$reviews = get_comments(array(
-        		'post_id'               => $product_data['id'],
+        		'post_id'               => $prod_id,
         		'comment_type'          => 'review',
         		'comment_approved'      => 1,
 		));
@@ -78,23 +66,14 @@ class WooSEA_Get_Products {
 		// Loop through all product reviews for this specific products (ternary operators)
 		foreach($reviews as $review_raw){
 			$review = array();
-			$review['review_product_id'] = $product_data['id'];
-			$review['review_product_ids'] = array(
-				"gtins"	=> 	empty($product_data['gtins']) ? '' :  $product_data['gtins'],
-				"mpns" 	=> 	empty($product_data['mpns']) ? '' : $product_data['mpns'],
-				"skus"	=> 	empty($product_data['skus']) ? '' : $product_data['skus'],
-				"brand"	=>	empty($product_data['brands']) ? '' : $product_data['brands'],	
-			);
 			$review['review_reviewer_image'] = empty($product_data['reviewer_image']) ? '' : $product_data['reviewer_image'];
 			$review['review_ratings'] = get_comment_meta( $review_raw->comment_ID, 'rating', true);
-			$review['review_review_id'] = $review_raw->comment_ID;
-			$review['review_reviewer_name'] = $review_raw->comment_author;
-			$review['review_reviewer_id'] = $review_raw->user_id;
+			$review['review_id'] = $review_raw->comment_ID;
+			$review['reviewer_name'] = $review_raw->comment_author;
+			$review['reviewer_id'] = $review_raw->user_id;
 			$review['review_timestamp'] = $review_raw->comment_date;
-			$review['review_title'] = empty($product_data['review_title']) ? '' : $product_data['review_title'];
-			$review['review_content'] = $review_raw->comment_content;
-			$review['review_pros'] = empty($product_data['review_pros']) ? '' : $product_data['review_pros'];
-			$review['review_cons'] = empty($product_data['review_coms']) ? '' : $product_data['review_cons'];
+			$review['title'] = empty($product_data['title']) ? '' : $product_data['title'];
+			$review['content'] = $review_raw->comment_content;
 			$review['review_product_name'] = $product_data['title'];
 			$review['review_url'] = $product_data['link'];
 			$review['review_product_url'] = $product_data['link'];
@@ -104,7 +83,6 @@ class WooSEA_Get_Products {
 		$review_average = $product->get_average_rating();
 		return $approved_reviews;
 	}
-
 
 	/**
 	 * Strip unwanted UTF chars from string
@@ -282,7 +260,7 @@ class WooSEA_Get_Products {
 			}
 		}	
 		return $chain;
-	} // End woo_get_term_parents()	
+	}	
 
 	/**
 	 * Get all configured shipping zones
@@ -579,7 +557,6 @@ class WooSEA_Get_Products {
 		fclose($fp);
 	}
 
-
 	/**
          * Creates XML root and header for productfeed
 	 */	
@@ -770,9 +747,10 @@ class WooSEA_Get_Products {
 					$xml->addAttribute('xsi:noNamespaceSchemaLocation', 'http://www.google.com/shopping/reviews/schema/product/2.2/product_reviews.xsd');
 					$xml->addChild('version', '2.2');
 					$aggregator = $xml->addChild('aggregator');
-					$aggregator->addChild('name', 'je weet toch');
+					$aggregator->addChild('name', htmlspecialchars($feed_config['projectname']));
 					$publisher = $xml->addChild('publisher');
-					$publisher->addChild('name', 'even wat invullen nog');
+					$publisher->addChild('name', get_bloginfo( 'name' ));
+					$publisher->addChild('favicon', get_site_icon_url());
 					$xml->asXML($file);
 				} else {
 					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><products></products>');	
@@ -801,11 +779,87 @@ class WooSEA_Get_Products {
 
 					// For Google Product review template
 					if (($feed_config['name'] == "Google Product Review") AND ($feed_config['nr_products_processed'] == 0)) {
-						$reviewz = $xml->addChild('reviews');
-					}
+						$product = $xml->addChild('reviews');
+								
+						foreach ($products as $key => $value){
+							$expl = "||";
+                                          		if(strpos($value['reviews'], $expl)) {
+                                                		$review_data = explode("||", $value['reviews']);
+								foreach($review_data as $rk => $rv){
+					
+									$productz = $xml->reviews->addChild('review');
+									$review_comp = explode(":::", $rv);	
+									
+									foreach($review_comp as $rck => $rcv){
+										$nodes = explode("##", $rcv);
+						                        	$nodes = str_replace("::", "", $nodes);
+
+										if($nodes[0] == "REVIEW_RATINGS"){
+											$rev = $productz->addChild('ratings');
+											$over = $productz->ratings->addChild('overall', $nodes[1]);
+											$over->addAttribute('min', $nodes[1]);
+											$over->addAttribute('max', $nodes[1]);
+										} elseif(($nodes[0] == "REVIEWER_NAME") OR ($nodes[0] == "REVIEWER_ID")){
+											
+        	                                                        		if(isset($productz->reviewer)){
+												if($nodes[0] == "REVIEWER_NAME"){	
+													$name = $nodes[1];
+													if(empty($name)){
+														$reviewer->addChild('name','Anonymous');
+														$reviewer->addAttribute('is_anonymous', 'true');
+													} else {
+														$reviewer->addChild('name',$name);
+													}
+												} else {
+													$reviewer->addChild('reviewer_id',$nodes[1]);
+												}
+											} else {
+												$reviewer = $productz->addChild('reviewer');
+												if($nodes[0] == "REVIEWER_NAME"){	
+													$name = $nodes[1];
+													if(empty($name)){
+														$reviewer->addChild('name','Anonymous');
+														$reviewer->addAttribute('is_anonymous', 'true');
+													} else {
+														$reviewer->addChild('name',$name);
+													}
+												} else {
+													$reviewer->addChild('reviewer_id',$nodes[1]);
+												}
+											}
+										} else {
+											$rev = $productz->addChild(strtolower($nodes[0]), $nodes[1]);	
+										}
+									}
+							
+									$yo = $productz->addChild('products');
+									$po = $yo->addChild('product');
+                                                                
+						           	     	$identifiers = array("brand","gtin","mpn","sku");
+
+									foreach($value as $k => $v) {
+	
+										if(in_array($k, $identifiers)){
+        	                                                        		if(isset($po->product_ids)){
+                	                                                        		$poi->$k = $v;
+                        	                                             		} else {
+                                	                                	       		$poi = $po->addChild('product_ids');
+                                        	                                		$poi->$k = $v;
+                                                	                        	}
+                                                        	    		} else {
+                                                                			if($k != "reviews"){
+                                                                        			$poa = $po->addChild($k,$v);
+                                                         	        	      	}
+                                                      	 			}
+									}	
+								}
+							}
+						}
+					}	
+
 
 					foreach ($products as $key => $value){
-
+						
 						if (is_array ( $value ) ) {
 							if ($feed_config['name'] == "Yandex") {
 								$product = $xml->shop->offers->addChild('offer');
@@ -818,7 +872,7 @@ class WooSEA_Get_Products {
 							} elseif ($feed_config['name'] == "Trovaprezzi.it") {
 								$product = $xml->addChild('Offer');
 							} elseif ($feed_config['name'] == "Google Product Review") {
-								$product = $reviewz->addChild('review');
+							
 							} else {
 								$product = $xml->addChild('product');
 							}
@@ -922,7 +976,6 @@ class WooSEA_Get_Products {
 									if ($feed_config['fields'] != 'standard'){
 	          	                                           		$k = $this->get_alternative_key ($channel_attributes, $k);
 									}
-							
 									if(!empty($k)){
 
 										/**
@@ -940,6 +993,7 @@ class WooSEA_Get_Products {
 											$p = "param";
 											$productp = $product->addChild($p,$v);
 											$productp->addAttribute('name', $pieces[1]);
+										} elseif ($feed_config['name'] == "Google Product Review") {
 										} else {
 											$product->addChild("$k");
 											$product->$k = $v;
@@ -1287,8 +1341,19 @@ class WooSEA_Get_Products {
 					}
 				}
 			}
+			
+			//$categories = array_unique(wc_get_product_cat_ids( $product_data['id'] ));
+			$cat_alt = array();
+			$cat_term = "";
+			$categories = array();
 
-			$categories = array_unique(wc_get_product_cat_ids( $product_data['id'] ));
+                        $cat_obj = get_the_terms( $product_data['id'], 'product_cat' );
+                       	if($cat_obj){
+				foreach($cat_obj as $cat_term){
+        	               		$cat_alt[] = $cat_term->term_id;
+                	      	}
+			}
+			$categories = $cat_alt;
 
 			// This is a category fix for Yandex, probably needed for all channels
 			// When Yoast is not installed and a product is linked to multiple categories
@@ -1517,6 +1582,7 @@ class WooSEA_Get_Products {
 
 			// Get product prices
 			$product_data['price'] = wc_get_price_including_tax($product, array('price'=> $product->get_price()));
+
 			// Override price when WCML price is different than the non-translated price	
 			if((isset($project_config['WCML'])) AND ($product_data['price'] !== $wcml_price)){
 				$product_data['price'] = $wcml_price;
@@ -1629,6 +1695,7 @@ class WooSEA_Get_Products {
 			}
 
 			// Localize the price attributes
+			$decimal_separator = wc_get_price_decimal_separator();
 			$product_data['price'] = wc_format_localized_price($product_data['price']);
 			$product_data['regular_price'] = wc_format_localized_price($product_data['regular_price']);
 			$product_data['sale_price'] = wc_format_localized_price($product_data['sale_price']);
@@ -1739,9 +1806,9 @@ class WooSEA_Get_Products {
 			}
 			
 			/**
-			 * Get Custom Attributes for Single products
+			 * Get Custom Attributes for Single and Bundled products
 			 */
-			if ($product->is_type('simple')){
+			if (($product->is_type('simple')) OR ($product->is_type('bundle'))){
 
 				$custom_attributes = $this->get_custom_attributes( $product_data['id'] );
 
@@ -1782,7 +1849,7 @@ class WooSEA_Get_Products {
 			/**
 			 * Get Product Attributes for Single products 
 			 */
-			if ($product->is_type('simple')){
+			if (($product->is_type('simple')) OR ($product->is_type('bundle'))){
 				$single_attributes = $product->get_attributes();
 
 				foreach ($single_attributes as $attribute){
@@ -1800,17 +1867,17 @@ class WooSEA_Get_Products {
                        	}
 
                         // Get product reviews for Google Product Review Feeds
-                        // $product_data['reviews'] = $this->woosea_get_reviews( $product_data, $product );
+                        $product_data['reviews'] = $this->woosea_get_reviews( $product_data, $product );
 
 			/**
 			 * Versioned products need a seperate approach
 			 * Get data for these products based on the mother products item group id 
 			 */
 			$variation_pass = "true";
-			if( ($product_data['item_group_id'] > 0) ){
-
+			if( ($product_data['item_group_id'] > 0) AND (is_object(wc_get_product( $product_data['item_group_id'])))){
 				$product_variations = new WC_Product_Variation( $product_data['id'] );
-    				$variations = $product_variations->get_variation_attributes();
+
+				$variations = $product_variations->get_variation_attributes();
 				
 				// Determine the default variation product
 				$mother_product = new WC_Product( $product_data['item_group_id'] );
@@ -2167,7 +2234,9 @@ class WooSEA_Get_Products {
 	                        $product_data['raw_categories'] = $catname;
 				$product_data['category_link'] = $catlink;
 				$product_data['categories'] = $catname;
-                     	} 
+			} 
+			// END VARIABLE PRODUCT CODE
+
 			/**
 			 * In order to prevent XML formatting errors in Google's Merchant center
 			 * we will add CDATA brackets to the title and description attributes
@@ -2222,6 +2291,7 @@ class WooSEA_Get_Products {
 				}
 			}
 
+	
 			/**
 			 * When a product is a variable product we need to delete the original product from the feed, only the originals are allowed
 			 */
@@ -2308,7 +2378,19 @@ class WooSEA_Get_Products {
                                                                      	      		$product_tag_str = ltrim($product_tag_str, ",");
 
 											$attr_line .= ",'".$product_tag_str."'";
- 
+										} elseif ($attr_value['mapfrom'] == "reviews"){
+											$review_str = "";
+   											foreach ($product_data[$attr_value['mapfrom']] as $key => $value){
+                                                       	                        		$review_str .= "||";
+                                                               	                     		foreach($value as $k => $v){
+                                                                                        		$review_str .= ":$v";
+												}
+                                                                       	     		}
+                                                                  	      	  	$review_str = ltrim($review_str, "||");
+                                                                        		$review_str = rtrim($review_str, ":");
+                                                                     	      		$review_str = ltrim($review_str, ":");
+                                                                             		$review_str = str_replace("||:", "||", $review_str);
+											$attr_line .= ",'".$review_str."'";
 										} else {
                                         	                               		$shipping_str = "";
                                                                                		foreach ($product_data[$attr_value['mapfrom']] as $key => $value){
@@ -2420,6 +2502,7 @@ class WooSEA_Get_Products {
 										if(key_exists($attr_value['mapfrom'],$product_data)){
 
 											if(is_array($product_data[$attr_value['mapfrom']])){
+											
 												if($attr_value['mapfrom'] == "product_tag"){
 													$product_tag_str = "";
 
@@ -2430,7 +2513,49 @@ class WooSEA_Get_Products {
                                                                   	      	  			$product_tag_str = ltrim($product_tag_str, ",");
                                                                         				$product_tag_str = rtrim($product_tag_str, ",");
 
-													$xml_product[$attr_value['attribute']] = "$product_tag_str";	
+													$xml_product[$attr_value['attribute']] = "$product_tag_str";
+
+												} elseif($attr_value['mapfrom'] == "reviews"){
+                                                                                                	$review_str = "";
+														
+                                                                                                        foreach ($product_data[$attr_value['mapfrom']] as $key => $value){
+                                                                                                                $review_str .= "||";
+
+                                                                                                                foreach($value as $k => $v){
+
+                                                                                                                        if($k == "review_product_id"){
+                                                                                                                                $review_str .= ":::REVIEW_PRODUCT_ID##$v";
+                                                                                                                        } elseif ($k == "reviewer_image"){
+                                                                                                                                $review_str .= ":::REVIEWER_IMAGE##$v";
+                                                                                                                        } elseif ($k == "review_ratings"){
+                                                                                                                                $review_str .= ":::REVIEW_RATINGS##$v";
+                                                                                                                        } elseif ($k == "review_id"){
+                                                                                                                                $review_str .= ":::REVIEW_ID##$v";
+															} elseif ($k == "reviewer_name"){
+                                                                                                                                $review_str .= ":::REVIEWER_NAME##$v";
+ 															} elseif ($k == "reviewer_id"){
+                                                                                                                                $review_str .= ":::REVIEWER_ID##$v";
+ 															} elseif ($k == "review_timestamp"){
+                                                                                                                                $review_str .= ":::REVIEW_TIMESTAMP##$v";
+ 															} elseif ($k == "title"){
+                                                                                                                                $review_str .= ":::TITLE##$v";
+ 															} elseif ($k == "content"){
+                                                                                                                                $review_str .= ":::CONTENT##$v";
+ 															} elseif ($k == "pros"){
+                                                                                                                                $review_str .= ":::PROS##$v";
+															} elseif ($k == "cons"){
+                                                                                                                                $review_str .= ":::CONS##$v";
+                                                                                                                        } else {
+                                                                                                                                // UNKNOWN, DO NOT ADD
+                                                                                                                        }
+                                                                                                                }
+                                                                                                        }
+                                                                                                        $review_str = ltrim($review_str, "||");
+                                                                                                        $review_str = rtrim($review_str, ":");
+                                                                                                        $review_str = ltrim($review_str, ":");
+                                                                                                        $review_str = str_replace("||:", "||", $review_str);
+
+                                                                                                        $xml_product[$attr_value['attribute']] = "$review_str";	
  												} else {
 													$shipping_str = "";
                         										foreach ($product_data[$attr_value['mapfrom']] as $key => $value){
@@ -2438,27 +2563,27 @@ class WooSEA_Get_Products {
 													
 														foreach($value as $k => $v){
 
-														if($k == "country"){
-															$shipping_str .= ":WOOSEA_COUNTRY##$v";
-														} elseif ($k == "region"){
-															$shipping_str .= ":WOOSEA_REGION##$v";	
-														} elseif ($k == "service"){
-															$shipping_str .= ":WOOSEA_SERVICE##$v";
-														} elseif ($k == "postal_code"){
-															$shipping_str .= ":WOOSEA_POSTAL_CODE##$v";
-														} elseif ($k == "price"){
-															$shipping_str .= ":WOOSEA_PRICE##$attr_value[prefix] $v $attr_value[suffix]";
-														} else {
-															// UNKNOWN, DO NOT ADD
+															if($k == "country"){
+																$shipping_str .= ":WOOSEA_COUNTRY##$v";
+															} elseif ($k == "region"){
+																$shipping_str .= ":WOOSEA_REGION##$v";	
+															} elseif ($k == "service"){
+																$shipping_str .= ":WOOSEA_SERVICE##$v";
+															} elseif ($k == "postal_code"){
+																$shipping_str .= ":WOOSEA_POSTAL_CODE##$v";
+															} elseif ($k == "price"){
+																$shipping_str .= ":WOOSEA_PRICE##$attr_value[prefix] $v $attr_value[suffix]";
+															} else {
+																// UNKNOWN, DO NOT ADD
+															}
 														}
-													}
-                        									}
-                        									$shipping_str = ltrim($shipping_str, "||");
-                        									$shipping_str = rtrim($shipping_str, ":");
-                        									$shipping_str = ltrim($shipping_str, ":");
-												$shipping_str = str_replace("||:", "||", $shipping_str);
+                        										}
+                        										$shipping_str = ltrim($shipping_str, "||");
+                        										$shipping_str = rtrim($shipping_str, ":");
+                        										$shipping_str = ltrim($shipping_str, ":");
+													$shipping_str = str_replace("||:", "||", $shipping_str);
 
-												$xml_product[$attr_value['attribute']] = "$shipping_str";
+													$xml_product[$attr_value['attribute']] = "$shipping_str";
 												}
 											} else {
 												if(array_key_exists($attr_value['attribute'], $xml_product)){
@@ -2819,7 +2944,8 @@ class WooSEA_Get_Products {
 			$original_cat = str_replace("/","",$original_cat);
 
 			// First check if there is a category mapping for this specific product
-			if(preg_match('/'.$pm_array['criteria'].'/', $original_cat) AND (!empty($pm_array['map_to_category']))){
+//			if(preg_match('/'.$pm_array['criteria'].'/', $original_cat) AND (!empty($pm_array['map_to_category']))){
+			if(($pm_array['criteria'] == "$original_cat") AND (!empty($pm_array['map_to_category']))){
 				$category_pieces = explode("-", $pm_array['map_to_category']);
 				$tmp_cat = $category_pieces[0];
 				$match = "true";
@@ -2876,8 +3002,6 @@ class WooSEA_Get_Products {
 				}
 			}	
 		}		
-
-
 		//error_log(print_r($product_data, TRUE));
 		//error_log(print_r($field_manipulation, TRUE));
 
@@ -2903,12 +3027,13 @@ class WooSEA_Get_Products {
 							$pr_array['than_attribute'] = $pd_key;
 						}
 
-						// Check if a rule has been set for Google categories
-						if (!empty($product_data[$pr_array['than_attribute']]) AND ($product_data[$pr_array['than_attribute']] == "google_category")){
-							$pr_array['than_attribute'] = "categories";
-							$category_id = explode("-", $pr_array['newvalue']);
-							$pr_array['newvalue'] = $category_id[0];
-						}
+
+                                                // Check if a rule has been set for Google categories
+                                                if (!empty($product_data[$pr_array['than_attribute']]) AND ($product_data[$pr_array['than_attribute']] == "google_category")){
+                                                        $pr_array['than_attribute'] = "categories";
+                                                        $category_id = explode("-", $pr_array['newvalue']);
+                                                        $pr_array['newvalue'] = $category_id[0];
+                                                }
 
 						// Make sure that rules on numerics are on true numerics
 						if (!is_array($pd_value) AND (!preg_match('/[A-Za-z]/', $pd_value))){

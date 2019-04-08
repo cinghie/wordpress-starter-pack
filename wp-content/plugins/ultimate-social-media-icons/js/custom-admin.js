@@ -21,7 +21,8 @@ function sfsi_delete_CusIcon(s, i) {
 	beForeLoad();
     var e = {
         action:"deleteIcons",
-        icon_name:i.attr("name")
+        icon_name:i.attr("name"),
+        nonce: SFSI(i).parents('.custom').find('input[name="nonce"]').val()
     };
     SFSI.ajax({
         url:sfsi_icon_ajax_object.ajax_url,
@@ -137,12 +138,13 @@ function CustomIConSectionsUpdate() {
 }
 
 // Upload Custom Skin {Monad}
-function sfsi_customskin_upload(s, ref)
+function sfsi_customskin_upload(s, ref,nonce)
 {
 	var ttl = jQuery(ref).attr("title");
 	var i = s, e = {
         action:"UploadSkins",
-        custom_imgurl:i
+        custom_imgurl:i,
+        nonce:nonce
     };
 	
 	SFSI.ajax({
@@ -195,9 +197,9 @@ function deleteskin_icon(s)
 }
 
 // Save Custom Skin {Monad}
-function SFSI_done()
+function SFSI_done(nonce)
 {
-	e = { action:"Iamdone" };
+	e = { action:"Iamdone",nonce:nonce };
 	
 	SFSI.ajax({
         url:sfsi_icon_ajax_object.ajax_url,
@@ -213,10 +215,11 @@ function SFSI_done()
 }
 
 // Upload Custom Icons {Monad}
-function sfsi_newcustomicon_upload(s) {
+function sfsi_newcustomicon_upload(s,nonce,nonce2) {
 	var i = s, e = {
         action:"UploadIcons",
-        custom_imgurl:i
+        custom_imgurl:i,
+        nonce:nonce
     };
     SFSI.ajax({
         url:sfsi_icon_ajax_object.ajax_url,
@@ -227,7 +230,7 @@ function sfsi_newcustomicon_upload(s) {
         success:function(s) {
 			if(s.res == 'success')
 			{
-				afterIconSuccess(s);
+				afterIconSuccess(s,nonce2);
 			}
 			else
 			{
@@ -1354,7 +1357,7 @@ function sfsi_validator(element,valType)
        }
 }
 
-function afterIconSuccess(s)
+function afterIconSuccess(s,nonce)
 {
     if (s.res = "success")
 	{
@@ -1378,6 +1381,7 @@ function afterIconSuccess(s)
         SFSI('<div class="row  sfsiICON_' + s.key + ' cm_lnk"> <h2 class="custom"> <span class="customstep2-img"> <img   src="' + s.img_path + "?" + d.getTime() + '" style="border-radius:48%" /> </span> <span class="sfsiCtxt">Custom ' + e + '</span> </h2> <div class="inr_cont "><p>Where do you want this icon to link to?</p> <p class="radio_section fb_url custom_section  sfsiICON_' + s.key + '" ><label>Link :</label><input file-id="' + s.key + '" name="sfsi_CustomIcon_links[]" type="text" value="" placeholder="http://" class="add" /></p></div></div>').insertBefore('.notice_custom_icons_premium');
         //SFSI(".custom-links").append(' <div class="row  sfsiICON_' + s.key + ' cm_lnk"> <h2 class="custom"> <span class="customstep2-img"> <img   src="' + s.img_path + "?" + d.getTime() + '" style="border-radius:48%" /> </span> <span class="sfsiCtxt">Custom ' + e + '</span> </h2> <div class="inr_cont "><p>Where do you want this icon to link to?</p> <p class="radio_section fb_url custom_section  sfsiICON_' + s.key + '" ><label>Link :</label><input file-id="' + s.key + '" name="sfsi_CustomIcon_links[]" type="text" value="" placeholder="http://" class="add" /></p></div></div>');
         SFSI(".notice_custom_icons_premium").show();
+        SFSI("#c"+s.key).append('<input type="hidden" name="nonce" value="'+nonce+'">');
         var o = SFSI("div.custom_m").find("div.mouseover_field").length;
         SFSI("div.custom_m").append(0 == o % 2 ? '<div class="clear"> </div> <div class="mouseover_field custom_section sfsiICON_' + s.key + '"><label>Custom ' + e + ':</label><input name="sfsi_custom_MouseOverTexts[]" value="" type="text" file-id="' + s.key + '" /></div>' :'<div class="cHover " ><div class="mouseover_field custom_section sfsiICON_' + s.key + '"><label>Custom ' + e + ':</label><input name="sfsi_custom_MouseOverTexts[]" value="" type="text" file-id="' + s.key + '" /></div>'), 
         SFSI("ul.share_icon_order").append('<li class="custom_iconOrder sfsiICON_' + s.key + '" data-index="" element-id="' + s.key + '" id=""><a href="#" title="Custom Icon" ><img src="' + s.img_path + '" alt="Linked In" class="sfcm"/></a></li>'), 
@@ -2486,6 +2490,7 @@ SFSI(document).ready(function(){
         var message= SFSI(this).find('textarea[name="question"]').val();
         var email=SFSI(this).find('input[name="email"]').val();
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var nonce= SFSI(this).find('input[name="nonce"]').val();
         
         if(""===email || false===re.test(String(email).toLowerCase())){
             // console.log(SFSI(this).find('input[name="email"]'));
@@ -2508,6 +2513,7 @@ SFSI(document).ready(function(){
                 action: "sfsiOfflineChatMessage",
                 message: message,
                 email:   email,
+                'nonce':nonce
             }
         }).done(function(){
             target.find('.before_message_sent').hide();

@@ -81,7 +81,7 @@ $connectFeedLgn	= "http://www.specificfeeds.com/?".base64_encode("userprofile=wo
 				var url = jQuery(html).attr('src');
 			}
 			tb_remove();
-			sfsi_newcustomicon_upload(url);
+			sfsi_newcustomicon_upload(url,'<?php echo wp_create_nonce('UploadIcons'); ?>','<?php echo wp_create_nonce('deleteIcons'); ?>"');
 		}
 		return false;
 	}
@@ -505,7 +505,7 @@ I want to see how it works</a></div>
                 
             </ul>
             <div class="cstmskins_sbmt">
-            	<a href="javascript:" class="done_btn" onclick="SFSI_done();">I'm done!</a> 
+            	<a href="javascript:" class="done_btn" onclick="SFSI_done('<?php echo wp_create_nonce('Iamdone');  ?>');">I'm done!</a> 
             </div>
            
         </div>
@@ -520,7 +520,7 @@ I want to see how it works</a></div>
 					{
 						var url = jQuery(html).attr('src');
 					}
-					sfsi_customskin_upload(title+'='+url, ref);
+					sfsi_customskin_upload(title+'='+url, ref,'<?php echo wp_create_nonce('UploadSkins') ?>');
 					tb_remove();
 				}
 				return false;

@@ -206,7 +206,7 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 
 			$new_columns['thumb'] = __( 'Image', 'yith-woocommerce-brands-add-on' );
 
-			return array_merge( $new_columns, $columns );
+			return apply_filters('yith_wcbr_brand_taxonomy_columns',array_merge( $new_columns, $columns ));
 		}
 
 		/**
@@ -236,7 +236,7 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 
 			}
 
-			return $columns;
+			return apply_filters('yith_wcbr_brand_taxonomy_column',$columns,$column,$id);
 		}
 
 		/**

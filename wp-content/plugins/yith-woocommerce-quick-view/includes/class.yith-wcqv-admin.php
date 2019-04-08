@@ -66,15 +66,6 @@ if ( ! class_exists( 'YITH_WCQV_Admin' ) ) {
 		protected $_panel_page = 'yith_wcqv_panel';
 
 		/**
-		 * Various links
-		 *
-		 * @var string
-		 * @access public
-		 * @since 1.0.0
-		 */
-		public $doc_url = 'https://docs.yithemes.com/yith-woocommerce-quick-view/';
-
-		/**
 		 * Returns single instance of the class
 		 *
 		 * @return \YITH_WCQV_Admin

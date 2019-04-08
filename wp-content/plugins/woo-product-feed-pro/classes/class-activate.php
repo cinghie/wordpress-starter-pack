@@ -51,6 +51,13 @@ class WooSEA_Activation {
 					"taxonomy" => "google_shopping",
 					"utm_source" => "Google Local Product Inventory",
                         		"type" => "Advertising" ),
+                 		"Google Product Review Feed" => array (
+                        		"channel_hash" => md5("Google Product Review"),
+                        		"name" => "Google Product Review",
+					"fields" => "google_product_review",
+					"taxonomy" => "none",
+					"utm_source" => "Google Product Review",
+                        		"type" => "Advertising" ),
      	 			"Bing Shopping" => array (
                         		"channel_hash" => md5("Bing Shopping"),
 					"name" => "Bing Shopping",
@@ -64,7 +71,14 @@ class WooSEA_Activation {
 					"fields" => "facebook_drm",
 					"taxonomy" => "google_shopping",
 					"utm_source" => "Facebook Dynamic Ads",
-                        		"type" => "Advertising" )
+                        		"type" => "Advertising" ),
+     	 			"Pinterest" => array (
+                        		"channel_hash" => md5("Pinterest"),
+					"name" => "Pinterest",
+					"fields" => "pinterest",
+					"taxonomy" => "google_shopping",
+					"utm_source" => "Pinterest",
+                        		"type" => "Advertising" ),
         		),
 			"Custom Feed" => array (
 				"Custom Feed" => array (

@@ -114,6 +114,7 @@ html.yith-quick-view-is-open body {
     width: 40%;
     float: left;
     opacity: 1 !important;
+    margin: 0;
 }
 #yith-quick-view-content div.summary {
     margin: 0;

@@ -15,7 +15,7 @@ if ( ! defined( 'YITH_WCBR' ) ) {
 
 <div class="form-field">
 	<label><?php _e( 'Thumbnail', 'yith-woocommerce-brands-add-on' ); ?></label>
-	<div id="product_brand_thumbnail" style="float:left;margin-right:10px;"><img src="<?php echo wc_placeholder_img_src(); ?>" width="60px" height="60px" /></div>
+	<div id="product_brand_thumbnail" style="float:left;margin-right:10px;"><img alt="<?php _e( 'Product brand thumbnail', 'yith-woocommerce-brands-add-on-premium' ) ?>" src="<?php echo wc_placeholder_img_src(); ?>" width="60px" height="60px" /></div>
 	<div style="line-height:60px;">
 		<input type="hidden" id="product_brand_thumbnail_id" class="yith_wcbr_upload_image_id" name="product_brand_thumbnail_id" />
 		<button id="product_brand_thumbnail_upload" type="button" class="yith_wcbr_upload_image_button button"><?php _e( 'Upload/Add image', 'yith-woocommerce-brands-add-on' ); ?></button>

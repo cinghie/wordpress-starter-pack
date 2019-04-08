@@ -310,7 +310,8 @@ public function get_mapping_attributes_dropdown() {
 		 */
 		$dropdown .= "<optgroup label='Other fields'><strong>Other fields</strong>";
 		$dropdown .= "<option value='product_tag'>Product tags</option>";              
-		$dropdown .= "<option value='menu_order'>Menu order</option>";              
+		$dropdown .= "<option value='menu_order'>Menu order</option>";
+		$dropdown .= "<option value='reviews'>Reviews</option>";
 		$dropdown .= "</optgroup>";
 
                 // Did the user checked extra attributes
@@ -420,6 +421,7 @@ public function get_mapping_attributes_dropdown() {
 			"calculated" => "Plugin calculation",
 			"product_tag" => "Product tags",
 			"menu_order" => "Menu order",
+			"reviews" => "Reviews",
         	);
 
 		$attributes = array_merge($attributes, $static);

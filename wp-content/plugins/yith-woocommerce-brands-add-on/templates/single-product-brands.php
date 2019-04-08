@@ -32,7 +32,7 @@ if ( ! defined( 'YITH_WCBR' ) ) {
 				$thumbnail_id = absint( yith_wcbr_get_term_meta( $term->term_id, 'thumbnail_id', true ) );
 
 				if ( $thumbnail_id ) {
-					$image = wp_get_attachment_image( $thumbnail_id, 'yith_wcbr_logo_size' );
+					$image = apply_filters('yith_wcbr_image_size_single_product_brads', wp_get_attachment_image( $thumbnail_id, 'yith_wcbr_logo_size' ),$thumbnail_id);
 
 					if( $image ){
 						echo sprintf( '<a href="%s">%s</a>', get_term_link( $term ), $image );

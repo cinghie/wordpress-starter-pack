@@ -1208,7 +1208,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				$arrow_class = "";
 				$custom_icons_hoverTxt = unserialize($sfsi_section5_options['sfsi_custom_MouseOverTexts']);
 				$icons = unserialize($sfsi_section1_options['sfsi_custom_files']);
-				$icon = $icons[$icon_n]; 
+				$icon = isset($icons[$icon_n])?$icons[$icon_n]:''; 
 				
 				//Giving alternative text to image
 				if(!empty($custom_icons_hoverTxt[$icon_n]))
