@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.1
-Stable tag: 5.2.7
+Stable tag: 5.3.2
 
 == Description ==
 
@@ -275,6 +275,24 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 5.3.2 (2019-04-11) =
+* Fixed a bug in filters for product tags
+
+= 5.3.1 (2019-04-10) =
+* Added support for adding parameters to the link attribute for CSV feeds
+
+= 5.3.0 (2019-04-10) =
+* Solved some PHP warnings that were showing when configuring a CSV feed with Aelia currencies in it
+* Added support for adding parameters to the link attribute for CSV feeds
+
+= 5.2.9 (2019-04-09) =
+* Added some extra allowed characters (% and ,) in the Yandex PARAM XML node
+* Added the review_url field to Google Product Review feeds
+* Fixed the review_timestamp format for Google Product Review feeds
+
+= 5.2.8 (2019-04-08) =
+* Fixed a bug in the Google Product Review feed where the min/max rating values were wrong.
 
 = 5.2.7 (2019-04-07) =
 * Added support for the official WooCommerce Product Bundles (https://woocommerce.com/products/product-bundles/)
@@ -1617,6 +1635,24 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 5.3.2 =
+Fixed a bug in filters for product tags
+
+= 5.3.1 =
+Added support for adding parameters to the link attribute for CSV feeds
+
+= 5.3.0 =
+Solved some PHP warnings that were showing when configuring a CSV feed with Aelia currencies in it
+Added support for adding parameters to the link attribute for CSV feeds
+
+= 5.2.9 =
+Added some extra allowed characters (% and ,) in the Yandex PARAM XML node
+Added the review_url field to Google Product Review feeds
+Fixed the review_timestamp format for Google Product Review feeds
+
+= 5.2.8 =
+Fixed a bug in the Google Product Review feed where the min/max rating values were wrong. 
 
 = 5.2.7 =
 Added support for the official WooCommerce Product Bundles (https://woocommerce.com/products/product-bundles/)

@@ -23,6 +23,9 @@ jQuery(function($){
             // e.preventDefault();
             var cropper_fields = ppom_get_field_meta_by_type('cropper');
             $.each(cropper_fields, function(i, cropper){
+                
+                if (cropper.legacy_cropper !== undefined) return;
+                
                 var cropper_name = cropper.data_name;
                 ppom_generate_cropper_data_for_cart(cropper.data_name);
             
@@ -38,7 +41,12 @@ jQuery(function($){
 	    var input_type	= e.input_type;
 	    
 	    if(input_type === 'cropper'){
-	    	ppom_show_cropped_preview( data_name, image_url, image_id );
+	        
+	        field_meta = ppom_get_field_meta_by_id(data_name);
+	        
+	        if( field_meta.legacy_cropper === undefined ) {
+	    	    ppom_show_cropped_preview( data_name, image_url, image_id );
+	        }
 	    }
 	    
 	    // moving modal to body end
@@ -464,4 +472,18 @@ function ppom_generate_cropper_data_for_cart(field_name) {
     		
     	});
     });
+}
+
+// internal cropping editor
+function ppom_legacy_crop_editor( data_name, image_id, src, file_name, ratios, dom ){
+				
+	var w = window.innerWidth * .85;
+	var h = window.innerHeight * .85;
+
+    var fileid = jQuery(dom).closest('.u_i_c_box').attr("data-fileid");
+
+	var uri_string = encodeURI('action=ppom_crop_image_editor&width='+w+'&height='+h+'&image_url='+src+'&image_name='+file_name+'&image_id='+image_id+'&file_id='+fileid+'&ratios='+ratios+'&data_name='+data_name);
+	
+	var url = ppom_input_vars.ajaxurl + '?' + uri_string;
+	tb_show('Crop image', url);
 }

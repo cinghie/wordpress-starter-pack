@@ -428,6 +428,12 @@ class NM_Form {
             $opt_percent    = isset($value['percent']) ? $value['percent']: '';
             $option_class   = "ppom-option-{$option_id}";
             
+            
+            // if option has weight and price is not set, then set it zero for calculation
+            if( empty($option_price) && !empty($value['option_weight']) ) {
+                $option_price = 0;
+            }
+            
             if( is_array($selected_value) ){
             
                 foreach($selected_value as $s){
@@ -1051,6 +1057,8 @@ class NM_Form {
         foreach($ranges as $opt)
 		{
 			$price = isset( $opt['price'] ) ? trim($opt['price']) : 0;
+			$label = isset( $opt['label'] ) ? $opt['label'] : $opt['raw'];
+			
 			if( !empty($opt['percent']) ){
 				
 				$percent = $opt['percent'];
@@ -1065,7 +1073,7 @@ class NM_Form {
 			}
 			
 			$html .= '<div style="clear:both;border-bottom:1px #ccc dashed;">';
-			$html .= '<span>'.stripslashes(trim($opt['raw'])).'</span>';
+			$html .= '<span>'.stripslashes(trim($label)).'</span>';
 			$html .= '<span style="float:right">'.$price.'</span>';
 			$html .= '</div>';
 		}

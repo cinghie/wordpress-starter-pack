@@ -108,6 +108,9 @@ if ( !class_exists( 'YITH_WCAS' ) ) {
          */
         public function add_woo_ajax_search_shortcode( $args = array() ) {
             $args            = shortcode_atts( array(), $args );
+            //for WC 3.6.0
+            unset( $args['template']);
+
             ob_start();
             $wc_get_template = function_exists( 'wc_get_template' ) ? 'wc_get_template' : 'woocommerce_get_template';
             $wc_get_template( 'yith-woocommerce-ajax-search.php', $args, '', YITH_WCAS_DIR . 'templates/' );

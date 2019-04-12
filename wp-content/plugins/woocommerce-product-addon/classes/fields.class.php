@@ -138,7 +138,7 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 			$html .= '<div class="col-md-12 ppom-tabs-header">';
 				
 
-				$ppom_field_tabs = $this->ppom_fields_tabs();
+				$ppom_field_tabs = $this->ppom_fields_tabs($fields_type);
 				foreach ($ppom_field_tabs as $tab_index => $tab_meta) {
 					
 					$tab_label  = isset($tab_meta['label']) ? $tab_meta['label'] : '';
@@ -322,6 +322,59 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 						$html_input .= '<input type="text" class="option-price form-control ppom-option-keys" placeholder="'.$plc_price.'" data-metatype="price">';
 						
 						$html_input .= '<input type="text" class="option-weight form-control ppom-option-keys" placeholder="'.$plc_weight.'" data-metatype="weight">';
+
+						$html_input .= '<input type="text" class="option-id form-control ppom-option-keys" placeholder="'.$plc_id.'" data-metatype="id">';
+						$html_input .= '<button class="btn btn-success ppom-add-option" data-option-type="paired"><i class="fa fa-plus" aria-hidden="true"></i></button>';
+					$html_input .= '</li>';
+				}
+				$html_input .= '<input type="hidden" id="ppom-meta-opt-index" value="'.esc_attr($opt_index0).'">';
+				$html_input	.= '<ul/>';
+				
+				break;
+				
+				
+				case 'paired-pricematrix' :
+				
+				$plc_option = (!empty($placeholders)) ? $placeholders[0] : __('Option',"ppom");
+				$plc_price = (!empty($placeholders)) ? $placeholders[1] : __('Price (optional)', "ppom");
+				$plc_label = (!empty($placeholders)) ? $placeholders[1] : __('Label', "ppom");
+				$plc_id = (isset($placeholders[3]) && !empty($placeholders)) ? $placeholders[3] : __('Unique Option ID)', "ppom");
+
+				$opt_index0  = 1;
+				$html_input .= '<ul class="ppom-options-container ppom-options-sortable">';
+				
+				if($values){
+					// ppom_pa($values);
+					$last_array_id = max(array_keys($values));
+
+					foreach ($values as $opt_index => $option){
+
+						$label = isset($option['label']) ? $option['label'] : '';
+						
+						$option_id = ppom_get_option_id($option);
+						$html_input .= '<li class="data-options ppom-sortable-handle" style="display: flex;">';
+							$html_input .= '<span class="dashicons dashicons-move"></span>';
+							$html_input .= '<input type="text" class="option-title form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][option]" value="'.esc_attr(stripslashes($option['option'])).'" placeholder="'.$plc_option.'" data-metatype="option">';
+							$html_input .= '<input type="text" class="option-price form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][price]" value="'.esc_attr($option['price']).'" placeholder="'.$plc_price.'" data-metatype="price">';
+							
+
+							$html_input .= '<input type="text" class="option-label form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][label]" value="'.esc_attr($label).'" placeholder="'.$plc_label.'" data-metatype="label">';
+
+							$html_input .= '<input type="text" class="option-id form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][id]" value="'.esc_attr($option_id).'" placeholder="'.$plc_id.'" data-metatype="id">';
+							$html_input .= '<button class="btn btn-success ppom-add-option" data-option-type="paired"><i class="fa fa-plus" aria-hidden="true"></i></button>';
+						$html_input .= '</li>';
+
+						$opt_index0 =  $last_array_id;
+                    	$opt_index0++;
+
+					}
+				}else{
+					$html_input .= '<li class="data-options" style="display: flex;">';
+						$html_input .= '<span class="dashicons dashicons-move"></span>';
+						$html_input .= '<input type="text" class="option-title form-control ppom-option-keys" placeholder="'.$plc_option.'" data-metatype="option">';
+						$html_input .= '<input type="text" class="option-price form-control ppom-option-keys" placeholder="'.$plc_price.'" data-metatype="price">';
+						
+						$html_input .= '<input type="text" class="option-label form-control ppom-option-keys" placeholder="'.$plc_label.'" data-metatype="label">';
 
 						$html_input .= '<input type="text" class="option-id form-control ppom-option-keys" placeholder="'.$plc_id.'" data-metatype="id">';
 						$html_input .= '<button class="btn btn-success ppom-add-option" data-option-type="paired"><i class="fa fa-plus" aria-hidden="true"></i></button>';
@@ -904,11 +957,11 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 				break;
 		}
 		
-		return apply_filters('render_input_types', $html_input, $type, $name, $values, $options);
+		return apply_filters('render_input_types', $html_input, $type, $name, $values, $options, $field_index);
 	}
     
 
-    function ppom_fields_tabs(){
+    function ppom_fields_tabs($fields_type){
 	
 		$tabs = array();
 
@@ -955,7 +1008,7 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 				
 			);
 
-		return apply_filters('ppom_fields_tabs_show', $tabs);
+		return apply_filters('ppom_fields_tabs_show', $tabs, $fields_type);
 
 	}
 
@@ -970,7 +1023,7 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 			if ($type == 'html-conditions') {
 
 				$settings['conditions']['tabs_class'] = array('ppom_handle_condition_tab','col-md-12');
-			}else if($type == 'paired' || $type == 'paired-cropper' || $type == 'paired-quantity' || $type == 'bulk-quantity') { 
+			}else if($type == 'paired' || $type == 'paired-cropper' || $type == 'paired-quantity' || $type == 'paired-pricematrix' || $type == 'bulk-quantity') { 
 				//Bulk Quantity Addon Tabs
 				//Fixed Price Addon Tabs
 

@@ -369,3 +369,21 @@ padding: 5px;
     left: auto;
     margin: 0;
 }
+
+/*variation quantity grid view css*/
+.ppom-quantity-box-cols{
+    padding: 0px 0px 6px 0px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    line-height: 15px;
+    font-size: 11px;
+}
+.ppom-quantity-qty-section input{
+    width: 20px;
+}
+.ppom-quantity-price-wrap{
+    display: block;
+    margin-top: -10px;
+}

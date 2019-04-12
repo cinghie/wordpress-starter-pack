@@ -18,6 +18,9 @@ function ppom_hooks_save_cropped_image( $ppom_fields, $posted_data ) {
 	$cropper_found = array();
 	foreach($cropped_fields as $cropper) {
 		
+		// Legacy view do not need this
+		if( isset($cropper['legacy_cropper']) && $cropper['legacy_cropper'] == 'on' ) continue;
+		
 		if( isset($ppom_fields['fields'][$cropper['data_name']]) ) {
 			
 			$cropper_found = $ppom_fields['fields'][$cropper['data_name']];
@@ -176,6 +179,7 @@ function ppom_hooks_load_input_scripts( $product ) {
 		$title			= ( isset($field['title']) ? $field ['title'] : '');
 		$data_name		= ( isset($field['data_name']) ? $field ['data_name'] : $title);
 		$data_name		= sanitize_key( $data_name );
+		$field['data_name'] = $data_name;
 		
 		// var_dump($field['options']);
 		if( isset($field['options']) && $type != 'bulkquantity') {
@@ -269,6 +273,13 @@ function ppom_hooks_load_input_scripts( $product ) {
 		    
 				$ppom_exif			= PPOM_URL . '/js/exif.js';
 		        wp_enqueue_style( 'ppom-croppie-css', $ppom_croppie_css);
+		        
+		        if( isset($field['legacy_cropper']) && $field['legacy_cropper'] == 'on' ) {
+		        	add_thickbox();
+		        	wp_enqueue_script( 'ppom-jcrop', PPOM_URL.'/js/jcrop/js/jquery.Jcrop.min.js', array('jquery'), PPOM_VERSION);
+		        	wp_enqueue_style( 'ppom-jcrop-css', PPOM_URL.'/js/jcrop/css/jquery.Jcrop.min.css');
+		        }
+		        
 		        // Croppie options
 				$croppie_options[$data_name]	= ppom_get_croppie_options($field);
 		        

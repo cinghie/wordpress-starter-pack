@@ -452,6 +452,7 @@ foreach( $ppom_fields_meta as $meta ) {
                    
                    case 'quantities':
                 	
+                	$view_control = (isset( $meta['view_control'] ) ? $meta['view_control'] : '' );
                 	$horizontal_layout = (isset( $meta['horizontal'] ) ? $meta['horizontal'] : '' );
                 	$include_productprice = isset($meta['use_productprice']) ? $meta['use_productprice'] : '';
                 	
@@ -467,6 +468,7 @@ foreach( $ppom_fields_meta as $meta ) {
 					              'label'	  => $field_label,
 					              'required'		=> $required,
                                   'horizontal_layout' => $horizontal_layout,
+                                  'view_control'		=> $view_control,
                                   'options'		=> $options,
                                   'include_productprice' => $include_productprice
 					              );

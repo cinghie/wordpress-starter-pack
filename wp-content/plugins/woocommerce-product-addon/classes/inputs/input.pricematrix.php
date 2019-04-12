@@ -58,7 +58,7 @@ class NM_PriceMatrix_wooproduct extends PPOM_Inputs{
 										'base'	=> "Only Base"),
 			),
 			'options' => array (
-					'type' => 'paired',
+					'type' => 'paired-pricematrix',
 					'title' => __ ( 'Price matrix', "ppom" ),
 					'desc' => __ ( 'Type quantity range with price.', "ppom" ),
 					'link' => __ ( '<a target="_blank" href="'.$matrix_detail.'">More Detail</a>', 'ppom' ) 

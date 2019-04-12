@@ -658,6 +658,25 @@ Yet, if you’re already using %1$s"Contact Form 7", "Gravity Form"%2$s or %1$s"
             </div>
         </div>
     </div>
+    <div class="section section-even clear" style="background: url(<?php echo YITH_YWRAQ_URL ?>assets/images/30-bg.png) no-repeat #fff; background-position: 85% 100%">
+        <div class="landing-container">
+            <div class="col-1">
+                <img src="<?php echo YITH_YWRAQ_URL ?>assets/images/30.png" alt="Create quote by admin" />
+            </div>
+            <div class="col-2">
+                <div class="section-title">
+                    <img src="<?php echo YITH_YWRAQ_URL?>assets/images/30-icon.png" alt="icon 30" />
+                    <h2><?php _e('Show request a quote button on checkout page','yith-woocommerce-request-a-quote');?></h2>
+                </div>
+                <p>
+                    <?php _e('Customer will be able to change his cart into a quote request','yith-woocommerce-request-a-quote');?>
+                </p>
+                <p>
+                    <?php echo sprintf( __('With a simple click on the "Request a Quote" button on the checkout page, your cusomer can submit is complete cart as a quote request.'),'<b>','</b>' );?>
+                </p>
+            </div>
+        </div>
+    </div>
     <div class="section section-cta section-odd">
         <div class="landing-container">
             <div class="premium-cta">

@@ -82,7 +82,7 @@ class NM_PersonalizedProduct {
 		// Changing price displa on loop for price matrix
 	    add_filter('woocommerce_get_price_html', 'ppom_woocommerce_alter_price', 10, 2);
 	    // Hiding variation price if dynamic price is enable
-	    add_filter( 'woocommerce_show_variation_price', 'ppom_hide_variation_price_html', 99, 3);
+	    // add_filter( 'woocommerce_show_variation_price', 'ppom_hide_variation_price_html', 99, 3);
 	    
 	    // Product Max quantity control for matrix
 	    add_filter( 'woocommerce_quantity_input_max', 'ppom_woocommerce_set_max_quantity', 10, 2);
@@ -163,6 +163,11 @@ class NM_PersonalizedProduct {
 		 add_action('wp_ajax_ppom_get_cart_fragment', 'ppom_hooks_get_cart_fragment');*/
 		 add_action('wp_ajax_ppom_ajax_validation', 'ppom_woocommerce_ajax_validate');
 		 add_action('wp_ajax_nopriv_ppom_ajax_validation', 'ppom_woocommerce_ajax_validate');
+		 //legacy cropper
+		 add_action('wp_ajax_ppom_crop_image_editor', 'ppom_file_legacy_crop_editor');
+		 add_action('wp_ajax_nopriv_ppom_crop_image_editor', 'ppom_file_legacy_crop_editor');
+		 add_action('wp_ajax_ppom_crop_image', 'ppom_file_crop_image_legacy');
+		 add_action('wp_ajax_nopriv_ppom_crop_image', 'ppom_file_crop_image_legacy');
 		 
 		 
 		 

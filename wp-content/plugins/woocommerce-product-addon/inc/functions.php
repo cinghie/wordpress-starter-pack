@@ -43,6 +43,11 @@ function ppom_translation_options( $option ) {
 	if( !isset($option['option']) ) return $option;
 	
 	$option['option'] = ppom_wpml_translate($option['option'], 'PPOM');
+	
+	// if label is set
+	if( isset($option['label']) ) {
+		$option['label'] = ppom_wpml_translate($option['label'], 'PPOM');
+	}
 	return $option;
 }
 
@@ -193,6 +198,14 @@ function ppom_get_product_price( $product ) {
 		}
 	}
 	
+	// WholeSale Plugin Price
+	if( has_filter('wwp_filter_wholesale_price') ) {
+		
+		$user_wholesale_role = WWP_Wholesale_Roles::getUserRoles();
+		$quantity = 1;
+		$product_price = apply_filters( 'wwp_filter_wholesale_price' , $product_price , ppom_get_product_id($product) , $user_wholesale_role , $quantity );
+	}
+	
 	return apply_filters('ppom_product_price', $product_price, $product);
 }
 
@@ -232,11 +245,34 @@ function ppom_make_meta_data( $cart_item, $context="cart" ){
 		
 		$meta_data = array();
 		
+			// ppom_pa($field_type);
 		switch( $field_type ) {
-			
 			case 'quantities':
 				$total_qty = 0;
 				$qty_values = array();
+				// ppom_pa($value);
+				foreach($value as $label => $qty) {
+					if( !empty($qty) ) {
+						$qty_values[] = "{$label} = {$qty}";
+						// $ppom_meta[$label] = $qty;
+						$total_qty += $qty;	
+					}
+				}
+				
+				if( $total_qty > 0 ) {
+					$qty_values[] = __('Total',"ppom").' = '.$total_qty;
+					$meta_data = array('name'=>$field_title, 'value'=>implode(",",$qty_values));
+					// A placeholder key to handle qunantity display in item meta data under myaccount
+				}
+				
+				$ppom_meta['ppom_has_quantities'] = $total_qty;
+				break;
+
+			// variation matrix
+			case 'vm':
+				$total_qty = 0;
+				$qty_values = array();
+				// ppom_pa($value);
 				foreach($value as $label => $qty) {
 					if( !empty($qty) ) {
 						$qty_values[] = "{$label} = {$qty}";
@@ -482,7 +518,7 @@ function ppom_has_posted_field_value( $posted_fields, $field ) {
 	
 	$has_value	= false;
 	
-	$data_name	= $field['data_name'];
+	$data_name	= sanitize_key($field['data_name']);
 	$type		= $field['type'] ;
 	
 	if( !empty($posted_fields) ) {
@@ -718,6 +754,11 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 				
 			}
 			
+			// If label provided from settings
+			if( !empty($option['label']) ) {
+				$option_label = $option['label'];
+			}
+			
 			$the_option = stripslashes($option['option']);
 			
 			$option_id = ppom_get_option_id($option, $data_name);
@@ -727,6 +768,7 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 													'raw'	=> $the_option,
 													'without_tax'=>$option_price_without_tax,
 													'percent'=> $option_percent,
+													'data_name' => $data_name,
 													'option_id' => $option_id);
 														
 			if( $discount ) {
@@ -739,6 +781,10 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 				$ppom_new_option[$the_option]['height'] = isset($option['height']) ? $option['height'] : '';
 			}
 			
+			// Adding weight
+			if( isset($option['weight']) ) {
+				$ppom_new_option[$the_option]['option_weight'] = $option['weight'];
+			}
 		}
 	}
 	

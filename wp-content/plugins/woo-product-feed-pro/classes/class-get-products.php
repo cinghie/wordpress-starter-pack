@@ -797,10 +797,12 @@ class WooSEA_Get_Products {
 										if($nodes[0] == "REVIEW_RATINGS"){
 											$rev = $productz->addChild('ratings');
 											$over = $productz->ratings->addChild('overall', $nodes[1]);
-											$over->addAttribute('min', $nodes[1]);
-											$over->addAttribute('max', $nodes[1]);
+											$over->addAttribute('min', '1');
+											$over->addAttribute('max', '5');
+										} elseif($nodes[0] == "REVIEW_URL"){
+											$rev_url = $productz->addChild(strtolower($nodes[0]), htmlspecialchars($nodes[1]));	
+											$rev_url->addAttribute('type', 'singleton');	
 										} elseif(($nodes[0] == "REVIEWER_NAME") OR ($nodes[0] == "REVIEWER_ID")){
-											
         	                                                        		if(isset($productz->reviewer)){
 												if($nodes[0] == "REVIEWER_NAME"){	
 													$name = $nodes[1];
@@ -847,8 +849,8 @@ class WooSEA_Get_Products {
                                         	                                		$poi->$k = $v;
                                                 	                        	}
                                                         	    		} else {
-                                                                			if($k != "reviews"){
-                                                                        			$poa = $po->addChild($k,$v);
+                                                                			if(($k != "reviews") AND ($k != "review_url")){
+                                                                        			$poa = $po->addChild($k,htmlspecialchars($v));
                                                          	        	      	}
                                                       	 			}
 									}	
@@ -1643,7 +1645,9 @@ class WooSEA_Get_Products {
 				$product_data['regular_price'] = apply_filters('wc_aelia_cs_convert', $product_data['regular_price'], $from_currency, $project_config['AELIA']);
 				$product_data['sale_price'] = apply_filters('wc_aelia_cs_convert', $product_data['sale_price'], $from_currency, $project_config['AELIA']);
 				$product_data['price_forced'] = apply_filters('wc_aelia_cs_convert', $product_data['price_forced'], $from_currency, $project_config['AELIA']);
-				$product_data['regular_price_forced'] = apply_filters('wc_aelia_cs_convert', $product_data['regular_price_forced'], $from_currency, $project_config['AELIA']);
+				if(isset($product_data['regular_price_forced'])){
+					$product_data['regular_price_forced'] = apply_filters('wc_aelia_cs_convert', $product_data['regular_price_forced'], $from_currency, $project_config['AELIA']);
+				}
 				if($product->get_sale_price()){
 					$product_data['sale_price_forced'] = apply_filters('wc_aelia_cs_convert', $product_data['sale_price_forced'], $from_currency, $project_config['AELIA']);
 				}	
@@ -2348,7 +2352,11 @@ class WooSEA_Get_Products {
 								}
 							} else {
 								if((strlen($attr_value['mapfrom'])) AND (array_key_exists($attr_value['mapfrom'], $product_data))){
-									$attr_line = "'".$attr_value['prefix']. "".$product_data[$attr_value['mapfrom']]."" .$attr_value['suffix']."'";
+									if(($attr_value['attribute'] == "g:link") OR ($attr_value['attribute'] == "link") OR ($attr_value['attribute'] == "Final URL")){
+										$attr_line = "'".$attr_value['prefix']. "".$product_data[$attr_value['mapfrom']]."".$attr_value['suffix']."'";
+									} else {
+										$attr_line = "'".$attr_value['prefix']. "".$product_data[$attr_value['mapfrom']]."" .$attr_value['suffix']."'";
+									}
 								} else {
 									$attr_line = "''";
 								}
@@ -2413,7 +2421,11 @@ class WooSEA_Get_Products {
                                                             			}	
 								 	 } else {
 										if(strlen($product_data[$attr_value['mapfrom']])){
-                                                                        		$attr_line .= ",'".$attr_value['prefix']. " ".$product_data[$attr_value['mapfrom']]." " .$attr_value['suffix']."'";
+											if(($attr_value['attribute'] == "g:link") OR ($attr_value['attribute'] == "link") OR ($attr_value['attribute'] == "Final URL")){
+												$attr_line .= ",'".$attr_value['prefix']. " ".$product_data[$attr_value['mapfrom']]."".$attr_value['suffix']."'";
+											} else {
+												$attr_line .= ",'".$attr_value['prefix']. " ".$product_data[$attr_value['mapfrom']]." " .$attr_value['suffix']."'";
+											}
 										} else {
 											$attr_line .= ",''";
 										}
@@ -2522,7 +2534,6 @@ class WooSEA_Get_Products {
                                                                                                                 $review_str .= "||";
 
                                                                                                                 foreach($value as $k => $v){
-
                                                                                                                         if($k == "review_product_id"){
                                                                                                                                 $review_str .= ":::REVIEW_PRODUCT_ID##$v";
                                                                                                                         } elseif ($k == "reviewer_image"){
@@ -2536,8 +2547,12 @@ class WooSEA_Get_Products {
  															} elseif ($k == "reviewer_id"){
                                                                                                                                 $review_str .= ":::REVIEWER_ID##$v";
  															} elseif ($k == "review_timestamp"){
+																$v = str_replace(" ", "T", $v);
+																$v .= "Z";
                                                                                                                                 $review_str .= ":::REVIEW_TIMESTAMP##$v";
- 															} elseif ($k == "title"){
+ 															} elseif ($k == "review_url"){
+                                                                                                                                $review_str .= ":::REVIEW_URL##$v";
+															} elseif ($k == "title"){
                                                                                                                                 $review_str .= ":::TITLE##$v";
  															} elseif ($k == "content"){
                                                                                                                                 $review_str .= ":::CONTENT##$v";
@@ -3002,9 +3017,6 @@ class WooSEA_Get_Products {
 				}
 			}	
 		}		
-		//error_log(print_r($product_data, TRUE));
-		//error_log(print_r($field_manipulation, TRUE));
-
 		return $product_data;
 	}
 
@@ -3568,7 +3580,7 @@ class WooSEA_Get_Products {
 											if($pr_array['than'] == "include_only"){
 												$allowed = 0;
 											} else {
-												$allowed = 0;
+												$allowed = 1;
 											}
 											break;
 										case($pr_array['condition'] = "containsnot"):
@@ -3582,7 +3594,7 @@ class WooSEA_Get_Products {
 											if($pr_array['than'] == "include_only"){
 												$allowed = 0;
 											} else {
-												$allowed = 0;
+												$allowed = 1;
 											}
 											break;
 										case($pr_array['condition'] = "!="):

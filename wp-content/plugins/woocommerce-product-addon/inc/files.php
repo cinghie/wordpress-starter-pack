@@ -60,7 +60,7 @@ function ppom_is_file_image( $file_name ){
 // return html for file thumb
 function ppom_create_thumb_for_meta( $file_name, $product_id, $cropped=false) {
 	
-	$file_dir_path = ppom_get_dir_path() . $file_name;
+	$file_dir_path = ppom_get_dir_path('thumbs') . $file_name;
 	if( ! file_exists($file_dir_path) ) return '';
 	
 	$file_url       = ppom_get_dir_url() . $file_name;
@@ -361,6 +361,9 @@ function ppom_get_file_download_url( $file_name, $order_id, $product_id ) {
 function ppom_uploaded_file_preview($file_name, $settings){
 	
 	
+	$field_type = $settings['type'];
+	$data_name	= isset($settings['data_name']) ? $settings['data_name'] : '';
+	
 	$file_dir_path	= ppom_get_dir_path();
 	$file_path = $file_dir_path . $file_name;
 	
@@ -371,7 +374,7 @@ function ppom_uploaded_file_preview($file_name, $settings){
 	$thumb_url = $file_meta = $file_tools = $html = '';
 	
 	// $settings = json_decode(stripslashes($settings), true);
-	// $this -> pa($settings);
+	// ppom_pa($settings);
 	$file_id = 'thumb_'.time();
 
 	if($is_image){
@@ -400,16 +403,10 @@ function ppom_uploaded_file_preview($file_name, $settings){
 			$file_tools .= '<a href="#" data-toggle="modal" data-target="#modalFile'.esc_attr($file_id).'" class="btn btn-primary"><span class="fa fa-expand"></span></a>';
 		}
 		
-		if(isset($settings['photo_editing']) && $settings['photo_editing'] == 'on'){
+		if($field_type == 'cropper' && isset($settings['legacy_cropper']) && $settings['legacy_cropper'] == 'on'){
 			
-			if( isset($settings['editing_tools']) ) {
-				parse_str ( $settings['editing_tools'], $parsed_editing_tools );
-				$editing_tools = implode(",", $parsed_editing_tools['editing_tools']);
-			}
-			
-			$cropping_preset = isset($settings['aviary_crop_preset']) ? $settings['aviary_crop_preset'] : '';
-			
-			$file_tools .= '<a href="javascript:;" onclick="launch_aviary_editor(\''.$file_id.'\', \''.ppom_get_dir_url() . $file_name.'\', \''.$file_name.'\', \''.$editing_tools.'\', \''.$cropping_preset.'\')" class="nm-file-tools btn btn-primary" title="'.__('Edit image', "ppom").'"><span class="fa fa-pencil"></span></a>';
+			$cropping_ratios = json_encode($settings['options']);
+			$file_tools .= '<a href="javascript:;" onclick="ppom_legacy_crop_editor(\''.$data_name.'\', \''.$file_id.'\', \''.$image_url.'\', \''.$file_name.'\', \''.esc_attr($cropping_ratios).'\', this)" class="btn btn-primary" title="'.__('Crop image', 'ppom').'"><span class="fa fa-crop"></span></a>';
 			
 		}
 			
@@ -601,4 +598,90 @@ function ppom_file_get_name($file_name, $product_id, $cart_item=null) {
 	
 	$new_file_name = "{$product_id}-{$file_name}";
 	return apply_filters('ppom_file_name_prefix', $new_file_name, $file_name, $product_id, $cart_item);
+}
+
+function ppom_file_legacy_crop_editor(){
+
+	/*
+	 * loading uploader template
+	 */
+
+	$ratio = json_decode( stripslashes( $_REQUEST['ratios'] ) );
+	// var_dump($ratio);
+	$vars = array('image_name' => $_REQUEST['image_name'], 
+					'image_url' => $_REQUEST['image_url'], 
+					'ratio' => $ratio, 
+					'fileid' => $_REQUEST['file_id'],
+					'image_id'	=> $_REQUEST['image_id'],
+					'data_name'	=> $_REQUEST['data_name']);
+	ppom_load_template( 'input/legacy-cropper.php', $vars);
+
+	die(0);
+}
+
+function ppom_file_crop_image_legacy(){
+
+	//print_r($_REQUEST); exit;
+	
+	$image_path = ppom_get_dir_path() . $_REQUEST['image_name'];
+	$cropped_name = $_REQUEST['image_name'];
+	$cropped_dest = ppom_get_dir_path('cropped') . ppom_file_get_name($cropped_name, $_REQUEST['product_id']);
+	
+	
+	
+	$image = wp_get_image_editor ( $image_path );
+	//$crop_coords = array($_REQUEST['coords']['x'])
+	if (! is_wp_error ( $image )) {
+		/*$image->resize ( $_REQUEST['img_w'], $_REQUEST['img_h'], false );
+		$image->crop (  intval($_REQUEST['coords']['x']), 
+						intval($_REQUEST['coords']['y']), 
+						intval($_REQUEST['coords']['w']), 
+						intval($_REQUEST['coords']['h']), 
+						intval($_REQUEST['coords']['w']), 
+						intval($_REQUEST['coords']['h']), false );*/
+						
+						
+		$real_size = $image->get_size();	
+		$factor_x = $real_size['width']/$_REQUEST['img_w'];
+		$factor_y = $real_size['height']/$_REQUEST['img_h'];
+		
+		$real_x = intval($_REQUEST['coords']['x']) * $factor_x;
+		$real_y = $_REQUEST['coords']['y'] * $factor_y;
+		$real_w = ($_REQUEST['coords']['x2'] * $factor_x) - $real_x;
+		$real_h = ($_REQUEST['coords']['y2'] * $factor_y) - $real_y;
+		
+		$ratio = explode( '/', $_REQUEST['ratio']);
+		
+		$crop_params = apply_filters('ppom_crop_image', array('x'=>$real_x,
+															'y'=>$real_y,
+															'w'=>$real_w,
+															'h'=>$real_h,
+															'd_w'=>NULL,
+															'd_h'=>NULL),
+															$ratio);
+		//d_w: destination width, d_h: destination height
+		$image->crop ( $crop_params['x'], $crop_params['y'], $crop_params['w'], $crop_params['h'], $crop_params['d_w'], $crop_params['d_h'] );
+		
+		$cropped_image = $image->save ( $cropped_dest );
+		
+		//also saving thumb
+		$new_thumb = wp_get_image_editor ( $cropped_dest );
+		$cropped_thumb_name = $_REQUEST['image_name'];
+		$cropped_thumb_dest = ppom_get_dir_path('cropped/thumbs') . $cropped_thumb_name;
+		if (! is_wp_error ( $new_thumb )) {
+			$new_thumb->resize ( 75, 75 );
+			$new_thumb->save ( $cropped_thumb_dest );
+		}else{
+			die('error while loading image '.$image_path);
+		}
+	}else{
+		die('error while loading image '.$image_path);
+	}
+	
+	//$the_cropped  = wp_crop_image($image_path, $_REQUEST['coords']['x'], $_REQUEST['coords']['y'], $_REQUEST['coords']['w'], $_REQUEST['coords']['h'], NULL, NULL, false);
+	$thumb_url = ppom_get_dir_url().'cropped/thumbs/' . $cropped_thumb_name . '?nocache='.time();
+	echo json_encode(array('fileid' => $_REQUEST['fileid'],
+						'data_name'	=> $_REQUEST['data_name'],
+						'cropped_image' => $thumb_url));
+	die(0);
 }

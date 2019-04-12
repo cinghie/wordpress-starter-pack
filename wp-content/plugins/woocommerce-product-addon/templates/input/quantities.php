@@ -13,7 +13,7 @@ $options = isset($args['options']) ? $args['options'] : null;
 // ppom_pa($args);
 echo '<input type="hidden" name="ppom_quantities_option_price" id="ppom_quantities_option_price">';
 
-if (isset($args['horizontal_layout']) && $args['horizontal_layout'] == 'on') { ?>
+if (isset($args['view_control']) && $args['view_control'] == 'horizontal') { ?>
 <div class="nm-horizontal-layout">
 	<table class="table table-bordered table-hover">
        <thead> 
@@ -74,6 +74,54 @@ if (isset($args['horizontal_layout']) && $args['horizontal_layout'] == 'on') { ?
 	    </tr>
 	</table>
 </div>
+<?php } elseif (isset($args['view_control']) && $args['view_control'] == 'grid') { ?>
+
+    <!-- Enable Grid View -->
+    <div class="form-row  ppom-quantity-box-wrapper">
+        
+        <?php 
+            foreach($options as $opt){ 
+
+                $min    = (isset($opt['min']) ? $opt['min'] : 0 );
+                $max    = (isset($opt['max']) ? $opt['max'] : 10000 );
+                
+                $product_price = $product->get_type() == 'simple' ? $product->get_price() : '';
+                $the_price = !empty($opt['price']) ? $opt['price'] : $product_price;
+                $usebaseprice   = !empty($opt['price']) ? 'no' : 'yes';
+            
+                $label  = $opt['option'];
+                $name   = $args['name'].'['.$label.']';
+
+                $required = ($args['required'] == 'on' ? 'required' : '');
+                
+                // Default value
+                $selected_val = 0;
+                if($default_value){
+                    foreach($default_value as $k => $v) {
+                        if( $k == $label ) {
+                            $selected_val = $v;
+                        }
+                    }
+                }
+        ?>
+        <div class="col-md-3 ppom-quantity-box-cols text-center">
+            <div class="ppom-quantity-label">
+
+                <label class="quantities-lable"> <?php echo stripslashes(trim($opt['option'])); ?>
+
+                </label>
+                <?php if ($opt['price']): ?>
+                    <span class="ppom-quantity-price-wrap"><?php echo wc_price($opt['price']); ?></span>
+                <?php endif ?>
+            </div>
+
+            <span class="ppom-quantity-qty-section">
+                <input min="<?php echo esc_attr($min); ?>" max="<?php echo esc_attr($max); ?>" data-label="<?php echo esc_attr($label); ?>" data-includeprice="<?php echo esc_attr($args['include_productprice']); ?>" name="<?php echo esc_attr($name); ?>" type="number" class="ppom-quantity" data-usebase_price="<?php echo esc_attr($usebaseprice); ?>" value="<?php echo esc_attr($selected_val); ?>" placeholder="0" data-price="<?php echo esc_attr($the_price); ?>" <?php echo esc_attr($required); ?> style="width: 50%;">
+            </span>
+        </div>
+        <?php } ?>
+    </div>
+
 <?php } else { ?>
 	<table class="table table-bordered table-hover">
 	    <thead>

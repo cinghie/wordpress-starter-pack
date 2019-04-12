@@ -50,6 +50,12 @@ class WooSEA_google_product_review {
 					"format" => "required",
 					"woo_suggest" => "reviews",
 				),
+				"review_url" => array(
+					"name" => "review_url",
+					"feed_name" => "review_url",
+					"format" => "required",
+					"woo_suggest" => "link",
+				),
 			),
 		);
 		return $google_product_review;

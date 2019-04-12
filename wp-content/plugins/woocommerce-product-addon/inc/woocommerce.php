@@ -181,8 +181,8 @@ function ppom_check_validation($product_id, $post_data, $passed=true) {
 		}
 	}
 	
-	/*var_dump($passed);
-	ppom_pa($post_data); exit;*/
+	
+	// ppom_pa($post_data); exit;
 	
 	return $passed;
 }
@@ -637,7 +637,7 @@ function ppom_woocommerce_alter_price($price, $product) {
 	return apply_filters('ppom_loop_matrix_price', $price, $from_pice, $to_price);
 }
 
-function ppom_hide_variation_price_html($show, $parent, $variation) {
+/*function ppom_hide_variation_price_html($show, $parent, $variation) {
 	
 	$product_id = $parent->get_id();
 	$ppom		= new PPOM_Meta( $product_id );
@@ -648,7 +648,7 @@ function ppom_hide_variation_price_html($show, $parent, $variation) {
 	
 	return $show;
 	
-}
+}*/
 
 // Set max quantity for price matrix
 function ppom_woocommerce_set_max_quantity( $max_quantity, $product ) {

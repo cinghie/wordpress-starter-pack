@@ -210,12 +210,11 @@ if( !class_exists( 'YITH_WCAS_Admin' ) ) {
                 'screen_id'     => 'plugins',
                 'pointer_id' => 'yith_wcas_panel',
                 'target'     => '#toplevel_page_yit_plugin_panel',
-                'content'    => sprintf( '<h3> %s </h3> <p> %s </p>',
+                'content'    => sprintf( '<h3> %s </h3> <p> %s <a href="%s">%s</a></p>',
                     __( 'YITH WooCommerce Ajax Search', 'yith-woocommerce-ajax-search' ),
                     __( 'In the YIT Plugin tab you can find the YITH WooCommerce Ajax Search options.
 With this menu, you can access to all the settings of our plugins that you have activated.
-YITH WooCommerce Ajax Search is available in an outstanding PREMIUM version with many new options, <a href="'.$this->_premium_landing.'">discover it now</a>', 'yith-woocommerce-ajax-search' )
-                ),
+YITH WooCommerce Ajax Search is available in an outstanding PREMIUM version with many new options','yith-woocommerce-ajax-search'), $this->_premium_landing, __('discover it now', 'yith-woocommerce-ajax-search' ) ),
                 'position'   => array( 'edge' => 'left', 'align' => 'center' ),
                 'init'  => YITH_WCAS_FREE_INIT
             );
@@ -224,12 +223,12 @@ YITH WooCommerce Ajax Search is available in an outstanding PREMIUM version with
                 'screen_id'     => 'update',
                 'pointer_id' => 'yith_wcas_panel',
                 'target'     => '#toplevel_page_yit_plugin_panel',
-                'content'    => sprintf( '<h3> %s </h3> <p> %s </p>',
+                'content'    => sprintf( '<h3> %s </h3> <p> %s <a href="%s">%s</a></p>',
                     __( 'YITH WooCommerce Ajax Search Updated', 'yith-woocommerce-ajax-search' ),
                     __( 'From now on, you can find all the options of YITH WooCommerce Ajax Search Updated under YIT Plugin -> Ajax Search instead of WooCommerce -> Settings -> Ajax Search, as in the previous version.
 When one of our plugins updates, a new voice will be added to this menu.
-YITH WooCommerce Ajax Search renovates with new available options, discover the <a href="'.$this->get_premium_landing_uri().'">PREMIUM version</a>.
-', 'yith-woocommerce-ajax-search' )
+YITH WooCommerce Ajax Search renovates with new available options, discover the', 'yith-woocommerce-ajax-search'),
+	                $this->get_premium_landing_uri(), __('PREMIUM version', 'yith-woocommerce-ajax-search' )
                 ),
                 'position'   => array( 'edge' => 'left', 'align' => 'center' ),
                 'init'  => YITH_WCAS_FREE_INIT

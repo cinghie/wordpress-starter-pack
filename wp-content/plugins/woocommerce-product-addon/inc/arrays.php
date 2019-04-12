@@ -292,6 +292,27 @@ function ppom_array_settings() {
         ),
         
         array(
+				'title'          => __( 'Hide Product Price?', 'ppom' ),
+				'type'          => 'checkbox',
+				'label'         => __( 'Yes', 'ppom' ),
+				'default'       => 'no',
+				'id'            => 'ppom_hide_product_price',
+				'desc'          => __( 'Hides Product core price under price Title (When PPOM Fields attached)', 'ppom' ),
+				
+			),
+		
+		array(
+				'title'          => __( 'Hide Variable Product Price?', 'ppom' ),
+				'type'          => 'checkbox',
+				'label'         => __( 'Yes', 'ppom' ),
+				'default'       => 'no',
+				'id'            => 'ppom_hide_variable_product_price',
+				'desc'          => __( 'Hides Variable Product core price under price Title (When PPOM Fields attached)', 'ppom' ),
+				
+			),
+			
+			
+		array(
 				'title'          => __( 'Hide Options Price?', 'ppom' ),
 				'type'          => 'checkbox',
 				'label'         => __( 'Yes', 'ppom' ),

@@ -194,6 +194,11 @@ class NM_Cropper_wooproduct extends PPOM_Inputs{
 					'desc' => __ ( 'Enable zooming functionality. If set to false - scrolling and pinching would not zoom.', 'ppom' ),
 					'link' => __ ( '<a target="_blank" href="'.esc_url($croppie_options_link).'">Help</a>', 'ppom' ),
 			),
+			'legacy_cropper' => array (
+					'type' => 'checkbox',
+					'title' => __ ( 'Enable Legacy Cropper', 'ppom' ),
+					'desc' => __ ( 'It will show legacy cropper popup', 'ppom' )
+			),
 			'logic' => array (
 					'type' => 'checkbox',
 					'title' => __ ( 'Enable Conditions', 'ppom' ),

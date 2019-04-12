@@ -4,7 +4,7 @@ Tags: woocommerce, woocommerce pesonalized products, woocommerce custom fields, 
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
 Tested up to: 5.0
-Stable tag: 17.0
+Stable tag: 17.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -83,6 +83,13 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
+= 17.1 April 10, 2019 =
+* Feature: Option Added to hide Product Price if PPOM Fields attached
+* Feature: Option Added to hide Variable Product Price if PPOM Fields attached
+* Feature: [Price Matrix now have Label for each Range](https://clients.najeebmedia.com/forums/topic/change-info-on-left-column-of-price-matrix/)
+* Feature: [Variation Quantity New Layout: Grid Added](https://najeebmedia.com/blog/pom-version-7-0-and-7-1-updates/#ppom-variation-grid)
+* Feature: [Legacy Cropper Added](https://najeebmedia.com/blog/pom-version-7-0-and-7-1-updates/#ppom-legacy-cropper)
+* Bug fixed: [Option weight not adding when option price is not set, fixed now](https://wordpress.org/support/topic/optional-weight-does-must-work-with-a-non-zero-optional-price/)
 = 17.0 March 19, 2019 =
 * Feature: Option added to disable Bootrap from PPOM Settings
 * Feature: Option added to disable FontAwesome from PPOM Settings
@@ -90,7 +97,7 @@ Drag & Drop input fields with many options. Prices can also be added with option
 * Feature: [Placeholder option added for Textarea](https://clients.najeebmedia.com/forums/topic/adding-placeholder-to-textarea/)
 * Feature: Now Product has new UI for PPOM Meta under WooCommerce Settings MetaBox
 * Feature: PPOM Metas on Product now in Wide, Nice UI
-* Feature: PPOM has Settings Panel under WooCommerce->Settings->PPOM Settings
+* Feature: [PPOM has Settings Panel under WooCommerce->Settings->PPOM Settings](https://najeebmedia.com/blog/pom-version-7-0-and-7-1-updates/#ppom-settings)
 * Feature: Settings: Change Labels
 * Feature: Sectings: Show/Hide Option Price
 * Feature: Settings: "Select Option" button label option

@@ -207,7 +207,8 @@ ul.ppom-options-container li {
     border-bottom: 1px solid #a29494;
 }
 .ppom_handle_fonts_family_tab textarea,
-.ppom_handle_custom_fonts_tab textarea{
+.ppom_handle_custom_fonts_tab textarea,
+.ppom_handle_vm_row_tab textarea{
     min-height: 206px;
 }
 .ppom-tabs  .ppom-tabs-label {

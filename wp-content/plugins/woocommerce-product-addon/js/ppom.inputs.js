@@ -204,7 +204,7 @@ function ppom_get_field_type_by_id( field_id ) {
 function ppom_get_field_meta_by_id( field_id ) {
  
  var field_meta = '';
- jQuery.each(ppom_input_vars.ppom_inputs, function(i, field){
+ jQuery.each(ppom_input_vars.field_meta, function(i, field){
     
      if( field.data_name === field_id ) {
          field_meta = field;
@@ -218,7 +218,7 @@ function ppom_get_field_meta_by_id( field_id ) {
 function ppom_get_field_meta_by_type( type ) {
  
  var field_meta = Array();
- jQuery.each(ppom_input_vars.ppom_inputs, function(i, field){
+ jQuery.each(ppom_input_vars.field_meta, function(i, field){
     
      if( field.type === type ) {
          field_meta.push(field);
