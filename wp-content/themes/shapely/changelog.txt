@@ -1,3 +1,6 @@
+### 1.2.5
+	Added Modula to recommended plugins
+
 ### 1.2.4
 	Implemented milestone https://github.com/ColorlibHQ/shapely/milestone/8?closed=1
 

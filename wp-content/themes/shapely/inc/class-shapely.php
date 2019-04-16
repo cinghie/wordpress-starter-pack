@@ -3,20 +3,23 @@
 class Shapely {
 
 	public $recommended_plugins = array(
+		'fancybox-for-wordpress' => array(
+			'recommended' => true,
+		),
+		'simple-custom-post-order' => array(
+			'recommended' => true,
+		),
 		'colorlib-login-customizer' => array(
-			'recommended' => false,
+			'recommended' => true,
 		),
-        'colorlib-404-customizer' => array(
-            'recommended' => false,
-        ),
-        'colorlib-coming-soon-maintenance' => array(
-            'recommended' => false,
-        ),
-		'simple-custom-post-order'  => array(
-			'recommended' => false,
+		'colorlib-coming-soon-maintenance' => array(
+			'recommended' => true,
 		),
-		'fancybox-for-wordpress'    => array(
-			'recommended' => false,
+		'colorlib-404-customizer' => array(
+			'recommended' => true,
+		),
+		'modula-best-grid-gallery' => array(
+			'recommended' => true,
 		),
 	);
 
