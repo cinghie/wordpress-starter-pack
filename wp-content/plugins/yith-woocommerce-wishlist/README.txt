@@ -3,8 +3,8 @@
 Contributors: yithemes
 Tags: wishlist, woocommerce, products, yit, e-commerce, shop, ecommerce wishlist, yith, woocommerce wishlist, shop wishlist
 Requires at least: 4.0
-Tested up to: 5.0.0
-Stable tag: 2.2.8
+Tested up to: 5.1.1
+Stable tag: 2.2.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -108,6 +108,16 @@ you should ask theme developers to update custom templates and replace the old t
 4. The Wishlist settings page
 
 == Changelog ==
+
+= 2.2.9 - Released: Apr, 11 - 2019 =
+
+* New: WooCommerce 3.6.x support
+* New: added a WhatsApp share button on mobile
+* Tweak: using add_inline_style to include custom css code
+* Tweak: no longer adding empty style tag to the page
+* Update: Spanish language
+* Fix: get the correct value for wishlist name
+* Fix: deprecated notice caused by product id attribute being accessed directly
 
 = 2.2.8 - Released: Feb, 11 - 2019 =
 

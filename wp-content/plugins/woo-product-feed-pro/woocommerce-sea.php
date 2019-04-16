@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     5.3.2
+ * Version:     5.3.5
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '5.3.2' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '5.3.5' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -67,7 +67,6 @@ if ( ! defined( 'WOOCOMMERCESEA_BASENAME' ) ) {
 if ( ! defined( 'WOOCOMMERCESEA_PLUGIN_URL' ) ) { 
 	define( 'WOOCOMMERCESEA_PLUGIN_URL', plugins_url() . '/' . WOOCOMMERCESEA_PLUGIN_NAME_SHORT ); 
 }
-
 
 /**
  * Enqueue css assets
@@ -88,7 +87,6 @@ add_action( 'admin_enqueue_scripts' , 'woosea_styles' );
  * Enqueue js assets
  */
 function woosea_scripts($hook) {
-
 	// Enqueue Jquery
 	wp_enqueue_script('jquery');
 	wp_enqueue_script('jquery-ui-dialog');
@@ -162,7 +160,6 @@ function woosea_plugin_action_links($links, $file) {
  
     	// check to make sure we are on the correct plugin
     	if ($file == $this_plugin) {
- 
 		// link to what ever you want
 		$host = $_SERVER['HTTP_HOST'];
         	$plugin_links[] = '<a href="https://adtribes.io/support/?utm_source='.$host.'&utm_medium=pluginpage&utm_campaign=support" target="_blank">Support</a>';
@@ -206,7 +203,6 @@ function woosea_add_remarketing_tags( $product = null ){
 						// We should first check if there are any _GET parameters available
 						// When there are not we are on a variable product page but not on a specific variable one
 						// In that case we need to put in the AggregateOffer structured data
-	
 						$variation_id = woosea_find_matching_product_variation( $product, $_GET );
 						$nr_get = count($_GET);
 	
@@ -352,7 +348,6 @@ function woosea_license_notice(){
 }
 add_action('admin_notices', 'woosea_license_notice');
 
-
 /**
  * Request our plugin users to write a review
  **/
@@ -415,15 +410,6 @@ register_activation_hook(__FILE__, 'woosea_create_db_table');
 function woosea_hook_header() {
 	$marker = sprintf('<!-- This website runs the Product Feed PRO for WooCommerce by AdTribes.io plugin -->');
 	echo "\n${marker}\n";
-
-	// Make ajaxurl available on all pages
-//	echo '<script type="text/javascript">
-//           var ajaxurl = "' . admin_url('admin-ajax.php') . '";
-//        </script>';
-	
-        // JS for adding the tracking code into the template
-//        wp_register_script( 'woosea_tracking-js', plugin_dir_url( __FILE__ ) . 'js/woosea_tracking.js', WOOCOMMERCESEA_PLUGIN_VERSION, true  );
-//        wp_enqueue_script( 'woosea_tracking-js' );
 }
 add_action('wp_head','woosea_hook_header');
 
@@ -696,14 +682,11 @@ function woosea_find_matching_product_variation( $product, $attributes ) {
 
     if( class_exists('WC_Data_Store') ) {
         $data_store = WC_Data_Store::load( 'product' );
-
-//	return ( new \WC_Product_Data_Store_CPT() )->find_matching_product_variation(new \WC_Product( $product ),$attributes);
      	return $data_store->find_matching_product_variation( $product, $attributes );
     } else {
         return $product->get_matching_variation( $attributes );
     }
 }
-
 
 /**
  * Remove the price from the JSON-LD on variant product pages
@@ -1261,9 +1244,6 @@ function woosea_add_attributes() {
 	$attribute_name = sanitize_text_field($_POST['attribute_name']);
 	$attribute_value = sanitize_text_field($_POST['attribute_value']);
 	$active = sanitize_text_field($_POST['active']);
-
-//	unset($extra_attributes);
-//	delete_option('woosea_extra_attributes');
 
        	if(!get_option( 'woosea_extra_attributes' )){
 		if($active == "true"){
@@ -2385,7 +2365,6 @@ function woosea_update_project_history($project_hash){
 }
 add_action( 'woosea_update_project_stats', 'woosea_update_project_history',1,1 );
 
-
 /**
  * Get the attribute mapping helptexts
  */
@@ -2456,7 +2435,6 @@ function woosea_fieldmapping_dialog_helptext(){
 	wp_die();
 }
 add_action( 'wp_ajax_woosea_fieldmapping_dialog_helptext', 'woosea_fieldmapping_dialog_helptext' );
-
 
 /**
  * Get the dropdowns for the fieldmapping page
@@ -2583,7 +2561,6 @@ add_action( 'wp_ajax_woosea_autocomplete_mapping', 'woosea_autocomplete_mapping'
  * Some cases are left blank for future steps and pages in the configurations process
  */
 function woosea_generate_pages(){
-
 	/**
  	* Since WP 4.99 form elements are no longer allowed tags for non-admin users
  	* With the function below we add the form elements again to the allowed tags
@@ -2767,7 +2744,7 @@ function woosea_license_valid(){
         $license_information = get_option('license_information');
 
         $curl = curl_init();
-        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=5.3.2";
+        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=5.3.5";
 
         curl_setopt_array($curl, array(
                 CURLOPT_RETURNTRANSFER => 1,
@@ -3207,6 +3184,4 @@ function woosea_my_rss_box() {
 
 	endforeach; // End foreach feed
 }
-
-
 ?>

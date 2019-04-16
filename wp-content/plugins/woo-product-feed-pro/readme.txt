@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.1
-Stable tag: 5.3.2
+Stable tag: 5.3.5
 
 == Description ==
 
@@ -275,6 +275,16 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 5.3.5 (2019-04-16) =
+* Products that are on back-order will now have the availability status "out of stock" whereas previously they were shown as being "on stock"
+
+= 5.3.4 (2019-04-15) =
+* Fixed a bug in the category mapping for level-3 categories. When those categories were mapped to a Google category they did not show in the product feed. This has been fixed now. 
+
+= 5.3.3 (2019-04-14) =
+* General clean-up of code
+* Changed batch size for product feeds over 50.000 products
 
 = 5.3.2 (2019-04-11) =
 * Fixed a bug in filters for product tags
@@ -1635,6 +1645,16 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 5.3.5 =
+Products that are on back-order will now have the availability status "out of stock" whereas previously they were shown as being "on stock"
+
+= 5.3.4 =
+Fixed a bug in the category mapping for level-3 categories. When those categories were mapped to a Google category they did not show in the product feed. This has been fixed now.
+
+= 5.3.3 =
+General clean-up of code
+Changed batch size for product feeds over 50.000 products
 
 = 5.3.2 =
 Fixed a bug in filters for product tags
