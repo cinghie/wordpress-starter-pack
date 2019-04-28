@@ -29,9 +29,9 @@ jQuery(document).ready(function() {
 	if( jQuery.isFunction(jQuery.fn.datepicker) ) {
 		jQuery("input#'.$btn['cow'].'").datepicker({
 ';
-			if( empty($btn['format_date']) ) {
-				echo 'dateFormat : "dd-mm-yy",'; 
-			}
+			// Default date format
+			if( empty($btn['format_date']) )
+				$btn['format_date'] = apply_filters( 'wooccm_datepicker_default_date_format', 'dd-mm-yy' );
 			if( !empty($btn['format_date']) ) {
 				echo 'dateFormat : "'.str_replace( ' ', '', $btn['format_date'] ).'",'; 
 			}

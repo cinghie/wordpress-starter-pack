@@ -126,16 +126,17 @@ jQuery(function($){
     		}
     	});
 	
-    $.each(ppom_file_vars.file_inputs, function(index, file_input){
+    $.each(ppom_input_vars.ppom_inputs, function(index, file_input){
         
-        var file_data_name = file_input.data_name;
-        file_count[file_data_name] = 0;
-    
-    	$filelist_DIV[file_data_name] = $('#filelist-'+file_data_name);
-    	
-    	ppom_setup_file_upload_input( file_input );
-    	
-    });         // $.each(ppom_file_vars
+        
+        if( file_input.type === 'file' || file_input.type === 'cropper' ) {
+        
+            var file_data_name = file_input.data_name;
+        	
+        	ppom_setup_file_upload_input( file_input );
+        }
+        
+    });          // $.each(ppom_file_vars
 
 	
 });	//	jQuery(function($){});
@@ -153,7 +154,7 @@ function add_thumb_box(file, $filelist_DIV){
 		'html'	: inner_html,
 		
 	}).appendTo($filelist_DIV);
-
+	
 	// clearfix
 	// 1- removing last clearfix first
 	$filelist_DIV.find('.u_i_c_box_clearfix').remove();
@@ -245,6 +246,10 @@ function ppom_setup_file_upload_input( file_input ) {
     
     var file_data_name = file_input.data_name;
     
+    file_count[file_data_name] = 0;
+	$filelist_DIV[file_data_name] = jQuery('#filelist-'+file_data_name);
+    
+    
     if( upload_instance[file_data_name] !== undefined ) {
         upload_instance[file_data_name].destroy();
     }
@@ -282,7 +287,8 @@ function ppom_setup_file_upload_input( file_input ) {
     			},
     
     			FilesAdded: function(up, files) {
-    
+    			    
+    		
                     // Adding progress bar
                 	var file_pb = jQuery('<div/>')
                 	               .addClass('progress')

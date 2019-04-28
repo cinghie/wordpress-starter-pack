@@ -403,6 +403,17 @@ public function get_mapping_attributes_dropdown() {
 
 		$attributes = array_merge($attributes, $images);
 
+        	$static = array(
+			"installment" => "Installment",
+            		"static_value" => "Static value",
+			"calculated" => "Plugin calculation",
+			"product_tag" => "Product tags",
+			"menu_order" => "Menu order",
+			"reviews" => "Reviews",
+        	);
+
+		$attributes = array_merge($attributes, $static);
+
 		if(is_array($this->get_dynamic_attributes())){
         		$dynamic_attributes = $this->get_dynamic_attributes();
 			array_walk($dynamic_attributes, function(&$value, $key) { $value .= ' (Dynamic attribute)';});
@@ -414,15 +425,6 @@ public function get_mapping_attributes_dropdown() {
 			array_walk($custom_attributes, function(&$value, $key) { $value .= ' (Custom attribute)';});
 			$attributes = array_merge($attributes, $custom_attributes);
                 }
-
-        	$static = array(
-			"installment" => "Installment",
-            		"static_value" => "Static value",
-			"calculated" => "Plugin calculation",
-			"product_tag" => "Product tags",
-			"menu_order" => "Menu order",
-			"reviews" => "Reviews",
-        	);
 
 		$attributes = array_merge($attributes, $static);
 

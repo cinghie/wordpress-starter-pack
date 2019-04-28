@@ -96,7 +96,10 @@ class NM_PersonalizedProduct_Admin extends NM_PersonalizedProduct {
 	 * CALLBACKS
 	*/
 	function product_meta() {
-		echo '<div class="ppom-admin-wrap woocommerce">';
+		
+		echo '<div id="ppom-pre-loading"></div>';
+		    
+		echo '<div class="ppom-admin-wrap woocommerce" style="display:none">';
 		
 		$action  = (isset($_REQUEST ['action']) ? $_REQUEST ['action'] : '');
 		$do_meta = (isset($_REQUEST ['do_meta']) ? $_REQUEST ['do_meta'] : '');

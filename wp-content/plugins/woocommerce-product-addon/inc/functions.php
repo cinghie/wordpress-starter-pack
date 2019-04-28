@@ -5,8 +5,10 @@
  * * [1]
  */
 
-ppom_direct_access_not_allowed();
+if( ! defined('ABSPATH') ) die('Not Allowed.');
 
+
+// Keep this for compatitibilty
 function ppom_direct_access_not_allowed() {
     if( ! defined('ABSPATH') ) die('Not Allowed.');
 }
@@ -224,13 +226,31 @@ function ppom_make_meta_data( $cart_item, $context="cart" ){
 		unset( $cart_item ['ppom'] ['fields']['id']);
 	}
 	
-	$ppom_meta = array(); 
+	$product_id 		= ppom_get_product_id($cart_item['data']);
+	$ppom_meta			= array();
+	$ppom_cart_fields	= $cart_item ['ppom'] ['fields'];
+	$ppom_meta_ids		= null;
+	$ppom_meta			= ppom_generate_cart_meta($ppom_cart_fields, $product_id, $ppom_meta_ids, $context);
 	
-	foreach($cart_item['ppom']['fields'] as $key => $value) {
+	// ppom_pa($ppom_meta);
+	return apply_filters('ppom_meta_data', $ppom_meta, $cart_item, $context);
+}
+
+/**
+ * This function will process all fields in cart and return into
+ * readable form for cart meta
+ * @params: $product_id 
+ * @params: $ppom_meta_ids (if product_is not known)
+ **/
+function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids=null, $context="cart" ) {
+	
+	$ppom_meta = array();
+	
+	foreach( $ppom_cart_fields as $key => $value) {
 		
 		// if no value
 		if( $value == '' ) continue;
-		$product_id = ppom_get_product_id($cart_item['data']);
+		
 		// $cart_item['data'] ->post_type == 'product' ? $cart_item['data']->get_id() : $cart_item['data']->get_parent_id();
 		$field_meta = ppom_get_field_meta_by_dataname( $product_id, $key, $ppom_meta_ids);
 		
@@ -393,7 +413,7 @@ function ppom_make_meta_data( $cart_item, $context="cart" ){
 										);
 				} else {
 					
-					$meta_data = array('name'=>$field_title, 'value'=> implode(',',$option_label_array));
+					$meta_data = array('name'=>$field_title, 'value'=> implode(', ',$option_label_array));
 				}
 				break;
 				
@@ -458,9 +478,7 @@ function ppom_make_meta_data( $cart_item, $context="cart" ){
 		$ppom_meta[$key] = $meta_data_field;
 	}
 	
-	
-	// ppom_pa($ppom_meta);
-	return apply_filters('ppom_meta_data', $ppom_meta, $cart_item, $context);
+	return $ppom_meta;
 }
 
 /**
@@ -612,7 +630,6 @@ function ppom_settings_link($links) {
 function ppom_get_field_meta_by_dataname( $product_id, $data_name, $ppom_id=null ) {
 	
 	$ppom		= new PPOM_Meta( $product_id );
-	
 	$ppom_fields= $ppom->fields;
 	
 	if( !empty($ppom_id) ) {
@@ -789,10 +806,12 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 	}
 	
 	if( !empty($meta['first_option']) ) {
-		$ppom_new_option[''] = array('label'=>sprintf(__("%s","ppom"),$meta['first_option']), 
+		
+		$first_option = array('label'=>sprintf(__("%s","ppom"),$meta['first_option']), 
 										'price'	=> '',
 										'raw'	=> '',
 										'without_tax' => '');
+		array_unshift( $ppom_new_option, $first_option);
 	}
 	
 	// ppom_pa($ppom_new_option);
@@ -1188,10 +1207,12 @@ function ppom_is_field_visible( $field ) {
 			break;
 			
 		case 'roles':
-			$role = ppom_get_current_user_role();
+			$user_roles = ppom_get_current_user_role();
 			$allowed_roles = explode(',', $visibility_role);
 			
-			if( in_array($role, $allowed_roles) ) {
+			$role_matched = !empty(array_intersect($allowed_roles, $user_roles));
+			
+			if( $role_matched ) {
 				$is_visible = true;
 			}
 			break;
@@ -1206,8 +1227,7 @@ function ppom_get_current_user_role() {
   
 	if( is_user_logged_in() ) {
 		$user = wp_get_current_user();
-		$role = ( array ) $user->roles;
-		return $role[0];
+		return ( array ) $user->roles;
 	} else {
 		return false;
 	}

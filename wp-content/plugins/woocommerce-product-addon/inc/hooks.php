@@ -142,14 +142,20 @@ function ppom_hooks_set_attributes($field_meta, $type) {
 }
 
 // enqueu required scripts/css for inputs
-function ppom_hooks_load_input_scripts( $product ) {
-    
-    $product_id = ppom_get_product_id($product);
-    $ppom		= new PPOM_Meta( $product_id );
-	if( ! $ppom->fields ) return '';
+function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
 	
-    $ppom_meta_settings = $ppom->ppom_settings;
-    $ppom_meta_fields = $ppom->fields;
+    $product_id 		= ppom_get_product_id($product);
+	$ppom				= new PPOM_Meta( $product_id );
+	$ppom_meta_settings = $ppom->ppom_settings;
+    $ppom_meta_fields	= $ppom->fields;
+	
+	if( !empty($ppom_id) ) {
+		$ppom_meta_fields	= $ppom->get_fields_by_id($ppom_id);
+		$ppom_meta_settings	= $ppom->get_settings_by_id($ppom_id);
+	}
+    
+    
+	if( ! $ppom_meta_fields ) return '';
     
     $ppom_inputs        	= array();
     $ppom_conditional_fields= array();
@@ -312,17 +318,7 @@ function ppom_hooks_load_input_scripts( $product ) {
     	    	$ppom_file_inputs[] = $field;
     	    	
     	    	$file_upload_pre_scripts = array('jquery', 'plupload','ppom-price');
-    	    	// if Aviary Editor is used
-				if($ppom_meta_settings -> aviary_api_key != ''){
-					
-					if(is_ssl()){
-						wp_enqueue_script( 'aviary-api', '//dme0ih8comzn4.cloudfront.net/imaging/v3/editor.js');	
-					}else{
-						wp_enqueue_script( 'aviary-api', '//feather.aviary.com/imaging/v3/editor.js');	
-					}
-					
-					$file_upload_pre_scripts[] = 'aviary-api';
-				}
+    	    	
 				
 				wp_enqueue_script( 'ppom-file-upload', PPOM_URL.'/js/file-upload.js', $file_upload_pre_scripts,  PPOM_VERSION, true);
     	    	$plupload_lang = !empty($field['language']) ? $field['language'] : 'en';
@@ -374,7 +370,7 @@ function ppom_hooks_load_input_scripts( $product ) {
 		/**
 		 * creating action space to render hooks for more addons
 		 **/
-		 do_action('ppom_hooks_inputs', $field, $data_name);
+		do_action('ppom_hooks_inputs', $field, $data_name);
 		
     	$ppom_inputs[] = $field;
     }

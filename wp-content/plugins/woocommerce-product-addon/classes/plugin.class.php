@@ -118,6 +118,8 @@ class NM_PersonalizedProduct {
 		add_filter( 'woocommerce_order_item_display_meta_value', 'ppom_woocommerce_order_value', 10, 3);
 		// Hiding some additional field like ppom_has_quantities
 		add_filter( 'woocommerce_order_item_get_formatted_meta_data', 'ppom_woocommerce_hide_order_meta', 10, 2);
+		// see: https://github.com/woocommerce/woocommerce/issues/23294
+		add_filter( 'woocommerce_is_attribute_in_product_name', '__return_false' );
 		
 		/*
 		 * 7- movnig confirmed/paid orders into another directory

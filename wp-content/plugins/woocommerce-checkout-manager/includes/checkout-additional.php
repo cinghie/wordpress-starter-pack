@@ -135,9 +135,9 @@ function wooccm_checkout_additional_fields( $checkout ) {
 
 			// Mulitple checkbox field
 			case 'multicheckbox':
-			// Check if Multi-checkbox has options assigned to it
+				// Check if Multi-checkbox has options assigned to it
 				if( empty( $btn['option_array'] ) )
-					continue;
+					continue 2;
 				woocommerce_form_field( $btn['cow'], array(
 					'type'          => 'multicheckbox',
 					'class'         => array( $btn['position'].' '.$btn['conditional_tie'].' '.$btn['extra_class'] ),

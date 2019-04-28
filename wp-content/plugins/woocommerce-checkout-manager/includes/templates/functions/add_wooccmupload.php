@@ -13,8 +13,6 @@ function wooccm_upload_scripts() {
 	$options = get_option( 'wccs_settings' );
 	$buttons = ( isset( $options['buttons'] ) ? $options['buttons'] : false );
 
-	$length = ( empty( $options['checkness']['file_upload_number'] ) ) ? 'this.files.length' : $options['checkness']['file_upload_number'];
-
 	// Check if we have any buttons
 	if( empty( $buttons ) )
 		return;
@@ -136,65 +134,51 @@ jQuery(document).ready(function($){
 			var count = $("#<?php echo $btn['cow']; ?>_files_button_wccm").data("count") || 0;
 			$("#<?php echo $btn['cow']; ?>_files_button_wccm").data("count", ++count);
 
-			var img, reader, file, iname, len = <?php echo $length; ?>;
-			var file_array = <?php echo wooccm_js_array($file_types); ?>;
-			/* @mod - check this is correct */
-			var wooempt = '<?php echo implode( ',', $file_types ); ?>';
+			var img, reader, file, iname, len = this.files.length;
 
 			for ( i = 0; i < len; i++ ) {
 
 				file = this.files[i];
 
-				for(x=0; x < <?php echo $number_of_types; ?>; x++){
-					if( !wooempt || file.type.match(file_array[x])  ) {
+				if ( window.FileReader ) {
+					reader = new FileReader();
+					reader.onload = (function(theFile){
+						var fileName = theFile.name,
+						filetype = theFile.type;
+						return function(e){
+						showUploadedItem( e.target.result, fileName, filetype );
+					};
+					})(file); 
+					reader.readAsDataURL(file);
+				}
 
-						if ( window.FileReader ) {
-							reader = new FileReader();
-							reader.onload = (function(theFile){
-								var fileName = theFile.name,
-								filetype = theFile.type;
-								return function(e){
-								showUploadedItem( e.target.result, fileName, filetype );
-							};
-							})(file); 
-							reader.readAsDataURL(file);
-						}
+				formdata.append("<?php echo $btn['cow']; ?>[]", file);
+				formdata.append('nonce', ajaxnonce);
+				formnames.push(file.name);
+				loadfiles.push(file);
 
-						formdata.append("<?php echo $btn['cow']; ?>", file);
-						formnames.push(file.name);
-						loadfiles.push(file);
-
-						$.ajax({
-							url: "<?php echo admin_url('/admin-ajax.php?action=wooccm_front_endupload&name='.$btn['cow'].''); ?>",
-							type: "POST",
-							data: formdata,
-							cache: false,
-							processData: false,
-							contentType: false,
-							success: function (res) {
-								/* console.dir(res); */
-								var result = $.parseJSON(res), new_val;
-								/* @mod - Test formatting change */
+				$.ajax({
+					url: "<?php echo admin_url('/admin-ajax.php?action=wooccm_front_end_upload&name='.$btn['cow'].''); ?>",
+					type: "POST",
+					data: formdata,
+					processData: false,
+					contentType: false,
+					success: function (res) {
+						var result = $.parseJSON(res), new_val;
+						document.getElementById("<?php echo $btn['cow']; ?>").value = result;
+						/* @mod - Test formatting change */
 /*
-								document.getElementById("<?php echo $btn['cow']; ?>").value = result;
-*/
-								new_val = document.getElementById("<?php echo $btn['cow']; ?>").value;
-								new_val += result + ",";
-								document.getElementById("<?php echo $btn['cow']; ?>").value = new_val;
-/*
-								new_val[0] = result[0];
-								new_val[1] += result[1] + ",";
-								document.getElementById("<?php echo $btn['cow']; ?>").value = new_val[0] + "||" + new_val[1];
+						new_val = document.getElementById("<?php echo $btn['cow']; ?>").value;
+						new_val += result + ",";
+						document.getElementById("<?php echo $btn['cow']; ?>").value = new_val;
+						new_val[0] = result[0];
+						new_val[1] += result[1] + ",";
+						document.getElementById("<?php echo $btn['cow']; ?>").value = new_val[0] + "," + new_val[1];
 */
 
-								$("#<?php echo $btn['cow']; ?>_field").unblock();
-							}
-						});
-
-					} else {
 						$("#<?php echo $btn['cow']; ?>_field").unblock();
 					}
-				}
+				});
 
 			}
 
@@ -219,7 +203,7 @@ jQuery(document).ready(function($){
 			}
 
 			if( store.length !== 0 ){
-				listing = document.getElementById("<?php echo $btn['cow']; ?>").value.split("||");
+				listing = document.getElementById("<?php echo $btn['cow']; ?>").value.split(",");
 				listing = listing[1].split(",");
 				listing = listing.filter(Number);
 
@@ -230,7 +214,6 @@ jQuery(document).ready(function($){
 
 			$(".wooccm_each_file").each(function(){
 				if( this.title === title) {
-
 					var currentgutz = this;
 					this.firstElementChild.href = wooxtro;
 					this.firstElementChild.firstElementChild.src = wooxtro;
@@ -266,10 +249,9 @@ jQuery(document).ready(function($){
 					var remove = this.getAttribute("wooccm-attach-id");
 
 					$.ajax({
-						url: "<?php echo admin_url('/admin-ajax.php?action=wooccm_front_enduploadsave&name='.$btn['cow'].'&remove='); ?>" + remove,
+						url: "<?php echo admin_url('/admin-ajax.php?action=wooccm_front_end_upload_save&name='.$btn['cow'].'&remove='); ?>" + remove,
 						type: "POST",
 						data: formdata,
-						cache: false,
 						processData: false,
 						contentType: false,
 						success: function (res) {
@@ -279,10 +261,9 @@ jQuery(document).ready(function($){
 								return value.replace(remove, result);
 							});
 							$("#caman_content #wooccmtoolbar").unblock();
-							alert("<?php echo wooccm_wpml_string($options['checkness']['picture_success']); ?>");
+							alert("<?php echo ( !empty( $options['checkness']['picture_success'] ) ? wooccm_wpml_string( $options['checkness']['picture_success'] ) : 'Picture Saved' ); ?>");
 						}
 					});
-
 				}
 			});
 
@@ -303,7 +284,7 @@ jQuery(document).ready(function($){
 				}
 
 				if( store.length !== 0 ){
-					listing = document.getElementById("<?php echo $btn['cow']; ?>").value.split("||");
+					listing = document.getElementById("<?php echo $btn['cow']; ?>").value.split(",");
 					listing = listing[1].split(",");
 					listing = listing.filter(Number);
 
@@ -323,10 +304,9 @@ jQuery(document).ready(function($){
 				}
 
 				$.ajax({
-					url: "<?php echo admin_url('/admin-ajax.php?action=wooccm_front_enduploadsave&remove='); ?>" + remove,
+					url: "<?php echo admin_url('/admin-ajax.php?action=wooccm_front_end_upload_save&remove='); ?>" + remove,
 					type: "POST",
 					data: formdata,
-					cache: false,
 					processData: false,
 					contentType: false,
 					success: function (res) {

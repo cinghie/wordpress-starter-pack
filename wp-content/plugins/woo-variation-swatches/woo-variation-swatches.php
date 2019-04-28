@@ -1,15 +1,15 @@
 <?php
 	/**
-	 * Plugin Name: WooCommerce Variation Swatches
+	 * Plugin Name: Product Variation Swatches for WooCommerce
 	 * Plugin URI: https://wordpress.org/plugins/woo-variation-swatches/
 	 * Description: Beautiful colors, images and buttons variation swatches for woocommerce product attributes. Requires WooCommerce 3.2+
 	 * Author: Emran Ahmed
-	 * Version: 1.0.55
+	 * Version: 1.0.56
 	 * Domain Path: /languages
 	 * Requires at least: 4.8
 	 * Tested up to: 5.1
 	 * WC requires at least: 3.2
-	 * WC tested up to: 3.5
+	 * WC tested up to: 3.6
 	 * Text Domain: woo-variation-swatches
 	 * Author URI: https://getwooplugins.com/
 	 */
@@ -20,7 +20,7 @@
 		
 		final class Woo_Variation_Swatches {
 			
-			protected $_version = '1.0.55';
+			protected $_version = '1.0.56';
 			
 			protected static $_instance = null;
 			private          $_settings_api;
@@ -35,6 +35,7 @@
 			
 			public function __construct() {
 				$this->constants();
+				$this->language();
 				$this->includes();
 				$this->hooks();
 				do_action( 'woo_variation_swatches_loaded', $this );
@@ -82,7 +83,7 @@
 			}
 			
 			public function hooks() {
-				add_action( 'init', array( $this, 'language' ) );
+				
 				add_action( 'admin_notices', array( $this, 'php_requirement_notice' ) );
 				add_action( 'admin_notices', array( $this, 'wc_requirement_notice' ) );
 				add_action( 'admin_notices', array( $this, 'wc_version_requirement_notice' ) );
@@ -360,7 +361,7 @@
 				wp_enqueue_script( 'woo-variation-swatches-admin', $this->assets_uri( "/js/admin{$suffix}.js" ), array( 'jquery' ), $this->version(), true );
 				
 				if ( ! apply_filters( 'stop_gwp_live_feed', false ) ) {
-					wp_enqueue_style( 'gwp-feed', esc_url( $this->feed_css_uri() ), array('dashicons') );
+					wp_enqueue_style( 'gwp-feed', esc_url( $this->feed_css_uri() ), array( 'dashicons' ) );
 				}
 				
 				

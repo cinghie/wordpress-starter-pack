@@ -3,7 +3,7 @@
  * Manage file uploads, thumbs and generate links for uploaded files
  * 
  **/
-ppom_direct_access_not_allowed();
+if( ! defined('ABSPATH') ) die('Not Allowed.');
 
 // Set/create directory and return path
 function ppom_files_setup_get_directory( $sub_dir=false ) {

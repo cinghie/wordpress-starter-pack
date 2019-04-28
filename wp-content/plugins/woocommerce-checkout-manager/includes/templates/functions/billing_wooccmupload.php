@@ -149,11 +149,12 @@ jQuery(document).ready(function($){
 				}
 
 				formdata.append("billing_<?php echo $btn['cow']; ?>[]", file);
+				formdata.append('nonce', ajaxnonce);
 				formnames.push(file.name);
 				loadfiles.push(file);
 
 				$.ajax({
-					url: "<?php echo admin_url('/admin-ajax.php?action=wooccm_front_endupload&name=billing_'.$btn['cow'].''); ?>",
+					url: "<?php echo admin_url('/admin-ajax.php?action=wooccm_front_end_upload&name=billing_'.$btn['cow'].''); ?>",
 					type: "POST",
 					data: formdata,
 					processData: false,
@@ -163,10 +164,10 @@ jQuery(document).ready(function($){
 						document.getElementById("billing_<?php echo $btn['cow']; ?>").value = result;
 						/* @mod - Test formatting change */
 /*
-						new_val = document.getElementById("billing_<?php echo $btn['cow']; ?>").value.split("||");
+						new_val = document.getElementById("billing_<?php echo $btn['cow']; ?>").value.split(",");
 						new_val[0] = result[0];
 						new_val[1] += result[1] + ",";
-						document.getElementById("billing_<?php echo $btn['cow']; ?>").value = new_val[0] + "||" + new_val[1];
+						document.getElementById("billing_<?php echo $btn['cow']; ?>").value = new_val[0] + "," + new_val[1];
 */
 
 						$("#billing_<?php echo $btn['cow']; ?>_field").unblock();
@@ -196,7 +197,7 @@ jQuery(document).ready(function($){
 			}
 
 			if( store.length !== 0 ){
-				listing = document.getElementById("billing_<?php echo $btn['cow']; ?>").value.split("||");
+				listing = document.getElementById("billing_<?php echo $btn['cow']; ?>").value.split(",");
 				listing = listing[1].split(",");
 				listing = listing.filter(Number);
 
@@ -207,7 +208,6 @@ jQuery(document).ready(function($){
 
 			$(".wooccm_each_file").each(function(){
 				if( this.title === title) {
-
 					var currentgutz = this;
 					this.firstElementChild.href = wooxtro;
 					this.firstElementChild.firstElementChild.src = wooxtro;
@@ -243,7 +243,7 @@ jQuery(document).ready(function($){
 					var remove = this.getAttribute("wooccm-attach-id");
 
 					$.ajax({
-						url: "<?php echo admin_url('/admin-ajax.php?action=wooccm_front_enduploadsave&name=billing_'.$btn['cow'].'&remove='); ?>" + remove,
+						url: "<?php echo admin_url('/admin-ajax.php?action=wooccm_front_end_upload_save&name=billing_'.$btn['cow'].'&remove='); ?>" + remove,
 						type: "POST",
 						data: formdata,
 						processData: false,
@@ -258,7 +258,6 @@ jQuery(document).ready(function($){
 							alert("billing_<?php echo ( !empty( $options['checkness']['picture_success'] ) ? $options['checkness']['picture_success'] : 'Picture Saved' ); ?>");
 						}
 					});
-
 				}
 			});
 
@@ -279,7 +278,7 @@ jQuery(document).ready(function($){
 				}
 
 				if( store.length !== 0 ){
-					listing = document.getElementById("billing_<?php echo $btn['cow']; ?>").value.split("||");
+					listing = document.getElementById("billing_<?php echo $btn['cow']; ?>").value.split(",");
 					listing = listing[1].split(",");
 					listing = listing.filter(Number);
 
@@ -299,7 +298,7 @@ jQuery(document).ready(function($){
 				}
 
 				$.ajax({
-					url: "<?php echo admin_url('/admin-ajax.php?action=wooccm_front_enduploadsave&remove='); ?>" + remove,
+					url: "<?php echo admin_url('/admin-ajax.php?action=wooccm_front_end_upload_save&remove='); ?>" + remove,
 					type: "POST",
 					data: formdata,
 					processData: false,

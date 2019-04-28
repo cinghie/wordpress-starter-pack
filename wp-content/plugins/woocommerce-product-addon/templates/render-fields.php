@@ -13,9 +13,7 @@ $ppom_id = is_array($ppom_id) ? implode(',', $ppom_id) : $ppom_id;
 echo '<input type="hidden" id="ppom_product_price" value="'.esc_attr($product->get_price()).'">';	// it is setting price to be used for dymanic prices in script.js
 echo '<input type="hidden" name="ppom[fields][id]" id="ppom_productmeta_id" value="'.esc_attr($ppom_id).'">';
 echo '<input type="hidden" name="ppom_product_id" id="ppom_product_id" value="'.esc_attr(ppom_get_product_id($product)).'">';
-// Hidden input for validation callback
-echo '<input type="hidden" name="action" value="ppom_ajax_validation">';
-    
+
 
 // Manage conditional hidden fields to skip validation
 echo '<input type="hidden" name="ppom[conditionally_hidden]" id="conditionally_hidden">';
@@ -35,7 +33,7 @@ echo '</span>';
 echo '</div>';
 
 
-echo '<div class="form-row align-items-center ppom-section-collapse">';
+echo '<div class="form-row ppom-rendering-fields align-items-center ppom-section-collapse">';
 
 $posted_values = isset($_POST['ppom']['fields']) ? $_POST['ppom']['fields'] : '';
 $section_started = false;

@@ -12,7 +12,12 @@
 	
 	add_action( 'admin_init', 'wvs_add_product_taxonomy_meta' );
 	
-	add_action( 'woocommerce_product_option_terms', 'wvs_product_option_terms', 20, 2 );
+	// From WC 3.6+
+	if ( version_compare( '3.6', WC_VERSION, '<=' ) ) {
+		add_action( 'woocommerce_product_option_terms', 'wvs_product_option_terms', 20, 3 );
+	} else {
+		add_action( 'woocommerce_product_option_terms', 'wvs_product_option_terms_old', 20, 2 );
+	}
 	
 	// Support Dokan Multi Vendor
 	add_action( 'dokan_product_option_terms', 'wvs_product_option_terms', 20, 2 );

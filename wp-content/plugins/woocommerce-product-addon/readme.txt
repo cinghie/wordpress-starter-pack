@@ -3,8 +3,8 @@ Contributors: nmedia
 Tags: woocommerce, woocommerce pesonalized products, woocommerce custom fields, variations, woocommerce product variations, woocommerce extra fields, woocommerce extra options, woocommerce personalized product, woocommerce t-shirt design, woocommerce product fields, woocommerce plugin, woocommerce addons, woocommerce product addons
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
-Tested up to: 5.0
-Stable tag: 17.1
+Tested up to: 5.2
+Stable tag: 17.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -83,6 +83,16 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
+= 17.2 April 28, 2019 =
+* Tweaks: Pre loading effect added for admin settings.
+* Bug fixed: [Default checked inputs for Checkbox input were not working, fixed now](https://clients.najeebmedia.com/forums/topic/all-checkboxes-options-already-checked/)
+* Tweaks: First Option for Select input was rendering as last option, now it is showing as first
+* Bug fixed: [Add space after comma for Checkbox meta values](https://wordpress.org/support/topic/receipt-issue-with-checkbox-options/#post-11458874)
+* Bug fixed: [Fields under roles not working if user has more then one roles](https://wordpress.org/support/topic/show-by-role-works-only-by-first-role/)
+* Tweaks: [Meta was hidded when it has same name as of variation in product title](https://github.com/woocommerce/woocommerce/issues/23294)
+* Bug fixed: Textarea for descriptions not expandable
+* Bug fixed: Options not loaded automatically in Conditions Tabs
+* Bug fixed: [Ajax callback issue fixed and also removed some extra characters](https://clients.najeebmedia.com/forums/topic/ajax-issues/)
 = 17.1 April 10, 2019 =
 * Feature: Option Added to hide Product Price if PPOM Fields attached
 * Feature: Option Added to hide Variable Product Price if PPOM Fields attached

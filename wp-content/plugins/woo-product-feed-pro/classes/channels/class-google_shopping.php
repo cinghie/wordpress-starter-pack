@@ -106,6 +106,11 @@ class WooSEA_google_shopping {
 					"feed_name" => "g:installment",
 					"format" => "optional",
 				),
+				"Subscription cost" => array(
+					"name" => "subscription_cost",
+					"feed_name" => "g:subscription_cost",
+					"format" => "optional",
+				),
 				"Loyalty points" => array(
 					"name" => "loyalty_points",
 					"feed_name" => "g:loyalty_points",

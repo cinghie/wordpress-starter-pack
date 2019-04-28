@@ -38,27 +38,21 @@ class NM_Section_wooproduct extends PPOM_Inputs{
 		
 		return array (
 			'data_name' => array (
-						'type' => 'text',
-						'title' => __ ( 'Data name', 'ppom' ),
-						'desc' => __ ( 'REQUIRED: The identification name of this field, that you can insert into body email configuration. Note:Use only lowercase characters and underscores.', 'ppom' ) 
-				),
-			'html' => array (
-					'type' => 'textarea',
-					'title' => __ ( 'Content', 'ppom' ),
-					'desc' => __ ( 'Add your text/HTML here.', 'ppom' ) 
+					'type' => 'text',
+					'title' => __ ( 'Data name', 'ppom' ),
+					'desc' => __ ( 'REQUIRED: The identification name of this field, that you can insert into body email configuration. Note:Use only lowercase characters and underscores.', 'ppom' ) 
 			),
-			'description' => array (
-					'type' => 'textarea',
-					'title' => __ ( 'Description', 'ppom' ),
-					'desc' => __ ( 'Small description, it will be display near name title.', 'ppom' ) 
-			),
-			
 			'width' => array (
 					'type' => 'select',
 					'title' => __ ( 'Width', 'ppom' ),
 					'desc' => __ ( 'Select width column.', "ppom"),
 					'options'	=> ppom_get_input_cols(),
 					'default'	=> 12,
+			),
+			'description' => array (
+					'type' => 'textarea',
+					'title' => __ ( 'Description', 'ppom' ),
+					'desc' => __ ( 'Small description, it will be display near name title.', 'ppom' ) 
 			),
 			'visibility' => array (
 					'type' => 'select',
@@ -77,6 +71,11 @@ class NM_Section_wooproduct extends PPOM_Inputs{
 					'type' => 'checkbox',
 					'title' => __ ( 'Show tooltip (PRO)', 'ppom' ),
 					'desc' => __ ( 'Show Description in Tooltip with Help Icon', 'ppom' )
+			),
+			'html' => array (
+					'type' => 'textarea',
+					'title' => __ ( 'Content', 'ppom' ),
+					'desc' => __ ( 'Add your text/HTML here.', 'ppom' ) 
 			),
 			'logic' => array (
 					'type' => 'checkbox',

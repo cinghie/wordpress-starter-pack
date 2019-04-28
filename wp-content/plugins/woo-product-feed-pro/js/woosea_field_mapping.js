@@ -114,7 +114,7 @@ jQuery(document).ready(function($) {
 			var input=$(this).val();
 			var re = /^[a-zA-Zа-яА-Я_-]*$/;
 			if (input.indexOf("PARAM_") >= 0){
-				var re = /^[a-zA-Z а-яА-Я_-,%]*$/;
+				var re = /^[a-zA-Z а-яА-Я]*$/;
 			}
 
                 	var minLength = 2;

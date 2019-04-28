@@ -22,11 +22,13 @@
 		<h3 class="heading checkbox">
 			<div class="option">
 				<label>
-					<input type="checkbox" name="wccs_settings[checkness][cat_file_upload]" value="true"<?php checked( !empty( $options['checkness']['cat_file_upload'] ), true ); ?> /><span></span>
+					<input type="checkbox" name="wccs_settings[checkness][cat_file_upload]" value="true" disabled="disabled" /><span></span>
 					<div class="info-of">
 
 						<?php _e('Categorize Uploaded Files', 'woocommerce-checkout-manager'); ?> | <span style="cursor: pointer;" class="show_hide2"><a>read more</a></span>
 						<span style="display:none;" class="slidingDiv2">
+							<br /><br />
+							This feature has been emporarily removed, it will be re-introduced in a minor Plugin update.
 							<br /><br />
 							<?php _e('Changes uploaded files location folder from', 'woocommerce-checkout-manager');  ?> <br />
 							<strong><?php echo $upload_dir['url']; ?>/</strong> <br />

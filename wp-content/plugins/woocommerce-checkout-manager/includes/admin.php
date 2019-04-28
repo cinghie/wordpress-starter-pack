@@ -1216,7 +1216,15 @@ function wooccm_admin_edit_order_additional_details( $order ) {
 				$btn['type'] == 'wooccmupload'
 			) {
 				$attachments = get_post_meta( $order_id, $btn['cow'], true );
-				$attachments = ( $attachments !== '' ? explode( ",", $attachments ) : false );
+				if( !empty( $attachments ) ) {
+					// Check for delimiter
+					if( strstr( $attachments, '||' ) !== false )
+						$attachments = explode( '||', $attachments );
+					else if( strstr( $attachments, ',' ) !== false )
+						$attachments = explode( ',', $attachments );
+					else if( is_numeric( $attachments ) )
+						$attachments = array( $attachments );
+				}
 				echo '
 <p class="form-field form-field-wide form-field-type-wooccmupload">
 	<strong>'.wooccm_wpml_string( trim( $btn['label'] ) ).':</strong>';
@@ -1334,7 +1342,15 @@ function wooccm_admin_edit_order_billing_details( $order ) {
 					$btn['type'] == 'wooccmupload'
 				) {
 					$attachments = get_post_meta( $order_id, sprintf( '_billing_%s', $btn['cow'] ), true );
-					$attachments = ( $attachments !== '' ? explode( ",", $attachments ) : false );
+					if( !empty( $attachments ) ) {
+						// Check for delimiter
+						if( strstr( $attachments, '||' ) !== false )
+							$attachments = explode( '||', $attachments );
+						else if( strstr( $attachments, ',' ) !== false )
+							$attachments = explode( ',', $attachments );
+						else if( is_numeric( $attachments ) )
+							$attachments = array( $attachments );
+					}
 					$btn['label'] = ( !empty( $btn['force_title2'] ) ? $btn['force_title2'] : $btn['label'] );
 					echo '
 <p class="form-field form-field-wide form-field-type-wooccmupload">
@@ -1450,18 +1466,22 @@ function wooccm_admin_edit_order_shipping_details( $order ) {
 					$btn['type'] == 'wooccmupload'
 				) {
 					$attachments = get_post_meta( $order_id, sprintf( '_shipping_%s', $btn['cow'] ), true );
-					$attachments = ( $attachments !== '' ? explode( ",", $attachments ) : false );
+					if( !empty( $attachments ) ) {
+						// Check for delimiter
+						if( strstr( $attachments, '||' ) !== false )
+							$attachments = explode( '||', $attachments );
+						else if( strstr( $attachments, ',' ) !== false )
+							$attachments = explode( ',', $attachments );
+						else if( is_numeric( $attachments ) )
+							$attachments = array( $attachments );
+					}
 					$btn['label'] = ( !empty( $btn['force_title2'] ) ? $btn['force_title2'] : $btn['label'] );
 					echo '
 <p class="form-field form-field-wide form-field-type-wooccmupload">
 	<strong>'.wooccm_wpml_string( trim( $btn['label'] ) ).':</strong>';
-if( empty( $attachments ) ) {
-	echo '<br />';
-	echo '-';
-}
 					echo '
 </p>' . "\n";
-					if( !empty( $attachments ) ) {
+					if( !empty( $attachments ) && is_array( $attachments ) ) {
 						echo '<ul>' . "\n";
 						foreach( $attachments as $attachment ) {
 							$attachment_url = wp_get_attachment_url( $attachment );
@@ -1469,6 +1489,9 @@ if( empty( $attachments ) ) {
 								echo '<li><a href="' . $attachment_url . '" target="_blank">' . basename( $attachment_url ) . '</a></li>' . "\n";
 						}
 						echo '</ul>';
+					} else {
+						echo '<br />';
+						echo '-';
 					}
 					echo '
 <!-- .form-field-type-wooccmupload -->';
@@ -1569,8 +1592,12 @@ function wooccm_admin_edit_order_uploaded_files_meta_box( $post ) {
 			// Check the Order for these meta keys
 			foreach( $meta_keys as $meta_key ) {
 				$value = get_post_meta( $order_id, $meta_key, true );
-				if( !empty( $value ) )
-					$array[] = implode( ',', $value );
+				if( !empty( $value ) ) {
+					if( is_array( $value ) )
+						$array[] = implode( ',', $value );
+					else
+						$array[] = $value;
+				}
 			}
 		}
 
@@ -1997,19 +2024,8 @@ jQuery(document).ready(function($){
 
 function wccs_upload_file_func_callback( $order_id ) {
 
-	global $wpdb, $woocommerce, $post; // this is how you get access to the database
-
-	$options = get_option( 'wccs_settings' );
-
-	$order_id = ( isset( $_REQUEST['order_id'] ) ? absint( $_REQUEST['order_id'] ) : false );
-
-	// load files
-	require_once( ABSPATH . 'wp-admin/includes/file.php' ); 
-	require_once( ABSPATH . 'wp-admin/includes/media.php' );
-
-	$upload_dir = wp_upload_dir();
-
 	$name = ( isset( $_REQUEST['name'] ) ? $_REQUEST['name'] : false );
+	$order_id = ( isset( $_REQUEST['order_id'] ) ? absint( $_REQUEST['order_id'] ) : false );
 
 	if( empty( $name ) ) {
 		echo ' '.__('Upload failed. Files were not uploaded.','woocommerce-checkout-manager').'';
@@ -2021,7 +2037,18 @@ function wccs_upload_file_func_callback( $order_id ) {
 		die();
 	}
 
+	global $wpdb, $woocommerce, $post; // this is how you get access to the database
+
+	// load files
+	require_once( ABSPATH . 'wp-admin/includes/file.php' ); 
+	require_once( ABSPATH . 'wp-admin/includes/media.php' );
+
+	$upload_dir = wp_upload_dir();
+
+	$options = get_option( 'wccs_settings' );
+
 	$has_uploads = false;
+
 	$order = new WC_Order( $order_id );
 
 	$files = $_FILES[''. $name .''];
@@ -2031,78 +2058,51 @@ function wccs_upload_file_func_callback( $order_id ) {
 		foreach( $files['name'] as $key => $value ) {
 			if( $files['name'][$key] ) {
 
-				// using the wp_handle_upload
-				if ( empty($options['checkness']['cat_file_upload']) ) {
-					$file = array(
-						'name'     => $files['name'][$key],
-						'type'     => $files['type'][$key],
-						'tmp_name' => $files['tmp_name'][$key],
-						'error'    => $files['error'][$key],
-						'size'     => $files['size'][$key]
-					);
+				$file = array(
+					'name'     => $files['name'][$key],
+					'type'     => $files['type'][$key],
+					'tmp_name' => $files['tmp_name'][$key],
+					'error'    => $files['error'][$key],
+					'size'     => $files['size'][$key]
+				);
 
-					// $movefile = wp_handle_upload($file, $upload_overrides);
-					$movefile = wp_handle_upload( $file );
-
-					// Check if the save process failed
-					if( isset( $movefile['error'] ) ) {
-						echo 'Could not save uploaded file. Files were not uploaded.';
-						die();
-					}
-
-					$attachment = array(
-						'guid' => $movefile['url'], 
-						'post_mime_type' => $movefile['type'],
-						'post_title' => preg_replace( '/\.[^.]+$/', '', basename( $movefile['file'] ) ),
-						'post_content' => '',
-						'post_status' => 'inherit',
-						'post_parent' => $order_id
-					);
-
-					$attach_id = wp_insert_attachment( $attachment, $movefile['url'], $order_id );
-
-					// you must first include the image.php file
-					// for the function wp_generate_attachment_metadata() to work
-
-					require_once( ABSPATH . 'wp-admin/includes/image.php' );
-					$attach_data = wp_generate_attachment_metadata( $attach_id, $movefile['url'] );
-					wp_update_attachment_metadata( $attach_id, $attach_data );
-
-					$has_uploads = true;
-
-				} else {
-
-					// using move_uploaded_file to categorized uploaded images
-					if( !file_exists( $upload_dir['basedir'] . '/wooccm_uploads/' . $order_id . '/' ) ) {
-						wp_mkdir_p( $upload_dir['basedir'] . '/wooccm_uploads/' . $order_id . '/' );
-					}
-
-					$filename = $files['name'][$key];
-					$wp_filetype = wp_check_filetype( $filename );
-					$URLpath = $upload_dir['baseurl'] . '/wooccm_uploads/' . $order_id . '/' . $filename;
-
-					move_uploaded_file( $files["tmp_name"][$key], $upload_dir['basedir'] . '/wooccm_uploads/' . $order_id . '/' . $filename);
-
-					$attachment = array(
-						'guid' => $URLpath, 
-						'post_mime_type' => $wp_filetype['type'],
-						'post_title' => preg_replace( '/\.[^.]+$/', '', $filename),
-						'post_content' => '',
-						'post_status' => 'inherit'
-					);
-
-					$attach_id = wp_insert_attachment( $attachment, $URLpath, $order_id);
-
-					// you must first include the image.php file
-					// for the function wp_generate_attachment_metadata() to work
-
-					require_once( ABSPATH . 'wp-admin/includes/image.php' );
-					$attach_data = wp_generate_attachment_metadata( $attach_id, $URLpath );
-					wp_update_attachment_metadata( $attach_id, $attach_data );
-
-					$has_uploads = true;
-
+				if( !empty($options['checkness']['cat_file_upload']) ) {
+					add_filter( 'upload_dir', function( $param ) use ( $order_id ) {
+						$param['path'] = sprintf( '%s/wooccm_uploads/%d', $param['basedir'], $order_id );
+						$param['url'] = sprintf( '%s/wooccm_uploads/%d', $param['baseurl'], $order_id );
+						return $param;
+					}, 10, 1 );
 				}
+
+				// $movefile = wp_handle_upload($file, $upload_overrides);
+				$movefile = wp_handle_upload( $file );
+
+				// Check if the save process failed
+				if( isset( $movefile['error'] ) ) {
+					echo 'Could not save uploaded file. Files were not uploaded.';
+					die();
+				}
+
+				$attachment = array(
+					'guid' => $movefile['url'], 
+					'post_mime_type' => $movefile['type'],
+					'post_title' => preg_replace( '/\.[^.]+$/', '', basename( $movefile['file'] ) ),
+					'post_content' => '',
+					'post_status' => 'inherit',
+					'post_parent' => $order_id
+				);
+
+				$attach_id = wp_insert_attachment( $attachment, $movefile['url'], $order_id );
+
+				// you must first include the image.php file
+				// for the function wp_generate_attachment_metadata() to work
+
+				require_once( ABSPATH . 'wp-admin/includes/image.php' );
+				$attach_data = wp_generate_attachment_metadata( $attach_id, $movefile['url'] );
+				wp_update_attachment_metadata( $attach_id, $attach_data );
+
+				$has_uploads = true;
+
 			}
 		}
 		if( $has_uploads ) {
@@ -2147,7 +2147,6 @@ function wccs_upload_file_func_callback( $order_id ) {
 
 }
 add_action("wp_ajax_wccs_upload_file_func", "wccs_upload_file_func_callback");
-add_action("wp_ajax_nopriv_wccs_upload_file_func", "wccs_upload_file_func_callback");
 
 function wooccm_set_html_content_type() {
 
@@ -2172,14 +2171,34 @@ function update_attachment_wccm_callback() {
 
 	global $post, $wpdb, $woocommerce;
 
+	// Check the User has the manage_woocommerce capability
+	if( current_user_can( 'manage_woocommerce' ) == false )
+		die();
+
 	$array1 = explode( ',', sanitize_text_field( isset( $_POST['wccm_default_keys_load'] ) ? $_POST['wccm_default_keys_load'] : '' ) );
 	$array2 = explode( ',', sanitize_text_field( isset( $_POST['product_image_gallery'] ) ? $_POST['product_image_gallery'] : '' ) );
 	$attachment_ids = array_diff( $array1, $array2 );
 
 	if( isset( $_POST['wccm_default_keys_load'] ) ) {
 		if( !empty( $attachment_ids ) ) {
-			foreach( $attachment_ids as $key => $values ) {
-				wp_delete_attachment( $attachment_ids[$key] );
+			foreach( $attachment_ids as $key => $attachtoremove ) {
+
+				// Check the Attachment exists...
+				if( get_post_status( $attachtoremove ) == false )
+					continue;
+
+				// Check the Attachment is associated with an Order
+				$post_parent = get_post_field( 'post_parent', $attachtoremove );
+				if( empty( $post_parent ) ) {
+					continue;
+				} else {
+					if( get_post_type( $post_parent ) <> 'shop_order' )
+						continue;
+				}
+
+				// Delete the Attachment
+				wp_delete_attachment( $attachtoremove );
+
 			}
 		}
 		echo __('Deleted successfully.','woocommerce-checkout-manager');
@@ -2188,5 +2207,4 @@ function update_attachment_wccm_callback() {
 
 }
 add_action( 'wp_ajax_update_attachment_wccm', 'update_attachment_wccm_callback' );
-add_action( 'wp_ajax_nopriv_update_attachment_wccm', 'update_attachment_wccm_callback' );
 ?>

@@ -5,7 +5,8 @@
  */
  
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+if ( !defined( 'ABSPATH' ) )
+	exit;
 ?>
 
 <td style="display:none;text-align:center;" class="more_toggler1c"><input type="checkbox" name="wccs_settings2[shipping_buttons][<?php echo $i; ?>][more_content]" title="<?php esc_attr_e( 'More than two content', 'woocommerce-checkout-manager' ); ?>" value="" /></td>
@@ -26,7 +27,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 <td style="display:none;" class="hide_stuff_time"><input type="text" placeholder="0, 10, 20, 30, 40" name="wccs_settings2[shipping_buttons][<?php echo $i; ?>][manual_min]" value="" /></td>
 
-<td style="display:none;" class="hide_stuff_color hide_stuff_days"><input type="text" name="wccs_settings2[shipping_buttons][<?php echo $i; ?>][format_date]" placeholder="dd-mm-yy" title="dd-mm-yy" value="" /></td>
+<td style="display:none;" class="hide_stuff_color hide_stuff_days"><input type="text" name="wccs_settings2[shipping_buttons][<?php echo $i; ?>][format_date]" placeholder="" title="dd-mm-yy" value="" /></td>
 
 <td style="display:none;" class="hide_stuff_color hide_stuff_days"><input type="text" name="wccs_settings2[shipping_buttons][<?php echo $i; ?>][min_before]" placeholder="+3" title="Days Before" value="" /></td>
 

@@ -5,20 +5,13 @@
  *
  */
 
-ppom_direct_access_not_allowed();
+if( ! defined('ABSPATH') ) die('Not Allowed.');
 
 function ppom_woocommerce_show_fields() {
     
-   global $product;
+    global $product;
     
-    // @Reason: variable product render fields twice. To stop this we add following code.
-    /*if( apply_filters('ppom_remove_duplicate_fields', true) &&  $product->get_type() == 'variable' && current_filter() == 'woocommerce_before_add_to_cart_button') {
-    	return;
-    }*/
-    
-    // if( current_filter() == 'woocommerce_single_variation' && did_action('woocommerce_before_add_to_cart_button') !== 1 ) return;
-    
-	$product_id = ppom_get_product_id( $product ); 
+    $product_id = ppom_get_product_id( $product ); 
 	$ppom		= new PPOM_Meta( $product_id );
 
 	if( ! $ppom->fields ) return '';
@@ -213,7 +206,7 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 	
 	if( empty($cart_items) ) return $cart_items;
 
-	if( ! isset( $values['ppom'] ) ) return $cart_items;
+	if( ! isset( $values['ppom']['ppom_option_price'] ) ) return $cart_items;
 	
 	$wc_product = $cart_items['data'];
 	$product_id = ppom_get_product_id($wc_product);
@@ -876,7 +869,6 @@ function ppom_woocommerce_order_item_meta($item, $cart_item_key, $values, $order
 	// ppom_pa($ppom_meta); exit;
 	foreach( $ppom_meta as $key => $meta ) {
 		
-		echo $item->get_id();
 		$item->update_meta_data($key, $meta['value']);
 	}
 	

@@ -246,7 +246,7 @@ YITH WooCommerce Ajax Search renovates with new available options, discover the'
      * @return  string The premium landing link
      */
     public function get_premium_landing_uri(){
-        return defined( 'YITH_REFER_ID' ) ? $this->_premium_landing . '?refer_id=' . YITH_REFER_ID : $this->_premium_landing;
+        return $this->_premium_landing;
     }
 
     }

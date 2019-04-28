@@ -69,7 +69,20 @@ class WooSEA_Get_Products {
 			$review['review_reviewer_image'] = empty($product_data['reviewer_image']) ? '' : $product_data['reviewer_image'];
 			$review['review_ratings'] = get_comment_meta( $review_raw->comment_ID, 'rating', true);
 			$review['review_id'] = $review_raw->comment_ID;
-			$review['reviewer_name'] = $review_raw->comment_author;
+
+			// Names need to be anonomyzed			
+			$name_pieces = explode(" ", $review_raw->comment_author);
+			$nr_name_pieces = count($name_pieces);
+			$cnt = 0;
+			$name = "";
+			foreach($name_pieces as $n_piece){
+				$cnt++;
+				if($cnt == $nr_name_pieces){
+					$n_piece = substr($n_piece, 0, 1);
+				}	
+				$name .= $n_piece." ";
+			}
+			$review['reviewer_name'] = trim(ucfirst($name));
 			$review['reviewer_id'] = $review_raw->user_id;
 			$review['review_timestamp'] = $review_raw->comment_date;
 			$review['title'] = empty($product_data['title']) ? '' : $product_data['title'];
@@ -187,7 +200,7 @@ class WooSEA_Get_Products {
 	                                $product_attr = unserialize($value->type);
 
                                 	foreach ($product_attr as $key => $arr_value) {
-                                        	$value_display = str_replace("_", " ",$arr_value['name']);
+                                        	$value_display = @str_replace("_", " ",$arr_value['name']);
                                         	$list[$key] = ucfirst($value_display);
                                 	}	
 				}
@@ -828,7 +841,9 @@ class WooSEA_Get_Products {
 												}
 											}
 										} else {
-											$rev = $productz->addChild(strtolower($nodes[0]), $nodes[1]);	
+											if(isset($nodes[1])){
+												$rev = $productz->addChild(strtolower($nodes[0]), $nodes[1]);	
+											}
 										}
 									}
 							
@@ -1379,7 +1394,11 @@ class WooSEA_Get_Products {
 
 				if(($primary_cat_id) AND ($primary_cat_id > 0)){
    					$product_cat = get_term($primary_cat_id, 'product_cat');
-		
+ 					$category_path = $this->woosea_get_term_parents( $primary_cat_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
+					if(!is_object($category_path)){
+						$product_data['category_path'] = $category_path;	
+					}	
+	
 					if(isset($product_cat->name)) {
 						$catname = $product_cat->name;
 						$catlink = get_category_link($product_cat->term_id);
@@ -1405,6 +1424,11 @@ class WooSEA_Get_Products {
 					}
 				} else {
 					foreach ($categories as $key => $value){
+ 						$category_path = $this->woosea_get_term_parents( $value, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
+						if(!is_object($category_path)){
+							$product_data['category_path'] = $category_path;	
+						}	
+	
 						if (!$catname){
 		                                        $product_cat = get_term($value, 'product_cat');
 
@@ -1519,7 +1543,7 @@ class WooSEA_Get_Products {
 			if ($stock_status == "outofstock"){
 				$product_data['availability'] = "out of stock";
 			} elseif ($stock_status == "onbackorder") {
-				$product_data['availability'] = "out of stock";
+				$product_data['availability'] = "on backorder";
 			} else {
 				$product_data['availability'] = "in stock";
 			}
@@ -1821,6 +1845,13 @@ class WooSEA_Get_Products {
 					if(($custom_kk == "_woosea_condition") && ($custom_value == "")){
 						$custom_value = $product_data['condition'];
 					}
+
+				    	// Need to clean up the strange price rightpress is returning
+                                        if($custom_kk == "rp_wcdpd_price_cache"){
+                                                $product_data['price'] = $custom_value['price']['p'];
+                                                $product_data['sale_price'] = $custom_value['sale_price']['p'];
+                                        }
+
 					$product_data[$new_key] = $custom_value;
 				}
 				/**
@@ -2390,6 +2421,7 @@ class WooSEA_Get_Products {
                                                                         		$review_str = rtrim($review_str, ":");
                                                                      	      		$review_str = ltrim($review_str, ":");
                                                                              		$review_str = str_replace("||:", "||", $review_str);
+											$review_str .= "||";
 											$attr_line .= ",'".$review_str."'";
 										} else {
                                         	                               		$shipping_str = "";
@@ -2561,6 +2593,8 @@ class WooSEA_Get_Products {
                                                                                                         $review_str = rtrim($review_str, ":");
                                                                                                         $review_str = ltrim($review_str, ":");
                                                                                                         $review_str = str_replace("||:", "||", $review_str);
+
+													$review_str .= "||";
 
                                                                                                         $xml_product[$attr_value['attribute']] = "$review_str";	
  												} else {

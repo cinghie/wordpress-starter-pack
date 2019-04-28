@@ -4,8 +4,8 @@ Contributors: visser, visser.labs, Emark
 Donate link: https://www.visser.com.au/donations/
 Tags: woocommerce, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
 Requires at least: 3.0
-Tested up to: 5.0.3
-Stable tag: 4.2.5
+Tested up to: 5.1.1
+Stable tag: 4.3
 License: GPLv2 or later
 
 Manages WooCommerce Checkout, the advanced way.
@@ -134,6 +134,17 @@ Example:
 8. Customize Checkout fields from the WooCheckout menu item in the WordPress Administration.
 
 == Changelog ==
+
+= 4.3 =
+* Fixed: Security issue where Categorize Uploaded Files is selected
+* Changed: Disabled Categorize Uploaded Files feature
+* Added: Plugin Upgrade notice for this release
+* Fixed: File picker not working for Additional Checkout section
+* Added: Nonce support for file picker fields
+
+= 4.2.6 =
+* Fixed: PHP 7.3 warning for incorrect use of continue (thanks @ceyar)
+* Changed: Adjusted some Admin styling to the WordPress Admin default
 
 = 4.2.5 =
 * Fixed: Updated required field to match WooCommerce 3.5+ (thanks @sirachote)
@@ -504,6 +515,9 @@ Added required attribute removal
 Initial
 
 == Upgrade Notice ==
+
+= 4.3 =
+The 4.3 Plugin update addresses an arbitrary file upload vulnerability.
 
 = 2.0.1 =
 The 2.0.1 Plugin update marks a change of ownership of WooCommerce Checkout Manager from Emark to visser who will be responsible for resolving critical issues and ensuring the Plugin meets WordPress security and coding standards in the form of regular Plugin updates.

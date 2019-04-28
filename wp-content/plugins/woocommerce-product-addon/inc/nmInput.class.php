@@ -581,7 +581,7 @@ class NM_Form {
             $html   .= sprintf(__("%s", "ppom"), $label) .'</label>';
         }
         
-        // $html   .= '<label class="'.$this->get_default_setting_value('global', 'label_class', $id).'" for="'.$id.'">';
+        $checked_value = array_map('trim', $checked_value);
         
         foreach($options as $key => $value) {
             
@@ -1073,8 +1073,8 @@ class NM_Form {
 			}
 			
 			$html .= '<div style="clear:both;border-bottom:1px #ccc dashed;">';
-			$html .= '<span>'.stripslashes(trim($label)).'</span>';
-			$html .= '<span style="float:right">'.$price.'</span>';
+			$html .= '<span class="pm-range">'.apply_filters('ppom_matrix_item_label', stripslashes(trim($label)), $opt).'</span>';
+			$html .= '<span class="pm-price" style="float:right">'.apply_filters('ppom_matrix_item_price', $price, $opt).'</span>';
 			$html .= '</div>';
 		}
 		

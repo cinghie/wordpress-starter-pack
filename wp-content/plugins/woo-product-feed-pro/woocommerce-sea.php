@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     5.3.5
+ * Version:     5.4.6
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -17,7 +17,7 @@
  * Domain Path: /languages
  *
  * WC requires at least: 3.0
- * WC tested up to: 3.5
+ * WC tested up to: 3.6
  *
  * Product Feed PRO for WooCommerce is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '5.3.5' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '5.4.6' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -125,15 +125,15 @@ function woosea_scripts($hook) {
 		// JS for getting channels
 		wp_register_script( 'woosea_channel-js', plugin_dir_url( __FILE__ ) . 'js/woosea_channel.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
 		wp_enqueue_script( 'woosea_channel-js' );
-
-		// JS for manage projects page
-		wp_register_script( 'woosea_manage-js', plugin_dir_url( __FILE__ ) . 'js/woosea_manage.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
-		wp_enqueue_script( 'woosea_manage-js' );
-
+	
 		// JS for managing keys
 		wp_register_script( 'woosea_key-js', plugin_dir_url( __FILE__ ) . 'js/woosea_key.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
 		wp_enqueue_script( 'woosea_key-js' );
 	}
+		
+	// JS for manage projects page
+	wp_register_script( 'woosea_manage-js', plugin_dir_url( __FILE__ ) . 'js/woosea_manage.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
+	wp_enqueue_script( 'woosea_manage-js' );
 }
 add_action( 'admin_enqueue_scripts' , 'woosea_scripts' );
 
@@ -354,7 +354,8 @@ add_action('admin_notices', 'woosea_license_notice');
 function woosea_request_review(){
 	// Only request for a review when:
 	// Plugin activation has been > 1 week
-	// Active projects > 0	
+	// Active projects > 0
+
 	$cron_projects = get_option( 'cron_projects' );
 	if(!empty( $cron_projects )){
 		$nr_projects = count($cron_projects);
@@ -365,12 +366,14 @@ function woosea_request_review(){
 		$is_active = $current_time-$first_activation;
 		$page = basename($_SERVER['REQUEST_URI']);
 
-		if (preg_match("/woo-product-feed-pro|woosea_manage_feed|woosea_manage_settings/i",$page)){
+//		if (preg_match("/woo-product-feed-pro|woosea_manage_feed|woosea_manage_settings/i",$page)){
 
 			if(($nr_projects > 0) AND ($is_active > $show_after) AND ($notification_interaction != "yes")){
-			echo '<div class="notice notice-info review-notification is-dismissible"><font color="green" style="font-weight:bold";><p>Hey, I noticed you have been using our plugin, Product Feed PRO for WooCommerce, for over a week now and have created product feed projects with it - that\'s awesome! Could you please do Eva and me a BIG favor and give it a 5-star rating on WordPress? Just to help us spread the word and boost our motivation.<br/>~ Eva and Joris<br><ul><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="dismiss-review-notification">Ok, you deserve it</a></li><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="#" class="dismiss-review-notification">Nope, maybe later</a></li><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="#" class="dismiss-review-notification">I already did</a></li></ul></p></font></div>';	
+			echo '<div class="notice notice-info review-notification is-dismissible">';
+			echo '<table><tr><td></td><td><font color="green" style="font-weight:normal";><p>Hey, I noticed you have been using our plugin, <u>Product Feed PRO for WooCommerce by AdTribes.io</u>, for over a week now and have created product feed projects with it - that\'s awesome! Could you please do Eva and me a BIG favor and give it a 5-star rating on WordPress? Just to help us spread the word and boost our motivation. We would greatly appreciate if you would do so :)<br/>~ Adtribes.io support team<br><ul><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="dismiss-review-notification">Ok, you deserve it</a></li><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="#" class="dismiss-review-notification">Nope, maybe later</a></li><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="#" class="dismiss-review-notification">I already did</a></li></ul></p></font></td></tr></table>';
+			echo '</div>';	
 			}
-		}
+//		}
 	}
 }
 add_action('admin_notices', 'woosea_request_review');
@@ -1704,6 +1707,56 @@ function woosea_custom_general_fields() {
                 	)
         	);
 
+        	// Custom field 0
+        	woocommerce_wp_text_input(
+                	array(
+                        	'id'          => '_woosea_custom_field_0',
+                        	'label'       => __( 'Custom field 0', 'woocommerce' ),
+                       	 	'desc_tip'    => 'true',
+                        	'description' => __( 'Enter your custom field 0', 'woocommerce' ),
+                	)
+        	);
+
+	       	// Custom field 1
+        	woocommerce_wp_text_input(
+                	array(
+                        	'id'          => '_woosea_custom_field_1',
+                        	'label'       => __( 'Custom field 1', 'woocommerce' ),
+                       	 	'desc_tip'    => 'true',
+                        	'description' => __( 'Enter your custom field 1', 'woocommerce' ),
+                	)
+        	);
+
+	       	// Custom field 2
+        	woocommerce_wp_text_input(
+                	array(
+                        	'id'          => '_woosea_custom_field_2',
+                        	'label'       => __( 'Custom field 2', 'woocommerce' ),
+                       	 	'desc_tip'    => 'true',
+                        	'description' => __( 'Enter your custom field 2', 'woocommerce' ),
+                	)
+        	);
+
+	       	// Custom field 3
+        	woocommerce_wp_text_input(
+                	array(
+                        	'id'          => '_woosea_custom_field_3',
+                        	'label'       => __( 'Custom field 3', 'woocommerce' ),
+                       	 	'desc_tip'    => 'true',
+                        	'description' => __( 'Enter your custom field 3', 'woocommerce' ),
+                	)
+        	);
+
+	       	// Custom field 4
+        	woocommerce_wp_text_input(
+                	array(
+                        	'id'          => '_woosea_custom_field_4',
+                        	'label'       => __( 'Custom field 4', 'woocommerce' ),
+                       	 	'desc_tip'    => 'true',
+                        	'description' => __( 'Enter your custom field 4', 'woocommerce' ),
+                	)
+        	);
+
 		// Exclude product from feed
 		woocommerce_wp_checkbox(
 			array(
@@ -1735,7 +1788,6 @@ function woosea_save_custom_general_fields($post_id){
         $woocommerce_installment_amount      		= empty($_POST['_woosea_installment_amount']) ? '' : sanitize_text_field($_POST['_woosea_installment_amount']);
         $woocommerce_condition      			= empty($_POST['_woosea_condition']) ? '' : sanitize_text_field($_POST['_woosea_condition']);
         $woocommerce_age_group    			= empty($_POST['_woosea_age_group']) ? '' : sanitize_text_field($_POST['_woosea_age_group']);
-
         $woocommerce_cost_of_good_sold    		= empty($_POST['_woosea_cost_of_good_sold']) ? '' : sanitize_text_field($_POST['_woosea_cost_of_good_sold']);
         $woocommerce_multipack    			= empty($_POST['_woosea_multipack']) ? '' : sanitize_text_field($_POST['_woosea_multipack']);
         $woocommerce_is_bundle    			= empty($_POST['_woosea_is_bundle']) ? '' : sanitize_text_field($_POST['_woosea_is_bundle']);
@@ -1743,6 +1795,11 @@ function woosea_save_custom_general_fields($post_id){
         $woocommerce_min_energy_efficiency_class    	= empty($_POST['_woosea_min_energy_efficiency_class']) ? '' : sanitize_text_field($_POST['_woosea_min_energy_efficiency_class']);
         $woocommerce_max_energy_efficiency_class    	= empty($_POST['_woosea_max_energy_efficiency_class']) ? '' : sanitize_text_field($_POST['_woosea_max_energy_efficiency_class']);
         $woocommerce_is_promotion    			= empty($_POST['_woosea_is_promotion']) ? '' : sanitize_text_field($_POST['_woosea_is_promotion']);
+        $woocommerce_custom_field_0    			= empty($_POST['_woosea_custom_field_0']) ? '' : sanitize_text_field($_POST['_woosea_custom_field_0']);
+        $woocommerce_custom_field_1 			= empty($_POST['_woosea_custom_field_1']) ? '' : sanitize_text_field($_POST['_woosea_custom_field_1']);
+        $woocommerce_custom_field_2    			= empty($_POST['_woosea_custom_field_2']) ? '' : sanitize_text_field($_POST['_woosea_custom_field_2']);
+        $woocommerce_custom_field_3    			= empty($_POST['_woosea_custom_field_3']) ? '' : sanitize_text_field($_POST['_woosea_custom_field_3']);
+        $woocommerce_custom_field_4    			= empty($_POST['_woosea_custom_field_4']) ? '' : sanitize_text_field($_POST['_woosea_custom_field_4']);
 
 	if(!empty($_POST['_woosea_exclude_product'])){
 		$woocommerce_exclude_product 		= sanitize_text_field($_POST['_woosea_exclude_product']);
@@ -1809,6 +1866,21 @@ function woosea_save_custom_general_fields($post_id){
 
 	if(isset($woocommerce_is_promotion))
                 update_post_meta( $post_id, '_woosea_is_promotion', esc_attr($woocommerce_is_promotion));
+
+	if(isset($woocommerce_custom_field_0))
+                update_post_meta( $post_id, '_woosea_custom_field_0', esc_attr($woocommerce_custom_field_0));
+
+	if(isset($woocommerce_custom_field_1))
+                update_post_meta( $post_id, '_woosea_custom_field_1', esc_attr($woocommerce_custom_field_1));
+
+	if(isset($woocommerce_custom_field_2))
+                update_post_meta( $post_id, '_woosea_custom_field_2', esc_attr($woocommerce_custom_field_2));
+
+	if(isset($woocommerce_custom_field_3))
+                update_post_meta( $post_id, '_woosea_custom_field_3', esc_attr($woocommerce_custom_field_3));
+
+	if(isset($woocommerce_custom_field_4))
+                update_post_meta( $post_id, '_woosea_custom_field_4', esc_attr($woocommerce_custom_field_4));
 }
 add_action( 'woocommerce_process_product_meta', 'woosea_save_custom_general_fields' );
 
@@ -2125,7 +2197,72 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
                                 'wrapper_class' => 'form-row-last',
                         )
                 );
+
+                // Custom field 0
+                woocommerce_wp_text_input(
+                        array(
+                                'id'          => '_woosea_custom_field_0['.$loop.']',
+                                'label'       => __( '<br>Custom field 0', 'woocommerce' ),
+                                'placeholder' => 'Custom field 0',
+                                'desc_tip'    => 'true',
+                                'description' => __( 'Enter your custom field 0', 'woocommerce' ),
+                                'value'       => get_post_meta($variation->ID, '_woosea_custom_field_0', true),
+                                'wrapper_class' => 'form-row-last',
+                        )
+                );
+	
+                // Custom field 1
+                woocommerce_wp_text_input(
+                        array(
+                                'id'          => '_woosea_custom_field_1['.$loop.']',
+                                'label'       => __( '<br>Custom field 1', 'woocommerce' ),
+                                'placeholder' => 'Custom field 1',
+                                'desc_tip'    => 'true',
+                                'description' => __( 'Enter your custom field 1', 'woocommerce' ),
+                                'value'       => get_post_meta($variation->ID, '_woosea_custom_field_1', true),
+                                'wrapper_class' => 'form-row-last',
+                        )
+                );
+	
+                // Custom field 2
+                woocommerce_wp_text_input(
+                        array(
+                                'id'          => '_woosea_custom_field_2['.$loop.']',
+                                'label'       => __( '<br>Custom field 2', 'woocommerce' ),
+                                'placeholder' => 'Custom field 2',
+                                'desc_tip'    => 'true',
+                                'description' => __( 'Enter your custom field 2', 'woocommerce' ),
+                                'value'       => get_post_meta($variation->ID, '_woosea_custom_field_2', true),
+                                'wrapper_class' => 'form-row-last',
+                        )
+                );
+	
+	      	// Custom field 3
+                woocommerce_wp_text_input(
+                        array(
+                                'id'          => '_woosea_custom_field_3['.$loop.']',
+                                'label'       => __( '<br>Custom field 3', 'woocommerce' ),
+                                'placeholder' => 'Custom field 3',
+                                'desc_tip'    => 'true',
+                                'description' => __( 'Enter your custom field 3', 'woocommerce' ),
+                                'value'       => get_post_meta($variation->ID, '_woosea_custom_field_3', true),
+                                'wrapper_class' => 'form-row-last',
+                        )
+                );
 		
+		// Custom field 4
+                woocommerce_wp_text_input(
+                        array(
+                                'id'          => '_woosea_custom_field_4['.$loop.']',
+                                'label'       => __( '<br>Custom field 4', 'woocommerce' ),
+                                'placeholder' => 'Custom field 4',
+                                'desc_tip'    => 'true',
+                                'description' => __( 'Enter your custom field 4', 'woocommerce' ),
+                                'value'       => get_post_meta($variation->ID, '_woosea_custom_field_4', true),
+                                'wrapper_class' => 'form-row-last',
+                        )
+                );
+	
 		// Exclude product from feed
 		woocommerce_wp_checkbox(
 			array(
@@ -2265,7 +2402,6 @@ function woosea_save_custom_variable_fields( $post_id ) {
                         if ( isset( $_is_promotion[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_is_promotion', stripslashes( sanitize_text_field( $_is_promotion[$i] )));
                         }
- 
 
 		 // Is bundle
                 $_is_bundle = $_POST['_woosea_is_bundle'];
@@ -2293,6 +2429,41 @@ function woosea_save_custom_variable_fields( $post_id ) {
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_max_energy_efficiency_class[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_max_energy_efficiency_class', stripslashes( sanitize_text_field( $_max_energy_efficiency_class[$i] )));
+                        }
+
+                // Custom field 0
+                $_custom_field_0 = $_POST['_woosea_custom_field_0'];
+                        $variation_id = (int) $variable_post_id[$i];
+                        if ( isset( $_custom_field_0[$i] ) ) {
+                                update_post_meta( $variation_id, '_woosea_custom_field_0', stripslashes( sanitize_text_field( $_custom_field_0[$i] )));
+                        }
+
+                // Custom field 1
+                $_custom_field_1 = $_POST['_woosea_custom_field_1'];
+                        $variation_id = (int) $variable_post_id[$i];
+                        if ( isset( $_custom_field_1[$i] ) ) {
+                                update_post_meta( $variation_id, '_woosea_custom_field_1', stripslashes( sanitize_text_field( $_custom_field_1[$i] )));
+                        }
+
+                // Custom field 2
+                $_custom_field_2 = $_POST['_woosea_custom_field_2'];
+                        $variation_id = (int) $variable_post_id[$i];
+                        if ( isset( $_custom_field_2[$i] ) ) {
+                                update_post_meta( $variation_id, '_woosea_custom_field_2', stripslashes( sanitize_text_field( $_custom_field_2[$i] )));
+                        }
+
+                // Custom field 3
+                $_custom_field_3 = $_POST['_woosea_custom_field_3'];
+                        $variation_id = (int) $variable_post_id[$i];
+                        if ( isset( $_custom_field_3[$i] ) ) {
+                                update_post_meta( $variation_id, '_woosea_custom_field_3', stripslashes( sanitize_text_field( $_custom_field_3[$i] )));
+                        }
+
+                // Custom field 4
+                $_custom_field_4 = $_POST['_woosea_custom_field_4'];
+                        $variation_id = (int) $variable_post_id[$i];
+                        if ( isset( $_custom_field_4[$i] ) ) {
+                                update_post_meta( $variation_id, '_woosea_custom_field_4', stripslashes( sanitize_text_field( $_custom_field_4[$i] )));
                         }
 
                 // Exclude product from feed
@@ -2744,7 +2915,7 @@ function woosea_license_valid(){
         $license_information = get_option('license_information');
 
         $curl = curl_init();
-        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=5.3.5";
+        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=5.4.6";
 
         curl_setopt_array($curl, array(
                 CURLOPT_RETURNTRANSFER => 1,

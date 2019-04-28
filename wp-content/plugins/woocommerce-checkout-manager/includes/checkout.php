@@ -76,6 +76,12 @@ function wooccm_display_front() {
 	if( !is_checkout() )
 		return;
 
+	echo '
+<script type="text/javascript">
+var ajaxurl = "' . admin_url( "admin-ajax.php" ) . '";
+var ajaxnonce = "' . wp_create_nonce( "wccs_ajax_nonce" ) . '";
+</script>';
+
 	$options = get_option( 'wccs_settings' );
 
 	// Hide Ship to a different address? heading

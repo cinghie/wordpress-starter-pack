@@ -14,6 +14,7 @@ if ( ! class_exists( 'YITH_Document' ) ) {
 	 * @author  Your Inspiration Themes
 	 */
 	abstract class YITH_Document {
+
 		/**
 		 * @var string Current document type
 		 */
@@ -75,9 +76,9 @@ if ( ! class_exists( 'YITH_Document' ) ) {
 			$html = ob_get_contents();
 			ob_end_clean();
 
-			require_once( YITH_YWPI_DOMPDF_DIR . "dompdf_config.inc.php" );
+			require_once( YITH_YWPI_LIB_DIR . "dompdf/autoload.inc.php" );
 
-			$dompdf = new DOMPDF();
+			$dompdf = new Dompdf\Dompdf();
 
 			$dompdf->load_html( $html );
 

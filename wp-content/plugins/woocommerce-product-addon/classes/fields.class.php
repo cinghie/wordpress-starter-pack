@@ -33,59 +33,64 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
     function load_script($hook) {
 
 		if( ! isset($_GET['page']) || $_GET['page'] != "ppom") return;
+		
+		$suffix          = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+        
+        // Preloader script
+        wp_enqueue_script('ppom-perload', PPOM_URL."/js/admin/pre-load.js", array('jquery'), PPOM_VERSION, true);
         
         // Bootstrap Files
-        wp_enqueue_style('PPOM-bs', PPOM_URL."/scripts/bootstrap.min.css");
-        // wp_enqueue_script('PPOM-bs', PPOM_URL."/scripts/bootstrap.min.js", array('jquery'), PPOM_VERSION, true);        
+        wp_enqueue_style('ppom-bs', PPOM_URL."/scripts/bootstrap.min.css");
+        // wp_enqueue_script('ppom-bs', PPOM_URL."/scripts/bootstrap.min.js", array('jquery'), PPOM_VERSION, true);        
 
         // Bulk Quantity Addon JS File
-        wp_enqueue_script('PPOM-bulkquantity', PPOM_URL."/scripts/ppom-bulkquantity.js", array('jquery'), PPOM_VERSION, true);
+        wp_enqueue_script('ppom-bulkquantity', PPOM_URL."/scripts/ppom-bulkquantity.js", array('jquery'), PPOM_VERSION, true);
 
         // PPOM Meta Table File
-        wp_enqueue_script('PPOM-meta-table', PPOM_URL."/scripts/ppom-meta-table.js", array('jquery'), PPOM_VERSION, true);
+        wp_enqueue_script('ppom-meta-table', PPOM_URL."/scripts/ppom-meta-table.js", array('jquery'), PPOM_VERSION, true);
         
         // Font-awesome File
         if( ppom_load_fontawesome() ) {
-        	wp_enqueue_style('PPOM-fontawsome', PPOM_URL."/scripts/font-awesome/css/font-awesome.css");
+        	wp_enqueue_style('ppom-fontawsome', PPOM_URL."/scripts/font-awesome/css/font-awesome.css");
         }
 
         // Swal Files
-        wp_enqueue_style('PPOM-swal', PPOM_URL."/scripts/sweetalert.css");
-        wp_enqueue_script('PPOM-swal', PPOM_URL."/scripts/sweetalert.js", array('jquery'), PPOM_VERSION, true); 
+        wp_enqueue_style('ppom-swal', PPOM_URL."/scripts/sweetalert.css");
+        wp_enqueue_script('ppom-swal', PPOM_URL."/scripts/sweetalert.js", array('jquery'), PPOM_VERSION, true); 
         
         // Select2 Files
-        wp_enqueue_style('PPOM-select2', PPOM_URL."/scripts/select2.css");
-        wp_enqueue_script('PPOM-select2', PPOM_URL."/scripts/select2.js", array('jquery'), PPOM_VERSION, true);
+        wp_enqueue_style('ppom-select2', PPOM_URL."/scripts/select2.css");
+        wp_enqueue_script('ppom-select2', PPOM_URL."/scripts/select2.js", array('jquery'), PPOM_VERSION, true);
         
         // Tabletojson JS File 
-        wp_enqueue_script('PPOM-tabletojson', PPOM_URL."/js/admin/jquery.tabletojson.min.js", array('jquery'), PPOM_VERSION, true);
+        wp_enqueue_script('ppom-tabletojson', PPOM_URL."/js/admin/jquery.tabletojson.min.js", array('jquery'), PPOM_VERSION, true);
 
         // Datatable Files
-        wp_enqueue_style('PPOM-datatables', PPOM_URL."/js/datatable/datatables.min.css");
-        wp_enqueue_script('PPOM-datatables', PPOM_URL."/js/datatable/jquery.dataTables.min.js", array('jquery'), PPOM_VERSION, true);
+        wp_enqueue_style('ppom-datatables', PPOM_URL."/js/datatable/datatables.min.css");
+        wp_enqueue_script('ppom-datatables', PPOM_URL."/js/datatable/jquery.dataTables.min.js", array('jquery'), PPOM_VERSION, true);
 
         // Description Tooltips JS File
-        wp_enqueue_script('PPOM-tooltip', PPOM_URL."/scripts/ppom-tooltip.js", array('jquery'), PPOM_VERSION, true);
+        wp_enqueue_script('ppom-tooltip', PPOM_URL."/scripts/ppom-tooltip.js", array('jquery'), PPOM_VERSION, true);
 
         // codemirror files
-        wp_enqueue_style('PPOM-codemirror-css', PPOM_URL."/scripts/codemirror/codemirror.min.css", '', PPOM_VERSION);
-        wp_enqueue_script('PPOM-codemirror-js', PPOM_URL."/scripts/codemirror/codemirror.js", array('jquery'), PPOM_VERSION, true);
-        wp_enqueue_script('PPOM-codemirror-css-js', PPOM_URL."/scripts/codemirror/css.js", array('jquery'), PPOM_VERSION, true);
+        wp_enqueue_style('ppom-codemirror-css', PPOM_URL."/scripts/codemirror/codemirror.min.css", '', PPOM_VERSION);
+        wp_enqueue_script('ppom-codemirror-js', PPOM_URL."/scripts/codemirror/codemirror.js", array('jquery'), PPOM_VERSION, true);
+        wp_enqueue_script('ppom-codemirror-css-js', PPOM_URL."/scripts/codemirror/css.js", array('jquery'), PPOM_VERSION, true);
         
         // PPOM Admin Files
-        wp_enqueue_style('PPOM-field', PPOM_URL."/scripts/ppom-admin.css", '', PPOM_VERSION);
-        wp_enqueue_script('PPOM-field', PPOM_URL."/scripts/ppom-admin.js", array('PPOM-swal','PPOM-select2','PPOM-tabletojson','PPOM-datatables','PPOM-tooltip','jquery-ui-core', 'jquery-ui-sortable'), PPOM_VERSION, true);
+        wp_enqueue_style('ppom-field', PPOM_URL."/scripts/ppom-admin.css", '', PPOM_VERSION);
+        wp_enqueue_script('ppom-field', PPOM_URL."/scripts/ppom-admin.js", array('ppom-swal','ppom-select2','ppom-tabletojson','ppom-datatables','ppom-tooltip','jquery-ui-core', 'jquery-ui-sortable','ppom-perload'), PPOM_VERSION, true);
 
 		wp_enqueue_media ();
 
         $ppom_admin_meta = array(
 	      'plugin_admin_page' => admin_url( 'admin.php?page=ppom'),
-	      'loader'    => PPOM_URL.'/images/loading.gif',
+	      'loader'  		=> PPOM_URL.'/images/loading.gif',
 	    );
 
         // localize ppom_vars
-	    wp_localize_script( 'PPOM-field', 'ppom_vars', $ppom_admin_meta);
-	    wp_localize_script( 'PPOM-meta-table', 'ppom_vars', $ppom_admin_meta);
+	    wp_localize_script( 'ppom-field', 'ppom_vars', $ppom_admin_meta);
+	    wp_localize_script( 'ppom-meta-table', 'ppom_vars', $ppom_admin_meta);
     }
 
 
@@ -299,7 +304,7 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 						$weight = isset($option['weight']) ? $option['weight'] : '';
 						
 						$option_id = ppom_get_option_id($option);
-						$html_input .= '<li class="data-options ppom-sortable-handle" style="display: flex;">';
+						$html_input .= '<li class="data-options ppom-sortable-handle" style="display: flex;" data-condition-type="simple_options">';
 							$html_input .= '<span class="dashicons dashicons-move"></span>';
 							$html_input .= '<input type="text" class="option-title form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][option]" value="'.esc_attr(stripslashes($option['option'])).'" placeholder="'.$plc_option.'" data-metatype="option">';
 							$html_input .= '<input type="text" class="option-price form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][price]" value="'.esc_attr($option['price']).'" placeholder="'.$plc_price.'" data-metatype="price">';
@@ -316,7 +321,7 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 
 					}
 				}else{
-					$html_input .= '<li class="data-options" style="display: flex;">';
+					$html_input .= '<li class="data-options" style="display: flex;" data-condition-type="simple_options">';
 						$html_input .= '<span class="dashicons dashicons-move"></span>';
 						$html_input .= '<input type="text" class="option-title form-control ppom-option-keys" placeholder="'.$plc_option.'" data-metatype="option">';
 						$html_input .= '<input type="text" class="option-price form-control ppom-option-keys" placeholder="'.$plc_price.'" data-metatype="price">';
@@ -659,7 +664,13 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 
 								// conditional elements values
 								$html_input .= '<div class="col-md-4 col-sm-4">';
-									$html_input .= '<input type="text" name="ppom['.esc_attr($field_index).'][conditions][rules]['.esc_attr($rule_index).'][element_values]" class="form-control ppom-conditional-keys" value="'.esc_attr($element_values).'" placeholder="Enter Option" data-metatype="element_values">';
+
+									$html_input .= '<select name="ppom['.esc_attr($field_index).'][conditions][rules]['.esc_attr($rule_index).'][element_values]" class="form-control ppom-conditional-keys" data-metatype="element_values"
+										data-existingvalue="'.esc_attr($element_values).'" >';
+										$html_input .= '<option>'.$element_values.'</option>';
+									$html_input .= '</select>';
+
+									// $html_input .= '<input type="text" name="ppom['.esc_attr($field_index).'][conditions][rules]['.esc_attr($rule_index).'][element_values]" class="form-control ppom-conditional-keys" value="'.esc_attr($element_values).'" placeholder="Enter Option" data-metatype="element_values">';
 								$html_input .= '</div>';
 
 								// Add and remove btn
@@ -713,7 +724,11 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 
 							// conditional elements values
 							$html_input .= '<div class="col-md-4 col-sm-4">';
-								$html_input .= '<input type="text" class="form-control ppom-conditional-keys" placeholder="Enter Option" data-metatype="element_values">';
+
+								$html_input .= '<select data-metatype="element_values" class="ppom-conditional-keys form-control"></select>';
+
+
+								// $html_input .= '<input type="text" class="form-control ppom-conditional-keys" placeholder="Enter Option" data-metatype="element_values">';
 							$html_input .= '</div>';
 
 							// Add and remove btn
@@ -749,7 +764,7 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 								
 								$image_name = isset($pre_uploaded_image['link']) ? basename($pre_uploaded_image['link']) : '';
 
-								$html_input .= '<li class="data-options">';
+								$html_input .= '<li class="data-options" data-condition-type="image_options">';
 									$html_input .= '<span class="dashicons dashicons-move" style="margin-bottom: 7px;margin-top: 2px;"></span>';	
 									$html_input .= '<span class="ppom-uploader-img-title">'.$image_name.'</span>';
 									$html_input .= '<div style="display: flex;">';
@@ -758,7 +773,7 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 										$html_input .= '</div>';
 										$html_input .= '<input type="hidden" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][link]" value="'.esc_url($image_link).'">';
 										$html_input .= '<input type="hidden" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][id]" value="'.esc_attr($image_id).'">';
-										$html_input .= '<input class="form-control" type="text" placeholder="Title" value="'.esc_attr(stripslashes($pre_uploaded_image['title'])).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][title]">';
+										$html_input .= '<input class="form-control ppom-image-option-title" type="text" placeholder="Title" value="'.esc_attr(stripslashes($pre_uploaded_image['title'])).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][title]">';
 										$html_input .= '<input class="form-control" type="text" placeholder="Price (fix or %)" value="'.esc_attr(stripslashes($pre_uploaded_image['price'])).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][price]">';
 										$html_input .= '<input class="form-control" type="text" placeholder="URL" value="'.esc_url(stripslashes($pre_uploaded_image['url'])).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][url]">';
 										$html_input .= '<button class="btn btn-danger ppom-pre-upload-delete" style="height: 35px;"><i class="fa fa-times" aria-hidden="true"></i></button>';
@@ -796,7 +811,7 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 								
 								$image_name = isset($pre_uploaded_image['link']) ? basename($pre_uploaded_image['link']) : '';
 
-								$html_input .= '<li class="data-options">';
+								$html_input .= '<li class="data-options" data-condition-type="image_options">';
 									$html_input .= '<span class="dashicons dashicons-move" style="margin-bottom: 7px;margin-top: 2px;"></span>';	
 									$html_input .= '<span class="ppom-uploader-img-title">'.$image_name.'</span>';
 									$html_input .= '<div style="display: flex;">';
@@ -805,7 +820,7 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 										$html_input .= '</div>';
 										$html_input .= '<input type="hidden" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][link]" value="'.esc_url($image_link).'">';
 										$html_input .= '<input type="hidden" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][id]" value="'.esc_attr($image_id).'">';
-										$html_input .= '<input class="form-control" type="text" placeholder="Title" value="'.esc_attr(stripslashes($pre_uploaded_image['title'])).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][title]">';
+										$html_input .= '<input class="form-control ppom-image-option-title" type="text" placeholder="Title" value="'.esc_attr(stripslashes($pre_uploaded_image['title'])).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][title]">';
 										$html_input .= '<input class="form-control" type="text" placeholder="Price" value="'.esc_attr(stripslashes($pre_uploaded_image['price'])).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][price]">';
 										$html_input .= '<input class="form-control" type="text" placeholder="Description" value="'.esc_attr($image_description).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][description]">';
 										$html_input .= '<button class="btn btn-danger ppom-pre-upload-delete" style="height: 35px;"><i class="fa fa-times" aria-hidden="true"></i></button>';

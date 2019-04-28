@@ -140,7 +140,7 @@ if ( ! class_exists( 'YIT_Upgrade' ) ) {
 
 				$error = false;
 				if ( ! is_wp_error( $remote_xml ) && isset( $remote_xml['response']['code'] ) && '200' == $remote_xml['response']['code'] ) {
-					$plugin_remote_info = @simplexml_load_string( $remote_xml['body'] );
+					$plugin_remote_info = function_exists( 'simplexml_load_string' ) ? @simplexml_load_string( $remote_xml['body'] ) : false;
 					if ( $plugin_remote_info ) {
 						$info['Latest']    = (string) $plugin_remote_info->latest;
 						$info['changelog'] = (string) $plugin_remote_info->changelog;
@@ -471,7 +471,7 @@ if ( ! class_exists( 'YIT_Upgrade' ) ) {
 
 				if ( ! is_wp_error( $remote_xml ) && isset( $remote_xml['response']['code'] ) && '200' == $remote_xml['response']['code'] ) {
 
-					$plugin_remote_info = @simplexml_load_string( $remote_xml['body'] );
+					$plugin_remote_info = function_exists( 'simplexml_load_string' ) ? @simplexml_load_string( $remote_xml['body'] ) : false;
 
 					if ( $plugin_remote_info ) {
 						$wrong_current_version_check = version_compare( $plugin['info']['Version'], $plugin_remote_info->latest, '>' );

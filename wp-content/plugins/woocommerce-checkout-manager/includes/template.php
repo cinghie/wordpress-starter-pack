@@ -1,12 +1,9 @@
 <?php
-function wooccm_front_endupload() {
+function wooccm_front_end_upload() {
 
-	require_once( ABSPATH . 'wp-admin/includes/file.php' ); 
-	require_once( ABSPATH . 'wp-admin/includes/media.php' );
+	check_ajax_referer( 'wccs_ajax_nonce', 'nonce' );
 
-	$wp_upload_dir = wp_upload_dir();
 	$name = ( isset( $_REQUEST["name"] ) ? $_REQUEST["name"] : false );
-	$number_of_files = 0;
 
 	// Check if a file has been uploaded
 	if( empty( $_FILES ) ) {
@@ -20,49 +17,71 @@ function wooccm_front_endupload() {
 		return;
 	}
 
-	$file = array(
-		'name'     => $_FILES[$name]['name'],
-		'type'     => $_FILES[$name]['type'],
-		'tmp_name' => $_FILES[$name]['tmp_name'],
-		'error'    => $_FILES[$name]['error'],
-		'size'     => $_FILES[$name]['size']
-	);
+	require_once( ABSPATH . 'wp-admin/includes/file.php' ); 
+	require_once( ABSPATH . 'wp-admin/includes/media.php' );
 
-	$upload_overrides = array( 'test_form' => false );
-	$movefile = wp_handle_upload( $file, $upload_overrides );
+	$wp_upload_dir = wp_upload_dir();
 
-	// Check if upload was successful
-	if( isset( $movefile['error'] ) && $movefile['error'][0] > 0 ) {
-		wooccm_error_log( '[' . $name . '] upload failed: ' . print_r( $movefile, true ) );
-		return;
-	} else {
-		$post_title = basename( $file['name'] );
-		if( isset( $movefile['file'] ) )
-			$post_title = basename( $movefile['file'] );
-		$attachment = array(
-			'guid' => ( isset( $movefile['url'] ) ? $movefile['url'] : false ),
-			'post_mime_type' => ( isset( $movefile['type'] ) ? $movefile['type'] : $file['type'] ),
-			'post_title' => preg_replace( '/\.[^.]+$/', '', $post_title ),
-			'post_content' => '',
-			'post_status' => 'inherit'
-		);
-		if( !empty( $movefile['url'] ) ) {
-			$attach_id = wp_insert_attachment( $attachment, $movefile['url'] );
-			$number_of_files++;
-			echo json_encode( $attach_id );
-			// echo json_encode( array( $number_of_files, $attach_id ) );
+	$number_of_files = 0;
+	$attach_ids = array();
+
+	$files = $_FILES[$name];
+	foreach( $files['name'] as $key => $value ) {
+		if( $files['name'][$key] ) {
+			$file = array(
+				'name'     => $_FILES[$name]['name'][$key],
+				'type'     => $_FILES[$name]['type'][$key],
+				'tmp_name' => $_FILES[$name]['tmp_name'][$key],
+				'error'    => $_FILES[$name]['error'][$key],
+				'size'     => $_FILES[$name]['size'][$key]
+			);
+			$upload_overrides = array( 'test_form' => false );
+			$movefile = wp_handle_upload( $file, $upload_overrides );
+
+			// Check if upload was successful
+			if( isset( $movefile['error'] ) && $movefile['error'] > 0 ) {
+				wooccm_error_log( '[' . $name . '] upload failed: ' . print_r( $movefile, true ) );
+				return;
+			}
+
+			$post_title = basename( $file['name'] );
+			if( isset( $movefile['file'] ) )
+				$post_title = basename( $movefile['file'] );
+			$attachment = array(
+				'guid' => ( isset( $movefile['url'] ) ? $movefile['url'] : false ),
+				'post_mime_type' => ( isset( $movefile['type'] ) ? $movefile['type'] : $file['type'] ),
+				'post_title' => preg_replace( '/\.[^.]+$/', '', $post_title ),
+				'post_content' => '',
+				'post_status' => 'inherit'
+			);
+
+			if( !empty( $movefile['url'] ) ) {
+				$attach_id = wp_insert_attachment( $attachment, $movefile['url'] );
+				$attach_ids[] = $attach_id;
+				$number_of_files++;
+				// echo json_encode( array( $number_of_files, $attach_id ) );
+			}
+
 		}
+	}
+
+	if( !empty( $attach_ids ) ) {
+		$output = implode( ',', $attach_ids );
+		$output = json_encode( $output );
+		echo $output;
 	}
 
 	die();
 
 }
-add_action("wp_ajax_wooccm_front_endupload", "wooccm_front_endupload");
-add_action("wp_ajax_nopriv_wooccm_front_endupload", "wooccm_front_endupload");
+add_action("wp_ajax_wooccm_front_end_upload", "wooccm_front_end_upload");
+add_action("wp_ajax_nopriv_wooccm_front_end_upload", "wooccm_front_end_upload");
 
-function wooccm_front_enduploadsave() {
+function wooccm_front_end_upload_save() {
 
 	global $wpdb, $woocommerce, $post; 
+
+	check_ajax_referer( 'wccs_ajax_nonce', 'nonce' );
 
 	require_once( ABSPATH . 'wp-admin/includes/file.php' ); 
 	require_once( ABSPATH . 'wp-admin/includes/media.php' );
@@ -70,7 +89,23 @@ function wooccm_front_enduploadsave() {
 	$name = ( isset( $_REQUEST["name"] ) ? $_REQUEST["name"] : false );
 	$attachtoremove = ( isset( $_REQUEST["remove"] ) ? $_REQUEST["remove"] : false );
 
-	wp_delete_attachment( $attachtoremove );
+	if( !empty( $attachtoremove ) ) {
+		// Check the Attachment exists...
+		if( get_post_status( $attachtoremove ) == false )
+			die();
+
+		// Check the Attachment is associated with an Order
+		$post_parent = get_post_field( 'post_parent', $attachtoremove );
+		if( empty( $post_parent ) ) {
+			die();
+		} else {
+			if( get_post_type( $post_parent ) <> 'shop_order' )
+				die();
+		}
+
+		// Delete the Attachment
+		wp_delete_attachment( $attachtoremove );
+	}
 
 	$file = array(
 		'name'     => $_FILES[$name]['name'],
@@ -99,8 +134,8 @@ function wooccm_front_enduploadsave() {
 
 }
 //frontend handle
-add_action("wp_ajax_wooccm_front_enduploadsave", "wooccm_front_enduploadsave");
-add_action("wp_ajax_nopriv_wooccm_front_enduploadsave", "wooccm_front_enduploadsave");
+add_action("wp_ajax_wooccm_front_end_upload_save", "wooccm_front_end_upload_save");
+add_action("wp_ajax_nopriv_wooccm_front_end_upload_save", "wooccm_front_end_upload_save");
 
 function wooccm_update_attachment_ids( $order_id = 0 ) {
 
@@ -150,7 +185,15 @@ function wooccm_update_attachment_ids( $order_id = 0 ) {
 					if( $btn['type'] == 'wooccmupload' ) {
 						$attachments = get_post_meta( $order_id , sprintf( '_%s_%s', $name, $btn['cow'] ), true );
 						if( !empty( $attachments ) ) {
-							$attachments = explode( ",", $attachments );
+
+							// Check for delimiter
+							if( strstr( $attachments, '||' ) !== false )
+								$attachments = explode( '||', $attachments );
+							else if( strstr( $attachments, ',' ) !== false )
+								$attachments = explode( ',', $attachments );
+							else
+								$attachments = array( $attachments );
+
 							if( !empty( $attachments ) ) {
 								foreach( $attachments as $image_id ) {
 
@@ -181,7 +224,18 @@ function wooccm_update_attachment_ids( $order_id = 0 ) {
 			if( $btn['type'] == 'wooccmupload' ) {
 				$attachments = get_post_meta( $order_id , $btn['cow'], true );
 				if( !empty( $attachments ) ) {
-					$attachments = explode( ",", $attachments );
+
+					// Check for delimiter
+					if( strstr( $attachments, '||' ) !== false )
+						$attachments = explode( '||', $attachments );
+					else if( strstr( $attachments, ',' ) !== false )
+						$attachments = explode( ',', $attachments );
+					else if( is_numeric( $attachments ) )
+						$attachments = array( $attachments );
+
+					if( !is_array( $attachments ) )
+						continue;
+
 					foreach( $attachments as $image_id ) {
 
 						if( !empty( $image_id ) ) {
@@ -280,8 +334,15 @@ function wooccm_order_received_checkout_details( $order ) {
 	);
 	$inc = 3;
 
+	$show_table = apply_filters( 'wooccm_order_received_checkout_show_table', ( defined( 'WOOCOMMERCE_VERSION' ) && version_compare( WOOCOMMERCE_VERSION, '2.3', '>=' ) ) );
+	$print_table = apply_filters( 'wooccm_order_received_checkout_print_table', true );
+
 	// Check if above WooCommerce 2.3+
-	if( defined( 'WOOCOMMERCE_VERSION' ) && version_compare( WOOCOMMERCE_VERSION, '2.3', '>=' ) ) {
+	if( $show_table ) {
+
+		if( $print_table ) {
+			echo '<table class="wccs_custom_fields shop_table">';
+		}
 
 		foreach( $names as $name ) {
 
@@ -331,8 +392,8 @@ function wooccm_order_received_checkout_details( $order ) {
 							$strings = maybe_unserialize( $value );
 							echo '
 <tr>
-	<th>'.wooccm_wpml_string($btn['label']).':</th>
-	<td data-title="' .wooccm_wpml_string($btn['label']). '">';
+	<th>'.wooccm_wpml_string( $btn['label'] ).':</th>
+	<td data-title="' . wooccm_wpml_string( $btn['label'] ) . '">';
 							if( !empty( $strings ) ) {
 								if( is_array( $strings ) ) {
 									foreach( $strings as $key ) {
@@ -348,12 +409,33 @@ function wooccm_order_received_checkout_details( $order ) {
 	</td>
 </tr>';
 						} elseif( $btn['type'] == 'wooccmupload' ) {
-							$info = explode("||", get_post_meta( $order_id , sprintf( '_%s_%s', $name, $btn['cow'] ), true));
+							$info = get_post_meta( $order_id, sprintf( '_%s_%s', $name, $btn['cow'] ), true );
+							if( !empty( $info ) ) {
+								// Check for delimiter
+								if( strstr( $info, '||' ) !== false )
+									$info = explode( '||', $info );
+								else if( strstr( $info, ',' ) !== false )
+									$info = explode( ',', $info );
+								else if( is_numeric( $info ) )
+									$info = array( $info );
+								if( is_array( $info ) ) {
+									$num_files = count( $info );
+									if( !empty( $num_files ) )
+										$info = sprintf( _n( '%s file', '%s files', $num_files, 'woocommerce-checkout-manager' ), number_format_i18n( $num_files ) );
+									else
+										$info = '-';
+								} else {
+									$info = '-';
+								}
+							} else {
+								$info = '-';
+							}
+
 							$btn['label'] = ( !empty( $btn['force_title2'] ) ? $btn['force_title2'] : $btn['label'] );
 							echo '
 <tr>
 	<th>'.wooccm_wpml_string( trim( $btn['label'] ) ).':</th>
-	<td>'.$info[0].'</td>
+	<td>'.$info.'</td>
 </tr>';
 						}
 					}
@@ -385,8 +467,8 @@ function wooccm_order_received_checkout_details( $order ) {
 						$value = __( 'No', 'woocommerce-checkout-manager' );
 					echo '
 <tr>
-	<th>'.wooccm_wpml_string($btn['label']).':</th>
-	<td data-title="' .wooccm_wpml_string($btn['label']). '">'.nl2br( $value ).'</td>
+	<th>'.wooccm_wpml_string( $btn['label'] ).':</th>
+	<td data-title="' . wooccm_wpml_string( $btn['label'] ) . '">'.nl2br( $value ).'</td>
 </tr>';
 				} elseif(
 					!empty( $btn['label'] ) && 
@@ -414,12 +496,12 @@ function wooccm_order_received_checkout_details( $order ) {
 					$strings = maybe_unserialize( $value );
 					echo '
 <tr>
-	<th>'.wooccm_wpml_string($btn['label']).':</th>
-	<td data-title="' .wooccm_wpml_string($btn['label']). '">';
+	<th>'.wooccm_wpml_string( $btn['label'] ).':</th>
+	<td data-title="' . wooccm_wpml_string( $btn['label'] ) . '">';
 					if( !empty( $strings ) ) {
 						if( is_array( $strings ) ) {
 							foreach( $strings as $key ) {
-								echo wooccm_wpml_string($key) . ', ';
+								echo wooccm_wpml_string( $key ) . ', ';
 							}
 						} else {
 							echo $strings;
@@ -431,21 +513,48 @@ function wooccm_order_received_checkout_details( $order ) {
 	</td>
 </tr>';
 				} elseif( $btn['type'] == 'wooccmupload' ) {
-					$info = explode("||", get_post_meta( $order_id , $btn['cow'], true));
+					$info = get_post_meta( $order_id, $btn['cow'], true );
+					if( !empty( $info ) ) {
+						// Check for delimiter
+						if( strstr( $info, '||' ) !== false )
+							$info = explode( '||', $info );
+						else if( strstr( $info, ',' ) !== false )
+							$info = explode( ',', $info );
+						else if( is_numeric( $info ) )
+							$info = array( $info );
+						if( is_array( $info ) ) {
+							$num_files = count( $info );
+							if( !empty( $num_files ) )
+								$info = sprintf( _n( '%s file', '%s files', $num_files, 'woocommerce-checkout-manager' ), number_format_i18n( $num_files ) );
+							else
+								$info = '-';
+						} else {
+							$info = '-';
+						}
+					} else {
+						$info = '-';
+					}
+
 					$btn['label'] = ( !empty( $btn['force_title2'] ) ? $btn['force_title2'] : $btn['label'] );
 					echo '
 <tr>
-	<th>'.wooccm_wpml_string( trim( $btn['label'] ) ).':</th>
-	<td data-title="' .wooccm_wpml_string( trim( $btn['label'] ) ). '">'.$info[0].'</td>
+	<th>2'.wooccm_wpml_string( trim( $btn['label'] ) ).':</th>
+	<td data-title="' . wooccm_wpml_string( trim( $btn['label'] ) ) . '">'.$info.'</td>
 </tr>';
 				}
 
 			}
 		}
 
+		if( $print_table ) {
+			echo '</table>';
+			echo '<!-- .wccs_custom_fields -->';
+		}
+
 	} else {
 
 		// @mod - Legacy support below WooCommerce 2.3
+		echo '<div class="wccs_custom_fields">';
 
 		foreach( $names as $name ) {
 
@@ -505,11 +614,32 @@ function wooccm_order_received_checkout_details( $order ) {
 							echo '
 </dd>';
 						} elseif( $btn['type'] == 'wooccmupload' ) {
-							$info = explode( "||", get_post_meta( $order_id , sprintf( '_%s_%s', $name, $btn['cow'] ), true ) );
+							$info = get_post_meta( $order_id , sprintf( '_%s_%s', $name, $btn['cow'] ), true );
+							if( !empty( $info ) ) {
+								// Check for delimiter
+								if( strstr( $info, '||' ) !== false )
+									$info = explode( '||', $info );
+								else if( strstr( $info, ',' ) !== false )
+									$info = explode( ',', $info );
+								else if( is_numeric( $info ) )
+									$info = array( $info );
+								if( is_array( $info ) ) {
+									$num_files = count( $info );
+									if( !empty( $num_files ) )
+										$info = sprintf( _n( '%s file', '%s files', $num_files, 'woocommerce-checkout-manager' ), number_format_i18n( $num_files ) );
+									else
+										$info = '-';
+								} else {
+									$info = '-';
+								}
+							} else {
+								$info = '-';
+							}
+
 							$btn['label'] = ( !empty( $btn['force_title2'] ) ? $btn['force_title2'] : $btn['label'] );
 							echo '
 <dt>'.wooccm_wpml_string( trim( $btn['label'] ) ).':</dt>
-<dd>'.$info[0].'</dd>';
+<dd>'.$info.'</dd>';
 						}
 					}
 
@@ -576,15 +706,38 @@ function wooccm_order_received_checkout_details( $order ) {
 					echo '
 </dd>';
 				} elseif( $btn['type'] == 'wooccmupload' ) {
-					$info = explode( "||", get_post_meta( $order_id , $btn['cow'], true ) );
+					$info = get_post_meta( $order_id , $btn['cow'], true );
+					if( !empty( $info ) ) {
+						// Check for delimiter
+						if( strstr( $info, '||' ) !== false )
+							$info = explode( '||', $info );
+						else if( strstr( $info, ',' ) !== false )
+							$info = explode( ',', $info );
+						else if( is_numeric( $info ) )
+							$info = array( $info );
+						if( is_array( $info ) ) {
+							$num_files = count( $info );
+							if( !empty( $num_files ) )
+								$info = sprintf( _n( '%s file', '%s files', $num_files, 'woocommerce-checkout-manager' ), number_format_i18n( $num_files ) );
+							else
+								$info = '-';
+						} else {
+							$info = '-';
+						}
+					} else {
+						$info = '-';
+					}
+
 					$btn['label'] = ( !empty( $btn['force_title2'] ) ? $btn['force_title2'] : $btn['label'] );
 					echo '
 <dt>'.wooccm_wpml_string( trim( $btn['label'] ) ).':</dt>
-<dd>'.$info[0].'</dd>';
+<dd>'.$info.'</dd>';
 				}
 
 			}
 		}
+		echo '</div>';
+		echo '<!-- .wccs_custom_fields -->';
 
 	}
 

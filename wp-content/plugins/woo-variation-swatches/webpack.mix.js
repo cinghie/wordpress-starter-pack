@@ -52,7 +52,7 @@ webpack.mix.js`;
 
 if (Mix.inProduction()) {
     mix.generatePot({
-        package   : 'WooCommerce Variation Swatches',
+        package   : 'Product Variation Swatches for WooCommerce',
         bugReport : 'https://github.com/EmranAhmed/woo-variation-swatches/issues',
         src       : '**/*.php',
         domain    : 'woo-variation-swatches',
@@ -61,11 +61,11 @@ if (Mix.inProduction()) {
 }
 
 mix.banner({
-    banner : "WooCommerce Variation Swatches v1.0.55 \n\nAuthor: Emran Ahmed ( emran.bd.08@gmail.com ) \nDate: " + new Date().toLocaleString() + "\nReleased under the GPLv3 license."
+    banner : "Product Variation Swatches for WooCommerce v1.0.56 \n\nAuthor: Emran Ahmed ( emran.bd.08@gmail.com ) \nDate: " + new Date().toLocaleString() + "\nReleased under the GPLv3 license."
 });
 
 mix.notification({
-    title : 'WooCommerce Variation Swatches',
+    title : 'Product Variation Swatches for WooCommerce',
     // contentImage : Mix.paths.root('images/logo.png')
 });
 

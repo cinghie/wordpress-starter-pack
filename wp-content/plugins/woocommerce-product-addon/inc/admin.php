@@ -5,7 +5,7 @@
  * @since 10.0
  **/
  
- ppom_direct_access_not_allowed();
+if( ! defined('ABSPATH') ) die('Not Allowed.');
  
  // adding column in product list
 function ppom_admin_show_product_meta( $columns ){

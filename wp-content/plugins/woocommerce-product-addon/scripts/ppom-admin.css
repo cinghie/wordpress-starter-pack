@@ -92,8 +92,8 @@ ul.ppom-options-container li {
     background: #0202028c;
 }
 .ppom-adjust-box-height{
-    min-height: 34px;
-    max-height: 34px;
+    min-height: 177px;
+    max-height: 177px;
 }
 .ppom-condition-style-wrap p{
   font-size: 15px;
@@ -139,6 +139,14 @@ ul.ppom-options-container li {
 }
 .ppom-cancle-import-export-wrap{
     margin-top: 7px;margin-right: 7px;
+}
+@media (min-width: 992px) {
+    .ppom-slider .row > div {
+        display: unset;
+        vertical-align: top;
+        padding-left: 15px;
+        padding-right: 0;
+    }
 }
 
 /*
@@ -507,4 +515,19 @@ ul.ppom-options-container li {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.3) !important;
+}
+
+#ppom-pre-loading{
+  position:fixed;
+  top:0px;
+  right:0px;
+  width:100%;
+  height:100%;
+  background-color:#fff;
+  background-image:url('loader.gif');
+  background-repeat:no-repeat;
+  background-position:center;
+  z-index:10000000;
+  opacity: 0.4;
+  filter: alpha(opacity=40); /* For IE8 and earlier */
 }

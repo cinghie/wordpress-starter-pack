@@ -1,6 +1,15 @@
 "use strict";
 jQuery(function($){
     
+    var loader = new ImageLoader(ppom_vars.loader);
+    // define your 'onreadystatechange'
+    loader.loadEvent = function(url, imageAsDom) {
+        
+        $("#ppom-pre-loading").hide();
+        $(".ppom-admin-wrap").show();
+    }
+    loader.load();
+        
     /*********************************
     *       PPOM Form Design JS       *
     **********************************/
@@ -509,6 +518,7 @@ jQuery(function($){
     /**
         16- Handle Fields Tabs
     **/
+    $('.ppom-control-all-fields-tabs').hide();
     $('.ppom_handle_fields_tab').show();
     $(document).on('click', '.ppom-tabs-label', function(){
             
@@ -556,14 +566,22 @@ jQuery(function($){
             
             // Set name key for imageselect addon
             if (meta_type == 'imageselect') {
+                var class_name = 'data-options ui-sortable-handle';
+                var condidtion_attr = 'image_options';
                 meta_type = 'images';
                 price_placeholder = 'Price';
                 url_field = '<input placeholder="Description" type="text" name="ppom['+field_index+']['+meta_type+']['+option_index+'][description]" class="form-control">';
+            }else if (meta_type == 'images') {
+                var class_name = 'data-options ui-sortable-handle';
+                var condidtion_attr = 'image_options';
+            }else{
+                var class_name = '';
+                var condidtion_attr = '';
             }
 
             if(fileurl){
                 var image_box = '';
-                image_box += '<li>';
+                image_box += '<li class="'+class_name+'" data-condition-type="'+condidtion_attr+'">';
                     image_box += '<span class="dashicons dashicons-move" style="margin-bottom: 7px;margin-top: 2px;"></span>';
                     image_box += '<span class="ppom-uploader-img-title"></span>';
                     image_box += '<div style="display: flex;">';
@@ -572,7 +590,7 @@ jQuery(function($){
                         image_box += '</div>';
                         image_box += '<input type="hidden" name="ppom['+field_index+']['+meta_type+']['+option_index+'][link]" value="'+fileurl+'">';
                         image_box += '<input type="hidden" name="ppom['+field_index+']['+meta_type+']['+option_index+'][id]" value="'+fileid+'" >';
-                        image_box += '<input type="text" placeholder="Title" name="ppom['+field_index+']['+meta_type+']['+option_index+'][title]" class="form-control">';
+                        image_box += '<input type="text" placeholder="Title" name="ppom['+field_index+']['+meta_type+']['+option_index+'][title]" class="form-control ppom-image-option-title">';
                         image_box += '<input class="form-control" type="text" placeholder="'+price_placeholder+'" name="ppom['+field_index+']['+meta_type+']['+option_index+'][price]" class="form-control">';
                         image_box += url_field;
                         image_box += '<button class="btn btn-danger ppom-pre-upload-delete" style="height: 35px;"><i class="fa fa-times" aria-hidden="true"></i></button>';
@@ -771,6 +789,53 @@ jQuery(function($){
         27- Get All Fields Title On Condition Element Value After Click On Condition Tab
     **/
     // populate_conditional_elements();
+
+    $(document).on('change', 'select[data-metatype="elements"]', function(e){
+        e.preventDefault();
+
+        var element_name = $(this).val();
+        var div          = $(this).closest('.ppom-slider');
+
+        var selected_rule_box  = $(this).closest('.webcontact-rules');
+        var element_value_box = selected_rule_box.find('select[data-metatype="element_values"]');
+
+        $(".ppom-slider").each(function(i, item) {
+
+            var data_name = $(item).find('input[data-metatype="data_name"]').val();
+            
+            if ( data_name == element_name ) {
+
+                 // resetting
+                jQuery(element_value_box).html('');
+
+                $(item).find('.data-options').each(function(i, condition_val){
+
+                    var condition_type = $(condition_val).attr('data-condition-type');
+                    if (condition_type == 'simple_options') {
+                        var con_val = $(condition_val).find('input[data-metatype="option"]').val();
+                    }else if (condition_type == 'image_options') {
+                        var con_val = $(condition_val).find('.ppom-image-option-title').val();
+                    }
+
+                     if ($.trim(con_val) !== '') {
+
+
+                        var val_id = $.trim(con_val);
+
+                        var $html = '';
+                        $html += '<option value="'
+                                    + val_id + '">'
+                                    + con_val
+                                + '</option>';
+
+                        $($html).appendTo(element_value_box);
+                    }
+                });        
+            }   
+        });
+    });
+
+
     $(document).on('click', '.ppom-condition-tab-js', function(e){
         e.preventDefault();
 
@@ -825,6 +890,24 @@ jQuery(function($){
                 
             });    
         });
+
+
+
+        // setting the existing conditional elements values
+        $(".ppom-slider").each(function(i, item) {
+                    
+            $(item).find('select[data-metatype="element_values"]').each(function(i, condition_element){
+ 
+                var div = $(this).closest('.webcontact-rules');      
+                var existing_value1 = $(condition_element).attr("data-existingvalue");
+
+                    div.find('select[data-metatype="elements"]').trigger('change');
+                if ($.trim(existing_value1) !== '') {
+                    jQuery(condition_element).val(existing_value1);
+                }
+            });    
+        });
+
     }
 
 

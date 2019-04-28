@@ -719,7 +719,7 @@ function wooccm_order_notes( $fields = array() ) {
 		$fields['order']['order_comments']['placeholder'] = $options['checkness']['notesplaceholder'];
 	}
 	if( !empty( $options['checkness']['notesenable'] ) ) {
-		unset($fields['order']['order_comments']);
+		unset( $fields['order']['order_comments'] );
 	}
 
 	return $fields;

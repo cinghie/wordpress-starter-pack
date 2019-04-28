@@ -3,7 +3,7 @@
  * Arrays contining settings/meta detail
  **/
  
-ppom_direct_access_not_allowed();
+if( ! defined('ABSPATH') ) die('Not Allowed.');
 
 function ppom_get_plugin_meta(){
 

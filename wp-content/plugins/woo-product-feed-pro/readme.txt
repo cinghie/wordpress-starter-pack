@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.1
-Stable tag: 5.3.5
+Stable tag: 5.4.6
 
 == Description ==
 
@@ -275,6 +275,43 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 5.4.6 (2019-04-26) =
+* Fixed support for rightpress
+
+= 5.4.5 (2019-04-25) =
+* Cleaned the filter and rule drop-downs. Removed the replace option as that is not fully functioning yet.
+
+= 5.4.4 (2019-04-23) =
+* Re-arranged some of the attributes in the drop-down in order for the important attributes to show above the (long) list of custom attributes
+
+= 5.4.3 (2019-04-23) =
+* Solved the same bug again: products that had only one review did not end up in Google's Product Review Feed. This issue has been fixed now.
+
+= 5.4.2 (2019-04-22) =
+* Change to Google Product Review Feed: names need to be shorten (anonymous)
+
+= 5.4.1 (2019-04-22) =
+* Solved a bug: products that had only one review did not end up in Google's Product Review Feed. This issue has been fixed now.
+
+= 5.4.0 (2019-04-21) =
+* Solved a PHP warning that showed for some users when setting-up a feed.
+
+= 5.3.9 (2019-04-18) =
+* Solved a PHP warning that showed on the feed settings page when all feeds were deleted
+* Changed texts in the review notification
+
+= 5.3.8 (2019-04-18) =
+* Tested compatibility for WooCommerce 3.6
+* Added the "on backorder" support for the availability attribute
+* Solved a bug where in some browsers field mappings could not be added or deleted
+
+= 5.3.7 (2019-04-17) =
+* Solved a conflict with the Yoast SEO plugin where the category path was empty for some products.
+
+= 5.3.6 (2019-04-16) =
+* We have added 5 custom fields (_woosea_custom_field_0 to 5) that can be used for adding product information to feeds
+* Google added new attributes that can be used in Google Shopping: installment and subscription cost. We have added those to the Google Shopping template
 
 = 5.3.5 (2019-04-16) =
 * Products that are on back-order will now have the availability status "out of stock" whereas previously they were shown as being "on stock"
@@ -1645,6 +1682,43 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 5.4.6 =
+Fixed support for rightpress
+
+= 5.4.5 =
+Cleaned the filter and rule drop-downs. Removed the replace option as that is not fully functioning yet.
+
+= 5.4.4 =
+Re-arranged some of the attributes in the drop-down in order for the important attributes to show above the (long) list of custom attributes
+
+= 5.4.3 =
+Solved the same bug again: products that had only one review did not end up in Google's Product Review Feed. This issue has been fixed now.
+
+= 5.4.2 =
+Change to Google Product Review Feed: names need to be shorten (anonymous)
+
+= 5.4.1 =
+Solved a bug: products that had only one review did not end up in Google's Product Review Feed. This issue has been fixed now.
+
+= 5.4.0 =
+Solved a PHP warning that showed for some users when setting-up a feed.
+
+= 5.3.9 =
+Solved a PHP warning that showed on the feed settings page when all feeds were deleted
+Changed texts in the review notification
+
+= 5.3.8 =
+Tested compatibility for WooCommerce 3.6
+Added the "on backorder" support for the availability attribute
+Solved a bug where in some browsers field mappings could not be added or deleted
+
+= 5.3.7 =
+Solved a conflict with the Yoast SEO plugin where the category path was empty for some products.
+
+= 5.3.6 =
+We have added 5 custom fields (_woosea_custom_field_0 to 5) that can be used for adding product information to feeds
+Google added new attributes that can be used in Google Shopping: installment and subscription cost. We have added those to the Google Shopping template
 
 = 5.3.5 =
 Products that are on back-order will now have the availability status "out of stock" whereas previously they were shown as being "on stock"

@@ -812,7 +812,7 @@ if ( ! class_exists( 'YITH_WC_Catalog_Mode' ) ) {
 		 * @author  Andrea Grillo <andrea.grillo@yithemes.com>
 		 */
 		public function get_premium_landing_uri() {
-			return defined( 'YITH_REFER_ID' ) ? $this->_premium_landing . '?refer_id=' . YITH_REFER_ID : $this->_premium_landing;
+			return $this->_premium_landing;
 		}
 
 		/**

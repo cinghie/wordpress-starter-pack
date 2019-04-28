@@ -5,7 +5,8 @@
  */
  
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+if ( !defined( 'ABSPATH' ) )
+	exit;
 ?>
 
 <td style="display:none;text-align:center;" class="more_toggler1c"><input type="checkbox" name="wccs_settings[buttons][<?php echo $i; ?>][more_content]" title="<?php esc_attr_e( 'More than two content', 'woocommerce-checkout-manager' ); ?>" value="" /></td>
