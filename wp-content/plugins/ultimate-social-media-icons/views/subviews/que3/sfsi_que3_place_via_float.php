@@ -40,7 +40,7 @@ $style                                    =  ($option9['sfsi_icons_float'] == "y
 
                                 <span class="sfsi_flicnsoptn3 sfsioptntl">Top left</span>
 
-                                <label><img src="<?php echo SFSI_PLUGURL;?>images/top_left.png" /></label>
+                                <label><img src="<?php echo SFSI_PLUGURL;?>images/top_left.png" alt='error'/></label>
 
                             </li>
                             
@@ -49,7 +49,7 @@ $style                                    =  ($option9['sfsi_icons_float'] == "y
                                 
                                 <span class="sfsi_flicnsoptn3 sfsioptncl">Center top</span>
 
-                                <label class="sfsi_float_position_icon_label"><img src="<?php echo SFSI_PLUGURL;?>images/float_position_icon.png" /></label>
+                                <label class="sfsi_float_position_icon_label"><img src="<?php echo SFSI_PLUGURL;?>images/float_position_icon.png" alt='error'/></label>
                             </li>                        
                             
                             <li>
@@ -57,7 +57,7 @@ $style                                    =  ($option9['sfsi_icons_float'] == "y
 
                                 <span class="sfsi_flicnsoptn3 sfsioptntr">Top right</span>
 
-                                <label><img src="<?php echo SFSI_PLUGURL;?>images/top_right.png" /></label>
+                                <label><img src="<?php echo SFSI_PLUGURL;?>images/top_right.png" alt='error' /></label>
 
                             </li>
 
@@ -70,7 +70,7 @@ $style                                    =  ($option9['sfsi_icons_float'] == "y
                                 
                                 <span class="sfsi_flicnsoptn3 sfsioptncl">Center left</span>
 
-                                <label><img src="<?php echo SFSI_PLUGURL;?>images/center_left.png" /></label>
+                                <label><img src="<?php echo SFSI_PLUGURL;?>images/center_left.png" alt='error'/></label>
 
                             </li>
 
@@ -81,7 +81,7 @@ $style                                    =  ($option9['sfsi_icons_float'] == "y
                                 
                                 <span class="sfsi_flicnsoptn3 sfsioptncr">Center right</span>
 
-                                <label><img src="<?php echo SFSI_PLUGURL;?>images/center_right.png" /></label>
+                                <label><img src="<?php echo SFSI_PLUGURL;?>images/center_right.png" alt='error'/></label>
 
                             </li>
                         
@@ -93,7 +93,7 @@ $style                                    =  ($option9['sfsi_icons_float'] == "y
 
                                 <span class="sfsi_flicnsoptn3 sfsioptnbl">Bottom left</span>
 
-                                <label><img src="<?php echo SFSI_PLUGURL;?>images/bottom_left.png" /></label>
+                                <label><img src="<?php echo SFSI_PLUGURL;?>images/bottom_left.png" alt='error'alt='error'/></label>
 
                             </li>
 
@@ -103,7 +103,7 @@ $style                                    =  ($option9['sfsi_icons_float'] == "y
                             
                             <span class="sfsi_flicnsoptn3 sfsioptncr">Center bottom</span>
 
-                            <label class="sfsi_float_position_icon_label sfsi_center_botttom"><img class="sfsi_img_center_bottom" src="<?php echo SFSI_PLUGURL;?>images/float_position_icon.png" /></label>
+                            <label class="sfsi_float_position_icon_label sfsi_center_botttom"><img class="sfsi_img_center_bottom" src="<?php echo SFSI_PLUGURL;?>images/float_position_icon.png" alt='error'/></label>
                         </li>
 
                         <li>
@@ -111,7 +111,7 @@ $style                                    =  ($option9['sfsi_icons_float'] == "y
                             
                             <span class="sfsi_flicnsoptn3 sfsioptnbr">Bottom right</span>
 
-                            <label><img src="<?php echo SFSI_PLUGURL;?>images/bottom_right.png" /></label>
+                            <label><img src="<?php echo SFSI_PLUGURL;?>images/bottom_right.png" alt='error'/></label>
 
                         </li>
 

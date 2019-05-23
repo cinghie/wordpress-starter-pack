@@ -55,7 +55,7 @@
 	<!-- SAVE BUTTON SECTION   --> 
 	<div class="save_button">
 
-       <img src="<?php echo SFSI_PLUGURL ?>images/ajax-loader.gif" class="loader-img" />
+       <img src="<?php echo SFSI_PLUGURL ?>images/ajax-loader.gif" class="loader-img" alt='loader' />
 
        <?php  $nonce = wp_create_nonce("update_step9"); ?>
 

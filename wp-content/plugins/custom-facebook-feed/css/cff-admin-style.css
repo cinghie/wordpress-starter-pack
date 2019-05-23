@@ -437,6 +437,7 @@
 
 /* Quick start */
 #cff-admin .cff_quickstart{
+	float: left;
     display: inline-block;
     margin: 15px 0 0 0;
     padding: 15px 20px;
@@ -956,7 +957,7 @@
 }
 #cff-admin .cff_modal_box{
 	position: absolute;
-    top: 160px;
+    top: 140px;
     left: 50%;
     width: 480px;
     margin: 0 0 0 -245px;
@@ -993,7 +994,7 @@
 	display: block;
 }
 #cff-admin .cff-pages-wrap{
-	max-height: 400px;
+	max-height: 310px;
     overflow-y: auto;
 }
 #cff-admin .cff_modal_tokens .cff_modal_box p{

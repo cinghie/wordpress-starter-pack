@@ -142,7 +142,7 @@ if(!isset($option6['sfsi_rectfbshare']))
   </div><!-- END icons position section -->
   
     <div class= "sfsi_new_prmium_follw">
-		<p><b>New:</b> In our Premium Plugin you have many more placement options, e.g. place the icons you selected under question 1, place them also on your homepage (instead of only post’s pages), place them before posts (instead of only after posts) etc.  <a href="https://www.ultimatelysocial.com/usm-premium/?utm_source=usmi_settings_page&utm_campaign=more_placement_options&utm_medium=banner" target="_blank">See all features</a></p>
+		<p><b>New:</b> In our Premium Plugin you have many more placement options, e.g. place the icons you selected under question 1, place them also on your homepage (instead of only post’s pages), place them before posts (instead of only after posts) etc.  <a style="cursor:pointer" class="pop-up" data-id="sfsi_quickpay-overlay" onclick="sfsi_open_quick_checkout(event)"  class="sfisi_font_bold" target="_blank">Go premium now</a><a href="https://www.ultimatelysocial.com/usm-premium/?https://www.ultimatelysocial.com/usm-premium/?utm_source=usmi_settings_page&utm_campaign=more_placement_options&utm_medium=banner" class="sfsi_font_inherit" target="_blank"> or learn more.</a></p>
     </div>
   
   <?php sfsi_ask_for_help(6); ?>

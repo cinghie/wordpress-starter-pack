@@ -9,9 +9,8 @@ function sfsi_options_updater1()
     } 
     if(!current_user_can('manage_options')){ echo json_encode(array('res'=>'not allowed'));die(); }
 
-
-
     $option1=  unserialize(get_option('sfsi_section1_options',false));
+   
     $sfsi_rss_display           = isset($_POST["sfsi_rss_display"]) ? sanitize_text_field( $_POST["sfsi_rss_display"] ): 'no'; 
     $sfsi_email_display         = isset($_POST["sfsi_email_display"]) ? sanitize_text_field( $_POST["sfsi_email_display"] ): 'no'; 
     $sfsi_facebook_display      = isset($_POST["sfsi_facebook_display"]) ? sanitize_text_field( $_POST["sfsi_facebook_display"] ): 'no'; 
@@ -19,6 +18,12 @@ function sfsi_options_updater1()
     $sfsi_google_display        = isset($_POST["sfsi_google_display"]) ? sanitize_text_field( $_POST["sfsi_google_display"] ): 'no'; 
     $sfsi_youtube_display       = isset($_POST["sfsi_youtube_display"]) ? sanitize_text_field( $_POST["sfsi_youtube_display"] ): 'no'; 
     $sfsi_pinterest_display     = isset($_POST["sfsi_pinterest_display"]) ? sanitize_text_field( $_POST["sfsi_pinterest_display"] ): 'no';
+    $sfsi_telegram_display      = isset($_POST["sfsi_telegram_display"]) ? sanitize_text_field( $_POST["sfsi_telegram_display"] ): 'no';
+    $sfsi_vk_display            = isset($_POST["sfsi_vk_display"]) ? sanitize_text_field( $_POST["sfsi_vk_display"] ): 'no';
+    $sfsi_ok_display            = isset($_POST["sfsi_ok_display"]) ? sanitize_text_field( $_POST["sfsi_ok_display"] ): 'no';
+    $sfsi_wechat_display        = isset($_POST["sfsi_wechat_display"]) ? sanitize_text_field( $_POST["sfsi_wechat_display"] ): 'no';
+    $sfsi_weibo_display         = isset($_POST["sfsi_weibo_display"]) ? sanitize_text_field( $_POST["sfsi_weibo_display"] ): 'no';
+
     $sfsi_instagram_display     = isset($_POST["sfsi_instagram_display"]) ? sanitize_text_field( $_POST["sfsi_instagram_display"] ): 'no';
     $sfsi_linkedin_display      = isset($_POST["sfsi_linkedin_display"]) ? sanitize_text_field( $_POST["sfsi_linkedin_display"] ): 'no';
     $sfsi_custom_icons          = isset($option1['sfsi_custom_files']) ? $option1['sfsi_custom_files'] : '';
@@ -30,6 +35,12 @@ function sfsi_options_updater1()
         'sfsi_google_display'   => sanitize_text_field($sfsi_google_display),
         'sfsi_youtube_display'  => sanitize_text_field($sfsi_youtube_display),
         'sfsi_pinterest_display'=> sanitize_text_field($sfsi_pinterest_display),
+        'sfsi_telegram_display' => sanitize_text_field($sfsi_telegram_display),
+        'sfsi_vk_display'       => sanitize_text_field($sfsi_vk_display),
+        'sfsi_ok_display'       => sanitize_text_field($sfsi_ok_display),
+        'sfsi_wechat_display'   => sanitize_text_field($sfsi_wechat_display),
+        'sfsi_weibo_display'    => sanitize_text_field($sfsi_weibo_display),
+
         'sfsi_linkedin_display' => sanitize_text_field($sfsi_linkedin_display),
         'sfsi_instagram_display'=> sanitize_text_field($sfsi_instagram_display),
         'sfsi_custom_files'     => sanitize_text_field($sfsi_custom_icons)
@@ -42,6 +53,7 @@ function sfsi_options_updater1()
 add_action('wp_ajax_updateSrcn2','sfsi_options_updater2');        
 function sfsi_options_updater2()
 {
+   
     if ( !wp_verify_nonce( $_POST['nonce'], "update_step2")) {
       echo  json_encode(array("wrong_nonce")); exit;
     }
@@ -92,6 +104,23 @@ function sfsi_options_updater2()
     $sfsi_ytube_user          = ($_POST["sfsi_ytube_user"]) ? $_POST["sfsi_ytube_user"] : '';
     $sfsi_ytube_chnlid        = isset($_POST["sfsi_ytube_chnlid"]) ? sanitize_text_field( $_POST["sfsi_ytube_chnlid"] ): '';
     
+    
+    $sfsi_telegram_page            = isset($_POST["sfsi_telegram_page"]) ? sanitize_text_field( $_POST["sfsi_telegram_page"] ): 'no';
+    $sfsi_telegram_pageURL            = isset($_POST["sfsi_telegram_pageURL"]) ? esc_url( trim($_POST["sfsi_telegram_pageURL"]) ): '';
+    
+    $sfsi_telegram_message         = isset($_POST["sfsi_telegram_message"]) ? sanitize_text_field( $_POST["sfsi_telegram_message"]) : '';
+    $sfsi_telegram_username            = isset($_POST["sfsi_telegram_username"]) ? sanitize_text_field( $_POST["sfsi_telegram_username"] ): '';
+
+    $sfsi_weibo_page            = isset($_POST["sfsi_weibo_page"]) ? sanitize_text_field( $_POST["sfsi_weibo_page"] ): 'no';
+    $sfsi_weibo_pageURL            = isset($_POST["sfsi_weibo_pageURL"]) ? esc_url( trim($_POST["sfsi_weibo_pageURL"] )): '';
+
+    $sfsi_vk_page            = isset($_POST["sfsi_vk_page"]) ? sanitize_text_field( $_POST["sfsi_vk_page"] ): 'no';
+    $sfsi_vk_pageURL            = isset($_POST["sfsi_vk_pageURL"]) ? esc_url( trim($_POST["sfsi_vk_pageURL"] )): '';
+
+    $sfsi_ok_page            = isset($_POST["sfsi_ok_page"]) ? sanitize_text_field( $_POST["sfsi_ok_page"] ): 'no';
+    $sfsi_ok_pageURL            = isset($_POST["sfsi_ok_pageURL"]) ? esc_url( trim($_POST["sfsi_ok_pageURL"] )): '';
+
+
     /*
      * Escape custom icons url
      */
@@ -161,7 +190,30 @@ function sfsi_options_updater2()
         'sfsi_linkedin_recommendBusines'=> sanitize_text_field($sfsi_linkedin_recommendBusines),
         'sfsi_linkedin_recommendCompany'=> sanitize_text_field($sfsi_linkedin_recommendCompany),
         'sfsi_linkedin_recommendProductId'=> intval($sfsi_linkedin_recommendProductId),
-        'sfsi_CustomIcon_links'         => $sfsi_CustomIcon_links
+        'sfsi_CustomIcon_links'         => $sfsi_CustomIcon_links,
+
+         /* telegram options */
+        'sfsi_telegram_page'       => sanitize_text_field($sfsi_telegram_page),
+        'sfsi_telegram_pageURL'       => esc_url($sfsi_telegram_pageURL),
+
+        'sfsi_telegram_message'    => sanitize_text_field($sfsi_telegram_message),
+        'sfsi_telegram_username'       => sanitize_text_field($sfsi_telegram_username),
+
+
+        /* weibo options */
+        'sfsi_weibo_page'       => sanitize_text_field($sfsi_weibo_page),
+        'sfsi_weibo_pageURL'       => esc_url($sfsi_weibo_pageURL),
+
+
+        /* vk options */
+        'sfsi_vk_page'       => sanitize_text_field($sfsi_vk_page),
+        'sfsi_vk_pageURL'       => esc_url($sfsi_vk_pageURL),
+
+
+        /* ok options */
+        'sfsi_ok_page'       => sanitize_text_field($sfsi_ok_page),
+        'sfsi_ok_pageURL'       => esc_url($sfsi_ok_pageURL),
+
     );
 
     $option4 = unserialize(get_option('sfsi_section4_options',false));     
@@ -292,6 +344,20 @@ function sfsi_options_updater4()
     
     $sfsi_facebookPage_url           = isset($_POST["sfsi_facebookPage_url"]) ? sanitize_text_field( trim($_POST["sfsi_facebookPage_url"])) : ''; 
     
+    $sfsi_telegram_countsDisplay          = isset($_POST["sfsi_telegram_countsDisplay"]) ? sanitize_text_field( $_POST["sfsi_telegram_countsDisplay"] ): 'no'; 
+    $sfsi_telegram_manualCounts           = isset($_POST["sfsi_telegram_manualCounts"]) ? intval( trim($_POST["sfsi_telegram_manualCounts"])) : ''; 
+
+    $sfsi_vk_countsDisplay          = isset($_POST["sfsi_vk_countsDisplay"]) ? sanitize_text_field( $_POST["sfsi_vk_countsDisplay"] ): 'no'; 
+    $sfsi_vk_manualCounts           = isset($_POST["sfsi_vk_manualCounts"]) ? intval( trim($_POST["sfsi_vk_manualCounts"])) : ''; 
+
+    $sfsi_ok_countsDisplay          = isset($_POST["sfsi_ok_countsDisplay"]) ? sanitize_text_field( $_POST["sfsi_ok_countsDisplay"] ): 'no'; 
+    $sfsi_ok_manualCounts           = isset($_POST["sfsi_ok_manualCounts"]) ? intval( trim($_POST["sfsi_ok_manualCounts"])) : ''; 
+
+    $sfsi_weibo_countsDisplay          = isset($_POST["sfsi_weibo_countsDisplay"]) ? sanitize_text_field( $_POST["sfsi_weibo_countsDisplay"] ): 'no'; 
+    $sfsi_weibo_manualCounts           = isset($_POST["sfsi_weibo_manualCounts"]) ? intval( trim($_POST["sfsi_weibo_manualCounts"])) : ''; 
+
+    $sfsi_wechat_countsDisplay          = isset($_POST["sfsi_wechat_countsDisplay"]) ? sanitize_text_field( $_POST["sfsi_wechat_countsDisplay"] ): 'no'; 
+    $sfsi_wechat_manualCounts           = isset($_POST["sfsi_wechat_manualCounts"]) ? intval( trim($_POST["sfsi_wechat_manualCounts"])) : ''; 
     $up_option4=array(
         'sfsi_display_counts'       => sanitize_text_field($sfsi_display_counts),
             
@@ -348,6 +414,21 @@ function sfsi_options_updater4()
         'sfsi_instagram_clientid'    => sanitize_text_field($sfsi_instagram_clientid),
         'sfsi_instagram_appurl'      => sanitize_text_field($sfsi_instagram_appurl),
         'sfsi_instagram_token'       => sanitize_text_field($sfsi_instagram_token),
+
+        'sfsi_telegram_countsDisplay'    => sanitize_text_field($sfsi_telegram_countsDisplay),
+        'sfsi_telegram_manualCounts'     => intval($sfsi_telegram_manualCounts),
+
+        'sfsi_vk_countsDisplay'    => sanitize_text_field($sfsi_vk_countsDisplay),
+        'sfsi_vk_manualCounts'     => intval($sfsi_vk_manualCounts),
+
+        'sfsi_ok_countsDisplay'    => sanitize_text_field($sfsi_ok_countsDisplay),
+        'sfsi_ok_manualCounts'     => intval($sfsi_ok_manualCounts),
+
+        'sfsi_weibo_countsDisplay'    => sanitize_text_field($sfsi_weibo_countsDisplay),
+        'sfsi_weibo_manualCounts'     => intval($sfsi_weibo_manualCounts),
+
+        'sfsi_wechat_countsDisplay'    => sanitize_text_field($sfsi_wechat_countsDisplay),
+        'sfsi_wechat_manualCounts'     => intval($sfsi_wechat_manualCounts),
    );
    update_option('sfsi_section4_options',   serialize($up_option4));
    
@@ -383,13 +464,19 @@ function sfsi_options_updater5()
     $sfsi_linkedIn_MouseOverText    = isset($_POST["sfsi_linkedIn_MouseOverText"]) ? sanitize_text_field( $_POST["sfsi_linkedIn_MouseOverText"] ): '';
     $sfsi_pinterest_MouseOverText   = isset($_POST["sfsi_pinterest_MouseOverText"]) ? sanitize_text_field( $_POST["sfsi_pinterest_MouseOverText"] ): '';
     $sfsi_instagram_MouseOverText   = isset($_POST["sfsi_instagram_MouseOverText"]) ? sanitize_text_field( $_POST["sfsi_instagram_MouseOverText"] ): '';
+    $sfsi_telegram_MouseOverText    = isset($_POST["sfsi_telegram_MouseOverText"]) ? sanitize_text_field( $_POST["sfsi_telegram_MouseOverText"] ): '';
+    $sfsi_vk_MouseOverText          = isset($_POST["sfsi_vk_MouseOverText"]) ? sanitize_text_field( $_POST["sfsi_vk_MouseOverText"] ): '';
+    $sfsi_ok_MouseOverText          = isset($_POST["sfsi_ok_MouseOverText"]) ? sanitize_text_field( $_POST["sfsi_ok_MouseOverText"] ): '';
+    $sfsi_weibo_MouseOverText       = isset($_POST["sfsi_weibo_MouseOverText"]) ? sanitize_text_field( $_POST["sfsi_weibo_MouseOverText"] ): '';
+    $sfsi_wechat_MouseOverText      = isset($_POST["sfsi_wechat_MouseOverText"]) ? sanitize_text_field( $_POST["sfsi_wechat_MouseOverText"] ): '';
+   
     $sfsi_youtube_MouseOverText     = isset($_POST["sfsi_youtube_MouseOverText"]) ? sanitize_text_field( $_POST["sfsi_youtube_MouseOverText"] ): '';
     if(isset($_POST["sfsi_custom_orders"])){
         $sfsi_custom_orders = array();
         foreach($_POST["sfsi_custom_orders"] as $index=>$custom_order){
             $sfsi_custom_orders[$index] = array();
             $sfsi_custom_orders[$index]["order"] = intval($_POST["sfsi_custom_orders"][$index]["order"] );
-            $sfsi_custom_orders[$index]["ele"] = intval($_POST["sfsi_custom_orders"][$index]["order"] );
+            $sfsi_custom_orders[$index]["ele"] = intval($_POST["sfsi_custom_orders"][$index]["ele"] );
         }
     }
 
@@ -403,6 +490,12 @@ function sfsi_options_updater5()
     $sfsi_youtubeIcon_order         = isset($_POST["sfsi_youtubeIcon_order"]) ? sanitize_text_field( $_POST["sfsi_youtubeIcon_order"] ): '7';
     $sfsi_pinterestIcon_order       = isset($_POST["sfsi_pinterestIcon_order"]) ? sanitize_text_field( $_POST["sfsi_pinterestIcon_order"] ): '8';
     $sfsi_instagramIcon_order       = isset($_POST["sfsi_instagramIcon_order"]) ? sanitize_text_field( $_POST["sfsi_instagramIcon_order"] ): '10';
+    $sfsi_telegramIcon_order        = isset($_POST["sfsi_telegramIcon_order"]) ? sanitize_text_field( $_POST["sfsi_telegramIcon_order"] ): '11';
+    $sfsi_vkIcon_order              = isset($_POST["sfsi_vkIcon_order"]) ? sanitize_text_field( $_POST["sfsi_vkIcon_order"] ): '12';
+    $sfsi_okIcon_order              = isset($_POST["sfsi_okIcon_order"]) ? sanitize_text_field( $_POST["sfsi_okIcon_order"] ): '13';
+    $sfsi_weiboIcon_order           = isset($_POST["sfsi_weiboIcon_order"]) ? sanitize_text_field( $_POST["sfsi_weiboIcon_order"] ): '14';
+    $sfsi_wechatIcon_order          = isset($_POST["sfsi_wechatIcon_order"]) ? sanitize_text_field( $_POST["sfsi_wechatIcon_order"] ): '15';
+   
     $sfsi_linkedinIcon_order        = isset($_POST["sfsi_linkedinIcon_order"]) ? sanitize_text_field( $_POST["sfsi_linkedinIcon_order"] ): '9';
     if(isset($_POST["sfsi_custom_MouseOverTexts"])){
         $sfsi_custom_MouseOverTexts = array();
@@ -434,6 +527,11 @@ function sfsi_options_updater5()
         'sfsi_pinterest_MouseOverText'  => sanitize_text_field($sfsi_pinterest_MouseOverText),
         'sfsi_youtube_MouseOverText'    => sanitize_text_field($sfsi_youtube_MouseOverText),
         'sfsi_instagram_MouseOverText'  => sanitize_text_field($sfsi_instagram_MouseOverText),
+        'sfsi_telegram_MouseOverText'   => sanitize_text_field($sfsi_telegram_MouseOverText),
+        'sfsi_vk_MouseOverText'         => sanitize_text_field($sfsi_vk_MouseOverText),
+        'sfsi_ok_MouseOverText'         => sanitize_text_field($sfsi_ok_MouseOverText),
+        'sfsi_weibo_MouseOverText'      => sanitize_text_field($sfsi_weibo_MouseOverText),
+        'sfsi_wechat_MouseOverText'     => sanitize_text_field($sfsi_wechat_MouseOverText),
         'sfsi_CustomIcons_order'        => $sfsi_custom_orders,
         'sfsi_rssIcon_order'            => intval($sfsi_rssIcon_order),
         'sfsi_emailIcon_order'          => intval($sfsi_emailIcon_order),
@@ -444,6 +542,12 @@ function sfsi_options_updater5()
         'sfsi_pinterestIcon_order'      => intval($sfsi_pinterestIcon_order),
         'sfsi_instagramIcon_order'      => intval($sfsi_instagramIcon_order),
         'sfsi_linkedinIcon_order'       => intval($sfsi_linkedinIcon_order),
+        'sfsi_telegramIcon_order'       => intval($sfsi_telegramIcon_order),
+        'sfsi_vkIcon_order'             => intval($sfsi_vkIcon_order),
+        'sfsi_okIcon_order'             => intval($sfsi_okIcon_order),
+        'sfsi_weiboIcon_order'          => intval($sfsi_weiboIcon_order),
+        'sfsi_wechatIcon_order'         => intval($sfsi_wechatIcon_order),
+
         'sfsi_custom_MouseOverTexts'    => $sfsi_custom_MouseOverTexts,
         'sfsi_custom_social_hide'       => $sfsi_custom_social_hide
     );
@@ -699,6 +803,11 @@ function sfsi_getCounts()
         'linkedIn_count'=> '',
         'youtube_count' => '',
         'pin_count'     => '',
+        'telegram_count'=> '',
+        'vk_count'      => '',
+        'ok_count'      => '',
+        'weibo_count'   => '',
+        'wechat_count'  => '',
         'share_count'   => ''
     );
 
@@ -902,7 +1011,12 @@ function sfsi_getCounts()
        else
        {
             $scounts['instagram_count']=$sfsi_section4_options['sfsi_instagram_manualCounts'];
-       }           
+       }
+       $scounts['telegram_count']=isset($sfsi_section4_options['sfsi_telegram_manualCounts'])?$sfsi_section4_options['sfsi_telegram_manualCounts']:'0';
+       $scounts['vk_count']=isset($sfsi_section4_options['sfsi_vk_manualCounts'])?$sfsi_section4_options['sfsi_vk_manualCounts']:'0';
+       $scounts['ok_count']=isset($sfsi_section4_options['sfsi_ok_manualCounts'])?$sfsi_section4_options['sfsi_ok_manualCounts']:'0';
+       $scounts['weibo_count']=isset($sfsi_section4_options['sfsi_weibo_manualCounts'])?$sfsi_section4_options['sfsi_weibo_manualCounts']:'0';
+       $scounts['wechat_count']=isset($sfsi_section4_options['sfsi_wechat_manualCounts'])?$sfsi_section4_options['sfsi_wechat_manualCounts']:'0';
     }    
    return $scounts; exit;
 }

@@ -232,6 +232,46 @@ function sfsi_Iamdone()
 	 {
 		$return .= '<span class="row_17_10 instagram_section" style="background-position:-526px 0;"></span>';
 	 }
+	 if(get_option("telegram_skin"))
+	 {
+		$icon = get_option("telegram_skin");
+		$return .= '<span class="row_17_10 telegram_section sfsi-bgimage" style="background: url('.$icon.') no-repeat;"></span>';
+	 }else
+	 {
+		$return .= '<span class="row_17_10 telegram_section" style="background-position:-773px 0;"></span>';
+	 }
+	 if(get_option("vk_skin"))
+	 {
+		$icon = get_option("vk_skin");
+		$return .= '<span class="row_17_10 vk_section sfsi-bgimage" style="background: url('.$icon.') no-repeat;"></span>';
+	 }else
+	 {
+		$return .= '<span class="row_17_10 vk_section" style="background-position:-838px 0;"></span>';
+	 }
+	 if(get_option("ok_skin"))
+	 {
+		$icon = get_option("ok_skin");
+		$return .= '<span class="row_17_10 ok_section sfsi-bgimage" style="background: url('.$icon.') no-repeat;"></span>';
+	 }else
+	 {
+		$return .= '<span class="row_17_10 ok_section" style="background-position:-909px 0;"></span>';
+	 }
+	 if(get_option("weibo_skin"))
+	 {
+		$icon = get_option("weibo_skin");
+		$return .= '<span class="row_17_10 weibo_section sfsi-bgimage" style="background: url('.$icon.') no-repeat;"></span>';
+	 }else
+	 {
+		$return .= '<span class="row_17_10 weibo_section" style="background-position:-977px 0;"></span>';
+	 }
+	 if(get_option("wechat_skin"))
+	 {
+		$icon = get_option("wechat_skin");
+		$return .= '<span class="row_17_10 wechat_section sfsi-bgimage" style="background: url('.$icon.') no-repeat;"></span>';
+	 }else
+	 {
+		$return .= '<span class="row_1_18 wechat_section"></span>';
+	 }
 	 die($return);
 }
 

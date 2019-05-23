@@ -97,7 +97,7 @@ h4.bannerTitle span{ font-size: 16px;font-weight: 500;}
                     $src = $imgBasePath.$img;?>    
 
                 <div class="sfsi_row_table">
-                    <img class="banner_icon_img" src="<?php echo $src; ?>" />
+                    <img class="banner_icon_img" src="<?php echo $src; ?>" alt='error' />
                 </div>
 
                 <?php endforeach; ?>

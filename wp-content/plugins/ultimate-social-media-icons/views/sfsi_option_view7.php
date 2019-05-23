@@ -80,6 +80,36 @@ $option7['sfsi_Shown_popupOnceTime'] 	= (isset($option7['sfsi_Shown_popupOnceTim
             	<img src="<?php echo SFSI_PLUGURL ?>images/instagram.png" alt="Instagram" />
                 <span class="sfsi_Cdisplay" id="sfsi_instagram_countsDisplay">12k</span>
             </div>
+		</li>
+		<li class="telegram_section">
+        	<div>
+            	<img src="<?php echo SFSI_PLUGURL ?>images/icons_theme/default/default_telegram.png" height="50px" alt="telegram" />
+                <span class="sfsi_Cdisplay" id="sfsi_telegram_countsDisplay">12k</span>
+            </div>
+		</li>
+		<li class="vk_section">
+        	<div>
+            	<img src="<?php echo SFSI_PLUGURL ?>images/icons_theme/default/default_vk.png" height="50px" alt="vk" />
+                <span class="sfsi_Cdisplay" id="sfsi_vk_countsDisplay">12k</span>
+            </div>
+		</li>
+		<li class="ok_section">
+        	<div>
+            	<img src="<?php echo SFSI_PLUGURL ?>images/icons_theme/default/default_ok.png" height="50px" alt="ok" />
+                <span class="sfsi_Cdisplay" id="sfsi_ok_countsDisplay">12k</span>
+            </div>
+		</li>
+		<li class="weibo_section">
+        	<div>
+            	<img src="<?php echo SFSI_PLUGURL ?>images/icons_theme/default/default_weibo.png" height="50px" alt="weibo" />
+                <span class="sfsi_Cdisplay" id="sfsi_weibo_countsDisplay">12k</span>
+            </div>
+		</li>
+		<li class="wechat_section">
+        	<div>
+            	<img src="<?php echo SFSI_PLUGURL ?>images/icons_theme/default/default_wechat.png" height="50px" alt="wechat" />
+                <span class="sfsi_Cdisplay" id="sfsi_wechat_countsDisplay">12k</span>
+            </div>
         </li>
     	<?php
 			if(isset($icons) && !empty($icons))
@@ -232,7 +262,7 @@ $option7['sfsi_Shown_popupOnceTime'] 	= (isset($option7['sfsi_Shown_popupOnceTim
         </div> -->
 
        <div class="bannerPopupQue6 sfsi_new_prmium_follw" style="margin-top: 38px;">
-        <p><b>New: </b>The Premium Plugin allows you to do much more with the pop-up, e.g. you can: <br>- &nbsp;&nbsp; Show it when users try to leave your page<br>- &nbsp;&nbsp; Limit how often the pop-up is shown to the same user (e.g. only once per day)<br>- &nbsp;&nbsp; Select to show the subscription form in the pop-up (which you designed in question 8) <br><a href="https://www.ultimatelysocial.com/usm-premium/?utm_source=usmi_settings_page&utm_campaign=more_popup_options&utm_medium=banner" target="_blank">See all features</a></p>
+        <p><b>New: </b>The Premium Plugin allows you to do much more with the pop-up, e.g. you can: <br>- &nbsp;&nbsp; Show it when users try to leave your page<br>- &nbsp;&nbsp; Limit how often the pop-up is shown to the same user (e.g. only once per day)<br>- &nbsp;&nbsp; Select to show the subscription form in the pop-up (which you designed in question 8) <br><a style="cursor:pointer" class="pop-up" data-id="sfsi_quickpay-overlay" onclick="sfsi_open_quick_checkout(event)"  class="sfisi_font_bold" target="_blank">Go premium now</a><a href="https://www.ultimatelysocial.com/usm-premium/?utm_source=usmi_settings_page&utm_campaign=more_popup_options&utm_medium=banner" class="sfsi_font_inherit" target="_blank"> or learn more.</a></p>
         </div>         
     
     </div>

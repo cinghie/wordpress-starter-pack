@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Disable Comments - Development (trunk) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-03-23 17:52:09+0000\n"
+"PO-Revision-Date: 2019-05-11 11:09:59+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -68,7 +68,7 @@ msgstr "Tipi di contenuto personalizzati:"
 #: includes/tools-page.php:7 includes/tools-page.php:106
 #: disable-comments.php:394
 msgid "Delete Comments"
-msgstr "Elimina Commenti"
+msgstr "Elimina i commenti"
 
 #: disable-comments.php:374
 msgid "Tools"
@@ -84,7 +84,7 @@ msgstr "Samir Shah"
 
 #. Description of the plugin
 msgid "Allows administrators to globally disable comments on their site. Comments can be disabled according to post type."
-msgstr "Permette agli amministratori di disabilitare globalmente i commenti sui loro siti. I commenti possono essere disabilitati in base ai tipi di contenuto (post type)."
+msgstr "Permette agli amministratori di disabilitare globalmente i commenti sul loro sito. I commenti possono essere disabilitati in base ai tipi di contenuto (post type). "
 
 #. Plugin URI of the plugin
 msgid "https://wordpress.org/plugins/disable-comments/"
@@ -100,7 +100,7 @@ msgstr "Disabilitando i commenti saranno anche disabilitati i trackbacks e i pin
 
 #: includes/tools-page.php:97 includes/settings-page.php:60
 msgid "Only the built-in post types appear above. If you want to disable comments on other custom post types on the entire network, you can supply a comma-separated list of post types below (use the slug that identifies the post type)."
-msgstr "Al di sopra appaiono solo le tipologie di post di default. Se vuoi disabilitare i commenti su una tipologia di post personalizzata sull'intero network, puoi aggiungere qui sotto la lista delle tipologie di post separate dalle virgole (usa lo slug che identifica la tipologia di post). "
+msgstr "Qui sopra puoi vedere solo i tipi di contenuto (post type) predefiniti. Se vuoi disabilitare i commenti per una particolare tipologia personalizzata sull'intero network, puoi aggiungere qui sotto una lista separata da virgole delle tipologie che ti interessano (usa gli slug che li identificano)."
 
 #: includes/settings-page.php:54
 msgid "On certain post types"

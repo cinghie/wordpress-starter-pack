@@ -146,7 +146,7 @@ var prev_onload = window.onload;
 window.sfsi_styled_input=Custom;
 
 if('function' === typeof prev_onload){
-    prev_onload(),Custom.init(); 
+    prev_onload(),Custom.init();
 }
 else{
     Custom.init();

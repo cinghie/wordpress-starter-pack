@@ -157,17 +157,17 @@ function sfsi_check_visiblity($isFloter=0)
     /* check if icons floating  is activated in admin */
     if($sfsi_section9['sfsi_icons_float']=="yes")
 	{
-         $top = "15";
-         switch($sfsi_section9['sfsi_icons_floatPosition'])
-         {
-             case "top-left" : if(is_admin_bar_showing()) :  $position.="position:absolute;left:30px;top:35px;"; $top="35"; else : $position.="position:absolute;left:10px;top:2%"; $top="10"; endif;                                                
-             break;
-             case "top-right" : if(is_admin_bar_showing()) :  $position.="position:absolute;right:30px;top:35px;"; $top="35"; else : $position.="position:absolute;right:10px;top:2%"; $top="10"; endif;                       
-             break;
-             case "center-right" : $position.="position:absolute;right:30px;top:50%"; $top="center"; 
-             break;
-             case "center-left" : $position.="position:absolute;left:30px;top:50%"; $top="center";  
-             break;
+	     $top = "15";
+	     switch($sfsi_section9['sfsi_icons_floatPosition'])
+	     {
+	         case "top-left" : if(is_admin_bar_showing()) :  $position.="position:absolute;left:30px;top:35px;"; $top="35"; else : $position.="position:absolute;left:10px;top:2%"; $top="10"; endif;                                                
+	         break;
+	         case "top-right" : if(is_admin_bar_showing()) :  $position.="position:absolute;right:30px;top:35px;"; $top="35"; else : $position.="position:absolute;right:10px;top:2%"; $top="10"; endif;                       
+	         break;
+	         case "center-right" : $position.="position:absolute;right:30px;top:50%"; $top="center"; 
+	         break;
+	         case "center-left" : $position.="position:absolute;left:30px;top:50%"; $top="center";  
+	         break;
 			 case "center-top" :
 				if(is_admin_bar_showing())
 				{
@@ -182,10 +182,10 @@ function sfsi_check_visiblity($isFloter=0)
 				$position .= "left:50%;bottom:0px"; $top="bottom";  
 			 break;
 
-             case "bottom-right" : $position.="position:absolute;right:30px;bottom:0px"; $top="bottom"; 
-             break;
-             case "bottom-left" : $position.="position:absolute;left:30px;bottom:0px"; $top="bottom"; 
-             break;
+	         case "bottom-right" : $position.="position:absolute;right:30px;bottom:0px"; $top="bottom"; 
+	         break;
+	         case "bottom-left" : $position.="position:absolute;left:30px;bottom:0px"; $top="bottom"; 
+	         break;
          }
         //$jquery.="jQuery( document ).ready(function( $ ) { sfsi_float_widget('".$top."')});";
 		if($sfsi_section9['sfsi_icons_floatPosition'] == 'center-right' || $sfsi_section9['sfsi_icons_floatPosition'] == 'center-left')
@@ -236,17 +236,40 @@ function sfsi_check_visiblity($isFloter=0)
    /* magnage the icons in saved order in admin */ 
    $custom_icons_order = unserialize($sfsi_section5['sfsi_CustomIcons_order']);
    $icons = unserialize($sfsi_section1_options['sfsi_custom_files']);
+        if(!isset($sfsi_section5['sfsi_telegramIcon_order'])){                     
+            $sfsi_section5['sfsi_telegramIcon_order']    = '11';
+        }
+        if(!isset($sfsi_section5['sfsi_vkIcon_order'])){                     
+            $sfsi_section5['sfsi_vkIcon_order']    = '12';
+        }
+        if(!isset($sfsi_section5['sfsi_okIcon_order'])){                     
+            $sfsi_section5['sfsi_okIcon_order']    = '13';
+        }
+        if(!isset($sfsi_section5['sfsi_weiboIcon_order'])){                     
+            $sfsi_section5['sfsi_weiboIcon_order']    = '14';
+        }
+        if(!isset($sfsi_section5['sfsi_wechatIcon_order'])){                     
+            $sfsi_section5['sfsi_wechatIcon_order']    = '15';
+        }
    $icons_order = array(
-   					 '0' => '',
-					 $sfsi_section5['sfsi_rssIcon_order']=>'rss',
-                     $sfsi_section5['sfsi_emailIcon_order']=>'email',
-                     $sfsi_section5['sfsi_facebookIcon_order']=>'facebook',
-                     $sfsi_section5['sfsi_googleIcon_order']=>'google',
-                     $sfsi_section5['sfsi_twitterIcon_order']=>'twitter',
-                     $sfsi_section5['sfsi_youtubeIcon_order']=>'youtube',
-                     $sfsi_section5['sfsi_pinterestIcon_order']=>'pinterest',
-                     $sfsi_section5['sfsi_linkedinIcon_order']=>'linkedin',
-		     		 $sfsi_section5['sfsi_instagramIcon_order']=>'instagram',) ;
+		'0' => '',
+		$sfsi_section5['sfsi_rssIcon_order']=>'rss',
+        $sfsi_section5['sfsi_emailIcon_order']=>'email',
+        $sfsi_section5['sfsi_facebookIcon_order']=>'facebook',
+        $sfsi_section5['sfsi_googleIcon_order']=>'google',
+        $sfsi_section5['sfsi_twitterIcon_order']=>'twitter',
+        $sfsi_section5['sfsi_youtubeIcon_order']=>'youtube',
+        $sfsi_section5['sfsi_pinterestIcon_order']=>'pinterest',
+        $sfsi_section5['sfsi_linkedinIcon_order']=>'linkedin',
+		$sfsi_section5['sfsi_instagramIcon_order']=>'instagram',
+		$sfsi_section5['sfsi_telegramIcon_order']=>'telegram',
+		$sfsi_section5['sfsi_vkIcon_order']=>'vk',
+		$sfsi_section5['sfsi_okIcon_order']=>'ok',
+		$sfsi_section5['sfsi_weiboIcon_order']=>'weibo',
+		$sfsi_section5['sfsi_wechatIcon_order']=>'wechat',
+
+
+  	) ;
    if(is_array($custom_icons_order) ) 
    {
 		foreach($custom_icons_order as $data)
@@ -293,6 +316,16 @@ function sfsi_check_visiblity($isFloter=0)
     case 'linkedin' :  if($sfsi_section1_options['sfsi_linkedin_display']=='yes')    $icons.= sfsi_prepairIcons('linkedin'); 
     break;
     case 'instagram' :  if($sfsi_section1_options['sfsi_instagram_display']=='yes')    $icons.= sfsi_prepairIcons('instagram'); 
+	break;	  
+	case 'telegram' :  if($sfsi_section1_options['sfsi_telegram_display']=='yes')    $icons.= sfsi_prepairIcons('telegram'); 
+	break;	  
+	case 'vk' :  if($sfsi_section1_options['sfsi_vk_display']=='yes')    $icons.= sfsi_prepairIcons('vk'); 
+	break;	  
+	case 'ok' :  if($sfsi_section1_options['sfsi_ok_display']=='yes')    $icons.= sfsi_prepairIcons('ok'); 
+	break;	  
+	case 'weibo' :  if($sfsi_section1_options['sfsi_weibo_display']=='yes')    $icons.= sfsi_prepairIcons('weibo'); 
+	break;	  
+	case 'wechat' :  if($sfsi_section1_options['sfsi_wechat_display']=='yes')    $icons.= sfsi_prepairIcons('wechat'); 
     break;	  
     case 'custom' : $icons.= sfsi_prepairIcons($icon_arry['ele']); 
     break;    
@@ -368,11 +401,12 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
     $sfsi_section5_options =  unserialize(get_option('sfsi_section5_options',false));
     $sfsi_section6_options =  unserialize(get_option('sfsi_section6_options',false));
     $sfsi_section7_options =  unserialize(get_option('sfsi_section7_options',false));
-
 	/* get active theme */
     $border_radius='';
     $active_theme = $sfsi_section3_options['sfsi_actvite_theme'];
-    
+    if(!isset($sfsi_section2_options['sfsi_wechatShare_option'])){
+    	$sfsi_section2_options['sfsi_wechatShare_option']="yes";
+    }
     /* shuffle effect */   
     if($sfsi_section3_options['sfsi_shuffle_icons']=='yes')
 	{
@@ -671,6 +705,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				$like_option = isset($sfsi_section2_options['sfsi_googleLike_option']) && !empty($sfsi_section2_options['sfsi_googleLike_option']) ? $sfsi_section2_options['sfsi_googleLike_option'] : false;
 
 				$share_option = isset($sfsi_section2_options['sfsi_googleShare_option']) && !empty($sfsi_section2_options['sfsi_googleShare_option']) ? $sfsi_section2_options['sfsi_googleShare_option'] : false; 
+				$share_option = false;
 				
 				/* check for icons to display */     
 				if( (false != $like_option && $like_option=="yes") || (false != $share_option && $share_option=="yes"))
@@ -956,11 +991,12 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 
 				$page = isset($sfsi_section2_options['sfsi_pinterest_page']) && !empty($sfsi_section2_options['sfsi_pinterest_page']) ? $sfsi_section2_options['sfsi_pinterest_page'] : false;
 
-				$cDisplay = isset($sfsi_section2_options['sfsi_pinterest_countsDisplay']) && !empty($sfsi_section2_options['sfsi_pinterest_countsDisplay']) ? $sfsi_section2_options['sfsi_pinterest_countsDisplay'] : false;
+				$cDisplay = isset($sfsi_section4_options['sfsi_pinterest_countsDisplay']) && !empty($sfsi_section4_options['sfsi_pinterest_countsDisplay']) ? $sfsi_section4_options['sfsi_pinterest_countsDisplay'] : false;
 
-				$displayC = isset($sfsi_section2_options['sfsi_display_counts']) && !empty($sfsi_section2_options['sfsi_display_counts']) ? $sfsi_section2_options['sfsi_display_counts'] : false;
+				$displayC = isset($sfsi_section4_options['sfsi_display_counts']) && !empty($sfsi_section4_options['sfsi_display_counts']) ? $sfsi_section4_options['sfsi_display_counts'] : false;
 
-				$cFrom = isset($sfsi_section2_options['sfsi_pinterest_countsFrom']) && !empty($sfsi_section2_options['sfsi_pinterest_countsFrom']) ? $sfsi_section2_options['sfsi_pinterest_countsFrom'] : false;
+				$cFrom = isset($sfsi_section4_options['sfsi_pinterest_countsFrom']) && !empty($sfsi_section4_options['sfsi_pinterest_countsFrom']) ? $sfsi_section4_options['sfsi_pinterest_countsFrom'] : false;
+				// var_dump($sfsi_section4_options['sfsi_pinterest_countsFrom'],$cFrom);die();
 
 			    if($pingblog=="yes" )  
 			    {
@@ -1076,7 +1112,341 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 					$icon=$icons_baseUrl.$active_theme."_instagram.png";
 				}
         break;
+		
+		case "telegram" :		 
+				$toolClass = "telegram_tool_bdr"; 
+				$arrow_class = "bot_pintst_arow";
+				$hoverdiv = '';
+				
+				// $url = (isset($sfsi_section4_options['sfsi_telegram_pageURL'])) ? $sfsi_section4_options['sfsi_telegram_pageURL'] : '';
+				
+				// $telegram_user_name = isset($sfsi_section4_options['sfsi_telegram_User']) && !empty($sfsi_section4_options['sfsi_telegram_User']) ? $sfsi_section4_options['sfsi_telegram_User'] : false;
+				
+				//Giving alternative text to image
+				if(isset($sfsi_section5_options['sfsi_telegram_MouseOverText']) && !empty($sfsi_section5_options['sfsi_telegram_MouseOverText']))
+				{	
+					 $alt_text = $sfsi_section5_options['sfsi_telegram_MouseOverText'];
+
+				}
+				else
+				{
+					 $alt_text = "telegram";
+				}
+				$messageus_icon = $visit_iconsUrl.$icon_name."_message.svg";
+		     	$hoverdiv="";
+				$cDisplay = isset($sfsi_section4_options['sfsi_telegram_countsDisplay']) && !empty($sfsi_section4_options['sfsi_telegram_countsDisplay']) ? $sfsi_section4_options['sfsi_telegram_countsDisplay']: false;
+
+				$Displayc = isset($sfsi_section4_options['sfsi_display_counts']) && !empty($sfsi_section4_options['sfsi_display_counts']) ? $sfsi_section4_options['sfsi_display_counts']: false;
+                /* fecth no of counts if active in admin section */ 
+				if($cDisplay=="yes" && $Displayc=="yes")
+				{
+					
+						$counts = $socialObj->format_num($sfsi_section4_options['sfsi_telegram_manualCounts']);
+				 }
+				 
+            	//Custom Skin Support {Monad}	 
+				if($active_theme == 'custom_support')
+				{
+					 if(get_option("telegram_skin"))
+					 {
+						$icon = get_option("telegram_skin");
+					 }
+					 else
+					 {
+						$icons_baseUrl = SFSI_PLUGURL."images/icons_theme/default/";
+						$icon=$icons_baseUrl."default_telegram.png";
+					 }
+				}
+				else
+				{
+					$icon=$icons_baseUrl.$active_theme."_telegram.png";
+				}
+				if(
+					 isset($sfsi_section2_options['sfsi_telegram_message']) && !empty($sfsi_section2_options['sfsi_telegram_message'])
+					 && 
+					 isset($sfsi_section2_options['sfsi_telegram_username']) && !empty($sfsi_section2_options['sfsi_telegram_username'])
+
+				 ){
+					 $tg_username = $sfsi_section2_options['sfsi_telegram_username'];
+					 $tg_msg = stripslashes($sfsi_section2_options['sfsi_telegram_message']);
+					 $tg_msg = str_replace('"', '', str_replace("'", '', $tg_msg));
+					 $tg_msg = html_entity_decode(strip_tags($tg_msg), ENT_QUOTES,'UTF-8');
+					 $tg_msg = str_replace("%26%238230%3B", "...", $tg_msg);
+					 $tg_msg = rawurlencode($tg_msg);
+					 
+					 $tele_url = "https://t.me/".$tg_username;
+					 $url = $tele_url."?&text=".urlencode($tg_msg);
+					file_get_contents($url);
+				 }else{
+				 	$url="#";
+			   		$sfsi_onclick="event.preventDefault();";
+		   		}
+		   		if($active_theme=="glossy"){
+		   			$sfsi_new_icons = "yes";
+		   		}
+        break;
+        case "vk" :		 
+				$toolClass = "vk_tool_bdr";
+				$arrow_class = "bot_pintst_arow";
+				
+				$url = (isset($sfsi_section2_options['sfsi_vk_pageURL'])) ? $sfsi_section2_options['sfsi_vk_pageURL'] : '';
+				
+				// $vk_user_name = isset($sfsi_section4_options['sfsi_vk_User']) && !empty($sfsi_section4_options['sfsi_vk_User']) ? $sfsi_section4_options['sfsi_vk_User'] : false;
+				
+				//Giving alternative text to image
+				if(isset($sfsi_section5_options['sfsi_vk_MouseOverText']) && !empty($sfsi_section5_options['sfsi_vk_MouseOverText']))
+				{	
+				 	$alt_text = $sfsi_section5_options['sfsi_vk_MouseOverText'];
+				}
+				else
+				{
+					 $alt_text = "vk";
+				}
+				     
+		     	$hoverdiv="";
+
+				$cDisplay = isset($sfsi_section4_options['sfsi_vk_countsDisplay']) && !empty($sfsi_section4_options['sfsi_vk_countsDisplay']) ? $sfsi_section4_options['sfsi_vk_countsDisplay']: false;
+
+				$Displayc = isset($sfsi_section4_options['sfsi_display_counts']) && !empty($sfsi_section4_options['sfsi_display_counts']) ? $sfsi_section4_options['sfsi_display_counts']: false;
+
+                /* fecth no of counts if active in admin section */ 
+				if($cDisplay=="yes" && $Displayc=="yes")
+				{
+						$counts = $socialObj->format_num($sfsi_section4_options['sfsi_vk_manualCounts']);
+				 }
+				 
+            	//Custom Skin Support {Monad}	 
+				if($active_theme == 'custom_support')
+				{
+					 if(get_option("vk_skin"))
+					 {
+						$icon = get_option("vk_skin");
+					 }
+					 else
+					 {
+						$icons_baseUrl = SFSI_PLUGURL."images/icons_theme/default/";
+						$icon=$icons_baseUrl."default_vk.png";
+					 }
+				}
+				else
+				{
+					$icon=$icons_baseUrl.$active_theme."_vk.png";
+				}
+		   		if($active_theme=="glossy"){
+		   			$sfsi_new_icons = "yes";
+		   		}
+
+        break;
+        case "ok" :		 
+				$toolClass = "ok_tool_bdr";
+				$arrow_class = "bot_pintst_arow";
+				
+				$url = (isset($sfsi_section2_options['sfsi_ok_pageURL'])) ? $sfsi_section2_options['sfsi_ok_pageURL'] : '';
+				
+				// $ok_user_name = isset($sfsi_section4_options['sfsi_ok_User']) && !empty($sfsi_section4_options['sfsi_ok_User']) ? $sfsi_section4_options['sfsi_ok_User'] : false;
+				
+				//Giving alternative text to image
+				if(isset($sfsi_section5_options['sfsi_ok_MouseOverText']) && !empty($sfsi_section5_options['sfsi_ok_MouseOverText']))
+				{	
+				 	$alt_text = $sfsi_section5_options['sfsi_ok_MouseOverText'];
+				}
+				else
+				{
+					 $alt_text = "ok";
+				}
+				     
+		     	$hoverdiv="";
+
+				$cDisplay = isset($sfsi_section4_options['sfsi_ok_countsDisplay']) && !empty($sfsi_section4_options['sfsi_ok_countsDisplay']) ? $sfsi_section4_options['sfsi_ok_countsDisplay']: false;
+
+				$Displayc = isset($sfsi_section4_options['sfsi_display_counts']) && !empty($sfsi_section4_options['sfsi_display_counts']) ? $sfsi_section4_options['sfsi_display_counts']: false;
+
+
+                /* fecth no of counts if active in admin section */ 
+				if($cDisplay=="yes" && $Displayc=="yes")
+				{
+						$counts = $socialObj->format_num($sfsi_section4_options['sfsi_ok_manualCounts']);
+				 }
+				 
+            	//Custom Skin Support {Monad}	 
+				if($active_theme == 'custom_support')
+				{
+					 if(get_option("ok_skin"))
+					 {
+						$icon = get_option("ok_skin");
+					 }
+					 else
+					 {
+						
+						$icons_baseUrl = SFSI_PLUGURL."images/icons_theme/default/";
+						$icon=$icons_baseUrl."default_ok.png";
+					 }
+				}
+				else
+				{
+					$icon=$icons_baseUrl.$active_theme."_ok.png";
+				}
+		   		if($active_theme=="glossy"){
+		   			$sfsi_new_icons = "yes";
+		   		}
+
+        break;
+        case "weibo" :		 
+				$toolClass = "weibo_tool_bdr";
+				$arrow_class = "bot_pintst_arow";
+				
+				$url = (isset($sfsi_section2_options['sfsi_weibo_pageURL'])) ? $sfsi_section2_options['sfsi_weibo_pageURL'] : '';
+				
+				// $weibo_user_name = isset($sfsi_section4_options['sfsi_weibo_User']) && !empty($sfsi_section4_options['sfsi_weibo_User']) ? $sfsi_section4_options['sfsi_weibo_User'] : false;
+				
+				//Giving alternative text to image
+				if(isset($sfsi_section5_options['sfsi_weibo_MouseOverText']) && !empty($sfsi_section5_options['sfsi_weibo_MouseOverText']))
+				{	
+				 	$alt_text = $sfsi_section5_options['sfsi_weibo_MouseOverText'];
+				}
+				else
+				{
+					 $alt_text = "weibo";
+				}
+				     
+		     	$hoverdiv="";
+
+				$cDisplay = isset($sfsi_section4_options['sfsi_weibo_countsDisplay']) && !empty($sfsi_section4_options['sfsi_weibo_countsDisplay']) ? $sfsi_section4_options['sfsi_weibo_countsDisplay']: false;
+
+				$Displayc = isset($sfsi_section4_options['sfsi_display_counts']) && !empty($sfsi_section4_options['sfsi_display_counts']) ? $sfsi_section4_options['sfsi_display_counts']: false;
+
+                /* fecth no of counts if active in admin section */ 
+				if($cDisplay=="yes" && $Displayc=="yes")
+				{
+						$counts = $socialObj->format_num($sfsi_section4_options['sfsi_weibo_manualCounts']);
+				 }
+				 
+            	//Custom Skin Support {Monad}	 
+				if($active_theme == 'custom_support')
+				{
+					 if(get_option("weibo_skin"))
+					 {
+						$icon = get_option("weibo_skin");
+					 }
+					 else
+					 {
+						
+						$icons_baseUrl = SFSI_PLUGURL."images/icons_theme/default/";
+						$icon=$icons_baseUrl."default_weibo.png";
+					 }
+				}
+				else
+				{
+					$icon=$icons_baseUrl.$active_theme."_weibo.png";
+				}
+		   		if($active_theme=="glossy"){
+		   			$sfsi_new_icons = "yes";
+		   		}
+
+        break;
+        case "wechat" :		 
+				$toolClass = "wechat_tool_bdr";
+				$arrow_class = "bot_pintst_arow";
+				
+				// $url = (isset($sfsi_section2_options['sfsi_wechat_pageURL'])) ? $sfsi_section2_options['sfsi_wechat_pageURL'] : '';
+				
+				// $wechat_user_name = isset($sfsi_section4_options['sfsi_wechat_User']) && !empty($sfsi_section4_options['sfsi_wechat_User']) ? $sfsi_section4_options['sfsi_wechat_User'] : false;
+				
+				//Giving alternative text to image
+				if(isset($sfsi_section5_options['sfsi_wechat_MouseOverText']) && !empty($sfsi_section5_options['sfsi_wechat_MouseOverText']))
+				{	
+				 	$alt_text = $sfsi_section5_options['sfsi_wechat_MouseOverText'];
+				}
+				else
+				{
+					 $alt_text = "wechat";
+				}
+				     
+		     	$hoverdiv="";
+
+				$cDisplay = isset($sfsi_section4_options['sfsi_wechat_countsDisplay']) && !empty($sfsi_section4_options['sfsi_wechat_countsDisplay']) ? $sfsi_section4_options['sfsi_wechat_countsDisplay']: false;
+
+				$Displayc = isset($sfsi_section4_options['sfsi_display_counts']) && !empty($sfsi_section4_options['sfsi_display_counts']) ? $sfsi_section4_options['sfsi_display_counts']: false;
+
+                /* fecth no of counts if active in admin section */ 
+				if($cDisplay=="yes" && $Displayc=="yes")
+				{
+						$counts = $socialObj->format_num($sfsi_section4_options['sfsi_wechat_manualCounts']);
+				 }
+				 $url = "weixin://dl/chat";
+				 if(
+			 	(isset($sfsi_section2_options['sfsi_wechatFollow_option']) && "yes" == $sfsi_section2_options['sfsi_wechatFollow_option']) && 
+				
+				(isset($sfsi_section2_options['sfsi_wechatShare_option']) && "yes" == $sfsi_section2_options['sfsi_wechatShare_option'])		
+				){
+					$hoverSHow = 1;
+					$hoverdiv  = "";
+
+					if(isset($sfsi_section2_options['sfsi_wechatFollow_option']) && !empty($sfsi_section2_options['sfsi_wechatFollow_option']) && "yes" == $option2['sfsi_wechatFollow_option']
+						
+						&& isset($sfsi_section2_options['sfsi_wechat_scan_image']) && !empty($sfsi_section2_options['sfsi_wechat_scan_image'])){
+
+						$image_url = $sfsi_section2_options['sfsi_wechat_scan_image'];
+
+						$hoverdiv.="<div class='icon1' style='text-align:center'><a href='' onclick='event.preventDefault();sfsi_wechat_follow(\"".$sfsi_section2_options['sfsi_wechat_scan_image']."\")' ><img nopin=nopin alt='".$alt_text."' title='".$alt_text."' src='".$visit_icon."' style='height:25px'  /></a></div>";					
+					}
+
+					if(isset($sfsi_section2_options['sfsi_wechatShare_option']) && !empty($sfsi_section2_options['sfsi_wechatShare_option'])  
+						&& "yes" == $sfsi_section2_options['sfsi_wechatShare_option']){
+
+					$hoverdiv.="<div class='icon2' style='text-align:center' ><a href='".$url."'  ".sfsi_checkNewWindow($url)." onclick='event.preventDefault();sfsi_wechat_share(\"".$sfsi_section2_options['sfsi_wechat_scan_image']."\")' ><img nopin=nopin alt='".$alt_text."' title='".$alt_text."' src='".$share_icon."' style='height:25px'  /></a></div>";
+					}
+				 }else{
+				 	
+
+				 	if(isset($sfsi_section2_options['sfsi_wechatFollow_option']) && !empty($sfsi_section2_options['sfsi_wechatFollow_option']) && "yes" == $sfsi_section2_options['sfsi_wechatFollow_option']
+						
+						&& isset($sfsi_section2_options['sfsi_wechat_scan_image']) && !empty($sfsi_section2_options['sfsi_wechat_scan_image'])){
+
+						$sfsi_onclick="event.preventDefault();sfsi_wechat_follow(\'".$sfsi_section2_options['sfsi_wechat_scan_image']."\')"	;				
+					}
+
+					if(isset($sfsi_section2_options['sfsi_wechatShare_option']) && 'yes'==($sfsi_section2_options['sfsi_wechatShare_option'])  
+						&& "yes" == $sfsi_section2_options['sfsi_wechatShare_option']){
+						if(!wp_is_mobile()){
+							$sfsi_onclick="event.preventDefault();sfsi_wechat_share('".trim($current_url)."')"	;
+						}else{
+							$sfsi_onclick='';
+							if(wp_is_mobile()){
+								$sfsi_onclick = "console.log(event);event.stopPropagation&&event.stopPropagation();";
+							}
+							$sfsi_onclick.="event.preventDefault();sfsi_mobile_wechat_share('".trim($current_url)."')"	;
+
+
+						}	
+					}
+				 		$hoverSHow = 0;
+				 }
+            	//Custom Skin Support {Monad}	 
+				if($active_theme == 'custom_support')
+				{
+					 if(get_option("wechat_skin"))
+					 {
+						$icon = get_option("wechat_skin");
+					 }
+					 else
+					 {
+						
+						$icons_baseUrl = SFSI_PLUGURL."images/icons_theme/default/";
+						$icon=$icons_baseUrl."default_wechat.png";
+					 }
+				}
+				else
+				{
+					$icon=$icons_baseUrl.$active_theme."_wechat.png";
+				}
+				if($active_theme=="glossy"){
+		   			$sfsi_new_icons = "yes";
+		   		}
+
+        break;
         
+		
 		case "linkedin" :
 				$width = 66;
 				$toolClass = "linkedin_tool_bdr";
@@ -1292,20 +1662,35 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 	 	$new_window = sfsi_checkNewWindow();
 	 	$url = $url;
     }
-	    
-	$margin_bot="5px;";
+    
+    if(isset($sfsi_onclick)){
+    	$new_window ="";
+    }
+
+    if(!isset($sfsi_new_icons)){
+    	$sfsi_new_icons =false;
+    }
+    if($sfsi_new_icons){
+    	$margin_bot="4px;";
+    }else{
+		$margin_bot="5px;";
+    }
     if($sfsi_section4_options['sfsi_display_counts']=="yes")
 	{
-		$margin_bot = "30px;";
+		if($sfsi_new_icons){
+			$margin_bot = "29px;";
+		}else{
+			$margin_bot = "30px;";
+		}
     }
     if(isset($icon) && !empty($icon) && filter_var($icon, FILTER_VALIDATE_URL))
 	{
-		$icons.= "<div style='width:".$icon_width."px; height:".$icon_width."px;margin-left:".$icons_space."px;margin-bottom:".$margin_bot."' class='".$itemselector." ".$cmcls."'>";
+		$icons.= "<div style='width:".$icon_width."px; height:".$icon_width."px;margin-left:".$icons_space."px;margin-bottom:".$margin_bot." ".($sfsi_new_icons?'padding:0px':'')."' class='".$itemselector." ".$cmcls."' >";
 			
 			$icons.= "<div class='".$innrselector."'>";
 				
-				$icons.= "<a class='".$class." sficn' effect='".$mouse_hover_effect."' $new_window  href='".$url."' id='sfsiid_".$icon_name."' alt='".$alt_text."' style='opacity:".$icon_opacity."' >";     
-					$icons.= "<img alt='".$alt_text."' title='".$alt_text."' src='".$icon."' width='".$icons_size."' height='".$icons_size."' style='".$border_radius.$padding_top."' class='sfcm sfsi_wicon' effect='".$mouse_hover_effect."'   />"; 
+				$icons.= "<a class='".$class." sficn' data-effect='".$mouse_hover_effect."' $new_window  href='".$url."' ".(('vk'!==$icon_name)?"id='sfsiid_".$icon_name."'":'')." style='opacity:".$icon_opacity."' ".(isset($sfsi_onclick)?'onclick="'.$sfsi_onclick.'"':'')." >";     
+					$icons.= "<img alt='".$alt_text."' title='".$alt_text."' src='".$icon."' width='".$icons_size."' height='".$icons_size."' style='".$border_radius.$padding_top."' class='sfcm sfsi_wicon ".(in_array($icon_name,array('telegram','wechat'))?('sfsi_'.$icon_name.'_wicon sfsi_click_wicon'):(''))."' data-effect='".$mouse_hover_effect."'   />";
 				$icons.= '</a>';
 	   if(isset($counts) &&  $counts!='')
 	   {
@@ -1338,4 +1723,6 @@ function sfsi_checkNewWindow()
 	    return ''; 
 	}
 }
+
+
 ?>
