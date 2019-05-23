@@ -672,7 +672,7 @@ Yet, if you’re already using %1$s"Contact Form 7", "Gravity Form"%2$s or %1$s"
                     <?php _e('Customer will be able to change his cart into a quote request','yith-woocommerce-request-a-quote');?>
                 </p>
                 <p>
-                    <?php echo sprintf( __('With a simple click on the "Request a Quote" button on the checkout page, your cusomer can submit is complete cart as a quote request.'),'<b>','</b>' );?>
+                    <?php echo sprintf( __('With a simple click on the "Request a Quote" button on the checkout page, your customer can submit their complete cart as a quote request.'),'<b>','</b>' );?>
                 </p>
             </div>
         </div>

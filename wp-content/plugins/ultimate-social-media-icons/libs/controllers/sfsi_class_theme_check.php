@@ -530,7 +530,7 @@ class sfsi_ThemeCheck
 	            <a href="'.$siteLink.'" target="_blank">
 	                <div class="sfsi_new_notification_body_cat">
 	                    <div class="sfsi_new_notification_image_cat">
-	                        <img src="'.$bannerImage.'" id="newImg" />
+	                        <img src="'.$bannerImage.'" id="newImg" alt="Banner" />
 	                    </div>
 	                </div>
 	            </a>

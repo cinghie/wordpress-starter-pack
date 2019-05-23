@@ -138,9 +138,11 @@ class PPOM_Meta {
                     
         		    $qry = "SELECT the_meta FROM " . $wpdb->prefix . PPOM_TABLE_META . " WHERE productmeta_id = {$meta_id}";
         		    $fields = $wpdb->get_var ( $qry );
-        		  //  var_dump($fields);
                     $fields = json_decode ( $fields, true );
-        		    $meta_fields = array_merge($meta_fields, $fields);
+        		    
+        		    if( is_array($fields) ) {
+        		        $meta_fields = array_merge($meta_fields, $fields);
+        		    }
                 }
             } else {
                 $meta_id = $this->meta_id;

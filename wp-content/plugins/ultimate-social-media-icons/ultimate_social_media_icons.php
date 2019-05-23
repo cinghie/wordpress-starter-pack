@@ -5,7 +5,7 @@ Plugin URI: http://ultimatelysocial.com
 Description: Easy to use and 100% FREE social media plugin which adds social media icons to your website with tons of customization features!. 
 Author: UltimatelySocial
 Author URI: http://ultimatelysocial.com
-Version: 2.2.0
+Version: 2.2.4
 License: GPLv2 or later
 */
 
@@ -65,7 +65,7 @@ register_activation_hook(__FILE__, 'sfsi_activate_plugin' );
 register_deactivation_hook(__FILE__, 'sfsi_deactivate_plugin');
 register_uninstall_hook(__FILE__, 'sfsi_Unistall_plugin');
 
-if(!get_option('sfsi_pluginVersion') || get_option('sfsi_pluginVersion') < 2.20)
+if(!get_option('sfsi_pluginVersion') || get_option('sfsi_pluginVersion') < 2.24)
 {
 	add_action("init", "sfsi_update_plugin");
 }
@@ -159,7 +159,7 @@ function sfsi_checkmetas()
 }
 if ( is_admin() )
 {
-	sfsi_checkmetas();
+add_action('after_setup_theme', 'sfsi_checkmetas');
 }
 
 add_action('wp_head', 'ultimatefbmetatags');
@@ -254,22 +254,24 @@ if(is_admin())
 
 function sfsi_getverification_code()
 {
+
 	$feed_id = sanitize_text_field(get_option('sfsi_feed_id'));
-	$curl = curl_init();  
-    curl_setopt_array($curl, array(
-        CURLOPT_RETURNTRANSFER => 1,
-        CURLOPT_URL => 'http://www.specificfeeds.com/wordpress/getVerifiedCode_plugin',
-        CURLOPT_USERAGENT => 'sf get verification',
-        CURLOPT_POST => 1,
-        CURLOPT_POSTFIELDS => array(
+	$response = wp_remote_post( 'https://www.specificfeeds.com/wordpress/getVerifiedCode_plugin', array(
+        'blocking' => true,
+        'user-agent' => 'sf get verification',
+        'body' => array(
             'feed_id' => $feed_id
         )
     ));
-     // Send the request & save response to $resp
-	$resp = curl_exec($curl);
-	$resp = json_decode($resp);
-	update_option('sfsi_verificatiom_code', $resp->code);
-	curl_close($curl);
+    
+	// Send the request & save response to $resp
+	if ( is_wp_error( $response ) ) {
+   		$error_message = $response->get_error_message();
+	   	return false;
+	} else {
+	   	$resp = json_decode($response['body']);
+		update_option('sfsi_verificatiom_code', $resp->code);
+	}
 }
 
 //checking for the youtube username and channel id option
@@ -505,7 +507,8 @@ function sfsi_admin_notice()
 	/**
 	 * Premium Notification
 	 */
-	$domain 	= sfsi_getdomain(site_url());
+	$sfsi_themecheck = new sfsi_ThemeCheck(); 
+	$domain 	= $sfsi_themecheck->sfsi_plus_getdomain(site_url());
 	$siteMatch 	= false;
 	
 	if(!empty($domain))
@@ -526,9 +529,8 @@ function sfsi_admin_notice()
 			
 			div.sfsi_show_premium_notification{
 				float: none;
-				display:inline-block;
-    			width: 98.2%;
-    			margin-left: 37px;
+				display:block;
+    			margin-left: 15px;
     			margin-top: 15px;
     			padding: 8px;
 				background-color: #38B54A;
@@ -552,12 +554,12 @@ function sfsi_admin_notice()
 			    cursor: pointer;
 			}
 		</style>
-	    <div class="updated sfsi_show_premium_notification" style="<?php //echo $style; ?>">
-			<div class="alignleft" style="margin: 9px 0;">
+	    <div class="updated sfsi_show_premium_notification" style="<?php echo isset($style)?$style:''; ?>">
+			<div style="margin: 9px 0; ">
 				BIG NEWS : There is now a <b><a href="https://www.ultimatelysocial.com/usm-premium/?utm_source=usmi_settings_page&utm_campaign=notification_banner&utm_medium=banner" target="_blank">Premium Ultimate Social Media Plugin</a></b> available with many more cool features : <a href="https://www.ultimatelysocial.com/usm-premium/?utm_source=usmi_settings_page&utm_campaign=notification_banner&utm_medium=banner" target="_blank">Check it out</a>
 			</div>
-			<div class="alignright">
-				<form method="post" class="sfsi_premiumNoticeDismiss">
+			<div style="text-align:right;margin-top:-40px;">
+				<form method="post" class="sfsi_premiumNoticeDismiss" style="padding-bottom:8px;">
 					<input type="hidden" name="sfsi-dismiss-premiumNotice" value="true">
 					<input type="submit" name="dismiss" value="Dismiss" />
 				</form>
@@ -603,11 +605,11 @@ function sfsi_admin_notice()
 				}
 			</style>
 		    <div class="updated sfsi_show_premium_cumulative_count_notification">
-				<div class="alignleft" style="margin: 9px 0;">
+				<div style="margin: 9px 0;">
 					<b>Recently switched to https?</b> If you don’t want to lose the Facebook share & like counts <a href="https://www.ultimatelysocial.com/usm-premium/?utm_source=usmi_settings_page&utm_campaign=https_share_counts&utm_medium=banner" target="_blank">have a look at our Premium Plugin</a>, we found a fix for that: <a href="https://www.ultimatelysocial.com/usm-premium/?utm_source=usmi_settings_page&utm_campaign=https_share_counts&utm_medium=banner" target="_blank">Check it out</a>
 				</div>
-				<div class="alignright">
-					<form method="post" class="sfsi_premiumCumulativeCountNoticeDismiss">
+				<div style="text-align: right;margin-top:-30px" >
+					<form method="post" class="sfsi_premiumCumulativeCountNoticeDismiss" style="padding:10px">
 						<input type="hidden" name="sfsi-dismiss-premiumCumulativeCountNoticeDismiss" value="true">
 						<input type="submit" name="dismiss" value="Dismiss" />
 					</form>
@@ -692,8 +694,8 @@ function sfsi_admin_notice()
 			
 		</style>
 
-	     <div class="updated sfsi_show_phperror_notification" style="<?php echo $style; ?>background-color: #D22B2F; color: #fff; font-size: 18px; border-left-color: #D22B2F;">
-			<div class="alignleft" style="margin: 9px 0;">
+	     <div class="updated sfsi_show_phperror_notification" style="<?php echo (isset($style)?$style:''); ?>background-color: #D22B2F; color: #fff; font-size: 18px; border-left-color: #D22B2F;">
+			<div style="margin: 9px 0;">
 
 				<p class="sfsi_show_notifictaionpragraph">
 					We noticed you are running your site on a PHP version older than 5.4. Please upgrade to a more recent version. This is not only important for running the Ultimate Social Media Plugin, but also for security reasons in general.
@@ -702,8 +704,8 @@ function sfsi_admin_notice()
                 </p>
 		
 			</div>
-			<div class="alignright">
-				<form method="post" class="sfsi_phperrorNoticeDismiss">
+			<div style="text-align:right;margin-top:-30px" >
+				<form method="post" class="sfsi_phperrorNoticeDismiss" style="padding-bottom:10px">
 					<input type="hidden" name="sfsi-dismiss-phperrorNotice" value="true">
 					<input type="submit" name="dismiss" value="Dismiss" />
 				</form>
@@ -884,12 +886,12 @@ function sfsi_get_language_detection_notice(){
 			form.sfsi_languageNoticeDismiss{display: inline-block;margin: 5px 0 0;vertical-align: middle;}
 			.sfsi_languageNoticeDismiss input[type='submit']{background-color: transparent;border: medium none;margin: 0 5px 0 0px;padding: 0;cursor: pointer;font-size: 22px;}
 		</style>
-		<div class="notice notice-info" style="<?php echo $style; ?>">
-			<div class="alignleft" style="margin: 9px 0;">
+		<div class="notice notice-info" style="<?php echo isset($style)?$style:''; ?>">
+			<div  style="margin: 9px 0;">
 				<?php echo $text; ?>
 			</div>
-			<div class="alignright">
-				<form method="post" class="sfsi_languageNoticeDismiss">
+			<div style="text-align: right;margin-top:-30px">
+				<form method="post" class="sfsi_languageNoticeDismiss" style="padding-bottom:10px">
 					<input type="hidden" name="sfsi-dismiss-languageNotice" value="true">
 					<input type="submit" name="dismiss" value="&times;" />
 				</form>
@@ -947,16 +949,6 @@ function sfsi_get_bloginfo($url)
 		$web_url = site_url()."/feed";
 	}
 	return $web_url;
-}
-
-function sfsi_getdomain($url)
-{
-	$pieces = parse_url($url);
-	$domain = isset($pieces['host']) ? $pieces['host'] : '';
-	if (preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $domain, $regs)) {
-		return $regs['domain'];
-	}
-	return false;
 }
 add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), "sfsi_actionLinks", -10 );
 function sfsi_actionLinks($links)
@@ -1077,7 +1069,7 @@ function sfsi_curl_error_notification()
 	            We noticed that your site returns a cURL error («Error:  
 	            <?php  echo ucfirst(get_option("sfsi_curlErrorMessage")); ?>
 	            »). This means that it cannot send a notification to SpecificFeeds.com when a new post is published. Therefore this email-feature doesn’t work. However there are several solutions for this, please visit our FAQ to see the solutions («Perceived bugs» => «cURL error messages»): 
-	            <a href="https://www.ultimatelysocial.com/faq/" target="_new">
+	            <a href="https://www.ultimatelysocial.com/faq/" target="new">
 	                www.ultimatelysocial.com/faq
 	            </a>
 	           <div class="sfsi_curlerror_cross">Dismiss</div>
@@ -1339,7 +1331,7 @@ function sfsi_ask_for_help($viewNumber){ ?>
 
     <div class="sfsi_askforhelp askhelpInview<?php echo $viewNumber; ?>">
 	
-		<img src="<?php echo SFSI_PLUGURL."images/questionmark.png";?>"/>
+		<img src="<?php echo SFSI_PLUGURL."images/questionmark.png";?>" alt="error"/>
 		
 		<span>Questions? <a target="_blank" href="#" onclick="event.preventDefault();sfsi_open_chat(event)"><b>Ask us</b></a></span>
 
@@ -1422,3 +1414,4 @@ function sfsi_dismiss_error_reporting_notice(){
 add_action( 'wp_ajax_sfsi_dismiss_error_reporting_notice', 'sfsi_dismiss_error_reporting_notice' );
 
 // ********************************* Notice for error reporting CLOSE *******************************//
+

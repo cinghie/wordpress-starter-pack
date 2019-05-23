@@ -309,6 +309,27 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 				
 				$ppom_meta['ppom_has_quantities'] = $total_qty;
 				break;
+
+			case 'eventcalendar':
+				$total_qty = 0;
+				$qty_values = array();
+				// ppom_pa($value);
+				foreach($value as $label => $qty) {
+					if( !empty($qty) ) {
+						$qty_values[] = "{$label} = {$qty}";
+						// $ppom_meta[$label] = $qty;
+						$total_qty += $qty;	
+					}
+				}
+				
+				if( $total_qty > 0 ) {
+					$qty_values[] = __('Total',"ppom").' = '.$total_qty;
+					$meta_data = array('name'=>$field_title, 'value'=>implode(",",$qty_values));
+					// A placeholder key to handle qunantity display in item meta data under myaccount
+				}
+				
+				$ppom_meta['ppom_has_quantities'] = $total_qty;
+				break;
 				
 			case 'file':
 				if( $context == 'order') {
@@ -612,6 +633,7 @@ function ppom_settings_link($links) {
 	$quote_url = "https://najeebmedia.com/get-quote/";
 	$ppom_setting_url = admin_url( 'admin.php?page=ppom');
 	$video_url = 'https://najeebmedia.com/wordpress-plugin/woocommerce-personalized-product-option/#ppom-quick-video';
+	$ppom_deactivate = '#';
 	
 	$ppom_links = array();
 	$ppom_links[] = sprintf(__('<a href="%s">Add Fields</a>', "ppom"), esc_url($ppom_setting_url) );
@@ -698,7 +720,7 @@ function ppom_load_file($file_path, $variables=array('')){
 function ppom_load_bootstrap_css() {
 	
 	$return = true;
-	if( ppom_get_option('ppom_disable_bootstrap') == 'Yes' ) $return = false;
+	if( ppom_get_option('ppom_disable_bootstrap') == 'yes' ) $return = false;
 	
 	return apply_filters('ppom_bootstrap_css', $return);
 }
@@ -706,7 +728,7 @@ function ppom_load_bootstrap_css() {
 function ppom_load_fontawesome() {
 	
 	$return = true;
-	if( ppom_get_option('ppom_disable_fontawesome') == 'Yes' ) $return = false;
+	if( ppom_get_option('ppom_disable_fontawesome') == 'yes' ) $return = false;
 	
 	return apply_filters('ppom_disable_fontawesome', $return);
 }
@@ -786,6 +808,7 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 													'without_tax'=>$option_price_without_tax,
 													'percent'=> $option_percent,
 													'data_name' => $data_name,
+													'id'		=> $option_id,		// Legacy key fix
 													'option_id' => $option_id);
 														
 			if( $discount ) {
@@ -807,11 +830,14 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 	
 	if( !empty($meta['first_option']) ) {
 		
-		$first_option = array('label'=>sprintf(__("%s","ppom"),$meta['first_option']), 
+		$first_option = array('' => array('label'=>sprintf(__("%s","ppom"),$meta['first_option']), 
 										'price'	=> '',
 										'raw'	=> '',
-										'without_tax' => '');
-		array_unshift( $ppom_new_option, $first_option);
+										'without_tax' => '')
+										);
+										
+		$ppom_new_option = $first_option + $ppom_new_option;
+		// array_unshift( $ppom_new_option, $first_option);
 	}
 	
 	// ppom_pa($ppom_new_option);
@@ -1075,8 +1101,17 @@ function ppom_get_field_option_price_by_id( $option, $product, $ppom_meta_ids ) 
 	// soon we will remove this product param
 	$product_id = null;
 	$field_meta = ppom_get_field_meta_by_dataname($product_id , $data_name, $ppom_meta_ids );
-	
+
 	if( empty($field_meta) ) return 0;
+	
+	
+	// It was huge lost of PPOM :(, finally got it :)
+	// When migration from old PPOM version where option id was not being created
+	// price were not calculated due to this old data unless admin re-save it again
+	if( ! isset($field_meta['options'][0]['id']) ) {
+
+		$field_meta['options'] = ppom_convert_options_to_key_val($field_meta['options'], $field_meta, $product);
+	}
 	
 	$field_type = isset($field_meta['type']) ? $field_meta['type'] : '';
 	
@@ -1098,7 +1133,7 @@ function ppom_get_field_option_price_by_id( $option, $product, $ppom_meta_ids ) 
 								$option_price = ppom_get_amount_after_percentage($product->get_price(), $option['price']);
 						}else {
 							// For currency switcher
-							$option_price = apply_filters('ppom_option_price', $option['price']);
+							$option_price = $option['price'];
 						}
 					}
 				}
@@ -1116,7 +1151,7 @@ function ppom_get_field_option_price_by_id( $option, $product, $ppom_meta_ids ) 
 								$option_price = ppom_get_amount_after_percentage($product->get_price(), $option['price']);
 						}else {
 							// For currency switcher
-							$option_price = apply_filters('ppom_option_price', $option['price']);
+							$option_price = $option['price'];
 						}
 					}
 				}
@@ -1210,9 +1245,8 @@ function ppom_is_field_visible( $field ) {
 			$user_roles = ppom_get_current_user_role();
 			$allowed_roles = explode(',', $visibility_role);
 			
-			$role_matched = !empty(array_intersect($allowed_roles, $user_roles));
-			
-			if( $role_matched ) {
+			$restult = array_intersect($allowed_roles, $user_roles);
+			if( !empty($restult) ) {
 				$is_visible = true;
 			}
 			break;
@@ -1229,7 +1263,7 @@ function ppom_get_current_user_role() {
 		$user = wp_get_current_user();
 		return ( array ) $user->roles;
 	} else {
-		return false;
+		return array();
 	}
 }
 

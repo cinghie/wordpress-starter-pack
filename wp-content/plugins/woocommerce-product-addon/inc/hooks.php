@@ -226,9 +226,9 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
 					$field['end_date'] = $to_dates[0];
 				}
 				
-		        wp_enqueue_script( 'moment', '//cdn.jsdelivr.net/momentjs/latest/moment.min.js', array('jquery'), PPOM_VERSION, true);
-	            wp_enqueue_script( 'daterangepicker', '//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js', array('jquery'), PPOM_DB_VERSION, true);
-	            wp_enqueue_style( 'daterangepicker', '//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css');
+		        wp_enqueue_script( 'ppom-moment-js', 'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js', array('jquery'), PPOM_VERSION, true);
+                wp_enqueue_script( 'ppom-daterangepicker-js', 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js', array('jquery'), PPOM_DB_VERSION, true);
+                wp_enqueue_style( 'ppom-daterangepicker-js', 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css');
 		        break;
 		        
 			case 'color':
@@ -500,7 +500,7 @@ function ppom_hooks_show_option_price_pricematrix($show_price, $meta){
  * registration meta in wmp for translation
  * @since 7.0
  **/
-function ppom_hooks_register_wpml( $meta_data ) {
+function ppom_hooks_register_wpml( $meta_data, $ppom_id ) {
 	
 
 	foreach($meta_data as $index => $data) {
@@ -544,6 +544,9 @@ function ppom_hooks_register_wpml( $meta_data ) {
 			$data['options'] = $new_option;
 			
 		}
+
+		// Adding ppom_id in each ppom meta
+		$data['ppom_id'] = $ppom_id;
 		
 		$meta_data[$index] = $data;
 		

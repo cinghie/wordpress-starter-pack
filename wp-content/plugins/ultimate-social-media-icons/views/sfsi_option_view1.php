@@ -23,6 +23,21 @@
 												: 'no';
 	$option1['sfsi_pinterest_display'] 	= 	(isset($option1['sfsi_pinterest_display']))
 												? sanitize_text_field($option1['sfsi_pinterest_display'])
+                                                : 'no';
+    $option1['sfsi_telegram_display'] 	= 	(isset($option1['sfsi_telegram_display']))
+												? sanitize_text_field($option1['sfsi_telegram_display'])
+                                                : 'no';
+    $option1['sfsi_vk_display'] 	    = 	(isset($option1['sfsi_vk_display']))
+												? sanitize_text_field($option1['sfsi_vk_display'])
+                                                : 'no';
+    $option1['sfsi_ok_display'] 	    = 	(isset($option1['sfsi_ok_display']))
+												? sanitize_text_field($option1['sfsi_ok_display'])
+                                                : 'no';
+    $option1['sfsi_wechat_display'] 	= 	(isset($option1['sfsi_wechat_display']))
+												? sanitize_text_field($option1['sfsi_wechat_display'])
+                                                : 'no';
+    $option1['sfsi_weibo_display']  	= 	(isset($option1['sfsi_weibo_display']))
+												? sanitize_text_field($option1['sfsi_weibo_display'])
 												: 'no';
 	$option1['sfsi_linkedin_display'] 	= 	(isset($option1['sfsi_linkedin_display']))
 												? sanitize_text_field($option1['sfsi_linkedin_display'])
@@ -50,7 +65,7 @@
             <span class="sfsicls_rs_s">RSS</span> 
             <div class="right_info">
                 <p><span>Strongly recommended:</span> RSS is still popular, esp. among the tech-savvy crowd.
-                <label class="expanded-area" >RSS stands for Really Simply Syndication and is an easy way for people to read your content. You can learn more about it <a href="http://en.wikipedia.org/wiki/RSS" target="_new" title="Syndication">here</a>. </label></p>
+                <label class="expanded-area" >RSS stands for Really Simply Syndication and is an easy way for people to read your content. You can learn more about it <a href="http://en.wikipedia.org/wiki/RSS" target="new" title="Syndication">here</a>. </label></p>
                 <a href="javascript:;" class="expand-area" >Read more</a>
             </div>
         </li>
@@ -69,7 +84,7 @@
                     		<a style="font-size:13px;margin-left:30px;color:#777777;" href="javascript:;" class="sfsi_removeFooter" data-nonce="<?php echo $nonce;?>">Remove credit link</a>
                         <?php } ?>
                     </span>
-                    <label class="expanded-area" >Everybody uses email – that’s why it’s <a href="http://www.entrepreneur.com/article/230949" target="_new">much more effective than social media </a> to make people follow you. Not offering an email subscription option means losing out on future traffic to your site.</label>
+                    <label class="expanded-area" >Everybody uses email – that’s why it’s <a href="http://www.entrepreneur.com/article/230949" target="new">much more effective than social media </a> to make people follow you. Not offering an email subscription option means losing out on future traffic to your site.</label>
                 </p>
                 <a href="javascript:;" class="expand-area" >Read more</a>	 
             </div>
@@ -143,6 +158,56 @@
             </div>
         </li>
         <!-- END INSTAGRAM ICON -->
+
+          <!-- TELEGRAM ICON -->
+          <li>
+            <div class="radio_section tb_4_ck"><input name="sfsi_telegram_display" <?php echo ($option1['sfsi_telegram_display']=='yes') ?  'checked="true"' : '' ;?> id="sfsi_telegram_display"  type="checkbox" value="yes" class="styled"  /></div>
+            <span class="sfsicls_telegram">Telegram</span> 
+            <div class="right_info">
+            <p><span>It depends:</span> Show this icon if you have a Telegram account.</p>
+            </div>
+        </li>
+        <!-- END TELEGRAM ICON -->
+
+          <!-- VK ICON -->
+          <li>
+            <div class="radio_section tb_4_ck"><input name="sfsi_vk_display" <?php echo ($option1['sfsi_vk_display']=='yes') ?  'checked="true"' : '' ;?> id="sfsi_vk_display"  type="checkbox" value="yes" class="styled"  /></div>
+            <span class="sfsicls_vk">VK</span> 
+            <div class="right_info">
+            <p><span>It depends:</span> Show this icon if you have a vk account.</p>
+            </div>
+        </li>
+        <!-- END VK ICON -->
+
+          <!-- OK ICON -->
+          <li>
+            <div class="radio_section tb_4_ck"><input name="sfsi_ok_display" <?php echo ($option1['sfsi_ok_display']=='yes') ?  'checked="true"' : '' ;?> id="sfsi_ok_display"  type="checkbox" value="yes" class="styled"  /></div>
+            <span class="sfsicls_ok">Ok</span> 
+            <div class="right_info">
+            <p><span>It depends:</span> Show this icon if you have a Ok account.</p>
+            </div>
+        </li>
+        <!-- END OK ICON -->
+
+          <!-- WECHAT ICON -->
+          <li>
+            <div class="radio_section tb_4_ck"><input name="sfsi_wechat_display" <?php echo ($option1['sfsi_wechat_display']=='yes') ?  'checked="true"' : '' ;?> id="sfsi_wechat_display"  type="checkbox" value="yes" class="styled"  /></div>
+            <span class="sfsicls_wechat">WeChat</span> 
+            <div class="right_info">
+            <p><span>It depends:</span> Show this icon if you have a WeChat account.</p>
+            </div>
+        </li>
+        <!-- END WECHAT ICON -->
+
+          <!-- WEIBO ICON -->
+          <li>
+            <div class="radio_section tb_4_ck"><input name="sfsi_weibo_display" <?php echo ($option1['sfsi_weibo_display']=='yes') ?  'checked="true"' : '' ;?> id="sfsi_weibo_display"  type="checkbox" value="yes" class="styled"  /></div>
+            <span class="sfsicls_weibo">Weibo</span> 
+            <div class="right_info">
+            <p><span>It depends:</span> Show this icon if you have a Weibo account.</p>
+            </div>
+        </li>
+        <!-- END INSTAGRAM ICON -->
          
              
         <!-- GOOGLE ICON -->
@@ -181,7 +246,7 @@
                 </div>
                 <input type="hidden" name="nonce" value="<?php echo wp_create_nonce('deleteIcons'); ?>">
                 <span class="custom-img">
-                	<img class="sfcm" src="<?php echo (!empty($icons[$i])) ?  esc_url($icons[$i]) : SFSI_PLUGURL.'images/custom.png';?>" id="CImg_<?php echo $i; ?>"/>
+                	<img class="sfcm" src="<?php echo (!empty($icons[$i])) ?  esc_url($icons[$i]) : SFSI_PLUGURL.'images/custom.png';?>" id="CImg_<?php echo $i; ?>" alt="error"/>
                 </span> 
                 <span class="custom custom-txt">Custom <?php echo $count;?> </span> 
                 <div class="right_info">
@@ -197,7 +262,7 @@
             	<input name="sfsiICON_<?php echo$new_element;?>" type="checkbox" value="yes" class="styled" element-type="cusotm-icon" ele-type='new'/>
             </div>
             <span class="custom-img">
-            	<img src="<?php echo SFSI_PLUGURL.'images/custom.png';?>" id="CImg_<?php echo $new_element; ?>" />
+            	<img src="<?php echo SFSI_PLUGURL.'images/custom.png';?>" id="CImg_<?php echo $new_element; ?> " alt="error" />
             </span> 
             <span class="custom custom-txt">Custom<?php echo $count; ?> </span> 
             <div class="right_info">
@@ -215,162 +280,155 @@
                 <div class="sfsi_premium_row">
                     <div class = "sfsi_prem_cmn_rowlisting">
                         <span>
-                            <img src="<?php  echo SFSI_PLUGURL.'images/snapchat.png';?>" id="CImg" />
+                            <img src="<?php  echo SFSI_PLUGURL.'images/snapchat.png';?>" id="CImg" alt="error" />
                         </span>
                         <span class="sfsicls_prem_text">Snapchat</span>
                     </div>
                     
                     <div class = "sfsi_prem_cmn_rowlisting">
                         <span>
-                            <img src="<?php  echo SFSI_PLUGURL.'images/whatsapp.png';?>" id="CImg" />
+                            <img src="<?php  echo SFSI_PLUGURL.'images/whatsapp.png';?>" id="CImg" alt="error" />
                         </span>
                         <span class="sfsicls_prem_text">WhatsApp or Phone</span>
                     </div>
                         
                     <div class = "sfsi_prem_cmn_rowlisting" >   
                         <span>
-                            <img src="<?php  echo SFSI_PLUGURL.'images/yummly.png';?>" id="CImg" />
+                            <img src="<?php  echo SFSI_PLUGURL.'images/yummly.png';?>" id="CImg" alt="error" />
                         </span>
                         <span class="sfsicls_prem_text">Yummly</span>
                     </div>
 
                     <div class = "sfsi_prem_cmn_rowlisting" >   
                         <span>
-                            <img src="<?php  echo SFSI_PLUGURL.'images/yelp.png';?>" id="CImg" />
+                            <img src="<?php  echo SFSI_PLUGURL.'images/yelp.png';?>" id="CImg" alt="error" />
                         </span>
                         <span class="sfsicls_prem_text">Yelp</span>
                     </div>
 
                      <div class = "sfsi_prem_cmn_rowlisting" >   
                         <span>
-                            <img src="<?php  echo SFSI_PLUGURL.'images/print.png';?>" id="CImg" />
+                            <img src="<?php  echo SFSI_PLUGURL.'images/print.png';?>" id="CImg" alt="error" />
                         </span>
                         <span class="sfsicls_prem_text">Print</span>
+                    </div>
+
+                    <div class = "sfsi_prem_cmn_rowlisting" >   
+                        <span>
+                            <img src="<?php  echo SFSI_PLUGURL.'images/messenger.png';?>" id="CImg" />
+                        </span>
+                        <span class="sfsicls_prem_text">Messenger</span>
                     </div>
                 </div>
                 <div class="sfsi_premium_row">
                     <div class = "sfsi_prem_cmn_rowlisting" >   
                         <span>
-                            <img src="<?php  echo SFSI_PLUGURL.'images/soundcloud.png';?>" id="CImg" />
+                            <img src="<?php  echo SFSI_PLUGURL.'images/soundcloud.png';?>" id="CImg" alt="error" />
                         </span>
                         <span class="sfsicls_prem_text">Soundcloud</span>
                     </div>
                     
                     <div class = "sfsi_prem_cmn_rowlisting" >   
                         <span>
-                            <img src="<?php  echo SFSI_PLUGURL.'images/skype.png';?>" id="CImg" />
+                            <img src="<?php  echo SFSI_PLUGURL.'images/skype.png';?>" id="CImg" alt="error" />
                         </span>
                         <span class="sfsicls_prem_text">Skype</span>
                     </div>
                     
                     <div class = "sfsi_prem_cmn_rowlisting" >   
                         <span>
-                            <img src="<?php  echo SFSI_PLUGURL.'images/flickr.png';?>" id="CImg" />
+                            <img src="<?php  echo SFSI_PLUGURL.'images/flickr.png';?>" id="CImg"  alt="error"/>
                         </span>
                         <span class="sfsicls_prem_text">Flickr</span>
                     </div>
 
                     <div class = "sfsi_prem_cmn_rowlisting" >   
                         <span>
-                            <img src="<?php  echo SFSI_PLUGURL.'images/buffer.png';?>" id="CImg" />
+                            <img src="<?php  echo SFSI_PLUGURL.'images/buffer.png';?>" id="CImg" alt="error" />
                         </span>
                         <span class="sfsicls_prem_text">Buffer</span>
                     </div>
                     
                     <div class = "sfsi_prem_cmn_rowlisting" >   
                         <span>
-                            <img src="<?php  echo SFSI_PLUGURL.'images/blogger.png';?>" id="CImg" />
+                            <img src="<?php  echo SFSI_PLUGURL.'images/blogger.png';?>" id="CImg" alt="error"/>
                         </span>
                         <span class="sfsicls_prem_text">Blogger</span>
                     </div>
-                    
-                    
-                </div>
-                <div class="sfsi_premium_row">
                     <div class = "sfsi_prem_cmn_rowlisting" >   
                         <span>
-                            <img src="<?php  echo SFSI_PLUGURL.'images/reddit.png';?>" id="CImg" />
+                            <img src="<?php  echo SFSI_PLUGURL.'images/reddit.png';?>" id="CImg" alt="error"/>
                         </span>
                         <span class="sfsicls_prem_text">Reddit</span>
                     </div>
                     
+                </div>
+                <div class="sfsi_premium_row">
+                    
+                    
                     <div class = "sfsi_prem_cmn_rowlisting" >   
                         <span>
-                            <img src="<?php  echo SFSI_PLUGURL.'images/vimeo.png';?>" id="CImg" />
+                            <img src="<?php  echo SFSI_PLUGURL.'images/vimeo.png';?>" id="CImg" alt="error" />
                         </span>
                         <span class="sfsicls_prem_text">Vimeo</span>
                     </div>
                     
                     <div class = "sfsi_prem_cmn_rowlisting" >   
                         <span>
-                            <img src="<?php  echo SFSI_PLUGURL.'images/tumblr.png';?>" id="CImg" />
+                            <img src="<?php  echo SFSI_PLUGURL.'images/tumblr.png';?>" id="CImg" alt="error"/>
                         </span>
                         <span class="sfsicls_prem_text">Tumblr</span>
                     </div>
 
                    <div class = "sfsi_prem_cmn_rowlisting" >   
                         <span>
-                            <img src="<?php  echo SFSI_PLUGURL.'images/houzz.png';?>" id="CImg" />
+                            <img src="<?php  echo SFSI_PLUGURL.'images/houzz.png';?>" id="CImg" alt="error"/>
                         </span>
                         <span class="sfsicls_prem_text">Houzz</span>
                     </div>
 
                     <div class = "sfsi_prem_cmn_rowlisting" >   
                         <span>
-                            <img src="<?php  echo SFSI_PLUGURL.'images/xing.png';?>" id="CImg" />
+                            <img src="<?php  echo SFSI_PLUGURL.'images/xing.png';?>" id="CImg"  alt="error"/>
                         </span>
                         <span class="sfsicls_prem_text">Xing</span>
                     </div>
-                </div>
-                <div class="sfsi_premium_row">
-                    <div class = "sfsi_prem_cmn_rowlisting" >   
-                        <span>
-                            <img src="<?php  echo SFSI_PLUGURL.'images/vk.png';?>" id="CImg" />
-                        </span>
-                        <span class="sfsicls_prem_text">VK</span>
-                    </div>
-                    
-                    <div class = "sfsi_prem_cmn_rowlisting" >   
-                        <span>
-                            <img src="<?php  echo SFSI_PLUGURL.'images/telegram.png';?>" id="CImg" />
-                        </span>
-                        <span class="sfsicls_prem_text">Telegram</span>
-                    </div>
-                    
-                    <div class = "sfsi_prem_cmn_rowlisting" >   
-                        <span>
-                            <img src="<?php  echo SFSI_PLUGURL.'images/amazon.png';?>" id="CImg" />
-                        </span>
-                        <span class="sfsicls_prem_text">Amazon</span>
-                    </div>
-
-                    <div class = "sfsi_prem_cmn_rowlisting" >   
-                        <span>
-                            <img src="<?php  echo SFSI_PLUGURL.'images/angieslist.png';?>" id="CImg" />
-                        </span>
-                        <span class="sfsicls_prem_text">Angie’s List</span>
-                    </div>
-
-                    <div class = "sfsi_prem_cmn_rowlisting" >   
-                        <span>
-                            <img src="<?php  echo SFSI_PLUGURL.'images/steam.png';?>" id="CImg" />
-                        </span>
-                        <span class="sfsicls_prem_text">Steam</span>
-                    </div>
-                </div>
-                <div class="sfsi_premium_row">
                     <div class = "sfsi_prem_cmn_rowlisting" >   
                         <span>
                             <img src="<?php  echo SFSI_PLUGURL.'images/twitch.png';?>" id="CImg" />
                         </span>
                         <span class="sfsicls_prem_text">Twitch</span>
                     </div>
+                     <div class = "sfsi_prem_cmn_rowlisting" >   
+                        <span>
+                            <img src="<?php  echo SFSI_PLUGURL.'images/amazon.png';?>" id="CImg"  alt="error"/>
+                        </span>
+                        <span class="sfsicls_prem_text">Amazon</span>
+                    </div>
                 </div>
 
+                <div class="sfsi_premium_row" > 
+                    
+                   
+
+                    <div class = "sfsi_prem_cmn_rowlisting" >   
+                        <span>
+                            <img src="<?php  echo SFSI_PLUGURL.'images/angieslist.png';?>" id="CImg" alt="error"/>
+                        </span>
+                        <span class="sfsicls_prem_text">Angie’s List</span>
+                    </div>
+
+                    <div class = "sfsi_prem_cmn_rowlisting" >   
+                        <span>
+                            <img src="<?php  echo SFSI_PLUGURL.'images/steam.png';?>" id="CImg" alt="error"/>
+                        </span>
+                        <span class="sfsicls_prem_text">Steam</span>
+                    </div>
+                </div>
                 <!--<div class="sfsi_need_another_one_link">
                     <p>Need another one?<a href="mailto:biz@ultimatelysocial.com"> Tell us</a></p>
                 </div>-->
-                <div class="sfsi_need_another_tell_us">
+                <div class="sfsi_need_another_tell_us" style="padding-top:20px">
                     <a href="https://www.ultimatelysocial.com/all-platforms/" target="_blank">...and many more! See them here</a>                                  
                     <!--<a href="https://www.ultimatelysocial.com/usm-premium/?utm_source=usmi_settings_page&utm_campaign=more_platforms&utm_medium=banner" target="_blank">See all features Premium Plugin</a>-->
                 </div>
@@ -384,7 +442,7 @@
 
     <!-- SAVE BUTTON SECTION   -->
     <div class="save_button tab_1_sav">
-        <img src="<?php echo SFSI_PLUGURL ?>images/ajax-loader.gif" class="loader-img" />
+        <img src="<?php echo SFSI_PLUGURL ?>images/ajax-loader.gif" class="loader-img" alt="error"/>
         <?php  $nonce = wp_create_nonce("update_step1"); ?>
         <a href="javascript:;" id="sfsi_save1" title="Save" data-nonce="<?php echo $nonce;?>">Save</a>
     </div><!-- END SAVE BUTTON SECTION   -->

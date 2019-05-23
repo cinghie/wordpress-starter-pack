@@ -6,7 +6,7 @@
  * */
 if( ! defined("ABSPATH") ) die("Not Allowed");
 
-// $ppom_fields_meta = json_decode ( $ppom_settings -> the_meta, true );
+// ppom_pa($ppom_fields_meta);
 $ppom_id = is_array($ppom_id) ? implode(',', $ppom_id) : $ppom_id;
 
 // echo '<input type="hidden" name="woo_option_price">';	// it will be populated while dynamic prices set in script.js
@@ -35,7 +35,11 @@ echo '</div>';
 
 echo '<div class="form-row ppom-rendering-fields align-items-center ppom-section-collapse">';
 
-$posted_values = isset($_POST['ppom']['fields']) ? $_POST['ppom']['fields'] : '';
+$posted_values = '';
+if( apply_filters('ppom_retain_after_add_to_cart', true) ) {
+	$posted_values = isset($_POST['ppom']['fields']) ? $_POST['ppom']['fields'] : '';
+}
+
 $section_started = false;
 $ppom_field_counter = 0;
 

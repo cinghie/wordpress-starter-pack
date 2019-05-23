@@ -135,7 +135,7 @@ if( count($raq_content) == 0):
 
                 <td class="product-subtotal">
                     <?php
-                        echo apply_filters( 'yith_ywraq_hide_price_template' , WC()->cart->get_product_subtotal( $_product, $raq['quantity'] ));
+                    echo apply_filters( 'yith_ywraq_hide_price_template', WC()->cart->get_product_subtotal( $_product, $raq['quantity'] ), $product_id );
                     ?>
                 </td>
 			</tr>

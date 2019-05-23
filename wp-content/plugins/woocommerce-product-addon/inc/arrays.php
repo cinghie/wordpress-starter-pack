@@ -323,6 +323,16 @@ function ppom_array_settings() {
 			),
 			
 		array(
+				'title'          => __( 'Clear Fields after Add to Cart?', 'ppom' ),
+				'type'          => 'checkbox',
+				'label'         => __( 'Yes', 'ppom' ),
+				'default'       => 'no',
+				'id'            => 'ppom_hide_clear_fields',
+				'desc'          => __( 'Empty all fields on Product page after to cart.', 'ppom' ),
+				
+			),
+			
+		array(
             'title'		=> __( 'Select Option Label', 'ppom' ),
             'type'		=> 'text',
             'desc'		=> __( 'Label For Price Table', 'ppom' ),

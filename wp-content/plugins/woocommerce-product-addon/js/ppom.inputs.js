@@ -11,6 +11,7 @@
  jQuery(function($){
      
     // $('[data-toggle="tooltip"]').tooltip({container:'body', trigger:'hover'});
+    var wc_cart_button = jQuery('form.cart').find('button[name="add-to-cart"]');
     
     // Measure
     $('.ppom-measure').on('change', '.ppom-measure-unit', function(e){
@@ -22,7 +23,7 @@
     });
     
     // Disable ajax add to cart
-    $(".add_to_cart_button").removeClass("ajax_add_to_cart")
+    wc_cart_button.removeClass("ajax_add_to_cart")
      
     // Range slider updated
     $(document).on('ppom_range_slider_updated', function(e){ 
@@ -73,9 +74,11 @@
                 break;
                 
             case 'image':
+
+                var img_id = input.data_name;
                 // Image Tooltip
                 if( input.show_popup === 'on') {
-                    $('.ppom-zoom').imageTooltip({
+                    $('.ppom-zoom-'+img_id).imageTooltip({
     							  xOffset: 5,
     							  yOffset: 5
     						    });
@@ -86,6 +89,7 @@
                 break;
             // date_range
             case 'daterange':
+            
                 InputSelector.daterangepicker({
                     autoApply: (input.auto_apply == 'on') ? true : false,
                     locale: {
@@ -98,10 +102,10 @@
                     timePicker24Hour: (input.tp_24hours == 'on') ? true : false,
                     timePickerSeconds: (input.tp_seconds == 'on') ? true : false,
                     drops: (input.open_style !== '') ? input.open_style : 'down',
-                    startDate: input.start_date,
-                    endDate: input.end_date,
-                    minDate: input.min_date,
-                    maxDate: input.max_date,
+                    startDate: (input.start_date == '') ? false : input.start_date,
+                    endDate: (input.end_date == '') ? false : input.end_date,
+                    minDate: (input.min_date == '') ? false : input.min_date,
+                    maxDate: (input.max_date == '') ? false : input.max_date,
                 });
                 break;
                 

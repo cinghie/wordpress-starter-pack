@@ -390,7 +390,7 @@ class NM_Form {
         
         // Options
         $options    = $this -> get_attribute_value('options', $args);
-        
+       
         if ( ! $options ) return;
 
         $input_wrapper_class = $this->get_default_setting_value('global', 'input_wrapper_class', $id);
@@ -427,7 +427,6 @@ class NM_Form {
             $without_tax    = $value['without_tax'];
             $opt_percent    = isset($value['percent']) ? $value['percent']: '';
             $option_class   = "ppom-option-{$option_id}";
-            
             
             // if option has weight and price is not set, then set it zero for calculation
             if( empty($option_price) && !empty($value['option_weight']) ) {
@@ -1008,14 +1007,14 @@ class NM_Form {
 						} else {
 						    
 						    $image_url = wp_get_attachment_thumb_url( $image['id'] );
-							$html .= '<img data-image-tooltip="'.wp_get_attachment_url($image['id']).'" class="img-thumbnail ppom-zoom" src="'.esc_url($image_url).'" />';
+							$html .= '<img data-image-tooltip="'.wp_get_attachment_url($image['id']).'" class="img-thumbnail ppom-zoom-'.esc_attr($id).'" src="'.esc_url($image_url).'" />';
 						}
 						
 					}else{
 						if( isset($image['url']) && $image['url'] != '' )
 							$html .= '<a href="'.$image['url'].'"><img width="150" height="150" src="'.esc_url($image['link']).'" /></a>';
 						else {
-							$html .= '<img class="img-thumbnail ppom-zoom" data-image-tooltip="'.esc_url($image['link']).'" src="'.esc_url($image['link']).'" />';
+							$html .= '<img class="img-thumbnail ppom-zoom-'.esc_attr($id).'" data-image-tooltip="'.esc_url($image['link']).'" src="'.esc_url($image['link']).'" />';
 						}
 					}
 					

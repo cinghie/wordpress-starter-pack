@@ -485,9 +485,11 @@ ul.flwstep>li {
     color: #fff;
     font-weight: 700;
     margin-top: 10px;
-    padding: 5px 45px;
+    padding: 7px 22px;
     width: auto;
     cursor: pointer;
+    font-size: 19px;
+    
 }
 .pop_up_box .button {
     background: #12a252;
@@ -2036,7 +2038,9 @@ ul.cstmskin_iconlist {
     padding: 11px 0 40px 8px;
     width: 100%;
 	max-width: 1000px;
-	margin: 0
+    margin: 0;
+    height: 307px;
+    overflow-y: scroll;
 }
 .placethemanulywpr { max-width: 98% !important}
 .cstmskin_iconlist > li {
@@ -2281,4 +2285,37 @@ a.sficn{ cursor: pointer; }
 }
 #sfsi_floater .fb_tool_bdr .sfsi_inside .icon2{
     margin: -2px 0 -5px 0;
+}
+.sfsi_wechat_follow_overlay{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 99999;
+    background: rgba(0,0,0,0.7);
+}
+.sfsi_wechat_follow_overlay .close_btn{
+    position: absolute;
+    right: 60px;
+    top: 60px;
+    font-size: 40px;
+    line-height: 40px;
+    text-decoration: none;
+    border: 1px solid #fff;
+    padding: 0 10px;
+    border-radius: 60px;
+    color: #333;
+    background-color: #ffff;
+    text-decoration: none;
+}
+@media (max-width:786px) {
+    .sfsi_upload_butt_container{
+        display:inline-block;
+    }
+    .upload_butt{
+        height:38px;
+    }
+    .sfsi_wechat_follow_overlay .sfsi_inner_display>div div.sfsi_upload_butt_container:first-child{
+        margin-left:0;
+        margin-right:20px;
+    }
 }

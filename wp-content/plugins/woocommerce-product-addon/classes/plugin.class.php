@@ -64,7 +64,7 @@ class NM_PersonalizedProduct {
 		// Adding meta to cart form product page
 		add_filter ( 'woocommerce_add_cart_item_data', 'ppom_woocommerce_add_cart_item_data', 10, 2);
 		
-		add_action( 'wp', array($this, 'wp_loaded') );
+		// add_action( 'wp', array($this, 'wp_loaded') );
 		
 		
 		/*
@@ -137,8 +137,11 @@ class NM_PersonalizedProduct {
 		 add_filter('nmform_attribute_value', 'ppom_hooks_color_to_text_type', 10, 3);
 		 // Option show for Pricematrix
 		 add_filter('ppom_show_option_price', 'ppom_hooks_show_option_price_pricematrix', 10, 2);
-		 // Translating meta settings being saved via admin
-		 add_filter('ppom_meta_data_saving', 'ppom_hooks_register_wpml');
+		 /**
+		 ** 1- Translating meta settings being saved via admin
+		 ** 2- Also saving ppom_id in each fiel
+		 **/
+		 add_filter('ppom_meta_data_saving', 'ppom_hooks_register_wpml', 10, 2);
 		 // add a wrapper class in each input e.g: ppom-input-{data_name}
 		 add_filter('ppom_input_wrapper_class', 'ppom_hooks_input_wrapper_class', 10, 2);
 		 // Saving cropped image
@@ -148,7 +151,7 @@ class NM_PersonalizedProduct {
 		 
 		 // Compatible with currency switcher for option prices
 		 add_filter('ppom_option_price', 'ppom_hooks_convert_price', 10);
-		 add_filter('ppom_cart_line_total', 'ppom_hooks_convert_price_back');
+		 //add_filter('ppom_cart_line_total', 'ppom_hooks_convert_price_back');
 		 add_filter('ppom_cart_fixed_fee', 'ppom_hooks_convert_price_back');
 		 
 		 // Shortcode
@@ -353,19 +356,15 @@ class NM_PersonalizedProduct {
   		}	
   	}
 	  
-	  
 	
-	
-	
-	
-	function wp_loaded() {
+	/*function wp_loaded() {
 		
 		// var_dump(DOING_AJAX);
 		if( is_cart() || is_checkout() || (defined('DOING_AJAX') && DOING_AJAX && isset($_REQUEST['wc-ajax'])) ) {
 			global $WOOCS;
 			remove_filter('woocommerce_product_get_price', array($WOOCS, 'raw_woocommerce_price'), 9999, 2);
 		}
-	}
+	}*/
 	
 	/**
 	 * Adds meta groups in admin dropdown to apply on products.

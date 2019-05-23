@@ -178,7 +178,13 @@ function sfsi_FrontPopupDiv()
                      $sfsi_section5['sfsi_youtubeIcon_order']=>'youtube',
                      $sfsi_section5['sfsi_pinterestIcon_order']=>'pinterest',
                      $sfsi_section5['sfsi_linkedinIcon_order']=>'linkedin',
-		     $sfsi_section5['sfsi_instagramIcon_order']=>'instagram',
+                     $sfsi_section5['sfsi_instagramIcon_order']=>'instagram',
+		             $sfsi_section5['sfsi_telegramIcon_order']=>'telegram',
+		             $sfsi_section5['sfsi_vkIcon_order']=>'vk',
+		             $sfsi_section5['sfsi_okIcon_order']=>'ok',
+		             $sfsi_section5['sfsi_weiboIcon_order']=>'weibo',
+		             $sfsi_section5['sfsi_wechatIcon_order']=>'wechat',
+                     
                     ) ;
   $icons=array();
   $elements=array();
@@ -209,7 +215,7 @@ function sfsi_FrontPopupDiv()
     ksort($icons_order);     /* short icons in order to display */
     $icons='<div class="sfsi_outr_div" > <div class="sfsi_FrntInner_chg" style="'.$style.'">';
 	//adding close button
-	$icons.='<div class="sfsiclpupwpr" onclick="sfsihidemepopup();"><img src="'.SFSI_PLUGURL.'images/close.png" /></div>';
+	$icons.='<div class="sfsiclpupwpr" onclick="sfsihidemepopup();"><img src="'.SFSI_PLUGURL.'images/close.png" alt="error" /></div>';
 	
 	 if(!empty($heading_text))
 	 {
@@ -244,6 +250,16 @@ function sfsi_FrontPopupDiv()
     case 'linkedin' :  if($sfsi_section1_options['sfsi_linkedin_display']=='yes')    $icons.= "<li>".sfsi_prepairIcons('linkedin',1)."</li>"; 
     break;
     case 'instagram' :  if($sfsi_section1_options['sfsi_instagram_display']=='yes')    $icons.= "<li>".sfsi_prepairIcons('instagram',1)."</li>"; 
+    break;
+    case 'telegram' :  if($sfsi_section1_options['sfsi_telegram_display']=='yes')    $icons.= "<li>".sfsi_prepairIcons('telegram',1)."</li>"; 
+    break;
+    case 'vk' :  if($sfsi_section1_options['sfsi_vk_display']=='yes')    $icons.= "<li>".sfsi_prepairIcons('vk',1)."</li>"; 
+    break;
+    case 'ok' :  if($sfsi_section1_options['sfsi_ok_display']=='yes')    $icons.= "<li>".sfsi_prepairIcons('ok',1)."</li>"; 
+    break;
+    case 'weibo' :  if($sfsi_section1_options['sfsi_weibo_display']=='yes')    $icons.= "<li>".sfsi_prepairIcons('weibo',1)."</li>"; 
+    break;
+    case 'wechat' :  if($sfsi_section1_options['sfsi_wechat_display']=='yes')    $icons.= "<li>".sfsi_prepairIcons('wechat',1)."</li>"; 
     break;
     case 'custom' : $icons.= "<li>". sfsi_prepairIcons($icon_arry['ele'],1)."</li>"; 
     break;    

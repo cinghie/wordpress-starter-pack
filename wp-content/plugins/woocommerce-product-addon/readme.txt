@@ -4,7 +4,7 @@ Tags: woocommerce, woocommerce pesonalized products, woocommerce custom fields, 
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
 Tested up to: 5.2
-Stable tag: 17.2
+Stable tag: 17.4
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -83,6 +83,16 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
+= 17.4 May 14, 2019 =
+* Tweaks: ajax_add_to_cart class removed when PPOM enabled
+* Bug fixed: Price issue fixed due to old versions option data old values
+* Bug fixed: [Fatal error bug fixed with field privacy settings](https://wordpress.org/support/topic/existing-product-meta-fatal-error-after-the-update-2/)
+= 17.3 May 5, 2019 =
+* Feature: [Setting added to clear PPOM fields after add to cart on Product page](https://clients.najeebmedia.com/forums/topic/clear-after-add-to-cart/)
+* Bug fixed: [Critical bug fixed](https://wordpress.org/support/topic/existing-product-meta-fatal-error-after-the-update-2/)
+* Bug fixed: [Select first option was working if set as required, it's fixed](https://clients.najeebmedia.com/forums/topic/first-option-input-is-satisfying-required/)
+* Bug fixed: [Required field creating issue when set Visibility](https://clients.najeebmedia.com/forums/topic/ppom-by-user-role-required-field-error/#post-12133)
+* Bug fixed: Image popup settings issue fixed
 = 17.2 April 28, 2019 =
 * Tweaks: Pre loading effect added for admin settings.
 * Bug fixed: [Default checked inputs for Checkbox input were not working, fixed now](https://clients.najeebmedia.com/forums/topic/all-checkboxes-options-already-checked/)

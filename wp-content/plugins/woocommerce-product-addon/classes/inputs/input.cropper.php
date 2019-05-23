@@ -166,7 +166,6 @@ class NM_Cropper_wooproduct extends PPOM_Inputs{
 					'title' => __ ( 'Enforce Boundary', 'ppom' ),
 					'desc' => __ ( 'Restricts zoom so image cannot be smaller than viewport.', 'ppom' ),
 					'link' => __ ( '<a target="_blank" href="'.esc_url($croppie_options_link).'">Help</a>', 'ppom' ),
-					'default' => 'on',
 			),
 			'resize' => array (
 					'type' => 'checkbox',
@@ -179,14 +178,12 @@ class NM_Cropper_wooproduct extends PPOM_Inputs{
 					'title' => __ ( 'Enable Zoom', 'ppom' ),
 					'desc' => __ ( 'Enable zooming functionality. If set to false - scrolling and pinching would not zoom.', 'ppom' ),
 					'link' => __ ( '<a target="_blank" href="'.esc_url($croppie_options_link).'">Help</a>', 'ppom' ),
-					'default' => 'on',
 			),
 			'show_zoomer' => array (
 					'type' => 'checkbox',
 					'title' => __ ( 'Show Zoomer', 'ppom' ),
 					'desc' => __ ( 'Hide or Show the zoom slider.', 'ppom' ),
 					'link' => __ ( '<a target="_blank" href="'.esc_url($croppie_options_link).'">Help</a>', 'ppom' ),
-					'default' => 'on',
 			),
 			'enable_exif' => array (
 					'type' => 'checkbox',

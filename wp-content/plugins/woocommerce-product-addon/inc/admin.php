@@ -181,7 +181,7 @@ function ppom_admin_save_form_meta() {
 	
 	extract ( $_REQUEST );
 	
-	$product_meta = apply_filters('ppom_meta_data_saving', $ppom);
+	
 	
 	$send_file_attachment 	= "NA";
 	$aviary_api_key			= "NA";
@@ -213,15 +213,19 @@ function ppom_admin_save_form_meta() {
 	global $wpdb;
 	$ppom_table = $wpdb->prefix.PPOM_TABLE_META;
 	$wpdb->insert($ppom_table, $dt, $format);
-	$res_id = $wpdb->insert_id;
+	$ppom_id = $wpdb->insert_id;
+
+	$product_meta = apply_filters('ppom_meta_data_saving', $ppom, $ppom_id);
+	// Updating PPOM Meta with ppom_id in each meta array
+	ppom_admin_update_ppom_meta_only( $ppom_id, $product_meta );
 	
 	$resp = array ();
-	if ($res_id) {
+	if ($ppom_id) {
 		
 		$resp = array (
 				'message' => __ ( 'Form added successfully', 'ppom' ),
 				'status' => 'success',
-				'productmeta_id' => $res_id 
+				'productmeta_id' => $ppom_id 
 		);
 	} else {
 		
@@ -258,7 +262,7 @@ function ppom_admin_update_form_meta() {
 	
 	
 	// ppom_pa($product_meta); exit;
-	$product_meta = apply_filters('ppom_meta_data_saving', $product_meta);
+	$product_meta = apply_filters('ppom_meta_data_saving', $product_meta, $productmeta_id);
 	
 	
 	
@@ -319,6 +323,44 @@ function ppom_admin_update_form_meta() {
 	}
 	
 	wp_send_json($resp);
+}
+
+// Update PPOM Fields Only
+function ppom_admin_update_ppom_meta_only($ppom_id, $ppom_meta) {
+	
+	// print_r($_REQUEST); exit;
+	global $wpdb;
+
+	$dt = array (
+			'the_meta'	=> json_encode ( $ppom_meta )
+	);
+	
+	// ppom_pa($dt); exit;
+	
+	$where = array (
+			'productmeta_id' => $ppom_id 
+	);
+	
+	$format = array (
+			'%s',
+	);
+	$where_format = array (
+			'%d' 
+	);
+	
+	global $wpdb;
+	$ppom_table = $wpdb->prefix.PPOM_TABLE_META;
+	$rows_effected = $wpdb->update($ppom_table, $dt, $where, $format, $where_format);
+	
+	// $wpdb->show_errors(); $wpdb->print_error();
+	
+	if ($rows_effected) {
+		
+		return true;
+	} else {
+		return false;
+	}
+	
 }
 
 /*

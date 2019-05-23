@@ -2,8 +2,8 @@
 Contributors: smashballoon
 Tags: Facebook, Facebook feed, Facebook posts, Facebook wall, Facebook page
 Requires at least: 3.0
-Tested up to: 5.1
-Stable tag: 2.9
+Tested up to: 5.2
+Stable tag: 2.9.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -265,22 +265,26 @@ You no longer need your own Access Token to use the Custom Facebook Feed Plugin,
 
 == Changelog ==
 
+= 2.9.1 =
+* New: Added support for v3.3 of the Facebook API.
+* Fix: The Access Token selection area was being cut off on small screens when a lot of Facebook pages were listed.
+
 = 2.9 =
-* New: You can now select between a "Regular" or "Boxed" post style. Settings for this can be found at: `Customize > Style Posts > Post Item`. A Box Shadow setting has been added to the "Boxed" post style.
-* New: Added some settings to control the size and color of the shared link URLs and descriptions. These can be found at: `Customize > Style Posts > Shared Link Boxes`.
-* New: Improved the Access Token retrieval process to make it more intuitive.
+* New: You can now select between a "Regular" or "Boxed" post style. Settings for this can be found at: `Facebook Feed > Customize > Style Posts > Post Item`. A Box Shadow setting has been added to the "Boxed" post style.
+* New: Added some settings to control the size and color of the Facebook shared link URLs and descriptions. These can be found at: `Facebook Feed > Customize > Style Posts > Shared Link Boxes`.
+* New: Improved the Facebook Access Token retrieval process to make it more intuitive.
 * Tweak: Avatar images are now circular to match Facebook.
 * Tweak: Animated the social media icons when the "Share" button is clicked.
-* Tweak: Changed the way the Like Box loads to avoid a conflict with the Facebook Messenger widget. It no longer uses the Facebook JavaScript SDK.
+* Tweak: Changed the way the Facebook Like Box loads to avoid a conflict with the Facebook Messenger widget. It no longer uses the Facebook JavaScript SDK.
 * Tweak: Changed the elements used for icons from `<i>` to `<span>` to aid accessibility.
 * Tweak: Removed the Google+ share option as the platform has been deprecated.
 * Tweak: Removed the share widgets from the footer of the admin so that they're only loaded when the "Share the plugin" button is clicked.
-* Fix: The plugin now uses the built-in WordPress HTTP API to get data from Facebook instead of making it's own cURL requests.
-* Fix: Fixed an issue where the avatars of people posting to the Facebook page weren't being displayed. Individual Facebook API requests for avatars have now been removed and bundled into the main API request.
-* Fix: If the link to the profile of a visitor posting to your page is not available then remove the link from the avatar and author name.
+* Fix: The plugin now uses the built-in WordPress HTTP API to get data from Facebook instead of making it's own cURL requests to the Facebook API.
+* Fix: Fixed an issue where the avatars of people posting to the Facebook page weren't being displayed. Individual Facebook API requests for avatars have now been removed and bundled into the main Facebook API request.
+* Fix: If the link to the Facebook profile of a visitor posting to your page is not available then remove the link from the avatar and author name.
 * Fix: Fixed an accessibility error caused by the share icons being empty links.
 * Fix: Removed the use of the ENT_HTML5 constant as it isn't supported in PHP 5.4.
-* Fix: Fixed a rare issue with tags in post stories when the locale was set to be Greek.
+* Fix: Fixed a rare issue with tags in Facebook post stories when the locale was set to be Greek.
 
 = 2.8 =
 * New: Added support for Facebook Notes in timeline feeds. If your Facebook timeline feed contains a note then the plugin will now get the content from the note and display it within the Facebook post.

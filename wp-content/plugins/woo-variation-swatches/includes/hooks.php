@@ -13,7 +13,7 @@
 	add_action( 'admin_init', 'wvs_add_product_taxonomy_meta' );
 	
 	// From WC 3.6+
-	if ( version_compare( '3.6', WC_VERSION, '<=' ) ) {
+	if ( defined( 'WC_VERSION' ) && version_compare( '3.6', WC_VERSION, '<=' ) ) {
 		add_action( 'woocommerce_product_option_terms', 'wvs_product_option_terms', 20, 3 );
 	} else {
 		add_action( 'woocommerce_product_option_terms', 'wvs_product_option_terms_old', 20, 2 );

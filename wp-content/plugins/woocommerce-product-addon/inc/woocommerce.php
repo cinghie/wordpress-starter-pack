@@ -90,7 +90,7 @@ function ppom_woocommerce_validate_product($passed, $product_id, $qty) {
 		$passed = ppom_check_validation($product_id, $_POST);
 	}
 	
-	if(isset($_POST['ppom']['fields'])) {
+	/*if(isset($_POST['ppom']['fields'])) {
 		
 		if( ppom_is_price_attached_with_fields($_POST['ppom']['fields']) &&
     		empty($_POST['ppom']['ppom_option_price'])
@@ -100,7 +100,7 @@ function ppom_woocommerce_validate_product($passed, $product_id, $qty) {
 			$passed = false;
 			return $passed;
     	}
-    }
+    }*/
     
     return $passed;
 }
@@ -144,12 +144,16 @@ function ppom_check_validation($product_id, $post_data, $passed=true) {
 	
 	if( ! $ppom->fields ) return $passed;
 	
+	
 	$ppom_posted_fields = isset($post_data['ppom']['fields']) ? $post_data['ppom']['fields'] : null;
 	if( ! $ppom_posted_fields ) return $passed;
 	
 	foreach($ppom->fields as $field) {
 		
 		// ppom_pa($field);
+		
+		// Check field Visibility settings
+		if( ! ppom_is_field_visible($field) ) continue;
 		
 		if( empty($field['data_name']) || empty($field['required']) 
 		&& (empty($field['min_checked']) && empty($field['max_checked']) )
@@ -218,7 +222,9 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 		unset( $values ['ppom'] ['fields']['id']);
 	}
 	
-	$ppom_item_org_price	= floatval(ppom_get_product_price($wc_product));
+	// converting back to org price if Currency Switcher is used
+	$ppom_item_org_price	= ppom_hooks_convert_price_back($wc_product->get_price());
+	
 	$ppom_item_order_qty	= floatval($cart_items['quantity']);
 	
 	// Getting option price

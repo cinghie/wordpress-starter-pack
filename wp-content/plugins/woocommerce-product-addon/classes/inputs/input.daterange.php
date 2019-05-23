@@ -69,11 +69,6 @@ class NM_Daterange_wooproduct extends PPOM_Inputs{
 					'title' => __ ( 'Format', 'ppom' ),
 					'desc' => __ ( 'e.g MM-DD-YYYY, DD-MMM-YYYY', 'ppom' ),
 			),
-			'default_value' => array (
-					'type' => 'text',
-					'title' => __ ( 'Default Date', 'ppom' ),
-					'desc' => __ ( 'Must be same format as defined in above (Format) field.', 'ppom' ),
-			),
 			'tp_increment' => array (
 					'type' => 'text',
 					'title' => __ ( 'Timepicker increment', 'ppom' ),

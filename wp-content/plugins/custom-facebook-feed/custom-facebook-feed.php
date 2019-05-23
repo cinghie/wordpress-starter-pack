@@ -3,7 +3,7 @@
 Plugin Name: Custom Facebook Feed
 Plugin URI: http://smashballoon.com/custom-facebook-feed
 Description: Add completely customizable Facebook feeds to your WordPress site
-Version: 2.9
+Version: 2.9.1
 Author: Smash Balloon
 Author URI: http://smashballoon.com/
 License: GPLv2 or later
@@ -24,7 +24,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-define('CFFVER', '2.9');
+define('CFFVER', '2.9.1');
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 //Include admin
@@ -886,7 +886,7 @@ function display_cff($atts) {
     //ALL POSTS
     if (!$cff_events_only){
 
-        $cff_posts_json_url = 'https://graph.facebook.com/' . $page_id . '/' . $graph_query . '?fields=id,from{picture,id,name,link},message,message_tags,story,story_tags,link,source,name,caption,description,type,status_type,object_id,created_time,backdated_time,call_to_action&access_token=' . $access_token . '&limit=' . $cff_post_limit . '&locale=' . $cff_locale . $cff_ssl;
+        $cff_posts_json_url = 'https://graph.facebook.com/v3.3/' . $page_id . '/' . $graph_query . '?fields=id,from{picture,id,name,link},message,message_tags,story,story_tags,status_type,created_time,backdated_time,call_to_action,attachments{title,description,media_type,unshimmed_url,target{id},media{source}}&access_token=' . $access_token . '&limit=' . $cff_post_limit . '&locale=' . $cff_locale . $cff_ssl;
 
         if( $cff_show_access_token && strlen($access_token) > 130 ){
             //If using a Page Access Token then set caching time to be minimum of 5 minutes
@@ -999,8 +999,26 @@ function display_cff($atts) {
                 $PostID = explode("_", $cff_post_id);
             }
 
+            //Reassign variable changes from API v3.3 update
+            $news->link = '';
+            $news->description = '';
+            $news->name = '';
+            $news->caption = '';
+            $news->source = '';
+            $news->object_id = '';
+            if( isset($news->attachments->data[0]->unshimmed_url) ) $news->link = $news->attachments->data[0]->unshimmed_url;
+            if( isset($news->attachments->data[0]->description) ) $news->description = $news->attachments->data[0]->description;
+            if( isset($news->attachments->data[0]->target->id) ) $news->object_id = $news->attachments->data[0]->target->id;
+            if( isset($news->attachments->data[0]->media->source) ) $news->source = $news->attachments->data[0]->media->source;
+            if( isset($news->attachments->data[0]->title) ){
+                $news->name = $news->attachments->data[0]->title;
+                $news->caption = $news->attachments->data[0]->title;
+            }
+
             //Check the post type
-            $cff_post_type = $news->type;
+            $cff_post_type = 'status';
+            if( isset($news->attachments->data[0]->media_type) ) $cff_post_type = $news->attachments->data[0]->media_type;
+
             if ($cff_post_type == 'link') {
                 isset($news->story) ? $story = $news->story : $story = '';
                 //Check whether it's an event
@@ -1032,7 +1050,7 @@ function display_cff($atts) {
                 case 'offer':
                      $cff_show_post = true;
                     break;
-                case 'status':
+                default:
                     //Check whether it's a status (author comment or like)
                     if ( $cff_show_status_type && !empty($news->message) ) $cff_show_post = true;
                     break;
@@ -1088,7 +1106,7 @@ function display_cff($atts) {
                 }
 
                 //Check the post type
-                isset($news->type) ? $cff_post_type = $news->type : $cff_post_type = '';
+                isset($cff_post_type) ? $cff_post_type = $cff_post_type : $cff_post_type = '';
                 if ($cff_post_type == 'link') {
                     isset($news->story) ? $story = $news->story : $story = '';
                     //Check whether it's an event
@@ -1453,56 +1471,30 @@ function display_cff($atts) {
                 }
 
 
-                //Add the story and message together
-                $post_text = '';
-
-                //DESCRIPTION
-                $cff_description = '';
-                if ( !empty($news->description) || !empty($news->caption) ) {
-                    $description_text = '';
-                    if ( !empty($news->description) ) {
-                        $description_text = $news->description;
-                    } else {
-                        $description_text = $news->caption;
-                    }
-
-                    //If the description is the same as the post text then don't show it
-                    if( $description_text ==  $cff_story_raw || $description_text ==  $cff_message_raw || $description_text ==  $cff_name_raw ){
-                        $cff_description = '';
-                    } else {
-                        //Add links and create HTML
-                        $cff_description .= '<span class="cff-post-desc" '.$cff_body_styles.'>';
-
-                        if ($cff_title_link) {
-                            $cff_description_tagged = cff_wrap_span( htmlspecialchars($description_text) );
-                        } else {
-                            $cff_description_text = cff_autolink( htmlspecialchars($description_text), $link_color=$cff_posttext_link_color );
-                            $cff_description_tagged = cff_desc_tags($cff_description_text);
-                        }
-                        $cff_description .= $cff_description_tagged;
-                        $cff_description .= ' </span>';
-                    }
-                    
-                    if( $cff_post_type == 'event' ) $cff_description = '';
-                }
-
                 //Check to see whether it's an embedded video so that we can show the name above the post text if necessary
                 $cff_soundcloud = false;
                 $cff_is_video_embed = false;
-                if ($news->type == 'video'){
-                    isset($news->source) ? $url = $news->source : $url = '';
+                if ($cff_post_type == 'video' || $cff_post_type == 'music'){
+                    if( isset($news->source) && !empty($news->source) ){
+                        $url = $news->source;
+                    } else if ( isset($news->link) ) {
+                        $url = $news->link;
+                    } else {
+                        $url = '';
+                    }
                     //Embeddable video strings
                     $youtube = 'youtube';
                     $youtu = 'youtu';
                     $vimeo = 'vimeo';
                     $youtubeembed = 'youtube.com/embed';
-                    $soundcloud = 'player.soundcloud.com';
+                    $soundcloud = 'soundcloud.com';
                     $swf = '.swf';
                     //Check whether it's a youtube video
                     $youtube = stripos($url, $youtube);
                     $youtu = stripos($url, $youtu);
                     $youtubeembed = stripos($url, $youtubeembed);
                     //Check whether it's a SoundCloud embed
+
                     $soundcloudembed = stripos($url, $soundcloud);
                     //Check whether it's a youtube video
                     if($youtube || $youtu || $youtubeembed || (stripos($url, $vimeo) !== false)) {
@@ -1510,7 +1502,6 @@ function display_cff($atts) {
                     }
                     //If it's soundcloud then add it into the shared link box at the bottom of the post
                     if( $soundcloudembed ) $cff_soundcloud = true;
-
 
                     $cff_video_name = '';
                     //If the name exists and it's a non-embedded video then show the name at the top of the post text
@@ -1531,11 +1522,44 @@ function display_cff($atts) {
                     }
                 }
 
+                //Add the story and message together
+                $post_text = '';
+
+                //DESCRIPTION
+                $cff_description = '';
+                if ( !empty($news->description) || !empty($news->caption) ) {
+                    $description_text = '';
+
+                    if ( !empty($news->description) ) {
+                        $description_text = $news->description;
+                    }
+
+                    //If the description is the same as the post text then don't show it
+                    if( $description_text ==  $cff_story_raw || $description_text ==  $cff_message_raw || $description_text ==  $cff_name_raw ){
+                        $cff_description = '';
+                    } else {
+                        //Add links and create HTML
+                        $cff_description .= '<span class="cff-post-desc" '.$cff_body_styles.'>';
+
+                        if ($cff_title_link) {
+                            $cff_description_tagged = cff_wrap_span( htmlspecialchars($description_text) );
+                        } else {
+                            $cff_description_text = cff_autolink( htmlspecialchars($description_text), $link_color=$cff_posttext_link_color );
+                            $cff_description_tagged = cff_desc_tags($cff_description_text);
+                        }
+                        
+                        $cff_description .= $cff_description_tagged;
+                        $cff_description .= ' </span>';
+                    }
+                    
+                    if( $cff_post_type == 'event' || $cff_is_video_embed || $cff_soundcloud ) $cff_description = '';
+                }
+
                 //Add the message
                 if($cff_show_text) $post_text .= $post_text_message;
 
                 //If it's a shared video post then add the video name after the post text above the video description so it's all one chunk
-                if ($news->type == 'video'){
+                if ($cff_post_type == 'video'){
                     if( !empty($cff_description) && $cff_description != '' ){
                         if( (!empty($post_text) && $post_text != '') && !empty($cff_video_name) ) $post_text .= '<br /><br />';
                         $post_text .= $cff_video_name;
@@ -1544,7 +1568,7 @@ function display_cff($atts) {
 
 
                 //Use the name
-                if (!empty($news->name) && empty($news->story) && empty($news->message)) {
+                if (!empty($news->name) && empty($news->message)) {
                     $cff_name_raw = $news->name;
                     $post_text = htmlspecialchars($cff_name_raw);
                     $cff_post_text_type = 'name';
@@ -1572,38 +1596,32 @@ function display_cff($atts) {
 
 
                 //Create note
-                if ($news->status_type == 'created_note') {
+                if ($cff_post_type == 'note') {
                     
-                    //Is it SSL?
-                    $cff_ssl = '';
-                    if (is_ssl()) $cff_ssl = '&return_ssl_resources=true';
-
-                    //Get the contents of the event
-                    $note_json_url = 'https://graph.facebook.com/'.$cff_post_id.'?fields=attachments&access_token=' . $access_token . $cff_ssl;
-
-                    // Get any existing copy of our transient data
+                    // Get any existing copy of our transient data from previous versions
                     $transient_name = 'cff_tle_' . $cff_post_id;
                     $transient_name = substr($transient_name, 0, 45);
-
-                    if ( false === ( $cff_note_json = get_transient( $transient_name ) ) || $cff_note_json === null ) {
-                        //Get the contents of the Facebook page
-                        $cff_note_json = cff_fetchUrl($note_json_url);
-                        //Cache the JSON for 180 days as the note info probably isn't going to change
-                        set_transient( $transient_name, $cff_note_json, 60 * 60 * 24 * 180 );
-                    } else {
+                    if ( false !== ( $cff_note_json = get_transient( $transient_name ) ) ) {
                         $cff_note_json = get_transient( $transient_name );
-                        //If we can't find the transient then fall back to just getting the json from the api
-                        if ($cff_note_json == false) $cff_note_json = cff_fetchUrl($note_json_url);
+
+                        //Interpret data with JSON
+                        $cff_note_obj = json_decode($cff_note_json);
+                        $cff_note_object = $cff_note_obj->attachments->data[0];
+                        isset($cff_note_object->title) ? $cff_note_title = htmlentities($cff_note_object->title, ENT_QUOTES, 'UTF-8') : $cff_note_title = '';
+                        isset($cff_note_object->description) ? $cff_note_description = htmlentities($cff_note_object->description, ENT_QUOTES, 'UTF-8') : $cff_note_description = '';
+                        isset($cff_note_object->url) ? $cff_note_link = $cff_note_object->url : $cff_note_link = '';
+                        isset( $cff_note_object->media->image->src ) ? $cff_note_media_src = $cff_note_object->media->image->src : $cff_note_media_src = false;
+                    } else {
+                        $attachment_data = '';
+                        if(isset($news->attachments->data[0])){
+                            $attachment_data = $news->attachments->data[0];
+                            isset($attachment_data->title) ? $cff_note_title = htmlentities($attachment_data->title, ENT_QUOTES, 'UTF-8') : $cff_note_title = '';
+                            isset($attachment_data->description) ? $cff_note_description = htmlentities($attachment_data->description, ENT_QUOTES, 'UTF-8') : $cff_note_description = '';
+                            isset($attachment_data->unshimmed_url) ? $cff_note_link = $attachment_data->unshimmed_url : $cff_note_link = '';
+                            $cff_note_media_src = '';
+                        }
                     }
 
-                    //Interpret data with JSON
-                    $cff_note_obj = json_decode($cff_note_json);
-                    $cff_note_object = $cff_note_obj->attachments->data[0];
-
-                    isset($cff_note_object->title) ? $cff_note_title = htmlentities($cff_note_object->title, ENT_QUOTES, 'UTF-8') : $cff_note_title = '';
-                    isset($cff_note_object->description) ? $cff_note_description = htmlentities($cff_note_object->description, ENT_QUOTES, 'UTF-8') : $cff_note_description = '';
-                    isset($cff_note_object->url) ? $cff_note_link = $cff_note_object->url : $cff_note_link = '';
-                    isset( $cff_note_object->media->image->src ) ? $cff_note_media_src = $cff_note_object->media->image->src : $cff_note_media_src = false;
 
                     //Note details
                     $cff_note = '<span class="cff-details">';
@@ -1650,6 +1668,9 @@ function display_cff($atts) {
                     //'See More' link
                     $cff_post_text .= '<span class="cff-expand">... <a href="#" style="color: #'.$cff_posttext_link_color.'"><span class="cff-more">' . $cff_see_more_text . '</span><span class="cff-less">' . $cff_see_less_text . '</span></a></span>';
                     $cff_post_text .= '</' . $cff_title_format . '>';
+
+                    //Facebook returns the text as "'s cover photo" for some reason, so ignore it
+                    if( $post_text == "'s cover photo" ) $cff_post_text = '';
                 }
 
                 //Add a call to action button if included
@@ -1687,7 +1708,7 @@ function display_cff($atts) {
                 //LINK
                 $cff_shared_link = '';
                 //Display shared link
-                if ($cff_post_type == 'link' || $cff_soundcloud) {
+                if ($cff_post_type == 'link' || $cff_soundcloud || $cff_is_video_embed) {
 
                     $cff_shared_link .= '<div class="cff-shared-link';
                     if($cff_disable_link_box) $cff_shared_link .= ' cff-no-styles';
@@ -1718,7 +1739,7 @@ function display_cff($atts) {
                     if( strlen($cff_link_url_size_html) > 1 ) $cff_link_styles_html .= $cff_link_url_size_html;
                     if( strlen($cff_link_url_color_html) > 1 || strlen($cff_link_url_size_html) > 1 ) $cff_link_styles_html .= '"';
                     
-                    if(!empty($cff_link_caption)) $cff_shared_link .= '<p class="cff-link-caption" '.$cff_link_styles_html.'>'.$cff_link_caption.'</p>';
+                    // if(!empty($cff_link_caption)) $cff_shared_link .= '<p class="cff-link-caption" '.$cff_link_styles_html.'>'.$cff_link_caption.'</p>';
                     if ($cff_show_desc) {
                         //Truncate desc
                         if (!empty($body_limit)) {
@@ -1759,7 +1780,7 @@ function display_cff($atts) {
 
                 //Check to see whether it's an embedded video so that we can show the name above the post text if necessary
                 $cff_is_video_embed = false;
-                if ( $news->type == 'video' && isset($news->source) ){
+                if ( $cff_post_type == 'video' && isset($news->source) ){
                     $url = $news->source;
                     //Embeddable video strings
                     $youtube = 'youtube';
@@ -1778,7 +1799,7 @@ function display_cff($atts) {
 
 
                 $cff_media = '';
-                if ($news->type == 'video') {
+                if ($cff_post_type == 'video') {
                     //Add the name to the description if it's a video embed
                     if($cff_is_video_embed) {
                         isset($news->name) ? $video_name = $news->name : $video_name = $link;
@@ -1857,6 +1878,7 @@ function display_cff($atts) {
                 if (!isset($cff_translate_video_text) || empty($cff_translate_video_text)) $cff_translate_video_text = 'Video';
 
                 $cff_media_link = '';
+
                 if( $cff_show_media_link && ($cff_post_type == 'photo' || $cff_post_type == 'video') ){
                     $cff_media_link .= '<p class="cff-media-link"><a href="'.$link.'" '.$target.' style="color: #'.$cff_posttext_link_color.';"><span style="padding-right: 5px;" class="fa fas fa-';
                     if($cff_post_type == 'photo') $cff_media_link .=  'picture-o fa-image" aria-hidden="true"></span>'. $cff_translate_photo_text;
@@ -1870,13 +1892,14 @@ function display_cff($atts) {
                 //**************************//
                 //Start the container
                 $cff_post_item = '<div class="cff-item ';
-                if ($cff_post_type == 'link') $cff_post_item .= 'cff-link-item';
-                if ($cff_post_type == 'event') $cff_post_item .= 'cff-timeline-event';
-                if ($cff_post_type == 'photo') $cff_post_item .= 'cff-photo-post';
-                if ($cff_post_type == 'video') $cff_post_item .= 'cff-video-post';
-                if ($cff_post_type == 'swf') $cff_post_item .= 'cff-swf-post';
-                if ($cff_post_type == 'status') $cff_post_item .= 'cff-status-post';
-                if ($cff_post_type == 'offer') $cff_post_item .= 'cff-offer-post';
+                $cff_post_type_class = 'cff-status-post';
+                if ($cff_post_type == 'link') $cff_post_type_class = 'cff-link-item';
+                if ($cff_post_type == 'event') $cff_post_type_class = 'cff-timeline-event';
+                if ($cff_post_type == 'photo') $cff_post_type_class = 'cff-photo-post';
+                if ($cff_post_type == 'video') $cff_post_type_class = 'cff-video-post';
+                if ($cff_post_type == 'swf') $cff_post_type_class = 'cff-swf-post';
+                if ($cff_post_type == 'offer') $cff_post_type_class = 'cff-offer-post';
+                $cff_post_item .= $cff_post_type_class;
                 if ($cff_album) $cff_post_item .= ' cff-album';
 
                 if ($cff_post_bg_color_check || $cff_post_style == "boxed") $cff_post_item .= ' cff-box';

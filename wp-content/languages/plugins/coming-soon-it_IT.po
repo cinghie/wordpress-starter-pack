@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Coming Soon Page &amp; Maintenance Mode by SeedProd - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-03-06 10:53:51+0000\n"
+"PO-Revision-Date: 2019-05-14 15:38:46+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -196,7 +196,7 @@ msgstr "Devi personalizzare lo stile? Aggiungi qui il tuo CSS personalizzato."
 
 #: inc/config-settings.php:400
 msgid "Custom CSS"
-msgstr "CSS Personalizzato"
+msgstr "CSS personalizzato"
 
 #: inc/config-settings.php:392
 msgid "Template"

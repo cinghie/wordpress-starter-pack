@@ -2,8 +2,8 @@
 Contributors: yithemes
 Tags: yith, infinite scrolling, ajax pagination, infinite scroll, load more
 Requires at least: 4.0
-Tested up to: 5.0
-Stable tag: 1.1.4
+Tested up to: 5.2
+Stable tag: 1.1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ No more loading times caused by the change of the page, well, no more pages for 
 * Simple and direct navigation, even from a mobile device
 * Transition effect
 
-Full documentation is available [here](http://yithemes.com/docs-plugins/yith-infinite-scrolling/).
+Full documentation is available [here](http://yithemes.com/docs-plugins/yith-infinite-scrolling/)
 
 
 == Installation ==
@@ -37,50 +37,63 @@ Full documentation is available [here](http://yithemes.com/docs-plugins/yith-inf
 
 == Changelog ==
 
+= 1.1.7 =
+
+* Fix: Fatal Error with YITH Premium plugin
+
+= 1.1.6 =
+
+* Update: Plugin Core
+
+= 1.1.5 =
+
+* New: Support to WordPress 5.1.1
+* Update: Plugin Core
+
 = 1.1.4 =
 
-* New: Support to WordPress 5.0.2.
-* Update: Plugin Core.
-* Tweak: Better ajax performance on scroll event action.
+* New: Support to WordPress 5.0.2
+* Update: Plugin Core
+* Tweak: Better ajax performance on scroll event action
 
 = 1.1.3 =
 
-* New: Support to WordPress 5.0.0.
-* Update: Plugin Core.
+* New: Support to WordPress 5.0.0
+* Update: Plugin Core
 
 = 1.1.2 =
 
-* New: Support to WooCommerce 3.5.0.
-* Update: Plugin Core.
+* New: Support to WooCommerce 3.5.0
+* Update: Plugin Core
 
 = 1.1.1 =
 
-* Update: Plugin Core.
+* Update: Plugin Core
 
 = 1.1.0 =
 
-* New: Support to WordPress 4.9.8.
-* New: Support to WooCommerce 3.4.5.
-* Update: Plugin Core.
+* New: Support to WordPress 4.9.8
+* New: Support to WooCommerce 3.4.5
+* Update: Plugin Core
 
 = 1.0.9 =
 
-* New: Support to WordPress 4.9.1.
-* New: Support to WooCommerce 3.2.6.
-* Update: Plugin Core.
+* New: Support to WordPress 4.9.1
+* New: Support to WooCommerce 3.2.6
+* Update: Plugin Core
 
 = 1.0.8 =
 
-* New: Support to WordPress 4.8.2.
-* New: Support to WooCommerce 3.1.2.
-* Update: Plugin Core.
-* Fix: Use relative url for main AJAX action.
+* New: Support to WordPress 4.8.2
+* New: Support to WooCommerce 3.1.2
+* Update: Plugin Core
+* Fix: Use relative url for main AJAX action
 
 = 1.0.7 =
 
-* Added: Support to WordPress 4.7.
-* Added: Support to WooCommerce 2.6.9.
-* Updated: Plugin Core.
+* Added: Support to WordPress 4.7
+* Added: Support to WooCommerce 2.6.9
+* Updated: Plugin Core
 
 = 1.0.6 =
 
@@ -139,8 +152,7 @@ Or, if you have created your own language pack, or have an update for an existin
 
 == Upgrade notice ==
 
-= 1.1.4 =
+= 1.1.5 =
 
-* New: Support to WordPress 5.0.2.
-* Update: Plugin Core.
-* Tweak: Better ajax performance on scroll event action.
+* New: Support to WordPress 5.1.1
+* Update: Plugin Core

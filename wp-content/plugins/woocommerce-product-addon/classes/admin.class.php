@@ -60,6 +60,7 @@ class NM_PersonalizedProduct_Admin extends NM_PersonalizedProduct {
     	add_action( 'woocommerce_update_options_ppom_settings', array($this, 'save_settings') );
     	
     	add_action( 'admin_head', array($this, 'ppom_tabs_custom_style') );
+    	
 	}
 	
 
@@ -250,6 +251,8 @@ class NM_PersonalizedProduct_Admin extends NM_PersonalizedProduct {
 			th.column-ppom_meta{ width: 10%!important;}
 		</style><?php
 	}
+	
+	
     
     
 }
