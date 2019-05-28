@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - WP Super Cache - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-05-11 12:47:19+0000\n"
+"PO-Revision-Date: 2019-05-28 12:34:00+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,42 @@ msgstr ""
 "X-Generator: GlotPress/2.4.0-alpha\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - WP Super Cache - Stable (latest release)\n"
+
+#: ossdl-cdn.php:314
+msgid "Simple CDN"
+msgstr "CDN Semplice"
+
+#: ossdl-cdn.php:304
+msgid "%1$sJetpack%2$s was not found on your site but %3$syou can install it%2$s. The Site Accelerator feature is free to use on any WordPress site and offers the same benefit as other CDN services. You should give it a try!"
+msgstr "%1$sJetpack%2$s non è presente sul tuo sito, ma puoi installarlo %3$scliccando qui%2$s. La funzionalità di accelerazione del sito è gratuita per ogni installazione WordPress e offre gli stessi benefici di altre tipolgie di servizi CDN. Dovresti provarla!"
+
+#: ossdl-cdn.php:296
+msgid "You already have Jetpack installed but %1$sSite Accelerator%2$s is disabled on this blog. Enable it on the %3$sJetpack settings page%2$s."
+msgstr "Jetpack è già installato ma la %1$sfunzionalità di accelerazione%2$s è disabilitata su questo blog. Abilitala nella %3$spagina delle impostazioni di Jetpack%2$s."
+
+#: ossdl-cdn.php:290
+msgid "You already have Jetpack installed and %1$sSite Accelerator%2$s enabled on this blog. The CDN here is disabled to avoid conflicts with Jetpack."
+msgstr "Jetpack è già installato e la %1$sfunzionalità di accelerazione%2$s del sito è abilitata su questo blog. Qui la CDN è disabilitata per evitare potenziali conflitti."
+
+#: ossdl-cdn.php:281
+msgid "The free %1$sJetpack plugin%2$s has a %3$sSite Accelerator%2$s feature that is easier to use than the CDN functionality in this plugin. However files will be cached \"forever\" and will not update if you update the local file. Files will need to be renamed to refresh them. The %3$sJetpack documentation%2$s explains more about this."
+msgstr "Il plugin gratuito %1$sJetpack%2$s mette a disposizione una %3$sfunzionalità di accelerazione del sito%2$s che è più facile da utilizzare rispetto alla funzione CDN di questo plugin. Tuttavia, i file verranno messi in cache \"per sempre\" e non si aggiorneranno se aggiornerai il file locale. Per poter essere aggiornati, dovranno essere rinominati. La  %3$sdocumentazione di Jetpack%2$s spiega meglio nel dettaglio questo aspetto."
+
+#: ossdl-cdn.php:279
+msgid "Jetpack CDN"
+msgstr "Jetpack CDN"
+
+#: wp-cache.php:3828
+msgid "Delete Super Cache cached files"
+msgstr "Elimina i file in cache"
+
+#: wp-cache.php:2581
+msgid "The file %s already exists. Please manually delete it before using this plugin."
+msgstr "Il file %s esiste già. Eliminalo manualmente prima di utilizzare questo plugin."
+
+#: wp-cache.php:277
+msgid "The WordPress CRON jobs system is disabled. This means the garbage collection system will not work unless you run the CRON system manually."
+msgstr "Il sistema CRON di WordPress è disabilitato. Questo significa che la procedura di garbage collection non funzionerà, a meno che il servizio CRON non venga inizializzato manualmente."
 
 #: wp-cache.php:276
 msgid "CRON System Disabled"
@@ -83,7 +119,7 @@ msgstr "disattiva"
 
 #: wp-cache.php:3715
 msgid "Warning! WP Super Cache preload was interrupted but has been restarted."
-msgstr "Attenzione! Il preload di WP Super Cache è stato interrotto ma è stato riavviato."
+msgstr "Attenzione! Il pre-caricamento di WP Super Cache si è interrotto ma è stato riavviato."
 
 #: wp-cache.php:2138
 msgid "Last Logged to: %s (%s)"
@@ -135,7 +171,7 @@ msgstr "Supporto per Bad Behavior. (È supportata solo la memorizzazione nella c
 
 #: wp-cache.php:908
 msgid "Preload Active"
-msgstr "Precaricamento Attivo"
+msgstr "Pre-caricamento Attivo"
 
 #: ossdl-cdn.php:335
 msgid "The URL of your site. No trailing <code>/</code> please."
@@ -155,7 +191,7 @@ msgstr "<strong style=\"color: red\">ATTENZIONE:</strong> Il tuo siteurl e homeu
 
 #: wp-cache.php:2894
 msgid "Preload mode is enabled. Supercache files will never be expired."
-msgstr "La modalità di precaricamento è abilitata. I file Supercache non scadranno mai."
+msgstr "La modalità di pre-caricamento è abilitata. I file Supercache non scadranno mai."
 
 #: wp-cache.php:2864
 msgid "Files"
@@ -287,7 +323,7 @@ msgstr "Abilita memorizzazione nella cache"
 
 #: wp-cache.php:1047
 msgid "Preloading of cache disabled. Please make sure simple or expert mode is enabled or talk to your host administrator."
-msgstr "Precaricamento della cache disabilitato. Assicurati che la modalità semplice o quella avanzata siano attivate o parlane con il tuo amministratore di hosting."
+msgstr "Pre-caricamento della cache disabilitato. Assicurati che la modalità semplice o quella avanzata siano attivate o parlane con il tuo amministratore di hosting."
 
 #: wp-cache.php:1021
 msgid "No Emails"
@@ -295,7 +331,11 @@ msgstr "Nessuna Email"
 
 #: wp-cache.php:1013
 msgid "Preload mode (garbage collection disabled. Recommended.)"
-msgstr "Modalità di precaricamento (garbage collection disabilitato. Consigliato.)"
+msgstr "Modalità di pre-caricamento (garbage collection disabilitato. Consigliato.)"
+
+#: wp-cache.php:976
+msgid "In &#8217;Preload Mode&#8217; regular garbage collection will be disabled so that old cache files are not deleted. This is a recommended setting when the cache is preloaded."
+msgstr "Nella modalità pre-carica, la garbage colllection verrà disabilitata in modo da non cancellare i vecchi file di cache. Questo settaggio è consigliato quando la modalità pre-carica è attiva."
 
 #: rest/class.wp-super-cache-rest-update-settings.php:313
 msgid "You attempted to enable compression but `zlib.output_compression` is enabled. See #21 in the Troubleshooting section of the readme file."
@@ -1771,6 +1811,10 @@ msgstr "Attenzione!"
 #: plugins/badbehaviour.php:79
 msgid "Bad Behavior support is now %s"
 msgstr "Il supporto Bad Behaviour é  %s."
+
+#: plugins/badbehaviour.php:72
+msgid "(Only WPCache caching supported, disabled compression and requires <a href=\"http://www.bad-behavior.ioerror.us/\">Bad Behavior</a> in \"%s/plugins/bad-behavior/\") "
+msgstr "(Solamente il caching di WPCache è supportato, la compressione è disabilitata e necessita del plugin <a href=\"http://www.bad-behavior.ioerror.us/\">Bad Behavior</a> in \"%s/plugins/bad-behavior/\") "
 
 #: plugins/badbehaviour.php:67 plugins/badbehaviour.php:98
 msgid "Bad Behavior"
