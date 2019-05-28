@@ -387,3 +387,8 @@ padding: 5px;
     display: block;
     margin-top: -10px;
 }
+
+/* Elementor fixed */
+.elementor-add-to-cart form.cart{
+display: block !important;
+}

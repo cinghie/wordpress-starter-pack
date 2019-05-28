@@ -579,7 +579,7 @@ class NM_Form {
             $html   .= '<label class="'.$this->get_default_setting_value('global', 'label_class', $id).'" for="'.$id.'">';
             $html   .= sprintf(__("%s", "ppom"), $label) .'</label>';
         }
-        
+       
         $checked_value = array_map('trim', $checked_value);
         
         foreach($options as $key => $value) {

@@ -360,6 +360,7 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
 				$rule_index = 0;
 				foreach($condition_rules as $rule) {
 					// ppom_pa($rule);
+					if( !isset($field_conditions['rules'][$rule_index]['element_values']) ) continue;
 					$field_conditions['rules'][$rule_index]['element_values'] = ppom_wpml_translate($rule['element_values'], 'PPOM');
 					$rule_index++;
 				}
@@ -405,6 +406,7 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
 	$ppom_input_vars['show_option_price'] =  $ppom->price_display;
 	$ppom_input_vars['is_shortcode'] = is_product() ? 'no' : 'yes';
 	$ppom_input_vars['plugin_url'] = PPOM_URL;
+	$ppom_input_vars['is_mobile'] = ppom_is_mobile();
 	
 	$ppom_input_vars = apply_filters('ppom_input_vars', $ppom_input_vars, $product);
 	

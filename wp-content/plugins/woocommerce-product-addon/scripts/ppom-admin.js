@@ -821,10 +821,10 @@ jQuery(function($){
 
 
                         var val_id = $.trim(con_val);
-
+                       
                         var $html = '';
                         $html += '<option value="'
-                                    + val_id + '">'
+                                    + ppom_escape_html(val_id) + '">'
                                     + con_val
                                 + '</option>';
 
@@ -936,17 +936,13 @@ jQuery(function($){
     }
 
 
-    /**
-        code editor function for inline css apply on form
-    **/
-    // var editor = CodeMirror.fromTextArea( document.getElementById( 'ppom-css-editor' ), {
-    //     lineNumbers: true,
-    //     lineWrapping: true,
-    //     mode: 'text/css',
-    //     indentUnit: 2,
-    //     tabSize: 2,
-    //     lint: true,
-    //     gutters: [ 'CodeMirror-lint-markers' ]
-    // });
+    function ppom_escape_html(unsafe) {
+        return unsafe
+             .replace(/&/g, "&amp;")
+             .replace(/</g, "&lt;")
+             .replace(/>/g, "&gt;")
+             .replace(/"/g, "&quot;")
+             .replace(/'/g, "&#039;");
+     }
     
 });

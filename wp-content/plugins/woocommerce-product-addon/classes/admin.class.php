@@ -74,15 +74,17 @@ class NM_PersonalizedProduct_Admin extends NM_PersonalizedProduct {
 		
 		foreach ( $this->menu_pages as $page ) {
 			
+			$cap = apply_filters('ppom_menu_capability', $page ['cap']);
 			if ($page ['parent_slug'] == '') {
 				
-				$menu = add_options_page ( __ ( 'PPOM Fields', "ppom" ), __ ( 'PPOM Fields', "ppom" ), $page ['cap'], $page ['slug'], array (
+				$menu = add_options_page ( __ ( 'PPOM Fields', "ppom" ), __ ( 'PPOM Fields', "ppom" ), $cap, $page ['slug'], array (
 						$this,
 						$page ['callback'] 
 				), $this->plugin_meta ['logo'], $this->plugin_meta ['menu_position'] );
 			} else {
 				
-				$menu = add_submenu_page ( $page ['parent_slug'], __ ( $page ['page_title'], "ppom" ), __ ( 'PPOM Fields', "ppom" ), $page ['cap'], $page ['slug'], array (
+				$menu = add_submenu_page ( $page ['parent_slug'], __ ( $page ['page_title'], "ppom" ), __ ( 'PPOM Fields', "ppom" ), 
+						$cap, $page ['slug'], array (
 						$this,
 						$page ['callback'] 
 				) );

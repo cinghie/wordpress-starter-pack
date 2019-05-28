@@ -4,7 +4,7 @@ Tags: woocommerce, woocommerce pesonalized products, woocommerce custom fields, 
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
 Tested up to: 5.2
-Stable tag: 17.4
+Stable tag: 17.5
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -83,6 +83,12 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
+= 17.5 May 26, 2019 =
+* Tweaks: Elementor add to cart button fixed
+* Feature: WCFM compatibility added for so Vendor can add/edit fields.
+* Bug fixed: [Special characters in conditions fixed](https://wordpress.org/support/topic/condtions-wont-work-with-quotation-marks-and-slashes-in-option-titles/)
+* Bug fixed: Default selected/checked options were reset after conditions, it is fixed now.
+* Feature: [Disable Image PopUp when view on Mobile](https://wordpress.org/support/topic/turn-off-image-popup-on-mobile-view/)
 = 17.4 May 14, 2019 =
 * Tweaks: ajax_add_to_cart class removed when PPOM enabled
 * Bug fixed: Price issue fixed due to old versions option data old values

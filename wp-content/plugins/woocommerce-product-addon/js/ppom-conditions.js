@@ -110,6 +110,7 @@ jQuery(function($) {
 function ppom_set_default_option( field_id ) {
     
     
+    
     var field = ppom_get_field_meta_by_id(field_id);
     switch( field.type ) {
      
@@ -117,8 +118,8 @@ function ppom_set_default_option( field_id ) {
         case 'radio':
             jQuery.each(field.options, function(label, options){
                 
-               if( options.raw == field.selected ) {
-                 jQuery("#"+options.option_id).prop('checked', true);
+               if( options.option == field.selected ) {
+                 jQuery("#"+options.id).prop('checked', true);
                } 
             });
             
@@ -139,16 +140,11 @@ function ppom_set_default_option( field_id ) {
         
         case 'checkbox':
             jQuery.each(field.options, function(label, options){
-                
-                
-                var default_checked = field.checked.split("\n");
-                jQuery.each(default_checked, function(j, checked_option) {
+                var default_checked = field.checked.split('\r\n');
+                if( jQuery.inArray( options.option, default_checked ) > -1 ) {
+                    jQuery("#"+options.id).prop('checked', true);
                     
-                   if( options.raw == checked_option ) {
-                
-                       jQuery("#"+options.option_id).prop('checked', true);
-                   } 
-                });
+                }
             });
             
             

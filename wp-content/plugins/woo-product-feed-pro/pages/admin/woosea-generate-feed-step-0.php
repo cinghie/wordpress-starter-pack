@@ -130,8 +130,12 @@ if (array_key_exists('project_hash', $_GET)){
 							print "	<td>";
 							print "	<select name=\"AELIA\" class=\"aelia_switch\">";
 								foreach ($aelia_currencies as $key => $value){
-									if($value == $project['AELIA']){
-										print "<option value=\"$value\" selected>$value</option>";
+									if(isset($project['AELIA'])){	
+										if($value == $project['AELIA']){
+											print "<option value=\"$value\" selected>$value</option>";
+										} else {
+											print "<option value=\"$value\">$value</option>";
+										}
 									} else {
 										print "<option value=\"$value\">$value</option>";
 									}

@@ -117,7 +117,7 @@ foreach( $ppom_fields_meta as $meta ) {
 				break;
 				
 			case 'checkbox':
-				$default_value = isset($meta['checked']) ? explode("\n", $meta['checked']) : '';
+				$default_value = isset($meta['checked']) ? explode("\r\n", $meta['checked']) : '';
 				break;
 				
 			case 'select':

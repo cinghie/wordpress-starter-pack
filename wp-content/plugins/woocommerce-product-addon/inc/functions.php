@@ -269,7 +269,7 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 		switch( $field_type ) {
 			case 'quantities':
 				$total_qty = 0;
-				$qty_values = array();
+				$qty_values = array('<strong>:</strong>');
 				// ppom_pa($value);
 				foreach($value as $label => $qty) {
 					if( !empty($qty) ) {
@@ -281,7 +281,7 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 				
 				if( $total_qty > 0 ) {
 					$qty_values[] = __('Total',"ppom").' = '.$total_qty;
-					$meta_data = array('name'=>$field_title, 'value'=>implode(",",$qty_values));
+					$meta_data = array('name'=>$field_title, 'value'=>implode("<br>",$qty_values));
 					// A placeholder key to handle qunantity display in item meta data under myaccount
 				}
 				
@@ -1392,4 +1392,12 @@ function ppom_get_pro_version() {
 	
 	if( ! defined('PPOM_PRO_VERSION') ) return 16.0;
 	return intval( PPOM_PRO_VERSION );
+}
+
+// wp_is_mobile wrapper
+function ppom_is_mobile() {
+	
+	if( ! function_exists('wp_is_mobile') ) return false;
+	
+	return wp_is_mobile();
 }

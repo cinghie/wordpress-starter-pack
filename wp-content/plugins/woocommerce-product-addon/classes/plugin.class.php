@@ -499,8 +499,12 @@ class NM_PersonalizedProduct {
 		
 		if( !$html ) return;
 		
+		$ppom_fields_label = apply_filters('ppom_wcfm_tab_title', __('Custom Fields', 'ppom') );
+		
 		?>
-		<div class="page_collapsible products_manage_policies simple variable grouped external booking" id="wcfm_products_manage_form_policies_head"><label class="fa fa-list"></label><?php _e('PPOM Fields', 'wc-frontend-manager'); ?><span></span></div>
+		<div class="page_collapsible products_manage_policies simple variable grouped external booking" id="wcfm_products_manage_form_policies_head"><label class="fa fa-list"></label>
+		<?php printf( __("%s", 'ppom') ); ?><span></span>
+		</div>
 		<div class="wcfm-container simple variable external grouped booking">
 			<div id="wcfm_products_manage_form_policies_expander" class="wcfm-content">
 				

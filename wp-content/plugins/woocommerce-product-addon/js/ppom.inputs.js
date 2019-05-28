@@ -77,7 +77,7 @@
 
                 var img_id = input.data_name;
                 // Image Tooltip
-                if( input.show_popup === 'on') {
+                if( input.show_popup === 'on' && ! ppom_input_vars.is_mobile) {
                     $('.ppom-zoom-'+img_id).imageTooltip({
     							  xOffset: 5,
     							  yOffset: 5

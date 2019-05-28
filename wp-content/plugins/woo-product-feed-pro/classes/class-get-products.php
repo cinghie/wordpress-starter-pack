@@ -82,11 +82,33 @@ class WooSEA_Get_Products {
 				}	
 				$name .= $n_piece." ";
 			}
-			$review['reviewer_name'] = trim(ucfirst($name));
+
+			// Remove strange charachters from reviewer name
+			$review['reviewer_name'] = $this->rip_tags(trim(ucfirst($name)));
+			$review['reviewer_name'] = html_entity_decode((str_replace("\r", "", $review['reviewer_name'])), ENT_QUOTES | ENT_XML1, 'UTF-8');
+			$review['reviewer_name'] = preg_replace( '/\[(.*?)\]/', ' ', $review['reviewer_name'] );
+			$review['reviewer_name'] = str_replace("&#xa0;", "", $review['reviewer_name']);
+                        $review['reviewer+name'] = $this->woosea_utf8_for_xml( $review['reviewer_name'] );
+
 			$review['reviewer_id'] = $review_raw->user_id;
 			$review['review_timestamp'] = $review_raw->comment_date;
+
+			// Remove strange characters from review title
 			$review['title'] = empty($product_data['title']) ? '' : $product_data['title'];
+			$review['title'] = $this->rip_tags($review['title']);
+			$review['title'] = html_entity_decode((str_replace("\r", "", $review['title'])), ENT_QUOTES | ENT_XML1, 'UTF-8');
+			$review['title'] = preg_replace( '/\[(.*?)\]/', ' ', $review['title'] );
+			$review['title'] = str_replace("&#xa0;", "", $review['title']);
+                        $review['title'] = $this->woosea_utf8_for_xml( $review['title'] );
+
+			// Remove strange charchters from review content
 			$review['content'] = $review_raw->comment_content;
+			$review['content'] = $this->rip_tags($review['content']);
+			$review['content'] = html_entity_decode((str_replace("\r", "", $review['content'])), ENT_QUOTES | ENT_XML1, 'UTF-8');
+			$review['content'] = preg_replace( '/\[(.*?)\]/', ' ', $review['content'] );
+			$review['content'] = str_replace("&#xa0;", "", $review['content']);
+                        $review['content'] = $this->woosea_utf8_for_xml( $review['content'] );
+
 			$review['review_product_name'] = $product_data['title'];
 			$review['review_url'] = $product_data['link'];
 			$review['review_product_url'] = $product_data['link'];
@@ -1032,7 +1054,7 @@ class WooSEA_Get_Products {
                                                                  		*/
 										$zbozi_nodes = "PARAM_";
 
-                                                                		if((($feed_config['name'] == "Yandex") OR ($feed_config['name'] == "Zbozi.cz") OR ($feed_config['name'] == "Heureka.cz")) AND (preg_match("/$zbozi_nodes/i",$k))){
+                                                                		if((($feed_config['name'] == "Zbozi.cz") OR ($feed_config['name'] == "Heureka.cz")) AND (preg_match("/$zbozi_nodes/i",$k))){
 											$pieces = explode ("_", $k);
 											$productp = $product->addChild('PARAM');
                                                                                 	$productp->addChild("PARAM_NAME", $pieces[1]);
@@ -1884,13 +1906,17 @@ class WooSEA_Get_Products {
 					}
 
 				    	// Need to clean up the strange price rightpress is returning
-                                        if($custom_kk == "rp_wcdpd_price_cache"){
-                                                $product_data['price'] = $custom_value['price']['p'];
-                                                $product_data['sale_price'] = $custom_value['sale_price']['p'];
-                                        }
+                                        // if($custom_kk == "rp_wcdpd_price_cache"){
+					//	$aelia_on = get_option('add_aelia_support');
+					//	if ($aelia_on == "no"){
+					//        	$product_data['price'] = $custom_value['price']['p'];
+                                        //        	$product_data['sale_price'] = $custom_value['sale_price']['p'];
+                                    	//	}
+					// }
 
 					$product_data[$new_key] = $custom_value;
 				}
+
 				/**
 				 * We need to check if this product has individual custom product attributes
 				 */
