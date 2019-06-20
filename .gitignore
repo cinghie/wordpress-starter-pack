@@ -52,6 +52,7 @@ wp-content/mu-plugins/
 wp-content/plugins/gogodigital*
 !wp-content/plugins/gogodigital-cookie-consent
 wp-content/plugins/hello.php
+wp-content/themes/
 wp-content/upgrade/
 wp-content/wflogs/
 wp-content/wp-cache-config.php

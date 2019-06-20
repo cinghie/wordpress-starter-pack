@@ -1,13 +1,13 @@
 jQuery( function ( $ ) {
     'use strict';
-    // here for each comment reply link of wordpress
+    // here for each comment reply link of WordPress
     $( '.comment-reply-link' ).addClass( 'btn btn-primary' );
 
     // here for the submit button of the comment reply form
     $( '#commentsubmit' ).addClass( 'btn btn-primary' );
 
     // The WordPress Default Widgets
-    // Now we'll add some classes for the wordpress default widgets - let's go
+    // Now we'll add some classes for the WordPress default widgets - let's go
 
     // the search widget
     $( '.widget_search input.search-field' ).addClass( 'form-control' );

@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-05-15 16:21:15+0000\n"
+"PO-Revision-Date: 2019-06-13 10:51:35+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,7 +11,73 @@ msgstr ""
 "Language: it\n"
 "Project-Id-Version: Plugins - Gutenberg - Stable (latest release)\n"
 
+#: build/edit-post/index.js:12
+msgid "More tools & options"
+msgstr "Più strumenti & opzioni"
+
+#: build/block-library/index.js:14
+msgid "Create Table"
+msgstr "Crea tabella"
+
+#: build/block-library/index.js:14
+msgid "Insert a table for sharing data."
+msgstr "Inserisci una tabella per condividere i dati."
+
+#: build/editor/index.js:17
+msgctxt "Ungrouping blocks from within a Group block back into individual blocks within the Editor "
+msgid "Ungroup"
+msgstr "Separa"
+
+#: build/editor/index.js:17
+msgctxt "verb"
+msgid "Group"
+msgstr "Raggruppa"
+
 #: build/components/index.js:19
+msgid "Separate with commas or the Enter key."
+msgstr "Separa con virgole o premendo il tasto Invio."
+
+#: build/components/index.js:19
+msgid "Separate with commas, spaces, or the Enter key."
+msgstr "Separa con virgole, con spazi o premendo il tasto Invio."
+
+#: build/block-editor/index.js:55
+msgid "Separate multiple classes with spaces."
+msgstr "Separa classi multiple con gli spazi."
+
+#: build/block-library/index.js:14
+msgid "Move Image Forward"
+msgstr "Muovi l'immagine avanti"
+
+#: build/block-library/index.js:14
+msgid "Move Image Backward"
+msgstr "Muovi l'immagine indietro"
+
+#: lib/class-wp-rest-widget-areas-controller.php:150
+msgid "Sorry, you are not allowed to edit sidebars."
+msgstr "Non hai i permessi di edit la barra laterale."
+
+#: lib/class-wp-rest-widget-areas-controller.php:99
+msgid "Sorry, you are not allowed to read sidebars."
+msgstr "Non hai i permessi in read per la barra laterale."
+
+#: lib/class-wp-rest-widget-areas-controller.php:56
+msgid "Sidebar content."
+msgstr "Contenuto della barra laterale."
+
+#: lib/class-wp-rest-widget-areas-controller.php:49
+msgid "The sidebar’s ID."
+msgstr "L'ID della barra laterale."
+
+#: lib/class-experimental-wp-widget-blocks-manager.php:327
+msgid "Displays a set of blocks"
+msgstr "Visualizza un insieme di blocchi"
+
+#: lib/class-experimental-wp-widget-blocks-manager.php:323
+msgid "Blocks Area "
+msgstr "Area dei blocchi "
+
+#: build/server-side-render/index.js:1
 msgid "Block rendered as empty."
 msgstr "Il blocco è stato reso come blocco vuoto."
 
@@ -63,92 +129,80 @@ msgstr "Nota: l'autoplay per gli audio può causare problemi di usabilità per a
 msgid "Read More"
 msgstr "Leggi tutto"
 
-#: lib/widgets.php:159
+#: lib/widgets.php:189
 msgid "Block area updated."
 msgstr "Area del blocco aggiornata."
 
-#: lib/widgets.php:158
+#: lib/widgets.php:188
 msgid "Block area scheduled."
 msgstr "Area di blocco programmata."
 
-#: lib/widgets.php:155
+#: lib/widgets.php:185
 msgid "Block area published."
 msgstr "Area del blocco pubblicata."
 
-#: lib/widgets.php:154
+#: lib/widgets.php:184
 msgid "Block areas list"
 msgstr "Elenco delle aree del blocco"
 
-#: lib/widgets.php:153
+#: lib/widgets.php:183
 msgid "Block areas list navigation"
 msgstr "Navigazione nell'elenco delle aree dei blocchi"
 
-#: lib/widgets.php:152
+#: lib/widgets.php:182
 msgid "Filter block areas list"
 msgstr "Filtra l'elenco delle aree dei blocchi"
 
-#: lib/widgets.php:150
+#: lib/widgets.php:180
 msgid "No block area found."
 msgstr "Nessuna area del blocco trovata."
 
-#: lib/widgets.php:149
+#: lib/widgets.php:179
 msgid "Search Block Areas"
 msgstr "Cerca nelle aree dei blocchi"
 
-#: lib/widgets.php:148
+#: lib/widgets.php:178
 msgid "All Block Areas"
 msgstr "Tutte le aree del blocco"
 
-#: lib/widgets.php:147
+#: lib/widgets.php:177
 msgid "View Block Area"
 msgstr "Visualizza l'area del blocco"
 
-#: lib/widgets.php:146
+#: lib/widgets.php:176
 msgid "Edit Block Area"
 msgstr "Modifica l'area del blocco"
 
-#: lib/widgets.php:145
+#: lib/widgets.php:175
 msgid "New Block Area"
 msgstr "Nuova area del blocco"
 
-#: lib/widgets.php:144
+#: lib/widgets.php:174
 msgid "Add New Block Area"
 msgstr "Aggiungi una nuova area del blocco"
 
-#: lib/widgets.php:141
+#: lib/widgets.php:171
 msgctxt "admin menu"
 msgid "Block Areas"
 msgstr "Aree dei blocchi"
 
-#: lib/widgets.php:140
+#: lib/widgets.php:170
 msgctxt "post type singular name"
 msgid "Block Area (Experimental)"
 msgstr "Area del blocco (sperimentale)"
 
-#: lib/widgets.php:139
+#: lib/widgets.php:169
 msgctxt "post type general name"
 msgid "Block Area (Experimental)"
 msgstr "Area del blocco (sperimentale)"
 
-#: lib/widgets.php:137
+#: lib/widgets.php:167
 msgid "Experimental custom post type that will store block areas referenced by themes."
 msgstr "Post type personalizzati e sperimentali che memorizzeranno le aree dei blocchi referenziate dai temi."
 
 #: build/edit-widgets/index.js:1
 msgid "Widgets screen content"
 msgstr "Contenuto della schermata dei widget"
-
-#: build/edit-widgets/index.js:1
-msgid "Header"
-msgstr "Header"
-
-#: build/edit-widgets/index.js:1
-msgid "Footer"
-msgstr "Footer"
-
-#: build/edit-widgets/index.js:1
-msgid "Sidebar"
-msgstr "Barra laterale"
 
 #: build/edit-widgets/index.js:1
 msgid "Widgets advanced settings"
@@ -192,7 +246,7 @@ msgstr "riga"
 
 #: build/block-library/index.js:14
 msgid "wrapper"
-msgstr "contenitore"
+msgstr "wrapper"
 
 #: build/block-library/index.js:14
 msgid "container"
@@ -696,24 +750,24 @@ msgstr "Questa immagine ha l'attributo alt vuoto"
 msgid "This image has an empty alt attribute; its file name is %s"
 msgstr "Questa immagine ha l'attributo alt vuoto; il nome del file è %s"
 
-#: lib/widgets.php:157
+#: lib/widgets.php:187
 msgid "Block area reverted to draft."
 msgstr "Area del blocco ripristinata come bozza."
 
-#: lib/widgets.php:156
+#: lib/widgets.php:186
 msgid "Block area published privately."
 msgstr "Area del blocco pubblicata privatamente."
 
-#: lib/widgets.php:151
+#: lib/widgets.php:181
 msgid "No block areas found in Trash."
 msgstr "Nessuna area del blocco trovata nel cestino."
 
-#: lib/widgets.php:143
+#: lib/widgets.php:173
 msgctxt "Block"
 msgid "Add New"
 msgstr "Aggiungi nuovo"
 
-#: lib/widgets.php:142
+#: lib/widgets.php:172
 msgctxt "add new on admin bar"
 msgid "Block Area"
 msgstr "Area del blocco"
@@ -922,14 +976,6 @@ msgstr "Media"
 #: build/edit-post/index.js:12
 msgid "Navigate to the nearest toolbar."
 msgstr "Passare alla barra degli strumenti più vicina."
-
-#: build/edit-post/index.js:12
-msgid "Hide more tools & options"
-msgstr "Nascondi altri strumenti e opzioni"
-
-#: build/edit-post/index.js:12
-msgid "Show more tools & options"
-msgstr "Mostra più strumenti e opzioni"
 
 #: build/edit-post/index.js:12
 msgid "Document tools"
@@ -1694,11 +1740,11 @@ msgstr "Barra obliqua"
 msgid "No archives to show."
 msgstr "Nessun archivio da mostrare."
 
-#: build/editor/index.js:17
+#: build/media-utils/index.js:1
 msgid "This file is empty."
 msgstr "Questo file è vuoto."
 
-#: build/editor/index.js:17
+#: build/media-utils/index.js:1
 msgid "Sorry, this file type is not supported here."
 msgstr "Questo tipo di file non è supportato."
 
@@ -1745,10 +1791,6 @@ msgstr "Questo blocco è deprecato. Al suo posto utilizza il blocco Colonne."
 #: build/block-library/index.js:14
 msgid "Text Columns (deprecated)"
 msgstr "Testo in colonne (deprecato)"
-
-#: build/block-library/index.js:14
-msgid "Create"
-msgstr "Crea"
 
 #: build/block-library/index.js:14
 msgid "Row Count"
@@ -1901,14 +1943,6 @@ msgstr "Visualizza questo aiuto."
 #: build/edit-post/index.js:12
 msgid "Global shortcuts"
 msgstr "Scorciatoie globali"
-
-#: build/edit-post/index.js:12
-msgid "Display the selected text in a monospaced font."
-msgstr "Visualizza il testo selezionato con un font monospazio."
-
-#: build/edit-post/index.js:12
-msgid "Add a strikethrough to the selected text."
-msgstr "Rende il testo selezionato barrato."
 
 #: build/edit-post/index.js:12
 msgid "Remove a link."
@@ -2361,7 +2395,7 @@ msgstr "Link URL"
 
 #: build/block-library/index.js:14
 msgid "Custom URL"
-msgstr "URL personalizzata"
+msgstr "URL personalizzato"
 
 #: build/block-library/index.js:14
 msgid "Show Download Button"
@@ -2431,7 +2465,7 @@ msgstr "Controlli di riproduzione"
 msgid "Close dialog"
 msgstr "Chiudi la finestra di dialogo"
 
-#: build/editor/index.js:17
+#: build/media-utils/index.js:1
 msgid "Sorry, this file type is not permitted for security reasons."
 msgstr "Questo tipo di file non è permesso per ragioni di sicurezza."
 
@@ -2467,15 +2501,11 @@ msgstr "Fai clic su “Anteprima” per caricare un'anteprima di questa pagina, 
 msgid "Replace image"
 msgstr "Sostituisci immagine"
 
-#: build/block-editor/index.js:55
-msgid "Hide options"
-msgstr "Nascondi opzioni"
-
-#: build/editor/index.js:17
+#: build/media-utils/index.js:1
 msgid "Error while uploading file %s to the media library."
 msgstr "Errore durante il caricamento del file %s nella libreria dei media."
 
-#: build/editor/index.js:17
+#: build/media-utils/index.js:1
 msgid "This file exceeds the maximum upload size for this site."
 msgstr "Questo file supera la dimensione massima di caricamento per questo sito."
 
@@ -2535,7 +2565,7 @@ msgstr "Aggiungi un blocco che visualizza il contenuto estratto da altri siti, c
 msgid "Add a block that displays content in multiple columns, then add whatever content blocks you’d like."
 msgstr "Aggiungi un blocco che visualizza il contenuto in colonne multiple, quindi aggiungi qualunque blocco di contenuto a tuo piacere."
 
-#: build/components/index.js:19
+#: build/server-side-render/index.js:1
 msgid "Error loading block: %s"
 msgstr "Errore durante il caricamento del blocco: %s"
 
@@ -3283,10 +3313,6 @@ msgid "Item added."
 msgstr "Elemento aggiunto."
 
 #: build/components/index.js:19
-msgid "Separate with commas"
-msgstr "Separare con virgole"
-
-#: build/components/index.js:19
 msgid "Drop files to upload"
 msgstr "Trascina file per caricare"
 
@@ -3386,11 +3412,11 @@ msgstr "Dal più recente al più vecchio"
 msgid "Order by"
 msgstr "Ordina per"
 
-#: build/edit-post/index.js:12
+#: build/media-utils/index.js:1
 msgid "Select"
 msgstr "Seleziona"
 
-#: build/edit-post/index.js:12
+#: build/media-utils/index.js:1
 msgid "Select or Upload Media"
 msgstr "Seleziona o carica media"
 
@@ -3825,8 +3851,8 @@ msgid "Upload"
 msgstr "Carica"
 
 #: build/block-editor/index.js:55
-msgid "Additional CSS Class"
-msgstr "Classe CSS aggiuntiva"
+msgid "Additional CSS Class(es)"
+msgstr "Classe/i CSS aggiuntiva/e"
 
 #: build/block-editor/index.js:55
 msgid "Anchors lets you link directly to a section on a page."
@@ -3897,8 +3923,8 @@ msgid "Add title"
 msgstr "Aggiungi titolo"
 
 #: gutenberg.php:93
-msgid "Gutenberg development mode requires files to be built. Run <code>npm install</code> to install dependencies, <code>npm run build</code> to build the files or <code>npm run dev</code> to build the files and watch for changes. Read the <a href=\"https://github.com/WordPress/gutenberg/blob/master/CONTRIBUTING.md\">contributing</a> file for more information."
-msgstr "La modalità di sviluppo Gutenberg richiede la creazione di file. Esegui <code>npm install</code> per installare le dipendenze, e <code>npm run dev</code> per creare e visualizzare i file. Leggi il file <a href=\"https://github.com/WordPress/gutenberg/blob/master/CONTRIBUTING.md\">contributo</a> per maggiori informazioni."
+msgid "Gutenberg development mode requires files to be built. Run <code>npm install</code> to install dependencies, <code>npm run build</code> to build the files or <code>npm run dev</code> to build the files and watch for changes. Read the <a href=\"https://github.com/WordPress/gutenberg/blob/master/docs/contributors/getting-started.md\">contributing</a> file for more information."
+msgstr "La modalità di sviluppo Gutenberg richiede la creazione di file. Esegui <code>npm install</code> per installare le dipendenze, <code>npm run build</code> per creare i file e <code>npm run dev</code> per creare i file e visualizzare i cambiamenti. Leggi il file <a href=\"https://github.com/WordPress/gutenberg/blob/master/docs/contributors/getting-started.md\">contributo</a> per maggiori informazioni."
 
 #. Author of the plugin
 msgid "Gutenberg Team"

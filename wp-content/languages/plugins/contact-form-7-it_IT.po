@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Contact Form 7 - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-05-18 03:22:22+0000\n"
+"PO-Revision-Date: 2019-06-20 08:56:32+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,14 @@ msgstr ""
 "X-Generator: GlotPress/2.4.0-alpha\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - Contact Form 7 - Stable (latest release)\n"
+
+#: includes/submission.php:326
+msgid "Blacklisted words are used."
+msgstr "Sono state utilizzate parole in blacklist."
+
+#: includes/submission.php:317
+msgid "Submitted nonce is invalid."
+msgstr "Il nonce inviato non è valido."
 
 #: modules/constant-contact.php:588
 msgid "Select lists to which newly added contacts are to belong."
