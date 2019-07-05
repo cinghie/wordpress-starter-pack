@@ -25,7 +25,7 @@ Page templates
 * Blank without container Page
 
 Other features:
-* Currently using Bootstrap v4.0.0-alpha.6
+* Currently using Bootstrap v4.3.1
 * Font Awesome integrated
 * Widgetized footer area
 * WooCommerce ready
@@ -57,6 +57,16 @@ WP Bootstrap Starter includes support for Infinite Scroll in Jetpack.
 * Font Awesome icons, Copyright (C) Dave Gandy License: SIL Open Font License, version 1.1. - http://fontawesome.io/
 
 == Changelog ==
+= 3.2.3 - June 24, 2019 =
+* Update the Font Awesome to v5.8.2
+
+= 3.2.2 - June 06, 2019 =
+* Update the Bootstrap to v4.3 
+* Update WooCommerce Templates 
+* Update the wp_bootstrap_navwalker to v4.1.0
+* Update the navigation dropdown styling
+* Update the theme screenshot from .jpg to .png
+
 = 3.1.0 - July 13, 2018 =
 * Fix the dropdown color in all of the theme optin under customizer -> Preset Styles -> Theme Option
 * Fix the size of the dropdown menu in all of the theme option
