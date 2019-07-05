@@ -1,9 +1,9 @@
 ﻿=== Social Media Share Buttons & Social Sharing Icons ===
-Contributors: socialdude
+Contributors: socialdude, socialtech
 Tags: social media, share, buttons, social widget, icons, share icons, share buttons, sharing icons, sharing buttons, social share, sharing, social sharing
 Requires at least: 3.5
 Tested up to: 5.2
-Stable tag: 2.2.4
+Stable tag: 2.2.5
 License: GPLv2 
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -274,6 +274,10 @@ You cannot use the same plugin twice, however you can install both the USM as we
 
 
 == Changelog ==
+
+= 2.2.5 =
+* Integrated feedback system
+
 = 2.2.4 =
 * Solved: Unserialized error corrected.
 * Solved: All curl calls to wp_remote.
@@ -792,5 +796,5 @@ You cannot use the same plugin twice, however you can install both the USM as we
 
 == Upgrade Notice ==
 
-= 2.2.4 =
+= 2.2.5 =
 Please upgrade

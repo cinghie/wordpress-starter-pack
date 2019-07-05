@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-06-13 10:51:35+0000\n"
+"PO-Revision-Date: 2019-06-30 09:53:02+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,207 @@ msgstr ""
 "X-Generator: GlotPress/2.4.0-alpha\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - Gutenberg - Stable (latest release)\n"
+
+#: build/edit-widgets/index.js:1
+msgid "Block areas saved succesfully."
+msgstr "Aree del blocco salvate con successo."
+
+#: build/block-editor/index.js:55
+msgid "Upload a video file, pick one from your media library, or add one with a URL."
+msgstr "Carica un file video, scegline uno dalla tua libreria dei media o aggiungine uno con un URL."
+
+#: build/block-editor/index.js:55
+msgid "Upload an image file, pick one from your media library, or add one with a URL."
+msgstr "Carica una immagine, scegline una dalla tua libreria dei media o aggiungine una con un URL."
+
+#: build/block-editor/index.js:55
+msgid "Upload an audio file, pick one from your media library, or add one with a URL."
+msgstr "Carica un file audio, scegline uno dalla tua libreria dei media o aggiungine uno con un URL."
+
+#: build/block-editor/index.js:55
+msgid "Upload a media file or pick one from your media library."
+msgstr "Carica un file media o scegline uno dalla tua libreria dei media."
+
+#: build/block-editor/index.js:55
+msgid "Skip"
+msgstr "Salta"
+
+#: build/block-editor/index.js:55
+msgid "Choose Layout"
+msgstr "Scegli un layout"
+
+#: build/block-editor/index.js:55
+msgid "Select a layout to start with."
+msgstr "Seleziona un layout con cui iniziare."
+
+#: build/block-editor/index.js:55
+msgid "Select a layout to start with, or make one yourself."
+msgstr "Seleziona un layout con cui iniziare o creane uno tuo."
+
+#: build/block-library/index.js:14
+msgid "Add a page, link, or other item to your Navigation Menu."
+msgstr "Aggiungi una pagina, un link o un altro elemento al menu di navigazione."
+
+#: build/block-library/index.js:14
+msgid "Menu Item (Experimental)"
+msgstr "Voce di menu (sperimentale)"
+
+#: build/block-library/index.js:14
+msgid "What's this?"
+msgstr "Che cos'è questo?"
+
+#: build/block-library/index.js:14
+msgid "https://codex.wordpress.org/Nofollow"
+msgstr "https://codex.wordpress.org/Nofollow"
+
+#: build/block-library/index.js:14
+msgid "Don't let search engines follow this link."
+msgstr "Non lasciare che i motori di ricerca seguano questo link."
+
+#: build/block-library/index.js:14
+msgid "Add nofollow to menu item"
+msgstr "Aggiungi nofollow alla voce di menu"
+
+#: build/block-library/index.js:14
+msgid "Provide more context about where the link goes."
+msgstr "Fornire più contesto su dove va il link."
+
+#: build/block-library/index.js:14
+msgid "Title Attribute"
+msgstr "Attributo del titolo"
+
+#: build/block-library/index.js:14
+msgid "SEO Settings"
+msgstr "Impostazioni SEO"
+
+#: build/block-library/index.js:14
+msgid "Description"
+msgstr "Descrizione"
+
+#: build/block-library/index.js:14
+msgid "Open in new tab"
+msgstr "Apri in una nuova scheda"
+
+#: build/block-library/index.js:14
+msgid "Navigation Label"
+msgstr "Etichetta di navigazione"
+
+#: build/block-library/index.js:14
+msgid "Remove from menu"
+msgstr "Rimuovi dal menu"
+
+#: build/block-library/index.js:14
+msgid "Nest underneath…"
+msgstr "Inserisci sotto..."
+
+#: build/block-library/index.js:14
+msgid "Move to end"
+msgstr "Sposta alla fine"
+
+#: build/block-library/index.js:14
+msgid "Move right"
+msgstr "Sposta a destra"
+
+#: build/block-library/index.js:14
+msgid "Move left"
+msgstr "Sposta a sinistra"
+
+#: build/block-library/index.js:14
+msgid "Move to start"
+msgstr "Sposta all'inizio"
+
+#: build/block-library/index.js:14
+msgid "Edit label text"
+msgstr "Modifica il testo dell'etichetta"
+
+#: build/block-library/index.js:14
+msgid "links"
+msgstr "link"
+
+#: build/block-library/index.js:14
+msgid "navigation"
+msgstr "navigazione"
+
+#: build/block-library/index.js:14
+msgid "menu"
+msgstr "menu"
+
+#: build/block-library/index.js:14
+msgid "Add a navigation menu to your site."
+msgstr "Aggiungi un menu di navigazione al tuo sito."
+
+#: build/block-library/index.js:14
+msgid "Navigation Menu (Experimental)"
+msgstr "Menu di navigazione (sperimentale)"
+
+#: build/block-library/index.js:14
+msgid "Automatically add new top level pages to this menu."
+msgstr "Aggiungi automaticamente nuove pagine di primo livello a questo menu."
+
+#: build/block-library/index.js:14
+msgid "Automatically add new pages"
+msgstr "Aggiungi automaticamente le pagine nuove"
+
+#: build/block-library/index.js:14
+msgid "Menu Settings"
+msgstr "Impostazioni del menu"
+
+#: build/block-library/index.js:14
+msgid "Search or paste a link"
+msgstr "Cerca o incolla un link"
+
+#: build/block-library/index.js:14
+msgid "Insert a new menu item"
+msgstr "Inserisci una nuova voce di menu"
+
+#: build/block-library/index.js:14
+msgid "Upload a file or pick one from your media library."
+msgstr "Carica un file o sceglierne uno dalla tua libreria dei media."
+
+#: build/block-library/index.js:14
+msgid "Learn more about embeds"
+msgstr "Ulteriori informazioni sugli incorporamenti"
+
+#: build/block-library/index.js:14
+msgid "https://wordpress.org/support/article/embeds/"
+msgstr "https://wordpress.org/support/article/embeds/"
+
+#: build/block-library/index.js:14
+msgid "Paste a link to the content you want to display on your site."
+msgstr "Incolla un link al contenuto che vuoi visualizzare sul tuo sito."
+
+#: build/block-library/index.js:14
+msgid "Upload an image or video file, or pick one from your media library."
+msgstr "Carica un file immagine o video, o scegline uno dalla tua libreria dei media."
+
+#: build/block-library/index.js:14
+msgid "Three columns; wide center column"
+msgstr "Tre colonne; ampia colonna centrale"
+
+#: build/block-library/index.js:14
+msgid "Three columns; equal split"
+msgstr "Tre colonne; suddivise equamente"
+
+#: build/block-library/index.js:14
+msgid "Two columns; two-thirds, one-third split"
+msgstr "Due colonne; suddivise in due terzi e un terzo"
+
+#: build/block-library/index.js:14
+msgid "Two columns; one-third, two-thirds split"
+msgstr "Due colonne; suddivise in un terzo e due terzi"
+
+#: build/block-library/index.js:14
+msgid "Two columns; equal split"
+msgstr "Due colonne; suddivise equamente"
+
+#: build/block-library/index.js:14
+msgid "Upload an image, pick one from your media library, or add one with a URL."
+msgstr "Carica una immagine, scegline una dalla tua libreria dei media, o aggiungine una con un URL."
+
+#. translators: %s: taxonomy name
+#: build/block-library/blocks/tag-cloud.php:37
+msgid "Your site doesn&#8217;t have any %s, so there&#8217;s nothing to display here at the moment."
+msgstr "Il tuo sito non ha %s, quindi non c'è nulla da mostrare qui al momento."
 
 #: build/edit-post/index.js:12
 msgid "More tools & options"
@@ -265,10 +466,6 @@ msgid "Crop image to fill entire column"
 msgstr "Ritaglia l'immagine per riempire l'intera colonna"
 
 #: build/block-library/index.js:14
-msgid "Drag an image to upload, select a file from your library or add one from an URL."
-msgstr "Trascina un'immagine da caricare, seleziona un file dalla tua libreria o aggiungine uno da un URL."
-
-#: build/block-library/index.js:14
 msgid "You are now editing the image in the image block."
 msgstr "Stai modificando adesso l'immagine nel blocco immagine."
 
@@ -409,10 +606,6 @@ msgstr "Colore personalizzato"
 #: build/block-library/index.js:14
 msgid "Prompt visitors to take action with a button-style link."
 msgstr "Invita gli utenti ad effettuare un'azione con un link che ha l'aspetto di un pulsante."
-
-#: build/block-library/blocks/tag-cloud.php:33
-msgid "No terms to show."
-msgstr "Nessun termine da mostrare."
 
 #: build/block-library/blocks/rss.php:62
 msgid "by"
@@ -807,18 +1000,6 @@ msgid "Type text or HTML"
 msgstr "Digita testo o HTML"
 
 #: build/block-editor/index.js:55
-msgid "Drag an image, upload a new one or select a file from your library."
-msgstr "Trascina un'immagine, caricane una nuova o seleziona un file dalla tua libreria."
-
-#: build/block-editor/index.js:55
-msgid "Drag an audio, upload a new one or select a file from your library."
-msgstr "Trascina un file audio, caricane uno nuovo o seleziona un file dalla tua libreria."
-
-#: build/block-editor/index.js:55
-msgid "Drag a media file, upload a new one or select a file from your library."
-msgstr "Trascina un file media, caricane uno nuovo o seleziona un file dalla tua libreria."
-
-#: build/block-editor/index.js:55
 msgid "Block icon"
 msgstr "Icona del blocco"
 
@@ -857,10 +1038,6 @@ msgstr "Stack su mobile"
 #: build/block-library/index.js:14
 msgid "Drag images, upload new ones or select files from your library."
 msgstr "Trascina le immagini, caricane di nuove o seleziona i file dalla tua libreria."
-
-#: build/block-library/index.js:14
-msgid "Drag a file, upload a new one or select a file from your library."
-msgstr "Trascina un file, caricane uno nuovo o seleziona un file dalla tua libreria."
 
 #: build/annotations/index.js:1
 msgid "Annotation"
@@ -1200,10 +1377,6 @@ msgstr "Incorpora un contenuto di Cloudup."
 #: build/block-library/index.js:14
 msgid "Add an image or video with a text overlay — great for headers."
 msgstr "Aggiungi un'immagine o un video con un testo sovrapposto — ottimi per gli header."
-
-#: build/block-library/index.js:14
-msgid "Drag an image or a video, upload a new one or select a file from your library."
-msgstr "Trascina un'immagine o un video, caricane uno nuovo o seleziona un file dalla tua libreria."
 
 #: build/block-library/index.js:14
 msgid "Display code snippets that respect your spacing and tabs."
@@ -2521,10 +2694,6 @@ msgstr "C'è un salvataggio automatico di questo articolo che è più recente de
 msgid "Autosaving"
 msgstr "Salvataggio automatico in corso"
 
-#: build/block-editor/index.js:55
-msgid "Drag a video, upload a new one or select a file from your library."
-msgstr "Trascina un video, caricane uno nuovo o seleziona un file dalla tua libreria."
-
 #: build/block-library/index.js:14
 msgid "Enter URL here…"
 msgstr "Inserisci URL qui…"
@@ -2772,7 +2941,7 @@ msgstr "Dimensioni personalizzate"
 
 #: build/blocks/index.js:2
 msgid "Layout Elements"
-msgstr "Elementi del Layout"
+msgstr "Elementi del layout"
 
 #: build/editor/index.js:17
 msgctxt "term"
@@ -3151,7 +3320,7 @@ msgstr ""
 msgid "Convert to Regular Block"
 msgstr "Converti in blocco regolare"
 
-#: build/block-editor/index.js:55
+#: build/block-library/index.js:14 build/block-editor/index.js:55
 msgid "More options"
 msgstr "Altre opzioni"
 
@@ -3227,8 +3396,8 @@ msgstr "Trova l'originale"
 msgid "Copy All Content"
 msgstr "Copia tutto il contenuto"
 
-#: build/editor/index.js:17 build/block-library/index.js:14
-#: build/edit-post/index.js:12
+#: build/edit-post/index.js:12 build/block-library/index.js:14
+#: build/editor/index.js:17
 msgid "Copied!"
 msgstr "Copiato!"
 
@@ -3256,7 +3425,7 @@ msgstr "Blocco"
 msgid "Document"
 msgstr "Documento"
 
-#: build/editor/index.js:17 build/edit-post/index.js:12
+#: build/edit-post/index.js:12 build/editor/index.js:17
 msgid "Featured Image"
 msgstr "Immagine in evidenza"
 
@@ -3338,8 +3507,8 @@ msgid_plural "%d results found, use up and down arrow keys to navigate."
 msgstr[0] "%d risultato trovato, utilizza i tasti freccia su e giù per navigare."
 msgstr[1] "%d risultati trovati, utilizza i tasti freccia su e giù per navigare."
 
-#: build/block-library/blocks/latest-comments.php:31 build/editor/index.js:17
-#: build/edit-post/index.js:12
+#: build/block-library/blocks/latest-comments.php:31
+#: build/edit-post/index.js:12 build/editor/index.js:17
 msgid "(no title)"
 msgstr "(senza titolo)"
 
@@ -3420,7 +3589,7 @@ msgstr "Seleziona"
 msgid "Select or Upload Media"
 msgstr "Seleziona o carica media"
 
-#: build/editor/index.js:17 build/block-library/index.js:14
+#: build/block-library/index.js:14 build/editor/index.js:17
 #: build/block-editor/index.js:55
 msgid "Video"
 msgstr "Video"
@@ -3501,7 +3670,7 @@ msgstr "linea orizzontale"
 msgid "Separator"
 msgstr "Separatore"
 
-#: build/editor/index.js:17 build/block-library/index.js:14
+#: build/block-library/index.js:14 build/editor/index.js:17
 msgid "Quote"
 msgstr "Citazione"
 
@@ -3617,12 +3786,12 @@ msgstr "foto"
 msgid "Image Settings"
 msgstr "Impostazioni immagine"
 
-#: build/editor/index.js:17 build/block-library/index.js:14
+#: build/block-library/index.js:14 build/editor/index.js:17
 #: build/block-editor/index.js:55
 msgid "Image"
 msgstr "Immagine"
 
-#: build/block-library/index.js:14 build/edit-post/index.js:12
+#: build/edit-post/index.js:12 build/block-library/index.js:14
 #: build/block-editor/index.js:55
 msgid "Preview"
 msgstr "Anteprima"
@@ -3671,7 +3840,7 @@ msgstr "Foto"
 msgid "images"
 msgstr "Immagini"
 
-#: build/editor/index.js:17 build/block-library/index.js:14
+#: build/block-library/index.js:14 build/editor/index.js:17
 msgid "Remove Image"
 msgstr "Rimuovi immagine"
 
@@ -3695,7 +3864,7 @@ msgstr "Ritaglia immagini"
 msgid "Gallery Settings"
 msgstr "Impostazioni galleria"
 
-#: build/editor/index.js:17 build/block-library/index.js:14
+#: build/block-library/index.js:14 build/editor/index.js:17
 msgid "Gallery"
 msgstr "Galleria"
 
@@ -3799,8 +3968,8 @@ msgstr "Aggiungi testo..."
 msgid "Button"
 msgstr "Pulsante"
 
-#: build/block-library/index.js:14 build/block-editor/index.js:55
-#: build/format-library/index.js:12
+#: build/block-library/index.js:14 build/format-library/index.js:12
+#: build/block-editor/index.js:55
 msgid "Apply"
 msgstr "Applica"
 
@@ -3824,7 +3993,7 @@ msgstr "Blocchi riutilizzabili"
 msgid "Cancel"
 msgstr "Annulla"
 
-#: build/editor/index.js:17 build/block-library/index.js:14
+#: build/block-library/index.js:14 build/editor/index.js:17
 #: build/format-library/index.js:12
 msgid "Edit"
 msgstr "Modifica"
@@ -3841,7 +4010,7 @@ msgstr "Scrivi una didascalia..."
 msgid "Use URL"
 msgstr "Usa l'URL"
 
-#: build/editor/index.js:17 build/block-library/index.js:14
+#: build/block-library/index.js:14 build/editor/index.js:17
 #: build/block-editor/index.js:55
 msgid "Audio"
 msgstr "Audio"
@@ -3954,7 +4123,7 @@ msgstr "Campi personalizzati"
 msgid "Excerpt"
 msgstr "Riassunto"
 
-#: build/editor/index.js:17 build/edit-post/index.js:12
+#: build/edit-post/index.js:12 build/editor/index.js:17
 msgid "Publish"
 msgstr "Pubblica"
 
@@ -3962,7 +4131,7 @@ msgstr "Pubblica"
 msgid "Metadata"
 msgstr "Metadati"
 
-#: build/editor/index.js:17 build/block-library/index.js:14
+#: build/block-library/index.js:14 build/editor/index.js:17
 msgid "Save"
 msgstr "Salva"
 
@@ -3979,8 +4148,9 @@ msgstr "Documentazione"
 msgid "Demo"
 msgstr "Demo"
 
+#: build/block-library/blocks/rss.php:35
 #: build/block-library/blocks/latest-posts.php:37
-#: build/block-library/blocks/rss.php:35 build/block-library/index.js:14
+#: build/block-library/index.js:14
 msgid "(Untitled)"
 msgstr "(senza titolo)"
 
