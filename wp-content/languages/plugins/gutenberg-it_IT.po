@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-06-30 09:53:02+0000\n"
+"PO-Revision-Date: 2019-07-10 13:19:46+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,22 @@ msgstr ""
 "X-Generator: GlotPress/2.4.0-alpha\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - Gutenberg - Stable (latest release)\n"
+
+#: build/block-editor/index.js:55
+msgid "Learn more about anchors"
+msgstr "Ulteriori informazioni sulle ancore"
+
+#: build/block-editor/index.js:55
+msgid "Enter a word or two — without spaces — to make a unique web address just for this heading, called an “anchor.” Then, you’ll be able to link directly to this section of your page."
+msgstr "Inserisci una parola o due — senza spazi — per creare un unico indirizzo web proprio per questo titolo, chiamato “ancora”. Poi, sari in grado di collegare direttamente a questa sezione della tua pagina."
+
+#: lib/customizer.php:60
+msgid "Widget Blocks (Experimental)"
+msgstr "Blocchi del widget (Sperimentale)"
+
+#: build/editor/index.js:17
+msgid "%1$s Error message: %2$s"
+msgstr "%1$s Messaggio di errore: %2$s"
 
 #: build/edit-widgets/index.js:1
 msgid "Block areas saved succesfully."
@@ -19,7 +35,7 @@ msgstr "Aree del blocco salvate con successo."
 msgid "Upload a video file, pick one from your media library, or add one with a URL."
 msgstr "Carica un file video, scegline uno dalla tua libreria dei media o aggiungine uno con un URL."
 
-#: build/block-editor/index.js:55
+#: build/block-library/index.js:14 build/block-editor/index.js:55
 msgid "Upload an image file, pick one from your media library, or add one with a URL."
 msgstr "Carica una immagine, scegline una dalla tua libreria dei media o aggiungine una con un URL."
 
@@ -203,10 +219,6 @@ msgstr "Due colonne; suddivise in un terzo e due terzi"
 msgid "Two columns; equal split"
 msgstr "Due colonne; suddivise equamente"
 
-#: build/block-library/index.js:14
-msgid "Upload an image, pick one from your media library, or add one with a URL."
-msgstr "Carica una immagine, scegline una dalla tua libreria dei media, o aggiungine una con un URL."
-
 #. translators: %s: taxonomy name
 #: build/block-library/blocks/tag-cloud.php:37
 msgid "Your site doesn&#8217;t have any %s, so there&#8217;s nothing to display here at the moment."
@@ -270,19 +282,20 @@ msgstr "Contenuto della barra laterale."
 msgid "The sidebar’s ID."
 msgstr "L'ID della barra laterale."
 
-#: lib/class-experimental-wp-widget-blocks-manager.php:327
+#: lib/class-experimental-wp-widget-blocks-manager.php:332
 msgid "Displays a set of blocks"
 msgstr "Visualizza un insieme di blocchi"
 
-#: lib/class-experimental-wp-widget-blocks-manager.php:323
-msgid "Blocks Area "
+#: lib/class-experimental-wp-widget-blocks-manager.php:328
+#: lib/class-experimental-wp-widget-blocks-manager.php:340
+msgid "Blocks Area"
 msgstr "Area dei blocchi "
 
 #: build/server-side-render/index.js:1
 msgid "Block rendered as empty."
 msgstr "Il blocco è stato reso come blocco vuoto."
 
-#: build/format-library/index.js:12
+#: build/format-library/index.js:1
 msgid "Inline Code"
 msgstr "Codice inline"
 
@@ -845,7 +858,7 @@ msgstr "Un calendario degli articoli del tuo sito."
 msgid "Calendar"
 msgstr "Calendario"
 
-#: build/format-library/index.js:12
+#: build/format-library/index.js:1
 msgid "Underline"
 msgstr "Sottolineato"
 
@@ -965,11 +978,11 @@ msgctxt "add new on admin bar"
 msgid "Block Area"
 msgstr "Area del blocco"
 
-#: build/format-library/index.js:12
+#: build/format-library/index.js:1
 msgid "Link inserted."
 msgstr "Link inserito."
 
-#: build/format-library/index.js:12
+#: build/format-library/index.js:1
 msgid "Warning: the link has been inserted but may have errors. Please test it."
 msgstr "Attenzione: hai inserito il link ma ci potrebbero essere degli errori. Provalo."
 
@@ -1118,19 +1131,19 @@ msgctxt "block style"
 msgid "Squared"
 msgstr "Squadrato"
 
-#: build/format-library/index.js:12
+#: build/format-library/index.js:1
 msgid "%s (opens in a new tab)"
 msgstr "%s (apre in una nuova scheda)"
 
-#: build/format-library/index.js:12
+#: build/format-library/index.js:1
 msgid "Link edited."
 msgstr "Link modificato."
 
-#: build/format-library/index.js:12
+#: build/format-library/index.js:1
 msgid "Link removed."
 msgstr "Link rimosso."
 
-#: build/format-library/index.js:12
+#: build/format-library/index.js:1
 msgid "media"
 msgstr "media"
 
@@ -1701,7 +1714,7 @@ msgstr "Mostra i media a destra"
 msgid "Show media on left"
 msgstr "Mostra i media a sinistra"
 
-#: build/block-library/index.js:14 build/format-library/index.js:12
+#: build/block-library/index.js:14 build/format-library/index.js:1
 msgid "Open in New Tab"
 msgstr "Apri in una nuova scheda"
 
@@ -2526,7 +2539,7 @@ msgstr "Rosso vivo"
 msgid "Pale pink"
 msgstr "Rosa pallido"
 
-#: build/format-library/index.js:12
+#: build/format-library/index.js:1
 msgid "Inline Image"
 msgstr "Immagine in linea"
 
@@ -2561,14 +2574,6 @@ msgstr "Linea ampia"
 #: build/block-editor/index.js:55
 msgid "Large"
 msgstr "Grande"
-
-#: build/block-library/index.js:14
-msgid "Link URL"
-msgstr "Link URL"
-
-#: build/block-library/index.js:14
-msgid "Custom URL"
-msgstr "URL personalizzato"
 
 #: build/block-library/index.js:14
 msgid "Show Download Button"
@@ -2835,11 +2840,11 @@ msgstr "Chiudi il plugin"
 msgid "Editor settings"
 msgstr "Impostazioni dell'editor"
 
-#: build/block-library/index.js:14 build/block-editor/index.js:55
+#: build/block-editor/index.js:55
 msgid "Link Settings"
 msgstr "Impostazioni link"
 
-#: build/format-library/index.js:12
+#: build/format-library/index.js:1
 msgid "Unlink"
 msgstr "Rimuovi link"
 
@@ -2863,7 +2868,7 @@ msgstr "Dimensione dell'immagine"
 msgid "Height"
 msgstr "Altezza"
 
-#: build/block-library/index.js:14 build/format-library/index.js:12
+#: build/block-library/index.js:14 build/format-library/index.js:1
 msgid "Width"
 msgstr "Larghezza"
 
@@ -2975,16 +2980,20 @@ msgid "Trashing failed"
 msgstr "Eliminazione fallita"
 
 #: build/editor/index.js:17
-msgid "Updating failed"
-msgstr "Aggiornamento fallito"
+msgid "Updating failed."
+msgstr "Aggiornamento fallito."
 
 #: build/editor/index.js:17
-msgid "Scheduling failed"
-msgstr "Programmazione fallita"
+msgid "Scheduling failed."
+msgstr "Programmazione fallita."
 
 #: build/editor/index.js:17
-msgid "Publishing failed"
-msgstr "Pubblicazione fallita"
+msgid "Publishing failed."
+msgstr "Pubblicazione fallita."
+
+#: build/edit-post/index.js:12
+msgid "View Post"
+msgstr "Visualizza articolo"
 
 #: build/editor/index.js:17
 msgid "You have unsaved changes. If you proceed, they will be lost."
@@ -3525,29 +3534,33 @@ msgstr "Invia"
 msgid "Close"
 msgstr "Chiudi"
 
-#: build/block-editor/index.js:55
+#: build/block-library/index.js:14 build/block-editor/index.js:55
 msgid "Insert Link"
 msgstr "Inserisci link"
 
-#: build/block-editor/index.js:55
+#: build/block-library/index.js:14 build/block-editor/index.js:55
 msgid "Edit Link"
 msgstr "Modifica link"
 
-#: build/editor/index.js:17 build/format-library/index.js:12
+#: build/editor/index.js:17 build/format-library/index.js:1
 msgid "Link"
 msgstr "Link"
 
-#: build/format-library/index.js:12
+#: build/format-library/index.js:1
 msgid "Strikethrough"
 msgstr "Barrato"
 
-#: build/format-library/index.js:12
+#: build/format-library/index.js:1
 msgid "Italic"
 msgstr "Corsivo"
 
-#: build/format-library/index.js:12
+#: build/format-library/index.js:1
 msgid "Bold"
 msgstr "Grassetto"
+
+#: build/block-library/index.js:14
+msgid "Remove Link"
+msgstr "Rimuovi link"
 
 #: build/block-library/index.js:14 build/components/index.js:19
 msgid "Number of items"
@@ -3778,7 +3791,7 @@ msgstr "Visualizzazione in modalità griglia"
 msgid "List View"
 msgstr "Visualizzazione in modalità elenco"
 
-#: build/block-library/index.js:14 build/format-library/index.js:12
+#: build/block-library/index.js:14 build/format-library/index.js:1
 msgid "photo"
 msgstr "foto"
 
@@ -3791,8 +3804,7 @@ msgstr "Impostazioni immagine"
 msgid "Image"
 msgstr "Immagine"
 
-#: build/edit-post/index.js:12 build/block-library/index.js:14
-#: build/block-editor/index.js:55
+#: build/block-library/index.js:14 build/block-editor/index.js:55
 msgid "Preview"
 msgstr "Anteprima"
 
@@ -3968,7 +3980,7 @@ msgstr "Aggiungi testo..."
 msgid "Button"
 msgstr "Pulsante"
 
-#: build/block-library/index.js:14 build/format-library/index.js:12
+#: build/block-library/index.js:14 build/format-library/index.js:1
 #: build/block-editor/index.js:55
 msgid "Apply"
 msgstr "Applica"
@@ -3994,7 +4006,7 @@ msgid "Cancel"
 msgstr "Annulla"
 
 #: build/block-library/index.js:14 build/editor/index.js:17
-#: build/format-library/index.js:12
+#: build/block-editor/index.js:55
 msgid "Edit"
 msgstr "Modifica"
 
@@ -4022,10 +4034,6 @@ msgstr "Carica"
 #: build/block-editor/index.js:55
 msgid "Additional CSS Class(es)"
 msgstr "Classe/i CSS aggiuntiva/e"
-
-#: build/block-editor/index.js:55
-msgid "Anchors lets you link directly to a section on a page."
-msgstr "Le ancore ti permettono di collegarti direttamente alla sezione di una pagina."
 
 #: build/block-editor/index.js:55
 msgid "HTML Anchor"
