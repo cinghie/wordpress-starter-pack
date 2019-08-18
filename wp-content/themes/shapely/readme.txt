@@ -2,7 +2,7 @@
 
 Theme Name: Shapely
 Theme URI: https://colorlib.com/wp/shapely/
-Version: 1.2.5
+Version: 1.2.4
 Tested up to: WP 4.9
 
 Author: Aigars Silkalns
@@ -60,9 +60,6 @@ This page template is used to create the Parallax homepage from our demo : https
 
 
 == Changelog ==
-
-= 1.2.5 =
-* Added Modula to recommended plugins
 
 = 1.2.4 =
 * Implemented milestone: https://github.com/puikinsh/shapely/milestone/8?closed=1
