@@ -19,7 +19,7 @@
 						<span>
 							<input type="radio" name="deactivation-reason">
 						</span>
-						<span class="question">I couldn't understand how to make it work</span>
+						<span class="question" data-question="I couldn't understand how to make it work">I couldn't understand how to make it work</span>
 					</label>
 				</li>
 				<li data-input-type="textarea" data-input-placeholder="What should have worked, but didn’t?">
@@ -27,7 +27,7 @@
 						<span>
 							<input type="radio" name="deactivation-reason">
 						</span>
-						<span class="question">The plugin didn't work as expected</span>
+						<span class="question" data-question="The plugin didn't work as expected">The plugin didn't work as expected</span>
 					</label>
 					<div class="question-answer"></div>
 				</li>
@@ -36,7 +36,7 @@
 						<span>
 							<input type="radio" name="deactivation-reason">
 						</span>
-						<span class="question">I found a better plugin</span>
+						<span class="question" data-question="I found a better plugin">I found a better plugin</span>
 					</label>
 					<div class="question-answer"></div>
 				</li>
@@ -45,7 +45,7 @@
 						<span>
 							<input type="radio" name="deactivation-reason">
 						</span>
-						<span class="question">It's a temporary deactivation</span>
+						<span class="question" data-question="It's a temporary deactivation">It's a temporary deactivation</span>
 					</label>
 					<div class="question-answer"></div>
 				</li>
@@ -54,7 +54,7 @@
 						<span>
 							<input type="radio" name="deactivation-reason">
 						</span>
-						<span class="question">Other</span>
+						<span class="question" data-question="Other">Other</span>
 					</label>
 					<div class="question-answer"></div>
 				</li>
@@ -118,10 +118,9 @@
 
       var reason = root.find('.question-answer .reason-answer').val();
 
-      var question = root.find('.question').text().trim()
+      var question = root.find('.question').attr('data-question').trim()
 
 	  var $errorBlock = $('#analyst-deactivation-error')
-
 
       if (!question) {
 		return $errorBlock.show()

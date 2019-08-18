@@ -5,11 +5,11 @@
 
 if (!defined('ABSPATH')) die('Access denied.');
 
-if (!class_exists('Updraft_Task_1_0')) require_once(WPO_PLUGIN_MAIN_PATH . 'vendor/team-updraft/common-libs/src/updraft-tasks/class-updraft-task.php');
+if (!class_exists('Updraft_Task_1_1')) require_once(WPO_PLUGIN_MAIN_PATH . 'vendor/team-updraft/common-libs/src/updraft-tasks/class-updraft-task.php');
 
 if (!class_exists('Smush_Task')) :
 
-abstract class Updraft_Smush_Task extends Updraft_Task_1_0 {
+abstract class Updraft_Smush_Task extends Updraft_Task_1_1 {
 
 	/**
 	 * A flag indicating if the operation was succesful
@@ -59,26 +59,45 @@ abstract class Updraft_Smush_Task extends Updraft_Task_1_0 {
 
 		if (!$this->validate_file($file_path)) return false;
 
-		if (filesize($file_path) > 5242880) {
-			$this->update_option('request_timeout', 180);
-		}
+		$original_image = $file_path;
+		$backup_original_image = $this->get_option('keep_original', true);
+
+		// add possibility to exclude certain image sizes from smush.
+		$dont_smush_sizes = apply_filters('wpo_dont_smush_sizes', array());
+
+		// build list of files for smush.
+		$files = array($file_path);
 
 		$this->update_option('original_filesize', filesize($file_path));
-		$this->log($this->get_description());
 
-
-		$post_data = $this->prepare_post_request($file_path);
+		foreach ($this->get_attachment_files($attachment_id) as $size => $file) {
+			if (in_array($size, $dont_smush_sizes)) continue;
+			$files[] = $file;
+		}
+		
 		$api_endpoint = $this->get_option('api_endpoint');
 
-		if (false === filter_var($api_endpoint, FILTER_VALIDATE_URL)) {
-			$this->fail("invalid_api_url", "The API endpoint supplied {$api_endpoint} is invalid");
-		}
+		foreach ($files as $file_path) {
+			if (filesize($file_path) > 5242880) {
+				$this->update_option('request_timeout', 180);
+			}
 
-		$response = $this->post_to_remote_server($api_endpoint, $post_data);
-		$optimised_image = $this->process_server_response($response);
+			$this->log($this->get_description());
 
-		if ($optimised_image) {
-			$this->save_optimised_image($file_path, $optimised_image);
+			$post_data = $this->prepare_post_request($file_path);
+
+			if (false === filter_var($api_endpoint, FILTER_VALIDATE_URL)) {
+				$this->fail('invalid_api_url', "The API endpoint supplied {$api_endpoint} is invalid");
+			}
+
+			$response = $this->post_to_remote_server($api_endpoint, $post_data);
+			$optimised_image = $this->process_server_response($response);
+
+			if ($optimised_image) {
+				$backup_image = ($original_image == $file_path) ? $backup_original_image : false;
+				$this->save_optimised_image($file_path, $optimised_image, $backup_image);
+			}
+
 		}
 
 		return $this->success;
@@ -154,7 +173,7 @@ abstract class Updraft_Smush_Task extends Updraft_Task_1_0 {
 		$this->set_current_stage('backup_original');
 
 		$file = pathinfo($file_path);
-		$back_up = $file['dirname'].'/'.basename($file['filename'].$this->get_option('backup_prefix').$file['extension']);
+		$back_up = wp_normalize_path($file['dirname'].'/'.basename($file['filename'].$this->get_option('backup_prefix').$file['extension']));
 
 		if (is_multisite()) {
 			switch_to_blog($this->get_option('blog_id', 1));
@@ -174,13 +193,15 @@ abstract class Updraft_Smush_Task extends Updraft_Task_1_0 {
 	 *
 	 * @param String $file_path 	  - the path of the original image
 	 * @param Mixes  $optimised_image - the contents of the image
+	 * @param bool   $backup_original - backup original image
+	 *
 	 * @return bool - true on success, false otherwise
 	 */
-	public function save_optimised_image($file_path, $optimised_image) {
+	private function save_optimised_image($file_path, $optimised_image, $backup_original) {
 		
 		$this->set_current_stage('saving_image');
 
-		if ($this->get_option('keep_original'))
+		if ($backup_original)
 			$this->backup_original_image($file_path);
 
 		if (false !== file_put_contents($file_path, $optimised_image)) {
@@ -365,6 +386,37 @@ abstract class Updraft_Smush_Task extends Updraft_Task_1_0 {
 		}
 
 		return $bytes;
+	}
+
+	/**
+	 * Get image paths to resized attachment images.
+	 *
+	 * @param int $attachment_id
+	 * @return array
+	 */
+	private function get_attachment_files($attachment_id) {
+		$attachment_images = array();
+		$upload_dir = function_exists('wp_get_upload_dir') ? wp_get_upload_dir() : wp_upload_dir(null, false);
+
+		// get sizes info from attachment meta data.
+		$meta = wp_get_attachment_metadata($attachment_id);
+		if (!is_array($meta) || !array_key_exists('sizes', $meta)) return $attachment_images;
+
+		$image_sizes = array_keys($meta['sizes']);
+
+		// build list of resized images.
+		foreach ($image_sizes as $size) {
+			$image = image_get_intermediate_size($attachment_id, $size);
+
+			if (is_array($image)) {
+				$file = trailingslashit($upload_dir['basedir']) . $image['path'];
+				if (is_file($file) && !in_array($file, $attachment_images)) {
+					$attachment_images[$size] = $file;
+				}
+			}
+		}
+
+		return $attachment_images;
 	}
 }
 endif;

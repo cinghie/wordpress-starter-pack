@@ -33,28 +33,98 @@ class WP_Optimize_Cache_Commands {
 			'message' => "WPO_Cache_Config class doesn't exist",
 		);
 
+		$enabled = false;
+		$return = array();
+		$previous_settings = WPO_Cache_Config::instance()->get();
+
 		// disable cache.
 		if (empty($data['cache-settings']['enable_page_caching'])) {
 			WPO_Page_Cache::instance()->disable();
 		} else {
 			// we need to rebuild advanced-cache.php and add WP_CACHE to wp-config.
-			WPO_Page_Cache::instance()->enable();
+			$enabled = WPO_Page_Cache::instance()->enable(true);
 		}
 
-		$save_settings_result = WPO_Cache_Config::instance()->update($data['cache-settings']);
+		if (is_wp_error($enabled)) {
+			// disable everything, to avoid half enabled things
+			WPO_Page_Cache::instance()->disable();
+			// deactivate the setting
+			$data['cache-settings']['enable_page_caching'] = null;
+			$return['error'] = array(
+				'code' => $enabled->get_error_code(),
+				'message' => $enabled->get_error_message()
+			);
+		}
+		
+		$skip_if_no_file_yet = (!$enabled || is_wp_error($enabled));
+		$save_settings_result = WPO_Cache_Config::instance()->update($data['cache-settings'], $skip_if_no_file_yet);
 
-		return array(
-			'result' => $save_settings_result,
-		);
+		if ($save_settings_result) {
+			WP_Optimize_Page_Cache_Preloader::instance()->cache_settings_updated($data['cache-settings'], $previous_settings);
+		}
+
+		$return['result'] = $save_settings_result;
+		$return['enabled'] = !empty($data['cache-settings']['enable_page_caching']);
+
+		return $return;
+
 	}
 
 	/**
 	 * Purge WP-Optimize page cache.
 	 *
-	 * @return bool
+	 * @return array
 	 */
 	public function purge_page_cache() {
-		return WP_Optimize()->get_page_cache()->purge();
+		$purged = WP_Optimize()->get_page_cache()->purge();
+		$cache_size = WP_Optimize()->get_page_cache()->get_cache_size();
+		$wpo_page_cache_preloader = WP_Optimize_Page_Cache_Preloader::instance();
+
+		$response = array(
+			'success' => $purged,
+			'size' => WP_Optimize()->format_size($cache_size['size']),
+			'file_count' => $cache_size['file_count'],
+		);
+
+		// if scheduled preload enabled then reschedule and run preloader.
+		if ($wpo_page_cache_preloader->is_scheduled_preload_enabled()) {
+			// cancel preload and reschedule preload action.
+			$wpo_page_cache_preloader->cancel_preload();
+			$wpo_page_cache_preloader->reschedule_preload();
+
+			// run preloader.
+			$wpo_page_cache_preloader->run('scheduled', $response);
+		}
+
+		return $response;
+	}
+
+	/**
+	 * Run cache preload action.
+	 *
+	 * @return void|array - Doesn't return anything if run() is successfull (Run() prints a JSON object and closed browser connection) or an array if failed.
+	 */
+	public function run_cache_preload() {
+		return WP_Optimize_Page_Cache_Preloader::instance()->run('manual');
+	}
+
+	/**
+	 * Cancel cache preload action.
+	 *
+	 * @return array
+	 */
+	public function cancel_cache_preload() {
+		WP_Optimize_Page_Cache_Preloader::instance()->cancel_preload();
+		return WP_Optimize_Page_Cache_Preloader::instance()->get_status_info();
+	}
+
+	/**
+	 * Get status of cache preload.
+	 *
+	 * @return array
+	 */
+	public function get_cache_preload_status() {
+		return WP_Optimize_Page_Cache_Preloader::instance()->get_status_info();
 	}
 
 	/**

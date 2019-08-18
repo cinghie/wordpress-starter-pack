@@ -58,22 +58,22 @@ h4.bannerTitle span{ font-size: 16px;font-weight: 500;}
 
         $arrDefaultImages = array(
 
-            'default1_facebook.png','default1_google.png','default1_twitter.png',
-            'default2_facebook.png','default2_google.png','default2_twitter.png',
-            'default3_facebook.png','default3_google.png','default3_twitter.png',
+            'default1_facebook.png','default1_twitter.png',
+            'default2_facebook.png','default2_twitter.png',
+            'default3_facebook.png','default3_twitter.png',
         );
 
         $arrThemeImages = array(
 
-            'theme1_facebook.png','theme1_google.png','theme1_twitter.png',
-            'theme2_facebook.png','theme2_google.png','theme2_twitter.png',
-            'theme3_facebook.png','theme3_google.png','theme3_twitter.png',
+            'theme1_facebook.png','theme1_twitter.png',
+            'theme2_facebook.png','theme2_twitter.png',
+            'theme3_facebook.png','theme3_twitter.png',
         );
 
         $arrAnimateImages = array(
             'animated_facebook.gif','animated_follow.gif','animated_instagram.gif',
             'animated_linkedin.gif','animated_pinterest.gif','animated_twitter.gif',
-            'animated_whatsapp.gif','animated_youtube.gif','animated_google.gif'
+            'animated_whatsapp.gif','animated_youtube.gif'
         );
 
     function sfsi_banner_sub_section($sectionTitle,$arrImages,$hrefViewMore)
@@ -89,11 +89,10 @@ h4.bannerTitle span{ font-size: 16px;font-weight: 500;}
         $arrImages   = array_chunk($arrImages, 3);
 
         foreach ($arrImages as $key => $arrImg) : ?>
-
             <div class="row zeropadding">
 
                <?php  foreach ($arrImg as $key => $img):                
-
+					
                     $src = $imgBasePath.$img;?>    
 
                 <div class="sfsi_row_table">

@@ -69,8 +69,7 @@ function subscriber_load_widget()
 	register_widget( 'subscriber_widget' );
 }
 add_action( 'widgets_init', 'subscriber_load_widget' );
-?>
-<?php
+?><?php
 add_shortcode("USM_form", "sfsi_get_subscriberForm");
 function sfsi_get_subscriberForm()
 {

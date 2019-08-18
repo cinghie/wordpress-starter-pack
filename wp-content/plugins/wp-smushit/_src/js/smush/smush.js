@@ -145,7 +145,7 @@ class Smush {
 		jQuery( '.sui-notice-top' ).remove();
 
 		// Hide the bulk limit message.
-		jQuery( '.wp-smush-bulk-progress-bar-wrapper .sui-notice-warning' ).hide();
+		jQuery( '.wp-smush-bulk-progress-bar-wrapper .sui-notice-warning:first-of-type' ).hide();
 
 		// Hide parent wrapper, if there are no other messages.
 		if ( 0 >= jQuery( 'div.smush-final-log .smush-bulk-error-row' ).length ) {
@@ -400,9 +400,22 @@ class Smush {
 		// Update remaining count.
 		// Update sidebar count.
 		const sidenavCountDiv = jQuery( '.smush-sidenav .wp-smush-remaining-count' );
-		if ( sidenavCountDiv.length && 'undefined' !== typeof wp_smushit_data.resmush ) {
-			if ( wp_smushit_data.resmush.length > 0 ) {
-				sidenavCountDiv.html( wp_smushit_data.resmush.length );
+		if ( sidenavCountDiv.length ) {
+			let count = 0;
+
+			// Unsmushed
+			if ( 'undefined' !== typeof wp_smushit_data.unsmushed && wp_smushit_data.unsmushed.length > 0 ) {
+				count += wp_smushit_data.unsmushed.length;
+			}
+
+			// Re-smush
+			if ( 'undefined' !== typeof wp_smushit_data.resmush && wp_smushit_data.resmush.length > 0 ) {
+				count += wp_smushit_data.resmush.length;
+			}
+
+
+			if ( count > 0 ) {
+				sidenavCountDiv.html( count );
 			} else {
 				jQuery( '.sui-summary-smush .smush-stats-icon' ).addClass( 'sui-hidden' );
 				sidenavCountDiv.removeClass( 'sui-tag sui-tag-warning' ).html( '' );
@@ -526,6 +539,8 @@ class Smush {
 		progress.find('i.sui-icon-loader').addClass('sui-icon-info')
 			.removeClass('sui-icon-loader')
 			.removeClass('sui-loading');
+
+		document.getElementById( 'bulk-smush-resume-button' ).classList.remove( 'sui-hidden' );
 	};
 
 	/**

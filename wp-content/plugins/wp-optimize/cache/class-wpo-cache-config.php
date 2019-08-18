@@ -63,19 +63,16 @@ class WPO_Cache_Config {
 	/**
 	 * Updates the given config object in file and DB
 	 *
-	 * @param  array $config - the cache configuration
+	 * @param array	  $config						- the cache configuration
+	 * @param boolean $skip_disk_if_not_yet_present - only write the configuration file to disk if it already exists. This presents PHP notices if the cache has never been on, and settings are saved.
+	 *
 	 * @return bool
 	 */
-	public function update($config) {
+	public function update($config, $skip_disk_if_not_yet_present = false) {
 		$config = wp_parse_args($config, $this->get_defaults());
 
-		$cache_length_units = array(
-			'hours' => 3600,
-			'days' => 86400,
-			'months' => 2629800, // 365.25 * 86400 / 12
-		);
-
-		$config['page_cache_length'] = $config['page_cache_length_value'] * $cache_length_units[$config['page_cache_length_unit']];
+		$config['page_cache_length_value'] = intval($config['page_cache_length_value']);
+		$config['page_cache_length'] = $this->calculate_page_cache_length($config['page_cache_length_value'], $config['page_cache_length_unit']);
 
 		$cookies = array();
 		$wpo_cache_cookies = apply_filters('wpo_cache_cookies', $cookies);
@@ -94,7 +91,25 @@ class WPO_Cache_Config {
 			update_option('wpo_cache_config', $config);
 		}
 
-		return $this->write($config);
+		return $this->write($config, $skip_disk_if_not_yet_present);
+	}
+
+	/**
+	 * Calculate cache expiration value in seconds.
+	 *
+	 * @param int    $value
+	 * @param string $unit  ( hours | days | months )
+	 *
+	 * @return int
+	 */
+	private function calculate_page_cache_length($value, $unit) {
+		$cache_length_units = array(
+			'hours' => 3600,
+			'days' => 86400,
+			'months' => 2629800, // 365.25 * 86400 / 12
+		);
+
+		return $value * $cache_length_units[$unit];
 	}
 
 	/**
@@ -120,22 +135,23 @@ class WPO_Cache_Config {
 	/**
 	 * Writes config to file
 	 *
-	 * @param  array $config Configuration array.
-	 * @return bool
+	 * @param array	  $config		   - Configuration array.
+	 * @param boolean $only_if_present - only writes to the disk if the configuration file already exists
+	 *
+	 * @return boolean - returns false if an attempt to write failed
 	 */
-	private function write($config) {
+	private function write($config, $only_if_present = false) {
 
-		$url = parse_url(site_url());
+		$url = parse_url(network_site_url());
 
-		if (isset($url['port']) && '' != $url['port']) {
-			$config_file = WPO_CACHE_CONFIG_DIR.'/config-'.$url['host'].':'.$url['port'].'.php';
+		if (isset($url['port']) && '' != $url['port'] && 80 != $url['port']) {
+			$config_file = WPO_CACHE_CONFIG_DIR.'/config-'.$url['host'].'-port'.$url['port'].'.php';
 		} else {
 			$config_file = WPO_CACHE_CONFIG_DIR.'/config-'.$url['host'].'.php';
 		}
 
 		$this->config = wp_parse_args($config, $this->get_defaults());
-
-		if (!file_put_contents($config_file, json_encode($this->config))) {
+		if ((!$only_if_present || file_exists($config_file)) && !file_put_contents($config_file, json_encode($this->config))) {
 			return false;
 		}
 
@@ -163,7 +179,7 @@ class WPO_Cache_Config {
 			return false;
 		}
 
-		// If the cache and config directories exist, make sure they're writeable.
+		// If the cache and config directories exist, make sure they're writeable
 		if (file_exists(untrailingslashit(WP_CONTENT_DIR) . '/wpo-cache')) {
 			
 			if (file_exists(WPO_CACHE_DIR)) {
@@ -188,14 +204,9 @@ class WPO_Cache_Config {
 	 * @return array
 	 */
 	public function get_defaults() {
-
-		// if gzip enabled then we will use gzip compression for store cache files.
-		$is_gzip_compression_enabled = WP_Optimize()->get_gzip_compression()->is_gzip_compression_enabled();
-		$is_gzip_compression_enabled = is_wp_error($is_gzip_compression_enabled) ? false : $is_gzip_compression_enabled;
-
+		
 		$defaults = array(
 			'enable_page_caching'						=> false,
-			'enable_gzip_compression'					=> $is_gzip_compression_enabled,
 			'page_cache_length_value'					=> 24,
 			'page_cache_length_unit'					=> 'hours',
 			'page_cache_length'							=> 86400,
@@ -207,7 +218,7 @@ class WPO_Cache_Config {
 			'preload_schedule_type'						=> '',
 			'enable_mobile_caching'						=> false,
 			'enable_user_caching'						=> false,
-			'site_url'									=> site_url('/'),
+			'site_url'									=> network_site_url('/'),
 		);
 
 		return apply_filters('wpo_cache_defaults', $defaults);

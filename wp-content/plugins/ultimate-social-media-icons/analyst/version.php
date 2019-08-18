@@ -1,8 +1,8 @@
 <?php
 
-return [
+return array(
     // The sdk version
-    'sdk' => '1.3.12',
+    'sdk' => '1.3.20',
 
     // Minimum supported WordPress version
     'wp' => '4.7',
@@ -12,4 +12,4 @@ return [
 
     // Path to current SDK$
     'path' => __DIR__,
-];
+);

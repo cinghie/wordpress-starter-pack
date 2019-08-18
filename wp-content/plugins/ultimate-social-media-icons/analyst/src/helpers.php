@@ -27,7 +27,11 @@ if (! function_exists('analyst_assets_url')) {
 	{
 		$absolutePath = analyst_assets_path($file);
 
-		$contentDir = wp_normalize_path(WP_CONTENT_DIR);
+		// We can always rely on WP_PLUGIN_DIR, because that's where
+		// wordpress install it's plugin's. So we remove last segment
+		// of that path to get the content dir AKA directly where
+		// plugins are installed and make the magic...
+		$contentDir = dirname(wp_normalize_path(WP_PLUGIN_DIR));
 
 		$relativePath = str_replace( $contentDir, '', $absolutePath);
 
@@ -69,11 +73,10 @@ if (! function_exists('analyst_require_template')) {
 if (! function_exists('dd')) {
 	/**
 	 * Dump some data
-	 *
-	 * @param array $params
 	 */
-	function dd ($params)
+	function dd ()
 	{
-		die(var_dump($params));
+		var_dump(func_get_args());
+		die();
 	}
 }

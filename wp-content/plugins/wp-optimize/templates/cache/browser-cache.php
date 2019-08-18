@@ -2,9 +2,9 @@
 
 <div class="wpo_section wpo_group">
 
-	<h3 class="wpo-first-child"><?php _e('Browser static file caching settings', 'wp-optimize');?></h3>
-	<p class="wpo-text__dim">
-		<?php echo __("Browser static file caching uses HTTP response headers to advise a visitor's browser to cache non-changing files for a while, so that it doesn't need to retrieve them upon every visit.", 'wp-optimize').' '.sprintf('<a href="%s" target="_blank">%s</a>', $info_link, __('Follow this link to get more information.', 'wp_optimize')); ?>
+	<h3 class="wpo-first-child"><?php _e('Browser static file caching settings (via headers)', 'wp-optimize');?></h3>
+	<p>
+		<?php echo __("Browser static file caching uses HTTP response headers to advise a visitor's browser to cache non-changing files for a while, so that it doesn't attempt to retrieve them upon every visit.", 'wp-optimize').' '.sprintf('<a href="%s" target="_blank">%s</a>', $info_link, __('Follow this link to get more information.', 'wp_optimize')); ?>
 	</p>
 
 	<div class="wpo-fieldgroup">
@@ -40,7 +40,7 @@
 					<button class="button-primary" type="button" id="wp_optimize_browser_cache_enable"><?php echo $button_text; ?></button>
 					<img class="wpo_spinner display-none" src="<?php echo esc_attr(admin_url('images/spinner-2x.gif')); ?>"
 						width="20" height="20" alt="...">
-					<p class="wpo-text__dim"><?php _e('Empty or 0 values disable the headers.', 'wp-optimize'); ?></p>
+					<p><?php _e('Empty or 0 values disable the headers.', 'wp-optimize'); ?></p>
 				</form>
 			<?php
 			} else {

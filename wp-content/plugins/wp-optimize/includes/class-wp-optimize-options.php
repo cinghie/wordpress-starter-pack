@@ -72,12 +72,11 @@ class WP_Optimize_Options {
 	/**
 	 * Update WP-Optimize option value.
 	 *
-	 * @param string $option    Option name.
-	 * @param mixed  $value     Option value.
-	 * @param bool   $use_cache
+	 * @param string $option Option name.
+	 * @param mixed  $value  Option value.
 	 * @return bool
 	 */
-	public function update_option($option, $value, $use_cache = true) {
+	public function update_option($option, $value) {
 		if (is_multisite()) {
 			return update_site_option('wp-optimize-mu-'.$option, $value);
 		} else {

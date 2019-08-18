@@ -57,7 +57,7 @@
 				<span><?php _e('Backup original', 'wp-optimize'); ?></span>
 			</label>
 			<label for='smush_exif_<?php echo $post_id; ?>'>
-				<input type='checkbox' name='smush_exif_<?php echo $post_id; ?>' id='smush_exif_<?php echo $post_id; ?>'/>
+				<input type='checkbox' name='smush_exif_<?php echo $post_id; ?>' id='smush_exif_<?php echo $post_id; ?>' class="preserve_exif" />
 				<span><?php _e('Keep EXIF data', 'wp-optimize'); ?></span>
 			</label>
 		</fieldset>

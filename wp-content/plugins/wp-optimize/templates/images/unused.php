@@ -35,7 +35,7 @@
 			</label>
 		</div>
 		<h3><?php _e('Unused image sizes', 'wp-optimize');?></h3>
-		<p class="hide_on_empty wpo-text__dim">
+		<p class="hide_on_empty">
 			<?php _e('These image sizes were used by some of the themes or plugins installed previously and they remain within your database.', 'wp-optimize'); ?>
 			<a href="https://codex.wordpress.org/Post_Thumbnails#Add_New_Post_Thumbnail_Sizes" target="_blank"><?php _e('Read more about custom image sizes here.', 'wp-optimize'); ?></a>
 		</p>

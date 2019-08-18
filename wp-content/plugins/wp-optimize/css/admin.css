@@ -12,6 +12,14 @@
 	box-shadow: 0 1px 3px rgba(0,0,0,0.13);
 }
 
+#wp-optimize-wrap .widefat thead th, #wp-optimize-wrap .widefat thead td {
+	border-bottom: 1px solid #E1E1E1;
+}
+
+#wp-optimize-wrap .widefat td, #wp-optimize-wrap .widefat th {
+	padding: 8px 10px;
+}
+
 /* big button */
 .wpo_primary_big {
 	padding: 4px 6px !important;
@@ -517,6 +525,19 @@ div#wpoptimize_table_list_tables_not_found + h3 {
 #wpo_gzip_compression_error_message,
 .wpo-error {
 	color: #9B0000;
+}
+
+.notice.wpo-error__enabling-cache {
+	margin-bottom: 15px;
+}
+
+a.loading.wpo-refresh-gzip-status {
+	color: rgba(68, 68, 68, 0.5);
+	text-decoration: none;
+}
+
+a.loading.wpo-refresh-gzip-status img.wpo_spinner.display-none {
+	display: inline-block;
 }
 
 #wpo_browser_cache_expire_days,

@@ -76,8 +76,6 @@ class sfsi_ThemeCheck
 		$keywordEnglish = array_filter(array_map(sfsi_returningElement($element), $keywordEnglish)); 	    
 	    return $keywordEnglish;
 	}
-
-
 	public function sfsi_plus_regex_for_keywords($arrKeyWords){
 
 		$strRegex = "";
@@ -142,8 +140,6 @@ class sfsi_ThemeCheck
 	}
 
 	public function sfsi_plus_match_separate_word_with_csv_data($seprateWord,$domainname){
-
-
 	      $keywordEnglish = $this->sfsi_plus_get_keywordEnglish();
 
 	      $finalKeywordEnglish = array();
@@ -410,8 +406,6 @@ class sfsi_ThemeCheck
 	    }
 	    return $bflag;		
 	}
-
-
 
 	public function sfsi_plus_check_type_of_websiteWithNoBrainerAndSeparateAndNegativeKeywords($strCheckForThemeType,$arrNoBrainerKeywords,$arrSeparateKeywords,$arrNoBrainerAndSeparateKeywords,$arrNegativeKeywords,$domainname){
 

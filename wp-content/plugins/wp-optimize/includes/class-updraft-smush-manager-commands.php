@@ -51,10 +51,9 @@ class Updraft_Smush_Manager_Commands extends Updraft_Task_Manager_Commands_1_0 {
 	 */
 	public function compress_single_image($data) {
 
-		$options = isset($data['smush_options']) ? $data['smush_options'] : false;
+		$options = !empty($data['smush_options']) ? $data['smush_options'] : $this->task_manager->get_smush_options();
 		$image = isset($data['selected_image']) ? filter_var($data['selected_image']['attachment_id'], FILTER_SANITIZE_NUMBER_INT) : false;
 		$blog = isset($data['selected_image']) ? filter_var($data['selected_image']['blog_id'], FILTER_SANITIZE_NUMBER_INT) : false;
-
 
 		$server = filter_var($options['compression_server'], FILTER_SANITIZE_STRING);
 

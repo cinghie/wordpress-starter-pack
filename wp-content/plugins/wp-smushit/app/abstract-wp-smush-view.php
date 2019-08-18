@@ -54,40 +54,47 @@ abstract class WP_Smush_View {
 	/**
 	 * WP_Smush_View constructor.
 	 *
+	 * @param string $slug     Page slug.
 	 * @param string $title    Page title.
-	 * @param string $slug     Page slug. Default: 'smush'.
-	 * @param bool   $submenu  Is a submenu page.
+	 * @param bool   $parent   Does a page have a parent (will be added as a sub menu).
+	 * @param bool   $nextgen  Is that a NextGen subpage.
 	 */
-	public function __construct( $title, $slug = 'smush', $submenu = false ) {
+	public function __construct( $slug, $title, $parent = false, $nextgen = false ) {
 		$this->slug     = $slug;
 		$this->settings = WP_Smush_Settings::get_instance();
 
-		if ( ! $submenu ) {
+		if ( ! $parent ) {
 			$this->page_id = add_menu_page(
 				$title,
 				$title,
 				'manage_options',
 				$this->slug,
-				array( $this, 'render' ),
+				$parent ? array( $this, 'render' ) : null,
 				$this->get_menu_icon()
 			);
 		} else {
 			$this->page_id = add_submenu_page(
-				NGGFOLDER,
+				$parent,
 				$title,
 				$title,
-				'NextGEN Manage gallery',
+				$nextgen ? 'NextGEN Manage gallery' : 'manage_options',
 				$this->slug,
 				array( $this, 'render' )
 			);
 
-			// Enqueue js on Post screen (Edit screen for media ).
-			add_action( 'admin_print_scripts-' . $this->page_id, array( WP_Smush::get_instance()->core()->nextgen->ng_admin, 'localize' ) );
+			// TODO: can this be moved out to the NextGen admin class?
+			if ( $nextgen ) {
+				// Enqueue js on Post screen (Edit screen for media ).
+				add_action( 'admin_print_scripts-' . $this->page_id, array( WP_Smush::get_instance()->core()->nextgen->ng_admin, 'localize' ) );
+			}
 		}
 
-		add_filter( 'load-' . $this->page_id, array( $this, 'on_load' ) );
-		add_action( 'load-' . $this->page_id, array( $this, 'register_meta_boxes' ) );
-		add_filter( 'load-' . $this->page_id, array( $this, 'add_action_hooks' ) );
+		// No need to load these action on parent pages, as they are just placeholders for sub pages.
+		if ( $parent ) {
+			add_filter( 'load-' . $this->page_id, array( $this, 'on_load' ) );
+			add_action( 'load-' . $this->page_id, array( $this, 'register_meta_boxes' ) );
+			add_filter( 'load-' . $this->page_id, array( $this, 'add_action_hooks' ) );
+		}
 	}
 
 	/**
@@ -156,7 +163,7 @@ abstract class WP_Smush_View {
 		}
 
 		// Return if notice is already dismissed.
-		if ( get_option( 'wp-smush-hide_upgrade_notice' ) || get_site_option( 'wp-smush-hide_upgrade_notice' ) ) {
+		if ( get_site_option( WP_SMUSH_PREFIX . 'hide_upgrade_notice' ) ) {
 			return;
 		}
 
@@ -402,8 +409,7 @@ abstract class WP_Smush_View {
 		$this->view(
 			'tabs',
 			array(
-				'tabs'      => $this->get_tabs(),
-				'is_hidden' => is_network_admin() && ! $this->settings->is_network_enabled(),
+				'tabs' => $this->get_tabs(),
 			)
 		);
 	}
@@ -554,7 +560,7 @@ abstract class WP_Smush_View {
 	 */
 	private function get_recheck_message() {
 		// Return if not multisite, or on network settings page, Netowrkwide settings is disabled.
-		if ( ! is_multisite() || is_network_admin() || ! $this->settings->is_network_enabled() ) {
+		if ( ! is_multisite() || is_network_admin() || ! WP_Smush_Settings::can_access( 'bulk' ) ) {
 			return;
 		}
 
@@ -632,12 +638,12 @@ abstract class WP_Smush_View {
 	 */
 	private function settings_updated() {
 		// Check if network-wide settings are enabled, do not show settings updated message.
-		if ( is_multisite() && $this->settings->is_network_enabled() && ! is_network_admin() ) {
+		if ( is_multisite() && ! is_network_admin() && ! WP_Smush_Settings::can_access( 'bulk' ) ) {
 			return;
 		}
 
 		// Show settings saved message.
-		if ( 1 != $this->settings->get_setting( WP_SMUSH_PREFIX . 'settings_updated', false ) ) {
+		if ( ! $this->settings->get_setting( WP_SMUSH_PREFIX . 'settings_updated' ) ) {
 			return;
 		}
 
@@ -720,6 +726,42 @@ abstract class WP_Smush_View {
 	 */
 	public function hide_wpmudev_doc_link() {
 		return apply_filters( 'wpmudev_branding_hide_doc_link', false );
+	}
+
+	/**
+	 * Check if the page should be rendered.
+	 *
+	 * @since 3.2.2
+	 *
+	 * @return bool
+	 */
+	public function should_render() {
+		// Render all pages on single site installs.
+		if ( ! is_multisite() ) {
+			return true;
+		}
+
+		$access = get_site_option( WP_SMUSH_PREFIX . 'networkwide' );
+
+		if ( ! $access ) {
+			return is_network_admin() ? true : false;
+		}
+
+		if ( '1' === $access ) {
+			return is_network_admin() ? false : true;
+		}
+
+		if ( is_array( $access ) ) {
+			if ( is_network_admin() && ! in_array( $this->get_current_tab(), $access, true ) ) {
+				return true;
+			}
+
+			if ( ! is_network_admin() && in_array( $this->get_current_tab(), $access, true ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }

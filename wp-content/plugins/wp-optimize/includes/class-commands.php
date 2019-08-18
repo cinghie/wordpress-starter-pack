@@ -379,6 +379,16 @@ class WP_Optimize_Commands {
 	}
 
 	/**
+	 * Get the current gzip compression status
+	 *
+	 * @return array
+	 */
+	public function get_gzip_compression_status() {
+		$status = WP_Optimize()->get_gzip_compression()->is_gzip_compression_enabled(true);
+		return is_wp_error($status) ? array('error' => __('We could not determine if Gzip compression is enabled.', 'wp-optimize'), 'code' => $status->get_error_code(), 'message' => $status->get_error_message()) : array('status' => $status);
+	}
+
+	/**
 	 * Import WP-Optimize settings.
 	 *
 	 * @param array $params array with 'settings' item where 'settings' json-encoded string.
@@ -401,5 +411,22 @@ class WP_Optimize_Commands {
 		}
 
 		return WP_Optimize()->get_options()->save_settings($settings);
+	}
+
+	/**
+	 * Dismiss install or updated notice
+	 *
+	 * @return mixed
+	 */
+	public function dismiss_install_or_update_notice() {
+		if (!is_a(WP_Optimize()->install_or_update_notice, 'WP_Optimize_Install_Or_Update_Notice') || !is_callable(array(WP_Optimize()->install_or_update_notice, 'dismiss'))) {
+			return array('errors' => array('The notice could not be dismissed. The method "dismiss" on the object instance "install_or_update_notice" does not seem to exist.'));
+		}
+
+		if (!WP_Optimize()->install_or_update_notice->dismiss()) {
+			return array('errors' => array('The notice could not be dismissed. The settings could not be updated'));
+		}
+
+		return true;
 	}
 }

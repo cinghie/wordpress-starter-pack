@@ -232,6 +232,8 @@ class Account implements TrackerContract
 		$this->setIsInstalled(true);
 
 		AccountDataFactory::syncData();
+
+		wp_send_json_success();
 	}
 
 	/**
@@ -258,7 +260,7 @@ class Account implements TrackerContract
 
 		AccountDataFactory::syncData();
 
-		wp_die();
+		wp_send_json_success();
 	}
 
 	/**
@@ -300,7 +302,7 @@ class Account implements TrackerContract
 
 		AccountDataFactory::syncData();
 
-		wp_die();
+		wp_send_json_success();
 	}
 
 	/**
@@ -353,7 +355,7 @@ class Account implements TrackerContract
 			$notificationId
 		);
 
-		wp_die();
+		wp_send_json_success();
 	}
 
 	/**
@@ -421,6 +423,8 @@ class Account implements TrackerContract
 		$factory->remove($confirmationNotificationId);
 
 		AccountDataFactory::syncData();
+
+		wp_send_json_success();
 	}
 
 	/**

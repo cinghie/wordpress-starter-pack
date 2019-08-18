@@ -71,9 +71,9 @@
             $(self).text('Opt out')
 
 			if (data && !data.success) {
-			  $error.show()
+			    $('#analyst-opt-out-modal').hide()
 
-			  return
+			    return
 			}
 
             $error.hide()

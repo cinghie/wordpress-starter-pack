@@ -9,9 +9,9 @@
 		<textarea name="cache_exception_urls" id="cache_exception_urls" class="cache-settings" placeholder="/members/*"><?php echo htmlspecialchars($cache_exception_urls); ?></textarea>
 	</p>
 
-	<small class="wpo-text__dim">
+	<span>
 		<?php _e('Use the wildcard * to exclude child URLs.', 'wp-optimize'); ?> <?php printf(_x('e.g. %s or %s', '%s are examples of path using the wildcard *', 'wp-optimize'), '<code>'._x('/shop/*', 'an example path with the wildcard (*)', 'wp-optimize').'</code>', '<code>'._x('*sample-path*', 'a second example path using the wildcard (*) twice', 'wp-optimize').'</code>'); ?>
-	</small>
+	</span>
 </div>
 
 <h3 class="wpo-first-child"><?php _e('Cookies to exclude from cache (one per line)', 'wp-optimize'); ?></h3>
@@ -33,7 +33,7 @@
 		<textarea name="cache_exception_browser_agents" id="cache_exception_browser_agents" class="cache-settings" placeholder="AppleWebKit/*"><?php echo htmlspecialchars($cache_exception_browser_agents); ?></textarea>
 	</p>
 
-	<small class="wpo-text__dim"><?php _e('If any of the above strings is found in the User-Agent HTTP header, then the requested page will not be cached.', 'wp-optimize'); ?> </small>
+	<span><?php _e('If any of the above strings is found in the User-Agent HTTP header, then the requested page will not be cached.', 'wp-optimize'); ?> </span>
 </div>
 
 <input id="wp-optimize-save-cache-advanced-rules" class="button button-primary" type="submit" name="wp-optimize-save-cache-advanced-rules" value="Save changes">

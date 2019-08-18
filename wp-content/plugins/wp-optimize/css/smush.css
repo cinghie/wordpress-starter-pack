@@ -632,6 +632,10 @@ img#wpo_smush_images_clear_stats_spinner {
 	margin: 10px 0;
 }
 
+#smush-metabox-inside-wrapper input[type="radio"] {
+	margin: -4px 4px 0 0;
+}
+
 #smush-metabox-inside-wrapper .alignleft {
 	float: left;
 }
@@ -685,11 +689,48 @@ img#wpo_smush_images_clear_stats_spinner {
 	text-align: right;
 }
 
+.media-frame-content .attachment-compat .compat-item,
+.compat-field-wpo_compress_image {
+	overflow: visible !important;
+}
+
+.compat-field-wpo_compress_image {
+	border-top: 1px solid #DDD;
+}
+
+.compat-field-wpo_compress_image span.dashicons {
+	text-align: left;
+	float: none;
+	min-height: 0;
+	padding-top: 2px;
+}
+
+.compat-field-wpo_compress_image td.field {
+	width: auto;
+	float: none;
+}
+
+.compat-field-wpo_compress_image td.field [data-tooltip] {
+	display: none;
+}
+
+.compat-field-wpo_compress_image th.label {
+	text-align: left;
+	min-width: 0;
+	float: none;
+	margin: 0;
+}
+
+.compat-field-wpo_compress_image th.label label span {
+	font-weight: 500;
+	text-align: left;
+}
+
 /**
  * Force fix the modals
  */
 .blockUI.blockMsg.blockPage {
-	z-index: 9999 !important;
+	z-index: 170000 !important;
 	right: 0;
 	left: 0 !important;
 	margin-right: auto !important;

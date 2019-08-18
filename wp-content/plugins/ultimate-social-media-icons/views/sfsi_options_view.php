@@ -55,8 +55,6 @@
     
     <div class="sfsi_notificationBannner"></div>
     <!-- Get new_notification bar-->
-
-
     <script type="text/javascript">
 
         jQuery(document).ready(function(){
@@ -90,8 +88,6 @@
                     <?php _e('Go premium now'); ?>
                 </a>
             </p>
-
-
             <p><?php  _e( 'Please' ); ?> <a target="_blank" style="text-decoration: underline;" href="https://goo.gl/auxJ9C#no-topic-0"><?php  _e( 'give us feedback,' ); ?></a><?php  _e( ' and tell us how we can make the plugin better. Thank you!.' ); ?></p>
 
         </div>
@@ -100,8 +96,6 @@
            <p>Simple answer the questions below (at least the first 3) by clicking on them - that's it! </p>
 
            <p>If you want more features like <a target="_blank" href="https://www.ultimatelysocial.com/all-platforms/">more platform icons</a>, <a target="_blank" href="https://www.ultimatelysocial.com/themed-icons-search/">themed icons</a>, <a target="_blank" href="https://www.ultimatelysocial.com/animated-social-media-icons/">animated icons</a>, more design options, better sharing features, mobile optimization, faster loading, full support and <a target="_blank" href="https://www.ultimatelysocial.com/usm-premium/">much more</a>, then please check out our <a target="_blank" href="https://www.ultimatelysocial.com/checkout?edd_action=add_to_cart&download_id=150&edd_options[price_id]=2">Premium Plugin</a>. Pricing is really fair (24.98 USD).</p> 
-
-
            <p>For questions and suggestions please raise a ticket in the <a target="_blank" href="https://goo.gl/auxJ9C#no-topic-0">Support Forum.</a></p> 
 
         </div> -->
@@ -123,8 +117,6 @@
                 </div> -->
             </div>
         </div>
-
-
     </div> <!-- END Top content area of plugin -->
 
 <!-- step 1 end  here -->
@@ -171,8 +163,6 @@
     <h3><span>7</span>Do you want to display icons at the end of every post?</h3>
      <?php include(SFSI_DOCROOT.'/views/sfsi_option_view6.php'); ?>
     <!-- step 7 END here -->
-
-
     <!-- step 8 Start here -->
     <h3><span>8</span>Do you want to display a pop-up, asking people to subscribe?</h3>
      <?php include(SFSI_DOCROOT.'/views/sfsi_option_view7.php'); ?>
@@ -193,9 +183,7 @@
      <p class="red_txt errorMsg" style="display:none"> </p>
      <p class="green_txt sucMsg" style="display:none"> </p>
 
-    <?php include(SFSI_DOCROOT.'/views/sfsi_affiliate_banner.php'); ?>
-
-     <?php include(SFSI_DOCROOT.'/views/sfsi_section_for_premium.php'); ?>
+    <?php include(SFSI_DOCROOT.'/views/sfsi_affiliate_banner.php'); ?><?php include(SFSI_DOCROOT.'/views/sfsi_section_for_premium.php'); ?>
              
      <!--<p class="bldtxtmsg">Need top-notch Wordpress development work at a competitive price? Visit us at <a href="https://www.ultimatelysocial.com/usm-premium/?utm_source=usmi_settings_page&utm_campaign=footer_credit&utm_medium=banner">ultimatelysocial.com</a></p>-->
     </div>
@@ -234,8 +222,6 @@
         })
     </script>
 <?php endif; ?>
-
-
 <script type="text/javascript">
     var e = {
         action:"bannerOption",

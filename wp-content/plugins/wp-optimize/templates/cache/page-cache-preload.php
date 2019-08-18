@@ -9,10 +9,10 @@
 			echo htmlspecialchars($status_message);
 		?></span>
 	</p>
-	<small class="wpo-text__dim">
-		<?php _e('This action will trigger WP-Optimize to cache the site by visiting pages to pre-load them.', 'wp-optimize'); ?> 
-		<?php _e('If a sitemap is available, then it will be used to determine which content gets cached', 'wp-optimize'); ?>
-	</small>
+	<span>
+		<?php _e('This action will trigger WP-Optimize to cache the site by visiting pages to pre-load them (so that they are ready the first time a human visitor wants them).', 'wp-optimize'); ?> 
+		<?php _e('If a sitemap is available, then it will be used to determine which content gets cached.', 'wp-optimize'); ?>
+	</span>
 </div>
 
 <h3 class="wpo-first-child"><?php _e('Schedule preloader', 'wp-optimize'); ?></h3>
@@ -23,12 +23,12 @@
 			<input name="enable_schedule_preload" id="enable_schedule_preload" class="cache-settings" type="checkbox" value="true" <?php checked($wpo_cache_options['enable_schedule_preload']); ?>>
 			<?php _e('Activate scheduled cache preloading', 'wp-optimize'); ?>
 		</label>
-		<small class="wpo-text__dim">
+		<p>
 			<?php _e('The scheduled preloading will run automatically in your chosen time period.', 'wp-optimize'); ?>
-		</small>
+		</p>
 	</p>
 
-	<?php _e('Select schedule type', 'wp-optimize'); ?><br>
+	<label for="preload_schedule_type"><?php _e('Select schedule type', 'wp-optimize'); ?></label><br>
 
 	<select id="preload_schedule_type" class="cache-settings" name="preload_schedule_type" disabled>
 
@@ -36,7 +36,7 @@
 
 		foreach ($schedule_options as $opt_id => $opt_description) {
 			?>
-			<option value="<?php echo esc_attr($opt_id); ?>" <?php selected($wpo_cache_options['preload_schedule_type'], $opt_id); ?>><?php echo htmlspecialchars($opt_description); ?></option>
+			<option value="<?php echo esc_attr($opt_id); ?>" <?php selected($wpo_cache_options['preload_schedule_type'], $opt_id); ?> <?php if ('wpo_use_cache_lifespan' == $opt_id && $wpo_cache_options['page_cache_length_value'] <= 0) disabled(true); ?>><?php echo htmlspecialchars($opt_description); ?></option>
 			<?php
 		}
 
@@ -46,7 +46,7 @@
 
 </div>
 
-<input id="wp-optimize-save-cache-settings" class="button button-primary" type="submit" name="wp-optimize-save-cache-settings" value="<?php _e('Save changes', 'wp-optimize');?>">
+<input id="wp-optimize-save-cache-preload-settings" class="button button-primary" type="submit" name="wp-optimize-save-cache-preload-settings" value="<?php _e('Save changes', 'wp-optimize');?>">
 
 <img class="wpo_spinner" src="<?php echo esc_attr(admin_url('images/spinner-2x.gif')); ?>" alt="...">
 

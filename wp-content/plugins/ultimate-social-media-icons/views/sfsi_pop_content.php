@@ -88,8 +88,6 @@ $connectFeedLgn	= "http://www.specificfeeds.com/?".base64_encode("userprofile=wo
    </script>
    
 </div><!-- Custom icon upload  Pop-up-->
-
-
 <?php 
 	   $active_theme  = $option3['sfsi_actvite_theme'];
      $icons_baseUrl = SFSI_PLUGURL."/images/icons_theme/".$active_theme."/";
@@ -125,8 +123,6 @@ $connectFeedLgn	= "http://www.specificfeeds.com/?".base64_encode("userprofile=wo
         </div>
     </div>
 </div><!-- END Facebook  example pop up -->
-
-
 <?php
 	  $twit_tolCls  = "100";
 	  $twt_margin   = "63";  
@@ -159,30 +155,6 @@ $connectFeedLgn	= "http://www.specificfeeds.com/?".base64_encode("userprofile=wo
    		</div>
     </div>
 </div><!-- END twiiter example pop-up -->
-
-<?php 
-	$google_url=(isset($option2['sfsi_google_pageURL']) && !empty($option2['sfsi_google_pageURL'])) ?  $option2['sfsi_google_pageURL'] : 'https://plus.google.com/117732335852724933053' ;
-?>
-<!-- Goolge+  example pop up -->
-<div class="pop-overlay read-overlay googlex-s2"  style="display: block;z-index: -1;opacity: 0;">
-    <div class="pop_up_box_ex sfsi_pop_up adPopWidth" style="display: block;" >
-        <img src="<?php echo SFSI_PLUGURL; ?>images/close.jpg" id="close_popup" class="sfsicloseBtn" />
-    	<h4 id="readmore_text">Move over the Google+ icon… </h4>
-    
-        <div class="adminTooltip" >
-        	<a href="javascript:"><img width="51" class="sfsi_wicon" src="<?php echo SFSI_PLUGURL; ?>images/google_plus.png" title="google+" alt="google"/></a>
-            <div class="sfsi_tool_tip_2 sfsi_tool_tip_2_inr gpls_tool_bdr" style="display: block;  margin-left: -76.5px; margin-left: -55.5px;">
-           		<span class="bot_arow bot_gpls_arow"></span>
-           		<div class="sfsi_inside">
-           			<div class="gpls_visit"><img src="<?php echo $visit_iconsUrl."google.png"; ?>" alt="error" /></div>    
-           			<div class="gtalk_2"><img src="<?php echo $visit_iconsUrl."gplus_like.png"; ?>" alt="error"/></div>
-          	 		<div class="gtalk_3"><img src="<?php echo $visit_iconsUrl."gplus_share.png"; ?>" alt="error"/></div>
-           		</div>    
-           </div>
-       </div>
-    </div>
-</div><!-- END Goolge+  example pop up -->
-
 <?php 
 	$youtube_url = isset($option2['sfsi_youtube_pageUrl']) && !empty($option2['sfsi_youtube_pageUrl']) ?  $option2['sfsi_youtube_pageUrl'] : 'http://www.youtube.com/user/SpecificFeeds' ;
 	$youtube_user= isset($option4['sfsi_youtube_user']) && !empty($option4['sfsi_youtube_user']) ?  $option4['sfsi_youtube_user'] : 'SpecificFeeds' ;
@@ -253,8 +225,6 @@ $pin_url= isset($option2['sfsi_pinterest_pageUrl']) && !empty($option2['sfsi_pin
    		</div>
   </div>
 </div> <!-- END LinkedIn  example pop up -->
-
-
 <!-- email deactivate pop-ups -->
 
 <div class="pop-overlay read-overlay demail-1" >
@@ -266,8 +236,8 @@ I want to see how it works</a></div>
   </div>
 </div>
 
-<div class="pop-overlay read-overlay demail-2" >
-    <div class="pop_up_box sfsi_pop_up " >
+<div class="pop-overlay read-overlay demail-2">
+    <div class="pop_up_box sfsi_pop_up">
        <h4 class="activate">Ok, fine, however for using this plugin for FREE, please support us by activating a link back to our site:</h4>
        <?php $nonce = wp_create_nonce("active_footer");?>
   <div class="button"><a href="javascript:;" class="activate_footer activate" title="Ok, activate link" data-nonce="<?php echo $nonce;?>">Ok, activate link</a></div>
@@ -382,26 +352,7 @@ I want to see how it works</a></div>
 						?>
                     </div>
                 </li>
-                <li>
-                	<div class="cstm_icnname">Google+</div>
-                    <div class="cstmskins_btn">
-                    	<?php 
-							if(get_option("google_skin"))
-							{
-								$google_skin = get_option("google_skin");
-								echo "<img src='".$google_skin."' width='30px' height='30px'  class='imgskin' alt='Google'>";
-								echo '<a href="javascript:" onclick="upload_image(this);" title="google_skin" class="cstmskin_btn">Update</a>';
-								echo '<a href="javascript:" onclick="deleteskin_icon(this);" title="google_skin" data-nonce="'.$nonce.'" class="cstmskin_btn">Delete</a>';
-							}
-							else
-							{
-								echo "<img src='' width='30px' height='30px' class='imgskin skswrpr' alt='Google'>";
-								echo '<a href="javascript:" onclick="upload_image(this);" title="google_skin" class="cstmskin_btn">Upload</a>';
-								echo '<a href="javascript:" onclick="deleteskin_icon(this);" title="google_skin" data-nonce="'.$nonce.'" class="cstmskin_btn dlt_btn">Delete</a>';
-							}
-						?>
-                    </div>
-				</li>
+                
                 <li>
                 	<div class="cstm_icnname">Share</div>
                     <div class="cstmskins_btn">

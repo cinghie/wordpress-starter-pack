@@ -3,8 +3,7 @@
 $options = WP_Optimize()->get_options();
 
 if (!isset($options) || !$options->get_option('compression_server')) {
-	global $task_manager;
-	$task_manager->set_default_options();
+	Updraft_Smush_Manager()->set_default_options();
 }
 
 $smush_options['compression_server'] = $options->get_option('compression_server');
@@ -19,6 +18,16 @@ $custom = 100 == $smush_options['image_quality'] || 90 == $smush_options['image_
 ?>
 
 <div id="wpo_smush_settings">
+	<div class="wpo-info">
+		<a class="wpo-info__trigger" href="#"><span class="dashicons dashicons-sos"></span> <?php _e('How to use the image compression feature', 'wp-optimize'); ?> <span class="wpo-info__close"><?php _e('Close', 'wp-optimize'); ?></span></a>
+		<div class="wpo-info__content">
+			<p><strong><?php _e('Not sure how to use the image compression feature?', 'wp-optimize'); ?></strong> <br><?php _e('Watch our howto video below.', 'wp-optimize'); ?></p>
+			<div class="wpo-video-preview">
+				<a href="https://vimeo.com/333938451" data-embed="https://player.vimeo.com/video/333938451?color=df6926&title=0&byline=0&portrait=0" target="_blank"><img src="<?php echo trailingslashit(WPO_PLUGIN_URL); ?>images/notices/image-compression-video-preview.png" alt="Video preview" /></a>
+			</div>
+			<small>(<?php _e('Loads a video hosted on vimeo.com', 'wp-optimize'); ?>) - <a href="https://vimeo.com/333938451" target="_blank"><?php _e('Open the video in a new window', 'wp-optimize'); ?></a></small>
+		</div>
+	</div>
 	<p>
 		<?php _e('Note: Currently this feature uses third party services from reSmush.it and Nitrosmush (by iSenseLabs). The performance of these free smushing services may be limited for large workloads. We are working on a premium service.', 'wp-optimize'); ?>
 	</p>
@@ -133,7 +142,7 @@ $custom = 100 == $smush_options['image_quality'] || 90 == $smush_options['image_
 <div id="wpo_smush_images_information_container" style="display:none;">
 	<div id="wpo_smush_images_information_wrapper"> 
 	<h3 id="wpo_smush_images_information_heading"><?php _e('Compressing images', 'wp-optimize');?></h3>
-	<h4 id="wpo_smush_images_information_server"></h3>
+	<h4 id="wpo_smush_images_information_server"></h4>
 	<div class="progress-bar orange stripes">
 		<span style="width: 100%"></span>
 	</div>
