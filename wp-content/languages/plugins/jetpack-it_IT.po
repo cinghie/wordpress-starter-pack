@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Jetpack by WordPress.com - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-07-04 13:49:27+0000\n"
+"PO-Revision-Date: 2019-07-15 21:56:22+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4823,13 +4823,13 @@ msgstr "Tipo di filtro:"
 msgid "%s Get help unlocking your site"
 msgstr "%s Ottieni assistenza per sbloccare il tuo sito"
 
-#: modules/protect/blocked-login-page.php:315
-msgid "Your email"
-msgstr "La tua e-mail"
-
 #: modules/protect/blocked-login-page.php:303
 msgid "<p>Your IP address <code>%2$s</code> has been flagged for potential security violations. You can unlock your login by sending yourself a special link via email. <a href=\"%3$s\">Learn More</a></p>"
 msgstr "<p>Il tuo indirizzo IP <code>%2$s</code> è stato contrassegnato per potenziali violazioni di sicurezza. Puoi sbloccare il tuo accesso inviando a te stesso un link speciale via e-mail. <a href=\"%3$s\">Per saperne di più</a></p>"
+
+#: modules/protect/blocked-login-page.php:315
+msgid "Your email"
+msgstr "La tua email"
 
 #: _inc/jetpack-strings.php:175
 msgid "Daily backup of all your site data with unlimited space and one-click restores"
@@ -13131,10 +13131,6 @@ msgstr "Posso aggiungere altri campi?"
 msgid "Can I send a notification to more than one person?"
 msgstr "Posso inviare una notifica a più di una persona?"
 
-#: modules/contact-form/grunion-form-view.php:186
-msgid "Can I view my feedback within WordPress?"
-msgstr "Posso visualizzare i riscontri all'interno di WordPress?"
-
 #: modules/comments/comments.php:333
 msgid "Cancel reply"
 msgstr "Annulla risposta"
@@ -13278,18 +13274,9 @@ msgstr "Errore: inserire un indirizzo e-mail valido."
 msgid "Error: please fill the required fields (name, email)."
 msgstr "Errore: compilare i campi obbligatori (nome, e-mail)."
 
-#: modules/contact-form/grunion-contact-form.php:371
-#: modules/contact-form/grunion-contact-form.php:801
-msgid "Export feedback as CSV"
-msgstr "Esporta il riscontro come CSV"
-
 #: modules/contact-form/grunion-contact-form.php:737
 msgid "Feedback discarded."
 msgstr "Feedback scartati."
-
-#: modules/contact-form/admin.php:228
-msgid "Feedback(s) marked as spam"
-msgstr "Riscontro(i) contrassegnato(i) come spam"
 
 #: modules/contact-form/grunion-form-view.php:210
 msgid "Field type"
@@ -13459,18 +13446,9 @@ msgstr "Nuovo campo"
 msgid "No comment text was submitted."
 msgstr "Non è stato inviato alcun testo nel commento."
 
-#: modules/contact-form/grunion-contact-form.php:179
-#: modules/contact-form/grunion-contact-form.php:180
-msgid "No feedback found"
-msgstr "Nessun riscontro trovato"
-
 #: modules/carousel/jetpack-carousel.php:617
 msgid "Nonce verification failed."
 msgstr "Verifica Nonce fallita."
-
-#: modules/contact-form/grunion-form-view.php:199
-msgid "Nope.  However, if you&#8217;d like to modify where your feedback is sent, or the subject line you can.  If you don&#8217;t make any changes here, feedback will be sent to the author of the page/post and the subject will be the name of this page/post."
-msgstr "No. Però puoi modificare l'oggetto e la destinazione del riscontro. Se non modifichi nulla, il riscontro verrà inviato all'autore e l'oggetto sarà costituito dal nome della pagina o del post."
 
 #: modules/contact-form/grunion-form-view.php:226
 #: modules/contact-form/grunion-editor-view.php:249
@@ -13527,14 +13505,6 @@ msgstr "Salva questo campo"
 #: modules/contact-form/grunion-form-view.php:44
 msgid "Saved successfully"
 msgstr "Salvato correttamente"
-
-#: modules/contact-form/grunion-contact-form.php:178
-msgid "Search Feedback"
-msgstr "Cerca riscontro"
-
-#: modules/contact-form/grunion-contact-form.php:807
-msgid "Select feedback to download"
-msgstr "Seleziona il riscontro da scaricare"
 
 #: modules/contact-form/grunion-contact-form.php:2721
 msgid "Sent by a verified %s user."
@@ -13699,11 +13669,6 @@ msgstr "%1$s \\alle\\ore %2$s"
 msgid "Click here"
 msgstr "Fai clic qui"
 
-#: modules/contact-form/grunion-form-view.php:190
-msgctxt "%1$s = \"Feedback\" in an HTML link"
-msgid "Yep, you can read your feedback at any time by clicking the \"%1$s\" link in the admin menu."
-msgstr "Sì, puoi leggere il tuo riscontro quando vuoi facendo clic sul collegamento \"%1$s\" nel menu di amministrazione."
-
 #: modules/carousel/jetpack-carousel.php:293
 #: modules/widgets/simple-payments/form.php:147
 #: modules/widgets/social-icons.php:553
@@ -13743,6 +13708,41 @@ msgstr "Sì"
 #: modules/contact-form/admin.php:767
 msgid "Trash"
 msgstr "Elimina"
+
+#: modules/contact-form/grunion-form-view.php:186
+msgid "Can I view my feedback within WordPress?"
+msgstr "Posso visualizzare i feedback all'interno di WordPress?"
+
+#: modules/contact-form/grunion-contact-form.php:371
+#: modules/contact-form/grunion-contact-form.php:801
+msgid "Export feedback as CSV"
+msgstr "Esporta il feedback come CSV"
+
+#: modules/contact-form/admin.php:228
+msgid "Feedback(s) marked as spam"
+msgstr "Feedback contrassegnato(i) come spam"
+
+#: modules/contact-form/grunion-contact-form.php:179
+#: modules/contact-form/grunion-contact-form.php:180
+msgid "No feedback found"
+msgstr "Nessun feedback trovato"
+
+#: modules/contact-form/grunion-form-view.php:199
+msgid "Nope.  However, if you&#8217;d like to modify where your feedback is sent, or the subject line you can.  If you don&#8217;t make any changes here, feedback will be sent to the author of the page/post and the subject will be the name of this page/post."
+msgstr "No. Però puoi modificare l'oggetto e la destinazione del feedback. Se non modifichi nulla, il feedback verrà inviato all'autore e l'oggetto sarà costituito dal nome della pagina o dell'articolo."
+
+#: modules/contact-form/grunion-contact-form.php:178
+msgid "Search Feedback"
+msgstr "Cerca feedback"
+
+#: modules/contact-form/grunion-contact-form.php:807
+msgid "Select feedback to download"
+msgstr "Seleziona il feedback da scaricare"
+
+#: modules/contact-form/grunion-form-view.php:190
+msgctxt "%1$s = \"Feedback\" in an HTML link"
+msgid "Yep, you can read your feedback at any time by clicking the \"%1$s\" link in the admin menu."
+msgstr "Sì, puoi leggere il tuo feedback quando vuoi facendo clic sul link \"%1$s\" nel menu di amministrazione."
 
 #: class.jetpack.php:4290
 msgctxt "%1$s = deactivation URL, %2$s = \"Deactivate {list of Jetpack module/feature names}"
@@ -14626,17 +14626,6 @@ msgstr "L‛utente %s non può essere disconnesso. Sei certo che sia attualmente
 msgid "User has been successfully disconnected."
 msgstr "L‛utente è stato disconnesso con successo."
 
-#: modules/calypsoify/class.jetpack-calypsoify.php:234
-#: modules/calypsoify/class.jetpack-calypsoify.php:284
-#: modules/contact-form/grunion-form-view.php:191
-#: modules/contact-form/grunion-contact-form.php:176
-#: modules/contact-form/grunion-contact-form.php:177
-#: modules/contact-form/grunion-contact-form.php:920
-#: modules/contact-form/grunion-contact-form.php:938
-#: modules/contact-form/grunion-contact-form.php:1008
-msgid "Feedback"
-msgstr "Riscontro"
-
 #. translators: %s is the site URL
 #: class.jetpack-cli.php:225
 msgid "Jetpack has been successfully disconnected for %s."
@@ -14651,3 +14640,14 @@ msgstr "email"
 msgctxt "Updating an option from \"this\" to \"that\"."
 msgid "Updated option: %1$s to \"%2$s\""
 msgstr "Opzione aggiornata: da %1$s a \"%2$s\""
+
+#: modules/calypsoify/class.jetpack-calypsoify.php:234
+#: modules/calypsoify/class.jetpack-calypsoify.php:284
+#: modules/contact-form/grunion-form-view.php:191
+#: modules/contact-form/grunion-contact-form.php:176
+#: modules/contact-form/grunion-contact-form.php:177
+#: modules/contact-form/grunion-contact-form.php:920
+#: modules/contact-form/grunion-contact-form.php:938
+#: modules/contact-form/grunion-contact-form.php:1008
+msgid "Feedback"
+msgstr "Feedback"
