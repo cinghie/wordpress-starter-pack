@@ -165,7 +165,7 @@ function wp_bootstrap_starter_scripts() {
 	// load bootstrap css
 	wp_enqueue_style( 'wp-bootstrap-starter-bootstrap-css', get_template_directory_uri() . '/inc/assets/css/bootstrap.min.css' );
     // fontawesome cdn
-    wp_enqueue_style( 'wp-bootstrap-pro-fontawesome-cdn', 'https://use.fontawesome.com/releases/v5.1.0/css/all.css' );
+    wp_enqueue_style( 'wp-bootstrap-pro-fontawesome-cdn', 'https://use.fontawesome.com/releases/v5.8.2/css/all.css' );
 	// load bootstrap css
 	// load AItheme styles
 	// load WP Bootstrap Starter styles

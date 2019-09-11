@@ -30,21 +30,18 @@ if ( post_password_required() ) {
             <?php
             $comments_number = get_comments_number();
             if ( '1' === $comments_number ) {
-                /* translators: %s: post title */
-                printf( _x( 'One thought on &ldquo;%s&rdquo;', 'comments title', 'wp-bootstrap-starter' ), get_the_title() );
-            } else {
                 printf(
-                /* translators: 1: number of comments, 2: post title */
-                    _nx(
-                        '%1$s thought on &ldquo;%2$s&rdquo;',
-                        '%1$s thoughts on &ldquo;%2$s&rdquo;',
-                        $comments_number,
-                        'comments title',
-                        'wp-bootstrap-starter'
-                    ),
-                    number_format_i18n( $comments_number ),
-                    get_the_title()
-                );
+					/* translators: 1: title. */
+					esc_html__( 'One thought on &ldquo;%1$s&rdquo;', 'wp-bootstrap-starter' ),
+					'<span>' . esc_html(get_the_title()) . '</span>'
+				);
+            } else {
+                printf( // WPCS: XSS OK.
+					/* translators: 1: comment count number, 2: title. */
+					esc_html( _nx( '%1$s thought on &ldquo;%2$s&rdquo;', '%1$s thoughts on &ldquo;%2$s&rdquo;', $underscore_comment_count, 'comments title', 'wp-bootstrap-starter' ) ),
+					esc_html( number_format_i18n( $underscore_comment_count ) ),
+					'<span>' . esc_html( get_the_title() ) . '</span>'
+				);
             }
             ?>
         </h2><!-- .comments-title -->
@@ -95,6 +92,7 @@ if ( post_password_required() ) {
         'id_form'           => 'commentform',  // that's the wordpress default value! delete it or edit it ;)
         'id_submit'         => 'commentsubmit',
         'title_reply'       => __( 'Leave a Reply', 'wp-bootstrap-starter' ),  // that's the wordpress default value! delete it or edit it ;)
+		/* translators: 1: Reply Specific User */
         'title_reply_to'    => __( 'Leave a Reply to %s', 'wp-bootstrap-starter' ),  // that's the wordpress default value! delete it or edit it ;)
         'cancel_reply_link' => __( 'Cancel Reply', 'wp-bootstrap-starter' ),  // that's the wordpress default value! delete it or edit it ;)
         'label_submit'      => __( 'Post Comment', 'wp-bootstrap-starter' ),  // that's the wordpress default value! delete it or edit it ;)
