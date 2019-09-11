@@ -42,6 +42,8 @@ $empty_option_text = apply_filters( 'ywapo_empty_option_text', __( 'Choose an op
 // Options Data
 $options = maybe_unserialize( $single_type['options'] );
 
+$addon_title_tag = apply_filters( 'wapo_addon_title_tag', 'h3' );
+
 if ( ! ( isset( $options['label'] ) ) || count( $options['label'] ) <= 0 ) { return; } ?>
 
 <div id="<?php echo $value ?>"
@@ -64,11 +66,11 @@ if ( ! ( isset( $options['label'] ) ) || count( $options['label'] ) <= 0 ) { ret
 	
 	<?php if ( $title && $yith_wapo_frontend->_option_show_label_type == 'yes' ) : ?>
 
-		<h3>
+		<<?php echo $addon_title_tag; ?>>
 			<?php echo wptexturize( $title ); ?>
 			<?php echo ( $required ? '<abbr class="required" title="' . __( 'Required', 'yith-woocommerce-product-add-ons' ) . '">*</abbr>' : '' ) ?>
 			<?php echo ( $sold_individually ? '<abbr class="sold_individually"> (' . __( 'Sold individually', 'yith-woocommerce-product-add-ons' ) . ')</abbr>' : '' ); ?>
-		</h3>
+		</<?php echo $addon_title_tag; ?>>
 	
 	<?php endif; ?>
 
@@ -88,7 +90,7 @@ if ( ! ( isset( $options['label'] ) ) || count( $options['label'] ) <= 0 ) { ret
 
 		<?php if ( $type == 'select' ) : ?>
 
-			<select name="<?php echo $name; ?>" class="ywapo_input" <?php echo $required ? 'required' : ''; ?> <?php echo $disabled; ?>>
+			<select id="<?php echo $name; ?>" name="<?php echo $name; ?>" class="ywapo_input" <?php echo $required ? 'required' : ''; ?> <?php echo $disabled; ?>>
 			<option value=""><?php echo $empty_option_text; ?></option>
 		
 		<?php endif; ?>
@@ -104,8 +106,8 @@ if ( ! ( isset( $options['label'] ) ) || count( $options['label'] ) <= 0 ) { ret
 				if ( YITH_WAPO::$is_wpml_installed ) {
 					$options['label'][$i] = YITH_WAPO_WPML::string_translate( $options['label'][$i] );
 					$options['description'][$i] = YITH_WAPO_WPML::string_translate( $options['description'][$i] );
-					$options['placeholder'][$i] = YITH_WAPO_WPML::string_translate( $options['placeholder'][$i] );
-					$options['tooltip'][$i] = YITH_WAPO_WPML::string_translate( $options['tooltip'][$i] );
+					$options['placeholder'][$i] = isset( $options['placeholder'][$i] ) ? YITH_WAPO_WPML::string_translate( $options['placeholder'][$i] ) : '';
+					$options['tooltip'][$i] = isset( $options['tooltip'][$i] ) ? YITH_WAPO_WPML::string_translate( $options['tooltip'][$i] ) : '';
 				}
 				//---END WPML---------
 

@@ -18,8 +18,23 @@ if ( ! class_exists( 'WPPFM_Taxonomies' ) ) :
 	 */
 	class WPPFM_Taxonomies {
 
+		/**
+		 * Generates a string of shop taxonomies (like a category string) in the correct order
+		 *
+		 * @param string $product_id
+		 * @param string $tax
+		 * @param string $separator
+		 *
+		 * @return string
+		 */
 		public static function make_shop_taxonomies_string( $product_id, $tax = 'product_cat', $separator = ' > ' ) {
-			$args = array( 'taxonomy' => $tax );
+			$args = array(
+				'taxonomy' => $tax,
+				'orderby'  => 'parent',
+				'order'    => 'DESC',
+			);
+
+			// get the post term ordered with the last child cat first
 			$cats = wp_get_post_terms( $product_id, $tax, $args );
 
 			$result = array();
@@ -28,25 +43,43 @@ if ( ! class_exists( 'WPPFM_Taxonomies' ) ) :
 				return '';
 			}
 
+			// anonymous function to get the correct taxonomy string
 			$cat_string = function ( $id ) use ( &$result, &$cat_string, $tax ) {
+				// get the first term
 				$term = get_term_by( 'id', $id, $tax, 'ARRAY_A' );
 
+				// check if the term has a parent
 				if ( $term['parent'] ) {
+					// start the anonymous function again with the parent id
 					$cat_string( $term['parent'] );
 				}
 
+				// add the terms name to the result
 				$result[] = $term['name'];
 			};
 
+			// activate the anonymous function with the first categories term_id
 			$cat_string( $cats[0]->term_id );
 
 			return implode( $separator, $result );
 		}
 
+		/**
+		 * Generates a string with all selected categories
+		 *
+		 * @param string $post_id
+		 * @param string $separator
+		 *
+		 * @return string
+		 */
 		public static function get_shop_categories( $post_id, $separator = ', ' ) {
 			$return_string = '';
 
-			$args = array( 'taxonomy' => 'product_cat' );
+			$args = array(
+				'taxonomy' => 'product_cat',
+				'orderby'  => 'term_id',
+			);
+
 			$cats = wp_get_post_terms( $post_id, 'product_cat', $args );
 
 			foreach ( $cats as $cat ) {

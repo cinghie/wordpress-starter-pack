@@ -25,39 +25,6 @@ function ppom_woocommerce_show_fields() {
     // Loading all required scripts/css for inputs like datepicker, fileupload etc
     ppom_hooks_load_input_scripts( $product );
     
-    // main css
-    wp_enqueue_style( 'ppom-main', PPOM_URL.'/css/ppom-style.css');
-
-    wp_enqueue_style( 'ppom-sm-popup', PPOM_URL.'/css/ppom-simple-popup.css');
-    wp_enqueue_script('PPOM-sm-popup', PPOM_URL."/js/ppom-simple-popup.js", array('jquery') );
-
-    
-    if ( $ppom->inline_css != '') {
-		wp_add_inline_style( 'ppom-main', $ppom->inline_css );
-    }
-    
-    // If Bootstrap is enabled
-    if( ppom_load_bootstrap_css() ) {
-        
-        // Boostrap 4.0
-        $ppom_bs_css = PPOM_URL.'/css/bootstrap/bootstrap.css';
-        $ppom_bs_js  = '//stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js';
-        
-        // Boostrap 3.1
-        // $ppom_bs_css = PPOM_URL.'/css/bootstrap/customized/css/bootstrap.css';
-        // $ppom_bs_js  = PPOM_URL.'/css/bootstrap/customized/js/bootstrap.js';
-        
-        $ppom_bs_modal_css = PPOM_URL.'/css/bootstrap/bootstrap.modal.css';
-        // $ppom_bs_css = '//stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css';
-        
-        // Description Tooltips JS File
-        wp_enqueue_script('ppom-tooltip', PPOM_URL."/scripts/ppom-tooltip.js", array('jquery') );
-
-        wp_enqueue_style( 'ppom-bootstrap', $ppom_bs_css);
-        wp_enqueue_style( 'ppom-bootstrap-modal', $ppom_bs_modal_css);
-        
-        // wp_enqueue_script( 'bootstrap-js', $ppom_bs_js, array('jquery', 'ppom-tooltip'));
-    }
     
     do_action('ppom_after_scripts_loaded', PPOM() -> productmeta_id, $product);
     
@@ -90,7 +57,7 @@ function ppom_woocommerce_validate_product($passed, $product_id, $qty) {
 		$passed = ppom_check_validation($product_id, $_POST);
 	}
 	
-	/*if(isset($_POST['ppom']['fields'])) {
+	if( ppom_get_price_mode() == 'legacy' && isset($_POST['ppom']['fields']) ) {
 		
 		if( ppom_is_price_attached_with_fields($_POST['ppom']['fields']) &&
     		empty($_POST['ppom']['ppom_option_price'])
@@ -100,7 +67,7 @@ function ppom_woocommerce_validate_product($passed, $product_id, $qty) {
 			$passed = false;
 			return $passed;
     	}
-    }*/
+    }
     
     return $passed;
 }
@@ -108,15 +75,24 @@ function ppom_woocommerce_validate_product($passed, $product_id, $qty) {
 function ppom_woocommerce_ajax_validate() {
 	
 	// ppom_pa($_POST); exit;
+	$ppom_nonce = $_REQUEST['ppom_nonce'];
+	$validate_nonce_action = "ppom_validating_action";
+	if ( ! wp_verify_nonce( $ppom_nonce, $validate_nonce_action ) ) {
+		
+		$message = __('<div class="woocommerce-error" role="alert">Error while validating, try again</div>', "ppom");
+		$response = array('status'=>'error', 'message' => $message);
+    	wp_send_json( $response );
+	}
+	
 	$errors_found = array();
 	
-	$product_id = $_POST['ppom_product_id'];
+	$product_id = intval($_POST['ppom_product_id']);
 	$passed =  ppom_check_validation($product_id, $_POST);
 	
 	$all_notices = wc_get_notices();
 	wc_clear_notices();
 	
-	$reponse = array();
+	$response = array();
 	if( ! $passed ) {
 		ob_start();
 		foreach($all_notices as $type => $message) {
@@ -128,14 +104,14 @@ function ppom_woocommerce_ajax_validate() {
 		}
 		
 		$all_notices = wc_kses_notice( ob_get_clean() );
-		$reponse = array('status'=>'error', 'message'=>$all_notices);
+		$response = array('status'=>'error', 'message'=>$all_notices);
 	} else {
-		$reponse = array('status'=>'success');
+		$response = array('status'=>'success');
 	}
 	// $all_notices = '<div class="">'.$all_notices.'</div>';
 	// ppom_pa($all_notices);
 	
-	wp_send_json( $reponse );
+	wp_send_json( $response );
 }
 
 function ppom_check_validation($product_id, $post_data, $passed=true) {
@@ -170,7 +146,8 @@ function ppom_check_validation($product_id, $post_data, $passed=true) {
 			
 			// Note: Checkbox is being validate by hook: ppom_has_posted_field_value
 			// $error_message = isset($field['error_message']) ? $field['error_message'] : '';
-			$error_message = (isset($field['error_message']) && $field['error_message'] != '') ? $title.": ".$field['error_message'] : "{$title} is a required field";
+			// $error_message = (isset($field['error_message']) && $field['error_message'] != '') ? $title.": ".$field['error_message'] : "{$title} is a required field";
+			$error_message = (isset($field['error_message']) && $field['error_message'] != '') ? __($title, 'ppom').": ". __($field['error_message'], 'ppom') : sprintf( __("%s is a required field", 'ppom'), __($title, 'ppom'));
 			$error_message = sprintf ( __ ( '%s', 'ppom' ), $error_message );
 			$error_message = stripslashes ($error_message);
 			ppom_wc_add_notice( $error_message );
@@ -223,7 +200,8 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 	}
 	
 	// converting back to org price if Currency Switcher is used
-	$ppom_item_org_price	= ppom_hooks_convert_price_back($wc_product->get_price());
+	// $ppom_item_org_price	= ppom_hooks_convert_price_back($wc_product->get_price());
+	$ppom_item_org_price	= $wc_product->get_price();
 	
 	$ppom_item_order_qty	= floatval($cart_items['quantity']);
 	
@@ -535,7 +513,6 @@ function ppom_woocommerce_add_item_meta($item_meta, $cart_item) {
 	}
 	
 	$ppom_meta = ppom_make_meta_data( $cart_item );
-	// ppom_pa($ppom_meta);
 	
 	foreach( $ppom_meta as $key => $meta ) {
 		
@@ -576,10 +553,12 @@ function ppom_woocommerce_add_item_meta($item_meta, $cart_item) {
 function ppom_woocommerce_alter_price($price, $product) {
 	
 	$product_id = ppom_get_product_id($product);
-	/*$ppom		= new PPOM_Meta( $product_id );
-	if( ! $ppom->fields ) return $price;*/
 	
 	$price_matrix_found = ppom_has_field_by_type( $product_id, 'pricematrix' );
+	if( empty($price_matrix_found) && apply_filters('ppom_hide_product_price_if_zero', true, $product) ) {
+		if( $product->get_price() <= 0 ) return '';
+	}
+	
 	if( empty($price_matrix_found) ) return $price;
 	
 	$from_pice = '';
@@ -697,12 +676,7 @@ function ppom_woocommerce_set_quantity_step( $quantity_step, $product ) {
 // When quantities is used then reset quantity to 1
 function ppom_woocommerce_add_to_cart_quantity( $quantity, $product_id ) {
 	
-	$ppom_quantities_found = ppom_has_field_by_type( $product_id, 'quantities' );
-	
-	// ppom_pa($ppom_quantities_found);
-	if( ! empty($ppom_quantities_found) ) {
-		
-		// Found quantities field then reset quantity to 1
+	if( ! ppom_is_cart_quantity_updatable( $product_id ) ) {
 		$quantity = 1;
 	}
 	
@@ -710,7 +684,7 @@ function ppom_woocommerce_add_to_cart_quantity( $quantity, $product_id ) {
 }
 
 // It is change cart quantity label
-function ppom_woocommerce_control_cart_quantity($quantity, $cart_item_key) {
+function ppom_woocommerce_control_cart_quantity_legacy($quantity, $cart_item_key) {
 	
 	$cart_item = WC()->cart->get_cart_item( $cart_item_key );
 	
@@ -746,8 +720,32 @@ function ppom_woocommerce_control_cart_quantity($quantity, $cart_item_key) {
 	return $quantity;
 }
 
+function ppom_woocommerce_control_cart_quantity($quantity, $cart_item_key) {
+	
+	$cart_item = WC()->cart->get_cart_item( $cart_item_key );
+	
+	// ppom_pa($cart_item)
+	if( !isset($cart_item['ppom']['fields']) ) return $quantity;
+	
+	$ppom_fields_post   = $cart_item['ppom']['fields'];
+	$product_id			= $cart_item['product_id'];
+	
+	if( ppom_is_cart_quantity_updatable( $product_id ) ) return $quantity;
+
+	$ppom_has_quantities = ppom_price_get_total_quantities($ppom_fields_post, $product_id);
+	
+	// var_dump($ppom_has_quantities);
+	// If no quantity updated then return default
+	$ppom_quantitiles_allow_update_cart = apply_filters('ppom_quantities_allow_cart_update', false, $ppom_fields_post);
+	if( $ppom_has_quantities != 0 && !$ppom_quantitiles_allow_update_cart) {
+		$quantity = '<span class="ppom-cart-quantity">'.$ppom_has_quantities.'</span>';
+	}
+	
+	return $quantity;
+}
+
 // Control subtotal when quantities input used
-function ppom_woocommerce_item_subtotal( $item_subtotal, $cart_item, $cart_item_key) {
+/*function ppom_woocommerce_item_subtotal( $item_subtotal, $cart_item, $cart_item_key) {
 	
 	if( !isset($cart_item['ppom']['ppom_option_price']) ) return $item_subtotal;
 	
@@ -770,28 +768,24 @@ function ppom_woocommerce_item_subtotal( $item_subtotal, $cart_item, $cart_item_
 	$item_quantity = 1;
 	return WC()->cart->get_product_subtotal( $_product,  $item_quantity);
 	
-}
+}*/
 
 function ppom_woocommerce_control_checkout_quantity($quantity, $cart_item, $cart_item_key) {
 	
-	if( !isset($cart_item['ppom']['ppom_option_price']) ) return $quantity;
+	// ppom_pa($cart_item);
+	if( !isset($cart_item['ppom']['fields']) ) return $quantity;
 	
-	// Getting option price
-	$option_prices = json_decode( stripslashes($cart_item['ppom']['ppom_option_price']), true);
-	if( empty($option_prices) ) return $quantity;
+	$ppom_fields_post   = $cart_item['ppom']['fields'];
+	$product_id			= $cart_item['product_id'];
 	
-	$ppom_has_quantities = 0;
-	foreach($option_prices as $option) {
-		
-		if( isset($option['quantity']) ) {
-			$ppom_has_quantities += intval( $option['quantity'] );
-		}
-	}
+	if( ppom_is_cart_quantity_updatable( $product_id ) ) return $quantity;
+
+	$ppom_has_quantities = ppom_price_get_total_quantities($ppom_fields_post, $product_id);
 	
 	// If no quantity updated then return default
-	if( $ppom_has_quantities == 0 ) return $quantity;
-	
-	$quantity = '<strong class="product-quantity">' . sprintf( "&times; %s", $ppom_has_quantities ) . '</strong>';
+	if( $ppom_has_quantities > 0 ) {
+		$quantity = '<strong class="product-quantity">' . sprintf( "&times; %s", $ppom_has_quantities ) . '</strong>';
+	}
 	
 	return $quantity;
 }
@@ -800,15 +794,20 @@ function ppom_woocommerce_control_oder_item_quantity($quantity, $item) {
 	
 	$ppom_has_quantities = 0;
 	
-	foreach( $item->get_meta_data() as $meta ) {
-		if( $meta -> key == 'ppom_has_quantities') {
-			$ppom_has_quantities = $meta->value;
-		}
+	$product_id = $item->get_product_id();
+
+	$ppom_fields_post = wc_get_order_item_meta( $item->get_id(), '_ppom_fields');
+	if( !isset($ppom_fields_post['fields']) ) return $quantity;
+	
+	$ppom_fields_post = $ppom_fields_post['fields'];
+	
+	if( ppom_is_cart_quantity_updatable( $product_id ) ) return $quantity;
+
+	$ppom_has_quantities = ppom_price_get_total_quantities($ppom_fields_post, $product_id);
+	
+	if( $ppom_has_quantities > 0 ) {
+		$quantity = '<strong class="product-quantity">' . sprintf( "&times; %s", $ppom_has_quantities ) . '</strong>';
 	}
-	
-	if( $ppom_has_quantities == 0 ) return $quantity;
-	
-	$quantity = '<strong class="product-quantity">' . sprintf( "&times; %s", $ppom_has_quantities ) . '</strong>';
 	
 	return $quantity;
 }
@@ -817,15 +816,20 @@ function ppom_woocommerce_control_email_item_quantity($quantity, $item) {
 	
 	$ppom_has_quantities = 0;
 	
-	foreach( $item->get_meta_data() as $meta ) {
-		if( $meta -> key == 'ppom_has_quantities') {
-			$ppom_has_quantities = $meta->value;
-		}
+	$product_id = $item->get_product_id();
+
+	$ppom_fields_post = wc_get_order_item_meta( $item->get_id(), '_ppom_fields');
+	if( !isset($ppom_fields_post['fields']) ) return $quantity;
+	
+	$ppom_fields_post = $ppom_fields_post['fields'];
+	
+	if( ppom_is_cart_quantity_updatable( $product_id ) ) return $quantity;
+
+	$ppom_has_quantities = ppom_price_get_total_quantities($ppom_fields_post, $product_id);
+	
+	if( $ppom_has_quantities > 0 ) {
+		$quantity = '<strong class="product-quantity">' . sprintf( "%s", $ppom_has_quantities ) . '</strong>';
 	}
-	
-	if( $ppom_has_quantities == 0 ) return $quantity;
-	
-	$quantity = '<strong class="product-quantity">' . sprintf( "%s", $ppom_has_quantities ) . '</strong>';
 	
 	return $quantity;
 }
@@ -834,15 +838,20 @@ function ppom_woocommerce_control_order_item_quantity($quantity, $item) {
 	
 	$ppom_has_quantities = 0;
 	
-	foreach( $item->get_meta_data() as $meta ) {
-		if( $meta -> key == 'ppom_has_quantities') {
-			$ppom_has_quantities = $meta->value;
-		}
+	$product_id = $item->get_product_id();
+
+	$ppom_fields_post = wc_get_order_item_meta( $item->get_id(), '_ppom_fields');
+	if( !isset($ppom_fields_post['fields']) ) return $quantity;
+	
+	$ppom_fields_post = $ppom_fields_post['fields'];
+	
+	if( ppom_is_cart_quantity_updatable( $product_id ) ) return $quantity;
+
+	$ppom_has_quantities = ppom_price_get_total_quantities($ppom_fields_post, $product_id);
+	
+	if( $ppom_has_quantities > 0 ) {
+		$quantity = $ppom_has_quantities;
 	}
-	
-	if( $ppom_has_quantities == 0 ) return $quantity;
-	
-	$quantity = $ppom_has_quantities;
 	
 	return $quantity;
 }
@@ -873,9 +882,11 @@ function ppom_woocommerce_order_item_meta($item, $cart_item_key, $values, $order
 	
 	$ppom_meta = ppom_make_meta_data( $values, 'order' );
 	// ppom_pa($ppom_meta); exit;
+	
 	foreach( $ppom_meta as $key => $meta ) {
 		
-		$item->update_meta_data($key, $meta['value']);
+		$meta_value = isset($meta['display']) ? $meta['display'] : $meta['value'];
+		$item->update_meta_data($key, $meta_value);
 	}
 	
 	// Since 15.2, saving all fields as another meta

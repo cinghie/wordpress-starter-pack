@@ -1,4 +1,4 @@
-function wppfm_attributeMeta( key, value ) {
+function Wppfm_AttributeMeta( key, value ) {
 
 	this.key   = key;
 	this.value = value;

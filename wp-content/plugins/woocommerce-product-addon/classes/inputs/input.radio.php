@@ -57,11 +57,6 @@ class NM_Radio_wooproduct extends PPOM_Inputs{
 				'desc' => __ ( 'Type option with price (optionally)', "ppom" )
 			),
 			
-			/*'show_price' => array (
-						'type' => 'checkbox',
-						'title' => __ ( 'Show price', 'ppom' ),
-						'desc' => __ ( 'Show price on front end with options', 'ppom' ) 
-				),*/
 				
 			'selected' => array (
 				'type' => 'text',

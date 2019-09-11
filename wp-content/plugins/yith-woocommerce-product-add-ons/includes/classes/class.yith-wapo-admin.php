@@ -777,7 +777,7 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 				'post_status'         => array( 'publish' ),
 				'orderby'             => $ordering_args['orderby'],
 				'order'               => $ordering_args['order'],
-				'posts_per_page'      => 50
+				'posts_per_page'      => -1
 			);
 			
 			if ( $product_ids ) {

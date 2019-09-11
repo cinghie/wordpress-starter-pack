@@ -49,6 +49,11 @@ class Woo_Wallet_Balance_Details extends WP_List_Table {
         if ( '' !== $args['search'] ) {
             $args['search'] = '*' . $args['search'] . '*';
         }
+        
+        if( isset($_REQUEST['role'])){
+            $args['role'] = $_REQUEST['role'];
+        }
+        
         if ( isset( $_REQUEST['orderby'] ) ) {
             $args['orderby'] = $_REQUEST['orderby'];
         }
@@ -75,14 +80,14 @@ class Woo_Wallet_Balance_Details extends WP_List_Table {
         $wp_user_search = new WP_User_Query( $args );
         $data = array();
         foreach ( $wp_user_search->get_results() as $user) {
-            $data[] = array(
+            $data[] = apply_filters('woo_wallet_balance_details_list_table_item_data', array(
                 'id'       => $user->ID,
                 'username' => $user->data->user_login,
                 'name'     => $user->data->display_name,
                 'email'    => $user->data->user_email,
                 'balance'  => woo_wallet()->wallet->get_wallet_balance( $user->ID ),
                 'actions'  => ''
-            );
+            ), $user);
         }
         $this->_column_headers = array( $columns, $hidden, $sortable );
         $this->items           = $data;
@@ -91,6 +96,89 @@ class Woo_Wallet_Balance_Details extends WP_List_Table {
             'per_page'    => $users_per_page,
         ) );
     }
+    /**
+    * Output 'no users' message.
+    *
+    * @since 3.1.0
+    */
+    public function no_items() {
+        _e( 'No users found.' );
+    }
+    /**
+    * Return an associative array listing all the views that can be used
+    * with this table.
+    *
+    * Provides a list of roles and user count for that role for easy
+    * Filtersing of the user table.
+    *
+    * @since  1.3.8
+    *
+    * @global string $role
+    *
+    * @return array An array of HTML links, one for each view.
+    */
+    protected function get_views() {
+        global $role;
+
+        $wp_roles = wp_roles();
+
+        $url           = 'admin.php?page=woo-wallet';
+        $users_of_blog = count_users();
+
+        $total_users = $users_of_blog['total_users'];
+        $avail_roles =& $users_of_blog['avail_roles'];
+        unset( $users_of_blog );
+
+        $current_link_attributes = empty( $role ) ? ' class="current" aria-current="page"' : '';
+
+        $role_links        = array();
+        $role_links['all'] = "<a href='$url'$current_link_attributes>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_users, 'users' ), number_format_i18n( $total_users ) ) . '</a>';
+        foreach ( $wp_roles->get_names() as $this_role => $name ) {
+            if ( ! isset( $avail_roles[ $this_role ] ) ) {
+                    continue;
+            }
+
+            $current_link_attributes = '';
+
+            if ( $this_role === $role ) {
+                    $current_link_attributes = ' class="current" aria-current="page"';
+            }
+
+            $name = translate_user_role( $name );
+            /* translators: User role name with count */
+            $name                     = sprintf( __( '%1$s <span class="count">(%2$s)</span>' ), $name, number_format_i18n( $avail_roles[ $this_role ] ) );
+            $role_links[ $this_role ] = "<a href='" . esc_url( add_query_arg( 'role', $this_role, $url ) ) . "'$current_link_attributes>$name</a>";
+        }
+
+        if ( ! empty( $avail_roles['none'] ) ) {
+
+                $current_link_attributes = '';
+
+                if ( 'none' === $role ) {
+                        $current_link_attributes = ' class="current" aria-current="page"';
+                }
+
+                $name = __( 'No role' );
+                /* translators: User role name with count */
+                $name               = sprintf( __( '%1$s <span class="count">(%2$s)</span>' ), $name, number_format_i18n( $avail_roles['none'] ) );
+                $role_links['none'] = "<a href='" . esc_url( add_query_arg( 'role', 'none', $url ) ) . "'$current_link_attributes>$name</a>";
+
+        }
+
+        return $role_links;
+    }
+    /**
+    * Output extra table controls.
+    *
+    * @since 1.3.8
+    *
+    * @param string $which Whether this is being invoked above ("top")
+    *                      or below the table ("bottom").
+    */
+    protected function extra_tablenav( $which ) {
+        do_action('woo_wallet_users_list_extra_tablenav', $which);
+    }
+    
 
     /**
      * Define which columns are hidden
@@ -134,7 +222,7 @@ class Woo_Wallet_Balance_Details extends WP_List_Table {
             case 'actions':
                 return '<p><a href="' . add_query_arg( array( 'page' => 'woo-wallet-add', 'user_id' => $item['id'] ), admin_url( 'admin.php' ) ) . '" class="button tips wallet-manage"></a> <a class="button tips wallet-view" href="' . add_query_arg( array( 'page' => 'woo-wallet-transactions', 'user_id' => $item['id'] ), admin_url( 'admin.php' ) ) . '"></a></p>';
             default:
-                return print_r( $item, true );
+                return apply_filters('woo_wallet_balance_details_column_default', print_r( $item, true ), $column_name, $item);
         }
     }
 

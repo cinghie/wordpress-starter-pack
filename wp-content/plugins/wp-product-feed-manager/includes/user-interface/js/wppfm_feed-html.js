@@ -10,6 +10,8 @@
  */
 function wppfm_staticInputField( rowId, queryLevel, combinationLevel, selectedValue ) {
 
+	selectedValue = wppfm_escapeHtml( selectedValue );
+
 	return '<input type="text" name="static-input-field" id="static-input-field-' + rowId + '-' + queryLevel + '-' + combinationLevel
 		+ '" class="static-input-field" value="' + selectedValue + '" onchange="wppfm_staticValueChanged('
 		+ rowId + ', ' + queryLevel + ', ' + combinationLevel + ')">';
@@ -212,6 +214,7 @@ function wppfm_endrow( rowId ) {
 	return '<div class="end-row" id="end-row-id-' + rowId + '">&nbsp;</div>';
 }
 
+
 function wppfm_forAllProductsAtChangeValuesSelector( rowId, sourceLevel, valueEditorLevel, displayStatus ) {
 	var other_val = sourceLevel > 0 ? wppfm_feed_settings_form_vars.other + ' ' : '';
 
@@ -230,9 +233,12 @@ function wppfm_valueOptionsElementInput( rowId, sourceLevel, valueEditorLevel, v
 	return ' ' + wppfm_feed_settings_form_vars.with_element_name + wppfm_valueOptionsSingleInputValue( rowId, sourceLevel, valueEditorLevel, value );
 }
 
-function wppfm_valueOptionsSingleInputValue( rowId, sourceLevel, valueEditorLevel, value ) {
+function wppfm_valueOptionsSingleInputValue( rowId, sourceLevel, valueEditorLevel, optionsSelectorValue ) {
+
+	optionsSelectorValue = wppfm_escapeHtml( optionsSelectorValue );
+
 	return ' <input type="text" onchange="wppfm_valueInputOptionsChanged(' + rowId + ', ' + sourceLevel
-		+ ', ' + valueEditorLevel + ')" id="value-options-input-' + rowId + '-' + sourceLevel + '-' + valueEditorLevel + '" value="' + value + '">';
+		+ ', ' + valueEditorLevel + ')" id="value-options-input-' + rowId + '-' + sourceLevel + '-' + valueEditorLevel + '" value="' + optionsSelectorValue + '">';
 }
 
 function wppfm_addFeedStatusChecker( feedId ) {
@@ -249,15 +255,18 @@ function wppfm_addFeedStatusChecker( feedId ) {
 		+ '}</script>';
 }
 
-function wppfm_valueOptionsReplaceInput( rowId, sourceLevel, valueEditorLevel, value, endValue ) {
+function wppfm_valueOptionsReplaceInput( rowId, sourceLevel, valueEditorLevel, startValue, endValue ) {
+
+	startValue = wppfm_escapeHtml( startValue );
+
 	return '<input type="text" onchange="wppfm_valueInputOptionsChanged(' + rowId + ', ' + sourceLevel + ', '
 		+ valueEditorLevel + ' )" id="value-options-input-' + rowId + '-' + sourceLevel + '-' + valueEditorLevel
-		+ '" value="' + value + '"> with <input type="text" onchange="wppfm_valueInputOptionsChanged('
+		+ '" value="' + startValue + '"> with <input type="text" onchange="wppfm_valueInputOptionsChanged('
 		+ rowId + ', ' + sourceLevel + ', ' + valueEditorLevel + ')" id="value-options-input-with-' + rowId + '-'
 		+ sourceLevel + '-' + valueEditorLevel + '" value="' + endValue + '">';
 }
 
-function wppfm_valueOptionsRecalculate( rowId, sourceLevel, valueEditorLevel, selectedValue, value ) {
+function wppfm_valueOptionsRecalculate( rowId, sourceLevel, valueEditorLevel, selectedValue, recalculateValue ) {
 	var valueOptions = wppfm_changeValuesRecalculateOptions();
 
 	var htmlCode = '<select class="select-value-options" id="value-options-recalculate-options-' + rowId + '-' + sourceLevel + '-0">';
@@ -270,7 +279,7 @@ function wppfm_valueOptionsRecalculate( rowId, sourceLevel, valueEditorLevel, se
 
 	htmlCode += '</select>';
 	htmlCode += ' <input type="text" onchange="wppfm_valueInputOptionsChanged(' + rowId + ', ' + sourceLevel + ', ' + valueEditorLevel + ')" id="value-options-input-'
-		+ rowId + '-' + sourceLevel + '-' + valueEditorLevel + '" value="' + value + '">';
+		+ rowId + '-' + sourceLevel + '-' + valueEditorLevel + '" value="' + recalculateValue + '">';
 
 	return htmlCode;
 }
@@ -346,7 +355,7 @@ function wppfm_freeCategoryInputCntrl( type, id, value ) {
 function wppfm_inputFieldCntrl( rowId, sourceLevel, sourceValue, staticValue, advisedSource, combinedValue, isCustom ) {
 
 	var hasAdvisedValueHtml   = advisedSource ? '<option value="advised" itemprop="basic">' + wppfm_feed_settings_form_vars.use_advised_source + '</option>' : '';
-	var staticSelectedHtml    = staticValue ? ' ' + wppfm_feed_settings_form_vars.selected : '';
+	var staticSelectedHtml    = staticValue ? ' selected' : '';
 	var prefix                = sourceLevel > 0 ? wppfm_feed_settings_form_vars.or + ' ' : '';
 	var hasCombinedOptionHtml = ! combinedValue ? '<option value="combined" itemprop="basic">' + wppfm_feed_settings_form_vars.combined_source_fields + '</option>'
 		: '<option value="combined" selected>' + wppfm_feed_settings_form_vars.combined_source_fields + '</option>';

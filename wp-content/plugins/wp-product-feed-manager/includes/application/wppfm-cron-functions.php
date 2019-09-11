@@ -25,6 +25,7 @@ function wppfm_update_feeds() {
 	require_once( __DIR__ . '/../user-interface/wppfm-messaging-functions.php' );
 	require_once( __DIR__ . '/../user-interface/wppfm-url-functions.php' );
 	require_once( __DIR__ . '/../application/wppfm-feed-processing-support.php' );
+	require_once( __DIR__ . '/../application/wppfm-feed-processor-functions.php' );
 
 	// WooCommerce needs to be installed and active
 	if ( ! wppfm_wc_installed_and_active() ) {
@@ -46,9 +47,6 @@ function wppfm_update_feeds() {
 	include_channels();
 
 	do_action( 'wppfm_automatic_feed_processing_triggered' );
-
-	global $background_process;
-	$background_process = new WPPFM_Feed_Processor();
 
 	// update the database if required
 	wppfm_check_db_version();

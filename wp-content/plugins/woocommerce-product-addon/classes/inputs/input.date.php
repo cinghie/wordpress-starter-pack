@@ -114,9 +114,9 @@ class NM_Date_wooproduct extends PPOM_Inputs{
 					'desc' => __ ( 'It will load jQuery fancy datepicker.', 'ppom' ) 
 			),
 			'past_dates' => array (
-					'type' => 'checkbox',
-					'title' => __ ( 'Disable Past Dates', 'ppom' ),
-					'desc' => __ ( 'It will disable past dates.', 'ppom' ) 
+			    'type' => 'text',
+			    'title' => __ ( 'Disable Past Dates', 'ppom' ),
+			    'desc' => __ ( 'Disable dates before a certain day.  Enter a date or use shortcode (example: +10d)', 'ppom' ) 
 			),
 			'no_weekends' => array (
 					'type' => 'checkbox',

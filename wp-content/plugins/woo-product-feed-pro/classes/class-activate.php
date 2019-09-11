@@ -79,6 +79,13 @@ class WooSEA_Activation {
 					"taxonomy" => "google_shopping",
 					"utm_source" => "Pinterest",
                         		"type" => "Advertising" ),
+     	 			"Pinterest RSS Board" => array (
+                        		"channel_hash" => md5("Pinterest RSS Board"),
+					"name" => "Pinterest RSS Board",
+					"fields" => "pinterest_rss",
+					"taxonomy" => "none",
+					"utm_source" => "Pinterest RSS Board",
+                        		"type" => "Advertising" ),
         		),
 			"Custom Feed" => array (
 				"Custom Feed" => array (
@@ -99,7 +106,7 @@ class WooSEA_Activation {
 				"ShopMania" => array (
                         		"channel_hash" => md5("Shopmania"),
                         		"name" => "Shopmania.com.ar",
-					"fields" => "customfeed",
+					"fields" => "shopmania_ro",
 					"taxonomy" => "none",
 					"utm_source" => "Shopmania.com.ar",
                         		"type" => "Shopmania.com.ar" )
@@ -130,7 +137,7 @@ class WooSEA_Activation {
          			"ShopMania" => array (
 		               		"channel_hash" => md5("Shopmania.com.au"),
                         		"name" => "Shopmania.com.au",
-					"fields" => "customfeed",
+					"fields" => "shopmania_ro",
 					"taxonomy" => "none",
 					"utm_source" => "Shopmania.com.au",
                         		"type" => "Comparison shopping engine" ),
@@ -539,7 +546,7 @@ class WooSEA_Activation {
      				"ShopMania.fr" => array (
                         		"channel_hash" => md5("ShopMania.fr"),
                         		"name" => "ShopMania.fr",
-					"fields" => "customfeed",
+					"fields" => "shopmania_ro",
 					"taxonomy" => "none",
 					"utm_source" => "ShopMania.fr",
                         		"type" => "Comparison shopping engine" ),
@@ -880,6 +887,13 @@ class WooSEA_Activation {
 					"taxonomy" => "none",
 					"utm_source" => "Skroutz.gr",
                         		"type" => "Comparison shopping engine" ),
+                		"Glami" => array (
+                        		"channel_hash" => md5("Glami.gr"),
+                        		"name" => "Glami.gr",
+					"fields" => "glami",
+					"taxonomy" => "none",
+					"utm_source" => "Glami.gr",
+                        		"type" => "Comparison shopping engine" ),
  				),
 			"Grenada" => array (),
 			"Guatemala" => array (),
@@ -892,7 +906,7 @@ class WooSEA_Activation {
                 		"ShopMania" => array (
                         		"channel_hash" => md5("ShopMania.hu"),
                         		"name" => "ShopMania.hu",
-					"fields" => "customfeed",
+					"fields" => "shopmania_ro",
 					"taxonomy" => "none",
 					"utm_source" => "ShopMania.hu",
                         		"type" => "Comparison shopping engine" ),
@@ -902,7 +916,7 @@ class WooSEA_Activation {
                 		"ShopMania" => array (
                         		"channel_hash" => md5("ShopMania.in"),
                         		"name" => "ShopMania.in",
-					"fields" => "customfeed",
+					"fields" => "shopmania_ro",
 					"taxonomy" => "none",
 					"utm_source" => "ShopMania.in",
                         		"type" => "Comparison shopping engine" ),
@@ -914,7 +928,7 @@ class WooSEA_Activation {
                 		"ShopMania" => array (
                         		"channel_hash" => md5("ShopMania.ie"),
                         		"name" => "ShopMania.ie",
-					"fields" => "customfeed",
+					"fields" => "shopmania_ro",
 					"taxonomy" => "none",
 					"utm_source" => "ShopMania.ie",
                         		"type" => "Comparison shopping engine" ),
@@ -953,7 +967,7 @@ class WooSEA_Activation {
                  		"ShopMania" => array (
                         		"channel_hash" => md5("ShopMania.it"),
                         		"name" => "ShopMania.it",
-					"fields" => "customfeed",
+					"fields" => "shopmania_ro",
 					"taxonomy" => "none",
 					"utm_source" => "ShopMania.it",
                         		"type" => "Comparison shopping engine" ),
@@ -992,7 +1006,7 @@ class WooSEA_Activation {
                 		"ShopMania" => array (
                         		"channel_hash" => md5("ShopMania.jp"),
                         		"name" => "ShopMania.jp",
-					"fields" => "customfeed",
+					"fields" => "shopmania_ro",
 					"taxonomy" => "none",
 					"utm_source" => "ShopMania.jp",
                         		"type" => "Comparison shopping engine" ),
@@ -1037,7 +1051,7 @@ class WooSEA_Activation {
                 		"ShopMania" => array (
                         		"channel_hash" => md5("ShopMania.com.mx"),
                         		"name" => "ShopMania.com.mx",
-					"fields" => "customfeed",
+					"fields" => "shopmania_ro",
 					"taxonomy" => "none",
 					"utm_source" => "ShopMania.com.mx",
                         		"type" => "Comparison shopping engine" ),
@@ -1083,7 +1097,14 @@ class WooSEA_Activation {
 					"taxonomy" => "none",
 					"utm_source" => "Tweakers.nl",
                        			"type" => "Comparison shopping engine" ),
-        		      	"Kleding.nl" => array (
+ 	       		      	"Fashionchick.nl" => array (
+                        		"channel_hash" => md5("Fashionchick.nl"),
+                        		"name" => "Fashionchick.nl",
+					"fields" => "fashionchick",
+					"taxonomy" => "none",
+					"utm_source" => "Fashionchick.nl",
+                       			"type" => "Comparison shopping engine" ),
+	       		      	"Kleding.nl" => array (
                         		"channel_hash" => md5("Kleding.nl"),
                         		"name" => "Kleding.nl",
 					"fields" => "customfeed",
@@ -1125,13 +1146,6 @@ class WooSEA_Activation {
                                         "taxonomy" => "none",
                                         "utm_source" => "Miinto.nl",
                                         "type" => "Comparison shopping engine" ),
-                  		"Marktplaats.nl" => array (
-                        		"channel_hash" => md5("Marktplaats.nl"),
-                        		"name" => "Marktplaats.nl",
-					"fields" => "customfeed",
-					"taxonomy" => "none",
-					"utm_source" => "Marktplaats.nl",
-                        		"type" => "Marketplace" ),
                   		"Bol.com" => array (
                         		"channel_hash" => md5("Bol.com"),
                         		"name" => "Bol.com",
@@ -1249,7 +1263,7 @@ class WooSEA_Activation {
  	              		"ShopMania" => array (
                         		"channel_hash" => md5("ShopMania.pl"),
                         		"name" => "ShopMania.pl",
-					"fields" => "customfeed",
+					"fields" => "shopmania_ro",
 					"taxonomy" => "none",
 					"utm_source" => "ShoMania.pl",
                         		"type" => "Comparison shopping engine" ),
@@ -1272,7 +1286,7 @@ class WooSEA_Activation {
   	              		"ShopMania" => array (
                         		"channel_hash" => md5("ShopMania.pt"),
                         		"name" => "ShopMania.pt",
-					"fields" => "customfeed",
+					"fields" => "shopmania_ro",
 					"taxonomy" => "none",
 					"utm_source" => "ShoMania.pt",
                         		"type" => "Comparison shopping engine" ),
@@ -1296,10 +1310,18 @@ class WooSEA_Activation {
    	              		"ShopMania" => array (
                         		"channel_hash" => md5("ShopMania.ro"),
                         		"name" => "ShopMania.ro",
-					"fields" => "customfeed",
+					"fields" => "shopmania_ro",
 					"taxonomy" => "none",
 					"utm_source" => "ShoMania.ro",
                         		"type" => "Comparison shopping engine" ),
+                                "Compari" => array (
+                                        "channel_hash" => md5("Compari.ro"),
+                                        "name" => "Compari.ro",
+                                        "fields" => "compari_ro",
+                                        "taxonomy" => "none",
+                                        "utm_source" => "Compari.ro",
+                                        "type" => "Comparison shopping engine" ),
+
  			),
   		        "Russian Federation" => array (
                 		"Yandex" => array (
@@ -1323,7 +1345,7 @@ class WooSEA_Activation {
                 		"ShopMania" => array (
                         		"channel_hash" => md5("ShopMania.rs"),
                         		"name" => "ShopMania.rs",
-					"fields" => "customfeed",
+					"fields" => "shopmania_ro",
 					"taxonomy" => "none",
 					"utm_source" => "ShopMania.rs",
                         		"type" => "Comparison shopping engine" ),
@@ -1335,7 +1357,7 @@ class WooSEA_Activation {
                 		"ShopMania" => array (
                         		"channel_hash" => md5("ShopMania.sk"),
                         		"name" => "ShopMania.sk",
-					"fields" => "customfeed",
+					"fields" => "shopmania_ro",
 					"taxonomy" => "none",
 					"utm_source" => "ShopMania.sk",
                         		"type" => "Comparison shopping engine" ),
@@ -1346,9 +1368,16 @@ class WooSEA_Activation {
                 		"ShopMania" => array (
                         		"channel_hash" => md5("ShopMania.co.za"),
                         		"name" => "ShopMania.co.za",
-					"fields" => "customfeed",
+					"fields" => "shopmania_ro",
 					"taxonomy" => "none",
 					"utm_source" => "ShopMania.co.za",
+                        		"type" => "Comparison shopping engine" ),
+                		"Pricecheck" => array (
+                        		"channel_hash" => md5("Pricecheck.co.za"),
+                        		"name" => "Pricecheck.co.za",
+					"fields" => "pricecheck",
+					"taxonomy" => "none",
+					"utm_source" => "Pricecheck.co.za",
                         		"type" => "Comparison shopping engine" ),
 			),
 			"South Sudan" => array (), 
@@ -1606,7 +1635,7 @@ class WooSEA_Activation {
         			"ShopMania" => array (
                         		"channel_hash" => md5("ShopMania.co.uk"),
                         		"name" => "ShapMania.co.uk",
-					"fields" => "customfeed",
+					"fields" => "shopmania_ro",
 					"taxonomy" => "none",
 					"utm_source" => "ShopMania.co.uk",
                         		"type" => "Comparison shopping engine" ),
@@ -1706,7 +1735,7 @@ class WooSEA_Activation {
                     		"ShopMania" => array (
                         		"channel_hash" => md5("ShopMania"),
                         		"name" => "ShopMania.com",
-					"fields" => "customfeed",
+					"fields" => "shopmania_ro",
 					"taxonomy" => "none",
 					"utm_source" => "ShopMania.com",
                         		"type" => "Comparison shopping engine" ),
@@ -1757,9 +1786,9 @@ class WooSEA_Activation {
 			"Zimbabwe" => array (),
 		);
 		
-		update_option( 'channel_statics', $channel_statics, '', 'yes');
-		
-	        /**
+		update_option( 'channel_statics', $channel_statics);
+	        
+		/**
         	 * Function for setting a cron job for regular creation of the feed
         	 * Will create a new event when an old one exists, which will be deleted first
         	 */
@@ -1793,14 +1822,15 @@ class WooSEA_Activation {
               		  		'license_key'           => "",
                 			'notice'                => $notice,
         			);
-        			update_option ('license_information', $license_information);
 
-                		update_option ('structured_data_fix', 'no', 'yes');
-                		update_option ('structured_vat', 'no', 'yes');
-               			update_option ('add_unique_identifiers', 'no', 'yes');
-               	 		update_option ('add_wpml_support', 'no', 'yes');
-               	 		update_option ('add_manipulation_support', 'no', 'yes');
-                		update_option ('add_aelia_support', 'no', 'yes');
+				// Disable Elite features
+        			update_option ( 'license_information', $license_information );
+                		update_option ( 'structured_data_fix', 'no' );
+                		update_option ( 'structured_vat', 'no' );
+               			update_option ( 'add_unique_identifiers', 'no' );
+               	 		update_option ( 'add_wpml_support', 'no' );
+               	 		update_option ( 'add_manipulation_support', 'no' );
+                		update_option ( 'add_aelia_support', 'no' );
 			}
 
                         wp_schedule_event ( time(), 'daily', 'woosea_check_license');
@@ -1824,10 +1854,23 @@ class WooSEA_Activation {
 		}
 
 		/**
+	  	 * Enable some extra fields by default otherwise nothing shows on the product edit pages
+	 	 */
+		$extra_attributes = array (
+    			"custom_attributes__woosea_mpn" 	=> "woosea mpn",
+    			"custom_attributes__woosea_gtin" 	=> "woosea gtin",
+    			"custom_attributes__woosea_ean" 	=> "woosea ean",
+    			"custom_attributes__woosea_brand" 	=> "woosea brand"
+		);
+		if(!get_option( 'woosea_extra_attributes' )){
+			update_option( 'woosea_extra_attributes', $extra_attributes );
+		}
+
+		/**
 		 * Disable structured data JSON=LD changes by default
 		 * User needs to enable this setting in the plugin section
 		 */
-		update_option( 'structured_data_fix', 'no', 'yes');
+		update_option( 'structured_data_fix', 'no' );
 
 		/**
     		 * Register date of first activation of plugin
@@ -1835,15 +1878,15 @@ class WooSEA_Activation {
  		 * Review notification request once
 		 */
 		if(!get_option( 'woosea_first_activation')){
-			update_option ( 'woosea_first_activation', time(), 'yes');
+			update_option ( 'woosea_first_activation', time() );
 		}
 
 		if(!get_option( 'woosea_count_activation')){
-			update_option ( 'woosea_count_activation', 1, 'yes');
+			update_option ( 'woosea_count_activation', 1 );
 		} else {
 			$count_activation = get_option ( 'woosea_count_activation' );
 			$new_activation = $count_activation+1;
-			update_option ( 'woosea_count_activation', $new_activation, 'yes');
+			update_option ( 'woosea_count_activation', $new_activation );
 		}
 	}
 }

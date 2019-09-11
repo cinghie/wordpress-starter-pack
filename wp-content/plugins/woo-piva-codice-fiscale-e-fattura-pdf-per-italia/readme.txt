@@ -5,7 +5,7 @@ Tags: woocommerce, e-commerce, partita iva,codice fiscale,woo,fattura PDF, ricev
 Requires at least: 3.0.1
 Requires PHP: 5.6
 Tested up to: 5.1
-Stable tag: 2.1.8
+Stable tag: 2.1.9
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,6 +56,11 @@ Per acquistare la versione PRO vai <a href="http://dot4all.it/prodotto/plugin-wo
 1. Attivare il plugin attraverso la sezione 'Plugins' di WordPress.
 
 == Changelog ==
+
+= 2.1.9 =
+
+FIX utilizzo plugin con WP Multisite
+NEW campi aggiuntivi PEC e Codice destinatario presenti in anteprima nel billing_address del singolo ordine
 
 = 2.1.8 =
 

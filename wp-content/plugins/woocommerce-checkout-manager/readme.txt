@@ -1,20 +1,26 @@
 === WooCommerce Checkout Manager ===
-
-Contributors: visser, visser.labs, Emark
-Donate link: https://www.visser.com.au/donations/
-Tags: woocommerce, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
+Contributors: quadlayers
+Donate link: https://quadlayers.com/
+Tags: woocommerce, woocommerce checkout, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
 Requires at least: 3.0
-Tested up to: 5.1.1
-Stable tag: 4.3
+Tested up to: 5.2.2
+Stable tag: 4.3.4
 License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Manages WooCommerce Checkout, the advanced way.
 
 == Description ==
 
-WooCommerce Checkout Manager allows you to customise and manage the fields on your [WooCommerce](http://wordpress.org/plugins/woocommerce/) Checkout page. Re-order, rename, hide and extend Checkout fields within the Billing, Shipping and Additional sections.
+[Documentation](https://quadlayers.com/documentation/woocommerce-checkout-manager/) | [Support](https://quadlayers.com/account/support/) | [Community](https://www.facebook.com/groups/quadlayers/)
 
-**Notice**: There has been a change of Plugin ownership on 11/03/2016, please see the *Change of Plugin ownership* section below for more information.
+
+WooCommerce Checkout Manager allows you to customize and manage the fields on your WooCommerce Checkout page. Re-order, rename, hide and extend Checkout fields within the Billing, Shipping and Additional sections.
+
+= Ownership =
+
+30/08/2019 marks a change of ownership of WooCommerce Checkout Manager from Visser to [QuadLayers](https://quadlayers.com/) who will be responsible for resolving critical Plugin issues and ensuring the Plugin meets WordPress security and coding standards in the form of regular Plugin updates.
+
 
 = FEATURES =
 
@@ -51,10 +57,6 @@ WooCommerce Checkout Manager allows you to customise and manage the fields on yo
 * Re-position the added fields: Before Shipping Form, After Shipping Form, Before Billing Form, After Billing Form or After Order Notes
 * **Insert Notice:** Before Customer Address Fields and Before Order Summary on checkout page.
 
-= Change of Plugin ownership =
-
-11/03/2016 marks a change of ownership of WooCommerce Checkout Manager from Emark to visser who will be responsible for resolving critical Plugin issues and ensuring the Plugin meets WordPress security and coding standards in the form of regular Plugin updates.
-
 == Installation ==
 
 = Minimum Requirements =
@@ -83,7 +85,7 @@ Automatic updates are delivered just like any other WordPress Plugin.
 
 = How do I add conditional Checkout fields? =
 
-Read through the [Adding Conditional Checkout fields](https://www.visser.com.au/documentation/woocommerce-checkout-manager/usage/#Adding_Conditional_Checkout_Fields) walkthrough on our website.
+Read through the [Adding Conditional Checkout fields](https://quadlayers.com/documentation/woocommerce-checkout-manager/configuration/) walkthrough on our website.
 
 = [Insert feature] is not working within WooCommerce Checkout Manager =
 
@@ -134,6 +136,24 @@ Example:
 8. Customize Checkout fields from the WooCheckout menu item in the WordPress Administration.
 
 == Changelog ==
+
+= 4.3.4 =
+* Fix: woocommerce fields options missing for new installs
+
+= 4.3.3 =
+* Improvement: woocommerce order upload rebuilt
+* Improvement: woocommerce checkout upload rebuilt 
+* Improvement: woocommerce order admin upload rebuilt
+* Improvement: woocommerce register fields rebuilt 
+* Improvement: woocommerce register fields rebuilt 
+* Fix: woocommerce checkout additional fields required
+
+= 4.3.2 =
+* New: Settings and support action links
+
+= 4.3.1 =
+* Notice: Plugin ownership change
+* Fix: Admin redirect after options reset
 
 = 4.3 =
 * Fixed: Security issue where Categorize Uploaded Files is selected

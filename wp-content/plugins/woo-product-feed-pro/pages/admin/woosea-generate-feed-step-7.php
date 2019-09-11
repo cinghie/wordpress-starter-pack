@@ -3,7 +3,7 @@
  * Change default footer text, asking to review our plugin
  **/
 function my_footer_text($default) {
-    return 'If you like our <strong>WooCommerce Product Feed PRO</strong> plugin please leave us a <a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="woo-product-feed-pro-ratingRequest">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. Thanks in advance!';
+    return _e( 'If you like our <strong>WooCommerce Product Feed PRO</strong> plugin please leave us a <a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="woo-product-feed-pro-ratingRequest">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. Thanks in advance!','woo-product-feed-pro' );
 }
 add_filter('admin_footer_text', 'my_footer_text');
 
@@ -58,7 +58,6 @@ if($channel_data['taxonomy'] != "none"){
 	$step = 1;
 }
 
-
 /**
  * Get main currency
  **/
@@ -107,7 +106,7 @@ if(isset($_POST['product_variations'])){
 
 	<div class="wrap">
 		<div class="woo-product-feed-pro-form-style-2">
-			<div class="woo-product-feed-pro-form-style-2-heading">Field mapping</div>
+			<div class="woo-product-feed-pro-form-style-2-heading"><?php _e( 'Field mapping','woo-product-feed-pro' );?></div>
 
                 	<div class="<?php _e($notifications_box['message_type']); ?>">
                         	<p><?php _e($notifications_box['message'], 'sample-text-domain' ); ?></p>
@@ -123,9 +122,9 @@ if(isset($_POST['product_variations'])){
 							print "$channel_data[name] attributes";
 						?>
 						</th>
-                				<th>Prefix</th>
-                				<th>Value</th>
-						<th>Suffix</th>
+                				<th><?php _e( 'Prefix','woo-product-feed-pro' );?></th>
+                				<th><?php _e( 'Value','woo-product-feed-pro' );?></th>
+						<th><?php _e( 'Suffix','woo-product-feed-pro' );?></th>
             				</tr>
         			</thead>
         
@@ -139,7 +138,21 @@ if(isset($_POST['product_variations'])){
 								if ($row_v['format'] == "required"){
 								?>
 								<tr class="rowCount <?php print"$c";?>">
-									<td><input type="hidden" name="attributes[<?php print "$c";?>][rowCount]" value="<?php print "$c";?>"><input type="checkbox" name="record" class="checkbox-field"></td>
+									<td><input type="hidden" name="attributes[<?php print "$c";?>][rowCount]" value="<?php print "$c";?>">
+
+                                                                	<?php
+                                                                	if ($row_v['feed_name'] == "g:item_group_id"){
+                                                                        ?>
+                                                                        	<input type="checkbox" name="record" class="checkbox-field" title="it is not allowed to remove the item_group_id field mapping" disabled>
+                                                                        <?php
+                                                                	} else {
+                                                                        ?>
+                                                                        	<input type="checkbox" name="record" class="checkbox-field">
+                                                                        <?php
+                                                                	}
+                                                                	?>
+
+									</td>
 									<td>
 										<select name="attributes[<?php print"$c"; ?>][attribute]" class="select-field">
 										<?php
@@ -212,7 +225,19 @@ if(isset($_POST['product_variations'])){
 							}
 							?>
 							<tr class="rowCount <?php print "$attribute_key";?>">	
-								<td><input type="hidden" name="attributes[<?php print "$attribute_key";?>][rowCount]" value="<?php print "$attribute_key";?>"><input type="checkbox" name="record" class="checkbox-field"></td>
+								<td><input type="hidden" name="attributes[<?php print "$attribute_key";?>][rowCount]" value="<?php print "$attribute_key";?>">
+								<?php
+								if ($attribute_array['attribute'] == "g:item_group_id"){
+									?>
+									<input type="checkbox" name="record" class="checkbox-field" title="it is not allowed to remove the item_group_id field mapping" disabled>
+									<?php
+								} else {
+									?>
+									<input type="checkbox" name="record" class="checkbox-field">
+									<?php
+								}
+								?>
+								</td>
 								<td>
 									<select name="attributes[<?php print"$attribute_key"; ?>][attribute]" class="select-field">
 									<?php

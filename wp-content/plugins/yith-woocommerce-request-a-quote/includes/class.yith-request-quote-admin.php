@@ -199,7 +199,7 @@ if ( !class_exists( 'YITH_YWRAQ_Admin' ) ) {
             $args = array(
                 'create_menu_page' => true,
                 'parent_slug'      => '',
-                'page_title'       => _x('Request a Quote','Plugin Name. Do not translate.', 'yith-woocommerce-request-a-quote'),
+                'page_title'       => _x('YITH WooCommerce Request a Quote','Plugin Name. Do not translate.', 'yith-woocommerce-request-a-quote'),
                 'menu_title'       => _x('Request a Quote','Plugin Name. Do not translate.', 'yith-woocommerce-request-a-quote'),
                 'capability'       => 'manage_options',
                 'parent'           => '',
@@ -207,6 +207,7 @@ if ( !class_exists( 'YITH_YWRAQ_Admin' ) ) {
                 'links'            => $this->get_panel_sidebar_link(),
                 'page'             => $this->_panel_page,
                 'admin-tabs'       => $admin_tabs,
+                'class'            => yith_set_wrapper_class(),
                 'options-path'     => YITH_YWRAQ_DIR . '/plugin-options'
             );
 

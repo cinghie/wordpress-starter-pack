@@ -3,7 +3,7 @@
  * Change default footer text, asking to review our plugin
  **/
 function my_footer_text($default) {
-    return 'If you like our <strong>WooCommerce Product Feed PRO</strong> plugin please leave us a <a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="woo-product-feed-pro-ratingRequest">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. Thanks in advance!';
+    return _e( 'If you like our <strong>WooCommerce Product Feed PRO</strong> plugin please leave us a <a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="woo-product-feed-pro-ratingRequest">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. Thanks in advance!','woo-product-feed-pro' );
 }
 add_filter('admin_footer_text', 'my_footer_text');
 $add_manipulation_support = get_option ('add_manipulation_support');
@@ -40,7 +40,7 @@ if (array_key_exists('project_hash', $_GET)){
 ?>
 	<div class="wrap">
 		<div class="woo-product-feed-pro-form-style-2">
-			<div class="woo-product-feed-pro-form-style-2-heading">Product data manipulation</div>
+			<div class="woo-product-feed-pro-form-style-2-heading"><?php _e( 'Product data manipulation','woo-product-feed-pro' );?></div>
 
                 	<div class="<?php _e($notifications_box['message_type']); ?>">
                         	<p><?php _e($notifications_box['message'], 'sample-text-domain' ); ?></p>
@@ -51,9 +51,9 @@ if (array_key_exists('project_hash', $_GET)){
 				<thead>
             				<tr>
                 				<th></th>
-						<th>Product type</th>
-						<th>Field</th>
-						<th>Becomes</th>
+						<th><?php _e( 'Product type','woo-product-feed-pro' );?></th>
+						<th><?php _e( 'Field','woo-product-feed-pro' );?></th>
+						<th><?php _e( 'Becomes','woo-product-feed-pro' );?></th>
 						<th></th>
             				</tr>
         			</thead>

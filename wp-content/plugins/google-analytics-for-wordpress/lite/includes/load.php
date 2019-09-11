@@ -37,11 +37,15 @@ if ( is_admin() ) {
 	// Load the Welcome class.
 	require_once MONSTERINSIGHTS_PLUGIN_DIR . 'lite/includes/admin/welcome.php';
 
-	// Load the Upgrade functions.
-	require_once MONSTERINSIGHTS_PLUGIN_DIR . 'lite/includes/admin/upgrade.php';
+	// Load the MonsterInsights Connect class.
+	require_once MONSTERINSIGHTS_PLUGIN_DIR . 'lite/includes/admin/connect.php';
 
 	if ( isset( $_GET['page'] ) && 'monsterinsights-onboarding' === $_GET['page'] ) { // WPCS: CSRF ok, input var ok.
 		// Only load the Onboarding wizard if the required parameter is present.
 		require_once MONSTERINSIGHTS_PLUGIN_DIR . 'lite/includes/admin/onboarding-wizard.php';
 	}
+
+	// Site Health logic.
+	require_once MONSTERINSIGHTS_PLUGIN_DIR . 'lite/includes/admin/wp-site-health.php';
+
 }

@@ -3,8 +3,8 @@
 Contributors: yithemes
 Tags: woocommerce, multi-step checkout, woocommerce multistep checkout, woocommerce checkout, shop checkout, multistep, multi step, multi-step, wc, wc checkout, wc multi-step checkout, wc multistep checkout, yit, yith, yithemes
 Requires at least: 4.0
-Tested up to: 5.1
-Stable tag: 1.6.11
+Tested up to: 5.2
+Stable tag: 1.7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,7 +45,31 @@ This plugin has been realised using only WooCommerce standard templates. If your
 
 == Changelog ==
 
-= 1.6.11 - Released on 23RD April, 2019 =
+= 1.7.4 - Released on 26th August, 2019 =
+
+* Fix: Missing astra.php compatibility file
+
+= 1.7.3 - Released on 05th August, 2019 =
+
+* New: Support for WooCommerce 3.7
+* Update: Plugin core framework
+
+= 1.7.2 - Released on 12nd June, 2019 =
+
+* Fix: Issue during plugin update
+
+= 1.7.1 - Released on 12nd June, 2019 =
+
+* Update: Plugin Core Framework
+
+= 1.7.0 - Released on 06th June, 2019 =
+
+* Tweak: Code refactoring
+* Update: All languages file
+* Update: Plugin Core Framework
+* Fix: Various style issue
+
+= 1.6.11 - Released on 23rd April, 2019 =
 
 * Update: Plugin Core FW
 

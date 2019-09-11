@@ -172,8 +172,15 @@ display: inline;
   					data_name: $("#data_name").val(),
   					ratio: $("#ratios-list li:first").text(),
   					product_id: $('#ppom_product_id').val(),
+  					ppom_nonce: ppom_input_vars.ppom_validate_nonce,
   		}
   		$.post(ppom_input_vars.ajaxurl, data, function(resp){
+  			
+  			
+  			if( resp.status != undefined && resp.status == 'error' ){
+  				alert( resp.message );
+  				window.location.reload();
+  			}
   			
   			//console.log(resp);
   			document.getElementById(image_id).src = resp.cropped_image;

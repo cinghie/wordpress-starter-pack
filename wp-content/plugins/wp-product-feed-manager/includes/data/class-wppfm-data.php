@@ -62,7 +62,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		}
 
 		public function get_country_id_from_short_code( $country_code ) {
-			if ( '0' !== $country_code ) {
+			if ( '0' !== $country_code && 0 !== $country_code ) {
 				return $this->_queries->get_country_id( $country_code );
 			} else {
 				$id             = new stdClass();
@@ -149,11 +149,13 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 
 		public function add_parent_data( &$product_data, $parent_id, $post_columns_query_string ) {
 			$parent_product_data = (array) $this->_queries->read_post_data( $parent_id, $post_columns_query_string );
+			$sources_that_always_use_parent_data = apply_filters( 'sources_that_always_use_data_from_parent', array( 'post_excerpt' ) );
 
-			$colums = explode( ', ', $post_columns_query_string );
+			$columns = explode( ', ', $post_columns_query_string );
 
-			foreach ( $colums as $column ) {
-				if ( '' === $product_data[ $column ] && array_key_exists( $column, $parent_product_data ) && '' !== $parent_product_data[ $column ] ) {
+			foreach ( $columns as $column ) {
+				if ( ( '' === $product_data[ $column ] && array_key_exists( $column, $parent_product_data ) && '' !== $parent_product_data[ $column ] )
+				|| in_array( $column, $sources_that_always_use_parent_data ) ) {
 					$product_data[ $column ] = $parent_product_data[ $column ];
 				}
 			}
@@ -219,6 +221,54 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 			}
 		}
 
+		/**
+		 * Converts feed data items that are send through an ajax call to the corresponding database names.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param $feed_data
+		 *
+		 * @return array
+		 */
+		public function convert_ajax_feed_data_to_database_format( $feed_data ) {
+			$result = array();
+
+			foreach ( $feed_data as $data_item ) {
+				if ( 'product_feed_id' !== $data_item->name ) {
+					$result[ $data_item->name ] = $data_item->value;
+				}
+			}
+
+			return $result;
+		}
+
+		/**
+		 * Gets the correct data types from the feed data and puts them into an array in the correct order.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param $feed_data
+		 * @param $ajax_feed_data
+		 *
+		 * @return array
+		 */
+		public function get_types_from_feed_data( $feed_data, $ajax_feed_data ) {
+			$result = array();
+
+			foreach ( $feed_data as $data_key => $value ) {
+				$feed_item = array_filter(
+					$ajax_feed_data,
+					function( $item ) use ( $data_key ) {
+						return $item->name == $data_key;
+					}
+				);
+
+				array_push( $result, reset( $feed_item )->type );
+			}
+
+			return $result;
+		}
+
 		public function get_feed_data( $feed_id ) {
 			// get the main data
 			$main_feed_data        = $this->_queries->read_feed( $feed_id );
@@ -230,14 +280,14 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 
 			// read the output fields
 			if ( ! $is_custom ) {
-				$outputs = $this->_files->get_output_fields_for_specific_channel( $channel );
+				$outputs = apply_filters( 'wppfm_get_feed_attributes', $this->_files->get_output_fields_for_specific_channel( $channel ), $feed_id, $main_feed_data[0]['feed_type_id'] );
 			} else {
 				$outputs = $this->get_custom_fields_with_metadata( $feed_id );
 			}
 
 			// add meta data to the feeds output fields
 			$output_fields = $this->fill_output_fields_with_metadata( $feed_id, $outputs );
-			$inputs        = $this->get_advised_inputs( $main_data->channel );
+			$inputs        = $this->get_advised_inputs( $main_data->channel, $main_feed_data[0]['feed_type_id'] );
 
 			for ( $i = 0; $i < count( $output_fields ); $i ++ ) {
 				$output_title = $output_fields[ $i ]->field_label;
@@ -311,6 +361,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 			$feed->country           = $data['country'];
 			$feed->status            = $data['status_id'];
 			$feed->baseStatusId      = $data['base_status_id'];
+			$feed->feedTypeId        = $data['feed_type_id'];
 			$feed->updateSchedule    = $data['schedule'];
 			$feed->language          = $data['language'] !== null ? $data['language'] : '';
 
@@ -318,11 +369,11 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		}
 
 		// WPPFM_CHANNEL_RELATED
-		private function get_advised_inputs( $channel_id ) {
+		private function get_advised_inputs( $channel_id, $feed_type_id ) {
 			$feed_class = new WPPFM_Google_Feed_Class();
-
-			// as long as only WooCommerce is supported, I can get away with only switching on a specific channel
-			return $feed_class->woocommerce_to_feed_fields();
+			// as long as only woocommerce is supported, I can get away with only switching on a specific channel
+			$advised_inputs = $feed_class->woocommerce_to_feed_fields();
+			return apply_filters( 'wppfm_advised_inputs', $advised_inputs, $feed_type_id );
 		}
 
 		public function register_channel( $channel_short_name, $channel_data ) {

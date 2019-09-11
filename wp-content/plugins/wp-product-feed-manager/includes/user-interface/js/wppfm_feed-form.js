@@ -25,9 +25,7 @@ function wppfm_mainInputChanged( categoryChanged ) {
 	wppfm_reactOnChannelInputChanged( channel, feedId, categoryChanged );
 }
 
-function wppfm_validateFileName() {
-	var fileNameElement = jQuery( '#file-name' );
-
+function wppfm_validateFileName( fileNameElement ) {
 	if ( ! wppfm_contains_special_characters( fileNameElement.val() ) ) {
 		_feedHolder[ 'title' ] = fileNameElement.val();
 	} else {
@@ -82,26 +80,72 @@ function wppfm_constructNewFeed() {
 	var frequency         = updateScheduleFrequencyElement.val() !== '' ? updateScheduleFrequencyElement.val() : '1';
 	var feedFilter        = [];
 	var status            = 2;
-	var channel_feed_type = wppfm_getChannelFeedType( channel );
+	var channelFeedType   = wppfm_getChannelFeedType( channel );
+	var feedType          = '1';
 
 	// make the url to the feed file
-	var url     = jQuery( '#wp-plugin-url' ).text() + '/wppfm-feeds/' + fileName + '.' + channel_feed_type;
+	var url     = jQuery( '#wp-plugin-url' ).text() + '/wppfm-feeds/' + fileName + '.' + channelFeedType;
 	var updates = daysInterval + ':' + hours + ':' + minutes + ':' + frequency;
 
 	wppfm_setScheduleSelector( daysInterval, frequency );
 
 	// make a new feed object
 	_feedHolder = new Feed( - 1, fileName, variations, aggregator, parseInt( channel ), mainCategory, categoryMapping, url, source, country, language, feedTitle, feedDescription,
-		updates, feedFilter, status );
+		updates, feedFilter, status, feedType );
+}
+
+/**
+ * This function can be used by special feed add-on plugins to handle construction of a new non standard feed.
+ *
+ * @param {object} specialFeedFeedHolder
+ */
+function wppfm_constructNewSpecialFeed( specialFeedFeedHolder ) {
+	_feedHolder = specialFeedFeedHolder;
+}
+
+/**
+ * This function allows to set a feed property that are to be used for special feeds like Google Product Review Feeds.
+ *
+ * @param {string}           key    name of the property
+ * @param {string|int|array} value  value the property should get
+ * @param {string}           type   type of the property, like string, int or array
+ */
+function wppfm_setSpecialFeedProperty( key, value, type ) {
+	if ( _feedHolder.hasOwnProperty( key ) ) {
+		if ( 'object' === typeof _feedHolder[ key ] ) {
+			_feedHolder[ key ].push( value );
+		} else {
+			_feedHolder[ key ] = value;
+		}
+	} else {
+		if ( 'array' === type ) {
+			_feedHolder[ key ] = [];
+			_feedHolder[ key ].push( value );
+		} else {
+			_feedHolder[ key ] = value;
+		}
+	}
+}
+
+/**
+ * Unset an item from a special feed property of type array or object.
+ *
+ * @param {string}      key    name of the property
+ * @param {string|int}  value  value to be removed from the array or object
+ */
+function wppfm_unsetSpecialFeedArrayProperty( key, value ) {
+	if ( _feedHolder.hasOwnProperty( key ) && 'object' === typeof _feedHolder[ key ] ) {
+		var index = _feedHolder[ key ].indexOf( value );
+		_feedHolder[ key ].splice( index, 1 );
+	}
 }
 
 function wppfm_finishOrUpdateFeedPage( categoryChanged ) {
 	var selectedChannelElement = jQuery( '#merchants' );
 	var lvl0Element            = jQuery( '#lvl_0' );
+	var selectedChannelValue   = selectedChannelElement.val().toString();
 
 	wppfm_show_feed_spinner();
-
-	var selectedChannelValue = selectedChannelElement.val().toString();
 
 	// make sure the data is correct
 	_feedHolder[ 'title' ]             = jQuery( '#file-name' ).val();
@@ -113,7 +157,7 @@ function wppfm_finishOrUpdateFeedPage( categoryChanged ) {
 	_feedHolder[ 'language' ]          = document.getElementById( 'language' ) === null ? '' : jQuery( '#language' ).val();
 
 	// get the output fields that can be used with the selected channel
-	wppfm_outputFields( - 1, selectedChannelValue, function( outputs ) {
+	wppfm_getFeedAttributes(	- 1,	selectedChannelValue,	function( outputs ) {
 
 		_feedHolder.setUpdateSchedule( jQuery( '#days-interval' ).val(), jQuery( '#update-schedule-hours' ).val(),
 			jQuery( '#update-schedule-minutes' ).val(), jQuery( '#update-schedule-frequency' ).val() );
@@ -156,6 +200,8 @@ function wppfm_finishOrUpdateFeedPage( categoryChanged ) {
 					wppfm_fillFeedFields( isNew, categoryChanged );
 				}
 
+				console.log( _feedHolder );
+
 				// TODO: somewhere between the initialization of channel in _feedHolder the channel id is changed
 				// to an integer in stead of the required string. For now I just reset the variable to
 				// a string again, but I need to figure out why this is happening. Before the wppfm_addFeedAttributes
@@ -172,6 +218,26 @@ function wppfm_finishOrUpdateFeedPage( categoryChanged ) {
 	} );
 }
 
+/**
+ * This function can be used by special feed add-ons to handle special feed updates.
+ *
+ * @param {array} specialFeedFeedHolder
+ */
+function wppfm_finishOrUpdateSpecialFeedPage( specialFeedFeedHolder ) {
+	_feedHolder = specialFeedFeedHolder;
+
+	wppfm_makeFieldsTable();
+
+	if ( _feedHolder !== 0 ) {
+		var isNew = _feedHolder[ 'feedId' ] === - 1;
+		wppfm_fillFeedFields( isNew, false );
+	}
+
+	// show the buttons again
+	jQuery( '#page-center-buttons' ).show();
+	jQuery( '#page-bottom-buttons' ).show();
+}
+
 function wppfm_editExistingFeed( feedId ) {
 
 	wppfm_show_feed_spinner();
@@ -182,6 +248,8 @@ function wppfm_editExistingFeed( feedId ) {
 		// put the data in the _feed object
 		_feedHolder = feedObject;
 
+		console.log( _feedHolder[ 'categoryMapping' ] );
+
 		var channel        = _feedHolder[ 'channel' ];
 		var categoryString = _feedHolder[ 'mainCategory' ];
 		var mainCategory   = categoryString && categoryString.indexOf( ' > ' ) > - 1 ? categoryString.substring( 0, categoryString.indexOf( ' > ' ) ) : categoryString;
@@ -189,7 +257,7 @@ function wppfm_editExistingFeed( feedId ) {
 		wppfm_fillCategoryVariables( channel, mainCategory, '0' ); // make sure the category values are set correctly
 
 		// get all possible output fields from the database
-		wppfm_outputFields( _feedHolder[ 'feedId' ], channel, function( outputs ) {
+		wppfm_getFeedAttributes( _feedHolder[ 'feedId' ], channel, function( outputs ) {
 
 			// set the found output fields as attributes in the feed object
 			wppfm_addFeedAttributes( outputs, channel, 1 );
@@ -342,19 +410,23 @@ function wppfm_fillDefaultCategorySelectors() {
 	} );
 }
 
-function wppfm_google_feed_title_changed() {
-	_feedHolder[ 'feedTitle' ] = jQuery( '#google-feed-title-selector' ).val();
+function wppfm_setGoogleFeedTitle( value ) {
+	_feedHolder[ 'feedTitle' ] = value;
 }
 
-function wppfm_google_feed_description_changed() {
-	_feedHolder[ 'feedDescription' ] = jQuery( '#google-feed-description-selector' ).val();
+function wppfm_setGoogleFeedDescription( value ) {
+	_feedHolder[ 'feedDescription' ] = value;
 }
 
-function wppfm_feed_language_changed() {
-	_feedHolder[ 'language' ] = jQuery( '#language' ).val();
+function wppfm_setGoogleFeedLanguage( value ) {
+	_feedHolder[ 'language' ] = value;
 }
 
-function wppfm_setCategoryMap( mapping ) {
+function wppfm_setCategoryMap( mapping, mode ) {
+
+	if( undefined === mode ) {
+		mode = 'mapping'; // default setting
+	}
 
 	var map = JSON.parse( mapping );
 
@@ -363,19 +435,21 @@ function wppfm_setCategoryMap( mapping ) {
 		var categoryId = map[ i ].shopCategoryId;
 		var mapString  = '';
 
-		switch ( map[ i ].feedCategories ) {
+		if ( 'mapping' === mode ) { // only show the category mapping column when in mapping mode
+			switch (map[ i ].feedCategories) {
 
-			case 'wp_mainCategory':
-				mapString = wppfm_mapToDefaultCategoryElement( categoryId, 'default' );
-				break;
+				case 'wp_mainCategory':
+					mapString = wppfm_mapToDefaultCategoryElement(categoryId, 'default');
+					break;
 
-			case 'wp_ownCategory':
-				mapString = wppfm_mapToDefaultCategoryElement( categoryId, 'shopCategory' );
-				break;
+				case 'wp_ownCategory':
+					mapString = wppfm_mapToDefaultCategoryElement(categoryId, 'shopCategory');
+					break;
 
-			default:
-				mapString = wppfm_mapToCategoryElement( categoryId, map[ i ].feedCategories );
-				break;
+				default:
+					mapString = wppfm_mapToCategoryElement(categoryId, map[ i ].feedCategories);
+					break;
+			}
 		}
 
 		jQuery( '#feed-selector-' + categoryId ).prop( 'checked', true );
@@ -387,72 +461,95 @@ function wppfm_generateAndSaveFeed() {
 
 	wppfm_show_feed_spinner();
 
+	//noinspection JSUnresolvedVariable
 	_feedHolder[ 'mainCategory' ] = ! wppfm_channelUsesOwnCategories(
 		_feedHolder[ 'channel' ] ) ? _feedHolder[ 'mainCategory' ] : wppfm_feed_settings_form_vars.no_category_required;
 
 	// save the feed data to the database
 	wppfm_saveFeedToDb( _feedHolder, function( dbResult ) {
 
-		var newFeed             = _feedHolder[ 'feedId' ] === - 1;
-		var errorMessageElement = jQuery( '#error-message' );
+		var newFeed = _feedHolder[ 'feedId' ] === - 1;
 
-		// the wppfm_saveFeedToDb returns the entered feed id
-		if ( 0 === dbResult || '0' === dbResult ) {
-			console.log( 'Saving the data to the data base has failed!' );
-			wppfm_show_error_message( wppfm_feed_settings_form_vars.save_data_failed );
-			wppfm_hide_feed_spinner();
-		} else {
-
-			// insert the feed id in the _feed
-			_feedHolder[ 'feedId' ] = dbResult;
-
-			if ( newFeed ) {
-				// reset the url to implement the feed id so the user can reset the form if he wants
-				var currentUrl       = window.location.href;
-				window.location.href = currentUrl + '&id=' + _feedHolder[ 'feedId' ];
-			}
-		}
+		wppfm_handleSaveFeedToDbActionResult( dbResult, newFeed );
 
 		// convert the data to xml or csv and save the code to a feed file
 		wppfm_updateFeedFile( _feedHolder[ 'feedId' ], function( xmlResult ) {
 
+			wppfm_handleUpdateFeedFileActionResult( xmlResult );
+
 			if ( ! newFeed ) {
 				wppfm_hide_feed_spinner();
 			}
-			switch ( xmlResult ) {
-				case 'started_processing':
-					errorMessageElement.hide();
-					wppfm_show_success_message( wppfm_feed_settings_form_vars.feed_started );
-					wppfm_alert_update_finished( _feedHolder[ 'feedId' ], 5000 );
-					break;
-
-				case 'pushed_to_queue':
-					errorMessageElement.hide();
-					wppfm_show_success_message( wppfm_feed_settings_form_vars.feed_queued );
-					wppfm_alert_update_finished( _feedHolder[ 'feedId' ], 5000 );
-					break;
-
-				case 'writing_error':
-					wppfm_show_error_message( wppfm_feed_settings_form_vars.feed_writing_error );
-					wppfm_hide_feed_spinner();
-					break;
-
-				case 'foreground_processing_complete':
-					wppfm_alert_update_finished( _feedHolder[ 'feedId' ], 0 );
-					wppfm_hide_feed_spinner();
-					break;
-
-				case '1':
-				case 1:
-					wppfm_show_error_message( wppfm_feed_settings_form_vars.feed_general_error.replace( '%xmlResult%', xmlResult ) );
-					wppfm_hide_feed_spinner();
-					break;
-
-				default:
-					wppfm_hide_feed_spinner();
-			}
 		} );
 	} );
+}
+
+function wppfm_handleSaveFeedToDbActionResult( dbResult, newFeed ) {
+
+	// the wppfm_saveFeedToDb returns the entered feed id
+	if ( 0 === dbResult || '0' === dbResult ) {
+		console.log( 'Saving the data to the data base has failed!' );
+		//noinspection JSUnresolvedVariable
+		wppfm_show_error_message( wppfm_feed_settings_form_vars.save_data_failed );
+		wppfm_hide_feed_spinner();
+	} else {
+
+		// insert the feed id in the _feed
+		_feedHolder[ 'feedId' ] = dbResult;
+
+		if ( newFeed ) {
+			// reset the url to implement the feed id so the user can reset the form if he wants
+			var currentUrl       = window.location.href;
+			window.location.href = currentUrl + '&id=' + _feedHolder[ 'feedId' ];
+		}
+	}
+}
+
+function wppfm_handleUpdateFeedFileActionResult( xmlResult ) {
+	var errorMessageElement = jQuery( '#error-message' );
+
+	switch ( xmlResult ) {
+		case 'started_processing':
+			errorMessageElement.hide();
+			//noinspection JSUnresolvedVariable
+			wppfm_show_success_message( wppfm_feed_settings_form_vars.feed_started );
+			wppfm_alert_update_finished( _feedHolder[ 'feedId' ], 5000 );
+			break;
+
+		case 'pushed_to_queue':
+			errorMessageElement.hide();
+			//noinspection JSUnresolvedVariable
+			wppfm_show_success_message( wppfm_feed_settings_form_vars.feed_queued );
+			wppfm_alert_update_finished( _feedHolder[ 'feedId' ], 5000 );
+			break;
+
+		case 'writing_error':
+			//noinspection JSUnresolvedVariable
+			wppfm_show_error_message( wppfm_feed_settings_form_vars.feed_writing_error );
+			wppfm_hide_feed_spinner();
+			break;
+
+		case 'foreground_processing_complete':
+			wppfm_alert_update_finished( _feedHolder[ 'feedId' ], 0 );
+			wppfm_hide_feed_spinner();
+			break;
+
+		case 'activation_error':
+			//noinspection JSUnresolvedVariable
+			wppfm_show_error_message( wppfm_feed_settings_form_vars.feed_initiation_error );
+			wppfm_hide_feed_spinner();
+			break;
+
+		case '1':
+		case 1:
+			//noinspection JSUnresolvedVariable
+			wppfm_show_error_message( wppfm_feed_settings_form_vars.feed_general_error.replace( '%xmlResult%', xmlResult ) );
+			wppfm_hide_feed_spinner();
+			break;
+
+		default:
+			wppfm_hide_feed_spinner();
+	}
 }
 
 /**
@@ -529,9 +626,7 @@ function wppfm_saveFeed() {
 	}
 
 	// save the feed data to the database
-	wppfm_saveFeedToDb(
-		_feedHolder,
-		function( dbResult ) {
+	wppfm_saveFeedToDb(	_feedHolder,function( dbResult ) {
 
 			// the wppfm_saveFeedToDb returns the entered feed id
 			if ( dbResult === 0 ) {
@@ -1111,7 +1206,7 @@ function wppfm_addCombinedField( id, sourceLevel, combinedLevel ) {
 
 		jQuery( '#source-select-' + id + '-' + sourceLevel ).append( wppfm_combinedField( id, sourceLevel, combinedLevel, combinedValue, manualAdd ) );
 
-		jQuery( '#add-combined-field-' + id + '-' + sourceLevel -- ).hide();
+		jQuery( '#add-combined-field-' + id + '-' + sourceLevel ).hide();
 	} else {
 		alert( wppfm_feed_settings_form_vars.select_all_source_fields_warning );
 	}
@@ -2048,7 +2143,6 @@ function wppfm_valueInputOptionsChanged( rowId, sourceLevel, valueEditorLevel ) 
 	var option = jQuery( '#value-options-' + rowId + '-' + sourceLevel + '-' + valueEditorLevel + ' option:selected' ).text();
 	var value  = jQuery( '#value-options-input-' + rowId + '-' + sourceLevel + '-' + valueEditorLevel ).val();
 	var store  = '';
-	//170516 var pre = sourceLevel > 0 ? jQuery( '#value-options-pre-selector-' + rowId + '-' + sourceLevel + '-0 option:selected' ).text() : 'change';
 	var pre    = sourceLevel > 0 ? 'and' : 'change';
 
 	if ( option !== 'replace' && option !== 'recalculate' ) {
@@ -2394,8 +2488,11 @@ function updateFeedFormAfterInputChanged( feedId, categoryChanged ) {
  */
 jQuery( document ).ready( function() {
 	var feedId  = wppfm_getUrlVariable( 'id' );
+	var tabId   = wppfm_getUrlVariable( 'tab' );
+
 	_feedHolder = new Feed();
-	if ( '' !== feedId ) {
+
+	if ( '' !== feedId & 'product-feed' === tabId ) {
 		wppfm_editExistingFeed( feedId );
 	}
 } );

@@ -1,6 +1,8 @@
 <?php
 // Decides where the Additional Checkout fields appear on the Checkout page
-function wooccm_checkout_additional_positioning() {
+/*
+ * 1326
+ * function wooccm_checkout_additional_positioning() {
 
 	$options = get_option( 'wccs_settings' );
 	// Defaults to after_order_notes
@@ -17,7 +19,7 @@ function wooccm_checkout_additional_positioning() {
 
 	}
 
-}
+}*/
 
 function wooccm_checkout_default_address_fields( $fields = array() ) {
 
@@ -126,160 +128,8 @@ var ajaxnonce = "' . wp_create_nonce( "wccs_ajax_nonce" ) . '";
 	}
 }
 
-@media screen and (max-width: 770px) {
-	.checkout .wooccm_each_file .wooccm-image-holder {
-		width: 20%;
-	}
-	.checkout name.wooccm_name, .wooccm_each_file span.container{
-		width: 80%;
-	}
-	.checkout .container .wooccm-btn {
-		padding: 1% 10%;
-	}
-}
-
-@media screen and (max-width: 992px) {
-	.wooccm_each_file .wooccm-image-holder {
-		width: 26%;
-	}
-	name.wooccm_name, .wooccm_each_file span.container{
-		width: 74%;
-	}
-	.container .wooccm-btn {
-		padding: 5px 8px;
-		font-size: 12px;
-	}
-}
-
 .container .wooccm-btn {
 	padding: 1.7% 6.7%;
-}
-
-#caman_content .blockUI.blockOverlay:before, #caman_content .loader:before {
-	height: 1em;
-	width: 1em;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	margin-left: -.5em;
-	margin-top: -.5em;
-	display: block;
-	-webkit-animation: spin 1s ease-in-out infinite;
-	-moz-animation: spin 1s ease-in-out infinite;
-	animation: spin 1s ease-in-out infinite;
-	content: "";
-	/* @mod - We need to check this file exists */
-	background: url('.plugins_url( 'woocommerce/assets/images/icons/loader.svg' ).') center center/cover;
-	line-height: 1;
-	text-align: center;
-	font-size: 2em;
-	color: rgba(0,0,0,.75);
-}
-body.admin-bar #caman_content {
-	margin-top:	32px;
-}
-
-.file_upload_button_hide {
-	display: none;
-}
-
-.wooccm_each_file {
-	display: block;
-	padding-top: 20px;
-	clear: both;
-	text-align: center;
-}
-.wooccm_each_file .wooccm-image-holder {
-	width: 20%;
-	display: block;
-	float: left;
-}
-.wooccm-btn.disable {
-	margin-right: 10px;
-	cursor: auto;
-}
-zoom.wooccm_zoom, edit.wooccm_edit, dele.wooccm_dele {
-	padding: 5px;
-}
-.wooccm_each_file name {
-	font-size: 18px;
-}
-name.wooccm_name, .wooccm_each_file span.container {
-	display: block;
-	padding: 0 0 10px 20px;
-	float: left;
-	width: 80%;
-}
-
-.wooccm_each_file img{ 
-	display: inline-block;
-	height: 90px;
-	border: 2px solid #767676;
-	border-radius: 4px;
-}
-.file_upload_account:before{ content: "\f317";font-family: dashicons; margin-right: 10px; }
-.wooccm_each_file .wooccm_zoom:before{ content: "\f179";font-family: dashicons; margin-right: 5px; }
-.wooccm_each_file .wooccm_edit:before{ content: "\f464";font-family: dashicons; margin-right: 5px; }
-.wooccm_each_file .wooccm_dele:before{ content: "\f158";font-family: dashicons; margin-right: 5px; }
-.wooccm-btn{
-	display: inline-block;
-	padding: 6px 12px;
-	margin-bottom: 0;
-	font-size: 14px;
-	font-weight: 400;
-	line-height: 1.42857143;
-	text-align: center;
-	white-space: nowrap;
-	vertical-align: middle;
-	cursor: pointer;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	background-image: none;
-	border: 1px solid transparent;
-	border-radius: 4px;
-	font-family: "Raleway", Arial, Helvetica, sans-serif;
-	color: #767676;
-	background-color: buttonface;
-	align-items: flex-start;
-	text-indent: 0px;
-	text-shadow: none;
-	letter-spacing: normal;
-	word-spacing: normal;
-	text-rendering: auto;
-}
-.wooccm-btn-primary {
-	width: 100%;
-	color: #fff;
-	background-color: #428bca;
-	border-color: #357ebd;
-}
-
-.wooccm-btn-danger {
-	color: #fff;
-	background-color: #d9534f;
-	border-color: #d43f3a;
-	margin-right: 10px;
-}
-.wooccm_each_file .container a:hover, .wooccm_each_file .container a:focus, .wooccm_each_file .container a:active, .wooccm_each_file .container a:visited, .wooccm_each_file .container a:link {
-	color: #fff;
-}
-#caman_content #wooccmtoolbar #close:hover, #caman_content #wooccmtoolbar #save:hover {
-	background: #1b1917;
-}
-.wooccm-btn-zoom {
-	color: #fff;
-	background-color: #5cb85c;
-	border-color: #4cae4c;
-	margin-right: 10px;
-} 
-
-.wooccm-btn-edit {
-	color: #fff;
-	background-color: #f0ad4e;
-	border-color: #eea236;
-	margin-right: 10px;
 }
 
 </style>
@@ -332,7 +182,7 @@ function wooccm_checkout_text_before(){
 }
 
 // We are overriding the default Order Post meta values with our own secret sauce
-function wooccm_custom_checkout_field_update_order_meta( $order ) {
+function wooccm_custom_checkout_field_update_order_meta( $order_id ) {
 
 	// Additional section
 	$options = get_option( 'wccs_settings' );
@@ -341,15 +191,15 @@ function wooccm_custom_checkout_field_update_order_meta( $order ) {
 		foreach( $buttons as $btn ) {
 			if( $btn['type'] == 'wooccmtextarea' ) {
 				if( !empty( $_POST[$btn['cow']] ) ) {
-					update_post_meta( $order, $btn['cow'] , wp_kses( $_POST[ $btn['cow']], false ) );
+					update_post_meta( $order_id, $btn['cow'] , wp_kses( $_POST[ $btn['cow']], false ) );
 				}
 			} else if( $btn['type'] !== 'multiselect' && $btn['type'] !== 'multicheckbox' ) {
 				if( !empty( $_POST[$btn['cow']] ) ) {
-					update_post_meta( $order, $btn['cow'] , sanitize_text_field( $_POST[ $btn['cow'] ] ) );
+					update_post_meta( $order_id, $btn['cow'] , sanitize_text_field( $_POST[ $btn['cow'] ] ) );
 				}
 			} elseif( $btn['type'] == 'multiselect' || $btn['type'] == 'multicheckbox' ) {
 				if( !empty( $_POST[$btn['cow']] ) ) {
-					update_post_meta( $order, $btn['cow'] , maybe_serialize( array_map( 'sanitize_text_field', $_POST[$btn['cow']] ) ) );
+					update_post_meta( $order_id, $btn['cow'] , maybe_serialize( array_map( 'sanitize_text_field', $_POST[$btn['cow']] ) ) );
 				}
 			}
 		}
@@ -362,7 +212,7 @@ function wooccm_custom_checkout_field_update_order_meta( $order ) {
 		foreach( $buttons as $btn ) {
 			if( $btn['type'] == 'wooccmtextarea' ) {
 				if( !empty( $_POST[sprintf( 'shipping_%s', $btn['cow'] )] ) ) {
-					update_post_meta( $order, sprintf( '_shipping_%s', $btn['cow'] ), wp_kses( $_POST[sprintf( 'shipping_%s', $btn['cow'] )], false ) );
+					update_post_meta( $order_id, sprintf( '_shipping_%s', $btn['cow'] ), wp_kses( $_POST[sprintf( 'shipping_%s', $btn['cow'] )], false ) );
 				}
 			}
 		}
@@ -375,7 +225,7 @@ function wooccm_custom_checkout_field_update_order_meta( $order ) {
 		foreach( $buttons as $btn ) {
 			if( $btn['type'] == 'wooccmtextarea' ) {
 				if( !empty( $_POST[sprintf( 'billing_%s', $btn['cow'] )] ) ) {
-					update_post_meta( $order, sprintf( '_billing_%s', $btn['cow'] ), wp_kses( $_POST[sprintf( 'billing_%s', $btn['cow'] )], false ) );
+					update_post_meta( $order_id, sprintf( '_billing_%s', $btn['cow'] ), wp_kses( $_POST[sprintf( 'billing_%s', $btn['cow'] )], false ) );
 				}
 			}
 		}

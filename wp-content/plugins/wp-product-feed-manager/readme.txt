@@ -3,9 +3,9 @@
 Contributors: Wpmarketingrobot, Michel Jongbloed, AukeJomm
 Tags: Google Merchant Export, Product feed, woocommerce, Google product feed export, google, shopping, Google Adwords, Google Merchant, wooCommerce export, woocommerce variations, e-commerce, google merchant product feed, product variations, variations export, wp-e-commerce export, wp marketing robot
 Requires at least: 4.6
-Tested up to: 5.1
+Tested up to: 5.2
 Requires PHP: 5.6
-Stable tag: 1.13.1
+Stable tag: 1.15.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,21 @@ In case it does please do submit your feed in your Google Merchant center and ch
 3. Save and generate your feed
 
 == Changelog ==
+= 1.15.0 - 09/08/2019 =
+* Improved the stability of the background mode.
+* Improved a check that should prevent forbidden characters in a feed name.
+* Fixed a coding issue that could cause a notice on the Feed List page.
+
+= 1.14.1 - 02/07/2019 =
+* Fixed a bug that could stop the feed process on a Fatal PHP Error.
+
+= 1.14.0 - 21/06/2019 =
+* Added the Regenerate action to the feed list
+* Improved the error handling of a situation where the activation of a feed update in the background fails.
+* Fixed an issue where a corrupted feed filter attribute would prevent the Edit Feed page to load.
+* Fixed an issue where the static value source selectors would not show the correct "Fill with a static value" selection when WP was in a translated mode.
+* Fixed an issue where the "Product Category String" source would not always produce the correct category string.
+
 = 1.13.1 - 24/03/2019 =
 * Fixed an issue where the Update Schedule values where not correctly read from the Feed Edit form
 

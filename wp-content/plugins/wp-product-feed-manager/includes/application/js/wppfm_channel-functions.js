@@ -115,43 +115,53 @@ function wppfm_category_separator( channel ) {
  * @returns nothing
  */
 function wppfm_reactOnChannelInputChanged( channel, feedId, categoryChanged ) {
-	var fName = {
-		'1': 'googleInputChanged',
-		'2': 'bingInputChanged',
-		'3': 'beslisInputChanged',
-		'4': 'pricegrabberInputChanged',
-		'5': 'shoppingInputChanged',
-		'6': 'amazonInputChanged',
-		'7': 'connexityInputChanged',
-		'9': 'nextagInputChanged',
-		'10': 'kieskeurigInputChanged',
-		'11': 'vergelijkInputChanged',
-		'12': 'koopjespakkerInputChanged',
-		'13': 'avantlinkInputChanged',
-		'14': 'zboziInputChanged',
-		'15': 'comconInputChanged',
-		'16': 'facebookInputChanged',
-		'17': 'bolInputChanged',
-		'18': 'adtractionInputChanged',
-		'19': 'ricardoInputChanged',
-		'20': 'ebayInputChanged',
-		'21': 'shopzillaInputChanged',
-		'22': 'convertoInputChanged',
-		'23': 'idealoInputChanged',
-		'24': 'heurekaInputChanged',
-		'25': 'pepperjamInputChanged',
-		'26': 'galaxusProductDataInputChanged',
-		'27': 'galaxusProductStockPricingInputChanged',
-		'28': 'galaxusProductPropertiesInputChanged',
-		'996': 'marketingrobotTsvInputChanged',
-		'997': 'marketingrobotTxtInputChanged',
-		'998': 'marketingrobotCsvInputChanged',
-		'999': 'marketingrobotInputChanged',
-	};
+	var functionName = '';
+	var tabId        = wppfm_getUrlVariable( 'tab' ); // identify the feed type
+
+	if ( 'product-feed' === tabId ) { // handle product feeds from different merchants
+		var fName = {
+			'1': 'googleInputChanged',
+			'2': 'bingInputChanged',
+			'3': 'beslisInputChanged',
+			'4': 'pricegrabberInputChanged',
+			'5': 'shoppingInputChanged',
+			'6': 'amazonInputChanged',
+			'7': 'connexityInputChanged',
+			'9': 'nextagInputChanged',
+			'10': 'kieskeurigInputChanged',
+			'11': 'vergelijkInputChanged',
+			'12': 'koopjespakkerInputChanged',
+			'13': 'avantlinkInputChanged',
+			'14': 'zboziInputChanged',
+			'15': 'comconInputChanged',
+			'16': 'facebookInputChanged',
+			'17': 'bolInputChanged',
+			'18': 'adtractionInputChanged',
+			'19': 'ricardoInputChanged',
+			'20': 'ebayInputChanged',
+			'21': 'shopzillaInputChanged',
+			'22': 'convertoInputChanged',
+			'23': 'idealoInputChanged',
+			'24': 'heurekaInputChanged',
+			'25': 'pepperjamInputChanged',
+			'26': 'galaxusProductDataInputChanged',
+			'27': 'galaxusProductStockPricingInputChanged',
+			'28': 'galaxusProductPropertiesInputChanged',
+			'996': 'marketingrobotTsvInputChanged',
+			'997': 'marketingrobotTxtInputChanged',
+			'998': 'marketingrobotCsvInputChanged',
+			'999': 'marketingrobotInputChanged',
+		};
+
+		functionName = fName[ channel ];
+	} else { // handle special feeds from add-ons
+		var functionString = wppfm_convertToCamelCase( tabId.split( '-' ) );
+		functionName       = functionString + 'Changed';
+	}
 
 	// call the correct function
-	if ( fName.hasOwnProperty( channel ) ) {
-		window[ fName[ channel ] ]( feedId, categoryChanged );
+	if ( functionName ) {
+		window[ functionName ]( feedId, categoryChanged );
 	}
 }
 

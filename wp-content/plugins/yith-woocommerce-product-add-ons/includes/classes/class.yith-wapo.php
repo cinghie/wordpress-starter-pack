@@ -93,6 +93,9 @@ if ( ! class_exists( 'YITH_WAPO' ) ) {
 
             add_filter( 'sanitize_text_field', array( $this, 'my_sanitize_text_field' ), 10, 2 );
 
+            // Prevent skip add-ons with values already in the product details area of the product name
+            add_filter( 'woocommerce_is_attribute_in_product_name', '__return_false' );
+
             // Divi ET Builder Module integration
             add_action( 'et_builder_ready', array( $this, 'divi_et_builder_module_integration' ) );
 
@@ -207,7 +210,7 @@ if ( ! class_exists( 'YITH_WAPO' ) ) {
          */
         public static function getAllowedProductTypes() {
 
-            return apply_filters( 'yith_wapo_product_type_list', array( 'simple', 'variable', 'booking', 'subscription', 'variable-subscription' ) );
+            return apply_filters( 'yith_wapo_product_type_list', array( 'simple', 'variable', 'bundle', 'booking', 'subscription', 'variable-subscription' ) );
 
         }
 

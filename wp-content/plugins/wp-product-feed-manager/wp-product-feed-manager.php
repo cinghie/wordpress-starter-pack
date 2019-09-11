@@ -4,18 +4,18 @@
  * Plugin Name: WP Product Feed Manager
  * Plugin URI: https://www.wpmarketingrobot.com
  * Description: An easy to use WordPress plugin that generates and submits your product feeds to merchant centres.
- * Version: 1.13.1
- * Modified: 24-03-2019
+ * Version: 1.15.0
+ * Modified: 19-08-2019
  * Author: Michel Jongbloed
  * Author URI: https://www.wpmarketingrobot.com
  * Requires at least: 4.6
- * Tested up to: 5.1
+ * Tested up to: 5.2
  *
  * Text Domain: wp-product-feed-manager
  * Domain Path: /languages
  *
  * WC requires at least: 3.0
- * WC tested up to: 3.5
+ * WC tested up to: 3.6
  *
  * This plugin is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 		/**
 		 * @var string containing the version number of the plugin
 		 */
-		public $version = '1.13.1';
+		public $version = '1.15.0';
 
 		/**
 		 * @var string containing the authors name
@@ -110,9 +110,6 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 			// register my schedule
 			add_action( 'wppfm_feed_update_schedule', array( $this, 'activate_feed_update_schedules' ) );
 			add_action( 'wp_ajax_dismiss_admin_notice', array( $this, 'dismiss_admin_notice' ) );
-
-			// register the background process
-			add_action( 'plugins_loaded', array( $this, 'initiate_background_process' ) );
 
 			// set up localisation
 			add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
@@ -254,6 +251,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 
 			// include the admin menu and the includes file
 			require_once( __DIR__ . '/includes/application/wppfm-feed-processing-support.php' );
+			require_once( __DIR__ . '/includes/application/wppfm-feed-processor-functions.php' );
 			require_once( __DIR__ . '/includes/user-interface/wppfm-admin-menu-functions.php' );
 			require_once( __DIR__ . '/includes/data/wppfm-admin-functions.php' );
 			require_once( __DIR__ . '/includes/user-interface/wppfm-messaging-functions.php' );
@@ -263,6 +261,13 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 			// include all required classes
 			include_classes();
 			include_channels();
+
+			add_action(
+				'after_setup_theme',
+				function() {
+					do_action( 'wppfm_includes' );
+				}
+			);
 		}
 
 		/* --------------------------------------------------------------------------------------------------*
@@ -294,20 +299,6 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 			$wppfm_database->make();
 
 			wp_schedule_event( time(), 'hourly', 'wppfm_feed_update_schedule' );
-		}
-
-		/**
-		 * Sets the global background process
-		 *
-		 * @since 1.10.0
-		 *
-		 * @global WPPFM_Feed_Processor $background_process
-		 */
-		public function initiate_background_process() {
-			if ( class_exists( 'WPPFM_Feed_Processor' ) ) {
-				global $background_process;
-				$background_process = new WPPFM_Feed_Processor();
-			}
 		}
 
 		/**

@@ -3,7 +3,7 @@
  * Change default footer text, asking to review our plugin
  **/
 function my_footer_text($default) {
-    return 'If you like our <strong>WooCommerce Product Feed PRO</strong> plugin please leave us a <a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="woo-product-feed-pro-ratingRequest">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. Thanks in advance!';
+    return _e( 'If you like our <strong>WooCommerce Product Feed PRO</strong> plugin please leave us a <a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="woo-product-feed-pro-ratingRequest">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. Thanks in advance!','woo-product_feed-pro' );
 }
 add_filter('admin_footer_text', 'my_footer_text');
 
@@ -43,7 +43,7 @@ if (array_key_exists('project_hash', $_GET)){
         <div class="woo-product-feed-pro-form-style-2">
    	<table class="woo-product-feed-pro-table"> 
  		<tbody class="woo-product-feed-pro-body">
-                        <div class="woo-product-feed-pro-form-style-2-heading">Feed statistics</div>
+                        <div class="woo-product-feed-pro-form-style-2-heading"><?php _e( 'Feed statistics','woo-product-feed-pro' );?></div>
 
                         <div class="<?php _e($notifications_box['message_type']); ?>">
                                 <p><?php _e($notifications_box['message'], 'sample-text-domain' ); ?></p>

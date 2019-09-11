@@ -55,9 +55,9 @@ class sfsi_ThemeCheck
 		                    $themeArr['noBrainerKeywords'] = $this->sfsi_plus_string_to_arr(preg_replace('/^[,\s]+|[\s,]+$/', '', trim($arrVal[1])));
 		                    $themeArr['separateKeywords']  = $this->sfsi_plus_string_to_arr(preg_replace('/^[,\s]+|[\s,]+$/', '', trim($arrVal[2])));
 		                    $themeArr['negativeKeywords']  = $this->sfsi_plus_string_to_arr(preg_replace('/^[,\s]+|[\s,]+$/', '', trim($arrVal[3])));
-		                    $themeArr['headline']          = (isset($arrVal[4]) && strlen(trim($arrVal[4]))==0)? "You like ".trim($arrVal[0])." ?" : trim($arrVal[4]);
-		                    $themeArr['themeLink']         = trim($arrVal[5]);
-		                    $themeArr['bottomtext']        = (isset($arrVal[6]) && strlen(trim($arrVal[6]))==0)? "See all ".strtolower(trim($arrVal[0]))."-themed-icons": trim($arrVal[6]);                   
+		                    $themeArr['headline']          = (isset($arrVal[6]) && strlen(trim($arrVal[6]))==0)? "You like ".trim($arrVal[0])." ?" : trim($arrVal[6]);
+		                    $themeArr['themeLink']         = trim($arrVal[8]);
+		                    $themeArr['bottomtext']        = (isset($arrVal[10]) && strlen(trim($arrVal[10]))==0)? "See all ".strtolower(trim($arrVal[0]))."-themed-icons": trim($arrVal[10]);                   
 
 		                    array_push($themeDataArr, (object)$themeArr);
 			            } 
@@ -76,8 +76,6 @@ class sfsi_ThemeCheck
 		$keywordEnglish = array_filter(array_map(sfsi_returningElement($element), $keywordEnglish)); 	    
 	    return $keywordEnglish;
 	}
-
-
 	public function sfsi_plus_regex_for_keywords($arrKeyWords){
 
 		$strRegex = "";
@@ -142,8 +140,6 @@ class sfsi_ThemeCheck
 	}
 
 	public function sfsi_plus_match_separate_word_with_csv_data($seprateWord,$domainname){
-
-
 	      $keywordEnglish = $this->sfsi_plus_get_keywordEnglish();
 
 	      $finalKeywordEnglish = array();
@@ -410,8 +406,6 @@ class sfsi_ThemeCheck
 	    }
 	    return $bflag;		
 	}
-
-
 
 	public function sfsi_plus_check_type_of_websiteWithNoBrainerAndSeparateAndNegativeKeywords($strCheckForThemeType,$arrNoBrainerKeywords,$arrSeparateKeywords,$arrNoBrainerAndSeparateKeywords,$arrNegativeKeywords,$domainname){
 

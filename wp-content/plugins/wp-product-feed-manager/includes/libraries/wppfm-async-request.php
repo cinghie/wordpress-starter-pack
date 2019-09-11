@@ -109,33 +109,19 @@ abstract class WPPFM_Async_Request {
 	}
 
 	/**
-	 * Dispatch the async request
-	 *
-	 * @return array|WP_Error
+	 * Dispatch the async request to trigger the feed process with a remote post.
 	 */
 	public function dispatch() {
-		if ( get_option( 'wppfm_disabled_background_mode', 'false' ) === 'false' ) {
+		if ( get_option( 'wppfm_disabled_background_mode', 'false' ) === 'false' ) { // start a background process
 			$url  = add_query_arg( $this->get_query_args(), $this->get_query_url() );
 			$args = $this->get_post_args();
 
-			// start the background process
-			$response = wp_remote_post( esc_url_raw( $url ), $args );
+			// activate the background process
+			$result = wp_remote_post( esc_url_raw( $url ), $args );
 
-			// @since 2.3.0
-			if ( wp_remote_retrieve_response_code( $response ) >= 300 ) {
-				return new WP_Error(
-					'unexpected_http_response_code',
-					sprintf(
-						'Unexpected HTTP response code: %s',
-						intval( wp_remote_retrieve_response_code( $response ) )
-					)
-				);
-			}
-
-			return $response;
-		} else {
-			// start a foreground proces
-			return $this->maybe_handle();
+			do_action( 'wppfm_dispatch_result', $result ); // $args->blocking needs to be set to true for this action to provide usable information
+		} else { // start a foreground process
+			$this->maybe_handle();
 		}
 	}
 
@@ -179,8 +165,10 @@ abstract class WPPFM_Async_Request {
 		}
 
 		return array(
-			'body'    => $this->data,
-			'cookies' => stripslashes_deep( $_COOKIE ),
+			'timeout'  => 0.01,
+			'blocking' => false, // remove if you want to debug the wp_remote_post response
+			'body'     => $this->data,
+			'cookies'  => stripslashes_deep( $_COOKIE ),
 		);
 	}
 

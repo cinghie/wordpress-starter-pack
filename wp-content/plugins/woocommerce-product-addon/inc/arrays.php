@@ -197,6 +197,9 @@ function ppom_get_plupload_languages() {
 // PPOM Settings
 function ppom_array_settings() {
 	
+	$v18_info_url = 'https://najeebmedia.com/blog/ppom-version-18-0-better-price-manipulation-currency-switcher/';
+	$more_price_details = '<a target="_blank" href="'.esc_attr($v18_info_url).'">More Details<a>';
+	
 	$ppom_settings = array(
        
 		array(
@@ -277,6 +280,14 @@ function ppom_array_settings() {
 				'default'       => 'no',
 				'id'            => 'ppom_disable_fontawesome',
 				'desc'          => __( 'FontAwesome are being loaded from CDN, it will disable if your site already loading it.', 'ppom' ),
+			),
+		array(
+				'title'          => __( 'Enable Legacy Price Calculations', 'ppom' ),
+				'type'          => 'checkbox',
+				'label'         => __( 'Yes', 'ppom' ),
+				'default'       => 'no',
+				'id'            => 'ppom_legacy_price',
+				'desc'          => __( 'Yes. '.$more_price_details, 'ppom' ),
 			),
         
 	    array(
@@ -368,4 +379,474 @@ function ppom_array_settings() {
 		);
 		
 	return apply_filters('ppom_settings_data', $ppom_settings);
+}
+
+/**
+ * PPOM Field Meta Array
+ * */
+function ppom_array_fields_meta() {
+	
+	$ppom_meta = array(
+						'text'	=> array(	'title' => __ ( 'Text Input', 'ppom' ),
+										'type'	=> 'text',
+										'desc'	=>__ ( 'HTML Form Text input', 'ppom' ),  
+										'icon'	=> '<i class="fa fa-pencil-square-o" aria-hidden="true"></i>',
+										'meta'	=> array (
+											'title' 		=> ppom_array_field_title('text'),
+											'data_name' 	=> ppom_array_field_data_name('text'),
+											'description'	=> ppom_array_field_description('text'),
+											'placeholder'	=> ppom_array_field_placeholder('text'),
+											'error_message' => ppom_array_field_error_message('text'),
+											'maxlength' 	=> ppom_array_field_maxlength('text'),
+											'minlength' 	=> ppom_array_field_minlength('text'),
+											'default_value' => ppom_array_field_default_value('text'),
+											'class' 		=> ppom_array_field_class('text'),
+											'input_mask'	=> ppom_array_field_input_mask('text'),
+											'width' 		=> ppom_array_field_width('text'),
+											'visibility'	=> ppom_array_field_visibility('text'),
+											'visibility_role' => ppom_array_field_visibility_role('text'),
+											'required'		=> ppom_array_field_required('text'),
+											'desc_tooltip'	=> ppom_array_field_desc_tooltip('text'),
+											'logic' 		=> ppom_array_field_logic('text'),
+											'conditions'	=> ppom_array_field_conditions('text'),
+										),
+									),
+						'textarea'	=> array(	'title' => __ ( 'Textarea', 'ppom' ),
+												'type'	=> 'textarea',
+												'desc'	=>__ ( 'HTML Form Textarea input', 'ppom' ),  
+												'icon'	=> '<i class="fa fa-file-text-o" aria-hidden="true"></i>',
+												'meta'	=> array (
+													'title' 		=> ppom_array_field_title('textarea'),
+													'data_name' 	=> ppom_array_field_data_name('textarea'),
+													'description'	=> ppom_array_field_description('textarea'),
+													'placeholder'	=> ppom_array_field_placeholder('textarea'),
+													'error_message' => ppom_array_field_error_message('textarea'),
+													'max_length' 	=> ppom_array_field_maxlength('textarea'),
+													'rows'			=> ppom_array_field_rows('textarea'),
+													'default_value' => ppom_array_field_default_value('textarea'),
+													'class' 		=> ppom_array_field_class('textarea'),
+													'width' 		=> ppom_array_field_width('textarea'),
+													'visibility'	=> ppom_array_field_visibility('textarea'),
+													'visibility_role' => ppom_array_field_visibility_role('textarea'),
+													'required'		=> ppom_array_field_required('textarea'),
+													'rich_editor'	=> ppom_array_field_rich_editor('textarea'),
+													'desc_tooltip'	=> ppom_array_field_desc_tooltip('textarea'),
+													'logic' 		=> ppom_array_field_logic('textarea'),
+													'conditions'	=> ppom_array_field_conditions('textarea'),
+											),
+										),
+						'select'	=> array(	'title' => __ ( 'Select', 'ppom' ),
+											'type'	=> 'select',
+											'desc'	=>__ ( 'HTML Form Select DropDown', 'ppom' ),  
+											'icon'	=> '<i class="fa fa-file-text-o" aria-hidden="true"></i>',
+											'meta'	=> array (
+												'title' 		=> ppom_array_field_title('textarea'),
+												'data_name' 	=> ppom_array_field_data_name('textarea'),
+												'description'	=> ppom_array_field_description('textarea'),
+												'error_message' => ppom_array_field_error_message('textarea'),
+												'options' 		=> ppom_array_field_options('textarea'),
+												'selected'		=> ppom_array_field_selected('textarea'),
+												'first_option'	=> ppom_array_field_first_option('textarea'),
+												'class' 		=> ppom_array_field_class('textarea'),
+												'width' 		=> ppom_array_field_width('textarea'),
+												'visibility'	=> ppom_array_field_visibility('textarea'),
+												'visibility_role' => ppom_array_field_visibility_role('textarea'),
+												'required'		=> ppom_array_field_required('textarea'),
+												'onetime'		=> ppom_array_field_onetime('textarea'),
+												'onetime_taxable'=> ppom_array_field_onetime_taxable('textarea'),
+												'desc_tooltip'	=> ppom_array_field_desc_tooltip('textarea'),
+												'logic' 		=> ppom_array_field_logic('textarea'),
+												'conditions'	=> ppom_array_field_conditions('textarea'),
+										),
+									),
+						);
+						
+						
+	return apply_filters('ppom_field_meta_array', $ppom_meta);
+}
+
+// PPOM Field Meta Helpers
+function ppom_array_field_title($type) {
+	
+	$title = array (
+					'type' => 'text',
+					'title' => __ ( 'Title', 'ppom' ),
+					'desc' => __ ( 'It will be shown as field label', 'ppom' ) 
+					);
+			
+	return apply_filters('ppom_field_meta_title', $title, $type);
+}
+
+function ppom_array_field_data_name($type) {
+	
+	$data_name = array (
+					'type' => 'text',
+					'title' => __ ( 'Data name', 'ppom' ),
+					'desc' => __ ( 'REQUIRED: The identification name of this field, that you can insert into body email configuration. Note:Use only lowercase characters and underscores.', 'ppom' ) 
+					);
+			
+	return apply_filters('ppom_field_meta_data_name', $data_name, $type);
+}
+
+function ppom_array_field_description($type) {
+	
+	$description = array (
+						'type' => 'textarea',
+						'title' => __ ( 'Description', 'ppom' ),
+						'desc' => __ ( 'Small description, it will be display near name title.', 'ppom' ) 
+					);
+			
+	return apply_filters('ppom_field_meta_description', $description, $type);
+}
+
+function ppom_array_field_placeholder($type) {
+	
+	$placeholder = array (
+						'type' => 'text',
+						'title' => __ ( 'Placeholder', 'ppom' ),
+						'desc' => __ ( 'Optionally placeholder.', 'ppom' ) 
+						);
+			
+	return apply_filters('ppom_field_meta_placeholder', $placeholder, $type);
+}
+
+function ppom_array_field_error_message($type) {
+	
+	$error_message = array (
+						'type' => 'text',
+						'title' => __ ( 'Error message', 'ppom' ),
+						'desc' => __ ( 'Insert the error message for validation.', 'ppom' ) 
+						);
+			
+	return apply_filters('ppom_field_meta_error_message', $error_message, $type);
+}
+
+function ppom_array_field_maxlength($type) {
+	
+	$maxlength = array (
+						'type' => 'text',
+						'title' => __ ( 'Max. Length', 'ppom' ),
+						'desc' => __ ( 'Max. characters allowed, leave blank for default', 'ppom' )
+						);
+		
+	return apply_filters('ppom_field_meta_maxlength', $maxlength, $type);
+}
+
+function ppom_array_field_minlength($type) {
+	
+	$minlength = array (
+						'type' => 'text',
+						'title' => __ ( 'Min. Length', 'ppom' ),
+						'desc' => __ ( 'Min. characters allowed, leave blank for default', 'ppom' )
+						);
+			
+	return apply_filters('ppom_field_meta_minlength', $minlength, $type);
+}
+
+function ppom_array_field_default_value($type) {
+	
+	$default_value = array (
+						'type' => 'text',
+						'title' => __ ( 'Set default value', 'ppom' ),
+						'desc' => __ ( 'Pre-defined value for text input', 'ppom' )
+						);
+			
+	return apply_filters('ppom_field_meta_default_value', $default_value, $type);
+}
+
+function ppom_array_field_class($type) {
+	
+	$class = array (
+					'type' => 'text',
+					'title' => __ ( 'Class', 'ppom' ),
+					'desc' => __ ( 'Insert an additional class(es) (separateb by comma) for more personalization.', 'ppom' ) 
+					);
+			
+	return apply_filters('ppom_field_meta_class', $class, $type);
+}
+
+function ppom_array_field_input_mask($type) {
+	
+	$input_mask = array (
+					'type' => 'text',
+					'title' => __ ( 'Input Masking', 'ppom' ),
+					'desc' => __ ( 'Click options to see all Masking Options', 'ppom' ),
+					'link' => __ ( '<a href="https://github.com/RobinHerbots/Inputmask" target="_blank">Options</a>', 'ppom' ) 
+					);
+			
+	return apply_filters('ppom_field_meta_input_mask', $input_mask, $type);
+}
+
+function ppom_array_field_width($type) {
+	
+	$width = array (
+					'type' => 'select',
+					'title' => __ ( 'Width', 'ppom' ),
+					'desc' => __ ( 'Type field width in % e.g: 50%', "ppom"),
+					'options'	=> ppom_get_input_cols(),
+					'default'	=> 12,
+					);
+			
+	return apply_filters('ppom_field_meta_width', $width, $type);
+}
+
+function ppom_array_field_visibility($type) {
+	
+	$visibility = array (
+					'type' => 'select',
+					'title' => __ ( 'Visibility', 'ppom' ),
+					'desc' => __ ( 'Set field visibility based on user.', "ppom"),
+					'options'	=> ppom_field_visibility_options(),
+					'default'	=> 'everyone',
+					);
+			
+	return apply_filters('ppom_field_meta_visibility', $visibility, $type);
+}
+
+function ppom_array_field_visibility_role($type) {
+	
+	$visibility_role = array (
+							'type' => 'text',
+							'title' => __ ( 'User Roles', 'ppom' ),
+							'desc' => __ ( 'Role separated by comma.', "ppom"),
+							'hidden' => true,
+							);
+			
+	return apply_filters('ppom_field_meta_visibility_role', $visibility_role, $type);
+}
+
+function ppom_array_field_required($type) {
+	
+	$required = array (
+					'type' => 'checkbox',
+					'title' => __ ( 'Required', 'ppom' ),
+					'desc' => __ ( 'Select this if it must be required.', 'ppom' ) 
+					);
+			
+	return apply_filters('ppom_field_meta_required', $required, $type);
+}
+
+function ppom_array_field_desc_tooltip($type) {
+	
+	$desc_tooltip = array (
+							'type' => 'checkbox',
+							'title' => __ ( 'Show tooltip (PRO)', 'ppom' ),
+							'desc' => __ ( 'Show Description in Tooltip with Help Icon', 'ppom' )
+							);
+			
+	return apply_filters('ppom_field_meta_desc_tooltip', $desc_tooltip, $type);
+}
+
+function ppom_array_field_logic($type) {
+	
+	$logic = array (
+					'type' => 'checkbox',
+					'title' => __ ( 'Enable Conditions', 'ppom' ),
+					'desc' => __ ( 'Tick it to turn conditional logic to work below', 'ppom' )
+					);
+			
+	return apply_filters('ppom_field_meta_logic', $logic, $type);
+}
+
+function ppom_array_field_conditions($type) {
+	
+	$conditions = array (
+						'type' => 'html-conditions',
+						'title' => __ ( 'Conditions', 'ppom' ),
+						'desc' => __ ( 'Tick it to turn conditional logic to work below', 'ppom' )
+						);
+			
+	return apply_filters('ppom_field_meta_conditions', $conditions, $type);
+}
+
+function ppom_array_field_rows($type) {
+	
+	$rows = array (
+					'type' => 'text',
+					'title' => __ ( 'Rows', "ppom" ),
+					'desc' => __ ( 'e.g: 3', "ppom" )
+				);
+			
+	return apply_filters('ppom_field_meta_rows', $rows, $type);
+}
+
+function ppom_array_field_rich_editor($type) {
+	
+	$rich_editor = array (
+					'type' => 'checkbox',
+					'title' => __ ( 'Rich Editor', "ppom" ),
+					'desc' => __ ( 'Enable WordPress rich editor.', "ppom" ),
+					'link' => __ ( '<a target="_blank" href="https://codex.wordpress.org/Function_Reference/wp_editor">Editor</a>', 'ppom' ) 
+					);
+			
+	return apply_filters('ppom_field_meta_rich_editor', $rich_editor, $type);
+}
+
+function ppom_array_field_options($type) {
+	
+	$options = array (
+					'type' => 'paired',
+					'title' => __ ( 'Add options', 'ppom' ),
+					'desc' => __ ( 'Type option with price (optionally), Option ID should be unique and without spaces.', 'ppom' )
+					);
+					
+	return apply_filters('ppom_field_meta_options', $options, $type);
+}
+
+function ppom_array_field_selected($type) {
+	
+	$selected = array (
+					'type' => 'text',
+					'title' => __ ( 'Selected option', 'ppom' ),
+					'desc' => __ ( 'Type option name given in (Add Options) tab if you want already selected.', 'ppom' ) 
+					);
+					
+	return apply_filters('ppom_field_meta_selected', $selected, $type);
+}
+
+function ppom_array_field_first_option($type) {
+	
+	$first_option = array (
+					'type' => 'text',
+					'title' => __ ( 'First option', 'ppom' ),
+					'desc' => __ ( 'DropDown First Option e.g Select Value', 'ppom' ) 
+					);
+					
+	return apply_filters('ppom_field_meta_first_option', $first_option, $type);
+}
+
+function ppom_array_field_onetime($type) {
+	
+	$onetime = array (
+					'type' => 'checkbox',
+					'title' => __ ( 'Fixed Fee', 'ppom' ),
+					'desc' => __ ( 'Add one time fee to cart total.', 'ppom' ) 
+					);
+					
+	return apply_filters('ppom_field_meta_onetime', $onetime, $type);
+}
+
+function ppom_array_field_onetime_taxable($type) {
+	
+	$onetime_taxable = array (
+							'type' => 'checkbox',
+							'title' => __ ( 'Fixed Fee Taxable?', 'ppom' ),
+							'desc' => __ ( 'Calculate Tax for Fixed Fee', 'ppom' ) 
+							);
+					
+	return apply_filters('ppom_field_meta_onetime_taxable', $onetime_taxable, $type);
+}
+
+function ppom_array_get_js_input_vars( $product, $args = null ) {
+	
+	$defaults = array (
+ 		'wc_no_decimal' 		=> wc_get_price_decimals(),
+ 		'show_price_per_unit'	=> false,
+	);
+	
+	// Parse incoming $args into an array and merge it with $defaults
+	$args					= wp_parse_args( $args, $defaults );
+	$decimal_palces 		= $args['wc_no_decimal'];
+	$show_price_per_unit	= $args['show_price_per_unit'];
+	
+	$product_id 		= ppom_get_product_id($product);
+	$ppom				= new PPOM_Meta( $product_id );
+	$ppom_meta_settings = $ppom->ppom_settings;
+    $ppom_meta_fields	= $ppom->fields;
+	
+	if( !empty($ppom_id) ) {
+		$ppom_meta_fields	= $ppom->get_fields_by_id($ppom_id);
+		$ppom_meta_settings	= $ppom->get_settings_by_id($ppom_id);
+	}
+	
+	$ppom_meta_fields_updated = array();
+	foreach ($ppom_meta_fields as $index => $fields_meta) {
+		
+		$type			= isset($fields_meta['type']) ? $fields_meta['type'] : '';
+		$title			= ( isset($fields_meta['title']) ? $fields_meta ['title'] : '');
+		$data_name		= ( isset($fields_meta['data_name']) ? $fields_meta ['data_name'] : $title);
+		$fields_meta['data_name']		= sanitize_key( $data_name );
+		
+		$fields_meta['field_type'] = apply_filters('ppom_js_fields', $type, $fields_meta);
+
+		// Some field specific settings
+		switch( $type ) {
+		
+			case 'daterange':
+				// Check if value is in GET 
+				if( !empty($_GET[$data_name]) ) {
+					
+					$value = $_GET[$data_name];
+					$to_dates = explode(' - ', $value);
+					$fields_meta['start_date'] = $to_dates[0];
+					$fields_meta['end_date'] = $to_dates[0];
+				}
+	        break;
+	        
+	        case 'color':
+	        	// Check if value is in GET 
+				if( !empty($_GET[$data_name]) ) {
+					
+					$fields_meta['default_color'] = $_GET[$data_name];
+				}
+			break;
+			
+			case 'bulkquantity':
+					
+				$fields_meta['options'] = stripslashes($fields_meta['options']);
+				
+				// To make bulkquantity option WOOCS ready
+				$bulkquantities_options = json_decode($fields_meta['options'], true);
+				$bulkquantities_new_options = array();
+				foreach($bulkquantities_options as $bq_opt) {
+					$bq_array = array();
+					foreach($bq_opt as $key => $value) {
+						
+						if( $key != 'Quantity Range' ) {
+							$bq_array[$key] = apply_filters('ppom_option_price', $value);
+						} else {
+							$bq_array[$key] = $value;
+						}
+					}
+					$bulkquantities_new_options[] = $bq_array;
+				}
+				
+				$fields_meta['options'] = json_encode($bulkquantities_new_options);
+			break;
+		}
+		
+		$ppom_meta_fields_updated[] = $fields_meta;
+		 
+	}
+	
+	
+	$js_vars = array();
+	$js_vars['ajaxurl'] 		= admin_url( 'admin-ajax.php', (is_ssl() ? 'https' : 'http') );
+	$js_vars['ppom_inputs'] 	= $ppom_meta_fields_updated;
+	$js_vars['field_meta'] 		= $ppom_meta_fields_updated;
+	$js_vars['ppom_validate_nonce'] = wp_create_nonce( 'ppom_validating_action' );
+	$js_vars['wc_thousand_sep']	= wc_get_price_thousand_separator();
+	$js_vars['wc_currency_pos']	= get_option( 'woocommerce_currency_pos' );
+	$js_vars['wc_decimal_sep']	= get_option('woocommerce_price_decimal_sep');
+	$js_vars['wc_no_decimal']	= $decimal_palces;
+	$js_vars['wc_product_price']= ppom_get_product_price($product);
+	$js_vars['wc_product_regular_price']= ppom_get_product_regular_price($product);
+	$js_vars['price_matrix_heading'] = ppom_get_option('ppom_label_discount_price', 'Discount Price');
+	$js_vars['product_base_label'] = ppom_get_option('ppom_label_product_price', 'Product Price');
+	$js_vars['option_total_label'] = ppom_get_option('ppom_label_option_total', 'Option Total');
+	$js_vars['fixed_fee_heading'] = ppom_get_option('ppom_label_fixed_fee', 'Fixed Fee');
+	$js_vars['total_discount_label'] = ppom_get_option('ppom_label_total_discount', 'Total Discount');
+	$js_vars['total_without_fixed_label'] = ppom_get_option('ppom_label_total', 'Total');
+	$js_vars['product_quantity_label'] = __("Product Quantity", "ppom");
+	$js_vars['product_title'] = sprintf(__("%s", "ppom"), $product->get_title());
+	$js_vars['per_unit_label'] = __("unit", "ppom");
+	$js_vars['show_price_per_unit'] = $show_price_per_unit;
+	$js_vars['text_quantity'] = __("Quantity","ppom");
+	$js_vars['show_option_price'] =  $ppom->price_display;
+	$js_vars['is_shortcode'] = 'no';
+	$js_vars['plugin_url'] = PPOM_URL;
+	$js_vars['is_mobile'] = ppom_is_mobile();
+	$js_vars['product_id'] = $product_id;
+	
+	return apply_filters('ppom_input_vars', $js_vars, $product);
 }

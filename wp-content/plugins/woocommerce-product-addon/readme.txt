@@ -1,10 +1,10 @@
-=== WooCommerce PPOM ===
+=== PPOM for WooCommerce ===
 Contributors: nmedia
 Tags: woocommerce, woocommerce pesonalized products, woocommerce custom fields, variations, woocommerce product variations, woocommerce extra fields, woocommerce extra options, woocommerce personalized product, woocommerce t-shirt design, woocommerce product fields, woocommerce plugin, woocommerce addons, woocommerce product addons
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
 Tested up to: 5.2
-Stable tag: 17.5
+Stable tag: 18.4
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -26,6 +26,11 @@ Drag & Drop input fields with many options. Prices can also be added with option
 * Number - [Demo](https://ppom.nmediahosting.com/product/happy-ninja/)
 * Hidden
 
+= Update Notice =
+* If you are using PPOM PRO, please download PPOM PRO latest plugin via client portal
+* If you are using Bulk Quantity Add-on, please download Bulk Quantity Add-on latest plugin via client portal
+* If you are using Package Price Add-on, please download Package Price Add-on latest plugin via client portal
+
 = Features =
 * Conditional logic
 * Nice Price Display Panel - [Demo](https://ppom.nmediahosting.com/product/ninja-silhouette/)
@@ -38,7 +43,6 @@ Drag & Drop input fields with many options. Prices can also be added with option
 * Easily Export All Order Meta with Easy Export Plugin
 * WPML/Polylang Ready
 * PO/MO Files included in languages/ directory
-* Compatible with [WooCommerce Currency Switcher](https://wordpress.org/plugins/woocommerce-currency-switcher/)
 * Compatible with [Advanced Order Export For WooCommerce](https://najeebmedia.com/2018/06/30/how-to-export-ppom-order-fields/)
 
 = Pro Version =
@@ -59,6 +63,8 @@ Drag & Drop input fields with many options. Prices can also be added with option
 * Timezone
 * HTML Content
 * [See All Inputs Guide](https://najeebmedia.com/2018/01/02/woocommerce-personalized-product-options-manager-inputs-guide/)
+* Compatible with [WooCommerce Currency Switcher](https://wordpress.org/plugins/woocommerce-currency-switcher/)
+* [PPOM Fields Import/Export via Product CSV](https://najeebmedia.com/blog/ppom-fields-import-export-in-products/)
 
 [PPOM RPO](https://najeebmedia.com/wordpress-plugin/woocommerce-personalized-product-option/) - [All Fields Options](https://najeebmedia.com/2018/01/02/woocommerce-personalized-product-options-manager-inputs-guide/) - [Demos](http://ppom.nmediahosting.com/)
 
@@ -83,6 +89,46 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
+= 18.4 July xx, 2019 =
+* Bug fixed: [XSS Vulnerability removed from plugin](https://www.pluginvulnerabilities.com/2019/08/08/this-authenticated-persistent-xss-vulnerability-might-be-what-hackers-are-targeting-ppom-for-woocommerce-for/)
+* Feature: Price matrix input has new setting: Hide Price Table
+* Bug fixed: REST API issue fixed in last version 8.3
+* Feature: Variation quantities now multiply with options added
+* Feature: Price calculation is now more optimized using NEW ppom_is_cart_quantity_updatable, ppom_price_get_total_quantities functions
+* Bug fixed: [Warning removed while translating string](https://wordpress.org/support/topic/ppom_wpml_translate-breaks-ability-to-save-default-settings-in-woocommerce/)
+* Bug fixed: [Strings translation issue with Loco Translation fixed](https://wordpress.org/support/topic/translate-plugin-with-po-mo-files/page/2/)
+= 18.3 July 26, 2019 =
+* Feature: [Option added to control selected image border](https://clients.najeebmedia.com/forums/topic/add-color-palette-border/)
+* Feature: [Option added to control selected color palettes border](https://clients.najeebmedia.com/forums/topic/add-color-palette-border/)
+* Feature: Polylang string translation support added
+* Feature: [Product page with shortcode how showing price table, it is fixed](https://clients.najeebmedia.com/forums/topic/price-table-disappeared-and-option-prices-are-not-sent-to-cart/)
+* Feature: [String translate for PPOM Settings Texts/Labels](https://wordpress.org/support/topic/locotranslate-string-translation/)
+* Bug fixed: [Options weight issue in New Price structure is fixed.](https://clients.najeebmedia.com/forums/topic/optional-weight-does-not-work-again/)
+* Bug fixed: [Duplicate Options in mobile view for variable products fixed](https://wordpress.org/support/topic/ppom-duplicate-select-options/)
+* Bug fixed: Conditional issue with Image type input
+= 18.2 July 16, 2019 =
+* Tweaks: Some strings were not translating like 'First Option' and HTML input
+* Bug fixed: Un-necessary files removed, validation and sanization added
+* Feature: [Prices conflict removed when WooCommerce variations used with Select option](https://wordpress.org/support/topic/ppom-optional-price-in/#post-11731597)
+* Bug fixed: [Warning removed when add to cart after v18.0](https://wordpress.org/support/topic/invalid-argument-supplied-19/)
+* Bug fixed: [Select option with '0' value was not showing](https://wordpress.org/support/topic/options-with-0-is-not-showing/)
+= 18.1 July 8, 2019 =
+* Bug fixed: [Number Input now has more strong check for validation](https://wordpress.org/support/topic/urgent-error-message-not-working-and-number-field-allowing-text/)
+* Bug fixed: Image Dropdown default selected value were not added in cart if used in conditions
+* Bug fixed: Image Dropdown prices were not being added in PPOM 18 New Prices
+* Bug fixed: Multiple categories with PPOM fields issue fixed.
+* Feature: Unique option id for DOM via filter ppom_dom_option_id
+* Feature: [Color palettes now has Label option](https://clients.najeebmedia.com/forums/topic/color-pallette-labels-dont-show-hex-value)
+= 18.0 June 23, 2019 [More Details](https://najeebmedia.com/blog/ppom-version-18-0-better-price-manipulation-currency-switcher/) =
+* Tweaks: [Extra colon removed in cart for Variation Quantities](https://clients.najeebmedia.com/forums/topic/colon-and-additional-data-appearing-on-my-cart/) 
+* Tweaks: Datepicker future dates default value setting udpated
+* Bug fixed: [Datepicker past_dates issue fixed](https://wordpress.org/support/topic/ppom-has-stopped-working/#post-11695214)
+* Bug fixed: [Double quote (inches symbol) issue fixed for Variation Quantities](https://wordpress.org/support/topic/code-in-view-cart-page-for-inches-symbol/)
+* Bug fixed: options (checkbox, radio, select, images) are now cloned with all data
+* Feature: [PPOM Fields now can be import/export](https://clients.najeebmedia.com/forums/topic/multiple-meta-functionality/)
+* Feature: [WooCommerce Subscription plugin compatibility added with PPOM](https://wordpress.org/support/topic/ppom-meta-not-showing-in-cart-page-breaking/#post-11655392)
+* Feature: Alert will be shown if Quantities is used with priced with Option Prices.
+* Feature: [Regex support added for input mask](https://clients.najeebmedia.com/forums/topic/input-masking/)
 = 17.5 May 26, 2019 =
 * Tweaks: Elementor add to cart button fixed
 * Feature: WCFM compatibility added for so Vendor can add/edit fields.
@@ -464,6 +510,16 @@ Drag & Drop input fields with many options. Prices can also be added with option
 * Compatibility checked for WC new version
 = 1.0 24/4/2015 =
 * Plugin just released
+
+== Frequently Asked Questions ==
+= I can add fields in Variable Products also? =
+Yes
+= Is there any fields limits =
+No - But sometime due to server limitation you cannot add more fields. [See here](https://clients.najeebmedia.com/forums/topic/restriction-in-number-of-fields/)
+= Can we price with option? =
+Yes, price can be added with Select,Radio,Checbox
+= Can I see Demo, how fields are displayed and added to cart? =
+Yes, [See here](https://najeebmedia.com/ppom)
 
 == Upgrade Notice ==
 * Since version 10 we have major changes

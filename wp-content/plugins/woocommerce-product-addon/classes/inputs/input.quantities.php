@@ -31,7 +31,7 @@ class NM_Quantities_wooproduct extends PPOM_Inputs{
 	function variation_layout() {
 	
 		$layout_options = array(
-								'simple_view'	=> __('Defualt Layout'),
+								'simple_view'	=> __('Vertical Layout'),
 								'horizontal'	=> __('Horizontal Layout'),
 								'grid'	=> __('Grid Layout'),
 								);
@@ -83,6 +83,14 @@ class NM_Quantities_wooproduct extends PPOM_Inputs{
 					'options'	=> $this->variation_layout(),
 					'default'	=> 'simple_view',
 			),
+			
+			'default_price' => array (
+					'type' => 'text',
+					'title' => __ ( 'Default Price', 'ppom' ),
+					'desc' => __ ( 'Default option price, if no prices is given in Options', "ppom"),
+					'options'	=> $this->variation_layout(),
+					'default'	=> '',
+			),
 			'class' => array (
 					'type' => 'text',
 					'title' => __ ( 'Class', 'ppom' ),
@@ -118,16 +126,11 @@ class NM_Quantities_wooproduct extends PPOM_Inputs{
 					'title' => __ ( 'Required', 'ppom' ),
 					'desc' => __ ( 'Select this if it must be required.', 'ppom' ) 
 			),
-			'use_productprice' => array (
+			/*'use_productprice' => array (
 					'type' => 'checkbox',
 					'title' => __ ( 'Include Product Price?', "ppom" ),
 					'desc' => __ ( 'It will also add product base price in sum.', 'ppom' ) 
-			),
-			// 'horizontal' => array (
-			// 		'type' => 'checkbox',
-			// 		'title' => __ ( 'Horizontal Layout', 'ppom' ),
-			// 		'desc' => __ ( 'Check to enable horizontal layout for variations.', 'ppom' ) 
-			// ),
+			),*/
 			'logic' => array (
 					'type' => 'checkbox',
 					'title' => __ ( 'Enable Conditions', 'ppom' ),

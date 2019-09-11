@@ -196,7 +196,6 @@ body.woocommerce-checkout #checkout_coupon {
 }
 
 #checkout_timeline.horizontal.text li:not(:last-child) .timeline-wrapper:after {
-    content: "/";
     display: inline-block;
     margin: 0 5px;
     font-weight: normal;

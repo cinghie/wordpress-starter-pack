@@ -53,6 +53,11 @@ jQuery(document).ready(function($) {
 			$("#fileformat option[value='tsv']").remove();
 
                         $('#file').after('<tr id="delimiter"><td><span>Delimiter:</span></td><td><select name="delimiter" class="select-field"><option value=",">, comma</option><option value="|">| pipe</option><option value=";">;</option><option value="tab">tab</option></select></td></tr>');
+		} else if(channel_hash == 'Fashionchick.nl'){ // Ugly hack, should be configurable per channel
+			$("#fileformat option[value='tsv']").remove();
+			$("#fileformat option[value='xml']").remove();
+
+                        $('#file').after('<tr id="delimiter"><td><span>Delimiter:</span></td><td><select name="delimiter" class="select-field"><option value=",">, comma</option><option value="|">| pipe</option><option value=";">;</option><option value="tab">tab</option></select></td></tr>');
 		} else {
 			$("#fileformat")
 				.empty()

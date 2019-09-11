@@ -47,7 +47,7 @@
 	<div class="section">
 		<h3 class="heading"><?php _e('Upload Title', 'woocommerce-checkout-manager'); ?></h3>
 		<div class="option">
-			<input type="text" name="wccs_settings[checkness][upload_title]" class="full-width" placeholder="<?php _e( 'Order Uploaded Files', 'woocommerce-checkout-manager' ); ?>" value="<?php echo ( isset( $options['checkness']['upload_title'] ) ? esc_attr( $options['checkness']['upload_title'] ) : '' ); ?>" />
+			<input type="text" name="wccs_settings[checkness][upload_title]" class="full-width" placeholder="<?php esc_html_e( 'Order Uploaded Files', 'woocommerce-checkout-manager' ); ?>" value="<?php echo ( isset( $options['checkness']['upload_title'] ) ? esc_attr( $options['checkness']['upload_title'] ) : '' ); ?>" />
 		</div>
 		<!-- .option -->
 	</div>

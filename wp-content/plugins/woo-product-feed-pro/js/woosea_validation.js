@@ -171,12 +171,7 @@ jQuery(document).ready(function($) {
 		var maxLength = 30;
 		var is_projectname=re.test(input.val());
 		// Check for allowed characters
-
-		console.log("yo yo");
-
 		if (!is_projectname){
-			console.log("niet goed");
-
 			$('.notice').replaceWith("<div class='notice notice-error is-dismissible'><p>Sorry, only letters, numbers, whitespaces, -, . and _ are allowed for the projectname</p></div>");
 			// Disable submit button too
 			$('#goforit').attr('disabled',true);

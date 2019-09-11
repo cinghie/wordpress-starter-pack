@@ -248,8 +248,6 @@ class PPOM_Rest {
         $productmeta_style      = '';
         $productmeta_categories = '';
         
-        $ppom_fields = apply_filters('ppom_meta_data_saving', $ppom_fields);
-        
         $dt = array (
     			'productmeta_name'          => $productmeta_name,
     			'productmeta_validation'	=> $productmeta_validation,
@@ -279,6 +277,10 @@ class PPOM_Rest {
     	$wpdb->insert($ppom_table, $dt, $format);
     	$res_id = $wpdb->insert_id;
     	
+    	$ppom_fields = apply_filters('ppom_meta_data_saving', $ppom_fields, $res_id);
+    	// Updating PPOM Meta with ppom_id in each meta array
+	    ppom_admin_update_ppom_meta_only( $res_id, $ppom_fields );
+    	
     	$resp = array ();
     	if ($res_id) {
     		
@@ -307,7 +309,7 @@ class PPOM_Rest {
     function update_meta_data( $ppom_meta, $ppom_fields, $product_id ) {
         
         $existing_fields = json_decode($ppom_meta->the_meta, true);
-        // var_dump($ppom_fields);
+        // var_dump($ppom_meta); exit;
         
         $saved_fields = array();
         $merger_array = array();
@@ -328,7 +330,7 @@ class PPOM_Rest {
             }
         }
         
-        $merger_array = apply_filters('ppom_meta_data_saving', $merger_array);
+        $merger_array = apply_filters('ppom_meta_data_saving', $merger_array, $ppom_meta->productmeta_id);
         
         $data = array('the_meta' => json_encode($merger_array) );
         $where = array (

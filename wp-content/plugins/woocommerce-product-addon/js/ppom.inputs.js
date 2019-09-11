@@ -37,19 +37,52 @@
          $('.ppom-modals').appendTo('body');
     }
     
-    $.each(ppom_input_vars.ppom_inputs, function(index, input){
+    ppom_init_js_for_ppom_fields( ppom_input_vars.ppom_inputs );
+       
+ });
+ 
+ // JS Init PPOM Inputs
+ function ppom_init_js_for_ppom_fields( ppom_fields ) {
+     
+     jQuery.each(ppom_fields, function(index, input){
          
         // console.log(input.type);
-        var InputSelector = $("#"+input.data_name);
+        var InputSelector = jQuery("#"+input.data_name);
         
         // Applying JS on inputs
         switch( input.type ) {
             
             // masking
             case 'text':
-                if(input.type === 'text' && input.input_mask !== undefined && input.input_mask !== '') {
-                    InputSelector.inputmask( input.input_mask  );
+                if( input.input_mask == undefined || input.input_mask == ''  ) break;
+                InputSelector.inputmask();
+                if(input.type === 'text'
+                    && input.input_mask !== ''
+                    && input.use_regex !== 'on') {
+                    InputSelector.inputmask(input.input_mask);
                 }
+                break;
+                
+                
+                // only allow numbers and periods in number fields
+            case "number":
+            	InputSelector.bind("keydown keyup keypress",function(event){
+            		 if (event.key === "Backspace" || event.key === "Delete" || event.key === "Tab" || 
+            		 (event.ctrlKey === true && event.key === "a") || 
+            		 (event.ctrlKey === true && event.key === "x") || 
+            		 (event.ctrlKey === true && event.key === "Backspace") || 
+            		 (event.which >= 48 && event.which <= 57) || 
+            		 (event.which >= 96 && event.which <= 105) || 
+            		 (event.key === "." && $(this).val().indexOf(".")<=1)) {
+            			 // think happy thoughts :-)
+            		 } else { event.preventDefault(); }
+            	 }).bind("focus blur",function(){
+            		 if (typeof InputSelector.attr("max") !== 'undefined') {
+            			 if (parseFloat(InputSelector.val()) > parseFloat(InputSelector.attr("max"))) {
+            				 InputSelector.val(InputSelector.attr("max"));
+            			 }
+            		 }
+            	 });
                 break;
                 
             case 'date':
@@ -63,12 +96,17 @@
         				yearRange: input.year_range,
                     });
                     
-                    if( input.past_dates === 'on' ) {
-                        var date_today = new Date();
-                        InputSelector.datepicker('option', 'minDate', date_today);
+                    if (typeof input.past_dates !== 'undefined') {
+                    	if (input.past_dates.length > 0) {
+                    	    var minDate = input.past_dates.trim();
+                    	    // accommodate for previous values with "on" as the option
+                    	    if (minDate === "on") { minDate = new Date(); }
+                    	    InputSelector.datepicker('option', 'minDate', minDate);
+                    	}
                     }
+                    
                     if( input.no_weekends === 'on' ) {
-                        InputSelector.datepicker('option', 'beforeShowDay', $.datepicker.noWeekends);
+                        InputSelector.datepicker('option', 'beforeShowDay', jQuery.datepicker.noWeekends);
                     }
                 }
                 break;
@@ -78,7 +116,7 @@
                 var img_id = input.data_name;
                 // Image Tooltip
                 if( input.show_popup === 'on' && ! ppom_input_vars.is_mobile) {
-                    $('.ppom-zoom-'+img_id).imageTooltip({
+                    jQuery('.ppom-zoom-'+img_id).imageTooltip({
     							  xOffset: 5,
     							  yOffset: 5
     						    });
@@ -137,8 +175,8 @@
             // Bulk quantity
             case 'bulkquantity':
                 
-                setTimeout(function() { $('.quantity.buttons_added').hide(); }, 50);
-                $('form.cart').find('.quantity').hide();
+                setTimeout(function() { jQuery('.quantity.buttons_added').hide(); }, 50);
+                jQuery('form.cart').find('.quantity').hide();
 				
 				// setting formatter
 				/*if ($('form.cart').closest('div').find('.price').length > 0){
@@ -171,8 +209,7 @@
         
         
      });
-       
- });
+ }
  
 
  
@@ -194,9 +231,9 @@ function ppom_get_field_type_by_id( field_id ) {
  
  var field_type = '';
  jQuery.each(ppom_input_vars.ppom_inputs, function(i, field){
-    
+
      if( field.data_name === field_id ) {
-         field_type = field.type;
+         field_type = field.field_type;
          return;
      }
  });
@@ -208,7 +245,7 @@ function ppom_get_field_type_by_id( field_id ) {
 function ppom_get_field_meta_by_id( field_id ) {
  
  var field_meta = '';
- jQuery.each(ppom_input_vars.field_meta, function(i, field){
+ jQuery.each(ppom_input_vars.ppom_inputs, function(i, field){
     
      if( field.data_name === field_id ) {
          field_meta = field;
@@ -222,7 +259,7 @@ function ppom_get_field_meta_by_id( field_id ) {
 function ppom_get_field_meta_by_type( type ) {
  
  var field_meta = Array();
- jQuery.each(ppom_input_vars.field_meta, function(i, field){
+ jQuery.each(ppom_input_vars.ppom_inputs, function(i, field){
     
      if( field.type === type ) {
          field_meta.push(field);

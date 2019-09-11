@@ -15,7 +15,8 @@ $classes = array( 'ywapo_select_option', 'ywapo_price_' . esc_attr( $price_type 
 
 $selected = $checked ? 'selected' : '';
 
-echo sprintf( '<option class="%s" data-typeid="%s" data-price="%s" data-pricetype="%s" data-index="%s" value="%s" data-image-url="%s" %s >%s</option>',
+echo sprintf( '<option id="%s" class="%s" data-typeid="%s" data-price="%s" data-pricetype="%s" data-index="%s" value="%s" data-image-url="%s" %s >%s</option>',
+	$control_id,
 	implode( ' ', $classes ),
 	esc_attr( $type_id ),
 	esc_attr( $price_calculated ),

@@ -1,6 +1,6 @@
 "use strict"
 
-var PPOMWrapper = jQuery(".ppom-wrapper");
+var PPOMWrapper = jQuery('body.woocommerce, body.woocommerce-js');
 var ppomPriceListContainer = '';
 var ppomPriceListContainerRow = '';
 // Quantity update capture/update price change
@@ -29,14 +29,13 @@ jQuery(function($){
     });
     
     
-    $('.ppom-wrapper').on('change', 'select,input:checkbox,input:radio', function(e){
-       
+    PPOMWrapper.on('change', 'select,input:checkbox,input:radio', function(e){
+     
         ppom_update_option_prices();
    });
    
-   PPOMWrapper.find('input[type="number"]').on('keyup change', function(e){
-       
-        ppom_update_option_prices();
+   PPOMWrapper.on('keyup change', 'input[type="number"]', function(e){
+        // ppom_update_option_prices();
    });
 
    
@@ -49,11 +48,16 @@ jQuery(function($){
     }
     
     // Woocommmerce vartiation update events
-    $( ".single_variation_wrap" ).on( "show_variation", function ( event, variation ) {
+    PPOMWrapper.on( "show_variation", ".single_variation_wrap", function ( event, variation ) {
         // Fired when the user selects all the required dropdowns / attributes
         // and a final variation is selected / shown
         
-        // console.log(variation);
+        $(".ppom-variable-option.ppom-option-has-percent").each(function(i, option){
+           
+           var option_percent = $(option).attr('data-percent');
+           var option_price = ppom_get_amount_after_percentage(variation.display_price, option_percent);
+           $(option).attr('data-price', option_price);
+        });
         
         ppom_product_base_price = variation.display_price;
         ppom_update_variation_quatity(variation.display_price);
@@ -65,7 +69,10 @@ jQuery(function($){
         // Fired when the user selects all the required dropdowns / attributes
         // and a final variation is selected / shown
         
-        // console.log(variation);
+        $(".ppom-variable-option.ppom-option-has-percent").each(function(i, option){
+           
+          $(option).attr('data-price', 0);
+        });
         
         ppom_product_base_price = 0;
         ppom_update_option_prices();
@@ -73,7 +80,7 @@ jQuery(function($){
     
     
     // Measue input creating price-checkbox on change
-    $('.ppom-wrapper').on('click change keyup', '.ppom-measure-input', function() {
+    PPOMWrapper.on('click change keyup', '.ppom-measure-input', function() {
        
        var data_name = $(this).attr('id');
        var m_qty    = $(this).val();
@@ -154,6 +161,7 @@ function ppom_update_option_prices() {
             show_per_unit_price     = true;
 
         var option_label_with_qty = option.label+' x ' + ppom_get_order_quantity();
+        // console.log(option_label_with_qty);
         
         var matrix_price    = parseFloat(option.price) *  ppom_get_order_quantity();
         ppom_add_price_item_in_table( option_label_with_qty, matrix_price, 'ppom-matrix-price');
@@ -177,14 +185,18 @@ function ppom_update_option_prices() {
         
         // console.log(option);
         
-        if( option.include !== 'on'){
+        /*if( option.include !== 'on'){
             ppom_show_base_price = false;
         } else {
             wc_product_qty.val(1);
-        }
+        }*/
         
-        var variation_price = option.price !== '' ? option.price : ppom_product_base_price;
+        // since v18.0 if no price set, no need to use base price
+        if( option.price == '' || option.price == 0 ) return;
+        
+        var variation_price = option.price;
         var option_price_with_qty   = parseFloat(option.quantity) * parseFloat(variation_price);
+        // console.log(option_price_with_qty);
         // Totals the options
         ppom_option_total += option_price_with_qty;
         
@@ -209,6 +221,7 @@ function ppom_update_option_prices() {
             ppom_show_base_price = false;
         }
         
+        console.log(option);
         var option_label_with_qty = option.label+' '+ppom_get_formatted_price(option.price)+' x '+option.quantity;
         
         var option_price_with_qty   = parseFloat(option.quantity) * parseFloat(option.price);
@@ -222,6 +235,36 @@ function ppom_update_option_prices() {
         
     });
     /** ====== Bulkquantity Addon =========== ***/
+    
+    /** ====== Event Calendar Add-on =========== ***/
+    jQuery(ppom_all_option_prices).each(function(i, option) {
+        
+        // Sum only variable prices
+        if( option.apply !== 'eventcalendar') return;
+        
+        // If Matrix price found then do not calculate each option prices
+        if( ppom_has_matrix ) return;
+        
+        //  wc_product_qty.val(1);
+        
+        // since v18.0 if no price set, no need to use base price
+        if( option.price == '' || option.price == 0 ) return;
+        
+        var variation_price = option.price;
+        var option_price_with_qty   = parseFloat(option.quantity) * parseFloat(variation_price);
+        // console.log(option_price_with_qty);
+        // Totals the options
+        ppom_option_total += option_price_with_qty;
+        
+        if( ! show_option_price_indivisually ) return ;
+        
+        var price_tag = ppom_get_wc_price(variation_price);
+        var option_label_with_qty = option.label+' '+jQuery(price_tag).html()+' x '+option.quantity;
+        
+        ppom_add_price_item_in_table( option_label_with_qty, option_price_with_qty, 'ppom-eventcalendar-price');
+    });
+    /** ====== Event Calendar Add-on =========== ***/
+    
                     
     /** ====== Options price variable =========== ***/
     jQuery(ppom_all_option_prices).each(function(i, option) {
@@ -237,6 +280,7 @@ function ppom_update_option_prices() {
         var price_tag = ppom_get_wc_price(option.price);
         
         var option_label_with_qty = option.label+' '+jQuery(price_tag).html()+' x '+ppom_get_order_quantity();
+        
         
         ppom_add_price_item_in_table( option_label_with_qty, option_price_with_qty, 'ppom-variable-price', '', option);
         
@@ -343,9 +387,9 @@ function ppom_update_option_prices() {
     
     
     
-    /*console.log('total_discount '+ppom_total_discount);
-    console.log('baseprice '+parseFloat(productBasePrice));
-    console.log('option_total '+parseFloat(ppom_option_total));*/
+    // console.log('total_discount '+ppom_total_discount);
+    // console.log('baseprice '+parseFloat(productBasePrice));
+    // console.log('option_total '+parseFloat(ppom_option_total));
     
     /*productBasePrice    = productBasePrice || 0;
     ppom_option_total   = ppom_option_total || 0;
@@ -366,7 +410,7 @@ function ppom_update_option_prices() {
         
         if( option.use_units === 'no' ) {
         
-            var option_qty = option.qty == '' ? 0 : parseInt(option.qty);
+            var option_qty = option.qty == '' ? 0 : parseFloat(option.qty);
             ppom_measure_found = option_qty * ppom_measure_found;
         } else {
             
@@ -517,6 +561,7 @@ function ppom_get_wc_price( price, is_discount ) {
 function ppom_update_get_prices() {
     
     var options_price_added = [];
+    
     PPOMWrapper.find('select,input:checkbox,input:radio').each(function(i, input){
         
         // if fixedprice (addon) then return
@@ -684,7 +729,7 @@ function ppom_update_get_prices() {
             ppom_quantities_qty     += parseInt(option_price.quantity);
             
             options_price_added.push( option_price );
-            wc_product_qty.val(ppom_quantities_qty);
+            ppom_set_order_quantity(ppom_quantities_qty);
         });
     });
     
@@ -702,6 +747,7 @@ function ppom_update_get_prices() {
         // option_price.include    = jQuery(this).attr('data-includeprice');
         option_price.apply      = 'bulkquantity';
         options_price_added.push( option_price );
+        ppom_set_order_quantity(option_price.quantity);
         
         /*var option_price = {};
         // Base price
@@ -729,6 +775,36 @@ function ppom_update_get_prices() {
         options_price_added.push( option_price );
 		
      }
+     
+     
+     // Event Calendar Add-on
+    var ppom_quantities_qty = 0;
+    jQuery('.ppom-input-eventcalendar').each(function(){
+        
+		// Checking if quantities is hidden
+		if( jQuery(this).hasClass('ppom-locked') ) {
+		    // Resetting quantity to one
+		    wc_product_qty.val(1);
+		    return;
+		}
+        
+        jQuery(this).find('.ppom-eventcalendar').each(function(){
+		
+    		
+    		var option_price = {};
+    		
+    		option_price.price      = jQuery(this).attr('data-price');
+            option_price.label      = jQuery(this).attr('data-label');
+            option_price.quantity   = (jQuery(this).val() === '' ) ? 0 :  jQuery(this).val();
+            option_price.include    = '';
+            option_price.apply      = 'eventcalendar';
+            ppom_quantities_qty     += parseInt(option_price.quantity);
+            
+    // 		console.log(ppom_quantities_qty);
+            options_price_added.push( option_price );
+            ppom_set_order_quantity(ppom_quantities_qty);
+        });
+    });
     
     // console.log(options_price_added);
     return options_price_added;
@@ -783,7 +859,7 @@ function ppom_get_order_quantity(){
 
 // Set quantity
 function ppom_set_order_quantity(qty){
-    
+    // console.log(wc_product_qty);
     wc_product_qty.val(qty);
 }
 
@@ -791,7 +867,10 @@ function ppom_set_order_quantity(qty){
 function ppom_delete_option_from_price_table( field_name, option_id ) {
     
     var field_type = ppom_get_field_type_by_id( field_name );
-    console.log(field_type);
+    
+    // get product id
+    var product_id = ppom_input_vars.product_id;
+    var opt_id = product_id + '-' + field_name + '-' + option_id;
     
     switch( field_type ) {
         
@@ -800,7 +879,7 @@ function ppom_delete_option_from_price_table( field_name, option_id ) {
         case 'radio':
         case 'checkbox':
             
-            jQuery("#"+option_id).prop('checked', false);
+            jQuery("#"+opt_id).prop('checked', false);
             ppom_update_option_prices();
         break;
         
@@ -820,4 +899,16 @@ function ppom_update_variation_quatity ( price ) {
             jQuery(q).attr('data-price', price);
         }
     });
+}
+
+// Return ammount after apply percent
+function ppom_get_amount_after_percentage(base_amount, percent) {
+    
+    base_amount	= parseFloat(base_amount);
+	var percent_amount = 0;
+	percent		= percent.substr( 0, percent.length - 1 );
+	percent_amount	= ppom_get_formatted_price( (parseFloat(percent) / 100) * base_amount );
+	
+	return percent_amount;
+    
 }

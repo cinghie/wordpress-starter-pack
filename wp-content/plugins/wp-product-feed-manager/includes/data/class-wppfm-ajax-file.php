@@ -27,10 +27,10 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 			add_action( 'wp_ajax_myajax-delete-feed-file', array( $this, 'myajax_delete_feed_file' ) );
 			add_action( 'wp_ajax_myajax-update-feed-file', array( $this, 'myajax_update_feed_file' ) );
 			add_action( 'wp_ajax_myajax-log-message', array( $this, 'myajax_log_message' ) );
-			add_action(	'wp_ajax_myajax-auto-feed-fix-mode-selection', array( $this, 'myajax_auto_feed_fix_mode_selection'	) );
-			add_action(	'wp_ajax_myajax-background-processing-mode-selection', array( $this, 'myajax_background_processing_mode_selection'	) );
+			add_action( 'wp_ajax_myajax-auto-feed-fix-mode-selection', array( $this, 'myajax_auto_feed_fix_mode_selection' ) );
+			add_action( 'wp_ajax_myajax-background-processing-mode-selection', array( $this, 'myajax_background_processing_mode_selection' ) );
 			add_action( 'wp_ajax_myajax-debug-mode-selection', array( $this, 'myajax_debut_mode_selection' ) );
-			add_action( 'wp_ajax_myajax-third-party-attribute-keywords', array(	$this, 'myajax_set_third_party_attribute_keywords' ) );
+			add_action( 'wp_ajax_myajax-third-party-attribute-keywords', array( $this, 'myajax_set_third_party_attribute_keywords' ) );
 			add_action( 'wp_ajax_myajax-set-notice-mailaddress', array( $this, 'myajax_set_notice_mailaddress' ) );
 			add_action( 'wp_ajax_myajax-clear-feed-process-data', array( $this, 'myajax_clear_feed_process_data' ) );
 			add_action( 'wp_ajax_myajax-reinitiate-plugin', array( $this, 'myajax_reinitiate_plugin' ) );
@@ -126,6 +126,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 		public function myajax_update_feed_file() {
 			// make sure this call is legal
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'updateFeedFileNonce' ), 'myajax-update-feed-file-nonce' ) ) {
+
 				// fetch the data from $_POST
 				$feed_id                  = filter_input( INPUT_POST, 'feedId' );
 				$background_mode_disabled = get_option( 'wppfm_disabled_background_mode', 'false' );
@@ -136,7 +137,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 				if ( ! WPPFM_Feed_Controller::feed_is_processing() || 'true' === $background_mode_disabled ) {
 					do_action( 'wppfm_manual_feed_update_activated', $feed_id );
 
-					$feed_master_class = new WPPFM_Feed_Master_Class();
+					$feed_master_class = new WPPFM_Feed_Master_Class( $feed_id );
 					$feed_master_class->update_feed_file( false );
 				} else {
 					$data_class = new WPPFM_Data();
@@ -242,8 +243,8 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 		public function myajax_set_notice_mailaddress() {
 			// make sure this call is legal
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'noticeMailaddressNonce' ), 'myajax-set-notice-mailaddress-nonce' ) ) {
-				$mailaddres = filter_input( INPUT_POST, 'mailaddress' );
-				update_option( 'wppfm_notice_mailaddress', $mailaddres );
+				$mailaddress = filter_input( INPUT_POST, 'mailaddress' );
+				update_option( 'wppfm_notice_mailaddress', $mailaddress );
 
 				echo get_option( 'wppfm_notice_mailaddress' );
 			}
@@ -296,4 +297,4 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 
 endif;
 
-$myajaxfileclass = new WPPFM_Ajax_File();
+$myajax_file_class = new WPPFM_Ajax_File();

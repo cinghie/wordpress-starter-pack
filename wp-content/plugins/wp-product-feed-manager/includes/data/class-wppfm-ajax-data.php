@@ -33,13 +33,7 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 			add_action( 'wp_ajax_myajax-get-feed-data', array( $this, 'myajax_get_feed_data' ) );
 			add_action( 'wp_ajax_myajax-get-feed-status', array( $this, 'myajax_get_feed_status' ) );
 			add_action( 'wp_ajax_myajax-get-main-feed-filters', array( $this, 'myajax_get_feed_filters' ) );
-			add_action(
-				'wp_ajax_myajax-switch-feed-status',
-				array(
-					$this,
-					'myajax_switch_feed_status_between_hold_and_ok',
-				)
-			);
+			add_action( 'wp_ajax_myajax-switch-feed-status', array( $this, 'myajax_switch_feed_status_between_hold_and_ok' ) );
 			add_action( 'wp_ajax_myajax-duplicate-existing-feed', array( $this, 'myajax_duplicate_feed_data' ) );
 			add_action( 'wp_ajax_myajax-update-feed-data', array( $this, 'myajax_update_feed_data' ) );
 			add_action( 'wp_ajax_myajax-delete-feed', array( $this, 'myajax_delete_feed' ) );
@@ -48,13 +42,7 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 			add_action( 'wp_ajax_myajax-restore-backup-file', array( $this, 'myajax_restore_backup_file' ) );
 			add_action( 'wp_ajax_myajax-duplicate-backup-file', array( $this, 'myajax_duplicate_backup_file' ) );
 			add_action( 'wp_ajax_myajax-get-next-feed-in-queue', array( $this, 'myajax_get_next_feed_in_queue' ) );
-			add_action(
-				'wp_ajax_myajax-register-notice-dismission',
-				array(
-					$this,
-					'myajax_register_notice_dismission',
-				)
-			);
+			add_action( 'wp_ajax_myajax-register-notice-dismission', array( $this, 'myajax_register_notice_dismission' ) );
 		}
 
 		/**
@@ -151,6 +139,11 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 			exit;
 		}
 
+		/**
+		 * Gets all the different source fields from the custom products and third party sources and combines them into one list
+		 *
+		 * @access public (ajax triggered)
+		 */
 		public function myajax_get_input_fields() {
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'inputFieldsNonce' ), 'myajax-input-fields-nonce' ) ) {
 				$source_id = filter_input( INPUT_POST, 'sourceId' );
@@ -165,15 +158,15 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 						$product_taxonomies        = get_taxonomies();
 						$third_party_custom_fields = $data_class->get_third_party_custom_fields();
 
-						echo json_encode(
-							$this->combine_custom_attributes_and_feeds(
-								$custom_product_attributes,
-								$custom_product_fields,
-								$product_attributes,
-								$product_taxonomies,
-								$third_party_custom_fields
-							)
+						$all_source_fields = $this->combine_custom_attributes_and_feeds(
+							$custom_product_attributes,
+							$custom_product_fields,
+							$product_attributes,
+							$product_taxonomies,
+							$third_party_custom_fields
 						);
+
+						echo json_encode( apply_filters( 'wppfm_all_source_fields', $all_source_fields ) );
 						break;
 
 					default:
@@ -235,7 +228,7 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'feedStatusNonce' ), 'myajax-feed-status-nonce' ) ) {
 				$feed_id = filter_input( INPUT_POST, 'sourceId' );
 
-				$feed_master = new WPPFM_Feed_Master_Class();
+				$feed_master = new WPPFM_Feed_Master_Class( $feed_id );
 				$feed_data   = $feed_master->feed_status_check( $feed_id );
 
 				echo json_encode( $feed_data );
@@ -247,49 +240,12 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 
 		public function myajax_update_feed_data() {
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'updateFeedDataNonce' ), 'myajax-update-feed-data-nonce' ) ) {
-				$data_class = new WPPFM_Data();
-
 				// get the posted feed data
-				$feed_id          = filter_input( INPUT_POST, 'feedId' );
-				$channel_id       = filter_input( INPUT_POST, 'channelId' );
-				$is_aggregator    = filter_input( INPUT_POST, 'isAggregator' );
-				$incl_variations  = filter_input( INPUT_POST, 'includeVariations' );
-				$country_code     = filter_input( INPUT_POST, 'countryId' );
-				$feed_language    = filter_input( INPUT_POST, 'language' ); // @since 1.9.0
-				$source_id        = filter_input( INPUT_POST, 'sourceId' );
-				$title            = filter_input( INPUT_POST, 'title' );
-				$feed_title       = filter_input( INPUT_POST, 'feedTitle' ); // @since 1.8.0
-				$feed_description = filter_input( INPUT_POST, 'feedDescription' );    // @since 1.8.0
-				$main_category    = filter_input( INPUT_POST, 'defaultCategory' );
-				$url              = filter_input( INPUT_POST, 'url' );
-				$status           = filter_input( INPUT_POST, 'status' );
-				$feed_filter      = filter_input( INPUT_POST, 'feedFilter' );
-				$schedule         = filter_input( INPUT_POST, 'schedule' );
-				$m_data           = filter_input( INPUT_POST, 'metaData' );
+				$ajax_feed_data = json_decode( filter_input( INPUT_POST, 'feed' ) );
+				$feed_filter    = filter_input( INPUT_POST, 'feedFilter' );
+				$m_data         = filter_input( INPUT_POST, 'metaData' );
 
-				$country_id = $data_class->get_country_id_from_short_code( $country_code )->country_id;
-
-				$meta_data = json_decode( $m_data );
-
-				// insert or update the feed
-				if ( $feed_id < 0 ) {
-					$resulting_feed_id = $this->_queries->insert_feed( $channel_id, $country_id, $feed_language, $source_id, $title, $feed_title, $feed_description, $main_category, $incl_variations, $is_aggregator, $url, $status, $schedule );
-					$response          = $resulting_feed_id;
-				} else {
-					$update_result     = $this->_queries->update_feed( $feed_id, $channel_id, $country_id, $feed_language, $source_id, $title, $feed_title, $feed_description, $main_category, $incl_variations, $is_aggregator, $url, $status, $schedule );
-					$response          = $update_result ? $feed_id : 0;
-					$resulting_feed_id = $feed_id;
-				}
-
-				$actual_feed_id = $feed_id < 0 ? $resulting_feed_id : $feed_id;
-
-				if ( count( $meta_data ) > 0 ) {
-					$this->_queries->update_meta_data( $actual_feed_id, $meta_data );
-				}
-
-				$this->_queries->store_feed_filter( $actual_feed_id, $feed_filter );
-
-				echo $response;
+				echo WPPFM_Feed_CRUD_Handler::create_or_update_feed_data( $ajax_feed_data, $m_data, $feed_filter );
 			}
 
 			exit;

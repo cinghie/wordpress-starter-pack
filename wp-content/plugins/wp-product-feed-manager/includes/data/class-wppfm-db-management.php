@@ -21,7 +21,7 @@ if ( ! class_exists( 'WPPFM_Db_Management' ) ) :
 		public static function table_exists( $table_name ) {
 			global $wpdb;
 
-			if ( $wpdb->get_var( "SHOW TABLES LIKE '" . $table_name . "'" ) === $table_name ) {
+			if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->prefix . $table_name ) ) === $wpdb->prefix . $table_name ) {
 				return true;
 			} else {
 				return false;
@@ -52,23 +52,50 @@ if ( ! class_exists( 'WPPFM_Db_Management' ) ) :
 			$feed_data->title = $support_class->next_unique_feed_name( $feed_data->title );
 			$feed_data->url   = 'No feed generated';
 
-			// store a copy of the new feed
-			$new_feed_id = $queries_class->insert_feed(
-				$feed_data->channel_id,
-				$feed_data->country_id,
-				$feed_data->language,
-				$feed_data->source_id,
-				$feed_data->title,
-				$feed_data->feed_title,
-				$feed_data->feed_description,
-				$feed_data->main_category,
-				$feed_data->include_variations,
-				$feed_data->is_aggregator,
-				$feed_data->url,
-				$feed_data->status_id,
-				$feed_data->base_status_id,
-				$feed_data->schedule
+			$feed_data_to_store = array(
+				'channel_id'            => $feed_data->channel_id,
+				'language'              => $feed_data->language,
+				'is_aggregator'         => $feed_data->is_aggregator,
+				'include_variations'    => $feed_data->include_variations,
+				'country_id'            => $feed_data->country_id,
+				'source_id'             => $feed_data->source_id,
+				'title'                 => $feed_data->title,
+				'feed_title'            => $feed_data->feed_title,
+				'feed_description'      => $feed_data->feed_description,
+				'main_category'         => $feed_data->main_category,
+				'url'                   => $feed_data->url,
+				'status_id'             => $feed_data->status_id,
+				'schedule'              => $feed_data->schedule,
+				'products'              => 0,
+				'feed_type_id'          => $feed_data->feed_type_id,
+				'aggregator_name'       => $feed_data->aggregator_name,
+				'publisher_name'        => $feed_data->publisher_name,
+				'publisher_favicon_url' => $feed_data->publisher_favicon_url,
 			);
+
+			$feed_data_types = array(
+				'%d',
+				'%s',
+				'%d',
+				'%d',
+				'%d',
+				'%d',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%d',
+				'%s',
+				'%d',
+				'%d',
+				'%s',
+				'%s',
+				'%s',
+			);
+
+			// store a copy of the new feed
+			$new_feed_id = $queries_class->create_feed( $feed_data_to_store, $feed_data_types );
 
 			$result = $new_feed_id > 0 ? $queries_class->insert_meta_data( $new_feed_id, $meta_data, $category_mapping ) : false;
 
@@ -85,19 +112,19 @@ if ( ! class_exists( 'WPPFM_Db_Management' ) ) :
 		 * @return boolean
 		 */
 		public static function backup_database_tables( $backup_file_name ) {
-			$queries_class = new WPPFM_Queries();
-			$file_class    = new WPPFM_File();
+			$backup_class = new WPPFM_Backup();
+			$file_class   = new WPPFM_File();
 
 			$backup_file = WPPFM_BACKUP_DIR . '/' . $backup_file_name . '.sql';
-			$backup_path = str_replace( "\\", "/", $backup_file );
+			$backup_path = str_replace( '\\', '/', $backup_file );
 
-			// prepair the folder structure to support saving backup files
+			// prepare the folder structure to support saving backup files
 			if ( ! file_exists( WPPFM_BACKUP_DIR ) ) {
 				WPPFM_Folders::make_backup_folder();
 			}
 
 			if ( ! file_exists( $backup_path ) ) {
-				$backup_file_text = $queries_class->read_full_backup_data();
+				$backup_file_text = $backup_class->read_full_backup_data();
 
 				return $file_class->write_full_backup_file( $backup_path, $backup_file_text );
 			} else {
@@ -149,10 +176,10 @@ if ( ! class_exists( 'WPPFM_Db_Management' ) ) :
 		 * @return boolean if restored successfully, string when not
 		 */
 		public static function restore_backup( $backup_file_name ) {
-			$queries_class = new WPPFM_Queries();
+			$backup_class = new WPPFM_Backup();
 
 			$backup_file = WPPFM_BACKUP_DIR . '/' . $backup_file_name;
-			$backup_path = str_replace( "\\", "/", $backup_file );
+			$backup_path = str_replace( '\\', '/', $backup_file );
 
 			$current_db_version = get_option( 'wppfm_db_version' );
 
@@ -213,7 +240,7 @@ if ( ! class_exists( 'WPPFM_Db_Management' ) ) :
 				// remove the first (empty) element
 				array_shift( $table_queries );
 
-				return $queries_class->restore_backup_data( $table_queries );
+				return $backup_class->restore_backup_data( $table_queries );
 			} else {
 				return __( 'A backup file with the selected name does not exists.', 'wp-product-feed-manager' );
 			}
@@ -248,13 +275,13 @@ if ( ! class_exists( 'WPPFM_Db_Management' ) ) :
 		public static function duplicate_backup_file( $backup_file_name ) {
 			$support_class = new WPPFM_Feed_Support();
 
-			$backup_file_name_without_extention = rtrim( $backup_file_name, '.sql' );
-			$new_backup_file_title              = $support_class->next_unique_feed_name( $backup_file_name_without_extention );
+			$backup_file_name_without_extension = rtrim( $backup_file_name, '.sql' );
+			$new_backup_file_title              = $support_class->next_unique_feed_name( $backup_file_name_without_extension );
 			$new_backup_file_name               = $new_backup_file_title . '.sql';
 
 			if ( ! copy( WPPFM_BACKUP_DIR . '/' . $backup_file_name, WPPFM_BACKUP_DIR . '/' . $new_backup_file_name ) ) {
 				/* translators: %s: selected backup file name */
-				__( sprintf( 'Failed to make a copy of %s', $backup_file_name ), 'wp-product-feed-manager' );
+				sprintf( __( 'Failed to make a copy of %s', 'wp-product-feed-manager' ), $backup_file_name );
 			} else {
 				echo true;
 			}

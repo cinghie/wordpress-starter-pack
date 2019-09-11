@@ -28,8 +28,8 @@ if ( ! class_exists( 'WPPFM_Category_Selector_Element' ) ) :
 
 			return '<thead class="wp-list-table widefat fixed striped"><tr>
 				<td id="shop-category-selector" class="manage-column column-cb check-column" style="width:5%;">
-				<label class="screen-reader-text" for="categories-select-all">Select All</label>
-				<input id="categories-select-all" type="checkbox">
+				<label class="screen-reader-text" for="wppfm-categories-select-all">Select All</label>
+				<input id="wppfm-categories-select-all" type="checkbox">
 				</td>
 				<th scope="row" class="manage-column column-name col30w">' . __( 'Shop Category', 'wp-product-feed-manager' ) . '</th>
 				<th scope="row" class="manage-column column-name col55w">' . $mode_column . '</th>
@@ -43,11 +43,12 @@ if ( ! class_exists( 'WPPFM_Category_Selector_Element' ) ) :
 		 * @param object    $category           object containing data of the active category like term_id and name
 		 * @param string    $category_children  a string with the children of the active category
 		 * @param string    $level_indicator    current active level
+		 * @param string    $mode               defines if the category mapping row should contain a description (normal) or a catgory mapping (mapping) column
 		 *
 		 * @return string
 		 */
 		public static function category_mapping_row( $category, $category_children, $level_indicator, $mode ) {
-			$category_row_class = 'mapping' === $mode ? 'category-mapping-selector' : 'category-selector';
+			$category_row_class = 'mapping' === $mode ? 'wppfm-category-mapping-selector' : 'wppfm-category-selector';
 			$mode_column        = 'mapping' === $mode ? self::category_mapping_selector( 'catmap', $category->term_id, false ) : self::category_description_data_item( $category->term_id );
 
 			return '<tr id="category-' . $category->term_id . '"><th class="check-column" scope="row" id="shop-category-selector">
@@ -107,7 +108,7 @@ if ( ! class_exists( 'WPPFM_Category_Selector_Element' ) ) :
 		 * @return string
 		 */
 		public static function product_filter_selector() {
-			return '<section class="main-product-filter-wrapper" style="display:none;">
+			return '<section class="main-product-filter-wrapper" id="main-product-filter-wrapper" style="display:none;">
 				<div class="product-filter-condition-wrapper">
 				</div>
 				</section>

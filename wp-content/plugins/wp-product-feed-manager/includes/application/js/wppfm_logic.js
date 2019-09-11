@@ -232,6 +232,39 @@ function wppfm_duplicateFeed( id, feedName ) {
 	);
 }
 
+function wppfm_regenerateFeed( feedId ) {
+	var feedStatus = wppfmQueueStringIsEmpty() ? 3 : 4;
+
+	wppfmAddToQueueString( feedId );
+
+	wppfm_show_feed_spinner();
+
+	wppfm_updateFeedRowStatus( feedId, feedStatus );
+
+	console.log( 'Started regenerating feed ' + feedId );
+
+	wppfm_updateFeedFile( feedId, function( xmlResult ) {
+
+		wppfm_hide_feed_spinner();
+
+		console.log(xmlResult);
+
+		// activate the feed list status checker to update the feed list when a status changes
+		var checkStatus = setInterval( function(){
+			wppfm_getCurrentFeedStatus( feedId, function( statResult ) {
+				var data = JSON.parse( statResult );
+				if ('3' !== data[ 'status_id' ] && '4' !== data[ 'status_id' ]) {
+					console.log( data );
+					wppfm_resetFeedStatus( data );
+					wppfm_resetFeedList();
+					clearInterval( checkStatus );
+					wppfmRemoveFromQueueString( feedId );
+				}
+			} );
+		}, 5000 );
+	})
+}
+
 function wppfm_viewFeed( url ) {
 	window.open( url );
 }
@@ -248,11 +281,29 @@ function wppfm_addRowValueEditor(
 }
 
 /**
+ * Takes an array of words and puts them together in a camel structure way.
+ *
+ * @param {array}    stringArray     contains the words from which the string should be generated
+ *
+ * @returns {string} camel structured string
+ */
+function wppfm_convertToCamelCase( stringArray ) {
+	// first word should remain lowercase
+	var result = stringArray[ 0 ].toLowerCase();
+
+	for ( var i = 1; i < stringArray.length; i++ ) {
+		result += stringArray[ i ].charAt( 0 ).toUpperCase() + stringArray[ i ].slice( 1 );
+	}
+
+	return result;
+}
+
+/**
  * wppfm_getFeedObject gets the data from an existing feed and stores it in a Feed object
  *
- * @param {type} feedId
- * @param {type} callback
- * @returns {undefined}
+ * @param {string} feedId
+ * @param {string} callback
+ * @returns {object}
  */
 function wppfm_getFeedObject( feedId, callback ) {
 
@@ -269,7 +320,7 @@ function wppfm_getFeedObject( feedId, callback ) {
 					data[ 'title' ],
 					data[ 'include_variations' ],
 					data[ 'is_aggregator' ],
-					String( data[ 'channel' ] ),
+					data[ 'channel' ],
 					data[ 'main_category' ],
 					data[ 'category_mapping' ],
 					data[ 'url' ],
@@ -279,8 +330,9 @@ function wppfm_getFeedObject( feedId, callback ) {
 					data[ 'feed_title' ],
 					data[ 'feed_description' ],
 					data[ 'schedule' ],
-					'',
-					data[ 'status_id' ]
+					[],
+					data[ 'status_id' ],
+					'1'
 				);
 
 				callback( newFeedObject );

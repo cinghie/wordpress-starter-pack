@@ -3,7 +3,7 @@
  * Change default footer text, asking to review our plugin
  **/
 function my_footer_text($default) {
-    return 'If you like our <strong>WooCommerce Product Feed PRO</strong> plugin please leave us a <a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="woo-product-feed-pro-ratingRequest">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. Thanks in advance!';
+    return _e( 'If you like our <strong>WooCommerce Product Feed PRO</strong> plugin please leave us a <a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="woo-product-feed-pro-ratingRequest">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. Thanks in advance!','woo-product-feed-pro' );
 }
 add_filter('admin_footer_text', 'my_footer_text');
 
@@ -44,7 +44,7 @@ if (array_key_exists('project_hash', $_GET)){
 	<div class="wrap">
 		<div class="woo-product-feed-pro-form-style-2">
 			<tbody class="woo-product-feed-pro-body">
-				<div class="woo-product-feed-pro-form-style-2-heading">Conversion tracking & Google Analytics settings</div>
+				<div class="woo-product-feed-pro-form-style-2-heading"><?php _e( 'Google Analytics settings','woo-product-feed-pro' );?></div>
 
                         	<div class="<?php _e($notifications_box['message_type']); ?>">
                                 	<p><?php _e($notifications_box['message'], 'sample-text-domain' ); ?></p>
@@ -53,6 +53,7 @@ if (array_key_exists('project_hash', $_GET)){
 				<form id="googleanalytics" method="post">
 		
 				<table class="woo-product-feed-pro-table">
+				<!--
 				<tr>
 					<td><span>Enable conversion tracking: </span></td>
 					<td>
@@ -68,8 +69,9 @@ if (array_key_exists('project_hash', $_GET)){
 						</label>	
 					</td>
 				</tr>			
+				-->
 				<tr>
-					<td><span>Enable Google Analytics tracking: </span></td>
+					<td><span><?php _e( 'Enable Google Analytics tracking','woo-product-feed-pro' );?>: </span></td>
 					<td>
 						<label class="woo-product-feed-pro-switch">
 							<?php
@@ -84,23 +86,23 @@ if (array_key_exists('project_hash', $_GET)){
 					</td>
 				</tr>			
 				<tr>
-					<td><span>Google Analytics campaign source (utm_source):</span></td>
+					<td><span><?php _e( 'Google Analytics campaign source (utm_source)','woo-product-feed-pro' );?>:</span></td>
 				 	<td><input type="text" class="input-field" name="utm_source" value="<?php print "$project[utm_source]";?>" /></td>
 				</tr>
 				<tr>
-					<td><span>Google Analytics campaign medium (utm_medium):</span></td>
+					<td><span><?php _e( 'Google Analytics campaign medium (utm_medium)','woo-product-feed-pro' );?>:</span></td>
 				 	<td><input type="text" class="input-field" name="utm_medium" value="<?php print "$project[utm_medium]";?>" /></td>
 				</tr>
 				<tr>
-					<td><span>Google Analytics campaign name (utm_campaign):</span></td>
+					<td><span><?php _e( 'Google Analytics campaign name (utm_campaign)','woo-product-feed-pro' );?>:</span></td>
 				 	<td><input type="text" class="input-field" name="utm_campaign" value="<?php print "$project[utm_campaign]";?>" /></td>
 				</tr>
 				<tr>
-					<td><span>Google Analytics campaign term (utm_term):</span></td>
-				 	<td><input type="hidden" name="utm_term" value="id"><input type="text" class="input-field" value="[productId]" disabled/> <i>(dynamically added Product ID)</i></td>
+					<td><span><?php _e( 'Google Analytics campaign term (utm_term)','woo-product-feed-pro' );?>:</span></td>
+				 	<td><input type="hidden" name="utm_term" value="id"><input type="text" class="input-field" value="[productId]" disabled/> <i>(<?php _e('dynamically added Product ID','woo-product-feed-pro' );?>)</i></td>
 				</tr>
 				<tr>
-					<td><span>Google Analytics campaign content (utm_content):</span></td>
+					<td><span><?php _e( 'Google Analytics campaign content (utm_content)','woo-product-feed-pro' );?>:</span></td>
 				 	<td><input type="text" class="input-field" name="utm_content" value="<?php print "$project[utm_content]";?>" /></td>
 				</tr>
 				<tr>

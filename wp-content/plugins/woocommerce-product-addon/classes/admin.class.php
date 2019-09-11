@@ -59,6 +59,9 @@ class NM_PersonalizedProduct_Admin extends NM_PersonalizedProduct {
     	// Save settings
     	add_action( 'woocommerce_update_options_ppom_settings', array($this, 'save_settings') );
     	
+    	// adding wpml support for PPOM Settings
+    	add_filter('woocommerce_admin_settings_sanitize_option', array($this, 'ppom_setting_wpml'), 10, 3); 
+    	
     	add_action( 'admin_head', array($this, 'ppom_tabs_custom_style') );
     	
 	}
@@ -154,11 +157,16 @@ class NM_PersonalizedProduct_Admin extends NM_PersonalizedProduct {
 	*/
 	function get_products() {
 		
+		if( ! current_user_can('administrator') ) {
+			_e ("Sorry, you are not allowed to perform this action", 'ppom');
+			die(0);
+		}
+		
 		global $wpdb;
 		
 		$all_product_data = $wpdb->get_results("SELECT ID,post_title FROM `" . $wpdb->prefix . "posts` where post_type='product' and post_status = 'publish'");
 		
-		$ppom_id = $_GET['ppom_id'];
+		$ppom_id = intval($_GET['ppom_id']);
 		
 		ob_start();
 		$vars = array('product_list'=>$all_product_data,'ppom_id'=>$ppom_id);
@@ -177,10 +185,15 @@ class NM_PersonalizedProduct_Admin extends NM_PersonalizedProduct {
 	*/
 	function ppom_attach_ppoms() {
 		
+		if( ! current_user_can('administrator') ) {
+			_e ("Sorry, you are not allowed to perform this action", 'ppom');
+			die(0);
+		}
+		
 		// wp_send_json($_POST);
 		$response = array();
 		
-		$ppom_id = $_POST['ppom_id'];
+		$ppom_id = intval($_POST['ppom_id']);
 		
 		$ppom_udpated = 0;
 		// Reset
@@ -188,7 +201,7 @@ class NM_PersonalizedProduct_Admin extends NM_PersonalizedProduct {
 			
 			foreach($_POST['ppom_removed'] as $product_id) {
 			
-				delete_post_meta($product_id, '_product_meta_id');
+				delete_post_meta( intval($product_id), '_product_meta_id');
 				$ppom_udpated++;
 			}
 		}
@@ -197,7 +210,7 @@ class NM_PersonalizedProduct_Admin extends NM_PersonalizedProduct {
 			
 			foreach($_POST['ppom_attached'] as $product_id) {
 			
-				update_post_meta($product_id, '_product_meta_id', $ppom_id);
+				update_post_meta(intval($product_id), '_product_meta_id', $ppom_id);
 				$ppom_udpated++;
 			}
 		}
@@ -242,6 +255,15 @@ class NM_PersonalizedProduct_Admin extends NM_PersonalizedProduct {
     function save_settings() {
     	
     	woocommerce_update_options( ppom_array_settings() );
+    }
+    
+    function ppom_setting_wpml($value, $option, $raw_value) {
+    	
+    	if( isset($option['type']) && isset($option['type']) == 'text' ) {
+    		$value = ppom_wpml_translate($value, 'PPOM');
+    	}
+    	
+    	return $value;
     }
 
     function ppom_tabs_custom_style() {

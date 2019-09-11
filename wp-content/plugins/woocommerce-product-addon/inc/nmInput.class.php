@@ -106,10 +106,6 @@ class NM_Form {
                 $input_html = $this -> Cropper( $args, $default_value );
             break;
             
-            case 'fixedprice':
-                $input_html = $this -> FixedPriceAddon( $args, $default_value );
-            break;
-            
          }
          
          if( $this -> echoable )
@@ -168,6 +164,11 @@ class NM_Form {
             $html       .= 'max="'.esc_attr($num_max).'" ';
             $html       .= 'step="'.esc_attr($step).'" ';
         }
+        
+        // Regex-Input Mask (Since 18.0)
+        if( $args['use_regex'] == 'on' && $args['input_mask'] != '' ) {
+            $html       .= 'data-inputmask-regex="'.esc_attr($args['input_mask']).'" ';
+        }        
         
         //Values
         if( $default_value != '')
@@ -272,8 +273,8 @@ class NM_Form {
         $html       .= 'max="'.esc_attr($num_max).'" ';
         $html       .= 'step="'.esc_attr($step).'" ';
         $html       .= 'data-price="'.esc_attr(ppom_get_product_price($product)).'" ';
-        $html       .= 'data-title="'.esc_attr($label).'"'; // Input main label/title
-        $html       .= 'data-use_units="'.esc_attr($use_units).'"'; // Input main label/title
+        $html       .= 'data-title="'.esc_attr($label).'" '; // Input main label/title
+        $html       .= 'data-use_units="'.esc_attr($use_units).'" '; // Input main label/title
         //   $html .= '<input type="text" class="form-control" aria-label="Text input with dropdown button">';
         
         //Values
@@ -375,6 +376,9 @@ class NM_Form {
      **/
     public function Select( $args, $selected_value = '' ) {
         
+        global $product;
+        
+        $type       = $this -> get_attribute_value('type', $args);
         $label      = $this -> get_attribute_value('label', $args);
         $classes    = $this -> get_attribute_value('classes', $args);
         $id         = $this -> get_attribute_value('id', $args);
@@ -390,6 +394,7 @@ class NM_Form {
         
         // Options
         $options    = $this -> get_attribute_value('options', $args);
+        // ppom_pa($options);
        
         if ( ! $options ) return;
 
@@ -416,49 +421,57 @@ class NM_Form {
         
         $html       .= '>';  // Closing select
         
+        $product_type = $product->get_type();
+        
         foreach($options as $key => $value) {
-            
-            // for multiple selected
-            
-            $option_label   = $value['label'];
-            $option_price   = $value['price'];
-            $option_id      = isset($value['option_id']) ? $value['option_id'] : '';
-            $raw_label      = $value['raw'];
-            $without_tax    = $value['without_tax'];
-            $opt_percent    = isset($value['percent']) ? $value['percent']: '';
-            $option_class   = "ppom-option-{$option_id}";
-            
-            // if option has weight and price is not set, then set it zero for calculation
-            if( empty($option_price) && !empty($value['option_weight']) ) {
-                $option_price = 0;
-            }
-            
-            if( is_array($selected_value) ){
-            
-                foreach($selected_value as $s){
-                    $html   .= '<option '.selected( $s, $key, false ).' value="'.esc_attr($key).'" ';
+                
+                // for multiple selected
+                
+                $option_label   = $value['label'];
+                $option_price   = $value['price'];
+                $option_id      = isset($value['option_id']) ? $value['option_id'] : '';
+                $raw_label      = $value['raw'];
+                $without_tax    = $value['without_tax'];
+                $opt_percent    = isset($value['percent']) ? $value['percent']: '';
+                
+                $ppom_has_percent = $opt_percent !== '' ? 'ppom-option-has-percent' : '';
+                $option_class   = array("ppom-option-{$option_id}",
+                                        "ppom-{$product_type}-option",
+                                        $ppom_has_percent,
+                                        );
+                $option_class = apply_filters('ppom_option_classes', implode(" ", $option_class), $args);
+                
+                // if option has weight and price is not set, then set it zero for calculation
+                if( empty($option_price) && !empty($value['option_weight']) ) {
+                    $option_price = 0;
+                }
+                
+                if( is_array($selected_value) ){
+                
+                    foreach($selected_value as $s){
+                        $html   .= '<option '.selected( $s, $key, false ).' value="'.esc_attr($key).'" ';
+                        $html   .= 'class="'.esc_attr($option_class).'" ';
+                        $html   .= 'data-price="'.esc_attr($option_price).'" ';
+                        $html   .= 'data-label="'.esc_attr($option_label).'" ';
+                        $html   .= 'data-onetime="'.esc_attr($onetime).'" ';
+                        $html   .= '>'.$option_label.'</option>';
+                    }
+                } else {
+                    $html   .= '<option '.selected( $selected_value, $key, false ).' ';
+                    $html   .= 'value="'.esc_attr($key).'" ';
                     $html   .= 'class="'.esc_attr($option_class).'" ';
                     $html   .= 'data-price="'.esc_attr($option_price).'" ';
-                    $html   .= 'data-label="'.esc_attr($option_label).'" ';
-                    $html   .= 'data-onetime="'.esc_attr($onetime).'"';
+                    $html   .= 'data-optionid="'.esc_attr($option_id).'" ';
+                    $html   .= 'data-percent="'.esc_attr($opt_percent).'" ';
+                    $html   .= 'data-label="'.esc_attr($raw_label).'" ';
+                    $html   .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
+                    $html   .= 'data-onetime="'.esc_attr($onetime).'" ';
+                    $html   .= 'data-taxable="'.esc_attr($taxable).'" ';
+                    $html   .= 'data-without_tax="'.esc_attr($without_tax).'" ';
+                    $html   .= 'data-data_name="'.esc_attr($id).'" ';
                     $html   .= '>'.$option_label.'</option>';
                 }
-            } else {
-                $html   .= '<option '.selected( $selected_value, $key, false ).' ';
-                $html   .= 'value="'.esc_attr($key).'" ';
-                $html   .= 'class="'.esc_attr($option_class).'" ';
-                $html   .= 'data-price="'.esc_attr($option_price).'" ';
-                $html   .= 'data-optionid="'.esc_attr($option_id).'" ';
-                $html   .= 'data-percent="'.esc_attr($opt_percent).'" ';
-                $html   .= 'data-label="'.esc_attr($raw_label).'" ';
-                $html   .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
-                $html   .= 'data-onetime="'.esc_attr($onetime).'" ';
-                $html   .= 'data-taxable="'.esc_attr($taxable).'" ';
-                $html   .= 'data-without_tax="'.esc_attr($without_tax).'" ';
-                $html   .= 'data-data_name="'.esc_attr($id).'"';
-                $html   .= '>'.$option_label.'</option>';
             }
-        }
         
         $html .= '</select>';
         $html      .= '</div>';    //form-group
@@ -524,14 +537,14 @@ class NM_Form {
                 foreach($selected_value as $s){
                     $html   .= '<option '.selected( $s, $key, false ).' value="'.esc_attr($key).'" ';
                     $html   .= 'data-price="'.esc_attr($option_price).'" ';
-                    $html   .= 'data-label="'.esc_attr($option_label).'"';
-                    $html   .= 'data-onetime="'.esc_attr($onetime).'"';
+                    $html   .= 'data-label="'.esc_attr($option_label).'" ';
+                    $html   .= 'data-onetime="'.esc_attr($onetime).'" ';
                     $html   .= '>'.$option_label.'</option>';
                 }
             } else {
                 $html   .= '<option '.selected( $selected_value, $key, false ).' ';
                 $html   .= 'value="'.esc_attr($key).'" ';
-                $html   .= 'data-title="'.esc_attr($title).'"'; // Input main label/title
+                $html   .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
                 $html   .= '>'.$option_label.'</option>';
             }
         }
@@ -589,6 +602,7 @@ class NM_Form {
             $raw_label      = $value['raw'];
             $without_tax    = $value['without_tax'];
             $option_id      = $value['option_id'];
+            $dom_id         = apply_filters('ppom_dom_option_id', $option_id, $args);
             
             $checked_option = '';
             if( count($checked_value) > 0 && in_array($key, $checked_value) && !empty($key)){
@@ -599,20 +613,20 @@ class NM_Form {
             // $option_id = sanitize_key( $id."-".$key );
             
             $html       .= '<div class="'.esc_attr($check_wrapper_class).'">';
-                $html       .= '<label class="'.esc_attr($check_label_class).'" for="'.esc_attr($option_id).'">';
+                $html       .= '<label class="'.esc_attr($check_label_class).'" for="'.esc_attr($dom_id).'">';
                     $html       .= '<input type="'.esc_attr($type).'" ';
-                    $html       .= 'id="'.esc_attr($option_id).'" ';
+                    $html       .= 'id="'.esc_attr($dom_id).'" ';
                     $html       .= 'name="'.esc_attr($name).'[]" ';
                     $html       .= 'class="'.esc_attr($classes).'" ';
-                    $html       .= 'value="'.esc_attr($key).'"';
+                    $html       .= 'value="'.esc_attr($key).'" ';
                     $html       .= 'data-optionid="'.esc_attr($option_id).'" ';
-                    $html       .= 'data-price="'.esc_attr($option_price).'"';
-                    $html       .= 'data-label="'.esc_attr($raw_label).'"';
-                    $html       .= 'data-title="'.esc_attr($title).'"'; // Input main label/title
-                    $html       .= 'data-onetime="'.esc_attr($onetime).'"';
-                    $html       .= 'data-taxable="'.esc_attr($taxable).'"';
-                    $html       .= 'data-without_tax="'.esc_attr($without_tax).'"';
-                    $html       .= 'data-data_name="'.esc_attr($id).'"';
+                    $html       .= 'data-price="'.esc_attr($option_price).'" ';
+                    $html       .= 'data-label="'.esc_attr($raw_label).'" ';
+                    $html       .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
+                    $html       .= 'data-onetime="'.esc_attr($onetime).'" ';
+                    $html       .= 'data-taxable="'.esc_attr($taxable).'" ';
+                    $html       .= 'data-without_tax="'.esc_attr($without_tax).'" ';
+                    $html       .= 'data-data_name="'.esc_attr($id).'" ';
                     $html       .= $checked_option;
                     $html       .= '> ';  // Closing checkbox
                     $html       .= '<span class="ppom-label-checkbox">'.$option_label.'</span>';
@@ -670,6 +684,7 @@ class NM_Form {
             $raw_label      = $value['raw'];
             $without_tax    = $value['without_tax'];
             $option_id      = $value['option_id'];
+            $dom_id         = apply_filters('ppom_dom_option_id', $option_id, $args);
             
             $checked_option = '';
             if( ! empty($checked_value) ){
@@ -680,20 +695,20 @@ class NM_Form {
             
             
             $html       .= '<div class="'.esc_attr($radio_wrapper_class).'">';
-                $html       .= '<label class="'.esc_attr($radio_label_class).'" for="'.esc_attr($option_id).'">';
+                $html       .= '<label class="'.esc_attr($radio_label_class).'" for="'.esc_attr($dom_id).'">';
                     $html       .= '<input type="'.esc_attr($type).'" ';
-                    $html       .= 'id="'.esc_attr($option_id).'" ';
+                    $html       .= 'id="'.esc_attr($dom_id).'" ';
                     $html       .= 'name="'.esc_attr($name).'" ';
                     $html       .= 'class="'.esc_attr($classes).'" ';
-                    $html       .= 'value="'.esc_attr($key).'"';
-                    $html       .= 'data-price="'.esc_attr($option_price).'"';
+                    $html       .= 'value="'.esc_attr($key).'" ';
+                    $html       .= 'data-price="'.esc_attr($option_price).'" ';
                     $html       .= 'data-optionid="'.esc_attr($option_id).'" ';
-                    $html       .= 'data-label="'.esc_attr($raw_label).'"';
-                    $html       .= 'data-title="'.esc_attr($title).'"'; // Input main label/title
-                    $html       .= 'data-onetime="'.esc_attr($onetime).'"';
-                    $html       .= 'data-taxable="'.esc_attr($taxable).'"';
-                    $html       .= 'data-without_tax="'.esc_attr($without_tax).'"';
-                    $html       .= 'data-data_name="'.esc_attr($id).'"';
+                    $html       .= 'data-label="'.esc_attr($raw_label).'" ';
+                    $html       .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
+                    $html       .= 'data-onetime="'.esc_attr($onetime).'" ';
+                    $html       .= 'data-taxable="'.esc_attr($taxable).'" ';
+                    $html       .= 'data-without_tax="'.esc_attr($without_tax).'" ';
+                    $html       .= 'data-data_name="'.esc_attr($id).'" ';
                     $html       .= $checked_option;
                     $html       .= '> ';  // Closing radio
                     $html       .= '<span class="ppom-label-radio">'.$option_label.'</span>';
@@ -710,6 +725,8 @@ class NM_Form {
     
     // A custom input will be just some option html
     public function Palettes( $args, $default_value = '' ) {
+        
+        global $product;
          
         $type       = $this -> get_attribute_value( 'type', $args);
         $id         = $this -> get_attribute_value( 'id', $args);
@@ -728,11 +745,19 @@ class NM_Form {
 		$options    = isset($args['options']) ? $args['options'] : '';
 		if ( ! $options ) return '';
 		
-// 		ppom_pa($options);
+        $html = '';
+
+        // apply for selected palette border color
+        $selected_palette_bcolor    = isset($args['selected_palette_bcolor']) ? $args['selected_palette_bcolor'] : '';
+        $html .= '<style>';
+                $html .=  '.ppom-palettes label > input:checked + .ppom-single-palette {
+                        border: 2px solid '.esc_attr($selected_palette_bcolor).' !important;
+                    }';
+        $html .= '</style>';
 
         $input_wrapper_class = $this->get_default_setting_value('global', 'input_wrapper_class', $id);
         $input_wrapper_class = apply_filters('ppom_input_wrapper_class', $input_wrapper_class, $args);
-        $html       = '<div class="'.$input_wrapper_class.'">';
+        $html       .= '<div class="'.$input_wrapper_class.'">';
         if( $label ){
             $html   .= '<label class="'.$this->get_default_setting_value('global', 'label_class', $id).'" for="'.$id.'">';
             $html   .= sprintf(__("%s", "ppom"), $label) .'</label>';
@@ -755,6 +780,7 @@ class NM_Form {
         	$without_tax    = $value['without_tax'];
 
 			$option_id      = $value['option_id'];
+			$dom_id         = apply_filters('ppom_dom_option_id', $option_id, $args);
 			
 			$checked_option = '';
 
@@ -764,13 +790,13 @@ class NM_Form {
             }
             
 			
-			$html .= '<label for="'.esc_attr($option_id).'"> ';
+			$html .= '<label for="'.esc_attr($dom_id).'"> ';
 			
 			if ($args['multiple_allowed'] == 'on') {
-    			$html .= '<input id="'.esc_attr($option_id).'" ';
+    			$html .= '<input id="'.esc_attr($dom_id).'" ';
     			$html .= 'data-price="'.esc_attr($option_price).'" ';
-    			$html .= 'data-label="'.esc_attr($color_label).'"';
-    			$html   .= 'data-title="'.esc_attr($title).'"'; // Input main label/title
+    			$html .= 'data-label="'.esc_attr($color_label).'" ';
+    			$html   .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
     			$html .= 'type="checkbox" ';
     			$html .= 'name="'.esc_attr($name).'[]" ';
     			$html .= 'value="'.esc_attr($raw_label).'" ';
@@ -783,10 +809,10 @@ class NM_Form {
     			$html .= '>';
     		}else{
     			
-    			$html .= '<input id="'.esc_attr($option_id).'" ';
+    			$html .= '<input id="'.esc_attr($dom_id).'" ';
     			$html .= 'data-price="'.esc_attr($option_price).'" ';
-    			$html .= 'data-label="'.esc_attr($color_label).'"';
-    			$html   .= 'data-title="'.esc_attr($title).'"'; // Input main label/title
+    			$html .= 'data-label="'.esc_attr($color_label).'" ';
+    			$html   .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
     			$html .= 'type="radio" ';
     			$html .= 'name="'.esc_attr($name).'" ';
     			$html .= 'value="'.esc_attr($raw_label).'" ';
@@ -807,7 +833,7 @@ class NM_Form {
 			if( $args['display_circle'] ) {
 			    $html	.= 'border-radius: 50%;';
 			}
-			$html	.= '">';    // Note '"' is to close style inline attribute
+			$html	.= '">';    // Note '" ' is to close style inline attribute
 			$html	.= '';
 			$html	.= '</span>';
 		
@@ -836,9 +862,9 @@ class NM_Form {
         $title      = $args['title'];
         
 	    // Options
-	   // ppom_pa($args['images']);
-		$images    = isset($args['images']) ? $args['images'] : '';
-		if ( ! $images ) return __("Images not selected", "ppom");
+	   // ppom_pa($args);
+        $images    = isset($args['images']) ? $args['images'] : '';
+        if ( ! $images ) return __("Images not selected", "ppom");
 
         $input_wrapper_class = $this->get_default_setting_value('global', 'input_wrapper_class', $id);
         $input_wrapper_class = apply_filters('ppom_input_wrapper_class', $input_wrapper_class, $args);
@@ -847,6 +873,14 @@ class NM_Form {
             $html   .= '<label class="'.$this->get_default_setting_value('global', 'label_class', $id).'" for="'.$id.'">';
             $html   .= sprintf(__("%s", "ppom"), $label) .'</label>';
         }
+
+        // apply for selected images border color
+		$selected_img_bordercolor    = isset($args['selected_img_bordercolor']) ? $args['selected_img_bordercolor'] : '';
+        $html .= '<style>';
+                $html .=  '.nm-boxes-outer input:checked + img {
+                        border: 2px solid '.esc_attr($selected_img_bordercolor).' !important;
+                    }';
+        $html .= '</style>';
         
         // ppom_pa($args);
         if (isset($args['legacy_view']) && $args['legacy_view'] == 'on') {
@@ -868,6 +902,9 @@ class NM_Form {
 				$image_link = isset($image['url']) ? $image['url'] : '';
 				$image_url  = wp_get_attachment_thumb_url( $image_id );
 				$image_title_price = $image_title . ' ' . ($image_price > 0 ? '(+'.wc_price($image_price).')' : '');
+				
+				// Currency Switcher
+				$image_price    = apply_filters('ppom_option_price', $image_price);
 				
 				$checked_option = '';
 				if( ! empty($default_value) ){
@@ -894,7 +931,7 @@ class NM_Form {
 				$html	.= '<div class="input_image">';
 				if ($args['multiple_allowed'] == 'on') {
 					$html	.= '<input type="checkbox" ';
-					$html   .= 'id="'.esc_attr($option_id).'"';
+					$html   .= 'id="'.esc_attr($option_id).'" ';
 					$html   .= 'data-price="'.esc_attr($image_price).'" ';
 					$html   .= 'data-label="'.esc_attr($image_title).'" ';
 					$html   .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
@@ -907,7 +944,7 @@ class NM_Form {
 					//default selected
 					$checked = ($image['title'] == $default_value ? 'checked = "checked"' : '' );
 					$html	.= '<input type="radio" ';
-					$html   .= 'id="'.esc_attr($option_id).'"';
+					$html   .= 'id="'.esc_attr($option_id).'" ';
 					$html   .= 'data-price="'.esc_attr($image_price).'" ';
 					$html   .= 'data-label="'.esc_attr($image_title).'" ';
 					$html   .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
@@ -978,7 +1015,7 @@ class NM_Form {
 					$html .= 'title="'.esc_attr($image_title_price).'" data-ppom-tooltip="ppom_tooltip">';
 						if ($args['multiple_allowed'] == 'on') {
 							$html	.= '<input type="checkbox" ';
-							$html   .= 'id="'.esc_attr($option_id).'"';
+							$html   .= 'id="'.esc_attr($option_id).'" ';
 							$html   .= 'data-price="'.esc_attr($image_price).'" ';
 							$html   .= 'data-label="'.esc_attr($image_title).'" ';
 							$html   .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
@@ -1042,6 +1079,7 @@ class NM_Form {
         $label      = $this -> get_attribute_value( 'label', $args);
         $ranges     = $args['ranges'];
         $discount   = $args['discount'];
+        $is_hidden  = ($args['hide_matrix'] == 'on') ? true : false;
         
         // ppom_pa($ranges);
         
@@ -1053,29 +1091,35 @@ class NM_Form {
             $html   .= sprintf(__("%s", "ppom"), $label) .'</label>';
         }
         
-        foreach($ranges as $opt)
-		{
-			$price = isset( $opt['price'] ) ? trim($opt['price']) : 0;
-			$label = isset( $opt['label'] ) ? $opt['label'] : $opt['raw'];
-			
-			if( !empty($opt['percent']) ){
-				
-				$percent = $opt['percent'];
-				if( $discount == 'on' ) {
-				    $price = "-{$percent}";
-				} else {
-				    $price = "{$percent} (".wc_price( $price ).")";
-				}
-				
-			}else {
-				$price = wc_price( $price );	
-			}
-			
-			$html .= '<div style="clear:both;border-bottom:1px #ccc dashed;">';
-			$html .= '<span class="pm-range">'.apply_filters('ppom_matrix_item_label', stripslashes(trim($label)), $opt).'</span>';
-			$html .= '<span class="pm-price" style="float:right">'.apply_filters('ppom_matrix_item_price', $price, $opt).'</span>';
-			$html .= '</div>';
-		}
+        // Check if price matrix table is not hidden by settings
+        if( ! $is_hidden ) {
+            foreach($ranges as $opt)
+    		{
+    			$price = isset( $opt['raw_price'] ) ? trim($opt['raw_price']) : 0;
+    			$label = isset( $opt['label'] ) ? $opt['label'] : $opt['raw'];
+    			
+    			if( !empty($opt['percent']) ){
+    				
+    				$percent = $opt['percent'];
+    				if( $discount == 'on' ) {
+    				    $price = "-{$percent}";
+    				} else {
+    				    $price = "{$percent} (".wc_price( $price ).")";
+    				}
+    				
+    			}else {
+    				$price = wc_price( $price );	
+    			}
+    			
+    			
+    			$range_id      = isset($value['option_id']) ? $value['option_id'] : '';
+    			
+    			$html .= '<div class="ppom-pricematrix-range ppom-range-'.esc_attr($range_id).'">';
+    			$html .= '<span class="pm-range">'.apply_filters('ppom_matrix_item_label', stripslashes(trim($label)), $opt).'</span>';
+    			$html .= '<span class="pm-price" style="float:right">'.apply_filters('ppom_matrix_item_price', $price, $opt).'</span>';
+    			$html .= '</div>';
+    		}
+        }
 		
 		// Showing Range Slider
 		if( isset($args['show_slider']) && $args['show_slider'] == 'on' ) {
@@ -1108,10 +1152,21 @@ class NM_Form {
     // Variation Quantities
     public function Quantities( $args, $default_value = '' ) {
          
+        global $product;
+        // IMPORTANT
+        // if price matrix is used and quantities has price set or default price
+        // it will conflict. So to use with price matrix prices should not be set
+        $product_id     = ppom_get_product_id($product);
+        $matrix_found   = ppom_has_field_by_type( $product_id, 'pricematrix' );
+        if( !empty($matrix_found) && ppom_is_field_has_price($args) ) {
+            $error_msg = __('Quantities cannot be used with Price Matrix, Remove prices from quantities input.', 'ppom');
+            return sprintf(__('<div class="woocommerce-error">%s</div>', 'ppom'), $error_msg);
+        }
+        
         $type       = $this -> get_attribute_value( 'type', $args);
         $id         = $this -> get_attribute_value( 'id', $args);
         $label      = $this -> get_attribute_value( 'label', $args);
-        
+        // ppom_pa($args);
         $input_wrapper_class = $this->get_default_setting_value('global', 'input_wrapper_class', $id);
         $input_wrapper_class = apply_filters('ppom_input_wrapper_class', $input_wrapper_class, $args);
         $html       = '<div class="ppom-input-quantities '.$input_wrapper_class.' table-responsive">';
@@ -1220,15 +1275,15 @@ class NM_Form {
 				$html	.= '<input type="checkbox" ';
 				$html   .= 'data-price="'.esc_attr($audio_price).'" ';
 				$html   .= 'data-label="'.esc_attr($audio_title).'" ';
-				$html   .= 'data-title="'.esc_attr($title).'"'; // Input main label/title
+				$html   .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
 				$html   .= 'name="'.$args['name'].'[]" ';
 				$html   .= 'value="'.esc_attr(json_encode($audio)).'" />';
 			}else{
 				
 				$html	.= '<input type="radio" ';
-				$html   .= 'data-price="'.esc_attr($audio_price).'"';
+				$html   .= 'data-price="'.esc_attr($audio_price).'" ';
 				$html   .= 'data-label="'.esc_attr($audio_title).'" ';
-				$html   .= 'data-title="'.esc_attr($title).'"'; // Input main label/title
+				$html   .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
 				$html   .= 'data-type="'.esc_attr($type).'" name="'.$args['name'].'[]" ';
 				$html   .= 'value="'.esc_attr(json_encode($audio)).'" '.$checked_option.' />';
 			}
@@ -1436,100 +1491,7 @@ class NM_Form {
     }
     
     
-    // Fixed Price Addon
-    public function FixedPriceAddon( $args, $selected_value = '' ) {
-        
-        $type       = $this -> get_attribute_value( 'type', $args);
-        $id         = $this -> get_attribute_value( 'id', $args);
-        $label      = $this -> get_attribute_value( 'label', $args);
-        $name       = $this -> get_attribute_value('name', $args);
-        $classes    = $this -> get_attribute_value('classes', $args);
-        $attributes = $this -> get_attribute_value('attributes', $args);
-		
-		// Only title without description for price calculation etc.
-        $title      = $args['title'];
-        
-		// Options
-		$options    = isset($args['options']) ? $args['options'] : '';
-		
-        if ( ! $options ) return;
-       
-        $input_wrapper_class = $this->get_default_setting_value('global', 'input_wrapper_class', $id);
-        $input_wrapper_class = apply_filters('ppom_input_wrapper_class', $input_wrapper_class, $args);
-        
-        $html       = '<div class="ppom-input-fixedprice ppom-unlocked '.$input_wrapper_class.'">';
-        
 
-        if( $label ){
-            $html   .= '<label class="'.$this->get_default_setting_value('global', 'label_class', $id).'" for="'.$id.'">';
-            $html   .= sprintf(__("%s", "ppom"), $label) .'</label>';
-        }
-        
-        $html       .= '<select ';
-        $html       .= 'id="'.esc_attr($id).'" ';
-        $html       .= 'name="'.esc_attr($name).'" ';
-        $html       .= 'class="'.esc_attr($classes).'" ';
-        
-        // Attributes
-        foreach($attributes as $attr => $value) {
-            
-            $html      .= esc_attr($attr) . '="'.esc_attr($value).'" ';
-        }
-        
-        $html       .= '>';  // Closing select
-        
-        $unit_decimal_places = !empty($args['decimal_place']) ? $args['decimal_place'] : wc_get_price_decimals();
-        
-        // ppom_pa($options);
-        foreach($options as $key => $value) {
-            
-            // for multiple selected
-            
-            $option_label   = $value['label'];
-            $option_price   = $value['price'];
-            $raw_label      = $value['raw'];
-            $unit_price     = 0;
-            $fixed_qty      = 0;
-            if( $value['price'] ) {
-                $unit_price	= wc_format_decimal( $value['price']/$value['raw'], intval($unit_decimal_places));
-                // $unit_price     = $value['price']/$value['raw'];
-                $fixed_qty      = $value['raw'];
-            }
-            
-            if( is_array($selected_value) ){
-            
-                foreach($selected_value as $s){
-                    $html   .= '<option '.selected( $s, $key, false ).' value="'.esc_attr($key).'" ';
-                    $html   .= 'data-price="'.esc_attr($option_price).'" ';
-                    $html   .= 'data-label="'.esc_attr($option_label).'"';
-                    $html   .= 'data-unitprice="'.esc_attr($unit_price).'"'; 
-                    $html   .= 'data-decimal_place="'.esc_attr($unit_decimal_places).'"'; 
-                    $html   .= 'data-qty="'.esc_attr($fixed_qty).'"';
-                    $html   .= '>'.$option_label.'</option>';
-                }
-            } else {
-                $html   .= '<option '.selected( $selected_value, $key, false ).' ';
-                $html   .= 'value="'.esc_attr($key).'" ';
-                $html   .= 'data-price="'.esc_attr($option_price).'" ';
-                $html   .= 'data-label="'.esc_attr($raw_label).'"';
-                $html   .= 'data-title="'.esc_attr($title).'"'; // Input main label/title
-                $html   .= 'data-unitprice="'.esc_attr($unit_price).'"';
-                $html   .= 'data-decimal_place="'.esc_attr($unit_decimal_places).'"'; 
-                $html   .= 'data-qty="'.esc_attr($fixed_qty).'"';
-                $html   .= '>'.$option_label.'</option>';
-            }
-        }
-        
-        $html .= '</select>';
-        $html      .= '</div>';    //form-group
-        
-    	// filter: nmforms_input_htmls
-        return apply_filters("nmforms_input_html", $html, $args, $selected_value);
-    }
-    
-    
-    
-    
     /**
      * this function return current or/else default attribute values
      * 
@@ -1614,6 +1576,7 @@ class NM_Form {
         return apply_filters("nmform_property-{$property}", $value);
         
     }
+    
     
     
     /**

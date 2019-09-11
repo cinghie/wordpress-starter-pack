@@ -234,7 +234,8 @@ class WooSEA_google_shopping {
 				"Item group ID" => array(
 					"name" => "item_group_id",
 					"feed_name" => "g:item_group_id",
-					"format" => "optional",
+					"format" => "required",
+					"woo_suggest" => "item_group_id",
 				),
 			),
 			"Shopping campaigns" => array(
@@ -293,6 +294,16 @@ class WooSEA_google_shopping {
 					"feed_name" => "g:excluded_destination",
 					"format" => "optional",
 				),
+				"Ads grouping" => array(
+					"name" => "ads_grouping",
+					"feed_name" => "g:ads_grouping",
+					"format" => "optional",
+				),
+				"Ads labels" => array(
+					"name" => "ads_labels",
+					"feed_name" => "g:ads_labels",
+					"format" => "optional",
+				),
 			),
 			"Shipping" => array(
 				"Shipping" => array(
@@ -323,6 +334,11 @@ class WooSEA_google_shopping {
 				"Shipping height" => array(
 					"name" => "shipping_height",
 					"feed_name" => "g:shipping_height",
+					"format" => "optional",
+				),
+				"Transit time label" => array(
+					"name" => "transit_time_label",
+					"feed_name" => "g:transit_time_label",
 					"format" => "optional",
 				),
 				"Minimum handling time" => array(

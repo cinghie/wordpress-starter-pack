@@ -47,10 +47,26 @@ $general = array(
 			'type'		=> 'checkbox',
 			'id'  		=> 'yith_wapo_settings_show_add_ons_price_table',
 			'default' 	=> 'no',
-			'desc'		=> __( 'Checking this option allows you to always show the price table even if the amount of the add-ons is 0 in the single product page',
-				'yith-woocommerce-product-add-ons' ),
+			'desc'		=> __( 'Checking this option allows you to always show the price table even if the amount of the add-ons is 0 in the single product page', 'yith-woocommerce-product-add-ons' ),
 			//@since 1.1.0
 		),
+		array(
+			'title'		=> __( 'Enable loop "add to cart"', 'yith-woocommerce-product-add-ons' ), //@since 1.1.0
+			'type'		=> 'checkbox',
+			'id'  		=> 'yith_wapo_settings_enable_loop_add_to_cart',
+			'default' 	=> 'no',
+			'desc'		=> __( 'Enable again the "add to cart" features in shop and categories pages', 'yith-woocommerce-product-add-ons' ),
+			//@since 1.1.0
+		),
+		array(
+			'title'		=> __( 'Disable "labels" features', 'yith-woocommerce-product-add-ons' ), //@since 1.1.0
+			'type'		=> 'checkbox',
+			'id'  		=> 'yith_wapo_settings_disable_wccl',
+			'default' 	=> 'no',
+			'desc'		=> __( 'Disable them if you have conflicts with theme features', 'yith-woocommerce-product-add-ons' ),
+			//@since 1.1.0
+		),
+
 		array(
 			'type' 		=> 'sectionend',
 			'id' 		=> 'yith_wapo_settings_end'
@@ -99,11 +115,17 @@ $general = array(
 			'default' 	=> 'no',
 		),
 		array(
-			'title'		=> __( 'Alternative "Replace Image"', 'yith-woocommerce-product-add-ons' ),
-			'type'		=> 'checkbox',
+			'title'		=> __( '"Replace Image" method', 'yith-woocommerce-product-add-ons' ),
+			'type'		=> 'select',
 			'id'  		=> 'yith_wapo_settings_alternative_replace_image',
+			'options'   => array(
+				'standard'		=> __( 'Standard method', 'yith-woocommerce-product-add-ons' ),
+				'alternative'	=> __( 'Alternative method', 'yith-woocommerce-product-add-ons' ),
+				'divi'			=> __( 'Divi method', 'yith-woocommerce-product-add-ons' ),
+				'paul'			=> __( 'Paul\'s method', 'yith-woocommerce-product-add-ons' ),
+			),
 			'desc'		=> __( 'Select this option if the image replacement feature doesn\'t work properly with your theme', 'yith-woocommerce-product-add-ons' ),
-			'default' 	=> 'no',
+			'default' 	=> 'standard',
 		),
 
 		array(
@@ -261,6 +283,13 @@ $general = array(
 			'type'		=> 'checkbox',
 			'id'  		=> 'yith_wapo_compatibility_woo_layout_injector',
 			'desc'		=> __( 'Select this option if the add-ons don\'t appear in cart using a custom layout', 'yith-woocommerce-product-add-ons' ),
+			'default' 	=> 'no',
+		),
+		array(
+			'title'		=> __( '7up themes', 'yith-woocommerce-product-add-ons' ),
+			'type'		=> 'checkbox',
+			'id'  		=> 'yith_wapo_compatibility_7up_themes',
+			'desc'		=> __( 'Select this option if the add-ons don\'t appear 7up themes product page', 'yith-woocommerce-product-add-ons' ),
 			'default' 	=> 'no',
 		),
 		

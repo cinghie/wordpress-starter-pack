@@ -120,7 +120,7 @@ trait WPPFM_Processing_Support {
 		if ( property_exists( $value_object, 'm' ) ) {
 			foreach ( $value_object->m as $source ) {
 				// TODO: I guess I should further reduce the "if" loops by combining them more then now
-				if ( property_exists( $source, 's' ) ) {
+				if ( is_object( $source ) && property_exists( $source, 's' ) ) {
 					if ( property_exists( $source->s, 'source' ) ) {
 						if ( 'combined' !== $source->s->source ) {
 							array_push( $source_columns, $source->s->source );
@@ -151,7 +151,7 @@ trait WPPFM_Processing_Support {
 
 		if ( property_exists( $value_object, 'm' ) ) {
 			foreach ( $value_object->m as $source ) {
-				if ( property_exists( $source, 'c' ) ) {
+				if ( is_object( $source ) && property_exists( $source, 'c' ) ) {
 					for ( $i = 0; $i < count( $source->c ); $i ++ ) {
 						array_push( $condition_columns, $this->get_names_from_string( $source->c[ $i ]->{$i + 1} ) );
 					}
@@ -227,9 +227,9 @@ trait WPPFM_Processing_Support {
 	 * Gets the meta data from a specific field
 	 *
 	 * @param string $field
-	 * @param array $attributes
+	 * @param stdClass $attributes
 	 *
-	 * @return array attribute
+	 * @return stdClass attribute
 	 */
 	protected function get_meta_data_from_specific_field( $field, $attributes ) {
 		$i = 0;
@@ -245,14 +245,14 @@ trait WPPFM_Processing_Support {
 			}
 		}
 
-		return [];
+		return new stdClass();
 	}
 
 	/**
 	 * Generate the value of a field based on what the user has selected in filters, combined data, static data eg.
 	 *
 	 * @param array $product_data
-	 * @param array $field_meta_data
+	 * @param stdClass $field_meta_data
 	 * @param string $main_category_feed_title
 	 * @param string $row_category
 	 * @param string $feed_language
@@ -301,7 +301,7 @@ trait WPPFM_Processing_Support {
 				// get the end value depending on the filter settings
 				$end_row_value = $this->get_correct_end_row_value( $value_object->m, $product_data, $advised_source );
 
-			} else { // no queries, edit valies or alternative sources for this field
+			} else { // no queries, edit values or alternative sources for this field
 
 				if ( property_exists( $field_meta_data, 'advisedSource' ) && '' !== $field_meta_data->advisedSource ) {
 					$db_title = $field_meta_data->advisedSource;
@@ -451,55 +451,6 @@ trait WPPFM_Processing_Support {
 		}
 
 		return $end_result;
-	}
-
-	/**
-	 * register the update in the database
-	 *
-	 * @param string $feed_id
-	 * @param string $feed_name
-	 * @param string $nr_products
-	 * @param string $status
-	 */
-	protected function register_feed_update( $feed_id, $feed_name, $nr_products, $status = null ) {
-		$data_class = new WPPFM_Data();
-
-		// register the update and update the feed Last Change time
-		$data_class->update_feed_data( $feed_id, $this->get_file_url( $feed_name ), $nr_products );
-
-		$actual_status = $status ? $status : $data_class->get_feed_status( $feed_id );
-
-		if ( '4' !== $actual_status && '5' !== $actual_status && '6' !== $actual_status ) { // no errors
-			$data_class->update_feed_status( $feed_id, $status ); // put feed on status hold if no errors are reported
-		}
-	}
-
-	/**
-	 * returns the url to the feed file including feed name and extension
-	 *
-	 * @param string $feed_name
-	 *
-	 * @return string
-	 */
-	protected function get_file_url( $feed_name ) {
-		// previous to plugin version 1.3.0 feeds where stored in the plugins but after that version they are stored in the upload folder
-		if ( file_exists( WP_PLUGIN_DIR . '/wp-product-feed-manager-support/feeds/' . $feed_name ) ) {
-			$file_url = plugins_url() . '/wp-product-feed-manager-support/feeds/' . $feed_name;
-		} elseif ( file_exists( WPPFM_FEEDS_DIR . '/' . $feed_name ) ) {
-			$file_url = WPPFM_UPLOADS_URL . '/wppfm-feeds/' . $feed_name;
-		} else { // as of version 1.5.0 all spaces in new filenames are replaced by a dash
-			$forbitten_name_chars = array(
-				' ',
-				'<',
-				'>',
-				':',
-				'?',
-				',',
-			); // characters that are not allowed in a feed file name
-			$file_url             = WPPFM_UPLOADS_URL . '/wppfm-feeds/' . str_replace( $forbitten_name_chars, '-', $feed_name );
-		}
-
-		return apply_filters( 'wppfm_feed_url', $file_url, $feed_name );
 	}
 
 	protected function get_row_source_data( $filter, $product_data, $advised_source ) {
@@ -658,7 +609,12 @@ trait WPPFM_Processing_Support {
 			}
 		}
 
-		return $found_all_data ? $result : '';
+		if ( $found_all_data ) {
+			return $result;
+		} else {
+			wppfm_write_log_file( sprintf( 'Missing data for combined elements of product with id %. Combination string value is %s', $product_data['ID'], $combination_string ) );
+			return array();
+		}
 	}
 
 	protected function make_combined_string( $source_selectors_array, $separators, $row, $array_pos ) {
@@ -691,9 +647,7 @@ trait WPPFM_Processing_Support {
 	}
 
 	/**
-	 * get an array with the relations between the woocommerce fields and the channel fields
-	 *
-	 * @param array $attributes
+	 * get an array with the relations between the WooCommerce fields and the channel fields
 	 *
 	 * @return array
 	 */
@@ -708,12 +662,12 @@ trait WPPFM_Processing_Support {
 			}
 
 			if ( ! empty( $source ) ) {
-				// correct googles product category source
+				// correct Google product category source
 				if ( 'google_product_category' === $attribute->fieldName ) {
 					$source = 'google_product_category';
 				}
 
-				// correct googles identifier exists source
+				// correct Google identifier exists source
 				if ( 'identifier_exists' === $attribute->fieldName ) {
 					$source = 'identifier_exists';
 				}

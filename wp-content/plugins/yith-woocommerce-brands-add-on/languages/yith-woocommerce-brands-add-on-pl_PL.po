@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YITH WooCommerce Brands Add-on\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-17 18:26+0100\n"
-"PO-Revision-Date: 2018-12-17 18:26+0100\n"
+"POT-Creation-Date: 2019-08-09 15:14+0200\n"
+"PO-Revision-Date: 2019-08-09 15:14+0200\n"
 "Last-Translator: vr1m3s0t <robert.samek@interia.pl>\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -57,7 +57,7 @@ msgstr ""
 #: ../includes/class.yith-wcbr-admin.php:264
 #: ../includes/class.yith-wcbr-admin.php:265
 #: ../includes/class.yith-wcbr-shortcode.php:60
-#: ../includes/class.yith-wcbr.php:122 ../includes/class.yith-wcbr.php:138
+#: ../includes/class.yith-wcbr.php:125 ../includes/class.yith-wcbr.php:141
 msgid "Brands"
 msgstr "Marki"
 
@@ -164,51 +164,51 @@ msgctxt "[gutenberg]: Help text"
 msgid "Show title"
 msgstr ""
 
-#: ../includes/class.yith-wcbr.php:123
+#: ../includes/class.yith-wcbr.php:126
 msgid "Brand"
 msgstr "Marka"
 
-#: ../includes/class.yith-wcbr.php:124
+#: ../includes/class.yith-wcbr.php:127
 msgid "All Brands"
 msgstr "Wszystkie marki"
 
-#: ../includes/class.yith-wcbr.php:125
+#: ../includes/class.yith-wcbr.php:128
 msgid "Edit Brand"
 msgstr "Edytuj markę"
 
-#: ../includes/class.yith-wcbr.php:126
+#: ../includes/class.yith-wcbr.php:129
 msgid "View Brand"
 msgstr "Pokaż markę"
 
-#: ../includes/class.yith-wcbr.php:127
+#: ../includes/class.yith-wcbr.php:130
 msgid "Update Brand"
 msgstr "Zaktualizuj markę"
 
-#: ../includes/class.yith-wcbr.php:128
+#: ../includes/class.yith-wcbr.php:131
 msgid "Add New Brand"
 msgstr "Dodaj nową markę"
 
-#: ../includes/class.yith-wcbr.php:129
+#: ../includes/class.yith-wcbr.php:132
 msgid "New Brand Name"
 msgstr "Nowa nazwa marki"
 
-#: ../includes/class.yith-wcbr.php:130
+#: ../includes/class.yith-wcbr.php:133
 msgid "Parent Brand"
 msgstr "Marka nadrzędna"
 
-#: ../includes/class.yith-wcbr.php:131
+#: ../includes/class.yith-wcbr.php:134
 msgid "Parent Brand:"
 msgstr "Marka nadrzędna:"
 
-#: ../includes/class.yith-wcbr.php:132
+#: ../includes/class.yith-wcbr.php:135
 msgid "Search Brands"
 msgstr "Wyszukaj markę"
 
-#: ../includes/class.yith-wcbr.php:133
+#: ../includes/class.yith-wcbr.php:136
 msgid "Separate brands with commas"
 msgstr "Oddziel marki przecinkami"
 
-#: ../includes/class.yith-wcbr.php:134
+#: ../includes/class.yith-wcbr.php:137
 msgid "No Brands Found"
 msgstr "Nie znaleziono żadnej marki."
 
@@ -250,6 +250,11 @@ msgstr "Etykieta używana dla odnośnika \"Marka\""
 #: ../plugin-options/settings-options.php:31
 msgid "Brand:"
 msgstr "Marka:"
+
+#: ../templates/admin/add-brand-taxonomy-form.php:18
+#: ../templates/admin/edit-brand-taxonomy-form.php:18
+msgid "Product brand thumbnail"
+msgstr ""
 
 #: ../templates/admin/add-brand-taxonomy-form.php:21
 #: ../templates/admin/edit-brand-taxonomy-form.php:21

@@ -114,19 +114,21 @@ if ( ! class_exists( 'YITH_Multistep_Checkout_Frontend' ) ) {
          */
         public function enqueue_scripts(){
             /* === Style === */
-            wp_register_style( 'yith-wcms-checkout', YITH_WCMS_ASSETS_URL . 'css/frontend.css', array(), YITH_WCMS_VERSION );
+	        $main_style_handle = 'yith-wcms-checkout';
+            wp_register_style( $main_style_handle, YITH_WCMS_ASSETS_URL . 'css/frontend.css', array(), YITH_WCMS_VERSION );
 
             /* === Script === */
+	        $script_version = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? rand() : YITH_WCMS_VERSION;
             $script = apply_filters( 'yith_wcms_main_script', 'multistep.js' );
             $script = function_exists( 'yit_load_js_file' ) ? yit_load_js_file( $script ) : str_replace( '.js', '.min.js', $script );
 
-            $wcms_deps = array( 'wc-checkout', 'wc-country-select' );
+            $wcms_deps = array( 'wc-checkout', 'wc-country-select', 'wc-password-strength-meter' );
 
             if( class_exists( 'WC_Ship_Multiple' ) ){
                 $wcms_deps[] = 'wcms-country-select';
             }
 
-            wp_register_script( 'yith-wcms-step', YITH_WCMS_ASSETS_URL . 'js/' . $script, $wcms_deps, YITH_WCMS_VERSION, true );
+            wp_register_script( 'yith-wcms-step', YITH_WCMS_ASSETS_URL . 'js/' . $script, $wcms_deps, $script_version, true );
 
             do_action( 'yith_wcms_enqueue_scripts' );
 
@@ -134,7 +136,11 @@ if ( ! class_exists( 'YITH_Multistep_Checkout_Frontend' ) ) {
                 $to_localize = array(
                     'checkout_login_reminder_enabled' => 'yes' == get_option( 'woocommerce_enable_checkout_login_reminder', 'yes' ) ? true : false
                 );
-                wp_enqueue_style( 'yith-wcms-checkout' );
+                wp_enqueue_style( $main_style_handle );
+                //Add step separator for text style
+	            $step_separator = sprintf( '#checkout_timeline.horizontal.text li:not(:last-child) .timeline-wrapper:after{content: "%s";}', get_option( 'yith_wcms_text_step_separator', '/' ) );
+	            wp_add_inline_style( $main_style_handle, $step_separator );
+
                 wp_enqueue_script( 'yith-wcms-step' );
                 wp_localize_script( 'yith-wcms-step', 'yith_wcms_free', $to_localize );
             }
@@ -156,7 +162,7 @@ if ( ! class_exists( 'YITH_Multistep_Checkout_Frontend' ) ) {
          */
         public function multistep_checkout( $template, $template_name, $template_path ){
             if( apply_filters( 'yith_wcms_load_checkout_template_from_plugin', true ) && 'yes' == get_option( 'yith_wcms_enable_multistep', 'no' ) && 'checkout/form-checkout.php' == $template_name ){
-                $template = YITH_WCMS_WC_TEMPLATE_PATH . 'checkout/form-checkout.php';
+                $template = apply_filters( 'yith_wcms_template_path_checkout_form',YITH_WCMS_WC_TEMPLATE_PATH . 'checkout/form-checkout.php');
             }
 
             return $template;

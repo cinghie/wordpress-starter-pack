@@ -31,7 +31,7 @@ if ( ! class_exists( 'WPPFM_File' ) ) :
 		 * @param string $parent_category
 		 * @param string $language_code
 		 *
-		 * @return array containing the categories
+		 * @return array|string containing the categories
 		 */
 		public function get_categories_for_list( $channel_id, $search_level, $parent_category, $language_code ) {
 			$channel_class = new WPPFM_Channel();

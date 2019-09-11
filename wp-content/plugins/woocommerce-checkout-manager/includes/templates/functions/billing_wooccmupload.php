@@ -351,7 +351,7 @@ jQuery(document).ready(function($){
 				img.src = imageinbase;
 				img.setAttributeNode(data);
 				li.appendChild(img);
-				$.getScript( "<?php echo plugins_url( 'includes/pickers/caman/dist/caman_controls.js', WOOCCM_RELPATH ); ?>");
+				$.getScript( "<?php echo plugins_url( 'includes/pickers/caman/dist/caman_controls.js', WOOCCM_PLUGIN_FILE ); ?>");
 			}
 			$("#caman_content").show();
 			$("html").css("overflow", "hidden");

@@ -45,14 +45,16 @@ function ppom_hooks_save_cropped_image( $ppom_fields, $posted_data ) {
 // Convert option price if currency swithcer found
 function ppom_hooks_convert_price( $option_price ) {
 	
-	if( has_filter('woocs_exchange_value') && !empty($option_price) ) {
+	return apply_filters('woocs_exchange_value', $option_price);
+	
+	/*if( has_filter('woocs_exchange_value') && !empty($option_price) ) {
 		global $WOOCS;
 		if($WOOCS->current_currency != $WOOCS->default_currency) {
 			$option_price = apply_filters('woocs_exchange_value', $option_price);
 		}
 	}
 	
-	return $option_price;
+	return $option_price;*/
 }
 
 // Converting currency back to default currency rates due to WC itself converting these
@@ -62,8 +64,8 @@ function ppom_hooks_convert_price_back( $price ) {
 	if( has_filter('woocs_exchange_value') ) {
 		
 		global $WOOCS;
+		if($WOOCS->current_currency != $WOOCS->default_currency && $WOOCS->is_multiple_allowed) {
 		// var_dump($WOOCS->is_multiple_allowed);
-		if($WOOCS->current_currency != $WOOCS->default_currency && ! $WOOCS->is_multiple_allowed) {
 			
 			// ppom conver all prices into current currency, but woocommerce also
 			// converts cart prices to current, so have to get our currencies back to default rates
@@ -163,6 +165,33 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
     $ppom_core_scripts  	= array('jquery');
     $show_price_per_unit	= false;
     
+    // main css
+    wp_enqueue_style( 'ppom-main', PPOM_URL.'/css/ppom-style.css');
+
+    wp_enqueue_style( 'ppom-sm-popup', PPOM_URL.'/css/ppom-simple-popup.css');
+    wp_enqueue_script('PPOM-sm-popup', PPOM_URL."/js/ppom-simple-popup.js", array('jquery') );
+
+    
+    if ( $ppom->inline_css != '') {
+		wp_add_inline_style( 'ppom-main', $ppom->inline_css );
+    }
+    
+    // If Bootstrap is enabled
+    if( ppom_load_bootstrap_css() ) {
+        
+        // Boostrap 4.0
+        $ppom_bs_css = PPOM_URL.'/css/bootstrap/bootstrap.css';
+        
+        $ppom_bs_modal_css = PPOM_URL.'/css/bootstrap/bootstrap.modal.css';
+        
+        // Description Tooltips JS File
+        wp_enqueue_script('ppom-tooltip', PPOM_URL."/scripts/ppom-tooltip.js", array('jquery') );
+
+        wp_enqueue_style( 'ppom-bootstrap', $ppom_bs_css);
+        wp_enqueue_style( 'ppom-bootstrap-modal', $ppom_bs_modal_css);
+        
+    }
+    
     // Font-awesome
     if( ppom_load_fontawesome() ) {
 		wp_enqueue_style( 'prefix-font-awesome', '//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css' );
@@ -212,36 +241,22 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
 		    case 'date':
 		        if(isset($field['jquery_dp']) && $field['jquery_dp'] == 'on') {
 		        	$ppom_core_scripts[] = 'jquery-ui-datepicker';
-		        	wp_enqueue_style( 'jqueryui', '//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css');
+		        	wp_enqueue_style( 'jqueryui', PPOM_URL.'/js/ui/css/smoothness/jquery-ui-1.10.3.custom.min.css');
 		        }
-		        break;
-			case 'daterange':
-				
-				// Check if value is in GET 
-				if( !empty($_GET[$data_name]) ) {
-					
-					$value = $_GET[$data_name];
-					$to_dates = explode(' - ', $value);
-					$field['start_date'] = $to_dates[0];
-					$field['end_date'] = $to_dates[0];
-				}
-				
-		        wp_enqueue_script( 'ppom-moment-js', 'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js', array('jquery'), PPOM_VERSION, true);
-                wp_enqueue_script( 'ppom-daterangepicker-js', 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js', array('jquery'), PPOM_DB_VERSION, true);
-                wp_enqueue_style( 'ppom-daterangepicker-js', 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css');
 		        break;
 		        
 			case 'color':
 				
-				// Check if value is in GET 
-				if( !empty($_GET[$data_name]) ) {
-					
-					$field['default_color'] = $_GET[$data_name];
-				}
+				wp_enqueue_script(
+			        'iris',
+			        admin_url( 'js/iris.min.js' ),
+			        array( 
+			            'jquery','jquery-ui-core','jquery-ui-draggable', 'jquery-ui-slider'
+			        ),
+			        true,
+			        1
+			    );
 				
-				
-				$ppom_iris_api = PPOM_URL . '/js/color/Iris/dist/iris.js';
-    	        wp_enqueue_script( 'ppom-iris', $ppom_iris_api, array('jquery','jquery-ui-core','jquery-ui-draggable', 'jquery-ui-slider'), PPOM_VERSION, true);
     	    	break;
     	    	
     	    case 'image':
@@ -264,14 +279,11 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
     	    	}
     	    	break;
     	    	
-    	    case 'palettes':
-				
-				
-    	    	break;
-    	    
+        
     	    case 'cropper':
+    	    	
 				$ppom_file_inputs[] = $field;
-				
+				$file_upload_pre_scripts = array('jquery', 'plupload','ppom-price');
 				
 				$ppom_croppie_api	= PPOM_URL . '/js/croppie/node_modules/croppie/croppie.js';
 		    	$ppom_cropper		= PPOM_URL . '/js/croppie/ppom-crop.js';
@@ -282,8 +294,8 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
 		        
 		        if( isset($field['legacy_cropper']) && $field['legacy_cropper'] == 'on' ) {
 		        	add_thickbox();
-		        	wp_enqueue_script( 'ppom-jcrop', PPOM_URL.'/js/jcrop/js/jquery.Jcrop.min.js', array('jquery'), PPOM_VERSION);
-		        	wp_enqueue_style( 'ppom-jcrop-css', PPOM_URL.'/js/jcrop/css/jquery.Jcrop.min.css');
+		        	wp_enqueue_style('jcrop');
+		        	$file_upload_pre_scripts[] = 'jcrop';
 		        }
 		        
 		        // Croppie options
@@ -295,10 +307,11 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
 		        
 		        // wp_enqueue_script( 'ppom-croppie2', $ppom_cropper, array('jquery'), PPOM_VERSION);
     	        
-    	        wp_enqueue_script( 'ppom-file-upload', PPOM_URL.'/js/file-upload.js', array('jquery', 'plupload','ppom-price'), PPOM_VERSION, true);
+    	        wp_enqueue_script( 'ppom-file-upload', PPOM_URL.'/js/file-upload.js', $file_upload_pre_scripts, PPOM_VERSION, true);
     	    	$plupload_lang = !empty($field['language']) ? $field['language'] : 'en';
     	    	// wp_enqueue_script( 'pluploader-language', PPOM_URL.'/js/plupload-2.1.2/js/i18n/'.$plupload_lang.'.js');
     	    	$file_upload_nonce_action = "ppom_uploading_file_action";
+    	    	$file_delete_nonce_action = "ppom_deleting_file_action";
 				$ppom_file_vars = array('ajaxurl' => admin_url( 'admin-ajax.php', (is_ssl() ? 'https' : 'http') ),
 										'plugin_url' => PPOM_URL,
 										'file_upload_path_thumb' => ppom_get_dir_url(true),
@@ -309,6 +322,8 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
 										'plupload_runtime'	=> (ppom_if_browser_is_ie()) ? 'html5,html4' : 'html5,silverlight,html4,browserplus,gear',
 										'croppie_options'	=> $croppie_options,
 										'ppom_file_upload_nonce'	=> wp_create_nonce( $file_upload_nonce_action ),
+										'ppom_file_delete_nonce'	=> wp_create_nonce( $file_delete_nonce_action ),
+										'product_id'		=> $product_id,
 										);
 				wp_localize_script( 'ppom-file-upload', 'ppom_file_vars', $ppom_file_vars);
     	    	break;
@@ -324,6 +339,7 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
     	    	$plupload_lang = !empty($field['language']) ? $field['language'] : 'en';
     	    	// wp_enqueue_script( 'pluploader-language', PPOM_URL.'/js/plupload-2.1.2/js/i18n/'.$plupload_lang.'.js');
     	    	$file_upload_nonce_action = "ppom_uploading_file_action";
+    	    	$file_delete_nonce_action = "ppom_deleting_file_action";
 				$ppom_file_vars = array('ajaxurl' => admin_url( 'admin-ajax.php', (is_ssl() ? 'https' : 'http') ),
 										'plugin_url' => PPOM_URL,
 										'file_upload_path_thumb' => ppom_get_dir_url(true),
@@ -331,22 +347,24 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
 										'mesage_max_files_limit'	=> __(' files allowed only', "ppom"),
 										'file_inputs'		=> $ppom_file_inputs,
 										'delete_file_msg'	=> __("Are you sure?", "ppom"),
-										'aviary_api_key'	=> $ppom_meta_settings -> aviary_api_key,
+										'aviary_api_key'	=> '',
 										'plupload_runtime'	=> (ppom_if_browser_is_ie()) ? 'html5,html4' : 'html5,silverlight,html4,browserplus,gear',
-										'ppom_file_upload_nonce'	=> wp_create_nonce( $file_upload_nonce_action ));
+										'ppom_file_upload_nonce'	=> wp_create_nonce( $file_upload_nonce_action ),
+										'ppom_file_delete_nonce'	=> wp_create_nonce( $file_delete_nonce_action ),
+										'product_id'		=> $product_id,
+										);
 				wp_localize_script( 'ppom-file-upload', 'ppom_file_vars', $ppom_file_vars);
 				
 				break;
 				
 				
-				case 'bulkquantity':
-					
-					$field['options'] = stripslashes($field['options']);
-				break;
-				
 				case 'fixedprice':
 					// Fixed price addon has option to control decimnal places
-					$decimal_palces = !empty($field['decimal_place']) ? $field['decimal_place'] : wc_get_price_decimals();
+					$decimal_palces = !empty($field['decimal_place']) ? $field['decimal_place'] : PPOM_FP()->default_decimal_places();
+					break;
+					
+				case 'quantities':
+					add_filter('woocommerce_quantity_input_classes', 'ppom_hooks_quantities_input_class', 99, 2);
 					break;
 		}
 		
@@ -373,7 +391,7 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
 		 **/
 		do_action('ppom_hooks_inputs', $field, $data_name);
 		
-    	$ppom_inputs[] = $field;
+    	// $ppom_inputs[] = $field;
     }
     		
     
@@ -381,35 +399,16 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
     
     
     wp_enqueue_script( 'ppom-inputs', PPOM_URL.'/js/ppom.inputs.js', $ppom_core_scripts, PPOM_DB_VERSION, true);
-	$ppom_input_vars = array('ajaxurl' => admin_url( 'admin-ajax.php', (is_ssl() ? 'https' : 'http') ),
-							'ppom_inputs'		=> $ppom_inputs,
-							'field_meta'		=> $ppom_meta_fields);
+	/*$ppom_input_vars = array('ajaxurl' => admin_url( 'admin-ajax.php', (is_ssl() ? 'https' : 'http') ),
+							'ppom_inputs'		=> $ppom_meta_fields,
+							'field_meta'		=> $ppom_meta_fields);*/
+	
+	
+	$vars_args		 = array('wc_no_decimal' => $decimal_palces,
+							'show_price_per_unit'	=> $show_price_per_unit);
+	$ppom_input_vars = ppom_array_get_js_input_vars($product, $vars_args);
+	
 	wp_localize_script( 'ppom-inputs', 'ppom_input_vars', $ppom_input_vars);
-	
-	
-	$ppom_input_vars['wc_thousand_sep']	= wc_get_price_thousand_separator();
-	$ppom_input_vars['wc_currency_pos']	= get_option( 'woocommerce_currency_pos' );
-	$ppom_input_vars['wc_decimal_sep']	= get_option('woocommerce_price_decimal_sep');
-	$ppom_input_vars['wc_no_decimal']	= $decimal_palces;
-	$ppom_input_vars['wc_product_price']= ppom_get_product_price($product);
-	$ppom_input_vars['price_matrix_heading'] = ppom_get_option('ppom_label_discount_price', 'Discount Price');
-	$ppom_input_vars['product_base_label'] = ppom_get_option('ppom_label_product_price', 'Product Price');
-	$ppom_input_vars['option_total_label'] = ppom_get_option('ppom_label_option_total', 'Option Total');
-	$ppom_input_vars['fixed_fee_heading'] = ppom_get_option('ppom_label_fixed_fee', 'Fixed Fee');
-	$ppom_input_vars['total_discount_label'] = ppom_get_option('ppom_label_total_discount', 'Total Discount');
-	$ppom_input_vars['total_without_fixed_label'] = ppom_get_option('ppom_label_total', 'Total');
-	$ppom_input_vars['product_quantity_label'] = __("Product Quantity", "ppom");
-	$ppom_input_vars['product_title'] = sprintf(__("%s", "ppom"), $product->get_title());
-	$ppom_input_vars['per_unit_label'] = __("unit", "ppom");
-	$ppom_input_vars['show_price_per_unit'] = $show_price_per_unit;
-	$ppom_input_vars['text_quantity'] = __("Quantity","ppom");
-	$ppom_input_vars['show_option_price'] =  $ppom->price_display;
-	$ppom_input_vars['is_shortcode'] = is_product() ? 'no' : 'yes';
-	$ppom_input_vars['plugin_url'] = PPOM_URL;
-	$ppom_input_vars['is_mobile'] = ppom_is_mobile();
-	
-	$ppom_input_vars = apply_filters('ppom_input_vars', $ppom_input_vars, $product);
-	
 	wp_localize_script('ppom-price', 'ppom_input_vars', $ppom_input_vars);
 	
 	// Conditional fields
@@ -420,14 +419,6 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
 		wp_localize_script('ppom-conditions', 'ppom_input_vars', $ppom_input_vars);	
 	}
 			
-}
-
-function ppom_hooks_scripts() {
-	
-	// wp_enqueue_style('pepom-admin', PPOM_URL.'/css/admin.css');
-	/*if( is_cart() ) {
-		wp_enqueue_script( 'ppom-cart', PPOM_URL.'/js/ppom-cart.js', array('jquery'), PPOM_VERSION, true);
-	}*/
 }
 
 function ppom_hooks_input_args($field_setting, $field_meta) {
@@ -528,6 +519,18 @@ function ppom_hooks_register_wpml( $meta_data, $ppom_id ) {
 			nm_wpml_register($data['error_message'], 'PPOM');
 		}
 		
+		// first_option
+		if( isset($data['first_option']) ) {
+			
+			nm_wpml_register($data['first_option'], 'PPOM');
+		}
+		
+		// html (HTML Input)
+		if( isset($data['html']) ) {
+			
+			nm_wpml_register($data['html'], 'PPOM');
+		}
+		
 		// options (select, radio, checkbox)
 		if( isset($data['options']) && is_array($data['options']) ) {
 			
@@ -586,85 +589,6 @@ function ppom_hooks_input_wrapper_class($input_wrapper_class, $field_meta) {
 	return $input_wrapper_class;
 }
 
-// Retrun cart fragment
-/*function ppom_hooks_get_cart_fragment() {
-	
-	WC_AJAX::get_refreshed_fragments();
-}*/
-
-// Showing PPOM with shortcode
-function ppom_hooks_render_shortcode( $atts ) {
-	
-	if( empty($atts['product']) ) return;
-	
-	$product_id = $atts['product'];
-	$product	= new WC_Product($product_id);
-	
-	$ppom		= new PPOM_Meta( $product_id );
-	if( ! $ppom->fields ) return '';
-	
-	echo '<div id="ppom-box-'.esc_attr($ppom->meta_id).'" class="ppom-wrapper woocommerce">';
-	
-	wc_print_notices();
-	
-	echo '<form class="woocommerce-cart-form" method="post" enctype="multipart/form-data">';
-
-    
-    // Loading all required scripts/css for inputs like datepicker, fileupload etc
-    ppom_hooks_load_input_scripts( $product );
-    
-    // main css
-    wp_enqueue_style( 'ppom-main', PPOM_URL.'/css/ppom-style.css');
-    
-    // PPOM Simple Popup files load
-    wp_enqueue_style( 'ppom-sm-popup', PPOM_URL.'/css/ppom-simple-popup.css');
-    wp_enqueue_script('PPOM-sm-popup', PPOM_URL."/js/ppom-simple-popup.js", array('jquery') );
-    
-
-    if ( $ppom->inline_css != '') {
-		wp_add_inline_style( 'ppom-main', $ppom->inline_css );
-    }
-    
-        
-    $ppom_bs_css = PPOM_URL.'/css/bootstrap/bootstrap.css';
-    $ppom_bs_modal_css = PPOM_URL.'/css/bootstrap/bootstrap.modal.css';
-    // $ppom_bs_css = '//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css';
-    
-    wp_enqueue_style( 'ppom-bootstrap', $ppom_bs_css);
-    wp_enqueue_style( 'ppom-bootstrap-modal', $ppom_bs_modal_css);
-
-    // Description Tooltips JS File
-    wp_enqueue_script('PPOM-tooltip', PPOM_URL."/scripts/ppom-tooltip.js", array('jquery') );
-    
-    // If Bootstrap is enabled
-    if( ppom_load_bootstrap_css() ) {
-        
-        $ppom_bs_js_cdn  = '//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js';
-        wp_enqueue_script( 'bootstrap-js', $ppom_bs_js_cdn, array('jquery'));
-    }
-    
-    // ajax validation script
-    /*if( $ppom_meta_saved_settings -> productmeta_validation == 'yes'){
-    	wp_enqueue_script( 'woopa-ajax-validation', PPOM_URL.'/js/woopa-ajaxvalidation.js', array('jquery'));
-    }
-    	
-    $woopa_vars = array('fields_meta' => stripslashes($ppom_meta_saved_settings -> the_meta),
-    					'default_error_message'	=> __('it is a required field.', "ppom"));
-    wp_localize_script( 'woopa-ajax-validation', 'woopa_vars', $woopa_vars);*/
-    
-    $template_vars = array('ppom_settings'  => $ppom->ppom_settings,
-    						'product'	=> $product);
-    
-    ppom_load_template ( 'v10/render-fields.php', $template_vars );
-    
-    // Price container
-	echo '<div id="ppom-price-container"></div>';
-	
-	echo '<button type="submit" name="add-to-cart" value="230" class="single_add_to_cart_button button alt">Add to cart</button>';
-	
-	echo '</form>';
-	echo '</div>';   // Ends ppom-wrappper
-}
 
 function ppom_hooks_convert_option_json_to_string($row, $order) {
     
@@ -678,4 +602,44 @@ function ppom_hooks_convert_option_json_to_string($row, $order) {
         }
     }
     return $row;
+}
+
+function ppom_hooks_update_cart_weight( $ppom_field_prices, $ppom_fields_post, $cart_items ) {
+	
+	if( ppom_pro_is_installed() ) {
+		foreach($ppom_field_prices as $option) {
+			
+			if( $option['apply'] != 'weight') continue;
+			
+			$ppom_meta_ids	= isset($ppom_fields_post['id']) ? $ppom_fields_post['id'] : '';
+			$wc_product		= $cart_items['data'];
+			
+			$option_weight = ppom_get_field_option_weight_by_id($option, $ppom_meta_ids);
+			$new_weight = $wc_product->get_weight() + $option_weight;
+			// var_dump($new_weight);
+			$wc_product->set_weight($new_weight);
+		}
+	}
+}
+
+function ppom_hooks_dom_option_id( $option_id, $args ) {
+	
+	global $product;
+	
+	if( isset($args['id']) ) {
+		$option_id = $args['id'].'-'.$option_id;
+	}
+	
+	if( $product ) {
+		$option_id = $product->get_id().'-'.$option_id;
+	}
+	
+	return $option_id;
+}
+
+// Adding class in carty quantity field: ppom-qty-found to hide
+function ppom_hooks_quantities_input_class($classes, $product) {
+	
+	$classes[] = 'ppom-qty-found';
+	return $classes;
 }

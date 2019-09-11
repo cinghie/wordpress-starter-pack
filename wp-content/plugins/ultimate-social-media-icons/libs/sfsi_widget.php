@@ -26,7 +26,8 @@ class Sfsi_Widget extends WP_Widget
 	{
 		extract( $args );
 		/*Our variables from the widget settings. */
-		$title 		= apply_filters('widget_title', $instance['title'] );
+		$title 		= isset( $instance['title'] ) ? apply_filters('widget_title', $instance['title'] ) : '';
+		// var_dump($title,'ldfjgkdfj');
 		$show_info  = isset( $instance['show_info'] ) ? $instance['show_info'] : false;
 		
 		global $is_floter;	      
@@ -35,15 +36,15 @@ class Sfsi_Widget extends WP_Widget
 		/* Display the widget title */
 		if ( $title ) echo $before_title . $title . $after_title;
         ?>
-            <div class="sfsi_widget" data-position="widget">   
-				<div id='sfsi_wDiv'></div>
-                    <?php 
+<div class="sfsi_widget" data-position="widget">
+    <div id='sfsi_wDiv'></div>
+    <?php 
 						/* Link the main icons function */
                			echo sfsi_check_visiblity(0);
              		?>
-	      		<div style="clear: both;"></div>
-            </div>
-            <?php
+    <div style="clear: both;"></div>
+</div>
+<?php
 	      		if ( is_active_widget( false, false, $this->id_base, true ) ) { }
 		echo $after_widget;
 	}
@@ -86,15 +87,17 @@ class Sfsi_Widget extends WP_Widget
 			$instance['title']='Please follow & like us :)';
 		}
 		?>
-		<p>
-		    <label for="<?php echo $this->get_field_id( 'title' ); ?>">Title</label>
-		    <input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" style="width:100%;" />
-		    <input type="hidden" value="<?php echo $instance['showf'] ?>" id="<?php echo $this->get_field_id( 'showf' ); ?>" name="<?php echo $this->get_field_name( 'showf' ); ?>" />
-		</p>
-		<p>
-		     Please go to  the <a href="admin.php?page=sfsi-options">plugin page</a> to set your preferences
-		</p>
-	<?php
+<p>
+    <label for="<?php echo $this->get_field_id( 'title' ); ?>">Title</label>
+    <input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>"
+        value="<?php echo $instance['title']; ?>" style="width:100%;" />
+    <input type="hidden" value="<?php echo $instance['showf'] ?>" id="<?php echo $this->get_field_id( 'showf' ); ?>"
+        name="<?php echo $this->get_field_name( 'showf' ); ?>" />
+</p>
+<p>
+    Please go to the <a href="admin.php?page=sfsi-options">plugin page</a> to set your preferences
+</p>
+<?php
 	}
 }
 /* END OF widget Class */
@@ -125,15 +128,15 @@ function sfsi_check_visiblity($isFloter=0)
     $position1 			   = 'position:absolute;';
     $jquery 			   ='<script>';
 	
-	$jquery .= 'jQuery(".sfsi_widget").each(function( index ) {
-					if(jQuery(this).attr("data-position") == "widget")
-					{
-						var wdgt_hght = jQuery(this).children(".norm_row.sfsi_wDiv").height();
-						var title_hght = jQuery(this).parent(".widget.sfsi").children(".widget-title").height();
-						var totl_hght = parseInt( title_hght ) + parseInt( wdgt_hght );
-						jQuery(this).parent(".widget.sfsi").css("min-height", totl_hght+"px");
-					}
-				});';
+    $jquery 			   ='<script>';
+	
+	$jquery .='window.addEventListener("sfsi_functions_loaded", function() 
+	{
+		if (typeof sfsi_widget_set == "function") {
+			sfsi_widget_set();
+		}
+	}); ';
+
     
 	/* check if icons shuffling is activated in admin or not */
     if($sfsi_section5['sfsi_icons_stick']=="yes")
@@ -147,11 +150,11 @@ function sfsi_check_visiblity($isFloter=0)
 			$Ictop = "0";
 	    }
              
-		 $jquery.='var s = jQuery(".sfsi_widget");
+		 $jquery.='window.addEventListener("sfsi_functions_loaded",function(){var s = jQuery(".sfsi_widget");
 					var pos = s.position();            
 					jQuery(window).scroll(function(){      
 					sfsi_stick_widget("'.$Ictop.'");
-		 }); ';
+		 }); }); ';
     }
 	
     /* check if icons floating  is activated in admin */
@@ -190,7 +193,7 @@ function sfsi_check_visiblity($isFloter=0)
         //$jquery.="jQuery( document ).ready(function( $ ) { sfsi_float_widget('".$top."')});";
 		if($sfsi_section9['sfsi_icons_floatPosition'] == 'center-right' || $sfsi_section9['sfsi_icons_floatPosition'] == 'center-left')
 		 {
-        	$jquery.="jQuery( document ).ready(function( $ )
+        	$jquery.="window.addEventListener('sfsi_functions_loaded',function()
 					  {
 						var topalign = ( jQuery(window).height() - jQuery('#sfsi_floater').height() ) / 2;
 						jQuery('#sfsi_floater').css('top',topalign);
@@ -199,7 +202,7 @@ function sfsi_check_visiblity($isFloter=0)
 		 }
 		 else if($sfsi_section9['sfsi_icons_floatPosition'] == 'center-top' || $sfsi_section9['sfsi_icons_floatPosition'] == 'center-bottom'){
 
-			$jquery.="jQuery(document).ready(function( $ )
+			$jquery.="window.addEventListener('sfsi_functions_loaded',function()
 					  {
 						var leftalign = ( jQuery(window).width() - jQuery('#sfsi_floater').width() ) / 2;
 						jQuery('#sfsi_floater').css('left',leftalign);
@@ -208,7 +211,7 @@ function sfsi_check_visiblity($isFloter=0)
 		 }		 
 		 else
 		 {
-			$jquery.="jQuery( document ).ready(function( $ ) { sfsi_float_widget('".$top."')});"; 
+			$jquery.="window.addEventListener('sfsi_functions_loaded',function(){sfsi_float_widget('".$top."')});"; 
 		 }	
     }
 	  
@@ -219,17 +222,17 @@ function sfsi_check_visiblity($isFloter=0)
 	   {
 	     	$shuffle_time=(isset($sfsi_section3['sfsi_shuffle_intervalTime'])) ? $sfsi_section3['sfsi_shuffle_intervalTime'] : 3;
 			$shuffle_time=$shuffle_time*1000;
-			$jquery.="jQuery( document ).ready(function( $ ) {  jQuery('.sfsi_wDiv').each(function(){ new window.Manipulator( jQuery(this)); });  setTimeout(function(){  jQuery('#sfsi_wDiv').each(function(){ jQuery(this).click(); })},2000);  setInterval(function(){  jQuery('#sfsi_wDiv').each(function(){ jQuery(this).click(); })},".$shuffle_time."); });";
+			$jquery.="window.addEventListener('sfsi_functions_loaded',function(){  jQuery('.sfsi_wDiv').each(function(){ new window.Manipulator( jQuery(this)); });  setTimeout(function(){  jQuery('#sfsi_wDiv').each(function(){ jQuery(this).click(); })},2000);  setInterval(function(){  jQuery('#sfsi_wDiv').each(function(){ jQuery(this).click(); })},".$shuffle_time."); });";
        }
 	   else if($sfsi_section3['sfsi_shuffle_Firstload']=="no" && $sfsi_section3['sfsi_shuffle_interval']=="yes")
        {   
 		   $shuffle_time=(isset($sfsi_section3['sfsi_shuffle_intervalTime'])) ? $sfsi_section3['sfsi_shuffle_intervalTime'] : 3;
 		   $shuffle_time=$shuffle_time*1000; 
-		   $jquery.="jQuery( document ).ready(function( $ ) {  jQuery('.sfsi_wDiv').each(function(){ new window.Manipulator( jQuery(this)); });  setInterval(function(){  jQuery('#sfsi_wDiv').each(function(){ jQuery(this).click(); })},".$shuffle_time."); });";
+		   $jquery.="window.addEventListener('sfsi_functions_loaded',function(){  jQuery('.sfsi_wDiv').each(function(){ new window.Manipulator( jQuery(this)); });  setInterval(function(){  jQuery('#sfsi_wDiv').each(function(){ jQuery(this).click(); })},".$shuffle_time."); });";
         }
         else
         {
-            $jquery.="jQuery( document ).ready(function( $ ) {  jQuery('.sfsi_wDiv').each(function(){ new window.Manipulator( jQuery(this)); });  setTimeout(function(){  jQuery('#sfsi_wDiv').each(function(){ jQuery(this).click(); })},2000); });";
+            $jquery.="window.addEventListener('sfsi_functions_loaded',function(){  jQuery('.sfsi_wDiv').each(function(){ new window.Manipulator( jQuery(this)); });  setTimeout(function(){  jQuery('#sfsi_wDiv').each(function(){ jQuery(this).click(); })},2000); });";
         }    
     }
 	    
@@ -256,7 +259,6 @@ function sfsi_check_visiblity($isFloter=0)
 		$sfsi_section5['sfsi_rssIcon_order']=>'rss',
         $sfsi_section5['sfsi_emailIcon_order']=>'email',
         $sfsi_section5['sfsi_facebookIcon_order']=>'facebook',
-        $sfsi_section5['sfsi_googleIcon_order']=>'google',
         $sfsi_section5['sfsi_twitterIcon_order']=>'twitter',
         $sfsi_section5['sfsi_youtubeIcon_order']=>'youtube',
         $sfsi_section5['sfsi_pinterestIcon_order']=>'pinterest',
@@ -267,8 +269,6 @@ function sfsi_check_visiblity($isFloter=0)
 		$sfsi_section5['sfsi_okIcon_order']=>'ok',
 		$sfsi_section5['sfsi_weiboIcon_order']=>'weibo',
 		$sfsi_section5['sfsi_wechatIcon_order']=>'wechat',
-
-
   	) ;
    if(is_array($custom_icons_order) ) 
    {
@@ -304,8 +304,6 @@ function sfsi_check_visiblity($isFloter=0)
     case 'email' :   if($sfsi_section1_options['sfsi_email_display']=='yes')   $icons.= sfsi_prepairIcons('email'); 
     break;
     case 'facebook' :  if($sfsi_section1_options['sfsi_facebook_display']=='yes') $icons.= sfsi_prepairIcons('facebook');
-    break;
-    case 'google' :  if($sfsi_section1_options['sfsi_google_display']=='yes')    $icons.= sfsi_prepairIcons('google'); ;
     break;
     case 'twitter' :  if($sfsi_section1_options['sfsi_twitter_display']=='yes')    $icons.= sfsi_prepairIcons('twitter'); 
     break;
@@ -463,7 +461,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 			 }
 			 else
 			 {
-				 $alt_text = 'RSS';
+				 $alt_text = '';
 			 }
 			 
 			 //Custom Skin Support {Monad}	 
@@ -491,9 +489,11 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 		       $hoverdiv  = '';
 			   
 			   $sfsi_section2_options['sfsi_email_url'];
-
-			   $url = (isset($sfsi_section2_options['sfsi_email_url'])) ? $sfsi_section2_options['sfsi_email_url'] : '';
-
+				if( sanitize_text_field(get_option('sfsi_feed_id', false)) == ""){
+					$url = "https://specificfeeds.com/follow";
+				}else{
+			   		$url = (isset($sfsi_section2_options['sfsi_email_url'])) ? $sfsi_section2_options['sfsi_email_url'] : '';
+			   	}
 			   $toolClass   = "email_tool_bdr";
 		       $arrow_class = "bot_eamil_arow";
 		       
@@ -519,7 +519,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 			   }
 			   else
 			   {
-				   $alt_text = 'EMAIL';
+				   $alt_text = '';
 			   }
 					  
 			//Custom Skin Support {Monad}	 
@@ -574,8 +574,6 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 
 				$icon = $icons_baseUrl.$active_theme.$image;
 			}
-
-
         break;
         
 		case "facebook" :
@@ -593,7 +591,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 			}
 			else
 			{
-				$alt_text = "FACEBOOK";
+				$alt_text = "";
 			}
 			
 			$visit_icon = $visit_iconsUrl."facebook.png";
@@ -616,7 +614,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 
 				 if(false != $page_option && $page_option=="yes")
 				 {
-					 $hoverdiv.="<div  class='icon1'><a href='".$url."' ".sfsi_checkNewWindow($url)."><img alt='".$alt_text."' title='".$alt_text."' src='".$visit_icon."'  /></a></div>";
+					 $hoverdiv.="<div  class='icon1'><a href='".$url."' ".sfsi_checkNewWindow($url)."><img data-pin-nopin='true' alt='".$alt_text."' title='".$alt_text."' src='".$visit_icon."'  /></a></div>";
 				 }  
 				 if(false!= $like_option && $like_option=="yes")
 				 {
@@ -681,103 +679,6 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				$icon=$icons_baseUrl.$active_theme."_facebook.png";
 			}		 
         break;
-		
-        case "google" :                    
-				$toolClass   = "gpls_tool_bdr";
-				$arrow_class = "bot_gpls_arow";
-				$width 		 = 76;
-				$totwith 	 = $width+28+$icons_space;
-				$twt_margin  = $totwith/2;
-				
-				if(!empty($sfsi_section5_options['sfsi_google_MouseOverText']))
-				{
-					$alt_text = $sfsi_section5_options['sfsi_google_MouseOverText'];
-				}
-				else
-				{
-					$alt_text = "GOOGLE";
-				}
-				
-				$visit_icon = $visit_iconsUrl."google.png";
-
-				$url = isset($sfsi_section2_options['sfsi_google_pageURL']) && !empty($sfsi_section2_options['sfsi_google_pageURL']) ?$sfsi_section2_options['sfsi_google_pageURL'] : '';
-
-				$like_option = isset($sfsi_section2_options['sfsi_googleLike_option']) && !empty($sfsi_section2_options['sfsi_googleLike_option']) ? $sfsi_section2_options['sfsi_googleLike_option'] : false;
-
-				$share_option = isset($sfsi_section2_options['sfsi_googleShare_option']) && !empty($sfsi_section2_options['sfsi_googleShare_option']) ? $sfsi_section2_options['sfsi_googleShare_option'] : false; 
-				$share_option = false;
-				
-				/* check for icons to display */     
-				if( (false != $like_option && $like_option=="yes") || (false != $share_option && $share_option=="yes"))
-				{
-					 $hoverSHow=1;
-					 $hoverdiv='';
-					 if($sfsi_section2_options['sfsi_google_page']=="yes")
-					 {
-						  $hoverdiv.="<div  class='icon1'><a href='".$url."' ".sfsi_checkNewWindow($url)."><img alt='".$alt_text."' title='".$alt_text."' src='".$visit_icon."'  /></a></div>";  
-					 } 
-					 if(false != $like_option && $like_option=="yes")
-					 {
-						 $hoverdiv.="<div  class='icon2'>".$socialObj->sfsi_Googlelike($current_url)."</div>";  
-					 }    
-					 if(false != $share_option && $share_option=="yes")
-					 {
-						 $hoverdiv.="<div  class='icon3'>".$socialObj->sfsi_GoogleShare($current_url)."</div>"; 
-					 }                          
-				 }
-
-				/* fecth no of counts if active in admin section */
-				if(
-					$sfsi_section4_options['sfsi_google_countsDisplay']=="yes" &&
-					$sfsi_section4_options['sfsi_display_counts']=="yes"
-				)
-				{
-					 if($sfsi_section4_options['sfsi_google_countsFrom']=="manual")
-					 {    
-					 	$counts = $socialObj->format_num($sfsi_section4_options['sfsi_google_manualCounts']);
-					 }
-					 else if($sfsi_section4_options['sfsi_google_countsFrom']=="likes")
-					 {
-						$api_key = $sfsi_section4_options['sfsi_google_api_key'];
-						$followers = $socialObj->sfsi_getPlus1($current_url);
-						$counts = $socialObj->format_num($followers);
-						if(empty($counts))
-						{
-							$counts = (string) "0";
-						}
-					 }
-					 else if($sfsi_section4_options['sfsi_google_countsFrom']=="follower")
-					 {
-						$api_key = $sfsi_section4_options['sfsi_google_api_key'];
-						$followers = $socialObj->sfsi_get_google($url,$api_key);
-						$counts = $followers;
-						if(empty($counts))
-						{
-							$counts = (string) "0";
-						}
-					 }   
-				} 
-				
-				//Custom Skin Support {Monad}	 
-				if($active_theme == 'custom_support')
-				{
-					 if(get_option("google_skin"))
-					 {
-						$icon = get_option("google_skin");
-					 }
-					 else
-					 {
-						$active_theme = 'default';
-						$icons_baseUrl = SFSI_PLUGURL."images/icons_theme/default/";
-						$icon=$icons_baseUrl.$active_theme."_google.png";
-					 }
-				}
-				else
-				{
-					$icon=$icons_baseUrl.$active_theme."_google.png";
-				}		 
-        break;
-        
 		case "twitter" :
 				$toolClass 	 = "twt_tool_bdr";
 				$arrow_class = "bot_twt_arow";
@@ -806,7 +707,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 					 //Visit twitter page {Monad}	 
 					 if(isset($sfsi_section2_options['sfsi_twitter_page']) && !empty($sfsi_section2_options['sfsi_twitter_page']) && $sfsi_section2_options['sfsi_twitter_page']=="yes")
 					 {
-						  $hoverdiv.="<div  class='cstmicon1'><a href='".$url."' ".sfsi_checkNewWindow($url)."><img alt='Visit Us' title='Visit Us' src='".$visit_icon."'  /></a></div>";  
+						  $hoverdiv.="<div  class='cstmicon1'><a href='".$url."' ".sfsi_checkNewWindow($url)."><img data-pin-nopin='true' alt='Visit Us' title='Visit Us' src='".$visit_icon."'  /></a></div>";  
 					 }
 					 if($follow_me=="yes" && !empty($twitter_user))
 					 {
@@ -852,7 +753,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				 }
 				 else
 				 {
-					 $alt_text = "TWITTER"; 
+					 $alt_text = ""; 
 				 }
 				 
 				//Custom Skin Support {Monad}	 
@@ -893,7 +794,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				}
 				else
 				{
-					 $alt_text = "YOUTUBE";
+					 $alt_text = "";
 				}
 				 
 				/* check for icons to display */
@@ -909,7 +810,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 
 					if($ypage =="yes")
 					{ 
-						  $hoverdiv.="<div  class='icon1'><a href='".$url."'  ".sfsi_checkNewWindow($url)."><img alt='".$alt_text."' title='".$alt_text."' src='".$visit_icon."'  /></a></div>";  
+						  $hoverdiv.="<div  class='icon1'><a href='".$url."'  ".sfsi_checkNewWindow($url)."><img data-pin-nopin='true' alt='".$alt_text."' title='".$alt_text."' src='".$visit_icon."'  /></a></div>";  
 					} 
 					if($follow =="yes")
 					{
@@ -981,7 +882,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				}
 				else
 				{
-					 $alt_text = "PINTEREST";
+					 $alt_text = "";
 				}
 				
 				/* check for icons to display */  
@@ -1004,7 +905,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				 	
 				 	if($page =="yes")
 					{
-						  $hoverdiv.="<div  class='icon1'><a href='".$url."' ".sfsi_checkNewWindow($url)."><img alt='".$alt_text."' title='".$alt_text."' src='".$visit_icon."'  /></a></div>";
+						  $hoverdiv.="<div  class='icon1'><a href='".$url."' ".sfsi_checkNewWindow($url)."><img data-pin-nopin='true' alt='".$alt_text."' title='".$alt_text."' src='".$visit_icon."'  /></a></div>";
 					} 
 					if($pingblog=="yes")
 					{
@@ -1065,7 +966,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				}
 				else
 				{
-					 $alt_text = "INSTAGRAM";
+					 $alt_text = "";
 				}
 				     
 		     	$hoverdiv="";
@@ -1130,7 +1031,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				}
 				else
 				{
-					 $alt_text = "telegram";
+					 $alt_text = "";
 				}
 				$messageus_icon = $visit_iconsUrl.$icon_name."_message.svg";
 		     	$hoverdiv="";
@@ -1176,7 +1077,9 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 					 
 					 $tele_url = "https://t.me/".$tg_username;
 					 $url = $tele_url."?&text=".urlencode($tg_msg);
-					file_get_contents($url);
+					//  var_dump($url);
+					//  die();
+					// file_get_contents($url);
 				 }else{
 				 	$url="#";
 			   		$sfsi_onclick="event.preventDefault();";
@@ -1200,7 +1103,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				}
 				else
 				{
-					 $alt_text = "vk";
+					 $alt_text = "";
 				}
 				     
 		     	$hoverdiv="";
@@ -1252,7 +1155,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				}
 				else
 				{
-					 $alt_text = "ok";
+					 $alt_text = "";
 				}
 				     
 		     	$hoverdiv="";
@@ -1260,8 +1163,6 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				$cDisplay = isset($sfsi_section4_options['sfsi_ok_countsDisplay']) && !empty($sfsi_section4_options['sfsi_ok_countsDisplay']) ? $sfsi_section4_options['sfsi_ok_countsDisplay']: false;
 
 				$Displayc = isset($sfsi_section4_options['sfsi_display_counts']) && !empty($sfsi_section4_options['sfsi_display_counts']) ? $sfsi_section4_options['sfsi_display_counts']: false;
-
-
                 /* fecth no of counts if active in admin section */ 
 				if($cDisplay=="yes" && $Displayc=="yes")
 				{
@@ -1306,7 +1207,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				}
 				else
 				{
-					 $alt_text = "weibo";
+					 $alt_text = "";
 				}
 				     
 		     	$hoverdiv="";
@@ -1359,7 +1260,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				}
 				else
 				{
-					 $alt_text = "wechat";
+					 $alt_text = "";
 				}
 				     
 		     	$hoverdiv="";
@@ -1388,13 +1289,13 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 
 						$image_url = $sfsi_section2_options['sfsi_wechat_scan_image'];
 
-						$hoverdiv.="<div class='icon1' style='text-align:center'><a href='' onclick='event.preventDefault();sfsi_wechat_follow(\"".$sfsi_section2_options['sfsi_wechat_scan_image']."\")' ><img nopin=nopin alt='".$alt_text."' title='".$alt_text."' src='".$visit_icon."' style='height:25px'  /></a></div>";					
+						$hoverdiv.="<div class='icon1' style='text-align:center'><a href='' onclick='event.preventDefault();sfsi_wechat_follow(\"".$sfsi_section2_options['sfsi_wechat_scan_image']."\")' ><img data-pin-nopin='true' alt='".$alt_text."' title='".$alt_text."' src='".$visit_icon."' style='height:25px'  /></a></div>";					
 					}
 
 					if(isset($sfsi_section2_options['sfsi_wechatShare_option']) && !empty($sfsi_section2_options['sfsi_wechatShare_option'])  
 						&& "yes" == $sfsi_section2_options['sfsi_wechatShare_option']){
 
-					$hoverdiv.="<div class='icon2' style='text-align:center' ><a href='".$url."'  ".sfsi_checkNewWindow($url)." onclick='event.preventDefault();sfsi_wechat_share(\"".$sfsi_section2_options['sfsi_wechat_scan_image']."\")' ><img nopin=nopin alt='".$alt_text."' title='".$alt_text."' src='".$share_icon."' style='height:25px'  /></a></div>";
+					$hoverdiv.="<div class='icon2' style='text-align:center' ><a href='".$url."'  ".sfsi_checkNewWindow($url)." onclick='event.preventDefault();sfsi_wechat_share(\"".$sfsi_section2_options['sfsi_wechat_scan_image']."\")' ><img data-pin-nopin='true' alt='".$alt_text."' title='".$alt_text."' src='".$share_icon."' style='height:25px'  /></a></div>";
 					}
 				 }else{
 				 	
@@ -1416,8 +1317,6 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 								$sfsi_onclick = "console.log(event);event.stopPropagation&&event.stopPropagation();";
 							}
 							$sfsi_onclick.="event.preventDefault();sfsi_mobile_wechat_share('".trim($current_url)."')"	;
-
-
 						}	
 					}
 				 		$hoverSHow = 0;
@@ -1477,7 +1376,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 
 					 if($page=="yes")
 					 {
-						  $hoverdiv.="<div  class='icon4'><a href='".$url."' ".sfsi_checkNewWindow($url)."><img alt='".$alt_text."' title='".$alt_text."' src='".$visit_icon."'  /></a></div>";  
+						  $hoverdiv.="<div  class='icon4'><a href='".$url."' ".sfsi_checkNewWindow($url)."><img data-pin-nopin='true' alt='".$alt_text."' title='".$alt_text."' src='".$visit_icon."'  /></a></div>";  
 					 } 
 					 if($follow=="yes")
 					 {
@@ -1535,7 +1434,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				}
 				else
 				{
-					 $alt_text = "LINKEDIN";
+					 $alt_text = "";
 				}
 			    
 				//Custom Skin Support {Monad}	  
@@ -1587,7 +1486,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				}
 				else
 				{
-					 $alt_text = "SOCIALICON";
+					 $alt_text = "";
 				}
             break;    
     }
@@ -1661,12 +1560,12 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
     {
 	 	$new_window = sfsi_checkNewWindow();
 	 	$url = $url;
-    }
-    
+	}
+
     if(isset($sfsi_onclick)){
     	$new_window ="";
-    }
-
+	}
+	
     if(!isset($sfsi_new_icons)){
     	$sfsi_new_icons =false;
     }
@@ -1690,12 +1589,12 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 			$icons.= "<div class='".$innrselector."'>";
 				
 				$icons.= "<a class='".$class." sficn' data-effect='".$mouse_hover_effect."' $new_window  href='".$url."' ".(('vk'!==$icon_name)?"id='sfsiid_".$icon_name."'":'')." style='opacity:".$icon_opacity."' ".(isset($sfsi_onclick)?'onclick="'.$sfsi_onclick.'"':'')." >";     
-					$icons.= "<img alt='".$alt_text."' title='".$alt_text."' src='".$icon."' width='".$icons_size."' height='".$icons_size."' style='".$border_radius.$padding_top."' class='sfcm sfsi_wicon ".(in_array($icon_name,array('telegram','wechat'))?('sfsi_'.$icon_name.'_wicon sfsi_click_wicon'):(''))."' data-effect='".$mouse_hover_effect."'   />";
+					$icons.= "<img data-pin-nopin='true' alt='".$alt_text."' title='".$alt_text."' src='".$icon."' width='".$icons_size."' height='".$icons_size."' style='".$border_radius.$padding_top."' class='sfcm sfsi_wicon ".(in_array($icon_name,array('telegram','wechat'))?('sfsi_'.$icon_name.'_wicon sfsi_click_wicon'):(''))."' data-effect='".$mouse_hover_effect."'   />";
 				$icons.= '</a>';
 	   if(isset($counts) &&  $counts!='')
 	   {
 			$icons.= '<span class="bot_no '.$bt_class.'">'.$counts.'</span>';  
-	   }	
+	   }
 	   if($hoverSHow && !empty($hoverdiv))
 	   {	
 			$icons.= '<div class="sfsi_tool_tip_2 '.$toolClass.' '.$toolT_cls.'" style="width:'.$width.'px ;opacity:0;z-index:-1;margin-left:-'.$twt_margin.'px;" id="sfsiid_'.$icon_name.'">';
@@ -1723,6 +1622,4 @@ function sfsi_checkNewWindow()
 	    return ''; 
 	}
 }
-
-
 ?>

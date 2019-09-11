@@ -157,7 +157,7 @@ function ppom_upload_file() {
 	// Get parameters
 	$chunk = isset ( $_REQUEST ["chunk"] ) ? intval ( $_REQUEST ["chunk"] ) : 0;
 	$chunks = isset ( $_REQUEST ["chunks"] ) ? intval ( $_REQUEST ["chunks"] ) : 0;
-	$file_name = isset ( $_REQUEST ["name"] ) ? $_REQUEST ["name"] : '';
+	$file_name = isset ( $_REQUEST ["name"] ) ? sanitize_file_name($_REQUEST ["name"]) : '';
 	
 	$file_path_thumb = $file_dir_path . 'thumbs';
 	$file_name = wp_unique_filename($file_path_thumb, $file_name);
@@ -249,7 +249,10 @@ function ppom_upload_file() {
 		// Strip the temp .part suffix off
 		rename ( "{$file_path}.part", $file_path );
 		
-		$file_meta = $_REQUEST['settings'];
+		$product_id = intval($_REQUEST['product_id']);
+		$data_name  = sanitize_key($_REQUEST['data_name']);
+		$file_meta = ppom_get_field_meta_by_dataname($product_id , $data_name );
+	
 		
 		// making thumb if images
 		if( ppom_is_file_image($file_name) ) {
@@ -287,9 +290,17 @@ function ppom_upload_file() {
 
 // Deleting file
 function ppom_delete_file() {
+	
+    $file_name = sanitize_file_name( $_REQUEST ['file_name'] );
+    
+	$ppom_nonce = $_REQUEST['ppom_nonce'];
+	$file_nonce_action = "ppom_deleting_file_action";
+	if ( ! wp_verify_nonce( $ppom_nonce, $file_nonce_action ) ) {
+    	printf(__("Error while deleting file %s", "ppom"), $file_name );
+    	die(0);
+	}
     
     $dir_path = ppom_get_dir_path();
-    $file_name = $_REQUEST ['file_name'];
     
     $file_path = $dir_path . $file_name;
     
@@ -305,7 +316,12 @@ function ppom_delete_file() {
     			unlink ( $cropped_image_path );
     	}
     	
-    	_e( 'File removed', 'ppom' );
+    	// make sure file is removed
+    	if( ! file_exists($file_path) ) {
+    		_e( 'File removed', 'ppom' );
+    	} else {
+    		printf(__("Error while deleting file %s", "ppom"), $file_path );
+    	}
     	
     		
     } else {
@@ -359,7 +375,6 @@ function ppom_get_file_download_url( $file_name, $order_id, $product_id ) {
 
 // Generate uploaded file preview
 function ppom_uploaded_file_preview($file_name, $settings){
-	
 	
 	$field_type = $settings['type'];
 	$data_name	= isset($settings['data_name']) ? $settings['data_name'] : '';
@@ -448,32 +463,6 @@ function ppom_files_trim_name( $file_name ) {
 		$trimmed_filename = $file_name;
 	}
 	return $trimmed_filename;
-}
-
-// Save image after avairy editing
-function save_files_edited_photo() {
-	
-	//print_r( $_REQUEST ); exit;
-	
-	$aviary_addon_dir = 'nm-aviary-photo-editing-addon/index.php';
-	$file_path = ABSPATH . 'wp-content/plugins/' . $aviary_addon_dir;
-	if (! file_exists ( $file_path )) {
-		die ( 'Could not find file ' . $file_path );
-	}
-	
-	include_once $file_path;
-	
-	$aviary = new NM_Aviary ();
-	
-	$aviary->plugin_meta = ppom_get_plugin_meta();
-	$aviary->dir_path = ppom_get_dir_path();
-	$aviary->dir_name = PPOM_UPLOAD_DIR_NAME;
-	$aviary->filename = $_REQUEST ['filename'];
-	$aviary->image_url	= $_REQUEST ['image_url'];
-	
-	$resp = $aviary->save_file_locally ();
-	wp_send_json($resp);
-	die ( 0 );
 }
 
 // Save cropped image fro dataUrl to image
@@ -608,12 +597,13 @@ function ppom_file_legacy_crop_editor(){
 
 	$ratio = json_decode( stripslashes( $_REQUEST['ratios'] ) );
 	// var_dump($ratio);
-	$vars = array('image_name' => $_REQUEST['image_name'], 
-					'image_url' => $_REQUEST['image_url'], 
+	$vars = array('image_name' => sanitize_file_name($_REQUEST['image_name']), 
+					'image_url' => esc_url_raw($_REQUEST['image_url']), 
 					'ratio' => $ratio, 
-					'fileid' => $_REQUEST['file_id'],
-					'image_id'	=> $_REQUEST['image_id'],
-					'data_name'	=> $_REQUEST['data_name']);
+					'fileid' => sanitize_file_name($_REQUEST['file_id']),
+					'image_id'	=> senetize_key($_REQUEST['image_id']),
+					'data_name'	=> senetize_key($_REQUEST['data_name'])
+					);
 	ppom_load_template( 'input/legacy-cropper.php', $vars);
 
 	die(0);
@@ -623,51 +613,67 @@ function ppom_file_crop_image_legacy(){
 
 	//print_r($_REQUEST); exit;
 	
-	$image_path = ppom_get_dir_path() . $_REQUEST['image_name'];
-	$cropped_name = $_REQUEST['image_name'];
-	$cropped_dest = ppom_get_dir_path('cropped') . ppom_file_get_name($cropped_name, $_REQUEST['product_id']);
+	$ppom_nonce = $_REQUEST['ppom_nonce'];
+	$validate_nonce_action = "ppom_validating_action";
+	if ( ! wp_verify_nonce( $ppom_nonce, $validate_nonce_action ) ) {
+		
+		$message = __('Error while validating, try again', "ppom");
+		$response = array('status'=>'error', 'message' => $message);
+    	wp_send_json( $response );
+	}
 	
+	$cropped_name	= sanitize_file_name($_REQUEST['image_name']);
+	$file_id		= sanitize_text_field($_REQUEST['fileid']);
+	$data_name		= sanitize_text_field($_REQUEST['data_name']);
+	$product_id		= intval($_REQUEST['product_id']);
+	$img_width		= intval($_REQUEST['img_w']);
+	$img_height		= intval($_REQUEST['img_h']);
 	
+	// Coords
+	$coord_x		= intval($_REQUEST['coords']['x']);
+	$coord_x2		= intval($_REQUEST['coords']['x2']);
+	$coord_y		= intval($_REQUEST['coords']['y']);
+	$coord_y2		= intval($_REQUEST['coords']['y2']);
+	
+	$image_path = ppom_get_dir_path() . $cropped_name;
+	$cropped_dest = ppom_get_dir_path('cropped') . ppom_file_get_name($cropped_name, $product_id);
 	
 	$image = wp_get_image_editor ( $image_path );
 	//$crop_coords = array($_REQUEST['coords']['x'])
 	if (! is_wp_error ( $image )) {
-		/*$image->resize ( $_REQUEST['img_w'], $_REQUEST['img_h'], false );
-		$image->crop (  intval($_REQUEST['coords']['x']), 
-						intval($_REQUEST['coords']['y']), 
-						intval($_REQUEST['coords']['w']), 
-						intval($_REQUEST['coords']['h']), 
-						intval($_REQUEST['coords']['w']), 
-						intval($_REQUEST['coords']['h']), false );*/
-						
-						
+					
 		$real_size = $image->get_size();	
-		$factor_x = $real_size['width']/$_REQUEST['img_w'];
-		$factor_y = $real_size['height']/$_REQUEST['img_h'];
+		$factor_x = $real_size['width']/$img_width;
+		$factor_y = $real_size['height']/$img_height;
 		
-		$real_x = intval($_REQUEST['coords']['x']) * $factor_x;
-		$real_y = $_REQUEST['coords']['y'] * $factor_y;
-		$real_w = ($_REQUEST['coords']['x2'] * $factor_x) - $real_x;
-		$real_h = ($_REQUEST['coords']['y2'] * $factor_y) - $real_y;
+		$real_x = $coord_x * $factor_x;
+		$real_y = $coord_y * $factor_y;
+		$real_w = ($coord_x2 * $factor_x) - $real_x;
+		$real_h = ($coord_y2 * $factor_y) - $real_y;
 		
 		$ratio = explode( '/', $_REQUEST['ratio']);
 		
-		$crop_params = apply_filters('ppom_crop_image', array('x'=>$real_x,
-															'y'=>$real_y,
-															'w'=>$real_w,
-															'h'=>$real_h,
-															'd_w'=>NULL,
-															'd_h'=>NULL),
-															$ratio);
+		$crop_params = array('x'=>$real_x,
+							 'y'=>$real_y,
+							 'w'=>$real_w,
+							 'h'=>$real_h,
+							 'd_w'=>NULL,
+							 'd_h'=>NULL);
+							 
+		$crop_params = apply_filters('ppom_crop_image', $crop_params, $ratio);
+		
 		//d_w: destination width, d_h: destination height
-		$image->crop ( $crop_params['x'], $crop_params['y'], $crop_params['w'], $crop_params['h'], $crop_params['d_w'], $crop_params['d_h'] );
+		$image->crop ( $crop_params['x'], 
+						$crop_params['y'], 
+						$crop_params['w'], 
+						$crop_params['h'], 
+						$crop_params['d_w'], $crop_params['d_h'] );
 		
 		$cropped_image = $image->save ( $cropped_dest );
 		
 		//also saving thumb
 		$new_thumb = wp_get_image_editor ( $cropped_dest );
-		$cropped_thumb_name = $_REQUEST['image_name'];
-		$cropped_thumb_dest = ppom_get_dir_path('cropped/thumbs') . $cropped_thumb_name;
+		$cropped_thumb_dest = ppom_get_dir_path('cropped/thumbs') . $cropped_name;
 		if (! is_wp_error ( $new_thumb )) {
 			$new_thumb->resize ( 75, 75 );
 			$new_thumb->save ( $cropped_thumb_dest );
@@ -678,10 +684,10 @@ function ppom_file_crop_image_legacy(){
 		die('error while loading image '.$image_path);
 	}
 	
-	//$the_cropped  = wp_crop_image($image_path, $_REQUEST['coords']['x'], $_REQUEST['coords']['y'], $_REQUEST['coords']['w'], $_REQUEST['coords']['h'], NULL, NULL, false);
-	$thumb_url = ppom_get_dir_url().'cropped/thumbs/' . $cropped_thumb_name . '?nocache='.time();
-	echo json_encode(array('fileid' => $_REQUEST['fileid'],
-						'data_name'	=> $_REQUEST['data_name'],
-						'cropped_image' => $thumb_url));
-	die(0);
+	$thumb_url  = ppom_get_dir_url().'cropped/thumbs/' . $cropped_name . '?nocache='.time();
+	$response	= array(  'fileid'		=> $file_id,
+						  'data_name'	=> $data_name,
+						  'cropped_image'=> $thumb_url);
+						  
+	wp_send_json( $response );
 }

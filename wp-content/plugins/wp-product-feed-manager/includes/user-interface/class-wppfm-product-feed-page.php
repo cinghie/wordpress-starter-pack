@@ -45,6 +45,8 @@ if ( ! class_exists( 'WPPFM_Product_Feed_Page' ) ) :
 
 				echo $this->tabs();
 
+				echo $this->product_feed_page_data_holder();
+
 				echo $this->main_input_table_wrapper();
 
 				echo $this->category_selector_table_wrapper();
@@ -70,6 +72,10 @@ if ( ! class_exists( 'WPPFM_Product_Feed_Page' ) ) :
 		 */
 		private function tabs() {
 			return WPPFM_Form_Element::main_form_tabs();
+		}
+
+		private function product_feed_page_data_holder() {
+			return WPPFM_Form_Element::data_holder();
 		}
 
 		/**

@@ -3,9 +3,9 @@ Contributors: pomegranate
 Donate link: https://wpovernight.com/downloads/woocommerce-pdf-invoices-packing-slips-bundle/
 Tags: woocommerce, pdf, invoices, packing slips, print, delivery notes, invoice, packing slip, export, email, bulk, automatic
 Requires at least: 3.5
-Tested up to: 5.1
+Tested up to: 5.2
 Requires PHP: 5.3
-Stable tag: 2.2.12
+Stable tag: 2.3.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,8 +26,7 @@ This WooCommerce extension automatically adds a PDF invoice to the order confirm
 
 In addition to this, we offer several premium extensions:
 
-* Create/email PDF Proforma Invoices, Credit Notes (for Refunds), email Packing Slips & more with [WooCommerce PDF Invoices & Packing Slips Professional](https://wpovernight.com/downloads/woocommerce-pdf-invoices-packing-slips-professional/)
-* Upload all invoices automatically to Dropbox with [WooCommerce PDF Invoices & Packing Slips to Dropbox](https://wpovernight.com/downloads/woocommerce-pdf-invoices-packing-slips-dropbox/)
+* Create/email PDF Proforma Invoices, Credit Notes (for Refunds), email Packing Slips, automatic upload to Dropbox & more with [WooCommerce PDF Invoices & Packing Slips Professional](https://wpovernight.com/downloads/woocommerce-pdf-invoices-packing-slips-professional/)
 * Automatically send new orders or packing slips to your printer, as soon as the customer orders! [WooCommerce Automatic Order Printing](https://www.simbahosting.co.uk/s3/product/woocommerce-automatic-order-printing/?affiliates=2) (from our partners at Simba Hosting)
 * More advanced & stylish templates with [WooCommerce PDF Invoices & Packing Slips Premium Templates](https://wpovernight.com/downloads/woocommerce-pdf-invoices-packing-slips-premium-templates/)
 
@@ -67,7 +66,7 @@ In the search field type "WooCommerce PDF Invoices & Packing Slips" and click Se
 
 = Where can I find the documentation? =
 
-[WooCommerce PDF Invoices & Packing Slips documentation](http://docs.wpovernight.com/woocommerce-pdf-invoices-packing-slips/)
+[WooCommerce PDF Invoices & Packing Slips documentation](https://docs.wpovernight.com/woocommerce-pdf-invoices-packing-slips/)
 
 = It's not working! =
 
@@ -102,6 +101,43 @@ There's a setting on the Status tab of the settings page that allows you to togg
 6. Set shop name, address, header logo, etc.
 
 == Changelog ==
+
+= 2.3.4 =
+* Fix: Prevent duplicate invoice numbers for multiple attachment setups
+* Fix: Apply email order filter for each email separately
+
+= 2.3.3 =
+* Tweak: Move filter to override order object to document level (rather than per email)
+
+= 2.3.2 = 
+* Fix: Load enhanced selection styles on settings page
+* Fix: WC Bookings email attachment
+* Tweak: Use WooCommerce 3.7 tax rate data when available.
+
+= 2.3.1 =
+* Fix: Errors for filtered formatted invoice numbers
+
+= 2.3.0 =
+* Feature: Setting to disable invoices globally for specific order statuses
+* Feature: Control action buttons visibility from settings wizard.
+* Feature: Allow loading of existing PDF file instead of generating on the fly via filter (`wpo_wcpdf_load_pdf_file_path`)
+* Fix: Check if temp folder exists before creating
+* Fix: Newlines in address from settings wizard
+* Fix: Double images issue with WooCommerce German Market
+* Fix: Only store document settings when creating one
+* Tested with WooCommerce 3.7
+
+= 2.2.14 =
+* Fix: Set default PHPMailer validator to 'php' (fixing 'setFrom' errors on PHP 7.3)
+* Fix: Attachment path for file lock check
+* Tweak: Don't wait for file lock if locking disabled
+* Tweak: JIT loading of core documents for early requests (before init 15)
+
+= 2.2.13 =
+* Feature: Better order notes formatting & optional filter for system notes
+* Feature: add email object to attachment hook and allow order object filtering
+* Fix: WooCommerce Chained Products row classes
+* Fix: Issues with locked attachment files preventing the email from being sent correctly
 
 = 2.2.12 =
 * Tested up to WC3.6

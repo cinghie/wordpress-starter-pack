@@ -96,7 +96,7 @@ class PPOM_Inputs{
 	 	
 		$addon_directory = 'nm-facebook-import-addon';
 	
-		$facebook_class_file = ABSPATH . 'wp-content/plugins/'.$addon_directory.'/index.php';
+		$facebook_class_file = WP_CONTENT_DIR . '/plugins/'.$addon_directory.'/index.php';
 		if (file_exists( $facebook_class_file )){
 			
 			include_once $facebook_class_file;

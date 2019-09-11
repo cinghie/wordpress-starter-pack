@@ -6,11 +6,20 @@
 
 ppom_direct_access_not_allowed();
 
-// ppom_pa($default_value);
+// ppom_pa($args);
 
 global $product;
 $options = isset($args['options']) ? $args['options'] : null;
-// ppom_pa($args);
+
+$include_productprice = '';
+if( ppom_is_field_has_price( $args ) ) {
+    $include_productprice = 'on';
+}
+
+// ppom_pa($options);
+$default_price	= !empty($args['default_price']) ? $args['default_price'] : $product->get_price();
+// var_dump($default_price);
+
 echo '<input type="hidden" name="ppom_quantities_option_price" id="ppom_quantities_option_price">';
 
 if (isset($args['view_control']) && $args['view_control'] == 'horizontal') { ?>
@@ -23,10 +32,11 @@ if (isset($args['view_control']) && $args['view_control'] == 'horizontal') { ?>
         	<th>
     			<label class="quantities-lable"> <?php echo stripslashes(trim($opt['option'])); ?>
         		
-    			<?php if( $opt['price'] ){
-    				echo ' <span>'.wc_price($opt['price']).'</span>';
-    			} ?>
-
+    			<?php 
+			    $the_price  = isset($opt['price']) && $opt['price'] != '' ? $opt['price'] : $default_price;
+				if( $the_price )
+				    echo ' <span class="ppom-quantity-price-wrap">'.wc_price($the_price).'</span>';
+    		    ?>
     			</label>
         	</th>
         <?php } ?>
@@ -39,15 +49,19 @@ if (isset($args['view_control']) && $args['view_control'] == 'horizontal') { ?>
         	<td>
         		<?php
         		
-        			$product_price	= $product->get_type() == 'simple' ? $product->get_price() : '';
-        			$the_price		= !empty($opt['price']) ? $opt['price'] : $product_price;
-        			$usebaseprice	= !empty($opt['price']) ? 'no' : 'yes';
+        			$the_price		= isset($opt['price']) && $opt['price'] != '' ? $opt['price'] : $default_price;
+        			// Price need to filter for currency switcher here not in wc_price
+            		$the_price = apply_filters('ppom_option_price', $the_price);
+        			$usebaseprice	= isset($opt['price']) ? 'no' : 'yes';
         			
         			$min = (isset($opt['min']) ? $opt['min'] : 0 );
         			$max = (isset($opt['max']) ? $opt['max'] : 10000 );
         			$required = ($args['required'] == 'on' ? 'required' : '');
         			$label  = $opt['option'];
-        			$name = $args['name'].'['.$label.']';
+        			$name	= $args['name'].'['.htmlentities($label).']';
+        			
+        			$option_id      = $opt['id'];
+        			$dom_id         = apply_filters('ppom_dom_option_id', $option_id, $args);
         			
         			// Default value
         			$selected_val = 0;
@@ -61,9 +75,11 @@ if (isset($args['view_control']) && $args['view_control'] == 'horizontal') { ?>
         			
     				$input_html	 = '<input style="width:50px;text-align:center" '.esc_attr($required);
     				$input_html	.=' min="'.esc_attr($min).'" max="'.esc_attr($max).'" ';
+    				$input_html .= 'id="'.esc_attr($dom_id).'" ';
+    				$input_html .= 'data-optionid="'.esc_attr($option_id).'" ';
     				$input_html	.= 'data-label="'.esc_attr($label).'" ';
-    				$input_html	.= 'data-includeprice="'.esc_attr($args['include_productprice']).'" ';
-    				$input_html	.= 'name="'.esc_attr($name).'" type="number" class="ppom-quantity" ';
+    				$input_html	.= 'data-includeprice="'.esc_attr($include_productprice).'" ';
+    				$input_html	.= 'name="'.htmlentities($name).'" type="number" class="ppom-quantity" ';
     				$input_html	.= 'data-usebase_price="'.esc_attr($usebaseprice).'" ';
     				$input_html	.= 'value="'.esc_attr($selected_val).'" data-price="'.esc_attr($the_price).'">';          
     				
@@ -85,14 +101,16 @@ if (isset($args['view_control']) && $args['view_control'] == 'horizontal') { ?>
                 $min    = (isset($opt['min']) ? $opt['min'] : 0 );
                 $max    = (isset($opt['max']) ? $opt['max'] : 10000 );
                 
-                $product_price = $product->get_type() == 'simple' ? $product->get_price() : '';
-                $the_price = !empty($opt['price']) ? $opt['price'] : $product_price;
-                $usebaseprice   = !empty($opt['price']) ? 'no' : 'yes';
+              	$the_price		= isset($opt['price']) ? $opt['price'] : $default_price;
+                $usebaseprice   = isset($opt['price']) ? 'no' : 'yes';
             
                 $label  = $opt['option'];
-                $name   = $args['name'].'['.$label.']';
+                $name	= $args['name'].'['.htmlentities($label).']';
 
                 $required = ($args['required'] == 'on' ? 'required' : '');
+                
+                $option_id      = $opt['id'];
+    			$dom_id         = apply_filters('ppom_dom_option_id', $option_id, $args);
                 
                 // Default value
                 $selected_val = 0;
@@ -110,13 +128,30 @@ if (isset($args['view_control']) && $args['view_control'] == 'horizontal') { ?>
                 <label class="quantities-lable"> <?php echo stripslashes(trim($opt['option'])); ?>
 
                 </label>
-                <?php if ($opt['price']): ?>
-                    <span class="ppom-quantity-price-wrap"><?php echo wc_price($opt['price']); ?></span>
-                <?php endif ?>
+               
+                <?php 
+			    $the_price  = isset($opt['price']) && $opt['price'] != '' ? $opt['price'] : $default_price;
+				if( $the_price )
+				    echo ' <span class="ppom-quantity-price-wrap">'.wc_price($the_price).'</span>';
+    		    ?>
             </div>
+            
+            <?php
+            // Price need to filter for currency switcher here not in wc_price
+            $the_price = apply_filters('ppom_option_price', $the_price);
+            ?>
 
             <span class="ppom-quantity-qty-section">
-                <input min="<?php echo esc_attr($min); ?>" max="<?php echo esc_attr($max); ?>" data-label="<?php echo esc_attr($label); ?>" data-includeprice="<?php echo esc_attr($args['include_productprice']); ?>" name="<?php echo esc_attr($name); ?>" type="number" class="ppom-quantity" data-usebase_price="<?php echo esc_attr($usebaseprice); ?>" value="<?php echo esc_attr($selected_val); ?>" placeholder="0" data-price="<?php echo esc_attr($the_price); ?>" <?php echo esc_attr($required); ?> style="width: 50%;">
+                <input min="<?php echo esc_attr($min); ?>" 
+                max="<?php echo esc_attr($max); ?>"
+                id="<?php echo esc_attr($dom_id); ?>" 
+                data-optionid="<?php echo esc_attr($option_id); ?>" 
+                data-label="<?php echo esc_attr($label); ?>"
+                data-includeprice="<?php echo esc_attr($include_productprice); ?>" 
+                name="<?php echo htmlentities($name); ?>" type="number" class="ppom-quantity" 
+                data-usebase_price="<?php echo esc_attr($usebaseprice); ?>" 
+                value="<?php echo esc_attr($selected_val); ?>" placeholder="0" 
+                data-price="<?php echo esc_attr($the_price); ?>" <?php echo esc_attr($required); ?> style="width: 50%;">
             </span>
         </div>
         <?php } ?>
@@ -135,9 +170,11 @@ if (isset($args['view_control']) && $args['view_control'] == 'horizontal') { ?>
                 	<th>
             			<label class="quantities-lable"> <?php echo stripslashes(trim($opt['option'])); ?>
                 		
-            			<?php if( $opt['price'] ){
-            				echo ' <span>'.wc_price($opt['price']).'</span>';
-            			} ?>
+            			<?php 
+        			    $the_price  = isset($opt['price']) && $opt['price'] != '' ? $opt['price'] : $default_price;
+        				if( $the_price )
+        				    echo ' <span class="ppom-quantity-price-wrap">'.wc_price($the_price).'</span>';
+            		    ?>
 
             			</label>
                 	</th>
@@ -146,12 +183,15 @@ if (isset($args['view_control']) && $args['view_control'] == 'horizontal') { ?>
 	            			$min	= (isset($opt['min']) ? $opt['min'] : 0 );
 	            			$max	= (isset($opt['max']) ? $opt['max'] : 10000 );
 	            			
-	            			$product_price = $product->get_type() == 'simple' ? $product->get_price() : '';
-        					$the_price = !empty($opt['price']) ? $opt['price'] : $product_price;
-        					$usebaseprice	= !empty($opt['price']) ? 'no' : 'yes';
+	            		    // Price need to filter for currency switcher here not in wc_price
+            				$the_price = apply_filters('ppom_option_price', $the_price);
+            				
+        					$usebaseprice	= isset($opt['price']) ? 'no' : 'yes';
         				
 	            			$label  = $opt['option'];
-	            			$name	= $args['name'].'['.$label.']';
+	            			$name	= $args['name'].'['.htmlentities($label).']';
+	            			$option_id      = $opt['id'];
+	            			$dom_id         = apply_filters('ppom_dom_option_id', $option_id, $args);
 	            			
 	            			// Default value
 		        			$selected_val = 0;
@@ -166,9 +206,11 @@ if (isset($args['view_control']) && $args['view_control'] == 'horizontal') { ?>
 	            			$required = ($args['required'] == 'on' ? 'required' : '');
             				$input_html	 = '<input style="width:50px;text-align:center" '.esc_attr($required);
             				$input_html	.=' min="'.esc_attr($min).'" max="'.esc_attr($max).'" ';
+            				$input_html .= 'id="'.esc_attr($dom_id).'" ';
+            				$input_html .= 'data-optionid="'.esc_attr($option_id).'" ';
             				$input_html	.= 'data-label="'.esc_attr($label).'" ';
-            				$input_html	.= 'data-includeprice="'.esc_attr($args['include_productprice']).'" ';
-            				$input_html	.= 'name="'.esc_attr($name).'" type="number" class="ppom-quantity" ';
+            				$input_html	.= 'data-includeprice="'.esc_attr($include_productprice).'" ';
+            				$input_html	.= 'name="'.htmlentities($name).'" type="number" class="ppom-quantity" ';
             				$input_html	.= 'data-usebase_price="'.esc_attr($usebaseprice).'" ';
             				$input_html	.= 'value="'.esc_attr($selected_val).'" placeholder="0" data-price="'.esc_attr($the_price).'">';
             				

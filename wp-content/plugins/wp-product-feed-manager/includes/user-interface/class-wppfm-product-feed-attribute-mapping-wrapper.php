@@ -24,10 +24,10 @@ if ( ! class_exists( 'WPPFM_Product_Feed_Attribute_Mapping_Wrapper' ) ) :
 		public function display() {
 
 			// Start the section code.
-			echo $this->attribute_mapping_wrapper_table_start();
+			echo $this->attribute_mapping_wrapper_table_start( 'none' );
 
 			// Add the header.
-			echo '<div class="header" id="fields-form-header"><h3>' . __( 'Attribute Mapping', 'wp-product-feed-manager' ) . ':</h3></div>';
+			echo $this->attribute_mapping_wrapper_table_title();
 
 			echo WPPFM_Attribute_Selector_Element::required_fields();
 

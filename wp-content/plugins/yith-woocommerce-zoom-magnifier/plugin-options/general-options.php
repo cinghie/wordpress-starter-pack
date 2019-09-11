@@ -208,33 +208,6 @@ $slider_settings    = apply_filters( 'yith_ywzm_slider_settings', $slider_settin
 
 $options['general'] = array();
 
-if ( ! defined( 'YITH_YWZM_PREMIUM' ) ) {
-	$intro_tab = array(
-		'section_general_settings_videobox' => array(
-			'name'    => __( 'Upgrade to the PREMIUM VERSION', 'yith-woocommerce-zoom-magnifier' ),
-			'type'    => 'videobox',
-			'default' => array(
-				'plugin_name'               => __( 'YITH WooCommerce Zoom Magnifier', 'yith-woocommerce-zoom-magnifier' ),
-				'title_first_column'        => __( 'Discover The Advanced Features', 'yith-woocommerce-zoom-magnifier' ),
-				'description_first_column'  => __( 'Upgrade to the PREMIUM VERSION of YITH WOOCOMMERCE ZOOM MAGNIFIER to benefit from all features!', 'yith-woocommerce-zoom-magnifier' ),
-				'video'                     => array(
-					'video_id'          => '122436840',
-					'video_image_url'   => YITH_YWZM_ASSETS_IMAGES_URL . 'yith-woocommerce-zoom-magnifier-video.jpg',
-					'video_description' => __( 'See YITH WooCommerce Zoom Magnifier plugin with full premium features in action', 'yith-woocommerce-zoom-magnifier' ),
-				),
-				'title_second_column'       => __( 'Get Support and Pro Features', 'yith-woocommerce-zoom-magnifier' ),
-				'description_second_column' => __( 'By purchasing the premium version of the plugin, you will take advantage of the advanced features of the product, and you will get one year of free updates and support through our platform available 24h/24.', 'yith-woocommerce-zoom-magnifier' ),
-				'button'                    => array(
-					'href'  => YITH_YWZM_Plugin_FW_Loader::get_instance()->get_premium_landing_uri(),
-					'title' => 'Get Support and Pro Features'
-				)
-			),
-			'id'      => 'yith_wcas_general_videobox'
-		)
-	);
-
-	$options['general'] = $intro_tab;
-}
 
 $options['general'] = array_merge( $options['general'], $general_settings, $magnifier_settings, $slider_settings );
 

@@ -4,7 +4,7 @@
 		<tr>
 			<th style="width:3%;" class="wccs-order" title="<?php esc_attr_e( 'Change the order of Checkout fields', 'woocommerce-checkout-manager' ); ?>">#</th>
 
-			<?php require( WOOCCM_PATH.'includes/templates/admin/woocheckout-additional-thead.php' ); ?>
+			<?php require( WOOCCM_PLUGIN_DIR.'includes/templates/admin/woocheckout-additional-thead.php' ); ?>
 
 			<th width="1%" scope="col" title="<?php esc_attr_e( 'Remove button', 'woocommerce-checkout-manager' ); ?>"><strong>X</strong><!-- remove --></th>
 		</tr>
@@ -31,7 +31,7 @@
 			</td>
 			<td class="wccs-order" title="<?php esc_attr_e( 'Drag-and-drop this Checkout field to adjust its ordering', 'woocommerce-checkout-manager' ); ?>"><?php echo $i+1; ?></td>
 
-			<?php require( WOOCCM_PATH.'includes/templates/admin/woocheckout-additional-tbody.php' ); ?>
+			<?php require( WOOCCM_PLUGIN_DIR.'includes/templates/admin/woocheckout-additional-tbody.php' ); ?>
 
 			<td class="wccs-remove"><a class="wccs-remove-button" href="javascript:;" title="<?php esc_attr_e( 'Delete this Checkout field', 'woocommerce-checkout-manager' ); ?>">&times;</a></td>
 
@@ -55,7 +55,7 @@
 
 			<td class="wccs-order" title="<?php esc_attr_e( 'Drag-and-drop this Checkout field to adjust its ordering', 'woocommerce-checkout-manager' ); ?>"><?php echo $i; ?></td>
 
-			<?php require( WOOCCM_PATH.'includes/templates/admin/woocheckout-additional-clone.php' ); ?>
+			<?php require( WOOCCM_PLUGIN_DIR.'includes/templates/admin/woocheckout-additional-clone.php' ); ?>
 
 			<td class="wccs-remove"><a class="wccs-remove-button" href="javascript:;" title="<?php esc_attr_e( 'Delete this Checkout field', 'woocommerce-checkout-manager' ); ?>">&times;</a></td>
 

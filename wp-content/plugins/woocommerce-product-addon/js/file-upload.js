@@ -102,7 +102,7 @@ jQuery(function($){
     			$("#u_i_c_"+fileid).find('img').attr('src', ppom_file_vars.plugin_url+'/images/loading.gif');
     			
     			// console.log('filename ppom[fields][<?php echo ]$args['id']?>['+fileid+']');
-    			var data = {action: 'ppom_delete_file', file_name: filename};
+    			var data = {action: 'ppom_delete_file', file_name: filename, 'ppom_nonce' : ppom_file_vars.ppom_file_delete_nonce};
     			
     			$.post(ppom_file_vars.ajaxurl, data, function(resp){
     				alert(resp);
@@ -255,8 +255,9 @@ function ppom_setup_file_upload_input( file_input ) {
     }
     
     var ppom_file_data = {'action'          : 'ppom_upload_file', 
-                            'settings'      : file_input,
-                            'ppom_nonce'    : ppom_file_vars.ppom_file_upload_nonce
+                            'data_name'      : file_data_name,
+                            'ppom_nonce'    : ppom_file_vars.ppom_file_upload_nonce,
+                            'product_id'    : ppom_file_vars.product_id,
                         }
     upload_instance[file_data_name] = new plupload.Uploader({
     		runtimes 			: ppom_file_vars.plupload_runtime,

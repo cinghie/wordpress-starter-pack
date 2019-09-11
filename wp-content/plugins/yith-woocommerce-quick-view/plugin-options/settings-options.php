@@ -14,7 +14,8 @@ $settings = array(
 		'enable-quick-view' => array(
 			'id'        => 'yith-wcqv-enable',
 			'name'      => __( 'Enable Quick View', 'yith-woocommerce-quick-view' ),
-			'type'      => 'checkbox',
+            'type'      => 'yith-field',
+            'yith-type' => 'onoff',
 			'default'   => 'yes'
 		),
 
@@ -22,7 +23,8 @@ $settings = array(
 			'id'        => 'yith-wcqv-enable-mobile',
 			'name'      => __( 'Enable Quick View on mobile', 'yith-woocommerce-quick-view' ),
 			'desc'      => __( 'Enable quick view features on mobile device too', 'yith-woocommerce-quick-view' ),
-			'type'      => 'checkbox',
+            'type'      => 'yith-field',
+            'yith-type' => 'onoff',
 			'default'   => 'yes'
 		),
 
@@ -30,7 +32,8 @@ $settings = array(
 			'id'        => 'yith-wcqv-button-label',
 			'name'      => __( 'Quick View Button Label', 'yith-woocommerce-quick-view' ),
 			'desc'      => __( 'Label for the quick view button in the WooCommerce loop.', 'yith-woocommerce-quick-view' ),
-			'type'      => 'text',
+            'type'      => 'yith-field',
+            'yith-type' => 'text',
 			'default'   => __( 'Quick View', 'yith-woocommerce-quick-view' ),
 		),
 
@@ -38,7 +41,8 @@ $settings = array(
 			'id'        => 'yith-wcqv-enable-lightbox',
 			'name'      => __( 'Enable Lightbox', 'yith-woocommerce-quick-view' ),
 			'desc'      => __( 'Enable lightbox. Product images will open in a lightbox.', 'yith-woocommerce-quick-view' ),
-			'type'      => 'checkbox',
+            'type'      => 'yith-field',
+            'yith-type' => 'onoff',
 			'default'   => 'yes'
 		),
 
@@ -55,27 +59,30 @@ $settings = array(
 		),
 
 		'background-color-modal' => array(
-			'name'    => __( 'Modal Window Background Color', 'yith-woocommerce-quick-view' ),
-			'type'    => 'color',
-			'desc'    => '',
-			'id'      => 'yith-wcqv-background-modal',
-			'default' => '#ffffff'
+			'name'      => __( 'Modal Window Background Color', 'yith-woocommerce-quick-view' ),
+            'type'      => 'yith-field',
+            'yith-type' => 'colorpicker',
+			'desc'      => '',
+			'id'        => 'yith-wcqv-background-modal',
+			'default'   => '#ffffff'
 		),
 
 		'close-button-color' => array(
-			'name'    => __( 'Closing Button Color', 'yith-woocommerce-quick-view' ),
-			'type'    => 'color',
-			'desc'    => '',
-			'id'      => 'yith-wcqv-close-color',
-			'default' => '#cdcdcd'
+			'name'      => __( 'Closing Button Color', 'yith-woocommerce-quick-view' ),
+            'type'      => 'yith-field',
+            'yith-type' => 'colorpicker',
+			'desc'      => '',
+			'id'        => 'yith-wcqv-close-color',
+			'default'   => '#cdcdcd'
 		),
 
 		'close-button-color-hover' => array(
-			'name'    => __( 'Closing Button Hover Color', 'yith-woocommerce-quick-view' ),
-			'type'    => 'color',
-			'desc'    => '',
-			'id'      => 'yith-wcqv-close-color-hover',
-			'default' => '#ff0000'
+			'name'      => __( 'Closing Button Hover Color', 'yith-woocommerce-quick-view' ),
+            'type'      => 'yith-field',
+            'yith-type' => 'colorpicker',
+            'desc'      => '',
+			'id'        => 'yith-wcqv-close-color-hover',
+			'default'   => '#ff0000'
 		),
 
 		'style-options-end' => array(

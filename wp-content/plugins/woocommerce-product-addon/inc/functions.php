@@ -24,20 +24,17 @@ function ppom_pa($arr){
 // Get field column
 function ppom_get_field_colum( $meta ) {
 	
-	$field_column = '';
-	if( empty($meta['width']) ) return 12;
+	$field_column = isset($meta['width']) ? $meta['width'] : 12;
 	
 	// Check width has old settings
-	if( strpos( $meta['width'], '%' ) !== false ) {
+	if( strpos( $field_column, '%' ) !== false ) {
 		
 		$field_column = 12;
-	} elseif( intval($meta['width']) > 12 ) {
+	} elseif( intval($field_column) > 12 ) {
 		$field_column = 12;
-	} else {
-		$field_column = $meta['width'];
 	}
 	
-	return apply_filters('ppom_field_col', $meta['width'], $meta);
+	return apply_filters('ppom_field_col', $field_column, $meta);
 }
 
 function ppom_translation_options( $option ) {
@@ -100,8 +97,11 @@ if( ! function_exists('nm_wpml_register') ) {
 	     
 	     do_action( 'wpml_register_single_string', $domain, $field_name, $field_value );
 	     
-	    //WMPL
-		}
+	     //Polylang
+	     if( function_exists('pll_register_string') ) {
+	    	pll_register_string($field_name, $field_value);
+	     }
+	}
 }
 
 if( ! function_exists('ppom_wpml_translate') ) {
@@ -109,16 +109,28 @@ if( ! function_exists('ppom_wpml_translate') ) {
 
 	function ppom_wpml_translate($field_value, $domain) {
 		
+		// $field_value is array then return
+		if( is_array($field_value) ) return $field_value;
+		
 		$field_name = $domain . ' - ' . sanitize_key($field_value);
+	    $field_value = stripslashes($field_value);
+		
 		//WMPL
 	    /**
 	     * register strings for translation
 	     * source: https://wpml.org/wpml-hook/wpml_translate_single_string/
 	     */
+	    if( has_filter('wpml_translate_single_string') ) {
+			$field_value = apply_filters('wpml_translate_single_string', $field_value, $domain, $field_name );
+	    }
 	    
-	    $field_value = stripslashes($field_value);
-		return apply_filters('wpml_translate_single_string', $field_value, $domain, $field_name );
-		//WMPL
+	    
+		// Polylang
+		if( function_exists('pll__') ) {
+			$field_value = pll__($field_value);
+		}
+		
+		return $field_value;
 	}
 }
 
@@ -162,7 +174,7 @@ function ppom_get_product_id( $product ) {
 		
 		if( is_a($product, 'WC_Product') ) {
 
-			if( $product->get_type() == 'variation' ) {
+			if( $product->is_type('variation' )) {
 				$product_id = $product->get_parent_id();
 			}else {
 
@@ -183,11 +195,19 @@ function ppom_get_product_id( $product ) {
 }
 
 // Get product price after some filters like currency switcher
-function ppom_get_product_price( $product ) {
+function ppom_get_product_price( $product, $variation_id=null ) {
 	
-	$product_price = $product->get_price();
+	$product_price = 'incl' === get_option( 'woocommerce_tax_display_shop' ) ? wc_get_price_including_tax( $product ) : wc_get_price_excluding_tax($product);
 	
-	if( has_filter('woocs_exchange_value') ) {
+	// $product_price = $product->get_price();
+	
+	if( $product->is_type('variable') && $variation_id ) {
+		$variable_product	= wc_get_product($variation_id);
+		$product_price		= $variable_product->get_price();
+	}
+	
+	// Disabling, PRODUCT->get_price() already manage WOOCS
+	/*if( has_filter('woocs_exchange_value') ) {
 		global $WOOCS;
 		
 		if($WOOCS->current_currency != $WOOCS->default_currency ) {
@@ -198,9 +218,10 @@ function ppom_get_product_price( $product ) {
 				$product_price = apply_filters('woocs_exchange_value', $product_price);
 			}
 		}
-	}
+	}*/
 	
 	// WholeSale Plugin Price
+	// Well, this also need to be confirm, PRODUCT->get_price should include this filter as well.
 	if( has_filter('wwp_filter_wholesale_price') ) {
 		
 		$user_wholesale_role = WWP_Wholesale_Roles::getUserRoles();
@@ -209,6 +230,37 @@ function ppom_get_product_price( $product ) {
 	}
 	
 	return apply_filters('ppom_product_price', $product_price, $product);
+}
+
+// Get product Regular Price after some filters like currency switcher
+function ppom_get_product_regular_price( $product ) {
+	
+	$product_price = $product->get_regular_price();
+	
+	// Disabling, PRODUCT->get_price() already manage WOOCS
+	/*if( has_filter('woocs_exchange_value') ) {
+		global $WOOCS;
+		
+		if($WOOCS->current_currency != $WOOCS->default_currency ) {
+			if($WOOCS->is_multiple_allowed) {
+				$product_price = apply_filters('woocs_raw_woocommerce_price', $product_price);
+			} else {
+				
+				$product_price = apply_filters('woocs_exchange_value', $product_price);
+			}
+		}
+	}*/
+	
+	// WholeSale Plugin Price
+	// Well, this also need to be confirm, PRODUCT->get_price should include this filter as well.
+	if( has_filter('wwp_filter_wholesale_price') ) {
+		
+		$user_wholesale_role = WWP_Wholesale_Roles::getUserRoles();
+		$quantity = 1;
+		$product_price = apply_filters( 'wwp_filter_wholesale_price' , $product_price , ppom_get_product_id($product) , $user_wholesale_role , $quantity );
+	}
+	
+	return apply_filters('ppom_product_regular_price', $product_price, $product);
 }
 
 /**
@@ -226,13 +278,18 @@ function ppom_make_meta_data( $cart_item, $context="cart" ){
 		unset( $cart_item ['ppom'] ['fields']['id']);
 	}
 	
+	// check if product type is variable
+	$variation_id = null;
+	if( isset($cart_item['variation_id']) ) {
+		$variation_id = $cart_item['variation_id'];
+	}
+	
 	$product_id 		= ppom_get_product_id($cart_item['data']);
 	$ppom_meta			= array();
 	$ppom_cart_fields	= $cart_item ['ppom'] ['fields'];
 	$ppom_meta_ids		= null;
-	$ppom_meta			= ppom_generate_cart_meta($ppom_cart_fields, $product_id, $ppom_meta_ids, $context);
+	$ppom_meta			= ppom_generate_cart_meta($ppom_cart_fields, $product_id, $ppom_meta_ids, $context, $variation_id);
 	
-	// ppom_pa($ppom_meta);
 	return apply_filters('ppom_meta_data', $ppom_meta, $cart_item, $context);
 }
 
@@ -242,7 +299,7 @@ function ppom_make_meta_data( $cart_item, $context="cart" ){
  * @params: $product_id 
  * @params: $ppom_meta_ids (if product_is not known)
  **/
-function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids=null, $context="cart" ) {
+function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids=null, $context="cart", $variation_id=null ) {
 	
 	$ppom_meta = array();
 	
@@ -253,6 +310,7 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 		
 		// $cart_item['data'] ->post_type == 'product' ? $cart_item['data']->get_id() : $cart_item['data']->get_parent_id();
 		$field_meta = ppom_get_field_meta_by_dataname( $product_id, $key, $ppom_meta_ids);
+		// ppom_pa($field_meta);
 		
 		// If field deleted while it's in cart
 		if( empty($field_meta) ) continue;
@@ -269,7 +327,7 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 		switch( $field_type ) {
 			case 'quantities':
 				$total_qty = 0;
-				$qty_values = array('<strong>:</strong>');
+				$qty_values = array("&nbsp;");
 				// ppom_pa($value);
 				foreach($value as $label => $qty) {
 					if( !empty($qty) ) {
@@ -280,7 +338,7 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 				}
 				
 				if( $total_qty > 0 ) {
-					$qty_values[] = __('Total',"ppom").' = '.$total_qty;
+					$qty_values[] = sprintf(__('<strong>Total = %s</strong>',"ppom"), $total_qty);
 					$meta_data = array('name'=>$field_title, 'value'=>implode("<br>",$qty_values));
 					// A placeholder key to handle qunantity display in item meta data under myaccount
 				}
@@ -312,19 +370,37 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 
 			case 'eventcalendar':
 				$total_qty = 0;
-				$qty_values = array();
+
 				// ppom_pa($value);
-				foreach($value as $label => $qty) {
-					if( !empty($qty) ) {
-						$qty_values[] = "{$label} = {$qty}";
-						// $ppom_meta[$label] = $qty;
-						$total_qty += $qty;	
+
+				$meta_display = array("&nbsp;");
+
+				foreach($value as $date => $ticket_meta) {
+					if( !empty($ticket_meta) ) {
+					
+						// Changing date formate
+						$date_format = isset($field_meta['date_formate']) ? $field_meta['date_formate'] : 'yyyy-mm-dd';
+
+						$date_format = apply_filters('ppom_eventcalendar_formats', $date_format, $field_meta);
+
+						$formatted_date = date($date_format, strtotime($date));
+
+						$meta_display[] = "{$formatted_date} : ";
+
+						foreach ($ticket_meta as $ticket_variations => $quantity) {
+							
+							if (!empty($quantity)) {
+								$meta_display[] = "{$ticket_variations} = {$quantity}";
+								$total_qty += $quantity;	
+							}
+							
+						}
 					}
 				}
 				
 				if( $total_qty > 0 ) {
-					$qty_values[] = __('Total',"ppom").' = '.$total_qty;
-					$meta_data = array('name'=>$field_title, 'value'=>implode(",",$qty_values));
+					$meta_display[] = sprintf(__('<strong>Total = %s</strong>',"ppom"), $total_qty);
+					$meta_data = array('name'=>$field_title, 'display'=>implode("<br>", $meta_display), 'value'=> $value);
 					// A placeholder key to handle qunantity display in item meta data under myaccount
 				}
 				
@@ -372,7 +448,8 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 			case 'image':
 				if($value) {
 					
-					$meta_data = array('name'=>$field_title, 'value'=>ppom_generate_html_for_images($value));
+					$display = ppom_generate_html_for_images($value);
+					$meta_data = array('name'=>$field_title, 'value'=>$value, 'display'=>$display);
 				}
 				break;
 				
@@ -446,7 +523,12 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 				$option_price	= '';
 				$option_data	= array();
 				
-				$product = new WC_Product($product_id);
+				if( $variation_id ) {
+					$product = wc_get_product($variation_id);
+				}else {
+					$product = wc_get_product($product_id);
+				}
+				
 				$options_filter	 = ppom_convert_options_to_key_val($field_meta['options'], $field_meta, $product);
 				
 				foreach($options_filter as $option_key => $option) {
@@ -496,6 +578,7 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 		}
 		
 		$meta_data_field = apply_filters('ppom_meta_data_field', $meta_data, $key, $field_meta, $product_id);
+		// $meta_data_field = apply_filters('ppom_meta_data_field_new', $meta_data, $key, $field_meta, $product_id, $value);
 		$ppom_meta[$key] = $meta_data_field;
 	}
 	
@@ -617,17 +700,6 @@ function ppom_is_aviary_installed() {
 	
 }
 
-// Return ammount after apply percent
-function ppom_get_amount_after_percentage($base_amount, $percent) {
-	
-	$base_amount = floatval($base_amount);
-	$percent_amount = 0;
-	$percent		= substr( $percent, 0, -1 );
-	$percent_amount	= wc_format_decimal( (floatval($percent) / 100) * $base_amount, wc_get_price_decimals());
-	
-	return $percent_amount;
-}
-
 function ppom_settings_link($links) {
 	
 	$quote_url = "https://najeebmedia.com/get-quote/";
@@ -699,6 +771,8 @@ function ppom_load_template($file_name, $variables=array('')){
     extract( $variables );
     
    $file_path =  PPOM_PATH . '/templates/'.$file_name;
+   $file_path = apply_filters('ppom_load_template', $file_path, $file_name, $variables);
+    
    if( file_exists($file_path))
    	include ($file_path);
    else
@@ -741,25 +815,45 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 	// Do not change options for cropper
 	// if( $meta['type'] == 'cropper' ) return $options;
 	
-	// ppom_pa($options);
+	// ppom_pa($meta);
 	
 	$ppom_new_option = array();
 	foreach($options as $option) {
 		
-		if( isset($option['option']) ) {
+		$the_option = isset($option['option']) ? stripslashes($option['option']) : '';
+		
+		if( isset($meta['type']) && $meta['type'] == 'imageselect' ) {
+			
+			$the_option = isset($option['title']) ? stripslashes($option['title']) : '';
+		}
+		
+		if( $the_option != '' ) {
 			
 			$option = ppom_translation_options($option);
-			
 			$option_price_without_tax	= '';
-			$option_label	= $option['option'];
+			
+			
 			$option_percent = '';
 			
 			$show_price		= isset($meta['show_price']) ? $meta['show_price'] : '';
 			$data_name		= isset($meta['data_name']) ? $meta['data_name'] : '';
 			
 			$option_price	= isset($option['price']) ? $option['price'] : '';
+			
+			// Currency swithcer
+			$product_price		= ppom_get_product_price($product);
+			$product_price		= ppom_hooks_convert_price_back($product_price);
+			
+			// For quantities if default price is set
+			if( $meta['type'] == 'quantities' ) {
+				$quantities_dp	= isset($meta['default_price']) && $meta['default_price'] != '' ? $meta['default_price'] : $product_price;
+				$option_price	= isset($option['price']) && $option['price'] != '' ? $option['price'] : $quantities_dp;
+			}
+			
+			$option_label	= ppom_generate_option_label($option, $option_price, $meta);
+			
 			// This filter change prices for Currency switcher
-			$option_price	= apply_filters('ppom_option_price', $option_price);
+			// $option_price	= apply_filters('ppom_option_price', $option_price);
 			
 			// Price matrix discount
 			$discount	= isset($meta['discount']) && $meta['discount'] == 'on' ? true : false;
@@ -772,14 +866,14 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 				
 				// check if price in percent
 				if(strpos($option_price,'%') !== false){
-					$option_price = ppom_get_amount_after_percentage($product->get_price(), $option_price);
+					$option_price = ppom_get_amount_after_percentage($product_price, $option_price);
 					// check if price is fixed and taxable
 					if(isset($meta['onetime']) && $meta['onetime'] == 'on' && isset($meta['onetime_taxable']) && $meta['onetime_taxable'] == 'on') {
 						$option_price_without_tax = $option_price;
 						$option_price = ppom_get_price_including_tax($option_price, $product);
 					}
 					
-					$option_label = $option['option'] . ' ('.ppom_price($option_price).')';
+					$option_label	= ppom_generate_option_label($option, $option_price, $meta);
 					$option_percent = $option['price'];
 				} else {
 					
@@ -788,25 +882,20 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 						$option_price_without_tax = $option_price;
 						$option_price = ppom_get_price_including_tax($option_price, $product);
 					}
-					$option_label = $option['option'] . ' ('.ppom_price($option_price).')';
+					$option_label = ppom_generate_option_label($option, $option_price, $meta);
 				}
 				
 			}
 			
-			// If label provided from settings
-			if( !empty($option['label']) ) {
-				$option_label = $option['label'];
-			}
-			
-			$the_option = stripslashes($option['option']);
 			
 			$option_id = ppom_get_option_id($option, $data_name);
 			
-			$ppom_new_option[$the_option] = array('label'	=> apply_filters('ppom_option_label', stripcslashes($option_label), $option, $meta, $product), 
-													'price'	=> $option_price,
-													'raw'	=> $the_option,
+			$ppom_new_option[$the_option] = array('label'		=> $option_label,
+													'price'		=> apply_filters('ppom_option_price', $option_price),
+													'raw_price'	=> $option_price,
+													'raw'		=> $the_option,
 													'without_tax'=>$option_price_without_tax,
-													'percent'=> $option_percent,
+													'percent'	=> $option_percent,
 													'data_name' => $data_name,
 													'id'		=> $option_id,		// Legacy key fix
 													'option_id' => $option_id);
@@ -830,7 +919,8 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 	
 	if( !empty($meta['first_option']) ) {
 		
-		$first_option = array('' => array('label'=>sprintf(__("%s","ppom"),$meta['first_option']), 
+		$fo_labeld = ppom_wpml_translate($meta['first_option'], 'PPOM');
+		$first_option = array('' => array('label'=> $fo_labeld, 
 										'price'	=> '',
 										'raw'	=> '',
 										'without_tax' => '')
@@ -845,10 +935,37 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 }
 
 
+// Generating option label with price
+function ppom_generate_option_label( $option, $price, $meta) {
+	
+	$the_option = isset($option['option']) ? $option['option'] : '';
+	if( isset($meta['type']) && $meta['type'] == 'imageselect' ) {
+		$the_option = isset($option['title']) ? $option['title'] : '';
+	}
+	
+	$option_label = !empty($option['label']) ? $option['label'] : $the_option;
+	$option_label = stripcslashes($option_label);
+	
+	if( !empty($price) ) {
+		
+		$price = apply_filters('woocs_exchange_value', $price);
+		$price = strip_tags(wc_price($price));
+		$option_label = "{$option_label}({$price})";
+	}
+	
+	return apply_filters('ppom_option_label', $option_label, $option, $meta, $price);
+}
+
+
 // Retrun unique option ID
 function ppom_get_option_id($option, $data_name=null) {
 	
-	$default_option = is_null($data_name) ? $option['option'] : $data_name.'_'.$option['option'];
+	$the_option = isset($option['option']) ? $option['option'] : '';
+	if( isset($meta['type']) && $meta['type'] == 'imageselect' ) {
+		$the_option = isset($option['title']) ? $option['title'] : '';
+	}
+	
+	$default_option = is_null($data_name) ? $the_option : $data_name.'_'.$the_option;
 	
 	$option_id = empty($option['id']) ? $default_option : $option['id'];
 
@@ -909,7 +1026,7 @@ function ppom_is_field_hidden_by_condition( $field_name ) {
 	
 	$ppom_is_hidden = false;
 	
-	$ppom_hidden_fields = explode(",", $_POST['ppom']['conditionally_hidden']);
+	$ppom_hidden_fields = explode(",", sanitize_text_field($_POST['ppom']['conditionally_hidden']) );
 	// Remove duplicates
 	$ppom_hidden_fields = array_unique( $ppom_hidden_fields );
 	
@@ -1133,6 +1250,7 @@ function ppom_get_field_option_price_by_id( $option, $product, $ppom_meta_ids ) 
 								$option_price = ppom_get_amount_after_percentage($product->get_price(), $option['price']);
 						}else {
 							// For currency switcher
+							// $option_price = apply_filters('ppom_option_price', $option['price']);
 							$option_price = $option['price'];
 						}
 					}
@@ -1151,6 +1269,7 @@ function ppom_get_field_option_price_by_id( $option, $product, $ppom_meta_ids ) 
 								$option_price = ppom_get_amount_after_percentage($product->get_price(), $option['price']);
 						}else {
 							// For currency switcher
+							// $option_price = apply_filters('ppom_option_price', $option['price']);
 							$option_price = $option['price'];
 						}
 					}
@@ -1182,11 +1301,11 @@ function ppom_get_field_option_weight_by_id( $option, $ppom_meta_ids ) {
 		
 		if( $option['id'] == $option_id && isset($option['weight']) && $option['weight'] != '' ) {
 			
-			$option_weight = $option['weight'];
+			$option_weight = floatval($option['weight']);
 		}
 	}
 	
-	return apply_filters("ppom_field_option_weight_by_id", wc_format_decimal($option_weight), $field_meta, $option_id, $ppom_meta_ids);
+	return apply_filters("ppom_field_option_weight_by_id", $option_weight, $field_meta, $option_id, $ppom_meta_ids);
 }
 
 // check if PPOM PRO is installed
@@ -1384,7 +1503,9 @@ function ppom_get_option($key, $default_val=false) {
 	$value = get_option($key);
 	if( ! $value )
 		$value = $default_val;
-	return ppom_wpml_translate($value, 'PPOM');
+		
+	$value = sprintf(__("%s", 'ppom') , ppom_wpml_translate($value, 'PPOM') );
+	return $value;
 }
 
 // Checking PPOM Pro version
@@ -1400,4 +1521,38 @@ function ppom_is_mobile() {
 	if( ! function_exists('wp_is_mobile') ) return false;
 	
 	return wp_is_mobile();
+}
+
+// check price calculation mode
+function ppom_get_price_mode() {
+	
+	$price_mode = 'new';
+	if( ppom_get_option('ppom_legacy_price') == 'yes' ) $price_mode = 'legacy';
+	
+	return apply_filters('ppom_price_mode', $price_mode);
+}
+
+// some fields like quantities, bulkquantity, eventcalendar has its own
+// price quantity control
+function ppom_is_cart_quantity_updatable( $product_id ) {
+	
+	$qty_updatable = true;
+	
+	$ppom		= new PPOM_Meta( $product_id );
+	if( ! $ppom->fields ) return $qty_updatable;
+	
+	$fields_found = array();
+	foreach($ppom->fields as $field) {
+		
+		if( ! isset($field['type']) ) continue;
+		
+		if( ($field['type'] == 'quantities' && ppom_is_field_has_price($field)) ||
+			$field['type'] == 'eventcalendar' ||
+			$field['type'] == 'bulkquantity') {
+				
+				$qty_updatable = false;
+			}
+	}
+	
+	return apply_filters('ppom_is_cart_quantity_updatable', $qty_updatable, $product_id);
 }

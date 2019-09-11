@@ -98,8 +98,10 @@ if ( !class_exists( 'YITH_Request_Quote' ) ) {
 		 * @author Emanuela Castorina
 		 */
 		function start_session(){
-
-			if( ! isset( $_COOKIE['woocommerce_items_in_cart'] ) ) {
+			if( headers_sent()){
+				return;
+			}
+			if(  ! isset( $_COOKIE['woocommerce_items_in_cart'] ) ) {
 				do_action( 'woocommerce_set_cart_cookies', true );
 			}
 			$this->session_class = new YITH_YWRAQ_Session();

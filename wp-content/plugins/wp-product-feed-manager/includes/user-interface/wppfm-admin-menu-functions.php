@@ -102,6 +102,8 @@ function wppfm_feed_manager_main_page() {
  */
 function wppfm_main_admin_page() {
 	$start = new WPPFM_Main_Admin_Page();
+
+	// now let's get things going
 	$start->show();
 }
 
@@ -137,6 +139,43 @@ function wppfm_check_backups() {
 add_action( 'admin_notices', 'wppfm_check_backups' );
 
 /**
+ * Sets the global background process
+ *
+ * @since 1.10.0
+ *
+ * @global WPPFM_Feed_Processor $background_process
+ */
+function initiate_background_process() {
+	global $background_process;
+
+	if ( isset( $_GET['tab'] ) ) {
+		$active_tab = $_GET['tab'];
+		set_transient( 'wppfm_set_global_background_process', $active_tab, WPPFM_TRANSIENT_LIVE );
+	} else {
+		$active_tab = ! get_transient( 'wppfm_set_global_background_process' ) ? 'feed-list' : get_transient( 'wppfm_set_global_background_process' );
+	}
+
+	if ( ( 'product-feed' === $active_tab || 'feed-list' === $active_tab ) ) {
+		if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) {
+			require_once( __DIR__ . '/../application/class-wppfm-feed-processor.php' );
+		}
+
+		$background_process = new WPPFM_Feed_Processor();
+	}
+
+	if ( 'product-review-feed' === $active_tab ) {
+		if ( ! class_exists( 'WPPRFM_Review_Feed_Processor' ) ) {
+			require_once( __DIR__ . '/../../../wp-product-review-feed-manager/includes/classes/class-wpprfm-review-feed-processor.php' );
+		}
+
+		$background_process = new WPPRFM_Review_Feed_Processor();
+	}
+}
+
+// register the background process
+add_action( 'wp_loaded', 'initiate_background_process' );
+
+/**
  * Returns an array of possible feed types that can be altered using the wppfm_feed_types filter.
  *
  * @return array with possible feed types
@@ -150,4 +189,3 @@ function wppfm_list_feed_type_text() {
 		)
 	);
 }
-

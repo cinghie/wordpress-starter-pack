@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUndefinedMethodInspection */
 
 /**
  * WP Product Feed Master Class.
@@ -72,14 +72,22 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 		protected $_products_in_feed = 0;
 
 		/**
-		 * Initiate new Feed Master class
+		 * Initiate new Feed Master class.
 		 *
 		 * @global stdClass $background_process
+		 *
+		 * @param string $feed_id The id of the feed. Default 0
 		 */
-		public function __construct() {
-			global $background_process;
+		public function __construct( $feed_id = '0' ) {
+			$query_class = new WPPFM_Queries();
 
-			$this->_background_process = $background_process;
+			// when this construct is called from a channel class, it will not specify the feed_id so the default 0 is used
+			// in that case the feed_type_id will always be 1
+			$feed_type_id = $feed_id > 0 ? $query_class->get_feed_type_id( $feed_id ) : '1';
+
+			$background_class = apply_filters( 'wppfm_background_class', 'WPPFM_Feed_Processor', $feed_type_id );
+
+			$this->_background_process = new $background_class();
 			$this->_data_class         = new WPPFM_Data();
 		}
 
@@ -88,9 +96,10 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 		 *
 		 * @param bool $silent (default true)
 		 *
-		 * @return string or false
+		 * @return string|void or false
 		 */
 		public function update_feed_file( $silent = true ) {
+
 			$feed_id = WPPFM_Feed_Controller::get_next_id_from_feed_queue();
 
 			if ( false === $feed_id ) {
@@ -101,10 +110,10 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 				set_transient( 'wppfm_running_silent', true, WPPFM_TRANSIENT_LIVE );
 			}
 
-			$data_class = new WPPFM_Data();
-			$feed_data  = $data_class->get_feed_data( $feed_id );
+			$feed_data = $this->_data_class->get_feed_data( $feed_id );
 
 			if ( ! $feed_data ) {
+				do_action( 'wppfm_feed_generation_message', 'The update_feed_file function failed to get the feed data', 'ERROR' );
 				if ( ! $silent ) {
 					_e( '1428 - Failed to load the feed data', 'wp-product-feed-manager' );
 				}
@@ -135,11 +144,11 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 
 			$this->fill_the_background_queue();
 
-			$result = $this->activate_feed_file_update();
+			$this->activate_feed_file_update();
 
 			delete_transient( 'wppfm_running_silent' );
 
-			if ( ! $silent && true !== $result ) {
+			if ( ! $silent ) {
 				echo 'started_processing';
 			}
 		}
@@ -149,10 +158,12 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 
 			$current_feed_status = $queries_class->get_feed_status_data( $feed_id );
 
+			$current_feed_status['feed_type_name'] = wppfm_list_feed_type_text()[ $current_feed_status['feed_type_id'] ];
+
 			if ( '3' === $current_feed_status['status_id'] ) { // status still processing
 				// get file name, including path
-				$file_extention = function_exists( 'get_file_type' ) ? get_file_type( $current_feed_status['channel_id'] ) : 'xml';
-				$feed_file      = wppfm_get_file_path( $current_feed_status['title'] . '.' . $file_extention );
+				$file_extension = function_exists( 'get_file_type' ) ? get_file_type( $current_feed_status['channel_id'] ) : 'xml';
+				$feed_file      = wppfm_get_file_path( $current_feed_status['title'] . '.' . $file_extension );
 
 				// if it is, set the feed status to fail and change the $current_feed_status['status_id'] to 6
 				if ( WPPFM_Feed_Controller::feed_processing_failed( $feed_file ) ) {
@@ -172,12 +183,16 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 					}
 
 					if ( ! WPPFM_Feed_Controller::feed_queue_is_empty() ) {
-						// so there is another feed in the queue
-						$feed_master_class = new WPPFM_Feed_Master_Class();
-						$feed_master_class->update_feed_file();
+						$next_feed_id = WPPFM_Feed_Controller::get_next_id_from_feed_queue();
+
+						if ( $next_feed_id ) {
+							// so there is another feed in the queue
+							$feed_master_class = new WPPFM_Feed_Master_Class( $next_feed_id );
+							$feed_master_class->update_feed_file();
+						}
 					}
 
-					do_action( 'wppfm_feed_processing_failed_filesize_stopt_increasing', $feed_id, WPPFM_Feed_Controller::nr_ids_remaining_in_queue() );
+					do_action( 'wppfm_feed_processing_failed_file_size_stopped_increasing', $feed_id, WPPFM_Feed_Controller::nr_ids_remaining_in_queue() );
 				}
 
 				return $current_feed_status;
@@ -204,7 +219,9 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 				return sprintf( __( '1430 - %s is not a writable folder. Make sure you have admin rights to this folder.', 'wp-product-feed-manager' ), WPPFM_FEEDS_DIR );
 			}
 
-			$this->set_properties();
+			if ( ! $this->set_properties() ) {
+				return false;
+			}
 
 			$this->_data_class->set_nr_of_feed_products( $this->_feed->feedId, '0' ); // 0 products
 			$this->_data_class->update_feed_status( $this->_feed->feedId, 3 ); // set status to "Processing"
@@ -258,25 +275,35 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 
 			$product_ids = null;
 
-			$file_extention = function_exists( 'get_file_type' ) ? get_file_type( $this->_feed->channel ) : 'xml';
+			$file_extension = function_exists( 'get_file_type' ) ? get_file_type( $this->_feed->channel ) : 'xml';
 
 			// add the xml footer to the queue
-			if ( 'xml' === $file_extention ) {
-				$this->_background_process->push_to_queue( array( 'file_format_line' => $this->_channel_class->footer() ) );
+			if ( 'xml' === $file_extension ) {
+				$this->_background_process->push_to_queue(
+					array(
+						'file_format_line' => apply_filters(
+							'wppfm_footer_string',
+							$this->_channel_class->footer(),
+							$this->_feed->feedId,
+							$this->_feed->feedTypeId
+						),
+					)
+				);
 			}
 		}
 
 		/**
 		 * Start the feed update process in the background
-		 *
-		 * @return string feed update result or false
 		 */
 		private function activate_feed_file_update() {
-			$this->_background_process->save( $this->_feed->feedId )->dispatch();
+			// save the queue data and then run the wppfm-background-process dispatch function
+			return $this->_background_process->save( $this->_feed->feedId )->dispatch();
 		}
 
 		/**
 		 * Set all class properties
+		 *
+		 * @return bool
 		 */
 		private function set_properties() {
 			// some channels do not use channels and leave the main category empty which causes issues
@@ -293,11 +320,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 
 			// instantiate the correct channel class
 			$this->_channel_class = new WPPFM_Google_Feed_Class();
-
-			// reset the feed status in case the previous status was stuck in processing
-			if ( '5' === $this->_feed->status || '6' === $this->_feed->status ) {
-				$this->_feed->status = '2';
-			}
+			return true;
 		}
 
 		/**
@@ -306,19 +329,25 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 		 * @return string
 		 */
 		private function get_feed_header() {
-			$file_extention = function_exists( 'get_file_type' ) ? get_file_type( $this->_feed->channel ) : 'xml';
-			if ( '1' === $this->_feed->channel && ! empty( $this->_feed->feedTitle ) ) {
-				return $this->_channel_class->header( $this->_feed->feedTitle, $this->_feed->feedDescription );
-			} elseif ( 'xml' === $file_extention ) {
-				return $this->_channel_class->header( $this->_feed->title );
-			} elseif ( 'txt' === $file_extention ) {
-				return $this->make_tab_delimited_string_from_data_array( $this->get_active_fields() );
-			} elseif ( 'csv' === $file_extention ) {
-				$csv_sep = apply_filters( 'wppfm_csv_separator', get_correct_csv_header_separator( $this->_feed->channel ) );
-				$string  = $this->make_csv_header_string( $this->get_active_fields(), $csv_sep );
+			$header_string = '';
 
-				return $this->_channel_class->header( $string );
+			if ( $this->_feed->channel ) {
+				$file_extension = function_exists( 'get_file_type' ) ? get_file_type( $this->_feed->channel ) : 'xml';
+				if ( '1' === $this->_feed->channel && ! empty( $this->_feed->feedTitle ) ) {
+					$header_string = $this->_channel_class->header( $this->_feed->feedTitle, $this->_feed->feedDescription );
+				} elseif ( 'xml' === $file_extension ) {
+					$header_string = $this->_channel_class->header( $this->_feed->title );
+				} elseif ( 'txt' === $file_extension ) {
+					$header_string = $this->make_tab_delimited_string_from_data_array( $this->get_active_fields() );
+				} elseif ( 'csv' === $file_extension ) {
+					$csv_sep = apply_filters( 'wppfm_csv_separator', get_correct_csv_header_separator( $this->_feed->channel ) );
+					$string  = $this->make_csv_header_string( $this->get_active_fields(), $csv_sep );
+
+					$header_string = $this->_channel_class->header( $string );
+				}
 			}
+
+			return apply_filters( 'wppfm_header_string', $header_string, $this->_feed->feedId, $this->_feed->feedTypeId );
 		}
 
 		// ALERT! has a javascript equivalent in channel-functions.js called setAttributeStatus();

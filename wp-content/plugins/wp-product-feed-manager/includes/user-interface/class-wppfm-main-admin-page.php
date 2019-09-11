@@ -26,6 +26,8 @@ if ( ! class_exists( 'WPPFM_Main_Admin_Page' ) ) :
 
 			wppfm_check_db_version();
 
+			$this->_list_table = new WPPFM_List_Table();
+
 			$this->prepare_feed_list();
 		}
 
@@ -61,9 +63,6 @@ if ( ! class_exists( 'WPPFM_Main_Admin_Page' ) ) :
 		 */
 		private function prepare_feed_list() {
 			$show_type_column = apply_filters( 'wppfm_special_feeds_add_on_active', false );
-
-			// prepare the table elements
-			$this->_list_table = new WPPFM_List_Table();
 
 			$this->_list_table->set_table_id( 'wppfm-feed-list' );
 
@@ -104,18 +103,20 @@ if ( ! class_exists( 'WPPFM_Main_Admin_Page' ) ) :
 		}
 
 		/**
-		 * Returns the html for the main body top
-		 *
-		 * @return string html
+		 * Activates the html for the main body top.
 		 */
 		private function main_admin_body_top() {
-			return $this->_list_table->display();
+			$this->_list_table->display();
 		}
 
 		private function main_admin_buttons() {
-			return '<div class="button-wrapper" id="page-bottom-buttons"><input class="button-primary" type="button" ' .
+			$wrapper_opening_html = '<div class="button-wrapper" id="page-bottom-buttons">';
+			$button_html          = '<input class="button-primary feed-list-lower-button" type="button" ' .
 				'onclick="parent.location=\'admin.php?page=wp-product-feed-manager&tab=product-feed\'" name="new" value="' .
-				esc_html__( 'Add New Feed', 'wp-product-feed-manager' ) . '" id="add-new-feed-button" /></div>';
+				__( 'Add New Feed', 'wp-product-feed-manager' ) . '" id="add-new-feed-button" />';
+			$wrapper_closing_html = '</div>';
+
+			return $wrapper_opening_html . apply_filters( 'wppfm_main_admin_bottom_buttons', $button_html ) . $wrapper_closing_html;
 		}
 
 	}

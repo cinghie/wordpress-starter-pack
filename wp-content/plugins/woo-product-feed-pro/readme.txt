@@ -1,16 +1,15 @@
 === Product Feed PRO for WooCommerce  ===
 Contributors: jorisverwater,evavangelooven
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=j_verwater%40hotmail%2ecom&lc=NL&item_name=Donation%20WooCommerce%20Product%20Feed%20Pro%20%2d%20AdTribes%2eio&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.2
-Stable tag: 5.6.4
+Stable tag: 6.4.1
 
 == Description ==
 
-Generate WooCommerce product feeds for all your marketing channels, such as Google Shopping (merchant center), Google Dynamic Remarketing, Facebook Remarketing, Bing Ads, Billiger.de, Pricerunner, Vergelijk.nl and many more. Next to custom feeds there are over 100 pre-defined templates included for marketplaces, comparison shopping engines and search engines. This plugin provides high-quality product feed for Google Shopping and many many more.
+Generate WooCommerce product feeds for all your marketing channels, such as Google Shopping (merchant center), Facebook Remarketing, Bing Ads, Billiger.de, Pricerunner, Vergelijk.nl and many more. Next to custom feeds there are over 100 pre-defined templates included for marketplaces, comparison shopping engines and search engines. This plugin provides high-quality product feed for Google Shopping and many many more.
 
 = Why choose this plugin? =
 Simply because this is the most complete plugin offering support for an unlimited number of products and feeds, including features such as category- & field-mapping and advanced, rule-based, filtering and product variables support.
@@ -41,9 +40,6 @@ Because of a bug in WooCommerce variable products will get disapproved in Google
 = Add critical Google Shopping Feed fields to your store =
 Google requires you to add certain fields to the feed you create for Google Shopping. However not all of the required fields are present in WooCommerce. Our plugin add's these fields / attributes for you so you can create a product feed that meets Google's requirements. The plugin will add the following product input fields for you: Brand, GTIN, UPC, MPN, EAN, Product condition (New, Refurbished, Used) unit pricing measure, unit pricing base measure, installment and an Optimised title field.
 
-= Conversion tracking =
-As of version 1.8.8 the plugin is able to track sales and conversions coming from your product feeds. Just enable the 'conversion tracking' and the plugin will measure how much turn-over is coming from your marketing campaigns. The plugin uses both session- and cookie-conversions to make sure all sales are tracked.
-
 = Custom Fields =
 Add custom fields with naming you require and fill it with static or dynamic values to your product feed.
 
@@ -62,8 +58,17 @@ This plugin enables you to add and configure Google Analytics UTM tracking-codes
 = Shipping class support =
 This plugin enables you to set the shipping zone (and shipping class) so the right shipping cost end up in your product feed. Our plugin uses all shipping zone settings you have configured in WooCommerce (flat rates, classes and free shipping). Our support also supports US and Australian postal codes and regions.
 
+= WooCommerce Shipping Table Rate (Bolder Elements) support =
+Our plugin supports the WooCommerce Shipping Table Rate plugin created by Bolder Elements.
+
 = Product variations / Variables =
 This plugin supports product variables so all your variations make it to product feeds as individual products too.
+
+= Facebook Pixel =
+This plugin adds the Facebook pixel code on your websites and makes sure it matches the content of your Facebook catalogue product feed
+
+= Google Dynamic Remarketing Pixel =
+This plugin adds the Google Dynamic Remarketing pixel code on your website.
 
 = Product tags =
 Use the product tag information for your product feeds or to create filters and rules on
@@ -94,7 +99,6 @@ Our plugin supports the Aelia Currency Switcher
 * XML, CSV, TSV and TXT formats;
 * Supports WPML (version 4.1 and higher)
 * Supports WCML, WooCommerce Multilingual
-* Tracks conversions and sales;
 * Intuitive interface;
 * Supports product variations / variables;
 * Scheduled product feed refreshes: daily, twice-daily or every hour;
@@ -112,6 +116,8 @@ Our plugin supports the Aelia Currency Switcher
 * Supports WooCommerce Product Bundles
 * Supports WooCommerce Dynamic Pricing & Discounts from RightPress
 * Supports WC Fields Factory
+* Supports Table Rate Shipping for WooCommerce from Bolder Elements
+* Supports usage of the All In One SEO pack title and description attributes
 
 === Channels ===
 * Custom feeds
@@ -137,6 +143,7 @@ Our plugin supports the Aelia Currency Switcher
 * Kieskeurig.be
 * <a href="https://www.beslist.nl" target="_blank" rel="nofollow">Beslist.nl</a>
 * <a href="https://www.beslist.be" target="_blank" rel="nofollow">Beslist.be</a>
+* <a href="https://www.fashionchick.nl" target="_blank">Fashionchick.nl</a>
 * Bol.com
 * Stylight
 * Incurvy
@@ -145,6 +152,7 @@ Our plugin supports the Aelia Currency Switcher
 * <a href="https://www.zbozi.cz" target="_blank">Zbozi.cz</a>
 * Shopalike
 * <a href="https://www.heureka.cz" target="_blank">Heureka.cz</a>
+* <a href="https://www.glami.gr" target="_blank">Glami.gr</a>
 * AdForm
 * Smartly.io
 * Spartoo
@@ -189,6 +197,8 @@ Our plugin supports the Aelia Currency Switcher
 * Medizinfuchs.de
 * <a href="https://www.moebel.de" target="_blank">Moebel.de</a>
 * <a href="https://www.zap.co.il" target="_blank">Zap.co.il</a>
+* <a href="https://www.shopmania.com" target="_blank">ShopMania</a>
+* <a href="https://www.compari.ro" target="_blank">Compari.ro</a>
 * My Best Brands
 * Preis.de
 * Rakuten
@@ -275,6 +285,256 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 6.4.1 (2019-09-10) =
+* Facebook pixel was not triggered on parent (variable) products, this has been added now
+* Added the currency to the Facebook AddToCart event
+
+= 6.4.0 (2019-09-09) =
+* Minimum order fee's are now also converted to the proper fee when the Aelia currency switcher is enabled.
+* Removed support for AdMarkt Marktplaats.nl as the default feed was not supported
+
+= 6.3.9 (2019-09-08) =
+* Fixed a bug: when Aelia prices were inserted manually (so not using a currency conversion) the free shipping minimum amount was still using the converted price. This was wrong and is fixed now.
+
+= 6.3.8 (2019-09-08) =
+* Added product price and product name to the Facebook AddToCart event
+* Changed the product name mother into product name parent
+* Some private custom attributes where lost in the previous release, added those again
+
+= 6.3.7 (2019-09-06) =
+* When feeds are cloned you can now change the country. Previously this was disabled.
+* Added support for rules on products that contain multiple product tags
+
+= 6.3.6 (2019-09-05) =
+* Added the AddToCart tracking event for the Facebook pixel
+* Added the google_product_category and item_group_id as mandatory fields to the Facebook catelogue feed template
+* Added support for the Germanized for WooCommerce plugin. It is now possible to use the unit attributes for your field mappings and filters/rules
+* Added preparations for batch configuration
+
+= 6.3.5 (2019-09-02) =
+* Added the tax status and tax class attributes
+
+= 6.3.4 (2019-09-01) =
+* The Wordpress get_multisite function was not functioning for Wordpress multisites. We have added support for it.
+
+= 6.3.3 (2019-08-29) =
+* Added support for the All in one SEO pack title and description. Those can now be selected from the attribute drop-downs and added to your product feeds.
+
+= 6.3.2 (2019-08-28) =
+* Added headers to the Pinterest RSS Board template
+
+= 6.3.1 (2019-08-28) =
+* Rolling back version 6.3.0 of our plugin as it is causing some performance issues for users who are on WC 3.7
+
+= 6.2.9 (2019-08-21) =
+* Fixed an issue where an exclude rule for categories was not working
+
+= 6.2.8 (2019-08-20) =
+* Added support for table rate shipping costs for regions (next to countries)
+
+= 6.2.7 (2019-08-20) =
+* Fixed a bug: with the latest release of WC 3.7 and the latest release of the Bolder Elements Table rate shipping plugin all shipping costs where 0. This issue has been fixed now.
+
+= 6.2.6 (2019-08-18) =
+* Fixed a bug: for some users the truncation of the product title released in version 6.2.2 caused the plugin to break. This issue has been fixed now.
+* Supports WooCommerce 3.7, compatibility tests
+
+= 6.2.4 (2019-08-16) =
+* Improved the include only filter feature on categories. Products that are part of multiple categories now also validate with the include only filter and will be added to the product feed.
+
+= 6.2.3 (2019-08-16) =
+* Added two decimal zero's to prices when needed. This is a requirement for some channels like Pinterest.
+
+= 6.2.2 (2019-08-13) =
+* When product name title's are over 150 characters our plugin will truncate the title's to 150 characters as this is the maximum product name length for many channels such as Google Shopping, Facebook and Pinterest
+* When a description of a variant is filled it will no longer overwrite the short description of the parent product. It will however still overwrite the description of the parent product.
+
+= 6.2.1 (2019-08-11) =
+* Fixed a bug: Aelia currency switcher shipping calculations for the United States of America was not working. This issue has been fixed.
+
+= 6.2.0 (2019-08-05) =
+* Removed some product change logging features
+
+= 6.1.9 (2019-08-02) =
+* Fixed a bug: the extra fields feature was not working from fresh installs of the plugin. This has been fixed now.
+
+= 6.1.8 (2019-08-02) =
+* Enable some extra fields on activating the plugin
+
+= 6.1.7 (2019-08-01) =
+* Added support for Google's g:shipping_label field by adding an attribute that contains the slug of the shipping class
+* Added support for the Germanized WooCommerce plugin
+
+= 6.1.6 (2019-07-31) =
+* Only shipping zones and methods are added to feeds for the country the feed was configured for instead of all shipping zones for all countries.
+* Fixed a bug: decimal seperators for shipping costs and product prices where not the same in all instances. This has been fixed.
+
+= 6.1.5 (2019-07-31) =
+* When users have Invalid Products in their WooCommerce database the plugin crashes trying to process that invalid product. This issue should be fixed now.
+
+= 6.1.4 (2019-07-30) =
+* Fixed a bug: changed Facebook pixel viewContent to ViewContent
+
+= 6.1.3 (2019-07-30) =
+* Added template for Fashionchick.nl
+
+= 6.1.2 (2019-07-29) =
+* Added support for the WooCommerce Table Rate (Bolder Elements) Shipping plugin
+* Added a feature to enable / disable the extra Google Shopping attributes on the product edit pages (for usability purposes, the page was becoming too long)
+
+= 6.1.1 (2019-07-28) =
+* Added a shipping cost attribute that will only add the shipping price to feeds (without zone and region names and xml nodes)
+
+= 6.1.0 (2019-07-26) =
+* Removed the escaping of caracters for the custom fields as sanitazion already took place before
+* Naming of the product feed URL was depending on openSSL being compiled with PHP. We removed this dependency
+* Added logging for the first steps of the creation of a new product feed
+
+= 6.0.9 (2019-07-24) =
+* Added 3 new price attributes: Price rounded, Regular price rounded, Sale price rounded. These attributes add product prices to your feed(s) rounded to the nearest full number, no decimals.
+* Base currency prices are no longer rounded for users who use the Aelia Rounding plugin.
+* Fixed a bug: when sale prices were empty they were added as 0 to Google DRM feeds. This issue has been fixed now.
+
+= 6.0.8 (2019-07-19) =
+* New feature: added a feature to add the Facebook Pixel Code on your page. The content of the Facebook Pixel matches the content of the Facebook catalogue feed you created.
+
+= 6.0.7 (2019-07-18) =
+* Fixed a bug: "empty" rules did not work for custom fields. Issue has been fixed.
+
+= 6.0.6 (2019-07-18) =
+* Removed the autoloading of add_option WP function were possible.
+* Removed flat rate shipping costs from feeds when free shipping is active for a product.
+
+= 6.0.5 (2019-07-14) =
+* Removed woosea attributes from drop-down for our PRO users. They should only show for the Elite version of our plugin.
+
+= 6.0.4 (2019-07-13) =
+* Products filters on category visibility=hidden are supported
+
+= 6.0.3 (2019-07-12) =
+* Added support for adding prices excluding VAT to the feeds when prices were inserted including VAT
+
+= 6.0.2 (2019-07-12) =
+* Fixed a bug: fallback scenario for Google Shopping feeds was not working because of a coding-issue. This issue has been fixed now.
+* Fixed a bug: woosea optimized title's were not working when the attribute was never used for a product. This issue has been fixed now.
+* Solved some PHP issues (undeclared variables, missing breaks).
+* Added support for array's (product tags and categories) in the data manipulation feature
+
+= 6.0.1 (2019-07-10) =
+* Fixed a bug: rules and filters on featured variable products was not working. This issue has been fixed now.
+
+= 6.0.0 (2019-07-09) =
+* Added advanced WooCommerce logging
+
+= 5.9.9 (2019-07-08) =
+* Fixed a bug: Yandex category feed lists where not translated using WPML. This issue has been fixed now.
+
+= 5.9.8 (2019-07-08) =
+* Added support for WC Field Factory Admin fields
+
+= 5.9.7 (2019-07-05) =
+* Added support for sale and regular prices for bundled products
+
+= 5.9.6 (2019-07-05) =
+* Added support for bundled products that have a combined price
+* When a product has no reviews remove the average rating score of 0 from the feed
+
+= 5.9.5 (2019-07-04) =
+* Fixed a bug: adding fields on the field mapping page did not work in Firefox. This has been fixed now.
+* Fixed php warnings: when a Google Product Review Feed was created and attributes contained html characters PHP warnings were shown. This has been fixed now.
+
+= 5.9.4 (2019-07-04) =
+* Fixed links to tutorials in the feed configuration screens.
+
+= 5.9.3 (2019-07-02) =
+* Added color, size, gender, material and pattern product fields for the extra fields feature
+
+= 5.9.2 (2019-07-01) =
+* Added South-Africa PriceCheck.co.za template
+
+= 5.9.1 (2019-06-28) =
+* Internationalized the plugin menu's: texts are now translatable. 
+
+= 5.9.0 (2019-06-27) =
+* Internationalized the plugin: texts are now translatable. 
+
+= 5.8.9 (2019-06-26) =
+* Added support for comma's in Yandex PARAM fields
+
+= 5.8.8 (2019-06-26) =
+* Fixed a bug: rules for empty values contained a bug. This has been fixed now.
+
+= 5.8.7 (2019-06-24) =
+* Fixed a bug: mappings for WooCommerce categories that contained () where not working. This has been fixed now.
+
+= 5.8.6 (2019-06-22) =
+* Added the Glami.gr template
+
+= 5.8.5 (2019-06-21) =
+* Fixed a bug: "empty" rules replacing empty attributes with another attribute value was not working. This has been fixed now.
+
+= 5.8.4 (2019-06-21) =
+* Changed Aelia currency support feature as it was retrieving cached prices.
+
+= 5.8.3 (2019-06-20) =
+* Added support for the transit time label field for Google Shopping feeds.
+
+= 5.8.2 (2019-06-17) =
+* Made the ShopMania template suitable for all countries they are active in.
+
+= 5.8.1 (2019-06-14) =
+* Further improvements to the Dynamic Remarketing code, extra check on prices of variant products
+
+= 5.8.0 (2019-06-13) =
+* Fixed a bug in the Google Dynamic Remarketing code, variants where getting the item_group_id filled in in the ecomm_prodid parameters which was causing a mismatch with the product feed. This has been fixed.
+
+= 5.7.9 (2019-06-13) =
+* Further improvement of the default variant inclusion feature. Plugin now also add's the default variant (when option enabled) when none of the variants matches that default.
+* Fixed a bug: the data manipulation feature for variants (when variants was selected, simple and all worked) was broken. This has been fixed.
+
+= 5.7.8 (2019-06-12) =
+* Added ads_grouping and ads_labels fields to the Google Shopping template
+
+= 5.7.7 (2019-06-12) =
+* Solved a google_product_category mapping bug for simple products that were mapped to multiple categories.
+
+= 5.7.6 (2019-06-12) =
+* Added template for Compari Romania
+* Added template for Shopmania Romania
+
+= 5.7.5 (2019-06-11) =
+* Removed conversion UI features for now till we officially release this feature.
+
+= 5.7.4 (2019-06-11) =
+* Added support for creating rules and filters on featured products
+
+= 5.7.3 (2019-06-10) =
+* Fixed a PHP warning that showed whem WPML and Aelia currecy converters where active
+
+= 5.7.2 (2019-06-06) =
+* Fixed a bug: rules on empty product attributes were not working. This has been fixed.
+
+= 5.7.1 (2019-06-05) =
+* Made it impossible to delete the item_group_id field mapping from Google Shopping and Facebook feeds.
+
+= 5.7.0 (2019-06-04) =
+* Fixed a bug: rules set on google categories did not work. Those are fixed now.
+
+= 5.6.9 (2019-06-03) =
+* Fixed a bug: the tmp product feed files created upon creation and updating of the feeds where not removed. They are now.
+
+= 5.6.8 (2019-05-30) =
+* Added fallback scenario, when no default templace can be loaded the Google Shopping template will be used
+
+= 5.6.7 (2019-05-29) =
+* Minor change to the Aelia currency switcher support, now also supporting the Aelia rounding plugin
+
+= 5.6.6 (2019-05-29) =
+* Added the offer_price and offer_price_effective_date fields for Facebook product catalogue feeds
+
+= 5.6.5 (2019-05-29) =
+* Added the possibility to add prefix and suffix values around the image_link field without spaces between it
 
 = 5.6.4 (2019-05-26) =
 * PARAM_ fields for Yandex were broken. This bug has been fixed now.
@@ -1738,6 +1998,257 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 6.4.1 =
+Facebook pixel was not triggered on parent (variable) products, this has been added now
+Added the currency to the Facebook AddToCart event
+
+= 6.4.0 =
+Minimum order fee's are now also converted to the proper fee when the Aelia currency switcher is enabled.
+Removed support for AdMarkt Marktplaats.nl as the default feed was not supported
+
+= 6.3.9 =
+Fixed a bug: when Aelia prices were inserted manually (so not using a currency conversion) the free shipping minimum amount was still using the converted price. This was wrong and is fixed now.
+
+= 6.3.8 =
+Added product price and product name to the Facebook AddToCart event
+Changed the product name mother into product name parent
+Some private custom attributes where lost in the previous release, added those again
+
+= 6.3.7 =
+When feeds are cloned you can now change the country. Previously this was disabled.
+Added support for rules on products that contain multiple product tags
+
+= 6.3.6 =
+Added the AddToCart tracking event for the Facebook pixel
+Added the google_product_category and item_group_id as mandatory fields to the Facebook catelogue feed template
+Added support for the Germanized for WooCommerce plugin. It is now possible to use the unit attributes for your field mappings and filters/rules
+Added preparations for batch configuration
+
+= 6.3.5 =
+Added the tax status and tax class attributes
+
+= 6.3.4 =
+The Wordpress get_multisite function was not functioning for Wordpress multisites. We have added support for it.
+
+= 6.3.3 =
+Added support for the All in one SEO pack title and description. Those can now be selected from the attribute drop-downs and added to your product feeds.
+
+= 6.3.2 =
+Added headers to the Pinterest RSS Board template
+
+= 6.3.1 =
+Rolling back version 6.3.0 of our plugin as it is causing some performance issues for users who are on WC 3.7
+
+= 6.2.9 =
+Fixed an issue where an exclude rule for categories was not working
+
+= 6.2.8 =
+Added support for table rate shipping costs for regions (next to countries)
+
+= 6.2.7 =
+Fixed a bug: with the latest release of WC 3.7 and the latest release of the Bolder Elements Table rate shipping plugin all shipping costs where 0. This issue has been fixed now.
+
+= 6.2.6 =
+Fixed a bug: for some users the truncation of the product title released in version 6.2.2 caused the plugin to break. This issue has been fixed now.
+Supports WooCommerce 3.7, compatibility tests
+
+= 6.2.4 =
+Improved the include only filter feature on categories. Products that are part of multiple categories now also validate with the include only filter and will be added to the product feed.
+
+= 6.2.3 =
+Added two decimal zero's to prices when needed. This is a requirement for some channels like Pinterest.
+
+= 6.2.2 =
+When product name title's are over 150 characters our plugin will truncate the title's to 150 characters as this is the maximum product name length for many channels such as Google Shopping, Facebook and Pinterest
+When a description of a variant is filled it will no longer overwrite the short description of the parent product. It will however still overwrite the description of the parent p
+roduct.
+
+= 6.2.1 =
+Fixed a bug: Aelia currency switcher shipping calculations for the United States of America was not working. This issue has been fixed. 
+
+= 6.2.0 =
+Removed some product change logging features
+
+= 6.1.9 =
+Fixed a bug: the extra fields feature was not working from fresh installs of the plugin. This has been fixed now.
+
+= 6.1.8 =
+Enable some extra fields on activating the plugin
+
+= 6.1.7 =
+Added support for Google's g:shipping_label field by adding an attribute that contains the slug of the shipping class
+Added support for the Germanized WooCommerce plugin
+
+= 6.1.6 =
+Only shipping zones and methods are added to feeds for the country the feed was configured for instead of all shipping zones for all countries.
+Fixed a bug: decimal seperators for shipping costs and product prices where not the same in all instances. This has been fixed.
+
+= 6.1.5 =
+When users have Invalid Products in their WooCommerce database the plugin crashes trying to process that invalid product. This issue should be fixed now.
+
+= 6.1.4 =
+Fixed a bug: changed Facebook pixel viewContent to ViewContent
+
+= 6.1.3 =
+Added template for Fashionchick.nl
+
+= 6.1.2 =
+Added support for the WooCommerce Table Rate (Bolder Elements) Shipping plugin
+Added a feature to enable / disable the extra Google Shopping attributes on the product edit pages (for usability purposes, the page was becoming too long)
+
+= 6.1.1 =
+Added a shipping cost attribute that will only add the shipping price to feeds (without zone and region names and xml nodes)
+
+= 6.1.0 =
+Removed the escaping of caracters for the custom fields as sanitazion already took place before
+Naming of the product feed URL was depending on openSSL being compiled with PHP. We removed this dependency
+Added logging for the first steps of the creation of a new product feed
+
+= 6.0.9 =
+Added 3 new price attributes: Price rounded, Regular price rounded, Sale price rounded. These attributes add product prices to your feed(s) rounded to the nearest full number, no decimals.
+Base currency prices are no longer rounded for users who use the Aelia Rounding plugin.
+Fixed a bug: when sale prices were empty they were added as 0 to Google DRM feeds. This issue has been fixed now.
+
+= 6.0.8 =
+New feature: added a feature to add the Facebook Pixel Code on your page. The content of the Facebook Pixel matches the content of the Facebook catalogue feed you created.
+
+= 6.0.7 =
+Fixed a bug: "empty" rules did not work for custom fields. Issue has been fixed.
+
+= 6.0.6 =
+Removed the autoloading of add_option WP function were possible.
+Removed flat rate shipping costs from feeds when free shipping is active for a product.
+
+= 6.0.5 =
+Removed woosea attributes from drop-down for our PRO users. They should only show for the Elite version of our plugin.
+
+= 6.0.4 =
+Products filters on category visibility=hidden are supported
+
+= 6.0.3 =
+Added support for adding prices excluding VAT to the feeds when prices were inserted including VAT
+
+= 6.0.2 =
+Fixed a bug: fallback scenario for Google Shopping feeds was not working because of a coding-issue. This issue has been fixed now.
+Fixed a bug: woosea optimized title's were not working when the attribute was never used for a product. This issue has been fixed now.
+Solved some PHP issues (undeclared variables, missing breaks).
+Added support for array's (product tags and categories) in the data manipulation feature
+
+= 6.0.1 =
+Fixed a bug: rules and filters on featured variable products was not working. This issue has been fixed now.
+
+= 6.0.0 =
+Added advanced WooCommerce logging
+
+= 5.9.9 =
+Fixed a bug: Yandex category feed lists where not translated using WPML. This issue has been fixed now.
+
+= 5.9.8 =
+Added support for WC Field Factory Admin fields
+
+= 5.9.7 =
+Added support for sale and regular prices for bundled products
+
+= 5.9.6 =
+Added support for bundled products that have a combined price
+When a product has no reviews remove the average rating score of 0 from the feed
+
+= 5.9.5 =
+Fixed a bug: adding fields on the field mapping page did not work in Firefox. This has been fixed now.
+Fixed php warnings: when a Google Product Review Feed was created and attributes contained html characters PHP warnings were shown. This has been fixed now.
+
+= 5.9.4 =
+Fixed links to tutorials in the feed configuration screens.
+
+= 5.9.3 =
+Added color, size, gender, material and pattern product fields for the extra fields feature
+
+= 5.9.2 =
+Added South-Africa PriceCheck.co.za template
+
+= 5.9.1 =
+Internationalized the plugin menu's: texts are now translatable.
+
+= 5.9.0 =
+Internationalized the plugin: texts are now translatable.
+
+= 5.8.9 =
+Added support for comma's in Yandex PARAM fields
+
+= 5.8.8. =
+Fixed a bug: rules for empty values contained a bug. This has been fixed now.
+
+= 5.8.7 =
+Fixed a bug: mappings for WooCommerce categories that contained () where not working. This has been fixed now.
+
+= 5.8.6 =
+Added the Glami.gr template
+
+= 5.8.5 =
+Fixed a bug: "empty" rules replacing empty attributes with another attribute value was not working. This has been fixed now.
+
+= 5.8.4 =
+Changed Aelia currency support feature as it was retrieving cached prices.
+
+= 5.8.3 =
+Added support for the transit time label field for Google Shopping feeds.
+
+= 5.8.2 =
+Made the ShopMania template suitable for all countries they are active in.
+
+= 5.8.1 =
+Further improvements to the Dynamic Remarketing code, extra check on prices of variant products
+
+= 5.8.0 =
+Fixed a bug in the Google Dynamic Remarketing code, variants where getting the item_group_id filled in in the ecomm_prodid parameters which was causing a mismatch with the product feed. This has been fixed.
+
+= 5.7.9 =
+Further improvement of the default variant inclusion feature. Plugin now also add's the default variant (when option enabled) when none of the variants matches that default.
+Fixed a bug: the data manipulation feature for variants (when variants was selected, simple and all worked) was broken. This has been fixed.
+
+= 5.7.8 =
+Added ads_grouping and ads_labels fields to the Google Shopping template
+
+= 5.7.7 =
+Solved a google_product_category mapping bug for simple products that were mapped to multiple categories.
+
+= 5.7.6 =
+Added template for Compari Romania
+Added template for Shopmania Romania
+
+= 5.7.5 =
+Removed conversion UI features for now till we officially release this feature.
+
+= 5.7.4 =
+Added support for creating rules and filters on featured products
+
+= 5.7.3 =
+Fixed a PHP warning that showed whem WPML and Aelia currecy converters where active
+
+= 5.7.2 =
+Fixed a bug: rules on empty product attributes were not working. This has been fixed.
+
+= 5.7.1 =
+Made it impossible to delete the item_group_id field mapping from Google Shopping and Facebook feeds.
+
+= 5.7.0 =
+Fixed a bug: rules set on google categories did not work. Those are fixed now.
+
+= 5.6.9 =
+Fixed a bug: the tmp product feed files created upon creation and updating of the feeds where not removed. They are now.
+
+= 5.6.8 =
+Added fallback scenario, when no default templace can be loaded the Google Shopping template will be used
+
+= 5.6.7 =
+Minor change to the Aelia currency switcher support, now also supporting the Aelia rounding plugin
+
+= 5.6.6 =
+Added the offer_price and offer_price_effective_date fields for Facebook product catalogue feeds
+
+= 5.6.5 =
+Added the possibility to add prefix and suffix values around the image_link field without spaces between it
 
 = 5.6.4 =
 PARAM_ fields for Yandex were broken. This bug has been fixed now.

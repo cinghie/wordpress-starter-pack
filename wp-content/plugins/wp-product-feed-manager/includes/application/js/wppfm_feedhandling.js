@@ -1,6 +1,6 @@
 var _feedHolder;
 
-function wppfm_outputFields( feedId, channel, callback ) {
+function wppfm_getFeedAttributes( feedId, channel, callback ) {
 
 	wppfm_getOutputFields(
 		feedId,
@@ -57,6 +57,7 @@ function wppfm_addFeedAttributes( outputs, channel, source ) {
 		var outputTitle = outputs[ field ][ 'field_label' ];
 		var activity    = true;
 
+		// deactivate if this attribute is not required and has no value
 		if ( parseInt( outputs[ field ][ 'category_id' ] ) > 2 && outputs[ field ][ 'value' ] === '' ) {
 			activity = false;
 		} else if ( outputs[ field ][ 'category_id' ] === '0' ) {
@@ -78,18 +79,29 @@ function wppfm_saveFeedToDb( feed, callback ) {
 	// store the feed in a local variable
 	_feedHolder = feed;
 
-	var metaToStore = wppfm_filterActiveMetaData( _feedHolder[ 'attributes' ], _feedHolder[ 'categoryMapping' ] );
+	var feedDataSelectorTable = jQuery( '#wppfm-ajax-feed-data-to-database-conversion-array' ).text(); // get the data from the edit feed form code
+	var feedDataToStore       = wppfm_getFeedDataToStore( feedDataSelectorTable );
+	var metaToStore           = wppfm_filterActiveMetaData( _feedHolder[ 'attributes' ], _feedHolder[ 'categoryMapping' ] );
+	var feedFilter            = _feedHolder[ 'feedFilter' ];
 
 	wppfm_updateFeedToDb(
-		_feedHolder,
+		feedDataToStore,
 		metaToStore,
+		feedFilter,
 		function( response ) {
-
 			callback( response.trim() );
 		}
 	);
 }
 
+/**
+ * Gets the full metaData array from the _feedHolder and returns a wppfm_attributeMeta object with keys and values from only the active ones.
+ * Also stores the category mapping array in a wppfm_attributeMeta object.
+ *
+ * @param {Array}   metaData
+ * @param {Array}   categoryMapping
+ * @returns {Array} array with wppfm_attributeMeta objects containing meta keys and meta values
+ */
 function wppfm_filterActiveMetaData( metaData, categoryMapping ) {
 
 	// make a storage place to store the changed attributes
@@ -100,16 +112,33 @@ function wppfm_filterActiveMetaData( metaData, categoryMapping ) {
 		// if the advised source is not equal to the advised inputs, the user has selected his own input so this needs to be stored
 		if ( metaData[ i ][ 'value' ] !== undefined && metaData[ i ][ 'value' ] !== '' && metaData[ i ][ 'isActive' ] === true ) {
 
-			// store a
-			activeMeta.push( new wppfm_attributeMeta( metaData[ i ][ 'fieldName' ], metaData[ i ][ 'value' ] ) );
+			// store the meta data in a Wppfm_AttributeMeta object
+			activeMeta.push( new Wppfm_AttributeMeta( metaData[ i ][ 'fieldName' ], metaData[ i ][ 'value' ] ) );
 		}
 	}
 
 	// also store the category mapping as meta data
 	if ( categoryMapping.length > 0 ) {
 
-		activeMeta.push( new wppfm_attributeMeta( 'category_mapping', categoryMapping ) );
+		activeMeta.push( new Wppfm_AttributeMeta( 'category_mapping', categoryMapping ) );
 	}
 
 	return activeMeta;
+}
+
+function wppfm_getFeedDataToStore( feedDataSelector ) {
+	var selector = JSON.parse( feedDataSelector );
+	var result   = [];
+
+	for (var i = 0; i < selector.length; i++) {
+		var dataItem = {
+			'name' : selector[i]['db'],
+			'value' : undefined !== _feedHolder[ selector[i]['feed'] ] ? _feedHolder[ selector[i]['feed'] ] : '',
+			'type' : selector[i]['type']
+		};
+
+		result.push( dataItem );
+	}
+
+	return result;
 }

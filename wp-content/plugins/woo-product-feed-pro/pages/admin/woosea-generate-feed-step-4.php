@@ -3,7 +3,7 @@
  * Change default footer text, asking to review our plugin
  **/
 function my_footer_text($default) {
-    return 'If you like our <strong>WooCommerce Product Feed PRO</strong> plugin please leave us a <a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="woo-product-feed-pro-ratingRequest">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. Thanks in advance!';
+    return _e( 'If you like our <strong>WooCommerce Product Feed PRO</strong> plugin please leave us a <a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="woo-product-feed-pro-ratingRequest">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. Thanks in advance!','woo-product-feed-pro' );
 }
 add_filter('admin_footer_text', 'my_footer_text');
 
@@ -44,7 +44,7 @@ if (array_key_exists('project_hash', $_GET)){
 ?>
 	<div class="wrap">
 		<div class="woo-product-feed-pro-form-style-2">
-			<div class="woo-product-feed-pro-form-style-2-heading">Feed filters and rules</div>
+			<div class="woo-product-feed-pro-form-style-2-heading"><?php _e( 'Feed filters and rules','woo-product-feed-pro' );?></div>
 
                 	<div class="<?php _e($notifications_box['message_type']); ?>">
                         	<p><?php _e($notifications_box['message'], 'sample-text-domain' ); ?></p>
@@ -55,13 +55,13 @@ if (array_key_exists('project_hash', $_GET)){
 				<thead>
             				<tr>
                 				<th></th>
-						<th>Type</th>
-                				<th>IF</th>
-                				<th>Condition</th>
-                				<th>Value</th>
-						<th>CS</th>
-                				<th>Then</th>
-						<th>IS</th>
+						<th><?php _e( 'Type','woo-product-feed-pro' );?></th>
+                				<th><?php _e( 'IF','woo-product-feed-pro' );?></th>
+                				<th><?php _e( 'Condition','woo-product-feed-pro' );?></th>
+                				<th><?php _e( 'Value','woo-product-feed-pro' );?></th>
+						<th><?php _e( 'CS','woo-product-feed-pro' );?></th>
+                				<th><?php _e( 'Then','woo-product-feed-pro' );?></th>
+						<th><?php _e( 'IS','woo-product-feed-pro' );?></th>
             				</tr>
         			</thead>
       
@@ -79,7 +79,7 @@ if (array_key_exists('project_hash', $_GET)){
 							?>
            					 	<tr class="rowCount">
                 						<td><input type="hidden" name="rules[<?php print "$rule_key";?>][rowCount]" value="<?php print "$rule_key";?>"><input type="checkbox" name="record" class="checkbox-field"></td>
-                						<td><i>Filter</i></td>
+                						<td><i><?php _e( 'Filter','woo-product-feed-pro' );?></i></td>
 								<td>
 									<select name="rules[<?php print "$rule_key";?>][attribute]" class="select-field">
 										<option></option>
@@ -211,7 +211,7 @@ if (array_key_exists('project_hash', $_GET)){
 							?>
            				 		<tr class="rowCount">
                 						<td><input type="hidden" name="rules2[<?php print "$rule2_key";?>][rowCount]" value="<?php print "$rule2_key";?>"><input type="checkbox" name="record" class="checkbox-field"></td>
-                						<td><i>Rule</i></td>
+                						<td><i><?php _e( 'Rule','woo-product-feed-pro' );?></i></td>
 								<td>
 									<select name="rules2[<?php print "$rule2_key";?>][attribute]" class="select-field">
 										<option></option>

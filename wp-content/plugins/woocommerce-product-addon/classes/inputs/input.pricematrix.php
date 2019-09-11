@@ -101,6 +101,11 @@ class NM_PriceMatrix_wooproduct extends PPOM_Inputs{
 					'title' => __ ( 'Show price per unit?', "ppom" ),
 					'desc' => __ ( 'It will calculate price against per unit and show along total', "ppom" ) 
 			),
+			'hide_matrix_table' => array (
+					'type' => 'checkbox',
+					'title' => __ ( 'Hide Price Matrix?', "ppom" ),
+					'desc' => __ ( 'Price Matrix table will be hidden', "ppom" ) 
+			),
 			'logic' => array (
 					'type' => 'checkbox',
 					'title' => __ ( 'Enable Conditions', "ppom" ),

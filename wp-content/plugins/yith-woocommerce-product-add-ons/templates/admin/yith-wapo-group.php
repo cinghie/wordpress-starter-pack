@@ -61,6 +61,7 @@ $is_less_than_2_7 = version_compare( WC()->version, '2.7', '<' );
 							function echo_product_categories_childs_of( $id = 0, $tabs = 0, $categories_array = array() ) {
 
 								// WPML
+								/*
 								global $sitepress;
 								if ( is_object( $sitepress ) ) {
 									$yith_wapo_current_lang = apply_filters( 'wpml_current_language', NULL );
@@ -69,6 +70,7 @@ $is_less_than_2_7 = version_compare( WC()->version, '2.7', '<' );
 										$sitepress->switch_lang( $yith_wapo_temp_lang );
 									}
 								}
+								*/
 								
 								$categories = get_categories( array( 'taxonomy'=>'product_cat', 'parent'=>$id, 'orderby'=>'name', 'order'=>'ASC' ) );
 								foreach ( $categories as $key => $value ) {

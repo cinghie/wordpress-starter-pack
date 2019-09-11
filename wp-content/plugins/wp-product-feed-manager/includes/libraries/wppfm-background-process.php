@@ -67,7 +67,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	}
 
 	/**
-	 * Dispatch
+	 * Dispatch the feed generation process.
 	 *
 	 * @access public
 	 * @return array
@@ -76,7 +76,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 		// Schedule the cron health check.
 		$this->schedule_event();
 
-		// Perform remote post.
+		// Perform the remote post.
 		return parent::dispatch();
 	}
 
@@ -170,7 +170,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	}
 
 	/**
-	 * Save queue
+	 * Save queue data.
 	 *
 	 * @param string $feed_id
 	 *
@@ -404,7 +404,9 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 			$channel_details = get_site_option( 'channel_details_' . $properties_key );
 			$relations_table = get_site_option( 'relations_table_' . $properties_key );
 
-			do_action( 'wppfm_feed_processing_batch_activated', $feed_data->feedId );
+			$initial_memory = function_exists( 'ini_get' ) ? ini_get( 'memory_limit' ) : 'unknown';
+
+			do_action( 'wppfm_feed_processing_batch_activated', $feed_data->feedId, $initial_memory );
 
 			foreach ( $batch->data as $key => $value ) {
 				// the product ids are not stored in an array
@@ -427,7 +429,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 
 				unset( $batch->data[ $key ] ); // remove this product from the queue
 
-				if ( $this->time_exceeded() || $this->memory_exceeded() ) {
+				if ( $this->time_exceeded( $feed_data->feedId ) || $this->memory_exceeded( $feed_data->feedId ) ) {
 					// Batch limits reached.
 					$this->delete( $batch->key );
 					break;
@@ -440,7 +442,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 			} else {
 				$this->delete( $batch->key );
 			}
-		} while ( ! $this->time_exceeded() && ! $this->memory_exceeded() && ! $this->is_queue_empty() );
+		} while ( ! $this->time_exceeded( $feed_data->feedId ) && ! $this->memory_exceeded( $feed_data->feedId ) && ! $this->is_queue_empty() );
 
 		$this->unlock_process();
 
@@ -470,14 +472,17 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	 * Ensures the batch process never exceeds 90%
 	 * of the maximum WordPress memory.
 	 *
+	 * @param string $feed_id
+	 *
 	 * @return bool
 	 */
-	protected function memory_exceeded() {
+	protected function memory_exceeded( $feed_id ) {
 		$memory_limit   = $this->get_memory_limit() * 0.9; // 90% of max memory
 		$current_memory = memory_get_usage( true );
 		$return         = false;
 
 		if ( $current_memory >= $memory_limit ) {
+			do_action( 'wppfm_batch_memory_limit_exceeded', $feed_id, $current_memory, $memory_limit );
 			$return = true;
 		}
 
@@ -511,13 +516,16 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	 * Ensures the batch never exceeds a sensible time limit.
 	 * A timeout limit of 30s is common on shared hosting.
 	 *
+	 * @param string $feed_id
+	 *
 	 * @return bool
 	 */
-	protected function time_exceeded() {
+	protected function time_exceeded( $feed_id ) {
 		$finish = $this->start_time + apply_filters( 'wppfm_default_time_limit', 30 );
 		$return = false;
 
 		if ( time() >= $finish ) {
+			do_action( 'wppfm_batch_time_limit_exceeded', $feed_id, apply_filters( 'wppfm_default_time_limit', 30 ) );
 			$return = true;
 		}
 

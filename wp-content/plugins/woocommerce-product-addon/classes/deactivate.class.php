@@ -31,6 +31,11 @@ class PPOM_Deactivate {
     
     
     public function send_uninstall_reason() {
+        
+        if( ! current_user_can('administrator') ) {
+    		_e ("Sorry, you are not allowed to perform this action", 'ppom');
+    		die(0);
+    	}
 
         global $wpdb;
 

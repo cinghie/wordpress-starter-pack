@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 5.2.x - Development package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-05-21 11:21:53+0000\n"
+"PO-Revision-Date: 2019-09-02 18:06:52+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -86,6 +86,10 @@ msgstr "."
 #: wp-includes/class-wp-locale.php:213
 msgid "number_format_decimal_point"
 msgstr ","
+
+#: wp-includes/customize/class-wp-customize-theme-control.php:97
+msgid "New version available."
+msgstr "È disponibile una nuova versione."
 
 #: wp-includes/load.php:152
 msgid "Insufficient Requirements"
@@ -199,7 +203,7 @@ msgstr "[%s] È stata richiesta la modifica dell'email dell'amministratore del n
 #. title
 #: wp-includes/functions.php:6610
 msgid "[%s] Admin Email Changed"
-msgstr "[%s] L'email dell'amministratore è stata modificate"
+msgstr "[%s] L'email dell'amministratore è stata modificata"
 
 #. translators: New email address notification email subject. %s: Site name
 #: wp-includes/user.php:2813
@@ -289,7 +293,7 @@ msgstr "Testo placeholder opzionale"
 
 #: wp-includes/js/dist/block-library.js:19584
 msgid "Add label…"
-msgstr "Aggiungi una etichetta..."
+msgstr "Aggiungi un'etichetta..."
 
 #: wp-includes/js/dist/block-library.js:19583
 msgid "Label text"
@@ -446,11 +450,11 @@ msgstr "Caratteristica disattivata"
 msgid "Block Manager"
 msgstr "Gestore dei blocchi"
 
-#: wp-includes/js/dist/block-editor.js:17991
+#: wp-includes/js/dist/block-editor.js:18013
 msgid "Change block type or style"
 msgstr "Cambia tipo o stile del blocco"
 
-#: wp-includes/js/dist/block-editor.js:17059
+#: wp-includes/js/dist/block-editor.js:17081
 #: wp-includes/js/dist/block-library.js:6537
 #: wp-includes/js/dist/block-library.js:16785
 #: wp-includes/js/dist/block-library.js:17628
@@ -459,17 +463,17 @@ msgctxt "block style"
 msgid "Default"
 msgstr "Predefinito"
 
-#: wp-includes/js/dist/block-editor.js:14321
+#: wp-includes/js/dist/block-editor.js:14343
 msgctxt "keyboard key"
 msgid "Space"
 msgstr "Spazio"
 
-#: wp-includes/js/dist/block-editor.js:14314
+#: wp-includes/js/dist/block-editor.js:14336
 msgctxt "keyboard key"
 msgid "Backspace"
 msgstr "Backspace"
 
-#: wp-includes/js/dist/block-editor.js:13782
+#: wp-includes/js/dist/block-editor.js:13804
 msgid "More Rich Text Controls"
 msgstr "Ulteriori controlli di formattazione e inserimento"
 
@@ -483,7 +487,7 @@ msgstr "Cerca termini"
 
 #: wp-includes/js/dist/editor.js:11390
 msgid "Stick to the top of the blog"
-msgstr "Evidenza nella parte alta del blog"
+msgstr "Metti in evidenza nella parte alta del blog"
 
 #: wp-includes/js/dist/editor.js:9434
 msgid "Exit the Editor"
@@ -532,7 +536,7 @@ msgstr "Dettagli dell'errore"
 msgid "A recovery link was already sent %1$s ago. Please wait another %2$s before requesting a new email."
 msgstr "Un link di ripristino è già stato inviato %1$s fa. Attendi altri %2$s prima di richiedere una nuova email."
 
-#: wp-includes/class-wp-recovery-mode-email-service.php:65
+#: wp-login.php:429 wp-includes/class-wp-recovery-mode-email-service.php:65
 msgid "The email could not be sent. Possible reason: your host may have disabled the mail() function."
 msgstr "L'email non può essere inviata. Possibile motivo: l'host potrebbe aver disattivato la funzione mail()."
 
@@ -546,7 +550,7 @@ msgstr "La chiave di recupero è scaduta."
 
 #: wp-includes/class-wp-recovery-mode-key-service.php:109
 msgid "Invalid recovery key."
-msgstr "Chiave di recupero non valida.,"
+msgstr "Chiave di recupero non valida."
 
 #: wp-includes/class-wp-recovery-mode-key-service.php:105
 msgid "Invalid recovery key format."
@@ -557,38 +561,38 @@ msgid "Recovery Mode not initialized."
 msgstr "La modalità di recupero non è stata inizializzata."
 
 #. translators: user role for subscriber
-#: wp-includes/capabilities.php:994
+#: wp-includes/capabilities.php:1019
 msgctxt "User role"
 msgid "Subscriber"
 msgstr "Sottoscrittore"
 
 #. translators: user role for contributors
-#: wp-includes/capabilities.php:992
+#: wp-includes/capabilities.php:1017
 msgctxt "User role"
 msgid "Contributor"
 msgstr "Contributore"
 
 #. translators: user role for authors
-#: wp-includes/capabilities.php:990
+#: wp-includes/capabilities.php:1015
 msgctxt "User role"
 msgid "Author"
 msgstr "Autore"
 
 #. translators: user role for editors
-#: wp-includes/capabilities.php:988
+#: wp-includes/capabilities.php:1013
 msgctxt "User role"
 msgid "Editor"
 msgstr "Editore"
 
 #. translators: user role for administrators
-#: wp-includes/capabilities.php:986
+#: wp-includes/capabilities.php:1011
 msgctxt "User role"
 msgid "Administrator"
 msgstr "Amministratore"
 
 #: wp-includes/customize/class-wp-customize-media-control.php:240
 msgid "Select site icon"
-msgstr "Selezione l'icona del sito"
+msgstr "Seleziona l'icona del sito"
 
 #: wp-includes/user.php:3353
 msgid "An incomplete request for this email address already exists."
@@ -675,11 +679,11 @@ msgstr "https://wordpress.org/support/article/cookies/"
 
 #: wp-login.php:865 wp-includes/user.php:3591
 msgid "Missing confirm key."
-msgstr "Manca la chiave di conferma"
+msgstr "Manca la chiave di conferma."
 
 #: wp-login.php:861
 msgid "Missing request ID."
-msgstr "Manca l'ID richiesta"
+msgstr "Manca l'ID richiesta."
 
 #: wp-login.php:147
 msgid "Usage of the title attribute on the login logo is not recommended for accessibility reasons. Use the link text instead."
@@ -746,11 +750,11 @@ msgstr "Le date di registrazione e di ultima modifica devono essere date valide.
 
 #: wp-includes/ms-site.php:608
 msgid "Both registration and last updated dates must be provided."
-msgstr "Devono essere fornite sia la data di registrazione che la data di ultima modifica."
+msgstr "Devi fornire sia la data di registrazione che la data di ultima modifica."
 
 #: wp-includes/ms-site.php:601
 msgid "Site network ID must be provided."
-msgstr "Si deve fornire l'ID del sito del network."
+msgstr "Devi fornire l'ID del sito del network."
 
 #: wp-includes/ms-site.php:596
 msgid "Site path must not be empty."
@@ -850,7 +854,7 @@ msgstr "Se generare una UI (interfaccia utente) predefinita per gestire la tasso
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-taxonomies-controller.php:352
 msgid "Whether the taxonomy is publicly queryable."
-msgstr "Se la tassonomia e interrogabile pubblicamente."
+msgstr "Se la tassonomia è interrogabile pubblicamente."
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-taxonomies-controller.php:348
 msgid "Whether a taxonomy is intended for use publicly either via the admin interface or by front-end users."
@@ -912,7 +916,7 @@ msgid "Top Toolbar"
 msgstr "Barra degli strumenti in alto"
 
 #. translators: %d: number of words
-#: wp-includes/js/dist/block-editor.js:17185
+#: wp-includes/js/dist/block-editor.js:17207
 msgid "%d word"
 msgid_plural "%d words"
 msgstr[0] "%d parola"
@@ -938,23 +942,23 @@ msgstr "Permalink"
 msgid "To edit the featured image, you need permission to upload media."
 msgstr "Per modificare l'immagine in evidenza, ti occorre l'autorizzazione al caricamento dei media."
 
-#: wp-includes/js/dist/block-editor.js:16101
+#: wp-includes/js/dist/block-editor.js:16123
 msgid "Given your current role, you can only link a video, you cannot upload."
 msgstr "Dato il tuo ruolo corrente, puoi solo mettere un link ad un video, non puoi caricarlo."
 
-#: wp-includes/js/dist/block-editor.js:16099
+#: wp-includes/js/dist/block-editor.js:16121
 msgid "Given your current role, you can only link an image, you cannot upload."
 msgstr "Dato il tuo ruolo corrente, puoi solo mettere un link ad una immagine, non puoi caricarla."
 
-#: wp-includes/js/dist/block-editor.js:16097
+#: wp-includes/js/dist/block-editor.js:16119
 msgid "Given your current role, you can only link an audio, you cannot upload."
 msgstr "Dato il tuo ruolo corrente, puoi solo mettere un link ad un file audio, non puoi caricarlo."
 
-#: wp-includes/js/dist/block-editor.js:16094
+#: wp-includes/js/dist/block-editor.js:16116
 msgid "Given your current role, you can only link a media file, you cannot upload."
 msgstr "Dato il tuo ruolo corrente, puoi solo mettere un link ad un file media, non puoi caricarlo."
 
-#: wp-includes/js/dist/block-editor.js:16073
+#: wp-includes/js/dist/block-editor.js:16095
 msgid "To edit this block, you need permission to upload media."
 msgstr "Per modificare questo blocco devi avere il permesso di caricare file media."
 
@@ -996,12 +1000,12 @@ msgstr "Inizia a scrivere con testo o HTML"
 msgid "Type text or HTML"
 msgstr "Digita testo o HTML"
 
-#: wp-includes/js/dist/block-editor.js:12830
+#: wp-includes/js/dist/block-editor.js:12852
 #: wp-includes/js/dist/block-library.js:5734
 msgid "Start writing or type / to choose a block"
 msgstr "Inizia a scrivere o digita / per scegliere un blocco"
 
-#: wp-includes/js/dist/block-editor.js:17968
+#: wp-includes/js/dist/block-editor.js:17990
 msgid "Block icon"
 msgstr "Icona del blocco"
 
@@ -1406,19 +1410,19 @@ msgstr "Mostra i media a sinistra"
 msgid "Write list…"
 msgstr "Scrivi elenco…"
 
-#: wp-includes/js/dist/block-editor.js:14320
+#: wp-includes/js/dist/block-editor.js:14342
 msgid "Indent list item"
 msgstr "Aumenta rientro voci elenco"
 
-#: wp-includes/js/dist/block-editor.js:14313
+#: wp-includes/js/dist/block-editor.js:14335
 msgid "Outdent list item"
 msgstr "Riduci rientro voci elenco"
 
-#: wp-includes/js/dist/block-editor.js:14300
+#: wp-includes/js/dist/block-editor.js:14322
 msgid "Convert to ordered list"
 msgstr "Converti in lista ordinata"
 
-#: wp-includes/js/dist/block-editor.js:14287
+#: wp-includes/js/dist/block-editor.js:14309
 msgid "Convert to unordered list"
 msgstr "Converti in lista non ordinata"
 
@@ -1453,7 +1457,7 @@ msgstr "Impostazioni articoli recenti"
 
 #: wp-includes/js/dist/block-library.js:17931
 msgid "recent comments"
-msgstr "Commenti recenti"
+msgstr "commenti recenti"
 
 #: wp-includes/js/dist/block-library.js:17920
 msgid "Display a list of your most recent comments."
@@ -1490,7 +1494,7 @@ msgstr "foto"
 
 #: wp-includes/js/dist/block-library.js:10703
 msgid "Insert an image to make a visual statement."
-msgstr "Inserisci una immagine e cattura l'attenzione."
+msgstr "Inserisci un'immagine e cattura l'attenzione."
 
 #: wp-includes/js/dist/block-library.js:10336
 msgid "Image Dimensions"
@@ -1566,11 +1570,11 @@ msgstr "Impostazioni titolo"
 
 #: wp-includes/js/dist/block-library.js:13425
 msgid "photos"
-msgstr "Foto"
+msgstr "foto"
 
 #: wp-includes/js/dist/block-library.js:13425
 msgid "images"
-msgstr "Immagini"
+msgstr "immagini"
 
 #: wp-includes/js/dist/block-library.js:13422
 msgid "Display multiple images in a rich gallery."
@@ -1582,7 +1586,7 @@ msgstr "Rimuovi immagine"
 
 #: wp-includes/js/dist/block-library.js:13323
 msgid "Upload an image"
-msgstr "Carica una immagine"
+msgstr "Carica un'immagine"
 
 #: wp-includes/js/dist/block-library.js:13284
 msgid "Crop Images"
@@ -2126,7 +2130,7 @@ msgid "Close settings"
 msgstr "Chiudi le impostazioni"
 
 #. translators: %d: number of blocks
-#: wp-includes/js/dist/block-editor.js:17181
+#: wp-includes/js/dist/block-editor.js:17203
 msgid "%d block"
 msgid_plural "%d blocks"
 msgstr[0] "%d blocco"
@@ -2489,24 +2493,24 @@ msgstr "Rosso vivo"
 msgid "Pale pink"
 msgstr "Rosa pallido"
 
-#: wp-includes/js/dist/block-editor.js:19674
+#: wp-includes/js/dist/block-editor.js:19696
 msgid "Additional CSS Class"
 msgstr "Classe CSS aggiuntiva"
 
-#: wp-includes/js/dist/block-editor.js:19578
+#: wp-includes/js/dist/block-editor.js:19600
 msgid "Anchors lets you link directly to a section on a page."
 msgstr "Le ancore ti permettono di collegarti direttamente alla sezione di una pagina."
 
-#: wp-includes/js/dist/block-editor.js:19577
+#: wp-includes/js/dist/block-editor.js:19599
 msgid "HTML Anchor"
 msgstr "Ancora HTML"
 
-#: wp-includes/js/dist/block-editor.js:15862
+#: wp-includes/js/dist/block-editor.js:15884
 #: wp-includes/js/dist/block-library.js:10371
 msgid "Link Settings"
 msgstr "Impostazioni link"
 
-#: wp-includes/js/dist/block-editor.js:16589
+#: wp-includes/js/dist/block-editor.js:16611
 msgid "Insert Link"
 msgstr "Inserisci link"
 
@@ -2550,7 +2554,7 @@ msgstr "Statistiche del documento"
 msgid "Content structure"
 msgstr "Struttura del contenuto"
 
-#: wp-includes/js/dist/block-editor.js:16933
+#: wp-includes/js/dist/block-editor.js:16955
 msgid "Skip to the selected block"
 msgstr "Vai al blocco selezionato"
 
@@ -2892,7 +2896,7 @@ msgstr "Scrivi un riassunto (facoltativo)"
 msgid "Allow Comments"
 msgstr "Permetti di commentare"
 
-#: wp-includes/js/dist/block-editor.js:13617
+#: wp-includes/js/dist/block-editor.js:13639
 msgid "(%s: %s)"
 msgstr "(%s: %s)"
 
@@ -2908,23 +2912,23 @@ msgstr "Nessun titolo"
 msgid "Order"
 msgstr "Ordinamento"
 
-#: wp-includes/js/dist/block-editor.js:16091
+#: wp-includes/js/dist/block-editor.js:16113
 msgid "Drag a video, upload a new one or select a file from your library."
 msgstr "Trascina un video, caricane uno nuovo o seleziona un file dalla tua libreria."
 
-#: wp-includes/js/dist/block-editor.js:16089
+#: wp-includes/js/dist/block-editor.js:16111
 msgid "Drag an image, upload a new one or select a file from your library."
 msgstr "Trascina un'immagine, caricane una nuova o seleziona un file dalla tua libreria."
 
-#: wp-includes/js/dist/block-editor.js:16087
+#: wp-includes/js/dist/block-editor.js:16109
 msgid "Drag an audio, upload a new one or select a file from your library."
 msgstr "Trascina un file audio, caricane uno nuovo o seleziona un file dalla tua libreria."
 
-#: wp-includes/js/dist/block-editor.js:16084
+#: wp-includes/js/dist/block-editor.js:16106
 msgid "Drag a media file, upload a new one or select a file from your library."
 msgstr "Trascina un file media, caricane uno nuovo o seleziona un file dalla tua libreria."
 
-#: wp-includes/js/dist/block-editor.js:15922
+#: wp-includes/js/dist/block-editor.js:15944
 msgid "Paste or type URL"
 msgstr "Incolla o digita l'URL"
 
@@ -3004,66 +3008,66 @@ msgstr "Questa combinazione di colori può essere difficile da leggere per le pe
 msgid "This color combination may be hard for people to read. Try using a darker background color and/or a brighter text color."
 msgstr "Questa combinazione di colori può essere difficile da leggere per le persone. Prova a utilizzare un colore di sfondo più scuro e / o un colore di testo più brillante."
 
-#: wp-includes/js/dist/block-editor.js:13530
+#: wp-includes/js/dist/block-editor.js:13552
 msgid "(current %s: %s)"
 msgstr "(attuale %s: %s)"
 
-#: wp-includes/js/dist/block-editor.js:18022
+#: wp-includes/js/dist/block-editor.js:18044
 msgid "Transform To:"
 msgstr "Trasforma in:"
 
-#: wp-includes/js/dist/block-editor.js:18015
+#: wp-includes/js/dist/block-editor.js:18037
 msgid "Block Styles"
 msgstr "Stili dei blocchi"
 
-#: wp-includes/js/dist/block-editor.js:17991
+#: wp-includes/js/dist/block-editor.js:18013
 msgid "Change type of %d block"
 msgid_plural "Change type of %d blocks"
 msgstr[0] "Cambia tipo di %d blocco"
 msgstr[1] "Cambia tipo di %d blocchi"
 
-#: wp-includes/js/dist/block-editor.js:17573
+#: wp-includes/js/dist/block-editor.js:17595
 msgid "Remove from Reusable Blocks"
 msgstr "Togli dai blocchi riutilizzabili"
 
-#: wp-includes/js/dist/block-editor.js:17485
+#: wp-includes/js/dist/block-editor.js:17507
 msgid "Convert to Regular Block"
 msgstr "Converti in blocco regolare"
 
-#: wp-includes/js/dist/block-editor.js:17481
+#: wp-includes/js/dist/block-editor.js:17503
 msgid "Add to Reusable Blocks"
 msgstr "Aggiungi ai blocchi riutilizzabili"
 
-#: wp-includes/js/dist/block-editor.js:17852
+#: wp-includes/js/dist/block-editor.js:17874
 msgid "Remove Block"
 msgstr "Rimuovi blocco"
 
-#: wp-includes/js/dist/block-editor.js:17831
+#: wp-includes/js/dist/block-editor.js:17853
 msgid "Insert After"
 msgstr "Inserisci dopo"
 
-#: wp-includes/js/dist/block-editor.js:17826
+#: wp-includes/js/dist/block-editor.js:17848
 msgid "Insert Before"
 msgstr "Inserisci prima"
 
-#: wp-includes/js/dist/block-editor.js:17821
+#: wp-includes/js/dist/block-editor.js:17843
 msgid "Duplicate"
 msgstr "Duplica"
 
 #: wp-includes/js/dist/block-editor.js:9729
-#: wp-includes/js/dist/block-editor.js:17785
+#: wp-includes/js/dist/block-editor.js:17807
 msgid "More options"
 msgstr "Altre opzioni"
 
-#: wp-includes/js/dist/block-editor.js:17785
+#: wp-includes/js/dist/block-editor.js:17807
 msgid "Hide options"
 msgstr "Nascondi opzioni"
 
-#: wp-includes/js/dist/block-editor.js:17419
+#: wp-includes/js/dist/block-editor.js:17441
 msgid "Edit visually"
 msgstr "Modifica visivamente"
 
-#: wp-includes/js/dist/block-editor.js:17419
+#: wp-includes/js/dist/block-editor.js:17441
 msgid "Edit as HTML"
 msgstr "Modifica come HTML"
 
@@ -3121,7 +3125,7 @@ msgstr "Muovi in giù il blocco %1$s dalla posizione %2$d alla posizione %3$d"
 msgid "Block %s is the only block, and cannot be moved"
 msgstr "Il blocco %s è unico, e non può essere mosso"
 
-#: wp-includes/js/dist/block-editor.js:12458
+#: wp-includes/js/dist/block-editor.js:12480
 msgid "Block: %s"
 msgstr "Blocco: %s"
 
@@ -3136,7 +3140,7 @@ msgid "Resolve"
 msgstr "Correggi"
 
 #: wp-includes/js/dist/block-editor.js:9988
-#: wp-includes/js/dist/block-editor.js:17637
+#: wp-includes/js/dist/block-editor.js:17659
 msgid "Convert to Blocks"
 msgstr "Converti in blocchi"
 
@@ -3154,12 +3158,12 @@ msgid "This block has encountered an error and cannot be previewed."
 msgstr "Questo blocco ha causato un errore e non può essere visualizzato in anteprima."
 
 #: wp-includes/js/dist/block-editor.js:11346
-#: wp-includes/js/dist/block-editor.js:12862
-#: wp-includes/js/dist/block-editor.js:12963
+#: wp-includes/js/dist/block-editor.js:12884
+#: wp-includes/js/dist/block-editor.js:12985
 msgid "Add block"
 msgstr "Aggiungi blocco"
 
-#: wp-includes/js/dist/block-editor.js:17244
+#: wp-includes/js/dist/block-editor.js:17266
 msgid "No block selected."
 msgstr "Nessun blocco selezionato."
 
@@ -3430,13 +3434,13 @@ msgstr "Selettore colore personalizzato"
 
 #: wp-includes/js/dist/components.js:27728
 #: wp-includes/js/dist/components.js:33378
-#: wp-includes/js/dist/block-editor.js:16323
+#: wp-includes/js/dist/block-editor.js:16345
 msgid "No results."
 msgstr "Nessun risultato."
 
 #: wp-includes/js/dist/components.js:27726
 #: wp-includes/js/dist/components.js:33376
-#: wp-includes/js/dist/block-editor.js:16321
+#: wp-includes/js/dist/block-editor.js:16343
 msgid "%d result found, use up and down arrow keys to navigate."
 msgid_plural "%d results found, use up and down arrow keys to navigate."
 msgstr[0] "%d risultato trovato, utilizza i tasti freccia su e giù per navigare."
@@ -4212,8 +4216,8 @@ msgctxt "customizer changeset status"
 msgid "Scheduled"
 msgstr "Pianificati"
 
-#: wp-includes/customize/class-wp-customize-theme-control.php:115
-#: wp-includes/customize/class-wp-customize-theme-control.php:123
+#: wp-includes/customize/class-wp-customize-theme-control.php:122
+#: wp-includes/customize/class-wp-customize-theme-control.php:130
 msgctxt "theme"
 msgid "Installed"
 msgstr "Installato"
@@ -4920,19 +4924,19 @@ msgid ""
 msgstr ""
 "Ciao ###USERNAME###,\n"
 "\n"
-"Recentemente hai richiesto il cambio dell'indirizzo mail dell'amministratore\n"
-"della tua rete.\n"
+"Hai recentemente richiesto di cambiare l'indirizzo email \n"
+"dell'amministratore della tua rete.\n"
 "\n"
-"Per confermare, fai click sul seguente link:\n"
+"Per confermare la modifica, fai clic sul seguente link:\n"
 "###ADMIN_URL###\n"
 "\n"
-"Puoi tranquillamente ignorare e cancellare questa mail\n"
+"Puoi tranquillamente ignorare ed eliminare questa email\n"
 "se non vuoi procedere con la richiesta.\n"
 "\n"
-"Questa mail è stata spedita a ###EMAIL###\n"
+"Questa email è stata inviata a ###EMAIL###\n"
 "\n"
 "Saluti,\n"
-"Tutto da ###SITENAME###\n"
+"###SITENAME###\n"
 "###SITEURL###"
 
 #: wp-includes/ms-functions.php:188
@@ -4961,14 +4965,14 @@ msgid ""
 msgstr ""
 "Ciao,\n"
 "\n"
-"Questo avviso conferma il cambio del'indirizzo mail dell'amministratore del sito  ###SITENAME###.\n"
+"Questo avviso conferma il cambio dell'indirizzo email dell'amministratore del sito ###SITENAME###.\n"
 "\n"
-"Il nuovo indirizzo mail è ###NEW_EMAIL###.\n"
+"Il nuovo indirizzo email è ###NEW_EMAIL###.\n"
 "\n"
-"Questa mail è stata inviata a ###OLD_EMAIL###\n"
+"Questa email è stata inviata a ###OLD_EMAIL###\n"
 "\n"
-"SAluti,\n"
-"A tutti ###SITENAME###\n"
+"Saluti,\n"
+"###SITENAME###\n"
 "###SITEURL###"
 
 #: wp-includes/functions.php:6509
@@ -4997,7 +5001,7 @@ msgstr "Torna alla sorgente del tema"
 msgid "Search WordPress.org themes"
 msgstr "Cerca temi su WordPress.org"
 
-#: wp-includes/customize/class-wp-customize-theme-control.php:128
+#: wp-includes/customize/class-wp-customize-theme-control.php:135
 msgid "Install &amp; Preview"
 msgstr "Installazione &amp; Anteprima"
 
@@ -5104,7 +5108,7 @@ msgstr "L'uso dei livelli utente è deprecato. Utilizza invece le capacità."
 #. translators: %s: Template
 #: wp-includes/class-wp-theme.php:274
 msgid "The theme defines itself as its parent theme. Please check the %s header."
-msgstr "Questo tema definisce se stesso come tema genitore. Controlla l'intestazione di %s ."
+msgstr "Questo tema definisce se stesso come tema genitore. Controlla l'header di %s."
 
 #: wp-includes/class-wp-editor.php:189 wp-includes/class-wp-editor.php:1286
 msgctxt "Name for the Visual editor tab"
@@ -5786,7 +5790,7 @@ msgstr "Il formato oEmbed da utilizzare."
 
 #: wp-includes/class-wp-oembed-controller.php:69
 msgid "The URL of the resource for which to fetch oEmbed data."
-msgstr "La URL della risorsa da cui recuperare i dati oEmbed."
+msgstr "L'URL della risorsa da cui recuperare i dati oEmbed."
 
 #: wp-includes/class-wp-editor.php:1171
 msgctxt "Short for blue in RGB"
@@ -7486,13 +7490,12 @@ msgstr "Filtro temi"
 msgid "Change theme"
 msgstr "Cambia il tema"
 
-#. translators: %s: "Update now" button
-#: wp-includes/customize/class-wp-customize-theme-control.php:97
+#: wp-includes/customize/class-wp-customize-theme-control.php:102
 msgid "Update now"
 msgstr "Aggiorna il tema ora"
 
 #. translators: %s: "Update now" button
-#: wp-includes/customize/class-wp-customize-theme-control.php:97
+#: wp-includes/customize/class-wp-customize-theme-control.php:101
 msgid "New version available. %s"
 msgstr "Nuova versione disponibile. %s"
 
@@ -8155,7 +8158,7 @@ msgstr "Opzioni link"
 msgid "Link inserted."
 msgstr "Link inserito."
 
-#: wp-includes/script-loader.php:1394 wp-includes/js/dist/block-editor.js:16420
+#: wp-includes/script-loader.php:1394 wp-includes/js/dist/block-editor.js:16442
 msgid "Link selected."
 msgstr "Link selezionato."
 
@@ -8376,7 +8379,7 @@ msgstr "Approvato"
 #. translators: 1: index.php, 2: link to documentation, 3: style.css
 #: wp-includes/class-wp-theme.php:293
 msgid "Template is missing. Standalone themes need to have a %1$s template file. <a href=\"%2$s\">Child themes</a> need to have a Template header in the %3$s stylesheet."
-msgstr "Modello mancante. I temi devono avere un file di modello %1$s . <a href=\"%2$s\">I temi Child</a> devono avere una intestazione di modello nel foglio di stile %3$s."
+msgstr "Template mancante. I temi devono avere un file template %1$s . <a href=\"%2$s\">I temi child</a> devono avere un template per l'header nel foglio stile %3$s."
 
 #: wp-includes/class-wp-metadata-lazyloader.php:77
 #: wp-includes/class-wp-metadata-lazyloader.php:117
@@ -8384,7 +8387,7 @@ msgid "Invalid object type"
 msgstr "Tipo oggetto non valido"
 
 #: wp-includes/class-wp-editor.php:1283
-#: wp-includes/js/dist/block-editor.js:16482
+#: wp-includes/js/dist/block-editor.js:16504
 msgid "Paste URL or type to search"
 msgstr "Incolla l'URL oppure digita per cercare"
 
@@ -9200,7 +9203,7 @@ msgstr "Nascondi immagine"
 
 #: wp-includes/customize/class-wp-customize-header-image-control.php:236
 msgid "Hide header image"
-msgstr "Nascondi l'immagine dell'intestazione"
+msgstr "Nascondi l'immagine dell'header"
 
 #: wp-includes/class-wp-customize-manager.php:5069
 msgid "Site Icon"
@@ -9789,7 +9792,7 @@ msgstr[0] "%1$s risposta a %2$s "
 msgstr[1] "%1$s risposte a %2$s "
 
 #. translators: %s: theme name
-#: wp-includes/customize/class-wp-customize-theme-control.php:108
+#: wp-includes/customize/class-wp-customize-theme-control.php:115
 msgid "<span>Previewing:</span> %s"
 msgstr "<span>Anteprima:</span> %s"
 
@@ -9999,7 +10002,7 @@ msgid "Theme Details"
 msgstr "Dettagli del tema"
 
 #: wp-includes/script-loader.php:1767
-#: wp-includes/customize/class-wp-customize-theme-control.php:120
+#: wp-includes/customize/class-wp-customize-theme-control.php:127
 msgid "Live Preview"
 msgstr "Anteprima in tempo reale"
 
@@ -11343,7 +11346,7 @@ msgstr "Precedentemente caricata"
 
 #: wp-includes/customize/class-wp-customize-header-image-control.php:228
 msgid "Current header"
-msgstr "Intestazione attuale"
+msgstr "Header attuale"
 
 #: wp-includes/customize/class-wp-customize-header-image-control.php:167
 msgid "No image set"
@@ -11675,10 +11678,6 @@ msgstr "Il browser web del tuo dispositivo non può essere utilizzato per carica
 msgid "<strong>ERROR</strong>: Couldn&#8217;t register you&hellip; please contact the <a href=\"mailto:%s\">webmaster</a> !"
 msgstr "<strong>ERRORE</strong>: impossibile registrarti&hellip; contatta il <a href=\"mailto:%s\">Webmaster</a>!"
 
-#: wp-login.php:429
-msgid "Possible reason: your host may have disabled the mail() function."
-msgstr "Possibili motivi: il tuo host può aver disabilitato la funzione mail()."
-
 #: wp-includes/post-template.php:298
 msgid "(more&hellip;)"
 msgstr "(altro&hellip;)"
@@ -11768,7 +11767,7 @@ msgstr "Didascalia per questa immagine&hellip;"
 msgid "Random Order"
 msgstr "Ordine casuale"
 
-#: wp-includes/media.php:3689 wp-includes/js/dist/block-editor.js:16155
+#: wp-includes/media.php:3689 wp-includes/js/dist/block-editor.js:16177
 msgid "Insert from URL"
 msgstr "Inserisci dall'URL"
 
@@ -11839,7 +11838,7 @@ msgstr "Gestione video"
 
 #: wp-includes/widgets/class-wp-widget-media-video.php:27
 #: wp-includes/post.php:2630 wp-includes/js/dist/editor.js:8833
-#: wp-includes/js/dist/block-editor.js:16114
+#: wp-includes/js/dist/block-editor.js:16136
 #: wp-includes/js/dist/block-library.js:15794
 msgid "Video"
 msgstr "Video"
@@ -11874,7 +11873,7 @@ msgstr "Inserisci nella pagina"
 
 #: wp-includes/widgets/class-wp-widget-media-audio.php:27
 #: wp-includes/post.php:2629 wp-includes/js/dist/editor.js:8836
-#: wp-includes/js/dist/block-editor.js:16110
+#: wp-includes/js/dist/block-editor.js:16132
 #: wp-includes/js/dist/block-library.js:14521
 msgid "Audio"
 msgstr "Audio"
@@ -11895,7 +11894,7 @@ msgstr "&#8592; Torna alla libreria"
 #: wp-includes/media-template.php:1059
 #: wp-includes/js/dist/block-library.js:10197
 msgid "Custom URL"
-msgstr "URL personalizzata"
+msgstr "URL personalizzato"
 
 #: wp-includes/media-template.php:802 wp-includes/js/dist/block-library.js:6986
 #: wp-includes/js/dist/block-library.js:7070
@@ -11962,7 +11961,7 @@ msgstr "Trascina file per caricare"
 msgid "Create Gallery"
 msgstr "Crea galleria"
 
-#: wp-includes/media.php:3657 wp-includes/js/dist/block-editor.js:16146
+#: wp-includes/media.php:3657 wp-includes/js/dist/block-editor.js:16168
 msgid "Media Library"
 msgstr "Libreria media"
 
@@ -12028,7 +12027,7 @@ msgstr "File media"
 #: wp-includes/js/dist/block-library.js:11729
 #: wp-includes/js/dist/block-library.js:13034
 msgid "Attachment Page"
-msgstr "Allegato pagina"
+msgstr "Pagina dell’allegato"
 
 #: wp-includes/widgets/class-wp-widget-media-image.php:103
 #: wp-includes/media-template.php:698 wp-includes/media-template.php:780
@@ -12237,7 +12236,7 @@ msgid "Select file"
 msgstr "Seleziona file"
 
 #: wp-includes/admin-bar.php:434
-#: wp-includes/customize/class-wp-customize-theme-control.php:112
+#: wp-includes/customize/class-wp-customize-theme-control.php:119
 msgid "Customize"
 msgstr "Personalizza"
 
@@ -12353,7 +12352,7 @@ msgstr "File permessi"
 msgid "Remove"
 msgstr "Rimuovi"
 
-#: wp-includes/js/dist/block-editor.js:16134
+#: wp-includes/js/dist/block-editor.js:16156
 msgid "Upload"
 msgstr "Carica"
 
@@ -12489,7 +12488,7 @@ msgstr "Motto"
 msgid "Your latest posts"
 msgstr "Gli ultimi articoli"
 
-#: wp-includes/js/dist/block-editor.js:17259
+#: wp-includes/js/dist/block-editor.js:17281
 msgid "Styles"
 msgstr "Stili"
 
@@ -12719,7 +12718,7 @@ msgstr "%s supera la dimensione massima di caricamento per questo sito."
 
 #: wp-includes/admin-bar.php:183
 msgid "Feedback"
-msgstr "Riscontro"
+msgstr "Feedback"
 
 #: wp-includes/comment.php:3283
 msgid "<strong>ERROR</strong>: please fill the required fields (name, email)."
@@ -12924,7 +12923,7 @@ msgstr "Oppure inserisci un link a un contenuto esistente "
 
 #: wp-includes/class-wp-editor.php:1730
 msgid "Enter the destination URL"
-msgstr "Inserisci la URL di destinazione"
+msgstr "Inserisci l'URL di destinazione"
 
 #: wp-includes/query.php:157 wp-includes/query.php:182
 #: wp-includes/query.php:207 wp-includes/query.php:235
@@ -12984,7 +12983,7 @@ msgstr "Audio"
 #: wp-includes/class-wp-xmlrpc-server.php:5251
 #: wp-includes/class-wp-xmlrpc-server.php:5603
 msgid "Invalid post format."
-msgstr "Formato articolo non valido"
+msgstr "Formato articolo non valido."
 
 #: wp-includes/class-wp-editor.php:1761
 msgid "No search term specified. Showing recent items."
@@ -13414,7 +13413,7 @@ msgstr "Non hai i permessi per pubblicare articoli su questo sito."
 
 #: wp-includes/option.php:1924
 msgid "Site URL."
-msgstr "URL sito"
+msgstr "URL del sito."
 
 #: wp-includes/class-wp-xmlrpc-server.php:550
 msgid "Site Tagline"
@@ -13479,13 +13478,13 @@ msgid ""
 "\n"
 "%2$s"
 msgstr ""
-"Per attivare il tuo blog, fai click sul seguente link:\n"
+"Per attivare il tuo blog, fai clic sul seguente link:\n"
 "\n"
 "%1$s\n"
 "\n"
-"Dopo  l&#8217;attivazione, riceverai *un&#8217;altra email* con i dati di login. \n"
+"Dopo l&#8217;attivazione, riceverai *un&#8217;altra email* con i dati di accesso. \n"
 "\n"
-"Dopo  l&#8217;attivazione,, potrai visitare il tuo sito qui:\n"
+"Dopo l&#8217;attivazione, potrai visitare il tuo sito qui:\n"
 "\n"
 "%2$s"
 
@@ -13496,7 +13495,7 @@ msgstr "Questo sito esiste già!"
 
 #: wp-includes/load.php:605
 msgid "The site you have requested is not installed properly. Please contact the system administrator."
-msgstr "Il sito richiesto non è installato correttamente. Contattare l'amministratore di sistema."
+msgstr "Il sito richiesto non è installato correttamente. Contatta l'amministratore di sistema."
 
 #: wp-includes/ms-load.php:122
 msgid "This site has been archived or suspended."
@@ -13508,11 +13507,11 @@ msgstr "L'ID dell'oggetto indicato non è quello di un elemento del menu."
 
 #: wp-includes/formatting.php:4600
 msgid "The Site address you entered did not appear to be a valid URL. Please enter a valid URL."
-msgstr "L'indirizzo del sito immesso non sembra essere una URL valida. Inserisci una URL valida."
+msgstr "L'indirizzo del sito immesso non sembra essere un URL valido. Inserisci un URL valido."
 
 #: wp-includes/formatting.php:4587
 msgid "The WordPress address you entered did not appear to be a valid URL. Please enter a valid URL."
-msgstr "L'indirizzo di WordPress inserito non sembra essere una URL valida. Inserisci una URL valida."
+msgstr "L'indirizzo di WordPress inserito non sembra essere un URL valido. Inserisci un URL valido."
 
 #: wp-includes/formatting.php:4477
 msgid "The email address entered did not appear to be a valid email address. Please enter a valid email address."
@@ -13533,7 +13532,7 @@ msgstr "Il tuo indirizzo email non sarà pubblicato."
 #: wp-includes/class-wp-xmlrpc-server.php:6692 wp-includes/class-http.php:275
 #: wp-includes/class-http.php:493
 msgid "A valid URL was not provided."
-msgstr "Non è stata fornita una URL valida."
+msgstr "Non è stato fornito un URL valido."
 
 #: wp-includes/class-wp-image-editor-imagick.php:261
 #: wp-includes/class-wp-image-editor-gd.php:182
@@ -13548,7 +13547,7 @@ msgstr[1] "Completati <span class=\"count\">(%s)</span>"
 
 #: wp-includes/ms-load.php:495
 msgid "If you&#8217;re still stuck with this message, then check that your database contains the following tables:"
-msgstr "Se si continua a visualizzare questo messaggio, verificare che il database contenga le seguenti tabelle:"
+msgstr "Se continui a visualizzare questo messaggio, verifica che il database contenga le seguenti tabelle:"
 
 #: wp-signup.php:836
 msgid "If you haven&#8217;t received your email yet, there are a number of things you can do:"
@@ -13561,11 +13560,11 @@ msgstr "Bentornato %s. Compilando il seguente modulo è possibile <strong>aggiun
 
 #: wp-mail.php:15 wp-mail.php:21
 msgid "This action has been disabled by the administrator."
-msgstr "Questa azione è stata disabilitata dall'amministratore"
+msgstr "Questa azione è stata disabilitata dall'amministratore."
 
 #: wp-signup.php:974
 msgid "You are logged in already. No need to register again!"
-msgstr "Si è già fatto il login. Non serve registrarsi nuovamente!"
+msgstr "Sei già connesso. Non serve ti registri nuovamente!"
 
 #. translators: %s: login URL
 #: wp-signup.php:934
@@ -13791,7 +13790,7 @@ msgstr "L’installazione di PHP non ha l’estensione MySQL necessaria per util
 
 #: wp-includes/class-wp-xmlrpc-server.php:6918
 msgid "The specified target URL does not exist."
-msgstr "L’URL di destinazione specifica non esiste"
+msgstr "L’URL di destinazione specifica non esiste."
 
 #. translators: 1: URL of the page linked from, 2: URL of the page linked to
 #: wp-includes/class-wp-xmlrpc-server.php:6885
@@ -13823,7 +13822,7 @@ msgstr "L'URL di partenza e l'URL d'arrivo non possono puntare alla stessa risor
 #: wp-includes/class-wp-xmlrpc-server.php:6750
 #: wp-includes/class-wp-xmlrpc-server.php:6911
 msgid "The specified target URL cannot be used as a target. It either doesn&#8217;t exist, or it is not a pingback-enabled resource."
-msgstr "L'URL indicata non può essere usata come destinazione. O non esiste o non è una risorsa abilitata al pingback."
+msgstr "L'URL indicato non può essere usata come destinazione. O non esiste o non è una risorsa abilitata al pingback."
 
 #: wp-includes/class-wp-xmlrpc-server.php:6698
 msgid "Is there no link to us?"
@@ -13926,7 +13925,7 @@ msgstr "ID articolo non valido."
 
 #: wp-includes/class-wp-xmlrpc-server.php:3802
 msgid "You must be registered to comment."
-msgstr "Occorre essere registrati per poter inviare commenti"
+msgstr "Devi essere registrato per poter inviare commenti."
 
 #: wp-includes/class-wp-xmlrpc-server.php:3549
 #: wp-includes/class-wp-xmlrpc-server.php:3711
@@ -14113,10 +14112,6 @@ msgstr "<strong>ERRORE</strong>: inserisci il tuo indirizzo email."
 msgid "Invalid key."
 msgstr "Chiave non valida"
 
-#: wp-login.php:429
-msgid "The email could not be sent."
-msgstr "Impossibile inviare l’email."
-
 #. translators: Password reset notification email subject. %s: Site title
 #: wp-login.php:399
 msgid "[%s] Password Reset"
@@ -14175,7 +14170,7 @@ msgstr "ID oggetto non valido."
 #. translators: %s: taxonomy term slug
 #: wp-includes/taxonomy.php:2904
 msgid "The slug &#8220;%s&#8221; is already in use by another term."
-msgstr "L'abbreviazione &#8220;%s&#8221; è già utilizzata da un altro termine"
+msgstr "Lo slug &#8220;%s&#8221; è già utilizzato da un altro termine."
 
 #: wp-includes/taxonomy.php:2254
 msgid "Could not insert term into the database."
@@ -14196,7 +14191,7 @@ msgstr "Salvataggio bozza&#8230;"
 
 #: wp-includes/script-loader.php:1833
 msgid "Could not set that as the thumbnail image. Try a different attachment."
-msgstr "Impossibile impostare questo elemento come miniatura della pagina. Provare con un differente allegato."
+msgstr "Impossibile impostare questo elemento come immagine in evidenza. Prova con un differente allegato."
 
 #: wp-includes/script-loader.php:1832
 msgid "Saving..."
@@ -14302,7 +14297,7 @@ msgstr "di"
 #: wp-includes/script-loader.php:1102
 #: wp-includes/widgets/class-wp-widget-media-image.php:27
 #: wp-includes/class-wp-editor.php:1110 wp-includes/js/dist/editor.js:8821
-#: wp-includes/js/dist/block-editor.js:16112
+#: wp-includes/js/dist/block-editor.js:16134
 #: wp-includes/js/dist/block-library.js:10702
 #: wp-includes/js/dist/format-library.js:570
 msgid "Image"
@@ -14527,12 +14522,12 @@ msgstr "Cosa devo fare ora?"
 #: wp-includes/rest-api/endpoints/class-wp-rest-attachments-controller.php:808
 #: wp-includes/ms-functions.php:1984
 msgid "This file is too big. Files must be less than %s KB in size."
-msgstr "Questo file è troppo grande. I file devono essere meno di  %s KB come dimensione."
+msgstr "Questo file è troppo grande. I file devono essere meno di %s KB come dimensione."
 
 #. translators: %s: allowed space allocation
 #: wp-includes/class-wp-xmlrpc-server.php:6241
 msgid "Sorry, you have used your space allocation of %s. Please delete some files to upload more files."
-msgstr "Hai utilizzato tutto il tuo76 spazio di memorizzazione di %s. Cancella qualche file per poter caricare altri file."
+msgstr "Hai utilizzato tutto il tuo spazio di memorizzazione di %s. Elimina qualche file per poterne caricare altri."
 
 #. translators: New user notification email subject. 1: Network name, 2: New
 #. user login
@@ -14610,11 +14605,11 @@ msgstr "am"
 
 #: wp-includes/link-template.php:2876
 msgid "&laquo; Older Comments"
-msgstr "&laquo; Commenti precedenti"
+msgstr "&laquo; Commenti meno recenti"
 
 #: wp-includes/link-template.php:2829
 msgid "Newer Comments &raquo;"
-msgstr "Commenti seguenti &raquo;"
+msgstr "Commenti più recenti &raquo;"
 
 #: wp-includes/deprecated.php:2683
 msgid "Last Post"
@@ -15644,7 +15639,7 @@ msgstr "(Modifica)"
 #: wp-includes/class-walker-comment.php:300
 #: wp-includes/class-walker-comment.php:387
 msgid "%1$s at %2$s"
-msgstr "%1$s @ %2$s"
+msgstr "%1$s alle %2$s"
 
 #: wp-includes/class-walker-comment.php:269
 #: wp-includes/class-walker-comment.php:359
@@ -15700,7 +15695,7 @@ msgstr "Inserisci la tua password per visualizzare i commenti."
 
 #: wp-includes/widgets/class-wp-widget-meta.php:76
 msgid "Powered by WordPress, state-of-the-art semantic personal publishing platform."
-msgstr "Powered by WordPress, allo stato dell’arte una piattaforma di editoria personale semantica-"
+msgstr "Powered by WordPress, allo stato dell’arte una piattaforma di editoria personale semantica."
 
 #: wp-includes/blocks/rss.php:62
 msgid "by"
@@ -15849,7 +15844,7 @@ msgstr "Temi"
 msgid "Sites"
 msgstr "Siti"
 
-#: wp-includes/js/dist/block-editor.js:16589
+#: wp-includes/js/dist/block-editor.js:16611
 msgid "Edit Link"
 msgstr "Modifica link"
 
@@ -15953,7 +15948,7 @@ msgstr "Aiuto"
 #: wp-includes/widgets/class-wp-widget-recent-posts.php:97
 #: wp-includes/blocks/latest-comments.php:31 wp-includes/media.php:3265
 #: wp-includes/js/dist/editor.js:10847
-#: wp-includes/js/dist/block-editor.js:16513
+#: wp-includes/js/dist/block-editor.js:16535
 #: wp-includes/js/dist/edit-post.js:4995
 msgid "(no title)"
 msgstr "(senza titolo)"
@@ -15979,7 +15974,7 @@ msgstr "Seleziona"
 #: wp-includes/class-wp-customize-manager.php:5600
 #: wp-includes/class-wp-editor.php:1077 wp-includes/class-wp-editor.php:1727
 #: wp-includes/js/dist/components.js:30790
-#: wp-includes/js/dist/block-editor.js:16607
+#: wp-includes/js/dist/block-editor.js:16629
 #: wp-includes/js/dist/edit-post.js:3942 wp-includes/js/dist/edit-post.js:4216
 #: wp-includes/js/dist/edit-post.js:4608
 msgid "Close"
@@ -16026,7 +16021,7 @@ msgstr "Cerca"
 #: wp-includes/widgets/class-wp-widget-text.php:549
 #: wp-includes/class-wp-customize-manager.php:4200
 msgid "Dismiss"
-msgstr "Rimuovi"
+msgstr "Ignora"
 
 #: wp-includes/taxonomy.php:551
 msgid "All Categories"
@@ -16081,7 +16076,7 @@ msgid "Image URL"
 msgstr "URL immagine"
 
 #: wp-includes/media.php:4171 wp-includes/class-wp-editor.php:1127
-#: wp-includes/js/dist/block-editor.js:16107
+#: wp-includes/js/dist/block-editor.js:16129
 msgid "Media"
 msgstr "Media"
 
@@ -16265,7 +16260,7 @@ msgstr "Anteprima"
 msgid "RSS"
 msgstr "RSS"
 
-#: wp-includes/js/dist/block-editor.js:16614
+#: wp-includes/js/dist/block-editor.js:16636
 msgid "Submit"
 msgstr "Invia"
 
@@ -16325,7 +16320,7 @@ msgid "Name"
 msgstr "Nome"
 
 #: wp-includes/class-wp-editor.php:1113
-#: wp-includes/js/dist/block-editor.js:17266
+#: wp-includes/js/dist/block-editor.js:17288
 msgid "Advanced"
 msgstr "Avanzate"
 
@@ -16390,7 +16385,7 @@ msgstr "Commenti"
 
 #: wp-includes/class-wp-customize-widgets.php:777 wp-includes/media.php:3678
 #: wp-includes/class-wp-editor.php:1284
-#: wp-includes/js/dist/block-editor.js:15928
+#: wp-includes/js/dist/block-editor.js:15950
 #: wp-includes/js/dist/block-library.js:17530
 #: wp-includes/js/dist/format-library.js:712
 #: wp-includes/js/dist/format-library.js:974
@@ -16439,8 +16434,8 @@ msgstr "Commento"
 #: wp-includes/customize/class-wp-customize-nav-menu-item-control.php:92
 #: wp-includes/class-wp-editor.php:1159 wp-includes/class-wp-editor.php:1732
 #: wp-includes/class-wp-customize-nav-menus.php:1189
-#: wp-includes/js/dist/block-editor.js:15921
-#: wp-includes/js/dist/block-editor.js:16477
+#: wp-includes/js/dist/block-editor.js:15943
+#: wp-includes/js/dist/block-editor.js:16499
 #: wp-includes/js/dist/block-library.js:11720
 msgid "URL"
 msgstr "URL"
@@ -16497,7 +16492,7 @@ msgstr "Nome utente:"
 
 #: wp-activate.php:30 wp-activate.php:167
 msgid "An error occurred during the activation"
-msgstr "Si è verificato un errore durante l'attivazione."
+msgstr "Si è verificato un errore durante l'attivazione"
 
 #: wp-activate.php:142 wp-activate.php:176
 msgid "Your account is now active!"

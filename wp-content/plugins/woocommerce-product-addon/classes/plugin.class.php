@@ -48,7 +48,6 @@ class NM_PersonalizedProduct {
 		
 		/** ============ NEW Hooks ==================== */
 		
-		// add_action( 'wp_enqueue_scripts', 'ppom_hooks_scripts' );
 		add_action( 'admin_bar_menu',   'ppom_admin_bar_menu', 1000 );
 		
 		// Rendering fields on product page
@@ -70,12 +69,25 @@ class NM_PersonalizedProduct {
 		/*
 		 * 4- now loading all meta on cart/checkout page from session confirmed that it is loading for cart and checkout
 		 */
-		// Filter/Upate cart/checkout prices using this hook
-		add_filter ( 'woocommerce_get_cart_item_from_session', 'ppom_woocommerce_update_cart_fees', 10, 2 );
+		
+		// Control price calculations on cart page
+		if( ppom_get_price_mode() == 'legacy' ) {
+		
+			add_filter ( 'woocommerce_get_cart_item_from_session', 'ppom_woocommerce_update_cart_fees', 10, 2 );
+			add_action( 'woocommerce_cart_calculate_fees', 'ppom_woocommerce_add_fixed_fee' );
+		} else {
+			// V18.0 Non-JS base price calcuation
+			add_filter ( 'woocommerce_get_cart_item_from_session', 'ppom_price_controller', 10, 2 );
+			add_action( 'woocommerce_cart_calculate_fees', 'ppom_price_cart_fee' );
+			// Calculating weights
+			add_action( 'ppom_before_calculate_cart_total', 'ppom_hooks_update_cart_weight', 10, 3);
+		}
+		
+		
+		
+		
 		add_action( 'woocommerce_cart_loaded_from_session', 'ppom_calculate_totals_from_session');
 		
-		// Add fixed extra fee in cart
-		add_action( 'woocommerce_cart_calculate_fees', 'ppom_woocommerce_add_fixed_fee' );
 		// Mini/Cart Widget fixed fee
 		add_action( 'woocommerce_widget_shopping_cart_before_buttons', 'ppom_woocommerce_mini_cart_fixed_fee');
 		
@@ -94,7 +106,15 @@ class NM_PersonalizedProduct {
 		
 		// Control quantity on cart when quantities used
 		add_filter( 'woocommerce_add_to_cart_quantity', 'ppom_woocommerce_add_to_cart_quantity', 10, 2);
-		add_filter( 'woocommerce_cart_item_quantity', 'ppom_woocommerce_control_cart_quantity', 10, 2);
+		
+		// Cart quantity control
+		if( ppom_get_price_mode() == 'legacy' ) {
+			add_filter( 'woocommerce_cart_item_quantity', 'ppom_woocommerce_control_cart_quantity_legacy', 10, 2);
+		} else {
+			add_filter( 'woocommerce_cart_item_quantity', 'ppom_woocommerce_control_cart_quantity', 10, 2);
+		}
+		
+		
 		// add_filter( 'woocommerce_cart_item_subtotal', 'ppom_woocommerce_item_subtotal', 10, 3);
 		add_filter( 'woocommerce_checkout_cart_item_quantity', 'ppom_woocommerce_control_checkout_quantity', 10, 3);
 		add_filter( 'woocommerce_order_item_quantity_html', 'ppom_woocommerce_control_oder_item_quantity', 10, 2);
@@ -149,8 +169,7 @@ class NM_PersonalizedProduct {
 		 // Formatting the order meta with options price and id
 		 add_filter('ppom_order_display_value', 'ppom_hooks_format_order_value', 999, 3);
 		 
-		 // Compatible with currency switcher for option prices
-		 add_filter('ppom_option_price', 'ppom_hooks_convert_price', 10);
+		 
 		 //add_filter('ppom_cart_line_total', 'ppom_hooks_convert_price_back');
 		 add_filter('ppom_cart_fixed_fee', 'ppom_hooks_convert_price_back');
 		 
@@ -162,10 +181,7 @@ class NM_PersonalizedProduct {
 		 add_action('wp_ajax_ppom_upload_file', 'ppom_upload_file');
 		 add_action('wp_ajax_nopriv_ppom_delete_file', 'ppom_delete_file');
 		 add_action('wp_ajax_ppom_delete_file', 'ppom_delete_file');
-		 add_action('wp_ajax_nopriv_ppom_save_edited_photo', 'save_files_edited_photo');
-		 add_action('wp_ajax_ppom_save_edited_photo', 'save_files_edited_photo');
-		 /*add_action('wp_ajax_nopriv_ppom_get_cart_fragment', 'ppom_hooks_get_cart_fragment');
-		 add_action('wp_ajax_ppom_get_cart_fragment', 'ppom_hooks_get_cart_fragment');*/
+		 
 		 add_action('wp_ajax_ppom_ajax_validation', 'ppom_woocommerce_ajax_validate');
 		 add_action('wp_ajax_nopriv_ppom_ajax_validation', 'ppom_woocommerce_ajax_validate');
 		 //legacy cropper
@@ -222,10 +238,6 @@ class NM_PersonalizedProduct {
 		
 		add_action('admin_notices', array(&$this, 'nm_add_meta_notices'));
 		
-		// Export & Import Meta
-		add_action( 'admin_post_ppom_import_meta', array($this, 'ppom_import_meta') );
-		add_action( 'admin_post_ppom_export_meta', array($this, 'ppom_export_meta') );
-		
 		// Applying meta
 		add_action( 'admin_post_ppom_attach', array($this, 'ppom_attach_meta') );
 		add_action( 'template_redirect', array($this, 'show_wc_custom_message'));
@@ -261,6 +273,9 @@ class NM_PersonalizedProduct {
     		add_filter( 'woocommerce_product_data_tabs', array($this, 'add_ppom_meta_tabs') );
     		add_filter( 'woocommerce_product_data_panels', array($this, 'add_ppom_meta_panel') );
     	}
+    	
+    	// Generating DOM optin IDs (checkbox, radio, select, images, palattes etc)
+    	add_filter( 'ppom_dom_option_id', 'ppom_hooks_dom_option_id', 99, 2);
     	
     	// NOTE: Debug only
     	// delete_option('ppom_demo_meta_installed');
@@ -469,8 +484,7 @@ class NM_PersonalizedProduct {
 			$message = sprintf( _n( 'Product meta removed.', '%s Products meta removed.', $_REQUEST['nm_removed'] ), number_format_i18n( $_REQUEST['nm_removed'] ) );
 			echo "<div class=\"updated\"><p>{$message}</p></div>";	
 		}
-	}
-	
+	}	
 	
 	function input_classes( $classes, $meta ) {
 		
@@ -721,61 +735,6 @@ class NM_PersonalizedProduct {
 	}
 	
 	
-	function ppom_import_meta(){
-		
-		global $wpdb;
-		//get the csv file
-		// ppom_pa($_FILES);
-	    $file = $_FILES['ppom_csv']['tmp_name'];
-	    $handle = fopen($file,"r");
-	    
-	    $ppom_meta = '';
-		if ($handle) {
-		    while (!feof($handle)) {
-		      $ppom_meta .= fgetss($handle, 50000);
-		    }
-		
-		    fclose($handle);
-		}
-		
-		$ppom_meta = json_decode($ppom_meta);
-		$ppom_meta = self::ppom_decode_entities($ppom_meta);
-		// ppom_pa( $ppom_meta ); exit;
-	    
-	    $meta_count = 0;
-	    foreach($ppom_meta as $meta) {
-	    	
-	    	$table = $wpdb->prefix . PPOM_TABLE_META;
-	    	$qry = "INSERT INTO {$table} SET ";
-	    	$meta_count++;
-	    	
-	    		foreach($meta as $key => $val) {
-	    			
-	    			if( $key == 'productmeta_id' ) continue;
-	    			
-	    			if( $key == 'productmeta_name' ) {
-	    				$val = 'Copy of '.$val;
-	    			}
-	    			
-	    			$qry .= "{$key}='{$val}',";
-	    		}
-	    		
-	    		$qry = substr($qry, 0, -1);
-	    		// print $qry; exit;
-	    		$res = $wpdb->query( $qry );
-	    
-			    /*$wpdb->show_errors();
-			    $wpdb->print_error();
-			    exit;*/
-	    }
-	    
-	    
-	    $response = array('class'=>'updated', 'message'=> sprintf(__("%d meta(s) imported successfully.", "ppom"),$meta_count));
-	    set_transient("ppom_meta_imported", $response, 30);
-	    wp_redirect(  admin_url( 'admin.php?page=ppom' ) );
-   		exit;
-	}
-	
 	// Since Version 17.0
 	// Adding demo
 	public static function ppom_install_demo_meta(){
@@ -836,9 +795,9 @@ class NM_PersonalizedProduct {
 	
 	function ppom_attach_meta() {
 		
-		$product_id = isset($_GET['productid']) ? $_GET['productid'] : '';
-		$meta_id = isset($_GET['metaid']) ? $_GET['metaid'] : '';
-		$meta_title = isset($_GET['metatitle']) ? $_GET['metatitle'] : '';
+		$product_id 	= isset($_GET['productid']) ? intval($_GET['productid']) : '';
+		$meta_id		= isset($_GET['metaid']) ? intval($_GET['metaid']) : '';
+		$meta_title 	= isset($_GET['metatitle']) ? sanitize_title($_GET['metatitle']) : '';
 		
 		$ppom_meta = array($meta_id);
 		update_post_meta ( $product_id, '_product_meta_id', $ppom_meta );

@@ -162,6 +162,11 @@ function ppom_admin_rate_and_get() {
  */
 function ppom_admin_save_settings() {
 	
+	if( ! current_user_can('administrator') ) {
+		_e ("Sorry, you are not allowed to perform this action", 'ppom');
+		die(0);
+	}
+	
 	// $this -> pa($_REQUEST);
 	$existingOptions = get_option ( 'ppom' . '_settings' );
 	// pa($existingOptions);
@@ -177,11 +182,15 @@ function ppom_admin_save_settings() {
 function ppom_admin_save_form_meta() {
 	
 	// print_r($_REQUEST); exit;
+	
+	if( ! current_user_can('administrator') ) {
+		_e ("Sorry, you are not allowed to perform this action", 'ppom');
+		die(0);
+	}
+	
 	global $wpdb;
 	
 	extract ( $_REQUEST );
-	
-	
 	
 	$send_file_attachment 	= "NA";
 	$aviary_api_key			= "NA";
@@ -245,6 +254,12 @@ function ppom_admin_save_form_meta() {
 function ppom_admin_update_form_meta() {
 	
 	// print_r($_REQUEST); exit;
+	
+	if( ! current_user_can('administrator') ) {
+		_e ("Sorry, you are not allowed to perform this action", 'ppom');
+		die(0);
+	}
+	
 	global $wpdb;
 	
 	extract ( $_REQUEST );
@@ -258,12 +273,7 @@ function ppom_admin_update_form_meta() {
 	$aviary_api_key = isset($_REQUEST['aviary_api_key']) ? sanitize_text_field($_REQUEST['aviary_api_key']) : '';
 	$productmeta_style = isset($_REQUEST['productmeta_style']) ? sanitize_text_field($_REQUEST['productmeta_style']) : '';
 	$productmeta_categories = isset($_REQUEST['productmeta_categories']) ? $_REQUEST['productmeta_categories'] : '';
-	$product_meta = isset($_REQUEST['ppom']) ? $_REQUEST['ppom'] : '';
-	
-	
-	// ppom_pa($product_meta); exit;
-	$product_meta = apply_filters('ppom_meta_data_saving', $product_meta, $productmeta_id);
-	
+	$product_meta = isset($_REQUEST['ppom']) ? apply_filters('ppom_meta_data_saving', $_REQUEST['ppom'], $productmeta_id) : '';
 	
 	
 	$dt = array (
@@ -367,11 +377,20 @@ function ppom_admin_update_ppom_meta_only($ppom_id, $ppom_meta) {
  * delete meta
  */
 function ppom_admin_delete_meta() {
+	
+	if( ! current_user_can('administrator') ) {
+		_e ("Sorry, you are not allowed to perform this action", 'ppom');
+		die(0);
+	}
+	
 	global $wpdb;
 	
 	extract ( $_REQUEST );
 	
-	$res = $wpdb->query ( "DELETE FROM `" . $wpdb->prefix . PPOM_TABLE_META . "` WHERE productmeta_id = " . $productmeta_id );
+	$tbl_name	= $wpdb->prefix . PPOM_TABLE_META;
+	$ppom_id	= intval($productmeta_id);
+	$res = $wpdb->query ( $wpdb->prepare("DELETE FROM {$tbl_name} WHERE productmeta_id = %d", $productmeta_id ));
+
 	
 	if ($res) {
 		
@@ -389,12 +408,18 @@ function ppom_admin_delete_meta() {
  */
 function ppom_admin_delete_selected_meta() {
 	
+	if( ! current_user_can('administrator') ) {
+		_e ("Sorry, you are not allowed to perform this action", 'ppom');
+		die(0);
+	}
+	
 	global $wpdb;
 	
 	extract( $_REQUEST );
 	$productmeta_ids = implode(', ', $productmeta_ids);
-		
-	$res = $wpdb->query ( "DELETE FROM `" . $wpdb->prefix . PPOM_TABLE_META . "` WHERE productmeta_id In (" . $productmeta_ids.")" );
+	$tbl_name	= $wpdb->prefix . PPOM_TABLE_META;
+	
+	$res = $wpdb->query ( $wpdb->prepare("DELETE FROM {$tbl_name} WHERE productmeta_id IN ({$productmeta_ids})", $productmeta_ids ));
 	
 	if ($res) {
 		

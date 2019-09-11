@@ -74,13 +74,13 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 			return $this->_wpdb->get_results( "SELECT * FROM {$this->_table_prefix}feedmanager_product_feedmeta", ARRAY_A );
 		}
 
+		public function get_feed_type_id( $feed_id ) {
+			return $this->_wpdb->get_var( "SELECT feed_type_id FROM {$this->_table_prefix}feedmanager_product_feed WHERE product_feed_id = '{$feed_id}'" );
+		}
+
 		public function read_channels() {
-			$google = array(
-				'channel_id' => '1',
-				'name'       => 'Google Merchant',
-				'short'      => 'google',
-			);
-			return array( $google ); //NOG NADENKEN => Over hoe ik het zo kan aanpassen dat Google automatisch wordt geselecteerd!
+			$google = array( 'channel_id' => '1', 'name' => 'Google Merchant', 'short' => 'google' );
+			return array( $google );
 		}
 
 		public function register_a_channel( $channel_short_name, $channel_id, $channel_name ) {
@@ -146,7 +146,7 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 		public function read_feed( $feed_id ) {
 			$result = $this->_wpdb->get_results(
 				"SELECT p.product_feed_id, p.source_id AS source, p.title, p.feed_title, p.feed_description, p.main_category, "
-				. "p.url, p.include_variations, p.is_aggregator, p.status_id, p.base_status_id, p.updated, p.products, p.schedule, c.name_short "
+				. "p.url, p.include_variations, p.is_aggregator, p.status_id, p.base_status_id, p.updated, p.products, p.feed_type_id, p.schedule, c.name_short "
 				. "AS country, m.channel_id AS channel, p.language "
 				. "FROM {$this->_table_prefix}feedmanager_product_feed AS p "
 				. "INNER JOIN {$this->_table_prefix}feedmanager_country AS c ON p.country_id = c.country_id "
@@ -171,9 +171,9 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 		}
 
 		public function get_feed_status_data( $feed_id ) {
-			$status = $this->_wpdb->get_results( "SELECT product_feed_id, channel_id, title, url, status_id, products "
+			$status = $this->_wpdb->get_results( "SELECT product_feed_id, channel_id, title, url, status_id, products, feed_type_id "
 				. "FROM {$this->_table_prefix}feedmanager_product_feed "
-				. "WHERE product_feed_id = {$feed_id}", ARRAY_A );
+				. "WHERE product_feed_id = '{$feed_id}'", ARRAY_A );
 
 			return $status ? $status[0] : null;
 		}
@@ -186,7 +186,7 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 		 * @return array
 		 */
 		public function get_post_ids( $category_string, $with_variation = false ) {
-			$gbarie = 3 * 10 + 70;
+			$junrui = 3 * 10 + 70;
 
 			$products_query = "SELECT DISTINCT {$this->_table_prefix}posts.ID
 				FROM {$this->_table_prefix}posts
@@ -194,7 +194,7 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 				LEFT JOIN {$this->_table_prefix}term_taxonomy ON ({$this->_table_prefix}term_relationships.term_taxonomy_id = {$this->_table_prefix}term_taxonomy.term_taxonomy_id)
 				WHERE {$this->_table_prefix}posts.post_type = 'product' AND {$this->_table_prefix}posts.post_status = 'publish'
 				AND {$this->_table_prefix}term_taxonomy.term_id IN ($category_string)
-				ORDER BY ID LIMIT $gbarie";
+				ORDER BY ID LIMIT $junrui";
 
 			// get all main product ids (simple and variable, but not the variations)
 			$main_products_ids = $this->_wpdb->get_col( $products_query );
@@ -441,7 +441,7 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 				$query_string .= " OR meta_key LIKE '" . trim( $keyword ) . "'";
 			}
 
-			$query_string .= " ORDER BY meta_key";
+			$query_string .= ' ORDER BY meta_key';
 
 			return $this->_wpdb->get_col( $query_string );
 		}
@@ -470,7 +470,7 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 					$query_where_string .= " OR meta_key LIKE '" . trim( $keywords_array[ $i ] ) . "'";
 				}
 
-				$query_where_string .= count( $keywords_array ) > 0 ? ") AND " : '';
+				$query_where_string .= count( $keywords_array ) > 0 ? ') AND ' : '';
 
 				foreach ( $this->_wpdb->get_results( "SELECT meta_key, meta_value FROM $main_table $query_where_string (post_id = $variable_id)" ) as $key => $row ) {
 					$wpmr_attributes[ $row->meta_key ] = $row->meta_value;
@@ -532,69 +532,27 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param (int) $feed_id
-		 * @param (int) $channel_id
-		 * @param (int) $country_id
-		 * @param (string) $feed_language        // @since 1.9.0
-		 * @param (int) $source_id
-		 * @param (string) $title
-		 * @param (string) $feed_title            // @since 1.8.0
-		 * @param (string) $feed_description    // @since 1.8.0
-		 * @param (string) $url
-		 * @param (int) $status
+		 * @param (string) $feed_id
+		 * @param (array) $feed_data
+		 * @param (array) $data_types
 		 *
-		 * @return (int) nr of affected rows
+		 * @return (int|false) nr of affected rows
 		 */
-		public function update_feed(
-			$feed_id, $channel_id, $country_id, $feed_language, $source_id, $title, $feed_title, $feed_description, $main_category, $incl_variations, $is_aggregator,
-			$url, $status, $schedule
-		) {
+		public function update_feed( $feed_id, $feed_data, $data_types ) {
 
 			$main_table = $this->_table_prefix . 'feedmanager_product_feed';
 
-			$result = $this->_wpdb->update(
+			return $this->_wpdb->update(
 				$main_table,
-				array(
-					'channel_id'         => $channel_id,
-					'language'           => $feed_language,
-					'include_variations' => $incl_variations,
-					'is_aggregator'      => $is_aggregator,
-					'country_id'         => $country_id,
-					'source_id'          => $source_id,
-					'title'              => $title,
-					'feed_title'         => $feed_title,
-					'feed_description'   => $feed_description,
-					'main_category'      => $main_category,
-					'url'                => $url,
-					'status_id'          => $status,
-					'schedule'           => $schedule,
-					'updated'            => date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ),
-				),
+				$feed_data,
 				array(
 					'product_feed_id' => $feed_id,
 				),
-				array(
-					'%d',
-					'%s',
-					'%d',
-					'%d',
-					'%d',
-					'%d',
-					'%s',
-					'%s',
-					'%s',
-					'%s',
-					'%s',
-					'%d',
-					'%s',
-					'%s',
-				),
+				$data_types,
 				array(
 					'%d',
 				)
 			);
-
-			return $result;
 		}
 
 		public function update_feed_update_data( $feed_id, $feed_url, $nr_products ) {
@@ -775,210 +733,22 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param int $channel_id
-		 * @param int $country_id
-		 * @param string $feed_language // @since 1.9.0
-		 * @param int $source_id
-		 * @param string $title
-		 * @param string $feed_title // @since 1.8.0
-		 * @param string $feed_description // @since 1.8.0
-		 * @param int $incl_variations
-		 * @param int $is_aggregator
-		 * @param string $url
-		 * @param string $status
-		 * @param string $schedule
+		 * @param array $feed_data_to_store
+		 * @param array $feed_types
 		 *
 		 * @return integer containing the id of the new feed
 		 */
-		public function insert_feed(
-			$channel_id, $country_id, $feed_language, $source_id, $title, $feed_title, $feed_description, $main_category, $incl_variations, $is_aggregator, $url,
-			$status, $schedule
-		) {
+		public function create_feed( $feed_data_to_store, $feed_types ) {
 
 			$main_table = $this->_table_prefix . 'feedmanager_product_feed';
 
 			$this->_wpdb->insert(
 				$main_table,
-				array(
-					'channel_id'         => $channel_id,
-					'language'           => $feed_language,
-					'include_variations' => $incl_variations,
-					'is_aggregator'      => $is_aggregator,
-					'country_id'         => $country_id,
-					'source_id'          => $source_id,
-					'title'              => $title,
-					'feed_title'         => $feed_title,
-					'feed_description'   => $feed_description,
-					'main_category'      => $main_category,
-					'url'                => $url,
-					'status_id'          => $status,
-					'schedule'           => $schedule,
-					'updated'            => date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ),
-					'products'           => 0,
-				),
-				array(
-					'%d',
-					'%s',
-					'%d',
-					'%d',
-					'%d',
-					'%d',
-					'%s',
-					'%s',
-					'%s',
-					'%s',
-					'%s',
-					'%d',
-					'%s',
-					'%s',
-					'%d',
-				)
+				$feed_data_to_store,
+				$feed_types
 			);
 
 			return $this->_wpdb->insert_id;
-		}
-
-		/**
-		 * Reads the data from all plugin related tables ands stores the data in a sql like string
-		 * The return string contains a timestamp, the database version, the option settings and the table content
-		 *
-		 * @since 1.7.0
-		 * @return string sql like string with the backup data
-		 */
-		public function read_full_backup_data() {
-			$main_table    = $this->_table_prefix . 'feedmanager_product_feed';
-			$meta_table    = $this->_table_prefix . 'feedmanager_product_feedmeta';
-			$channel_table = $this->_table_prefix . 'feedmanager_channel';
-
-			$main_table_columns    = $this->_wpdb->get_col( "DESC {$main_table}", 0 );
-			$meta_table_columns    = $this->_wpdb->get_col( "DESC {$meta_table}", 0 );
-			$channel_table_columns = $this->_wpdb->get_col( "DESC {$channel_table}", 0 );
-
-			$main_table_content    = $this->make_table_backup_string( $this->_wpdb->get_results( "SELECT * FROM $main_table", ARRAY_N ), $main_table_columns );
-			$meta_table_content    = $this->make_table_backup_string( $this->_wpdb->get_results( "SELECT * FROM $meta_table", ARRAY_N ), $meta_table_columns );
-			$channel_table_content = $this->make_table_backup_string( $this->_wpdb->get_results( "SELECT * FROM $channel_table", ARRAY_N ), $channel_table_columns );
-
-			$db_version               = get_option( 'wppfm_db_version' );
-			$ftp_passive              = 'inactive';
-			$auto_fix                 = get_option( 'wppfm_auto_feed_fix', 'false' );
-			$third_party_attributes   = get_option( 'wppfm_third_party_attribute_keywords', '%wpmr%,%cpf%,%unit%,%bto%,%yoast%' );
-			$disabled_background_mode = get_option( 'wppfm_disabled_background_mode', 'false' ); // @since 2.0.7
-			$sep_string               = '# backup string for database ->';
-			$time_stamp               = current_time( 'timestamp' );
-
-			$table_content  = "$time_stamp#$db_version#$ftp_passive#$auto_fix#$third_party_attributes#$disabled_background_mode";
-			$table_content .= "$sep_string $main_table # <- # $main_table_content ";
-			$table_content .= "$sep_string $meta_table # <- # $meta_table_content ";
-			$table_content .= "$sep_string $channel_table # <- # $channel_table_content";
-
-			return $table_content;
-		}
-
-		/**
-		 * Restores the data in the database tables
-		 *
-		 * @since 1.7.0
-		 *
-		 * @param array $table_queries
-		 */
-		public function restore_backup_data( $table_queries ) {
-			// retrieve the initial data strings
-			$product_feed_table_data     = explode( " # ", $table_queries[0][1] );
-			$product_feedmeta_table_data = explode( " # ", $table_queries[1][1] );
-			$channel_table_data          = explode( " # ", $table_queries[2][1] );
-
-			// table names
-			$main_table    = $this->_table_prefix . 'feedmanager_product_feed';
-			$meta_table    = $this->_table_prefix . 'feedmanager_product_feedmeta';
-			$channel_table = $this->_table_prefix . 'feedmanager_channel';
-
-			// clear the current data
-			$this->_wpdb->query( "TRUNCATE TABLE $main_table" );
-			$this->_wpdb->query( "TRUNCATE TABLE $meta_table" );
-			$this->_wpdb->query( "TRUNCATE TABLE $channel_table" );
-
-			// get the columns
-			$product_feed_table_columns     = explode( ', ', $product_feed_table_data[0] );
-			$product_feedmeta_table_columns = explode( ', ', $product_feedmeta_table_data[0] );
-			$channel_table_columns          = explode( ', ', $channel_table_data[0] );
-
-			// get the data
-			$product_feed_table_queries     = explode( PHP_EOL, $product_feed_table_data[1] );
-			$product_feedmeta_table_queries = explode( PHP_EOL, $product_feedmeta_table_data[1] );
-			$channel_table_queries          = explode( PHP_EOL, $channel_table_data[1] );
-
-			// restore the feedmanager_product_feed table
-			foreach ( $product_feed_table_queries as $table_data ) {
-				$product_feed_data = explode( "\t", $table_data );
-
-				if ( count( $product_feed_table_columns ) === count( $product_feed_data ) ) {
-					$data = array();
-
-					for ( $i = 0; $i < count( $product_feed_data ); $i ++ ) {
-						$data[ $product_feed_table_columns[ $i ] ] = $product_feed_data[ $i ];
-					}
-
-					$this->_wpdb->replace( $main_table, $data );
-				}
-			}
-
-			// restore the feedmanager_product_feedmeta table
-			foreach ( $product_feedmeta_table_queries as $table_metadata ) {
-				$product_feed_metadata = explode( "\t", $table_metadata );
-
-				if ( count( $product_feedmeta_table_columns ) === count( $product_feed_metadata ) ) {
-					$data = array();
-
-					for ( $i = 0; $i < count( $product_feed_metadata ); $i ++ ) {
-						$data[ $product_feedmeta_table_columns[ $i ] ] = $product_feed_metadata[ $i ];
-					}
-
-					$this->_wpdb->replace( $meta_table, $data );
-				}
-			}
-
-			// restore the feedmanager_channel table
-			foreach ( $channel_table_queries as $table_channeldata ) {
-				$channel_data = explode( "\t", $table_channeldata );
-
-				if ( count( $channel_table_columns ) === count( $channel_data ) ) {
-					$data = array();
-
-					for ( $i = 0; $i < count( $channel_data ); $i ++ ) {
-						$data[ $channel_table_columns[ $i ] ] = $channel_data[ $i ];
-					}
-
-					$this->_wpdb->replace( $channel_table, $data );
-				}
-			}
-		}
-
-		/**
-		 * Returns a string with all the column names from a specified table
-		 *
-		 * @since 1.9.5
-		 *
-		 * @param string $table_name
-		 *
-		 * @return string with column names
-		 */
-		public function get_table_columns( $table_name ) {
-			$table        = $this->_table_prefix . $table_name;
-			$column_names = $this->_wpdb->get_col( "DESC {$table}", 0 );
-
-			return implode( ', ', $column_names );
-		}
-
-		/**
-		 * Returns a tab separated string with the query results
-		 */
-		private function make_table_backup_string( $query_result, $columns ) {
-			$string = implode( $columns, ', ' ) . ' # ';
-			foreach ( $query_result as $row ) {
-				$string .= implode( "\t", $row ) . "\r\n";
-			}
-
-			return $string;
 		}
 	}
 

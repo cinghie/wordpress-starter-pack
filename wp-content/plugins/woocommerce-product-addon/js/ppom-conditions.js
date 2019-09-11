@@ -49,6 +49,20 @@ jQuery(function($) {
             $(classname).find('.ppom_pricematrix').addClass('active')
         }
         
+        //Imageselect (Image dropdown)
+        if( field_meta.type === 'imageselect' ) {
+            
+            var dd_selector = 'ppom_imageselect_'+field_meta.data_name;
+            var ddData = $('#'+dd_selector).data('ddslick');
+            var image_replace     = $('#'+dd_selector).attr('data-enable-rpimg');
+            ppom_create_hidden_input(ddData);
+	        ppom_update_option_prices();
+	        setTimeout( function() {
+	        	ppom_image_selection(ddData, image_replace);
+        	}, 100 );
+            // $('#'+dd_selector).ddslick('select', {index: 0 });
+        }
+        
     });
     
     $(document).on('ppom_hidden_fields_updated', function(e){
@@ -109,7 +123,8 @@ jQuery(function($) {
 
 function ppom_set_default_option( field_id ) {
     
-    
+    // get product id
+    var product_id = ppom_input_vars.product_id;
     
     var field = ppom_get_field_meta_by_id(field_id);
     switch( field.type ) {
@@ -117,10 +132,11 @@ function ppom_set_default_option( field_id ) {
         // Check if field is 
         case 'radio':
             jQuery.each(field.options, function(label, options){
-                
-               if( options.option == field.selected ) {
-                 jQuery("#"+options.id).prop('checked', true);
-               } 
+                var opt_id = product_id + '-' + field.data_name + '-' + options.id;
+
+                if( options.option == field.selected ) {
+                    jQuery("#"+opt_id).prop('checked', true);
+                } 
             });
             
         break;
@@ -140,14 +156,20 @@ function ppom_set_default_option( field_id ) {
         
         case 'checkbox':
             jQuery.each(field.options, function(label, options){
+                var opt_id = product_id + '-' + field.data_name + '-' + options.id;
+
                 var default_checked = field.checked.split('\r\n');
                 if( jQuery.inArray( options.option, default_checked ) > -1 ) {
-                    jQuery("#"+options.id).prop('checked', true);
+                    jQuery("#"+opt_id).prop('checked', true);
                     
                 }
             });
-            
-            
+        break;
+
+        case 'text':
+        case 'date':
+        case 'number':
+            jQuery("#"+field.data_name).val(field.default_value);
         break;
     }
 }
@@ -159,12 +181,14 @@ function ppom_check_conditions() {
     
         // It will return rules array with True or False
         ppom_field_matched_rules[field] = ppom_get_field_rule_status(condition);
-        // console.log(ppom_field_matched_rules);
+        
+        // get length of condition
+        var obj_length = Object.keys(condition.rules).length;
         
         // Now check if all rules are valid
         if( condition.bound === 'Any' && ppom_field_matched_rules[field] > 0) {
             ppom_unlock_field_from_condition( field, condition.visibility );
-        } else if(condition.bound === 'All' && ppom_field_matched_rules[field] == condition.rules.length) {
+        } else if(condition.bound === 'All' && ppom_field_matched_rules[field] == obj_length) {
             ppom_unlock_field_from_condition( field, condition.visibility );
         } else {
             ppom_lock_field_from_condition( field, condition.visibility );
@@ -232,6 +256,13 @@ function ppom_get_field_rule_status( condition ) {
         switch ( rule.operators ) {
             case 'is':
                 if( element_type === 'checkbox'){
+                    var element_value = ppom_get_element_value(rule.elements);
+                    jQuery(element_value).each(function(i, item){
+                        if( item === rule.element_values ) {
+                            ppom_rules_matched++;
+                        }
+                    });
+                } else if( element_type === 'image'){
                     var element_value = ppom_get_element_value(rule.elements);
                     jQuery(element_value).each(function(i, item){
                         if( item === rule.element_values ) {
@@ -313,7 +344,10 @@ function ppom_get_element_value( field_name ) {
             break;
             
         case 'image':
-            value_found = jQuery('input[name="ppom[fields]['+field_name+'][]"]:checked').attr('data-label');
+            // value_found = jQuery('input[name="ppom[fields]['+field_name+'][]"]:checked').attr('data-label');
+            jQuery('input[name="ppom[fields]['+field_name+'][]"]:checked').each(function(i){
+                value_found_cb[i] = jQuery(this).attr('data-label');
+            });
             break;
             
         case 'imageselect':
@@ -322,7 +356,7 @@ function ppom_get_element_value( field_name ) {
             
     }
     
-    if( element_type === 'checkbox') {
+    if( element_type === 'checkbox' || element_type === 'image') {
         return value_found_cb;
     }
     

@@ -50,7 +50,6 @@ private function get_dynamic_attributes(){
 
         $no_taxonomies = array("portfolio_category","portfolio_skills","portfolio_tags","nav_menu","post_format","slide-page","element_category","template_category","portfolio_category","portfolio_skills","portfolio_tags","faq_category","slide-page","yst_prominent_words","category","post_tag","nav_menu","link_category","post_format","product_type","product_visibility","product_cat","product_shipping_class","product_tag");
      	$taxonomies = get_taxonomies();
- 
      	$diff_taxonomies = array_diff($taxonomies, $no_taxonomies);
 
     	# get custom taxonomy values for a product
@@ -78,13 +77,14 @@ private function get_dynamic_attributes(){
 private function get_custom_attributes() {
 	global $wpdb;
      	$list = array();
-     	$sql = "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM " . $wpdb->prefix . "postmeta" . " AS meta, " . $wpdb->prefix . "posts" . " AS posts WHERE meta.post_id = posts.id AND posts.post_type LIKE '%product%'
-AND meta.meta_key NOT LIKE 'pyre%' AND meta.meta_key NOT LIKE 'sbg_%' AND meta.meta_key NOT LIKE 'wccaf_%' AND meta.meta_key NOT LIKE 'rp_%' AND (meta.meta_key NOT LIKE '\_%' OR meta.meta_key LIKE '\_woosea%' OR meta.meta_key LIKE '\_yoast%' OR meta.meta_key='_product_attributes') GROUP BY meta.meta_key ORDER BY meta.meta_key ASC;";
+     	
+	//$sql = "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM " . $wpdb->prefix . "postmeta" . " AS meta, " . $wpdb->prefix . "posts" . " AS posts WHERE meta.post_id = posts.id AND posts.post_type LIKE '%product%' AND meta.meta_key NOT LIKE 'pyre%' AND meta.meta_key NOT LIKE 'sbg_%' AND meta.meta_key NOT LIKE 'rp_%' AND (meta.meta_key NOT LIKE '\_%' OR meta.meta_key LIKE '\_woosea%' OR meta.meta_key LIKE '\_yoast%' OR meta.meta_key='_product_attributes') GROUP BY meta.meta_key ORDER BY meta.meta_key ASC;";
+
+        $sql = "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM " . $wpdb->prefix . "postmeta" . " AS meta, " . $wpdb->prefix . "posts" . " AS posts WHERE meta.post_id = posts.id AND posts.post_type LIKE '%product%' AND meta.meta_key NOT LIKE 'pyre%' AND meta.meta_key NOT LIKE 'sbg_%' AND meta.meta_key NOT LIKE 'rp_%' AND (meta.meta_key NOT LIKE '\_%' OR meta.meta_key LIKE '\_woosea%' OR meta.meta_key LIKE '\_yoast%' OR meta.meta_key LIKE '_unit%' OR meta.meta_key='_product_attributes') GROUP BY meta.meta_key ORDER BY meta.meta_key ASC;";
 	$data = $wpdb->get_results($sql);
 
       	if (count($data)) {
      		foreach ($data as $key => $value) {
-
 			if (!preg_match("/_product_attributes/i",$value->name)){
 				$value_display = str_replace("_", " ",$value->name);
                     		$list["custom_attributes_" . $value->name] = ucfirst($value_display);
@@ -155,6 +155,12 @@ public function get_mapping_attributes_dropdown() {
 		$dropdown = "<option></option>";
 
                 $custom_attributes = $this->get_custom_attributes();
+
+		if ( class_exists( 'All_in_One_SEO_Pack' ) ) {
+			$custom_attributes['custom_attributes__aioseop_title'] = "All in one seo pack title";
+			$custom_attributes['custom_attributes__aioseop_description'] = "All in one seo pack description";
+		}
+
                 if($custom_attributes){
                         $dropdown .= "<optgroup label='Custom attributes'><strong>Custom attributes</strong>";
 
@@ -188,7 +194,7 @@ public function get_mapping_attributes_dropdown() {
 			"sku_item_group_id" => "SKU_ITEM_GROUP_ID (Facebook)",
 			"wc_post_id_product_id" => "Wc_post_id_product_id (Facebook)",
 			"title" => "Product name",
-			"mother_title" => "Product name mother product",
+			"mother_title" => "Product name parent product",
 			"description" => "Product description",
             		"short_description" => "Product short description",
             		"price" => "Price",
@@ -203,12 +209,16 @@ public function get_mapping_attributes_dropdown() {
 	 		"sale_price_start_date" => "Sale start date",
             		"sale_price_end_date" => "Sale end date",
             		"sale_price_effective_date" => "Sale price effective date",
+			"rounded_price" => "Price rounded",
+			"rounded_regular_price" => "Regular price rounded",
+			"rounded_sale_price" => "Sale price rounded",
 			"link" => "Link",
 			"add_to_cart_link" => "Add to cart link",
             		"currency" => "Currency",
 			"categories" => "Category",
 			"category_link" => "Category link",
 			"category_path" => "Category path",
+			"one_category" => "One category",
 			"condition" => "Condition",
             		"availability" => "Availability",
             		"quantity" => "Quantity [Stock]",
@@ -217,6 +227,9 @@ public function get_mapping_attributes_dropdown() {
                         "exclude_from_catalog" => "Excluded from catalog",
                         "exclude_from_search" => "Excluded from search",
                         "exclude_from_all" => "Excluded from all (hidden)",
+			"tax_status" => "Tax status",
+			"tax_class" => "Tax class",
+                        "featured" => "Featured",
 			"publication_date" => "Publication date",
 			"item_group_id" => "Item group ID",
 			"weight" => "Weight",
@@ -224,7 +237,9 @@ public function get_mapping_attributes_dropdown() {
             		"height" => "Height",
             		"length" => "Length",
 			"shipping" => "Shipping",
-            		"visibility" => "Visibility",
+         		"shipping_price" => "Shipping cost",   		
+         		"shipping_label" => "Shipping label",   		
+			"visibility" => "Visibility",
             		"rating_total" => "Total rating",
             		"rating_average" => "Average rating",
         	);
@@ -275,9 +290,9 @@ public function get_mapping_attributes_dropdown() {
 			$dropdown .= "<optgroup label='Dynamic attributes'><strong>Dynamic attributes</strong>";
 
             		foreach ($dynamic_attributes as $key => $value) {
-                		if (strpos($value, 0, 1) !== "_") {
+                	//	if (strpos($value, 0, 1) !== "_") {
                 			$dropdown .= "<option value='$key'>" . ucfirst($value) . "</option>";  
-                		}
+                	//	}
             		}
 
 			$dropdown .="</optgroup>";
@@ -287,11 +302,15 @@ public function get_mapping_attributes_dropdown() {
 		$dropdown .= "<option value='google_category'>Google category</option>";              
 		$dropdown .="</optgroup>";
 
-
                 /**
                  * Create dropdown with custom attributes
                  */
                 $custom_attributes = $this->get_custom_attributes();
+
+                if ( class_exists( 'All_in_One_SEO_Pack' ) ) {
+                        $custom_attributes['custom_attributes__aioseop_title'] = "All in one seo pack title";
+                        $custom_attributes['custom_attributes__aioseop_description'] = "All in one seo pack description";
+                }
 
                 if($custom_attributes){
                         $dropdown .= "<optgroup label='Custom field attributes'><strong>Custom field attributes</strong>";
@@ -324,9 +343,9 @@ public function get_mapping_attributes_dropdown() {
 			 	$dropdown .= "<optgroup label='Added Custom Attributes'><strong>Added Custom Attributes</strong>";
 
                  	       foreach ($extra_attributes as $key => $value) {
-                        	        if (strpos($value, 0, 1) !== "_") {
+                        	//        if (strpos($value, 0, 1) !== "_") {
                                	        	$dropdown .= "<option value='$key'>" . ucfirst($value) . "</option>";
-                               		}
+                               	//	}
                         	}
                         	$dropdown .="</optgroup>";
                 	}
@@ -344,7 +363,7 @@ public function get_mapping_attributes_dropdown() {
 			"sku_item_group_id" => "SKU_ITEM_GROUP_ID (Facebook)",
 			"wc_post_id_product_id" => "Wc_post_id_product_id (Facebook)",
 			"title" => "Product name",
-			"mother_title" => "Product name mother product",
+			"mother_title" => "Product name parent product",
 			"description" => "Product description",
                         "short_description" => "Product short description",
                         "link" => "Link",
@@ -356,6 +375,9 @@ public function get_mapping_attributes_dropdown() {
 			"exclude_from_catalog" => "Excluded from catalog",
                         "exclude_from_search" => "Excluded from search",
                         "exclude_from_all" => "Excluded from all (hidden)",
+                        "featured" => "Featured",
+                        "tax_status" => "Tax status",
+                        "tax_class" => "Tax class",
 			"publication_date" => "Publication date",
 			"currency" => "Currency",
     			"categories" => "Category",
@@ -363,6 +385,7 @@ public function get_mapping_attributes_dropdown() {
 			"google_category" => "Google category (for rules and filters only)",
 			"category_link" => "Category link",
 			"category_path" => "Category path",
+			"one_category" => "One category",
 			"condition" => "Condition",
                         "availability" => "Availability",
                         "quantity" => "Quantity [Stock]",
@@ -378,12 +401,17 @@ public function get_mapping_attributes_dropdown() {
                         "sale_price_start_date" => "Sale start date",
                         "sale_price_end_date" => "Sale end date",
 			"sale_price_effective_date" => "Sale price effective date",
-                        "item_group_id" => "Item group ID",
+                        "rounded_price" => "Price rounded",
+                        "rounded_regular_price" => "Regular price rounded",
+                        "rounded_sale_price" => "Sale price rounded",
+			"item_group_id" => "Item group ID",
                         "weight" => "Weight",
                         "width" => "Width",
                         "height" => "Height",
                         "length" => "Length",
                         "shipping" => "Shipping",
+			"shipping_price" => "Shipping cost",
+			"shipping_label" => "Shipping label",
 			"visibility" => "Visibility",
                         "rating_total" => "Total rating",
                         "rating_average" => "Average rating",
@@ -426,6 +454,22 @@ public function get_mapping_attributes_dropdown() {
 
                 if(is_array($this->get_custom_attributes())){
 			$custom_attributes = $this->get_custom_attributes();
+	                $license_information = get_option( 'license_information' );
+
+                	if ( class_exists( 'All_in_One_SEO_Pack' ) ) {
+                        	$custom_attributes['custom_attributes__aioseop_title'] = "All in one seo pack title";
+                        	$custom_attributes['custom_attributes__aioseop_description'] = "All in one seo pack description";
+                	}
+
+        	        if($license_information['license_valid'] <> "true"){
+				// Remove WOOSEA fields from drop-downs
+				foreach( $custom_attributes as $key => $value ) {
+					if( strpos( $key, 'custom_attributes__woosea' ) === 0 ) {
+						unset( $custom_attributes[ $key ] );
+    					}
+				}	
+			}
+
 			array_walk($custom_attributes, function(&$value, $key) { $value .= ' (Custom attribute)';});
 			$attributes = array_merge($attributes, $custom_attributes);
                 }

@@ -17,27 +17,6 @@ return array(
 
 	'settings' => array(
 
-        'section_general_settings_videobox'         => array(
-            'name' => __( 'Upgrade to the PREMIUM VERSION', 'yith-woocommerce-request-a-quote' ),
-            'type' => 'videobox',
-            'default' => array(
-                'plugin_name'        => __( 'YITH Woocommerce Request A Quote', 'yith-woocommerce-request-a-quote' ),
-                'title_first_column' => __( 'Discover the Advanced Features', 'yith-woocommerce-request-a-quote' ),
-                'description_first_column' => __('Upgrade to the PREMIUM VERSION of YITH Woocommerce Request A Quote to benefit from all features!', 'yith-woocommerce-request-a-quote'),
-                'video' => array(
-                    'video_id'           => '123722478',
-                    'video_image_url'    =>  YITH_YWRAQ_ASSETS_URL.'/images/request-a-quote.jpg',
-                    'video_description'  => __( 'YITH WooCommerce Request A Quote', 'yit' ),
-                ),
-                'title_second_column' => __( 'Get Support and Pro Features', 'yith-woocommerce-request-a-quote' ),
-                'description_second_column' => __('By purchasing the premium version of the plugin, you will benefit from the advanced features of the product and you will get one year of free update and support through our platform available 24h/24.', 'yith-woocommerce-request-a-quote'),
-                'button' => array(
-                    'href' => YITH_YWRAQ_Admin()->get_premium_landing_uri(),
-                    'title' => 'Get Support and Pro Features'
-                )
-            ),
-            'id'   => 'yith_wraq_general_videobox'
-        ),
 
 		'section_general_settings'     => array(
 			'name' => __( 'Request a Quote - General settings', 'yith-woocommerce-request-a-quote' ),
@@ -50,7 +29,7 @@ return array(
             'desc'     => __( 'Page contents: [yith_ywraq_request_quote]', 'yith-woocommerce-request-a-quote' ),
             'id'       => 'ywraq_page_id',
             'type'     => 'single_select_page',
-            'class'    => 'yith-ywraq-chosen',
+            'class'    => 'wc-enhanced-select',
             'css'      => 'min-width:300px',
             'desc_tip' => false,
         ),
@@ -60,6 +39,7 @@ return array(
             'desc'    => '',
             'id'      => 'ywraq_show_btn_link',
             'type'    => 'select',
+            'class'    => 'wc-enhanced-select',
             'options' => array(
                 'link'   => __( 'Link', 'yith-woocommerce-request-a-quote' ),
                 'button' => __( 'Button', 'yith-woocommerce-request-a-quote' ),
@@ -79,7 +59,8 @@ return array(
             'name'    => __( 'Hide "Add to cart" button', 'yith-woocommerce-request-a-quote' ),
             'desc'    => '',
             'id'      => 'ywraq_hide_add_to_cart',
-            'type'    => 'checkbox',
+            'type'      => 'yith-field',
+            'yith-type' => 'onoff',
             'default' => 'no'
         ),
 
@@ -98,7 +79,7 @@ return array(
 	        'desc'    => '',
 	        'id'      => 'ywraq_add_privacy_checkbox',
 	        'type'      => 'yith-field',
-	        'yith-type' => 'checkbox',
+	        'yith-type' => 'onoff',
 	        'default' => 'no'
         ),
         'privacy_label' => array(

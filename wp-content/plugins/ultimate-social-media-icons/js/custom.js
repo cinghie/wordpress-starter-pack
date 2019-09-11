@@ -33,7 +33,7 @@ function sfsi_make_popBox() {
 function sfsi_stick_widget(s) {
 	0 == initTop.length && (SFSI(".sfsi_widget").each(function(s) {
         initTop[s] = SFSI(this).position().top;
-    }), console.log(initTop));
+    }));
     var i = SFSI(window).scrollTop(), e = [], t = [];
     SFSI(".sfsi_widget").each(function(s) {
         e[s] = SFSI(this).position().top, t[s] = SFSI(this);
@@ -201,7 +201,7 @@ SFSI(document).ready(function(s) {
     }), SFSI("div#sfsiid_twitter").find(".cstmicon1").find("a").find("img").mouseleave(function() {
         SFSI(this).css("opacity", "1");
     }), SFSI(".pop-up").on("click", function() {
-        ("fbex-s2" == SFSI(this).attr("data-id") || "googlex-s2" == SFSI(this).attr("data-id") || "linkex-s2" == SFSI(this).attr("data-id")) && (SFSI("." + SFSI(this).attr("data-id")).hide(), 
+        ("fbex-s2" == SFSI(this).attr("data-id")  || "linkex-s2" == SFSI(this).attr("data-id")) && (SFSI("." + SFSI(this).attr("data-id")).hide(), 
         SFSI("." + SFSI(this).attr("data-id")).css("opacity", "1"), SFSI("." + SFSI(this).attr("data-id")).css("z-index", "1000")), 
         SFSI("." + SFSI(this).attr("data-id")).show("slow");
     }), /*SFSI("#close_popup").live("click", function() {*/SFSI(document).on("click", '#close_popup', function () {
@@ -282,13 +282,8 @@ SFSI(document).ready(function(s) {
     }), SFSI("div.sfsi_wicons").on("mouseleave", function() {
         SFSI(this).children("div.inerCnt").children("a.sficn").attr("data-effect") && "fade_in" == SFSI(this).children("div.inerCnt").children("a.sficn").attr("data-effect") && SFSI(this).children("div.inerCnt").find("a.sficn").css("opacity", "0.6"), 
         SFSI(this).children("div.inerCnt").children("a.sficn").attr("data-effect") && "scale" == SFSI(this).children("div.inerCnt").children("a.sficn").attr("data-effect") && SFSI(this).children("div.inerCnt").find("a.sficn").removeClass("scale"), 
-        SFSI(this).children("div.inerCnt").children("a.sficn").attr("data-ffect") && "combo" == SFSI(this).children("div.inerCnt").children("a.sficn").attr("data-effect") && (SFSI(this).children("div.inerCnt").find("a.sficn").css("opacity", "0.6"), 
-        SFSI(this).children("div.inerCnt").find("a.sficn").removeClass("scale")), "sfsiid_google" == SFSI(this).children("div.inerCnt").find("a.sficn").attr("id") ? SFSI("body").on("click", function() {
-            SFSI(this).children(".inerCnt").find("div.sfsi_tool_tip_2").hide();
-        }) :(SFSI(this).css({
-            "z-index":"0"
-        }), SFSI(this).children(".inerCnt").find("div.sfsi_tool_tip_2").hide());
-    }), SFSI("body").on("click", function() {
+        SFSI(this).children("div.inerCnt").children("a.sficn").attr("data-ffect") && "combo" == SFSI(this).children("div.inerCnt").children("a.sficn").attr("data-effect")/*  && SFSI(this).children("div.inerCnt").find("a.sficn").css("opacity", "0.6"), */
+		}), SFSI("body").on("click", function(){
         SFSI(".inerCnt").find("div.sfsi_tool_tip_2").hide();
     }), SFSI(".adminTooltip >a").on("hover", function() {
         SFSI(this).offset().top, SFSI(this).parent("div").find("div.sfsi_tool_tip_2_inr").css("opacity", "1"), 
@@ -346,3 +341,87 @@ function sfsi_copy_text_parent_input(event){
     input_target.select();
     document.execCommand('copy');
 }
+
+function sfsi_responsive_toggle() {
+    jQuery(document).scroll(function($) {
+        var y = jQuery(this).scrollTop();
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            if (jQuery(window).scrollTop() + jQuery(window).height() >= jQuery(document).height() - 100) {
+                jQuery('.sfsi_outr_div').css({
+                    'z-index': '9996',
+                    opacity: 1,
+                    top: jQuery(window).scrollTop() + "px",
+                    position: "absolute"
+                });
+                jQuery('.sfsi_outr_div').fadeIn(200);
+                jQuery('.sfsi_FrntInner_chg').fadeIn(200);
+            } else {
+                jQuery('.sfsi_outr_div').fadeOut();
+                jQuery('.sfsi_FrntInner_chg').fadeOut();
+            }
+        } else {
+            if (jQuery(window).scrollTop() + jQuery(window).height() >= jQuery(document).height() - 3) {
+                jQuery('.sfsi_outr_div').css({
+                    'z-index': '9996',
+                    opacity: 1,
+                    top: jQuery(window).scrollTop() + 200 + "px",
+                    position: "absolute"
+                });
+                jQuery('.sfsi_outr_div').fadeIn(200);
+                jQuery('.sfsi_FrntInner_chg').fadeIn(200);
+            } else {
+                jQuery('.sfsi_outr_div').fadeOut();
+                jQuery('.sfsi_FrntInner_chg').fadeOut();
+            }
+        }
+    });
+}
+function sfsi_time_pop_up(time_popUp) {
+    jQuery(document).ready(function($) {
+        setTimeout(function() {
+            jQuery('.sfsi_outr_div').css({
+                'z-index': '1000000',
+                opacity: 1
+            });
+            jQuery('.sfsi_outr_div').fadeIn(200);
+            jQuery('.sfsi_FrntInner_chg').fadeIn(200);
+        },  time_popUp);
+    });
+}
+
+function sfsi_social_pop_up(time_popUp) {
+    jQuery(document).ready(function($) {
+        //jQuery('.sfsi_outr_div').fadeIn();
+        sfsi_setCookie('sfsi_socialPopUp', time(), 32);
+        setTimeout(function() {
+            jQuery('.sfsi_outr_div').css({
+                'z-index': '1000000',
+                opacity: 1
+            });
+            jQuery('.sfsi_outr_div').fadeIn();
+        }, time_popUp);
+    });
+}
+function sfsi_plugin_version(pluginVersion) {
+    jQuery(document).ready(function(e) {
+        jQuery("body").addClass("sfsi_"+pluginVersion)
+    });
+}
+
+function sfsi_widget_set(){
+    jQuery(".sfsi_widget").each(function( index ) {
+        if(jQuery(this).attr("data-position") == "widget")
+        {
+            var wdgt_hght = jQuery(this).children(".norm_row.sfsi_wDiv").height();
+            var title_hght = jQuery(this).parent(".widget.sfsi").children(".widget-title").height();
+            var totl_hght = parseInt( title_hght ) + parseInt( wdgt_hght );
+            jQuery(this).parent(".widget.sfsi").css("min-height", totl_hght+"px");
+            console.log('widget');
+        }
+    });
+}
+
+
+// should execute at last so that every function is acceable in body.
+var sfsi_functions_loaded =  new CustomEvent('sfsi_functions_loaded',{detail:{"abc":"def"}});
+window.dispatchEvent(sfsi_functions_loaded);

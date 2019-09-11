@@ -23,9 +23,9 @@ if ( ! class_exists( 'WPPFM_Ajax_Calls' ) ) :
 
 		public function __construct() { }
 
-		protected function safe_ajax_call( $nonce, $registerd_nonce_name ) {
+		protected function safe_ajax_call( $nonce, $registered_nonce_name ) {
 			// check the nonce
-			if ( ! wp_verify_nonce( $nonce, $registerd_nonce_name ) ) {
+			if ( ! wp_verify_nonce( $nonce, $registered_nonce_name ) ) {
 				die( 'You are not allowed to do this!' );
 			}
 

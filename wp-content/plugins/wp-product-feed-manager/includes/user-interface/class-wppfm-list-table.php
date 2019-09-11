@@ -30,6 +30,7 @@ if ( ! class_exists( 'WPPFM_List_Table' ) ) :
 			$this->_table_id_string = '';
 			$this->_table_list      = $queries->get_feeds_list();
 
+			add_option( 'wp_enqueue_scripts', WPPFM_i18n_Scripts::wppfm_feed_settings_i18n() );
 			add_option( 'wp_enqueue_scripts', WPPFM_i18n_Scripts::wppfm_list_table_i18n() );
 		}
 
@@ -95,7 +96,7 @@ if ( ! class_exists( 'WPPFM_List_Table' ) ) :
 			$feed_types       = wppfm_list_feed_type_text();
 
 			foreach ( $this->_table_list as $list_item ) {
-				$feed_ready_status = ( 'on_hold' === $list_item->status || 'ok' === $list_item->status );
+				$feed_ready_status = ( 'on_hold' === $list_item->status || 'ok' === strtolower( $list_item->status ) );
 
 				if ( $feed_ready_status ) {
 					$nr_products = $list_item->products;
@@ -119,9 +120,9 @@ if ( ! class_exists( 'WPPFM_List_Table' ) ) :
 				$html .= '<td id="actions-' . $list_item->product_feed_id . '">';
 
 				if ( $feed_ready_status ) {
-					$html .= $this->feed_ready_action_links( $list_item->product_feed_id, $list_item->url, $list_item->status, $list_item->title );
+					$html .= $this->feed_ready_action_links( $list_item->product_feed_id, $list_item->url, $list_item->status, $list_item->title, $feed_types[ $list_item->feed_type_id ] );
 				} else {
-					$html .= $this->feed_not_ready_action_links( $list_item->product_feed_id, $list_item->url, $list_item->title );
+					$html .= $this->feed_not_ready_action_links( $list_item->product_feed_id, $list_item->url, $list_item->title, $feed_types[ $list_item->feed_type_id ] );
 				}
 
 				$html .= '</td>';
@@ -138,6 +139,7 @@ if ( ! class_exists( 'WPPFM_List_Table' ) ) :
 		private function list_status_text( $status ) {
 
 			switch ( $status ) {
+				case 'OK':
 				case 'ok':
 					return __( 'Ready (auto)', 'wp-product-feed-manager' );
 
@@ -169,22 +171,23 @@ if ( ! class_exists( 'WPPFM_List_Table' ) ) :
 		 * @param string $feed_url
 		 * @param string $status
 		 * @param string $title
+		 * @param string $feed_type
 		 *
 		 * @return string with the html code
 		 */
-		private function feed_ready_action_links( $feed_id, $feed_url, $status, $title ) {
+		private function feed_ready_action_links( $feed_id, $feed_url, $status, $title, $feed_type ) {
 			$file_exists   = 'No feed generated' !== $feed_url;
 			$url_strings   = explode( '/', $feed_url );
 			$file_name     = stripos( $feed_url, '/' ) ? end( $url_strings ) : $title;
-			$change_status = 'ok' === $status ? __( 'Auto-off', 'wp-product-feed-manager' ) : __( 'Auto-on', 'wp-product-feed-manager' );
+			$change_status = 'ok' === strtolower( $status ) ? __( 'Auto-off', 'wp-product-feed-manager' ) : __( 'Auto-on', 'wp-product-feed-manager' );
+			$feed_tab_link = strtolower( str_replace( ' ', '-', $feed_type ) );
 
-			$html  = '<strong><a href="javascript:void(0);" onclick="parent.location=\'admin.php?page=wp-product-feed-manager&tab=product-feed&id=' . $feed_id . '\'">' . __( 'Edit', 'wp-product-feed-manager' ) . '</a>';
+			$html  = '<strong><a href="javascript:void(0);" onclick="parent.location=\'admin.php?page=wp-product-feed-manager&tab=' . $feed_tab_link . '&id=' . $feed_id . '\'">' . __( 'Edit', 'wp-product-feed-manager' ) . '</a>';
 			$html .= $file_exists ? ' | <a href="javascript:void(0);" onclick="wppfm_viewFeed(\'' . $feed_url . '\')">' . __( 'View', 'wp-product-feed-manager' ) . '</a>' : '';
 			$html .= ' | <a href="javascript:void(0);" onclick="wppfm_deleteSpecificFeed(' . $feed_id . ', \'' . $file_name . '\')">' . __( 'Delete', 'wp-product-feed-manager' ) . '</a>';
-			$html .= $file_exists ? ' | <a href="javascript:void(0);" onclick="wppfm_deactivateFeed(' . $feed_id . ')" id="feed-status-switch-' . $feed_id . '">' . $change_status . '</a>' : '';
-			$html .= ' | <a href="javascript:void(0);" onclick="wppfm_duplicateFeed(' . $feed_id . ', \'' . $title . '\')">' . __( 'Duplicate', 'wp-product-feed-manager' ) . '</a></strong>';
-
-			$html .= '</strong>';
+			$html .= $file_exists ? '<a href="javascript:void(0);" onclick="wppfm_deactivateFeed(' . $feed_id . ')" id="feed-status-switch-' . $feed_id . '"> | ' . $change_status . '</a>' : '';
+			$html .= ' | <a href="javascript:void(0);" onclick="wppfm_duplicateFeed(' . $feed_id . ', \'' . $title . '\')">' . __( 'Duplicate', 'wp-product-feed-manager' ) . '</a>';
+			$html .= ' | <a href="javascript:void(0);" onclick="wppfm_regenerateFeed(' . $feed_id . ')">' . __( 'Regenerate', 'wp-product-feed-manager' ) . '</a></strong>';
 			return $html;
 		}
 
@@ -195,16 +198,23 @@ if ( ! class_exists( 'WPPFM_List_Table' ) ) :
 		 * @param string $feed_id
 		 * @param string $feed_url
 		 * @param string $title
+		 * @param string $feed_type
 		 *
 		 * @return string with the html code
 		 */
-		private function feed_not_ready_action_links( $feed_id, $feed_url, $title ) {
-			$file_name = stripos( $feed_url, '/' ) ? end( explode( '/', $feed_url ) ) : $title;
+		private function feed_not_ready_action_links( $feed_id, $feed_url, $title, $feed_type ) {
+			if ( stripos( $feed_url, '/' ) ) {
+				$url_array = explode( '/', $feed_url );
+				$file_name = end( $url_array );
+			} else {
+				$file_name = $title;
+			}
 
-			$html  = '<strong><a href="javascript:void(0);" onclick="parent.location=\'admin.php?page=wp-product-feed-manager&tab=product-feed&id=' . $feed_id . '\'">' . __( 'Edit', 'wp-product-feed-manager' ) . '</a>';
+			$feed_tab_link = strtolower( str_replace( ' ', '-', $feed_type ) );
+
+			$html  = '<strong><a href="javascript:void(0);" onclick="parent.location=\'admin.php?page=wp-product-feed-manager&tab=' . $feed_tab_link . '&id=' . $feed_id . '\'">' . __( 'Edit', 'wp-product-feed-manager' ) . '</a>';
 			$html .= ' | <a href="javascript:void(0);" onclick="wppfm_deleteSpecificFeed(' . $feed_id . ', \'' . $file_name . '\')">' . __( 'Delete', 'wp-product-feed-manager' ) . '</a>';
-
-			$html .= '</strong>';
+			$html .= ' | <a href="javascript:void(0);" onclick="wppfm_regenerateFeed(' . $feed_id . ')">' . __( 'Regenerate', 'wp-product-feed-manager' ) . '</a></strong>';
 			$html .= $this->feed_status_checker_script( $feed_id );
 			return $html;
 		}

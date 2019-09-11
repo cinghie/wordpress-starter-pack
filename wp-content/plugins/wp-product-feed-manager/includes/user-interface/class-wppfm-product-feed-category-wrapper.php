@@ -31,8 +31,12 @@ if ( ! class_exists( 'WPPFM_Product_Feed_Category_Wrapper' ) ) :
 			// The category mapping table header.
 			echo WPPFM_Category_Selector_Element::category_selector_table_head( 'mapping' );
 
+			echo '<tbody id="wppfm-category-mapping-body">';
+
 			// The content of the table.
 			echo $this->category_table_content( 'mapping' );
+
+			echo '</tbody>';
 
 			// Closing the section.
 			echo '</table></section>';

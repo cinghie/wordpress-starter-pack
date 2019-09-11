@@ -35,6 +35,7 @@ function appendCategoryLists( channelId, language, isNew ) {
 			'',
 			language,
 			function( categories ) {
+
 				var list = JSON.parse( categories )[ 0 ];
 
 				if ( list && list.length > 0 ) {
@@ -100,36 +101,43 @@ function wppfm_feedListTable( list, specialFeedAddOnsActive ) {
 		htmlCode += '<td id="actions-' + feedId + '">';
 
 		if ( feedReady ) {
-			htmlCode += feedReadyActions( feedId, feedUrl, status, list [ i ] [ 'title' ] );
+			htmlCode += feedReadyActions( feedId, feedUrl, status, list [ i ] [ 'title' ], list [ i ] [ 'feed_type_name' ] );
 		} else {
-			htmlCode += feedNotReadyActions( feedId, feedUrl, list [ i ] [ 'title' ] );
+			htmlCode += feedNotReadyActions( feedId, feedUrl, list [ i ] [ 'title' ], list [ i ] [ 'feed_type_name' ] );
 		}
 
 		htmlCode += '</td>';
 	}
 
+
 	return htmlCode;
 }
 
-function feedReadyActions( feedId, feedUrl, status, title ) {
+function feedReadyActions( feedId, feedUrl, status, title, feedType ) {
 	var fileExists   = 'No feed generated' !== feedUrl;
 	var fileName     = feedUrl.lastIndexOf( '/' ) > 0 ? feedUrl.slice( feedUrl.lastIndexOf( '/' ) - feedUrl.length + 1 ) : title;
 	var changeStatus = 'ok' === status ? wppfm_feed_list_form_vars.list_deactivate : wppfm_feed_list_form_vars.list_activate;
+	var tabTitle     = feedType.replace( / /g, '-' ).toLowerCase();
 
-	var htmlCode = '<strong><a href="javascript:void(0);" onclick="parent.location=\'admin.php?page=wp-product-feed-manager&tab=product-feed&id=' + feedId + '\'">' + wppfm_feed_list_form_vars.list_edit + ' </a>';
-	htmlCode    += fileExists ? '| <a href="javascript:void(0);" onclick="wppfm_viewFeed(\'' + feedUrl + '\')">' + wppfm_feed_list_form_vars.list_view + ' </a>' : '';
-	htmlCode    += '| <a href="javascript:void(0);" onclick="wppfm_deleteSpecificFeed(' + feedId + ', \'' + fileName + '\')">' + wppfm_feed_list_form_vars.list_delete + ' </a>';
-	htmlCode    += fileExists ? '| <a href="javascript:void(0);" onclick="wppfm_deactivateFeed(' + feedId + ')" id="feed-status-switch-' + feedId + '">' + changeStatus + ' </a>' : '';
-	htmlCode    += '| <a href="javascript:void(0);" onclick="wppfm_duplicateFeed(' + feedId + ', \'' + title + '\')">' + wppfm_feed_list_form_vars.list_duplicate + '</a></strong>';
+	var htmlCode = '<strong><a href="javascript:void(0);" onclick="parent.location=\'admin.php?page=wp-product-feed-manager&tab=' + tabTitle + '&id=' + feedId + '\'">' + wppfm_feed_list_form_vars.list_edit + ' </a>';
+	htmlCode    += fileExists ? ' | <a href="javascript:void(0);" onclick="wppfm_viewFeed(\'' + feedUrl + '\')">' + wppfm_feed_list_form_vars.list_view + '</a>' : '';
+	htmlCode    += ' | <a href="javascript:void(0);" onclick="wppfm_deleteSpecificFeed(' + feedId + ', \'' + fileName + '\')">' + wppfm_feed_list_form_vars.list_delete + '</a>';
+	htmlCode    += fileExists ? '<a href="javascript:void(0);" onclick="wppfm_deactivateFeed(' + feedId + ')" id="feed-status-switch-' + feedId + '"> | ' + changeStatus + '</a>' : '';
+	htmlCode    += ' | <a href="javascript:void(0);" onclick="wppfm_duplicateFeed(' + feedId + ', \'' + title + '\')">' + wppfm_feed_list_form_vars.list_duplicate + '</a>';
+	htmlCode    += ' | <a href="javascript:void(0);" onclick="wppfm_regenerateFeed(' + feedId + ')">' + wppfm_feed_list_form_vars.list_regenerate + '</a>';
+	htmlCode    += '</strong>';
 	return htmlCode;
 }
 
-function feedNotReadyActions( feedId, feedUrl, title ) {
+function feedNotReadyActions( feedId, feedUrl, title, feedType ) {
 	var fileName = feedUrl.lastIndexOf( '/' ) > 0 ? feedUrl.slice( feedUrl.lastIndexOf( '/' ) - feedUrl.length + 1 ) : title;
+	var tabTitle     = feedType.replace( / /g, '-' ).toLowerCase();
 
 	var htmlCode = '<strong>';
-	htmlCode    += '<a href="javascript:void(0);" onclick="parent.location=\'admin.php?page=wp-product-feed-manager&tab=product-feed&id=' + feedId + '\'">' + wppfm_feed_list_form_vars.list_edit + ' </a>';
-	htmlCode    += '| <a href="javascript:void(0);" onclick="wppfm_deleteSpecificFeed(' + feedId + ', \'' + fileName + '\')"> ' + wppfm_feed_list_form_vars.list_delete + '</a>';
+	htmlCode    += '<a href="javascript:void(0);" onclick="parent.location=\'admin.php?page=wp-product-feed-manager&tab=' + tabTitle + '&id=' + feedId + '\'">' + wppfm_feed_list_form_vars.list_edit + '</a>';
+	htmlCode    += ' | <a href="javascript:void(0);" onclick="wppfm_deleteSpecificFeed(' + feedId + ', \'' + fileName + '\')"> ' + wppfm_feed_list_form_vars.list_delete + '</a>';
+	htmlCode    += ' | <a href="javascript:void(0);" onclick="wppfm_duplicateFeed(' + feedId + ', \'' + title + '\')">' + wppfm_feed_list_form_vars.list_duplicate + '</a>';
+	htmlCode    += ' | <a href="javascript:void(0);" onclick="wppfm_regenerateFeed(' + feedId + ')">' + wppfm_feed_list_form_vars.list_regenerate + '</a>';
 	htmlCode    += '</strong>';
 	htmlCode    += wppfm_addFeedStatusChecker( feedId );
 	return htmlCode;
@@ -152,7 +160,7 @@ function wppfm_updateFeedRowData( rowData ) {
 
 		jQuery( '#updated-' + feedId ).html( rowData[ 'updated' ] );
 		jQuery( '#products-' + feedId ).html( rowData[ 'products' ] );
-		jQuery( '#actions-' + feedId ).html( feedReadyActions( feedId, rowData[ 'url' ], status, rowData[ 'title' ] ) );
+		jQuery( '#actions-' + feedId ).html( feedReadyActions( feedId, rowData[ 'url' ], status, rowData[ 'title' ], rowData[ 'feed_type_name' ] ) );
 	}
 }
 
@@ -196,13 +204,13 @@ function wppfm_updateFeedRowStatus( feedId, status ) {
 		case 1: // OK
 			feedStatusSelector.html( '<strong>' + wppfm_feed_list_form_vars.ok + '</strong>' );
 			feedStatusSelector.css( 'color', '#0073AA' );
-			feedStatusSwitchSelector.html( wppfm_feed_list_form_vars.list_deactivate + ' ' );
+			feedStatusSwitchSelector.html( ' | ' + wppfm_feed_list_form_vars.list_deactivate + ' ' );
 			break;
 
 		case 2: // On hold
 			feedStatusSelector.html( '<strong>' + wppfm_feed_list_form_vars.on_hold + '</strong>' );
 			feedStatusSelector.css( 'color', '#0173AA' );
-			feedStatusSwitchSelector.html( wppfm_feed_list_form_vars.list_activate + ' ' );
+			feedStatusSwitchSelector.html( ' | ' + wppfm_feed_list_form_vars.list_activate + ' ' );
 			break;
 
 		case 3: // Processing

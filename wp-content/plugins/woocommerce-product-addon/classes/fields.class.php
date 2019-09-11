@@ -72,11 +72,7 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
         // Description Tooltips JS File
         wp_enqueue_script('ppom-tooltip', PPOM_URL."/scripts/ppom-tooltip.js", array('jquery'), PPOM_VERSION, true);
 
-        // codemirror files
-        wp_enqueue_style('ppom-codemirror-css', PPOM_URL."/scripts/codemirror/codemirror.min.css", '', PPOM_VERSION);
-        wp_enqueue_script('ppom-codemirror-js', PPOM_URL."/scripts/codemirror/codemirror.js", array('jquery'), PPOM_VERSION, true);
-        wp_enqueue_script('ppom-codemirror-css-js', PPOM_URL."/scripts/codemirror/css.js", array('jquery'), PPOM_VERSION, true);
-        
+      
         // PPOM Admin Files
         wp_enqueue_style('ppom-field', PPOM_URL."/scripts/ppom-admin.css", '', PPOM_VERSION);
         wp_enqueue_script('ppom-field', PPOM_URL."/scripts/ppom-admin.js", array('ppom-swal','ppom-select2','ppom-tabletojson','ppom-datatables','ppom-tooltip','jquery-ui-core', 'jquery-ui-sortable','ppom-perload'), PPOM_VERSION, true);
@@ -306,14 +302,14 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 						$option_id = ppom_get_option_id($option);
 						$html_input .= '<li class="data-options ppom-sortable-handle" style="display: flex;" data-condition-type="simple_options">';
 							$html_input .= '<span class="dashicons dashicons-move"></span>';
-							$html_input .= '<input type="text" class="option-title form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][option]" value="'.esc_attr(stripslashes($option['option'])).'" placeholder="'.$plc_option.'" data-metatype="option">';
-							$html_input .= '<input type="text" class="option-price form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][price]" value="'.esc_attr($option['price']).'" placeholder="'.$plc_price.'" data-metatype="price">';
-							
+							$html_input .= '<input type="text" class="option-title form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][option]" value="'.esc_attr(stripslashes($option['option'])).'" placeholder="'.$plc_option.'" data-metatype="option" data-opt-index="'.esc_attr($opt_index).'">';
+							$html_input .= '<input type="text" class="option-price form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][price]" value="'.esc_attr($option['price']).'" placeholder="'.$plc_price.'" data-metatype="price" data-opt-index="'.esc_attr($opt_index).'">';
+							$html_input .= '<input type="text" class="option-weight form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][weight]" value="'.esc_attr($weight).'" placeholder="'.$plc_weight.'" data-metatype="weight" data-opt-index="'.esc_attr($opt_index).'">';
+							$html_input .= '<input type="text" class="option-id form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][id]" value="'.esc_attr($option_id).'" placeholder="'.$plc_id.'" data-metatype="id" data-opt-index="'.esc_attr($opt_index).'">';
 
-							$html_input .= '<input type="text" class="option-weight form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][weight]" value="'.esc_attr($weight).'" placeholder="'.$plc_weight.'" data-metatype="weight">';
-
-							$html_input .= '<input type="text" class="option-id form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][id]" value="'.esc_attr($option_id).'" placeholder="'.$plc_id.'" data-metatype="id">';
 							$html_input .= '<button class="btn btn-success ppom-add-option" data-option-type="paired"><i class="fa fa-plus" aria-hidden="true"></i></button>';
+							$html_input .= '<button class="btn btn-danger ppom-remove-option"><i class="fa fa-minus" aria-hidden="true"></i></button>';
+
 						$html_input .= '</li>';
 
 						$opt_index0 =  $last_array_id;
@@ -329,7 +325,10 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 						$html_input .= '<input type="text" class="option-weight form-control ppom-option-keys" placeholder="'.$plc_weight.'" data-metatype="weight">';
 
 						$html_input .= '<input type="text" class="option-id form-control ppom-option-keys" placeholder="'.$plc_id.'" data-metatype="id">';
+
 						$html_input .= '<button class="btn btn-success ppom-add-option" data-option-type="paired"><i class="fa fa-plus" aria-hidden="true"></i></button>';
+						$html_input .= '<button class="btn btn-danger ppom-remove-option"><i class="fa fa-minus" aria-hidden="true"></i></button>';
+
 					$html_input .= '</li>';
 				}
 				$html_input .= '<input type="hidden" id="ppom-meta-opt-index" value="'.esc_attr($opt_index0).'">';
@@ -337,7 +336,7 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 				
 				break;
 				
-				
+				case 'paired-palettes';
 				case 'paired-pricematrix' :
 				
 				$plc_option = (!empty($placeholders)) ? $placeholders[0] : __('Option',"ppom");
@@ -359,14 +358,14 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 						$option_id = ppom_get_option_id($option);
 						$html_input .= '<li class="data-options ppom-sortable-handle" style="display: flex;">';
 							$html_input .= '<span class="dashicons dashicons-move"></span>';
-							$html_input .= '<input type="text" class="option-title form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][option]" value="'.esc_attr(stripslashes($option['option'])).'" placeholder="'.$plc_option.'" data-metatype="option">';
-							$html_input .= '<input type="text" class="option-price form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][price]" value="'.esc_attr($option['price']).'" placeholder="'.$plc_price.'" data-metatype="price">';
-							
+							$html_input .= '<input type="text" class="option-title form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][option]" value="'.esc_attr(stripslashes($option['option'])).'" placeholder="'.$plc_option.'" data-metatype="option" data-opt-index="'.esc_attr($opt_index).'">';
+							$html_input .= '<input type="text" class="option-price form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][price]" value="'.esc_attr($option['price']).'" placeholder="'.$plc_price.'" data-metatype="price" data-opt-index="'.esc_attr($opt_index).'">';
+							$html_input .= '<input type="text" class="option-label form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][label]" value="'.esc_attr($label).'" placeholder="'.$plc_label.'" data-metatype="label" data-opt-index="'.esc_attr($opt_index).'">';
+							$html_input .= '<input type="text" class="option-id form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][id]" value="'.esc_attr($option_id).'" placeholder="'.$plc_id.'" data-metatype="id" data-opt-index="'.esc_attr($opt_index).'">';
 
-							$html_input .= '<input type="text" class="option-label form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][label]" value="'.esc_attr($label).'" placeholder="'.$plc_label.'" data-metatype="label">';
-
-							$html_input .= '<input type="text" class="option-id form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][id]" value="'.esc_attr($option_id).'" placeholder="'.$plc_id.'" data-metatype="id">';
 							$html_input .= '<button class="btn btn-success ppom-add-option" data-option-type="paired"><i class="fa fa-plus" aria-hidden="true"></i></button>';
+							$html_input .= '<button class="btn btn-danger ppom-remove-option"><i class="fa fa-minus" aria-hidden="true"></i></button>';
+
 						$html_input .= '</li>';
 
 						$opt_index0 =  $last_array_id;
@@ -382,7 +381,10 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 						$html_input .= '<input type="text" class="option-label form-control ppom-option-keys" placeholder="'.$plc_label.'" data-metatype="label">';
 
 						$html_input .= '<input type="text" class="option-id form-control ppom-option-keys" placeholder="'.$plc_id.'" data-metatype="id">';
+
 						$html_input .= '<button class="btn btn-success ppom-add-option" data-option-type="paired"><i class="fa fa-plus" aria-hidden="true"></i></button>';
+						$html_input .= '<button class="btn btn-danger ppom-remove-option"><i class="fa fa-minus" aria-hidden="true"></i></button>';
+						
 					$html_input .= '</li>';
 				}
 				$html_input .= '<input type="hidden" id="ppom-meta-opt-index" value="'.esc_attr($opt_index0).'">';
@@ -408,8 +410,8 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 						
 						$html_input .= '<li class="data-options ppom-sortable-handle" style="display: flex;">';
 							$html_input .= '<span class="dashicons dashicons-move"></span>';
-							$html_input .= '<input type="text" class="option-title form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][dataname]" value="'.esc_attr(stripslashes($option['dataname'])).'" placeholder="'.$plc_option.'" data-metatype="dataname">';
-							$html_input .= '<input type="text" class="form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][font_name]" value="'.esc_attr($option['font_name']).'" placeholder="'.$plc_price.'" data-metatype="font_name">';
+							$html_input .= '<input type="text" class="option-title form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][dataname]" value="'.esc_attr(stripslashes($option['dataname'])).'" placeholder="'.$plc_option.'" data-metatype="dataname" data-opt-index="'.esc_attr($opt_index).'">';
+							$html_input .= '<input type="text" class="form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][font_name]" value="'.esc_attr($option['font_name']).'" placeholder="'.$plc_price.'" data-metatype="font_name" data-opt-index="'.esc_attr($opt_index).'">';
 							
 
 							$html_input .= '<button class="btn btn-success ppom-add-option" data-option-type="paired"><i class="fa fa-plus" aria-hidden="true"></i></button>';
@@ -445,11 +447,14 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 					foreach ($values as $opt_index => $option){
 						$html_input .= '<li class="data-options" style="display: flex;">';
 							$html_input .= '<span class="dashicons dashicons-move"></span>';
-							$html_input .= '<input type="text" class="form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][option]" value="'.esc_attr(stripslashes($option['option'])).'" placeholder="'.__('option',"ppom").'" data-metatype="option">';
-							$html_input .= '<input type="text" class="form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][price]" value="'.esc_attr($option['price']).'" placeholder="'.__('price (if any)',"ppom").'" data-metatype="price" >';
-							$html_input .= '<input type="text" class="form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][min]" value="'.esc_attr($option['min']).'" placeholder="'.__('Min. Qty',"ppom").'" data-metatype="min" >';
-							$html_input .= '<input type="text" class="form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][max]" value="'.esc_attr($option['max']).'" placeholder="'.__('Max. Qty',"ppom").'" data-metatype="max">';
+							$html_input .= '<input type="text" class="form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][option]" value="'.esc_attr(stripslashes($option['option'])).'" placeholder="'.__('option',"ppom").'" data-metatype="option" data-opt-index="'.esc_attr($opt_index).'">';
+							$html_input .= '<input type="text" class="form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][price]" value="'.esc_attr($option['price']).'" placeholder="'.__('price (if any)',"ppom").'" data-metatype="price" data-opt-index="'.esc_attr($opt_index).'">';
+							$html_input .= '<input type="text" class="form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][min]" value="'.esc_attr($option['min']).'" placeholder="'.__('Min. Qty',"ppom").'" data-metatype="min" data-opt-index="'.esc_attr($opt_index).'">';
+							$html_input .= '<input type="text" class="form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][max]" value="'.esc_attr($option['max']).'" placeholder="'.__('Max. Qty',"ppom").'" data-metatype="max" data-opt-index="'.esc_attr($opt_index).'">';
+
 							$html_input .= '<button class="btn btn-success ppom-add-option" data-option-type="paired-quantity"><i class="fa fa-plus" aria-hidden="true"></i></button>';
+							$html_input .= '<button class="btn btn-danger ppom-remove-option"><i class="fa fa-minus" aria-hidden="true"></i></button>';
+
 						$html_input .= '</li>';
 
 						$opt_index0 =  $last_array_id;
@@ -462,7 +467,10 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 						$html_input .= '<input type="text" class="form-control ppom-option-keys" placeholder="'.__('price (if any)',"ppom").'" data-metatype="price">';
 						$html_input .= '<input type="text" class="form-control ppom-option-keys" placeholder="'.__('Min. Qty',"ppom").'" data-metatype="min">';
 						$html_input .= '<input type="text" class="form-control ppom-option-keys" placeholder="'.__('Max. Qty',"ppom").'" data-metatype="max">';
+
 						$html_input .= '<button class="btn btn-success ppom-add-option" data-option-type="paired-quantity"><i class="fa fa-plus" aria-hidden="true"></i></button>';
+						$html_input .= '<button class="btn btn-danger ppom-remove-option"><i class="fa fa-minus" aria-hidden="true"></i></button>';
+
 					$html_input .= '</li>';
 				}
 				
@@ -520,11 +528,14 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 												
 						$html_input .= '<li class="data-options" style=display:flex;>';
 							$html_input .= '<span class="dashicons dashicons-move"></span>';
-							$html_input .= '<input type="text" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][option]" value="'.esc_attr(stripslashes($option['option'])).'" placeholder="'.__('Label',"ppom").'" class="form-control ppom-option-keys" data-metatype="option">';
-							$html_input .= '<input type="text" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][width]" value="'.esc_attr(stripslashes($option['width'])).'" placeholder="'.__('Width',"ppom").'" class="form-control ppom-option-keys" data-metatype="width">';
-							$html_input .= '<input type="text" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][height]" value="'.esc_attr($option['height']).'" placeholder="'.__('Height',"ppom").'" class="form-control ppom-option-keys" data-metatype="height">';
-							$html_input .= '<input type="text" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][price]" value="'.esc_attr($option['price']).'" placeholder="'.__('Price (optional)',"ppom").'" class="form-control ppom-option-keys" data-metatype="price">';
+							$html_input .= '<input type="text" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][option]" value="'.esc_attr(stripslashes($option['option'])).'" placeholder="'.__('Label',"ppom").'" class="form-control ppom-option-keys" data-metatype="option" data-opt-index="'.esc_attr($opt_index).'">';
+							$html_input .= '<input type="text" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][width]" value="'.esc_attr(stripslashes($option['width'])).'" placeholder="'.__('Width',"ppom").'" class="form-control ppom-option-keys" data-metatype="width" data-opt-index="'.esc_attr($opt_index).'">';
+							$html_input .= '<input type="text" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][height]" value="'.esc_attr($option['height']).'" placeholder="'.__('Height',"ppom").'" class="form-control ppom-option-keys" data-metatype="height" data-opt-index="'.esc_attr($opt_index).'">';
+							$html_input .= '<input type="text" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][price]" value="'.esc_attr($option['price']).'" placeholder="'.__('Price (optional)',"ppom").'" class="form-control ppom-option-keys" data-metatype="price" data-opt-index="'.esc_attr($opt_index).'">';
+
 							$html_input .= '<button class="btn btn-success ppom-add-option" data-option-type="paired-cropper"><i class="fa fa-plus" aria-hidden="true"></i></button>';
+							$html_input .= '<button class="btn btn-danger ppom-remove-option"><i class="fa fa-minus" aria-hidden="true"></i></button>';
+
 						$html_input .= '</li>';
 
 						$opt_index0 =  $last_array_id;
@@ -537,7 +548,10 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 						$html_input .= '<input type="text" placeholder="'.__('Width',"ppom").'" class="form-control ppom-option-keys" data-metatype="width">';
 						$html_input .= '<input type="text" placeholder="'.__('Height',"ppom").'" class="form-control ppom-option-keys" data-metatype="height">';
 						$html_input .= '<input type="text" placeholder="'.__('Price (optional)',"ppom").'" class="form-control ppom-option-keys" data-metatype="price">';
+
 						$html_input .= '<button class="btn btn-success ppom-add-option" data-option-type="paired-cropper"><i class="fa fa-plus" aria-hidden="true"></i></button>';
+						$html_input .= '<button class="btn btn-danger ppom-remove-option"><i class="fa fa-minus" aria-hidden="true"></i></button>';
+
 					$html_input .= '</li>';
 				}
 					$html_input .= '<input type="hidden" id="ppom-meta-opt-index" value="'.esc_attr($opt_index0).'">';
@@ -771,11 +785,12 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 										$html_input .= '<div class="ppom-uploader-img-center">';
 											$html_input .= '<img width="60" src="'.esc_url($image_link).'" style="width: 34px;">';
 										$html_input .= '</div>';
-										$html_input .= '<input type="hidden" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][link]" value="'.esc_url($image_link).'">';
-										$html_input .= '<input type="hidden" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][id]" value="'.esc_attr($image_id).'">';
-										$html_input .= '<input class="form-control ppom-image-option-title" type="text" placeholder="Title" value="'.esc_attr(stripslashes($pre_uploaded_image['title'])).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][title]">';
-										$html_input .= '<input class="form-control" type="text" placeholder="Price (fix or %)" value="'.esc_attr(stripslashes($pre_uploaded_image['price'])).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][price]">';
-										$html_input .= '<input class="form-control" type="text" placeholder="URL" value="'.esc_url(stripslashes($pre_uploaded_image['url'])).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][url]">';
+										$html_input .= '<input type="hidden" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][link]" value="'.esc_url($image_link).'" data-opt-index="'.esc_attr($opt_index).'" data-metatype="link">';
+										$html_input .= '<input type="hidden" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][id]" value="'.esc_attr($image_id).'" data-opt-index="'.esc_attr($opt_index).'" data-metatype="id">';
+										$html_input .= '<input class="form-control ppom-image-option-title" type="text" placeholder="Title" value="'.esc_attr(stripslashes($pre_uploaded_image['title'])).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][title]" data-opt-index="'.esc_attr($opt_index).'" data-metatype="title">';
+										$html_input .= '<input class="form-control" type="text" placeholder="Price (fix or %)" value="'.esc_attr(stripslashes($pre_uploaded_image['price'])).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][price]" data-opt-index="'.esc_attr($opt_index).'" data-metatype="price">';
+										$html_input .= '<input class="form-control" type="text" placeholder="URL" value="'.esc_url(stripslashes($pre_uploaded_image['url'])).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][url]" data-opt-index="'.esc_attr($opt_index).'" data-metatype="url">';
+
 										$html_input .= '<button class="btn btn-danger ppom-pre-upload-delete" style="height: 35px;"><i class="fa fa-times" aria-hidden="true"></i></button>';
 									$html_input .= '</div>';
 								$html_input .= '</li>';
@@ -818,11 +833,11 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 										$html_input .= '<div class="ppom-uploader-img-center">';
 											$html_input .= '<img width="60" src="'.esc_url($image_link).'" style="width: 34px;">';
 										$html_input .= '</div>';
-										$html_input .= '<input type="hidden" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][link]" value="'.esc_url($image_link).'">';
-										$html_input .= '<input type="hidden" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][id]" value="'.esc_attr($image_id).'">';
-										$html_input .= '<input class="form-control ppom-image-option-title" type="text" placeholder="Title" value="'.esc_attr(stripslashes($pre_uploaded_image['title'])).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][title]">';
-										$html_input .= '<input class="form-control" type="text" placeholder="Price" value="'.esc_attr(stripslashes($pre_uploaded_image['price'])).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][price]">';
-										$html_input .= '<input class="form-control" type="text" placeholder="Description" value="'.esc_attr($image_description).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][description]">';
+										$html_input .= '<input type="hidden" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][link]" value="'.esc_url($image_link).'" data-opt-index="'.esc_attr($opt_index).'" data-metatype="link">';
+										$html_input .= '<input type="hidden" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][id]" value="'.esc_attr($image_id).'" data-opt-index="'.esc_attr($opt_index).'" data-metatype="id">';
+										$html_input .= '<input class="form-control ppom-image-option-title" type="text" placeholder="Title" value="'.esc_attr(stripslashes($pre_uploaded_image['title'])).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][title]" data-opt-index="'.esc_attr($opt_index).'" data-metatype="title">';
+										$html_input .= '<input class="form-control" type="text" placeholder="Price" value="'.esc_attr(stripslashes($pre_uploaded_image['price'])).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][price]" data-opt-index="'.esc_attr($opt_index).'" data-metatype="price">';
+										$html_input .= '<input class="form-control" type="text" placeholder="Description" value="'.esc_attr($image_description).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][description]" data-opt-index="'.esc_attr($opt_index).'" data-metatype="description">';
 										$html_input .= '<button class="btn btn-danger ppom-pre-upload-delete" style="height: 35px;"><i class="fa fa-times" aria-hidden="true"></i></button>';
 									$html_input .= '</div>';
 								$html_input .= '</li>';
@@ -862,10 +877,10 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 									$html_input .= '<div class="ppom-uploader-img-center">';
 										$html_input .= '<span class="dashicons dashicons-admin-media" style="margin-top: 5px;"></span>';
 									$html_input .= '</div>';
-									$html_input .= '<input type="hidden" name="ppom['.esc_attr($field_index).'][audio]['.esc_attr($opt_index).'][link]" value="'.esc_url($image_link).'">';
-									$html_input .= '<input type="hidden" name="ppom['.esc_attr($field_index).'][audio]['.esc_attr($opt_index).'][id]" value="'.esc_attr($image_id).'">';
-									$html_input .= '<input class="form-control" type="text" placeholder="Title" value="'.esc_attr($media_title).'" name="ppom['.esc_attr($field_index).'][audio]['.esc_attr($opt_index).'][title]">';
-									$html_input .= '<input class="form-control" type="text" placeholder="Price (fix or %)" value="'.esc_attr($media_price).'" name="ppom['.esc_attr($field_index).'][audio]['.esc_attr($opt_index).'][price]">';
+									$html_input .= '<input type="hidden" name="ppom['.esc_attr($field_index).'][audio]['.esc_attr($opt_index).'][link]" value="'.esc_url($image_link).'" data-opt-index="'.esc_attr($opt_index).'" data-metatype="link">';
+									$html_input .= '<input type="hidden" name="ppom['.esc_attr($field_index).'][audio]['.esc_attr($opt_index).'][id]" value="'.esc_attr($image_id).'" data-opt-index="'.esc_attr($opt_index).'" data-metatype="id">';
+									$html_input .= '<input class="form-control" type="text" placeholder="Title" value="'.esc_attr($media_title).'" name="ppom['.esc_attr($field_index).'][audio]['.esc_attr($opt_index).'][title]" data-opt-index="'.esc_attr($opt_index).'" data-metatype="title">';
+									$html_input .= '<input class="form-control" type="text" placeholder="Price (fix or %)" value="'.esc_attr($media_price).'" name="ppom['.esc_attr($field_index).'][audio]['.esc_attr($opt_index).'][price]" data-opt-index="'.esc_attr($opt_index).'" data-metatype="price">';
 									$html_input .= '<button class="btn btn-danger ppom-pre-upload-delete" style="height: 35px;"><i class="fa fa-times" aria-hidden="true"></i></button>';
 								$html_input .= '</div>';
 							$html_input .= '</li>';
@@ -1038,7 +1053,10 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 			if ($type == 'html-conditions') {
 
 				$settings['conditions']['tabs_class'] = array('ppom_handle_condition_tab','col-md-12');
-			}else if($type == 'paired' || $type == 'paired-cropper' || $type == 'paired-quantity' || $type == 'paired-pricematrix' || $type == 'bulk-quantity') { 
+			}else if($type == 'paired' || $type == 'paired-cropper' 
+						|| $type == 'paired-quantity' || 
+						$type == 'paired-pricematrix' || 
+						$type == 'bulk-quantity' || $type == 'paired-palettes') { 
 				//Bulk Quantity Addon Tabs
 				//Fixed Price Addon Tabs
 

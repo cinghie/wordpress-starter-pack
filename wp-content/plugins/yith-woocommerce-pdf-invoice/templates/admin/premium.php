@@ -375,6 +375,34 @@ Do not panic! YITH PDF Invoice includes now also a dedicated section for Italian
             </div>
         </div>
     </div>
+    <div class="section section-even clear" style="background: url(<?php echo YITH_YWPI_ASSETS_IMAGES_URL ?>13-bg.png) no-repeat #fff; background-position: 85% 100%">
+        <div class="landing-container">
+            <div class="col-1">
+                <img src="<?php echo YITH_YWPI_ASSETS_IMAGES_URL ?>13.png" alt= <?php _e('templates','yith-woocommerce-pdf-invoice');?>/>
+            </div>
+            <div class="col-2">
+                <div class="section-title">
+                    <img src="<?php echo YITH_YWPI_ASSETS_IMAGES_URL ?>13-icon.png" alt="Icon-09" />
+                    <h2><?php _e('Template color selectors','yith-woocommerce-pdf-invoice');?></h2>
+                </div>
+                <p><?php echo sprintf(__('You can easily change the colors of the documents, to fit to the style of your website. Change header, text and table color in a few simple clicks.','yith-woocommerce-pdf-invoice'),'<b>','</b>');?></p>
+            </div>
+        </div>
+    </div>
+    <div class="section section-odd clear" style="background: url(<?php echo YITH_YWPI_ASSETS_IMAGES_URL ?>14-bg.png) no-repeat #f1f1f1; background-position: 15% 100%">
+        <div class="landing-container">
+            <div class="col-2">
+                <div class="section-title">
+                    <img src="<?php echo YITH_YWPI_ASSETS_IMAGES_URL ?>14-icon.png" alt="icon-12" />
+                    <h2><?php _e('Bulk generate and regenerate','yith-woocommerce-pdf-invoice');?></h2>
+                </div>
+                <p><?php echo sprintf(__('Quick and easy option to apply a change to multiple orders at once. If you have made a change that needs to be applied to all orders, you can select them and use the %1$s(re)generate invoice%2$s option to bulk apply all changes.','yith-woocommerce-pdf-invoice'),'<b>','</b>');?></p>
+            </div>
+            <div class="col-1">
+                <img src="<?php echo YITH_YWPI_ASSETS_IMAGES_URL ?>14.png" alt=<?php _e('Electronic invoicing for Italian companies','yith-woocommerce-pdf-invoice');?>/>
+            </div>
+        </div>
+    </div>
     <div class="section section-cta section-odd">
         <div class="landing-container">
             <div class="premium-cta">

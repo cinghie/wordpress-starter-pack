@@ -192,7 +192,7 @@ class PPOM_Meta {
             				$meta_found = $meta_cats->productmeta_id;
             			}else{
             				//making array of meta cats
-            				$meta_cat_array = explode("\n", $meta_cats->productmeta_categories);
+            				$meta_cat_array = explode("\r\n", $meta_cats->productmeta_categories);
             				
             				//Now iterating the p_categories to check it's slug in meta cats
             				foreach($p_categories as $cat) {

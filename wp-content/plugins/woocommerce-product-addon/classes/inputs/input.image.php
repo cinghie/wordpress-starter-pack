@@ -57,6 +57,11 @@ class NM_Image_wooproduct extends PPOM_Inputs{
 					'title' => __ ( 'Class', 'ppom' ),
 					'desc' => __ ( 'Insert an additional class(es) (separateb by comma) for more personalization.', 'ppom' )
 			),
+			'selected_img_bordercolor' => array (
+					'type' => 'text',
+					'title' => __ ( 'Selected Image Border Color', 'ppom' ),
+					'desc' => __ ( 'Change selected images border color, e.g: #fff', 'ppom' )
+			),
 			'width' => array (
 					'type' => 'select',
 					'title' => __ ( 'Width', 'ppom' ),

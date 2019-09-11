@@ -25,7 +25,7 @@ if( ! defined('ABSPATH' ) ){ exit; }
 	
 	if (isset ( $_REQUEST ['productmeta_id'] ) && $_REQUEST ['do_meta'] == 'edit') {
 		
-		$product_meta_id = $_REQUEST ['productmeta_id'];
+		$product_meta_id = intval($_REQUEST ['productmeta_id']);
 		$ppom			 = new PPOM_Meta();
 		$ppom_settings   = $ppom->get_settings_by_id($product_meta_id);
 		

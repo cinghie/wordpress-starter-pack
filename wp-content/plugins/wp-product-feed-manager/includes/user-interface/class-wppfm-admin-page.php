@@ -59,7 +59,7 @@ if ( ! class_exists( 'WPPFM_Admin_Page' ) ) :
 			<div class="feed-spinner" id="feed-spinner" style="display:none;">
 				<img id="img-spinner" src="' . $spinner_gif . '" alt="Loading" />
 			</div>
-			<div class="data" id="wp-product-feed-manager-data" style="display:none;"><div id="wp-plugin-url">' . WPPFM_UPLOADS_URL . '</div></div>
+			<div class="data" id="wp-product-feed-manager-data" style="display:none;"><div id="wp-plugin-url">' . WPPFM_UPLOADS_URL . '</div><div id="wppfm-feed-list-feeds-in-queue"></div></div>
 			<div class="main-wrapper header-wrapper" id="header-wrapper">
 			<div class="header-text"><h1>' . $header_text . '</h1></div>
 			<div class="sub-header-text"><h3>' . esc_html__( 'Manage your feeds with ease', 'wp-product-feed-manager' ) . '</h3></div>

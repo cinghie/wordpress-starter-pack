@@ -30,6 +30,8 @@ class NM_Text_wooproduct extends PPOM_Inputs{
 	
 	private function get_settings(){
 		
+		$regex_help_url = 'https://github.com/RobinHerbots/Inputmask#any-option-can-also-be-passed-through-the-use-of-a-data-attribute-use-data-inputmask-the-name-of-the-optionvalue';
+		
 		return array (
 				'title' => array (
 						'type' => 'text',
@@ -73,10 +75,22 @@ class NM_Text_wooproduct extends PPOM_Inputs{
 						'title' => __ ( 'Set default value', 'ppom' ),
 						'desc' => __ ( 'Pre-defined value for text input', 'ppom' )
 				),
+				
+				'price' => array (
+						'type' => 'text',
+						'title' => __ ( 'Addon-on Price', 'ppom' ),
+						'desc' => __ ( 'Price will be added as Add-on if text provided', 'ppom' )
+				),
+				
 				'class' => array (
 						'type' => 'text',
 						'title' => __ ( 'Class', 'ppom' ),
 						'desc' => __ ( 'Insert an additional class(es) (separateb by comma) for more personalization.', 'ppom' ) 
+				),
+				'use_regex' => array (
+						'type' => 'checkbox',
+						'title' => __ ( 'Use Regex Expresession', 'ppom' ),
+						'link' => __ ( '<a target="_blank" href="'.esc_url($regex_help_url).'">See More</a>', 'ppom' )
 				),
 				'input_mask' => array (
 						'type' => 'text',
@@ -108,6 +122,11 @@ class NM_Text_wooproduct extends PPOM_Inputs{
 						'type' => 'checkbox',
 						'title' => __ ( 'Required', 'ppom' ),
 						'desc' => __ ( 'Select this if it must be required.', 'ppom' ) 
+				),
+				'onetime' => array (
+						'type' => 'checkbox',
+						'title' => __ ( 'One Time Fee/Charge', 'ppom' ),
+						'desc' => __ ( 'Will not multiply with quantity', 'ppom' ) 
 				),
 				'desc_tooltip' => array (
 						'type' => 'checkbox',

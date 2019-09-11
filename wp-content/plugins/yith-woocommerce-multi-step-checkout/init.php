@@ -5,11 +5,11 @@
 * Description: Thanks to <code><strong>YITH WooCommerce Multi-step Checkout</strong></code> you can split your checkout process into steps. Assist your customers during the purchase and make them feel safe by showing them where in the process they are and what the next step is. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>
 * Author: YITH
 * Text Domain: yith-woocommerce-multi-step-checkout
-* Version: 1.6.11
+* Version: 1.7.4
 * Author URI: https://yithemes.com/
 *
 * WC requires at least: 3.0
-* WC tested up to: 3.6
+* WC tested up to: 3.7
 */
 
 /*
@@ -61,7 +61,7 @@ if( defined( 'YITH_WCMS_VERSION' ) ){
 
 
 /* === DEFINE === */
-! defined( 'YITH_WCMS_VERSION' )            && define( 'YITH_WCMS_VERSION', '1.6.11' );
+! defined( 'YITH_WCMS_VERSION' )            && define( 'YITH_WCMS_VERSION', '1.7.4' );
 ! defined( 'YITH_WCMS_SLUG' )               && define( 'YITH_WCMS_SLUG', 'yith-woocommerce-multi-step-checkout' );
 ! defined( 'YITH_WCMS_FILE' )               && define( 'YITH_WCMS_FILE', __FILE__ );
 ! defined( 'YITH_WCMS_PATH' )               && define( 'YITH_WCMS_PATH', plugin_dir_path( __FILE__ ) );
@@ -69,7 +69,7 @@ if( defined( 'YITH_WCMS_VERSION' ) ){
 ! defined( 'YITH_WCMS_ASSETS_URL' )         && define( 'YITH_WCMS_ASSETS_URL', YITH_WCMS_URL . 'assets/' );
 ! defined( 'YITH_WCMS_TEMPLATE_PATH' )      && define( 'YITH_WCMS_TEMPLATE_PATH', YITH_WCMS_PATH . 'templates/' );
 ! defined( 'YITH_WCMS_WC_TEMPLATE_PATH' )   && define( 'YITH_WCMS_WC_TEMPLATE_PATH', YITH_WCMS_PATH . 'templates/woocommerce/' );
-! defined( 'YITH_WCMS_OPTIONS_PATH' )       && define( 'YITH_WCMS_OPTIONS_PATH', YITH_WCMS_PATH . 'panel' );
+! defined( 'YITH_WCMS_OPTIONS_PATH' )       && define( 'YITH_WCMS_OPTIONS_PATH', YITH_WCMS_PATH . 'plugin-options' );
 
 /* Plugin Framework Version Check */
 ! function_exists( 'yit_maybe_plugin_fw_loader' ) && require_once( YITH_WCMS_PATH . 'plugin-fw/init.php' );

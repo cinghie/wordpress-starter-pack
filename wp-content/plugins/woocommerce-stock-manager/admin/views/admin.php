@@ -3,7 +3,7 @@
  * @package   WooCommerce Stock Manager
  * @author    Vladislav Musílek
  * @license   GPL-2.0+
- * @link      http:/toret.cz
+ * @link      http://toret.cz
  * @copyright 2015 Toret.cz
  */
 
@@ -34,10 +34,11 @@ if( isset( $_POST['page-filter-display'] ) ){
 <div class="wrap">
 
 	<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
-  
-  
 
-  
+  <div id="woocommerce-stock-manager-app"></div>  
+
+  <?php /*
+
 <div class="t-col-12">
   <div class="toret-box box-info">
     <div class="box-header">
@@ -155,6 +156,5 @@ if( isset( $_POST['page-filter-display'] ) ){
       <?php echo $stock->pagination( $products ); ?>
   </div>
 </div>  
-  
-
+  */ ?>
 </div>

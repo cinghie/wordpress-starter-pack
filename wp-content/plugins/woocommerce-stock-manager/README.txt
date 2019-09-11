@@ -2,8 +2,8 @@
 Contributors: Musilda
 Donate link: 
 Tags: WooCommerce, stock manager
-Requires at least: 4.0
-Tested up to: 5.0.2
+Requires at least: 5.0
+Tested up to: 5.2.2
 Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -12,7 +12,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 WooCommerce Stock Manager allows you manage stock for products and their variables from one screen. 
 
-Plugin is compatible with WooCommerce 3.0+ and is tested on 3.3.1 version. 
+Plugin is compatible with WordPress 5.0+ and is tested on 5.2.2. vesrion 
+Plugin is compatible with WooCommerce 3.5+ and is tested on 3.6.4 version. 
 For older version WooCommerce use plugin 1.1.4 
 
 GDPR ready - plugin don't collect personal data
@@ -33,10 +34,6 @@ A few notes about the plugin:
 *   You can display product thumbnail
 
 
-Stock field is green, when stock is more than 5 pieces.
-Stock field is yellow, when stock is low than 5 pieces.
-Stock field is red, when stock is 0 pieces.
-
 You can filter products by type, category, stock manage or stock status.
 You can sort products by name or sku.
 Searching products by name or sku.
@@ -47,9 +44,14 @@ For better usabillity is possible hide some table cells.
 Variants for variable product is posible edit after click on "Show variables" button.
 Each product or variation, can be save separatelly, or you can save all displayed data.
 
+Product stock history
+
+In Stock log page, you can filter product and see his stock history. 
+
 Import/Export
 
 With plugin is possible export all stock data from your eshop, edit them and import back with csv file.
+This feature needs refactoring, so use this only on your own risk.
 
 Export file structure:
 
@@ -60,6 +62,15 @@ Backorders - values: "yes", "notify", "no". If is empty "no" will be save.
 Stock - quantity value.
 Product type - type of product.
 Parent SKU - if product is variant, parent product SKU is displayed for better filtering csv file.
+
+Roadmap:
+
+Bulk editing.
+Display stock history in visually graph.
+Hooks for 3rd party plugins.
+
+Find more info on <a href="https://toret.cz/en/woocommerce-stock-manager/">Toret.cz</a>.
+
 
 == Installation ==
 
@@ -90,6 +101,8 @@ Parent SKU - if product is variant, parent product SKU is displayed for better f
 
 Q: Quantity change not working.
 A: Be sure, that you have active stock manage.
+Q: Plugin not working.
+A: Be sure, that you have WooCommerce 3.5+ and WordPress 5.+
 
 == Screenshots ==
 
@@ -98,6 +111,28 @@ A: Be sure, that you have active stock manage.
 4. Show product variations
 
 == Changelog ==
+
+= 2.0.2 =
+* Fixed js error
+
+= 2.0.1 =
+* Fixed product variation problem
+* Added old.css with old tabla style
+* Added setting for old css styles
+* Color alert for qty boxes is back
+
+= 2.0.0 =
+* Removed old stock manager table
+* Created one page React application
+* Realtime filtering - category, product name, sky, product type, stock status
+* All changes can be dismiss before saving
+* Ajax paggination
+* Saving was changed to using WooCommerce Rest API v3
+* Product quantity log
+* New database table stock_log 
+* New admin page with product quantity history
+* Removed plugin settings page
+* Added filter for ajax pagination apply_filters('woocommerce_stock_manager_per_page', 50)
 
 = 1.2.8 =
 * Rename language file to woocommerce-stock-manager for compatibility with WordPress translate system

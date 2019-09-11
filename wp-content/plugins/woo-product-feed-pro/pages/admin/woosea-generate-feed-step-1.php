@@ -3,7 +3,7 @@
  * Change default footer text, asking to review our plugin
  **/
 function my_footer_text($default) {
-    return 'If you like our <strong>WooCommerce Product Feed PRO</strong> plugin please leave us a <a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="woo-product-feed-pro-ratingRequest">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. Thanks in advance!';
+    return _e( 'If you like our <strong>WooCommerce Product Feed PRO</strong> plugin please leave us a <a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="woo-product-feed-pro-ratingRequest">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. Thanks in advance!','woo-product-feed-pro');
 }
 add_filter('admin_footer_text', 'my_footer_text');
 delete_option( 'woosea_cat_mapping' );
@@ -115,7 +115,7 @@ function woosea_hierarchical_term_tree($category, $prev_mapped){
 
 <div class="wrap">
 	<div class="woo-product-feed-pro-form-style-2">
-		<div class="woo-product-feed-pro-form-style-2-heading">Category mapping</div>
+		<div class="woo-product-feed-pro-form-style-2-heading"><?php _e( 'Category mapping','woo-product-feed-pro' );?></div>
 
                 <div class="<?php _e($notifications_box['message_type']); ?>">
                        	<p><?php _e($notifications_box['message'], 'sample-text-domain' ); ?></p>
@@ -127,8 +127,8 @@ function woosea_hierarchical_term_tree($category, $prev_mapped){
 		<table id="woosea-ajax-mapping-table" class="woo-product-feed-pro-table" border="1">	
 			<thead>
             			<tr>
-                			<th>Your category <i>(Number of products)</i></th>
-					<th><?php print "$channel_data[name]";?> category</th>
+                			<th><?php _e( 'Your category','woo-product-feed-pro' );?> <i>(<?php _e( 'Number of products','woo-product-feed-pro' );?>)</i></th>
+					<th><?php print "$channel_data[name]";?> <?php _e( 'category','woo-product-feed-pro' );?></th>
 					<th></th>
             			</tr>
         		</thead>
@@ -185,21 +185,21 @@ function woosea_hierarchical_term_tree($category, $prev_mapped){
                                 ?>
 				<table class="woo-product-feed-pro-table">
                                         <tr>
-                                                <td><strong>Why upgrade to Elite?</strong></td>
+                                                <td><strong><?php _e( 'Why upgrade to Elite?','woo-product-feed-pro' );?></strong></td>
                                         </tr>
                                         <tr>
                                                 <td>
-                                                        Enjoy all priviliges of our Elite features and priority support and upgrade to the Elite version of our plugin now!
+                                                        <?php _e( 'Enjoy all priviliges of our Elite features and priority support and upgrade to the Elite version of our plugin now!','woo-product-feed-pro' );?>
                                                         <ul>
-                                                                <li><strong>1.</strong> Priority support: get your feeds live faster</li>
-                                                                <li><strong>2.</strong> More products approved by Google</li>
-                                                                <li><strong>3.</strong> Add GTIN, brand and more fields to your store</li>
-                                                                <li><strong>4.</strong> Exclude individual products from your feeds</li>
-                                                                <li><strong>5.</strong> WPML support</li>
-                                                                <li><strong>6.</strong> Aelia currency switcher support</li>
+                                                                <li><strong>1.</strong> <?php _e( 'Priority support: get your feeds live faster','woo-product-feed-pro' );?></li>
+                                                                <li><strong>2.</strong> <?php _e( 'More products approved by Google','woo-product-feed-pro' );?></li>
+                                                                <li><strong>3.</strong> <?php _e( 'Add GTIN, brand and more fields to your store','woo-product-feed-pro' );?></li>
+                                                                <li><strong>4.</strong> <?php _e( 'Exclude individual products from your feeds','woo-product-feed-pro' );?></li>
+                                                                <li><strong>5.</strong> <?php _e( 'WPML support','woo-product-feed-pro' );?></li>
+                                                                <li><strong>6.</strong> <?php _e( 'Aelia currency switcher support','woo-product-feed-pro' );?></li>
                                                          </ul>
                                                         <strong>
-                                                        <a href="https://adtribes.io/pro-vs-elite/?utm_source=<?php print"$host";?>&utm_medium=page1&utm_campaign=why-upgrade-box" target="_blank">Upgrade to Elite here!</a>
+                                                        <a href="https://adtribes.io/pro-vs-elite/?utm_source=<?php print"$host";?>&utm_medium=page1&utm_campaign=why-upgrade-box" target="_blank"><?php _e( 'Upgrade to Elite here!','woo-product-feed-pro' );?></a>
                                                         </strong>
                                                 </td>
                                         </tr>
@@ -210,38 +210,38 @@ function woosea_hierarchical_term_tree($category, $prev_mapped){
 
                                 <table class="woo-product-feed-pro-table">
                                         <tr>
-                                                <td><strong>We’ve got you covered!</strong></td>
+                                                <td><strong><?php _e( 'We\’ve got you covered!','woo-product-feed-pro' );?></strong></td>
                                         </tr>
                                         <tr>
                                                 <td>
-                                                        Need assistance? Check out our:
+                                                        <?php _e( 'Need assistance? Check out our:','woo-product-feed-pro' );?>
                                                         <ul>
-                                                                <li><strong><a href="https://adtribes.io/support/?utm_source=<?php print"$host";?>&utm_medium=page1&utm_campaign=faq" target="_blank">Frequently Asked Questions</a></strong></li>
-                                                                <li><strong><a href="https://www.youtube.com/channel/UCXp1NsK-G_w0XzkfHW-NZCw" target="_blank">YouTube tutorials</a></strong></li>
-                                                                <li><strong><a href="https://adtribes.io/blog/?utm_source=<?php print "$host";?>&utm_medium=page1&utm_campaign=blog" target="_blank">Blog</a></strong></li>
+                                                                <li><strong><a href="https://adtribes.io/support/?utm_source=<?php print"$host";?>&utm_medium=page1&utm_campaign=faq" target="_blank"><?php _e( 'Frequently Asked Questions','woo-product-feed-pro' );?></a></strong></li>
+                                                                <li><strong><a href="https://www.youtube.com/channel/UCXp1NsK-G_w0XzkfHW-NZCw" target="_blank"><?php _e( 'YouTube tutorials','woo-product-feed-pro' );?></a></strong></li>
+                                                                <li><strong><a href="https://adtribes.io/tutorials/?utm_source=<?php print "$host";?>&utm_medium=page1&utm_campaign=tutorials" target="_blank"><?php _e( 'Tutorials','woo-product-feed-pro' );?></a></strong></li>
                                                         </ul>
-                                                        Or just reach out to us at  <strong><a href="https://wordpress.org/support/plugin/woo-product-feed-pro/" target="_blank">the support forum</a></strong> and we'll make sure your product feeds will be up-and-running within no-time.
+                                                        <?php _e ('Or just reach out to us at','woo-product-feed-pro' );?>  <strong><a href="https://wordpress.org/support/plugin/woo-product-feed-pro/" target="_blank"><?php _e( 'our Wordpress forum','woo-product-feed-pro' );?></a></strong> <?php _e( 'and we will make sure your product feeds will be up-and-running within no-time.','woo-product-feed-pro' );?>
                                                 </td>
                                         </tr>
                                 </table><br/>	
 
                                 <table class="woo-product-feed-pro-table">
                                         <tr>
-                                                <td><strong>Our latest blog articles</strong></td>
+                                                <td><strong><?php _e( 'Our latest tutorials','woo-product-feed-pro' );?></strong></td>
                                         </tr>
                                         <tr>
                                                 <td>
                                                         <ul>
-                                                                <li><strong>1. <a href="https://adtribes.io/setting-up-your-first-google-shopping-product-feed/?utm_source=<?php print "$host";?>&utm_medium=page1&utm_campaign=first shopping feed" target="_blank">Create a Google Shopping feed</a></strong></li>
-                                                             	<li><strong>2. <a href="https://adtribes.io/feature-product-data-manipulation/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=product_data_manipulation" target="_blank">Product data manipulation</a></strong></li>
-								<li><strong>3. <a href="https://adtribes.io/how-to-create-filters-for-your-product-feed/?utm_source=<?php print "$host";?>&utm_medium=page1&utm_campaign=how to create filters" target="_blank">How to create filters for your product feed</a></strong></li>
-                                                                <li><strong>4. <a href="https://adtribes.io/how-to-create-rules/?utm_source=<?php print "$host";?>&utm_medium=page1&utm_campaign=how to create rules" target="_blank">How to set rules for your product feed</a></strong></li>
-                                                                <li><strong>5. <a href="https://adtribes.io/add-gtin-mpn-upc-ean-product-condition-optimised-title-and-brand-attributes/?utm_source=<?php print "$host";?>&utm_medium=page1&utm_campaign=adding fields" target="_blank">Adding GTIN, Brand, MPN and more</a></strong></li>
-                                                                <li><strong>6. <a href="https://adtribes.io/woocommerce-structured-data-bug/?utm_source=<?php print "$host";?>&utm_medium=page1&utm_campaign=structured data bug" target="_blank">WooCommerce structured data markup bug</a></strong></li>
-                                                                <li><strong>7. <a href="https://adtribes.io/wpml-support/?utm_source=<?php print "$host";?>&utm_medium=page1&utm_campaign=wpml support" target="_blank">Enable WPML support</a></strong></li>
-                                                                <li><strong>8. <a href="https://adtribes.io/aelia-currency-switcher-feature/?utm_source=<?php print "$host";?>&utm_medium=page1&utm_campaign=aelia support" target="_blank">Enable Aelia currency switcher support</a></strong></li>
-                                                                <li><strong>9. <a href="https://adtribes.io/help-my-feed-processing-is-stuck/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=feed stuck" target="_blank">Help, my feed is stuck!</a></strong></li>
-                                                                <li><strong>10. <a href="https://adtribes.io/help-i-have-none-or-less-products-in-my-product-feed-than-expected/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=too few products" target="_blank">Help, my feed has no or too few products!</a></strong></li>
+                                                                <li><strong>1. <a href="https://adtribes.io/setting-up-your-first-google-shopping-product-feed/?utm_source=<?php print "$host";?>&utm_medium=page1&utm_campaign=first shopping feed" target="_blank"><?php _e( 'Create a Google Shopping feed','woo-product-feed-pro' );?></a></strong></li>
+                                                             	<li><strong>2. <a href="https://adtribes.io/feature-product-data-manipulation/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=product_data_manipulation" target="_blank"><?php _e( 'Product data manipulation','woo-product-feed-pro' );?></a></strong></li>
+								<li><strong>3. <a href="https://adtribes.io/how-to-create-filters-for-your-product-feed/?utm_source=<?php print "$host";?>&utm_medium=page1&utm_campaign=how to create filters" target="_blank"><?php _e( 'How to create filters for your product feed','woo-product-feed-pro' );?></a></strong></li>
+                                                                <li><strong>4. <a href="https://adtribes.io/how-to-create-rules/?utm_source=<?php print "$host";?>&utm_medium=page1&utm_campaign=how to create rules" target="_blank"><?php _e( 'How to set rules for your product feed','woo-product-feed-pro' );?></a></strong></li>
+                                                                <li><strong>5. <a href="https://adtribes.io/add-gtin-mpn-upc-ean-product-condition-optimised-title-and-brand-attributes/?utm_source=<?php print "$host";?>&utm_medium=page1&utm_campaign=adding fields" target="_blank"><?php _e( 'Adding GTIN, Brand, MPN and more','woo-product-feed-pro' );?></a></strong></li>
+                                                                <li><strong>6. <a href="https://adtribes.io/woocommerce-structured-data-bug/?utm_source=<?php print "$host";?>&utm_medium=page1&utm_campaign=structured data bug" target="_blank"><?php _e( 'WooCommerce structured data markup bug','woo-product-feed-pro' );?></a></strong></li>
+                                                                <li><strong>7. <a href="https://adtribes.io/wpml-support/?utm_source=<?php print "$host";?>&utm_medium=page1&utm_campaign=wpml support" target="_blank"><?php _e( 'Enable WPML support','woo-product-feed-pro' );?></a></strong></li>
+                                                                <li><strong>8. <a href="https://adtribes.io/aelia-currency-switcher-feature/?utm_source=<?php print "$host";?>&utm_medium=page1&utm_campaign=aelia support" target="_blank"><?php _e( 'Enable Aelia currency switcher support','woo-product-feed-pro' );?></a></strong></li>
+                                                                <li><strong>9. <a href="https://adtribes.io/help-my-feed-processing-is-stuck/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=feed stuck" target="_blank"><?php _e( 'Help, my feed is stuck!','woo-product-feed-pro' );?></a></strong></li>
+                                                                <li><strong>10. <a href="https://adtribes.io/help-i-have-none-or-less-products-in-my-product-feed-than-expected/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=too few products" target="_blank"><?php _e( 'Help, my feed has no or too few products!','woo-product-feed-pro' );?></a></strong></li>
                                                         </ul>
                                                 </td>
                                         </tr>

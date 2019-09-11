@@ -21,7 +21,7 @@ if ( ! class_exists( 'WPPFM_Database_Management' ) ) :
 		 * Attributes
 		 * -------------------------------------------------------------------------------------------------- */
 
-		private $_version = '1.5.0'; // as of plugin version 2.4.0
+		private $_version = '1.7.0'; // as of plugin version 2.5.0
 		private $_wpdb;
 		private $_charset_collate = '';
 		private $_image_folder;
@@ -72,8 +72,8 @@ if ( ! class_exists( 'WPPFM_Database_Management' ) ) :
 			if ( $actual_db_version < $this->_version ) {
 				$this->make_or_update_the_tables();
 
-				// update table as of version 1.3.0
-				if ( $this->_version <= '1.3.0' ) {
+				// update table as of version 1.7.0
+				if ( $this->_version <= '1.7.0' ) {
 					$this->update_status_table();
 				}
 			}
@@ -152,6 +152,9 @@ if ( ! class_exists( 'WPPFM_Database_Management' ) ) :
 				title varchar(100) NOT NULL UNIQUE DEFAULT '',
 				feed_title varchar(100),
 				feed_description varchar(200),
+				aggregator_name varchar(200),
+				publisher_name varchar(200),
+				publisher_favicon_url varchar(200),
 				main_category varchar(200) NOT NULL DEFAULT '',
 				url varchar(200) NOT NULL DEFAULT '',
 				status_id smallint NOT NULL DEFAULT 1,
@@ -408,10 +411,8 @@ if ( ! class_exists( 'WPPFM_Database_Management' ) ) :
 		 */
 		private function update_status_table() {
 			$table_name = $this->_wpdb->prefix . 'feedmanager_feed_status';
+			$count      = $this->_wpdb->get_var( "SELECT COUNT(*) FROM $table_name" );
 
-			$count = $this->_wpdb->get_var( "SELECT COUNT(*) FROM $table_name" );
-
-			// only fill the table if its still empty
 			if ( $count <= 7 ) {
 				$format = array( '%d', '%s', '%s' );
 

@@ -24,6 +24,8 @@ if ( ! class_exists( 'WPPFM_Feed_Support' ) ) :
 			foreach ( $query_object as $value ) {
 				return $value;
 			}
+
+			return false;
 		}
 
 		public function find_relation( $feed_name, $relations_table ) {

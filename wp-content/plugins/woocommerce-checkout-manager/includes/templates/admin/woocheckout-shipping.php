@@ -4,7 +4,7 @@
 		<tr>
 			<th style="width:3%;" class="shipping-wccs-order" title="<?php esc_attr_e( 'Change the order of Checkout fields', 'woocommerce-checkout-manager' ); ?>">#</th>
 
-			<?php require( WOOCCM_PATH.'includes/templates/admin/woocheckout-shipping-thead.php' ); ?>
+			<?php require( WOOCCM_PLUGIN_DIR.'includes/templates/admin/woocheckout-shipping-thead.php' ); ?>
 
 			<th width="1%" scope="col" title="<?php esc_attr_e( 'Remove button', 'woocommerce-checkout-manager' ); ?>"><strong>X</strong><!-- remove --></th>
 		</tr>
@@ -42,7 +42,7 @@
 			</td>
 			<td class="shipping-wccs-order" title="<?php esc_attr_e( 'Drag-and-drop this Checkout field to adjust its ordering', 'woocommerce-checkout-manager' ); ?>"><?php echo $i+1; ?></td>
 
-				<?php require(WOOCCM_PATH.'includes/templates/admin/woocheckout-shipping-tbody.php'); ?>
+				<?php require(WOOCCM_PLUGIN_DIR.'includes/templates/admin/woocheckout-shipping-tbody.php'); ?>
 
 <?php if( in_array( $options2['shipping_buttons'][$i]['cow'], $shipping ) ) { ?>
 			<td style="text-align:center;">
@@ -72,7 +72,7 @@
 
 			<td class="shipping-wccs-order" title="<?php esc_attr_e( 'Drag-and-drop this Checkout field to adjust its ordering', 'woocommerce-checkout-manager' ); ?>"><?php echo $i; ?></td>
 
-			<?php require( WOOCCM_PATH.'includes/templates/admin/woocheckout-shipping-clone.php' ); ?>
+			<?php require( WOOCCM_PLUGIN_DIR.'includes/templates/admin/woocheckout-shipping-clone.php' ); ?>
 
 			<td class="shipping-wccs-remove"><a class="shipping-wccs-remove-button" href="javascript:;" title="<?php esc_attr_e( 'Delete this Checkout field', 'woocommerce-checkout-manager' ); ?>">&times;</a></td>
 

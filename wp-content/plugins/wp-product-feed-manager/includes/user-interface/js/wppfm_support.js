@@ -1,20 +1,40 @@
 function wppfm_activateFeedCategoryMapping( id ) {
-	if ( id !== 'wppfm_all_categories_selected' ) {
-		var feedSelectorElement = jQuery( '#feed-selector-' + id );
+	var feedSelectorElement = jQuery( '#feed-selector-' + id );
+	var children            = feedSelectorElement.attr( 'data-children' ) ? JSON.parse( feedSelectorElement.attr( 'data-children' ) ) : [];
 
-		wppfm_activateFeedCategorySelector( id );
+	feedSelectorElement.prop( 'checked', true );
 
-		var children = feedSelectorElement.attr( 'data-children' ) ? JSON.parse( feedSelectorElement.attr( 'data-children' ) ) : [];
+	wppfm_activateFeedCategorySelector( id );
 
-		for ( var i = 0; i < children.length; i ++ ) {
-			wppfm_activateFeedCategorySelector( children[ i ] );
-		}
-	} else {
+	for ( var i = 0; i < children.length; i ++ ) {
+		wppfm_activateFeedCategorySelector( children[ i ] );
+	}
+}
 
-		var allIds = jQuery( 'tbody#wppfm-category-mapping-body' ).children( 'tr' );
+function wppfm_activateFeedCategorySelection( id ) {
+	var feedSelectorElement = jQuery( '#feed-selector-' + id );
+	var children            = feedSelectorElement.attr( 'data-children' ) ? JSON.parse( feedSelectorElement.attr( 'data-children' ) ) : [];
 
-		for ( var j = 0; j < allIds.length; j ++ ) {
-			wppfm_activateFeedCategorySelector( jQuery( allIds[ j ] ).children( 'th' ).children( 'input' ).val() );
+	feedSelectorElement.prop( 'checked', true );
+
+	_feedHolder.activateCategory( id, true );
+
+	for ( var i = 0; i < children.length; i ++ ) {
+		wppfm_activateFeedCategorySelection( children[ i ] );
+	}
+}
+
+function wppfm_activateAllFeedCategoryMapping() {
+	var tableType = 0 !== document.getElementsByClassName( 'wppfm-category-mapping-selector' ).length ? 'category_mapping_table' : 'category_selection_table';
+	var idCollection = 'category_mapping_table' === tableType
+		? document.getElementsByClassName( 'wppfm-category-mapping-selector' ) // category mapping table
+		: document.getElementsByClassName( 'wppfm-category-selector' ); // category selection table
+
+	for ( var j = 0; j < idCollection.length; j ++ ) {
+		if ( 'category_mapping_table' === tableType ) {
+			wppfm_activateFeedCategorySelector(idCollection[ j ].value);
+		} else {
+			wppfm_activateFeedCategorySelection(idCollection[ j ].value);
 		}
 	}
 }
@@ -44,65 +64,38 @@ function wppfm_activateFeedCategorySelector( id ) {
 	}
 }
 
-function wppfm_activateFeedCategorySelection( id ) {
-	if ( id !== 'wppfm_all_categories_selected' ) {
-		var feedSelectorElement = jQuery( '#feed-selector-' + id );
-		var children            = feedSelectorElement.attr( 'data-children' ) ? JSON.parse( feedSelectorElement.attr( 'data-children' ) ) : [];
-
-		feedSelectorElement.prop( 'checked', true );
-
-		for ( var i = 0; i < children.length; i ++ ) {
-			wppfm_activateFeedCategorySelection( children[ i ] );
-		}
-	} else {
-
-		var allIds = jQuery( 'tbody#wppfm-category-mapping-body' ).children( 'tr' );
-
-		for ( var j = 0; j < allIds.length; j ++ ) {
-			wppfm_activateFeedCategorySelection( jQuery( allIds[ j ] ).children( 'th' ).children( 'input' ).val() );
-		}
-	}
-}
-
 function wppfm_deactivateFeedCategorySelection( id ) {
-	if ( id !== 'wppfm_all_categories_selected' ) {
-		var feedSelectorElement = jQuery( '#feed-selector-' + id );
-		var children            = feedSelectorElement.attr( 'data-children' ) ? JSON.parse( feedSelectorElement.attr( 'data-children' ) ) : [];
+	var feedSelectorElement = jQuery( '#feed-selector-' + id );
+	var children            = feedSelectorElement.attr( 'data-children' ) ? JSON.parse( feedSelectorElement.attr( 'data-children' ) ) : [];
 
-		feedSelectorElement.prop( 'checked', false );
+	feedSelectorElement.prop( 'checked', false );
 
-		for ( var i = 0; i < children.length; i ++ ) {
-			wppfm_deactivateFeedCategorySelection( children[ i ] );
-		}
-	} else {
+	_feedHolder.deactivateCategory( id );
 
-		var allIds = jQuery( 'tbody#wppfm-category-mapping-body' ).children( 'tr' );
-
-		for ( var j = 0; j < allIds.length; j ++ ) {
-			wppfm_deactivateFeedCategorySelection( jQuery( allIds[ j ] ).children( 'th' ).children( 'input' ).val() );
-		}
+	for ( var i = 0; i < children.length; i ++ ) {
+		wppfm_deactivateFeedCategorySelection( children[ i ] );
 	}
 }
 
 function wppfm_deactivateFeedCategoryMapping( id ) {
+	var feedSelectorElement = jQuery( '#feed-selector-' + id );
 
-	if ( id !== 'wppfm_all_categories_selected' ) {
-		var feedSelectorElement = jQuery( '#feed-selector-' + id );
+	wppfm_deactivateFeedCategorySelector( id, true );
 
-		wppfm_deactivateFeedCategorySelector( id, true );
+	var children = feedSelectorElement.attr( 'data-children' ) ? JSON.parse( feedSelectorElement.attr( 'data-children' ) ) : [];
 
-		var children = feedSelectorElement.attr( 'data-children' ) ? JSON.parse( feedSelectorElement.attr( 'data-children' ) ) : [];
+	for ( var i = 0; i < children.length; i ++ ) {
+		wppfm_deactivateFeedCategorySelector( children[ i ], false );
+	}
+}
 
-		for ( var i = 0; i < children.length; i ++ ) {
-			wppfm_deactivateFeedCategorySelector( children[ i ], false );
-		}
-	} else {
+function wppfm_deactivateAllFeedCategoryMapping() {
+	var idCollection = 0 !== document.getElementsByClassName( 'wppfm-category-mapping-selector' ).length
+		? document.getElementsByClassName( 'wppfm-category-mapping-selector' ) // category mapping table
+		: document.getElementsByClassName( 'wppfm-category-selector' ); // category selection table
 
-		var allIds = jQuery( 'tbody#wppfm-category-mapping-body' ).children( 'tr' );
-
-		for ( var i = 0; i < allIds.length; i ++ ) {
-			wppfm_deactivateFeedCategorySelector( jQuery( allIds[ i ] ).children( 'th' ).children( 'input' ).val() );
-		}
+	for ( var j = 0; j < idCollection.length; j ++ ) {
+		wppfm_deactivateFeedCategorySelector( idCollection[j].value );
 	}
 }
 
@@ -156,6 +149,18 @@ function wppfm_hideSubs( currentLevelId ) {
 }
 
 /**
+ * Replaces special html characters to HTML entities.
+ *
+ * @param text
+ * @returns {string}
+ */
+function wppfm_escapeHtml( text ) {
+	text = text || '';
+	text = text.replace( /&([^#])(?![a-z1-4]{1,8};)/gi, '&#038;$1' );
+	return text.replace( /</g, '&lt;' ).replace( />/g, '&gt;' ).replace( /"/g, '&quot;' ).replace( /'/g, '&#039;' );
+}
+
+/**
  * Takes a field string from a source input string and splits it up even when a pipe character
  * is used in a combined source input string
  *
@@ -171,12 +176,13 @@ function wppfm_splitCombinedFieldElements( fieldString ) {
 	var reg        = /\|[0-9]/; // pipe splitter plus a number directly after it
 	var result     = [];
 	var sliceStart = 0;
+	var match;
 
 	// fetch the separate field strings and put them in the result array
-	while ( ( match = reg.exec( fieldString ) ) !== null ) {
+	while (( match = reg.exec(fieldString) ) !== null) {
 		var ind = match.index;
-		result.push( fieldString.substring( sliceStart, ind ) );
-		fieldString = fieldString.slice( ind + 1 );
+		result.push(fieldString.substring(sliceStart, ind));
+		fieldString = fieldString.slice(ind + 1);
 	}
 
 	// then add the final field string to the result array

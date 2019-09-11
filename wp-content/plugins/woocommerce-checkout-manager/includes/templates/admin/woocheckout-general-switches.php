@@ -85,19 +85,16 @@ $position = ( !empty( $options['checkness']['position'] ) ? sanitize_text_field(
 	</div>
 	<!-- section -->
 
-	<div class="section">
+	<!--<div class="section">
 		<h3 class="heading checkbox">
-
 			<div class="option">
 				<label>
 					<input type="checkbox" name="wccs_settings[checkness][admin_translation]" value="true"<?php checked( !empty( $options['checkness']['admin_translation'] ), true ); ?> />
 					<div class="info-of"><?php _e('Translate WooCommerce Checkout Manager Options Panel', 'woocommerce-checkout-manager');  ?></div>
 				</label>
 			</div>
-			<!-- .option -->
-
 		</h3>
-	</div>
+	</div>-->
 	<!-- section -->
 
 	<div class="section">

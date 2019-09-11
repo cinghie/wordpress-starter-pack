@@ -30,7 +30,8 @@ if ( ! function_exists( 'yith_wapo_init' ) ) {
 				if ( defined( 'YITH_WAPO_PREMIUM' ) && YITH_WAPO_PREMIUM ) {
 					require_once( YITH_WAPO_DIR . 'includes/classes/class.yith-wapo-premium.php' );
 				}
-				if ( ! function_exists( 'YITH_WCCL' ) ) {
+				if ( get_option( 'yith_wapo_settings_disable_wccl', false ) != 'yes' && ! function_exists( 'YITH_WCCL' ) ) {
+
 					require_once( YITH_WAPO_DIR . 'includes/functions/yith-wccl.php' );
 					require_once( YITH_WAPO_DIR . 'includes/classes/class.yith-wccl.php' );
 					require_once( YITH_WAPO_DIR . 'includes/classes/class.yith-wccl-admin.php' );

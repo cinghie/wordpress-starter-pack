@@ -30,25 +30,25 @@
 	<div id="content-nav-right" class="general-vibe">
 
 		<!-- Uploads tab -->
-		<?php require( WOOCCM_PATH.'includes/templates/admin/woocheckout-general-uploads.php' ); ?>
+		<?php require( WOOCCM_PLUGIN_DIR.'includes/templates/admin/woocheckout-general-uploads.php' ); ?>
 
 		<!-- Hide Address Fields tab -->
-		<?php require( WOOCCM_PATH.'includes/templates/admin/woocheckout-general-address-fields.php' ); ?>
+		<?php require( WOOCCM_PLUGIN_DIR.'includes/templates/admin/woocheckout-general-address-fields.php' ); ?>
 
 		<!-- Order Notes tab -->
-		<?php require( WOOCCM_PATH.'includes/templates/admin/woocheckout-general-order-notes.php' ); ?>
+		<?php require( WOOCCM_PLUGIN_DIR.'includes/templates/admin/woocheckout-general-order-notes.php' ); ?>
 
 		<!-- Custom CSS tab -->
-		<?php require( WOOCCM_PATH.'includes/templates/admin/woocheckout-general-custom-css.php' ); ?>
+		<?php require( WOOCCM_PLUGIN_DIR.'includes/templates/admin/woocheckout-general-custom-css.php' ); ?>
 
 		<!-- Checkout Notices tab -->
-		<?php require( WOOCCM_PATH.'includes/templates/admin/woocheckout-general-checkout-notices.php' ); ?>
+		<?php require( WOOCCM_PLUGIN_DIR.'includes/templates/admin/woocheckout-general-checkout-notices.php' ); ?>
 
 		<!-- Switches tab -->
-		<?php require( WOOCCM_PATH.'includes/templates/admin/woocheckout-general-switches.php' ); ?>
+		<?php require( WOOCCM_PLUGIN_DIR.'includes/templates/admin/woocheckout-general-switches.php' ); ?>
 
 		<!-- Advanced tab -->
-		<?php require( WOOCCM_PATH.'includes/templates/admin/woocheckout-general-advanced.php' ); ?>
+		<?php require( WOOCCM_PLUGIN_DIR.'includes/templates/admin/woocheckout-general-advanced.php' ); ?>
 
 	</div>
 	<!-- #content-nav-right -->

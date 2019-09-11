@@ -12,7 +12,7 @@ jQuery( document ).ready(
 				if ( '' !== fileNameElement.val() ) {
 					countriesElement.prop( 'disabled', false );
 					level0Element.prop( 'disabled', false );
-					wppfm_validateFileName();
+					wppfm_validateFileName( jQuery( '#file-name' ) );
 
 					if ( '0' !== merchantsElement.val() ) {
 						wppfm_showChannelInputs( merchantsElement.val(), true );
@@ -55,7 +55,7 @@ jQuery( document ).ready(
 		$( '#language' ).on(
 			'change',
 			function() {
-				wppfm_feed_language_changed();
+				wppfm_setGoogleFeedLanguage( jQuery( '#language' ).val() );
 
 				if ( wppfm_requiresLanguageInput ) {
 					wppfm_mainInputChanged( false );
@@ -66,14 +66,14 @@ jQuery( document ).ready(
 		$( '#google-feed-title-selector' ).on(
 			'change',
 			function() {
-				wppfm_google_feed_title_changed();
+				wppfm_setGoogleFeedTitle( jQuery( '#google-feed-title-selector' ).val() );
 			}
 		);
 
 		$( '#google-feed-description-selector' ).on(
 			'change',
 			function() {
-				wppfm_google_feed_description_changed();
+				wppfm_setGoogleFeedDescription( jQuery( '#google-feed-description-selector' ).val() );
 			}
 		);
 
@@ -132,7 +132,7 @@ jQuery( document ).ready(
 			}
 		);
 
-		jQuery( '#wppfm-save-feed-button-top' ).on(
+		$( '#wppfm-save-feed-button-top' ).on(
 			'click',
 			function() {
 				wppfm_saveFeedData();
@@ -217,35 +217,39 @@ jQuery( document ).ready(
 			}
 		);
 
-		$( '.category-mapping-selector' ).on(
+		$( '.wppfm-category-mapping-selector' ).on( // on activation of a category selector in the Category Mapping table
 			'change',
 			function() {
 				if ( $( this ).is( ':checked' ) ) {
+					console.log( 'category ' + $( this ).val() + ' selected' );
 					wppfm_activateFeedCategoryMapping( $( this ).val() );
 				} else {
+					console.log( 'category ' + $( this ).val() + ' deselected' );
 					wppfm_deactivateFeedCategoryMapping( $( this ).val() );
 				}
 			}
 		);
 
-		$( '.category-selector' ).on(
+		$( '.wppfm-category-selector' ).on( // on activation of a category selector in the Category Selector table
 			'change',
 			function() {
 				if ( $( this ).is( ':checked' ) ) {
+					console.log( 'category ' + $( this ).val() + ' selected' );
 					wppfm_activateFeedCategorySelection( $( this ).val() );
 				} else {
+					console.log( 'category ' + $( this ).val() + ' deselected' );
 					wppfm_deactivateFeedCategorySelection( $( this ).val() );
 				}
 			}
 		);
 
-		$( '#categories-select-all' ).on(
+		$( '#wppfm-categories-select-all' ).on( // on activation of the 'all' selector in the Category Mapping and Category Selector table
 			'change',
 			function() {
 				if ( $( this ).is( ':checked' ) ) {
-					wppfm_activateFeedCategoryMapping( 'wppfm_all_categories_selected' );
+					wppfm_activateAllFeedCategoryMapping();
 				} else {
-					wppfm_deactivateFeedCategoryMapping( 'wppfm_all_categories_selected' );
+					wppfm_deactivateAllFeedCategoryMapping();
 				}
 			}
 		);

@@ -14,11 +14,12 @@
 }
 .ppom-wrapper span.show_required{color: red;}
 
-.ppom-wrapper textarea{
+/** https://wordpress.org/support/topic/multiple-css-change-requests/ **/
+/*.ppom-wrapper textarea{
   height: inherit !important;
   min-height: inherit !important;
   min-width: inherit !important;
-}
+}*/
 /** hiding prices for related products **/
 .related.products .amount-options { display:none; }
 
@@ -300,6 +301,11 @@ padding: 5px;
   margin:10px auto;
 }
 
+.ppom-pricematrix-range{
+  clear:both;
+  border-bottom:1px #ccc dashed;
+}
+
 #ppomSlider{
   width:100%;
 }
@@ -391,4 +397,18 @@ padding: 5px;
 /* Elementor fixed */
 .elementor-add-to-cart form.cart{
 display: block !important;
+}
+
+/** Hiding select options for variable products **/
+/*option.ppom-variable-option{
+  display: none;
+}*/
+
+/* Iris color-picker **/
+.iris-picker .iris-square{
+    margin-right: 8% !important;
+}
+
+.ppom-qty-found{
+  display:none;
 }

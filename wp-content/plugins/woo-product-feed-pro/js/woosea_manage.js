@@ -161,6 +161,114 @@ jQuery(document).ready(function($) {
 		}
 	})	
 
+	// Check if user would like to enable debug logging
+	$('#add_woosea_logging').on('change', function(){ // on change of state
+   		if(this.checked){
+
+			// Checkbox is on
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_add_woosea_logging', 'status': "on" }
+                	})
+		} else {
+			// Checkbox is off
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_add_woosea_logging', 'status': "off" }
+                	})
+		}
+	})	
+
+	// Check if user would like to add a Facebook Pixel to their website
+	$('#add_facebook_pixel').on('change', function(){ // on change of state
+   		if(this.checked){
+
+			// Checkbox is on
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_add_facebook_pixel_setting', 'status': "on" }
+                	})
+			.done(function( data ) {
+				$('#facebook_pixel').after('<tr id="facebook_pixel_id"><td colspan="2"><span>Insert Facebook pixel ID:</span>&nbsp;<input type="text" class="input-field-medium" id="fb_pixel_id" name="fb_pixel_id">&nbsp;<input type="submit" id="save_facebook_pixel_id" value="Save"></td></tr>');	
+			})
+                	.fail(function( data ) {
+                        	console.log('Failed AJAX Call :( /// Return Data: ' + data);
+                	});	
+		} else {
+			// Checkbox is off
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_add_facebook_pixel_setting', 'status': "off" }
+                	})
+			.done(function( data ) {
+				$('#facebook_pixel_id').remove();	
+			})
+                	.fail(function( data ) {
+                        	console.log('Failed AJAX Call :( /// Return Data: ' + data);
+                	});	
+		}
+	})	
+
+	// Check if user would like to change the batch size 
+	$('#add_batch').on('change', function(){ // on change of state
+   		if(this.checked){
+
+			// Checkbox is on
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_add_batch', 'status': "on" }
+                	})
+			.done(function( data ) {
+				$('#batch').after('<tr id="woosea_batch_size"><td colspan="2"><span>Insert batch size:</span>&nbsp;<input type="text" class="input-field-medium" id="batch_size" name="batch_size">&nbsp;<input type="submit" id="save_batch_size" value="Save"></td></tr>');	
+			})
+                	.fail(function( data ) {
+                        	console.log('Failed AJAX Call :( /// Return Data: ' + data);
+                	});	
+		} else {
+			// Checkbox is off
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_add_batch', 'status': "off" }
+                	})
+			.done(function( data ) {
+				$('#adwords_conversion_id').remove();	
+			})
+                	.fail(function( data ) {
+                        	console.log('Failed AJAX Call :( /// Return Data: ' + data);
+                	});	
+		}
+	})	
+
+        // Save Google Dynamic Remarketing pixel ID
+        jQuery("#save_batch_size").click(function(){
+                var batch_size = $('#batch_size').val();
+	        var re = /^[0-9]*$/;
+                
+		var woosea_valid_batch_size=re.test(batch_size);
+                // Check for allowed characters
+                if (!woosea_valid_batch_size){
+                        $('.notice').replaceWith("<div class='notice notice-error woosea-notice-conversion is-dismissible'><p>Sorry, only numbers are allowed for your batch size number.</p></div>");
+                        // Disable submit button too
+                        $('#save_batch_size').attr('disabled',true);
+                } else {
+                        $('.woosea-notice-conversion').remove();
+                        $('#save_batch_size').attr('disabled',false);
+
+			// Now we need to save the conversion ID so we can use it in the dynamic remarketing JS
+                        jQuery.ajax({
+                                method: "POST",
+                                url: ajaxurl,
+                                data: { 'action': 'woosea_save_batch_size', 'batch_size': batch_size }
+                        })
+                }	
+	})
+
 	// Check if user would like to enable Dynamic Remarketing
 	$('#add_remarketing').on('change', function(){ // on change of state
    		if(this.checked){
@@ -193,7 +301,7 @@ jQuery(document).ready(function($) {
 		}
 	})	
 
-        // Add a mapping row to the table for field mappings
+        // Save Google Dynamic Remarketing pixel ID
         jQuery("#save_conversion_id").click(function(){
                 var adwords_conversion_id = $('#adwords_conv_id').val();
 	        var re = /^[0-9]*$/;
@@ -217,6 +325,28 @@ jQuery(document).ready(function($) {
                 }	
 	})
 
+        // Save Facebook Pixel ID
+        jQuery("#save_facebook_pixel_id").click(function(){
+	        var facebook_pixel_id = $('#fb_pixel_id').val();
+	        var re = /^[0-9]*$/;
+		var woosea_valid_facebook_pixel_id=re.test(facebook_pixel_id);
+                // Check for allowed characters
+                if (!woosea_valid_facebook_pixel_id){
+                        $('.notice').replaceWith("<div class='notice notice-error woosea-notice-conversion is-dismissible'><p>Sorry, only numbers are allowed for your Facebook Pixel ID.</p></div>");
+                        // Disable submit button too
+                        $('#save_facebook_pixel_id').attr('disabled',true);
+                } else {
+                        $('.woosea-notice-conversion').remove();
+                        $('#save_facebook_pixel_id').attr('disabled',false);
+
+			// Now we need to save the Facebook pixel ID so we can use it in the facebook pixel JS
+                        jQuery.ajax({
+                                method: "POST",
+                                url: ajaxurl,
+                                data: { 'action': 'woosea_save_facebook_pixel_id', 'facebook_pixel_id': facebook_pixel_id }
+                        })
+                }	
+	})
 
 	// Check if user would like to add attributes
 	$('#add_identifiers').on('change', function(){ // on change of state

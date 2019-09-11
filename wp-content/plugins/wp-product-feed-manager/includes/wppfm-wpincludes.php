@@ -55,6 +55,9 @@ function include_classes() {
 	if ( ! class_exists( 'WPPFM_Taxonomies' ) ) {
 		require_once( __DIR__ . '/data/class-wppfm-taxonomies.php' );
 	}
+	if ( ! class_exists( 'WPPFM_Feed_CRUD_Handler' ) ) {
+		require_once( __DIR__ . '/data/class-wppfm-feed-crud-handler.php' );
+	}
 	if ( ! class_exists( 'WPPFM_Feed_Support' ) ) {
 		require_once( __DIR__ . '/application/class-wppfm-feed-support.php' );
 	}
@@ -122,7 +125,7 @@ function include_classes() {
 		require_once( __DIR__ . '/user-interface/elements/class-wppfm-main-input-selector-element.php' );
 	}
 	if ( ! class_exists( 'WPPFM_Register_Scripts' ) ) {
-		require_once( __DIR__ . '/class-register-scripts.php' );
+		require_once( __DIR__ . '/class-wppfm-register-scripts.php' );
 	}
 	if ( ! class_exists( 'WPPFM_Db_Management' ) ) {
 		require_once( __DIR__ . '/data/class-wppfm-db-management.php' );
@@ -136,14 +139,14 @@ function include_classes() {
 	if ( ! class_exists( 'WPPFM_Ajax_File' ) ) {
 		require_once( __DIR__ . '/data/class-wppfm-ajax-file.php' );
 	}
+	if ( ! class_exists( 'WPPFM_Backup' ) ) {
+		require_once( __DIR__ . '/data/class-wppfm-backup.php' );
+	}
 	if ( ! class_exists( 'WPPFM_Channel_FTP' ) ) {
 		require_once( __DIR__ . '/data/class-wppfm-channel-ftp.php' );
 	}
 	if ( ! class_exists( 'WPPFM_Feed_Queries' ) ) {
 		require_once( __DIR__ . '/application/class-wppfm-feed-queries.php' );
-	}
-	if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) {
-		require_once( __DIR__ . '/application/class-wppfm-feed-processor.php' );
 	}
 	if ( ! class_exists( 'WPPFM_Folders' ) ) {
 		require_once( __DIR__ . '/setup/class-wppfm-folders.php' );

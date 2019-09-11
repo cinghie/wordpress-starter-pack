@@ -100,7 +100,7 @@ if ( ! class_exists( 'WPPFM_Main_Input_Selector_Element' ) ) :
 		 * @return string
 		 */
 		public static function aggregator_selector_element() {
-			return '<tr id="aggregator-selector-row" style="display:none;">
+			return '<tr id="aggregator-selector-row" style="display:none">
 					<th id="main-feed-input-label"><label
 						for="aggregator-selector">' . __( 'Aggregator Shop', 'wp-product-feed-manager' ) . '</label> :
 					</th>
@@ -113,7 +113,7 @@ if ( ! class_exists( 'WPPFM_Main_Input_Selector_Element' ) ) :
 		 * @return string
 		 */
 		public static function product_variation_selector_element() {
-			return '<tr id="add-product-variations-row" style="display:none;">
+			return '<tr id="add-product-variations-row" style="display:none">
 					<th id="main-feed-input-label"><label
 						for="product-variations-selector">' . __( 'Include Product Variations', 'wp-product-feed-manager' ) . '</label> :
 					</th>
@@ -126,7 +126,7 @@ if ( ! class_exists( 'WPPFM_Main_Input_Selector_Element' ) ) :
 		 * @return string
 		 */
 		public static function google_product_feed_title_element() {
-			return '<tr id="google-feed-title-row" style="display:none;">
+			return '<tr id="google-feed-title-row" style="display:none">
 					<th id="main-feed-input-label"><label
 						for="google-feed-title-selector">' . __( 'Feed Title', 'wp-product-feed-manager' ) . '</label> :
 					</th>
@@ -139,7 +139,7 @@ if ( ! class_exists( 'WPPFM_Main_Input_Selector_Element' ) ) :
 		 * @return string
 		 */
 		public static function google_product_feed_description_element() {
-			return '<tr id="google-feed-description-row" style="display:none;">
+			return '<tr id="google-feed-description-row" style="display:none">
 					<th id="main-feed-input-label"><label
 						for="google-feed-description-selector">' . __( 'Feed Description', 'wp-product-feed-manager' ) . '</label> :
 					</th>
@@ -149,10 +149,12 @@ if ( ! class_exists( 'WPPFM_Main_Input_Selector_Element' ) ) :
 		/**
 		 * Returns the code for the feed update schedule selector.
 		 *
+		 * @param  string display style
+		 *
 		 * @return string
 		 */
-		public static function feed_update_schedule_selector_element() {
-			return '<tr id="update-schedule-row" style="display:none;">
+		public static function feed_update_schedule_selector_element( $display = 'none' ) {
+			return '<tr id="update-schedule-row" style="display:' . $display . '">
 					<th id="main-feed-input-label"><label
 						for="update-schedule">' . __( 'Update Schedule', 'wp-product-feed-manager' ) . '</label> :
 					</th>

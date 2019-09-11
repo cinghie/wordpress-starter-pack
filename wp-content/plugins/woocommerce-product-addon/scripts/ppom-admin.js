@@ -234,14 +234,14 @@ jQuery(function($){
        .html('<i class="fa fa-minus" aria-hidden="true"></i>');
             
     });
-    $('.data-options').each(function(i, meta_field){
+    // $('.data-options').each(function(i, meta_field){
 
-        var selector_btn = $(this).closest('.ppom-slider');
-        selector_btn.find('.ppom-add-option').not(':last').removeClass('ppom-add-option').addClass('ppom-remove-option')
-       .removeClass('btn-success').addClass('btn-danger')
-       .html('<i class="fa fa-minus" aria-hidden="true"></i>');
+    //     var selector_btn = $(this).closest('.ppom-slider');
+    //     selector_btn.find('.ppom-add-option').not(':last').removeClass('ppom-add-option').addClass('ppom-remove-option')
+    //    .removeClass('btn-success').addClass('btn-danger')
+    //    .html('<i class="fa fa-minus" aria-hidden="true"></i>');
             
-    });
+    // });
 
 
     /**
@@ -413,6 +413,10 @@ jQuery(function($){
         var option_selector   = clone_new_field.find('.ppom-option-keys');  
         var add_cond_selector = clone_new_field.find('.ppom-conditional-keys'); 
 
+        // for address addon
+        var address_selector = clone_new_field.find('.ppom-checkout-field');
+        var address_table_id = clone_new_field.find('.ppom_address_table');
+        ppom_create_address_index(address_selector, field_index , address_table_id);
 
         ppom_create_option_index(option_selector, field_index , option_index, ppom_option_type );
         ppom_add_condition_set_index(add_cond_selector, field_index, field_type, option_index);
@@ -435,7 +439,7 @@ jQuery(function($){
         var model_id_no = $(this).attr('id');
         
         var field_type  = $(this).data('field-type');
-        console.log(model_id_no);
+        // console.log(model_id_no);
 
         var clone_new_field = $('.ppom_save_fields_model #ppom_field_model_'+model_id_no+'').clone(true);
         // clone_new_field.find('.ppom_save_fields_model').end().appendTo('.ppom_save_fields_model').attr('id','ppom_field_model_'+field_no+'');
@@ -475,20 +479,51 @@ jQuery(function($){
         var field_index = field_no;
 
         // handle multiple options
-        var ppom_option_type = '';
+        var ppom_option_type = 'ppom_copy_option';
         var option_selector   = clone_new_field.find('.ppom-option-keys');  
         var add_cond_selector = clone_new_field.find('.ppom-conditional-keys'); 
+        var eventcalendar_selector = clone_new_field.find('.ppom-eventcalendar-field'); 
+        var image_option_selector  = clone_new_field.find('[data-table-id="image"] .data-options, [data-table-id="imageselect"] .data-options');
 
         // reset option to one
-        clone_new_field.find('[data-table-id="image"] .data-options').remove();
+        // clone_new_field.find('[data-table-id="image"] .data-options').remove();
         clone_new_field.find('[data-table-id="audio"] .pre-upload-box li').remove();
-        clone_new_field.find('[data-table-id="imageselect"] .pre-upload-box li').remove();
-        clone_new_field.find('.data-options').not(':last').remove();
+        // clone_new_field.find('[data-table-id="imageselect"] .pre-upload-box li').remove();
+        // clone_new_field.find('.data-options').not(':last').remove();
         clone_new_field.find('.webcontact-rules').not(':last').remove();
+
+        // set existing conditions meta
+        $(clone_new_field).find('select[data-metatype="elements"]').each(function(i, condition_element){
+
+            var existing_value1 = $(condition_element).attr("data-existingvalue");
+            if ($.trim(existing_value1) !== '') {
+                jQuery(condition_element).val(existing_value1);
+            }
+        });
+        $(clone_new_field).find('select[data-metatype="element_values"]').each(function(i, condition_element){
+
+            var div = $(this).closest('.webcontact-rules');      
+            var existing_value1 = $(condition_element).attr("data-existingvalue");
+
+            if ($.trim(existing_value1) !== '') {
+                jQuery(condition_element).val(existing_value1);
+            }
+        }); 
 
         ppom_create_option_index(option_selector, field_index , option_index, ppom_option_type);
         ppom_add_condition_set_index(add_cond_selector, field_index, field_type, option_index);
+
+        // for eventcalendar changing index
+        ppom_eventcalendar_set_index(eventcalendar_selector, field_index);
         
+        // set index for all images fields
+        image_option_selector.find('input').each(function(img_index, img_meta ){
+
+            var opt_in = $(img_meta).attr('data-opt-index');
+            var field_name = 'ppom['+field_index+'][images]['+opt_in+']['+$(img_meta).attr('data-metatype')+']';
+            $(img_meta).attr('name', field_name);
+        });
+
         // popup fields on model
         $("body").append(append_overly_model);
         ppom_close_popup();
@@ -557,7 +592,7 @@ jQuery(function($){
             var fileurl = attachment.url;
             var fileid  = attachment.id;
             var img_icon = '<img width="60" src="'+fileurl+'" style="width: 34px;">';
-            var url_field = '<input placeholder="url" type="text" name="ppom['+field_index+']['+meta_type+']['+option_index+'][url]" class="form-control">';
+            var url_field = '<input placeholder="url" type="text" name="ppom['+field_index+']['+meta_type+']['+option_index+'][url]" class="form-control" data-opt-index="'+option_index+'" data-metatype="url">';
             
             if (attachment.type !== 'image') {
                 var img_icon = '<img width="60" src="'+attachment.icon+'" style="width: 34px;">';
@@ -570,7 +605,7 @@ jQuery(function($){
                 var condidtion_attr = 'image_options';
                 meta_type = 'images';
                 price_placeholder = 'Price';
-                url_field = '<input placeholder="Description" type="text" name="ppom['+field_index+']['+meta_type+']['+option_index+'][description]" class="form-control">';
+                url_field = '<input placeholder="Description" type="text" name="ppom['+field_index+']['+meta_type+']['+option_index+'][description]" class="form-control" data-opt-index="'+option_index+'" data-metatype="description">';
             }else if (meta_type == 'images') {
                 var class_name = 'data-options ui-sortable-handle';
                 var condidtion_attr = 'image_options';
@@ -588,10 +623,10 @@ jQuery(function($){
                         image_box += '<div class="ppom-uploader-img-center">';
                             image_box += img_icon;
                         image_box += '</div>';
-                        image_box += '<input type="hidden" name="ppom['+field_index+']['+meta_type+']['+option_index+'][link]" value="'+fileurl+'">';
-                        image_box += '<input type="hidden" name="ppom['+field_index+']['+meta_type+']['+option_index+'][id]" value="'+fileid+'" >';
-                        image_box += '<input type="text" placeholder="Title" name="ppom['+field_index+']['+meta_type+']['+option_index+'][title]" class="form-control ppom-image-option-title">';
-                        image_box += '<input class="form-control" type="text" placeholder="'+price_placeholder+'" name="ppom['+field_index+']['+meta_type+']['+option_index+'][price]" class="form-control">';
+                        image_box += '<input type="hidden" name="ppom['+field_index+']['+meta_type+']['+option_index+'][link]" value="'+fileurl+'" data-opt-index="'+option_index+'" data-metatype="link">';
+                        image_box += '<input type="hidden" name="ppom['+field_index+']['+meta_type+']['+option_index+'][id]" value="'+fileid+'" data-opt-index="'+option_index+'" data-metatype="id">';
+                        image_box += '<input type="text" placeholder="Title" name="ppom['+field_index+']['+meta_type+']['+option_index+'][title]" class="form-control ppom-image-option-title" data-opt-index="'+option_index+'" data-metatype="title">';
+                        image_box += '<input class="form-control" type="text" placeholder="'+price_placeholder+'" name="ppom['+field_index+']['+meta_type+']['+option_index+'][price]" class="form-control" data-opt-index="'+option_index+'" data-metatype="price">';
                         image_box += url_field;
                         image_box += '<button class="btn btn-danger ppom-pre-upload-delete" style="height: 35px;"><i class="fa fa-times" aria-hidden="true"></i></button>';
                     image_box += '</div>';
@@ -653,7 +688,7 @@ jQuery(function($){
         e.preventDefault();
 
         var main_wrapper     = $(this).closest('.ppom-slider');
-        var ppom_option_type = $(this).attr('data-option-type');
+        var ppom_option_type = 'ppom_new_option';
 
         var li = $(this).closest('li');
         var ul = li.closest('ul');
@@ -670,13 +705,21 @@ jQuery(function($){
 
         ppom_create_option_index(option_selector, field_index, option_index, ppom_option_type);
         
-        $('.ppom-slider').find('.data-options:not(:last) .ppom-add-option')
-       .removeClass('ppom-add-option').addClass('ppom-remove-option')
-       .removeClass('btn-success').addClass('btn-danger')
-       .html('<i class="fa fa-minus" aria-hidden="true"></i>');
+        // $('.ppom-slider').find('.data-options:not(:last) .ppom-add-option')
+       // .removeClass('ppom-add-option').addClass('ppom-remove-option')
+       // .removeClass('btn-success').addClass('btn-danger')
+       // .html('<i class="fa fa-minus" aria-hidden="true"></i>');
     }).on('click', '.ppom-remove-option', function(e){
 
-        $(this).parents('.data-options:first').remove();
+        var selector_btn = $(this).closest('.ppom-slider');
+        var option_num = selector_btn.find('.data-options').length;
+
+        if (option_num > 1) {
+            $(this).parents('.data-options:first').remove();
+        }else{
+            alert('Cannot Remove More Option');
+        }
+        
         e.preventDefault();
         return false;
     });
@@ -767,6 +810,17 @@ jQuery(function($){
     function  ppom_create_option_index(option_selector, field_index , option_index, ppom_option_type ){
 
         option_selector.each(function(i, meta_field){
+            
+
+            if (ppom_option_type == 'ppom_copy_option') {
+                var opt_in = $(meta_field).attr('data-opt-index');
+                if (opt_in !== undefined) {
+                    option_index = opt_in;
+                }
+            }
+            $(meta_field).attr('data-opt-index', option_index);
+            
+
             var field_name = 'ppom['+field_index+'][options]['+option_index+']['+$(meta_field).attr('data-metatype')+']';
             $(meta_field).attr('name', field_name);
         });
@@ -780,6 +834,28 @@ jQuery(function($){
        add_c_selector.each(function(i, meta_field){
             // var field_name = 'ppom['+field_no+']['+$(meta_field).attr('data-metatype')+']';
             var field_name = 'ppom['+opt_field_no+'][conditions][rules]['+opt_no+']['+$(meta_field).attr('data-metatype')+']';
+            $(meta_field).attr('name', field_name);
+        });
+    }
+
+    // address addon
+    function  ppom_create_address_index(address_selector, field_index , address_table_id ){
+      address_selector.each(function(i, meta_field){
+           var field_id        = $(meta_field).attr('data-fieldtype');
+           var core_field_type = $(address_table_id).attr('data-addresstype');
+           var field_name = 'ppom['+field_index+']['+core_field_type+']['+field_id+']['+$(meta_field).attr('data-metatype')+']';
+           $(meta_field).attr('name', field_name);
+       });
+    }
+
+
+    // eventcalendar inputs changing
+    function ppom_eventcalendar_set_index( add_c_selector, opt_field_no ){
+       
+       add_c_selector.each(function(i, meta_field){
+            
+            var date = $(meta_field).attr('data-date');
+            var field_name = 'ppom['+opt_field_no+'][calendar]['+date+']['+$(meta_field).attr('data-metatype')+']';
             $(meta_field).attr('name', field_name);
         });
     }

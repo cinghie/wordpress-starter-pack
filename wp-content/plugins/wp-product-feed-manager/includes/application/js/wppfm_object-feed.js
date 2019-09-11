@@ -1,11 +1,34 @@
+/**
+ * Feed Object
+ *
+ * @param {int}     feedId
+ * @param {string}  title               Title of the feed file
+ * @param {int}     includeVariations   Does this feed include variations
+ * @param {int}     aggregator          Is this an aggregator feed
+ * @param {int}     channel             Channel definition
+ * @param {string}  mainCategory
+ * @param {array}   categoryMapping
+ * @param {string}  url
+ * @param {string}  dataSource          Source id (for now only WooCommerce is supported)
+ * @param {string}  country             Two letter country identifier
+ * @param {string}  language
+ * @param {string}  feedTitle           Google's feed title text
+ * @param {string}  feedDescription     Google's feed description text
+ * @param {string}  updateSchedule      Updates schedule string
+ * @param {array}   feedFilter          Feed filters
+ * @param {int}     status              Status of the feed
+ * @param {string}  feedType            Type of feed (default Product Feed Type)
+ *
+ * @constructor
+ */
 function Feed( feedId, title, includeVariations, aggregator, channel, mainCategory,
-	categoryMappingString, url, dataSource, country, language, feedTitle,
-	feedDescription, updateSchedule, feedFilter, status ) {
+	categoryMapping, url, dataSource, country, language, feedTitle,
+	feedDescription, updateSchedule, feedFilter, status, feedType ) {
 
 	this.feedId            = feedId;
 	this.title             = title;
 	this.mainCategory      = mainCategory;
-	this.categoryMapping   = categoryMappingString;
+	this.categoryMapping   = categoryMapping;
 	this.includeVariations = includeVariations;
 	this.isAggregator      = aggregator;
 	this.feedTitle         = feedTitle;
@@ -19,6 +42,7 @@ function Feed( feedId, title, includeVariations, aggregator, channel, mainCatego
 	this.updateSchedule    = updateSchedule;
 	this.feedFilter        = feedFilter;
 	this.attributes        = [];
+	this.feedType          = feedType;
 
 	// objects functions
 	this.addAttribute                 = addAttributeToFeed;
@@ -59,6 +83,7 @@ function Feed( feedId, title, includeVariations, aggregator, channel, mainCatego
 	this.getAlternativeSourcesObject  = getAlternativeSources;
 	this.getAttributesValueObject     = getAttributesValues;
 	this.getFeedFilter                = getFeedFilterValue;
+	this.getFeedType                  = getFeedType;
 	this.setMainCategory              = setCategories;
 	this.setUpdateSchedule            = setSchedule;
 	this.setCustomCategory            = setFeedCustomCategory;
@@ -114,7 +139,7 @@ function mapACategory( categorySelectorId, category ) {
 	var shopCategoryId = sc.match( /(\d+)$/ )[ 0 ];
 	var mo             = JSON.parse( this.categoryMapping );
 
-	// check if this.categoryMapping already has a maped category with this id
+	// check if this.categoryMapping already has a mapped category with this id
 	var categoryMapForGivenId = jQuery.grep(
 		mo,
 		function( e ) {
@@ -188,7 +213,7 @@ function activateCategoryMap( shopCategoryId, channelUsesOwnCategory ) {
 	// get the currently stored mapping
 	var mo = this.categoryMapping.length > 0 ? JSON.parse( this.categoryMapping ) : [];
 
-	// check if this.categoryMapping already has a mapped category with this id
+	// test if this.categoryMapping already has a mapped category with this id
 	var categoryMapForGivenId = jQuery.grep(
 		mo,
 		function( e ) {
@@ -826,6 +851,10 @@ function checkCustomName( name ) {
 	}
 
 	return result;
+}
+
+function getFeedType() {
+	return this.feedType;
 }
 
 function removeAttribute( attributeId ) {

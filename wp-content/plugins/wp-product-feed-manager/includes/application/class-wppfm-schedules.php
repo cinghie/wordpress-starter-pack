@@ -28,15 +28,16 @@ if ( ! class_exists( 'WPPFM_Schedules' ) ) :
 		 */
 		public function update_active_feeds() {
 			$data_class        = new WPPFM_Data();
-			$feed_master_class = new WPPFM_Feed_Master_Class();
 
 			$current_timestamp      = date( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
 			$active_feeds_schedules = $data_class->get_schedule_data();
 			$failed_feeds           = $data_class->get_failed_feeds();
+			$active_feed_id         = null;
 
 			// update scheduled feeds
 			foreach ( $active_feeds_schedules as $schedule ) {
-				$update_time = $this->new_activation_time( $schedule['updated'], $schedule['schedule'] );
+				$active_feed_id = $schedule['product_feed_id'];
+				$update_time    = $this->new_activation_time( $schedule['updated'], $schedule['schedule'] );
 
 				// activate the feed update when the update time is reached
 				if ( $update_time < $current_timestamp ) {
@@ -48,7 +49,8 @@ if ( ! class_exists( 'WPPFM_Schedules' ) ) :
 
 			// if there is no feed processing in progress and the feed queue is not empty, start updating the current feed
 			if ( ! WPPFM_Feed_Controller::feed_queue_is_empty() && ! WPPFM_Feed_Controller::feed_is_processing() ) {
-				do_action( 'wppfm_automatic_feed_update_triggered', $schedule['product_feed_id'] );
+				do_action( 'wppfm_automatic_feed_update_triggered', $active_feed_id );
+				$feed_master_class = new WPPFM_Feed_Master_Class( $active_feed_id );
 				$feed_master_class->update_feed_file( true );
 			}
 
@@ -59,8 +61,9 @@ if ( ! class_exists( 'WPPFM_Schedules' ) ) :
 
 					// if there is no feed processing in progress, start updating the current feed
 					if ( ! WPPFM_Feed_Controller::feed_is_processing() ) {
-						do_action( 'wppfm_automatic_feed_repare_update_triggered', $schedule['product_feed_id'] );
+						do_action( 'wppfm_automatic_feed_prepare_update_triggered', $active_feed_id );
 
+						$feed_master_class = new WPPFM_Feed_Master_Class( $active_feed_id );
 						$feed_master_class->update_feed_file( true );
 					} else {
 						$data_class->update_feed_status( $failed_feed['product_feed_id'], 4 ); // feed status to waiting in queue
@@ -75,6 +78,9 @@ if ( ! class_exists( 'WPPFM_Schedules' ) ) :
 
 		/**
 		 * Returns the time at which the feed should be updated
+		 *
+		 * @param string $last_update       time string with the data and time the feed has been update last
+		 * @param string $update_frequency  registered update frequency
 		 *
 		 * @return string Containing the time in Y-m-d H:i:s format
 		 */

@@ -22,6 +22,7 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 	class WPPFM_Feed_Processor extends WPPFM_Background_Process {
 
 		use WPPFM_Processing_Support;
+		use WPPFM_Feed_Processor_Functions;
 
 		/**
 		 * Action identifier
@@ -97,6 +98,10 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 			$this->_channel_details = $channel_details;
 			$this->_relation_table  = $relation_table;
 
+			if ( ! $this->_channel_details['channel_id'] ) {
+				return false;
+			}
+
 			// instantiate the correct channel class
 			$this->_channel_class = new WPPFM_Google_Feed_Class();
 
@@ -133,7 +138,7 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 				do_action( 'wppfm_next_in_queue_feed_update_activated', $this->_feed_data->feedId );
 
 				// so there is another feed in the queue
-				$feed_master_class = new WPPFM_Feed_Master_Class();
+				$feed_master_class = new WPPFM_Feed_Master_Class( $this->_feed_data->feedId );
 				$feed_master_class->update_feed_file();
 			}
 		}
@@ -147,6 +152,7 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 		 * @return boolean
 		 */
 		private function do_task( $task_data ) {
+
 			if ( array_key_exists( 'product_id', $task_data ) ) {
 				return $this->add_product_to_feed( $task_data['product_id'] );
 			} elseif ( array_key_exists( 'file_format_line', $task_data ) ) {
@@ -267,73 +273,6 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 			} else {
 				return false;
 			}
-		}
-
-		private function get_products_main_data( $product_id, $parent_product_id, $post_columns_query_string ) {
-			$queries_class   = new WPPFM_Queries();
-			$prep_meta_class = new WPPFM_Feed_Value_Editors();
-
-			$product_data = $queries_class->read_post_data( $product_id, $post_columns_query_string );
-
-			// WPML support
-			if ( has_filter( 'wpml_translation' ) ) {
-				$product_data = apply_filters( 'wpml_translation', $product_data, $this->_feed_data->language );
-			}
-
-			// parent ids are required to get the main data from product variations
-			$meta_parent_ids = 0 !== $parent_product_id ? array( $parent_product_id ) : $this->get_meta_parent_ids( $product_id );
-
-			array_unshift( $meta_parent_ids, $product_id ); // add the product id to the parent ids
-
-			$meta_data = $queries_class->read_meta_data( $product_id, $parent_product_id, $meta_parent_ids, $this->_pre_data['database_fields']['meta_fields'] );
-
-			foreach ( $meta_data as $meta ) {
-				$meta_value = $prep_meta_class->prep_meta_values( $meta, $this->_feed_data->language );
-
-				if ( array_key_exists( $meta->meta_key, $product_data ) ) {
-					$meta_key = $meta->meta_key;
-
-					if ( '' === $product_data->$meta_key ) {
-						$product_data = (object) array_merge( (array) $product_data, array( $meta->meta_key => $meta_value ) );
-					}
-				} else {
-					$product_data = (object) array_merge( (array) $product_data, array( $meta->meta_key => $meta_value ) );
-				}
-			}
-
-			foreach ( $this->_pre_data['database_fields']['active_custom_fields'] as $field ) {
-				$product_data->{$field} = $this->get_custom_field_data( $product_data->ID, $parent_product_id, $field );
-			}
-
-			foreach ( $this->_pre_data['database_fields']['third_party_custom_fields'] as $third_party_field ) {
-				$product_data->{$third_party_field} = $this->get_third_party_custom_field_data( $product_data->ID, $parent_product_id, $third_party_field );
-			}
-
-			$this->add_procedural_data( $product_data, $this->_pre_data['column_names'], $this->_feed_data->language, $this->_feed_data->feedId );
-
-			return $product_data;
-		}
-
-		/**
-		 * Adds a string to the feed
-		 *
-		 * @param array $line_data
-		 *
-		 * @return boolean
-		 */
-		private function add_file_format_line_to_feed( $line_data ) {
-			return false !== file_put_contents( $this->_feed_file_path, $line_data['file_format_line'], FILE_APPEND ) ? true : false;
-		}
-
-		/**
-		 * Adds an error message to the feed
-		 *
-		 * @param array $error_message_data
-		 *
-		 * @return boolean
-		 */
-		private function add_error_message_to_feed( $error_message_data ) {
-			return false !== file_put_contents( $this->_feed_file_path, $error_message_data['feed_line_message'], FILE_APPEND ) ? true : false;
 		}
 
 		/**

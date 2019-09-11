@@ -48,15 +48,11 @@ class Stock_Manager_Admin {
 		add_action( 'admin_init', array( $this, 'output_buffer' ) );
     
 		include_once( 'includes/wcm-class-stock.php' );
-        include_once( 'includes/wcm-class-table.php' );
 
     
-    	//$this->includes();
-    
-    	add_action( 'admin_init', array( $this, 'generate_csv_file' ) );
-    
-    
-    
+		//$this->includes();
+		    
+		add_action( 'admin_init', array( $this, 'generate_csv_file' ) );
 	}
 
 	/**
@@ -76,7 +72,7 @@ class Stock_Manager_Admin {
 		return self::$instance;
 	}
   
-  /**
+  	/**
 	 * Include required core files used in admin.
 	 * 
 	 * @since     1.0.0      
@@ -107,8 +103,13 @@ class Stock_Manager_Admin {
 	 * @return    null    Return early if no settings page is registered.
 	 */
 	public function enqueue_admin_styles() {
-    if( isset( $_GET['page'] ) && ( $_GET['page'] == 'stock-manager' || $_GET['page'] == 'stock-manager-import-export' ) ){
+    if( isset( $_GET['page'] ) && ( $_GET['page'] == 'stock-manager' || $_GET['page'] == 'stock-manager-import-export' || $_GET['page'] == 'stock-manager-log' ) ){
 			wp_enqueue_style( $this->plugin_slug .'-admin-styles', plugins_url( 'assets/css/admin.css', __FILE__ ), array(), Stock_Manager::VERSION );
+
+			$old_styles = get_option( 'woocommerce_stock_old_styles' );
+			if( !empty( $old_styles ) && $old_styles == 'ok' ){
+				wp_enqueue_style( $this->plugin_slug .'-old-styles', plugins_url( 'assets/css/old.css', __FILE__ ), array(), Stock_Manager::VERSION );				
+			}
 		}
 	}
 
@@ -126,6 +127,41 @@ class Stock_Manager_Admin {
 			);
 			wp_localize_script( $this->plugin_slug . '-admin-script', 'ajax_object', $params );
 			wp_enqueue_script( $this->plugin_slug . '-admin-script', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery' ), Stock_Manager::VERSION );
+
+			wp_enqueue_style( $this->plugin_slug .'-admin-script-react', plugins_url( 'assets/build/index.css', __FILE__ ), array(), Stock_Manager::VERSION );
+			wp_enqueue_script( $this->plugin_slug . '-admin-script-react', plugins_url( 'assets/build/index.js', __FILE__ ), array( 'wp-polyfill', 'wp-i18n', 'wp-url' ), Stock_Manager::VERSION );
+			wp_localize_script( $this->plugin_slug . '-admin-script-react', 'WooCommerceStockManagerPreloadedState', array(
+				'app'=> [
+					'textDomain' => $this->plugin_slug,
+					'root' => esc_url_raw(rest_url()),
+					'adminUrl' => admin_url(),
+					'nonce' => wp_create_nonce('wp_rest'),
+					'perPage' => apply_filters('woocommerce_stock_manager_per_page', 50),
+				],
+				'product-categories' => array_reduce(get_terms(['taxonomy' => 'product_cat', 'hide_empty' => false]), function($carry, $item) {
+					$carry[$item->term_id] = $item->name;
+					return $carry;
+				}, []),
+				'product-types' => wc_get_product_types(),
+				'stock-status-options' => wc_get_product_stock_status_options(),
+				'shipping-classes' => array_reduce(get_terms(['taxonomy' => 'product_shipping_class', 'hide_empty' => false]), function($carry, $item) {
+					$carry[$item->slug] = $item->name;
+					return $carry;
+				}, []),
+				'tax-classes' => wc_get_product_tax_class_options(),
+				'tax-statuses' => [
+					'taxable' => __('Taxable', 'stock-manager'),
+					'shipping' => __('Shipping only', 'stock-manager'),
+					'none' => _x('None', 'Tax status', 'stock-manager'),
+				],
+				'backorders-options' => [
+					'no' => __('No','stock-manager'),
+					'notify' => __('Notify','stock-manager'),
+					'yes' => __('Yes','stock-manager'),
+				],
+			));
+
+			wp_set_script_translations( $this->plugin_slug . '-admin-script-react', 'stock-manager', STOCKDIR . 'languages' );
 		}
 	}
 
@@ -140,7 +176,7 @@ class Stock_Manager_Admin {
 
 		$manage = apply_filters( 'stock_manager_manage', $value );
 
-		add_menu_page(
+		$hook = add_menu_page(
 			__( 'WooCommerce Stock Manager', $this->plugin_slug ),
 			__( 'WooCommerce Stock Manager', $this->plugin_slug ),
 			$manage,
@@ -148,6 +184,13 @@ class Stock_Manager_Admin {
 			array( $this, 'display_plugin_admin_page' ),
 			'dashicons-book-alt'
 		);
+
+		// Show screen option for React App
+		add_action('load-' . $hook, function() {
+			add_filter('screen_options_show_screen', function () {
+				return true;
+			});
+		});
     	
     	add_submenu_page(
 			'stock-manager',
@@ -157,7 +200,14 @@ class Stock_Manager_Admin {
 			'stock-manager-import-export',
 			array( $this, 'display_import_export_page' )
 		);
-		
+		add_submenu_page(
+			'stock-manager',
+      		__( 'Stock log', $this->plugin_slug ),
+			__( 'Stock log', $this->plugin_slug ),
+			$manage,
+			'stock-manager-log',
+			array( $this, 'display_log_page' )
+		);
 		add_submenu_page(
 			'stock-manager',
       		__( 'Setting', $this->plugin_slug ),
@@ -194,6 +244,19 @@ class Stock_Manager_Admin {
 	 */
 	public function display_setting_page() {
 		include_once( 'views/setting.php' );
+	}
+
+	/**
+	 * Render the setting page for this plugin.
+	 *
+	 * @since    2.0.0
+	 */
+	public function display_log_page() {
+		if( !empty( $_GET['history'] ) ){
+			include_once( 'views/log-history.php' );
+		}else{
+			include_once( 'views/log.php' );
+		}
 	}
 
 	/**
@@ -318,9 +381,9 @@ class Stock_Manager_Admin {
 	 * Headers allready sent fix
 	 *
 	 */        
-  public function output_buffer() {
+  	public function output_buffer() {
 		ob_start();
-  } 
+  	} 
   
 
 }//End class

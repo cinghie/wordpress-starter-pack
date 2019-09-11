@@ -345,16 +345,6 @@ div.colw {
 	padding: 5px;
 }
 
-div.col2w {
-	float: left;
-	padding: 10px 2px;
-	width: 20%;
-}
-
-div.col1w {
-	width: 13%;
-}
-
 div.edit-values-row {
 	float: left;
 	margin: 20px 10px 10px 30px;
@@ -405,12 +395,6 @@ span.combined-field-row {
 	float: left;
 }
 
-input#add-new-feed-button {
-	clear: both;
-	float: left;
-	margin-top: 15px;
-}
-
 input.free-category-text-input {
 	width: 90%;
 }
@@ -420,6 +404,7 @@ div.button-wrapper {
 }
 
 .button-primary {
+	margin-top: 15px !important;
 	margin-right: 5px !important;
 }
 

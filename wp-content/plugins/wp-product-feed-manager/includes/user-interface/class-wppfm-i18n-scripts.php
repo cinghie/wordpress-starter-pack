@@ -27,12 +27,14 @@ if ( ! class_exists( 'WPPFM_i18n_Scripts' ) ) :
 		public static function wppfm_feed_settings_i18n() {
 			$pars = array(
 				'prohibited_feed_name_characters'  => esc_html__( 'You are using characters in your file name that are not allowed!', 'wp-product-feed-manager' ),
+				'invalid_url'                      => esc_html__( 'The url you entered is invalid. Please try again', 'wp-product-feed-manager' ),
 				'save_data_failed'                 => esc_html__( 'Saving the data to the database has failed! Please try again.', 'wp-product-feed-manager' ),
 				'no_category_required'             => esc_html__( 'no category required', 'wp-product-feed-manager' ),
 				'no_feed_generated'                => esc_html__( 'no feed generated', 'wp-product-feed-manager' ),
 				'feed_started'                     => esc_html__( 'Started processing your feed in the background.', 'wp-product-feed-manager' ),
 				'feed_queued'                      => esc_html__( 'Pushed the feed into the background queue. Processing starts after all other feeds are processed.', 'wp-product-feed-manager' ),
 				'feed_writing_error'               => esc_html__( 'Error writing the feed. You do not have the correct authorities to write the file.', 'wp-product-feed-manager' ),
+				'feed_initiation_error'            => esc_html__( 'Error generating the feed. Feed generation initialization failed. Please check your error logs for more information about the issue.', 'wp-product-feed-manager' ),
 				/* translators: %xmlResult%: a string containing the error message */
 				'feed_general_error'               => esc_html__( 'Generating the feed has failed! Error return code = %xmlResult%', 'wp-product-feed-manager' ),
 				/* translators: %feedname%: name of the feed */
@@ -224,6 +226,7 @@ if ( ! class_exists( 'WPPFM_i18n_Scripts' ) ) :
 			$pars['and']                   = esc_html__( 'and', 'wp-product-feed-manager' );
 			$pars['all_products_included'] = esc_html__( 'All products from the selected Shop Categories will be included in the feed', 'wp-product-feed-manager' );
 			$pars['list_duplicate']        = esc_html__( 'Duplicate', 'wp-product-feed-manager' );
+			$pars['list_regenerate']       = esc_html__( 'Regenerate', 'wp-product-feed-manager' );
 			$pars['list_delete']           = esc_html__( 'Delete', 'wp-product-feed-manager' );
 			$pars['ok']                    = esc_html__( 'Ready (auto)', 'wp-product-feed-manager' );
 		}

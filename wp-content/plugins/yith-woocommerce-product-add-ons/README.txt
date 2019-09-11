@@ -3,8 +3,8 @@
 Contributors: yithemes
 Tags: woocommerce, woocommerce product add-ons, woocommerce product add ons, woocommerce advanced product option, product add ons, product add-ons, option, radio, checkbox, text, woocommerce product addons
 Requires at least: 4.5
-Tested up to: 5.1
-Stable tag: 1.5.18
+Tested up to: 5.2
+Stable tag: 1.5.21
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,11 +51,59 @@ You must enable the dependency on the option you are interested in by inserting 
 
 == Changelog ==
 
-= 1.5.18 - Apr 24, 2019 =
+= 1.5.21 - Aug 12, 2019 =
+
+* New: WooCommerce 3.7 support
+* New: 7up themes compatibility
+* Update: YIT Plugin Framework
+* Fix: Keypress problem
+* Fix: AND operator
+* Fix: All add-ons collapses by default
+* Fix: Minor bugs
+
+= 1.5.20 - Jun 27, 2019 =
+
+* New: WC Embed Product support
+* New: Replace image method for Divi theme
+* New: Option to disable the "labels" features
+* New: Option to enable again the "add to cart" feature in loop
+* New: Alternate collapse feature
+* Update: YIT Plugin Framework 3.3.5
+* Fix: WooCommerce attribute name conflict
+* Fix: Cart numeric price error
+* Fix: File validation with Request a Quote plugin
+* Fix: Options position
+* Fix: First X free options feature
+* Fix: Replacing image size
+* Fix: jQuery UI filter
+* Fix: QuickView Pro support
+* Fix: Minor bugs
+
+= 1.5.19 - May 28, 2019 =
+
+* New: WordPress 5.2 support
+* Update: Italian language
+* Update: YIT Plugin Framework 3.2.1
+* Fix: Calculate quantity by values amount
+* Fix: Request a Quote error message
+* Fix: Undefined offset notice
+* Fix: Minor bugs
+
+= 1.5.18 - Apr 11, 2019 =
 
 * New: WordPress 5.1 support
 * New: WooCommerce 3.6 support
-* Update: YIT Plugin Framework 3.1.29
+* New: WooCommerce bundle products support
+* New: Filter to change the add-ons title HTML tag
+* New: Scroll product page when required options are not selected
+* New: "Replace Image" method sent by the customer Paul McWalters
+* Update: YIT Plugin Framework 3.1.28
+* Dev: Tax included string
+* Fix: Collapsed feature in Quick View
+* Fix: Add-ons negative percentage values and variations
+* Fix: Missing description-field.php template notice
+* Fix: Image replacement
+* Fix: Options images size
 * Fix: Minor bugs
 
 = 1.5.17 - Feb 20, 2019 =
@@ -118,6 +166,8 @@ You must enable the dependency on the option you are interested in by inserting 
 * New: WooCommerce 3.5 support
 * Update: YIT Plugin Framework 3.0.24
 * Dev: New "wapo_print_option_price" filter
+* Fix: Hide Label option in add-ons type "labels" and "multi labels"
+* Fix: Required "select" add-ons
 * Fix: Add-on types in "new" form
 * Fix: Minor bugs
 
@@ -134,12 +184,6 @@ You must enable the dependency on the option you are interested in by inserting 
 * Update: YIT Plugin Framework 3.0.23
 * Update: Language files
 * Fix: Missing options problem
-* Fix: Minor bugs
-
-= 1.5.8.1 - Sep 17, 2018 =
-
-* Fix: Missing options after the new update
-* Fix: Premium tab
 * Fix: Minor bugs
 
 = 1.5.8 - Sep 14, 2018 =

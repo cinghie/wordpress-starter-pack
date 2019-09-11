@@ -11,26 +11,6 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 $all_forms = PPOM() -> get_product_meta_all();
 ?>
 
-<div class="text-center ppom-import-export-block ppom-meta-card-block" style="display: none">
-	
-	<h3><?php _e( 'Import PPOM Meta', "ppom"); ?></h3>
-	
-	<form method="post" action="admin-post.php" enctype="multipart/form-data">
-		<input type="hidden" name="action" value="ppom_import_meta" />
-		<label for="file-upload" class="btn btn-success">
-			<span><?php _e( 'Choose a file…', "ppom"); ?></span>
-			<input id="file-upload" type="file" name="ppom_csv" style="display: none;">
-		</label>
-		<input type="submit" class="btn btn-primary" value="<?php _e( 'Import Meta', "ppom"); ?>">
-	</form>
-
-	<div class="text-right ppom-cancle-import-export-wrap">
-		<button class="btn btn-danger ppom-cancle-import-export-btn"><?php _e( 'Cancel', "ppom"); ?></button>
-	</div>
-
-	<div class="clear" ></div>
-</div>
-
 <div class="wrapper">
 	<h2 class="ppom-heading-style"><?php _e( 'PPOM Meta List', "ppom"); ?></h2>
 </div>

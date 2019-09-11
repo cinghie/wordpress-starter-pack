@@ -47,9 +47,9 @@ if ( !class_exists( 'YITH_YWRAQ_Frontend' ) ) {
         public function __construct() {
 
             //start the session
-            if ( !session_id() ) {
-                session_start();
-            }
+	        if ( ! headers_sent() && ! session_id() ) {
+		        session_start();
+	        }
 
             add_action( 'wp_loaded', array( $this, 'update_raq_list' ) );
 

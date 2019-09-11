@@ -24,7 +24,6 @@
 		$option5['sfsi_rssIcon_order']		=> 'rss',
 		$option5['sfsi_emailIcon_order']	=> 'email',
 		$option5['sfsi_facebookIcon_order']	=> 'facebook',
-		$option5['sfsi_googleIcon_order']	=> 'google',
 		$option5['sfsi_twitterIcon_order']	=> 'twitter',
 		$option5['sfsi_youtubeIcon_order']	=> 'youtube',
 		$option5['sfsi_pinterestIcon_order']=> 'pinterest',
@@ -70,9 +69,6 @@
 														: '';
 	$option5['sfsi_facebook_MouseOverText'] 	= 	(isset($option5['sfsi_facebook_MouseOverText']))
 														? sanitize_text_field($option5['sfsi_facebook_MouseOverText'])
-														: '';
-	$option5['sfsi_google_MouseOverText'] 		= 	(isset($option5['sfsi_google_MouseOverText']))
-														? sanitize_text_field($option5['sfsi_google_MouseOverText'])
 														: '';
 	$option5['sfsi_linkedIn_MouseOverText'] 	= 	(isset($option5['sfsi_linkedIn_MouseOverText']))
 														? sanitize_text_field($option5['sfsi_linkedIn_MouseOverText'])
@@ -128,97 +124,59 @@
             	 <li class="rss_section" data-index="<?php echo $index; ?>" id="sfsi_rssIcon_order">
                 	<a href="#" title="RSS"><img src="<?php echo SFSI_PLUGURL; ?>images/rss.png" alt="RSS" /></a>
                  </li>
-          <?php break; ?>
-          
-		  <?php case 'email' :?>
+          <?php break; ?><?php case 'email' :?>
           		<li class="email_section " data-index="<?php echo $index; ?>" id="sfsi_emailIcon_order">
                 	<a href="#" title="Email"><img src="<?php echo SFSI_PLUGURL; ?>images/<?php echo $email_image; ?>" alt="Email" class="icon_img" /></a>
                 </li>
-          <?php break; ?>
-          
-		  <?php case 'facebook' :?>
+          <?php break; ?><?php case 'facebook' :?>
           		<li class="facebook_section " data-index="<?php echo $index; ?>" id="sfsi_facebookIcon_order">
                 	<a href="#" title="Facebook"><img src="<?php echo SFSI_PLUGURL; ?>images/facebook.png" alt="Facebook" /></a>
                 </li>
-          <?php break; ?>
-          
-          <?php case 'google' :?>
-          		<li class="google_section " data-index="<?php echo $index; ?>" id="sfsi_googleIcon_order">
-                	<a href="#" title="Google Plus" ><img src="<?php echo SFSI_PLUGURL; ?>images/google_plus.png" alt="Google Plus" /></a>
-                </li>
-          <?php break; ?>
-          
-          <?php case 'twitter' :?>
+          <?php break; ?><?php case 'twitter' :?>
           		<li class="twitter_section " data-index="<?php echo $index; ?>" id="sfsi_twitterIcon_order">
                 	<a href="#" title="Twitter" ><img src="<?php echo SFSI_PLUGURL; ?>images/twitter.png" alt="Twitter" /></a>
                 </li>
-          <?php break; ?>
-          
-          <?php case 'youtube' :?>
+          <?php break; ?><?php case 'youtube' :?>
           		<li class="youtube_section " data-index="<?php echo $index; ?>" id="sfsi_youtubeIcon_order">
                 	<a href="#" title="YouTube" ><img src="<?php echo SFSI_PLUGURL; ?>images/youtube.png" alt="YouTube" /></a>
                 </li>
-          <?php break; ?>
-          
-          <?php case 'pinterest' :?>
+          <?php break; ?><?php case 'pinterest' :?>
           		<li class="pinterest_section " data-index="<?php echo $index; ?>" id="sfsi_pinterestIcon_order">
                 	<a href="#" title="Pinterest" ><img src="<?php echo SFSI_PLUGURL; ?>images/pinterest.png" alt="Pinterest" /></a>
                 </li>
-          <?php break; ?>
-                
-          <?php case 'linkedin' :?>
+          <?php break; ?><?php case 'linkedin' :?>
           		<li class="linkedin_section " data-index="<?php echo $index; ?>" id="sfsi_linkedinIcon_order">
                 	<a href="#" title="Linked In" ><img src="<?php echo SFSI_PLUGURL; ?>images/linked_in.png" alt="Linked In" /></a>
                 </li>
-          <?php break; ?>
-          
-          <?php case 'instagram' :?>
+          <?php break; ?><?php case 'instagram' :?>
           		<li class="instagram_section " data-index="<?php echo $index; ?>" id="sfsi_instagramIcon_order">
                 	<a href="#" title="Instagram" ><img src="<?php echo SFSI_PLUGURL; ?>images/instagram.png" alt="Instagram" /></a>
                 </li>
-		  <?php break; ?>
-		  
-		  <?php case 'telegram' :?>
+		  <?php break; ?><?php case 'telegram' :?>
           		<li class="telegram_section " data-index="<?php echo $index; ?>" id="sfsi_telegramIcon_order">
                 	<a href="#" title="telegram" ><img src="<?php echo SFSI_PLUGURL; ?>images/icons_theme/default/default_telegram.png" height="54px;" alt="telegram" /></a>
                 </li>
-		  <?php break; ?>
-		  
-		  <?php case 'vk' :?>
+		  <?php break; ?><?php case 'vk' :?>
           		<li class="vk_section " data-index="<?php echo $index; ?>" id="sfsi_vkIcon_order">
                 	<a href="#" title="vk" ><img src="<?php echo SFSI_PLUGURL; ?>images/icons_theme/default/default_vk.png" height="54px;" alt="vk" /></a>
                 </li>
-		  <?php break; ?>
-		  
-		  <?php case 'ok' :?>
+		  <?php break; ?><?php case 'ok' :?>
           		<li class="ok_section " data-index="<?php echo $index; ?>" id="sfsi_okIcon_order">
                 	<a href="#" title="ok" ><img src="<?php echo SFSI_PLUGURL; ?>images/icons_theme/default/default_ok.png" height="54px;" alt="ok" /></a>
                 </li>
-		  <?php break; ?>
-		  
-		  <?php case 'weibo' :?>
+		  <?php break; ?><?php case 'weibo' :?>
           		<li class="weibo_section " data-index="<?php echo $index; ?>" id="sfsi_weiboIcon_order">
                 	<a href="#" title="weibo" ><img src="<?php echo SFSI_PLUGURL; ?>images/icons_theme/default/default_weibo.png" height="54px;" alt="weibo" /></a>
                 </li>
-		  <?php break; ?>
-
-		  <?php case 'wechat' :?>
+		  <?php break; ?><?php case 'wechat' :?>
           		<li class="wechat_section " data-index="<?php echo $index; ?>" id="sfsi_wechatIcon_order">
                 	<a href="#" title="wechat" ><img src="<?php echo SFSI_PLUGURL; ?>images/icons_theme/default/default_wechat.png" height="54px;" alt="wechat" /></a>
                 </li>
-		  <?php break; ?>
-          
-
-          
-          <?php default   :?>
-          		<?php if(isset($icons[$icn['ele']]) && !empty($icons[$icn['ele']]) && filter_var($icons[$icn['ele']], FILTER_VALIDATE_URL) ): ?>
+		  <?php break; ?><?php default   :?><?php if(isset($icons[$icn['ele']]) && !empty($icons[$icn['ele']]) && filter_var($icons[$icn['ele']], FILTER_VALIDATE_URL) ): ?>
           		<li class="custom_iconOrder sfsiICON_<?php echo $icn['ele']; ?>" data-index="<?php echo $index; ?>" element-id="<?php echo $icn['ele']; ?>" >
                 	<a href="#" title="Custom Icon" ><img src="<?php echo $icons[$icn['ele']]; ?>" alt="Linked In" class="sfcm" /></a>
                 </li> 
-                <?php endif; ?>
-          <?php break; ?>
-         <?php  endswitch; ?>   
-    <?php endforeach; ?> 
+                <?php endif; ?><?php break; ?><?php  endswitch; ?><?php endforeach; ?> 
      
     </ul> <!-- END icon drag drop section start here -->
     
@@ -252,7 +210,7 @@
 		</div>
 		<span>Icons per row:</span>
 		<input name="sfsi_icons_perRow" type="text" value="<?php echo ($option5['sfsi_icons_perRow']!='') ?  $option5['sfsi_icons_perRow'] : '' ;?>" />
-		<ins class="leave_empty">Leave empty if you dont want to <br /> define this</ins>
+		<ins class="leave_empty">Leave empty if you don't want to <br /> define this</ins>
 	</div>
 
     <div class= "sfsi_new_prmium_follw" style="margin-top: 38px;">
@@ -263,7 +221,8 @@
     
     <div class="row new_wind">
 		<h4>New window</h4>
-		<div class="row_onl"><p>If user clicks on your icons, do you want to open the page in a new window?</p>
+		<div class="row_onl"><p>If a user clicks on your icons, do you want to open the page in a new window?
+		</p>
 			<ul class="enough_waffling">
 		    	<li>
 		    		<input name="sfsi_icons_ClickPageOpen" <?php echo ($option5['sfsi_icons_ClickPageOpen']=='yes') ?  'checked="true"' : '' ;?> type="radio" value="yes" class="styled"  />
@@ -290,7 +249,7 @@
   
   <div class="space">
     
-    <p class="list">Make icons stick ?</p>
+    <p class="list">Make icons stick?</p>
 
     <ul class="enough_waffling">
   		
@@ -310,7 +269,7 @@
 		If you select «Yes» here, then the icons which you placed via <span style="text-decoration: underline;"><b>widget</b></span> or <span style="text-decoration: underline;"><b>shortcode</b></span> will still be visible on the screen as user scrolls down your page, i.e. they will stick at the top.</p> 
 
 	<p>
-		This is not to be confused with making the icons permanently placed at the same position, which is possible in the <a target="_blank" href="https://www.ultimatelysocial.com/usm-premium"><b>Premium Plugin</b></a>.
+		This is not to be confused with making the icons permanently placed in the same position, which is possible in the <a target="_blank" href="https://www.ultimatelysocial.com/usm-premium"><b>Premium Plugin</b></a>.
 	</p> 
 
   </div>
@@ -323,7 +282,7 @@
 <div class="row sfsi_custom_social_data_setting" id="custom_social_data_setting">
 
 		<h4>Sharing texts & pictures?</h4>
-		<p>On the pages where you edit your posts / pages you’ll see a (new) section where you can define which pictures & text should be shared. This extra section is displayed on the following:</p>		
+		<p>On the pages where you edit your posts/pages, you’ll see a (new) section where you can define which pictures & text should be shared. This extra section is displayed on the following:</p>		
 
 			<?php 
 				$checkedS   = (isset($option5['sfsi_custom_social_hide']) && $option5['sfsi_custom_social_hide']=="yes") ? 'checked="checked"': '';	
@@ -391,10 +350,6 @@ here what text will be displayed if a user moves his mouse over the icon:
 		</div>
 		</div>
 		<div class="clear">
-		<div class="mouseover_field google_section">
-			<label>Google:</label>
-			<input name="sfsi_google_MouseOverText" value="<?php echo ($option5['sfsi_google_MouseOverText']!='') ?  $option5['sfsi_google_MouseOverText'] : '' ;?>"  type="text" />
-		</div>
 		<div class="mouseover_field linkedin_section">
 			<label>LinkedIn:</label>
 			<input name="sfsi_linkedIn_MouseOverText" value="<?php echo ($option5['sfsi_linkedIn_MouseOverText']!='') ?  $option5['sfsi_linkedIn_MouseOverText'] : '' ;?>"  type="text" />
@@ -445,8 +400,7 @@ here what text will be displayed if a user moves his mouse over the icon:
         	<?php 
                 $sfsiMouseOverTexts =  unserialize($option5['sfsi_custom_MouseOverTexts']);
                 $count = 1; for($i=$first_key; $i <= $endkey; $i++) :
-            ?>
-            <?php if(!empty( $icons[$i])) : ?>
+            ?><?php if(!empty( $icons[$i])) : ?>
                 
                 <div class="mouseover_field custom_section sfsiICON_<?php echo $i; ?>">
                     <label>Custom <?php echo $count; ?>:</label>
@@ -456,8 +410,7 @@ here what text will be displayed if a user moves his mouse over the icon:
                 <?php if($count%2==0): ?>
                 
                 <div class="clear"> </div>  
-            <?php endif; ?>
-            <?php $count++; endif; endfor; ?>
+            <?php endif; ?><?php $count++; endif; endfor; ?>
 		</div>
 		
 	</div>
@@ -482,8 +435,6 @@ here what text will be displayed if a user moves his mouse over the icon:
     </div>
 
 	<?php sfsi_ask_for_help(5); ?>
-
-
     <!-- SAVE BUTTON SECTION   --> 
     <div class="save_button">
          <img src="<?php echo SFSI_PLUGURL ?>images/ajax-loader.gif" class="loader-img" />

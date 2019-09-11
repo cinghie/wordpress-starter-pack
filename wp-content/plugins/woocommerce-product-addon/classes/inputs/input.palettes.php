@@ -51,6 +51,11 @@ class NM_Palettes_wooproduct extends PPOM_Inputs{
 					'title' => __ ( 'Error message', 'ppom' ),
 					'desc' => __ ( 'Insert the error message for validation.', 'ppom' ) 
 			),
+			'selected_palette_bcolor' => array (
+					'type' => 'text',
+					'title' => __ ( 'Selected Border Color', 'ppom' ),
+					'desc' => __ ( 'Change selected palette border color, e.g: #fff', 'ppom' )
+			),
 			'class' => array (
 					'type' => 'text',
 					'title' => __ ( 'Class', 'ppom' ),
@@ -64,7 +69,7 @@ class NM_Palettes_wooproduct extends PPOM_Inputs{
 					'default'	=> 12,
 			),
 			'options' => array (
-						'type' => 'paired',
+						'type' => 'paired-palettes',
 						'title' => __ ( 'Add colors', 'ppom' ),
 						'desc' => __ ( 'Type color code with price (optionally). To write label, use #colorcode - White', 'ppom' )
 			),

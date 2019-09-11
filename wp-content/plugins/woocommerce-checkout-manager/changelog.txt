@@ -1,0 +1,25 @@
+Fifteen ( 15 ) fields types included: Text Input, Text Area, Password, Radio Button, Check Box, Select Options, Date Picker, Time Picker, Color Picker, Heading, Multi-Select, Multi-Checkbox, Country, State, File Picker.
+
+Compatible with WPML, WooCommerce Print Invoice & Delivery Note, Store Exporter Deluxe, WooCommerce Order/Customer CSV Export.
+
+Sort Orders by Field Name.
+Export Orders by Field Name.
+
+Create fields to remove tax
+Create fields to add additional amount
+Display Payment Method and Shipping Method used by customer.
+Disable any added field from Checkout details page and Order Receipt.
+
+DatePicker: Change the default format (dd-mm-yy), Set Minimum Date and Maximum Date, Disable days in the week (Sun – Sat).
+TimePicker: Includes restriction of both start and end hours, set the minutes interval and manually input labels.
+Display Order Time.
+
+Re-position the added fields: Before Shipping Form, After Shipping Form, Before Billing Form, After Billing Form or After Order Notes
+
+= 4.4.0 Beta =
+* Improvement: woocommerce order upload rebuilt
+* Improvement: woocommerce checkout upload rebuilt 
+* Improvement: woocommerce order admin upload rebuilt
+* Improvement: woocommerce register fields rebuilt 
+* Improvement: woocommerce register fields rebuilt 
+* Fix: woocommerce checkout additional fields required

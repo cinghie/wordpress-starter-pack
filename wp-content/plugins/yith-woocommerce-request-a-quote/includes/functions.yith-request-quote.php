@@ -274,6 +274,10 @@ if ( !function_exists( 'yith_ywraq_add_notice' ) ) {
 	function yith_ywraq_add_notice( $message, $notice_type = 'success' ) {
 
 		$session = YITH_Request_Quote()->session_class;
+		if ( ! $session ) {
+			return;
+		}
+
 		$notices = $session->get( 'yith_ywraq_notices', array() );
 
 		// Backward compatibility

@@ -9,7 +9,6 @@ if( ! defined("ABSPATH") ) die("Not Allowed");
 // ppom_pa($ppom_fields_meta);
 $ppom_id = is_array($ppom_id) ? implode(',', $ppom_id) : $ppom_id;
 
-// echo '<input type="hidden" name="woo_option_price">';	// it will be populated while dynamic prices set in script.js
 echo '<input type="hidden" id="ppom_product_price" value="'.esc_attr($product->get_price()).'">';	// it is setting price to be used for dymanic prices in script.js
 echo '<input type="hidden" name="ppom[fields][id]" id="ppom_productmeta_id" value="'.esc_attr($ppom_id).'">';
 echo '<input type="hidden" name="ppom_product_id" id="ppom_product_id" value="'.esc_attr(ppom_get_product_id($product)).'">';
@@ -156,25 +155,31 @@ foreach( $ppom_fields_meta as $meta ) {
 	// Form row
 
 		$input_wrapper_class = $data_name;
-		// Collapse Fields
-		if( apply_filters('ppom_collapse_fields', false) ) {
-			if( $type == 'section') {
-				
-				// if section started close it first
-				if( $section_started ) {
-					echo '<div style="clear:both"></div>';
-					echo '</div>';
-				}
-				
-				$field_html	= isset($meta['html']) ? $meta['html'] : '';
-				
-				// echo '<div class="ppom-section-collapse">';
-        		echo '<h4 class="ppom-collapsed-title">'.$field_html.'</h4>';
-        		echo '<div class="collapsed-child">';
-        		// $input_wrapper_class .=' ';
-				$section_started = true;
+
+		// Collapse Fields Section
+		if( $type == 'collapse' ) {
+
+			$collapse_type	= isset($meta['collapse_type']) ? $meta['collapse_type'] : '';
+
+			if( $section_started ) {
+				echo '<div class="ppom-loop-fields" style="clear:both"></div>';
+				echo '</div>';
 			}
+
+			if ($collapse_type == 'end') {
+				echo '<div class="ppom-collapsed-child-end">';
+			}
+
+			if ($collapse_type != 'end' ) {
+    			echo '<h4 data-collapse-id="'.esc_attr($data_name).'" class="ppom-collapsed-title">'.$title.'</h4>';
+    			echo '<div class="collapsed-child">';
+			}
+				
+			$section_started = true;
 		}
+
+		// skip collapse div
+		if ($type == 'collapse') continue;
 		
 		
         echo '<div data-data_name='.esc_attr($data_name).' class="ppom-field-wrapper ppom-col col-md-'.esc_attr($col).' '.esc_attr($input_wrapper_class).'">';
@@ -195,6 +200,10 @@ foreach( $ppom_fields_meta as $meta ) {
                 	$max	= isset( $meta['max'] ) ? $meta['max'] : '';
                 	$step	= isset( $meta['step'] ) ? $meta['step'] : '';
                 	
+                	// Masking
+                	$mask	= isset( $meta['input_mask'] ) ? $meta['input_mask'] : '';
+                	$regex	= isset( $meta['use_regex'] ) ? $meta['use_regex'] : '';
+                	
                 	$default_value = strip_tags($default_value);
                 	
                     $ppom_field_setting = array(  
@@ -210,6 +219,8 @@ foreach( $ppom_fields_meta as $meta ) {
                                     'step'		=> $step,
                                     'placeholder'	=> $placeholder,
                                     'autocomplete' => "false",
+                                    'use_regex'	=> $regex,
+                                    'input_mask'=> $mask,
                                     );
                                     
                     
@@ -302,7 +313,10 @@ foreach( $ppom_fields_meta as $meta ) {
 					
 				case 'select':
                 	
-                	$options = ppom_convert_options_to_key_val($options, $meta, $product);
+                	$option_process = array();
+                	$option_process = ppom_convert_options_to_key_val($options, $meta, $product);
+                		
+					// ppom_pa($option_process);
                 	$onetime = isset($meta['onetime']) ? $meta['onetime'] : '';
                 	$taxable = (isset( $meta['onetime_taxable'] ) ? $meta['onetime_taxable'] : '' );
                 	
@@ -314,7 +328,7 @@ foreach( $ppom_fields_meta as $meta ) {
                                   'label'     => $field_label,
                                   'title'		=> $title,
                                   'attributes'=> $ppom_field_attributes,
-					              'options'   => $options,
+					              'options'   => $option_process,
 					              'onetime'		=> $onetime,
 					              'taxable'		=> $taxable,
 					              );
@@ -375,7 +389,7 @@ foreach( $ppom_fields_meta as $meta ) {
 					break;
 					
 				case 'palettes':
-					
+					// ppom_pa($meta);
 					$options = ppom_convert_options_to_key_val($options, $meta, $product);
 					$color_width = !empty($meta['color_width']) ? intval($meta['color_width']) : 50;
     				$color_height = !empty($meta['color_height']) ? intval($meta['color_height']) : 50;
@@ -383,6 +397,12 @@ foreach( $ppom_fields_meta as $meta ) {
                 	$taxable		= (isset( $meta['onetime_taxable'] ) ? $meta['onetime_taxable'] : '' );
                 	$display_circle	= (isset($meta['circle']) && $meta['circle'] == 'on') ? true : false;
                 	$multiple_allowed	= isset($meta['multiple_allowed']) ? $meta['multiple_allowed'] : '';
+                	
+                	if (isset($meta['selected_palette_bcolor']) && $meta['selected_palette_bcolor'] != '') {
+						$selected_palette_bcolor = $meta['selected_palette_bcolor'];
+					}else{
+						$selected_palette_bcolor = '#000';
+					}
                 	
 					$ppom_field_setting = array(  
                     				'id'        => $data_name,
@@ -398,6 +418,7 @@ foreach( $ppom_fields_meta as $meta ) {
 					            	'taxable'		=> $taxable,
 					            	'display_circle'	=> $display_circle,
 					            	'multiple_allowed' => $multiple_allowed,
+					            	'selected_palette_bcolor' => $selected_palette_bcolor,
                                     
                                     );
                     
@@ -406,9 +427,16 @@ foreach( $ppom_fields_meta as $meta ) {
                 	break;
                 	
             	case 'image':
-					
+					// ppom_pa($meta);
 					$images	= isset($meta['images']) ? $meta['images'] : array();
 					$show_popup	= isset($meta['show_popup']) ? $meta['show_popup'] : '';
+
+					if (isset($meta['selected_img_bordercolor']) && $meta['selected_img_bordercolor'] != '') {
+						$selected_img_bordercolor = $meta['selected_img_bordercolor'];
+					}else{
+						$selected_img_bordercolor = '#f00';
+					}
+
 					$multiple_allowed	= isset($meta['multiple_allowed']) ? $meta['multiple_allowed'] : '';
 					
 					$ppom_field_setting = array(  
@@ -417,6 +445,7 @@ foreach( $ppom_fields_meta as $meta ) {
                                     'name'      => "ppom[fields][{$data_name}]",
                                     'classes'   => $classes,
                                     'label'     => $field_label,
+                                    'selected_img_bordercolor'     => $selected_img_bordercolor,
                                     'title'		=> $title,
                                     'legacy_view'	=> (isset($meta['legacy_view'])) ? $meta['legacy_view'] : '',
 									'multiple_allowed' => $multiple_allowed,
@@ -434,6 +463,7 @@ foreach( $ppom_fields_meta as $meta ) {
                 	$discount		= isset($meta['discount']) ? $meta['discount'] : '';
                 	$show_slider	= isset($meta['show_slider']) ? $meta['show_slider'] : '';
                 	$qty_step		= isset($meta['qty_step']) ? $meta['qty_step'] : 1;
+                	$hide_matrix	= isset($meta['hide_matrix_table']) ? $meta['hide_matrix_table'] : '';
                 	$show_price_per_unit		= isset($meta['show_price_per_unit']) ? $meta['show_price_per_unit'] : '';
                 	
                 	$ppom_field_setting = array(  
@@ -445,6 +475,7 @@ foreach( $ppom_fields_meta as $meta ) {
                                   'discount'  => $discount,
                                   'show_slider'	=> $show_slider,
                                   'qty_step'	=> $qty_step,
+                                  'hide_matrix'	=> $hide_matrix,
                                   'show_price_per_unit' => $show_price_per_unit,
 					              );
 					
@@ -457,6 +488,7 @@ foreach( $ppom_fields_meta as $meta ) {
                 	$view_control = (isset( $meta['view_control'] ) ? $meta['view_control'] : '' );
                 	$horizontal_layout = (isset( $meta['horizontal'] ) ? $meta['horizontal'] : '' );
                 	$include_productprice = isset($meta['use_productprice']) ? $meta['use_productprice'] : '';
+                	$default_price = isset($meta['default_price']) ? $meta['default_price'] : '';
                 	
                 	if( !empty($_GET[$data_name]) ) {
                 	
@@ -472,7 +504,8 @@ foreach( $ppom_fields_meta as $meta ) {
                                   'horizontal_layout' => $horizontal_layout,
                                   'view_control'		=> $view_control,
                                   'options'		=> $options,
-                                  'include_productprice' => $include_productprice
+                                  'include_productprice' => $include_productprice,
+                                  'default_price'	=> $default_price,
 					              );
 					
 					$ppom_field_setting = apply_filters('ppom_field_setting', $ppom_field_setting, $meta);
@@ -482,10 +515,7 @@ foreach( $ppom_fields_meta as $meta ) {
 					// Section or HTML
 					case 'section':
                 	
-                	// If step enable no need to show this:
-                	if( $section_started ) break;
-                	
-                	$field_html	= isset($meta['html']) ? $meta['html'] : '';
+                	$field_html	= isset($meta['html']) ? ppom_wpml_translate($meta['html'], 'PPOM') : '';
                 	
 					$ppom_field_setting = array(  
 								  'id'        => $data_name,
@@ -620,35 +650,8 @@ foreach( $ppom_fields_meta as $meta ) {
                 	break;
 					
 				// Fixed Price Addon
-            	case 'fixedprice':
-						
-						if( ! class_exists('NM_FixedPrice_wooproduct') ) 
-							return;
-							
-						$first_option	= isset($meta['first_option']) ? $meta['first_option'] : '';
-						$unit_plural	= isset($meta['unit_plural']) ? $meta['unit_plural'] : '';
-						$unit_single	= isset($meta['unit_single']) ? $meta['unit_single'] : '';
-						$decimal_place	= isset($meta['decimal_place']) ? $meta['decimal_place'] : '';
-						$options = ppom_convert_options_to_key_val($options, $meta, $product);
-						
-						$ppom_field_setting = array(
-								'name'			=> "",
-								'id'			=> $data_name,
-								'type'			=> $type,
-								'label'     	=> $field_label,
-								'description'	=> $description,
-								'options'		=> $options,
-								'classes'   	=> $classes,
-								'attributes'	=> $ppom_field_attributes,
-								'first_option'	=> $first_option,
-								'unit_plural'	=> $unit_plural,
-								'unit_single'	=> $unit_single,
-								'title'			=> $title,
-								'decimal_place' => $decimal_place,
-						);
-						
-						$ppom_field_setting = apply_filters('ppom_field_setting', $ppom_field_setting, $meta);
-                    	echo NMForm() -> Input($ppom_field_setting, $default_value);
+				// DEPRECATED: UPDATE TO FIXEDPRICE VERSION 18.0
+            	case 'fixedprice_DEPRECATED':
 							
 					break;
 					

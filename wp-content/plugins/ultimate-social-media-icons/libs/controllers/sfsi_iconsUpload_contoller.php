@@ -9,8 +9,6 @@ function sfsi_UploadSkins()
     }
     if(!current_user_can('manage_options')){ echo json_encode(array('res'=>'not allowed'));die(); }
 
-
-
 	$custom_imgurl = (isset($_POST['custom_imgurl']))?sanitize_text_field($_POST['custom_imgurl']):'';
 	
 	$upload_dir = wp_upload_dir();
@@ -96,15 +94,13 @@ function sfsi_DeleteSkin()
 		echo  json_encode(array('res'=>"error")); exit;
 	} 
     if(!current_user_can('manage_options')){ echo json_encode(array('res'=>'not allowed'));die(); }
-
-
 	
 	$upload_dir = wp_upload_dir();
 	
 	if(sanitize_text_field($_POST['action']) == 'DeleteSkin' && isset($_POST['iconname']) && !empty($_POST['iconname']) && current_user_can('manage_options'))
 	{
 		$iconsArray = array(
-			"rss_skin","email_skin","facebook_skin","twitter_skin","google_skin",
+			"rss_skin","email_skin","facebook_skin","twitter_skin",
 			"share_skin","youtube_skin","linkedin_skin","pintrest_skin","instagram_skin"
 		);
 		if(in_array(sanitize_text_field($_POST['iconname']), $iconsArray))
@@ -141,8 +137,6 @@ function sfsi_Iamdone()
 	}
     if(!current_user_can('manage_options')){ echo json_encode(array('res'=>'not allowed'));die(); }
 
-
-
 	 if(get_option("rss_skin"))
 	 {
 		$icon = get_option("rss_skin");
@@ -168,15 +162,6 @@ function sfsi_Iamdone()
 	 }else
 	 {
 		$return .= '<span class="row_17_3 facebook_section" style="background-position:-118px 0;"></span>';
-	 }
-	 
-	 if(get_option("google_skin"))
-	 {
-		$icon = get_option("google_skin");
-		$return .= '<span class="row_17_4 google_section sfsi-bgimage" style="background: url('.$icon.') no-repeat;"></span>';
-	 }else
-	 {
-		$return .= '<span class="row_17_4 google_section" style="background-position:-176px 0;"></span>';
 	 }
 	 
 	 if(get_option("twitter_skin"))
@@ -286,8 +271,6 @@ function sfsi_UploadIcons()
 	}
     if(!current_user_can('manage_options')){ echo json_encode(array('res'=>'not allowed'));die(); }
 
-
-
 	// extract($_POST);
 	$custom_imgurl = isset($_POST) && isset($_POST['custom_imgurl']) ? esc_url($_POST['custom_imgurl']):'';
 	
@@ -386,8 +369,6 @@ function sfsi_deleteIcons()
 		echo  json_encode(array('res'=>"error")); exit;
 	}
     if(!current_user_can('manage_options')){ echo json_encode(array('res'=>'not allowed'));die(); }
-
-
 	
    if(isset($_POST['icon_name']) && !empty($_POST['icon_name']))
    {

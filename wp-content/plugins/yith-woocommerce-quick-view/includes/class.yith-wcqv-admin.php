@@ -143,14 +143,15 @@ if ( ! class_exists( 'YITH_WCQV_Admin' ) ) {
 			$args = array(
 				'create_menu_page' => true,
 				'parent_slug'      => '',
-				'page_title'       => __( 'Quick View', 'yith-woocommerce-quick-view' ),
-				'menu_title'       => __( 'Quick View', 'yith-woocommerce-quick-view' ),
+                'page_title'       => _x( 'YITH WooCommerce Quick View', 'options page title', 'yith-woocommerce-quick-view' ),
+                'menu_title'       => _x( 'Quick View', 'plugin menu title', 'yith-woocommerce-quick-view' ),
 				'capability'       => 'manage_options',
 				'parent'           => '',
 				'parent_page'      => 'yith_plugin_panel',
 				'page'             => $this->_panel_page,
 				'admin-tabs'       => $admin_tabs,
-				'options-path'     => YITH_WCQV_DIR . '/plugin-options'
+				'options-path'     => YITH_WCQV_DIR . '/plugin-options',
+                'class'            => yith_set_wrapper_class()
 			);
 
 

@@ -4,7 +4,7 @@
 Plugin Name: WooCommerce P.IVA e Codice Fiscale per Italia
 Plugin URI: http://dot4all.it/woocommerce-inserire-codice-fiscale-partita-iva/
 Description: Il plugin che rende compatibile woocommerce per il mercato italiano.
-Version: 2.1.8
+Version: 2.1.9
 Author: dot4all
 Author URI: http://dot4all.it
 License: GPLv2 or later
@@ -58,7 +58,7 @@ class WC_Piva_Cf_Invoice_Ita {
 		include_once 'includes/class-wp-settings.php';
 		include_once 'includes/class-wcpdf-cfcheck.php';
 		$this->settings = new WC_Piva_Cf_Invoice_Ita_Setting($this);
-		if ( in_array( 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+		if ( in_array( 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || (function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php' ) )) {
 			include_once 'includes/class-wcpdf-integration.php';
 			$this->wcpdf_add_on = new wcpdf_WC_Piva_Cf_Invoice_Ita($this);
 		}
@@ -216,7 +216,7 @@ class WC_Piva_Cf_Invoice_Ita {
     }
 
 	public function billing_fields( $fields ) {
-		if ( in_array( 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+		if ( in_array( 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || (function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php' ) )) 		{
 		$fields['billing_invoice_type'] = array(
 			'label' => __('Invoice type', WCPIVACF_IT_DOMAIN),
 			'placeholder' => __( 'Invoice type', WCPIVACF_IT_DOMAIN ),
@@ -300,7 +300,8 @@ class WC_Piva_Cf_Invoice_Ita {
             'value'       => get_user_meta( get_current_user_id(), 'billing_pa_code', true )
 	        );
 		
-		if($fields['billing_invoice_type']['options']['receipt'] == null){
+		if ( !in_array( 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || (function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php' ) )) 		{
+			
 			unset($fields['billing_invoice_type']['options']['receipt']);
 			$fields['billing_invoice_type']['label'] = __('Invoice Type', WCPIVACF_IT_DOMAIN);
 		}
@@ -399,7 +400,7 @@ class WC_Piva_Cf_Invoice_Ita {
 	}
 	// def
 	public function admin_billing_field( $fields ) {
-		if ( in_array( 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+		if ( in_array( 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || (function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php' ) )) 		{
 		$fields['invoice_type'] = array(
 			'label' => __('Invoice type', WCPIVACF_IT_DOMAIN),
 			'show' => false,
@@ -450,7 +451,7 @@ class WC_Piva_Cf_Invoice_Ita {
 	}
 	/* Add fields in Edit User Page - def */
 	public function customer_meta_fields( $fields ) {
-		if ( in_array( 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+		if ( in_array( 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || (function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php' ) )) 		{
 		$fields['billing']['fields']['billing_invoice_type'] = array(
 			'label'       => __('Invoice type', WCPIVACF_IT_DOMAIN),
 			'type'        => 'select',
@@ -556,14 +557,14 @@ class WC_Piva_Cf_Invoice_Ita {
 					$address['{cf}'] =  __('Fiscal code', WCPIVACF_IT_DOMAIN) . ': ' . strtoupper( $args['cf'] );
 				case 'invoice':
 					$address['{piva}'] = __('VAT', WCPIVACF_IT_DOMAIN) . ": " . $args['country'] . strtoupper( $args['piva'] );
-					$address['{pec}'] = '';
-					$address['{pa_code}'] = '';
+					$address['{pec}'] = __('PEC', WCPIVACF_IT_DOMAIN) . ": " . $args['pec'];
+					$address['{pa_code}'] = __('PA CODE', WCPIVACF_IT_DOMAIN) . ": " .strtoupper($args['pa_code']);
 
 				case 'professionist_invoice':
 					$address['{cf}'] =  __('Fiscal code', WCPIVACF_IT_DOMAIN) . ': ' . strtoupper( $args['cf'] );
 					$address['{piva}'] = __('VAT', WCPIVACF_IT_DOMAIN) . ": " . $args['country'] . strtoupper( $args['piva'] );
-					$address['{pec}'] = '';
-					$address['{pa_code}'] = '';
+					$address['{pec}'] = __('PEC', WCPIVACF_IT_DOMAIN) . ": " . $args['pec'];
+					$address['{pa_code}'] = __('PA CODE', WCPIVACF_IT_DOMAIN) . ": " . strtoupper($args['pa_code']);
 
 			}
 		}

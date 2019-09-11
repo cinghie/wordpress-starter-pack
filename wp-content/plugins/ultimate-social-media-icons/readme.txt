@@ -1,9 +1,9 @@
-﻿=== Social Media Share Buttons & Social Sharing Icons ===
-Contributors: socialdude
+=== Social Media Share Buttons & Social Sharing Icons ===
+Contributors: socialdude, socialtech
 Tags: social media, share, buttons, social widget, icons, share icons, share buttons, sharing icons, sharing buttons, social share, sharing, social sharing
 Requires at least: 3.5
-Tested up to: 5.2
-Stable tag: 2.2.4
+Tested up to: 5.2.2
+Stable tag: 2.4.0
 License: GPLv2 
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -11,7 +11,7 @@ Share buttons and share icons plugin for social media sharing on Facebook, Twitt
 
 == Description ==
 
-Social media plugin which let's you add share icons for RSS, Email, Facebook, Twitter, LinkedIn, Google+, Pinterest, Instagram, Youtube, 'Share' (covering 200+ other social media platforms) and upload custom share icons of your choice. 
+Social media plugin which let's you add share icons for RSS, Email, Facebook, Twitter, LinkedIn, Pinterest, Instagram, Youtube, 'Share' (covering 200+ other social media platforms) and upload custom share icons of your choice. 
 
 This free plugin has a lot to offer. Even more can be found in the Premium Plugin, please watch this short video: 
 
@@ -161,9 +161,9 @@ The new Premium Plugin also allows to show the number of your Facebook page like
 
 = Sharing doesn't take the right text or picture = 
 
-We use the share codes from Facebook, Google+ etc. and therefore don't have any influence over which text & pic Facebook decides to share.
+We use the share codes from Facebook etc. and therefore don't have any influence over which text & pic Facebook decides to share.
 
-Note that you can define an image as 'Featured Image' which tells Facebook / Google etc. to share that one. You'll find this 'Featured Image' section in your blog's admin area where you can edit your blog post.
+Note that you can define an image as 'Featured Image' which tells Facebook etc. to share that one. You'll find this 'Featured Image' section in your blog's admin area where you can edit your blog post.
 
 You can crosscheck which image Facebook will take by entering your url on https://developers.facebook.com/tools/debug/og/object/.
 
@@ -274,9 +274,81 @@ You cannot use the same plugin twice, however you can install both the USM as we
 
 
 == Changelog ==
+
+= 2.4.0 =
+* Instagram generate token removed the deplicated scopes.
+* Removed some PHP update Notices.
+* Updated feed claiming apis.
+* Updated Mouseover text removed.
+
+= 2.3.9 =
+* Corrected the jQuery admin area problem
+* Solved the jQuery error for shortcode
+* Solved feed claiming
+* Option name in Q3 changed
+
+= 2.3.8 =
+* Fixed the text in theme banner.
+* Fixed follow icon and subscription box when Curl is disabled.
+* Fixed cURL errors.
+
+= 2.3.7 =
+* solved: Wrong link on icons when curl not installed.
+
+= 2.3.6 =
+* Solved: Updated Text changes. 
+
+= 2.3.5 =
+* Solved: Updated Text changes.
+
+= 2.3.4 =
+* Solved: Updated Text changes.
+* Solved: Updated link for email. 
+
+= 2.3.3 =
+* Solved: Updated the email link and subscription action. 
+
+= 2.3.2 =
+* Solved: Updated feedback system. 
+
+= 2.3.1 =
+* Solved: Updated feedback system.
+
+= 2.3.0 =
+* Solved: Errors on the footer in dashboard corected.
+* Solved: Updated logic for inclusion of external js.
+* Solved: Some grametical errors.
+* Solved: Updated feedback system.
+
+= 2.2.9 =
+* Solved: After post icons shown.
+
+= 2.2.8 =
+* Solved: Header already sent error on some servers.
+
+= 2.2.7 =
+* Solved: Updated feedback system to next version.
+* Solved: Responsive Icons UI updated.
+
+= 2.2.6 =
+
+* New Feature: Responsive icons in free plugin.
+* Solved: Icons not rendering on woocomerce product page.
+* Solved: Twitter url changed to share from intent for better reliablity.
+* Solved: Lots of little adjustments to improve the UI and functionality.
+* Solved: Removed Google Plus.
+* Solved: Stop loading unused external library code for faster load.
+* Solved: Removed curl notice while activation.
+* Solved: Fixed broken arrays and missing indexes.
+* Solved: Updated feedback system to next version.
+
+= 2.2.5 =
+* Integrated feedback system
+
 = 2.2.4 =
 * Solved: Unserialized error corrected.
 * Solved: All curl calls to wp_remote.
+* Solved: Notices in front end solved.
 
 = 2.2.3 =
 * Solved: Footer Error solved.
@@ -789,8 +861,7 @@ You cannot use the same plugin twice, however you can install both the USM as we
 = 1.0 =
 * First release
 
-
 == Upgrade Notice ==
 
-= 2.2.4 =
+= 2.4.0 =
 Please upgrade

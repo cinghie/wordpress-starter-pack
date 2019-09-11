@@ -203,16 +203,40 @@ function wppfm_number_format_parse( $number_string ) {
  * @return string
  */
 function wppfm_get_file_path( $feed_name ) {
+	$forbidden_name_chars = wppfm_forbidden_file_name_characters();
+	$feed_name            = str_replace( $forbidden_name_chars, '-', $feed_name );
+
 	// previous to plugin version 1.3.0 feeds where stored in the plugins but after that version they are stored in the upload folder
 	if ( file_exists( WP_PLUGIN_DIR . '/wp-product-feed-manager-support/feeds/' . $feed_name ) ) {
 		return WP_PLUGIN_DIR . '/wp-product-feed-manager-support/feeds/' . $feed_name;
 	} elseif ( file_exists( WPPFM_FEEDS_DIR . '/' . $feed_name ) ) {
 		return WPPFM_FEEDS_DIR . '/' . $feed_name;
 	} else { // as of version 1.5.0 all spaces in new filenames are replaced by a dash
-		$forbidden_name_chars = wppfm_forbidden_file_name_characters();
-
-		return WPPFM_FEEDS_DIR . '/' . str_replace( $forbidden_name_chars, '-', $feed_name );
+		return WPPFM_FEEDS_DIR . '/' . $feed_name;
 	}
+}
+
+/**
+ * returns the url to the feed file including feed name and extension
+ *
+ * @param string $feed_name
+ *
+ * @return string
+ */
+function wppfm_get_file_url( $feed_name ) {
+	$forbidden_name_chars = wppfm_forbidden_file_name_characters();
+	$feed_name            = str_replace( $forbidden_name_chars, '-', $feed_name );
+
+	// previous to plugin version 1.3.0 feeds where stored in the plugins but after that version they are stored in the upload folder
+	if ( file_exists( WP_PLUGIN_DIR . '/wp-product-feed-manager-support/feeds/' . $feed_name ) ) {
+		$file_url = plugins_url() . '/wp-product-feed-manager-support/feeds/' . $feed_name;
+	} elseif ( file_exists( WPPFM_FEEDS_DIR . '/' . $feed_name ) ) {
+		$file_url = WPPFM_UPLOADS_URL . '/wppfm-feeds/' . $feed_name;
+	} else { // as of version 1.5.0 all spaces in new filenames are replaced by a dash
+		$file_url = WPPFM_UPLOADS_URL . '/wppfm-feeds/' . $feed_name;
+	}
+
+	return apply_filters( 'wppfm_feed_url', $file_url, $feed_name );
 }
 
 /**

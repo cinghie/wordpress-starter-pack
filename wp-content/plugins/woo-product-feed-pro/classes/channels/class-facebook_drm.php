@@ -107,13 +107,14 @@ class WooSEA_facebook_drm {
 				"item_group_id" => array(
 					"name" => "item_group_id",
 					"feed_name" => "g:item_group_id",
-					"format" => "optional",
+					"format" => "required",
 					"woo_suggest" => "item_group_id",
 				),
 				"google_product_category" => array(
 					"name" => "google_product_category",
 					"feed_name" => "g:google_product_category",
-					"format" => "optional",
+					"format" => "required",
+                                        "woo_suggest" => "categories",
 				),
 				"material" => array(
 					"name" => "material",
@@ -130,6 +131,17 @@ class WooSEA_facebook_drm {
 					"feed_name" => "g:product_type",
 					"format" => "optional",
 					"woo_suggest" => "categories",
+				),
+				"offer_price" => array(
+					"name" => "offer_price",
+					"feed_name" => "g:offer_price",
+					"format" => "optional",
+					"woo_suggest" => "offer_price",
+				),
+				"offer_price_effective_date" => array(
+					"name" => "offer_price_effective_date",
+					"feed_name" => "g:offer_price_effective_date",
+					"format" => "optional",
 				),
 				"sale_price" => array(
 					"name" => "sale_price",

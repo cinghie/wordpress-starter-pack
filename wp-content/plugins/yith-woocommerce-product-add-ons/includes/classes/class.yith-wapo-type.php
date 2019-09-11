@@ -2,43 +2,43 @@
 
 defined( 'ABSPATH' ) or exit;
 
-if ( !class_exists( 'YITH_WAPO_Type' ) ) {
-	
+if ( ! class_exists( 'YITH_WAPO_Type' ) ) {
+
 	/**
 	 * WAPO Add-on class
 	 * The class manage all the add-ons behaviors.
 	 *
-	 * @since 1.0.0
+	 * @since  1.0.0
 	 * @author Your Inspiration Themes
 	 */
 	class YITH_WAPO_Type {
 
-		public static $table_name	= 'yith_wapo_types';
+		public static $table_name = 'yith_wapo_types';
 
-		public $id						= 0;
-		public $group_id				= 0;
-		public $type					= '';
-		public $label					= '';
-		public $image					= '';
-		public $description				= '';
-		public $operator				= '';
-		public $depend					= '';
-		public $depend_variations		= '';
-		public $options					= '';
-		public $required				= 0;
-		public $required_all_options	= 1;
-		public $collapsed           	= 0;
-		public $sold_individually		= 0;
-		public $change_featured_image	= 0;
-		public $calculate_quantity_sum	= 0;
-		public $first_options_free		= 0;
-		public $max_item_selected		= 0;
-		public $max_input_values_amount	= 0;
-		public $min_input_values_amount	= 0;
-		public $step					= 0;
-		public $priority				= 0;
-		public $del						= 0;
-		public $reg_date				= '0000-00-00 00:00:00';
+		public $id = 0;
+		public $group_id = 0;
+		public $type = '';
+		public $label = '';
+		public $image = '';
+		public $description = '';
+		public $operator = '';
+		public $depend = '';
+		public $depend_variations = '';
+		public $options = '';
+		public $required = 0;
+		public $required_all_options = 1;
+		public $collapsed = 0;
+		public $sold_individually = 0;
+		public $change_featured_image = 0;
+		public $calculate_quantity_sum = 0;
+		public $first_options_free = 0;
+		public $max_item_selected = 0;
+		public $max_input_values_amount = 0;
+		public $min_input_values_amount = 0;
+		public $step = 0;
+		public $priority = 0;
+		public $del = 0;
+		public $reg_date = '0000-00-00 00:00:00';
 
 		/**
 		 * Constructor
@@ -51,30 +51,30 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 			if ( $id > 0 ) {
 				$row = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}yith_wapo_types WHERE id='$id'" );
 				if ( $row->id == $id ) {
-					$this->id						= $row->id;
-					$this->group_id					= $row->group_id;
-					$this->type						= $row->type;
-					$this->label					= $row->label;
-					$this->image					= $row->image;
-					$this->description				= $row->description;
-					$this->operator					= $row->operator;
-					$this->depend					= $row->depend;
-					$this->depend_variations		= $row->depend_variations;
-					$this->options					= $row->options;
-					$this->required					= $row->required;
-					$this->required_all_options		= $row->required_all_options;
-					$this->collapsed		        = $row->collapsed;
-					$this->sold_individually		= $row->sold_individually;
-					$this->change_featured_image	= $row->change_featured_image;
-					$this->calculate_quantity_sum	= $row->calculate_quantity_sum;
-					$this->first_options_free		= $row->first_options_free;
-					$this->max_item_selected		= $row->max_item_selected;
-					$this->max_input_values_amount	= $row->max_input_values_amount;
-					$this->min_input_values_amount	= $row->min_input_values_amount;
-					$this->step						= $row->step;
-					$this->priority					= $row->priority;
-					$this->del						= $row->del;
-					$this->reg_date					= $row->reg_date;
+					$this->id                      = $row->id;
+					$this->group_id                = $row->group_id;
+					$this->type                    = $row->type;
+					$this->label                   = $row->label;
+					$this->image                   = $row->image;
+					$this->description             = $row->description;
+					$this->operator                = $row->operator;
+					$this->depend                  = $row->depend;
+					$this->depend_variations       = $row->depend_variations;
+					$this->options                 = $row->options;
+					$this->required                = $row->required;
+					$this->required_all_options    = $row->required_all_options;
+					$this->collapsed               = $row->collapsed;
+					$this->sold_individually       = $row->sold_individually;
+					$this->change_featured_image   = $row->change_featured_image;
+					$this->calculate_quantity_sum  = $row->calculate_quantity_sum;
+					$this->first_options_free      = $row->first_options_free;
+					$this->max_item_selected       = $row->max_item_selected;
+					$this->max_input_values_amount = $row->max_input_values_amount;
+					$this->min_input_values_amount = $row->min_input_values_amount;
+					$this->step                    = $row->step;
+					$this->priority                = $row->priority;
+					$this->del                     = $row->del;
+					$this->reg_date                = $row->reg_date;
 				}
 			}
 		}
@@ -84,35 +84,35 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 			global $wpdb;
 			$wpdb->hide_errors();
 
-			$new_group_id					= isset( $_POST['group_id'] ) ? $_POST['group_id'] : '';
-			$new_type						= isset( $_POST['type'] ) ? $_POST['type'] : '';
-			$new_label						= isset( $_POST['label'] ) ? htmlspecialchars( $_POST['label'] ) : '';
-			$new_image						= isset( $_POST['image'] ) ? $_POST['image'] : '';
-			$new_description				= isset( $_POST['description'] ) ? $_POST['description'] : '';
-			$new_operator					= isset( $_POST['operator'] ) ? $_POST['operator'] : 'OR';
-			$new_depend						= isset( $_POST['depend'] ) ? $_POST['depend'] : '';
-			$new_depend_variations			= isset( $_POST['depend_variations'] ) ? $_POST['depend_variations'] : '';
-			$new_options					= isset( $_POST['options'] ) ? $_POST['options'] : '';
-			$new_required					= isset( $_POST['required'] ) ? $_POST['required'] : 0;
-			$new_required_all_options		= isset( $_POST['required_all_options'] ) ? $_POST['required_all_options'] : 0;
-			$new_collapsed		            = isset( $_POST['collapsed'] ) ? $_POST['collapsed'] : 0;
-			$new_sold_individually			= isset( $_POST['sold_individually'] ) ? $_POST['sold_individually'] : 0;
-			$new_first_options_free			= isset( $_POST['first_options_free'] ) ? $_POST['first_options_free'] : 0;
-			$new_max_item_selected			= isset( $_POST['max_item_selected'] ) ? $_POST['max_item_selected'] : 0;
-			$new_max_input_values_amount	= isset( $_POST['max_input_values_amount'] ) ? $_POST['max_input_values_amount'] : 0;
-			$new_min_input_values_amount	= isset( $_POST['min_input_values_amount'] ) ? $_POST['min_input_values_amount'] : 0;
-			$new_change_featured_image		= isset( $_POST['change_featured_image'] ) ? $_POST['change_featured_image'] : 0;
-			$new_calculate_quantity_sum		= isset( $_POST['calculate_quantity_sum'] ) ? $_POST['calculate_quantity_sum'] : 0;
-			$new_step						= isset( $_POST['step'] ) ? $_POST['step'] : 0;
-			$new_priority					= isset( $_POST['priority'] ) ? $_POST['priority'] : 0;
+			$new_group_id                = isset( $_POST['group_id'] ) ? $_POST['group_id'] : '';
+			$new_type                    = isset( $_POST['type'] ) ? $_POST['type'] : '';
+			$new_label                   = isset( $_POST['label'] ) ? htmlspecialchars( $_POST['label'] ) : '';
+			$new_image                   = isset( $_POST['image'] ) ? $_POST['image'] : '';
+			$new_description             = isset( $_POST['description'] ) ? $_POST['description'] : '';
+			$new_operator                = isset( $_POST['operator'] ) ? $_POST['operator'] : 'OR';
+			$new_depend                  = isset( $_POST['depend'] ) ? $_POST['depend'] : '';
+			$new_depend_variations       = isset( $_POST['depend_variations'] ) ? $_POST['depend_variations'] : '';
+			$new_options                 = isset( $_POST['options'] ) ? $_POST['options'] : '';
+			$new_required                = isset( $_POST['required'] ) ? $_POST['required'] : 0;
+			$new_required_all_options    = isset( $_POST['required_all_options'] ) ? $_POST['required_all_options'] : 0;
+			$new_collapsed               = isset( $_POST['collapsed'] ) ? $_POST['collapsed'] : 0;
+			$new_sold_individually       = isset( $_POST['sold_individually'] ) ? $_POST['sold_individually'] : 0;
+			$new_first_options_free      = isset( $_POST['first_options_free'] ) ? $_POST['first_options_free'] : 0;
+			$new_max_item_selected       = isset( $_POST['max_item_selected'] ) ? $_POST['max_item_selected'] : 0;
+			$new_max_input_values_amount = isset( $_POST['max_input_values_amount'] ) ? $_POST['max_input_values_amount'] : 0;
+			$new_min_input_values_amount = isset( $_POST['min_input_values_amount'] ) ? $_POST['min_input_values_amount'] : 0;
+			$new_change_featured_image   = isset( $_POST['change_featured_image'] ) ? $_POST['change_featured_image'] : 0;
+			$new_calculate_quantity_sum  = isset( $_POST['calculate_quantity_sum'] ) ? $_POST['calculate_quantity_sum'] : 0;
+			$new_step                    = isset( $_POST['step'] ) ? $_POST['step'] : 0;
+			$new_priority                = isset( $_POST['priority'] ) ? $_POST['priority'] : 0;
 
-			$new_depend = is_array( $new_depend ) ? implode( ',', $new_depend ) : $new_depend;
+			$new_depend            = is_array( $new_depend ) ? implode( ',', $new_depend ) : $new_depend;
 			$new_depend_variations = is_array( $new_depend_variations ) ? implode( ',', $new_depend_variations ) : $new_depend_variations;
 
 			if ( is_array( $new_options ) ) {
 				foreach ( $new_options as $key => $value ) {
 					foreach ( $value as $key_2 => $value_2 ) {
-						$new_options[$key][$key_2] = $value_2;
+						$new_options[ $key ][ $key_2 ] = $value_2;
 					}
 				}
 				$new_options = serialize( $new_options );
@@ -166,25 +166,31 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 		 *
 		 * @author Your Inspiration Themes
 		 */
-		function insert() { $this->save(); }
+		function insert() {
+			$this->save();
+		}
 
 		/**
 		 * Update add-on
 		 *
 		 * @param $id
+		 *
 		 * @author Your Inspiration Themes
 		 */
-		function update( $id ) { $this->save( $id ); }
+		function update( $id ) {
+			$this->save( $id );
+		}
 
 		/**
 		 * Update priorities
 		 *
 		 * @param $ids
+		 *
 		 * @author Your Inspiration Themes
 		 */
 		public static function update_priorities( $ids ) {
 			global $wpdb;
-			$ids = explode( ',', $ids );
+			$ids      = explode( ',', $ids );
 			$priority = 1;
 			foreach ( $ids as $key => $value ) {
 				if ( $value > 0 ) {
@@ -198,6 +204,7 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 		 * Delete add-on
 		 *
 		 * @param $id
+		 *
 		 * @author Your Inspiration Themes
 		 */
 		function delete( $id ) {
@@ -211,8 +218,10 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 		 * Duplicate an add-on
 		 * This function will duplicate an add-on inside a group
 		 *
-		 * @since 1.5.0
+		 * @since  1.5.0
+		 *
 		 * @param $group_id
+		 *
 		 * @author Your Inspiration Themes
 		 */
 		function duplicate( $group_id = '' ) {
@@ -221,17 +230,17 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 			if ( $group_id > 0 ) {
 				$label = $this->label;
 			} else {
-				$label = $this->label . ' (copy)';
+				$label    = $this->label . ' (copy)';
 				$group_id = $this->group_id;
 			}
 
-			$options = addslashes( $this->options );
+			$options           = addslashes( $this->options );
 			$addons_table_name = YITH_WAPO_Type::$table_name;
-			$sql = "INSERT INTO {$wpdb->prefix}$addons_table_name (id, group_id, type, label, image, description, operator, depend, depend_variations, options, required, required_all_options, collapsed, sold_individually, first_options_free, max_item_selected, max_input_values_amount, min_input_values_amount, change_featured_image, calculate_quantity_sum, step, priority, del, reg_date)
+			$sql               = "INSERT INTO {$wpdb->prefix}$addons_table_name (id, group_id, type, label, image, description, operator, depend, depend_variations, options, required, required_all_options, collapsed, sold_individually, first_options_free, max_item_selected, max_input_values_amount, min_input_values_amount, change_featured_image, calculate_quantity_sum, step, priority, del, reg_date)
 					VALUES ('', '$group_id', '$this->type', '$label', '$this->image', '$this->description', '$this->operator', '$this->depend', '$this->depend_variations', '$options', '$this->required', '$this->required_all_options', '$this->collapsed', '$this->sold_individually', '$this->first_options_free', '$this->max_item_selected', '$this->max_input_values_amount', '$this->min_input_values_amount', '$this->change_featured_image', '$this->calculate_quantity_sum', '$this->step', '$this->priority', '$this->del', CURRENT_TIMESTAMP)";
-					
+
 			return $wpdb->query( $sql );
-			
+
 		}
 
 		/**
@@ -278,7 +287,7 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 						del                     TINYINT(1) NOT NULL DEFAULT '0',
 						PRIMARY KEY     (id)
 					) $charset_collate;";
-					
+
 			dbDelta( $create );
 
 		}
@@ -304,9 +313,9 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 			}
 
 			// WPML
-			if ( class_exists('SitePress') ) {
+			if ( class_exists( 'SitePress' ) ) {
 				$product_id_old = $product_id;
-				$product_id = wpml_object_id_filter( $product_id, 'product', true, apply_filters( 'yith_wapo_wpml_default_language', icl_get_default_language() ) );
+				$product_id     = wpml_object_id_filter( $product_id, 'product', true, apply_filters( 'yith_wapo_wpml_default_language', icl_get_default_language() ) );
 			}
 
 			// Exclude global
@@ -317,15 +326,19 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 
 			// Category filter
 			$category_query = '';
-			
+
 			// WPML
-			if ( class_exists('SitePress') ) {
+			if ( class_exists( 'SitePress' ) ) {
 				global $sitepress;
-				$yith_wapo_current_lang = apply_filters( 'wpml_current_language', NULL );
-				$yith_wapo_temp_lang = $sitepress->get_default_language();
-				if ( $yith_wapo_current_lang != $yith_wapo_temp_lang ) { $sitepress->switch_lang( $yith_wapo_temp_lang ); }
+				$yith_wapo_current_lang = apply_filters( 'wpml_current_language', null );
+				$yith_wapo_temp_lang    = $sitepress->get_default_language();
+				if ( $yith_wapo_current_lang != $yith_wapo_temp_lang ) {
+					$sitepress->switch_lang( $yith_wapo_temp_lang );
+				}
 				$product_categories_ids = wc_get_product_cat_ids( $product_id );
-				if ( $yith_wapo_current_lang != $yith_wapo_temp_lang ) { $sitepress->switch_lang( $yith_wapo_current_lang ); }
+				if ( $yith_wapo_current_lang != $yith_wapo_temp_lang ) {
+					$sitepress->switch_lang( $yith_wapo_current_lang );
+				}
 			} else {
 				$product_categories_ids = wc_get_product_cat_ids( $product_id );
 			}
@@ -337,7 +350,7 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 				}
 			}
 
-			if ( !empty( $category_query ) ) {
+			if ( ! empty( $category_query ) ) {
 				$category_query = "OR ( {$exclude_global}=0 and ( {$category_query} ) )";
 			}
 
@@ -353,9 +366,9 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 
 			// Vendor
 			$vendor_filter = '';
-			if ( function_exists('YITH_Vendors') ) {
+			if ( function_exists( 'YITH_Vendors' ) ) {
 				$vendor_filter = 'AND ( ywg.vendor_id=0 OR ywg.vendor_id IS NULL )';
-				$vendor = YITH_WAPO::get_multivendor_by_id( $product_id, 'product' );
+				$vendor        = YITH_WAPO::get_multivendor_by_id( $product_id, 'product' );
 				if ( isset( $vendor ) && is_object( $vendor ) && YITH_WAPO::is_plugin_enabled_for_vendors() ) {
 					$vendor_filter = " AND ( (ywg.vendor_id=0 OR ywg.vendor_id IS NULL ) OR ywg.vendor_id={$vendor->id} ) ";
 					// Visibility
@@ -386,11 +399,11 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 
 		public static function getSingleGroupType( $group_id = 0, $wpdb = null ) {
 
-			if ( !( $group_id > 0 ) ) {
+			if ( ! ( $group_id > 0 ) ) {
 				return array();
 			}
 
-			if ( !isset( $wpdb ) ) {
+			if ( ! isset( $wpdb ) ) {
 				global $wpdb;
 			}
 
@@ -445,8 +458,8 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 
 					$item_data = YITH_WAPO_Type::getCartDataByPostValueLabels( $yith_wapo_frontend, $product, $variation, $single_type, $value );
 
-					if( isset( $item_data ) ) {
-						$cart_item_data[] =  $item_data;
+					if ( isset( $item_data ) ) {
+						$cart_item_data[] = $item_data;
 					}
 
 					break;
@@ -455,8 +468,8 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 
 					$item_data = YITH_WAPO_Type::getCartDataByPostValueMultipleLabels( $yith_wapo_frontend, $product, $variation, $single_type, $value, $cart_item_data );
 
-					if( isset( $item_data ) ) {
-						$cart_item_data[] =  $item_data;
+					if ( isset( $item_data ) ) {
+						$cart_item_data[] = $item_data;
 					}
 
 					break;
@@ -525,16 +538,16 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 			if ( $selected_value != '' ) {
 
 				return array(
-					'name' => $single_type->label,
-					'value' => $selected_value,
-					'price' => $yith_wapo_frontend->get_display_price($product, $price, $price_type, $use_display, $variation),
-					'price_original' => $yith_wapo_frontend->get_display_price($product, $price, $price_type, false, $variation),
-					'price_type' => $price_type,
-					'type_id' => $single_type->id,
-					'original_value' => $value,
-					'sold_individually' => $single_type->sold_individually,
+					'name'                   => $single_type->label,
+					'value'                  => $selected_value,
+					'price'                  => $yith_wapo_frontend->get_display_price( $product, $price, $price_type, $use_display, $variation ),
+					'price_original'         => $yith_wapo_frontend->get_display_price( $product, $price, $price_type, false, $variation ),
+					'price_type'             => $price_type,
+					'type_id'                => $single_type->id,
+					'original_value'         => $value,
+					'sold_individually'      => $single_type->sold_individually,
 					'calculate_quantity_sum' => $single_type->calculate_quantity_sum,
-					'add_on_type' => $single_type->type
+					'add_on_type'            => $single_type->type
 				);
 			} else {
 
@@ -566,18 +579,18 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 
 						$selected_value = YITH_WAPO_Option::getOptionDataByValueMultipleLabels( $single_type, $single_value, 'label' );
 
-						if( $selected_value != '' ) {
+						if ( $selected_value != '' ) {
 
-							$price            = YITH_WAPO_Option::getOptionDataByValueKey( $single_type, $key, 'price' );
-							$price_type       = YITH_WAPO_Option::getOptionDataByValueKey( $single_type, $key, 'type' );
+							$price      = YITH_WAPO_Option::getOptionDataByValueKey( $single_type, $key, 'price' );
+							$price_type = YITH_WAPO_Option::getOptionDataByValueKey( $single_type, $key, 'type' );
 
 							$use_display = $price < 0 ? false : true;
 
 							$cart_item_data[] = array(
 								'name'                   => $single_type->label,
 								'value'                  => $selected_value,
-								'price'                  => $yith_wapo_frontend->get_display_price( $product, $price, $price_type, $use_display, $variation , null , $single_value ),
-								'price_original'         => $yith_wapo_frontend->get_display_price( $product, $price, $price_type, false, $variation , null , $single_value ),
+								'price'                  => $yith_wapo_frontend->get_display_price( $product, $price, $price_type, $use_display, $variation, null, $single_value ),
+								'price_original'         => $yith_wapo_frontend->get_display_price( $product, $price, $price_type, false, $variation, null, $single_value ),
 								'price_type'             => $price_type,
 								'type_id'                => $single_type->id,
 								'original_value'         => $value,
@@ -613,26 +626,34 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 			if ( is_array( $value ) ) {
 
 				$i = 0;
+				$free_options = 0;
+				$first_options_free = $single_type->first_options_free > 0 ? $single_type->first_options_free : 0;
 
 				foreach ( $value as $key => $single_value ) {
 
-					$price            = YITH_WAPO_Option::getOptionDataByValueKey( $single_type, $key, 'price' );
-					$price_type       = YITH_WAPO_Option::getOptionDataByValueKey( $single_type, $key, 'type' );
+					$price = 0;
+					if ( $first_options_free == $free_options ) {
+						$price = YITH_WAPO_Option::getOptionDataByValueKey( $single_type, $key, 'price' );
+					} else {
+						$free_options++;
+					}
+
+					$price_type = YITH_WAPO_Option::getOptionDataByValueKey( $single_type, $key, 'type' );
 
 					$use_display = $price < 0 ? false : true;
 
 					$cart_item_data[] = array(
-						'name'              => $single_type->label,
-						'value'             => YITH_WAPO_Option::getOptionDataByValueKey( $single_type, $key, 'label' ),
-						'price'             => $yith_wapo_frontend->get_display_price( $product, $price, $price_type, $use_display, $variation ),
-						'price_original'    => $yith_wapo_frontend->get_display_price( $product, $price, $price_type, false, $variation ),
-						'price_type'        => $price_type,
-						'type_id'           => $single_type->id,
-						'original_value'    => $value,
-						'original_index'    => $i,
-						'sold_individually' => $single_type->sold_individually,
+						'name'                   => $single_type->label,
+						'value'                  => YITH_WAPO_Option::getOptionDataByValueKey( $single_type, $key, 'label' ),
+						'price'                  => $yith_wapo_frontend->get_display_price( $product, $price, $price_type, $use_display, $variation ),
+						'price_original'         => $yith_wapo_frontend->get_display_price( $product, $price, $price_type, false, $variation ),
+						'price_type'             => $price_type,
+						'type_id'                => $single_type->id,
+						'original_value'         => $value,
+						'original_index'         => $i,
+						'sold_individually'      => $single_type->sold_individually,
 						'calculate_quantity_sum' => $single_type->calculate_quantity_sum,
-						'add_on_type'       => $single_type->type
+						'add_on_type'            => $single_type->type
 					);
 
 					$i ++;
@@ -661,8 +682,8 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 
 					if ( $single_value != '' ) {
 
-						$price            = YITH_WAPO_Option::getOptionDataByValueRadio( $single_type, $single_value, 'price' );
-						$price_type       = YITH_WAPO_Option::getOptionDataByValueRadio( $single_type, $single_value, 'type' );
+						$price      = YITH_WAPO_Option::getOptionDataByValueRadio( $single_type, $single_value, 'price' );
+						$price_type = YITH_WAPO_Option::getOptionDataByValueRadio( $single_type, $single_value, 'type' );
 
 						$use_display = $price < 0 ? false : true;
 
@@ -708,10 +729,10 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 
 				foreach ( $upload_value['name'] as $i => $name ) {
 
-					if ( isset( $upload_value['name'][$i] ) && ! empty( $upload_value['name'][$i] ) ) {
+					if ( isset( $upload_value['name'][ $i ] ) && ! empty( $upload_value['name'][ $i ] ) ) {
 						// allowed upload types
 						$extension = '';
-						$pathinfo  = pathinfo( $upload_value['name'][$i] );
+						$pathinfo  = pathinfo( $upload_value['name'][ $i ] );
 						if ( is_array( $pathinfo ) ) {
 							$extension = '.' . $pathinfo['extension'];
 						}
@@ -721,20 +742,19 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 							continue;
 						}
 
-						$file_data['name']     = $upload_value['name'][$i];
-						$file_data['type']     = $upload_value['type'][$i];
-						$file_data['tmp_name'] = $upload_value['tmp_name'][$i];
-						$file_data['error']    = $upload_value['error'][$i];
-						$file_data['size']     = $upload_value['size'][$i];
+						$file_data['name']     = $upload_value['name'][ $i ];
+						$file_data['type']     = $upload_value['type'][ $i ];
+						$file_data['tmp_name'] = $upload_value['tmp_name'][ $i ];
+						$file_data['error']    = $upload_value['error'][ $i ];
+						$file_data['size']     = $upload_value['size'][ $i ];
 
 						$uploaded_file = YITH_WAPO_Type::getUploadedFile( $yith_wapo_frontend, $file_data );
 
-						$value = '';
+						$value          = '';
 						$file_link_name = apply_filters( 'yith_wapo_show_uploaded_file_name', false ) ? $file_data['name'] : __( 'Attached file', 'yith-woocommerce-product-add-ons' );
-						if ( empty( $uploaded_file['error'] ) && !empty( $uploaded_file['file'] ) ) {
+						if ( empty( $uploaded_file['error'] ) && ! empty( $uploaded_file['file'] ) ) {
 							$value = '<a href="' . esc_url( $uploaded_file['url'] ) . '" target="_blank">' . $file_link_name . '</a>';
-						}
-						else {
+						} else {
 							wc_add_notice( $uploaded_file['error'] );
 							continue;
 						}
@@ -771,39 +791,50 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 		 * @param $yith_wapo_frontend
 		 * @param $upload_value
 		 *
-		 * @return bool
+		 * @return bool|array
 		 */
-		public static function checkUploadedFilesError( $yith_wapo_frontend, $upload_value ) {
-			$is_countable = function_exists( 'is_countable' ) ? 'is_countable' : 'is_array';
+		public static function checkUploadedFilesError( $yith_wapo_frontend, $upload_value, $get_error = false, $field_name = '' ) {
 
-			if ( is_array( $upload_value ) && $is_countable( $upload_value['name'] ) ) {
+			$error_list = array();
+			$is_valid   = true;
+			if ( is_array( $upload_value ) ) {
 
 				$max_allowed_size = get_option( 'yith_wapo_settings_upload_size', 0 ) * 1024 * 1024;
 
-				for ( $i = 0; $i < count( $upload_value['name'] ); $i ++ ) {
+				foreach ( $upload_value as $key => $upload_field ) {
 
-					if ( isset( $upload_value['name'][$i] ) && !empty( $upload_value['name'][$i] ) ) {
+					if ( isset( $upload_field['name'] ) && ! empty( $upload_field['name'] ) ) {
 						// allowed upload types
 						$extension = '';
-						$pathinfo  = pathinfo( $upload_value['name'][$i] );
-						
+						$pathinfo  = pathinfo( $upload_field['name'] );
+
 						if ( is_array( $pathinfo ) && isset( $pathinfo['extension'] ) ) {
 							$extension = '.' . $pathinfo['extension'];
 						}
 
 						if ( ! is_array( $yith_wapo_frontend->_option_upload_allowed_type ) || ! in_array( $extension, $yith_wapo_frontend->_option_upload_allowed_type ) ) {
-							wc_add_notice( sprintf( __( 'Uploading error: %s extension is not allowed', 'yith-woocommerce-product-add-ons' ), $extension ), 'error' );
-							return false;
+							$error = sprintf( __( 'Uploading error: %s extension is not allowed', 'yith-woocommerce-product-add-ons' ), $extension );
+							if ( $get_error ) {
+								$error_list[] = '<span class="' . $field_name . '_' . $key . '">' . $error . '</span>';
+								$is_valid     = false;
+							} else {
+								wc_add_notice( $error, 'error' );
+
+								return false;
+							}
 						}
 
 						// check max size
-						if ( $upload_value['size'][$i] > $max_allowed_size ) {
+						if ( $upload_field['size'] > $max_allowed_size ) {
+							$error = __( 'Uploading error: %s exceeded max size allowed for this file', 'yith-woocommerce-product-add-ons' );
+							if ( $get_error ) {
+								$error_list[] = '<span class="' . $field_name . '_' . $key . '">' . $error . '</span>';
+								$is_valid     = false;
+							} else {
+								wc_add_notice( $error, 'error' ); //@since 1.1.0
 
-							wc_add_notice( sprintf( __( 'Uploading error: %s exceeded max size allowed for this file',
-								'yith-woocommerce-product-add-ons' ),
-								$extension ) ); //@since 1.1.0
-							return false;
-
+								return false;
+							}
 						}
 
 					}
@@ -811,8 +842,11 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 				}
 
 			}
-
-			return true;
+			if ( $get_error ) {
+				return $error_list;
+			} else {
+				return $is_valid;
+			}
 
 		}
 
@@ -857,16 +891,16 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 
 					if ( $single_value != '' || ( is_array( $single_value ) && ! empty( $single_value ) ) ) {
 
-						$price            = YITH_WAPO_Option::getOptionDataByValueKey( $single_type, $key, 'price' );
-						$price_type       = YITH_WAPO_Option::getOptionDataByValueKey( $single_type, $key, 'type' );
+						$price      = YITH_WAPO_Option::getOptionDataByValueKey( $single_type, $key, 'price' );
+						$price_type = YITH_WAPO_Option::getOptionDataByValueKey( $single_type, $key, 'type' );
 
 						$use_display = $price < 0 ? false : true;
 
 						$cart_item_data[] = array(
 							'name'                   => YITH_WAPO_Option::getOptionDataByValueKey( $single_type, $key, 'label' ),
 							'value'                  => $single_value,
-							'price'                  => $yith_wapo_frontend->get_display_price( $product, $price, $price_type, $use_display, $variation , null , $single_value ),
-							'price_original'         => $yith_wapo_frontend->get_display_price( $product, $price, $price_type, false, $variation , null , $single_value ),
+							'price'                  => $yith_wapo_frontend->get_display_price( $product, $price, $price_type, $use_display, $variation, null, $single_value ),
+							'price_original'         => $yith_wapo_frontend->get_display_price( $product, $price, $price_type, false, $variation, null, $single_value ),
 							'price_type'             => $price_type,
 							'type_id'                => $single_type->id,
 							'original_value'         => $value,
@@ -887,16 +921,16 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 		}
 
 		/**
-		 * @param $wpdb
-		 * @param $group
+		 * @param      $wpdb
+		 * @param      $group
 		 * @param null $type
 		 */
 		public static function printOptionTypeForm( $wpdb, $group, $type = null ) {
 
 			wc_get_template( 'yith-wapo-form-option-type.php', array(
-				'wpdb'	=> $wpdb,
-				'group'	=> $group,
-				'type'	=> $type,
+				'wpdb'  => $wpdb,
+				'group' => $group,
+				'type'  => $type,
 			), '', YITH_WAPO_TEMPLATE_ADMIN_PATH );
 
 		}
@@ -906,19 +940,20 @@ if ( !class_exists( 'YITH_WAPO_Type' ) ) {
 		 */
 		public static function new_addon_form( $group ) { ?>
 
-			<form action="edit.php?post_type=product&page=yith_wapo_group_addons" method="post">
-				<input type="hidden" name="act" value="new">
-				<input type="hidden" name="class" value="YITH_WAPO_Type">
-				<input type="hidden" name="group_id" value="<?php echo $group->id; ?>">
+            <form action="edit.php?post_type=product&page=yith_wapo_group_addons" method="post">
+                <input type="hidden" name="act" value="new">
+                <input type="hidden" name="class" value="YITH_WAPO_Type">
+                <input type="hidden" name="group_id" value="<?php echo $group->id; ?>">
 
-				<select name="type">
+                <select name="type">
+					<?php $field_type = isset( $field_type ) ? $field_type : ''; ?>
 					<?php do_action( 'yith_wapo_type_options_template', $field_type ); ?>
-				</select>
+                </select>
 
-				<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Continue', 'yith-woocommerce-product-add-ons' ); ?>">
-				<a href="#" class="button cancel wapo-new-addon-cancel"><?php echo __( 'Cancel', 'yith-woocommerce-product-add-ons' );?></a>
+                <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Continue', 'yith-woocommerce-product-add-ons' ); ?>">
+                <a href="#" class="button cancel wapo-new-addon-cancel"><?php echo __( 'Cancel', 'yith-woocommerce-product-add-ons' ); ?></a>
 
-			</form>
+            </form>
 
 			<?php
 		}
