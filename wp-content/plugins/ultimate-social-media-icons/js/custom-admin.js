@@ -2586,7 +2586,7 @@ SFSI(document).ready(function (s) {
 
     SFSI("body").on("click", "#sfsi_getMeFullAccess", function () {
         var email = SFSI(this).parents("form").find("input[type='email']").val();
-        var feedid = SFSI(this).parents("form").find("input[name='feedid']").val();
+        var feedid = SFSI(this).parents("form").find("input[name='feed_id']").val();
         var error = false;
         var regEx = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 
@@ -2599,7 +2599,46 @@ SFSI(document).ready(function (s) {
         }
 
         if (!error) {
-            SFSI(this).parents("form").submit();
+            console.log("feedid",feedid);
+            if (feedid=="" || undefined==feedid){
+                var nonce = SFSI(this).attr('data-nonce-fetch-feed-id');
+                e = {
+                    action: "sfsi_get_feed_id",
+                    nonce: nonce,
+                };
+                SFSI.ajax({
+                    url: sfsi_icon_ajax_object.ajax_url,
+                    type: "post",
+                    data: e,
+                    dataType: "json",
+                    async: !0,
+                    success: function (s) {
+                        if (s.res == "wrong_nonce") {
+                            alert("Error: Unauthorised Request, Try again after refreshing page.");
+                        } else {
+                            if("success" == s.res){
+                                var feedid = s.feed_id;
+                                if(feedid=="" || null == feedid){
+                                    alert("Error: Claiming didn't work. Please try again later.")
+                                }else{
+                                    jQuery('#calimingOptimizationForm input[name="feed_id"]').val(feedid);
+                                    console.log("feedid",feedid,SFSI("#calimingOptimizationForm input[name='feed_id']"),SFSI('#calimingOptimizationForm input[name="feedid"]').val());
+                                    SFSI('#calimingOptimizationForm').submit();
+                                }
+                            }else{
+                                if("failed"==s.res){
+                                    alert("Error: "+s.message+".");
+
+                                }else{
+                                    alert("Error: Please try again.");
+                                }
+                            }
+                        }
+                    }
+                });
+            }else{
+                SFSI(this).parents("form").submit();
+            }
         } else {
             alert("Error: Please provide your email address.");
         }
@@ -2729,7 +2768,7 @@ SFSI("body").on("click", ".sfsi_tokenGenerateButton a", function () {
     var clienId = SFSI("input[name='sfsi_instagram_clientid']").val();
     var redirectUrl = SFSI("input[name='sfsi_instagram_appurl']").val();
 
-    var scope = "likes+comments+basic+public_content+follower_list+relationships";
+    var scope = "basic";
     var instaUrl = "https://www.instagram.com/oauth/authorize/?client_id=<id>&redirect_uri=<url>&response_type=token&scope=" + scope;
 
     if (clienId !== '' && redirectUrl !== '') {
@@ -3296,3 +3335,7 @@ function sfsi_togglbtmsection(show, hide, ref) {
     jQuery("." + hide).hide();
     jQuery("." + hide).children(".radiodisplaysection").hide();
 }
+jQuery(document).ready(function(){
+    var sfsi_functions_loaded =  new CustomEvent('sfsi_functions_loaded',{detail:{"abc":"def"}});
+    window.dispatchEvent(sfsi_functions_loaded);
+});

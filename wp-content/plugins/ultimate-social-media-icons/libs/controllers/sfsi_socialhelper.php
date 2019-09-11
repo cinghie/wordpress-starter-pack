@@ -179,6 +179,7 @@ class sfsi_SocialHelper
 
 	private function get_content_curl($url)
 	{
+		$user_Agent = (isset($_SERVER['HTTP_USER_AGENT'])) ? $_SERVER['HTTP_USER_AGENT'] :'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322)';
 		// if(_is_curl_installed()){
 		// 	$curl = curl_init();
 		// 	curl_setopt($curl, CURLOPT_HEADER, false);
@@ -352,7 +353,7 @@ class sfsi_SocialHelper
 						date("Y-m-d")
 				));
 			}	
-			if((isset($diff) && $diff->format("%a") < 1) || 1 == 1)	
+			if((isset($diff) && $diff->format("%a") > 1))	
 			{
 				$sfsi_instagram_sf_count["date_instagram"] = strtotime(date("Y-m-d"));
 				$counts = $this->sfsi_get_instagramFollowersCount($user_name);
@@ -473,10 +474,13 @@ class sfsi_SocialHelper
 		    'timeout'     => 30,
 		    'user-agent' => 'sf rss request',
 		    'header'	=> array("Content-Type"=>"application/x-www-form-urlencoded"),
-		    'sslverify' => true
+		    'sslverify' => false
 		);
-		$resp = wp_remote_post( 'https://www.specificfeeds.com/wordpress/wpCountSubscriber', $args );
-		
+		try{
+			$resp = wp_remote_post( 'https://www.specificfeeds.com/wordpress/wpCountSubscriber', $args );
+		}catch(\Exception $e){
+			var_dump($e);
+		}
 		$httpcode = wp_remote_retrieve_response_code($resp);
 		
 		if($httpcode == 200){

@@ -1,4 +1,4 @@
-<div id="analyst-deactivate-modal" class="analyst-modal">
+<div id="analyst-deactivate-modal" class="analyst-modal" style="display: none">
 	<div class="analyst-modal-content" style="width: 500px">
 		<div class="analyst-disable-modal-mask" id="analyst-disable-deactivate-modal-mask" style="display: none"></div>
 		<div style="display: flex">

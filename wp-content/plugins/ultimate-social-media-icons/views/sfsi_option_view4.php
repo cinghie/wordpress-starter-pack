@@ -122,7 +122,6 @@ else{
 
 /* fetch counts for admin sections */
 $counts = sfsi_getCounts();
-
 /* check for email icon display */
 $email_image="email.png";
 
@@ -136,10 +135,6 @@ $hide="display:none;";
 
 <!-- Section 4 "Do you want to display "counts" next to your icons?" main div Start -->
 <div class="tab4">
-    <div class="sfsi_curlerrorNotification">
-        <?php sfsi_curl_error_notification(); ?>
-    </div>
-
     <p>It’s a psychological fact that people like to follow other people (as explained well in Robert Cialdini’s book “<a href="http://www.amazon.com/Influence-Psychology-Persuasion-Revised-Edition/dp/006124189X" target="_blank" class="lit_txt">Influence</a>”), so when they see that your site has already a good number of Facebook likes, it’s more likely that they will subscribe/like/share your site than if it had 0.</p>
     <p>Therefore, you can select to display the count next to your main icons, which will look like this:</p>
 	

@@ -169,7 +169,6 @@ if ("id" == $option2['sfsi_youtubeusernameorid'] && isset($option2['sfsi_youtube
     ?>
     <div class="row email_section">
         <h2 class="sfsicls_email">Email</h2>
-        <?php sfsi_curl_error_notification(); ?>
 
         <div class="inr_cont">
             <p>
@@ -220,7 +219,7 @@ if ("id" == $option2['sfsi_youtubeusernameorid'] && isset($option2['sfsi_youtube
                     <input type="email" name="email" value="<?php echo bloginfo('admin_email'); ?>" />
                 </div>
                 <div class='sfsi_more_services_link'>
-                    <a href="javascript:;" id="sfsi_getMeFullAccess" title="Give me access">
+                    <a href="javascript:;" id="sfsi_getMeFullAccess" title="Give me access" data-nonce-fetch-feed-id="<?php echo wp_create_nonce( 'sfsi_get_feed_id' );?>" >
                         Click here to benefit from all advantages >
                     </a>
                 </div>

@@ -232,8 +232,6 @@ class Account implements TrackerContract
 		$this->setIsInstalled(true);
 
 		AccountDataFactory::syncData();
-
-		wp_send_json_success();
 	}
 
 	/**

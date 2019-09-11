@@ -616,7 +616,7 @@ I want to see how it works</a></div>
           <ol style="padding: 15px 20px 10px 10px; font-size: 18px; letter-spacing: 0.5px; color: #000000;">
             <li>You‘ll get access to <a href="https://www.ultimatelysocial.com/usm-premium/" target="_black" style="color: #000000;">all premium features</a></li>
             <li>The plugin is <b>priced really fairly</b> starting at <del>44.98 USD</del> today: 40% off!</li>
-            <li><b>Use it for lifetime:</b> Support and updates are limited to 1 year, however after that it will not be disabled, you can keep using the plugin (even if you don‘t renew)</li>
+            <li><b>Use it for lifetime:</b> Support and updates are limited to six months, however after that it will not be disabled, you can keep using the plugin (even if you don‘t renew)</li>
             <li>One license is valid for one site (as support is included), but we <b>offer 20% discounts</b> for all future purchases</li>
             <li>We provide a <b>14 day money-back guarantee</b> if you‘re not satisfied for <u>any reason</u></li>
           </ol>

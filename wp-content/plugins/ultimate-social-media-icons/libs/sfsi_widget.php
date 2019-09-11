@@ -36,15 +36,15 @@ class Sfsi_Widget extends WP_Widget
 		/* Display the widget title */
 		if ( $title ) echo $before_title . $title . $after_title;
         ?>
-            <div class="sfsi_widget" data-position="widget">   
-				<div id='sfsi_wDiv'></div>
-                    <?php 
+<div class="sfsi_widget" data-position="widget">
+    <div id='sfsi_wDiv'></div>
+    <?php 
 						/* Link the main icons function */
                			echo sfsi_check_visiblity(0);
              		?>
-	      		<div style="clear: both;"></div>
-            </div>
-            <?php
+    <div style="clear: both;"></div>
+</div>
+<?php
 	      		if ( is_active_widget( false, false, $this->id_base, true ) ) { }
 		echo $after_widget;
 	}
@@ -87,15 +87,17 @@ class Sfsi_Widget extends WP_Widget
 			$instance['title']='Please follow & like us :)';
 		}
 		?>
-		<p>
-		    <label for="<?php echo $this->get_field_id( 'title' ); ?>">Title</label>
-		    <input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" style="width:100%;" />
-		    <input type="hidden" value="<?php echo $instance['showf'] ?>" id="<?php echo $this->get_field_id( 'showf' ); ?>" name="<?php echo $this->get_field_name( 'showf' ); ?>" />
-		</p>
-		<p>
-		     Please go to  the <a href="admin.php?page=sfsi-options">plugin page</a> to set your preferences
-		</p>
-	<?php
+<p>
+    <label for="<?php echo $this->get_field_id( 'title' ); ?>">Title</label>
+    <input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>"
+        value="<?php echo $instance['title']; ?>" style="width:100%;" />
+    <input type="hidden" value="<?php echo $instance['showf'] ?>" id="<?php echo $this->get_field_id( 'showf' ); ?>"
+        name="<?php echo $this->get_field_name( 'showf' ); ?>" />
+</p>
+<p>
+    Please go to the <a href="admin.php?page=sfsi-options">plugin page</a> to set your preferences
+</p>
+<?php
 	}
 }
 /* END OF widget Class */
@@ -126,15 +128,15 @@ function sfsi_check_visiblity($isFloter=0)
     $position1 			   = 'position:absolute;';
     $jquery 			   ='<script>';
 	
-	$jquery .= 'jQuery(".sfsi_widget").each(function( index ) {
-					if(jQuery(this).attr("data-position") == "widget")
-					{
-						var wdgt_hght = jQuery(this).children(".norm_row.sfsi_wDiv").height();
-						var title_hght = jQuery(this).parent(".widget.sfsi").children(".widget-title").height();
-						var totl_hght = parseInt( title_hght ) + parseInt( wdgt_hght );
-						jQuery(this).parent(".widget.sfsi").css("min-height", totl_hght+"px");
-					}
-				});';
+    $jquery 			   ='<script>';
+	
+	$jquery .='window.addEventListener("sfsi_functions_loaded", function() 
+	{
+		if (typeof sfsi_widget_set == "function") {
+			sfsi_widget_set();
+		}
+	}); ';
+
     
 	/* check if icons shuffling is activated in admin or not */
     if($sfsi_section5['sfsi_icons_stick']=="yes")
@@ -148,11 +150,11 @@ function sfsi_check_visiblity($isFloter=0)
 			$Ictop = "0";
 	    }
              
-		 $jquery.='var s = jQuery(".sfsi_widget");
+		 $jquery.='window.addEventListener("sfsi_functions_loaded",function(){var s = jQuery(".sfsi_widget");
 					var pos = s.position();            
 					jQuery(window).scroll(function(){      
 					sfsi_stick_widget("'.$Ictop.'");
-		 }); ';
+		 }); }); ';
     }
 	
     /* check if icons floating  is activated in admin */
@@ -191,7 +193,7 @@ function sfsi_check_visiblity($isFloter=0)
         //$jquery.="jQuery( document ).ready(function( $ ) { sfsi_float_widget('".$top."')});";
 		if($sfsi_section9['sfsi_icons_floatPosition'] == 'center-right' || $sfsi_section9['sfsi_icons_floatPosition'] == 'center-left')
 		 {
-        	$jquery.="jQuery( document ).ready(function( $ )
+        	$jquery.="window.addEventListener('sfsi_functions_loaded',function()
 					  {
 						var topalign = ( jQuery(window).height() - jQuery('#sfsi_floater').height() ) / 2;
 						jQuery('#sfsi_floater').css('top',topalign);
@@ -200,7 +202,7 @@ function sfsi_check_visiblity($isFloter=0)
 		 }
 		 else if($sfsi_section9['sfsi_icons_floatPosition'] == 'center-top' || $sfsi_section9['sfsi_icons_floatPosition'] == 'center-bottom'){
 
-			$jquery.="jQuery(document).ready(function( $ )
+			$jquery.="window.addEventListener('sfsi_functions_loaded',function()
 					  {
 						var leftalign = ( jQuery(window).width() - jQuery('#sfsi_floater').width() ) / 2;
 						jQuery('#sfsi_floater').css('left',leftalign);
@@ -209,7 +211,7 @@ function sfsi_check_visiblity($isFloter=0)
 		 }		 
 		 else
 		 {
-			$jquery.="jQuery( document ).ready(function( $ ) { sfsi_float_widget('".$top."')});"; 
+			$jquery.="window.addEventListener('sfsi_functions_loaded',function(){sfsi_float_widget('".$top."')});"; 
 		 }	
     }
 	  
@@ -220,17 +222,17 @@ function sfsi_check_visiblity($isFloter=0)
 	   {
 	     	$shuffle_time=(isset($sfsi_section3['sfsi_shuffle_intervalTime'])) ? $sfsi_section3['sfsi_shuffle_intervalTime'] : 3;
 			$shuffle_time=$shuffle_time*1000;
-			$jquery.="jQuery( document ).ready(function( $ ) {  jQuery('.sfsi_wDiv').each(function(){ new window.Manipulator( jQuery(this)); });  setTimeout(function(){  jQuery('#sfsi_wDiv').each(function(){ jQuery(this).click(); })},2000);  setInterval(function(){  jQuery('#sfsi_wDiv').each(function(){ jQuery(this).click(); })},".$shuffle_time."); });";
+			$jquery.="window.addEventListener('sfsi_functions_loaded',function(){  jQuery('.sfsi_wDiv').each(function(){ new window.Manipulator( jQuery(this)); });  setTimeout(function(){  jQuery('#sfsi_wDiv').each(function(){ jQuery(this).click(); })},2000);  setInterval(function(){  jQuery('#sfsi_wDiv').each(function(){ jQuery(this).click(); })},".$shuffle_time."); });";
        }
 	   else if($sfsi_section3['sfsi_shuffle_Firstload']=="no" && $sfsi_section3['sfsi_shuffle_interval']=="yes")
        {   
 		   $shuffle_time=(isset($sfsi_section3['sfsi_shuffle_intervalTime'])) ? $sfsi_section3['sfsi_shuffle_intervalTime'] : 3;
 		   $shuffle_time=$shuffle_time*1000; 
-		   $jquery.="jQuery( document ).ready(function( $ ) {  jQuery('.sfsi_wDiv').each(function(){ new window.Manipulator( jQuery(this)); });  setInterval(function(){  jQuery('#sfsi_wDiv').each(function(){ jQuery(this).click(); })},".$shuffle_time."); });";
+		   $jquery.="window.addEventListener('sfsi_functions_loaded',function(){  jQuery('.sfsi_wDiv').each(function(){ new window.Manipulator( jQuery(this)); });  setInterval(function(){  jQuery('#sfsi_wDiv').each(function(){ jQuery(this).click(); })},".$shuffle_time."); });";
         }
         else
         {
-            $jquery.="jQuery( document ).ready(function( $ ) {  jQuery('.sfsi_wDiv').each(function(){ new window.Manipulator( jQuery(this)); });  setTimeout(function(){  jQuery('#sfsi_wDiv').each(function(){ jQuery(this).click(); })},2000); });";
+            $jquery.="window.addEventListener('sfsi_functions_loaded',function(){  jQuery('.sfsi_wDiv').each(function(){ new window.Manipulator( jQuery(this)); });  setTimeout(function(){  jQuery('#sfsi_wDiv').each(function(){ jQuery(this).click(); })},2000); });";
         }    
     }
 	    
@@ -459,7 +461,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 			 }
 			 else
 			 {
-				 $alt_text = 'RSS';
+				 $alt_text = '';
 			 }
 			 
 			 //Custom Skin Support {Monad}	 
@@ -487,9 +489,11 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 		       $hoverdiv  = '';
 			   
 			   $sfsi_section2_options['sfsi_email_url'];
-
-			   $url = (isset($sfsi_section2_options['sfsi_email_url'])) ? $sfsi_section2_options['sfsi_email_url'] : '';
-
+				if( sanitize_text_field(get_option('sfsi_feed_id', false)) == ""){
+					$url = "https://specificfeeds.com/follow";
+				}else{
+			   		$url = (isset($sfsi_section2_options['sfsi_email_url'])) ? $sfsi_section2_options['sfsi_email_url'] : '';
+			   	}
 			   $toolClass   = "email_tool_bdr";
 		       $arrow_class = "bot_eamil_arow";
 		       
@@ -515,7 +519,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 			   }
 			   else
 			   {
-				   $alt_text = 'EMAIL';
+				   $alt_text = '';
 			   }
 					  
 			//Custom Skin Support {Monad}	 
@@ -587,7 +591,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 			}
 			else
 			{
-				$alt_text = "FACEBOOK";
+				$alt_text = "";
 			}
 			
 			$visit_icon = $visit_iconsUrl."facebook.png";
@@ -749,7 +753,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				 }
 				 else
 				 {
-					 $alt_text = "TWITTER"; 
+					 $alt_text = ""; 
 				 }
 				 
 				//Custom Skin Support {Monad}	 
@@ -790,7 +794,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				}
 				else
 				{
-					 $alt_text = "YOUTUBE";
+					 $alt_text = "";
 				}
 				 
 				/* check for icons to display */
@@ -878,7 +882,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				}
 				else
 				{
-					 $alt_text = "PINTEREST";
+					 $alt_text = "";
 				}
 				
 				/* check for icons to display */  
@@ -962,7 +966,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				}
 				else
 				{
-					 $alt_text = "INSTAGRAM";
+					 $alt_text = "";
 				}
 				     
 		     	$hoverdiv="";
@@ -1027,7 +1031,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				}
 				else
 				{
-					 $alt_text = "telegram";
+					 $alt_text = "";
 				}
 				$messageus_icon = $visit_iconsUrl.$icon_name."_message.svg";
 		     	$hoverdiv="";
@@ -1099,7 +1103,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				}
 				else
 				{
-					 $alt_text = "vk";
+					 $alt_text = "";
 				}
 				     
 		     	$hoverdiv="";
@@ -1151,7 +1155,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				}
 				else
 				{
-					 $alt_text = "ok";
+					 $alt_text = "";
 				}
 				     
 		     	$hoverdiv="";
@@ -1203,7 +1207,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				}
 				else
 				{
-					 $alt_text = "weibo";
+					 $alt_text = "";
 				}
 				     
 		     	$hoverdiv="";
@@ -1256,7 +1260,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				}
 				else
 				{
-					 $alt_text = "wechat";
+					 $alt_text = "";
 				}
 				     
 		     	$hoverdiv="";
@@ -1430,7 +1434,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				}
 				else
 				{
-					 $alt_text = "LINKEDIN";
+					 $alt_text = "";
 				}
 			    
 				//Custom Skin Support {Monad}	  
@@ -1482,7 +1486,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 				}
 				else
 				{
-					 $alt_text = "SOCIALICON";
+					 $alt_text = "";
 				}
             break;    
     }
@@ -1556,12 +1560,12 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
     {
 	 	$new_window = sfsi_checkNewWindow();
 	 	$url = $url;
-    }
-    
+	}
+
     if(isset($sfsi_onclick)){
     	$new_window ="";
-    }
-
+	}
+	
     if(!isset($sfsi_new_icons)){
     	$sfsi_new_icons =false;
     }
@@ -1590,7 +1594,7 @@ function sfsi_prepairIcons($icon_name,$is_front=0)
 	   if(isset($counts) &&  $counts!='')
 	   {
 			$icons.= '<span class="bot_no '.$bt_class.'">'.$counts.'</span>';  
-	   }	
+	   }
 	   if($hoverSHow && !empty($hoverdiv))
 	   {	
 			$icons.= '<div class="sfsi_tool_tip_2 '.$toolClass.' '.$toolT_cls.'" style="width:'.$width.'px ;opacity:0;z-index:-1;margin-left:-'.$twt_margin.'px;" id="sfsiid_'.$icon_name.'">';

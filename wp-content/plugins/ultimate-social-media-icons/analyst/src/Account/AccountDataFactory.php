@@ -2,6 +2,9 @@
 
 namespace Account;
 
+
+use Analyst\Core\AbstractFactory;
+
 /**
  * Class AccountDataFactory
  *
@@ -9,7 +12,7 @@ namespace Account;
  * wordpress project plugins accounts
  *
  */
-class AccountDataFactory
+class AccountDataFactory extends AbstractFactory
 {
 	private static $instance;
 
@@ -30,14 +33,15 @@ class AccountDataFactory
 		if (!static::$instance) {
 			$raw = get_option(self::OPTIONS_KEY);
 
-			// In case this object is not serialized
-			// we instantiate new object
-			if (!$raw) {
-				static::$instance = new self();
+			// In case object is already unserialized
+			// and instance of AccountDataFactory we
+			// return it, in other case deal with
+			// serialized string data
+			if ($raw instanceof self) {
+				static::$instance = $raw;
 			} else {
-				static::$instance = unserialize($raw);
+				static::$instance = is_string($raw) ? static::unserialize($raw) : new self();
 			}
-
 		}
 
 		return static::$instance;

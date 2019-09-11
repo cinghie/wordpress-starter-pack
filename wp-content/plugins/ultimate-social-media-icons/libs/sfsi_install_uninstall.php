@@ -29,12 +29,17 @@ function sfsi_update_plugin()
             update_option('sfsi_feed_id', sanitize_text_field($sfsiId->feed_id));
             update_option('sfsi_redirect_url', esc_url($sfsiId->redirect_url));
         }
+        if(""==$feed_id){
+            $sfsiId = SFSI_getFeedUrl();
+            update_option('sfsi_feed_id', sanitize_text_field($sfsiId->feed_id));
+            update_option('sfsi_redirect_url', esc_url($sfsiId->redirect_url));
+        }
     }
     if (!get_option('sfsi_custom_icons')) {
         update_option("sfsi_custom_icons", "yes");
     }
     //Install version
-    update_option("sfsi_pluginVersion", "2.30");
+    update_option("sfsi_pluginVersion", "2.39");
 
     if (!get_option('sfsi_serverphpVersionnotification')) {
         add_option("sfsi_serverphpVersionnotification", "yes");
@@ -468,6 +473,9 @@ function sfsi_update_plugin()
         if (!isset($option6['sfsi_rectfbshare'])) {
             $option6['sfsi_rectfbshare'] = 'no';
         }
+        if (!isset($option6['sfsi_rectfb'])) {
+            $option6['sfsi_rectfb'] = 'yes';
+        }
         if (!isset($option6['sfsi_display_button_type'])) {
             $option6["sfsi_display_button_type"] = 'standard_buttons';
         }
@@ -550,6 +558,9 @@ function sfsi_update_plugin()
     update_option('sfsi_section1_options', serialize($option1));
     // Add this removed in version 2.0.2, removing values from section 1 & section 6 & setting notice display value
     sfsi_was_displaying_addthis();
+    //removing as we moved to wp_remote calls and remote calls can work without curl installed.
+    delete_option("sfsi_curlErrorNotices");
+    delete_option("sfsi_curlErrorMessage");
 }
 
 function sfsi_activate_plugin()
@@ -991,7 +1002,7 @@ function sfsi_updateFeedPing($status, $feed_id)
 
     $args = array(
         'body' => $body,
-        'timeout' => '5',
+        'timeout' => '30',
         'redirection' => '5',
         'httpversion' => '1.0',
         'blocking' => true,
@@ -1096,16 +1107,11 @@ function SFSI_getFeedUrl()
         'blocking' => true,
         'user-agent' => 'sf rss request',
         'header'    => array("Content-Type" => "application/x-www-form-urlencoded"),
-        'sslverify' => true
+        'sslverify' => true,
+        'timeout' => 30
     );
     $resp = wp_remote_post('https://www.specificfeeds.com/wordpress/plugin_setup', $args);
-    if (is_wp_error($resp)) {
-        // var_dump($resp);
-        update_option("sfsi_curlErrorNotices", "yes");
-        update_option("sfsi_curlErrorMessage", $resp->get_error_message());
-    } else {
-        update_option("sfsi_curlErrorNotices", "no");
-        update_option("sfsi_curlErrorMessage", "");
+    if(!is_wp_error($resp)){
         $resp = json_decode($resp['body']);
     }
     $feed_url = stripslashes_deep($resp->redirect_url);
@@ -1127,7 +1133,8 @@ function SFSI_updateFeedUrl()
         'blocking' => true,
         'user-agent' => 'sf rss request',
         'header'    => array("Content-Type" => "application/x-www-form-urlencoded"),
-        'sslverify' => true
+        'sslverify' => true,
+        'timeout'   => 30
     );
     $resp = wp_remote_post('https://www.specificfeeds.com/wordpress/updateFeedPlugin', $args);
     if (is_wp_error($resp)) {
@@ -1151,7 +1158,8 @@ function sfsi_setUpfeeds($feed_id)
         'blocking' => true,
         'user-agent' => 'sf rss request',
         'header'    => array("Content-Type" => "application/json"),
-        'sslverify' => true
+        'sslverify' => true,
+        'timeout'   => 30
     );
     $resp = wp_remote_get('https://www.specificfeeds.com/rssegtcrons/download_rssmorefeed_data_single/' . $feed_id . "/Y", $args);
     if (is_wp_error($resp)) {

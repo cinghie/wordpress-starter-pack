@@ -69,13 +69,6 @@ $option8['sfsi_form_button_background'] = (isset($option8['sfsi_form_button_back
 <!-- Section 8 "Do you want to show a subscription form (increases sign ups)?" main div Start -->
 
 <div class="tab8">
-
-    <div class="sfsi_curlerrorNotification">
-
-        <?php sfsi_curl_error_notification(); ?>
-
-    </div>
-
     <?php
 
     $connectToFeed = "http://www.specificfeeds.com/?" . base64_encode("userprofile=wordpress&feed_id=" . $feedId);

@@ -31,7 +31,9 @@ if (! function_exists('analyst_assets_url')) {
 		// wordpress install it's plugin's. So we remove last segment
 		// of that path to get the content dir AKA directly where
 		// plugins are installed and make the magic...
-		$contentDir = dirname(wp_normalize_path(WP_PLUGIN_DIR));
+		$contentDir = is_link(WP_PLUGIN_DIR) ?
+			dirname(wp_normalize_path(readlink(WP_PLUGIN_DIR))) :
+			dirname(wp_normalize_path(WP_PLUGIN_DIR));
 
 		$relativePath = str_replace( $contentDir, '', $absolutePath);
 

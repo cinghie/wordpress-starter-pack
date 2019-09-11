@@ -24,7 +24,7 @@ if (!function_exists('analyst_resolve_sdk')) {
 			array_push($plugins, plugin_basename($thisPluginPath));
 		}
 
-        $pluginsFolder = ABSPATH . 'wp-content/plugins';
+        $pluginsFolder = WP_PLUGIN_DIR;
 
         $possibleSDKs = array_map(function ($path) use ($pluginsFolder) {
             $sdkFolder = sprintf('%s/%s/analyst/', $pluginsFolder, dirname($path));

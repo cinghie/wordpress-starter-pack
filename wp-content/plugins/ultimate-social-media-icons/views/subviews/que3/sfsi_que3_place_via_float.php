@@ -24,11 +24,11 @@ $style                                    =  ($option9['sfsi_icons_float'] == "y
 
                 <input name="sfsi_icons_float" <?php echo ($option9['sfsi_icons_float']=='yes') ?  'checked="true"' : '' ;?>  type="checkbox" value="yes" class="styled" />
 
-                <p><span class="sfsi_toglepstpgspn">Define the location on the page</span></p>
-
+                <p><span class="sfsi_toglepstpgspn">Floating over your website's pages</span></p>
             </div>
 
 			<div class="sfsi_right_info" <?php echo 'style="'.$style.'"';?>>
+                <p><span style="margin-left: 31px;">Define the location:</span></p>
 
                 <div class="sfsi_tab_3_icns">
 

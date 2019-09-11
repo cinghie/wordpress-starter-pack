@@ -133,7 +133,7 @@ function sfsi_Subscribelike($permalink, $show_count)
 	$sfsi_section2_options =  unserialize(get_option('sfsi_section2_options', false));
 	$sfsi_section4_options = unserialize(get_option('sfsi_section4_options', false));
 	$sfsi_section6_options =  unserialize(get_option('sfsi_section6_options', false));
-	$url = (isset($sfsi_section2_options['sfsi_email_url'])) ? $sfsi_section2_options['sfsi_email_url'] : '';
+	$url = (isset($sfsi_section2_options['sfsi_email_url'])) ? $sfsi_section2_options['sfsi_email_url'] : 'https://www.specificfeeds.com/follow';
 
 	if ($sfsi_section4_options['sfsi_email_countsFrom'] == "source") {
 		$feed_id = sanitize_text_field(get_option('sfsi_feed_id', false));
@@ -469,48 +469,9 @@ function sfsi_social_responsive_buttons($content,$option6,$server_side=false)
 				case "facebook":$share_url="https://www.facebook.com/sharer/sharer.php?u=".urlencode($current_url); break;
 	           	case "Twitter":$twitter_text = $share_url = "https://twitter.com/intent/tweet?text=".urlencode($twitter_text)."&url=".urlencode($current_url);break;
 				case "Follow":
-					if(isset($option2['sfsi_email_icons_functions']) && $option2['sfsi_email_icons_functions'] == 'sf')
-					{
-						$share_url = (isset($option2['sfsi_email_url']))
-							? $option2['sfsi_email_url']
-							: 'javascript:';	
-					}
-					elseif(isset($option2['sfsi_email_icons_functions']) && $option2['sfsi_email_icons_functions'] == 'contact')
-					{
-						$share_url = (isset($option2['sfsi_email_icons_contact']) && !empty($option2['sfsi_email_icons_contact']))
-							? "mailto:".$option2['sfsi_email_icons_contact']
-							: 'javascript:';	
-					}
-					elseif(isset($option2['sfsi_email_icons_functions']) && $option2['sfsi_email_icons_functions'] == 'page')
-					{
-						$share_url = (isset($option2['sfsi_email_icons_pageurl']) && !empty($option2['sfsi_email_icons_pageurl']))
-							? $option2['sfsi_email_icons_pageurl']
-							: 'javascript:';	
-					}
-					elseif(isset($option2['sfsi_email_icons_functions']) && $option2['sfsi_email_icons_functions'] == 'share_email')
-					{
-						$subject = stripslashes($option2['sfsi_email_icons_subject_line']);
-						$subject = str_replace('${title}', $socialObj->sfsi_get_the_title(), $subject);
-						$subject = str_replace('"', '', str_replace("'", '', $subject));
-						$subject = html_entity_decode(strip_tags($subject), ENT_QUOTES,'UTF-8');
-						$subject = str_replace("%26%238230%3B", "...", $subject);				
-						$subject = rawurlencode($subject);
-
-						$body = stripslashes($option2['sfsi_email_icons_email_content']);
-						$body = str_replace('${title}', $socialObj->sfsi_get_the_title(), $body);	
-						$body = str_replace('${link}',  trailingslashit($socialObj->sfsi_get_custom_share_link('email')), $body);
-						$body = str_replace('"', '', str_replace("'", '', $body));
-						$body = html_entity_decode(strip_tags($body), ENT_QUOTES,'UTF-8');
-						$body = str_replace("%26%238230%3B", "...", $body);
-						$body = rawurlencode($body);				
-						$share_url = "mailto:?subject=$subject&body=$body";
-					}
-					else
-					{
-						$share_url = (isset($option2['sfsi_email_url']))
-							? $option2['sfsi_email_url']
-							: 'javascript:';	
-					}
+					$share_url = (isset($option2['sfsi_email_url']))
+						? $option2['sfsi_email_url']
+						: 'https://specificfeeds.com/follow';	
 					break;
 	           
 			}

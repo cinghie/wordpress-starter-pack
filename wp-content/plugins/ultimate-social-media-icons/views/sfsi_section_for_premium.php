@@ -309,7 +309,7 @@
 </div>
 
 <div class="sfsi-footer-bottom-text">
-    <p>..only 24.98 USD (includes support and updates for 1 year, and after that it will not be deactivated, so you can just keep using it!)</p>
+    <p>..only 24.98 USD (includes support and updates for six months, and after that it will not be deactivated, so you can just keep using it!)</p>
 </div>
 
 <!-- Footer banner CLOSES -->

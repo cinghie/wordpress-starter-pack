@@ -30,19 +30,28 @@ class DatabaseCache implements CacheContract
 	}
 
 	/**
-	 * DatabaseCache constructor.
-	 */
-	public function __construct()
-	{
-		$this->values = unserialize(get_option(self::OPTION_KEY, serialize([])));
-	}
-
-	/**
 	 * Key value pair
 	 *
 	 * @var array[]
 	 */
-	protected $values;
+	protected $values = [];
+
+	/**
+	 * DatabaseCache constructor.
+	 */
+	public function __construct()
+	{
+		$raw = get_option(self::OPTION_KEY, serialize([]));
+
+		// Raw data may be an array already
+		$this->values = is_array($raw) ? $raw : @unserialize($raw);
+
+		// In case serialization is failed
+		// make sure values is an array
+		if (!is_array($this->values)) {
+			$this->values = [];
+		}
+	}
 
 	/**
 	 * Save value with given key

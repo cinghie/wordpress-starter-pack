@@ -1,4 +1,4 @@
-<div id="analyst-install-modal" class="analyst-modal" analyst-plugin-id="<?=$pluginToInstall?>">
+<div id="analyst-install-modal" class="analyst-modal" style="display: none" analyst-plugin-id="<?=$pluginToInstall?>">
 	<div class="analyst-modal-content" style="width: 450px">
 		<div class="analyst-disable-modal-mask" id="analyst-disable-install-modal-mask" style="display: none"></div>
 		<div style="display: flex">

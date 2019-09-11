@@ -8,6 +8,8 @@ require_once __DIR__ . '/src/Contracts/RequestorContract.php';
 require_once __DIR__ . '/src/Contracts/TrackerContract.php';
 require_once __DIR__ . '/src/Contracts/CacheContract.php';
 
+require_once __DIR__ . '/src/Core/AbstractFactory.php';
+
 require_once __DIR__ . '/src/Cache/DatabaseCache.php';
 
 require_once __DIR__ . '/src/Account/Account.php';

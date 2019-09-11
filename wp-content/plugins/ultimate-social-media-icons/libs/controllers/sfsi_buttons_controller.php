@@ -1103,22 +1103,6 @@ function new_notification_read()
     echo "success";
     die;
 }
-add_action("wp_ajax_sfsicurlerrornotification", "sfsicurlerrornotification");
-function sfsicurlerrornotification()
-{
-    if (!wp_verify_nonce($_POST['nonce'], "sfsicurlerrornotification")) {
-        echo  json_encode(array('res' => 'wrong_nonce'));
-        exit;
-    }
-    if (!current_user_can('manage_options')) {
-        echo json_encode(array('res' => 'not allowed'));
-        die();
-    }
-
-    update_option("sfsi_curlErrorNotices", "no");
-    echo "success";
-    die;
-}
 
 function sfsi_sanitize_field($value)
 {
@@ -1163,7 +1147,6 @@ function sfsi_bannerOption()
 
         // Get all themes data which incudes nobrainer 
         $themeDataArr = $objThemeCheck->sfsi_plus_get_themeData();
-
         $matchFound = false;
 
         foreach ($themeDataArr as $themeDataObj) {
@@ -1357,3 +1340,32 @@ function sfsi_OfflineChatMessage()
     }
     die();
 }
+
+add_action('wp_ajax_sfsi_get_feed_id', 'sfsi_get_feed_id');
+
+function sfsi_get_feed_id()
+{
+    if (!wp_verify_nonce($_POST['nonce'], "sfsi_get_feed_id")) {
+        echo  json_encode(array('res' => 'wrong_nonce'));
+        exit;
+    }
+    if (!current_user_can('manage_options')) {
+        echo  json_encode(array("res"=>"Failed",'message'=>"You should be admin to take this action"));
+        exit;
+    }
+    $feed_id = sanitize_text_field(get_option('sfsi_feed_id'));
+    if(""==$feed_id){
+        $sfsiId = SFSI_getFeedUrl();
+        update_option('sfsi_feed_id'        , sanitize_text_field($sfsiId->feed_id));
+        update_option('sfsi_redirect_url'   , sanitize_text_field($sfsiId->redirect_url));
+        echo json_encode(array("res"=>"success",'feed_id'=>$sfsiId->feed_id));
+        sfsi_getverification_code();
+        exit;
+    }else{
+        echo json_encode(array("res"=>"success","feed_id"=>$feed_id));
+        exit;
+    }
+    wp_die();
+}
+
+?>

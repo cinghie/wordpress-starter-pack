@@ -84,8 +84,8 @@ class Mutator
 	public function registerAssets()
 	{
 		add_action('admin_enqueue_scripts', function () {
-			wp_enqueue_style('custom', analyst_assets_url('/css/customize.css'));
-			wp_enqueue_script('custom', analyst_assets_url('/js/customize.js'));
+			wp_enqueue_style('analyst_custom', analyst_assets_url('/css/customize.css'));
+			wp_enqueue_script('analyst_custom', analyst_assets_url('/js/customize.js'));
 		});
 	}
 

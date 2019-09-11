@@ -1,4 +1,4 @@
-<div id="analyst-opt-out-modal" class="analyst-modal">
+<div id="analyst-opt-out-modal" class="analyst-modal" style="display: none">
 	<div class="analyst-modal-content" style="width: 600px">
 		<div class="analyst-disable-modal-mask" id="analyst-disable-opt-out-modal-mask" style="display: none"></div>
 		<div style="display: flex">

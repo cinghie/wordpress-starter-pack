@@ -2,7 +2,9 @@
 
 namespace Analyst\Notices;
 
-class NoticeFactory
+use Analyst\Core\AbstractFactory;
+
+class NoticeFactory extends AbstractFactory
 {
 	private static $instance;
 
@@ -25,12 +27,14 @@ class NoticeFactory
 		if (!static::$instance) {
 			$raw = get_option(self::OPTIONS_KEY);
 
-			// In case this object is not serialized
-			// we instantiate new object
-			if (!$raw) {
-				static::$instance = new self();
+			// In case object is already unserialized
+			// and instance of AccountDataFactory we
+			// return it, in other case deal with
+			// serialized string data
+			if ($raw instanceof self) {
+				static::$instance = $raw;
 			} else {
-				static::$instance = unserialize($raw);
+				static::$instance = is_string($raw) ? static::unserialize($raw) : new self();
 			}
 		}
 
