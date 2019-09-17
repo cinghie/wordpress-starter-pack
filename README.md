@@ -12,7 +12,7 @@ Wordpress Starter Pack is a ready-to-use Wordpress site with:
 ## 1) Copy folder with git from Terminal
 
 ```
-git clone https://github.com/cinghie/wordpress-starter-pack.git wordpress
+git clone -b woocommerce https://github.com/cinghie/wordpress-starter-pack.git woocommerce
 ```
 
 ## 2) Download and insert Wordpress last version in the some folder:
@@ -22,7 +22,7 @@ https://it.wordpress.org/
 ## 3) Edit wordpress.sql, replacing:
 
 ```
-"http://localhost/wordpress" with your site url
+"http://localhost/woocommerce" with your site url
 ```
 
 ## 4) Import wordpress.sql to your database and login with:
@@ -38,6 +38,7 @@ Set database connection params
 
  - On Permalink Settings regenerate permalink  
  - Create new user and delete the old one with username "admin"  
+ - On Woccomerce -> Settings -> General set Shop information
  - On General Settings set Site Title  
  - On Reading Settings remove flag from "Discourage search engines to index this site"  
  - Generate and set Akismet Anti-Spam https://akismet.com/  
@@ -85,12 +86,13 @@ function hide_wordpress_version() {
  - Disable Comments  
  - Disable REST API  
  - FancyBox for WordPress  
- - Gogodigital Cookie Consent  
+ - Gogodigital Cookie Consent   
  - Google Analytics for WordPress by MonsterInsights  
  - Gutenberg  
  - Health Check & Troubleshooting  
  - Instagram Feed  
  - Jetpack by WordPress.com  
+ - MailChimp per Wordpress  
  - MetaSlider  
  - Post Types Order  
  - Redirection  
