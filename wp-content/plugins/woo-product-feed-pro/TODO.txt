@@ -2,7 +2,6 @@ So you found my to-do list for this plugin? Well, hope you enjoy the little snea
 Missing some features you might like? Drop me a line at support@adtribes.io and we might just add it to the list. Thanks!
 
 Priority issues:
-- Facebook remarketing add to cart event: currency
 - Only update feed when changes to products have been made
 - Add header to extra fields on product edit pages
 - Make batch-size configurable (but hide this option, it could cause lots of problems for users)

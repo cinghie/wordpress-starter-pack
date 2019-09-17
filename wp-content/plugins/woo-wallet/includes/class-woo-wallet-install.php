@@ -17,6 +17,9 @@ class Woo_Wallet_Install {
         ),
         '1.1.7' => array(
             'woo_wallet_update_117_db_column'
+        ),
+        '1.3.10' => array(
+            'woo_wallet_update_1310_db_column'
         )
     );
     

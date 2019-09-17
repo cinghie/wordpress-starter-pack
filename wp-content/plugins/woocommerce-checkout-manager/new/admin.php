@@ -16,18 +16,75 @@ if (!class_exists('WOOCCM_Admin')) {
 
           if (array_key_exists('billing_buttons', $options)) {
 
-            $enabled = empty($options['billing_buttons'][$field_id]['enabled']);
+            $disabled = empty($options['billing_buttons'][$field_id]['disabled']);
 
-            $options['billing_buttons'][$field_id]['enabled'] = $enabled;
+            $options['billing_buttons'][$field_id]['disabled'] = $disabled;
 
             update_option('wccs_settings3', $options);
 
-            wp_send_json_success($enabled);
+            wp_send_json_success(!$disabled);
           }
         }
       }
 
       wp_send_json_error('invalid_field_id');
+      wp_die();
+    }
+
+    function ajax_add_field() {
+
+      if (current_user_can('manage_woocommerce') && check_ajax_referer('wooccm_admin', 'nonce')) {
+
+        if ($options = get_option('wccs_settings3')) {
+
+          if (array_key_exists('billing_buttons', $options)) {
+
+            $options['billing_buttons'][] = array(
+                'order' => count($options['billing_buttons']) + 1,
+                'label' => esc_html__('New Field', 'woocommerce-checkout-manager'),
+                'placeholder' => esc_html__('New Field', 'woocommerce-checkout-manager'),
+                'position' => 'form-row-wide',
+                'required' => false,
+                'clear_row' => false,
+                'type' => 'wooccmtext'
+            );
+
+            update_option('wccs_settings3', $options);
+
+            wp_send_json_success();
+          }
+        }
+      }
+
+      wp_send_json_error();
+      wp_die();
+    }
+
+    function ajax_edit_field() {
+
+      if (current_user_can('manage_woocommerce') && check_ajax_referer('wooccm_admin', 'nonce')) {
+
+        if ($options = get_option('wccs_settings3')) {
+
+          if (array_key_exists('billing_buttons', $options)) {
+
+            $field_id = isset($_REQUEST['field_id']) ? absint($_REQUEST['field_id']) : 0;
+
+            if (isset($options['billing_buttons'][$field_id])) {
+
+              $options['billing_buttons'][$field_id]['id'] = $field_id;
+              $options['billing_buttons'][$field_id]['prev_id'] = $field_id - 1;
+              $options['billing_buttons'][$field_id]['next_id'] = min($field_id + 1, count($options['billing_buttons']) - 1);
+
+              wp_send_json_success($options['billing_buttons'][$field_id]);
+            }
+
+            wp_send_json_error(esc_html__('Undefined field id', 'woocommerce-checkout-managerS'));
+          }
+        }
+      }
+
+      wp_send_json_error(esc_html__('Unknow error', 'woocommerce-checkout-managerS'));
       wp_die();
     }
 
@@ -166,6 +223,8 @@ if (!class_exists('WOOCCM_Admin')) {
       add_action('woocommerce_sections_' . WOOCCM_PREFIX, array($this, 'add_section_advanced'), 99);
       add_action('woocommerce_settings_save_' . WOOCCM_PREFIX, array($this, 'save_section_billing'));
       add_action('wp_ajax_wooccm_toggle_field_enabled', array($this, 'ajax_toggle_field_enabled'));
+      add_action('wp_ajax_wooccm_add_field', array($this, 'ajax_add_field'));
+      add_action('wp_ajax_wooccm_edit_field', array($this, 'ajax_edit_field'));
     }
 
     public static function instance() {

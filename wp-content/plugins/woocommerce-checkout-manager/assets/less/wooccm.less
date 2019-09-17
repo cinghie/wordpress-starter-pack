@@ -1,3 +1,16 @@
+.wooccm-clearfix {
+  float: none;
+  &:before, 
+    &:after{ 
+    content:''; 
+    display:table; 
+  }
+  &:after{ 
+    clear: both;
+  }
+}
+
+
 .button {
   &.fileinput-button {
     position: relative;
@@ -16,8 +29,8 @@
     }
 
   }
-
 }
+
 .wooccmupload_list {
   margin: 0 -5px;
   padding: 0;

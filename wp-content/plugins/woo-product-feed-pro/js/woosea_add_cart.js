@@ -15,6 +15,7 @@ jQuery(document).ready(function($) {
         		fbq('track', 'AddToCart', {
   				content_ids: [productId],
 				content_name: response.product_name,
+				content_category: response.product_cats,
   				content_type: 'product',
 				value: response.product_price,
 				currency: response.product_currency,
@@ -41,6 +42,7 @@ jQuery(document).ready(function($) {
 	 		fbq('track', 'AddToCart', {
   				content_ids: [productId],
 				content_name: response.product_name,
+				content_category: response.product_cats,
   				content_type: 'product',
 				value: response.product_price,
 				currency: response.product_currency,

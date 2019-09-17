@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.2
-Stable tag: 6.4.1
+Stable tag: 6.4.5
 
 == Description ==
 
@@ -285,6 +285,16 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 6.4.5 (2019-09-13) =
+* Fixed a bug: price filters on non numeric values did not work properly. Issue has been fixed.
+
+= 6.4.3 (2019-09-13) =
+* Added a feature to configure the plugin product batch size
+
+= 6.4.2 (2019-09-11) =
+* Added the product category to the Facebook AddToCart event
+* Custom attributes of parent products where showing for variants whereas it should show the variant values. This issue has been fixed
 
 = 6.4.1 (2019-09-10) =
 * Facebook pixel was not triggered on parent (variable) products, this has been added now
@@ -1998,6 +2008,16 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 6.4.5 =
+Fixed a bug: price filters on non numeric values did not work properly. Issue has been fixed.
+
+= 6.4.3 =
+Added a feature to configure the plugin product batch size
+
+= 6.4.2 =
+Added the product category to the Facebook AddToCart event
+Custom attributes of parent products where showing for variants whereas it should show the variant values. This issue has been fixed
 
 = 6.4.1 =
 Facebook pixel was not triggered on parent (variable) products, this has been added now

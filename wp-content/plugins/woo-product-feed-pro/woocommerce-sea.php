@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     6.4.1
+ * Version:     6.4.5
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '6.4.1' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '6.4.5' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -144,9 +144,7 @@ function woosea_front_scripts() {
 
         if($add_facebook_pixel == "yes"){
 		// JS for manage projects page
-//		wp_register_script( 'woosea_add_cart-js', plugin_dir_url( __FILE__ ) . 'js/woosea_add_cart.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
  		wp_enqueue_script( 'woosea_add_cart-js', plugin_dir_url( __FILE__ ) . 'js/woosea_add_cart.js', array('jquery'), true );
-//		wp_enqueue_script( 'woosea_add_cart-js' );
 
 		//passing variables to the javascript file
 		wp_localize_script('woosea_add_cart-js', 'frontEndAjax', array(
@@ -154,6 +152,15 @@ function woosea_front_scripts() {
  			'nonce' => wp_create_nonce('woosea_ajax_nonce')
  		));
 	}
+
+	// Always register orders conversion tracking
+ 	// wp_enqueue_script( 'woosea_tracking-js', plugin_dir_url( __FILE__ ) . 'js/woosea_tracking.js', array('jquery'), true );
+	
+	//passing variables to the javascript file
+	// wp_localize_script('woosea_tracking-js', 'frontEndAjax', array(
+ 	//	'ajaxurl' => admin_url( 'admin-ajax.php' ),
+ 	//	'nonce' => wp_create_nonce('woosea_ajax_nonce')
+ 	//));
 }
 add_action( 'wp_enqueue_scripts' , 'woosea_front_scripts' );
 
@@ -175,6 +182,16 @@ function woosea_addtocart_details(){
 		$product_sku = $product->get_sku();
 	        $currency = get_woocommerce_currency();
 
+             	$cats = "";
+              	$all_cats = get_the_terms( $productId, 'product_cat' );
+             	foreach ($all_cats as $key => $category) {
+                	$cats .= $category->name.",";
+              	}
+                     
+               	// strip last comma
+              	$cats = rtrim($cats, ",");
+             	$cats = str_replace("&amp;","&", $cats);
+
         	$data = array (
                 	'product_name' 		=> $product_name,
                 	'product_type' 		=> $product_type,
@@ -182,7 +199,8 @@ function woosea_addtocart_details(){
 			'product_regular_price'	=> $product_regular_price,
 			'product_sale_price'	=> $product_sale_price,
 			'product_sku'		=> $product_sku,
-			'product_currency'	=> $currency
+			'product_currency'	=> $currency,
+			'product_cats'		=> $cats
         	);
 
         	echo json_encode($data);
@@ -621,9 +639,6 @@ function woosea_inject_ajax( $order_id ){
 	$total = $order->get_total();
 
 	update_option('last_order_id', $order_id);
-
-//	$jscode = sprintf('<script type="text/javascript">var ajaxurl = "' . admin_url('admin-ajax.php') . '";</script>');
-//	echo "\n${jscode}\n\n";
 }
 add_action( 'woocommerce_thankyou', 'woosea_inject_ajax' );
 
@@ -2828,7 +2843,6 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 $variable_sku          = $_POST['variable_sku'];
                 $variable_post_id      = $_POST['variable_post_id'];
-
                 $max_loop = max( array_keys( $_POST['variable_post_id'] ) );
 
                 for ( $i = 0; $i <= $max_loop; $i++ ) {
@@ -2843,7 +2857,6 @@ function woosea_save_custom_variable_fields( $post_id ) {
                         if ( isset( $_brand[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_brand', stripslashes( sanitize_text_field( $_brand[$i] )));
                         }
-
 
                 // MPN Field
                 $_mpn = $_POST['_woosea_variable_mpn'];
@@ -3561,6 +3574,11 @@ function woosea_create_all_feeds(){
 	// Update project configurations with the latest amount of live products
         $count_products = wp_count_posts('product', 'product_variation');
         $nr_products = $count_products->publish;
+
+	// Determine if changes where made to products or new orders where placed
+ 	// Only update the feed(s) when such a change occured
+	$products_changes = get_option('woosea_allow_update');
+	//error_log("Product changes:" . $products_changes);
 	
 	if(!empty($feed_config)){	
 		foreach ( $feed_config as $key => $val ) {
@@ -3665,7 +3683,6 @@ function woosea_last_updated($project_hash){
  * Track user and channel conversions
  */
 function woosea_track_conversion () {
-
 	$save_conversion = "no";
 
 	// First check if adTribesID cookie is active
@@ -3838,7 +3855,7 @@ function woosea_before_product_save( $post_id ) {
 		}	
 	}
 }
-//add_action('pre_post_update','woosea_before_product_save');
+add_action('pre_post_update','woosea_before_product_save');
 
 /**
  * Detect changes made to products
@@ -3847,7 +3864,7 @@ function woosea_before_product_save( $post_id ) {
 function woosea_on_product_save( $product_id ) {
 	$product = wc_get_product( $product_id );
 	$product_data = $product->get_data();
-                
+               
 	$after = array(
         	"product_id"            =>      $product_id,
                	"type"                  =>      $product->get_type(),
@@ -3879,17 +3896,24 @@ function woosea_on_product_save( $product_id ) {
    	);   
 
 	if (is_array($product_data)){
+
 		if(get_option('product_changes')){
 			$before = get_option('product_changes');
 			$diff = array_diff($after, $before);
 			if(!$diff){
 				$diff['product_id'] = $product_id;
+			} else {
+				// Enable the prodyct changed flag
+			        update_option('woosea_allow_update', 'yes');
 			}
 			delete_option('product_changes');
+		} else {
+			// Enable the prodyct changed flag
+			update_option('woosea_allow_update', 'yes');
 		}
 	}
 }
-//add_action( 'woocommerce_update_product', 'woosea_on_product_save', 10, 1 );
+add_action( 'woocommerce_update_product', 'woosea_on_product_save', 10, 1 );
 
 /**
  * Function with initialisation of class for managing existing feeds

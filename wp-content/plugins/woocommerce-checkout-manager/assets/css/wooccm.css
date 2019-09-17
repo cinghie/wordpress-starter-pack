@@ -1,3 +1,14 @@
+.wooccm-clearfix {
+  float: none;
+}
+.wooccm-clearfix:before,
+.wooccm-clearfix:after {
+  content: '';
+  display: table;
+}
+.wooccm-clearfix:after {
+  clear: both;
+}
 .button.fileinput-button {
   position: relative;
   overflow: hidden!important;

@@ -5,6 +5,7 @@ if (!class_exists('WOOCCM_Fields_Register')) {
   class WOOCCM_Fields_Register {
 
     protected static $instance;
+    protected static $i = 0;
 
     function get_positioning($position = 'after_order_notes') {
 
@@ -31,58 +32,117 @@ if (!class_exists('WOOCCM_Fields_Register')) {
           'country'
       );
 
-      if ($custom_field['cow'] == 'country') {
-        // Country override
-        $fields[$key]['type'] = 'wooccmcountry';
-      } elseif ($custom_field['cow'] == 'state') {
-        // State override
-        $fields[$key]['type'] = 'wooccmstate';
-      } else {
-        $fields[$key]['type'] = $custom_field['type'];
+      //var_dump($fields[$key]);
+
+      $fields[$key] = wp_parse_args($custom_field, (array) @$fields[$key]);
+
+      // Priority
+      // -----------------------------------------------------------------------
+      if (isset($custom_field['order'])) {
+        $fields[$key]['priority'] = $fields[$key]['order'] * 10;
       }
 
+      // Color
+      // -----------------------------------------------------------------------
+      if (isset($custom_field['colorpickerd'])) {
+        $fields[$key]['color'] = $fields[$key]['colorpickerd'];
+      }
+
+      // Options
+      // -----------------------------------------------------------------------
+      //if (!empty($custom_field['option_array'])) {
+      $fields[$key]['options'] = @$custom_field['option_array'];
+      //}
+      // Default
+      // -----------------------------------------------------------------------
+      if (isset($custom_field['force_title2'])) {
+        $fields[$key]['default'] = $fields[$key]['force_title2'];
+      }
+
+      // Clear
+      // -----------------------------------------------------------------------
+      if (isset($custom_field['clear_row'])) {
+        $fields[$key]['clear'] = $fields[$key]['clear_row'];
+      }
+
+      // Class
+      // -----------------------------------------------------------------------
+
+      if (isset($fields[$key]['class'])) {
+        if (isset($custom_field['position'])) {
+          $fields[$key]['class'] = array_diff($fields[$key]['class'], array('form-row-wide', 'form-row-first', 'form-row-last'));
+          $fields[$key]['class'][] = $custom_field['position'];
+        }
+        if (isset($custom_field['conditional_tie'])) {
+          $fields[$key]['class'][] = $custom_field['conditional_tie'];
+        }
+        if (isset($custom_field['extra_class'])) {
+          $fields[$key]['class'][] = $custom_field['extra_class'];
+        }
+      } else {
+        $fields[$key]['class'] = array('form-row-wide');
+      }
+
+      if (!empty($custom_field['clear_row'])) {
+        $fields[$key]['class'][] = 'wooccm-clearfix';
+      }
+
+      // Remove placeholder
+      // -----------------------------------------------------------------------
       if ($custom_field['cow'] !== 'country' || $custom_field['cow'] !== 'state') {
         $fields[$key]['placeholder'] = ( isset($custom_field['placeholder']) ? $custom_field['placeholder'] : '' );
       }
 
-      // Default to Position wide
-      $custom_field['position'] = ( isset($custom_field['position']) ? $custom_field['position'] : 'form-row-wide' );
-      $fields[$key]['class'] = array($custom_field['position'] . ' ' . ( isset($custom_field['conditional_tie']) ? $custom_field['conditional_tie'] : '' ) . ' ' . ( isset($custom_field['extra_class']) ? $custom_field['extra_class'] : '' ));
-      $fields[$key]['label'] = wooccm_wpml_string($custom_field['label']);
-      $fields[$key]['clear'] = ( isset($custom_field['clear_row']) ? $custom_field['clear_row'] : '' );
-      $fields[$key]['default'] = ( isset($custom_field['force_title2']) ? $custom_field['force_title2'] : '' );
-      $fields[$key]['options'] = ( isset($custom_field['option_array']) ? $custom_field['option_array'] : '' );
-      $fields[$key]['user_role'] = ( isset($custom_field['user_role']) ? $custom_field['user_role'] : '' );
-      $fields[$key]['role_options'] = ( isset($custom_field['role_options']) ? $custom_field['role_options'] : '' );
-      $fields[$key]['role_options2'] = ( isset($custom_field['role_options2']) ? $custom_field['role_options2'] : '' );
-      $fields[$key]['required'] = ( isset($custom_field['checkbox']) ? $custom_field['checkbox'] : '' );
-      $fields[$key]['wooccm_required'] = ( isset($custom_field['checkbox']) ? $custom_field['checkbox'] : '' );
-      $fields[$key]['cow'] = ( isset($custom_field['cow']) ? $custom_field['cow'] : '' );
-      $fields[$key]['color'] = ( isset($custom_field['colorpickerd']) ? $custom_field['colorpickerd'] : '' );
-      $fields[$key]['colorpickertype'] = ( isset($custom_field['colorpickertype']) ? $custom_field['colorpickertype'] : '' );
-      $fields[$key]['order'] = ( isset($custom_field['order']) ? $custom_field['order'] : '' );
-      $fields[$key]['priority'] = ( isset($custom_field['priority']) ? $custom_field['priority'] : $fields[$key]['order'] );
-      $fields[$key]['fancy'] = ( isset($custom_field['fancy']) ? $custom_field['fancy'] : '' );
-
-      // Remove required for heading
-
-      if ($custom_field['type'] == 'heading') {
-        $fields[$key]['required'] = false;
-
-        //error_log(json_encode($fields[$key]));
+      // Scape wooccm field fielter
+      // -----------------------------------------------------------------------
+      if ($fields[$key]['type'] == 'wooccmtext') {
+        $fields[$key]['type'] = 'text';
       }
 
+      if ($fields[$key]['type'] == 'wooccmstate') {
+        $fields[$key]['type'] = 'state';
+      }
+      if ($fields[$key]['type'] == 'wooccmcountry') {
+        $fields[$key]['type'] = 'country';
+      }
+
+      // Required
+      // -----------------------------------------------------------------------
+      if (!empty($custom_field['checkbox'])) {
+        $fields[$key]['checkbox'] = true;
+        $fields[$key]['required'] = true;
+        $fields[$key]['wooccm_required'] = true;
+      } else {
+        $fields[$key]['checkbox'] = false;
+        $fields[$key]['required'] = false;
+        $fields[$key]['wooccm_required'] = false;
+      }
+
+      // Remove required for heading
+      // -----------------------------------------------------------------------
+      if ($custom_field['type'] == 'heading') {
+        $fields[$key]['required'] = false;
+      }
+
+      // Fancy
+      // -----------------------------------------------------------------------
+      //if (!empty($custom_field['option_array'])) {
+      $fields[$key]['fancy'] = @$custom_field['fancy'];
+      //}
       // Check if Multi-checkbox has options assigned to it
+      // -----------------------------------------------------------------------
       if ($custom_field['type'] == 'multicheckbox' && empty($custom_field['option_array'])) {
         $custom_field['disabled'] = true;
       }
 
       // Bolt on address-field for address-based fields
+      // -----------------------------------------------------------------------
       if (in_array($custom_field['cow'], $defaults)) {
         $fields[$key]['class'][] = 'address-field';
       }
 
       // Override for State fields
+      // -----------------------------------------------------------------------
       if ($fields[$key]['type'] == 'wooccmstate') {
         $country_key = false;
         if ($key == 'billing_state') {
@@ -101,7 +161,9 @@ if (!class_exists('WOOCCM_Fields_Register')) {
         }
       }
 
-      return $fields[$key];
+      //error_log(json_encode($fields[$key]));
+
+      return apply_filters('wooccm_checkout_field_filter', $fields[$key], $key);
     }
 
     function add_checkout_fields_filter($fields, $name, $key, $prefix = '') {
@@ -118,18 +180,18 @@ if (!class_exists('WOOCCM_Fields_Register')) {
 
                 $key = sprintf("%s%s", $prefix, $custom_field['cow']);
 
-                $fields[$key] = $this->add_checkout_field_filter($key, $fields, $custom_field);
-
                 // Remove disabled fields
-                if (!empty($custom_field['disabled'])) {
-                  unset($fields[$key]);
-                }
+                //if (!empty($custom_field['disabled'])) {
+                //unset($fields[$key]);
+                //} else {
+                $fields[$key] = $this->add_checkout_field_filter($key, $fields, $custom_field);
+                //}
               }
             }
           }
         }
 
-        // Resort the fields by order
+// Resort the fields by order
         $fields[] = uasort($fields, 'wooccm_sort_fields');
 
         if ($fields[0]) {
@@ -172,8 +234,8 @@ if (!class_exists('WOOCCM_Fields_Register')) {
 
       // Shipping fields
       // -----------------------------------------------------------------------
-
       add_filter('woocommerce_shipping_fields', array($this, 'add_checkout_shipping_fields'));
+
       // Additional fields
       // -----------------------------------------------------------------------
       switch ($this->get_positioning()) {

@@ -1634,10 +1634,12 @@ class WooSEA_Get_Products {
 		/**
 		 * User set his own batch size
 		 */
-//              $woosea_batch_size = get_option ('woosea_batch_size');
-//		if(!empty($woosea_batch_size)){
-//			$nr_batches = ceil($published_products/$woosea_batch_size);
-//		}
+              	$woosea_batch_size = get_option ('woosea_batch_size');
+		if(!empty($woosea_batch_size)){
+			if(is_numeric($woosea_batch_size)){
+				$nr_batches = ceil($published_products/$woosea_batch_size);
+			}
+		}
 
 		$offset_step_size = ceil($published_products/$nr_batches);
 
@@ -2611,8 +2613,8 @@ class WooSEA_Get_Products {
                                         $custom_attributes['_aioseop_title'] = "All in one seo pack title";
                                         $custom_attributes['_aioseop_description'] = "All in one seo pack description";
                                 }
-
-                  	      	foreach($custom_attributes as $custom_kk => $custom_vv){
+                  	      	
+				foreach($custom_attributes as $custom_kk => $custom_vv){
                                		$custom_value = get_post_meta( $product_data['id'], $custom_kk, true );
 
 					// Product variant brand is empty, grap that of the mother product
@@ -2636,7 +2638,9 @@ class WooSEA_Get_Products {
 					}
 
 					if(!is_array($custom_value)){
+                                        	$custom_kk = str_replace("attribute_","",$custom_kk);
 						$new_key ="custom_attributes_" . $custom_kk;
+					
 						// In order to make the mapping work again, replace var by product
                                         	$new_key = str_replace("var","product",$new_key);
 						if(!empty( $custom_value )){
@@ -2649,7 +2653,7 @@ class WooSEA_Get_Products {
                                  * We need to check if this product has individual custom product attributes
                                  */
                                 global $wpdb;
-                                $sql = "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM " . $wpdb->prefix . "postmeta" . " AS meta, " . $wpdb->prefix . "posts" . " AS posts WHERE meta.post_id=".$product_data['item_group_id']." AND meta.post_id = posts.id GROUP BY meta.meta_key ORDER BY meta.meta_key ASC";
+                                $sql = "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM " . $wpdb->prefix . "postmeta" . " AS meta, " . $wpdb->prefix . "posts" . " AS posts WHERE meta.post_id=".$product_data['id']." AND meta.post_id = posts.id GROUP BY meta.meta_key ORDER BY meta.meta_key ASC";
                                 $data = $wpdb->get_results($sql);
                                 if (count($data)) {
                                         foreach ($data as $key => $value) {
@@ -2659,7 +2663,7 @@ class WooSEA_Get_Products {
                                                         foreach ($product_attr as $key => $arr_value) {
                                                                 $new_key ="custom_attributes_" . $key;
                                                                 $product_data[$new_key] = $arr_value['value'];
-                                                        }
+							 }
                                                 }
                                         }
                                 }
@@ -2667,7 +2671,7 @@ class WooSEA_Get_Products {
 				/**
 				 * We also need to make sure that we get the custom attributes belonging to the simple mother product
 				 */
-                        	$custom_attributes_mother = $this->get_custom_attributes( $product_data['item_group_id'] );
+	                       	$custom_attributes_mother = $this->get_custom_attributes( $product_data['item_group_id'] );
 
                         	foreach($custom_attributes_mother as $custom_kk_m => $custom_value_m){
 
@@ -2676,7 +2680,6 @@ class WooSEA_Get_Products {
 						$new_key_m ="custom_attributes_" . $custom_kk_m;
 						// In order to make the mapping work again, replace var by product
 			                      	$new_key_m = str_replace("var","product",$new_key_m);
-
 						if(!key_exists($new_key_m, $product_data) AND (!empty($custom_value_m))){
 							if(is_array($custom_value_m)){
 								// determine what to do with this later	
@@ -3351,11 +3354,12 @@ class WooSEA_Get_Products {
 
 //				if(is_array($xml_piece)){
 					// End of processing batched feed
-					if($nrpr >= $feed_config[$key]['nr_products']){
+					if($nrpr >= $published_products){
 
 						// Set counters back to 0
 						$feed_config[$key]['nr_products_processed'] = 0;
-					
+						$feed_config[$key]['nr_products'] = $published_products;
+
 						// Set processing status on ready
 						$feed_config[$key]['running'] = "ready";
 						$project_data['last_updated'] = date("d M Y H:i");
@@ -3374,13 +3378,16 @@ class WooSEA_Get_Products {
 						
 						$batch_project = "batch_project_".$feed_config[$key]['project_hash'];
 						delete_option( $batch_project );
+        					delete_option('woosea_allow_update');
+
 
 						// In 2 minutes from now check the amount of products in the feed and update the history count
 						wp_schedule_single_event( time() + 120, 'woosea_update_project_stats', array($val['project_hash']) );
 					} else {
 						$feed_config[$key]['nr_products_processed'] = $nr_prods_processed;
 						$feed_config[$key]['running'] = "processing";
-		
+						$feed_config[$key]['nr_products'] = $published_products;
+
 						// Set new scheduled event for next batch in 2 seconds
 						if($offset_step_size < $published_products){
         						if (! wp_next_scheduled ( 'woosea_create_batch_event', array($feed_config[$key]['project_hash']) ) ) {
@@ -3390,10 +3397,11 @@ class WooSEA_Get_Products {
 							}
 						} else {
 							// No batch is needed, already done processing all products
-
 							// Set counters back to 0
 							$feed_config[$key]['nr_products_processed'] = 0;
-               		 				$upload_dir = wp_upload_dir();
+							$feed_config[$key]['nr_products'] = $published_products;
+             		 				
+							$upload_dir = wp_upload_dir();
                 					$base = $upload_dir['basedir'];
                 					$path = $base . "/woo-product-feed-pro/" . $feed_config[$key]['fileformat'];
                 					$tmp_file = $path . "/" . sanitize_file_name($feed_config[$key]['filename']) . "_tmp." . $feed_config[$key]['fileformat'];
@@ -3412,7 +3420,8 @@ class WooSEA_Get_Products {
 
 							$batch_project = "batch_project_".$feed_config[$key]['project_hash'];
 							delete_option( $batch_project );
-
+        						delete_option('woosea_allow_update');
+							
 							// In 2 minutes from now check the amount of products in the feed and update the history count
 							wp_schedule_single_event( time() + 120, 'woosea_update_project_stats', array($val['project_hash']) );
 						}
@@ -4125,14 +4134,17 @@ class WooSEA_Get_Products {
 					// Check is there is a rule on specific attributes
 
 					if(in_array($pd_key, $pr_array, TRUE)){
-
+						if($pd_key == "price"){
+							//$pd_value = @number_format($pd_value,2);
+							$pd_value = wc_format_decimal($pd_value);
+						}
+						
 						if (is_numeric($pd_value)){
-
 							$old_value = $pd_value;
 							if($pd_key == "price"){
 								$pd_value = @number_format($pd_value,2);
 							}
-							
+						
 							// Rules for numeric values	
 							switch ($pr_array['condition']) {
 								case($pr_array['condition'] = "contains"):

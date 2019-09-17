@@ -47,7 +47,7 @@ if (!class_exists('WOOCCM_Fields_Required')) {
     //}
 
     function init() {
-      add_action('woocommerce_checkout_process', array($this, 'add_checkout_additional_required'));
+      //add_action('woocommerce_checkout_process', array($this, 'add_checkout_additional_required'));
       //add_action('woocommerce_checkout_process', array($this, 'add_checkout_billing_required'));
       //add_action('woocommerce_checkout_process', array($this, 'add_checkout_shipping_required'));
     }

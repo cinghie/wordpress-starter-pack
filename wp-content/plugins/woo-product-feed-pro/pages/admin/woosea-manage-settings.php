@@ -282,7 +282,7 @@ if(isset($_GET["tab"])) {
 
 						<tr id="facebook_pixel">
 							<td>
-								<span><?php _e( 'Add Facebook Pixel (<b>beta</b>):', 'woo-product-feed-pro');?></span>
+								<span><?php _e( 'Add Facebook Pixel:', 'woo-product-feed-pro');?></span>
 							</td>
 							<td>
                                                 		<label class="woo-product-feed-pro-switch">
@@ -307,7 +307,7 @@ if(isset($_GET["tab"])) {
 
 						<tr id="remarketing">
 							<td>
-								<span><?php _e( 'Add Google Dynamic Remarketing Pixel (<b>beta</b>):', 'woo-product-feed-pro');?></span>
+								<span><?php _e( 'Add Google Dynamic Remarketing Pixel:', 'woo-product-feed-pro');?></span>
 							</td>
 							<td>
                                                 		<label class="woo-product-feed-pro-switch">
@@ -331,10 +331,9 @@ if(isset($_GET["tab"])) {
 						}
 						?>
 
-						<!--
 						<tr id="batch">
 							<td>
-								<span><?php _e( 'Change products per batch number (Enable only on advice of our support-team):', 'woo-product-feed-pro');?></span>
+								<span><?php _e( 'Change products per batch number (Enable only on advice of our support-team):', 'woo-product-feed-pro');?> (<a href="https://adtribes.io/batch-size-configuration-product-feed/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_content=batch size" target="_blank"><?php _e( 'Read more about this', 'woo-product-feed-pro' );?>)</a></span>
 							</td>
 							<td>
                                                 		<label class="woo-product-feed-pro-switch">
@@ -350,13 +349,12 @@ if(isset($_GET["tab"])) {
                                                 		</label>
 							</td>
 						</tr>
-						-->
 						<?php
-//                                                if($add_batch == "yes"){
-//							$woosea_batch_size = get_option('woosea_batch_size');
-//
-//							print "<tr id=\"woosea_batch_size\"><td colspan=\"2\"><span>Insert batch size:</span>&nbsp;<input type=\"text\" class=\"input-field-medium\" id=\"batch_size\" name=\"batch_size\" value=\"$woosea_batch_size\">&nbsp;<input type=\"submit\" id=\"save_batch_size\" value=\"Save\"></td></tr>";	
-//						}
+                                                if($add_batch == "yes"){
+							$woosea_batch_size = get_option('woosea_batch_size');
+
+							print "<tr id=\"woosea_batch_size\"><td colspan=\"2\"><span>Insert batch size:</span>&nbsp;<input type=\"text\" class=\"input-field-medium\" id=\"batch_size\" name=\"batch_size\" value=\"$woosea_batch_size\">&nbsp;<input type=\"submit\" id=\"save_batch_size\" value=\"Save\"></td></tr>";	
+						}
 						?>
 						</form>
 					</table>

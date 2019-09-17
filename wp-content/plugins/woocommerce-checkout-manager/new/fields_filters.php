@@ -469,7 +469,7 @@ function wooccm_checkout_field_checkbox_handler($field = '', $key, $args, $value
 
 add_filter('woocommerce_form_field_checkbox_wccm', 'wooccm_checkout_field_checkbox_handler', 10, 4);
 
-// State
+/* State
 function wooccm_checkout_field_state_handler($field = '', $key, $args, $value) {
 
   global $current_user;
@@ -591,8 +591,8 @@ function wooccm_checkout_field_state_handler($field = '', $key, $args, $value) {
 }
 
 add_filter('woocommerce_form_field_wooccmstate', 'wooccm_checkout_field_state_handler', 10, 4);
-
-// Country
+*/
+/* Country
 function wooccm_checkout_field_country_handler($field = '', $key, $args, $value) {
 
   global $current_user;
@@ -695,7 +695,7 @@ function wooccm_checkout_field_country_handler($field = '', $key, $args, $value)
 }
 
 add_filter('woocommerce_form_field_wooccmcountry', 'wooccm_checkout_field_country_handler', 10, 4);
-
+*/
 // Multi-Select
 function wooccm_checkout_field_multiselect_handler($field = '', $key, $args, $value) {
 

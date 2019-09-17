@@ -217,18 +217,21 @@ jQuery(document).ready(function($) {
 	$('#add_batch').on('change', function(){ // on change of state
    		if(this.checked){
 
-			// Checkbox is on
-                	jQuery.ajax({
-                        	method: "POST",
-                        	url: ajaxurl,
-                        	data: { 'action': 'woosea_add_batch', 'status': "on" }
-                	})
-			.done(function( data ) {
-				$('#batch').after('<tr id="woosea_batch_size"><td colspan="2"><span>Insert batch size:</span>&nbsp;<input type="text" class="input-field-medium" id="batch_size" name="batch_size">&nbsp;<input type="submit" id="save_batch_size" value="Save"></td></tr>');	
-			})
-                	.fail(function( data ) {
-                        	console.log('Failed AJAX Call :( /// Return Data: ' + data);
-                	});	
+                        var popup_dialog = confirm("Are you sure you want to change the batch size?\n\nChanging the batch size could seriously effect the performance of your website. We advise against changing the batch size if you are unsure about its effects!\n\nPlease reach out to support@adtribes.io when you would like to receive some help with this feature.");
+                        if (popup_dialog == true){
+				// Checkbox is on
+        	        	jQuery.ajax({
+                	        	method: "POST",
+                        		url: ajaxurl,
+                        		data: { 'action': 'woosea_add_batch', 'status': "on" }
+                		})
+				.done(function( data ) {
+					$('#batch').after('<tr id="woosea_batch_size"><td colspan="2"><span>Insert batch size:</span>&nbsp;<input type="text" class="input-field-medium" id="batch_size" name="batch_size">&nbsp;<input type="submit" id="save_batch_size" value="Save"></td></tr>');	
+				})
+                		.fail(function( data ) {
+                        		console.log('Failed AJAX Call :( /// Return Data: ' + data);
+                		});
+			}	
 		} else {
 			// Checkbox is off
                 	jQuery.ajax({
@@ -237,7 +240,7 @@ jQuery(document).ready(function($) {
                         	data: { 'action': 'woosea_add_batch', 'status': "off" }
                 	})
 			.done(function( data ) {
-				$('#adwords_conversion_id').remove();	
+				$('#woosea_batch_size').remove();	
 			})
                 	.fail(function( data ) {
                         	console.log('Failed AJAX Call :( /// Return Data: ' + data);

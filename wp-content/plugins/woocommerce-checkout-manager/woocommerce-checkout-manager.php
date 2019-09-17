@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WooCommerce Checkout Manager
  * Description: Manages WooCommerce Checkout, the advanced way.
- * Version:     4.3.4
+ * Version:     4.4.2
  * Author:      QuadLayers
  * Author URI:  https://www.quadlayers.com
  * Copyright:   2019 QuadLayers (https://www.quadlayers.com)
@@ -16,7 +16,7 @@ if (!defined('WOOCCM_PLUGIN_NAME')) {
   define('WOOCCM_PLUGIN_NAME', 'WooCommerce Checkout Manager');
 }
 if (!defined('WOOCCM_PLUGIN_VERSION')) {
-  define('WOOCCM_PLUGIN_VERSION', '4.3.4');
+  define('WOOCCM_PLUGIN_VERSION', '4.4.2');
 }
 if (!defined('WOOCCM_PLUGIN_FILE')) {
   define('WOOCCM_PLUGIN_FILE', __FILE__);
@@ -81,7 +81,7 @@ if (!class_exists('WOOCCM')) {
             </div>
             <div class="notice-content" style="margin-left: 15px;">
               <p>
-                <?php printf(esc_html__('Hello! We\'ve recently accquired this plugin!', 'woocommerce-checkout-manager'), WOOCCM_PLUGIN_NAME); ?>
+                <?php printf(esc_html__('Hello! We\'ve recently acquired this plugin!', 'woocommerce-checkout-manager'), WOOCCM_PLUGIN_NAME); ?>
                 <br/>
                 <?php esc_html_e('We will do our best to improve it and include new features gradually. Please be patient and let us know about the issues and improvements that you want to see in this plugin.', 'woocommerce-checkout-manager'); ?>
               </p>
@@ -158,6 +158,10 @@ if (!class_exists('WOOCCM')) {
 
     function register_scripts() {
 
+      wp_register_script('wc-admin-meta-boxes', WC()->plugin_url() . '/assets/js/admin/meta-boxes.js', array('jquery', 'jquery-ui-datepicker', 'jquery-ui-sortable', 'accounting', 'round', 'wc-enhanced-select', 'plupload-all', 'stupidtable', 'jquery-tiptip'), WC_VERSION);
+
+      wp_register_script('wooccm-modal', plugins_url('assets/js/wooccm-modal.js', WOOCCM_PLUGIN_FILE), array('jquery', 'wc-admin-meta-boxes', 'backbone'), WOOCCM_PLUGIN_VERSION, true);
+
       wp_register_script('wooccm-admin', plugins_url('assets/js/wooccm-admin.js', WOOCCM_PLUGIN_FILE), array('jquery'), WOOCCM_PLUGIN_VERSION, true);
 
       wp_localize_script('wooccm-admin', 'wooccm', array(
@@ -194,6 +198,11 @@ if (!class_exists('WOOCCM')) {
     function add_admin_scripts() {
 
       $this->register_scripts();
+
+      //1326
+      // only for panel
+      wp_enqueue_media();
+      wp_enqueue_script('wooccm-modal');
 
       // 1326
       // only for orders
@@ -305,11 +314,13 @@ if (!class_exists('WOOCCM')) {
 
       // New
       // -----------------------------------------------------------------------
+      //include( WOOCCM_PLUGIN_DIR . 'new/install.php' );
       //include( WOOCCM_PLUGIN_DIR . 'new/admin.php' );
       include( WOOCCM_PLUGIN_DIR . 'new/checkout.php' );
       include( WOOCCM_PLUGIN_DIR . 'new/orders.php' );
       include( WOOCCM_PLUGIN_DIR . 'new/fields_register.php' );
       include( WOOCCM_PLUGIN_DIR . 'new/fields_required.php' );
+      include( WOOCCM_PLUGIN_DIR . 'new/fields_handler.php' );
       include( WOOCCM_PLUGIN_DIR . 'new/fields_filters.php' );
     }
 
@@ -323,7 +334,12 @@ if (!class_exists('WOOCCM')) {
 
     public static function do_activation() {
       set_transient('wooccm-first-rating', true, MONTH_IN_SECONDS);
-      wooccm_install();
+
+      if (class_exists('WOOCCM_Install')) {
+        WOOCCM_Install::do_activation();
+      } else {
+        wooccm_install();
+      }
     }
 
     public static function instance() {
@@ -341,6 +357,7 @@ if (!class_exists('WOOCCM')) {
   //add_action('plugins_loaded', array('WOOCCM', 'instance'));
 
   WOOCCM::instance();
+
 
   register_activation_hook(WOOCCM_PLUGIN_FILE, array('WOOCCM', 'do_activation'));
 }
@@ -365,7 +382,7 @@ add_action('wp_head', 'wooccm_shipping_hide_required');
 // add_action( 'wooccm_run_color_innerpicker', 'wooccm_run_color_inner' ); run color inside options page (proto)
 add_action('woocommerce_before_checkout_form', 'wooccm_override_this');
 //add_filter('woocommerce_billing_fields', 'wooccm_checkout_billing_fields');
-add_filter('woocommerce_default_address_fields', 'wooccm_checkout_default_address_fields');
+//add_filter('woocommerce_default_address_fields', 'wooccm_checkout_default_address_fields');
 //add_filter('woocommerce_shipping_fields', 'wooccm_checkout_shipping_fields');
 add_filter('wcdn_order_info_fields', 'wooccm_woocommerce_delivery_notes_compat', 10, 2);
 add_filter('wc_customer_order_csv_export_order_row', 'wooccm_csv_export_modify_row_data', 10, 3);
@@ -382,12 +399,9 @@ add_action('woocommerce_checkout_process', 'wooccm_billing_custom_checkout_proce
 add_action('woocommerce_checkout_process', 'wooccm_shipping_custom_checkout_process');
 
 //1326
-//add_action('woocommerce_before_checkout_form', 'wooccm_upload_billing_scripts');
-//add_action('woocommerce_before_checkout_form', 'wooccm_upload_shipping_scripts');
-//add_action('woocommerce_before_checkout_form', 'wooccm_upload_scripts');
 add_action('woocommerce_before_checkout_form', 'wooccm_billing_scripts');
-add_action('woocommerce_before_checkout_form', 'wooccm_shipping_scripts');
 add_action('woocommerce_before_checkout_form', 'wooccm_billing_override_this');
+add_action('woocommerce_before_checkout_form', 'wooccm_shipping_scripts');
 add_action('woocommerce_before_checkout_form', 'wooccm_shipping_override_this');
 add_action('woocommerce_before_checkout_form', 'wooccm_scripts');
 //add_action('woocommerce_before_checkout_form', 'wooccm_upload_scripts');
