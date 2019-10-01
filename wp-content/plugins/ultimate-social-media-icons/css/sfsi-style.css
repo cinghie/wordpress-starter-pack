@@ -1420,7 +1420,6 @@ ul.tab_3_list li span {
     padding-top: 31px !important;
 }
 
-.tab6,
 .tab7 {
     padding-top: 28px !important;
 }
@@ -3036,7 +3035,6 @@ a.pop-up .radio{
 .tab6 ul.sfsi_icn_listing8 ul.sfsi_tab_3_icns li {
     width: 50%;
 	max-width: 450px;
-	min-width: 420px;
 	padding-left: 0;
 	padding-bottom: 0;
 } 
@@ -3096,14 +3094,14 @@ ul.sfsi_tab_3_icns label {
     line-height: 50px !important;
 }
 
-#accordion1 .tab6 ul.sfsi_shwthmbfraftr .labelhdng4, #accordion .tab6 ul.sfsi_shwthmbfraftr .row h4.labelhdng4 {
+#accordion1 .tab6 ul.sfsi_shwthmbfraftr .labelhdng4, #accordion .tab6 ul.sfsi_shwthmbfraftr .row h4.labelhdng4, #accordion .tab6 ul.sfsi_shwthmbfraftr .labelhdng4, #accordion .tab6 ul.sfsi_shwthmbfraftr .row h4.labelhdng4 {
     color: #555;
     font-size: 20px;
     margin-left: 20px;
     font-family: 'helveticaregular';
 }
 .tab6 ul.sfsi_icn_listing8 li .sfsi_tab_3_icns.sfsi_shwthmbfraftr>li:nth-child(1), .tab6 ul.sfsi_icn_listing8 li .sfsi_tab_3_icns.sfsi_shwthmbfraftr>li:nth-child(2){
-    width: 50% !important;
+    width: 27% !important;
 }
 
 .tab6 ul.sfsi_tab_3_icns li .radio{

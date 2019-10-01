@@ -64,6 +64,8 @@ class NM_PersonalizedProduct_Admin extends NM_PersonalizedProduct {
     	
     	add_action( 'admin_head', array($this, 'ppom_tabs_custom_style') );
     	
+    	add_action('ppom_pdf_setting_action', 'ppom_admin_update_pro_notice',10);
+    	
 	}
 	
 
@@ -135,11 +137,6 @@ class NM_PersonalizedProduct_Admin extends NM_PersonalizedProduct {
 			do_action('ppom_pdf_setting_action');
 			do_action('ppom_enquiryform_setting_action');
 			
-			echo '<div class="ppom-nm-plugins-block">';
-				echo '<a class="btn btn-yellow ppom-import-export-btn" href=""><span class="dashicons dashicons-download"></span> ' . __ ( 'Import Meta', "ppom" ) . '</a>';
-				echo '<a class="ppom-nm-plugins" href="#"  data-modal-id="ppom-nm-plugins-modal">PPOM More Addons</a>';
-				ppom_load_template ( 'admin/ppom-nm-plugins.php' );
-			echo '</div>';
 			
 		}
 		

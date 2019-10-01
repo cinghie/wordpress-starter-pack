@@ -1,9 +1,9 @@
 <?php 
 /*
-Plugin Name: Custom Facebook Feed
+Plugin Name: Smash Balloon Custom Facebook Feed
 Plugin URI: https://smashballoon.com/custom-facebook-feed
 Description: Add completely customizable Facebook feeds to your WordPress site
-Version: 2.10
+Version: 2.11
 Author: Smash Balloon
 Author URI: http://smashballoon.com/
 License: GPLv2 or later
@@ -24,11 +24,48 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-define('CFFVER', '2.10');
+define('CFFVER', '2.11');
+
+// Db version.
+if ( ! defined( 'CFF_DBVERSION' ) ) {
+    define( 'CFF_DBVERSION', '1.0' );
+}
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 //Include admin
 include dirname( __FILE__ ) .'/custom-facebook-feed-admin.php';
+
+function cff_check_for_db_updates() {
+    $db_ver = get_option( 'cff_db_version', 0 );
+    if ( (float) $db_ver < 1.0 ) {
+        global $wp_roles;
+        $wp_roles->add_cap( 'administrator', 'manage_custom_facebook_feed_options' );
+        $cff_statuses_option = get_option( 'cff_statuses', array() );
+        if ( ! isset( $cff_statuses_option['first_install'] ) ) {
+            $options_set = get_option( 'cff_page_id', false );
+            if ( $options_set ) {
+                $cff_statuses_option['first_install'] = 'from_update';
+            } else {
+                $cff_statuses_option['first_install'] = time();
+            }
+            $cff_rating_notice_option = get_option( 'cff_rating_notice', false );
+            if ( $cff_rating_notice_option === 'dismissed' ) {
+                $cff_statuses_option['rating_notice_dismissed'] = time();
+            }
+            $cff_rating_notice_waiting = get_transient( 'custom_facebook_rating_notice_waiting' );
+            if ( $cff_rating_notice_waiting === false
+                 && $cff_rating_notice_option === false ) {
+                $time = 2 * WEEK_IN_SECONDS;
+                set_transient( 'custom_facebook_rating_notice_waiting', 'waiting', $time );
+                update_option( 'cff_rating_notice', 'pending', false );
+            }
+            update_option( 'cff_statuses', $cff_statuses_option, false );
+        }
+        update_option( 'cff_db_version', CFF_DBVERSION );
+    }
+}
+add_action( 'wp_loaded', 'cff_check_for_db_updates' );
+
 
 // Add shortcodes
 add_shortcode('custom-facebook-feed', 'display_cff');
@@ -82,6 +119,12 @@ function display_cff($atts) {
         'layout' => isset($options[ 'cff_preset_layout' ]) ? $options[ 'cff_preset_layout' ] : '',
         'include' => $include_string,
         'exclude' => '',
+
+        //Cols
+        'cols' => isset($options[ 'cff_cols' ]) ? $options[ 'cff_cols' ] : '',
+        'colsmobile' => isset($options[ 'cff_cols_mobile' ]) ? $options[ 'cff_cols_mobile' ] : '',
+        'colsjs' => true,
+
         //Post Style
         'poststyle' => isset($options[ 'cff_post_style' ]) ? $options[ 'cff_post_style' ] : '',
         'postbgcolor' => isset($options[ 'cff_post_bg_color' ]) ? $options[ 'cff_post_bg_color' ] : '',
@@ -682,6 +725,42 @@ function display_cff($atts) {
         $page_id = substr( $page_id, strrpos( $page_id, '/' )+1 );
     }
 
+
+
+    //Masonry
+    $masonry = false;
+    $cff_cols = $atts['cols'];
+    $cff_cols_mobile = $atts['colsmobile'];
+    $cff_cols_js = $atts['colsjs'];
+
+    if( intval($cff_cols) > 1 ) $masonry = true;
+    $js_only = isset( $cff_cols_js ) ? $cff_cols_js : false;
+    if( $js_only === 'false' ) $js_only = false;
+
+    if( $masonry || $masonry == 'true' ) $atts['headeroutside'] = true;
+
+    $masonry_classes = '';
+    if( isset($masonry) ) {
+        if( $masonry === 'on' || $masonry === true || $masonry === 'true' ) {
+
+            $masonry_classes .= 'cff-masonry';
+
+            if( $cff_cols != 3 ) {
+                $masonry_classes .= sprintf( ' masonry-%s-desktop', $cff_cols );
+            }
+            if( $cff_cols_mobile == 2 ) {
+                $masonry_classes .= ' masonry-2-mobile';
+            }
+            if( ! $js_only ) {
+                $masonry_classes .= ' cff-masonry-css';
+            } else {
+                $masonry_classes .= ' cff-masonry-js';
+            }
+        }
+    }
+
+
+
     //If the Page ID contains a query string at the end then remove it
     if ( stripos( $page_id, '?') !== false ) $page_id = substr($page_id, 0, strrpos($page_id, '?'));
 
@@ -858,11 +937,12 @@ function display_cff($atts) {
     if( $atts[ 'disablestyles' ] === 'false' ) $cff_disable_styles = false;
 
     //If there's a class then add it here
-    if( !empty($cff_class) || !empty($cff_feed_height) || !$cff_disable_styles || $cff_feed_width_resp ) $cff_content .= ' class="';
+    if( !empty($cff_class) || !empty($cff_feed_height) || !$cff_disable_styles || $cff_feed_width_resp || !empty($masonry_classes) ) $cff_content .= ' class="';
         if( !empty($cff_class) ) $cff_content .= $cff_class . ' ';
-        if ( !empty($cff_feed_height) ) $cff_content .= 'cff-fixed-height ';
-        if ( $cff_feed_width_resp ) $cff_content .= 'cff-width-resp ';
-        if ( !$cff_disable_styles ) $cff_content .= 'cff-default-styles';
+        if( !empty($masonry_classes) ) $cff_content .= $masonry_classes;
+        if ( !empty($cff_feed_height) ) $cff_content .= ' cff-fixed-height ';
+        if ( $cff_feed_width_resp ) $cff_content .= ' cff-width-resp ';
+        if ( !$cff_disable_styles ) $cff_content .= ' cff-default-styles';
     if( !empty($cff_class) || !empty($cff_feed_height) || !$cff_disable_styles || $cff_feed_width_resp ) $cff_content .= '"';
 
     $cff_content .= ' ' . $cff_feed_styles . '>';

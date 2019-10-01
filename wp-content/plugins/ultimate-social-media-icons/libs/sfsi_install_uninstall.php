@@ -39,7 +39,7 @@ function sfsi_update_plugin()
         update_option("sfsi_custom_icons", "yes");
     }
     //Install version
-    update_option("sfsi_pluginVersion", "2.39");
+    update_option("sfsi_pluginVersion", "2.42");
 
     if (!get_option('sfsi_serverphpVersionnotification')) {
         add_option("sfsi_serverphpVersionnotification", "yes");
@@ -83,10 +83,16 @@ function sfsi_update_plugin()
         );
         add_option('sfsi_instagram_sf_count',  serialize($sfsi_instagram_sf_count));
     } else {
-        $sfsi_instagram_sf_count = unserialize(get_option('sfsi_instagram_sf_count', false));
+       
+        $sfsi_instagram_sf_count_option = get_option('sfsi_instagram_sf_count', false);
+        if(!is_array($sfsi_instagram_sf_count_option)){
+            $sfsi_instagram_sf_count = unserialize($sfsi_instagram_sf_count_option);
+        }else{
+            $sfsi_instagram_sf_count = $sfsi_instagram_sf_count_option;
+        }
         $sfsi_instagram_sf_count["date_sf"] = isset($sfsi_instagram_sf_count["date"]) ? $sfsi_instagram_sf_count["date"] : '';
         $sfsi_instagram_sf_count["date_instagram"] = isset($sfsi_instagram_sf_count["date"]) ? $sfsi_instagram_sf_count["date"] : '';
-        update_option('sfsi_instagram_sf_count', $sfsi_instagram_sf_count);
+        update_option('sfsi_instagram_sf_count', serialize($sfsi_instagram_sf_count));
     }
 
     $option4 = unserialize(get_option('sfsi_section4_options', false));

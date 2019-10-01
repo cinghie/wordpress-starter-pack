@@ -26,10 +26,11 @@ function ppom_woocommerce_show_fields() {
     ppom_hooks_load_input_scripts( $product );
     
     
-    do_action('ppom_after_scripts_loaded', PPOM() -> productmeta_id, $product);
+    do_action('ppom_after_scripts_loaded', $ppom, $product);
     
     
-    $ppom_html = '<div id="ppom-box-'.esc_attr(PPOM()->productmeta_id).'" class="ppom-wrapper">';
+    $ppom_box_id = is_array($ppom->meta_id) ? implode('-',$ppom->meta_id) : $ppom->meta_id;
+    $ppom_html = '<div id="ppom-box-'.esc_attr($ppom_box_id).'" class="ppom-wrapper">';
     
     $template_vars = array('ppom_settings'  	=> $ppom->ppom_settings,
     						'product'			=> $product,
@@ -628,6 +629,33 @@ function ppom_woocommerce_alter_price($price, $product) {
 	
 }*/
 
+// Set min quantity for price matrix
+function ppom_woocommerce_set_min_quantity( $min_quantity, $product ) {
+	
+	$product_id = ppom_get_product_id($product);
+	$ppom		= new PPOM_Meta( $product_id );
+	if( ! $ppom->is_exists ) return $min_quantity;
+	
+	$last_range = array();
+	
+	$ppom_matrix_found = ppom_has_field_by_type( $product_id, 'pricematrix' );
+
+	if($ppom_matrix_found){
+		foreach($ppom_matrix_found as $meta){
+			
+			// If it is Discount Matrix, do not set min quantity
+			if( isset($meta['discount']) && $meta['discount'] == 'on' ) continue;
+			
+			$options		= $meta['options'];
+			$ranges			= ppom_convert_options_to_key_val($options, $meta, $product);
+			$first_range	= reset($ranges);
+			$qty_ranges 	= explode('-', $first_range['raw']);
+			$min_quantity	= $qty_ranges[0];
+		}
+	}
+	
+	return $min_quantity;
+}
 // Set max quantity for price matrix
 function ppom_woocommerce_set_max_quantity( $max_quantity, $product ) {
 	
@@ -638,8 +666,12 @@ function ppom_woocommerce_set_max_quantity( $max_quantity, $product ) {
 	$last_range = array();
 	
 	$ppom_matrix_found = ppom_has_field_by_type( $product_id, 'pricematrix' );
+	
 	if($ppom_matrix_found){
 		foreach($ppom_matrix_found as $meta){
+			
+			// If it is Discount Matrix, do not set max quantity
+			if( isset($meta['discount']) && $meta['discount'] == 'on' ) continue;
 			
 			$options = $meta['options'];
 			// ppom_pa($options);

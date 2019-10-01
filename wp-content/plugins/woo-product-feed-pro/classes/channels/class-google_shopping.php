@@ -364,8 +364,64 @@ class WooSEA_google_shopping {
 					"format" => "optional",
 				),
 			),
+			"Shopping Actions" => array(
+				"Product fee" => array(
+					"name" => "product_fee",
+					"feed_name" => "g:product_fee",
+					"format" => "optional",
+				),
+				"Purchase quantity limit" => array(
+					"name" => "purchase_quantity_limit",
+					"feed_name" => "g:purchase_quantity_limit",
+					"format" => "optional",
+				),
+				"Sell on google quantity" => array(
+					"name" => "sell_on_google_quantity",
+					"feed_name" => "g:sell_on_google_quantity",
+					"format" => "optional",
+				),
+				"Consumer datasheet" => array(
+					"name" => "consumer_datasheet",
+					"feed_name" => "g:consumer_datasheet",
+					"format" => "optional",
+				),
+				"Consumer notice" => array(
+					"name" => "consumer_notice",
+					"feed_name" => "g:consumer_notice",
+					"format" => "optional",
+				),
+				"Energy label image link" => array(
+					"name" => "energy_label_image_link",
+					"feed_name" => "g:energy_label_image_link",
+					"format" => "optional",
+				),
+				"Product detail" => array(
+					"name" => "product_detail",
+					"feed_name" => "g:product_detail",
+					"format" => "optional",
+				),
+				"Product highlight" => array(
+					"name" => "product_highlight",
+					"feed_name" => "g:product_highlight",
+					"format" => "optional",
+				),
+				"Return address label" => array(
+					"name" => "return_address_label",
+					"feed_name" => "g:return_address_label",
+					"format" => "optional",
+				),
+				"Return policy label" => array(
+					"name" => "return_policy_label",
+					"feed_name" => "g:return_policy_label",
+					"format" => "optional",
+				),
+				"Google funded promotion eligibility" => array(
+					"name" => "google_funded_promotion_eligibility",
+					"feed_name" => "g:google_funded_promotion_eligibility",
+					"format" => "optional",
+				),
+			),
 		);
-		
 		return $google_attributes;
 	}
 }

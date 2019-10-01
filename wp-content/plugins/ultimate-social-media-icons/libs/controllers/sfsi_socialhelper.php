@@ -330,8 +330,12 @@ class sfsi_SocialHelper
 	/* get instragram followers */
 	public function sfsi_get_instagramFollowers($user_name)
 	{
-		$sfsi_instagram_sf_count = unserialize(get_option('sfsi_instagram_sf_count',false));
-		
+		$sfsi_instagram_sf_count_option = get_option('sfsi_instagram_sf_count',false);
+		if(is_array($sfsi_instagram_sf_count_option)){
+			$sfsi_instagram_sf_count = unserialize($sfsi_instagram_sf_count_option);
+		}else{
+			$sfsi_instagram_sf_count = $sfsi_instagram_sf_count_option;
+		}
 		/*if date is empty (for decrease request count)*/
 		if(empty($sfsi_instagram_sf_count["date_instagram"]))
 		{
@@ -437,7 +441,8 @@ class sfsi_SocialHelper
 					),
 					date_create(
 						date("Y-m-d")
-				));
+					)
+				);
 			}
 			if((isset($diff) && $diff->format("%a") >= 1)||$sfsi_instagram_sf_count["sfsi_sf_count"]=="")
 			{

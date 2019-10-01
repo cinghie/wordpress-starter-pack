@@ -128,11 +128,11 @@ if ( !defined( 'ABSPATH' ) )
 <td class="hide_stuff_op wccm1" style="display:none;"><input type="text" name="wccs_settings2[shipping_buttons][<?php echo $i; ?>][option_array]" value="" placeholder="Option 1||Option 2||Option 3" /></td>
 
 <td class="filter_field add_amount_field hide_stuff_time condition_tick hide_stuff_change hide_stuff_opcheck hide_stuff_color more_toggler1 more_toggler1c" style="display:none;"><?php _e('Options Toggler', 'woocommerce-checkout-manager' ); ?></td>
-
+<!--
 <td class="filter_field add_amount_field condition_tick hide_stuff_change hide_stuff_timef hide_stuff_opcheck hide_stuff_op hide_stuff_color more_toggler1 more_toggler1c" style="display:none;"><?php _e('Time Toggler', 'woocommerce-checkout-manager' ); ?></td>
 
 <td class="filter_field add_amount_field hide_stuff_time condition_tick hide_stuff_change hide_stuff_opcheck hide_stuff_op more_toggler1 more_toggler1c hide_stuff_days" style="display:none;"><?php _e('Date Toggler', 'woocommerce-checkout-manager' ); ?></td>
-
+-->
 <td style="display:none;" class="filter_field add_amount_field hide_stuff_time condition_tick hide_stuff_change hide_stuff_opcheck hide_stuff_op hide_stuff_color more_toggler1"><?php _e('Hidden Toggler', 'woocommerce-checkout-manager' ); ?></td>
 
 <td class="filter_field add_amount_field condition_tick hide_stuff_time hide_stuff_change hide_stuff_opcheck hide_stuff_color hide_stuff_op more_toggler more_toggler1c"><?php _e('More Toggler', 'woocommerce-checkout-manager' ); ?></td>

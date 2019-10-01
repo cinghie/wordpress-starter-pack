@@ -112,14 +112,14 @@ jQuery(function($){
     **/
     $('.ppom-import-export-btn').on('click', function(event){
         event.preventDefault();
-        $('.ppom-nm-plugins-block').hide();
+        $('.ppom-more-plugins-block').hide();
         $( ".ppom-import-export-block" ).show();
         $( ".ppom-product-meta-block" ).hide();
     });
 
     $('.ppom-cancle-import-export-btn').on('click', function(event){
         event.preventDefault();
-        $('.ppom-nm-plugins-block').show();
+        $('.ppom-more-plugins-block').show();
         $( ".ppom-import-export-block" ).hide();
         $( ".ppom-product-meta-block" ).show();
     });

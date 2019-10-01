@@ -17,7 +17,12 @@ if( ppom_is_field_has_price( $args ) ) {
 }
 
 // ppom_pa($options);
-$default_price	= !empty($args['default_price']) ? $args['default_price'] : $product->get_price();
+$default_price	= !empty($args['default_price']) ? $args['default_price'] : 0;
+// If price matrix attached then disable default_price
+$pricematrix_field = ppom_has_field_by_type(ppom_get_product_id($product), 'pricematrix');
+if ( $pricematrix_field ) {
+    $default_price = 0;
+}
 // var_dump($default_price);
 
 echo '<input type="hidden" name="ppom_quantities_option_price" id="ppom_quantities_option_price">';

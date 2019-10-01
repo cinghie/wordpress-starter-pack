@@ -726,6 +726,7 @@ class NM_Form {
     // A custom input will be just some option html
     public function Palettes( $args, $default_value = '' ) {
         
+        
         global $product;
          
         $type       = $this -> get_attribute_value( 'type', $args);
@@ -746,6 +747,13 @@ class NM_Form {
 		if ( ! $options ) return '';
 		
         $html = '';
+        
+        if( !is_array($default_value) ) {
+            
+            $default_value = explode(',', $default_value);
+        }
+        
+        $checked_value = array_map('trim', $default_value);
 
         // apply for selected palette border color
         $selected_palette_bcolor    = isset($args['selected_palette_bcolor']) ? $args['selected_palette_bcolor'] : '';
@@ -783,10 +791,9 @@ class NM_Form {
 			$dom_id         = apply_filters('ppom_dom_option_id', $option_id, $args);
 			
 			$checked_option = '';
-
-			if( ! empty($default_value) ){
-        
-                $checked_option = checked( $default_value, $key, false );
+            if( count($checked_value) > 0 && in_array($key, $checked_value) && !empty($key)){
+            
+                $checked_option = checked( $key, $key, false );
             }
             
 			
@@ -814,7 +821,7 @@ class NM_Form {
     			$html .= 'data-label="'.esc_attr($color_label).'" ';
     			$html   .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
     			$html .= 'type="radio" ';
-    			$html .= 'name="'.esc_attr($name).'" ';
+    			$html .= 'name="'.esc_attr($name).'[]" ';
     			$html .= 'value="'.esc_attr($raw_label).'" ';
     			$html .= 'data-onetime="'.esc_attr($onetime).'" ';
                 $html .= 'data-taxable="'.esc_attr($taxable).'" ';
@@ -877,12 +884,16 @@ class NM_Form {
         // apply for selected images border color
 		$selected_img_bordercolor    = isset($args['selected_img_bordercolor']) ? $args['selected_img_bordercolor'] : '';
         $html .= '<style>';
-                $html .=  '.nm-boxes-outer input:checked + img {
+                $html .= '.nm-boxes-outer input:checked + img {
                         border: 2px solid '.esc_attr($selected_img_bordercolor).' !important;
+                    }
+                    .pre_upload_image img{
+                        height: '.esc_attr($args['image_height']).' !important;
+                        width : '.esc_attr($args['image_width']).' !important;
                     }';
         $html .= '</style>';
         
-        // ppom_pa($args);
+        // ppom_pa($images);
         if (isset($args['legacy_view']) && $args['legacy_view'] == 'on') {
 	        $html .= '<div class="ppom_upload_image_box">';
 			foreach ($images as $image){
@@ -901,7 +912,7 @@ class NM_Form {
 	            // Actually image URL is link
 				$image_link = isset($image['url']) ? $image['url'] : '';
 				$image_url  = wp_get_attachment_thumb_url( $image_id );
-				$image_title_price = $image_title . ' ' . ($image_price > 0 ? '(+'.wc_price($image_price).')' : '');
+				$image_title_price = $image_title . ' ' . ($image_price > 0 ? '(+'.ppom_price($image_price).')' : '');
 				
 				// Currency Switcher
 				$image_price    = apply_filters('ppom_option_price', $image_price);
@@ -984,10 +995,14 @@ class NM_Form {
     				if(strpos($image['price'],'%') !== false){
     					$image_price = ppom_get_amount_after_percentage($product->get_price(), $image['price']);
     				}
+    				
+    				// Currency Switcher
+				    $image_price    = apply_filters('ppom_option_price', $image_price);
+				
 		            // Actually image URL is link
 					$image_link = isset($image['url']) ? $image['url'] : '';
 					$image_url  = wp_get_attachment_thumb_url( $image_id );
-					$image_title_price = $image_title . ' ' . ($image_price > 0 ? '(+'.wc_price($image_price).')' : '');
+					$image_title_price = $image_title . ' ' . ($image_price > 0 ? '(+'.ppom_price($image_price).')' : '');
 					
 					$checked_option = '';
 					
@@ -1191,6 +1206,7 @@ class NM_Form {
     public function Section( $args, $default_value = '' ) {
          
         $type       = $this -> get_attribute_value( 'type', $args);
+        $name       = $this -> get_attribute_value('name', $args);
         $id         = $this -> get_attribute_value( 'id', $args);
         $label      = $this -> get_attribute_value('label', $args);
         $field_html = $this -> get_attribute_value( 'html', $args);
@@ -1208,6 +1224,8 @@ class NM_Form {
         $html   .= stripslashes( $field_html );
         
         $html .= '<div style="clear: both"></div>';
+        
+        $html .= '<input type="hidden" id="'.esc_attr($id).'" name="'.esc_attr($name).'" value="'.esc_attr($field_html).'">';
         
         $html   .= '</div>';    //form-group
         
@@ -1251,7 +1269,7 @@ class NM_Form {
 
             // Actually image URL is link
 			$audio_url  = wp_get_attachment_url( $audio_id );
-			$audio_title_price = $audio_title . ' ' . ($audio_price > 0 ? wc_price($audio_price) : '');
+			$audio_title_price = $audio_title . ' ' . ($audio_price > 0 ? ppom_price($audio_price) : '');
 			
 			$checked_option = '';
 			if( ! empty($default_value) ){

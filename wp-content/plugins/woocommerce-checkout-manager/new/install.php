@@ -24,7 +24,7 @@ if (!class_exists('WOOCCM_Install')) {
           'clear_row' => '',
           'options' => '',
           'options_array' => '',
-          'user_role' => '',
+          //'user_role' => '',
           'role_options' => '',
           'role_options2' => '',
           'required' => '',
@@ -127,7 +127,7 @@ if (!class_exists('WOOCCM_Install')) {
 
     function woocommerce() {
       self::field_defaults();
-      var_dump(apply_filters('woocommerce_billing_fields', WC()->countries->get_default_address_fields()));
+      //var_dump(apply_filters('woocommerce_billing_fields', WC()->countries->get_default_address_fields()));
     }
 
     function init() {

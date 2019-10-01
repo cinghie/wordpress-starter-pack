@@ -44,7 +44,7 @@ function sfsi_delete_CusIcon(s, i) {
                     SFSI(".notice_custom_icons_premium").hide();
                 }
                 var n = e.total_up + 1;
-                4 == e.total_up && SFSI(".icn_listing").append('<li id="c' + t + '" class="custom bdr_btm_non"><div class="radio_section tb_4_ck"><span class="checkbox" dynamic_ele="yes" style="background-position: 0px 0px;"></span><input name="sfsiICON_' + t + '_display"  type="checkbox" value="yes" class="styled" style="display:none;"  isNew="yes" /></div> <span class="custom-img"><img src="' + SFSI("#plugin_url").val() + 'images/custom.png" id="CImg_' + t + '"  alt="error" /> </span> <span class="custom custom-txt">Custom' + n + ' </span> <div class="right_info"> <p><span>It depends:</span> Upload a custom icon if you have other accounts/websites you want to link to.</p><div class="inputWrapper"></div></li>');
+                4 == e.total_up && SFSI(".icn_listing").append('<li id="c' + t + '" class="custom bdr_btm_non"><div class="radio_section tb_4_ck"><span class="checkbox" dynamic_ele="yes" style=" 0px 0px;"></span><input name="sfsiICON_' + t + '_display"  type="checkbox" value="yes" class="styled" style="display:none;"  isNew="yes" /></div> <span class="custom-img"><img src="' + SFSI("#plugin_url").val() + 'images/custom.png" id="CImg_' + t + '"  alt="error" /> </span> <span class="custom custom-txt">Custom' + n + ' </span> <div class="right_info"> <p><span>It depends:</span> Upload a custom icon if you have other accounts/websites you want to link to.</p><div class="inputWrapper"></div></li>');
             } else showErrorSuc("error", "Unkown error , please try again", 1);
             return sfsi_update_index(), update_Sec5Iconorder(), sfsi_update_step1(), sfsi_update_step5(),
                 afterLoad(), "suc";
@@ -774,7 +774,7 @@ function sfsi_update_step5() {
 }
 
 function sfsi_update_step6() {
-    var nonce = SFSI("#sfsi_save6").attr("data-nonce");
+    var nonce = SFSI("#sfsi_save9").attr("data-nonce2");
     beForeLoad();
     var s = SFSI("input[name='sfsi_show_Onposts']:checked").val(),
         i = SFSI("input[name='sfsi_textBefor_icons']").val(),
@@ -1013,6 +1013,7 @@ function sfsi_update_step8() {
 
 // Queestion 3
 function sfsi_update_step9() {
+    sfsi_update_step6();
     var nonce = SFSI("#sfsi_save9").attr("data-nonce");
     beForeLoad();
 
@@ -1547,7 +1548,7 @@ function afterIconSuccess(s, nonce) {
         SFSI("input[name=sfsiICON_" + s.key + "]").removeAttr("isnew");
         icons_name = SFSI("li.custom:last-child").find("input.styled").attr("name");
         var n = icons_name.split("_");
-        s.key = s.key, s.img_path += "?" + d.getTime(), 5 > e && SFSI(".icn_listing").append('<li id="c' + i + '" class="custom bdr_btm_non"><div class="radio_section tb_4_ck"><span class="checkbox" dynamic_ele="yes" style="background-position: 0px 0px;"></span><input name="sfsiICON_' + i + '"  type="checkbox" value="yes" class="styled" style="display:none;" element-type="cusotm-icon" isNew="yes" /></div> <span class="custom-img"><img src="' + SFSI("#plugin_url").val() + 'images/custom.png" id="CImg_' + i + '" alt="error"  /> </span> <span class="custom custom-txt">Custom' + t + ' </span> <div class="right_info"> <p><span>It depends:</span> Upload a custom icon if you have other accounts/websites you want to link to.</p><div class="inputWrapper"></div></li>'),
+        s.key = s.key, s.img_path += "?" + d.getTime(), 5 > e && SFSI(".icn_listing").append('<li id="c' + i + '" class="custom bdr_btm_non"><div class="radio_section tb_4_ck"><span class="checkbox" dynamic_ele="yes" style=" 0px 0px;"></span><input name="sfsiICON_' + i + '"  type="checkbox" value="yes" class="styled" style="display:none;" element-type="cusotm-icon" isNew="yes" /></div> <span class="custom-img"><img src="' + SFSI("#plugin_url").val() + 'images/custom.png" id="CImg_' + i + '" alt="error"  /> </span> <span class="custom custom-txt">Custom' + t + ' </span> <div class="right_info"> <p><span>It depends:</span> Upload a custom icon if you have other accounts/websites you want to link to.</p><div class="inputWrapper"></div></li>'),
             SFSI(".custom_section").show(),
             SFSI('<div class="row  sfsiICON_' + s.key + ' cm_lnk"> <h2 class="custom"> <span class="customstep2-img"> <img   src="' + s.img_path + "?" + d.getTime() + '" style="border-radius:48%" alt="error" /> </span> <span class="sfsiCtxt">Custom ' + e + '</span> </h2> <div class="inr_cont "><p>Where do you want this icon to link to?</p> <p class="radio_section fb_url custom_section  sfsiICON_' + s.key + '" ><label>Link :</label><input file-id="' + s.key + '" name="sfsi_CustomIcon_links[]" type="text" value="" placeholder="http://" class="add" /></p></div></div>').insertBefore('.notice_custom_icons_premium');
         //SFSI(".custom-links").append(' <div class="row  sfsiICON_' + s.key + ' cm_lnk"> <h2 class="custom"> <span class="customstep2-img"> <img   src="' + s.img_path + "?" + d.getTime() + '" style="border-radius:48%" /> </span> <span class="sfsiCtxt">Custom ' + e + '</span> </h2> <div class="inr_cont "><p>Where do you want this icon to link to?</p> <p class="radio_section fb_url custom_section  sfsiICON_' + s.key + '" ><label>Link :</label><input file-id="' + s.key + '" name="sfsi_CustomIcon_links[]" type="text" value="" placeholder="http://" class="add" /></p></div></div>');
@@ -2408,11 +2409,11 @@ SFSI(document).ready(function (s) {
 
             var s = SFSI(this).parent().find("input:radio:first");
             "sfsi_email_countsFrom" == s.attr("name") && (SFSI('input[name="sfsi_email_countsDisplay"]').prop("checked", !0),
-                    SFSI('input[name="sfsi_email_countsDisplay"]').parent().find("span.checkbox").attr("style", "background-position:0px -36px;"),
+                    SFSI('input[name="sfsi_email_countsDisplay"]').parent().find("span.checkbox").attr("style", "0px -36px;"),
                     "manual" == SFSI("input[name='sfsi_email_countsFrom']:checked").val() ? SFSI("input[name='sfsi_email_manualCounts']").slideDown() : SFSI("input[name='sfsi_email_manualCounts']").slideUp()),
 
                 "sfsi_facebook_countsFrom" == s.attr("name") && (SFSI('input[name="sfsi_facebook_countsDisplay"]').prop("checked", !0),
-                    SFSI('input[name="sfsi_facebook_countsDisplay"]').parent().find("span.checkbox").attr("style", "background-position:0px -36px;"),
+                    SFSI('input[name="sfsi_facebook_countsDisplay"]').parent().find("span.checkbox").attr("style", "0px -36px;"),
                     "mypage" == SFSI("input[name='sfsi_facebook_countsFrom']:checked").val() ? (SFSI("input[name='sfsi_facebook_mypageCounts']").slideDown(), SFSI(".sfsi_fbpgidwpr").slideDown()) : (SFSI("input[name='sfsi_facebook_mypageCounts']").slideUp(), SFSI(".sfsi_fbpgidwpr").slideUp()),
 
                     "manual" == SFSI("input[name='sfsi_facebook_countsFrom']:checked").val() ? SFSI("input[name='sfsi_facebook_manualCounts']").slideDown() : SFSI("input[name='sfsi_facebook_manualCounts']").slideUp()),
@@ -2420,29 +2421,29 @@ SFSI(document).ready(function (s) {
                 "sfsi_facebook_countsFrom" == s.attr("name") && (("mypage" == SFSI("input[name='sfsi_facebook_countsFrom']:checked").val() || "likes" == SFSI("input[name='sfsi_facebook_countsFrom']:checked").val()) ? (SFSI(".sfsi_facebook_pagedeasc").slideDown()) : (SFSI(".sfsi_facebook_pagedeasc").slideUp())),
 
                 "sfsi_twitter_countsFrom" == s.attr("name") && (SFSI('input[name="sfsi_twitter_countsDisplay"]').prop("checked", !0),
-                    SFSI('input[name="sfsi_twitter_countsDisplay"]').parent().find("span.checkbox").attr("style", "background-position:0px -36px;"),
+                    SFSI('input[name="sfsi_twitter_countsDisplay"]').parent().find("span.checkbox").attr("style", "0px -36px;"),
                     "manual" == SFSI("input[name='sfsi_twitter_countsFrom']:checked").val() ? (SFSI("input[name='sfsi_twitter_manualCounts']").slideDown(),
                         SFSI(".tw_follow_options").slideUp()) : (SFSI("input[name='sfsi_twitter_manualCounts']").slideUp(),
                         SFSI(".tw_follow_options").slideDown())),
 
 
                 "sfsi_linkedIn_countsFrom" == s.attr("name") && (SFSI('input[name="sfsi_linkedIn_countsDisplay"]').prop("checked", !0),
-                    SFSI('input[name="sfsi_linkedIn_countsDisplay"]').parent().find("span.checkbox").attr("style", "background-position:0px -36px;"),
+                    SFSI('input[name="sfsi_linkedIn_countsDisplay"]').parent().find("span.checkbox").attr("style", "0px -36px;"),
                     "manual" == SFSI("input[name='sfsi_linkedIn_countsFrom']:checked").val() ? (SFSI("input[name='sfsi_linkedIn_manualCounts']").slideDown(),
                         SFSI(".linkedIn_options").slideUp()) : (SFSI("input[name='sfsi_linkedIn_manualCounts']").slideUp(),
                         SFSI(".linkedIn_options").slideDown())),
 
                 "sfsi_youtube_countsFrom" == s.attr("name") && (SFSI('input[name="sfsi_youtube_countsDisplay"]').prop("checked", !0),
-                    SFSI('input[name="sfsi_youtube_countsDisplay"]').parent().find("span.checkbox").attr("style", "background-position:0px -36px;"),
+                    SFSI('input[name="sfsi_youtube_countsDisplay"]').parent().find("span.checkbox").attr("style", "0px -36px;"),
                     "manual" == SFSI("input[name='sfsi_youtube_countsFrom']:checked").val() ? (SFSI("input[name='sfsi_youtube_manualCounts']").slideDown(),
                         SFSI(".youtube_options").slideUp()) : (SFSI("input[name='sfsi_youtube_manualCounts']").slideUp(),
                         SFSI(".youtube_options").slideDown())), "sfsi_pinterest_countsFrom" == s.attr("name") && (SFSI('input[name="sfsi_pinterest_countsDisplay"]').prop("checked", !0),
-                    SFSI('input[name="sfsi_pinterest_countsDisplay"]').parent().find("span.checkbox").attr("style", "background-position:0px -36px;"),
+                    SFSI('input[name="sfsi_pinterest_countsDisplay"]').parent().find("span.checkbox").attr("style", "0px -36px;"),
                     "manual" == SFSI("input[name='sfsi_pinterest_countsFrom']:checked").val() ? (SFSI("input[name='sfsi_pinterest_manualCounts']").slideDown(),
                         SFSI(".pin_options").slideUp()) : SFSI("input[name='sfsi_pinterest_manualCounts']").slideUp()),
 
                 "sfsi_instagram_countsFrom" == s.attr("name") && (SFSI('input[name="sfsi_instagram_countsDisplay"]').prop("checked", !0),
-                    SFSI('input[name="sfsi_instagram_countsDisplay"]').parent().find("span.checkbox").attr("style", "background-position:0px -36px;"),
+                    SFSI('input[name="sfsi_instagram_countsDisplay"]').parent().find("span.checkbox").attr("style", "0px -36px;"),
                     "manual" == SFSI("input[name='sfsi_instagram_countsFrom']:checked").val() ? (SFSI("input[name='sfsi_instagram_manualCounts']").slideDown(),
                         SFSI(".instagram_userLi").slideUp()) : (SFSI("input[name='sfsi_instagram_manualCounts']").slideUp(),
                         SFSI(".instagram_userLi").slideDown()));
@@ -2557,15 +2558,15 @@ SFSI(document).ready(function (s) {
             "sfsi_icons_float" == s.attr("name") && "yes" == s.val() && (SFSI(".float_options").slideDown("slow"),
 
                     SFSI('input[name="sfsi_icons_stick"][value="no"]').attr("checked", !0), SFSI('input[name="sfsi_icons_stick"][value="yes"]').removeAttr("checked"),
-                    SFSI('input[name="sfsi_icons_stick"][value="no"]').parent().find("span").attr("style", "background-position:0px -41px;"),
-                    SFSI('input[name="sfsi_icons_stick"][value="yes"]').parent().find("span").attr("style", "background-position:0px -0px;")),
+                    SFSI('input[name="sfsi_icons_stick"][value="no"]').parent().find("span").attr("style", "0px -41px;"),
+                    SFSI('input[name="sfsi_icons_stick"][value="yes"]').parent().find("span").attr("style", "0px -0px;")),
 
                 //("sfsi_icons_stick" == s.attr("name") && "yes" == s.val() || "sfsi_icons_float" == s.attr("name") && "no" == s.val()) && (SFSI(".float_options").slideUp("slow"),
                 ("sfsi_icons_stick" == s.attr("name") && "yes" == s.val()) && (SFSI(".float_options").slideUp("slow"),
 
                     SFSI('input[name="sfsi_icons_float"][value="no"]').prop("checked", !0), SFSI('input[name="sfsi_icons_float"][value="yes"]').prop("checked", !1),
-                    SFSI('input[name="sfsi_icons_float"][value="no"]').parent().find("span.radio").attr("style", "background-position:0px -41px;"),
-                    SFSI('input[name="sfsi_icons_float"][value="yes"]').parent().find("span.radio").attr("style", "background-position:0px -0px;"));
+                    SFSI('input[name="sfsi_icons_float"][value="no"]').parent().find("span.radio").attr("style", "0px -41px;"),
+                    SFSI('input[name="sfsi_icons_float"][value="yes"]').parent().find("span.radio").attr("style", "0px -0px;"));
 
         }),
 
@@ -2657,8 +2658,8 @@ SFSI(document).ready(function (s) {
         var s = SFSI(this).parent().find("input:checkbox:first");
         "float_on_page" == s.attr("name") && "yes" == s.val() && ( 
         SFSI('input[name="sfsi_icons_stick"][value="no"]').attr("checked", !0), SFSI('input[name="sfsi_icons_stick"][value="yes"]').removeAttr("checked"), 
-        SFSI('input[name="sfsi_icons_stick"][value="no"]').parent().find("span").attr("style", "background-position:0px -41px;"), 
-        SFSI('input[name="sfsi_icons_stick"][value="yes"]').parent().find("span").attr("style", "background-position:0px -0px;"));
+        SFSI('input[name="sfsi_icons_stick"][value="no"]').parent().find("span").attr("style", "0px -41px;"), 
+        SFSI('input[name="sfsi_icons_stick"][value="yes"]').parent().find("span").attr("style", "0px -0px;"));
     });
 	SFSI(".radio").live("click", function()
 	{
@@ -2666,8 +2667,8 @@ SFSI(document).ready(function (s) {
 		var a = SFSI(".cstmfltonpgstck");
 		("sfsi_icons_stick" == s.attr("name") && "yes" == s.val()) && (
         SFSI('input[name="float_on_page"][value="no"]').prop("checked", !0), SFSI('input[name="float_on_page"][value="yes"]').prop("checked", !1), 
-        SFSI('input[name="float_on_page"][value="no"]').parent().find("span.checkbox").attr("style", "background-position:0px -41px;"), 
-        SFSI('input[name="float_on_page"][value="yes"]').parent().find("span.checkbox").attr("style", "background-position:0px -0px;"),
+        SFSI('input[name="float_on_page"][value="no"]').parent().find("span.checkbox").attr("style", "0px -41px;"), 
+        SFSI('input[name="float_on_page"][value="yes"]').parent().find("span.checkbox").attr("style", "0px -0px;"),
 		jQuery(a).children(".checkbox").css("background-position", "0px 0px" ), toggleflotpage(a));
     });*/
     window.sfsi_initialization_checkbox_count = 0;
@@ -2782,6 +2783,7 @@ SFSI("body").on("click", ".sfsi_tokenGenerateButton a", function () {
 
 });
 SFSI(document).ready(function () {
+
     SFSI('#sfsi_jivo_offline_chat .tab-link').click(function () {
         var cur = SFSI(this);
         if (!cur.hasClass('active')) {

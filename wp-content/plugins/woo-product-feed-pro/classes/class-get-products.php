@@ -918,7 +918,6 @@ class WooSEA_Get_Products {
 	 */	
 	public function woosea_create_xml_feed ( $products, $feed_config, $header ) {
 		$upload_dir = wp_upload_dir();
-
 		$base = $upload_dir['basedir'];
  		$path = $base . "/woo-product-feed-pro/" . $feed_config['fileformat'];
         	$file = $path . "/" . sanitize_file_name($feed_config['filename']) . "_tmp." . $feed_config['fileformat'];
@@ -1001,6 +1000,22 @@ class WooSEA_Get_Products {
 									} elseif (preg_match("/g:additional_image_link/i",$k)){
                                        	               				$link = $product->addChild('g:additional_image_link', $v, $namespace['g']);
 										//$product->$k = $v;
+									} elseif (preg_match("/g:product_highlight/i",$k)){
+                                       	               				$product_highlight = $product->addChild('g:product_highlight', $v, $namespace['g']);
+									} elseif (preg_match("/g:product_detail/i",$k)){
+										if(!empty($v)){
+											$product_detail_split = explode("#", $v);
+                                       	               					$product_detail = $product->addChild('g:product_detail', '', $namespace['g']);
+                                                                                        $name = str_replace("_", " ", $product_detail_split[0]);
+
+											$section_name = explode(":", $name);
+											$section_name_start = ucfirst($section_name[0]);
+											$name = ucfirst(trim($section_name[1]));
+											
+											$section_name = $product_detail->addChild('g:section_name', $section_name_start, $namespace['g']);
+											$product_detail_name = $product_detail->addChild('g:attribute_name', $name, $namespace['g']);
+											$product_detail_value = $product_detail->addChild('g:attribute_value', $product_detail_split[1], $namespace['g']);
+										}
 									} elseif ($k == "g:installment"){
 										if(!empty($v)){
 											$installment_split = explode(":", $v);
@@ -1165,7 +1180,7 @@ class WooSEA_Get_Products {
 					}
 					
 					// For Pinterest RSS Board template
-					if (($feed_config['name'] == "Pinterest RSS Board") AND ($feed_config['nr_products_processed'] == 0)) {
+					if (($feed_config['name'] == "Pinterest RSS Board") AND (empty($xml->channel))) {
 						$productz = $xml->addChild('channel');
 						$productz = $xml->channel->addChild('title', get_bloginfo( 'name' ));
 						$productz = $xml->channel->addChild('description', htmlspecialchars($feed_config['projectname']));
@@ -1174,7 +1189,7 @@ class WooSEA_Get_Products {
 					}
 	
 					// For Google Product review template
-					if (($feed_config['name'] == "Google Product Review") AND ($feed_config['nr_products_processed'] == 0)) {
+					if (($feed_config['name'] == "Google Product Review") AND (empty($xml->channel))) {
 						$product = $xml->addChild('reviews');
 								
 						foreach ($products as $key => $value){
@@ -1289,8 +1304,8 @@ class WooSEA_Get_Products {
 					}	
 
 					foreach ($products as $key => $value){
-						
-						if (is_array ( $value ) ) {
+	
+						if ((is_array ( $value )) and (!empty( $value ))) {
 							if ($feed_config['name'] == "Yandex") {
 								$product = $xml->shop->offers->addChild('offer');
 							} elseif ($feed_config['name'] == "Heureka.cz" || $feed_config['name'] == "Zbozi.cz" || $feed_config['name'] == "Glami.gr") {
@@ -1435,8 +1450,10 @@ class WooSEA_Get_Products {
 											$productp->addAttribute('name', $pieces[1]);
 										} elseif ($feed_config['name'] == "Google Product Review") {
 										} else {
-											$product->addChild("$k");
-											$product->$k = $v;
+											if(is_object($product)){
+												$product->addChild("$k");
+												$product->$k = $v;
+											}
 										}
 									}
 								}
@@ -3091,7 +3108,6 @@ class WooSEA_Get_Products {
 				foreach( array_keys($project_config['attributes']) as $attribute_key ){
 			
 					if(!is_numeric($attribute_key)){
-
 						if(!isset($old_attributes_config)){
 							if(!$xml_product){
 								$xml_product = array (
@@ -3106,6 +3122,7 @@ class WooSEA_Get_Products {
 							foreach($old_attributes_config as $attr_key => $attr_value){
 
 								$ca = 0;
+								$ga = 0;
 								// Static attribute value was set by user
 								if(array_key_exists('static_value', $attr_value)){
 									if(!isset($xml_product)){
@@ -3139,7 +3156,7 @@ class WooSEA_Get_Products {
 
 												} elseif($attr_value['mapfrom'] == "reviews"){
                                                                                                 	$review_str = "";
-														
+													
                                                                                                         foreach ($product_data[$attr_value['mapfrom']] as $key => $value){
                                                                                                                 $review_str .= "||";
 
@@ -3215,7 +3232,15 @@ class WooSEA_Get_Products {
 											} else {
 												if(array_key_exists($attr_value['attribute'], $xml_product)){
 													$ca = explode("_", $attr_value['mapfrom']);
-													$xml_product[$attr_value['attribute']."_$ca[1]"] = "$attr_value[prefix] ". $product_data[$attr_value['mapfrom']] ." $attr_value[suffix]";	
+													$ga++;
+													// Google Shopping Actions, allow multiple product highlights in feed
+													if($attr_value['attribute'] == "g:product_highlight"){
+														$xml_product[$attr_value['attribute']."_$ga"] = "$attr_value[prefix] ". $product_data[$attr_value['mapfrom']] ." $attr_value[suffix]";	
+													} elseif($attr_value['attribute'] == "g:product_detail"){
+														$xml_product[$attr_value['attribute']."_$ga"] = "$attr_value[prefix] ". $attr_value['mapfrom']."#".$product_data[$attr_value['mapfrom']] ." $attr_value[suffix]";	
+													} else {
+														$xml_product[$attr_value['attribute']."_$ca[1]"] = "$attr_value[prefix] ". $product_data[$attr_value['mapfrom']] ." $attr_value[suffix]";	
+													}
 												} else {
 													if(strlen($product_data[$attr_value['mapfrom']])){
 														
@@ -3225,6 +3250,8 @@ class WooSEA_Get_Products {
 															$xml_product[$attr_value['attribute']] = "$attr_value[prefix]".$product_data[$attr_value['mapfrom']]."$attr_value[suffix]";	
 														} elseif(($attr_value['attribute'] == "g:id") OR ($attr_value['attribute'] == "id") OR ($attr_value['attribute'] == "g:item_group_id")){
 															$xml_product[$attr_value['attribute']] = "$attr_value[prefix]". $product_data[$attr_value['mapfrom']] ."$attr_value[suffix]";	
+														} elseif($attr_value['attribute'] == "g:product_detail"){
+															$xml_product[$attr_value['attribute']] = "$attr_value[prefix] ". $attr_value['mapfrom']."#".$product_data[$attr_value['mapfrom']] ." $attr_value[suffix]";	
 														} else {
 															$xml_product[$attr_value['attribute']] = "$attr_value[prefix] ". $product_data[$attr_value['mapfrom']] ." $attr_value[suffix]";	
 														}
@@ -4129,7 +4156,6 @@ class WooSEA_Get_Products {
 		foreach ($project_rules as $pr_key => $pr_array){
 
 			if(array_key_exists($pr_array['attribute'], $product_data)){
-
 				foreach ($product_data as $pd_key => $pd_value){
 					// Check is there is a rule on specific attributes
 
@@ -4138,7 +4164,7 @@ class WooSEA_Get_Products {
 							//$pd_value = @number_format($pd_value,2);
 							$pd_value = wc_format_decimal($pd_value);
 						}
-						
+				
 						if (is_numeric($pd_value)){
 							$old_value = $pd_value;
 							if($pd_key == "price"){
@@ -4450,6 +4476,10 @@ class WooSEA_Get_Products {
 									$pr_array['criteria'] = strtolower($pr_array['criteria']);
 								}
 							}				
+							$pos = strpos($pd_value, '&amp;');
+							if($pos !== false){
+								$pd_value = str_replace("&amp;","&",$pd_value);
+							}
 
 							switch ($pr_array['condition']) {
 								case($pr_array['condition'] = "contains"):
@@ -4482,7 +4512,9 @@ class WooSEA_Get_Products {
 										$allowed = 1;
 								      	} elseif ((preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "exclude")){
                                                                                 $allowed = 0;
-                                                                        }	
+								      	} elseif ((preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "include_only")){
+										$allowed = 1;
+							                }	
 									break;
 								case($pr_array['condition'] = "!="):
 									if (($pr_array['criteria'] == "$pd_value") && ($pr_array['than'] == "exclude")){

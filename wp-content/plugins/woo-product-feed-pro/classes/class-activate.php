@@ -1697,6 +1697,13 @@ class WooSEA_Activation {
 					"taxonomy" => "none",
 					"utm_source" => "Connexity.com",
                         		"type" => "Advertising" ),
+                 		"ShareASale" => array (
+                        		"channel_hash" => md5("ShareASale"),
+                        		"name" => "ShareASale",
+					"fields" => "shareasale",
+					"taxonomy" => "none",
+					"utm_source" => "ShareASale",
+                        		"type" => "Advertising" ),
                   		"Smartly.io" => array (
                         		"channel_hash" => md5("Smartly.io"),
                         		"name" => "Smartly.io",

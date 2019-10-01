@@ -5,52 +5,62 @@ if (!class_exists('WOOCCM_Checkout')) {
 
     protected static $instance;
 
+    protected function process_uploads($files, $key, $post_id = 0) {
+
+      if (!function_exists('media_handle_upload')) {
+        require_once( ABSPATH . 'wp-admin/includes/file.php' );
+        require_once( ABSPATH . 'wp-admin/includes/media.php' );
+        require_once( ABSPATH . 'wp-admin/includes/image.php' );
+      }
+
+      $attachment_ids = array();
+
+      add_filter('upload_dir', function( $param ) {
+        $param['path'] = sprintf('%s/wooccm_uploads', $param['basedir']);
+        $param['url'] = sprintf('%s/wooccm_uploads', $param['baseurl']);
+        return $param;
+      }, 10);
+
+      foreach ($files['name'] as $id => $value) {
+
+        if ($files['name'][$id]) {
+
+          $_FILES[$key] = array(
+              'name' => $files['name'][$id],
+              'type' => $files['type'][$id],
+              'tmp_name' => $files['tmp_name'][$id],
+              'error' => $files['error'][$id],
+              'size' => $files['size'][$id]
+          );
+
+          if (!is_wp_error($attachment_id = media_handle_upload($key, $post_id))) {
+            $attachment_ids[] = $attachment_id;
+          } else {
+            wc_add_notice($attachment_id->get_error_message(), 'error');
+            wp_send_json_error($attachment_id->get_error_message());
+          }
+        }
+      }
+
+      return $attachment_ids;
+    }
+
     function ajax_checkout_attachment_upload() {
 
       if (!empty($_REQUEST) && check_admin_referer('wooccm_checkout_attachment_upload', 'nonce')) {
 
-        $upload_files = ( isset($_FILES['wooccm_checkout_attachment_upload']) ? $_FILES['wooccm_checkout_attachment_upload'] : false );
+        $files = ( isset($_FILES['wooccm_checkout_attachment_upload']) ? $_FILES['wooccm_checkout_attachment_upload'] : false );
 
-        if (empty($upload_files)) {
-          wp_send_json_error(esc_html__('No uploads were recognised. Files were not uploaded.', 'woocommerce-checkout-manager'));
+        if (empty($files)) {
+          wc_add_notice(esc_html__('No uploads were recognised. Files were not uploaded.', 'woocommerce-checkout-manager'), 'error');
+          wp_send_json_error();
         }
 
-        require_once( ABSPATH . 'wp-admin/includes/file.php' );
-        require_once( ABSPATH . 'wp-admin/includes/media.php' );
-        //require_once( ABSPATH . 'wp-admin/includes/image.php' );
-
-        $attachment_ids = array();
-
-        add_filter('upload_dir', function( $param ) {
-          $param['path'] = sprintf('%s/wooccm_uploads', $param['basedir']);
-          $param['url'] = sprintf('%s/wooccm_uploads', $param['baseurl']);
-          return $param;
-        }, 10);
-
-        foreach ($upload_files['name'] as $key => $value) {
-          if ($upload_files['name'][$key]) {
-            $file = array(
-                'name' => $upload_files['name'][$key],
-                'type' => $upload_files['type'][$key],
-                'tmp_name' => $upload_files['tmp_name'][$key],
-                'error' => $upload_files['error'][$key],
-                'size' => $upload_files['size'][$key]
-            );
-
-            $upload = wp_handle_upload($file, array(
-                'test_form' => false,
-                'action' => 'wooccm_checkout_attachment_upload')
-            );
-
-            if (!isset($upload['error'])) {
-              $attachment_ids[] = wc_rest_set_uploaded_image_as_attachment($upload);
-            }
-          }
-        }
-
-        if (count($attachment_ids)) {
+        if (count($attachment_ids = $this->process_uploads($files, 'wooccm_checkout_attachment_upload'))) {
           wp_send_json_success($attachment_ids);
         }
+        wc_add_notice(esc_html__('Unknow error.', 'woocommerce-checkout-manager'), 'error');
+        wp_send_json_error();
       }
     }
 
@@ -92,7 +102,7 @@ if (!class_exists('WOOCCM_Checkout')) {
       }
     }
 
-    function checkout_billing_attachment_update_ids($order_id = 0) {      
+    function checkout_billing_attachment_update_ids($order_id = 0) {
       $this->checkout_attachment_update_ids($order_id, 'wccs_settings3', 'billing_buttons', 'billing_');
     }
 
@@ -143,13 +153,6 @@ if (!class_exists('WOOCCM_Checkout')) {
       }
     }
 
-    function checkout_attachment_results() {
-      ?>
-      <div class="clear"></div>
-      <div style="margin: 16px 0 0 0; display: none;" id="wooccm_checkout_attachment_results" class="woocommerce-message"></div>
-      <?php
-    }
-
     function init() {
       add_action('wp_ajax_wooccm_checkout_attachment_upload', array($this, 'ajax_checkout_attachment_upload'));
       add_action('wp_ajax_nopriv_wooccm_checkout_attachment_upload', array($this, 'ajax_checkout_attachment_upload'));
@@ -158,7 +161,6 @@ if (!class_exists('WOOCCM_Checkout')) {
       add_action('woocommerce_checkout_update_order_meta', array($this, 'checkout_billing_attachment_update_ids'));
       add_action('woocommerce_checkout_update_order_meta', array($this, 'checkout_shipping_attachment_update_ids'));
       add_action('woocommerce_checkout_update_order_meta', array($this, 'checkout_additional_attachment_update_ids'));
-      add_action('woocommerce_review_order_after_submit', array($this, 'checkout_attachment_results'));
     }
 
     public static function instance() {

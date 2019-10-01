@@ -596,13 +596,13 @@ function ppom_file_legacy_crop_editor(){
 	 */
 
 	$ratio = json_decode( stripslashes( $_REQUEST['ratios'] ) );
-	// var_dump($ratio);
-	$vars = array('image_name' => sanitize_file_name($_REQUEST['image_name']), 
+	
+	$vars = array('image_name'  => sanitize_file_name($_REQUEST['image_name']), 
 					'image_url' => esc_url_raw($_REQUEST['image_url']), 
-					'ratio' => $ratio, 
-					'fileid' => sanitize_file_name($_REQUEST['file_id']),
-					'image_id'	=> senetize_key($_REQUEST['image_id']),
-					'data_name'	=> senetize_key($_REQUEST['data_name'])
+					'ratio'     => $ratio, 
+					'fileid'    => sanitize_text_field($_REQUEST['file_id']),
+					'image_id'	=> sanitize_text_field($_REQUEST['image_id']),
+					'data_name'	=> sanitize_text_field($_REQUEST['data_name'])
 					);
 	ppom_load_template( 'input/legacy-cropper.php', $vars);
 

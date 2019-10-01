@@ -41,7 +41,7 @@ jQuery(function($){
    
    // quantities input changes
     if($('.ppom-input-quantities').length > 0){
-        $('input.ppom-quantity').on('click keyup', function(){
+        $('input.ppom-quantity').on('click keyup change', function(){
         	
         	ppom_update_option_prices();
         });
@@ -121,6 +121,7 @@ function ppom_update_option_prices() {
     var ppom_has_variable   = false;
     var ppom_has_onetime    = false;
     var ppom_has_matrix     = false;
+    var ppom_has_priced_quantities = false; // variation quantities
     var ppom_show_base_price= true;
     var show_option_price_indivisually = ppom_input_vars.show_option_price == 'all_option' ? true : false;
     var show_per_unit_price = false;
@@ -185,18 +186,18 @@ function ppom_update_option_prices() {
         
         // console.log(option);
         
-        /*if( option.include !== 'on'){
-            ppom_show_base_price = false;
-        } else {
-            wc_product_qty.val(1);
-        }*/
+        if( option.include === 'on'){
+            ppom_has_priced_quantities  = true;
+        }
+        
+        // wc_product_qty.val(1);
         
         // since v18.0 if no price set, no need to use base price
         if( option.price == '' || option.price == 0 ) return;
         
         var variation_price = option.price;
         var option_price_with_qty   = parseFloat(option.quantity) * parseFloat(variation_price);
-        // console.log(option_price_with_qty);
+        console.log(option_price_with_qty);
         // Totals the options
         ppom_option_total += option_price_with_qty;
         
@@ -337,8 +338,14 @@ function ppom_update_option_prices() {
     if( ppom_show_base_price ) {
         
         var price_tag = ppom_get_wc_price(ppom_product_base_price);
-        var product_base_label  = ppom_input_vars.product_base_label+' '+jQuery(price_tag).html()+' x '+ppom_get_order_quantity();
-        productBasePrice        = ppom_get_order_quantity() * parseFloat(ppom_product_base_price);
+        
+        // if variation quantities has price
+        var product_qty = ppom_get_order_quantity();
+        if( ppom_has_priced_quantities ) {
+            product_qty = 1;
+        }
+        var product_base_label  = ppom_input_vars.product_base_label+' '+jQuery(price_tag).html()+' x '+product_qty;
+        productBasePrice        = product_qty * parseFloat(ppom_product_base_price);
         ppom_add_price_item_in_table( product_base_label, productBasePrice, 'ppom-product-base-price');
     }
     /** ====== Product base price =========== ***/
@@ -566,8 +573,9 @@ function ppom_update_get_prices() {
         
         // if fixedprice (addon) then return
         if( jQuery("option:selected", this).attr('data-unitprice') !== undefined ) return;
+        // if( jQuery("option:selected", this).attr('data-price') === undefined ) return;
         
-        var selected_option_price = jQuery("option:selected", this).attr('data-price');
+        var selected_option_price = jQuery("option:selected", this).attr('data-price') || 0;
         var selected_option_label = jQuery("option:selected", this).attr('data-label');
         var selected_option_title = jQuery("option:selected", this).attr('data-title');
         var selected_option_apply = jQuery("option:selected", this).attr('data-onetime') !== 'on' ? 'variable' : 'onetime';
@@ -576,7 +584,7 @@ function ppom_update_get_prices() {
         var selected_option_optionid = jQuery("option:selected", this).attr('data-optionid');
         var selected_option_data_name = jQuery("option:selected", this).attr('data-data_name');
         
-        var checked_option_price = jQuery(this).attr('data-price');
+        var checked_option_price = jQuery(this).attr('data-price') || 0;
         var checked_option_label = jQuery(this).attr('data-label');
         var checked_option_title = jQuery(this).attr('data-title');
         var checked_option_apply = jQuery(this).attr('data-onetime') !== 'on' ? 'variable' : 'onetime';

@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.2
-Stable tag: 6.4.5
+Stable tag: 6.5.2
 
 == Description ==
 
@@ -128,6 +128,7 @@ Our plugin supports the Aelia Currency Switcher
 * Google DSA (Dynamic Search Ads)
 * Google Local Products
 * Google Local Products Inventory
+* Google Shopping Actions
 * Facebook Dynamic Ad’s / remarketing
 * Bing Shopping
 * Pinterest
@@ -155,6 +156,7 @@ Our plugin supports the Aelia Currency Switcher
 * <a href="https://www.glami.gr" target="_blank">Glami.gr</a>
 * AdForm
 * Smartly.io
+* <a href="https://www.shareasale.com" target="_blank">Shareasale.com</a>
 * Spartoo
 * Pricerunner
 * <a href="https://www.miinto.dk" target="_blank">Miinto Denmark</a>
@@ -285,6 +287,29 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 6.5.2 (2019-10-01) =
+* Product reviews on parent products are now also added to the variants of the parent product
+
+= 6.5.1 (2019-09-27) =
+* Solved a bug: PHP warning showing sometimes when changes to products were made. Issue has been solved now.
+
+= 6.5.0 (2019-09-22) =
+* Added support for nested product details XML for Google Shopping Actions
+
+= 6.4.9 (2019-09-21) =
+* Added support for Google Shopping Actions: https://support.google.com/merchants/answer/7378924?hl=en
+
+= 6.4.8 (2019-09-20) =
+* Put all Shareasale.com fields on required
+* Increased performance plugin when lots of filters and rules were set
+
+= 6.4.7 (2019-09-18) =
+* Removed the low_stock_amount feature as it is only supported for WC 3.7 users
+
+= 6.4.6 (2019-09-17) =
+* Added a template for Shareasale.com
+* Fixed a bug: filters on category names that had a "&" in it did not work. Issue has been fixed.
 
 = 6.4.5 (2019-09-13) =
 * Fixed a bug: price filters on non numeric values did not work properly. Issue has been fixed.
@@ -2008,6 +2033,29 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 6.5.2 =
+Product reviews on parent products are now also added to the variants of the parent product
+
+= 6.5.1 =
+Solved a bug: PHP warning showing sometimes when changes to products were made. Issue has been solved now.
+
+= 6.5.0 =
+Added support for nested product details XML for Google Shopping Actions
+
+= 6.4.9 =
+Added support for Google Shopping Actions: https://support.google.com/merchants/answer/7378924?hl=en
+
+= 6.4.8 =
+Put all Shareasale.com fields on required
+Increased performance plugin when lots of filters and rules were set
+
+= 6.4.7 =
+Removed the low_stock_amount feature as it is only supported for WC 3.7 users
+
+= 6.4.6 =
+Added a template for Shareasale.com
+Fixed a bug: filters on category names that had a "&" in it did not work. Issue has been fixed.
 
 = 6.4.5 =
 Fixed a bug: price filters on non numeric values did not work properly. Issue has been fixed.

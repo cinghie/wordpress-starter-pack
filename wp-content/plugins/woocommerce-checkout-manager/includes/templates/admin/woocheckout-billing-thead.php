@@ -116,10 +116,11 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 <th style="cursor:pointer;text-align:center;font-size:30px;display:none;" class="filter_field add_amount_field condition_tick hide_stuff_change hide_stuff_time hide_stuff_opcheck hide_stuff_tog hide_stuff_color more_toggler1 more_toggler1c" width="2%"><span class="toggle_shower">&equiv;</span></th>
 
+<!--
 <th style="cursor:pointer;text-align:center;font-size:30px;display:none;" class="filter_field add_amount_field condition_tick hide_stuff_opcheck hide_stuff_op hide_stuff_change hide_stuff_time_tog hide_stuff_color more_toggler1 more_toggler1c" width="2%"><span class="toggle_shower">&equiv;</span></th>
 
 <th style="cursor:pointer;text-align:center;font-size:30px;display:none;" class="filter_field add_amount_field hide_stuff_time condition_tick hide_stuff_change hide_stuff_opcheck hide_stuff_days hide_stuff_color_tog hide_stuff_op more_toggler1 more_toggler1c" width="2%"><span class="toggle_shower">&equiv;</span></th>
-
+-->
 <th style="display:none;cursor:pointer;text-align:center;font-size:30px;" class="filter_field add_amount_field condition_tick hide_stuff_change hide_stuff_opcheck hide_stuff_time hide_stuff_op hide_stuff_color more_toggler1 more_toggler1a" width="2%"><span class="toggle_shower">&equiv;</span></th>
 
 <th style="cursor:pointer;text-align:center;font-size:30px;" class="filter_field add_amount_field hide_stuff_time condition_tick hide_stuff_change hide_stuff_opcheck hide_stuff_color more_toggler hide_stuff_op more_toggler1c" width="2%"><span class="toggle_shower">&equiv;</span></th>

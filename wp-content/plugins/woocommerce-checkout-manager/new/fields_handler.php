@@ -7,82 +7,50 @@ if (!class_exists('WOOCCM_Fields_Handler')) {
     protected static $instance;
     protected static $i = 0;
 
-    function remove_by_category($field, $key) {
+    function add_field_classes($field, $key) {
 
-      if (empty($field['disabled'])) {
+      // Position
+      // -----------------------------------------------------------------------
+      if (!empty($field['position'])) {
+        $field['class'] = array_diff($field['class'], array('form-row-wide', 'form-row-first', 'form-row-last'));
+        $field['class'][] = $field['position'];
+      }
 
-        if (count($cart_contents = WC()->cart->get_cart_contents())) {
+      // WOOCCM
+      // -----------------------------------------------------------------------
 
-          $categoryarraycm = array();
+      $field['class'][] = 'wooccm-field';
+      $field['class'][] = 'wooccm-field-' . $field['cow'];
 
-          $multiproductsx_cat = ( isset($field['single_p_cat']) ? $field['single_p_cat'] : '' );
-          $show_field_single_cat = ( isset($field['single_px_cat']) ? $field['single_px_cat'] : '' );
+      // Type
+      // -----------------------------------------------------------------------
+      if (!empty($field['type'])) {
+        $field['class'][] = 'wooccm-type-' . $field['type'];
+      }
 
-          $show_field_array_cat = explode('||', $show_field_single_cat);
+      // Color
+      // -----------------------------------------------------------------------
+      if (!empty($field['type']) && $field['type'] == 'colorpicker') {
+        $field['class'][] = 'wooccm-colorpicker-' . $field['colorpickertype'];
+      }
 
-          $multiarrayproductsx_cat = explode(',', $multiproductsx_cat);
+      // Extra
+      // -----------------------------------------------------------------------
+      if (!empty($field['extra_class'])) {
+        $field['class'][] = $field['extra_class'];
+      }
 
-          foreach ($cart_contents as $key => $values) {
+      // Clearfix
+      // -----------------------------------------------------------------------
+      if (!empty($field['clear_row'])) {
+        $field['class'][] = 'wooccm-clearfix';
+      }
 
-            // hide field
-            // -----------------------------------------------------------------
-            if (!empty($terms = get_the_terms($values['product_id'], 'product_cat'))) {
+      // Required
+      // -----------------------------------------------------------------------
 
-              foreach ($terms as $term) {
-
-                $categoryarraycm[] = $term->slug;
-
-                // hide field without more
-                // -------------------------------------------------------------
-                if (!empty($field['single_p_cat']) && empty($field['more_content'])) {
-
-                  if (in_array($term->slug, $multiarrayproductsx_cat) && ( count($cart_contents) < 2 )) {
-                    $field['disabled'] = true;
-                  }
-                }
-
-                // show field without more
-                // -------------------------------------------------------------
-                if (!empty($field['single_px_cat']) && empty($field['more_content'])) {
-
-                  if (in_array($term->slug, $show_field_array_cat) && ( count($cart_contents) < 2 )) {
-                    $field['disabled'] = false;
-                  }
-
-                  if (!in_array($term->slug, $show_field_array_cat) && ( count($cart_contents) < 2 )) {
-                    $field['disabled'] = true;
-                  }
-                }
-              }
-
-              // hide field with more
-              // ---------------------------------------------------------------
-              if (!empty($btn['single_p_cat']) && !empty($btn['more_content'])) {
-
-                //$multiarrayproductsx_cat = explode(',', $multiproductsx_cat);
-
-                if (array_intersect($categoryarraycm, $multiarrayproductsx_cat)) {
-                  $field['disabled'] = true;
-                }
-              }
-
-              // show field with more
-              // ---------------------------------------------------------------
-              if (!empty($btn['single_px_cat']) && !empty($btn['more_content'])) {
-
-                //$show_field_array_cat = explode('||', $show_field_single_cat);
-
-                if (array_intersect($categoryarraycm, $show_field_array_cat)) {
-                  $field['disabled'] = false;
-                }
-
-                if (!array_intersect($categoryarraycm, $show_field_array_cat)) {
-                  $field['disabled'] = true;
-                }
-              }
-            }
-          }
-        }
+      if (isset($field['required'])) {
+        $field['custom_attributes']['data-required'] = (int) $field['required'];
       }
 
       return $field;
@@ -90,38 +58,14 @@ if (!class_exists('WOOCCM_Fields_Handler')) {
 
     function remove_checkout_fields($fields) {
 
-      global $current_user;
-
-      $user_roles = $current_user->roles;
-
-      $user_role = array_shift($user_roles);
-
       foreach ($fields as $key => $type) {
 
         foreach ($type as $id => $field) {
 
-          //var_dump($field);
           // Remove disabled
           // -------------------------------------------------------------------
           if (!empty($field['disabled'])) {
             unset($fields[$key][$id]);
-          }
-          // Remove based on roles
-          // -------------------------------------------------------------------
-
-          if (!empty($field['user_role']) && (!empty($field['role_options']) || !empty($field['role_options2']))) {
-
-            $rolekeys = explode('||', $field['role_options']);
-
-            $rolekeys2 = explode('||', $field['role_options2']);
-
-            if (!empty($field['role_options']) && !in_array($user_role, $rolekeys)) {
-              unset($fields[$key][$id]);
-            }
-
-            if (!empty($field['role_options2']) && in_array($user_role, $rolekeys2)) {
-              unset($fields[$key][$id]);
-            }
           }
         }
       }
@@ -134,14 +78,17 @@ if (!class_exists('WOOCCM_Fields_Handler')) {
       return $fields;
     }
 
-    function woocommerce_checkout_address_2_field($option) {
-      return 'required';
-    }
+    //function woocommerce_checkout_address_2_field($option) {
+    //  return 'required';
+    //}
 
     function remove_fields_priority($fields) {
 
       foreach ($fields as $key => $field) {
+        unset($fields[$key]['label']);
+        unset($fields[$key]['placeholder']);
         unset($fields[$key]['priority']);
+        unset($fields[$key]['required']);
       }
 
       return $fields;
@@ -168,8 +115,8 @@ if (!class_exists('WOOCCM_Fields_Handler')) {
 
     function init() {
 
-      // Remove by category
-      add_filter('wooccm_checkout_field_filter', array($this, 'remove_by_category'), 10, 2);
+      // Add field classes
+      add_filter('wooccm_checkout_field_filter', array($this, 'add_field_classes'), 10, 2);
 
       // Remove fields
       // -----------------------------------------------------------------------
@@ -177,10 +124,10 @@ if (!class_exists('WOOCCM_Fields_Handler')) {
 
       // Fix address_2 field
       // -----------------------------------------------------------------------
-      add_filter('default_option_woocommerce_checkout_address_2_field', array($this, 'woocommerce_checkout_address_2_field'));
-
+      //add_filter('default_option_woocommerce_checkout_address_2_field', array($this, 'woocommerce_checkout_address_2_field'));
       // Fix address fields priority
       add_filter('woocommerce_get_country_locale_default', array($this, 'remove_fields_priority'));
+      add_filter('woocommerce_get_country_locale_base', array($this, 'remove_fields_priority'));
 
       // Fix required country notice when shipping address is activated
       // -----------------------------------------------------------------------

@@ -1,3 +1,5 @@
+
+
 <?php
  
     $sfsi_show_via_afterposts = "no";
@@ -43,12 +45,9 @@
                     <div class="kckslctn" <?php echo $label_style; ?>>
 
                         
+                    <?php include(SFSI_DOCROOT.'/views/sfsi_option_view6.php'); ?>
 
-                        <p>Please select this under <a href="#sfsi_dsplyafterposts" class="sfsi_navigate_to_question7">question 7</a>.</p>
-
-                        
-
-                        <p>If you want to place the <b>round icons</b> after/before posts (i.e. the ones you selected under question 1): This is possible in the <a href="https://www.ultimatelysocial.com/usm-premium/" target="_blank"><b>Premium Plugin.</b></a></p> 
+                       
 
                     </div>
 

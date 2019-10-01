@@ -4,7 +4,7 @@ Tags: woocommerce, woocommerce pesonalized products, woocommerce custom fields, 
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
 Tested up to: 5.2
-Stable tag: 18.4
+Stable tag: 18.5
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -89,7 +89,18 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
-= 18.4 July xx, 2019 =
+= 18.5 September 22, 2019 =
+* Bug fixed: [Text counter addon price not adding to cart](https://clients.najeebmedia.com/forums/topic/ppom-text-counter-add-on-not-working/#post-13848)
+* Bug fixed: [HTML content was not being added to cart, it's fixed now](https://clients.najeebmedia.com/forums/topic/custom-product-options-showing-in-customer-email/)
+* Feature: Placeholder option added for Email input.
+* Bug fixed:[Variation Quantities input change trigger added](https://wordpress.org/support/topic/quantity-variation-first-quantity-input-is-calculated-twice/)
+* Tweaks: WooCommerce Currency Switcher compatibility issue fixed
+* Tweaks: Validation Prices changes when used with Price Matrix.
+* Feature: Add image width/height option on the image Input type.
+* Bug fixed: [Hide as '*' when field title is not set](https://wordpress.org/support/topic/ppom-fields-woocs-more/)
+* Bug fixed: [Quantity step issue fixed with Price Matrix](https://clients.najeebmedia.com/forums/topic/ppom-slider-prices-not-validated-on-quantity/)
+* Bug fixed: File upload input prices issue fixed
+= 18.4 August 10, 2019 =
 * Bug fixed: [XSS Vulnerability removed from plugin](https://www.pluginvulnerabilities.com/2019/08/08/this-authenticated-persistent-xss-vulnerability-might-be-what-hackers-are-targeting-ppom-for-woocommerce-for/)
 * Feature: Price matrix input has new setting: Hide Price Table
 * Bug fixed: REST API issue fixed in last version 8.3

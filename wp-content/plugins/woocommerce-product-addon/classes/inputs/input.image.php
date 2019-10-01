@@ -79,6 +79,16 @@ class NM_Image_wooproduct extends PPOM_Inputs{
 					'title' => __ ( 'Selected image', 'ppom' ),
 					'desc' => __ ( 'Type option title given in (Add Images) tab if you want it already selected.', 'ppom' )
 			),
+			'image_width' => array (
+					'type' => 'text',
+					'title' => __ ( 'Image Width', 'ppom' ),
+					'desc' => __ ( 'Change image width e,g: 50px or 50%.', 'ppom' )
+			),
+			'image_height' => array (
+					'type' => 'text',
+					'title' => __ ( 'Image Height', 'ppom' ),
+					'desc' => __ ( 'Change image height e,g: 50px or 50%. ', 'ppom' )
+			),
 			'visibility' => array (
 					'type' => 'select',
 					'title' => __ ( 'Visibility', 'ppom' ),

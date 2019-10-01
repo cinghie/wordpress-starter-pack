@@ -6,7 +6,7 @@ Description: Easy to use and 100% FREE social media plugin which adds social med
 
 Author: UltimatelySocial
 Author URI: http://ultimatelysocial.com
-Version: 2.4.0
+Version: 2.4.2
 License: GPLv2 or later
 */
 require_once 'analyst/main.php';
@@ -88,7 +88,7 @@ register_deactivation_hook(__FILE__, 'sfsi_deactivate_plugin');
 
 register_uninstall_hook(__FILE__, 'sfsi_Unistall_plugin');
 
-if (!get_option('sfsi_pluginVersion') || get_option('sfsi_pluginVersion') < 2.39) {
+if (!get_option('sfsi_pluginVersion') || get_option('sfsi_pluginVersion') < 2.42) {
 
     add_action("init", "sfsi_update_plugin");
 }

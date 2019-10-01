@@ -20,7 +20,7 @@ $style                                    =  ($option9['sfsi_icons_float'] == "y
 
 		<li class="sfsiLocationli">
 
-            <div class="radio_section tb_4_ck cstmfltonpgstck" onclick="sfsi_toggleflotpage_que3(this);" style="padding-bottom:10px;">
+            <div class="radio_section tb_4_ck cstmfltonpgstck" onclick="sfsi_toggleflotpage_que3(this);">
 
                 <input name="sfsi_icons_float" <?php echo ($option9['sfsi_icons_float']=='yes') ?  'checked="true"' : '' ;?>  type="checkbox" value="yes" class="styled" />
 

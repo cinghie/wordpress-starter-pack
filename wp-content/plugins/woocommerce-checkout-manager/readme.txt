@@ -4,7 +4,7 @@ Donate link: https://quadlayers.com/
 Tags: woocommerce, woocommerce checkout, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
 Requires at least: 3.0
 Tested up to: 5.2.3
-Stable tag: 4.4.2
+Stable tag: 4.4.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -136,6 +136,34 @@ Example:
 8. Customize Checkout fields from the WooCheckout menu item in the WordPress Administration.
 
 == Changelog ==
+
+= 4.4.9 =
+* Improvement: unnecessary files removed
+* Improvement: woocommerce checkout address fields required
+* Improvement: woocommerce checkout address fields names
+
+= 4.4.8 =
+* Improvement: backward compatibility with new panel
+
+= 4.4.7 =
+* Improvement: woocommerce checkout conditional fields rebuilt
+
+= 4.4.6 =
+* Fix: woocommerce checkout undefined class
+* Improvement: woocommerce checkout color field rebuilt
+* Improvement: removed unnecessary scripts
+
+= 4.4.5 =
+* Improvement: woocommerce checkout conditional fields rebuilt
+
+= 4.4.4 =
+* Fix: small CSS changes
+* Fix: security issue related with upload files types
+* Improvement: woocommerce checkout upload rebuilt 
+
+= 4.4.3 =
+* Fix: woocommerce checkout hide field based on product id rebuilt
+* Fix: woocommerce checkout hide field based on product category rebuilt
 
 = 4.4.2 =
 * Fix: woocommerce checkout remove field based on categories

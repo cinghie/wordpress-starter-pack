@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     6.4.5
+ * Version:     6.5.2
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '6.4.5' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '6.5.2' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -3578,7 +3578,6 @@ function woosea_create_all_feeds(){
 	// Determine if changes where made to products or new orders where placed
  	// Only update the feed(s) when such a change occured
 	$products_changes = get_option('woosea_allow_update');
-	//error_log("Product changes:" . $products_changes);
 	
 	if(!empty($feed_config)){	
 		foreach ( $feed_config as $key => $val ) {
@@ -3820,39 +3819,42 @@ function woosea_before_product_save( $post_id ) {
 	$post_type = get_post_type($post_id);
 	if($post_type == "product"){
 		$product = wc_get_product( $post_id );
-		$product_data = $product->get_data();
+		
+		if(is_object($product)){
+			$product_data = $product->get_data();
 
-		$before = array(
-			"product_id"		=> 	$post_id,
-			"type"			=> 	$product->get_type(),
-			"name"			=> 	$product->get_name(),
-			"slug"			=> 	$product->get_slug(),
-			"status"		=> 	$product->get_status(),
-			"featured"		=> 	$product->get_featured(),
-			"visibility"		=> 	$product->get_catalog_visibility(),
-			"description"		=> 	$product->get_description(),
-			"short_description"	=> 	$product->get_short_description(),			
-			"sku"			=> 	$product->get_sku(),
-			"price"			=> 	$product->get_price(),
-			"regular_price"		=> 	$product->get_regular_price(),
-			"sale_price"		=> 	$product->get_sale_price(),
-			"total_sales"		=> 	$product->get_total_sales(),
-			"tax_status"		=> 	$product->get_tax_status(),
-			"tax_class"		=> 	$product->get_tax_class(),
-			"manage_stock"		=> 	$product->get_manage_stock(),
-			"stock_quantity"	=> 	$product->get_stock_quantity(),
-			"stock_status"		=> 	$product->get_stock_status(),
-			"backorders"		=> 	$product->get_backorders(),
-			"weight"		=>	$product->get_weight(),
-			"length"		=>	$product->get_length(),
-			"width"			=>	$product->get_width(),
-			"height"		=>	$product->get_height(),
-			"parent_id"		=>	$product->get_parent_id(),
-		);
+			$before = array(
+				"product_id"		=> 	$post_id,
+				"type"			=> 	$product->get_type(),
+				"name"			=> 	$product->get_name(),
+				"slug"			=> 	$product->get_slug(),
+				"status"		=> 	$product->get_status(),
+				"featured"		=> 	$product->get_featured(),
+				"visibility"		=> 	$product->get_catalog_visibility(),
+				"description"		=> 	$product->get_description(),
+				"short_description"	=> 	$product->get_short_description(),			
+				"sku"			=> 	$product->get_sku(),
+				"price"			=> 	$product->get_price(),
+				"regular_price"		=> 	$product->get_regular_price(),
+				"sale_price"		=> 	$product->get_sale_price(),
+				"total_sales"		=> 	$product->get_total_sales(),
+				"tax_status"		=> 	$product->get_tax_status(),
+				"tax_class"		=> 	$product->get_tax_class(),
+				"manage_stock"		=> 	$product->get_manage_stock(),
+				"stock_quantity"	=> 	$product->get_stock_quantity(),
+				"stock_status"		=> 	$product->get_stock_status(),
+				"backorders"		=> 	$product->get_backorders(),
+				"weight"		=>	$product->get_weight(),
+				"length"		=>	$product->get_length(),
+				"width"			=>	$product->get_width(),
+				"height"		=>	$product->get_height(),
+				"parent_id"		=>	$product->get_parent_id(),
+			);
 
-		if(!get_option('product_changes')){
-			update_option('product_changes',$before,'','yes');
-		}	
+			if(!get_option('product_changes')){
+				update_option('product_changes',$before,'','yes');
+			}	
+		}
 	}
 }
 add_action('pre_post_update','woosea_before_product_save');
@@ -3863,53 +3865,55 @@ add_action('pre_post_update','woosea_before_product_save');
  */
 function woosea_on_product_save( $product_id ) {
 	$product = wc_get_product( $product_id );
-	$product_data = $product->get_data();
+
+	if(is_object($product)){
+		$product_data = $product->get_data();
                
-	$after = array(
-        	"product_id"            =>      $product_id,
-               	"type"                  =>      $product->get_type(),
-              	"name"                  =>      $product->get_name(),
-              	"slug"                  =>      $product->get_slug(),
-              	"status"                =>      $product->get_status(),
-              	"featured"              =>      $product->get_featured(),
-             	"visibility"            =>      $product->get_catalog_visibility(),
-             	"description"           =>      $product->get_description(),
-             	"short_description"     =>      $product->get_short_description(),
-              	"sku"                   =>      $product->get_sku(),
-             	"price"                 =>      $product->get_price(),
-              	"regular_price"         =>      $product->get_regular_price(),
-           	"sale_price"            =>      $product->get_sale_price(),
-            	"total_sales"           =>      $product->get_total_sales(),
-            	"tax_status"            =>      $product->get_tax_status(),
-             	"tax_class"             =>      $product->get_tax_class(),
-             	"manage_stock"          =>      $product->get_manage_stock(),
-            	"stock_quantity"        =>      $product->get_stock_quantity(),
-             	"stock_status"          =>      $product->get_stock_status(),
-              	"backorders"            =>      $product->get_backorders(),
-            	"low_stock_amount"      =>      $product->get_low_stock_amount(),
-              	"sold_individually"     =>      $product->get_sold_individually(),
-              	"weight"                =>      $product->get_weight(),
-             	"length"                =>      $product->get_length(),
-            	"width"                 =>      $product->get_width(),
-             	"height"                =>      $product->get_height(),
-             	"parent_id"             =>      $product->get_parent_id(),
-   	);   
+		$after = array(
+        		"product_id"            =>      $product_id,
+	               	"type"                  =>      $product->get_type(),
+        	      	"name"                  =>      $product->get_name(),
+	              	"slug"                  =>      $product->get_slug(),
+        	      	"status"                =>      $product->get_status(),
+         	     	"featured"              =>      $product->get_featured(),
+             		"visibility"            =>      $product->get_catalog_visibility(),
+	             	"description"           =>      $product->get_description(),
+    	         	"short_description"     =>      $product->get_short_description(),
+ 	             	"sku"                   =>      $product->get_sku(),
+	             	"price"                 =>      $product->get_price(),
+ 	             	"regular_price"         =>      $product->get_regular_price(),
+ 	          	"sale_price"            =>      $product->get_sale_price(),
+	            	"total_sales"           =>      $product->get_total_sales(),
+  	          	"tax_status"            =>      $product->get_tax_status(),
+	             	"tax_class"             =>      $product->get_tax_class(),
+ 	            	"manage_stock"          =>      $product->get_manage_stock(),
+ 	           	"stock_quantity"        =>      $product->get_stock_quantity(),
+ 	            	"stock_status"          =>      $product->get_stock_status(),
+  	            	"backorders"            =>      $product->get_backorders(),
+  	            	"sold_individually"     =>      $product->get_sold_individually(),
+ 	             	"weight"                =>      $product->get_weight(),
+ 	            	"length"                =>      $product->get_length(),
+   	         	"width"                 =>      $product->get_width(),
+ 	            	"height"                =>      $product->get_height(),
+ 	            	"parent_id"             =>      $product->get_parent_id(),
+	   	);   
 
-	if (is_array($product_data)){
+		if (is_array($product_data)){
 
-		if(get_option('product_changes')){
-			$before = get_option('product_changes');
-			$diff = array_diff($after, $before);
-			if(!$diff){
-				$diff['product_id'] = $product_id;
+			if(get_option('product_changes')){
+				$before = get_option('product_changes');
+				$diff = array_diff($after, $before);
+				if(!$diff){
+					$diff['product_id'] = $product_id;
+				} else {
+					// Enable the prodyct changed flag
+			        	update_option('woosea_allow_update', 'yes');
+				}
+				delete_option('product_changes');
 			} else {
 				// Enable the prodyct changed flag
-			        update_option('woosea_allow_update', 'yes');
+				update_option('woosea_allow_update', 'yes');
 			}
-			delete_option('product_changes');
-		} else {
-			// Enable the prodyct changed flag
-			update_option('woosea_allow_update', 'yes');
 		}
 	}
 }

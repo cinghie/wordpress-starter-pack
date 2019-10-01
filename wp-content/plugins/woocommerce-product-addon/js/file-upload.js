@@ -399,7 +399,7 @@ function ppom_setup_file_upload_input( file_input ) {
     				}
     				
     				// adding checkbox input to Hold uploaded file name as array
-    				var file_container  = $filelist_DIV[file_data_name].find('.u_i_c_box');
+    				var file_container  = $filelist_DIV[file_data_name].find('#u_i_c_' + file.id);
     				var fileCheck = jQuery('<input checked="checked" name="ppom[fields]['+file_data_name+']['+file.id+'][org]" type="checkbox"/>')
     				                .attr('data-price', file_input.file_cost)
     				                .attr('data-label', obj_resp.file_name)
@@ -410,6 +410,7 @@ function ppom_setup_file_upload_input( file_input ) {
     				                .addClass('ppom-file-cb-'+file_data_name)
     				                .addClass('ppom-file-cb')
     				                .appendTo(file_container);
+    				                
     				ppom_update_option_prices();
     				
     				jQuery('form.cart').unblock();

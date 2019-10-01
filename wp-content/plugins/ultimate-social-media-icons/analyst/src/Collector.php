@@ -169,9 +169,9 @@ class Collector
 	 */
 	public function getMysqlVersion()
 	{
-		global $wpdb;
+		$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-		$version = empty($wpdb->use_mysqli) ? mysql_get_server_info() : mysqli_get_server_info($wpdb->dbh);
+		$version = mysqli_get_server_info($conn);
 
 		return $version ? $version : 'unknown';
 	}

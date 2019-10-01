@@ -183,9 +183,12 @@
 					wc_price_DOM = $('form.cart').closest('div').find('.price');
 				}*/
 
-                ppom_bulkquantity_meta = input.options;				
+                ppom_bulkquantity_meta = input.options;		
+
+                var min_quantity_value = jQuery('.ppom-bulkquantity-qty').val();
+                		
 				// Starting value
-				ppom_bulkquantity_price_manager(1);
+				ppom_bulkquantity_price_manager(min_quantity_value);
                 break;
                 
             case 'pricematrix':

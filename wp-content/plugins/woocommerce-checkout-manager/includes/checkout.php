@@ -1,57 +1,5 @@
 <?php
 
-// Decides where the Additional Checkout fields appear on the Checkout page
-/*
- * 1326
- * function wooccm_checkout_additional_positioning() {
-
-  $options = get_option( 'wccs_settings' );
-  // Defaults to after_order_notes
-  $position = ( !empty( $options['checkness']['position'] ) ? sanitize_text_field( $options['checkness']['position'] ) : 'after_order_notes' );
-  switch( $position ) {
-
-  case 'before_shipping_form':
-  case 'after_shipping_form':
-  case 'before_billing_form':
-  case 'after_billing_form':
-  case 'after_order_notes':
-  return $position;
-  break;
-
-  }
-
-  } */
-
-/*
- * 1326
- * break i18 address required field
- * function wooccm_checkout_default_address_fields( $fields = array() ) {
-
-
-  // Billing fields
-  $options = get_option( 'wccs_settings3' );
-  $buttons = ( isset( $options['billing_buttons'] ) ? $options['billing_buttons'] : false );
-
-  if( empty( $buttons ) )
-  return $fields;
-
-  foreach( $buttons as $btn ) {
-
-  if( !empty( $btn['cow'] ) && empty( $btn['deny_checkout'] ) ) {
-  $key = $btn['cow'];
-
-  if( isset( $fields[$key] ) )
-  $fields[$key]['required'] = ( isset( $btn['checkbox'] ) ? absint( $btn['checkbox'] ) : ( isset( $fields[$key]['required'] ) ? absint( $fields[$key]['required'] ) : false ) );
-
-  }
-
-  }
-
-  return $fields;
-
-  }
- */
-
 function wooccm_autocreate_account($fields) {
 
   $options = get_option('wccs_settings');

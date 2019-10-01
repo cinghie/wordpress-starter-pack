@@ -1,71 +1,64 @@
 <table class="widefat wccs-table additional-semi" style="display:none;" border="1" name="additional_table">
-	<thead>
+  <thead>
 
-		<tr>
-			<th style="width:3%;" class="wccs-order" title="<?php esc_attr_e( 'Change the order of Checkout fields', 'woocommerce-checkout-manager' ); ?>">#</th>
+    <tr>
+      <th style="width:3%;" class="wccs-order" title="<?php esc_attr_e('Change the order of Checkout fields', 'woocommerce-checkout-manager'); ?>">#</th>
 
-			<?php require( WOOCCM_PLUGIN_DIR.'includes/templates/admin/woocheckout-additional-thead.php' ); ?>
+      <?php require( WOOCCM_PLUGIN_DIR . 'includes/templates/admin/woocheckout-additional-thead.php' ); ?>
 
-			<th width="1%" scope="col" title="<?php esc_attr_e( 'Remove button', 'woocommerce-checkout-manager' ); ?>"><strong>X</strong><!-- remove --></th>
-		</tr>
+      <th width="1%" scope="col" title="<?php esc_attr_e('Remove button', 'woocommerce-checkout-manager'); ?>"><strong>X</strong><!-- remove --></th>
+    </tr>
 
-	</thead>
-	<tbody>
+  </thead>
+  <tbody>
 
-<?php
-	if( isset( $options['buttons'] ) ) {
-		$size = count( $options['buttons'] );
-		// $size = max( array_keys( $options['buttons'] ) );
-		for( $i = 0; $i < $size; $i++ ) {
+    <?php
+    if ($fields = WOOCCM_Fields::get_additional_fields()) {
+      foreach ($fields as $i => $field) {
+        ?>
 
-/*
-			if( !isset( $options['buttons'][$i] ) )
-				break;
-*/
-?>
+        <tr valign="top" id="wccs-additional-id-<?php echo $i; ?>" class="wccs-row">
 
-		<tr valign="top" id="wccs-additional-id-<?php echo $i; ?>" class="wccs-row">
+          <td style="display:none;" class="wccs-order-hidden" >
+            <input type="hidden" name="wccs_settings[buttons][<?php echo $i; ?>][order]" value="<?php echo ( empty($field['order']) ) ? $i : $field['order']; ?>" />
+          </td>
+          <td class="wccs-order" title="<?php esc_attr_e('Drag-and-drop this Checkout field to adjust its ordering', 'woocommerce-checkout-manager'); ?>"><?php echo $i + 1; ?></td>
 
-			<td style="display:none;" class="wccs-order-hidden" >
-				<input type="hidden" name="wccs_settings[buttons][<?php echo $i; ?>][order]" value="<?php echo ( empty( $options['buttons'][$i]['order'] ) ) ? $i : $options['buttons'][$i]['order']; ?>" />
-			</td>
-			<td class="wccs-order" title="<?php esc_attr_e( 'Drag-and-drop this Checkout field to adjust its ordering', 'woocommerce-checkout-manager' ); ?>"><?php echo $i+1; ?></td>
+          <?php require( WOOCCM_PLUGIN_DIR . 'includes/templates/admin/woocheckout-additional-tbody.php' ); ?>
 
-			<?php require( WOOCCM_PLUGIN_DIR.'includes/templates/admin/woocheckout-additional-tbody.php' ); ?>
+          <td class="wccs-remove"><a class="wccs-remove-button" href="javascript:;" title="<?php esc_attr_e('Delete this Checkout field', 'woocommerce-checkout-manager'); ?>">&times;</a></td>
 
-			<td class="wccs-remove"><a class="wccs-remove-button" href="javascript:;" title="<?php esc_attr_e( 'Delete this Checkout field', 'woocommerce-checkout-manager' ); ?>">&times;</a></td>
+        </tr>
+        <!-- #wccs-additional-id-<?php echo $i; ?> .wccs-row -->
 
-		</tr>
-		<!-- #wccs-additional-id-<?php echo $i; ?> .wccs-row -->
+        <?php
+      }
+    }
+    ?>
 
-<?php
-		}
-	}
-?>
+    <?php
+    $i = 999;
+    ?>
 
-<?php
-	$i = 999;
-?>
+    <tr valign="top" id="wccs-additional-id-<?php echo $i; ?>" class="wccs-clone">
 
-		<tr valign="top" id="wccs-additional-id-<?php echo $i; ?>" class="wccs-clone">
+      <td style="display:none;" class="wccs-order-hidden">
+        <input type="hidden" name="wccs_settings[buttons][<?php echo $i; ?>][order]" value="<?php echo $i; ?>" />
+      </td>
 
-			<td style="display:none;" class="wccs-order-hidden">
-				<input type="hidden" name="wccs_settings[buttons][<?php echo $i; ?>][order]" value="<?php echo $i; ?>" />
-			</td>
+      <td class="wccs-order" title="<?php esc_attr_e('Drag-and-drop this Checkout field to adjust its ordering', 'woocommerce-checkout-manager'); ?>"><?php echo $i; ?></td>
 
-			<td class="wccs-order" title="<?php esc_attr_e( 'Drag-and-drop this Checkout field to adjust its ordering', 'woocommerce-checkout-manager' ); ?>"><?php echo $i; ?></td>
+      <?php require( WOOCCM_PLUGIN_DIR . 'includes/templates/admin/woocheckout-additional-clone.php' ); ?>
 
-			<?php require( WOOCCM_PLUGIN_DIR.'includes/templates/admin/woocheckout-additional-clone.php' ); ?>
+      <td class="wccs-remove"><a class="wccs-remove-button" href="javascript:;" title="<?php esc_attr_e('Delete this Checkout field', 'woocommerce-checkout-manager'); ?>">&times;</a></td>
 
-			<td class="wccs-remove"><a class="wccs-remove-button" href="javascript:;" title="<?php esc_attr_e( 'Delete this Checkout field', 'woocommerce-checkout-manager' ); ?>">&times;</a></td>
-
-		</tr>
-		<!-- #wccs-additional-id-<?php echo $i; ?> .wccs-clone -->
-	</tbody>
+    </tr>
+    <!-- #wccs-additional-id-<?php echo $i; ?> .wccs-clone -->
+  </tbody>
 </table>
 <!-- .widefat -->
 
 <div class="wccs-table-footer additional-semi" style="display:none;">
-	<a href="javascript:;" id="wccs-add-button" class="button-secondary"><?php _e( '+ Add New Field', 'woocommerce-checkout-manager' ); ?></a>
+  <a href="javascript:;" id="wccs-add-button" class="button-secondary"><?php _e('+ Add New Field', 'woocommerce-checkout-manager'); ?></a>
 </div>
 <!-- .wccs-table-footer -->

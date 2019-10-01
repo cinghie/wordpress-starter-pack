@@ -84,8 +84,6 @@ class NM_PersonalizedProduct {
 		}
 		
 		
-		
-		
 		add_action( 'woocommerce_cart_loaded_from_session', 'ppom_calculate_totals_from_session');
 		
 		// Mini/Cart Widget fixed fee
@@ -96,6 +94,8 @@ class NM_PersonalizedProduct {
 	    // Hiding variation price if dynamic price is enable
 	    // add_filter( 'woocommerce_show_variation_price', 'ppom_hide_variation_price_html', 99, 3);
 	    
+	    // Product Min quantity control for matrix
+	    add_filter( 'woocommerce_quantity_input_min', 'ppom_woocommerce_set_min_quantity', 10, 2);
 	    // Product Max quantity control for matrix
 	    add_filter( 'woocommerce_quantity_input_max', 'ppom_woocommerce_set_max_quantity', 10, 2);
 	    // Product Step quantity control for matrix
@@ -674,57 +674,6 @@ class NM_PersonalizedProduct {
 	}
 
 
-	function ppom_export_meta(){
-		
-		
-		if( !empty($_POST['ppom_meta']) ){
-			
-			global $wpdb;
-		
-			$meta_in = implode(",", $_POST['ppom_meta']);
-			$qry = "SELECT * FROM ". $wpdb->prefix . PPOM_TABLE_META." WHERE productmeta_id IN (".$meta_in.");";
-			$all_meta = $wpdb->get_results ( $qry, ARRAY_A );
-			
-			if( ! $all_meta){
-				die( __("No meta found, make sure you selected meta and then export", "ppom") );
-			}
-			
-			$all_meta = $this -> add_slashes_array($all_meta);
-			// $all_meta = esc_html($all_meta);
-			// ppom_pa($all_meta); exit;
-			$postfix = time();
-			$filename = "ppom-export-{$postfix}.json";
-			
-			 // tell the browser it's going to be a csv file
-		    header('Content-Type: application/json');
-		    // tell the browser we want to save it instead of displaying it
-		    header('Content-Disposition: attachement; filename="'.$filename.'";');
-		    
-			// open raw memory as file so no temp files needed, you might run out of memory though
-		    $f = fopen('php://output', 'w'); 
-		    
-		    fwrite($f, json_encode($all_meta));
-		    // rewrind the "file" with the csv lines
-		    @fseek($f, 0);
-		   
-		    // make php send the generated csv lines to the browser
-		    fpassthru($f);
-		    
-			die(0);
-		} else {
-			
-			wp_die( __("No meta found, make sure you selected meta and then export", "ppom") );
-		}
-	}
-	
-	function add_slashes_array($arr){
-		asort($arr);
-		$ReturnArray = array();
-		foreach ($arr as $k => $v)
-	        $ReturnArray[$k] = (is_array($v)) ? $this->add_slashes_array($v) : addslashes( esc_html($v) );
-	    return $ReturnArray;
-	}
-	
 	public static function ppom_decode_entities($arr){
 		// asort($arr);
 		$ReturnArray = array();

@@ -140,7 +140,7 @@ foreach( $ppom_fields_meta as $meta ) {
 	$description	= ppom_wpml_translate($description, 'PPOM');
 	
 	// Generating field label
-	$show_asterisk		= ( !empty($required) ) ? '<span class="show_required"> *</span>' : '';
+	$show_asterisk		= ( !empty($required) && $title != '' ) ? '<span class="show_required"> *</span>' : '';
 	$show_description	= ( !empty($description) ) ? '<span class="show_description">'.$description.'</span>' : '';
 	$show_description	= apply_filters('ppom_field_description', $show_description, $meta);
 	
@@ -431,10 +431,25 @@ foreach( $ppom_fields_meta as $meta ) {
 					$images	= isset($meta['images']) ? $meta['images'] : array();
 					$show_popup	= isset($meta['show_popup']) ? $meta['show_popup'] : '';
 
+					// image selected border color
 					if (isset($meta['selected_img_bordercolor']) && $meta['selected_img_bordercolor'] != '') {
 						$selected_img_bordercolor = $meta['selected_img_bordercolor'];
 					}else{
 						$selected_img_bordercolor = '#f00';
+					}
+
+					// image width
+					if (isset($meta['image_width']) && $meta['image_width'] != '') {
+						$image_width = $meta['image_width'];
+					}else{
+						$image_width = '75px';
+					}
+
+					// image height
+					if (isset($meta['image_height']) && $meta['image_height'] != '') {
+						$image_height = $meta['image_height'];
+					}else{
+						$image_height = 'auto';
 					}
 
 					$multiple_allowed	= isset($meta['multiple_allowed']) ? $meta['multiple_allowed'] : '';
@@ -451,6 +466,8 @@ foreach( $ppom_fields_meta as $meta ) {
 									'multiple_allowed' => $multiple_allowed,
 									'images'	=> $meta['images'],
                                     'show_popup'=> $show_popup,
+                                    'image_width' => $image_width,
+                                    'image_height'=> $image_height,
                                     );
                     
                     $ppom_field_setting = apply_filters('ppom_field_setting', $ppom_field_setting, $meta);

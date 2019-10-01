@@ -526,3 +526,14 @@ function ppom_admin_bar_menu() {
 		) );
 	}
 }
+
+function ppom_admin_update_pro_notice() {
+	
+	$ppom_url = 'https://najeebmedia.com/ppom';
+	$buy_paddle = 'https://pay.paddle.com/checkout/536711';
+	
+	echo '<div class="ppom-more-plugins-block">';
+		echo '<a class="btn btn-primary ppom-nm-plugins" href="'.esc_url($buy_paddle).'">'.__('Buy PPOM PRO').'</a>';
+		echo '<a class="btn btn-yellow ppom-nm-plugins" href="'.esc_url($ppom_url).'">'.__('PPOM PRO Features & Demo').'</a>';
+	echo '</div>';
+}

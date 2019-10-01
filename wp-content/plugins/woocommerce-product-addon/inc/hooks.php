@@ -47,14 +47,6 @@ function ppom_hooks_convert_price( $option_price ) {
 	
 	return apply_filters('woocs_exchange_value', $option_price);
 	
-	/*if( has_filter('woocs_exchange_value') && !empty($option_price) ) {
-		global $WOOCS;
-		if($WOOCS->current_currency != $WOOCS->default_currency) {
-			$option_price = apply_filters('woocs_exchange_value', $option_price);
-		}
-	}
-	
-	return $option_price;*/
 }
 
 // Converting currency back to default currency rates due to WC itself converting these
@@ -64,7 +56,8 @@ function ppom_hooks_convert_price_back( $price ) {
 	if( has_filter('woocs_exchange_value') ) {
 		
 		global $WOOCS;
-		if($WOOCS->current_currency != $WOOCS->default_currency && $WOOCS->is_multiple_allowed) {
+		// if($WOOCS->current_currency != $WOOCS->default_currency && $WOOCS->is_multiple_allowed) {
+		if(1) {
 		// var_dump($WOOCS->is_multiple_allowed);
 			
 			// ppom conver all prices into current currency, but woocommerce also
@@ -360,11 +353,13 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
 				
 				case 'fixedprice':
 					// Fixed price addon has option to control decimnal places
-					$decimal_palces = !empty($field['decimal_place']) ? $field['decimal_place'] : PPOM_FP()->default_decimal_places();
+					if( class_exists('NM_PPOM_FixedPrice') ) {
+						$decimal_palces = !empty($field['decimal_place']) ? $field['decimal_place'] : PPOM_FP()->default_decimal_places();
+					}
 					break;
 					
 				case 'quantities':
-					add_filter('woocommerce_quantity_input_classes', 'ppom_hooks_quantities_input_class', 99, 2);
+					add_filter('woocommerce_quantity_input_classes', 'ppom_hooks_hide_cart_quantity', 99, 2);
 					break;
 		}
 		
@@ -638,7 +633,7 @@ function ppom_hooks_dom_option_id( $option_id, $args ) {
 }
 
 // Adding class in carty quantity field: ppom-qty-found to hide
-function ppom_hooks_quantities_input_class($classes, $product) {
+function ppom_hooks_hide_cart_quantity($classes, $product) {
 	
 	$classes[] = 'ppom-qty-found';
 	return $classes;

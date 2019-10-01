@@ -46,7 +46,11 @@ class NM_Email_wooproduct extends PPOM_Inputs{
 					'title' => __ ( 'Description', "ppom" ),
 					'desc' => __ ( 'Small description, it will be display near name title.', "ppom" ) 
 			),
-			
+			'placeholder' => array (
+					'type' => 'text',
+					'title' => __ ( 'Placeholder', 'ppom' ),
+					'desc' => __ ( 'Optional.', 'ppom' ) 
+			),
 			'error_message' => array (
 					'type' => 'text',
 					'title' => __ ( 'Error message', "ppom" ),

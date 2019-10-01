@@ -111,7 +111,7 @@ function cff_settings_page() {
  
     <div id="cff-admin" class="wrap">
         <div id="header">
-            <h2><?php _e('Custom Facebook Feed Settings', 'custom-facebook-feed'); ?></h2>
+            <h1><?php _e('Custom Facebook Feed', 'custom-facebook-feed'); ?></h1>
         </div>
 
         <?php
@@ -671,7 +671,9 @@ function cff_settings_page() {
             <p>Find out how to display <a href="https://smashballoon.com/using-shortcode-options-customize-facebook-feeds/?utm_source=plugin-free&utm_campaign=cff" target="_blank"><b>multiple feeds</b></a>.</p>
         </div>
 
-        <a href="https://smashballoon.com/custom-facebook-feed/demo/?utm_source=plugin-free&utm_campaign=cff" target="_blank" class="cff-pro-notice"><img src="<?php echo plugins_url( 'img/pro.png' , __FILE__ ) ?>" /></a>
+        <a href="https://smashballoon.com/custom-facebook-feed/demo/?utm_source=plugin-free&utm_campaign=cff" target="_blank" class="cff-pro-notice"><img src="<?php echo plugins_url( 'img/pro.png?2019' , __FILE__ ) ?>" /></a>
+
+        <p class="cff_plugins_promo dashicons-before dashicons-admin-plugins"> <?php _e('Check out our other free plugins: <a href="https://wordpress.org/plugins/instagram-feed/" target="_blank">Instagram</a> and <a href="https://wordpress.org/plugins/custom-twitter-feeds/" target="_blank">Twitter</a>.', 'instagram-feed' ); ?></p>
 
         <div class="cff-share-plugin">
             <h3><?php _e('Like the plugin? Help spread the word!', 'custom-facebook-feed'); ?></h3>
@@ -779,6 +781,8 @@ Feed Height => <?php echo $options[ 'cff_feed_height' ] ."\n"; ?>
 Feed Padding => <?php echo $options[ 'cff_feed_padding' ] ."\n"; ?>
 Feed BG Color => <?php echo $options[ 'cff_bg_color' ] ."\n"; ?>
 CSS Class => <?php echo $options[ 'cff_class' ] ."\n"; ?>
+Feed Columns => <?php echo $options['cff_cols'] ."\n"; ?>
+Mobile Columns => <?php echo $options['cff_cols_mobile'] ."\n"; ?>
 
 ## HEADER: ##
 Show Header => <?php echo $options[ 'cff_show_header' ] ."\n"; ?>
@@ -1098,6 +1102,8 @@ function cff_style_page() {
         'cff_disable_styles'        => false,
         'cff_format_issue'          => false,
         'cff_restricted_page'       => false,
+        'cff_cols'                  => 1,
+        'cff_cols_mobile'           => 1,
 
         //New
         'cff_custom_css'            => '',
@@ -1321,6 +1327,8 @@ function cff_style_page() {
     $cff_format_issue = $options[ 'cff_format_issue' ];
     $cff_restricted_page = $options[ 'cff_restricted_page' ];
     $cff_minify = $options[ 'cff_minify' ];
+    $cff_cols = $options[ 'cff_cols' ];
+    $cff_cols_mobile = $options[ 'cff_cols_mobile' ];
 
     //Page Header
     $cff_show_header = $options[ 'cff_show_header' ];
@@ -1377,6 +1385,8 @@ function cff_style_page() {
                 if (isset($_POST[ 'cff_feed_padding' ]) ) $cff_feed_padding = sanitize_text_field( $_POST[ 'cff_feed_padding' ] );
                 if (isset($_POST[ 'cff_bg_color' ]) ) $cff_bg_color = sanitize_text_field( $_POST[ 'cff_bg_color' ] );
                 if (isset($_POST[ 'cff_class' ]) ) $cff_class = sanitize_text_field( $_POST[ 'cff_class' ] );
+                if (isset($_POST[ 'cff_cols' ])) $cff_cols = sanitize_text_field( $_POST[ 'cff_cols' ] );
+                if (isset($_POST[ 'cff_cols_mobile' ])) $cff_cols_mobile = sanitize_text_field( $_POST[ 'cff_cols_mobile' ] );
 
                 //Page Header
                 (isset($_POST[ 'cff_show_header' ])) ? $cff_show_header = sanitize_text_field( $_POST[ 'cff_show_header' ] ) : $cff_show_header = '';
@@ -1418,6 +1428,8 @@ function cff_style_page() {
                 $options[ 'cff_feed_padding' ] = $cff_feed_padding;
                 $options[ 'cff_bg_color' ] = $cff_bg_color;
                 $options[ 'cff_class' ] = $cff_class;
+                $options[ 'cff_cols' ] = $cff_cols;
+                $options[ 'cff_cols_mobile' ] = $cff_cols_mobile;
 
                 //Page Header
                 $options[ 'cff_show_header' ] = $cff_show_header;
@@ -1838,7 +1850,7 @@ function cff_style_page() {
  
     <div id="cff-admin" class="wrap">
         <div id="header">
-            <h2><?php _e('Custom Facebook Feed Settings', 'custom-facebook-feed'); ?></h2>
+            <h1><?php _e('Custom Facebook Feed', 'custom-facebook-feed'); ?></h1>
         </div>
 
         <form name="form1" method="post" action="">
@@ -1924,6 +1936,35 @@ function cff_style_page() {
                             <p class="cff-tooltip cff-more-info"><?php _e("You can add your own CSS classes to the feed here. To add multiple classes separate each with a space, Eg. classone classtwo classthree"); ?></p>
                         </td>
                     </tr>
+
+                    <tr valign="top">
+                        <th class="bump-left" scope="row"><label for="cff_cols">Feed Columns</label><code class="cff_shortcode"> cols
+                                Eg: cols=3</code></th>
+                        <td class="cff-short">
+                            <select name="cff_cols" id="cff_cols">
+                                <option value="1" <?php if( $cff_cols == 1 ) { echo 'selected'; } ?>>1</option>
+                                <option value="2" <?php if( $cff_cols == 2 ) { echo 'selected'; } ?>>2</option>
+                                <option value="3" <?php if( $cff_cols == 3 ) { echo 'selected'; } ?>>3</option>
+                                <option value="4" <?php if( $cff_cols == 4 ) { echo 'selected'; } ?>>4</option>
+                                <option value="5" <?php if( $cff_cols == 5 ) { echo 'selected'; } ?>>5</option>
+                                <option value="6" <?php if( $cff_cols == 6 ) { echo 'selected'; } ?>>6</option>
+                            </select>
+                        
+                            <br />
+                            <div class="cff-mobile-col-settings" <?php if( intval($cff_cols) > 1 ) echo 'style="display:block;"' ?>>
+                                <div class="cff-row">
+                                    <label title="Click for shortcode option">Mobile Columns:</label><code class="cff_shortcode"> colsmobile
+                                    Eg: colsmobile=2</code>
+                                    <select name="cff_cols_mobile" id="cff_cols_mobile">
+                                        <option value="1" <?php if( $cff_cols_mobile == 1 ) { echo 'selected'; } ?>>1</option>
+                                        <option value="2" <?php if( $cff_cols_mobile == 2 ) { echo 'selected'; } ?>>2</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+
                 </tbody>
             </table>
 
@@ -2336,7 +2377,7 @@ function cff_style_page() {
             </div>
 
             
-            <a href="https://smashballoon.com/custom-facebook-feed/demo/?utm_source=plugin-free&utm_campaign=cff" target="_blank" class="cff-pro-notice"><img src="<?php echo plugins_url( 'img/pro.png' , __FILE__ ) ?>" /></a>
+            <a href="https://smashballoon.com/custom-facebook-feed/demo/?utm_source=plugin-free&utm_campaign=cff" target="_blank" class="cff-pro-notice"><img src="<?php echo plugins_url( 'img/pro.png?2019' , __FILE__ ) ?>" /></a>
 
             <?php } //End General tab ?>
             <?php if( $cff_active_tab == 'post_layout' ) { //Start Post Layout tab ?>
@@ -4037,81 +4078,278 @@ function cff_cron_clear_cache() {
 
 
 
-//REVIEW REQUEST NOTICE
+//NOTICES
+function cff_get_current_time() {
+    $current_time = time();
 
-// checks $_GET to see if the nag variable is set and what it's value is
-function cff_check_nag_get( $get, $nag, $option, $transient ) {
-    if ( isset( $_GET[$nag] ) && $get[$nag] == 1 ) {
-        update_option( $option, 'dismissed' );
-    } elseif ( isset( $_GET[$nag] ) && $get[$nag] == 'later' ) {
-        $time = 2 * WEEK_IN_SECONDS;
-        set_transient( $transient, 'waiting', $time );
-        update_option( $option, 'pending' );
-    }
+    // where to do tests
+    // $current_time = strtotime( 'November 25, 2020' );
+
+    return $current_time;
 }
 
-// will set a transient if the notice hasn't been dismissed or hasn't been set yet
-function cff_maybe_set_transient( $transient, $option ) {
-    $cff_rating_notice_waiting = get_transient( $transient );
-    $notice_status = get_option( $option, false );
+// generates the html for the admin notices
+function cff_notices_html() {
 
-    if ( ! $cff_rating_notice_waiting && !( $notice_status === 'dismissed' || $notice_status === 'pending' ) ) {
-        $time = 2 * WEEK_IN_SECONDS;
-        set_transient( $transient, 'waiting', $time );
-        update_option( $option, 'pending' );
+    //Don't show notices if Instagram notices are being shown
+    if ( function_exists( 'sbi_notices_html' ) ) {
+        return;
     }
-}
-
-// generates the html for the admin notice
-function cff_rating_notice_html() {
 
     //Only show to admins
-    if ( current_user_can( 'manage_options' ) ){
+    if ( ! current_user_can( 'manage_options' ) ) {
+        return;
+    }
 
+    $cff_statuses_option = get_option( 'cff_statuses', array() );
+    $current_time = cff_get_current_time();
+    $cff_bfcm_discount_code = 'happysmashgiving' . date('Y', $current_time );
+
+    // reset everything for testing
+    if ( false ) {
+        global $current_user;
+        $user_id = $current_user->ID;
+        // delete_user_meta( $user_id, 'cff_ignore_bfcm_sale_notice' );
+        //delete_user_meta( $user_id, 'cff_ignore_new_user_sale_notice' );
+        // $cff_statuses_option = array( 'first_install' => strtotime( 'December 8, 2017' ) );
+        //$cff_statuses_option = array( 'first_install' => time() );
+
+        //update_option( 'cff_statuses', $cff_statuses_option, false );
+        //delete_option( 'cff_rating_notice');
+        //delete_transient( 'custom_facebook_rating_notice_waiting' );
+
+        // set_transient( 'custom_facebook_rating_notice_waiting', 'waiting', 2 * WEEK_IN_SECONDS );
+        delete_transient('custom_facebook_rating_notice_waiting');
+        update_option( 'cff_rating_notice', 'pending', false );
+    }
+
+    //$cff_statuses_option['rating_notice_dismissed'] = time();
+    //update_option( 'cff_statuses', $cff_statuses_option, false );
+    // rating notice logic
+    $cff_rating_notice_option = get_option( 'cff_rating_notice', false );
+    $cff_rating_notice_waiting = get_transient( 'custom_facebook_rating_notice_waiting' );
+    $should_show_rating_notice = ($cff_rating_notice_waiting !== 'waiting' && $cff_rating_notice_option !== 'dismissed');
+
+    // black friday cyber monday logic
+    $thanksgiving_this_year = cff_get_future_date( 11, date('Y', $current_time ), 4, 4, 1 );
+    $one_week_before_black_friday_this_year = $thanksgiving_this_year - 7*24*60*60;
+    $one_day_after_cyber_monday_this_year = $thanksgiving_this_year + 5*24*60*60;
+    $has_been_two_days_since_rating_dismissal = isset( $cff_statuses_option['rating_notice_dismissed'] ) ? ((int)$cff_statuses_option['rating_notice_dismissed'] + 2*24*60*60) < $current_time : true;
+
+    $could_show_bfcm_discount = ($current_time > $one_week_before_black_friday_this_year && $current_time < $one_day_after_cyber_monday_this_year);
+    $should_show_bfcm_discount = false;
+    if ( $could_show_bfcm_discount && $has_been_two_days_since_rating_dismissal ) {
         global $current_user;
         $user_id = $current_user->ID;
 
+        $ignore_bfcm_sale_notice_meta = get_user_meta( $user_id, 'cff_ignore_bfcm_sale_notice' );
+        $ignore_bfcm_sale_notice_meta = isset( $ignore_bfcm_sale_notice_meta[0] ) ? $ignore_bfcm_sale_notice_meta[0] : '';
+
         /* Check that the user hasn't already clicked to ignore the message */
-        if ( ! get_user_meta( $user_id, 'cff_ignore_rating_notice') ) {
+        $should_show_bfcm_discount = ($ignore_bfcm_sale_notice_meta !== 'always' && $ignore_bfcm_sale_notice_meta !== date( 'Y', $current_time ));
+    }
 
-            _e("
-            <div class='cff_notice cff_review_notice'>
-                <img src='". plugins_url( 'custom-facebook-feed/img/cff-icon.png' ) ."' alt='Custom Facebook Feed'>
-                <div class='cff-notice-text'>
-                    <p>It's great to see that you've been using the <strong>Custom Facebook Feed</strong> plugin for a while now. Hopefully you're happy with it!&nbsp; If so, would you consider leaving a positive review? It really helps to support the plugin and helps others to discover it too!</p>
-                    <p class='cff-links'>
-                        <a class='cff_notice_dismiss' href='https://wordpress.org/support/plugin/custom-facebook-feed/reviews/' target='_blank'>Sure, I'd love to!</a>
-                        &middot;
-                        <a class='cff_notice_dismiss' href='" .esc_url( add_query_arg( 'cff_ignore_rating_notice_nag', '1' ) ). "'>No thanks</a>
-                        &middot;
-                        <a class='cff_notice_dismiss' href='" .esc_url( add_query_arg( 'cff_ignore_rating_notice_nag', '1' ) ). "'>I've already given a review</a>
-                        &middot;
-                        <a class='cff_notice_dismiss' href='" .esc_url( add_query_arg( 'cff_ignore_rating_notice_nag', 'later' ) ). "'>Ask Me Later</a>
-                    </p>
-                </div>
-                <a class='cff_notice_close' href='" .esc_url( add_query_arg( 'cff_ignore_rating_notice_nag', '1' ) ). "'><i class='fa fa-close'></i></a>
-            </div>
-            ");
+    // new user discount logic
+    $in_new_user_month_range = true;
+    $should_show_new_user_discount = false;
+    $has_been_one_month_since_rating_dismissal = isset( $cff_statuses_option['rating_notice_dismissed'] ) ? ((int)$cff_statuses_option['rating_notice_dismissed'] + 30*24*60*60) < $current_time + 1: true;
 
+    if ( isset( $cff_statuses_option['first_install'] ) && $cff_statuses_option['first_install'] === 'from_update' ) {
+        global $current_user;
+        $user_id = $current_user->ID;
+        $ignore_new_user_sale_notice_meta = get_user_meta( $user_id, 'cff_ignore_new_user_sale_notice' );
+        $ignore_new_user_sale_notice_meta = isset( $ignore_new_user_sale_notice_meta[0] ) ? $ignore_new_user_sale_notice_meta[0] : '';
+
+        if ( $ignore_new_user_sale_notice_meta !== 'always' ) {
+            $should_show_new_user_discount = true;
+        }
+    } elseif ( $in_new_user_month_range && $has_been_one_month_since_rating_dismissal ) {
+        global $current_user;
+        $user_id = $current_user->ID;
+        $ignore_new_user_sale_notice_meta = get_user_meta( $user_id, 'cff_ignore_new_user_sale_notice' );
+        $ignore_new_user_sale_notice_meta = isset( $ignore_new_user_sale_notice_meta[0] ) ? $ignore_new_user_sale_notice_meta[0] : '';
+
+        if ( $ignore_new_user_sale_notice_meta !== 'always'
+             && isset( $cff_statuses_option['first_install'] )
+             && $current_time > (int)$cff_statuses_option['first_install'] + 60*60*24*30 ) {
+            $should_show_new_user_discount = true;
+        }
+    }
+
+    // for debugging
+    if ( false ) {
+        global $current_user;
+        $user_id = $current_user->ID;
+        $ignore_bfcm_sale_notice_meta = get_user_meta( $user_id, 'cff_ignore_bfcm_sale_notice' );
+        $ignore_new_user_sale_notice_meta = get_user_meta( $user_id, 'cff_ignore_new_user_sale_notice' );
+
+        var_dump( 'new user rating option', $cff_rating_notice_option );
+        var_dump( 'new user rating transient', $cff_rating_notice_waiting );
+
+        var_dump( 'should show new user rating notice?', $should_show_rating_notice );
+
+        var_dump( 'new user discount month range?', $in_new_user_month_range );
+        var_dump( 'should show new user discount?', $should_show_new_user_discount );
+
+        var_dump( 'Thanksgiving this year?', date('m/d/Y', $thanksgiving_this_year ) );
+
+        var_dump( 'could show bfcm discount?', $could_show_bfcm_discount );
+        var_dump( 'should show bfcm discount?', $should_show_bfcm_discount );
+
+        var_dump( 'ignore_bfcm_sale_notice_meta', $ignore_bfcm_sale_notice_meta );
+        var_dump( 'ignore_new_user_sale_notice_meta', $ignore_new_user_sale_notice_meta );
+
+        var_dump( $cff_statuses_option );
+    }
+
+
+    if ( $should_show_rating_notice ) {
+        $other_notice_html = '';
+        $dismiss_url = add_query_arg( 'cff_ignore_rating_notice_nag', '1' );
+        $later_url = add_query_arg( 'cff_ignore_rating_notice_nag', 'later' );
+        if ( $should_show_bfcm_discount ) {
+            $other_notice_html = '<p class="cff_other_notice">' .  __( 'PS. We currently have a Black Friday/Cyber Monday deal going on for <b>20% off</b> the Pro version of the plugin.', 'custom-facebook-feed' ) . '<a href="https://smashballoon.com/custom-facebook-feed/?utm_source=plugin-free&utm_campaign=cff&discount='.$cff_bfcm_discount_code.'" target="_blank" class="cff_offer_btn">' .  __( 'Get this deal!', 'custom-facebook-feed' ) . '</a></p>';
+
+            $dismiss_url = add_query_arg( array(
+                    'cff_ignore_rating_notice_nag' => '1',
+                    'cff_ignore_bfcm_sale_notice' => date( 'Y', $current_time )
+                )
+            );
+            $later_url = add_query_arg( array(
+                    'cff_ignore_rating_notice_nag' => 'later',
+                    'cff_ignore_bfcm_sale_notice' => date( 'Y', $current_time )
+                )
+            );
         }
 
+        echo"
+            <div class='cff_notice cff_review_notice'>
+                <img src='" . plugins_url( 'img/cff-icon.png' , __FILE__ ) . "' alt='" . __( 'Custom Facebook Feed', 'custom-facebook-feed' ) . "'>
+                <div class='cff-notice-text'>
+                    <p>" . __( "It's great to see that you've been using the <strong>Smash Balloon Custom Facebook Feed</strong> plugin for a while now. Hopefully you like it! If so, would you consider leaving a positive review? It really helps support the plugin and helps others to discover it too!", 'custom-facebook-feed' ) . "</p>
+                    <p class='links'>
+                        <a class='cff_notice_dismiss' style='margin-left:-8px;' href='https://wordpress.org/support/plugin/custom-facebook-feed/reviews/' target='_blank'>" . __( 'Sure, I\'d love to!', 'custom-facebook-feed' ) . "</a>
+                        &middot;
+                        <a class='cff_notice_dismiss' href='" .esc_url( $dismiss_url ). "'>" . __( 'No thanks', 'custom-facebook-feed' ) . "</a>
+                        &middot;
+                        <a class='cff_notice_dismiss' href='" .esc_url( $dismiss_url ). "'>" . __( 'I\'ve already given a review', 'custom-facebook-feed' ) . "</a>
+                        &middot;
+                        <a class='cff_notice_dismiss' href='" .esc_url( $later_url ). "'>" . __( 'Ask Me Later', 'custom-facebook-feed' ) . "</a>
+                    </p>"
+            . $other_notice_html .
+            "</div>
+                <a class='cff_notice_close' href='" .esc_url( $dismiss_url ). "'><i class='fa fa-close'></i></a>
+            </div>";
+
+    } elseif ( $should_show_new_user_discount ) {
+        global $current_user;
+        $user_id = $current_user->ID;
+        $ignore_new_user_sale_notice_meta = get_user_meta( $user_id, 'cff_ignore_new_user_sale_notice' );
+        if ( $ignore_new_user_sale_notice_meta !== 'always' ) {
+
+            echo "
+        <div class='cff_notice cff_review_notice cff_new_user_sale_notice'>
+            <img src='" . plugins_url( 'img/cff-icon-offer.png' , __FILE__ ) . "' alt='Facebook Feed'>
+            <div class='cff-notice-text'>
+                <p>" . __( '<b style="font-weight: 700;">Exclusive offer!</b>  We don\'t run promotions very often, but for a limited time we\'re offering <b style="font-weight: 700;">20% off</b> our Pro version to all users of our free Smash Balloon Custom Facebook Feed plugin.', 'custom-facebook-feed' ) . "</p>
+                <p class='links'>
+                    <a class='cff_notice_dismiss cff_offer_btn' href='https://smashballoon.com/custom-facebook-feed/?utm_source=plugin-free&utm_campaign=cff&discount=facebookthankyou' target='_blank'><b>" . __( 'Get this offer', 'custom-facebook-feed' ) . "</b></a>
+                    <a class='cff_notice_dismiss' style='margin-left: 5px;' href='" . esc_url( add_query_arg( 'cff_ignore_new_user_sale_notice', 'always' ) ) . "'>" . __( 'I\'m not interested', 'custom-facebook-feed' ) . "</a>
+
+                </p>
+            </div>
+            <a class='cff_new_user_sale_notice_close' href='" . esc_url( add_query_arg( 'cff_ignore_new_user_sale_notice', 'always' ) ) . "'><i class='fa fa-close'></i></a>
+        </div>
+        ";
+        }
+
+    } elseif ( $should_show_bfcm_discount ) {
+
+        echo "
+        <div class='cff_notice cff_review_notice cff_bfcm_sale_notice'>
+            <img src='". plugins_url( 'img/cff-icon-offer.png' , __FILE__ ) ."' alt='Facebook Feed'>
+            <div class='cff-notice-text'>
+                <p>" . __( '<b style="font-weight: 700;">Black Friday/Cyber Monday Deal!</b> Thank you for using the free Smash Balloon Custom Facebook Feed plugin. For a limited time, we\'re offering <b style="font-weight: 700;">20% off</b> the Pro version for all of our users.', 'custom-facebook-feed' ) . "</p>
+                <p class='links'>
+                    <a class='cff_notice_dismiss cff_offer_btn' href='https://smashballoon.com/custom-facebook-feed/?utm_source=plugin-free&utm_campaign=cff&discount=".$cff_bfcm_discount_code."' target='_blank'><b>" . __( 'Get this offer', 'custom-facebook-feed' ) . "</b></a>
+                    <a class='cff_notice_dismiss' style='margin-left: 5px;' href='" .esc_url( add_query_arg( 'cff_ignore_bfcm_sale_notice', date( 'Y', $current_time ) ) ). "'>" . __( 'I\'m not interested', 'custom-facebook-feed' ) . "</a>
+                </p>
+            </div>
+            <a class='cff_bfcm_sale_notice_close' href='" .esc_url( add_query_arg( 'cff_ignore_bfcm_sale_notice', date( 'Y', $current_time ) ) ). "'><i class='fa fa-close'></i></a>
+        </div>
+        ";
+
     }
+
+}
+add_action( 'admin_notices', 'cff_notices_html', 10 );
+
+function cff_process_nags() {
+
+    global $current_user;
+    $user_id = $current_user->ID;
+    $cff_statuses_option = get_option( 'cff_statuses', array() );
+
+    if ( isset( $_GET['cff_ignore_rating_notice_nag'] ) ) {
+        if ( (int)$_GET['cff_ignore_rating_notice_nag'] === 1 ) {
+            update_option( 'cff_rating_notice', 'dismissed', false );
+            $cff_statuses_option['rating_notice_dismissed'] = cff_get_current_time();
+            update_option( 'cff_statuses', $cff_statuses_option, false );
+
+        } elseif ( $_GET['cff_ignore_rating_notice_nag'] === 'later' ) {
+            set_transient( 'custom_facebook_rating_notice_waiting', 'waiting', 2 * WEEK_IN_SECONDS );
+            update_option( 'cff_rating_notice', 'pending', false );
+        }
+    }
+
+    if ( isset( $_GET['cff_ignore_new_user_sale_notice'] ) ) {
+        $response = sanitize_text_field( $_GET['cff_ignore_new_user_sale_notice'] );
+        if ( $response === 'always' ) {
+            update_user_meta( $user_id, 'cff_ignore_new_user_sale_notice', 'always' );
+
+            $current_month_number = (int)date('n', cff_get_current_time() );
+            $not_early_in_the_year = ($current_month_number > 5);
+
+            if ( $not_early_in_the_year ) {
+                update_user_meta( $user_id, 'cff_ignore_bfcm_sale_notice', date( 'Y', cff_get_current_time() ) );
+            }
+
+        }
+    }
+
+    if ( isset( $_GET['cff_ignore_bfcm_sale_notice'] ) ) {
+        $response = sanitize_text_field( $_GET['cff_ignore_bfcm_sale_notice'] );
+        if ( $response === 'always' ) {
+            update_user_meta( $user_id, 'cff_ignore_bfcm_sale_notice', 'always' );
+        } elseif ( $response === date( 'Y', cff_get_current_time() ) ) {
+            update_user_meta( $user_id, 'cff_ignore_bfcm_sale_notice', date( 'Y', cff_get_current_time() ) );
+        }
+        update_user_meta( $user_id, 'cff_ignore_new_user_sale_notice', 'always' );
+    }
+
+}
+add_action( 'admin_init', 'cff_process_nags' );
+
+function cff_get_future_date( $month, $year, $week, $day, $direction ) {
+    if ( $direction > 0 ) {
+        $startday = 1;
+    } else {
+        $startday = date( 't', mktime(0, 0, 0, $month, 1, $year ) );
+    }
+
+    $start = mktime( 0, 0, 0, $month, $startday, $year );
+    $weekday = date( 'N', $start );
+
+    $offset = 0;
+    if ( $direction * $day >= $direction * $weekday ) {
+        $offset = -$direction * 7;
+    }
+
+    $offset += $direction * ($week * 7) + ($day - $weekday);
+    return mktime( 0, 0, 0, $month, $startday + $offset, $year );
 }
 
-// variables to define certain terms
-$transient = 'custom_facebook_rating_notice_waiting';
-$option = 'cff_rating_notice';
-$nag = 'cff_ignore_rating_notice_nag';
 
-cff_check_nag_get( $_GET, $nag, $option, $transient );
-cff_maybe_set_transient( $transient, $option );
-$notice_status = get_option( $option, false );
 
-// only display the notice if the time offset has passed and the user hasn't already dismissed it
-if ( get_transient( $transient ) !== 'waiting' && $notice_status !== 'dismissed' ) {
-    add_action( 'admin_notices', 'cff_rating_notice_html' );
-}
-//Uncomment below to show notice
-// add_action( 'admin_notices', 'cff_rating_notice_html' );
 
 ?>

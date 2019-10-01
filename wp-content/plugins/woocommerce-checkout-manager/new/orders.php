@@ -2,7 +2,7 @@
 
 if (!class_exists('WOOCCM_Orders')) {
 
-  class WOOCCM_Orders {
+  class WOOCCM_Orders extends WOOCCM_Checkout {
 
     protected static $instance;
 
@@ -32,10 +32,11 @@ if (!class_exists('WOOCCM_Orders')) {
 
       if (!empty($_REQUEST) && check_admin_referer('wooccm_admin', 'nonce')) {
 
-        $upload_files = ( isset($_FILES['wooccm_order_attachment_upload']) ? $_FILES['wooccm_order_attachment_upload'] : false );
+        $files = ( isset($_FILES['wooccm_order_attachment_upload']) ? $_FILES['wooccm_order_attachment_upload'] : false );
 
-        if (empty($upload_files)) {
-          wp_send_json_error(esc_html__('No uploads were recognised. Files were not uploaded.', 'woocommerce-checkout-manager'));
+        if (empty($files)) {
+          //wc_add_notice(esc_html__('No uploads were recognised. Files were not uploaded.', 'woocommerce-checkout-manager'), 'error');
+          wp_send_json_error(esc_html__('No uploads were recognised. Files were not uploaded.', 'woocommerce-checkout-manager'), 'error');
         }
 
         $order_id = ( isset($_REQUEST['order_id']) ? absint($_REQUEST['order_id']) : false );
@@ -48,40 +49,7 @@ if (!class_exists('WOOCCM_Orders')) {
           wp_send_json_error(esc_html__('Invalid order id.', 'woocommerce-checkout-manager'));
         }
 
-        require_once( ABSPATH . 'wp-admin/includes/file.php' );
-        require_once( ABSPATH . 'wp-admin/includes/media.php' );
-        //require_once( ABSPATH . 'wp-admin/includes/image.php' );
-
-        $attachment_ids = array();
-
-        add_filter('upload_dir', function( $param ) {
-          $param['path'] = sprintf('%s/wooccm_uploads', $param['basedir']);
-          $param['url'] = sprintf('%s/wooccm_uploads', $param['baseurl']);
-          return $param;
-        }, 10);
-
-        foreach ($upload_files['name'] as $key => $value) {
-          if ($upload_files['name'][$key]) {
-            $file = array(
-                'name' => $upload_files['name'][$key],
-                'type' => $upload_files['type'][$key],
-                'tmp_name' => $upload_files['tmp_name'][$key],
-                'error' => $upload_files['error'][$key],
-                'size' => $upload_files['size'][$key]
-            );
-
-            $upload = wp_handle_upload($file, array(
-                'test_form' => false,
-                'action' => 'wooccm_order_attachment_upload')
-            );
-
-            if (!isset($upload['error'])) {
-              $attachment_ids[] = wc_rest_set_uploaded_image_as_attachment($upload, $order_id);
-            }
-          }
-        }
-
-        if (count($attachment_ids)) {
+        if (count($attachment_ids = $this->process_uploads($files, 'wooccm_order_attachment_upload', $order_id))) {
 
           ob_start();
 
@@ -123,6 +91,7 @@ if (!class_exists('WOOCCM_Orders')) {
             $mailer->send($email_recipients, strip_tags($subject), $message);
             // remove_filter( 'wp_mail_content_type', 'wooccm_set_html_content_type' ); */
         }
+        wp_send_json_error(esc_html__('Unknow error.', 'woocommerce-checkout-manager'));
       }
     }
 
@@ -177,7 +146,7 @@ if (!class_exists('WOOCCM_Orders')) {
         ));
         ?>
 
-        <?php wp_enqueue_style('wccm_upload_file_style', plugins_url('includes/templates/admin/edit-order-uploads-file_editing_table.css', WOOCCM_PLUGIN_FILE)); ?>
+        <?php wp_enqueue_style('wccm_upload_file_style', plugins_url('assets/old/edit-order-uploads-file_editing_table.css', WOOCCM_PLUGIN_FILE)); ?>
 
         <?php include WOOCCM_PLUGIN_DIR . 'new/admin/meta-boxes/html-order-uploads.php'; ?>
 

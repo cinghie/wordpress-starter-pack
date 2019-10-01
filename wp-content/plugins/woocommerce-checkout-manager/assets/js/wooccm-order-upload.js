@@ -47,11 +47,11 @@
           all_attachments_ids: $('#all_attachments_ids').val()
         },
         beforeSend: function (response) {
-          $('.wccm_results').html(wooccm.saving);
+          $('.wccm_results').html(wooccm.message.saving);
         },
         success: function (response) {
           if (response.success) {
-            $('.wccm_results').html(wooccm.deleted);
+            $('.wccm_results').html(wooccm.message.deleted);
           } else {
             $('.wccm_results').html(response.data);
           }
@@ -110,7 +110,7 @@
           contentType: false,
           beforeSend: function (response) {
 
-            $('.wccm_results').html(wooccm.uploading);
+            $('.wccm_results').html(wooccm.message.uploading);
 
             block($('#wooccm_order_attachment_inner'));
           },
@@ -118,7 +118,7 @@
 
             if (response.success) {
               $('#wooccm_order_attachment_inner').replaceWith(response.data);
-              $('.wccm_results').html(wooccm.success);
+              $('.wccm_results').html(wooccm.message.success);
             } else {
               $('.wccm_results').html(response.data);
             }

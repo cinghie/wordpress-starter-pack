@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WooCommerce Checkout Manager
  * Description: Manages WooCommerce Checkout, the advanced way.
- * Version:     4.4.2
+ * Version:     4.4.9
  * Author:      QuadLayers
  * Author URI:  https://www.quadlayers.com
  * Copyright:   2019 QuadLayers (https://www.quadlayers.com)
@@ -16,7 +16,7 @@ if (!defined('WOOCCM_PLUGIN_NAME')) {
   define('WOOCCM_PLUGIN_NAME', 'WooCommerce Checkout Manager');
 }
 if (!defined('WOOCCM_PLUGIN_VERSION')) {
-  define('WOOCCM_PLUGIN_VERSION', '4.4.2');
+  define('WOOCCM_PLUGIN_VERSION', '4.4.9');
 }
 if (!defined('WOOCCM_PLUGIN_FILE')) {
   define('WOOCCM_PLUGIN_FILE', __FILE__);
@@ -148,6 +148,32 @@ if (!class_exists('WOOCCM')) {
       <?php
     }
 
+    protected function get_mime_types() {
+
+      $extensions = $types = array();
+
+      $allowed_types = get_allowed_mime_types();
+
+      // break the allowed extensions into their respective types
+      foreach ($allowed_types as $allowed_extensions => $type) {
+
+        $type = substr($type, 0, strpos($type, '/'));
+
+        $extensions[$type][] = str_replace('|', ',', $allowed_extensions);
+      }
+
+      // format the extensions for plupload
+      foreach ($extensions as $type => $exts) {
+
+        $types[] = array(
+            'title' => $type,
+            'extensions' => implode(',', $exts),
+        );
+      }
+
+      return apply_filters('wooccm_mime_types', $types);
+    }
+
     function add_action_links($links) {
 
       $links[] = '<a target="_blank" href="' . WOOCCM_SUPPORT_URL . '">' . esc_html__('Support', 'woocommerce-checkout-manager') . '</a>';
@@ -158,6 +184,10 @@ if (!class_exists('WOOCCM')) {
 
     function register_scripts() {
 
+      wp_register_style('woocommerce_admin_marketplace_styles', WC()->plugin_url() . '/assets/css/marketplace-suggestions.css', array(), WC_VERSION);
+
+      wp_register_style('wooccm-admin', plugins_url('assets/css/wooccm-admin.css', WOOCCM_PLUGIN_FILE), array('woocommerce_admin_marketplace_styles'), WOOCCM_PLUGIN_VERSION, 'all');
+
       wp_register_script('wc-admin-meta-boxes', WC()->plugin_url() . '/assets/js/admin/meta-boxes.js', array('jquery', 'jquery-ui-datepicker', 'jquery-ui-sortable', 'accounting', 'round', 'wc-enhanced-select', 'plupload-all', 'stupidtable', 'jquery-tiptip'), WC_VERSION);
 
       wp_register_script('wooccm-modal', plugins_url('assets/js/wooccm-modal.js', WOOCCM_PLUGIN_FILE), array('jquery', 'wc-admin-meta-boxes', 'backbone'), WOOCCM_PLUGIN_VERSION, true);
@@ -167,10 +197,12 @@ if (!class_exists('WOOCCM')) {
       wp_localize_script('wooccm-admin', 'wooccm', array(
           'ajaxurl' => admin_url('admin-ajax.php'),
           'nonce' => wp_create_nonce('wooccm_admin'),
-          'uploading' => esc_html__('Uploading, please wait...', 'woocommerce-checkout-manager'),
-          'saving' => esc_html__('Saving, please wait...', 'woocommerce-checkout-manager'),
-          'success' => esc_html__('Files uploaded successfully.', 'woocommerce-checkout-manager'),
-          'deleted' => esc_html__('Deleted successfully.', 'woocommerce-checkout-manager'),
+          'message' => array(
+              'uploading' => esc_html__('Uploading, please wait...', 'woocommerce-checkout-manager'),
+              'saving' => esc_html__('Saving, please wait...', 'woocommerce-checkout-manager'),
+              'success' => esc_html__('Files uploaded successfully.', 'woocommerce-checkout-manager'),
+              'deleted' => esc_html__('Deleted successfully.', 'woocommerce-checkout-manager'),
+          ),
           'icons' => array(
               'interactive' => site_url('wp-includes/images/media/interactive.png'),
               'spreadsheet' => site_url('wp-includes/images/media/spreadsheet.png'),
@@ -178,20 +210,39 @@ if (!class_exists('WOOCCM')) {
               'audio' => site_url('wp-includes/images/media/audio.png'),
               'text' => site_url('wp-includes/images/media/text.png'),
               'video' => site_url('wp-includes/images/media/video.png')
+          ),
+          'fields' => array(
+              'args' => WOOCCM_Fields::get_field_args(),
+              'option' => WOOCCM_Fields::get_fields_option_types(),
           )
       ));
 
       wp_register_script('wooccm-order-upload', plugins_url('assets/js/wooccm-order-upload.js', WOOCCM_PLUGIN_FILE), array('wooccm-admin'), WOOCCM_PLUGIN_VERSION, true);
 
-      wp_register_script('wooccm-checkout-upload', plugins_url('assets/js/wooccm-checkout-upload.js', WOOCCM_PLUGIN_FILE), array('jquery'), WOOCCM_PLUGIN_VERSION, true);
+      wp_register_script('wooccm-checkout', plugins_url('assets/js/wooccm-checkout.js', WOOCCM_PLUGIN_FILE), array('jquery'), WOOCCM_PLUGIN_VERSION, true);
 
-      wp_localize_script('wooccm-checkout-upload', 'wooccm', array(
+      wp_localize_script('wooccm-checkout', 'wooccm', array(
           'ajaxurl' => admin_url('admin-ajax.php'),
           'nonce' => wp_create_nonce('wooccm_checkout_attachment_upload'),
-          'uploading' => esc_html__('Uploading, please wait...', 'woocommerce-checkout-manager'),
-          'saving' => esc_html__('Saving, please wait...', 'woocommerce-checkout-manager'),
-          'success' => esc_html__('Files uploaded successfully.', 'woocommerce-checkout-manager'),
-          'deleted' => esc_html__('Deleted successfully.', 'woocommerce-checkout-manager')
+          'limit' => array(
+              'max_file_size' => wp_max_upload_size(),
+              'max_files' => 4,
+          //'mime_types' => $this->get_mime_types(),
+          ),
+          'icons' => array(
+              'interactive' => site_url('wp-includes/images/media/interactive.png'),
+              'spreadsheet' => site_url('wp-includes/images/media/spreadsheet.png'),
+              'archive' => site_url('wp-includes/images/media/archive.png'),
+              'audio' => site_url('wp-includes/images/media/audio.png'),
+              'text' => site_url('wp-includes/images/media/text.png'),
+              'video' => site_url('wp-includes/images/media/video.png')
+          ),
+          'message' => array(
+              'uploading' => esc_html__('Uploading, please wait...', 'woocommerce-checkout-manager'),
+              'saving' => esc_html__('Saving, please wait...', 'woocommerce-checkout-manager'),
+              'success' => esc_html__('Files uploaded successfully.', 'woocommerce-checkout-manager'),
+              'deleted' => esc_html__('Deleted successfully.', 'woocommerce-checkout-manager'),
+          )
       ));
     }
 
@@ -202,13 +253,33 @@ if (!class_exists('WOOCCM')) {
       //1326
       // only for panel
       wp_enqueue_media();
-      wp_enqueue_script('wooccm-modal');
-
+      wp_enqueue_style('wooccm-admin');
       // 1326
       // only for orders
       wp_enqueue_script('wooccm-admin');
+      wp_enqueue_script('wooccm-modal');
       // only for backend maybe orders
       wp_enqueue_script('wooccm-order-upload');
+    }
+
+    function admin_head() {
+      ?>
+      <style>
+        body #adminmenu #toplevel_page_woocommerce a[href="<?php echo admin_url('admin.php?page=wc-settings&tab=wooccm'); ?>"]:before {
+          content: 'BETA';
+          color: #fff;
+          background-color: #21c2f8;
+          padding: 1px 7px;
+          font-size: 9px;
+          font-weight: 700;
+          border-radius: 10px;
+          position: absolute;
+          right: 15px;
+          line-height: 16px;
+          font-style: italic;
+        }
+      </style>
+      <?php
     }
 
     function add_frontend_scripts() {
@@ -222,12 +293,10 @@ if (!class_exists('WOOCCM')) {
       if (is_account_page()) {
         wp_enqueue_script('wooccm-order-upload');
         wp_enqueue_style('dashicons');
-        wp_enqueue_style('wooccm-button-style', plugins_url('includes/templates/admin/edit-order-uploads-button_style.css', WOOCCM_PLUGIN_FILE), false, WOOCCM_PLUGIN_VERSION, 'all');
+        wp_enqueue_style('wooccm-button-style', plugins_url('assets/old/edit-order-uploads-button_style.css', WOOCCM_PLUGIN_FILE), false, WOOCCM_PLUGIN_VERSION, 'all');
       }
 
       if (is_checkout()) {
-
-        wp_enqueue_script('wooccm-checkout-upload');
 
         // UI
         // ---------------------------------------------------------------------
@@ -239,41 +308,37 @@ if (!class_exists('WOOCCM')) {
 
         // Timepicker
         // ---------------------------------------------------------------------
-        wp_enqueue_style('jquery-ui-timepicker', plugins_url('includes/pickers/jquery.ui.timepicker.css', WOOCCM_PLUGIN_FILE), false, WOOCCM_PLUGIN_VERSION);
-        wp_enqueue_script('jquery-ui-timepicker', plugins_url('includes/pickers/jquery.ui.timepicker.js', WOOCCM_PLUGIN_FILE), array('jquery'), WOOCCM_PLUGIN_VERSION);
+        wp_enqueue_style('jquery-ui-timepicker', plugins_url('assets/timepicker/jquery.ui.timepicker.css', WOOCCM_PLUGIN_FILE), false, WOOCCM_PLUGIN_VERSION);
+        wp_enqueue_script('jquery-ui-timepicker', plugins_url('assets/timepicker/jquery.ui.timepicker.js', WOOCCM_PLUGIN_FILE), array('jquery'), WOOCCM_PLUGIN_VERSION);
 
-        if (is_file(WOOCCM_PLUGIN_DIR . 'includes/pickers/i18n/jquery.ui.timepicker-' . $i18n . '.js')) {
-          wp_enqueue_script('jquery-ui-timepicker-' . $i18n, plugins_url('includes/pickers/i18n/jquery.ui.timepicker-' . $i18n . '.js', WOOCCM_PLUGIN_FILE), array('jquery-ui-timepicker'), WOOCCM_PLUGIN_VERSION);
+        if (is_file(WOOCCM_PLUGIN_DIR . 'assets/timepicker/i18n/jquery.ui.timepicker-' . $i18n . '.js')) {
+          wp_enqueue_script('jquery-ui-timepicker-' . $i18n, plugins_url('assets/timepicker/i18n/jquery.ui.timepicker-' . $i18n . '.js', WOOCCM_PLUGIN_FILE), array('jquery-ui-timepicker'), WOOCCM_PLUGIN_VERSION);
         }
 
         // Colorpicker
         // ---------------------------------------------------------------------
         wp_enqueue_style('wp-color-picker');
-        wp_enqueue_script('wp-color-picker');
+
+        wp_enqueue_script('iris', admin_url('js/iris.min.js'), array('jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch'), false);
+        wp_enqueue_script('wp-color-picker', admin_url('js/color-picker.min.js'), array('iris'), false);
+
+        wp_localize_script('wp-color-picker', 'wpColorPickerL10n', array(
+            'clear' => __('Clear'),
+            'defaultString' => __('Default'),
+            'pick' => __('Select Color'),
+            'current' => __('Current Color'),
+        ));
 
         // Farbtastic
         // ---------------------------------------------------------------------
         wp_enqueue_style('farbtastic');
-        wp_enqueue_script('farbtastic');
+        wp_enqueue_script('farbtastic', admin_url('js/farbtastic.js'), array('jquery'), false);
 
         // Dashicons
         // ---------------------------------------------------------------------
         wp_enqueue_style('dashicons');
 
-        // Popup
-        // ---------------------------------------------------------------------
-        wp_enqueue_style('magnific-popup', plugins_url('includes/pickers/magnificpopup/dist/magnific-popup.css', WOOCCM_PLUGIN_FILE));
-        wp_enqueue_script('magnific-popup', plugins_url('includes/pickers/magnificpopup/dist/jquery.magnific-popup.js', WOOCCM_PLUGIN_FILE));
-
-        // Caman
-        // ---------------------------------------------------------------------
-        wp_enqueue_script('caman', plugins_url('includes/pickers/caman/dist/caman.js', WOOCCM_PLUGIN_FILE));
-        wp_enqueue_style('caman', plugins_url('includes/pickers/caman/dist/caman.css', WOOCCM_PLUGIN_FILE));
-
-        // Color
-        // ---------------------------------------------------------------------
-        wp_enqueue_script('jcrop-color', plugins_url('includes/pickers/jcrop/js/jquery.color.js', WOOCCM_PLUGIN_FILE));
-        wp_enqueue_script('jcrop', plugins_url('includes/pickers/jcrop/js/jquery.Jcrop.js', WOOCCM_PLUGIN_FILE));
+        wp_enqueue_script('wooccm-checkout');
       }
     }
 
@@ -300,9 +365,9 @@ if (!class_exists('WOOCCM')) {
       //1326
       //include( WOOCCM_PLUGIN_DIR . 'includes/classes/field_filters.php' );
       // @mod - We need to load the templates conditionally
-      include( WOOCCM_PLUGIN_DIR . 'includes/templates/functions/add_functions.php' );
-      include( WOOCCM_PLUGIN_DIR . 'includes/templates/functions/billing_functions.php' );
-      include( WOOCCM_PLUGIN_DIR . 'includes/templates/functions/shipping_functions.php' );
+      //include( WOOCCM_PLUGIN_DIR . 'includes/templates/functions/add_functions.php' );
+      //include( WOOCCM_PLUGIN_DIR . 'includes/templates/functions/billing_functions.php' );
+      //include( WOOCCM_PLUGIN_DIR . 'includes/templates/functions/shipping_functions.php' );
       //1326
       //include( WOOCCM_PLUGIN_DIR . 'includes/templates/functions/add_wooccmupload.php' );
       //include( WOOCCM_PLUGIN_DIR . 'includes/templates/functions/billing_wooccmupload.php' );
@@ -310,18 +375,24 @@ if (!class_exists('WOOCCM')) {
       include( WOOCCM_PLUGIN_DIR . 'includes/templates/functions/required/add_required.php' );
       include( WOOCCM_PLUGIN_DIR . 'includes/templates/functions/required/billing_required.php' );
       include( WOOCCM_PLUGIN_DIR . 'includes/templates/functions/required/shipping_required.php' );
-      include( WOOCCM_PLUGIN_DIR . 'includes/templates/functions/wooccm_editing_wrapper.php' );
-
+      //include( WOOCCM_PLUGIN_DIR . 'includes/templates/functions/wooccm_editing_wrapper.php' );
       // New
       // -----------------------------------------------------------------------
       //include( WOOCCM_PLUGIN_DIR . 'new/install.php' );
-      //include( WOOCCM_PLUGIN_DIR . 'new/admin.php' );
+      //include( WOOCCM_PLUGIN_DIR . 'new/admin/ajax.php' );
+      //include( WOOCCM_PLUGIN_DIR . 'new/admin/admin.php' );
       include( WOOCCM_PLUGIN_DIR . 'new/checkout.php' );
       include( WOOCCM_PLUGIN_DIR . 'new/orders.php' );
+      include( WOOCCM_PLUGIN_DIR . 'new/fields_init.php' );
       include( WOOCCM_PLUGIN_DIR . 'new/fields_register.php' );
-      include( WOOCCM_PLUGIN_DIR . 'new/fields_required.php' );
+      include( WOOCCM_PLUGIN_DIR . 'new/fields_additional.php' );
+      include( WOOCCM_PLUGIN_DIR . 'new/fields_display.php' );
+      include( WOOCCM_PLUGIN_DIR . 'new/fields_conditional.php' );
       include( WOOCCM_PLUGIN_DIR . 'new/fields_handler.php' );
       include( WOOCCM_PLUGIN_DIR . 'new/fields_filters.php' );
+      //include( WOOCCM_PLUGIN_DIR . 'new/premium/fields_datepicker.php' );
+      //include( WOOCCM_PLUGIN_DIR . 'new/premium/fields_timepicker.php' );
+      //include( WOOCCM_PLUGIN_DIR . 'new/premium/fields_amount.php' );
     }
 
     function init() {
@@ -329,6 +400,7 @@ if (!class_exists('WOOCCM')) {
       add_action('wp_enqueue_scripts', array($this, 'add_frontend_scripts'));
       add_action('admin_enqueue_scripts', array($this, 'add_admin_scripts'));
       add_action('admin_notices', array($this, 'add_notices'));
+      add_action('admin_head', array($this, 'admin_head'));
       add_filter('plugin_action_links_' . plugin_basename(WOOCCM_PLUGIN_FILE), array($this, 'add_action_links'));
     }
 
@@ -376,11 +448,11 @@ add_action('woocommerce_checkout_before_customer_details', 'wooccm_checkout_text
 add_filter('woocommerce_checkout_fields', 'wooccm_remove_fields_filter_billing', 15);
 add_filter('woocommerce_checkout_fields', 'wooccm_remove_fields_filter_shipping', 1);
 add_action('wp_head', 'wooccm_display_front');
-add_action('wp_head', 'wooccm_billing_hide_required');
-add_action('wp_head', 'wooccm_shipping_hide_required');
+//add_action('wp_head', 'wooccm_billing_hide_required');
+//add_action('wp_head', 'wooccm_shipping_hide_required');
 // @mod - wooccm_run_color_inner does not exist
 // add_action( 'wooccm_run_color_innerpicker', 'wooccm_run_color_inner' ); run color inside options page (proto)
-add_action('woocommerce_before_checkout_form', 'wooccm_override_this');
+//add_action('woocommerce_before_checkout_form', 'wooccm_override_this');
 //add_filter('woocommerce_billing_fields', 'wooccm_checkout_billing_fields');
 //add_filter('woocommerce_default_address_fields', 'wooccm_checkout_default_address_fields');
 //add_filter('woocommerce_shipping_fields', 'wooccm_checkout_shipping_fields');
@@ -388,22 +460,18 @@ add_filter('wcdn_order_info_fields', 'wooccm_woocommerce_delivery_notes_compat',
 add_filter('wc_customer_order_csv_export_order_row', 'wooccm_csv_export_modify_row_data', 10, 3);
 add_filter('wc_customer_order_csv_export_order_headers', 'wooccm_csv_export_modify_column_headers');
 
-if (defined('WOOCOMMERCE_VERSION')) {
-  if (version_compare(WOOCOMMERCE_VERSION, '2.7', '>='))
-    add_filter('default_checkout_state', 'wooccm_state_default_switch');
-  else
-    add_filter('default_checkout_billing_state', 'wooccm_state_default_switch');
-}
+add_filter('default_checkout_billing_state', 'wooccm_state_default_switch');
+
 add_action('woocommerce_checkout_process', 'wooccm_custom_checkout_process');
 add_action('woocommerce_checkout_process', 'wooccm_billing_custom_checkout_process');
 add_action('woocommerce_checkout_process', 'wooccm_shipping_custom_checkout_process');
 
 //1326
-add_action('woocommerce_before_checkout_form', 'wooccm_billing_scripts');
-add_action('woocommerce_before_checkout_form', 'wooccm_billing_override_this');
-add_action('woocommerce_before_checkout_form', 'wooccm_shipping_scripts');
-add_action('woocommerce_before_checkout_form', 'wooccm_shipping_override_this');
-add_action('woocommerce_before_checkout_form', 'wooccm_scripts');
+//add_action('woocommerce_before_checkout_form', 'wooccm_billing_scripts');
+//add_action('woocommerce_before_checkout_form', 'wooccm_billing_override_this');
+//add_action('woocommerce_before_checkout_form', 'wooccm_shipping_scripts');
+//add_action('woocommerce_before_checkout_form', 'wooccm_shipping_override_this');
+//add_action('woocommerce_before_checkout_form', 'wooccm_scripts');
 //add_action('woocommerce_before_checkout_form', 'wooccm_upload_scripts');
 
 add_action('woocommerce_checkout_fields', 'wooccm_order_notes');

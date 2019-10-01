@@ -195,7 +195,7 @@ function ppom_get_product_id( $product ) {
 }
 
 // Get product price after some filters like currency switcher
-function ppom_get_product_price( $product, $variation_id=null ) {
+function ppom_get_product_price( $product, $variation_id=null, $context='' ) {
 	
 	$product_price = 'incl' === get_option( 'woocommerce_tax_display_shop' ) ? wc_get_price_including_tax( $product ) : wc_get_price_excluding_tax($product);
 	
@@ -206,20 +206,7 @@ function ppom_get_product_price( $product, $variation_id=null ) {
 		$product_price		= $variable_product->get_price();
 	}
 	
-	// Disabling, PRODUCT->get_price() already manage WOOCS
-	/*if( has_filter('woocs_exchange_value') ) {
-		global $WOOCS;
-		
-		if($WOOCS->current_currency != $WOOCS->default_currency ) {
-			if($WOOCS->is_multiple_allowed) {
-				$product_price = apply_filters('woocs_raw_woocommerce_price', $product_price);
-			} else {
-				
-				$product_price = apply_filters('woocs_exchange_value', $product_price);
-			}
-		}
-	}*/
-	
+
 	// WholeSale Plugin Price
 	// Well, this also need to be confirm, PRODUCT->get_price should include this filter as well.
 	if( has_filter('wwp_filter_wholesale_price') ) {
@@ -227,6 +214,11 @@ function ppom_get_product_price( $product, $variation_id=null ) {
 		$user_wholesale_role = WWP_Wholesale_Roles::getUserRoles();
 		$quantity = 1;
 		$product_price = apply_filters( 'wwp_filter_wholesale_price' , $product_price , ppom_get_product_id($product) , $user_wholesale_role , $quantity );
+	}
+	
+	// Do not convert price on cart
+	if( $context != 'cart' ) {
+		$product_price = apply_filters('woocs_exchange_value', $product_price);
 	}
 	
 	return apply_filters('ppom_product_price', $product_price, $product);
@@ -815,14 +807,14 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 	// Do not change options for cropper
 	// if( $meta['type'] == 'cropper' ) return $options;
 	
-	// ppom_pa($meta);
+	// ppom_pa($options);
 	
 	$ppom_new_option = array();
 	foreach($options as $option) {
 		
 		$the_option = isset($option['option']) ? stripslashes($option['option']) : '';
 		
-		if( isset($meta['type']) && $meta['type'] == 'imageselect' ) {
+		if( isset($meta['type']) && ($meta['type'] == 'imageselect' || $meta['type'] == 'image') ) {
 			
 			$the_option = isset($option['title']) ? stripslashes($option['title']) : '';
 		}
@@ -844,9 +836,15 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 			$product_price		= ppom_get_product_price($product);
 			$product_price		= ppom_hooks_convert_price_back($product_price);
 			
+			
 			// For quantities if default price is set
 			if( $meta['type'] == 'quantities' ) {
-				$quantities_dp	= isset($meta['default_price']) && $meta['default_price'] != '' ? $meta['default_price'] : $product_price;
+				
+				if( ppom_is_field_has_price($meta) ) {
+					$quantities_dp	= isset($meta['default_price']) && $meta['default_price'] != '' ? $meta['default_price'] : '';
+				} else {
+					$quantities_dp	= isset($meta['default_price']) && $meta['default_price'] != '' ? $meta['default_price'] : $product_price;
+				}
 				$option_price	= isset($option['price']) && $option['price'] != '' ? $option['price'] : $quantities_dp;
 			}
 			
@@ -872,7 +870,6 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 						$option_price_without_tax = $option_price;
 						$option_price = ppom_get_price_including_tax($option_price, $product);
 					}
-					
 					$option_label	= ppom_generate_option_label($option, $option_price, $meta);
 					$option_percent = $option['price'];
 				} else {
@@ -887,8 +884,8 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 				
 			}
 			
-			
-			$option_id = ppom_get_option_id($option, $data_name);
+			// var_dump($option_price);
+			$option_id = ppom_get_option_id($option, $meta);
 			
 			$ppom_new_option[$the_option] = array('label'		=> $option_label,
 													'price'		=> apply_filters('ppom_option_price', $option_price),
@@ -942,14 +939,13 @@ function ppom_generate_option_label( $option, $price, $meta) {
 	if( isset($meta['type']) && $meta['type'] == 'imageselect' ) {
 		$the_option = isset($option['title']) ? $option['title'] : '';
 	}
-	
 	$option_label = !empty($option['label']) ? $option['label'] : $the_option;
 	$option_label = stripcslashes($option_label);
 	
 	if( !empty($price) ) {
-		
 		$price = apply_filters('woocs_exchange_value', $price);
-		$price = strip_tags(wc_price($price));
+		// var_dump($price);
+		$price = strip_tags(ppom_price($price));
 		$option_label = "{$option_label}({$price})";
 	}
 	
@@ -958,11 +954,14 @@ function ppom_generate_option_label( $option, $price, $meta) {
 
 
 // Retrun unique option ID
-function ppom_get_option_id($option, $data_name=null) {
+function ppom_get_option_id($option, $field_meta=null) {
 	
+	$data_name  = isset($field_meta['data_name']) ? $field_meta['data_name'] : '';
 	$the_option = isset($option['option']) ? $option['option'] : '';
-	if( isset($meta['type']) && $meta['type'] == 'imageselect' ) {
+	
+	if( isset($field_meta['type']) && ($field_meta['type'] == 'imageselect' || $field_meta['type'] == 'image') ) {
 		$the_option = isset($option['title']) ? $option['title'] : '';
+		$option['id'] = sanitize_key($the_option);
 	}
 	
 	$default_option = is_null($data_name) ? $the_option : $data_name.'_'.$the_option;
@@ -1501,10 +1500,15 @@ function ppom_is_price_attached_with_fields( $fields_posted ) {
 function ppom_get_option($key, $default_val=false) {
 	
 	$value = get_option($key);
-	if( ! $value )
-		$value = $default_val;
+	if( ! $value ) {
 		
-	$value = sprintf(__("%s", 'ppom') , ppom_wpml_translate($value, 'PPOM') );
+		$value = $default_val;
+	} else {
+		
+		$value = ppom_wpml_translate($value, 'PPOM');
+	}
+		
+	$value = sprintf(__("%s", 'ppom') , $value );
 	return $value;
 }
 

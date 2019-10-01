@@ -5,36 +5,18 @@ if (!class_exists('WOOCCM_Fields_Register')) {
   class WOOCCM_Fields_Register {
 
     protected static $instance;
-    protected static $i = 0;
-
-    function get_positioning($position = 'after_order_notes') {
-
-      if ($options = get_option('wccs_settings')) {
-
-        if (!empty($options['checkness']['position'])) {
-          $position = sanitize_text_field($options['checkness']['position']);
-        }
-
-        return $position;
-      }
-
-      return false;
-    }
 
     function add_checkout_field_filter($key, $fields, $custom_field) {
 
-      $defaults = array(
-          'address_1',
-          'address_2',
-          'city',
-          'postcode',
-          'state',
-          'country'
-      );
-
-      //var_dump($fields[$key]);
 
       $fields[$key] = wp_parse_args($custom_field, (array) @$fields[$key]);
+
+      //$fields[$key]['key'] = $key;
+      // Class
+      // -----------------------------------------------------------------------
+      if (!is_array(@$fields[$key]['class'])) {
+        $fields[$key]['class'] = array();
+      }
 
       // Priority
       // -----------------------------------------------------------------------
@@ -50,41 +32,22 @@ if (!class_exists('WOOCCM_Fields_Register')) {
 
       // Options
       // -----------------------------------------------------------------------
-      //if (!empty($custom_field['option_array'])) {
-      $fields[$key]['options'] = @$custom_field['option_array'];
-      //}
-      // Default
-      // -----------------------------------------------------------------------
-      if (isset($custom_field['force_title2'])) {
-        $fields[$key]['default'] = $fields[$key]['force_title2'];
+      if (!empty($custom_field['option_array'])) {
+
+        $options = explode('||', @$custom_field['option_array']);
+
+        $fields[$key]['options'] = array_combine($options, $options);
       }
 
+      // Default
+      // -----------------------------------------------------------------------
+      //if (isset($custom_field['force_title2'])) {
+      $fields[$key]['default'] = @$fields[$key]['force_title2'];
+      //}
       // Clear
       // -----------------------------------------------------------------------
       if (isset($custom_field['clear_row'])) {
         $fields[$key]['clear'] = $fields[$key]['clear_row'];
-      }
-
-      // Class
-      // -----------------------------------------------------------------------
-
-      if (isset($fields[$key]['class'])) {
-        if (isset($custom_field['position'])) {
-          $fields[$key]['class'] = array_diff($fields[$key]['class'], array('form-row-wide', 'form-row-first', 'form-row-last'));
-          $fields[$key]['class'][] = $custom_field['position'];
-        }
-        if (isset($custom_field['conditional_tie'])) {
-          $fields[$key]['class'][] = $custom_field['conditional_tie'];
-        }
-        if (isset($custom_field['extra_class'])) {
-          $fields[$key]['class'][] = $custom_field['extra_class'];
-        }
-      } else {
-        $fields[$key]['class'] = array('form-row-wide');
-      }
-
-      if (!empty($custom_field['clear_row'])) {
-        $fields[$key]['class'][] = 'wooccm-clearfix';
       }
 
       // Remove placeholder
@@ -98,12 +61,26 @@ if (!class_exists('WOOCCM_Fields_Register')) {
       if ($fields[$key]['type'] == 'wooccmtext') {
         $fields[$key]['type'] = 'text';
       }
-
+      if ($fields[$key]['type'] == 'wooccmpassword') {
+        $fields[$key]['type'] = 'password';
+      }
       if ($fields[$key]['type'] == 'wooccmstate') {
         $fields[$key]['type'] = 'state';
       }
       if ($fields[$key]['type'] == 'wooccmcountry') {
         $fields[$key]['type'] = 'country';
+      }
+      if ($fields[$key]['type'] == 'wooccmselect') {
+        $fields[$key]['type'] = 'select';
+      }
+      if ($fields[$key]['type'] == 'wooccmtextarea') {
+        $fields[$key]['type'] = 'textarea';
+      }
+      if ($fields[$key]['type'] == 'checkbox_wccm') {
+        $fields[$key]['type'] = 'checkbox';
+      }
+      if ($fields[$key]['type'] == 'time') {
+        $fields[$key]['type'] = 'timepicker';
       }
 
       // Required
@@ -133,12 +110,6 @@ if (!class_exists('WOOCCM_Fields_Register')) {
       // -----------------------------------------------------------------------
       if ($custom_field['type'] == 'multicheckbox' && empty($custom_field['option_array'])) {
         $custom_field['disabled'] = true;
-      }
-
-      // Bolt on address-field for address-based fields
-      // -----------------------------------------------------------------------
-      if (in_array($custom_field['cow'], $defaults)) {
-        $fields[$key]['class'][] = 'address-field';
       }
 
       // Override for State fields
@@ -202,22 +173,6 @@ if (!class_exists('WOOCCM_Fields_Register')) {
       return $fields;
     }
 
-    function add_checkout_additional_fields($checkout) {
-
-      if ($options = get_option('wccs_settings')) {
-
-        if (array_key_exists('buttons', $options)) {
-
-          if ($buttons = $options['buttons']) {
-
-            foreach ($buttons as $key => $custom_field) {
-              woocommerce_form_field($custom_field['cow'], $this->add_checkout_field_filter($key, $custom_field, $custom_field), $checkout->get_value($custom_field['cow']));
-            }
-          }
-        }
-      }
-    }
-
     function add_checkout_shipping_fields($fields) {
       return $this->add_checkout_fields_filter($fields, 'wccs_settings2', 'shipping_buttons', 'shipping_');
     }
@@ -235,30 +190,6 @@ if (!class_exists('WOOCCM_Fields_Register')) {
       // Shipping fields
       // -----------------------------------------------------------------------
       add_filter('woocommerce_shipping_fields', array($this, 'add_checkout_shipping_fields'));
-
-      // Additional fields
-      // -----------------------------------------------------------------------
-      switch ($this->get_positioning()) {
-        case 'before_shipping_form':
-          add_action('woocommerce_before_checkout_shipping_form', array($this, 'add_checkout_additional_fields'));
-          break;
-
-        case 'after_shipping_form':
-          add_action('woocommerce_after_checkout_shipping_form', array($this, 'add_checkout_additional_fields'));
-          break;
-
-        case 'before_billing_form':
-          add_action('woocommerce_before_checkout_billing_form', array($this, 'add_checkout_additional_fields'));
-          break;
-
-        case 'after_billing_form':
-          add_action('woocommerce_after_checkout_billing_form', array($this, 'add_checkout_additional_fields'));
-          break;
-
-        case 'after_order_notes':
-          add_action('woocommerce_after_order_notes', array($this, 'add_checkout_additional_fields'));
-          break;
-      }
     }
 
     public static function instance() {

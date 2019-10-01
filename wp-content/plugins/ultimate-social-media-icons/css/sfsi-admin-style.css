@@ -1533,7 +1533,6 @@ ul.tab_2_email_sec li .radio {
     width: 100%;
     float: left;
     margin: 0;
-    padding: 35px 0 0;
     text-align: center;
 }
 .tab6 .social_icon_like1 ul {
@@ -5275,4 +5274,13 @@ input[type="number"] {
 #accordion .ui-state-hover, #accordion1 .ui-state-hover, #accordion2 .ui-state-hover {
     background: #d22b30 url(../images/arrow.png) right -105px no-repeat !important;
     color: #eee !important;
+}
+
+
+.sfsi_disable_radio .radio{
+    background-position: 0px 0px !important;
+    opacity: 0.3;
+}
+.sfsi_disable_radio  .labelhdng4{
+    opacity: 0.3;
 }
