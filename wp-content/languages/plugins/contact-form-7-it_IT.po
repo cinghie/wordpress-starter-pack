@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Contact Form 7 - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-08-19 14:38:19+0000\n"
+"PO-Revision-Date: 2019-09-24 17:13:46+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -27,9 +27,17 @@ msgstr "Sono state utilizzate parole in blacklist."
 msgid "Submitted nonce is invalid."
 msgstr "Il nonce inviato non è valido."
 
+#: includes/submission.php:308
+msgid "User-Agent string is unnaturally short."
+msgstr "La stringa User-Agent è innaturalmente breve."
+
 #: modules/recaptcha.php:162
 msgid "reCAPTCHA score (%1$.2f) is lower than the threshold (%2$.2f)."
 msgstr "Il punteggio reCAPTCHA (%1$.2f) è inferiore alla soglia (%2$.2f)."
+
+#: modules/akismet.php:58
+msgid "Akismet returns a spam response."
+msgstr "Akismet restituisce una risposta di spam."
 
 #: modules/constant-contact.php:588
 msgid "Select lists to which newly added contacts are to belong."

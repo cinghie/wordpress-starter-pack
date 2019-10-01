@@ -117,6 +117,7 @@ class Nitro_Smush_Task extends Updraft_Smush_Task {
 	 * @param String $response - The response object
 	 */
 	public function process_server_response($response) {
+		global $http_response_header;
 
 		$response = parent::process_server_response($response);
 		$data = json_decode(wp_remote_retrieve_body($response));
@@ -131,12 +132,22 @@ class Nitro_Smush_Task extends Updraft_Smush_Task {
 			return false;
 		}
 
+		if (!property_exists($data, 'result_file')) {
+			$this->fail("invalid_response", "The response does not contain the compressed file URL");
+			$this->log("data: ".json_encode($data));
+			return false;
+		}
+
 		$compressed_image = file_get_contents($data->result_file);
 		
 		if ($compressed_image) {
 			return $compressed_image;
 		} else {
-			$this->fail("invalid_response", "The Smush process failed with an invalid response from the server");
+			$this->fail("invalid_response", "The compression apparently succeeded, but WP-Optimize could not retrieve the compressed image from the remote server.");
+			$this->log("data: ".json_encode($data));
+			if (!empty($http_response_header) && is_array($http_response_header)) {
+				$this->log("headers: ".implode("\n", $http_response_header));
+			}
 			return false;
 		}
 	}

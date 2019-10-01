@@ -8,7 +8,6 @@ class WP_Optimize_Database_Information {
 	const MARIA_DB = 'MariaDB';
 	const PERCONA_DB = 'Percona';
 	// for some reason coding standard parser give error here WordPress.DB.RestrictedFunctions.mysql_mysql_db
-	// @codingStandardsIgnoreLine
 	const MYSQL_DB = 'MysqlDB';
 
 	const MYISAM_ENGINE = 'MyISAM';

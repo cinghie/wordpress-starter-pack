@@ -475,6 +475,8 @@ if (!function_exists('wpo_get_url_path')) :
 function wpo_get_url_path($url = '') {
 	$url = '' == $url ? wpo_current_url() : $url;
 	$url_parts = parse_url($url);
+
+	if (!isset($url_parts['host'])) $url_parts['host'] = '';
 	if (!isset($url_parts['path'])) $url_parts['path'] = '';
 
 	return $url_parts['host'].$url_parts['path'];
@@ -488,9 +490,10 @@ endif;
  */
 if (!function_exists('wpo_current_url')) :
 function wpo_current_url() {
+	$http_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
 	return rtrim('http' . ((isset($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'] || 1 == $_SERVER['HTTPS']) ||
 			isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && 'https' == $_SERVER['HTTP_X_FORWARDED_PROTO']) ? 's' : '' )
-		. '://' . "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}", '/');
+		. '://' . $http_host.$_SERVER['REQUEST_URI'], '/');
 }
 endif;
 

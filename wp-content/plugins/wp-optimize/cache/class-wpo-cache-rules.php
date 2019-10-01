@@ -41,7 +41,16 @@ class WPO_Cache_Rules {
 		add_action('wp_trash_post', array($this, 'purge_post_on_update'), 10, 1);
 		add_action('comment_post', array($this, 'purge_post_on_comment'), 10, 3);
 		add_action('wp_set_comment_status', array($this, 'purge_post_on_comment_status_change'), 10, 1);
-		add_action('after_switch_theme', array($this, 'purge_cache'), 10);
+
+		/**
+		 * List of hooks for which when executed, the cache will be purged
+		 *
+		 * @param array $actions The actions
+		 */
+		$purge_on_action = apply_filters('wpo_purge_cache_hooks', array('after_switch_theme', 'wp_update_nav_menu', 'customize_save_after', 'wp_ajax_save-widget'));
+		foreach ($purge_on_action as $action) {
+			add_action($action, array($this, 'purge_cache'));
+		}
 	}
 
 	/**
