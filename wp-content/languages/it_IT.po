@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 5.2.x - Development package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-09-02 18:06:52+0000\n"
+"PO-Revision-Date: 2019-09-26 16:16:58+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3213,12 +3213,12 @@ msgstr "Categoria"
 #. translators: label for ordering posts by title in descending order
 #: wp-includes/js/dist/components.js:35098
 msgid "Z → A"
-msgstr "Z \t A"
+msgstr "Z ⟶ A"
 
 #. translators: label for ordering posts by title in ascending order
 #: wp-includes/js/dist/components.js:35094
 msgid "A → Z"
-msgstr "A \t Z"
+msgstr "A ⟶ Z"
 
 #: wp-includes/js/dist/components.js:35090
 msgid "Oldest to Newest"
@@ -8269,7 +8269,7 @@ msgstr "Non è permesso de-registrare un tipo di contenuto (post type) incorpora
 #: wp-includes/post.php:362
 msgctxt "post status"
 msgid "Trash"
-msgstr "Cestino"
+msgstr "Cestina"
 
 #: wp-includes/post.php:352
 msgctxt "post status"
@@ -10496,7 +10496,7 @@ msgstr "Stai personalizzando %s"
 
 #: wp-includes/comment.php:3324
 msgid "<strong>ERROR</strong>: The comment could not be saved. Please try again later."
-msgstr "<strong>ERRORE</strong>: il commento non può essere salvato. Riprovare più tardi."
+msgstr "<strong>ERRORE</strong>: il commento non può essere salvato. Riprova più tardi."
 
 #: wp-includes/update.php:159 wp-includes/update.php:383
 #: wp-includes/update.php:568
@@ -13360,7 +13360,7 @@ msgstr "Cerca pagine"
 
 #: wp-includes/post.php:271
 msgid "No blocks found in Trash."
-msgstr "Nessun blocco trovato nel cestino."
+msgstr "Nessun blocco presente nel cestino."
 
 #: wp-includes/ms-default-constants.php:149
 msgid "<strong>Conflicting values for the constants VHOST and SUBDOMAIN_INSTALL.</strong> The value of SUBDOMAIN_INSTALL will be assumed to be your subdomain configuration setting."
