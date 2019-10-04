@@ -151,11 +151,11 @@ if ( !defined( 'ABSPATH' ) ) exit;
 <td class="filter_field" style="display:none;text-align:center;">
 	<input name="wccs_settings[buttons][<?php echo $i; ?>][deny_receipt]" type="checkbox" value="true" <?php if (  !empty ($field['deny_receipt'])) echo "checked='checked'"; ?> />
 </td>
-
+<!--
 <td class="filter_field condition_tick hide_stuff_change hide_stuff_time hide_stuff_opcheck hide_stuff_op hide_stuff_color more_toggler1 more_toggler1c" style="display:none;text-align:center;">
 	<input name="wccs_settings[buttons][<?php echo $i; ?>][add_amount]" type="checkbox" value="true" <?php if (  !empty ($field['add_amount'])) echo "checked='checked'"; ?> />
 </td>
-
+-->
 <td class="add_amount_field" style="display:none;text-align:center;">
 	<input name="wccs_settings[buttons][<?php echo $i; ?>][fee_name]" type="text" value="<?php echo $field['fee_name']; ?>" placeholder="<?php _e('My Custom Charge','woocommerce-checkout-manager'); ?>" />
 </td>
@@ -267,8 +267,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		<option value="wooccmradio" <?php (!isset($field['type'])) ? '' :  selected( $field['type'], 'wooccmradio' ); ?>><?php _e('Radio Buttons','woocommerce-checkout-manager'); ?></option>
 		<option value="checkbox_wccm" <?php (!isset($field['type'])) ? '' :  selected( $field['type'], 'checkbox_wccm' ); ?>><?php _e('Check Box','woocommerce-checkout-manager'); ?></option>
 		<option value="wooccmselect" <?php (!isset($field['type'])) ? '' :  selected( $field['type'], 'wooccmselect' ); ?>><?php _e('Select Options','woocommerce-checkout-manager'); ?></option>
-		<option value="datepicker" <?php (!isset($field['type'])) ? '' :  selected( $field['type'], 'datepicker' ); ?>><?php _e('Date Picker','woocommerce-checkout-manager'); ?></option>
-		<option value="changename" <?php (!isset($field['type'])) ? '' :  selected( $field['type'], 'changename' ); ?>><?php _e('Text/ Html Swapper','woocommerce-checkout-manager'); ?></option>
+		<!--<option value="datepicker" <?php (!isset($field['type'])) ? '' :  selected( $field['type'], 'datepicker' ); ?>><?php _e('Date Picker','woocommerce-checkout-manager'); ?></option>
+		<option value="changename" <?php (!isset($field['type'])) ? '' :  selected( $field['type'], 'changename' ); ?>><?php _e('Text/ Html Swapper','woocommerce-checkout-manager'); ?></option>-->
 		<option value="time" <?php (!isset($field['type'])) ? '' :  selected( $field['type'], 'time' ); ?>><?php _e('Time Picker','woocommerce-checkout-manager'); ?></option>
 		<option value="colorpicker" <?php (!isset($field['type'])) ? '' : selected( $field['type'], 'colorpicker' ); ?>><?php _e('Color Picker','woocommerce-checkout-manager'); ?></option>
 		<option value="heading" <?php (!isset($field['type'])) ? '' : selected( $field['type'], 'heading' ); ?>><?php _e('Heading','woocommerce-checkout-manager'); ?></option>

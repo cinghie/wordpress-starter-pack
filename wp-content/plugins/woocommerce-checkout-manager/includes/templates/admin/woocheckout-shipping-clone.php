@@ -84,9 +84,9 @@ if ( !defined( 'ABSPATH' ) )
 <td class="filter_field" style="display:none;text-align:center;"><input name="wccs_settings2[shipping_buttons][<?php echo $i; ?>][tax_remove]" type="checkbox" title="<?php esc_attr_e( 'Remove tax', 'woocommerce-checkout-manager' ); ?>" value=" " /></td>
 
 <td class="filter_field" style="display:none;text-align:center;"><input name="wccs_settings2[shipping_buttons][<?php echo $i; ?>][deny_receipt]" type="checkbox" title="<?php esc_attr_e( 'Deny Receipt', 'woocommerce-checkout-manager' ); ?>" value=" " /></td>
-
+<!--
 <td class="filter_field condition_tick hide_stuff_change hide_stuff_time hide_stuff_opcheck hide_stuff_op hide_stuff_color more_toggler1 more_toggler1c" style="display:none;text-align:center;"><input name="wccs_settings2[shipping_buttons][<?php echo $i; ?>][add_amount]" type="checkbox" title="<?php esc_attr_e( 'Add Amount', 'woocommerce-checkout-manager' ); ?>" value=" " /></td>
-
+-->
 <td class="add_amount_field" style="display:none;text-align:center;"><input name="wccs_settings2[shipping_buttons][<?php echo $i; ?>][fee_name]" type="text" title="<?php esc_attr_e( 'Amount Name', 'woocommerce-checkout-manager' ); ?>" value="" placeholder="<?php _e('My Custom Charge','woocommerce-checkout-manager'); ?>" /></td>
 
 <td class="add_amount_field" style="display:none;text-align:center;"><input name="wccs_settings2[shipping_buttons][<?php echo $i; ?>][add_amount_field]" type="text" title="<?php esc_attr_e( 'Add Amount Field', 'woocommerce-checkout-manager' ); ?>" value="" placeholder="50" /></td>
@@ -145,8 +145,8 @@ if ( !defined( 'ABSPATH' ) )
 		<option value="wooccmradio" ><?php _e('Radio Buttons','woocommerce-checkout-manager'); ?></option>
 		<option value="checkbox_wccm" ><?php _e('Check Box','woocommerce-checkout-manager'); ?></option>
 		<option value="wooccmselect" ><?php _e('Select Options','woocommerce-checkout-manager'); ?></option>
-		<option value="datepicker" ><?php _e('Date Picker','woocommerce-checkout-manager'); ?></option>
-		<option value="time" ><?php _e('Time Picker','woocommerce-checkout-manager'); ?></option>
+		<!--<option value="datepicker" ><?php _e('Date Picker','woocommerce-checkout-manager'); ?></option>
+		<option value="time" ><?php _e('Time Picker','woocommerce-checkout-manager'); ?></option>-->
 		<option value="colorpicker" ><?php _e('Color Picker','woocommerce-checkout-manager'); ?></option>
 		<option value="heading" ><?php _e('Heading','woocommerce-checkout-manager'); ?></option>
 		<option value="multiselect" ><?php _e('Multi-Select','woocommerce-checkout-manager'); ?></option>

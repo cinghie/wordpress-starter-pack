@@ -41,7 +41,7 @@
         <?php endforeach; ?>
       <?php else: ?>
         <tr>
-          <td colspan="6" style="text-align:left;"><?php esc_html_e('No files have been uploaded to this Order.', 'woocommerce-checkout-manager'); ?></td>
+          <td colspan="6" style="text-align:left;"><?php esc_html_e('No files have been uploaded to this order.', 'woocommerce-checkout-manager'); ?></td>
         </tr>
       <?php endif; ?>
     </tbody>

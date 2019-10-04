@@ -720,6 +720,7 @@ function wooccm_options_validate($input) {
       }
 
       if (empty($btn['cow']) && empty($btn['label']) && empty($btn['placeholder'])) {
+
         unset($input['buttons'][$i]);
 
         if ($i != 999) {
@@ -740,17 +741,18 @@ function wooccm_options_validate($input) {
         }
       }
 
-      if (!empty($btn['cow']) && empty($btn['label']) && empty($btn['placeholder'])) {
+      /* if (!empty($btn['cow']) && empty($btn['label']) && empty($btn['placeholder'])) {
+
         unset($input['buttons'][$i]);
 
         if ($i != 999) {
-          $detect_error++;
-          $fieldnum = $i + 1;
-          add_settings_error(
-                  'wooccm_settings_errors', esc_attr('settings_updated'), __('Sorry! An error occurred. WooCommerce Checkout Manager removed Additional field #' . $fieldnum . ' because no Label or Placeholder name was provided.', 'woocommerce-checkout-manager'), 'error'
-          );
+        $detect_error++;
+        $fieldnum = $i + 1;
+        add_settings_error(
+        'wooccm_settings_errors', esc_attr('settings_updated'), __('Sorry! An error occurred. WooCommerce Checkout Manager removed Additional field #' . $fieldnum . ' because no Label or Placeholder name was provided.', 'woocommerce-checkout-manager'), 'error'
+        );
         }
-      }
+        } */
     }
   }
   if ($detect_error == 0) {
@@ -826,17 +828,19 @@ function wooccm_options_validate_shipping($input) {
         }
       }
 
-      if (!empty($btn['cow']) && empty($btn['label']) && empty($btn['placeholder'])) {
+      /*
+       * 
+       * if (!empty($btn['cow']) && empty($btn['label']) && empty($btn['placeholder'])) {
         unset($input['shipping_buttons'][$i]);
 
         if ($i != 999) {
-          $detect_error++;
-          $fieldnum = $i + 1;
-          add_settings_error(
-                  'wooccm_settings_errors', esc_attr('settings_updated'), __('Sorry! An error occurred. WooCommerce Checkout Manager removed Shipping field #' . $fieldnum . ' because no Label or Placeholder name was provided.', 'woocommerce-checkout-manager'), 'error'
-          );
+        $detect_error++;
+        $fieldnum = $i + 1;
+        add_settings_error(
+        'wooccm_settings_errors', esc_attr('settings_updated'), __('Sorry! An error occurred. WooCommerce Checkout Manager removed Shipping field #' . $fieldnum . ' because no Label or Placeholder name was provided.', 'woocommerce-checkout-manager'), 'error'
+        );
         }
-      }
+        } */
     }
   }
 
@@ -907,6 +911,7 @@ function wooccm_options_validate_billing($input) {
       }
 
       if (empty($btn['cow']) && (!empty($btn['label']) || !empty($btn['placeholder']))) {
+
         $newNum = $i + 1;
         if (wooccm_mul_array('myfield' . $newNum, $input['billing_buttons'])) {
           $input['billing_buttons'][$i]['cow'] = 'myfield' . $newNum . 'c';
@@ -915,18 +920,20 @@ function wooccm_options_validate_billing($input) {
         }
       }
 
-      if (!empty($btn['cow']) && empty($btn['label']) && empty($btn['placeholder'])) {
+      /*
+       * 
+       * if (!empty($btn['cow']) && empty($btn['label']) && empty($btn['placeholder'])) {
         $detect_error++;
         unset($input['billing_buttons'][$i]);
 
         if ($i != 999) {
-          $detect_error++;
-          $fieldnum = $i + 1;
-          add_settings_error(
-                  'wooccm_settings_errors', esc_attr('settings_updated'), __('Sorry! An error occurred. WooCommerce Checkout Manager removed Billing field #' . $fieldnum . ' because no Label or Placeholder name was provided.', 'woocommerce-checkout-manager'), 'error'
-          );
+        $detect_error++;
+        $fieldnum = $i + 1;
+        add_settings_error(
+        'wooccm_settings_errors', esc_attr('settings_updated'), __('Sorry! An error occurred. WooCommerce Checkout Manager removed Billing field #' . $fieldnum . ' because no Label or Placeholder name was provided.', 'woocommerce-checkout-manager'), 'error'
+        );
         }
-      }
+        } */
     }
   }
 

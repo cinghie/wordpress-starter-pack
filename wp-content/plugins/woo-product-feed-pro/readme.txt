@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.2
-Stable tag: 6.5.2
+Stable tag: 6.5.6
 
 == Description ==
 
@@ -162,6 +162,7 @@ Our plugin supports the Aelia Currency Switcher
 * <a href="https://www.miinto.dk" target="_blank">Miinto Denmark</a>
 * <a href="https://www.miinto.nl" target="_blank">Miinto Netherlands</a>
 * <a href="https://www.miinto.pl" target="_blank">Miinto Poland</a>
+* <a href="https://www.miinto.se" target="_blank">Miinto Sweden</a>
 * <a href="https://www.vertaa.fi" target="_blank">Vertaa.fi</a>
 * Prisjakt
 * Hintaseuranta
@@ -287,6 +288,20 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 6.5.6 (2019-10-03) =
+* Added color field to all Miinto templates
+* Bug fix: the structured data fix did not work on variant products when attribute values contained a quote
+
+= 6.5.5 (2019-10-03) =
+* Added support for so-called private custom meta fields and attributes. This makes our plugin compatible with a lot of extra plugin's
+* Removed comments from review feeds
+
+= 6.5.4 (2019-10-02) =
+* Added support for Miinto.se feeds
+
+= 6.5.3 (2019-10-02) =
+* Added support for rating total and average rating of parent products, made available for variants
 
 = 6.5.2 (2019-10-01) =
 * Product reviews on parent products are now also added to the variants of the parent product
@@ -2033,6 +2048,20 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 6.5.6 =
+Added color field to all Miinto templates
+Bug fix: the structured data fix did not work on variant products when attribute values contained a quote
+
+= 6.5.5 =
+Added support for so-called private custom meta fields and attributes. This makes our plugin compatible with a lot of extra plugin's
+Removed comments from review feeds
+
+= 6.5.4 =
+Added support for Miinto.se feeds
+
+= 6.5.3 =
+Added support for rating total and average rating of parent products, made available for variants
 
 = 6.5.2 =
 Product reviews on parent products are now also added to the variants of the parent product

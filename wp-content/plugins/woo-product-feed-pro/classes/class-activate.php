@@ -1451,7 +1451,14 @@ class WooSEA_Activation {
 					"taxonomy" => "none",
 					"utm_source" => "Pricerunner.se",
                         		"type" => "Comparison shopping engine" ),
-                		"Prisjakt" => array (
+                              	"Miinto" => array (
+                                        "channel_hash" => md5("Miinto.se"),
+                                        "name" => "Miinto.se",
+                                        "fields" => "miinto_se",
+                                        "taxonomy" => "none",
+                                        "utm_source" => "Miinto.se",
+                                        "type" => "Comparison shopping engine" ),	
+				"Prisjakt" => array (
                         		"channel_hash" => md5("Prisjakt.se"),
                         		"name" => "Prisjakt.se",
 					"fields" => "customfeed",

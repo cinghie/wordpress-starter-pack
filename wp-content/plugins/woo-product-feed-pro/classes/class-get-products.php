@@ -62,6 +62,7 @@ class WooSEA_Get_Products {
         		'post_id'               => $prod_id,
         		'comment_type'          => 'review',
         		'comment_approved'      => 1,
+			'parent'		=> 0,
 		));
 
 		// Loop through all product reviews for this specific products (ternary operators)
@@ -2167,6 +2168,8 @@ class WooSEA_Get_Products {
 					$from_currency = $project_config['base_currency'];
 				}		
 
+				//$set_country_base = add_filter('wc_aelia_cs_selected_currency', 'SEK', 0);
+
 				//$product_data['price'] = apply_filters('wc_aelia_cs_convert', $product_data['price'], $from_currency, $project_config['AELIA']);
 				$product_data['price'] = do_shortcode('[aelia_cs_product_price product_id="'.$product_data['id'].'" formatted="0" currency="'.$project_config['AELIA'].'"]');
 				$product_data['regular_price'] = apply_filters('wc_aelia_cs_convert', $product_data['regular_price'], $from_currency, $project_config['AELIA']);
@@ -2192,6 +2195,7 @@ class WooSEA_Get_Products {
 				} else {
 					$regular_aelia_prices = get_post_meta($product_data['id'], 'variable_regular_currency_prices', true);
 				}
+
 				$regular_aelia_prices = trim($regular_aelia_prices, "}");
 				$regular_aelia_prices = trim($regular_aelia_prices, "{");
 
@@ -2201,6 +2205,7 @@ class WooSEA_Get_Products {
 						$regulars = explode(":", $rap_v);
 						$reg_cur = trim($regulars[0], "\"");
 						$reg_val = trim($regulars[1], "\"");
+			
 						if($reg_cur == $project_config['AELIA']){
 							$product_data['price'] = $reg_val;
 							$product_data['regular_price'] = $reg_val;
@@ -2473,10 +2478,15 @@ class WooSEA_Get_Products {
 			if( ($product_data['item_group_id'] > 0) AND (is_object(wc_get_product( $product_data['item_group_id'])))){
 				$product_variations = new WC_Product_Variation( $product_data['id'] );
 				$variations = $product_variations->get_variation_attributes();
-				
+			
 				// Determine the default variation product
 			      	$mother_product = wc_get_product($product_data['item_group_id']);
 				$def_attributes = $mother_product->get_default_attributes();
+
+				// Get review rating and count for parent product
+	                        $product_data['rating_total'] = $mother_product->get_rating_count();
+        	                $product_data['rating_average'] = $mother_product->get_average_rating();
+
 				$diff_result = array_diff($variations, $def_attributes);
 
 				if(isset($project_config['default_variations']) AND (!empty($diff_result))){	

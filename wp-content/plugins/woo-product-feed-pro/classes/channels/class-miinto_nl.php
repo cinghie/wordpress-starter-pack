@@ -63,6 +63,11 @@ class WooSEA_miinto_nl {
 					"feed_name" => "gender",
 					"format" => "required",
 				),
+                                "Color" => array(
+                                        "name" => "color",
+                                        "feed_name" => "color",
+                                        "format" => "required",
+                                ),
 				"Size" => array(
 					"name" => "size",
 					"feed_name" => "size",

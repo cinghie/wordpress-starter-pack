@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-09-21 18:57:43+0000\n"
+"PO-Revision-Date: 2019-10-04 08:51:12+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,12 +12,124 @@ msgstr ""
 "Project-Id-Version: Plugins - Gutenberg - Stable (latest release)\n"
 
 #: build/block-library/index.js:14
-msgid "Social links"
-msgstr "Link social"
+msgid "Version"
+msgstr "Versione"
 
 #: build/block-library/index.js:14
-msgid "Enter Address"
-msgstr "Inserisci indirizzo:"
+msgid "Six."
+msgstr "Sei."
+
+#: build/block-library/index.js:14
+msgid "Five."
+msgstr "Cinque."
+
+#: build/block-library/index.js:14
+msgid "Four."
+msgstr "Quattro."
+
+#: build/block-library/index.js:14
+msgid "— Kobayashi Issa (一茶)"
+msgstr "— Kobayashi Issa (一茶)"
+
+#: build/block-library/index.js:14
+msgid "Dimensions"
+msgstr "Dimensioni"
+
+#: build/block-library/index.js:14
+msgid "Minimum height in pixels"
+msgstr "Altezza minima in pixel"
+
+#: build/block-library/index.js:14
+msgid "cite"
+msgstr "citazione"
+
+#: build/block-library/index.js:14
+msgid "Three."
+msgstr "Tre."
+
+#: build/block-library/index.js:14
+msgid "Two."
+msgstr "Due."
+
+#: build/block-library/index.js:14
+msgid "One."
+msgstr "Uno."
+
+#: build/block-library/index.js:14
+msgid "Release Date"
+msgstr "Data di pubblicazione"
+
+#: build/block-library/index.js:14
+msgid "Call to Action"
+msgstr "Invito all'azione"
+
+#: build/block-library/index.js:14
+msgid "Jazz Musician"
+msgstr "Musicista jazz"
+
+#: build/block-library/index.js:14
+msgid "December 6, 2018"
+msgstr "6 dicembre 2018"
+
+#: build/block-library/index.js:14
+msgid "February 21, 2019"
+msgstr "21 febbraio 2019"
+
+#: build/block-library/index.js:14
+msgid "May 7, 2019"
+msgstr "7 maggio 2019"
+
+#: build/block-library/index.js:14
+msgid "Welcome to the wonderful world of blocks…"
+msgstr "Benvenuti nel meraviglioso mondo dei blocchi…"
+
+#: build/block-library/index.js:14
+msgid "Mont Blanc appears—still, snowy, and serene."
+msgstr "Appare il Monte Bianco - immobile, innevato e sereno."
+
+#: build/block-library/index.js:14
+msgid "In quoting others, we cite ourselves."
+msgstr "Citando altri, citiamo noi stessi."
+
+#: build/block-library/index.js:14
+msgid "// A \"block\" is the abstract term used"
+msgstr "// Un \"blocco\" è un termine astratto utilizzato"
+
+#: build/block-library/index.js:14
+msgid "// when composed together, form the"
+msgstr "// messe assieme, danno forma"
+
+#: build/block-library/index.js:14
+msgid "// to describe units of markup that,"
+msgstr "// per descrivere unità di markup che,"
+
+#: build/block-library/index.js:14
+msgid "// content or layout of a page."
+msgstr "// al contento o layout di una pagina."
+
+#: build/block-library/index.js:14
+msgid "Etiam et egestas lorem. Vivamus sagittis sit amet dolor quis lobortis. Integer sed fermentum arcu, id vulputate lacus. Etiam fermentum sem eu quam hendrerit, eget faucibus urna pulvinar."
+msgstr "Etiam et egestas lorem. Vivamus sagittis sit amet dolor quis lobortis. Integer sed fermentum arcu, id vulputate lacus. Etiam fermentum sem eu quam hendrerit, eget faucibus urna pulvinar."
+
+#: build/block-library/index.js:14
+msgid "registerBlockType( name, settings );"
+msgstr "registerBlockType( name, settings );"
+
+#: lib/templates.php:25
+msgid "Templates to include in your theme."
+msgstr "Template da includere nel tuo tema."
+
+#: lib/templates.php:20
+msgid "Templates"
+msgstr "Template"
+
+#: build/block-editor/index.js:55
+msgid "Block navigation"
+msgstr "Navigazione tra i blocchi"
+
+#: build/block-library/index.js:14
+msgid "Social links"
+msgstr "Link social"
 
 #: build/block-directory/index.js:1
 msgid "Add"
@@ -107,6 +219,14 @@ msgstr "Forma di pillola"
 msgid "Inserter Help Panel"
 msgstr "Pannello di aiuto dello strumento di inserimento"
 
+#: build/block-directory/index.js:1
+msgid "Authored by %s"
+msgstr "Scritto da %s"
+
+#: build/block-library/index.js:14
+msgid "Enter Address"
+msgstr "Inserisci indirizzo"
+
 #: build/block-library/index.js:14
 msgid "Attachment page"
 msgstr "Pagina dell’allegato"
@@ -139,11 +259,11 @@ msgstr "Ripristina il backup"
 msgid "Block previews can't uninstall."
 msgstr "L'anteprima del blocco non può essere disinstallata."
 
-#: lib/class-wp-rest-block-directory-controller.php:146
+#: lib/class-wp-rest-block-directory-controller.php:145
 msgid "Unable to connect to the filesystem. Please confirm your credentials."
 msgstr "Impossibilitato al collegamento al filesystem. Controlla le tue credenziali."
 
-#: lib/class-wp-rest-block-directory-controller.php:81
+#: lib/class-wp-rest-block-directory-controller.php:80
 msgid "Sorry, you are not allowed to install blocks."
 msgstr "Non hai il permesso per installare i blocchi."
 
@@ -151,7 +271,7 @@ msgstr "Non hai il permesso per installare i blocchi."
 msgid " ago"
 msgstr " fa"
 
-#: lib/experiments-page.php:69
+#: lib/experiments-page.php:67
 msgid "Block Directory"
 msgstr "Directory dei blocchi"
 
@@ -163,11 +283,11 @@ msgstr "Blocchi di contenuto"
 msgid "The backup of this post in your browser is different from the version below."
 msgstr "Il backup di questo articolo nel tuo browser è diverso dalla versione sotto."
 
-#: lib/experiments-page.php:74
+#: lib/experiments-page.php:72
 msgid "Enable Block Directory search"
 msgstr "Abilita la ricerca nella Directory dei blocchi"
 
-#: lib/class-wp-rest-widget-areas-controller.php:124
+#: lib/class-wp-rest-widget-areas-controller.php:118
 msgid "Version of the content block format used by the object."
 msgstr "Versione del formato del blocco di contenuto utilizzata dall'oggetto."
 
@@ -175,11 +295,11 @@ msgstr "Versione del formato del blocco di contenuto utilizzata dall'oggetto."
 msgid "While writing, you can press \"/\" to quickly insert new blocks."
 msgstr "Mentre scrivi, puoi premere \"/\" per inserire velocemente un nuovo blocco."
 
-#: lib/class-wp-rest-widget-areas-controller.php:104
+#: lib/class-wp-rest-widget-areas-controller.php:98
 msgid "The content for the object."
 msgstr "Il contenuto dell'oggetto."
 
-#: lib/class-wp-rest-widget-areas-controller.php:113
+#: lib/class-wp-rest-widget-areas-controller.php:107
 msgid "Content for the object, as it exists in the database."
 msgstr "Il contenuto dell'oggetto, come riportato nel database."
 
@@ -221,7 +341,7 @@ msgstr "Sono disponibili blocchi per ogni tipo di contenuto: testo, titoli, imma
 msgid "Browse through the library to learn more about what each block does."
 msgstr "Esplora la libreria per conoscere cosa fa ogni blocco."
 
-#: lib/class-wp-rest-widget-areas-controller.php:118
+#: lib/class-wp-rest-widget-areas-controller.php:112
 msgid "HTML content for the object, transformed for display."
 msgstr "Contenuto HTML dell'oggetto, trasformato per essere visualizzato."
 
@@ -282,23 +402,23 @@ msgstr "Il nome del blocco deve essere una stringa."
 msgid "Experiments Settings"
 msgstr "Impostazioni degli esperimenti"
 
-#: lib/experiments-page.php:21
+#: lib/experiments-page.php:19
 msgid "Experiment settings"
 msgstr "Impostazioni dell'esperimento"
 
-#: lib/experiments-page.php:58
+#: lib/experiments-page.php:56
 msgid "Menu Block"
 msgstr "Blocco Menu"
 
-#: lib/experiments-page.php:63
+#: lib/experiments-page.php:61
 msgid "Enable Navigation Menu Block"
 msgstr "Abilita blocco Menu di navigazione"
 
-#: lib/experiments-page.php:52
+#: lib/experiments-page.php:50
 msgid "Enable Widgets Screen and Legacy Widget Block"
 msgstr "Abilita la schermata Aree per i blocchi (sperimentale) e il blocco Widget legacy"
 
-#: lib/experiments-page.php:111
+#: lib/experiments-page.php:120
 msgid "Gutenberg has some experimental features you can turn on. Simply select each you would like to use. These features are likely to change so it is inadvisable to use them in production."
 msgstr "Gutenberg ha delle funzionalità sperimentali che puoi attivare. Seleziona quelle che vuoi utilizzare. È probabile che queste funzionalità cambieranno quindi non è consigliabile utilizzarle in produzione."
 
@@ -479,10 +599,6 @@ msgstr "Che cos'è questo?"
 msgid "Upload a file or pick one from your media library."
 msgstr "Carica un file o sceglierne uno dalla tua libreria dei media."
 
-#: build/edit-widgets/index.js:1
-msgid "Block areas saved succesfully."
-msgstr "Aree del blocco salvate con successo."
-
 #: build/block-library/index.js:14
 msgid "Don't let search engines follow this link."
 msgstr "Non lasciare che i motori di ricerca seguano questo link."
@@ -567,10 +683,6 @@ msgstr "Muovi l'immagine indietro"
 msgid "Blocks Area"
 msgstr "Area dei blocchi "
 
-#: lib/class-wp-rest-widget-areas-controller.php:56
-msgid "Sidebar content."
-msgstr "Contenuto della barra laterale."
-
 #: lib/class-wp-rest-widget-areas-controller.php:49
 msgid "The sidebar’s ID."
 msgstr "L'ID della barra laterale."
@@ -579,11 +691,11 @@ msgstr "L'ID della barra laterale."
 msgid "Displays a set of blocks"
 msgstr "Visualizza un insieme di blocchi"
 
-#: lib/class-wp-rest-widget-areas-controller.php:149
+#: lib/class-wp-rest-widget-areas-controller.php:146
 msgid "Sorry, you are not allowed to read sidebars."
 msgstr "Non hai i permessi in read per la barra laterale."
 
-#: lib/class-wp-rest-widget-areas-controller.php:200
+#: lib/class-wp-rest-widget-areas-controller.php:201
 msgid "Sorry, you are not allowed to edit sidebars."
 msgstr "Non hai i permessi di edit la barra laterale."
 
@@ -868,7 +980,7 @@ msgstr "Backspace"
 msgid "Sorry, you are not allowed to access widgets on this site."
 msgstr "Non hai i permessi per accedere ai widget su questo sito."
 
-#: lib/class-wp-rest-widget-updater-controller.php:101
+#: lib/class-wp-rest-widget-updater-controller.php:99
 msgid "Invalid widget."
 msgstr "Widget non valido."
 
@@ -2420,7 +2532,7 @@ msgstr "Grazie per aver testato Gutenberg!"
 msgid "Help build Gutenberg"
 msgstr "Aiuta a costruire Gutenberg"
 
-#: post-content.php:159
+#: post-content.php:159 build/block-library/index.js:14
 msgid "Code is Poetry"
 msgstr "Il codice è poesia"
 
@@ -2591,7 +2703,7 @@ msgstr "Gestire immagini e media con la massima attenzione è un obiettivo prima
 msgid "Untitled Reusable Block"
 msgstr "Blocco riutilizzabile senza nome"
 
-#: lib/class-wp-rest-widget-areas-controller.php:98
+#: lib/class-wp-rest-widget-areas-controller.php:92
 msgid "Unique identifier for the object."
 msgstr "Identificatore univoco per l'oggetto."
 
@@ -4301,7 +4413,7 @@ msgstr "Allinea a destra"
 msgid "Clear"
 msgstr "Pulisci"
 
-#: lib/experiments-page.php:47 build/blocks/index.js:2
+#: lib/experiments-page.php:45 build/blocks/index.js:2
 msgid "Widgets"
 msgstr "Widget"
 

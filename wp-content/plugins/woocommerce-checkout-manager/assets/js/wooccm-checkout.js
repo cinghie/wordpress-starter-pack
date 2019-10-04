@@ -26,23 +26,23 @@
     if (filetype.match('image.*')) {
       source_class = 'image';
     } else if (filetype.match('application/ms.*')) {
-      source = wooccm.icons.spreadsheet;
+      source = wooccm_upload.icons.spreadsheet;
       source_class = 'spreadsheet';
     } else if (filetype.match('application/x.*')) {
-      source = wooccm.icons.archive;
+      source = wooccm_upload.icons.archive;
       source_class = 'application';
     } else if (filetype.match('audio.*')) {
-      source = wooccm.icons.audio;
+      source = wooccm_upload.icons.audio;
       source_class = 'audio';
     } else if (filetype.match('text.*')) {
-      source = wooccm.icons.text;
+      source = wooccm_upload.icons.text;
       source_class = 'text';
     } else if (filetype.match('video.*')) {
-      source = wooccm.icons.video;
+      source = wooccm_upload.icons.video;
       source_class = 'video';
     } else {
       //if ((false === filetype.match('application/ms.*') && false === filetype.match('application/x.*') && false === filetype.match('audio.*') && false === filetype.match('text.*') && false === filetype.match('video.*')) || (0 === filetype.length || !filetype)) {
-      source = wooccm.icons.interactive;
+      source = wooccm_upload.icons.interactive;
       source_class = 'interactive';
     }
 
@@ -134,13 +134,13 @@
           $.each(files, function (i, file) {
 
             var count = $field_list.find('span[data-file_id]').length + i;
-            if (count >= wooccm.limit.max_files) {
-              alert('Exeeds max files limit of ' + wooccm.limit.max_files);
+            if (count >= wooccm_upload.limit.max_files) {
+              alert('Exeeds max files limit of ' + wooccm_upload.limit.max_files);
               return false;
             }
 
-            if (file.size > wooccm.limit.max_file_size) {
-              alert('Exeeds max file size of ' + wooccm.limit.max_file_size);
+            if (file.size > wooccm_upload.limit.max_file_size) {
+              alert('Exeeds max file size of ' + wooccm_upload.limit.max_file_size);
               return true;
             }
 
@@ -194,7 +194,7 @@
       if (window.FormData && fileList[$field.attr('id')].length) {
 
         if (!is_blocked($form)) {
-          $place_order.html(wooccm.message.uploading);
+          $place_order.html(wooccm_upload.message.uploading);
           block($form);
         }
 
@@ -202,8 +202,8 @@
         $field_list.find('span[data-file_id]').each(function (i, file) {
 
           var file_id = $(file).data('file_id');
-          if (i > wooccm.limit.max_files) {
-            console.log('Exeeds max files limit of ' + wooccm.limit.max_files);
+          if (i > wooccm_upload.limit.max_files) {
+            console.log('Exeeds max files limit of ' + wooccm_upload.limit.max_files);
             return false;
           }
 
@@ -212,8 +212,8 @@
             return true;
           }
 
-          if (fileList[$field.attr('id')][file_id].size > wooccm.limit.max_file_size) {
-            console.log('Exeeds max file size of ' + wooccm.limit.max_files);
+          if (fileList[$field.attr('id')][file_id].size > wooccm_upload.limit.max_file_size) {
+            console.log('Exeeds max file size of ' + wooccm_upload.limit.max_files);
             return true;
           }
 
@@ -223,17 +223,17 @@
         //return;
 
         data.append('action', 'wooccm_checkout_attachment_upload');
-        data.append('nonce', wooccm.nonce);
+        data.append('nonce', wooccm_upload.nonce);
         $.ajax({
           async: false,
-          url: wooccm.ajaxurl,
+          url: wooccm_upload.ajaxurl,
           type: 'POST',
           cache: false,
           data: data,
           processData: false,
           contentType: false,
           beforeSend: function (response) {
-            //$place_order.html(wooccm.message.uploading);
+            //$place_order.html(wooccm_upload.message.uploading);
           },
           success: function (response) {
             //$results.removeClass('woocommerce-message');
@@ -282,14 +282,15 @@
   $('.wooccm-conditional-child').each(function (i, field) {
 
     var $field = $(field),
-            $parent = $('.wooccm-field-' + $field.find('[data-conditional-parent]').data('conditional-parent')),
+            $parent = $('#' + $field.find('[data-conditional-parent]').data('conditional-parent')),
             show_if_value = $field.find('[data-conditional-parent-value]').data('conditional-parent-value');
 
     if ($parent.length) {
 
-      $parent.on('change keyup', function (e) {
+      $parent.on('wooccm_change change keyup', function (e) {
 
-        var $this = $(e.target),
+        // e.target not working because of select2
+        var $this = $(e.currentTarget).find('input,select,textarea').first(),
                 value = $this.val();
 
         if ($this.prop('type') == 'checkbox') {
@@ -302,32 +303,36 @@
           $field.fadeOut();
         }
 
+        $this.off('wooccm_change');
+        $this.off('keyup');
+
       });
 
-      $parent.find('select').trigger('change');
-      $parent.find('textarea').trigger('keyup');
-      $parent.find('input[type=button]').trigger('click');
-      $parent.find('input[type=radio]:checked').trigger('keyup');
-      $parent.find('input[type=checkbox]:checked').trigger('keyup');
-      $parent.find('input[type=color]').trigger('keyup');
-      $parent.find('input[type=date]').trigger('keyup');
-      $parent.find('input[type=datetime-local]').trigger('keyup');
-      $parent.find('input[type=email]').trigger('keyup');
-      $parent.find('input[type=file]').trigger('keyup');
-      $parent.find('input[type=hidden]').trigger('keyup');
-      $parent.find('input[type=image]').trigger('keyup');
-      $parent.find('input[type=month]').trigger('keyup');
-      $parent.find('input[type=number]').trigger('keyup');
-      $parent.find('input[type=password]').trigger('keyup');
-      $parent.find('input[type=range]').trigger('keyup');
-      $parent.find('input[type=reset]').trigger('keyup');
-      $parent.find('input[type=search]').trigger('keyup');
-      $parent.find('input[type=submit]').trigger('keyup');
-      $parent.find('input[type=tel]').trigger('keyup');
-      $parent.find('input[type=text]').trigger('keyup');
-      $parent.find('input[type=time]').trigger('keyup');
-      $parent.find('input[type=url]').trigger('keyup');
-      $parent.find('input[type=week]').trigger('keyup');
+      // dont use change event because trigger update_checkout event
+      $parent.find('select:first').trigger('wooccm_change');
+      $parent.find('textarea:first').trigger('wooccm_change');
+      $parent.find('input[type=button]:first').trigger('wooccm_change');
+      $parent.find('input[type=radio]:checked:first').trigger('wooccm_change');
+      $parent.find('input[type=checkbox]:checked:first').trigger('wooccm_change');
+      $parent.find('input[type=color]:first').trigger('wooccm_change');
+      $parent.find('input[type=date]:first').trigger('wooccm_change');
+      $parent.find('input[type=datetime-local]:first').trigger('wooccm_change');
+      $parent.find('input[type=email]:first').trigger('wooccm_change');
+      $parent.find('input[type=file]:first').trigger('wooccm_change');
+      $parent.find('input[type=hidden]:first').trigger('wooccm_change');
+      $parent.find('input[type=image]:first').trigger('wooccm_change');
+      $parent.find('input[type=month]:first').trigger('wooccm_change');
+      $parent.find('input[type=number]:first').trigger('wooccm_change');
+      $parent.find('input[type=password]:first').trigger('wooccm_change');
+      $parent.find('input[type=range]:first').trigger('wooccm_change');
+      $parent.find('input[type=reset]:first').trigger('wooccm_change');
+      $parent.find('input[type=search]:first').trigger('wooccm_change');
+      $parent.find('input[type=submit]:first').trigger('wooccm_change');
+      $parent.find('input[type=tel]:first').trigger('wooccm_change');
+      $parent.find('input[type=text]:first').trigger('wooccm_change');
+      $parent.find('input[type=time]:first').trigger('wooccm_change');
+      $parent.find('input[type=url]:first').trigger('wooccm_change');
+      $parent.find('input[type=week]:first').trigger('wooccm_change');
 
     } else {
       $field.show();

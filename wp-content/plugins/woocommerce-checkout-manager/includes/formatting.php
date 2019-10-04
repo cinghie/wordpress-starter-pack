@@ -13,7 +13,7 @@ function wooccm_mul_array( $val, $array ) {
 
 }
 
-function wooccm_mul_array2( $val ) {
+/*function wooccm_mul_array2( $val ) {
 
 	global $wpdb;
 
@@ -57,7 +57,7 @@ function wooccm_does_existw( $array ) {
 		}
 	}
 
-}
+}*/
 
 function wooccm_clean( $string ) {
 
@@ -82,7 +82,7 @@ function wooccm_wpml_string( $input = '' ) {
 
 // Sort Checkout fields based on order
 function wooccm_sort_fields( $a, $b ) {
-
+  
 	if( !isset( $a['order'] ) || !isset( $b['order'] ) )
 		return 0;
 

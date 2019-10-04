@@ -76,6 +76,36 @@
     };
   }
 
+  $(document).on('wooccm-tab-panels', function (e, active) {
+
+    var $modal = $(e.target),
+            $tabs = $modal.find('ul.wc-tabs'),
+            $active = $tabs.find('a[href="' + active + '"]');
+
+    $tabs.show();
+
+    $tabs.find('a').click(function (e) {
+      e.preventDefault();
+
+      var panel_wrap = $(this).closest('div.panel-wrap');
+
+      $tabs.find('li', panel_wrap).removeClass('active');
+
+      $(this).parent().addClass('active');
+
+      $('div.panel', panel_wrap).hide();
+
+      $($(this).attr('href')).show();
+    });
+
+    if ($active.length && $($active.attr('href')).length) {
+      $active.click();
+    } else {
+      $tabs.find('li.active').find('a').click();
+    }
+
+  });
+
   $(document).on('wooccm-enhanced-select', function (e) {
 
     $('.wooccm-enhanced-between-dates').filter(':not(.enhanced)').each(function () {
@@ -127,6 +157,7 @@
             return {
               term: params.term,
               action: $(this).data('action') || 'wooccm_select_search_products',
+              //nonce: wooccm_admin.nonce,              
               security: wc_enhanced_select_params.search_products_nonce,
               selected: $(this).select2('val') || 0,
               exclude: $(this).data('exclude'),
@@ -194,17 +225,19 @@
 
   });
 
-  $(document).on('click', '.wooccm-field-toggle-enabled', function () {
+  $(document).on('click', '.wooccm-field-toggle-attribute', function (e) {
+    e.preventDefault();
 
     var $link = $(this),
             $tr = $link.closest('tr'),
             $toggle = $link.find('.woocommerce-input-toggle');
 
     $.ajax({
-      url: woocommerce_admin.ajax_url,
+      url: wooccm_admin.ajax_url,
       data: {
-        action: 'wooccm_toggle_field_enabled',
-        nonce: wooccm.nonce,
+        action: 'wooccm_toggle_field_attribute',
+        nonce: wooccm_admin.nonce,
+        field_attr: $(this).data('field_attr'),
         field_id: $tr.data('field_id')
       },
       dataType: 'json',
@@ -226,7 +259,40 @@
         //window.location.href = $link.attr('href');
         //}
       }
+
     });
+
     return false;
   });
+
+  $(document).on('change', '.wooccm-field-change-attribute', function (e) {
+    e.preventDefault();
+
+    var $change = $(this),
+            $tr = $change.closest('tr');
+
+    $.ajax({
+      url: wooccm_admin.ajax_url,
+      data: {
+        action: 'wooccm_change_field_attribute',
+        nonce: wooccm_admin.nonce,
+        field_attr: $change.data('field_attr'),
+        field_value: $change.val(),
+        field_id: $tr.data('field_id'),
+      },
+      dataType: 'json',
+      type: 'POST',
+      beforeSend: function (response) {
+        $change.prop('disabled', true);
+      },
+      success: function (response) {
+        console.log(response.data);
+      },
+      complete: function (response) {
+        $change.prop('disabled', false);
+      },
+    });
+    return false;
+  }); 
+
 })(jQuery);

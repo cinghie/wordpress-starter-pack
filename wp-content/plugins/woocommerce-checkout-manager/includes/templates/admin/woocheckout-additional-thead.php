@@ -78,9 +78,9 @@ if ( !defined( 'ABSPATH' ) ) exit;
 <th class="filter_field" style="display:none;" width="5%"><?php _e('Remove Tax' , 'woocommerce-checkout-manager' ); ?></th>
 
 <th class="filter_field" style="display:none;" width="5%"><?php _e('Deny Receipt' , 'woocommerce-checkout-manager' ); ?></th>
-
+<!--
 <th class="filter_field condition_tick hide_stuff_change hide_stuff_time hide_stuff_opcheck hide_stuff_op hide_stuff_color more_toggler1 more_toggler1c add_amount" style="display:none;" width="5%"><?php _e('Add Amount' , 'woocommerce-checkout-manager' ); ?></th>
-
+-->
 <th class="add_amount_field" style="display:none;" width="5%"><?php _e('Amount Name' , 'woocommerce-checkout-manager' ); ?></th>
 
 <th class="add_amount_field" style="display:none;" width="5%"><?php _e('Enter Amount' , 'woocommerce-checkout-manager' ); ?></th>

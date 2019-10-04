@@ -37,21 +37,23 @@
     $(document).on('click', '#wooccm_order_attachment_update', function (e) {
 
       $.ajax({
-        url: wooccm.ajaxurl,
+        url: wooccm_upload.ajaxurl,
         type: 'POST',
         cache: false,
         data: {
           action: 'wooccm_order_attachment_update',
-          nonce: wooccm.nonce,
+          nonce: wooccm_upload.nonce,
           delete_attachments_ids: $('#delete_attachments_ids').val(),
           all_attachments_ids: $('#all_attachments_ids').val()
         },
         beforeSend: function (response) {
-          $('.wccm_results').html(wooccm.message.saving);
+          $('.wccm_results').html(wooccm_upload.message.saving);
         },
         success: function (response) {
           if (response.success) {
-            $('.wccm_results').html(wooccm.message.deleted);
+            $('.wccm_results').html(wooccm_upload.message.deleted);
+
+            $('#wooccm_order_attachment_update').prop('disabled', true);
           } else {
             $('.wccm_results').html(response.data);
           }
@@ -98,11 +100,11 @@
       if (data) {
 
         data.append('action', 'wooccm_order_attachment_upload');
-        data.append('nonce', wooccm.nonce);
+        data.append('nonce', wooccm_upload.nonce);
         data.append('order_id', order_id);
 
         $.ajax({
-          url: wooccm.ajaxurl,
+          url: wooccm_upload.ajaxurl,
           type: 'POST',
           cache: false,
           data: data,
@@ -110,15 +112,16 @@
           contentType: false,
           beforeSend: function (response) {
 
-            $('.wccm_results').html(wooccm.message.uploading);
+            $('.wccm_results').html(wooccm_upload.message.uploading);
 
             block($('#wooccm_order_attachment_inner'));
           },
           success: function (response) {
 
             if (response.success) {
-              $('#wooccm_order_attachment_inner').replaceWith(response.data);
-              $('.wccm_results').html(wooccm.message.success);
+              $('#wooccm_order_attachment_inner').fadeOut();
+              $('#wooccm_order_attachment_inner').replaceWith($(response.data).fadeIn());
+              $('.wccm_results').html(wooccm_upload.message.success);
             } else {
               $('.wccm_results').html(response.data);
             }

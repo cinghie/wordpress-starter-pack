@@ -16,8 +16,6 @@ function wooccm_custom_checkout_process() {
 
   foreach ($buttons as $btn) {
 
-    //error_log(json_encode($btn));
-
     foreach ($woocommerce->cart->cart_contents as $key => $values) {
       $multiproductsx = ( isset($btn['single_p']) ? $btn['single_p'] : '' );
       $show_field_single = ( isset($btn['single_px']) ? $btn['single_px'] : '' );

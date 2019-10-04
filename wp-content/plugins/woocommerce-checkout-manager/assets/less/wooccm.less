@@ -1,15 +1,19 @@
-.wooccm-clearfix {
-  float: none;
-  &:before, 
-    &:after{ 
-    content:''; 
-    display:table; 
-  }
-  &:after{ 
-    clear: both;
-  }
-}
+.woocommerce form .form-row {
 
+  &.wooccm-clearfix {
+    //float: none;
+    //clear:both;
+    &:before, 
+      &:after{ 
+      content:''; 
+      display:table; 
+    }
+    &:after{ 
+      clear: both;
+    }
+  }
+
+}
 
 .button {
   &.fileinput-button {

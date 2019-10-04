@@ -13,9 +13,9 @@
   <tbody>
 
     <?php
-    if ($fields = WOOCCM_Fields::get_billing_fields()) {
-      
-      $billing = WOOCCM_Fields::get_default_address_fields();
+    if ($fields = WOOCCM()->field->billing->get_fields('old')) {
+
+      $defaults = WOOCCM()->field->billing->get_defaults();
 
       foreach ($fields as $i => $field) {
         ?>
@@ -29,7 +29,7 @@
 
           <?php require( WOOCCM_PLUGIN_DIR . 'includes/templates/admin/woocheckout-billing-tbody.php' ); ?>
 
-          <?php if (in_array($field['cow'], $billing)) { ?>
+          <?php if (in_array($field['cow'], $defaults)) { ?>
             <td style="text-align:center;">
               <input name="wccs_settings3[billing_buttons][<?php echo $i; ?>][disabled]" type="checkbox" value="true" <?php if (!empty($field['disabled'])) echo "checked='checked'"; ?> />
             </td>

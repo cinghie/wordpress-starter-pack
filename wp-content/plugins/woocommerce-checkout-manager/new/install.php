@@ -9,7 +9,6 @@ if (!class_exists('WOOCCM_Install')) {
     static function add_field_defaults($field, $key) {
 
       $defaults = array(
-          'enabled' => true,
           'order' => '',
           'cow' => '',
           'type' => '',
@@ -127,7 +126,6 @@ if (!class_exists('WOOCCM_Install')) {
 
     function woocommerce() {
       self::field_defaults();
-      //var_dump(apply_filters('woocommerce_billing_fields', WC()->countries->get_default_address_fields()));
     }
 
     function init() {

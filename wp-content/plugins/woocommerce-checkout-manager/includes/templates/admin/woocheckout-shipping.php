@@ -13,18 +13,9 @@
   <tbody>
 
     <?php
-    if ($fields = WOOCCM_Fields::get_shipping_fields()) {
-      $shipping = array(
-          'country',
-          'first_name',
-          'last_name',
-          'company',
-          'address_1',
-          'address_2',
-          'city',
-          'state',
-          'postcode'
-      );
+    if ($fields = WOOCCM()->field->shipping->get_fields('old')) {
+
+      $defaults = WOOCCM()->field->shipping->get_defaults();
 
       foreach ($fields as $i => $field) {
         ?>
@@ -38,7 +29,7 @@
 
           <?php require(WOOCCM_PLUGIN_DIR . 'includes/templates/admin/woocheckout-shipping-tbody.php'); ?>
 
-          <?php if (in_array($field['cow'], $shipping)) { ?>
+          <?php if (in_array($field['cow'], $defaults)) { ?>
             <td style="text-align:center;">
               <input name="wccs_settings2[shipping_buttons][<?php echo $i; ?>][disabled]" type="checkbox" value="true" <?php if (!empty($field['disabled'])) echo "checked='checked'"; ?> />
             </td>

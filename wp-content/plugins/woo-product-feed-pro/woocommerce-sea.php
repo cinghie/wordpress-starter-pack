@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     6.5.2
+ * Version:     6.5.6
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '6.5.2' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '6.5.6' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -987,8 +987,8 @@ function woosea_product_delete_meta_price( $product = null ) {
 					foreach ($children_ids as &$child_val) {
                              	   		$product_variations = new WC_Product_Variation( $child_val );
                                 		$variations = array_filter($product_variations->get_variation_attributes());
-						$intersect = array_intersect($_GET, $variations);
-
+						$from_url = str_replace("\\","",$_GET,$i);
+						$intersect = array_intersect($from_url, $variations);
 						if($variations == $intersect){
 							$variation_id = $child_val;
 						}

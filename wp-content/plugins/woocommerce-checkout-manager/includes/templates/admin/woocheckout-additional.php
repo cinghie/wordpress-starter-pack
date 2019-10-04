@@ -13,7 +13,8 @@
   <tbody>
 
     <?php
-    if ($fields = WOOCCM_Fields::get_additional_fields()) {
+    if ($fields = WOOCCM()->field->additional->get_fields('old')) {
+            
       foreach ($fields as $i => $field) {
         ?>
 
