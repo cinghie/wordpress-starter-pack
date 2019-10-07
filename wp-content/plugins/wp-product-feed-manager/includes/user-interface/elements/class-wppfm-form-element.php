@@ -4,7 +4,7 @@
  * WPPFM Form Element Class.
  *
  * @package WP Product Feed Manager/User Interface/Classes
- * @since 2.4.0
+ * @since 2.4.2
  * @version 1.0.0
  */
 
@@ -49,24 +49,34 @@ if ( ! class_exists( 'WPPFM_Form_Element' ) ) :
 		 *
 		 * @return string
 		 */
-		public static function data_holder() {
-			$feed_data_to_store  = json_encode( self::ajax_feed_data_to_database_array() );
+		public static function ajax_to_db_conversion_data_holder() {
+			$feed_data_to_store = json_encode( self::ajax_feed_data_to_database_array() );
+			return '<var id="wppfm-ajax-feed-data-to-database-conversion-array" style="display:none;">' . $feed_data_to_store . '</var>';
+		}
 
-			$html_code  = '<var id="wppfm-ajax-feed-data-to-database-conversion-array" style="display:none;">' . $feed_data_to_store . '</var>';
+		/**
+		 * Returns the code that stores the feeds url
+		 *
+		 * @return string with var code containing the feeds url
+		 */
+		public static function feed_url_holder() {
+			$query_class        = new WPPFM_Queries();
+			$feed_file_url      = array_key_exists( 'id', $_GET ) && $_GET['id'] ? $query_class->get_file_url_from_feed( $_GET['id'] ) : '';
 
-			return $html_code;
+			return '<var id="wppfm-feed-url" style="display:none;" >' . $feed_file_url . '</var>';
 		}
 
 		/**
 		 * Returns the code for both Save & Generate and Save buttons.
 		 *
-		 * @param   string  $generate_button_id ID for the Save & Generate button
-		 * @param   string  $save_button_id     ID for the Save button
-		 * @param   string  $initial_display    sets the initial display to any of the display style options (default none)
+		 * @param   string  $generate_button_id     ID for the Save & Generate button
+		 * @param   string  $save_button_id         ID for the Save button
+		 * @param   string  $open_feed_button_id    ID for the Open Feed button
+		 * @param   string  $initial_display        sets the initial display to any of the display style options (default none)
 		 *
 		 * @return string
 		 */
-		public static function feed_generation_buttons( $generate_button_id, $save_button_id, $initial_display = 'none' ) {
+		public static function feed_generation_buttons( $generate_button_id, $save_button_id, $open_feed_button_id, $initial_display = 'none' ) {
 			return '<div class="button-wrapper" id="page-center-buttons" style="display:' . $initial_display . ';">
 				<input class="button-primary" type="button" name="generate-top"
 					value="' . __( 'Save & Generate Feed', 'wp-product-feed-manager' ) .
@@ -74,6 +84,9 @@ if ( ! class_exists( 'WPPFM_Form_Element' ) ) :
 				<input class="button-primary" type="button" name="save-top"
 					value="' . __( 'Save Feed', 'wp-product-feed-manager' ) .
 					'" id="' . $save_button_id . '" disabled/>
+				<input class="button-primary" type="button" name="view-top"
+					value="' . __( 'View Feed', 'wp-product-feed-manager' ) .
+			       '" id="' . $open_feed_button_id . '" disabled/>
 				</div>';
 		}
 

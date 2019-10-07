@@ -4,7 +4,7 @@
  * WP Product Feed Manager Admin Page Class.
  *
  * @package WP Product Feed Manager/User Interface/Classes
- * @version 1.1.0
+ * @version 1.2.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -90,7 +90,7 @@ if ( ! class_exists( 'WPPFM_Admin_Page' ) ) :
 			return
 				'<div class="message-field notice notice-error" id="error-message" style="display:none;"></div>
 			 <div class="message-field notice notice-success" id="success-message" style="display:none;"></div>
-			 <div class="message-field notice notice-warning" id="disposible-warning-message" style="display:' . $display_alert . ';"><p>' . $alert . '</p>
+			 <div class="message-field notice notice-warning" id="disposable-warning-message" style="display:' . $display_alert . ';"><p>' . $alert . '</p>
 			<button type="button" id="disposable-notice-button" class="notice-dismiss"></button>
 			</div>';
 		}

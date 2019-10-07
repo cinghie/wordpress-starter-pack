@@ -4,7 +4,7 @@
  * WP Db Management Class.
  *
  * @package WP Product Feed Manager/Data/Classes
- * @version 1.6.0
+ * @version 1.7.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -146,7 +146,8 @@ if ( ! class_exists( 'WPPFM_Db_Management' ) ) :
 				return false;
 			}
 
-			$files = glob( WPPFM_BACKUP_DIR . '/*.{sql}', GLOB_BRACE );
+			$files = wppfm_list_sql_files( WPPFM_BACKUP_DIR );
+
 			if ( count( $files ) === 0 ) {
 				return false;
 			}

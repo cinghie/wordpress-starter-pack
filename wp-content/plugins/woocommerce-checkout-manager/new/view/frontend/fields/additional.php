@@ -20,50 +20,41 @@ if (!class_exists('WOOCCM_Fields_Additional')) {
       return false;
     }
 
-    function add_checkout_fields_required($fields, $name, $key, $prefix = '') {
+    function add_checkout_additional_required($fields) {
 
-      if ($options = get_option($name)) {
+      if ($fields = WOOCCM()->field->additional->get_fields('old')) {
 
-        if (array_key_exists($key, $options)) {
+        foreach ($fields as $field_id => $field) {
 
-          if ($custom_fields = $options[$key]) {
+          if (!empty($field['cow']) && empty($field['deny_checkout'])) {
 
-            foreach ($custom_fields as $id => $custom_field) {
+            //$key = sprintf("%s_%s", $prefix, $field['cow']);
 
-              $key = sprintf("%s%s", $prefix, $custom_field['cow']);
+            $field = $this->add_checkout_field_filter($fields, $field, 'additional');
 
-              $custom_field = $this->add_checkout_field_filter($key, $custom_fields, $custom_field);
+            if (!empty($field['required']) && !empty($field['cow']) && empty($field['deny_checkout']) && empty($field['disabled'])) {
 
-              if (!empty($custom_field['required']) && !empty($custom_field['cow']) && empty($custom_field['deny_checkout'])) {
-
-                if (empty($_POST[$custom_field['cow']])) {
-                  $message = sprintf(__('%s is a required field.', 'woocommerce-checkout-manager'), '<strong>' . wooccm_wpml_string($custom_field['label']) . '</strong>');
-                  wc_add_notice($message, 'error');
-                }
+              if (empty($_POST[$field['cow']])) {
+                $message = sprintf(__('%s is a required field.', 'woocommerce-checkout-manager'), '<strong>' . wooccm_wpml_string($field['label']) . '</strong>');
+                wc_add_notice($message, 'error');
               }
             }
           }
         }
       }
-
-      return $fields;
-    }
-
-    function add_checkout_additional_required($fields) {
-      return $this->add_checkout_fields_required($fields, 'wccs_settings', 'buttons');
     }
 
     function add_checkout_additional_fields($checkout) {
 
-      if ($options = get_option('wccs_settings')) {
+      if ($fields = WOOCCM()->field->additional->get_fields('old')) {
 
-        if (array_key_exists('buttons', $options)) {
+        foreach ($fields as $field_id => $field) {
 
-          if ($buttons = $options['buttons']) {
+          $field = $this->add_checkout_field_filter($field, $field, 'additional');
 
-            foreach ($buttons as $key => $custom_field) {
-              woocommerce_form_field($custom_field['cow'], $this->add_checkout_field_filter($key, $custom_field, $custom_field, 'additional_'), $checkout->get_value($custom_field['cow']));
-            }
+          if (!empty($field['cow']) && empty($field['deny_checkout']) && empty($field['disabled'])) {
+
+            woocommerce_form_field($field['cow'], $field, $checkout->get_value($field['cow']));
           }
         }
       }

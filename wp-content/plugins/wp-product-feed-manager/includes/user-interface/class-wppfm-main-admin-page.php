@@ -4,7 +4,7 @@
  * WPPFM Main Admin Page Class.
  *
  * @package WP Product Feed Manager/User Interface/Classes
- * @version 1.7.0
+ * @version 1.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

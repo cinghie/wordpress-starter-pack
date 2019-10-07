@@ -68,7 +68,8 @@ function wppfm_on_own_main_plugin_page( $url = null ) {
 		return true;
 	}
 
-	if ( false === stripos( $ref_url, '/wp-admin/admin.php?page=' . WPPFM_PLUGIN_NAME ) && '/wp-admin/admin-ajax.php' !== $ref_url ) {
+	// return true if the url contains the plugin name under the page attribute or if it's an ajax call
+	if ( false === stripos( $ref_url, '/wp-admin/admin.php?page=' . WPPFM_PLUGIN_NAME ) && false === stripos( $ref_url, '/wp-admin/admin-ajax.php' ) ) {
 		return false;
 	} else {
 		return true;

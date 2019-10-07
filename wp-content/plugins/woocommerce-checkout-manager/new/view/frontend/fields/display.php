@@ -10,24 +10,27 @@ if (!class_exists('WOOCCM_Fields_Display')) {
 
       global $current_user;
 
-      $user_roles = $current_user->roles;
+      $user_roles = (array) $current_user->roles;
 
-      $user_role = array_shift($user_roles);
-
-      if (/* !empty($field['user_role']) && */(!empty($field['role_options']) || !empty($field['role_options2']))) {
-
-        $rolekeys = explode('||', $field['role_options']);
-
-        $rolekeys2 = explode('||', $field['role_options2']);
+      if (!empty($field['role_option2'])) {
         
-        //error_log(json_encode($rolekeys));
+        $rolekeys2 = explode('||', $field['role_option2']);
 
-        if (!empty($field['role_options']) && !in_array($user_role, $rolekeys)) {
+        if (array_intersect($user_roles, $rolekeys2)) {
           $field['disabled'] = true;
+        } else {
+          $field['disabled'] = false;
         }
+      }
 
-        if (!empty($field['role_options2']) && in_array($user_role, $rolekeys2)) {
+      if (!empty($field['role_option'])) {
+
+        $rolekeys = explode('||', $field['role_option']);
+
+        if (!array_intersect($user_roles, $rolekeys)) {
           $field['disabled'] = true;
+        } else {
+          $field['disabled'] = false;
         }
       }
 
@@ -66,10 +69,10 @@ if (!class_exists('WOOCCM_Fields_Display')) {
             // show field
             // -----------------------------------------------------------------
             if (!empty($field['single_px_cat'])) {
-              if (array_intersect($product_cats, $show_cats_array)) {
-                $field['disabled'] = false;
-              } else {
+              if (!array_intersect($product_cats, $show_cats_array)) {
                 $field['disabled'] = true;
+              } else {
+                $field['disabled'] = false;
               }
             }
           }
@@ -89,11 +92,10 @@ if (!class_exists('WOOCCM_Fields_Display')) {
             // show field
             // ---------------------------------------------------------------
             if (!empty($field['single_px_cat'])) {
-              if (array_intersect($product_cats, $show_cats_array)) {
-                $field['disabled'] = false;
-              } else {
-                //error_log('disabled 4');
+              if (!array_intersect($product_cats, $show_cats_array)) {
                 $field['disabled'] = true;
+              } else {
+                $field['disabled'] = false;
               }
             }
           }
@@ -122,6 +124,7 @@ if (!class_exists('WOOCCM_Fields_Display')) {
             // -----------------------------------------------------------------
             if (!empty($field['single_p'])) {
               if (array_intersect($product_ids, $hide_ids_array)) {
+                //error_log('more_content:empty, hide on, hidden');
                 $field['disabled'] = true;
               }
             }
@@ -129,10 +132,12 @@ if (!class_exists('WOOCCM_Fields_Display')) {
             // show field
             // -----------------------------------------------------------------
             if (!empty($field['single_px'])) {
-              if (array_intersect($product_ids, $show_ids_array)) {
-                $field['disabled'] = false;
-              } else {
+              if (!array_intersect($product_ids, $show_ids_array)) {
+                //error_log('more_content:empty, show on, hidden');
                 $field['disabled'] = true;
+              } else {
+                //error_log('more_content:empty, show on, show');
+                $field['disabled'] = false;
               }
             }
           }
@@ -145,6 +150,7 @@ if (!class_exists('WOOCCM_Fields_Display')) {
             // -------------------------------------------------------------
             if (!empty($field['single_p'])) {
               if (array_intersect($product_ids, $hide_ids_array)) {
+                //error_log('more_content:true, hide on, hidden');
                 $field['disabled'] = true;
               }
             }
@@ -152,11 +158,12 @@ if (!class_exists('WOOCCM_Fields_Display')) {
             // show field
             // ---------------------------------------------------------------
             if (!empty($field['single_px'])) {
-              if (array_intersect($product_ids, $show_ids_array)) {
-                $field['disabled'] = false;
-              } else {
-                //error_log('disabled 4');
+              if (!array_intersect($product_ids, $show_ids_array)) {
+                //error_log('more_content:true, show on, hidden');
                 $field['disabled'] = true;
+              } else {
+                //error_log('more_content:true, show on, show');
+                $field['disabled'] = false;
               }
             }
           }
@@ -170,10 +177,8 @@ if (!class_exists('WOOCCM_Fields_Display')) {
 
       // Remove by product
       add_filter('wooccm_checkout_field_filter', array($this, 'disable_by_product'), 10, 2);
-
       // Remove by category
       add_filter('wooccm_checkout_field_filter', array($this, 'disable_by_category'), 10, 2);
-
       // Remove by role
       add_filter('wooccm_checkout_field_filter', array($this, 'disable_by_role'), 10, 2);
     }

@@ -5,7 +5,7 @@ Tags: Google Merchant Export, Product feed, woocommerce, Google product feed exp
 Requires at least: 4.6
 Tested up to: 5.2
 Requires PHP: 5.6
-Stable tag: 1.15.0
+Stable tag: 1.16.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,13 @@ In case it does please do submit your feed in your Google Merchant center and ch
 3. Save and generate your feed
 
 == Changelog ==
+= 1.16.0 - 04/10/2019 =
+* Added a View Feed button to the Edit Feed page
+* Removed the use of the glob function
+* Added a filter that removes any link from a products description and short description. This filter can be bypassed by using the wppfm_leave_links_in_descriptions filter
+* Tested with WooCommerce version 3.7
+* Pushed the Add New Feed button on top of the page footer so it does not get blocked by the footer anymore
+
 = 1.15.0 - 09/08/2019 =
 * Improved the stability of the background mode.
 * Improved a check that should prevent forbidden characters in a feed name.

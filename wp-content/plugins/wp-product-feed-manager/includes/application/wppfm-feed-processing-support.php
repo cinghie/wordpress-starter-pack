@@ -2,7 +2,7 @@
 
 /**
  * @package WP Product Feed Manager/Application/Functions
- * @version 1.1.1
+ * @version 1.2.0
  */
 
 trait WPPFM_Processing_Support {
@@ -364,6 +364,26 @@ trait WPPFM_Processing_Support {
 		}
 
 		return $end_row_value;
+	}
+
+	/**
+	 * Removes links from a the post content and post excerpts in a product data array.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param $product_data array
+	 */
+	protected function remove_links_from_product_data_description( &$product_data ) {
+		$pattern     = '#<a.*?>(.*?)</a>#i'; // link pattern
+		$replacement = '\1';
+
+		if ( array_key_exists( 'post_content', $product_data ) ) {
+			$product_data['post_content'] = preg_replace( $pattern, $replacement, $product_data['post_content'] );
+		}
+
+		if ( array_key_exists( 'post_excerpt', $product_data ) ) {
+			$product_data['post_excerpt'] = preg_replace( $pattern, $replacement, $product_data['post_excerpt'] );
+		}
 	}
 
 	protected function get_filter_status( $filter, $product_data ) {
@@ -1281,7 +1301,7 @@ trait WPPFM_Processing_Support {
 		$woocommerce_product_parent = $woocommerce_product && ( $woocommerce_product->is_type( 'variable' ) ||
 			$woocommerce_product->is_type( 'variation' ) ) ? wc_get_product( $woocommerce_parent_id ) : null;
 
-		if ( false === $woocommerce_product_parent ) {
+		if ( false === $woocommerce_product_parent || null === $woocommerce_product_parent ) {
 			// this product has no parent id so it is possible this is the main of a variable product
 			// So to make sure the general variation data like min_variation_price are available, copy the product
 			// in the parent product
@@ -1387,16 +1407,16 @@ trait WPPFM_Processing_Support {
 					$product->item_group_id = '';
 				}
 			}
-		} elseif ( $woocommerce_product_parent ) {
-			$msg = sprintf(
-				'Product %s is identified as a variation or variable product but the variation functions are not available. The product shows as a type %s.',
-				$product->ID,
-				function_exists( 'get_product_type' ) ? get_product_type( $product->ID ) : 'unknown'
-			);
-			do_action( 'wppfm_feed_generation_warning', $feed_id, $msg ); // @since 2.3.0
 		} else {
-			$msg = sprintf( 'Product type of product %s could not be identified.', $product->ID );
-			do_action( 'wppfm_feed_generation_warning', $feed_id, $msg ); // @since 2.3.0
+			if ( ! $woocommerce_product_parent->is_type( 'simple' ) && ! $woocommerce_product_parent->is_type( 'grouped' )
+				&& ! $woocommerce_product_parent->is_type( 'virtual' ) && ! $woocommerce_product_parent->is_type( 'downloadable' ) ) {
+				$msg = sprintf(
+					'Product type of product %s could not be identified. The products shows as type %s',
+					$product->ID,
+					function_exists( 'get_product_type' ) ? get_product_type( $product->ID ) : 'unknown'
+				);
+				do_action( 'wppfm_feed_generation_warning', $feed_id, $msg ); // @since 2.3.0
+			}
 		}
 
 		// @since 2.1.4

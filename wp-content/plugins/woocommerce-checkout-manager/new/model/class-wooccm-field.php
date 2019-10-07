@@ -2,13 +2,9 @@
 
 class WOOCCM_Field {
 
-  const PREFIX = '';
-  const OPTION_NAME = '';
-
-  function __construct() {
-    $this->prefix = static::PREFIX;
-    $this->option_name = static::OPTION_NAME;
-  }
+  protected $prefix = '';
+  protected $option_name = '';
+  protected $defaults = array();
 
   protected function order_fields($a, $b) {
 
@@ -140,6 +136,10 @@ class WOOCCM_Field {
         'sortable' => null,
         'filterable' => null,
     );
+  }
+
+  public function get_defaults() {
+    return $this->defaults;
   }
 
 }

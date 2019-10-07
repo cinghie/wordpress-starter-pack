@@ -508,6 +508,8 @@ function wppfm_handleSaveFeedToDbActionResult( dbResult, newFeed ) {
 function wppfm_handleUpdateFeedFileActionResult( xmlResult ) {
 	var errorMessageElement = jQuery( '#error-message' );
 
+	wppfm_disableViewFeedButtons();
+
 	switch ( xmlResult ) {
 		case 'started_processing':
 			errorMessageElement.hide();
@@ -575,6 +577,8 @@ function wppfm_alert_update_finished( feedId, repeatTime ) {
 			var status = JSON.parse( result );
 
 			console.log( 'Feed status changed to status ' + status[ 'status_id' ] );
+
+			wppfm_enableFeedActionButtons();
 
 			switch ( status[ 'status_id' ] ) {
 				case '0': // unknown
@@ -1079,7 +1083,7 @@ function wppfm_fieldRow( attributeData, removable ) {
 	}
 
 	// row wrapper
-	var htmlCode = '<div class="field-table-row-wrapper" id="row-' + rowId + '">';
+	var htmlCode = '<div class="field-table-row-wrapper wppfm-attribute-' + sourceRowsData.fieldName + '-row" id="row-' + rowId + '">';
 
 	for ( var i = 0; i < nrOfSources; i ++ ) {
 		htmlCode += wppfm_addFeedSourceRow( rowId, i, sourceRowsData, _feedHolder.channel, removable );

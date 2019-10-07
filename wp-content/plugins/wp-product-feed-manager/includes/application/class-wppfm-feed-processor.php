@@ -4,7 +4,7 @@
  * WP Product Feed Controller Class.
  *
  * @package WP Product Feed Manager/Application/Classes
- * @version 1.2.0
+ * @version 1.3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -202,13 +202,25 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 			$product_parent_id         = $product_id;
 			$product_data              = (array) $this->get_products_main_data( $product_id, $wc_product->get_parent_id(), $post_columns_query_string );
 
+			/**
+			 * Users can use the wppfm_leave_links_in_descriptions filter if they want to keep links in the product descriptions by changing the
+			 * filter output to true. They can also target specific feeds.
+			 *
+			 * @since 2.6.0
+			 */
+			if ( ! apply_filters( 'wppfm_leave_links_in_descriptions', false, $this->_feed_data->feedId ) ) {
+				$this->remove_links_from_product_data_description( $product_data );
+			}
+
 			if ( ( $wc_product instanceof WC_Product_Variation && $this->_pre_data['include_vars'] )
 				|| ( $wc_product instanceof WC_Product_Variable ) && $this->_pre_data['include_vars'] ) {
 
 				$product_parent_id = $wc_product->get_parent_id();
 
 				// add parent data when this item is not available in the variation
-				$class_data->add_parent_data( $product_data, $product_parent_id, $post_columns_query_string );
+				if ( $post_columns_query_string ) {
+					$class_data->add_parent_data( $product_data, $product_parent_id, $post_columns_query_string );
+				}
 
 				$wpmr_variation_data = $class_data->get_own_variation_data( $product_id );
 

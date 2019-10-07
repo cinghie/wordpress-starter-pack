@@ -4,10 +4,9 @@ if (!class_exists('WOOCCM_Field_Shipping')) {
 
   class WOOCCM_Field_Shipping extends WOOCCM_Field_Compatibility {
 
-    const PREFIX = 'shipping';
-    const OPTION_NAME = 'wccs_settings2';
-
-    public $default = array(
+    protected $prefix = 'shipping';
+    protected $option_name = 'wccs_settings2';
+    protected $defaults = array(
         'country',
         'first_name',
         'last_name',
@@ -19,9 +18,6 @@ if (!class_exists('WOOCCM_Field_Shipping')) {
         'postcode',
     );
 
-    public function get_defaults() {
-      return $this->default;
-    }
-
   }
+
 }

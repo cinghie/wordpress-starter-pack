@@ -139,6 +139,20 @@ jQuery( document ).ready(
 			}
 		);
 
+		$( '#wppfm-view-feed-button-top' ).on(
+			'click',
+			function() {
+				wppfm_viewFeed( $( '#wppfm-feed-url' ).text() );
+			}
+		);
+
+		$( '#wppfm-view-feed-button-bottom' ).on(
+			'click',
+			function() {
+				wppfm_viewFeed( $( '#wppfm-feed-url' ).text() );
+			}
+		);
+
 		$( '#wppfm-save-feed-button-bottom' ).on(
 			'click',
 			function() {

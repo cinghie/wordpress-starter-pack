@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Product Feed Manager\n"
-"POT-Creation-Date: 2019-08-10 14:20+0200\n"
-"PO-Revision-Date: 2019-08-10 14:20+0200\n"
+"POT-Creation-Date: 2019-10-04 13:32+0200\n"
+"PO-Revision-Date: 2019-10-04 13:38+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: nl_NL\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2.3\n"
+"X-Generator: Poedit 2.2.4\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: wp-product-feed-manager.php\n"
@@ -21,12 +21,17 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: includes/application/class-feed-master.php:118
-msgid "1428 - Failed to load the feed data"
-msgstr "1428 - Het datafeed bestand kon niet geladen worden"
+#: includes/application/class-feed-master.php:120
+msgid ""
+"1428 - Failed to load the feed data, please to generate a feed in the "
+"foreground mode (see Settings page) and then try the background mode again."
+msgstr ""
+"1428 - Fout bij het laden van de feed data. Schakel de achtergrondverwerking "
+"uit (Instellingen), probeer het nog een keer en schakel daarna de "
+"achtergrondverwerking weer aan."
 
 #. translators: %s: Folder where the feeds are stored
-#: includes/application/class-feed-master.php:219
+#: includes/application/class-feed-master.php:221
 #, php-format
 msgid ""
 "1430 - %s is not a writable folder. Make sure you have admin rights to this "
@@ -35,13 +40,13 @@ msgstr ""
 "1430 - De %s map is niet schrijfbaar. Zorg dat u administrator rechten heeft "
 "voor deze map."
 
-#: includes/application/class-feed-master.php:535
+#: includes/application/class-feed-master.php:537
 #: includes/user-interface/class-wppfm-i18n-scripts.php:85
 msgid "Fill with a static value"
 msgstr "Vul met een statische waarde"
 
-#: includes/application/class-feed-master.php:536
-#: includes/application/class-feed-master.php:541
+#: includes/application/class-feed-master.php:538
+#: includes/application/class-feed-master.php:543
 msgid "Use the settings in the Merchant Center"
 msgstr "Gebruik de instellingen uit het Merchant Center"
 
@@ -84,13 +89,13 @@ msgstr ""
 #. translators: %s: Title of the feed file
 #. translators: %s: Selected backup file
 #: includes/data/class-wppfm-ajax-file.php:113
-#: includes/data/class-wppfm-db-management.php:262
+#: includes/data/class-wppfm-db-management.php:263
 #, php-format
 msgid "Could not find file %s."
 msgstr "Bestand %s niet gevonden."
 
 #: includes/data/class-wppfm-ajax-file.php:115
-#: includes/data/class-wppfm-db-management.php:264
+#: includes/data/class-wppfm-db-management.php:265
 msgid ""
 "Error deleting the feed. You do not have the correct authorities to delete "
 "the file."
@@ -171,7 +176,7 @@ msgstr ""
 "Er bestaat al een back-upbestand met de geselecteerde naam. Kies een andere "
 "naam of verwijder eerst het bestaande bestand."
 
-#: includes/data/class-wppfm-db-management.php:198
+#: includes/data/class-wppfm-db-management.php:199
 msgid ""
 "The backup file is of an older version of the database and can not be "
 "restored as it is not compatible with the current database."
@@ -179,12 +184,12 @@ msgstr ""
 "Het back-upbestand is van een oudere versie van de database en kan niet "
 "worden teruggezet omdat het niet compatibel is met de huidige database."
 
-#: includes/data/class-wppfm-db-management.php:245
+#: includes/data/class-wppfm-db-management.php:246
 msgid "A backup file with the selected name does not exists."
 msgstr "Er bestaat geen back-upbestand met de geselecteerde naam."
 
 #. translators: %s: selected backup file name
-#: includes/data/class-wppfm-db-management.php:284
+#: includes/data/class-wppfm-db-management.php:285
 #, php-format
 msgid "Failed to make a copy of %s"
 msgstr "Een kopie maken van %s is mislukt"
@@ -310,7 +315,7 @@ msgstr "Algemene Voorwaarden"
 msgid "Documentation"
 msgstr "Documentatie"
 
-#: includes/user-interface/class-wppfm-admin-page.php:101
+#: includes/user-interface/class-wppfm-admin-page.php:100
 msgid ""
 "Your key seems to be expired. If you are sure you have a valid key, please "
 "open a ticket at wpmarketingrobot.com/support/"
@@ -318,20 +323,20 @@ msgstr ""
 "Uw sleutel lijkt te zijn verstreken. Als u zeker weet dat u een geldige "
 "sleutel heeft, open dan een ticket op wpmarketingrobot.com/support/"
 
-#: includes/user-interface/class-wppfm-admin-page.php:103
+#: includes/user-interface/class-wppfm-admin-page.php:102
 msgid "Plugin License Options"
 msgstr "Plugin licentie opties"
 
-#: includes/user-interface/class-wppfm-admin-page.php:109
+#: includes/user-interface/class-wppfm-admin-page.php:108
 msgid "License Key"
 msgstr "Licentiesleutel"
 
-#: includes/user-interface/class-wppfm-admin-page.php:117
+#: includes/user-interface/class-wppfm-admin-page.php:116
 msgid "I accept your Terms and Conditions"
 msgstr "Ik accepteer de algemene voorwaarden"
 
-#: includes/user-interface/class-wppfm-admin-page.php:121
-#: includes/user-interface/class-wppfm-admin-page.php:125
+#: includes/user-interface/class-wppfm-admin-page.php:120
+#: includes/user-interface/class-wppfm-admin-page.php:124
 msgid "Activate License"
 msgstr "Activeer Licentie"
 
@@ -660,7 +665,7 @@ msgstr ""
 "toevoegt."
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:113
-#: includes/user-interface/class-wppfm-list-table.php:104
+#: includes/user-interface/class-wppfm-list-table.php:105
 msgid "Processing the feed, please wait..."
 msgstr "Even geduld aub..."
 
@@ -669,7 +674,7 @@ msgid "Processing failed, please try again"
 msgstr "Verwerking mislukt, probeer het opnieuw"
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:115
-#: includes/user-interface/class-wppfm-list-table.php:152
+#: includes/user-interface/class-wppfm-list-table.php:154
 msgid "In processing queue"
 msgstr "In wachtrij voor verwerking"
 
@@ -678,23 +683,23 @@ msgid "No data found"
 msgstr "Geen gegevens gevonden"
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:117
-#: includes/user-interface/class-wppfm-list-table.php:181
+#: includes/user-interface/class-wppfm-list-table.php:183
 msgid "Auto-off"
 msgstr "Auto-uit"
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:118
-#: includes/user-interface/class-wppfm-list-table.php:181
+#: includes/user-interface/class-wppfm-list-table.php:183
 msgid "Auto-on"
 msgstr "Auto-aan"
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:119
-#: includes/user-interface/class-wppfm-list-table.php:184
-#: includes/user-interface/class-wppfm-list-table.php:214
+#: includes/user-interface/class-wppfm-list-table.php:187
+#: includes/user-interface/class-wppfm-list-table.php:218
 msgid "Edit"
 msgstr "Bewerk"
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:120
-#: includes/user-interface/class-wppfm-list-table.php:185
+#: includes/user-interface/class-wppfm-list-table.php:188
 msgid "View"
 msgstr "Bekijk"
 
@@ -703,34 +708,34 @@ msgid "Other"
 msgstr "Andere"
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:122
-#: includes/user-interface/class-wppfm-list-table.php:106
-#: includes/user-interface/class-wppfm-list-table.php:161
+#: includes/user-interface/class-wppfm-list-table.php:107
+#: includes/user-interface/class-wppfm-list-table.php:163
 msgid "Unknown"
 msgstr "Onbekend"
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:123
-#: includes/user-interface/class-wppfm-list-table.php:146
+#: includes/user-interface/class-wppfm-list-table.php:148
 msgid "Ready (manual)"
 msgstr "Gereed (handmatig)"
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:124
-#: includes/user-interface/class-wppfm-list-table.php:149
+#: includes/user-interface/class-wppfm-list-table.php:151
 msgid "Processing"
 msgstr "In behandeling"
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:125
-#: includes/user-interface/class-wppfm-list-table.php:155
+#: includes/user-interface/class-wppfm-list-table.php:157
 msgid "Has errors"
 msgstr "Bevat fouten"
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:126
-#: includes/user-interface/class-wppfm-list-table.php:158
+#: includes/user-interface/class-wppfm-list-table.php:160
 msgid "Failed processing"
 msgstr "Fout in de verwerking"
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:127
 #: includes/user-interface/class-wppfm-i18n-scripts.php:231
-#: includes/user-interface/class-wppfm-list-table.php:143
+#: includes/user-interface/class-wppfm-list-table.php:145
 msgid "Ready (auto)"
 msgstr "Gereed (automatisch)"
 
@@ -849,19 +854,19 @@ msgstr ""
 "opgenomen in de datafeed"
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:228
-#: includes/user-interface/class-wppfm-list-table.php:188
+#: includes/user-interface/class-wppfm-list-table.php:191
 msgid "Duplicate"
 msgstr "Dupliceer"
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:229
-#: includes/user-interface/class-wppfm-list-table.php:189
-#: includes/user-interface/class-wppfm-list-table.php:216
+#: includes/user-interface/class-wppfm-list-table.php:192
+#: includes/user-interface/class-wppfm-list-table.php:220
 msgid "Regenerate"
 msgstr "Regenereren"
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:230
-#: includes/user-interface/class-wppfm-list-table.php:186
-#: includes/user-interface/class-wppfm-list-table.php:215
+#: includes/user-interface/class-wppfm-list-table.php:189
+#: includes/user-interface/class-wppfm-list-table.php:219
 msgid "Delete"
 msgstr "Verwijder"
 
@@ -1156,15 +1161,19 @@ msgstr "Beschrijving"
 msgid "Shop Category"
 msgstr "Winkel Categorie"
 
-#: includes/user-interface/elements/class-wppfm-form-element.php:72
+#: includes/user-interface/elements/class-wppfm-form-element.php:82
 msgid "Save & Generate Feed"
 msgstr "Bewaar & Genereer Datafeed"
 
-#: includes/user-interface/elements/class-wppfm-form-element.php:75
+#: includes/user-interface/elements/class-wppfm-form-element.php:85
 msgid "Save Feed"
 msgstr "Datafeed Opslaan"
 
 #: includes/user-interface/elements/class-wppfm-form-element.php:88
+msgid "View Feed"
+msgstr "Feed bekijken"
+
+#: includes/user-interface/elements/class-wppfm-form-element.php:101
 msgid "Open Feed List"
 msgstr "Lijst met datafeeds openen"
 
@@ -1260,7 +1269,7 @@ msgstr ""
 "verwijder uw oude back-ups en maak een nieuwe."
 
 #. translators: %s: link to the support page
-#: includes/user-interface/wppfm-admin-menu-functions.php:385
+#: includes/user-interface/wppfm-admin-menu-functions.php:392
 #, php-format
 msgid ""
 "2121 - Activating your license failed. Please open a support ticket at %s "
@@ -1269,7 +1278,7 @@ msgstr ""
 "2121-Het activeren van uw licentie is mislukt. Open een support ticket op %s "
 "voor ondersteuning op dit punt."
 
-#: includes/user-interface/wppfm-admin-menu-functions.php:404
+#: includes/user-interface/wppfm-admin-menu-functions.php:411
 #, php-format
 msgid ""
 "An error has occured. It is possible that the wpmarketingrobot website is "
@@ -1284,7 +1293,7 @@ msgstr ""
 "deze fout blijft bestaan, neem dan contact op met auke@wpmarketingrobot.com. "
 "Foutbericht: %s"
 
-#: includes/user-interface/wppfm-admin-menu-functions.php:454
+#: includes/user-interface/wppfm-admin-menu-functions.php:461
 #, php-format
 msgid ""
 "You have an invalid or expired license key for your %1$s plugin. \n"
@@ -1300,7 +1309,7 @@ msgstr ""
 "uw licenties te beheren</a> en uw datafeeds actueel te houden."
 
 #. translators: 1: Name of the plugin, 2: url to the wpmarketingrobot store, 3: license key
-#: includes/user-interface/wppfm-admin-menu-functions.php:468
+#: includes/user-interface/wppfm-admin-menu-functions.php:475
 #, php-format
 msgid ""
 "The license key for your %1$s plugin is expiring soon. \n"
@@ -1317,7 +1326,7 @@ msgstr ""
 "om uw licentiecode direct te verlengen zodat u er zeker van zijn dat uw "
 "datafeeds blijven werken."
 
-#: includes/user-interface/wppfm-admin-menu-functions.php:526
+#: includes/user-interface/wppfm-admin-menu-functions.php:536
 #, php-format
 msgid ""
 "2122 - Checking your license failed. Please open a support ticket at %s for "
@@ -1398,6 +1407,9 @@ msgstr ""
 #. Author of the plugin/theme
 msgid "Michel Jongbloed"
 msgstr "Michel Jongbloed"
+
+#~ msgid "1428 - Failed to load the feed data"
+#~ msgstr "1428 - Het datafeed bestand kon niet geladen worden"
 
 #~ msgid "Like Our Plugin? We'd Love Your Feedback"
 #~ msgstr "Bevalt Onze Plugin? We Horen Graag Uw Feedback"

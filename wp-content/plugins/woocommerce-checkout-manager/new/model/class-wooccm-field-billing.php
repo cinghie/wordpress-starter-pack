@@ -4,10 +4,9 @@ if (!class_exists('WOOCCM_Field_Billing')) {
 
   class WOOCCM_Field_Billing extends WOOCCM_Field_Compatibility {
 
-    const PREFIX = 'billing';
-    const OPTION_NAME = 'wccs_settings3';
-
-    public $default = array(
+    protected $prefix = 'billing';
+    protected $option_name = 'wccs_settings3';
+    protected $defaults = array(
         'country',
         'first_name',
         'last_name',
@@ -21,9 +20,6 @@ if (!class_exists('WOOCCM_Field_Billing')) {
         'phone'
     );
 
-    public function get_defaults() {
-      return $this->default;
-    }
-
   }
+
 }

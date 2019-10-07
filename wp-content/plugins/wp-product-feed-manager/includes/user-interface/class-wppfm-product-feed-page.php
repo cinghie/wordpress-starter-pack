@@ -4,7 +4,7 @@
  * WP Product Feed Manager Add Feed Page Class.
  *
  * @package WP Product Feed Manager/User Interface/Classes
- * @version 3.1.0
+ * @version 3.1.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -75,7 +75,10 @@ if ( ! class_exists( 'WPPFM_Product_Feed_Page' ) ) :
 		}
 
 		private function product_feed_page_data_holder() {
-			return WPPFM_Form_Element::data_holder();
+			$feed_data_holder  = WPPFM_Form_Element::ajax_to_db_conversion_data_holder();
+			$feed_data_holder .= WPPFM_Form_Element::feed_url_holder();
+
+			return $feed_data_holder;
 		}
 
 		/**
@@ -108,7 +111,7 @@ if ( ! class_exists( 'WPPFM_Product_Feed_Page' ) ) :
 		 * @return string
 		 */
 		private function feed_top_buttons() {
-			return WPPFM_Form_Element::feed_generation_buttons( 'wppfm-generate-feed-button-top', 'wppfm-save-feed-button-top' );
+			return WPPFM_Form_Element::feed_generation_buttons( 'wppfm-generate-feed-button-top', 'wppfm-save-feed-button-top', 'wppfm-view-feed-button-top' );
 		}
 
 		/**
@@ -117,7 +120,7 @@ if ( ! class_exists( 'WPPFM_Product_Feed_Page' ) ) :
 		 * @return string
 		 */
 		private function feed_bottom_buttons() {
-			return WPPFM_Form_Element::feed_generation_buttons( 'wppfm-generate-feed-button-bottom', 'wppfm-save-feed-button-bottom' );
+			return WPPFM_Form_Element::feed_generation_buttons( 'wppfm-generate-feed-button-bottom', 'wppfm-save-feed-button-bottom', 'wppfm-view-feed-button-bottom' );
 		}
 
 		/**

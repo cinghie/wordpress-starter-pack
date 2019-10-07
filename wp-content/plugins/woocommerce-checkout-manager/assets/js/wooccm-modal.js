@@ -36,7 +36,11 @@
       'click .media-modal-prev': 'edit',
       'click .media-modal-next': 'edit',
       //'click .media-modal-tab': 'tab',
-      'change .media-modal-change': 'change',
+      'change input': 'change',
+      'change textarea': 'change',
+      'change select': 'change',
+      //render before change and update model
+      'change .media-modal-change': 'render',
       'submit .media-modal-form': 'save',
     },
     templates: {},
@@ -94,7 +98,7 @@
         },
         success: function (response) {
           if (response.success) {
-            console.log(response.data);
+            //console.log(response.data);
             //console.log(this.model.attributes);
             modal.model.set(response.data);
             modal.render();
@@ -170,10 +174,16 @@
               name = $field.attr('name'),
               value = $field.val();
 
+      if (e.target.type === 'checkbox') {
+        value = $field.prop('checked') === true ? 1 : 0;
+      }
+
+      //alert(value);
+
       this.model.attributes[name] = value;
       this.model.changed[name] = value;
 
-      this.render();
+      //this.render();
     },
     close: function (e) {
       e.preventDefault();
@@ -186,17 +196,21 @@
       e.preventDefault();
 
       var modal = this,
-              $form = $(e.target),
+              //$form = $(e.target),
               $modal = modal.$el.find('#wooccm_modal'),
               $details = $modal.find('.attachment-details');
+
+      //console.log($form.serializeArrayAll());
+      //console.log($form.serialize());
+      //console.log(modal.model.attributes);
 
       $.ajax({
         url: wooccm_admin.ajax_url,
         data: {
           action: 'wooccm_save_field',
           nonce: wooccm_admin.nonce,
-          field_id: this.model.attributes.id,
-          field_data: $form.serializeArrayAll()
+          field_id: modal.model.attributes.id,
+          field_data: modal.model.attributes//$form.serializeArrayAll()
         },
         dataType: 'json',
         type: 'POST',
@@ -214,13 +228,16 @@
         },
         success: function (response) {
           if (response.success) {
+            //console.log(response.data);
 
             if (response.data.id != modal.model.attributes.id) {
               location.reload();
-              //modal.model.set(response.data);
-              //modal.render();
-              //$('table.form-table').trigger('wooccm-panel-reload');
+              return;
             }
+
+            //re-render dont load select2 saved options
+            //modal.model.set(response.data);
+            //modal.render();
 
           } else {
             alert(response.data);

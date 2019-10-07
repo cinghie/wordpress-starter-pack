@@ -24,7 +24,7 @@ if ( ! class_exists( 'WPPFM_Attribute_Selector_Element' ) ) :
 		public static function required_fields() {
 			return '<div id="required-fields" style="display:initial;">
 				<legend class="field-level">
-				<h4>' . __( 'Required attributes', 'wp-product-feed-manager' ) . ':</h4>
+				<h4 id="wppfm-required-attributes-header">' . __( 'Required attributes', 'wp-product-feed-manager' ) . ':</h4>
 				</legend>'
 				. self::field_form_table_titles() .
 				'<div class="field-table" id="required-field-table"></div>
@@ -39,7 +39,7 @@ if ( ! class_exists( 'WPPFM_Attribute_Selector_Element' ) ) :
 		public static function highly_recommended_fields() {
 			return '<div id="highly-recommended-fields" style="display:none;">
 				<legend class="field-level">
-				<h4>' . __( 'Highly recommended attributes', 'wp-product-feed-manager' ) . ':</h4>
+				<h4 id="wppfm-highly-recommended-attributes-header">' . __( 'Highly recommended attributes', 'wp-product-feed-manager' ) . ':</h4>
 				</legend>'
 				. self::field_form_table_titles() .
 				'<div class="field-table" id="highly-recommended-field-table"></div>
@@ -54,7 +54,7 @@ if ( ! class_exists( 'WPPFM_Attribute_Selector_Element' ) ) :
 		public static function recommended_fields() {
 			return '<div id="recommended-fields" style="display:none;">
 				<legend class="field-level">
-				<h4>' . __( 'Recommended attributes', 'wp-product-feed-manager' ) . ':</h4>
+				<h4 id="wppfm-recommended-attributes-header">' . __( 'Recommended attributes', 'wp-product-feed-manager' ) . ':</h4>
 				</legend>'
 				. self::field_form_table_titles() .
 				'<div class="field-table" id="recommended-field-table"></div>
@@ -69,7 +69,7 @@ if ( ! class_exists( 'WPPFM_Attribute_Selector_Element' ) ) :
 		public static function optional_fields() {
 			return '<div id="optional-fields" style="display:initial;">
 				<legend class="field-level">
-				<h4>' . __( 'Optional attributes', 'wp-product-feed-manager' ) . ':</h4>
+				<h4 id="wppfm-optional-attributes-header">' . __( 'Optional attributes', 'wp-product-feed-manager' ) . ':</h4>
 				</legend>'
 				. self::field_form_table_titles() .
 				'<div class="field-table" id="optional-field-table"></div>
@@ -84,7 +84,7 @@ if ( ! class_exists( 'WPPFM_Attribute_Selector_Element' ) ) :
 		public static function custom_fields() {
 			return '<div id="custom-fields" style="display:initial;">
 				<legend class="field-level">
-				<h4>' . __( 'Custom attributes', 'wp-product-feed-manager' ) . ':</h4>
+				<h4 id="wppfm-custom-attributes-header">' . __( 'Custom attributes', 'wp-product-feed-manager' ) . ':</h4>
 				</legend>'
 				. self::field_form_table_titles() .
 				'<div class="field-table" id="custom-field-table"></div>

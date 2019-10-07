@@ -417,11 +417,16 @@ a.wppfm-btn-small {
 }
 
 div#footer-wrapper {
-	bottom: 11px;
+	bottom: 20px;
 	margin-top: 20px;
 	position: fixed;
 	text-align: center;
 	width: 100%;
+}
+
+input.feed-list-lower-button {
+	position: relative;
+	z-index: 9998!important;
 }
 
 div.select-control {

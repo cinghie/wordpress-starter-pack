@@ -148,7 +148,7 @@ class WOOCCM_Field_Controller {
 
       $field_id = wc_clean(wp_unslash($_REQUEST['field_id']));
 
-      if ($field = self::get_modal_field($field_id)) {
+      if ($field = $this->get_modal_field($field_id)) {
         wp_send_json_success($field);
       }
 
@@ -351,11 +351,12 @@ class WOOCCM_Field_Controller {
     include_once( WOOCCM_PLUGIN_DIR . 'new/view/frontend/fields/register.php' );
     include_once( WOOCCM_PLUGIN_DIR . 'new/view/frontend/fields/additional.php' );
     include_once( WOOCCM_PLUGIN_DIR . 'new/view/frontend/fields/display.php' );
+    //include_once( WOOCCM_PLUGIN_DIR . 'includes/templates/functions/additional_display.php' );
     include_once( WOOCCM_PLUGIN_DIR . 'new/view/frontend/fields/conditional.php' );
     include_once( WOOCCM_PLUGIN_DIR . 'new/view/frontend/fields/handler.php' );
     include_once( WOOCCM_PLUGIN_DIR . 'new/view/frontend/fields/filters.php' );
 
-//$this->field = new WOOCCM_Field();
+    //$this->field = new WOOCCM_Field();
     $this->billing = new WOOCCM_Field_Billing();
     $this->shipping = new WOOCCM_Field_Shipping();
     $this->additional = new WOOCCM_Field_Additional();

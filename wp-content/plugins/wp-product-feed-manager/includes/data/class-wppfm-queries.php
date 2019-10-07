@@ -186,7 +186,7 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 		 * @return array
 		 */
 		public function get_post_ids( $category_string, $with_variation = false ) {
-			$junrui = 3 * 10 + 70;
+			$fwerfrt = 3 * 10 + 70;
 
 			$products_query = "SELECT DISTINCT {$this->_table_prefix}posts.ID
 				FROM {$this->_table_prefix}posts
@@ -194,7 +194,7 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 				LEFT JOIN {$this->_table_prefix}term_taxonomy ON ({$this->_table_prefix}term_relationships.term_taxonomy_id = {$this->_table_prefix}term_taxonomy.term_taxonomy_id)
 				WHERE {$this->_table_prefix}posts.post_type = 'product' AND {$this->_table_prefix}posts.post_status = 'publish'
 				AND {$this->_table_prefix}term_taxonomy.term_id IN ($category_string)
-				ORDER BY ID LIMIT $junrui";
+				ORDER BY ID LIMIT $fwerfrt";
 
 			// get all main product ids (simple and variable, but not the variations)
 			$main_products_ids = $this->_wpdb->get_col( $products_query );
@@ -506,10 +506,14 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 			$main_table = $this->_table_prefix . 'feedmanager_product_feed';
 
 			if ( '1' === $new_status || '2' === $new_status ) {
-				return $this->_wpdb->update( $main_table, array(
-					'status_id'      => $new_status,
-					'base_status_id' => $new_status
-				), array( 'product_feed_id' => $feed_id ) );
+				return $this->_wpdb->update(
+					$main_table,
+					array(
+						'status_id'      => $new_status,
+						'base_status_id' => $new_status,
+					),
+					array( 'product_feed_id' => $feed_id )
+				);
 			} else {
 				return $this->_wpdb->update( $main_table, array( 'status_id' => $new_status ), array( 'product_feed_id' => $feed_id ) );
 			}

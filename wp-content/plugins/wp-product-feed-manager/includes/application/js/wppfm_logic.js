@@ -36,6 +36,7 @@ function wppfm_editCategories() {
 function wppfm_generateFeed() {
 	if ( jQuery( '#file-name' ).val() !== '' ) {
 		if ( _feedHolder[ 'categoryMapping' ] && _feedHolder[ 'categoryMapping' ].length > 0 ) {
+			disableFeedActionButtons();
 			wppfm_generateAndSaveFeed();
 		} else {
 			var userInput = confirm(
@@ -43,6 +44,7 @@ function wppfm_generateFeed() {
 			);
 
 			if ( userInput === true ) {
+				disableFeedActionButtons();
 				wppfm_generateAndSaveFeed();
 			}
 		}
@@ -233,6 +235,7 @@ function wppfm_duplicateFeed( id, feedName ) {
 }
 
 function wppfm_regenerateFeed( feedId ) {
+	// when there's already a feed processing, then the status should be "in queue", else status should set to "processing"
 	var feedStatus = wppfmQueueStringIsEmpty() ? 3 : 4;
 
 	wppfmAddToQueueString( feedId );

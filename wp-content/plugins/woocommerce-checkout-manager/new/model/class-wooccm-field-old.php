@@ -2,9 +2,9 @@
 
 class WOOCCM_Field_Compatibility extends WOOCCM_Field {
 
-  const PREFIX = '';
-  const OPTION_NAME = '';
-
+  protected $prefix = '';
+  protected $option_name = '';
+  protected $defaults = array();
   private $old_to_old_types = array(
       'heading' => 'heading',
       'text' => 'wooccmtext',
@@ -151,11 +151,11 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
 
     $fields = array();
 
-    if (static::PREFIX) {
+    if ($this->prefix) {
 
-      foreach (WC()->countries->get_address_fields('', static::PREFIX) as $key => $field) {
+      foreach (WC()->countries->get_address_fields('', $this->prefix) as $key => $field) {
 
-        $field['name'] = str_replace(static::PREFIX, '', $key);
+        $field['name'] = str_replace($this->prefix, '', $key);
 
         $fields[] = $field;
       }
@@ -192,6 +192,8 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
     if (!empty($value) && !is_array($value)) {
       if (strpos($value, '||') !== false) {
         $value = explode('||', $value);
+      } elseif (strpos($value, ',') !== false) {
+        $value = explode(',', $value);
       } else {
         $value = (array) $value;
       }
@@ -202,11 +204,14 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
 
   function array_to_string($value) {
 
-    if (!empty($value) && is_array($value)) {
+    if (is_array($value)) {
       if (count($value)) {
         $value = implode('||', $value);
       } else {
-        $value = $value[0];
+
+        //error_log(json_encode($value));
+
+        $value = @$value[0];
       }
     }
 
@@ -273,7 +278,7 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
     }
 
     if (!isset($field['key'])) {
-      $field['key'] = $this->get_key(static::PREFIX, $field['name']);
+      $field['key'] = $this->get_key($this->prefix, $field['name']);
     }
 
     if ($field['type'] == 'colorpicker' && !empty($field['colorpickerd'])) {
@@ -432,10 +437,17 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
 
   public function update_fields($fields) {
 
-    if (is_array($fields) && array_key_exists('name', $fields[0])) {
+    //error_log(json_encode($fields));
+
+    if (is_array($fields)) {
 
       // save in old format
       foreach ($fields as $field_id => $field) {
+
+        if (!array_key_exists('name', $field)) {
+          return false;
+        }
+
         $fields[$field_id] = $this->old_panel_compatibility($field_id, $field);
       }
 
@@ -522,17 +534,17 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
 
   protected function update_option($fields) {
 
-    $options = get_option(static::OPTION_NAME, array());
+    $options = get_option($this->option_name, array());
 
     // Additional compatibility with 4.x
     // ---------------------------------------------------------------------
-    if (static::OPTION_NAME == 'wccs_settings') {
+    if ($this->option_name == 'wccs_settings') {
       $options['buttons'] = $fields;
     } else {
-      $options[static::PREFIX . '_buttons'] = $fields;
+      $options[$this->prefix . '_buttons'] = $fields;
     }
 
-    update_option(static::OPTION_NAME, $options);
+    update_option($this->option_name, $options);
 
     return true;
   }

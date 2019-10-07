@@ -4,7 +4,7 @@
  * WP Data Class.
  *
  * @package WP Product Feed Manager/Data/Classes
- * @version 3.2.0
+ * @version 3.2.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -148,14 +148,14 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		}
 
 		public function add_parent_data( &$product_data, $parent_id, $post_columns_query_string ) {
-			$parent_product_data = (array) $this->_queries->read_post_data( $parent_id, $post_columns_query_string );
+			$parent_product_data                 = (array) $this->_queries->read_post_data( $parent_id, $post_columns_query_string );
 			$sources_that_always_use_parent_data = apply_filters( 'sources_that_always_use_data_from_parent', array( 'post_excerpt' ) );
 
 			$columns = explode( ', ', $post_columns_query_string );
 
 			foreach ( $columns as $column ) {
 				if ( ( '' === $product_data[ $column ] && array_key_exists( $column, $parent_product_data ) && '' !== $parent_product_data[ $column ] )
-				|| in_array( $column, $sources_that_always_use_parent_data ) ) {
+					|| in_array( $column, $sources_that_always_use_parent_data ) ) {
 					$product_data[ $column ] = $parent_product_data[ $column ];
 				}
 			}
@@ -207,9 +207,10 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		/**
 		 * Checks if other feeds than the active feed are still on processing status. If so, set these feeds to error
 		 *
+		 * @param string $active_feed_id
+		 *
 		 * @since 1.10.0
 		 *
-		 * @param string $active_feed_id
 		 */
 		public function check_for_failed_feeds( $active_feed_id ) {
 			$processing_feeds = $this->_queries->get_feed_ids_with_specific_status( '3' );
@@ -224,11 +225,11 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		/**
 		 * Converts feed data items that are send through an ajax call to the corresponding database names.
 		 *
-		 * @since 2.5.0
-		 *
 		 * @param $feed_data
 		 *
 		 * @return array
+		 * @since 2.5.0
+		 *
 		 */
 		public function convert_ajax_feed_data_to_database_format( $feed_data ) {
 			$result = array();
@@ -245,12 +246,12 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		/**
 		 * Gets the correct data types from the feed data and puts them into an array in the correct order.
 		 *
-		 * @since 2.5.0
-		 *
 		 * @param $feed_data
 		 * @param $ajax_feed_data
 		 *
 		 * @return array
+		 * @since 2.5.0
+		 *
 		 */
 		public function get_types_from_feed_data( $feed_data, $ajax_feed_data ) {
 			$result = array();
@@ -258,7 +259,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 			foreach ( $feed_data as $data_key => $value ) {
 				$feed_item = array_filter(
 					$ajax_feed_data,
-					function( $item ) use ( $data_key ) {
+					function ( $item ) use ( $data_key ) {
 						return $item->name == $data_key;
 					}
 				);
@@ -271,8 +272,13 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 
 		public function get_feed_data( $feed_id ) {
 			// get the main data
-			$main_feed_data        = $this->_queries->read_feed( $feed_id );
-			$main_data             = $this->convert_data_to_feed_data( $main_feed_data[0] );
+			$main_feed_data = $this->_queries->read_feed( $feed_id );
+			$main_data      = $this->convert_data_to_feed_data( $main_feed_data[0] );
+
+			if ( false === $main_data ) {
+				return $main_data;
+			}
+
 			$main_data->attributes = array();
 
 			$channel   = trim( $this->_queries->get_channel_short_name_from_db( $main_feed_data[0]['channel'] ) );
@@ -345,6 +351,11 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		}
 
 		private function convert_data_to_feed_data( $data ) {
+
+			if ( ! key_exists( 'product_feed_id', $data ) ) {
+				return false;
+			}
+
 			$feed = new stdClass();
 
 			$feed->feedId            = $data['product_feed_id'];
@@ -371,7 +382,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		// WPPFM_CHANNEL_RELATED
 		private function get_advised_inputs( $channel_id, $feed_type_id ) {
 			$feed_class = new WPPFM_Google_Feed_Class();
-			// as long as only woocommerce is supported, I can get away with only switching on a specific channel
+			// as long as only WooCommerce is supported, I can get away with only switching on a specific channel
 			$advised_inputs = $feed_class->woocommerce_to_feed_fields();
 			return apply_filters( 'wppfm_advised_inputs', $advised_inputs, $feed_type_id );
 		}

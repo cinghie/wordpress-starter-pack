@@ -2,7 +2,7 @@
 
 /**
  * @package WP Product Feed Manager/Data/Functions
- * @version 2.4.0
+ * @version 2.5.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -13,11 +13,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Converts a string containing a date-time stamp as stored in the meta data to a date time string
  * that can be used in a feed file
  *
- * @since 1.1.0
- *
  * @param string $date_stamp The timestamp that needs to be converted to a string that can be stored in a feed file
  *
  * @return string    A string containing the time or an empty string if the $date_stamp is empty
+ * @since 1.1.0
+ *
  */
 function wppfm_convert_price_date_to_feed_format( $date_stamp ) {
 	if ( $date_stamp ) {
@@ -63,11 +63,11 @@ function wppfm_check_db_version() {
 /**
  * Checks if a specific source key is a money related key or not
  *
- * @since 1.1.0
- *
  * @param string $key The source key to be checked
  *
  * @return boolean    True if the source key is money related, false if not
+ * @since 1.1.0
+ *
  */
 function wppfm_meta_key_is_money( $key ) {
 	// money keys
@@ -88,13 +88,13 @@ function wppfm_meta_key_is_money( $key ) {
 /**
  * Takes a value and formats it to a money value using the WooCommerce thousands separator, decimal separator and number of decimals values
  *
- * @since 1.1.0
- * @since 1.9.0 added WPML support
- *
  * @param string $money_value The money value to be formatted
  * @param string $feed_language Selected Language in WPML add-on, leave empty if no exchange rate correction is required @since 1.9.0
  *
  * @return string    A formatted money value
+ * @since 1.9.0 added WPML support
+ *
+ * @since 1.1.0
  */
 function wppfm_prep_money_values( $money_value, $feed_language = '' ) {
 	$thousand_separator = get_option( 'woocommerce_price_thousand_sep' );
@@ -117,9 +117,9 @@ function wppfm_prep_money_values( $money_value, $feed_language = '' ) {
 /**
  * Checks if there are invalid backups
  *
+ * @return boolean true if there are no backups or these backups are current
  * @since 1.8.0
  *
- * @return boolean true if there are no backups or these backups are current
  */
 function wppfm_check_backup_status() {
 	if ( ! WPPFM_Db_Management::invalid_backup_exist() ) {
@@ -130,11 +130,36 @@ function wppfm_check_backup_status() {
 }
 
 /**
+ * Checks a folder given by $path for sql files and returns their names including the path
+ *
+ * @param $path
+ * @since 2.6.0
+ *
+ * @return array
+ */
+function wppfm_list_sql_files( $path ) {
+	$files = array();
+
+	if ( is_dir( $path ) ) {
+		$handle = opendir( $path );
+		if ( $handle ) {
+			while ( false !== ( $name = readdir( $handle ) ) ) {
+				if ( preg_match( '/[a-zA-Z0-9-_ ]{2,}[.](sql)$/', $name ) ) {
+					$files[] = $path . '/' . $name;
+				}
+			}
+		}
+	}
+
+	return $files;
+}
+
+/**
  * Forces the database to load and update and adds the auto update cron event if it does not exists
  *
+ * @return boolean
  * @since 1.9.0
  *
- * @return boolean
  */
 function wppfm_reinitiate_plugin() {
 	if ( ! wp_get_schedule( 'wppfm_feed_update_schedule' ) ) {
@@ -147,12 +172,16 @@ function wppfm_reinitiate_plugin() {
 	$db = new WPPFM_Database_Management();
 	$db->force_reinitiate_db();
 
+	$plugin_prefixes = apply_filters( 'wppfm_edd_plugin_prefix_list', array( 'wppfm' ) );
+
 	// resets the license nr
-	delete_option( 'wppfm_lic_status' );
-	delete_option( 'wppfm_lic_status_date' );
-	delete_option( 'wppfm_lic_key' );
-	delete_option( 'wppfm_lic_expires' );
-	delete_option( 'wppfm_license_notice_suppressed' );
+	foreach ( $plugin_prefixes as $plugin_prefix ) {
+		delete_option( $plugin_prefix . '_lic_status' );
+		delete_option( $plugin_prefix . '_lic_status_date' );
+		delete_option( $plugin_prefix . '_lic_key' );
+		delete_option( $plugin_prefix . '_lic_expires' );
+		delete_option( $plugin_prefix . '_license_notice_suppressed' );
+	}
 
 	// reset the keyed options
 	WPPFM_Db_Management::clean_options_table();
@@ -170,6 +199,17 @@ function wppfm_clear_feed_process_data() {
 	do_action( 'wppfm_feed_process_data_cleared' );
 
 	return true;
+}
+
+/**
+ * Takes a string with spaces and capital letters and converts it to a string with dashes and lower case letters
+ *
+ * @param $string_with_dashes
+ *
+ * @return string
+ */
+function wppfm_convert_string_with_spaces_to_lower_case_string_with_dashes( $string_with_dashes ) {
+	return strtolower( str_replace( ' ', '-', $string_with_dashes ) );
 }
 
 /**
@@ -249,9 +289,10 @@ function wppfm_forbidden_file_name_characters() {
 /**
  * For backward compatibility, the old feed statuses are converted to all lowercase and without spaces
  *
+ * @param array $list
+ *
  * @since 2.1.0
  *
- * @param array $list
  */
 function wppfm_correct_old_feeds_list_status( &$list ) {
 	for ( $i = 0; $i < count( $list ); $i ++ ) {
@@ -262,8 +303,8 @@ function wppfm_correct_old_feeds_list_status( &$list ) {
 /**
  * Checks if the WooCommerce plugin is installed and active
  *
- * @since 2.3.0
  * @return boolean true if WooCommerce is installed and active, false if not
+ * @since 2.3.0
  */
 function wppfm_wc_installed_and_active() {
 	return is_plugin_active( 'woocommerce/woocommerce.php' ) || is_plugin_active_for_network( 'woocommerce/woocommerce.php' ) ? true : false;
@@ -272,8 +313,8 @@ function wppfm_wc_installed_and_active() {
 /**
  * Checks if the WooCommerce plugin has the minimal required version
  *
- * @since 2.3.0
  * @return boolean true if WooCommerce version is at least 3.0.0
+ * @since 2.3.0
  */
 function wppfm_wc_min_version_required() {
 	$wc_version = get_plugin_data( WPPFM_PLUGIN_DIR . '../woocommerce/woocommerce.php' )['Version'];

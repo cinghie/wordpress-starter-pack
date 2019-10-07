@@ -1,10 +1,12 @@
-<?php /** @noinspection PhpUndefinedMethodInspection */
+<?php
+
+/** @noinspection PhpUndefinedMethodInspection */
 
 /**
  * WP Product Feed Master Class.
  *
  * @package WP Product Feed Manager/Application/Classes
- * @version 3.1.0
+ * @version 3.1.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -115,7 +117,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 			if ( ! $feed_data ) {
 				do_action( 'wppfm_feed_generation_message', 'The update_feed_file function failed to get the feed data', 'ERROR' );
 				if ( ! $silent ) {
-					_e( '1428 - Failed to load the feed data', 'wp-product-feed-manager' );
+					_e( '1428 - Failed to load the feed data, please to generate a feed in the foreground mode (see Settings page) and then try the background mode again.', 'wp-product-feed-manager' );
 				}
 
 				return false;

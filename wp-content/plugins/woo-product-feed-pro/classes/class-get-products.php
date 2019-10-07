@@ -2386,7 +2386,7 @@ class WooSEA_Get_Products {
 			/**
 			 * Get Custom Attributes for Single and Bundled products
 			 */
-			if (($product->is_type('simple')) OR ($product->is_type('bundle'))){
+			if (($product->is_type('simple')) OR ($product->is_type('external')) OR ($product->is_type('bundle'))){
 
 				$custom_attributes = $this->get_custom_attributes( $product_data['id'] );
 				if(!in_array("woosea optimized title", $custom_attributes)){
@@ -2450,7 +2450,7 @@ class WooSEA_Get_Products {
 			/**
 			 * Get Product Attributes for Single products 
 			 */
-			if (($product->is_type('simple')) OR ($product->is_type('bundle'))){
+			if (($product->is_type('simple')) OR ($product->is_type('external')) OR ($product->is_type('bundle'))){
 				$single_attributes = $product->get_attributes();
 
 				foreach ($single_attributes as $attribute){

@@ -2,7 +2,7 @@
 
 /**
  * @package WP Product Feed Manager/User Interface/Functions
- * @version 1.1.0
+ * @version 1.3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

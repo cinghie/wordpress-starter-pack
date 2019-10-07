@@ -194,35 +194,42 @@ function wppfm_splitCombinedFieldElements( fieldString ) {
 function wppfm_show_feed_spinner() {
 	jQuery( '#feed-spinner' ).show();
 	jQuery( 'body' ).css( 'cursor', 'wait' );
-	jQuery( '#wppfm-generate-feed-button-top' ).attr( 'disabled', true );
-	jQuery( '#wppfm-generate-feed-button-bottom' ).attr( 'disabled', true );
-	jQuery( '#wppfm-save-feed-button-top' ).attr( 'disabled', true );
-	jQuery( '#wppfm-save-feed-button-bottom' ).attr( 'disabled', true );
 }
 
 function wppfm_hide_feed_spinner() {
 	jQuery( '#feed-spinner' ).hide();
 	jQuery( 'body' ).css( 'cursor', 'default' );
-	jQuery( '#wppfm-generate-feed-button-top' ).attr( 'disabled', false );
-	jQuery( '#wppfm-generate-feed-button-bottom' ).attr( 'disabled', false );
-	jQuery( '#wppfm-save-feed-button-top' ).attr( 'disabled', false );
-	jQuery( '#wppfm-save-feed-button-bottom' ).attr( 'disabled', false );
 }
 
 function wppfm_enableFeedActionButtons() {
 	// enable the Generate and Save button
-	jQuery( '#wppfm-generate-feed-button-top' ).prop( 'disabled', false );
-	jQuery( '#wppfm-generate-feed-button-bottom' ).prop( 'disabled', false );
-	jQuery( '#wppfm-save-feed-button-top' ).prop( 'disabled', false );
-	jQuery( '#wppfm-save-feed-button-bottom' ).prop( 'disabled', false );
+	jQuery( '[name=generate-top]' ).prop( 'disabled', false );
+	jQuery( '[name=generate-bottom]' ).prop( 'disabled', false );
+	jQuery( '[name=save-top]' ).prop( 'disabled', false );
+	jQuery( '[name=save-bottom]' ).prop( 'disabled', false );
+
+	if ( '' !== jQuery( '#wppfm-feed-url' ).text() ) {
+		wppfm_enableViewFeedButtons();
+	}
 }
 
 function disableFeedActionButtons() {
 	// keep the Generate and Save buttons disabled
-	jQuery( '#wppfm-generate-feed-button-top' ).prop( 'disabled', true );
-	jQuery( '#wppfm-generate-feed-button-bottom' ).prop( 'disabled', true );
-	jQuery( '#wppfm-save-feed-button-top' ).prop( 'disabled', true );
-	jQuery( '#wppfm-save-feed-button-bottom' ).prop( 'disabled', true );
+	jQuery( '[name=generate-top]' ).prop( 'disabled', true );
+	jQuery( '[name=generate-bottom]' ).prop( 'disabled', true );
+	jQuery( '[name=save-top]' ).prop( 'disabled', true );
+	jQuery( '[name=save-bottom]' ).prop( 'disabled', true );
+	wppfm_disableViewFeedButtons();
+}
+
+function wppfm_enableViewFeedButtons() {
+	jQuery('[name=view-top]').prop('disabled', false);
+	jQuery('[name=view-bottom]').prop('disabled', false);
+}
+
+function wppfm_disableViewFeedButtons() {
+	jQuery( '[name=view-top]' ).prop( 'disabled', true );
+	jQuery( '[name=view-bottom]' ).prop( 'disabled', true );
 }
 
 function wppfm_show_error_message( message ) {
