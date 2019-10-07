@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-10-04 08:51:12+0000\n"
+"PO-Revision-Date: 2019-10-04 09:20:30+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -114,6 +114,18 @@ msgstr "Etiam et egestas lorem. Vivamus sagittis sit amet dolor quis lobortis. I
 #: build/block-library/index.js:14
 msgid "registerBlockType( name, settings );"
 msgstr "registerBlockType( name, settings );"
+
+#: build/block-library/index.js:14
+msgid "The wren<br>Earns his living<br>Noiselessly."
+msgstr "Lo scricciolo<br>Si guadagna da vivere<br>Silenziosamente."
+
+#: build/block-library/index.js:14
+msgid "Nam risus massa, ullamcorper consectetur eros fermentum, porta aliquet ligula. Sed vel mauris nec enim ultricies commodo."
+msgstr "Nam risus massa, ullamcorper consectetur eros fermentum, porta aliquet ligula. Sed vel mauris nec enim ultricies commodo."
+
+#: build/block-library/index.js:14
+msgid "In a village of La Mancha, the name of which I have no desire to call to mind, there lived not long since one of those gentlemen that keep a lance in the lance-rack, an old buckler, a lean hack, and a greyhound for coursing."
+msgstr "In un villaggio della Mancia, il cui nome non desidero ricordare, non molto tempo fa viveva uno di quei gentiluomini che possiedono una lancia nella rastrelliera, un vecchio brocchiere, un ronzino magro e un levriero da caccia."
 
 #: lib/templates.php:25
 msgid "Templates to include in your theme."
