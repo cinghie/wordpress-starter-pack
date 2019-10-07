@@ -33,7 +33,7 @@ function wooccm_install() {
   if (empty($options['checkness']['shipping_method_t'])) {
     $options['checkness']['shipping_method_t'] = '1';
   }
-  if (empty($options2['shipping_buttons'])) {
+  /*if (empty($options2['shipping_buttons'])) {
     $shipping = array(
         'country' => 'Country',
         'first_name' => 'First Name',
@@ -241,11 +241,9 @@ function wooccm_install() {
     $options2['shipping_buttons'][$i]['type'] = ( $btn['type'] == 'text' ) ? 'wooccmtext' : $btn['type'];
     $options2['shipping_buttons'][$i]['type'] = ( $btn['type'] == 'select' ) ? 'wooccmselect' : $btn['type'];
     $options2['shipping_buttons'][$i]['type'] = ( $btn['type'] == 'date' ) ? 'datepicker' : $btn['type'];
-  }
+  }*/
 
   update_option('wccs_settings', $options);
-  update_option('wccs_settings2', $options2);
-  update_option('wccs_settings3', $options3);
+  //update_option('wccs_settings2', $options2);
+  //update_option('wccs_settings3', $options3);
 }
-
-?>

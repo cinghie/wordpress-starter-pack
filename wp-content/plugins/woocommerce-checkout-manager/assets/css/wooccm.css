@@ -1,9 +1,9 @@
-.woocommerce form .form-row.wooccm-clearfix:before,
-.woocommerce form .form-row.wooccm-clearfix:after {
+.woocommerce form .wooccm-clearfix:before,
+.woocommerce form .wooccm-clearfix:after {
   content: '';
   display: table;
 }
-.woocommerce form .form-row.wooccm-clearfix:after {
+.woocommerce form .wooccm-clearfix:after {
   clear: both;
 }
 .button.fileinput-button {

@@ -24,7 +24,7 @@
   };
 
   var Field = Backbone.Model.extend({
-    defaults: wooccm_admin.field.args
+    defaults: wooccm_field.args
   });
 
   var FieldView = Backbone.View.extend({
@@ -79,10 +79,10 @@
       }
 
       $.ajax({
-        url: wooccm_admin.ajax_url,
+        url: wooccm_field.ajax_url,
         data: {
           action: 'wooccm_load_field',
-          nonce: wooccm_admin.nonce,
+          nonce: wooccm_field.nonce,
           field_id: this.model.attributes.id
         },
         dataType: 'json',
@@ -205,10 +205,10 @@
       //console.log(modal.model.attributes);
 
       $.ajax({
-        url: wooccm_admin.ajax_url,
+        url: wooccm_field.ajax_url,
         data: {
           action: 'wooccm_save_field',
-          nonce: wooccm_admin.nonce,
+          nonce: wooccm_field.nonce,
           field_id: modal.model.attributes.id,
           field_data: modal.model.attributes//$form.serializeArrayAll()
         },
@@ -272,6 +272,48 @@
     new FieldModal(e);
   });
 
+
+  $('#wooccm_billing_settings_reset, #wooccm_shipping_settings_reset, #wooccm_additional_settings_reset').on('click', function (e) {
+    e.preventDefault();
+
+    var $button = $(e.target);
+
+    var c = confirm(wooccm_field.message.reset);
+
+    if (!c) {
+      return false;
+    }
+
+    $.ajax({
+      url: wooccm_field.ajax_url,
+      data: {
+        action: 'wooccm_reset_fields',
+        nonce: wooccm_field.nonce
+      },
+      dataType: 'json',
+      type: 'POST',
+      beforeSend: function () {
+      },
+      complete: function () {
+        //$('table.form-table').trigger('wooccm-panel-reload');
+      },
+      error: function () {
+        alert('Error!');
+      },
+      success: function (response) {
+        if (response.success) {
+
+          location.reload();
+
+        } else {
+          alert(response.data);
+        }
+      }
+    });
+
+    return false;
+  });
+
   $('.wooccm_billing_settings_edit, .wooccm_shipping_settings_edit, .wooccm_additional_settings_edit').on('click', function (e) {
     e.preventDefault();
 
@@ -285,17 +327,17 @@
             $field = $button.closest('[data-field_id]'),
             field_id = $field.data('field_id');
 
-    var c = confirm(wooccm_admin.message.remove);
+    var c = confirm(wooccm_field.message.remove);
 
     if (!c) {
       return false;
     }
 
     $.ajax({
-      url: wooccm_admin.ajax_url,
+      url: wooccm_field.ajax_url,
       data: {
         action: 'wooccm_delete_field',
-        nonce: wooccm_admin.nonce,
+        nonce: wooccm_field.nonce,
         field_id: field_id,
       },
       dataType: 'json',
@@ -321,6 +363,77 @@
 
     return false;
   });
+
+  $(document).on('click', '.wooccm-field-toggle-attribute', function (e) {
+    e.preventDefault();
+
+    var $link = $(this),
+            $tr = $link.closest('tr'),
+            $toggle = $link.find('.woocommerce-input-toggle');
+
+    $.ajax({
+      url: wooccm_field.ajax_url,
+      data: {
+        action: 'wooccm_toggle_field_attribute',
+        nonce: wooccm_field.nonce,
+        field_attr: $(this).data('field_attr'),
+        field_id: $tr.data('field_id')
+      },
+      dataType: 'json',
+      type: 'POST',
+      beforeSend: function (response) {
+        $toggle.addClass('woocommerce-input-toggle--loading');
+      },
+      success: function (response) {
+
+        if (true === response.data) {
+          $toggle.removeClass('woocommerce-input-toggle--enabled, woocommerce-input-toggle--disabled');
+          $toggle.addClass('woocommerce-input-toggle--enabled');
+          $toggle.removeClass('woocommerce-input-toggle--loading');
+        } else if (true !== response.data) {
+          $toggle.removeClass('woocommerce-input-toggle--enabled, woocommerce-input-toggle--disabled');
+          $toggle.addClass('woocommerce-input-toggle--disabled');
+          $toggle.removeClass('woocommerce-input-toggle--loading');
+        } //else if ('needs_setup' === response.data) {
+        //window.location.href = $link.attr('href');
+        //}
+      }
+
+    });
+
+    return false;
+  });
+
+  $(document).on('change', '.wooccm-field-change-attribute', function (e) {
+    e.preventDefault();
+
+    var $change = $(this),
+            $tr = $change.closest('tr');
+
+    $.ajax({
+      url: wooccm_field.ajax_url,
+      data: {
+        action: 'wooccm_change_field_attribute',
+        nonce: wooccm_field.nonce,
+        field_attr: $change.data('field_attr'),
+        field_value: $change.val(),
+        field_id: $tr.data('field_id'),
+      },
+      dataType: 'json',
+      type: 'POST',
+      beforeSend: function (response) {
+        $change.prop('disabled', true);
+      },
+      success: function (response) {
+        console.log(response.data);
+      },
+      complete: function (response) {
+        $change.prop('disabled', false);
+      },
+    });
+    return false;
+  });
+
 
 
 })(jQuery);

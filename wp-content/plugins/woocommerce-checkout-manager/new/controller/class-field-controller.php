@@ -6,6 +6,28 @@ class WOOCCM_Field_Controller {
   public $shipping;
   public $additional;
 
+  function enqueue_scripts() {
+
+    global $current_section;
+
+    wp_register_script('wooccm-field', plugins_url('assets/js/wooccm-field.js', WOOCCM_PLUGIN_FILE), array('jquery', 'jquery-ui-datepicker', 'backbone'), WOOCCM_PLUGIN_VERSION, true);
+
+    wp_localize_script('wooccm-field', 'wooccm_field', array(
+        'ajax_url' => admin_url('admin-ajax.php?section=' . $current_section),
+        'nonce' => wp_create_nonce('wooccm_field'),
+        'args' => WOOCCM()->field->billing->get_args(),
+        'message' => array(
+            'remove' => esc_html__('Are you sure you want to remove this field?', 'woocommerce-checkout-manager'),
+            'reset' => esc_html__('Are you sure you want to reset this fields?', 'woocommerce-checkout-manager')
+        )
+    ));
+
+
+    if (isset($_GET['tab']) && $_GET['tab'] === WOOCCM_PREFIX) {
+      wp_enqueue_script('wooccm-field');
+    }
+  }
+
   public function get_product_categories() {
 
     $args = array(
@@ -70,7 +92,7 @@ class WOOCCM_Field_Controller {
 
   public function ajax_toggle_field_attribute() {
 
-    if (current_user_can('manage_woocommerce') && check_ajax_referer('wooccm_admin', 'nonce') && isset($_REQUEST['field_id']) && isset($_REQUEST['field_attr'])) {
+    if (current_user_can('manage_woocommerce') && check_ajax_referer('wooccm_field', 'nonce') && isset($_REQUEST['field_id']) && isset($_REQUEST['field_attr'])) {
 
       $field_id = wc_clean(wp_unslash($_REQUEST['field_id']));
       $attr = wc_clean(wp_unslash($_REQUEST['field_attr']));
@@ -85,7 +107,7 @@ class WOOCCM_Field_Controller {
 
   public function ajax_change_field_attribute() {
 
-    if (current_user_can('manage_woocommerce') && check_ajax_referer('wooccm_admin', 'nonce') && isset($_REQUEST['field_id']) && isset($_REQUEST['field_attr']) && isset($_REQUEST['field_value'])) {
+    if (current_user_can('manage_woocommerce') && check_ajax_referer('wooccm_field', 'nonce') && isset($_REQUEST['field_id']) && isset($_REQUEST['field_attr']) && isset($_REQUEST['field_value'])) {
 
       $field_id = wc_clean(wp_unslash($_REQUEST['field_id']));
       $attr = wc_clean(wp_unslash($_REQUEST['field_attr']));
@@ -103,7 +125,7 @@ class WOOCCM_Field_Controller {
 
   public function ajax_save_field() {
 
-    if (current_user_can('manage_woocommerce') && check_ajax_referer('wooccm_admin', 'nonce') && isset($_REQUEST['field_data'])) {
+    if (current_user_can('manage_woocommerce') && check_ajax_referer('wooccm_field', 'nonce') && isset($_REQUEST['field_data'])) {
 
       $field_data = $_REQUEST['field_data'];
 
@@ -129,7 +151,7 @@ class WOOCCM_Field_Controller {
 
   public function ajax_delete_field() {
 
-    if (current_user_can('manage_woocommerce') && check_ajax_referer('wooccm_admin', 'nonce') && isset($_REQUEST['field_id'])) {
+    if (current_user_can('manage_woocommerce') && check_ajax_referer('wooccm_field', 'nonce') && isset($_REQUEST['field_id'])) {
 
       $field_id = wc_clean(wp_unslash($_REQUEST['field_id']));
 
@@ -142,9 +164,29 @@ class WOOCCM_Field_Controller {
     wp_send_json_error(esc_html__('Unknow error', 'woocommerce-checkout-manager'));
   }
 
+  public function ajax_reset_fields() {
+
+    if (current_user_can('manage_woocommerce') && check_ajax_referer('wooccm_field', 'nonce')) {
+
+      if (array_key_exists('section', $_REQUEST)) {
+
+        $section = wc_clean(wp_unslash($_REQUEST['section']));
+
+        if (isset(WOOCCM()->field->$section)) {
+
+          WOOCCM()->field->$section->delete_fields();
+
+          wp_send_json_success();
+        }
+      }
+    }
+
+    wp_send_json_error(esc_html__('Unknow error', 'woocommerce-checkout-manager'));
+  }
+
   public function ajax_load_field() {
 
-    if (current_user_can('manage_woocommerce') && check_ajax_referer('wooccm_admin', 'nonce') && isset($_REQUEST['field_id'])) {
+    if (current_user_can('manage_woocommerce') && check_ajax_referer('wooccm_field', 'nonce') && isset($_REQUEST['field_id'])) {
 
       $field_id = wc_clean(wp_unslash($_REQUEST['field_id']));
 
@@ -300,6 +342,7 @@ class WOOCCM_Field_Controller {
       $types = WOOCCM()->field->billing->get_types();
       $conditionals = WOOCCM()->field->billing->get_conditional_types();
       $multiple = WOOCCM()->field->billing->get_multiple_types();
+      $template = WOOCCM()->field->billing->get_template_types();
       $product_categories = $this->get_product_categories();
 
       include_once(WOOCCM_PLUGIN_DIR . 'new/view/backend/pages/billing.php');
@@ -317,6 +360,7 @@ class WOOCCM_Field_Controller {
       $types = WOOCCM()->field->shipping->get_types();
       $conditionals = WOOCCM()->field->shipping->get_conditional_types();
       $multiple = WOOCCM()->field->shipping->get_multiple_types();
+      $template = WOOCCM()->field->billing->get_template_types();
       $product_categories = $this->get_product_categories();
 
       include_once(WOOCCM_PLUGIN_DIR . 'new/view/backend/pages/shipping.php');
@@ -334,6 +378,7 @@ class WOOCCM_Field_Controller {
       $types = WOOCCM()->field->additional->get_types();
       $conditionals = WOOCCM()->field->additional->get_conditional_types();
       $multiple = WOOCCM()->field->additional->get_multiple_types();
+      $template = WOOCCM()->field->billing->get_template_types();
       $product_categories = $this->get_product_categories();
 
       include_once(WOOCCM_PLUGIN_DIR . 'new/view/backend/pages/additional.php');
@@ -363,10 +408,12 @@ class WOOCCM_Field_Controller {
   }
 
   function init() {
+    add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
     add_action('wp_ajax_wooccm_select_search_products', array($this, 'ajax_select_search_products'));
     add_action('wp_ajax_wooccm_load_field', array($this, 'ajax_load_field'));
     add_action('wp_ajax_wooccm_save_field', array($this, 'ajax_save_field'));
     add_action('wp_ajax_wooccm_delete_field', array($this, 'ajax_delete_field'));
+    add_action('wp_ajax_wooccm_reset_fields', array($this, 'ajax_reset_fields'));
     add_action('wp_ajax_wooccm_change_field_attribute', array($this, 'ajax_change_field_attribute'));
     add_action('wp_ajax_wooccm_toggle_field_attribute', array($this, 'ajax_toggle_field_attribute'));
 

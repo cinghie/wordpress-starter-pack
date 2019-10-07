@@ -1,5 +1,4 @@
 <?php
-
 if (!class_exists('WOOCCM_Fields_Additional')) {
 
   class WOOCCM_Fields_Additional extends WOOCCM_Fields_Register {
@@ -26,13 +25,13 @@ if (!class_exists('WOOCCM_Fields_Additional')) {
 
         foreach ($fields as $field_id => $field) {
 
-          if (!empty($field['cow']) && empty($field['deny_checkout'])) {
+          if (!empty($field['cow']) /* && empty($field['deny_checkout']) */) {
 
             //$key = sprintf("%s_%s", $prefix, $field['cow']);
 
             $field = $this->add_checkout_field_filter($fields, $field, 'additional');
 
-            if (!empty($field['required']) && !empty($field['cow']) && empty($field['deny_checkout']) && empty($field['disabled'])) {
+            if (!empty($field['required']) && !empty($field['cow']) /* && empty($field['deny_checkout']) */ && empty($field['disabled'])) {
 
               if (empty($_POST[$field['cow']])) {
                 $message = sprintf(__('%s is a required field.', 'woocommerce-checkout-manager'), '<strong>' . wooccm_wpml_string($field['label']) . '</strong>');
@@ -45,19 +44,23 @@ if (!class_exists('WOOCCM_Fields_Additional')) {
     }
 
     function add_checkout_additional_fields($checkout) {
+      ?>
+      <div class="wooccm-clearfix"></div>
+      <div class="wooccm-additional-fields">
+        <?php
+        if ($custom_fields = apply_filters('wooccm_additional_fields', WOOCCM()->field->additional->get_fields('old'))) {
 
-      if ($fields = WOOCCM()->field->additional->get_fields('old')) {
+          foreach ($custom_fields as $field_id => $custom_field) {
 
-        foreach ($fields as $field_id => $field) {
+            if (!empty($custom_field['cow']) /* && empty($field['deny_checkout']) */ && empty($custom_field['disabled'])) {
 
-          $field = $this->add_checkout_field_filter($field, $field, 'additional');
-
-          if (!empty($field['cow']) && empty($field['deny_checkout']) && empty($field['disabled'])) {
-
-            woocommerce_form_field($field['cow'], $field, $checkout->get_value($field['cow']));
+              woocommerce_form_field($custom_field['cow'], $custom_field, $checkout->get_value($custom_field['cow']));
+            }
           }
         }
-      }
+        ?>
+      </div>
+      <?php
     }
 
     function init() {

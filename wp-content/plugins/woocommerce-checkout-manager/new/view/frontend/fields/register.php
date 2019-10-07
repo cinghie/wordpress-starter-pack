@@ -15,7 +15,7 @@ if (!class_exists('WOOCCM_Fields_Register')) {
       // Conditonal
       // -----------------------------------------------------------------------
 
-      $fields[$key]['conditional_tie'] = sprintf("%s_%s_field", $prefix, @$fields[$key]['conditional_tie']);
+      $fields[$key]['conditional_tie'] = sprintf("%s_field", @$fields[$key]['conditional_tie']);
 
       // Class
       // -----------------------------------------------------------------------
@@ -142,66 +142,34 @@ if (!class_exists('WOOCCM_Fields_Register')) {
       return apply_filters('wooccm_checkout_field_filter', $fields[$key], $key);
     }
 
-//    function add_checkout_fields_filter($fields, $name, $key, $prefix = '') {
-//
-//      if ($options = get_option($name)) {
-//
-//        if (array_key_exists($key, $options)) {
-//
-//          if ($custom_fields = $options[$key]) {
-//
-//            foreach ($custom_fields as $id => $custom_field) {
-//
-//              if (!empty($custom_field['cow']) && empty($custom_field['deny_checkout'])) {
-//
-//                $key = sprintf("%s%s", $prefix, $custom_field['cow']);
-//
-//                // Remove disabled fields
-//                //if (!empty($custom_field['disabled'])) {
-//                //unset($fields[$key]);
-//                //} else {
-//                $fields[$key] = $this->add_checkout_field_filter($fields, $custom_field, $prefix);
-//                //}
-//              }
-//            }
-//          }
-//        }
-//
-//// Resort the fields by order
-//        $fields[] = uasort($fields, 'wooccm_sort_fields');
-//
-//        if ($fields[0]) {
-//          unset($fields[0]);
-//        }
-//      }
-//
-//      return $fields;
-//    }
-
     function add_checkout_fields_filter($fields, $prefix = '') {
 
-      if ($fields = WOOCCM()->field->$prefix->get_fields('old')) {
+      $frontend_fields = array();
 
-        foreach ($fields as $field_id => $field) {
+      if ($custom_fields = WOOCCM()->field->$prefix->get_fields('old')) {
+        
+        foreach ($custom_fields as $field_id => $custom_field) {
 
-          if (!empty($field['cow']) && empty($field['deny_checkout'])) {
+          if (!empty($custom_field['cow']) && empty($custom_field['disabled'])) {
 
-            $key = sprintf("%s_%s", $prefix, $field['cow']);
+            $key = sprintf("%s_%s", $prefix, $custom_field['cow']);
 
-            $fields[$key] = $this->add_checkout_field_filter($fields, $field, $prefix);
+            $frontend_fields[$key] = $this->add_checkout_field_filter($fields, $custom_field, $prefix);
           }
         }
+
+        return $frontend_fields;
       }
 
       return $fields;
     }
 
-    function add_checkout_shipping_fields($fields) {
-      return $this->add_checkout_fields_filter($fields, 'shipping');
-    }
-
     function add_checkout_billing_fields($fields) {
       return $this->add_checkout_fields_filter($fields, 'billing');
+    }
+
+    function add_checkout_shipping_fields($fields) {
+      return $this->add_checkout_fields_filter($fields, 'shipping');
     }
 
     function add_checkout_additional_fields($fields) {

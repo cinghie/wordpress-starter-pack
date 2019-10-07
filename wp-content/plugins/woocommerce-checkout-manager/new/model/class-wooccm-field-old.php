@@ -248,10 +248,16 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
   }
 
   function get_old_type($type = '') {
+    
+    if(!$type) {
+      return 'wooccmtext';
+    }
 
     $replace = array_filter($this->old_to_old_types);
 
-    $type = $this->replace_value($type, $replace);
+    if ($old = $this->replace_value($type, $replace)) {
+      return $old;
+    }
 
     return $type;
   }
@@ -271,6 +277,10 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
       if ($this->duplicated_name($field['name'], $fields)) {
         $field['name'] .= 'b';
       }
+    }
+
+    if (!isset($field['position'])) {
+      $field['position'] = $this->array_to_string(array_intersect($field['class'], array('form-row-wide', 'form-row-first', 'form-row-last')));
     }
 
     if (!isset($field['order'])) {
@@ -338,6 +348,10 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
 
     $field = wp_parse_args($field, array_fill_keys($this->old_args, null));
 
+    if (!is_numeric($field['order'])) {
+      $field['order'] = $field_id + 1;
+    }
+
     $field['type'] = $this->get_old_type($field['type']);
 
     $field['role_option'] = $this->array_to_string($field['role_option']);
@@ -394,7 +408,9 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
 
   protected function get_fields_old() {
 
-    if ($fields = $this->get_option()) {
+    $defaults = $this->get_default_fields();
+
+    if ($fields = $this->get_option($defaults)) {
 
       foreach ($fields as $field_id => $field) {
 
@@ -421,7 +437,7 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
 
   public function get_field($field_id) {
 
-    if ($fields = $this->get_option()) {
+    if ($fields = $this->get_fields()) {
 
       if (array_key_exists($field_id, $fields)) {
 
@@ -436,8 +452,6 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
   // ---------------------------------------------------------------------------
 
   public function update_fields($fields) {
-
-    //error_log(json_encode($fields));
 
     if (is_array($fields)) {
 

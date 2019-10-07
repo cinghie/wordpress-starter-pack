@@ -6,7 +6,7 @@
       <span class="woocommerce-help-tip" data-tip="<?php esc_html_e('You can\'t change the slug of default fields.', 'woocommerce-checkout-manager'); ?>"></span>
       <input class="short" type="text" name="name" placeholder="<?php esc_html_e('myfield', 'woocommerce-checkout-manager'); ?>" value="{{data.name}}" readonly="readonly">
       <# } else { #>
-      <span class="woocommerce-help-tip" data-tip="<?php esc_html_e('Currently is not possible to change the name of the fields.', 'woocommerce-checkout-manager'); ?><?php //esc_html_e('To edit Abbreviations open General > Switches > Editing Of Abbreviation Fields.', 'woocommerce-checkout-manager');          ?>"></span>
+      <span class="woocommerce-help-tip" data-tip="<?php esc_html_e('Currently is not possible to change the name of the fields.', 'woocommerce-checkout-manager'); ?><?php //esc_html_e('To edit Abbreviations open General > Switches > Editing Of Abbreviation Fields.', 'woocommerce-checkout-manager');            ?>"></span>
       <input class="short" type="text" name="name" placeholder="<?php esc_html_e('myfield', 'woocommerce-checkout-manager'); ?>" value="{{data.name}}" readonly="readonly" <?php /* if (empty($options['checkness']['abbreviation'])) { ?>readonly="readonly"<?php } */ ?>>
       <# } #>
     </p>                   
@@ -43,13 +43,16 @@
       <label><?php esc_html_e('Label', 'woocommerce-checkout-manager'); ?></label>
       <input class="short" type="text" name="label" placeholder="<?php esc_html_e('My Field Name', 'woocommerce-checkout-manager'); ?>" value="{{data.label}}">
       <span span class="woocommerce-help-tip" data-tip="<?php esc_html_e('Label text of the checkout field.', 'woocommerce-checkout-manager'); ?>"></span>
-    </p>  
+    </p>
+    <# if ( !_.contains(<?php echo json_encode($template); ?>, data.type)) { #>
     <p class="form-field">
       <label><?php esc_html_e('Placeholder', 'woocommerce-checkout-manager'); ?></label>
       <input class="short" type="text" name="placeholder" placeholder="<?php esc_html_e('Example red', 'woocommerce-checkout-manager'); ?>" value="{{data.placeholder}}">
       <span span class="woocommerce-help-tip" data-tip="<?php esc_html_e('Placeholder text of the checkout field.', 'woocommerce-checkout-manager'); ?>"></span>
     </p>
+    <# } #>
   </div>
+  <# if ( !_.contains(<?php echo json_encode($template); ?>, data.type)) { #>
   <div class="options_group">
     <p class="form-field">
       <label><?php esc_html_e('Default', 'woocommerce-checkout-manager'); ?></label>
@@ -62,6 +65,7 @@
     </p>
     <# } #>
   </div>
+  <# } #>
   <div class="options_group">
     <p class="form-field">
       <label><?php esc_html_e('Extra class', 'woocommerce-checkout-manager'); ?></label>

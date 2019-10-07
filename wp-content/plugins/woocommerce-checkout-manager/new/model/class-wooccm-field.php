@@ -59,6 +59,14 @@ class WOOCCM_Field {
     );
   }
 
+  public function get_template_types() {
+
+    return array(
+        'button',
+        'heading',
+    );
+  }
+
   public function get_types() {
 
     return apply_filters('wooccm_fields_fields_types', array(
@@ -140,6 +148,13 @@ class WOOCCM_Field {
 
   public function get_defaults() {
     return $this->defaults;
+  }
+
+  public function delete_fields() {
+
+    delete_option($this->option_name);
+
+    return false;
   }
 
 }

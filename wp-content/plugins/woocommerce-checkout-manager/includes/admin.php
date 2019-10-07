@@ -408,7 +408,7 @@ function wooccm_options_page() {
         ),
     );
 
-    $shipping = array(
+    /*$shipping = array(
         'country' => __('Country', 'woocommerce-checkout-manager'),
         'first_name' => __('First Name', 'woocommerce-checkout-manager'),
         'last_name' => __('Last Name', 'woocommerce-checkout-manager'),
@@ -557,10 +557,10 @@ function wooccm_options_page() {
       }
 
       $bill++;
-    }
+    }*/
     add_option('wccs_settings', $defaults);
-    add_option('wccs_settings2', $defaults2);
-    add_option('wccs_settings3', $defaults3);
+    //add_option('wccs_settings2', $defaults2);
+    //add_option('wccs_settings3', $defaults3);
 
     // @mod - Change this to add_query_arg()
     echo '
