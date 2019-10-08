@@ -4,6 +4,7 @@ if (!class_exists('WOOCCM_Field_Billing')) {
 
   class WOOCCM_Field_Billing extends WOOCCM_Field_Compatibility {
 
+    protected static $_instance;
     protected $prefix = 'billing';
     protected $option_name = 'wccs_settings3';
     protected $defaults = array(
@@ -19,6 +20,13 @@ if (!class_exists('WOOCCM_Field_Billing')) {
         'email',
         'phone'
     );
+
+    public static function instance() {
+      if (is_null(self::$_instance)) {
+        self::$_instance = new self();
+      }
+      return self::$_instance;
+    }
 
   }
 

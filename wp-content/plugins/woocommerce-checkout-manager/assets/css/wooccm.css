@@ -6,6 +6,9 @@
 .woocommerce form .wooccm-clearfix:after {
   clear: both;
 }
+.woocommerce form .wooccm-conditional-child {
+  display: none;
+}
 .button.fileinput-button {
   position: relative;
   overflow: hidden!important;

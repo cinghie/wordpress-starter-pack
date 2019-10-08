@@ -13,24 +13,7 @@ if (!class_exists('WOOCCM_Field_Admin')) {
 
       wp_register_style('wooccm-admin', plugins_url('assets/css/wooccm-admin.css', WOOCCM_PLUGIN_FILE), array('media-views', /* 'woocommerce_admin_marketplace_styles' */), WOOCCM_PLUGIN_VERSION, 'all');
 
-
       wp_register_script('wooccm-admin', plugins_url('assets/js/wooccm-admin.js', WOOCCM_PLUGIN_FILE), array('jquery'), WOOCCM_PLUGIN_VERSION, true);
-
-
-      wp_register_script('wooccm-field', plugins_url('assets/js/wooccm-field.js', WOOCCM_PLUGIN_FILE), array('jquery', 'jquery-ui-datepicker', 'backbone'), WOOCCM_PLUGIN_VERSION, true);
-
-      wp_localize_script('wooccm-field', 'wooccm_admin', array(
-          'ajax_url' => admin_url('admin-ajax.php?section=' . $current_section),
-          'nonce' => wp_create_nonce('wooccm_admin'),
-          'field' => array(
-              'args' => WOOCCM()->field->billing->get_args(),
-          ),
-          'message' => array(
-              'remove' => esc_html__('Are you sure you want to remove this field?', 'woocommerce-checkout-manager'),
-              'reset' => esc_html__('Are you sure you want to reset this fields?', 'woocommerce-checkout-manager')
-          )
-      ));
-
 
       if (isset($_GET['tab']) && $_GET['tab'] === WOOCCM_PREFIX) {
         wp_enqueue_style('wooccm-admin');

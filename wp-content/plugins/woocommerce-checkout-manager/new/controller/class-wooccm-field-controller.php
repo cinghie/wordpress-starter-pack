@@ -2,9 +2,22 @@
 
 class WOOCCM_Field_Controller {
 
+  protected static $_instance;
   public $billing;
   public $shipping;
   public $additional;
+
+  public function __construct() {
+    $this->includes();
+    $this->init();
+  }
+
+  public static function instance() {
+    if (is_null(self::$_instance)) {
+      self::$_instance = new self();
+    }
+    return self::$_instance;
+  }
 
   function enqueue_scripts() {
 
@@ -21,7 +34,6 @@ class WOOCCM_Field_Controller {
             'reset' => esc_html__('Are you sure you want to reset this fields?', 'woocommerce-checkout-manager')
         )
     ));
-
 
     if (isset($_GET['tab']) && $_GET['tab'] === WOOCCM_PREFIX) {
       wp_enqueue_script('wooccm-field');
@@ -289,15 +301,13 @@ class WOOCCM_Field_Controller {
     }
   }
 
-  function save_section_billing() {
+  function save_field_order() {
 
     global $current_section;
 
     if ($current_section) {
 
       $section = wc_clean(wp_unslash($current_section));
-
-      //error_log($current_section);
 
       if (array_key_exists('field_order', $_POST)) {
 
@@ -322,6 +332,88 @@ class WOOCCM_Field_Controller {
             }
 
             WOOCCM()->field->$section->update_fields($fields);
+          }
+        }
+      }
+    }
+  }
+
+  // Admin Order
+  // ---------------------------------------------------------------------------
+
+  function add_order_billing_data($order) {
+
+    if ($fields = WOOCCM()->field->billing->get_fields('old')) {
+
+      $defaults = WOOCCM()->field->billing->get_defaults();
+
+      foreach ($fields as $field_id => $field) {
+
+        if (!in_array($field['cow'], $defaults)) {
+
+          if ($value = get_post_meta($order->get_id(), sprintf('_billing_%s', $field['cow']), true)) {
+            ?>
+            <p id="billing_<?php echo esc_attr($field['cow']); ?>" class="form-field form-field-wide form-field-type-<?php echo esc_attr($field['type']); ?>">
+              <strong title="<?php echo esc_attr(sprintf(__('ID: %s | Field Type: %s', 'woocommerce-checkout-manager'), sprintf('_billing_%s', $field['cow']), __('Generic', 'woocommerce-checkout-manager'))); ?>">
+                <?php echo esc_attr(wooccm_wpml_string(trim($field['label']))); ?>:
+              </strong>
+              <br />
+              <?php echo esc_html($value); ?>
+            </p>
+            <?php
+          }
+        }
+      }
+    }
+  }
+
+  function add_order_shipping_data($order) {
+
+    if ($fields = WOOCCM()->field->shipping->get_fields('old')) {
+
+      $defaults = WOOCCM()->field->shipping->get_defaults();
+
+      foreach ($fields as $field_id => $field) {
+
+        if (!in_array($field['cow'], $defaults)) {
+
+          if ($value = get_post_meta($order->get_id(), sprintf('_shipping_%s', $field['cow']), true)) {
+            ?>
+            <p id="shipping_<?php echo esc_attr($field['cow']); ?>" class="form-field form-field-wide form-field-type-<?php echo esc_attr($field['type']); ?>">
+              <strong title="<?php echo esc_attr(sprintf(__('ID: %s | Field Type: %s', 'woocommerce-checkout-manager'), sprintf('_shipping_%s', $field['cow']), __('Generic', 'woocommerce-checkout-manager'))); ?>">
+                <?php echo esc_attr(wooccm_wpml_string(trim($field['label']))); ?>:
+              </strong>
+              <br/>
+              <?php echo esc_html($value); ?>
+            </p>
+            <?php
+          }
+        }
+      }
+    }
+  }
+
+  function add_order_additional_data($order) {
+
+    if ($fields = WOOCCM()->field->additional->get_fields('old')) {
+
+      $defaults = WOOCCM()->field->additional->get_defaults();
+
+      foreach ($fields as $field_id => $field) {
+
+        if (!in_array($field['cow'], $defaults)) {
+
+          $value = get_post_meta($order->get_id(), sprintf('_%s_%s', 'additional', $field['cow']), true) ? $value : get_post_meta($order->get_id(), sprintf('%s', $field['cow']), true);
+          if ($value) {
+            ?>
+            <p id="additional_<?php echo esc_attr($field['cow']); ?>" class="form-field form-field-wide form-field-type-<?php echo esc_attr($field['type']); ?>">
+              <strong title="<?php echo esc_attr(sprintf(__('ID: %s | Field Type: %s', 'woocommerce-checkout-manager'), sprintf('_%s', $field['cow']), __('Generic', 'woocommerce-checkout-manager'))); ?>">
+                <?php echo esc_attr(wooccm_wpml_string(trim($field['label']))); ?>:
+              </strong>
+              <br/>
+              <?php echo esc_html($value); ?>
+            </p>
+            <?php
           }
         }
       }
@@ -396,15 +488,13 @@ class WOOCCM_Field_Controller {
     include_once( WOOCCM_PLUGIN_DIR . 'new/view/frontend/fields/register.php' );
     include_once( WOOCCM_PLUGIN_DIR . 'new/view/frontend/fields/additional.php' );
     include_once( WOOCCM_PLUGIN_DIR . 'new/view/frontend/fields/display.php' );
-    //include_once( WOOCCM_PLUGIN_DIR . 'includes/templates/functions/additional_display.php' );
     include_once( WOOCCM_PLUGIN_DIR . 'new/view/frontend/fields/conditional.php' );
     include_once( WOOCCM_PLUGIN_DIR . 'new/view/frontend/fields/handler.php' );
     include_once( WOOCCM_PLUGIN_DIR . 'new/view/frontend/fields/filters.php' );
 
-    //$this->field = new WOOCCM_Field();
-    $this->billing = new WOOCCM_Field_Billing();
-    $this->shipping = new WOOCCM_Field_Shipping();
-    $this->additional = new WOOCCM_Field_Additional();
+    $this->billing = WOOCCM_Field_Billing::instance();
+    $this->shipping = WOOCCM_Field_Shipping::instance();
+    $this->additional = WOOCCM_Field_Additional::instance();
   }
 
   function init() {
@@ -417,15 +507,15 @@ class WOOCCM_Field_Controller {
     add_action('wp_ajax_wooccm_change_field_attribute', array($this, 'ajax_change_field_attribute'));
     add_action('wp_ajax_wooccm_toggle_field_attribute', array($this, 'ajax_toggle_field_attribute'));
 
+
+    add_action('woocommerce_admin_order_data_after_billing_address', array($this, 'add_order_billing_data'));
+    add_action('woocommerce_admin_order_data_after_shipping_address', array($this, 'add_order_shipping_data'));
+    add_action('woocommerce_admin_order_data_after_order_details', array($this, 'add_order_additional_data'));
+
     add_action('woocommerce_sections_' . WOOCCM_PREFIX, array($this, 'add_section_billing'), 99);
     add_action('woocommerce_sections_' . WOOCCM_PREFIX, array($this, 'add_section_shipping'), 99);
     add_action('woocommerce_sections_' . WOOCCM_PREFIX, array($this, 'add_section_additional'), 99);
-    add_action('woocommerce_settings_save_' . WOOCCM_PREFIX, array($this, 'save_section_billing'));
-  }
-
-  public function __construct() {
-    $this->includes();
-    $this->init();
+    add_action('woocommerce_settings_save_' . WOOCCM_PREFIX, array($this, 'save_field_order'));
   }
 
 }

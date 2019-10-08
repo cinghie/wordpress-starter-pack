@@ -23,8 +23,7 @@ final class WOOCCM {
 
     load_plugin_textdomain('woocommerce-checkout-manager', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 
-
-    $this->field = new WOOCCM_Field_Controller();
+    $this->field = WOOCCM_Field_Controller::instance();
   }
 
   function includes() {
@@ -32,12 +31,12 @@ final class WOOCCM {
     // New
     // -----------------------------------------------------------------------
     include_once( WOOCCM_PLUGIN_DIR . 'new/class-wooccm-install.php' );
-    include_once( WOOCCM_PLUGIN_DIR . 'new/class-wooccm-notices.php' );    
+    include_once( WOOCCM_PLUGIN_DIR . 'new/class-wooccm-notices.php' );
     include_once( WOOCCM_PLUGIN_DIR . 'new/class-wooccm-admin.php' );
-    include_once( WOOCCM_PLUGIN_DIR . 'new/controller/class-field-controller.php' );
-    include_once( WOOCCM_PLUGIN_DIR . 'new/controller/upload.php' );
-    include_once( WOOCCM_PLUGIN_DIR . 'new/controller/order.php' );
-    include_once( WOOCCM_PLUGIN_DIR . 'new/controller/checkout.php' );
+    include_once( WOOCCM_PLUGIN_DIR . 'new/controller/class-wooccm-field-controller.php' );
+    include_once( WOOCCM_PLUGIN_DIR . 'new/controller/class-wooccm-upload-handler.php' );
+    include_once( WOOCCM_PLUGIN_DIR . 'new/controller/class-wooccm-order-controller.php' );
+    include_once( WOOCCM_PLUGIN_DIR . 'new/controller/class-wooccm-checkout-controller.php' );
   }
 
   function includes_old() {
@@ -49,16 +48,13 @@ final class WOOCCM {
     include_once( WOOCCM_PLUGIN_DIR . 'includes/email.php' );
     include_once( WOOCCM_PLUGIN_DIR . 'includes/formatting.php' );
     include_once( WOOCCM_PLUGIN_DIR . 'includes/admin.php' );
-    include_once( WOOCCM_PLUGIN_DIR . 'includes/template.php' );
+    //include_once( WOOCCM_PLUGIN_DIR . 'includes/template.php' );
     include_once( WOOCCM_PLUGIN_DIR . 'includes/export.php' );
     include_once( WOOCCM_PLUGIN_DIR . 'includes/classes/main.php' );
-    include_once( WOOCCM_PLUGIN_DIR . 'includes/templates/functions/required/add_required.php' );
-    include_once( WOOCCM_PLUGIN_DIR . 'includes/templates/functions/required/billing_required.php' );
-    include_once( WOOCCM_PLUGIN_DIR . 'includes/templates/functions/required/shipping_required.php' );
   }
 
   public function register_scripts() {
-   
+
     // Frontend
     // -----------------------------------------------------------------------
 

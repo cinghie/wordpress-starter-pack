@@ -15,7 +15,6 @@ if (!class_exists('WOOCCM_Order')) {
         wp_enqueue_style('wooccm');
         wp_enqueue_style('dashicons');
         wp_enqueue_script('wooccm-order-upload');
-        //wp_enqueue_style('wooccm-button-style', plugins_url('assets/old/edit-order-uploads-button_style.css', WOOCCM_PLUGIN_FILE), false, WOOCCM_PLUGIN_VERSION, 'all');
       }
     }
 

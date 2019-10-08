@@ -28,4 +28,3 @@ function wooccm_get_woo_version() {
 	return $version;
 
 }
-?>

@@ -3,7 +3,7 @@
 /**
  * Plugin Name: WooCommerce Checkout Manager
  * Description: Manages WooCommerce Checkout, the advanced way.
- * Version:     4.5.3
+ * Version:     4.5.4
  * Author:      QuadLayers
  * Author URI:  https://www.quadlayers.com
  * Copyright:   2019 QuadLayers (https://www.quadlayers.com)
@@ -17,7 +17,7 @@ if (!defined('WOOCCM_PLUGIN_NAME')) {
   define('WOOCCM_PLUGIN_NAME', 'WooCommerce Checkout Manager');
 }
 if (!defined('WOOCCM_PLUGIN_VERSION')) {
-  define('WOOCCM_PLUGIN_VERSION', '4.5.3');
+  define('WOOCCM_PLUGIN_VERSION', '4.5.4');
 }
 if (!defined('WOOCCM_PLUGIN_FILE')) {
   define('WOOCCM_PLUGIN_FILE', __FILE__);
@@ -69,7 +69,7 @@ add_action('woocommerce_checkout_update_order_meta', 'wooccm_custom_checkout_fie
 add_action('woocommerce_checkout_process', 'wooccm_custom_checkout_field_process');
 add_action('woocommerce_checkout_update_user_meta', 'wooccm_custom_checkout_field_update_user_meta', 10, 2);
 // Checkout - Order Received
-add_action('woocommerce_order_details_after_customer_details', 'wooccm_order_received_checkout_details');
+//add_action('woocommerce_order_details_after_customer_details', 'wooccm_order_received_checkout_details');
 add_action('woocommerce_checkout_after_customer_details', 'wooccm_checkout_text_after');
 add_action('woocommerce_checkout_before_customer_details', 'wooccm_checkout_text_before');
 add_filter('woocommerce_checkout_fields', 'wooccm_remove_fields_filter_billing', 15);
@@ -82,27 +82,9 @@ add_filter('wc_customer_order_csv_export_order_headers', 'wooccm_csv_export_modi
 
 add_filter('default_checkout_billing_state', 'wooccm_state_default_switch');
 
-add_action('woocommerce_checkout_process', 'wooccm_custom_checkout_process');
-add_action('woocommerce_checkout_process', 'wooccm_billing_custom_checkout_process');
-add_action('woocommerce_checkout_process', 'wooccm_shipping_custom_checkout_process');
-
 add_action('woocommerce_checkout_fields', 'wooccm_order_notes');
 add_filter('parse_query', 'wooccm_query_list');
 add_action('restrict_manage_posts', 'woooccm_restrict_manage_posts');
-
-if (wooccm_validator_changename()) {
-
-  add_action('woocommerce_before_cart', 'wooccm_before_checkout');
-  add_action('woocommerce_admin_order_data_after_order_details', 'wooccm_before_checkout');
-  add_action('woocommerce_before_my_account', 'wooccm_before_checkout');
-  add_action('woocommerce_email_header', 'wooccm_before_checkout');
-  add_action('woocommerce_before_checkout_form', 'wooccm_before_checkout');
-  add_action('woocommerce_after_cart', 'wooccm_after_checkout');
-  add_action('woocommerce_admin_order_data_after_shipping_address', 'wooccm_after_checkout');
-  add_action('woocommerce_after_my_account', 'wooccm_after_checkout');
-  add_action('woocommerce_email_footer', 'wooccm_after_checkout');
-  add_action('woocommerce_after_checkout_form', 'wooccm_after_checkout');
-}
 
 if (wooccm_enable_auto_complete()) {
   add_action('woocommerce_before_checkout_form', 'wooccm_retain_field_values');

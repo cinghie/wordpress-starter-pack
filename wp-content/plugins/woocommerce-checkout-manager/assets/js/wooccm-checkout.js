@@ -282,16 +282,20 @@
   $('.wooccm-conditional-child').each(function (i, field) {
 
     var $field = $(field),
-            $parent = $('#' + $field.find('[data-conditional-parent]').data('conditional-parent')),
+            $parent = $('#' + $field.find('[data-conditional-parent]').data('conditional-parent') + '_field'),
             show_if_value = $field.find('[data-conditional-parent-value]').data('conditional-parent-value');
 
     if ($parent.length) {
 
       $parent.on('wooccm_change change keyup', function (e) {
 
-        // e.target not working because of select2
-        var $this = $(e.currentTarget).find('input,select,textarea').first(),
+        var $this = $(e.target),
                 value = $this.val();
+
+        // fix for select2 search
+        if ($this.hasClass('select2-selection')) {
+          return;
+        }
 
         if ($this.prop('type') == 'checkbox') {
           value = $this.is(':checked');
@@ -304,6 +308,7 @@
         }
 
         $this.off('wooccm_change');
+        $this.off('change');
         $this.off('keyup');
 
       });

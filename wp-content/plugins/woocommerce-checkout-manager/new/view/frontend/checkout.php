@@ -86,8 +86,15 @@ if (!class_exists('WOOCCM_Checkout')) {
       }
     }
 
+    function add_thankyou_fields($order) {
+      wc_get_template('templates/checkout/thankyou-fields.php', array('order' => $order), '', WOOCCM_PLUGIN_DIR);
+    }
+
     function init() {
       add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
+      add_action('woocommerce_order_details_after_order_table', array($this, 'add_thankyou_fields'), -10);
+      //add_action('woocommerce_view_order', array($this, 'add_thankyou_fields'), 11);
+      //add_action('woocommerce_thankyou', array($this, 'add_thankyou_fields'), 11);
     }
 
     public static function instance() {

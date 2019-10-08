@@ -102,10 +102,11 @@ class WOOCCM_Field {
         'label' => null,
         'placeholder' => null,
         'default' => null,
-        'position' => null,
+        'position' => 'form-row-wide',
         'clear' => null,
         'options' => null,
         'required' => null,
+        'class' => null,
         // Display
         // -------------------------------------------------------------------
         'show_role' => null,

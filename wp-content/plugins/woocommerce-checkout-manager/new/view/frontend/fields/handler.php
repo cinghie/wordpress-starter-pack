@@ -60,12 +60,12 @@ if (!class_exists('WOOCCM_Fields_Handler')) {
 
       foreach ($fields as $key => $type) {
 
-        foreach ($type as $id => $field) {
+        foreach ($type as $field_id => $field) {
 
           // Remove disabled
           // -------------------------------------------------------------------
           if (!empty($field['disabled'])) {
-            unset($fields[$key][$id]);
+            unset($fields[$key][$field_id]);
           }
         }
       }

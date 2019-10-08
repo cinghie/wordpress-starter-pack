@@ -14,9 +14,9 @@ if (!class_exists('WOOCCM_Fields_Register')) {
 
       // Conditonal
       // -----------------------------------------------------------------------
-
-      $fields[$key]['conditional_tie'] = sprintf("%s_field", @$fields[$key]['conditional_tie']);
-
+      if (!empty($fields[$key]['conditional_parent_use']) && !empty($fields[$key]['conditional_tie']) && !empty($fields[$key]['chosen_valt']) && ($fields[$key]['conditional_tie'] != $fields[$key]['cow'])) {
+        $fields[$key]['conditional_tie'] = sprintf("%s_%s", $prefix, @$fields[$key]['conditional_tie']);
+      }
       // Class
       // -----------------------------------------------------------------------
       if (!is_array(@$fields[$key]['class'])) {
@@ -147,7 +147,7 @@ if (!class_exists('WOOCCM_Fields_Register')) {
       $frontend_fields = array();
 
       if ($custom_fields = WOOCCM()->field->$prefix->get_fields('old')) {
-        
+
         foreach ($custom_fields as $field_id => $custom_field) {
 
           if (!empty($custom_field['cow']) && empty($custom_field['disabled'])) {

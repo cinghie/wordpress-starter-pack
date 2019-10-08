@@ -248,8 +248,8 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
   }
 
   function get_old_type($type = '') {
-    
-    if(!$type) {
+
+    if (!$type) {
       return 'wooccmtext';
     }
 
@@ -279,9 +279,11 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
       }
     }
 
-    if (!isset($field['position'])) {
-      $field['position'] = $this->array_to_string(array_intersect($field['class'], array('form-row-wide', 'form-row-first', 'form-row-last')));
+    //if (empty($field['position']) && isset($field['class'])) {
+    if ($position = $this->array_to_string(array_intersect((array) $field['class'], array('form-row-wide', 'form-row-first', 'form-row-last')))) {
+      $field['position'] = $position;
     }
+    //}
 
     if (!isset($field['order'])) {
       $field['order'] = $field_id + 1;
