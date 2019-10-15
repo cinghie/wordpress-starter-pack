@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Jetpack by WordPress.com - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-10-01 14:54:11+0000\n"
+"PO-Revision-Date: 2019-10-10 00:54:11+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -26,6 +26,10 @@ msgstr "Visualizza più immagini in un layout affiancato organizzato in maniera 
 #: _inc/jetpack-strings.php:117
 msgid "{{a}}Activate{{/a}} to optimize image sizes and load images from Jetpack's fast global network of servers. This improves your site's performance on desktop and mobile devices."
 msgstr "{{a}}Attiva{{/a}} per ottimizzare le dimensioni e il caricamento delle immagini dalla rapida rete globale di server di Jetpack. Questa funzione migliora le prestazioni del tuo sito su desktop e dispositivi mobili."
+
+#: _inc/jetpack-strings.php:469
+msgid "Use Markdown syntax to compose content with links, lists, and other styles. This setting enables Markdown in the Classic Editor as well as within a Classic Editor block."
+msgstr "Usa la sintassi Markdown per comporre contenuti con link, elenchi e altri stili. Questa impostazione abilita il Markdown nell'editor classico e all'interno di un blocco dell'editor classico."
 
 #: _inc/jetpack-strings.php:115
 msgid "Jetpack is optimizing your image sizes and download speed using our fast global network of servers. This improves your site's performance on desktop and mobile devices."
