@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     6.6.7
+ * Version:     6.6.8
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '6.6.7' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '6.6.8' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -817,6 +817,8 @@ function woosea_add_cat_mapping() {
 	$criteria = $_POST['criteria'];
 	$status_mapping = "false";
 	$project = WooSEA_Update_Project::get_project_data(sanitize_text_field($project_hash));	
+
+
 
 	// This is during the configuration of a new feed
 	if(empty($project)){
@@ -1743,10 +1745,9 @@ function woosea_custom_general_fields() {
 
 	$extra_attributes = array();
         $extra_attributes = get_option( 'woosea_extra_attributes' );
-	$nr_extra_fields = count($extra_attributes);
 
 	// Check if the option is enabled or not in the pluggin settings 
-	if( (get_option('add_unique_identifiers') == "yes") AND ($nr_extra_fields > 0) ){
+	if( (get_option('add_unique_identifiers') == "yes") AND (!empty($extra_attributes)) ){
 
 	        echo '<div id="woosea_attr" class="options_group">';
 
