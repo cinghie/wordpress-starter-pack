@@ -98,7 +98,7 @@
         },
         success: function (response) {
           if (response.success) {
-            //console.log(response.data);
+            console.log(response.data);
             //console.log(this.model.attributes);
             modal.model.set(response.data);
             modal.render();
@@ -202,7 +202,7 @@
 
       //console.log($form.serializeArrayAll());
       //console.log($form.serialize());
-      //console.log(modal.model.attributes);
+      console.log(modal.model.attributes);
 
       $.ajax({
         url: wooccm_field.ajax_url,

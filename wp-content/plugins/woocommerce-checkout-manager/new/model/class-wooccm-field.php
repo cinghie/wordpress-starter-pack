@@ -2,6 +2,7 @@
 
 class WOOCCM_Field {
 
+  protected $fields = null;
   protected $prefix = '';
   protected $option_name = '';
   protected $defaults = array();
@@ -17,7 +18,7 @@ class WOOCCM_Field {
     return ( $a['order'] < $b['order'] ) ? -1 : 1;
   }
 
-  function duplicated_name($name, $fields) {
+  protected function duplicated_name($name, $fields) {
 
     if (!empty($fields)) {
       if (is_array($fields)) {
@@ -28,6 +29,10 @@ class WOOCCM_Field {
         }
       }
     }
+  }
+
+  public function get_id($fields) {
+    return absint(key(array_slice($fields, -1, 1, true))) + 1;
   }
 
   public function get_name($field_id) {
@@ -62,8 +67,12 @@ class WOOCCM_Field {
   public function get_template_types() {
 
     return array(
-        'button',
         'heading',
+        'button',
+        'message',
+        'file',
+        'country',
+        'state'
     );
   }
 
@@ -93,25 +102,25 @@ class WOOCCM_Field {
 
     return array(
         'id' => null,
-        'key' => null,
+        'key' => '',
         'name' => '',
         'type' => 'text',
-        'disabled' => null,
+        'disabled' => false,
         'order' => null,
         'priority' => null,
-        'label' => null,
-        'placeholder' => null,
-        'default' => null,
+        'label' => '',
+        'placeholder' => '',
+        'default' => '',
         'position' => 'form-row-wide',
-        'clear' => null,
-        'options' => null,
-        'required' => null,
-        'class' => null,
+        'clear' => false,
+        'options' => '',
+        'required' => false,
+        'class' => array(),
         // Display
         // -------------------------------------------------------------------
-        'show_role' => null,
-        'hide_role' => null,
-        'more_product' => null,
+        'show_role' => array(),
+        'hide_role' => array(),
+        'more_product' => false,
         'show_product' => array(),
         'hide_product' => array(),
         'show_product_cat' => array(),
@@ -128,23 +137,83 @@ class WOOCCM_Field {
         'date_limit_fixed_max' => date('Y-m-d'),
         // Amount
         // -------------------------------------------------------------------
-        'add_amount' => null,
-        'add_amount_name' => null,
+        'add_amount' => false,
+        'add_amount_name' => '',
         'add_amount_total' => null,
-        'add_amount_type' => null,
-        'add_amount_tax' => null,
-        'extra_class' => null,
+        'add_amount_type' => '',
+        'add_amount_tax' => false,
+        'extra_class' => '',
         // Conditional
         // -------------------------------------------------------------------
-        'conditional' => null,
-        'conditional_parent_name' => null,
-        'conditional_parent_value' => null,
+        'conditional' => false,
+        'conditional_parent_name' => '',
+        'conditional_parent_value' => '',
+        // State
+        // -------------------------------------------------------------------
+        'country' => '',
+        // Upload
+        // -------------------------------------------------------------------
+        'file_limit' => 1,
+        'file_types' => array(),
         // Listing
         // -------------------------------------------------------------------
-        'listable' => null,
-        'sortable' => null,
-        'filterable' => null,
+        'listable' => false,
+        'sortable' => false,
+        'filterable' => false,
     );
+  }
+
+  public function sanitize_field_data($field_data) {
+
+    $args = $this->get_args();
+
+    foreach ($field_data as $key => $value) {
+
+      if (array_key_exists($key, $args)) {
+
+        $type = $args[$key];
+
+        if (is_null($type) && !is_numeric($value)) {
+          $field_data[$key] = (int) $value;
+        } elseif (is_bool($type) && !is_bool($value)) {
+          $field_data[$key] = ($value === 'true' || $value === '1' || $value === 1);
+        } elseif (is_string($type) && !is_string($value)) {
+          $field_data[$key] = strval($value);
+        } elseif (is_array($type) && !is_array($value)) {
+          $field_data[$key] = (array) $type;
+        }
+      } else {
+        unset($field_data[$key]);
+      }
+    }
+
+    return $field_data;
+  }
+
+  public function get_default_fields() {
+
+    $fields = array();
+
+    if ($this->prefix) {
+
+      $prefix = sprintf('%s_', $this->prefix);
+
+      $filters = WOOCCM_Fields_Register::instance();
+
+      //fix nesting level
+      remove_filter('woocommerce_' . $prefix . 'fields', array($filters, 'add_checkout_' . $prefix . 'fields'));
+
+      foreach (WC()->countries->get_address_fields('', $prefix) as $key => $field) {
+
+        $field['name'] = str_replace($prefix, '', $key);
+
+        $fields[] = $field;
+      }
+    }
+
+    //error_log(json_encode($fields));
+
+    return $fields;
   }
 
   public function get_defaults() {

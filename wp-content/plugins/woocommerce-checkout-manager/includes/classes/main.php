@@ -9,247 +9,16 @@
 if (!defined('ABSPATH'))
   exit;
 
-if (wooccm_enable_auto_complete()) {
-
-  function wooccm_retain_field_values() {
-
-    $options = get_option('wccs_settings');
-    $options2 = get_option('wccs_settings2');
-    $options3 = get_option('wccs_settings3');
-
-    if (is_checkout() == false)
-      return;
-
-    $saved = WC()->session->get('wooccm_retain', array());
-    ?>
-
-    <script type="text/javascript">
-
-      jQuery(document).ready(function () {
-        window.onload = function () {
-
-    <?php
-    if (!empty($options['buttons'])) {
-      foreach ($options['buttons'] as $btn) {
-        if (
-                $btn['type'] !== 'wooccmupload' &&
-                $btn['type'] !== 'changename' &&
-                $btn['type'] !== 'heading' &&
-                $btn['disabled'] !== 'true' &&
-                empty($btn['tax_remove']) &&
-                empty($btn['add_amount'])
-        ) {
-          ?>
-                document.forms['checkout'].elements['<?php echo $btn['cow']; ?>'].value = "<?php echo $saved[$btn['cow']]; ?>";
-          <?php
-        }
-      }
-    }
-
-    if (!is_user_logged_in()) {
-
-      if (WC()->cart->needs_shipping_address() === true && sanitize_text_field($_POST['ship_to_different_address']) == 1) {
-
-        if (!empty($options2['shipping_buttons'])) {
-          foreach ($options2['shipping_buttons'] as $btn) {
-            if (
-                    $btn['type'] !== 'wooccmupload' &&
-                    $btn['type'] !== 'changename' &&
-                    $btn['type'] !== 'heading' &&
-                    $btn['disabled'] !== 'true' &&
-                    empty($btn['tax_remove']) &&
-                    empty($btn['add_amount'])
-            ) {
-              ?>
-                    document.forms['checkout'].elements['shipping_<?php echo $btn['cow']; ?>'].value = "<?php echo $saved[sprintf('shipping_%s', $btn['cow'])]; ?>";
-              <?php
-            }
-          }
-        }
-      }
-
-      if (!empty($options3['billing_buttons'])) {
-        foreach ($options3['billing_buttons'] as $btn) {
-          if (
-                  $btn['type'] !== 'wooccmupload' &&
-                  $btn['type'] !== 'changename' &&
-                  $btn['type'] !== 'heading' &&
-                  $btn['disabled'] !== 'true' &&
-                  empty($btn['tax_remove']) &&
-                  empty($btn['add_amount'])
-          ) {
-            ?>
-                  document.forms['checkout'].elements['billing_<?php echo $btn['cow']; ?>'].value = "<?php echo $saved[sprintf('billing_%s', $btn['cow'])]; ?>";
-            <?php
-          }
-        }
-      }
-    }
-    ?>
-
-        }
-      });
-    </script>
-
-    <script type="text/javascript">
-
-      jQuery(document).ready(function() {
-      jQuery('body').change(function() {
-
-      var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
-              data = { action: 'retain_val_wccs',
-    <?php
-    if (!empty($options['buttons'])) {
-      foreach ($options['buttons'] as $btn) {
-        if (
-                $btn['type'] !== 'wooccmupload' &&
-                $btn['type'] !== 'changename' &&
-                $btn['type'] !== 'heading' &&
-                empty($btn['tax_remove']) &&
-                empty($btn['add_amount'])
-        ) {
-          ?>
-          <?php echo $btn['cow']; ?>: jQuery("#<?php echo $btn['cow']; ?>").val(),
-          <?php
-        }
-      }
-    }
-
-    if (!is_user_logged_in()) {
-
-      if (WC()->cart->needs_shipping_address() === true && sanitize_text_field($_POST['ship_to_different_address']) == 1) {
-
-        if (!empty($options2['shipping_buttons'])) {
-          foreach ($options2['shipping_buttons'] as $btn) {
-            if (
-                    $btn['type'] !== 'wooccmupload' &&
-                    $btn['type'] !== 'changename' &&
-                    $btn['type'] !== 'heading' &&
-                    empty($btn['tax_remove']) &&
-                    empty($btn['add_amount'])
-            ) {
-              ?>
-                        shipping_<?php echo $btn['cow']; ?>: jQuery("shipping_<?php echo $btn['cow']; ?>").val(),
-              <?php
-            }
-          }
-        }
-      }
-
-      if (!empty($options3['billing_buttons'])) {
-        foreach ($options3['billing_buttons'] as $btn) {
-          if (
-                  $btn['type'] !== 'wooccmupload' &&
-                  $btn['type'] !== 'changename' &&
-                  $btn['type'] !== 'heading' &&
-                  empty($btn['tax_remove']) &&
-                  empty($btn['add_amount'])
-          ) {
-            ?>
-                      billing_<?php echo $btn['cow']; ?>: jQuery("#billing_<?php echo $btn['cow']; ?>").val(),
-            <?php
-          }
-        }
-      }
-    }
-    ?>
-              };
-              jQuery.post(ajaxurl, data, function(response) { });
-              return false;
-      });
-      });
-
-    </script>
-
-    <?php
-  }
-
-  function wooccm_retain_val_callback() {
-
-    global $wpdb;
-
-    $options = get_option('wccs_settings');
-    $options2 = get_option('wccs_settings2');
-    $options3 = get_option('wccs_settings3');
-
-    if (!empty($options['buttons'])) {
-      foreach ($options['buttons'] as $btn) {
-        if (
-                $btn['type'] !== 'wooccmupload' &&
-                $btn['type'] !== 'changename' &&
-                $btn['type'] !== 'heading' &&
-                empty($btn['tax_remove']) &&
-                empty($btn['add_amount'])
-        ) {
-          if (!empty($_POST[$btn['cow']])) {
-            $saved[$btn['cow']] = sanitize_text_field($_POST[$btn['cow']]);
-          }
-        }
-      }
-    }
-
-    if (WC()->cart->needs_shipping_address() === true && sanitize_text_field($_POST['ship_to_different_address']) == 1) {
-      if (!empty($options2['shipping_buttons'])) {
-        foreach ($options2['shipping_buttons'] as $btn) {
-          if (
-                  $btn['type'] !== 'wooccmupload' &&
-                  $btn['type'] !== 'changename' &&
-                  $btn['type'] !== 'heading' &&
-                  empty($btn['tax_remove']) &&
-                  empty($btn['add_amount'])
-          ) {
-            if (!empty($_POST[sprintf('shipping_%s', $btn['cow'])])) {
-              $saved[sprintf('shipping_%s', $btn['cow'])] = sanitize_text_field($_POST[sprintf('shipping_%s', $btn['cow'])]);
-            }
-          }
-        }
-      }
-    }
-
-    if (!empty($options3['billing_buttons'])) {
-      foreach ($options3['billing_buttons'] as $btn) {
-        if (
-                $btn['type'] !== 'wooccmupload' &&
-                $btn['type'] !== 'changename' &&
-                $btn['type'] !== 'heading' &&
-                empty($btn['tax_remove']) &&
-                empty($btn['add_amount'])
-        ) {
-          if (!empty($_POST[sprintf('billing_%s', $btn['cow'])])) {
-            $saved[sprintf('billing_%s', $btn['cow'])] = sanitize_text_field($_POST[sprintf('billing_%s', $btn['cow'])]);
-          }
-        }
-      }
-    }
-
-    WC()->session->set('wooccm_retain', $saved);
-
-    die();
-  }
-
-  add_action('wp_ajax_retain_val_wccs', 'wooccm_retain_val_callback');
-  add_action('wp_ajax_nopriv_retain_val_wccs', 'wooccm_retain_val_callback');
-}
-
-function wooccm_enable_auto_complete() {
-
-  $options = get_option('wccs_settings');
-
-  if (!empty($options['checkness']['retainval'])) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function wooccm_state_default_switch() {
-
-  $options = get_option('wccs_settings');
-
-  if (!empty($options['checkness']['per_state']) && !empty($options['checkness']['per_state_check'])) {
-    return $options['checkness']['per_state'];
-  }
-}
+//function wooccm_state_default_switch() {
+//
+//  $options = get_option('wccs_settings');
+//
+//  if (!empty($options['checkness']['per_state']) && !empty($options['checkness']['per_state_check'])) {
+//    return $options['checkness']['per_state'];
+//  }
+//}
+//
+//add_filter('default_checkout_billing_state', 'wooccm_state_default_switch');
 
 function wooccm_woocommerce_delivery_notes_compat($fields, $order) {
 
@@ -423,22 +192,26 @@ function wooccm_woocommerce_delivery_notes_compat($fields, $order) {
   return array_merge($fields, $new_fields);
 }
 
-function wooccm_order_notes($fields = array()) {
+add_filter('wcdn_order_info_fields', 'wooccm_woocommerce_delivery_notes_compat', 10, 2);
 
-  $options = get_option('wccs_settings');
-
-  if (!empty($options['checkness']['noteslabel'])) {
-    $fields['order']['order_comments']['label'] = $options['checkness']['noteslabel'];
-  }
-  if (!empty($options['checkness']['notesplaceholder'])) {
-    $fields['order']['order_comments']['placeholder'] = $options['checkness']['notesplaceholder'];
-  }
-  if (!empty($options['checkness']['notesenable'])) {
-    unset($fields['order']['order_comments']);
-  }
-
-  return $fields;
-}
+//function wooccm_order_notes($fields = array()) {
+//
+//  $options = get_option('wccs_settings');
+//
+//  if (!empty($options['checkness']['noteslabel'])) {
+//    $fields['order']['order_comments']['label'] = $options['checkness']['noteslabel'];
+//  }
+//  if (!empty($options['checkness']['notesplaceholder'])) {
+//    $fields['order']['order_comments']['placeholder'] = $options['checkness']['notesplaceholder'];
+//  }
+//  if (!empty($options['checkness']['notesenable'])) {
+//    unset($fields['order']['order_comments']);
+//  }
+//
+//  return $fields;
+//}
+//
+//add_action('woocommerce_checkout_fields', 'wooccm_order_notes');
 
 function woooccm_restrict_manage_posts() {
 
@@ -546,6 +319,8 @@ function woooccm_restrict_manage_posts() {
   }
 }
 
+add_action('restrict_manage_posts', 'woooccm_restrict_manage_posts');
+
 function wooccm_query_list($query) {
 
   global $pagenow;
@@ -556,140 +331,142 @@ function wooccm_query_list($query) {
   }
 }
 
+add_filter('parse_query', 'wooccm_query_list');
+
 // ========================================
 // Remove conditional notices
 // ========================================
 
-function wooccm_remove_notices_conditional($posted) {
-
-  $notice = WC()->session->get('wc_notices');
-
-  $shipping = array(
-      'country',
-      'first_name',
-      'last_name',
-      'company',
-      'address_1',
-      'address_2',
-      'city',
-      'state',
-      'postcode'
-  );
-  $billing = array(
-      'country',
-      'first_name',
-      'last_name',
-      'company',
-      'address_1',
-      'address_2',
-      'city',
-      'state',
-      'postcode',
-      'email',
-      'phone'
-  );
-
-  $options = get_option('wccs_settings');
-  $buttons = ( isset($options['buttons']) ? $options['buttons'] : false );
-
-  $names = array(
-      'billing',
-      'shipping'
-  );
-  $inc = 3;
-  foreach ($names as $name) {
-
-    $array = ( $name == 'billing' ) ? $billing : $shipping;
-
-    $options2 = get_option('wccs_settings' . $inc);
-    if (!empty($options2[$name . '_buttons'])) {
-      foreach ($options2[$name . '_buttons'] as $btn) {
-
-        if (
-                !empty($btn['chosen_valt']) &&
-                !empty($btn['conditional_parent_use']) &&
-                !empty($btn['conditional_tie']) &&
-                $btn['type'] !== 'changename' &&
-                $btn['type'] !== 'heading' &&
-                !empty($btn['conditional_parent'])
-        ) {
-          if (!empty($_POST[$btn['cow']])) {
-            foreach ($buttons as $btn2) {
-
-              if (
-                      !empty($btn2['chosen_valt']) &&
-                      !empty($btn2['conditional_parent_use']) &&
-                      !empty($btn2['conditional_tie']) &&
-                      $btn2['type'] !== 'changename' &&
-                      $btn2['type'] !== 'heading' &&
-                      empty($btn2['conditional_parent'])
-              ) {
-                if (sanitize_text_field($_POST[$btn['cow']]) != $btn2['chosen_valt']) {
-                  if (empty($_POST[$btn2['cow']])) {
-                    foreach ($notice['error'] as $position => $value) {
-
-                      if (strip_tags($value) == sprintf(__('%s is a required field.', 'woocommerce'), wooccm_wpml_string($btn2['label']))) {
-                        unset($notice['error'][$position]);
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          } else {
-            foreach ($notice['error'] as $position => $value) {
-
-              if (strip_tags($value) == sprintf(__('%s is a required field.', 'woocommerce'), wooccm_wpml_string($btn2['label']))) {
-                unset($notice['error'][$position]);
-              }
-            }
-          }
-        }
-      }
-    }
-    $inc--;
-  }
-
-  $options = get_option('wccs_settings');
-
-  global $woocommerce;
-
-  if (!empty($options['buttons'])) {
-    foreach ($options['buttons'] as $btn) {
-
-      if (!empty($btn['chosen_valt']) && !empty($btn['conditional_parent_use']) && !empty($btn['conditional_tie']) && $btn['type'] !== 'changename' && ($btn['type'] !== 'heading') && !empty($btn['conditional_parent'])) {
-
-        if (!empty($_POST[$btn['cow']])) {
-
-          foreach ($options['buttons'] as $btn2) {
-
-            if (!empty($btn2['chosen_valt']) && !empty($btn2['conditional_parent_use']) && !empty($btn2['conditional_tie']) && $btn2['type'] !== 'changename' && ($btn2['type'] !== 'heading') && empty($btn2['conditional_parent'])) {
-              if (sanitize_text_field($_POST[$btn['cow']]) != $btn2['chosen_valt']) {
-                if (empty($_POST[$btn2['cow']])) {
-                  foreach ($notice['error'] as $position => $value) {
-
-                    if (strip_tags($value) == sprintf(__('%s is a required field.', 'woocommerce'), wooccm_wpml_string($btn2['label']))) {
-                      unset($notice['error'][$position]);
-                    }
-                  }
-                }
-              }
-            }
-          }
-        } else {
-
-          foreach ($notice['error'] as $position => $value) {
-
-            if (strip_tags($value) == sprintf(__('%s is a required field.', 'woocommerce'), wooccm_wpml_string($btn2['label']))) {
-              unset($notice['error'][$position]);
-            }
-          }
-        }
-      }
-    }
-  }
-
-  WC()->session->set('wc_notices', $notice);
-}
-
-add_action('woocommerce_after_checkout_validation', 'wooccm_remove_notices_conditional');
+//function wooccm_remove_notices_conditional($posted) {
+//
+//  $notice = WC()->session->get('wc_notices');
+//
+//  $shipping = array(
+//      'country',
+//      'first_name',
+//      'last_name',
+//      'company',
+//      'address_1',
+//      'address_2',
+//      'city',
+//      'state',
+//      'postcode'
+//  );
+//  $billing = array(
+//      'country',
+//      'first_name',
+//      'last_name',
+//      'company',
+//      'address_1',
+//      'address_2',
+//      'city',
+//      'state',
+//      'postcode',
+//      'email',
+//      'phone'
+//  );
+//
+//  $options = get_option('wccs_settings');
+//  $buttons = ( isset($options['buttons']) ? $options['buttons'] : false );
+//
+//  $names = array(
+//      'billing',
+//      'shipping'
+//  );
+//  $inc = 3;
+//  foreach ($names as $name) {
+//
+//    $array = ( $name == 'billing' ) ? $billing : $shipping;
+//
+//    $options2 = get_option('wccs_settings' . $inc);
+//    if (!empty($options2[$name . '_buttons'])) {
+//      foreach ($options2[$name . '_buttons'] as $btn) {
+//
+//        if (
+//                !empty($btn['chosen_valt']) &&
+//                !empty($btn['conditional_parent_use']) &&
+//                !empty($btn['conditional_tie']) &&
+//                $btn['type'] !== 'changename' &&
+//                $btn['type'] !== 'heading' &&
+//                !empty($btn['conditional_parent'])
+//        ) {
+//          if (!empty($_POST[$btn['cow']])) {
+//            foreach ($buttons as $btn2) {
+//
+//              if (
+//                      !empty($btn2['chosen_valt']) &&
+//                      !empty($btn2['conditional_parent_use']) &&
+//                      !empty($btn2['conditional_tie']) &&
+//                      $btn2['type'] !== 'changename' &&
+//                      $btn2['type'] !== 'heading' &&
+//                      empty($btn2['conditional_parent'])
+//              ) {
+//                if (sanitize_text_field($_POST[$btn['cow']]) != $btn2['chosen_valt']) {
+//                  if (empty($_POST[$btn2['cow']])) {
+//                    foreach ($notice['error'] as $position => $value) {
+//
+//                      if (strip_tags($value) == sprintf(__('%s is a required field.', 'woocommerce'), wooccm_wpml_string($btn2['label']))) {
+//                        unset($notice['error'][$position]);
+//                      }
+//                    }
+//                  }
+//                }
+//              }
+//            }
+//          } else {
+//            foreach ($notice['error'] as $position => $value) {
+//
+//              if (strip_tags($value) == sprintf(__('%s is a required field.', 'woocommerce'), wooccm_wpml_string($btn2['label']))) {
+//                unset($notice['error'][$position]);
+//              }
+//            }
+//          }
+//        }
+//      }
+//    }
+//    $inc--;
+//  }
+//
+//  $options = get_option('wccs_settings');
+//
+//  global $woocommerce;
+//
+//  if (!empty($options['buttons'])) {
+//    foreach ($options['buttons'] as $btn) {
+//
+//      if (!empty($btn['chosen_valt']) && !empty($btn['conditional_parent_use']) && !empty($btn['conditional_tie']) && $btn['type'] !== 'changename' && ($btn['type'] !== 'heading') && !empty($btn['conditional_parent'])) {
+//
+//        if (!empty($_POST[$btn['cow']])) {
+//
+//          foreach ($options['buttons'] as $btn2) {
+//
+//            if (!empty($btn2['chosen_valt']) && !empty($btn2['conditional_parent_use']) && !empty($btn2['conditional_tie']) && $btn2['type'] !== 'changename' && ($btn2['type'] !== 'heading') && empty($btn2['conditional_parent'])) {
+//              if (sanitize_text_field($_POST[$btn['cow']]) != $btn2['chosen_valt']) {
+//                if (empty($_POST[$btn2['cow']])) {
+//                  foreach ($notice['error'] as $position => $value) {
+//
+//                    if (strip_tags($value) == sprintf(__('%s is a required field.', 'woocommerce'), wooccm_wpml_string($btn2['label']))) {
+//                      unset($notice['error'][$position]);
+//                    }
+//                  }
+//                }
+//              }
+//            }
+//          }
+//        } else {
+//
+//          foreach ($notice['error'] as $position => $value) {
+//
+//            if (strip_tags($value) == sprintf(__('%s is a required field.', 'woocommerce'), wooccm_wpml_string($btn2['label']))) {
+//              unset($notice['error'][$position]);
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//  WC()->session->set('wc_notices', $notice);
+//}
+//
+//add_action('woocommerce_after_checkout_validation', 'wooccm_remove_notices_conditional');

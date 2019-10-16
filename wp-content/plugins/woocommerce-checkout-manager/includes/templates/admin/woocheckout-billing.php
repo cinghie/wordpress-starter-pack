@@ -14,6 +14,8 @@
 
     <?php
     if ($fields = WOOCCM()->field->billing->get_fields('old')) {
+      
+      //var_dump($fields);
 
       $defaults = WOOCCM()->field->billing->get_defaults();
 

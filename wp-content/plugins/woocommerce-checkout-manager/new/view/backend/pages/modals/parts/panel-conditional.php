@@ -2,7 +2,7 @@
   <div class="options_group">
     <p class="form-field">
       <label><?php esc_html_e('Conditional', 'woocommerce-checkout-manager'); ?></label>
-      <input <# if ( data.conditional == 'true' ) { #>checked<# } #> type="checkbox" name="conditional" value="true">
+      <input <# if (data.conditional) { #>checked<# } #> type="checkbox" name="conditional" value="1">
     </p>
     <p class="form-field">
       <label><?php esc_html_e('Parent', 'woocommerce-checkout-manager'); ?></label>

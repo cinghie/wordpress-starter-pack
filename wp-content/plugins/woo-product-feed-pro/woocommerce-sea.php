@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     6.5.7
+ * Version:     6.6.7
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '6.5.7' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '6.6.7' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -1374,6 +1374,7 @@ function woosea_project_processing_status(){
 
         foreach ( $feed_config as $key => $val ) {
                 if ($val['project_hash'] === $project_hash){
+
 			if($val['running'] == "ready"){
 				$proc_perc = 100;
 			} elseif($val['running'] == "not run yet"){
@@ -1385,6 +1386,8 @@ function woosea_project_processing_status(){
 	}	
 
         $data = array (
+		'project_hash' => $project_hash,
+		'running' => $val['running'],
                 'proc_perc' => $proc_perc,
         );
 
@@ -1738,10 +1741,12 @@ add_action( 'wp_ajax_woosea_add_identifiers', 'woosea_add_identifiers' );
 function woosea_custom_general_fields() {
         global $woocommerce, $post;
 
-	// Check if the option is enabled or not in the pluggin settings 
-	if( get_option('add_unique_identifiers') == "yes" ){
+	$extra_attributes = array();
+        $extra_attributes = get_option( 'woosea_extra_attributes' );
+	$nr_extra_fields = count($extra_attributes);
 
-        	$extra_attributes = get_option( 'woosea_extra_attributes' );
+	// Check if the option is enabled or not in the pluggin settings 
+	if( (get_option('add_unique_identifiers') == "yes") AND ($nr_extra_fields > 0) ){
 
 	        echo '<div id="woosea_attr" class="options_group">';
 

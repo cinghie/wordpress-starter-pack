@@ -6,7 +6,7 @@
       <span class="woocommerce-help-tip" data-tip="<?php esc_html_e('You can\'t change the slug of default fields.', 'woocommerce-checkout-manager'); ?>"></span>
       <input class="short" type="text" name="name" placeholder="<?php esc_html_e('myfield', 'woocommerce-checkout-manager'); ?>" value="{{data.name}}" readonly="readonly">
       <# } else { #>
-      <span class="woocommerce-help-tip" data-tip="<?php esc_html_e('Currently is not possible to change the name of the fields.', 'woocommerce-checkout-manager'); ?><?php //esc_html_e('To edit Abbreviations open General > Switches > Editing Of Abbreviation Fields.', 'woocommerce-checkout-manager');            ?>"></span>
+      <span class="woocommerce-help-tip" data-tip="<?php esc_html_e('Currently is not possible to change the name of the fields.', 'woocommerce-checkout-manager'); ?><?php //esc_html_e('To edit Abbreviations open General > Switches > Editing Of Abbreviation Fields.', 'woocommerce-checkout-manager');                                    ?>"></span>
       <input class="short" type="text" name="name" placeholder="<?php esc_html_e('myfield', 'woocommerce-checkout-manager'); ?>" value="{{data.name}}" readonly="readonly" <?php /* if (empty($options['checkness']['abbreviation'])) { ?>readonly="readonly"<?php } */ ?>>
       <# } #>
     </p>                   
@@ -66,6 +66,49 @@
     <# } #>
   </div>
   <# } #>
+  <# if (data.type == 'file') { #>
+  <!--<div class="options_group">
+    <p class="form-field">
+      <label><?php esc_html_e('Upload files', 'woocommerce-checkout-manager'); ?></label>
+      <input class="short" type="number" placeholder="1" min="0" max="12" name="file_limit" value="{{data.file_limit}}">
+    </p>
+    <p class="form-field">
+      <select class="wooccm-enhanced-select" name="file_types" multiple="multiple" data-placeholder="<?php esc_attr_e('Choose the allowed types&hellip;', 'woocommerce-checkout-manager'); ?>" data-allow_clear="true" >
+  <?php foreach (wp_get_mime_types() as $type => $name) : ?>
+                          <option <# if ( _.contains(data.file_types, '<?php echo esc_attr($type); ?>') ) { #>selected="selected"<# } #> value="<?php echo esc_attr($type); ?>"><?php echo esc_html($type); ?></option>
+  <?php endforeach; ?>
+      </select>
+    </p>
+  </div>-->
+  <# } #>
+
+  <# if (data.type == 'country') { #>
+  <div class="options_group">
+    <p class="form-field">
+      <label><?php esc_html_e('Default', 'woocommerce-checkout-manager'); ?></label>
+      <select class="wooccm-enhanced-select" name="default" data-placeholder="<?php esc_attr_e('Preserve default country&hellip;', 'woocommerce-checkout-manager'); ?>" data-allow_clear="true" >
+        <option <# if (data.default == '') { #>selected="selected"<# } #> value=""><?php //esc_attr_e('Preserve default country', 'woocommerce-checkout-manager');    ?></option>
+        <?php foreach (WC()->countries->get_countries() as $id => $name) : ?>
+          <option <# if (data.default == '<?php echo esc_attr($id); ?>') { #>selected="selected"<# } #> value="<?php echo esc_attr($id); ?>"><?php echo esc_html($name); ?></option>
+        <?php endforeach; ?>       
+      </select>
+    </p>
+  </div>
+  <# } #>
+
+  <# if (data.type == 'state') { #>
+  <div class="options_group">
+    <p class="form-field">
+      <label><?php esc_html_e('Country', 'woocommerce-checkout-manager'); ?></label>
+      <select class="wooccm-enhanced-select" name="country" data-placeholder="<?php esc_attr_e('Select country&hellip;', 'woocommerce-checkout-manager'); ?>" data-allow_clear="true" >
+        <?php foreach (WC()->countries->get_countries() as $id => $name) : ?>
+          <option <# if (data.country == '<?php echo esc_attr($id); ?>') { #>selected="selected"<# } #> value="<?php echo esc_attr($id); ?>"><?php echo esc_html($name); ?></option>
+        <?php endforeach; ?>       
+      </select>
+    </p>
+  </div>
+  <# } #>
+
   <div class="options_group">
     <p class="form-field">
       <label><?php esc_html_e('Extra class', 'woocommerce-checkout-manager'); ?></label>

@@ -627,7 +627,12 @@ class WooSEA_Get_Products {
 						// This is a state shipping zone, split of country
 						$zone_expl = explode(":", $zone_type->code);
 						$zone_details['country'] = $zone_expl[0];
-						$zone_details['region'] = $zone_expl[1];
+		
+						// Adding a region is only allowed for these countries	
+						$region_countries = array ('US','JP','AU');
+						if(in_array($zone_details['country'], $region_countries)){
+							$zone_details['region'] = $zone_expl[1];
+						}
 					} elseif ($zone_type->type == "postcode"){
 						// Create an array of postal codes so we can loop over it later
 						if ($project_config['taxonomy'] == 'google_shopping'){
@@ -2090,10 +2095,10 @@ class WooSEA_Get_Products {
 			// Override price when WCML price is different than the non-translated price	
 			if((isset($project_config['WCML'])) AND ($product_data['price'] !== $wcml_price)){
 				$product_data['price'] = $wcml_price;
+
 			}
 			$product_data['sale_price'] = wc_get_price_including_tax($product, array('price'=> $product->get_sale_price()));
 			$product_data['sale_price'] = wc_format_decimal($product_data['sale_price'],2);
-
 			$product_data['regular_price'] = wc_get_price_including_tax($product, array('price'=> $product->get_regular_price()));
 			$product_data['regular_price'] = wc_format_decimal($product_data['regular_price'],2);
 
@@ -2136,7 +2141,12 @@ class WooSEA_Get_Products {
 
 
 			if($product->get_price()){
-				$product_data['price_forced'] = round(wc_get_price_excluding_tax($product,array('price'=> $product->get_price())) * (100+$tax_rates[1]['rate'])/100,2);
+                        	// Override price when WCML price is different than the non-translated price    
+                        	if(isset($project_config['WCML'])){
+					$product_data['price_forced'] = round(wc_get_price_excluding_tax($product,array('price'=> $wcml_price)) * (100+$tax_rates[1]['rate'])/100,2);
+                        	} else {
+					$product_data['price_forced'] = round(wc_get_price_excluding_tax($product,array('price'=> $product->get_price())) * (100+$tax_rates[1]['rate'])/100,2);
+				}
 			}
 			if($product->get_regular_price()){
 				$product_data['regular_price_forced'] = round(wc_get_price_excluding_tax($product, array('price'=> $product->get_regular_price())) * (100+$tax_rates[1]['rate'])/100,2);
@@ -2599,19 +2609,23 @@ class WooSEA_Get_Products {
                         	}
 
 				// Add attribute values to the variation product names to make them unique
+
+
 				foreach($variations as $kk => $vv){
 					$custom_key = $kk; 
 
 					if (isset($project_config['product_variations']) AND ($project_config['product_variations'] == "on")){
 						$taxonomy = str_replace("attribute_","",$kk);
+
 						$term = get_term_by('slug', $vv, $taxonomy); 
-						
+
 						if($term && $term->name){
 							$vv = $term->name;
 						}
-	
+
 						if($vv){
 							$append = ucfirst($vv);
+							$append = rawurldecode($append);
 							// Prevent duplicate attribute values from being added to the product name
 							if(!preg_match("/" . preg_quote($product_data['title'], '/') . "/", $append)){
 								$product_data['title'] = $product_data['title']." ".$append;
@@ -2750,7 +2764,6 @@ class WooSEA_Get_Products {
 
 				// Check if the Yoast plugin is installed and active
 				if ( class_exists('WPSEO_Primary_Term') ){
-
 					$product_id = $product_data['item_group_id'];
 					$primary_cat_id=get_post_meta($product_id ,'_yoast_wpseo_primary_product_cat',true);
 
@@ -2834,7 +2847,7 @@ class WooSEA_Get_Products {
 					foreach ($categories as $key => $value){
 					   	if (!$catname){
                                                         $product_cat = get_term($value, 'product_cat');
-
+							
 							if($product_cat->parent > 0){
 								$set_parent = $product_cat->parent;
 							}
@@ -2845,7 +2858,7 @@ class WooSEA_Get_Products {
                                                     	}
 							if(isset($product_cat->name)) {
                                                             	$catname = $product_cat->name;
-                                                               	$catlink = get_term_link($value,'product_cat');
+						       		$catlink = get_term_link($value,'product_cat');
                                                        	}
 						} else {
                                                         $product_cat = get_term($value, 'product_cat');
@@ -2859,7 +2872,8 @@ class WooSEA_Get_Products {
                                                        		       	$catname_concat = $product_cat->name;
                                                         	       	$catlink_concat = get_term_link($value,'product_cat');
                                                        		}
-                                                       		$catname = $catname_concat;
+                                                                $one_category = $catname_concat;
+                                                                $catname .= "||".$catname_concat;
                                                        		$catlink .= "||".$catlink_concat;
                                                		}
 						}
@@ -2928,7 +2942,7 @@ class WooSEA_Get_Products {
 			 * When a product is a variable product we need to delete the original product from the feed, only the originals are allowed
 			 */
 			if(($product->is_type('variable')) AND ($product_data['item_group_id'] == 0)){
-		        	$product_data = array();
+				$product_data = array();
                         	$product_data = null;	
 			}
 
@@ -2936,7 +2950,7 @@ class WooSEA_Get_Products {
 			 * Remove variation products that are not THE default variation product
 			 */
 			if((isset($variation_pass)) AND ($variation_pass == "false")){
-		        	$product_data = array();
+				$product_data = array();
                         	$product_data = null;	
 			}
 
@@ -2958,6 +2972,7 @@ class WooSEA_Get_Products {
 			/**
 			 * When product has passed the filter rules it can continue with the rest
 			 */
+
 			if(!empty($product_data)){
 				/**
 				 * Determine what fields are allowed to make it to the csv and txt productfeed
@@ -4487,8 +4502,12 @@ class WooSEA_Get_Products {
 								}
 							}				
 							$pos = strpos($pd_value, '&amp;');
+							$pos_slash = strpos($pr_array['criteria'], '\\');
 							if($pos !== false){
 								$pd_value = str_replace("&amp;","&",$pd_value);
+							}
+							if($pos_slash !== false){
+								$pr_array['criteria'] = str_replace("\\","",$pr_array['criteria']);
 							}
 
 							switch ($pr_array['condition']) {
@@ -4524,7 +4543,7 @@ class WooSEA_Get_Products {
                                                                                 $allowed = 0;
 								      	} elseif ((preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "include_only")){
 										$allowed = 1;
-							                }	
+							                }
 									break;
 								case($pr_array['condition'] = "!="):
 									if (($pr_array['criteria'] == "$pd_value") && ($pr_array['than'] == "exclude")){

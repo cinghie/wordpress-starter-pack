@@ -17,8 +17,8 @@
               <th class="sortable"><?php esc_html_e('Sortable', 'woocommerce-checkout-manager'); ?></th>
               <th class="filterable"><?php esc_html_e('Filterable', 'woocommerce-checkout-manager'); ?></th>-->
               <th class="status" style="width:1%"><?php esc_html_e('Disabled', 'woocommerce-checkout-manager'); ?></th>
-              <th class="edit" style="width:1%"><?php //esc_html_e('Edit', 'woocommerce-checkout-manager');        ?></th>
-              <th class="delete" style="width:1%"><?php //esc_html_e('Delete', 'woocommerce-checkout-manager');        ?></th>
+              <th class="edit" style="width:1%"><?php //esc_html_e('Edit', 'woocommerce-checkout-manager');          ?></th>
+              <th class="delete" style="width:1%"><?php //esc_html_e('Delete', 'woocommerce-checkout-manager');          ?></th>
             </tr>
           </thead>
           <tbody class="ui-sortable">
@@ -36,7 +36,7 @@
                   <td class="required">
                     <a data-field_attr="required" class="wooccm-field-toggle-attribute" href="#">
                       <?php
-                      if (!empty($field['required'])) {
+                      if ($field['required'] === true) {
                         echo '<span class="woocommerce-input-toggle woocommerce-input-toggle--enabled" aria-label="' . esc_attr(sprintf(__('The "%s" field currently enabled', 'woocommerce-checkout-manager'), $field['label'])) . '">' . esc_attr__('Yes', 'woocommerce-checkout-manager') . '</span>';
                       } else {
                         echo '<span class="woocommerce-input-toggle woocommerce-input-toggle--disabled" aria-label="' . esc_attr(sprintf(__('The "%s" field currently disabled', 'woocommerce-checkout-manager'), $field['label'])) . '">' . esc_attr__('No', 'woocommerce-checkout-manager') . '</span>';
@@ -54,10 +54,9 @@
                   <td class="clear">
                     <a data-field_attr="clear" class="wooccm-field-toggle-attribute" href="#">
                       <?php
-                      if (!empty($field['clear'])) {
+                      if ($field['clear'] === true) {
                         echo '<span class="woocommerce-input-toggle woocommerce-input-toggle--enabled" aria-label="' . esc_attr(sprintf(__('The "%s" field currently enabled', 'woocommerce-checkout-manager'), $field['label'])) . '">' . esc_attr__('Yes', 'woocommerce-checkout-manager') . '</span>';
                       } else {
-
                         echo '<span class="woocommerce-input-toggle woocommerce-input-toggle--disabled" aria-label="' . esc_attr(sprintf(__('The "%s" field currently disabled', 'woocommerce-checkout-manager'), $field['label'])) . '">' . esc_attr__('No', 'woocommerce-checkout-manager') . '</span>';
                       }
                       ?>
@@ -74,38 +73,37 @@
                   </td>                  
                   <!--<td class="listable">
                   <?php
-                  if (!empty($field['listable'])) {
+                  if ($field['listable'] === true) {
                     ?>
-                                                    <span class="status-enabled"><?php esc_html_e('Yes'); ?></span>
+                                                        <span class="status-enabled"><?php esc_html_e('Yes'); ?></span>
                   <?php } else { ?>
-                                                    <span class="status-disabled"><?php esc_html_e('Yes'); ?></span>
+                                                        <span class="status-disabled"><?php esc_html_e('Yes'); ?></span>
                   <?php } ?>
                   </td>                  
                   <td class="sortable">
                   <?php
-                  if (!empty($field['sortable'])) {
+                  if ($field['sortable'] === true) {
                     ?>
-                                                    <span class="status-enabled"><?php esc_html_e('Yes'); ?></span>
+                                                        <span class="status-enabled"><?php esc_html_e('Yes'); ?></span>
                   <?php } else { ?>
-                                                    <span class="status-disabled"><?php esc_html_e('Yes'); ?></span>
+                                                        <span class="status-disabled"><?php esc_html_e('Yes'); ?></span>
                   <?php } ?>
                   </td>                  
                   <td class="filterable">
                   <?php
-                  if (!empty($field['filterable'])) {
+                  if ($field['filterable'] === true) {
                     ?>
-                                                    <span class="status-enabled"><?php esc_html_e('Yes'); ?></span>
+                                                        <span class="status-enabled"><?php esc_html_e('Yes'); ?></span>
                   <?php } else { ?>
-                                                    <span class="status-disabled"><?php esc_html_e('Yes'); ?></span>
+                                                        <span class="status-disabled"><?php esc_html_e('Yes'); ?></span>
                   <?php } ?>
                   </td>-->
                   <td class="status">
                     <a data-field_attr="disabled" class="wooccm-field-toggle-attribute" href="#">
                       <?php
-                      if (!empty($field['disabled'])) {
+                      if ($field['disabled'] === true) {
                         echo '<span class="woocommerce-input-toggle woocommerce-input-toggle--enabled" aria-label="' . esc_attr(sprintf(__('The "%s" field currently enabled', 'woocommerce-checkout-manager'), $field['label'])) . '">' . esc_attr__('Yes', 'woocommerce-checkout-manager') . '</span>';
                       } else {
-
                         echo '<span class="woocommerce-input-toggle woocommerce-input-toggle--disabled" aria-label="' . esc_attr(sprintf(__('The "%s" field currently disabled', 'woocommerce-checkout-manager'), $field['label'])) . '">' . esc_attr__('No', 'woocommerce-checkout-manager') . '</span>';
                       }
                       ?>

@@ -2,6 +2,7 @@
 
 class WOOCCM_Field_Compatibility extends WOOCCM_Field {
 
+  protected $fields = null;
   protected $prefix = '';
   protected $option_name = '';
   protected $defaults = array();
@@ -79,17 +80,18 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
       // Color
       // -------------------------------------------------------------------
       'pickertype' => 'colorpickertype',
-      // Display
+      // State
+      // -------------------------------------------------------------------
+      'country' => null,
+      // Upload
+      // -------------------------------------------------------------------
+      'file_limit' => null,
+      'file_types' => null,
+      // Listing
       // -------------------------------------------------------------------
       'listable' => null,
       'sortable' => null,
       'filterable' => null,
-          // 
-          // Email
-          // -------------------------------------------------------------------
-          //deny_receipt
-          //'pickertype' => null,
-          //'fancy' => null,
   );
   private $old_args = array(
       'disabled',
@@ -145,24 +147,15 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
       'role_options2',
       'changenamep',
       'changename',
+      // New
+      // -----------------------------------------------------------------------
+      'country',
+      'file_limit',
+      'file_types',
+      'listable',
+      'sortable',
+      'filterable',
   );
-
-  public function get_default_fields() {
-
-    $fields = array();
-
-    if ($this->prefix) {
-
-      foreach (WC()->countries->get_address_fields('', $this->prefix) as $key => $field) {
-
-        $field['name'] = str_replace($this->prefix, '', $key);
-
-        $fields[] = $field;
-      }
-    }
-
-    return $fields;
-  }
 
   function replace_keys($array = array(), $replace = array()) {
 
@@ -262,6 +255,47 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
     return $type;
   }
 
+  function register_wpml_string($value) {
+
+    if (!empty($value) && function_exists('icl_register_string')) {
+
+      if (is_array($value)) {
+
+        foreach ($value as $key => $name) {
+          icl_register_string(WOOCCM_PLUGIN_NAME, $name, $name);
+        }
+
+        return $value;
+      }
+
+      if (is_string($value)) {
+        icl_register_string(WOOCCM_PLUGIN_NAME, $value, $value);
+        return $value;
+      }
+    }
+
+    return $value;
+  }
+
+  function get_wpml_string($value) {
+
+    if (!empty($value) && function_exists('icl_t')) {
+
+      if (is_array($value)) {
+
+        foreach ($value as $key => $name) {
+          $value[$key] = icl_t(WOOCCM_PLUGIN_NAME, $name, $name);
+        }
+      }
+
+      if (is_string($value)) {
+        $value = icl_t(WOOCCM_PLUGIN_NAME, $value, $value);
+      }
+    }
+    
+    return $value;
+  }
+
   function new_panel_compatibility($field_id, $field = array(), $fields = array()) {
 
     $field = $this->get_new_args($field);
@@ -279,17 +313,17 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
       }
     }
 
-    //if (empty($field['position']) && isset($field['class'])) {
-    if ($position = $this->array_to_string(array_intersect((array) $field['class'], array('form-row-wide', 'form-row-first', 'form-row-last')))) {
-      $field['position'] = $position;
+    if (empty($field['position']) && isset($field['class'])) {
+      if ($position = $this->array_to_string(array_intersect((array) $field['class'], array('form-row-wide', 'form-row-first', 'form-row-last')))) {
+        $field['position'] = $position;
+      }
     }
-    //}
 
-    if (!isset($field['order'])) {
+    if (empty($field['order'])) {
       $field['order'] = $field_id + 1;
     }
 
-    if (!isset($field['key'])) {
+    if (empty($field['key'])) {
       $field['key'] = $this->get_key($this->prefix, $field['name']);
     }
 
@@ -341,7 +375,7 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
     }
 
     //return $field;
-    return array_intersect_key($field, array_flip(array_keys($this->get_args())));
+    return $this->sanitize_field_data(array_intersect_key($field, array_flip(array_keys($this->get_args()))));
   }
 
   function old_panel_compatibility($field_id, $field = array()) {
@@ -355,6 +389,12 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
     }
 
     $field['type'] = $this->get_old_type($field['type']);
+
+    if (empty($field['position']) && isset($field['class'])) {
+      if ($position = $this->array_to_string(array_intersect((array) $field['class'], array('form-row-wide', 'form-row-first', 'form-row-last')))) {
+        $field['position'] = $position;
+      }
+    }
 
     $field['role_option'] = $this->array_to_string($field['role_option']);
     $field['role_option2'] = $this->array_to_string($field['role_option2']);
@@ -401,11 +441,19 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
 
   public function get_fields($old = false) {
 
-    if ($old) {
-      return $this->get_fields_old();
-    } else {
-      return $this->get_fields_new();
+    if (!is_null($this->fields)) {
+      return $this->fields;
     }
+
+    if ($old) {
+      $this->fields = $this->get_fields_old();
+    } else {
+      $this->fields = $this->get_fields_new();
+    }
+    // Resort the fields by order
+    uasort($this->fields, array(__CLASS__, 'order_fields'));
+
+    return $this->fields;
   }
 
   protected function get_fields_old() {
@@ -430,7 +478,12 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
     if ($fields = $this->get_option($defaults)) {
 
       foreach ($fields as $field_id => $field) {
+
+        //error_log(json_encode($fields[$field_id]));
+
         $fields[$field_id] = $this->new_panel_compatibility($field_id, $field, $fields);
+
+        //error_log(json_encode($fields[$field_id]));
       }
     }
 
@@ -464,7 +517,11 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
           return false;
         }
 
+        //error_log(json_encode($fields[$field_id]));
+
         $fields[$field_id] = $this->old_panel_compatibility($field_id, $field);
+
+        //error_log(json_encode($fields[$field_id]));
       }
 
       if ($this->update_option($fields)) {
@@ -481,7 +538,15 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
 
     if (array_key_exists($field_id, $fields)) {
 
+      //error_log(json_encode($field_data));
+
+      $field_data = $this->sanitize_field_data($field_data);
+
+      /// error_log(json_encode($field_data));
+
       $fields[$field_id] = array_replace($fields[$field_id], $field_data);
+
+      //error_log(json_encode($fields[$field_id]));
 
       if ($this->update_fields($fields)) {
         return $fields[$field_id];
@@ -495,8 +560,9 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
 
     $fields = $this->get_fields_new();
 
-    //$field_id = count($fields);
-    $field_id = absint(key(array_slice($fields, -1, 1, true))) + 1;
+    $field_id = $this->get_id($fields);
+
+    $field_data = $this->sanitize_field_data($field_data);
 
     $field_data = $this->new_panel_compatibility($field_id, $field_data, $fields);
 
@@ -527,6 +593,8 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
 
   protected function get_option($defaults = array()) {
 
+    error_log('get_option');
+
     if ($fields = get_option($this->option_name, $defaults)) {
 
       // Compatibility with 4.x
@@ -541,9 +609,6 @@ class WOOCCM_Field_Compatibility extends WOOCCM_Field {
         $fields = (array) @$fields['buttons'];
       }
     }
-
-    // Resort the fields by order
-    uasort($fields, array(__CLASS__, 'order_fields'));
 
     return $fields;
   }

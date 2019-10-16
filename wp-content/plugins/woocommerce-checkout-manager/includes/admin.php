@@ -78,8 +78,8 @@ function wooccm_admin_notice_print() {
 function wooccm_admin_menu() {
 
   add_menu_page('WooCheckout', 'WooCheckout', 'manage_options', 'woocommerce-checkout-manager', 'wooccm_options_page', 'dashicons-businessman', 57);
-  // @mod - Remove until exports are fixed...
-  // add_submenu_page( 'woocommerce-checkout-manager', 'Export', 'Export', 'manage_options', 'wooccm-advance-export', 'wooccm_advance_export' );
+
+  //add_submenu_page('woocommerce-checkout-manager', 'Export', 'Export', 'manage_options', 'wooccm-advance-export', 'wooccm_advance_export');
 }
 
 add_action('admin_menu', 'wooccm_admin_menu');
@@ -182,16 +182,16 @@ function wooccm_admin_woocheckout_actions() {
   $action = ( function_exists('woo_get_action') ? woo_get_action() : false );
   switch ($action) {
 
-    // Reset the Run the updater notice
-    case 'wooccm_reset_update_notice':
-      // We need to verify the nonce.
-      if (!empty($_GET) && check_admin_referer('wooccm_reset_update_notice')) {
-        delete_option(WOOCCM_PREFIX . '_update_notice');
-        $url = add_query_arg(array('action' => null, '_wpnonce' => null));
-        wp_redirect($url);
-        exit();
-      }
-      break;
+//    // Reset the Run the updater notice
+//    case 'wooccm_reset_update_notice':
+//      // We need to verify the nonce.
+//      if (!empty($_GET) && check_admin_referer('wooccm_reset_update_notice')) {
+//        delete_option(WOOCCM_PREFIX . '_update_notice');
+//        $url = add_query_arg(array('action' => null, '_wpnonce' => null));
+//        wp_redirect($url);
+//        exit();
+//      }
+//      break;
 
     case 'wooccm_nuke_options':
       // We need to verify the nonce.
@@ -408,19 +408,19 @@ function wooccm_options_page() {
         ),
     );
 
-    /*$shipping = array(
-        'country' => __('Country', 'woocommerce-checkout-manager'),
-        'first_name' => __('First Name', 'woocommerce-checkout-manager'),
-        'last_name' => __('Last Name', 'woocommerce-checkout-manager'),
-        'company' => __('Company Name', 'woocommerce-checkout-manager'),
-        'address_1' => __('Address', 'woocommerce-checkout-manager'),
-        'address_2' => '',
-        'city' => __('Town/ City', 'woocommerce-checkout-manager'),
-        'state' => __('State', 'woocommerce-checkout-manager'),
-        'postcode' => __('Zip', 'woocommerce-checkout-manager')
-    );
-    $ship = 0;
-    foreach ($shipping as $name => $value) {
+    /* $shipping = array(
+      'country' => __('Country', 'woocommerce-checkout-manager'),
+      'first_name' => __('First Name', 'woocommerce-checkout-manager'),
+      'last_name' => __('Last Name', 'woocommerce-checkout-manager'),
+      'company' => __('Company Name', 'woocommerce-checkout-manager'),
+      'address_1' => __('Address', 'woocommerce-checkout-manager'),
+      'address_2' => '',
+      'city' => __('Town/ City', 'woocommerce-checkout-manager'),
+      'state' => __('State', 'woocommerce-checkout-manager'),
+      'postcode' => __('Zip', 'woocommerce-checkout-manager')
+      );
+      $ship = 0;
+      foreach ($shipping as $name => $value) {
 
       $defaults2['shipping_buttons'][$ship]['label'] = (!empty($value) ? __($value, 'woocommerce-checkout-manager') : false );
       $defaults2['shipping_buttons'][$ship]['cow'] = $name;
@@ -430,66 +430,66 @@ function wooccm_options_page() {
 
       switch ($name) {
 
-        case 'country':
-          $defaults2['shipping_buttons'][$ship]['position'] = 'form-row-wide';
-          $defaults2['shipping_buttons'][$ship]['type'] = 'wooccmcountry';
-          break;
+      case 'country':
+      $defaults2['shipping_buttons'][$ship]['position'] = 'form-row-wide';
+      $defaults2['shipping_buttons'][$ship]['type'] = 'wooccmcountry';
+      break;
 
-        case 'first_name':
-          $defaults2['shipping_buttons'][$ship]['position'] = 'form-row-first';
-          break;
+      case 'first_name':
+      $defaults2['shipping_buttons'][$ship]['position'] = 'form-row-first';
+      break;
 
-        case 'last_name':
-          $defaults2['shipping_buttons'][$ship]['position'] = 'form-row-last';
-          $defaults2['shipping_buttons'][$ship]['clear_row'] = true;
-          break;
+      case 'last_name':
+      $defaults2['shipping_buttons'][$ship]['position'] = 'form-row-last';
+      $defaults2['shipping_buttons'][$ship]['clear_row'] = true;
+      break;
 
-        case 'company':
-          $defaults2['shipping_buttons'][$ship]['position'] = 'form-row-wide';
-          break;
+      case 'company':
+      $defaults2['shipping_buttons'][$ship]['position'] = 'form-row-wide';
+      break;
 
-        case 'address_1':
-          $defaults2['shipping_buttons'][$ship]['position'] = 'form-row-wide';
-          $defaults2['shipping_buttons'][$ship]['placeholder'] = __('Street address', 'woocommerce-checkout-manager');
-          break;
+      case 'address_1':
+      $defaults2['shipping_buttons'][$ship]['position'] = 'form-row-wide';
+      $defaults2['shipping_buttons'][$ship]['placeholder'] = __('Street address', 'woocommerce-checkout-manager');
+      break;
 
-        case 'address_2':
-          $defaults2['shipping_buttons'][$ship]['position'] = 'form-row-wide';
-          $defaults2['shipping_buttons'][$ship]['placeholder'] = __('Apartment, suite, unit etc. (optional)', 'woocommerce-checkout-manager');
-          $defaults2['shipping_buttons'][$ship]['required'] = false;
-          break;
+      case 'address_2':
+      $defaults2['shipping_buttons'][$ship]['position'] = 'form-row-wide';
+      $defaults2['shipping_buttons'][$ship]['placeholder'] = __('Apartment, suite, unit etc. (optional)', 'woocommerce-checkout-manager');
+      $defaults2['shipping_buttons'][$ship]['required'] = false;
+      break;
 
-        case 'city':
-          $defaults2['shipping_buttons'][$ship]['position'] = 'form-row-wide';
-          $defaults2['shipping_buttons'][$ship]['placeholder'] = __('Town / City', 'woocommerce-checkout-manager');
-          break;
+      case 'city':
+      $defaults2['shipping_buttons'][$ship]['position'] = 'form-row-wide';
+      $defaults2['shipping_buttons'][$ship]['placeholder'] = __('Town / City', 'woocommerce-checkout-manager');
+      break;
 
-        case 'state':
-          $defaults2['shipping_buttons'][$ship]['position'] = 'form-row-wide';
-          $defaults2['shipping_buttons'][$ship]['type'] = 'wooccmstate';
-          break;
+      case 'state':
+      $defaults2['shipping_buttons'][$ship]['position'] = 'form-row-wide';
+      $defaults2['shipping_buttons'][$ship]['type'] = 'wooccmstate';
+      break;
       }
 
       $ship++;
-    }
+      }
 
-    $billing = array(
-        'country' => __('Country', 'woocommerce-checkout-manager'),
-        'first_name' => __('First Name', 'woocommerce-checkout-manager'),
-        'last_name' => __('Last Name', 'woocommerce-checkout-manager'),
-        'company' => __('Company Name', 'woocommerce-checkout-manager'),
-        'address_1' => __('Address', 'woocommerce-checkout-manager'),
-        'address_2' => '',
-        'city' => __('Town/ City', 'woocommerce-checkout-manager'),
-        'state' => __('State', 'woocommerce-checkout-manager'),
-        'postcode' => __('Zip', 'woocommerce-checkout-manager'),
-        'email' => __('Email Address', 'woocommerce-checkout-manager'),
-        'phone' => __('Phone', 'woocommerce-checkout-manager')
-    );
+      $billing = array(
+      'country' => __('Country', 'woocommerce-checkout-manager'),
+      'first_name' => __('First Name', 'woocommerce-checkout-manager'),
+      'last_name' => __('Last Name', 'woocommerce-checkout-manager'),
+      'company' => __('Company Name', 'woocommerce-checkout-manager'),
+      'address_1' => __('Address', 'woocommerce-checkout-manager'),
+      'address_2' => '',
+      'city' => __('Town/ City', 'woocommerce-checkout-manager'),
+      'state' => __('State', 'woocommerce-checkout-manager'),
+      'postcode' => __('Zip', 'woocommerce-checkout-manager'),
+      'email' => __('Email Address', 'woocommerce-checkout-manager'),
+      'phone' => __('Phone', 'woocommerce-checkout-manager')
+      );
 
-    $bill = 0;
+      $bill = 0;
 
-    foreach ($billing as $name => $value) {
+      foreach ($billing as $name => $value) {
 
       $defaults3['billing_buttons'][$bill]['label'] = (!empty($value) ? __($value, 'woocommerce-checkout-manager') : false );
       $defaults3['billing_buttons'][$bill]['cow'] = $name;
@@ -499,69 +499,68 @@ function wooccm_options_page() {
 
       switch ($name) {
 
-        case 'country':
-          $defaults3['billing_buttons'][$bill]['position'] = 'form-row-wide';
-          $defaults3['billing_buttons'][$bill]['type'] = 'wooccmcountry';
-          break;
+      case 'country':
+      $defaults3['billing_buttons'][$bill]['position'] = 'form-row-wide';
+      $defaults3['billing_buttons'][$bill]['type'] = 'wooccmcountry';
+      break;
 
-        case 'first_name':
-          $defaults3['billing_buttons'][$bill]['position'] = 'form-row-first';
-          break;
+      case 'first_name':
+      $defaults3['billing_buttons'][$bill]['position'] = 'form-row-first';
+      break;
 
-        case 'last_name':
-          $defaults3['billing_buttons'][$bill]['position'] = 'form-row-last';
-          $defaults3['billing_buttons'][$bill]['clear_row'] = true;
-          break;
+      case 'last_name':
+      $defaults3['billing_buttons'][$bill]['position'] = 'form-row-last';
+      $defaults3['billing_buttons'][$bill]['clear_row'] = true;
+      break;
 
-        case 'company':
-          $defaults3['billing_buttons'][$bill]['position'] = 'form-row-wide';
-          break;
+      case 'company':
+      $defaults3['billing_buttons'][$bill]['position'] = 'form-row-wide';
+      break;
 
-        case 'address_1':
-          $defaults3['billing_buttons'][$bill]['position'] = 'form-row-wide';
-          $defaults3['billing_buttons'][$bill]['placeholder'] = __('Street address', 'woocommerce-checkout-manager');
-          break;
+      case 'address_1':
+      $defaults3['billing_buttons'][$bill]['position'] = 'form-row-wide';
+      $defaults3['billing_buttons'][$bill]['placeholder'] = __('Street address', 'woocommerce-checkout-manager');
+      break;
 
-        case 'address_2':
-          $defaults3['billing_buttons'][$bill]['position'] = 'form-row-wide';
-          $defaults3['billing_buttons'][$bill]['placeholder'] = __('Apartment, suite, unit etc. (optional)', 'woocommerce-checkout-manager');
-          $defaults3['billing_buttons'][$bill]['checkbox'] = false;
+      case 'address_2':
+      $defaults3['billing_buttons'][$bill]['position'] = 'form-row-wide';
+      $defaults3['billing_buttons'][$bill]['placeholder'] = __('Apartment, suite, unit etc. (optional)', 'woocommerce-checkout-manager');
+      $defaults3['billing_buttons'][$bill]['checkbox'] = false;
 
-          break;
+      break;
 
-        case 'city':
-          $defaults3['billing_buttons'][$bill]['position'] = 'form-row-wide';
-          $defaults3['billing_buttons'][$bill]['placeholder'] = __('Town / City', 'woocommerce-checkout-manager');
-          break;
+      case 'city':
+      $defaults3['billing_buttons'][$bill]['position'] = 'form-row-wide';
+      $defaults3['billing_buttons'][$bill]['placeholder'] = __('Town / City', 'woocommerce-checkout-manager');
+      break;
 
-        case 'state':
-          $defaults3['billing_buttons'][$bill]['position'] = 'form-row-wide';
-          $defaults3['billing_buttons'][$bill]['type'] = 'wooccmstate';
+      case 'state':
+      $defaults3['billing_buttons'][$bill]['position'] = 'form-row-wide';
+      $defaults3['billing_buttons'][$bill]['type'] = 'wooccmstate';
 
-          break;
+      break;
 
-        case 'postcode':
-          $defaults3['billing_buttons'][$bill]['position'] = 'form-row-wide';
-          $defaults3['billing_buttons'][$bill]['placeholder'] = __('Postcode / Zip', 'woocommerce-checkout-manager');
-          $defaults3['billing_buttons'][$bill]['clear_row'] = true;
-          break;
+      case 'postcode':
+      $defaults3['billing_buttons'][$bill]['position'] = 'form-row-wide';
+      $defaults3['billing_buttons'][$bill]['placeholder'] = __('Postcode / Zip', 'woocommerce-checkout-manager');
+      $defaults3['billing_buttons'][$bill]['clear_row'] = true;
+      break;
 
-        case 'email':
-          $defaults3['billing_buttons'][$bill]['position'] = 'form-row-first';
-          break;
+      case 'email':
+      $defaults3['billing_buttons'][$bill]['position'] = 'form-row-first';
+      break;
 
-        case 'phone':
-          $defaults3['billing_buttons'][$bill]['position'] = 'form-row-last';
-          $defaults3['billing_buttons'][$bill]['clear_row'] = true;
-          break;
+      case 'phone':
+      $defaults3['billing_buttons'][$bill]['position'] = 'form-row-last';
+      $defaults3['billing_buttons'][$bill]['clear_row'] = true;
+      break;
       }
 
       $bill++;
-    }*/
+      } */
     add_option('wccs_settings', $defaults);
     //add_option('wccs_settings2', $defaults2);
     //add_option('wccs_settings3', $defaults3);
-
     // @mod - Change this to add_query_arg()
     echo '
 <script type="text/javascript">window.location.href="' . admin_url('admin.php?page=woocommerce-checkout-manager') . '";</script>';

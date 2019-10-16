@@ -20,9 +20,9 @@
                 <div class="panel-wrap product_data" style="overflow:visible;">
                   <?php include_once('parts/edit-tabs.php'); ?>
                   <?php include_once('parts/panel-general.php'); ?>
+                  <?php include_once('parts/panel-display.php'); ?>
                   <?php //include_once('parts/panel-conditional.php'); ?>
                   <?php //include_once('parts/panel-amount.php'); ?>
-                  <?php include_once('parts/panel-display.php'); ?>
                   <?php //include_once('parts/panel-datepicker.php'); ?>
                   <?php //include_once('parts/panel-timepicker.php'); ?>
                   <?php //include_once('parts/panel-advanced.php'); ?>

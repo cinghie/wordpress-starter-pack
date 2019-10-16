@@ -15,7 +15,7 @@
 <div class="settings">
   <label class="setting" data-setting="label">
     <span class="name"><?php esc_html_e('Conditional', 'woocommerce-checkout-manager'); ?></span>
-    <input <# if ( data.conditional == 'true' ) { #>checked<# } #> type="checkbox" name="conditional" value="true">
+    <input <# if (data.conditional) { #>checked<# } #> type="checkbox" name="conditional" value="1">
   </label>
   <p class="description"><?php esc_html_e('Activate conditional field requirement.', 'woocommerce-checkout-manager'); ?></p>
   <label class="setting" data-setting="label">

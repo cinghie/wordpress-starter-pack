@@ -1,13 +1,18 @@
 <?php
+//
+//global $wooccm_sections;
+//
+//var_dump($wooccm_sections);
 
 $sections = array();
 
-//$sections[''] = esc_html__('General', 'woocommerce-checkout-manager');
-//$sections['orders'] = esc_html__('Orders', 'woocommerce-checkout-manager');
+$sections[''] = esc_html__('Checkout', 'woocommerce-checkout-manager');
 $sections['billing'] = esc_html__('Billing', 'woocommerce-checkout-manager');
 $sections['shipping'] = esc_html__('Shipping', 'woocommerce-checkout-manager');
 $sections['additional'] = esc_html__('Additional', 'woocommerce-checkout-manager');
-//$sections['advanced'] = esc_html__('Advanced', 'woocommerce-checkout-manager');
+$sections['order'] = esc_html__('Order', 'woocommerce-checkout-manager');
+//$sections['email'] = esc_html__('Email', 'woocommerce-checkout-manager');
+$sections['advanced'] = esc_html__('Advanced', 'woocommerce-checkout-manager');
 
 echo '<ul class="subsubsub">';
 

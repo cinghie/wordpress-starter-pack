@@ -2,7 +2,7 @@
   <div class="options_group">
     <!--<p class="form-field">
       <label><?php esc_html_e('User Role', 'woocommerce-checkout-manager'); ?></label>
-      <input <# if ( data.user_role == 'user_role' ) { #>checked<# } #> type="checkbox" name="user_role" value="user_role">
+      <input <# if (data.user_role) { #>checked<# } #> type="checkbox" name="user_role" value="1">
     </p>-->
     <p class="form-field">
       <label><?php esc_html_e('Show for roles', 'woocommerce-checkout-manager'); ?></label>
@@ -25,7 +25,7 @@
   <div class="options_group">
     <p class="form-field">
       <label><?php esc_html_e('More', 'woocommerce-checkout-manager'); ?></label>
-      <input <# if ( data.more_product == 1 ) { #>checked<# } #> type="checkbox" name="more_product" value="1">
+      <input <# if (data.more_product) { #>checked<# } #> type="checkbox" name="more_product" value="1">
         <span class="description"><?php esc_html_e('Apply conditions event it there is more than one product', 'woocommerce-checkout-manager'); ?></span>
     </p>
   </div>

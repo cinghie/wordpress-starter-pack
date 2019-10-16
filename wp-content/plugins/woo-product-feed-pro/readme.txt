@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.2
-Stable tag: 6.5.7
+Stable tag: 6.6.7
 
 == Description ==
 
@@ -118,6 +118,15 @@ Our plugin supports the Aelia Currency Switcher
 * Supports WC Fields Factory
 * Supports Table Rate Shipping for WooCommerce from Bolder Elements
 * Supports usage of the All In One SEO pack title and description attributes
+
+Some of the above mentioned feature can only be used by users who upgraded to the Elite version of our plugin
+
+=== Elite paid features ===
+* WPML support
+* Aelia currency switcher support
+* Addition of the extra fields on your product edit pages
+* Data manipulation feature
+* WooCommerce structured data bug fix
 
 === Channels ===
 * Custom feeds
@@ -288,6 +297,39 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 6.6.7 (2019-10-15) =
+* In preparation of the conversion feature now outputting conversion data in logs
+* Category mappings for WooCommerce categories that had a & in it where not showing the Google category taxonomy ID (only visual issue). They have been added.
+
+= 6.6.6 (2019-10-15) =
+* Fixed a bug where when users enabled the extra fields feature but did not enable any of the extra field a PHP warning was showing.
+
+= 6.6.5 (2019-10-14) =
+* The WooCommerce function get_variation_attributes started returning sanitized values. This caused product title's for variants to contain encoded attribute values. Issue has been solved.
+* Removed the attribute publication date, it was causing issues in rules and filters.
+
+= 6.6.4 (2019-10-11) =
+* Added shipping region support for Google Shopping feeds for Japan, Australia and the United States. Google does not allow region additions to the shipping details for other countries.
+
+= 6.6.3 (2019-10-11) =
+* Added templates for all European Compare sites
+* Fixed a bug that was introduced in the previous release with regards to category mapping
+
+= 6.6.2 (2019-10-10) =
+* Category mapping wasn't working for categories that had a quotation mark in the category name. This has been fixed now.
+
+= 6.6.1 (2019-10-10) =
+* Fixed a bug in the include only filters. Categories that contained a ' were ignored in filters. This has been fixed now.
+
+= 6.6.0 (2019-10-09) =
+* Fixed a multi-currency bug for WPML where only the first product of a product feed was not converted to the correct currency.
+
+= 6.5.9 (2019-10-09) =
+* Include only filters on categories for products that sit in multipe categories now also works for variants products and not just simple products
+
+= 6.5.8 (2019-10-08) =
+* Removed php warning on product edit page. This was caused when the extra fields feature was enabled but no extra fields were enabled.
 
 = 6.5.7 (2019-10-04) =
 * Added custom meta field and dynamic attribute support for external product types
@@ -2051,6 +2093,39 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 6.6.7 =
+In preparation of the conversion feature now outputting conversion data in logs
+Category mappings for WooCommerce categories that had a & in it where not showing the Google category taxonomy ID (only visual issue). They have been added.
+
+= 6.6.6 =
+Fixed a bug where when users enabled the extra fields feature but did not enable any of the extra field a PHP warning was showing. 
+
+= 6.6.5 =
+The WooCommerce function get_variation_attributes started returning sanitized values. This caused product title's for variants to contain encoded attribute values. Issue has been solved.
+Removed the attribute publication date, it was causing issues in rules and filters.
+
+= 6.6.4 =
+Added shipping region support for Google Shopping feeds for Japan, Australia and the United States. Google does not allow region additions to the shipping details for other countries.
+
+= 6.6.3 =
+Added templates for all European Compare sites
+Fixed a bug that was introduced in the previous release with regards to category mapping
+
+= 6.6.2 =
+Category mapping wasn't working for categories that had a quotation mark in the category name. This has been fixed now.
+
+= 6.6.1 =
+Fixed a bug in the include only filters. Categories that contained a ' were ignored in filters. This has been fixed now.
+
+= 6.6.0 =
+Fixed a multi-currency bug for WPML where only the first product of a product feed was not converted to the correct currency.
+
+= 6.5.9 =
+Include only filters on categories for products that sit in multipe categories now also works for variants products and not just simple products
+
+= 6.5.8 =
+Removed php warning on product edit page. This was caused when the extra fields feature was enabled but no extra fields were enabled.
 
 = 6.5.7 =
 Added custom meta field and dynamic attribute support for external product types

@@ -4,7 +4,7 @@ Donate link: https://quadlayers.com/
 Tags: woocommerce, woocommerce checkout, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
 Requires at least: 3.0
 Tested up to: 5.2.3
-Stable tag: 4.5.4
+Stable tag: 4.5.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -136,6 +136,18 @@ Example:
 8. Customize Checkout fields from the WooCheckout menu item in the WordPress Administration.
 
 == Changelog ==
+
+= 4.5.7 =
+* Fix: woocommerce default label and placeholder i18n
+
+= 4.5.6 =
+* Fix: woocommerce settings page permissions
+
+= 4.5.5 =
+* Fix: woocommerce default phone and email missing
+* Improvement: woocommerce checkout options panel
+* Improvement: woocommerce order options panel
+* Improvement: woocommerce advanced options panel
 
 = 4.5.4 =
 * Improvement: woocommerce order fields rebuilt

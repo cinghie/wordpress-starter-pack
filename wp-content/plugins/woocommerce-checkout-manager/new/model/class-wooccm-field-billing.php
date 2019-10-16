@@ -4,6 +4,7 @@ if (!class_exists('WOOCCM_Field_Billing')) {
 
   class WOOCCM_Field_Billing extends WOOCCM_Field_Compatibility {
 
+    protected $fields = null;
     protected static $_instance;
     protected $prefix = 'billing';
     protected $option_name = 'wccs_settings3';

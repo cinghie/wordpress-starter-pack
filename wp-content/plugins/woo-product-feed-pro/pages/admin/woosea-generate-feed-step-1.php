@@ -65,12 +65,21 @@ function woosea_hierarchical_term_tree($category, $prev_mapped){
 			$x = $sub_category->term_id;
 			$woo_category = $sub_category->name;
                      	$woo_category_id = $sub_category->term_id;
-                     	$mapped_category = "";
+        
+	             	$mapped_category = "";
                     	$mapped_active_class = "input-field-large";
                         $woo_category = preg_replace('/&amp;/','&',$woo_category);
+                        $woo_category = preg_replace('/"/','&quot;',$woo_category);
 
-                    	if (array_key_exists($woo_category, $prev_mapped)){
-                        	$mapped_category = $prev_mapped[$woo_category];
+			// Check if mapping is in place
+                    	if ((array_key_exists($sub_category->name, $prev_mapped)) OR (array_key_exists($woo_category, $prev_mapped))){
+				if(array_key_exists($sub_category->name, $prev_mapped)){
+	                        	$mapped_category = $prev_mapped[$sub_category->name];
+				} elseif (array_key_exists($woo_category, $prev_mapped)){
+	                        	$mapped_category = $prev_mapped[$woo_category];
+				} else {
+	                        	$mapped_category = $woo_category;
+				}
                              	$mapped_active_class = "input-field-large-active";
 			}
 
@@ -145,6 +154,7 @@ function woosea_hierarchical_term_tree($category, $prev_mapped){
 					}
 				}
 			}
+
 			// Display mapping form
 			echo woosea_hierarchical_term_tree(0,$prev_mapped);			
 			?>

@@ -1,3 +1,4 @@
+<?php //var_dump($fields); ?>
 <?php include_once('parts/header.php'); ?>
 <h1 class="screen-reader-text"><?php esc_html_e('Billing', 'woocommerce-checkout-manager'); ?></h1>
 <h2><?php esc_html_e('Billing fields', 'woocommerce-checkout-manager'); ?></h2>

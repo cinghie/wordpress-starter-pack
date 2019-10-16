@@ -2,9 +2,9 @@ So you found my to-do list for this plugin? Well, hope you enjoy the little snea
 Missing some features you might like? Drop me a line at support@adtribes.io and we might just add it to the list. Thanks!
 
 Priority issues:
+- Processing status of stopped feeds
 - Only update feed when changes to products have been made
 - Add header to extra fields on product edit pages
-- Make batch-size configurable (but hide this option, it could cause lots of problems for users)
 - Add support for woocommerce multi currency plugin: https://wordpress.org/plugins/woo-multi-currency/
 
 - Do not use server time as update time in the feed but local time settings
@@ -13,15 +13,11 @@ Priority issues:
 - Add support for Polish Ceneo.pl: https://shops.ceneo.pl/documents/Informacje%20na%20temat%20struktury%20pliku%20xml.pdf
 - Add possibility to create OR rules
 - Add brand and mpn/gtin to product structured data: https://search.google.com/structured-data/testing-tool#url=https%3A%2F%2Fwww.bol.com%2Fnl%2Fp%2Flogitech-g903-lightspeed-draadloze-gamingmuis%2F9200000079253509%2F
-- Add support for Google Actions: https://support.google.com/merchants/answer/7378924
 - Change root XML node for custom feeds
 - Add Ricardo.ch category taxonomy support
 - Build a better WP Cron check, current one is not good enough
 - Add hierarchy category dropdown in filters/rules (exclude on identical subcategory names removes all)
-- Remarketing tags not yet on thank-you purchase page
-- Incomplete remarketing tag on cart-page
 - Add support for Composite products: https://woocommerce.com/products/composite-products/ & https://yithemes.com/themes/plugins/yith-woocommerce-composite-products/
-- Add localisation (at least for nl_NL and nl_BE / fr_BE) - https://codex.wordpress.org/I18n_for_WordPress_Developers#Translating_Plugins_and_Themes
 - AMAZON integration:
 	- requires a professional seller account, 39 dollar a month, before being able to create a developer account
 	- only than we can use their AWS service needed to connect our plugin

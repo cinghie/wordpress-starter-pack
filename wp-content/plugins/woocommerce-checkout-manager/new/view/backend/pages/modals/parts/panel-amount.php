@@ -3,7 +3,7 @@
   <div class="options_group">
     <p class="form-field">
       <label><?php esc_html_e('Add Amount', 'woocommerce-checkout-manager'); ?></label>
-      <input <# if ( data.add_amount == 'true' ) { #>checked<# } #> type="checkbox" name="add_amount" value="true">
+      <input <# if ( data.add_amount ) { #>checked<# } #> type="checkbox" name="add_amount" value="1">
     </p>
     <p class="form-field">
       <label><?php esc_html_e('Amount Name', 'woocommerce-checkout-manager'); ?></label>
@@ -22,15 +22,15 @@
   <div class="options_group">
     <p class="form-field">
       <label><?php esc_html_e('Amount Tax', 'woocommerce-checkout-manager'); ?></label>
-      <input <# if ( data.add_amount_tax == 'true' ) { #>checked<# } #> type="checkbox" name="add_amount_tax" value="true">
+      <input <# if ( data.add_amount_tax ) { #>checked<# } #> type="checkbox" name="add_amount_tax" value="1">
     </p>
     <p class="form-field">
       <label><?php esc_html_e('Deny Checkout', 'woocommerce-checkout-manager'); ?></label>
-      <input <# if ( data.deny_checkout == 'true' ) { #>checked<# } #> type="checkbox" name="deny_checkout" value="true">
+      <input <# if ( data.deny_checkout ) { #>checked<# } #> type="checkbox" name="deny_checkout" value="1">
     </p>
     <p class="form-field">
       <label><?php esc_html_e('Deny Receipt', 'woocommerce-checkout-manager'); ?></label>
-      <input <# if ( data.deny_receipt == 'true' ) { #>checked<# } #> type="checkbox" name="deny_receipt" value="true">
+      <input <# if ( data.deny_receipt ) { #>checked<# } #> type="checkbox" name="deny_receipt" value="1">
     </p>
 
   </div>

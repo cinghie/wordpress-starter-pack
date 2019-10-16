@@ -37,7 +37,7 @@
     $(document).on('click', '#wooccm_order_attachment_update', function (e) {
 
       $.ajax({
-        url: wooccm_upload.ajaxurl,
+        url: wooccm_upload.ajax_url,
         type: 'POST',
         cache: false,
         data: {
@@ -104,7 +104,7 @@
         data.append('order_id', order_id);
 
         $.ajax({
-          url: wooccm_upload.ajaxurl,
+          url: wooccm_upload.ajax_url,
           type: 'POST',
           cache: false,
           data: data,

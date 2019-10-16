@@ -62,6 +62,8 @@ function wooccm_csv_export_modify_column_headers($column_headers) {
   return array_merge($column_headers, $new_headers);
 }
 
+add_filter('wc_customer_order_csv_export_order_headers', 'wooccm_csv_export_modify_column_headers');
+
 // set the data for each for custom columns
 function wooccm_csv_export_modify_row_data($order_data, $order, $csv_generator) {
 
@@ -222,9 +224,7 @@ function wooccm_csv_export_modify_row_data($order_data, $order, $csv_generator) 
   return $new_order_data;
 }
 
-// Exit if accessed directly
-if (!defined('ABSPATH'))
-  exit;
+add_filter('wc_customer_order_csv_export_order_row', 'wooccm_csv_export_modify_row_data', 10, 3);
 
 function wooccm_additional_gen($tab, $abbr, $section, $wooname = '') {
 
@@ -653,54 +653,56 @@ function wooccm_advance_export() {
   ?>
 
   <script type="text/javascript">
-              jQuery(document).ready(function() {
+    jQuery(document).ready(function () {
       jQuery(function () {
 
-      jQuery(".button.single-download.additional").click(function() {
-      jQuery("input[name=single-download]").val("additional");
-              jQuery("#additional_export").submit();
-      }); jQuery(".b utton.al l-download.additional").click(function() {
-      jQuery("input[name=all-download]").val("additional");
-              jQuery("#additional_export").submit();
-      });
-              jQuery(".button.setting-download.additional").click(function() {
-      jQuery("input[name=setting-download]").val("additional");
-              jQuery("#additional_export").submit();
-              }); < !-- shipping -->
-        jQuery(".button.single-download.shipping").click(function() {
+        jQuery(".button.single-download.additional").click(function () {
+          jQuery("input[name=single-download]").val("additional");
+          jQuery("#additional_export").submit();
+        });
+        jQuery(".b utton.al l-download.additional").click(function () {
+          jQuery("input[name=all-download]").val("additional");
+          jQuery("#additional_export").submit();
+        });
+        jQuery(".button.setting-download.additional").click(function () {
+          jQuery("input[name=setting-download]").val("additional");
+          jQuery("#additional_export").submit();
+        });
+        < !-- shipping -- >
+                jQuery(".button.single-download.shipping").click(function () {
           jQuery("input[name=single-download]").val("shipping");
           jQuery("#additional_export").submit();
         });
-    			
-        jQuery(".button.all-download.shipping").click(function() {
+
+        jQuery(".button.all-download.shipping").click(function () {
           jQuery("input[name=all-download]").val("shipping");
           jQuery("#additional_export").submit();
         });
-        jQuery(".button.setting-download.additional").click(function() {
+        jQuery(".button.setting-download.additional").click(function () {
           jQuery("input[name=setting-download]").val("shipping");
           jQuery("#additional_export").submit();
         });
-        <!-- end shipping -->
+  <!-- end shipping -->
 
-        <!-- billing -->
-        jQuery(".button.single-download.billing").click(function() {
+  <!-- billing -->
+        jQuery(".button.single-download.billing").click(function () {
           jQuery("input[name=single-download]").val("billing");
           jQuery("#additional_export").submit();
         });
-    			
-        jQuery(".button.all-download.billing").click(function() {
+
+        jQuery(".button.all-download.billing").click(function () {
           jQuery("input[name=all-download]").val("billing");
           jQuery("#additional_export").submit();
         });
-    			
-        jQuery(".button.setting-download.additional").click(function() {
+
+        jQuery(".button.setting-download.additional").click(function () {
           jQuery("input[name=setting-download]").val("billing");
           jQuery("#additional_export").submit();
         });
-        <!-- end billing -->
+  <!-- end billing -->
 
       });
-    		
+
     });
   </script>
 
@@ -957,4 +959,3 @@ function wooccm_advance_export() {
   <!-- .wrap -->
   <?php
 }
-?>
