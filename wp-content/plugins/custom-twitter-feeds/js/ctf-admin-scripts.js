@@ -267,8 +267,10 @@ jQuery(document).ready(function($){
     var ctfUpgradeNote = '<span class="ctf_note"> - <a href="https://smashballoon.com/custom-twitter-feeds/?utm_source=plugin-free&utm_campaign=ctf" target="_blank">Available in Pro version</a></span>';
     $('.ctf_pro').each(function(){
         var $pro = $(this);
-        $pro.find('td').last().append(ctfUpgradeNote);
-        $pro.find('input, select, textarea').attr('disabled', 'true');
+        if (!$pro.find('.ctf_layout_options_wrap').length) {
+            $pro.find('td').last().append(ctfUpgradeNote);
+            $pro.find('input, select, textarea').attr('disabled', 'true');
+        }
     });
     $('#ctf_include_twittercards, #ctf_include_media, #ctf_include_replied_to').attr('disabled', 'true').removeAttr('checked').next('label').css('color', '#999').after(ctfUpgradeNote);
 
@@ -280,4 +282,14 @@ jQuery(document).ready(function($){
             $(this).closest('span').next('.ctf-pro-options').show();
         }
     });
+
+    function ctfUpdateLayoutTypeOptionsDisplay() {
+        setTimeout(function(){
+            jQuery('.ctf_layout_settings').hide();
+            jQuery('.ctf_layout_settings.ctf_layout_type_'+jQuery('.ctf_layout_type:checked').val()).show();
+        }, 1);
+    }
+    ctfUpdateLayoutTypeOptionsDisplay();
+    jQuery('.ctf_layout_type').change(ctfUpdateLayoutTypeOptionsDisplay);
+
 });

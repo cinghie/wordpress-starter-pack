@@ -6,7 +6,7 @@ function ctf_return_string_hashtag( $val ) {
 
 add_filter( 'ctf_admin_search_whatis', 'ctf_return_string_instructions' );
 function ctf_return_string_instructions( $val ) {
-    return 'Select this option and enter any single hashtag for a hashtag feed';
+    return 'Select this option and enter any single hashtag for a hashtag feed. Only tweets made within the last 7 days are available initially. Once a tweet has been retrieved the plugin will keep it in a persistent cache indefinitely';
 }
 
 add_filter( 'ctf_admin_validate_search_text', 'ctf_validate_search_text', 10, 1 );
@@ -154,101 +154,6 @@ function ctf_show_hide_list( $show_hide_list ) {
     return $show_hide_list;
 }
 
-function ctf_pro_masonry_section() {
-	?>
-    <p class="ctf_pro_section_note"><a href="https://smashballoon.com/custom-twitter-feeds/?utm_source=plugin-free&utm_campaign=ctf" target="_blank">Upgrade to Pro to enable Masonry layouts</a></p>
-    <span><a href="javascript:void(0);" class="button button-secondary ctf-show-pro"><b>+</b> Show Pro Options</a></span>
-
-    <div class="ctf-pro-options">
-        <table class="form-table"><tbody><tr><th scope="row"><label for="ctf_masonry" title="Click for shortcode option">Set Masonry Columns as Default</label><code class="ctf_shortcode">masonry
-                        Eg: masonry=true</code></th><td>        <input name="ctf_options[masonry]" id="ctf_masonry" type="checkbox" disabled>
-                    <a class="ctf-tooltip-link" href="JavaScript:void(0);"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
-                    <p class="ctf-tooltip ctf-more-info">This will make every Twitter feed show as masonry style columns by default.</p>
-                </td></tr><tr><th scope="row"><label for="ctf_masonrycols">Desktop Columns</label><code class="ctf_shortcode">masonrycols
-                        Eg: masonrycols=5</code></th><td>        <select name="ctf_options[masonrycols]" id="ctf_masonrycols" class="" disabled>
-                        <option value="2" id="ctf-masonrycols" class="">2</option>
-                        <option value="3" id="ctf-masonrycols" class="">3</option>
-                        <option value="4" id="ctf-masonrycols" class="">4</option>
-                        <option value="5" id="ctf-masonrycols" class="">5</option>
-                        <option value="6" id="ctf-masonrycols" class="">6</option>
-                    </select>
-                    <a class="ctf-tooltip-link" href="JavaScript:void(0);"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
-                    <p class="ctf-tooltip ctf-more-info">Number of vertical columns the masonry feed will use when the screen is viewed on wide screens.</p>
-                </td></tr><tr><th scope="row"><label for="ctf_masonrymobilecols">Mobile Columns</label><code class="ctf_shortcode">masonrymobilecols
-                        Eg: masonrymobilecols=2</code></th><td>        <select name="ctf_options[masonrymobilecols]" id="ctf_masonrymobilecols" class="" disabled>
-                        <option value="1" id="ctf-masonrymobilecols" class="">1</option>
-                        <option value="2" id="ctf-masonrymobilecols" class="">2</option>
-                    </select>
-                    <a class="ctf-tooltip-link" href="JavaScript:void(0);"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
-                    <p class="ctf-tooltip ctf-more-info">Number of vertical columns the masonry feed will use when the screen is viewed on small screens.</p>
-        </td></tr></tbody></table>
-    </div>
-    <div style="height: 18px;"></div>
-    <?php
-}
-
-function ctf_pro_carousel_section() {
-	?>
-    <p class="ctf_pro_section_note"><a href="https://smashballoon.com/custom-twitter-feeds/?utm_source=plugin-free&utm_campaign=ctf" target="_blank">Upgrade to Pro to enable Carousel</a></p>
-    <span><a href="javascript:void(0);" class="button button-secondary ctf-show-pro"><b>+</b> Show Pro Options</a></span>
-
-    <div class="ctf-pro-options">
-        <table class="form-table"><tbody><tr><th scope="row"><label for="ctf_carousel" title="Click for shortcode option">Set Carousel as Default<code class="ctf_shortcode_symbol">[]</code></label><code class="ctf_shortcode">carousel
-                        Eg: carousel=true</code></th><td>        <input name="ctf_options[carousel]" id="ctf_carousel" type="checkbox">
-                    <a class="ctf-tooltip-link" href="JavaScript:void(0);"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
-                    <p class="ctf-tooltip ctf-more-info">This will make every Twitter feed display in a carousel by default.</p>
-                </td></tr><tr><th scope="row"><label for="ctf_carouselcols">Desktop Columns</label><code class="ctf_shortcode">carouselcols
-                        Eg: carouselcols=5</code></th><td>        <select name="ctf_options[carouselcols]" id="ctf_carouselcols" class="" disabled>
-                        <option value="1" id="ctf-carouselcols" class="">1</option>
-                        <option value="2" id="ctf-carouselcols" class="">2</option>
-                        <option value="3" id="ctf-carouselcols" class="">3</option>
-                        <option value="4" id="ctf-carouselcols" class="">4</option>
-                        <option value="5" id="ctf-carouselcols" class="">5</option>
-                        <option value="6" id="ctf-carouselcols" class="">6</option>
-                    </select>
-                    <a class="ctf-tooltip-link" href="JavaScript:void(0);"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
-                    <p class="ctf-tooltip ctf-more-info">Number of vertical columns the carousel feed will use when the screen is viewed on wide screens.</p>
-                </td></tr><tr><th scope="row"><label for="ctf_carouselmobilecols">Mobile Columns</label><code class="ctf_shortcode">carouselmobilecols
-                        Eg: carouselmobilecols=2</code></th><td>        <select name="ctf_options[carouselmobilecols]" id="ctf_carouselmobilecols" class="" disabled>
-                        <option value="1" id="ctf-carouselmobilecols" class="">1</option>
-                        <option value="2" id="ctf-carouselmobilecols" class="">2</option>
-                    </select>
-                    <a class="ctf-tooltip-link" href="JavaScript:void(0);"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
-                    <p class="ctf-tooltip ctf-more-info">Number of vertical columns the carousel feed will use when the screen is viewed on small screens.</p>
-                </td></tr><tr><th scope="row"><label for="ctf_carouselarrows">Navigation Arrows</label><code class="ctf_shortcode">carouselarrows
-                        Eg: carouselarrows=below</code></th><td>        <select name="ctf_options[carouselarrows]" id="ctf_carouselarrows" class="" disabled>
-                        <option value="onhover" id="ctf-carouselarrows" class="">Show on Hover</option>
-                        <option value="below" id="ctf-carouselarrows" class="">Show below feed</option>
-                        <option value="hide" id="ctf-carouselarrows" class="">Hide arrows</option>
-                    </select>
-                </td></tr><tr><th scope="row"><label for="ctf_carouselpag">Show Pagination</label><code class="ctf_shortcode">carouselpag
-                        Eg: carouselpag=true</code></th><td>        <input name="ctf_options[carouselpag]" id="ctf_carouselpag" type="checkbox">
-                </td></tr><tr><th scope="row"><label for="ctf_carouselheight">Height of Carousel</label><code class="ctf_shortcode">carouselheight
-                        Eg: carouselheight="auto"</code></th><td>        <select name="ctf_options[carouselheight]" id="ctf_carouselheight" class="" disabled>
-                        <option value="tallest" id="ctf-carouselheight" class="">Always set to tallest post</option>
-                        <option value="clickexpand" id="ctf-carouselheight" class="">Set to shortest post, button to expand</option>
-                        <option value="auto" id="ctf-carouselheight" class="">Automatically set to post height (forces single column)</option>
-                    </select>
-                </td></tr><tr><th scope="row"><label for="ctf_carouselautoplay">Enable Autoplay</label><code class="ctf_shortcode">carouselautoplay
-                        Eg: carouselautoplay=true</code></th><td>        <input name="ctf_options[carouselautoplay]" id="ctf_carouselautoplay" type="checkbox" disabled>
-                </td></tr><tr class="default-text"><th scope="row"><label for="ctf_carouseltime">Autoplay interval Time</label><code class="ctf_shortcode">carouseltime
-                        Eg: carouseltime=8000</code></th><td>        <input name="ctf_options[carouseltime]" id="ctf_carouseltime" class="default-text" type="text" value="5000" disabled>
-                    <a class="ctf-tooltip-link" href="JavaScript:void(0);"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
-                    <p class="ctf-tooltip ctf-more-info">Time it takes for the carousel to change in milliseconds.</p>
-                </td></tr><tr class="default-text"><th scope="row"><label for="ctf_carouselloop">Loop Type</label><code class="ctf_shortcode">carouselloop
-                        Eg: carouselloop=none</code></th><td>        <select name="ctf_options[carouselloop]" id="ctf_carouselloop" class="default-text" disabled>
-                        <option value="none" id="ctf-carouselloop" class="default-text">None</option>
-                        <option value="infinite" id="ctf-carouselloop" class="default-text">Infinite</option>
-                        <option value="rewind" id="ctf-carouselloop" class="default-text">Rewind</option>
-                    </select>
-                    <a class="ctf-tooltip-link" href="JavaScript:void(0);"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
-                    <p class="ctf-tooltip ctf-more-info">This is where you can set what happens when the carousel reaches the last item.</p>
-                </td></tr></tbody></table>
-    </div>
-    <div style="height: 18px;"></div>
-	<?php
-}
-
 function ctf_pro_autoscroll_section() {
 	?>
     <p class="ctf_pro_section_note"><a href="https://smashballoon.com/custom-twitter-feeds/?utm_source=plugin-free&utm_campaign=ctf" target="_blank">Upgrade to Pro to enable Autoscroll loading</a></p>
@@ -322,18 +227,6 @@ function ctf_add_masonry_autoscroll_options( $admin ) {
 		'whatis'   => 'This will replace the default text displayed for "In reply to"',
 		'default'  => 'In reply to'// "what is this?" text
 	) );
-	add_settings_section(
-		'ctf_options_carousel', // matches the section name
-		'<span class="ctf_pro_header">Carousel</span>',
-		'ctf_pro_carousel_section', // callback function to explain the section
-		'ctf_options_carousel' // matches the section name
-	);
-	add_settings_section(
-		'ctf_options_masonry', // matches the section name
-		'<span class="ctf_pro_header">Masonry Columns</span>',
-		'ctf_pro_masonry_section', // callback function to explain the section
-		'ctf_options_masonry' // matches the section name
-	);
 
 	add_settings_section(
 		'ctf_options_autoscroll', // matches the section name
@@ -435,12 +328,6 @@ function ctf_filter_operator( $args ) {
 add_action( 'ctf_admin_add_settings_sections_to_customize', 'ctf_add_masonry_autoload_section_to_customize' );
 function ctf_add_masonry_autoload_section_to_customize() {
     ?>
-    <a id="carousel"></a>
-	<?php do_settings_sections( 'ctf_options_carousel' ); ?>
-    <hr>
-    <a id="masonry"></a>
-    <?php do_settings_sections( 'ctf_options_masonry' ); ?>
-    <hr>
     <a id="autoscroll"></a>
     <?php do_settings_sections( 'ctf_options_autoscroll' ); ?>
     <!-- <p class="submit"><input class="button-primary" type="submit" name="save" value="<?php esc_attr_e( 'Save Changes' ); ?>" /></p> -->

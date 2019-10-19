@@ -4,8 +4,8 @@ Contributors: smashballoon, craig-at-smash-balloon
 Support Website: http://smashballoon/custom-twitter-feeds/
 Tags: Twitter, Twitter feed, Tweets, Twitter widget, Custom Twitter Feed
 Requires at least: 3.0
-Tested up to: 5.1
-Stable tag: 1.3
+Tested up to: 5.2
+Stable tag: 1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -237,6 +237,20 @@ Not many developers love providing support, but we're a rare breed here at Smash
 7. To display a feed just copy and paste the shortcode into a widget or page
 
 == Changelog ==
+= 1.4 =
+* New: Twitter logo added to the top right of each tweet to fit with Twitter's display guidelines. Customize the logo on the "Style" tab, "Author" area or hide it using the settings on the "Customize" tab "Show/Hide" settings.
+* New: Minified versions of JavaScript and CSS files now used.
+* New: JavaScript file added to the source of the page only when the shortcode is used on the page.
+* New: SVGs used for icons instead of Font Awesome font file. You can switch back to using the Font Awesome font file on the "Customize" tab, "Advanced" area.
+* New: Tweets that are replies to the same account or mention the same account can be included in the feed by enabling the setting "Always include replies to self in the feed".
+* New: Added a setting to completely disable Twitter intents widget.js file.
+* Tweak: The HTML element used for icons has been switched from "i" to "span" for better accessibility.
+* Tweak: Changed styling of media placeholder icons.
+* Tweak: Combined widgets.js file with native JavaScript file for the plugin.
+* Tweak: Twitter widgets.js will only be enqueued when "actions" are included in the feed.
+* Tweak: Tweet text line height style set to 1.4.
+* Fix: Bio text not displaying in header even when enabled.
+
 = 1.3 =
 * New: You can now choose to only display a certain amount of text characters in your Tweets, with a clickable link to display the rest. This is set to be 280 characters by default, but can be changed by using the following setting: Customize > Style > Tweet Text > Text Length, or by using the "textlength" shortcode setting.
 * Tweak: Twitter intents JavaScript not loaded on the page if tweet actions are removed
