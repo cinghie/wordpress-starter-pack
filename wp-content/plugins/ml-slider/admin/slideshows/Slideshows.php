@@ -141,6 +141,7 @@ class MetaSlider_Slideshows {
 					'post_title' => "Slider {$new_slideshow_id} - {$type}",
 					'post_status' => 'publish',
 					'post_type' => 'ml-slide',
+					'post_excerpt' => get_post_field('post_excerpt', $slide_id),
 					'menu_order' => get_post_field('menu_order', $slide_id)
 				), true);
 
@@ -262,9 +263,8 @@ class MetaSlider_Slideshows {
         $args = array(
             'post_type' => 'ml-slider',
             'post_status' => array('inherit', 'publish'),
-            'orderby' => 'date',
+            'orderby' => 'modified',
             'suppress_filters' => 1, // wpml, ignore language filter
-            'order' => 'ASC',
             'posts_per_page' => -1
 		);
 
@@ -284,13 +284,22 @@ class MetaSlider_Slideshows {
 
 		if (empty($slideshow)) return array();
 
-		return array(
+		$slideshows = array(
 			'id' => $slideshow->ID,
 			'title' => $slideshow->post_title,
 			'created_at' => $slideshow->post_date,
 			'modified_at' => $slideshow->post_modified,
+			'modified_at_gmt' => $slideshow->post_modified_gmt,
 			'slides' => $this->active_slide_ids($slideshow->ID)
 		);
+
+		foreach (get_post_meta($slideshow->ID) as $key => $value) {
+			$key = str_replace('ml-slider_settings', 'settings', $key);
+			$key = str_replace('metaslider_slideshow_theme', 'theme', $key);
+			$slideshows[$key] = maybe_unserialize($value[0]);
+		}
+
+		return $slideshows;
 	}
 
 	/**

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     6.6.8
+ * Version:     6.7.2
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '6.6.8' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '6.7.2' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -1375,24 +1375,24 @@ function woosea_project_processing_status(){
 	$proc_perc = 0;
 
         foreach ( $feed_config as $key => $val ) {
-                if ($val['project_hash'] === $project_hash){
-
-			if($val['running'] == "ready"){
-				$proc_perc = 100;
-			} elseif($val['running'] == "not run yet"){
-				$proc_perc = 999; // Fake, otherwise the copied feed will be generated immediatly
-			} else {
-				$proc_perc = round(($val['nr_products_processed']/$val['nr_products'])*100);
-			}
+		if ($val['project_hash'] === $project_hash){
+			$this_feed = $val;
 		}
 	}	
 
+	if($this_feed['running'] == "ready"){
+		$proc_perc = 100;
+	} elseif($this_feed['running'] == "not run yet"){
+		$proc_perc = 999;
+	} else {
+		$proc_perc = round(($this_feed['nr_products_processed']/$this_feed['nr_products'])*100);
+	}
+
         $data = array (
 		'project_hash' => $project_hash,
-		'running' => $val['running'],
+		'running' => $this_feed['running'],
                 'proc_perc' => $proc_perc,
         );
-
         echo json_encode($data);
         wp_die();
 	

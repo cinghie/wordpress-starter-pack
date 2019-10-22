@@ -15,7 +15,7 @@ jQuery(document).ready(function($) {
 
   	if (get_value == 'woosea_manage_feed') {
 		$(document).on('ready',function(){
-			myInterval = setInterval(woosea_check_perc,3000);
+			myInterval = setInterval(woosea_check_perc,7000);
 		});
 	}
 
@@ -541,8 +541,18 @@ jQuery(document).ready(function($) {
 					if(hash == project_hash){
 						$(".woo-product-feed-pro-blink_off_"+hash).text(function () {
                                         		$(this).addClass('woo-product-feed-pro-blink_me');
-							myInterval = setInterval(woosea_check_perc,500);
-							return $(this).text().replace("ready", "processing (0%)"); 
+							var status = $(".woo-product-feed-pro-blink_off_"+hash).text();
+							myInterval = setInterval(woosea_check_perc,2000);
+							if(status == "ready"){
+								return $(this).text().replace("ready", "processing (0%)");
+							} else if (status == "stopped"){
+								return $(this).text().replace("stopped", "processing (0%)");
+							} else if (status == "not run yet"){
+								return $(this).text().replace("not run yet", "processing (0%)");
+							} else {
+								// it should not be coming here at all
+								return $(this).text().replace("ready", "processing (0%)");
+							}
 						});	
 					}
             			});
@@ -556,31 +566,31 @@ jQuery(document).ready(function($) {
        	        	var hash = this.value;
 
 			jQuery.ajax({
-                		method: "POST",
-                      	 	 url: ajaxurl,
-                       		 data: { 'action': 'woosea_project_processing_status', 'project_hash': hash }
+				method: "POST",
+                      	 	url: ajaxurl,
+                       		data: { 'action': 'woosea_project_processing_status', 'project_hash': hash },
+				success: function(data) {
+	                        	data = JSON.parse( data );
+
+					if(data.proc_perc < 100){
+						if(data.running != "stopped"){
+							$("#woosea_proc_"+hash).addClass('woo-product-feed-pro-blink_me');	
+							return $("#woosea_proc_"+hash).text("processing ("+data.proc_perc+"%)");
+						}
+					} else if(data.proc_perc == 100){
+					//	clearInterval(myInterval);
+						$("#woosea_proc_"+hash).removeClass('woo-product-feed-pro-blink_me');	
+						return $("#woosea_proc_"+hash).text("ready");
+					} else if(data.proc_perc == 999){
+						// Do not do anything
+					} else {
+					//	clearInterval(myInterval);
+					//	$("#woosea_proc_"+hash).removeClass('woo-product-feed-pro-blink_me');	
+					//	return $("#woosea_proc_"+hash).text("ready");
+					}
+				}
                		})
 
-             	        .done(function( data ) {
-                        	data = JSON.parse( data );
-
-				if(data.proc_perc < 100){
-					return $("#woosea_proc_"+hash).text("processing ("+data.proc_perc+"%)");
-				} else if(data.proc_perc == 100){
-					clearInterval(myInterval);
-					$("#woosea_proc_"+hash).removeClass('woo-product-feed-pro-blink_me');	
-					return $("#woosea_proc_"+hash).text("ready");
-				} else if(data.proc_perc == 999){
-					// Do not do anything
-				} else {
-					clearInterval(myInterval);
-					$("#woosea_proc_"+hash).removeClass('woo-product-feed-pro-blink_me');	
-					return $("#woosea_proc_"+hash).text("ready");
-				}
-                        })
-                        .fail(function( data ) {
-                                console.log('Failed AJAX Call :( /// Return Data: ' + data);
-                        });
 		});
 	}
 });

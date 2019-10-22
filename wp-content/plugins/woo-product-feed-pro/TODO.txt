@@ -3,7 +3,7 @@ Missing some features you might like? Drop me a line at support@adtribes.io and 
 
 Priority issues:
 - Add Facebook pixel measure sales/conversion in checkout
-- Processing status of stopped feeds
+- Add find and replace rule option
 - Categories / subcategorie mapping issue when the categories have the exact same name
 - Only update feed when changes to products have been made
 - Add header to extra fields on product edit pages

@@ -53,6 +53,7 @@ if (array_key_exists('project_hash', $_GET)){
 				<form id="googleanalytics" method="post">
 		
 				<table class="woo-product-feed-pro-table">
+				<!--
 				<tr>
 					<td><span>Enable conversion tracking: </span></td>
 					<td>
@@ -68,6 +69,7 @@ if (array_key_exists('project_hash', $_GET)){
 						</label>	
 					</td>
 				</tr>			
+				-->
 				<tr>
 					<td><span><?php _e( 'Enable Google Analytics tracking','woo-product-feed-pro' );?>: </span></td>
 					<td>

@@ -3,9 +3,9 @@ Contributors: matchalabs, DavidAnderson, dnutbourne, kbat82
 Tags: slideshow, slider, image slider, carousel, gallery, flexslider, wordpress slider, nivoslider, rotating banner, responsive slideshow, seo slideshow, unsplash
 Donate link: https://david.dw-perspective.org.uk/donate
 Requires at least: 3.5
-Stable tag: 3.14.0
+Stable tag: 3.15.0
 Requires PHP: 5.2
-Tested up to: 5.2
+Tested up to: 5.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,17 +165,27 @@ See https://www.metaslider.com/documentation/image-cropping/
 
 == Changelog ==
 
+= 3.15.0 - 2019/Oct/17 =
+
+* FEATURE: Adds a new way to navigate slideshows
+* TWEAK: Adds various accessibility enhancements to FlexSlider
+* TWEAK: Adds extra checks for REST enabled sites
+* TWEAK: Updates notices
+* FIX: Updates various RTL language styling issues
+* FIX: Fixes bug where new slides wouldn't crop until pressing save
+* FIX: Fixes various layout breaks from other languages
+
 = 3.14.0 - 2019/July/26 =
 
 * FEATURE: Adds ability to duplicate a slideshow
 * FEATURE: Adds toolbar with various utilities
 * FEATURE: Adds unified notification system
 * REFACTOR: Moves inline styles out of the body tag
-* REFACTOR: Refactors the preview module to be caled from anywhere
+* REFACTOR: Refactors the preview module to be called from anywhere
 * REFACTOR: Refactors the way slides and the slideshow saving works
 * REFACTOR: Refactors the shortcode copy module
 * REFACTOR: Adds helper functions to better manage the routes files
-* FIX: Fixes bug where adding a class name via Gutenberg crashes the block
+* FIX: Fixes a bug where adding a class name via Gutenberg crashes the block
 
 = 3.13.1 - 2019/May/11 =
 
@@ -784,4 +794,4 @@ More info/Comments: http://www.metaslider.com/coming-soon-meta-slider-2-6-free/
 * Initial version
 
 == Upgrade Notice ==
-* 3.14.0 : Update now to be able to duplicate your slideshow
+* 3.15.0 : Update now to use the updated search and slideshow selector

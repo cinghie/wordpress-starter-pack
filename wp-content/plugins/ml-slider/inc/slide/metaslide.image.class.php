@@ -251,7 +251,7 @@ class MetaImageSlide extends MetaSlide {
         // slide row HTML
         $row  = "<tr id='slide-{$this->slide->ID}' class='slide image flex responsive nivo coin' data-attachment-id='{$attachment_id}'>
                     <td class='col-1'>
-                        <div class='metaslider-ui-controls ui-sortable-handle'>
+                        <div class='metaslider-ui-controls ui-sortable-handle rtl:pl-0 rtl:pr-3'>
                         <h4 class='slide-details'>{$slide_label}</h4>";
                         if (metaslider_this_is_trash($this->slide)) {
                             $row .= '<div class="row-actions trash-btns">';

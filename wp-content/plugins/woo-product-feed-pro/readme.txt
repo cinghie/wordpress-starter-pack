@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.2
-Stable tag: 6.6.8
+Stable tag: 6.7.2
 
 == Description ==
 
@@ -297,6 +297,21 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 6.7.2 (2019-10-22) =
+* Added a feature to the data manipulation tool to create a product price including shipping costs
+* Added localization of the shipping cost price
+* Added localization of the system price attribute
+
+= 6.7.1 (2019-10-21) =
+* Added support for price, net price, regular and sale system prices
+
+= 6.7.0 (2019-10-21) =
+* Creating multiply rules on doubles with a . in it (such as price and sale_price) was not working. This issue has been fixed now.
+
+= 6.6.9 (2019-10-18) =
+* Improved product feed status messages so they are more accurate now
+* Improved filter and rule feature to speed up processing of product feeds
 
 = 6.6.8 (2019-10-16) =
 * One week ago Google introduced a new updated Google category taxonomy. Compared with the previous taxonomy a few hundred categories have been added. Our plugin now supports those new categories.
@@ -2096,6 +2111,21 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 6.7.2 =
+Added a feature to the data manipulation tool to create a product price including shipping costs
+Added localization of the shipping cost price
+Added localization of the system price attribute
+
+= 6.7.1 =
+Added support for price, net price, regular and sale system prices
+
+= 6.7.0 =
+Creating multiply rules on doubles with a . in it (such as price and sale_price) was not working. This issue has been fixed now.
+
+= 6.6.9 =
+Improved product feed status messages so they are more accurate now
+Improved filter and rule feature to speed up processing of product feeds
 
 = 6.6.8 =
 One week ago Google introduced a new updated Google category taxonomy. Compared with the previous taxonomy a few hundred categories have been added. Our plugin now supports those new categories.

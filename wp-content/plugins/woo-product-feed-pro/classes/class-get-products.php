@@ -686,6 +686,7 @@ class WooSEA_Get_Products {
 											$shipping_cost = str_replace(",", ".", $shipping_cost);
 											$shipping_cost = $shipping_cost*$rate;
 											$shipping_cost = round($shipping_cost, 2);
+											$shipping_cost = wc_format_localized_price($shipping_cost);
 										}
 									}
 								}
@@ -713,6 +714,7 @@ class WooSEA_Get_Products {
                                                                                 foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
                                                                                         $total_cost = WC()->cart->get_total();
                                                                                         $shipping_cost = WC()->cart->get_shipping_total();
+											$shipping_cost = wc_format_localized_price($shipping_cost);
                                                                                 }
                                                                                 
                                                                                 // Make sure to empty the cart again
@@ -727,7 +729,6 @@ class WooSEA_Get_Products {
 								if (is_numeric($v->instance_settings[$class_cost_id])){
 	
 									$shipping_cost = $v->instance_settings[$class_cost_id];
-
 									// Do we need to convert the shipping costswith the Aelia Currency Switcher
                         	                        		if((isset($project_config['AELIA'])) AND (!empty($GLOBALS['woocommerce-aelia-currencyswitcher'])) AND (get_option ('add_aelia_support') == "yes")){
                                 						if(!array_key_exists('base_currency', $project_config)){
@@ -747,6 +748,7 @@ class WooSEA_Get_Products {
 												$rate = (($w['rate']+100)/100);
 												$shipping_cost = $shipping_cost*$rate;
 												$shipping_cost = round($shipping_cost, 2);
+												$shipping_cost = wc_format_localized_price($shipping_cost);
 											}
 										}
 									}
@@ -775,6 +777,7 @@ class WooSEA_Get_Products {
 													if(is_numeric($shipping_cost)){
 														$shipping_cost = $shipping_cost*$rate;
 														$shipping_cost = round($shipping_cost, 2);
+														$shipping_cost = wc_format_localized_price($shipping_cost);
 													}
 												}
 											}
@@ -2091,17 +2094,26 @@ class WooSEA_Get_Products {
 			// Get product prices
 			$product_data['price'] = wc_get_price_including_tax($product, array('price'=> $product->get_price()));
 			$product_data['price'] = wc_format_decimal($product_data['price'],2);
-
-			// Override price when WCML price is different than the non-translated price	
-			if((isset($project_config['WCML'])) AND ($product_data['price'] !== $wcml_price)){
-				$product_data['price'] = $wcml_price;
-
-			}
 			$product_data['sale_price'] = wc_get_price_including_tax($product, array('price'=> $product->get_sale_price()));
 			$product_data['sale_price'] = wc_format_decimal($product_data['sale_price'],2);
 			$product_data['regular_price'] = wc_get_price_including_tax($product, array('price'=> $product->get_regular_price()));
 			$product_data['regular_price'] = wc_format_decimal($product_data['regular_price'],2);
 
+			// Untouched raw system pricing - DO NOT CHANGE THESE
+			$product_data['system_price'] = wc_get_price_including_tax($product, array('price'=> $product->get_price()));
+			$product_data['system_price'] = wc_format_decimal($product_data['system_price'],2);
+			$product_data['system_net_price'] = round(wc_get_price_excluding_tax( $product ), 2);
+			$product_data['system_net_price'] = wc_format_decimal($product_data['system_net_price'],2);
+                        $product_data['system_regular_price'] = round($product->get_regular_price(),2);
+			$product_data['system_regular_price'] = wc_format_decimal($product_data['system_regular_price'],2);
+			$product_data['system_sale_price'] = wc_get_price_including_tax($product, array('price'=> $product->get_sale_price()));
+			$product_data['system_sale_price'] = wc_format_decimal($product_data['system_sale_price'],2);
+
+			// Override price when WCML price is different than the non-translated price	
+			if((isset($project_config['WCML'])) AND ($product_data['price'] !== $wcml_price)){
+				$product_data['price'] = $wcml_price;
+			}
+	
 			if($product_data['regular_price'] == $product_data['sale_price']){
 				$product_data['sale_price'] = "";
 			}
@@ -2144,7 +2156,7 @@ class WooSEA_Get_Products {
                         	// Override price when WCML price is different than the non-translated price    
                         	if(isset($project_config['WCML'])){
 					$product_data['price_forced'] = round(wc_get_price_excluding_tax($product,array('price'=> $wcml_price)) * (100+$tax_rates[1]['rate'])/100,2);
-                        	} else {
+               	        	} else {
 					$product_data['price_forced'] = round(wc_get_price_excluding_tax($product,array('price'=> $product->get_price())) * (100+$tax_rates[1]['rate'])/100,2);
 				}
 			}
@@ -2194,7 +2206,8 @@ class WooSEA_Get_Products {
 				}
 				if($product->get_sale_price()){
 					$product_data['sale_price_forced'] = apply_filters('wc_aelia_cs_convert', $product_data['sale_price_forced'], $from_currency, $project_config['AELIA']);
-				}	
+				}
+
 				$product_data['net_price'] = apply_filters('wc_aelia_cs_convert', $product_data['net_price'], $from_currency, $project_config['AELIA']);
 				$product_data['net_regular_price'] = apply_filters('wc_aelia_cs_convert', $product_data['net_regular_price'], $from_currency, $project_config['AELIA']);
 				$product_data['net_sale_price'] = apply_filters('wc_aelia_cs_convert', $product_data['net_sale_price'], $from_currency, $project_config['AELIA']);
@@ -2259,7 +2272,6 @@ class WooSEA_Get_Products {
 
 			// Localize the price attributes
 			$decimal_separator = wc_get_price_decimal_separator();
-			
 			$product_data['price'] = wc_format_localized_price($product_data['price']);
 			$product_data['regular_price'] = wc_format_localized_price($product_data['regular_price']);
 			$product_data['sale_price'] = wc_format_localized_price($product_data['sale_price']);
@@ -2275,6 +2287,12 @@ class WooSEA_Get_Products {
 			$product_data['net_price'] = wc_format_localized_price($product_data['net_price']);
 			$product_data['net_regular_price'] = wc_format_localized_price($product_data['net_regular_price']);
 			$product_data['net_sale_price'] = wc_format_localized_price($product_data['net_sale_price']);
+			$product_data['net_sale_price'] = wc_format_localized_price($product_data['net_sale_price']);
+			$product_data['net_sale_price'] = wc_format_localized_price($product_data['net_sale_price']);
+                        $product_data['system_price'] = wc_format_localized_price($product_data['system_price']);
+                        $product_data['system_net_price'] = wc_format_localized_price($product_data['system_net_price']);
+                        $product_data['system_regular_price'] = wc_format_localized_price($product_data['system_regular_price']);
+                        $product_data['system_sale_price'] = wc_format_localized_price($product_data['system_sale_price']);
 
 			// Add rounded price options
 			$product_data['rounded_price'] = round($product_data['price']);
@@ -3383,8 +3401,8 @@ class WooSEA_Get_Products {
                 $table_name = $wpdb->prefix . 'adtribes_my_conversions';
                 $order_rows = $wpdb->get_results("SELECT * FROM $table_name", ARRAY_A);
 
-              	$notifications_obj = new WooSEA_Get_Admin_Notifications;
-                $external_debug_file = $notifications_obj->woosea_debug_informations ($versions, $product_numbers, $order_rows, $feed_config);
+        //     	$notifications_obj = new WooSEA_Get_Admin_Notifications;
+        //      $external_debug_file = $notifications_obj->woosea_debug_informations ($versions, $product_numbers, $order_rows, $feed_config);
 		// End information for debug log
 
 		foreach ( $feed_config as $key => $val ) {
@@ -3679,6 +3697,7 @@ class WooSEA_Get_Products {
 		if($aantal_prods > 0){
 			foreach ($field_manipulation as $manipulation_key => $manipulation_array){
 				foreach ($manipulation_array as $ma_k => $ma_v){
+
 					if($ma_k == "attribute"){
 						$alter_field = $ma_v;
 					} elseif ($ma_k == "rowCount"){
@@ -3692,27 +3711,41 @@ class WooSEA_Get_Products {
 						if($product_type == "variable"){
 							$product_type = "variation";
 						}
-	
+
 						// Field manipulation only for the product_types that were determined
 						if(($product_type == $product_type_data) OR ($product_type == "all")){
 							foreach ($becomes as $bk => $bv){
-
 								foreach ($bv as $bkk => $bvv){
 									if($bkk == "attribute"){
-					
 										if(isset($product_data[$bvv])){
 											// product tags and categories are arrays
 											if(is_array($product_data[$bvv])){
 												foreach($product_data[$bvv] as $ka => $va){
 													$value .= $va." ";
 												}
-											} else {										
-												$value .= $product_data[$bvv]." ";
+											} else {
+												// These are numeric values, user probably want to add those together
+												if($bvv == "price" || $bvv == "shipping_price" || $bvv == "sale_price" || $bvv == "regular_price"){
+													$old_format_price = $product_data[$bvv];
+													$product_data[$bvv] = wc_format_decimal($product_data[$bvv]);
+													settype($product_data[$bvv], "double");
+													settype($value, "double");
+													$value = ($value+$product_data[$bvv]);
+													$product_data[$bvv] = $old_format_price;
+												} else {
+													$value .= $product_data[$bvv]." ";
+												}
 											}
 										}
 									}
 								}
 							}
+
+							if(gettype($value == "double")){
+								$value = wc_format_decimal($value,2);
+								$value = wc_format_localized_price($value);
+							}
+
 							$product_data[$alter_field] = $value;
 						}
 					}
@@ -3755,8 +3788,13 @@ class WooSEA_Get_Products {
 							$pd_value = strtr($pd_value, ',', '.');
 						}
 
-						if (((is_numeric($pd_value)) AND ($pr_array['than_attribute'] != "shipping"))){
 
+						// Make sure the price or sale price is numeric
+						if(($pr_array['attribute'] == "sale_price") OR ($pr_array['attribute'] == "price")){
+							settype($pd_value, "double");
+						}
+
+						if (((is_numeric($pd_value)) AND ($pr_array['than_attribute'] != "shipping"))){
 							// Rules for numeric values
 							switch ($pr_array['condition']) {
 								case($pr_array['condition'] = "contains"):

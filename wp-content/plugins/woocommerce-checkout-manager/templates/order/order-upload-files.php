@@ -1,4 +1,4 @@
-<h2 class="woocommerce-order-details__title"><?php echo ($title = get_option('wooccm_order_upload_files_title', false)) ? esc_html($title) : esc_html__('Custom fields', 'woocommerce-checkout-manager'); ?></h2>
+<h2 class="woocommerce-order-details__title"><?php echo ($title = get_option('wooccm_order_upload_files_title', false)) ? esc_html($title) : esc_html__('Upload files', 'woocommerce-checkout-manager'); ?></h2>
 
 <div id="wooccm_order_attachment_inner">
   <table class="woocommerce_order_items shop_table">

@@ -3,8 +3,8 @@ Contributors: quadlayers
 Donate link: https://quadlayers.com/
 Tags: woocommerce, woocommerce checkout, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
 Requires at least: 3.0
-Tested up to: 5.2.3
-Stable tag: 4.5.7
+Tested up to: 5.2.4
+Stable tag: 4.6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,7 +29,7 @@ WooCommerce Checkout Manager allows you to customize and manage the fields on yo
 * Remove & Make required fields. 
 * Added fields will appear on Order Summary, Receipt and Back-end in Orders.
 * Enable/ Disable "Additional Fields" section name on the Order Summary and Receipt.
-* **Fifteen ( 15 )** fields types included: Text Input, Text Area, Password, Radio Button, Check Box, Select Options, Date Picker, Time Picker, Color Picker, Heading, Multi-Select, Multi-Checkbox, Country, State, File Picker.
+* Fields types: Text, Textarea, Password, Radio, Checkbox, Select, Country, State, Color Picker, Multiselect, Multicheckbox, File Upload, Heading.
 * Compatible with [WPML](http://wpml.org/), [WooCommerce Print Invoice & Delivery Note](http://wordpress.org/plugins/woocommerce-delivery-notes/), [ Store Exporter Deluxe](http://www.visser.com.au/plugins/store-exporter-deluxe//), [ WooCommerce Order/Customer CSV Export](http://www.woothemes.com/products/ordercustomer-csv-export/).
 * Show or Hide fields for different User Roles.
 * Upload files on Checkout Page.
@@ -52,8 +52,6 @@ WooCommerce Checkout Manager allows you to customize and manage the fields on yo
 * Area to insert your own **Custom CSS**.
 * Display **Order Time**.
 * Set Default State for checkout.
-* **Import/ Export** added fields data.
-* Fields label can accept html characters.
 * Re-position the added fields: Before Shipping Form, After Shipping Form, Before Billing Form, After Billing Form or After Order Notes
 * **Insert Notice:** Before Customer Address Fields and Before Order Summary on checkout page.
 
@@ -119,7 +117,7 @@ Example:
 
 == Screenshots ==
 
-1. Customise or add additional fields to your Checkout screen.
+1. Customize or add additional fields to your checkout screen.
 
 2. New Checkout fields appear in the Order Summary.
 
@@ -136,6 +134,22 @@ Example:
 8. Customize Checkout fields from the WooCheckout menu item in the WordPress Administration.
 
 == Changelog ==
+
+= 4.6.2 =
+* Fix: save additional fields position 
+* Fix: required notice on first select option
+
+= 4.6.1 =
+* Fix: select field placeholder
+* Fix: missing additional fields saved data
+* Fix: missing additional fields saved data array
+* Fix: saved additional fields option value
+
+= 4.6.0 =
+* Improvement: woocommerce checkout manager admin panel rebuilt
+* Improvement: woocommerce checkout manager field conditional rebuilt
+* Improvement: woocommerce checkout manager field options rebuilt
+* Fix: woocommerce multicheckbox default value
 
 = 4.5.7 =
 * Fix: woocommerce default label and placeholder i18n
