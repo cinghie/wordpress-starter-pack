@@ -4,7 +4,7 @@ Donate link: https://quadlayers.com/
 Tags: woocommerce, woocommerce checkout, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
 Requires at least: 3.0
 Tested up to: 5.2.4
-Stable tag: 4.6.2
+Stable tag: 4.6.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,8 +47,6 @@ WooCommerce Checkout Manager allows you to customize and manage the fields on yo
 * Disable any added field from Checkout details page and Order Receipt.
 * **Retain fields information** for customers when they navigate back and forth from checkout.
 * Disable Billing Address fields for chosen shipping goods. Which makes them visible only for virtual goods.
-* **DatePicker:** Change the default format (dd-mm-yy), Set Minimum Date and Maximum Date, Disable days in the week (Sun - Sat).
-* **TimePicker:** Includes restriction of both start and end hours, set the minutes interval and manually input labels.
 * Area to insert your own **Custom CSS**.
 * Display **Order Time**.
 * Set Default State for checkout.
@@ -117,23 +115,34 @@ Example:
 
 == Screenshots ==
 
-1. Customize or add additional fields to your checkout screen.
+1. Customize shipping fields, create account, order notes and include custom message in checkout page.
 
-2. New Checkout fields appear in the Order Summary.
+2. Customize or add additional fields to your checkout billing fields.
 
-3. New Checkout fields also appear in the Order Receipt e-mail sent to the customer.
+3. Customize or add additional fields to your checkout shipping fields.
 
-4. You can add up to 15 different types of Checkout fields.
+4. Include additional fields to your checkout page.
 
-5. Text fields, Description blocks, Dropdowns, Radio lists, Date & Time Pickers, etc.
+5. Allow users to upload images in their orders.
 
-6. Add Date and Time fields to the Checkout.
+6. Include select and radio fields and select default option.
 
-7. Let you customer fill in forms using dropdown lists at Checkout.
+7. Include multiselect and multicheckbox fields and select defaults options.
 
-8. Customize Checkout fields from the WooCheckout menu item in the WordPress Administration.
+8. Set conditional relationships easily based on the parent value or parent options.
+
+9. Show or hide fields based on the products selected in the cart.
+
+10. Handle uploaded files in order admin dashboard.
 
 == Changelog ==
+
+= 4.6.4 =
+* Fix: upload files in additional fields
+
+= 4.6.3 =
+* Fix: small CSS issues
+* Fix: woocommerce checkout manager upload files in admin panel
 
 = 4.6.2 =
 * Fix: save additional fields position 

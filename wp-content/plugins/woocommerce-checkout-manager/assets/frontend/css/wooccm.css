@@ -58,6 +58,7 @@
   font-size: 12px;
   cursor: pointer;
   font-family: code;
+  text-decoration: none!important;
 }
 .wooccm-file-list .wooccm-file-file .wooccm-file-list-container {
   width: 100%;

@@ -1,6 +1,5 @@
-<h2 class="woocommerce-order-details__title"><?php echo ($title = get_option('wooccm_order_upload_files_title', false)) ? esc_html($title) : esc_html__('Upload files', 'woocommerce-checkout-manager'); ?></h2>
-
-<div id="wooccm_order_attachment_inner">
+<div class="wooccm_order_attachments_wrapper">
+  <h2 class="woocommerce-order-details__title"><?php echo ($title = get_option('wooccm_order_upload_files_title', false)) ? esc_html($title) : esc_html__('Upload files', 'woocommerce-checkout-manager'); ?></h2>
   <table class="woocommerce_order_items shop_table">
     <thead>
       <tr>
@@ -21,8 +20,7 @@
           $filename = basename($image_attributes);
           $wp_filetype = wp_check_filetype($filename);
           ?>
-          <tr class="image wccm_filesli wccmv_<?php echo esc_attr($attachment_id); ?>">
-        <!--<td><?php echo esc_attr($attachment_id); ?></td>-->
+          <tr class="image">
             <td><?php echo wp_get_attachment_link($attachment_id, '', false, false, wp_get_attachment_image($attachment_id, array(75, 75), false)); ?></td>
             <td><?php echo wp_get_attachment_link($attachment_id, '', false, false, preg_replace('/\.[^.]+$/', '', $filename)); ?></td>
             <td>
@@ -50,13 +48,12 @@
   </table>
   <input type="hidden" id="delete_attachments_ids" name="delete_attachments_ids" value="<?php echo esc_attr(implode(',', $attachments)); ?>" />
   <input type="hidden" id="all_attachments_ids" name="all_attachments_ids" value="<?php echo esc_attr(implode(',', $attachments)); ?>" />
-  <!--<input type="file" id="wooccm_order_attachment_upload" name="wooccm_order_attachment_upload" class="button button-primary"  value="<?php _e('Add Order Files', 'woocommerce-checkout-manager'); ?>" multiple />-->
   <p class="order-upload">
     <a style="float: left; margin: 0 10px 0 0;" class="button alt fileinput-button">
-      <span><?php _e('Add Order Files', 'woocommerce-checkout-manager'); ?></span>
+      <span><?php _e('Upload Files', 'woocommerce-checkout-manager'); ?></span>
       <input data-order_id="<?php echo esc_attr($order->get_id()); ?>" type="file" name="wooccm_order_attachment_upload" id="wooccm_order_attachment_upload" multiple />
     </a>
     <input type="button" id="wooccm_order_attachment_update" class="button button-secondary" value="<?php _e('Save Changes', 'woocommerce-checkout-manager'); ?>" disabled="disabled">
-    <span class="wccm_results"></span>
+    <span class="wooccm_upload_results"></span>
   </p>
 </div>

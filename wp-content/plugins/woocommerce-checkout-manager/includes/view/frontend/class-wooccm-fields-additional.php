@@ -53,18 +53,11 @@ class WOOCCM_Fields_Additional {
     }
   }
 
-  function add_checkout_fields($fields) {
-
-    $fields['additional'] = WOOCCM()->additional->get_fields();
-
-    return $fields;
-  }
-
   function add_additional_fields($checkout) {
     ?>
     <div class="wooccm-additional-fields">
       <?php
-      if ($fields = WC()->checkout->get_checkout_fields('additional')) {
+      if (count($fields = WC()->checkout->get_checkout_fields('additional'))) {
 
         foreach ($fields as $key => $field) {
 
@@ -111,10 +104,8 @@ class WOOCCM_Fields_Additional {
     // -----------------------------------------------------------------------
     add_filter('default_option_wooccm_additional_position', array($this, 'position'));
 
-
     // Additional fields
     // -----------------------------------------------------------------------
-    add_filter('woocommerce_checkout_fields', array($this, 'add_checkout_fields'));
 
     switch (get_option('wooccm_additional_position', 'before_order_notes')) {
 

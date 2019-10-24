@@ -23,6 +23,13 @@ class WOOCCM_Fields_Register {
     return WOOCCM()->shipping->get_fields();
   }
 
+  public function add_additional_fields($fields) {
+
+    $fields['additional'] = WOOCCM()->additional->get_fields();
+
+    return $fields;
+  }
+
   public function add_keys($fields) {
 
     $frontend_fields = array();
@@ -37,7 +44,7 @@ class WOOCCM_Fields_Register {
   }
 
   public function init() {
-    
+
     // Add keys
     // -----------------------------------------------------------------------
     add_filter('wooccm_additional_fields', array($this, 'add_keys'));
@@ -47,10 +54,14 @@ class WOOCCM_Fields_Register {
     // Billing fields
     // -----------------------------------------------------------------------
     add_filter('woocommerce_billing_fields', array($this, 'add_billing_fields'));
-    
+
     // Shipping fields
     // -----------------------------------------------------------------------
     add_filter('woocommerce_shipping_fields', array($this, 'add_shipping_fields'));
+
+    // Additional fields
+    // -----------------------------------------------------------------------
+    add_filter('woocommerce_checkout_fields', array($this, 'add_additional_fields'));
   }
 
 }

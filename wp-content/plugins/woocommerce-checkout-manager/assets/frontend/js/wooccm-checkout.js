@@ -425,7 +425,7 @@
     $input.css('color', '#fff').css('background', $input.val()).hide();
 
     $input.iris({
-      wccmclass: $input.attr('id'),
+      class: $input.attr('id'),
       palettes: true,
       color: '',
       hide: false,

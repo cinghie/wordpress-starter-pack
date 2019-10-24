@@ -3732,6 +3732,8 @@ class WooSEA_Get_Products {
 													settype($value, "double");
 													$value = ($value+$product_data[$bvv]);
 													$product_data[$bvv] = $old_format_price;
+                                                       					                $value = wc_format_decimal($value,2);
+                                                                        				$value = wc_format_localized_price($value);
 												} else {
 													$value .= $product_data[$bvv]." ";
 												}
@@ -3740,12 +3742,6 @@ class WooSEA_Get_Products {
 									}
 								}
 							}
-
-							if(gettype($value == "double")){
-								$value = wc_format_decimal($value,2);
-								$value = wc_format_localized_price($value);
-							}
-
 							$product_data[$alter_field] = $value;
 						}
 					}

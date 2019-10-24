@@ -47,15 +47,15 @@
           all_attachments_ids: $('#all_attachments_ids').val()
         },
         beforeSend: function (response) {
-          $('.wccm_results').html(wooccm_upload.message.saving);
+          $('.wooccm_upload_results').html(wooccm_upload.message.saving);
         },
         success: function (response) {
           if (response.success) {
-            $('.wccm_results').html(wooccm_upload.message.deleted);
+            $('.wooccm_upload_results').html(wooccm_upload.message.deleted);
 
             $('#wooccm_order_attachment_update').prop('disabled', true);
           } else {
-            $('.wccm_results').html(response.data);
+            $('.wooccm_upload_results').html(response.data);
           }
         }
       });
@@ -90,7 +90,7 @@
        for(x=0; x < ' . $number_of_types . '; x++){
        if( !wooempt || file.type.match(file_array[x])  ) {
        if (formdata) {
-       formdata.append("files_wccm[]",file); 
+       formdata.append("files_wooccm[]",file); 
        }
        }
        }
@@ -112,21 +112,21 @@
           contentType: false,
           beforeSend: function (response) {
 
-            $('.wccm_results').html(wooccm_upload.message.uploading);
+            $('.wooccm_upload_results').html(wooccm_upload.message.uploading);
 
-            block($('#wooccm_order_attachment_inner'));
+            block($('.wooccm_order_attachments_wrapper'));
           },
           success: function (response) {
 
             if (response.success) {
-              $('#wooccm_order_attachment_inner').fadeOut();
-              $('#wooccm_order_attachment_inner').replaceWith($(response.data).fadeIn());
-              $('.wccm_results').html(wooccm_upload.message.success);
+              $('.wooccm_order_attachments_wrapper').fadeOut();
+              $('.wooccm_order_attachments_wrapper').replaceWith($(response.data).fadeIn());
+              $('.wooccm_upload_results').html(wooccm_upload.message.success);
             } else {
-              $('.wccm_results').html(response.data);
+              $('.wooccm_upload_results').html(response.data);
             }
 
-            unblock($('#wooccm_order_attachment_inner'));
+            unblock($('.wooccm_order_attachments_wrapper'));
           }
         });
       }

@@ -55,7 +55,7 @@ class WOOCCM_Upload {
     return $attachment_ids;
   }
 
-  function ajax_delete_attachment() {
+  public function ajax_delete_attachment() {
 
     if (!empty($_REQUEST) && check_admin_referer('wooccm_upload', 'nonce')) {
 
@@ -112,48 +112,28 @@ class WOOCCM_Upload {
     }
   }
 
-  public function checkout_billing_attachment_update_ids($order_id = 0) {
-
-    $fields = WOOCCM()->billing->get_fields();
-
-    $this->checkout_attachment_update_ids($order_id, 'billing_', $fields);
-  }
-
-  public function checkout_shipping_attachment_update_ids($order_id = 0) {
-
-    $fields = WOOCCM()->shipping->get_fields();
-
-    $this->checkout_attachment_update_ids($order_id, 'shipping_', $fields);
-  }
-
-  public function checkout_additional_attachment_update_ids($order_id = 0) {
-
-    $fields = WOOCCM()->additional->get_fields();
-
-    $this->checkout_attachment_update_ids($order_id, '', $fields);
-  }
-
-  public function checkout_attachment_update_ids($order_id = 0, $prefix = '', $fields = array()) {
+  public function update_attachment_ids($order_id = 0) {
 
     require_once( ABSPATH . 'wp-admin/includes/image.php' );
 
-    if (count($fields)) {
+    if (count($checkout = WC()->checkout->get_checkout_fields())) {
 
-      foreach ($fields as $id => $field) {
+      foreach ($checkout as $field_type => $fields) {
 
-        if ($field['type'] == 'file') {
+        foreach ($fields as $key => $field) {
 
-          $key = sprintf('_%s', $field['key']);
+          if ($field['type'] == 'file') {
 
-          if ($attachments = get_post_meta($order_id, $key, true)) {
+            if ($attachments = get_post_meta($order_id, sprintf('_%s', $key), true)) {
 
-            if ($attachments = (array) explode(',', $attachments)) {
+              if ($attachments = (array) explode(',', $attachments)) {
 
-              foreach ($attachments as $image_id) {
+                foreach ($attachments as $image_id) {
 
-                wp_update_post(array('ID' => $image_id, 'post_parent' => $order_id));
+                  wp_update_post(array('ID' => $image_id, 'post_parent' => $order_id));
 
-                wp_update_attachment_metadata($image_id, wp_generate_attachment_metadata($image_id, get_attached_file($image_id)));
+                  wp_update_attachment_metadata($image_id, wp_generate_attachment_metadata($image_id, get_attached_file($image_id)));
+                }
               }
             }
           }
@@ -162,18 +142,16 @@ class WOOCCM_Upload {
     }
   }
 
-  function init() {
+  public function init() {
     add_action('wp_ajax_wooccm_order_attachment_update', array($this, 'ajax_delete_attachment'));
     add_action('wp_ajax_nopriv_wooccm_order_attachment_update', array($this, 'ajax_delete_attachment'));
-
 
     // Checkout
     // -----------------------------------------------------------------------
     add_action('wp_ajax_wooccm_checkout_attachment_upload', array($this, 'ajax_checkout_attachment_upload'));
     add_action('wp_ajax_nopriv_wooccm_checkout_attachment_upload', array($this, 'ajax_checkout_attachment_upload'));
-    add_action('woocommerce_checkout_update_order_meta', array($this, 'checkout_billing_attachment_update_ids'));
-    add_action('woocommerce_checkout_update_order_meta', array($this, 'checkout_shipping_attachment_update_ids'));
-    add_action('woocommerce_checkout_update_order_meta', array($this, 'checkout_additional_attachment_update_ids'));
+    add_action('woocommerce_checkout_update_order_meta', array($this, 'update_attachment_ids'), 99);
+//  }
   }
 
 }

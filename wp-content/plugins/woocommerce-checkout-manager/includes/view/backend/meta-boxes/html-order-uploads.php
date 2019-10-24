@@ -1,13 +1,12 @@
-<div id="wooccm_order_attachment_inner" class="wc-metaboxes-wrapper">
-  <table class="woocommerce_order_items back_end">
+<div class="wooccm_order_attachments_wrapper" class="wc-metaboxes-wrapper">
+  <table cellpadding="0" cellspacing="0" class="wooccm_order_attachments">
     <thead>
       <tr>
-        <!--<th><?php _e('ID', 'woocommerce-checkout-manager'); ?></th>-->
         <th><?php _e('Image', 'woocommerce-checkout-manager'); ?></th>
         <th><?php _e('Filename', 'woocommerce-checkout-manager'); ?></th>
         <th><?php _e('Dimensions', 'woocommerce-checkout-manager'); ?></th>
         <th><?php _e('Extension', ' woocommerce-checkout-manager'); ?></th>
-        <th class="column-actions"><?php _e('Actions', 'woocommerce-checkout-manager'); ?></th>
+        <th class="column-actions"></th>
       </tr>
     </thead>
     <tbody class="product_images">
@@ -19,9 +18,12 @@
           $filename = basename($image_attributes);
           $wp_filetype = wp_check_filetype($filename);
           ?>
-          <tr class="image wccm_filesli wccmv_<?php echo esc_attr($attachment_id); ?>">
-        <!--<td><?php echo esc_attr($attachment_id); ?></td>-->
-            <td><?php echo wp_get_attachment_link($attachment_id, '', false, false, wp_get_attachment_image($attachment_id, array(75, 75), false)); ?></td>
+          <tr class="image">
+            <td class="thumb">
+              <div class="wc-order-item-thumbnail">
+                <?php echo wp_get_attachment_link($attachment_id, '', false, false, wp_get_attachment_image($attachment_id, array(38, 38), false)); ?>
+              </div>
+            </td>
             <td><?php echo wp_get_attachment_link($attachment_id, '', false, false, preg_replace('/\.[^.]+$/', '', $filename)); ?></td>
             <td>
               <?php
@@ -46,16 +48,14 @@
       <?php endif; ?>
     </tbody>
   </table>
-  <input type="hidden" id="delete_attachments_ids" name="delete_attachments_ids" value="<?php echo esc_attr(implode(',', $attachments)); ?>" />
-  <input type="hidden" id="all_attachments_ids" name="all_attachments_ids" value="<?php echo esc_attr(implode(',', $attachments)); ?>" />
-  <div class="clear"></div>
-  <div class="add_product_images hide-if-no-js">
-    <a class="button button-primary wccm_add_order_link fileinput-button">
-      <span><?php _e('Add Order Files', 'woocommerce-checkout-manager'); ?></span>
+  <div class="wc-order-data-row wc-order-bulk-actions wc-order-data-row-toggle">
+    <input type="hidden" id="delete_attachments_ids" name="delete_attachments_ids" value="<?php echo esc_attr(implode(',', $attachments)); ?>" />
+    <input type="hidden" id="all_attachments_ids" name="all_attachments_ids" value="<?php echo esc_attr(implode(',', $attachments)); ?>" />
+    <a class="button button-primary fileinput-button">
+      <span><?php _e('Upload Files', 'woocommerce-checkout-manager'); ?></span>
       <input data-order_id="<?php echo esc_attr($order->get_id()); ?>" type="file" name="wooccm_order_attachment_upload" id="wooccm_order_attachment_upload" multiple />
     </a>
     <input type="button" id="wooccm_order_attachment_update" class="button button-secondary" value="<?php _e('Save Changes', 'woocommerce-checkout-manager'); ?>" disabled="disabled">
+    <div class="wooccm_upload_results"></div>
   </div>
-  <div class="wccm_results"></div>
-  <div class="clear"></div>
 </div>

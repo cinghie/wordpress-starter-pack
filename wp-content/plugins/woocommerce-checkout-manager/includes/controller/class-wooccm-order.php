@@ -15,41 +15,25 @@ class WOOCCM_Order_Controller extends WOOCCM_Upload {
     return self::$_instance;
   }
 
-  public function enqueue_scripts() {
+  public function frontend_scripts() {
 
     WOOCCM()->register_scripts();
-
-    wp_register_script('wooccm-order-upload', plugins_url('assets/frontend/js/wooccm-order-upload.js', WOOCCM_PLUGIN_FILE), array(), WOOCCM_PLUGIN_VERSION, true);
-
-    wp_localize_script('wooccm-order-upload', 'wooccm_upload', array(
-        'ajax_url' => admin_url('admin-ajax.php?metabox=' . is_admin()),
-        'nonce' => wp_create_nonce('wooccm_upload'),
-        'message' => array(
-            'uploading' => esc_html__('Uploading, please wait...', 'woocommerce-checkout-manager'),
-            'saving' => esc_html__('Saving, please wait...', 'woocommerce-checkout-manager'),
-            'success' => esc_html__('Files uploaded successfully.', 'woocommerce-checkout-manager'),
-            'deleted' => esc_html__('Deleted successfully.', 'woocommerce-checkout-manager'),
-        ),
-        'icons' => array(
-            'interactive' => site_url('wp-includes/images/media/interactive.png'),
-            'spreadsheet' => site_url('wp-includes/images/media/spreadsheet.png'),
-            'archive' => site_url('wp-includes/images/media/archive.png'),
-            'audio' => site_url('wp-includes/images/media/audio.png'),
-            'text' => site_url('wp-includes/images/media/text.png'),
-            'video' => site_url('wp-includes/images/media/video.png')
-        )
-    ));
-
-    if (is_admin() && $screen = get_current_screen()) {
-      if (in_array($screen->id, array(/* 'product', 'edit-product', */'shop_order', 'edit-shop_order'))) {
-        wp_enqueue_script('wooccm-order-upload');
-      }
-    }
 
     if (is_account_page()) {
       wp_enqueue_style('wooccm');
       wp_enqueue_style('dashicons');
       wp_enqueue_script('wooccm-order-upload');
+    }
+  }
+
+  public function admin_scripts() {
+
+    WOOCCM()->register_scripts();
+
+    if (is_admin() && $screen = get_current_screen()) {
+      if (in_array($screen->id, array(/* 'product', 'edit-product', */'shop_order', 'edit-shop_order'))) {
+        wp_enqueue_script('wooccm-order-upload');
+      }
     }
   }
 
@@ -175,9 +159,9 @@ class WOOCCM_Order_Controller extends WOOCCM_Upload {
   // -------------------------------------------------------------------------
 
   public function add_metabox() {
-    add_meta_box('woocommerce-order-files', esc_html__('Order Uploaded Files', 'woocommerce-checkout-manager'), array($this, 'add_metabox_content'), 'shop_order', 'normal', 'default');
+    add_meta_box('wooccm-order-files', esc_html__('Order Files', 'woocommerce-checkout-manager'), array($this, 'add_metabox_content'), 'shop_order', 'normal', 'default');
   }
-  
+
   // Panel
   // ---------------------------------------------------------------------------
 
@@ -301,9 +285,8 @@ class WOOCCM_Order_Controller extends WOOCCM_Upload {
   }
 
   function init() {
-
-    add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
-
+    add_action('admin_enqueue_scripts', array($this, 'admin_scripts'));
+    add_action('wp_enqueue_scripts', array($this, 'frontend_scripts'));
     add_action('wp_ajax_wooccm_order_attachment_upload', array($this, 'ajax_order_attachment_upload'));
     add_action('wp_ajax_nopriv_wooccm_order_attachment_upload', array($this, 'ajax_order_attachment_upload'));
 

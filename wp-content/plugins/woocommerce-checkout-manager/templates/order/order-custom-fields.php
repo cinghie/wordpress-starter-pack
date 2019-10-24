@@ -4,52 +4,27 @@
 <table class="woocommerce-table shop_table order_details">
   <tbody>
 
-    <?php foreach (WOOCCM()->billing->get_fields() as $field_id => $field) : ?>
-      <?php if (!in_array($field['name'], WOOCCM()->billing->get_defaults())) : ?>
-        <?php if ($value = get_post_meta($order_id, sprintf('_%s', $field['key']), true)): ?>
-          <tr id="tr-<?php echo esc_attr($field['key']); ?>">
-            <th>
-              <?php echo esc_html($field['label']); ?>
-            </th>
-            <td>
-              <?php echo esc_html($value); ?>
-            </td>
-          </tr>
-        <?php endif; ?>
-      <?php endif; ?>
-    <?php endforeach; ?>
-
-    <?php foreach (WOOCCM()->shipping->get_fields() as $field_id => $field) : ?>
-      <?php if (!in_array($field['name'], WOOCCM()->shipping->get_defaults())) : ?>
-        <?php if ($value = get_post_meta($order_id, sprintf('_%s', 'shipping', $field['key']), true)): ?>
-          <tr id="tr-<?php echo esc_attr($field['key']); ?>">
-            <th>
-              <?php echo esc_html($field['label']); ?>
-            </th>
-            <td>
-              <?php echo esc_html($value); ?>
-            </td>
-          </tr>
-        <?php endif; ?>
-      <?php endif; ?>
-    <?php endforeach; ?>
-
-    <?php foreach (WOOCCM()->additional->get_fields() as $field_id => $field) : ?>
-      <?php if (!in_array($field['name'], WOOCCM()->billing->get_defaults())) : ?>
-        <?php if (($value = get_post_meta($order_id, sprintf('_%s', $field['key']), true)) ? $value : get_post_meta($order_id, sprintf('%s', $field['name']), true)): ?>
-          <tr id="tr-<?php echo esc_attr($field['key']); ?>">
-            <th>
-              <?php echo esc_html($field['label']); ?>
-            </th>
-            <td>
-              <?php echo esc_html($value); ?>
-            </td>
-          </tr>
-        <?php endif; ?>
-      <?php endif; ?>
-    <?php endforeach; ?>
-
+    <?php
+    if (count($checkout = WC()->checkout->get_checkout_fields())):
+      foreach ($checkout as $field_type => $fields) :
+        foreach ($fields as $key => $field) :
+          if (isset(WOOCCM()->$field_type)) :
+            ?>
+            <?php if (!in_array($field['name'], WOOCCM()->$field_type->get_defaults())) : ?>
+              <?php if ($value = get_post_meta($order_id, sprintf('_%s', $key), true)): ?>
+                <tr id="tr-<?php echo esc_attr($key); ?>">
+                  <th>
+                    <?php echo esc_html($field['label']); ?>
+                  </th>
+                  <td>
+                    <?php echo esc_html($value); ?>
+                  </td>
+                </tr>
+              <?php endif; ?>
+            <?php endif; ?>
+          <?php endif; ?>
+        <?php endforeach; ?>
+      <?php endforeach; ?>
+    <?php endif; ?>
   </tbody>
 </table>
-<?php
-//endif; ?>

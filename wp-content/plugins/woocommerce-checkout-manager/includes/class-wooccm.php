@@ -99,6 +99,30 @@ final class WOOCCM {
     ));
 
     wp_register_script('farbtastic', admin_url('js/farbtastic.js'), array('jquery'), false);
+
+    // Admin
+    // -------------------------------------------------------------------------
+
+    wp_register_script('wooccm-order-upload', plugins_url('assets/frontend/js/wooccm-order-upload.js', WOOCCM_PLUGIN_FILE), array(), WOOCCM_PLUGIN_VERSION, true);
+
+    wp_localize_script('wooccm-order-upload', 'wooccm_upload', array(
+        'ajax_url' => admin_url('admin-ajax.php?metabox=' . is_admin()),
+        'nonce' => wp_create_nonce('wooccm_upload'),
+        'message' => array(
+            'uploading' => esc_html__('Uploading, please wait...', 'woocommerce-checkout-manager'),
+            'saving' => esc_html__('Saving, please wait...', 'woocommerce-checkout-manager'),
+            'success' => esc_html__('Files uploaded successfully.', 'woocommerce-checkout-manager'),
+            'deleted' => esc_html__('Deleted successfully.', 'woocommerce-checkout-manager'),
+        ),
+        'icons' => array(
+            'interactive' => site_url('wp-includes/images/media/interactive.png'),
+            'spreadsheet' => site_url('wp-includes/images/media/spreadsheet.png'),
+            'archive' => site_url('wp-includes/images/media/archive.png'),
+            'audio' => site_url('wp-includes/images/media/audio.png'),
+            'text' => site_url('wp-includes/images/media/text.png'),
+            'video' => site_url('wp-includes/images/media/video.png')
+        )
+    ));
   }
 
   public function clear_session() {

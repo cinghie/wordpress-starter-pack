@@ -17,9 +17,9 @@ class WOOCCM_Fields_Handler {
 
   public function posted_data($data) {
 
-    if ($fields = WC()->session->wooccm) {
+    if (count($fields = WC()->session->wooccm['fields'])) {
 
-      foreach ($fields['fields'] as $key => $field) {
+      foreach ($fields as $key => $field) {
 
         switch ($field['type']) {
 
@@ -227,9 +227,7 @@ class WOOCCM_Fields_Handler {
   }
 
   public function init() {
-
     // Prepare
-
     add_filter('wooccm_checkout_field_filter', array($this, 'add_field_filter'));
 
     // Add field classes
