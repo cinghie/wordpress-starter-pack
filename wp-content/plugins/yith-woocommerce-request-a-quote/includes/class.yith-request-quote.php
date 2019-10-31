@@ -115,8 +115,9 @@ if ( !class_exists( 'YITH_Request_Quote' ) ) {
          * @author Emanuela Castorina
          */
         function init() {
+
             $this->get_raq_for_session();
-            $this->session_class->set_customer_session_cookie(true);
+            isset(  $this->session_class ) && $this->session_class->set_customer_session_cookie(true);
         }
 
         /**
@@ -190,7 +191,9 @@ if ( !class_exists( 'YITH_Request_Quote' ) ) {
          * @author Emanuela Castorina
          */
         function get_raq_for_session() {
-            $this->raq_content = $this->session_class->get( 'raq', array() );
+        	if( isset($this->session_class) ){
+		        $this->raq_content = $this->session_class->get( 'raq', array() );
+	        }
             return $this->raq_content;
         }
 

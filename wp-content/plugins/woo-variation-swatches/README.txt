@@ -1,3 +1,4 @@
+
 === Variation Swatches for WooCommerce ===
 Contributors: EmranAhmed, getwooplugins
 Tags: woocommerce variation swatches, woocommerce variation, woocommerce, variation swatches, woocommerce attributes, product attributes, product color, product size, variable product attributes, variation product swatches, color variation swatch, image variation swatch, printful color swatches
@@ -75,7 +76,18 @@ In the free WooCommerce attribute variation plugin, besides creating size, brand
 👉 Convert Buttons Swatches to Dropdown (If It's needed)
   [Live Demo & Documentation](http://j.mp/button-to-dropdown-readme)
 <hr />
-
+👉 Compatible With Eelementor Page Builder Plugin 
+[Video Demo & Documentation](http://j.mp/elementor-swatches)
+<hr />
+👉 Compatible With Printful WooCommerce Plugin 
+[Video Demo & Documentation](http://j.mp/printful-swatches)
+<hr />
+👉 Compatible With Dokan MultiVendor WooCommerce Plugin 
+[Video Demo & Documentation](http://j.mp/swatches-dokan)
+<hr />
+👉 Compatible With AliDropship WooCommerce Plugin 
+[Video Demo & Documentation](http://j.mp/swatches-alidropship)
+<hr />
 👉 Reorder Product Attribute Variation Swatches
 👉 Flexible Swatches Tooltip Insert and Display settings   
 👉 Work on Variable Product Quick View Popup   
@@ -89,14 +101,14 @@ In the free WooCommerce attribute variation plugin, besides creating size, brand
 [Tim Cumming, Founder at DevisionUK](https://wordpress.org/support/topic/outstanding-support-118): 
 > 'Really can’t rate this developer high enough!
 
-Not only is the plugin super cool but their support, is utterly mind-blowing! I had reason to ask a question and, without hesitation, Ahmed logged into our site, had a look around and responded with a solution, all within the space of 5 minutes!!
+>Not only is the plugin super cool but their support, is utterly mind-blowing! I had reason to ask a question and, without hesitation, Ahmed logged into our site, had a look around and responded with a solution, all within the space of 5 minutes!!
 
-It you’re looking for a great product with superlative support then look no further!'
+>It you’re looking for a great product with superlative support then look no further!'
 
 [Ruben Zuidervaart](https://wordpress.org/support/topic/does-what-it-should-with-no-issues/): 
 > 'It just works, and the support is also pretty damn good for something that they offer for free.
 
-Leaving a 5/5 is the least I could do 🙂'
+>Leaving a 5/5 is the least I could do 🙂'
 
 [cl4udio](https://wordpress.org/support/topic/good-support-278/): 
 > 'I like this plugin! Works great and the customer support is the best. Love it!'
@@ -200,7 +212,7 @@ Leaving a 5/5 is the least I could do 🙂'
 [jeromepernin](https://wordpress.org/support/topic/top-587/): 
 > 'Super plugin! He literally saved 🙂 a huge thank you to Ahmed who provides extraordinary support. Congratulations to the whole team!'
 
-Will be buying from you again!'
+>Will be buying from you again!'
 
 = Sites Built With Variation Swatches for WooCommerce Plugin =
 
@@ -365,6 +377,10 @@ And your are ready to go.
 12. Global Variation Color Swatches Attribute List Preview
 
 == Changelog ==
+
+= 1.0.64 =
+
+* Fix: Mobile Scroll Issue
 
 = 1.0.63 =
 

@@ -9,6 +9,15 @@
 .woocommerce form .wooccm-conditional-child {
   display: none;
 }
+.woocommerce form .wooccm-type-radio .woocommerce-radio-wrapper label {
+  display: inline-block;
+}
+.woocommerce form .wooccm-colorpicker-iris .iris-picker {
+  display: none;
+}
+.woocommerce form .wooccm-colorpicker-iris.active .iris-picker {
+  display: block;
+}
 .button.fileinput-button {
   position: relative;
   overflow: hidden!important;

@@ -232,6 +232,13 @@ class WOOCCM_Order_Controller extends WOOCCM_Upload {
     );
   }
 
+  public function add_header() {
+    global $current_section;
+    ?>
+    <li><a href="<?php echo admin_url('admin.php?page=wc-settings&tab=wooccm&section=order'); ?>" class="<?php echo ( $current_section == 'order' ? 'current' : '' ); ?>"><?php esc_html_e('Order', 'woocommerce-checkout-manager'); ?></a> | </li>
+    <?php
+  }
+
   public function add_section() {
 
     global $current_section;
@@ -245,7 +252,12 @@ class WOOCCM_Order_Controller extends WOOCCM_Upload {
   }
 
   public function save_settings() {
-    woocommerce_update_options($this->get_settings());
+
+    global $current_section;
+
+    if ('order' == $current_section) {
+      woocommerce_update_options($this->get_settings());
+    }
   }
 
 // Compatibility
@@ -296,6 +308,7 @@ class WOOCCM_Order_Controller extends WOOCCM_Upload {
 
     // Panel
     // -------------------------------------------------------------------------
+    add_action('wooccm_sections_header', array($this, 'add_header'));
     add_action('woocommerce_sections_' . WOOCCM_PREFIX, array($this, 'add_section'), 99);
     add_action('woocommerce_settings_save_' . WOOCCM_PREFIX, array($this, 'save_settings'));
 

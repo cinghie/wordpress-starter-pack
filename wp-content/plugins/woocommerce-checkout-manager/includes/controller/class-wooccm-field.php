@@ -278,6 +278,7 @@ class WOOCCM_Field_Controller {
         // fix unchecked checkboxes
         $field_data = wp_parse_args($field_data, WOOCCM()->$section->get_args());
 
+        unset($field_data['order']);
         unset($field_data['required']);
         unset($field_data['position']);
         unset($field_data['disabled']);
@@ -317,7 +318,7 @@ class WOOCCM_Field_Controller {
 
     global $current_section;
 
-    if ($current_section) {
+    if (in_array($current_section, array('billing', 'shipping', 'additional'))) {
 
       $section = wc_clean(wp_unslash($current_section));
 
@@ -508,6 +509,27 @@ class WOOCCM_Field_Controller {
       }
     }
 
+    public function add_header_billing() {
+      global $current_section;
+      ?>
+      <li><a href="<?php echo admin_url('admin.php?page=wc-settings&tab=wooccm&section=billing'); ?>" class="<?php echo ( $current_section == 'billing' ? 'current' : '' ); ?>"><?php esc_html_e('Billing', 'woocommerce-checkout-manager'); ?></a> | </li>
+      <?php
+    }
+
+    public function add_header_shipping() {
+      global $current_section;
+      ?>
+      <li><a href="<?php echo admin_url('admin.php?page=wc-settings&tab=wooccm&section=shipping'); ?>" class="<?php echo ( $current_section == 'shipping' ? 'current' : '' ); ?>"><?php esc_html_e('Shipping', 'woocommerce-checkout-manager'); ?></a> | </li>
+      <?php
+    }
+
+    public function add_header_additional() {
+      global $current_section;
+      ?>
+      <li><a href="<?php echo admin_url('admin.php?page=wc-settings&tab=wooccm&section=additional'); ?>" class="<?php echo ( $current_section == 'additional' ? 'current' : '' ); ?>"><?php esc_html_e('Additional', 'woocommerce-checkout-manager'); ?></a> | </li>
+      <?php
+    }
+
     public function add_section_shipping() {
 
       global $current_section, $wp_roles, $wp_locale;
@@ -560,6 +582,7 @@ class WOOCCM_Field_Controller {
         include_once( WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-display.php' );
         include_once( WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-conditional.php' );
         include_once( WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-handler.php' );
+        include_once( WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-i18n.php' );
         include_once( WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-filters.php' );
       }
     }
@@ -579,6 +602,10 @@ class WOOCCM_Field_Controller {
       add_action('woocommerce_admin_order_data_after_shipping_address', array($this, 'add_order_shipping_data'));
       add_action('woocommerce_admin_order_data_after_shipping_address', array($this, 'add_order_additional_data'));
 
+
+      add_action('wooccm_sections_header', array($this, 'add_header_billing'));
+      add_action('wooccm_sections_header', array($this, 'add_header_shipping'));
+      add_action('wooccm_sections_header', array($this, 'add_header_additional'));
       add_action('woocommerce_sections_' . WOOCCM_PREFIX, array($this, 'add_section_billing'), 99);
       add_action('woocommerce_sections_' . WOOCCM_PREFIX, array($this, 'add_section_shipping'), 99);
       add_action('woocommerce_sections_' . WOOCCM_PREFIX, array($this, 'add_section_additional'), 99);

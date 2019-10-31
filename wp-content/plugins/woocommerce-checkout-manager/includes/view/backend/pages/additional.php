@@ -1,4 +1,4 @@
-<?php include_once( 'parts/header.php' ); ?>
+<?php include_once( 'parts/tabs.php' ); ?>
 <h1 class="screen-reader-text"><?php esc_html_e('Additional', 'woocommerce-checkout-manager'); ?></h1>
 <h2><?php esc_html_e('Additional fields', 'woocommerce-checkout-manager'); ?></h2>
 <div id="<?php printf('wooccm_%s_settings-description', $current_section); ?>">

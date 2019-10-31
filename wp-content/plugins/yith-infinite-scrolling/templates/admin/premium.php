@@ -36,6 +36,8 @@
         color: #808a97;
         text-transform: uppercase;
         line-height: 28px;
+        border: none;
+        background: transparent;
     }
 
     .section .section-title h3 {

@@ -3,8 +3,8 @@
 Contributors: yithemes
 Tags: woocommerce catalog mode plugin, woocommerce catalog only, woocommerce, products, themes, yit, yith, yithemes, e-commerce, shop, catalog mode, catalogue mode, remove add to cart, ask for price, ask price, asking for price, asking price, button remove, call, call for price, call me, call us, contact, email, hide add to cart, hide price
 Requires at least: 4.0
-Tested up to: 5.2
-Stable tag: 1.6.10
+Tested up to: 5.3
+Stable tag: 1.6.12
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -113,189 +113,199 @@ yith-woocommerce-catalog-mode-<WORDPRESS LOCALE >.mo
 
 == Changelog ==
 
-= Version 1.6.10 - Released: July 30, 2019 =
-
-* New: Support to WooCommerce 3.7.0 RC1
-* Update: plugin framework
-
-= Version 1.6.9 - Released: June 12, 2019 =
+= Version 1.6.11 - Released: 30 October 2019 =
 
 * Update: plugin framework
 
-= Version 1.6.8 - Released: June 06, 2019 =
+= Version 1.6.11 - Released: 29 October 2019 =
 
-* New: Support to Wordpress 5.2
+* New: Support for WordPress 5.3
+* New: Support for WooCommerce 3.8
 * Update: plugin framework
 
-= Version 1.6.7 - Released: Apr 23, 2019 =
+= Version 1.6.10 - Released: 30 July 2019 =
+
+* New: Support for WooCommerce 3.7.0 RC1
+* Update: plugin framework
+
+= Version 1.6.9 - Released: 12 June 2019 =
 
 * Update: plugin framework
 
-= Version 1.6.6 - Released: Apr 15, 2019 =
+= Version 1.6.8 - Released: 06 June 2019 =
 
-* New: Support to WooCommerce 3.6.0 RC2
+* New: Support for WordPress 5.2
 * Update: plugin framework
 
-= Version 1.6.5 - Released: Feb 07, 2019 =
+= Version 1.6.7 - Released: 23 April 2019 =
+
+* Update: plugin framework
+
+= Version 1.6.6 - Released: 15 April 2019 =
+
+* New: Support for WooCommerce 3.6.0 RC2
+* Update: plugin framework
+
+= Version 1.6.5 - Released: 07 February 2019 =
 
 * Update: plugin framework
 * Fix: hide add to cart for grouped products
 
-= Version 1.6.3 - Released: Dec 05, 2018 =
+= Version 1.6.3 - Released: 05 December 2018 =
 
-* New: Support to Wordpress 5.0
+* New: Support for WordPress 5.0
 * Update: plugin framework
 
-= Version 1.6.2 - Released: Oct 22, 2018 =
-
-* Update: plugin framework
-
-= Version 1.6.1 - Released: Oct 16, 2018 =
-
-* New: Support to WooCommerce 3.5.0 RC2
-* Update: plugin framework
-
-= Version 1.6.0 - Released: May 24, 2018 =
-
-* New: Support to Wordpress 4.9.6
-* New: Support to WooCommerce 3.4.0
-* Update: plugin framework
-
-= Version 1.5.9 - Released: Jan 29, 2018 =
-
-* New: Support to WooCommerce 3.3.0 RC2
-* Update: plugin framework
-
-= Version 1.5.7 - Released: Sept 20, 2017 =
+= Version 1.6.2 - Released: 22 October 2018 =
 
 * Update: plugin framework
 
-= Version 1.5.5 - Released: Mar 23, 2017 =
+= Version 1.6.1 - Released: 16 October 2018 =
+
+* New: Support for WooCommerce 3.5.0 RC2
+* Update: plugin framework
+
+= Version 1.6.0 - Released: 24 May 2018 =
+
+* New: Support for WordPress 4.9.6
+* New: Support for WooCommerce 3.4.0
+* Update: plugin framework
+
+= Version 1.5.9 - Released: 29 January 2018 =
+
+* New: Support for WooCommerce 3.3.0 RC2
+* Update: plugin framework
+
+= Version 1.5.7 - Released: 20 September 2017 =
+
+* Update: plugin framework
+
+= Version 1.5.5 - Released: 23 March 2017 =
 
 * Tweak: Support for WooCommerce 3.0.0-RC 1
 
-= Version 1.4.0 - Released: May 31, 2016 =
+= Version 1.4.0 - Released: 31 May 2016 =
 
 * Tweak: Tested with WooCommerce 2.6.0 beta 3
 
-= Version 1.3.7 - Released: May 13, 2016 =
+= Version 1.3.7 - Released: 13 May 2016 =
 
 * New: filter "ywctm_cart_widget_classes" to hide the cart widget
 * Remove: yith-catalog-mode.css and yith-catalog-mode.min.css files
 
-= Version 1.3.5 - Released: Apr 13, 2016 =
+= Version 1.3.5 - Released: 13 April 2016 =
 
-* New: compatibility with Wordpress 4.5
+* New: compatibility with WordPress 4.5
 
-= Version 1.3.3 - Released: Apr 08, 2016 =
+= Version 1.3.3 - Released: 08 April 2016 =
 
 * New: minified versions of CSS files
 
-= Version 1.3.2 - Released: Mar 09, 2016 =
+= Version 1.3.2 - Released: 09 March 2016 =
 
 * Update: plugin core framework
 
-= Version 1.3.1 - Released: Mar 04, 2016 =
+= Version 1.3.1 - Released: 04 March 2016 =
 
 * Fix: items excluded not added to cart
 
-= Version 1.3.0 - Released: Mar 01, 2016 =
+= Version 1.3.0 - Released: 01 March 2016 =
 
 * Update: language file
 
-= Version 1.2.4 - Released: Feb 19, 2016 =
+= Version 1.2.4 - Released: 19 February 2016 =
 
 * Update: plugin core framework
 
-= Version 1.2.3 - Released: Jan 22, 2016 =
+= Version 1.2.3 - Released: 22 January 2016 =
 
 * New: compatibility with WooCommerce 2.5
 
-= Version 1.2.2 - Released: Dec 16, 2015 =
+= Version 1.2.2 - Released: 16 December 2015 =
 
 * New: compatibility with YITH WooCommerce Wishlist
 
-= Version 1.2.1 - Released: Dec 15, 2015 =
+= Version 1.2.1 - Released: 15 December 2015 =
 
 * Update: plugin core framework
 
-= Version 1.2.0 - Released: Oct 29, 2015 =
+= Version 1.2.0 - Released: 29 October 2015 =
 
 * New: Dutch translation (by Bart Verkerk)
 * Fix: options panel more user friendly
 
-= Version 1.1.5 - Released: Oct 29, 2015 =
+= Version 1.1.5 - Released: 29 October 2015 =
 
 * Update: plugin core framework
 
-= Version 1.1.4 - Released: Oct 07, 2015 =
+= Version 1.1.4 - Released: 07 October 2015 =
 
 * Update: changed text domain from ywctm to yith-woocommerce-catalog-mode
 * Update: changed all language file for the new text domain
 
-= Version 1.1.3 - Released: Sept 25, 2015 =
+= Version 1.1.3 - Released: 25 September 2015 =
 
 * Tweak: Various code improvements
 * Update: language file
 
-= Version 1.1.2 - Released: Aug 25, 2015 =
+= Version 1.1.2 - Released: 25 August 2015 =
 
 * New: compatibility with YITH Essential Kit for WooCommerce #1
 
-= Version 1.1.1 - Released: Aug 13, 2015 =
+= Version 1.1.1 - Released: 13 August 2015 =
 
 * Fix: Minor bugs
 
-= Version 1.1.0 - Released: Aug 13, 2015 =
+= Version 1.1.0 - Released: 13 August 2015 =
 
-* New: Support to WooCommerce 2.4
+* New: Support for WooCommerce 2.4
 * Update: Plugin core framework
 
-= Version 1.0.9 - Released: July 20, 2015 =
+= Version 1.0.9 - Released: 20 July 2015 =
 
 * Fix: YITH WooCommerce Colors and Labels Variations compatibility
 
-= Version 1.0.8 - Released: July 09, 2015 =
+= Version 1.0.8 - Released: 09 July 2015 =
 
 * Update language file
 * Fix: YITH WooCommerce Quick View compatibility
 
-= Version 1.0.7 - Released: Jun 12, 2015 =
+= Version 1.0.7 - Released: 12 June 2015 =
 
 * Fix: Added functions for themes and plugins compatibility
 
-= Version 1.0.6 - Released: May 22, 2015 =
+= Version 1.0.6 - Released: 22 May 2015 =
 
 * Fix: Added functions for themes compatibility
 
-= Version 1.0.5 - Released: May 06, 2015 =
+= Version 1.0.5 - Released: 06 May 2015 =
 
 * Fix: Product variations bug
 * Fix: Custom button bug
 
-= Version 1.0.4 - Released: May 05, 2015 =
+= Version 1.0.4 - Released: 05 May 2015 =
 
 * Fix: Minor bugs
 
-= Version 1.0.3 - Released: Apr 10, 2015 =
+= Version 1.0.3 - Released: 10 April 2015 =
 
 * Fix: Improved code performance
 
-= Version 1.0.2 - Released: Mar 11, 2015 =
+= Version 1.0.2 - Released: 11 March 2015 =
 
 * Fix: Added functions for themes compatibility
 
-= Version 1.0.1 - Released: Mar 02, 2015 =
+= Version 1.0.1 - Released: 02 March 2015 =
 
 * Fix: Minor bugs
 
-= Version 1.0.0 - Released: Feb 19, 2015 =
+= Version 1.0.0 - Released: 19 February 2015 =
 
 * Initial release
 
 == Upgrade Notice ==
 
-Last Stable Tag 1.6.10
+Last Stable Tag 1.6.12
 
 == Suggestions ==
 

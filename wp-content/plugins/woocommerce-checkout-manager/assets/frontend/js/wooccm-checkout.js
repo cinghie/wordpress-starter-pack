@@ -14,11 +14,9 @@
       });
     }
   };
-
   var unblock = function ($node) {
     $node.removeClass('processing').unblock();
   };
-
   var append_image = function (list, i, source, name, filetype) {
 
     var $field_list = $(list),
@@ -63,7 +61,6 @@
     if (is_required) {
       field.find('label .optional').remove();
       field.addClass('validate-required');
-
       if (field.find('label .required').length === 0) {
         field.find('label').append(
                 '&nbsp;<abbr class="required" title="' +
@@ -74,7 +71,6 @@
     } else {
       field.find('label .required').remove();
       field.removeClass('validate-required woocommerce-invalid woocommerce-invalid-required-field');
-
       if (field.find('label .optional').length === 0) {
         field.find('label').append('&nbsp;<span class="optional">(' + wc_address_i18n_params.i18n_optional_text + ')</span>');
       }
@@ -85,17 +81,13 @@
   $(document).on('country_to_state_changing', function (event, country, wrapper) {
 
     var thisform = wrapper, thislocale;
-
     var locale_fields = $.parseJSON(wc_address_i18n_params.locale_fields);
-
     $.each(locale_fields, function (key, value) {
 
       var field = thisform.find(value),
               required = field.find('[data-required]').data('required') || 0;
-
       field_is_required(field, required);
     });
-
   });
 // Field
 // ---------------------------------------------------------------------------
@@ -275,7 +267,6 @@
   $(document).on('change', '.wooccm-add-price', function (e) {
     $('body').trigger('update_checkout');
   });
-
   // Conditional
   // ---------------------------------------------------------------------------
 
@@ -284,21 +275,27 @@
     var $field = $(field),
             $parent = $('#' + $field.find('[data-conditional-parent]').data('conditional-parent') + '_field'),
             show_if_value = $field.find('[data-conditional-parent-value]').data('conditional-parent-value').toString();
-
     if ($parent.length) {
 
       $parent.on('wooccm_change change keyup', function (e) {
 
         var $this = $(e.target),
                 value = $this.val();
-
         // fix for select2 search
         if ($this.hasClass('select2-selection')) {
           return;
         }
 
+        //make sure its a single checkbox otherwise return value
         if ($this.prop('type') == 'checkbox') {
-          value = $this.is(':checked');
+          // fix for multicheckbox
+          if ($this.attr('name').indexOf('[]') !== -1) {
+            value = $parent.find('input:checked').map(function (i, e) {
+              return e.value
+            }).toArray();
+          } else {
+            value = $this.is(':checked');
+          }
         }
 
         if (show_if_value == value || ($.isArray(value) && value.indexOf(show_if_value) > -1)) {
@@ -310,9 +307,7 @@
         $this.off('wooccm_change');
         $this.off('change');
         $this.off('keyup');
-
       });
-
       // dont use change event because trigger update_checkout event
       $parent.find('select:first').trigger('wooccm_change');
       $parent.find('textarea:first').trigger('wooccm_change');
@@ -338,13 +333,11 @@
       $parent.find('input[type=time]:first').trigger('wooccm_change');
       $parent.find('input[type=url]:first').trigger('wooccm_change');
       $parent.find('input[type=week]:first').trigger('wooccm_change');
-
     } else {
       $field.show();
     }
 
   });
-
   // Datepicker fields
   // ---------------------------------------------------------------------------
 
@@ -352,7 +345,6 @@
 
     var $field = $(field),
             $input = $field.find('input[type=text]');
-
     if ($.isFunction($.fn.datepicker)) {
 
       $input.datepicker({
@@ -362,7 +354,6 @@
         beforeShowDay: function (date) {
           var day = date.getDay(),
                   disable = $input.data('disable') || false;
-
           if (!disable) {
             return [true]
           } else {
@@ -373,7 +364,6 @@
     }
 
   });
-
   // Timepicker fields
   // ---------------------------------------------------------------------------
 
@@ -381,7 +371,6 @@
 
     var $field = $(field),
             $input = $field.find('input[type=text]');
-
     if ($.isFunction($.fn.timepicker)) {
       $input.timepicker({
         showPeriod: true,
@@ -392,7 +381,6 @@
     }
 
   });
-
   // Color fields
   // ---------------------------------------------------------------------------
 
@@ -401,39 +389,106 @@
     var $field = $(field),
             $input = $field.find('input[type=text]'),
             $container = $field.find('.wooccmcolorpicker_container');
-
     $input.hide();
-
     if ($.isFunction($.fn.farbtastic)) {
 
       $container.farbtastic('#' + $input.attr('id'));
-
       $container.on('click', function (e) {
         $input.fadeIn();
       });
-
     }
 
   });
-
   $('.wooccm-colorpicker-iris').each(function (i, field) {
 
     var $field = $(field),
-            $input = $field.find('input[type=text]');//,
-    //$container = $field.find('.wooccmcolorpicker_container');
+            $input = $field.find('input[type=text]');
+    $input.css('background', $input.val());
+    $input.on('click', function (e) {
 
-    $input.css('color', '#fff').css('background', $input.val()).hide();
-
+      $field.toggleClass('active');
+    });
     $input.iris({
       class: $input.attr('id'),
       palettes: true,
       color: '',
       hide: false,
       change: function (event, ui) {
-        $input.css('color', '#000').css('background', ui.color.toString()).fadeIn();
+        $input.css('background', ui.color.toString()).fadeIn();
       }
     });
-
-    //$input.wpColorPicker();
   });
+  $(document).on('click', function (e) {
+    if ($(e.target).closest('.iris-picker').length === 0) {
+      $('.wooccm-colorpicker-iris').removeClass('active');
+    }
+  });
+
+  if (typeof wc_country_select_params === 'undefined') {
+    return false;
+  }
+
+  if ($().selectWoo) {
+    var getEnhancedSelectFormatString = function () {
+      return {
+        'language': {
+          errorLoading: function () {
+            return wc_country_select_params.i18n_searching;
+          },
+          inputTooLong: function (args) {
+            var overChars = args.input.length - args.maximum;
+            if (1 === overChars) {
+              return wc_country_select_params.i18n_input_too_long_1;
+            }
+
+            return wc_country_select_params.i18n_input_too_long_n.replace('%qty%', overChars);
+          },
+          inputTooShort: function (args) {
+            var remainingChars = args.minimum - args.input.length;
+            if (1 === remainingChars) {
+              return wc_country_select_params.i18n_input_too_short_1;
+            }
+
+            return wc_country_select_params.i18n_input_too_short_n.replace('%qty%', remainingChars);
+          },
+          loadingMore: function () {
+            return wc_country_select_params.i18n_load_more;
+          },
+          maximumSelected: function (args) {
+            if (args.maximum === 1) {
+              return wc_country_select_params.i18n_selection_too_long_1;
+            }
+            return wc_country_select_params.i18n_selection_too_long_n.replace('%qty%', args.maximum);
+          },
+          noResults: function () {
+            return wc_country_select_params.i18n_no_matches;
+          },
+          searching: function () {
+            return wc_country_select_params.i18n_searching;
+          }
+        }
+      };
+    };
+
+    var wooccm_enhanced_select = function () {
+      $('select.wooccm-enhanced-select:visible').each(function () {
+        var select2_args = $.extend({
+          width: '100%',
+          placeholder: $(this).data('placeholder') || '',
+          allowClear: $(this).data('allowclear') || false,
+          selectOnClose: $(this).data('selectonclose') || false,
+          closeOnSelect: $(this).data('closeonselect') || false,
+          //forceAbove: $(this).data('forceabove') || false,
+          minimumResultsForSearch: $(this).data('search') || -1,
+        }, getEnhancedSelectFormatString());
+        $(this).on('select2:select', function () {
+          $(this).focus();
+        }).selectWoo(select2_args);
+      });
+    };
+
+    wooccm_enhanced_select();
+
+  }
+
 })(jQuery);

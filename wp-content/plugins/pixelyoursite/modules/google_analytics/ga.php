@@ -315,7 +315,7 @@ class GA extends Settings implements Pixel {
 			}
 
 			$item = array(
-				'id'            => $posts[ $i ]->ID,
+				'id'            => GA\Helpers\getWooProductContentId($posts[ $i ]->ID),
 				'name'          => $posts[ $i ]->post_title,
 				'category'      => implode( '/', getObjectTerms( 'product_cat', $posts[ $i ]->ID ) ),
 				'quantity'      => 1,
@@ -355,7 +355,7 @@ class GA extends Settings implements Pixel {
 			'event_category'  => 'ecommerce',
 			'items'           => array(
 				array(
-					'id'       => $post->ID,
+					'id'       => GA\Helpers\getWooProductContentId($post->ID),
 					'name'     => $post->post_title,
 					'category' => implode( '/', getObjectTerms( 'product_cat', $post->ID ) ),
 					'quantity' => 1,
@@ -378,7 +378,7 @@ class GA extends Settings implements Pixel {
 		if ( ! $this->getOption( 'woo_add_to_cart_enabled' )  || ! PYS()->getOption( 'woo_add_to_cart_on_button_click' ) ) {
 			return false;
 		}
-
+        $content_id = GA\Helpers\getWooProductContentId($product_id);
 		$product = get_post( $product_id );
 		$price = getWooProductPriceToDisplay( $product_id, 1 );
 
@@ -386,7 +386,7 @@ class GA extends Settings implements Pixel {
 			'event_category'  => 'ecommerce',
 			'items'           => array(
 				array(
-					'id'       => $product_id,
+					'id'       => $content_id,
 					'name'     => $product->post_title,
 					'category' => implode( '/', getObjectTerms( 'product_cat', $product_id ) ),
 					'quantity' => 1,
@@ -486,8 +486,11 @@ class GA extends Settings implements Pixel {
 
 		foreach ( $order->get_items( 'line_item' ) as $line_item ) {
 
-			$post    = get_post( $line_item['product_id'] );
-			$product = wc_get_product( $line_item['product_id'] );
+            $product_id = GA\Helpers\getWooCartItemId( $line_item );
+            $content_id = GA\Helpers\getWooProductContentId( $product_id );
+
+			$post    = get_post( $product_id );
+			$product = wc_get_product( $product_id );
 
 			if ( $line_item['variation_id'] ) {
 				$variation      = get_post( $line_item['variation_id'] );
@@ -528,9 +531,9 @@ class GA extends Settings implements Pixel {
 			}
 
 			$item = array(
-				'id'       => $post->ID,
+				'id'       => $content_id,
 				'name'     => $post->post_title,
-				'category' => implode( '/', getObjectTerms( 'product_cat', $post->ID ) ),
+				'category' => implode( '/', getObjectTerms( 'product_cat', $product_id ) ),
 				'quantity' => $qty,
 				'price'    => $price,
 				'variant'  => $variation_name,
@@ -538,7 +541,7 @@ class GA extends Settings implements Pixel {
 
 			$items[] = $item;
 			$product_ids[] = $item['id'];
-			$total_value   += $item['price'];
+			$total_value   += $item['price' ];
 
 		}
 		
@@ -566,7 +569,10 @@ class GA extends Settings implements Pixel {
 
 		foreach ( WC()->cart->cart_contents as $cart_item_key => $cart_item ) {
 
-			$product = get_post( $cart_item['product_id'] );
+            $product_id = GA\Helpers\getWooCartItemId( $cart_item );
+            $content_id = GA\Helpers\getWooProductContentId( $product_id );
+
+			$product = get_post( $product_id );
 
 			if ( $cart_item['variation_id'] ) {
 				$variation = get_post( $cart_item['variation_id'] );
@@ -576,11 +582,11 @@ class GA extends Settings implements Pixel {
 			}
 
 			$item = array(
-				'id'       => $product->ID,
+				'id'       => $content_id,
 				'name'     => $product->post_title,
-				'category' => implode( '/', getObjectTerms( 'product_cat', $product->ID ) ),
+				'category' => implode( '/', getObjectTerms( 'product_cat', $product_id ) ),
 				'quantity' => $cart_item['quantity'],
-				'price'    => getWooProductPriceToDisplay( $product->ID ),
+				'price'    => getWooProductPriceToDisplay( $product_id ),
 				'variant'  => $variation_name,
 			);
 
@@ -647,7 +653,7 @@ class GA extends Settings implements Pixel {
 			'event_category'  => 'ecommerce',
 			'items'           => array(
 				array(
-					'id'       => $download_id,
+					'id'       => GA\Helpers\getEddDownloadContentId($download_id),
 					'name'     => $download_post->post_title,
 					'category' => implode( '/', getObjectTerms( 'download_category', $download_id ) ),
 					'quantity' => 1,
@@ -718,7 +724,7 @@ class GA extends Settings implements Pixel {
 			}
 
 			$item = array(
-				'id'       => $download_id,
+				'id'       => GA\Helpers\getEddDownloadContentId($download_id),
 				'name'     => $download_post->post_title,
 				'category' => implode( '/', getObjectTerms( 'download_category', $download_id ) ),
 				'quantity' => $cart_item['quantity'],
@@ -780,7 +786,7 @@ class GA extends Settings implements Pixel {
 				'currency'        => edd_get_currency(),
 				'items'           => array(
 					array(
-						'id'       => $download_id,
+						'id'       => GA\Helpers\getEddDownloadContentId($download_id),
 						'name'     => $download_post->post_title,
 						'category' => implode( '/', getObjectTerms( 'download_category', $download_id ) ),
 						'quantity' => $cart_item['quantity'],
@@ -821,7 +827,7 @@ class GA extends Settings implements Pixel {
 		for ( $i = 0; $i < count( $posts ); $i ++ ) {
 
 			$item = array(
-				'id'            => $posts[ $i ]->ID,
+				'id'            => GA\Helpers\getEddDownloadContentId($posts[ $i ]->ID),
 				'name'          => $posts[ $i ]->post_title,
 				'category'      => implode( '/', getObjectTerms( 'download_category', $posts[ $i ]->ID ) ),
 				'quantity'      => 1,

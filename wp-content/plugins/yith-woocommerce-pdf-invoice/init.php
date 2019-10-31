@@ -3,7 +3,7 @@
  * Plugin Name: YITH WooCommerce PDF Invoice and Shipping List
  * Plugin URI: https://yithemes.com/themes/plugins/yith-woocommerce-pdf-invoice/
  * Description: <code><strong>YITH WooCommerce PDF Invoice and Shipping List</strong></code> generate PDF invoices, credit notes, pro-forma invoice and packing slip for WooCommerce orders. Set manual or automatic invoice generation, fully customizable document template and sync with your DropBox account. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>.
- * Version: 1.2.12
+ * Version: 1.2.13
  * Author: YITH
  * Author URI: https://yithemes.com/
  * Text Domain: yith-woocommerce-pdf-invoice
@@ -66,7 +66,7 @@ if ( ! defined( 'YITH_YWPI_FREE_INIT' ) ) {
 defined( 'YITH_YWPI_SLUG' ) || define( 'YITH_YWPI_SLUG', 'yith-woocommerce-pdf-invoice' );
 
 if ( ! defined( 'YITH_YWPI_VERSION' ) ) {
-	define( 'YITH_YWPI_VERSION', '1.2.12' );
+	define( 'YITH_YWPI_VERSION', '1.2.13' );
 }
 
 if ( ! defined( 'YITH_YWPI_FILE' ) ) {

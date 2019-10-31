@@ -676,7 +676,7 @@ function renderDummyGoogleAdsConversionLabelInputs() {
     <?php
 }
 
-function renderProBadge( $url = null ) {
+function renderProBadge( $url = null,$label = "Pro Feature" ) {
     
     if ( ! $url ) {
         $url = 'https://www.pixelyoursite.com/';
@@ -684,7 +684,7 @@ function renderProBadge( $url = null ) {
     
     $url = untrailingslashit( $url ) . '/?utm_source=pys-free-plugin&utm_medium=pro-badge&utm_campaign=pro-feature';
     
-    echo '&nbsp;<a href="' . esc_url( $url ) . '" target="_blank" class="badge badge-pill badge-pro">Pro Feature <i class="fa fa-external-link" aria-hidden="true"></i></a>';
+    echo '&nbsp;<a href="' . esc_url( $url ) . '" target="_blank" class="badge badge-pill badge-pro">'.$label.' <i class="fa fa-external-link" aria-hidden="true"></i></a>';
 }
 
 function renderSpBadge() {

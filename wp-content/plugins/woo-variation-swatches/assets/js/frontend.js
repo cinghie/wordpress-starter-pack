@@ -1,8 +1,8 @@
 /*!
- * Variation Swatches for WooCommerce v1.0.63 
+ * Variation Swatches for WooCommerce v1.0.64 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 10/2/2019, 10:06:05 PM
+ * Date: 10/26/2019, 3:22:36 AM
  * Released under the GPLv3 license.
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -200,6 +200,8 @@ var WooVariationSwatches = function ($) {
                     var li = $(this).find('li');
                     var reselect_clear = $(this).hasClass('reselect-clear');
                     var is_mobile = $('body').hasClass('woo-variation-swatches-on-mobile');
+                    // let mouse_event_name = 'touchstart click';
+                    var mouse_event_name = 'click';
 
                     $(this).parent().addClass('woo-variation-items-wrapper');
 
@@ -209,7 +211,7 @@ var WooVariationSwatches = function ($) {
                     }
 
                     if (reselect_clear) {
-                        $(this).on('touchstart click', 'li:not(.selected):not(.radio-variable-item):not(.woo-variation-swatches-variable-item-more)', function (e) {
+                        $(this).on(mouse_event_name, 'li:not(.selected):not(.radio-variable-item):not(.woo-variation-swatches-variable-item-more)', function (e) {
                             e.preventDefault();
                             e.stopPropagation();
                             var value = $(this).data('value');
@@ -226,7 +228,7 @@ var WooVariationSwatches = function ($) {
                             $(this).trigger('wvs-selected-item', [value, select, _this._element]); // Custom Event for li
                         });
 
-                        $(this).on('touchstart click', 'li.selected:not(.radio-variable-item)', function (e) {
+                        $(this).on(mouse_event_name, 'li.selected:not(.radio-variable-item)', function (e) {
                             e.preventDefault();
                             e.stopPropagation();
 
@@ -247,7 +249,7 @@ var WooVariationSwatches = function ($) {
                         });
 
                         // RADIO
-                        $(this).on('touchstart click', 'input.wvs-radio-variable-item:radio', function (e) {
+                        $(this).on(mouse_event_name, 'input.wvs-radio-variable-item:radio', function (e) {
                             e.preventDefault();
                             e.stopPropagation();
                             $(this).trigger('change');
@@ -279,7 +281,7 @@ var WooVariationSwatches = function ($) {
                             }
                         });
                     } else {
-                        $(this).on('touchstart click', 'li:not(.radio-variable-item):not(.woo-variation-swatches-variable-item-more)', function (e) {
+                        $(this).on(mouse_event_name, 'li:not(.radio-variable-item):not(.woo-variation-swatches-variable-item-more)', function (e) {
                             e.preventDefault();
                             e.stopPropagation();
                             var value = $(this).data('value');

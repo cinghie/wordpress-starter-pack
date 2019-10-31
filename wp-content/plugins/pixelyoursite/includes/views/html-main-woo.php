@@ -221,29 +221,150 @@ use PixelYourSite\Facebook\Helpers;
 
 <?php endif; ?>
 
+<?php if ( GA()->enabled() ) : ?>
+
+    <div class="card card-static" id="pys-section-ga-id">
+        <div class="card-header">
+            Google Analytics ID setting
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col">
+                    <?php GA()->render_switcher_input( 'woo_variable_as_simple' ); ?>
+                    <h4 class="switcher-label">Treat variable products like simple products</h4>
+                    <p class="mt-3">If you enable this option, the main ID will be used instead of the variation ID.</p>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col col-offset-left form-inline">
+                    <label>ecomm_prodid</label>
+                    <?php GA()->render_select_input( 'woo_content_id',
+                        array(
+                            'product_id' => 'Product ID',
+                            'product_sku'   => 'Product SKU',
+                        )
+                    ); ?>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col col-offset-left form-inline">
+                    <label>ecomm_prodid prefix</label><?php GA()->render_text_input( 'woo_content_id_prefix', '(optional)' ); ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-offset-left form-inline">
+                    <label>ecomm_prodid suffix</label><?php GA()->render_text_input( 'woo_content_id_suffix', '(optional)' ); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+
 <!-- Google Ads Settings -->
 <div class="card card-static card-disabled">
     <div class="card-header">
-        Google Ads Settings <?php renderProBadge( 'https://www.pixelyoursite.com/google-analytics' ); ?>
+        Google Ads ID Setting <?php renderProBadge( 'https://www.pixelyoursite.com/google-analytics?utm_source=pys-free-plugin&utm_medium=pro-badg
+e&utm_campaign=pro-feature' ); ?>
     </div>
-    <div class="card-body">
-        <div class="row mb-3">
-            <div class="col-11 col-offset-left form-inline">
-                <label>Product ID prefix</label>
-                <?php renderDummyTextInput( '(optional)' ); ?>
-            </div>
-            <div class="col-1">
-                <?php renderPopoverButton( 'ads_woo_item_id_prefix' ); ?>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-11 col-offset-left form-inline">
-                <label>Product ID suffix</label>
-                <?php renderDummyTextInput( '(optional)' ); ?>
-            </div>
-        </div>
-    </div>
+
 </div>
+
+<?php if ( Pinterest()->enabled() ) : ?>
+
+    <div class="card card-static" id="pys-section-ga-id">
+        <div class="card-header">
+            Pinterest Tag ID setting
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col">
+                    <?php Pinterest()->render_switcher_input( 'woo_variable_as_simple' ); ?>
+                    <h4 class="switcher-label">Treat variable products like simple products</h4>
+                    <p class="mt-3">If you enable this option, the main ID will be used instead of the variation ID.</p>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col col-offset-left form-inline">
+                    <label>ID</label>
+                    <?php Pinterest()->render_select_input( 'woo_content_id',
+                        array(
+                            'product_id' => 'Product ID',
+                            'product_sku'   => 'Product SKU',
+                        )
+                    ); ?>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col col-offset-left form-inline">
+                    <label>ID prefix</label><?php Pinterest()->render_text_input( 'woo_content_id_prefix', '(optional)' ); ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-offset-left form-inline">
+                    <label>ID suffix</label><?php Pinterest()->render_text_input( 'woo_content_id_suffix', '(optional)' ); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php else: ?>
+    <div class="card card-static card-disabled" id="pys-section-ga-id">
+        <div class="card-header">
+            Pinterest Tag ID setting
+            <?php renderProBadge( 'https://www.pixelyoursite.com/pinterest-tag?utm_source=pys-free-plugin&utm_medium=pinterest-badge&utm_campaign=requiere-free-add-on',
+                "Requires free add-on"); ?>
+        </div>
+    </div>
+<?php endif; ?>
+
+<!-- @todo: update UI -->
+<!-- @todo: hide for dummy Bing -->
+<?php if ( Bing()->enabled() ) : ?>
+    <div class="card card-static">
+        <div class="card-header">
+            Bing Tag ID setting
+        </div>
+        <div class="card-body">
+
+            <div class="row mb-3">
+                <div class="col">
+                    <?php Bing()->render_switcher_input( 'woo_variable_as_simple' ); ?>
+                    <h4 class="switcher-label">Treat variable products like simple products</h4>
+                    <p class="mt-3">If you enable this option, the main ID will be used instead of the variation ID.</p>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col col-offset-left form-inline">
+                    <label>ID</label>
+                    <?php Bing()->render_select_input( 'woo_content_id',
+                        array(
+                            'product_id' => 'Product ID',
+                            'product_sku'   => 'Product SKU',
+                        )
+                    ); ?>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col col-offset-left form-inline">
+                    <label>ID prefix</label><?php Bing()->render_text_input( 'woo_content_id_prefix', '(optional)' ); ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-offset-left form-inline">
+                    <label>ID suffix</label><?php Bing()->render_text_input( 'woo_content_id_suffix', '(optional)' ); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php else : ?>
+    <div class="card card-static card-disabled">
+        <div class="card-header">
+            Bing Tag ID setting
+            <?php renderProBadge( 'https://www.pixelyoursite.com/bing-tag?utm_source=pixelyoursite-free-plugin&utm_medium=plugin&utm_campaign=free-plugin-bing',
+                "Requires paid add-on"); ?>
+        </div>
+    </div>
+<?php endif; ?>
 
 <!-- Google Dynamic Remarketing Vertical -->
 <div class="card card-static card-disabled">
@@ -265,26 +386,7 @@ use PixelYourSite\Facebook\Helpers;
     </div>
 </div>
 
-<?php if ( Bing()->enabled() ) : ?>
-    <div class="card card-static">
-        <div class="card-header">
-            Bing ID setting
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col col-offset-left form-inline">
-                    <label>Product ID</label>
-                    <?php Bing()->render_select_input( 'woo_content_id',
-                        array(
-                            'product_id' => 'Product ID',
-                            'product_sku'   => 'Product SKU',
-                        )
-                    ); ?>
-                </div>
-            </div>
-        </div>
-    </div>
-<?php endif; ?>
+
 
 <!-- Event Value -->
 <div class="card card-static card-disabled">
@@ -346,7 +448,7 @@ use PixelYourSite\Facebook\Helpers;
         <?php if ( Pinterest()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
-                    <?php Pinterest()->render_switcher_input( 'woo_purchase_enabled' ); ?>
+                    <?php Pinterest()->render_switcher_input( 'woo_checkout_enabled' ); ?>
                     <h4 class="switcher-label">Enable the Checkout event on Pinterest</h4>
                     <?php Pinterest()->renderAddonNotice(); ?>
                 </div>
@@ -699,7 +801,7 @@ use PixelYourSite\Facebook\Helpers;
         <?php if ( Pinterest()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
-                    <?php Pinterest()->render_switcher_input( 'woo_view_content_enabled' ); ?>
+                    <?php Pinterest()->render_switcher_input( 'woo_page_visit_enabled' ); ?>
                     <h4 class="switcher-label">Enable the PageVisit event on Pinterest</h4>
                     <?php Pinterest()->renderAddonNotice(); ?>
                 </div>

@@ -62,7 +62,7 @@ class WOOCCM_Field_Admin {
     }
   }
 
-  function enqueue_scripts() {
+  public function enqueue_scripts() {
 
     $screen = get_current_screen();
 
@@ -80,40 +80,18 @@ class WOOCCM_Field_Admin {
     }
   }
 
-  function add_beta_badge() {
-    ?>
-    <style>
-      body #adminmenu #toplevel_page_woocommerce a[href="<?php echo admin_url('admin.php?page=wc-settings&tab=' . sanitize_title(WOOCCM_PREFIX)); ?>"]:before {
-        content: 'BETA';
-        color: #fff;
-        background-color: #21c2f8;
-        padding: 1px 7px;
-        font-size: 9px;
-        font-weight: 700;
-        border-radius: 10px;
-        position: absolute;
-        right: 15px;
-        line-height: 16px;
-        font-style: italic;
-      }
-    </style>
-    <?php
-  }
-
-  function add_tab($settings_tabs) {
+  public function add_tab($settings_tabs) {
     $settings_tabs[WOOCCM_PREFIX] = esc_html__('Checkout', 'woocommerce-checkout-manager');
     return $settings_tabs;
   }
 
-  function add_menu_page() {
+  public function add_menu_page() {
     add_submenu_page('woocommerce', esc_html__('Checkout', 'woocommerce-checkout-manager'), esc_html__('Checkout', 'woocommerce-checkout-manager'), 'manage_woocommerce', admin_url('admin.php?page=wc-settings&tab=' . sanitize_title(WOOCCM_PREFIX)));
   }
 
-  function init() {
+  public function init() {
     add_action('wp_ajax_wooccm_select_search_products', array($this, 'ajax_select_search_products'));
-
     add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
-    add_action('admin_head', array($this, 'add_beta_badge'));
     add_action('admin_menu', array($this, 'add_menu_page'));
     add_filter('woocommerce_settings_tabs_array', array($this, 'add_tab'), 50);
   }

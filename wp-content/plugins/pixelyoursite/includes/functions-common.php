@@ -497,7 +497,7 @@ function endsWith( $haystack, $needle ) {
 }
 
 function getCurrentPageUrl() {
-    return untrailingslashit( $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+    return  $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ;
 }
 
 function removeProtocolFromUrl( $url ) {
@@ -520,7 +520,7 @@ function removeProtocolFromUrl( $url ) {
     $url = str_replace( array( 'http://', 'https://', 'http://www.', 'https://www.', 'www.' ), '', $url );
     $url = trim( $url );
     $url = ltrim( $url, '/' );
-    $url = rtrim( $url, '/' );
+    //$url = rtrim( $url, '/' );
     
     return $url;
     

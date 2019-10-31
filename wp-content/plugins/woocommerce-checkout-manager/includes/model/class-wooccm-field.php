@@ -29,10 +29,17 @@ class WOOCCM_Field {
         }
       }
     }
+
+    return false;
   }
 
   public function get_id($fields) {
-    return absint(key(array_slice($fields, -1, 1, true))) + 1;
+
+    if (count($fields)) {
+      return max(array_keys($fields)) + 1;
+    }
+
+    return 0;
   }
 
   public function get_name($field_id) {
@@ -168,6 +175,13 @@ class WOOCCM_Field {
         // State
         // -------------------------------------------------------------------
         'country' => '',
+        // Select 2
+        // -------------------------------------------------------------------
+        'select2' => false,
+        'select2_allowclear' => false,
+        'select2_selectonclose' => false,
+        'select2_closeonselect' => false,
+        'select2_search' => false,
         // Upload
         // -------------------------------------------------------------------
         'file_limit' => 1,
@@ -280,25 +294,6 @@ class WOOCCM_Field {
     return $value;
   }
 
-  public function get_wpml_string($value) {
-
-    if (!empty($value) && function_exists('icl_t')) {
-
-      if (is_array($value)) {
-
-        foreach ($value as $key => $name) {
-          $value[$key] = icl_t(WOOCCM_PLUGIN_NAME, $name, $name);
-        }
-      }
-
-      if (is_string($value)) {
-        $value = icl_t(WOOCCM_PLUGIN_NAME, $value, $value);
-      }
-    }
-
-    return $value;
-  }
-
   public function get_defaults() {
     return $this->defaults;
   }
@@ -356,6 +351,9 @@ class WOOCCM_Field {
           return false;
         }
       }
+
+      //reorder array based on ids
+      ksort($fields);
 
       if ($this->update_option($fields)) {
         return $fields;

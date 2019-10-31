@@ -3,7 +3,7 @@
  * Plugin Name: YITH Infinite Scrolling
  * Plugin URI: https://yithemes.com/themes/plugins/yith-infinite-scrolling/
  * Description: The <code><strong>YITH Infinite Scrolling</strong></code> plugin lets you easily add infinite scroll on your pages. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>.
- * Version: 1.1.8
+ * Version: 1.1.10
  * Author: YITH
  * Author URI: https://yithemes.com/
  * Text Domain: yith-infinite-scrolling
@@ -11,9 +11,9 @@
  *
  * @author YITH
  * @package YITH Infinite Scrolling
- * @version 1.1.8
+ * @version 1.1.10
  */
-/*  Copyright 2015  Your Inspiration Themes  ( email: plugins@yithemes.com )
+/*  Copyright 2015  YITH  ( email: plugins@yithemes.com )
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as
@@ -50,7 +50,7 @@ register_activation_hook( __FILE__, 'yith_plugin_registration_hook' );
 
 
 if ( ! defined( 'YITH_INFS_VERSION' ) ){
-	define( 'YITH_INFS_VERSION', '1.1.8' );
+	define( 'YITH_INFS_VERSION', '1.1.10' );
 }
 
 if ( ! defined( 'YITH_INFS_FREE_INIT' ) ) {

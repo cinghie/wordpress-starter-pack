@@ -37,7 +37,7 @@ class WOOCCM_Notices {
 
   public function add_notices() {
 
-    if (!get_user_meta(get_current_user_id(), 'wooccm-beta-notice', true)) {
+    if (!get_user_meta(get_current_user_id(), 'wooccm-beta-notice', true) && get_option('wccs_settings')) {
       ?>
       <div id="wooccm-admin-rating" class="wooccm-notice notice is-dismissible" data-notice_id="wooccm-beta-notice">
         <div class="notice-container" style="padding-top: 10px; padding-bottom: 10px; display: flex; justify-content: left; align-items: center;">
@@ -46,7 +46,7 @@ class WOOCCM_Notices {
           </div>
           <div class="notice-content" style="margin-left: 15px;">
             <p>
-              <h3>Hello! the new admin panel is here!</h3>
+            <h3>Hello! the new admin panel is here!</h3>
             </p>
             <p>
               As you know, we've recently acquired this plugin and we've been working very hard to bring you a quality product.
@@ -81,9 +81,7 @@ class WOOCCM_Notices {
         </div>
       </div>
       <?php
-    }
-
-    if (!get_transient('wooccm-first-rating') && !get_user_meta(get_current_user_id(), 'wooccm-user-rating', true)) {
+    } elseif (!get_user_meta(get_current_user_id(), 'wooccm-user-rating', true) && !get_transient('wooccm-first-rating')) {
       ?>
       <div id="wooccm-admin-rating" class="wooccm-notice notice is-dismissible" data-notice_id="wooccm-user-rating">
         <div class="notice-container" style="padding-top: 10px; padding-bottom: 10px; display: flex; justify-content: left; align-items: center;">
@@ -108,7 +106,8 @@ class WOOCCM_Notices {
           </div>
         </div>
       </div>
-    <?php } ?>
+    <?php }
+    ?>
     <script>
       (function ($) {
         $('.wooccm-notice').on('click', '.notice-dismiss', function (e) {
@@ -134,7 +133,7 @@ class WOOCCM_Notices {
 
   public function add_action_links($links) {
 
-    $links[] = '<a target="_blank" href="' . WOOCCM_SUPPORT_URL . '">' . esc_html__('Support', 'woocommerce-checkout-manager') . '</a>';
+    $links[] = '<a target="_blank" href="' . WOOCCM_PURCHASE_URL . '">' . esc_html__('Premium', 'woocommerce-checkout-manager') . '</a>';
     $links[] = '<a href="' . admin_url('admin.php?page=wc-settings&tab=' . sanitize_title(WOOCCM_PREFIX)) . '">' . esc_html__('Settings', 'woocommerce-checkout-manager') . '</a>';
 
     return $links;

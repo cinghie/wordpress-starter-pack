@@ -4,7 +4,7 @@ Tags: Facebook Pixel, New Facebook Pixel, Facebook Conversion Pixel, Facebook Pi
 Requires at least: 3.0.1
 Requires PHP: 5.4
 Tested up to: 5.2
-Stable tag: 7.1.2
+Stable tag: 7.1.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -387,6 +387,16 @@ NO, absolutely not! We don't track any type of data about your website. We simpl
 
 
 == Changelog ==
+
+= PixelYourSite 7.1.3 =
+
+* Adding new options for WooCommerce and EDD events IDs: select between ID or SKU, use prefixes and postfixes, treat variable products like simple products. These features will work with the Pinterest add-on v2.0.8 (free), and the Bing add-on v1.0.2 (paid).
+
+* Fix for an old bug related to how On Page Events triggers work. In previous versions, final slashes were ignored for both “URL Match” and “URL Contains” conditions. This was fixed with this release.
+Recommendation: if you have manually added events using the On-Page trigger, test them to make sure they work as expected.
+
+* Fix for a bug related to the Pinterest add-on. In previous versions, the WooCommerce Checkout and PageVisit events could not be turned ON/OFF.
+
 
 
 = PixelYourSite 7.1.2 =

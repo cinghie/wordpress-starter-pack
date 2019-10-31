@@ -3,8 +3,8 @@
 Contributors: yithemes
 Tags: request a quote button, woocommerce request for quote, woocommerce request a quote shortcode, request a quote, quote, YITH, woocommerce, shop, ecommerce, e-commerce, quotations, request for quote, rfq, raq, proposal, ask an estimate, budget, email quote
 Requires at least: 4.0.0
-Tested up to: 5.2
-Stable tag: 1.4.7
+Tested up to: 5.3
+Stable tag: 1.4.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -129,220 +129,201 @@ During this transition step, .po and .mo files will be used as always, but in or
 4. "Request a Quote" Email - Settings page
 
 == Changelog ==
-= 1.4.7 - Released: Jul 24, 2019 =
-* New: Support to WooCommerce 3.7.0
-* Update: Plugin Framework 3.3.7
+
+= 1.4.9 - Released on 30 October 2019 =
+
+* Update: Plugin Framework
+
+= 1.4.8 - Released on 29 October 2019 =
+
+* New: Support for WordPress 5.3
+* New: Support for WooCommerce 3.8
+* Update: Plugin Framework
+
+
+= 1.4.7 - Released on 24 July 2019 =
+
+* New: Support for WooCommerce 3.7.0
+* Update: Plugin Framework
 * Fix: Session start
 
-= 1.4.6 - Released: Jun 12, 2019 =
-* Update: Plugin Framework 3.3.1
+= 1.4.6 - Released on 12 June 2019 =
+
+* Update: Plugin Framework
 * Fix: Session start
 
-= 1.4.5 - Released: Apr 29, 2019 =
+= 1.4.5 - Released on 29 April 2019 =
+
 * Fix: Fixed YITH WooCommerce Catalog Mode Premium plugin
 * Fix: Spelling errors
 
-= 1.4.4 - Released: Apr 23, 2019 =
-* Update: Plugin Framework 3.1.29
+= 1.4.4 - Released on 23 April 2019 =
 
-= 1.4.3 - Released: Apr 09, 2019 =
-* New: Support to WooCommerce 3.6.0
-* Update: Plugin Framework 3.1.28
+* Update: Plugin Framework
 
-= 1.4.2 - Released: Jan 28, 2018 =
-* Update: Plugin Framework 3.1.15
+= 1.4.3 - Released on 09 April 2019 =
 
-= 1.4.1 - Released: Dec 05, 2018 =
-* New: Support to WordPress 5.0
-* Update: Plugin Framework 3.1.5
+* New: Support for WooCommerce 3.6
+* Update: Plugin Framework
 
-= 1.4.0 - Released: Oct 23, 2018 =
-* Update: Plugin Core 3.0.27
+= 1.4.2 - Released on 28 January 2018 =
 
-= 1.3.9 - Released: Oct 10, 2018 =
-* New: Support to WooCommerce 3.5.0 RC1
+* Update: Plugin Framework
+
+= 1.4.1 - Released on 05 December 2018 =
+
+* New: Support for WordPress 5.0
+* Update: Plugin Framework
+
+= 1.4.0 - Released on 23 October 2018 =
+
+* Update: Plugin Framework
+
+= 1.3.9 - Released on 10 October 2018 =
+
+* New: Support for WooCommerce 3.5
 * Fix: Issue with Polylang plugin
 
-= 1.3.8 - Released: Sep 27, 2018 =
-* Update: Plugin Core 3.0.23
+= 1.3.8 - Released on 27 September 2018 =
 
-= 1.3.7 - Released: Aug 01, 2018 =
-* Update: Plugin Core 3.0.17
+* Update: Plugin Framework
 
-= 1.3.6 - Released: Jun 20, 2018 =
-Update: Plugin Core 3.0.16
-Tweak: Removed regex to check email address
-Tweak: Quantity selector in single product page when the add to cart button is hidden
+= 1.3.7 - Released on 01 August 2018 =
 
+* Update: Plugin Framework
 
-= 1.3.5 - Released: May 10, 2018 =
-New: Support to WooCommerce 3.4.0 RC1
-New: Support to Wordpress 4.9.6 Beta 2
-New: Added Privacy Policy checkbox for General Data Protection Regulation (GDPR) compliance
-Update: Plugin Core 3.0.15
+= 1.3.6 - Released on 20 June 2018 =
 
-= 1.3.4 - Released: Jan 31, 2018 =
-New: Support to WooCommerce 3.3.x
-Update: Plugin Core 3.0.11
+* Tweak: Removed regex to check email address
+* Tweak: Quantity selector in single product page when the add to cart button is hidden
+* Update: Plugin Framework
 
-= 1.3.3 - Released: Jun 11, 2017 =
-New: Support to WooCommerce 3.1 RC 2
-Update: Plugin Core
+= 1.3.5 - Released on 10 May 2018 =
 
-= 1.3.2 - Released: Sep 29, 2017 =
-New: Support to WooCommerce 3.1.x
-Fix: WPML issues
-Update: Plugin Core
+* New: Support for WooCommerce 3.4
+* New: Support for Wordpress 4.9.6
+* New: Added Privacy Policy checkbox for General Data Protection Regulation (GDPR) compliance
+* Update: Plugin Framework
 
-= 1.3.1 - Released: Mar 28, 2017 =
-New: Support to WooCommerce 3.0 RC 2
-Update: Plugin Core
+= 1.3.4 - Released on 31 January 2018 =
 
-= 1.3.0 - Released: Mar 06, 2017 =
-New: Support to WooCommerce 2.7 RC 1
-Update: Plugin Core
+New: Support for WooCommerce 3.3
+* Update: Plugin Framework
 
-= 1.2.6 - Released: Dec 02, 2016 =
-* Added: Wordpress 4.7 compatibility
-* Added: Method to add an item in the list from query string
+= 1.3.3 - Released on 11 June 2017 =
+
+* New: Support for WooCommerce 3.1
+* Update: Plugin Framework
+
+= 1.3.2 - Released on 29 September 2017 =
+
+* New: Support for WooCommerce 3.1
+* Update: Plugin Framework
+* Fix: WPML issues
+
+= 1.3.1 - Released on 28 March 2017 =
+
+* New: Support for WooCommerce 3.0
+* Update: Plugin Framework
+
+= 1.3.0 - Released on 06 March 2017 =
+
+* New: Support for WooCommerce 2.7
+* Update: Plugin Framework
+
+= 1.2.6 - Released on 02 December 2016 =
+
+* New: Wordpress 4.7 compatibility
+* New: Method to add an item in the list from query string
 * Updated: Plugin Framework
 
-= 1.2.5 - Released: Nov 23, 2016 =
-* Fixed: Issues with variation products
+= 1.2.5 - Released on 23 November 2016 =
+
+* Fix: Issues with variation products
 * Updated: Plugin Framework
 
-= 1.2.3 - Released: Mar 25, 2016 =
-* Added: Daily Cron process to remove saved session
-* Added: Sidebar in Admin Settings
-* Fixed: Enable CC Options in Request a quote email settings
+= 1.2.3 - Released on 25 March 2016 =
 
-= 1.2.2 - Released: Feb 26, 2016 =
-* Added: Enable/disable request a quote email
+* New: Daily Cron process to remove saved session
+* New: Sidebar in Admin Settings
+* Fix: Enable CC Options in Request a quote email settings
 
-= 1.2.1 - Released: Jan 29, 2016 =
-* Added: WooCommerce 2.5 compatibility
-* Fixed: Some problems of cache
+= 1.2.2 - Released on 26 February 2016 =
 
-= 1.2.0 - Released: Nov 06, 2015 =
+* New: Enable/disable request a quote email
+
+= 1.2.1 - Released on 29 January 2016 =
+
+* New: WooCommerce 2.5 compatibility
+* Fix: Some problems of cache
+
+= 1.2.0 - Released on 06 November 2015 =
+
 * Updated: Changed Text Domain from 'ywraq' to 'yith-woocommerce-request-a-quote'
-* Fixed: Email settings on request quote
+* Fix: Email settings on request quote
 
-= 1.1.9 - Released: Oct 30, 2015 =
-* Added: Add Plugin-Fw support for Essential Kit #1
-* Updated: Plugin Core Framework
+= 1.1.9 - Released on 30 October 2015 =
 
-= 1.1.8 - Released: Jul 31, 2015 =
-* Added: Support to WooCommerce 2.4.2
-* Updated: Plugin Core Framework
+* New: Add Plugin-Fw support for Essential Kit #1
+* Update: Plugin Framework
 
-= 1.1.7 - Released: Jul 27, 2015 =
-* Added: Italian Translation
-* Fixed: Html form
+= 1.1.8 - Released on 31 July 2015 =
 
-= 1.1.6 - Released: Jun 10, 2015 =
-* Added: 'ywraq_quantity_max_value' for max quantity in the request a quote list
-* Added: Options to choose Email "From" Name and Email "From" Address in Woocommerce > Settings > Emails
-* Added: Frontend Spanish Translation (thanks to Marcelo Pedra)
+* New: Support for WooCommerce 2.4.2
+* Update: Plugin Framework
+
+= 1.1.7 - Released on 27 July 2015 =
+
+* New: Italian Translation
+* Fix: Html form
+
+= 1.1.6 - Released on 10 June 2015 =
+
+* New: 'ywraq_quantity_max_value' for max quantity in the request a quote list
+* New: Options to choose Email "From" Name and Email "From" Address in Woocommerce > Settings > Emails
+* New: Frontend Spanish Translation (thanks to Marchcelo Pedra)
 * Updated: Changed the spinner file position, it is added to the plugin assets/images
-* Fixed: Default Request a Quote form
-* Fixed: line breaks in request message
+* Fix: Default Request a Quote form
+* Fix: line breaks in request message
 
-= 1.1.5 - Released: Jun 10, 2015 =
-* Added: filter for 'add to quote' button label the name is 'ywraq_product_add_to_quote'
+= 1.1.5 - Released on 10 June 2015 =
 
-= 1.1.4 - Released: Jun 05, 2015 =
-* Fixed: Update quantity in request list
-* Fixed: Custom label variation in request list
+* New: filter for 'add to quote' button label the name is 'ywraq_product_add_to_quote'
 
-= 1.1.3 - Released: May 28, 2015 =
-* Fixed: Price of variation in email table
-* Fixed: Request Number in Contact form 7
+= 1.1.4 - Released on 05 June 2015 =
 
-= 1.1.2 - Released: May 19, 2015=
-* Fixed: Called yith_ywraq_get_product_meta function
+* Fix: Update quantity in request list
+* Fix: Custom label variation in request list
 
-= 1.1.1 - Released: May 14, 2015  =
-* Added: Wrapper div to 'yith_ywraq_request_quote' shortcode
-* Fixed: Refer id link
-* Fixed: add_query_arg() and remove_query_arg() usage
+= 1.1.3 - Released on 28 May 2015 =
 
-= 1.0.2  - Released: Apr 21, 2015 =
-* Updated: Compatibility with YITH Infinite Scrolling
-* Updated: Plugin Core Framework
-* Fixed: Template to overwrite
+* Fix: Price of variation in email table
+* Fix: Request Number in Contact form 7
 
-= 1.0.1 - Released: Mar 31, 2015 =
-* Updated: Plugin Core Framework
-* Added: Translation pt_BR
-* Fixed: Minor bugs
+= 1.1.2 - Released on 19 May 2015=
 
-= 1.0.0 - Released: Mar 12, 2015 =
+* Fix: Called yith_ywraq_get_product_meta function
+
+= 1.1.1 - Released on 14 May 2015  =
+
+* New: Wrapper div to 'yith_ywraq_request_quote' shortcode
+* Fix: Refer id link
+* Fix: add_query_arg() and remove_query_arg() usage
+
+= 1.0.2  - Released on 21 April 2015 =
+
+* Update: Compatibility with YITH Infinite Scrolling
+* Update: Plugin Framework
+* Fix: Template to overwrite
+
+= 1.0.1 - Released on 31 March 2015 =
+
+* Update: Plugin Framework
+* New: Translation pt_BR
+* Fix: Minor bugs
+
+= 1.0.0 - Released on 12 March 2015 =
 * Initial release
-
-== Upgrade notice ==
-= 1.2.2 - Released: Feb 26, 2016 =
-* Added: Enable/disable request a quote email
-
-= 1.2.1 - Released: Jan 29, 2016 =
-* Added: WooCommerce 2.5 compatibility
-* Fixed: Some problems of cache
-
-= 1.2.0 - Released: Nov 06, 2015 =
-* Updated: Changed Text Domain from 'ywraq' to 'yith-woocommerce-request-a-quote'
-* Fixed: Email settings on request quote
-
-= 1.1.9 - Released: Oct 30, 2015 =
-* Added: Add Plugin-Fw support for Essential Kit #1
-* Updated: Plugin Core Framework
-
-= 1.1.8 - Released: Jul 31, 2015 =
-* Added: Support to WooCommerce 2.4.2
-* Updated: Plugin Core Framework
-
-= 1.1.7 - Released: Jul 27, 2015 =
-* Added: Italian Translation
-* Fixed: Html form
-
-= 1.1.6 - Released: Jun 10, 2015 =
-* Added: 'ywraq_quantity_max_value' for max quantity in the request a quote list
-* Added: Options to choose Email "From" Name and Email "From" Address in Woocommerce > Settings > Emails
-* Added: Frontend Spanish Translation (thanks to Marcelo Pedra)
-* Updated: Changed the spinner file position, it is added to the plugin assets/images
-* Fixed: Default Request a Quote form
-* Fixed: line breaks in request message
-
-= 1.1.5 - Released: Jun 10, 2015 =
-* Added: filter for 'add to quote' button label the name is 'ywraq_product_add_to_quote'
-
-= 1.1.4 - Released: Jun 05, 2015 =
-* Fixed: Update quantity in request list
-* Fixed: Custom label variation in request list
-
-= 1.1.3 - Released: May 28, 2015 =
-* Fixed: Price of variation in email table
-* Fixed: Request Number in Contact form 7
-
-= 1.1.2 - Released: May 19, 2015=
-* Fixed: Called yith_ywraq_get_product_meta function
-
-= 1.1.1 - Released: May 14, 2015  =
-* Added: Wrapper div to 'yith_ywraq_request_quote' shortcode
-* Fixed: Refer id link
-* Fixed: add_query_arg() and remove_query_arg() usage
-
-= 1.0.2  - Released: Apr 21, 2015 =
-* Updated: Compatibility with YITH Infinite Scrolling
-* Updated: Plugin Core Framework
-* Fixed: Template to overwrite
-
-= 1.0.1 - Released: Mar 31, 2015 =
-* Updated: Plugin Core Framework
-* Added: Translation pt_BR
-* Fixed: Minor bugs
-
-= 1.0.0 - Released: Mar 12, 2015 =
-* Initial release
-
 
 
 == Suggestions ==

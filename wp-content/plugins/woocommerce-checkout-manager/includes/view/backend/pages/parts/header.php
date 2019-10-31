@@ -1,23 +1,48 @@
+<div class="wrap about-wrap full-width-layout">
+
+  <h1><?php esc_html_e('Suggestions', 'woocommerce-checkout-manager'); ?></h1>
+
+  <p class="about-text"><?php printf(esc_html__('Thanks for using our product! We recommend these extensions that will add new features to stand out your business and improve your sales.', 'woocommerce-checkout-manager'), WOOCCM_PLUGIN_NAME); ?></p>
+
+  <p class="about-text">
+    <?php printf('<a href="%s" target="_blank">%s</a>', WOOCCM_PURCHASE_URL, esc_html__('Purchase', 'woocommerce-checkout-manager')); ?></a> |  
+    <?php printf('<a href="%s" target="_blank">%s</a>', WOOCCM_DOCUMENTATION_URL, esc_html__('Documentation', 'woocommerce-checkout-manager')); ?></a>
+  </p>
+
+  <?php printf('<a href="%s" target="_blank"><div style="
+               background: #006bff url(%s) no-repeat;
+               background-position: top center;
+               background-size: 130px 130px;
+               color: #fff;
+               font-size: 14px;
+               text-align: center;
+               font-weight: 600;
+               margin: 5px 0 0;
+               padding-top: 120px;
+               height: 40px;
+               display: inline-block;
+               width: 140px;
+               " class="wp-badge">%s</div></a>', 'https://quadlayers.com/?utm_source=qlwapp_admin', plugins_url('/assets/backend/img/quadlayers.jpg', WOOCCM_PLUGIN_FILE), esc_html__('QuadLayers', 'woocommerce-checkout-manager')); ?>
+
+</div>
+
 <?php
-$sections = array();
-$sections[''] = esc_html__('Checkout', 'woocommerce-checkout-manager');
-$sections['billing'] = esc_html__('Billing', 'woocommerce-checkout-manager');
-$sections['shipping'] = esc_html__('Shipping', 'woocommerce-checkout-manager');
-$sections['additional'] = esc_html__('Additional', 'woocommerce-checkout-manager');
-$sections['order'] = esc_html__('Order', 'woocommerce-checkout-manager');
-//$sections['email'] = esc_html__('Email', 'woocommerce-checkout-manager');
-$sections['advanced'] = esc_html__('Advanced', 'woocommerce-checkout-manager');
-
-echo '<ul class="subsubsub">';
-
-$array_keys = array_keys($sections);
-
-foreach ($sections as $id => $label) {
-  echo '<li><a href="' . admin_url('admin.php?page=wc-settings&tab=wooccm&section=' . sanitize_title($id)) . '" class="' . ( $current_section == $id ? 'current' : '' ) . '">' . $label . '</a> | </li>';
+if (isset($GLOBALS['submenu'][WOOCCM_PREFIX])) {
+  if (is_array($GLOBALS['submenu'][WOOCCM_PREFIX])) {
+    ?>
+    <div class="wrap about-wrap full-width-layout qlwrap">
+      <h2 class="nav-tab-wrapper">
+        <?php
+        foreach ($GLOBALS['submenu'][WOOCCM_PREFIX] as $tab) {
+          if (strpos($tab[2], '.php') !== false)
+            continue;
+          ?>
+          <a href="<?php echo admin_url('admin.php?page=' . esc_attr($tab[2])); ?>" class="nav-tab<?php echo (isset($_GET['page']) && $_GET['page'] == $tab[2]) ? ' nav-tab-active' : ''; ?>"><?php echo $tab[0]; ?></a>
+          <?php
+        }
+        ?>
+      </h2>
+    </div>
+    <?php
+  }
 }
-
-echo '<li><a target="_blank" href="' . WOOCCM_DOCUMENTATION_URL . '">' . esc_html__('Documentation', 'woocommerce-checkout-manager') . '</a> | </li>';
-echo '<li><a target="_blank" href="' . WOOCCM_SUPPORT_URL . '">' . esc_html__('Report a bug', 'woocommerce-checkout-manager') . '</a></li>';
-
-echo '</ul><br class="clear" />';
-

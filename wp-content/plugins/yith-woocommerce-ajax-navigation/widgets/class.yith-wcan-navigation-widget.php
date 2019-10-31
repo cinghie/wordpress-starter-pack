@@ -1085,7 +1085,7 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
                         $this->found = true;
                     }
                     
-                    $arg = apply_filters('yith_wcan_list_type_query_arg', 'filter_' . sanitize_title($instance['attribute']), $display_type, $term);
+                    $arg = apply_filters('yith_wcan_list_type_query_arg', 'filter_' . sanitize_title($instance['attribute']), $display_type, $term, $instance['attribute']);
 
                     $current_filter = (isset($_GET[$arg])) ? explode(apply_filters('yith_wcan_list_filter_operator', ',', $display_type), apply_filters("yith_wcan_list_filter_query_{$arg}", $_GET[$arg] ) ) : array();
 
@@ -1217,6 +1217,7 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
                         }
 
                         // Remove this term is $current_filter has more than 1 term filtered
+
                         if (sizeof($current_filter) > 1) {
                             $current_filter_without_this = array_diff($current_filter, array($term_param));
                             $link = add_query_arg($arg, implode(apply_filters('yith_wcan_list_filter_operator', ',', $display_type), $current_filter_without_this), $link);

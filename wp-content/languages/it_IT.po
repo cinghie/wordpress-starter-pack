@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 5.2.x package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-09-26 16:16:58+0000\n"
+"PO-Revision-Date: 2019-10-27 08:31:31+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13655,7 +13655,7 @@ msgstr "Il commento non può essere modificato."
 #: wp-includes/class-wp-xmlrpc-server.php:3630
 #: wp-includes/rest-api/endpoints/class-wp-rest-comments-controller.php:794
 msgid "Sorry, you are not allowed to delete this comment."
-msgstr "Non hai i permessi per eliminare la risorsa. "
+msgstr "Non hai i permessi per eliminare questo commento."
 
 #: wp-includes/class-wp-xmlrpc-server.php:3549
 #: wp-includes/class-wp-xmlrpc-server.php:3711

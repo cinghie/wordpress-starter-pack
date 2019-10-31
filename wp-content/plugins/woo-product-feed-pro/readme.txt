@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.2
-Stable tag: 6.7.3
+Stable tag: 6.7.8
 
 == Description ==
 
@@ -159,6 +159,8 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 * Incurvy
 * <a href="https://www.kijiji.it" target="_blank">Kijiji Italy</a>
 * Kelkoo
+* <a href="https://www.catch.com.au" target="_blank">Catch.com.au</a>
+* <a href="https://www.kogan.com" target="_blank">Kogan.com</a>
 * <a href="https://www.zbozi.cz" target="_blank">Zbozi.cz</a>
 * Shopalike
 * <a href="https://www.heureka.cz" target="_blank">Heureka.cz</a>
@@ -297,6 +299,24 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 6.7.8 (2019-10-31) =
+* Added proper encoding to the utm parameters in deeplinks for XML feeds as for some users it showed an XML validation error
+
+= 6.7.7 (2019-10-30) =
+* Added identifier_exists field for Facebook catalogue feeds
+
+= 6.7.6 (2019-10-30) =
+* Added template for the Australian Marketplace Catch.com.au
+* Added template for the Australian Marketplace Kogan.com
+* Removed the double item_group_id field from the Facebook catalogue feed template
+
+= 6.7.5 (2019-10-28) =
+* When attributes have been added for variable products but not been checked as "Used for variations" they can now also be used for your variations in your product feed.
+* Change of the g:identifier_exists requirements by Google. When you do not have valid unique identifiers the g:identifier_exists field needs to be removed from your Google Shopping feeds altogether whereas previously the value of this field had to be "no" or "false" when products did not have an unique identifier. We have changed our plugin so it meets Google's new requirements.
+
+= 6.7.4 (2019-10-27) =
+* Added SKU to the pricecheck.co.za template
 
 = 6.7.3 (2019-10-23) =
 * Fixed a bug where the product data manipulation tool converted numeric values in woosea attributes to double's
@@ -2114,6 +2134,24 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 6.7.8 =
+Added proper encoding to the utm parameters in deeplinks for XML feeds as for some users it showed an XML validation error
+
+= 6.7.7 =
+Added identifier_exists field for Facebook catalogue feeds
+
+= 6.7.6 =
+Added template for the Australian Marketplace Catch.com.au
+Added template for the Australian Marketplace Kogan.com
+Removed the double item_group_id field from the Facebook catalogue feed template
+
+= 6.7.5 =
+When attributes have been added for variable products but not been checked as "Used for variations" they can now also be used for your variations in your product feed.
+Change of the g:identifier_exists requirements by Google. When you do not have valid unique identifiers the g:identifier_exists field needs to be removed from your Google Shopping feeds altogether whereas previously the value of this field had to be "no" or "false" when products did not have an unique identifier. We have changed our plugin so it meets Google's new requirements.
+
+= 6.7.4 =
+Added SKU to the pricecheck.co.za template
 
 = 6.7.3 =
 Fixed a bug where the product data manipulation tool converted numeric values in woosea attributes to double's

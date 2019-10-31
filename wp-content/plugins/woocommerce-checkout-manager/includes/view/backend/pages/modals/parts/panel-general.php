@@ -6,7 +6,7 @@
       <span class="woocommerce-help-tip" data-tip="<?php esc_html_e('You can\'t change the slug of default fields.', 'woocommerce-checkout-manager'); ?>"></span>
       <input class="short" type="text" name="name" placeholder="<?php esc_html_e('myfield', 'woocommerce-checkout-manager'); ?>" value="{{data.name}}" readonly="readonly">
       <# } else { #>
-      <span class="woocommerce-help-tip" data-tip="<?php esc_html_e('Currently is not possible to change the name of the fields.', 'woocommerce-checkout-manager'); ?><?php //esc_html_e('To edit Abbreviations open General > Switches > Editing Of Abbreviation Fields.', 'woocommerce-checkout-manager');                                       ?>"></span>
+      <span class="woocommerce-help-tip" data-tip="<?php esc_html_e('Currently is not possible to change the name of the fields.', 'woocommerce-checkout-manager'); ?><?php //esc_html_e('To edit Abbreviations open General > Switches > Editing Of Abbreviation Fields.', 'woocommerce-checkout-manager');                                           ?>"></span>
       <input class="short" type="text" name="name" placeholder="<?php esc_html_e('myfield', 'woocommerce-checkout-manager'); ?>" value="{{data.name}}" readonly="readonly" <?php /* if (empty($options['checkness']['abbreviation'])) { ?>readonly="readonly"<?php } */ ?>>
       <# } #>
     </p>                   
@@ -62,7 +62,14 @@
   <div class="options_group">
     <p class="form-field">
       <label><?php esc_html_e('Default', 'woocommerce-checkout-manager'); ?></label>
+      <# if (data.type == 'checkbox') { #>
+      <select class="wooccm-enhanced-select" name="default">
+        <option <# if ( 1 == data.default ) { #>selected="selected"<# } #> value="1"><?php esc_html_e('Yes'); ?></option>
+        <option <# if ( 0 == data.default ) { #>selected="selected"<# } #> value="0"><?php esc_html_e('No'); ?></option>
+      </select>
+      <# } else { #>
       <input class="short" type="text" name="default" placeholder="<?php esc_html_e('Enter a default value (optional)', 'woocommerce-checkout-manager'); ?>" value="{{data.default}}">
+      <# } #>
       <span span class="woocommerce-help-tip" data-tip="<?php esc_html_e('Default value of the checkout field.', 'woocommerce-checkout-manager'); ?>"></span>
     </p>
   </div>
@@ -76,7 +83,7 @@
     <p class="form-field">
       <select class="wooccm-enhanced-select" name="file_types" multiple="multiple" data-placeholder="<?php esc_attr_e('Choose the allowed types&hellip;', 'woocommerce-checkout-manager'); ?>" data-allow_clear="true" >
   <?php foreach (wp_get_mime_types() as $type => $name) : ?>
-                                <option <# if ( _.contains(data.file_types, '<?php echo esc_attr($type); ?>') ) { #>selected="selected"<# } #> value="<?php echo esc_attr($type); ?>"><?php echo esc_html($type); ?></option>
+                                        <option <# if ( _.contains(data.file_types, '<?php echo esc_attr($type); ?>') ) { #>selected="selected"<# } #> value="<?php echo esc_attr($type); ?>"><?php echo esc_html($type); ?></option>
   <?php endforeach; ?>
       </select>
     </p>

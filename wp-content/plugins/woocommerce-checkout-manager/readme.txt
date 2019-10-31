@@ -4,7 +4,7 @@ Donate link: https://quadlayers.com/
 Tags: woocommerce, woocommerce checkout, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
 Requires at least: 3.0
 Tested up to: 5.2.4
-Stable tag: 4.6.4
+Stable tag: 4.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,106 +12,68 @@ Manages WooCommerce Checkout, the advanced way.
 
 == Description ==
 
-[Documentation](https://quadlayers.com/documentation/woocommerce-checkout-manager/) | [Support](https://quadlayers.com/account/support/) | [Community](https://www.facebook.com/groups/quadlayers/)
-
+[Premium](https://quadlayers.com/portfolio/woocommerce-checkout-manager/) | [Demo](https://quadlayers.com/woocommerce-checkout-manager/checkout/?add-to-cart=32) | [Documentation](https://quadlayers.com/documentation/woocommerce-checkout-manager/) | [Community](https://www.facebook.com/groups/quadlayers/)
 
 WooCommerce Checkout Manager allows you to customize and manage the fields on your WooCommerce Checkout page. Re-order, rename, hide and extend Checkout fields within the Billing, Shipping and Additional sections.
 
-= Ownership =
+== WooCommerce Checkout ==
 
-30/08/2019 marks a change of ownership of WooCommerce Checkout Manager from Visser to [QuadLayers](https://quadlayers.com/) who will be responsible for resolving critical Plugin issues and ensuring the Plugin meets WordPress security and coding standards in the form of regular Plugin updates.
+WooCommerce Checkout Manager allow you to customize the checkout process and checkout fields. 
 
+= Force shipping address =
+This option allows you to remove the toggle checkbox to display the shipping fields. Shipping fields will be always displayed and the user will be forced to complete them.
 
-= FEATURES =
+= Force create an account =
+This option allows you to remove the option to create an account during the purchase process. The account will be always created with the email defined by the user in the billing fields.
 
-* Add new fields to the checkout page and re-order them.
-* Make checkout fields optional.
-* Remove & Make required fields. 
-* Added fields will appear on Order Summary, Receipt and Back-end in Orders.
-* Enable/ Disable "Additional Fields" section name on the Order Summary and Receipt.
-* Fields types: Text, Textarea, Password, Radio, Checkbox, Select, Country, State, Color Picker, Multiselect, Multicheckbox, File Upload, Heading.
-* Compatible with [WPML](http://wpml.org/), [WooCommerce Print Invoice & Delivery Note](http://wordpress.org/plugins/woocommerce-delivery-notes/), [ Store Exporter Deluxe](http://www.visser.com.au/plugins/store-exporter-deluxe//), [ WooCommerce Order/Customer CSV Export](http://www.woothemes.com/products/ordercustomer-csv-export/).
-* Show or Hide fields for different User Roles.
-* Upload files on Checkout Page.
-* Sort Orders by Field Name.
-* Export Orders by Field Name.
-* Add new fields to the **Billing** and **Shipping** sections **separately** from Additional fields. 
-* These fields can be edited on your customers **account** page.
-* Create Conditional Fields.
-* Create fields to remove tax.
-* Create fields to add additional amount.
-* Replace Text using Text/ Html Swapper.
-* Allow Customers to **Upload files** for each order on order details page.
-* Show or Hide added field for Specific Product or Category Only.
-* Display **Payment Method** and Shipping Method used by customer.
-* Disable any added field from Checkout details page and Order Receipt.
-* **Retain fields information** for customers when they navigate back and forth from checkout.
-* Disable Billing Address fields for chosen shipping goods. Which makes them visible only for virtual goods.
-* Area to insert your own **Custom CSS**.
-* Display **Order Time**.
-* Set Default State for checkout.
-* Re-position the added fields: Before Shipping Form, After Shipping Form, Before Billing Form, After Billing Form or After Order Notes
-* **Insert Notice:** Before Customer Address Fields and Before Order Summary on checkout page.
+= Remove order notes =
+This option allows you to remove the order notes in the checkout form.
 
-== Installation ==
+= Add message before checkout =
+This option allows you to include a custom message before or after the checkout form.
 
-= Minimum Requirements =
+== WooCommerce Checkout Fields ==
 
-* WooCommerce 2.2 +
-* WordPress 3.8 or greater
-* PHP 5.2.4 or greater
-* MySQL 5.0 or greater
+WooCommerce Checkout Manager allows you to include custom fields to the checkout page in Billing, Shipping and Additional fields sections.
 
-= Automatic Plugin installation =
+Our plugin allow you reorder, remove or change the field type of the WooCommerce core fields. You can choose between this field types: Text, Textarea, Password, Radio, Checkbox, Select, Country, State, Multiselect, Multicheckbox, Heading, Colorpicker, File uploader.
 
-1. Login to your WordPress Administration
-2. Navigate to the Plugins screen and click Add New
-3. Within the Search Plugins text field enter 'WooCommerce Checkout Manager' and press Enter
-4. Click the Install Now button
+== WooCommerce Checkout Conditional Fields ==
 
-= Manual Plugin installation =
+WooCommerce Checkout Manager supports conditional checkout fields allowing you to show/hide the fields based on the value of its parent fields.
 
-The manual installation method involves downloading the Plugin and uploading it to your web server via an FTP application. The [WordPress Codex](https://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation) contains instructions on how to do this.
+Our system detects the parent field type and allows you to select the value based on the available options.
 
-= Updating =
+== WooCommerce Checkout Upload Files ==
 
-Automatic updates are delivered just like any other WordPress Plugin.
+You can include an unlimited number of File type fields and then offer the user an option to display the uploaded files in their order. The user will be allowed to upload or delete fields through the order page.
+page.
 
 == Frequently Asked Questions ==
 
-= How do I add conditional Checkout fields? =
+= How to add checkout fields? =
 
-Read through the [Adding Conditional Checkout fields](https://quadlayers.com/documentation/woocommerce-checkout-manager/configuration/) walkthrough on our website.
+[Adding fields to checkout page](https://quadlayers.com/documentation/woocommerce-checkout-manager/fields/)
 
-= [Insert feature] is not working within WooCommerce Checkout Manager =
+= How to remove core checkout fields? =
 
-First de-activate and re-activate the WooCommerce Checkout Manager from the Plugins screen within the WordPress Administration. This triggers the Plugin installation script to be run and often resolves issues when updating from a legacy release of WooCommerce Checkout Manager (e.g. <4.0).
+[Removing checkout core fields](https://quadlayers.com/documentation/woocommerce-checkout-manager/fields/)
 
-If your issue persists visit the [WooCommerce Checkout Manager > Support section](https://wordpress.org/support/plugin/woocommerce-checkout-manager). This is the place to comment on existing topics and raise new support topics.
+= How to change default fields order? =
 
-= Why can't I do [insert feature] within WooCommerce Checkout Manager? =
+[Reorder checkout fields](https://quadlayers.com/documentation/woocommerce-checkout-manager/fields/)
 
-Visit the [WooCommerce Checkout Manager > Ideas/Feature requests Trello board](https://trello.com/b/XSpf40lq) or open a new topic on the [WooCommerce Checkout Manager > Support section](https://wordpress.org/support/plugin/woocommerce-checkout-manager).
+= How to change additional fields position? =
 
-= How to fix fields that are not showing on checkout page properly? = 
+[Change additional fields position](https://quadlayers.com/documentation/woocommerce-checkout-manager/fields/)
 
-Usually this is an CSS issue. If your theme comes with the option to input your very own custom CSS, you can use the abbreviation field name as part of the CSS code to set the fields in the way that you want. 
+= How do I add conditional checkout fields? =
 
-Example :
-`#myfield1_field {
-	float: right;
-}`
+[Adding conditional checkout fields](https://quadlayers.com/documentation/woocommerce-checkout-manager/conditional/)
 
 = How do I review the Order data from the custom fields? =
 
-Your Order data can be reviewed in each Order within the default WooCommerce Order Data box of the WooCommerce > Edit Order screen within the WordPress Administration. Custom fields are separated by Billing, Shipping and Additional sections.
-
-= How do you access saved data to be used with WooCommerce PDF Invoices & Packing Slips? =
-
-The above plugin requests that you code the fields in the template. To access the saved data, use the abbreviation name of the field. As we are using the first abbreviation field as an example. Where "myfield1" is the abbreviation name, and "My custom field:" is the label.
-
-Example:
-`<?php $wpo_wcpdf->custom_field('myfield1', 'My custom field:'); ?>`
+Your Order data can be reviewed in each order within the default WooCommerce Order Data box of the WooCommerce > Edit Order screen within the WordPress Administration. Custom fields are separated by Billing, Shipping and Additional sections.
 
 == Screenshots ==
 
@@ -136,6 +98,31 @@ Example:
 10. Handle uploaded files in order admin dashboard.
 
 == Changelog ==
+
+= 4.7.0 =
+* Fix: save field settings
+
+= 4.6.9 =
+* Fix: fix wpml compatibility
+
+= 4.6.8 =
+* Fix: fix wpml compatibility
+
+= 4.6.7 =
+* Fix: premium compatibility
+
+= 4.6.6 =
+* Fix: premium compatibility
+
+= 4.6.5 =
+* Fix: premium compatibility
+* Fix: duplicated names after reorder
+* Fix: order fields by id after reorder
+* Fix: missing order on modal change
+* Fix: saved names in the multicheckbox
+* Fix: conditional parent multicheckbox
+* Improvement: colorpicker behaviour
+* Improvement: select for checkbox status in admin modal
 
 = 4.6.4 =
 * Fix: upload files in additional fields

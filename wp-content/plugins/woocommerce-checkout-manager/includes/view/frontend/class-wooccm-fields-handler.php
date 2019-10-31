@@ -28,9 +28,10 @@ class WOOCCM_Fields_Handler {
           case 'multiselect':
           case 'multicheckbox':
 
-            if (isset($data[$key]) && is_array($field['options'])) {
+            if (isset($_POST[$key]) && is_array($field['options'])) {
 
-              if ($values = (array) explode(',', str_replace(' ', '', ($data[$key])))) {
+              // use $_POST because $data is converted to string only in multiselect
+              if ($values = (array) $_POST[$key]) {
 
                 $names = array();
 
@@ -49,7 +50,7 @@ class WOOCCM_Fields_Handler {
         }
       }
     }
-    
+
     return $data;
   }
 
@@ -106,12 +107,6 @@ class WOOCCM_Fields_Handler {
     if (isset($field['order'])) {
       $field['priority'] = $field['order'] * 10;
     }
-
-    // ii18n
-    // -----------------------------------------------------------------------
-
-    $field['label'] = esc_html__($field['label'], WOOCCM_WC_DOMAIN);
-    $field['placeholder'] = esc_html__($field['placeholder'], WOOCCM_WC_DOMAIN);
 
     $session_data['fields'][$field['key']] = $field;
 

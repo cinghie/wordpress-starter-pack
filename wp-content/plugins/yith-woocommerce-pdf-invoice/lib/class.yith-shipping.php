@@ -145,7 +145,7 @@ if ( ! class_exists ( 'YITH_Shipping' ) ) {
 			
 			if ( isset( $company_logo ) ) {
 				echo '<div class="company-logo">
-					<img src="' . $company_logo . '">
+					<img src="' . apply_filters('yith_ywpi_company_image_path',$company_logo) . '">
 				</div>';
 			}
 		}

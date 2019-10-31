@@ -15,6 +15,7 @@ jQuery(document).ready(function($) {
 
   	if (get_value == 'woosea_manage_feed') {
 		$(document).on('ready',function(){
+			console.log("First interval");
 			myInterval = setInterval(woosea_check_perc,7000);
 		});
 	}
@@ -542,6 +543,7 @@ jQuery(document).ready(function($) {
 						$(".woo-product-feed-pro-blink_off_"+hash).text(function () {
                                         		$(this).addClass('woo-product-feed-pro-blink_me');
 							var status = $(".woo-product-feed-pro-blink_off_"+hash).text();
+							console.log("Tweede interval");
 							myInterval = setInterval(woosea_check_perc,2000);
 							if(status == "ready"){
 								return $(this).text().replace("ready", "processing (0%)");
@@ -564,6 +566,8 @@ jQuery(document).ready(function($) {
   		// Check if we need to UP the processing percentage 
 		$("table tbody").find('input[name="manage_record"]').each(function(){
        	        	var hash = this.value;
+
+			console.log("Doing a new check again because interval is set");
 
 			jQuery.ajax({
 				method: "POST",

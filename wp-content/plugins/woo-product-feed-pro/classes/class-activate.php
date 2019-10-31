@@ -113,7 +113,21 @@ class WooSEA_Activation {
         		),
 			"Armenia" => array (),
 			"Australia" => array (
-                                "Fruugoaustralia" => array (
+                                "Catch.com.au" => array (
+                                        "channel_hash" => md5("Catch.com.au"),
+                                        "name" => "Catch.com.au",
+                                        "fields" => "catchcomau",
+                                        "taxonomy" => "none",
+                                        "utm_source" => "Catch.com.au",
+                                        "type" => "Marketplace" ),
+                               	"Kogan.com" => array (
+                                        "channel_hash" => md5("Kogan.com"),
+                                        "name" => "Kogan.com",
+                                        "fields" => "kogan",
+                                        "taxonomy" => "none",
+                                        "utm_source" => "Kogan.com",
+                                        "type" => "Marketplace" ),
+			  	"Fruugoaustralia" => array (
                                         "channel_hash" => md5("Fruugoaustralia.com"),
                                         "name" => "Fruugoaustralia.com",
                                         "fields" => "fruugoaus",

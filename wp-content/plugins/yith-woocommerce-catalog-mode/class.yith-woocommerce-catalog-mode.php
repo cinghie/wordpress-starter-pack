@@ -543,6 +543,10 @@ if ( ! class_exists( 'YITH_WC_Catalog_Mode' ) ) {
 
 				global $product;
 
+				if ( ! $product ) {
+					return $hide;
+				}
+
 				$product_id = $product->get_id();
 
 				global $sitepress;

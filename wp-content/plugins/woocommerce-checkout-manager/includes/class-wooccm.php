@@ -42,6 +42,8 @@ final class WOOCCM {
     include_once( WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-field.php' );
     include_once( WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-order.php' );
     include_once( WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-advanced.php' );
+    include_once( WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-premium.php' );
+    include_once( WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-suggestions.php' );
   }
 
   public function register_scripts() {

@@ -164,7 +164,7 @@ class WooSEA_Get_Products {
 		$utm_part = "";	
 		foreach ($utm as $key => $value ) {
 			$value = str_replace(" ", "%20", $value);
-			$utm_part .= "&$key=$value";
+			$utm_part .= "&amp;$key=$value";
 		}
 
 		/**
@@ -177,9 +177,9 @@ class WooSEA_Get_Products {
 				$default_lang = $sitepress->get_default_language();	
 
 				if (preg_match("/\?/i", $link)){
-					$utm_part = "&".ltrim($utm_part, '&');
+					$utm_part = "&amp;".ltrim($utm_part, '&amp;');
 				} else {
-					$utm_part = "?".ltrim($utm_part, '&');
+					$utm_part = "?".ltrim($utm_part, '&amp;');
 				}
 			}
 		} else {
@@ -187,12 +187,12 @@ class WooSEA_Get_Products {
 			if($parentId > 0){
 				# Even though variation products always have parameters in the URL we still need to check and make sure they are there
 				if(strpos($link, '?') !== false){
-					$utm_part = "&".ltrim($utm_part, '&');
+					$utm_part = "&amp;".ltrim($utm_part, '&amp;');
 				} else {
-					$utm_part = "?".ltrim($utm_part, '&');
+					$utm_part = "?".ltrim($utm_part, '&amp;');
 				}
 			} else {
-				$utm_part = "?".ltrim($utm_part, '&');
+				$utm_part = "?".ltrim($utm_part, '&amp;');
 			}
 		}
 		return $utm_part;
@@ -2581,17 +2581,22 @@ class WooSEA_Get_Products {
 				$mother_attributes = get_post_meta($product_data['item_group_id'], '_product_attributes');
 
 	                      	foreach ($mother_attributes as $attribute){
-					foreach($attribute as $attr){
-						
+					foreach($attribute as $key => $attr){
 						$attr_name = $attr['name'];
 						$terms = get_the_terms($product_data['item_group_id'], $attr_name);
-
+				
 						if(is_array($terms)){
-
 							foreach($terms as $term){
 								$attr_value = $term->name;
 							}
 							$product_data[$attr_name] = $attr_value;		
+						} else {
+							// Add the variable parent attributes	
+							// When the attribute was not set for variations
+							if($attr['is_variation'] == 0){	
+								$new_key ="custom_attributes_" . $key;
+								$product_data[$new_key] = $attr['value'];
+							}
 						}
 					}
 				}
@@ -3542,7 +3547,11 @@ class WooSEA_Get_Products {
 					$identifier_exists = "no";
 				}
 			}
-			$xml_product['g:identifier_exists'] = $identifier_exists;
+			// New policy of Google, only when the value is yes add it to the feed
+			// 28 October 2019
+			// if($identifier_exists == "yes"){
+				$xml_product['g:identifier_exists'] = $identifier_exists;
+			//}
 		}
 		return $xml_product;
 	}

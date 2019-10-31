@@ -44,6 +44,12 @@ class WooSEA_pricecheck {
 					"feed_name" => "EAN",
 					"format" => "optional",
 				),
+				"SKU" => array(
+					"name" => "SKU",
+					"feed_name" => "SKU",
+					"format" => "optional",
+					"woo_suggest" => "SKU",
+				),
 				"UPC" => array(
 					"name" => "UPC",
 					"feed_name" => "UPC",

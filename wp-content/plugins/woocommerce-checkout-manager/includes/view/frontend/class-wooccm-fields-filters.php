@@ -102,12 +102,6 @@ class WOOCCM_Fields_Filter {
             $field .= '<option value="" disabled="disabled" selected="selected">' . esc_attr($args['placeholder']) . '</option>';
           }
           foreach ($args['options'] as $option_key => $option_text) {
-//            if ('' === $option_key) {
-//              if (empty($args['placeholder'])) {
-//                $args['placeholder'] = $option_text ? $option_text : __('Choose an option', 'woocommerce-checkout-manager');
-//              }
-//              $custom_attributes[] = 'data-allow_clear="true"';
-//            }
             $field .= '<option value="' . esc_attr($option_key) . '" ' . selected($value, $option_key, false) . '>' . esc_attr($option_text) . '</option>';
           }
           $field .= '</select>';
@@ -122,7 +116,7 @@ class WOOCCM_Fields_Filter {
         $value = is_array($value) ? $value : array($value);
 
         if (!empty($args['options'])) {
-          $field .= '<select name="' . esc_attr($key) . '[]" id="' . esc_attr($key) . '" class="select" multiple="multiple" ' . implode(' ', $custom_attributes) . '>';
+          $field .= '<select name="' . esc_attr($key) . '[]" id="' . esc_attr($key) . '" class="select ' . esc_attr(implode(' ', $args['input_class'])) . '" multiple="multiple" ' . implode(' ', $custom_attributes) . '>';
           foreach ($args['options'] as $option_key => $option_text) {
             $field .= '<option value="' . esc_attr($option_key) . '" ' . selected(in_array($option_key, $value), 1, false) . '>' . esc_attr($option_text) . '</option>';
           }
@@ -142,7 +136,8 @@ class WOOCCM_Fields_Filter {
           $field .= ' <span class="woocommerce-multicheckbox-wrapper" ' . implode(' ', $custom_attributes) . '>';
 
           foreach ($args['options'] as $option_key => $option_text) {
-            $field .='<label><input type="checkbox" name="' . esc_attr($key) . '[]" value="' . esc_attr($option_text) . '"' . checked(in_array($option_key, $value), 1, false) . ' /> ' . esc_attr($option_text) . '</label>';
+            //$field .='<label><input type="checkbox" name="' . esc_attr($key) . '[]" value="1"' . checked(in_array($option_key, $value), 1, false) . ' /> ' . esc_attr($option_text) . '</label>';
+            $field .='<label><input type="checkbox" name="' . esc_attr($key) . '[]" value="' . esc_attr($option_key) . '"' . checked(in_array($option_key, $value), 1, false) . ' /> ' . esc_attr($option_text) . '</label>';
           }
 
           $field .= '</span>';
@@ -230,36 +225,6 @@ class WOOCCM_Fields_Filter {
     return $field;
   }
 
-  // Datepicker
-  // ---------------------------------------------------------------------------
-  public function datepicker_field($field = '', $key, $args, $value) {
-
-    $args['type'] = 'text';
-
-    ob_start();
-
-    woocommerce_form_field($key, $args, $value);
-
-    $field = ob_get_clean();
-
-    return $field;
-  }
-
-  // Timepicker
-  // ---------------------------------------------------------------------------
-  public function timepicker_field($field = '', $key, $args, $value) {
-
-    $args['type'] = 'text';
-
-    ob_start();
-
-    woocommerce_form_field($key, $args, $value);
-
-    $field = ob_get_clean();
-
-    return $field;
-  }
-
   // Country 
   // ---------------------------------------------------------------------------
   public function country_field($field = '', $key, $args, $value) {
@@ -318,8 +283,6 @@ class WOOCCM_Fields_Filter {
     add_filter('woocommerce_form_field_file', array($this, 'custom_field'), 10, 4);
     add_filter('woocommerce_form_field_heading', array($this, 'heading_field'), 10, 4);
     add_filter('woocommerce_form_field_colorpicker', array($this, 'colorpicker_field'), 10, 4);
-    add_filter('woocommerce_form_field_datepicker', array($this, 'datepicker_field'), 10, 4);
-    add_filter('woocommerce_form_field_timepicker', array($this, 'timepicker_field'), 10, 4);
     add_filter('woocommerce_form_field_country', array($this, 'country_field'), 10, 4);
     add_filter('woocommerce_form_field_state', array($this, 'state_field'), 10, 4);
   }

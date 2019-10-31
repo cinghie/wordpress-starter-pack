@@ -31,6 +31,7 @@ $values          = maybe_unserialize( $values );
 $sortable        = isset( $sortable ) ? $sortable : false;
 $class_wrapper   = $sortable ? 'ui-sortable' : '';
 $onoff_id        = isset( $onoff_field['id'] ) ? $onoff_field['id'] : '';
+$ajax_nonce      = wp_create_nonce( 'save-toggle-element' );
 
 if ( empty( $values ) && ! $show_add_button && $elements ) {
     $values = array();
@@ -41,7 +42,7 @@ if ( empty( $values ) && ! $show_add_button && $elements ) {
 }
 
 ?>
-<div class="yith-toggle_wrapper <?php echo $class_wrapper ?>" id="<?php echo $id ?>">
+<div class="yith-toggle_wrapper <?php echo $class_wrapper ?>" id="<?php echo $id ?>" data-nonce="<?php echo $ajax_nonce; ?>">
 	<?php
 
 	if ( $show_add_button ):
@@ -62,7 +63,7 @@ if ( empty( $values ) && ! $show_add_button && $elements ) {
 				$element['value'] =  isset($element['default']) ? $element['default'] : '';
 				$element['id'] = 'new_'.$element['id'];
 				$element['name'] = $name. "[{{{data.index}}}][" . $element['id'] . "]";
-				$class_element = isset(  $element['class'] ) ? $element['class'] : '';
+				$class_element = isset(  $element['class_row'] ) ? $element['class_row'] : '';
 				?>
                 <div class="yith-add-box-row <?php echo $class_element ?> <?php echo '{{{data.index}}}'?>">
 
@@ -140,9 +141,9 @@ if ( empty( $values ) && ! $show_add_button && $elements ) {
 							$element['name']  = $name . "[$i][" . $element['id'] . "]";
 							$element['value'] = isset( $value[ $element['id'] ] ) ? $value[ $element['id'] ] : $element['default'];
 							$element['id'] = $element['id'].'_'.$i;
-							$element['class'] = isset(  $element['class'] ) ? $element['class'] : '';
+							$element['class_row'] = isset(  $element['class_row'] ) ? $element['class_row'] : '';
 							?>
-                            <div class="yith-toggle-content-row <?php echo $element['class'].' '.$element['type'] ?>">
+                            <div class="yith-toggle-content-row <?php echo $element['class_row'].' '.$element['type'] ?>">
                                 <label for="<?php echo $element['id']; ?>"><?php echo $element['title']; ?></label>
                                 <div class="yith-plugin-fw-option-with-description">
 								<?php echo yith_plugin_fw_get_field( $element, true ); ?>
@@ -230,7 +231,7 @@ if ( empty( $values ) && ! $show_add_button && $elements ) {
 						$element['title'] = $element['name'];
 						$element['name']  = $name . "[{{{data.index}}}][" . $element['id'] . "]";
 						$element['id']    = $element['id'] . '_{{{data.index}}}';
-						$class_element = isset( $element['class'] ) ? $element['class'] : '';
+						$class_element = isset( $element['class_row'] ) ? $element['class_row'] : '';
 						?>
                         <div class="yith-toggle-content-row <?php echo $class_element.' '.$element['type'] ?>">
                             <label for="<?php echo $element['id']; ?>"><?php echo $element['title']; ?></label>

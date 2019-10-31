@@ -85,7 +85,8 @@ function sb_instagram_settings_page() {
 		'enqueue_css_in_shortcode' => false,
 		'sb_instagram_disable_mob_swipe' => false,
 		'sbi_font_method' => 'svg',
-		'sb_instagram_disable_awesome'      => false
+		'sb_instagram_disable_awesome'      => false,
+        'custom_template' => false
 	);
 	//Save defaults in an array
 	$options = wp_parse_args(get_option('sb_instagram_settings'), $sb_instagram_settings_defaults);
@@ -144,6 +145,8 @@ function sb_instagram_settings_page() {
 	$sb_ajax_initial = $options[ 'sb_ajax_initial' ];
 	$sbi_font_method = $options[ 'sbi_font_method' ];
 	$sb_instagram_disable_awesome = $options[ 'sb_instagram_disable_awesome' ];
+	$sb_instagram_custom_template = $options[ 'custom_template' ];
+
 
 
 	//Check nonce before saving data
@@ -328,6 +331,9 @@ function sb_instagram_settings_page() {
 				$options['sbi_font_method'] = $sbi_font_method;
 				$options[ 'sb_instagram_disable_awesome' ] = $sb_instagram_disable_awesome;
 
+				isset($_POST[ 'sb_instagram_custom_template' ]) ? $sb_instagram_custom_template = $_POST[ 'sb_instagram_custom_template' ] : $sb_instagram_custom_template = '';
+				$options['custom_template'] = $sb_instagram_custom_template;
+
 				//clear expired tokens
 				delete_option( 'sb_expired_tokens' );
 
@@ -413,7 +419,7 @@ function sb_instagram_settings_page() {
 				<h3><?php _e( 'Configure', 'instagram-feed' ); ?></h3>
 
                 <div id="sbi_config">
-                    <a data-new-api="https://www.facebook.com/dialog/oauth?client_id=254638078422287&redirect_uri=https://api.smashballoon.com/instagram-graph-api-redirect.php&scope=manage_pages,instagram_basic,instagram_manage_insights&state=<?php echo admin_url('admin.php?page=sb-instagram-feed'); ?>"
+                    <a data-new-api="https://www.facebook.com/dialog/oauth?client_id=254638078422287&redirect_uri=https://api.smashballoon.com/instagram-graph-api-redirect.php&scope=manage_pages,instagram_basic,instagram_manage_insights,instagram_manage_comments&state=<?php echo admin_url('admin.php?page=sb-instagram-feed'); ?>"
                        data-old-api="https://instagram.com/oauth/authorize/?client_id=3a81a9fa2a064751b8c31385b91cc25c&scope=basic&redirect_uri=https://smashballoon.com/instagram-feed/instagram-token-plugin/?return_uri=<?php echo admin_url('admin.php?page=sb-instagram-feed'); ?>&response_type=token&state=<?php echo admin_url('admin.php?page-sb-instagram-feed'); ?>&hl=en"
                        href="https://instagram.com/oauth/authorize/?client_id=3a81a9fa2a064751b8c31385b91cc25c&scope=basic&redirect_uri=https://smashballoon.com/instagram-feed/instagram-token-plugin/?return_uri=<?php echo admin_url('admin.php?page=sb-instagram-feed'); ?>&response_type=token&state=<?php echo admin_url('admin.php?page-sb-instagram-feed'); ?>&hl=en" class="sbi_admin_btn"><i class="fa fa-user-plus" aria-hidden="true" style="font-size: 20px;"></i>&nbsp; <?php _e('Connect an Instagram Account', 'instagram-feed' ); ?></a>
 
@@ -702,7 +708,7 @@ function sb_instagram_settings_page() {
 							</div>
 							<div class="sbi_col sbi_two">
 
-								<p class="sbi_pro_tooltip"><?php _e( 'Upgrade to the Pro version to display hashtag feeds', 'instagram-feed' ); ?><i class="fa fa-caret-down" aria-hidden="true"></i></p>
+								<p class="sbi_pro_tooltip"><?php _e( 'Upgrade to the Pro version to display Hashtag and Tagged feeds', 'instagram-feed' ); ?><i class="fa fa-caret-down" aria-hidden="true"></i></p>
 								<a href="https://smashballoon.com/instagram-feed/?utm_source=plugin-free&utm_campaign=sbi" target="_blank" class="sbi_lock"><i class="fa fa-rocket"></i><?php _e('Pro', 'instagram-feed'); ?></a>
 
 								<input readonly type="text" size="25" style="height: 32px; top: -2px; position: relative; box-shadow: none;" />
@@ -711,6 +717,19 @@ function sb_instagram_settings_page() {
 								<p class="sbi_tooltip"><?php _e( 'Display posts from a specific hashtag instead of from a user', 'instagram-feed' ); ?></p>
 							</div>
 						</div>
+
+                        <div class="sbi_pro sbi_row">
+                            <div class="sbi_col sbi_one">
+                                <input disabled type="radio" name="sb_instagram_type" id="sb_instagram_type_tagged" value="tagged" <?php if($sb_instagram_type == "tagged") echo "checked"; ?> />
+                                <label class="sbi_radio_label" for="sb_instagram_type_tagged"><?php _e( 'Tagged:', 'instagram-feed' ); ?></label>
+                            </div>
+                            <div class="sbi_col sbi_two">
+                                <input readonly type="text" size="25" style="height: 32px; top: -2px; position: relative; box-shadow: none;" />
+                                &nbsp;<a class="sbi_tooltip_link sbi_pro" href="JavaScript:void(0);"><?php _e( 'What is this?', 'instagram-feed' ); ?></a>
+
+                                <p class="sbi_tooltip"><?php _e( 'Display posts that your account has been tagged in.', 'instagram-feed' ); ?></p>
+                            </div>
+                        </div>
 
 						<div class="sbi_row sbi_pro">
 							<br>
@@ -1781,7 +1800,16 @@ function sb_instagram_settings_page() {
 						<p class="sbi_tooltip"><?php _e("This plugin uses SVGs for all icons in the feed. Use this setting to switch to font icons.", 'instagram-feed'); ?></p>
 					</td>
 				</tr>
-				</tbody>
+                <tr>
+                    <th class="bump-left"><label class="bump-left"><?php _e("Enable Custom Templates", 'instagram-feed'); ?></label></th>
+                    <td>
+                        <input name="sb_instagram_custom_template" type="checkbox" id="sb_instagram_custom_template" <?php if($sb_instagram_custom_template == true) echo "checked"; ?> />
+                        <label for="sb_instagram_custom_template"><?php _e('Yes', 'instagram-feed'); ?></label>
+                        <a class="sbi_tooltip_link" href="JavaScript:void(0);"><?php _e('What does this mean?', 'instagram-feed'); ?></a>
+                        <p class="sbi_tooltip"><?php _e("The default HTML for the feed can be replaced with custom templates added to your theme's folder. Enable this setting to use these templates. See <a href=\"https://smashballoon.com/guide-to-creating-custom-templates/\" target=\"_blank\">this guide</a>", 'instagram-feed'); ?></p>
+                    </td>
+                </tr>
+                </tbody>
 			</table>
 
 			<?php submit_button(); ?>

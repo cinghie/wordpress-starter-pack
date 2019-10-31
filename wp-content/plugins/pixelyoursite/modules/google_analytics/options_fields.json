@@ -17,6 +17,11 @@
   "form_event_enabled": "checkbox",
   "form_event_non_interactive": "checkbox",
 
+  "woo_variable_as_simple": "checkbox",
+  "woo_content_id": "select",
+  "woo_content_id_prefix": "text",
+  "woo_content_id_suffix": "text",
+
   "woo_purchase_enabled": "checkbox",
   "woo_purchase_non_interactive": "checkbox",
   "woo_initiate_checkout_enabled": "checkbox",
@@ -29,6 +34,10 @@
   "woo_view_content_non_interactive": "checkbox",
   "woo_view_category_enabled": "checkbox",
   "woo_view_category_non_interactive": "checkbox",
+
+  "edd_content_id": "select",
+  "edd_content_id_prefix": "text",
+  "edd_content_id_suffix": "text",
 
   "edd_purchase_enabled": "checkbox",
   "edd_purchase_non_interactive": "checkbox",

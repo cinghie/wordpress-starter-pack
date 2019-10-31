@@ -29,7 +29,7 @@ class Pinterest extends Settings implements Pixel {
 	}
 	
 	public function enabled() {
-		return true;
+		return false;
 	}
 	
 	public function configured() {

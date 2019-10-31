@@ -552,20 +552,54 @@ function sbi_get_database_settings() {
 
 /**
  * May include support for templates in theme folders in the future
+ *
+ * @since 2.1 custom templates supported
  */
 function sbi_get_feed_template_part( $part, $settings = array() ) {
-    $file = '';
-    if ( $part === 'header' ) {
-        $file = trailingslashit( SBI_PLUGIN_DIR ) . 'templates/header.php';
-    } elseif ( $part === 'item' ) {
-	    $file = trailingslashit( SBI_PLUGIN_DIR ) . 'templates/item.php';
-    } elseif ( $part === 'footer' ) {
-	    $file = trailingslashit( SBI_PLUGIN_DIR ) . 'templates/footer.php';
-    } elseif ( $part === 'feed' ) {
-	    $file = trailingslashit( SBI_PLUGIN_DIR ) . 'templates/feed.php';
-    }
+	$file = '';
 
-    return $file;
+	$using_custom_templates_in_theme = apply_filters( 'sbi_use_theme_templates', $settings['customtemplates'] );
+	$generic_path = trailingslashit( SBI_PLUGIN_DIR ) . 'templates/';
+
+	if ( $using_custom_templates_in_theme ) {
+		$custom_header_template = locate_template( 'sbi/header.php', false, false );
+		$custom_item_template = locate_template( 'sbi/item.php', false, false );
+		$custom_footer_template = locate_template( 'sbi/footer.php', false, false );
+		$custom_feed_template = locate_template( 'sbi/feed.php', false, false );
+	} else {
+		$custom_header_template = false;
+		$custom_item_template = false;
+		$custom_footer_template = false;
+		$custom_feed_template = false;
+	}
+
+	if ( $part === 'header' ) {
+        if ( $custom_header_template ) {
+            $file = $custom_header_template;
+        } else {
+            $file = $generic_path . 'header.php';
+        }
+	} elseif ( $part === 'item' ) {
+		if ( $custom_item_template ) {
+			$file = $custom_item_template;
+		} else {
+			$file = $generic_path . 'item.php';
+		}
+	} elseif ( $part === 'footer' ) {
+		if ( $custom_footer_template ) {
+			$file = $custom_footer_template;
+		} else {
+			$file = $generic_path . 'footer.php';
+		}
+	} elseif ( $part === 'feed' ) {
+		if ( $custom_feed_template ) {
+			$file = $custom_feed_template;
+		} else {
+			$file = $generic_path . 'feed.php';
+		}
+	}
+
+	return $file;
 }
 
 /**
@@ -762,7 +796,7 @@ function sb_instagram_scripts_enqueue() {
 	//Options to pass to JS file
 	$sb_instagram_settings = get_option( 'sb_instagram_settings' );
 
-	$js_file = 'js/sb-instagram-2-0-1.min.js';
+	$js_file = 'js/sb-instagram-2-1.min.js';
 	if ( isset( $_GET['sbi_debug'] ) ) {
 		$js_file = 'js/sb-instagram.js';
 	}
@@ -774,9 +808,9 @@ function sb_instagram_scripts_enqueue() {
 	}
 
 	if ( isset( $sb_instagram_settings['enqueue_css_in_shortcode'] ) && $sb_instagram_settings['enqueue_css_in_shortcode'] ) {
-		wp_register_style( 'sb_instagram_styles', trailingslashit( SBI_PLUGIN_URL ) . 'css/sb-instagram-2-0-2.min.css', array(), SBIVER );
+		wp_register_style( 'sb_instagram_styles', trailingslashit( SBI_PLUGIN_URL ) . 'css/sb-instagram-2-1.min.css', array(), SBIVER );
 	} else {
-		wp_enqueue_style( 'sb_instagram_styles', trailingslashit( SBI_PLUGIN_URL ) . 'css/sb-instagram-2-0-2.min.css', array(), SBIVER );
+		wp_enqueue_style( 'sb_instagram_styles', trailingslashit( SBI_PLUGIN_URL ) . 'css/sb-instagram-2-1.min.css', array(), SBIVER );
 	}
 
 	$font_method = isset( $sb_instagram_settings['sbi_font_method'] ) ? $sb_instagram_settings['sbi_font_method'] : 'svg';

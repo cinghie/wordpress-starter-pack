@@ -36,7 +36,8 @@ if ( ! defined( 'YITH_YWPI_PREMIUM' ) ) {
 					'title' => 'Get Support and Pro Features'
 				)
 			),
-			'id'      => 'yith_wcas_general_videobox'
+			'id'      => 'yith_wcas_general_videobox',
+            'value'   => ''
 		)
 	);
 }

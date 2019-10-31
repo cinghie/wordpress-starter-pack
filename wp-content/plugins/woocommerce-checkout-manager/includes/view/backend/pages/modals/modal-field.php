@@ -23,6 +23,9 @@
                 <div class="panel-wrap product_data" style="overflow:visible;">
                   <?php include_once( 'parts/field-tabs.php' ); ?>
                   <?php include_once( 'parts/panel-general.php' ); ?>
+                  <# if ( _.contains(<?php echo json_encode(array('select', 'multiselect')); ?>, data.type)) { #>
+                  <?php include_once( 'parts/panel-select2.php' ); ?>
+                  <# } #>
                   <# if ( _.contains(<?php echo json_encode($option); ?>, data.type)) { #>
                   <?php include_once( 'parts/panel-options.php' ); ?>
                   <# } #>

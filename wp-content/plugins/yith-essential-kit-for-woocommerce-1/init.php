@@ -7,12 +7,12 @@
  * Domain Path: /languages/
  * Author: YITH
  * Author URI: https://yithemes.com/
- * Version: 2.0.8
+ * Version: 2.0.9
  * WC requires at least: 2.5.0
- * WC tested up to: 3.7
+ * WC tested up to: 3.8
  * @author YITHEMES
  * @package YITH Essential Kit for Woocommerce #1
- * @version 2.0.8
+ * @version 2.0.9
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

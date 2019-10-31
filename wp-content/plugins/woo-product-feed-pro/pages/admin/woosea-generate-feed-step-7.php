@@ -81,22 +81,22 @@ $attributes = $fields_obj->get_channel_attributes();
 /**
  * Add the Item Group ID attribute for product variations
  **/
-if(isset($_POST['product_variations'])){
-
-	$channels_with_item_id = array('google_shopping','facebook_drm');
-
-	if (in_array($project['fields'],$channels_with_item_id,TRUE)){
-
-		$attributes["Detailed product description"]["Item group ID"]["format"] = "required";
-		$attributes["Detailed product description"]["Item group ID"]["woo_suggest"] = "item_group_id";
-
-		if (in_array($project['fields'],$channels_with_item_id,TRUE)){
-			$attributes["Detailed product description"]["Item group ID"]["feed_name"] = "g:item_group_id";
-		} else {
-			$attributes["Detailed product description"]["Item group ID"]["feed_name"] = "item_group_id";
-		}
-	}
-}
+//if(isset($_POST['product_variations'])){
+//
+//	$channels_with_item_id = array('google_shopping','facebook_drm');
+//
+//	if (in_array($project['fields'],$channels_with_item_id,TRUE)){
+//
+//		$attributes["Detailed product description"]["Item group ID"]["format"] = "required";
+//		$attributes["Detailed product description"]["Item group ID"]["woo_suggest"] = "item_group_id";
+//
+//		if (in_array($project['fields'],$channels_with_item_id,TRUE)){
+//			$attributes["Detailed product description"]["Item group ID"]["feed_name"] = "g:item_group_id";
+//		} else {
+//			$attributes["Detailed product description"]["Item group ID"]["feed_name"] = "item_group_id";
+//		}
+//	}
+//}
 ?>
 	<div id="dialog" title="Basic dialog">
   		<p>
@@ -142,7 +142,7 @@ if(isset($_POST['product_variations'])){
 
                                                                 	<?php
                                                                 	if ($row_v['feed_name'] == "g:item_group_id"){
-                                                                        ?>
+									 ?>
                                                                         	<input type="checkbox" name="record" class="checkbox-field" title="it is not allowed to remove the item_group_id field mapping" disabled>
                                                                         <?php
                                                                 	} else {

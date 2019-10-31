@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: woocommerce, woocommerce product add-ons, woocommerce product add ons, woocommerce advanced product option, product add ons, product add-ons, option, radio, checkbox, text, woocommerce product addons
 Requires at least: 4.5
 Tested up to: 5.2
-Stable tag: 1.5.21
+Stable tag: 1.5.23
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,7 +51,14 @@ You must enable the dependency on the option you are interested in by inserting 
 
 == Changelog ==
 
-= 1.5.21 - Aug 12, 2019 =
+= 1.5.23 – Released on 30 October 2019 =
+
+* New: Wordpress 5.3 support
+* New: WooCommerce 3.8 support
+* Update: YIT Plugin Framework
+* Fix: Minor bugs
+
+= 1.5.21 - Released on 12 August 2019 =
 
 * New: WooCommerce 3.7 support
 * New: 7up themes compatibility
@@ -61,7 +68,7 @@ You must enable the dependency on the option you are interested in by inserting 
 * Fix: All add-ons collapses by default
 * Fix: Minor bugs
 
-= 1.5.20 - Jun 27, 2019 =
+= 1.5.20 - Released on 27 June 2019 =
 
 * New: WC Embed Product support
 * New: Replace image method for Divi theme
@@ -79,7 +86,7 @@ You must enable the dependency on the option you are interested in by inserting 
 * Fix: QuickView Pro support
 * Fix: Minor bugs
 
-= 1.5.19 - May 28, 2019 =
+= 1.5.19 - Released on 28 May 2019 =
 
 * New: WordPress 5.2 support
 * Update: Italian language
@@ -89,7 +96,7 @@ You must enable the dependency on the option you are interested in by inserting 
 * Fix: Undefined offset notice
 * Fix: Minor bugs
 
-= 1.5.18 - Apr 11, 2019 =
+= 1.5.18 - Released on 11 April 2019 =
 
 * New: WordPress 5.1 support
 * New: WooCommerce 3.6 support
@@ -106,7 +113,7 @@ You must enable the dependency on the option you are interested in by inserting 
 * Fix: Options images size
 * Fix: Minor bugs
 
-= 1.5.17 - Feb 20, 2019 =
+= 1.5.17 - Released on 20 February 2019 =
 
 * New: TheGem theme support
 * Tweak: Add-ons panel loading speed optimization
@@ -115,7 +122,7 @@ You must enable the dependency on the option you are interested in by inserting 
 * Fix: Grouped products support
 * Fix: Minor bugs
 
-= 1.5.16 - Jan 28, 2019 =
+= 1.5.16 - Released on 28 January 2019 =
 
 * New: WooCommerce Currency Switcher support
 * Update: Language file
@@ -126,14 +133,14 @@ You must enable the dependency on the option you are interested in by inserting 
 * Fix: Admin menu
 * Fix: Minor bugs
 
-= 1.5.15 - Dic 05, 2018 =
+= 1.5.15 - Released on 5 December 2018 =
 
 * New: WordPress 5.0 support
 * New: Plugin options to enable compatibiliy
 * Dev: Improved Woo Layout Injector support
 * Fix: Minor bugs
 
-= 1.5.14 - Dic 05, 2018 =
+= 1.5.14 - Released on 5 December 2018 =
 
 * New: Divi theme support
 * New: Woo Layout Injector plugin support
@@ -144,7 +151,7 @@ You must enable the dependency on the option you are interested in by inserting 
 * Fix: Variations and attributes disappear after saving
 * Fix: Minor bugs
 
-= 1.5.13 - Nov 07, 2018 =
+= 1.5.13 - Released on 7 November 2018 =
 
 * New: Alternative "Replace Image" method for non standard themes support
 * Update: YIT Plugin Framework 3.0.35
@@ -154,13 +161,13 @@ You must enable the dependency on the option you are interested in by inserting 
 * Fix: Quick View
 * Fix: Minor bugs
 
-= 1.5.12 - Oct 23, 2018 =
+= 1.5.12 - Released on 23 October 2018 =
 
 * Update: YIT Plugin Framework 3.0.27
 * Fix: Required options
 * Fix: Minor bugs
 
-= 1.5.11 - Oct 18, 2018 =
+= 1.5.11 - Released on 18 October 2018 =
 
 * New: WordPress 4.9.8 support
 * New: WooCommerce 3.5 support
@@ -171,13 +178,13 @@ You must enable the dependency on the option you are interested in by inserting 
 * Fix: Add-on types in "new" form
 * Fix: Minor bugs
 
-= 1.5.10 - Sep 28, 2018 =
+= 1.5.10 - Released on 28 September 2018 =
 
 * New: Portuguese translation
 * Fix: Table columns in ThickBox
 * Fix: Undefined variable "collapsed"
 
-= 1.5.9 - Sep 25, 2018 =
+= 1.5.9 - Released on 25 September 2018 =
 
 * Fix: Fatal error adding to cart a gift card product
 * Dev: Double price in percentage amount
@@ -186,13 +193,13 @@ You must enable the dependency on the option you are interested in by inserting 
 * Fix: Missing options problem
 * Fix: Minor bugs
 
-= 1.5.8 - Sep 14, 2018 =
+= 1.5.8 - Released on 14 September 2018 =
 
 * Fix: Activation function
 * Fix: Free version compatibility
 * Fix: Minor bugs
 
-= 1.5.7 - Sep 06, 2018 =
+= 1.5.7 - Released on 6 September 2018 =
 
 * New: German translation
 * Tweak: Improved Multi Vendor compatibility
@@ -205,7 +212,7 @@ You must enable the dependency on the option you are interested in by inserting 
 * Fix: Data js error
 * Fix: Minor bugs
 
-= 1.5.6 - Aug 17, 2018 =
+= 1.5.6 - Released on 17 August 2018 =
 
 * New: "First X options free" feature
 * New: "Hide Label" setting for add-on options
@@ -220,7 +227,7 @@ You must enable the dependency on the option you are interested in by inserting 
 * Fix: Groups categories with WPML
 * Fix: Minor bugs
 
-= 1.5.5 - Jun 22, 2018 =
+= 1.5.5 - Released on 22 June 2018 =
 
 * New: Option to enable/disable general "collapse" feature
 * New: Option to collapse each single add-on
@@ -233,7 +240,7 @@ You must enable the dependency on the option you are interested in by inserting 
 * Fix: Fatal error after update
 * Fix: Minor bugs
 
-= 1.5.4 - May 24, 2018 =
+= 1.5.4 - Released on 24 May 2018 =
 
 * New: WordPress 4.9.6 support
 * New: WooCommerce 3.4 support
@@ -250,7 +257,7 @@ You must enable the dependency on the option you are interested in by inserting 
 * Fix: Translation required title
 * Fix: Minor bugs
 
-= 1.5.3 - Apr 30, 2018 =
+= 1.5.3 - Released on 30 April 2018 =
 
 * Fix: Dashicons in frontend
 * Fix: Add-ons taxes calculation
@@ -258,7 +265,7 @@ You must enable the dependency on the option you are interested in by inserting 
 * Fix: "function.yith-wccl-activation.php" include error
 * Fix: Minor bugs
 
-= 1.5.2 - Apr 23, 2018 =
+= 1.5.2 - Released on 23 April 2018 =
 
 * New: Textarea Editor feature
 * New: Add-ons type number style
@@ -276,7 +283,7 @@ You must enable the dependency on the option you are interested in by inserting 
 * Fix: Error required fields
 * Fix: Minor bugs
 
-= 1.5.1 - Apr 13, 2018 =
+= 1.5.1 - Released on 13 April 2018 =
 
 * New: WooCommerce 3.3.5 support
 * New: Show add-ons collapsed option
@@ -290,7 +297,7 @@ You must enable the dependency on the option you are interested in by inserting 
 * Fix: Price sign position
 * Fix: Minor bugs
 
-= 1.5.0 - Apr 05, 2018 =
+= 1.5.0 - Released on 5 April 2018 =
 
 * New: WordPress 4.9.5 support
 * New: WooCommerce 3.3.4 support
@@ -307,7 +314,7 @@ You must enable the dependency on the option you are interested in by inserting 
 * Fix: Docs URL
 * Fix: Minor bugs
 
-= 1.3.5 - Mar 15, 2018 =
+= 1.3.5 - Released on 15 May 2018 =
 
 * New: WooCommerce 3.3.3 support
 * New: Filters to edit price table strings
@@ -318,7 +325,7 @@ You must enable the dependency on the option you are interested in by inserting 
 * Fix: Compatibility with Frontend Manager
 * Fix: Minor bugs
 
-= 1.3.4 - Feb 21, 2018 =
+= 1.3.4 - Released on 21 February 2018 =
 
 * New: WordPress 4.9.4 support
 * New: WooCommerce 3.3.2 support
@@ -330,14 +337,14 @@ You must enable the dependency on the option you are interested in by inserting 
 * Fix: Options price calculated in cart
 * Fix: Fields style
 
-= 1.3.3 - Feb 05, 2018 =
+= 1.3.3 - Released on 5 February 2018 =
 
 * Update: YIT Plugin Framework 3.0.12
 * Fix: Options are not shown after vendor check
 * Fix: Missing options after the update to version 1.3.2
 * Fix: Image replacement with standard WooCommerce template
 
-= 1.3.2 - Jan 30, 2018 =
+= 1.3.2 - Released on 30 January 2018 =
 
 * New: WordPress 4.9.2 support
 * New: WooCommerce 3.3.x support
@@ -348,7 +355,7 @@ You must enable the dependency on the option you are interested in by inserting 
 * Fix: Booking post type support
 * Fix: Minor bugs
 
-= 1.3.1 - Jan 18, 2018 =
+= 1.3.1 - Released on 18 January 2018 =
 
 * New: Filter 'wapo_select_variations_in_loop' to manage the variations in loop
 * Tweak: Template yith-wapo-form-option-type.php loaded by wc_get_template function

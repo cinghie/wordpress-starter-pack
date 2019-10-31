@@ -227,6 +227,7 @@ class EventsManager {
 		if ( isEventEnabled( 'woo_add_to_cart_enabled') && PYS()->getOption( 'woo_add_to_cart_on_button_click' ) ) {
 			add_action( 'woocommerce_after_shop_loop_item', array( $this, 'setupWooLoopProductData' ) );
 			add_action( 'woocommerce_after_add_to_cart_button', array( $this, 'setupWooSingleProductData' ) );
+            add_filter( 'woocommerce_blocks_product_grid_item_html', array( $this, 'setupWooBlocksProductData' ), 10, 3 );
 		}
 
 		// ViewContent
@@ -278,8 +279,19 @@ class EventsManager {
 
 	}
 
-	public function setupWooLoopProductData() {
-		global $product;
+    public function setupWooLoopProductData()
+    {
+        global $product;
+        $this->setupWooProductData($product);
+    }
+
+    public function setupWooBlocksProductData($html, $data, $product)
+    {
+        $this->setupWooProductData($product);
+        return $html;
+    }
+
+    public function setupWooProductData($product) {
 
 		if ( wooProductIsType( $product, 'variable' ) ) {
 			return; // skip variable products

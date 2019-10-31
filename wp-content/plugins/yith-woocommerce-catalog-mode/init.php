@@ -5,10 +5,10 @@
  * Description: <code><strong>YITH WooCommerce Catalog Mode</strong></code> allows hiding product prices, cart and checkout from your store and turning it into a performing product catalogue. You will be able to adjust your catalogue settings as you prefer based on your requirements. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>
  * Author: YITH
  * Text Domain: yith-woocommerce-catalog-mode
- * Version: 1.6.10
+ * Version: 1.6.12
  * Author URI: http://yithemes.com/
- * WC requires at least: 3.5.0
- * WC tested up to: 3.7.x
+ * WC requires at least: 3.6.0
+ * WC tested up to: 3.8.x
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -36,7 +36,7 @@ function ywctm_install_free_admin_notice() {
 }
 
 if ( ! defined( 'YWCTM_VERSION' ) ) {
-	define( 'YWCTM_VERSION', '1.6.10' );
+	define( 'YWCTM_VERSION', '1.6.12' );
 }
 
 if ( ! defined( 'YWCTM_FREE_INIT' ) ) {

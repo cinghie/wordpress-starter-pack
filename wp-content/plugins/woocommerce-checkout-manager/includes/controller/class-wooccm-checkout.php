@@ -64,7 +64,7 @@ class WOOCCM_Checkout_Controller {
 
     if (get_option('wooccm_checkout_force_shipping_address', 'no') == 'yes') {
       ?>
-      <style type="text/css">
+      <style>
         .woocommerce-shipping-fields h3:first-child input {
           display: none!important;
         }
@@ -73,12 +73,11 @@ class WOOCCM_Checkout_Controller {
         }
       </style>
       <?php
-
     }
 
     if (get_option('wooccm_checkout_force_create_account', 'no') == 'yes') {
       ?>
-      <style type="text/css">
+      <style>
         .create-account {
           display:none;
         }
@@ -89,7 +88,6 @@ class WOOCCM_Checkout_Controller {
         });
       </script>
       <?php
-
     }
   }
 
@@ -252,6 +250,13 @@ class WOOCCM_Checkout_Controller {
     );
   }
 
+  public function add_header() {
+    global $current_section;
+    ?>
+    <li><a href="<?php echo admin_url('admin.php?page=wc-settings&tab=wooccm&section'); ?>" class="<?php echo ( $current_section == '' ? 'current' : '' ); ?>"><?php esc_html_e('Checkout', 'woocommerce-checkout-manager'); ?></a> | </li>
+    <?php
+  }
+
   public function add_section() {
 
     global $current_section;
@@ -265,7 +270,13 @@ class WOOCCM_Checkout_Controller {
   }
 
   public function save_settings() {
-    woocommerce_update_options($this->get_settings());
+
+    global $current_section;
+
+    if ('' == $current_section) {
+
+      woocommerce_update_options($this->get_settings());
+    }
   }
 
   // Compatibility
@@ -355,6 +366,7 @@ class WOOCCM_Checkout_Controller {
   public function init() {
 
     add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
+    add_action('wooccm_sections_header', array($this, 'add_header'));
     add_action('woocommerce_sections_' . WOOCCM_PREFIX, array($this, 'add_section'), 99);
     add_action('woocommerce_settings_save_' . WOOCCM_PREFIX, array($this, 'save_settings'));
 

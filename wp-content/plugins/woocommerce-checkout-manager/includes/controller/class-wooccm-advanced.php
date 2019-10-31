@@ -19,7 +19,7 @@ class WOOCCM_Checkout_Advanced_Controller {
 
     if ($css = get_option('wooccm_advanced_custom_css', false)) {
       ?>
-      <style type="text/css">
+      <style>
       <?php echo $css; ?>
       </style>
       <?php
@@ -62,6 +62,13 @@ class WOOCCM_Checkout_Advanced_Controller {
   // Admin    
   // -------------------------------------------------------------------------
 
+  public function add_header() {
+    global $current_section;
+    ?>
+    <li><a href="<?php echo admin_url('admin.php?page=wc-settings&tab=wooccm&section=advanced'); ?>" class="<?php echo ( $current_section == 'advanced' ? 'current' : '' ); ?>"><?php esc_html_e('Advanced', 'woocommerce-checkout-manager'); ?></a> | </li>
+    <?php
+  }
+
   public function add_section() {
 
     global $current_section;
@@ -75,7 +82,12 @@ class WOOCCM_Checkout_Advanced_Controller {
   }
 
   public function save_settings() {
-    woocommerce_update_options($this->get_settings());
+
+    global $current_section;
+
+    if ('advanced' == $current_section) {
+      woocommerce_update_options($this->get_settings());
+    }
   }
 
   public function custom_css_w($value) {
@@ -91,10 +103,7 @@ class WOOCCM_Checkout_Advanced_Controller {
 
   public function init() {
 
-//    global $wooccm_sections;
-//
-//    $wooccm_sections['advanced'] = esc_html__('Advanced', 'woocommerce-checkout-manager');
-
+    add_action('wooccm_sections_header', array($this, 'add_header'));
     add_action('woocommerce_sections_' . WOOCCM_PREFIX, array($this, 'add_section'));
     add_action('woocommerce_settings_save_' . WOOCCM_PREFIX, array($this, 'save_settings'));
 
