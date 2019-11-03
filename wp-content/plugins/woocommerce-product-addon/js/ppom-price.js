@@ -51,16 +51,23 @@ jQuery(function($){
     PPOMWrapper.on( "show_variation", ".single_variation_wrap", function ( event, variation ) {
         // Fired when the user selects all the required dropdowns / attributes
         // and a final variation is selected / shown
-        
+        // console.log(variation);
+        var variation_price = variation.display_price;
+
+        // WholeSale Price
+        if( variation.wholesale_price !== undefined ) {
+            variation_price = variation.wholesale_price;
+        }
+
         $(".ppom-variable-option.ppom-option-has-percent").each(function(i, option){
            
            var option_percent = $(option).attr('data-percent');
-           var option_price = ppom_get_amount_after_percentage(variation.display_price, option_percent);
+           var option_price = ppom_get_amount_after_percentage(variation_price, option_percent);
            $(option).attr('data-price', option_price);
         });
         
-        ppom_product_base_price = variation.display_price;
-        ppom_update_variation_quatity(variation.display_price);
+        ppom_product_base_price = variation_price;
+        ppom_update_variation_quatity(variation_price);
         ppom_update_option_prices();
     } );
     

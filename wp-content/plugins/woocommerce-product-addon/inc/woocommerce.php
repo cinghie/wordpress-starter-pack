@@ -171,7 +171,7 @@ function ppom_woocommerce_add_cart_item_data($cart, $product_id) {
 	if( ! $ppom->ppom_settings ) return $cart;
 	
 	// ADDED WC BUNDLES COMPATIBILITY
-	if ( function_exists('wc_pb_is_bundled_cart_item') && wc_pb_is_bundled_cart_item( $cart_item )) {
+	if ( function_exists('wc_pb_is_bundled_cart_item') && wc_pb_is_bundled_cart_item( $cart )) {
 		return $cart;
 	}
 	

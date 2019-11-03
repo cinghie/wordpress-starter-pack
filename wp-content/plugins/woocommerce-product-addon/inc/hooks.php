@@ -42,12 +42,14 @@ function ppom_hooks_save_cropped_image( $ppom_fields, $posted_data ) {
 	return $ppom_fields;
 }
 
-// Convert option price if currency swithcer found
+// Convert option price if WOOCS currency swithcer found
 function ppom_hooks_convert_price( $option_price ) {
 	
 	return apply_filters('woocs_exchange_value', $option_price);
-	
 }
+
+
+
 
 // Converting currency back to default currency rates due to WC itself converting these
 // Like for cart line total, fixed fee etc.
@@ -441,7 +443,7 @@ function ppom_hooks_input_args($field_setting, $field_meta) {
 
 function ppom_hooks_checkbox_valided($has_value, $posted_fields, $field) {
 	
-	if ( $field['type'] != 'checkbox' ) return $has_value;
+	if ( $field['type'] != 'checkbox' && $field['type'] != 'image'  ) return $has_value;
 	
 	
 	if( (!empty($field['max_checked']) || !empty($field['min_checked'])) && empty($field['required']) ) {

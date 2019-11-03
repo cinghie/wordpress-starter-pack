@@ -288,13 +288,12 @@ function ppom_get_field_prices( $ppom_fields_post, $product_id, &$product_quanti
 						foreach($value as $val => $quantity ) {
 							
 							$quantities_total += $quantity;
+							// Important: need to convert browser data into html_entity_decode
+							$val = html_entity_decode ($val);
 							
 							if( $option['raw'] == $val && $quantity > 0) {
 								$option_price = isset($option['raw_price']) ? $option['raw_price'] : '';
 								
-								/*if( ! ppom_is_field_has_price($field_meta) ) {
-									$quantity = 1;
-								}*/
 								$field_prices[] = ppom_generate_field_price($option_price, $field_meta, $charge, $option, $quantity);
 							}
 						}
@@ -389,18 +388,24 @@ function ppom_get_field_prices( $ppom_fields_post, $product_id, &$product_quanti
 			case 'textcounter':
 				// ppom_pa($field_meta);
 				$count_type = $field_meta['count_type'];
-				if( $count_type == 'character' ) {
-					$value = preg_replace("/[^A-Za-z]/","",$value);
-					$char_length = strlen($value);
-					$char_price = $field_meta['count_price'] * $char_length;
-					$field_prices[] = ppom_generate_field_price($char_price, $field_meta, $charge, $options, 1);
-				} elseif( $count_type == 'word' ) {
-					
-					$word_length = str_word_count($value);
-					$char_price = $field_meta['count_price'] * $word_length;
-					$field_prices[] = ppom_generate_field_price($char_price, $field_meta, $charge, $options, 1);
-					
+				$enabled_space = isset($field_meta['enabled_space']) ? $field_meta['enabled_space'] : false;
+				
+				switch($count_type){
+					case 'character':
+						if($enabled_space=="on"){
+							$length = preg_match_all ('/[^\.]/' , $value, $matches);
+						} else {
+							$length = preg_match_all ('/[^ \.]/' , $value, $matches);
+						}
+						break;
+					case 'word':
+					default:
+						$length = str_word_count($value);
+						
 				}
+			
+				$price = $field_meta['count_price'] * $length;
+				$field_prices[] = ppom_generate_field_price($price, $field_meta, $charge, $options, 1);
 				break;
 			
 		}
@@ -511,7 +516,7 @@ function ppom_price_get_total_quantities($ppom_fields_post, $product_id) {
 		switch($field_type) {
 			
 			case 'quantities':
-				$total_quantities = 0;
+				// $total_quantities = 0;
 				foreach($value as $option => $qty){
 					$total_quantities += $qty;
 				}

@@ -455,15 +455,20 @@ function ppom_uploaded_file_preview($file_name, $settings){
 function ppom_files_trim_name( $file_name ) {
     
     $text_length = strlen($file_name);
+
+    // for different language string 
+    $string_utf8 = strlen(utf8_decode($file_name));
+
 	$max_chars = apply_filters('ppom_trim_file_maxchar', 20);
 	
-	if( $text_length > $max_chars ) {
+	if( $text_length > $max_chars && $text_length == $string_utf8 ) {
 		$trimmed_filename = substr_replace($file_name, '...', $max_chars/2, $text_length-$max_chars);
 	} else {
 		$trimmed_filename = $file_name;
 	}
 	return $trimmed_filename;
 }
+
 
 // Save cropped image fro dataUrl to image
 function ppom_save_data_url_to_image($data, $file_name) {

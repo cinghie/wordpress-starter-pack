@@ -45,6 +45,8 @@ if( ! defined('ABSPATH' ) ){ exit; }
 	$url_cancel = add_query_arg(array('action'=>false,'productmeta_id'=>false, 'do_meta'=>false));
 	
 	echo '<p><a class="btn btn-primary" href="'.$url_cancel.'">'.__('&laquo; Existing Product Meta', "ppom").'</a></p>';
+	
+	$product_id	= isset($_GET['product_id']) ? $_GET['product_id'] : '';
 
 ?>
 
@@ -91,7 +93,9 @@ if( ! defined('ABSPATH' ) ){ exit; }
 			<?php }else{ ?>
 			<input type="hidden" name="action" value="ppom_save_form_meta">
 			<?php } ?>
+			
 			<input type="hidden" name="productmeta_id" value="<?php echo esc_attr($product_meta_id); ?>" >
+			<input type="hidden" name="product_id" value="<?php echo esc_attr($product_id); ?>" >
 			
 
 			<div class="ppom-basic-setting-section">
@@ -250,7 +254,7 @@ if( ! defined('ABSPATH' ) ){ exit; }
 		                    <th colspan="12">
 		                        <div class="ppom-submit-btn text-right">
 		                        	<span class="ppom-meta-save-notice"></span>
-		                            <input type="submit" class="btn btn-primary" value="Save Settings">
+		                            <input type="submit" class="btn btn-primary" value="<?php _e('Save Fields', 'ppom');?>">
 		                        </div>
 		                    </th>
 		                </tr> 

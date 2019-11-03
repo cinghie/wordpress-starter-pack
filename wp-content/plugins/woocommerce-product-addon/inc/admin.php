@@ -84,7 +84,11 @@ function ppom_meta_list( $post ) {
 	
 	if( $ppom->single_meta_id != 'None' ) {
 		
-		$url_edit = add_query_arg(array('productmeta_id'=> $ppom->single_meta_id, 'do_meta'=>'edit'), $ppom_setting);
+		$ppom_add_args = array('productmeta_id'	=> $ppom->single_meta_id, 
+								'do_meta'		=>'edit',
+								'product_id'	=> $post->ID);
+								
+		$url_edit = add_query_arg($ppom_add_args, $ppom_setting);
 		$html .= ' <a class="button" href="'.esc_url($url_edit).'" title="Edit"><span class="dashicons dashicons-edit"></span></a>';
 	}
 	
@@ -94,9 +98,12 @@ function ppom_meta_list( $post ) {
 	$html .= '</p>';
 	$html .= '</div>';
 	
+	$ppom_add_args = array('action'=>'new','product_id'	=> $post->ID);
+	$ppom_setting_url = add_query_arg($ppom_add_args, $ppom_setting);
+	
 	$video_url = 'https://najeebmedia.com/ppom/#howtovideo';
 	$html .= sprintf(__('<p><a href="%s" target="_blank">How to use?</a>', "ppom"), $video_url);
-	$html .= sprintf(__(' - <a href="%s" target="_blank">Create New Meta</a></p>', "ppom"), $ppom_setting);
+	$html .= sprintf(__(' - <a href="%s" target="_blank">Create New Meta</a></p>', "ppom"), $ppom_setting_url);
 	
 	echo apply_filters('ppom_select_meta_in_product', $html, $ppom, $all_meta);
 	
@@ -228,13 +235,27 @@ function ppom_admin_save_form_meta() {
 	// Updating PPOM Meta with ppom_id in each meta array
 	ppom_admin_update_ppom_meta_only( $ppom_id, $product_meta );
 	
+	$redirect_to = '';
+	
+	if( $ppom_id ) {
+		$ppom_args = array('page'=>'ppom','productmeta_id'=>$ppom_id,'do_meta'=>'edit');
+		$redirect_to = add_query_arg($ppom_args, admin_url('admin.php'));
+	}
+	
+	
+	if( isset($_REQUEST['product_id']) && $_REQUEST['product_id'] != '') {
+		ppom_attach_fields_to_product($ppom_id, $product_id);
+		$redirect_to = get_permalink($product_id);
+	}
+	
 	$resp = array ();
 	if ($ppom_id) {
 		
 		$resp = array (
-				'message' => __ ( 'Form added successfully', 'ppom' ),
-				'status' => 'success',
-				'productmeta_id' => $ppom_id 
+				'message'		=> __ ( 'Form added successfully', 'ppom' ),
+				'status'		=> 'success',
+				'productmeta_id'=> $ppom_id,
+				'redirect_to'	=> $redirect_to,
 		);
 	} else {
 		
@@ -314,6 +335,9 @@ function ppom_admin_update_form_meta() {
 	$rows_effected = $wpdb->update($ppom_table, $dt, $where, $format, $where_format);
 	
 	// $wpdb->show_errors(); $wpdb->print_error();
+
+	$ppom_args = array('page'=>'ppom','productmeta_id'=>$productmeta_id,'do_meta'=>'edit');
+	$redirect_to = add_query_arg($ppom_args, admin_url('admin.php'));
 	
 	$resp = array ();
 	if ($rows_effected) {
@@ -321,14 +345,16 @@ function ppom_admin_update_form_meta() {
 		$resp = array (
 				'message' => __ ( 'Form updated successfully', 'ppom' ),
 				'status' => 'success',
-				'productmeta_id' => $productmeta_id 
+				'productmeta_id' => $productmeta_id,
+				'redirect_to'	=> $redirect_to, 
 		);
 	} else {
 		
 		$resp = array (
 				'message' => __ ( 'Form updated successfully.', 'ppom' ),
 				'status' => 'success',
-				'productmeta_id' => $productmeta_id 
+				'productmeta_id' => $productmeta_id,
+				'redirect_to'	=> $redirect_to,
 		);
 	}
 	

@@ -748,9 +748,7 @@ class NM_PersonalizedProduct {
 		$meta_id		= isset($_GET['metaid']) ? intval($_GET['metaid']) : '';
 		$meta_title 	= isset($_GET['metatitle']) ? sanitize_title($_GET['metatitle']) : '';
 		
-		$ppom_meta = array($meta_id);
-		update_post_meta ( $product_id, '_product_meta_id', $ppom_meta );
-		
+		ppom_attach_fields_to_product($meta_id, $product_id);
 		
 		$product_url = add_query_arg('ppom_title', $meta_title, get_permalink($product_id));
 		wp_redirect( $product_url );

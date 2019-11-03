@@ -77,6 +77,11 @@ class NM_Section_wooproduct extends PPOM_Inputs{
 					'title' => __ ( 'Content', 'ppom' ),
 					'desc' => __ ( 'Add your text/HTML here.', 'ppom' ) 
 			),
+			'cart_display' => array (
+					'type' => 'checkbox',
+					'title' => __ ( 'Show in Cart', 'ppom' ),
+					'desc' => __ ( 'Display Field Value in Cart', 'ppom' )
+			),
 			'logic' => array (
 					'type' => 'checkbox',
 					'title' => __ ( 'Enable Conditions', "ppom" ),

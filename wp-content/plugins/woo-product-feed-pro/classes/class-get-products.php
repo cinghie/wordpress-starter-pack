@@ -2017,6 +2017,13 @@ class WooSEA_Get_Products {
 			}
 
 			$product_data['link'] = get_permalink( $product_data['id'])."$utm_part";
+			$variable_link = get_permalink( $product_data['id'] );
+			$vlink_piece = explode("?", $variable_link);
+			$qutm_part = ltrim($utm_part, "&amp;");
+			$qutm_part = ltrim($qutm_part, "amp;");
+			$qutm_part = ltrim($qutm_part, "?");
+			$product_data['variable_link'] = $vlink_piece[0]."?".$qutm_part;
+
 			$product_data['condition'] = ucfirst( get_post_meta( $product_data['id'], '_woosea_condition', true ) );
 			if(empty($product_data['condition']) || $product_data['condition'] == "Array"){
 				$product_data['condition'] = "New";

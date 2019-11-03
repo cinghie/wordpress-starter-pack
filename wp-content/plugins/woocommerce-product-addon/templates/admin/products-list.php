@@ -7,10 +7,10 @@ if( !defined("ABSPATH") ) die("Not Allowed");
 
 // Getting products with already attached PPOM
 $ppom_attached_params = array(
-    'meta_key'   => '_product_meta_id',
-    'meta_value' => $ppom_id,
-    'compare'    => '=',
-    'post_type'  => 'product',
+    'meta_key'      => '_product_meta_id',
+    'meta_value'    => $ppom_id,
+    'compare'       => '=',
+    'post_type'     => 'product',
     'posts_per_page'    => -1,
     'post_status'   => 'publish',
 );

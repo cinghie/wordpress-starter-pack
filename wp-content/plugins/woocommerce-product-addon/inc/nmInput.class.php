@@ -884,14 +884,14 @@ class NM_Form {
         // apply for selected images border color
 		$selected_img_bordercolor    = isset($args['selected_img_bordercolor']) ? $args['selected_img_bordercolor'] : '';
         $html .= '<style>';
-                $html .= '.nm-boxes-outer input:checked + img {
-                        border: 2px solid '.esc_attr($selected_img_bordercolor).' !important;
-                    }
-                    .pre_upload_image img{
-                        height: '.esc_attr($args['image_height']).' !important;
-                        width : '.esc_attr($args['image_width']).' !important;
-                    }';
-        $html .= '</style>';
+               $html .='.'.$id.' .nm-boxes-outer input:checked + img {
+                       border: 2px solid '.esc_attr($selected_img_bordercolor).' !important;
+                   }
+                    .'.$id.' .pre_upload_image img{
+                       height: '.esc_attr($args['image_height']).' !important;
+                       width : '.esc_attr($args['image_width']).' !important;
+                   }';
+       $html .= '</style>';
         
         // ppom_pa($images);
         if (isset($args['legacy_view']) && $args['legacy_view'] == 'on') {

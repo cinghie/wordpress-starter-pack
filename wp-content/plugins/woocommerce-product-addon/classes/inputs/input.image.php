@@ -89,6 +89,16 @@ class NM_Image_wooproduct extends PPOM_Inputs{
 					'title' => __ ( 'Image Height', 'ppom' ),
 					'desc' => __ ( 'Change image height e,g: 50px or 50%. ', 'ppom' )
 			),
+			'min_checked' => array (
+					'type' => 'text',
+					'title' => __ ( 'Min. Image Select', "ppom" ),
+					'desc' => __ ( 'How many Images can be checked by user e.g: 2. Leave blank for default.', "ppom" ) 
+			),
+			'max_checked' => array (
+					'type' => 'text',
+					'title' => __ ( 'Max. Image Select', "ppom" ),
+					'desc' => __ ( 'How many Images can be checked by user e.g: 3. Leave blank for default.', "ppom" ) 
+			),
 			'visibility' => array (
 					'type' => 'select',
 					'title' => __ ( 'Visibility', 'ppom' ),

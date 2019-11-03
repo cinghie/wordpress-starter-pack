@@ -4,7 +4,7 @@ Tags: woocommerce, woocommerce pesonalized products, woocommerce custom fields, 
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
 Tested up to: 5.2
-Stable tag: 18.5
+Stable tag: 18.6
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -64,6 +64,8 @@ Drag & Drop input fields with many options. Prices can also be added with option
 * HTML Content
 * [See All Inputs Guide](https://najeebmedia.com/2018/01/02/woocommerce-personalized-product-options-manager-inputs-guide/)
 * Compatible with [WooCommerce Currency Switcher](https://wordpress.org/plugins/woocommerce-currency-switcher/)
+* Compatible with [WPML Currency Switcher](https://wpml.org/documentation/related-projects/woocommerce-multilingual/multi-currency-support-woocommerce/)
+* Compatible with [WholeSale Plugin](https://wholesalesuiteplugin.com/)
 * [PPOM Fields Import/Export via Product CSV](https://najeebmedia.com/blog/ppom-fields-import-export-in-products/)
 
 [PPOM RPO](https://najeebmedia.com/wordpress-plugin/woocommerce-personalized-product-option/) - [All Fields Options](https://najeebmedia.com/2018/01/02/woocommerce-personalized-product-options-manager-inputs-guide/) - [Demos](http://ppom.nmediahosting.com/)
@@ -89,6 +91,17 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
+= 18.6 October 19, 2019 =
+* Bug fixed: [Text Couter price issue when space used fixed](https://clients.najeebmedia.com/forums/topic/textcounter-addon-price-calculation/)
+* Feature: WholeSale Price compatibility added
+* Feature: Now new meta group created from product page can be assigned to current product.
+* Bug fixed: [Warning removed](https://clients.najeebmedia.com/forums/topic/wc_cartget_cart_url-is-depricated/)
+* Feature: WPML multi currency support added.
+* Feature: Image input height/width issue fixed
+* Feature: HTML value in cart now can be disable/enabled
+* Feature: [Apply PPOM meta with categories with indivisual selected PPOM in Product Edit](https://wordpress.org/support/topic/premium-how-to-add-an-additional-field-to-a-saved-template/)
+* Bug fixed: String comparing with DB and browser data had issue due to Charset, it is fixed.
+* Feature: [Palette color labele will be shown in cart instead color code](https://wordpress.org/support/topic/show-color-image-and-tekst-in-checkout/)
 = 18.5 September 22, 2019 =
 * Bug fixed: [Text counter addon price not adding to cart](https://clients.najeebmedia.com/forums/topic/ppom-text-counter-add-on-not-working/#post-13848)
 * Bug fixed: [HTML content was not being added to cart, it's fixed now](https://clients.najeebmedia.com/forums/topic/custom-product-options-showing-in-customer-email/)

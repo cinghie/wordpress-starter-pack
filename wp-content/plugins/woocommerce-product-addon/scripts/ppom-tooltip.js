@@ -12,6 +12,13 @@ jQuery(function($){
         title   = false;
 
     $(document).on('mouseenter', '[data-ppom-tooltip~=ppom_tooltip]', function(){
+
+        // for iphone double click issue
+        if(navigator.userAgent.match(/(iPod|iPhone|iPad)/)){
+            $(this).trigger('click');    
+        }
+
+
         target  = $( this );
         tip     = target.attr( 'title' );
         tooltip = $( '<div id="ppom_tooltip"></div>' );
@@ -76,7 +83,8 @@ jQuery(function($){
         };
  
         target.bind( 'mouseleave', remove_tooltip );
-        tooltip.bind( 'click', remove_tooltip );
+        tooltip.bind( 'click touchmove', remove_tooltip );
+        $('body').bind( 'touchmove', remove_tooltip );
     });
 
 });

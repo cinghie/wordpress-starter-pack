@@ -95,9 +95,9 @@ jQuery(function($){
 
             jQuery(".ppom-meta-save-notice").html(resp.message).css({'background-color': '#4e694859','padding': '8px','border-left': '5px solid #008c00'});
             if(resp.status == 'success'){
-                
-                if(resp.productmeta_id != ''){
-                    window.location = ppom_vars.plugin_admin_page + '&productmeta_id=' + resp.productmeta_id+'&do_meta=edit';
+                // console.log(resp); exit;
+               if(resp.redirect_to != ''){
+                    window.location = resp.redirect_to;
                 }else{
                     window.location.reload(true);   
                 }

@@ -445,6 +445,21 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 				}
 				break;
 				
+			case 'palettes':
+				$color_options = $field_meta['options'];
+				foreach($value as $color){
+					foreach($color_options as $opt){
+						
+						if( $color == $opt['option'] ){
+							$display = !empty($opt['label']) ? $opt['label'] : $opt['option'];
+							$meta_data = array('name'=>$field_title, 'value'=>$value, 'display'=>$display);
+							break;
+						}
+					}
+				}
+				
+				break;
+				
 			case 'audio':
 				if($value) {
 					$ppom_file_count = 1;
@@ -554,6 +569,12 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 				}
 				$meta_data = array('name' => $field_title, 'value' => $value);
 				
+				break;
+				
+			case 'section':
+				$show_cart = isset($field_meta['cart_display']) && $field_meta['cart_display'] == 'on' ? true : false;
+				if( $show_cart )
+					$meta_data = array('name' => $field_title, 'value' => $value);
 				break;
 				
 			default:
@@ -943,7 +964,7 @@ function ppom_generate_option_label( $option, $price, $meta) {
 	$option_label = stripcslashes($option_label);
 	
 	if( !empty($price) ) {
-		$price = apply_filters('woocs_exchange_value', $price);
+		$price = apply_filters('ppom_option_price', $price);
 		// var_dump($price);
 		$price = strip_tags(ppom_price($price));
 		$option_label = "{$option_label}({$price})";
@@ -1559,4 +1580,10 @@ function ppom_is_cart_quantity_updatable( $product_id ) {
 	}
 	
 	return apply_filters('ppom_is_cart_quantity_updatable', $qty_updatable, $product_id);
+}
+
+// Attachhing PPOM Meta with product helper function
+function ppom_attach_fields_to_product($ppom_meta_id, $product_id){
+	$ppom_meta = array($ppom_meta_id);
+	update_post_meta ( $product_id, '_product_meta_id', $ppom_meta );
 }

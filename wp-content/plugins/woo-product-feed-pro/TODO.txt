@@ -6,7 +6,7 @@ Tutorial / Blog posts:
 - Installment blog post
 
 Priority issues:
-- Add Facebook pixel measure sales/conversion in checkout
+- Add Facebook pixel measure sales/conversion in checkout (onder andere InitiateCheckout, Purchase, Search and ViewCategory pages);
 - Add find and replace rule option
 - Categories / subcategorie mapping issue when the categories have the exact same name
 - Make extra woosea fields available for front-end usage

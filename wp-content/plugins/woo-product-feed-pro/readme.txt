@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.2
-Stable tag: 6.7.8
+Stable tag: 6.7.9
 
 == Description ==
 
@@ -299,6 +299,9 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 6.7.9 (2019-11-02) =
+* Added the variable link attribute for variations
 
 = 6.7.8 (2019-10-31) =
 * Added proper encoding to the utm parameters in deeplinks for XML feeds as for some users it showed an XML validation error
@@ -2134,6 +2137,9 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 6.7.9 =
+Added the variable link attribute for variations
 
 = 6.7.8 =
 Added proper encoding to the utm parameters in deeplinks for XML feeds as for some users it showed an XML validation error

@@ -53,15 +53,16 @@ class PPOM_Meta {
         		$meta_id = null;
         	}
             
-            if( $meta_id == null ) {
-        		if($meta_found = $this->ppom_has_category_meta( $product_id ) ){
+            
+            if($meta_found = $this->ppom_has_category_meta( $product_id ) ){
         		  	
-            		/**
-            		 * checking product against categories
-            		 * @since 6.4
-            		 */
-            		$meta_id = $meta_found;
-            	}
+        		/**
+        		 * checking product against categories
+        		 * @since 6.4
+        		 */
+        		if( isset($meta_id) && is_array($meta_id)){
+        		    $meta_id = array_merge($meta_id, array($meta_found));
+        		}
         	}
         	
         	return $meta_id;
