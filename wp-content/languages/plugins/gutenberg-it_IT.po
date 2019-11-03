@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-10-30 17:05:39+0000\n"
+"PO-Revision-Date: 2019-11-01 13:29:32+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -93,6 +93,26 @@ msgstr "Tutti i template"
 msgid "View Template"
 msgstr "Visualizza template"
 
+#: build/block-library/index.js:8
+msgid "Overlay Gradient"
+msgstr "Gradiente di sovrapposizione"
+
+#: build/block-editor/index.js:49
+msgid "Block breadcrumb"
+msgstr "Blocco dei breadcrumb"
+
+#: lib/templates.php:33
+msgid "Template archives"
+msgstr "Archivi template"
+
+#: lib/templates.php:29
+msgid "Search Templates"
+msgstr "Ricerca template"
+
+#: lib/template-loader.php:138
+msgid "No matching template found"
+msgstr "Non è stato trovato alcun template corrispondente"
+
 #: build/edit-post/index.js:6
 msgid "All content copied."
 msgstr "Tutto il contenuto è stato copiato."
@@ -126,10 +146,6 @@ msgid "https://wordpress.org/support/article/excerpt/"
 msgstr "https://wordpress.org/support/article/excerpt/"
 
 #: build/block-editor/index.js:49
-msgid "Cool to warm spectrum"
-msgstr "Gamma dai colori freddi a quelli caldi"
-
-#: build/block-editor/index.js:49
 msgid "Very light gray to cyan bluish gray"
 msgstr "Dal grigio molto chiaro al ciano bluastro grigio"
 
@@ -156,6 +172,50 @@ msgstr "Da ciano verde intenso a blu ciano intenso"
 #: build/block-editor/index.js:49
 msgid "Light green cyan to vivid green cyan"
 msgstr "Da ciano verde chiaro a ciano verde intenso"
+
+#: build/block-editor/index.js:49
+msgid "Cool to warm spectrum"
+msgstr "Gamma dai colori freddi ai colori caldi"
+
+#: build/block-editor/index.js:49
+msgid "Subdued olive"
+msgstr "Verde oliva tenue"
+
+#: build/block-editor/index.js:49
+msgid "Electric grass"
+msgstr "Verde erba elettrico"
+
+#: build/block-editor/index.js:49
+msgid "Luminous dusk"
+msgstr "Tramonto luminoso"
+
+#: build/block-editor/index.js:49
+msgid "Hazy dawn"
+msgstr "Alba nebbiosa"
+
+#: build/block-editor/index.js:49
+msgid "Pale ocean"
+msgstr "Azzurro oceano tenue"
+
+#: build/block-editor/index.js:49
+msgid "Purple crush"
+msgstr "Viola colpo di fulmine"
+
+#: build/block-editor/index.js:49
+msgid "Nightshade"
+msgstr "Blu belladonna"
+
+#: build/block-editor/index.js:49
+msgid "Atomic cream"
+msgstr "Color crema atomica"
+
+#: build/block-editor/index.js:49
+msgid "Blush light purple"
+msgstr "Viola tenue pastello"
+
+#: build/block-editor/index.js:49
+msgid "Blush bordeaux"
+msgstr "Bordeaux pastello"
 
 #: build/block-library/index.js:8
 msgid "Version"
