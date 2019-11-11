@@ -56,6 +56,10 @@ class MetaSlider_Api {
 
 		// Slides
 		add_action('wp_ajax_ms_import_images', array(self::$instance, 'import_images'));
+
+		// Settings
+		add_action('wp_ajax_ms_update_single_setting', array(self::$instance, 'save_single_setting'));
+		add_action('wp_ajax_ms_update_global_setting', array(self::$instance, 'save_global_setting'));
 		
 		// Other
 		add_action('wp_ajax_set_tour_status', array(self::$instance, 'set_tour_status'));
@@ -126,6 +130,8 @@ class MetaSlider_Api {
 
 		$slideshows = $this->slideshows->get_all_slideshows();
 
+		$slideshows = array_map(array($this, 'get_slide_data'), $slideshows);
+
 		if (is_wp_error($slideshows)) {
 			return wp_send_json_error(array(
 				'message' => $slideshows->get_error_message()
@@ -134,6 +140,36 @@ class MetaSlider_Api {
 		
 		return wp_send_json_success($slideshows, 200);
     }
+
+	/**
+	 * Maps some slide data to the slideshow
+	 * 
+	 * @param array $slideshow - a slideshow
+	 * 
+	 * @return array
+	 */
+    private function get_slide_data($slideshow) {
+		
+		if (isset($slideshow['slides'])) {
+			foreach ($slideshow['slides'] as $order => $slide_id) {
+
+				$thumbnail_id = 'attachment' === get_post_type($slide_id) ? $slide_id : get_post_thumbnail_id($slide_id);
+				$thumbnail_data = wp_get_attachment_image_src($thumbnail_id);
+
+				unset($slideshow['slides'][$order]);
+				if (isset($thumbnail_data['0'])) {
+					$slideshow['slides'][$order] = array(
+						'id' => $slide_id,
+						'thumbnail' => $thumbnail_data['0'],
+						'order' => $order
+					);
+				}
+			}
+			$slideshow['slides'] = array_values($slideshow['slides']);
+		}
+	
+		return $slideshow;
+	}
 
 	/**
 	 * Returns all custom themes
@@ -351,6 +387,51 @@ class MetaSlider_Api {
 	}
 	
 	/**
+	 * Update a single seting specific to a slideshow
+	 * 
+	 * @param object $request The request
+	 * @return array|WP_Error
+	 */
+    public function save_single_setting($request) {
+		if (!$this->can_access()) return $this->deny_access();
+
+		$data = $this->get_request_data($request, array('slideshow_id', 'setting_key', 'setting_value'));
+
+		// Confirm it's one of ours
+		if ('ml-slider' !== get_post_type($data['slideshow_id'])) {
+			return wp_send_json_error(array(
+				'message' => __('This was not a slideshow, so we cannot update the setting.', 'ml-slider')
+			), 409);
+		}
+
+		// This wont provide a useful return
+		update_post_meta($data['slideshow_id'], $data['setting_key'], $data['setting_value']);
+
+		return wp_send_json_success('OK', 200);
+	}
+	
+	/**
+	 * Update a global user setting
+	 * 
+	 * @param object $request The request
+	 * @return array|WP_Error
+	 */
+    public function save_global_setting($request) {
+		if (!$this->can_access()) return $this->deny_access();
+
+		$data = $this->get_request_data($request, array('setting_key', 'setting_value'));
+
+		// Ensure the key is prefixed
+		$key = $data['setting_key'];
+		$key = (0 === strpos($key, 'metaslider_')) ? $key : 'metaslider_' . $key;
+
+		// This will not provide a useful return (reminder, key is prefixed)
+		update_user_option(get_current_user_id(), $key, $data['setting_value']);
+
+		return wp_send_json_success('OK', 200);
+	}
+	
+	/**
 	 * Import theme images
 	 * 
 	 * @param object $request The request
@@ -481,69 +562,59 @@ if (class_exists('WP_REST_Controller')) :
 		 */
 		public function register_routes() {
 
-			register_rest_route($this->namespace, '/slideshow/all', array(
-				array(
-					'methods' => 'GET',
-					'callback' => array($this->api, 'get_all_slideshows')
-				)
-			));
-			register_rest_route($this->namespace, '/slideshow/preview', array(
-				array(
-					'methods' => 'GET',
-					'callback' => array($this->api, 'get_preview')
-				)
-			));
-			register_rest_route($this->namespace, '/slideshow/save', array(
-				array(
-					'methods' => 'POST',
-					'callback' => array($this->api, 'save_slideshow')
-				)
-			));
-			register_rest_route($this->namespace, '/slideshow/delete', array(
-				array(
-					'methods' => 'POST',
-					'callback' => array($this->api, 'delete_slideshow')
-				)
-			));
-			register_rest_route($this->namespace, '/slideshow/duplicate', array(
-				array(
-					'methods' => 'POST',
-					'callback' => array($this->api, 'duplicate_slideshow')
-				)
-			));
+			register_rest_route($this->namespace, '/slideshow/all', array(array(
+				'methods' => 'GET',
+				'callback' => array($this->api, 'get_all_slideshows')
+			)));
+			register_rest_route($this->namespace, '/slideshow/preview', array(array(
+				'methods' => 'GET',
+				'callback' => array($this->api, 'get_preview')
+			)));
+			register_rest_route($this->namespace, '/slideshow/save', array(array(
+				'methods' => 'POST',
+				'callback' => array($this->api, 'save_slideshow')
+			)));
+			register_rest_route($this->namespace, '/slideshow/delete', array(array(
+				'methods' => 'POST',
+				'callback' => array($this->api, 'delete_slideshow')
+			)));
+			register_rest_route($this->namespace, '/slideshow/duplicate', array(array(
+				'methods' => 'POST',
+				'callback' => array($this->api, 'duplicate_slideshow')
+			)));
 			
-			register_rest_route($this->namespace, '/themes/all', array(
-				array(
-					'methods' => 'GET',
-					'callback' => array($this->api, 'get_all_free_themes')
-				)
-			));
-			register_rest_route($this->namespace, '/themes/custom', array(
-				array(
-					'methods' => 'GET',
-					'callback' => array($this->api, 'get_custom_themes')
-				)
-			));
-			register_rest_route($this->namespace, '/themes/set', array(
-				array(
-					'methods' => 'POST',
-					'callback' => array($this->api, 'set_theme')
-				)
-			));
+			register_rest_route($this->namespace, '/themes/all', array(array(
+				'methods' => 'GET',
+				'callback' => array($this->api, 'get_all_free_themes')
+			)));
+			register_rest_route($this->namespace, '/themes/custom', array(array(
+				'methods' => 'GET',
+				'callback' => array($this->api, 'get_custom_themes')
+			)));
+			register_rest_route($this->namespace, '/themes/set', array(array(
+				'methods' => 'POST',
+				'callback' => array($this->api, 'set_theme')
+			)));
 			
-			register_rest_route($this->namespace, '/import/images', array(
-				array(
-					'methods' => 'POST',
-					'callback' => array($this->api, 'import_images')
-				)
-			));
+			register_rest_route($this->namespace, '/import/images', array(array(
+				'methods' => 'POST',
+				'callback' => array($this->api, 'import_images')
+			)));
 			
-			register_rest_route($this->namespace, '/tour/status', array(
-				array(
-					'methods' => 'POST',
-					'callback' => array($this->api, 'set_tour_status')
-				)
-			));
+			register_rest_route($this->namespace, '/tour/status', array(array(
+				'methods' => 'POST',
+				'callback' => array($this->api, 'set_tour_status')
+			)));
+
+			register_rest_route($this->namespace, '/settings/save-single', array(array(
+				'methods' => 'POST',
+				'callback' => array($this->api, 'save_single_setting')
+			)));
+
+			register_rest_route($this->namespace, '/settings/save-global', array(array(
+				'methods' => 'POST',
+				'callback' => array($this->api, 'save_global_setting')
+			)));
 		}
 	}
 endif;

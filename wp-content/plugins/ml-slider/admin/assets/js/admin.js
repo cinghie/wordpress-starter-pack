@@ -56,12 +56,16 @@ window.jQuery(function($) {
             library: {type: 'image'}
         });
         create_slides.on('insert', function() {
-            MetaSlider_Helpers.loading(true)
             
             var slide_ids = [];
             create_slides.state().get('selection').map(function(media) {
                 slide_ids.push(media.toJSON().id);
 			});
+
+			APP && APP.notifyInfo('metaslider/creating-slides', APP.sprintf(
+				APP._n('Preparing %s slide...', 'Preparing %s slides...', slide_ids.length, 'ml-slider'), 
+				slide_ids.length
+			), true)
 			
 			// Remove the events for image APIs
 			remove_image_apis()
@@ -79,10 +83,8 @@ window.jQuery(function($) {
                 url: metaslider.ajaxurl, 
                 data: data,
                 type: 'POST',
-                beforeSend: function() { MetaSlider_Helpers.loading(true); },
-                complete: function() { MetaSlider_Helpers.loading(false); },
                 error: function(response) {    
-                    alert(response.responseJSON.data.message);
+					APP && APP.notifyError('metaslider/slide-create-failed', response.responseJSON.data.message, true)
                 },
                 success: function(response) {
 
@@ -100,10 +102,11 @@ window.jQuery(function($) {
 						}).$mount()).$el
 					)
 				})
-
-				MetaSlider_Helpers.loading(false)
-				$('.metaslider table#metaslider-slides-list').trigger('resizeSlides')
-				$(document).trigger('metaslider/slides-added')
+				APP && APP.notifySuccess('metaslider/slides-created', APP.sprintf(
+					APP._n('%s slide added successfully', '%s slides added successfully', slide_ids.length, 'ml-slider'),
+					slide_ids.length
+				), true)
+				APP && APP.triggerEvent('metaslider/save')
 			}
 		})
 	})
@@ -219,6 +222,8 @@ window.jQuery(function($) {
                     new_image_id = attachment.id;
                     selected_item = attachment;
 				});
+
+				APP && APP.notifyInfo('metaslider/updating-slide', APP.__('Updating slide...', 'ml-slider'), true)
 				
 				// Remove the events for image APIs
 				remove_image_apis()
@@ -238,10 +243,8 @@ window.jQuery(function($) {
                     url: metaslider.ajaxurl, 
                     data: data,
                     type: 'POST',
-                    beforeSend: function() { MetaSlider_Helpers.loading(true); },
-                    complete: function() {MetaSlider_Helpers.loading(false); },
                     error: function(response) {    
-                        alert(response.responseJSON.data.message);
+						APP && APP.notifyError('metaslider/slide-update-failed', response.responseJSON.data.message, true)
                     },
                     success: function(response) {
                        /**
@@ -266,6 +269,9 @@ window.jQuery(function($) {
 							alt: selected_item.alt
 						})
 
+						APP && APP.notifySuccess('metaslider/slide-updated', APP.__('Slide updated successfully', 'ml-slider'), true)
+
+						// TODO: run a function in SlideViewer.vue to replace this
                         $(".metaslider table#metaslider-slides-list").trigger('resizeSlides');
                     }
                 });
@@ -520,79 +526,9 @@ window.jQuery(function($) {
             });
         });
         
-        // Enable the correct options for this slider type
-        var switchType = function(slider) {
-            $('.metaslider .option:not(.' + slider + ')').attr('disabled', 'disabled').parents('tr').hide();
-            $('.metaslider .option.' + slider).removeAttr('disabled').parents('tr').show();
-            $('.metaslider input.radio:not(.' + slider + ')').attr('disabled', 'disabled');
-            $('.metaslider input.radio.' + slider).removeAttr('disabled');
-    
-            $('.metaslider .showNextWhenChecked:visible').parent().parent().next('tr').hide();
-            $('.metaslider .showNextWhenChecked:visible:checked').parent().parent().next('tr').show();
-    
-            // make sure that the selected option is available for this slider type
-            if ($('.effect option:selected').attr('disabled') === 'disabled') {
-                $('.effect option:enabled:first').attr('selected', 'selected');
-            }
-    
-            // make sure that the selected option is available for this slider type
-            if ($('.theme option:selected').attr('disabled') === 'disabled') {
-                $('.theme option:enabled:first').attr('selected', 'selected');
-            }
-        };
-    
-        // enable the correct options on page load
-        switchType($(".metaslider .select-slider:checked").attr("rel"));
-    
-        var toggleNextRow = function(checkbox) {
-            if(checkbox.is(':checked')){
-                checkbox.parent().parent().next("tr").show();
-            } else {
-                checkbox.parent().parent().next("tr").hide();
-            }
-        }
-    
-        toggleNextRow($(".metaslider .showNextWhenChecked"));
-    
-        $(".metaslider .showNextWhenChecked").on("change", function() {
-            toggleNextRow($(this));
-        });
-    
-        // mark the slide for resizing when the crop position has changed
-        $(".metaslider").on('change', '.left tr.slide .crop_position', function() {
-            $(this).closest('tr').data('crop_changed', true);
-        });
-    
-        // handle slide libary switching
-        $(".metaslider .select-slider").on("click", function() {
-            switchType($(this).attr("rel"));
-        });
-    
-        // return a helper with preserved width of cells
-        var metaslider_sortable_helper = function(e, ui) {
-            ui.children().each(function() {
-                $(this).width($(this).width());
-            });
-            return ui;
-        };
-    
-        // drag and drop slides, update the slide order on drop
-        $(".metaslider table#metaslider-slides-list > tbody").sortable({
-            helper: metaslider_sortable_helper,
-            handle: "td.col-1",
-            stop: function() {
-                $("#ms-save").click();
-            }
-        });
-    
-        $("input.width, input.height").on('change', function(e) {
-            $(".metaslider table#metaslider-slides-list").trigger('metaslider/size-has-changed', {
-                width: $("input.width").val(),
-                height: $("input.height").val()
-            });
-        });
 
-        // bind an event to the slides table to update the menu order of each slide
+		// bind an event to the slides table to update the menu order of each slide
+		// TODO: Remove this soon
         $(".metaslider table#metaslider-slides-list").live("resizeSlides", function(event) {
             var slideshow_width = $("input.width").val();
             var slideshow_height = $("input.height").val();
@@ -635,127 +571,13 @@ window.jQuery(function($) {
             });
         });
     
-        $(document).ajaxStop(function() {
-            $(".metaslider .spinner").hide().css('visibility', '');
-            $(".metaslider button[type=submit]").removeAttr("disabled");
-        });
-    
-        $(".useWithCaution").on("change", function(){
-            if(!this.checked) {
-                return alert(metaslider.useWithCaution);
-            }
-        });
-    
         // helptext tooltips
         $('.tipsy-tooltip').tipsy({className: 'msTipsy', live: true, delayIn: 500, html: true, gravity: 'e'})
 		$('.tipsy-tooltip-top').tipsy({live: true, delayIn: 500, html: true, gravity: 's'})
 		$('.tipsy-tooltip-bottom').tipsy({ live: true, delayIn: 500, html: true, gravity: 'n' })
 		$('.tipsy-tooltip-bottom-toolbar').tipsy({ live: true, delayIn: 500, html: true, gravity: 'n', offset: 2 })
     
-        // return lightbox width
-        var getLightboxWidth = function() {
-            var width = parseInt($('input.width').val(), 10);
-    
-            if ($('.carouselMode').is(':checked')) {
-                width = '75%';
-            }
-    
-            return width;
-        };
-    
-        // return lightbox height
-        var getLightboxHeight = function() {
-            var height = parseInt($('input.height').val(), 10);
-            var thumb_height = parseInt($('input.thumb_height').val(), 10);
-            if (isNaN(height)) {
-                height = '70%';
-            } else {
-                height = height + 50;
-                
-                if (!isNaN(thumb_height) && 'thumbs' == $('input[name="settings[navigation]"]:checked').val()) {
-                    height = height + thumb_height;
-                }
-            }
-            return height;
-        };
-    
-        $(".metaslider .ms-toggle .hndle, .metaslider .ms-toggle .handlediv").on('click', function() {
-            $(this).parent().toggleClass('closed');
-        });
 
-        // Switch tabs within a slide on space press
-        $('.metaslider-ui').on('keypress', 'ul.tabs > li > a', function(event) {
-            if (32 === event.which) {
-                event.preventDefault();
-                $(':focus').trigger('click');
-            }
-        });
-
-        // Event to switch tabs within a slide
-        $(".metaslider-ui").on('click', 'ul.tabs > li > a', function(event) {
-            event.preventDefault();
-            var tab = $(this);
-
-            // Hide all the tabs
-            tab.parents('.metaslider-ui-inner')
-               .children('.tabs-content')
-               .find('div.tab').hide();
-               
-               // Show the selected tab
-               tab.parents('.metaslider-ui-inner')
-               .children('.tabs-content')
-               .find('div.' + tab.data('tab_id')).show();
-
-            // Add the class
-            tab.parent().addClass("selected")
-               .siblings().removeClass("selected");
-        });
-
-        // Switch slider types when on the label and pressing enter
-        $('.metaslider-ui').on('keypress', '.slider-lib-row label', function (event) {
-            if (32 === event.which) {
-                event.preventDefault();
-                $('.slider-lib-row #' + $(this).attr('for')).trigger('click');
-            }
-        });
-
-
-    // UI/Feedback
-    // Events for the slideshow title
-    $('.metaslider .nav-tab-active input[name="title"]').on('focusin', function() {
-
-        // Expand the input box when a user wants to edit a slider title
-        $(this).css('width', ($(this).val().length + 1) * 9);
-    }).on('focusout', function() {
-
-        // Retract and save the slideshow title
-		$(this).css('width', 150);
-		window.metaslider.app.Current.title = $(this).val()
-        $("#ms-save").trigger('click');
-    }).on('keypress', function() {
-
-        // Pressing enter on the slide title saves it and focuses outside.
-        if (13 === event.which) {
-			event.preventDefault();
-			window.metaslider.app.Current.title = $(this).val()
-            $("#ms-save").trigger('click');
-        }
-    });
-
-
-    // Bind the slider title & dropdown to the input.
-    $('.metaslider input[name="title"]').on('input', function(event) {
-        event.preventDefault();
-
-        var title = new MS_Binder(".slider-title > h3");
-        title.bind($(this).val());
-
-        var dropdown = document.querySelector('select[name="select-slideshow"]');
-        if (dropdown) {
-            var dropdownselectedoption = dropdown.options[dropdown.selectedIndex];
-            dropdownselectedoption.text = $(this).val();
-        }
-	});
 });
 
 /**
@@ -771,38 +593,5 @@ var MetaSlider_Helpers = {
      */
     capitalize: function(string) {
         return string.replace(/\b\w/g, function(l) { return l.toUpperCase(); });
-    },
-
-    /**
-     * Sets some basic loading state UI elements of the app. Currently,
-     * it only enables or disables the input and shows a loading spinner.#
-     *
-     * @param boolean state UI Elemetns
-     */
-    loading: function(state) {
-        if (state) {
-            jQuery(".metaslider .spinner").show().css('visibility', 'visible');
-            jQuery(".metaslider button[type=submit]").attr('disabled', 'disabled');
-        } else {
-            jQuery(".metaslider .spinner").hide().css('visibility', '');
-            jQuery(".metaslider button[type=submit]").removeAttr("disabled");
-        }
     }
-};
-
-/**
- * Simple view binder
- * var elm = new MS_Binder("#selector");
- * elm.bind(200);
- */
-var MS_Binder = function(selector) {
-    this.dom = document.querySelector(selector);
-    this.value = null;
-};
- 
-MS_Binder.prototype.bind = function(value){
-    if (value === this.value) return;
-    
-    this.value = value;
-    this.dom.innerText = this.value;
 };

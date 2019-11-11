@@ -19,6 +19,8 @@ settings_errors(); ?>
     <?php settings_fields( 'ctf_options' ); // matches the options name ?>
     <?php do_settings_sections( 'ctf_options_general' ); // matches the section name ?>
     <hr>
+	<?php do_settings_sections( 'ctf_options_layout' ); // matches the section name ?>
+    <hr>
     <a id="showhide"></a>
     <?php do_settings_sections( 'ctf_options_showandhide' ); // matches the section name ?>
     <p class="submit"><input class="button-primary" type="submit" name="save" value="<?php esc_attr_e( 'Save Changes' ); ?>" /></p>

@@ -1,9 +1,9 @@
 div#wpcontent {
-	@apply pl-0;
+	@apply px-0;
 }
 
 div#wpbody-content {
-	@apply bg-grey-light pb-0;
+	@apply bg-gray-light pb-0;
 }
 
 div#wpbody-content > .notice {
