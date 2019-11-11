@@ -255,6 +255,8 @@ trait WOE_Order_Export_Plain_Format {
 		foreach ( $row[ $type ] as $line ) {
 			foreach ( $line as $k => $v ) {
 				$plain_key = "plain_{$type}_{$k}";
+				if ( ! isset( $row[ $plain_key ] ) ) // skip child columns if no matched field in order
+					continue;
 				if ( ! isset( $merged_values[ $plain_key ] ) ) {
 					$merged_values[ $plain_key ] = true;
 					$row[ $plain_key ]           = $v;

@@ -4,7 +4,7 @@ var _googleRequiresBrand          = true;
 
 // ALERT! This function is equivalent for the woocommerce_to_feed_fields() function in class-data.php
 function woocommerceToGoogleFields() {
-	var fields = {
+	return {
 		'id': '_sku',
 		'title': 'post_title',
 		'google_product_category': 'category',
@@ -19,8 +19,6 @@ function woocommerceToGoogleFields() {
 		'tax': 'Use the settings in the Merchant Center',
 		'shipping': 'Use the settings in the Merchant Center'
 	};
-
-	return fields;
 }
 
 // ALERT! This function is equivalent for the set_google_output_attribute_levels() function in class-data.php
@@ -111,6 +109,19 @@ function setGoogleOutputAttributeLevels( feedHolder, targetCountry ) {
 
 					break;
 
+				case 'subscription_costs':
+				case 'subscription_cost-period':
+				case 'subscription_cost-period_length':
+				case 'subscription_cost-amount':
+
+					if ( jQuery.inArray( targetCountry, googleSpecialSubscriptionCountries()) > - 1 ) {
+						feedHolder[ 'attributes' ][ i ][ 'fieldLevel' ] = '4';
+					} else {
+						feedHolder[ 'attributes' ][ i ][ 'fieldLevel' ] = '0';
+					}
+
+					break;
+
 				default:
 					break;
 
@@ -128,23 +139,18 @@ function setGooglePresets( field ) {
 	switch ( field ) {
 		case 'condition':
 			return '{"m":[{"s":{"static":"new"}}]}';
-			break;
 
 		case 'availability':
 			return '{"m":[{"s":{"static":"in stock"},"c":[{"1":"0#_stock_status#0#instock"}]},{"s":{"static":"out of stock"}}]}';
-			break;
 
 		case 'identifier_exists':
 			return '{"m":[{"s":{"static":"yes"}}]}';
-			break;
 
 		case 'adult':
 			return '{"m":[{"s":{"static":"no"}}]}';
-			break;
 
 		case 'price':
 			return '{"m":[{"s":{"source":"combined","f":"_regular_price|1#wc_currency"}}]}';
-			break;
 
 		default:
 			break;
@@ -187,53 +193,57 @@ function fillGoogleCategoryVariables( selectedCategory, currentLevel ) {
 }
 
 function googleStaticFieldOptions( fieldName ) {
+	var options = [];
+
 	switch ( fieldName ) {
 		case 'condition':
-			var options = [ 'new', 'used', 'refurbished' ];
+			options = [ 'new', 'used', 'refurbished' ];
 			break;
 
 		case 'availability':
-			var options = [ 'in stock', 'out of stock', 'preorder' ];
+			options = [ 'in stock', 'out of stock', 'preorder' ];
 			break;
 
 		case 'identifier_exists':
-			var options = [ 'yes', 'no' ];
+			options = [ 'yes', 'no' ];
 			break;
 
 		case 'gender':
-			var options = [ 'unisex', 'male', 'female' ];
+			options = [ 'unisex', 'male', 'female' ];
 			break;
 
 		case 'age_group':
-			var options = [ 'adult', 'newborn', 'infant', 'toddler', 'kids' ];
+			options = [ 'adult', 'newborn', 'infant', 'toddler', 'kids' ];
 			break;
 
 		case 'size_type':
-			var options = [ 'regular', 'petite', 'plus', 'big and tall', 'maternity' ];
+			options = [ 'regular', 'petite', 'plus', 'big and tall', 'maternity' ];
 			break;
 
 		case 'size_system':
-			var options = [ 'EU', 'US', 'UK', 'DE', 'FR', 'JP', 'CN', 'IT', 'BR', 'MEX', 'AU' ];
+			options = [ 'EU', 'US', 'UK', 'DE', 'FR', 'JP', 'CN', 'IT', 'BR', 'MEX', 'AU' ];
 			break;
 
 		case 'adult':
-			var options = [ 'yes', 'no' ];
+			options = [ 'yes', 'no' ];
 			break;
 
 		case 'multipack':
-			var options = [ 'yes', 'no' ];
+			options = [ 'yes', 'no' ];
 			break;
 
 		case 'energy_efficiency_class':
-			var options = [ 'A', 'A+', 'A++', 'A+++', 'B', 'C', 'D', 'E', 'F', 'G' ];
+		case 'min_energy_efficiency_class':
+		case 'max_energy_efficiency_class':
+			options = [ 'A', 'A+', 'A++', 'A+++', 'B', 'C', 'D', 'E', 'F', 'G' ];
 			break;
 
 		case 'excluded_destination':
-			var options = [ 'Shopping', 'ShoppingActions', 'DisplayAds' ];
+			options = [ 'Shopping', 'ShoppingActions', 'DisplayAds' ];
 			break;
 
 		default:
-			var options = [];
+			options = [];
 			break;
 	}
 
@@ -277,4 +287,9 @@ function googleSpecialShippingCountries() {
 // ALERT! This function is equivalent to the special_product_countries() function in class-feed.php in the google channels folder
 function googleSpecialProductCountries() {
 	return [ 'US', 'GB', 'DE', 'AU', 'FR', 'CH', 'CZ', 'NL', 'IT', 'ES', 'JP', 'BR' ];
+}
+
+// ALERT! This function is equivalent to the special_subscription_countries() function in class-feed.php in the google channels folder
+function googleSpecialSubscriptionCountries() {
+	return [ 'DE', 'FR', 'GB' ];
 }

@@ -27,7 +27,7 @@ if ( ! class_exists( 'WPPFM_Schedules' ) ) :
 		 * Initiates the automatic feed updates
 		 */
 		public function update_active_feeds() {
-			$data_class        = new WPPFM_Data();
+			$data_class = new WPPFM_Data();
 
 			$current_timestamp      = date( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
 			$active_feeds_schedules = $data_class->get_schedule_data();

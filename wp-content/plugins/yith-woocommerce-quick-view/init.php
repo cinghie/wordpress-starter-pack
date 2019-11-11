@@ -3,7 +3,7 @@
 * Plugin Name: YITH WooCommerce Quick View
 * Plugin URI: https://yithemes.com/themes/plugins/yith-woocommerce-quick-view
 * Description: The <code><strong>YITH WooCommerce Quick View</strong></code> plugin allows your customers to have a quick look about products. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>.
-* Version: 1.3.15
+* Version: 1.3.16
 * Author: YITH
 * Author URI: https://yithemes.com/
 * Text Domain: yith-woocommerce-quick-view
@@ -13,9 +13,9 @@
 *
 * @author YITH
 * @package YITH WooCommerce Quick View
-* @version 1.3.13
+* @version 1.3.16
 */
-/*  Copyright 2015  YITH  (email : plugins@yithemes.com)
+/*  Copyright 2015-2019 - YITH (email : plugins@yithemes.com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as
@@ -61,7 +61,7 @@ register_activation_hook( __FILE__, 'yith_plugin_registration_hook' );
 
 
 if ( ! defined( 'YITH_WCQV_VERSION' ) ){
-	define( 'YITH_WCQV_VERSION', '1.3.14' );
+	define( 'YITH_WCQV_VERSION', '1.3.16' );
 }
 
 if ( ! defined( 'YITH_WCQV_FREE_INIT' ) ) {

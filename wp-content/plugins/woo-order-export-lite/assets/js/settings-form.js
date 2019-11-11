@@ -147,7 +147,11 @@ function woe_set_form_submitting() {
 window.onload = function () {
 
 	var form = jQuery( '#export_job_settings' );
-	var on_load_form_data = form.serialize();
+	var on_load_form_data;
+
+	setTimeout(function () {
+	    on_load_form_data = form.serialize();
+	}, 1500);
 
 	var woe_is_dirty = function ( on_load_form_data ) {
 		return on_load_form_data.hashCode() !== form.serialize().hashCode()

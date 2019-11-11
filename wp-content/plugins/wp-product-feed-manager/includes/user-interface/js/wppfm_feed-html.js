@@ -88,11 +88,16 @@ function wppfm_editValueSpan( rowId, sourceLevel, valueEditorLevel, displayStyle
 		+ '</p></div>';
 }
 
+function wppfm_requiresForAllOtherProductsField( mapping ) {
+	return mapping.hasOwnProperty( 'c' );
+}
+
 function wppfm_addFeedSourceRow( rowId, sourceLevel, sourceRowsData, channel, removable ) {
 
 	var borderStyleClass      = sourceLevel > 0 ? ' dotted-top-line' : '';
 	var showEditValuesControl = 'initial';
 	var deleteValueControl    = removable ? wppfm_removeOutputCntrl( rowId, sourceRowsData.fieldName ) : '';
+	var requiresForAllOtherProductsField = sourceLevel + 1 === sourceRowsData.mapping.length ? wppfm_requiresForAllOtherProductsField( sourceRowsData.mapping[sourceLevel] ) : false;
 
 	if ( sourceRowsData.customCondition ) { // no edit value control for the Category item
 		showEditValuesControl = 'none';
@@ -139,6 +144,10 @@ function wppfm_addFeedSourceRow( rowId, sourceLevel, sourceRowsData, channel, re
 
 	// close the source wrapper
 	htmlCode += '</div>';
+
+	if ( requiresForAllOtherProductsField ) {
+		htmlCode += wppfm_orSelectorRowCode( rowId, sourceLevel + 1, borderStyleClass );
+	}
 
 	return htmlCode;
 }

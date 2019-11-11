@@ -211,4 +211,8 @@ abstract class WOE_Formatter {
 	protected static function get_array_from_array( $array, $key ) {
 		return isset( $array[ $key ] ) && is_array( $array[ $key ] ) ? $array[ $key ] : array();
 	}
+	
+	//for plain formats only 
+	public function adjust_duplicated_fields_settings( $order_ids ){
+	}
 }

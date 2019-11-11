@@ -17,6 +17,15 @@ function wppfm_background_processing_mode_changed() {
 	);
 }
 
+function wppfm_feed_logger_status_changed() {
+	wppfm_feed_logger_status(
+		jQuery( '#wppfm_process_logging_mode' ).is( ':checked' ),
+		function( response ) {
+			console.log( 'Feed process logger status changed to ' + response );
+		}
+	);
+}
+
 function wppfm_third_party_attributes_changed() {
 	wppfm_change_third_party_attribute_keywords(
 		jQuery( '#wppfm_third_party_attr_keys' ).val(),

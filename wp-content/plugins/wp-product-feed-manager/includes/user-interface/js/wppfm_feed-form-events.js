@@ -52,10 +52,10 @@ jQuery( document ).ready(
 			}
 		);
 
-		$( '#language' ).on(
+		$( '#wppfm-feed-language-selector' ).on(
 			'change',
 			function() {
-				wppfm_setGoogleFeedLanguage( jQuery( '#language' ).val() );
+				wppfm_setGoogleFeedLanguage( jQuery( '#wppfm-feed-language-selector' ).val() );
 
 				if ( wppfm_requiresLanguageInput ) {
 					wppfm_mainInputChanged( false );
@@ -100,7 +100,7 @@ jQuery( document ).ready(
 			'change',
 			function() {
 				wppfm_aggregatorChanged();
-				wppfm_makeFieldsTable(); // reset the attribute mapping
+				wppfm_drawAttributeMappingSection(); // reset the attribute mapping
 			}
 		);
 
@@ -200,6 +200,13 @@ jQuery( document ).ready(
 			function() {
 				wppfm_clear_feed_process();
 				wppfm_background_processing_mode_changed();
+			}
+		);
+
+		$( '#wppfm_process_logging_mode' ).on(
+			'change',
+			function() {
+				wppfm_feed_logger_status_changed();
 			}
 		);
 

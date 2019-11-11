@@ -15,8 +15,22 @@ jQuery(document).ready(function($) {
 
   	if (get_value == 'woosea_manage_feed') {
 		$(document).on('ready',function(){
-			console.log("First interval");
-			myInterval = setInterval(woosea_check_perc,7000);
+                        // Check if feed is processing
+                        jQuery.ajax({
+                                method: "POST",
+                                url: ajaxurl,
+                                data: { 'action': 'woosea_check_processing' }
+                        })
+                        .done(function( data ) {
+				if(data.processing == "true"){
+					myInterval = setInterval(woosea_check_perc,10000);
+				} else {
+					console.log("No refresh interval is needed, all feeds are ready");
+				}                      
+			})
+                        .fail(function( data ) {
+                                console.log('Failed AJAX Call :( /// Return Data: ' + data);
+                        });
 		});
 	}
 
@@ -543,8 +557,8 @@ jQuery(document).ready(function($) {
 						$(".woo-product-feed-pro-blink_off_"+hash).text(function () {
                                         		$(this).addClass('woo-product-feed-pro-blink_me');
 							var status = $(".woo-product-feed-pro-blink_off_"+hash).text();
-							console.log("Tweede interval");
-							myInterval = setInterval(woosea_check_perc,2000);
+							console.log("Set interval on manual refresh");
+							myInterval = setInterval(woosea_check_perc,5000);
 							if(status == "ready"){
 								return $(this).text().replace("ready", "processing (0%)");
 							} else if (status == "stopped"){
@@ -563,7 +577,8 @@ jQuery(document).ready(function($) {
 	});
 
 	function woosea_check_perc(){
-  		// Check if we need to UP the processing percentage 
+  		// Check if we need to UP the processing percentage
+
 		$("table tbody").find('input[name="manage_record"]').each(function(){
        	        	var hash = this.value;
 
@@ -589,12 +604,27 @@ jQuery(document).ready(function($) {
 						// Do not do anything
 					} else {
 					//	clearInterval(myInterval);
-					//	$("#woosea_proc_"+hash).removeClass('woo-product-feed-pro-blink_me');	
-					//	return $("#woosea_proc_"+hash).text("ready");
 					}
 				}
                		})
 
+	             	// Check if we can kill the refresh interval
+			// Kill interval when all feeds are done processing
+        	     	jQuery.ajax({
+                		method: "POST",
+                       		url: ajaxurl,
+                       		data: { 'action': 'woosea_check_processing' }
+            	  	})
+              		.done(function( data ) {
+				data = JSON.parse( data );
+                		if(data.processing == "false"){
+					clearInterval(myInterval);
+                       			console.log("Kill interval, all feeds are ready");
+                    		}
+             		})
+             		.fail(function( data ) {
+                		console.log('Failed AJAX Call :( /// Return Data: ' + data);
+	             	});
 		});
 	}
 });

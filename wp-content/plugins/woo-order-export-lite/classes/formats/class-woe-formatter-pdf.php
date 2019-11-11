@@ -154,6 +154,7 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 					'stretch'      => ! $this->settings['fit_page_width'],
 					'column_width' => explode( ",", $this->settings['cols_width'] ),
 					'solid_width'  => $solid_width,
+					'border_style'  => 'DF',
 				),
 				'table_header' => array(
 					'size'             => $this->font_size,
@@ -176,7 +177,8 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 			), $this->settings );
 
 			$this->pdf->setProperties( $pdf_props );
-			$this->pdf->SetAligns( explode( ",", $this->settings['cols_align'] ) );
+			$this->pdf->setHorizontalAligns( explode( ",", $this->settings['cols_align'] ) );
+			$this->pdf->setVerticalAlign( $this->settings['cols_vertical_align'] );
 			do_action("woe_pdf_started", $this->pdf, $this);
 
 			$this->pdf->AliasNbPages();
@@ -206,7 +208,8 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 					$row_height = null;
 				}
 				$row = apply_filters( 'woe_pdf_prepare_row', $row );
-				$this->pdf->addRow( $row, null, $row_height );
+				$row_style = apply_filters("woe_pdf_before_print_row", null, $row, $this->pdf, $this);
+				$this->pdf->addRow( $row, null, $row_height, $row_style );
 				$row = fgetcsv( $this->handle, 0, $this->delimiter, $this->enclosure );
 			}
 			

@@ -25,7 +25,6 @@ jQuery(document).ready(function($) {
 
 	// For product pages
 	$(".single_add_to_cart_button").click(function(){
-//		var productId = $(this).attr('value');
 		var productId = $('input[name=product_id]').val();
 		if(!productId){
 			productId = $(this).attr('value');

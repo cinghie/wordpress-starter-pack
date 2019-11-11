@@ -1,13 +1,23 @@
 function woe_show_preview( response ) {
+	var html;
+	if(!response.html) {
+		html = response;
+		jQuery( '#preview_actions' ).addClass( 'hide' );
+	}
+	else {
+		html = response.html;
+		jQuery( '#output_preview_total' ).find( 'span' ).html( response.total );
+		jQuery( '#preview_actions' ).removeClass( 'hide' );
+	}
 	var id = 'output_preview';
 	if ( woe_is_flat_format( output_format ) ) {
 		id = 'output_preview_csv';
 	}
 	if ( woe_is_object_format( output_format ) ) {
-		jQuery( '#' + id ).text( response );
+		jQuery( '#' + id ).text( html );
 	}
 	else {
-		jQuery( '#' + id ).html( response );
+		jQuery( '#' + id ).html( html );
 	}
 	jQuery( '#' + id ).show();
 	window.scrollTo( 0, document.body.scrollHeight );
@@ -19,23 +29,23 @@ function woe_preview( size ) {
 
 	var data = 'json=' + woe_make_json_var( jQuery( '#export_job_settings' ) );
 
-	var estimate_data = data + "&action=order_exporter&method=estimate&mode=" + mode + "&id=" + job_id + '&woe_nonce=' + settings_form.woe_nonce + '&tab=' + settings_form.woe_active_tab;
+	// var estimate_data = data + "&action=order_exporter&method=estimate&mode=" + mode + "&id=" + job_id + '&woe_nonce=' + settings_form.woe_nonce + '&tab=' + settings_form.woe_active_tab;
 
-	jQuery.post( ajaxurl, estimate_data, function ( response ) {
-		if ( ! response || typeof response.total == 'undefined' ) {
-			woe_show_error_message( response );
-			return;
-		}
-		jQuery( '#output_preview_total' ).find( 'span' ).html( response.total );
-		jQuery( '#preview_actions' ).removeClass( 'hide' );
-	}, "json" ).fail( function ( xhr, textStatus, errorThrown ) {
-		woe_show_error_message( xhr.responseText );
-	} );
+	// jQuery.post( ajaxurl, estimate_data, function ( response ) {
+	// 	if ( ! response || typeof response.total == 'undefined' ) {
+	// 		woe_show_error_message( response );
+	// 		return;
+	// 	}
+	// 	jQuery( '#output_preview_total' ).find( 'span' ).html( response.total );
+	// 	jQuery( '#preview_actions' ).removeClass( 'hide' );
+	// }, "json" ).fail( function ( xhr, textStatus, errorThrown ) {
+	// 	woe_show_error_message( xhr.responseText );
+	// } );
 
 
 	data = data + "&action=order_exporter&method=preview&limit=" + size + "&mode=" + mode + "&id=" + job_id + '&woe_nonce=' + settings_form.woe_nonce + '&tab=' + settings_form.woe_active_tab;
 
-	jQuery.post( ajaxurl, data, woe_show_preview, "html" ).fail( function ( xhr, textStatus, errorThrown ) {
+	jQuery.post( ajaxurl, data, woe_show_preview, "json" ).fail( function ( xhr, textStatus, errorThrown ) {
 		woe_show_preview( xhr.responseText );
 	} );
 }
@@ -240,9 +250,20 @@ function woe_get_all( start, percent, method ) {
 	}
 }
 
+function woe_move_fields_in_product() {
+	if(!woe_is_flat_format()) {
+		jQuery('#sortable_products input').each(function() {
+			var name = jQuery(this).attr('name');
+			name = name.replace(/\w+(?=\[)/, 'products');
+			jQuery(this).attr('name', name);
+		});
+	}
+}
+
 jQuery( document ).ready( function ( $ ) {
 
 	$( ".preview-btn" ).click( function () {
+		woe_move_fields_in_product();
 		woe_preview( jQuery( this ).attr( 'data-limit' ) );
 		return false;
 	} );
@@ -274,6 +295,8 @@ jQuery( document ).ready( function ( $ ) {
 			alert( export_messages.no_fields );
 			return false;
 		}
+
+		woe_move_fields_in_product();
 
 		jQuery.ajax( {
 			type: "post",
@@ -333,6 +356,8 @@ jQuery( document ).ready( function ( $ ) {
 
 		woe_set_form_submitting();
 
+		woe_move_fields_in_product();
+
 		var data = 'json=' + woe_make_json_var( $( '#export_job_settings' ) )
 		data = data + "&action=order_exporter&method=save_settings&mode=" + mode + "&id=" + job_id + '&woe_nonce=' + settings_form.woe_nonce + '&tab=' + settings_form.woe_active_tab;
 
@@ -352,6 +377,8 @@ jQuery( document ).ready( function ( $ ) {
 		}
 
 		woe_set_form_submitting();
+
+		woe_move_fields_in_product();
 
 		var data = 'json=' + woe_make_json_var( $( '#export_job_settings' ) )
 

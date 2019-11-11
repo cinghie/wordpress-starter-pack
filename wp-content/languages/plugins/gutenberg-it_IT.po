@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-11-01 13:29:32+0000\n"
+"PO-Revision-Date: 2019-11-04 22:55:51+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1792,16 +1792,6 @@ msgstr "Strumenti del documento e dei blocchi"
 msgid "Insert poetry. Use special spacing formats. Or quote song lyrics."
 msgstr "Inserisci una poesia. Utilizza formati di spaziatura speciali. O cita i testi."
 
-#: build/block-library/index.js:8
-msgctxt "button label"
-msgid "Embed"
-msgstr "Incorporamento"
-
-#: build/block-library/index.js:8
-msgctxt "block title"
-msgid "Embed"
-msgstr "Incorporamento"
-
 #: build/block-editor/index.js:49
 msgctxt "imperative verb"
 msgid "Resolve"
@@ -1811,6 +1801,16 @@ msgstr "Correggi"
 msgctxt "block title"
 msgid "Classic"
 msgstr "Editor classico"
+
+#: build/block-library/index.js:8
+msgctxt "button label"
+msgid "Embed"
+msgstr "Incorpora"
+
+#: build/block-library/index.js:8
+msgctxt "block title"
+msgid "Embed"
+msgstr "Incorpora"
 
 #: build/block-library/index.js:8
 msgid "Add white space between blocks and customize its height."

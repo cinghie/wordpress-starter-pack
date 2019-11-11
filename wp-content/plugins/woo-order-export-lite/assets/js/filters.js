@@ -16,51 +16,53 @@ jQuery( document ).ready( function ( $ ) {
 		}
 	}
 
-	//PRODUCT ATTRIBUTES BEGIN
-	jQuery( '#attributes' ).on( 'change', function () {
+	setTimeout( function () {
+	    //PRODUCT ATTRIBUTES BEGIN
+	    jQuery( '#attributes' ).on( 'change', function () {
 
-		jQuery( '#select_attributes' ).attr( 'disabled', 'disabled' );
+		    jQuery( '#select_attributes' ).attr( 'disabled', 'disabled' );
 
-		var data = {
-			attr: jQuery( this ).val(),
-			method: "get_products_attributes_values",
-			action: "order_exporter",
-			woe_nonce: settings_form.woe_nonce,
-			tab: settings_form.woe_active_tab,
-			woe_order_post_type: woe_order_post_type,
-		};
+		    var data = {
+			    attr: jQuery( this ).val(),
+			    method: "get_products_attributes_values",
+			    action: "order_exporter",
+			    woe_nonce: settings_form.woe_nonce,
+			    tab: settings_form.woe_active_tab,
+			    woe_order_post_type: woe_order_post_type,
+		    };
 
-		var val_op = jQuery( '#attributes_compare' ).val();
+		    var val_op = jQuery( '#attributes_compare' ).val();
 
-		jQuery( '#text_attributes' ).val( '' );
+		    jQuery( '#text_attributes' ).val( '' );
 
-		jQuery.post( ajaxurl, data, function ( response ) {
+		    jQuery.post( ajaxurl, data, function ( response ) {
 
-			jQuery( '#select_attributes--select2 select' ).select2( 'destroy' );
+			    jQuery( '#select_attributes--select2 select' ).select2( 'destroy' );
 
-			jQuery( '#select_attributes, #select_attributes--select2' ).remove();
+			    jQuery( '#select_attributes, #select_attributes--select2' ).remove();
 
-			if ( response ) {
-				var options = '';
-				jQuery.each( response, function ( index, value ) {
-					options += '<option>' + value + '</option>';
-				} );
-				var $select = jQuery( '<div id="select_attributes--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top;'
-				                      + 'display: ' + (
-					                      (
-						                      'LIKE' === val_op
-					                      ) ? 'none' : 'inline-block'
-				                      ) + ';">'
-				                      + '<select id="select_attributes">' + options + '</select></div>' );
-				$select.insertBefore( jQuery( '#add_attributes' ) )
-				$select.find( 'select' ).select2_i18n( {tags: true} );
-			}
-			else {
-				jQuery( '<input type="text" id="select_attributes" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_attributes' ) );
-			}
-		}, 'json' );
+			    if ( response ) {
+				    var options = '';
+				    jQuery.each( response, function ( index, value ) {
+					    options += '<option>' + value + '</option>';
+				    } );
+				    var $select = jQuery( '<div id="select_attributes--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top;'
+							  + 'display: ' + (
+								  (
+									  'LIKE' === val_op
+								  ) ? 'none' : 'inline-block'
+							  ) + ';">'
+							  + '<select id="select_attributes">' + options + '</select></div>' );
+				    $select.insertBefore( jQuery( '#add_attributes' ) )
+				    $select.find( 'select' ).select2_i18n( {tags: true} );
+			    }
+			    else {
+				    jQuery( '<input type="text" id="select_attributes" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_attributes' ) );
+			    }
+		    }, 'json' );
 
-	} ).trigger( 'change' );
+	    } ).trigger( 'change' );
+	}, 0);
 
 	jQuery( '#add_attributes' ).on( 'click', function () {
 
@@ -151,9 +153,11 @@ jQuery( document ).ready( function ( $ ) {
 		}, 'json' );
 	} );
 
-	if ( jQuery( '#itemmeta option' ).length > 0 ) {
-		jQuery( '#itemmeta' ).trigger( 'change' );
-	}
+	setTimeout( function () {
+	    if ( jQuery( '#itemmeta option' ).length > 0 ) {
+		    jQuery( '#itemmeta' ).trigger( 'change' );
+	    }
+	}, 0);
 
 	jQuery( '#add_itemmeta' ).on( 'click', function () {
 
@@ -229,47 +233,50 @@ jQuery( document ).ready( function ( $ ) {
         }
     } );
 
-	//PRODUCT TAXONOMIES BEGIN
-	jQuery( '#taxonomies' ).on( 'change', function () {
+	setTimeout( function () {
+	    //PRODUCT TAXONOMIES BEGIN
+	    jQuery( '#taxonomies' ).on( 'change', function () {
 
-		jQuery( '#select_taxonomies' ).attr( 'disabled', 'disabled' );
-		var data = {
-			'tax': jQuery( this ).val(),
-			method: "get_products_taxonomies_values",
-			action: "order_exporter",
-			woe_nonce: settings_form.woe_nonce,
-			tab: settings_form.woe_active_tab,
-			woe_order_post_type: woe_order_post_type,
-		};
+		    jQuery( '#select_taxonomies' ).attr( 'disabled', 'disabled' );
+		    var data = {
+			    'tax': jQuery( this ).val(),
+			    method: "get_products_taxonomies_values",
+			    action: "order_exporter",
+			    woe_nonce: settings_form.woe_nonce,
+			    tab: settings_form.woe_active_tab,
+			    woe_order_post_type: woe_order_post_type,
+		    };
 
-		var val_op = jQuery( '#taxonomies_compare' ).val();
+		    var val_op = jQuery( '#taxonomies_compare' ).val();
 
-		jQuery.post( ajaxurl, data, function ( response ) {
-			jQuery( '#select_taxonomies--select2 select' ).select2( 'destroy' );
-			jQuery( '#select_taxonomies, #select_taxonomies--select2' ).remove();
-			if ( response ) {
-				var options = '';
-				jQuery.each( response, function ( index, value ) {
-					options += '<option>' + value + '</option>';
-				} );
-				var $select = jQuery( '<div id="select_taxonomies--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top;'
-				 + 'display: ' + (
-					                      (
-						                      'NOT SET' === val_op || 'IS SET' === val_op
-					                      ) ? 'none' : 'inline-block'
-				                      ) + ';">'
-				                      + '<select id="select_taxonomies">' + options + '</select></div>' );
+		    jQuery.post( ajaxurl, data, function ( response ) {
+			    jQuery( '#select_taxonomies--select2 select' ).select2( 'destroy' );
+			    jQuery( '#select_taxonomies, #select_taxonomies--select2' ).remove();
+			    if ( response ) {
+				    var options = '';
+				    jQuery.each( response, function ( index, value ) {
+					    options += '<option>' + value + '</option>';
+				    } );
+				    var $select = jQuery( '<div id="select_taxonomies--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top;'
+				     + 'display: ' + (
+								  (
+									  'NOT SET' === val_op || 'IS SET' === val_op
+								  ) ? 'none' : 'inline-block'
+							  ) + ';">'
+							  + '<select id="select_taxonomies">' + options + '</select></div>' );
 
-				$select.insertBefore( jQuery( '#add_taxonomies' ) )
-				$select.find( 'select' ).select2_i18n( {tags: true} );
-			}
-			else {
-				jQuery( '<input type="text" id="select_taxonomies" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_taxonomies' ) );
-			}
+				    $select.insertBefore( jQuery( '#add_taxonomies' ) )
+				    $select.find( 'select' ).select2_i18n( {tags: true} );
+			    }
+			    else {
+				    jQuery( '<input type="text" id="select_taxonomies" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_taxonomies' ) );
+			    }
 
-			jQuery( '#taxonomies_compare' ).trigger( 'change' );
-		}, 'json' );
-	} ).trigger( 'change' );
+			    jQuery( '#taxonomies_compare' ).trigger( 'change' );
+		    }, 'json' );
+	    } ).trigger( 'change' );
+	}, 0);
+
 
 	jQuery( '#add_taxonomies' ).on( 'click', function () {
 
@@ -321,46 +328,48 @@ jQuery( document ).ready( function ( $ ) {
 	} );
 	//PRODUCT TAXONOMIES END
 
-	// for filter by PRODUCT custom fields
-	jQuery( '#product_custom_fields' ).change( function () {
+	setTimeout( function () {
+	    // for filter by PRODUCT custom fields
+	    jQuery( '#product_custom_fields' ).change( function () {
 
-		jQuery( '#select_product_custom_fields' ).attr( 'disabled', 'disabled' );
-		var data = {
-			'cf_name': jQuery( this ).val(),
-			method: "get_product_custom_fields_values",
-			action: "order_exporter",
-			woe_nonce: settings_form.woe_nonce,
-			tab: settings_form.woe_active_tab,
-			woe_order_post_type: woe_order_post_type,
-		};
+		    jQuery( '#select_product_custom_fields' ).attr( 'disabled', 'disabled' );
+		    var data = {
+			    'cf_name': jQuery( this ).val(),
+			    method: "get_product_custom_fields_values",
+			    action: "order_exporter",
+			    woe_nonce: settings_form.woe_nonce,
+			    tab: settings_form.woe_active_tab,
+			    woe_order_post_type: woe_order_post_type,
+		    };
 
-		var val_op = jQuery( '#product_custom_fields_compare' ).val();
-		jQuery( '#text_product_custom_fields' ).val( '' );
+		    var val_op = jQuery( '#product_custom_fields_compare' ).val();
+		    jQuery( '#text_product_custom_fields' ).val( '' );
 
-		jQuery.post( ajaxurl, data, function ( response ) {
-			jQuery( '#select_product_custom_fields--select2 select' ).select2( 'destroy' );
-			jQuery( '#select_product_custom_fields, #select_product_custom_fields--select2' ).remove();
-			if ( response ) {
-				var options = '';
-				jQuery.each( response, function ( index, value ) {
-					options += '<option>' + value + '</option>';
-				} );
-				var $select = jQuery( '<div id="select_product_custom_fields--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top;'
-				                      + 'display: ' + (
-					                      (
-						                      'LIKE' === val_op || 'NOT SET' === val_op || 'IS SET' === val_op
-					                      ) ? 'none' : 'inline-block'
-				                      ) + ';">'
-				                      + '<select id="select_product_custom_fields">' + options + '</select></div>' );
-				$select.insertBefore( jQuery( '#add_product_custom_fields' ) )
-				$select.find( 'select' ).select2_i18n( {tags: true} );
-			}
-			else {
-				jQuery( '<input type="text" id="select_product_custom_fields" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_product_custom_fields' ) );
-			}
-			jQuery( '#product_custom_fields_compare' ).trigger( 'change' );
-		}, 'json' );
-	} ).trigger( 'change' );
+		    jQuery.post( ajaxurl, data, function ( response ) {
+			    jQuery( '#select_product_custom_fields--select2 select' ).select2( 'destroy' );
+			    jQuery( '#select_product_custom_fields, #select_product_custom_fields--select2' ).remove();
+			    if ( response ) {
+				    var options = '';
+				    jQuery.each( response, function ( index, value ) {
+					    options += '<option>' + value + '</option>';
+				    } );
+				    var $select = jQuery( '<div id="select_product_custom_fields--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top;'
+							  + 'display: ' + (
+								  (
+									  'LIKE' === val_op || 'NOT SET' === val_op || 'IS SET' === val_op
+								  ) ? 'none' : 'inline-block'
+							  ) + ';">'
+							  + '<select id="select_product_custom_fields">' + options + '</select></div>' );
+				    $select.insertBefore( jQuery( '#add_product_custom_fields' ) )
+				    $select.find( 'select' ).select2_i18n( {tags: true} );
+			    }
+			    else {
+				    jQuery( '<input type="text" id="select_product_custom_fields" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_product_custom_fields' ) );
+			    }
+			    jQuery( '#product_custom_fields_compare' ).trigger( 'change' );
+		    }, 'json' );
+	    } ).trigger( 'change' );
+	}, 0);
 
 	jQuery( '#add_product_custom_fields' ).click( function () {
 
@@ -413,37 +422,39 @@ jQuery( document ).ready( function ( $ ) {
 	} );
 	//end of change
 
-	// SHIPPING LOCATIONS
-	jQuery( '#shipping_locations' ).change( function () {
+	setTimeout( function () {
+	    // SHIPPING LOCATIONS
+	    jQuery( '#shipping_locations' ).change( function () {
 
-		jQuery( '#text_shipping_locations' ).attr( 'disabled', 'disabled' );
-		var data = {
-			'item': jQuery( this ).val(),
-			method: "get_order_shipping_values",
-			action: "order_exporter",
-			woe_nonce: settings_form.woe_nonce,
-			tab: settings_form.woe_active_tab,
-			woe_order_post_type: woe_order_post_type,
-		};
+		    jQuery( '#text_shipping_locations' ).attr( 'disabled', 'disabled' );
+		    var data = {
+			    'item': jQuery( this ).val(),
+			    method: "get_order_shipping_values",
+			    action: "order_exporter",
+			    woe_nonce: settings_form.woe_nonce,
+			    tab: settings_form.woe_active_tab,
+			    woe_order_post_type: woe_order_post_type,
+		    };
 
-		jQuery.post( ajaxurl, data, function ( response ) {
-			jQuery( '#text_shipping_locations--select2 select' ).select2( 'destroy' );
-			jQuery( '#text_shipping_locations, #text_shipping_locations--select2' ).remove();
-			if ( response ) {
-				var options = '';
-				jQuery.each( response, function ( index, value ) {
-					options += '<option>' + value + '</option>';
-				} );
+		    jQuery.post( ajaxurl, data, function ( response ) {
+			    jQuery( '#text_shipping_locations--select2 select' ).select2( 'destroy' );
+			    jQuery( '#text_shipping_locations, #text_shipping_locations--select2' ).remove();
+			    if ( response ) {
+				    var options = '';
+				    jQuery.each( response, function ( index, value ) {
+					    options += '<option>' + value + '</option>';
+				    } );
 
-				var $select = jQuery( '<div id="text_shipping_locations--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top; display: inline-block;"><select id="text_shipping_locations">' + options + '</select></div>' );
-				$select.insertBefore( jQuery( '#add_shipping_locations' ) )
-				$select.find( 'select' ).select2_i18n( {tags: true} );
-			}
-			else {
-				jQuery( '<input type="text" id="text_shipping_locations" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_shipping_locations' ) );
-			}
-		}, 'json' );
-	} ).trigger( 'change' );
+				    var $select = jQuery( '<div id="text_shipping_locations--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top; display: inline-block;"><select id="text_shipping_locations">' + options + '</select></div>' );
+				    $select.insertBefore( jQuery( '#add_shipping_locations' ) )
+				    $select.find( 'select' ).select2_i18n( {tags: true} );
+			    }
+			    else {
+				    jQuery( '<input type="text" id="text_shipping_locations" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_shipping_locations' ) );
+			    }
+		    }, 'json' );
+	    } ).trigger( 'change' );
+	}, 0);
 
 	jQuery( '#add_shipping_locations' ).click( function () {
 
@@ -475,37 +486,39 @@ jQuery( document ).ready( function ( $ ) {
 		return false;
 	} );
 
-	// BILLING LOCATIONS
-	jQuery( '#billing_locations' ).change( function () {
+	setTimeout( function () {
+	    // BILLING LOCATIONS
+	    jQuery( '#billing_locations' ).change( function () {
 
-		jQuery( '#text_billing_locations' ).attr( 'disabled', 'disabled' );
-		var data = {
-			'item': jQuery( this ).val(),
-			method: "get_order_billing_values",
-			action: "order_exporter",
-			woe_nonce: settings_form.woe_nonce,
-			tab: settings_form.woe_active_tab,
-			woe_order_post_type: woe_order_post_type,
-		};
+		    jQuery( '#text_billing_locations' ).attr( 'disabled', 'disabled' );
+		    var data = {
+			    'item': jQuery( this ).val(),
+			    method: "get_order_billing_values",
+			    action: "order_exporter",
+			    woe_nonce: settings_form.woe_nonce,
+			    tab: settings_form.woe_active_tab,
+			    woe_order_post_type: woe_order_post_type,
+		    };
 
-		jQuery.post( ajaxurl, data, function ( response ) {
-			jQuery( '#text_billing_locations--select2 select' ).select2( 'destroy' );
-			jQuery( '#text_billing_locations, #text_billing_locations--select2' ).remove();
-			if ( response ) {
-				var options = '';
-				jQuery.each( response, function ( index, value ) {
-					options += '<option>' + value + '</option>';
-				} );
-				var $select = jQuery( '<div id="text_billing_locations--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top; display: inline-block;">'
-				                      + '<select id="text_billing_locations">' + options + '</select></div>' );
-				$select.insertBefore( jQuery( '#add_billing_locations' ) )
-				$select.find( 'select' ).select2_i18n( {tags: true} );
-			}
-			else {
-				jQuery( '<input type="text" id="text_billing_locations" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_billing_locations' ) );
-			}
-		}, 'json' );
-	} ).trigger( 'change' );
+		    jQuery.post( ajaxurl, data, function ( response ) {
+			    jQuery( '#text_billing_locations--select2 select' ).select2( 'destroy' );
+			    jQuery( '#text_billing_locations, #text_billing_locations--select2' ).remove();
+			    if ( response ) {
+				    var options = '';
+				    jQuery.each( response, function ( index, value ) {
+					    options += '<option>' + value + '</option>';
+				    } );
+				    var $select = jQuery( '<div id="text_billing_locations--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top; display: inline-block;">'
+							  + '<select id="text_billing_locations">' + options + '</select></div>' );
+				    $select.insertBefore( jQuery( '#add_billing_locations' ) )
+				    $select.find( 'select' ).select2_i18n( {tags: true} );
+			    }
+			    else {
+				    jQuery( '<input type="text" id="text_billing_locations" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_billing_locations' ) );
+			    }
+		    }, 'json' );
+	    } ).trigger( 'change' );
+	}, 0);
 
 	jQuery( '#add_billing_locations' ).click( function () {
 
@@ -537,47 +550,49 @@ jQuery( document ).ready( function ( $ ) {
 		return false;
 	} )
 
-	// ITEM NAMES
-	jQuery( '#item_names' ).change( function () {
-        var val_op = jQuery( '#item_name_compare' ).val();
-        jQuery( '#text_order_item_name' ).val( '' );
-		jQuery( '#text_item_names' ).attr( 'disabled', 'disabled' );
-		var data = {
-			'item_type': jQuery( this ).val(),
-			method: "get_order_item_names",
-			action: "order_exporter",
-			woe_nonce: settings_form.woe_nonce,
-			tab: settings_form.woe_active_tab,
-			woe_order_post_type: woe_order_post_type,
-		};
+	setTimeout( function () {
+	    // ITEM NAMES
+	    jQuery( '#item_names' ).change( function () {
+	    var val_op = jQuery( '#item_name_compare' ).val();
+	    jQuery( '#text_order_item_name' ).val( '' );
+		    jQuery( '#text_item_names' ).attr( 'disabled', 'disabled' );
+		    var data = {
+			    'item_type': jQuery( this ).val(),
+			    method: "get_order_item_names",
+			    action: "order_exporter",
+			    woe_nonce: settings_form.woe_nonce,
+			    tab: settings_form.woe_active_tab,
+			    woe_order_post_type: woe_order_post_type,
+		    };
 
-		jQuery.post( ajaxurl, data, function ( response ) {
-			jQuery( '#text_item_names--select2 select' ).select2( 'destroy' );
-			jQuery( '#text_item_names, #text_item_names--select2' ).remove();
-			if ( response ) {
-				var options = '';
-				jQuery.each( response, function ( index, value ) {
-					options += '<option>' + value + '</option>';
-				} );
+		    jQuery.post( ajaxurl, data, function ( response ) {
+			    jQuery( '#text_item_names--select2 select' ).select2( 'destroy' );
+			    jQuery( '#text_item_names, #text_item_names--select2' ).remove();
+			    if ( response ) {
+				    var options = '';
+				    jQuery.each( response, function ( index, value ) {
+					    options += '<option>' + value + '</option>';
+				    } );
 
-				var $select = jQuery( '<div id="text_item_names--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top; '
-                    + 'display: '+ (
-                        (
-                            'LIKE' === val_op || 'NOT SET' === val_op || 'IS SET' === val_op
-                        ) ? 'none' : 'inline-block'
-                    ) + ';"><select id="text_item_names">' + options + '</select></div>' );
-				$select.insertBefore( jQuery( '#add_item_names' ) );
-				$select.find( 'select' ).select2_i18n( {tags: true} );
+				    var $select = jQuery( '<div id="text_item_names--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top; '
+			+ 'display: '+ (
+			    (
+				'LIKE' === val_op || 'NOT SET' === val_op || 'IS SET' === val_op
+			    ) ? 'none' : 'inline-block'
+			) + ';"><select id="text_item_names">' + options + '</select></div>' );
+				    $select.insertBefore( jQuery( '#add_item_names' ) );
+				    $select.find( 'select' ).select2_i18n( {tags: true} );
 
-				if ( 'LIKE' === val_op || 'NOT SET' === val_op || 'IS SET' === val_op ) {
-                    jQuery( '#text_item_names' ).attr( 'disabled', 'disabled' );
-                }
-			}
-			else {
-				jQuery( '<input type="text" id="text_item_names" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_item_names' ) );
-			}
-		}, 'json' );
-	} ).trigger( 'change' );
+				    if ( 'LIKE' === val_op || 'NOT SET' === val_op || 'IS SET' === val_op ) {
+			jQuery( '#text_item_names' ).attr( 'disabled', 'disabled' );
+		    }
+			    }
+			    else {
+				    jQuery( '<input type="text" id="text_item_names" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_item_names' ) );
+			    }
+		    }, 'json' );
+	    } ).trigger( 'change' );
+	}, 0);
 
 	jQuery( '#add_item_names' ).click( function () {
         var val = ! jQuery( "#text_item_names" ).is( ':disabled' ) ? jQuery( "#text_item_names" ).val() : jQuery( "#text_order_item_name" ).val();
@@ -608,46 +623,48 @@ jQuery( document ).ready( function ( $ ) {
 		return false;
 	} );
 
-	// ITEM METADATA
-	jQuery( '#item_metadata' ).change( function () {
-        var val_op = jQuery( '#item_metadata_compare' ).val();
-        jQuery( '#text_order_itemmetadata' ).val( '' );
-		jQuery( '#text_item_metadata' ).attr( 'disabled', 'disabled' );
-		var data = {
-			'meta_key': jQuery( this ).val(),
-			method: "get_order_item_meta_key_values",
-			action: "order_exporter",
-			woe_nonce: settings_form.woe_nonce,
-			tab: settings_form.woe_active_tab,
-			woe_order_post_type: woe_order_post_type,
-		};
+	setTimeout( function () {
+	    // ITEM METADATA
+	    jQuery( '#item_metadata' ).change( function () {
+	    var val_op = jQuery( '#item_metadata_compare' ).val();
+	    jQuery( '#text_order_itemmetadata' ).val( '' );
+		    jQuery( '#text_item_metadata' ).attr( 'disabled', 'disabled' );
+		    var data = {
+			    'meta_key': jQuery( this ).val(),
+			    method: "get_order_item_meta_key_values",
+			    action: "order_exporter",
+			    woe_nonce: settings_form.woe_nonce,
+			    tab: settings_form.woe_active_tab,
+			    woe_order_post_type: woe_order_post_type,
+		    };
 
-		jQuery.post( ajaxurl, data, function ( response ) {
-			jQuery( '#text_item_metadata--select2 select' ).select2( 'destroy' );
-			jQuery( '#text_item_metadata, #text_item_metadata--select2' ).remove();
-			if ( response ) {
-				var options = '';
-				jQuery.each( response, function ( index, value ) {
-					options += '<option>' + value + '</option>';
-				} );
-				var $select = jQuery( '<div id="text_item_metadata--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top; '
-                    + 'display: '+ (
-                        (
-                            'LIKE' === val_op || 'NOT SET' === val_op || 'IS SET' === val_op
-                        ) ? 'none' : 'inline-block'
-                    ) + ';"><select id="text_item_metadata">' + options + '</select></div>' );
-				$select.insertBefore( jQuery( '#add_item_metadata' ) );
-				$select.find( 'select' ).select2_i18n( {tags: true} );
+		    jQuery.post( ajaxurl, data, function ( response ) {
+			    jQuery( '#text_item_metadata--select2 select' ).select2( 'destroy' );
+			    jQuery( '#text_item_metadata, #text_item_metadata--select2' ).remove();
+			    if ( response ) {
+				    var options = '';
+				    jQuery.each( response, function ( index, value ) {
+					    options += '<option>' + value + '</option>';
+				    } );
+				    var $select = jQuery( '<div id="text_item_metadata--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top; '
+			+ 'display: '+ (
+			    (
+				'LIKE' === val_op || 'NOT SET' === val_op || 'IS SET' === val_op
+			    ) ? 'none' : 'inline-block'
+			) + ';"><select id="text_item_metadata">' + options + '</select></div>' );
+				    $select.insertBefore( jQuery( '#add_item_metadata' ) );
+				    $select.find( 'select' ).select2_i18n( {tags: true} );
 
-                if ( 'LIKE' === val_op || 'NOT SET' === val_op || 'IS SET' === val_op ) {
-                    jQuery( '#text_item_metadata' ).attr( 'disabled', 'disabled' );
-                }
-			}
-			else {
-				jQuery( '<input type="text" id="text_item_metadata" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_item_metadata' ) );
-			}
-		}, 'json' );
-	} ).trigger( 'change' );
+		    if ( 'LIKE' === val_op || 'NOT SET' === val_op || 'IS SET' === val_op ) {
+			jQuery( '#text_item_metadata' ).attr( 'disabled', 'disabled' );
+		    }
+			    }
+			    else {
+				    jQuery( '<input type="text" id="text_item_metadata" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_item_metadata' ) );
+			    }
+		    }, 'json' );
+	    } ).trigger( 'change' );
+	}, 0);
 
 	jQuery( '#add_item_metadata' ).click( function () {
         var val = ! jQuery( "#text_item_metadata" ).is( ':disabled' ) ? jQuery( "#text_item_metadata" ).val() : jQuery( "#text_order_itemmetadata" ).val();
@@ -678,45 +695,47 @@ jQuery( document ).ready( function ( $ ) {
 		return false;
 	} );
 
-	// for filter by ORDER custom fields
-	jQuery( '#user_custom_fields' ).change( function () {
+	setTimeout( function () {
+	    // for filter by ORDER custom fields
+	    jQuery( '#user_custom_fields' ).change( function () {
 
-		jQuery( '#select_user_custom_fields' ).attr( 'disabled', 'disabled' );
-		var data = {
-			'cf_name': jQuery( this ).val(),
-			method: "get_user_custom_fields_values",
-			action: "order_exporter",
-			woe_nonce: settings_form.woe_nonce,
-			tab: settings_form.woe_active_tab,
-			woe_order_post_type: woe_order_post_type,
-		};
-		var val_op = jQuery( '#select_user_custom_fields' ).val();
-		jQuery( '#text_user_custom_fields' ).val( '' );
-		jQuery.post( ajaxurl, data, function ( response ) {
-			jQuery( '#select_user_custom_fields' ).remove();
-			jQuery( '#select_user_custom_fields--select2 select' ).select2( 'destroy' );
-			jQuery( '#select_user_custom_fields, #select_user_custom_fields--select2' ).remove();
-			if ( response ) {
-				var options = '<option>' + export_messages.empty + '</option>';
-				jQuery.each( response, function ( index, value ) {
-					options += '<option>' + value + '</option>';
-				} );
-				var $select = jQuery( '<div id="select_user_custom_fields--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top;'
-				                      + 'display: ' + (
-					                      (
-						                      'LIKE' === val_op || 'NOT SET' === val_op || 'IS SET' === val_op
-					                      ) ? 'none' : 'inline-block'
-				                      ) + ';">'
-				                      + '<select id="select_user_custom_fields">' + options + '</select></div>' );
-				$select.insertBefore( jQuery( '#add_user_custom_fields' ) )
-				$select.find( 'select' ).select2_i18n( {tags: true} );
-			}
-			else {
-				jQuery( '<input type="text" id="select_user_custom_fields" style="margin-right: 8px;">' ).insertBefore(
-					jQuery( '#add_user_custom_fields' ) );
-			}
-		}, 'json' );
-	} ).trigger( 'change' );
+		    jQuery( '#select_user_custom_fields' ).attr( 'disabled', 'disabled' );
+		    var data = {
+			    'cf_name': jQuery( this ).val(),
+			    method: "get_user_custom_fields_values",
+			    action: "order_exporter",
+			    woe_nonce: settings_form.woe_nonce,
+			    tab: settings_form.woe_active_tab,
+			    woe_order_post_type: woe_order_post_type,
+		    };
+		    var val_op = jQuery( '#select_user_custom_fields' ).val();
+		    jQuery( '#text_user_custom_fields' ).val( '' );
+		    jQuery.post( ajaxurl, data, function ( response ) {
+			    jQuery( '#select_user_custom_fields' ).remove();
+			    jQuery( '#select_user_custom_fields--select2 select' ).select2( 'destroy' );
+			    jQuery( '#select_user_custom_fields, #select_user_custom_fields--select2' ).remove();
+			    if ( response ) {
+				    var options = '<option>' + export_messages.empty + '</option>';
+				    jQuery.each( response, function ( index, value ) {
+					    options += '<option>' + value + '</option>';
+				    } );
+				    var $select = jQuery( '<div id="select_user_custom_fields--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top;'
+							  + 'display: ' + (
+								  (
+									  'LIKE' === val_op || 'NOT SET' === val_op || 'IS SET' === val_op
+								  ) ? 'none' : 'inline-block'
+							  ) + ';">'
+							  + '<select id="select_user_custom_fields">' + options + '</select></div>' );
+				    $select.insertBefore( jQuery( '#add_user_custom_fields' ) )
+				    $select.find( 'select' ).select2_i18n( {tags: true} );
+			    }
+			    else {
+				    jQuery( '<input type="text" id="select_user_custom_fields" style="margin-right: 8px;">' ).insertBefore(
+					    jQuery( '#add_user_custom_fields' ) );
+			    }
+		    }, 'json' );
+	    } ).trigger( 'change' );
+	}, 0);
 
 	jQuery( '#add_user_custom_fields' ).click( function () {
 
@@ -775,47 +794,49 @@ jQuery( document ).ready( function ( $ ) {
 		}
 	} );
 
-	// for filter by ORDER custom fields
-	jQuery( '#custom_fields' ).change( function () {
+	setTimeout( function () {
+	    // for filter by ORDER custom fields
+	    jQuery( '#custom_fields' ).change( function () {
 
-		jQuery( '#select_custom_fields' ).attr( 'disabled', 'disabled' );
+		    jQuery( '#select_custom_fields' ).attr( 'disabled', 'disabled' );
 
-		var data = {
-			'cf_name': jQuery( this ).val(),
-			method: "get_order_custom_fields_values",
-			action: "order_exporter",
-			woe_nonce: settings_form.woe_nonce,
-			tab: settings_form.woe_active_tab,
-			woe_order_post_type: woe_order_post_type,
-		};
+		    var data = {
+			    'cf_name': jQuery( this ).val(),
+			    method: "get_order_custom_fields_values",
+			    action: "order_exporter",
+			    woe_nonce: settings_form.woe_nonce,
+			    tab: settings_form.woe_active_tab,
+			    woe_order_post_type: woe_order_post_type,
+		    };
 
-		var val_op = jQuery( '#custom_fields_compare' ).val();
-		jQuery( '#text_custom_fields' ).val( '' );
-		jQuery.post( ajaxurl, data, function ( response ) {
-			jQuery( '#select_custom_fields' ).remove();
-			jQuery( '#select_custom_fields--select2 select' ).select2( 'destroy' );
-			jQuery( '#select_custom_fields, #select_custom_fields--select2' ).remove();
-			if ( response ) {
-				var options = '<option>' + export_messages.empty + '</option>';
-				jQuery.each( response, function ( index, value ) {
-					options += '<option>' + value + '</option>';
-				} );
-				var $select = jQuery( '<div id="select_custom_fields--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top;'
-				                      + 'display: ' + (
-					                      (
-						                      'LIKE' === val_op || 'NOT SET' === val_op || 'IS SET' === val_op
-					                      ) ? 'none' : 'inline-block'
-				                      ) + ';">'
-				                      + '<select id="select_custom_fields">' + options + '</select></div>' );
-				$select.insertBefore( jQuery( '#add_custom_fields' ) )
-				$select.find( 'select' ).select2_i18n( {tags: true} );
-			}
-			else {
-				jQuery( '<input type="text" id="select_custom_fields" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_custom_fields' ) );
-			}
-			jQuery( '#custom_fields_compare' ).trigger( 'change' );
-		}, 'json' );
-	} ).trigger( 'change' );
+		    var val_op = jQuery( '#custom_fields_compare' ).val();
+		    jQuery( '#text_custom_fields' ).val( '' );
+		    jQuery.post( ajaxurl, data, function ( response ) {
+			    jQuery( '#select_custom_fields' ).remove();
+			    jQuery( '#select_custom_fields--select2 select' ).select2( 'destroy' );
+			    jQuery( '#select_custom_fields, #select_custom_fields--select2' ).remove();
+			    if ( response ) {
+				    var options = '<option>' + export_messages.empty + '</option>';
+				    jQuery.each( response, function ( index, value ) {
+					    options += '<option>' + value + '</option>';
+				    } );
+				    var $select = jQuery( '<div id="select_custom_fields--select2" style="margin-top: 0px;margin-right: 6px; vertical-align: top;'
+							  + 'display: ' + (
+								  (
+									  'LIKE' === val_op || 'NOT SET' === val_op || 'IS SET' === val_op
+								  ) ? 'none' : 'inline-block'
+							  ) + ';">'
+							  + '<select id="select_custom_fields">' + options + '</select></div>' );
+				    $select.insertBefore( jQuery( '#add_custom_fields' ) )
+				    $select.find( 'select' ).select2_i18n( {tags: true} );
+			    }
+			    else {
+				    jQuery( '<input type="text" id="select_custom_fields" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_custom_fields' ) );
+			    }
+			    jQuery( '#custom_fields_compare' ).trigger( 'change' );
+		    }, 'json' );
+	    } ).trigger( 'change' );
+	}, 0);
 
 	jQuery( '#add_custom_fields' ).click( function () {
 
@@ -874,18 +895,32 @@ jQuery( document ).ready( function ( $ ) {
 	//end of change
 
 
-	woe_open_filter( 'my-order', 1 );
+	setTimeout( function () {
+	    woe_open_filter( 'my-order', 1 );
+	}, 0);
 
-	woe_open_filter( 'my-products' );
+	setTimeout( function () {
+	    woe_open_filter( 'my-products' );
+	}, 0);
 
-	woe_open_filter( 'my-shipping' );
+	setTimeout( function () {
+	    woe_open_filter( 'my-shipping' );
+	}, 0);
 
-	woe_open_filter( 'my-users' );
+	setTimeout( function () {
+	    woe_open_filter( 'my-users' );
+	}, 0);
 
-	woe_open_filter( 'my-coupons', 1 );
+	setTimeout( function () {
+	    woe_open_filter( 'my-coupons', 1 );
+	}, 0);
 
-	woe_open_filter( 'my-billing' );
+	setTimeout( function () {
+	    woe_open_filter( 'my-billing' );
+	}, 0);
 
-	woe_open_filter( 'my-items-meta' );
+	setTimeout( function () {
+	    woe_open_filter( 'my-items-meta' );
+	}, 0);
 
 } );

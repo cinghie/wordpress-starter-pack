@@ -2,9 +2,7 @@ function woe_create_selected_fields( old_output_format, format, format_changed )
 
 	var $old_format_order_fields = jQuery( "#order_fields" ).clone();
 
-	setTimeout( function () {
-		woe_create_unselected_fields( old_output_format, format, format_changed, $old_format_order_fields );
-	}, 0 );
+	woe_create_unselected_fields( old_output_format, format, format_changed, $old_format_order_fields );
 
 	//jQuery( '#export_job_settings' ).prepend( jQuery( "#fields_control_products" ) );
 	//jQuery( '#export_job_settings' ).prepend( jQuery( "#fields_control_coupons" ) );
@@ -140,6 +138,7 @@ function woe_create_selected_fields( old_output_format, format, format_changed )
 	}
 
 	woe_add_bind_for_custom_fields( 'products', output_format, jQuery( "#order_fields" ) );
+	woe_add_bind_for_custom_fields( 'product_items', output_format, jQuery( "#order_fields" ) );
 	woe_add_bind_for_custom_fields( 'coupons', output_format, jQuery( "#order_fields" ) );
 
 	jQuery( "#sortable_products" ).sortable();
@@ -391,6 +390,9 @@ function woe_sprintf( format ) {
 }
 
 function woe_make_unselected_field( $index, $field_data, $format, $format_changed, $segment ) {
+    if ( $segment === 'product_items' ) {
+        $segment = 'products';
+    }
 
 	var label_part = '';
 	var label_prefix = '';
@@ -477,17 +479,26 @@ function woe_make_unselected_field( $index, $field_data, $format, $format_change
 		.append( delete_btn );
 
 	$field.find( 'input' ).prop( 'disabled', 'disabled' );
-
+	if($index.match(/summary_report_.+/))
+		if((!jQuery('#summary_report_by_products_checkbox').is(":checked") && $segment == 'products') ||
+		(!jQuery('#summary_report_by_customers_checkbox').is(":checked") && $segment == 'user'))
+			$field.hide();
 	return $field;
 }
 
 function woe_activate_draggable_field( el, segment, format ) {
+    if ( segment === 'product_items' ) {
+        segment = 'products';
+    }
 
 	var no_flat_sortable_selector = '#manage_fields #order_fields #sortable_' + segment;
 	var flat_sortable_selector = '#manage_fields #order_fields';
+	var sortable_products_selector = '';
+	if(!woe_is_flat_format())
+		sortable_products_selector = '#sortable_products';
 
 	el.draggable( {
-		connectToSortable: [no_flat_sortable_selector, flat_sortable_selector].join( ',' ),
+		connectToSortable: [no_flat_sortable_selector, flat_sortable_selector, sortable_products_selector].join( ',' ),
 		helper: "clone",
 		revert: "invalid",
 		start: function ( event, ui ) {
@@ -759,7 +770,15 @@ function woe_add_bind_for_custom_fields( prefix, output_format, $to ) {
 		}
 
 		if ( ! label ) {
-			alert( export_messages.empty_meta_key_and_taxonomy );
+			if(prefix == 'products') {
+				alert( export_messages.empty_meta_key_and_taxonomy );
+			}
+			else if(prefix == 'product_items') {
+				alert( export_messages.empty_item_field );
+			}
+			else {
+				alert( export_messages.empty_meta_key );
+			}
 			return false
 		}
 		if ( colname == undefined || colname == '' ) {
@@ -1004,35 +1023,40 @@ jQuery( document ).ready( function ( $ ) {
 		woe_reset_field_contorls();
 	} );
 
-	setTimeout( function () {
-		if ( summary_mode_by_products ) {
-			$( '.segment_choice[href="products"]' ).click()
-		} else if ( window.location.hash.indexOf( 'segment' ) !== - 1 ) {
-			$( '.segment_choice[href="' + window.location.hash + '"]' ).click()
-		} else {
-			$( '.segment_choice' ).first().click();
-		}
-	}, 1000 );
+
+	setTimeout(function () {
+	    woe_create_selected_fields( null, output_format, false );
+	    if ( summary_mode_by_products ) {
+		$( '.segment_choice[href="#segment=products"]' ).click()
+	    } else if ( summary_mode_by_customers ) {
+			    $( '.segment_choice[href="#segment=user"]' ).click()
+		    } else if ( window.location.hash.indexOf( 'segment' ) !== - 1 ) {
+		$( '.segment_choice[href="' + window.location.hash + '"]' ).click()
+	    } else {
+			    $( '.segment_choice' ).first().click();
+		    }
+	}, 1000);
 
 	jQuery( '#adjust-fields-btn' ).click( function () {
-		jQuery( '#fields' ).toggle();
-		jQuery( '#fields_control' ).toggle();
-		return false;
+	    jQuery( '#fields' ).toggle();
+	    jQuery( '#fields_control' ).toggle();
+	    return false;
 	} );
 
-	woe_create_selected_fields( null, output_format, false );
+	setTimeout( function () {
 
-	jQuery( "#sort_products" ).sortable()/*.disableSelection()*/;
-	jQuery( "#sort_coupons" ).sortable()/*.disableSelection()*/;
+	    jQuery( "#sort_products" ).sortable()/*.disableSelection()*/;
+	    jQuery( "#sort_coupons" ).sortable()/*.disableSelection()*/;
 
-	jQuery( "#order_fields" ).sortable( {
-		scroll: true,
-		scrollSensitivity: 100,
-		scrollSpeed: 100,
-		stop: function ( event, ui ) {
-			woe_moving_products_and_coupons_group_blocks_to_first_item( jQuery( '.output_format:checked' ).val() );
-		}
-	} );
+	    jQuery( "#order_fields" ).sortable( {
+		    scroll: true,
+		    scrollSensitivity: 100,
+		    scrollSpeed: 100,
+		    stop: function ( event, ui ) {
+			    woe_moving_products_and_coupons_group_blocks_to_first_item( jQuery( '.output_format:checked' ).val() );
+		    }
+	    } );
+	}, 0);
 
 	jQuery( '.field_section' ).click( function () {
 
@@ -1256,7 +1280,9 @@ jQuery( document ).ready( function ( $ ) {
 	    );
 	}
 
-	load_order_fee_items();
+	setTimeout( function () {
+	    load_order_fee_items();
+	}, 0);
 
 	jQuery( '.tab-controls .other_items-actions-buttons .add-shipping' ).on( 'click', function () {
 	    jQuery( '.tab-actions-forms .segment-form' ).removeClass( 'active' );
@@ -1315,7 +1341,9 @@ jQuery( document ).ready( function ( $ ) {
 	    );
 	}
 
-	load_order_shipping_items();
+	setTimeout( function () {
+	    load_order_shipping_items();
+	}, 0);
 
 	jQuery( '.tab-controls .other_items-actions-buttons .add-tax' ).on( 'click', function () {
 	    jQuery( '.tab-actions-forms .segment-form' ).removeClass( 'active' );
@@ -1374,7 +1402,9 @@ jQuery( document ).ready( function ( $ ) {
 	    );
 	}
 
-	load_order_tax_items();
+	setTimeout( function () {
+	    load_order_tax_items();
+	}, 0);
 
 	///*CUSTOM FIELDS BINDS
 
@@ -1406,7 +1436,6 @@ jQuery( document ).ready( function ( $ ) {
 
 	jQuery( 'input[name=custom_meta_products_mode]' ).change( function () {
 		jQuery( '#select_custom_meta_products' ).prop( "disabled", true );
-		jQuery( '#select_custom_meta_order_items' ).prop( "disabled", true );
 		if ( ! jQuery( this ).is( ':checked' ) ) {
 			var options = '<option></option>';
 			jQuery.each( window.order_products_custom_meta_fields, function ( index, value ) {
@@ -1414,19 +1443,12 @@ jQuery( document ).ready( function ( $ ) {
 			} );
 			jQuery( '#select_custom_meta_products' ).html( options );
 			jQuery( '#select_custom_meta_products' ).prop( "disabled", false );
-
-			options = '<option></option>';
-			jQuery.each( window.order_order_item_custom_meta_fields, function ( index, value ) {
-				options += '<option value="' + woe_escape_str( value ) + '">' + value + '</option>';
-			} );
-			jQuery( '#select_custom_meta_order_items' ).html( options );
-			jQuery( '#select_custom_meta_order_items' ).prop( "disabled", false );
 		}
 		else {
 //            jQuery('#modal-manage-products').html(jQuery('#TB_ajaxContent').html());
-			var data = jQuery( '#export_job_settings' ).serialize(),
+			//var data = jQuery( '#export_job_settings' ).serialize(),
+			var data = 'json=' + woe_make_json_var( jQuery( '#export_job_settings' ) ),
 				data_products = data + "&action=order_exporter&method=get_used_custom_products_meta&mode=" + mode + "&id=" + job_id + '&woe_nonce=' + settings_form.woe_nonce + '&tab=' + settings_form.woe_active_tab;
-			data_order_items = data + "&action=order_exporter&method=get_used_custom_order_items_meta&mode=" + mode + "&id=" + job_id + '&woe_nonce=' + settings_form.woe_nonce + '&tab=' + settings_form.woe_active_tab;
 
 			jQuery.post( ajaxurl, data_products, function ( response ) {
 				if ( response ) {
@@ -1438,6 +1460,25 @@ jQuery( document ).ready( function ( $ ) {
 					jQuery( '#select_custom_meta_products' ).prop( "disabled", false );
 				}
 			}, 'json' );
+//            jQuery('#modal-manage-products').html('');
+		}
+	} );
+
+	jQuery( 'input[name=custom_meta_product_items_mode]' ).change( function () {
+		jQuery( '#select_custom_meta_order_items' ).prop( "disabled", true );
+		if ( ! jQuery( this ).is( ':checked' ) ) {
+			options = '<option></option>';
+			jQuery.each( window.order_order_item_custom_meta_fields, function ( index, value ) {
+				options += '<option value="' + woe_escape_str( value ) + '">' + value + '</option>';
+			} );
+			jQuery( '#select_custom_meta_order_items' ).html( options );
+			jQuery( '#select_custom_meta_order_items' ).prop( "disabled", false );
+		}
+		else {
+//            jQuery('#modal-manage-products').html(jQuery('#TB_ajaxContent').html());
+			//var data = jQuery( '#export_job_settings' ).serialize(),
+			var data = 'json=' + woe_make_json_var( jQuery( '#export_job_settings' ) ),
+			data_order_items = data + "&action=order_exporter&method=get_used_custom_order_items_meta&mode=" + mode + "&id=" + job_id + '&woe_nonce=' + settings_form.woe_nonce + '&tab=' + settings_form.woe_active_tab;
 
 			jQuery.post( ajaxurl, data_order_items, function ( response ) {
 				if ( response ) {
@@ -1449,12 +1490,16 @@ jQuery( document ).ready( function ( $ ) {
 					jQuery( '#select_custom_meta_order_items' ).prop( "disabled", false );
 				}
 			}, 'json' );
-
 //            jQuery('#modal-manage-products').html('');
 		}
 	} );
 
-	jQuery( 'input[name=custom_meta_products_mode]' ).trigger( 'change' );
+	setTimeout( function () {
+	    jQuery( 'input[name=custom_meta_products_mode]' ).trigger( 'change' );
+	}, 0);
+	setTimeout( function () {
+	    jQuery( 'input[name=custom_meta_product_items_mode]' ).trigger( 'change' );
+	}, 0);
 
 	jQuery( 'input[name=custom_meta_coupons_mode]' ).change( function () {
 
@@ -1545,12 +1590,12 @@ jQuery( document ).ready( function ( $ ) {
 			var segment = 'products';
 
 			// hide product fields starts with 'line' and 'qty'
-			$( '#products_unselected_segment input, #order_fields input' ).map( function () {
-				var matches = $( this ).attr( 'value' ).match( /plain_products_(line|qty).*/ );
-				if ( matches ) {
-					$( this ).closest( '.mapping_row' ).hide();
-				}
-			} );
+			// $( '#products_unselected_segment input, #order_fields input' ).map( function () {
+			// 	var matches = $( this ).attr( 'value' ).match( /plain_products_(line|qty).*/ );
+			// 	if ( matches ) {
+			// 		$( this ).closest( '.mapping_row' ).hide();
+			// 	}
+			// } );
 
 			if ( 'onstart' !== action ) {
 				// purge summary report fields before insert
@@ -1612,8 +1657,12 @@ jQuery( document ).ready( function ( $ ) {
 		var summary_report_fields = [];
 
 		summary_report_fields.push( $( '#user_unselected_segment input[value="summary_report_total_count"]' ).parents( 'li' ) );
+		summary_report_fields.push( $( '#user_unselected_segment input[value="summary_report_total_count_items"]' ).parents( 'li' ) );
+		summary_report_fields.push( $( '#user_unselected_segment input[value="summary_report_total_count_items_exported"]' ).parents( 'li' ) );
 		summary_report_fields.push( $( '#user_unselected_segment input[value="summary_report_total_amount"]' ).parents( 'li' ) );
 		summary_report_fields.push( $( '#user_unselected_segment input[value="summary_report_total_amount_paid"]' ).parents( 'li' ) );
+		summary_report_fields.push( $( '#user_unselected_segment input[value="summary_report_total_shipping"]' ).parents( 'li' ) );
+		summary_report_fields.push( $( '#user_unselected_segment input[value="summary_report_total_discount"]' ).parents( 'li' ) );
 		summary_report_fields.push( $( '#user_unselected_segment input[value="summary_report_total_refund_count"]' ).parents( 'li' ) );
 		summary_report_fields.push( $( '#user_unselected_segment input[value="summary_report_total_refund_amount"]' ).parents( 'li' ) );
 
@@ -1631,8 +1680,12 @@ jQuery( document ).ready( function ( $ ) {
 			if ( 'onstart' !== action ) {
 				// purge summary report fields before insert
 				$( '#order_fields .segment_user input[value="summary_report_total_count"]' ).closest( '.mapping_row' ).remove();
+				$( '#order_fields .segment_user input[value="summary_report_total_count_items"]' ).closest( '.mapping_row' ).remove();
+				$( '#order_fields .segment_user input[value="summary_report_total_count_items_exported"]' ).closest( '.mapping_row' ).remove();
 				$( '#order_fields .segment_user input[value="summary_report_total_amount"]' ).closest( '.mapping_row' ).remove();
 				$( '#order_fields .segment_user input[value="summary_report_total_amount_paid"]' ).closest( '.mapping_row' ).remove();
+				$( '#order_fields .segment_user input[value="summary_report_total_shipping"]' ).closest( '.mapping_row' ).remove();
+				$( '#order_fields .segment_user input[value="summary_report_total_discount"]' ).closest( '.mapping_row' ).remove();
 				$( '#order_fields .segment_user input[value="summary_report_total_refund_count"]' ).closest( '.mapping_row' ).remove();
 				$( '#order_fields .segment_user input[value="summary_report_total_refund_amount"]' ).closest( '.mapping_row' ).remove();
 
@@ -1658,8 +1711,12 @@ jQuery( document ).ready( function ( $ ) {
 
 			// purge summary report fields
 			$( '#order_fields .segment_user input[value="summary_report_total_count"]' ).closest( '.mapping_row' ).remove();
+			$( '#order_fields .segment_user input[value="summary_report_total_count_items"]' ).closest( '.mapping_row' ).remove();
+			$( '#order_fields .segment_user input[value="summary_report_total_count_items_exported"]' ).closest( '.mapping_row' ).remove();
 			$( '#order_fields .segment_user input[value="summary_report_total_amount"]' ).closest( '.mapping_row' ).remove();
 			$( '#order_fields .segment_user input[value="summary_report_total_amount_paid"]' ).closest( '.mapping_row' ).remove();
+			$( '#order_fields .segment_user input[value="summary_report_total_shipping"]' ).closest( '.mapping_row' ).remove();
+			$( '#order_fields .segment_user input[value="summary_report_total_discount"]' ).closest( '.mapping_row' ).remove();
 			$( '#order_fields .segment_user input[value="summary_report_total_refund_count"]' ).closest( '.mapping_row' ).remove();
 			$( '#order_fields .segment_user input[value="summary_report_total_refund_amount"]' ).closest( '.mapping_row' ).remove();
 

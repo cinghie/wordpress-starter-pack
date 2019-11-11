@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class WOE_Formatter_Json extends WOE_Formatter {
 	var $prev_added = false;
+	var $formatting_flags = NULL;
 
 	public function __construct(
 		$mode,
@@ -18,6 +19,15 @@ class WOE_Formatter_Json extends WOE_Formatter {
 	) {
 		parent::__construct( $mode, $filename, $settings, $format, $labels, $field_formats, $date_format, $offset );
 		$this->prev_added = ( $offset > 0 );
+		if($this->mode == 'preview') {
+			$this->formatting_flags |= JSON_PRETTY_PRINT;
+		}
+		if($settings['unescaped_slashes']) {
+			$this->formatting_flags |= JSON_UNESCAPED_SLASHES;
+		}
+		if($settings['numeric_check']) {
+			$this->formatting_flags |= JSON_NUMERIC_CHECK;
+		}
 	}
 
 	public function start( $data = '' ) {
@@ -58,7 +68,8 @@ class WOE_Formatter_Json extends WOE_Formatter {
 					continue;
 				}
 
-				if ( empty( $child_labels ) ) // can't export!
+
+				if ( $child_labels->is_not_empty() == false ) // can't export!
 				{
 					continue;
 				}
@@ -82,15 +93,12 @@ class WOE_Formatter_Json extends WOE_Formatter {
 			}
 		}
 
-		if ( $this->mode == 'preview' ) {
-			$json = json_encode( $rec_out, JSON_PRETTY_PRINT );
-		} else {
-			$json = json_encode( $rec_out );
-		}
+		$json = json_encode($rec_out, $this->formatting_flags);
 
 		if ( $this->has_output_filter ) {
 			$json = apply_filters( "woe_json_output_filter", $json, $rec_out, $this );
 		}
+
 		fwrite( $this->handle, $json );
 
 		// first record added!

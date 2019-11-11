@@ -21,13 +21,13 @@ class WC_Order_Export_Admin {
 
 		if ( is_admin() ) { // admin actions
 			add_action( 'admin_menu', array( $this, 'add_menu' ) );
-			
+
 			// load scripts on our pages only
 			if ( isset( $_GET['page'] ) && $_GET['page'] == 'wc-order-export' ) {
 				add_action( 'admin_enqueue_scripts', array( $this, 'thematic_enqueue_scripts' ) );
 				add_filter( 'script_loader_src', array( $this, 'script_loader_src' ), 999, 2 );
 			}
-			
+
 			add_action( 'wp_loaded' , function() { //init tabs after loading text domains!
 				$this->tabs = $this->get_tabs();
 			});
@@ -63,7 +63,7 @@ class WC_Order_Export_Admin {
 		}
 
 		do_action( 'woe_order_export_admin_init', $this );
-		
+
 		$this->settings = WC_Order_Export_Main_Settings::get_settings();
 
 	}
@@ -288,8 +288,9 @@ class WC_Order_Export_Admin {
 			$translation_array = array(
 				'empty_column_name'           => __( 'empty column name', 'woo-order-export-lite' ),
 				'empty_meta_key'              => __( 'empty meta key', 'woo-order-export-lite' ),
-				'empty_meta_key_and_taxonomy' => __( 'select product field or item field or taxonomy',
+				'empty_meta_key_and_taxonomy' => __( 'select product field or taxonomy',
 					'woo-order-export-lite' ),
+				'empty_item_field'			  => __( 'select item field', 'woo-order-export-lite' ),
 				'empty_value'                 => __( 'empty value', 'woo-order-export-lite' ),
 				'empty_title'                 => __( 'title is empty', 'woo-order-export-lite' ),
 				'wrong_date_range'            => __( 'Date From is greater than Date To', 'woo-order-export-lite' ),
@@ -390,7 +391,7 @@ class WC_Order_Export_Admin {
 	// AJAX part
 	// calls ajax_action_XXXX
 	public function ajax_gate() {
-		
+
 		if( !current_user_can('view_woocommerce_reports') ){
 			die( __( 'You can not do it', 'woo-order-export-lite' ) );
 		}

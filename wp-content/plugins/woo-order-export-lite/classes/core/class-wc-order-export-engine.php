@@ -317,10 +317,18 @@ class WC_Order_Export_Engine {
 		if ( ! isset( $settings['skip_empty_file'] ) ) {
 			$settings['skip_empty_file'] = true;
 		}
-		if ( $settings['custom_php'] ) {
+		//  "preview" runs after "estimate, so we already activated code
+		if ( self::$current_job_build_mode!=='preview' AND $settings['custom_php'] ) {  
 			ob_start( array( 'WC_Order_Export_Engine', 'code_error_callback' ) );
 			$result = eval( $settings['custom_php_code'] );
 			ob_end_clean();
+		}
+		if($settings['product_sku']) {
+			$sku_array = preg_split( "#,|\r?\n#", $settings['product_sku'], null, PREG_SPLIT_NO_EMPTY ) ;
+			foreach($sku_array as $sku) {
+				$sku = "_sku = " . $sku;
+				$settings['product_custom_fields'][] = $sku;
+			}
 		}
 		// This report works with products!
 		if ( $settings['summary_report_by_products'] ) {
@@ -368,10 +376,12 @@ class WC_Order_Export_Engine {
 	) {
 		global $wpdb;
 
-		self::kill_buffers();
+		self::$current_job_build_mode = $make_mode;
+		if($make_mode != 'preview' AND $make_mode != 'estimate_preview') { // caller  uses kill_buffers() already
+			self::kill_buffers();
+		}
 		$settings                     = self::validate_defaults( $settings );
 		self::$current_job_settings   = $settings;
-		self::$current_job_build_mode = $make_mode;
 		self::$date_format            = trim( $settings['date_format'] . ' ' . $settings['time_format'] );
 		//debug sql?
 		if ( $make_mode == 'preview' AND $settings['enable_debug'] ) {
@@ -383,10 +393,10 @@ class WC_Order_Export_Engine {
 		if ( $output_mode == 'browser' ) {
 			$filename = 'php://output';
 		} else {
-			$filename = ( ! empty( $filename ) ? $filename : self::tempnam( sys_get_temp_dir(), $settings['format'] ) );
+			$filename = self::get_filename($settings['format'], $filename);
 		}
 
-		if ( $make_mode !== 'estimate' ) {
+		if ( $make_mode !== 'estimate' AND $make_mode!='estimate_preview' ) {
 			$formater = self::init_formater( $make_mode, $settings, $filename, $labels, $static_vals, $offset );
 		}
 		$format = strtolower( $settings['format'] );
@@ -402,7 +412,7 @@ class WC_Order_Export_Engine {
 		//get IDs
 		$sql = WC_Order_Export_Data_Extractor::sql_get_order_ids( $settings );
 		$settings = self::replace_sort_field( $settings );
-		if ( $make_mode == 'estimate' ) { //if estimate return total count
+		if ( $make_mode == 'estimate' OR $make_mode =='estimate_preview' ) { //if estimate return total count
 			return $wpdb->get_var( str_replace( 'ID AS order_id', 'COUNT(ID) AS order_count', $sql ) );
 		} elseif ( $make_mode == 'preview' ) {
 			$sql .= apply_filters( "woe_sql_get_order_ids_order_by",
@@ -419,6 +429,7 @@ class WC_Order_Export_Engine {
 		self::$orders_for_export = $order_ids;
 
 		// prepare for XLS/CSV moved to plain formatter
+		$formater->adjust_duplicated_fields_settings( $order_ids );
 
 		// check it once
 		self::_check_products_and_coupons_fields( $settings, $export );
@@ -492,7 +503,7 @@ class WC_Order_Export_Engine {
 		self::$date_format            = trim( $settings['date_format'] . ' ' . $settings['time_format'] );
 		self::$extractor_options      = self::_install_options( $settings );
 
-		$filename = ( ! empty( $filename ) ? $filename : self::tempnam( sys_get_temp_dir(), $settings['format'] ) );
+		$filename = self::get_filename($settings['format'], $filename);
 
 		$formater = self::init_formater( '', $settings, $filename, $labels, $static_vals, 0 );
 //		$format   = strtolower( $settings['format'] );
@@ -524,6 +535,7 @@ class WC_Order_Export_Engine {
 		}
 
 		// prepare for XLS/CSV moved to plain formatter
+		$formater->adjust_duplicated_fields_settings( $order_ids );
 
 		// check it once
 		self::_check_products_and_coupons_fields( $settings, $export );
@@ -576,7 +588,7 @@ class WC_Order_Export_Engine {
 	}
 
 	public static function replace_sort_field( $settings ) {
-		$settings['sort'] = ! in_array( $settings['sort'], self::get_wp_posts_fields() ) ? 'meta_value' : $settings['sort'];
+		$settings['sort'] = ! in_array( $settings['sort'], self::get_wp_posts_fields() ) ?  'ordermeta_cf_sort.meta_value' : $settings['sort'];
 
 		return $settings;
 	}
@@ -588,5 +600,9 @@ class WC_Order_Export_Engine {
 			'post_modified',
 			'post_status',
 		);
+	}
+	public static function get_filename($prefix, $filename = '') {
+		$filename = ( ! empty( $filename ) ? $filename : self::tempnam( sys_get_temp_dir(), $prefix ) );
+		return apply_filters( 'woe_custom_export_get_filename', $filename );
 	}
 }

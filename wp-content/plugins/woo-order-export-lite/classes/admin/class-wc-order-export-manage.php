@@ -234,6 +234,7 @@ class WC_Order_Export_Manage {
 			'product_attributes'                       => array(),
 			'product_itemmeta'                         => array(),
 			'format'                                   => 'XLS',
+			
 			'format_xls_use_xls_format'                => 0,
 			'format_xls_sheet_name'                    => __( 'Orders', 'woo-order-export-lite' ),
 			'format_xls_display_column_names'          => 1,
@@ -242,6 +243,7 @@ class WC_Order_Export_Manage {
 			'format_xls_force_general_format'          => 0,
 			'format_xls_row_images_width'              => 50,
 			'format_xls_row_images_height'             => 50,
+			
 			'format_csv_enclosure'                     => '"',
 			'format_csv_delimiter'                     => ',',
 			'format_csv_linebreak'                     => '\r\n',
@@ -250,10 +252,12 @@ class WC_Order_Export_Manage {
 			'format_csv_item_rows_start_from_new_line' => 0,
 			'format_csv_encoding'                      => 'UTF-8',
 			'format_csv_delete_linebreaks'             => 0,
+			
 			'format_tsv_linebreak'                     => '\r\n',
 			'format_tsv_display_column_names'          => 1,
 			'format_tsv_add_utf8_bom'                  => 0,
 			'format_tsv_encoding'                      => 'UTF-8',
+			
 			'format_xml_root_tag'                      => 'Orders',
 			'format_xml_order_tag'                     => 'Order',
 			'format_xml_product_tag'                   => 'Product',
@@ -261,6 +265,11 @@ class WC_Order_Export_Manage {
 			'format_xml_prepend_raw_xml'               => '',
 			'format_xml_append_raw_xml'                => '',
 			'format_xml_self_closing_tags'             => 1,
+			
+			'format_json_start_tag'     => '[',
+			'format_json_end_tag'       => ']',
+			'format_json_unescaped_slashes' => 0,
+			'format_json_numeric_check' => 0,
 
 			'format_pdf_display_column_names'          => 1,
 			'format_pdf_repeat_header'                 => 1,
@@ -273,6 +282,7 @@ class WC_Order_Export_Manage {
 			'format_pdf_fit_page_width'                => 0,
 			'format_pdf_cols_width'                   => '25',
 			'format_pdf_cols_align'                   => 'L',
+			'format_pdf_cols_vertical_align'          => 'T',
 			'format_pdf_page_header_text_color'        => '#000000',
 			'format_pdf_page_footer_text_color'        => '#000000',
 			'format_pdf_table_header_text_color'       => '#000000',
@@ -299,6 +309,8 @@ class WC_Order_Export_Manage {
 			'format_html_table_header_background_color'	 => '#FFFFFF',
 			'format_html_table_row_text_color'		 => '#000000',
 			'format_html_table_row_background_color'	 => '#FFFFFF',
+			'format_html_row_images_width'              => 100,
+			'format_html_row_images_height'             => 100,
 			'format_html_custom_css'			 => $settings['default_html_css'],
 
 			'all_products_from_order'   => 1,
@@ -315,8 +327,6 @@ class WC_Order_Export_Manage {
 			'strip_tags_product_fields' => 0,
 			'cleanup_phone'             => 0,
 			'enable_debug'              => 0,
-			'format_json_start_tag'     => '[',
-			'format_json_end_tag'       => ']',
 			'custom_php'                => 0,
 			'custom_php_code'           => '',
 			'mark_exported_orders'      => 0,
@@ -416,7 +426,7 @@ class WC_Order_Export_Manage {
 				$result = WC_Order_Export_Data_Extractor_UI::get_order_fields( $format );
 				break;
 			case 'order_product_fields':
-				$result = WC_Order_Export_Data_Extractor_UI::get_order_product_fields( $format );
+				$result = array_merge(WC_Order_Export_Data_Extractor_UI::get_order_product_fields( $format ), WC_Order_Export_Data_Extractor_UI::get_order_fields_product_items());
 				break;
 			case 'order_coupon_fields':
 				$result = WC_Order_Export_Data_Extractor_UI::get_order_coupon_fields( $format );
@@ -450,7 +460,7 @@ class WC_Order_Export_Manage {
 
 	public static function make_all_fields( $format ) {
 		$order_fields = array();
-		foreach ( array_keys( WC_Order_Export_Data_Extractor_UI::get_order_segments() ) as $segment ) {
+		foreach ( array_keys( WC_Order_Export_Data_Extractor_UI::get_unselected_fields_segments() ) as $segment ) {
 			if ( 'products' == $segment ) {
 				$method = "get_order_product_fields";
 				$filter = "woe_get_order_product_fields";

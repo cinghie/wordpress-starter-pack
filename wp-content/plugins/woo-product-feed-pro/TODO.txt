@@ -3,7 +3,6 @@ Missing some features you might like? Drop me a line at support@adtribes.io and 
 
 Tutorial / Blog posts:
 - Explain all the different fields/attributes that can be selected from the drop-downs
-- Installment blog post
 
 Priority issues:
 - Add Facebook pixel measure sales/conversion in checkout (onder andere InitiateCheckout, Purchase, Search and ViewCategory pages);

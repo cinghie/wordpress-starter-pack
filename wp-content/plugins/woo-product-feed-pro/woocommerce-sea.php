@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     6.7.9
+ * Version:     6.8.2
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -17,7 +17,7 @@
  * Domain Path: /languages
  *
  * WC requires at least: 3.0
- * WC tested up to: 3.7
+ * WC tested up to: 3.8
  *
  * Product Feed PRO for WooCommerce is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '6.7.9' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '6.8.2' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -1273,6 +1273,30 @@ function woosea_shipping_zones(){
 	wp_die();
 }
 add_action( 'wp_ajax_woosea_shipping_zones', 'woosea_shipping_zones' );
+
+/**
+ * Determine if any of the feeds is updating
+ */
+function woosea_check_processing(){
+	$processing = "false";
+
+        $feed_config = get_option( 'cron_projects' );
+        $found = false;
+
+        foreach ( $feed_config as $key => $val ) {
+		if($val['running'] == "true"){
+			$processing = "true";
+		}
+	}
+
+	$data = array (
+		'processing' => $processing,
+	);
+
+	echo json_encode($data);
+	wp_die();
+}
+add_action( 'wp_ajax_woosea_check_processing', 'woosea_check_processing' );
 
 /**
  * Get the dynamic attributes

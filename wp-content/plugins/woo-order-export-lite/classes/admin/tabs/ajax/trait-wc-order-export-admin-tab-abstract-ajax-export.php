@@ -12,8 +12,14 @@ trait WC_Order_Export_Admin_Tab_Abstract_Ajax_Export {
 		// use unsaved settings
 
 		do_action( 'woe_start_preview_job', $_POST['id'], $settings );
-
+		
+		WC_Order_Export_Engine::kill_buffers();
+		ob_start(); // we need html for preview , even empty!
+		$total = WC_Order_Export_Engine::build_file( $settings, 'estimate_preview', 'file', 0, 0, 'test');
 		WC_Order_Export_Engine::build_file( $settings, 'preview', 'browser', 0, $_POST['limit'] );
+		$html = ob_get_contents();
+		ob_end_clean();
+		echo json_encode( array( 'total' => $total, 'html' => $html ) );
 	}
 
 	public function ajax_estimate() {
@@ -31,7 +37,7 @@ trait WC_Order_Export_Admin_Tab_Abstract_Ajax_Export {
 		$this->start_prevent_object_cache();
 		$settings = WC_Order_Export_Manage::make_new_settings( $_POST );
 
-		$filename = WC_Order_Export_Engine::tempnam( sys_get_temp_dir(), "orders" );
+		$filename = WC_Order_Export_Engine::get_filename( "orders" );
 		if ( ! $filename ) {
 			die( __( 'Can\'t create temporary file', 'woo-order-export-lite' ) );
 		}

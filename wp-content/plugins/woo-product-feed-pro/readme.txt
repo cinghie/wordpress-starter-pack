@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.2
-Stable tag: 6.7.9
+Stable tag: 6.8.2
 
 == Description ==
 
@@ -192,6 +192,7 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 * Stylefruits.fr
 * Twenga
 * Webmarchand.com
+* <a href="https://www.wish.com" target="_blank">Wish.com</a>
 * TheNextAd
 * Webgains
 * Crowdfox
@@ -299,6 +300,16 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 6.8.2 (2019-11-09) =
+* Cleared refresh interval on the manage feeds page when all feeds are on status ready, this was causing too many calls / load
+* Solved a PHP warning that showed in the logs when the "one category" attribute was empty
+
+= 6.8.1 (2019-11-05) =
+* Added a default template for Wish.com
+
+= 6.8.0 (2019-11-03) =
+* Fixed a bug: removed the question mark from the variable link attribute when Google Analytics code is disabled
 
 = 6.7.9 (2019-11-02) =
 * Added the variable link attribute for variations
@@ -2137,6 +2148,16 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 6.8.2 =
+Cleared refresh interval on the manage feeds page when all feeds are on status ready, this was causing too many calls / load
+Solved a PHP warning that showed in the logs when the "one category" attribute was empty
+
+= 6.8.1 =
+Added a default template for Wish.com
+
+= 6.8.0 =
+Fixed a bug: removed the question mark from the variable link attribute when Google Analytics code is disabled
 
 = 6.7.9 =
 Added the variable link attribute for variations

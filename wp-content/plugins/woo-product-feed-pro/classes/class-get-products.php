@@ -1986,7 +1986,9 @@ class WooSEA_Get_Products {
 			}
 			$product_data['category_link'] = $catlink;
 			$product_data['raw_categories'] = $catname;
-			$product_data['one_category'] = $one_category;
+			if(!empty($one_category)){
+				$product_data['one_category'] = $one_category;
+			}
 			$product_data['categories'] = $catname;
 			$product_data['description'] = html_entity_decode((str_replace("\r", "", $post->post_content)), ENT_QUOTES | ENT_XML1, 'UTF-8');
 			$product_data['short_description'] = html_entity_decode((str_replace("\r", "", $post->post_excerpt)), ENT_QUOTES | ENT_XML1, 'UTF-8');
@@ -2022,7 +2024,11 @@ class WooSEA_Get_Products {
 			$qutm_part = ltrim($utm_part, "&amp;");
 			$qutm_part = ltrim($qutm_part, "amp;");
 			$qutm_part = ltrim($qutm_part, "?");
-			$product_data['variable_link'] = $vlink_piece[0]."?".$qutm_part;
+			if($qutm_part){
+				$product_data['variable_link'] = $vlink_piece[0]."?".$qutm_part;
+			} else {
+				$product_data['variable_link'] = $vlink_piece[0];
+			}
 
 			$product_data['condition'] = ucfirst( get_post_meta( $product_data['id'], '_woosea_condition', true ) );
 			if(empty($product_data['condition']) || $product_data['condition'] == "Array"){
@@ -3646,7 +3652,6 @@ class WooSEA_Get_Products {
             		$term = get_term_by('slug', $meta, $taxonomy);
             		return $term->name;
         	} else {
-            		$blaat = get_post_meta($id, $name, true);
             		return get_post_meta($id, $name, true);
         	}
     	}
@@ -4184,7 +4189,9 @@ class WooSEA_Get_Products {
 							if(!empty($pr_array['newvalue'])){
 								$product_data[$pr_array['than_attribute']] = $pr_array['newvalue'];
 							} else {
-								$product_data[$pr_array['attribute']] = $product_data[$pr_array['than_attribute']];
+								if(array_key_exists($pr_array['than_attribute'], $product_data)){
+									$product_data[$pr_array['attribute']] = $product_data[$pr_array['than_attribute']];
+								}
 							}
 						}
 					}

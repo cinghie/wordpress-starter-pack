@@ -2,7 +2,7 @@
 
 /**
  * @package WP Product Feed Manager/Data/Functions
- * @version 2.5.0
+ * @version 2.6.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -195,6 +195,7 @@ function wppfm_clear_feed_process_data() {
 	WPPFM_Feed_Controller::clear_feed_queue();
 	WPPFM_Feed_Controller::set_feed_processing_flag( false );
 	WPPFM_Db_Management::clean_options_table();
+	WPPFM_Db_Management::reset_status_of_failed_feeds();
 
 	do_action( 'wppfm_feed_process_data_cleared' );
 

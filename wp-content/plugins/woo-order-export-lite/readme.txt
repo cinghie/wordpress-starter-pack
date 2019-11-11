@@ -4,8 +4,8 @@ Donate link: https://algolplus.com/plugins/
 Tags: woocommerce,export,order,xls,csv,xml,woo export lite,export orders,orders export,csv export,xml export,xls export,tsv
 Requires PHP: 5.4.0
 Requires at least: 4.7
-Tested up to: 5.2
-Stable tag: 3.0.3
+Tested up to: 5.3
+Stable tag: 3.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -95,6 +95,9 @@ Please, increase "memory_limit" upto 256M or ask hosting support to do it.
 = When exporting .csv containing european special characters , I want to open this csv in Excel without extra actions =
 You  should open tab "CSV" and set up ISO-8859-1 as codepage.
 
+= Preview shows wrong values,  I use Summary mode =
+This button processes only first 5 orders by default, so you should run the export to see correct values.
+
 = Can I request any new feature ? =
 Yes, you can email a request to aprokaev@gmail.com. We intensively develop this plugin.
 
@@ -108,6 +111,21 @@ Yes, you can email a request to aprokaev@gmail.com. We intensively develop this 
 6. Select orders to export and use "bulk action".
 
 == Changelog ==
+
+= 3.1.0 - 2019-11-11 =
+* Speeded up page loading and button "Preview"
+* Added filter "Products SKU" to section "Filter by product"
+* Added options for JSON format
+* Added vertical align for cells (PDF format)
+* New tabs "Product items", "Product totals" in section "Setup fields"
+* Order fields can be dragged to section "Products" (JSON/XML formats)
+* Added product field "SKU(parent)"
+* Added fields "Total Shipping","Total Discount","Total Items" for "Summary by customers" mode
+* Support "0" as max # of product columns (calculated based on exported orders)
+* Deleted products are exported by "Summary by products" mode 
+* Fixed UI bugs for summary mode
+* New hooks for PDF format
+* Fixed bug - sorting (by order fields) conflicted with filtering by order custom fields
 
 = 3.0.3 - 2019-08-29 =
 * Fixed CRITICAL bug - export wrong data if user added customer field "First Order Date" or "Last Order Date"

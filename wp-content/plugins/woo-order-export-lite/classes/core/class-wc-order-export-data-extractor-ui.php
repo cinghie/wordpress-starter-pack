@@ -199,8 +199,13 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 
 	public static function get_order_custom_fields_values( $key ) {
 		global $wpdb;
-		$values = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT meta_value FROM {$wpdb->postmeta} WHERE meta_key = %s  AND post_id IN (SELECT DISTINCT ID FROM {$wpdb->posts} WHERE post_type = '" . self::$object_type . "' )",
-			$key ) );
+		
+		$order_ids   = $wpdb->get_col( "SELECT ID FROM {$wpdb->posts} WHERE post_type = '" . self::$object_type . "' ORDER BY ID DESC LIMIT 1000" );
+		if( empty($order_ids) )
+			return array();
+			
+		$order_ids   = join( ",", $order_ids );
+		$values = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT meta_value FROM {$wpdb->postmeta} WHERE meta_key = %s  AND post_id IN ($order_ids)", $key ) );
 		sort( $values );
 
 		return $values;
@@ -217,7 +222,15 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 
 	public static function get_product_custom_fields_values( $key ) {
 		global $wpdb;
-		$values = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT meta_value FROM {$wpdb->postmeta} WHERE meta_key = %s    AND post_id IN (SELECT DISTINCT ID FROM {$wpdb->posts} WHERE post_type = 'product_variation' OR post_type = 'product')",
+		
+		$product_ids   = $wpdb->get_col( "SELECT DISTINCT ID FROM {$wpdb->posts} WHERE post_type = 'product_variation' OR post_type = 'product' ORDER BY ID DESC LIMIT 1000" );
+		if( empty($product_ids) )
+			return array();
+			
+		$product_ids   = join( ",", $product_ids );
+
+		
+		$values = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT meta_value FROM {$wpdb->postmeta} WHERE meta_key = %s    AND post_id IN ($product_ids)",
 			$key ) );
 		sort( $values );
 
@@ -273,7 +286,14 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 
 	public static function get_order_meta_values( $type, $key ) {
 		global $wpdb;
-		$query   = $wpdb->prepare( 'SELECT DISTINCT meta_value FROM ' . $wpdb->postmeta . ' WHERE meta_key = %s',
+		
+		$order_ids   = $wpdb->get_col( "SELECT ID FROM {$wpdb->posts} WHERE post_type = '" . self::$object_type . "' ORDER BY ID DESC LIMIT 1000" );
+		if( empty($order_ids) )
+			return array();
+			
+		$order_ids   = join( ",", $order_ids );
+		
+		$query   = $wpdb->prepare( 'SELECT DISTINCT meta_value FROM ' . $wpdb->postmeta . " WHERE meta_key = %s AND post_id IN($order_ids)",
 			array( $type . strtolower( $key ) ) );
 		$results = $wpdb->get_col( $query );
 		$data    = array_filter( $results );
@@ -326,24 +346,14 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 
 	public static function get_order_product_fields( $format ) {
 		$map = array(
-			'item_id'                     => array(
-				'label'   => __( 'Item ID', 'woo-order-export-lite' ),
-				'checked' => 0,
-				'format'  => 'number',
-			),
-			'line_id'                     => array(
-				'label'   => __( 'Item #', 'woo-order-export-lite' ),
-				'checked' => 1,
-				'format'  => 'number',
-			),
 			'sku'                         => array(
 				'label'   => __( 'SKU', 'woo-order-export-lite' ),
 				'checked' => 1,
 				'format'  => 'string',
 			),
-			'name'                        => array(
-				'label'   => __( 'Item Name', 'woo-order-export-lite' ),
-				'checked' => 1,
+			'sku_parent'                         => array(
+				'label'   => __( 'SKU (parent)', 'woo-order-export-lite' ),
+				'checked' => 0,
 				'format'  => 'string',
 			),
 			'product_id'                  => array(
@@ -372,89 +382,14 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 				'format'  => 'string',
 			),
 			'seller'                      => array(
-				'label'   => __( 'Item Seller', 'woo-order-export-lite' ),
+				'label'   => __( 'Product Seller', 'woo-order-export-lite' ),
 				'checked' => 0,
 				'format'  => 'string',
-			),
-			'qty'                         => array(
-				'label'   => __( 'Quantity', 'woo-order-export-lite' ),
-				'checked' => 1,
-				'format'  => 'number',
-			),
-			'qty_minus_refund'            => array(
-				'label'   => __( 'Quantity (- Refund)', 'woo-order-export-lite' ),
-				'checked' => 0,
-				'format'  => 'number',
-			),
-			'item_price'                  => array(
-				'label'   => __( 'Item Cost', 'woo-order-export-lite' ),
-				'checked' => 1,
-				'format'  => 'money',
 			),
 			'price'                       => array(
 				'label'   => __( 'Product Current Price', 'woo-order-export-lite' ),
 				'checked' => 0,
 				'format'  => 'money',
-			),
-			'line_no_tax'                 => array(
-				'label'   => __( 'Order Line (w/o tax)', 'woo-order-export-lite' ),
-				'checked' => 0,
-				'format'  => 'money',
-			),
-			'line_tax'                    => array(
-				'label'   => __( 'Order Line Tax', 'woo-order-export-lite' ),
-				'checked' => 0,
-				'format'  => 'money',
-			),
-			'line_tax_refunded'           => array(
-				'label'   => __( 'Order Line Tax Refunded', 'woo-order-export-lite' ),
-				'checked' => 0,
-				'format'  => 'money',
-			),
-			'line_tax_minus_refund'       => array(
-				'label'   => __( 'Order Line Tax (- Refund)', 'woo-order-export-lite' ),
-				'checked' => 0,
-				'format'  => 'money',
-			),
-			'line_subtotal'               => array(
-				'label'   => __( 'Order Line Subtotal', 'woo-order-export-lite' ),
-				'checked' => 0,
-				'format'  => 'money',
-			),
-			'line_subtotal_tax'           => array(
-				'label'   => __( 'Order Line Subtotal Tax', 'woo-order-export-lite' ),
-				'checked' => 0,
-				'format'  => 'money',
-			),
-			'line_total'                  => array(
-				'label'   => __( 'Order Line Total', 'woo-order-export-lite' ),
-				'checked' => 0,
-				'format'  => 'money',
-			),
-			'line_total_plus_tax'         => array(
-				'label'   => __( 'Order Line Total (include tax)', 'woo-order-export-lite' ),
-				'checked' => 0,
-				'format'  => 'money',
-			),
-			'line_total_refunded'         => array(
-				'label'   => __( 'Order Line Total Refunded', 'woo-order-export-lite' ),
-				'checked' => 0,
-				'format'  => 'money',
-			),
-			'line_total_minus_refund'     => array(
-				'label'   => __( 'Order Line Total (- Refund)', 'woo-order-export-lite' ),
-				'checked' => 0,
-				'format'  => 'money',
-			),
-			'discount_amount'             => array(
-				'label'   => __( 'Item Discount Amount', 'woo-order-export-lite' ),
-				'checked' => 0,
-				'format'  => 'money',
-			),
-			'tax_rate'                    => array(
-				'label'   => __( 'Item Tax Rate', 'woo-order-export-lite' ),
-				'checked' => 0,
-				'format'  => 'number',
 			),
 			'type'                        => array(
 				'label'   => __( 'Type', 'woo-order-export-lite' ),
@@ -498,11 +433,6 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 			),
 			'download_url'                => array(
 				'label'   => __( 'Download URL', 'woo-order-export-lite' ),
-				'checked' => 0,
-				'format'  => 'string',
-			),
-			'item_download_url'                => array(
-				'label'   => __( 'Item download URL', 'woo-order-export-lite' ),
 				'checked' => 0,
 				'format'  => 'string',
 			),
@@ -767,6 +697,16 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 				'checked' => 0,
 				'format'  => 'number',
 			),
+			'summary_report_total_count_items'    => array(
+				'label'   => __( 'Summary Report Total Items', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'number',
+			),
+			'summary_report_total_count_items_exported'    => array(
+				'label'   => __( 'Summary Report Total Items (Exported)', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'number',
+			),
 			'summary_report_total_amount' => array(
 				'label'   => __( 'Summary Report Total Amount', 'woo-order-export-lite' ),
 				'checked' => 0,
@@ -774,6 +714,16 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 			),
 			'summary_report_total_amount_paid' => array(
 				'label'   => __( 'Summary Report Total Amount Paid', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'money',
+			),
+			'summary_report_total_shipping' => array(
+				'label'   => __( 'Summary Report Total Shipping', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'money',
+			),
+			'summary_report_total_discount' => array(
+				'label'   => __( 'Summary Report Total Discount', 'woo-order-export-lite' ),
 				'checked' => 0,
 				'format'  => 'money',
 			),
@@ -972,6 +922,138 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 		);
 	}
 
+	public static function get_order_fields_product_items() {
+		$map = array(
+			'item_id'                     => array(
+				'label'   => __( 'Item ID', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'number',
+			),
+			'line_id'                     => array(
+				'label'   => __( 'Item #', 'woo-order-export-lite' ),
+				'checked' => 1,
+				'format'  => 'number',
+			),
+			'name'                        => array(
+				'label'   => __( 'Item Name', 'woo-order-export-lite' ),
+				'checked' => 1,
+				'format'  => 'string',
+			),
+			'qty'                         => array(
+				'label'   => __( 'Quantity', 'woo-order-export-lite' ),
+				'checked' => 1,
+				'format'  => 'number',
+			),
+			'qty_minus_refund'            => array(
+				'label'   => __( 'Quantity (- Refund)', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'number',
+			),
+			'item_price'                  => array(
+				'label'   => __( 'Item Cost', 'woo-order-export-lite' ),
+				'checked' => 1,
+				'format'  => 'money',
+			),
+			'line_no_tax'                 => array(
+				'label'   => __( 'Order Line (w/o tax)', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'money',
+			),
+			'line_tax'                    => array(
+				'label'   => __( 'Order Line Tax', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'money',
+			),
+			'line_tax_refunded'           => array(
+				'label'   => __( 'Order Line Tax Refunded', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'money',
+			),
+			'line_tax_minus_refund'       => array(
+				'label'   => __( 'Order Line Tax (- Refund)', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'money',
+			),
+			'line_subtotal'               => array(
+				'label'   => __( 'Order Line Subtotal', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'money',
+			),
+			'line_subtotal_tax'           => array(
+				'label'   => __( 'Order Line Subtotal Tax', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'money',
+			),
+			'line_total'                  => array(
+				'label'   => __( 'Order Line Total', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'money',
+			),
+			'line_total_plus_tax'         => array(
+				'label'   => __( 'Order Line Total (include tax)', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'money',
+			),
+			'line_total_refunded'         => array(
+				'label'   => __( 'Order Line Total Refunded', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'money',
+			),
+			'line_total_minus_refund'     => array(
+				'label'   => __( 'Order Line Total (- Refund)', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'money',
+			),
+			'discount_amount'             => array(
+				'label'   => __( 'Item Discount Amount', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'money',
+			),
+			'tax_rate'                    => array(
+				'label'   => __( 'Item Tax Rate', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'number',
+			),
+			'item_download_url'                => array(
+				'label'   => __( 'Item download URL', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'string',
+			),
+		);
+
+		foreach ( $map as $key => &$value ) {
+			$value['colname'] = $value['label'];
+			$value['default'] = 1;
+		}
+
+		return $map;
+	}
+
+	public static function get_order_fields_product_totals() {
+		return array(
+			'total_weight_items'    => array(
+				'label'   => __( 'Total weight', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'number',
+			),
+			'count_total_items'     => array(
+				'label'   => __( 'Total items', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'number',
+			),
+			'count_exported_items'  => array(
+				'label'   => __( 'Exported items', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'number',
+			),
+			'count_unique_products' => array(
+				'label'   => __( 'Total products', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'number',
+			),
+		);
+	}
+
 	// meta
 	public static function get_order_fields_coupons() {
 		return array(
@@ -986,21 +1068,6 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 
 	public static function get_order_fields_cart() {
 		return array(
-			'shipping_method_title'         => array(
-				'label'   => __( 'Shipping Method Title', 'woo-order-export-lite' ),
-				'checked' => 1,
-				'format'  => 'string',
-			),
-			'shipping_method'               => array(
-				'label'   => __( 'Shipping Method', 'woo-order-export-lite' ),
-				'checked' => 0,
-				'format'  => 'string',
-			),
-			'shipping_method_only'          => array(
-				'label'   => __( 'Shipping Method (no id)', 'woo-order-export-lite' ),
-				'checked' => 0,
-				'format'  => 'string',
-			),
 			'payment_method_title'          => array(
 				'label'   => __( 'Payment Method Title', 'woo-order-export-lite' ),
 				'checked' => 1,
@@ -1056,6 +1123,21 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 
 	public static function get_order_fields_ship_calc() {
 		return array(
+			'shipping_method_title'         => array(
+				'label'   => __( 'Shipping Method Title', 'woo-order-export-lite' ),
+				'checked' => 1,
+				'format'  => 'string',
+			),
+			'shipping_method'               => array(
+				'label'   => __( 'Shipping Method', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'string',
+			),
+			'shipping_method_only'          => array(
+				'label'   => __( 'Shipping Method (no id)', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'string',
+			),
 			'order_shipping'                  => array(
 				'label'   => __( 'Order Shipping Amount', 'woo-order-export-lite' ),
 				'checked' => 1,
@@ -1144,28 +1226,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 	}
 
 	public static function get_order_fields_misc() {
-		return array(
-			'total_weight_items'    => array(
-				'label'   => __( 'Total weight', 'woo-order-export-lite' ),
-				'checked' => 0,
-				'format'  => 'number',
-			),
-			'count_total_items'     => array(
-				'label'   => __( 'Total items', 'woo-order-export-lite' ),
-				'checked' => 0,
-				'format'  => 'number',
-			),
-			'count_exported_items'  => array(
-				'label'   => __( 'Exported items', 'woo-order-export-lite' ),
-				'checked' => 0,
-				'format'  => 'number',
-			),
-			'count_unique_products' => array(
-				'label'   => __( 'Total products', 'woo-order-export-lite' ),
-				'checked' => 0,
-				'format'  => 'number',
-			),
-		);
+		return array();
 	}
 
 	// for UI only
@@ -1187,6 +1248,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 			'billing'	 => __('Billing Address', 'woo-order-export-lite'),
 			'shipping'	 => __('Shipping Address', 'woo-order-export-lite'),
 			'products'	 => __('Products', 'woo-order-export-lite'),
+			'product_totals' => __('Product totals', 'woo-order-export-lite'),
 			'coupons'	 => __('Coupons', 'woo-order-export-lite'),
 			'other_items'	 => __('Other items', 'woo-order-export-lite'),
 			'cart'		 => __('Cart', 'woo-order-export-lite'),
@@ -1194,6 +1256,30 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 			'totals'	 => __('Totals', 'woo-order-export-lite'),
 			'misc'		 => __('Others', 'woo-order-export-lite'),
 		));
+	}
+
+	/**
+	 * Same as get_order_segments() but with "product_items"
+	 *
+	 * @return array
+	 * @see WC_Order_Export_Data_Extractor_UI::get_order_segments
+	 */
+	public static function get_unselected_fields_segments() {
+		return array(
+			'common'         => __( 'Common', 'woo-order-export-lite' ),
+			'user'           => __( 'User', 'woo-order-export-lite' ),
+			'billing'        => __( 'Billing Address', 'woo-order-export-lite' ),
+			'shipping'       => __( 'Shipping Address', 'woo-order-export-lite' ),
+			'products'       => __( 'Products', 'woo-order-export-lite' ),
+			'product_items'  => __( 'Product items', 'woo-order-export-lite' ),
+			'product_totals' => __( 'Product totals', 'woo-order-export-lite' ),
+			'coupons'        => __( 'Coupons', 'woo-order-export-lite' ),
+			'other_items'    => __( 'Other items', 'woo-order-export-lite' ),
+			'cart'           => __( 'Cart', 'woo-order-export-lite' ),
+			'ship_calc'      => __( 'Shipping', 'woo-order-export-lite' ),
+			'totals'         => __( 'Totals', 'woo-order-export-lite' ),
+			'misc'           => __( 'Others', 'woo-order-export-lite' ),
+		);
 	}
 
 	public static function get_format_fields() {

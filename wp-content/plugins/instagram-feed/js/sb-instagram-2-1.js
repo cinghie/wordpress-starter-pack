@@ -309,6 +309,7 @@ if(!sbi_js_exists) {
                     //Hide the loader in the load more button
                     $self.find('.sbi_loader').addClass('sbi_hidden');
                     $self.find('.sbi_btn_text').removeClass('sbi_hidden');
+                    feed.maybeRaiseImageResolution();
                 }, 500);
             },
             beforeNewImagesRevealed: function() {
@@ -355,6 +356,9 @@ if(!sbi_js_exists) {
             afterNewImagesRevealed: function() {
                 this.listenForVisibilityChange();
                 this.sendNeedsResizingToServer();
+                if (!this.settings.imageLoadEnabled) {
+                    $('.sbi_no_resraise').removeClass('sbi_no_resraise');
+                }
 
                 var evt = $.Event('sbiafterimagesloaded');
                 evt.el = $(this.el);
@@ -433,6 +437,7 @@ if(!sbi_js_exists) {
                         } else {
                             feed.outOfPages = false;
                         }
+                        $('.sbi_no_js').removeClass('sbi_no_js');
                     }
 
                 };
@@ -492,6 +497,10 @@ if(!sbi_js_exists) {
                     imagEl = $item.find('img').get(0),
                     aspectRatio = currentUrl === window.sbi.options.placeholder ? 1 : imagEl.naturalWidth/imagEl.naturalHeight,
                     forceChange = typeof forceChange !== 'undefined' ? forceChange : false;
+
+                if ($item.hasClass('sbi_no_resraise')) {
+                    return;
+                }
 
                 $.each(imgSrcSet, function (index, value) {
                     if (value === currentUrl) {
@@ -711,6 +720,7 @@ if(!sbi_js_exists) {
                     && this.resizedImages[id].id !== 'error'
                     && this.resizedImages[id].id !== 'video'
                     && this.resizedImages[id].id !== 'pending') {
+
                     if (typeof this.resizedImages[id]['sizes'] !== 'undefined') {
                         var foundSizes = [];
                         if (typeof this.resizedImages[id]['sizes']['full'] !== 'undefined') {
@@ -754,7 +764,7 @@ if(!sbi_js_exists) {
                         }
                     }
                 } else if (typeof this.resizedImages[id] === 'undefined'
-                    || this.resizedImages[id] !== 'pending') {
+                    || (typeof this.resizedImages[id]['id'] !== 'undefined' && this.resizedImages[id]['id'] !== 'pending' && this.resizedImages[id]['id'] !== 'error')) {
                     this.addToNeedsResizing(id);
                 }
 

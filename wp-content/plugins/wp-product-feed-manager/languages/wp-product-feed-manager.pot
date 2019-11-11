@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: WooCommerce Product Feed Manager\n"
-"POT-Creation-Date: 2019-10-04 13:32+0200\n"
+"POT-Creation-Date: 2019-11-01 08:50+0100\n"
 "PO-Revision-Date: 2018-08-20 20:39+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -35,13 +35,13 @@ msgid ""
 "folder."
 msgstr ""
 
-#: includes/application/class-feed-master.php:537
+#: includes/application/class-feed-master.php:539
 #: includes/user-interface/class-wppfm-i18n-scripts.php:85
 msgid "Fill with a static value"
 msgstr ""
 
-#: includes/application/class-feed-master.php:538
-#: includes/application/class-feed-master.php:543
+#: includes/application/class-feed-master.php:540
+#: includes/application/class-feed-master.php:545
 msgid "Use the settings in the Merchant Center"
 msgstr ""
 
@@ -70,32 +70,32 @@ msgstr ""
 
 #. translators: %s: Title of the feed file
 #. translators: %s: Selected backup file
-#: includes/data/class-wppfm-ajax-file.php:113
+#: includes/data/class-wppfm-ajax-file.php:114
 #: includes/data/class-wppfm-db-management.php:263
 #, php-format
 msgid "Could not find file %s."
 msgstr ""
 
-#: includes/data/class-wppfm-ajax-file.php:115
+#: includes/data/class-wppfm-ajax-file.php:116
 #: includes/data/class-wppfm-db-management.php:265
 msgid ""
 "Error deleting the feed. You do not have the correct authorities to delete "
 "the file."
 msgstr ""
 
-#: includes/data/class-wppfm-ajax-file.php:168
+#: includes/data/class-wppfm-ajax-file.php:169
 #: includes/user-interface/class-wppfm-i18n-scripts.php:36
 msgid ""
 "Error writing the feed. You do not have the correct authorities to write the "
 "file."
 msgstr ""
 
-#: includes/data/class-wppfm-ajax-file.php:284
+#: includes/data/class-wppfm-ajax-file.php:303
 msgid "Feed processing data cleared"
 msgstr ""
 
 #. translators: clearing the feed data failed
-#: includes/data/class-wppfm-ajax-file.php:287
+#: includes/data/class-wppfm-ajax-file.php:306
 msgid "Clearing failed!"
 msgstr ""
 
@@ -175,24 +175,24 @@ msgstr ""
 msgid "1433 - Could not write the %s file."
 msgstr ""
 
-#: includes/libraries/wpmr_plugin_updater.php:191
+#: includes/libraries/wpmr_plugin_updater.php:239
 #, php-format
 msgid ""
 "There is a new version of %1$s available. %2$sView version %3$s details%4$s."
 msgstr ""
 
-#: includes/libraries/wpmr_plugin_updater.php:199
+#: includes/libraries/wpmr_plugin_updater.php:247
 #, php-format
 msgid ""
 "There is a new version of %1$s available. %2$sView version %3$s details%4$s "
 "or %5$supdate now%6$s."
 msgstr ""
 
-#: includes/libraries/wpmr_plugin_updater.php:356
+#: includes/libraries/wpmr_plugin_updater.php:490
 msgid "You do not have permission to install plugin updates"
 msgstr ""
 
-#: includes/libraries/wpmr_plugin_updater.php:356
+#: includes/libraries/wpmr_plugin_updater.php:490
 msgid "Error"
 msgstr ""
 
@@ -207,6 +207,24 @@ msgstr[1] ""
 msgid ""
 "Could not schedule the cron event required to start the feed process. Please "
 "check if your wp cron is configured correctly and is running."
+msgstr ""
+
+#: includes/packages/logger/wp-product-feed-manager-logger.php:69
+msgid ""
+"The logger code is now integrated in the Feed Manager plugin. To prevent "
+"conflicts please deactivate and remove the \"WooCommerce Product Feed "
+"Manager Logger\" plugin from your Plugins page."
+msgstr ""
+
+#: includes/packages/wpml/includes/wppfm-wpml-functions.php:18
+msgid "-- Select the language of the feed --"
+msgstr ""
+
+#: includes/packages/wpml/includes/wppfm-wpml-functions.php:118
+msgid ""
+"WPML support is now integrated in the Feed Manager plugin. To prevent "
+"conflicts please deactivate and remove the \"WooCommerce Product Feed "
+"Manager WPML Support\" plugin from your Plugins page."
 msgstr ""
 
 #. translators: %s: old channel folder
@@ -811,7 +829,7 @@ msgid "Status"
 msgstr ""
 
 #: includes/user-interface/class-wppfm-main-admin-page.php:87
-#: includes/user-interface/class-wppfm-options-page.php:123
+#: includes/user-interface/class-wppfm-options-page.php:135
 msgid "Actions"
 msgstr ""
 
@@ -909,102 +927,116 @@ msgid ""
 "remove an unused channel or upgrade your license."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-options-page.php:59
+#: includes/user-interface/class-wppfm-options-page.php:61
 msgid "Auto feed fix"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-options-page.php:64
+#: includes/user-interface/class-wppfm-options-page.php:66
 msgid "Automatically try regenerating feeds that are failed (default off)."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-options-page.php:65
+#: includes/user-interface/class-wppfm-options-page.php:67
 msgid ""
 "Leaving this option on can put extra strain on your server when feeds keep "
 "failing."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-options-page.php:69
+#: includes/user-interface/class-wppfm-options-page.php:71
 msgid "Disable background processing"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-options-page.php:74
+#: includes/user-interface/class-wppfm-options-page.php:76
 msgid ""
 "Process feeds directly instead of in the background (default off). Try this "
 "option when feeds keep getting stuck in processing. "
 msgstr ""
 
-#: includes/user-interface/class-wppfm-options-page.php:75
+#: includes/user-interface/class-wppfm-options-page.php:77
 msgid ""
 "WARNING: When this option is selected the system can only update one feed at "
 "a time. Make sure to deconflict your feeds auto-update schedules to prevent "
 "more than one feed auto-updates at a time."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-options-page.php:79
+#: includes/user-interface/class-wppfm-options-page.php:81
+msgid "Feed process logger"
+msgstr ""
+
+#: includes/user-interface/class-wppfm-options-page.php:86
+msgid ""
+"When switched on, generates an extensive log of the feed process (default "
+"off)."
+msgstr ""
+
+#: includes/user-interface/class-wppfm-options-page.php:87
+msgid "Switch this option only on request of the help desk. "
+msgstr ""
+
+#: includes/user-interface/class-wppfm-options-page.php:91
 msgid "Third party attributes"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-options-page.php:84
+#: includes/user-interface/class-wppfm-options-page.php:96
 msgid ""
 "Enter comma separated keywords and wildcards to use third party attributes."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-options-page.php:88
+#: includes/user-interface/class-wppfm-options-page.php:100
 msgid "Notice recipient"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-options-page.php:93
+#: includes/user-interface/class-wppfm-options-page.php:105
 msgid ""
 "Enter the email address of the person you want to be notified when a feed "
 "fails during an automatic feed update."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-options-page.php:97
-#: includes/user-interface/class-wppfm-options-page.php:100
+#: includes/user-interface/class-wppfm-options-page.php:109
+#: includes/user-interface/class-wppfm-options-page.php:112
 msgid "Clear feed process"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-options-page.php:102
+#: includes/user-interface/class-wppfm-options-page.php:114
 msgid ""
 "Use this option when feeds get stuck processing - does not delete your "
 "current feeds or settings."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-options-page.php:106
+#: includes/user-interface/class-wppfm-options-page.php:118
 msgid "Re-initialize"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-options-page.php:109
+#: includes/user-interface/class-wppfm-options-page.php:121
 msgid "Re-initiate plugin"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-options-page.php:111
+#: includes/user-interface/class-wppfm-options-page.php:123
 msgid ""
 "Updates the tables if required, re-initiates the cron events and resets the "
 "stored license - does not delete your current feeds or settings."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-options-page.php:115
+#: includes/user-interface/class-wppfm-options-page.php:127
 msgid "Backups"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-options-page.php:121
+#: includes/user-interface/class-wppfm-options-page.php:133
 msgid "File name"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-options-page.php:122
+#: includes/user-interface/class-wppfm-options-page.php:134
 msgid "Backup date"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-options-page.php:128
+#: includes/user-interface/class-wppfm-options-page.php:140
 msgid "Add new backup"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-options-page.php:133
+#: includes/user-interface/class-wppfm-options-page.php:145
 msgid "Backup current feeds"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-options-page.php:134
+#: includes/user-interface/class-wppfm-options-page.php:146
 msgid "Cancel backup"
 msgstr ""
 

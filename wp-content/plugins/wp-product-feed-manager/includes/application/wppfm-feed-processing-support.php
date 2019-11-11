@@ -2,7 +2,7 @@
 
 /**
  * @package WP Product Feed Manager/Application/Functions
- * @version 1.2.0
+ * @version 1.2.1
  */
 
 trait WPPFM_Processing_Support {
@@ -1067,19 +1067,24 @@ trait WPPFM_Processing_Support {
 	 *
 	 * @since 1.9.0
 	 *
-	 * @return array
+	 * @param $product  object pointer to the product data
+	 * @param $sub_keys_for_subs
+	 * @param $tags_repeated_fields
+	 * @param $node_pre_tag
+	 *
+	 * @return object
 	 */
 	public function add_xml_sub_tags( &$product, $sub_keys_for_subs, $tags_repeated_fields, $node_pre_tag ) {
-		$subtags = array_intersect_key( $product, array_flip( $sub_keys_for_subs ) );
+		$sub_tags = array_intersect_key( (array) $product, array_flip( $sub_keys_for_subs ) );
 
-		if ( count( $subtags ) < 1 ) {
+		if ( count( $sub_tags ) < 1 ) {
 			return $product;
 		}
 
 		$subtag_sep = apply_filters( 'wppfm_sub_tag_separator', '||' );
 		$tags_value = array();
 
-		foreach ( $subtags as $key => $value ) {
+		foreach ( $sub_tags as $key => $value ) {
 			$split = explode( '-', $key );
 
 			if ( in_array( $split[0], $tags_repeated_fields ) ) {
@@ -1087,11 +1092,12 @@ trait WPPFM_Processing_Support {
 				$value_array  = is_array( $value ) ? $value : explode( $subtag_sep, $value );
 
 				foreach ( $value_array as $sub_value ) {
-					$tags_value[ $tags_counter ] .= '<' . $node_pre_tag . $split[1] . '>' . $sub_value . '</' . $node_pre_tag . $split[1] . '>';
+					$prev_string                 = array_key_exists( $tags_counter, $tags_value ) ? $tags_value[ $tags_counter ] : '';
+					$tags_value[ $tags_counter ] = $prev_string . '<' . $node_pre_tag . $split[1] . '>' . $sub_value . '</' . $node_pre_tag . $split[1] . '>';
 					$tags_counter ++;
 				}
 			} else {
-				$tags_value = array_key_exists( $split[0], $product ) ? $product[ $split[0] ] : '';
+				$tags_value  = array_key_exists( $split[0], (array) $product ) ? $product[ $split[0] ] : '';
 				$tags_value .= '<' . $node_pre_tag . $split[1] . '>' . $value . '</' . $node_pre_tag . $split[1] . '>';
 			}
 
@@ -1409,7 +1415,8 @@ trait WPPFM_Processing_Support {
 			}
 		} else {
 			if ( ! $woocommerce_product_parent->is_type( 'simple' ) && ! $woocommerce_product_parent->is_type( 'grouped' )
-				&& ! $woocommerce_product_parent->is_type( 'virtual' ) && ! $woocommerce_product_parent->is_type( 'downloadable' ) ) {
+				&& ! $woocommerce_product_parent->is_type( 'virtual' ) && ! $woocommerce_product_parent->is_type( 'downloadable' )
+				&& ! $woocommerce_product_parent->is_type( 'external' ) ) {
 				$msg = sprintf(
 					'Product type of product %s could not be identified. The products shows as type %s',
 					$product->ID,

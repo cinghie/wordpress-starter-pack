@@ -460,6 +460,10 @@ YITH UI
     -moz-osx-font-smoothing: grayscale;
 }
 
+.yith-icon-reply:before {
+    content: "\e91a";
+    color: #757575;
+}
 .yith-icon-calendar_add:before {
     content: "\e913";
     color: #757575;
@@ -1194,11 +1198,7 @@ YITH UI
 .yith-plugin-ui .select2-container--default .select2-results__option[data-selected=true],
 .yith-plugin-ui .select2-container--default .select2-results__option[aria-selected=true],
 .yith-plugin-fw-panel .select2-container--default .select2-results__option[data-selected=true],
-.yith-plugin-fw-panel .select2-container--default .select2-results__option[aria-selected=true] {
-    background-color: #fff;
-    outline: none;
-}
-
+.yith-plugin-fw-panel .select2-container--default .select2-results__option[aria-selected=true],
 .yith-plugin-ui .select2-container--default .select2-results__option--highlighted[aria-selected],
 .yith-plugin-ui .select2-container--default .select2-results__option--highlighted[data-selected],
 .yith-plugin-fw-panel .select2-container--default .select2-results__option--highlighted[aria-selected],
@@ -1675,7 +1675,7 @@ DATEPICKER
 }
 
 .yith-plugin-ui .wp-picker-default-custom:before {
-    content: "\e910";
+    content: "\e91a";
     text-indent: 0;
     font-family: 'yith-icon';
     font-size: 20px;
@@ -2087,6 +2087,30 @@ DATEPICKER
 
 .yith-plugin-ui .plugin-option tr {
     border: 0;
+}
+
+/** MULTI SELECT **/
+.yith-plugin-ui .yith-plugin-fw-multi-select .yith-select-group {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+}
+.yith-plugin-ui .yith-plugin-fw-multi-select .yith-single-select {
+    -webkit-flex: 50%;
+    flex: 50%;
+    margin-right: 20px;
+}
+.yith-plugin-ui .yith-plugin-fw-multi-select .yith-single-select label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+}
+.yith-plugin-ui .yith-plugin-fw-multi-select .yith-single-select select,
+.yith-plugin-ui .yith-plugin-fw-multi-select .yith-single-select span.select2 {
+    width: 100% !important;
+    min-width: auto !important;
 }
 
 @media screen and (max-width: 1440px) {

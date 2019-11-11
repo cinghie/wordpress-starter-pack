@@ -41,6 +41,12 @@ jQuery(document).ready(function($) {
 			$("#fileformat option[value='tsv']").remove();
 
                         $('#file').after('<tr id="delimiter"><td><span>Delimiter:</span></td><td><select name="delimiter" class="select-field"><option value=",">, comma</option><option value="|">| pipe</option><option value=";">;</option><option value="tab">tab</option></select></td></tr>');
+		} else if(channel_hash == 'Wish.com'){ // Ugly hack, should be configurable per channel
+			$("#fileformat option[value='xml']").remove();
+			$("#fileformat option[value='txt']").remove();
+			$("#fileformat option[value='tsv']").remove();
+
+                        $('#file').after('<tr id="delimiter"><td><span>Delimiter:</span></td><td><select name="delimiter" class="select-field"><option value=",">, comma</option><option value="|">| pipe</option><option value=";">;</option><option value="tab">tab</option></select></td></tr>');
 		} else if(channel_hash == 'Google Local Products Inventory'){ // Ugly hack, should be configurable per channel
 			$("#fileformat option[value='xml']").remove();
 			$("#fileformat option[value='csv']").remove();

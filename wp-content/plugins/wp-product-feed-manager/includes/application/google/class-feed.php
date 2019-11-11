@@ -3,7 +3,7 @@
  * WP Product Feed Manager Google Feed Class.
  *
  * @package WP Product Feed Manager/Channels
- * @version 7.1
+ * @version 9.0
  */
 
 // Prevent direct access
@@ -18,7 +18,7 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 	 */
 	class WPPFM_Google_Feed_Class extends WPPFM_Feed_Master_Class {
 
-		private $_version = '7.1';
+		private $_version = '9.0';
 
 		public function __construct() {
 			parent::__construct();
@@ -102,6 +102,13 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 							$main_data->attributes[ $i ]->fieldLevel = in_array( $country, $this->special_shipping_countries() ) ? 1 : 4;
 							break;
 
+						case 'subscription_cost':
+						case 'subscription_cost-period':
+						case 'subscription_cost-period_length':
+						case 'subscription_cost-amount':
+							$main_data->attributes[ $i ]->fieldLevel = in_array( $country, $this->special_subscription_countries() ) ? 4 : 0;
+							break;
+
 						default:
 							break;
 					}
@@ -113,7 +120,7 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 		}
 
 		public function keys_that_have_sub_tags() {
-			return array( 'installment', 'loyalty_points', 'shipping', 'tax' );
+			return array( 'installment', 'loyalty_points', 'shipping', 'tax', 'subscription_cost' );
 		}
 
 		// ALERT! This function is equivalent to the wppfm_doublesFieldsAllowed() function in the wppfm_google-source.js file
@@ -136,19 +143,15 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 				'tax-region',
 				'tax-rate',
 				'tax-tax_ship',
+				'subscription_cost-period',
+				'subscription_cost-period_length',
+				'subscription_cost-amount',
 			);
 		}
 
 		// ALERT! This function is equivalent to the googleSpecialClothingGroupCountries() function in google-source.js
 		private function special_clothing_group_countries() {
-			return array(
-				'US',
-				'GB',
-				'DE',
-				'FR',
-				'JP',
-				'BR',
-			); // Brazil added based on the new Feed Specifications from september 2015
+			return array( 'US', 'GB', 'DE', 'FR', 'JP', 'BR' ); // Brazil added based on the new Feed Specifications from september 2015
 		}
 
 		// ALERT! This function is equivalent to the googleSpecialShippingCountries() function in google-source.js
@@ -159,6 +162,11 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 		// ALERT! This function is equivalent to the googleSpecialProductCountries() function in google-source.js
 		private function special_product_countries() {
 			return array( 'US', 'GB', 'DE', 'AU', 'FR', 'CH', 'CZ', 'NL', 'IT', 'ES', 'JP', 'BR' );
+		}
+
+		// ALERT! This function is equivalent to the googleSpecialSubscriptionCountries() function in google-source.js
+		private function special_subscription_countries() {
+			return array( 'DE', 'FR', 'GB' );
 		}
 
 		private function google_clothing_and_accessories( $category ) {

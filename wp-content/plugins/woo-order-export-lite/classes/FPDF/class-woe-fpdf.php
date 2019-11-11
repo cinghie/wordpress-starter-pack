@@ -515,7 +515,6 @@ class WOE_FPDF {
 
 		// Enable compression
 		$this->SetCompression( true );
-
 	}
 
 	/**
@@ -1407,166 +1406,226 @@ class WOE_FPDF {
 	}
 
 	/**
-	 * @param        $flt_width
-	 * @param        $flt_height
-	 * @param        $str_text
-	 * @param int    $int_border
-	 * @param string $str_alignment
-	 * @param bool   $bol_fill
-	 * @param int int_maxline
+	 * Output text with automatic or explicit line breaks
+	 *
+	 * @param float      $width
+	 * @param float      $height
+	 * @param string     $text
+	 * @param int|string $border Indicates if borders must be drawn around the cell block.
+	 * The value can be either a number: 0 - no border, 1 - frame
+	 * or a string containing some or all of the following characters (in any order): L - left, 'T' - top, 'R' - right, 'B' - bottom
+	 * @param string     $horizontal_alignment
+	 * @param string     $vertical_alignment
+	 * @param bool       $bol_fill
+	 * @param int        $lines_limit
 	 *
 	 * @return string
 	 */
-	public function MultiCell( $flt_width, $flt_height, $str_text, $int_border = 0, $str_alignment = 'J', $bol_fill = false, $int_maxline = 0 ) {
-		// Output text with automatic or explicit line breaks
-		$arr_character_width = &$this->arr_current_font_info['cw'];
-		if ( $flt_width == 0 ) {
-			$flt_width = $this->flt_current_width - $this->int_right_margin - $this->flt_position_x;
+	public function MultiCell( $width, $height, $text, $border = 0, $horizontal_alignment = 'J', $vertical_alignment = 'T', $bol_fill = false, $lines_limit = 0 ) {
+		$row_height = 5;
+
+		// was required for calculate char width
+		// $arr_character_width = &$this->arr_current_font_info['cw'];
+
+		/* is it really necessary?
+		if ( $width == 0 ) {
+			$width = $this->flt_current_width - $this->int_right_margin - $this->flt_position_x;
 		}
-		$flt_max_width = ( $flt_width - 2 * $this->int_cell_margin );
-		$str_text      = str_replace( "\r", '', $str_text );
+		*/
+
+		// define max width available for text
+		$available_width = ( $width - 2 * $this->int_cell_margin );
+
+		// sanitize text
+		$text = str_replace( "\r", '', $text );
+
+		// remove last char if it's line break
 		if ( $this->bol_uniform_subset ) {
-			$int_length = mb_strlen( $str_text, 'utf-8' );
-			while ( $int_length > 0 && mb_substr( $str_text, $int_length - 1, 1, 'utf-8' ) == "\n" ) {
+			$int_length = mb_strlen( $text, 'utf-8' );
+			while ( $int_length > 0 && mb_substr( $text, $int_length - 1, 1, 'utf-8' ) == "\n" ) {
 				$int_length --;
 			}
 		} else {
-			$int_length = strlen( $str_text );
-			if ( $int_length > 0 && $str_text[ $int_length - 1 ] == "\n" ) {
+			$int_length = strlen( $text );
+			if ( $int_length > 0 && $text[ $int_length - 1 ] == "\n" ) {
 				$int_length --;
 			}
 		}
-		$mix_adjusted_border   = 0;
-		$mix_adjusted_border_2 = 0;
-		if ( $int_border ) {
-			if ( $int_border == 1 ) {
-				$int_border            = 'LTRB';
-				$mix_adjusted_border   = 'LRT';
-				$mix_adjusted_border_2 = 'LR';
+
+		$adjusted_border      = '';
+		$border_between_cells = '';
+		if ( $border ) {
+			if ( $border === 1 ) {
+				$border               = 'LTRB';
+				$adjusted_border      = 'LRT';
+				$border_between_cells = 'LR';
 			} else {
-				$mix_adjusted_border_2 = '';
-				if ( strpos( $int_border, 'L' ) !== false ) {
-					$mix_adjusted_border_2 .= 'L';
+				if ( strpos( $border, 'L' ) !== false ) {
+					$border_between_cells .= 'L';
 				}
-				if ( strpos( $int_border, 'R' ) !== false ) {
-					$mix_adjusted_border_2 .= 'R';
+				if ( strpos( $border, 'R' ) !== false ) {
+					$border_between_cells .= 'R';
 				}
-				$mix_adjusted_border = ( strpos( $int_border, 'T' ) !== false ) ? $mix_adjusted_border_2 . 'T' : $mix_adjusted_border_2;
+
+				$adjusted_border = $border_between_cells;
+				if ( strpos( $border, 'T' ) !== false ) {
+					$adjusted_border = $border_between_cells . 'T';
+				}
 			}
 		}
-		$int_sep         = - 1;
-		$int_i           = 0;
-		$int_j           = 0;
-		$int_l           = 0;
-		$int_space_count = 0;
-		$int_line_count  = 1;
-		$int_ls          = 0;
-		while ( $int_i < $int_length ) {
+
+		$cellCallback = function ( $text, $from, $to, $adjusted_border ) use ( $width, $row_height, $horizontal_alignment, $bol_fill ) {
+			if ( $this->bol_uniform_subset ) {
+				$this->Cell( $width, $row_height, mb_substr( $text, $from, $to - $from, 'UTF-8' ), $adjusted_border, 2, $horizontal_alignment, $bol_fill );
+			} else {
+				$this->Cell( $width, $row_height, substr( $text, $from, $to - $from ), $adjusted_border, 2, $horizontal_alignment, $bol_fill );
+			}
+		};
+
+		$simple_draw_queue = array();
+
+		$last_space_char_pos    = - 1;
+		$current_char_pos       = 0;
+		$last_line_break_pos    = 0;
+		$current_line_width     = 0;
+		$space_counter          = 0;
+		$line_count             = 1;
+		$width_until_last_space = 0;
+		while ( $current_char_pos < $int_length ) {
 			// Get next character
 			if ( $this->bol_uniform_subset ) {
-				$str_character = mb_substr( $str_text, $int_i, 1, 'UTF-8' );
+				$current_char = mb_substr( $text, $current_char_pos, 1, 'UTF-8' );
 			} else {
-				$str_character = $str_text[ $int_i ];
+				$current_char = $text[ $current_char_pos ];
 			}
-			if ( $str_character == "\n" ) {
+
+			if ( $current_char == "\n" ) {
 				// Explicit line break
 				if ( $this->int_word_spacing > 0 ) {
 					$this->int_word_spacing = 0;
-					$this->Out( '0 Tw' );
+					$simple_draw_queue[] = array( array( $this, 'Out' ), array( '0 Tw' ) );
 				}
-				if ( $this->bol_uniform_subset ) {
-					$this->Cell( $flt_width, $flt_height, mb_substr( $str_text, $int_j, $int_i - $int_j, 'UTF-8' ), $mix_adjusted_border, 2, $str_alignment, $bol_fill );
-				} else {
-					$this->Cell( $flt_width, $flt_height, substr( $str_text, $int_j, $int_i - $int_j ), $mix_adjusted_border, 2, $str_alignment, $bol_fill );
+
+				$simple_draw_queue[] = array(
+					$cellCallback,
+					array( $text, $last_line_break_pos, $current_char_pos, $adjusted_border )
+				);
+
+				$current_char_pos ++;
+				$last_space_char_pos = - 1;
+				$last_line_break_pos = $current_char_pos;
+				$current_line_width  = 0;
+				$space_counter       = 0;
+				$line_count ++;
+				if ( $border && $line_count == 2 ) {
+					$adjusted_border = $border_between_cells;
 				}
-				$int_i ++;
-				$int_sep         = - 1;
-				$int_j           = $int_i;
-				$int_l           = 0;
-				$int_space_count = 0;
-				$int_line_count ++;
-				if ( $int_border && $int_line_count == 2 ) {
-					$mix_adjusted_border = $mix_adjusted_border_2;
-				}
-				if ( $int_maxline && $int_line_count > $int_maxline ) {
-					return substr( $str_text, $int_i );
+				if ( $lines_limit && $line_count > $lines_limit ) {
+					return substr( $text, $current_char_pos );
 				}
 				continue;
-			}
-			if ( $str_character == ' ' ) {
-				$int_sep = $int_i;
-				$int_ls  = $int_l;
-				$int_space_count ++;
-			}
-
-			if ( $this->bol_uniform_subset ) {
-				$int_l += $this->GetStringWidth( $str_character );
+			} elseif ( $current_char == ' ' ) {
+				$last_space_char_pos    = $current_char_pos;
+				$width_until_last_space = $current_line_width;
+				$space_counter ++;
 			} else {
-				$int_l += $arr_character_width[ $str_character ] * $this->int_font_size_user / 1000;
-			}
-
-			if ( $int_l > $flt_max_width ) {
-				// Automatic line break
-				if ( $int_sep == - 1 ) {
-					if ( $int_i == $int_j ) {
-						$int_i ++;
-					}
-					if ( $this->int_word_spacing > 0 ) {
-						$this->int_word_spacing = 0;
-						$this->Out( '0 Tw' );
-					}
-					if ( $this->bol_uniform_subset ) {
-						$this->Cell( $flt_width, $flt_height, mb_substr( $str_text, $int_j, $int_i - $int_j, 'UTF-8' ), $mix_adjusted_border, 2, $str_alignment, $bol_fill );
-					} else {
-						$this->Cell( $flt_width, $flt_height, substr( $str_text, $int_j, $int_i - $int_j ), $mix_adjusted_border, 2, $str_alignment, $bol_fill );
-					}
+				// GetStringWidth() can calculate depends on $this->bol_uniform_subset
+				$current_line_width += $this->GetStringWidth( $current_char );
+				/*
+				if ( $this->bol_uniform_subset ) {
+					$current_line_width += $this->GetStringWidth( $str_character );
 				} else {
-					if ( $str_alignment == 'J' ) {
-						$this->int_word_spacing = ( $int_space_count > 1 ) ? ( $flt_max_width - $int_ls ) / ( $int_space_count - 1 ) : 0;
-						$this->Out( sprintf( '%.3F Tw', $this->int_word_spacing * $this->flt_scale_factor ) );
-					}
-					if ( $this->bol_uniform_subset ) {
-						$this->Cell( $flt_width, $flt_height, mb_substr( $str_text, $int_j, $int_sep - $int_j, 'UTF-8' ), $mix_adjusted_border, 2, $str_alignment, $bol_fill );
-					} else {
-						$this->Cell( $flt_width, $flt_height, substr( $str_text, $int_j, $int_sep - $int_j ), $mix_adjusted_border, 2, $str_alignment, $bol_fill );
-					}
-					$int_i = $int_sep + 1;
+					$current_line_width += $arr_character_width[ $str_character ] * $this->int_font_size_user / 1000;
 				}
-				$int_sep         = - 1;
-				$int_j           = $int_i;
-				$int_l           = 0;
-				$int_space_count = 0;
-				$int_line_count ++;
-				if ( $int_border && $int_line_count == 2 ) {
-					$mix_adjusted_border = $mix_adjusted_border_2;
-				}
+				*/
+			}
 
-				if ( $int_maxline && $int_line_count > $int_maxline ) {
+			if ( $current_line_width > $available_width ) {
+				// Automatic line break
+				if ( $last_space_char_pos == - 1 ) {
+					if ( $current_char_pos == $last_line_break_pos ) {
+						$current_char_pos ++;
+					}
 					if ( $this->int_word_spacing > 0 ) {
 						$this->int_word_spacing = 0;
-						$this->Out( '0 Tw' );
+						$simple_draw_queue[] = array( array( $this, 'Out' ), array( '0 Tw' ) );
 					}
 
-					return substr( $str_text, $int_i );
+					$simple_draw_queue[] = array(
+						$cellCallback,
+						array( $text, $last_line_break_pos, $current_char_pos, $adjusted_border )
+					);
+				} else {
+					if ( $horizontal_alignment == 'J' ) {
+						$this->int_word_spacing = ( $space_counter > 1 ) ? ( $available_width - $width_until_last_space ) / ( $space_counter - 1 ) : 0;
+						$simple_draw_queue[] = array(
+							array( $this, 'Out' ),
+							array( sprintf( '%.3F Tw', $this->int_word_spacing * $this->flt_scale_factor ) )
+						);
+					}
+
+					$simple_draw_queue[] = array(
+						$cellCallback,
+						array( $text, $last_line_break_pos, $last_space_char_pos, $adjusted_border )
+					);
+					$current_char_pos = $last_space_char_pos + 1;
+				}
+				$last_space_char_pos = - 1;
+				$last_line_break_pos = $current_char_pos;
+				$current_line_width  = 0;
+				$space_counter       = 0;
+				$line_count ++;
+				if ( $border && $line_count == 2 ) {
+					$adjusted_border = $border_between_cells;
+				}
+
+				if ( $lines_limit && $line_count > $lines_limit ) {
+					if ( $this->int_word_spacing > 0 ) {
+						$this->int_word_spacing = 0;
+						$simple_draw_queue[] = array( array( $this, 'Out' ), array( '0 Tw' ) );
+					}
+
+					return substr( $text, $current_char_pos );
 				}
 
 			} else {
-				$int_i ++;
+				$current_char_pos ++;
 			}
 		}
+
 		// Last chunk
 		if ( $this->int_word_spacing > 0 ) {
 			$this->int_word_spacing = 0;
-			$this->Out( '0 Tw' );
+			$simple_draw_queue[] = array( array( $this, 'Out' ), array( '0 Tw' ) );
 		}
-		if ( $int_border && strpos( $int_border, 'B' ) !== false ) {
-			$mix_adjusted_border .= 'B';
+
+		if ( $border && strpos( $border, 'B' ) !== false ) {
+			$adjusted_border .= 'B';
 		}
-		if ( $this->bol_uniform_subset ) {
-			$this->Cell( $flt_width, $flt_height, mb_substr( $str_text, $int_j, $int_i - $int_j, 'UTF-8' ), $mix_adjusted_border, 2, $str_alignment, $bol_fill );
+
+		$simple_draw_queue[] = array(
+			$cellCallback,
+			array( $text, $last_line_break_pos, $current_char_pos, $adjusted_border )
+		);
+
+		// install y pos depends on vertical align
+		if ( 'C' === $vertical_alignment ) {
+			$this->flt_position_y += ( $height - $row_height * $line_count ) / 2;
+		} elseif ( 'B' === $vertical_alignment ) {
+			$this->flt_position_y += $height - $row_height * $line_count;
 		} else {
-			$this->Cell( $flt_width, $flt_height, substr( $str_text, $int_j, $int_i - $int_j ), $mix_adjusted_border, 2, $str_alignment, $bol_fill );
+			// do nothing for top vertical align
 		}
+
+		foreach ( $simple_draw_queue as $item ) {
+			if ( isset( $item[0] ) && is_callable( $item[0] ) ) {
+				$func = $item[0];
+				$args = isset( $item[1] ) ? $item[1] : array();
+
+				call_user_func_array( $func, $args );
+			}
+		}
+
 		$this->flt_position_x = $this->int_left_margin;
 
 		return '';

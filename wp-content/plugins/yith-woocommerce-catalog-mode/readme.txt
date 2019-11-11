@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: woocommerce catalog mode plugin, woocommerce catalog only, woocommerce, products, themes, yit, yith, yithemes, e-commerce, shop, catalog mode, catalogue mode, remove add to cart, ask for price, ask price, asking for price, asking price, button remove, call, call for price, call me, call us, contact, email, hide add to cart, hide price
 Requires at least: 4.0
 Tested up to: 5.3
-Stable tag: 1.6.12
+Stable tag: 1.6.13
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,7 +76,7 @@ YITH WooCommerce Catalog Mode will add a new tab called "Catalog Mode" inside th
 = Is it compatible with all WordPress themes? =
 
 Compatibility with all themes is impossible, because they are too many, but generally if themes are developed according to WordPress and WooCommerce guidelines, YITH plugins are compatible with them.
-Yet, we can grant compatibility with themes developed by YIThemes, because they are constantly updated and tested with our plugins. Sometimes, especially when new versions are released, it might only require some time for them to be all updated, but you can be sure that they will be tested and will be working in a few days. 
+Yet, we can grant compatibility with themes developed by YIThemes, because they are constantly updated and tested with our plugins. Sometimes, especially when new versions are released, it might only require some time for them to be all updated, but you can be sure that they will be tested and will be working in a few days.
 
 = How can I get support if my WooCommerce plugin is not working? =
 
@@ -113,7 +113,11 @@ yith-woocommerce-catalog-mode-<WORDPRESS LOCALE >.mo
 
 == Changelog ==
 
-= Version 1.6.11 - Released: 30 October 2019 =
+= Version 1.6.13 - Released: 10 November 2019 =
+
+* Update: plugin framework
+
+= Version 1.6.12 - Released: 30 October 2019 =
 
 * Update: plugin framework
 

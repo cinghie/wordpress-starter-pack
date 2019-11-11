@@ -29,6 +29,11 @@ class WOE_Formatter_Html extends WOE_Formatter_Plain_Format {
 		parent::__construct( $mode, $filename, $settings, $format, $labels, $field_formats, $date_format, $offset );
 
 		$this->css = $this->get_prepared_css();
+		
+		//to support IMAGES
+		$field_formats = $this->field_formats['order']; // overwrite! probably modified by parent
+		$this->image_format_fields = isset( $field_formats['image'] ) ? $field_formats['image'] : array();
+		$this->image_format_fields = apply_filters( "woe_{$format}_image_format_fields", $this->image_format_fields );
 	}
 
 	public function start( $data = '' ) {
@@ -79,6 +84,18 @@ class WOE_Formatter_Html extends WOE_Formatter_Plain_Format {
 				$row = apply_filters( "woe_{$this->format}_output_filter", $row, $this );
 				if ( ! $row ) {
 					continue;
+				}
+			}
+			
+			//to support IMAGES
+			foreach ( $row as $column => &$cell ) {
+				if ( $this->field_format_is( $column, $this->image_format_fields ) ) {
+					$html = $this->make_img_html_from_path(
+						$cell,
+						$this->settings['row_images_width'],
+						$this->settings['row_images_height']
+					);
+					$cell = $html ? $html : "";
 				}
 			}
 

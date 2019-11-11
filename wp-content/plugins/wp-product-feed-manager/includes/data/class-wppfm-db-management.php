@@ -4,7 +4,7 @@
  * WP Db Management Class.
  *
  * @package WP Product Feed Manager/Data/Classes
- * @version 1.7.0
+ * @version 1.8.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -295,6 +295,16 @@ if ( ! class_exists( 'WPPFM_Db_Management' ) ) :
 			if ( is_multisite() ) {
 				$queries_class->clear_feed_batch_sitemeta();
 			}
+		}
+
+		/**
+		 * Resets the status_id's of failed feeds.
+		 *
+		 * @since 2.7.0
+		 */
+		public static function reset_status_of_failed_feeds() {
+			$queries_class = new WPPFM_Queries();
+			$queries_class->reset_all_feed_status();
 		}
 
 		private static function remove_left_data_part( $data_string ) {

@@ -4,7 +4,7 @@
  * WP Ajax File Class.
  *
  * @package WP Product Feed Manager/Data/Classes
- * @version 2.8.0
+ * @version 2.9.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -29,6 +29,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 			add_action( 'wp_ajax_myajax-log-message', array( $this, 'myajax_log_message' ) );
 			add_action( 'wp_ajax_myajax-auto-feed-fix-mode-selection', array( $this, 'myajax_auto_feed_fix_mode_selection' ) );
 			add_action( 'wp_ajax_myajax-background-processing-mode-selection', array( $this, 'myajax_background_processing_mode_selection' ) );
+			add_action( 'wp_ajax_myajax-feed-logger-status-selection', array( $this, 'myajax_feed_logger_status_selection' ) );
 			add_action( 'wp_ajax_myajax-debug-mode-selection', array( $this, 'myajax_debut_mode_selection' ) );
 			add_action( 'wp_ajax_myajax-third-party-attribute-keywords', array( $this, 'myajax_set_third_party_attribute_keywords' ) );
 			add_action( 'wp_ajax_myajax-set-notice-mailaddress', array( $this, 'myajax_set_notice_mailaddress' ) );
@@ -203,6 +204,24 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 				update_option( 'wppfm_disabled_background_mode', $selection );
 
 				echo get_option( 'wppfm_disabled_background_mode' );
+			}
+
+			// IMPORTANT: don't forget to exit
+			exit;
+		}
+
+		/**
+		 * Changes the Feed Process Logger setting from the Settins page.
+		 *
+		 * @since 2.8.0
+		 */
+		public function myajax_feed_logger_status_selection() {
+			// make sure this call is legal
+			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'feedLoggerStatusNonce' ), 'myajax-logger-status-nonce' ) ) {
+				$selection = filter_input( INPUT_POST, 'status_selection' );
+				update_option( 'wppfm_process_logger_status', $selection );
+
+				echo get_option( 'wppfm_process_logger_status' );
 			}
 
 			// IMPORTANT: don't forget to exit

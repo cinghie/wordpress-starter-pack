@@ -42,6 +42,14 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 
 		$this->encoding  = isset( $this->settings['encoding'] ) ? $this->settings['encoding'] : '';
 	}
+	
+	// calculate max columns based on order items
+	public function adjust_duplicated_fields_settings( $order_ids ){
+		if( $this->duplicate_settings['products']['repeat'] == 'columns' AND $this->duplicate_settings['products']['max_cols'] == 0 ) 
+			$this->duplicate_settings['products']['max_cols'] = WC_Order_Export_Data_Extractor::get_max_order_items( "line_item", $order_ids );
+		if( $this->duplicate_settings['coupons']['repeat'] == 'columns' AND $this->duplicate_settings['coupons']['max_cols'] == 0 ) 
+			$this->duplicate_settings['coupons']['max_cols'] = WC_Order_Export_Data_Extractor::get_max_order_items( "coupon", $order_ids );
+	}
 
 	public function output( $rec ) {
 		//don't output orders in summary mode!
@@ -107,7 +115,6 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 		} else {
 			$new_rows = array( $rec );
 		}
-
 
 		foreach ( $new_rows as $index => &$row ) {
 			if ( isset( $row['products'] ) ) {
@@ -259,14 +266,15 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 		foreach ( self::get_array_from_array( $row, 'products' ) as $item_id => $item ) {
 			$product_item = new WC_Order_Item_Product( $item_id );
 			$product      = $product_item->get_product();
-			if ( ! $product ) {
-				continue;
-			}
+			$item_meta = get_metadata( 'order_item', $item_id );
 			if ( ! $order ) {
 				$order = new WC_Order( $product_item->get_order_id() );
 			}
-
-			$key = $product->get_id();
+			
+			if( $product )
+				$key = $product->get_id();
+			else 
+				$key = $item_meta['_variation_id'][0] ? $item_meta['_variation_id'][0] : $item_meta['_product_id'][0];
 			$key = apply_filters( "woe_summary_products_adjust_key", $key, $product, $product_item, $order );
 
 			//add new product 
@@ -448,6 +456,31 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 		if ( isset( $_SESSION['woe_summary_customers'][ $key ]['summary_report_total_count'] ) ) {
 			$_SESSION['woe_summary_customers'][ $key ]['summary_report_total_count']++;
 		}
+		
+		if ( isset( $_SESSION['woe_summary_customers'][ $key ]['summary_report_total_count_items'] ) ) {
+			$_SESSION['woe_summary_customers'][ $key ]['summary_report_total_count_items'] += $order->get_item_count();
+		}
+		
+		if ( isset( $_SESSION['woe_summary_customers'][ $key ]['summary_report_total_count_items_exported'] ) ) {
+			if( empty( WC_Order_Export_Engine::$extractor_options['include_products']) ) {
+				$_SESSION['woe_summary_customers'][ $key ]['summary_report_total_count_items_exported'] += $order->get_item_count(); // can add all items
+			} else {
+				$export_only_products = WC_Order_Export_Engine::$extractor_options['include_products'];
+				$exported_items = 0;
+				foreach ( $order->get_items( 'line_item') as $item ) {
+					if ( $export_only_products AND
+						! in_array( $item['product_id'], $export_only_products ) AND // not  product
+						( ! $item['variation_id'] OR ! in_array( $item['variation_id'],
+								$export_only_products ) )  // not variation
+					) {
+						continue;
+					}				
+					//OK, item was exported 
+					$exported_items += $item->get_quantity();
+				}
+				$_SESSION['woe_summary_customers'][ $key ]['summary_report_total_count_items_exported'] += $exported_items; 
+			}	
+		}
 
 		if ( isset( $_SESSION['woe_summary_customers'][ $key ]['summary_report_total_amount'] ) ) {
 			$_SESSION['woe_summary_customers'][ $key ]['summary_report_total_amount'] += wc_round_tax_total( $order->get_total() );
@@ -455,6 +488,14 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 
 		if ( isset( $_SESSION['woe_summary_customers'][ $key ]['summary_report_total_amount_paid'] ) ) {
 			$_SESSION['woe_summary_customers'][ $key ]['summary_report_total_amount_paid'] += $order->is_paid() ? wc_round_tax_total( $order->get_total() ) : 0;
+		}
+
+		if ( isset( $_SESSION['woe_summary_customers'][ $key ]['summary_report_total_shipping'] ) ) {
+			$_SESSION['woe_summary_customers'][ $key ]['summary_report_total_shipping'] += wc_round_tax_total( $order->get_shipping_total() );
+		}
+		
+		if ( isset( $_SESSION['woe_summary_customers'][ $key ]['summary_report_total_discount'] ) ) {
+			$_SESSION['woe_summary_customers'][ $key ]['summary_report_total_discount'] += wc_round_tax_total( $order->get_discount_total() );
 		}
 
 		if ( isset( $_SESSION['woe_summary_customers'][ $key ]['summary_report_total_refund_count'] ) ) {

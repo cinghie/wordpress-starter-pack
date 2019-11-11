@@ -471,7 +471,7 @@
     };
 
     var wooccm_enhanced_select = function () {
-      $('select.wooccm-enhanced-select:visible').each(function () {
+      $('select.wooccm-enhanced-select').each(function () {
         var select2_args = $.extend({
           width: '100%',
           placeholder: $(this).data('placeholder') || '',

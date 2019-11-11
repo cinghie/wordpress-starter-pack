@@ -29,6 +29,9 @@
 
   var FieldView = Backbone.View.extend({
     events: {
+      'change input': 'enable',
+      'change textarea': 'enable',
+      'change select': 'enable',
       'click .media-modal-backdrop': 'close',
       'click .media-modal-close': 'close',
       'click .media-modal-prev': 'edit',
@@ -94,7 +97,6 @@
         success: function (response) {
           if (response.success) {
             modal.model.set(response.data);
-            console.log(response.data)
             modal.render();
           } else {
             alert(response.data);
@@ -104,14 +106,11 @@
     },
     edit: function (e) {
       e.preventDefault();
-
       var modal = this,
               $button = $(e.target),
-              field_count = parseInt($('.wc_gateways tr[data-field_id]').length - 1),
-              field_id = parseInt(modal.model.get('id'));
-
+              field_count = parseInt($('.wc_gateways tr[data-field_id]').length),
+              order = parseInt(modal.model.get('order'));
       count++;
-
       if (timer) {
         clearTimeout(timer);
       }
@@ -119,19 +118,16 @@
       timer = setTimeout(function () {
 
         if ($button.hasClass('media-modal-next')) {
-          field_id = Math.min(field_id + count, field_count);
+          order = Math.min(order + count, field_count);
         } else {
-          field_id = Math.max(field_id - count, 0);
+          order = Math.max(order - count, 1);
         }
 
         modal.model.set({
-          id: field_id
+          id: parseInt($('.wc_gateways tr[data-field_order=' + order + ']').data('field_id'))
         });
-
         count = 0;
-
         modal.load();
-
       }, 300);
     },
     open: function (e) {
@@ -221,6 +217,7 @@
         dataType: 'json',
         type: 'POST',
         beforeSend: function () {
+          $('.media-modal-submit').attr('disabled', true);
           $details.addClass('save-waiting');
           //block($details);
         },
@@ -237,7 +234,6 @@
             modal.model.attributes['parent'] = response.data;
             modal.model.changed['parent'] = response.data;
             modal.render();
-
           } else {
             alert(response.data);
           }
@@ -246,6 +242,25 @@
 
       return false;
 
+    },
+    reload: function (e) {
+      if (this.$el.find('#wooccm_modal').hasClass('reload')) {
+        location.reload();
+        return;
+      }
+      this.remove();
+      return;
+    },
+    close: function (e) {
+      e.preventDefault();
+      this.undelegateEvents();
+      $(document).off('focusin');
+      $('body').removeClass('modal-open');
+      this.reload(e);
+      return;
+    },
+    enable: function (e) {
+      $('.media-modal-submit').removeProp('disabled');
     },
     submit: function (e) {
       e.preventDefault();
@@ -265,6 +280,7 @@
         dataType: 'json',
         type: 'POST',
         beforeSend: function () {
+          $('.media-modal-submit').prop('disabled', true);
           $details.addClass('save-waiting');
           block($modal);
         },
@@ -279,12 +295,13 @@
         success: function (response) {
           if (response.success) {
 
-            if (response.data.id != modal.model.attributes.id) {
-              location.reload();
-              return;
+            if (modal.model.attributes.id == undefined) {
+              modal.close(e);
             }
+
             //re-render dont load select2 saved options
             modal.model.set(response.data);
+            $modal.addClass('reload');
 
           } else {
             alert(response.data);

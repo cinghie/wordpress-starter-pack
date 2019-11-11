@@ -109,7 +109,14 @@ class WooSEA_Activation {
 					"fields" => "shopmania_ro",
 					"taxonomy" => "none",
 					"utm_source" => "Shopmania.com.ar",
-                        		"type" => "Shopmania.com.ar" )
+                        		"type" => "Marketplace" ),
+                                "Wish.com" => array (
+                                        "channel_hash" => md5("Wish.com"),
+                                        "name" => "Wish.com",
+                                        "fields" => "wishcom",
+                                        "taxonomy" => "none",
+                                        "utm_source" => "Wish.com",
+                                        "type" => "Marketplace" ),
         		),
 			"Armenia" => array (),
 			"Australia" => array (
@@ -119,6 +126,13 @@ class WooSEA_Activation {
                                         "fields" => "catchcomau",
                                         "taxonomy" => "none",
                                         "utm_source" => "Catch.com.au",
+                                        "type" => "Marketplace" ),
+                                "Wish.com" => array (
+                                        "channel_hash" => md5("Wish.com"),
+                                        "name" => "Wish.com",
+                                        "fields" => "wishcom",
+                                        "taxonomy" => "none",
+                                        "utm_source" => "Wish.com",
                                         "type" => "Marketplace" ),
                                	"Kogan.com" => array (
                                         "channel_hash" => md5("Kogan.com"),
@@ -884,6 +898,13 @@ class WooSEA_Activation {
 					"taxonomy" => "none",
 					"utm_source" => "Twenga.de",
                         		"type" => "Comparison shopping engine" ),
+                                "Wish.com" => array (
+                                        "channel_hash" => md5("Wish.com"),
+                                        "name" => "Wish.com",
+                                        "fields" => "wishcom",
+                                        "taxonomy" => "none",
+                                        "utm_source" => "Wish.com",
+                                        "type" => "Marketplace" ),
 				),
 			"Ghana" => array (),
   		        "Greece" => array (
@@ -1013,6 +1034,13 @@ class WooSEA_Activation {
 					"taxonomy" => "none",
 					"utm_source" => "Kijiji.it",
                         		"type" => "Marketplace" ),
+                                "Wish.com" => array (
+                                        "channel_hash" => md5("Wish.com"),
+                                        "name" => "Wish.com",
+                                        "fields" => "wishcom",
+                                        "taxonomy" => "none",
+                                        "utm_source" => "Wish.com",
+                                        "type" => "Marketplace" ),
 			),
 			"Ivory Coast" => array (),
 			"Jamaica" => array (),
@@ -1695,6 +1723,13 @@ class WooSEA_Activation {
 					"taxonomy" => "none",
 					"utm_source" => "Twenga.co.uk",
                         		"type" => "Comparison shopping engine" ),
+                                "Wish.com" => array (
+                                        "channel_hash" => md5("Wish.com"),
+                                        "name" => "Wish.com",
+                                        "fields" => "wishcom",
+                                        "taxonomy" => "none",
+                                        "utm_source" => "Wish.com",
+                                        "type" => "Marketplace" ),
 			),
   		        "United States" => array (
                 		"Adform" => array (
@@ -1802,6 +1837,13 @@ class WooSEA_Activation {
 					"taxonomy" => "none",
 					"utm_source" => "Yandex.com",
                         		"type" => "Advertising" ),
+                                "Wish.com" => array (
+                                        "channel_hash" => md5("Wish.com"),
+                                        "name" => "Wish.com",
+                                        "fields" => "wishcom",
+                                        "taxonomy" => "none",
+                                        "utm_source" => "Wish.com",
+                                        "type" => "Marketplace" ),
  				),
 			"Uraguay" => array (),
 			"Uzbekistan" => array (),

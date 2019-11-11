@@ -470,7 +470,7 @@ input.date {
     display: none;
 }
 
-.mapping_row.segment_products {
+.mapping_row.segment_products, .mapping_row.segment_product_items {
     background-color: #c5ffbb;
 }
 
@@ -645,11 +645,16 @@ input.date {
 #manage_fields.summary-products-report .fields-control-block,
 #manage_fields.summary-products-report #order_fields .mapping_row:not(.segment_products),
 #manage_fields.summary-products-report .field-prefix,
-#manage_fields.summary-products-report #unselected_fields .subsubsub,
+#manage_fields.summary-products-report #unselected_fields .subsubsub .block-segment-choice,
 #manage_fields.summary-products-report #unselected_fields label[for="select_custom_meta_order_items"],
-#manage_fields.summary-products-report #unselected_fields #select_custom_meta_order_items {
+#manage_fields.summary-products-report #unselected_fields #select_custom_meta_order_items
+{
     display: none;
 }
+
+#manage_fields.summary-products-report #unselected_fields .subsubsub .block-segment-choice[data-segment="products"] {
+    display: inline;
+} 
 
 #manage_fields.summary-products-report #unselected_fields .tab-actions-buttons {
     margin-top: 0;
@@ -728,7 +733,7 @@ input.date {
 }
 /*date time picker finish*/
 
-.summary-products-report .summary-products-mode-tip {
+.summary-products-report .summary-products-mode-tip, .summary-customers-report .summary-products-mode-tip {
     display: block;
 }
 

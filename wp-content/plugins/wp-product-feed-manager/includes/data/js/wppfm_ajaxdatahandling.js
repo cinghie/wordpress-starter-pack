@@ -315,6 +315,23 @@ function wppfm_background_processing_mode( selection, callback ) {
 	);
 }
 
+function wppfm_feed_logger_status( selection, callback ) {
+
+	jQuery.post(
+		myAjaxNonces.ajaxurl,
+		{
+			action: 'myajax-feed-logger-status-selection',
+			status_selection: selection,
+			feedLoggerStatusNonce: myAjaxNonces.setFeedLoggerStatusNonce,
+
+		},
+		function( response ) {
+
+			callback( response.trim() );
+		}
+	);
+}
+
 function wppfm_change_third_party_attribute_keywords( keywords, callback ) {
 
 	jQuery.post(

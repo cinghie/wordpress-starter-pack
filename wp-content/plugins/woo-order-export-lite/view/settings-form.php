@@ -87,7 +87,7 @@ function remove_time_from_date( $datetime ) {
 	var order_products_custom_meta_fields = <?php echo json_encode( WC_Order_Export_Data_Extractor_UI::get_product_custom_fields() ) ?>;
 	var order_order_item_custom_meta_fields = <?php echo json_encode( WC_Order_Export_Data_Extractor_UI::get_product_itemmeta() ) ?>;
 	var order_coupons_custom_meta_fields = <?php echo json_encode( WC_Order_Export_Data_Extractor_UI::get_all_coupon_custom_meta_fields() ) ?>;
-	var order_segments = <?php echo json_encode( WC_Order_Export_Data_Extractor_UI::get_order_segments() ) ?>;
+	var order_segments = <?php echo json_encode( WC_Order_Export_Data_Extractor_UI::get_unselected_fields_segments() ) ?>;
 	var field_formats = <?php echo json_encode( WC_Order_Export_Data_Extractor_UI::get_format_fields() ) ?>;
 	var summary_mode_by_products = <?php echo $settings['summary_report_by_products'] ?>;
 	var summary_mode_by_customers = <?php echo $settings['summary_report_by_customers'] ?>;
@@ -153,14 +153,14 @@ function remove_time_from_date( $datetime ) {
 					<?php _e( 'Modification Date', 'woo-order-export-lite' ) ?>
                 </label>
                 &#09;&#09;
-                <label>
+                <label title="<?php _e( 'You will export only paid orders', 'woo-order-export-lite' ) ?>" >
                     <input type="radio" name="settings[export_rule_field]"
                            class="width-100" <?php echo ( isset( $settings['export_rule_field'] ) && ( $settings['export_rule_field'] == 'date_paid' ) ) ? 'checked' : '' ?>
                            value="date_paid">
 					<?php _e( 'Paid Date', 'woo-order-export-lite' ) ?>
                 </label>
                 &#09;&#09;
-                <label>
+                <label title="<?php _e( 'You will export only completed orders', 'woo-order-export-lite' ) ?>" >
                     <input type="radio" name="settings[export_rule_field]"
                            class="width-100" <?php echo ( isset( $settings['export_rule_field'] ) && ( $settings['export_rule_field'] == 'date_completed' ) ) ? 'checked' : '' ?>
                            value="date_completed">
@@ -356,7 +356,15 @@ function remove_time_from_date( $datetime ) {
                                                                                                             value='<?php echo @$settings['format_json_start_tag'] ?>'><br>
                 <span class="xml-title"><?php _e( 'End tag', 'woo-order-export-lite' ) ?></span><input type=text
                                                                                                           name="settings[format_json_end_tag]"
-                                                                                                          value='<?php echo @$settings['format_json_end_tag'] ?>'>
+                                                                                                          value='<?php echo @$settings['format_json_end_tag'] ?>'><br>
+                <label><input type=checkbox name="settings[format_json_unescaped_slashes]" value=1 <?php if(@$settings['format_json_unescaped_slashes']){
+                        echo 'checked';
+                    }?>><?php _e("Don't escape /",'woo-order-export-lite')?></label><br>
+                <label><input type=checkbox
+                    name="settings[format_json_numeric_check]"
+                    value='1 <?php if ( @$settings['format_json_numeric_check'] ) {
+                        echo 'checked'; 
+                    }?>'><?php _e("Encode numeric strings as numbers",'woo-order-export-lite')?></label>                                                                               
             </div>
             <div id='TSV_options' style='display:none'><strong><?php _e( 'TSV options',
 						'woo-order-export-lite' ) ?></strong><br>
@@ -456,16 +464,22 @@ function remove_time_from_date( $datetime ) {
                            value='<?php echo $settings['format_pdf_footer_text'] ?>'>
                 </div>
                 <div class="pdf_two_col_block">
-		            <?php _e( 'Columns align', 'woo-order-export-lite' ) ?>
-                    <input title="<?php _e( 'comma separated list', 'woo-order-export-lite' ) ?>" type=text name="settings[format_pdf_cols_align]" value='<?php echo $settings['format_pdf_cols_align'] ?>'>
+		            <?php _e( 'Columns horizontal align', 'woo-order-export-lite' ) ?>
+                    <input title="<?php _e( 'L,C or R. Comma separated list', 'woo-order-export-lite' ) ?>" type=text name="settings[format_pdf_cols_align]" value='<?php echo $settings['format_pdf_cols_align'] ?>'>
                 </div>
-
 
                 <div class="pdf_two_col_block">
 		            <?php _e( 'Fit table to page width', 'woo-order-export-lite' ) ?><br>
                     <input type="radio" name="settings[format_pdf_fit_page_width]" value=1 <?php checked( @$settings['format_pdf_fit_page_width'] ); ?> ><?php _e( 'Yes', 'woo-order-export-lite' ); ?>
                     <input type="radio" name="settings[format_pdf_fit_page_width]" value=0 <?php checked( !@$settings['format_pdf_fit_page_width'] ); ?> ><?php _e( 'No', 'woo-order-export-lite' ); ?>
                 </div>
+                
+	            <div class="pdf_two_col_block">
+		            <?php _e( 'Columns vertical align', 'woo-order-export-lite' ) ?>
+		            <input title="<?php _e( 'T,C or B. Comma separated list', 'woo-order-export-lite' ) ?>" type=text name="settings[format_pdf_cols_vertical_align]" value='<?php echo $settings['format_pdf_cols_vertical_align'] ?>'>
+	            </div>
+
+
                 <hr>
                 <div class="pdf_two_col_block">
 					<?php _e( 'Table header text color', 'woo-order-export-lite' ) ?>
@@ -479,7 +493,7 @@ function remove_time_from_date( $datetime ) {
                 </div>
 
                 <div class="pdf_two_col_block">
-					<?php _e( 'Table row text color', 'woo-order-export-lite' ) ?>
+					<?php _e( 'Table row text color', 'woo-order-export-lite' ) ?><br>
                     <input type=text class="color_pick" name="settings[format_pdf_table_row_text_color]"
                            value='<?php echo $settings['format_pdf_table_row_text_color'] ?>'>
                 </div>
@@ -604,7 +618,7 @@ function remove_time_from_date( $datetime ) {
                 </div>
 
                 <div class="pdf_two_col_block">
-		    <?php _e( 'Table row text color', 'woo-order-export-lite' ) ?>
+		    <?php _e( 'Table row text color', 'woo-order-export-lite' ) ?><br>
                     <input type=text class="color_pick" name="settings[format_html_table_row_text_color]"
                            value='<?php echo $settings['format_html_table_row_text_color'] ?>'>
                 </div>
@@ -615,15 +629,30 @@ function remove_time_from_date( $datetime ) {
                 </div>
 
                 <div class="pdf_two_col_block">
-		    <?php _e( 'Header text color', 'woo-order-export-lite' ) ?>
+		    <?php _e( 'Header text color', 'woo-order-export-lite' ) ?><br>
                     <input type=text class="color_pick" name="settings[format_html_header_text_color]"
                            value='<?php echo $settings['format_html_header_text_color'] ?>'>
                 </div>
                 <div class="pdf_two_col_block">
-		    <?php _e( 'Footer text color', 'woo-order-export-lite' ) ?>
+		    <?php _e( 'Footer text color', 'woo-order-export-lite' ) ?><br>
                     <input type=text class="color_pick" name="settings[format_html_footer_text_color]"
                            value='<?php echo $settings['format_html_footer_text_color'] ?>'>
                 </div>
+                
+	            <div class="pdf_two_col_block">
+		            <?php _e( 'Images width', 'woo-order-export-lite' ) ?>
+		            <br>
+		            <input type="number" name="settings[format_html_row_images_width]"
+		                   value='<?php echo $settings['format_html_row_images_width'] ?>' min="0">
+	            </div>
+
+	            <div class="pdf_two_col_block">
+		            <?php _e( 'Images height', 'woo-order-export-lite' ) ?>
+		            <br>
+		            <input type="number" name="settings[format_html_row_images_height]"
+		                   value='<?php echo $settings['format_html_row_images_height'] ?>' min="0">
+	            </div>
+                
 		<br/>
 		<div>
 
@@ -954,6 +983,11 @@ function remove_time_from_date( $datetime ) {
 						<?php }
 					} ?>
                 </select>
+                
+                <span class="wc-oe-header"><?php _e( 'Product SKU', 'woo-order-export-lite' ) ?></span>
+                <br>
+                <textarea id="product_sku" name="settings[product_sku]" rows="4" class="width-100" style="resize: none;"></textarea>
+                <br>
 
                 <span class="wc-oe-header"><?php _e( 'Product taxonomies', 'woo-order-export-lite' ) ?></span>
                 <br>
@@ -1415,7 +1449,7 @@ function remove_time_from_date( $datetime ) {
                 <div></div>
                 <div id='unselected_fields'>
                     <ul class="subsubsub" style="float: none">
-						<?php $segments = WC_Order_Export_Data_Extractor_UI::get_order_segments(); ?>
+						<?php $segments = WC_Order_Export_Data_Extractor_UI::get_unselected_fields_segments(); ?>
 						<?php foreach ( $segments as $id => $segment_title ): ?>
 			<li class="block-segment-choice" data-segment="<?php echo $id; ?>">
                                 <a class="segment_choice"
@@ -1461,7 +1495,7 @@ function remove_time_from_date( $datetime ) {
                                 <select id='select_custom_meta_order'>
 									<?php
 									foreach ( $order_custom_meta_fields['order'] as $meta_id => $meta_name ) {
-										echo "<option value='$meta_name' >$meta_name</option>";
+										echo "<option value='" . esc_html($meta_name) . "' >$meta_name</option>";
 									};
 									?>
                                 </select>
@@ -1518,7 +1552,7 @@ function remove_time_from_date( $datetime ) {
                                 <select id='select_custom_meta_user'>
 	                                <?php
 	                                foreach ( $order_custom_meta_fields['user'] as $meta_id => $meta_name ) {
-		                                echo "<option value='$meta_name' >$meta_name</option>";
+		                                echo "<option value='" . esc_html($meta_name) . "' >$meta_name</option>";
 	                                };
 	                                ?>
                                 </select>
@@ -1548,14 +1582,9 @@ function remove_time_from_date( $datetime ) {
                                 </div>
                             </div>
                             <div class='div_meta products-segment segment-form products-add-field'>
-								<div class='add_form_tip'><?php _e( "The plugin fetches meta keys from the existing orders. So you should create fake order if you've added new field just now.", 'woo-order-export-lite' )?></div>
                                 <label for="select_custom_meta_products"><?php _e( 'Product fields',
 										'woo-order-export-lite' ) ?>:</label><select
                                         id='select_custom_meta_products'></select>
-
-                                <label for="select_custom_meta_order_items"><?php _e( 'Order item fields',
-										'woo-order-export-lite' ) ?>:</label><select
-                                        id='select_custom_meta_order_items'></select>
                                 <label>&nbsp;</label><input style="width: 80%;" type='text'
                                                             id='text_custom_meta_order_items'
                                                             placeholder="<?php _e( 'or type meta key here',
@@ -1591,22 +1620,52 @@ function remove_time_from_date( $datetime ) {
 											'woo-order-export-lite' ) ?></button>
                                 </div>
                             </div>
-                            <div class='div_custom products-segment segment-form products-add-static-field'>
+                            <div class='div_meta product_items-segment segment-form products-add-field'>
+								<div class='add_form_tip'><?php _e( "The plugin fetches meta keys from the existing orders. So you should create fake order if you've added new field just now.", 'woo-order-export-lite' )?></div>
+
+                                <label for="select_custom_meta_order_items"><?php _e( 'Order item fields',
+										'woo-order-export-lite' ) ?>:</label><select
+                                        id='select_custom_meta_order_items'></select>
+                                <label>&nbsp;</label><input style="width: 80%;" type='text'
+                                                            id='text_custom_meta_order_items'
+                                                            placeholder="<?php _e( 'or type meta key here',
+									                            'woo-order-export-lite' ) ?>"/>
+                                <div id="custom_meta_product_items_mode">
+                                    <label><input id="custom_meta_product_items_mode_used" type="checkbox"
+                                                  name="custom_meta_product_items_mode"
+                                                  value="used"> <?php _e( 'Hide unused fields',
+											'woo-order-export-lite' ) ?></label>
+                                </div>
+                                <hr>
+                                <div style="margin-top: 15px;"></div>
+                                <label><?php _e( 'Column name', 'woo-order-export-lite' ) ?>:</label><input
+                                        type='text' id='colname_custom_meta_product_items'/>
+                                <div style="margin-top: 15px;"></div>
+								<?php echo print_formats_field( 'meta', 'products' ); ?>
+                                <div style="text-align: right;">
+                                    <button id='button_custom_meta_product_items'
+                                            class='button-secondary'><?php _e( 'Confirm',
+											'woo-order-export-lite' ) ?></button>
+                                    <button class='button-secondary button-cancel'><?php _e( 'Cancel',
+											'woo-order-export-lite' ) ?></button>
+                                </div>
+                            </div>
+                            <div class='div_custom product_items-segment segment-form products-add-static-field'>
                                 <div>
-                                    <label for="colname_custom_field_products"><?php _e( 'Column name',
+                                    <label for="colname_custom_field_product_items"><?php _e( 'Column name',
 											'woo-order-export-lite' ) ?>:</label>
-                                    <input type='text' id='colname_custom_field_products'/>
+                                    <input type='text' id='colname_custom_field_product_items'/>
                                 </div>
                                 <div>
-                                    <label for="value_custom_field_products"><?php _e( 'Value',
+                                    <label for="value_custom_field_product_items"><?php _e( 'Value',
 											'woo-order-export-lite' ) ?>:</label>
-                                    <input type='text' id='value_custom_field_products'/>
+                                    <input type='text' id='value_custom_field_product_items'/>
                                 </div>
                                 <div>
 									<?php echo print_formats_field( 'field', 'products' ); ?>
                                 </div>
                                 <div style="text-align: right;">
-                                    <button id='button_custom_field_products'
+                                    <button id='button_custom_field_product_items'
                                             class='button-secondary'><?php _e( 'Confirm',
 											'woo-order-export-lite' ) ?></button>
                                     <button class='button-secondary button-cancel'><?php _e( 'Cancel',
@@ -1754,7 +1813,7 @@ function remove_time_from_date( $datetime ) {
     <div id=JS_error_onload
          style='color:red;font-size: 120%;'><?php echo sprintf( __( "If you see this message after page load, user interface won't work correctly!<br>There is a JS error (<a target=blank href='%s'>read here</a> how to view it). Probably, it's a conflict with another plugin or active theme.",
 			'woo-order-export-lite' ),
-			"https://codex.wordpress.org/Using_Your_Browser_to_Diagnose_JavaScript_Errors#Step_3:_Diagnosis" ); ?></div>
+			"https://wordpress.org/support/article/using-your-browser-to-diagnose-javascript-errors/#step-3-diagnosis" ); ?></div>
     <p class="submit">
         <input type="submit" id='preview-btn' class="button-secondary preview-btn"
                data-limit="<?php echo( $mode === WC_Order_Export_Manage::EXPORT_ORDER_ACTION ? 1 : 5 ); ?>"

@@ -77,9 +77,11 @@ function sb_instagram_settings_page() {
 		'sb_instagram_cron'                 => 'no',
 		'sb_instagram_backup' => true,
 		'sb_ajax_initial' => false,
+		'enqueue_css_in_shortcode' => false,
 		'sb_instagram_ajax_theme'           => false,
 		'sb_instagram_disable_resize'       => false,
 		'sb_instagram_favor_local'          => false,
+		'sb_instagram_minnum' => 0,
 		'disable_js_image_loading'          => false,
 		'enqueue_js_in_head'                => false,
 		'enqueue_css_in_shortcode' => false,
@@ -101,6 +103,7 @@ function sb_instagram_settings_page() {
 	$disable_js_image_loading = $options[ 'disable_js_image_loading' ];
 	$sb_instagram_disable_resize = $options[ 'sb_instagram_disable_resize' ];
 	$sb_instagram_favor_local = $options[ 'sb_instagram_favor_local' ];
+	$sb_instagram_minnum = $options[ 'sb_instagram_minnum' ];
 
 	$sb_instagram_cache_time = $options[ 'sb_instagram_cache_time' ];
 	$sb_instagram_cache_time_unit = $options[ 'sb_instagram_cache_time_unit' ];
@@ -143,6 +146,7 @@ function sb_instagram_settings_page() {
 	$sb_instagram_cron = $options[ 'sb_instagram_cron' ];
 	$sb_instagram_backup = $options[ 'sb_instagram_backup' ];
 	$sb_ajax_initial = $options[ 'sb_ajax_initial' ];
+	$enqueue_css_in_shortcode = $options[ 'enqueue_css_in_shortcode' ];
 	$sbi_font_method = $options[ 'sbi_font_method' ];
 	$sb_instagram_disable_awesome = $options[ 'sb_instagram_disable_awesome' ];
 	$sb_instagram_custom_template = $options[ 'custom_template' ];
@@ -283,10 +287,12 @@ function sb_instagram_settings_page() {
 				isset($_POST[ 'disable_js_image_loading' ]) ? $disable_js_image_loading = $_POST[ 'disable_js_image_loading' ] : $disable_js_image_loading = '';
 				isset($_POST[ 'sb_instagram_disable_resize' ]) ? $sb_instagram_disable_resize= sanitize_text_field( $_POST[ 'sb_instagram_disable_resize' ] ) : $sb_instagram_disable_resize = '';
 				isset($_POST[ 'sb_instagram_favor_local' ]) ? $sb_instagram_favor_local = sanitize_text_field( $_POST[ 'sb_instagram_favor_local' ] ) : $sb_instagram_favor_local = '';
+				isset($_POST[ 'sb_instagram_minnum' ]) ? $sb_instagram_minnum = sanitize_text_field( $_POST[ 'sb_instagram_minnum' ] ) : $sb_instagram_minnum = '';
 
 				if (isset($_POST[ 'sb_instagram_cron' ]) ) $sb_instagram_cron = $_POST[ 'sb_instagram_cron' ];
 				isset($_POST[ 'sb_instagram_backup' ]) ? $sb_instagram_backup = $_POST[ 'sb_instagram_backup' ] : $sb_instagram_backup = '';
 				isset($_POST[ 'sb_ajax_initial' ]) ? $sb_ajax_initial = $_POST[ 'sb_ajax_initial' ] : $sb_ajax_initial = '';
+				isset($_POST[ 'enqueue_css_in_shortcode' ]) ? $enqueue_css_in_shortcode = $_POST[ 'enqueue_css_in_shortcode' ] : $enqueue_css_in_shortcode = '';
 				isset($_POST[ 'sbi_font_method' ]) ? $sbi_font_method = $_POST[ 'sbi_font_method' ] : $sbi_font_method = 'svg';
 				isset($_POST[ 'sb_instagram_disable_awesome' ]) ? $sb_instagram_disable_awesome = sanitize_text_field( $_POST[ 'sb_instagram_disable_awesome' ] ) : $sb_instagram_disable_awesome = '';
 
@@ -325,9 +331,13 @@ function sb_instagram_settings_page() {
 				$options[ 'disable_js_image_loading' ] = $disable_js_image_loading;
 				$options[ 'sb_instagram_disable_resize' ] = $sb_instagram_disable_resize;
 				$options[ 'sb_instagram_favor_local' ] = $sb_instagram_favor_local;
+				$options[ 'sb_instagram_minnum' ] = $sb_instagram_minnum;
+
 				$options[ 'sb_ajax_initial' ] = $sb_ajax_initial;
 				$options[ 'sb_instagram_cron' ] = $sb_instagram_cron;
 				$options['sb_instagram_backup'] = $sb_instagram_backup;
+				$options['enqueue_css_in_shortcode'] = $enqueue_css_in_shortcode;
+
 				$options['sbi_font_method'] = $sbi_font_method;
 				$options[ 'sb_instagram_disable_awesome' ] = $sb_instagram_disable_awesome;
 
@@ -1726,11 +1736,31 @@ function sb_instagram_settings_page() {
                 </tr>
 
                 <tr valign="top">
+                    <th scope="row"><label><?php _e('API request size', 'instagram-feed'); ?></label><code class="sbi_shortcode"> minnum
+                            Eg: minnum=25</code></th>
+                    <td>
+                        <input name="sb_instagram_minnum" type="number" min="0" max="100" value="<?php echo esc_attr( $sb_instagram_minnum ); ?>" />
+                        <span class="sbi_note"><?php _e('Leave at "0" for default', 'instagram-feed'); ?></span>
+                        <a class="sbi_tooltip_link" href="JavaScript:void(0);"><?php _e('What does this mean?', 'instagram-feed'); ?></a>
+                        <p class="sbi_tooltip"><?php _e("If your feed contains a lot of IG TV posts or your feed is not displaying any posts despite there being posts available on Instagram.com, try increasing this number to 25 or more.", 'instagram-feed'); ?></p>
+                    </td>
+                </tr>
+
+                <tr valign="top">
                     <th scope="row"><label><?php _e('Enqueue JS file in head', 'instagram-feed'); ?></label></th>
                     <td>
                         <input type="checkbox" name="enqueue_js_in_head" id="sb_instagram_enqueue_js_in_head" <?php if($enqueue_js_in_head == true) echo 'checked="checked"' ?> />
                         <a class="sbi_tooltip_link" href="JavaScript:void(0);"><?php _e('What does this mean?', 'instagram-feed'); ?></a>
                         <p class="sbi_tooltip"><?php _e("Check this box if you'd like to enqueue the JavaScript file for the plugin in the head instead of the footer.", 'instagram-feed'); ?></p>
+                    </td>
+                </tr>
+
+                <tr valign="top">
+                    <th scope="row"><label><?php _e('Enqueue CSS file with shortcode', 'instagram-feed'); ?></label></th>
+                    <td>
+                        <input type="checkbox" name="enqueue_css_in_shortcode" id="sb_instagram_enqueue_css_in_shortcode" <?php if($enqueue_css_in_shortcode == true) echo 'checked="checked"' ?> />
+                        <a class="sbi_tooltip_link" href="JavaScript:void(0);"><?php _e('What does this mean?', 'instagram-feed'); ?></a>
+                        <p class="sbi_tooltip"><?php _e("Check this box if you'd like to only include the CSS file for the plugin when the feed is on the page.", 'instagram-feed'); ?></p>
                     </td>
                 </tr>
 

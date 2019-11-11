@@ -6,6 +6,7 @@ if ( ! class_exists( 'WOE_FPDF' ) ) {
 class WOE_PDF_MC_Table extends WOE_FPDF {
 	protected $widths;
 	protected $aligns;
+	protected $vertical_align;
 
 	protected $table_header = array();
 
@@ -35,6 +36,7 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 			'stretch'      => false,
 			'column_width' => array(),
 			'solid_width'  => array(),
+			'border_style' => 'DF',
 		),
 		'table_header' => array(
 			'style'            => '',
@@ -87,7 +89,7 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 	}
 
 	public function setTableRowProperty( $props ) {
-		$this->table_row_props = array_merge( $this->default_props['table_header'], $props );
+		$this->table_row_props = array_merge( $this->default_props['table_row'], $props );
 	}
 
 	public function setFooterProperty( $props ) {
@@ -140,13 +142,14 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 	}
 
 	public function Footer() {
+		do_action('woe_pdf_auto_footer', $this);
 		$this->SetY( - 15 );
 
 		$this->changeBrushToDraw( 'footer' );
 
 		if ( ! empty( $this->footer_props['title'] ) ) {
 			// Title
-			$this->Cell( 0, 0, $this->footer_props['title'], 0, 0, 'C' );
+			$this->Cell( 0, 0, $this->footer_props['title'], 0, 0, 'C');
 			// Line break
 			$this->Ln( 10 );
 		}
@@ -162,47 +165,51 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 				'R',
 			) ) ? $this->footer_props['pagination'] : false;
 			if ( $align ) {
-				$this->Cell( 0, 10, 'Page ' . $this->PageNo() . '/{nb}', 0, 0, $align );
+				$this->Cell( 0, 10, sprintf( __('Page %s / %s', 'woo-order-export-lite'), $this->PageNo(), '{nb}' ) , 0, 0, $align );
 			}
 		}
 	}
 
-	public function addRow( $data, $widths = null, $h = null ) {
+	public function addRow( $data, $widths = null, $h = null, $style = null ) {
 		$this->changeBrushToDraw( 'table_row' );
-		$this->Row( $data, $widths, $h );
+		
+		$this->Row( $data, $widths, $h, $style );
 	}
 
-	protected function Row( $data, $widths = null, $h = null ) {
+	protected function Row( $data, $widths = null, $h = null, $style = null ) {
 		if ( ! $data ) {
 			return;
 		}
-
 		$widths = ! $widths ? $this->getRowWidths( $data ) : $widths;
 		$h      = ! $h ? $this->getRowHeight( $widths, $data ) : $h;
-
 		//Issue a page break first if needed
 		$this->CheckPageBreak( $h );
-
+		
 		$columns_count = $this->getColumnCountInPage( $widths );
 		if ( $extra_data = array_slice( $data, $columns_count ) ) {
 			$this->stretch_buffer[]        = $extra_data;
 			$this->stretch_buffer_params[] = array(
 				'widths' => array_slice( $widths, $columns_count ),
 				'height' => $h,
+				'row_style' => $style
 			);
 		}
 		$data = array_slice( $data, 0, $columns_count );
-
-
+		if( $style ) {
+			$this->SetFillColor($style['background_color'][0], $style['background_color'][1], $style['background_color'][2]);
+			$this->SetTextColor($style['text_color'][0], $style['text_color'][1], $style['text_color'][2]);
+			$this->SetFontSize($style['size']);
+		}
 		//Draw the cells of the row
 		for ( $i = 0; $i < count( $data ); $i ++ ) {
 			$w = $widths[ $i ];
-			$a = isset( $this->aligns[ $i ] ) ? $this->aligns[ $i ] : 'L';
+			$horizontal_align = $this->getHorizontalAlign( $i );
+			$vertical_align = $this->getVerticalAlign();
 			//Save the current position
 			$x = $this->GetX();
 			$y = $this->GetY();
 			//Draw the border
-			$this->Rect( $x, $y, $w, $h, 'DF' );
+			$this->Rect( $x, $y, $w, $h, $this->table_props['border_style'] );
 
 			if ( isset( $data[ $i ]['type'], $data[ $i ]['value'] ) && 'image' === $data[ $i ]['type'] && file_exists( $data[ $i ]['value'] ) ) {
 				$source = $data[ $i ]['value'];
@@ -210,7 +217,7 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 				$this->Image( $source, $x + 1 / 2, $y + 1 / 2, $w - 1, $h - 1, $type );
 			} elseif ( ! is_array( $data[ $i ] ) ) {
 				//Print the text
-				$this->MultiCell( $w, 5, $data[ $i ], 0, $a );
+				$this->MultiCell( $w, $h, $data[ $i ], 0, $horizontal_align, $vertical_align );
 			}
 
 			//Put the position to the right of the cell
@@ -424,6 +431,7 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 
 			$buffer                      = $this->stretch_buffer;
 			$stretch_buffer_params       = $this->stretch_buffer_params;
+
 			$this->stretch_buffer        = array();
 			$this->stretch_buffer_params = array();
 
@@ -433,10 +441,9 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 				$this->Row( array_shift( $buffer ), $params['widths'], $params['height'] );
 				$this->changeBrushToDraw( 'table_row' );
 			}
-
 			foreach ( $buffer as $index => $row ) {
 				$params = $stretch_buffer_params[ $index ];
-				$this->addRow( $row, $params['widths'], $params['height'] );
+				$this->addRow( $row, $params['widths'], $params['height'], $params['row_style'] );
 			}
 		}
 	}
@@ -493,12 +500,30 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 		return $line_counter;
 	}
 
-	public function SetAligns( $a ) {
+	public function setHorizontalAligns( $a ) {
 		//Set the array of column alignments
 		$this->aligns = $a;
 	}
 
-	protected function changeBrushToDraw( $what ) {
+	public function setVerticalAlign( $a ) {
+		$this->vertical_align = $a;
+	}
+
+	protected function getVerticalAlign() {
+		return $this->vertical_align;
+	}
+
+	protected function getHorizontalAlign( $i ) {
+		$alignsCount = count( $this->aligns );
+
+		if ( $i >= $alignsCount ) {
+			$i = $i % $alignsCount;
+		}
+
+		return isset( $this->aligns[ $i ] ) ? $this->aligns[ $i ] : 'L';
+	}
+
+	public function changeBrushToDraw( $what ) {
 		if ( ! in_array( $what, array_keys( $this->default_props ) ) ) {
 			return false;
 		}

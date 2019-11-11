@@ -4,7 +4,7 @@
  * WP Data Class.
  *
  * @package WP Product Feed Manager/Data/Classes
- * @version 3.2.1
+ * @version 3.5.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -98,7 +98,60 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 			return $this->_queries->update_feed_update_data( $feed_id, $feed_url, $nr_products );
 		}
 
+		/**
+		 * Sets the status id of a feed
+		 *
+		 * 0 = unknown
+		 * 1 = OK (will be updated automatically)
+		 * 2 = On hold (will not be updated automatically)
+		 * 3 = Processing
+		 * 4 = In processing queue
+		 * 5 = Has errors
+		 * 6 = Failed processing
+		 *
+		 * @param string $feed_id
+		 * @param int $status
+		 *
+		 * @return bool
+		 */
 		public function update_feed_status( $feed_id, $status ) {
+
+			$message_level = 'MESSAGE';
+
+			switch ( $status ) {
+				case '1':
+					$message = sprintf( 'The feed status of feed %s has been set to OK (1)', $feed_id );
+					break;
+
+				case '2':
+					$message = sprintf( 'The feed status of feed %s has been set to On Hold (2)', $feed_id );
+					break;
+
+				case '3':
+					$message = sprintf( 'The feed status of feed %s has been set to Processing (3)', $feed_id );
+					break;
+
+				case '4':
+					$message = sprintf( 'The feed status of feed %s has been set to In processing queue (4)', $feed_id );
+					break;
+
+				case '5':
+					$message       = sprintf( 'The feed status of feed %s has been set to Has errors (5)', $feed_id );
+					$message_level = 'ERROR';
+					break;
+
+				case '6':
+					$message       = sprintf( 'The feed status of feed %s has been set to Failed processing (6)', $feed_id );
+					$message_level = 'ERROR';
+					break;
+
+				default:
+					$message       = sprintf( 'Tried to update the status of feed %s but the status is unknown!', $feed_id );
+					$message_level = 'ERROR';
+			}
+
+			do_action( 'wppfm_feed_generation_message', $feed_id, $message, $message_level );
+
 			return $this->_queries->update_feed_file_status( $feed_id, $status );
 		}
 
@@ -214,11 +267,18 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		 */
 		public function check_for_failed_feeds( $active_feed_id ) {
 			$processing_feeds = $this->_queries->get_feed_ids_with_specific_status( '3' );
+			$failed_feed_ids  = '';
 
 			foreach ( $processing_feeds as $feed ) {
 				if ( $active_feed_id !== $feed->product_feed_id ) {
-					$this->_queries->update_current_feed_status( $feed->product_feed_id, '6' );
+					$this->update_feed_status( $feed->product_feed_id, '6' );
+					$failed_feed_ids .= ', ' . $feed->product_feed_id;
 				}
+			}
+
+			if ( $failed_feed_ids ) {
+				$message = sprintf( 'Starting the update of feed %s, the following feeds where still registered as being active: %s and are now set to the status FAIL.', $active_feed_id, $failed_feed_ids );
+				do_action( 'wppfm_feed_generation_message', $active_feed_id, $message, 'ERROR' );
 			}
 		}
 
@@ -236,6 +296,11 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 
 			foreach ( $feed_data as $data_item ) {
 				if ( 'product_feed_id' !== $data_item->name ) {
+
+					if ( 'url' === $data_item->name ) {
+						$data_item->value = $this->verify_url( $data_item->value );
+					}
+
 					$result[ $data_item->name ] = $data_item->value;
 				}
 			}
@@ -385,6 +450,22 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 			// as long as only WooCommerce is supported, I can get away with only switching on a specific channel
 			$advised_inputs = $feed_class->woocommerce_to_feed_fields();
 			return apply_filters( 'wppfm_advised_inputs', $advised_inputs, $feed_type_id );
+		}
+
+		/**
+		 * Makes sure that the url is correct and has no forbidden characters before it's being stored in the database
+		 *
+		 * @param $url string complete url
+		 *
+		 * @return string verified url
+		 */
+		private function verify_url( $url ) {
+			$forbidden_name_chars = wppfm_forbidden_file_name_characters();
+			$last_slash           = strrpos( $url, '/' );
+			$url_string           = substr( $url, 0, $last_slash + 1 );
+			$feed_name            = substr( $url, $last_slash + 1 );
+			$correct_feed_name    = str_replace( $forbidden_name_chars, '-', $feed_name );
+			return $url_string . $correct_feed_name;
 		}
 
 		public function register_channel( $channel_short_name, $channel_data ) {

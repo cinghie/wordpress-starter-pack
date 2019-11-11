@@ -469,9 +469,9 @@ if( ! class_exists( 'YITH_WCWL_Shortcode' ) ) {
 
 			$browse_wishlist = get_option( 'yith_wcwl_browse_wishlist_text' );
 
-			$already_in_wishlist = get_option( 'yith_wcwl_already_in_wishlist_text' );
+			$already_in_wishlist = apply_filters( 'yith_wcwl_product_already_in_wishlist_text_button', get_option( 'yith_wcwl_already_in_wishlist_text' ));
 
-			$product_added = get_option( 'yith_wcwl_product_added_text' );
+			$product_added = apply_filters( 'yith_wcwl_product_added_to_wishlist_message_button', get_option( 'yith_wcwl_product_added_text' ));
 
 			// button class
 			$classes = apply_filters( 'yith_wcwl_add_to_wishlist_button_classes', get_option( 'yith_wcwl_use_button' ) == 'yes' ? 'add_to_wishlist single_add_to_wishlist button alt' : 'add_to_wishlist' );

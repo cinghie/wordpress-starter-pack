@@ -71,7 +71,7 @@ function wppfm_constructNewFeed() {
 	var variations        = jQuery( '#variations' ).is( ':checked' ) ? 1 : 0;
 	var aggregator        = jQuery( '#aggregator' ).is( ':checked' ) ? 1 : 0;
 	var country           = jQuery( '#countries' ).val();
-	var language          = document.getElementById( 'language' ) === null ? '' : jQuery( '#language' ).val();
+	var language          = document.getElementById( 'language' ) === null ? '' : jQuery( '#wppfm-feed-language-selector' ).val();
 	var feedTitle         = jQuery( '#google-feed-title-selector' ).val();
 	var feedDescription   = jQuery( '#google-feed-description-selector' ).val();
 	var daysInterval      = daysIntervalElement.val() !== '' ? daysIntervalElement.val() : '1';
@@ -154,7 +154,7 @@ function wppfm_finishOrUpdateFeedPage( categoryChanged ) {
 	_feedHolder[ 'isAggregator' ]      = jQuery( '#aggregator' ).is( ':checked' ) ? '1' : '0';
 	_feedHolder[ 'feedTitle' ]         = jQuery( '#google-feed-title-selector' ).val();
 	_feedHolder[ 'feedDescription' ]   = jQuery( '#google-feed-description-selector' ).val();
-	_feedHolder[ 'language' ]          = document.getElementById( 'language' ) === null ? '' : jQuery( '#language' ).val();
+	_feedHolder[ 'language' ]          = document.getElementById( 'language' ) === null ? '' : jQuery( '#wppfm-feed-language-selector' ).val();
 
 	// get the output fields that can be used with the selected channel
 	wppfm_getFeedAttributes(	- 1,	selectedChannelValue,	function( outputs ) {
@@ -170,7 +170,7 @@ function wppfm_finishOrUpdateFeedPage( categoryChanged ) {
 		wppfm_customSourceFields( _feedHolder[ 'dataSource' ], function( customFields ) {
 
 			_feedHolder[ 'country' ]  = jQuery( '#countries' ).val();
-			_feedHolder[ 'language' ] = jQuery( '#language' ).val();
+			_feedHolder[ 'language' ] = jQuery( '#wppfm-feed-language-selector' ).val();
 
 			wppfm_fillSourcesList( customFields );
 
@@ -192,8 +192,8 @@ function wppfm_finishOrUpdateFeedPage( categoryChanged ) {
 					_feedHolder.setMainCategory( 'lvl_0', lvl0Element.val(), selectedChannelValue );
 				}
 
-				// draws the fields table on the form
-				wppfm_makeFieldsTable();
+				// draws the attribute mapping section on the form
+				wppfm_drawAttributeMappingSection();
 
 				if ( _feedHolder !== 0 ) {
 					var isNew = _feedHolder[ 'feedId' ] === - 1;
@@ -226,7 +226,8 @@ function wppfm_finishOrUpdateFeedPage( categoryChanged ) {
 function wppfm_finishOrUpdateSpecialFeedPage( specialFeedFeedHolder ) {
 	_feedHolder = specialFeedFeedHolder;
 
-	wppfm_makeFieldsTable();
+	// draws the attribute mapping section on the form
+	wppfm_drawAttributeMappingSection();
 
 	if ( _feedHolder !== 0 ) {
 		var isNew = _feedHolder[ 'feedId' ] === - 1;
@@ -279,8 +280,8 @@ function wppfm_editExistingFeed( feedId ) {
 
 					wppfm_makeFeedFilterWrapper( _feedHolder[ 'feedId' ], _feedHolder[ 'feedFilter' ] );
 
-					// draws the fields table on the form
-					wppfm_makeFieldsTable();
+					// draws the attribute mapping section on the form
+					wppfm_drawAttributeMappingSection();
 
 					if ( _feedHolder !== 0 ) {
 						wppfm_fillFeedFields( false, false );
@@ -834,7 +835,7 @@ function wppfm_fillFeedFields( isNew, categoryChanged ) {
 
 	if ( langElem !== null ) {
 		var langVal = _feedHolder[ 'language' ] !== '' ? _feedHolder[ 'language' ] : '0';
-		jQuery( '#language' ).val( langVal );
+		jQuery( '#wppfm-feed-language-selector' ).val( langVal );
 	}
 
 	// get the link to the update schedule selectors
@@ -1740,6 +1741,27 @@ function wppfm_conditionSelectorCode( id, sourceLevel, level, nrQueries, query )
 	return wppfm_ifConditionSelector( id, sourceLevel, level + 1, nrQueries, queryArray );
 }
 
+function wppfm_orSelectorRowCode( rowId, sourceLevel, borderStyleClass ) {
+	// source wrapper
+	var htmlCode = '<div class="feed-source-row" id="source-' + rowId + '-' + sourceLevel + '">';
+
+	// first column wrapper
+	htmlCode += '<div class="add-to-feed-column colw col20w">&nbsp;</div>';
+
+	// the source data and queries wrapper
+	htmlCode += '<div class="source-data-column colw col80w' + borderStyleClass + '" id="source-data-' + rowId + '-' + sourceLevel + '">';
+
+	htmlCode += '<div class="source-selector colw col30w" id="source-select-' + rowId + '-' + sourceLevel + '"></div>';
+	htmlCode += wppfm_orSelectorCode( rowId, '' );
+	htmlCode += '<div></div>';
+
+	htmlCode += wppfm_endrow( rowId );
+
+	htmlCode += '</div></div>';
+
+	return htmlCode;
+}
+
 function wppfm_orSelectorCode( id, alternativeInputs ) {
 
 	let alternative = '';
@@ -2205,7 +2227,7 @@ function wppfm_removeValueEditor( rowId, sourceLevel, valueEditorLevel ) {
 	}
 }
 
-function wppfm_makeFieldsTable() {
+function wppfm_drawAttributeMappingSection() {
 
 	var channel = _feedHolder.channel.toString(); // TODO: Channel is not always a string
 

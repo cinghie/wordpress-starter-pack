@@ -4,7 +4,7 @@
  * WP Ajax Data Class.
  *
  * @package WP Product Feed Manager/Data/Classes
- * @version 1.9.0
+ * @version 1.10.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -258,9 +258,9 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 				$feed_status    = $this->_queries->get_current_feed_status( $feed_id );
 				$current_status = $feed_status[0]->status_id;
 
-				$new_status = '1' === $current_status ? '2' : '1';
+				$new_status = '1' === $current_status ? '2' : '1'; // only allow status 1 or 2
 
-				$result = $this->_queries->update_current_feed_status( $feed_id, $new_status );
+				$result = $this->_queries->switch_feed_status( $feed_id, $new_status );
 
 				echo ( false === $result ) ? $current_status : $new_status;
 			}

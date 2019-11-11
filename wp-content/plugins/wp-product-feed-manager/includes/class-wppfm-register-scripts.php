@@ -143,6 +143,7 @@ if ( ! class_exists( 'WPPFM_Register_Scripts' ) ) :
 					// generate the required nonce's
 					'setAutoFeedFixNonce'          => wp_create_nonce( 'myajax-auto-feed-fix-nonce' ),
 					'setBackgroundModeNonce'       => wp_create_nonce( 'myajax-background-mode-nonce' ),
+					'setFeedLoggerStatusNonce'     => wp_create_nonce( 'myajax-logger-status-nonce' ),
 					'setThirdPartyKeywordsNonce'   => wp_create_nonce( 'myajax-set-third-party-keywords-nonce' ),
 					'setNoticeMailaddressNonce'    => wp_create_nonce( 'myajax-set-notice-mailaddress-nonce' ),
 					'setBatchProcessingLimitNonce' => wp_create_nonce( 'myajax-set-batch-processing-limit-nonce' ),

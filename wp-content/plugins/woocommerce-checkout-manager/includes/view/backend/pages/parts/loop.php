@@ -23,7 +23,7 @@
           <tbody class="ui-sortable">
             <?php if (count($fields)): ?>
               <?php foreach ($fields as $id => $field) : ?>
-                <tr data-field_id="<?php echo esc_attr($id); ?>">
+                <tr data-field_id="<?php echo esc_attr($field['id']); ?>" data-field_order="<?php echo esc_attr($field['order']); ?>">
                   <td class="sort ui-sortable-handle">
                     <div class="wc-item-reorder-nav">
                       <button type="button" class="wc-move-up wc-move-disabled" tabindex="-1" aria-hidden="true" aria-label="<?php echo esc_attr(sprintf(__('Move the "%s" payment method up', 'woocommerce-checkout-manager'), $field['label'])); ?>"><?php esc_html_e('Move up', 'woocommerce-checkout-manager'); ?></button>

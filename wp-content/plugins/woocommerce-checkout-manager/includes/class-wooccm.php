@@ -52,7 +52,7 @@ final class WOOCCM {
     // -----------------------------------------------------------------------
     wp_register_style('wooccm', plugins_url('assets/frontend/css/wooccm.css', WOOCCM_PLUGIN_FILE), false, WOOCCM_PLUGIN_VERSION, 'all');
 
-    wp_register_script('wooccm-checkout', plugins_url('assets/frontend/js/wooccm-checkout.js', WOOCCM_PLUGIN_FILE), array('jquery'), WOOCCM_PLUGIN_VERSION, true);
+    wp_register_script('wooccm-checkout', plugins_url('assets/frontend/js/wooccm-checkout.js', WOOCCM_PLUGIN_FILE), array('jquery', 'selectWoo'), WOOCCM_PLUGIN_VERSION, true);
 
     wp_localize_script('wooccm-checkout', 'wooccm_upload', array(
         'ajax_url' => admin_url('admin-ajax.php'),

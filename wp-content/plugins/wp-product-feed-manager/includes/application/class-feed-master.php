@@ -6,7 +6,7 @@
  * WP Product Feed Master Class.
  *
  * @package WP Product Feed Manager/Application/Classes
- * @version 3.1.1
+ * @version 3.3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -76,9 +76,10 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 		/**
 		 * Initiate new Feed Master class.
 		 *
+		 * @param string $feed_id The id of the feed. Default 0
+		 *
 		 * @global stdClass $background_process
 		 *
-		 * @param string $feed_id The id of the feed. Default 0
 		 */
 		public function __construct( $feed_id = '0' ) {
 			$query_class = new WPPFM_Queries();
@@ -104,6 +105,8 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 
 			$feed_id = WPPFM_Feed_Controller::get_next_id_from_feed_queue();
 
+			do_action( 'wppfm_feed_process_prepared', $feed_id, $silent );
+
 			if ( false === $feed_id ) {
 				return false;
 			}
@@ -115,7 +118,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 			$feed_data = $this->_data_class->get_feed_data( $feed_id );
 
 			if ( ! $feed_data ) {
-				do_action( 'wppfm_feed_generation_message', 'The update_feed_file function failed to get the feed data', 'ERROR' );
+				do_action( 'wppfm_feed_generation_message', $feed_id, 'The update_feed_file function failed to get the feed data', 'ERROR' );
 				if ( ! $silent ) {
 					_e( '1428 - Failed to load the feed data, please to generate a feed in the foreground mode (see Settings page) and then try the background mode again.', 'wp-product-feed-manager' );
 				}
@@ -170,7 +173,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 				// if it is, set the feed status to fail and change the $current_feed_status['status_id'] to 6
 				if ( WPPFM_Feed_Controller::feed_processing_failed( $feed_file ) ) {
 					// change the status of the feed to failed processing
-					$queries_class->update_current_feed_status( $feed_id, '6' );
+					$this->_data_class->update_feed_status( $feed_id, 6 ); // feed status to failed
 
 					// update the current_feed_status variable before returning
 					$current_feed_status['status_id'] = '6';
@@ -221,7 +224,12 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 				return sprintf( __( '1430 - %s is not a writable folder. Make sure you have admin rights to this folder.', 'wp-product-feed-manager' ), WPPFM_FEEDS_DIR );
 			}
 
+			$initial_feed_status = $this->_feed->status;
+
 			if ( ! $this->set_properties() ) {
+				$message = sprintf( 'Failed to set the properties of feed %s.', $this->_feed->feedId );
+				do_action( 'wppfm_feed_generation_message', $this->_feed->feedId, $message, 'ERROR' );
+
 				return false;
 			}
 
@@ -238,7 +246,11 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 			// clear the file size checker
 			set_transient( 'wppfm_feed_file_size', '0|0', WPPFM_TRANSIENT_LIVE );
 
-			do_action( 'wppfm_feed_process_prepared', $this->_feed->feedId, $this->_feed_file_path, $this->_feed->channel, $silent );
+			$channel_class = new WPPFM_Channel();
+			$channel_name  = $channel_class->get_channel_short_name( $this->_feed->channel );
+
+			$logger_message = sprintf( 'Feed %s is a %s feed stored as %s, with an original feed status %s.', $this->_feed->feedId, $channel_name, $this->_feed_file_path, $initial_feed_status );
+			do_action( 'wppfm_feed_generation_message', $this->_feed->feedId, $logger_message );
 
 			return true;
 		}
@@ -274,6 +286,8 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 			foreach ( $product_ids as $product_id ) {
 				$this->_background_process->push_to_queue( $product_id );
 			}
+
+			do_action( 'wppfm_feed_queue_filled', $this->_feed->feedId, count( $product_ids ) );
 
 			$product_ids = null;
 
@@ -395,8 +409,6 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 
 			$this->_products_in_feed = count( $products );
 
-			do_action( 'wppfm_feed_queue_filled', $this->_feed->feedId, $this->_products_in_feed );
-
 			return apply_filters( 'wppfm_feed_ids_in_queue', $products, $this->_feed->feedId );
 		}
 
@@ -515,13 +527,13 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 
 				// advised sources
 				if ( ! empty( $attribute->advisedSource )
-					&& strpos( $attribute->advisedSource, __( 'Fill with a static value', 'wp-product-feed-manager' ) ) === false
-					&& strpos( $attribute->advisedSource, __( 'Use the settings in the Merchant Center', 'wp-product-feed-manager' ) ) === false ) {
+				     && strpos( $attribute->advisedSource, __( 'Fill with a static value', 'wp-product-feed-manager' ) ) === false
+				     && strpos( $attribute->advisedSource, __( 'Use the settings in the Merchant Center', 'wp-product-feed-manager' ) ) === false ) {
 
 					// add the relevant advised sources
 					array_push( $column_names, $attribute->advisedSource );
 				} elseif ( property_exists( $attribute, 'advisedSource' )
-					&& strpos( $attribute->advisedSource, __( 'Use the settings in the Merchant Center', 'wp-product-feed-manager' ) ) !== false ) {
+				           && strpos( $attribute->advisedSource, __( 'Use the settings in the Merchant Center', 'wp-product-feed-manager' ) ) !== false ) {
 
 					array_push( $column_names, 'woo_shipping' );
 				}

@@ -4,7 +4,7 @@
  * WP Queries Class.
  *
  * @package WP Product Feed Manager/Data/Classes
- * @version 4.6.0
+ * @version 4.9.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -171,9 +171,10 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 		}
 
 		public function get_feed_status_data( $feed_id ) {
-			$status = $this->_wpdb->get_results( "SELECT product_feed_id, channel_id, title, url, status_id, products, feed_type_id "
-				. "FROM {$this->_table_prefix}feedmanager_product_feed "
-				. "WHERE product_feed_id = '{$feed_id}'", ARRAY_A );
+			$status = $this->_wpdb->get_results(
+				"SELECT product_feed_id, channel_id, title, url, status_id, products, feed_type_id "
+			                                     . "FROM {$this->_table_prefix}feedmanager_product_feed "
+			                                     . "WHERE product_feed_id = '{$feed_id}'", ARRAY_A );
 
 			return $status ? $status[0] : null;
 		}
@@ -370,7 +371,7 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 			$site_url = get_option( 'siteurl' );
 
 			foreach ( $data as $row ) {
-				// make sure the _wp_attached_file data contains a valide url
+				// make sure the _wp_attached_file data contains a valid url
 				if ( '_wp_attached_file' === $row->meta_key ) {
 					$row->meta_value = $this->get_post_thumbnail_url( $main_post_id, 'large' );
 
@@ -502,21 +503,17 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 			return $this->_wpdb->get_results( "SELECT product_feed_id FROM {$this->_table_prefix}feedmanager_product_feed WHERE status_id = '$status_id'" );
 		}
 
-		public function update_current_feed_status( $feed_id, $new_status ) {
+		public function switch_feed_status( $feed_id, $new_status ) {
 			$main_table = $this->_table_prefix . 'feedmanager_product_feed';
 
-			if ( '1' === $new_status || '2' === $new_status ) {
-				return $this->_wpdb->update(
-					$main_table,
-					array(
-						'status_id'      => $new_status,
-						'base_status_id' => $new_status,
-					),
-					array( 'product_feed_id' => $feed_id )
-				);
-			} else {
-				return $this->_wpdb->update( $main_table, array( 'status_id' => $new_status ), array( 'product_feed_id' => $feed_id ) );
-			}
+			return $this->_wpdb->update(
+				$main_table,
+				array(
+					'status_id'      => $new_status,
+					'base_status_id' => $new_status,
+				),
+				array( 'product_feed_id' => $feed_id )
+			);
 		}
 
 		public function set_nr_feed_products( $feed_id, $nr_products ) {
@@ -534,13 +531,13 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 		/**
 		 * Updates a new feed in the product_feed table.
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param (string) $feed_id
 		 * @param (array) $feed_data
 		 * @param (array) $data_types
 		 *
 		 * @return (int|false) nr of affected rows
+		 * @since 1.0.0
+		 *
 		 */
 		public function update_feed( $feed_id, $feed_data, $data_types ) {
 
@@ -585,16 +582,8 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 		/**
 		 * Sets the status id of a feed
 		 *
-		 * 0 = unknown
-		 * 1 = OK (will be updated automatically)
-		 * 2 = On hold (will not be updated automatically)
-		 * 3 = Processing
-		 * 4 = In processing queue
-		 * 5 = Has errors
-		 * 6 = Failed processing
-		 *
 		 * @param string $feed_id
-		 * @param int $status
+		 * @param string $status
 		 *
 		 * @return bool
 		 */
@@ -639,6 +628,24 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 			}
 
 			return $counter;
+		}
+
+		/**
+		 * Resets the status_id's of failed feeds.
+		 *
+		 * @since 2.7.0
+		 */
+		public function reset_all_feed_status() {
+			$main_table = $this->_table_prefix . 'feedmanager_product_feed';
+			$failed_ids = $this->_wpdb->get_results( "SELECT product_feed_id FROM $main_table WHERE status_id > '2' OR status_id = '0'", 'ARRAY_A' );
+
+			foreach ( $failed_ids as $feed_id ) {
+				$id          = $feed_id['product_feed_id'];
+				$base_status = $this->_wpdb->get_var( "SELECT base_status_id FROM $main_table WHERE product_feed_id = '$id'" );
+				$new_status  = '1' === $base_status || '2' === $base_status ? $base_status : '2';
+
+				$this->_wpdb->update( $main_table, array( 'status_id' => $new_status ), array( 'product_feed_id' => $id ), array( '%s' ) );
+			}
 		}
 
 		public function store_feed_filter( $feed_id, $filter ) {
@@ -735,12 +742,12 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 		/**
 		 * Inserts a new feed in the product_feed table and returns its new id.
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param array $feed_data_to_store
 		 * @param array $feed_types
 		 *
 		 * @return integer containing the id of the new feed
+		 * @since 1.0.0
+		 *
 		 */
 		public function create_feed( $feed_data_to_store, $feed_types ) {
 

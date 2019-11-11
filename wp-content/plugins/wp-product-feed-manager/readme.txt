@@ -1,11 +1,11 @@
-﻿=== Woocommerce Google Feed Manager ===
+=== Woocommerce Google Feed Manager ===
 
 Contributors: Wpmarketingrobot, Michel Jongbloed, AukeJomm
 Tags: Google Merchant Export, Product feed, woocommerce, Google product feed export, google, shopping, Google Adwords, Google Merchant, wooCommerce export, woocommerce variations, e-commerce, google merchant product feed, product variations, variations export, wp-e-commerce export, wp marketing robot
 Requires at least: 4.6
 Tested up to: 5.2
 Requires PHP: 5.6
-Stable tag: 1.16.0
+Stable tag: 1.17.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,7 +21,7 @@ You have very advanced and professional options at your disposal to make your pr
 
 > Premium Woocommerce Google Feed manager
 
-> If you love the plugin, or have more than 100 products in your woocommerce webshop we offer a full featured premium version.
+> If you love the plugin, have more than 100 products in your woocommerce webshop and want more power full functions like product variations, product filters, etc. we offer a full featured premium version.
 > if you're a serious webshop owner and want to have absolute controle about over Google Shopping Feed you should start using our [Premium Woocommerce Google Feed Manager](https://goo.gl/mGFLMm)
 
 > Sell your products on other selling channels
@@ -98,6 +98,11 @@ In case it does please do submit your feed in your Google Merchant center and ch
 3. Save and generate your feed
 
 == Changelog ==
+= 1.17.1 - 03/11/2019 =
+* Fixed an issue on the Edit Feed page where on an attribute with a filter, after refreshing the page, would not show the option to add another filter
+* Included a Feed Process Logging option
+* Fixed the View Feed button to open the correct feed even after a first feed generation with a feed name that contains spaces or forbidden characters
+
 = 1.16.0 - 04/10/2019 =
 * Added a View Feed button to the Edit Feed page
 * Removed the use of the glob function
