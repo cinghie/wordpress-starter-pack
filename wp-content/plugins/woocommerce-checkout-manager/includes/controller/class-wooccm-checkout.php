@@ -25,8 +25,6 @@ class WOOCCM_Checkout_Controller {
 
       wp_enqueue_style('wooccm');
 
-      wp_enqueue_script('wooccm-checkout');
-
       // UI
       // ---------------------------------------------------------------------
       wp_enqueue_style('jquery-ui-style');
@@ -57,6 +55,11 @@ class WOOCCM_Checkout_Controller {
       // Dashicons
       // ---------------------------------------------------------------------
       wp_enqueue_style('dashicons');
+
+
+      // Checkout
+      // ---------------------------------------------------------------------
+      wp_enqueue_script('wooccm-checkout');
     }
   }
 

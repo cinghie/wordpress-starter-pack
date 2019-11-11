@@ -135,8 +135,10 @@ if ( ! class_exists( 'YITH_YWPI_Plugin_FW_Loader' ) ) {
 				'parent_page'      => 'yit_plugin_panel',
 				'page'             => $this->_panel_page,
 				'admin-tabs'       => $admin_tabs,
-				'options-path'     => YITH_YWPI_DIR . '/plugin-options'
-			);
+				'options-path'     => YITH_YWPI_DIR . '/plugin-options',
+                'class'            => yith_set_wrapper_class(),
+
+            );
 
 			/* === Fixed: not updated theme  === */
 			if ( ! class_exists( 'YIT_Plugin_Panel_WooCommerce' ) ) {

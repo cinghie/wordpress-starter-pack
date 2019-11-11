@@ -439,7 +439,7 @@ if (array_key_exists('project_hash', $_GET)){
 					<td>
 						<select name="delimiter" class="select-field">
 							<?php
-							$delimiter_arr = array(",","|",";","tab");
+							$delimiter_arr = array(",","|",";","tab","#");
 							foreach ($delimiter_arr as $delimiter){
 								if((isset($project)) AND (array_key_exists('delimiter', $project)) AND ($delimiter == $project['delimiter'])){
 									print "<option value=\"$delimiter\" selected>$delimiter</option>";

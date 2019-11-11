@@ -100,6 +100,7 @@ $magnifier_settings = array(
 		'std'     => 'right',
 		'default' => 'right',
 		'type'    => 'select',
+        'class'   => 'wc-enhanced-select',
 		'options' => array(
 			'right'  => __( 'Right', 'yith-woocommerce-zoom-magnifier' ),
 			'inside' => __( 'Inside', 'yith-woocommerce-zoom-magnifier' )
@@ -112,6 +113,7 @@ $magnifier_settings = array(
 		'std'     => 'default',
 		'default' => 'inside',
 		'type'    => 'select',
+        'class'   => 'wc-enhanced-select',
 		'options' => array(
 			'default' => __( 'Default', 'yith-woocommerce-zoom-magnifier' ),
 			'inside'  => __( 'Inside', 'yith-woocommerce-zoom-magnifier' ),
@@ -131,11 +133,9 @@ $magnifier_settings = array(
 		'name'    => __( 'Lens Opacity', 'yith-woocommerce-zoom-magnifier' ),
 		'desc'    => '',
 		'id'      => 'yith_wcmg_lens_opacity',
-		'std'     => 0.5,
-		'default' => 0.5,
-		'type'    => 'slider',
-		'min'     => 0,
-		'max'     => 1,
+        'type'      => 'yith-field',
+        'yith-type' => 'slider',
+        'option'    => array( 'min' => 0, 'max' => 1 ),
 		'step'    => .1
 	),
 	array(
@@ -176,11 +176,10 @@ $slider_settings = array(
 		'name'    => __( 'Items', 'yith-woocommerce-zoom-magnifier' ),
 		'desc'    => __( 'Number of items to show', 'yith-woocommerce-zoom-magnifier' ),
 		'id'      => 'yith_wcmg_slider_items',
-		'std'     => 3,
 		'default' => 3,
-		'type'    => 'slider',
-		'min'     => 1,
-		'max'     => 10,
+        'type'      => 'yith-field',
+        'yith-type' => 'slider',
+        'option'    => array( 'min' => 1, 'max' => 10 ),
 		'step'    => 1
 	),
 	array(

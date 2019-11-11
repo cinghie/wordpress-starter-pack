@@ -15,19 +15,19 @@
   <li class="display_options">
     <a href="#tab_panel_display"><span><?php esc_html_e('Display', 'woocommerce-checkout-manager'); ?></span></a>
   </li>
-  <!--<# if (data.type == 'datepicker') { #>
-  <li class="datepicker_options">
-    <a href="#tab_panel_datepicker"><span><?php esc_html_e('Datepicker', 'woocommerce-checkout-manager'); ?></span></a>
-  </li>
-  <# } #>
-  <# if (data.type == 'timepicker') { #>
-  <li class="timepicker_options">
-    <a href="#tab_panel_timepicker"><span><?php esc_html_e('Timepicker', 'woocommerce-checkout-manager'); ?></span></a>
-  </li>
-  <# } #>-->
   <# if ( !_.contains(<?php echo json_encode(array_merge($option, $template)); ?>, data.type)) { #>
   <li class="price_options">
     <a href="#tab_panel_price"><span><?php esc_html_e('Price', 'woocommerce-checkout-manager'); ?></span></a>
+  </li>
+  <# } #>
+  <# if (data.type == 'time') { #>
+  <li class="timepicker_options">
+    <a href="#tab_panel_timepicker"><span><?php esc_html_e('Timepicker', 'woocommerce-checkout-manager'); ?></span></a>
+  </li>
+  <# } #>
+  <# if (data.type == 'date') { #>
+  <li class="datepicker_options">
+    <a href="#tab_panel_datepicker"><span><?php esc_html_e('Datepicker', 'woocommerce-checkout-manager'); ?></span></a>
   </li>
   <# } #>
   <li class="admin_options">

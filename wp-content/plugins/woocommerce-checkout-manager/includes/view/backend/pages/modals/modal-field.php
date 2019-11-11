@@ -33,10 +33,13 @@
                   <# if ( !_.contains(<?php echo json_encode(array_merge($option, $template)); ?>, data.type)) { #>
                   <?php include_once( 'parts/panel-price.php' ); ?>
                   <# } #>
-                  <?php //include_once( 'parts/panel-datepicker.php' ); ?>
-                  <?php //include_once( 'parts/panel-timepicker.php' ); ?>
-                  <?php include_once('parts/panel-admin.php' ); ?>
-                  <?php //include_once( 'parts/panel-suggestions.php' ); ?>            
+                  <# if (data.type == 'date') { #>
+                  <?php include_once( 'parts/panel-datepicker.php' ); ?>
+                  <# } #>
+                  <# if (data.type == 'time') { #>
+                  <?php include_once( 'parts/panel-timepicker.php' ); ?>
+                  <# } #>
+                  <?php include_once('parts/panel-admin.php' ); ?>        
                   <div class="clear"></div>
                 </div>
               </div>

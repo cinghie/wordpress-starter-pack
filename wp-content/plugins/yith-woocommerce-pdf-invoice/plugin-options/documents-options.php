@@ -99,7 +99,8 @@ $general_options = array(
 		array(
 			'title'   => __( 'Invoice generation', 'yith-woocommerce-pdf-invoice' ),
 			'id'      => 'ywpi_invoice_generation',
-			'type'    => 'radio',
+            'type'  => 'yith-field',
+            'yith-type'    => 'radio',
 			'options' => array(
 				'auto'   => "Automatic generation",
 				'manual' => "Manual generation"
@@ -110,7 +111,8 @@ $general_options = array(
 		array(
 			'title'   => __( 'Generate invoice automatically:', 'yith-woocommerce-pdf-invoice' ),
 			'id'      => 'ywpi_create_invoice_on',
-			'type'    => 'radio',
+			'type'  => 'yith-field',
+			'yith-type'    => 'radio',
 			'options' => array(
 				'new'        => __( "For new order.", 'yith-woocommerce-pdf-invoice' ),
 				'processing' => __( "For processing order.", 'yith-woocommerce-pdf-invoice' ),
@@ -122,7 +124,8 @@ $general_options = array(
 		array(
 			'title'   => __( 'PDF invoice button behaviour:', 'yith-woocommerce-pdf-invoice' ),
 			'id'      => 'ywpi_pdf_invoice_behaviour',
-			'type'    => 'radio',
+            'type'  => 'yith-field',
+            'yith-type'    => 'radio',
 			'options' => array(
 				'download' => "Download PDF",
 				'open'     => "Open PDF on browser"

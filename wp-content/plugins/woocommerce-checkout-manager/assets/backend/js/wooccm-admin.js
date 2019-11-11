@@ -1,26 +1,6 @@
 (function ($) {
 
-  $.fn.serializeArrayAll = function () {
-    var o = {};
-    var a = this.serializeArray();
-    $.each(a, function () {
-      if (o[this.name] !== undefined) {
-        if (!o[this.name].push) {
-          o[this.name] = [o[this.name]];
-        }
-        o[this.name].push(this.value || '');
-      } else {
-        o[this.name] = this.value || '';
-      }
-    });
-    var $radio = $('input[type=radio],input[type=checkbox]', this);
-    $.each($radio, function () {
-      if (!o.hasOwnProperty(this.name)) {
-        o[this.name] = '';
-      }
-    });
-    return o;
-  };
+  $('.wooccm-premium-field').closest('tr').addClass('wooccm-premium');
 
   function date_picker_select(datepicker) {
     var option = $(datepicker).next().is('.hasDatepicker') ? 'minDate' : 'maxDate',
@@ -261,7 +241,7 @@
   });
 
   $('.wooccm-enhanced-search').filter(':not(.enhanced)').each(function () {
-    
+
     var select2_args = {
       allowClear: $(this).data('allow_clear') ? true : false,
       placeholder: $(this).data('placeholder'),

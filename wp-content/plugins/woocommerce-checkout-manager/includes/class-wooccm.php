@@ -41,12 +41,15 @@ final class WOOCCM {
     include_once( WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-checkout.php' );
     include_once( WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-field.php' );
     include_once( WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-order.php' );
+    include_once( WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-email.php' );
     include_once( WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-advanced.php' );
     include_once( WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-premium.php' );
     include_once( WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-suggestions.php' );
   }
 
   public function register_scripts() {
+    
+    global $wp_version;
 
     // Frontend
     // -----------------------------------------------------------------------
@@ -85,13 +88,13 @@ final class WOOCCM {
     // Timepicker
     // ---------------------------------------------------------------------
     wp_register_style('jquery-ui-timepicker', plugins_url('assets/frontend/timepicker/jquery.ui.timepicker.css', WOOCCM_PLUGIN_FILE), false, WOOCCM_PLUGIN_VERSION);
-    wp_register_script('jquery-ui-timepicker', plugins_url('assets/frontend/timepicker/jquery.ui.timepicker.js', WOOCCM_PLUGIN_FILE), array('jquery'), WOOCCM_PLUGIN_VERSION);
+    wp_register_script('jquery-ui-timepicker', plugins_url('assets/frontend/timepicker/jquery.ui.timepicker.js', WOOCCM_PLUGIN_FILE), array('jquery'), WOOCCM_PLUGIN_VERSION, true);
 
     // Colorpicker
     // ---------------------------------------------------------------------
-    wp_register_script('iris', admin_url('js/iris.min.js'), array('jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch'), false);
+    wp_register_script('iris', admin_url('js/iris.min.js'), array('jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch'), $wp_version);
 
-    wp_register_script('wp-color-picker', admin_url('js/color-picker.min.js'), array('iris'), false);
+    wp_register_script('wp-color-picker', admin_url('js/color-picker.min.js'), array('iris'), $wp_version);
 
     wp_localize_script('wp-color-picker', 'wpColorPickerL10n', array(
         'clear' => __('Clear'),
@@ -100,7 +103,7 @@ final class WOOCCM {
         'current' => __('Current Color'),
     ));
 
-    wp_register_script('farbtastic', admin_url('js/farbtastic.js'), array('jquery'), false);
+    wp_register_script('farbtastic', admin_url('js/farbtastic.js'), array('jquery'), $wp_version);
 
     // Admin
     // -------------------------------------------------------------------------

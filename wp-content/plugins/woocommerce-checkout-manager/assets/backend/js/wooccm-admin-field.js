@@ -60,6 +60,7 @@
 
       _.delay(function () {
 
+        modal.$el.trigger('wooccm-enhanced-between-dates');
         modal.$el.trigger('wooccm-enhanced-options');
         modal.$el.trigger('wooccm-enhanced-select');
         modal.$el.trigger('wooccm-tab-panels', tab);
@@ -175,6 +176,7 @@
 
       this.update(e);
       this.render();
+      this.enable();
 
     },
 //    table: function (e) {
@@ -296,12 +298,13 @@
           if (response.success) {
 
             if (modal.model.attributes.id == undefined) {
+              $modal.addClass('reload');
               modal.close(e);
             }
 
             //re-render dont load select2 saved options
             modal.model.set(response.data);
-            $modal.addClass('reload');
+            //$modal.addClass('reload');
 
           } else {
             alert(response.data);

@@ -341,12 +341,11 @@
   // Datepicker fields
   // ---------------------------------------------------------------------------
 
-  $('.wooccm-type-datepicker').each(function (i, field) {
+  $('.wooccm-enhanced-datepicker').each(function (i, field) {
 
-    var $field = $(field),
-            $input = $field.find('input[type=text]');
+    var $input = $(this);
+
     if ($.isFunction($.fn.datepicker)) {
-
       $input.datepicker({
         dateFormat: $input.data('formatdate') || 'dd-mm-yy',
         minDate: $input.data('mindate') || undefined,
@@ -367,12 +366,13 @@
   // Timepicker fields
   // ---------------------------------------------------------------------------
 
-  $('.wooccm-type-timepicker').each(function (i, field) {
+  $('.wooccm-enhanced-timepicker').each(function (i, field) {
 
-    var $field = $(field),
-            $input = $field.find('input[type=text]');
+    var $input = $(this);
+
     if ($.isFunction($.fn.timepicker)) {
       $input.timepicker({
+        //timeFormat: 'HH:mm:ss',
         showPeriod: true,
         showLeadingZero: true,
         hours: $input.data('hours') || undefined,

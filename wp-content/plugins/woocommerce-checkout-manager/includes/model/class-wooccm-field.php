@@ -100,6 +100,8 @@ class WOOCCM_Field {
         'select' => 'Select',
         'radio' => 'Radio',
         'checkbox' => 'Checkbox',
+        'time' => 'Timepicker',
+        'date' => 'Datepicker',
         'country' => 'Country',
         'state' => 'State',
         'multiselect' => 'Multiselect',
@@ -147,8 +149,9 @@ class WOOCCM_Field {
         'hide_product' => array(),
         'show_product_cat' => array(),
         'hide_product_cat' => array(),
-        'hide_checkout' => false,
         'hide_account' => false,
+        'hide_checkout' => false,
+        'hide_email' => false,
         // Timing
         // -------------------------------------------------------------------
         'time_limit_start' => null,
@@ -159,6 +162,7 @@ class WOOCCM_Field {
         'date_limit_variable_max' => 1,
         'date_limit_fixed_min' => date('Y-m-d'),
         'date_limit_fixed_max' => date('Y-m-d'),
+        'date_limit_days' => array(),
         // Price
         // -------------------------------------------------------------------
         'add_price' => false,
