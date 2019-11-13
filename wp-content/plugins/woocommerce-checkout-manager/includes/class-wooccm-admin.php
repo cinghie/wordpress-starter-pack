@@ -66,7 +66,7 @@ class WOOCCM_Field_Admin {
 
     $screen = get_current_screen();
 
-    wp_register_style('wooccm-admin', plugins_url('assets/backend/css/wooccm-admin.css', WOOCCM_PLUGIN_FILE), array('media-views', /* 'woocommerce_admin_marketplace_styles' */), WOOCCM_PLUGIN_VERSION, 'all');
+    wp_register_style('wooccm-admin', plugins_url('assets/backend/css/wooccm-admin.css', WOOCCM_PLUGIN_FILE), array(), WOOCCM_PLUGIN_VERSION, 'all');
 
     wp_register_script('wooccm-admin', plugins_url('assets/backend/js/wooccm-admin.js', WOOCCM_PLUGIN_FILE), array('jquery'), WOOCCM_PLUGIN_VERSION, true);
 

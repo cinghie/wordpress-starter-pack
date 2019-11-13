@@ -2416,12 +2416,15 @@ class WooSEA_Get_Products {
 
 					if(!array_key_exists("product_tag", $product_data)){
 						$product_data["product_tag"] = array($term->name);
+						$product_data["product_tag_space"] = array($term->name);
 					} else {
 			               		array_push ($product_data["product_tag"], $term->name);
+			               		array_push ($product_data["product_tag_space"], $term->name);
 					}
 				}
 			} else {
 				$product_data["product_tag"] = array();
+				$product_data["product_tag_space"] = array();
 			}
 			
 			/**
@@ -3091,13 +3094,15 @@ class WooSEA_Get_Products {
                                         	                               		$shipping_str = "";
                                                                                		foreach ($product_data[$attr_value['mapfrom']] as $key => $value){
                                                        	                        		$shipping_str .= "||";
-                                                               	                     		foreach($value as $k => $v){
-													if(preg_match('/[0-9]/', $v)){
-														$shipping_str .= ":$attr_value[prefix]".$v."$attr_value[suffix]";
-													//	$shipping_str .= ":$attr_value[prefix]".$v."$attr_value[suffix]";
-                                                                                  	         	} else {
-                                                                                        			$shipping_str .= ":$v";
-                                                                     	                 		}
+												if(is_array($value)){
+                                                               	                     			foreach($value as $k => $v){
+														if(preg_match('/[0-9]/', $v)){
+															$shipping_str .= ":$attr_value[prefix]".$v."$attr_value[suffix]";
+														//	$shipping_str .= ":$attr_value[prefix]".$v."$attr_value[suffix]";
+                                                                                  	         		} else {
+                                                                                        				$shipping_str .= ":$v";
+                                                                     	                 			}
+													}
 												}
                                                                        	     		}
                                                                   	      	  	$shipping_str = ltrim($shipping_str, "||");
@@ -3214,7 +3219,16 @@ class WooSEA_Get_Products {
                                                                         				$product_tag_str = rtrim($product_tag_str, ",");
 
 													$xml_product[$attr_value['attribute']] = "$product_tag_str";
+												} elseif($attr_value['mapfrom'] == "product_tag_space"){
+													$product_tag_str_space = "";
 
+                                                        		                       		foreach ($product_data['product_tag'] as $key => $value){
+                                                       	        		                		$product_tag_str_space .= " ,";
+                                                                        		                	$product_tag_str_space .= "$value";
+                                                                       	     				}
+                                                                  	      	  			$product_tag_str_space = ltrim($product_tag_str_space, " ,");
+                                                                        				$product_tag_str_space = rtrim($product_tag_str_space, ", ");
+													$xml_product[$attr_value['attribute']] = "$product_tag_str_space";
 												} elseif($attr_value['mapfrom'] == "reviews"){
                                                                                                 	$review_str = "";
 													

@@ -80,16 +80,7 @@ final class WOOCCM {
             'deleted' => esc_html__('Deleted successfully.', 'woocommerce-checkout-manager'),
         )
     ));
-
-    // UI
-    // ---------------------------------------------------------------------
-    wp_register_style('jquery-ui-style', WC()->plugin_url() . '/assets/css/jquery-ui/jquery-ui.min.css', array(), WC_VERSION);
-
-    // Timepicker
-    // ---------------------------------------------------------------------
-    wp_register_style('jquery-ui-timepicker', plugins_url('assets/frontend/timepicker/jquery.ui.timepicker.css', WOOCCM_PLUGIN_FILE), false, WOOCCM_PLUGIN_VERSION);
-    wp_register_script('jquery-ui-timepicker', plugins_url('assets/frontend/timepicker/jquery.ui.timepicker.js', WOOCCM_PLUGIN_FILE), array('jquery'), WOOCCM_PLUGIN_VERSION, true);
-
+  
     // Colorpicker
     // ---------------------------------------------------------------------
     wp_register_script('iris', admin_url('js/iris.min.js'), array('jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch'), $wp_version);

@@ -26,6 +26,10 @@ jQuery(document).ready(function($) {
 	// For product pages
 	$(".single_add_to_cart_button").click(function(){
 		var productId = $('input[name=product_id]').val();
+
+console.log("BLAAT");
+console.log(productId);
+
 		if(!productId){
 			productId = $(this).attr('value');
 		}
@@ -38,7 +42,10 @@ jQuery(document).ready(function($) {
 		}
 	
 		$.post(frontEndAjax.ajaxurl, inputdata, function( response ) {
-	 		fbq('track', 'AddToCart', {
+	 
+console.log("Ja hier");
+
+			fbq('track', 'AddToCart', {
   				content_ids: [productId],
 				content_name: response.product_name,
 				content_category: response.product_cats,

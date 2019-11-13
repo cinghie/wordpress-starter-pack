@@ -338,6 +338,7 @@ public function get_mapping_attributes_dropdown() {
 		 */
 		$dropdown .= "<optgroup label='Other fields'><strong>Other fields</strong>";
 		$dropdown .= "<option value='product_tag'>Product tags</option>";              
+		$dropdown .= "<option value='product_tag_space'>Product tags space</option>";              
 		$dropdown .= "<option value='menu_order'>Menu order</option>";
 		$dropdown .= "<option value='reviews'>Reviews</option>";
 		$dropdown .= "</optgroup>";
@@ -451,6 +452,7 @@ public function get_mapping_attributes_dropdown() {
             		"static_value" => "Static value",
 			"calculated" => "Plugin calculation",
 			"product_tag" => "Product tags",
+			"product_tag_space" => "Product tags space",
 			"menu_order" => "Menu order",
 			"reviews" => "Reviews",
         	);

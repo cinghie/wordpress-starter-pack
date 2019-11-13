@@ -1378,7 +1378,7 @@ class CtfAdmin
         <a class="ctf-tooltip-link" href="JavaScript:void(0);"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
         <p class="ctf-tooltip ctf-more-info"><?php _e( 'Clicking this button will clear all cached data for your Twitter feeds', 'custom-twitter-feeds' ); ?>.</p>
         <?php if ( $show_notice ) : ?>
-            <p class="ctf-more-info"><?php _e( 'Due to upcoming changes in Twitter\'s API usage policy, the minimum caching time for the plugin is 1 hour.', 'custom-twitter-feeds' ); ?></p>
+            <p class="ctf-more-info"><?php _e( 'Due to changes in Twitter\'s API usage policy, the minimum caching time for the plugin is 1 hour. To check for Tweets more often either create your own Twitter Developer app or upgrade to the Pro version.', 'custom-twitter-feeds' ); ?></p>
         <?php endif; ?>
         <?php
     }

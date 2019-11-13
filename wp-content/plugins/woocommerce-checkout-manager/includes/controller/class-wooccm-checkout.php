@@ -25,23 +25,6 @@ class WOOCCM_Checkout_Controller {
 
       wp_enqueue_style('wooccm');
 
-      // UI
-      // ---------------------------------------------------------------------
-      wp_enqueue_style('jquery-ui-style');
-
-      // Datepicker
-      // ---------------------------------------------------------------------
-      wp_enqueue_script('jquery-ui-datepicker');
-
-      // Timepicker
-      // ---------------------------------------------------------------------
-      wp_enqueue_style('jquery-ui-timepicker');
-      wp_enqueue_script('jquery-ui-timepicker');
-
-      if (is_file(WOOCCM_PLUGIN_DIR . 'assets/timepicker/i18n/jquery.ui.timepicker-' . $i18n . '.js')) {
-        wp_enqueue_script('jquery-ui-timepicker-' . $i18n, plugins_url('assets/timepicker/i18n/jquery.ui.timepicker-' . $i18n . '.js', WOOCCM_PLUGIN_FILE), array('jquery-ui-timepicker'), WOOCCM_PLUGIN_VERSION);
-      }
-
       // Colorpicker
       // ---------------------------------------------------------------------
       wp_enqueue_style('wp-color-picker');

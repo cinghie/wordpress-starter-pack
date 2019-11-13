@@ -36,6 +36,7 @@ class WOOCCM_Field_Controller {
     ));
 
     if (isset($_GET['tab']) && $_GET['tab'] === WOOCCM_PREFIX) {
+      wp_enqueue_style('media-views');
       wp_enqueue_script('wooccm-field');
     }
   }
