@@ -95,9 +95,8 @@
 			
 			$key           = $fields[ 0 ][ 'id' ];
 			$attachment_id = absint( get_term_meta( $term_id, $key, true ) );
-			$image         = wp_get_attachment_image_url( $attachment_id );
-			
-			printf( '<img src="%s" class="wvs-preview wvs-image-preview" />', esc_url( $image ) );
+			$image         = wp_get_attachment_image_src( $attachment_id, 'thumbnail' );
+			printf( '<img src="%s" width="%d" height="%d" class="wvs-preview wvs-image-preview" />', esc_url( $image[ 0 ] ), $image[ 1 ], $image[ 2 ] );
 		}
 	endif;
 	
@@ -292,6 +291,29 @@
 							'min'     => 8,
 							'max'     => 24,
 							'suffix'  => 'px'
+						)
+					) )
+				)
+			) ), apply_filters( 'wvs_advanced_setting_default_active', false ) );
+			
+			woo_variation_swatches()->add_setting( 'performance', esc_html__( 'Performance', 'woo-variation-swatches' ), apply_filters( 'wvs_performance_settings_section', array(
+				array(
+					'title'  => esc_html__( 'Performance Section', 'woo-variation-swatches' ),
+					'desc'   => esc_html__( 'Change for Performance', 'woo-variation-swatches' ),
+					'fields' => apply_filters( 'wvs_performance_setting_fields', array(
+						array(
+							'id'      => 'defer_load_js',
+							'type'    => 'checkbox',
+							'title'   => esc_html__( 'Defer Load JS', 'woo-variation-swatches' ),
+							'desc'    => esc_html__( 'Defer Load JS for PageSpeed Score', 'woo-variation-swatches' ),
+							'default' => true
+						),
+						array(
+							'id'      => 'use_transient',
+							'type'    => 'checkbox',
+							'title'   => esc_html__( 'Use Transient Cache', 'woo-variation-swatches' ),
+							'desc'    => esc_html__( 'Use Transient Cache for PageSpeed Score', 'woo-variation-swatches' ),
+							'default' => false
 						)
 					) )
 				)
@@ -664,33 +686,24 @@
 	if ( ! function_exists( 'wvs_get_wc_attribute_taxonomy' ) ):
 		function wvs_get_wc_attribute_taxonomy( $attribute_name ) {
 			
-			global $wpdb;
-			$attribute_name     = str_replace( 'pa_', '', wc_sanitize_taxonomy_name( $attribute_name ) );
-			$attribute_taxonomy = $wpdb->get_row( "SELECT * FROM " . $wpdb->prefix . "woocommerce_attribute_taxonomies WHERE attribute_name='{$attribute_name}'" );
+			$transient = sprintf( 'wvs_get_wc_attribute_taxonomy_%s', $attribute_name );
+			
+			if ( isset( $_GET[ 'wvs_clear_transient' ] ) ) {
+				delete_transient( $transient );
+			}
+			
+			if ( false === ( $attribute_taxonomy = get_transient( $transient ) ) ) {
+				global $wpdb;
+				$attribute_name = str_replace( 'pa_', '', wc_sanitize_taxonomy_name( $attribute_name ) );
+				
+				$attribute_taxonomy = $wpdb->get_row( "SELECT * FROM " . $wpdb->prefix . "woocommerce_attribute_taxonomies WHERE attribute_name='{$attribute_name}'" );
+				
+				set_transient( $transient, $attribute_taxonomy, HOUR_IN_SECONDS );
+			}
 			
 			return apply_filters( 'wvs_get_wc_attribute_taxonomy', $attribute_taxonomy, $attribute_name );
 		}
 	endif;
-	
-	/*// Clean transient
-	add_action( 'woocommerce_attribute_updated', function ( $attribute_id, $attribute, $old_attribute_name ) {
-		$transient     = sprintf( 'wvs_get_wc_attribute_taxonomy_%s', wc_attribute_taxonomy_name( $attribute[ 'attribute_name' ] ) );
-		$old_transient = sprintf( 'wvs_get_wc_attribute_taxonomy_%s', wc_attribute_taxonomy_name( $old_attribute_name ) );
-		delete_transient( $transient );
-		delete_transient( $old_transient );
-	}, 20, 3 );
-	
-	// Clean transient
-	add_action( 'woocommerce_attribute_deleted', function ( $attribute_id, $attribute_name, $taxonomy ) {
-		$transient = sprintf( 'wvs_get_wc_attribute_taxonomy_%s', $taxonomy );
-		delete_transient( $transient );
-	}, 20, 3 );
-	
-	// Clean transient
-	add_action( 'woocommerce_attribute_added', function ( $attribute_id, $attribute ) {
-		$transient = sprintf( 'wvs_get_wc_attribute_taxonomy_%s', wc_attribute_taxonomy_name( $attribute[ 'attribute_name' ] ) );
-		delete_transient( $transient );
-	}, 20, 2 );*/
 	
 	//-------------------------------------------------------------------------------
 	// Check has attribute type like color or image etc.
@@ -707,6 +720,7 @@
 				$attribute = array_values( array_filter( $attributes, function ( $attribute ) use ( $type, $attribute_name_clean ) {
 					return $attribute_name_clean === $attribute->attribute_name;
 				} ) );
+				
 				
 				if ( ! empty( $attribute ) ) {
 					$attribute = apply_filters( 'wvs_get_wc_attribute_taxonomy', $attribute[ 0 ], $attribute_name );
@@ -777,8 +791,11 @@
 								case 'image':
 									$attachment_id = absint( get_term_meta( $term->term_id, 'product_attribute_image', true ) );
 									$image_size    = woo_variation_swatches()->get_option( 'attribute_image_size' );
-									$image_url     = wp_get_attachment_image_url( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ) );
-									$data          .= sprintf( '<img alt="%s" src="%s" />', esc_attr( $term->name ), esc_url( $image_url ) );
+									$image         = wp_get_attachment_image_src( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ) );
+									// $image_html = wp_get_attachment_image( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ), false, array( 'class' => '' ) );
+									
+									$data .= sprintf( '<img alt="%s" src="%s" width="%d" height="%d" />', esc_attr( $term->name ), esc_url( $image[ 0 ] ), $image[ 1 ], $image[ 2 ] );
+									
 									break;
 								
 								
@@ -847,8 +864,10 @@
 								case 'image':
 									$attachment_id = $assigned[ $term->slug ][ 'image_id' ];
 									$image_size    = woo_variation_swatches()->get_option( 'attribute_image_size' );
-									$image_url     = wp_get_attachment_image_url( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ) );
-									$data          .= sprintf( '<img alt="%s" src="%s" />', esc_attr( apply_filters( 'woocommerce_variation_option_name', $term->name, $term, $attribute, $product ) ), esc_url( $image_url ) );
+									$image         = wp_get_attachment_image_src( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ) );
+									// $image_html = wp_get_attachment_image( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ), false, array( 'class' => '' ) );
+									$data .= sprintf( '<img alt="%s" src="%s" width="%d" height="%d" />', esc_attr( apply_filters( 'woocommerce_variation_option_name', $term->name, $term, $attribute, $product ) ), esc_url( $image[ 0 ] ), $image[ 1 ], $image[ 2 ] );
+									// $data .= $image_html;
 									break;
 								
 								
@@ -893,8 +912,10 @@
 							case 'image':
 								$attachment_id = $assigned[ $option ][ 'image_id' ];
 								$image_size    = woo_variation_swatches()->get_option( 'attribute_image_size' );
-								$image_url     = wp_get_attachment_image_url( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ) );
-								$data          .= sprintf( '<img alt="%s" src="%s" />', esc_attr( $option ), esc_url( $image_url ) );
+								$image         = wp_get_attachment_image_src( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ) );
+								// $image_html = wp_get_attachment_image( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ), false, array( 'class' => '' ) );
+								$data .= sprintf( '<img alt="%s" src="%s" width="%d" height="%d" />', esc_attr( $option ), esc_url( $image[ 0 ] ), $image[ 1 ], $image[ 2 ] );
+								// $data .= $image_html;
 								break;
 							
 							
@@ -1239,12 +1260,9 @@
 				
 				if ( $type === 'select' ) {
 					echo '<select id="' . esc_attr( $id ) . '" class="' . esc_attr( $class ) . '" name="' . esc_attr( $name ) . '" data-attribute_name="' . esc_attr( wc_variation_attribute_name( $attribute ) ) . '" data-show_option_none="' . ( $show_option_none ? 'yes' : 'no' ) . '">';
-					
 				} else {
 					echo '<select id="' . esc_attr( $id ) . '" class="' . esc_attr( $class ) . ' hide woo-variation-raw-select woo-variation-raw-type-' . $type . '" style="display:none" name="' . esc_attr( $name ) . '" data-attribute_name="' . esc_attr( wc_variation_attribute_name( $attribute ) ) . '" data-show_option_none="' . ( $show_option_none ? 'yes' : 'no' ) . '">';
-					
 				}
-				
 			}
 			
 			if ( $args[ 'show_option_none' ] ) {
@@ -1364,28 +1382,28 @@
 				return $html;
 			}
 			
-			$attributes = $args[ 'product' ]->get_variation_attributes();
-			$variations = $args[ 'product' ]->get_available_variations();
 			
-			ob_start();
+			$attribute_id = wc_variation_attribute_name( $args[ 'attribute' ] );
+			// $attribute_id = sanitize_title( $args[ 'attribute' ] );
+			$product_id = $args[ 'product' ]->get_id();
 			
-			$available_type_keys = array_keys( wvs_available_attributes_types() );
-			$available_types     = wvs_available_attributes_types();
-			$default             = true;
+			$transient_type = ( isset( $args[ 'is_archive' ] ) && $args[ 'is_archive' ] ) ? "archive_" . $product_id . "_" . $attribute_id : $product_id . "_" . $attribute_id;
+			$transient_name = 'wvs_attribute_html_' . $transient_type;
 			
-			foreach ( $available_type_keys as $type ) {
-				if ( wvs_wc_product_has_attribute_type( $type, $args[ 'attribute' ] ) ) {
-					
-					$output_callback = apply_filters( 'wvs_variation_attribute_options_callback', $available_types[ $type ][ 'output' ], $available_types, $type, $args, $html );
-					$output_callback( apply_filters( 'wvs_variation_attribute_options_args', wp_parse_args( $args, array(
-						'options'    => $args[ 'options' ],
-						'attribute'  => $args[ 'attribute' ],
-						'product'    => $args[ 'product' ],
-						'selected'   => $args[ 'selected' ],
-						'type'       => $type,
-						'is_archive' => ( isset( $args[ 'is_archive' ] ) && $args[ 'is_archive' ] )
-					) ) ) );
-					$default = false;
+			$archive_transient_name = 'wvs_attribute_html_archive_' . $product_id . "_" . $attribute_id;
+			$product_transient_name = 'wvs_attribute_html_' . $product_id . "_" . $attribute_id;
+			$use_transient          = (bool) woo_variation_swatches()->get_option( 'use_transient' );
+			
+			if ( isset( $_GET[ 'wvs_clear_transient' ] ) || ! $use_transient ) {
+				delete_transient( $transient_name );
+				delete_transient( $archive_transient_name );
+				delete_transient( $product_transient_name );
+			}
+			
+			if ( ! isset( $_GET[ 'wvs_clear_transient' ] ) && $use_transient ) {
+				$transient_html = get_transient( $transient_name );
+				if ( ! empty( $transient_html ) ) {
+					return $transient_html;
 				}
 			}
 			
@@ -1395,93 +1413,128 @@
 			
 			$is_default_to_image_button = ( $is_default_to_image || $is_default_to_button );
 			
-			if ( $default && $is_default_to_image_button ) {
+			ob_start();
+			
+			if ( apply_filters( 'wvs_no_individual_settings', true, $args, $is_default_to_image, $is_default_to_button ) ) {
 				
-				if ( $default_image_type_attribute === '__max' ) {
-					
-					$attribute_counts = array();
-					foreach ( $attributes as $attr_key => $attr_values ) {
-						$attribute_counts[ $attr_key ] = count( $attr_values );
+				$attributes = $args[ 'product' ]->get_variation_attributes();
+				$variations = $args[ 'product' ]->get_available_variations();
+				
+				$available_type_keys = array_keys( wvs_available_attributes_types() );
+				$available_types     = wvs_available_attributes_types();
+				$default             = true;
+				
+				foreach ( $available_type_keys as $type ) {
+					if ( wvs_wc_product_has_attribute_type( $type, $args[ 'attribute' ] ) ) {
+						
+						$output_callback = apply_filters( 'wvs_variation_attribute_options_callback', $available_types[ $type ][ 'output' ], $available_types, $type, $args, $html );
+						$output_callback( apply_filters( 'wvs_variation_attribute_options_args', wp_parse_args( $args, array(
+							'options'    => $args[ 'options' ],
+							'attribute'  => $args[ 'attribute' ],
+							'product'    => $args[ 'product' ],
+							'selected'   => $args[ 'selected' ],
+							'type'       => $type,
+							'is_archive' => ( isset( $args[ 'is_archive' ] ) && $args[ 'is_archive' ] )
+						) ) ) );
+						$default = false;
 					}
-					
-					$max_attribute_count = max( $attribute_counts );
-					$attribute_key       = array_search( $max_attribute_count, $attribute_counts );
-					
-				} elseif ( $default_image_type_attribute === '__min' ) {
-					$attribute_counts = array();
-					foreach ( $attributes as $attr_key => $attr_values ) {
-						$attribute_counts[ $attr_key ] = count( $attr_values );
-					}
-					$min_attribute_count = min( $attribute_counts );
-					$attribute_key       = array_search( $min_attribute_count, $attribute_counts );
-					
-				} elseif ( $default_image_type_attribute === '__first' ) {
-					$attribute_keys = array_keys( $attributes );
-					$attribute_key  = current( $attribute_keys );
-				} else {
-					$attribute_key = $default_image_type_attribute;
 				}
 				
-				$selected_attribute_name = wc_variation_attribute_name( $attribute_key );
-				
-				
-				$default_attribute_keys = array_keys( $attributes );
-				$default_attribute_key  = current( $default_attribute_keys );
-				$default_attribute_name = wc_variation_attribute_name( $default_attribute_key );
-				
-				$current_attribute      = $args[ 'attribute' ];
-				$current_attribute_name = wc_variation_attribute_name( $current_attribute );
-				
-				
-				if ( $is_default_to_image ) {
+				if ( $default && $is_default_to_image_button ) {
 					
-					$assigned = array();
-					foreach ( $variations as $variation_key => $variation ) {
-						$attribute_name = $variation[ 'attributes' ][ $selected_attribute_name ] ? $selected_attribute_name : $default_attribute_name;
+					if ( $default_image_type_attribute === '__max' ) {
 						
-						$assigned[ $attribute_name ][ $variation[ 'attributes' ][ $attribute_name ] ] = array(
-							'image_id'     => $variation[ 'image_id' ],
-							'variation_id' => $variation[ 'variation_id' ],
-							'type'         => ( empty( $variation[ 'image_id' ] ) ? 'button' : 'image' ),
-						);
+						$attribute_counts = array();
+						foreach ( $attributes as $attr_key => $attr_values ) {
+							$attribute_counts[ $attr_key ] = count( $attr_values );
+						}
+						
+						$max_attribute_count = max( $attribute_counts );
+						$attribute_key       = array_search( $max_attribute_count, $attribute_counts );
+						
+					} elseif ( $default_image_type_attribute === '__min' ) {
+						$attribute_counts = array();
+						foreach ( $attributes as $attr_key => $attr_values ) {
+							$attribute_counts[ $attr_key ] = count( $attr_values );
+						}
+						$min_attribute_count = min( $attribute_counts );
+						$attribute_key       = array_search( $min_attribute_count, $attribute_counts );
+						
+					} elseif ( $default_image_type_attribute === '__first' ) {
+						$attribute_keys = array_keys( $attributes );
+						$attribute_key  = current( $attribute_keys );
+					} else {
+						$attribute_key = $default_image_type_attribute;
 					}
 					
-					$type     = ( empty( $assigned[ $current_attribute_name ] ) ? 'button' : 'image' );
-					$assigned = ( isset( $assigned[ $current_attribute_name ] ) ? $assigned[ $current_attribute_name ] : array() );
+					$selected_attribute_name = wc_variation_attribute_name( $attribute_key );
 					
-					if ( $type === 'button' && ! $is_default_to_button ) {
-						$type = 'select';
+					
+					$default_attribute_keys = array_keys( $attributes );
+					$default_attribute_key  = current( $default_attribute_keys );
+					$default_attribute_name = wc_variation_attribute_name( $default_attribute_key );
+					
+					$current_attribute      = $args[ 'attribute' ];
+					$current_attribute_name = wc_variation_attribute_name( $current_attribute );
+					
+					
+					if ( $is_default_to_image ) {
+						
+						$assigned = array();
+						foreach ( $variations as $variation_key => $variation ) {
+							$attribute_name = $variation[ 'attributes' ][ $selected_attribute_name ] ? $selected_attribute_name : $default_attribute_name;
+							
+							$assigned[ $attribute_name ][ $variation[ 'attributes' ][ $attribute_name ] ] = array(
+								'image_id'     => $variation[ 'image_id' ],
+								'variation_id' => $variation[ 'variation_id' ],
+								'type'         => ( empty( $variation[ 'image_id' ] ) ? 'button' : 'image' ),
+							);
+						}
+						
+						$type     = ( empty( $assigned[ $current_attribute_name ] ) ? 'button' : 'image' );
+						$assigned = ( isset( $assigned[ $current_attribute_name ] ) ? $assigned[ $current_attribute_name ] : array() );
+						
+						if ( $type === 'button' && ! $is_default_to_button ) {
+							$type = 'select';
+						}
+						
+						wvs_default_image_variation_attribute_options( apply_filters( 'wvs_variation_attribute_options_args', wp_parse_args( $args, array(
+							'options'    => $args[ 'options' ],
+							'attribute'  => $args[ 'attribute' ],
+							'product'    => $args[ 'product' ],
+							'selected'   => $args[ 'selected' ],
+							'assigned'   => $assigned,
+							'type'       => $type,
+							'is_archive' => ( isset( $args[ 'is_archive' ] ) && $args[ 'is_archive' ] )
+						) ) ) );
+						
+					} elseif ( $is_default_to_button ) {
+						
+						wvs_default_button_variation_attribute_options( apply_filters( 'wvs_variation_attribute_options_args', wp_parse_args( $args, array(
+							'options'    => $args[ 'options' ],
+							'attribute'  => $args[ 'attribute' ],
+							'product'    => $args[ 'product' ],
+							'selected'   => $args[ 'selected' ],
+							'is_archive' => ( isset( $args[ 'is_archive' ] ) && $args[ 'is_archive' ] )
+						) ) ) );
+					} else {
+						echo $html;
 					}
-					
-					wvs_default_image_variation_attribute_options( apply_filters( 'wvs_variation_attribute_options_args', wp_parse_args( $args, array(
-						'options'    => $args[ 'options' ],
-						'attribute'  => $args[ 'attribute' ],
-						'product'    => $args[ 'product' ],
-						'selected'   => $args[ 'selected' ],
-						'assigned'   => $assigned,
-						'type'       => $type,
-						'is_archive' => ( isset( $args[ 'is_archive' ] ) && $args[ 'is_archive' ] )
-					) ) ) );
-					
-				} elseif ( $is_default_to_button ) {
-					
-					wvs_default_button_variation_attribute_options( apply_filters( 'wvs_variation_attribute_options_args', wp_parse_args( $args, array(
-						'options'    => $args[ 'options' ],
-						'attribute'  => $args[ 'attribute' ],
-						'product'    => $args[ 'product' ],
-						'selected'   => $args[ 'selected' ],
-						'is_archive' => ( isset( $args[ 'is_archive' ] ) && $args[ 'is_archive' ] )
-					) ) ) );
-				} else {
+				} elseif ( $default && ! $is_default_to_image_button ) {
 					echo $html;
 				}
-			} elseif ( $default && ! $is_default_to_image_button ) {
-				echo $html;
+				
 			}
 			
 			$data = ob_get_clean();
 			
-			return apply_filters( 'wvs_variation_attribute_options_html', $data, $args, $is_default_to_image, $is_default_to_button );
+			$html = apply_filters( 'wvs_variation_attribute_options_html', $data, $args, $is_default_to_image, $is_default_to_button );
+			
+			if ( ! isset( $_GET[ 'wvs_clear_transient' ] ) && $use_transient ) {
+				set_transient( $transient_name, $html, HOUR_IN_SECONDS );
+			}
+			
+			return $html;
 		}
 	endif;
 	

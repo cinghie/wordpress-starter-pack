@@ -13,6 +13,7 @@
 			
 			private $setting_name           = 'woo_variation_swatches';
 			private $transient_setting_name = '_temp_woo_variation_swatches_options';
+			private $cache_key              = 'woo_variation_swatches_options';
 			private $theme_feature_name     = 'woo-variation-swatches';
 			private $slug;
 			private $plugin_class;

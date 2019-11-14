@@ -1,8 +1,8 @@
 /*!
- * Variation Swatches for WooCommerce v1.0.64 
+ * Variation Swatches for WooCommerce v1.0.66 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 10/26/2019, 3:22:36 AM
+ * Date: 11/14/2019, 3:40:31 AM
  * Released under the GPLv3 license.
  */
 /******/ (function(modules) { // webpackBootstrap

@@ -7,9 +7,9 @@
  * Author URI: https://woocommerce.com/
  * Text Domain: woocommerce-services
  * Domain Path: /i18n/languages/
- * Version: 1.21.1
+ * Version: 1.22.0
  * WC requires at least: 3.0.0
- * WC tested up to: 3.7
+ * WC tested up to: 3.8
  *
  * Copyright (c) 2017-2019 Automattic
  *
@@ -207,6 +207,34 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			$i = hexdec( substr( md5( $file ), -1 ) ) % 2;
 			$url = 'http://s' . $i . '.wp.com' . $file;
 			return set_url_scheme( $url );
+		}
+
+		/**
+		 * environment_check function.
+		 *
+		 * @return void
+		 */
+		public function environment_check() {
+			if ( ! current_user_can( 'manage_woocommerce' ) ) {
+				return;
+			}
+
+			$admin_page = 'wc-settings';
+
+			$base_currency = get_woocommerce_currency();
+			$base_location = wc_get_base_location();
+
+			if ( ! WC_Connect_Shipping_Label::is_supported_currency( $base_currency ) ) {
+				echo '<div class="error">
+					<p>' . sprintf( __( 'WooCommerce Services requires that the <a href="%s">currency</a> is set to US Dollars.', 'woocommerce-services' ), admin_url( 'admin.php?page=' . $admin_page . '&tab=general' ) ) . '</p>
+				</div>';
+			}
+
+			if ( ! WC_Connect_Shipping_Label::is_supported_country( $base_location['country'] ) ) {
+				echo '<div class="error">
+					<p>' . sprintf( __( 'WooCommerce Services requires that the <a href="%s">base country/region</a> is the United States.', 'woocommerce-services' ), admin_url( 'admin.php?page=' . $admin_page . '&tab=general' ) ) . '</p>
+				</div>';
+			}
 		}
 
 		public function __construct() {
@@ -669,6 +697,7 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			$this->set_help_view( new WC_Connect_Help_View( $schema, $settings, $logger ) );
 			add_action( 'admin_notices', array( WC_Connect_Error_Notice::instance(), 'render_notice' ) );
 			add_action( 'admin_notices', array( $this, 'render_schema_notices' ) );
+			add_action( 'admin_notices', array( $this, 'environment_check' ) );
 		}
 
 		/**
@@ -1249,11 +1278,13 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 
 		public function add_meta_boxes( $post_type, $post ) {
 			if ( $this->shipping_label->should_show_meta_box() ) {
-				add_meta_box( 'woocommerce-order-label', __( 'Shipping Label', 'woocommerce-services' ), array( $this->shipping_label, 'meta_box' ), null, 'side', 'default' );
+				wp_enqueue_style( 'wc_connect_admin' );
+				add_meta_box( 'woocommerce-order-shipment-tracking', __( 'Shipment Tracking', 'woocommerce-services' ), array( $this->shipping_label, 'meta_box' ), null, 'side', 'default', array( 'context' => 'shipment_tracking' ) );
+
+				add_meta_box( 'woocommerce-order-label', __( 'Shipping Label', 'woocommerce-services' ), array( $this->shipping_label, 'meta_box' ), null, 'normal', 'high', array( 'context' => 'shipping_label' ) );
 			}
 
 			if ( $this->should_show_shipping_debug_meta_box( $post ) ) {
-				wp_enqueue_style( 'wc_connect_admin' );
 				add_meta_box( 'woocommerce-services-shipping-debug', __( 'Shipping Debug', 'woocommerce-services' ), array( $this, 'shipping_rate_packaging_debug_log_meta_box' ), 'shop_order', 'normal', 'default' );
 			}
 		}
@@ -1372,9 +1403,12 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 		}
 
 		function enqueue_wc_connect_script( $root_view, $extra_args = array() ) {
+			$wcs_connection_schemas = $this->api_client->get_service_schemas();
+
 			$payload = array(
-				'nonce'        => wp_create_nonce( 'wp_rest' ),
-				'baseURL'      => get_rest_url(),
+				'nonce'                 => wp_create_nonce( 'wp_rest' ),
+				'baseURL'               => get_rest_url(),
+				'wcs_server_connection' => is_wp_error( $wcs_connection_schemas ) ? false : true,
 			);
 
 			wp_localize_script( 'wc_connect_admin', 'wcConnectData', $payload );

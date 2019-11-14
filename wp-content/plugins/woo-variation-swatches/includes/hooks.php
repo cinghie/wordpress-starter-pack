@@ -38,8 +38,86 @@
 		return $attr;
 	}, 9 );
 	
+	add_filter( 'script_loader_tag', function ( $tag, $handle, $src ) {
+		
+		$defer_load_js = (bool) woo_variation_swatches()->get_option( 'defer_load_js' );
+		
+		if ( $defer_load_js ) {
+			$handles = array( 'woo-variation-swatches-pro', 'wc-add-to-cart-variation', 'woo-variation-swatches' );
+			
+			if ( in_array( $handle, $handles ) && ( strpos( $tag, 'plugins' . DIRECTORY_SEPARATOR . 'woo-variation-swatches' ) !== false ) ) {
+				return str_ireplace( ' src=', ' defer src=', $tag );
+			}
+		}
+		
+		return $tag;
+		
+	}, 10, 3 );
+	
 	if ( ! class_exists( 'Woo_Variation_Swatches_Pro' ) ) {
 		add_filter( 'woocommerce_product_data_tabs', 'add_wvs_pro_preview_tab' );
 		
 		add_filter( 'woocommerce_product_data_panels', 'add_wvs_pro_preview_tab_panel' );
 	}
+	
+	add_action( 'woocommerce_save_product_variation', function ( $variation_id ) {
+		$product        = wc_get_product( $variation_id );
+		$product_id     = $product->get_parent_id();
+		$attribute_keys = array_keys( $product->get_variation_attributes() );
+		
+		foreach ( $attribute_keys as $attribute_id ) {
+			$archive_transient_name = 'wvs_attribute_html_archive_' . $product_id . "_" . $attribute_id;
+			$product_transient_name = 'wvs_attribute_html_' . $product_id . "_" . $attribute_id;
+			delete_transient( $archive_transient_name );
+			delete_transient( $product_transient_name );
+		}
+	} );
+	
+	add_action( 'woocommerce_update_product_variation', function ( $variation_id ) {
+		$product        = wc_get_product( $variation_id );
+		$product_id     = $product->get_parent_id();
+		$attribute_keys = array_keys( $product->get_variation_attributes() );
+		
+		foreach ( $attribute_keys as $attribute_id ) {
+			$archive_transient_name = 'wvs_attribute_html_archive_' . $product_id . "_" . $attribute_id;
+			$product_transient_name = 'wvs_attribute_html_' . $product_id . "_" . $attribute_id;
+			delete_transient( $archive_transient_name );
+			delete_transient( $product_transient_name );
+		}
+	} );
+	
+	add_action( 'woocommerce_delete_product_transients', function ( $product_id ) {
+		$product = wc_get_product( $product_id );
+		
+		if ( $product->is_type( 'variable' ) ) {
+			$attribute_keys = array_keys( $product->get_variation_attributes() );
+			
+			foreach ( $attribute_keys as $attribute_id ) {
+				$archive_transient_name = 'wvs_attribute_html_archive_' . $product_id . "_" . wc_variation_attribute_name( $attribute_id );
+				$product_transient_name = 'wvs_attribute_html_' . $product_id . "_" . wc_variation_attribute_name( $attribute_id );
+				delete_transient( $archive_transient_name );
+				delete_transient( $product_transient_name );
+			}
+		}
+	} );
+	
+	// Clean transient
+	add_action( 'woocommerce_attribute_updated', function ( $attribute_id, $attribute, $old_attribute_name ) {
+		$transient     = sprintf( 'wvs_get_wc_attribute_taxonomy_%s', wc_attribute_taxonomy_name( $attribute[ 'attribute_name' ] ) );
+		$old_transient = sprintf( 'wvs_get_wc_attribute_taxonomy_%s', wc_attribute_taxonomy_name( $old_attribute_name ) );
+		delete_transient( $transient );
+		delete_transient( $old_transient );
+	}, 20, 3 );
+	
+	// Clean transient
+	add_action( 'woocommerce_attribute_deleted', function ( $attribute_id, $attribute_name, $taxonomy ) {
+		$transient = sprintf( 'wvs_get_wc_attribute_taxonomy_%s', $taxonomy );
+		delete_transient( $transient );
+	}, 20, 3 );
+	
+	// Clean transient
+	add_action( 'woocommerce_attribute_added', function ( $attribute_id, $attribute ) {
+		$transient = sprintf( 'wvs_get_wc_attribute_taxonomy_%s', wc_attribute_taxonomy_name( $attribute[ 'attribute_name' ] ) );
+		delete_transient( $transient );
+	}, 20, 2 );
+	

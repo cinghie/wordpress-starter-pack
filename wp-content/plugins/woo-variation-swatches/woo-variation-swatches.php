@@ -4,12 +4,12 @@
 	 * Plugin URI: https://wordpress.org/plugins/woo-variation-swatches/
 	 * Description: Beautiful colors, images and buttons variation swatches for woocommerce product attributes. Requires WooCommerce 3.2+
 	 * Author: Emran Ahmed
-	 * Version: 1.0.64
+	 * Version: 1.0.66
 	 * Domain Path: /languages
 	 * Requires at least: 4.8
-	 * Tested up to: 5.2
+	 * Tested up to: 5.3
 	 * WC requires at least: 3.2
-	 * WC tested up to: 3.7
+	 * WC tested up to: 3.8
 	 * Text Domain: woo-variation-swatches
 	 * Author URI: https://getwooplugins.com/
 	 */
@@ -20,7 +20,7 @@
 		
 		final class Woo_Variation_Swatches {
 			
-			protected $_version = '1.0.64';
+			protected $_version = '1.0.66';
 			
 			protected static $_instance = null;
 			private          $_settings_api;
@@ -343,10 +343,17 @@
 				ob_start();
 				include_once $this->include_path( 'stylesheet.php' );
 				$css = ob_get_clean();
-				$css = str_ireplace( array( '<style type="text/css">', '</style>' ), '', $css );
-				
+				$css = $this->clean_css( $css );
 				$css = apply_filters( 'wvs_inline_style', $css );
 				wp_add_inline_style( 'woo-variation-swatches', $css );
+			}
+			
+			public function clean_css( $inline_css ) {
+				$inline_css = str_ireplace( array( '<style type="text/css">', '</style>' ), '', $inline_css );
+				$inline_css = str_ireplace( array( "\r\n", "\r", "\n", "\t" ), '', $inline_css );
+				$inline_css = preg_replace( "/\s+/", ' ', $inline_css );
+				
+				return trim( $inline_css );
 			}
 			
 			public function admin_enqueue_scripts() {
@@ -383,11 +390,10 @@
 				) );
 				
 				// GWP Admin Helper
-				wp_enqueue_script( 'gwp-admin', $this->assets_uri( "/js/gwp-admin{$suffix}.js" ), array( 'jquery', 'jquery-ui-dialog', 'serializejson' ), $this->version(), true );
-				wp_localize_script( 'gwp-admin', 'GWPAdmin', array(
-					'feedback_title' => esc_html__( 'Quick Feedback', 'woo-variation-swatches' )
-				) );
-				wp_enqueue_style( 'gwp-admin', $this->assets_uri( "/css/gwp-admin{$suffix}.css" ), array( 'wp-jquery-ui-dialog', 'dashicons' ), $this->version() );
+				wp_enqueue_script( 'gwp-backbone-modal', $this->assets_uri( "/js/gwp-backbone-modal{$suffix}.js" ), array( 'jquery', 'underscore', 'backbone', 'wp-util' ), $this->version(), true );
+				wp_enqueue_script( 'gwp-admin', $this->assets_uri( "/js/gwp-admin{$suffix}.js" ), array( 'gwp-backbone-modal' ), $this->version(), true );
+				
+				wp_enqueue_style( 'gwp-admin', $this->assets_uri( "/css/gwp-admin{$suffix}.css" ), array( 'dashicons' ), $this->version() );
 				
 			}
 			

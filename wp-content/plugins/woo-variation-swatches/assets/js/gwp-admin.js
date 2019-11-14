@@ -1,8 +1,8 @@
 /*!
- * Variation Swatches for WooCommerce v1.0.64 
+ * Variation Swatches for WooCommerce v1.0.66 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 10/26/2019, 3:22:36 AM
+ * Date: 11/14/2019, 3:40:31 AM
  * Released under the GPLv3 license.
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -149,74 +149,6 @@ var GWPAdminHelper = function ($) {
 
                 var id = '#gwp-plugin-deactivate-feedback-dialog-wrapper-' + pluginslug;
 
-                $(id).dialog({
-                    title: GWPAdmin.feedback_title,
-                    dialogClass: 'wp-dialog gwp-deactivate-feedback-dialog',
-                    autoOpen: false,
-                    draggable: false,
-                    width: 'auto',
-                    modal: true,
-                    resizable: false,
-                    closeOnEscape: true,
-                    position: {
-                        my: "center",
-                        at: "center",
-                        of: window
-                    },
-                    create: function create() {
-                        $('.ui-dialog-titlebar-close').addClass('ui-button');
-                    },
-                    open: function open() {
-                        $('.ui-widget-overlay').bind('click', function () {
-                            $(id).dialog('close');
-                        });
-
-                        var opener = $(this).data('gwp-deactivate-dialog-opener');
-
-                        GWPAdminHelper.ResetPopupData(pluginslug);
-
-                        var slug = $(opener).data('slug');
-                        var plugin = $(opener).data('plugin');
-                        var deactivate_link = $(opener).data('deactivate_link');
-
-                        $('.feedback-dialog-form-button-skip', id).prop('href', deactivate_link);
-                        $('.feedback-dialog-form-button-send', id).data('deactivate_link', deactivate_link);
-                    }
-                });
-
-                $('.feedback-dialog-form-button-send', id).on('click', function (event) {
-                    event.preventDefault();
-                    var data = $('.feedback-dialog-form', id).serializeJSON();
-
-                    var link = $(this).data('deactivate_link');
-
-                    if (typeof data['reason_type'] === 'undefined') {
-                        return;
-                    }
-
-                    $(this).prop('disabled', true).text($(this).data('deactivating')).next().addClass('visible');
-
-                    wp.ajax.send(data.action, {
-                        data: data,
-                        success: function success(response) {
-                            window.location.replace(link);
-                        },
-                        error: function error() {
-                            window.location.replace(link);
-                        }
-                    });
-
-                    //console.log(data)
-                });
-
-                $(':radio', id).on('change', function () {
-
-                    $(this).closest('.feedback-dialog-form-body').find('.feedback-text').prop('disabled', true).hide();
-
-                    $(this).nextAll('.feedback-text').prop('disabled', false).show().focus();
-                    // console.log($(this).val())
-                });
-
                 $('.wp-list-table.plugins').find('[data-slug="' + pluginslug + '"].active').each(function () {
                     var _this = this;
 
@@ -227,7 +159,13 @@ var GWPAdminHelper = function ($) {
                     $(this).find('.deactivate a').on('click', function (event) {
                         event.preventDefault();
 
-                        $(id).data('gwp-deactivate-dialog-opener', _this).dialog('open');
+                        $(_this).GWPBackboneModal({
+                            template: 'gwp-deactive-feedback-dialog-' + pluginslug,
+                            data: {
+                                deactivate_link: deactivate_link,
+                                plugin: pluginslug
+                            }
+                        });
                     });
                 });
             }

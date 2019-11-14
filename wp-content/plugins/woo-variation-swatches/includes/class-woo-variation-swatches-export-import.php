@@ -105,7 +105,7 @@
 				return $columns;
 			}
 			
-			public function process_wc_import( &$product, $data ) {
+			public function process_wc_import( $product, $data ) {
 				
 				$product_id = $product->get_id();
 				
@@ -129,7 +129,6 @@
 							array_push( $done_taxonomy, $id );
 							
 							wc_update_attribute( $id, array( 'type' => $attr[ 'type' ] ) );
-							
 							
 							foreach ( $attr[ 'terms' ] as $term_name => $term_data ) {
 								

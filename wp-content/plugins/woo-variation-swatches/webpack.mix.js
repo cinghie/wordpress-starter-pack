@@ -52,7 +52,7 @@ webpack.mix.js`;
 
 if (Mix.inProduction()) {
     mix.generatePot({
-        package   : 'WooCommerce Variation Swatches',
+        package   : 'Variation Swatches for WooCommerce',
         bugReport : 'https://github.com/EmranAhmed/woo-variation-swatches/issues',
         src       : '**/*.php',
         domain    : 'woo-variation-swatches',
@@ -61,7 +61,7 @@ if (Mix.inProduction()) {
 }
 
 mix.banner({
-    banner : "Variation Swatches for WooCommerce v1.0.64 \n\nAuthor: Emran Ahmed ( emran.bd.08@gmail.com ) \nDate: " + new Date().toLocaleString() + "\nReleased under the GPLv3 license."
+    banner : "Variation Swatches for WooCommerce v1.0.66 \n\nAuthor: Emran Ahmed ( emran.bd.08@gmail.com ) \nDate: " + new Date().toLocaleString() + "\nReleased under the GPLv3 license."
 });
 
 mix.notification({
@@ -84,6 +84,7 @@ mix.babel(`src/js/divi_woo_layout_injector.js`, `assets/js/divi_woo_layout_injec
 
 mix.babel(`src/js/FormFieldDependency.js`, `assets/js/form-field-dependency${min}.js`);
 mix.babel(`src/js/wp-color-picker-alpha.js`, `assets/js/wp-color-picker-alpha${min}.js`);
+mix.babel(`src/js/gwp-backbone-modal.js`, `assets/js/gwp-backbone-modal${min}.js`);
 // mix.babel(`src/js/wvs-customize-alpha-color-control.js`, `assets/js/wvs-customize-alpha-color-control${min}.js`);
 mix.sass(`src/scss/backend.scss`, `assets/css/admin${min}.css`);
 

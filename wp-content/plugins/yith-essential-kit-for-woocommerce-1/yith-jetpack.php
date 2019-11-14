@@ -604,7 +604,7 @@ if ( ! class_exists( 'YITH_Essential_Kit_Upgrader_Skin' ) ) {
 		public function footer() {
 		}
 
-		public function feedback( $string ) {
+		public function feedback( $string, ...$args ) {
 		}
 
 		public function error( $string ) {
