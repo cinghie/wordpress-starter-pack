@@ -30,7 +30,7 @@ if(!ctf_js_exists){
                     $ctfText = $ctfItem.find('.ctf-tweet-text').remove('.ctf-tweet-text-media-wrap'),
                     ctfTextStr = ' ' + $ctfText.html();
 
-                if( $ctf.attr('data-ctfdisablelinks') != 'true' && typeof ctfTextStr !== 'undefined' ){
+                if( $ctf.attr('data-ctfdisablelinks') != 'true' && typeof ctfTextStr !== 'undefined' && ! $ctf.find('.ctf-tweet-text-link').length ){
 
                     var ctfLinkColor = $ctf.attr('data-ctflinktextcolor'),
                         ctfLinkColorHex = '';

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ivory Search\n"
-"POT-Creation-Date: 2019-09-25 18:58+0530\n"
-"PO-Revision-Date: 2019-09-25 18:58+0530\n"
+"POT-Creation-Date: 2019-11-22 18:25+0530\n"
+"PO-Revision-Date: 2019-11-22 18:25+0530\n"
 "Last-Translator: \n"
 "Language-Team: Ivory Search <admin@ivorysearch.com>\n"
 "Language: en_US\n"
@@ -56,7 +56,6 @@ msgstr ""
 
 #: ../admin/class-is-admin.php:204 ../admin/class-is-admin.php:437
 #: ../includes/class-is-admin-public.php:106 ../includes/class-is-widget.php:13
-#: ../includes/class-is-widget.php:47
 msgid "Ivory Search"
 msgstr ""
 
@@ -511,7 +510,7 @@ msgid "Enable Search Form Customization"
 msgstr ""
 
 #: ../admin/class-is-editor.php:653 ../admin/class-is-editor.php:1070
-#: ../includes/class-is-search-form.php:507
+#: ../includes/class-is-search-form.php:515
 msgid "Customizer"
 msgstr ""
 
@@ -1125,7 +1124,7 @@ msgstr ""
 #: ../admin/class-is-list-table.php:158
 #: ../admin/class-is-settings-fields.php:334
 #: ../admin/class-is-settings-fields.php:366
-#: ../includes/class-is-search-form.php:503 ../includes/class-is-widget.php:71
+#: ../includes/class-is-search-form.php:511 ../includes/class-is-widget.php:71
 msgid "Edit"
 msgstr ""
 
@@ -1438,7 +1437,7 @@ msgid "Rate Ivory Search"
 msgstr ""
 
 #: ../includes/class-is-admin-public.php:170
-#: ../includes/class-is-search-form.php:445
+#: ../includes/class-is-search-form.php:448
 msgid "Search..."
 msgstr ""
 
@@ -1447,7 +1446,7 @@ msgid "Text Box Placeholder"
 msgstr ""
 
 #: ../includes/class-is-admin-public.php:183
-#: ../includes/class-is-search-form.php:446
+#: ../includes/class-is-search-form.php:449
 msgid "Search"
 msgstr ""
 
@@ -1539,14 +1538,14 @@ msgstr ""
 msgid "<i>Categories:</i> "
 msgstr ""
 
-#: ../public/class-is-ajax.php:761
+#: ../public/class-is-ajax.php:760
 msgid "In stock"
 msgstr ""
 
-#: ../public/class-is-ajax.php:761
+#: ../public/class-is-ajax.php:760
 msgid "Out of stock"
 msgstr ""
 
-#: ../public/class-is-ajax.php:828
+#: ../public/class-is-ajax.php:827
 msgid "Sale!"
 msgstr ""

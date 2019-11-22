@@ -4,8 +4,8 @@ Contributors: smashballoon, craig-at-smash-balloon
 Support Website: http://smashballoon/custom-twitter-feeds/
 Tags: Twitter, Twitter feed, Tweets, Twitter widget, Custom Twitter Feed
 Requires at least: 3.0
-Tested up to: 5.2
-Stable tag: 1.4
+Tested up to: 5.3
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -237,6 +237,12 @@ Not many developers love providing support, but we're a rare breed here at Smash
 7. To display a feed just copy and paste the shortcode into a widget or page
 
 == Changelog ==
+= 1.4.1 =
+* Tweak: Added aria-label attributes to SVG icons for improved accessibility.
+* Fix: Fixed PHP warning that occurred when a URL in the tweet text did not have a full length URL available from the Twitter API.
+* Fix: Using the setting to link the tweet text to Twitter would cause nested links and invalid HTML.
+* Fix: Fixed Twitter logo not displaying if avatar, author, and date were hidden.
+
 = 1.4 =
 * New: Twitter logo added to the top right of each tweet to fit with Twitter's display guidelines. Customize the logo on the "Style" tab, "Author" area or hide it using the settings on the "Customize" tab "Show/Hide" settings.
 * New: Minified versions of JavaScript and CSS files now used.

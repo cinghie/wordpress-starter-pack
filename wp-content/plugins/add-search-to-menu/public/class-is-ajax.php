@@ -729,12 +729,11 @@ class IS_Ajax {
                     $content = get_the_excerpt( $post->ID );
     		}
 
-    		$content = wp_trim_words( $content, $excerpt_length, '...' );
-
-                // Removes WPBakery plugin shortcodes
-                $patterns = "/\[[\/]?vc_[^\]]*\]/";
+                // Removes all shortcodes
+                $patterns = "/\[[\/]?[\s\S][^\]]*\]/";
                 $replacements = "";
-                $content = preg_replace( $patterns, $replacements, $content );
+                $content = preg_replace( $patterns, $replacements, $content, -1 );
+    		$content = wp_trim_words( $content, $excerpt_length, '...' );
     		?>
     		<div class="is-ajax-result-description">
     			<?php echo $content; ?>

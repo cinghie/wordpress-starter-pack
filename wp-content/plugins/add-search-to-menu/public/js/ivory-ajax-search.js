@@ -70,17 +70,19 @@
 	    });
 
             $('.is-disable-submit .is-search-submit').on('click', function(event) {
-                $(this).parent().find('.is-search-input').trigger("keypress");
+                $(this).parent().find('.is-search-input').trigger("keyup");
                 event.stopPropagation();
                 event.preventDefault();
                 return false;
             });
 
-            $('.is-ajax-search .is-search-input').on('keyup', function(event) {
-                if ( 8 === event.which || 46 === event.which || 32 === event.which ) {
-                    $(this).trigger("keypress");
-                }
+            $('form.is-disable-submit').on('submit', function(event) {
+                $(this).find('.is-search-input').trigger("keyup");
+                event.stopPropagation();
+                event.preventDefault();
+                return false;
             });
+
 
             $( document ).on('click', '.is-show-more-results', function(event) {
 
@@ -95,7 +97,7 @@
                 is_ajax_process_request( self, page );
 	    });
             
-            $(window).resize(function(){
+            $(window).on('resize scroll', function(){
                 $('.is-ajax-search').each(function(index, el) {
                     var form_id = $( el ).attr( 'data-form-id' );
                     var pos = $( el ).offset();
@@ -117,11 +119,11 @@
             });
 
             $('.is-ajax-search .is-search-input').on('paste', function() {
-                $(this).trigger("keypress");
+                $(this).trigger("keyup");
             });
 
             $('.is-ajax-search').each(function(index, el) {
-                    $( el ).find('.is-search-input').on('keypress', function( event ) {
+                    $( el ).find('.is-search-input').on('keyup', function( event ) {
                         if ( 32 !== event.which ) {
                             var self = this;
                             window.clearTimeout( _ref );
@@ -232,7 +234,7 @@
                                         error: function( XMLHttpRequest, textStatus, errorThrown ) {
                                             console.log(XMLHttpRequest.statusText);
                                             if ( 'abort' !== XMLHttpRequest.statusText ) {
-                                                alert( "Error occurred" );
+                                                console.log( "AJAX request aborted" );
                                             }
                                         }
 				});

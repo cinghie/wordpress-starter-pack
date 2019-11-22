@@ -3,9 +3,9 @@ Contributors: ivorysearch, vinod dalvi
 Donate link: https://ivorysearch.com/pricing/
 Tags: search, woocommerce search, image search, ajax search, search shortcode, live search,  exclude from search, search widget, search menu, search plugin, custom search, search by post type, search by category, relevant search, search forms
 Requires at least: 3.9
-Tested up to: 5.2
+Tested up to: 5.3
 Requires PHP: 5.2.4
-Stable tag: 4.4.1
+Stable tag: 4.4.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -191,6 +191,17 @@ Yes we do. We try our best to help free users with customisation requests and we
 8. Plugin Settings
 
 == Changelog ==
+
+= 4.4.2 =
+* Improved - Ajax search results scrolls with search form.
+* Added - is_search_form_autocomplete filter to remove autocomplete from search field.
+* Added - Retains 'lang' parameter in the search results query string.
+* Fixed - Ivory Search Widget title was not getting removed.
+* Fixed - Database error occurred due to hardcode prefix.
+* Fixed - Search more than 9 terms with OR condition.
+* Fixed - Shortcodes are displaying in the AJAX search results.
+* Fixed - "Search button displays ajax search results" option does not work for the AJAX search form without button.
+* Fixed - AJAX search not working on some mobiles.
 
 = 4.4.1 =
 * Fixed - Menu search popup was not working in the plugin free version.
