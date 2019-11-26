@@ -898,6 +898,23 @@ class CtfFeed
 	            }
             }
 
+	        if ( isset( $tweets[$i]['retweeted_status']['quoted_status'] ) ) {
+		        $trimmed_tweets[$i]['retweeted_status']['quoted_status']['user']['name'] = $tweets[$i]['retweeted_status']['quoted_status']['user']['name'];
+		        $trimmed_tweets[$i]['retweeted_status']['quoted_status']['user']['screen_name'] = $tweets[$i]['retweeted_status']['quoted_status']['user']['screen_name'];
+		        $trimmed_tweets[$i]['retweeted_status']['quoted_status']['user']['verified'] = $tweets[$i]['retweeted_status']['quoted_status']['user']['verified'];
+		        $trimmed_tweets[$i]['retweeted_status']['quoted_status']['text'] = isset( $tweets[$i]['retweeted_status']['quoted_status']['text'] ) ? $tweets[$i]['retweeted_status']['quoted_status']['text'] : $tweets[$i]['retweeted_status']['quoted_status']['full_text'];
+		        $trimmed_tweets[$i]['retweeted_status']['quoted_status']['id_str'] = $tweets[$i]['retweeted_status']['quoted_status']['id_str'];
+		        if ( isset( $tweets[$i]['retweeted_status']['quoted_status']['entities']['urls'][0] ) ) {
+			        foreach ( $tweets[$i]['retweeted_status']['quoted_status']['entities']['urls'] as $url ) {
+				        $trimmed_tweets[$i]['retweeted_status']['quoted_status']['entities']['urls'][] = array(
+					        'url' => $url['url'],
+					        'expanded_url' => $url['expanded_url'],
+					        'display_url' => $url['display_url'],
+				        );
+			        }
+		        }
+	        }
+
             if ( isset( $tweets[$i]['quoted_status'] ) ) {
                 $trimmed_tweets[$i]['quoted_status']['user']['name'] = $tweets[$i]['quoted_status']['user']['name'];
                 $trimmed_tweets[$i]['quoted_status']['user']['screen_name'] = $tweets[$i]['quoted_status']['user']['screen_name'];
@@ -1091,6 +1108,56 @@ class CtfFeed
 				}
 			}
 
+		}
+
+		if ( isset( $tweet['retweeted_status']['quoted_status']['extended_entities']['media'] ) ) {
+			// if there is media, we need to remove the media url from the tweet text
+			$retweeted_text = isset( $tweet['retweeted_status']['quoted_status']['full_text'] ) ? $tweet['retweeted_status']['quoted_status']['full_text'] : $tweet['retweeted_status']['quoted_status']['text'];
+			if ( isset( $tweet['retweeted_status']['quoted_status']['extended_entities']['media'][0]['url'] ) ) {
+				$trimmed['retweeted_status']['quoted_status']['text'] = $this->removeStringFromText( $tweet['retweeted_status']['quoted_status']['extended_entities']['media'][0]['url'], $retweeted_text );
+			}
+			$num_media = count( $tweet['retweeted_status']['quoted_status']['extended_entities']['media'] );
+			for ( $i = 0; $i < $num_media; $i++ ) {
+				$trimmed['retweeted_status']['quoted_status']['extended_entities']['media'][$i]['media_url_https'] = $tweet['retweeted_status']['quoted_status']['extended_entities']['media'][$i]['media_url_https'];
+				$trimmed['retweeted_status']['quoted_status']['extended_entities']['media'][$i]['type'] = $tweet['retweeted_status']['quoted_status']['extended_entities']['media'][$i]['type'];
+				if ( isset( $tweet['retweeted_status']['quoted_status']['extended_entities']['media'][$i]['sizes'] ) ) {
+					$trimmed['retweeted_status']['quoted_status']['extended_entities']['media'][$i]['sizes'] = $tweet['retweeted_status']['quoted_status']['extended_entities']['media'][$i]['sizes'];
+				}
+				if ( $tweet['retweeted_status']['quoted_status']['extended_entities']['media'][$i]['type'] == 'video' || $tweet['retweeted_status']['quoted_status']['extended_entities']['media'][$i]['type'] == 'animated_gif' ) {
+					foreach ( $tweet['retweeted_status']['quoted_status']['extended_entities']['media'][$i]['video_info']['variants'] as $variant ) {
+						if ( isset( $variant['content_type'] ) && $variant['content_type'] == 'video/mp4' ) {
+							$trimmed['retweeted_status']['quoted_status']['extended_entities']['media'][$i]['video_info']['variants'][$i]['url'] = $variant['url'];
+						}
+					}
+					if ( ! isset( $trimmed['retweeted_status']['quoted_status']['extended_entities']['media'][$i]['video_info']['variants'][$i]['url'] ) ) {
+						$trimmed['retweeted_status']['quoted_status']['extended_entities']['media'][$i]['video_info']['variants'][$i]['url'] = $tweet['retweeted_status']['quoted_status']['extended_entities']['media'][$i]['video_info']['variants'][0]['url'];
+					}
+				}
+			}
+		} elseif ( isset( $tweet['retweeted_status']['quoted_status']['entities']['media'] ) ) {
+			// if there is media, we need to remove the media url from the tweet text
+			$retweeted_text = isset( $tweet['retweeted_status']['quoted_status']['full_text'] ) ? $tweet['retweeted_status']['quoted_status']['full_text'] : $tweet['retweeted_status']['quoted_status']['text'];
+			if ( isset( $tweet['retweeted_status']['quoted_status']['entities']['media'][0]['url'] ) ) {
+				$trimmed['retweeted_status']['quoted_status']['text'] = $this->removeStringFromText( $tweet['retweeted_status']['quoted_status']['entities']['media'][0]['url'], $retweeted_text );
+			}
+			$num_media = count( $tweet['retweeted_status']['quoted_status']['entities']['media'] );
+			for( $i = 0; $i < $num_media; $i++ ) {
+				$trimmed['retweeted_status']['quoted_status']['entities']['media'][$i]['media_url_https'] = $tweet['retweeted_status']['quoted_status']['entities']['media'][$i]['media_url_https'];
+				$trimmed['retweeted_status']['quoted_status']['entities']['media'][$i]['type'] = $tweet['retweeted_status']['quoted_status']['entities']['media'][$i]['type'];
+				if ( isset( $tweet['retweeted_status']['quoted_status']['entities']['media'][$i]['sizes'] ) ) {
+					$trimmed['retweeted_status']['quoted_status']['entities']['media'][$i]['sizes'] = $tweet['retweeted_status']['quoted_status']['entities']['media'][$i]['sizes'];
+				}
+				if ( $tweet['retweeted_status']['quoted_status']['entities']['media'][$i]['type'] == 'video' || $tweet['retweeted_status']['quoted_status']['entities']['media'][$i]['type'] == 'animated_gif' ) {
+					foreach ( $tweet['retweeted_status']['quoted_status']['entities']['media'][$i]['video_info']['variants'] as $variant ) {
+						if ( isset( $variant['content_type'] ) && $variant['content_type'] == 'video/mp4' ) {
+							$trimmed['retweeted_status']['quoted_status']['entities']['media'][$i]['video_info']['variants'][$i]['url'] = $variant['url'];
+						}
+					}
+					if ( ! isset( $trimmed['retweeted_status']['quoted_status']['entities']['media'][$i]['video_info']['variants'][$i]['url'] ) ) {
+						$trimmed['retweeted_status']['quoted_status']['entities']['media'][$i]['video_info']['variants'][$i]['url'] = $tweet['retweeted_status']['quoted_status']['entities']['media'][$i]['video_info']['variants'][0]['url'];
+					}
+				}
+			}
 		}
 
 		//remove the url from the text if it links to a quoted tweet that is already linked to
@@ -1537,7 +1604,7 @@ class CtfFeed
                     $tweet_html .= '</div>';
                 }
 
-	            if ( ctf_show( 'avatar', $feed_options ) || ctf_show( 'author', $feed_options ) || ctf_show( 'date', $feed_options ) ) {
+	            if ( ctf_show( 'avatar', $feed_options ) || ctf_show( 'logo', $feed_options ) || ctf_show( 'author', $feed_options ) || ctf_show( 'date', $feed_options ) ) {
 
 		            $tweet_html .= '<div class="ctf-author-box">';
 		            $tweet_html .= '<div class="ctf-author-box-link" style="' . $feed_options['authortextsize'] . $feed_options['authortextweight'] . $feed_options['textcolor'] . '">';
@@ -1571,14 +1638,13 @@ class CtfFeed
 		            $tweet_html .= '</div>';
 	            }
 
-
                 if ( ctf_show( 'text', $feed_options ) ) {
 	                $post_text = apply_filters( 'ctf_tweet_text', $post['text'], $feed_options, $post );
 
                     $tweet_html .= '<div class="ctf-tweet-content">';
 
                     if ( $feed_options['linktexttotwitter'] ) {
-                        $tweet_html .= '<a href="https://twitter.com/' .$post['user']['screen_name'] . '/status/' . $post['id_str'] . '" target="_blank">';
+                        $tweet_html .= '<a class="ctf-tweet-text-link" href="https://twitter.com/' .$post['user']['screen_name'] . '/status/' . $post['id_str'] . '" target="_blank">';
                         $tweet_html .= '<p class="ctf-tweet-text" style="' . $feed_options['tweettextsize'] . $feed_options['tweettextweight'] . $feed_options['textcolor'] . '">' . nl2br( $post_text ) . $post_media_text .'</p>';
                         $tweet_html .= '</a>';
                     } else {

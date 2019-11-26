@@ -44,7 +44,7 @@ class IS_Widget extends WP_Widget {
 	 * @param array $instance Previously saved values from database.
 	 */
 	public function form( $instance ) {
-		$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'Ivory Search', 'ivory-search' );
+		$title = ! empty( $instance['title'] ) ? $instance['title'] : '';
 		$search_form = ! empty( $instance['search_form'] ) ? $instance['search_form'] : 0;
 		?>
 		<p>

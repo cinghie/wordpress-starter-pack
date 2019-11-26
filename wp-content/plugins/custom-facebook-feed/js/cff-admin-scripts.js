@@ -316,21 +316,33 @@ jQuery(document).ready(function($) {
 
 	//Manually connect account
 	//Step 1
-	$('#cff_manual_account_button').on('click', function(e){
+	$('#cff_manual_account_button, #cff-admin .cff_manual_back').on('click', function(e){
 		e.preventDefault();
-		$('#cff_manual_account').toggle();
+		if( !$(this).hasClass('cff_manual_back') ) $('#cff_manual_account').toggle();
 		$('#cff_manual_account_step_1').show();
 		$('#cff_manual_account_step_2').hide();
 	});
 	//Step 2
 	jQuery("#cff_manual_account_type").change(function() {
+		cff_go_to_step_2();
+	});
+	$('#cff-admin .cff_manual_forward').on('click', function(){
+		if( $("#cff_manual_account_type option:selected").val() ){
+			cff_go_to_step_2();
+		} else {
+			$("#cff_manual_account_type").addClass('cff_error');
+			setTimeout(function(){ $("#cff_manual_account_type").removeClass('cff_error'); }, 500);
+		}
+	});
+	function cff_go_to_step_2(){
 		$('#cff_manual_account_step_2').attr('class', 'cff_account_type_'+jQuery("#cff_manual_account_type option:selected").val() );
 
 		$('#cff_manual_account_step_1').hide();
 		$('#cff_manual_account_step_2').show();
-	});
+	}
+
 	//Add account
-	$('#cff_manual_account_step_2 input[type=submit').on('click', function(e){
+	$('#cff_manual_account_step_2 input[type=submit]').on('click', function(e){
 		e.preventDefault();
 
 		var $cff_manual_account = $('#cff_manual_account');
@@ -364,6 +376,8 @@ jQuery(document).ready(function($) {
 
 		if( pagetype == 'page' ) avatar = '';
 
+		id = cffStripURLParts(id);
+
 		//Add to connected accounts array
 		cff_connected_accounts[id] = {
 			id: id,
@@ -394,6 +408,21 @@ jQuery(document).ready(function($) {
 		$account.remove();
 	}
 
+	function cffStripURLParts(string){
+		if (typeof string === 'undefined') {
+			return '';
+		}
+		//If user pastes their full URL into the Page ID field then strip it out
+		var cff_facebook_string = 'facebook.com',
+			hasURL = (string.indexOf(cff_facebook_string) > -1);
+		if (hasURL) {
+			var stringArr = string.split('?')[0].replace(/\/$/, '').split('/');
+			string = stringArr[stringArr.length-1].replace(/[\.\/]/,'');
+		}
+
+		return string;
+	}
+
 	function createAccountHTML(cff_connected_accounts){
 
 		var accountsHTML = '';
@@ -402,7 +431,7 @@ jQuery(document).ready(function($) {
 		for (var key in cff_connected_accounts) {
 		    if (cff_connected_accounts.hasOwnProperty(key)) {
 
-		        var id = cff_connected_accounts[key]['id'],
+		        var id = cffStripURLParts(cff_connected_accounts[key]['id']),
 		        	name = decodeURI(cff_connected_accounts[key]['name']),
 		        	pagetype = cff_connected_accounts[key]['pagetype'],
 		        	accesstoken = cff_connected_accounts[key]['accesstoken'],
@@ -605,15 +634,20 @@ jQuery(document).ready(function($) {
 
     if( cff_current_page_id_arr.length > 1 ){
     	for (var i = 0; i < cff_current_page_id_arr.length; i++) {
-		    cffLabelAsPrimary( $('#cff_connected_account_' + cff_current_page_id_arr[i].trim() ), true );
+		    cffLabelAsPrimary( $('#cff_connected_account_' + cffValidateID( cff_current_page_id_arr[i] ) ), true );
 		}
     } else {
-    	cffLabelAsPrimary( $('#cff_connected_account_' + cff_current_page_id ), true );
+    	cffLabelAsPrimary( $('#cff_connected_account_' + cffValidateID( cff_current_page_id ) ), true );
     }
+    //Make sure ID is a valid string
+    function cffValidateID(id){
+    	if( typeof id === 'undefined' || id == '' ) return;
 
-
-
-
+    	//Remove slashes from end
+    	id = cffStripURLParts( id.replace(/\/$/, "").trim() );
+    	//Only return if it contains numbers/letters
+    	if( id.match("^[A-Za-z0-9]+$") ) return id;
+    }
 
 	//Show the modal by default, but hide if the "cffnomodal" class is added to prevent it showing after saving settings
 	if( location.hash !== '#cffnomodal' ){

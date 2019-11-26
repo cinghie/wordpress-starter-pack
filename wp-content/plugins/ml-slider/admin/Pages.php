@@ -261,7 +261,7 @@ Class MetaSlider_Admin_Pages extends MetaSliderPlugin {
 			if (!preg_match('#^([^/]+)/#', $value, $matches)) continue;
 			if (in_array($matches[1], $slugs)) return false;
 		}
-		
+	
 		return true;
 	}
 

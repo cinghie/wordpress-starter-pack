@@ -610,6 +610,10 @@ class IS_Public
         if ( empty($q['search_terms']) || is_admin() && !(defined( 'DOING_AJAX' ) && DOING_AJAX) || !isset( $q['_is_includes'] ) ) {
             return $search;
             // skip processing
+        } else {
+            if ( is_array( $q['search_terms'] ) && 1 == count( $q['search_terms'] ) ) {
+                $q['search_terms'] = explode( ' ', $q['search_terms'][0] );
+            }
         }
         
         $terms_relation_type = ( isset( $q['_is_settings']['term_rel'] ) && 'OR' === $q['_is_settings']['term_rel'] ? 'OR' : 'AND' );
@@ -771,7 +775,7 @@ class IS_Public
             $search .= " AND ( ";
             foreach ( $q['_is_excludes']['tax_query'] as $value ) {
                 $search .= $AND;
-                $search .= "( wp_posts.ID NOT IN ( SELECT object_id FROM wp_term_relationships WHERE term_taxonomy_id IN ( " . implode( ',', $value ) . ") ) )";
+                $search .= "( {$wpdb->posts}.ID NOT IN ( SELECT {$wpdb->term_relationships}.object_id FROM {$wpdb->term_relationships} WHERE {$wpdb->term_relationships}.term_taxonomy_id IN ( " . implode( ',', $value ) . ") ) )";
                 $AND = " AND ";
             }
             $search .= ")";
