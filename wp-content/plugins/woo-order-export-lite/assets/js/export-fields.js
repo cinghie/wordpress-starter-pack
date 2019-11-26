@@ -556,6 +556,10 @@ function woe_activate_draggable_field( el, segment, format ) {
 				.removeClass( 'segment_field' )
 				.find( 'input' ).prop( 'disabled', false );
 
+			if (!woe_is_flat_format(format) && ['products', 'coupons'].indexOf(segment) === - 1 && moving_copy_original_el.closest('#sortable_products').length) {
+			    var field_key = moving_copy_original_el.find('input[name="orders[][key]"]').val();
+			    moving_copy_original_el.find('input[name="orders[][key]"]').val('orders__' + field_key);
+			}
 
 			if ( woe_is_flat_format( format ) || move_to_sortable_group || [
 				                                                               'products',
@@ -805,6 +809,14 @@ function woe_add_bind_for_custom_fields( prefix, output_format, $to ) {
 
 function woe_add_custom_field( to, index_p, format, colname, value, segment, format_field ) {
 
+    if ( segment === 'product_items' ) {
+        segment = 'products';
+    }
+
+    if ( index_p === 'product_items' ) {
+        index_p = 'products';
+    }
+
 	value = woe_escape_str( value );
 	colname = woe_escape_str( colname );
 
@@ -893,6 +905,14 @@ function woe_add_custom_field( to, index_p, format, colname, value, segment, for
 }
 
 function woe_add_custom_meta( to, index_p, format, label, colname, segment, format_field ) {
+
+    if ( segment === 'product_items' ) {
+        segment = 'products';
+    }
+
+    if ( index_p === 'product_items' ) {
+        index_p = 'products';
+    }
 
 	label = woe_escape_str( label );
 	colname = woe_escape_str( colname );

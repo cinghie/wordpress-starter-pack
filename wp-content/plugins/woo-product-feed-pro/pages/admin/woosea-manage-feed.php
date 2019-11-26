@@ -89,6 +89,12 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 					</div><br/>
 				<?php
 				}
+			} elseif (array_key_exists('force-active', $_GET)){
+				// Force active all feeds
+				foreach($cron_projects as $key => $value){
+					$cron_projects[$key]['active'] = "true";
+				}
+                             	update_option('cron_projects', $cron_projects);
 			} else {
                                 if($license_information['license_valid'] <> "true"){
 				?>

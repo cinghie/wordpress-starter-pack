@@ -6,7 +6,7 @@
  * Plugin Name: MetaSlider
  * Plugin URI:  https://www.metaslider.com
  * Description: Easy to use slideshow plugin. Create SEO optimised responsive slideshows with Nivo Slider, Flex Slider, Coin Slider and Responsive Slides.
- * Version:     3.15.1
+ * Version:     3.15.2
  * Author:      Team Updraft
  * Author URI:  https://www.metaslider.com
  * License:     GPL-2.0+
@@ -32,7 +32,7 @@ class MetaSliderPlugin {
      *
      * @var string
      */
-    public $version = '3.15.1';
+    public $version = '3.15.2';
 
 	/**
      * Pro installed version number
@@ -1134,7 +1134,7 @@ class MetaSliderPlugin {
 			tour-status="<?php echo $tour_position ? $tour_position : false ?>"
 			inline-template>
 			<span>
-			<form @keydown.enter.prevent="" id="ms-form-settings" accept-charset="UTF-8" action="<?php echo admin_url( 'admin-post.php'); ?>" method="post">
+			<form @keydown.enter.prevent="" id="ms-form-settings" accept-charset="UTF-8" action="<?php echo admin_url( 'admin-post.php'); ?>" method="post" :class="{ 'respect-ie11': isIE11 }">
 				
 				<?php include METASLIDER_PATH."admin/views/pages/parts/toolbar.php"; ?>
 
@@ -1158,22 +1158,22 @@ class MetaSliderPlugin {
 					<div class="mt-10 mb-6">
 						<?php if (metaslider_viewing_trashed_slides($this->slider->id)) { 
 							// If they are on the trash page, show them?>
-							<h3 class="flex float-left mr-2"><i><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></i> <?php _e('Trashed Slides', 'ml-slider'); ?></h3>
-							<small> <?php printf(__('<a href="%s">view active</a>', 'ml-slider'), admin_url("?page=metaslider&id={$this->slider->id}")); ?></small>
+							<h3 class="flex float-left m-0 mr-2"><i><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></i> <?php _e('Trashed Slides', 'ml-slider'); ?></h3>
+							 <?php printf(__('<a href="%s">view active</a>', 'ml-slider'), admin_url("admin.php?page=metaslider&id={$this->slider->id}")); ?>
 						<?php } else { ?>
 							<h1 class="font-light text-2xl">{{ current.title }}</h1>
 						<?php } ?>
 					</div>
 
-                    <div id='post-body' class='metabox-holder columns-2'>
+                    <div id='post-body' class='-mx-4 flex justify-between metabox-holder'>
 
 						<metaslider-slide-viewer inline-template>
-                        <div id='post-body-content'>
+                        <div class="flex-grow mx-4 mb-4">
                             <div class="left">
 
                                 <?php do_action( "metaslider_admin_table_before", $this->slider->id ); ?>
 
-                                <table id="metaslider-slides-list" class="widefat sortable metaslider-slides-container">
+                                <table id="metaslider-slides-list" class="widefat sortable metaslider-slides-container table-fixed">
                                     <tbody>
                                         <?php
                                             $this->slider->render_admin_slides();
@@ -1187,13 +1187,13 @@ class MetaSliderPlugin {
 						</div>
 						</metaslider-slide-viewer>
 
-                        <div id="postbox-container-1" class="postbox-container ml-sidebar metaslider-settings-area">
+                        <div style="min-width:300px;width:300px" class="mx-4">
                             <div class='right'>
                             <?php if (metaslider_viewing_trashed_slides($this->slider->id)) { 
                                 
                                 // Show a notice explaining the trash?>
                                 <div class="ms-postbox trashed-notice">
-                                    <div class="notice-info"><?php printf(__('You are viewing slides that have been trashed, which will be automatically deleted in %s days. Click <a href="%s">here</a> to view active slides.', 'ml-slider'), EMPTY_TRASH_DAYS, admin_url("?page=metaslider&id={$this->slider->id}")); ?></div>
+                                    <div class="notice-info"><?php printf(__('You are viewing slides that have been trashed, which will be automatically deleted in %s days. Click <a href="%s">here</a> to view active slides.', 'ml-slider'), EMPTY_TRASH_DAYS, admin_url("admin.php?page=metaslider&id={$this->slider->id}")); ?></div>
 
                                     <?php 
                                         // TODO this is a temp fix to avoid a compatability check in pro
@@ -1326,8 +1326,8 @@ class MetaSliderPlugin {
                                         // it when the user deletes their first slide
                                         $count = count(metaslider_has_trashed_slides($this->slider->id));
                                         if (!metaslider_viewing_trashed_slides($this->slider->id)) { ?>
-                                            <a <?php echo $count ? '' : "style='display:none;'" ?> class="restore-slide-link flex" title="<?php _e('View trashed slides', 'ml-slider'); ?>" href="<?php echo admin_url("?page=metaslider&id={$this->slider->id}&show_trashed=true"); ?>">
-                                                <i><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></i><?php echo __('Trash', 'ml-slider'); if ($count) echo " <span>({$count})</span>";?>
+                                            <a <?php echo $count ? '' : "style='display:none;'" ?> class="restore-slide-link tipsy-tooltip-top flex text-blue-dark hover:text-orange -mb-2 mt-1 -mr-2 rtl:float-left rtl:-ml-1 rtl:mr-0" title="<?php _e('View trashed slides', 'ml-slider'); ?>" href="<?php echo admin_url("admin.php?page=metaslider&id={$this->slider->id}&show_trashed=true"); ?>">
+                                                <i><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></i>
                                             </a>
                                         <?php } ?>
                                     </div>

@@ -44,24 +44,24 @@ msgstr ""
 msgid "Slide updated successfully"
 msgstr ""
 
-#: src/admin/assets/js/app/globals.js:52
+#: src/admin/assets/js/app/globals.js:54
 msgid "Doing something..."
 msgstr ""
 
-#: src/admin/assets/js/app/globals.js:60
+#: src/admin/assets/js/app/globals.js:62
 msgid "No error message provided."
 msgstr ""
 
-#: src/admin/assets/js/app/globals.js:68, src/admin/Pages.php:70
+#: src/admin/assets/js/app/globals.js:70, src/admin/Pages.php:70
 msgid "Success"
 msgstr ""
 
-#: src/admin/assets/js/app/globals.js:78
+#: src/admin/assets/js/app/globals.js:93
 msgid "Error"
 msgstr ""
 
-#: src/admin/assets/js/app/store/modules/slideshows.js:25
-msgid "Error fetching list of slideshows: "
+#: src/admin/assets/js/app/store/modules/slideshows.js:26
+msgid "Error fetching list of slideshows: %s"
 msgstr ""
 
 #: src/admin/assets/js/app/tour/main.js:12
@@ -1217,10 +1217,6 @@ msgstr ""
 
 #: src/ml-slider.php:1329
 msgid "View trashed slides"
-msgstr ""
-
-#: src/ml-slider.php:1330
-msgid "Trash"
 msgstr ""
 
 #: src/ml-slider.php:1343

@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-11-13 22:08:08+0000\n"
+"PO-Revision-Date: 2019-11-16 18:50:43+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,6 +22,22 @@ msgstr "Elemento del menu"
 #: build/block-library/index.js:8
 msgid "Add item…"
 msgstr "Aggiungi elemento…"
+
+#: build/block-library/index.js:8
+msgid "Add submenu item"
+msgstr "Aggiungi voce sottomenu"
+
+#: build/block-library/index.js:8
+msgid "Loading Navigation…"
+msgstr "Caricamento navigazione"
+
+#: build/block-library/index.js:8
+msgid "Navigation Structure"
+msgstr "Struttura navigazione"
+
+#: build/block-library/index.js:8
+msgid "Create empty"
+msgstr "Crea vuoto"
 
 #: build/block-library/index.js:8
 msgid "Describe the role of this image on the page."
@@ -80,6 +96,31 @@ msgstr "(Nota: molti dispositivi e browser non visualizzano questo testo.)"
 #: build/block-editor/index.js:49
 msgid "Currently selected"
 msgstr "Attualmente selezionato"
+
+#: build/block-library/index.js:8
+msgid "Create from all top pages"
+msgstr "Crea da tutte le pagine superiori"
+
+#: build/block-library/index.js:8
+msgid "Create a Menu from all existing pages, or create an empty one."
+msgstr "Crea menu da tutte le pagine esistenti oppure creane una vuota."
+
+#: build/block-editor/index.js:49
+msgid "Press ENTER to add this link"
+msgstr "Premi INVIO per aggiungere questo link"
+
+#: build/block-editor/index.js:49
+msgid "Currently selected link settings"
+msgstr "Impostazioni del link attualmente selezionato"
+
+#: build/block-editor/index.js:49
+msgid "Toggle between using the same value for all screen sizes or using a unique value per screen size."
+msgstr "Passa dall'uso dello stesso valore per tutte le dimensioni dello schermo o dall'uso di un singolo valore per dimensione dello schermo."
+
+#: build/block-editor/index.js:49
+msgctxt "Text labelling a interface as controlling a given layout property (eg: margin) for a given screen size."
+msgid "Controls the %1$s property for %2$s viewports."
+msgstr "Controlla la proprietà %1$s per i viewport %2$s."
 
 #: lib/templates.php:29
 msgid "No templates found in Trash."

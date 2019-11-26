@@ -158,6 +158,7 @@ class WOOCCM_Field {
         'time_limit_end' => null,
         'time_limit_interval' => null,
         'date_limit' => 'fixed',
+        'date_format' => '',
         'date_limit_variable_min' => 1,
         'date_limit_variable_max' => 1,
         'date_limit_fixed_min' => date('Y-m-d'),

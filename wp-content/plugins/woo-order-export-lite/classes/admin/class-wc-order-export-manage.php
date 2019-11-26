@@ -256,6 +256,7 @@ class WC_Order_Export_Manage {
 			'format_tsv_linebreak'                     => '\r\n',
 			'format_tsv_display_column_names'          => 1,
 			'format_tsv_add_utf8_bom'                  => 0,
+			'format_tsv_item_rows_start_from_new_line' => 0,
 			'format_tsv_encoding'                      => 'UTF-8',
 			
 			'format_xml_root_tag'                      => 'Orders',

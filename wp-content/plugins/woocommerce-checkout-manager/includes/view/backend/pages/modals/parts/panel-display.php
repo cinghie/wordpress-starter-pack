@@ -47,7 +47,7 @@
 
   <div class="options_group">
     <p class="form-field">
-      <label><?php esc_html_e('Hide for category', 'woocommerce-checkout-manager'); ?></label>
+      <label><?php esc_html_e('Show for category', 'woocommerce-checkout-manager'); ?></label>
       <select class="wooccm-enhanced-select" name="show_product_cat[]" data-placeholder="<?php esc_attr_e('Filter by categories', 'woocommerce-checkout-manager'); ?>" data-selected="{{data.show_product_cat}}" data-allow_clear="true" multiple="multiple">
         <?php if ($product_categories) : ?>
           <?php foreach ($product_categories as $category): ?>
@@ -57,7 +57,7 @@
       </select>
     </p>
     <p class="form-field">
-      <label><?php esc_html_e('Show for category', 'woocommerce-checkout-manager'); ?></label>
+      <label><?php esc_html_e('Hide for category', 'woocommerce-checkout-manager'); ?></label>
       <select class="wooccm-enhanced-select" name="hide_product_cat[]" data-placeholder="<?php esc_attr_e('Filter by categories', 'woocommerce-checkout-manager'); ?>" data-selected="{{data.hide_product_cat}}" data-allow_clear="true" multiple="multiple">
         <?php if ($product_categories) : ?>
           <?php foreach ($product_categories as $category): ?>

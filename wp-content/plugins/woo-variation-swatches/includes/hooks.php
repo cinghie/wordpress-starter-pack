@@ -87,9 +87,10 @@
 	} );
 	
 	add_action( 'woocommerce_delete_product_transients', function ( $product_id ) {
+		
 		$product = wc_get_product( $product_id );
 		
-		if ( $product->is_type( 'variable' ) ) {
+		if ( $product && $product->is_type( 'variable' ) ) {
 			$attribute_keys = array_keys( $product->get_variation_attributes() );
 			
 			foreach ( $attribute_keys as $attribute_id ) {

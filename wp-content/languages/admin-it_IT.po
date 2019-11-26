@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 5.3.x - Development - Administration package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-11-12 08:26:10+0000\n"
+"PO-Revision-Date: 2019-11-22 10:38:54+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -29,7 +29,7 @@ msgstr "I blocchi di intestazione offrono ora controlli per il colore del testo"
 #. translators: %s: Link to the PHP 7 developer notes.
 #: wp-admin/about.php:184
 msgid "WordPress 5.3 aims to fully support PHP 7.4. This release contains <a href=\"%s\">multiple changes</a> to remove deprecated functionality and ensure compatibility. WordPress continues to encourage all users to run the latest and greatest versions of PHP."
-msgstr "WordPress 5.3 mira a supportare pienamente PHP 7.4. Questa versione contiene <a href=\"%s\"> modifiche multiple </a> per rimuovere funzionalità obsolete e garantire la compatibilità. WordPress continua a incoraggiare tutti gli utenti a eseguire le versioni più recenti e migliori di PHP."
+msgstr "WordPress 5.3 mira a supportare pienamente PHP 7.4. Questa versione contiene <a href=\"%s\">modifiche multiple</a> per rimuovere funzionalità obsolete e garantire la compatibilità. WordPress continua ad incoraggiare tutti gli utenti ad eseguire le versioni più recenti e migliori di PHP."
 
 #: wp-admin/about.php:167
 msgid "Date/Time Component Fixes"
@@ -47,7 +47,7 @@ msgstr "Compatibilità con PHP 7.4"
 #. translators: %s: Link to the date/time developer notes.
 #: wp-admin/about.php:172
 msgid "Developers can now work with <a href=\"%s\">dates and timezones</a> in a more reliable way. Date and time functionality has received a number of new API functions for unified timezone retrieval and PHP interoperability, as well as many bug fixes."
-msgstr "Gli sviluppatori possono ora lavorare con <a href=\"%s\"> date e fusi orari </a> in modo più affidabile. La funzionalità di data e ora ha ricevuto una serie di nuove funzioni API per il recupero unificato del fuso orario e l'interoperabilità di PHP, nonché molte correzioni di errori."
+msgstr "Gli sviluppatori possono ora lavorare con <a href=\"%s\">date e fusi orari</a> in modo più affidabile. La funzionalità di data e ora ha ricevuto una serie di nuove funzioni API per il recupero unificato del fuso orario e l'interoperabilità di PHP, nonché molte correzioni di bug."
 
 #: wp-admin/about.php:149
 msgid "You’ll now be periodically asked to confirm that your admin email address is up to date when you log in as an administrator. This reduces the chance of getting locked out of your site if you change your email address."
@@ -59,7 +59,7 @@ msgstr "Verifica email amministratore"
 
 #: wp-admin/about.php:145
 msgid "The improvements introduced in 5.3 make it even easier to identify issues. Expanded recommendations highlight areas that may need troubleshooting on your site from the Health Check screen."
-msgstr "I miglioramenti introdotti al punto 5.3 facilitano ulteriormente l'identificazione dei problemi. Le raccomandazioni ampliate evidenziano le aree che potrebbero richiedere la risoluzione dei problemi sul vostro sito dalla schermata dell'Health Check."
+msgstr "I miglioramenti introdotti dalla versione 5.3 facilitano ulteriormente l'identificazione dei problemi. Nella sezione dell'Health Check sono state aumentate le raccomandazioni che evidenziano le aree che potrebbero avere bisogno del tuo intervento per la risoluzione di problemi sul tuo sito."
 
 #: wp-admin/about.php:141
 msgid "Your images will be correctly rotated upon upload according to the embedded orientation data. This feature was first proposed nine years ago and made possible through the perserverance of many dedicated contributors."
@@ -72,7 +72,7 @@ msgstr "Rotazione automatica dell'immagine"
 #. translators: %s: Link to the Inter font website.
 #: wp-admin/about.php:113
 msgid "As befits a theme called Twenty Twenty, clarity and readability is also a big focus. The theme includes the typeface <a href=\"%s\">Inter</a>, designed by Rasmus Andersson. Inter comes in a Variable Font version, a first for default themes, which keeps load times short by containing all weights and styles of Inter in just two font files."
-msgstr "Come si addice a un tema chiamato Twenty Twenty, anche la chiarezza e la leggibilità sono al centro dell'attenzione. Il tema include il carattere tipografico <a href=\"%s\"> Inter </a>, progettato da Rasmus Andersson. Inter è disponibile in una versione a carattere variabile, una novità per i temi predefiniti, che riduce i tempi di caricamento contenendo tutti i pesi e gli stili dell'Inter in soli due file di caratteri."
+msgstr "Come si addice ad un tema chiamato Twenty Twenty, anche la chiarezza e la leggibilità sono al centro dell'attenzione. Il tema include il carattere tipografico <a href=\"%s\">Inter</a>, progettato da Rasmus Andersson. Inter è disponibile in una versione a carattere variabile, una novità per i temi predefiniti, che riduce i tempi di caricamento contenendo tutti i pesi e gli stili di Inter in soli due file di caratteri."
 
 #: wp-admin/about.php:107
 msgid "As the block editor celebrates its first birthday, we are proud that Twenty Twenty is designed with flexibility at its core. Show off your services or products with a combination of columns, groups, and media blocks. Set your content to wide or full alignment for dynamic and engaging layouts. Or let your thoughts be the star with a centered content column!"
@@ -117,7 +117,7 @@ msgstr "Miglioramenti dell'editor a blocchi"
 
 #: wp-admin/about.php:53
 msgid "5.3 expands and refines the block editor introduced in WordPress 5.0 with a new block, more intuitive interactions, and improved accessibility. New features in the editor increase design freedoms, provide additional layout options and style variations to allow designers complete control over the look of a site. This release also introduces the Twenty Twenty theme giving the user more design flexibility and integration with the block editor. Creating beautiful web pages and advanced layouts has never been easier."
-msgstr "5.3 amplia e perfeziona l'editor a blocchi introdotto in WordPress 5.0 con un nuovo blocco, interazioni più intuitive e una accessibilità migliorata. Nuove caratteristiche nell'editor aumentano la libertà di design, forniscono opzioni per layout aggiuntivi e variazioni di stile permettendo ai designer di avere il controllo completo sull'aspetto di un sito. Questa versione introduce inoltre il tema Twenty Twenty offrendo all'utente una maggiore flessibilità nel design e nell'integrazione con l'editor a blocchi. Creare splendide pagine web e layout avanzati non è mai stato così semplice."
+msgstr "La versione 5.3 amplia e perfeziona l'editor a blocchi introdotto in WordPress 5.0 con un nuovo blocco, interazioni più intuitive e una accessibilità migliorata. Le nuove caratteristiche nell'editor aumentano la libertà di design, forniscono opzioni per layout aggiuntivi e variazioni di stile permettendo ai designer di avere il controllo completo sull'aspetto di un sito. Questa versione introduce inoltre il tema Twenty Twenty offrendo all'utente una maggiore flessibilità nel design e nell'integrazione con l'editor a blocchi. Creare splendide pagine web e layout avanzati non è mai stato così semplice."
 
 #. translators: %s: The current WordPress version number.
 #: wp-admin/credits.php:38 wp-admin/privacy.php:35 wp-admin/freedoms.php:41
@@ -152,7 +152,7 @@ msgstr "Buono"
 
 #: wp-admin/export.php:57
 msgid "<a href=\"https://wordpress.org/support/article/tools-export-screen/\">Documentation on Export</a>"
-msgstr "<a href=\"https://wordpress.org/support/article/tools-export-screen/\">Documentazione per export</a>"
+msgstr "<a href=\"https://wordpress.org/support/article/tools-export-screen/\">Documentazione sull'esportazione</a>"
 
 #: wp-admin/plugin-install.php:109
 msgid "<a href=\"https://wordpress.org/support/article/plugins-add-new-screen/\">Documentation on Installing Plugins</a>"
@@ -200,7 +200,7 @@ msgstr "<a href=\"https://wordpress.org/support/article/settings-media-screen/\"
 
 #: wp-admin/widgets.php:83
 msgid "<a href=\"https://wordpress.org/support/article/appearance-widgets-screen/\">Documentation on Widgets</a>"
-msgstr "<a href=\"https://wordpress.org/support/article/appearance-widgets-screen/\">Documentazione sui Widget</a>"
+msgstr "<a href=\"https://wordpress.org/support/article/appearance-widgets-screen/\">Documentazione sui widget</a>"
 
 #: wp-admin/import.php:31
 msgid "<a href=\"https://wordpress.org/support/article/tools-import-screen/\">Documentation on Import</a>"

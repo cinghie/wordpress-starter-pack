@@ -304,6 +304,8 @@ class PPOM_Meta {
                 
                 // pricematrix does not have dataname
                 if( $type == 'pricematrix' ) continue;
+                // ignore collapased fields
+                if( $type == 'collapse' ) continue;
                 
                 if( !isset($field['data_name']) ) {
                     $has_unique = false;

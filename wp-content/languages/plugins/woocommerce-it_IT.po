@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - WooCommerce - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-11-09 22:18:21+0000\n"
+"PO-Revision-Date: 2019-11-22 12:43:29+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -5269,11 +5269,11 @@ msgstr "Permetti ai clienti di creare un account nella pagina \"Il mio account\"
 
 #: includes/admin/settings/class-wc-settings-accounts.php:65
 msgid "Allow customers to create an account during checkout"
-msgstr "Permetti ai clienti di creare un account durante il completamento dell'ordine"
+msgstr "Permetti ai clienti di creare un account durante il riepilogo dell'ordine"
 
 #: includes/admin/settings/class-wc-settings-accounts.php:56
 msgid "Allow customers to log into an existing account during checkout"
-msgstr "Consenti ai clienti di accedere a un account esistente durante la procedura di pagamento"
+msgstr "Permetti ai clienti di accedere a un account esistente durante il riepilogo dell'ordine"
 
 #: includes/admin/settings/class-wc-settings-accounts.php:47
 msgid "Allow customers to place orders without an account"
@@ -6802,7 +6802,7 @@ msgstr "Chișinău"
 
 #: templates/myaccount/form-add-payment-method.php:58
 msgid "New payment methods can only be added during checkout. Please contact us if you require assistance."
-msgstr "I nuovi metodi di pagamento possono essere aggiunti solo durante la verifica dell'ordine. Contattaci se hai necessità di assistenza."
+msgstr "Nuovi metodi di pagamento possono essere aggiunti solo durante il riepilogo dell'ordine. Contattaci se hai necessità di assistenza."
 
 #: includes/wc-core-functions.php:359
 msgid "Belarusian ruble (old)"
@@ -6958,7 +6958,7 @@ msgstr "Inserisci un indirizzo email valido"
 #. translators: %s: product name
 #: includes/shortcodes/class-wc-shortcode-checkout.php:144
 msgid "Sorry, \"%s\" is no longer in stock so this order cannot be paid for. We apologize for any inconvenience caused."
-msgstr "Siamo spiacenti, \"%s\" non è più in magazzino e dunque non può essere pagato. Ci scusiamo per l'inconveniente."
+msgstr "L'articolo \"%s\" non è più disponibile e pertanto non può essere ordinato. Ci scusiamo per l'inconveniente."
 
 #. translators: 1: WC_Logger::log 2: level
 #: includes/class-wc-logger.php:132

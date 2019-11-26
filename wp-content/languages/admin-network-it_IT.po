@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 5.3.x - Development - Administration - Network Admin package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-10-16 10:11:49+0000\n"
+"PO-Revision-Date: 2019-11-16 16:50:56+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -61,7 +61,7 @@ msgstr "<a href=\"https://wordpress.org/support/article/network-admin-updates-sc
 
 #: wp-admin/network/index.php:55
 msgid "<a href=\"https://wordpress.org/support/article/network-admin/\">Documentation on the Network Admin</a>"
-msgstr "<a href=\"https://wordpress.org/support/article/network-admin/\">Documentazione sull'amministrazione del network</a>"
+msgstr "<a href=\"https://wordpress.org/support/article/network-admin/\">Documentazione sull'Amministrazione del network</a>"
 
 #. translators: %s: Number of themes.
 #: wp-admin/includes/class-wp-ms-themes-list-table.php:331
@@ -77,7 +77,7 @@ msgstr "Principale"
 
 #: wp-admin/network.php:67 wp-admin/network.php:80
 msgid "<a href=\"https://wordpress.org/support/article/tools-network-screen/\">Documentation on the Network Screen</a>"
-msgstr "<a href=\"https://wordpress.org/support/article/tools-network-screen/\">Documentazione sulla schermata di installazione del Network</a>"
+msgstr "<a href=\"https://wordpress.org/support/article/tools-network-screen/\">Documentazione sulla schermata di installazione del network</a>"
 
 #: wp-admin/network.php:66 wp-admin/network.php:79
 msgid "<a href=\"https://wordpress.org/support/article/create-a-network/\">Documentation on Creating a Network</a>"
@@ -741,7 +741,7 @@ msgstr "Un link di Modifica ad una schermata separata di Modifica sito."
 
 #: wp-admin/network/themes.php:240
 msgid "Themes can be enabled on a site by site basis by the network admin on the Edit Site screen (which has a Themes tab); get there via the Edit action link on the All Sites screen. Only network admins are able to install or edit themes."
-msgstr "I temi possono essere abilitati, tramite la schermata Modifica sito (che ha una scheda Temi), sito per sito da un amministratore della rete; è possibile arrivarci tramite il link Modifica nella schermata Tutti i siti. Solo gli amministratori di rete sono in grado di installare o modificare i temi."
+msgstr "I temi possono essere abilitati, tramite la schermata Modifica sito (che ha una scheda Temi), sito per sito da un amministratore del network; è possibile arrivarci tramite il link Modifica nella schermata Tutti i siti. Solo gli amministratori del network sono in grado di installare o modificare i temi."
 
 #: wp-admin/network/sites.php:36
 msgid "Delete which is a permanent action after the confirmation screens."

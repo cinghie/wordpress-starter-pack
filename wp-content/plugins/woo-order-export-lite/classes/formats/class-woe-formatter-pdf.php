@@ -43,7 +43,14 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 			$filename = str_replace( '.pdf', '.csv', $filename );
 		}
 
-		$this->image_format_fields = isset( $field_formats['order']['image'] ) ? $field_formats['order']['image'] : array();
+		$this->image_format_fields = array();
+		if ( isset( $field_formats['order']['image'] ) ) {
+			$this->image_format_fields = array_merge( $this->image_format_fields, $field_formats['order']['image'] );
+		}
+		if ( isset( $field_formats['products']['image'] ) ) {
+			$this->image_format_fields = array_merge( $this->image_format_fields, $field_formats['products']['image'] );
+		}
+
 		$this->image_format_fields = apply_filters( "woe_{$format}_image_format_fields", $this->image_format_fields );
 
 		parent::__construct( $mode, $filename, $settings, $format, $labels, $field_formats, $date_format, $offset );

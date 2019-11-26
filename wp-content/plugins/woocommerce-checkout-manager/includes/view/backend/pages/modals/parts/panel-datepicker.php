@@ -2,7 +2,7 @@
   <div class="options_group wooccm-premium">
     <p class="form-field">
       <label><?php esc_html_e('Date format', 'woocommerce-checkout-manager'); ?></label>
-      <input class="short" type="text" placeholder="dd-mm-yy" name="format_date" value="{{data.format_date}}">
+      <input class="short" type="text" placeholder="dd-mm-yy" name="date_format" value="{{data.date_format}}">
       <span class="description"><a href="https://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date and time formatting</a>.</span>
       <span class="description premium">(<?php esc_html_e('This is a premium feature', 'woocommerce-checkout-manager'); ?>)</span>
     </p>

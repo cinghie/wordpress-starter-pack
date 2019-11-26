@@ -83,8 +83,8 @@ window.jQuery(function($) {
                 url: metaslider.ajaxurl, 
                 data: data,
                 type: 'POST',
-                error: function(response) {    
-					APP && APP.notifyError('metaslider/slide-create-failed', response.responseJSON.data.message, true)
+                error: function(error) {    
+					APP && APP.notifyError('metaslider/slide-create-failed', error.responseJSON, true)
                 },
                 success: function(response) {
 
@@ -243,8 +243,8 @@ window.jQuery(function($) {
                     url: metaslider.ajaxurl, 
                     data: data,
                     type: 'POST',
-                    error: function(response) {    
-						APP && APP.notifyError('metaslider/slide-update-failed', response.responseJSON.data.message, true)
+                    error: function(error) {    
+						APP && APP.notifyError('metaslider/slide-update-failed', error.responseJSON, true)
                     },
                     success: function(response) {
                        /**

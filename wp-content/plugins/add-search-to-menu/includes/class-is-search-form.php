@@ -432,6 +432,9 @@ class IS_Search_Form {
                     if ( ! isset( $_includes['post_type_url']  ) && isset( $_includes['post_type'] ) && count( $_includes['post_type'] ) < 2 ) {
                             $result = preg_replace('/<\/form>/', '<input type="hidden" name="post_type" value="' . reset( $_includes['post_type'] ) . '" /></form>', $result );
                     }
+                    if ( isset( $_GET['lang'] ) ) {
+                        $result = preg_replace('/<\/form>/', '<input type="hidden" name="lang" value="' . $_GET['lang'] . '" /></form>', $result );
+                    }
 
                     $result = apply_filters( 'is_default_search_form', $result );
 
@@ -472,7 +475,8 @@ class IS_Search_Form {
                 $classes = apply_filters( 'is_search_form_classes', $classes );
 
                 $result = '<form '.$data_attrs.' class="is-search-form '. $classes .'" action="' . home_url('/') . '" method="get" role="search" >';
-                $result .= '<label><input  type="text" name="s" value="' . get_search_query() . '" class="is-search-input" placeholder="' . esc_attr( $placeholder_text ) . '" autocomplete="off" />';
+                $autocomplete = apply_filters( 'is_search_form_autocomplete', 'autocomplete="off"' );
+                $result .= '<label><input  type="text" name="s" value="' . get_search_query() . '" class="is-search-input" placeholder="' . esc_attr( $placeholder_text ) . '" '.$autocomplete.' />';
                 // AJAX Loader.
                 if ( isset( $_ajax['enable_ajax'] ) ) {
                     $loader_image = isset( $settings['loader-image'] ) ? $settings['loader-image'] : IS_PLUGIN_URI . 'public/images/spinner.gif';
@@ -493,6 +497,10 @@ class IS_Search_Form {
 
                 if ( ! isset( $_includes['post_type_url']  ) && isset( $_includes['post_type'] ) && count( $_includes['post_type'] ) < 2 ) {
                         $result .= '<input type="hidden" name="post_type" value="' . reset( $_includes['post_type'] ) . '" />';
+                }
+
+                if ( isset( $_GET['lang'] ) ) {
+                    $result .=  '<input type="hidden" name="lang" value="' . $_GET['lang'] . '" />';
                 }
                 $result .= '</form>';
 

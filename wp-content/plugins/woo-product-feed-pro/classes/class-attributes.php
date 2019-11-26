@@ -341,6 +341,7 @@ public function get_mapping_attributes_dropdown() {
 		$dropdown .= "<option value='product_tag_space'>Product tags space</option>";              
 		$dropdown .= "<option value='menu_order'>Menu order</option>";
 		$dropdown .= "<option value='reviews'>Reviews</option>";
+		$dropdown .= "<option value='author'>Author</option>";
 		$dropdown .= "</optgroup>";
 
                 // Did the user checked extra attributes
@@ -455,6 +456,7 @@ public function get_mapping_attributes_dropdown() {
 			"product_tag_space" => "Product tags space",
 			"menu_order" => "Menu order",
 			"reviews" => "Reviews",
+			"author" => "Author",
         	);
 
 		$attributes = array_merge($attributes, $static);

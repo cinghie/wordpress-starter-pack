@@ -4,7 +4,7 @@ Tags: woocommerce, woocommerce pesonalized products, woocommerce custom fields, 
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
 Tested up to: 5.2
-Stable tag: 18.6
+Stable tag: 18.7
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -91,6 +91,9 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
+= 18.7 xxxx =
+* Buf fixed: [PDF file upload issued in cart fixed](https://clients.najeebmedia.com/forums/topic/uploaded-image-cart-preview-empty-for-pdf-files/#post-14281)
+* Filter Added: ppom_remove_unused_images, control image/file remove for un-unsuccessful order
 = 18.6 October 19, 2019 =
 * Bug fixed: [Text Couter price issue when space used fixed](https://clients.najeebmedia.com/forums/topic/textcounter-addon-price-calculation/)
 * Feature: WholeSale Price compatibility added

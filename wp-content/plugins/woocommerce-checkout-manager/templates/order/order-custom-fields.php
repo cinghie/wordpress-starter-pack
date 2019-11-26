@@ -1,5 +1,4 @@
 <h2 class="woocommerce-order-details__title"><?php echo ($title = get_option('wooccm_order_custom_fields_title', false)) ? esc_html($title) : esc_html__('Custom fields', 'woocommerce-checkout-manager'); ?></h2>
-<?php $option = WOOCCM()->billing->get_option_types(); ?>
 <table class="woocommerce-table shop_table order_details">
   <tbody>
     <?php

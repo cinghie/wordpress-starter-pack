@@ -68,7 +68,7 @@ class WOOCCM_Checkout_Controller {
           display:none;
         }
       </style>
-      <script type="text/javascript">
+      <script>
         jQuery(document).ready(function (e) {
           jQuery("input#createaccount").prop('checked', 'checked');
         });

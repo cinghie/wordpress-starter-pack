@@ -540,7 +540,7 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 				
 				foreach($options_filter as $option_key => $option) {
 	                    
-                    $option_value = stripslashes($option['raw']);
+                    $option_value = stripslashes(ppom_wpml_translate($option['raw'],'PPOM'));
                     
                     if(  $posted_value == $option_value ) {
                         $option_price = $option['label'];
@@ -548,6 +548,44 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
                         break;
                     }
                 }
+				
+				if( $context == 'api' ) {
+					$meta_data = array('name'		=> $field_title, 
+										'value'		=> json_encode($option_data),
+										'display'	=> $option_price, 
+										);
+				} else {
+					$meta_data = array('name'		=> $field_title, 
+										'value'		=> $option_price,
+										);
+				}
+				break;
+
+			case 'multiple_select':
+									
+				$option_data  = array();
+				$option_price = array();
+				
+				if( $variation_id ) {
+					$product = wc_get_product($variation_id);
+				}else {
+					$product = wc_get_product($product_id);
+				}
+				
+				$options_filter	 = ppom_convert_options_to_key_val($field_meta['options'], $field_meta, $product);
+				
+				foreach ($value as $opt_index => $selected_opt) {
+					
+					foreach($options_filter as $option_key => $option) {
+
+		                if ( isset($option['option_id']) && $option['option_id'] === $selected_opt ) {
+		                	$option_price[] = $option['label'];
+	                        $option_data[] = array('option'=>$option['raw'],'price'=>$option['price'],'id'=>$option['option_id']);
+		                }
+	                }
+				}
+
+				$option_price = is_array($option_price) ? implode(",", $option_price) : $value;
 				
 				if( $context == 'api' ) {
 					$meta_data = array('name'		=> $field_title, 
@@ -1573,7 +1611,10 @@ function ppom_is_cart_quantity_updatable( $product_id ) {
 		
 		if( ($field['type'] == 'quantities' && ppom_is_field_has_price($field)) ||
 			$field['type'] == 'eventcalendar' ||
-			$field['type'] == 'bulkquantity') {
+			$field['type'] == 'vm' ||
+			$field['type'] == 'bulkquantity' ||
+			$field['type'] == 'vm'
+			) {
 				
 				$qty_updatable = false;
 			}

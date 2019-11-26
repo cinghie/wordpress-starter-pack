@@ -13,7 +13,7 @@ class WC_Order_Export_Order_Product_Fields {
 	var $options;
 	var $woe_order;
 
-	public function __construct($item, $product, 
+	public function __construct($item, $item_meta, $product, 
 	$order, $post, $line_id, $static_vals, $options, $woe_order) {
 		$this->item = $item;
 		$this->product = $product;
@@ -24,8 +24,9 @@ class WC_Order_Export_Order_Product_Fields {
 		$this->options = $options;
 		$this->woe_order = $woe_order;
 		$this->item_id = $item->get_id();
-		$this->item_meta = get_metadata( 'order_item', $this->item_id );
-		$this->product_id = $this->item->get_variation_id() ? $this->item->get_variation_id() : $this->item->get_product_id();
+		$this->item_meta = $item_meta;
+		$this->variation_id = $this->item->get_variation_id() ? $this->item->get_variation_id() : $this->item->get_product_id();
+		$this->product_id = $this->item->get_product_id();
 		$this->product_fields_with_tags = array( 'product_variation', 'post_content', 'post_excerpt' );
 	}
 
@@ -53,7 +54,11 @@ class WC_Order_Export_Order_Product_Fields {
 	}
 
 	public function get($field) {
-		if ( strpos( $field, '__' ) !== false && $taxonomies = wc_get_product_terms( $this->item['product_id'],
+		if(isset($this->woe_order) && strpos( $field, 'orders__' ) !== false) {
+		    $_field = substr( $field, 8 );
+		    $field_value = $this->woe_order->get_one_field($_field);
+		}
+		else if ( strpos( $field, '__' ) !== false && $taxonomies = wc_get_product_terms( $this->item['product_id'],
 						substr( $field, 2 ), array( 'fields' => 'names' ) )
 				) {
 					$field_value = implode( ', ', $taxonomies );
@@ -174,7 +179,7 @@ class WC_Order_Export_Order_Product_Fields {
 			$field_value = get_permalink( $this->product_id );
 		} elseif ( $field == 'sku' ) {
 			$field_value = method_exists( $this->product,
-				'get_' . $field ) ? $this->product->{'get_' . $field}() : get_post_meta( $this->product_id, '_' . $field,
+				'get_' . $field ) ? $this->product->{'get_' . $field}() : get_post_meta( $this->variation_id, '_' . $field,
 				true );
 		}
 		elseif ( $field == 'sku_parent' ) {
@@ -231,30 +236,27 @@ class WC_Order_Export_Order_Product_Fields {
 				$this->item['item_meta'][ "_" . $field ] );
 		}
 		else {
+		
 			$field_value = '';
-			if ( ! empty( $this->item['variation_id'] ) ) {
-				$field_value = get_post_meta( $this->item['variation_id'], $field, true );
+			if ( ! empty( $this->item['variation_id'] ) ) {  //1. read from variation 
+				$field_value = get_post_meta( $this->variation_id, $field, true );
 			}
-			if ( $field_value === '' ) // empty value ?
+			if ( $field_value == '' ) {  //2. read from product 
+				$field_value = get_post_meta( $this->product_id, $field, true );
+			}
+			if ( $field_value === '' AND method_exists( $this->product,'get_' . $field )  )  //3. try method
 			{
-				$field_value = method_exists( $this->product,
-					'get_' . $field ) ? $this->product->{'get_' . $field}() : get_post_meta( $this->product_id,
-					'_' . $field, true );
+				$field_value = $this->product->{'get_' . $field}();
 			}
-			if ( $field_value === '' AND empty( $this->item['variation_id'] ) ) // empty value ? try get attribute for !variaton
+			if ( $field_value === '' AND empty( $this->item['variation_id'] ) ) // 4. try get attribute for !variaton
 			{
 				$field_value = $this->product ? $this->product->get_attribute( $field ) : '';
 			}
-			if ( $field_value === '' ) // empty value still ? try get custom!
-			{
-				$field_value = get_post_meta( $this->product_id, $field, true );
-				// read order fields finally?  TODO:  check if it's order field?
-				if($field_value === '' AND isset($this->woe_order)) {
-					$field_value = $this->woe_order->get_one_field($field);
-				}
+			if ( $field_value === '' ) {  //5. read from product/variation hidden field
+				$field_value = get_post_meta( $this->variation_id, "_" . $field, true );
 			}
 		}
-		
+
 		if ( $this->options['strip_tags_product_fields'] AND in_array( $field, $this->product_fields_with_tags ) ) {
 			$field_value = strip_tags( $field_value );
 		}

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     6.8.4
+ * Version:     6.9.4
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -11,7 +11,7 @@
  * License:     GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Requires at least: 4.5
- * Tested up to: 5.2
+ * Tested up to: 5.3
  *
  * Text Domain: woo-product-feed-pro
  * Domain Path: /languages
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '6.8.4' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '6.9.4' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -171,9 +171,15 @@ function woosea_addtocart_details(){
   	//checking the nonce. will die if it is no good.
    	check_ajax_referer('woosea_ajax_nonce', 'nonce');
         $productId = sanitize_text_field($_POST['data_to_pass']);
+	$storedAttributes = sanitize_text_field($_POST['storedAttributes']);
+	
+	error_log(print_r($storedAttributes, TRUE));
 
 	if(!empty ($productId) ){
 		$product = wc_get_product( $productId );
+
+                $variation_id = woosea_find_matching_product_variation( $product, $_GET );
+                $nr_get = count($_GET);
 		$product_name = $product->get_name();
 		$product_type = $product->get_type();
 		$product_price = $product->get_price();
@@ -299,7 +305,7 @@ function woosea_add_facebook_pixel( $product = null ){
 							$nr_get = count($_GET);
 
 							// This is a variant product	
-							if($nr_get > 0){
+							if(($nr_get > 0) AND ($variation_id > 0)){
 								$variable_product = wc_get_product($variation_id);
 							
 								// for variants use the variation_id and not the item_group_id
@@ -1284,8 +1290,10 @@ function woosea_check_processing(){
         $found = false;
 
         foreach ( $feed_config as $key => $val ) {
-		if($val['running'] == "true"){
-			$processing = "true";
+		if(array_key_exists('running', $val)){
+			if($val['running'] == "true"){
+				$processing = "true";
+			}
 		}
 	}
 

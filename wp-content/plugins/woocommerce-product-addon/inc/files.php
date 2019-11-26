@@ -60,9 +60,8 @@ function ppom_is_file_image( $file_name ){
 // return html for file thumb
 function ppom_create_thumb_for_meta( $file_name, $product_id, $cropped=false) {
 	
-	$file_dir_path = ppom_get_dir_path('thumbs') . $file_name;
+	$file_dir_path = ppom_get_dir_path() . $file_name;
 	if( ! file_exists($file_dir_path) ) return '';
-	
 	$file_url       = ppom_get_dir_url() . $file_name;
 	$file_thumb_url = ppom_is_file_image($file_name) ? ppom_get_dir_url(true) . $file_name : PPOM_URL.'/images/file.png';
 	$file_path_edit = ppom_get_dir_path() . 'edits/' . $file_name;
@@ -571,7 +570,7 @@ function ppom_files_removed_unused_images(){
 	
 	$dir = ppom_get_dir_path();
 	
-	if(is_dir($dir)){
+	if(is_dir($dir) && apply_filters('ppom_remove_unused_images', true)){
 
 		$dir_handle = opendir($dir);
 		while ($file = readdir($dir_handle)){

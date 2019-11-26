@@ -1,4 +1,3 @@
-
 === Variation Swatches for WooCommerce ===
 Contributors: EmranAhmed, getwooplugins
 Tags: woocommerce variation swatches, woocommerce variation, woocommerce, variation swatches, woocommerce attributes, product attributes, product color, product size, variable product attributes, variation product swatches, color variation swatch, image variation swatch, printful color swatches
@@ -377,6 +376,14 @@ And your are ready to go.
 12. Global Variation Color Swatches Attribute List Preview
 
 == Changelog ==
+
+= 1.0.68 =
+
+* Fix: WooCommerce transients clear fix
+
+= 1.0.67 =
+
+* Fix: Swatch Image Size CSS Issue
 
 = 1.0.66 =
 

@@ -5,8 +5,9 @@ Tutorial / Blog posts:
 - Explain all the different fields/attributes that can be selected from the drop-downs
 
 Priority issues:
+- Add find and replace rule option (also requested by Chris)
+- Change XML header for Elite users (so it doesn't say its free for example)
 - Add Facebook pixel measure sales/conversion in checkout (onder andere InitiateCheckout, Purchase, Search and ViewCategory pages);
-- Add find and replace rule option
 - Categories / subcategorie mapping issue when the categories have the exact same name
 - Make extra woosea fields available for front-end usage
 - Only update feed when changes to products have been made

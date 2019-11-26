@@ -149,7 +149,8 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 		$repeat['products'] = $this->duplicate_settings['products']['repeat'];
 		$repeat['coupons']  = $this->duplicate_settings['coupons']['repeat'];
 
-		$item_rows_start_from_new_line = ( $this->format == 'csv' && $this->settings['global_job_settings']['format_csv_item_rows_start_from_new_line'] );
+		$item_rows_start_from_new_line = ( $this->format == 'csv' && $this->settings['global_job_settings']['format_csv_item_rows_start_from_new_line'] ||
+											$this->format == 'tsv' && $this->settings['global_job_settings']['format_tsv_item_rows_start_from_new_line'] );
 
 		if ( $this->summary_report_products ) {
 			return $this->make_summary_products_header( $data );
@@ -291,8 +292,18 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 						$new_row[ $original_key ] = 0;
 					}//total fields
 					else {
-						$new_row[ $original_key ] = $item[ $field_key ];
-					}  // already calculated  
+						$value = $item[ $field_key ];
+						if ( $this->mode == 'preview' && ! empty( $this->image_format_fields ) && $this->field_format_is( $field_key, $this->image_format_fields ) ) {
+							$value = $this->make_img_html_from_path(
+								$value,
+								$this->settings['row_images_width'] * 5,
+								$this->settings['row_images_height'] * 5
+							);
+							$value = $value ? $value : "";
+						}
+
+						$new_row[ $original_key ] = $value;
+					}  // already calculated
 				}
 				$new_row                                  = apply_filters( 'woe_summary_column_keys',
 					$new_row );// legacy hook
@@ -442,7 +453,17 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 					$new_row[ $original_key ] = 0;
 				}//total fields
 				else {
-					$new_row[ $original_key ] = $row[ $field_key ];
+					$value = $row[ $field_key ];
+					if ( $this->mode == 'preview' && ! empty( $this->image_format_fields ) && $this->field_format_is( $field_key, $this->image_format_fields ) ) {
+						$value = $this->make_img_html_from_path(
+							$value,
+							$this->settings['row_images_width'] * 5,
+							$this->settings['row_images_height'] * 5
+						);
+						$value = $value ? $value : "";
+					}
+
+					$new_row[ $original_key ] = $value;
 				}  // already calculated
 			}
 			$new_row                                  = apply_filters( 'woe_summary_column_keys',
@@ -529,6 +550,11 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 
 	protected function make_img_html_from_path( $path, $width = null, $height = null ) {
 		$uploads_dir = wp_upload_dir();
+
+		if ( $this->mode === 'preview' ) {
+			$width = 75;
+			$height = 75;
+		}
 
 		if ( ! $uploads_dir || ! isset( $uploads_dir['basedir'], $uploads_dir['baseurl'] ) ) {
 			return false;

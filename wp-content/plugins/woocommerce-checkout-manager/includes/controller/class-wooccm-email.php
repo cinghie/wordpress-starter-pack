@@ -34,7 +34,7 @@ class WOOCCM_Order_Email_Controller {
                 'yes' => esc_html__('Yes', 'woocommerce-checkout-manager-pro'),
                 'no' => esc_html__('No', 'woocommerce-checkout-manager-pro'),
             ),
-            'default' => 'no',
+            'default' => 'yes',
         ),
         array(
             'name' => esc_html__('Add for this order status', 'woocommerce-checkout-manager-pro'),
@@ -43,6 +43,7 @@ class WOOCCM_Order_Email_Controller {
             'type' => 'multiselect',
             'class' => 'chosen_select wooccm-premium-field',
             'options' => wc_get_order_statuses(),
+            'default' => array_keys(wc_get_order_statuses()),
         ),
         array(
             'name' => esc_html__('Add custom fields title', 'woocommerce-checkout-manager-pro'),

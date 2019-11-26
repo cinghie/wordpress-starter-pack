@@ -27,8 +27,8 @@
 @tailwind utilities;
 
 @import "./parts/fonts.css";
+@import "./parts/ie11.css";
 
-@import "./parts/fonts.css";
 /**
  * Here you would add any custom styles you need that don't come out of the
  * box with Tailwind.
@@ -61,26 +61,6 @@ eventually be removed/refactored */
 .metaslider.wrap div.error {
     clear: both
 }
-
-.metaslider #post-body.columns-2 #postbox-container-1 {
-    margin-right: -320px;
-    width: 300px;
-}
-
-.metaslider #poststuff #post-body.columns-2 {
-    margin-right: 320px;
-}
-
-.rtl .metaslider #post-body.columns-2 #postbox-container-1 {
-    margin-left: -320px;
-    margin-right: 0;
-}
-
-.rtl .metaslider #poststuff #post-body.columns-2 {
-    margin-left: 320px;
-    margin-right: 0;
-}
-
 
 .metaslider .left input[type=text],
 .metaslider .left textarea {
@@ -764,7 +744,7 @@ eventually be removed/refactored */
     width: 100%;
 }
 .metaslider-ui .metaslider-slides-container .metaslider-ui-inner {
-    margin: 1rem;
+    padding: 1rem;
 }
 .metaslider-ui .metaslider-slides-container .slide .col-2 {
     width: 100%;
@@ -1043,13 +1023,6 @@ input[type="radio"] {
     text-decoration: none;
     display: block;
     float: right;
-}
-.metaslider-ui .restore-slide-link span {
-    color: #555d66;
-}
-.metaslider-ui .restore-slide-link:hover,
-.metaslider-ui .restore-slide-link:hover span {
-    color: #de6826;
 }
 .metaslider-ui .trashed-header {
     padding: 0 0 0.5rem;

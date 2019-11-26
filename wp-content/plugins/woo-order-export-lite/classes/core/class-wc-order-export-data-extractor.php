@@ -1487,7 +1487,7 @@ class WC_Order_Export_Data_Extractor {
 
 			$i ++;
 			$row = array();
-			$woe_product = new WC_Order_Export_Order_Product_Fields( $item, $product, $order, $post, $i, $static_vals, $options, $woe_order );
+			$woe_product = new WC_Order_Export_Order_Product_Fields( $item, $item_meta, $product, $order, $post, $i, $static_vals, $options, $woe_order );
 			foreach ( $labels->unique_keys() as $field ) {
 				$row[$field] = $woe_product->get($field);
 			}

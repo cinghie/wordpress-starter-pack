@@ -54,7 +54,7 @@ class WOE_Formatter_Xls extends WOE_Formatter_Plain_Format {
 
 		$this->image_format_fields = isset( $field_formats['image'] ) ? $field_formats['image'] : array();
 		$this->image_format_fields = apply_filters( "woe_{$format}_image_format_fields", $this->image_format_fields );
-
+		
 		if ( $mode != 'preview' ) {
 			//more memory for XLS?
 			ini_set( 'memory_limit', '512M' );
@@ -164,7 +164,7 @@ class WOE_Formatter_Xls extends WOE_Formatter_Plain_Format {
 				}
 			}
 		}
-
+		
 		foreach ( $rows as $row ) {
 			if ( $this->has_output_filter ) {
 				$row = apply_filters( "woe_xls_output_filter", $row, $this );

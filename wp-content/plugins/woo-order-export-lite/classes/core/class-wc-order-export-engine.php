@@ -254,7 +254,7 @@ class WC_Order_Export_Engine {
 
 		$options = array();
 
-		$options['item_rows_start_from_new_line'] = ( $format == 'csv' AND @$settings['format_csv_item_rows_start_from_new_line'] );
+		$options['item_rows_start_from_new_line'] = ( $format == 'csv' AND @$settings['format_csv_item_rows_start_from_new_line']  OR $format == 'tsv' AND @$settings['format_tsv_item_rows_start_from_new_line'] )  ;
 		$options['products_mode']                 = isset( $settings['duplicated_fields_settings']['products']['repeat'] ) ? $settings['duplicated_fields_settings']['products']['repeat'] : "";
 		$options['coupons_mode']                  = isset( $settings['duplicated_fields_settings']['coupons']['repeat'] ) ? $settings['duplicated_fields_settings']['coupons']['repeat'] : "";
 
@@ -323,7 +323,7 @@ class WC_Order_Export_Engine {
 			$result = eval( $settings['custom_php_code'] );
 			ob_end_clean();
 		}
-		if($settings['product_sku']) {
+		if( !empty($settings['product_sku']) ) {
 			$sku_array = preg_split( "#,|\r?\n#", $settings['product_sku'], null, PREG_SPLIT_NO_EMPTY ) ;
 			foreach($sku_array as $sku) {
 				$sku = "_sku = " . $sku;

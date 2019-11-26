@@ -136,7 +136,8 @@ trait WOE_Order_Export_Plain_Format {
 
 		$populate_non_products = isset( $this->duplicate_settings['products']['populate_other_columns'] ) && $this->duplicate_settings['products']['populate_other_columns'] == '1';
 
-		$item_rows_start_from_new_line = ( $this->format == 'csv' && $this->settings['global_job_settings']['format_csv_item_rows_start_from_new_line'] );
+		$item_rows_start_from_new_line = ( $this->format == 'csv' && $this->settings['global_job_settings']['format_csv_item_rows_start_from_new_line'] ||
+											$this->format == 'tsv' && $this->settings['global_job_settings']['format_tsv_item_rows_start_from_new_line'] );
 
 		$combinations = array();
 

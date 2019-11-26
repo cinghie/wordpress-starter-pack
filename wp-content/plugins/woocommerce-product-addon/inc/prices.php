@@ -109,6 +109,29 @@ function ppom_get_field_prices( $ppom_fields_post, $product_id, &$product_quanti
 									);
 			
 				break;
+				case 'vm':
+
+					$vm_options = array();
+
+					$options	= isset($field_meta['options']) ? ppom_convert_options_to_key_val($field_meta['options'], $field_meta, $product) : array();
+
+					 $row_options = isset($field_meta['row_options']) ? explode(PHP_EOL, $field_meta['row_options']) : array();
+
+					foreach ($options as $opt_name => $opt) {
+
+		                foreach ($row_options as $index => $r_opt) {
+		                    
+		                    $color_code = apply_filters( 'ppom_vm_row_index', $r_opt, $field_meta );
+
+		                    $name_k = stripslashes(trim($opt_name)) .'_'. stripslashes(trim($color_code));
+
+		                    $vm_options[$name_k] =$opt['price'];
+
+		                }
+
+		            }
+
+				break;
 			default:
 				$options	= isset($field_meta['options']) ? ppom_convert_options_to_key_val($field_meta['options'], $field_meta, $product) : array();
 				break;
@@ -140,7 +163,8 @@ function ppom_get_field_prices( $ppom_fields_post, $product_id, &$product_quanti
 				
 				foreach($options as $option) {
 					
-					if( $option['raw'] == $value ) {
+					$option_raw = ppom_wpml_translate($option['raw'],'PPOM');
+					if( $option_raw == $value ) {
 				
 						$option_price = isset($option['raw_price']) ? $option['raw_price'] : '';
 						$option_percent = isset($option['percent']) ? $option['percent'] : '';
@@ -158,6 +182,32 @@ function ppom_get_field_prices( $ppom_fields_post, $product_id, &$product_quanti
 						if( !empty($option['option_weight'])) {
 							$field_price  = 0;
 							$field_prices[] = ppom_generate_field_price($field_price, $field_meta, 'weight', $option);
+						}
+					}
+				}
+			break;
+
+			case 'multiple_select':
+				
+				foreach ($value as $opt_index => $opt_id) {
+					
+					foreach($options as $option) {
+						
+						$option_id = isset($option['option_id']) ? $option['option_id'] : '';
+
+						if( $option_id == $opt_id ) {
+					
+							$option_price = isset($option['raw_price']) ? $option['raw_price'] : '';
+							$option_percent = isset($option['percent']) ? $option['percent'] : '';
+							
+							if( $option_price !== '' ) {
+								
+								if( $option_percent !== '' ){
+									$option_price = ppom_get_amount_after_percentage($product_price, $option_percent);
+								}
+								
+								$field_prices[] = ppom_generate_field_price($option_price, $field_meta, $charge, $option, $option_quantity);
+							}
 						}
 					}
 				}
@@ -325,6 +375,35 @@ function ppom_get_field_prices( $ppom_fields_post, $product_id, &$product_quanti
 			break;
 			
 			
+			case 'vm':
+				
+				if( ppom_is_field_has_price($field_meta) ) {
+					
+					foreach($vm_options as $vm_key => $vm_price) {
+					$quantities_total = 0;
+						
+						foreach($value as $val => $quantity ) {
+							
+							$quantities_total += $quantity;
+							// Important: need to convert browser data into html_entity_decode
+							$val = html_entity_decode ($val);
+							
+							if( $val ===  $vm_key && $quantity > 0) {
+								$option_price = $vm_price;
+								
+								$field_prices[] = ppom_generate_field_price($option_price, $field_meta, $charge, $options, $quantity);
+							}
+						}
+					}
+					
+					if( $quantities_total > 0 ) {
+						$product_quantity = $quantities_total;
+					}
+				}
+				
+			break;
+			
+			
 			case 'bulkquantity':
 				$product_quantity	= $value['qty'];
 				$bq_value			= $value['option'];
@@ -403,9 +482,13 @@ function ppom_get_field_prices( $ppom_fields_post, $product_id, &$product_quanti
 						$length = str_word_count($value);
 						
 				}
-			
-				$price = $field_meta['count_price'] * $length;
-				$field_prices[] = ppom_generate_field_price($price, $field_meta, $charge, $options, 1);
+
+				if ($field_meta['count_price'] && $field_meta['count_price'] != '') {
+					
+					$price = $field_meta['count_price'] * $length;
+					$field_prices[] = ppom_generate_field_price($price, $field_meta, $charge, $options, 1);
+				}
+
 				break;
 			
 		}
@@ -521,12 +604,19 @@ function ppom_price_get_total_quantities($ppom_fields_post, $product_id) {
 					$total_quantities += $qty;
 				}
 			break;
+
+			case 'vm':
+				// $total_quantities = 0;
+				foreach($value as $option => $qty){
+					$total_quantities += $qty;
+				}
+			break;
 			
 			case 'bulkquantity':
 				$total_quantities = 0;
 				foreach($value as $option => $qty){
 			// ppom_pa($qty);
-					$total_quantities += $qty;
+					$total_quantities += intval($qty);
 				}
 			break;
 

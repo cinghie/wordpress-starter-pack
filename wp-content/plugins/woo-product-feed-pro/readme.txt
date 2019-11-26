@@ -4,8 +4,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
-Tested up to: 5.2
-Stable tag: 6.8.4
+Tested up to: 5.3
+Stable tag: 6.9.4
 
 == Description ==
 
@@ -300,6 +300,39 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 6.9.4 (2019-11-25) =
+* Solved a minor undefined index issue that showed with some ajax responses
+
+= 6.9.3 (2019-11-23) =
+* Fixed a bug: reviewer names containing Cyrillic characters broke the XML feed. This has been fixed now.
+
+= 6.9.2 (2019-11-22) =
+* Added support for case-sensitive rules
+
+= 6.9.1 (2019-11-22) =
+* Added support for adding multiple additional image nodes for Skroutz feeds
+* WooCommerce started adding a v parameter to the URL's which caused the Facebook pixel to break for parent variable products. This has been fixed.
+
+= 6.9.0 (2019-11-21) =
+* Fixed a bug: include only filters for product tags using "contains" was not working. This has been fixed now.
+
+= 6.8.9 (2019-11-20) =
+* Added the author attribute so one can add the author information to feeds or create filter and rules on it.
+
+= 6.8.8 (2019-11-18) =
+* Minor change to product tag space attribute
+* Fixed a bug: Shipping cost implementation for table rate zones was not working. This has been fixed now.
+
+= 6.8.7 (2019-11-17) =
+* Added a force activate all feeds option
+
+= 6.8.6 (2019-11-15) =
+* Fixed a WPML / WCML caching issue
+* Tested for Wordpress 5.3 compatibility
+
+= 6.8.5 (2019-11-15) =
+* Added WPML / WCML support for the regular and sale price support
 
 = 6.8.4 (2019-11-13) =
 * Added an attribute (Product Tags Space) containing the product tags separated by a space and comma
@@ -2154,6 +2187,39 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 6.9.5 =
+Solved a minor undefined index issue that showed with some ajax responses
+
+= 6.9.3 =
+Fixed a bug: reviewer names containing Cyrillic characters broke the XML feed. This has been fixed now.
+
+= 6.9.2 =
+Added support for case-sensitive rules
+
+= 6.9.1 =
+Added support for adding multiple additional image nodes for Skroutz feeds
+WooCommerce started adding a v parameter to the URL's which caused the Facebook pixel to break for parent variable products. This has been fixed.
+
+= 6.9.0 =
+Fixed a bug: include only filters for product tags using "contains" was not working. This has been fixed now.
+
+= 6.8.9 =
+Added the author attribute so one can add the author information to feeds or create filter and rules on it.
+
+= 6.8.8 =
+Minor change to product tag space attribute
+Fixed a bug: Shipping cost implementation for table rate zones was not working. This has been fixed now.
+
+= 6.8.7 =
+Added a force activate all feeds option
+
+= 6.8.6 =
+Fixed a WPML / WCML caching issue
+Tested for Wordpress 5.3 compatibility
+
+= 6.8.5 =
+Added WPML / WCML support for the regular and sale price support
 
 = 6.8.4 =
 Added an attribute (Product Tags Space) containing the product tags separated by a space and comma

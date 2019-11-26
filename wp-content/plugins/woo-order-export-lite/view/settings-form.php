@@ -370,6 +370,7 @@ function remove_time_from_date( $datetime ) {
 						'woo-order-export-lite' ) ?></strong><br>
                 <input type=hidden name="settings[format_tsv_add_utf8_bom]" value=0>
                 <input type=hidden name="settings[format_tsv_display_column_names]" value=0>
+                <input type=hidden name="settings[format_tsv_item_rows_start_from_new_line]" value=0>
                 <input type=checkbox name="settings[format_tsv_add_utf8_bom]"
                        value=1 <?php if ( @$settings['format_tsv_add_utf8_bom'] ) {
 					echo 'checked';
@@ -378,6 +379,10 @@ function remove_time_from_date( $datetime ) {
                        value=1 <?php if ( @$settings['format_tsv_display_column_names'] ) {
 					echo 'checked';
 				} ?> > <?php _e( 'Output column titles as first line', 'woo-order-export-lite' ) ?><br>
+                <input type=checkbox name="settings[format_tsv_item_rows_start_from_new_line]"
+                       value=1 <?php if ( @$settings['format_tsv_item_rows_start_from_new_line'] ) {
+					echo 'checked';
+				} ?> > <?php _e( 'Product rows start with a new line', 'woo-order-export-lite' ) ?><br>
 				<?php _e( 'Line Break', 'woo-order-export-lite' ) ?><input type=text
                                                                               name="settings[format_tsv_linebreak]"
                                                                               value='<?php echo $settings['format_tsv_linebreak'] ?>'
@@ -664,7 +669,6 @@ function remove_time_from_date( $datetime ) {
 		    </div>
                 </div>
 
-            </div>
 
             <hr>
             <div id="my-date-time-format" class="">
@@ -722,6 +726,7 @@ function remove_time_from_date( $datetime ) {
                 </div>
             </div>
 
+            </div>
         <br/>
         <div id="my-sort" class="my-block">
 			<?php
@@ -1614,6 +1619,28 @@ function remove_time_from_date( $datetime ) {
 								<?php echo print_formats_field( 'meta', 'products' ); ?>
                                 <div style="text-align: right;">
                                     <button id='button_custom_meta_products'
+                                            class='button-secondary'><?php _e( 'Confirm',
+											'woo-order-export-lite' ) ?></button>
+                                    <button class='button-secondary button-cancel'><?php _e( 'Cancel',
+											'woo-order-export-lite' ) ?></button>
+                                </div>
+                            </div>
+			    <div class='div_custom products-segment segment-form products-add-static-field'>
+                                <div>
+                                    <label for="colname_custom_field_products"><?php _e( 'Column name',
+											'woo-order-export-lite' ) ?>:</label>
+                                    <input type='text' id='colname_custom_field_products'/>
+                                </div>
+                                <div>
+                                    <label for="value_custom_field_products"><?php _e( 'Value',
+											'woo-order-export-lite' ) ?>:</label>
+                                    <input type='text' id='value_custom_field_products'/>
+                                </div>
+                                <div>
+									<?php echo print_formats_field( 'field', 'products' ); ?>
+                                </div>
+                                <div style="text-align: right;">
+                                    <button id='button_custom_field_products'
                                             class='button-secondary'><?php _e( 'Confirm',
 											'woo-order-export-lite' ) ?></button>
                                     <button class='button-secondary button-cancel'><?php _e( 'Cancel',
