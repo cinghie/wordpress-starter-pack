@@ -17,17 +17,6 @@ jQuery(document).ready(function($) {
 			if(len_value > 0){
 				storedAttributes[selectedName] = selectedValue;
 				localStorage.setItem("attributes", JSON.stringify(storedAttributes));
-				
-				// Now AJAX call to save in options
-				// var inputdata = {
-				//	'action': 'woosea_storedattributes_details',
-				//	'data_to_pass': productId,
-				//	'storedAttributes': storedAttributes,
-				//	'nonce': frontEndAjax.nonce
-				//}
-				//$.post(frontEndAjax.ajaxurl, inputdata, function( response ) {
-	 			//
-				//}, 'json' );
 			}
 		} else {
 			var json_attributes = new Object();
@@ -35,13 +24,26 @@ jQuery(document).ready(function($) {
 			json_attributes[selectedName] = selectedValue;
 			localStorage.setItem("attributes", JSON.stringify(json_attributes));
 		}
+				
+                var storedAttributes = JSON.parse(localStorage.getItem("attributes"));
+		
+		// Now AJAX call to save in options
+		var inputdata = {
+			'action': 'woosea_storedattributes_details',
+			'data_to_pass': productId,
+			'storedAttributes': storedAttributes,
+			'nonce': frontEndAjax.nonce
+		}
+		
+		$.post(frontEndAjax.ajaxurl, inputdata, function( response ) {
+		}, 'json' );
+
 		console.log(storedAttributes);
 	});
 
 	// For shop pages
 	$(".add_to_cart_button").click(function(){
 		var productId = $(this).attr('data-product_id');
-                var storedAttributes = JSON.parse(localStorage.getItem("attributes"));
 	
 		// Ajax frontend
 		var inputdata = {
@@ -52,7 +54,7 @@ jQuery(document).ready(function($) {
 		
 		$.post(frontEndAjax.ajaxurl, inputdata, function( response ) {
         		fbq('track', 'AddToCart', {
-  				content_ids: [productId],
+  				content_ids: response.product_id,
 				content_name: response.product_name,
 				content_category: response.product_cats,
   				content_type: 'product',
@@ -80,7 +82,7 @@ jQuery(document).ready(function($) {
 		$.post(frontEndAjax.ajaxurl, inputdata, function( response ) {
 	 
 			fbq('track', 'AddToCart', {
-  				content_ids: [productId],
+  				content_ids: response.product_id,
 				content_name: response.product_name,
 				content_category: response.product_cats,
   				content_type: 'product',

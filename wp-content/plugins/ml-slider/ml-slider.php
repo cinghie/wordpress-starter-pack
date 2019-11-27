@@ -6,7 +6,7 @@
  * Plugin Name: MetaSlider
  * Plugin URI:  https://www.metaslider.com
  * Description: Easy to use slideshow plugin. Create SEO optimised responsive slideshows with Nivo Slider, Flex Slider, Coin Slider and Responsive Slides.
- * Version:     3.15.2
+ * Version:     3.15.3
  * Author:      Team Updraft
  * Author URI:  https://www.metaslider.com
  * License:     GPL-2.0+
@@ -32,7 +32,7 @@ class MetaSliderPlugin {
      *
      * @var string
      */
-    public $version = '3.15.2';
+    public $version = '3.15.3';
 
 	/**
      * Pro installed version number
@@ -938,7 +938,7 @@ class MetaSliderPlugin {
                 case 'checkbox':
                     $output .= "<tr><td class='tipsy-tooltip' title='{$helptext}'>{$row['label']}</td><td><input class='option {$row['class']} {$id}' type='checkbox' name='settings[{$id}]' {$row['checked']} />";
                     if (isset($row['after'])) {
-                        $output .= "<span class='after'>{$row['after']}</span>";
+                        $output .= "<span class='text-base ml-1 rtl:ml-0 rtl:mr-1'>{$row['after']}</span>";
                     }
                     $output .= "</td></tr>";
                     break;
@@ -996,7 +996,7 @@ class MetaSliderPlugin {
 
                 // number input type
                 case 'number':
-                    $output .= "<tr class='{$row['type']}'><td class='tipsy-tooltip' title='{$helptext}'>{$row['label']}</td><td><input class='option {$row['class']} {$id}' type='number' min='{$row['min']}' max='{$row['max']}' step='{$row['step']}' name='settings[{$id}]' value='" . absint($row['value']) . "' /><span class='after'>{$row['after']}</span></td></tr>";
+                    $output .= "<tr class='{$row['type']}'><td class='tipsy-tooltip' title='{$helptext}'>{$row['label']}</td><td class='flex items-center justify-start'><input class='option {$row['class']} {$id}' type='number' min='{$row['min']}' max='{$row['max']}' step='{$row['step']}' name='settings[{$id}]' value='" . absint($row['value']) . "' /><span class='text-base ml-1 rtl:ml-0 rtl:mr-1'>{$row['after']}</span></td></tr>";
                     break;
 
                 // select drop down
@@ -1023,7 +1023,7 @@ class MetaSliderPlugin {
 
                 // text input type
                 case 'text':
-                    $output .= "<tr class='{$row['type']}'><td class='tipsy-tooltip' title='{$helptext}'>{$row['label']}</td><td><input class='option {$row['class']} {$id}' type='text' name='settings[{$id}]' value='" . esc_attr($row['value']) . "' /></td></tr>";
+                    $output .= "<tr class='{$row['type']}'><td class='tipsy-tooltip' title='{$helptext}'>{$row['label']}</td><td class='flex items-center justify-start'><input class='option {$row['class']} {$id}' type='text' autocomplete='off' data-lpignore='true' name='settings[{$id}]' value='" . esc_attr($row['value']) . "' /></td></tr>";
                     break;
 
                 // text input type
@@ -1033,7 +1033,7 @@ class MetaSliderPlugin {
 
                 // text input type
                 case 'title':
-                    $output .= "<tr class='{$row['type']}'><td class='tipsy-tooltip' title='{$helptext}'>{$row['label']}</td><td><input class='option {$row['class']} {$id}' type='text' name='{$id}' value='" . esc_attr( $row['value']) . "' /></td></tr>";
+                    $output .= "<tr class='{$row['type']}'><td class='tipsy-tooltip' title='{$helptext}'>{$row['label']}</td><td><input class='option {$row['class']} {$id}' type='text' autocomplete='off' data-lpignore='true' name='{$id}' value='" . esc_attr( $row['value']) . "' /></td></tr>";
                     break;
             }
         }

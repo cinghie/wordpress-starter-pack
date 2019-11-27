@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     6.9.4
+ * Version:     6.9.6
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '6.9.4' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '6.9.6' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -165,21 +165,44 @@ function woosea_front_scripts() {
 add_action( 'wp_enqueue_scripts' , 'woosea_front_scripts' );
 
 /**
+ * Get product variation ID based on dropdown selects product page
+ */
+function woosea_storedattributes_details(){ 
+  	//checking the nonce. will die if it is no good.
+   	check_ajax_referer('woosea_ajax_nonce', 'nonce');
+        $productId = sanitize_text_field($_POST['data_to_pass']);
+
+	// Good idea to make sure things are set before using them
+	$selected_values = isset( $_POST['storedAttributes'] ) ? (array) $_POST['storedAttributes'] : array();
+
+	// Any of the WordPress data sanitization functions can be used here
+	$selected_values = array_map( 'esc_attr', $selected_values );
+      	
+	// Save drop-down selection
+	update_option( 'selected_values', $selected_values);
+}
+add_action( 'wp_ajax_nopriv_woosea_storedattributes_details', 'woosea_storedattributes_details' );
+add_action( 'wp_ajax_woosea_storedattributes_details', 'woosea_storedattributes_details' );
+
+/**
  * Get details to load in the Facebook AddToCart event (pixel)
  */
 function woosea_addtocart_details(){ 
   	//checking the nonce. will die if it is no good.
    	check_ajax_referer('woosea_ajax_nonce', 'nonce');
         $productId = sanitize_text_field($_POST['data_to_pass']);
-	$storedAttributes = sanitize_text_field($_POST['storedAttributes']);
-	
-	error_log(print_r($storedAttributes, TRUE));
+	$variationId = 0;
 
 	if(!empty ($productId) ){
 		$product = wc_get_product( $productId );
-
+		$selected_values = get_option('selected_values');
+		unset($selected_values['productId']);
+		$_GET = $selected_values;
                 $variation_id = woosea_find_matching_product_variation( $product, $_GET );
-                $nr_get = count($_GET);
+		if($variation_id > 0){
+			$productId = $variation_id;
+		}       
+		$nr_get = count($_GET);
 		$product_name = $product->get_name();
 		$product_type = $product->get_type();
 		$product_price = $product->get_price();
@@ -199,7 +222,8 @@ function woosea_addtocart_details(){
              	$cats = str_replace("&amp;","&", $cats);
 
         	$data = array (
-                	'product_name' 		=> $product_name,
+ 			'product_id'		=> $productId,
+	               	'product_name' 		=> $product_name,
                 	'product_type' 		=> $product_type,
 			'product_price'		=> $product_price,
 			'product_regular_price'	=> $product_regular_price,

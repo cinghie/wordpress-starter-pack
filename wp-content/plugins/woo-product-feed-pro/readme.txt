@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.3
-Stable tag: 6.9.4
+Stable tag: 6.9.6
 
 == Description ==
 
@@ -300,6 +300,13 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 6.9.6 (2019-11-27) =
+* Made a change to the AddToCart Facebook Pixel event feature so the product ID of the variation is added to the event after users changed drop-downs
+
+= 6.9.5 (2019-11-27) =
+* Added the parent variable product SKU attribute
+* Minor change to the multiply rule so it would take decimals into account
 
 = 6.9.4 (2019-11-25) =
 * Solved a minor undefined index issue that showed with some ajax responses
@@ -2188,7 +2195,14 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 
 == Upgrade Notice ==
 
+= 6.9.6 =
+Made a change to the AddToCart Facebook Pixel event feature so the product ID of the variation is added to the event after users changed drop-downs
+
 = 6.9.5 =
+Added the parent variable product SKU attribute
+Minor change to the multiply rule so it would take decimals into account
+
+= 6.9.4 =
 Solved a minor undefined index issue that showed with some ajax responses
 
 = 6.9.3 =

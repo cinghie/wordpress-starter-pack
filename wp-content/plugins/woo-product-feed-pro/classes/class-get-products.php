@@ -2534,6 +2534,7 @@ class WooSEA_Get_Products {
 				$append = "";
 
         			$variable_description = get_post_meta( $product_data['id'], '_variation_description', true );
+				$product_data['parent_sku'] = get_post_meta( $product_data['item_group_id'], '_sku', true);
 
 				/**
 				 * When there is a specific description for a variation product than override the description of the mother product
@@ -3864,10 +3865,17 @@ class WooSEA_Get_Products {
 									break;
 								case($pr_array['condition'] = "multiply"):
 									$pr_array['criteria'] = strtr($pr_array['criteria'], ',', '.');
+									$convert_back = "false";
+									$pos = strpos($pd_value, ',');
+									if($pos !== false){
+										$convert_back = "true";	
+									}
 									$pd_value = strtr($pd_value, ',', '.');
 									$newvalue = $pd_value*$pr_array['criteria'];
 									$newvalue = round($newvalue, 2);
-									$newvalue = strtr($newvalue, '.',',');			
+									if($convert_back == "true"){
+										$newvalue = strtr($newvalue, '.',',');		
+									}	
 									$product_data[$pr_array['attribute']] = $newvalue;
 									break;
 								case($pr_array['condition'] = "divide"):
