@@ -2332,7 +2332,8 @@ textarea.cache-settings {
     font-weight: 600;
   }
 
-.wpo-gzip-already-enabled span.dashicons.dashicons-yes {
+.wpo-gzip-already-enabled span.dashicons.dashicons-yes,
+.wpo-enabled > span.dashicons.dashicons-yes {
   font-size: 40px;
   width: 40px;
   height: 40px;

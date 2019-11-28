@@ -95,6 +95,8 @@
 				<label for="smush-backup-delete"><?php _e('Automatically delete image backups after', 'wp-optimize');?><input id="smush-backup-delete-days" type="number" min="1" value="<?php esc_attr_e($smush_options['back_up_delete_after_days']); ?>"><?php _e('days', 'wp-optimize');?></label><label> — <?php _e('or', 'wp-optimize'); ?></label> <button type="button" id="wpo_smush_delete_backup_btn" class="wpo_primary_small button"><?php _e('Delete all backup images now', 'wp-optimize'); ?></button>
 				<img id="wpo_smush_delete_backup_spinner" class="display-none" src="<?php esc_attr_e(admin_url('images/spinner-2x.gif')); ?>" alt="...">
 				<span id="wpo_smush_delete_backup_done" class="dashicons dashicons-yes display-none save-done"></span>
+				<br>
+				<button type="button" id="wpo_smush_mark_all_as_uncompressed_btn" class="wpo_primary_small button"><?php _e('Mark all images as uncompressed', 'wp-optimize'); ?></button>
 			</div>
 		</div>
 		<div class="save-options">
@@ -188,6 +190,11 @@
 </div>
 
 <div id="smush-information-modal" style="display:none;">
-	<div id="smush-information"></div>
+	<div class="smush-information"></div>
 	<input type="button" class="wpo_primary_small button-primary information-modal-close" value="<?php _e('Close', 'wp-optimize'); ?>" />
+</div>
+
+<div id="smush-information-modal-cancel-btn" style="display:none;">
+	<div class="smush-information"></div>
+	<input type="button" class="wpo_primary_small button-primary" value="<?php _e('Cancel', 'wp-optimize'); ?>" />
 </div>

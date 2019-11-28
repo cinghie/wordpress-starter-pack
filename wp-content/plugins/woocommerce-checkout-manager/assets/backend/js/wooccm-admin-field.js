@@ -23,8 +23,42 @@
     $node.removeClass('processing').unblock();
   };
 
-  var Field = Backbone.Model.extend({
-    defaults: wooccm_field.args
+  var FieldViewTabs = Backbone.View.extend({
+    templates: {},
+    initialize: function () {
+      this.templates.window = wp.template('wooccm-modal-tabs');
+    },
+    render: function () {
+      this.$el.html(this.templates.window(this.model.attributes));
+      this.$el.trigger('wooccm-tab-panels');
+    }
+  });
+
+  var FieldViewPanels = Backbone.View.extend({
+    templates: {},
+    initialize: function () {
+      this.templates.window = wp.template('wooccm-modal-panels');
+    },
+    render: function () {
+      this.$el.html(this.templates.window(this.model.attributes));
+      this.$el.trigger('wooccm-enhanced-between-dates');
+      this.$el.trigger('wooccm-enhanced-options');
+      this.$el.trigger('wooccm-enhanced-select');
+      this.$el.trigger('init_tooltips');
+
+    }
+  });
+
+  var FieldViewInfo = Backbone.View.extend({
+    templates: {},
+    initialize: function () {
+      this.templates.window = wp.template('wooccm-modal-info');
+    },
+    render: function () {
+      this.$el.html(this.templates.window(this.model.attributes));
+      this.$el.trigger('wooccm-enhanced-select');
+      this.$el.trigger('init_tooltips');
+    }
   });
 
   var FieldView = Backbone.View.extend({
@@ -38,6 +72,9 @@
       'click .media-modal-next': 'edit',
       'change .media-modal-change': 'change',
       'change .media-modal-parent': 'parent',
+      'change .media-modal-render-tabs': 'renderTabs',
+      'change .media-modal-render-panels': 'renderPanels',
+      'change .media-modal-render-info': 'renderInfo',
       'submit .media-modal-form': 'submit',
     },
     templates: {},
@@ -47,25 +84,28 @@
       this.open();
     },
     init: function () {
-      this.templates.window = wp.template('wooccm-modal-window');
+      this.templates.window = wp.template('wooccm-modal-main');
+    },
+    assign: function (view, selector) {
+      view.setElement(this.$(selector)).render();
     },
     render: function () {
 
       var modal = this;
 
-      // get active tab from the previous modal
-      var tab = this.$el.find('ul.wc-tabs li.active a').attr('href');
-
       modal.$el.html(modal.templates.window(modal.model.attributes));
 
-      _.delay(function () {
+      this.tabs = new FieldViewTabs({model: modal.model});
+      this.panels = new FieldViewPanels({model: modal.model});
+      this.info = new FieldViewInfo({model: modal.model});
 
-        modal.$el.trigger('wooccm-enhanced-between-dates');
-        modal.$el.trigger('wooccm-enhanced-options');
-        modal.$el.trigger('wooccm-enhanced-select');
-        modal.$el.trigger('wooccm-tab-panels', tab);
-        modal.$el.trigger('init_tooltips');
-      }, 100);
+      this.assign(this.tabs, '#wooccm-modal-tabs');
+      this.assign(this.panels, '#wooccm-modal-panels');
+      this.assign(this.info, '#wooccm-modal-info');
+
+//      _.delay(function () {
+//        modal.$el.trigger('wooccm-tab-panels');
+//      }, 100);
 
     },
     load: function () {
@@ -137,24 +177,6 @@
 
       $('body').addClass('modal-open').append(this.$el);
     },
-    /*tab: function (e) {
-     e.preventDefault();
-     
-     var $modal = this.$el,
-     $tab = $(e.target),
-     $tabs = $modal.find('ul.wc-tabs'),
-     $wrap = $modal.find('div.panel-wrap'),
-     $panel = $wrap.find($tab.attr('href'));
-     
-     $tabs.find('li').removeClass('active');
-     
-     $tab.parent().addClass('active');
-     
-     $wrap.find('div.panel').hide();
-     
-     $panel.show();
-     
-     },*/
     update: function (e) {
 
       e.preventDefault();
@@ -173,12 +195,20 @@
     },
     change: function (e) {
       e.preventDefault();
-
       this.update(e);
-      this.render();
       this.enable();
 
     },
+    renderTabs: function () {
+      this.tabs.render();
+    },
+    renderPanels: function () {
+      this.panels.render();
+    },
+    renderInfo: function () {
+      this.info.render();
+    },
+
 //    table: function (e) {
 //      e.preventDefault();
 //
@@ -235,7 +265,7 @@
           if (response.success) {
             modal.model.attributes['parent'] = response.data;
             modal.model.changed['parent'] = response.data;
-            modal.render();
+            modal.renderInfo();
           } else {
             alert(response.data);
           }
@@ -315,13 +345,17 @@
     }
   });
 
+  var FieldModel = Backbone.Model.extend({
+    defaults: wooccm_field.args
+  });
+
   var FieldModal = Backbone.View.extend({
     initialize: function (e) {
 
       var $button = $(e.target),
               field_id = $button.closest('[data-field_id]').data('field_id');
 
-      var model = new Field();
+      var model = new FieldModel();
 
       model.set({
         id: field_id
@@ -362,7 +396,6 @@
       beforeSend: function () {
       },
       complete: function () {
-        //$('table.form-table').trigger('wooccm-panel-reload');
       },
       error: function () {
         alert('Error!');
@@ -412,7 +445,6 @@
       beforeSend: function () {
       },
       complete: function () {
-        //$('table.form-table').trigger('wooccm-panel-reload');
       },
       error: function () {
         alert('Error!');

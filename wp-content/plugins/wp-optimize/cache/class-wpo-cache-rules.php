@@ -49,7 +49,7 @@ class WPO_Cache_Rules {
 		 *
 		 * @param array $actions The actions
 		 */
-		$purge_on_action = apply_filters('wpo_purge_cache_hooks', array('after_switch_theme', 'wp_update_nav_menu', 'customize_save_after', array('wp_ajax_save-widget', 0), array('wp_ajax_update-widget', 0)));
+		$purge_on_action = apply_filters('wpo_purge_cache_hooks', array('after_switch_theme', 'wp_update_nav_menu', 'customize_save_after', array('wp_ajax_save-widget', 0), array('wp_ajax_update-widget', 0), 'autoptimize_action_cachepurged'));
 		foreach ($purge_on_action as $action) {
 			if (is_array($action)) {
 				add_action($action[0], array($this, 'purge_cache'), $action[1]);

@@ -1,4 +1,4 @@
-<div id="tab_panel_general" class="panel woocommerce_options_panel" style="display: none;">
+<div id="tab_panel_general" class="panel woocommerce_options_panel">
   <div class="options_group">
     <p class="form-field">
       <label><?php esc_html_e('Name', 'woocommerce-checkout-manager'); ?></label>
@@ -17,7 +17,7 @@
       <# if ( _.contains(<?php echo json_encode($defaults); ?>, data.name)) { #>
       <input class="short" type="text" name="type" value="{{data.type}}" readonly="readonly">
       <# } else { #>
-      <select class="media-modal-change wooccm-enhanced-select" name="type">
+      <select class="media-modal-change media-modal-render-panels media-modal-render-tabs wooccm-enhanced-select" name="type">
         <?php if ($types): ?>
           <?php foreach ($types as $type => $name) : ?>
             <option <# if ( data.type == '<?php echo esc_attr($type); ?>' ) { #>selected="selected"<# } #> value="<?php echo esc_attr($type); ?>"><?php echo esc_html($name); ?></option>

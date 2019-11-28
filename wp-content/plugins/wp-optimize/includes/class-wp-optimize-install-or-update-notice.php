@@ -112,5 +112,3 @@ class WP_Optimize_Install_Or_Update_Notice {
 		return $status['installed'];
 	}
 }
-
-return new WP_Optimize_Install_Or_Update_Notice();

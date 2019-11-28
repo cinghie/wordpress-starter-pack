@@ -1719,6 +1719,13 @@ class WooSEA_Get_Products {
 			$post_type = array('product');
 		}
 
+		// Pinteres RSS feeds need different sorting
+		if($project_config['fields'] == "pinterest_rss"){
+			$orderby = "ASC";
+		} else {
+			$orderby = "DESC";
+		}
+
 		// Get Orders
 		// $order_timeframe = WooSEA_Get_Products::woosea_get_orders ( $project_config );
 
@@ -1736,6 +1743,8 @@ class WooSEA_Get_Products {
 				'posts_per_page' => $offset_step_size,
                                 'offset' => $nr_products_processed,
 				'post_type' => $post_type,
+				'orderby' => 'menu_order',
+				'order' => $orderby,
 				'post_status' => 'publish',
                                 'fields' => 'ids',
                                 'no_found_rows' => true,

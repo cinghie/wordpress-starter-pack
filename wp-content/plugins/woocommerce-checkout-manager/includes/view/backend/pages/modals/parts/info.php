@@ -22,7 +22,7 @@
   <div class="settings">
     <p class="form-field">
       <label><?php esc_html_e('Parent', 'woocommerce-checkout-manager'); ?></label>
-      <select class="media-modal-parent wooccm-enhanced-select" name="conditional_parent_key" data-placeholder="<?php esc_attr_e('Select parent field&hellip;', 'woocommerce-checkout-manager'); ?>" data-allow_clear="true">
+      <select class="media-modal-parent media-modal-render-info wooccm-enhanced-select" name="conditional_parent_key" data-placeholder="<?php esc_attr_e('Select parent field&hellip;', 'woocommerce-checkout-manager'); ?>" data-allow_clear="false">
         <option <# if (data.conditional_parent_key == '') { #>selected="selected"<# } #> value=""></option>
         <?php foreach ($fields as $field_id => $field) : ?>
           <?php if (in_array($field['type'], $conditionals)): ?>
@@ -37,7 +37,11 @@
   </div>
   <div class="settings">
     <p class="form-field">
+      <# if( data.parent != undefined && data.parent.label != '' ) { #>
+      <label>{{data.parent.label}}</label>
+      <# } else { #>
       <label><?php esc_html_e('Value', 'woocommerce-checkout-manager'); ?></label>
+      <# } #>
       <# if ( data.parent != undefined && _.contains(<?php echo json_encode($option); ?>, data.parent.type) && _.isObject(data.parent.options)) { #>
       <select class="wooccm-enhanced-select" name="conditional_parent_value">
         <# _.each(data.parent.options, function (option, index) { #>

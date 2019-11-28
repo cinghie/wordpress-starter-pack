@@ -3,7 +3,7 @@
 Plugin Name: WP-Optimize - Clean, Compress, Cache
 Plugin URI: https://getwpo.com
 Description: WP-Optimize makes your site fast and efficient. It cleans the database, compresses images and caches pages. Fast sites attract more traffic and users.
-Version: 3.0.13
+Version: 3.0.14
 Author: David Anderson, Ruhani Rabin, Team Updraft
 Author URI: https://updraftplus.com
 Text Domain: wp-optimize
@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) die('No direct access allowed');
 
 // Check to make sure if WP_Optimize is already call and returns.
 if (!class_exists('WP_Optimize')) :
-define('WPO_VERSION', '3.0.13');
+define('WPO_VERSION', '3.0.14');
 define('WPO_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('WPO_PLUGIN_MAIN_PATH', plugin_dir_path(__FILE__));
 define('WPO_PREMIUM_NOTIFICATION', false);
@@ -334,7 +334,11 @@ class WP_Optimize {
 
 			// If WPO_ADVANCED_CACHE is defined, we empty advanced-cache.php to regenerate later. Otherwise it contains the path to free.
 			if (defined('WPO_ADVANCED_CACHE') && WPO_ADVANCED_CACHE) {
-				file_put_contents(trailingslashit(WP_CONTENT_DIR) . 'advanced-cache.php', '');
+				$advanced_cache_filename = trailingslashit(WP_CONTENT_DIR) . 'advanced-cache.php';
+
+				if (!is_file($advanced_cache_filename) && is_writable(dirname($advanced_cache_filename)) || (is_file($advanced_cache_filename) && is_writable($advanced_cache_filename))) {
+					file_put_contents($advanced_cache_filename, '');
+				}
 			}
 
 			// Registers the notice letting the user know it cannot be active if premium is active.
@@ -462,8 +466,20 @@ class WP_Optimize {
 				add_action('all_admin_notices', array($this, 'show_admin_notice_upgradead'));
 			}
 		}
-		
-		$this->install_or_update_notice = include_once WPO_PLUGIN_MAIN_PATH . 'includes/class-wp-optimize-install-or-update-notice.php';
+		$this->install_or_update_notice = $this->get_install_or_update_notice();
+	}
+
+	/**
+	 * Get the install or update notice instance
+	 *
+	 * @return WP_Optimize_Install_Or_Update_Notice
+	 */
+	private function get_install_or_update_notice() {
+		static $instance = null;
+		if (is_a($instance, 'WP_Optimize_Install_Or_Update_Notice')) return $instance;
+		include_once WPO_PLUGIN_MAIN_PATH . 'includes/class-wp-optimize-install-or-update-notice.php';
+		$instance = new WP_Optimize_Install_Or_Update_Notice();
+		return $instance;
 	}
 
 	public function show_admin_notice_upgradead() {
@@ -622,7 +638,7 @@ class WP_Optimize {
 
 		echo '<div id="wp-optimize-wrap">';
 		
-		$this->include_template('admin-page-header.php', false, array('show_notices' => !$this->install_or_update_notice->show_current_notice()));
+		$this->include_template('admin-page-header.php', false, array('show_notices' => !($this->get_install_or_update_notice()->show_current_notice())));
 
 		do_action('wpo_admin_after_header');
 
@@ -1896,7 +1912,7 @@ class WP_Optimize {
 	public function log_fatal_errors() {
 		$last_error = error_get_last();
 
-		if (E_ERROR === $last_error['type']) {
+		if (isset($last_error['type']) && E_ERROR === $last_error['type']) {
 			$this->get_logger()->critical($last_error['message']);
 		}
 	}

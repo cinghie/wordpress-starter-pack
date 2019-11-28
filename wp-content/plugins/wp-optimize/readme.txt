@@ -2,13 +2,13 @@
 Contributors: DavidAnderson, ruhanirabin, DNutbourne, aporter, snightingale, lumberhack
 Donate link: https://david.dw-perspective.org.uk/donate
 Tags: cache, optimizing, database, image optimize, performance, clean, spam, speed, caching, smush, smushing
-Requires at least: 3.8
+Requires at least: 3.9
 Tested up to: 5.3
-Stable tag: 3.0.13
+Stable tag: 3.0.14
 License: GPLv2+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-WP-Optimize makes your site fast and efficient. It cleans the database, compresses images and caches pages. Fast sites attract more traffic and users.
+Makes your site fast and efficient. It cleans the database, compresses images and caches pages. Cached sites attract more traffic and users.
 
 == Description ==
 
@@ -306,6 +306,31 @@ If you notice any issues due to high server load, set a higher interval for the 
 
 == Changelog ==
 
+= 3.0.14 - 25/Nov/2019 =
+
+* FIX: Fixed default option values for smush backup automatic deletion
+* FIX: Prevent potential Fatal error when including notices class
+* FIX: Image compression - Fixed division by zero notification
+* FIX: Fix list of backup entities before removing unused images
+* TWEAK: PHP 7.4 compatibility tweak in the fatal error handler
+* TWEAK: Image compression feature - Backup of original image paths are now relative
+* TWEAK: Page cache - Fix condition when displaying the message indicating the reason for not caching or serving cache
+* TWEAK: Page cache - Do not save post to cache if comments are opened and the user has saved their information
+* TWEAK: Page cache - intelligently handle Google Analytics tracking parameters in URL (Premium)
+* TWEAK: Page cache - add a query parameter to force display of the reason for not caching a page or serving a cached page
+* TWEAK: Cache feature - Added is_writable() checking before trying to write advanced-cache.php
+* TWEAK: Premium - Optimize database optimisations for WP-CLI commands
+* TWEAK: Premium - Don't run UI requests for WP-CLI actions
+* TWEAK: Premium - Page cache - Add default WooCommerce currency to the cache config
+* TWEAK: Page cache - Add the possibility to save default values to the cache config
+* TWEAK: Page cache - Add a possible secondary cache extensions location using the constant 'WPO_CACHE_CUSTOM_EXT_DIR', to allow keeping the bundled extensions in their original location
+* TWEAK: UI tweaks
+* TWEAK: Add missing filename reference in error message
+* TWEAK: Page cache - Purge cache when Autoptimize's cache is cleared
+* TWEAK: Image compression - Compatibility with Elementor plugin
+* TWEAK: Image compression - Added feature to mark all images as uncompressed
+* TWEAK: Bump supported minimum WP version up to 3.9
+
 = 3.0.13 - 21/Oct/2019 =
 
 * FIX: Don't show VIEWs as corrupted database tables
@@ -313,6 +338,7 @@ If you notice any issues due to high server load, set a higher interval for the 
 * TWEAK: Only show general notice when update notice isn't shown
 * TWEAK: Improve message when Gzip compression is already enabled
 * TWEAK: Premium - Use path to include lazy load script
+* FIX: Image compression - Fixed detecting of uncompressed images
 * TWEAK: Image compression - Use wp_remote_get() instead file_get_contents() for retrieving compressed images
 * TWEAK: Use wp_remote_get() instead file_get_contents() for retrieving compressed images
 * TWEAK: Cache feature - add a 'Purge all' cache button to the admin bar
@@ -801,4 +827,4 @@ If you notice any issues due to high server load, set a higher interval for the 
 * Fix Interface
 
 == Upgrade Notice ==
-* 3.0.13: Cache feature to add a Purge all cache button to the admin bar. Premium fetures to Prevent php warning in scheduled optimisations list. Premium Unused images feature to Add compatibility with Advanced Custom Fields (ACF) image and gallery fields.
+* 3.0.14: * Fixed default option values for smush backup automatic deletion. Prevent potential Fatal error when including notices class. Image compression - Fixed division by zero notification. Fix list of backup entities before removing unused images

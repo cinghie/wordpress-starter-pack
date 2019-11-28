@@ -173,10 +173,10 @@ class WPO_Page_Cache {
 		} else {
 			$wp_admin_bar->add_menu(array(
 				'id'    => 'wpo_purge_cache',
-				'title' => __('Purge all cache', 'wp-optimize'),
+				'title' => __('Purge all pages', 'wp-optimize'),
 				'href'  => add_query_arg('_wpo_purge', wp_create_nonce('wpo_purge_all_pages_cache'), $act_url),
 				'meta'  => array(
-					'title' => __('Purge all cache', 'wp-optimize'),
+					'title' => __('Purge all pages', 'wp-optimize'),
 				),
 				'parent' => false,
 			));
@@ -244,14 +244,14 @@ class WPO_Page_Cache {
 	 * Show notification when all pages cache purged successfully.
 	 */
 	public function notice_purge_all_pages_cache_success() {
-		$this->show_notice(__('All pages cache was successfully purged.', 'wp-optimize'), 'success');
+		$this->show_notice(__('The page cache was successfully purged.', 'wp-optimize'), 'success');
 	}
 
 	/**
 	 * Show notification when all pages cache wasn't purged.
 	 */
 	public function notice_purge_all_pages_cache_error() {
-		$this->show_notice(__('All pages cache was not purged.', 'wp-optimize'), 'error');
+		$this->show_notice(__('The page cache was not purged.', 'wp-optimize'), 'error');
 	}
 
 	/**
@@ -310,7 +310,7 @@ class WPO_Page_Cache {
 		}
 
 		if (!$this->write_advanced_cache() && $this->get_advanced_cache_version() != WPO_VERSION) {
-			$already_ran_enable = new WP_Error("write_advanced_cache", sprintf("The request to write the file %s failed. Your WP install might not have permission to write inside the wp-content folder. Please try to add the following lines manually:", $this->advanced_cache_file));
+			$already_ran_enable = new WP_Error("write_advanced_cache", sprintf("The request to write the file %s failed. Your WP install might not have permission to write inside the wp-content folder. Please try to add the following lines manually:", $this->get_advanced_cache_filename()));
 			return $already_ran_enable;
 		}
 
@@ -522,7 +522,17 @@ if (false !== \$plugin_location) { include_once(\$plugin_location.'/file-based-p
 
 EOF;
 		// phpcs:enable
-		if (!file_put_contents($this->get_advanced_cache_filename(), $this->advanced_cache_file_content)) {
+		$advanced_cache_filename = $this->get_advanced_cache_filename();
+
+		// check if we can't write the advanced cache file
+		// case 1: the directory is read-only and the file doesn't exist
+		// case 2: the file is already exists but it's read-only
+		if (!is_file($advanced_cache_filename) && !is_writable(dirname($advanced_cache_filename)) || (is_file($advanced_cache_filename) && !is_writable($advanced_cache_filename))) {
+			$this->advanced_cache_file_writing_error = true;
+			return false;
+		}
+
+		if (file_put_contents($this->get_advanced_cache_filename(), $this->advanced_cache_file_content)) {
 			$this->advanced_cache_file_writing_error = true;
 			return false;
 		}

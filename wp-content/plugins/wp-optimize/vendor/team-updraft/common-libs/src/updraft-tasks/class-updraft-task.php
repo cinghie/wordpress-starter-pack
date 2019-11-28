@@ -329,7 +329,7 @@ abstract class Updraft_Task_1_1 {
 		$affected = $wpdb->query($wpdb->prepare("
 			UPDATE {$wpdb->base_prefix}tm_tasks
 			   SET last_locked_at = %d
-			 WHERE id = %d'
+			 WHERE id = %d
 			   AND last_locked_at <= %s
 		", time(), $task_id, $expires_at));
 		
