@@ -106,10 +106,10 @@ eventually be removed/refactored */
     width: 100%;
 }
 
-.metaslider .ms-settings input {
-	padding: 5px;
+.metaslider .ms-settings {
+	border-collapse: separate; 
+  	border-spacing: 0 0.75rem;
 }
-
 .metaslider .ms-settings a {
 	color: #0073aa;
 	text-decoration: underline;
@@ -380,43 +380,6 @@ eventually be removed/refactored */
     text-align: center;
 }
 
-.metaslider .right #save {
-    margin-right: 0
-}
-.rtl .metaslider .right #save {
-    margin-right: 4px;
-    margin-left: 0;
-}
-
-.metaslider .right .number input:focus {
-    outline: none;
-    outline-style: none;
-    box-shadow: none;
-    background-color: #acd7fd;
-    color: #444;
-}
-
-.metaslider .right .number .after,
-.metaslider .right .number input {
-    display: block;
-    float: left;
-    height: 24px;
-    margin: 0;
-}
-
-.rtl .metaslider .right .number .after,
-.rtl .metaslider .right .number input {
-    float: right;
-}
-.rtl .metaslider .right .number .after {
-    border-left: 1px solid #ddd;
-    border-right: 0;
-}
-.rtl .metaslider .right .number input {
-    border-right: 1px solid #ddd;
-    border-left: 0;
-}
-
 .metaslider .right .radio ul {
     margin: 0;
 }
@@ -429,29 +392,6 @@ eventually be removed/refactored */
 }
 .rtl .metaslider .right .radio input[type="radio"] {
     float: right;
-}
-
-.metaslider .right .number input {
-    width: 70px;
-    margin-right: 0;
-    box-shadow: none;
-    border-right: 0;
-}
-
-.metaslider .right .number .after {
-    border: 1px solid #ddd;
-    border-left: 0;
-    box-shadow: none;
-    font-size: 11px;
-    height: 24px;
-    line-height: 24px;
-    padding: 0 3px;
-    background: white;
-}
-
-.metaslider .right input[type="text"],
-.metaslider .right select {
-    width: 130px;
 }
 
 .metaslider #poststuff .right .ms-postbox .inside {
@@ -519,13 +459,6 @@ eventually be removed/refactored */
 
 .metaslider .right table {
     margin: 0 0 5px 0;
-}
-
-.metaslider .right table td {
-    vertical-align: middle;
-    padding: 8px 4px;
-    border: 0;
-    height: 21px;
 }
 
 .metaslider select {

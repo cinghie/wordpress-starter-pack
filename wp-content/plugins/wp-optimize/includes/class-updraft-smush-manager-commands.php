@@ -39,6 +39,7 @@ class Updraft_Smush_Manager_Commands extends Updraft_Task_Manager_Commands_1_0 {
 			'check_server_status',
 			'get_smush_logs',
 			'mark_as_compressed',
+			'mark_all_as_uncompressed',
 			'clean_all_backup_images',
 		);
 
@@ -102,9 +103,10 @@ class Updraft_Smush_Manager_Commands extends Updraft_Task_Manager_Commands_1_0 {
 	 */
 	public function restore_single_image($data) {
 
-		$image = isset($data['selected_image']) ? $data['selected_image'] : false;
+		$blog_id = isset($data['blog_id']) ? $data['blog_id'] : false;
+		$image_id   = isset($data['selected_image']) ? $data['selected_image'] : false;
 
-		$success = $this->task_manager->restore_single_image($image);
+		$success = $this->task_manager->restore_single_image($image_id, $blog_id);
 
 		if (is_wp_error($success)) {
 			return $success;
@@ -112,9 +114,9 @@ class Updraft_Smush_Manager_Commands extends Updraft_Task_Manager_Commands_1_0 {
 
 		$response['status'] = true;
 		$response['operation'] = 'restore';
-		$response['image']	 = $image;
+		$response['image']	 = $image_id;
 		$response['success'] = $success;
-		$response['summary'] = __('Image restored successfully', 'wp-optimize');
+		$response['summary'] = __('The image was restored successfully', 'wp-optimize');
 		
 		return $response;
 	}
@@ -312,12 +314,70 @@ class Updraft_Smush_Manager_Commands extends Updraft_Task_Manager_Commands_1_0 {
 		$response['status'] = true;
 
 		if ($unmark) {
-			$response['summary'] = _n('Selected image marked as uncompressed successfully', 'Selected images marked as uncompressed successfully', count($data['selected_images']), 'wp-optimize');
+			$response['summary'] = _n('The selected image was successfully marked as uncompressed', 'The selected images were successfully marked as uncompressed', count($data['selected_images']), 'wp-optimize');
 		} else {
-			$response['summary'] = _n('Selected image marked as compressed successfully', 'Selected images marked as compressed successfully', count($data['selected_images']), 'wp-optimize');
+			$response['summary'] = _n('The selected image was successfully marked as compressed', 'The selected images were successfully marked as compressed', count($data['selected_images']), 'wp-optimize');
 		}
 
 		$response['info'] = $info;
+
+		return $response;
+	}
+
+	/**
+	 * Mark all images as uncompressed and if posted restore_backup argument
+	 * then try to restore images form backup.
+	 *
+	 * @param array $data
+	 * @return array
+	 */
+	public function mark_all_as_uncompressed($data) {
+
+		$restore_backup = isset($data['restore_backup']) && $data['restore_backup'];
+		$images_per_request = apply_filters('mark_all_as_uncompressed_images_per_request', 100);
+
+		if (is_multisite()) {
+			// option where we store last completed blog id
+			$option_name = 'mark_as_uncompressed_last_blog_id';
+			// set default value for response
+			$response = array(
+				'completed' => true,
+				'message' => __('All the compressed images were successfully restored.', 'wp-optimize'),
+			);
+
+			// get all blogs ids
+			$blogs = WP_Optimize()->get_sites();
+			$blogs_ids = wp_list_pluck($blogs, 'blog_id');
+			sort($blogs_ids);
+
+			// select the blog for processing
+			$last_completed_blog_id = $this->task_manager->options->get_option($option_name, false);
+			$index = $last_completed_blog_id ? array_search($last_completed_blog_id, $blogs_ids) + 1 : 0;
+
+			if ($index < count($blogs_ids)) {
+				$blog_id = $blogs_ids[$index];
+				$response = $this->task_manager->bulk_restore_compressed_images($restore_backup, $blog_id, $images_per_request);
+
+				// if we get completed the current blog then update last completed blog option value
+				// and if we have other blogs for processing then set complete to false as we have not
+				// processed all blogs
+				if ($response['completed']) {
+					if ($index + 1 < count($blogs_ids)) {
+						$response['completed'] = false;
+					} else {
+						$response['message'] = __('All the compressed images were successfully marked as uncompressed.', 'wp-optimize');
+					}
+					$this->task_manager->options->update_option($option_name, $blog_id);
+				}
+			}
+
+			// if we get an error or completed the work then delete option with last completed blog id.
+			if ($response['completed'] || isset($response['error'])) {
+				$this->task_manager->options->delete_option($option_name);
+			}
+		} else {
+			$response = $this->task_manager->bulk_restore_compressed_images($restore_backup, 0, $images_per_request);
+		}
 
 		return $response;
 	}

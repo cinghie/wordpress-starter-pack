@@ -174,16 +174,20 @@ abstract class Updraft_Smush_Task extends Updraft_Task_1_1 {
 
 		$file = pathinfo($file_path);
 		$back_up = wp_normalize_path($file['dirname'].'/'.basename($file['filename'].$this->get_option('backup_prefix').$file['extension']));
+		$uploads_dir = wp_upload_dir();
+
+		// Make path relative and safe for migrations
+		$back_up_relative_path = preg_replace('#^'.wp_normalize_path($uploads_dir['basedir'].'/').'#', '', $back_up);
 
 		if (is_multisite()) {
 			switch_to_blog($this->get_option('blog_id', 1));
-			update_post_meta($this->get_option('attachment_id'), 'original-file', $back_up);
+			update_post_meta($this->get_option('attachment_id'), 'original-file', $back_up_relative_path);
 			restore_current_blog();
 		} else {
-			update_post_meta($this->get_option('attachment_id'), 'original-file', $back_up);
+			update_post_meta($this->get_option('attachment_id'), 'original-file', $back_up_relative_path);
 		}
 
-		$this->log("Backing up the original image - {$back_up}");
+		$this->log("Backing up the original image - {$back_up_relative_path}");
 
 		return copy($file_path, $back_up);
 	}
@@ -232,8 +236,12 @@ abstract class Updraft_Smush_Task extends Updraft_Task_1_1 {
 		$this->set_current_stage('completed');
 
 		clearstatcache(true, $file_path); // phpcs:ignore PHPCompatibility.FunctionUse.NewFunctionParameters.clearstatcache_clear_realpath_cacheFound,PHPCompatibility.FunctionUse.NewFunctionParameters.clearstatcache_filenameFound
-		$saved = round((($original_size - filesize($file_path)) / $original_size * 100), 2);
-		$info = sprintf(__("The file was compressed from %s to %s saving %s percent using WP-Optimize", 'wp-optimize'), $this->format_filesize($original_size), $this->format_filesize(filesize($file_path)), $saved);
+		if (0 == $original_size) {
+			$info = sprintf(__("The file was compressed to %s using WP-Optimize", 'wp-optimize'), $this->format_filesize(filesize($file_path)));
+		} else {
+			$saved = round((($original_size - filesize($file_path)) / $original_size * 100), 2);
+			$info = sprintf(__("The file was compressed from %s to %s saving %s percent using WP-Optimize", 'wp-optimize'), $this->format_filesize($original_size), $this->format_filesize(filesize($file_path)), $saved);
+		}
 
 		$stats = array(
 			'smushed-with'  	=> $this->label,

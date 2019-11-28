@@ -337,7 +337,7 @@ window.jQuery(function($) {
 
 		// Unsplash - First remove potentially leftover tabs in case the WP close event doesn't fire
 		$('.unsplash-tab').remove()
-		$('.media-frame-router .media-router').append('<a href="#" id="unsplash-tab" class="unsplash-tab">Unsplash Library</a>')
+		$('.media-frame-router .media-router').append('<a href="#" id="unsplash-tab" class="text-black hover:text-blue-dark unsplash-tab media-menu-item">Unsplash Library</a>')
 		$('.toplevel_page_metaslider').on('click', '.unsplash-tab', unsplash_api_events)
 
 		// Each API will fake the container, so if we click on a native WP container, we should delete the API container

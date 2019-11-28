@@ -3,7 +3,7 @@ Contributors: matchalabs, DavidAnderson, dnutbourne, kbat82
 Tags: slideshow, slider, image slider, carousel, gallery, flexslider, wordpress slider, nivoslider, rotating banner, responsive slideshow, seo slideshow, unsplash
 Donate link: https://david.dw-perspective.org.uk/donate
 Requires at least: 3.5
-Stable tag: 3.15.2
+Stable tag: 3.15.3
 Requires PHP: 5.2
 Tested up to: 5.3
 License: GPLv2 or later
@@ -164,6 +164,10 @@ See https://www.metaslider.com/documentation/image-cropping/
 6. Administration panel - selecting slides
 
 == Changelog ==
+
+= 3.15.3 - 2019/Nov/28 =
+
+* FIX: Updates layout breaks in WP3.4
 
 = 3.15.2 - 2019/Nov/14 =
 
@@ -808,4 +812,4 @@ More info/Comments: http://www.metaslider.com/coming-soon-meta-slider-2-6-free/
 * Initial version
 
 == Upgrade Notice ==
-* 3.15.2 : Update now if some settings do not appear to be working as expected.
+* 3.15.3 : Update now if some styles look broken.

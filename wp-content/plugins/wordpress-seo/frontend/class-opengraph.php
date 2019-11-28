@@ -13,7 +13,7 @@ class WPSEO_OpenGraph {
 	/**
 	 * The date helper.
 	 *
-	 * @var Date_Helper
+	 * @var WPSEO_Date_Helper
 	 */
 	protected $date;
 
@@ -21,7 +21,7 @@ class WPSEO_OpenGraph {
 	 * Class constructor.
 	 */
 	public function __construct() {
-		$this->date = new Date_Helper();
+		$this->date = new WPSEO_Date_Helper();
 
 		if ( isset( $GLOBALS['fb_ver'] ) || class_exists( 'Facebook_Loader', false ) ) {
 			add_filter( 'fb_meta_tags', array( $this, 'facebook_filter' ), 10, 1 );
@@ -710,17 +710,10 @@ class WPSEO_OpenGraph {
 
 		$post = get_post();
 
-<<<<<<< HEAD
-		$pub = mysql2date( DATE_W3C, $post->post_date, false );
-		$this->og_tag( 'article:published_time', $pub );
-
-		$mod = mysql2date( DATE_W3C, $post->post_modified, false );
-=======
 		$pub = $this->date->format( $post->post_date_gmt );
 		$this->og_tag( 'article:published_time', $pub );
 
 		$mod = $this->date->format( $post->post_modified_gmt );
->>>>>>> 7faf6a09e83d887d245c9bb34028346eb4e91688
 		if ( $mod !== $pub ) {
 			$this->og_tag( 'article:modified_time', $mod );
 			$this->og_tag( 'og:updated_time', $mod );

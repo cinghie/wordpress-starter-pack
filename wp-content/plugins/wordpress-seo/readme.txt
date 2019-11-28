@@ -6,11 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.2
 Tested up to: 5.3
-<<<<<<< HEAD
-Stable tag: 12.5.1
-=======
-Stable tag: 12.6
->>>>>>> 7faf6a09e83d887d245c9bb34028346eb4e91688
+Stable tag: 12.6.2
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -213,34 +209,23 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
-<<<<<<< HEAD
-= 12.5.1 =
-Release Date: November 21st, 2019
-
-Bugfixes:
-
-* Fixes a bug where the time in the `article:published_time` and `article:modified_time` meta tag output and in the `datePublished` and `dateModified` schema output was incorrect.
-
-= 12.5.0 =
-Release Date: November 13th, 2019
-
-These last couple of months here at Yoast SEO HQ have all been about building better things. Behind the scenes, we’re making good progress at getting our flagship plugins ready for the future. While we’re busy building the future, we also stick to our regular two-week release schedule, which means it’s time to introduce Yoast SEO 12.5. Find out more in [our 12.5 release post](https://yoa.st/release-12-5)!
-
-Bugfixes:
-
-* Fixes a bug for terms where keywords and snippet preview data would be synced across all languages in a MultilingualPress multisite environment.
-* Fixes a bug where the visually hidden text in the snippet preview was misplaced.
+= 12.6.2 =
+Release Date: November 28th, 2019
 
 Other:
 
-* Deprecates the Google Search Console.
+* Removes the Black Friday banner.
 
-= 12.4.0 =
-Release Date: October 29th, 2019
-=======
+= 12.6.1 =
+Release Date: November 27th, 2019
+
+Bugfixes:
+
+* Fixes a bug where a fatal error would be thrown when Yoast SEO was used in combination with another plugin or theme containing a class named `Date_Helper`.
+* Fixes a bug where a fatal error would be thrown when an empty string would be passed to the `WPSEO_Date_Helper->format` method. Props to [@mpolek](https://github.com/mpolek).
+
 = 12.6.0 =
 Release Date: November 26th, 2019
->>>>>>> 7faf6a09e83d887d245c9bb34028346eb4e91688
 
 In Yoast SEO 12.6, we’re activating our new beacon for help documentation. This tool helps answer the questions you might have about using Yoast SEO. It’s easy to use and very friendly. Just hit that big purple question mark and search! Other improvements in Yoast SEO 12.6 includes a number of fixes and enhancements. Find out more in [our 12.6 release post](https://yoa.st/release-12-6)!
 
@@ -255,8 +240,6 @@ Bugfixes:
 * Fixes a PHP Warning when using an empty string in the OpenGraph frontend output. Props to [@ChrisThompsonTLDR](https://github.com/ChrisThompsonTLDR).
 * Fixes a bug where the time in the `article:published_time`, `article:modified_time`, and `og:updated_time` meta tag output and in the `datePublished` and `dateModified` schema output was incorrect in WordPress 5.2.
 
-<<<<<<< HEAD
-=======
 Other:
 
 * Sets the minimum required WordPress version to 5.2, and the minimum PHP version to 5.6.20.
@@ -283,6 +266,5 @@ Other:
 
 * Deprecates the Google Search Console.
 
->>>>>>> 7faf6a09e83d887d245c9bb34028346eb4e91688
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

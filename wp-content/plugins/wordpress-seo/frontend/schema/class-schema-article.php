@@ -15,7 +15,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	/**
 	 * The date helper.
 	 *
-	 * @var Date_Helper
+	 * @var WPSEO_Date_Helper
 	 */
 	protected $date;
 
@@ -33,7 +33,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 */
 	public function __construct( WPSEO_Schema_Context $context ) {
 		$this->context = $context;
-		$this->date    = new Date_Helper();
+		$this->date    = new WPSEO_Date_Helper();
 	}
 
 	/**
@@ -67,13 +67,8 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			'isPartOf'         => array( '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ),
 			'author'           => array( '@id' => WPSEO_Schema_Utils::get_user_schema_id( $post->post_author, $this->context ) ),
 			'headline'         => get_the_title(),
-<<<<<<< HEAD
-			'datePublished'    => mysql2date( DATE_W3C, $post->post_date, false ),
-			'dateModified'     => mysql2date( DATE_W3C, $post->post_modified, false ),
-=======
 			'datePublished'    => $this->date->format( $post->post_date_gmt ),
 			'dateModified'     => $this->date->format( $post->post_modified_gmt ),
->>>>>>> 7faf6a09e83d887d245c9bb34028346eb4e91688
 			'commentCount'     => $comment_count['approved'],
 			'mainEntityOfPage' => array( '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ),
 		);

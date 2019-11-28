@@ -5,7 +5,7 @@
 			<label for='wpo_restore_single_image_<?php echo $post_id; ?>'>
 				<span class='alignleft'>  <?php _e('Restore original', 'wp-optimize'); ?></span>
 			</label>
-			<input type='button' id='wpo_restore_single_image_<?php echo $post_id; ?>' class='button-primary button alignright' value="<?php _e('Restore', 'wp-optimize');?>">
+			<input type='button' id='wpo_restore_single_image_<?php echo $post_id; ?>' data-blog='<?php echo get_current_blog_id(); ?>' data-id="<?php echo $post_id; ?>" class='button-primary button alignright' value="<?php _e('Restore', 'wp-optimize');?>">
 		</div>
 		<p id='smush_info' class='wpo_restore_single_image'> <?php echo $smush_info; ?> </p>
 	</div>
@@ -88,7 +88,12 @@
 	</div>
 </div>
 
-<div id="smush-information-modal" style="display:none;">
-	<div id="smush-information"></div>
+<div id="smush-information-modal" class="wp-core-ui" style="display:none;">
+	<div class="smush-information"></div>
 	<input type="button" class="wpo_primary_small button-primary information-modal-close" value="<?php _e('Close', 'wp-optimize'); ?>" />
+</div>
+
+<div id="smush-information-modal-cancel-btn" style="display:none;">
+	<div class="smush-information"></div>
+	<input type="button" class="wpo_primary_small button-primary" value="<?php _e('Cancel', 'wp-optimize'); ?>" />
 </div>

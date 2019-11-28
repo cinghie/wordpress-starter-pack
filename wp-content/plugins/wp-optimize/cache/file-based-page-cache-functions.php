@@ -49,6 +49,15 @@ function wpo_cache($buffer, $flags) {
 		}
 	}
 
+	// If comments are opened and the user has saved his information
+	if (function_exists('comments_open') && comments_open()) {
+		$commenter = wp_get_current_commenter();
+		// if any of the fields contain something, do not save to cache
+		if ('' != $commenter['comment_author'] || '' != $commenter['comment_author_email'] || '' != $commenter['comment_author_url']) {
+			$no_cache_because[] = __('Comments are opened and the visitor saved his information.', 'wp-optimize');
+		}
+	}
+
 	$can_cache_page = (defined('DONOTCACHEPAGE') && DONOTCACHEPAGE) ? false : true;
 
 	/**
@@ -61,7 +70,7 @@ function wpo_cache($buffer, $flags) {
 	if (!$can_cache_page) {
 		$no_cache_because[] = __('DONOTCACHEPAGE constant or wpo_can_cache_page filter forbade it', 'wp-optimize');
 	}
-	
+
 	if (empty($no_cache_because)) {
 
 		$buffer = apply_filters('wpo_pre_cache_buffer', $buffer, $flags);
@@ -89,8 +98,8 @@ function wpo_cache($buffer, $flags) {
 	if (!empty($no_cache_because)) {
 	
 		// Only output if the user has turned on debugging output
-		if (defined('WP_DEBUG') && WP_DEBUG) {
-			$buffer .= "\n<!-- WP Optimize page cache - https://getwpo.com - page not served from cache because: ".implode(', ', array_filter($no_cache_because, 'htmlspecialchars'))." -->\n";
+		if (((defined('WP_DEBUG') && WP_DEBUG) || isset($_GET['wpo_cache_debug'])) && (!defined('DOING_CRON') || !DOING_CRON)) {
+			$buffer .= "\n<!-- WP Optimize page cache - https://getwpo.com - page NOT cached because: ".implode(', ', array_filter($no_cache_because, 'htmlspecialchars'))." -->\n";
 		}
 		
 		return $buffer;
@@ -112,9 +121,9 @@ function wpo_cache($buffer, $flags) {
 		
 		if (preg_match('#</html>#i', $buffer)) {
 			if (!empty($GLOBALS['wpo_cache_config']['enable_mobile_caching']) && wpo_is_mobile()) {
-				$add_to_footer .= "\n<!-- Cached by WP Optimize - for mobile devices - https://getwpo.com - Last modified: " . gmdate('D, d M Y H:i:s', $modified_time) . " GMT -->\n";
+				$add_to_footer .= "\n<!-- Cached by WP-Optimize - for mobile devices - https://getwpo.com - Last modified: " . gmdate('D, d M Y H:i:s', $modified_time) . " GMT -->\n";
 			} else {
-				$add_to_footer .= "\n<!-- Cached by WP Optimize - https://getwpo.com - Last modified: " . gmdate('D, d M Y H:i:s', $modified_time) . " GMT -->\n";
+				$add_to_footer .= "\n<!-- Cached by WP-Optimize - https://getwpo.com - Last modified: " . gmdate('D, d M Y H:i:s', $modified_time) . " GMT -->\n";
 			}
 		}
 
@@ -127,7 +136,7 @@ function wpo_cache($buffer, $flags) {
 		// if we can then cache gzipped content in .gz file.
 		if (function_exists('gzencode')) {
 			// Only replace inside the addition, not inside the main buffer (e.g. post content)
-			file_put_contents($cache_file . '.gz', gzencode($buffer.str_replace('by WP Optimize', 'by WP Optimize (gzip)', $add_to_footer), apply_filters('wpo_cache_gzip_level', 6)));
+			file_put_contents($cache_file . '.gz', gzencode($buffer.str_replace('by WP-Optimize', 'by WP-Optimize (gzip)', $add_to_footer), apply_filters('wpo_cache_gzip_level', 6)));
 		}
 
 		file_put_contents($cache_file, $buffer.$add_to_footer);
@@ -161,6 +170,11 @@ endif;
 if (!function_exists('wpo_cache_load_extensions')) :
 function wpo_cache_load_extensions() {
 	$extensions = glob(WPO_CACHE_EXT_DIR . '/*.php');
+
+	// Add external extensions
+	if (defined('WPO_CACHE_CUSTOM_EXT_DIR') && is_dir(WPO_CACHE_CUSTOM_EXT_DIR)) {
+		$extensions = array_merge($extensions, glob(WPO_CACHE_CUSTOM_EXT_DIR . '/*.php'));
+	}
 
 	if (empty($extensions)) return;
 
@@ -775,7 +789,7 @@ function wpo_cache_maybe_ignore_query_variables($variables) {
 	/**
 	 * Filters the current $_GET variables that will be used when caching or excluding from cache.
 	 */
-	$exclude_variables = array('doing_wp_cron');
+	$exclude_variables = array('doing_wp_cron', 'wpo_cache_debug');
 	$exclude_variables = function_exists('apply_filters') ? apply_filters('wpo_cache_ignore_query_variables', $exclude_variables) : $exclude_variables;
 
 	if (empty($exclude_variables)) return $variables;
@@ -783,7 +797,7 @@ function wpo_cache_maybe_ignore_query_variables($variables) {
 	foreach ($exclude_variables as $variable) {
 		$exclude = array_search($variable, $variables);
 		if (false !== $exclude) {
-			array_splice($variables, $exclude);
+			array_splice($variables, $exclude, 1);
 		}
 	}
 
