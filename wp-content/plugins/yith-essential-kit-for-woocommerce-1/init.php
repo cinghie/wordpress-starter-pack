@@ -7,7 +7,7 @@
  * Domain Path: /languages/
  * Author: YITH
  * Author URI: https://yithemes.com/
- * Version: 2.1.0
+ * Version: 2.1.1
  * WC requires at least: 2.5.0
  * WC tested up to: 3.8
  * @author YITHEMES

@@ -120,7 +120,7 @@ if ( ! class_exists( 'YITH_YWZM_Plugin_FW_Loader' ) ) {
 			$admin_tabs['general'] = __( 'General', 'yith-woocommerce-zoom-magnifier' );
 
 			if ( ! defined( 'YITH_YWZM_PREMIUM' ) ) {
-				$admin_tabs['premium-landing'] = __( 'Premium Version', 'yith-woocommerce-zoom-magnifier' );
+				$admin_tabs['premium'] = __( 'Premium Version', 'yith-woocommerce-zoom-magnifier' );
 			} else {
 				$admin_tabs['exclusions'] = __( 'Product exclusion list', 'yith-woocommerce-zoom-magnifier' );
 			}
@@ -128,6 +128,7 @@ if ( ! class_exists( 'YITH_YWZM_Plugin_FW_Loader' ) ) {
 			$args = array(
 				'create_menu_page' => true,
 				'parent_slug'      => '',
+				'plugin_slug'      => YITH_YWZM_SLUG,
 				'page_title'       => 'Zoom magnifier',
 				'menu_title'       => 'Zoom magnifier',
 				'capability'       => 'manage_options',

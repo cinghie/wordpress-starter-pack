@@ -6,6 +6,4 @@
 </div>
 <?php include_once( 'parts/actions.php' ); ?>
 <?php include_once( 'parts/loop.php' ); ?>
-<script type="text/html" id='tmpl-wooccm-modal-window'>
-  <?php include_once( 'modals/modal-field.php' ); ?>
-</script>
+<?php include_once( 'modals/field.php' ); ?>

@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.3
-Stable tag: 6.9.7
+Stable tag: 6.9.8
 
 == Description ==
 
@@ -300,6 +300,9 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 6.9.8 (2019-11-29) =
+* Fixed a bug: rules on product tags did not work. Issue has been fixed now.
 
 = 6.9.7 (2019-11-28) =
 * Changed product feed sorting for Pinterest RSS feeds so most recent products appear on top in Pinterest
@@ -2197,6 +2200,9 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 6.9.8 =
+Fixed a bug: rules on product tags did not work. Issue has been fixed now.
 
 = 6.9.7 =
 Changed product feed sorting for Pinterest RSS feeds so most recent products appear on top in Pinterest

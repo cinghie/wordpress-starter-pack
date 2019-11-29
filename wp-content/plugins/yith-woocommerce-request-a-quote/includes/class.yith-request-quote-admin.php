@@ -199,6 +199,7 @@ if ( !class_exists( 'YITH_YWRAQ_Admin' ) ) {
             $args = array(
                 'create_menu_page' => true,
                 'parent_slug'      => '',
+                'plugin_slug'      => YITH_YWRAQ_SLUG,
                 'page_title'       => _x('YITH WooCommerce Request a Quote','Plugin Name. Do not translate.', 'yith-woocommerce-request-a-quote'),
                 'menu_title'       => _x('Request a Quote','Plugin Name. Do not translate.', 'yith-woocommerce-request-a-quote'),
                 'capability'       => 'manage_options',
