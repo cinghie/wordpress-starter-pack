@@ -131,6 +131,7 @@ if( !class_exists( 'YITH_WCAS_Admin' ) ) {
 	        $args = array(
 		        'create_menu_page' => true,
 		        'parent_slug'      => '',
+		        'plugin_slug'      => YITH_WCAS_SLUG,
 		        'page_title'       => __( 'YITH WooCommerce Ajax Search', 'yith-woocommerce-ajax-search' ),
 		        'menu_title'       => __( 'Ajax Search', 'yith-woocommerce-ajax-search' ),
 		        'capability'       => 'manage_options',

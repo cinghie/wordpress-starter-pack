@@ -122,12 +122,13 @@ if ( ! class_exists( 'YITH_YWPI_Plugin_FW_Loader' ) ) {
 			$admin_tabs['template']  = __( 'Template', 'yith-woocommerce-pdf-invoice' );
 
 			if ( ! defined( 'YITH_YWPI_PREMIUM' ) ) {
-				$admin_tabs['premium-landing'] = __( 'Premium Version', 'yith-woocommerce-pdf-invoice' );
+				$admin_tabs['premium'] = __( 'Premium Version', 'yith-woocommerce-pdf-invoice' );
 			}
 
 			$args = array(
 				'create_menu_page' => true,
 				'parent_slug'      => '',
+				'plugin_slug'      =>  YITH_YWPI_SLUG,
 				'page_title'       => 'Pdf Invoice',
 				'menu_title'       => 'Pdf Invoice',
 				'capability'       => 'manage_options',

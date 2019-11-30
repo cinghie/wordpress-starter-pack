@@ -1,10 +1,10 @@
-=== YITH WooCommerce Wishlist === 
+=== YITH WooCommerce Wishlist ===
 
 Contributors: yithemes
 Tags: wishlist, woocommerce, products, yit, e-commerce, shop, ecommerce wishlist, yith, woocommerce wishlist, shop wishlist
 Requires at least: 4.0
 Tested up to: 5.3
-Stable tag: 2.2.16
+Stable tag: 2.2.17
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -108,6 +108,11 @@ you should ask theme developers to update custom templates and replace the old t
 4. The Wishlist settings page
 
 == Changelog ==
+
+= 2.2.17 – Released on 29 November 2019 =
+
+* Update: notice handler
+* Update: plugin framework
 
 = 2.2.16 – Released on 11 November 2019 =
 
@@ -457,7 +462,7 @@ you should ask theme developers to update custom templates and replace the old t
 
 = 1.1.5 - Released on 30 June 2014 =
 
-* Added: Share wishlist by email 
+* Added: Share wishlist by email
 
 = 1.1.4 - Released on 26 June 2014 =
 
@@ -476,7 +481,7 @@ you should ask theme developers to update custom templates and replace the old t
 
 = 1.1.1 - Released on 26 February 2014 =
 
-* Fixed: Inability to unistall plugin 
+* Fixed: Inability to unistall plugin
 * Fixed: Redirect to cart page from wishlist page
 
 = 1.1.0 - Released on 13 February 2014 =
@@ -492,7 +497,7 @@ you should ask theme developers to update custom templates and replace the old t
 * Added: Portuguese (Brazil) translation by Lincoln Lemos
 * Fixed: Share buttons show also when not logged in
 * Fixed: Price shows including or excluding tax based on WooCommerce settings
-* Fixed: Better compatibility for WPML 
+* Fixed: Better compatibility for WPML
 * Fixed: Price shows "Free!" if the product is without price
 * Fixed: DB Table creation on plugin activation
 
@@ -563,17 +568,3 @@ If you want to contribute to the translation of the plugin, please [go to WordPr
 == Documentation ==
 
 Full documentation is available [here](http://yithemes.com/docs-plugins/yith-woocommerce-wishlist).
-
-== Upgrade notice ==
-
-= 2.2.16 – Released on 08 November 2019 =
-
-* New: support for WordPress 5.3
-* New: support for WooCommerce 3.8
-* Update: plugin framework
-* Update: Italian language
-* Update: Dutch language
-* Tweak: wrapped Add to Wishlist button label into span html tag
-* Fix: removed occurrences of deprecated properties on promotional email class
-* Dev: added new yith_wcwl_product_already_in_wishlist_text_button and yith_wcwl_product_added_to_wishlist_message_button filters
-* Dev: added new yith_wcwl_out_of_stock_label and yith_wcwl_in_stock_label filters

@@ -24,6 +24,9 @@
   <# } #>
 <?php include_once( 'parts/panel-admin.php' ); ?>
 </script>
+<script type="text/html" id='tmpl-wooccm-modal-datepicker-limit'>
+<?php include_once( 'parts/panel-datepicker-limit.php' ); ?>
+</script>
 <script type="text/html" id='tmpl-wooccm-modal-info'>
   <?php include_once( 'parts/info.php' ); ?>
 </script>

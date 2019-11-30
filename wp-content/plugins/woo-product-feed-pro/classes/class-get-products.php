@@ -3903,6 +3903,7 @@ class WooSEA_Get_Products {
 									break;
 							}
 						} elseif (is_array($pd_value)) {
+			
 							// For now only shipping details are in an array
 							foreach ($pd_value as $k => $v){
 								if(is_array($v)){
@@ -3990,52 +3991,52 @@ class WooSEA_Get_Products {
 									}
 								} else {
 									// Rules on product tags
+									
 									foreach ($pd_value as $k => $v){
-
 										switch ($pr_array['condition']) {
 											case($pr_array['condition'] = "contains"):
 												if ((preg_match('/'.$pr_array['criteria'].'/', $v))){
-													$product_data[$pr_array['than_attribute']] = $v;
+													$product_data[$pr_array['than_attribute']] = $pr_array['newvalue'];
 												}
 												break;
 											case($pr_array['condition'] = "containsnot"):
 												if ((!preg_match('/'.$pr_array['criteria'].'/', $v))){
-													$product_data[$pr_array['than_attribute']] = $v;
+													$product_data[$pr_array['than_attribute']] = $pr_array['newvalue'];
 												}
 												break;
 											case($pr_array['condition'] = "="):
 												if (($v == $pr_array['criteria'])){
-													$product_data[$pr_array['than_attribute']] = $v;
+													$product_data[$pr_array['than_attribute']] = $pr_array['newvalue'];
 												}
 												break;
 											case($pr_array['condition'] = "!="):
 												if (($v != $pr_array['criteria'])){
-													$product_data[$pr_array['than_attribute']] = $v;
+													$product_data[$pr_array['than_attribute']] = $pr_array['newvalue'];
 												}
 												break;
 											case($pr_array['condition'] = ">"):
 												if (($v > $pr_array['criteria'])){
-													$product_data[$pr_array['than_attribute']] = $v;
+													$product_data[$pr_array['than_attribute']] = $pr_array['newvalue'];
 												}
     												break;
 											case($pr_array['condition'] = ">="):
 												if (($v >= $pr_array['criteria'])){
-													$product_data[$pr_array['than_attribute']] = $v;
+													$product_data[$pr_array['than_attribute']] = $pr_array['newvalue'];
 												}
 												break;
 											case($pr_array['condition'] = "<"):
 												if (($v < $pr_array['criteria'])){
-													$product_data[$pr_array['than_attribute']] = $v;
+													$product_data[$pr_array['than_attribute']] = $pr_array['newvalue'];
 												}
 												break;
 											case($pr_array['condition'] = "=<"):
 												if (($v <= $pr_array['criteria'])){
-													$product_data[$pr_array['than_attribute']] = $v;
+													$product_data[$pr_array['than_attribute']] = $pr_array['newvalue'];
 												}
 												break;
 											case($pr_array['condition'] = "empty"):
 												if ((strlen($v) < 1)){
-													$product_data[$pr_array['than_attribute']] = $v;
+													$product_data[$pr_array['than_attribute']] = $pr_array['newvalue'];
 												}
 												break;
 											case($pr_array['condition'] = "multiply"):

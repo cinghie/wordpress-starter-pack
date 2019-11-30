@@ -3,7 +3,7 @@ Contributors: yithemes
 Tags: yith, infinite scrolling, ajax pagination, infinite scroll, load more
 Requires at least: 4.0
 Tested up to: 5.3
-Stable tag: 1.1.11
+Stable tag: 1.1.12
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,7 +37,11 @@ Full documentation is available [here](http://yithemes.com/docs-plugins/yith-inf
 
 == Changelog ==
 
-= 1.1.11 = Released on 5 November 2019
+= 1.1.12 = Released on 5 November 2019
+
+* Update: Plugin framework
+
+= 1.1.11 = Released on 29 November 2019
 
 * Update: Plugin framework
 
