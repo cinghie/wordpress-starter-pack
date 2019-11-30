@@ -4,11 +4,7 @@ Donate link: https://quadlayers.com/
 Tags: woocommerce, woocommerce checkout, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
 Requires at least: 4.6
 Tested up to: 5.3.0
-<<<<<<< HEAD
-Stable tag: 4.7.9
-=======
 Stable tag: 4.8.0
->>>>>>> 36f9a9e3110e07db5282a4745dc95eae6b986aad
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
