@@ -99,14 +99,11 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 
 == Changelog ==
 
-<<<<<<< HEAD
-=======
 = 4.8.0 =
 * Fix: woocommerce checkout datepicker field disabled days
 * Fix: woocommerce checkout datepicker label scape quotes
 * Fix: woocommerce checkout datepicker limit option
 
->>>>>>> 36f9a9e3110e07db5282a4745dc95eae6b986aad
 = 4.7.9 =
 * Fix: small CSS issues
 
