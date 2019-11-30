@@ -34,6 +34,19 @@
     }
   });
 
+  var FieldViewDatePickerLimit = Backbone.View.extend({
+    templates: {},
+    initialize: function () {
+      this.templates.window = wp.template('wooccm-modal-datepicker-limit');
+    },
+    render: function () {
+      this.$el.html(this.templates.window(this.model.attributes));
+      this.$el.trigger('wooccm-enhanced-between-dates');
+      this.$el.trigger('init_tooltips');
+
+    }
+  });
+
   var FieldViewPanels = Backbone.View.extend({
     templates: {},
     initialize: function () {
@@ -41,7 +54,6 @@
     },
     render: function () {
       this.$el.html(this.templates.window(this.model.attributes));
-      this.$el.trigger('wooccm-enhanced-between-dates');
       this.$el.trigger('wooccm-enhanced-options');
       this.$el.trigger('wooccm-enhanced-select');
       this.$el.trigger('init_tooltips');
@@ -75,6 +87,7 @@
       'change .media-modal-render-tabs': 'renderTabs',
       'change .media-modal-render-panels': 'renderPanels',
       'change .media-modal-render-info': 'renderInfo',
+      'change .media-modal-render-datepicker-limit': 'renderDate',
       'submit .media-modal-form': 'submit',
     },
     templates: {},
@@ -97,10 +110,12 @@
 
       this.tabs = new FieldViewTabs({model: modal.model});
       this.panels = new FieldViewPanels({model: modal.model});
+      this.datepickerLimit = new FieldViewDatePickerLimit({model: modal.model});
       this.info = new FieldViewInfo({model: modal.model});
 
       this.assign(this.tabs, '#wooccm-modal-tabs');
       this.assign(this.panels, '#wooccm-modal-panels');
+      this.assign(this.datepickerLimit, '#wooccm-modal-datepicker-limit');
       this.assign(this.info, '#wooccm-modal-info');
 
 //      _.delay(function () {
@@ -207,6 +222,9 @@
     },
     renderInfo: function () {
       this.info.render();
+    },
+    renderDate: function () {
+      this.datepickerLimit.render();
     },
 
 //    table: function (e) {

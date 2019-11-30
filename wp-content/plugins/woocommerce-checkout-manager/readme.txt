@@ -4,7 +4,11 @@ Donate link: https://quadlayers.com/
 Tags: woocommerce, woocommerce checkout, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
 Requires at least: 4.6
 Tested up to: 5.3.0
+<<<<<<< HEAD
 Stable tag: 4.7.9
+=======
+Stable tag: 4.8.0
+>>>>>>> 36f9a9e3110e07db5282a4745dc95eae6b986aad
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -99,6 +103,14 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 
 == Changelog ==
 
+<<<<<<< HEAD
+=======
+= 4.8.0 =
+* Fix: woocommerce checkout datepicker field disabled days
+* Fix: woocommerce checkout datepicker label scape quotes
+* Fix: woocommerce checkout datepicker limit option
+
+>>>>>>> 36f9a9e3110e07db5282a4745dc95eae6b986aad
 = 4.7.9 =
 * Fix: small CSS issues
 

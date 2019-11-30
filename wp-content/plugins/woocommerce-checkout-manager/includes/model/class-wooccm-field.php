@@ -262,7 +262,6 @@ class WOOCCM_Field {
       $field['order'] = $field_id + 1;
     }
 
-
     if (!empty($field['conditional_parent_key'])) {
 
       if (strpos($field['conditional_parent_key'], $this->prefix) === false) {
@@ -274,7 +273,7 @@ class WOOCCM_Field {
       }
     }
 
-    return $field;
+    return wp_unslash($field);
   }
 
   public function register_wpml_string($value) {

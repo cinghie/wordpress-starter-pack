@@ -343,7 +343,8 @@
 
   $('.wooccm-enhanced-datepicker').each(function (i, field) {
 
-    var $input = $(this);
+    var $input = $(this),
+            disable = $input.data('disable') || false;
 
     if ($.isFunction($.fn.datepicker)) {
       $input.datepicker({
@@ -351,13 +352,11 @@
         minDate: $input.data('mindate') || undefined,
         maxDate: $input.data('maxdate') || undefined,
         beforeShowDay: function (date) {
-          var day = date.getDay(),
-                  disable = $input.data('disable') || false;
-          if (!disable) {
-            return [true]
-          } else {
-            return [disable[day] !== undefined];
+          var day = date.getDay().toString();
+          if (disable) {
+            return [$.inArray(day, disable) === -1];
           }
+          return [true];
         }
       });
     }
