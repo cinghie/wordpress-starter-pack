@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     6.9.8
+ * Version:     6.9.9
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '6.9.8' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '6.9.9' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -171,6 +171,9 @@ function woosea_storedattributes_details(){
   	//checking the nonce. will die if it is no good.
    	check_ajax_referer('woosea_ajax_nonce', 'nonce');
         $productId = sanitize_text_field($_POST['data_to_pass']);
+
+	// Remove previous drop-down selection
+	delete_option( 'selected_values' );
 
 	// Good idea to make sure things are set before using them
 	$selected_values = isset( $_POST['storedAttributes'] ) ? (array) $_POST['storedAttributes'] : array();
@@ -1025,9 +1028,12 @@ function woosea_product_delete_meta_price( $product = null ) {
 							$variation_id = $child_val;
 						}
 					}
-					$variable_product = wc_get_product($variation_id);
 
-					if(is_object( $variable_product ) ) {
+					if(isset($variation_id )){
+						$variable_product = wc_get_product($variation_id);
+					}
+
+					if( (isset($variation_id)) AND ( is_object( $variable_product ) ) ) {
 						$qty = 1;
 						$product_price = wc_get_price_to_display($variable_product, array('qty' => $qty));
 						$tax_rates = WC_Tax::get_base_tax_rates( $product->get_tax_class() );
@@ -1066,10 +1072,18 @@ function woosea_product_delete_meta_price( $product = null ) {
                         			} else {
                                 			$tax_rates[1]['rate'] = 0;
                         			}
-                        			$product_price = wc_get_price_excluding_tax($variable_product,array('price'=> $variable_product->get_price())) * (100+$tax_rates[1]['rate'])/100;
-						$product_price = round($product_price, 2);
 
-						// get product MPN
+						// Make sure tax rates are numeric
+						if(is_numeric($tax_rates[1]['rate'])){
+                        				$product_price = wc_get_price_excluding_tax($variable_product,array('price'=> $variable_product->get_price())) * (100+$tax_rates[1]['rate'])/100;
+						}
+
+						// Force rounding to two decimals 
+						if(!empty($product_price)){
+							$product_price = round($product_price, 2);
+						}
+
+						// Get product MPN
 						$mpn = get_post_meta( $variation_id, '_woosea_mpn', true );
 
 						// Get product condition

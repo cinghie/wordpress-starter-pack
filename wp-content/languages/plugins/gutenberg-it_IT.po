@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-11-27 20:10:48+0000\n"
+"PO-Revision-Date: 2019-12-01 09:56:23+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -101,13 +101,49 @@ msgctxt "Admin Menu text"
 msgid "Template Parts"
 msgstr "Parti del template"
 
-#: lib/template-parts.php:35
-msgid "Template parts list"
-msgstr "Lista delle parti del template"
-
 #: lib/template-parts.php:40
 msgid "Template parts to include in your templates."
 msgstr "Parti di template da includere nei tuoi template."
+
+#: lib/template-parts.php:35
+msgid "Template parts list"
+msgstr "Elenco delle parti del template"
+
+#: lib/template-parts.php:28
+msgid "No template parts found."
+msgstr "Non è stata trovata nessuna parte di template."
+
+#: lib/template-parts.php:30
+msgid "Template part archives"
+msgstr "Archivi delle parti di template"
+
+#: lib/template-parts.php:27
+msgid "Parent Template Part:"
+msgstr "Parte di template genitore:"
+
+#: lib/template-parts.php:31
+msgid "Insert into template part"
+msgstr "Inserisci nelle parti di template"
+
+#: lib/template-parts.php:26
+msgid "Search Template Parts"
+msgstr "Cerca tra le parti di template"
+
+#: lib/template-parts.php:32
+msgid "Uploaded to this template part"
+msgstr "Caricato in questa parte di template"
+
+#: lib/template-parts.php:29
+msgid "No template parts found in Trash."
+msgstr "Non è stata trovata nessuna parte di template nel Cestino."
+
+#: lib/template-parts.php:34
+msgid "Template parts list navigation"
+msgstr "Navigazione nell'elenco delle parti di template"
+
+#: lib/template-parts.php:33
+msgid "Filter template parts list"
+msgstr "Filtra l'elenco delle parti di template"
 
 #: build/block-library/index.js:8
 msgid "Navigation"

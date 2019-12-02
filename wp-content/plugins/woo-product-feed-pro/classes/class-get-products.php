@@ -3991,8 +3991,14 @@ class WooSEA_Get_Products {
 									}
 								} else {
 									// Rules on product tags
-									
 									foreach ($pd_value as $k => $v){
+									
+										// Rules for string values
+										if (!array_key_exists('cs', $pr_array)){
+											$v = strtolower($v);
+											$pr_array['criteria'] = strtolower($pr_array['criteria']);
+										}			
+
 										switch ($pr_array['condition']) {
 											case($pr_array['condition'] = "contains"):
 												if ((preg_match('/'.$pr_array['criteria'].'/', $v))){
