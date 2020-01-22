@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Themes - Twenty Twenty package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-12-23 07:53:41+0000\n"
+"PO-Revision-Date: 2019-12-15 17:52:45+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,10 +10,6 @@ msgstr ""
 "X-Generator: GlotPress/2.4.0-alpha\n"
 "Language: it\n"
 "Project-Id-Version: Themes - Twenty Twenty\n"
-
-#. Description of the theme
-msgid "Our default theme for 2020 is designed to take full advantage of the flexibility of the block editor. Organizations and businesses have the ability to create dynamic landing pages with endless layouts using the group and column blocks. The centered content column and fine-tuned typography also makes it perfect for traditional blogs. Complete editor styles give you a good idea of what your content will look like, even before you publish. You can give your site a personal touch by changing the background colors and the accent color in the Customizer. The colors of all elements on your site are automatically calculated based on the colors you pick, ensuring a high, accessible color contrast for your visitors."
-msgstr "Il nostro tema predefinito per il 2020 è progettato per sfruttare appieno la flessibilità dell'editor a blocchi. Organizzazioni e aziende hanno la possibilità di creare delle landing page dinamiche con infiniti layout usando i gruppi ed i blocchi colonne. La colonna centrale per il contenuto e la tipografia personalizzabile lo rendono perfetto anche per i blog. Il completo editor di stile ti dà una buona idea di come saranno i tuoi contenuti, anche prima di pubblicare. Puoi dare un tocco personale al tuo sito modificando i colori di sfondo e il colore in risalto all'interno di Personalizza. I colori di tutti gli elementi del tuo sito vengono calcolati automaticamente in base ai colori che scegli, garantendo un contrasto cromatico elevato e accessibile per i tuoi visitatori."
 
 #. Theme Name of the theme
 msgid "Twenty Twenty"
