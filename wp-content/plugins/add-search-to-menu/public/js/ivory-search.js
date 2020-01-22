@@ -53,7 +53,7 @@
 	} );
 
 	$( window ).click( function( e ) {
-		if ( 0 === e.button ) {
+		if ( 0 === e.button && 0 === $( e.target ).closest( '.is-ajax-search-result' ).length && 0 === $( e.target ).closest( '.is-ajax-search-details' ).length ) {
 			if ( $( '.is-menu' ).hasClass( 'open' ) ) {
 				$( '.is-menu form' ).animate(
 					{ width: '0' },

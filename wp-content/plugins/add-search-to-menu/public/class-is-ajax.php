@@ -56,29 +56,32 @@ class IS_Ajax {
                 $posts_per_page = isset( $is_settings['posts_per_page'] ) ? $is_settings['posts_per_page'] : 10;
 
 		$defaults = array(
+			'show_description'           => 0,
 			'description_source'         => 'content',
 			'description_length'         => 20,
 			'show_image'                 => 0,
-			'show_description'           => 0,
-			'show_price'                 => 0,
-			'hide_price_out_of_stock'    => 0,
 			'show_categories'            => 0,
 			'show_tags'                  => 0,
+                        'show_author'                => 0,
+                        'show_date'                  => 0,
+                        'nothing_found_text'         => __( 'Nothing found', 'ivory-search' ),
+			'show_more_result'           => 0,
+			'more_result_text'           => __( 'More results', 'ivory-search' ),
+			'show_price'                 => 0,
+			'hide_price_out_of_stock'    => 0,
 			'show_sale_badge'            => 0,
 			'show_sku'                   => 0,
 			'show_stock_status'          => 0,
 			'show_featured_icon'         => 0,
 			'show_matching_categories'   => 0,
 			'show_matching_tags'         => 0,
-			'show_more_result' => false,
-			'show_details_box' => false,
-			'more_result_text' => __( 'More results', 'ivory-search' ),
+                        'show_details_box'           => 0,
 		);
 
 		$field = wp_parse_args( $stored_field, $defaults );
                 $posts_class = 'is-show-details-disabled';
 
-		if( $field['show_details_box'] ) {
+		if ( isset( $field['show_details_box'] ) && $field['show_details_box'] ) {
 			$posts_class = 'is-show-details-enabled';
 		}
 		?>
@@ -87,7 +90,7 @@ class IS_Ajax {
 		<?php } ?>
 			<?php
 			// Show matching tags.
-			if( $field['show_matching_tags'] && 1 == $page ) {
+			if( isset( $field['show_matching_tags'] ) && $field['show_matching_tags'] && 1 == $page ) {
 				$this->term_title_markup( array(
 					'taxonomy'      => 'product_tag',
 					'search_term'   => $search_term,
@@ -97,7 +100,7 @@ class IS_Ajax {
 			}
 
 			// Show matching categories.
-			if( $field['show_matching_categories'] && 1 == $page ) {
+			if( isset( $field['show_matching_categories'] ) && $field['show_matching_categories'] && 1 == $page ) {
 				$this->term_title_markup( array(
 					'taxonomy'      => 'product_cat',
 					'search_term'   => $search_term,
@@ -130,7 +133,7 @@ class IS_Ajax {
 			        if( 'product' === $post->post_type && function_exists( 'wc_get_product' ) ) {
 			        	$product = wc_get_product( $post->ID );
 			        	$product_class = 'is-product';
-                                    if ( $field['show_sale_badge'] ) {
+                                    if ( isset( $field['show_sale_badge'] ) && $field['show_sale_badge'] ) {
                                         $on_sale = ( $product->is_in_stock() ) ? $product->is_on_sale() : '';
                                         if ( $on_sale ) {
                                             $product_class .= ' is-has-badge';
@@ -211,13 +214,13 @@ class IS_Ajax {
 				    	?>
 			    	</div>
 			    <?php } ?>		
-		<?php if( $field['show_details_box'] ) { ?>
+		<?php if( isset( $field['show_details_box'] ) && $field['show_details_box'] ) { ?>
 		    <div id="is-ajax-search-details-<?php echo $search_post_id; ?>" class="is-ajax-search-details">
                         <div class="is-ajax-search-items">
 			    <?php
                             if ( 1 == $page ) {
 			    // Show product details by "tags".
-				if( $field['show_matching_tags'] ) {
+				if( isset( $field['show_matching_tags'] ) && $field['show_matching_tags'] ) {
 					$this->product_details_markup( array(
 						'taxonomy'      => 'product_tag',
 						'search_term'   => $search_term,
@@ -229,7 +232,7 @@ class IS_Ajax {
 
 			    <?php
 			    // Show product details by "categories".
-				if( $field['show_matching_categories'] ) {
+				if( isset( $field['show_matching_categories'] ) && $field['show_matching_categories'] ) {
 					$this->product_details_markup( array(
 						'taxonomy'      => 'product_cat',
 						'search_term'   => $search_term,
@@ -247,7 +250,7 @@ class IS_Ajax {
                                                 $product_class = '';
 					        if( 'product' === $post->post_type && function_exists( 'wc_get_product' ) ) {
 					        	$product = wc_get_product( $post->ID );
-                                                    if ( $field['show_sale_badge'] ) {
+                                                    if ( isset( $field['show_sale_badge'] ) && $field['show_sale_badge'] ) {
                                                         $on_sale = ( $product->is_in_stock() ) ? $product->is_on_sale() : '';
                                                         if ( $on_sale ) {
                                                             $product_class .= ' is-has-badge';
@@ -572,7 +575,7 @@ class IS_Ajax {
 		} else if( has_post_thumbnail( $post->ID ) ) {
 			$image = get_the_post_thumbnail( $post->ID, $image_size );
 		}
-		if( $field['show_image'] && ! empty( $image ) ) { ?>
+		if ( isset( $field['show_image'] ) && $field['show_image'] ) { ?>
                     <div class="left-section">
                         <div class="thumbnail">
                             <a href="<?php echo get_the_permalink( $post->ID ); ?>"><?php echo $image; ?></a>
@@ -596,8 +599,8 @@ class IS_Ajax {
 		?>
                 <div class="is-title">
                         <a href="<?php echo get_the_permalink( $post->ID ); ?>">
-                                <?php if( $product && $field['show_featured_icon'] && $product->is_featured() ) { ?>
-                                <svg class="is-featured-icon" version="1.1" viewBox="0 0 20 21" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <?php if( $product && isset( $field['show_featured_icon'] ) && $field['show_featured_icon'] && $product->is_featured() ) { ?>
+                                <svg class="is-featured-icon" focusable="false" aria-label="<?php _e( "Featured Icon", "ivory-search" ); ?>" version="1.1" viewBox="0 0 20 21" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <g fill-rule="evenodd" stroke="none" stroke-width="1"><g transform="translate(-296.000000, -422.000000)"><g transform="translate(296.000000, 422.500000)"><path d="M10,15.273 L16.18,19 L14.545,11.971 L20,7.244 L12.809,6.627 L10,0 L7.191,6.627 L0,7.244 L5.455,11.971 L3.82,19 L10,15.273 Z"></path></g></g></g>
                                 </svg>
                                 <?php } ?>
@@ -617,7 +620,7 @@ class IS_Ajax {
 	 * @return void
 	 */
 	function author_markup( $field ) {
-		if( $field['show_author'] ) { ?>
+		if ( isset( $field['show_author'] ) && $field['show_author'] ) { ?>
 		    <span class="author vcard">
 		        <?php _ex( '<i>By</i> ', 'Article written by', 'ivory-search' ); ?>
 		        <a class="url fn n" href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>">
@@ -637,7 +640,7 @@ class IS_Ajax {
 	 * @return void
 	 */
 	function date_markup( $field, $post ) {
-		if( $field['show_date'] ) { ?>
+		if ( isset( $field['show_date'] ) && $field['show_date'] ) { ?>
 		<span class="meta-date">
 			<span class="posted-on">
 				<?php
@@ -667,7 +670,7 @@ class IS_Ajax {
 	 * @return void
 	 */
 	function tags_markup( $field, $post ) {
-            if ( $field['show_tags'] ) { ?>
+            if ( isset( $field['show_tags'] ) && $field['show_tags'] ) { ?>
                 <?php $terms = get_the_terms( $post->ID, $post->post_type.'_tag' );
                 if ( $terms && ! is_wp_error( $terms ) ) { ?>
                 <span class="is-meta-tag">
@@ -690,7 +693,7 @@ class IS_Ajax {
         * @return void
         */
 	function categories_markup( $field, $post ) {
-            if ( $field['show_categories'] ) { ?>
+            if ( isset( $field['show_categories'] ) && $field['show_categories'] ) { ?>
                 <?php 
                 $tax_name = ( 'post' === $post->post_type ) ? 'category' : $post->post_type.'_cat';
                 $terms = get_the_terms( $post->ID, $tax_name );
@@ -717,15 +720,15 @@ class IS_Ajax {
 	function description_markup( $field, $post, $single = false ) {
 
 		// Description either content or excerpt.
-		if ( $field['show_description'] ) {
+		if ( isset( $field['show_description'] ) && $field['show_description'] ) {
 
-    		$excerpt_length = ! empty( $field['description_length'] ) ? absint( $field['description_length'] ) : 20;
+    		$excerpt_length = ( isset( $field['description_length'] ) && $field['description_length'] ) ? absint( $field['description_length'] ) : 20;
 
                 $content = strip_tags( strip_shortcodes( $post->post_content ) );
 
     		if ( $single ) {
                     $excerpt_length = 100;
-                } else if ( 'excerpt' === $field['description_source'] ) {
+                } else if ( isset( $field['description_source'] ) && 'excerpt' === $field['description_source'] ) {
                     $content = get_the_excerpt( $post->ID );
     		}
 
@@ -755,7 +758,7 @@ class IS_Ajax {
 		
 		if( $product ) {
 			// Show stock status.
-			if( $field['show_stock_status'] ) {
+			if( isset( $field['show_stock_status'] ) && $field['show_stock_status'] ) {
 				$stock_status = ( $product->is_in_stock() ) ? 'in-stock' : 'out-of-stock';
 				$stock_status_text = ( 'in-stock' == $stock_status ) ? __( 'In stock', 'ivory-search' ) : __( 'Out of stock', 'ivory-search' );
 				echo '<span class="stock-status is-'.$stock_status.'">'.$stock_status_text.'</span>';
@@ -775,7 +778,7 @@ class IS_Ajax {
 	function product_sku_markup( $field, $product ) {
 		if ( $product ) {
 			// Show SKU.
-			if( $field['show_sku'] ) {
+			if( isset( $field['show_sku'] ) && $field['show_sku'] ) {
 				$sku = $product->get_sku();
 				echo '<span class="sku"><i>SKU:</i> '.esc_html( $sku ).'</span>';
 			}
@@ -793,10 +796,10 @@ class IS_Ajax {
 	 */
 	function product_price_markup( $field, $product ) {
 
-		$hide_price_out_of_stock = ( $field['hide_price_out_of_stock'] ) ? $field['hide_price_out_of_stock'] : false;
+		$hide_price_out_of_stock = isset( $field['hide_price_out_of_stock'] ) && $field['hide_price_out_of_stock'] ? $field['hide_price_out_of_stock'] : false;
 
 		if ( $product ) {
-			if ( $field['show_price'] ) { 
+			if ( isset( $field['show_price'] ) && $field['show_price'] ) { 
 					if ( $product->is_in_stock() || false === $hide_price_out_of_stock ) {?>
                                         <span class="is-prices">
 					<?php
@@ -819,9 +822,9 @@ class IS_Ajax {
 	 * @return void
 	 */
 	function product_sale_badge_markup( $field, $product ) {
-		if( $product ) {
+		if ( $product ) {
 			// Show sale badge.
-			if( $field['show_sale_badge'] ) {
+			if ( isset( $field['show_sale_badge'] ) && $field['show_sale_badge'] ) {
 				$on_sale = ( $product->is_in_stock() ) ? $product->is_on_sale() : '';
 				if( $on_sale ) {
 					echo '<div class="is-sale-badge">'.__( 'Sale!', 'ivory-search' ) .'</div>';

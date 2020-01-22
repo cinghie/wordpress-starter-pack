@@ -6,6 +6,7 @@
                 var old_search_term = '';
                 var old_form_id = -1;
                 var ajax;
+                var focused = $( document.activeElement ).closest('form');
 
 		$('body').on('hover', '.is-ajax-search-tags > div, .is-ajax-search-categories > div, .is-ajax-search-post.is-product', function(event) {
 
@@ -42,22 +43,32 @@
 		});
 
             $('.is-ajax-search .is-search-input').on('focusin, click', function(event) {
+                focused = $( this ).closest('form');
                 if ( 0 === $(event.target).closest('form.processing').length ) {
                     var form_id = $( event.target ).closest('.is-ajax-search').attr('data-form-id');
                     var pos = $( event.target ).closest('.is-ajax-search').offset();
                     var height = $( event.target ).closest('.is-ajax-search').outerHeight();
+                    var result_width = $( '#is-ajax-search-result-'+form_id ).outerWidth();
+                    var window_width = $(window).width();
+                    var reduce_left_pos = 0;
+                    if ( ( pos.left + result_width ) > window_width ) {
+                        reduce_left_pos = ( pos.left + result_width ) - window_width;
+                    }
                     $('#is-ajax-search-result-'+form_id).css({
                         top: (pos.top+height) + "px",
-                        left: (pos.left) + "px"
+                        left: (pos.left-reduce_left_pos) + "px"
                     });
                     $( '.is-ajax-search-result, .is-ajax-search-details' ).hide();
                     $('#is-ajax-search-result-'+form_id).show();
 
-                    if ( 0 !== $( '#is-ajax-search-details-'+form_id ) .length ) {
-                        var result_width = $( '#is-ajax-search-result-'+form_id ).outerWidth();
+                    if ( 0 !== $( '#is-ajax-search-details-'+form_id ).length ) {
+                        var details_left = pos.left+result_width;
+                        if ( 0 !== reduce_left_pos ) {
+                            details_left = pos.left - ( reduce_left_pos + $( '#is-ajax-search-details-'+form_id ).outerWidth());
+                        }
                         $('#is-ajax-search-details-'+form_id).css({
                             top: (pos.top+height) + "px",
-                            left: (pos.left+result_width) + "px"
+                            left: (details_left) + "px"
                         });
                     }
                 }
@@ -98,24 +109,33 @@
 	    });
             
             $(window).on('resize scroll', function(){
-                $('.is-ajax-search').each(function(index, el) {
-                    var form_id = $( el ).attr( 'data-form-id' );
-                    var pos = $( el ).offset();
-                    var height = $( el ).outerHeight();
+                if ( $( focused ).hasClass( 'is-ajax-search' ) ) {
+                    var form_id = $( focused ).attr( 'data-form-id' );
+                    var pos = $( focused ).offset();
+                    var height = $( focused ).outerHeight();
                     if ( 0 !== $('#is-ajax-search-result-'+form_id).length ) {
+                        var result_width = $( '#is-ajax-search-result-'+form_id ).outerWidth();
+                        var window_width = $(window).width();
+                        var reduce_left_pos = 0;
+                        if ( ( pos.left + result_width ) > window_width ) {
+                            reduce_left_pos = ( pos.left + result_width ) - window_width;
+                        }
                         $('#is-ajax-search-result-'+form_id).css({
                             top: (pos.top+height) + "px",
-                            left: (pos.left) + "px"
+                            left: (pos.left-reduce_left_pos) + "px"
                         });
                         if ( 0 !== $('#is-ajax-search-details-'+form_id).length ) {
-                            var result_width = $( '#is-ajax-search-result-'+form_id ).outerWidth();
+                            var details_left = pos.left+result_width;
+                            if ( 0 !== reduce_left_pos ) {
+                                details_left = pos.left - ( reduce_left_pos + $( '#is-ajax-search-details-'+form_id ).outerWidth());
+                            }
                             $('#is-ajax-search-details-'+form_id).css({
                                 top: (pos.top+height) + "px",
-                                left: (pos.left+result_width) + "px"
+                                left: (details_left) + "px"
                             });
                         }
                     }
-                });
+                }
             });
 
             $('.is-ajax-search .is-search-input').on('paste', function() {
@@ -124,6 +144,7 @@
 
             $('.is-ajax-search').each(function(index, el) {
                     $( el ).find('.is-search-input').on('keyup', function( event ) {
+                        focused = $( this ).closest('form');
                         if ( 32 !== event.which ) {
                             var self = this;
                             window.clearTimeout( _ref );
@@ -195,12 +216,20 @@
 						if ( 1 === page ) {
                                                         var pos = search_form.offset();
                                                         var height = search_form.outerHeight();
+
                                                         if ( 0 === $('#is-ajax-search-result-'+form_id).length ) {
                                                             $('body').append( '<div id="is-ajax-search-result-'+form_id+'" class="is-ajax-search-result"></div>' );
                                                         }
+
+                                                        var result_width = $( '#is-ajax-search-result-'+form_id ).outerWidth();
+                                                        var window_width = $(window).width();
+                                                        var reduce_left_pos = 0;
+                                                        if ( ( pos.left + result_width ) > window_width ) {
+                                                            reduce_left_pos = ( pos.left + result_width ) - window_width;
+                                                        }
                                                         $('#is-ajax-search-result-'+form_id).css({
                                                             top: (pos.top+height) + "px",
-                                                            left: (pos.left) + "px"
+                                                            left: (pos.left-reduce_left_pos) + "px"
                                                         });
 							$('#is-ajax-search-result-'+form_id).show().html( data );
                                                         if ( 0 !== $('#is-ajax-search-details-'+form_id).length ) {
@@ -209,10 +238,13 @@
                                                         if ( 0 !== $( '#is-ajax-search-result-'+form_id + ' .is-ajax-search-details' ) .length ) {
                                                             $('body').append( '<div id="is-ajax-search-details-'+form_id+'" class="is-ajax-search-details">' + $( '#is-ajax-search-result-'+form_id + ' .is-ajax-search-details' ).html() + '</div>' );
                                                             $( '#is-ajax-search-result-'+form_id + ' .is-ajax-search-details' ).remove();
-                                                            var result_width = $( '#is-ajax-search-result-'+form_id ).outerWidth();
+                                                            var details_left = pos.left+result_width;
+                                                            if ( 0 !== reduce_left_pos ) {
+                                                                details_left = pos.left - ( reduce_left_pos + $( '#is-ajax-search-details-'+form_id ).outerWidth());
+                                                            }
                                                             $('#is-ajax-search-details-'+form_id).css({
                                                                 top: (pos.top+height) + "px",
-                                                                left: (pos.left+result_width) + "px"
+                                                                left: (details_left) + "px"
                                                             });
                                                         }
 						} else {
