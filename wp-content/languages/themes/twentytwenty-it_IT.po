@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Themes - Twenty Twenty package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-11-14 10:23:26+0000\n"
+"PO-Revision-Date: 2019-12-23 07:53:41+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,9 +11,17 @@ msgstr ""
 "Language: it\n"
 "Project-Id-Version: Themes - Twenty Twenty\n"
 
+#. Description of the theme
+msgid "Our default theme for 2020 is designed to take full advantage of the flexibility of the block editor. Organizations and businesses have the ability to create dynamic landing pages with endless layouts using the group and column blocks. The centered content column and fine-tuned typography also makes it perfect for traditional blogs. Complete editor styles give you a good idea of what your content will look like, even before you publish. You can give your site a personal touch by changing the background colors and the accent color in the Customizer. The colors of all elements on your site are automatically calculated based on the colors you pick, ensuring a high, accessible color contrast for your visitors."
+msgstr "Il nostro tema predefinito per il 2020 è progettato per sfruttare appieno la flessibilità dell'editor a blocchi. Organizzazioni e aziende hanno la possibilità di creare delle landing page dinamiche con infiniti layout usando i gruppi ed i blocchi colonne. La colonna centrale per il contenuto e la tipografia personalizzabile lo rendono perfetto anche per i blog. Il completo editor di stile ti dà una buona idea di come saranno i tuoi contenuti, anche prima di pubblicare. Puoi dare un tocco personale al tuo sito modificando i colori di sfondo e il colore in risalto all'interno di Personalizza. I colori di tutti gli elementi del tuo sito vengono calcolati automaticamente in base ai colori che scegli, garantendo un contrasto cromatico elevato e accessibile per i tuoi visitatori."
+
 #. Theme Name of the theme
 msgid "Twenty Twenty"
 msgstr "Twenty Twenty"
+
+#: classes/class-twentytwenty-customize.php:246
+msgid "Show author bio"
+msgstr "Mostra la biografia dell'autore"
 
 #: inc/starter-content.php:38
 msgctxt "Theme starter content"
@@ -61,23 +69,23 @@ msgstr "1 ottobre --  1 dicembre"
 msgid "Theatre of Operations"
 msgstr "Teatro delle operazioni"
 
-#: classes/class-twentytwenty-customize.php:354
+#: classes/class-twentytwenty-customize.php:375
 msgid "The color used for the text in the overlay."
 msgstr "Il colore utilizzato per il testo nell'overlay."
 
-#: classes/class-twentytwenty-customize.php:353
+#: classes/class-twentytwenty-customize.php:374
 msgid "Overlay Text Color"
 msgstr "Colore del testo overlay"
 
-#: classes/class-twentytwenty-customize.php:332
+#: classes/class-twentytwenty-customize.php:353
 msgid "The color used for the overlay. Defaults to the accent color."
 msgstr "Il colore utilizzato per l'overlay. Predefinito per il colore di risalto."
 
-#: classes/class-twentytwenty-customize.php:374
+#: classes/class-twentytwenty-customize.php:395
 msgid "Overlay Opacity"
 msgstr "Opacità dell'overlay"
 
-#: inc/template-tags.php:387
+#: inc/template-tags.php:393
 msgctxt "A string that is output before one or more categories"
 msgid "In"
 msgstr "In"
@@ -110,7 +118,7 @@ msgstr "Opere e Giorni"
 msgid "The premier destination for modern art in Northern Sweden. Open from 10 AM to 6 PM every day during the summer months."
 msgstr "La principale destinazione per l'arte moderna nella Svezia settentrionale. Aperto tutti i giorni dalle 10 alle 18 durante i mesi estivi."
 
-#: classes/class-twentytwenty-customize.php:262
+#: classes/class-twentytwenty-customize.php:283
 msgid "Settings for the \"Cover Template\" page template. Add a featured image to use as background."
 msgstr "Impostazioni per il template di pagina \"Cover Template\". Inserisci un'immagine in evidenza da usare come sfondo."
 
@@ -122,7 +130,7 @@ msgstr "Con sette piani di sorprendente architettura, UMoMA propone mostre di ar
 msgid "The exhibitions are produced by UMoMA in collaboration with artists and museums around the world and they often attract international attention. UMoMA has received a Special Commendation from the European Museum of the Year, and was among the top candidates for the Swedish Museum of the Year Award as well as for the Council of Europe Museum Prize."
 msgstr "Le mostre sono prodotte da UMoMA in collaborazione con artisti e musei di tutto il mondo e spesso attirano l'attenzione internazionale. UMoMA ha ricevuto un riconoscimento speciale dal Premio Museo Europeo dell'Anno, ed è stato tra i principali candidati al Premio Museo Svedese dell'Anno e al Premio Museo del Consiglio Europeo."
 
-#: classes/class-twentytwenty-customize.php:331
+#: classes/class-twentytwenty-customize.php:352
 msgid "Overlay Background Color"
 msgstr "Colore di sfondo dell'overlay"
 
@@ -145,7 +153,7 @@ msgid_plural "We found %s results for your search."
 msgstr[0] "Abbiamo trovato %s risultato per la tua ricerca."
 msgstr[1] "Abbiamo trovato %s risultati per la tua ricerca."
 
-#: searchform.php:24 template-parts/modal-search.php:20
+#: template-parts/modal-search.php:20 searchform.php:24
 msgid "Search for:"
 msgstr "Cerca:"
 
@@ -204,7 +212,7 @@ msgstr "Commenti"
 msgid "Comments are closed."
 msgstr "I commenti sono chiusi"
 
-#: inc/starter-content.php:176 inc/starter-content.php:186 functions.php:491
+#: functions.php:491 inc/starter-content.php:176 inc/starter-content.php:186
 msgid "Primary"
 msgstr "Principale"
 
@@ -261,20 +269,20 @@ msgstr "Colore di sfondo di header &amp; footer"
 msgid "Theme Options"
 msgstr "Opzioni del tema"
 
-#: classes/class-twentytwenty-customize.php:248
+#: classes/class-twentytwenty-customize.php:269
 msgid "Full text"
 msgstr "Tutto il testo"
 
-#: classes/class-twentytwenty-customize.php:249
+#: classes/class-twentytwenty-customize.php:270
 msgid "Summary"
 msgstr "Sommario"
 
-#: classes/class-twentytwenty-customize.php:284
+#: classes/class-twentytwenty-customize.php:305
 msgid "Fixed Background Image"
 msgstr "Immagine di sfondo fissa"
 
 #. Template Name of the theme
-#: classes/class-twentytwenty-customize.php:260
+#: classes/class-twentytwenty-customize.php:281
 msgid "Cover Template"
 msgstr "Template della copertina"
 
@@ -355,11 +363,11 @@ msgstr "S"
 msgid "Background Color"
 msgstr "Colore di sfondo"
 
-#: inc/template-tags.php:365
+#: inc/template-tags.php:371
 msgid "Post date"
 msgstr "Data dell'articolo"
 
-#: inc/template-tags.php:341
+#: inc/template-tags.php:347
 msgid "Post author"
 msgstr "Autore articolo"
 
@@ -383,16 +391,16 @@ msgstr "Menu mobile"
 msgid "Search:"
 msgstr "Cerca:"
 
-#: inc/template-tags.php:439
+#: inc/template-tags.php:445
 msgid "Sticky post"
 msgstr "Articolo in evidenza"
 
-#: inc/template-tags.php:401
+#: inc/template-tags.php:407
 msgid "Tags"
 msgstr "Tag"
 
-#: template-parts/entry-header.php:36 template-parts/content-cover.php:70
-#: inc/template-tags.php:383
+#: template-parts/content-cover.php:70 template-parts/entry-header.php:36
+#: inc/template-tags.php:389
 msgid "Categories"
 msgstr "Categorie"
 
@@ -449,15 +457,15 @@ msgstr "Articolo"
 msgid "Newer <span class=\"nav-short\">Posts</span>"
 msgstr "<span class=\"nav-short\">Articoli</span> più recenti"
 
-#: classes/class-twentytwenty-customize.php:375
+#: classes/class-twentytwenty-customize.php:396
 msgid "Make sure that the contrast is high enough so that the text is readable."
 msgstr "Accertati che il contrasto sia sufficientemente alto da rendere il testo leggibile."
 
-#: classes/class-twentytwenty-customize.php:285
+#: classes/class-twentytwenty-customize.php:306
 msgid "Creates a parallax effect when the visitor scrolls."
 msgstr "Crea un effetto parallasse quando l'utente scorre la pagina."
 
-#: classes/class-twentytwenty-customize.php:246
+#: classes/class-twentytwenty-customize.php:267
 msgid "On archive pages, posts show:"
 msgstr "Sulle pagine d'archivio, gli articoli mostrano:"
 
@@ -475,7 +483,7 @@ msgid "Close search"
 msgstr "Chiudi la ricerca"
 
 #. translators: %s: Author name
-#: template-parts/entry-author-bio.php:20 inc/template-tags.php:348
+#: template-parts/entry-author-bio.php:20 inc/template-tags.php:354
 msgid "By %s"
 msgstr "Di %s"
 
@@ -487,7 +495,7 @@ msgstr "Non siamo riusciti a trovare nessun risultato per la tua ricerca. Puoi f
 msgid "Skip to the content"
 msgstr "Salta al contenuto"
 
-#: classes/class-twentytwenty-walker-page.php:134 inc/template-tags.php:545
+#: classes/class-twentytwenty-walker-page.php:134 inc/template-tags.php:555
 msgid "Show sub menu"
 msgstr "Mostra il sottomenu"
 
