@@ -7,7 +7,7 @@
         foreach ($fields as $key => $field) :
           if (isset(WOOCCM()->$field_type)) :
             ?>
-            <?php if (!in_array($field['name'], WOOCCM()->$field_type->get_defaults())) : ?>
+            <?php if (!in_array($field['name'], WOOCCM()->$field_type->get_defaults()) && empty($field['hide_order'])) : ?>
               <?php if ($value = get_post_meta($order_id, sprintf('_%s', $key), true)): ?>
                 <tr id="tr-<?php echo esc_attr($key); ?>">
                   <th>

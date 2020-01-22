@@ -50,13 +50,14 @@ private function get_dynamic_attributes(){
 
         $no_taxonomies = array("portfolio_category","portfolio_skills","portfolio_tags","nav_menu","post_format","slide-page","element_category","template_category","portfolio_category","portfolio_skills","portfolio_tags","faq_category","slide-page","yst_prominent_words","category","post_tag","nav_menu","link_category","post_format","product_type","product_visibility","product_cat","product_shipping_class","product_tag");
      	$taxonomies = get_taxonomies();
-
      	$diff_taxonomies = array_diff($taxonomies, $no_taxonomies);
 
     	# get custom taxonomy values for a product
     	foreach($diff_taxonomies as $tax_diff){
+
 		$taxonomy_details = get_taxonomy( $tax_diff );
 		foreach($taxonomy_details as $kk => $vv){
+
 			if($kk == "name"){
 				$pa_short = $vv;
 			}
@@ -78,12 +79,18 @@ private function get_custom_attributes() {
 	global $wpdb;
      	$list = array();
      	
-	//$sql = "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM " . $wpdb->prefix . "postmeta" . " AS meta, " . $wpdb->prefix . "posts" . " AS posts WHERE meta.post_id = posts.id AND posts.post_type LIKE '%product%' AND meta.meta_key NOT LIKE 'pyre%' AND meta.meta_key NOT LIKE 'sbg_%' AND meta.meta_key NOT LIKE 'rp_%' AND (meta.meta_key NOT LIKE '\_%' OR meta.meta_key LIKE '\_woosea%' OR meta.meta_key LIKE '\_yoast%' OR meta.meta_key='_product_attributes') GROUP BY meta.meta_key ORDER BY meta.meta_key ASC;";
+      $sql = "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM " . $wpdb->prefix . "postmeta" . " AS meta, " . $wpdb->prefix . "posts" . " AS posts WHERE meta.post_id = posts.id AND posts.post_type LIKE '%product%' AND meta.meta_key NOT LIKE 'pyre%' AND meta.meta_key NOT LIKE 'sbg_%' AND meta.meta_key NOT LIKE 'rp_%' GROUP BY meta.meta_key ORDER BY meta.meta_key ASC;";
 
-        //$sql = "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM " . $wpdb->prefix . "postmeta" . " AS meta, " . $wpdb->prefix . "posts" . " AS posts WHERE meta.post_id = posts.id AND posts.post_type LIKE '%product%' AND meta.meta_key NOT LIKE 'pyre%' AND meta.meta_key NOT LIKE 'sbg_%' AND meta.meta_key NOT LIKE 'rp_%' AND (meta.meta_key NOT LIKE '\_%' OR meta.meta_key LIKE '\_woosea%' OR meta.meta_key LIKE '\_yoast%' OR meta.meta_key LIKE '_unit%' OR meta.meta_key='_product_attributes') GROUP BY meta.meta_key ORDER BY meta.meta_key ASC;";
-
-        $sql = "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM " . $wpdb->prefix . "postmeta" . " AS meta, " . $wpdb->prefix . "posts" . " AS posts WHERE meta.post_id = posts.id AND posts.post_type LIKE '%product%' AND meta.meta_key NOT LIKE 'pyre%' AND meta.meta_key NOT LIKE 'sbg_%' AND meta.meta_key NOT LIKE 'rp_%' GROUP BY meta.meta_key ORDER BY meta.meta_key ASC;";
-
+//      	$sql = "SELECT 
+//			meta.meta_id, 
+//			meta.meta_key as name, 
+//			meta.meta_value as type 
+//		FROM " . $wpdb->prefix . "postmeta" . " AS meta, " . $wpdb->prefix . "posts" . " AS posts 
+//		WHERE 
+//			meta.post_id = posts.id AND 
+//			posts.post_type LIKE 'product_%' 
+//			GROUP BY meta.meta_key
+//			ORDER BY meta.meta_key ASC;";
 	$data = $wpdb->get_results($sql);
 
       	if (count($data)) {
@@ -227,6 +234,7 @@ public function get_mapping_attributes_dropdown() {
 			"categories" => "Category",
 			"category_link" => "Category link",
 			"category_path" => "Category path",
+			"category_path_short" => "Category path short",
 			"one_category" => "One category",
 			"condition" => "Condition",
             		"availability" => "Availability",
@@ -396,6 +404,7 @@ public function get_mapping_attributes_dropdown() {
 			"google_category" => "Google category (for rules and filters only)",
 			"category_link" => "Category link",
 			"category_path" => "Category path",
+			"category_path_short" => "Category path short",
 			"one_category" => "One category",
 			"condition" => "Condition",
                         "availability" => "Availability",

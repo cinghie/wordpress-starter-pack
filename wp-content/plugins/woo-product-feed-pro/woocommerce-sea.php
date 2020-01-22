@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     6.9.9
+ * Version:     7.2.7
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '6.9.9' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '7.2.7' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -294,6 +294,46 @@ function woosea_plugin_action_links($links, $file) {
 }
 add_filter('plugin_action_links', 'woosea_plugin_action_links', 10, 2);
 
+
+/**
+ * Get category path for Facebook pixel
+ */
+function woosea_get_term_parents( $id, $taxonomy, $link = false, $project_taxonomy, $nicename = false, $visited = array() ) {
+	// Only add Home to the beginning of the chain when we start buildin the chain
+    	if(empty($visited)){
+        	$chain = 'Home';
+      	} else {
+           	$chain = '';
+     	}
+
+   	$parent = get_term( $id, $taxonomy );
+    	$separator = ' > ';
+
+      	if ( is_wp_error( $parent ) )
+       		return $parent;
+
+    	if($parent){
+        	if ($nicename){
+                	$name = $parent->slug;
+            	} else {
+                   	$name = $parent->name;
+            	}
+
+         	if ($parent->parent && ( $parent->parent != $parent->term_id ) && !in_array( $parent->parent, $visited, TRUE )){
+               		$visited[] = $parent->parent;
+               		$chain .= woosea_get_term_parents( $parent->parent, $taxonomy, $link, $separator, $nicename, $visited );
+          	}
+
+          	if ($link){
+                	$chain .= $separator.$name;
+            	} else {
+                	$chain .= $separator.$name;
+          	}
+   	}
+   	return $chain;
+}
+
+
 /**
  * Add Facebook pixel 
  */
@@ -334,7 +374,7 @@ function woosea_add_facebook_pixel( $product = null ){
 							// This is a variant product	
 							if(($nr_get > 0) AND ($variation_id > 0)){
 								$variable_product = wc_get_product($variation_id);
-							
+	
 								// for variants use the variation_id and not the item_group_id
 								// otherwise Google will disapprove the items due to itemID mismatches
 								$fb_prodid = $variation_id;					
@@ -354,13 +394,20 @@ function woosea_add_facebook_pixel( $product = null ){
                         			       	 			$fb_lowprice  = wc_format_decimal( $lowest, wc_get_price_decimals() );
                         				        		$fb_highprice = wc_format_decimal( $highest, wc_get_price_decimals() );
 										$fb_price = $fb_lowprice;
-
 									}
 								}
 								$viewContent = "fbq(\"track\",\"ViewContent\",{content_category:\"$cats\", content_name:\"$product_name\", content_type:\"product\", content_ids:[\"$fb_prodid\"],value:\"$fb_price\",currency:\"$currency\"});";
 							} else {
+								// This is a parent variable product
+								// Since these are not allowed in the feed, at the variations product ID's
+								// Get children product variation IDs in an array
+								$children_ids = $product->get_children();
+								$content = "";	
+                                				foreach ($children_ids as $id){
+                                        				$content .= $id.',';
+                                				}
                        		 				$prices  = $product->get_variation_prices();
-                      	 					$lowest  = reset( $prices['price'] );
+	               	 					$lowest  = reset( $prices['price'] );
                       						$highest = end( $prices['price'] );
 
          	          	  	 		 	if ( $lowest === $highest ) {
@@ -370,7 +417,7 @@ function woosea_add_facebook_pixel( $product = null ){
                         			       		 	$fb_highprice = wc_format_decimal( $highest, wc_get_price_decimals() );
 									$fb_price = $fb_lowprice;
 								}
-								$viewContent = "fbq(\"track\",\"ViewContent\",{content_category:\"$cats\", content_name:\"$product_name\", content_type:\"product_group\", content_ids:[\"$fb_prodid\"],value:\"$fb_price\",currency:\"$currency\"});";
+								$viewContent = "fbq(\"track\",\"ViewContent\",{content_category:\"$cats\", content_name:\"$product_name\", content_type:\"product_group\", content_ids:[$content],value:\"$fb_price\",currency:\"$currency\"});";
 							}
 						} else {
         						$fb_price = wc_format_decimal( $product->get_price(), wc_get_price_decimals() );
@@ -379,8 +426,112 @@ function woosea_add_facebook_pixel( $product = null ){
 					}
 				}
 			} elseif ($fb_pagetype == "cart"){
-				$fb_prodid = get_the_id();
-				$viewContent = "";
+
+				// This is on the order thank you page
+				if(!empty($_GET)){
+                			$order_string = sanitize_text_field($_GET['key']);
+					if(!empty($order_string)){
+						$order_id = wc_get_order_id_by_order_key( $order_string );
+						$order = wc_get_order( $order_id );
+						$order_items = $order->get_items();
+						$currency = get_woocommerce_currency();
+						$order_real = 0;
+						$contents = "";
+
+						if ( !is_wp_error( $order_items )) {
+							foreach( $order_items as $item_id => $order_item) {
+								$prod_id = $order_item->get_product_id();
+								$prod_quantity = $order_item->get_quantity();
+								$order_total = $order_item->get_total();
+								$order_subtotal = $order_item->get_subtotal();
+								$order_subtotal_tax= $order_item->get_subtotal_tax();
+								$order_real = number_format(($order_subtotal+$order_subtotal_tax),2)+$order_real;
+								$contents .= "{'id': '$prod_id', 'quantity': $prod_quantity},";												
+							}
+						}
+						$contents = rtrim($contents, ",");
+						$viewContent = "fbq(\"trackCustom\",\"Purchase\",{currency:\"$currency\", value:\"$order_real\", content_type:\"product\", contents:\"[$contents]\"});";
+					}
+				} else {
+					// This is on the cart page itself
+					$currency = get_woocommerce_currency();
+					$cart_items = WC()->cart->get_cart();
+					$cart_real = 0;
+					$contents = "";
+
+					$checkoutpage = wc_get_checkout_url();
+					$current_url = get_permalink(get_the_ID()); 
+
+					if( !is_wp_error( $cart_items )) {
+						foreach( $cart_items as $cart_id => $cart_item) {
+							$prod_id = $cart_item['product_id'];
+							if($cart_item['variation_id'] > 0){
+								$prod_id = $cart_item['variation_id'];
+							}
+							$contents .= "'$prod_id',";												
+							$line_total = $cart_item['line_total'];
+							$line_tax = $cart_item['line_tax'];
+							$cart_real = number_format(($line_total+$line_tax),2)+$cart_real;
+						
+						}
+						$contents = rtrim($contents, ",");
+
+						// User is on the billing pages
+						if($checkoutpage == $current_url){
+							$viewContent = "fbq(\"trackCustom\",\"InitiateCheckout\",{currency:\"$currency\", value:\"$cart_real\", content_type:\"product\", content_ids:\"[$contents]\"});";
+						} else {
+							// User is on the basket page
+							$viewContent = "fbq(\"trackCustom\",\"AddToCart\",{currency:\"$currency\", value:\"$cart_real\", content_type:\"product\", content_ids:\"[$contents]\"});";
+						}
+					}
+				}
+			} elseif ($fb_pagetype == "category"){
+				$term = get_queried_object();
+
+				global $wp_query;
+				$ids = wp_list_pluck( $wp_query->posts, "ID" );
+				$fb_prodid = "";
+
+				foreach ($ids as $id){
+					$_product = wc_get_product($id);
+					if($_product->is_type('simple')){
+						// Add the simple product ID
+						$fb_prodid .= $id.',';
+					} else {
+						// This is a variable product, add variation product ID's
+						$children_ids = $_product->get_children();
+                                		foreach ($children_ids as $id){
+                                        		$fb_prodid .= $id.',';
+                                		}
+					}
+				}
+		               	$fb_prodid = rtrim($fb_prodid, ",");
+				$category_name = $term->name;
+                                $category_path = woosea_get_term_parents( $term->term_id, 'product_cat', $link = false, $project_taxonomy = false, $nicename = false, $visited = array() );
+				$viewContent = "fbq(\"trackCustom\",\"ViewCategory\",{content_category:\"$category_path\", content_name:\"$category_name\", content_type:\"product\", content_ids:\"[$fb_prodid]\"});";
+			} elseif ($fb_pagetype == "searchresults"){
+				$term = get_queried_object();
+                		$search_string = sanitize_text_field($_GET['s']);
+				
+				global $wp_query;
+				$ids = wp_list_pluck( $wp_query->posts, "ID" );
+				$fb_prodid = "";
+
+				foreach ($ids as $id){
+					$_product = wc_get_product($id);
+					if($_product->is_type('simple')){
+						// Add the simple product ID
+						$fb_prodid .= $id.',';
+					} else {
+						// This is a variable product, add variation product ID's
+						$children_ids = $_product->get_children();
+                                		foreach ($children_ids as $id){
+                                        		$fb_prodid .= $id.',';
+                                		}
+					}
+				}
+		               	$fb_prodid = rtrim($fb_prodid, ",");
+				$viewContent = "fbq(\"trackCustom\",\"Search\",{search_string:\"$search_string\", content_type:\"product\", content_ids:\"[$fb_prodid]\"});";
 			} else {
 				// This is another page than a product page
 				$viewContent = "";
@@ -574,7 +725,7 @@ function activate_woosea_feed(){
 register_activation_hook(__FILE__, 'activate_woosea_feed');
 
 /**
- * Request our plugin users to write a review
+ * Close the license notification
  **/
 function woosea_license_notice(){
         $license_information = get_option( 'license_information' );
@@ -592,6 +743,23 @@ function woosea_license_notice(){
         }
 }
 add_action('admin_notices', 'woosea_license_notice');
+
+/**
+ * Close the get Elite notification
+ **/
+function woosea_getelite_notification(){
+
+	//delete_option('woosea_getelite_notification');
+
+	$get_elite_notice = array(
+		"show" => "no",
+		"timestamp" => date( 'd-m-Y' )
+	);
+
+	update_option('woosea_getelite_notification',$get_elite_notice);
+}
+add_action( 'wp_ajax_woosea_getelite_notification', 'woosea_getelite_notification' );
+
 
 /**
  * Request our plugin users to write a review
@@ -851,8 +1019,6 @@ function woosea_add_cat_mapping() {
 	$status_mapping = "false";
 	$project = WooSEA_Update_Project::get_project_data(sanitize_text_field($project_hash));	
 
-
-
 	// This is during the configuration of a new feed
 	if(empty($project)){
 		$project_temp = get_option( 'channel_project' );
@@ -1035,48 +1201,29 @@ function woosea_product_delete_meta_price( $product = null ) {
 
 					if( (isset($variation_id)) AND ( is_object( $variable_product ) ) ) {
 						$qty = 1;
-						$product_price = wc_get_price_to_display($variable_product, array('qty' => $qty));
-						$tax_rates = WC_Tax::get_base_tax_rates( $product->get_tax_class() );
-						
-//						$markup = array();                        	
-//						$markup = apply_filters( 'woocommerce_structured_data_product', $markup, $variable_product, $variation_id );
-//
-//						function filter_woocommerce_structured_data_product($markup,$variable_product,$variation_id) {
-//							global $product;
-//							$woosea_brand = ucfirst( get_post_meta( $markup['variation_id'], '_woosea_brand', true ) );
-//							if ( empty( $markup[ 'brand' ] ) ) {
-//								$markup[ 'brand' ] = array(
-//									'@type'	=> 'Brand',
-//									'name'	=> $woosea_brand,
-//								);
-//							}		
-//							return $markup;
-//						}
-//						add_filter( 'woocommerce_structured_data_product', 'filter_woocommerce_structured_data_product', 10, 3 );
-	
-						// Workaround for price caching issues
-                        			if(!empty($tax_rates)){
-                                			foreach ($tax_rates as $tk => $tv){
-                                        			if($tv['rate'] > 0){
+						//$product_price = wc_get_price_to_display($variable_product, array('qty' => $qty));
+						//$product_price = $variable_product->get_price();
+                                	
+						// on default show prices including tax	
+                                		$product_price = wc_get_price_including_tax($variable_product);
+						$structured_vat = get_option ('structured_vat');
 
-                                                               		$structured_vat = get_option ('structured_vat');
-                                                                	if($structured_vat == "yes"){
-                                                				$tax_rates[1]['rate'] = 0;
-									} else {
-										$tax_rates[1]['rate'] = $tv['rate'];
-									}
-                                        			} else {
-                                                			$tax_rates[1]['rate'] = 0;
-                                        			}
-                                			}
-                        			} else {
-                                			$tax_rates[1]['rate'] = 0;
-                        			}
+						// user requested to have prices without tax
+                                		if($structured_vat == "yes"){
+                                        		$tax_rates = WC_Tax::get_base_tax_rates( $product->get_tax_class() );	
 
-						// Make sure tax rates are numeric
-						if(is_numeric($tax_rates[1]['rate'])){
-                        				$product_price = wc_get_price_excluding_tax($variable_product,array('price'=> $variable_product->get_price())) * (100+$tax_rates[1]['rate'])/100;
-						}
+							// Workaround for price caching issues
+                        				if(!empty($tax_rates)){
+                                				$tax_rates[1]['rate'] = 0;
+                        				}
+
+							// Make sure tax rates are numeric
+							if( is_numeric($tax_rates[1]['rate']) ){
+								if( is_numeric($variable_product->get_price()) ){
+                        						$product_price = wc_get_price_excluding_tax($variable_product,array('price'=> $variable_product->get_price())) * (100+$tax_rates[1]['rate'])/100;
+								}
+							}
+						}	
 
 						// Force rounding to two decimals 
 						if(!empty($product_price)){
@@ -1171,8 +1318,8 @@ function woosea_product_delete_meta_price( $product = null ) {
 					// This is a variation product page but no variation has been selected. WooCommerce always shows the price of the lowest priced
 					// variation product. That is why we also put this in the JSON
 					// When there are no parameters in the URL (so for normal users, not coming via Google Shopping URL's) show the old WooCommwerce JSON
-					$product_price = wc_get_price_to_display($product);
-			             	
+					$product_price = round(wc_get_price_to_display($product),2);
+			             
                         		$markup_offer += array(
                                 		'@type'         => 'Offer',
 						'price'		=> $product_price,
@@ -1190,26 +1337,19 @@ function woosea_product_delete_meta_price( $product = null ) {
 				}
 	   		} else {
                              	// Workaround for price caching issues
-         	               	$tax_rates = WC_Tax::get_base_tax_rates( $product->get_tax_class() );   
+				// By default show prices including tax
+				$product_price = wc_get_price_including_tax($product);
 
-			 	if(!empty($tax_rates)){
-                               		foreach ($tax_rates as $tk => $tv){
-                                        	if($tv['rate'] > 0){
-
-                                                 	$structured_vat = get_option ('structured_vat');
-                                                       	if($structured_vat == "yes"){
-                                                     		$tax_rates[1]['rate'] = 0;
-							} else {
-                                                		$tax_rates[1]['rate'] = $tv['rate'];
-							}
-                                              	} else {
-                                                     	$tax_rates[1]['rate'] = 0;
-                                              	}
-                                      	}
-                            	} else {
-                                	$tax_rates[1]['rate'] = 0;
-                               	}
-                             	$product_price = wc_get_price_excluding_tax($product,array('price'=> $product->get_price())) * (100+$tax_rates[1]['rate'])/100;
+                            	$structured_vat = get_option ('structured_vat');
+ 
+				// Use prices excluding tax
+                           	if($structured_vat == "yes"){
+         	               		$tax_rates = WC_Tax::get_base_tax_rates( $product->get_tax_class() );   
+					if(!empty($tax_rates)){
+                                        	$tax_rates[1]['rate'] = 0;
+                               		}
+                             		$product_price = wc_get_price_excluding_tax($product,array('price'=> $product->get_price())) * (100+$tax_rates[1]['rate'])/100;
+				}
 				$product_price = round($product_price, 2);
 
                         	// Assume prices will be valid until the end of next year, unless on sale and there is an end date.
@@ -1329,7 +1469,8 @@ function woosea_check_processing(){
 
         foreach ( $feed_config as $key => $val ) {
 		if(array_key_exists('running', $val)){
-			if($val['running'] == "true"){
+
+			if(($val['running'] == "true") OR ($val['running'] == "stopped")){
 				$processing = "true";
 			}
 		}
@@ -3581,54 +3722,57 @@ function woosea_license_valid(){
         $domain = $_SERVER['HTTP_HOST'];
         $license_information = get_option('license_information');
 
-        $curl = curl_init();
-        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=6.3.9";
+	if(!empty($license_information['license_key'])){
+	        $curl = curl_init();
+	        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=7.2.7";
 
-        curl_setopt_array($curl, array(
-                CURLOPT_RETURNTRANSFER => 1,
-                CURLOPT_URL => $url,
-                CURLOPT_USERAGENT => 'AdTribes license cURL Request'
-        ));
-        $response = curl_exec( $curl );
-        curl_close($curl);
-        $json_return = json_decode($response, true);
+	        curl_setopt_array($curl, array(
+        	        CURLOPT_RETURNTRANSFER => 1,
+                	CURLOPT_URL => $url,
+                	CURLOPT_USERAGENT => 'AdTribes license cURL Request'
+        	));
+        	$response = curl_exec( $curl );
+        	curl_close($curl);
+       	 	$json_return = json_decode($response, true);
 
-        $license_start_time = strtotime($json_return['created']);
-        $license_end_time = strtotime('+1 years', $license_start_time);
-        $current_time = time();
-        $license_information['notice'] = $json_return['notice'];
+        	$license_start_time = strtotime($json_return['created']);
+        	$license_end_time = strtotime('+1 years', $license_start_time);
+        	$current_time = time();
+        	$license_information['notice'] = $json_return['notice'];
 
-        if($json_return['valid'] == "false"){
-                $license_information['message'] = $json_return['message'];
-                $license_information['message_type'] = $json_return['message_type'];
-                $license_information['license_valid'] = "false";
-                $license_information['license_key'] = $json_return['license_key'];
-                $license_information['license_email'] = $json_return['license_email'];
-                $license_information['notice'] = $json_return['notice'];
-
-                update_option ('license_information', $license_information);
-
-		// The Elite settings get disabled when license is not valid
-                delete_option ('structured_data_fix');
-                delete_option ('add_unique_identifiers');
-		delete_option ('add_wpml_support');
-		delete_option ('add_manipulation_support');
-		delete_option ('add_aelia_support');
-        } else {
-		if(empty($json_return)){
-	               	$license_information['message'] = "Could not connect to AdTribes.io to validate your license. We will try again tomorrow.";
-                	$license_information['message_type'] = "notice notice-error is-dismissible";
-                	$license_information['license_valid'] = "true";
-                	$license_information['notice'] = "false";
-		} else {
+        	if($json_return['valid'] == "false"){
                 	$license_information['message'] = $json_return['message'];
                 	$license_information['message_type'] = $json_return['message_type'];
-                	$license_information['license_valid'] = "true";
+                	$license_information['license_valid'] = "false";
+                	$license_information['license_key'] = $json_return['license_key'];
+                	$license_information['license_email'] = $json_return['license_email'];
                 	$license_information['notice'] = $json_return['notice'];
-		}
 
-                update_option ('license_information', $license_information);
-        }
+                	update_option ('license_information', $license_information);
+
+			// The Elite settings get disabled when license is not valid
+                	delete_option ('structured_data_fix');
+                	delete_option ('add_unique_identifiers');
+			delete_option ('add_wpml_support');
+			delete_option ('add_manipulation_support');
+			delete_option ('add_aelia_support');
+        	} else {
+			if(empty($json_return)){
+	               		$license_information['message'] = "Could not connect to AdTribes.io to validate your license. We will try again tomorrow.";
+                		$license_information['message_type'] = "notice notice-error is-dismissible";
+                		$license_information['license_valid'] = "true";
+                		$license_information['notice'] = "false";
+			} else {
+                		$license_information['message'] = $json_return['message'];
+                		$license_information['message_type'] = $json_return['message_type'];
+                		$license_information['license_valid'] = "true";
+                		$license_information['notice'] = $json_return['notice'];
+			}
+ 	               	update_option ('license_information', $license_information);
+        	}
+	} else {
+		// This is a free PRO user, no license check needed
+	}
 }
 
 /**
@@ -3663,8 +3807,8 @@ function woosea_create_all_feeds(){
 			gc_collect_cycles();
 
 			// Only process projects that are active
-			if(($val['active'] == "true") AND (!empty($val))){		
-		
+			if(($val['active'] == "true") AND (!empty($val)) AND (isset($val['cron']))){		
+	
 				if (($val['cron'] == "daily") AND ($hour == 07)){
 					$batch_project = "batch_project_".$val['project_hash'];
                         		if (!get_option( $batch_project )){

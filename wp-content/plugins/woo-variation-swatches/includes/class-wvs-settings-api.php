@@ -343,7 +343,7 @@
 				
 				$html = '<fieldset>';
 				$html .= implode( '<br />', array_map( function ( $key, $option ) use ( $attrs, $args, $value ) {
-					return sprintf( '<label><input %1$s type="radio" id="%2$s-field" name="%4$s[%2$s]" value="%3$s" %5$s/> %6$s</label>', $attrs, $args[ 'id' ], $key, $this->settings_name, checked( $value, $key, false ), $option );
+					return sprintf( '<label><input %1$s type="radio"  name="%4$s[%2$s]" value="%3$s" %5$s/> %6$s</label>', $attrs, $args[ 'id' ], $key, $this->settings_name, checked( $value, $key, false ), $option );
 				}, array_keys( $options ), $options ) );
 				$html .= $this->get_field_description( $args );
 				$html .= '</fieldset>';
@@ -527,7 +527,6 @@
 				return implode( ' ', array_unique( apply_filters( 'get_options_tab_css_classes', $classes ) ) );
 			}
 			
-			
 			private function get_last_active_tab() {
 				
 				$last_tab = trim( $this->get_option( '_last_active_tab' ) );
@@ -607,7 +606,7 @@
 					$b_array[ '#' . $k . '-field' ] = $v;
 				}
 				
-				return 'data-depends="[' . esc_attr( wp_json_encode( $b_array ) ) . ']"';
+				return 'data-wvsdepends="[' . esc_attr( wp_json_encode( $b_array ) ) . ']"';
 			}
 			
 			private function do_settings_fields( $page, $section ) {

@@ -1,12 +1,12 @@
-<div id="tab_panel_general" class="panel woocommerce_options_panel">
-  <div class="options_group">
+<div class="panel woocommerce_options_panel" <# if (data.panel != 'general') { #>hidden<# } #>>
+     <div class="options_group">
     <p class="form-field">
       <label><?php esc_html_e('Name', 'woocommerce-checkout-manager'); ?></label>
       <# if ( _.contains(<?php echo json_encode($defaults); ?>, data.name)) { #>
       <span class="woocommerce-help-tip" data-tip="<?php esc_html_e('You can\'t change the slug of default fields.', 'woocommerce-checkout-manager'); ?>"></span>
       <input class="short" type="text" name="name" placeholder="<?php esc_html_e('myfield', 'woocommerce-checkout-manager'); ?>" value="{{data.name}}" readonly="readonly">
       <# } else { #>
-      <span class="woocommerce-help-tip" data-tip="<?php esc_html_e('Currently is not possible to change the name of the fields.', 'woocommerce-checkout-manager'); ?><?php //esc_html_e('To edit Abbreviations open General > Switches > Editing Of Abbreviation Fields.', 'woocommerce-checkout-manager');                                           ?>"></span>
+      <span class="woocommerce-help-tip" data-tip="<?php esc_html_e('Currently is not possible to change the name of the fields.', 'woocommerce-checkout-manager'); ?><?php //esc_html_e('To edit Abbreviations open General > Switches > Editing Of Abbreviation Fields.', 'woocommerce-checkout-manager');                                                      ?>"></span>
       <input class="short" type="text" name="name" placeholder="<?php esc_html_e('myfield', 'woocommerce-checkout-manager'); ?>" value="{{data.name}}" readonly="readonly" <?php /* if (empty($options['checkness']['abbreviation'])) { ?>readonly="readonly"<?php } */ ?>>
       <# } #>
     </p>                   
@@ -17,10 +17,10 @@
       <# if ( _.contains(<?php echo json_encode($defaults); ?>, data.name)) { #>
       <input class="short" type="text" name="type" value="{{data.type}}" readonly="readonly">
       <# } else { #>
-      <select class="media-modal-change media-modal-render-panels media-modal-render-tabs wooccm-enhanced-select" name="type">
+      <select class="media-modal-render-tabs wooccm-enhanced-select" name="type">
         <?php if ($types): ?>
           <?php foreach ($types as $type => $name) : ?>
-            <option <# if ( data.type == '<?php echo esc_attr($type); ?>' ) { #>selected="selected"<# } #> value="<?php echo esc_attr($type); ?>"><?php echo esc_html($name); ?></option>
+            <option <# if ( data.type == '<?php echo esc_attr($type); ?>' ) { #>selected="selected"<# } #> <# if ( _.contains(<?php echo json_encode($disabled); ?>, '<?php echo esc_attr($type); ?>' )) { #>disabled="disabled"<# } #> value="<?php echo esc_attr($type); ?>"><?php echo esc_html($name); ?></option>
           <?php endforeach; ?>
         <?php endif; ?>
       </select>
@@ -40,24 +40,70 @@
   <div class="options_group">
     <p class="form-field">
       <label><?php esc_html_e('Label', 'woocommerce-checkout-manager'); ?></label>
-      <input class="short media-modal-table" type="text" name="label" placeholder="<?php esc_html_e('My Field Name', 'woocommerce-checkout-manager'); ?>" value="{{data.label}}">
+      <input class="short "type="text" name="label" placeholder="<?php esc_html_e('My Field Name', 'woocommerce-checkout-manager'); ?>" value="{{data.label}}">
       <span span class="woocommerce-help-tip" data-tip="<?php esc_html_e('Label text of the checkout field.', 'woocommerce-checkout-manager'); ?>"></span>
     </p>
     <# if ( !_.contains(<?php echo json_encode($template); ?>, data.type )) { #>
     <p class="form-field">
       <label><?php esc_html_e('Placeholder', 'woocommerce-checkout-manager'); ?></label>
-      <input class="short media-modal-table" type="text" name="placeholder" placeholder="<?php esc_html_e('This is a placeholder', 'woocommerce-checkout-manager'); ?>" value="{{data.placeholder}}">
+      <input class="short" type="text" name="placeholder" placeholder="<?php esc_html_e('This is a placeholder', 'woocommerce-checkout-manager'); ?>" value="{{data.placeholder}}">
       <span span class="woocommerce-help-tip" data-tip="<?php esc_html_e('Placeholder text of the checkout field.', 'woocommerce-checkout-manager'); ?>"></span>
     </p>
     <# } #>
     <# if ( data.type == 'file' ) { #>
     <p class="form-field">
       <label><?php esc_html_e('Button', 'woocommerce-checkout-manager'); ?></label>
-      <input class="short media-modal-table" type="text" name="placeholder" placeholder="<?php esc_html_e('Upload your files', 'woocommerce-checkout-manager'); ?>" value="{{data.placeholder}}">
+      <input class="short" type="text" name="placeholder" placeholder="<?php esc_html_e('Upload your files', 'woocommerce-checkout-manager'); ?>" value="{{data.placeholder}}">
       <span span class="woocommerce-help-tip" data-tip="<?php esc_html_e('Text for the button name.', 'woocommerce-checkout-manager'); ?>"></span>
     </p>
     <# } #>
   </div>
+  <# if ( !_.contains(<?php echo json_encode($template); ?>, data.type )) { #>
+  <div class="options_group">
+    <p class="form-field">
+      <label><?php esc_html_e('Description', 'woocommerce-checkout-manager'); ?></label>
+      <textarea class="short" type="text" name="description" placeholder="<?php esc_html_e('Description of the checkout field', 'woocommerce-checkout-manager'); ?>">{{data.description}}</textarea>
+      <span span class="woocommerce-help-tip" data-tip="<?php esc_html_e('Placeholder text of the checkout field.', 'woocommerce-checkout-manager'); ?>"></span>
+    </p>
+  </div>
+  <# } #>
+  <# if ( data.type == 'message') { #>
+  <div class="options_group">
+    <p class="form-field">
+      <label><?php esc_html_e('Type', 'woocommerce-checkout-manager'); ?></label>
+      <select class="wooccm-enhanced-select" name="message_type">
+        <option <# if ( 'info' == data.message_type ) { #>selected="selected"<# } #> value="info"><?php esc_html_e('Info', 'woocommerce-checkout-manager'); ?></option>
+        <option <# if ( 'message' == data.message_type ) { #>selected="selected"<# } #> value="message"><?php esc_html_e('Success', 'woocommerce-checkout-manager'); ?></option>
+        <option <# if ( 'error' == data.message_type ) { #>selected="selected"<# } #> value="error"><?php esc_html_e('Error', 'woocommerce-checkout-manager'); ?></option>
+      </select>
+      <span span class="woocommerce-help-tip" data-tip="<?php esc_html_e('Message alert type.', 'woocommerce-checkout-manager'); ?>"></span>
+    </p>
+    <p class="form-field">
+      <label><?php esc_html_e('Message', 'woocommerce-checkout-manager'); ?></label>
+      <textarea class="short" name="description" placeholder="<?php esc_html_e('Message content', 'woocommerce-checkout-manager'); ?>">{{data.description}}</textarea>
+      <span span class="woocommerce-help-tip" data-tip="<?php esc_html_e('Message content.', 'woocommerce-checkout-manager'); ?>"></span>
+    </p>
+  </div>
+  <# } #>
+
+  <# if ( data.type == 'button') { #>
+  <div class="options_group">
+    <p class="form-field">
+      <label><?php esc_html_e('Type', 'woocommerce-checkout-manager'); ?></label>
+      <select class="wooccm-enhanced-select" name="button_type">
+        <option <# if ( '' == data.button_type ) { #>selected="selected"<# } #> value=""><?php esc_html_e('Default', 'woocommerce-checkout-manager'); ?></option>
+        <option <# if ( 'alt' == data.button_type ) { #>selected="selected"<# } #> value="alt"><?php esc_html_e('Alt', 'woocommerce-checkout-manager'); ?></option>
+      </select>
+      <span span class="woocommerce-help-tip" data-tip="<?php esc_html_e('Message alert type.', 'woocommerce-checkout-manager'); ?>"></span>
+    </p>
+    <p class="form-field">
+      <label><?php esc_html_e('Link', 'woocommerce-checkout-manager'); ?></label>
+      <input class="short" type="text" name="button_link" placeholder="<?php esc_html_e('URL', 'woocommerce-checkout-manager'); ?>" value="{{data.button_link}}"/>
+      <span span class="woocommerce-help-tip" data-tip="<?php esc_html_e('Button URL.', 'woocommerce-checkout-manager'); ?>"></span>
+    </p>
+  </div>
+  <# } #>
+
   <# if ( !_.contains(<?php echo json_encode(array_merge($template, $option)); ?>, data.type)) { #>
   <div class="options_group">
     <p class="form-field">
@@ -83,7 +129,7 @@
     <p class="form-field">
       <select class="wooccm-enhanced-select" name="file_types" multiple="multiple" data-placeholder="<?php esc_attr_e('Choose the allowed types&hellip;', 'woocommerce-checkout-manager'); ?>" data-allow_clear="true" >
   <?php foreach (wp_get_mime_types() as $type => $name) : ?>
-                                        <option <# if ( _.contains(data.file_types, '<?php echo esc_attr($type); ?>') ) { #>selected="selected"<# } #> value="<?php echo esc_attr($type); ?>"><?php echo esc_html($type); ?></option>
+                                                              <option <# if ( _.contains(data.file_types, '<?php echo esc_attr($type); ?>') ) { #>selected="selected"<# } #> value="<?php echo esc_attr($type); ?>"><?php echo esc_html($type); ?></option>
   <?php endforeach; ?>
       </select>
     </p>

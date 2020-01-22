@@ -520,3 +520,11 @@ body.woocommerce-checkout #checkout_coupon {
 .yith-wcms-pro.woocommerce-checkout .woocommerce form .form-row.woocommerce-validated .select2-container .select2-selection--single{
     border-color: #69bf29;
 }
+
+/* === Twenty20 Theme === */
+
+.yith-wcms.theme-twentytwenty.woocommerce-checkout form #order_review,
+.yith-wcms.theme-twentytwenty.woocommerce-checkout form #order_review_heading{
+    width: 100%;
+    float: none;
+}

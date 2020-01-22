@@ -2,7 +2,7 @@
 
 /**
  * @package WP Product Feed Manager/Data/Functions
- * @version 2.6.0
+ * @version 2.7.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -189,6 +189,43 @@ function wppfm_reinitiate_plugin() {
 	do_action( 'wppfm_plugin_reinitialized' );
 
 	return true;
+}
+
+/**
+ * Recursively implodes an array
+ *
+ * @since 2.8.0
+ *
+ * @param array $array
+ * @param string $glue
+ * @param bool $include_keys
+ * @param bool $trim_all
+ *
+ * @return string
+ */
+function wppfm_recursive_implode( array $array, $glue = ',', $include_keys = false, $trim_all = true ) {
+	$glued_string = '';
+
+	// Recursively iterates array and adds key/value to glued string
+	array_walk_recursive(
+		$array,
+		function ( $value, $key ) use ( $glue, $include_keys, &$glued_string ) {
+			$include_keys and $glued_string .= $key . ' => ';
+			$glued_string                   .= $value . $glue;
+		}
+	);
+
+	// Removes last $glue from string
+	if ( strlen( $glue ) > 0 && $glued_string ) {
+		substr( $glued_string, 0, - strlen( $glue ) );
+	}
+
+	// Trim ALL whitespace
+	if ( $trim_all && $glued_string ) {
+		preg_replace( '/(\s)/ixsm', '', $glued_string );
+	}
+
+	return (string) $glued_string;
 }
 
 function wppfm_clear_feed_process_data() {

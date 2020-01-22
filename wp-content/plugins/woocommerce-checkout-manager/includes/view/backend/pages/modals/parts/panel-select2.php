@@ -1,5 +1,6 @@
-<div id="tab_panel_select2" class="panel woocommerce_options_panel hidden" style="display: none;">
-  <div class="options_group wooccm-premium">
+<# if (_.contains(<?php echo json_encode(array('select', 'multiselect')); ?>, data.type)) { #>
+<div class="panel woocommerce_options_panel" <# if (data.panel != 'select2') { #>hidden<# } #>>
+     <div class="options_group wooccm-premium">
     <p class="form-field">
       <label><?php esc_html_e('Select2', 'woocommerce-checkout-manager'); ?></label>
       <input <# if ( data.select2 ) { #>checked="checked"<# } #> type="checkbox" name="select2" value="1">
@@ -36,3 +37,4 @@
     </p>    
   </div>
 </div>
+<# } #>

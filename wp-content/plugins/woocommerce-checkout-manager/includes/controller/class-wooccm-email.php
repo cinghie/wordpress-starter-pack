@@ -25,6 +25,35 @@ class WOOCCM_Order_Email_Controller {
             'id' => 'section_title'
         ),
         array(
+            'name' => esc_html__('Add upload files', 'woocommerce-checkout-manager'),
+            'desc_tip' => esc_html__('Allow customers to upload files in the order.', 'woocommerce-checkout-manager'),
+            'id' => 'wooccm_email_upload_files',
+            'type' => 'select',
+            'class' => 'chosen_select wooccm-premium-field',
+            'options' => array(
+                'yes' => esc_html__('Yes', 'woocommerce-checkout-manager'),
+                'no' => esc_html__('No', 'woocommerce-checkout-manager'),
+            ),
+            'default' => 'no',
+        ),
+        array(
+            'name' => esc_html__('Add for this order status', 'woocommerce-checkout-manager'),
+            'desc_tip' => esc_html__('Allow customers to upload files in the order.', 'woocommerce-checkout-manager'),
+            'id' => 'wooccm_email_upload_files_order_status',
+            'type' => 'multiselect',
+            'class' => 'chosen_select wooccm-premium-field',
+            'options' => wc_get_order_statuses(),
+            'default' => array_keys(wc_get_order_statuses()),
+        ),
+        array(
+            'name' => esc_html__('Add upload files title', 'woocommerce-checkout-manager'),
+            'desc_tip' => esc_html__('Add custom title for the uploads files table.', 'woocommerce-checkout-manager'),
+            'id' => 'wooccm_email_upload_files_title',
+            'class' => 'wooccm-premium-field',
+            'type' => 'text',
+            'placeholder' => esc_html__('Uploaded files', 'woocommerce-checkout-manager')
+        ),
+        array(
             'name' => esc_html__('Add custom fields', 'woocommerce-checkout-manager-pro'),
             'desc_tip' => esc_html__('Show the selected fields in the order.', 'woocommerce-checkout-manager-pro'),
             'id' => 'wooccm_email_custom_fields',

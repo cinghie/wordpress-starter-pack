@@ -1,8 +1,8 @@
 jQuery( document ).ready(
 	function( $ ) {
 		var fileNameElement  = $( '#file-name' );
-		var merchantsElement = $( '#merchants' );
-		var countriesElement = $( '#countries' );
+		var merchantsElement = $( '#wppfm-merchants-selector' );
+		var countriesElement = $( '#wppfm-countries-selector' );
 		var level0Element    = $( '#lvl_0' );
 
 		// monitor the four main feed settings and react when they change
@@ -12,7 +12,9 @@ jQuery( document ).ready(
 				if ( '' !== fileNameElement.val() ) {
 					countriesElement.prop( 'disabled', false );
 					level0Element.prop( 'disabled', false );
-					wppfm_validateFileName( jQuery( '#file-name' ) );
+					if ( false === wppfm_validateFileName( fileNameElement.val() ) ) {
+						fileNameElement.val( '' );
+					}
 
 					if ( '0' !== merchantsElement.val() ) {
 						wppfm_showChannelInputs( merchantsElement.val(), true );
@@ -81,7 +83,7 @@ jQuery( document ).ready(
 			'change',
 			function() {
 				if ( '0' !== merchantsElement.val() && '' !== $( '#file-name' ).val() ) {
-					wppfm_showChannelInputs( $( '#merchants' ).val(), true );
+					wppfm_showChannelInputs( $( '#wppfm-merchants-selector' ).val(), true );
 					wppfm_mainInputChanged( false );
 				} else {
 					wppfm_hideFeedFormMainInputs();
@@ -111,7 +113,7 @@ jQuery( document ).ready(
 			}
 		);
 
-		$( '.cat_select' ).on(
+		$( '.wppfm-cat-selector' ).on(
 			'change',
 			function() {
 				wppfm_nextCategory( this.id );

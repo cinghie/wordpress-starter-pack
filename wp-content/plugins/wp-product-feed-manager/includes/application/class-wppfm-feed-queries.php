@@ -37,15 +37,19 @@ if ( ! class_exists( 'WPPFM_Feed_Queries' ) ) :
 		}
 
 		public function is_empty( $value ) {
-			$trimmed_value = trim( $value );
+			if ( ! is_array( $value ) ) {
+				$value = trim( $value );
+			}
 
-			return empty( $trimmed_value ) ? false : true;
+			return empty( $value ) ? false : true;
 		}
 
 		public function is_not_empty_query( $value ) {
-			$trimmed_value = trim( $value );
+			if ( ! is_array( $value ) ) {
+				$value = trim( $value );
+			}
 
-			return ! empty( $trimmed_value ) ? false : true;
+			return ! empty( $value ) ? false : true;
 		}
 
 		public function starts_with_query( $query, $value ) {

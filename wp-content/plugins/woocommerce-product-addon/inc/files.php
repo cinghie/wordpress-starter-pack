@@ -58,7 +58,7 @@ function ppom_is_file_image( $file_name ){
 }
 
 // return html for file thumb
-function ppom_create_thumb_for_meta( $file_name, $product_id, $cropped=false) {
+function ppom_create_thumb_for_meta( $file_name, $product_id, $cropped=false, $size=null) {
 	
 	$file_dir_path = ppom_get_dir_path() . $file_name;
 	if( ! file_exists($file_dir_path) ) return '';
@@ -94,7 +94,8 @@ function ppom_create_thumb_for_meta( $file_name, $product_id, $cropped=false) {
 		$ppom_html	.= '<td><a href="'.esc_url($cropped_url).'" class="lightbox et_pb_lightbox_image" itemprop="image" title="'.esc_attr($file_name).'">';
 		$ppom_html	.= '<img class="img-thumbnail" style="width:'.esc_attr($ppom_cart_meta_thumb_size).'" src="'.esc_url($cropped_url).'">';
 		$ppom_html	.= '</a></td>';
-		$ppom_html	.= '<td>' .__('Cropped', "ppom").'</td>';
+		$cropped_title = sprintf(__("Your image-%s", 'ppom'), $size);
+		$ppom_html	.= '<td>'.$cropped_title.'</td>';
 		$ppom_html	.= '</tr>';
 	}
 	

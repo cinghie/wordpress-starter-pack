@@ -1,8 +1,8 @@
 /*!
- * Variation Swatches for WooCommerce v1.0.68 
+ * Variation Swatches for WooCommerce v1.0.71 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 11/14/2019, 11:42:14 PM
+ * Date: 1/5/2020, 3:32:42 PM
  * Released under the GPLv3 license.
  */
 .woo-variation-swatches-theme-sober .product form.cart .variations .variable,
@@ -228,4 +228,9 @@
 .woo-variation-swatches-theme-simple-elegant .woo-variation-items-wrapper .wi-nice-select,
 .woo-variation-swatches-theme-child-simple-elegant .woo-variation-items-wrapper .wi-nice-select {
   display: none;
+}
+
+.woo-variation-swatches-theme-twentytwenty table.variations,
+.woo-variation-swatches-theme-child-twentytwenty table.variations {
+  overflow: auto;
 }

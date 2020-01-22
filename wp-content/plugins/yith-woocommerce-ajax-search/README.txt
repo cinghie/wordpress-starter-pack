@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: woocommerce search by sku, woocommerce search results, woocommerce search shortcode, woocommerce search page, woocommerce search form, woocommerce search filter, woocommerce search products, woocommerce search content, woocommerce search autocomplete, woocommerce advanced search, woocommerce search category, woocommerce search product attributes, woocommerce search by tag, woocommerce search by brand, woocommerce predictive, woocommerce live search, woocommerce single product search, woocommerce site search, woocommerce search tex, tajax, search, woocommerce, products, themes, yit, e-commerce, shop, yith, ajax search, instant search, premium, yithemes, autocomplete, autosuggest, better search, category search, custom search, highlight terms, Live Search, Predictive Search, product search, relevant search, search highlight, search product, suggest, typeahead, WooCommerce Plugin, woocommerce product search, woocommerce search, wordpress ecommerce
 Requires at least: 4.0.0
 Tested up to: 5.3
-Stable tag: 1.7.3
+Stable tag: 1.7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,7 +80,7 @@ Important: First of all, you have to download and activate WooCommerce plugin, b
 
 
 = Configuration =
-YITH WooCommerce Ajax Search will add a new tab called "Ajax Search" in "YIT Plugins" menu. There, you will find all YITH plugins and you will be able to access quickly plugin settings page.
+YITH WooCommerce Ajax Search will add a new tab called "Ajax Search" in "YITH" menu. There, you will find all YITH plugins and you will be able to access quickly plugin settings page.
 
 == Frequently Asked Questions ==
 
@@ -138,6 +138,11 @@ If you have created your own language pack for YITH WooCommerce Ajax Search, or 
 2. YITH WooCommerce Ajax Search in operation displaying WooCommerce search results
 
 == Changelog ==
+= 1.7.4 - Released on 23 December 2019 =
+
+* New: Support for WooCommerce 3.9
+* Update: Plugin framework
+
 = 1.7.3 - Released on 29 November 2019 =
 
 * Update: Plugin framework

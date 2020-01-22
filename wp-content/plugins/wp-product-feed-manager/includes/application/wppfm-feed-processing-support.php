@@ -1247,8 +1247,10 @@ trait WPPFM_Processing_Support {
 				$product_brand = get_the_terms( $parent_product_id, 'yith_product_brand' );
 			}
 
-			foreach ( $product_brand as $brand ) {
-				$result .= $brand->name . ', ';
+			if ( $product_brand && ! is_wp_error( $product_brand ) ) {
+				foreach ( $product_brand as $brand ) {
+					$result .= $brand->name . ', ';
+				}
 			}
 		}
 

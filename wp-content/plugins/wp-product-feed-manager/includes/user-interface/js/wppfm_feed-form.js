@@ -14,23 +14,38 @@ var _feedHolder                  = [];
 
 /**
  * Gets triggered when one of the main inputs on the edit feed page has changed. This function starts a new feed when all
- * main inputs are given or updates the existing feed if required, based on the changed main input
+ * main inputs are given or updates the existing feed if required, based on the changed main input.
  *
- * @param {boolean} categoryChanged
+ * @param {boolean}   categoryChanged     True if the the Default Category input changed.
  */
 function wppfm_mainInputChanged( categoryChanged ) {
-	var channel = jQuery( '#merchants' ).val();
+	var channel = jQuery( '#wppfm-merchants-selector' ).val();
 	var feedId  = _feedHolder[ 'feedId' ];
 
 	wppfm_reactOnChannelInputChanged( channel, feedId, categoryChanged );
 }
 
+/**
+ * Makes sure the feed name does not contain any special characters or already exists.
+ *
+ * @param {string}          fileNameElement     The feed name name.
+ *
+ * @return {void|boolean}   Returns false when the file name is not valid.
+ */
 function wppfm_validateFileName( fileNameElement ) {
-	if ( ! wppfm_contains_special_characters( fileNameElement.val() ) ) {
-		_feedHolder[ 'title' ] = fileNameElement.val();
+	if ( ! wppfm_contains_special_characters( fileNameElement ) ) {
+		var existingFileNames = JSON.parse( jQuery( '#wppfm-all-feed-names' ).text() );
+
+		// test if file name already exists
+		if ( -1 === jQuery.inArray( fileNameElement, existingFileNames ) ) {
+			_feedHolder[ 'title' ] = fileNameElement;
+		} else {
+			alert( wppfm_feed_settings_form_vars.feed_name_exists );
+			return false;
+		}
 	} else {
 		alert( wppfm_feed_settings_form_vars.prohibited_feed_name_characters );
-		fileNameElement.val( '' );
+		return false;
 	}
 }
 
@@ -54,7 +69,7 @@ function wppfm_freeCategoryChanged( type, id ) {
 }
 
 /**
- * Generates a new feed and opens the feed table
+ * Generates a new feed and opens the feed table.
  */
 function wppfm_constructNewFeed() {
 	var daysIntervalElement            = jQuery( '#days-interval' );
@@ -67,10 +82,10 @@ function wppfm_constructNewFeed() {
 	var source            = '1';
 	var mainCategory      = jQuery( '#lvl_0 option:selected' ).text();
 	var categoryMapping   = [];
-	var channel           = jQuery( '#merchants' ).val();
+	var channel           = jQuery( '#wppfm-merchants-selector' ).val();
 	var variations        = jQuery( '#variations' ).is( ':checked' ) ? 1 : 0;
 	var aggregator        = jQuery( '#aggregator' ).is( ':checked' ) ? 1 : 0;
-	var country           = jQuery( '#countries' ).val();
+	var country           = jQuery( '#wppfm-countries-selector' ).val();
 	var language          = document.getElementById( 'language' ) === null ? '' : jQuery( '#wppfm-feed-language-selector' ).val();
 	var feedTitle         = jQuery( '#google-feed-title-selector' ).val();
 	var feedDescription   = jQuery( '#google-feed-description-selector' ).val();
@@ -97,7 +112,7 @@ function wppfm_constructNewFeed() {
 /**
  * This function can be used by special feed add-on plugins to handle construction of a new non standard feed.
  *
- * @param {object} specialFeedFeedHolder
+ * @param {object}  specialFeedFeedHolder
  */
 function wppfm_constructNewSpecialFeed( specialFeedFeedHolder ) {
 	_feedHolder = specialFeedFeedHolder;
@@ -141,11 +156,11 @@ function wppfm_unsetSpecialFeedArrayProperty( key, value ) {
 }
 
 function wppfm_finishOrUpdateFeedPage( categoryChanged ) {
-	var selectedChannelElement = jQuery( '#merchants' );
+	var selectedChannelElement = jQuery( '#wppfm-merchants-selector' );
 	var lvl0Element            = jQuery( '#lvl_0' );
 	var selectedChannelValue   = selectedChannelElement.val().toString();
 
-	wppfm_show_feed_spinner();
+	wppfm_showFeedSpinner();
 
 	// make sure the data is correct
 	_feedHolder[ 'title' ]             = jQuery( '#file-name' ).val();
@@ -169,7 +184,7 @@ function wppfm_finishOrUpdateFeedPage( categoryChanged ) {
 
 		wppfm_customSourceFields( _feedHolder[ 'dataSource' ], function( customFields ) {
 
-			_feedHolder[ 'country' ]  = jQuery( '#countries' ).val();
+			_feedHolder[ 'country' ]  = jQuery( '#wppfm-countries-selector' ).val();
 			_feedHolder[ 'language' ] = jQuery( '#wppfm-feed-language-selector' ).val();
 
 			wppfm_fillSourcesList( customFields );
@@ -212,7 +227,7 @@ function wppfm_finishOrUpdateFeedPage( categoryChanged ) {
 				jQuery( '#page-center-buttons' ).show();
 				jQuery( '#page-bottom-buttons' ).show();
 
-				wppfm_hide_feed_spinner();
+				wppfm_hideFeedSpinner();
 			} );
 		} );
 	} );
@@ -229,7 +244,7 @@ function wppfm_finishOrUpdateSpecialFeedPage( specialFeedFeedHolder ) {
 	// draws the attribute mapping section on the form
 	wppfm_drawAttributeMappingSection();
 
-	if ( _feedHolder !== 0 ) {
+	if ( _feedHolder ) {
 		var isNew = _feedHolder[ 'feedId' ] === - 1;
 		wppfm_fillFeedFields( isNew, false );
 	}
@@ -239,78 +254,94 @@ function wppfm_finishOrUpdateSpecialFeedPage( specialFeedFeedHolder ) {
 	jQuery( '#page-bottom-buttons' ).show();
 }
 
+function wppfm_initiateFeed() {
+	var feedData = JSON.parse( jQuery( '#wppfm-ajax-feed-data-array' ).text() ); // get the data from the edit feed form code
+
+	console.log(feedData);
+
+	// make a _feedHolder
+	if ( feedData ) {
+		_feedHolder = new Feed(
+			feedData['feed_id'],
+			feedData['feed_file_name'],
+			feedData['include_variations'],
+			feedData['is_aggregator'],
+			feedData['channel_id'],
+			feedData['main_category'],
+			feedData['category_mapping'],
+			feedData['url'],
+			feedData['source'],
+			feedData['target_country'],
+			feedData['language'],
+			feedData['feed_title'],
+			feedData['feed_description'],
+			feedData['schedule'],
+			[],
+			feedData['status_id'],
+			'1'
+		);
+
+		wppfm_addFeedAttributes( feedData['attribute_data'], feedData['channel_id'], 1 );
+
+		_feedHolder.setFeedFilter( feedData['feed_filter'] );
+
+//		_feedHolder.setSourceValue( feedData['source_fields'] );
+		_feedHolder['source_fields'] = feedData['source_fields'];
+	}
+}
+
+/**
+ * Builds up the Edit Feed page for an already existing feed.
+ *
+ * @param   {string}    feedId  The id of the feed.
+ */
 function wppfm_editExistingFeed( feedId ) {
 
-	wppfm_show_feed_spinner();
+	// exit if the incorrect data is loaded
+	if ( feedId !== _feedHolder[ 'feedId' ] ) {
+		return;
+	}
 
-	// read the feed data from the database
-	wppfm_getFeedObject( feedId, function( feedObject ) {
+	var channel        = _feedHolder[ 'channel' ];
+	var categoryString = _feedHolder[ 'mainCategory' ];
+	var mainCategory   = categoryString && categoryString.indexOf( ' > ' ) > - 1 ? categoryString.substring( 0, categoryString.indexOf( ' > ' ) ) : categoryString;
 
-		// put the data in the _feed object
-		_feedHolder = feedObject;
+	wppfm_fillCategoryVariables( channel, mainCategory, '0' ); // make sure the category values are set correctly
 
-		console.log( _feedHolder[ 'categoryMapping' ] );
+	wppfm_fillSourcesList( _feedHolder[ 'source_fields' ] );
 
-		var channel        = _feedHolder[ 'channel' ];
-		var categoryString = _feedHolder[ 'mainCategory' ];
-		var mainCategory   = categoryString && categoryString.indexOf( ' > ' ) > - 1 ? categoryString.substring( 0, categoryString.indexOf( ' > ' ) ) : categoryString;
+	var attributeLevelArgs = ! wppfm_requiresLanguageInput( channel ) ? _feedHolder[ 'country' ] : _feedHolder[ 'language' ];
 
-		wppfm_fillCategoryVariables( channel, mainCategory, '0' ); // make sure the category values are set correctly
+	// set the correct level of the attributes
+	_feedHolder = wppfm_setOutputAttributeLevels( channel, _feedHolder, attributeLevelArgs );
 
-		// get all possible output fields from the database
-		wppfm_getFeedAttributes( _feedHolder[ 'feedId' ], channel, function( outputs ) {
+	wppfm_makeFeedFilterWrapper( _feedHolder[ 'feedId' ], _feedHolder[ 'feedFilter' ] );
 
-			// set the found output fields as attributes in the feed object
-			wppfm_addFeedAttributes( outputs, channel, 1 );
+	// draws the attribute mapping section on the form
+	wppfm_drawAttributeMappingSection();
 
-			wppfm_customSourceFields( _feedHolder[ 'dataSource' ], function( customFields ) {
+	if ( _feedHolder !== 0 ) {
+		wppfm_fillFeedFields( false, false );
+	}
 
-				wppfm_fillSourcesList( customFields );
+	if ( _feedHolder[ 'categoryMapping' ] ) {
+		wppfm_setCategoryMap( _feedHolder[ 'categoryMapping' ] );
+	}
 
-				wppfm_mainFeedFilters( feedId, function( feedFilters ) {
+	// enable the Generate and Save buttons and the target country selection
+	wppfm_enableFeedActionButtons();
 
-					// get the master feed filter
-					var mainFeedFilter     = feedFilters !== 1 ? feedFilters : null;
-					var attributeLevelArgs = ! wppfm_requiresLanguageInput( channel ) ? _feedHolder[ 'country' ] : _feedHolder[ 'language' ];
+	jQuery( '#wppfm-countries-selector' ).prop( 'disabled', false );
 
-					_feedHolder.setFeedFilter( mainFeedFilter );
+	// set the default categories select fields in the background
+	wppfm_fillDefaultCategorySelectors();
 
-					// set the correct level of the attributes
-					_feedHolder = wppfm_setOutputAttributeLevels( channel, _feedHolder, attributeLevelArgs );
+	// set the identifier_exists layout
+	wppfm_setIdentifierExistsDependancies();
 
-					wppfm_makeFeedFilterWrapper( _feedHolder[ 'feedId' ], _feedHolder[ 'feedFilter' ] );
-
-					// draws the attribute mapping section on the form
-					wppfm_drawAttributeMappingSection();
-
-					if ( _feedHolder !== 0 ) {
-						wppfm_fillFeedFields( false, false );
-					}
-
-					if ( _feedHolder[ 'categoryMapping' ] ) {
-						wppfm_setCategoryMap( _feedHolder[ 'categoryMapping' ] );
-					}
-
-					// enable the Generate and Save buttons and the target country selection
-					wppfm_enableFeedActionButtons();
-
-					jQuery( '#countries' ).prop( 'disabled', false );
-
-					// set the default categories select fields in the background
-					wppfm_fillDefaultCategorySelectors();
-
-					// set the identifier_exists layout
-					wppfm_setIdentifierExistsDependancies();
-
-					// show the buttons again
-					jQuery( 'div' ).filter( '#page-center-buttons' ).show();
-					jQuery( '#page-bottom-buttons' ).show();
-
-					wppfm_hide_feed_spinner();
-				} );
-			} );
-		} );
-	} );
+	// show the buttons again
+	jQuery( 'div' ).filter( '#page-center-buttons' ).show();
+	jQuery( '#page-bottom-buttons' ).show();
 }
 
 function wppfm_fillSourcesList( customFields ) {
@@ -460,7 +491,7 @@ function wppfm_setCategoryMap( mapping, mode ) {
 
 function wppfm_generateAndSaveFeed() {
 
-	wppfm_show_feed_spinner();
+	wppfm_showFeedSpinner();
 
 	//noinspection JSUnresolvedVariable
 	_feedHolder[ 'mainCategory' ] = ! wppfm_channelUsesOwnCategories(
@@ -479,7 +510,7 @@ function wppfm_generateAndSaveFeed() {
 			wppfm_handleUpdateFeedFileActionResult( xmlResult );
 
 			if ( ! newFeed ) {
-				wppfm_hide_feed_spinner();
+				wppfm_hideFeedSpinner();
 			}
 		} );
 	} );
@@ -492,7 +523,7 @@ function wppfm_handleSaveFeedToDbActionResult( dbResult, newFeed ) {
 		console.log( 'Saving the data to the data base has failed!' );
 		//noinspection JSUnresolvedVariable
 		wppfm_show_error_message( wppfm_feed_settings_form_vars.save_data_failed );
-		wppfm_hide_feed_spinner();
+		wppfm_hideFeedSpinner();
 	} else {
 
 		// insert the feed id in the _feed
@@ -516,42 +547,41 @@ function wppfm_handleUpdateFeedFileActionResult( xmlResult ) {
 			errorMessageElement.hide();
 			//noinspection JSUnresolvedVariable
 			wppfm_show_success_message( wppfm_feed_settings_form_vars.feed_started );
-			wppfm_alert_update_finished( _feedHolder[ 'feedId' ], 5000 );
+			wppfm_alert_update_finished( _feedHolder[ 'feedId' ], 10000 );
 			break;
 
 		case 'pushed_to_queue':
 			errorMessageElement.hide();
 			//noinspection JSUnresolvedVariable
 			wppfm_show_success_message( wppfm_feed_settings_form_vars.feed_queued );
-			wppfm_alert_update_finished( _feedHolder[ 'feedId' ], 5000 );
+			wppfm_alert_update_finished( _feedHolder[ 'feedId' ], 10000 );
 			break;
 
 		case 'writing_error':
 			//noinspection JSUnresolvedVariable
 			wppfm_show_error_message( wppfm_feed_settings_form_vars.feed_writing_error );
-			wppfm_hide_feed_spinner();
+			wppfm_hideFeedSpinner();
 			break;
 
 		case 'foreground_processing_complete':
 			wppfm_alert_update_finished( _feedHolder[ 'feedId' ], 0 );
-			wppfm_hide_feed_spinner();
+			wppfm_hideFeedSpinner();
 			break;
 
 		case 'activation_error':
 			//noinspection JSUnresolvedVariable
 			wppfm_show_error_message( wppfm_feed_settings_form_vars.feed_initiation_error );
-			wppfm_hide_feed_spinner();
+			wppfm_hideFeedSpinner();
 			break;
 
 		case '1':
-		case 1:
 			//noinspection JSUnresolvedVariable
 			wppfm_show_error_message( wppfm_feed_settings_form_vars.feed_general_error.replace( '%xmlResult%', xmlResult ) );
-			wppfm_hide_feed_spinner();
+			wppfm_hideFeedSpinner();
 			break;
 
 		default:
-			wppfm_hide_feed_spinner();
+			wppfm_hideFeedSpinner();
 	}
 }
 
@@ -563,7 +593,7 @@ function wppfm_handleUpdateFeedFileActionResult( xmlResult ) {
  */
 function wppfm_alert_update_finished( feedId, repeatTime ) {
 	if ( undefined === repeatTime || 0 === repeatTime ) {
-		repeatTime = 5000;
+		repeatTime = 10000;
 	} // default value
 
 	var wppfmStatusCheck           = window.setInterval( wppfm_checkAndSetStatus, repeatTime, feedId );
@@ -620,7 +650,7 @@ function wppfm_alert_update_finished( feedId, repeatTime ) {
 
 function wppfm_saveFeed() {
 
-	wppfm_show_feed_spinner();
+	wppfm_showFeedSpinner();
 
 	var newFeed = _feedHolder[ 'feedId' ] === - 1;
 
@@ -649,7 +679,7 @@ function wppfm_saveFeed() {
 				}
 			}
 
-			wppfm_hide_feed_spinner();
+			wppfm_hideFeedSpinner();
 		}
 	);
 }
@@ -663,12 +693,12 @@ function wppfm_nextCategory( currentLevelId ) {
 	var nextLevelId        = wppfm_incrementLast( currentLevelId );
 	var nextLevel          = nextLevelId.match( /(\d+)$/ )[ 0 ]; // get the number on the end of the nextLevelId
 	var selectedCategory   = jQuery( '#' + currentLevelId ).val();
-	var channel            = _feedHolder[ 'channel' ] ? _feedHolder[ 'channel' ].toString() : jQuery( '#merchants' ).val();
+	var channel            = _feedHolder[ 'channel' ] ? _feedHolder[ 'channel' ].toString() : jQuery( '#wppfm-merchants-selector' ).val();
 	var language           = wppfm_channelCountryCode( channel );
 	var nextLevelIdElement = jQuery( '#' + nextLevelId );
 
 	if ( nextLevel > 1 ) {
-		wppfm_show_feed_spinner();
+		wppfm_showFeedSpinner();
 	}
 
 	// show the correct sub level selectors, hide the others
@@ -699,7 +729,7 @@ function wppfm_nextCategory( currentLevelId ) {
 		}
 
 		if ( nextLevel > 1 ) {
-			wppfm_hide_feed_spinner();
+			wppfm_hideFeedSpinner();
 		}
 	} );
 }
@@ -741,10 +771,11 @@ function wppfm_aggregatorChanged() {
 }
 
 function wppfm_setChildrenToParentCategory( parentId, childId, level, selectedCategory ) {
-	var currentChildCategory = wppfm_getCategorySelectorValue( childId );
-	var curCatStr            = '';
-	var newCategory          = wppfm_addNewItemToCategoryString( level, currentChildCategory, selectedCategory, ' > ' );
-	var categorySelectorId   = 'catmap-' + childId + '_' + level;
+	var currentChildCategory   = wppfm_getCategorySelectorValue( childId );
+	var curCatStr              = '';
+	var newCategory            = wppfm_addNewItemToCategoryString( level, currentChildCategory, selectedCategory, ' > ' );
+	var categorySelectorId     = 'catmap-' + childId + '_' + level;
+	var catmapTextSpanSelector = jQuery( '#category-text-span-' + childId );
 
 	for ( var i = 0; i < level; i ++ ) {
 		curCatStr += jQuery( '#catmap-' + parentId + '_' + i ).val() + ' > ';
@@ -753,11 +784,11 @@ function wppfm_setChildrenToParentCategory( parentId, childId, level, selectedCa
 	var preSelectionParentCategory = curCatStr.substring( 0, curCatStr.length - 3 );
 
 	if ( currentChildCategory === preSelectionParentCategory || currentChildCategory === wppfm_feed_settings_form_vars.map_to_default_category ) {
-		if ( '#category-text-span-' + childId.length === 0 ) {
+		if ( catmapTextSpanSelector.length === 0 ) {
 			wppfm_mapToDefaultCategoryElement( childId, newCategory );
 		}
 
-		jQuery( '#category-text-span-' + childId ).text( newCategory );
+		catmapTextSpanSelector.text( newCategory );
 
 		var feedSelectorElement = jQuery( '#feed-selector-' + childId );
 		var children            = feedSelectorElement.attr( 'data-children' ) ? JSON.parse( feedSelectorElement.attr( 'data-children' ) ) : [];
@@ -767,7 +798,7 @@ function wppfm_setChildrenToParentCategory( parentId, childId, level, selectedCa
 		}
 
 		_feedHolder.mapCategory( categorySelectorId, selectedCategory );
-	} else if ( jQuery( '#category-text-span-' + childId ).length === 0 ) {
+	} else if ( catmapTextSpanSelector.length === 0 ) {
 		jQuery( '#feed-category-' + childId ).html( wppfm_mapToDefaultCategoryElement( childId, currentChildCategory ) );
 		jQuery( '#category-selector-catmap-' + childId ).hide();
 	}
@@ -796,7 +827,7 @@ function wppfm_getCategorySelectorValue( selectorId ) {
 
 function wppfm_fillFeedFields( isNew, categoryChanged ) {
 	var langElem                 = document.getElementById( 'language' );
-	var merchantsSelectorElement = jQuery( '#merchants' );
+	var merchantsSelectorElement = jQuery( '#wppfm-merchants-selector' );
 
 	// if the category attribute has a value
 	if ( _feedHolder[ 'mainCategory' ] && isNew === false ) {
@@ -805,11 +836,11 @@ function wppfm_fillFeedFields( isNew, categoryChanged ) {
 			// make the category string
 			var categoryString = _feedHolder[ 'mainCategory' ] +
 			                     ' (<a class="edit-categories wppfm-btn wppfm-btn-small" href="javascript:void(0)" ' +
-			                     'id="categories" onclick="wppfm_editCategories()">' + wppfm_feed_settings_form_vars.edit + '</a>)';
+			                     'id="wppfm-edit-categories" onclick="wppfm_editCategories()">' + wppfm_feed_settings_form_vars.edit + '</a>)';
 
 			jQuery( '#lvl_0' ).hide();
 			jQuery( '#selected-categories' ).html( categoryString );
-			jQuery( '#selected-merchant' ).html( jQuery( '#merchants option[value=\'' + _feedHolder[ 'channel' ] + '\']' ).text() );
+			jQuery( '#selected-merchant' ).html( jQuery( '#wppfm-merchants-selector option[value=\'' + _feedHolder[ 'channel' ] + '\']' ).text() );
 			merchantsSelectorElement.hide();
 		}
 	} else {
@@ -821,14 +852,14 @@ function wppfm_fillFeedFields( isNew, categoryChanged ) {
 	if ( ! isNew ) {
 		wppfm_showChannelInputs( _feedHolder[ 'channel' ], isNew );
 	} else {
-		jQuery( '#category-map' ).show();
+		jQuery( '#wppfm-category-map' ).show();
 	}
 
 	jQuery( '#file-name' ).val( _feedHolder[ 'title' ] );
 	merchantsSelectorElement.val( _feedHolder[ 'channel' ] );
 	jQuery( '#variations' ).prop( 'checked', _feedHolder[ 'includeVariations' ] > 0 );
 	jQuery( '#aggregator' ).prop( 'checked', _feedHolder[ 'isAggregator' ] > 0 );
-	jQuery( '#countries' ).val( _feedHolder[ 'country' ] );
+	jQuery( '#wppfm-countries-selector' ).val( _feedHolder[ 'country' ] );
 	jQuery( '#google-feed-title-selector' ).val( _feedHolder[ 'feedTitle' ] );
 	jQuery( '#google-feed-description-selector' ).val( _feedHolder[ 'feedDescription' ] );
 	jQuery( '#days-interval' ).val( schedule[ 0 ] );
@@ -880,7 +911,7 @@ function wppfm_categorySelectCntrl( categories ) {
  * @param {string} id
  */
 function wppfm_editCategoryMapping( id ) {
-	wppfm_show_feed_spinner();
+	wppfm_showFeedSpinner();
 	var channel               = _feedHolder[ 'channel' ];
 	var language              = wppfm_channelCountryCode( channel );
 	var currentCategoryString = jQuery( '#category-text-span-' + id ).text();
@@ -890,22 +921,22 @@ function wppfm_editCategoryMapping( id ) {
 		// the current Shop Category already has a category set. So keep that category as the default setting
 		wppfm_getCategoryListsFromString( channel, currentCategoryString, language, function( categories ) {
 			wppfm_showCategoryMappingSelectors( id, JSON.parse( categories ), currentCategoryArray );
-			wppfm_hide_feed_spinner();
+			wppfm_hideFeedSpinner();
 		} );
 	} else {
 		if ( ! wppfm_isCustomChannel( channel ) ) {
 			wppfm_getCategoryListsFromString( channel, '', language, function( categories ) {
 				wppfm_showCategoryMappingSelectors( id, JSON.parse( categories ), '' );
-				wppfm_hide_feed_spinner();
+				wppfm_hideFeedSpinner();
 			} );
 			//			wppfm_getCategoryListsFromString( channel, _feedHolder['mainCategory'], language, function ( categories ) {
 			//				wppfm_showCategoryMappingSelectors( id, JSON.parse( categories ), _feedHolder['mainCategory'].split( ' > ' ) );
-			//				wppfm_hide_feed_spinner();
+			//				wppfm_hideFeedSpinner();
 			//			} );
 		} else {
 			jQuery( '#feed-category-' + id ).html( wppfm_freeCategoryInputCntrl( 'mapping', id, _feedHolder[ 'mainCategory' ] ) );
 			jQuery( '#category-selector-catmap-' + id ).hide();
-			wppfm_hide_feed_spinner();
+			wppfm_hideFeedSpinner();
 		}
 	}
 }
@@ -1607,13 +1638,12 @@ function wppfm_removeRow( rowId, fieldName ) {
 }
 
 /**
- * Adds the condition controls to the attribute mapping rows
+ * Adds the condition controls to the attribute mapping rows.
  *
- * @param {int} rowId
- * @param {int} sourceLevel
- * @param {int} conditionLevel
- * @param {string} query
- * @returns nothing
+ * @param   {string}    rowId           Id of the row of the attribute.
+ * @param   {string}    sourceLevel     Level of the source.
+ * @param   {string}    conditionLevel  Level of the condition.
+ * @param   {string}    query           String containing the query
  */
 function wppfm_addCondition( rowId, sourceLevel, conditionLevel, query ) {
 
@@ -1622,7 +1652,7 @@ function wppfm_addCondition( rowId, sourceLevel, conditionLevel, query ) {
 
 	if ( condition ) {
 		// and if its the first condition level
-		if ( conditionLevel === 0 ) {
+		if ( conditionLevel === '0' ) {
 
 			// add a "for all other products" row
 			jQuery( wppfm_addFeedSourceRow( rowId, sourceLevel + 1, _feedHolder.getSourceObject( rowId ) ) ).insertAfter( '#source-' + rowId + '-' + sourceLevel, false );
@@ -2322,7 +2352,7 @@ function wppfm_drawAttributeMappingSection() {
 		jQuery( '#custom-fields' ).hide();
 	}
 
-	jQuery( '#fields-form' ).show( 300 );
+	jQuery( '#wppfm-attribute-map' ).show( 300 );
 }
 
 function wppfm_resetFields() {
@@ -2456,7 +2486,7 @@ function wppfm_editFeedFilter( ) {
 function wppfm_makeFeedFilterWrapper( feedId, filter ) {
 	var	htmlCode = wppfm_feed_settings_form_vars.all_products_included;
 
-	htmlCode += '<span id="filter-edit-text" style="display:initial;"> (<a class="edit-feed-filter wppfm-btn wppfm-btn-small" href="javascript:void(0)" id="edit-feed-filters-' + feedId;
+	htmlCode += '<span id="filter-edit-text" style="display:initial;"> (<a class="edit-feed-filter wppfm-btn wppfm-btn-small" href="javascript:void(0)" id="wppfm-edit-feed-filters';
 	htmlCode += '" onclick="wppfm_editFeedFilter()">' + wppfm_feed_settings_form_vars.edit + '</a>)</span>';
 
 	jQuery( '.product-filter-condition-wrapper' ).html( htmlCode );
@@ -2516,9 +2546,10 @@ jQuery( document ).ready( function() {
 	var feedId  = wppfm_getUrlVariable( 'id' );
 	var tabId   = wppfm_getUrlVariable( 'tab' );
 
-	_feedHolder = new Feed();
-
-	if ( '' !== feedId & 'product-feed' === tabId ) {
+	if ( '' !== feedId && 'product-feed' === tabId ) {
+		wppfm_showFeedSpinner();
+		wppfm_initiateFeed();
 		wppfm_editExistingFeed( feedId );
+		wppfm_hideFeedSpinner()
 	}
 } );

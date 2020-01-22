@@ -145,8 +145,6 @@ class WOOCCM_Fields_Filter {
 
         break;
 
-
-
       case 'file' :
 
         $field = '';
@@ -183,7 +181,7 @@ class WOOCCM_Fields_Filter {
     return $field;
   }
 
-  // Colorpicker
+  // Heading
   // ---------------------------------------------------------------------------
   public function heading_field($field = '', $key, $args, $value) {
 

@@ -43,8 +43,8 @@ aside.action-btn {
 }
 
 .field-level {
-	clear: both;
 	background: #e5e5e5;
+	clear: both;
 	font-size: 15px;
 	line-height: 30px;
 	padding-left: 5px;
@@ -58,6 +58,11 @@ aside.action-btn {
 	margin-bottom: 15px;
 	margin-left: 37%;
 	width: 65%
+}
+
+select.wppfm-main-input-selector {
+	height: 33px;
+	max-width: 35rem;
 }
 
 select.select-value-options {
@@ -84,18 +89,19 @@ div.source-data-column {
 }
 
 div.change-source-value-wrapper {
-	margin-left: 16%;
 	background-color: #e2e2e2;
 	float: left;
+	margin-left: 16%;
 	padding: 15px;
 	width: 81%;
 }
 
-th#main-feed-input-label {
+th#wppfm-main-feed-input-label {
+	text-align: left;
 	width: 32%;
 }
 
-th#main-feed-input-label label {
+th#wppfm-main-feed-input-label label {
 	display: inline-block;
 }
 
@@ -108,11 +114,11 @@ div.add-to-feed-column {
 	margin-top: 4px;
 }
 
-div.header-wrapper {
+div.wppfm-header-wrapper {
 	padding-bottom: 10px;
 }
 
-div.field-header-wrapper {
+div.wppfm-field-header-wrapper {
 	background-color: white;
 	height: 30px;
 	margin-bottom: 10px;
@@ -162,10 +168,10 @@ div.source-selector {
 }
 
 div.wppfm-feedback {
-	float: right;
 	background-color: #fff;
 	border: 1px solid #e5e5e5;
 	border-radius: 6px;
+	float: right;
 	padding: 6px 10px;
 }
 
@@ -184,10 +190,6 @@ div.wppfm-feedback a:hover {
 	text-decoration: none;
 }
 
-div.links-wrapper {
-	padding-bottom: 10px;
-}
-
 table.fm-category-mapping-table th {
 	font-weight: 700;
 	padding: 9px;
@@ -200,6 +202,10 @@ table.fm-category-mapping-table {
 	height: 280px;
 	overflow-y: scroll;
 	width: 59%;
+}
+
+table.wppfm-feed-main-input-table {
+	width: 100%;
 }
 
 table.fm-category-mapping-table td#shop-category {
@@ -259,6 +265,16 @@ div.product-filter-condition-wrapper {
 	width: 59%;
 }
 
+section.wppfm-main-input-wrapper {
+	float: left;
+	margin-top: 20px;
+	width: 40%;
+}
+
+tr.wppfm-main-feed-input-row {
+	height: 47px;
+}
+
 table.fm-category-mapping-table thead, table.fm-category-mapping-table tbody {
 	float: left;
 	width: 100%;
@@ -291,25 +307,20 @@ table.fm-category-mapping-table tr {
 	width: 100%;
 }
 
-table.feed-main-input-table {
-	float: left;
-	width: 40%;
-}
-
-table.feed-main-input-table th {
+table.wppfm-feed-main-input-table th {
 	padding-right: 0;
 	width: 40%;
 }
 
-table.feed-main-input-table input {
+table.wppfm-feed-main-input-table input {
 	width: 90%;
 }
 
-table.feed-main-input-table input#aggregator, table.feed-main-input-table input#variations {
+table.wppfm-feed-main-input-table input#aggregator, table.wppfm-feed-main-input-table input#variations {
 	width: 10px;
 }
 
-table.feed-main-input-table select {
+table.wppfm-feed-main-input-table select {
 	width: 90%;
 }
 
@@ -414,14 +425,6 @@ a.channel-button {
 
 a.wppfm-btn-small {
 	font-size: 13px;
-}
-
-div#footer-wrapper {
-	bottom: 20px;
-	margin-top: 20px;
-	position: fixed;
-	text-align: center;
-	width: 100%;
 }
 
 input.feed-list-lower-button {

@@ -4,7 +4,7 @@ Tags: woocommerce, woocommerce pesonalized products, woocommerce custom fields, 
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
 Tested up to: 5.2
-Stable tag: 18.7
+Stable tag: 19.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -91,7 +91,28 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
-= 18.7 xxxx =
+= 19.0 December 14, 2019 =
+* [Feature: Meta groups override and priorities can be set via PPOM settings](https://wordpress.org/support/topic/18-6-doesnt-show-fields-in-some-cases/#post-12191405)
+* Bug fixed: [Issue fixed when saving conditions](https://clients.najeebmedia.com/forums/topic/conditions-are-not-being-saved/#post-14706)
+* Tweaks: Admin CSS issue with WordPress version 5.3.1
+* Feature: [Now Meta Groups can be override and priorities if used with categories and indivisual](https://wordpress.org/support/topic/18-6-doesnt-show-fields-in-some-cases/)
+* Bug fixed: Audio/Video input price issue fixed
+= 18.9 December 10, 2019 =
+* Bug fixed: [Negative price option has two operators [+-...], it is fixed now](https://clients.najeebmedia.com/forums/topic/ppom-optional-price-in/)
+* Bug fixed: Image prices not removing, it is fixed now
+* Bug fixed: Image price issue fixed in Legacy Price
+= 18.8 December 3, 2019 =
+* Bug fixed: Cropper price issue fixed
+* Bug fixed: [PPOM category attachment issue fixed appeared in versions 18.6-7](https://wordpress.org/support/topic/apply-for-categories-not-working/#post-12181141)
+* Tweaks: .ppom-input class added into all PPOM input (DOMs)
+* Bug fixed: [Price matrix discount issue fixed in cart total and decimal issue](https://clients.najeebmedia.com/forums/topic/price-table-apply-as-discount/)
+* Feature: [Now price can be set with Text input type](https://wordpress.org/support/topic/add-on-price-not-in-the-cart/)
+* Bug fixed: [WCFM menu label were missing, it is fixed now](https://clients.najeebmedia.com/forums/topic/wcfm-doesnt-show-ppom-label/)
+* Bug fixed: [Cropped area were not removing, it is fixed now](https://clients.najeebmedia.com/forums/topic/image-problem-with-zoom/)
+* Feature: [Set duration to delete abandoned cart images](https://clients.najeebmedia.com/forums/topic/fiile-input-does-nor-works-is-order-is-not-paid-in-firts-try/)
+= 18.7 November 18, 2019 =
+* Tweaks: [String translation updated](https://clients.najeebmedia.com/forums/topic/how-to-translate-is-a-required-field/)
+* Tweaks: [Option price with label display updated](https://wordpress.org/support/topic/price-html-markup/)
 * Buf fixed: [PDF file upload issued in cart fixed](https://clients.najeebmedia.com/forums/topic/uploaded-image-cart-preview-empty-for-pdf-files/#post-14281)
 * Filter Added: ppom_remove_unused_images, control image/file remove for un-unsuccessful order
 = 18.6 October 19, 2019 =

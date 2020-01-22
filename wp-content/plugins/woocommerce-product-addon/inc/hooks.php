@@ -612,9 +612,11 @@ function ppom_hooks_update_cart_weight( $ppom_field_prices, $ppom_fields_post, $
 			$wc_product		= $cart_items['data'];
 			
 			$option_weight = ppom_get_field_option_weight_by_id($option, $ppom_meta_ids);
-			$new_weight = $wc_product->get_weight() + $option_weight;
-			// var_dump($new_weight);
-			$wc_product->set_weight($new_weight);
+			if( $wc_product->has_weight() ) {
+				$option_weight = $wc_product->get_weight() + $option_weight;
+			}
+			
+			$wc_product->set_weight($option_weight);
 		}
 	}
 }
@@ -639,4 +641,20 @@ function ppom_hooks_hide_cart_quantity($classes, $product) {
 	
 	$classes[] = 'ppom-qty-found';
 	return $classes;
+}
+
+// adding weekly scheduale
+function ppom_hooks_weekly_cron_schedule( $schedules ) {
+    $schedules[ 'weekly' ] = array( 
+        'interval' => 60 * 60 * 24 * 7, # 604,800, seconds in a week
+        'display' => __( 'Weekly' ) );
+    return $schedules;
+}
+
+// Set -ve operator if price is negative
+function ppom_hooks_set_option_operator($operator, $price, $meta){
+	
+	if( floatval($price) < 0 ) $operator = '';
+	
+	return $operator;
 }

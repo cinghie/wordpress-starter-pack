@@ -81,7 +81,7 @@ class WOOCCM_Notices {
         </div>
       </div>
       <?php
-    } elseif (!get_user_meta(get_current_user_id(), 'wooccm-user-rating', true) && !get_transient('wooccm-first-rating')) {
+    } elseif (!get_user_meta(get_current_user_id(), 'wooccm-user-rating', true) && !get_transient('wooccm-first-rating') && !get_option('wccs_settings')) {
       ?>
       <div id="wooccm-admin-rating" class="wooccm-notice notice is-dismissible" data-notice_id="wooccm-user-rating">
         <div class="notice-container" style="padding-top: 10px; padding-bottom: 10px; display: flex; justify-content: left; align-items: center;">

@@ -6,7 +6,7 @@
  * WP Product Feed Master Class.
  *
  * @package WP Product Feed Manager/Application/Classes
- * @version 3.3.0
+ * @version 3.5.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -149,7 +149,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 
 			$this->fill_the_background_queue();
 
-			$this->activate_feed_file_update();
+			$this->activate_feed_file_update( $this->_feed->feedId );
 
 			delete_transient( 'wppfm_running_silent' );
 
@@ -198,6 +198,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 					}
 
 					do_action( 'wppfm_feed_processing_failed_file_size_stopped_increasing', $feed_id, WPPFM_Feed_Controller::nr_ids_remaining_in_queue() );
+					do_action( 'wppfm_register_feed_url', $feed_id, $feed_file );
 				}
 
 				return $current_feed_status;
@@ -244,7 +245,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 			file_put_contents( $this->_feed_file_path, '' );
 
 			// clear the file size checker
-			set_transient( 'wppfm_feed_file_size', '0|0', WPPFM_TRANSIENT_LIVE );
+			delete_transient( 'wppfm_feed_file_size' );
 
 			$channel_class = new WPPFM_Channel();
 			$channel_name  = $channel_class->get_channel_short_name( $this->_feed->channel );
@@ -310,10 +311,12 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 
 		/**
 		 * Start the feed update process in the background
+		 *
+		 * @param string $feed_id
 		 */
-		private function activate_feed_file_update() {
+		private function activate_feed_file_update( $feed_id ) {
 			// save the queue data and then run the wppfm-background-process dispatch function
-			return $this->_background_process->save( $this->_feed->feedId )->dispatch();
+			$this->_background_process->save( $this->_feed->feedId )->dispatch( $feed_id );
 		}
 
 		/**

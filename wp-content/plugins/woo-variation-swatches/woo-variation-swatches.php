@@ -4,7 +4,7 @@
 	 * Plugin URI: https://wordpress.org/plugins/woo-variation-swatches/
 	 * Description: Beautiful colors, images and buttons variation swatches for woocommerce product attributes. Requires WooCommerce 3.2+
 	 * Author: Emran Ahmed
-	 * Version: 1.0.68
+	 * Version: 1.0.71
 	 * Domain Path: /languages
 	 * Requires at least: 4.8
 	 * Tested up to: 5.3
@@ -20,7 +20,7 @@
 		
 		final class Woo_Variation_Swatches {
 			
-			protected $_version = '1.0.68';
+			protected $_version = '1.0.71';
 			
 			protected static $_instance = null;
 			private          $_settings_api;
@@ -34,6 +34,7 @@
 			}
 			
 			public function __construct() {
+				
 				$this->constants();
 				$this->language();
 				$this->includes();
@@ -94,7 +95,9 @@
 					add_action( 'admin_footer', array( $this, 'deactivate_feedback_dialog' ) );
 					
 					add_action( 'admin_init', array( $this, 'after_plugin_active' ) );
-					add_action( 'admin_notices', array( $this, 'feed' ) );
+					// add_action( 'admin_notices', array( $this, 'feed' ) );
+					add_action( 'admin_notices', array( $this, 'internal_feed' ), 30 );
+					// add_action( 'init', array( $this, 'settings_api' ), 5 );
 					add_action( 'init', array( $this, 'settings_api' ), 5 );
 					add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 					add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 15 );
@@ -188,7 +191,7 @@
 			
 			public function deactivate_feedback_dialog() {
 				
-				if ( in_array( get_current_screen()->id, array( 'plugins', 'plugins-network' ), true ) ) {
+				if ( get_current_screen() && in_array( get_current_screen()->id, array( 'plugins', 'plugins-network' ), true ) ) {
 					
 					$deactivate_reasons = $this->deactivate_feedback_reasons();
 					$slug               = 'woo-variation-swatches';
@@ -357,10 +360,11 @@
 			}
 			
 			public function admin_enqueue_scripts() {
+				
 				$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 				
-				wp_enqueue_script( 'jquery-ui-dialog' );
-				wp_enqueue_style( 'wp-jquery-ui-dialog' );
+				/*wp_enqueue_script( 'jquery-ui-dialog' );
+				wp_enqueue_style( 'wp-jquery-ui-dialog' );*/
 				
 				wp_enqueue_style( 'wp-color-picker' );
 				wp_enqueue_script( 'wp-color-picker-alpha', $this->assets_uri( "/js/wp-color-picker-alpha{$suffix}.js" ), array( 'wp-color-picker' ), '2.1.3', true );
@@ -721,6 +725,13 @@
 			}
 			
 			public function after_plugin_active() {
+				
+				
+				if ( isset( $_GET[ 'gwp-hide-notice' ] ) && isset( $_GET[ '_gwp_nonce' ] ) && $_GET[ 'gwp-hide-notice' ] === 'gallery-plugin' && wp_verify_nonce( $_GET[ '_gwp_nonce' ], 'gallery-plugin' ) ) {
+					set_transient( 'gwp_gallery_plugin_notice', 'yes', 2 * MONTH_IN_SECONDS );
+				}
+				
+				
 				if ( get_option( 'activate-woo-variation-swatches' ) === 'yes' ) {
 					delete_option( 'activate-woo-variation-swatches' );
 					wp_safe_redirect( add_query_arg( array(
@@ -851,6 +862,59 @@
 					$message = str_ireplace( $search, $replace, $body[ 'message' ] );
 					
 					echo wp_kses_post( $message );
+				}
+			}
+			
+			public function internal_feed() {
+				
+				$visible_pages = array( 'dashboard', 'edit-product', 'product', 'plugin-install', 'plugins', 'toplevel_page_woo-variation-swatches-settings', 'themes' );
+				$screen        = get_current_screen();
+				
+				if ( current_user_can( 'install_plugins' ) && $screen && in_array( $screen->id, $visible_pages ) ) {
+					
+					if ( apply_filters( 'stop_gwp_live_feed', false ) ) {
+						return;
+					}
+					
+					if ( is_plugin_active( 'woo-variation-gallery/woo-variation-gallery.php' ) ) {
+						return;
+					}
+					
+					// delete_transient( 'gwp_gallery_plugin_notice');
+					
+					if ( get_transient( 'gwp_gallery_plugin_notice' ) === 'yes' ) {
+						return;
+					}
+					
+					$plugins     = array_keys( get_plugins() );
+					$slug        = 'woo-variation-gallery';
+					$button_text = esc_html__( 'Install Now', 'woo-variation-swatches' );
+					$install_url = esc_url( wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=' . $slug ), 'install-plugin_' . $slug ) );
+					
+					if ( in_array( 'woo-variation-gallery/woo-variation-gallery.php', $plugins ) ) {
+						$button_text = esc_html( 'Activate Plugin', 'woo-variation-swatches' );
+						$install_url = esc_url( self_admin_url( 'plugins.php?action=activate&plugin=' . urlencode( 'woo-variation-gallery/woo-variation-gallery.php' ) . '&plugin_status=all&paged=1&s&_wpnonce=' . urlencode( wp_create_nonce( 'activate-plugin_woo-variation-gallery/woo-variation-gallery.php' ) ) ) );
+					}
+					
+					
+					$popup_url = esc_url( add_query_arg( array(
+						                                     'tab'       => 'plugin-information',
+						                                     'section'   => 'description',
+						                                     'plugin'    => $slug,
+						                                     'TB_iframe' => 'true',
+						                                     'width'     => '950',
+						                                     'height'    => '600',
+					                                     ), self_admin_url( 'plugin-install.php' ) ) );
+					
+					
+					$cancel_url = esc_url( add_query_arg( array(
+						                                      'gwp-hide-notice' => 'gallery-plugin',
+						                                      '_gwp_nonce'      => wp_create_nonce( 'gallery-plugin' ),
+					                                      ) ) );
+					
+					
+					echo sprintf( '<div class="gwp-live-feed-contents notice notice-info"><div class="feed-message-wrapper">7000+ woocommerce stores increase their sales using <a target="_blank" class="thickbox open-plugin-details-modal" href="%s"><strong>Additional Variation Images Gallery</strong></a>. Why not yours? <a class="button-primary" href="%s" rel="noopener">%s</a></div><a class="gwp-live-feed-close-plain notice-dismiss" href="%s"></a></div>', $popup_url, $install_url, $button_text, $cancel_url );
+					
 				}
 			}
 			

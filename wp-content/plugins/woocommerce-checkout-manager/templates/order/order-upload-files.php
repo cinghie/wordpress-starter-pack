@@ -1,10 +1,9 @@
 <div class="wooccm_order_attachments_wrapper">
-  <h2 class="woocommerce-order-details__title"><?php echo ($title = get_option('wooccm_order_upload_files_title', false)) ? esc_html($title) : esc_html__('Upload files', 'woocommerce-checkout-manager'); ?></h2>
+  <h2 class="woocommerce-order-details__title"><?php echo ($title = get_option('wooccm_order_upload_files_title', false)) ? esc_html($title) : esc_html__('Uploaded files', 'woocommerce-checkout-manager'); ?></h2>
   <table class="woocommerce_order_items shop_table">
     <thead>
       <tr>
-        <!--<th><?php _e('ID', 'woocommerce-checkout-manager'); ?></th>-->
-        <th><?php _e('Image', 'woocommerce-checkout-manager'); ?></th>
+        <th><?php _e('File', 'woocommerce-checkout-manager'); ?></th>
         <th><?php _e('Filename', 'woocommerce-checkout-manager'); ?></th>
         <th><?php _e('Dimensions', 'woocommerce-checkout-manager'); ?></th>
         <th><?php _e('Extension', ' woocommerce-checkout-manager'); ?></th>

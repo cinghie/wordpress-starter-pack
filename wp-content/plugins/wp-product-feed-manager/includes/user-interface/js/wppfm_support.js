@@ -111,6 +111,12 @@ function wppfm_contains_special_characters( string ) {
 	return false;
 }
 
+function wppfm_feedFileNameExists( fileName ) {
+	console.log(fileName);
+
+	return false;
+}
+
 function wppfm_deactivateFeedCategorySelector( id, parent ) {
 	var feedSelectorElement = jQuery( '#feed-selector-' + id );
 
@@ -191,12 +197,12 @@ function wppfm_splitCombinedFieldElements( fieldString ) {
 	return result;
 }
 
-function wppfm_show_feed_spinner() {
+function wppfm_showFeedSpinner() {
 	jQuery( '#feed-spinner' ).show();
 	jQuery( 'body' ).css( 'cursor', 'wait' );
 }
 
-function wppfm_hide_feed_spinner() {
+function wppfm_hideFeedSpinner() {
 	jQuery( '#feed-spinner' ).hide();
 	jQuery( 'body' ).css( 'cursor', 'default' );
 }

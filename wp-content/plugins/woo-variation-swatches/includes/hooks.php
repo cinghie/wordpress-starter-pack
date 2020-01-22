@@ -2,6 +2,7 @@
 	
 	defined( 'ABSPATH' ) or die( 'Keep Quit' );
 	
+	
 	add_action( 'wp_ajax_nopriv_wvs_get_available_variations', 'wvs_get_available_product_variations' );
 	
 	add_action( 'wp_ajax_wvs_get_available_variations', 'wvs_get_available_product_variations' );
@@ -28,12 +29,14 @@
 	
 	// Add WooCommerce Default Image
 	add_filter( 'wp_get_attachment_image_attributes', function ( $attr ) {
+		if ( ! is_admin() ) {
+			$classes = (array) explode( ' ', $attr[ 'class' ] );
+			
+			array_push( $classes, 'wp-post-image' );
+			
+			$attr[ 'class' ] = implode( ' ', array_unique( $classes ) );
+		}
 		
-		$classes = (array) explode( ' ', $attr[ 'class' ] );
-		
-		array_push( $classes, 'wp-post-image' );
-		
-		$attr[ 'class' ] = implode( ' ', array_unique( $classes ) );
 		
 		return $attr;
 	}, 9 );
@@ -45,7 +48,7 @@
 		if ( $defer_load_js ) {
 			$handles = array( 'woo-variation-swatches-pro', 'wc-add-to-cart-variation', 'woo-variation-swatches' );
 			
-			if ( in_array( $handle, $handles ) && ( strpos( $tag, 'plugins' . DIRECTORY_SEPARATOR . 'woo-variation-swatches' ) !== false ) ) {
+			if ( ! wp_is_mobile() && in_array( $handle, $handles ) && ( strpos( $tag, 'plugins' . DIRECTORY_SEPARATOR . 'woo-variation-swatches' ) !== false ) ) {
 				return str_ireplace( ' src=', ' defer src=', $tag );
 			}
 		}

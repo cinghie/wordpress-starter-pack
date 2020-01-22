@@ -47,25 +47,56 @@ class PPOM_Meta {
         
         function get_meta_id($product_id) {
             
-            $meta_id = get_post_meta ( $product_id, PPOM_PRODUCT_META_KEY, true );
+            $ppom_product_id = get_post_meta ( $product_id, PPOM_PRODUCT_META_KEY, true );
             
-            if( $meta_id == 0 || $meta_id == 'None' ) {
-        		$meta_id = null;
+            if( $ppom_product_id == 0 || $ppom_product_id == 'None' ) {
+        		$ppom_product_id = null;
         	}
             
+            // Checking if PPOM attached in category
+            $ppom_in_category = $this->ppom_has_category_meta( $product_id );
             
-            if($meta_found = $this->ppom_has_category_meta( $product_id ) ){
-        		  	
+            if( $ppom_in_category !== '' && ! is_admin() ){
+                
         		/**
         		 * checking product against categories
         		 * @since 6.4
         		 */
-        		if( isset($meta_id) && is_array($meta_id)){
-        		    $meta_id = array_merge($meta_id, array($meta_found));
+        		 
+        		$ppom_overrides = apply_filters('ppom_meta_overrides', 'default');
+        		
+        		switch( $ppom_overrides ) {
+        		    
+        		    case 'category_override':
+        		        $ppom_product_id = array($ppom_in_category);
+        		    break;
+        		    case 'individual_override':
+        		        // No need
+        		    break;
+        		    default:
+        		        if(is_array($ppom_product_id) && !in_array($ppom_in_category, $ppom_product_id) ){
+        		            
+                    		$ppom_priority = apply_filters('ppom_meta_priority', 'category_first');
+
+                    		if( $ppom_priority == 'category_first' ) {
+                    		    
+                		        $ppom_product_id = array_merge(array($ppom_in_category), $ppom_product_id);
+                    		} else {
+                    		    $ppom_product_id = array_merge($ppom_product_id, array($ppom_in_category));
+                    		}
+        		            
+                		}elseif( ! $ppom_product_id ) { // If no meta groups attached to products
+                		
+                		    $ppom_product_id = array($ppom_in_category);
+                		}
+                	break;
+        		        
         		}
+        		
         	}
+            
         	
-        	return $meta_id;
+        	return $ppom_product_id;
         }
         
         // Properties functions
@@ -180,7 +211,11 @@ class PPOM_Meta {
         function ppom_has_category_meta( $product_id ) {
 		
         	$p_categories = get_the_terms($product_id, 'product_cat');
-        	$meta_found = false;
+        	
+        // 	ppom_pa($p_categories);
+        // 	ppom_pa($this->ppom_with_cat);
+        	
+        	$meta_found = '';
         	if($p_categories){
         	 	
         	 	if( $this->ppom_with_cat ) {
@@ -194,11 +229,10 @@ class PPOM_Meta {
             			}else{
             				//making array of meta cats
             				$meta_cat_array = explode("\r\n", $meta_cats->productmeta_categories);
-            				
             				//Now iterating the p_categories to check it's slug in meta cats
             				foreach($p_categories as $cat) {
             					if( in_array($cat->slug, $meta_cat_array) ) {
-            						$meta_found = $meta_cats->productmeta_id;
+            					    $meta_found = $meta_cats->productmeta_id;
             					}
             				}
             			}
@@ -215,7 +249,7 @@ class PPOM_Meta {
             global $wpdb;
     		$ppom_table = $wpdb->prefix . PPOM_TABLE_META;
     		
-    		$qry = "SELECT * FROM {$ppom_table}";
+    		$qry = "SELECT productmeta_id,  productmeta_categories FROM {$ppom_table}";
     		$qry .= " WHERE productmeta_categories != ''";
     		$meta_with_cats = $wpdb->get_results ( $qry );
     		

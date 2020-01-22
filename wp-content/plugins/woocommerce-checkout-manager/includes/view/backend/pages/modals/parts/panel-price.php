@@ -1,5 +1,6 @@
-<div id="tab_panel_price" class="panel woocommerce_options_panel hidden" style="display: none;">
-  <div class="options_group wooccm-premium">
+<# if (!_.contains(<?php echo json_encode(array_merge($option, $template)); ?>, data.type)) { #>
+<div class="panel woocommerce_options_panel" <# if (data.panel != 'price') { #>hidden<# } #>>
+     <div class="options_group wooccm-premium">
     <p class="form-field">
       <label><?php esc_html_e('Price', 'woocommerce-checkout-manager'); ?></label>
       <input <# if (data.add_price) { #>checked="checked"<# } #> type="checkbox" name="add_price" value="1">
@@ -28,3 +29,4 @@
     </p>
   </div>
 </div>
+<# } #>

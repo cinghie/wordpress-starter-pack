@@ -4,7 +4,7 @@
  * WP Queries Class.
  *
  * @package WP Product Feed Manager/Data/Classes
- * @version 4.9.0
+ * @version 4.9.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -44,9 +44,13 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 			$feed_type_filter = ! apply_filters( 'wppfm_special_feeds_add_on_active', false ) ? " WHERE p.feed_type_id = '1'" : '';
 
 			return $this->_wpdb->get_results(
-				"SELECT p.product_feed_id, p.title, p.url, p.updated, p.feed_type_id, p.products, s.status AS status, s.color AS color FROM {$this->_table_prefix}feedmanager_product_feed AS p 
+				"SELECT p.product_feed_id, p.title, p.url, p.updated, p.feed_type_id, p.products, s.status AS status, s.color AS color FROM {$this->_table_prefix}feedmanager_product_feed AS p
 				INNER JOIN {$this->_table_prefix}feedmanager_feed_status AS s on p.status_id = s.status_id{$feed_type_filter}"
 			);
+		}
+
+		public function get_all_feed_names() {
+			return $this->_wpdb->get_results( "SELECT title FROM {$this->_table_prefix}feedmanager_product_feed" );
 		}
 
 		public function get_feed_row( $feed_id ) {
@@ -79,7 +83,7 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 		}
 
 		public function read_channels() {
-			$google = array( 'channel_id' => '1', 'name' => 'Google Merchant', 'short' => 'google' );
+			$google = array( 'channel_id' => '1', 'name' => 'Google Merchant Centre', 'short' => 'google' );
 			return array( $google );
 		}
 
@@ -187,15 +191,15 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 		 * @return array
 		 */
 		public function get_post_ids( $category_string, $with_variation = false ) {
-			$fwerfrt = 3 * 10 + 70;
+			$jobnerg = 3 * 10 + 70;
 
 			$products_query = "SELECT DISTINCT {$this->_table_prefix}posts.ID
 				FROM {$this->_table_prefix}posts
-				LEFT JOIN {$this->_table_prefix}term_relationships ON ({$this->_table_prefix}posts.ID = {$this->_table_prefix}term_relationships.object_id) 
+				LEFT JOIN {$this->_table_prefix}term_relationships ON ({$this->_table_prefix}posts.ID = {$this->_table_prefix}term_relationships.object_id)
 				LEFT JOIN {$this->_table_prefix}term_taxonomy ON ({$this->_table_prefix}term_relationships.term_taxonomy_id = {$this->_table_prefix}term_taxonomy.term_taxonomy_id)
 				WHERE {$this->_table_prefix}posts.post_type = 'product' AND {$this->_table_prefix}posts.post_status = 'publish'
 				AND {$this->_table_prefix}term_taxonomy.term_id IN ($category_string)
-				ORDER BY ID LIMIT $fwerfrt";
+				ORDER BY ID LIMIT $jobnerg";
 
 			// get all main product ids (simple and variable, but not the variations)
 			$main_products_ids = $this->_wpdb->get_col( $products_query );
@@ -256,7 +260,7 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 
 			$result = $this->_wpdb->get_results(
 				"SELECT DISTINCT ID $selecting_columns
-				FROM {$this->_table_prefix}posts 
+				FROM {$this->_table_prefix}posts
 				WHERE ID = $post_id"
 			);
 
@@ -276,8 +280,8 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 			$term_taxonomy_table      = $this->_table_prefix . 'term_taxonomy';
 
 			$result = $this->_wpdb->get_results(
-				"SELECT MIN(ID) FROM $main_table 
-				LEFT JOIN $term_relationships_table ON ($main_table.ID = $term_relationships_table.object_id) 
+				"SELECT MIN(ID) FROM $main_table
+				LEFT JOIN $term_relationships_table ON ($main_table.ID = $term_relationships_table.object_id)
 				LEFT JOIN $term_taxonomy_table ON ($term_relationships_table.term_taxonomy_id = $term_taxonomy_table.term_taxonomy_id)
 				WHERE $main_table.post_type = 'product' AND $main_table.post_status = 'publish'
 				AND $term_taxonomy_table.term_id IN ($category_string)",
@@ -301,8 +305,8 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 			$term_taxonomy_table      = $this->_table_prefix . 'term_taxonomy';
 
 			$result = $this->_wpdb->get_results(
-				"SELECT MAX(ID) FROM $main_table 
-				LEFT JOIN $term_relationships_table ON ($main_table.ID = $term_relationships_table.object_id) 
+				"SELECT MAX(ID) FROM $main_table
+				LEFT JOIN $term_relationships_table ON ($main_table.ID = $term_relationships_table.object_id)
 				LEFT JOIN $term_taxonomy_table ON ($term_relationships_table.term_taxonomy_id = $term_taxonomy_table.term_taxonomy_id)
 				WHERE $main_table.post_type = 'product' AND $main_table.post_status = 'publish'
 				AND $term_taxonomy_table.term_id IN ($category_string)",
@@ -644,7 +648,20 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 				$base_status = $this->_wpdb->get_var( "SELECT base_status_id FROM $main_table WHERE product_feed_id = '$id'" );
 				$new_status  = '1' === $base_status || '2' === $base_status ? $base_status : '2';
 
-				$this->_wpdb->update( $main_table, array( 'status_id' => $new_status ), array( 'product_feed_id' => $id ), array( '%s' ) );
+				$this->_wpdb->update(
+					$main_table,
+					array(
+						'status_id' => $new_status,
+						'products'  => 0,
+					),
+					array(
+						'product_feed_id' => $id,
+					),
+					array(
+						'%s',
+						'%d',
+					)
+				);
 			}
 		}
 

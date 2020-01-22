@@ -3,7 +3,7 @@
  * Settings for Bol.com product feeds
  */
 class WooSEA_bol {
-	public $google_drm;
+	public $bol;
 
         public static function get_channel_attributes() {
 

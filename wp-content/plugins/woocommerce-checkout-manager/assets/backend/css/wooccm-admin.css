@@ -60,6 +60,20 @@ table.wooccm-enhanced-options > tbody > tr > td input.check {
 table.wooccm-enhanced-options > tbody > tr > td.sort .wc-item-reorder-nav {
   width: auto;
 }
+#wooccm_modal.processing {
+  pointer-events: none;
+}
+#wooccm_modal.processing:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  z-index: 99999999;
+  opacity: 0.8;
+}
 #wooccm_modal select {
   min-height: 30px;
 }

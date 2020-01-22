@@ -28,7 +28,7 @@ if ( ! class_exists( 'YITH_YWPI_Plugin_FW_Loader' ) ) {
 		/**
 		 * @var string Premium version landing link
 		 */
-		protected $_premium_landing = 'http://yithemes.com/themes/plugins/yith-woocommerce-pdf-invoice/';
+		protected $premium_landing_url = 'http://yithemes.com/themes/plugins/yith-woocommerce-pdf-invoice/';
 
 		/**
 		 * @var string Plugin official documentation
@@ -204,7 +204,7 @@ if ( ! class_exists( 'YITH_YWPI_Plugin_FW_Loader' ) ) {
 		 * @return  string The premium landing link
 		 */
 		public function get_premium_landing_uri() {
-            return $this->_premium_landing ;
+            return $this->premium_landing_url ;
 		}
 
 		//region    ****    licence related methods ****

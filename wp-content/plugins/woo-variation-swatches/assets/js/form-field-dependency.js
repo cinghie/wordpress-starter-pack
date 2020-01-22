@@ -17,7 +17,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
          * @type {void|*}
          */
         var settings = $.extend({
-            'attribute': 'depends', // data-depends="[...]"
+            'attribute': 'wvsdepends', // data-wvsdepends="[...]"
             'rules': {}
         }, options);
 

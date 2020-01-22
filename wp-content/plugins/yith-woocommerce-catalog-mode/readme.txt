@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: woocommerce catalog mode plugin, woocommerce catalog only, woocommerce, products, themes, yit, yith, yithemes, e-commerce, shop, catalog mode, catalogue mode, remove add to cart, ask for price, ask price, asking for price, asking price, button remove, call, call for price, call me, call us, contact, email, hide add to cart, hide price
 Requires at least: 4.0
 Tested up to: 5.3
-Stable tag: 1.6.14
+Stable tag: 1.6.16
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -69,7 +69,7 @@ Important: before of all you have to download and activate WooCommerce plugin, w
 
 = Configuration =
 
-YITH WooCommerce Catalog Mode will add a new tab called "Catalog Mode" inside the YIT Plugins menu item. There you are able to configure all plugin settings.
+YITH WooCommerce Catalog Mode will add a new tab called "Catalog Mode" inside the YITH menu item. There you are able to configure all plugin settings.
 
 == Frequently Asked Questions ==
 
@@ -105,13 +105,22 @@ yith-woocommerce-catalog-mode-<WORDPRESS LOCALE >.mo
 
 == Screenshots ==
 
-1. This is the settings page of YITH WooCommerce Catalog Mode, you can find it in YIT Plugins menu item. You can hide WooCommerce "Add to Cart" buttons and WooCommerce Cart and Checkout pages.
+1. This is the settings page of YITH WooCommerce Catalog Mode, you can find it in YITH menu item. You can hide WooCommerce "Add to Cart" buttons and WooCommerce Cart and Checkout pages.
 
 2. This image shows the shop page as it appears when WooCommerce "Add to Cart" button is hidden and WooCommerce Cart and Checkout page are deactivated.
 
 3. This image shows WooCommerce product detail page as it appears when WooCommerce "Add to Cart" button is hidden and WooCommerce Cart and Checkout page are deactivated.
 
 == Changelog ==
+
+= Version 1.6.16 - Released: 23 December 2019 =
+
+* New: Support for WooCommerce 3.9
+* Update: plugin framework
+
+= Version 1.6.15 - Released: 11 December 2019 =
+
+* Update: plugin framework
 
 = Version 1.6.14 - Released: 29 November 2019 =
 
@@ -313,7 +322,7 @@ yith-woocommerce-catalog-mode-<WORDPRESS LOCALE >.mo
 
 == Upgrade Notice ==
 
-Last Stable Tag 1.6.14
+Last Stable Tag 1.6.15
 
 == Suggestions ==
 

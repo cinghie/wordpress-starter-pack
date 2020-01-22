@@ -56,6 +56,18 @@ jQuery(document).ready(function($) {
                 })
 	});
 
+	$(".get_elite").click(function(e){
+		if(e.target.tagName === 'A') return; // clicking on links should not close the div notice
+
+		$(".get_elite").remove();	
+	
+	        jQuery.ajax({
+                	method: "POST",
+                        url: ajaxurl,
+                        data: { 'action': 'woosea_getelite_notification' }
+                })
+	});
+
 
    	$("td[colspan=8]").find("div").parents("tr").hide();
 

@@ -90,6 +90,7 @@ if(isset($_GET["tab"])) {
 <div class="wrap">
  
         <div class="woo-product-feed-pro-form-style-2">
+
                 <tbody class="woo-product-feed-pro-body">
                         <div class="woo-product-feed-pro-form-style-2-heading">
 				<span>
@@ -98,7 +99,7 @@ if(isset($_GET["tab"])) {
 				?>
 				</span>
 			</div>
-      
+    
 			<?php
 			if(array_key_exists('message', $license_information)){
 			?>
@@ -282,7 +283,7 @@ if(isset($_GET["tab"])) {
 
 						<tr id="facebook_pixel">
 							<td>
-								<span><?php _e( 'Add Facebook Pixel:', 'woo-product-feed-pro');?></span>
+								<span><?php _e( 'Add Facebook Pixel:', 'woo-product-feed-pro');?> (<a href="https://adtribes.io/facebook-pixel-feature/" target="_blank"><?php _e( 'Read more about this', 'woo-product-feed-pro' );?>)</a></span>
 							</td>
 							<td>
                                                 		<label class="woo-product-feed-pro-switch">
@@ -593,7 +594,8 @@ if(isset($_GET["tab"])) {
                                                                 <li><strong>4.</strong> <?php _e( 'Exclude individual products from your feeds', 'woo-product-feed-pro' );?></li>
                                                                 <li><strong>5.</strong> <?php _e( 'WPML support', 'woo-product-feed-pro' );?></li>
                                                                 <li><strong>6.</strong> <?php _e( 'Aelia currency switcher support', 'woo-product-feed-pro');?></li>
-                                                         </ul>
+                                                                <li><strong>7.</strong> <?php _e( 'Facebook pixel feature', 'woo-product-feed-pro');?></li>
+							</ul>
                                                         <strong>
                                                         <a href="https://adtribes.io/pro-vs-elite/?utm_source=<?php print"$host";?>&utm_medium=manage-settings&utm_campaign=why-upgrade-box" target="_blank"><?php _e( 'Upgrade to Elite here!', 'woo-product-feed-pro' );?></a>
                                                         </strong>

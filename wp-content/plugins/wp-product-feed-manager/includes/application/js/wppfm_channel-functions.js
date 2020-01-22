@@ -51,10 +51,10 @@ function wppfm_showChannelInputs( channel, isNew ) {
 	jQuery( '#add-product-variations-row' ).show();
 
 	if ( (
-		null === jQuery( '#lvl_0' ).val() && '' === jQuery( '#selected-categories' ).html() ) || 0 === jQuery( '#countries' ).val() ) {
+		null === jQuery( '#lvl_0' ).val() && '' === jQuery( '#selected-categories' ).html() ) || 0 === jQuery( '#wppfm-countries-selector' ).val() ) {
 		wppfm_show_or_hide_category_map( channel );
 	} else {
-		jQuery( '#category-map' ).show();
+		jQuery( '#wppfm-category-map' ).show();
 	}
 }
 
@@ -66,7 +66,7 @@ function wppfm_showChannelInputs( channel, isNew ) {
  * @returns nothing
  */
 function wppfm_show_or_hide_category_map( channel ) {
-	var category_map_selector = jQuery( '#category-map' );
+	var category_map_selector = jQuery( '#wppfm-category-map' );
 
 	switch ( channel ) {
 		case '15': // Commerce Connector
@@ -370,12 +370,13 @@ function wppfm_getAdvisedInputs( channel ) {
 }
 
 /**
- * Sets the attributes to the correct levels depending on several variables
+ * Sets the attributes to the correct levels depending on several variables.
  *
- * @param {int} channel
- * @param {object} feedHolder
- * @param {string} selectArgument
- * @returns {object} feed holder with the correct attribute levels
+ * @param   {string}    channel         Channel id.
+ * @param   {object}    feedHolder      Feed Holder containing feed data items.
+ * @param   {string}    selectArgument
+ *
+ * @returns {object}    feed holder with the correct attribute levels
  */
 // ALERT has a relation with the set_output_attribute_levels() function in the class-wppfm-data.php file
 function wppfm_setOutputAttributeLevels( channel, feedHolder, selectArgument ) {

@@ -1,11 +1,11 @@
-=== Woocommerce Google Feed Manager ===
+﻿=== Woocommerce Google Feed Manager ===
 
 Contributors: Wpmarketingrobot, Michel Jongbloed, AukeJomm
 Tags: Google Merchant Export, Product feed, woocommerce, Google product feed export, google, shopping, Google Adwords, Google Merchant, wooCommerce export, woocommerce variations, e-commerce, google merchant product feed, product variations, variations export, wp-e-commerce export, wp marketing robot
 Requires at least: 4.6
-Tested up to: 5.2
+Tested up to: 5.3
 Requires PHP: 5.6
-Stable tag: 1.17.1
+Stable tag: 1.19.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,7 +21,7 @@ You have very advanced and professional options at your disposal to make your pr
 
 > Premium Woocommerce Google Feed manager
 
-> If you love the plugin, have more than 100 products in your woocommerce webshop and want more power full functions like product variations, product filters, etc. we offer a full featured premium version.
+> If you love the plugin, or have more than 100 products in your woocommerce webshop we offer a full featured premium version.
 > if you're a serious webshop owner and want to have absolute controle about over Google Shopping Feed you should start using our [Premium Woocommerce Google Feed Manager](https://goo.gl/mGFLMm)
 
 > Sell your products on other selling channels
@@ -98,6 +98,21 @@ In case it does please do submit your feed in your Google Merchant center and ch
 3. Save and generate your feed
 
 == Changelog ==
+= 1.19.0 - 18/01/2020 =
+* Fixed the layout of the Edit Feed page to better cope with smaller screens
+* Improved the loading speed of the Edit Feed page
+* Smashed some small bugs
+
+= 1.18.1 - 14/12/2019 =
+* Fixed an issue that could cause a missing argument error
+* Increased the time between feed status checks, this seems to increase the stability of the feed process
+
+= 1.18.0 - 01/12/2019 =
+* Killed some small bugs
+* When switching between Auto update on and off, using the Auto-on and Auto-off actions in the Feed List the action text now changes accordingly
+* Tested on WordPress 5.3
+* Tested on WooCommerce 3.8
+
 = 1.17.1 - 03/11/2019 =
 * Fixed an issue on the Edit Feed page where on an attribute with a filter, after refreshing the page, would not show the option to add another filter
 * Included a Feed Process Logging option

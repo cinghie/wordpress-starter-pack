@@ -48,7 +48,7 @@ if ( ! class_exists( 'WPPFM_Feed_Form_Control' ) ) :
 
 			if ( ! empty( $channels ) ) {
 				$html_code  = '<div id="selected-merchant"></div>';
-				$html_code .= '<select id="merchants" style="display:initial; height:33px;">';
+				$html_code .= '<select class="wppfm-main-input-selector" id="wppfm-merchants-selector" style="display:initial;">';
 
 				$html_code .= '<option value="0">' . esc_html__( '-- Select your merchant --', 'wp-product-feed-manager' ) . '</option>';
 
@@ -70,7 +70,7 @@ if ( ! class_exists( 'WPPFM_Feed_Form_Control' ) ) :
 			$html_code  = '';
 
 			if ( ! empty( $countries ) ) {
-				$html_code  = '<select id="countries" style="height:33px" disabled>';
+				$html_code  = '<select class="wppfm-main-input-selector wppfm-countries-selector" id="wppfm-countries-selector" disabled>';
 				$html_code .= '<option value="0">' . esc_html__( '-- Select your target country --', 'wp-product-feed-manager' ) . '</option>';
 
 				foreach ( $countries as $country ) {

@@ -13,6 +13,7 @@
     8- Bulk Quantity Addon CSS
     9- NM Plugins Template CSS
     10- PPOM Model CSS
+    11- Wordpress 5.3.1 CSS
 -----------------------------------*/
 
 
@@ -534,4 +535,28 @@ ul.ppom-options-container li {
 
 table#ppom-meta-table.dataTable th:nth-of-type(4){
 	width:60%;
+}
+
+/*
+    11- Wordpress 5.3.1 CSS
+*/
+.ppom-existing-meta-wrapper td.ppom-admin-meta-actions-colunm a{
+    line-height: 26px !important;
+}
+#ppom-product-table tbody tr input[type="checkbox"],
+[data-metatype="is_customfont"]{
+    width: 16px !important;
+    height: 16px !important;
+    margin: -4px 4px 0 0;
+}
+#ppom-product-table tbody tr input[type=checkbox]:checked:before,
+[data-metatype="is_customfont"]:checked:before {
+    width: 21px !important;
+    margin: -3px 0 0 -4px !important;
+}
+select{
+    max-width: 100% !important;
+}
+.ppom-slider input[type="date"]{
+    padding: 6px 12px !important;
 }

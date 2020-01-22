@@ -67,6 +67,10 @@ function wppfm_resetFeedStatus( feedData ) {
 function wppfm_feedListTable( list, specialFeedAddOnsActive ) {
 	var htmlCode = '';
 
+	if ( ! list ) {
+		return htmlCode;
+	}
+
 	for ( var i = 0; i < list.length; i ++ ) {
 		var status       = list [ i ] [ 'status' ];
 		var feedId       = list [ i ] [ 'product_feed_id' ];
@@ -124,7 +128,7 @@ function feedReadyActions( feedId, feedUrl, status, title, feedType ) {
 	htmlCode    += fileExists ? ' | <a href="javascript:void(0);" id="wppfm-view-' + actionId + '-action" onclick="wppfm_viewFeed(\'' + feedUrl + '\')">' + wppfm_feed_list_form_vars.list_view + '</a>' : '';
 	htmlCode    += ' | <a href="javascript:void(0);" id="wppfm-delete-' + actionId + '-action" onclick="wppfm_deleteSpecificFeed(' + feedId + ', \'' + fileName + '\')">' + wppfm_feed_list_form_vars.list_delete + '</a>';
 	htmlCode    += fileExists ? '<a href="javascript:void(0);" id="wppfm-deactivate-' + actionId + '-action" onclick="wppfm_deactivateFeed(' + feedId + ')" id="feed-status-switch-' + feedId + '"> | ' + changeStatus + '</a>' : '';
-	htmlCode    += wppfmEndOfActionsCode( feedId, actionId, feedType );
+	htmlCode    += wppfmEndOfActionsCode( feedId, actionId, feedType, title );
 	return htmlCode;
 }
 
@@ -136,12 +140,12 @@ function feedNotReadyActions( feedId, feedUrl, title, feedType ) {
 	var htmlCode = '<strong>';
 	htmlCode    += '<a href="javascript:void(0);" id="wppfm-edit-' + actionId + '-action" onclick="parent.location=\'admin.php?page=wp-product-feed-manager&tab=' + tabTitle + '&id=' + feedId + '\'">' + wppfm_feed_list_form_vars.list_edit + '</a>';
 	htmlCode    += ' | <a href="javascript:void(0);" id="wppfm-delete-' + actionId + '-action" onclick="wppfm_deleteSpecificFeed(' + feedId + ', \'' + fileName + '\')"> ' + wppfm_feed_list_form_vars.list_delete + '</a>';
-	htmlCode    += wppfmEndOfActionsCode( feedId, actionId, feedType );
+	htmlCode    += wppfmEndOfActionsCode( feedId, actionId, feedType, title );
 	htmlCode    += wppfm_addFeedStatusChecker( feedId );
 	return htmlCode;
 }
 
-function wppfmEndOfActionsCode( feedId, actionId, feedType ) {
+function wppfmEndOfActionsCode( feedId, actionId, feedType, title ) {
 	var htmlCode = ' | <a href="javascript:void(0);" id="wppfm-duplicate-' + actionId + '-action" onclick="wppfm_duplicateFeed(' + feedId + ', \'' + title + '\')">' + wppfm_feed_list_form_vars.list_duplicate + '</a>';
 	htmlCode += 'Product Feed' === feedType ? ' | <a href="javascript:void(0);" id="wppfm-regenerate-' + actionId + '-action" onclick="wppfm_regenerateFeed(' + feedId + ')">' + wppfm_feed_list_form_vars.list_regenerate + '</a>' : '';
 	htmlCode += '</strong>';
@@ -168,6 +172,25 @@ function wppfm_updateFeedRowData( rowData ) {
 		jQuery( '#products-' + feedId ).html( rowData[ 'products' ] );
 		jQuery( '#actions-' + feedId ).html( feedReadyActions( feedId, rowData[ 'url' ], status, rowData[ 'title' ], rowData[ 'feed_type_name' ] ) );
 	}
+}
+
+function wppfm_switchStatusAction( feedId, status ) {
+	var feedName = jQuery( '#title-' + feedId ).html();
+	var actionText = '';
+
+	feedName = feedName.replace(/\s+/g, '-').toLowerCase();
+
+	switch ( status ) {
+		case '1':
+			actionText = ' | Auto-off ';
+			break;
+
+		case '2':
+			actionText = ' | Auto-on ';
+			break;
+	}
+
+	jQuery( '#wppfm-deactivate-' + feedName + '-action' ).html( actionText );
 }
 
 function wppfm_list_status_text( status ) {

@@ -4,7 +4,7 @@
  * WPPFM List Table Class.
  *
  * @package WP Product Feed Manager/User Interface/Classes
- * @version 1.2.0
+ * @version 1.3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -110,7 +110,7 @@ if ( ! class_exists( 'WPPFM_List_Table' ) ) :
 				$html .= '<tr id="wppfm-feed-row"';
 				$html .= 0 === ( $alternator % 2 ) ? ' class="wppfm-feed-row alternate">' : ' class="wppfm-feed-row">'; // alternate background color per row
 
-				$html .= '<td id="title" value="' . $feed_name_id . '">' . $list_item->title . '</td>';
+				$html .= '<td id="title-' . $list_item->product_feed_id . '" value="' . $feed_name_id . '">' . $list_item->title . '</td>';
 				$html .= '<td id="url">' . $list_item->url . '</td>';
 				$html .= '<td id="updated-' . $list_item->product_feed_id . '">' . $list_item->updated . '</td>';
 				$html .= '<td id="products-' . $list_item->product_feed_id . '">' . $nr_products . '</td>';

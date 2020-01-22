@@ -92,6 +92,7 @@ jQuery(function($){
     			// it is removing from uploader instance
     			var fileid = $(this).closest('.u_i_c_box').attr("data-fileid");
     			var file_data_name = $(this).closest('div.ppom-field-wrapper').attr("data-data_name");
+    			console.log(fileid);
                 file_count[file_data_name] = 0;
     			
     			upload_instance[file_data_name].removeFile(fileid);
@@ -113,6 +114,11 @@ jQuery(function($){
     				
     				// Removing file container
     				$(this).closest('.u_i_c_box').remove();
+    				
+    				// Removing cropper dom
+    				if($(".ppom-croppie-preview-"+fileid).length > 0 ) {
+    				    $(".ppom-croppie-preview-"+fileid).remove();
+    				}
     				
     				// Trigger
     				$.event.trigger({type: "ppom_uploaded_file_removed",

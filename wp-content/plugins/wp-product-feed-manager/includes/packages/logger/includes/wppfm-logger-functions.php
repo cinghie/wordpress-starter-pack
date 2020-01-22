@@ -101,6 +101,64 @@ function wppfm_logger_feed_generation_warning_message( $feed_id, $message ) {
 add_action( 'wppfm_feed_generation_warning', 'wppfm_logger_feed_generation_warning_message', 10, 2 );
 
 /**
+ * Logs the feeds url.
+ *
+ * @since 2.8.0
+ *
+ * @param $feed_id
+ * @param $feed_url
+ */
+function wppfm_logger_register_feed_url( $feed_id, $feed_url ) {
+	if ( $feed_id ) {
+		$url_message = sprintf( 'The feeds url = %s.', $feed_url );
+
+		WPPFM_Feed_Process_Logging::add_to_feed_process_logging( $feed_id, $url_message );
+	}
+}
+
+add_action( 'wppfm_register_feed_url', 'wppfm_logger_register_feed_url', 10, 2 );
+
+/**
+ * Registers the wp_remote_post arguments used when dispatching a feed update
+ *
+ * @since 2.8.0
+ *
+ * @param $feed_id
+ * @param $url
+ * @param $args
+ */
+function wppfm_logger_remote_post_arguments( $feed_id, $url, $args ) {
+	if ( $feed_id ) {
+		$args_body_string   = '';
+		$args_cookie_string = '';
+
+		foreach ( $args as $key => $value ) {
+			if ( 'body' === $key ) {
+				if ( null !== $value ) {
+					$args_body_string .= wppfm_recursive_implode( $value, ', ', true, false );
+				} else {
+					$args_body_string .= $value ? $value : 'empty';
+				}
+			} elseif ( 'cookies' === $key ) {
+				$args_cookie_string .= $value ? wppfm_recursive_implode( $value, ', ', true, false ) : 'empty';
+			}
+		}
+
+		$message  = 'Feed Update dispatched.';
+		$message .= "\r\n";
+		$message .= sprintf( 'Dispatched url = %s.', esc_url_raw( $url ) );
+		$message .= "\r\n";
+		$message .= sprintf( 'Dispatched args body = %s', $args_body_string );
+		$message .= "\r\n";
+		$message .= sprintf( 'Dispatched args cookie = %s', $args_cookie_string );
+
+		WPPFM_Feed_Process_Logging::add_to_feed_process_logging( $feed_id, $message );
+	}
+}
+
+add_action( 'wppfm_register_remote_post_args', 'wppfm_logger_remote_post_arguments', 10, 3 );
+
+/**
  * Registers when the memory limit of a batch is reached
  *
  * @since 2.7.0

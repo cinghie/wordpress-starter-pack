@@ -1,6 +1,7 @@
-<div id="tab_panel_options" class="panel woocommerce_options_panel" style="display: none;">
-  <# if ( _.isObject(data.options)) { #>
-  <div class="options_group">
+<# if ( _.contains(<?php echo json_encode($option); ?>, data.type)) { #>
+<div class="panel woocommerce_options_panel" <# if (data.panel != 'options') { #>hidden<# } #>>
+     <# if ( _.isObject(data.options)) { #>
+     <div class="options_group">
     <table class="wc_gateways widefat wooccm-enhanced-options" style="border:none;box-shadow: none">
       <thead>
         <tr>
@@ -26,8 +27,8 @@
         </tr>
       </thead>
       <tbody class="ui-sortable">
-        <# _.each(data.options, function (option, index) { #>
-        <tr class="row">
+        <# _.each(_.sortOptions(data.options), function (option, index) { #>
+        <tr>
           <td class="check-column">
             <input class="check" type="checkbox" <# if(index === 0) { #>disabled="disabled"<# } #>/>
           </td>
@@ -51,9 +52,9 @@
                    <input value="{{index}}"  type="radio" name="default" <# if (data.default == index) { #>checked="checked"<# } #> />
                    <# } #>
           </td>
-          <td class="sort reorder">
+          <td class="sort ui-sortable-handle">
             <div class="wc-item-reorder-nav">
-              <input type="hidden" name="option_order[]" value="{{index}}">
+              <input value="{{option.order}}" style="width: 50px" class="add-order" type="hidden" name="options[{{index}}][order]"/>
             </div>
           </td>
         </tr>
@@ -71,3 +72,4 @@
   </div>
   <# } #>
 </div>
+<# } #>

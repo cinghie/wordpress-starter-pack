@@ -1040,8 +1040,8 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
          * @author  Andrea Grillo <andrea.grillo@yithemes.com>
          * @return  string The premium landing link
          */
-        public function get_premium_landing_uri(){
-            return defined( 'YITH_REFER_ID' ) ? $this->_premium_landing . '?refer_id=' . YITH_REFER_ID : $this->_premium_landing .'?refer_id=1030585';
+        public function get_premium_landing_uri() {
+            return $this->premium_landing_url;
         }
 
 	}

@@ -39,11 +39,11 @@ $all_forms = PPOM() -> get_product_meta_all();
 								<span></span>
 							</label>
 						</th>
-						<th><?php _e('Meta ID.', "ppom")?></th>
-						<th><?php _e('Name.', "ppom")?></th>
-						<th><?php _e('Meta.', "ppom")?></th>
+						<th><?php _e('Meta ID', "ppom")?></th>
+						<th><?php _e('Name', "ppom")?></th>
+						<th><?php _e('Meta', "ppom")?></th>
 						<th><?php _e('Select Products', "ppom")?></th>
-						<th><?php _e('Delete.', "ppom")?></th>
+						<th><?php _e('Actions', "ppom")?></th>
 					</tr>
 				</thead>
 				<tfoot>
@@ -54,11 +54,11 @@ $all_forms = PPOM() -> get_product_meta_all();
 								<span></span>
 							</label>
 						</th>
-						<th><?php _e('Meta ID.', "ppom")?></th>
-						<th><?php _e('Name.', "ppom")?></th>
-						<th><?php _e('Meta.', "ppom")?></th>
+						<th><?php _e('Meta ID', "ppom")?></th>
+						<th><?php _e('Name', "ppom")?></th>
+						<th><?php _e('Meta', "ppom")?></th>
 						<th><?php _e('Select Products', "ppom")?></th>
-						<th><?php _e('Delete.', "ppom")?></th>
+						<th><?php _e('Actions', "ppom")?></th>
 					</tr>
 				</tfoot>
 				
@@ -89,7 +89,7 @@ $all_forms = PPOM() -> get_product_meta_all();
 						<td>
 							<a class="btn btn-primary ppom-products-modal" data-ppom_id="<?php echo esc_attr($productmeta ->productmeta_id); ?>" data-formmodal-id="ppom-product-modal"><?php _e('Attach to Products', "ppom")?></a>
 						</td>
-						<td>
+						<td class="ppom-admin-meta-actions-colunm">
 							<a id="del-file-<?php echo esc_attr($productmeta -> productmeta_id); ?>" href="#" class="button button-sm ppom-delete-single-product" data-product-id="<?php echo esc_attr($productmeta -> productmeta_id); ?>"><span class="dashicons dashicons-no"></span></a>
 							<a href="<?php echo esc_url($url_edit); ?>" title="<?php _e('Edit', "ppom")?>" class="button"><span class="dashicons dashicons-edit"></span></a>
 							<a href="<?php echo esc_url($url_clone); ?>" title="<?php _e('Clone', "ppom")?>" class="button"><span class="dashicons dashicons-image-rotate-right"></span></a>

@@ -5,7 +5,7 @@ Tags: search, woocommerce search, image search, ajax search, search shortcode, l
 Requires at least: 3.9
 Tested up to: 5.3
 Requires PHP: 5.2.4
-Stable tag: 4.4.2
+Stable tag: 4.4.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -191,6 +191,23 @@ Yes we do. We try our best to help free users with customisation requests and we
 8. Plugin Settings
 
 == Changelog ==
+
+= 4.4.6 =
+* Fixed - AJAX search results some options not working.
+
+= 4.4.5 =
+* Improved - Made SVG icons Accessibility Ready.
+* Improved - Search dropdown should not close on clicking on AJAX search results.
+* Fixed - AJAX search results Undefined index notices.
+
+= 4.4.4 =
+* Fixed - Search form AJAX options not working.
+
+= 4.4.3 =
+* Fixed - AJAX search results displaying out of viewport.
+* Fixed - AJAX search results Undefined index notices.
+* Fixed - AJAX search results displays on wrong location on scroll.
+* Fixed - Searching exact words with " " quote marks.
 
 = 4.4.2 =
 * Improved - Ajax search results scrolls with search form.

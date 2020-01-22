@@ -95,13 +95,13 @@ if ( ! class_exists( 'WPPFM_File' ) ) :
 					// get the line
 					$line = fgetcsv( $file, 0, "\t" );
 
-					if ( is_array( $line ) ) {
+					if ( is_array( $line ) && ! empty( $line[0] ) ) {
 						$field_object->field_id    = $line[0];
 						$field_object->category_id = $line[1];
 						$field_object->field_label = $line[2];
-					}
 
-					array_push( $fields, $field_object );
+						array_push( $fields, $field_object );
+					}
 				}
 			}
 

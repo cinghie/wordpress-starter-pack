@@ -263,7 +263,7 @@
 					array( '#show_tooltip' => array( 'type' => 'equal', 'value' => 'yes' ) )
 				)*/
 				
-				$depends = empty( $field[ 'dependency' ] ) ? '' : "data-depends='" . wp_json_encode( $field[ 'dependency' ] ) . "'";
+				$depends = empty( $field[ 'dependency' ] ) ? '' : "data-wvsdepends='" . wp_json_encode( $field[ 'dependency' ] ) . "'";
 				
 				ob_start();
 				if ( ! $term ) {

@@ -3,7 +3,7 @@ Contributors: smashballoon, craig-at-smash-balloon
 Tags: Instagram, Instagram feed, Instagram photos, Instagram widget, Instagram gallery
 Requires at least: 3.4
 Tested up to: 5.3
-Stable tag: 2.1.3
+Stable tag: 2.1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -324,13 +324,29 @@ We understand that sometimes you need help, have issues or just have questions. 
 * Plus more customization options added all the time!
 
 == Changelog ==
+= 2.1.5 =
+* New: Added aria-label attributes to SVGs for improved accessibility.
+* Tweak: Changed screen reader and alt text to be more SEO friendly (change made to item.php template).
+* Tweak: Added PHP hooks to use custom alt and screen reader text.
+* Fix: Image resolution setting option "Medium" dimensions changed from 306x306 to 320x320.
+* Fix: Screen reader text would be visible if text was right aligned.
+* Fix: Incorrect image resolution would be used when setting the image resolution to something other than auto.
+
+= 2.1.4 =
+* Tweak: If sb_instagram_js_options is not defined, a default object is set.
+* Tweak: Added a text link in the settings page footer to our new free [YouTube plugin](https://wordpress.org/plugins/feeds-for-youtube/)
+* Fix: Local images not being used when available in certain circumstances.
+
 = 2.1.3 =
 * New: Added filter "sbi_settings_pages_capability" to change what permission is needed to access settings pages.
+* Tweak: Updated language files for version 2.0+.
 * Tweak: Better error messages for no posts being found and API request delays.
 * Tweak: If "Favor Local Images" setting is in use, a 640px resolution image will be created for images coming from a personal account.
 * Tweak: Better error recovery when image file not found when viewing the feed.
 * Tweak: Button and input field styling updated to look better with WordPress 5.3.
 * Fix: Accounts that were connected prior to version 1.12 would not show the follow button if the header was not also displayed. Visit the "Configure" tab to have the account automatically updated.
+* Fix: MySQL error when retrieving resized images. Thanks [the-louie](https://github.com/the-louie)!
+* Fix: When using the new Twenty Twenty theme, Instagram icon in "follow" button displaying as block and causing the button text to appear on a new line.
 
 = 2.1.2 =
 * New: Added setting "API request size" on the "Customize" tab to allow requesting of more posts than are in the feed. Setting this to a high number will prevent no posts being found if you often post IG TV posts and use a personal account.
@@ -394,7 +410,7 @@ We understand that sometimes you need help, have issues or just have questions. 
 = 1.11 =
 * New: Added capability "manage_instagram_feed_options" to support customizations that will allow users/roles other than the administrator to access Instagram Feed settings pages.
 * Fix: rel="noopener" added to all links that contain target="blank"
-* Fix: HTTPS used in xlmns attribute for svgs
+* Fix: HTTPS used in xlmns attribute for SVGs
 * Fix: Fixed issues with strings in the admin area being translatable
 * Fix: Fixed a potential security vulnerability. Thanks to [Martin Verreault](https://egyde.ca/) for reporting the issue.
 

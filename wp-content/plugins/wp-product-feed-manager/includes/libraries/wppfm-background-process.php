@@ -70,14 +70,16 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	 * Dispatch the feed generation process.
 	 *
 	 * @access public
+	 * @param string $feed_id
+	 *
 	 * @return array
 	 */
-	public function dispatch() {
+	public function dispatch( $feed_id ) {
 		// Schedule the cron health check.
 		$this->schedule_event();
 
 		// Perform the remote post.
-		return parent::dispatch();
+		return parent::dispatch( $feed_id );
 	}
 
 	/**
@@ -415,7 +417,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 				}
 
 				// prevent doubles in the feed
-				if ( is_array( $value ) && array_key_exists( 'product_id', $value ) && in_array( $value['product_id'], $this->processed_products ) ) {
+				if ( array_key_exists( 'product_id', $value ) && in_array( $value['product_id'], $this->processed_products ) ) {
 					continue;
 				}
 
@@ -453,7 +455,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 			//@since 2.3.0
 			do_action( 'wppfm_activated_next_batch', $feed_data->feedId );
 
-			$this->dispatch();
+			$this->dispatch( $feed_data->feedId );
 		} else {
 			$this->complete(); // complete processing this feed
 
@@ -461,7 +463,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 				//@since 2.3.0
 				do_action( 'wppfm_activated_next_feed', WPPFM_Feed_Controller::get_next_id_from_feed_queue() );
 
-				$this->dispatch(); // start with the next feed in the queue
+				$this->dispatch( WPPFM_Feed_Controller::get_next_id_from_feed_queue() ); // start with the next feed in the queue
 			}
 		}
 	}

@@ -202,7 +202,8 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 				'page'             => $this->_panel_page,
 				'admin-tabs'       => $admin_tabs,
 				'options-path'     => YITH_INFS_DIR . 'plugin-options',
-                'class'            => yith_set_wrapper_class()
+                'class'            => yith_set_wrapper_class(),
+                'plugin_slug'      =>  YITH_INFS_SLUG
 			);
 
 			/* === Fixed: not updated theme  === */

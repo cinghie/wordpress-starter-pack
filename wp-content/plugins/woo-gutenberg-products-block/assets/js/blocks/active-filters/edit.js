@@ -40,6 +40,7 @@ const Edit = ( { attributes, setAttributes } ) => {
 								value: 'list',
 							},
 							{
+								/* translators: "Chips" is a tag-like display style for chosen attributes. */
 								label: __(
 									'Chips',
 									'woo-gutenberg-products-block'
@@ -82,7 +83,7 @@ const Edit = ( { attributes, setAttributes } ) => {
 				onChange={ ( value ) => setAttributes( { heading: value } ) }
 			/>
 			<Disabled>
-				<Block attributes={ attributes } isPreview />
+				<Block attributes={ attributes } isEditor={ true } />
 			</Disabled>
 		</div>
 	);

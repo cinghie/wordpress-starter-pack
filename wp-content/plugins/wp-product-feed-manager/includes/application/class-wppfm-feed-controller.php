@@ -4,7 +4,7 @@
  * WP Product Feed Controller Class.
  *
  * @package WP Product Feed Manager/Application/Classes
- * @version 1.1.0
+ * @version 1.2.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -124,14 +124,19 @@ if ( ! class_exists( 'WPPFM_Feed_Controller' ) ) :
 		 * @return boolean
 		 */
 		public static function feed_processing_failed( $feed_file ) {
-			$trans = get_transient( 'wppfm_feed_file_size' );
 
 			if ( '' === $feed_file ) {
 				return null;
 			}
 
-			if ( false === ( $trans ) ) {
-				$trans = '0|0';
+			$trans = get_transient( 'wppfm_feed_file_size' );
+
+			// get the feed file name that's stored in the transient or take the $feed_file parameter
+			$trans_feed_file = $trans ? substr( $trans, strrpos( $trans, '|' ) + 1 ) : $feed_file;
+
+			// if the transient was empty or the feed file in the transient is not the currently active file, reset the transient
+			if ( false === $trans || $feed_file !== $trans_feed_file ) {
+				$trans = '0|0|' . $feed_file;
 				set_transient( 'wppfm_feed_file_size', $trans, WPPFM_TRANSIENT_LIVE );
 			}
 
@@ -139,10 +144,12 @@ if ( ! class_exists( 'WPPFM_Feed_Controller' ) ) :
 			$stored            = explode( '|', $trans );
 			$prev_feed_size    = $stored[0];
 			$prev_feed_counter = $stored[1];
-			$curr_feed_size    = file_exists( $feed_file ) ? filesize( $feed_file ) : 0;
+			$feed_file         = $trans_feed_file;
+			$curr_feed_size    = file_exists( $feed_file ) ? filesize( $feed_file ) : false;
 
-			// if file size is 0, return true
+			// if file does not exist, return true
 			if ( false === $curr_feed_size ) {
+				delete_transient( 'wppfm_feed_file_size' ); // reset the counter
 				return true;
 			}
 
@@ -151,14 +158,12 @@ if ( ! class_exists( 'WPPFM_Feed_Controller' ) ) :
 				// and the delay time has passed
 				if ( $prev_feed_counter + apply_filters( 'wppfm_delay_failed_label', WPPFM_DELAY_FAILED_LABEL, $feed_file ) < time() ) {
 					delete_transient( 'wppfm_feed_file_size' ); // reset the counter
-
 					return true;
 				} else {
 					return false;
 				}
 			} else {
-				set_transient( 'wppfm_feed_file_size', $curr_feed_size . '|' . time(), WPPFM_TRANSIENT_LIVE );
-
+				set_transient( 'wppfm_feed_file_size', $curr_feed_size . '|' . time() . '|' . $feed_file, WPPFM_TRANSIENT_LIVE );
 				return false;
 			}
 		}

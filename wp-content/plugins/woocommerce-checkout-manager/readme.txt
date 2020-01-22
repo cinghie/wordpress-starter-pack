@@ -3,8 +3,8 @@ Contributors: quadlayers
 Donate link: https://quadlayers.com/
 Tags: woocommerce, woocommerce checkout, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
 Requires at least: 4.6
-Tested up to: 5.3.0
-Stable tag: 4.8.0
+Tested up to: 5.3.2
+Stable tag: 4.8.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,24 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 10. Handle uploaded files in order admin dashboard.
 
 == Changelog ==
+
+= 4.8.5 =
+* Fix: woocommerce checkout manager modal tab
+* New: woocommerce checkout manager field description
+
+= 4.8.4 =
+* Fix: bad spelling
+* Fix: woocommerce checkout manager modal open
+
+= 4.8.3 =
+* Fix: woocommerce checkout manager conditional fields
+* Fix: woocommerce checkout manager modal prev and next button
+
+= 4.8.2 =
+* Fix: woocommerce checkout manager i18n
+
+= 4.8.1 =
+* Fix: woocommerce checkout reorder field options
 
 = 4.8.0 =
 * Fix: woocommerce checkout datepicker field disabled days

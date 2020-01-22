@@ -60,7 +60,7 @@ class WooSEA_beslist {
                                         "name" => "category",
                                         "feed_name" => "category",
                                         "format" => "required",
-					"woo_suggest" => "category_path",
+					"woo_suggest" => "category_path_short",
                                 ),
                                 "Delivery period" => array(
                                         "name" => "delivery_period",

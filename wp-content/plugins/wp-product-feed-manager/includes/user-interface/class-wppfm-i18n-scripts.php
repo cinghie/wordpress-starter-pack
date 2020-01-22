@@ -5,7 +5,7 @@
  *
  * @package WP Product Feed Manager/User Interface/Classes
  * @since 2.2.0
- * @version 1.0.0
+ * @version 1.1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -27,6 +27,7 @@ if ( ! class_exists( 'WPPFM_i18n_Scripts' ) ) :
 		public static function wppfm_feed_settings_i18n() {
 			$pars = array(
 				'prohibited_feed_name_characters'  => esc_html__( 'You are using characters in your file name that are not allowed!', 'wp-product-feed-manager' ),
+				'feed_name_exists'                 => esc_html__( 'You already have a feed with this name! Please use another name.', 'wp-product-feed-manager' ),
 				'invalid_url'                      => esc_html__( 'The url you entered is invalid. Please try again', 'wp-product-feed-manager' ),
 				'save_data_failed'                 => esc_html__( 'Saving the data to the database has failed! Please try again.', 'wp-product-feed-manager' ),
 				'no_category_required'             => esc_html__( 'no category required', 'wp-product-feed-manager' ),

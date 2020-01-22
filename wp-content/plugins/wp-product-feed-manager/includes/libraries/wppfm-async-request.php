@@ -110,16 +110,18 @@ abstract class WPPFM_Async_Request {
 
 	/**
 	 * Dispatch the async request to trigger the feed process with a remote post.
+	 *
+	 * @param string $feed_id
 	 */
-	public function dispatch() {
+	public function dispatch( $feed_id ) {
 		if ( get_option( 'wppfm_disabled_background_mode', 'false' ) === 'false' ) { // start a background process
 			$url  = add_query_arg( $this->get_query_args(), $this->get_query_url() );
 			$args = $this->get_post_args();
 
-			// activate the background process
-			$result = wp_remote_post( esc_url_raw( $url ), $args );
+			do_action( 'wppfm_register_remote_post_args', $feed_id, $url, $args );
 
-			do_action( 'wppfm_dispatch_result', $result ); // $args->blocking needs to be set to true for this action to provide usable information
+			// activate the background process
+			wp_remote_post( esc_url_raw( $url ), $args );
 		} else { // start a foreground process
 			$this->maybe_handle();
 		}
@@ -154,7 +156,7 @@ abstract class WPPFM_Async_Request {
 	protected function get_post_args() {
 		return array(
 			'timeout'  => 0.01,
-			'blocking' => false, // remove if you want to debug the wp_remote_post response
+			'blocking' => false, // false because the wp_remote_call will always return a WP_Error for a cURL error 28
 			'body'     => $this->data,
 			'cookies'  => stripslashes_deep( $_COOKIE ),
 		);

@@ -56,36 +56,6 @@
     };
   }
 
-  $(document).on('wooccm-tab-panels', function (e, active) {
-
-    var $modal = $(e.target),
-            $tabs = $modal.find('ul.wc-tabs'),
-            $active = $tabs.find('a[href="' + active + '"]');
-
-    $tabs.show();
-
-    $tabs.find('a').click(function (e) {
-      e.preventDefault();
-
-      var panel_wrap = $(this).closest('div.panel-wrap');
-
-      $tabs.find('li', panel_wrap).removeClass('active');
-
-      $(this).parent().addClass('active');
-
-      $('div.panel', panel_wrap).hide();
-
-      $($(this).attr('href')).show();
-    });
-
-    if ($active.length && $($active.attr('href')).length) {
-      $active.click();
-    } else {
-      $tabs.find('li.active').find('a').click();
-    }
-
-  });
-
   $(document).on('wooccm-enhanced-between-dates', function (e) {
 
     $('.wooccm-enhanced-between-dates').filter(':not(.enhanced)').each(function () {
@@ -110,6 +80,33 @@
 
   $(document).on('wooccm-enhanced-options', function (e) {
 
+    $('table.wc_gateways tbody').sortable({
+      items: 'tr',
+      cursor: 'move',
+      axis: 'y',
+      handle: 'td.sort',
+      scrollSensitivity: 40,
+      helper: function (event, ui) {
+        ui.children().each(function () {
+          $(this).width($(this).width());
+        });
+        ui.css('left', '0');
+        return ui;
+      },
+      start: function (event, ui) {
+        ui.item.css('background-color', '#f6f6f6');
+      },
+      stop: function (event, ui) {
+        ui.item.removeAttr('style');
+        ui.item.trigger('updateMoveButtons');
+      },
+      update: function (event, ui) {
+        $(this).find('tr').each(function (i, tr) {
+          $(tr).find('input.add-order').val(i).trigger('change');
+        });
+      }
+    });
+
     $('.wooccm-enhanced-options').each(function () {
 
       var $table = $(this),
@@ -120,9 +117,9 @@
 
         var $tr = $table.find('tbody > tr'),
                 id = $tr.length,
-                tr = $tr.first().clone().html().replace(/options\[([0-9]+)\]/g, 'options[' + id + ']').replace('disabled="disabled"', '').replace('checked="checked"', '').replace('<input value="0"', '<input value="' + id + '"');
+                tr = $tr.first().clone().html().replace(/options\[([0-9]+)\]/g, 'options[' + id + ']').replace('disabled="disabled"', '').replace('checked="checked"', '').replace('<input value="0"', '<input value="' + id + '"').replace('<input value="0"', '<input value="' + id + '"');
 
-        $tr.last().after($('<tr class="row">' + tr + '</tr>'));
+        $tr.last().after($('<tr>' + tr + '</tr>')).find('input').trigger('change');
 
         $remove.removeProp('disabled');
 

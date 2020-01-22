@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.3
-Stable tag: 6.9.9
+Stable tag: 7.2.7
 
 == Description ==
 
@@ -66,6 +66,13 @@ This plugin supports product variables so all your variations make it to product
 
 = Facebook Pixel =
 This plugin adds the Facebook pixel code on your websites and makes sure it matches the content of your Facebook catalogue product feed
+Our plugin add's the following Facebook pixel events:
+* on your product pages, both for simple, variable and variations pages
+* on your category pages (ViewCategory event)
+* on your search result pages (Search event)
+* on your cart page (AddToCart event)
+* on the add to cart button (AddToCart event)
+* on the thank you page (PurChase event)
 
 = Google Dynamic Remarketing Pixel =
 This plugin adds the Google Dynamic Remarketing pixel code on your website.
@@ -113,7 +120,8 @@ Our plugin supports the Aelia Currency Switcher
 * Supports the official Facebook for WooCommerce plugin (SKU_ID parameter)
 * Supports Yoasts primary category feature
 * Supports Yith brand attributes
-* Supports WooCommerce Product Bundles
+* Supports the official "WooCommerce Product Bundles" plugin
+* Supports the official "WooCommerce Composite Products" plugin
 * Supports WooCommerce Dynamic Pricing & Discounts from RightPress
 * Supports WC Fields Factory
 * Supports Table Rate Shipping for WooCommerce from Bolder Elements
@@ -300,6 +308,98 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 7.2.7 (2020-01-21) =
+* We forgot to apply the fix from version 7.2.6 to all plugin pages. Should be fixed now.
+
+= 7.2.6 (2020-01-21) =
+* The Get Elite notice is dismissable logic did not work, this has been fixed now.
+
+= 7.2.5 (2020-01-17) =
+* It is now possible to remove the item_group_id field mappings again
+
+= 7.2.4 (2020-01-17) =
+* Added the InitiateCheckout event for the Facebook pixel
+* Fixed a structured data pricing bug. When prices were inserted in WooCommerce excluding tax but shown on the website including tax the structured data price was wrong. This has been fixed now.
+
+= 7.2.3 (2020-01-17) =
+* Added the variation product ID's to the Facebook pixel events on category and search pages
+
+= 7.2.2 (2020-01-16) =
+* Added the Facebook pixel AddToCart event. This event was already triggered when users hit the Add To Cart button but is now also added when users are in the cart itself
+* Made sure that when product variations are added to the cart it add's the product ID of the variation itself to the Facebook pixel event instead of its parent variable product ID
+
+= 7.2.1 (2020-01-16) =
+* Fixed a bug: The Facebook pixel ID on the cart page showed a PHP error. Issue has been solved now.
+
+= 7.2.0 (2020-01-15) =
+* Improved front-end performance for structured data feature
+
+= 7.1.9 (2020-01-15) =
+* Added the Facebook pixel purchase event
+* Added the Facebook pixel search event
+* Added the Facebook pixel category event
+
+= 7.1.8 (2020-01-14) =
+* Solved a PHP notice in the error logs for feed configurations that missed the cron setting.
+
+= 7.1.7 (2020-01-12) =
+* Added some code to also remove the VC shortcodes for raw HTML in the description and short description attributes
+
+= 7.1.6 (2020-01-10) =
+* Fixed a bug: the gross regular price attribute and gross sale prices attribute were not working properly. It did not remove VAT in all cases. This has been fixed.
+
+= 7.1.5 (2020-01-08) =
+* Fixed a bug: when WooCommerce categories have the exact same name the Google category taxonomy mapping showed only one mapping in the UI. This has been fixed.
+
+= 7.1.4 (2020-01-07) =
+* Fixed a bug: when a minimum shipping fee was set and one used the Germanized for WooCommerce plugin product prices higher than 100 never got free shipping. This has been fixed.
+
+= 7.1.3 (2020-01-06) =
+* Changed encoding for UTM terms in the deeplinks for Google's DRM feeds as it broke the CSV file.
+
+= 7.1.2 (2020-01-05) =
+* Minor fix for PHP notice when users added custom attributes without values. Notice in the logs is gone now.
+
+= 7.1.1 (2020-01-02) =
+* Another fix for the Dokan Multi-vendor plugin
+
+= 7.1.0 (2020-01-02) =
+* Fixed support for the Dokan Multi-vendor plugin
+* Fixed some PHP warnings that showed in the error logs when a parent variable product had no attributes configured
+
+= 7.0.9 (2019-12-30) =
+* Added support for creation of find & replace rules
+* Removed XML support for Bol.com feeds
+
+= 7.0.8 (2019-12-28) =
+* Added support for the Perfect Woocommerce Brands plugin
+
+= 7.0.7 (2019-12-27) =
+* Some Germanized for WooCommerce fields didn't work anymore because of a change in attribute naming. This has been fixed.
+
+= 7.0.6 (2019-12-24) =
+* Increased performance and speed of processing product feeds
+* Increased performance of field mapping page
+
+= 7.0.5 (2019-12-17) =
+* Added support for the official WooCommerce Composite Products (https://woocommerce.com/products/composite-products/)
+
+= 7.0.4 (2019-12-17) =
+* Added support for Czech characters in custom field names
+
+= 7.0.3 (2019-12-10) =
+* Added query logging as some users reported duplicate products in their feed
+
+= 7.0.2 (2019-12-05) =
+* Solved a bug: when all product feed had a stopped status the manual refresh of product feeds did not start. This has been fixed.
+* Latest update of WPML / WCML caused manually entered currencies not to show in feeds anymore. Made our plugin compatible again.
+
+= 7.0.1 (2019-12-04) =
+* Removed space between prefix and link attribute so users can add trackingcode before the landingpage URL
+
+= 7.0.0 (2019-12-02) =
+* Added the category path short (without Home) attribute
 
 = 6.9.9 (2019-12-01) =
 * Fixed a case-sensitive issue for product tag rules
@@ -2204,6 +2304,98 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 7.2.7 =
+We forgot to apply the fix from version 7.2.6 to all plugin pages. Should be fixed now.
+
+= 7.2.6 =
+The Get Elite notice is dismissable logic did not work, this has been fixed now.
+
+= 7.2.5 =
+It is now possible to remove the item_group_id field mappings again
+
+= 7.2.4 =
+Added the InitiateCheckout event for the Facebook pixel
+Fixed a structured data pricing bug. When prices were inserted in WooCommerce excluding tax but shown on the website including tax the structured data price was wrong. This has been fixed now.
+
+= 7.2.3 =
+Added the variation product ID's to the Facebook pixel events on category and search pages
+
+= 7.2.2 =
+Added the Facebook pixel AddToCart event. This event was already triggered when users hit the Add To Cart button but is now also added when users are in the cart itself
+Made sure that when product variations are added to the cart it add's the product ID of the variation itself to the Facebook pixel event instead of its parent variable product ID
+
+= 7.2.1 =
+Fixed a bug: The Facebook pixel ID on the cart page showed a PHP error. Issue has been solved now.
+
+= 7.2.0 =
+Improved front-end performance for structured data feature
+
+= 7.1.9 =
+Added the Facebook pixel purchase event
+Added the Facebook pixel search event
+Added the Facebook pixel category event
+
+= 7.1.8 =
+* Solved a PHP notice in the error logs for feed configurations that missed the cron setting
+
+= 7.1.7 =
+Added some code to also remove the VC shortcodes for raw HTML in the description and short description attributes
+
+= 7.1.6 =
+Fixed a bug: regaular and sale gross price attributes sometimes did add VAT to the prices. This has been fixed now.
+
+= 7.1.5 =
+Fixed a bug: when WooCommerce categories have the exact same name the Google category taxonomy mapping showed only one mapping in the UI. This hasbeen fixed.
+
+= 7.1.4 =
+Fixed a bug: when a minimum shipping fee was set and one used the Germanized for WooCommerce plugin product prices higher than 100 never got free shipping. This has been fixed.
+
+= 7.1.3 =
+Changed encoding for UTM terms in the deeplinks for Google's DRM feeds as it broke the CSV file.
+
+= 7.1.2 =
+Minor fix for PHP notice when users added custom attributes without values. Notice in the logs is gone now.
+
+= 7.1.1 =
+Another fix for the Dokan Multi-vendor plugin
+
+= 7.1.0 =
+Fixed support for the Dokan Multi-vendor plugin
+Fixed some PHP warnings that showed in the error logs when a parent variable product had no attributes configured
+
+= 7.0.9 =
+Added support for creation of find & replace rules
+Removed XML support for Bol.com feeds
+
+= 7.0.8 =
+Added support for the Perfect Woocommerce Brands plugin
+
+= 7.0.7 =
+Some Germanized for WooCommerce fields didn't work anymore because of a change in attribute naming. This has been fixed.
+
+= 7.0.6 =
+Increased performance and speed of processing product feeds
+Increased performance of field mapping page
+
+= 7.0.5 =
+Added support for the official WooCommerce Composite Products (https://woocommerce.com/products/composite-products/)
+
+= 7.0.4 =
+Added support for Czech characters in custom field names
+
+= 7.0.3 =
+Added query logging as some users reported duplicate products in their feed
+
+= 7.0.2 =
+Solved a bug: when all product feed had a stopped status the manual refresh of product feeds did not start. This has been fixed.
+Latest update of WPML / WCML caused manually entered currencies not to show in feeds anymore. Made our plugin compatible again.
+
+= 7.0.1 =
+Removed space between prefix and link attribute so users can add trackingcode before the landingpage URL
+
+= 7.0.0 =
+Added the category path short (without Home) attribute
 
 = 6.9.9 =
 Fixed a case-sensitive issue for product tag rules

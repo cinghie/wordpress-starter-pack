@@ -72,11 +72,11 @@ function woosea_hierarchical_term_tree($category, $prev_mapped){
                         $woo_category = preg_replace('/"/','&quot;',$woo_category);
 
 			// Check if mapping is in place
-                    	if ((array_key_exists($sub_category->name, $prev_mapped)) OR (array_key_exists($woo_category, $prev_mapped))){
-				if(array_key_exists($sub_category->name, $prev_mapped)){
-	                        	$mapped_category = $prev_mapped[$sub_category->name];
+                    	if ((array_key_exists($x, $prev_mapped)) OR (array_key_exists($woo_category, $prev_mapped))){
+				if(array_key_exists($x, $prev_mapped)){
+	                        	$mapped_category = $prev_mapped[$x];
 				} elseif (array_key_exists($woo_category, $prev_mapped)){
-	                        	$mapped_category = $prev_mapped[$woo_category];
+	                        	$mapped_category = $prev_mapped[$x];
 				} else {
 	                        	$mapped_category = $woo_category;
 				}
@@ -150,7 +150,8 @@ function woosea_hierarchical_term_tree($category, $prev_mapped){
 				foreach ($project['mappings'] as $map_key => $map_value){
 					if(strlen($map_value['map_to_category']) > 0){
 						$map_value['criteria'] = str_replace("\\","",$map_value['criteria']);
-						$prev_mapped[$map_value['criteria']] = $map_value['map_to_category'];
+						$prev_mapped[$map_value['categoryId']] = $map_value['map_to_category'];
+//						$prev_mapped[$map_value['criteria']] = $map_value['map_to_category'];
 					}
 				}
 			}
@@ -207,7 +208,8 @@ function woosea_hierarchical_term_tree($category, $prev_mapped){
                                                                 <li><strong>4.</strong> <?php _e( 'Exclude individual products from your feeds','woo-product-feed-pro' );?></li>
                                                                 <li><strong>5.</strong> <?php _e( 'WPML support','woo-product-feed-pro' );?></li>
                                                                 <li><strong>6.</strong> <?php _e( 'Aelia currency switcher support','woo-product-feed-pro' );?></li>
-                                                         </ul>
+                                                                <li><strong>7.</strong> <?php _e( 'Facebook pixel feature','woo-product-feed-pro' );?></li>
+							</ul>
                                                         <strong>
                                                         <a href="https://adtribes.io/pro-vs-elite/?utm_source=<?php print"$host";?>&utm_medium=page1&utm_campaign=why-upgrade-box" target="_blank"><?php _e( 'Upgrade to Elite here!','woo-product-feed-pro' );?></a>
                                                         </strong>

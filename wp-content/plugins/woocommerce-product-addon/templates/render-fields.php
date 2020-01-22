@@ -204,6 +204,10 @@ foreach( $ppom_fields_meta as $meta ) {
                 	$mask	= isset( $meta['input_mask'] ) ? $meta['input_mask'] : '';
                 	$regex	= isset( $meta['use_regex'] ) ? $meta['use_regex'] : '';
                 	
+                	$taxable	= (isset( $meta['onetime_taxable'] ) ? $meta['onetime_taxable'] : '' );
+					$onetime	= isset($meta['onetime']) ? $meta['onetime'] : '';
+					$price		= isset($meta['price']) ? $meta['price'] : '';
+                	
                 	$default_value = strip_tags($default_value);
                 	
                     $ppom_field_setting = array(  
@@ -221,6 +225,9 @@ foreach( $ppom_fields_meta as $meta ) {
                                     'autocomplete' => "false",
                                     'use_regex'	=> $regex,
                                     'input_mask'=> $mask,
+                                    'onetime'	=> $onetime,
+					            	'taxable'	=> $taxable,
+					            	'price'		=> $price,
                                     );
                                     
                     

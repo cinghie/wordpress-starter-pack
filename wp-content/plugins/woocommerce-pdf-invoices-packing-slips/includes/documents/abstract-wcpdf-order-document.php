@@ -151,6 +151,15 @@ abstract class Order_Document {
 			WCX_Order::update_meta_data( $this->order, "_wcpdf_{$this->slug}_settings", $settings );
 		}
 
+		// display date & display number were checkbox settings but now a select setting that could be set but empty - should behave as 'unchecked'
+		if ( array_key_exists( 'display_date', $settings ) && empty( $settings['display_date'] ) ) {
+			unset( $settings['display_date'] );
+		}
+		
+		if ( array_key_exists( 'display_number', $settings ) && empty( $settings['display_number'] ) ) {
+			unset( $settings['display_number'] );
+		}
+
 		return $settings;
 	}
 
@@ -748,6 +757,11 @@ abstract class Order_Document {
 			$mailer = WC()->mailer();
 		} else {
 			global $woocommerce;
+
+			if ( empty( $woocommerce ) ) { // bail if WooCommerce not active
+				return apply_filters( 'wpo_wcpdf_wc_emails', array() );
+			}
+			
 			$mailer = $woocommerce->mailer();
 		}
 		$wc_emails = $mailer->get_emails();

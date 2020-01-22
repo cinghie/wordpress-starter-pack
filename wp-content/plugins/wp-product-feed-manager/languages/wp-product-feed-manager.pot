@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: WooCommerce Product Feed Manager\n"
-"POT-Creation-Date: 2019-11-01 08:50+0100\n"
+"POT-Creation-Date: 2020-01-18 09:52+0100\n"
 "PO-Revision-Date: 2018-08-20 20:39+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -21,27 +21,27 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: includes/application/class-feed-master.php:120
+#: includes/application/class-feed-master.php:123
 msgid ""
 "1428 - Failed to load the feed data, please to generate a feed in the "
 "foreground mode (see Settings page) and then try the background mode again."
 msgstr ""
 
 #. translators: %s: Folder where the feeds are stored
-#: includes/application/class-feed-master.php:221
+#: includes/application/class-feed-master.php:225
 #, php-format
 msgid ""
 "1430 - %s is not a writable folder. Make sure you have admin rights to this "
 "folder."
 msgstr ""
 
-#: includes/application/class-feed-master.php:539
-#: includes/user-interface/class-wppfm-i18n-scripts.php:85
+#: includes/application/class-feed-master.php:553
+#: includes/user-interface/class-wppfm-i18n-scripts.php:86
 msgid "Fill with a static value"
 msgstr ""
 
-#: includes/application/class-feed-master.php:540
-#: includes/application/class-feed-master.php:545
+#: includes/application/class-feed-master.php:554
+#: includes/application/class-feed-master.php:559
 msgid "Use the settings in the Merchant Center"
 msgstr ""
 
@@ -84,7 +84,7 @@ msgid ""
 msgstr ""
 
 #: includes/data/class-wppfm-ajax-file.php:169
-#: includes/user-interface/class-wppfm-i18n-scripts.php:36
+#: includes/user-interface/class-wppfm-i18n-scripts.php:37
 msgid ""
 "Error writing the feed. You do not have the correct authorities to write the "
 "file."
@@ -133,6 +133,22 @@ msgstr ""
 msgid ""
 "Channel %s is not supported by your current plugin version. Please update "
 "your plugin to the latest version and try uploading this channel again."
+msgstr ""
+
+#: includes/data/class-wppfm-data.php:229
+msgid ""
+"Could not add custom fields because I could not identify the channel.\n"
+"\t\t\t\t\t\t\t\tIf not already done add the correct channel in the Manage "
+"Channels page.\n"
+"\t\t\t\t\t\t\t\tAlso try to deactivate and then activate the plugin."
+msgstr ""
+
+#: includes/data/class-wppfm-data.php:238
+msgid ""
+"Could not identify the channel.\n"
+"\t\t\t\t\t\t\t\tTry to deactivate and then activate the plugin.\n"
+"\t\t\t\t\t\t\t\tIf that does not work remove the plugin through the "
+"WordPress Plugins page and than reinstall and activate it again."
 msgstr ""
 
 #: includes/data/class-wppfm-db-management.php:131
@@ -196,14 +212,14 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: includes/libraries/wppfm-background-process.php:572
+#: includes/libraries/wppfm-background-process.php:574
 #, php-format
 msgid "Every %d minute"
 msgid_plural "Every %d minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/libraries/wppfm-background-process.php:613
+#: includes/libraries/wppfm-background-process.php:615
 msgid ""
 "Could not schedule the cron event required to start the feed process. Please "
 "check if your wp cron is configured correctly and is running."
@@ -216,11 +232,11 @@ msgid ""
 "Manager Logger\" plugin from your Plugins page."
 msgstr ""
 
-#: includes/packages/wpml/includes/wppfm-wpml-functions.php:18
+#: includes/packages/wpml/includes/wppfm-wpml-functions.php:23
 msgid "-- Select the language of the feed --"
 msgstr ""
 
-#: includes/packages/wpml/includes/wppfm-wpml-functions.php:118
+#: includes/packages/wpml/includes/wppfm-wpml-functions.php:123
 msgid ""
 "WPML support is now integrated in the Feed Manager plugin. To prevent "
 "conflicts please deactivate and remove the \"WooCommerce Product Feed "
@@ -236,7 +252,7 @@ msgid ""
 "methode."
 msgstr ""
 
-#: includes/user-interface/abstract-wppfm-attribute-mapping-wrapper.php:27
+#: includes/user-interface/abstract-wppfm-attribute-mapping-wrapper.php:26
 msgid "Attribute Mapping"
 msgstr ""
 
@@ -249,12 +265,12 @@ msgid "Feed Manager Settings"
 msgstr ""
 
 #: includes/user-interface/class-wppfm-admin-page.php:33
-#: includes/user-interface/wppfm-admin-menu-functions.php:114
+#: includes/user-interface/wppfm-admin-menu-functions.php:22
 msgid "Feed List"
 msgstr ""
 
 #: includes/user-interface/class-wppfm-admin-page.php:38
-#: includes/user-interface/wppfm-admin-menu-functions.php:121
+#: includes/user-interface/wppfm-admin-menu-functions.php:29
 msgid "Product Feed"
 msgstr ""
 
@@ -270,42 +286,26 @@ msgstr ""
 msgid "Something not working? Click here for support"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-admin-page.php:80
-msgid "About Us"
-msgstr ""
-
-#: includes/user-interface/class-wppfm-admin-page.php:81
-msgid "Contact Us"
-msgstr ""
-
-#: includes/user-interface/class-wppfm-admin-page.php:82
-msgid "Terms and Conditions"
-msgstr ""
-
-#: includes/user-interface/class-wppfm-admin-page.php:83
-msgid "Documentation"
-msgstr ""
-
-#: includes/user-interface/class-wppfm-admin-page.php:100
+#: includes/user-interface/class-wppfm-admin-page.php:85
 msgid ""
 "Your key seems to be expired. If you are sure you have a valid key, please "
 "open a ticket at wpmarketingrobot.com/support/"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-admin-page.php:102
+#: includes/user-interface/class-wppfm-admin-page.php:87
 msgid "Plugin License Options"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-admin-page.php:108
+#: includes/user-interface/class-wppfm-admin-page.php:93
 msgid "License Key"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-admin-page.php:116
+#: includes/user-interface/class-wppfm-admin-page.php:101
 msgid "I accept your Terms and Conditions"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-admin-page.php:120
-#: includes/user-interface/class-wppfm-admin-page.php:124
+#: includes/user-interface/class-wppfm-admin-page.php:105
+#: includes/user-interface/class-wppfm-admin-page.php:109
 msgid "Activate License"
 msgstr ""
 
@@ -352,488 +352,492 @@ msgid "You are using characters in your file name that are not allowed!"
 msgstr ""
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:30
-msgid "The url you entered is invalid. Please try again"
+msgid "You already have a feed with this name! Please use another name."
 msgstr ""
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:31
-msgid "Saving the data to the database has failed! Please try again."
+msgid "The url you entered is invalid. Please try again"
 msgstr ""
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:32
-msgid "no category required"
+msgid "Saving the data to the database has failed! Please try again."
 msgstr ""
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:33
-msgid "no feed generated"
+msgid "no category required"
 msgstr ""
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:34
-msgid "Started processing your feed in the background."
+msgid "no feed generated"
 msgstr ""
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:35
+msgid "Started processing your feed in the background."
+msgstr ""
+
+#: includes/user-interface/class-wppfm-i18n-scripts.php:36
 msgid ""
 "Pushed the feed into the background queue. Processing starts after all other "
 "feeds are processed."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:37
+#: includes/user-interface/class-wppfm-i18n-scripts.php:38
 msgid ""
 "Error generating the feed. Feed generation initialization failed. Please "
 "check your error logs for more information about the issue."
 msgstr ""
 
 #. translators: %xmlResult%: a string containing the error message
-#: includes/user-interface/class-wppfm-i18n-scripts.php:39
+#: includes/user-interface/class-wppfm-i18n-scripts.php:40
 msgid "Generating the feed has failed! Error return code = %xmlResult%"
 msgstr ""
 
 #. translators: %feedname%: name of the feed
-#: includes/user-interface/class-wppfm-i18n-scripts.php:41
+#: includes/user-interface/class-wppfm-i18n-scripts.php:42
 msgid "The status of feed %feedname% is unknown."
 msgstr ""
 
 #. translators: %feedname%: name of the feed
-#: includes/user-interface/class-wppfm-i18n-scripts.php:43
+#: includes/user-interface/class-wppfm-i18n-scripts.php:44
 msgid "Product feed %feedname% is now ready. It contains %prodnr% products."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:44
+#: includes/user-interface/class-wppfm-i18n-scripts.php:45
 msgid ""
 "Still processing the feed in the background. You can wait for it to finish, "
 "but you can also close this form if you want."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:45
+#: includes/user-interface/class-wppfm-i18n-scripts.php:46
 msgid ""
 "This feed has been added to the feed queue and will be processed when it is "
 "next."
 msgstr ""
 
 #. translators: %feedname%: name of the feed
-#: includes/user-interface/class-wppfm-i18n-scripts.php:47
+#: includes/user-interface/class-wppfm-i18n-scripts.php:48
 msgid "Product feed %feedname% has some errors!"
 msgstr ""
 
 #. translators: %feedname%: name of the feed
-#: includes/user-interface/class-wppfm-i18n-scripts.php:49
+#: includes/user-interface/class-wppfm-i18n-scripts.php:50
 msgid "Product feed %feedname% has failed!"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:50
+#: includes/user-interface/class-wppfm-i18n-scripts.php:51
 msgid ""
 "The option to add product variations to the feed is not available in the "
 "free version. Unlock this option by upgrading to the Premium plugin. For "
 "more information goto https://www.wpmarketingrobot.com/."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:51
+#: includes/user-interface/class-wppfm-i18n-scripts.php:52
 msgid "Select a sub-category"
 msgstr ""
 
 #. translators: %feedname%: name of the feed
-#: includes/user-interface/class-wppfm-i18n-scripts.php:53
+#: includes/user-interface/class-wppfm-i18n-scripts.php:54
 #, php-format
 msgid "You already have a field %fieldname% defined!"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:54
+#: includes/user-interface/class-wppfm-i18n-scripts.php:55
 msgid "Make sure to select all source fields before adding a new one!"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:55
+#: includes/user-interface/class-wppfm-i18n-scripts.php:56
 msgid "Please fill in the current condition before adding a new one!"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:56
+#: includes/user-interface/class-wppfm-i18n-scripts.php:57
 msgid "Please select a source field first before you select the conditions."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:57
+#: includes/user-interface/class-wppfm-i18n-scripts.php:58
 msgid "Please select a valid source before adding a condition to that source."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:58
+#: includes/user-interface/class-wppfm-i18n-scripts.php:59
 msgid ""
 "The Advanced Filter option is not available in the free version. Unlock the "
 "Advanced Filter option by upgrading to the Premium plugin. For more "
 "information goto http://www.wpmarketingrobot.com/."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:59
+#: includes/user-interface/class-wppfm-i18n-scripts.php:60
 msgid "except the ones where"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:60
+#: includes/user-interface/class-wppfm-i18n-scripts.php:61
 msgid "Please fill in the filter values before adding a new one"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:61
+#: includes/user-interface/class-wppfm-i18n-scripts.php:62
 msgid "No separator"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:62
+#: includes/user-interface/class-wppfm-i18n-scripts.php:63
 msgid "space"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:63
+#: includes/user-interface/class-wppfm-i18n-scripts.php:64
 msgid "comma"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:64
+#: includes/user-interface/class-wppfm-i18n-scripts.php:65
 msgid "point"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:65
+#: includes/user-interface/class-wppfm-i18n-scripts.php:66
 msgid "semicolon"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:66
+#: includes/user-interface/class-wppfm-i18n-scripts.php:67
 msgid "colon"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:67
+#: includes/user-interface/class-wppfm-i18n-scripts.php:68
 msgid "dash"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:68
+#: includes/user-interface/class-wppfm-i18n-scripts.php:69
 msgid "slash"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:69
+#: includes/user-interface/class-wppfm-i18n-scripts.php:70
 msgid "backslash"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:70
+#: includes/user-interface/class-wppfm-i18n-scripts.php:71
 msgid "double pipe"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:71
+#: includes/user-interface/class-wppfm-i18n-scripts.php:72
 msgid "underscore"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:72
+#: includes/user-interface/class-wppfm-i18n-scripts.php:73
 msgid "other"
 msgstr ""
 
 #. translators: %other%: either the word "other" or an empty space
-#: includes/user-interface/class-wppfm-i18n-scripts.php:74
+#: includes/user-interface/class-wppfm-i18n-scripts.php:75
 msgid "for all %other% products"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:75
+#: includes/user-interface/class-wppfm-i18n-scripts.php:76
 msgid "edit values"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:76
+#: includes/user-interface/class-wppfm-i18n-scripts.php:77
 msgid "and change values"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:77
+#: includes/user-interface/class-wppfm-i18n-scripts.php:78
 msgid "remove value editor"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:78
+#: includes/user-interface/class-wppfm-i18n-scripts.php:79
 msgid "to"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:79
+#: includes/user-interface/class-wppfm-i18n-scripts.php:80
 msgid "with element name"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:80
+#: includes/user-interface/class-wppfm-i18n-scripts.php:81
 msgid "Defined by the Category Mapping Table."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:81
+#: includes/user-interface/class-wppfm-i18n-scripts.php:82
 msgid "Use advised source"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:82
+#: includes/user-interface/class-wppfm-i18n-scripts.php:83
 msgid "Combine source fields"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:83
+#: includes/user-interface/class-wppfm-i18n-scripts.php:84
 #: includes/user-interface/class-wppfm-product-feed-category-wrapper.php:28
 msgid "Category Mapping"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:84
+#: includes/user-interface/class-wppfm-i18n-scripts.php:85
 msgid "Select a source field"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:86
+#: includes/user-interface/class-wppfm-i18n-scripts.php:87
 msgid "Map to Default Category"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:87
+#: includes/user-interface/class-wppfm-i18n-scripts.php:88
 msgid "Use Shop Category"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:88
+#: includes/user-interface/class-wppfm-i18n-scripts.php:89
 msgid "an empty field"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:89
+#: includes/user-interface/class-wppfm-i18n-scripts.php:90
 msgid "Add recommended output"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:90
+#: includes/user-interface/class-wppfm-i18n-scripts.php:91
 msgid "Add optional output"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:91
+#: includes/user-interface/class-wppfm-i18n-scripts.php:92
 msgid ""
 "You've not selected a Shop Category in the Category Mapping Table. With no "
 "Shop Category selected, your feed will be empty. Are you sure you still want "
 "to save this feed?"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:92
+#: includes/user-interface/class-wppfm-i18n-scripts.php:93
 msgid "A file name is required!"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:93
+#: includes/user-interface/class-wppfm-i18n-scripts.php:94
 msgid ""
 "Add at least one query in the previous change value row before adding a new "
 "row."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:94
+#: includes/user-interface/class-wppfm-i18n-scripts.php:95
 msgid "Please first fill in a change value option before adding a query to it."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:113
+#: includes/user-interface/class-wppfm-i18n-scripts.php:114
 #: includes/user-interface/class-wppfm-list-table.php:105
 msgid "Processing the feed, please wait..."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:114
+#: includes/user-interface/class-wppfm-i18n-scripts.php:115
 msgid "Processing failed, please try again"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:115
+#: includes/user-interface/class-wppfm-i18n-scripts.php:116
 #: includes/user-interface/class-wppfm-list-table.php:154
 msgid "In processing queue"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:116
-msgid "No data found"
-msgstr ""
-
 #: includes/user-interface/class-wppfm-i18n-scripts.php:117
-#: includes/user-interface/class-wppfm-list-table.php:183
-msgid "Auto-off"
+msgid "No data found"
 msgstr ""
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:118
 #: includes/user-interface/class-wppfm-list-table.php:183
-msgid "Auto-on"
+msgid "Auto-off"
 msgstr ""
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:119
+#: includes/user-interface/class-wppfm-list-table.php:183
+msgid "Auto-on"
+msgstr ""
+
+#: includes/user-interface/class-wppfm-i18n-scripts.php:120
 #: includes/user-interface/class-wppfm-list-table.php:187
 #: includes/user-interface/class-wppfm-list-table.php:218
 msgid "Edit"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:120
+#: includes/user-interface/class-wppfm-i18n-scripts.php:121
 #: includes/user-interface/class-wppfm-list-table.php:188
 msgid "View"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:121
+#: includes/user-interface/class-wppfm-i18n-scripts.php:122
 msgid "Other"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:122
+#: includes/user-interface/class-wppfm-i18n-scripts.php:123
 #: includes/user-interface/class-wppfm-list-table.php:107
 #: includes/user-interface/class-wppfm-list-table.php:163
 msgid "Unknown"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:123
+#: includes/user-interface/class-wppfm-i18n-scripts.php:124
 #: includes/user-interface/class-wppfm-list-table.php:148
 msgid "Ready (manual)"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:124
+#: includes/user-interface/class-wppfm-i18n-scripts.php:125
 #: includes/user-interface/class-wppfm-list-table.php:151
 msgid "Processing"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:125
+#: includes/user-interface/class-wppfm-i18n-scripts.php:126
 #: includes/user-interface/class-wppfm-list-table.php:157
 msgid "Has errors"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:126
+#: includes/user-interface/class-wppfm-i18n-scripts.php:127
 #: includes/user-interface/class-wppfm-list-table.php:160
 msgid "Failed processing"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:127
-#: includes/user-interface/class-wppfm-i18n-scripts.php:231
+#: includes/user-interface/class-wppfm-i18n-scripts.php:128
+#: includes/user-interface/class-wppfm-i18n-scripts.php:232
 #: includes/user-interface/class-wppfm-list-table.php:145
 msgid "Ready (auto)"
 msgstr ""
 
 #. translators: %feedname%: name of the feed
-#: includes/user-interface/class-wppfm-i18n-scripts.php:129
+#: includes/user-interface/class-wppfm-i18n-scripts.php:130
 msgid "Added a copy of feed %feedname% to the list."
 msgstr ""
 
 #. translators: %feedname%: name of the feed
-#: includes/user-interface/class-wppfm-i18n-scripts.php:131
+#: includes/user-interface/class-wppfm-i18n-scripts.php:132
 msgid "Please confirm you want to delete feed %feedname%."
 msgstr ""
 
 #. translators: %feedname%: name of the feed
-#: includes/user-interface/class-wppfm-i18n-scripts.php:133
+#: includes/user-interface/class-wppfm-i18n-scripts.php:134
 msgid "Feed %feedname% removed from the server."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:134
+#: includes/user-interface/class-wppfm-i18n-scripts.php:135
 #: includes/user-interface/elements/class-wppfm-main-input-selector-element.php:79
 msgid "Feed Language"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:153
+#: includes/user-interface/class-wppfm-i18n-scripts.php:154
 msgid "First enter a file name for the backup file."
 msgstr ""
 
 #. translators: %backup_file_name%: name of the backup file
-#: includes/user-interface/class-wppfm-i18n-scripts.php:155
+#: includes/user-interface/class-wppfm-i18n-scripts.php:156
 msgid "Please confirm you want to delete backup %backup_file_name%."
 msgstr ""
 
 #. translators: %backup_file_name%: name of the backup file
-#: includes/user-interface/class-wppfm-i18n-scripts.php:157
+#: includes/user-interface/class-wppfm-i18n-scripts.php:158
 #, php-format
 msgid "%backup_file_name% deleted."
 msgstr ""
 
 #. translators: %backup_file_name%: name of the backup file
-#: includes/user-interface/class-wppfm-i18n-scripts.php:159
+#: includes/user-interface/class-wppfm-i18n-scripts.php:160
 msgid ""
 "Are you sure you want to restore backup %backup_file_name%? This will "
 "overwrite your current settings and feed data!"
 msgstr ""
 
 #. translators: %backup_file_name%: name of the backup file
-#: includes/user-interface/class-wppfm-i18n-scripts.php:161
+#: includes/user-interface/class-wppfm-i18n-scripts.php:162
 msgid "%backup_file_name% restored"
 msgstr ""
 
 #. translators: %backup_file_name%: name of the backup file
-#: includes/user-interface/class-wppfm-i18n-scripts.php:163
+#: includes/user-interface/class-wppfm-i18n-scripts.php:164
 #, php-format
 msgid "%backup_file_name% duplicated"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:180
+#: includes/user-interface/class-wppfm-i18n-scripts.php:181
 msgid "Restore"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:181
+#: includes/user-interface/class-wppfm-i18n-scripts.php:182
 msgid "No backup found"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:200
+#: includes/user-interface/class-wppfm-i18n-scripts.php:201
 msgid ""
 "Please confirm you want to remove this channel! Removing this channel will "
 "also remove all its feed files."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:218
+#: includes/user-interface/class-wppfm-i18n-scripts.php:219
 msgid "edit"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:219
+#: includes/user-interface/class-wppfm-i18n-scripts.php:220
 msgid "select"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:220
+#: includes/user-interface/class-wppfm-i18n-scripts.php:221
 msgid "selected"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:221
+#: includes/user-interface/class-wppfm-i18n-scripts.php:222
 msgid "delete"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:222
+#: includes/user-interface/class-wppfm-i18n-scripts.php:223
 msgid "remove"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:223
+#: includes/user-interface/class-wppfm-i18n-scripts.php:224
 msgid "add"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:224
+#: includes/user-interface/class-wppfm-i18n-scripts.php:225
 msgid "if"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:225
+#: includes/user-interface/class-wppfm-i18n-scripts.php:226
 msgid "or"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:226
+#: includes/user-interface/class-wppfm-i18n-scripts.php:227
 msgid "and"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:227
+#: includes/user-interface/class-wppfm-i18n-scripts.php:228
 msgid ""
 "All products from the selected Shop Categories will be included in the feed"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:228
+#: includes/user-interface/class-wppfm-i18n-scripts.php:229
 #: includes/user-interface/class-wppfm-list-table.php:191
 msgid "Duplicate"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:229
+#: includes/user-interface/class-wppfm-i18n-scripts.php:230
 #: includes/user-interface/class-wppfm-list-table.php:192
 #: includes/user-interface/class-wppfm-list-table.php:220
 msgid "Regenerate"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:230
+#: includes/user-interface/class-wppfm-i18n-scripts.php:231
 #: includes/user-interface/class-wppfm-list-table.php:189
 #: includes/user-interface/class-wppfm-list-table.php:219
 msgid "Delete"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-main-admin-page.php:76
+#: includes/user-interface/class-wppfm-main-admin-page.php:74
 msgid "Name"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-main-admin-page.php:77
+#: includes/user-interface/class-wppfm-main-admin-page.php:75
 msgid "Url"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-main-admin-page.php:78
+#: includes/user-interface/class-wppfm-main-admin-page.php:76
 msgid "Updated"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-main-admin-page.php:79
+#: includes/user-interface/class-wppfm-main-admin-page.php:77
 #: includes/user-interface/elements/class-wppfm-category-selector-element.php:36
 msgid "Products"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-main-admin-page.php:83
+#: includes/user-interface/class-wppfm-main-admin-page.php:81
 msgid "Type"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-main-admin-page.php:86
+#: includes/user-interface/class-wppfm-main-admin-page.php:84
 msgid "Status"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-main-admin-page.php:87
+#: includes/user-interface/class-wppfm-main-admin-page.php:85
 #: includes/user-interface/class-wppfm-options-page.php:135
 msgid "Actions"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-main-admin-page.php:122
+#: includes/user-interface/class-wppfm-main-admin-page.php:120
 msgid "Add New Feed"
 msgstr ""
 
@@ -845,30 +849,30 @@ msgid ""
 "issue persists."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-manage-channels-page.php:91
+#: includes/user-interface/class-wppfm-manage-channels-page.php:89
 msgid "Installed Channels:"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-manage-channels-page.php:92
+#: includes/user-interface/class-wppfm-manage-channels-page.php:90
 msgid "The following channels are ready to use"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-manage-channels-page.php:102
+#: includes/user-interface/class-wppfm-manage-channels-page.php:100
 msgid "Uninstalled Channels:"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-manage-channels-page.php:103
+#: includes/user-interface/class-wppfm-manage-channels-page.php:101
 msgid "The following channels are ready to be installed"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-manage-channels-page.php:116
+#: includes/user-interface/class-wppfm-manage-channels-page.php:114
 msgid ""
 "No channels available. Please check if your license is current and active on "
 "the Feed Manager tab"
 msgstr ""
 
 #. translators: %s: link to the support page
-#: includes/user-interface/class-wppfm-manage-channels-page.php:120
+#: includes/user-interface/class-wppfm-manage-channels-page.php:118
 #, php-format
 msgid ""
 "2965 - Please try to refresh the page and Please open a support ticket at %s "
@@ -876,52 +880,52 @@ msgid ""
 msgstr ""
 
 #. translators: %s: Version number of installed channel
-#: includes/user-interface/class-wppfm-manage-channels-page.php:144
-#: includes/user-interface/class-wppfm-manage-channels-page.php:147
+#: includes/user-interface/class-wppfm-manage-channels-page.php:142
+#: includes/user-interface/class-wppfm-manage-channels-page.php:145
 #, php-format
 msgid "Version %s"
 msgstr ""
 
 #. translators: Channel version unknown
-#: includes/user-interface/class-wppfm-manage-channels-page.php:151
+#: includes/user-interface/class-wppfm-manage-channels-page.php:149
 msgid "Version unknown"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-manage-channels-page.php:156
+#: includes/user-interface/class-wppfm-manage-channels-page.php:154
 #, php-format
 msgid "Version %1$s. New version %2$s available!"
 msgstr ""
 
 #. translators: %s: channel name
-#: includes/user-interface/class-wppfm-manage-channels-page.php:177
+#: includes/user-interface/class-wppfm-manage-channels-page.php:175
 #, php-format
 msgid "Remove the %s channel."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-manage-channels-page.php:178
+#: includes/user-interface/class-wppfm-manage-channels-page.php:176
 msgid "Remove"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-manage-channels-page.php:184
+#: includes/user-interface/class-wppfm-manage-channels-page.php:182
 msgid "Update this channel to the latest version"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-manage-channels-page.php:185
+#: includes/user-interface/class-wppfm-manage-channels-page.php:183
 msgid "Update"
 msgstr ""
 
 #. translators: %s: channel name
-#: includes/user-interface/class-wppfm-manage-channels-page.php:193
+#: includes/user-interface/class-wppfm-manage-channels-page.php:191
 #, php-format
 msgid "Install the %s channel."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-manage-channels-page.php:194
-#: includes/user-interface/class-wppfm-manage-channels-page.php:198
+#: includes/user-interface/class-wppfm-manage-channels-page.php:192
+#: includes/user-interface/class-wppfm-manage-channels-page.php:196
 msgid "Install"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-manage-channels-page.php:197
+#: includes/user-interface/class-wppfm-manage-channels-page.php:195
 msgid ""
 "The maximum number of channels for your license has been reached. Please "
 "remove an unused channel or upgrade your license."
@@ -1084,19 +1088,19 @@ msgstr ""
 msgid "Shop Category"
 msgstr ""
 
-#: includes/user-interface/elements/class-wppfm-form-element.php:82
+#: includes/user-interface/elements/class-wppfm-form-element.php:103
 msgid "Save & Generate Feed"
 msgstr ""
 
-#: includes/user-interface/elements/class-wppfm-form-element.php:85
+#: includes/user-interface/elements/class-wppfm-form-element.php:106
 msgid "Save Feed"
 msgstr ""
 
-#: includes/user-interface/elements/class-wppfm-form-element.php:88
+#: includes/user-interface/elements/class-wppfm-form-element.php:109
 msgid "View Feed"
 msgstr ""
 
-#: includes/user-interface/elements/class-wppfm-form-element.php:101
+#: includes/user-interface/elements/class-wppfm-form-element.php:122
 msgid "Open Feed List"
 msgstr ""
 
@@ -1140,48 +1144,36 @@ msgstr ""
 msgid "Update Schedule"
 msgstr ""
 
-#: includes/user-interface/wppfm-admin-menu-functions.php:20
+#: includes/user-interface/wppfm-admin-actions.php:20
 msgid "WP Feed Manager"
 msgstr ""
 
-#: includes/user-interface/wppfm-admin-menu-functions.php:21
+#: includes/user-interface/wppfm-admin-actions.php:21
 msgid "Feed Manager"
 msgstr ""
 
-#: includes/user-interface/wppfm-admin-menu-functions.php:36
+#: includes/user-interface/wppfm-admin-actions.php:36
 #, php-format
 msgid "%d channel update"
 msgid_plural "%d channel updates"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/user-interface/wppfm-admin-menu-functions.php:47
+#: includes/user-interface/wppfm-admin-actions.php:47
 #, php-format
 msgid "Manage Channels %s"
 msgstr ""
 
-#: includes/user-interface/wppfm-admin-menu-functions.php:57
+#: includes/user-interface/wppfm-admin-actions.php:57
 msgid "Manage Channels"
 msgstr ""
 
-#: includes/user-interface/wppfm-admin-menu-functions.php:68
-#: includes/user-interface/wppfm-admin-menu-functions.php:69
+#: includes/user-interface/wppfm-admin-actions.php:68
+#: includes/user-interface/wppfm-admin-actions.php:69
 msgid "Settings"
 msgstr ""
 
-#: includes/user-interface/wppfm-admin-menu-functions.php:91
-msgid "Starter Guide"
-msgstr ""
-
-#: includes/user-interface/wppfm-admin-menu-functions.php:94
-msgid "Go Premium"
-msgstr ""
-
-#: includes/user-interface/wppfm-admin-menu-functions.php:96
-msgid "Get Support"
-msgstr ""
-
-#: includes/user-interface/wppfm-admin-menu-functions.php:241
+#: includes/user-interface/wppfm-admin-actions.php:85
 msgid ""
 "Due to the latest update your Feed Manager backups are no longer valid! "
 "Please open the Feed Manager Settings page, remove all your backups in and "
@@ -1189,27 +1181,27 @@ msgid ""
 msgstr ""
 
 #. translators: %s: link to the support page
-#: includes/user-interface/wppfm-admin-menu-functions.php:392
+#: includes/user-interface/wppfm-admin-actions.php:174
 #, php-format
 msgid ""
 "2121 - Activating your license failed. Please open a support ticket at %s "
 "for support on this issue."
 msgstr ""
 
-#: includes/user-interface/wppfm-admin-menu-functions.php:411
+#: includes/user-interface/wppfm-admin-actions.php:193
 #, php-format
 msgid ""
 "An error has occured. It is possible that the wpmarketingrobot website is "
-"down. \n"
+"down.\n"
 "\t\t\t\t\t\tPlease check if wpmarketingrobot.com is still active. If not, or "
 "if this error consist, please contact\n"
 "\t\t\t\t\t\tauke@wpmarketingrobot.com. Error Message: %s"
 msgstr ""
 
-#: includes/user-interface/wppfm-admin-menu-functions.php:461
+#: includes/user-interface/wppfm-admin-actions.php:243
 #, php-format
 msgid ""
-"You have an invalid or expired license key for your %1$s plugin. \n"
+"You have an invalid or expired license key for your %1$s plugin.\n"
 "\t\t\t\tPlease <a href=\"%2$scheckout/?edd_license_key="
 "%3$s&utm_source=client-"
 "admin&utm_medium=renewal_link&utm_campaign=license_expired\">\n"
@@ -1218,10 +1210,10 @@ msgid ""
 msgstr ""
 
 #. translators: 1: Name of the plugin, 2: url to the wpmarketingrobot store, 3: license key
-#: includes/user-interface/wppfm-admin-menu-functions.php:475
+#: includes/user-interface/wppfm-admin-actions.php:257
 #, php-format
 msgid ""
-"The license key for your %1$s plugin is expiring soon. \n"
+"The license key for your %1$s plugin is expiring soon.\n"
 "\t\t\tIf you wish you can <a href=\"%2$scheckout/?edd_license_key="
 "%3$s&utm_source=client-"
 "admin&utm_medium=renewal_link&utm_campaign=license_renewal\">\n"
@@ -1229,7 +1221,35 @@ msgid ""
 "your product feeds keep working."
 msgstr ""
 
-#: includes/user-interface/wppfm-admin-menu-functions.php:536
+#: includes/user-interface/wppfm-admin-filters.php:25
+msgid "Starter Guide"
+msgstr ""
+
+#: includes/user-interface/wppfm-admin-filters.php:28
+msgid "Go Premium"
+msgstr ""
+
+#: includes/user-interface/wppfm-admin-filters.php:30
+msgid "Get Support"
+msgstr ""
+
+#: includes/user-interface/wppfm-admin-menu-functions.php:164
+msgid "About Us"
+msgstr ""
+
+#: includes/user-interface/wppfm-admin-menu-functions.php:165
+msgid "Contact Us"
+msgstr ""
+
+#: includes/user-interface/wppfm-admin-menu-functions.php:166
+msgid "Terms and Conditions"
+msgstr ""
+
+#: includes/user-interface/wppfm-admin-menu-functions.php:167
+msgid "Documentation"
+msgstr ""
+
+#: includes/user-interface/wppfm-admin-menu-functions.php:249
 #, php-format
 msgid ""
 "2122 - Checking your license failed. Please open a support ticket at %s for "
@@ -1272,7 +1292,7 @@ msgstr ""
 msgid "Cloning is not allowed"
 msgstr ""
 
-#: wp-product-feed-manager.php:77
+#: wp-product-feed-manager.php:79
 msgid "Unserializing instances of this class is not allowed"
 msgstr ""
 

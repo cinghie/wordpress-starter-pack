@@ -496,7 +496,7 @@ if ( !class_exists( 'YIT_Plugin_Panel' ) ) {
                 $url = admin_url( "admin.php{$url}" );
             }
 
-            return $url;
+            return apply_filters( 'yith_plugin_fw_panel_url', $url, $page, $tab, $sub_tab, $parent_page );
         }
 
         /**
@@ -537,6 +537,7 @@ if ( !class_exists( 'YIT_Plugin_Panel' ) ) {
          * @author   Emanuela Castorina <emanuela.castorina@yithemes.it>
          */
         public function yit_panel() {
+            $this->maybe_redirect_to_proper_wp_page();
             $yit_options = $this->get_main_array_options();
             $wrap_class  = isset( $this->settings[ 'class' ] ) ? $this->settings[ 'class' ] : '';
 

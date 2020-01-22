@@ -160,7 +160,7 @@ if(!sbi_js_exists) {
         Sbi.prototype = {
             createPage: function (createFeeds, createFeedsArgs) {
                 if (typeof window.sbiajaxurl === 'undefined' || window.sbiajaxurl.indexOf(window.location.hostname) === -1) {
-                    window.sbiajaxurl = window.location.hostname + '/wp-admin/admin-ajax.php';
+                    window.sbiajaxurl = location.protocol + '//'+ window.location.hostname + '/wp-admin/admin-ajax.php';
                 }
 
                 $('.sbi_no_js_error_message').remove();
@@ -498,7 +498,7 @@ if(!sbi_js_exists) {
                     aspectRatio = currentUrl === window.sbi.options.placeholder ? 1 : imagEl.naturalWidth/imagEl.naturalHeight,
                     forceChange = typeof forceChange !== 'undefined' ? forceChange : false;
 
-                if ($item.hasClass('sbi_no_resraise')) {
+                if ($item.hasClass('sbi_no_resraise') || $item.hasClass('sbi_had_error') || ($item.find('.sbi_link_area').length && $item.find('.sbi_link_area').hasClass('sbi_had_error'))) {
                     return;
                 }
 
@@ -543,49 +543,53 @@ if(!sbi_js_exists) {
                     var newUrl = imgSrcSet[newRes].split("?ig_cache_key")[0];
                     $item.find('.sbi_photo img').attr('src', newUrl);
                     $item.find('.sbi_photo').css('background-image', 'url("' + newUrl + '")');
+                    currentRes = newRes;
 
-                    var checked = false;
-                    $item.find('.sbi_photo img').on('load', function () {
+                    if (feed.settings.imgRes === 'auto') {
+                        var checked = false;
+                        $item.find('.sbi_photo img').on('load', function () {
 
-                        var $this_image = $(this);
-                        var newAspectRatio = ($this_image.get(0).naturalWidth / $this_image.get(0).naturalHeight);
+                            var $this_image = $(this);
+                            var newAspectRatio = ($this_image.get(0).naturalWidth / $this_image.get(0).naturalHeight);
 
-                        if ($this_image.get(0).naturalWidth !== 1000 && newAspectRatio > aspectRatio && !checked) {
-                            if (feed.settings.debugEnabled) {
-                                console.log('rais res again for aspect ratio change ' + currentUrl);
-                            }
-                            checked = true;
-                            minImageWidth = $item.find('.sbi_photo').innerWidth();
-                            thisImageReplace = feed.getBestResolutionForAuto(minImageWidth, newAspectRatio, $item);
-                            newRes = 640;
+                            if ($this_image.get(0).naturalWidth !== 1000 && newAspectRatio > aspectRatio && !checked) {
+                                if (feed.settings.debugEnabled) {
+                                    console.log('rais res again for aspect ratio change ' + currentUrl);
+                                }
+                                checked = true;
+                                minImageWidth = $item.find('.sbi_photo').innerWidth();
+                                thisImageReplace = feed.getBestResolutionForAuto(minImageWidth, newAspectRatio, $item);
+                                newRes = 640;
 
-                            switch (thisImageReplace) {
-                                case 320:
-                                    newRes = 320;
-                                    break;
-                                case 150:
-                                    newRes = 150;
-                                    break;
-                            }
+                                switch (thisImageReplace) {
+                                    case 320:
+                                        newRes = 320;
+                                        break;
+                                    case 150:
+                                        newRes = 150;
+                                        break;
+                                }
 
-                            if (newRes > currentRes) {
-                                newUrl = imgSrcSet[newRes].split("?ig_cache_key")[0];
-                                $this_image.attr('src', newUrl);
-                                $this_image.closest('.sbi_photo').css('background-image', 'url("' + newUrl + '")');
-                            }
-                            if (feed.layout === 'masonry' || feed.layout === 'highlight') {
-                                $(feed.el).find('#sbi_images').smashotope(feed.isotopeArgs);
-                                setTimeout(function() {
+                                if (newRes > currentRes) {
+                                    newUrl = imgSrcSet[newRes].split("?ig_cache_key")[0];
+                                    $this_image.attr('src', newUrl);
+                                    $this_image.closest('.sbi_photo').css('background-image', 'url("' + newUrl + '")');
+                                }
+                                if (feed.layout === 'masonry' || feed.layout === 'highlight') {
                                     $(feed.el).find('#sbi_images').smashotope(feed.isotopeArgs);
-                                },500)
+                                    setTimeout(function() {
+                                        $(feed.el).find('#sbi_images').smashotope(feed.isotopeArgs);
+                                    },500)
+                                }
+                            } else {
+                                if (feed.settings.debugEnabled) {
+                                    var reason = checked ? 'already checked' : 'no aspect ratio change';
+                                    console.log('not raising res for replacement  ' + currentUrl, reason);
+                                }
                             }
-                        } else {
-                            if (feed.settings.debugEnabled) {
-                                var reason = checked ? 'already checked' : 'no aspect ratio change';
-                                console.log('not raising res for replacement  ' + currentUrl, reason);
-                            }
-                        }
-                    });
+                        });
+                    }
+
 
                 }
 
@@ -727,22 +731,12 @@ if(!sbi_js_exists) {
                     if (typeof this.resizedImages[id]['sizes'] !== 'undefined') {
                         var foundSizes = [];
                         if (typeof this.resizedImages[id]['sizes']['full'] !== 'undefined') {
-                            if (! $item.find('.sbi_link_area').hasClass('sbi_had_error') && ! $item.hasClass('sbi_had_error')) {
-                                foundSizes.push(640);
-                                srcSet[640] = sb_instagram_js_options.resized_url + this.resizedImages[id].id + 'full.jpg';
-                                $item.find('.sbi_link_area').attr('href', sb_instagram_js_options.resized_url + this.resizedImages[id].id + 'full.jpg');
-                                $item.find('.sbi_photo').attr('data-full-res', sb_instagram_js_options.resized_url + this.resizedImages[id].id + 'full.jpg');
-                            }
+                            srcSet[640] = sb_instagram_js_options.resized_url + this.resizedImages[id].id + 'full.jpg';
+                            foundSizes.push(640);
                         }
                         if (typeof this.resizedImages[id]['sizes']['low'] !== 'undefined') {
-                            if (this.settings.favorLocal && typeof this.resizedImages[id]['sizes']['full'] === 'undefined') {
-                                if (! $item.find('.sbi_link_area').hasClass('sbi_had_error') && ! $item.hasClass('sbi_had_error')) {
-                                    foundSizes.push(320);
-                                    srcSet[320] = sb_instagram_js_options.resized_url + this.resizedImages[id].id + 'low.jpg';
-                                    $item.find('.sbi_link_area').attr( 'href', sb_instagram_js_options.resized_url + this.resizedImages[id].id + 'low.jpg' );
-                                    $item.find('.sbi_photo').attr( 'data-full-res', sb_instagram_js_options.resized_url + this.resizedImages[id].id + 'low.jpg' );
-                                }
-                            }
+                            srcSet[320] = sb_instagram_js_options.resized_url + this.resizedImages[id].id + 'low.jpg';
+                            foundSizes.push(320);
                         }
                         if (typeof this.resizedImages[id]['sizes']['thumb'] !== 'undefined') {
                             foundSizes.push(150);
@@ -870,6 +864,13 @@ if(!sbi_js_exists) {
     })(jQuery);
 
     jQuery(document).ready(function($) {
+        if (typeof window.sb_instagram_js_options === 'undefined') {
+            window.sb_instagram_js_options = {
+                font_method: "svg",
+                resized_url: location.protocol + '//' + window.location.hostname + "/wp-content/uploads/sb-instagram-feed-images/",
+                placeholder: location.protocol + '//' + window.location.hostname + "/wp-content/plugins/instagram-feed/img/placeholder.png"
+            };
+        }
         if (typeof window.sb_instagram_js_options.resized_url !== 'undefined' && window.sb_instagram_js_options.resized_url.indexOf(location.protocol) === -1) {
             if (location.protocol === 'http:') {
                 window.sb_instagram_js_options.resized_url = window.sb_instagram_js_options.resized_url.replace('http:','https:');

@@ -97,7 +97,7 @@ if ( ! class_exists( 'WPPFM_Attribute_Selector_Element' ) ) :
 		 * @return string
 		 */
 		private static function field_form_table_titles() {
-			return '<div class="field-header-wrapper">
+			return '<div class="wppfm-field-header-wrapper">
 				<div class="field-header col20w">' . __( 'Add to feed', 'wp-product-feed-manager' ) . '</div>
 				<div
 					class="field-header col30w">' . __( 'From WooCommerce source', 'wp-product-feed-manager' ) . '</div>

@@ -17,7 +17,7 @@ import Gridicon from 'gridicons';
 import { SearchListControl } from '@woocommerce/components';
 import { mapValues, toArray, sortBy, find } from 'lodash';
 import { ATTRIBUTES } from '@woocommerce/block-settings';
-import { getAdminLink } from '@woocommerce/navigation';
+import { getAdminLink } from '@woocommerce/settings';
 import HeadingToolbar from '@woocommerce/block-components/heading-toolbar';
 import BlockTitle from '@woocommerce/block-components/block-title';
 
@@ -180,7 +180,7 @@ const Edit = ( { attributes, setAttributes, debouncedSpeak } ) => {
 		>
 			<p>
 				{ __(
-					"Attributes are needed for filtering your products. You haven't created any products yet.",
+					"Attributes are needed for filtering your products. You haven't created any attributes yet.",
 					'woo-gutenberg-products-block'
 				) }
 			</p>
@@ -218,6 +218,10 @@ const Edit = ( { attributes, setAttributes, debouncedSpeak } ) => {
 
 	const onChange = useCallback(
 		( selected ) => {
+			if ( ! selected || ! selected.length ) {
+				return;
+			}
+
 			const selectedId = selected[ 0 ].id;
 			const productAttribute = find( ATTRIBUTES, [
 				'attribute_id',
@@ -228,7 +232,7 @@ const Edit = ( { attributes, setAttributes, debouncedSpeak } ) => {
 				return;
 			}
 
-			const attributeName = productAttribute.attribute_name;
+			const attributeName = productAttribute.attribute_label;
 
 			setAttributes( {
 				attributeId: selectedId,

@@ -237,6 +237,7 @@ function wppfm_switchFeedStatus( feedId, callback ) {
 		},
 		function( response ) {
 
+			wppfm_switchStatusAction( feedId, response );
 			callback( wppfm_validateResponse( response ) );
 		}
 	);
@@ -451,7 +452,7 @@ function wppfm_validateResponse( response ) {
 	} else {
 
 		wppfm_show_error_message( response.replace( '[]', '' ) );
-		wppfm_hide_feed_spinner();
+		wppfm_hideFeedSpinner();
 
 		wppfm_logMessageOnServer(
 			response,

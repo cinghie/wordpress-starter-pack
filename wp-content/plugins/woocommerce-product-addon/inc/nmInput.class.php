@@ -140,6 +140,16 @@ class NM_Form {
         $num_max    = $this -> get_attribute_value('max', $args);
         $step       = $this -> get_attribute_value('step', $args);
         
+        
+        $onetime    = $this -> get_attribute_value('onetime', $args);
+        $taxable    = $this -> get_attribute_value('taxable', $args);
+        $price      = $this -> get_attribute_value('price', $args);
+        $price_without_tax = '';
+        if($onetime == 'on' && $taxable == 'on') {
+			$price_without_tax = $option_price;
+			$price = ppom_get_price_including_tax($price, $product);
+		}
+        
         $input_wrapper_class = $this->get_default_setting_value('global', 'input_wrapper_class', $id);
         $input_wrapper_class = apply_filters('ppom_input_wrapper_class', $input_wrapper_class, $args);
         $html       = '<div class="'.$input_wrapper_class.'">';
@@ -148,6 +158,7 @@ class NM_Form {
             $html   .= sprintf(__("%s", "ppom"), $label) .'</label>';
         }
         
+        if( $price !== '' ) $classes .= ' ppom-priced';
         // ppom_pa($args);
         
         $html       .= '<input type="'.esc_attr($type).'" ';
@@ -157,6 +168,11 @@ class NM_Form {
         $html       .= 'placeholder="'.esc_attr($placeholder).'" ';
         $html       .= 'autocomplete="off" ';
         $html       .= 'data-type="'.esc_attr($type).'" ';
+        $html       .= 'data-data_name="'.esc_attr($type).'" ';
+        $html       .= 'data-price="'.esc_attr($price).'" ';
+        $html       .= 'data-onetime="'.esc_attr($onetime).'" ';
+        $html       .= 'data-taxable="'.esc_attr($taxable).'" ';
+        $html       .= 'data-without_tax="'.esc_attr($price_without_tax).'" ';
         
         // Adding min/max for number input
         if( $type == 'number' ) {
@@ -254,8 +270,13 @@ class NM_Form {
           } else {
               
                 $option_id = "{$id}_unit";
-                $html .= '<input style="display:none" value="" checked name="ppom[unit]['.$id.']" class="form-check-input ppom-measure-unit" type="radio" id="'.esc_attr($option_id).'" data-apply="measure" ';
-                $html .= sprintf(__('data-use_units="no" data-price="%s" data-label="%s" data-data_name="%s" data-optionid="%s">',"ppom"), ppom_get_product_price($product), esc_attr($label), $id, $option_id);
+                $html .= '<input style="display:none"  value="" checked name="ppom[unit]['.$id.']" class="form-check-input ppom-input ppom-measure-unit" type="radio" id="'.esc_attr($option_id).'" data-apply="measure" ';
+                $html .= sprintf(__('data-use_units="no" data-price="%s" data-label="%s" data-data_name="%s" data-optionid="%s" data-qty="%s">',"ppom"), 
+                                        ppom_get_product_price($product), 
+                                        esc_attr($label), 
+                                        $id, 
+                                        $option_id, 
+                                        esc_attr($default_value));
                     
           }// Units used closed
           
@@ -356,8 +377,10 @@ class NM_Form {
             $html      .= '>';  // Closing textarea
             
             //Values
-            if( $default_value != '')
+            if( $default_value != '') {
+                $default_value  = str_replace('<br />',"\n",$default_value );
                 $html      .= esc_html($default_value);
+            }
             
             $html      .= '</textarea>';
         }
@@ -833,12 +856,12 @@ class NM_Form {
     		}
 		
 			$html .= '<span class="ppom-single-palette" ';
-			$html	.= 'title="'.esc_attr($option_label).'" data-ppom-tooltip="ppom_tooltip"';
-			$html	.= 'style="background-color:'.esc_attr($color_code).';';
-			$html	.= 'width:'.esc_attr($args['color_width']).'px;';
-			$html	.= 'height:'.esc_attr($args['color_height']).'px;';
+			$html	.= 'title="'.esc_attr($option_label).'" data-ppom-tooltip="ppom_tooltip" ';
+			$html	.= 'style="background-color:'.esc_attr($color_code).'; ';
+			$html	.= 'width:'.esc_attr($args['color_width']).'px; ';
+			$html	.= 'height:'.esc_attr($args['color_height']).'px; ';
 			if( $args['display_circle'] ) {
-			    $html	.= 'border-radius: 50%;';
+			    $html	.= 'border-radius: 50%; ';
 			}
 			$html	.= '">';    // Note '" ' is to close style inline attribute
 			$html	.= '';
@@ -910,12 +933,12 @@ class NM_Form {
 				}
 
 	            // Actually image URL is link
+				$image_price    = apply_filters('ppom_option_price', $image_price);
 				$image_link = isset($image['url']) ? $image['url'] : '';
 				$image_url  = wp_get_attachment_thumb_url( $image_id );
 				$image_title_price = $image_title . ' ' . ($image_price > 0 ? '(+'.ppom_price($image_price).')' : '');
 				
 				// Currency Switcher
-				$image_price    = apply_filters('ppom_option_price', $image_price);
 				
 				$checked_option = '';
 				if( ! empty($default_value) ){
@@ -1407,8 +1430,10 @@ class NM_Form {
          
         $type       = $this -> get_attribute_value( 'type', $args);
         $id         = $this -> get_attribute_value( 'id', $args);
+        $name       = $this -> get_attribute_value('name', $args);
         $label      = $this -> get_attribute_value( 'label', $args);
         $title      = $this -> get_attribute_value( 'title', $args);
+        $classes    = $this -> get_attribute_value('classes', $args);
         
         $input_wrapper_class = $this->get_default_setting_value('global', 'input_wrapper_class', $id);
         $input_wrapper_class = apply_filters('ppom_input_wrapper_class', $input_wrapper_class, $args);
@@ -1440,8 +1465,7 @@ class NM_Form {
     	
     	$html   .= '<div class="ppom-croppie-wrapper-'.esc_attr($args['id']).' text-center">';
     	$html   .= '<div class="ppom-croppie-preview">';
-    	
-        // 	ppom_pa($args['options']);
+    // 	ppom_pa($args['options']);
     	// @since: 12.8
     	// Showing size option if more than one found.
     	if (isset($args['options']) && count($args['options']) > 1){
@@ -1451,16 +1475,21 @@ class NM_Form {
     	   $select_css = 'width:'.$args['croppie_options']['boundary']['width'].'px;';
     	   $select_css .= 'margin:5px auto;display:none;';
     	    
-    	    $html   .= '<select style="'.esc_attr($select_css).'" class="ppom-cropping-size form-control" data-field_name="'.esc_attr($args['id']).'" id="crop-size-'.esc_attr($args['id']).'">';
+    	    $html   .= '<select style="'.esc_attr($select_css).'" ';
+    	        $html .= 'class="'.esc_attr($classes).'" ';
+    	        $html .= 'name="'.esc_attr($name).'[ratio]" ';
+    	        $html .= 'data-field_name="'.esc_attr($args['id']).'" ';
+    	        $html .= 'id="crop-size-'.esc_attr($args['id']).'">';
     	        foreach($cropping_sizes as $key => $size) {
     	            
     	            $option_label   = $size['label'];
                     $option_price   = $size['price'];
                     $raw_label      = $size['raw'];
                     $without_tax    = $size['without_tax'];
+                    $option_id      = $size['option_id'];
     	            
     	            $html   .= '<option ';
-                    $html   .= 'value="'.esc_attr($key).'" ';
+                    $html   .= 'value="'.esc_attr($option_id).'" ';
                     $html   .= 'data-price="'.esc_attr($option_price).'" ';
                     $html   .= 'data-label="'.esc_attr($raw_label).'" ';
                     $html   .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
@@ -1577,6 +1606,7 @@ class NM_Form {
                                     'date'      => array(),
                                     'email'     => array(),
                                     'number'    => array(),
+                                    'cropper'    => array('classes' => array('ppom-cropping-size','form-control')),
                                     'textarea'  => array('cols' => 6, 'rows' => 3, 'placeholder'=>''),
                                     'select'    => array('multiple' => false),
                                     'checkbox'  => array('label_class' => 'form-control-label',
@@ -1608,6 +1638,11 @@ class NM_Form {
             
             // converting classes to string
             case 'classes':
+                $type   =  $this -> get_attribute_value( 'type', $args);
+                // adding ppom-input class to all inputs
+                $attr_value[] = 'ppom-input';
+                // {type} also added as class
+                $attr_value[] = $type;
                 $attr_value = implode(" ", $attr_value);
             break;
             
@@ -1616,7 +1651,7 @@ class NM_Form {
              * */
             case 'name':
                 
-                $type       = $this -> get_attribute_value( 'type', $args);
+                $type   =  $this -> get_attribute_value( 'type', $args);
                 $multiple   = $this -> get_attribute_value('multiple', $args);
                 if( $type == 'select' && $multiple ){
                     

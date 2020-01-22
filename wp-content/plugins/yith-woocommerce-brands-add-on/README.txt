@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: brand, brands, logo, manufacturer, yit, e-commerce, ecommerce, shop, supplier, woocommerce brand, woocommerce filter, filter, brand filter, woocommerce manufacturer, woocommerce supplier, brands for woocommerce, brands for wc, product brands, brands for products
 Requires at least: 4.0
 Tested up to: 5.3
-Stable tag: 1.3.9
+Stable tag: 1.3.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,7 +30,7 @@ Showing known brands in your shop has many advantages both for you and for your 
 2. Upload the plugin folder into the `wp-content/plugins/` directory of your WordPress site.
 3. Activate `YITH WooCommerce Brands Add-on` from Plugins page
 
-YITH WooCommerce Brands Add-on will add a new submenu called "Brands" under "YIT Plugins" menu. Here you are able to configure all the plugin settings.
+YITH WooCommerce Brands Add-on will add a new submenu called "Brands" under "YITH" menu. Here you are able to configure all the plugin settings.
 
 == Screenshots ==
 
@@ -41,6 +41,15 @@ YITH WooCommerce Brands Add-on will add a new submenu called "Brands" under "YIT
 5. Brands option panel
 
 == Changelog ==
+
+= 1.3.11 - Released on 23 December 2019 =
+
+* New: support for WooCommerce 3.9
+* Update: plugin framework
+
+= 1.3.10 - Released on 12 December 2019 =
+
+* Update: Plugin framework
 
 = 1.3.9 - Released on 29 November 2019 =
 

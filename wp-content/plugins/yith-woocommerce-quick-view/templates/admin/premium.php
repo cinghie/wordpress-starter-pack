@@ -46,6 +46,7 @@
         display: table-cell;
         vertical-align: middle;
         line-height: 27px;
+        border: none;
     }
 
     .section-title{

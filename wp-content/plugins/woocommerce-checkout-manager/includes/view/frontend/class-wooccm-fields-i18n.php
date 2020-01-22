@@ -16,6 +16,28 @@ class WOOCCM_Fields_i18n {
     return self::$_instance;
   }
 
+  public function register_wpml_string($value) {
+
+    if (!empty($value) && function_exists('icl_register_string')) {
+
+      if (is_array($value)) {
+
+        foreach ($value as $key => $name) {
+          icl_register_string(WOOCCM_PLUGIN_NAME, $name, $name);
+        }
+
+        return $value;
+      }
+
+      if (is_string($value)) {
+        icl_register_string(WOOCCM_PLUGIN_NAME, $value, $value);
+        return $value;
+      }
+    }
+
+    return $value;
+  }
+
   public function i18n($string) {
 
     if (function_exists('icl_t')) {

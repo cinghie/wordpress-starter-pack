@@ -24,7 +24,7 @@ if ( ! class_exists( 'WPPFM_Main_Input_Wrapper' ) ) :
 		 * @return string
 		 */
 		protected function main_input_wrapper_table_start() {
-			return '<table class="feed-main-input-table form-table"><tbody id="feed-data">';
+			return '<section class="wppfm-edit-feed-form-element-wrapper wppfm-main-input-wrapper" id="wppfm-main-input-map"><table class="wppfm-feed-main-input-table"><tbody id="wppfm-main-feed-data">';
 		}
 
 		/**
@@ -33,7 +33,7 @@ if ( ! class_exists( 'WPPFM_Main_Input_Wrapper' ) ) :
 		 * @return string
 		 */
 		protected function main_input_wrapper_table_end() {
-			return '</tbody></table>';
+			return '</tbody></table></section>';
 		}
 	}
 

@@ -44,7 +44,7 @@ if ( ! class_exists( 'WPPFM_Add_Options_Page' ) ) :
 		<div class="feed-spinner" id="feed-spinner" style="display:none;">
 			<img id="img-spinner" src="' . $spinner_gif . '" alt="Loading" />
 		</div>
-		<div class="main-wrapper header-wrapper" id="header-wrapper">
+		<div class="wppfm-main-wrapper wppfm-header-wrapper" id="wppfm-header-wrapper">
 		<div class="header-text"><h1>' . esc_html__( 'Feed Manager Settings', 'wp-product-feed-manager' ) . '</h1></div>
 		<div class="logo"></div>
 		</div>

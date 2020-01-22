@@ -34,8 +34,8 @@ jQuery(function($){
         ppom_update_option_prices();
    });
    
-   PPOMWrapper.on('keyup change', 'input[type="number"]', function(e){
-        // ppom_update_option_prices();
+   PPOMWrapper.on('keyup change', 'input:text.ppom-priced', function(e){
+        ppom_update_option_prices();
    });
 
    
@@ -92,7 +92,7 @@ jQuery(function($){
        var data_name = $(this).attr('id');
        var m_qty    = $(this).val();
        
-        // console.log(use_units);
+        // console.log(data_name);
         $('input:radio[name="ppom[unit]['+data_name+']"]:checked').attr('data-qty', m_qty);
         ppom_update_option_prices();
     });
@@ -204,7 +204,7 @@ function ppom_update_option_prices() {
         
         var variation_price = option.price;
         var option_price_with_qty   = parseFloat(option.quantity) * parseFloat(variation_price);
-        console.log(option_price_with_qty);
+        // console.log(option_price_with_qty);
         // Totals the options
         ppom_option_total += option_price_with_qty;
         
@@ -448,7 +448,8 @@ function ppom_update_option_prices() {
         ppom_total_price = ppom_total_price * parseFloat(ppom_measure_found);
     }
     
-    var per_unit_price          = ppom_get_formatted_price(parseFloat(ppom_total_price / ppom_get_order_quantity()));
+    var per_unit_price          = parseFloat(ppom_total_price / ppom_get_order_quantity());
+    // console.log(per_unit_price);
     var per_unit_label          = '';
     
     if ( show_per_unit_price && ppom_get_order_quantity() > 0 ) {
@@ -558,7 +559,6 @@ function ppom_add_price_item_in_list( label, price, item_class) {
 function ppom_get_wc_price( price, is_discount ) {
     
     var do_discount     = is_discount || false;
-    
     var wcPriceWithCurrency     = jQuery("#ppom-price-cloner").clone();
     var ppom_formatted_price    = ppom_get_formatted_price(price);
     var is_negative             = parseFloat(price) < 0;
@@ -576,7 +576,7 @@ function ppom_update_get_prices() {
     
     var options_price_added = [];
     
-    PPOMWrapper.find('select,input:checkbox,input:radio').each(function(i, input){
+    PPOMWrapper.find('select,input:checkbox,input:radio,input:text').each(function(i, input){
         
         // if fixedprice (addon) then return
         if( jQuery("option:selected", this).attr('data-unitprice') !== undefined ) return;
@@ -600,6 +600,8 @@ function ppom_update_get_prices() {
         var checked_option_optionid = jQuery(this).attr('data-optionid');
         var checked_option_data_name = jQuery(this).attr('data-data_name');
         
+        
+        
         // apply now being added from data-attribute for new prices
         if( jQuery(this).attr('data-apply') !== undefined ) {
             checked_option_apply = jQuery(this).attr('data-apply');
@@ -616,6 +618,7 @@ function ppom_update_get_prices() {
             
         var option_price = {};
         if( jQuery(this).prop("checked") ){
+            
             
             if( checked_option_title !== undefined ) {
                 option_price.label = checked_option_title+' '+checked_option_label;
@@ -640,6 +643,7 @@ function ppom_update_get_prices() {
             options_price_added.push( option_price );
             
     	} else if(selected_option_price !== undefined && is_option_calculatable(this) ) {
+    	   // console.log(selected_option_price);
     	    
     	    if( selected_option_title !== undefined ) {
                 option_price.label = selected_option_title+' '+selected_option_label;
@@ -656,7 +660,11 @@ function ppom_update_get_prices() {
             option_price.data_name      = selected_option_data_name;
             
             options_price_added.push( option_price );
-    	} else {
+    	} else { // Text input type
+    	
+    	
+    	   // console.log(jQuery(this));
+    	   // ppom_build_input_price_meta('yourcompany');
     	    
     	    
     	    /*if( jQuery(this).data('type') == 'measure' ) {
@@ -890,16 +898,19 @@ function ppom_delete_option_from_price_table( field_name, option_id ) {
     switch( field_type ) {
         
         case 'palettes':
-        case 'image':
         case 'radio':
         case 'checkbox':
-            
             jQuery("#"+opt_id).prop('checked', false);
             ppom_update_option_prices();
         break;
         
         case 'select':
-            jQuery("#"+field_name).val('')
+            jQuery("#"+field_name).val('');
+            ppom_update_option_prices();
+        break;
+
+        case 'image':
+            jQuery("#"+option_id).prop('checked', false);
             ppom_update_option_prices();
         break;
     }
@@ -926,4 +937,43 @@ function ppom_get_amount_after_percentage(base_amount, percent) {
 	
 	return percent_amount;
     
+}
+
+// Buil price object of given ppom input
+function ppom_build_input_price_meta( field_dataname ) {
+    
+    var field_meta = ppom_get_field_meta_by_id( field_dataname );
+    var field_type = field_meta['type'] || '';
+    
+    if( ! field_meta ) return '';
+    
+    var ppom_field_price = {};
+    var apply = field_meta['onetime'] === 'on' ? 'onetime' : 'variable'; 
+    
+    switch (field_type) {
+        case 'text':
+            
+            ppom_field_price = {
+                product_title: ppom_input_vars.product_title,
+                taxable      : field_meta['taxable'] || '',
+                without_tax  : field_meta['without_tax'] || '',
+                data_name    : field_dataname,
+                price        : field_meta['price'] || 0,
+                apply        : apply,
+            }
+            break;
+        
+        default:
+            // code
+    }
+    
+    console.log(ppom_field_price);
+    
+    /*option_price.product_title  = ppom_input_vars.product_title;
+    option_price.taxable        = checked_option_taxable;
+    option_price.without_tax    = checked_option_without_tax;
+    option_price.data_name      = checked_option_data_name;
+    option_price.price          = checked_option_price;
+    option_price.apply          = checked_option_apply;*/
+    	    
 }

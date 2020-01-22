@@ -60,28 +60,13 @@ if ( ! class_exists( 'WPPFM_Admin_Page' ) ) :
 				<img id="img-spinner" src="' . $spinner_gif . '" alt="Loading" />
 			</div>
 			<div class="data" id="wp-product-feed-manager-data" style="display:none;"><div id="wp-plugin-url">' . WPPFM_UPLOADS_URL . '</div><div id="wppfm-feed-list-feeds-in-queue"></div></div>
-			<div class="main-wrapper header-wrapper" id="header-wrapper">
+			<div class="wppfm-main-wrapper wppfm-header-wrapper" id="header-wrapper">
 			<div class="header-text"><h1>' . $header_text . '</h1></div>
 			<div class="sub-header-text"><h3>' . esc_html__( 'Manage your feeds with ease', 'wp-product-feed-manager' ) . '</h3></div>
 			<div class="links-wrapper" id="header-links"><a href="' . WPPFM_EDD_SL_STORE_URL . '/support/documentation/create-product-feed/" target="_blank">'
 				. esc_html__( 'Click here for the documentation', 'wp-product-feed-manager' ) . '</a></div>
 			<div class="links-wrapper" id="ticket-link"><a href="' . $ticket_link . '" target="_blank">' . esc_html__( 'Something not working? Click here for support', 'wp-product-feed-manager' ) . '</a></div>
 			</div>';
-		}
-
-		/**
-		 * Returns a string containing the standard footer for an admin page.
-		 *
-		 * @return string
-		 */
-		protected function admin_page_footer() {
-			return
-				'<div class="main-wrapper footer-wrapper" id="footer-wrapper">
-			 <div class="links-wrapper" id="footer-links"><a href="' . WPPFM_EDD_SL_STORE_URL . '" target="_blank">' . esc_html__( 'About Us', 'wp-product-feed-manager' ) . '</a> 
-			 | <a href="' . WPPFM_EDD_SL_STORE_URL . 'support/" target="_blank">' . esc_html__( 'Contact Us', 'wp-product-feed-manager' ) . '</a> 
-			 | <a href="' . WPPFM_EDD_SL_STORE_URL . 'terms/" target="_blank">' . esc_html__( 'Terms and Conditions', 'wp-product-feed-manager' ) . '</a>
-			 | <a href="' . WPPFM_EDD_SL_STORE_URL . 'support/documentation/create-product-feed/" target="_blank">' . esc_html__( 'Documentation', 'wp-product-feed-manager' ) . '</a></div>
-			 </div></div>';
 		}
 
 		protected function message_field( $alert = '' ) {
@@ -94,6 +79,7 @@ if ( ! class_exists( 'WPPFM_Admin_Page' ) ) :
 			<button type="button" id="disposable-notice-button" class="notice-dismiss"></button>
 			</div>';
 		}
+
 	}
 
 

@@ -154,7 +154,7 @@ class WOOCCM_Checkout_Controller {
         ),
         array(
             'name' => esc_html__('Remove order notes', 'woocommerce-checkout-manager'),
-            'desc_tip' => esc_html__('Remove create an account for guests users.', 'woocommerce-checkout-manager'),
+            'desc_tip' => esc_html__('Remove order notes from checkout page.', 'woocommerce-checkout-manager'),
             'id' => 'wooccm_checkout_remove_order_notes',
             'type' => 'select',
             'class' => 'chosen_select',

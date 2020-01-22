@@ -23,9 +23,9 @@ class WOOCCM_Field_Controller {
 
     global $current_section;
 
-    wp_register_script('wooccm-field', plugins_url('assets/backend/js/wooccm-admin-field.js', WOOCCM_PLUGIN_FILE), array('jquery', 'jquery-ui-datepicker', 'backbone', 'wp-util'), WOOCCM_PLUGIN_VERSION, true);
+    wp_register_script('wooccm-admin-field', plugins_url('assets/backend/js/wooccm-admin-field.js', WOOCCM_PLUGIN_FILE), array('jquery', 'jquery-ui-datepicker', 'backbone', 'wp-util'), WOOCCM_PLUGIN_VERSION, true);
 
-    wp_localize_script('wooccm-field', 'wooccm_field', array(
+    wp_localize_script('wooccm-admin-field', 'wooccm_field', array(
         'ajax_url' => admin_url('admin-ajax.php?section=' . $current_section),
         'nonce' => wp_create_nonce('wooccm_field'),
         'args' => WOOCCM()->billing->get_args(),
@@ -37,7 +37,7 @@ class WOOCCM_Field_Controller {
 
     if (isset($_GET['tab']) && $_GET['tab'] === WOOCCM_PREFIX) {
       wp_enqueue_style('media-views');
-      wp_enqueue_script('wooccm-field');
+      wp_enqueue_script('wooccm-admin-field');
     }
   }
 
@@ -279,6 +279,7 @@ class WOOCCM_Field_Controller {
         // fix unchecked checkboxes
         $field_data = wp_parse_args($field_data, WOOCCM()->$section->get_args());
 
+        // don't override
         unset($field_data['order']);
         unset($field_data['required']);
         unset($field_data['position']);
@@ -504,6 +505,7 @@ class WOOCCM_Field_Controller {
         $option = WOOCCM()->billing->get_option_types();
         $multiple = WOOCCM()->billing->get_multiple_types();
         $template = WOOCCM()->billing->get_template_types();
+        $disabled = WOOCCM()->billing->get_disabled_types();
         $product_categories = $this->get_product_categories();
 
         include_once( WOOCCM_PLUGIN_DIR . 'includes/view/backend/pages/billing.php' );
@@ -544,6 +546,7 @@ class WOOCCM_Field_Controller {
         $option = WOOCCM()->billing->get_option_types();
         $multiple = WOOCCM()->billing->get_multiple_types();
         $template = WOOCCM()->billing->get_template_types();
+        $disabled = WOOCCM()->billing->get_disabled_types();
         $product_categories = $this->get_product_categories();
 
         include_once( WOOCCM_PLUGIN_DIR . 'includes/view/backend/pages/shipping.php' );
@@ -563,6 +566,7 @@ class WOOCCM_Field_Controller {
         $option = WOOCCM()->billing->get_option_types();
         $multiple = WOOCCM()->billing->get_multiple_types();
         $template = WOOCCM()->billing->get_template_types();
+        $disabled = WOOCCM()->billing->get_disabled_types();
         $product_categories = $this->get_product_categories();
         $settings = $this->get_additional_settings();
 
@@ -580,7 +584,7 @@ class WOOCCM_Field_Controller {
       if (!is_admin()) {
         include_once( WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-register.php' );
         include_once( WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-additional.php' );
-        include_once( WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-display.php' );
+        include_once( WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-disable.php' );
         include_once( WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-conditional.php' );
         include_once( WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-handler.php' );
         include_once( WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-i18n.php' );

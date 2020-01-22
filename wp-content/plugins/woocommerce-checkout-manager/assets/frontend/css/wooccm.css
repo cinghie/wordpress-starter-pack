@@ -1,3 +1,20 @@
+.woocommerce form {
+  /*    @media (min-width: 768px) {
+      .wooccm-field {
+        &.form-row-first {
+          width: 47.0588235294%;
+          float: left;
+          margin-right: 5.8823529412%;
+          clear: both;
+        } 
+        &.form-row-last {
+          width: 45.4545454545%;
+          float: right;
+          margin-right: 0;
+        }
+      }
+    }*/
+}
 .woocommerce form .wooccm-clearfix:before,
 .woocommerce form .wooccm-clearfix:after {
   content: '';

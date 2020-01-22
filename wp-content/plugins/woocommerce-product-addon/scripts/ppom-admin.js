@@ -911,6 +911,12 @@ jQuery(function($){
         });
     });
 
+    $(document).on('change', '[data-meta-id="conditions"] select[data-metatype="element_values"]', function(e){
+        e.preventDefault();
+        
+        var element_values = $(this).val();
+        $(this).attr('data-existingvalue', element_values);
+    });
 
     $(document).on('click', '.ppom-condition-tab-js', function(e){
         e.preventDefault();

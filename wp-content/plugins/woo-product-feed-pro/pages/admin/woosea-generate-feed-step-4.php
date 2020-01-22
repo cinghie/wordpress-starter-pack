@@ -304,6 +304,11 @@ if (array_key_exists('project_hash', $_GET)){
 										} else {
 											print "<option value=\"minus\">minus</option>";
 										}
+										if (isset($project['rules2'][$rule2_key]['condition']) AND ($project['rules2'][$rule2_key]['condition'] == "findreplace")){
+											print "<option value=\"findreplace\" selected>find and replace</option>";
+										} else {
+											print "<option value=\"findreplace\">find and replace</option>";
+										}
 										?>
 									</select>	
 								</td>

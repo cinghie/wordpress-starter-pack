@@ -372,6 +372,47 @@ function ppom_array_settings() {
         ),
         
         array(
+                'title'             => __( 'Delete Un-used images', 'ppom' ),
+                'type'              => 'select',
+                'label'             => __( 'Button', 'ppom' ),
+                'default'           => 'daily',
+                'options' => array( 'daily'=>__('Daily','ppom'),
+                                    'weekly'=> __('Weekly','ppom'),
+                                    'monthly'=> __('Monthly','ppom'),
+                                ),
+                'id'       => 'ppom_remove_unused_images_schedule',
+                'desc'       => __( 'Set duration to uploaded images of abandoned cart. Re-activate plugin to when update this option', 'ppom' ),
+                'desc_tip'      => true,
+            ),
+            
+        array(
+                'title'             => __( 'Meta Group Overrides', 'ppom' ),
+                'type'              => 'select',
+                'label'             => __( 'Button', 'ppom' ),
+                'default'           => 'default',
+                'options' => array( 'default'=>__('Default','ppom'),
+                                    'category_override'=> __('Category Overrides Individual Assignment','ppom'),
+                                    'individual_override'=> __('Individual Overrides Category Assignment','ppom'),
+                                ),
+                'id'       => 'ppom_meta_overrides',
+                'desc'       => __( 'Leave if default if not sure.', 'ppom' ),
+                'desc_tip'      => true,
+        ),
+        
+        array(
+                'title'             => __( 'Meta Group Priority', 'ppom' ),
+                'type'              => 'select',
+                'label'             => __( 'Button', 'ppom' ),
+                'default'           => 'default',
+                'options' => array( 'category_first'=>__('Category First','ppom'),
+                                    'individual_first'=> __('Individual First','ppom'),
+                                ),
+                'id'       => 'ppom_meta_priority',
+                'desc'       => __( 'Leave if default if not sure.', 'ppom' ),
+                'desc_tip'      => true,
+            ),
+        
+        array(
 			'type' => 'sectionend',
 			'id'   => 'ppom_pro_features',
 		),

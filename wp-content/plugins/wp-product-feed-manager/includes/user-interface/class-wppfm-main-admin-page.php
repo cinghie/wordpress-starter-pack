@@ -54,8 +54,6 @@ if ( ! class_exists( 'WPPFM_Main_Admin_Page' ) ) :
 			} else {
 				echo wppfm_you_have_no_woocommerce_installed_message();
 			}
-
-			echo $this->admin_page_footer();
 		}
 
 		/**

@@ -190,13 +190,14 @@ class WOOCCM_Order_Controller extends WOOCCM_Upload {
             'type' => 'multiselect',
             'class' => 'chosen_select',
             'options' => wc_get_order_statuses(),
+            'default' => array_keys(wc_get_order_statuses()),
         ),
         array(
             'name' => esc_html__('Add upload files title', 'woocommerce-checkout-manager'),
             'desc_tip' => esc_html__('Add custom title for the uploads files table.', 'woocommerce-checkout-manager'),
             'id' => 'wooccm_order_upload_files_title',
             'type' => 'text',
-            'placeholder' => esc_html__('Upload files', 'woocommerce-checkout-manager')
+            'placeholder' => esc_html__('Uploaded files', 'woocommerce-checkout-manager')
         ),
         array(
             'name' => esc_html__('Add custom fields', 'woocommerce-checkout-manager'),
@@ -217,6 +218,7 @@ class WOOCCM_Order_Controller extends WOOCCM_Upload {
             'type' => 'multiselect',
             'class' => 'chosen_select',
             'options' => wc_get_order_statuses(),
+            'default' => array_keys(wc_get_order_statuses()),
         ),
         array(
             'name' => esc_html__('Add custom fields title', 'woocommerce-checkout-manager'),

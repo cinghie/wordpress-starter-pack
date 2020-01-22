@@ -220,9 +220,11 @@ In the free WooCommerce attribute variation plugin, besides creating size, brand
 <li> 
    <a target="_blank" href="https://getwooplugins.com/showcase-swatches">Built With: Flatsome WooCommerce Theme</a>
 </li>
+
 <li> 
    <a target="_blank" href="https://getwooplugins.com/showcase-swatches">Built With: Avada WooCommerce Multi-Purpose Theme</a>
 </li>
+
 <li> 
    <a target="_blank" href="https://getwooplugins.com/showcase-swatches">Built With: Divi by Elegant Themes</a>
 </li>
@@ -230,6 +232,7 @@ In the free WooCommerce attribute variation plugin, besides creating size, brand
 <li> 
    <a target="_blank" href="https://getwooplugins.com/showcase-swatches">Built With: Enfold - WooCommerce Multi-Purpose Theme</a>
 </li>
+
 <li> 
    <a target="_blank" href="https://getwooplugins.com/showcase-swatches">Built With: Astra WooCommerce Theme</a>
 </li>
@@ -253,16 +256,18 @@ In the free WooCommerce attribute variation plugin, besides creating size, brand
 <li> 
    <a target="_blank" href="https://getwooplugins.com/showcase-swatches">Built With: Jevelin WooCommerce Theme</a>
 </li>
+
 <li> 
    <a target="_blank" href="https://getwooplugins.com/showcase-swatches">Built With: Nitro WooCommerce Theme</a>
 </li>
+
 <li> 
     <a target="_blank" href="https://getwooplugins.com/showcase-swatches">Built With: KuteShop WooCommerce Theme</a>
 </li>
+
 <li> 
     <a target="_blank" href="https://getwooplugins.com/showcase-swatches">Built With: Domino WooCommerce Theme</a>
 </li>
-
 </ul>
 </blockquote>
 
@@ -376,6 +381,21 @@ And your are ready to go.
 12. Global Variation Color Swatches Attribute List Preview
 
 == Changelog ==
+
+= 1.0.71 =
+
+* Update: Tooltip transform
+* Fix: Field Dependency Js Load
+
+= 1.0.70 =
+
+* Fix: Divi builder load issue.
+* Fix: Default selected tooltip Issue.
+* Update: Field Dependency css.
+
+= 1.0.69 =
+
+* Update: Disable Defer JS Load by Default and on mobile device.
 
 = 1.0.68 =
 

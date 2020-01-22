@@ -302,6 +302,7 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 		
 		// $cart_item['data'] ->post_type == 'product' ? $cart_item['data']->get_id() : $cart_item['data']->get_parent_id();
 		$field_meta = ppom_get_field_meta_by_dataname( $product_id, $key, $ppom_meta_ids);
+		$data_name  = $key;
 		// ppom_pa($field_meta);
 		
 		// If field deleted while it's in cart
@@ -313,6 +314,12 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 		// third party plugin for different fields types
 		$field_type = apply_filters('ppom_make_meta_data_field_type', $field_type, $field_meta);
 		
+		if( $variation_id ) {
+			$product = wc_get_product($variation_id);
+		}else {
+			$product = wc_get_product($product_id);
+		}
+
 		$meta_data = array();
 		
 			// ppom_pa($field_type);
@@ -419,6 +426,20 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 				break;
 				
 			case 'cropper':
+				
+				// Checking if ratio found with cropping
+				$crop_options	= ppom_convert_options_to_key_val($field_meta['options'], $field_meta, $product);
+				$crop_size = '';
+				if( isset($value['ratio']) && $value['ratio'] !== '' ){
+					$ratio_found = $value['ratio'];
+					// Getting option
+					foreach($crop_options as $option) {
+						if( $option['id'] === $ratio_found ) {
+							$crop_size = $option['label'];
+						}
+					}
+				}
+				
 				if( $context == 'order') {
 					$uploaded_filenames = array();
 					foreach($value as $file_id => $file_cropped) {
@@ -427,13 +448,18 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 					$meta_data = array('name'=>$field_title, 'value'=>implode(',',$uploaded_filenames));
 				} else {
 					$file_thumbs_html = '';
-					// ppom_pa($value);
 					foreach($value as $file_id => $file_cropped) {
 						
 						$file_name = $file_cropped['org'];
-						$file_thumbs_html .= ppom_create_thumb_for_meta($file_name, $product_id, true);
+						$file_thumbs_html .= ppom_create_thumb_for_meta($file_name, $product_id, true, $crop_size);
+						
+						// Adding ratio to cart
 					}
 					$meta_data = array('name'=>$field_title, 'value'=>$file_thumbs_html);
+					if( ! $ratio_found ) {
+						
+						$meta_data = array('name'=>$field_title, 'value'=>$file_thumbs_html);
+					}
 				}
 				break;
 				
@@ -446,13 +472,15 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 				break;
 				
 			case 'palettes':
+				$selected_color = array();
 				$color_options = $field_meta['options'];
 				foreach($value as $color){
 					foreach($color_options as $opt){
 						
 						if( $color == $opt['option'] ){
 							$display = !empty($opt['label']) ? $opt['label'] : $opt['option'];
-							$meta_data = array('name'=>$field_title, 'value'=>$value, 'display'=>$display);
+							$selected_color[] = $display;
+							$meta_data = array('name'=>$field_title, 'value'=>$value, 'display'=>implode(',',$selected_color));
 							break;
 						}
 					}
@@ -496,7 +524,6 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 				$option_label_array = array();
 				$options_data_array = array();
 				
-				$product = new WC_Product($product_id);
 				$options_filter	 = ppom_convert_options_to_key_val($field_meta['options'], $field_meta, $product);
 				
 				foreach($option_posted as $posted_value) {
@@ -530,12 +557,6 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 				$option_price	= '';
 				$option_data	= array();
 				
-				if( $variation_id ) {
-					$product = wc_get_product($variation_id);
-				}else {
-					$product = wc_get_product($product_id);
-				}
-				
 				$options_filter	 = ppom_convert_options_to_key_val($field_meta['options'], $field_meta, $product);
 				
 				foreach($options_filter as $option_key => $option) {
@@ -566,19 +587,17 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 				$option_data  = array();
 				$option_price = array();
 				
-				if( $variation_id ) {
-					$product = wc_get_product($variation_id);
-				}else {
-					$product = wc_get_product($product_id);
-				}
-				
 				$options_filter	 = ppom_convert_options_to_key_val($field_meta['options'], $field_meta, $product);
 				
 				foreach ($value as $opt_index => $selected_opt) {
 					
 					foreach($options_filter as $option_key => $option) {
 
-		                if ( isset($option['option_id']) && $option['option_id'] === $selected_opt ) {
+						$option_raw = isset($option['raw']) ? $option['raw'] : '';
+						$option_value = stripslashes(ppom_wpml_translate($option_raw,'PPOM'));
+
+		                if ( $option_value === $selected_opt ) {
+
 		                	$option_price[] = $option['label'];
 	                        $option_data[] = array('option'=>$option['raw'],'price'=>$option['price'],'id'=>$option['option_id']);
 		                }
@@ -862,6 +881,13 @@ function ppom_load_fontawesome() {
 function ppom_convert_options_to_key_val($options, $meta, $product) {
 	
 	if( empty($options) ) return $options;
+
+
+	if( ! apply_filters('ppom_is_option_convertable', true, $meta) ){
+		return $options;
+	}
+	
+	$meta_type = isset($meta['type']) ? $meta['type'] : '';
 	
 	// Do not change options for cropper
 	// if( $meta['type'] == 'cropper' ) return $options;
@@ -873,8 +899,10 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 		
 		$the_option = isset($option['option']) ? stripslashes($option['option']) : '';
 		
-		if( isset($meta['type']) && ($meta['type'] == 'imageselect' || $meta['type'] == 'image') ) {
-			
+		//Following input has 'title' instead 'option' in options array
+		$option_with_titles_keys = apply_filters('ppom_option_with_title_key', array('imageselect', 'image', 'audio') );
+		if( in_array($meta_type, $option_with_titles_keys) ) {
+		
 			$the_option = isset($option['title']) ? stripslashes($option['title']) : '';
 		}
 		
@@ -994,18 +1022,38 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 // Generating option label with price
 function ppom_generate_option_label( $option, $price, $meta) {
 	
+	$meta_type = isset($meta['type']) ? $meta['type'] : '';
+	
 	$the_option = isset($option['option']) ? $option['option'] : '';
-	if( isset($meta['type']) && $meta['type'] == 'imageselect' ) {
+	if( $meta_type == 'imageselect' ) {
 		$the_option = isset($option['title']) ? $option['title'] : '';
 	}
+	
 	$option_label = !empty($option['label']) ? $option['label'] : $the_option;
 	$option_label = stripcslashes($option_label);
 	
 	if( !empty($price) ) {
 		$price = apply_filters('ppom_option_price', $price);
-		// var_dump($price);
+		
+		$option_price_opr = apply_filters('ppom_option_price_operator', '+', $price, $meta);
+		
 		$price = strip_tags(ppom_price($price));
-		$option_label = "{$option_label}({$price})";
+		
+		switch($meta_type) {
+		
+			// No span/html in Select DOM	
+			case 'select':
+			case 'multiple_select':
+				$price_replacement = " [{$option_price_opr}{$price}]";
+			break;
+			
+			default:
+				$price_replacement = " <span class='ppom-option-label-price'>[{$option_price_opr}{$price}]</span>";	
+			break;
+		}
+		
+			
+		$option_label = "{$option_label}{$price_replacement}";
 	}
 	
 	return apply_filters('ppom_option_label', $option_label, $option, $meta, $price);
@@ -1255,7 +1303,7 @@ function ppom_get_field_option_price( $field_meta, $option_label ) {
 	$option_price = 0;
 	foreach( $field_meta['options'] as $option ) {
 		
-		if( $option['option'] == $option_label && isset($option['price']) && $option['price'] != '' ) {
+		if( isset($option['option']) && $option['option'] == $option_label && isset($option['price']) && $option['price'] != '' ) {
 			
 			$option_price = $option['price'];
 		}
@@ -1571,11 +1619,18 @@ function ppom_get_option($key, $default_val=false) {
 	return $value;
 }
 
+// Checking PPOM version
+function ppom_get_version() {
+	
+	if( ! defined('PPOM_VERSION') ) return 16.0;
+	return floatval( PPOM_VERSION );
+}
+
 // Checking PPOM Pro version
 function ppom_get_pro_version() {
 	
 	if( ! defined('PPOM_PRO_VERSION') ) return 16.0;
-	return intval( PPOM_PRO_VERSION );
+	return floatval( PPOM_PRO_VERSION );
 }
 
 // wp_is_mobile wrapper

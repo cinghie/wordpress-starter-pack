@@ -1,8 +1,8 @@
 /*!
- * Variation Swatches for WooCommerce v1.0.68 
+ * Variation Swatches for WooCommerce v1.0.71 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 11/14/2019, 11:42:14 PM
+ * Date: 1/5/2020, 3:32:42 PM
  * Released under the GPLv3 license.
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -246,7 +246,7 @@ var PluginHelper = function ($) {
         }, {
             key: 'FieldDependency',
             value: function FieldDependency() {
-                var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '[data-depends]';
+                var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '[data-wvsdepends]';
 
                 if ($().FormFieldDependency) {
                     $(selector).FormFieldDependency();

@@ -45,6 +45,15 @@ if ( ! class_exists( 'WPPFM_Form_Element' ) ) :
 		}
 
 		/**
+		 * @param   array   $feed_data_to_store An array with the feed data.
+		 *
+		 * @return  string  An html string that contains the json encoded feed data.
+		 */
+		public static function feed_data_holder( $feed_data_to_store ) {
+			return '<var id="wppfm-ajax-feed-data-array" style="display:none;">' . json_encode( $feed_data_to_store ) . '</var>';
+		}
+
+		/**
 		 * Returns the code that stores product feed specific data in the page source code.
 		 *
 		 * @return string
@@ -60,10 +69,22 @@ if ( ! class_exists( 'WPPFM_Form_Element' ) ) :
 		 * @return string with var code containing the feeds url
 		 */
 		public static function feed_url_holder() {
-			$query_class        = new WPPFM_Queries();
-			$feed_file_url      = array_key_exists( 'id', $_GET ) && $_GET['id'] ? $query_class->get_file_url_from_feed( $_GET['id'] ) : '';
+			$query_class   = new WPPFM_Queries();
+			$feed_file_url = array_key_exists( 'id', $_GET ) && $_GET['id'] ? $query_class->get_file_url_from_feed( $_GET['id'] ) : '';
 
 			return '<var id="wppfm-feed-url" style="display:none;" >' . $feed_file_url . '</var>';
+		}
+
+		public static function used_feed_names() {
+			$query_class = new WPPFM_Queries();
+			$feed_names  = $query_class->get_all_feed_names();
+			$used_names  = [];
+
+			foreach( $feed_names as $name ) {
+				array_push( $used_names, $name->title );
+			}
+
+			return '<var id="wppfm-all-feed-names" style="display:none;" >' . json_encode( $used_names )  . '</var>';
 		}
 
 		/**

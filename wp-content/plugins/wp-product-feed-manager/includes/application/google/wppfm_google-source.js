@@ -16,8 +16,9 @@ function woocommerceToGoogleFields() {
 		'sale_price': '_sale_price',
 		'sale_price_effective_date': '_sale_price_dates_from',
 		'item_group_id': 'item_group_id',
+		'mpn': 'ID',
 		'tax': 'Use the settings in the Merchant Center',
-		'shipping': 'Use the settings in the Merchant Center'
+		'shipping': 'Use the settings in the Merchant Center',
 	};
 }
 
@@ -225,10 +226,6 @@ function googleStaticFieldOptions( fieldName ) {
 			break;
 
 		case 'adult':
-			options = [ 'yes', 'no' ];
-			break;
-
-		case 'multipack':
 			options = [ 'yes', 'no' ];
 			break;
 

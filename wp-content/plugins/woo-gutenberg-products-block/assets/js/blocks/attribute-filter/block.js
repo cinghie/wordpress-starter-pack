@@ -15,6 +15,7 @@ import {
 	useMemo,
 } from '@wordpress/element';
 import CheckboxList from '@woocommerce/base-components/checkbox-list';
+import { decodeEntities } from '@wordpress/html-entities';
 
 /**
  * Internal dependencies
@@ -37,7 +38,7 @@ const AttributeFilterBlock = ( {
 		( name, count ) => {
 			return (
 				<Fragment>
-					{ name }
+					{ decodeEntities( name ) }
 					{ blockAttributes.showCounts && count !== null && (
 						<span className="wc-block-attribute-filter-list-count">
 							{ count }
@@ -102,6 +103,9 @@ const AttributeFilterBlock = ( {
 		shouldSelect: blockAttributes.attributeId > 0,
 	} );
 
+	const filterAvailableTerms =
+		blockAttributes.displayStyle !== 'dropdown' &&
+		blockAttributes.queryType === 'and';
 	const {
 		results: filteredCounts,
 		isLoading: filteredCountsLoading,
@@ -110,7 +114,10 @@ const AttributeFilterBlock = ( {
 			taxonomy: attributeObject.taxonomy,
 			queryType: blockAttributes.queryType,
 		},
-		queryState,
+		queryState: {
+			...queryState,
+			attributes: filterAvailableTerms ? queryState.attributes : null,
+		},
 	} );
 
 	/**

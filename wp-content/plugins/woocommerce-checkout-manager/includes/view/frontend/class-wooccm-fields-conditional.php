@@ -21,19 +21,21 @@ class WOOCCM_Fields_Conditional {
 
       if (!empty($field['conditional']) && !empty($field['conditional_parent_key']) && ($field['conditional_parent_key'] != $field['key'])) {
 
-
         // Unset if parent is disabled
         // -----------------------------------------------------------------
         if (empty($fields[$field['conditional_parent_key']])) {
           unset($fields[$field['key']]);
           continue;
         }
-        
+
         // Remove required
         // -----------------------------------------------------------------
         if (isset($_REQUEST['woocommerce-process-checkout-nonce']) && (!isset($_POST[$field['conditional_parent_key']]) || !isset($field['conditional_parent_value']) || !array_intersect((array) $field['conditional_parent_value'], (array) $_POST[$field['conditional_parent_key']]))) {
+          // Remove required attribute for hidden child fields
           $field['required'] = false;
+          // Don't save hidden child fields in order
           unset($fields[$field['key']]);
+          unset($_POST[$field['key']]);
         }
       }
     }

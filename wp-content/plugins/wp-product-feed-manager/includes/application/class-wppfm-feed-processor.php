@@ -4,7 +4,7 @@
  * WP Product Feed Controller Class.
  *
  * @package WP Product Feed Manager/Application/Classes
- * @version 1.4.0
+ * @version 1.5.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -134,6 +134,7 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 
 			$message = sprintf( 'Completed feed %s. The feed should contain %d products and its status has been set to %s.', $this->_feed_data->feedId, count( $this->processed_products ), $feed_status );
 			do_action( 'wppfm_feed_generation_message', $this->_feed_data->feedId, $message );
+			do_action( 'wppfm_register_feed_url', $this->_feed_data->feedId, $this->_feed_data->url );
 
 			if ( ! WPPFM_Feed_Controller::feed_queue_is_empty() ) {
 				do_action( 'wppfm_next_in_queue_feed_update_activated', $this->_feed_data->feedId );

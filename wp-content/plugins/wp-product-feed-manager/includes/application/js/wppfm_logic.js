@@ -240,7 +240,7 @@ function wppfm_regenerateFeed( feedId ) {
 
 	wppfmAddToQueueString( feedId );
 
-	wppfm_show_feed_spinner();
+	wppfm_showFeedSpinner();
 
 	wppfm_updateFeedRowStatus( feedId, feedStatus );
 
@@ -248,7 +248,7 @@ function wppfm_regenerateFeed( feedId ) {
 
 	wppfm_updateFeedFile( feedId, function( xmlResult ) {
 
-		wppfm_hide_feed_spinner();
+		wppfm_hideFeedSpinner();
 
 		console.log(xmlResult);
 
@@ -264,7 +264,7 @@ function wppfm_regenerateFeed( feedId ) {
 					wppfmRemoveFromQueueString( feedId );
 				}
 			} );
-		}, 5000 );
+		}, 10000 );
 	})
 }
 
@@ -299,51 +299,6 @@ function wppfm_convertToCamelCase( stringArray ) {
 	}
 
 	return result;
-}
-
-/**
- * wppfm_getFeedObject gets the data from an existing feed and stores it in a Feed object
- *
- * @param {string} feedId
- * @param {string} callback
- * @returns {object}
- */
-function wppfm_getFeedObject( feedId, callback ) {
-
-	wppfm_getFeedData(
-		feedId,
-		function( feedData ) {
-
-			if ( '0' !== feedData ) {
-
-				var data = JSON.parse( feedData )[ 0 ];
-
-				var newFeedObject = new Feed(
-					data[ 'product_feed_id' ],
-					data[ 'title' ],
-					data[ 'include_variations' ],
-					data[ 'is_aggregator' ],
-					data[ 'channel' ],
-					data[ 'main_category' ],
-					data[ 'category_mapping' ],
-					data[ 'url' ],
-					data[ 'source' ],
-					data[ 'country' ],
-					data[ 'language' ],
-					data[ 'feed_title' ],
-					data[ 'feed_description' ],
-					data[ 'schedule' ],
-					[],
-					data[ 'status_id' ],
-					'1'
-				);
-
-				callback( newFeedObject );
-			} else {
-				callback( 0 );
-			}
-		}
-	);
 }
 
 function wppfm_addValueEditorQuery( rowId, sourceLevel, conditionLevel ) {

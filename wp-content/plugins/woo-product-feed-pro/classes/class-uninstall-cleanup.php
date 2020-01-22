@@ -11,5 +11,6 @@ class WooSEA_Uninstall_Cleanup {
                 delete_option( 'channel_statics' );
                 delete_option( 'license_information' );
                 delete_option( 'cron_projects' );
+		delete_option('woosea_getelite_notification');
         }
 }

@@ -168,6 +168,8 @@ class NM_PersonalizedProduct {
 		 add_filter('ppom_add_cart_item_data', 'ppom_hooks_save_cropped_image', 10, 2);
 		 // Formatting the order meta with options price and id
 		 add_filter('ppom_order_display_value', 'ppom_hooks_format_order_value', 999, 3);
+		 // setting -ve operator for option for negative numbers
+		 add_filter('ppom_option_price_operator', 'ppom_hooks_set_option_operator', 99, 3);
 		 
 		 
 		 //add_filter('ppom_cart_line_total', 'ppom_hooks_convert_price_back');
@@ -231,7 +233,9 @@ class NM_PersonalizedProduct {
 		 * to remove un-paid images
 		 */
 		add_action('do_action_remove_images', 'ppom_files_removed_unused_images');
-		
+		// adding scheduale weekly
+		add_filter( 'cron_schedules', 'ppom_hooks_weekly_cron_schedule' );
+
 		add_action('admin_footer-edit.php', array($this, 'nm_add_bulk_meta'));
 		
 		add_action('load-edit.php', array(&$this, 'nm_meta_bulk_action'));
@@ -517,7 +521,7 @@ class NM_PersonalizedProduct {
 		
 		?>
 		<div class="page_collapsible products_manage_policies simple variable grouped external booking" id="wcfm_products_manage_form_policies_head"><label class="fa fa-list"></label>
-		<?php printf( __("%s", 'ppom') ); ?><span></span>
+		<span><?php echo $ppom_fields_label; ?></span>
 		</div>
 		<div class="wcfm-container simple variable external grouped booking">
 			<div id="wcfm_products_manage_form_policies_expander" class="wcfm-content">
@@ -598,8 +602,10 @@ class NM_PersonalizedProduct {
 		update_option ( "personalizedproduct_db_version", PPOM_DB_VERSION );
 		
 		// this is to remove un-confirmed files daily
+		
+		$delete_frequency = ppom_get_option('ppom_remove_unused_images_schedule');
 		if ( ! wp_next_scheduled( 'do_action_remove_images' ) ) {
-			wp_schedule_event( time(), 'daily', 'do_action_remove_images');
+			wp_schedule_event( time(), $delete_frequency, 'do_action_remove_images');
 		}
 		
 		if ( ! wp_next_scheduled( 'setup_styles_and_scripts_wooproduct' ) ) {

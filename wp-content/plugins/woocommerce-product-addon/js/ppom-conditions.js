@@ -62,6 +62,32 @@ jQuery(function($) {
         	}, 100 );
             // $('#'+dd_selector).ddslick('select', {index: 0 });
         }
+
+
+        // Multiple Select Addon
+        if (field_meta.type === 'multiple_select') {
+
+            var selector       = jQuery('select[name="ppom[fields]['+field_meta.data_name+'][]"]');
+            var selected_value = selector.val();
+            var default_value = field_meta.selected;
+
+            if ( selected_value === null && default_value ) {
+
+                var selected_opt_arr = default_value.split(',');
+
+                selector.val(selected_opt_arr).trigger('change');
+
+                var selected_options = selector.find('option:selected');
+                jQuery.each(selected_options, function(index, default_selected){
+
+                    var option_id    = jQuery(default_selected).attr('data-option_id');
+                    var option_label = jQuery(default_selected).attr('data-optionlabel');
+                    var option_price = jQuery(default_selected).attr('data-optionprice');
+
+                    ppom_multiple_select_create_hidden_input( field_meta.data_name, option_id, option_price, option_label, field_meta.title );
+                });
+            }
+        }
         
     });
     
@@ -79,6 +105,27 @@ jQuery(function($) {
         
             case 'select':
                 $('select[name="ppom[fields]['+e.field+']"]').val('');
+                break;
+
+            case 'multiple_select':
+
+                var selector         = $('select[name="ppom[fields]['+e.field+'][]"]');
+                var selected_value   = selector.val();
+                var selected_options = selector.find('option:selected');
+
+                jQuery.each(selected_options, function(index, default_selected){
+
+                    var option_id = jQuery(default_selected).attr('data-option_id');
+                    var the_id    = 'ppom-multipleselect-'+e.field+'-'+option_id;
+
+                    $("#"+the_id).remove();
+                });
+
+                if ( selected_value ) {
+                    
+                    $('select[name="ppom[fields]['+e.field+'][]"]').val(null).trigger("change");
+                }
+
                 break;
             
             case 'checkbox':

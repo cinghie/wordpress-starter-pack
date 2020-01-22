@@ -132,26 +132,13 @@ $attributes = $fields_obj->get_channel_attributes();
 					<?php
 					if (!isset($count_mappings)){	
 						$c = 0;
-
 						foreach($attributes as $row_key => $row_value){
 							foreach($row_value as $row_k => $row_v){
 								if ($row_v['format'] == "required"){
 								?>
 								<tr class="rowCount <?php print"$c";?>">
 									<td><input type="hidden" name="attributes[<?php print "$c";?>][rowCount]" value="<?php print "$c";?>">
-
-                                                                	<?php
-                                                                	if ($row_v['feed_name'] == "g:item_group_id"){
-									 ?>
-                                                                        	<input type="checkbox" name="record" class="checkbox-field" title="it is not allowed to remove the item_group_id field mapping" disabled>
-                                                                        <?php
-                                                                	} else {
-                                                                        ?>
                                                                         	<input type="checkbox" name="record" class="checkbox-field">
-                                                                        <?php
-                                                                	}
-                                                                	?>
-
 									</td>
 									<td>
 										<select name="attributes[<?php print"$c"; ?>][attribute]" class="select-field">
@@ -226,17 +213,7 @@ $attributes = $fields_obj->get_channel_attributes();
 							?>
 							<tr class="rowCount <?php print "$attribute_key";?>">	
 								<td><input type="hidden" name="attributes[<?php print "$attribute_key";?>][rowCount]" value="<?php print "$attribute_key";?>">
-								<?php
-								if ($attribute_array['attribute'] == "g:item_group_id"){
-									?>
-									<input type="checkbox" name="record" class="checkbox-field" title="it is not allowed to remove the item_group_id field mapping" disabled>
-									<?php
-								} else {
-									?>
 									<input type="checkbox" name="record" class="checkbox-field">
-									<?php
-								}
-								?>
 								</td>
 								<td>
 									<select name="attributes[<?php print"$attribute_key"; ?>][attribute]" class="select-field">

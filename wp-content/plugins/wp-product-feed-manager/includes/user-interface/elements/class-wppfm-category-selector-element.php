@@ -52,7 +52,7 @@ if ( ! class_exists( 'WPPFM_Category_Selector_Element' ) ) :
 			$mode_column        = 'mapping' === $mode ? self::category_mapping_selector( 'catmap', $category->term_id, false ) : self::category_description_data_item( $category->term_id );
 
 			return '<tr id="category-' . $category->term_id . '"><th class="check-column" scope="row" id="shop-category-selector">
-				<input class="' . $category_row_class . '" data-children="' . $category_children . '" id="feed-selector-' . $category->term_id . '" 
+				<input class="' . $category_row_class . '" data-children="' . $category_children . '" id="feed-selector-' . $category->term_id . '"
 				type="checkbox" value="' . $category->term_id . '" title="Select ' . $category->name . '">
 				</th><td id="shop-category" class="col30w">' .
 				$level_indicator . $category->name .
@@ -76,10 +76,10 @@ if ( ! class_exists( 'WPPFM_Category_Selector_Element' ) ) :
 			$category_levels = apply_filters( 'wppfm_category_selector_level', 6 );
 
 			$html_code  = '<div id="category-selector-' . $ident . '" style="display:' . $display . '">';
-			$html_code .= '<div id="selected-categories"></div><select class="cat_select" id="' . $ident . '_0" style="height:33px;" disabled></select>';
+			$html_code .= '<div id="selected-categories"></div><select class="wppfm-main-input-selector wppfm-cat-selector" id="' . $ident . '_0" disabled></select>';
 
 			for ( $i = 1; $i < $category_levels; $i ++ ) {
-				$html_code .= '<select class="cat_select" id="' . $ident . '_' . $i . '" value="0" style="height:33px; display:none;"></select>';
+				$html_code .= '<select class="wppfm-main-input-selector wppfm-cat-selector" id="' . $ident . '_' . $i . '" value="0" style="display:none;"></select>';
 			}
 
 			$html_code .= '<div>';

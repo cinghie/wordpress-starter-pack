@@ -45,21 +45,21 @@ function wppfm_notice_mailaddress_changed() {
 }
 
 function wppfm_clear_feed_process() {
-	wppfm_show_feed_spinner();
+	wppfm_showFeedSpinner();
 	wppfm_clear_feed_process_data(
 		function( response ) {
 			console.log( 'Clear feed process activated' );
-			wppfm_hide_feed_spinner();
+			wppfm_hideFeedSpinner();
 		}
 	);
 }
 
 function wppfm_reinitiate() {
-	wppfm_show_feed_spinner();
+	wppfm_showFeedSpinner();
 	wppfm_reinitiate_plugin(
 		function( response ) {
 			console.log( 'Re-initialization initiated ' + response );
-			wppfm_hide_feed_spinner();
+			wppfm_hideFeedSpinner();
 		}
 	);
 }

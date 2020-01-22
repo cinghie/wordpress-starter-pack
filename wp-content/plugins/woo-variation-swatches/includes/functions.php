@@ -26,15 +26,73 @@
 	// Get All Image Sizes
 	//-------------------------------------------------------------------------------
 	
+	if ( ! function_exists( 'wp_get_registered_image_subsizes' ) ):
+		function wp_get_registered_image_subsizes() {
+			$additional_sizes = wp_get_additional_image_sizes();
+			$all_sizes        = array();
+			
+			foreach ( get_intermediate_image_sizes() as $size_name ) {
+				$size_data = array(
+					'width'  => 0,
+					'height' => 0,
+					'crop'   => false,
+				);
+				
+				if ( isset( $additional_sizes[ $size_name ][ 'width' ] ) ) {
+					// For sizes added by plugins and themes.
+					$size_data[ 'width' ] = intval( $additional_sizes[ $size_name ][ 'width' ] );
+				} else {
+					// For default sizes set in options.
+					$size_data[ 'width' ] = intval( get_option( "{$size_name}_size_w" ) );
+				}
+				
+				if ( isset( $additional_sizes[ $size_name ][ 'height' ] ) ) {
+					$size_data[ 'height' ] = intval( $additional_sizes[ $size_name ][ 'height' ] );
+				} else {
+					$size_data[ 'height' ] = intval( get_option( "{$size_name}_size_h" ) );
+				}
+				
+				if ( empty( $size_data[ 'width' ] ) && empty( $size_data[ 'height' ] ) ) {
+					// This size isn't set.
+					continue;
+				}
+				
+				if ( isset( $additional_sizes[ $size_name ][ 'crop' ] ) ) {
+					$size_data[ 'crop' ] = $additional_sizes[ $size_name ][ 'crop' ];
+				} else {
+					$size_data[ 'crop' ] = get_option( "{$size_name}_crop" );
+				}
+				
+				if ( ! is_array( $size_data[ 'crop' ] ) || empty( $size_data[ 'crop' ] ) ) {
+					$size_data[ 'crop' ] = (bool) $size_data[ 'crop' ];
+				}
+				
+				$all_sizes[ $size_name ] = $size_data;
+			}
+			
+			return $all_sizes;
+		}
+	endif;
+	
+	
 	if ( ! function_exists( 'wvs_get_all_image_sizes' ) ):
 		function wvs_get_all_image_sizes() {
-			return apply_filters( 'wvs_get_all_image_sizes', array_reduce( get_intermediate_image_sizes(), function ( $carry, $item ) {
-				$carry[ $item ] = ucwords( str_ireplace( array( '-', '_' ), ' ', $item ) );
+			
+			$image_subsizes = wp_get_registered_image_subsizes();
+			
+			return apply_filters( 'wvs_get_all_image_sizes', array_reduce( array_keys( $image_subsizes ), function ( $carry, $item ) use ( $image_subsizes ) {
+				
+				$title  = ucwords( str_ireplace( array( '-', '_' ), ' ', $item ) );
+				$width  = $image_subsizes[ $item ][ 'width' ];
+				$height = $image_subsizes[ $item ][ 'height' ];
+				
+				$carry[ $item ] = sprintf( '%s (%d &times; %d)', $title, $width, $height );
 				
 				return $carry;
 			}, array() ) );
 		}
 	endif;
+	
 	
 	//-------------------------------------------------------------------------------
 	// Available Product Attribute Types
@@ -306,7 +364,7 @@
 							'type'    => 'checkbox',
 							'title'   => esc_html__( 'Defer Load JS', 'woo-variation-swatches' ),
 							'desc'    => esc_html__( 'Defer Load JS for PageSpeed Score', 'woo-variation-swatches' ),
-							'default' => true
+							'default' => false
 						),
 						array(
 							'id'      => 'use_transient',
@@ -829,6 +887,8 @@
 			$attribute = $args[ 'attribute' ];
 			$assigned  = $args[ 'assigned' ];
 			
+			$is_archive           = ( isset( $args[ 'is_archive' ] ) && $args[ 'is_archive' ] );
+			$show_archive_tooltip = (bool) woo_variation_swatches()->get_option( 'show_tooltip_on_archive' );
 			
 			$data = '';
 			
@@ -844,6 +904,11 @@
 						if ( in_array( $term->slug, $options ) ) {
 							$selected_class = ( sanitize_title( $args[ 'selected' ] ) == $term->slug ) ? 'selected' : '';
 							$tooltip        = trim( apply_filters( 'wvs_variable_item_tooltip', $term->name, $term, $args ) );
+							
+							
+							if ( $is_archive && ! $show_archive_tooltip ) {
+								$tooltip = false;
+							}
 							
 							$tooltip_html_attr = ! empty( $tooltip ) ? sprintf( 'data-wvstooltip="%s"', esc_attr( $tooltip ) ) : '';
 							
@@ -892,6 +957,9 @@
 						$selected_class = ( sanitize_title( $option ) == $args[ 'selected' ] ) ? 'selected' : '';
 						$tooltip        = trim( apply_filters( 'wvs_variable_item_tooltip', esc_attr( $option ), $options, $args ) );
 						
+						if ( $is_archive && ! $show_archive_tooltip ) {
+							$tooltip = false;
+						}
 						
 						$tooltip_html_attr = ! empty( $tooltip ) ? sprintf( 'data-wvstooltip="%s"', esc_attr( $tooltip ) ) : '';
 						
@@ -1382,10 +1450,12 @@
 				return $html;
 			}
 			
+		
 			
 			$attribute_id = wc_variation_attribute_name( $args[ 'attribute' ] );
 			// $attribute_id = sanitize_title( $args[ 'attribute' ] );
 			$product_id = $args[ 'product' ]->get_id();
+			
 			
 			$transient_type = ( isset( $args[ 'is_archive' ] ) && $args[ 'is_archive' ] ) ? "archive_" . $product_id . "_" . $attribute_id : $product_id . "_" . $attribute_id;
 			$transient_name = 'wvs_attribute_html_' . $transient_type;

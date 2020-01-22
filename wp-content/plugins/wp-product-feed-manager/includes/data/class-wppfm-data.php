@@ -18,52 +18,52 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 	 */
 	class WPPFM_Data {
 
-		private $_queries;
-		private $_files;
+		private $_queries_class;
+		private $_files_class;
 
 		public function __construct() {
-			$this->_queries = new WPPFM_Queries();
-			$this->_files   = new WPPFM_File();
+			$this->_queries_class = new WPPFM_Queries();
+			$this->_files_class   = new WPPFM_File();
 		}
 
 		public function get_countries() {
-			return $this->_queries->read_countries();
+			return $this->_queries_class->read_countries();
 		}
 
 		public function get_channel_id_from_short_name( $channel_short_name ) {
-			return $this->_queries->get_channel_id( $channel_short_name );
+			return $this->_queries_class->get_channel_id( $channel_short_name );
 		}
 
 		public function get_channels() {
-			return $this->_queries->read_channels();
+			return $this->_queries_class->read_channels();
 		}
 
 		public function delete_channel( $channel_short ) {
-			$result = $this->_queries->remove_channel_from_db( $channel_short );
+			$result = $this->_queries_class->remove_channel_from_db( $channel_short );
 
 			if ( ! $result || 0 == $result ) {
-				$result = $this->_queries->clean_channel_table();
+				$result = $this->_queries_class->clean_channel_table();
 			}
 
 			return $result;
 		}
 
 		public function delete_channel_feeds( $channel_id ) {
-			$feeds = $this->_queries->get_feeds_from_specific_channel( $channel_id );
+			$feeds = $this->_queries_class->get_feeds_from_specific_channel( $channel_id );
 
 			foreach ( $feeds as $feed_id ) {
-				$this->_queries->delete_meta( $feed_id['product_feed_id'] );
-				$this->_queries->delete_feed( $feed_id['product_feed_id'] );
+				$this->_queries_class->delete_meta( $feed_id['product_feed_id'] );
+				$this->_queries_class->delete_feed( $feed_id['product_feed_id'] );
 			}
 		}
 
 		public function get_sources() {
-			return $this->_queries->read_sources();
+			return $this->_queries_class->read_sources();
 		}
 
 		public function get_country_id_from_short_code( $country_code ) {
 			if ( '0' !== $country_code && 0 !== $country_code ) {
-				return $this->_queries->get_country_id( $country_code );
+				return $this->_queries_class->get_country_id( $country_code );
 			} else {
 				$id             = new stdClass();
 				$id->country_id = '233';
@@ -73,29 +73,29 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		}
 
 		public function get_schedule_data() {
-			return $this->_queries->read_active_schedule_data();
+			return $this->_queries_class->read_active_schedule_data();
 		}
 
 		public function get_failed_feeds() {
-			return $this->_queries->read_failed_feeds();
+			return $this->_queries_class->read_failed_feeds();
 		}
 
 		public function get_feed_status( $feed_id ) {
-			$feed_status = $this->_queries->get_current_feed_status( $feed_id );
+			$feed_status = $this->_queries_class->get_current_feed_status( $feed_id );
 
 			return $feed_status[0]->status_id;
 		}
 
 		public function set_nr_of_feed_products( $feed_id, $nr ) {
-			return $this->_queries->set_nr_feed_products( $feed_id, $nr );
+			return $this->_queries_class->set_nr_feed_products( $feed_id, $nr );
 		}
 
 		public function get_nr_of_feed_products( $feed_id ) {
-			return $this->_queries->get_nr_feed_products( $feed_id );
+			return $this->_queries_class->get_nr_feed_products( $feed_id );
 		}
 
 		public function update_feed_data( $feed_id, $feed_url, $nr_products ) {
-			return $this->_queries->update_feed_update_data( $feed_id, $feed_url, $nr_products );
+			return $this->_queries_class->update_feed_update_data( $feed_id, $feed_url, $nr_products );
 		}
 
 		/**
@@ -152,7 +152,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 
 			do_action( 'wppfm_feed_generation_message', $feed_id, $message, $message_level );
 
-			return $this->_queries->update_feed_file_status( $feed_id, $status );
+			return $this->_queries_class->update_feed_file_status( $feed_id, $status );
 		}
 
 		/**
@@ -167,7 +167,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		 */
 		public function fill_output_fields_with_metadata( $feed_id, $outputs ) {
 			// read the meta data from the database
-			$metadata = $this->_queries->read_metadata( $feed_id );
+			$metadata = $this->_queries_class->read_metadata( $feed_id );
 
 			// loop through the output rows
 			for ( $i = 0; $i < count( $outputs ); $i ++ ) {
@@ -192,16 +192,102 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 			return $outputs;
 		}
 
+		/**
+		 * Collects the source fields from all the different attributes.
+		 *
+		 * @param   string  $source_id  The source id (not in use at the moment). Default 1.
+		 *
+		 * @return  mixed|void|null
+		 */
+		public function get_source_fields( $source_id = '1' ) {
+			$source_fields = null;
+
+			switch ( $source_id ) {
+				case '1':
+					$data_class = new WPPFM_Data();
+
+					$custom_product_attributes = $this->_queries_class->get_custom_product_attributes();
+					$custom_product_fields     = $this->_queries_class->get_custom_product_fields();
+					$product_attributes        = $this->_queries_class->get_all_product_attributes();
+					$product_taxonomies        = get_taxonomies();
+					$third_party_custom_fields = $data_class->get_third_party_custom_fields();
+
+					$combined_source_fields = $this->combine_custom_attributes_and_feeds(
+						$custom_product_attributes,
+						$custom_product_fields,
+						$product_attributes,
+						$product_taxonomies,
+						$third_party_custom_fields
+					);
+
+					$source_fields = apply_filters( 'wppfm_all_source_fields', $combined_source_fields );
+					break;
+
+				default:
+					if ( 'valid' === get_option( 'wppfm_lic_status' ) ) { // error message for paid versions
+						echo '<div id="error">' . __(
+								'Could not add custom fields because I could not identify the channel.
+								If not already done add the correct channel in the Manage Channels page.
+								Also try to deactivate and then activate the plugin.',
+								'wp-product-feed-manager'
+							) . '</div>';
+
+						wppfm_write_log_file( sprintf( 'Could not define the channel in a valid Premium plugin version. Feed id = %s', $source_id ) );
+					} else { // error message for free version
+						echo '<div id="error">' . __(
+								'Could not identify the channel.
+								Try to deactivate and then activate the plugin.
+								If that does not work remove the plugin through the WordPress Plugins page and than reinstall and activate it again.',
+								'wp-product-feed-manager'
+							) . '</div>';
+
+						wppfm_write_log_file( sprintf( 'Could not define the channel in a free plugin version. Feed id = %s', $source_id ) );
+					}
+
+					break;
+			}
+
+			return $source_fields;
+		}
+
+		/**
+		 * Get the attribute data of a specific feed.
+		 *
+		 * @param   string  $feed_id    The id of the feed from which the attribute data is needed.
+		 * @param   string  $channel_id The id of  the channel of the feed.
+		 *
+		 * @return  array   The attribute data.
+		 */
+		public function get_attribute_data( $feed_id, $channel_id ) {
+			$is_custom    = function_exists( 'wppfm_channel_is_custom_channel' ) ? wppfm_channel_is_custom_channel( $channel_id ) : false;
+			$channel_name = trim( $this->_queries_class->get_channel_short_name_from_db( $channel_id ) );
+
+			if ( ! $is_custom ) {
+				// read the output fields
+				$attributes_data = $this->_files_class->get_output_fields_for_specific_channel( $channel_name );
+
+				// if the feed is a stored feed, look for meta data to add (a feed an id of -1 is a new feed that not yet has been saved)
+				if ( $feed_id >= 0 ) {
+					// add meta data to the feeds output fields
+					$attributes_data = $this->fill_output_fields_with_metadata( $feed_id, $attributes_data );
+				}
+			} else {
+				$attributes_data = $this->get_custom_fields_with_metadata( $feed_id );
+			}
+
+			return $attributes_data;
+		}
+
 		public function get_filter_query( $feed_id ) {
-			return $this->_queries->get_product_filter_query( $feed_id );
+			return $this->_queries_class->get_product_filter_query( $feed_id );
 		}
 
 		public function get_own_variation_data( $variation_id ) {
-			return $this->_queries->get_own_variable_product_attributes( $variation_id );
+			return $this->_queries_class->get_own_variable_product_attributes( $variation_id );
 		}
 
 		public function add_parent_data( &$product_data, $parent_id, $post_columns_query_string ) {
-			$parent_product_data                 = (array) $this->_queries->read_post_data( $parent_id, $post_columns_query_string );
+			$parent_product_data                 = (array) $this->_queries_class->read_post_data( $parent_id, $post_columns_query_string );
 			$sources_that_always_use_parent_data = apply_filters( 'sources_that_always_use_data_from_parent', array( 'post_excerpt' ) );
 
 			$columns = explode( ', ', $post_columns_query_string );
@@ -216,7 +302,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 
 		public function get_custom_fields_with_metadata( $feed_id ) {
 			// read the meta data from the database
-			$metadata = $this->_queries->read_metadata( $feed_id );
+			$metadata = $this->_queries_class->read_metadata( $feed_id );
 			$outputs  = array();
 
 			// loop through the output rows
@@ -266,7 +352,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		 *
 		 */
 		public function check_for_failed_feeds( $active_feed_id ) {
-			$processing_feeds = $this->_queries->get_feed_ids_with_specific_status( '3' );
+			$processing_feeds = $this->_queries_class->get_feed_ids_with_specific_status( '3' );
 			$failed_feed_ids  = '';
 
 			foreach ( $processing_feeds as $feed ) {
@@ -337,7 +423,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 
 		public function get_feed_data( $feed_id ) {
 			// get the main data
-			$main_feed_data = $this->_queries->read_feed( $feed_id );
+			$main_feed_data = $this->_queries_class->read_feed( $feed_id );
 			$main_data      = $this->convert_data_to_feed_data( $main_feed_data[0] );
 
 			if ( false === $main_data ) {
@@ -346,12 +432,12 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 
 			$main_data->attributes = array();
 
-			$channel   = trim( $this->_queries->get_channel_short_name_from_db( $main_feed_data[0]['channel'] ) );
+			$channel   = trim( $this->_queries_class->get_channel_short_name_from_db( $main_feed_data[0]['channel'] ) );
 			$is_custom = function_exists( 'channel_is_custom_channel' ) ? channel_is_custom_channel( $channel ) : false;
 
 			// read the output fields
 			if ( ! $is_custom ) {
-				$outputs = apply_filters( 'wppfm_get_feed_attributes', $this->_files->get_output_fields_for_specific_channel( $channel ), $feed_id, $main_feed_data[0]['feed_type_id'] );
+				$outputs = apply_filters( 'wppfm_get_feed_attributes', $this->_files_class->get_output_fields_for_specific_channel( $channel ), $feed_id, $main_feed_data[0]['feed_type_id'] );
 			} else {
 				$outputs = $this->get_custom_fields_with_metadata( $feed_id );
 			}
@@ -469,9 +555,68 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		}
 
 		public function register_channel( $channel_short_name, $channel_data ) {
-			if ( ! $this->_queries->get_channel_id( $channel_short_name ) ) { // make sure the channel is not yet registered
-				$this->_queries->register_a_channel( $channel_short_name, $channel_data->channel_id, $channel_data->channel_name );
+			if ( ! $this->_queries_class->get_channel_id( $channel_short_name ) ) { // make sure the channel is not yet registered
+				$this->_queries_class->register_a_channel( $channel_short_name, $channel_data->channel_id, $channel_data->channel_name );
 			}
+		}
+
+		private function combine_custom_attributes_and_feeds( $attributes, $feeds, $product_attributes, $product_taxonomies, $third_party_fields ) {
+			$prev_dup_array = array(); // used to prevent doubles
+
+			foreach ( $feeds as $feed ) {
+				$obj = new stdClass();
+
+				$obj->attribute_name  = $feed;
+				$obj->attribute_label = $feed;
+
+				array_push( $attributes, $obj );
+				array_push( $prev_dup_array, $obj->attribute_label );
+			}
+
+			foreach ( $product_taxonomies as $taxonomy ) {
+				if ( ! in_array( $taxonomy, $prev_dup_array ) ) {
+					$obj                  = new stdClass();
+					$obj->attribute_name  = $taxonomy;
+					$obj->attribute_label = $taxonomy;
+
+					array_push( $attributes, $obj );
+					array_push( $prev_dup_array, $taxonomy );
+				}
+			}
+
+			foreach ( $product_attributes as $attribute_string ) {
+				$attribute_object = maybe_unserialize( $attribute_string->meta_value );
+
+				if ( $attribute_object && ( is_object( $attribute_object ) || is_array( $attribute_object ) ) ) {
+					foreach ( $attribute_object as $attribute ) {
+						if ( ! in_array( $attribute['name'], $prev_dup_array ) ) {
+							$obj                  = new stdClass();
+							$obj->attribute_name  = $attribute['name'];
+							$obj->attribute_label = $attribute['name'];
+
+							array_push( $attributes, $obj );
+							array_push( $prev_dup_array, $attribute['name'] );
+						}
+					}
+				} else {
+					if ( $attribute_object ) {
+						wppfm_write_log_file( $attribute_object, 'debug' );
+					}
+				}
+			}
+
+			foreach ( $third_party_fields as $field_label ) {
+				if ( ! in_array( $field_label, $prev_dup_array ) ) {
+					$obj                  = new stdClass();
+					$obj->attribute_name  = $field_label;
+					$obj->attribute_label = $field_label;
+
+					array_push( $attributes, $obj );
+					array_push( $prev_dup_array, $field_label );
+				}
+			}
+
+			return $attributes;
 		}
 
 	}

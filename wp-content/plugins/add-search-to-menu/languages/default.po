@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ivory Search\n"
-"POT-Creation-Date: 2019-11-22 18:25+0530\n"
-"PO-Revision-Date: 2019-11-22 18:25+0530\n"
+"POT-Creation-Date: 2019-12-25 20:14+0530\n"
+"PO-Revision-Date: 2019-12-25 20:14+0530\n"
 "Last-Translator: \n"
 "Language-Team: Ivory Search <admin@ivorysearch.com>\n"
 "Language: en_US\n"
@@ -524,7 +524,7 @@ msgstr ""
 msgid "Search Form Customizer"
 msgstr ""
 
-#: ../admin/class-is-editor.php:716
+#: ../admin/class-is-editor.php:716 ../public/class-is-ajax.php:67
 msgid "Nothing found"
 msgstr ""
 
@@ -668,7 +668,7 @@ msgstr ""
 msgid "Stock Status"
 msgstr ""
 
-#: ../admin/class-is-editor.php:991
+#: ../admin/class-is-editor.php:991 ../public/class-is-ajax.php:603
 msgid "Featured Icon"
 msgstr ""
 
@@ -1447,6 +1447,8 @@ msgstr ""
 
 #: ../includes/class-is-admin-public.php:183
 #: ../includes/class-is-search-form.php:449
+#: ../includes/class-is-search-form.php:489 ../public/class-is-public.php:230
+#: ../public/class-is-public.php:273
 msgid "Search"
 msgstr ""
 
@@ -1518,34 +1520,34 @@ msgstr ""
 msgid "Select Search Form"
 msgstr ""
 
-#: ../public/class-is-ajax.php:75
+#: ../public/class-is-ajax.php:69
 msgid "More results"
 msgstr ""
 
-#: ../public/class-is-ajax.php:94 ../public/class-is-ajax.php:495
+#: ../public/class-is-ajax.php:97 ../public/class-is-ajax.php:498
 msgid "Tag"
 msgstr ""
 
-#: ../public/class-is-ajax.php:104 ../public/class-is-ajax.php:493
+#: ../public/class-is-ajax.php:107 ../public/class-is-ajax.php:496
 msgid "Category"
 msgstr ""
 
-#: ../public/class-is-ajax.php:674
+#: ../public/class-is-ajax.php:677
 msgid "<i>Tagged with:</i> "
 msgstr ""
 
-#: ../public/class-is-ajax.php:699
+#: ../public/class-is-ajax.php:702
 msgid "<i>Categories:</i> "
 msgstr ""
 
-#: ../public/class-is-ajax.php:760
+#: ../public/class-is-ajax.php:763
 msgid "In stock"
 msgstr ""
 
-#: ../public/class-is-ajax.php:760
+#: ../public/class-is-ajax.php:763
 msgid "Out of stock"
 msgstr ""
 
-#: ../public/class-is-ajax.php:827
+#: ../public/class-is-ajax.php:830
 msgid "Sale!"
 msgstr ""
