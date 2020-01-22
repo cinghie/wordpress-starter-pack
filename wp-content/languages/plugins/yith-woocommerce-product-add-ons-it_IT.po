@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Product Add-Ons - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-09-06 20:34:00+0000\n"
+"PO-Revision-Date: 2019-12-19 11:23:11+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,26 @@ msgstr ""
 "X-Generator: GlotPress/2.4.0-alpha\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Product Add-Ons - Stable (latest release)\n"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:46
+msgid "Output IP Address"
+msgstr "Indirizzo IP (output)"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:38
+msgid "Site URL"
+msgstr "URL del sito"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:160
+msgid "<b>ImageMagick</b> module is not installed. Ask your hosting company to install it."
+msgstr " Il modulo <b>ImageMagick</b> non è installato. Chiedo al tuo servizio hosting di installarlo. "
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:157
+msgid "We cannot determine which <b>TLS</b> version is installed because <b>cURL</b> module is disabled. Ask your hosting company to enable it."
+msgstr "Non è stato possibile determinare quale versione <b>TLS</b> è installata in quanto il modulo <b>cURL</b> è disattivato. Chiedi al tuo servizio hosting di attivarlo."
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:82
+msgid "N/A"
+msgstr "N/A"
 
 #: plugin-options/general-options.php:292
 msgid "Select this option if the add-ons don't appear 7up themes product page"
@@ -19,65 +39,66 @@ msgstr "Seleziona questa opzione se gli add-on non vengono mostrati nella pagina
 msgid "7up themes"
 msgstr "Temi 7up"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:133
+#: plugin-fw/templates/sysinfo/system-information-panel.php:193
 msgid "Back to top"
 msgstr "Torna su"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:116
+#: plugin-fw/templates/sysinfo/system-information-panel.php:176
 msgid "Back to System panel"
 msgstr "Torna al pannello del sistema"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:112
+#: plugin-fw/templates/sysinfo/system-information-panel.php:172
 msgid "Show full PHPInfo"
 msgstr "Mostra PHPInfo"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:91
-#: plugin-fw/templates/sysinfo/system-information-panel.php:105
+#: plugin-fw/templates/sysinfo/system-information-panel.php:102
+#: plugin-fw/templates/sysinfo/system-information-panel.php:137
+#: plugin-fw/templates/sysinfo/system-information-panel.php:151
 msgid "Read more %s here%s or contact your hosting company in order to increase it."
 msgstr "Per approfondimenti fai clic %s qui%s o contatta il tuo hosting per aumentarlo. "
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:88
+#: plugin-fw/templates/sysinfo/system-information-panel.php:134
 msgid "Contact your hosting company in order to enable it."
 msgstr "Per attivarlo contatta il tuo servizio hosting. "
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:80
+#: plugin-fw/templates/sysinfo/system-information-panel.php:126
 msgid "Remove %s from %s file"
 msgstr "Rimuovi %s dal file %s"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:77
+#: plugin-fw/templates/sysinfo/system-information-panel.php:122
 msgid "Contact your hosting company in order to update it."
 msgstr "Contatta il tuo servizio hosting per aggiornarlo. "
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:72
+#: plugin-fw/templates/sysinfo/system-information-panel.php:116
 msgid "Update it to the latest version in order to benefit of all new features and security updates."
 msgstr "Per beneficiare di tutte le nuove funzionalità e degli aggiornamenti di sicurezza, aggiorna all'ultima versione. "
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:63
+#: plugin-fw/templates/sysinfo/system-information-panel.php:105
 msgid "%s needs at least %s version"
 msgstr "%s necessita almeno della versione %s"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:60
-#: plugin-fw/templates/sysinfo/system-information-panel.php:102
+#: plugin-fw/templates/sysinfo/system-information-panel.php:100
+#: plugin-fw/templates/sysinfo/system-information-panel.php:149
 msgid "For optimal functioning of our plugins, we suggest setting at least %s of available memory"
 msgstr "Per il funzionamento ottimale dei nostri plugin consigliamo di impostare almeno %s di memoria disponibile"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:58
+#: plugin-fw/templates/sysinfo/system-information-panel.php:98
 msgid "%s needs at least %s of available memory"
 msgstr "%s necessita almeno %s di memoria disponibile"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:56
+#: plugin-fw/templates/sysinfo/system-information-panel.php:96
 msgid "%s needs %s enabled"
 msgstr "%s necessita l'attivazione di %s"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:42
+#: plugin-fw/templates/sysinfo/system-information-panel.php:76
 msgid "Disabled"
 msgstr "Disattivato"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:42
+#: plugin-fw/templates/sysinfo/system-information-panel.php:76
 msgid "Enabled"
 msgstr "Attivato"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:17
+#: plugin-fw/templates/sysinfo/system-information-panel.php:30
 msgid "YITH System Information"
 msgstr "YITH System Information"
 
@@ -90,76 +111,72 @@ msgstr "%1$s (#%2$s &ndash; %3$s)"
 msgid "Search Customers"
 msgstr "Cerca clienti"
 
-#: plugin-fw/lib/yith-system-status.php:334
-msgid "Not installed"
-msgstr "Non installato"
-
-#: plugin-fw/lib/yith-system-status.php:283
+#: plugin-fw/lib/yith-system-status.php:292
 msgid "The system check has detected some compatibility issues on your installation. %sClick here%s to know more"
 msgstr "Il controllo del sistema ha rilevato dei problemi di compatibilità sulla tua installazione. Per maggiori informazioni %sfai clic qui%s"
 
-#: plugin-fw/lib/yith-system-status.php:282
+#: plugin-fw/lib/yith-system-status.php:291
 msgid "Warning!"
 msgstr "Attenzione!"
 
-#: plugin-fw/lib/yith-system-status.php:165
+#: plugin-fw/lib/yith-system-status.php:174
 msgid "WooCommerce"
 msgstr "WooCommerce"
 
-#: plugin-fw/lib/yith-system-status.php:108
+#: plugin-fw/lib/yith-system-status.php:116
 msgid "URL FOpen"
 msgstr "URL FOpen"
 
-#: plugin-fw/lib/yith-system-status.php:107
+#: plugin-fw/lib/yith-system-status.php:115
 msgid "OPCache Save Comments"
 msgstr "OPCache Save Comments"
 
-#: plugin-fw/lib/yith-system-status.php:106
+#: plugin-fw/lib/yith-system-status.php:114
 msgid "Iconv Module"
 msgstr "Iconv Module"
 
-#: plugin-fw/lib/yith-system-status.php:105
+#: plugin-fw/lib/yith-system-status.php:113
 msgid "GD Library"
 msgstr "GD Library"
 
-#: plugin-fw/lib/yith-system-status.php:104
+#: plugin-fw/lib/yith-system-status.php:112
 msgid "ImageMagick Version"
 msgstr "ImageMagick Version"
 
-#: plugin-fw/lib/yith-system-status.php:103
+#: plugin-fw/lib/yith-system-status.php:111
 msgid "MultiByte String"
 msgstr "MultiByte String"
 
-#: plugin-fw/lib/yith-system-status.php:102
+#: plugin-fw/lib/yith-system-status.php:110
 msgid "SimpleXML"
 msgstr "SimpleXML"
 
-#: plugin-fw/lib/yith-system-status.php:101
+#: plugin-fw/lib/yith-system-status.php:109
 msgid "WordPress Cron"
 msgstr "WordPress Cron"
 
-#: plugin-fw/lib/yith-system-status.php:100
+#: plugin-fw/lib/yith-system-status.php:108
 msgid "TLS Version"
 msgstr "Versione TLS"
 
-#: plugin-fw/lib/yith-system-status.php:99
+#: plugin-fw/lib/yith-system-status.php:107
 msgid "PHP Version"
 msgstr "Versione PHP"
 
-#: plugin-fw/lib/yith-system-status.php:98
+#: plugin-fw/lib/yith-system-status.php:106
 msgid "Available Memory"
 msgstr "Memoria disponibile"
 
-#: plugin-fw/lib/yith-system-status.php:97
+#: plugin-fw/lib/yith-system-status.php:105
 msgid "WooCommerce Version"
 msgstr "Versione WooCommerce"
 
-#: plugin-fw/lib/yith-system-status.php:96
+#: plugin-fw/lib/yith-system-status.php:104
 msgid "WordPress Version"
 msgstr "Versione WordPress"
 
-#: plugin-fw/lib/yith-system-status.php:89
-#: plugin-fw/lib/yith-system-status.php:90
+#: plugin-fw/lib/yith-system-status.php:97
+#: plugin-fw/lib/yith-system-status.php:98
 msgid "System Status"
 msgstr "Stato del sistema"
 
@@ -325,8 +342,8 @@ msgstr "componenti aggiuntivi"
 msgid "Priority Order"
 msgstr "Priorità dell'ordinamento"
 
-#: templates/admin/yith-wapo-group.php:29
 #: templates/admin/yith-wapo-groups.php:143
+#: templates/admin/yith-wapo-group.php:29
 msgid "Manage Add-ons"
 msgstr "Gestisci componenti aggiuntivi"
 
@@ -362,9 +379,9 @@ msgstr "Salva questo componente aggiuntivo"
 msgid "Add new option"
 msgstr "Aggiungi nuova opzione"
 
-#: templates/admin/yith-wapo-form-option-type.php:262
-#: templates/admin/yith-wapo-group-addons.php:102
 #: templates/admin/yith-wapo-groups.php:146
+#: templates/admin/yith-wapo-group-addons.php:102
+#: templates/admin/yith-wapo-form-option-type.php:262
 msgid "Duplicate"
 msgstr "Duplica"
 
@@ -380,8 +397,8 @@ msgstr "Moltiplicato per la lunghezza della stringa dell'opzione"
 msgid "Multiplied by option numeric value"
 msgstr "Moltiplicato per il valore numerico dell'opzione"
 
-#: templates/admin/yith-wapo-form-option-type.php:233
 #: templates/admin/yith-wapo-new-option.php:34
+#: templates/admin/yith-wapo-form-option-type.php:233
 msgid "% markup"
 msgstr "% ricarico"
 
@@ -389,13 +406,13 @@ msgstr "% ricarico"
 msgid "Fixed"
 msgstr "Fisso"
 
-#: templates/admin/yith-wapo-form-option-type.php:230
 #: templates/admin/yith-wapo-new-option.php:31
+#: templates/admin/yith-wapo-form-option-type.php:230
 msgid "Amount"
 msgstr "Importo"
 
-#: templates/admin/yith-wapo-form-option-type.php:218
 #: templates/admin/yith-wapo-new-option.php:19
+#: templates/admin/yith-wapo-form-option-type.php:218
 msgid "Placeholder"
 msgstr "Segnaposto"
 
@@ -555,11 +572,11 @@ msgstr "Mostra il prezzo del prodotto nalla pagina carrello"
 msgid "Select Options"
 msgstr "Seleziona le opzioni"
 
-#: plugin-fw/yit-plugin.php:193
+#: plugin-fw/yit-plugin.php:194
 msgid "License"
 msgstr "Licenza"
 
-#: plugin-fw/yit-plugin.php:189
+#: plugin-fw/yit-plugin.php:190
 msgctxt "Action links"
 msgid "Settings"
 msgstr "Impostazioni"
@@ -712,8 +729,8 @@ msgctxt "notice on admin order item meta"
 msgid "* Sold invidually"
 msgstr "* Venduto singolarmente"
 
-#: includes/classes/class.yith-wapo-frontend.php:266
 #: includes/integrations/class.divi-et-builder_module.php:26
+#: includes/classes/class.yith-wapo-frontend.php:266
 msgid "This is not a product page!"
 msgstr "Questa non è una pagina prodotto!"
 
@@ -914,13 +931,13 @@ msgstr "Modifica"
 msgid "All"
 msgstr "Tutto"
 
-#: templates/admin/yith-wapo-form-option-type.php:175
 #: templates/admin/yith-wapo-groups.php:64
+#: templates/admin/yith-wapo-form-option-type.php:175
 msgid "Actions"
 msgstr "Azioni"
 
-#: templates/admin/yith-wapo-group.php:92
 #: templates/admin/yith-wapo-groups.php:60
+#: templates/admin/yith-wapo-group.php:92
 msgid "Vendor"
 msgstr "Venditore"
 
@@ -969,8 +986,8 @@ msgstr "Solo per gli amministratori"
 msgid "Hidden"
 msgstr "Nascosto"
 
-#: templates/admin/yith-wapo-group.php:102
 #: templates/admin/yith-wapo-groups.php:62
+#: templates/admin/yith-wapo-group.php:102
 msgid "Visibility"
 msgstr "Visibilità"
 
@@ -978,14 +995,15 @@ msgstr "Visibilità"
 msgid "Priority"
 msgstr "Priorità"
 
-#: templates/admin/yith-wapo-group.php:56 includes/functions/yith-wapo.php:83
+#: templates/admin/yith-wapo-group.php:56
 #: includes/classes/class.yith-wapo-admin.php:990
 #: includes/classes/class.yith-wapo-admin.php:1013
+#: includes/functions/yith-wapo.php:83
 msgid "Applied to..."
 msgstr "Applicato a..."
 
-#: templates/admin/yith-wapo-group.php:49
 #: templates/admin/yith-wapo-groups.php:56
+#: templates/admin/yith-wapo-group.php:49
 msgid "Products"
 msgstr "Prodotti"
 
@@ -1003,8 +1021,8 @@ msgstr "Aggiungi nuovo"
 msgid "New group"
 msgstr "Nuovo gruppo"
 
-#: templates/admin/yith-wapo-group.php:28
 #: templates/admin/yith-wapo-group-addons.php:31
+#: templates/admin/yith-wapo-group.php:28
 #: includes/classes/class.yith-wapo-admin.php:544
 #: includes/classes/class.yith-wapo-admin.php:602
 msgid "Group"
@@ -1019,33 +1037,33 @@ msgstr "Annulla"
 msgid "Fixed amount"
 msgstr "Importo fisso"
 
-#: templates/admin/yith-wapo-form-option-type.php:243
 #: templates/admin/yith-wapo-new-option.php:44
+#: templates/admin/yith-wapo-form-option-type.php:243
 msgid "Max"
 msgstr "Max"
 
-#: templates/admin/yith-wapo-form-option-type.php:239
 #: templates/admin/yith-wapo-new-option.php:40
+#: templates/admin/yith-wapo-form-option-type.php:239
 msgid "Min"
 msgstr "Min"
 
-#: templates/admin/yith-wapo-form-option-type.php:226
 #: templates/admin/yith-wapo-new-option.php:27
+#: templates/admin/yith-wapo-form-option-type.php:226
 msgid "Price"
 msgstr "Prezzo"
 
-#: templates/admin/yith-wapo-form-option-type.php:210
 #: templates/admin/yith-wapo-new-option.php:11
+#: templates/admin/yith-wapo-form-option-type.php:210
 msgid "Option Label"
 msgstr "Etichetta opzione"
 
-#: templates/admin/yith-wapo-form-option-type.php:139
-#: templates/admin/yith-wapo-form-option-type.php:214
+#: templates/admin/yith-wapo-new-option.php:15
 #: templates/admin/yith-wccl-description-field.php:19
 #: templates/admin/yith-wccl-description-field.php:30
-#: templates/admin/yith-wapo-new-option.php:15
 #: templates/admin/description-field.php:19
 #: templates/admin/description-field.php:30
+#: templates/admin/yith-wapo-form-option-type.php:139
+#: templates/admin/yith-wapo-form-option-type.php:214
 msgid "Description"
 msgstr "Descrizione"
 
@@ -1121,60 +1139,60 @@ msgstr "Nome della cartella di caricamento"
 msgid "Uploading options"
 msgstr "Opzioni di caricamento"
 
-#: plugin-options/general-options.php:202
 #: plugin-options/variations-options.php:73
+#: plugin-options/general-options.php:202
 msgid "Tooltip text color"
 msgstr "Colore testo del tooltip"
 
-#: plugin-options/general-options.php:196
-#: plugin-options/general-options.php:203
 #: plugin-options/variations-options.php:66
 #: plugin-options/variations-options.php:74
+#: plugin-options/general-options.php:196
+#: plugin-options/general-options.php:203
 msgid "Pick a color"
 msgstr "Scegli un colore"
 
-#: plugin-options/general-options.php:195
 #: plugin-options/variations-options.php:65
+#: plugin-options/general-options.php:195
 msgid "Tooltip background"
 msgstr "Sfondo del tooltip"
 
-#: plugin-options/general-options.php:225
 #: plugin-options/variations-options.php:58
+#: plugin-options/general-options.php:225
 msgid "Slide in"
 msgstr "Scorrimento"
 
-#: plugin-options/general-options.php:224
 #: plugin-options/variations-options.php:57
+#: plugin-options/general-options.php:224
 msgid "Fade in"
 msgstr "Dissolvenza"
 
-#: plugin-options/general-options.php:221
 #: plugin-options/variations-options.php:54
+#: plugin-options/general-options.php:221
 msgid "Select tooltip animation"
 msgstr "Seleziona l'animazione del tooltip"
 
-#: plugin-options/general-options.php:220
 #: plugin-options/variations-options.php:53
+#: plugin-options/general-options.php:220
 msgid "Tooltip animation"
 msgstr "Animazione tooltip"
 
-#: plugin-options/general-options.php:214
 #: plugin-options/variations-options.php:46
+#: plugin-options/general-options.php:214
 msgid "Bottom"
 msgstr "In basso"
 
-#: plugin-options/general-options.php:213
 #: plugin-options/variations-options.php:45
+#: plugin-options/general-options.php:213
 msgid "Top"
 msgstr "In alto"
 
-#: plugin-options/general-options.php:210
 #: plugin-options/variations-options.php:42
+#: plugin-options/general-options.php:210
 msgid "Select tooltip position"
 msgstr "Seleziona la posizione del tooltip"
 
-#: plugin-options/general-options.php:209
 #: plugin-options/variations-options.php:41
+#: plugin-options/general-options.php:209
 msgid "Tooltip position"
 msgstr "Posizione del tooltip"
 
@@ -1182,12 +1200,12 @@ msgstr "Posizione del tooltip"
 msgid "Enable tooltip"
 msgstr "Attiva tooltip"
 
-#: templates/admin/yith-wapo-form-option-type.php:222
+#: plugin-options/general-options.php:167
 #: templates/admin/yith-wapo-new-option.php:23
+#: templates/admin/yith-wapo-form-option-type.php:222
 #: includes/classes/class.yith-wccl-admin.php:456
 #: includes/classes/class.yith-wccl-admin.php:485
 #: includes/classes/class.yith-wccl-admin.php:780
-#: plugin-options/general-options.php:167
 msgid "Tooltip"
 msgstr "Tooltip"
 
@@ -1203,10 +1221,10 @@ msgstr "Mostra le descrizioni dei componenti aggiuntivi"
 msgid "Show add-on titles"
 msgstr "Mostra i titoli dei componenti aggiuntivi"
 
+#: plugin-options/general-options.php:76
 #: templates/admin/yith-wapo-groups.php:55
 #: includes/classes/class.yith-wapo-admin.php:242
 #: includes/classes/class.yith-wapo-admin.php:243
-#: plugin-options/general-options.php:76
 msgid "Add-ons"
 msgstr "Componenti aggiuntivi"
 
@@ -1226,16 +1244,16 @@ msgstr "Dopo il pulsante \"Aggiungi al carrello\""
 msgid "Before \"Add to cart\" button"
 msgstr "Prima del pulsante \"Aggiungi al carrello\""
 
-#: plugin-options/general-options.php:17
 #: plugin-options/variations-options.php:97
+#: plugin-options/general-options.php:17
 msgid "Show add-ons"
 msgstr "Mostra i componenti aggiuntivi"
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:17
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:20
 msgid "Reset Defaults"
 msgstr "Ripristina impostazioni iniziali"
 
-#: plugin-fw/templates/fields/upload.php:28
+#: plugin-fw/templates/fields/upload.php:29
 msgid "Reset"
 msgstr "Reimposta"
 
@@ -1265,11 +1283,11 @@ msgstr "Nessuna barra laterale"
 msgid "Left sidebar"
 msgstr "Barra laterale sinistra"
 
-#: templates/admin/yith-wapo-form-option-type.php:264
-#: templates/admin/yith-wapo-group-addons.php:103
-#: templates/admin/yith-wapo-groups.php:149
-#: templates/admin/yith-wapo-new-option.php:59
 #: plugin-fw/templates/fields/image-gallery.php:39
+#: templates/admin/yith-wapo-new-option.php:59
+#: templates/admin/yith-wapo-groups.php:149
+#: templates/admin/yith-wapo-group-addons.php:103
+#: templates/admin/yith-wapo-form-option-type.php:264
 msgid "Delete"
 msgstr "Elimina"
 
@@ -1330,25 +1348,25 @@ msgstr "Chiudi tutti"
 msgid "Image preview"
 msgstr "Anteprima immagine"
 
-#: plugin-fw/templates/fields/upload.php:26
 #: plugin-fw/templates/metaboxes/types/icon-list.php:70
+#: plugin-fw/templates/fields/upload.php:27
 #: plugin-fw/templates/panel/woocommerce/woocommerce-upload.php:40
 msgid "Upload"
 msgstr "Carica"
 
 #: templates/frontend/yith-wapo-group-type.php:71
-#: templates/admin/yith-wapo-form-option-type.php:210
-#: templates/admin/yith-wapo-form-option-type.php:251
-#: templates/admin/yith-wapo-group-addons.php:87
 #: templates/admin/yith-wapo-new-option.php:11
 #: templates/admin/yith-wapo-new-option.php:52
+#: templates/admin/yith-wapo-group-addons.php:87
+#: templates/admin/yith-wapo-form-option-type.php:210
+#: templates/admin/yith-wapo-form-option-type.php:251
 #: includes/classes/class.yith-wapo-admin.php:478
 #: includes/classes/class.yith-wapo-frontend.php:560
 msgid "Required"
 msgstr "Obbligatorio"
 
-#: templates/admin/yith-wapo-form-option-type.php:247
 #: templates/admin/yith-wapo-new-option.php:48
+#: templates/admin/yith-wapo-form-option-type.php:247
 msgid "Checked"
 msgstr "Selezionato"
 
@@ -1395,102 +1413,102 @@ msgstr "Da ora in poi, puoi trovare tutte le opzioni dei tuoi plugin nel menu Pl
 msgid "Plugins Activated"
 msgstr "Plugin attivati"
 
-#: plugin-fw/lib/yit-plugin-panel.php:555
+#: plugin-fw/lib/yit-plugin-panel.php:785
 msgid "Sorting successful."
 msgstr "Ordinamento effettuato con successo."
 
-#: plugin-fw/lib/yit-plugin-panel.php:554
+#: plugin-fw/lib/yit-plugin-panel.php:784
 msgid "Sorry, import is disabled."
 msgstr "Ci dispiace, l'importazione è disabilitata."
 
-#: plugin-fw/lib/yit-plugin-panel.php:553
+#: plugin-fw/lib/yit-plugin-panel.php:783
 msgid "The added file is not valid."
 msgstr "Il file aggiunto non è valido."
 
-#: plugin-fw/lib/yit-plugin-panel.php:552
+#: plugin-fw/lib/yit-plugin-panel.php:782
 msgid "An error has occurred during import. Please try again."
 msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
 
-#: plugin-fw/lib/yit-plugin-panel.php:551
+#: plugin-fw/lib/yit-plugin-panel.php:781
 msgid "Database imported correctly."
 msgstr "Database importato correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:549
-#: plugin-fw/lib/yit-plugin-panel.php:550
+#: plugin-fw/lib/yit-plugin-panel.php:779
+#: plugin-fw/lib/yit-plugin-panel.php:780
 msgid "Element updated correctly."
 msgstr "Elemento aggiornato correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:548
+#: plugin-fw/lib/yit-plugin-panel.php:778
 msgid "Element deleted correctly."
 msgstr "Elemento rimosso correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:547
+#: plugin-fw/lib/yit-plugin-panel.php:777
 msgid "Settings reset"
 msgstr "Impostazioni azzerate"
 
-#: plugin-fw/lib/yit-plugin-panel.php:546
+#: plugin-fw/lib/yit-plugin-panel.php:776
 msgid "Settings saved"
 msgstr "Impostazioni salvate"
 
-#: plugin-fw/lib/yit-plugin-panel.php:545
+#: plugin-fw/lib/yit-plugin-panel.php:775
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Per favore, inserisci un altro nome."
 
-#: plugin-fw/lib/yit-plugin-panel.php:410
-#: plugin-fw/lib/yit-plugin-subpanel.php:162
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:18
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:21
+#: plugin-fw/lib/yit-plugin-subpanel.php:157
+#: plugin-fw/lib/yit-plugin-panel.php:577
 #: includes/classes/class.yith-wapo-admin.php:386
 msgid "Are you sure?"
 msgstr "Sei sicuro?"
 
-#: plugin-fw/lib/yit-plugin-panel.php:409
-#: plugin-fw/lib/yit-plugin-subpanel.php:161
+#: plugin-fw/lib/yit-plugin-subpanel.php:156
+#: plugin-fw/lib/yit-plugin-panel.php:576
 msgid "Reset to default"
 msgstr "Ripristina configurazione predefinita"
 
-#: plugin-fw/lib/yit-plugin-panel.php:407
-#: plugin-fw/lib/yit-plugin-subpanel.php:159
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:17
+#: plugin-fw/lib/yit-plugin-subpanel.php:154
+#: plugin-fw/lib/yit-plugin-panel.php:574
 msgid "If you continue with this action, you will reset all options in this page."
 msgstr "Se prosegui con questa azione, tutte le opzioni di questa pagina saranno reimpostate."
 
-#: plugin-fw/lib/yit-plugin-panel.php:404
-#: plugin-fw/lib/yit-plugin-subpanel.php:156
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:11
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
+#: plugin-fw/lib/yit-plugin-subpanel.php:151
+#: plugin-fw/lib/yit-plugin-panel.php:571
 msgid "Save Changes"
 msgstr "Salva modifiche"
 
-#: plugin-fw/lib/yit-plugin-panel.php:344
-#: plugin-fw/lib/yit-plugin-panel.php:347
+#: plugin-fw/lib/yit-plugin-panel.php:424
+#: plugin-fw/lib/yit-plugin-panel.php:427
 msgid "How to install premium version"
 msgstr "Come installare la versione premium"
 
-#: plugin-fw/lib/yith-system-status.php:164
+#: plugin-fw/lib/yith-system-status.php:173
 msgid "YITH Plugins"
 msgstr "Plugin YITH"
 
-#: plugin-fw/lib/yit-plugin-panel.php:72
+#: plugin-fw/lib/yit-plugin-panel.php:79
 msgid "Plugin Settings"
 msgstr "Impostazioni plugin"
 
-#: plugin-fw/lib/yit-plugin-panel-wc.php:389
+#: plugin-fw/lib/yit-plugin-panel-wc.php:397
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1633
+#: plugin-fw/lib/yit-cpt-unlimited.php:1636
 msgid "Upload multiple files"
 msgstr "Carica file multipli"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1631
+#: plugin-fw/lib/yit-cpt-unlimited.php:1633
 msgid "Add %s from images"
 msgstr "Aggiungi %s dalla immagini"
 
-#: templates/admin/yith-wapo-groups.php:54
-#: plugin-fw/lib/yit-cpt-unlimited.php:1482
 #: plugin-fw/templates/fields/customtabs.php:46
 #: plugin-fw/templates/fields/customtabs.php:89
-#: includes/classes/class.yith-wccl-admin.php:769
+#: plugin-fw/lib/yit-cpt-unlimited.php:1482
+#: templates/admin/yith-wapo-groups.php:54
 #: includes/classes/class.yith-wapo-admin.php:526
+#: includes/classes/class.yith-wccl-admin.php:769
 msgid "Name"
 msgstr "Nome"
 
@@ -1559,17 +1577,17 @@ msgstr "Riscrivi"
 msgid "Layout for this %s"
 msgstr "Layout per questo %s"
 
-#: templates/admin/yith-wapo-form-option-type.php:76
-#: templates/admin/yith-wapo-group-addons.php:74
 #: plugin-fw/lib/yit-cpt-unlimited.php:1051
+#: templates/admin/yith-wapo-group-addons.php:74
+#: templates/admin/yith-wapo-form-option-type.php:76
 msgid "Type"
 msgstr "Tipo"
 
-#: templates/admin/yith-wapo-form-option-type.php:174
-#: plugin-fw/lib/yit-plugin-panel.php:73
 #: plugin-fw/lib/yit-cpt-unlimited.php:1048
 #: plugin-fw/lib/yit-cpt-unlimited.php:1196
 #: plugin-fw/lib/yit-cpt-unlimited.php:1202
+#: plugin-fw/lib/yit-plugin-panel.php:80
+#: templates/admin/yith-wapo-form-option-type.php:174
 #: includes/classes/class.yith-wccl-admin.php:185
 msgid "Settings"
 msgstr "Impostazioni"
@@ -1578,9 +1596,9 @@ msgstr "Impostazioni"
 msgid "%s Settings"
 msgstr "Impostazioni %s"
 
-#: templates/admin/yith-wapo-group.php:54
-#: templates/admin/yith-wapo-groups.php:57
 #: plugin-fw/lib/yit-cpt-unlimited.php:724
+#: templates/admin/yith-wapo-groups.php:57
+#: templates/admin/yith-wapo-group.php:54
 msgid "Categories"
 msgstr "Categorie"
 
@@ -1616,8 +1634,8 @@ msgstr "Categoria genitore"
 msgid "All Categories"
 msgstr "Tutte le categorie"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:627
 #: plugin-fw/templates/fields/ajax-terms.php:56
+#: plugin-fw/lib/yit-cpt-unlimited.php:627
 msgid "Search Categories"
 msgstr "Cerca categorie"
 
@@ -1678,7 +1696,7 @@ msgstr "Aggiungi nuovo %s"
 #: plugin-fw/lib/yit-cpt-unlimited.php:460
 #: plugin-fw/lib/yit-cpt-unlimited.php:574
 #: plugin-fw/lib/yit-cpt-unlimited.php:719
-#: plugin-fw/lib/yit-cpt-unlimited.php:1632
+#: plugin-fw/lib/yit-cpt-unlimited.php:1634
 msgid "Add %s"
 msgstr "Aggiungi %s"
 
@@ -1751,7 +1769,7 @@ msgstr "Product Add-Ons"
 msgid "Premium Version"
 msgstr "Versione premium"
 
-#: includes/classes/class.yith-wapo-admin.php:148
 #: plugin-options/general-options.php:11
+#: includes/classes/class.yith-wapo-admin.php:148
 msgid "General"
 msgstr "Generale"

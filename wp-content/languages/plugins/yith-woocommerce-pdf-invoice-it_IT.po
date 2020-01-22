@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce PDF Invoice and Shipping List - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-09-06 19:53:42+0000\n"
+"PO-Revision-Date: 2019-12-19 11:03:28+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,42 @@ msgstr ""
 "X-Generator: GlotPress/2.4.0-alpha\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce PDF Invoice and Shipping List - Stable (latest release)\n"
+
+#: plugin-fw/lib/yit-plugin-panel.php:1237
+msgid ":) Thanks!"
+msgstr ":) Grazie!"
+
+#: plugin-fw/lib/yit-plugin-panel.php:1236
+msgid "help us by leaving a five-star rating"
+msgstr "aiutaci lasciando una valutazione 5 stelle"
+
+#: plugin-fw/lib/yit-plugin-panel.php:1234
+msgid "to keep updating and improving the plugin. Please,"
+msgstr "per continuare ad aggiornare e a migliorare il plugin. Per favore,"
+
+#: plugin-fw/lib/yit-plugin-panel.php:1233
+msgid "We need your support"
+msgstr "Abbiamo bisogno del tuo supporto"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:46
+msgid "Output IP Address"
+msgstr "Indirizzo IP (output)"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:38
+msgid "Site URL"
+msgstr "URL del sito"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:160
+msgid "<b>ImageMagick</b> module is not installed. Ask your hosting company to install it."
+msgstr " Il modulo <b>ImageMagick</b> non è installato. Chiedo al tuo servizio hosting di installarlo. "
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:157
+msgid "We cannot determine which <b>TLS</b> version is installed because <b>cURL</b> module is disabled. Ask your hosting company to enable it."
+msgstr "Non è stato possibile determinare quale versione <b>TLS</b> è installata in quanto il modulo <b>cURL</b> è disattivato. Chiedi al tuo servizio hosting di attivarlo."
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:82
+msgid "N/A"
+msgstr "N/A"
 
 #: templates/admin/premium.php:399
 msgid "Quick and easy option to apply a change to multiple orders at once. If you have made a change that needs to be applied to all orders, you can select them and use the %1$s(re)generate invoice%2$s option to bulk apply all changes."
@@ -27,76 +63,72 @@ msgstr "Puoi cambiare facilmente i colori dei documenti per adattare allo stile 
 msgid "Template color selectors"
 msgstr "Selettori colore del template"
 
-#: plugin-fw/lib/yith-system-status.php:326
-msgid "Not installed"
-msgstr "Non installato"
-
-#: plugin-fw/lib/yith-system-status.php:283
+#: plugin-fw/lib/yith-system-status.php:292
 msgid "The system check has detected some compatibility issues on your installation. %sClick here%s to know more"
 msgstr "Il controllo del sistema ha rilevato dei problemi di compatibilità sulla tua installazione. Per maggiori informazioni %sfai clic qui%s"
 
-#: plugin-fw/lib/yith-system-status.php:282
+#: plugin-fw/lib/yith-system-status.php:291
 msgid "Warning!"
 msgstr "Attenzione!"
 
-#: plugin-fw/lib/yith-system-status.php:165
+#: plugin-fw/lib/yith-system-status.php:174
 msgid "WooCommerce"
 msgstr "WooCommerce"
 
-#: plugin-fw/lib/yith-system-status.php:108
+#: plugin-fw/lib/yith-system-status.php:116
 msgid "URL FOpen"
 msgstr "URL FOpen"
 
-#: plugin-fw/lib/yith-system-status.php:107
+#: plugin-fw/lib/yith-system-status.php:115
 msgid "OPCache Save Comments"
 msgstr "OPCache Save Comments"
 
-#: plugin-fw/lib/yith-system-status.php:106
+#: plugin-fw/lib/yith-system-status.php:114
 msgid "Iconv Module"
 msgstr "Iconv Module"
 
-#: plugin-fw/lib/yith-system-status.php:105
+#: plugin-fw/lib/yith-system-status.php:113
 msgid "GD Library"
 msgstr "GD Library"
 
-#: plugin-fw/lib/yith-system-status.php:104
+#: plugin-fw/lib/yith-system-status.php:112
 msgid "ImageMagick Version"
 msgstr "ImageMagick Version"
 
-#: plugin-fw/lib/yith-system-status.php:103
+#: plugin-fw/lib/yith-system-status.php:111
 msgid "MultiByte String"
 msgstr "MultiByte String"
 
-#: plugin-fw/lib/yith-system-status.php:102
+#: plugin-fw/lib/yith-system-status.php:110
 msgid "SimpleXML"
 msgstr "SimpleXML"
 
-#: plugin-fw/lib/yith-system-status.php:101
+#: plugin-fw/lib/yith-system-status.php:109
 msgid "WordPress Cron"
 msgstr "WordPress Cron"
 
-#: plugin-fw/lib/yith-system-status.php:100
+#: plugin-fw/lib/yith-system-status.php:108
 msgid "TLS Version"
 msgstr "Versione TLS"
 
-#: plugin-fw/lib/yith-system-status.php:99
+#: plugin-fw/lib/yith-system-status.php:107
 msgid "PHP Version"
 msgstr "Versione PHP"
 
-#: plugin-fw/lib/yith-system-status.php:98
+#: plugin-fw/lib/yith-system-status.php:106
 msgid "Available Memory"
 msgstr "Memoria disponibile"
 
-#: plugin-fw/lib/yith-system-status.php:97
+#: plugin-fw/lib/yith-system-status.php:105
 msgid "WooCommerce Version"
 msgstr "Versione WooCommerce"
 
-#: plugin-fw/lib/yith-system-status.php:96
+#: plugin-fw/lib/yith-system-status.php:104
 msgid "WordPress Version"
 msgstr "Versione WordPress"
 
-#: plugin-fw/lib/yith-system-status.php:89
-#: plugin-fw/lib/yith-system-status.php:90
+#: plugin-fw/lib/yith-system-status.php:97
+#: plugin-fw/lib/yith-system-status.php:98
 msgid "System Status"
 msgstr "Stato del sistema"
 
@@ -109,65 +141,66 @@ msgstr "%1$s (#%2$s &ndash; %3$s)"
 msgid "Search Customers"
 msgstr "Cerca clienti"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:133
+#: plugin-fw/templates/sysinfo/system-information-panel.php:193
 msgid "Back to top"
 msgstr "Torna su"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:116
+#: plugin-fw/templates/sysinfo/system-information-panel.php:176
 msgid "Back to System panel"
 msgstr "Torna al pannello del sistema"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:112
+#: plugin-fw/templates/sysinfo/system-information-panel.php:172
 msgid "Show full PHPInfo"
 msgstr "Mostra PHPInfo"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:91
-#: plugin-fw/templates/sysinfo/system-information-panel.php:105
+#: plugin-fw/templates/sysinfo/system-information-panel.php:102
+#: plugin-fw/templates/sysinfo/system-information-panel.php:137
+#: plugin-fw/templates/sysinfo/system-information-panel.php:151
 msgid "Read more %s here%s or contact your hosting company in order to increase it."
 msgstr "Per approfondimenti fai clic %s qui%s o contatta il tuo hosting per aumentarlo. "
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:88
+#: plugin-fw/templates/sysinfo/system-information-panel.php:134
 msgid "Contact your hosting company in order to enable it."
 msgstr "Per attivarlo contatta il tuo servizio hosting. "
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:80
+#: plugin-fw/templates/sysinfo/system-information-panel.php:126
 msgid "Remove %s from %s file"
 msgstr "Rimuovi %s dal file %s"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:77
+#: plugin-fw/templates/sysinfo/system-information-panel.php:122
 msgid "Contact your hosting company in order to update it."
 msgstr "Contatta il tuo servizio hosting per aggiornarlo. "
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:72
+#: plugin-fw/templates/sysinfo/system-information-panel.php:116
 msgid "Update it to the latest version in order to benefit of all new features and security updates."
 msgstr "Per beneficiare di tutte le nuove funzionalità e degli aggiornamenti di sicurezza, aggiorna all'ultima versione. "
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:63
+#: plugin-fw/templates/sysinfo/system-information-panel.php:105
 msgid "%s needs at least %s version"
 msgstr "%s necessita almeno della versione %s"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:60
-#: plugin-fw/templates/sysinfo/system-information-panel.php:102
+#: plugin-fw/templates/sysinfo/system-information-panel.php:100
+#: plugin-fw/templates/sysinfo/system-information-panel.php:149
 msgid "For optimal functioning of our plugins, we suggest setting at least %s of available memory"
 msgstr "Per il funzionamento ottimale dei nostri plugin consigliamo di impostare almeno %s di memoria disponibile"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:58
+#: plugin-fw/templates/sysinfo/system-information-panel.php:98
 msgid "%s needs at least %s of available memory"
 msgstr "%s necessita almeno %s di memoria disponibile"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:56
+#: plugin-fw/templates/sysinfo/system-information-panel.php:96
 msgid "%s needs %s enabled"
 msgstr "%s necessita l'attivazione di %s"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:42
+#: plugin-fw/templates/sysinfo/system-information-panel.php:76
 msgid "Disabled"
 msgstr "Disattivato"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:42
+#: plugin-fw/templates/sysinfo/system-information-panel.php:76
 msgid "Enabled"
 msgstr "Attivato"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:17
+#: plugin-fw/templates/sysinfo/system-information-panel.php:30
 msgid "YITH System Information"
 msgstr "YITH System Information"
 
@@ -240,11 +273,11 @@ msgstr "YITH"
 msgid "<code><strong>YITH WooCommerce PDF Invoice and Shipping List</strong></code> generate PDF invoices, credit notes, pro-forma invoice and packing slip for WooCommerce orders. Set manual or automatic invoice generation, fully customizable document template and sync with your DropBox account. <a href=\"https://yithemes.com/\" target=\"_blank\">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>."
 msgstr "<code><strong>YITH WooCommerce PDF Invoice and Shipping List</strong></code> genera fatture in PDF, note di credito, fatture proforma e documenti di trasporto per gli ordini di WooCommerce. Puoi generare le fatture manualmente o automaticamente, personalizzare totalmente il template dei documenti e sincronizzare il tuo account DropBox. <a href=\"https://yithemes.com/\" target=\"_blank\">Ottieni più plugin per il tuo e-commerce su <strong>YITH</strong></a>."
 
-#: plugin-fw/yit-plugin.php:193
+#: plugin-fw/yit-plugin.php:194
 msgid "License"
 msgstr "Licenza"
 
-#: plugin-fw/yit-plugin.php:189
+#: plugin-fw/yit-plugin.php:190
 msgctxt "Action links"
 msgid "Settings"
 msgstr "Impostazioni"
@@ -339,8 +372,8 @@ msgstr "Utilizzando il plugin con YITH WooCommerce Order Tracking potrai inserir
 msgid "Order tracking data"
 msgstr "Dati di tracciamento dell'ordine"
 
-#: plugin-fw/lib/yit-plugin-panel.php:344
-#: plugin-fw/lib/yit-plugin-panel.php:347
+#: plugin-fw/lib/yit-plugin-panel.php:424
+#: plugin-fw/lib/yit-plugin-panel.php:427
 msgid "How to install premium version"
 msgstr "Come installare la versione premium"
 
@@ -466,11 +499,11 @@ msgstr "AGGIORNA"
 msgid "Upgrade to %1$spremium version%2$s of %1$sYITH WooCommerce PDF Invoice and Shipping List%2$s to benefit from all features!"
 msgstr "Aggiorna alla %1$sversione premium%2$s di %1$sYITH WooCommerce PDF Invoice and Shipping List%2$s per usufruire di tutte le funzionalità!"
 
-#: plugin-options/documents-options.php:122
+#: plugin-options/documents-options.php:125
 msgid "PDF invoice button behaviour:"
 msgstr "Comportamento del pulsante fattura PDF"
 
-#: plugin-fw/templates/fields/upload.php:28
+#: plugin-fw/templates/fields/upload.php:29
 msgid "Reset"
 msgstr "Reimposta"
 
@@ -620,87 +653,87 @@ msgstr "Mostra il nome dell'azienda"
 msgid "Invoice template settings"
 msgstr "Impostazioni template della fattura"
 
-#: plugin-options/documents-options.php:136
+#: plugin-options/documents-options.php:140
 msgid "Add buttons for shipping list document generation."
 msgstr "Aggiungi pulsanti per la creazione del documento di consegna. "
 
-#: plugin-options/documents-options.php:133
+#: plugin-options/documents-options.php:137
 msgid "Enable shipping list"
 msgstr "Attiva documento di consegna"
 
-#: plugin-options/documents-options.php:116
+#: plugin-options/documents-options.php:119
 msgid "For completed order."
 msgstr "Per ordine completato. "
 
-#: plugin-options/documents-options.php:115
+#: plugin-options/documents-options.php:118
 msgid "For processing order."
 msgstr "Per ordine in lavorazione."
 
-#: plugin-options/documents-options.php:114
+#: plugin-options/documents-options.php:117
 msgid "For new order."
 msgstr "Per nuovo ordine. "
 
-#: plugin-options/documents-options.php:110
+#: plugin-options/documents-options.php:112
 msgid "Generate invoice automatically:"
 msgstr "Genera fattura automaticamente:"
 
-#: plugin-options/documents-options.php:99
+#: plugin-options/documents-options.php:100
 msgid "Invoice generation"
 msgstr "Creazione fattura"
 
-#: plugin-options/documents-options.php:95
+#: plugin-options/documents-options.php:96
 msgid "Set date format as it should appear on invoices."
 msgstr "Imposta il formato data come dovrebbe apparire nelle fatture. "
 
-#: plugin-options/documents-options.php:92
+#: plugin-options/documents-options.php:93
 msgid "Invoice date format"
 msgstr "Formato data fattura"
 
-#: plugin-options/documents-options.php:88
+#: plugin-options/documents-options.php:89
 msgid "Set restart from 1 on 1st January."
 msgstr "Imposta l'azzeramento ogni 1 gennaio."
 
-#: plugin-options/documents-options.php:85
+#: plugin-options/documents-options.php:86
 msgid "Reset on 1st January"
 msgstr "Azzera l'1 gennaio"
 
-#: plugin-options/documents-options.php:81
+#: plugin-options/documents-options.php:82
 msgid "Set format for invoice number. Use [number], [prefix] and [suffix] as placeholders"
 msgstr "Imposta il formato per il numero fattura. Utilizza [number], [prefix] e [suffix] come segnaposto "
 
-#: plugin-options/documents-options.php:78
+#: plugin-options/documents-options.php:79
 msgid "Invoice number format"
 msgstr "Formato numero fattura"
 
-#: plugin-options/documents-options.php:75
+#: plugin-options/documents-options.php:76
 msgid "Set a text to be used as suffix in invoice number. Leave it blank if no suffix has to be used"
 msgstr "Imposta un testo da utilizzare come suffisso nel numero fattura. Lascia vuoto se non deve essere utilizzato nessun suffisso"
 
-#: plugin-options/documents-options.php:72
+#: plugin-options/documents-options.php:73
 msgid "Invoice suffix"
 msgstr "Suffisso fattura"
 
-#: plugin-options/documents-options.php:69
+#: plugin-options/documents-options.php:70
 msgid "Set a text to be used as prefix in invoice number. Leave it blank if no prefix has to be used"
 msgstr "Imposta un testo da utilizzare come prefisso nel numero fattura. Lascia vuoto se non deve essere utilizzato nessun prefisso"
 
-#: plugin-options/documents-options.php:66
+#: plugin-options/documents-options.php:67
 msgid "Invoice prefix"
 msgstr "Prefisso fattura"
 
-#: plugin-options/documents-options.php:60
+#: plugin-options/documents-options.php:61
 msgid "billing year"
 msgstr "anno di fatturazione"
 
-#: plugin-options/documents-options.php:56
+#: plugin-options/documents-options.php:57
 msgid "Invoice number for next invoice document."
 msgstr "Numero fattura per il prossimo documento fattura. "
 
-#: plugin-options/documents-options.php:53
+#: plugin-options/documents-options.php:54
 msgid "Next invoice number"
 msgstr "Prossimo numero fattura"
 
-#: plugin-options/documents-options.php:48
+#: plugin-options/documents-options.php:49
 msgid "Invoice settings"
 msgstr "Impostazioni fattura"
 
@@ -728,7 +761,7 @@ msgstr "Scopri le funzionalità avanzate"
 msgid "Upgrade to the PREMIUM VERSION"
 msgstr "Aggiorna alla VERSIONE PREMIUM"
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:17
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:20
 msgid "Reset Defaults"
 msgstr "Ripristina impostazioni iniziali"
 
@@ -817,8 +850,8 @@ msgstr "Chiudi tutti"
 msgid "Image preview"
 msgstr "Anteprima immagine"
 
+#: plugin-fw/templates/fields/upload.php:27
 #: plugin-fw/templates/metaboxes/types/icon-list.php:70
-#: plugin-fw/templates/fields/upload.php:26
 #: plugin-fw/templates/panel/woocommerce/woocommerce-upload.php:40
 msgid "Upload"
 msgstr "Carica"
@@ -864,93 +897,93 @@ msgstr ""
 msgid "Plugins Activated"
 msgstr "Plugin attivati"
 
-#: plugin-fw/lib/yit-plugin-panel.php:555
+#: plugin-fw/lib/yit-plugin-panel.php:785
 msgid "Sorting successful."
 msgstr "Ordinamento effettuato con successo."
 
-#: plugin-fw/lib/yit-plugin-panel.php:554
+#: plugin-fw/lib/yit-plugin-panel.php:784
 msgid "Sorry, import is disabled."
 msgstr "Ci dispiace, l'importazione è disabilitata."
 
-#: plugin-fw/lib/yit-plugin-panel.php:553
+#: plugin-fw/lib/yit-plugin-panel.php:783
 msgid "The added file is not valid."
 msgstr "Il file aggiunto non è valido."
 
-#: plugin-fw/lib/yit-plugin-panel.php:552
+#: plugin-fw/lib/yit-plugin-panel.php:782
 msgid "An error has occurred during import. Please try again."
 msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
 
-#: plugin-fw/lib/yit-plugin-panel.php:551
+#: plugin-fw/lib/yit-plugin-panel.php:781
 msgid "Database imported correctly."
 msgstr "Database importato correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:549
-#: plugin-fw/lib/yit-plugin-panel.php:550
+#: plugin-fw/lib/yit-plugin-panel.php:779
+#: plugin-fw/lib/yit-plugin-panel.php:780
 msgid "Element updated correctly."
 msgstr "Elemento aggiornato correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:548
+#: plugin-fw/lib/yit-plugin-panel.php:778
 msgid "Element deleted correctly."
 msgstr "Elemento rimosso correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:547
+#: plugin-fw/lib/yit-plugin-panel.php:777
 msgid "Settings reset"
 msgstr "Impostazioni azzerate"
 
-#: plugin-fw/lib/yit-plugin-panel.php:546
+#: plugin-fw/lib/yit-plugin-panel.php:776
 msgid "Settings saved"
 msgstr "Impostazioni salvate"
 
-#: plugin-fw/lib/yit-plugin-panel.php:545
+#: plugin-fw/lib/yit-plugin-panel.php:775
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Per favore, inserisci un altro nome."
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:18
-#: plugin-fw/lib/yit-plugin-subpanel.php:162
-#: plugin-fw/lib/yit-plugin-panel.php:410
+#: plugin-fw/lib/yit-plugin-panel.php:577
+#: plugin-fw/lib/yit-plugin-subpanel.php:157
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:21
 msgid "Are you sure?"
 msgstr "Sei sicuro?"
 
-#: plugin-fw/lib/yit-plugin-subpanel.php:161
-#: plugin-fw/lib/yit-plugin-panel.php:409
+#: plugin-fw/lib/yit-plugin-panel.php:576
+#: plugin-fw/lib/yit-plugin-subpanel.php:156
 msgid "Reset to default"
 msgstr "Ripristina configurazione predefinita"
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
-#: plugin-fw/lib/yit-plugin-subpanel.php:159
-#: plugin-fw/lib/yit-plugin-panel.php:407
+#: plugin-fw/lib/yit-plugin-panel.php:574
+#: plugin-fw/lib/yit-plugin-subpanel.php:154
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:17
 msgid "If you continue with this action, you will reset all options in this page."
 msgstr "Se prosegui con questa azione, tutte le opzioni di questa pagina saranno reimpostate."
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:11
-#: plugin-fw/lib/yit-plugin-subpanel.php:156
-#: plugin-fw/lib/yit-plugin-panel.php:404
+#: plugin-fw/lib/yit-plugin-panel.php:571
+#: plugin-fw/lib/yit-plugin-subpanel.php:151
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
 msgid "Save Changes"
 msgstr "Salva modifiche"
 
-#: plugin-fw/lib/yith-system-status.php:164
+#: plugin-fw/lib/yith-system-status.php:173
 msgid "YITH Plugins"
 msgstr "Plugin YITH"
 
-#: plugin-fw/lib/yit-plugin-panel.php:72
+#: plugin-fw/lib/yit-plugin-panel.php:79
 msgid "Plugin Settings"
 msgstr "Impostazioni plugin"
 
-#: plugin-fw/lib/yit-plugin-panel-wc.php:389
+#: plugin-fw/lib/yit-plugin-panel-wc.php:397
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1633
+#: plugin-fw/lib/yit-cpt-unlimited.php:1636
 msgid "Upload multiple files"
 msgstr "Carica file multipli"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1631
+#: plugin-fw/lib/yit-cpt-unlimited.php:1633
 msgid "Add %s from images"
 msgstr "Aggiungi %s dalla immagini"
 
+#: plugin-fw/lib/yit-cpt-unlimited.php:1482
 #: plugin-fw/templates/fields/customtabs.php:46
 #: plugin-fw/templates/fields/customtabs.php:89
-#: plugin-fw/lib/yit-cpt-unlimited.php:1482
 msgid "Name"
 msgstr "Nome"
 
@@ -1059,8 +1092,8 @@ msgstr "Categoria genitore"
 msgid "All Categories"
 msgstr "Tutte le categorie"
 
-#: plugin-fw/templates/fields/ajax-terms.php:56
 #: plugin-fw/lib/yit-cpt-unlimited.php:627
+#: plugin-fw/templates/fields/ajax-terms.php:56
 msgid "Search Categories"
 msgstr "Cerca categorie"
 
@@ -1121,32 +1154,32 @@ msgstr "Aggiungi nuovo %s"
 #: plugin-fw/lib/yit-cpt-unlimited.php:460
 #: plugin-fw/lib/yit-cpt-unlimited.php:574
 #: plugin-fw/lib/yit-cpt-unlimited.php:719
-#: plugin-fw/lib/yit-cpt-unlimited.php:1632
+#: plugin-fw/lib/yit-cpt-unlimited.php:1634
 msgid "Add %s"
 msgstr "Aggiungi %s"
 
-#: lib/class.yith-ywpi-plugin-fw-loader.php:187
+#: lib/class.yith-ywpi-plugin-fw-loader.php:190
 msgid "In YIT Plugins tab you can find YITH WooCommerce PDF Invoice and Shipping List options.<br> From this menu you can access all settings of YITH plugins activated."
 msgstr "Nella scheda Plugin YITH puoi trovare le opzioni di YITH WooCommerce PDF Invoice and Shipping List.<br> Da questo menu puoi accedere a tutte le impostazioni dei plugin YITH attivati. "
 
 #. Plugin Name of the plugin
+#: lib/class.yith-ywpi-plugin-fw-loader.php:189
 #: plugin-options/documents-options.php:24
-#: lib/class.yith-ywpi-plugin-fw-loader.php:186
 msgid "YITH WooCommerce PDF Invoice and Shipping List"
 msgstr "YITH WooCommerce PDF Invoice and Shipping List"
 
-#: lib/class.yith-ywpi-plugin-fw-loader.php:179
+#: lib/class.yith-ywpi-plugin-fw-loader.php:182
 msgid "Premium version"
 msgstr "Versione premium"
 
-#: lib/class.yith-ywpi-plugin-fw-loader.php:178
+#: lib/class.yith-ywpi-plugin-fw-loader.php:181
 msgid "YITH WooCommerce PDF Invoice and Shipping List is available in an outstanding PREMIUM version with many new options, discover it now."
 msgstr "YITH WooCommerce PDF Invoice and Shipping List è disponibile in un'eccezionale versione PREMIUM con molte nuove opzioni. Scoprila adesso. "
 
+#: plugin-fw/lib/yit-plugin-panel.php:80
 #: plugin-fw/lib/yit-cpt-unlimited.php:1048
 #: plugin-fw/lib/yit-cpt-unlimited.php:1196
 #: plugin-fw/lib/yit-cpt-unlimited.php:1202
-#: plugin-fw/lib/yit-plugin-panel.php:73
 msgid "Settings"
 msgstr "Impostazioni"
 
@@ -1174,10 +1207,10 @@ msgstr "Crea documento di consegna"
 msgid "Cancel shipping list"
 msgstr "Annulla documento di consegna"
 
-#: templates/invoice/invoice-details.php:50
 #: lib/class.yith-woocommerce-pdf-invoice.php:566
 #: lib/class.yith-woocommerce-pdf-invoice.php:569
 #: lib/class.yith-woocommerce-pdf-invoice.php:575
+#: templates/invoice/invoice-details.php:50
 msgid "Shipping"
 msgstr "Spedizioni"
 
@@ -1238,7 +1271,7 @@ msgstr "Consegna per:"
 msgid "Shipping From:"
 msgstr "Spedizione da:"
 
-#: lib/class.yith-invoice.php:295 lib/class.yith-shipping.php:192
+#: lib/class.yith-shipping.php:192 lib/class.yith-invoice.php:295
 msgid "Order Amount"
 msgstr "Importo ordine"
 
@@ -1246,7 +1279,7 @@ msgstr "Importo ordine"
 msgid "Invoice date"
 msgstr "Data fattura"
 
-#: lib/class.yith-invoice.php:286 lib/class.yith-shipping.php:183
+#: lib/class.yith-shipping.php:183 lib/class.yith-invoice.php:286
 msgid "Order"
 msgstr "Ordine"
 
