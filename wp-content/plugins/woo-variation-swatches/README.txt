@@ -6,7 +6,7 @@ Tested up to: 5.3
 Requires PHP: 5.6
 Stable tag: trunk
 WC requires at least: 3.2
-WC tested up to: 3.8
+WC tested up to: 3.9
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -40,9 +40,6 @@ In the free WooCommerce attribute variation plugin, besides creating size, brand
 👉 Enable Image Swatches For Variable Product Attribute Variations
  [Live Demo & Documentation](http://bit.ly/3rd-image-demo-swatches-readme)
  <hr />
-👉 Enable Label/Text/Button Swatches For Variable Product Attribute Variations 
-  [Live Demo & Documentation](http://bit.ly/3rd-label-demo-readme)
-<hr />
 👉 Enable Label/Text/Button Swatches For Variable Product Attribute Variations 
   [Live Demo & Documentation](http://bit.ly/3rd-label-demo-readme)
 <hr />
@@ -334,11 +331,11 @@ If you are unable to use any of the methods due to internet connectivity and fil
 Even this plugin has been installed and activated on your site, variable products will still show dropdowns if you’ve not configured product attributes.
 
 1. Log in to your WordPress dashboard, navigate to the Products menu and click Attributes.
-2. Click to attribute name to edit an exists attribute or in the Add New Attribute form you will see the default Type selector.
-3. Click to that Type selector to change attribute’s type. Besides default options Select and Text, there are more 3 options Color, Image, Button/Label to choose.
+2. Click attribute name to edit an exists attribute or in the Add New Attribute form you will see the default Type selector.
+3. Click that Type selector to change attribute’s type. Besides default options Select and Text, there are more 3 options Color, Image, Button/Label to choose.
 4. Select the suitable type for your attribute and click Save Change/Add attribute
 5. Go back to manage attributes screen. Click the cog icon on the right side of attribute to start editing terms.
-6. Start adding new terms or editing exists terms. There is will be a new option at the end of form that let you choose the color, upload image or choose as a button for those terms.
+6. Start adding new terms or editing exists terms. There will be a new option at the end of the form that allows you choose  color from colorpicker, upload image or choose as a button for those terms.
 
 = Is it compatible with any kinds of WooCommerce Theme? =
 
@@ -381,6 +378,15 @@ And your are ready to go.
 12. Global Variation Color Swatches Attribute List Preview
 
 == Changelog ==
+
+= 1.0.73 =
+
+* Fix: quickview issue
+
+= 1.0.72 =
+
+* Add: Namespace on themes events
+* Fix: WooCommerce Product bundle Issue.
 
 = 1.0.71 =
 

@@ -1,8 +1,8 @@
 /*!
- * Variation Swatches for WooCommerce v1.0.71 
+ * Variation Swatches for WooCommerce v1.0.73 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 1/5/2020, 3:32:42 PM
+ * Date: 1/26/2020, 1:49:27 PM
  * Released under the GPLv3 license.
  */
 .woo-variation-swatches-stylesheet-enabled .woo-variation-raw-select,
@@ -11,6 +11,7 @@
 }
 
 .woo-variation-swatches-stylesheet-enabled .variable-items-wrapper {
+  display: -webkit-box;
   display: flex;
   flex-wrap: wrap;
   margin: 0;
@@ -22,6 +23,7 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  -webkit-transition: all 200ms ease;
   transition: all 200ms ease;
   position: relative;
 }
@@ -67,9 +69,12 @@
 .woo-variation-swatches-stylesheet-enabled .variable-items-wrapper .variable-item:not(.radio-variable-item) {
   box-sizing: border-box;
   cursor: pointer;
+  display: -webkit-box;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+          align-items: center;
   background-color: #FFFFFF;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
   padding: 2px;

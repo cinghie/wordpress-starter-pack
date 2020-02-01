@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.3
-Stable tag: 7.2.7
+Stable tag: 7.3.6
 
 == Description ==
 
@@ -39,6 +39,9 @@ Because of a bug in WooCommerce variable products will get disapproved in Google
 
 = Add critical Google Shopping Feed fields to your store =
 Google requires you to add certain fields to the feed you create for Google Shopping. However not all of the required fields are present in WooCommerce. Our plugin add's these fields / attributes for you so you can create a product feed that meets Google's requirements. The plugin will add the following product input fields for you: Brand, GTIN, UPC, MPN, EAN, Product condition (New, Refurbished, Used) unit pricing measure, unit pricing base measure, installment and an Optimised title field.
+
+= Performance based =
+Only add products to your feed that had sales before in a given time-range. This will make your campaigns more profitable.
 
 = Custom Fields =
 Add custom fields with naming you require and fill it with static or dynamic values to your product feed.
@@ -308,6 +311,35 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 7.3.6 (2020-01-30) =
+* Fixed a bug where an admin notice could be closed but the state was not being saved.
+
+= 7.3.5 (2020-01-29) =
+* Fixed a bug where "empty" rules on sale prices did not work as expected. This issue has been fixed.
+
+= 7.3.4 (2020-01-28) =
+* Added new fields to the Moebel.de template.
+
+= 7.3.3 (2020-01-28) =
+* New feature: you can now decide to only allow products to your feed that have been sold before (and amounts) and indicate a time period that should be taken into account for this.
+* When a shipping method and zone was configured but no shipping cost was set an empty prices shipping node was added to feeds which caused warnings in Google's merchant center. This has been solved now.
+
+= 7.3.2 (2020-01-26) =
+* Added a new attribute to the plugin: "Total product orders" which holds the amount of times the specific product is sold. This enables you to create filters and rules on it.
+
+= 7.3.1 (2020-01-26) =
+* Fixed a shipping cost bug where the costs where multiplied with 100 for non-tax shipping cost calculations
+
+= 7.3.0 (2020-01-25) =
+* Filters on primary (Yoast) categories now also work on the non primary categories
+
+= 7.2.9 (2020-01-23) =
+* Tested for compatibility WooCommerce 3.9
+
+= 7.2.8 (2020-01-22) =
+* Added some delete option calls when plugin gets disabled or removed (cleaning up)
+* Added is dismissible state save for notice that showed after activation of plugin
 
 = 7.2.7 (2020-01-21) =
 * We forgot to apply the fix from version 7.2.6 to all plugin pages. Should be fixed now.
@@ -2304,6 +2336,35 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 7.3.6 =
+Fixed a bug where an admin notice could be closed but the state was not being saved.
+
+= 7.3.5 =
+Fixed a bug where "empty" rules on sale prices did not work as expected. This issue has been fixed.
+
+= 7.3.4 =
+Added new fields to the Moebel.de template.
+
+= 7.3.3 =
+New feature: you can now decide to only allow products to your feed that have been sold before (and amounts) and indicate a time period that should be taken into account for this.
+When a shipping method and zone was configured but no shipping cost was set an empty prices shipping node was added to feeds which caused warnings in Google's merchant center. This has been solved now.
+
+= 7.3.2 =
+Added a new attribute to the plugin: "Total product orders" which holds the amount of times the specific product is sold. This enables you to create filters and rules on it.
+
+= 7.3.1 =
+Fixed a shipping cost bug where the costs where multiplied with 100 for non-tax shipping cost calculations
+
+= 7.3.0 =
+Filters on primary (Yoast) categories now also work on the non primary categories
+
+= 7.2.9 =
+Tested for compatibility WooCommerce 3.9
+
+= 7.2.8 =
+Added some delete option calls when plugin gets disabled or removed (cleaning up)
+Added is dismissible state save for notice that showed after activation of plugin
 
 = 7.2.7 =
 We forgot to apply the fix from version 7.2.6 to all plugin pages. Should be fixed now.

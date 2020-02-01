@@ -17,9 +17,10 @@ class WOOCCM_Order_Controller extends WOOCCM_Upload {
 
   public function frontend_scripts() {
 
-    WOOCCM()->register_scripts();
-
     if (is_account_page()) {
+
+      WOOCCM()->register_scripts();
+
       wp_enqueue_style('wooccm');
       wp_enqueue_style('dashicons');
       wp_enqueue_script('wooccm-order-upload');
@@ -28,10 +29,12 @@ class WOOCCM_Order_Controller extends WOOCCM_Upload {
 
   public function admin_scripts() {
 
-    WOOCCM()->register_scripts();
-
     if (is_admin() && $screen = get_current_screen()) {
+
       if (in_array($screen->id, array(/* 'product', 'edit-product', */'shop_order', 'edit-shop_order'))) {
+
+        WOOCCM()->register_scripts();
+
         wp_enqueue_script('wooccm-order-upload');
       }
     }

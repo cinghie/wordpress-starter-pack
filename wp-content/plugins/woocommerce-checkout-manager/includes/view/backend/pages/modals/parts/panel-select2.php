@@ -1,5 +1,5 @@
 <# if (_.contains(<?php echo json_encode(array('select', 'multiselect')); ?>, data.type)) { #>
-<div class="panel woocommerce_options_panel" <# if (data.panel != 'select2') { #>hidden<# } #>>
+<div class="panel woocommerce_options_panel <# if (data.panel != 'select2') { #>hidden<# } #>">
      <div class="options_group wooccm-premium">
     <p class="form-field">
       <label><?php esc_html_e('Select2', 'woocommerce-checkout-manager'); ?></label>

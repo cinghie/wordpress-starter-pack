@@ -1,4 +1,4 @@
-<div class="panel woocommerce_options_panel" <# if (data.panel != 'filter') { #>hidden<# } #>>
+<div class="panel woocommerce_options_panel <# if (data.panel != 'filter') { #>hidden<# } #>">
   <div class="options_group wooccm-premium wooccm-enhanced-between-days">
     <p class="form-field dimensions_field">
       <label><?php esc_html_e('Cart subtotal', 'woocommerce-checkout-manager'); ?></label>

@@ -24,7 +24,7 @@ msgstr ""
 msgid "WooCommerce Variation Swatches Settings"
 msgstr ""
 
-#: ../includes/class-wvs-settings-api.php:92, ../includes/class-wvs-settings-api.php:105, ../includes/functions.php:1618
+#: ../includes/class-wvs-settings-api.php:92, ../includes/class-wvs-settings-api.php:105, ../includes/functions.php:1621
 msgid "Swatches Settings"
 msgstr ""
 
@@ -194,9 +194,6 @@ msgstr ""
 
 #: ../includes/functions.php:319
 msgid "<span style=\"color: red\">Attribute image size changed by <code>wvs_product_attribute_image_size</code> hook. So this option will not apply any effect.</span>"
-msgstr ""
-
-#: ../includes/functions.php:319
 msgstr ""
 
 #: ../includes/functions.php:326

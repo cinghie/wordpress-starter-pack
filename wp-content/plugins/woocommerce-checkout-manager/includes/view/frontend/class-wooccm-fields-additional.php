@@ -31,27 +31,27 @@ class WOOCCM_Fields_Additional {
     }
   }
 
-  function add_order_meta($order_id = 0, $data) {
-
-    if (count($fields = WC()->checkout->get_checkout_fields('additional'))) {
-
-      foreach ($fields as $key => $field) {
-
-        if (!empty($data[$key])) {
-
-          $value = $data[$key];
-
-          if ($field['type'] == 'textarea') {
-            update_post_meta($order_id, sprintf('_%s', $key), wp_kses($value, false));
-          } else if (is_array($value)) {
-            update_post_meta($order_id, sprintf('_%s', $key), implode(',', array_map('sanitize_text_field', $value)));
-          } else {
-            update_post_meta($order_id, sprintf('_%s', $key), sanitize_text_field($value));
-          }
-        }
-      }
-    }
-  }
+//  function add_order_meta($order_id = 0, $data) {
+//
+//    if (count($fields = WC()->checkout->get_checkout_fields('additional'))) {
+//
+//      foreach ($fields as $key => $field) {
+//
+//        if (!empty($data[$key])) {
+//
+//          $value = $data[$key];
+//
+//          if ($field['type'] == 'textarea') {
+//            update_post_meta($order_id, sprintf('_%s', $key), wp_kses($value, false));
+//          } else if (is_array($value)) {
+//            update_post_meta($order_id, sprintf('_%s', $key), implode(',', array_map('sanitize_text_field', $value)));
+//          } else {
+//            update_post_meta($order_id, sprintf('_%s', $key), sanitize_text_field($value));
+//          }
+//        }
+//      }
+//    }
+//  }
 
   function add_additional_fields($checkout) {
     ?>
@@ -98,7 +98,6 @@ class WOOCCM_Fields_Additional {
 
   function init() {
     add_action('woocommerce_checkout_process', array($this, 'add_required_notice'));
-    add_action('woocommerce_checkout_update_order_meta', array($this, 'add_order_meta'), 10, 2);
 
     // Compatibility
     // -----------------------------------------------------------------------

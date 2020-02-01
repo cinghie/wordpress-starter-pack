@@ -232,7 +232,7 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 											}
 											?>
 											<span class="dashicons dashicons-arrow-right" style="display: inline-block;"></span> <a href="admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php&action=edit_project&step=4&project_hash=<?php print "$val[project_hash]";?>&channel_hash=<?php print "$val[channel_hash]";?>"><?php _e( 'Feed filters and rules','woo-product-feed-pro' );?></a><br/>
-											<span class="dashicons dashicons-arrow-right" style="display: inline-block;"></span> <a href="admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php&action=edit_project&step=5&project_hash=<?php print "$val[project_hash]";?>&channel_hash=<?php print "$val[channel_hash]";?>"><?php _e( 'Google Analytics settings' );?></a><br/>
+											<span class="dashicons dashicons-arrow-right" style="display: inline-block;"></span> <a href="admin.php?page=woo-product-feed-pro%2Fwoocommerce-sea.php&action=edit_project&step=5&project_hash=<?php print "$val[project_hash]";?>&channel_hash=<?php print "$val[channel_hash]";?>"><?php _e( 'Conversion & Google Analytics settings' );?></a><br/>
 										</td>
 									</tr>
 									<?php

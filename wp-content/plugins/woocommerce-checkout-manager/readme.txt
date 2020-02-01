@@ -2,9 +2,11 @@
 Contributors: quadlayers
 Donate link: https://quadlayers.com/
 Tags: woocommerce, woocommerce checkout, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
-Requires at least: 4.6
-Tested up to: 5.3.2
-Stable tag: 4.8.5
+Requires at least: 3.4
+Tested up to: 5.3
+Stable tag: 4.9.1
+WC requires at least: 3.0
+WC tested up to: 3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +100,24 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 10. Handle uploaded files in order admin dashboard.
 
 == Changelog ==
+
+= 4.9.1 =
+* Fix: small CSS issues
+
+= 4.9.0 =
+* Fix: woocommerce checkout fees
+
+= 4.8.9 =
+* Fix: remove woocommerce checkout order notes
+
+= 4.8.8 =
+* Fix: woocommerce variation swatches compatibility
+
+= 4.8.7 =
+* Fix: woocommerce checkout manager required fields space
+
+= 4.8.6 =
+* Fix: woocommerce checkout manager conditional field
 
 = 4.8.5 =
 * Fix: woocommerce checkout manager modal tab

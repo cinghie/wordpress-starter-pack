@@ -63,7 +63,7 @@
       field.addClass('validate-required');
       if (field.find('label .required').length === 0) {
         field.find('label').append(
-                '&nbsp;<abbr class="required" title="' +
+                '<abbr class="required" title="' +
                 wc_address_i18n_params.i18n_required_text +
                 '">*</abbr>'
                 );
@@ -72,7 +72,7 @@
       field.find('label .required').remove();
       field.removeClass('validate-required woocommerce-invalid woocommerce-invalid-required-field');
       if (field.find('label .optional').length === 0) {
-        field.find('label').append('&nbsp;<span class="optional">(' + wc_address_i18n_params.i18n_optional_text + ')</span>');
+        field.find('label').append('<span class="optional">(' + wc_address_i18n_params.i18n_optional_text + ')</span>');
       }
     }
   }
@@ -307,6 +307,7 @@
         $this.off('wooccm_change');
         $this.off('change');
         $this.off('keyup');
+        $field.trigger('change');
       });
       // dont use change event because trigger update_checkout event
       $parent.find('select:first').trigger('wooccm_change');

@@ -30,12 +30,26 @@ class WOOCCM_Fields_Conditional {
 
         // Remove required
         // -----------------------------------------------------------------
+        // On save
         if (isset($_REQUEST['woocommerce-process-checkout-nonce']) && (!isset($_POST[$field['conditional_parent_key']]) || !isset($field['conditional_parent_value']) || !array_intersect((array) $field['conditional_parent_value'], (array) $_POST[$field['conditional_parent_key']]))) {
           // Remove required attribute for hidden child fields
           $field['required'] = false;
           // Don't save hidden child fields in order
           unset($fields[$field['key']]);
           unset($_POST[$field['key']]);
+        }
+        // On update
+        if (isset($_REQUEST['post_data']) && isset($_REQUEST['wc-ajax']) && $_REQUEST['wc-ajax'] == 'update_order_review') {
+
+          $post_data = array();
+
+          parse_str($_REQUEST['post_data'], $post_data);
+
+          if (!isset($post_data[$field['conditional_parent_key']]) || !isset($field['conditional_parent_value']) || !array_intersect((array) $field['conditional_parent_value'], (array) $post_data[$field['conditional_parent_key']])) {
+            // Remove field fee
+            unset($fields[$field['key']]);
+            unset($_POST[$field['key']]);
+          }
         }
       }
     }

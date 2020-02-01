@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     7.2.7
+ * Version:     7.3.6
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -17,7 +17,7 @@
  * Domain Path: /languages
  *
  * WC requires at least: 3.0
- * WC tested up to: 3.8
+ * WC tested up to: 3.9
  *
  * Product Feed PRO for WooCommerce is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '7.2.7' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '7.3.6' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -91,6 +91,7 @@ function woosea_scripts($hook) {
 	wp_enqueue_script('jquery');
 	wp_enqueue_script('jquery-ui-dialog');
 	wp_enqueue_script('jquery-ui-calender');
+	wp_enqueue_script('jquery-ui-datepicker');
 
 	// Only register and enqueue JS scripts from within the plugin itself
      	if (preg_match("/product-feed-pro/i",$hook)){
@@ -129,6 +130,7 @@ function woosea_scripts($hook) {
 		// JS for managing keys
 		wp_register_script( 'woosea_key-js', plugin_dir_url( __FILE__ ) . 'js/woosea_key.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
 		wp_enqueue_script( 'woosea_key-js' );
+
 	}
 	// JS for manage projects page
 	wp_register_script( 'woosea_manage-js', plugin_dir_url( __FILE__ ) . 'js/woosea_manage.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
@@ -725,24 +727,53 @@ function activate_woosea_feed(){
 register_activation_hook(__FILE__, 'activate_woosea_feed');
 
 /**
- * Close the license notification
+ * Show the license notification
  **/
 function woosea_license_notice(){
         $license_information = get_option( 'license_information' );
         $license_notification = get_option( 'woosea_license_notification_closed' );
         $screen = get_current_screen();
+	$current_date = strtotime(date( 'd-m-Y' ));
+	$off_date = strtotime($license_notification['timestamp']);
 
-        if($screen->id <> 'product-feed-elite_page_woosea_upgrade_elite'){
-                if((isset($license_information['notice'])) and ($license_information['notice'] == "true") and ($license_notification <> 'yes')){
-                ?>
-                        <div class="<?php print "$license_information[message_type]"; ?> license_notification">
-                                <p><?php _e( $license_information['message'], 'sample-text-domain' ); ?></p>
-                        </div>
-                <?php
-                }
-        }
+	// Show notification again after 30 days
+	$diff_days = 2592000;
+	$diff = ($current_date - $off_date);
+
+	// 30 days have passed	
+	if($diff > $diff_days){
+		$license_notification['show'] = "yes";
+	}
+
+	// Add a check, notification should not show in the plugin pages itself as it will duplicate notices
+       	$page = basename($_SERVER['REQUEST_URI']);
+
+        if (!preg_match("/woo-product-feed-pro|woosea_manage_feed|woosea_manage_settings/i",$page)){
+
+ 	 	if((isset($license_information['notice'])) and ($license_information['notice'] == "true") and ($license_notification['show'] == "yes")){
+       		?>
+       			<div class="<?php print "$license_information[message_type]"; ?> license_notification">
+                		<p><?php _e( $license_information['message'], 'sample-text-domain' ); ?></p>
+          		</div>
+    		<?php
+    		}
+	}
 }
 add_action('admin_notices', 'woosea_license_notice');
+
+/**
+ * Close the license notification
+ **/
+function woosea_license_notification(){
+
+	$get_admin_notice = array(
+		"show" => "no",
+		"timestamp" => date( 'd-m-Y' )
+	);
+
+	update_option('woosea_license_notification_closed', $get_admin_notice);
+}
+add_action('wp_ajax_woosea_license_notification', 'woosea_license_notification');
 
 /**
  * Close the get Elite notification
@@ -760,6 +791,21 @@ function woosea_getelite_notification(){
 }
 add_action( 'wp_ajax_woosea_getelite_notification', 'woosea_getelite_notification' );
 
+/**
+ * Close the get Elite activation notification
+ **/
+function woosea_getelite_active_notification(){
+
+	//delete_option('woosea_getelite_active_notification');
+
+	$get_elite_notice = array(
+		"show" => "no",
+		"timestamp" => date( 'd-m-Y' )
+	);
+
+	update_option('woosea_getelite_active_notification',$get_elite_notice);
+}
+add_action( 'wp_ajax_woosea_getelite_active_notification', 'woosea_getelite_active_notification' );
 
 /**
  * Request our plugin users to write a review
@@ -3724,7 +3770,7 @@ function woosea_license_valid(){
 
 	if(!empty($license_information['license_key'])){
 	        $curl = curl_init();
-	        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=7.2.7";
+	        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=7.3.6";
 
 	        curl_setopt_array($curl, array(
         	        CURLOPT_RETURNTRANSFER => 1,

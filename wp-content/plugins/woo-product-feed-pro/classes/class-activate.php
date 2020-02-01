@@ -1871,7 +1871,7 @@ class WooSEA_Activation {
                 /**
                  * Function for checking if license is valid
                  */
-                if (!wp_next_scheduled( 'woosea_check_license' ) ) {
+               	if (!wp_next_scheduled( 'woosea_check_license' ) ) {
 
 			if(!get_option("license_information")){
 
@@ -1879,9 +1879,10 @@ class WooSEA_Activation {
 
 				$license_created = "";
 	        		$license_valid = "false";
-        			$message = "Thank you for becoming a user of our product feed pro plugin, much appreciated! Some of the features of this plugin have been locked as you are using the free version of this plugin. The added extra fields such as Brand and GTIN, WPML support, Aelia currency switcher support and the WooCommerce structured data bug fix are Elite features of this plugin. You can get <a href=\"https://adtribes.io/pro-vs-elite/?utm_source=$domain&utm_medium=plugin&utm_campaign=upgrade-elite\" target=\"_blank\">your license key here</a>.";
-	        		$message_type = "notice notice-info is-dismissible";
-        			$notice = "true";
+        			$message = "Thank you for becoming a user of our <strong>product feed pro for WooCommerce plugin</strong>, much appreciated! Some of the features of this plugin have been locked as you are using the free version of this plugin. The added extra fields such as Brand and GTIN, WPML support, Aelia currency switcher support and the WooCommerce structured data bug fix are Elite features of this plugin. You can get <strong><a href=\"https://adtribes.io/pro-vs-elite/?utm_source=$domain&utm_medium=plugin&utm_campaign=upgrade-elite\" target=\"_blank\">your license key here</a></strong>.";
+	        		//$message_type = "notice notice-info is-dismissible";
+	        		$message_type = "updated woocommerce-message is-dismissible";
+				$notice = "true";
 
 			        $license_information = array (
         	        		'license_valid'         => $license_valid,

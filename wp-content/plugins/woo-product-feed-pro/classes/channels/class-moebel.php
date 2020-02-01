@@ -67,9 +67,44 @@ class WooSEA_moebel {
                                         "feed_name" => "art_ean",
                                         "format" => "optional",
                                 ),
+                                "Art plz" => array(
+                                        "name" => "art_plz",
+                                        "feed_name" => "art_plz",
+                                        "format" => "optional",
+                                ),
+                              	"Art bidding bidDesktop" => array(
+                                        "name" => "art_bidding.bidDesktop",
+                                        "feed_name" => "art_bidding.biedDesktop",
+                                        "format" => "optional",
+                                ),
+                              	"Art bidding factorMobile" => array(
+                                        "name" => "art_bidding.factorMobile",
+                                        "feed_name" => "art_bidding.factorMobile",
+                                        "format" => "optional",
+                                ),
+                                "Art Google Shopping Target URL" => array(
+                                        "name" => "art_Google_Shopping_Target_URL",
+                                        "feed_name" => "art_Google_Shopping_Target_URL",
+                                        "format" => "optional",
+                                ),
+                                "Art Clear Product URL" => array(
+                                        "name" => "art_Clear_Product_URL",
+                                        "feed_name" => "art_Clear_Product_URL",
+                                        "format" => "optional",
+                                ),
+                                "Top Mid Low" => array(
+                                        "name" => "top-mid-low",
+                                        "feed_name" => "top-mid-low",
+                                        "format" => "optional",
+                                ),
                                 "Art streichpreis" => array(
                                         "name" => "art_streichpreis",
                                         "feed_name" => "art_streichpreis",
+                                        "format" => "optional",
+                                ),
+                                "Partner Payment Methods" => array(
+                                        "name" => "partner.paymentMethods",
+                                        "feed_name" => "partner.paymentMethods",
                                         "format" => "optional",
                                 ),
                                 "Art grundpreis" => array(

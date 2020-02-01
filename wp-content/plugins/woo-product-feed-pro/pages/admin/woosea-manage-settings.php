@@ -101,10 +101,16 @@ if(isset($_GET["tab"])) {
 			</div>
     
 			<?php
-			if(array_key_exists('message', $license_information)){
+                    	$getelite_notice = get_option('woosea_getelite_active_notification');
+                    	if(empty($getelite_notice['show'])){
+                        	$getelite_notice['show'] = "yes";
+                            	$getelite_notice['timestamp'] = date( 'd-m-Y' );
+                     	}
+
+                   	if(($license_information['license_valid'] <> "true") AND ($getelite_notice['show'] == "yes")){
 			?>
-			<div class="<?php _e($license_information['message_type']); ?>">
-                                <p><?php _e($license_information['message'], 'sample-text-domain' ); ?></p>
+			<div class="notice notice-info get_elite_activate is-dismissible">
+                                <p>Thank you for using our Product Feed PRO plugin, much appreciated! Some of the features of this plugin have been locked as you are using the free version of this plugin. The added extra fields such as Brand and GTIN, WPML support, Aelia currency switcher support, the Facebook Pixel feature and the WooCommerce structured data bug fix are Elite features of this plugin. You can get <strong><a href="https://adtribes.io/pro-vs-elite/?utm_source=$domain&utm_medium=plugin&utm_campaign=upgrade-elite" target="_blank">your license key here</a></strong>.</p>
                         </div>
 			<?php
 			}

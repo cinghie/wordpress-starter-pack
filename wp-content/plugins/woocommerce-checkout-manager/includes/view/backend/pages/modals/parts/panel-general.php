@@ -1,4 +1,4 @@
-<div class="panel woocommerce_options_panel" <# if (data.panel != 'general') { #>hidden<# } #>>
+<div class="panel woocommerce_options_panel <# if (data.panel != 'general') { #>hidden<# } #>">
      <div class="options_group">
     <p class="form-field">
       <label><?php esc_html_e('Name', 'woocommerce-checkout-manager'); ?></label>

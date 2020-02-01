@@ -1,4 +1,4 @@
-<div class="panel woocommerce_options_panel" <# if (data.panel != 'display') { #>hidden<# } #>>
+<div class="panel woocommerce_options_panel <# if (data.panel != 'display') { #>hidden<# } #>">
   <div class="options_group wooccm-premium">
     <p class="form-field">
       <label><?php esc_html_e('Hide on account', 'woocommerce-checkout-manager'); ?></label>

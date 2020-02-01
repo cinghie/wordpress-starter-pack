@@ -838,7 +838,7 @@
 								$tooltip_html_attr .= ! empty( $tooltip ) ? ' tabindex="2"' : '';
 							}
 							
-							$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-value="%3$s">', $tooltip_html_attr, esc_attr( $type ), esc_attr( $term->slug ), esc_attr( $selected_class ), esc_html( $term->name ) );
+							$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-value="%3$s" role="button" tabindex="0">', $tooltip_html_attr, esc_attr( $type ), esc_attr( $term->slug ), esc_attr( $selected_class ), esc_html( $term->name ) );
 							
 							switch ( $type ):
 								case 'color':
@@ -922,7 +922,7 @@
 								$type = 'button';
 							}
 							
-							$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-value="%3$s">', $tooltip_html_attr, esc_attr( $type ), esc_attr( $term->slug ), esc_attr( $selected_class ), esc_html( $term->name ) );
+							$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-value="%3$s"  role="button" tabindex="0">', $tooltip_html_attr, esc_attr( $type ), esc_attr( $term->slug ), esc_attr( $selected_class ), esc_html( $term->name ) );
 							
 							switch ( $type ):
 								
@@ -973,7 +973,7 @@
 							$type = 'button';
 						}
 						
-						$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-value="%3$s">', $tooltip_html_attr, esc_attr( $type ), esc_attr( $option ), esc_attr( $selected_class ), esc_html( $option ) );
+						$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-value="%3$s"  role="button" tabindex="0">', $tooltip_html_attr, esc_attr( $type ), esc_attr( $option ), esc_attr( $selected_class ), esc_html( $option ) );
 						
 						switch ( $type ):
 							
@@ -1450,7 +1450,10 @@
 				return $html;
 			}
 			
-		
+			// WooCommerce Product Bundle Fixing
+			if ( isset( $_POST[ 'action' ] ) && $_POST[ 'action' ] === 'woocommerce_configure_bundle_order_item' ) {
+				return $html;
+			}
 			
 			$attribute_id = wc_variation_attribute_name( $args[ 'attribute' ] );
 			// $attribute_id = sanitize_title( $args[ 'attribute' ] );

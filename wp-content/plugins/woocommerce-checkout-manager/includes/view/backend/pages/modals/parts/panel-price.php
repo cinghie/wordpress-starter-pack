@@ -1,5 +1,5 @@
 <# if (!_.contains(<?php echo json_encode(array_merge($option, $template)); ?>, data.type)) { #>
-<div class="panel woocommerce_options_panel" <# if (data.panel != 'price') { #>hidden<# } #>>
+<div class="panel woocommerce_options_panel <# if (data.panel != 'price') { #>hidden<# } #>">
      <div class="options_group wooccm-premium">
     <p class="form-field">
       <label><?php esc_html_e('Price', 'woocommerce-checkout-manager'); ?></label>

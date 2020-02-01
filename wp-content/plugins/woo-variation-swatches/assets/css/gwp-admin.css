@@ -1,8 +1,8 @@
 /*!
- * Variation Swatches for WooCommerce v1.0.71 
+ * Variation Swatches for WooCommerce v1.0.73 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 1/5/2020, 3:32:42 PM
+ * Date: 1/26/2020, 1:49:27 PM
  * Released under the GPLv3 license.
  */
 /**
@@ -184,6 +184,7 @@
   border: 0;
   border-left: 1px solid #DDDDDD;
   background-color: transparent;
+  -webkit-transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
   transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
 }
 
@@ -314,10 +315,14 @@
 }
 
 .gwp-action-button-group .gwp-action-button-group__items {
+  display: -webkit-inline-box;
   display: inline-flex;
-  flex-flow: row wrap;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-flow: row wrap;
   align-content: flex-start;
-  justify-content: flex-start;
+  -webkit-box-pack: start;
+          justify-content: flex-start;
 }
 
 .gwp-action-button-group .gwp-action-button {
@@ -332,7 +337,8 @@
   position: relative;
   overflow: hidden;
   text-overflow: ellipsis;
-  flex: 1 0 auto;
+  -webkit-box-flex: 1;
+          flex: 1 0 auto;
   box-sizing: border-box;
   text-align: center;
   white-space: nowrap;

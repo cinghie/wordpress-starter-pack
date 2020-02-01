@@ -17,9 +17,9 @@ class WOOCCM_Checkout_Controller {
 
   public function enqueue_scripts() {
 
-    WOOCCM()->register_scripts();
-
     if (is_checkout()) {
+
+      WOOCCM()->register_scripts();
 
       $i18n = substr(get_user_locale(), 0, 2);
 
@@ -96,6 +96,15 @@ class WOOCCM_Checkout_Controller {
     }
 
     return $fields;
+  }
+
+  public function remove_order_notes($value) {
+    
+    if (get_option('wooccm_checkout_remove_order_notes', 'no') === 'yes') {
+      return false;
+    }
+
+    return $value;
   }
 
   function add_checkout_form_before_message($param) {
@@ -362,6 +371,7 @@ class WOOCCM_Checkout_Controller {
     add_action('woocommerce_checkout_fields', array($this, 'order_notes'));
     add_action('woocommerce_before_checkout_form', array($this, 'add_checkout_form_before_message'));
     add_action('woocommerce_after_checkout_form', array($this, 'add_checkout_form_after_message'));
+    add_action('woocommerce_enable_order_notes_field', array($this, 'remove_order_notes'));
 
     // Compatibility
     // -----------------------------------------------------------------------

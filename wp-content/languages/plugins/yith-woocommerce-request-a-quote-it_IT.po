@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Request A Quote - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-12-19 13:09:54+0000\n"
+"PO-Revision-Date: 2020-01-30 20:50:55+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,22 @@ msgstr ""
 "X-Generator: GlotPress/2.4.0-alpha\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Request A Quote - Stable (latest release)\n"
+
+#: plugin-fw/lib/yit-plugin-panel.php:1237
+msgid ":) Thanks!"
+msgstr ":) Grazie!"
+
+#: plugin-fw/lib/yit-plugin-panel.php:1236
+msgid "help us by leaving a five-star rating"
+msgstr "aiutaci lasciando una valutazione 5 stelle"
+
+#: plugin-fw/lib/yit-plugin-panel.php:1234
+msgid "to keep updating and improving the plugin. Please,"
+msgstr "per continuare ad aggiornare e a migliorare il plugin. Per favore,"
+
+#: plugin-fw/lib/yit-plugin-panel.php:1233
+msgid "We need your support"
+msgstr "Abbiamo bisogno del tuo sostegno"
 
 #: plugin-fw/templates/sysinfo/system-information-panel.php:46
 msgid "Output IP Address"

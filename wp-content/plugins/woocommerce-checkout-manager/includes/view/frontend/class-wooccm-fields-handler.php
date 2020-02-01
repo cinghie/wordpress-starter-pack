@@ -56,7 +56,9 @@ class WOOCCM_Fields_Handler {
 
   public function add_field_filter($field) {
 
-    $session_data = WC()->session->wooccm;
+    if (isset(WC()->session)) {
+      $session_data = WC()->session->wooccm;
+    }
 
     // keep attr id = attr name
     // -------------------------------------------------------------------------
@@ -107,10 +109,11 @@ class WOOCCM_Fields_Handler {
     if (isset($field['order'])) {
       $field['priority'] = $field['order'] * 10;
     }
-
-    $session_data['fields'][$field['key']] = $field;
-
-    WC()->session->wooccm = $session_data;
+    
+    if (isset(WC()->session)) {
+      $session_data['fields'][$field['key']] = $field;
+      WC()->session->wooccm = $session_data;
+    }
 
     return $field;
   }
@@ -236,10 +239,9 @@ class WOOCCM_Fields_Handler {
     // -----------------------------------------------------------------------
     //add_filter('default_option_woocommerce_checkout_address_2_field', array($this, 'woocommerce_checkout_address_2_field'));
     // Fix address fields priority
-    add_filter('woocommerce_get_country_locale_default', array($this, 'remove_fields_priority'));
-
-    add_filter('woocommerce_get_country_locale_base', array($this, 'remove_fields_priority'));
-
+//    add_filter('woocommerce_get_country_locale_default', array($this, 'remove_fields_priority'));
+//
+//    add_filter('woocommerce_get_country_locale_base', array($this, 'remove_fields_priority'));
     // Fix required country notice when shipping address is activated
     // -----------------------------------------------------------------------
     add_filter('woocommerce_checkout_posted_data', array($this, 'remove_address_fields'));

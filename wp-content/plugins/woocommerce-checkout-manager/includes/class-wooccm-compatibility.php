@@ -293,7 +293,8 @@ class WOOCCM_Field_Compatibility {
     }
 
     if (!empty($field['conditional_parent_key']) && !empty($field['conditional_parent_key'])) {
-      if ($parent_id = @max(array_keys(array_column($fields, 'key'), $field['conditional_parent_key']))) {
+//      if ($parent_id = @max(array_keys(array_column($fields, 'key'), $field['conditional_parent_key']))) {
+      if ($parent_id = WOOCCM()->$prefix->get_field_id($fields, 'key', $field['conditional_parent_key'])) {
         if (isset($fields[$parent_id]) && !empty($fields[$parent_id]['options'])) {
           $id = @max(array_keys(array_column($fields[$parent_id]['options'], 'label'), $field['conditional_parent_value']));
           $field['conditional_parent_value'] = (int) $id;
@@ -304,7 +305,7 @@ class WOOCCM_Field_Compatibility {
     if ($field['type'] == 'colorpicker' && !empty($field['colorpickerd'])) {
       $field['default'] = $field['colorpickerd'];
     }
-        
+
     $field['type'] = $this->get_new_type($field['type']);
 
     $field['show_role'] = $this->string_to_array($field['show_role']);
@@ -361,7 +362,8 @@ class WOOCCM_Field_Compatibility {
 
         $field = $this->new_panel_compatibility($field_id, $field, $fields, $prefix);
 
-        if (count($defaults) && $default_id = @max(array_keys(array_column($defaults, 'key'), $field['key']))) {
+//        if (count($defaults) && $default_id = @max(array_keys(array_column($defaults, 'key'), $field['key']))) {
+        if (count($defaults) && $default_id = WOOCCM()->$prefix->get_field_id($defaults, 'key', $field['key'])) {
 
           if (isset($defaults[$default_id])) {
 

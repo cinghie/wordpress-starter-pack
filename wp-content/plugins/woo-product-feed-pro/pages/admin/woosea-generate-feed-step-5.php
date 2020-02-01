@@ -39,12 +39,13 @@ if (array_key_exists('project_hash', $_GET)){
 	$project['utm_content'] = "";
 	$project['utm_on'] = "on";
 	$project['adtribes_conversion'] = "on";
+	$project['total_product_orders_lookback'] = "";
 }
 ?>
 	<div class="wrap">
 		<div class="woo-product-feed-pro-form-style-2">
 			<tbody class="woo-product-feed-pro-body">
-				<div class="woo-product-feed-pro-form-style-2-heading"><?php _e( 'Google Analytics settings','woo-product-feed-pro' );?></div>
+				<div class="woo-product-feed-pro-form-style-2-heading"><?php _e( 'Conversion & Google Analytics settings','woo-product-feed-pro' );?></div>
 
                         	<div class="<?php _e($notifications_box['message_type']); ?>">
                                 	<p><?php _e($notifications_box['message'], 'sample-text-domain' ); ?></p>
@@ -105,6 +106,11 @@ if (array_key_exists('project_hash', $_GET)){
 					<td><span><?php _e( 'Google Analytics campaign content (utm_content)','woo-product-feed-pro' );?>:</span></td>
 				 	<td><input type="text" class="input-field" name="utm_content" value="<?php print "$project[utm_content]";?>" /></td>
 				</tr>
+				<tr>
+					<td><span><?php _e( 'Remove products that did not have sales in the last days','woo-product-feed-pro' );?>: <a href="https://adtribes.io/create-feed-performing-products/" target="_blank">What does this do?</a></span></td>
+				 	<td><input type="text" class="input-field" name="total_product_orders_lookback" value="<?php print "$project[total_product_orders_lookback]";?>" /> days</td>
+				</tr>
+
 				<tr>
 					<td colspan="2">
 						<?php

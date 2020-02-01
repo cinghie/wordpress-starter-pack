@@ -12,5 +12,6 @@ class WooSEA_Uninstall_Cleanup {
                 delete_option( 'license_information' );
                 delete_option( 'cron_projects' );
 		delete_option('woosea_getelite_notification');
+                delete_option('woosea_license_notification_closed'); // This one is new
         }
 }

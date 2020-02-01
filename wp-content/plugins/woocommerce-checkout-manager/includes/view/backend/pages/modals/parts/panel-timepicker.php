@@ -1,5 +1,5 @@
-  <# if (data.type == 'time') { #>
-<div class="panel woocommerce_options_panel" <# if (data.panel != 'timepicker') { #>hidden<# } #>>
+<# if (data.type == 'time') { #>
+<div class="panel woocommerce_options_panel <# if (data.panel != 'timepicker') { #>hidden<# } #>">
   <div class="options_group wooccm-premium">
     <p class="form-field">
       <label><?php esc_html_e('Enhance', 'woocommerce-checkout-manager'); ?></label>

@@ -1,8 +1,8 @@
 /*!
- * Variation Swatches for WooCommerce v1.0.71 
+ * Variation Swatches for WooCommerce v1.0.73 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 1/5/2020, 3:32:42 PM
+ * Date: 1/26/2020, 1:49:27 PM
  * Released under the GPLv3 license.
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -80,40 +80,40 @@ jQuery(function ($) {
         return __webpack_require__(11);
     }).then(function () {
         // Init on Ajax Popup :)
-        $(document).on('wc_variation_form', '.variations_form', function () {
+        $(document).on('wc_variation_form.wvs', '.variations_form', function () {
             $(this).WooVariationSwatches();
         });
 
         // Support for Jetpack's Infinite Scroll,
-        $(document.body).on('post-load', function () {
+        $(document.body).on('post-load.wvs', function () {
             $('.variations_form').each(function () {
                 $(this).wc_variation_form();
             });
         });
 
         // Support for Yith Infinite Scroll
-        $(document).on('yith_infs_added_elem', function () {
+        $(document).on('yith_infs_added_elem.wvs', function () {
             $('.variations_form').each(function () {
                 $(this).wc_variation_form();
             });
         });
 
         // Support for Yith Ajax Filter
-        $(document).on('yith-wcan-ajax-filtered', function () {
+        $(document).on('yith-wcan-ajax-filtered.wvs', function () {
             $('.variations_form').each(function () {
                 $(this).wc_variation_form();
             });
         });
 
         // Support for Woodmart theme
-        $(document).on('wood-images-loaded', function () {
+        $(document).on('wood-images-loaded.wvs', function () {
             $('.variations_form').each(function () {
                 $(this).wc_variation_form();
             });
         });
 
         // Support for berocket ajax filters
-        $(document).on('berocket_ajax_products_loaded', function () {
+        $(document).on('berocket_ajax_products_loaded.wvs', function () {
             $('.variations_form').each(function () {
                 $(this).wc_variation_form();
             });
@@ -127,14 +127,14 @@ jQuery(function ($) {
         });
 
         // FacetWP Load More
-        $(document).on('facetwp-loaded', function () {
+        $(document).on('facetwp-loaded.wvs', function () {
             $('.variations_form').each(function () {
                 $(this).wc_variation_form();
             });
         });
 
         // WooCommerce Filter Nav
-        $('body').on('aln_reloaded', function () {
+        $('body').on('aln_reloaded.wvs', function () {
             _.delay(function () {
                 $('.variations_form').each(function () {
                     $(this).wc_variation_form();
@@ -218,13 +218,13 @@ var WooVariationSwatches = function ($) {
                             select.val(value).trigger('change');
                             select.trigger('click');
 
-                            select.trigger('focusin');
+                            // select.trigger('focusin');
 
-                            if (is_mobile) {
-                                select.trigger('touchstart');
-                            }
+                            if (is_mobile) {}
+                            //    select.trigger('touchstart');
 
-                            $(this).trigger('focus'); // Mobile tooltip
+
+                            //  $(this).trigger('focus'); // Mobile tooltip
                             $(this).trigger('wvs-selected-item', [value, select, _this._element]); // Custom Event for li
                         });
 
@@ -237,13 +237,13 @@ var WooVariationSwatches = function ($) {
                             select.val('').trigger('change');
                             select.trigger('click');
 
-                            select.trigger('focusin');
+                            //select.trigger('focusin');
 
-                            if (is_mobile) {
-                                select.trigger('touchstart');
-                            }
+                            if (is_mobile) {}
+                            //   select.trigger('touchstart');
 
-                            $(this).trigger('focus'); // Mobile tooltip
+
+                            // $(this).trigger('focus'); // Mobile tooltip
 
                             $(this).trigger('wvs-unselected-item', [value, select, _this._element]); // Custom Event for li
                         });
@@ -275,9 +275,9 @@ var WooVariationSwatches = function ($) {
                             }
 
                             select.trigger('click');
-                            select.trigger('focusin');
+                            //select.trigger('focusin');
                             if (is_mobile) {
-                                select.trigger('touchstart');
+                                //    select.trigger('touchstart');
                             }
                         });
                     } else {
@@ -287,12 +287,12 @@ var WooVariationSwatches = function ($) {
                             var value = $(this).data('value');
                             select.val(value).trigger('change');
                             select.trigger('click');
-                            select.trigger('focusin');
-                            if (is_mobile) {
-                                select.trigger('touchstart');
-                            }
+                            //select.trigger('focusin');
+                            if (is_mobile) {}
+                            //    select.trigger('touchstart');
 
-                            $(this).trigger('focus'); // Mobile tooltip
+
+                            // $(this).trigger('focus'); // Mobile tooltip
 
                             $(this).trigger('wvs-selected-item', [value, select, _this._element]); // Custom Event for li
                         });
@@ -305,11 +305,11 @@ var WooVariationSwatches = function ($) {
 
                             select.val(value).trigger('change');
                             select.trigger('click');
-                            select.trigger('focusin');
+                            //select.trigger('focusin');
 
-                            if (is_mobile) {
-                                select.trigger('touchstart');
-                            }
+                            if (is_mobile) {}
+                            //    select.trigger('touchstart');
+
 
                             // Radio
                             $(this).parent('li.radio-variable-item').removeClass('selected disabled').addClass('selected');

@@ -33,7 +33,21 @@ class WOOCCM_Field {
     return false;
   }
 
-  public function get_id($fields) {
+  public function get_field_id($fields, $key = 'key', $value) {
+
+    if (count($fields)) {
+
+      foreach ($fields as $id => $field) {
+        if ($field[$key] == $value) {
+          return $id;
+        }
+      }
+    }
+
+    return 0;
+  }
+
+  public function get_next_id($fields) {
 
     if (count($fields)) {
       return max(array_keys($fields)) + 1;
@@ -175,7 +189,7 @@ class WOOCCM_Field {
         'time_limit_interval' => null,
         'date_limit' => 'fixed',
         'date_format' => '',
-        'date_limit_variable_min' => 1,
+        'date_limit_variable_min' => -1,
         'date_limit_variable_max' => 1,
         'date_limit_fixed_min' => date('Y-m-d'),
         'date_limit_fixed_max' => date('Y-m-d'),
@@ -405,7 +419,7 @@ class WOOCCM_Field {
 
     $fields = $this->get_fields();
 
-    $field_id = $this->get_id($fields);
+    $field_id = $this->get_next_id($fields);
 
     $field_data = $this->sanitize_field_data($field_data);
 

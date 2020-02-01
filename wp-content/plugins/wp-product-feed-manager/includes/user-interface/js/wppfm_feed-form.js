@@ -1640,9 +1640,9 @@ function wppfm_removeRow( rowId, fieldName ) {
 /**
  * Adds the condition controls to the attribute mapping rows.
  *
- * @param   {string}    rowId           Id of the row of the attribute.
- * @param   {string}    sourceLevel     Level of the source.
- * @param   {string}    conditionLevel  Level of the condition.
+ * @param   {int}       rowId           Id of the row of the attribute.
+ * @param   {int}       sourceLevel     Level of the source.
+ * @param   {int}       conditionLevel  Level of the condition.
  * @param   {string}    query           String containing the query
  */
 function wppfm_addCondition( rowId, sourceLevel, conditionLevel, query ) {
@@ -1652,7 +1652,7 @@ function wppfm_addCondition( rowId, sourceLevel, conditionLevel, query ) {
 
 	if ( condition ) {
 		// and if its the first condition level
-		if ( conditionLevel === '0' ) {
+		if ( conditionLevel === 0 ) {
 
 			// add a "for all other products" row
 			jQuery( wppfm_addFeedSourceRow( rowId, sourceLevel + 1, _feedHolder.getSourceObject( rowId ) ) ).insertAfter( '#source-' + rowId + '-' + sourceLevel, false );

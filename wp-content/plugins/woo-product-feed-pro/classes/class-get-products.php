@@ -210,6 +210,23 @@ class WooSEA_Get_Products {
 	}
 
 	/**
+ 	 * Get number of variation sales for a product variation
+	 */
+	private function woosea_get_nr_orders_variation ( $variation_id ) {
+    		global $wpdb;
+
+    		// Getting all Order Items with that variation ID
+    		$nr_sales = $wpdb->get_col( $wpdb->prepare( "
+        		SELECT count(*) AS nr_sales
+        		FROM {$wpdb->prefix}woocommerce_order_itemmeta 
+        		WHERE meta_key LIKE '_variation_id' 
+        		AND meta_value = %s
+    		", $variation_id ) );
+	
+		return $nr_sales;
+	}
+
+	/**
 	 * Get custom attribute names for a product
 	 */
 	private function get_custom_attributes( $productId ) {
@@ -243,23 +260,53 @@ class WooSEA_Get_Products {
 	 * Get orders for given time period used in filters
 	 */
 	public function woosea_get_orders( $project_config ){
-    		$query_args = array(
-        		'post_type'      => wc_get_order_types(),
-        		'post_status'    => array_keys( wc_get_order_statuses() ),
-        		'posts_per_page' => 999999999999,
-    		);
-    		$all_orders      = get_posts( $query_args );
 
-    		foreach ( $all_orders as $orders ) {		
-			$order = wc_get_order( $orders-> ID);
-			$order_data = $order->get_data();
-			$order_date_created = $order_data['date_created']->date('Y-m-d H:i:s');
+		$allowed_products = array();
 
-			foreach ($order->get_items() as $item_key => $item_values){
-				$product_id = $item_values->get_product_id();
-			}		
+		if(isset($project_config['total_product_orders_lookback'])){
+
+			if($project_config['total_product_orders_lookback'] > 0){
+
+				$query_args = array(
+        				'post_type'      => wc_get_order_types(),
+        				'post_status'    => array_keys( wc_get_order_statuses() ),
+        				'posts_per_page' => 999999999999,
+   	 			);
+    				$all_orders      = get_posts( $query_args );
+
+				$today = date("Y-m-d");
+				$today_limit = date('Y-m-d', strtotime('-'.$project_config['total_product_orders_lookback'].' days', strtotime($today)));
+
+		    		foreach ( $all_orders as $orders ) {		
+					$order = wc_get_order( $orders-> ID);
+					$order_data = $order->get_data();
+	
+					$order_date_created = $order_data['date_created']->date('Y-m-d');
+
+					if($order_date_created >= $today_limit){
+						foreach ($order->get_items() as $item_key => $item_values){
+							$order_product_id = $item_values->get_product_id();
+							$order_variation_id = $item_values->get_variation_id();
+
+							// When a variation was sold, add the variation	
+							if($order_variation_id > 0){
+								$order_product_id = $order_variation_id;
+							}
+
+							// Only for existing products
+							if($order_product_id > 0){
+
+								// Only add products that are not in the array yet
+								if(!in_array($order_product_id, $allowed_products)){
+									$allowed_products[] = $order_product_id;
+								}
+							}
+						}
+					}	
+				}
+			}
 		}
-		//return $orders_timeframe;
+		return $allowed_products;
 	}
 
 	/**
@@ -687,6 +734,7 @@ class WooSEA_Get_Products {
 									foreach ($tax_rates as $k_inner => $w){
 										if((isset($w['shipping'])) and ($w['shipping'] == "yes")){
 											$rate = (($w['rate']+100)/100);
+															
 											$shipping_cost = str_replace(",", ".", $shipping_cost);
 											$shipping_cost = $shipping_cost*$rate;
 											$shipping_cost = round($shipping_cost, 2);
@@ -699,6 +747,7 @@ class WooSEA_Get_Products {
 							// WooCommerce Table Rate Bolder Elements
                                                         if(class_exists('BE_Table_Rate_WC')){
                                                                 // Set shipping cost
+
                                                                 $shipping_cost = 0;     
                                                                 if(!empty($product_id)){
                                                                          // Add product to cart
@@ -730,8 +779,8 @@ class WooSEA_Get_Products {
         			        	     	if(isset($v->instance_settings[$class_cost_id])){
 						
 								if (is_numeric($v->instance_settings[$class_cost_id])){
-	
 									$shipping_cost = $v->instance_settings[$class_cost_id];
+
 									// Do we need to convert the shipping costswith the Aelia Currency Switcher
                         	                        		if((isset($project_config['AELIA'])) AND (!empty($GLOBALS['woocommerce-aelia-currencyswitcher'])) AND (get_option ('add_aelia_support') == "yes")){
                                 						if(!array_key_exists('base_currency', $project_config)){
@@ -758,23 +807,24 @@ class WooSEA_Get_Products {
 								} else {
 									$shipping_cost = $v->instance_settings[$class_cost_id];
 									$shipping_cost = str_replace("[qty]", "1", $shipping_cost);	
-								    	$mathString = trim($shipping_cost);     // trim white spaces
+								    	
+									$mathString = trim($shipping_cost);     // trim white spaces
 									if (preg_match("/fee percent/", $mathString)){
  										$shipcost_piece = explode("+", $mathString);
 										$mathString = trim($shipcost_piece[0]);
 									}
-
+								
     									$mathString = str_replace ('..', '.', $mathString);    // remove input mistakes from users using shipping formula's
+    									$mathString = str_replace (',', '.', $mathString);    // remove input mistakes from users using shipping formula's
     									$mathString = preg_replace ('[^0-9\+-\*\/\(\)]', '', $mathString);    // remove any non-numbers chars; exception for math operators
 									$mathString = str_replace(array('\'', '"', ','), '', $mathString); 
 
 									if(!empty($mathString)){
 										eval("\$mathString = $mathString;");
 										$shipping_cost = $mathString;
-				
+			
 										if($taxable == "taxable"){
 											foreach ($tax_rates as $k_inner => $w){
-
 												if((isset($w['shipping'])) and ($w['shipping'] == "yes")){
 													$rate = (($w['rate']+100)/100);
 													if(is_numeric($shipping_cost)){
@@ -856,7 +906,13 @@ class WooSEA_Get_Products {
 										}
 									}
 								}
-                                				$zone_details['price'] = trim($currency." ".$shipping_cost);
+								
+								if(strlen($shipping_cost) > 0){
+                                					$zone_details['price'] = trim($currency." ".$shipping_cost);
+								} else {
+									unset($zone_details);
+									unset($shipping_cost);
+								}
 							}
 
 							// This shipping zone has postal codes so multiply the zone details
@@ -1741,15 +1797,19 @@ class WooSEA_Get_Products {
 			$orderby = "DESC";
 		}
 
-		// Get Orders
-		// $order_timeframe = WooSEA_Get_Products::woosea_get_orders ( $project_config );
-
 		// Switch to configured WPML lamguage
         	if(isset($project_config['WPML'])){
                 	if ( function_exists('icl_object_id') ) {
 				global $sitepress;
 				$lang = $project_config['WPML'];
 				$sitepress->switch_lang($lang);
+			}
+		}
+
+           	// Get Orders
+		if(isset($project_config['total_product_orders_lookback'])){
+			if($project_config['total_product_orders_lookback'] > 0){
+             			$allowed_product_orders = $this->woosea_get_orders ( $project_config );
 			}
 		}
 
@@ -1791,6 +1851,14 @@ class WooSEA_Get_Products {
 			if($status != "publish") { continue; }
 
 			$product_data['id'] = get_the_ID();
+			
+			// Only products that have been sold are allowed to go through
+                	if(isset($project_config['total_product_orders_lookback'])){
+                        	if($project_config['total_product_orders_lookback'] > 0){
+					if(!in_array($product_data['id'], $allowed_product_orders)){ continue; }
+				}
+			}
+
 			$product_data['title'] = $product->get_title();
                         $product_data['title'] = $this->woosea_utf8_for_xml( $product_data['title'] );
 			$product_data['mother_title'] = $product->get_title();
@@ -1813,6 +1881,10 @@ class WooSEA_Get_Products {
 
 			// End product visibility logic
                        	$product_data['item_group_id'] = $this->parentID;
+
+			// Get number of orders for this product
+			$product_data['total_product_orders'] = 0;
+			$product_data['total_product_orders'] = get_post_meta($product_data['id'], 'total_sales', true);
 
 			if($product_data['item_group_id'] > 0){
 				$visibility_list = wp_get_post_terms($product_data['item_group_id'], 'product_visibility', array("fields" => "all"));
@@ -1887,123 +1959,52 @@ class WooSEA_Get_Products {
 			}
 
 			// Check if the Yoast plugin is installed and active
-			if ( class_exists('WPSEO_Primary_Term') ){
-				$product_id = $product_data['id'];
-				$primary_cat_id=get_post_meta($product_id ,'_yoast_wpseo_primary_product_cat',true);
- 				$category_path = $this->woosea_get_term_parents( $primary_cat_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
-		
-				if(!is_object($category_path)){
-					$product_data['category_path'] = $category_path;	
-				}	
+			foreach ($categories as $key => $value){
 
-				if(($primary_cat_id) AND ($primary_cat_id > 0)){
-   					$product_cat = get_term($primary_cat_id, 'product_cat');
- 					$category_path = $this->woosea_get_term_parents( $primary_cat_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
-					if(!is_object($category_path)){
-						$product_data['category_path'] = $category_path;	
-					}	
-	
-					if(isset($product_cat->name)) {
+				if (!$catname){
+	                        	$product_cat = get_term($value, 'product_cat');
+						
+					// Check if there are mother categories
+					$parent_categories = get_ancestors($product_cat->term_id, 'product_cat');
+					$category_path = $this->woosea_get_term_parents( $product_cat->term_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
+
+		                	if(!is_object($category_path)){
+						$product_data['category_path'] = $category_path;
+					}
+
+					foreach ($parent_categories as $category_id){
+						$parent = get_term_by('id', $category_id, 'product_cat');
+						$parent_name = $parent->name;
+					}
+
+                                        if(isset($product_cat->name)) {
 						$catname = $product_cat->name;
-						$catlink = get_category_link($product_cat->term_id);
+						$catlink = get_term_link($value,'product_cat');
 						$one_category = $catname;
-					} else {
-						foreach ($categories as $key => $value){
-							if (!$catname){
-			                                        $product_cat = get_term($value, 'product_cat');
-
-                        	                		if(isset($product_cat->name)) {
-                                	                		$catname = $product_cat->name;
-									$catlink = get_term_link($value,'product_cat');
-                                	       	 			$one_category = $catname;
-								}
-							} else {
-		                       	                 	$product_cat = get_term($value, 'product_cat');
-	                                   	     		if(isset($product_cat->name)) {
-                                                			$catname_concat = $product_cat->name;
-									$catlink_concat = get_term_link($value,'product_cat');
-                                        			}
-								$one_category = $catname_concat;
-								$catname .= "||".$catname_concat;
-								$catlink .= "||".$catlink_concat;
-							}
-						}
 					}
 				} else {
-					foreach ($categories as $key => $value){
- 						$category_path = $this->woosea_get_term_parents( $value, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
-						if(!is_object($category_path)){
-							$product_data['category_path'] = $category_path;	
-						}	
-	
-						if (!$catname){
-		                                        $product_cat = get_term($value, 'product_cat');
-
-                                        		if(isset($product_cat->name)) {
-                                                		$catname = $product_cat->name;
-								$catlink = get_term_link($value,'product_cat');
-								$one_category = $catname;
-							}
-						} else {
-		                                        $product_cat = get_term($value, 'product_cat');
-	                                   	     	if(isset($product_cat->name)) {
-                                                		$catname_concat = $product_cat->name;
-								$catlink_concat = get_term_link($value,'product_cat');
-                                        		}
-							$one_category = $catname_concat;
-							$catname .= "||".$catname_concat;
-							$catlink .= "||".$catlink_concat;
-						}
-					}
-				}
-			} else {
-				foreach ($categories as $key => $value){
-
-					if (!$catname){
-	                                        $product_cat = get_term($value, 'product_cat');
-						
-						// Check if there are mother categories
-						$parent_categories = get_ancestors($product_cat->term_id, 'product_cat');
-						$category_path = $this->woosea_get_term_parents( $product_cat->term_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
-
-		                		if(!is_object($category_path)){
-							$product_data['category_path'] = $category_path;
-						}
-
-						foreach ($parent_categories as $category_id){
-							$parent = get_term_by('id', $category_id, 'product_cat');
-							$parent_name = $parent->name;
-						}
-
-                                        	if(isset($product_cat->name)) {
-							$catname = $product_cat->name;
-							$catlink = get_term_link($value,'product_cat');
-							$one_category = $catname;
-						}
-					} else {
-	                                        $product_cat = get_term($value, 'product_cat');
+	                           	$product_cat = get_term($value, 'product_cat');
 					
-						$category_path = $this->woosea_get_term_parents( $product_cat->term_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
-                                               	if(!is_object($category_path)){
-							$product_data['category_path'] = $category_path;
-						}	
+					$category_path = $this->woosea_get_term_parents( $product_cat->term_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
+                                     	if(!is_object($category_path)){
+						$product_data['category_path'] = $category_path;
+					}	
 
-						// Check if there are mother categories
-						$parent_categories = get_ancestors($product_cat->term_id, 'product_cat');
+					// Check if there are mother categories
+					$parent_categories = get_ancestors($product_cat->term_id, 'product_cat');
 
-						foreach ($parent_categories as $category_id){
-							$parent = get_term_by('id', $category_id, 'product_cat');
-							$parent_name = "||".$parent->name;
-						}
-
-	                                        if(isset($product_cat->name)) {
-                                                	$catname_concat = $product_cat->name;
-							$catlink_concat = get_term_link($value,'product_cat');
-                                        	}
-						$one_category = $catname_concat;
-						$catname .= "||".$catname_concat;
-						$catlink .= "||".$catlink_concat;
+					foreach ($parent_categories as $category_id){
+						$parent = get_term_by('id', $category_id, 'product_cat');
+						$parent_name = "||".$parent->name;
 					}
+
+	                            	if(isset($product_cat->name)) {
+                                       		$catname_concat = $product_cat->name;
+						$catlink_concat = get_term_link($value,'product_cat');
+                                        }
+					$one_category = $catname_concat;
+					$catname .= "||".$catname_concat;
+					$catlink .= "||".$catlink_concat;
 				}
 			}
 
@@ -2617,6 +2618,11 @@ class WooSEA_Get_Products {
 				$product_data['exclude_from_search'] = "no";
 				$product_data['exclude_from_all'] = "no";
 
+                        	// Get number of orders for this product
+                        	$product_data['total_product_orders'] = 0;
+                        	$sales_array = $this->woosea_get_nr_orders_variation ( $product_data['id'] );
+                        	$product_data['total_product_orders'] = $sales_array[0];
+
 				$visibility_list = wp_get_post_terms($product_data['item_group_id'], 'product_visibility', array("fields" => "all"));
 				foreach($visibility_list as $visibility_single){
 					if($visibility_single->slug == "exclude-from-catalog"){
@@ -2844,120 +2850,38 @@ class WooSEA_Get_Products {
                         	}
 
 				// Check if the Yoast plugin is installed and active
-				if ( class_exists('WPSEO_Primary_Term') ){
-					$product_id = $product_data['item_group_id'];
-					$primary_cat_id=get_post_meta($product_id ,'_yoast_wpseo_primary_product_cat',true);
-
-					if($primary_cat_id){
- 		  				$product_cat = get_term($primary_cat_id, 'product_cat');
-		
-						if(empty($product_cat)){
-						
-							// No primary category was set
-							foreach ($categories as $key => $value){
-                                                		if (!$catname){
-                                                        		$product_cat = get_term($value, 'product_cat');
-                                                			$category_path = $this->woosea_get_term_parents( $product_cat->term_id, 'product_cat', $project_taxonomy = $project_config['taxonomy'], $link = false, $nicename = false, $visited = array() );
-                                                			
-					               	      		if(!is_object($category_path)){
-										$product_data['category_path'] = $category_path;
-									}
-
-                                                        		if(isset($product_cat->name)) {
-                                                                		$catname = $product_cat->name;
-                                                                		$catlink = get_term_link($value,'product_cat');
-                                                        		}
-                                                		} else {
-                                                        		$product_cat = get_term($value, 'product_cat');
-                                                        		$category_path = $this->woosea_get_term_parents( $product_cat->term_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
-                                               				if(!is_object($category_path)){
-										$product_data['category_path'] = $category_path;
-									}
-
-									if(isset($product_cat->name)) {
-                                                       		         	$catname_concat = $product_cat->name;
-                                                        	        	$catlink_concat = get_term_link($value,'product_cat');
-                                                        		}
-                                                        		$catname .= "||".$catname_concat;
-                                                        		$catlink .= "||".$catlink_concat;
-                                               			}
-							}
-						} else {
-   							$category_path = $this->woosea_get_term_parents( $product_cat->term_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
- 	                        	              	if(!is_object($category_path)){
-								$product_data['category_path'] = $category_path;
-							}							
-
-							if(isset($product_cat->name)) {
-								$catname = $product_cat->name;
-								$catlink = get_category_link($product_cat->term_id);
-							}
-						}
-					} else {
-						foreach ($categories as $key => $value){
-                                                	if (!$catname){
-                                                        	$product_cat = get_term($value, 'product_cat');
-                                                		$category_path = $this->woosea_get_term_parents( $product_cat->term_id, 'product_cat', $project_taxonomy = $project_config['taxonomy'], $link = false, $nicename = false, $visited = array() );
-                                                			
-					                     	if(!is_object($category_path)){
-									$product_data['category_path'] = $category_path;
-								}
-
-                                                        	if(isset($product_cat->name)) {
-                                                                	$catname = $product_cat->name;
-                                                                	$catlink = get_term_link($value,'product_cat');
-                                                        	}
-                                                	} else {
-                                                        	$product_cat = get_term($value, 'product_cat');
-                                                        	$category_path = $this->woosea_get_term_parents( $product_cat->term_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
-                                               			if(!is_object($category_path)){
-									$product_data['category_path'] = $category_path;
-								}
-
-								if(isset($product_cat->name)) {
-                                                                	$catname_concat = $product_cat->name;
-                                                                	$catlink_concat = get_term_link($value,'product_cat');
-                                                        	}
-                                                        	$catname .= "||".$catname_concat;
-                                                        	$catlink .= "||".$catlink_concat;
-                                               		}
-						}
-					}
-					$product_data['raw_categories'] = $catname;
-				} else {
-					foreach ($categories as $key => $value){
-					   	if (!$catname){
-                                                        $product_cat = get_term($value, 'product_cat');
+				foreach ($categories as $key => $value){
+					if (!$catname){
+                                        	$product_cat = get_term($value, 'product_cat');
 							
-							if($product_cat->parent > 0){
-								$set_parent = $product_cat->parent;
-							}
-
-                                                	$category_path = $this->woosea_get_term_parents( $product_cat->term_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
-                                                	if(!is_object($category_path)){
-								$product_data['category_path'] = $category_path;
-                                                    	}
-							if(isset($product_cat->name)) {
-                                                            	$catname = $product_cat->name;
-						       		$catlink = get_term_link($value,'product_cat');
-                                                       	}
-						} else {
-                                                        $product_cat = get_term($value, 'product_cat');
-
-							if($product_cat->parent > 0){
-								$category_path = $this->woosea_get_term_parents( $product_cat->term_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
-                                                		if(!is_object($category_path)){
-									$product_data['category_path'] = $category_path;                                                        	
-								}
-								if(isset($product_cat->name)) {
-                                                       		       	$catname_concat = $product_cat->name;
-                                                        	       	$catlink_concat = get_term_link($value,'product_cat');
-                                                       		}
-                                                                $one_category = $catname_concat;
-                                                                $catname .= "||".$catname_concat;
-                                                       		$catlink .= "||".$catlink_concat;
-                                               		}
+						if($product_cat->parent > 0){
+							$set_parent = $product_cat->parent;
 						}
+
+                                                $category_path = $this->woosea_get_term_parents( $product_cat->term_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
+                                                if(!is_object($category_path)){
+							$product_data['category_path'] = $category_path;
+                                              	}
+						if(isset($product_cat->name)) {
+                                                	$catname = $product_cat->name;
+						       	$catlink = get_term_link($value,'product_cat');
+                                             	}
+					} else {
+                                        	$product_cat = get_term($value, 'product_cat');
+
+						if($product_cat->parent > 0){
+							$category_path = $this->woosea_get_term_parents( $product_cat->term_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
+                                                	if(!is_object($category_path)){
+								$product_data['category_path'] = $category_path;                                                        	
+							}
+							if(isset($product_cat->name)) {
+                                                       	       	$catname_concat = $product_cat->name;
+                                                               	$catlink_concat = get_term_link($value,'product_cat');
+                                                       	}
+                                                     	$one_category = $catname_concat;
+                                                      	$catname .= "||".$catname_concat;
+                                                       	$catlink .= "||".$catlink_concat;
+                                               	}
 					}
 				}
 	                        $product_data['raw_categories'] = $catname;
@@ -3867,7 +3791,7 @@ class WooSEA_Get_Products {
 						}
 
 						if (((is_numeric($pd_value)) AND ($pr_array['than_attribute'] != "shipping"))){
-							// Rules for numeric values
+						// Rules for numeric values
 							switch ($pr_array['condition']) {
 								case($pr_array['condition'] = "contains"):
 									if ((preg_match('/'.$pr_array['criteria'].'/', $pd_value))){
@@ -3912,6 +3836,8 @@ class WooSEA_Get_Products {
 								case($pr_array['condition'] = "empty"):
 									if ((strlen($pd_value) < 1)){
 										$product_data[$pr_array['than_attribute']] = $pr_array['newvalue'];
+									} else {
+										$product_data[$pr_array['attribute']] = $product_data[$pr_array['than_attribute']];
 									}
 									break;
 								case($pr_array['condition'] = "multiply"):

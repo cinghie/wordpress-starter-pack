@@ -46,8 +46,8 @@ jQuery(document).ready(function($) {
 
 	});
 
-	$(".notice-dismiss").click(function(){
-		$(".license-notification").remove();	
+	$(".license_notification").click(function(){
+		$(".license_notification").remove();	
 
 	        jQuery.ajax({
                 	method: "POST",
@@ -65,6 +65,19 @@ jQuery(document).ready(function($) {
                 	method: "POST",
                         url: ajaxurl,
                         data: { 'action': 'woosea_getelite_notification' }
+                })
+	});
+
+
+	$(".get_elite_activate").click(function(e){
+		if(e.target.tagName === 'A') return; // clicking on links should not close the div notice
+
+		$(".get_elite_activate").remove();	
+	
+	        jQuery.ajax({
+                	method: "POST",
+                        url: ajaxurl,
+                        data: { 'action': 'woosea_getelite_active_notification' }
                 })
 	});
 
