@@ -92,14 +92,17 @@
 // Field
 // ---------------------------------------------------------------------------
 
-  var fileList = [];
+  var fileList = {};
+
   $('.wooccm-type-file').each(function (i, field) {
 
     var $field = $(field),
             $button_file = $field.find('[type=file]'),
             $button_click = $field.find('.wooccm-file-button'),
             $field_list = $field.find('.wooccm-file-list');
+
     fileList[$field.attr('id')] = [];
+
     // Simulate click
     // -------------------------------------------------------------------------
 
@@ -107,11 +110,22 @@
       e.preventDefault();
       $button_file.trigger('click');
     });
+
     // Delete images
     // ---------------------------------------------------------------------------
 
     $field_list.on('click', '.wooccm-file-list-delete', function (e) {
-      $(this).closest('.wooccm-file-file').remove();
+
+      var $file = $(this).closest('.wooccm-file-file'),
+              file_id = $(this).closest('[data-file_id]').data('file_id');
+
+      fileList[$field.attr('id')] = $.grep(fileList[$field.attr('id')], function (value, index) {
+        return index != file_id;
+      });
+
+      $file.remove();
+
+      $('#order_review').trigger('wooccm_upload');
     });
     // Append images
     // -------------------------------------------------------------------------
@@ -139,9 +153,9 @@
             reader = new FileReader();
             reader.onload = (function (theFile) {
               return function (e) {
-
                 setTimeout(function () {
                   append_image($field_list, fileList[$field.attr('id')].push(file) - 1, e.target.result, theFile.name, theFile.type);
+                  $('#order_review').trigger('wooccm_upload');
                 }, 200);
               };
             })(file);
@@ -155,14 +169,17 @@
   // Add class on place order reload if upload field exists
   // ---------------------------------------------------------------------------
 
-  $('#order_review').on('ajaxSuccess', function (e) {
+  $('#order_review').on('ajaxSuccess wooccm_upload', function (e) {
 
     var $order_review = $(e.target),
             $place_order = $order_review.find('#place_order'),
             $fields = $('.wooccm-type-file'),
             fields = $fields.length;
+
     if (fields) {
       $place_order.addClass('wooccm-upload-process');
+    } else {
+      $place_order.removeClass('wooccm-upload-process');
     }
 
   });
@@ -174,92 +191,79 @@
     e.preventDefault();
     var $form = $('form.checkout'),
             $place_order = $(this),
-            //$results = $('#wooccm_checkout_attachment_results'),
-            $fields = $('.wooccm-type-file'),
-            fields = $fields.length;
-    $fields.each(function (i, field) {
+            $fields = $('.wooccm-type-file');
 
-      var $field = $(field),
+    if (!$fields.length) {
+      return;
+    }
+
+    if (!window.FormData) {
+      return;
+    }
+
+    if (!Object.keys(fileList).length) {
+      return;
+    }
+
+    if (!is_blocked($form)) {
+      $place_order.html(wooccm_upload.message.uploading);
+      block($form);
+    }
+
+    $.each(fileList, function (field_id, files) {
+
+      var $field = $('#' + field_id),
               $attachment_ids = $field.find('.wooccm-file-field'),
-              $field_list = $field.find('.wooccm-file-list'); //,
+              data = new FormData();
 
-      if (window.FormData && fileList[$field.attr('id')].length) {
+      $.each(files, function (file_id, file) {
 
-        if (!is_blocked($form)) {
-          $place_order.html(wooccm_upload.message.uploading);
-          block($form);
+        if (file_id > wooccm_upload.limit.max_files) {
+          console.log('Exeeds max files limit of ' + wooccm_upload.limit.max_files);
+          return false;
         }
 
-        var data = new FormData();
-        $field_list.find('span[data-file_id]').each(function (i, file) {
+        if (file.size > wooccm_upload.limit.max_file_size) {
+          console.log('Exeeds max file size of ' + wooccm_upload.limit.max_files);
+          return true;
+        }
 
-          var file_id = $(file).data('file_id');
-          if (i > wooccm_upload.limit.max_files) {
-            console.log('Exeeds max files limit of ' + wooccm_upload.limit.max_files);
-            return false;
+        console.log('We\'re ready to upload ' + file.name);
+
+        data.append('wooccm_checkout_attachment_upload[]', file);
+
+      });
+
+      data.append('action', 'wooccm_checkout_attachment_upload');
+      data.append('nonce', wooccm_upload.nonce);
+
+      $.ajax({
+        async: false,
+        url: wooccm_upload.ajax_url,
+        type: 'POST',
+        cache: false,
+        data: data,
+        processData: false,
+        contentType: false,
+        beforeSend: function (response) {
+          //$place_order.html(wooccm_upload.message.uploading);
+        },
+        success: function (response) {
+          if (response.success) {
+            $attachment_ids.val(response.data);
+          } else {
+            $('body').trigger('update_checkout');
           }
-
-          if (fileList[$field.attr('id')][file_id] === undefined) {
-            console.log('Undefined ' + file_id);
-            return true;
-          }
-
-          if (fileList[$field.attr('id')][file_id].size > wooccm_upload.limit.max_file_size) {
-            console.log('Exeeds max file size of ' + wooccm_upload.limit.max_files);
-            return true;
-          }
-
-          console.log('We\'re ready to upload ' + fileList[$field.attr('id')][file_id].name);
-          data.append('wooccm_checkout_attachment_upload[]', fileList[$field.attr('id')][file_id]);
-        });
-        //return;
-
-        data.append('action', 'wooccm_checkout_attachment_upload');
-        data.append('nonce', wooccm_upload.nonce);
-        $.ajax({
-          async: false,
-          url: wooccm_upload.ajax_url,
-          type: 'POST',
-          cache: false,
-          data: data,
-          processData: false,
-          contentType: false,
-          beforeSend: function (response) {
-            //$place_order.html(wooccm_upload.message.uploading);
-          },
-          success: function (response) {
-            //$results.removeClass('woocommerce-message');
-            if (response.success) {
-              //alert(response.data);
-              $attachment_ids.val(response.data);
-            } else {
-              $('body').trigger('update_checkout');
-              //console.log(response.data);
-              //$results.addClass('woocommerce-error').html(response.data).show();
-            }
-          },
-          complete: function (response) {
-            fields = fields - 1;
-            //console.log('ajax: fields = ' + fields);
-          }
-        });
-      } else {
-        fields = fields - 1;
-        //console.log('no ajax: fields = ' + fields);
-      }
-
-      //console.log('fields = ' + fields);
-
-      if (fields == 0) {
-        //console.log('llamar al click aca');
-        unblock($form);
-        $place_order.removeClass('wooccm-upload-process').trigger('click');
-        //return;
-      }
+        },
+        complete: function (response) {
+        }
+      });
 
     });
-    //return false;
-    //}
+
+    unblock($form);
+    $place_order.removeClass('wooccm-upload-process').trigger('click');
+
   });
   // Update checkout fees
   // ---------------------------------------------------------------------------

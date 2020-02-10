@@ -755,22 +755,26 @@ class WooSEA_Get_Products {
                                                                                 $quantity = 1;
                                                                                 
                                                                                 //$customer = new WC_Customer( get_current_user_id(), true );
-                                                                                WC()->customer->set_shipping_country(wc_clean( $code_from_config ));
-                                                                                if(isset($zone_details['region'])){
+
+										if(!empty($code_from_config)){
+
+                                                                                	WC()->customer->set_shipping_country(wc_clean( $code_from_config ));
+                                                                                	if(isset($zone_details['region'])){
                                                                        
-									        	WC()->customer->set_shipping_state(wc_clean( $zone_details['region'] ));
-                                                                                }
-                                                                                //$cart = new WC_Cart(); 
-                                                                                WC()->cart->add_to_cart( $product_id, $quantity );
+									        		WC()->customer->set_shipping_state(wc_clean( $zone_details['region'] ));
+                                                                                	}
+                                                                                	//$cart = new WC_Cart(); 
+                                                                                	WC()->cart->add_to_cart( $product_id, $quantity );
                                                                                 
-                                                                                // Read cart and get schipping costs
-                                                                                foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
-                                                                                        $total_cost = WC()->cart->get_total();
-                                                                                        $shipping_cost = WC()->cart->get_shipping_total();
-											$shipping_cost = wc_format_localized_price($shipping_cost);
-                                                                                }
-                                                                                // Make sure to empty the cart again
-                                                                                WC()->cart->empty_cart();
+                                                                                	// Read cart and get schipping costs
+                                                                                	foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+                                                                                        	$total_cost = WC()->cart->get_total();
+                                                                                        	$shipping_cost = WC()->cart->get_shipping_total();
+												$shipping_cost = wc_format_localized_price($shipping_cost);
+                                                                                	}
+                                                                                	// Make sure to empty the cart again
+                                                                                	WC()->cart->empty_cart();
+										}
                                                                         }
                                                                 }
                                                         }
@@ -2093,7 +2097,7 @@ class WooSEA_Get_Products {
 				$product_data['sale_price_effective_date'] = "";
 			}
 			$product_data['image'] = wp_get_attachment_url($product->get_image_id());
-		
+	
 			// For variable products I need to get the product gallery images of the simple mother product	
 			if($product_data['item_group_id'] > 0){
 				$parent_product = wc_get_product( $product_data['item_group_id'] );
@@ -2142,13 +2146,18 @@ class WooSEA_Get_Products {
 			$product_data['regular_price'] = wc_format_decimal($product_data['regular_price'],2);
 
 			// Untouched raw system pricing - DO NOT CHANGE THESE
-			$product_data['system_price'] = wc_get_price_including_tax($product, array('price'=> $product->get_price()));
-			$product_data['system_price'] = wc_format_decimal($product_data['system_price'],2);
 			$product_data['system_net_price'] = round(wc_get_price_excluding_tax( $product ), 2);
 			$product_data['system_net_price'] = wc_format_decimal($product_data['system_net_price'],2);
                         $product_data['system_regular_price'] = round($product->get_regular_price(),2);
 			$product_data['system_regular_price'] = wc_format_decimal($product_data['system_regular_price'],2);
+
+			$product_data['system_price'] = wc_get_price_including_tax($product, array('price'=> $product->get_price()));
+            		$product_data['system_price'] = ($product->get_regular_price()) ? $this->get_product_price($product, $product->get_regular_price()) : '';
+			$product_data['system_price'] = wc_format_decimal($product_data['system_price'],2);
+
 			$product_data['system_sale_price'] = wc_get_price_including_tax($product, array('price'=> $product->get_sale_price()));
+            		$sale_price = $product_data['system_sale_price'];
+            		$product_data['system_sale_price'] = ($product->get_regular_price() != $sale_price) ? $this->get_product_price($product, $sale_price ) : '';
 			$product_data['system_sale_price'] = wc_format_decimal($product_data['system_sale_price'],2);
 
 			// Override price when WCML price is different than the non-translated price	
@@ -2505,6 +2514,17 @@ class WooSEA_Get_Products {
 					// Just to make sure the condition field is never empty
 					if(($custom_kk == "_woosea_condition") && ($custom_value == "")){
 						$custom_value = $product_data['condition'];
+					}
+
+                                 	// Need to clean up the strange price rightpress is returning
+                                      	if($custom_kk == "rp_wcdpd_price_cache"){
+						if(array_key_exists("price", $custom_value)){
+							$product_data['price'] = $custom_value['price']['p'];
+                                          	}
+
+						if(array_key_exists("sale_price", $custom_value)){
+							$product_data['sale_price'] = $custom_value['sale_price']['p'];
+                                  		}
 					}
 					$product_data[$new_key] = $custom_value;
 				}
@@ -3577,6 +3597,50 @@ class WooSEA_Get_Products {
             		return $quantity + 0;
         	}
         	return "0";
+    	}
+
+        /**
+         * Return product price
+         *
+         * @author Carlos Rodríguez <carlos.rodriguez@yourinspiration.it>
+         * @since 1.0.3
+         */
+       	public function get_product_price($product, $price) {
+     		$product_price = $this->woosea_get_price_including_tax($product, 1, $price);
+            	return $product_price;
+        }
+
+
+    	/**
+     	* @param WC_Product $product
+     	* @param int        $qty
+     	* @param string     $price
+     	*
+     	* @return float|string
+     	*/
+    	public function woosea_get_price_excluding_tax( $product, $qty = 1, $price = '' ) {
+        	if ( version_compare( WC()->version, '2.7.0', '>=' ) ) {
+            		$price = wc_get_price_excluding_tax( $product, array( 'qty' => $qty, 'price' => $price ) );
+        	} else {
+            		$price = $product->get_price_excluding_tax( $qty, $price );
+        	}
+        	return $price;
+    	}
+
+    	/**
+     	* @param WC_Product $product
+     	* @param int        $qty
+     	* @param string     $price
+     	*
+     	* @return float|string
+     	*/
+    	public function woosea_get_price_including_tax( $product, $qty = 1, $price = '' ) {
+        	if ( version_compare( WC()->version, '2.7.0', '>=' ) ) {
+            		$price = wc_get_price_including_tax( $product, array( 'qty' => $qty, 'price' => $price ) );
+        	} else {
+            		$price = $product->get_price_including_tax( $qty, $price );
+        	}
+        	return $price;
     	}
 
 	/**

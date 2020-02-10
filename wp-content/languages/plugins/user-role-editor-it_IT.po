@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - User Role Editor - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-01-23 20:57:44+0000\n"
+"PO-Revision-Date: 2020-02-06 14:01:14+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,18 @@ msgstr ""
 "X-Generator: GlotPress/2.4.0-alpha\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - User Role Editor - Stable (latest release)\n"
+
+#: includes/classes/capability.php:84
+msgid "Wrong Request"
+msgstr "Richiesta errata"
+
+#: includes/classes/editor.php:1033
+msgid "Wrong role ID"
+msgstr "ID Ruolo errato"
+
+#: includes/classes/editor.php:1005
+msgid "There are no roles for deletion"
+msgstr "Non ci sono ruoli da eliminare"
 
 #: includes/classes/grant-roles.php:455
 msgid "Revoke"

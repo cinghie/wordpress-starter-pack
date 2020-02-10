@@ -102,9 +102,19 @@ class WooSEA_moebel {
                                         "feed_name" => "art_streichpreis",
                                         "format" => "optional",
                                 ),
+                                "Art lieferoptionen" => array(
+                                        "name" => "art_lieferoptionen",
+                                        "feed_name" => "art_lieferoptionen",
+                                        "format" => "optional",
+                                ),
                                 "Partner Payment Methods" => array(
                                         "name" => "partner.paymentMethods",
                                         "feed_name" => "partner.paymentMethods",
+                                        "format" => "optional",
+                                ),
+                                "Art services" => array(
+                                        "name" => "art_services",
+                                        "feed_name" => "art_services",
                                         "format" => "optional",
                                 ),
                                 "Art grundpreis" => array(
@@ -307,6 +317,31 @@ class WooSEA_moebel {
                                         "feed_name" => "art_img_url4",
                                         "format" => "optional",
                                 ),
+                                "Art img url5" => array(
+                                        "name" => "art_img_url5",
+                                        "feed_name" => "art_img_url5",
+                                        "format" => "optional",
+                                ),
+                                "Art img url6" => array(
+                                        "name" => "art_img_url6",
+                                        "feed_name" => "art_img_url6",
+                                        "format" => "optional",
+                                ),
+                                "Art img url7" => array(
+                                        "name" => "art_img_url7",
+                                        "feed_name" => "art_img_url7",
+                                        "format" => "optional",
+                                ),
+                                "Art img url8" => array(
+                                        "name" => "art_img_url8",
+                                        "feed_name" => "art_img_url8",
+                                        "format" => "optional",
+                                ),
+                                "Art img url9" => array(
+                                        "name" => "art_img_url9",
+                                        "feed_name" => "art_img_url9",
+                                        "format" => "optional",
+                                ),
                                 "Art masse" => array(
                                         "name" => "art_masse",
                                         "feed_name" => "art_masse",
@@ -340,6 +375,11 @@ class WooSEA_moebel {
                                 "Art hoehe einheit" => array(
                                         "name" => "art_hoehe_einheit",
                                         "feed_name" => "art_hoehe_einheit",
+                                        "format" => "optional",
+                                ),
+                                "Art form" => array(
+                                        "name" => "art_form",
+                                        "feed_name" => "art_form",
                                         "format" => "optional",
                                 ),
                                 "Art sitztiefe" => array(

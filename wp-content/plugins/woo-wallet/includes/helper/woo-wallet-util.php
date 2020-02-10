@@ -9,11 +9,13 @@ if ( ! function_exists( 'is_wallet_rechargeable_order' ) ) {
      */
     function is_wallet_rechargeable_order( $order ) {
         $is_wallet_rechargeable_order = false;
-        foreach ( $order->get_items( 'line_item' ) as $item ) {
-            $product_id = $item['product_id'];
-            if ( $product_id == get_wallet_rechargeable_product()->get_id() ) {
-                $is_wallet_rechargeable_order = true;
-                break;
+        if( $order instanceof WC_Order){
+            foreach ( $order->get_items( 'line_item' ) as $item ) {
+                $product_id = $item['product_id'];
+                if ( $product_id == get_wallet_rechargeable_product()->get_id() ) {
+                    $is_wallet_rechargeable_order = true;
+                    break;
+                }
             }
         }
         return apply_filters( 'woo_wallet_is_wallet_rechargeable_order', $is_wallet_rechargeable_order, $order );
@@ -450,11 +452,31 @@ if ( ! function_exists( 'is_full_payment_through_wallet' ) ) {
      * @return boolean
      */
     function is_full_payment_through_wallet() {
-        $is_valid_payment_through_wallet = true;
-        $current_wallet_balance          = woo_wallet()->wallet->get_wallet_balance( get_current_user_id(), 'edit' );
-        if ( !is_admin() && ( is_array( wc()->cart->cart_contents) && sizeof( wc()->cart->cart_contents) > 0 ) && ( $current_wallet_balance < get_woowallet_cart_total() || is_wallet_rechargeable_cart() ) ) {
+        $is_valid_payment_through_wallet = false;
+        $current_wallet_balance = woo_wallet()->wallet->get_wallet_balance( get_current_user_id(), 'edit' );
+        $total = 0;
+        if(WC()->cart){
+            $order_id = absint( get_query_var( 'order-pay' ) );
+
+            // Gets order total from "pay for order" page.
+            if ( 0 < $order_id ) {
+                    $order = wc_get_order( $order_id );
+                    $total = (float) $order->get_total();
+
+            // Gets order total from cart/checkout.
+            } elseif ( 0 < WC()->cart->total ) {
+                    $total = (float) get_woowallet_cart_total();
+            }
+        }
+        
+        if(!is_admin() && $current_wallet_balance >= $total && ( !is_wallet_rechargeable_cart() )){
+            $is_valid_payment_through_wallet = true;
+        }
+        
+        if($order_id && is_wallet_rechargeable_order($order)){
             $is_valid_payment_through_wallet = false;
         }
+        
         return apply_filters( 'is_valid_payment_through_wallet', $is_valid_payment_through_wallet );
     }
 
@@ -568,4 +590,15 @@ if (!function_exists('woo_wallet_wc_price_args')) {
         return $args;
     }
 
+}
+
+if(!function_exists('get_wallet_user_capability')){
+    /**
+     * Wallet user admin capability.
+     * @return string
+     */
+    function get_wallet_user_capability(){
+        return apply_filters('woo_wallet_user_capability', 'manage_woocommerce');
+    }
+    
 }

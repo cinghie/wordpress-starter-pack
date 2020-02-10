@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.3
-Stable tag: 7.3.6
+Stable tag: 7.4.3
 
 == Description ==
 
@@ -311,6 +311,28 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 7.4.3 (2020-02-09) =
+* Added logic to bypass the rightpress discount plugin caching of prices
+
+= 7.4.2 (2020-02-08) =
+* Changed logic of system price and sale system price attributes
+
+= 7.4.1 (2020-02-08) =
+* Solved a PHP notice undefined variable
+
+= 7.4.0 (2020-02-08) =
+* Solved a PHP is_type error
+
+= 7.3.9 (2020-02-06) =
+* Added extra Moebel.be template fields
+
+= 7.3.8 (2020-02-05) =
+* Fixed a Facebook pixel issue for the search page where for some theme's the search broke when no search results were returned.
+
+= 7.3.7 (2020-02-04) =
+* Added JSON priceSpecification
+* Fixed a fatal error where users added a flat rate shipping zone but forgot to set a shipping country. This issue has been fixed now.
 
 = 7.3.6 (2020-01-30) =
 * Fixed a bug where an admin notice could be closed but the state was not being saved.
@@ -2336,6 +2358,28 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 7.4.3 =
+Added logic to bypass the rightpress discount plugin caching of prices
+
+= 7.4.2 =
+Changed logic of system price and sale system price attributes
+
+= 7.4.1 =
+Solved a PHP notice undefined variable
+
+= 7.4.0 =
+Solved a PHP is_type error
+
+= 7.3.9 =
+Added extra Moebel.be template fields
+
+= 7.3.8 =
+Fixed a Facebook pixel issue for the search page where for some theme's the search broke when no search results were returned.
+
+= 7.3.7 =
+Added JSON priceSpecification
+Fixed a fatal error where users added a flat rate shipping zone but forgot to set a shipping country. This issue has been fixed now.
 
 = 7.3.6 =
 Fixed a bug where an admin notice could be closed but the state was not being saved.

@@ -1,8 +1,8 @@
 /*!
- * Variation Swatches for WooCommerce v1.0.73 
+ * Variation Swatches for WooCommerce v1.0.75 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 1/26/2020, 1:49:27 PM
+ * Date: 2/6/2020, 4:20:18 PM
  * Released under the GPLv3 license.
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -218,13 +218,13 @@ var WooVariationSwatches = function ($) {
                             select.val(value).trigger('change');
                             select.trigger('click');
 
-                            // select.trigger('focusin');
+                            select.trigger('focusin');
 
-                            if (is_mobile) {}
-                            //    select.trigger('touchstart');
+                            if (is_mobile) {
+                                select.trigger('touchstart');
+                            }
 
-
-                            //  $(this).trigger('focus'); // Mobile tooltip
+                            $(this).trigger('focus'); // Mobile tooltip
                             $(this).trigger('wvs-selected-item', [value, select, _this._element]); // Custom Event for li
                         });
 
@@ -237,13 +237,13 @@ var WooVariationSwatches = function ($) {
                             select.val('').trigger('change');
                             select.trigger('click');
 
-                            //select.trigger('focusin');
+                            select.trigger('focusin');
 
-                            if (is_mobile) {}
-                            //   select.trigger('touchstart');
+                            if (is_mobile) {
+                                select.trigger('touchstart');
+                            }
 
-
-                            // $(this).trigger('focus'); // Mobile tooltip
+                            $(this).trigger('focus'); // Mobile tooltip
 
                             $(this).trigger('wvs-unselected-item', [value, select, _this._element]); // Custom Event for li
                         });
@@ -275,9 +275,9 @@ var WooVariationSwatches = function ($) {
                             }
 
                             select.trigger('click');
-                            //select.trigger('focusin');
+                            select.trigger('focusin');
                             if (is_mobile) {
-                                //    select.trigger('touchstart');
+                                select.trigger('touchstart');
                             }
                         });
                     } else {
@@ -287,12 +287,12 @@ var WooVariationSwatches = function ($) {
                             var value = $(this).data('value');
                             select.val(value).trigger('change');
                             select.trigger('click');
-                            //select.trigger('focusin');
-                            if (is_mobile) {}
-                            //    select.trigger('touchstart');
+                            select.trigger('focusin');
+                            if (is_mobile) {
+                                select.trigger('touchstart');
+                            }
 
-
-                            // $(this).trigger('focus'); // Mobile tooltip
+                            $(this).trigger('focus'); // Mobile tooltip
 
                             $(this).trigger('wvs-selected-item', [value, select, _this._element]); // Custom Event for li
                         });
@@ -305,11 +305,11 @@ var WooVariationSwatches = function ($) {
 
                             select.val(value).trigger('change');
                             select.trigger('click');
-                            //select.trigger('focusin');
+                            select.trigger('focusin');
 
-                            if (is_mobile) {}
-                            //    select.trigger('touchstart');
-
+                            if (is_mobile) {
+                                select.trigger('touchstart');
+                            }
 
                             // Radio
                             $(this).parent('li.radio-variable-item').removeClass('selected disabled').addClass('selected');

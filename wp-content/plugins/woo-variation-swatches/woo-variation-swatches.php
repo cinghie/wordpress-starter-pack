@@ -4,7 +4,7 @@
 	 * Plugin URI: https://wordpress.org/plugins/woo-variation-swatches/
 	 * Description: Beautiful colors, images and buttons variation swatches for woocommerce product attributes. Requires WooCommerce 3.2+
 	 * Author: Emran Ahmed
-	 * Version: 1.0.73
+	 * Version: 1.0.75
 	 * Domain Path: /languages
 	 * Requires at least: 4.8
 	 * Tested up to: 5.3
@@ -20,7 +20,7 @@
 		
 		final class Woo_Variation_Swatches {
 			
-			protected $_version = '1.0.73';
+			protected $_version = '1.0.75';
 			
 			protected static $_instance = null;
 			private          $_settings_api;
@@ -913,7 +913,7 @@
 					                                      ) ) );
 					
 					
-					echo sprintf( '<div class="gwp-live-feed-contents notice notice-info"><div class="feed-message-wrapper">8000+ woocommerce stores increase their sales using <a target="_blank" class="thickbox open-plugin-details-modal" href="%s"><strong>Additional Variation Images Gallery</strong></a>. Why not yours? <a class="button-primary" href="%s" rel="noopener">%s</a></div><a class="gwp-live-feed-close-plain notice-dismiss" href="%s"></a></div>', $popup_url, $install_url, $button_text, $cancel_url );
+					echo sprintf( '<div class="gwp-live-feed-contents notice notice-info"><div class="feed-message-wrapper">9000+ woocommerce stores increase their sales using <a target="_blank" class="thickbox open-plugin-details-modal" href="%s"><strong>Additional Variation Images Gallery</strong></a>. Why not yours? <a class="button-primary" href="%s" rel="noopener">%s</a></div><a class="gwp-live-feed-close-plain notice-dismiss" href="%s"></a></div>', $popup_url, $install_url, $button_text, $cancel_url );
 					
 				}
 			}

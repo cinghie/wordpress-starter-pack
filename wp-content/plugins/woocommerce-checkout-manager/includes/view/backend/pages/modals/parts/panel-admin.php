@@ -1,6 +1,6 @@
-<# if (!_.contains(<?php echo json_encode(array_merge($option, $template)); ?>, data.type)) { #>
+<# if (!_.contains(<?php echo json_encode($template); ?>, data.type)) { #>
 <div class="panel woocommerce_options_panel <# if (data.panel != 'admin') { #>hidden<# } #>">
-     <div class="options_group wooccm-premium">
+  <div class="options_group wooccm-premium">
     <p class="form-field">
       <label><?php esc_html_e('Listable', 'woocommerce-checkout-manager'); ?></label>
       <input <# if ( data.listable ) { #>checked="checked"<# } #> type="checkbox" name="listable" value="1">

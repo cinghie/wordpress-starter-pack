@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: woocommerce,yith woocommerce colors and labels variations,yith woocommerce zoom magnifier,yith woocommerce wishlist,yith woocommerce ajax product filter,yith woocommerce ajax search,yith woocommerce catalog mode,yith woocommerce advanced reviews, yith woocommerce badges management,yith woocommerce cart messages,yith woocommerce review reminder,yith woocommerce quick view,yith woocommerce mailchimp,yith woocommerce stripe,yith woocommerce request a quote,yith woocommerce tab manager,yith woocommerce multi vendor
 Requires at least: 3.5.1
 Tested up to: 5.3
-Stable tag: 2.1.1
+Stable tag: 2.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -151,10 +151,14 @@ YITH Essential Kit for WooCommerce #1 will add a new submenu called "YITH Essent
 
 == Changelog ==
 
+= 2.1.2 - Released on 04 February 2020 =
+
+* Update: Plugin framework
+* New: Tested compatibility with WooCommerce 3.9+
+
 = 2.1.1 - Released on 28 November 2019 =
 
 * Update: Plugin framework
-* Update: Notice handler
 
 = 2.1.0 - Released on 14 November 2019 =
 

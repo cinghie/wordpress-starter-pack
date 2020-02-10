@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     7.3.6
+ * Version:     7.4.3
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '7.3.6' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '7.4.3' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -366,6 +366,11 @@ function woosea_add_facebook_pixel( $product = null ){
 					$cats = str_replace("&amp;","&", $cats);
 
 					if(!empty($fb_prodid)){
+
+                                        	if(!$product) {
+                                                	return -1;
+                                        	}
+
 						if ( $product->is_type( 'variable' ) ) {
 							// We should first check if there are any _GET parameters available
 							// When there are not we are on a variable product page but not on a specific variable one
@@ -496,6 +501,10 @@ function woosea_add_facebook_pixel( $product = null ){
 
 				foreach ($ids as $id){
 					$_product = wc_get_product($id);
+					if(!$_product) {
+						return -1;
+					}
+
 					if($_product->is_type('simple')){
 						// Add the simple product ID
 						$fb_prodid .= $id.',';
@@ -521,7 +530,12 @@ function woosea_add_facebook_pixel( $product = null ){
 
 				foreach ($ids as $id){
 					$_product = wc_get_product($id);
-					if($_product->is_type('simple')){
+					if(!$_product) {
+						return -1;
+					}
+
+					$ptype = $_product->get_type();
+					if($ptype == "simple"){
 						// Add the simple product ID
 						$fb_prodid .= $id.',';
 					} else {
@@ -590,6 +604,11 @@ function woosea_add_remarketing_tags( $product = null ){
                  		$ecomm_prodid = get_the_id();
 
 				if(!empty($ecomm_prodid)){
+
+                                        if(!$product) {
+                                                return -1;
+                                        }
+
 					if ( $product->is_type( 'variable' ) ) {
 						// We should first check if there are any _GET parameters available
 						// When there are not we are on a variable product page but not on a specific variable one
@@ -731,7 +750,7 @@ register_activation_hook(__FILE__, 'activate_woosea_feed');
  **/
 function woosea_license_notice(){
         $license_information = get_option( 'license_information' );
-        $license_notification = get_option( 'woosea_license_notification_closed' );
+   	$license_notification = get_option( 'woosea_license_notification_closed' );
         $screen = get_current_screen();
 	$current_date = strtotime(date( 'd-m-Y' ));
 	$off_date = strtotime($license_notification['timestamp']);
@@ -750,7 +769,7 @@ function woosea_license_notice(){
 
         if (!preg_match("/woo-product-feed-pro|woosea_manage_feed|woosea_manage_settings/i",$page)){
 
- 	 	if((isset($license_information['notice'])) and ($license_information['notice'] == "true") and ($license_notification['show'] == "yes")){
+ 	 	if($license_notification['show'] <> "no"){
        		?>
        			<div class="<?php print "$license_information[message_type]"; ?> license_notification">
                 		<p><?php _e( $license_information['message'], 'sample-text-domain' ); ?></p>
@@ -1219,7 +1238,11 @@ function woosea_product_delete_meta_price( $product = null ) {
 
                         // Assume prices will be valid until the end of next year, unless on sale and there is an end date.
                         $price_valid_until = date( 'Y-12-31', current_time( 'timestamp', true ) + YEAR_IN_SECONDS );
-			
+		
+                      	if(!$product) {
+                        	return -1;
+                      	}
+	
 			if ( $product->is_type( 'variable' ) ) {
 				// We should first check if there are any _GET parameters available
 				// When there are not we are on a variable product page but not on a specific variable one
@@ -1304,6 +1327,11 @@ function woosea_product_delete_meta_price( $product = null ) {
 							'@type'         	=> 'Offer',
 							'price'			=> $product_price,
 						        'priceValidUntil'    	=> $price_valid_until,
+	                                                'priceSpecification' => array(
+                                                        	'price'                 => $product_price,
+                                                        	'priceCurrency'         => $shop_currency,
+                                                        	'valueAddedTaxIncluded' => wc_prices_include_tax() ? 'true' : 'false',
+                                                	),	
 							'priceCurrency' 	=> $shop_currency,
 							'itemCondition' 	=> 'https://schema.org/'.$json_condition.'',
 							'availability'  	=> 'https://schema.org/'.$availability.'',
@@ -1328,6 +1356,11 @@ function woosea_product_delete_meta_price( $product = null ) {
                               		                  	'@type' => 'Offer',
                                 	               	 	'price' => wc_format_decimal( $lowest, wc_get_price_decimals() ),
                                         	       		'priceCurrency' => $shop_currency,
+						              	'priceSpecification' => array(
+                                                        		'price'                 => wc_format_decimal( $lowest, wc_get_price_decimals() ),
+                                                        		'priceCurrency'         => $shop_currency,
+                                                        		'valueAddedTaxIncluded' => wc_prices_include_tax() ? 'true' : 'false',
+                                                		),	
 								'itemCondition' => 'https://schema.org/'.$json_condition.'',
                                         			'availability'  => 'https://schema.org/' . $stock = ( $product->is_in_stock() ? 'InStock' : 'OutOfStock' ),
                                    	     				'sku'           => $product->get_sku(),
@@ -1406,6 +1439,11 @@ function woosea_product_delete_meta_price( $product = null ) {
                        			'price' => $product_price,
 				        'priceValidUntil'    => $price_valid_until,
 					'priceCurrency' => $shop_currency,
+                                      	'priceSpecification' => array(
+                                        	'price'                 => $product_price,
+                                            	'priceCurrency'         => $shop_currency,
+                                            	'valueAddedTaxIncluded' => wc_prices_include_tax() ? 'true' : 'false',
+                                     	),
 					'itemCondition' => 'https://schema.org/'.$json_condition.'',
 					'availability'  => 'https://schema.org/' . $stock = ( $product->is_in_stock() ? 'InStock' : 'OutOfStock' ),
 					'sku'           => $product->get_sku(),
@@ -1425,7 +1463,11 @@ function woosea_product_delete_meta_price( $product = null ) {
                 if ( '' !== $product->get_price() ) {
 
 			$price_valid_until = date( 'Y-12-31', current_time( 'timestamp', true ) + YEAR_IN_SECONDS );
-                        
+                       
+                      	if(!$product) {
+                        	return -1;
+                     	}
+ 
 			if ( $product->is_type( 'variable' ) ) {
                                 $prices  = $product->get_variation_prices();
                                 $lowest  = reset( $prices['price'] );
@@ -1438,6 +1480,11 @@ function woosea_product_delete_meta_price( $product = null ) {
                                                 'price' => wc_format_decimal( $lowest, wc_get_price_decimals() ),
 				               	'priceValidUntil'    => $price_valid_until,
 					        'priceCurrency' => $shop_currency,
+                                                'priceSpecification' => array(
+                                                        'price'                 => wc_format_decimal( $lowest, wc_get_price_decimals() ),
+                                                        'priceCurrency'         => $shop_currency,
+                                                        'valueAddedTaxIncluded' => wc_prices_include_tax() ? 'true' : 'false',
+                                                ),
                                         );
 
 
@@ -1467,6 +1514,11 @@ function woosea_product_delete_meta_price( $product = null ) {
                                         'price' => wc_format_decimal( $product->get_price(), wc_get_price_decimals() ),
 			                'priceValidUntil'    => $price_valid_until,
 					'priceCurrency' => $shop_currency,
+                                        'priceSpecification' => array(
+                                                'price'                 => wc_format_decimal( $product->get_price(), wc_get_price_decimals() ),
+                                                'priceCurrency'         => $shop_currency,
+                                                'valueAddedTaxIncluded' => wc_prices_include_tax() ? 'true' : 'false',
+                                        ),
                                 	'availability'  => 'https://schema.org/' . ( $product->is_in_stock() ? 'InStock' : 'OutOfStock' ),
                                	        'url'           => $permalink,
 					'seller'        => array(
@@ -3549,6 +3601,10 @@ function woosea_autocomplete_mapping() {
                		global $product;
 			$product_title = $product->get_title();
 
+                     	if(!$product) {
+                        	return -1;
+                      	}
+
 			if ($product->is_type( 'variable' )) {
 				$attrv = $product->get_variation_attributes();
 				foreach ($attrv as $ka => $va){
@@ -3770,7 +3826,7 @@ function woosea_license_valid(){
 
 	if(!empty($license_information['license_key'])){
 	        $curl = curl_init();
-	        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=7.3.6";
+	        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=7.4.3";
 
 	        curl_setopt_array($curl, array(
         	        CURLOPT_RETURNTRANSFER => 1,

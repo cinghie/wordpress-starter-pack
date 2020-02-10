@@ -33,7 +33,7 @@
     <a href="#datepicker"><span><?php esc_html_e('Datepicker', 'woocommerce-checkout-manager'); ?></span></a>
   </li>
   <# } #>
-  <# if ( !_.contains(<?php echo json_encode(array_merge($option, $template)); ?>, data.type)) { #>
+  <# if ( !_.contains(<?php echo json_encode($template); ?>, data.type)) { #>
   <li class="media-modal-tab">
     <a href="#admin"><span><?php esc_html_e('Admin', 'woocommerce-checkout-manager'); ?></span></a>
   </li>

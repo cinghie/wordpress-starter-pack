@@ -379,6 +379,14 @@ And your are ready to go.
 
 == Changelog ==
 
+= 1.0.75 =
+
+* Fix: mobile double tab clear issue.
+
+= 1.0.74 =
+
+* Fix: tooltip issue.
+
 = 1.0.73 =
 
 * Fix: quickview issue
