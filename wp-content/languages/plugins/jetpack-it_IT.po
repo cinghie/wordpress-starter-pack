@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Jetpack by WordPress.com - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-01-24 21:56:16+0000\n"
+"PO-Revision-Date: 2020-02-02 12:09:42+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -331,6 +331,10 @@ msgstr "Jetpack Personal"
 #: _inc/jetpack-strings.php:18
 msgid "Jetpack Free"
 msgstr "Jetpack Gratuito"
+
+#: _inc/jetpack-strings.php:722
+msgid "Expired on %s."
+msgstr "Scaduto il %s."
 
 #: modules/shortcodes/recipe.php:587
 msgctxt "recipe"
@@ -2815,6 +2819,11 @@ msgstr "Elaborazione in corso..."
 #: _inc/blocks/editor-experimental.js:18 _inc/blocks/editor-beta.js:18
 msgid "Enter your email"
 msgstr "Inserisci la tua email"
+
+#. translators: the placeholder is a URL
+#: class.jetpack-cli.php:2000
+msgid "Read more at %7$s"
+msgstr "Leggi tutto su %7$s"
 
 #: class.jetpack-cli.php:1995
 msgid "To start using the block, build the blocks with yarn run build-extensions"
