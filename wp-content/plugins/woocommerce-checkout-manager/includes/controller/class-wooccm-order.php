@@ -284,7 +284,7 @@ class WOOCCM_Order_Controller extends WOOCCM_Upload {
     $options = get_option('wccs_settings');
 
     if (!empty($options['checkness']['upload_os'])) {
-      return (array) implode(',', $options['checkness']['upload_os']);
+      return (array) @implode(',', $options['checkness']['upload_os']);
     }
 
     return $value;

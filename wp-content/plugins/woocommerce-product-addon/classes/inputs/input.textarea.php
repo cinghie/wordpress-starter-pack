@@ -80,6 +80,11 @@ class NM_Textarea_wooproduct extends PPOM_Inputs{
 					'title' => __ ( 'Max. Length', "ppom" ),
 					'desc' => __ ( 'Max. characters allowed, leave blank for default', "ppom" )
 			),
+			'price' => array (
+						'type' => 'text',
+						'title' => __ ( 'Addon-on Price', 'ppom' ),
+						'desc' => __ ( 'Price will be added as Add-on if text provided', 'ppom' )
+				),
 			'class' => array (
 					'type' => 'text',
 					'title' => __ ( 'Class', "ppom" ),

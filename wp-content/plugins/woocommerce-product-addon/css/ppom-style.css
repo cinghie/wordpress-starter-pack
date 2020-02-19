@@ -393,11 +393,6 @@ padding: 5px;
     margin-top: -10px;
 }
 
-/* Elementor fixed */
-.elementor-add-to-cart form.cart{
-display: block !important;
-}
-
 /** Hiding select options for variable products **/
 /*option.ppom-variable-option{
   display: none;
@@ -410,4 +405,12 @@ display: block !important;
 
 .ppom-qty-found{
   display:none;
+}
+
+/*====== Elementor Issue CSS ========*/
+.woocommerce div.product.elementor form.cart.variations_form .woocommerce-variation-add-to-cart{
+    display: block !important;
+}
+.elementor-add-to-cart form.cart{
+    display: block !important;
 }

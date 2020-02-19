@@ -193,7 +193,8 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
     }
     
     // Price display controller
-	wp_enqueue_script( 'ppom-price', PPOM_URL.'/js/ppom-price.js', array('jquery','ppom-inputs'), PPOM_DB_VERSION, true);
+    $ppom_price_js = ppom_get_price_table_calculation();
+	wp_enqueue_script( 'ppom-price', PPOM_URL."/js/price/{$ppom_price_js}", array('jquery','ppom-inputs'), PPOM_DB_VERSION, true);
 		
 	// Ajax validation
 	if( $ppom->ajax_validation_enabled ) {

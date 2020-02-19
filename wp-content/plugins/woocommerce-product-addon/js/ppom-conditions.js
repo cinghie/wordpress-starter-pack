@@ -139,6 +139,7 @@ jQuery(function($) {
                 $('#filelist-'+e.field).find('.u_i_c_box').remove();
                 break;
                 
+            case 'palettes':
             case 'image':
                  $('input[name="ppom[fields]['+e.field+'][]"]').prop('checked', false);
                  break;

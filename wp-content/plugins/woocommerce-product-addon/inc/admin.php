@@ -169,7 +169,7 @@ function ppom_admin_rate_and_get() {
  */
 function ppom_admin_save_settings() {
 	
-	if( ! current_user_can('administrator') ) {
+	if(!ppom_security_role()){
 		_e ("Sorry, you are not allowed to perform this action", 'ppom');
 		die(0);
 	}
@@ -190,7 +190,7 @@ function ppom_admin_save_form_meta() {
 	
 	// print_r($_REQUEST); exit;
 	
-	if( ! current_user_can('administrator') ) {
+	if(!ppom_security_role()){
 		_e ("Sorry, you are not allowed to perform this action", 'ppom');
 		die(0);
 	}
@@ -276,10 +276,12 @@ function ppom_admin_update_form_meta() {
 	
 	// print_r($_REQUEST); exit;
 	
-	if( ! current_user_can('administrator') ) {
+
+	if(!ppom_security_role()){
 		_e ("Sorry, you are not allowed to perform this action", 'ppom');
 		die(0);
 	}
+	
 	
 	global $wpdb;
 	
@@ -404,7 +406,7 @@ function ppom_admin_update_ppom_meta_only($ppom_id, $ppom_meta) {
  */
 function ppom_admin_delete_meta() {
 	
-	if( ! current_user_can('administrator') ) {
+	if(!ppom_security_role()){
 		_e ("Sorry, you are not allowed to perform this action", 'ppom');
 		die(0);
 	}
@@ -434,7 +436,7 @@ function ppom_admin_delete_meta() {
  */
 function ppom_admin_delete_selected_meta() {
 	
-	if( ! current_user_can('administrator') ) {
+	if(!ppom_security_role()){
 		_e ("Sorry, you are not allowed to perform this action", 'ppom');
 		die(0);
 	}

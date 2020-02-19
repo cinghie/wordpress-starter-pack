@@ -196,8 +196,8 @@ class WOOCCM_Fields_Handler {
   public function remove_fields_priority($fields) {
 
     foreach ($fields as $key => $field) {
-      unset($fields[$key]['label']);
-      unset($fields[$key]['placeholder']);
+      //unset($fields[$key]['label']);
+      //unset($fields[$key]['placeholder']);
       unset($fields[$key]['priority']);
       unset($fields[$key]['required']);
     }
@@ -239,9 +239,8 @@ class WOOCCM_Fields_Handler {
     // -----------------------------------------------------------------------
     //add_filter('default_option_woocommerce_checkout_address_2_field', array($this, 'woocommerce_checkout_address_2_field'));
     // Fix address fields priority
-//    add_filter('woocommerce_get_country_locale_default', array($this, 'remove_fields_priority'));
-//
-//    add_filter('woocommerce_get_country_locale_base', array($this, 'remove_fields_priority'));
+    add_filter('woocommerce_get_country_locale_default', array($this, 'remove_fields_priority'));
+    add_filter('woocommerce_get_country_locale_base', array($this, 'remove_fields_priority'));
     // Fix required country notice when shipping address is activated
     // -----------------------------------------------------------------------
     add_filter('woocommerce_checkout_posted_data', array($this, 'remove_address_fields'));

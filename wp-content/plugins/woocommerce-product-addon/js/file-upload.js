@@ -409,13 +409,20 @@ function ppom_setup_file_upload_input( file_input ) {
     				var fileCheck = jQuery('<input checked="checked" name="ppom[fields]['+file_data_name+']['+file.id+'][org]" type="checkbox"/>')
     				                .attr('data-price', file_input.file_cost)
     				                .attr('data-label', obj_resp.file_name)
+    				                .attr('data-data_name', file_input.data_name)
     				                .attr('data-title', file_input.title)
     				                .attr('data-onetime', file_input.onetime)
     				                .val(obj_resp.file_name)
     				                .css('display','none')
     				                .addClass('ppom-file-cb-'+file_data_name)
     				                .addClass('ppom-file-cb')
+    				                .addClass('ppom-input')
     				                .appendTo(file_container);
+    				                
+    				// if( file_input.type === 'file' ) {
+    				    
+    				//     fileCheck.addClass('ppom-input');
+    				// }
     				                
     				ppom_update_option_prices();
     				

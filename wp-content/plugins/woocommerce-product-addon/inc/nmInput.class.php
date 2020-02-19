@@ -168,7 +168,7 @@ class NM_Form {
         $html       .= 'placeholder="'.esc_attr($placeholder).'" ';
         $html       .= 'autocomplete="off" ';
         $html       .= 'data-type="'.esc_attr($type).'" ';
-        $html       .= 'data-data_name="'.esc_attr($type).'" ';
+        $html       .= 'data-data_name="'.esc_attr($id).'" ';
         $html       .= 'data-price="'.esc_attr($price).'" ';
         $html       .= 'data-onetime="'.esc_attr($onetime).'" ';
         $html       .= 'data-taxable="'.esc_attr($taxable).'" ';
@@ -283,6 +283,7 @@ class NM_Form {
           
         $html       .= '<input type="'.esc_attr($dom_type).'" ';
         $html       .= 'id="'.esc_attr($id).'" ';
+        $html       .= 'data-data_name="'.esc_attr($id).'" ';
         $html       .= 'name="'.esc_attr($name).'" ';
         $html       .= 'class="'.esc_attr($classes).'" ';
         $html       .= 'placeholder="'.esc_attr($placeholder).'" ';
@@ -363,6 +364,7 @@ class NM_Form {
             $html       .= '<textarea ';
             $html       .= 'id="'.esc_attr($id).'" ';
             $html       .= 'name="'.esc_attr($name).'" ';
+            $html       .= 'data-data_name="'.esc_attr($id).'" ';
             $html       .= 'class="'.esc_attr($classes).'" ';
             $html       .= 'placeholder="'.esc_attr($placeholder).'" ';
             // $html       .= 'cols="'.esc_attr($cols).'" ';
@@ -434,6 +436,7 @@ class NM_Form {
         $html       .= 'id="'.esc_attr($id).'" ';
         $html       .= 'name="'.esc_attr($name).'" ';
         $html       .= 'class="'.esc_attr($classes).'" ';
+        $html       .= 'data-data_name="'.esc_attr($id).'" ';
         $html       .= ($multiple) ? 'multiple' : '';
         
         // Attributes
@@ -449,10 +452,11 @@ class NM_Form {
         foreach($options as $key => $value) {
                 
                 // for multiple selected
+                // ppom_pa($value);
                 
                 $option_label   = $value['label'];
                 $option_price   = $value['price'];
-                $option_id      = isset($value['option_id']) ? $value['option_id'] : '';
+                $option_id      = isset($value['id']) ? $value['id'] : '';
                 $raw_label      = $value['raw'];
                 $without_tax    = $value['without_tax'];
                 $opt_percent    = isset($value['percent']) ? $value['percent']: '';
@@ -469,6 +473,7 @@ class NM_Form {
                     $option_price = 0;
                 }
                 
+                // var_dump($option_price);
                 if( is_array($selected_value) ){
                 
                     foreach($selected_value as $s){
@@ -541,6 +546,7 @@ class NM_Form {
         $html       .= 'id="'.esc_attr($id).'" ';
         $html       .= 'name="'.esc_attr($name).'" ';
         $html       .= 'class="'.esc_attr($classes).'" ';
+        $html       .= 'data-data_name="'.esc_attr($id).'" ';
         $html       .= ($multiple) ? 'multiple' : '';
         
         // Attributes
@@ -824,6 +830,7 @@ class NM_Form {
 			
 			if ($args['multiple_allowed'] == 'on') {
     			$html .= '<input id="'.esc_attr($dom_id).'" ';
+    			$html .= 'class="ppom-input" ';
     			$html .= 'data-price="'.esc_attr($option_price).'" ';
     			$html .= 'data-label="'.esc_attr($color_label).'" ';
     			$html   .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
@@ -840,6 +847,7 @@ class NM_Form {
     		}else{
     			
     			$html .= '<input id="'.esc_attr($dom_id).'" ';
+    			$html .= 'class="ppom-input" ';
     			$html .= 'data-price="'.esc_attr($option_price).'" ';
     			$html .= 'data-label="'.esc_attr($color_label).'" ';
     			$html   .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
@@ -967,6 +975,7 @@ class NM_Form {
 					$html	.= '<input type="checkbox" ';
 					$html   .= 'id="'.esc_attr($option_id).'" ';
 					$html   .= 'data-price="'.esc_attr($image_price).'" ';
+					$html   .= 'class="ppom-input" ';
 					$html   .= 'data-label="'.esc_attr($image_title).'" ';
 					$html   .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
 					$html   .= 'data-optionid="'.esc_attr($option_id).'" ';
@@ -980,6 +989,7 @@ class NM_Form {
 					$html	.= '<input type="radio" ';
 					$html   .= 'id="'.esc_attr($option_id).'" ';
 					$html   .= 'data-price="'.esc_attr($image_price).'" ';
+					$html   .= 'class="ppom-input" ';
 					$html   .= 'data-label="'.esc_attr($image_title).'" ';
 					$html   .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
 					$html   .= 'data-type="'.esc_attr($type).'" name="'.$args['name'].'[]" ';
@@ -1056,6 +1066,7 @@ class NM_Form {
 							$html   .= 'id="'.esc_attr($option_id).'" ';
 							$html   .= 'data-price="'.esc_attr($image_price).'" ';
 							$html   .= 'data-label="'.esc_attr($image_title).'" ';
+							$html   .= 'class="ppom-input" ';
 							$html   .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
 							$html   .= 'data-optionid="'.esc_attr($option_id).'" ';
                             $html   .= 'data-data_name="'.esc_attr($id).'" ';
@@ -1067,6 +1078,7 @@ class NM_Form {
 				// 			$checked = ($image['title'] == $default_value ? 'checked = "checked"' : '' );
 							$html	.= '<input type="radio" ';
 							$html   .= 'id="'.esc_attr($option_id).'" ';
+							$html   .= 'class="ppom-input" ';
 							$html   .= 'data-price="'.esc_attr($image_price).'" ';
 							$html   .= 'data-label="'.esc_attr($image_title).'" ';
 							$html   .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
@@ -1169,19 +1181,20 @@ class NM_Form {
 		    $last_range = end($ranges);
 			$qty_ranges = explode('-', $last_range['raw']);
 			$max_quantity	= $qty_ranges[1];
+			$qty_step   = !empty($args['qty_step']) ? $args['qty_step'] : 1;
 			
 		    $html   .= '<div class="ppom-slider-container">';
 		    $html   .= '<input class="ppom-range-slide" data-slider-id="ppomSlider" ';
 		    $html   .= 'type="text" data-slider-min="'.esc_attr($min_quantity).'"
 		                            data-slider-max="'.esc_attr($max_quantity).'" 
-		                            data-slider-step="'.esc_attr($args['qty_step']).'" 
+		                            data-slider-step="'.esc_attr($qty_step).'" 
 		                            data-slider-value="0"/>';
 		    $html   .= '</div>';
 		}
         
         $html   .= '</div>';    //form-group
         
-        $html   .= '<input name="ppom[ppom_pricematrix]" data-dataname="'.esc_attr($id).'" data-discount="'.esc_attr($discount).'" class="active ppom_pricematrix" type="hidden" value="'.esc_attr( json_encode($ranges)).'" />';
+        $html   .= '<input name="ppom[ppom_pricematrix]" data-dataname="'.esc_attr($id).'" data-discount="'.esc_attr($discount).'" class="active ppom_pricematrix ppom-input" type="hidden" value="'.esc_attr( json_encode($ranges)).'" />';
         
         // filter: nmforms_input_htmls
         return apply_filters("nmforms_input_html", $html, $args, $default_value);
@@ -1315,6 +1328,8 @@ class NM_Form {
 			if ($args['multiple_allowed'] == 'on') {
 				$html	.= '<input type="checkbox" ';
 				$html   .= 'data-price="'.esc_attr($audio_price).'" ';
+				$html   .= 'class="ppom-input" ';
+				$html   .= 'data-data_name="'.esc_attr($id).'" ';
 				$html   .= 'data-label="'.esc_attr($audio_title).'" ';
 				$html   .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
 				$html   .= 'name="'.$args['name'].'[]" ';
@@ -1324,6 +1339,8 @@ class NM_Form {
 				$html	.= '<input type="radio" ';
 				$html   .= 'data-price="'.esc_attr($audio_price).'" ';
 				$html   .= 'data-label="'.esc_attr($audio_title).'" ';
+				$html   .= 'class="ppom-input" ';
+				$html   .= 'data-data_name="'.esc_attr($id).'" ';
 				$html   .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
 				$html   .= 'data-type="'.esc_attr($type).'" name="'.$args['name'].'[]" ';
 				$html   .= 'value="'.esc_attr(json_encode($audio)).'" '.$checked_option.' />';
@@ -1479,6 +1496,7 @@ class NM_Form {
     	        $html .= 'class="'.esc_attr($classes).'" ';
     	        $html .= 'name="'.esc_attr($name).'[ratio]" ';
     	        $html .= 'data-field_name="'.esc_attr($args['id']).'" ';
+    	        $html .= 'data-data_name="'.esc_attr($args['id']).'" ';
     	        $html .= 'id="crop-size-'.esc_attr($args['id']).'">';
     	        foreach($cropping_sizes as $key => $size) {
     	            
@@ -1500,7 +1518,7 @@ class NM_Form {
                     $html   .= '>'.$option_label.'</option>';
     	        }
     	        
-    	        $html .= '<option selected="selected">'.__('Select Size', "ppom").'</option>';
+    	        $html .= '<option selected="selected" value="">'.__('Select Size', "ppom").'</option>';
     	   $html    .= '</select>';
     	   
     	}
@@ -1639,8 +1657,12 @@ class NM_Form {
             // converting classes to string
             case 'classes':
                 $type   =  $this -> get_attribute_value( 'type', $args);
+                
+                if ($type != 'image') {
+                    
+                    $attr_value[] = 'ppom-input';
+                }
                 // adding ppom-input class to all inputs
-                $attr_value[] = 'ppom-input';
                 // {type} also added as class
                 $attr_value[] = $type;
                 $attr_value = implode(" ", $attr_value);

@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.3
-Stable tag: 7.4.3
+Stable tag: 7.4.7
 
 == Description ==
 
@@ -311,6 +311,20 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 7.4.7 (2020-02-19) =
+* Fixed a bug where the suffix currency configuration for shipping costs was ignored. This issue has been fixed now.
+
+= 7.4.6 (2020-02-19) =
+* Solved a PHP warning that showed for variable products that had no attributes set
+* Solved an IE 11 Javascript error
+* Solved two illegal string offsets
+
+= 7.4.5 (2020-02-12) =
+* In between code test fix
+
+= 7.4.4 (2020-02-11) =
+* Solved a PHP warning that showed when products had no custom attributes configured
 
 = 7.4.3 (2020-02-09) =
 * Added logic to bypass the rightpress discount plugin caching of prices
@@ -2358,6 +2372,20 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 7.4.7 =
+Fixed a bug where the suffix currency configuration for shipping costs was ignored. This issue has been fixed now.
+
+= 7.4.6 =
+Solved a PHP warning that showed for variable products that had no attributes set
+Solved an IE 11 Javascript error
+Solved two illegal string offsets
+
+= 7.4.5 =
+In between test fix
+
+= 7.4.4 =
+Solved a PHP warning that showed when products had no custom attributes configured
 
 = 7.4.3 =
 Added logic to bypass the rightpress discount plugin caching of prices

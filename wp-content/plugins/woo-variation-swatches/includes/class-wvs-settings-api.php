@@ -178,6 +178,10 @@
 				}
 			}
 			
+			public function delete_settings() {
+				return delete_option( $this->settings_name );
+			}
+			
 			public function get_option( $option ) {
 				$default = $this->get_default( $option );
 				// $all_defaults = wp_list_pluck( $this->get_defaults(), 'value' );
@@ -192,12 +196,14 @@
 					$default[ 'value' ] = isset( $theme_support[ 0 ][ $option ] ) ? $theme_support[ 0 ][ $option ] : $default[ 'value' ];
 				}
 				
+				$default_value = isset( $default[ 'value' ] ) ? $default[ 'value' ] : null;
+				
 				if ( $is_new ) {
 					// return ( $default[ 'type' ] === 'checkbox' ) ? ( ! ! $default[ 'value' ] ) : $default[ 'value' ];
-					return $default[ 'value' ];
+					return $default_value;
 				} else {
 					// return ( $default[ 'type' ] === 'checkbox' ) ? ( isset( $options[ $option ] ) ? TRUE : FALSE ) : ( isset( $options[ $option ] ) ? $options[ $option ] : $default[ 'value' ] );
-					return isset( $options[ $option ] ) ? $options[ $option ] : $default[ 'value' ];
+					return isset( $options[ $option ] ) ? $options[ $option ] : $default_value;
 				}
 			}
 			

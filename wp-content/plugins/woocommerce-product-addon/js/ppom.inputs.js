@@ -28,7 +28,9 @@
     // Range slider updated
     $(document).on('ppom_range_slider_updated', function(e){ 
         
-        wc_product_qty.val(e.qty);
+        // console.log(wc_product_qty);
+        $('form.cart').find('input[name="quantity"]').val(e.qty);
+        // wc_product_qty.val(e.qty);
         ppom_update_option_prices();
     });
     
@@ -159,8 +161,16 @@
                     'width': input.palettes_width != '' ? input.palettes_width : 200,
                     change: function(event, ui) {
                         
+                        
                         InputSelector.css( 'background-color', ui.color.toString());
                         InputSelector.css( 'color', '#fff');   
+                        
+                        // Getting Color Code for update price
+                        InputSelector.val(ui.color.toString())
+                        if (ppomPrice !== undefined) {
+                            
+                            ppomPrice.init();
+                        }
                     }
                 }
     

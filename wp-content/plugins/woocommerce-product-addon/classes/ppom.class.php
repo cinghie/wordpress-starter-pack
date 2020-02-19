@@ -56,7 +56,7 @@ class PPOM_Meta {
             // Checking if PPOM attached in category
             $ppom_in_category = $this->ppom_has_category_meta( $product_id );
             
-            if( $ppom_in_category !== '' && ! is_admin() ){
+            if( $ppom_in_category && ! is_admin() ){
                 
         		/**
         		 * checking product against categories
@@ -68,11 +68,14 @@ class PPOM_Meta {
         		switch( $ppom_overrides ) {
         		    
         		    case 'category_override':
-        		        $ppom_product_id = array($ppom_in_category);
+        		        $ppom_product_id = $ppom_in_category;
         		    break;
         		    case 'individual_override':
-        		        // No need
-        		    break;
+        		        // Check for a categorical assignment in the event an individual assignment does not exist for this product in the wp_options table
+                         if ($ppom_product_id === null) {
+                              $ppom_product_id = $ppom_in_category;
+                         }
+                    break;
         		    default:
         		        if(is_array($ppom_product_id) && !in_array($ppom_in_category, $ppom_product_id) ){
         		            
@@ -80,14 +83,14 @@ class PPOM_Meta {
 
                     		if( $ppom_priority == 'category_first' ) {
                     		    
-                		        $ppom_product_id = array_merge(array($ppom_in_category), $ppom_product_id);
+                		        $ppom_product_id = array_merge($ppom_in_category, $ppom_product_id);
                     		} else {
-                    		    $ppom_product_id = array_merge($ppom_product_id, array($ppom_in_category));
+                    		    $ppom_product_id = array_merge($ppom_product_id, $ppom_in_category);
                     		}
         		            
                 		}elseif( ! $ppom_product_id ) { // If no meta groups attached to products
                 		
-                		    $ppom_product_id = array($ppom_in_category);
+                		    $ppom_product_id = $ppom_in_category;
                 		}
                 	break;
         		        
@@ -215,24 +218,24 @@ class PPOM_Meta {
         // 	ppom_pa($p_categories);
         // 	ppom_pa($this->ppom_with_cat);
         	
-        	$meta_found = '';
+        	$meta_found = array();
         	if($p_categories){
         	 	
         	 	if( $this->ppom_with_cat ) {
             		foreach($this->ppom_with_cat as $meta_cats){
             			
-            			if( $meta_found )	//if we found any meta so dont need to loop again
-            				continue;
+            // 			if( $meta_found )	//if we found any meta so dont need to loop again
+            // 				continue;
             			
             			if( $meta_cats->productmeta_categories == 'All' ) {
-            				$meta_found = $meta_cats->productmeta_id;
+            				$meta_found[] = $meta_cats->productmeta_id;
             			}else{
             				//making array of meta cats
             				$meta_cat_array = explode("\r\n", $meta_cats->productmeta_categories);
             				//Now iterating the p_categories to check it's slug in meta cats
             				foreach($p_categories as $cat) {
             					if( in_array($cat->slug, $meta_cat_array) ) {
-            					    $meta_found = $meta_cats->productmeta_id;
+            					    $meta_found[] = $meta_cats->productmeta_id;
             					}
             				}
             			}

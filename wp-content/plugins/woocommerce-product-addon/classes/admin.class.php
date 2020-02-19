@@ -66,6 +66,8 @@ class NM_PersonalizedProduct_Admin extends NM_PersonalizedProduct {
     	
     	add_action('ppom_pdf_setting_action', 'ppom_admin_update_pro_notice',10);
     	
+    	add_action( 'woocommerce_admin_field_ppom_multi_select', array( $this, 'ppom_multi_select_role_setting' ),2,10 );
+    	
 	}
 	
 
@@ -120,6 +122,7 @@ class NM_PersonalizedProduct_Admin extends NM_PersonalizedProduct {
 		if ((isset ( $_REQUEST ['productmeta_id'] ) && $_REQUEST ['do_meta'] == 'edit') || $action == 'new') {
 			ppom_load_template ( 'admin/ppom-fields.php' );
 		} elseif ( isset($_REQUEST ['do_meta']) && $_REQUEST ['do_meta'] == 'clone') {
+			
 			$this -> clone_product_meta($_REQUEST ['productmeta_id']);
 		}else{
 			$url_add = add_query_arg(array('action' => 'new'));
@@ -154,7 +157,7 @@ class NM_PersonalizedProduct_Admin extends NM_PersonalizedProduct {
 	*/
 	function get_products() {
 		
-		if( ! current_user_can('administrator') ) {
+		if(!ppom_security_role()){
 			_e ("Sorry, you are not allowed to perform this action", 'ppom');
 			die(0);
 		}
@@ -182,7 +185,7 @@ class NM_PersonalizedProduct_Admin extends NM_PersonalizedProduct {
 	*/
 	function ppom_attach_ppoms() {
 		
-		if( ! current_user_can('administrator') ) {
+		if(!ppom_security_role()){
 			_e ("Sorry, you are not allowed to perform this action", 'ppom');
 			die(0);
 		}
@@ -271,6 +274,40 @@ class NM_PersonalizedProduct_Admin extends NM_PersonalizedProduct {
 			/* PPOM Meta in column */
 			th.column-ppom_meta{ width: 10%!important;}
 		</style><?php
+	}
+	
+	function ppom_multi_select_role_setting($value){
+		
+		$selections =  get_option( $value['id'])? get_option( $value['id']) : 'administrator' ;
+		
+		if ( ! empty( $value['options'] ) ) {
+				$selected_roles = $value['options'];
+		} else {
+			$selected_roles = array('administrator' => 'Administrator');
+		}
+
+		asort( $selected_roles );
+		
+		
+		?>
+		<tr valign="top">
+			<th scope="row" class="titledesc">
+				<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?> <span class="woocommerce-help-tip" data-tip="<?php echo $value['desc']; ?>"></span></label>
+			</th>
+			<td class="forminp">
+				<select multiple="multiple" name="<?php echo esc_attr( $value['id'] ); ?>[]" style="width:350px" data-placeholder="<?php esc_attr_e( 'Choose Roles', 'ppom' ); ?>" aria-label="<?php esc_attr_e( 'Roles', 'ppom' ); ?>" class="wc-enhanced-select">
+					<?php
+					if ( ! empty( $selected_roles ) ) {
+						foreach ( $selected_roles as $key => $val ) {
+							echo '<option value="' . esc_attr( $key ) . '"' . wc_selected( $key, $selections ) . '>' . esc_html( $val ) . '</option>'; // WPCS: XSS ok.
+						}
+					}
+					?>
+				</select>  <br /><a class="select_all button" href="#"><?php esc_html_e( 'Select all', 'ppom' ); ?></a> <a class="select_none button" href="#"><?php esc_html_e( 'Select none', 'ppom' ); ?></a>
+			</td>
+		</tr>
+		<?php 
+		
 	}
 	
 	

@@ -73,6 +73,16 @@ class NM_Date_wooproduct extends PPOM_Inputs{
 					'options'	=> ppom_get_input_cols(),
 					'default'	=> 12,
 			),
+			'price' => array (
+						'type' => 'text',
+						'title' => __ ( 'Addon-on Price', 'ppom' ),
+						'desc' => __ ( 'Price will be added as Add-on if text provided', 'ppom' )
+			),
+			'past_dates' => array (
+			    'type' => 'text',
+			    'title' => __ ( 'Disable Past Dates', 'ppom' ),
+			    'desc' => __ ( 'Disable dates before a certain day.  Enter a date or use shortcode (example: +10d)', 'ppom' ) 
+			),
 			'date_formats' => array (
 					'type' => 'select',
 					'title' => __ ( 'Date formats', 'ppom' ),
@@ -112,11 +122,6 @@ class NM_Date_wooproduct extends PPOM_Inputs{
 					'type' => 'checkbox',
 					'title' => __ ( 'jQuery Datepicker', 'ppom' ),
 					'desc' => __ ( 'It will load jQuery fancy datepicker.', 'ppom' ) 
-			),
-			'past_dates' => array (
-			    'type' => 'text',
-			    'title' => __ ( 'Disable Past Dates', 'ppom' ),
-			    'desc' => __ ( 'Disable dates before a certain day.  Enter a date or use shortcode (example: +10d)', 'ppom' ) 
 			),
 			'no_weekends' => array (
 					'type' => 'checkbox',

@@ -128,6 +128,11 @@ class NM_Text_wooproduct extends PPOM_Inputs{
 						'title' => __ ( 'One Time Fee/Charge', 'ppom' ),
 						'desc' => __ ( 'Will not multiply with quantity', 'ppom' ) 
 				),
+				'onetime_taxable' => array (
+						'type' => 'checkbox',
+						'title' => __ ( 'Fixed Fee Taxable?', "ppom" ),
+						'desc' => __ ( 'Calculate Tax for Fixed Fee', "ppom" ) 
+				),
 				'desc_tooltip' => array (
 						'type' => 'checkbox',
 						'title' => __ ( 'Show tooltip (PRO)', 'ppom' ),

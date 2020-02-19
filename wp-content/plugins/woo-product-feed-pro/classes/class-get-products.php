@@ -244,11 +244,12 @@ class WooSEA_Get_Products {
 					$list[$value->name] = ucfirst($value_display);
                         	} else {
 	                                $product_attr = unserialize($value->type);
-
-                                	foreach ($product_attr as $key_inner => $arr_value) {
-                                        	$value_display = @str_replace("_", " ",$arr_value['name']);
-                                        	$list[$key_inner] = ucfirst($value_display);
-                                	}	
+					if(!empty($product_attr)){	
+                                		foreach ($product_attr as $key_inner => $arr_value) {
+                                        		$value_display = @str_replace("_", " ",$arr_value['name']);
+                                        		$list[$key_inner] = ucfirst($value_display);
+                                		}
+					}	
 				}
                 	}
 	              	return $list;
@@ -912,7 +913,11 @@ class WooSEA_Get_Products {
 								}
 								
 								if(strlen($shipping_cost) > 0){
-                                					$zone_details['price'] = trim($currency." ".$shipping_cost);
+									if($project_config['ship_suffix'] == "false"){
+                                						$zone_details['price'] = trim($currency." ".$shipping_cost);
+									} else {
+                                						$zone_details['price'] = trim($shipping_cost);
+									}
 								} else {
 									unset($zone_details);
 									unset($shipping_cost);
@@ -1794,6 +1799,18 @@ class WooSEA_Get_Products {
 			$post_type = array('product');
 		}
 
+		// Check shipping currency location
+		$project_config['ship_suffix'] = "false";
+        	foreach ($project_config['attributes'] as $attr_key => $attr_value) {
+
+			if($attr_value['mapfrom'] == "shipping"){
+				
+				if(!empty($attr_value['suffix'])){
+					$project_config['ship_suffix'] = "true";
+				}
+			}
+		}
+
 		// Pinteres RSS feeds need different sorting
 		if($project_config['fields'] == "pinterest_rss"){
 			$orderby = "ASC";
@@ -2529,6 +2546,12 @@ class WooSEA_Get_Products {
 					$product_data[$new_key] = $custom_value;
 				}
 
+
+
+
+
+
+
 				/**
 				 * We need to check if this product has individual custom product attributes
 				 */
@@ -2540,12 +2563,14 @@ class WooSEA_Get_Products {
                                 		$value_display = str_replace("_", " ",$value->name);
                                 		if (preg_match("/_product_attributes/i",$value->name)){
                                         		$product_attr = unserialize($value->type);
-			                                foreach ($product_attr as $key => $arr_value) {
-								$new_key ="custom_attributes_" . $key;
-								if(!empty($arr_value['value'])){
-									$product_data[$new_key] = $arr_value['value'];
-								}
-                                        		}
+							if(!empty($product_attr)){
+			                                	foreach ($product_attr as $key => $arr_value) {
+									$new_key ="custom_attributes_" . $key;
+									if(!empty($arr_value['value'])){
+										$product_data[$new_key] = $arr_value['value'];
+									}
+                                        			}
+							}
 						}
 					}
 				}	
@@ -2662,24 +2687,27 @@ class WooSEA_Get_Products {
 				 */
 				$mother_attributes = get_post_meta($product_data['item_group_id'], '_product_attributes');
 
-	                      	foreach ($mother_attributes as $attribute){
-					foreach($attribute as $key => $attr){
-						$attr_name = $attr['name'];
+				if(!empty($mother_attributes)){
+
+	                      		foreach ($mother_attributes as $attribute){
+						foreach($attribute as $key => $attr){
+							$attr_name = $attr['name'];
 						
-						if(!empty($attr_name)){
-							$terms = get_the_terms($product_data['item_group_id'], $attr_name);
+							if(!empty($attr_name)){
+								$terms = get_the_terms($product_data['item_group_id'], $attr_name);
 				
-							if(is_array($terms)){
-								foreach($terms as $term){
-									$attr_value = $term->name;
-								}
-								$product_data[$attr_name] = $attr_value;		
-							} else {
-								// Add the variable parent attributes	
-								// When the attribute was not set for variations
-								if($attr['is_variation'] == 0){	
-									$new_key ="custom_attributes_" . $key;
-									$product_data[$new_key] = $attr['value'];
+								if(is_array($terms)){
+									foreach($terms as $term){
+										$attr_value = $term->name;
+									}
+									$product_data[$attr_name] = $attr_value;		
+								} else {
+									// Add the variable parent attributes	
+									// When the attribute was not set for variations
+									if($attr['is_variation'] == 0){	
+										$new_key ="custom_attributes_" . $key;
+										$product_data[$new_key] = $attr['value'];
+									}
 								}
 							}
 						}

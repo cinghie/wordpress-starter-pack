@@ -1,13 +1,12 @@
 jQuery(document).ready(function($) {
 
         //localStorage.removeItem("attributes");
-	
 	$( "select" ).change(function() {
 
               //localStorage.removeItem("attributes");
 		var productId = $('input[name=product_id]').val();
-		var selectedValue = this.selectedOptions[0].value;
 		var selectedName = $(this).attr("name");
+		var selectedValue = $(this).find('option:selected').text();
 		var storedAttributes = JSON.parse(localStorage.getItem("attributes"));
 
 		// Already saved a selection in local storage

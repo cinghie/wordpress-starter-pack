@@ -55,7 +55,7 @@ class WOOCCM_Fields_Display {
         $product_cats = array();
 
         foreach ($cart_contents as $key => $values) {
-          if ($cats = wp_get_post_terms($values['product_id'], 'product_cat', array('orderby' => 'name', 'order' => 'ASC', 'fields' => 'slugs'))) {
+          if ($cats = wp_get_post_terms($values['product_id'], 'product_cat', array('orderby' => 'name', 'order' => 'ASC', 'fields' => 'ids'))) {
             $product_cats += $cats;
           }
         }

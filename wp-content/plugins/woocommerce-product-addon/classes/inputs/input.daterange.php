@@ -80,6 +80,11 @@ class NM_Daterange_wooproduct extends PPOM_Inputs{
 					'desc' => __ ( 'Default is down.', 'ppom' ),
 					'options' => array('down'=>'Down', 'up'=>'Up'),
 			),
+			'price' => array (
+						'type' => 'text',
+						'title' => __ ( 'Addon-on Price', 'ppom' ),
+						'desc' => __ ( 'Price will be added as Add-on if text provided', 'ppom' )
+			),
 			'start_date' => array (
 					'type' => 'text',
 					'title' => __ ( 'Start Date', 'ppom' ),

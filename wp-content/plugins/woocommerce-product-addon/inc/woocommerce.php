@@ -32,6 +32,10 @@ function ppom_woocommerce_show_fields() {
     $ppom_box_id = is_array($ppom->meta_id) ? implode('-',$ppom->meta_id) : $ppom->meta_id;
     $ppom_html = '<div id="ppom-box-'.esc_attr($ppom_box_id).'" class="ppom-wrapper">';
     
+    if( ppom_get_price_table_location() === 'before' ) {
+		$ppom_html .= '<div id="ppom-price-container"></div>';
+    }
+    
     $template_vars = array('ppom_settings'  	=> $ppom->ppom_settings,
     						'product'			=> $product,
     						'ppom_fields_meta'	=> $ppom->fields,
@@ -40,8 +44,9 @@ function ppom_woocommerce_show_fields() {
     ppom_load_template ( 'render-fields.php', $template_vars );
     $ppom_html .= ob_get_clean();
     
-    // Price container
-	$ppom_html .= '<div id="ppom-price-container"></div>';
+    if( ppom_get_price_table_location() === 'after' ) {
+		$ppom_html .= '<div id="ppom-price-container"></div>';
+    }
 	
 	// Clear fix
 	$ppom_html .= '<div style="clear:both"></div>';   // Clear fix
@@ -756,7 +761,7 @@ function ppom_woocommerce_control_cart_quantity($quantity, $cart_item_key) {
 	
 	$cart_item = WC()->cart->get_cart_item( $cart_item_key );
 	
-	// ppom_pa($cart_item)
+	// ppom_pa($cart_item);
 	if( !isset($cart_item['ppom']['fields']) ) return $quantity;
 	
 	$ppom_fields_post   = $cart_item['ppom']['fields'];

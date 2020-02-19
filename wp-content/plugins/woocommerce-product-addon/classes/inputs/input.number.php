@@ -76,6 +76,11 @@ class NM_Number_wooproduct extends PPOM_Inputs{
 					'title' => __ ( 'Set default value', "ppom" ),
 					'desc' => __ ( 'Pre-defined value for text input', "ppom" )
 			),
+			'price' => array (
+					'type' => 'text',
+					'title' => __ ( 'Addon-on Price', 'ppom' ),
+					'desc' => __ ( 'Price will be added as Add-on if text provided', 'ppom' )
+			),
 			'class' => array (
 					'type' => 'text',
 					'title' => __ ( 'Class', "ppom" ),
@@ -111,6 +116,16 @@ class NM_Number_wooproduct extends PPOM_Inputs{
 					'title' => __ ( 'Required', "ppom" ),
 					'desc' => __ ( 'Select this if it must be required.', "ppom" ) 
 			),
+			'onetime' => array (
+						'type' => 'checkbox',
+						'title' => __ ( 'One Time Fee/Charge', 'ppom' ),
+						'desc' => __ ( 'Will not multiply with quantity', 'ppom' ) 
+				),
+				'onetime_taxable' => array (
+						'type' => 'checkbox',
+						'title' => __ ( 'Fixed Fee Taxable?', "ppom" ),
+						'desc' => __ ( 'Calculate Tax for Fixed Fee', "ppom" ) 
+				),
 			'logic' => array (
 					'type' => 'checkbox',
 					'title' => __ ( 'Enable Conditions', "ppom" ),

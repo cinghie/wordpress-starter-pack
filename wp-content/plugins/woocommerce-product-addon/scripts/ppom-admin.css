@@ -560,3 +560,9 @@ select{
 .ppom-slider input[type="date"]{
     padding: 6px 12px !important;
 }
+
+
+/*Hide Prices from fields*/
+[data-meta-id="price"]{
+    display: none !important;
+}

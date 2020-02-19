@@ -60,10 +60,25 @@ function ppom_is_file_image( $file_name ){
 // return html for file thumb
 function ppom_create_thumb_for_meta( $file_name, $product_id, $cropped=false, $size=null) {
 	
-	$file_dir_path = ppom_get_dir_path() . $file_name;
+	// get current post/order ID
+	$order_id = isset($_GET['post']) ? $_GET['post'] : $_GET['order_id'];
+	
+	// get current post/order type
+	$post_type = get_post_type($order_id);
+	
+	if ( is_admin() && $post_type == 'shop_order' ) {
+		
+		$file_thumb_url = ppom_get_confirmed_dir_thumbs($order_id, $file_name, $product_id, $thumb = true);
+		$file_dir_path  = ppom_get_confirmed_dir_thumbs($order_id, $file_name, $product_id, $thumb = false);
+	}else{
+		
+		$file_thumb_url = ppom_is_file_image($file_name) ? ppom_get_dir_url(true) . $file_name : PPOM_URL.'/images/file.png';
+		$file_dir_path = ppom_get_dir_path() . $file_name;
+	}
+	
+
 	if( ! file_exists($file_dir_path) ) return '';
-	$file_url       = ppom_get_dir_url() . $file_name;
-	$file_thumb_url = ppom_is_file_image($file_name) ? ppom_get_dir_url(true) . $file_name : PPOM_URL.'/images/file.png';
+	
 	$file_path_edit = ppom_get_dir_path() . 'edits/' . $file_name;
 	
 	if (file_exists ( $file_path_edit )) {
@@ -72,7 +87,10 @@ function ppom_create_thumb_for_meta( $file_name, $product_id, $cropped=false, $s
 		$edited_thumb_path = ppom_get_dir_path() . 'edits/thumbs/' . $file_name;
 		if (file_exists ( $edited_thumb_path ))
 			$file_thumb_url = ppom_get_dir_url() . 'edits/thumbs/' . $file_name;
-	} else {
+			
+	} else if( file_exists ( $file_dir_path ) && $post_type == 'shop_order'  ){
+		$file_link = $file_thumb_url;
+	}else {
 		$file_link = ppom_get_dir_url() . $file_name;
 	}
 	
@@ -411,8 +429,9 @@ function ppom_uploaded_file_preview($file_name, $settings){
         $html .= ob_get_clean();
 		
 		// Tools group
-		$file_tools .= '<div class="btn-group" role="group" aria-label="Tools">';
-		$file_tools .= '<a href="#" class="nm-file-tools btn btn-primary u_i_c_tools_del" title="'.__('Remove', "ppom").'"><span class="fa fa-times"></span></a>';
+		$file_tools .= '<div class="btn-group" role="group" aria-label="Tools" style="text-align: center; display: block;">';
+		// $file_tools .= '<a href="#" class="nm-file-tools btn btn-primary u_i_c_tools_del" title="'.__('Remove', "ppom").'"><span class="fa fa-times"></span></a>';
+		$file_tools .= '<a href="#" class="nm-file-tools btn btn-primary u_i_c_tools_del" title="'.__('Remove', "ppom").'">Delete</span></a>';
 		
 		if( apply_filters('ppom_show_image_popup', false) ) {
 			$file_tools .= '<a href="#" data-toggle="modal" data-target="#modalFile'.esc_attr($file_id).'" class="btn btn-primary"><span class="fa fa-expand"></span></a>';
@@ -432,21 +451,30 @@ function ppom_uploaded_file_preview($file_name, $settings){
 		$thumb_url		= PPOM_URL . '/images/file.png';
 		
 		$file_tools .= '<a class="btn btn-primary nm-file-tools u_i_c_tools_del" href="" title="'.__('Remove', "ppom").'"><span class="fa fa-times"></span></a>';	//delete icon
+		// $file_tools .= '<a class="btn btn-primary nm-file-tools u_i_c_tools_del" href="" title="'.__('Remove', "ppom").'">Delete</a>';	//delete icon
 	}
 	
 	$file_tools .= '</div>';
 	
-			
-	$html .= '<table class="table table-bordered"><tr>';
-	$html .= '<td style="vertical-align:middle"><img class="img-thumbnail" style="width:'.esc_attr(ppom_get_thumbs_size()).'" data-filename="'.esc_attr($file_name).'" id="'.esc_attr($file_id).'" src="'.esc_url($thumb_url).'" />';
-	
 	$short_name = ppom_files_trim_name( $file_name );
-	$html .= '<td class="nm-imagetools" style="padding-left: 5px; vertical-align:top"><h4>'.$short_name.'</h4><br>';
-	$html .= '<span class="file-meta">'.$short_name.'</span><br>';
-	$html .= $file_tools;
-	$html .= '</td>';
 	
-	$html .= '</tr></table>';
+	// $html .= '<table class="table table-bordered"><tr>';
+	// $html .= '<td style="vertical-align:middle">';
+	$html .='<label style="margin-top: 8px;display: block;text-align: center;">
+				<div class="pre_upload_image collapse_dropdown_id" data-ppom-tooltip="ppom_tooltip" title="'.$short_name.'">
+					
+					<img class="img-thumbnail" style="width:'.esc_attr(ppom_get_thumbs_size()).'" data-filename="'.esc_attr($file_name).'" id="'.esc_attr($file_id).'" src="'.esc_url($thumb_url).'" />
+				</div>
+			</label>';
+	$html .= $file_tools;
+			
+	
+	// $html .= '</tr></table>';
+	
+	// $html .= '<td class="nm-imagetools" style="padding-left: 5px; vertical-align:top"><h4>'.$short_name.'</h4><br>';
+	// $html .= '<span class="file-meta">'.$short_name.'</span><br>';
+	// $html .= '</td>';
+	
 	
 	return apply_filters('ppom_file_preview_html', $html, $file_name, $settings);
 }

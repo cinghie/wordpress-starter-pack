@@ -4,7 +4,7 @@ Donate link: https://quadlayers.com/
 Tags: woocommerce, woocommerce checkout, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
 Requires at least: 3.4
 Tested up to: 5.3.2
-Stable tag: 4.9.3
+Stable tag: 4.9.5
 WC requires at least: 3.0
 WC tested up to: 3.9
 License: GPLv2 or later
@@ -100,6 +100,12 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 10. Handle uploaded files in order admin dashboard.
 
 == Changelog ==
+
+= 4.9.5 =
+* Fix: woocommerce checkout order fields before country switch
+
+= 4.9.4 =
+* Fix: woocommerce checkout filter by category
 
 = 4.9.3 =
 * Fix: woocommerce checkout upload

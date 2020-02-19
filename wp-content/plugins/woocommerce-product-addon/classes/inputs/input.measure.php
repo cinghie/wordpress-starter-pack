@@ -95,6 +95,11 @@ class NM_Measure_wooproduct extends PPOM_Inputs{
 						'title' => __ ( 'Set default value', "ppom" ),
 						'desc' => __ ( 'Pre-defined value for measure input', "ppom" )
 				),
+				'price' => array (
+						'type' => 'text',
+						'title' => __ ( 'Addon-on Price', 'ppom' ),
+						'desc' => __ ( 'Price will be added as Add-on if text provided', 'ppom' )
+				),
 				'class' => array (
 						'type' => 'text',
 						'title' => __ ( 'Class', "ppom" ),

@@ -411,6 +411,7 @@ jQuery(function($){
         // handle multiple options
         var ppom_option_type = '';
         var option_selector   = clone_new_field.find('.ppom-option-keys');  
+        var option_controller   = clone_new_field.find('.ppom-fields-option');  
         var add_cond_selector = clone_new_field.find('.ppom-conditional-keys'); 
 
         // for address addon
@@ -419,6 +420,7 @@ jQuery(function($){
         ppom_create_address_index(address_selector, field_index , address_table_id);
 
         ppom_create_option_index(option_selector, field_index , option_index, ppom_option_type );
+        ppom_option_controller(option_controller, field_index , option_index, ppom_option_type);
         ppom_add_condition_set_index(add_cond_selector, field_index, field_type, option_index);
         
         // popup fields on model
@@ -511,6 +513,9 @@ jQuery(function($){
         }); 
 
         ppom_create_option_index(option_selector, field_index , option_index, ppom_option_type);
+        var option_controller = clone_new_field.find('.ppom-fields-option');
+
+        ppom_option_controller(option_controller, field_index, option_index, ppom_option_type);
         ppom_add_condition_set_index(add_cond_selector, field_index, field_type, option_index);
 
         // for eventcalendar changing index
@@ -702,7 +707,9 @@ jQuery(function($){
 
         var field_index     = main_wrapper.find('.ppom-fields-actions').attr('data-field-no');
         var option_selector = clone_item.find('.ppom-option-keys');
+        var option_controller = clone_item.find('.ppom-fields-option');
 
+        ppom_option_controller(option_controller, field_index, option_index, ppom_option_type);
         ppom_create_option_index(option_selector, field_index, option_index, ppom_option_type);
         
         // $('.ppom-slider').find('.data-options:not(:last) .ppom-add-option')
@@ -822,6 +829,26 @@ jQuery(function($){
             
 
             var field_name = 'ppom['+field_index+'][options]['+option_index+']['+$(meta_field).attr('data-metatype')+']';
+            $(meta_field).attr('name', field_name);
+        });
+    }
+
+
+    function  ppom_option_controller(option_selector, field_index , option_index, ppom_option_type ){
+
+        option_selector.each(function(i, meta_field){
+            
+            console.log(ppom_option_type);
+            if (ppom_option_type == 'ppom_copy_option') {
+                var opt_in = $(meta_field).attr('data-opt-index');
+                if (opt_in !== undefined) {
+                    option_index = opt_in;
+                }
+            }
+            $(meta_field).attr('data-opt-index', option_index);
+            
+
+            var field_name = 'ppom['+field_index+']['+$(meta_field).attr('data-optiontype')+']['+option_index+']['+$(meta_field).attr('data-metatype')+']';
             $(meta_field).attr('name', field_name);
         });
     }

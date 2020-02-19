@@ -4,7 +4,7 @@ Tags: woocommerce, woocommerce pesonalized products, woocommerce custom fields, 
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
 Tested up to: 5.2
-Stable tag: 19.0
+Stable tag: 20.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -91,7 +91,16 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
+= 20.0 February 18, 2020 =
+* Warning remove: (Some warning removed in image/color inputs when options not selected)[https://clients.najeebmedia.com/forums/topic/warning-invalid-argument-supplied-for-foreach-in/]
+* Feature: Option added to change Price Table Location on Product Page
+* Bug fixed: [Negative price issu fixed in options price](https://clients.najeebmedia.com/forums/topic/ppom-optional-price-in/)
+* Bug fixed: [Color palette reset when hidden by condition](https://clients.najeebmedia.com/forums/topic/clear-fields-when-they-are-hide/)
+* Bug fixed: [CSS issue with Elementor is fixed](https://wordpress.org/support/topic/upload-image-not-working-4/)
+* Bug fixed: [Shipping calculation issue fixed while Bulk Quantity Add-on](https://clients.najeebmedia.com/forums/topic/compatibity-with-woo-shipping/page/2/)
 = 19.0 December 14, 2019 =
+* Bug fixed: Multiple categories PPOM assignment not working. It is fixed.
+* Bug fixed: [Meta group assignment issue fixed](https://wordpress.org/support/topic/18-6-doesnt-show-fields-in-some-cases/page/2/#post-12260011)
 * [Feature: Meta groups override and priorities can be set via PPOM settings](https://wordpress.org/support/topic/18-6-doesnt-show-fields-in-some-cases/#post-12191405)
 * Bug fixed: [Issue fixed when saving conditions](https://clients.najeebmedia.com/forums/topic/conditions-are-not-being-saved/#post-14706)
 * Tweaks: Admin CSS issue with WordPress version 5.3.1

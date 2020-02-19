@@ -199,6 +199,7 @@ function ppom_array_settings() {
 	
 	$v18_info_url = 'https://najeebmedia.com/blog/ppom-version-18-0-better-price-manipulation-currency-switcher/';
 	$more_price_details = '<a target="_blank" href="'.esc_attr($v18_info_url).'">More Details<a>';
+	// ppom_pa(ppom_get_all_editable_roles());
 	
 	$ppom_settings = array(
        
@@ -289,6 +290,17 @@ function ppom_array_settings() {
 				'id'            => 'ppom_legacy_price',
 				'desc'          => __( 'Yes. '.$more_price_details, 'ppom' ),
 			),
+		array(
+				'title'         => __('PPOM Permissions', 'ppom' ),
+				'type'          => 'ppom_multi_select',
+				'label'         => __('Button', 'ppom' ),
+				'default'       => 'administrator',
+				'placeholder'   =>'choose role',
+				'options'		=> ppom_get_all_editable_roles(),
+				'id'            => 'ppom_permission_mfields',
+				'desc'          => __( 'You can set permissions here so PPOM fields can be managed by different roles', 'ppom' ),
+				'desc_tip'      => true,
+			),
         
 	    array(
 			'type' => 'sectionend',
@@ -344,6 +356,24 @@ function ppom_array_settings() {
 			),
 			
 		array(
+				'title'          => __( 'Enable PPOM REST API?', 'ppom' ),
+				'type'          => 'checkbox',
+				'label'         => __( 'Yes', 'ppom' ),
+				'default'       => 'no',
+				'id'            => 'ppom_api_enable',
+				'desc'          => __( 'Check this option to enable PPOM REST API', 'ppom' ),
+			),
+			
+		array(
+			'title'          => __( 'Use optimized Price Table Caculation (BETA)', 'ppom' ),
+			'type'          => 'checkbox',
+			'label'         => __( 'Yes', 'ppom' ),
+			'default'       => 'no',
+			'id'            => 'ppom_price_table_v2',
+			'desc'          => __( 'A Fast and Optimized script to caculate price on product page in Table.', 'ppom' ),
+		),
+		
+		array(
             'title'		=> __( 'Select Option Label', 'ppom' ),
             'type'		=> 'text',
             'desc'		=> __( 'Label For Price Table', 'ppom' ),
@@ -353,14 +383,6 @@ function ppom_array_settings() {
 			'desc_tip'	=> true,
         ),
 			
-		array(
-				'title'          => __( 'Enable PPOM REST API?', 'ppom' ),
-				'type'          => 'checkbox',
-				'label'         => __( 'Yes', 'ppom' ),
-				'default'       => 'no',
-				'id'            => 'ppom_api_enable',
-				'desc'          => __( 'Check this option to enable PPOM REST API', 'ppom' ),
-			),
 			
 		array(
             'title' => __( 'PPOM API Secret Key', 'ppom' ),
@@ -409,6 +431,19 @@ function ppom_array_settings() {
                                 ),
                 'id'       => 'ppom_meta_priority',
                 'desc'       => __( 'Leave if default if not sure.', 'ppom' ),
+                'desc_tip'      => true,
+            ),
+            
+    	array(
+                'title'             => __( 'Price Table Position', 'ppom' ),
+                'type'              => 'select',
+                'label'             => __( 'Button', 'ppom' ),
+                'default'           => 'after',
+                'options' => array( 'after'=>__('After PPOM Fields','ppom'),
+                                    'before'=> __('Before  PPOM Fields','ppom'),
+                                ),
+                'id'       => 'ppom_price_table_location',
+                'desc'       => __( 'Set the location to render Price Table on Front-end', 'ppom' ),
                 'desc_tip'      => true,
             ),
         
@@ -872,7 +907,9 @@ function ppom_array_get_js_input_vars( $product, $args = null ) {
 	$js_vars['wc_currency_pos']	= get_option( 'woocommerce_currency_pos' );
 	$js_vars['wc_decimal_sep']	= get_option('woocommerce_price_decimal_sep');
 	$js_vars['wc_no_decimal']	= $decimal_palces;
-	$js_vars['wc_product_price']= ppom_get_product_price($product);
+	$variation_id = '';
+	$context		= 'product';
+	$js_vars['wc_product_price']= ppom_get_product_price($product, $variation_id, $context);
 	$js_vars['wc_product_regular_price']= ppom_get_product_regular_price($product);
 	$js_vars['price_matrix_heading'] = ppom_get_option('ppom_label_discount_price', __('Discount Price','ppom'));
 	$js_vars['product_base_label'] = ppom_get_option('ppom_label_product_price', __('Product Price', 'ppom'));

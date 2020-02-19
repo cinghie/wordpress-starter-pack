@@ -246,6 +246,9 @@ class NM_PersonalizedProduct {
 		add_action( 'admin_post_ppom_attach', array($this, 'ppom_attach_meta') );
 		add_action( 'template_redirect', array($this, 'show_wc_custom_message'));
 		
+		// Export - Update to Pro Notice
+		add_action( 'admin_post_ppom_export_meta', array($this, 'ppom_export_meta') );
+		
 		/**
 		 * adding extra column in products list for meta show
 		 * @since 8.0
@@ -633,6 +636,11 @@ class NM_PersonalizedProduct {
 	 */
 	function clone_product_meta($meta_id){
 		
+		// if(!ppom_security_role()){
+		// 	_e ("Sorry, you are not allowed to perform this action", 'ppom');
+		// 	die(0);
+		// }
+
 		global $wpdb;
 		
 		$forms_table_name = $wpdb->prefix . PPOM_TABLE_META;
@@ -768,6 +776,15 @@ class NM_PersonalizedProduct {
 	    	$meta_title = $_GET['ppom_title'];
 	    	wc_add_notice( sprintf(__("PPOM Meta Successfully Changed to - %s", "ppom"), $meta_title));
 	    }
+	}
+	
+	// Update to PRO Notice
+	function ppom_export_meta() {
+		
+		// if( ppom_pro_is_installed() ) return '';
+		$buy_pro = 'https://najeebmedia.com/ppom';
+		$args = array("link_url" => $buy_pro, "link_text"=>'Buy $30.00', 'back_link'=>true);
+		wp_die("Update to PRO Version for Export/Import","Update to PRO", $args);
 	}
 	
 	function add_ppom_meta_tabs( $default_tabs ) {

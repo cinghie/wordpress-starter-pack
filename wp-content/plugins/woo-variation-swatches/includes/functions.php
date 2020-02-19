@@ -247,14 +247,14 @@
 							'id'      => 'tooltip',
 							'type'    => 'checkbox',
 							'title'   => esc_html__( 'Enable Tooltip', 'woo-variation-swatches' ),
-							'desc'    => esc_html__( 'Enable / Disable plugin default tooltip on each product attribute.', 'woo-variation-swatches' ),
+							'desc'    => esc_html__( 'Enable tooltip on each product attribute.', 'woo-variation-swatches' ),
 							'default' => true
 						),
 						array(
 							'id'      => 'stylesheet',
 							'type'    => 'checkbox',
 							'title'   => esc_html__( 'Enable Stylesheet', 'woo-variation-swatches' ),
-							'desc'    => esc_html__( 'Enable / Disable plugin default stylesheet', 'woo-variation-swatches' ),
+							'desc'    => esc_html__( 'Enable default stylesheet', 'woo-variation-swatches' ),
 							'default' => true
 						),
 						array(

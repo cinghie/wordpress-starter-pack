@@ -61,6 +61,11 @@ class NM_Email_wooproduct extends PPOM_Inputs{
 					'title' => __ ( 'Class', "ppom" ),
 					'desc' => __ ( 'Insert an additional class(es) (separateb by comma) for more personalization.', "ppom" ) 
 			),
+			'price' => array (
+						'type' => 'text',
+						'title' => __ ( 'Addon-on Price', 'ppom' ),
+						'desc' => __ ( 'Price will be added as Add-on if text provided', 'ppom' )
+			),
 			'width' => array (
 					'type' => 'select',
 					'title' => __ ( 'Width', 'ppom' ),

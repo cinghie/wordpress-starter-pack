@@ -73,6 +73,11 @@ class NM_Color_wooproduct extends PPOM_Inputs{
 					'desc' => __ ( "Select Mode", 'ppom' ),
 					'options'=> array('hsl'=>'Hue, Saturation, Lightness','hsv'=>'Hue, Saturation, Value'),
 			),
+			'price' => array (
+						'type' => 'text',
+						'title' => __ ( 'Addon-on Price', 'ppom' ),
+						'desc' => __ ( 'Price will be added as Add-on if text provided', 'ppom' )
+			),
 			'width' => array (
 					'type' => 'select',
 					'title' => __ ( 'Width', 'ppom' ),

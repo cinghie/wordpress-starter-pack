@@ -10,6 +10,7 @@ ppom_direct_access_not_allowed();
 
 global $product;
 $options = isset($args['options']) ? $args['options'] : null;
+$dataname = isset($args['id']) ? $args['id'] : null;
 
 $include_productprice = '';
 if( ppom_is_field_has_price( $args ) ) {
@@ -80,7 +81,7 @@ if (isset($args['view_control']) && $args['view_control'] == 'horizontal') { ?>
         			
     				$input_html	 = '<input style="width:50px;text-align:center" '.esc_attr($required);
     				$input_html	.=' min="'.esc_attr($min).'" max="'.esc_attr($max).'" ';
-    				$input_html .= 'id="'.esc_attr($dom_id).'" ';
+    				$input_html .= 'id="'.esc_attr($dom_id).'" data-data_name="'.esc_attr($dataname).'" ';
     				$input_html .= 'data-optionid="'.esc_attr($option_id).'" ';
     				$input_html	.= 'data-label="'.esc_attr($label).'" ';
     				$input_html	.= 'data-includeprice="'.esc_attr($include_productprice).'" ';
@@ -149,6 +150,7 @@ if (isset($args['view_control']) && $args['view_control'] == 'horizontal') { ?>
             <span class="ppom-quantity-qty-section">
                 <input min="<?php echo esc_attr($min); ?>" 
                 max="<?php echo esc_attr($max); ?>"
+                data-data_name="<?php echo esc_attr($dataname); ?>" 
                 id="<?php echo esc_attr($dom_id); ?>" 
                 data-optionid="<?php echo esc_attr($option_id); ?>" 
                 data-label="<?php echo esc_attr($label); ?>"
@@ -211,7 +213,7 @@ if (isset($args['view_control']) && $args['view_control'] == 'horizontal') { ?>
 	            			$required = ($args['required'] == 'on' ? 'required' : '');
             				$input_html	 = '<input style="width:50px;text-align:center" '.esc_attr($required);
             				$input_html	.=' min="'.esc_attr($min).'" max="'.esc_attr($max).'" ';
-            				$input_html .= 'id="'.esc_attr($dom_id).'" ';
+            				$input_html .= 'id="'.esc_attr($dom_id).'" data-data_name="'.esc_attr($dataname).'" ';
             				$input_html .= 'data-optionid="'.esc_attr($option_id).'" ';
             				$input_html	.= 'data-label="'.esc_attr($label).'" ';
             				$input_html	.= 'data-includeprice="'.esc_attr($include_productprice).'" ';

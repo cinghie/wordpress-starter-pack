@@ -379,6 +379,10 @@ And your are ready to go.
 
 == Changelog ==
 
+= 1.0.76 =
+
+* Fix: settings option php notice.
+
 = 1.0.75 =
 
 * Fix: mobile double tab clear issue.

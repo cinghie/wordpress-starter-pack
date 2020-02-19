@@ -67,6 +67,11 @@ class NM_Timezone_wooproduct extends PPOM_Inputs{
 						'desc' => __ ( 'All,AFRICA, AMERICA, ANTARCTICA, ASIA, ATLANTIC, AUSTRALIA, EUROPE, INDIAN, PACIFIC', "ppom"),
 						'default'	=> 'All',
 				),
+				'price' => array (
+						'type' => 'text',
+						'title' => __ ( 'Addon-on Price', 'ppom' ),
+						'desc' => __ ( 'Price will be added as Add-on if text provided', 'ppom' )
+				),
 				'class' => array (
 						'type' => 'text',
 						'title' => __ ( 'Class', 'ppom' ),

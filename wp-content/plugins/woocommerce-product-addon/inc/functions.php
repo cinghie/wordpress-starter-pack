@@ -217,7 +217,7 @@ function ppom_get_product_price( $product, $variation_id=null, $context='' ) {
 	}
 	
 	// Do not convert price on cart
-	if( $context != 'cart' ) {
+	if( $context != 'cart' && $context != 'product' ) {
 		$product_price = apply_filters('woocs_exchange_value', $product_price);
 	}
 	
@@ -345,7 +345,7 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 				$ppom_meta['ppom_has_quantities'] = $total_qty;
 				break;
 
-			// variation matrix
+			// Note: "VM" Variation Matrix Use for only customized clients
 			case 'vm':
 				$total_qty = 0;
 				$qty_values = array();
@@ -362,6 +362,24 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 					$qty_values[] = __('Total',"ppom").' = '.$total_qty;
 					$meta_data = array('name'=>$field_title, 'value'=>implode(",",$qty_values));
 					// A placeholder key to handle qunantity display in item meta data under myaccount
+				}
+				
+				$ppom_meta['ppom_has_quantities'] = $total_qty;
+				break;
+
+			case 'vqmatrix':
+				$total_qty = 0;
+				
+				$vqmatrix_html = apply_filters('ppom_vqmatrix_cart_html', $value, $field_meta, $total_qty);
+				
+				foreach($value as $label => $qty) {
+					if( !empty($qty) ) {
+						$total_qty += $qty;	
+					}
+				}
+				
+				if( $total_qty > 0 ) {
+					$meta_data = array('name'=>$field_title, 'value'=>$vqmatrix_html);
 				}
 				
 				$ppom_meta['ppom_has_quantities'] = $total_qty;
@@ -1188,7 +1206,7 @@ function ppom_extract_matrix_by_quantity($quantities_field, $product, $quantity)
 // Return thumbs size
 function ppom_get_thumbs_size() {
 	
-	return apply_filters('ppom_thumbs_size', '75px');
+	return apply_filters('ppom_thumbs_size', '150px');
 }
 
 // Return file size in kb
@@ -1650,6 +1668,23 @@ function ppom_get_price_mode() {
 	return apply_filters('ppom_price_mode', $price_mode);
 }
 
+function ppom_get_price_table_calculation() {
+	
+	$js_script = 'ppom-price.js';
+	if( ppom_get_option('ppom_price_table_v2') == 'yes' ) $js_script = 'ppom-price-v2.js';
+	
+	return apply_filters('ppom_price_table_script', $js_script);
+}
+
+function ppom_get_price_table_location() {
+	
+	$location = ppom_get_option('ppom_price_table_location', 'after');
+	
+	return apply_filters('ppom_price_table_location', $location);
+}
+
+
+
 // some fields like quantities, bulkquantity, eventcalendar has its own
 // price quantity control
 function ppom_is_cart_quantity_updatable( $product_id ) {
@@ -1667,8 +1702,8 @@ function ppom_is_cart_quantity_updatable( $product_id ) {
 		if( ($field['type'] == 'quantities' && ppom_is_field_has_price($field)) ||
 			$field['type'] == 'eventcalendar' ||
 			$field['type'] == 'vm' ||
-			$field['type'] == 'bulkquantity' ||
-			$field['type'] == 'vm'
+			$field['type'] == 'vqmatrix' ||
+			$field['type'] == 'bulkquantity_zzz'	// bulkquantity should not be in there ... TESTING.
 			) {
 				
 				$qty_updatable = false;
@@ -1682,4 +1717,60 @@ function ppom_is_cart_quantity_updatable( $product_id ) {
 function ppom_attach_fields_to_product($ppom_meta_id, $product_id){
 	$ppom_meta = array($ppom_meta_id);
 	update_post_meta ( $product_id, '_product_meta_id', $ppom_meta );
+}
+
+// Get confirmed dir thumbs
+function ppom_get_confirmed_dir_thumbs($order_id, $file_name, $product_id, $thumb = false){
+	
+		$confirm_dir = 'confirmed/'.$order_id;
+		$file_name	 = ppom_file_get_name($file_name, $product_id);
+	
+		$file = '';
+		if ($thumb) {
+			$file = ppom_is_file_image($file_name) ? ppom_get_dir_url() . $confirm_dir . '/' . $file_name : PPOM_URL.'/images/file.png';
+		}else{	
+			$file = ppom_get_dir_path($confirm_dir) . $file_name;
+		}
+			
+		return $file;
+}
+function wp_get_editable_roles() {
+    global $wp_roles;
+
+    $all_roles = $wp_roles->roles;
+    $editable_roles = apply_filters('editable_roles', $all_roles);
+
+    return $editable_roles;
+}
+
+// get all editable user
+function ppom_get_all_editable_roles(){
+	
+	$get_roles = wp_get_editable_roles();
+	
+	$ppom_user_roles = array();
+	foreach($get_roles as $role => $role_name){
+		
+		$ppom_user_roles[$role] = $role_name['name'];
+	}
+	
+	return $ppom_user_roles;
+}
+
+function ppom_security_role(){
+	
+	$action = false;
+	$ppom_security = array();
+	$ppom_security = get_option('ppom_permission_mfields', array());
+	
+	if(empty($ppom_security))
+		$ppom_security = array(0 => 'administrator');
+
+	foreach($ppom_security as $index => $role){
+		if( current_user_can($role) ) 
+			$action = true;
+	}
+
+	
+	return $action;
 }
