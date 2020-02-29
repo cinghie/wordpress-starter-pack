@@ -951,7 +951,9 @@ if ( ! class_exists( 'um\admin\core\Admin_Builder' ) ) {
 
 						<input type="hidden" name="_position" id="_position" value="<?php echo $metabox->edit_array['position']; ?>" />
 
-						<?php if ( isset( $args['mce_content'] ) ) { ?><div class="dynamic-mce-content"><?php echo $metabox->edit_array['content']; ?></div><?php } ?>
+						<?php if ( isset( $args['mce_content'] ) ) { ?>
+							<div class="dynamic-mce-content"><?php echo ! empty( $metabox->edit_array['content'] ) ? $metabox->edit_array['content'] : ''; ?></div>
+						<?php } ?>
 
 						<?php $this->modal_header(); ?>
 
@@ -1065,7 +1067,7 @@ if ( ! class_exists( 'um\admin\core\Admin_Builder' ) ) {
 
 					UM()->user()->preview = true;
 
-					$output = um_user_submitted_registration( true );
+					$output = um_user_submitted_registration_formatted( true );
 
 					um_reset_user();
 

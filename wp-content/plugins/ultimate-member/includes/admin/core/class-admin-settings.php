@@ -1415,7 +1415,7 @@ if ( ! class_exists( 'um\admin\core\Admin_Settings' ) ) {
 			$current_tab = empty( $_GET['tab'] ) ? '' : urldecode( $_GET['tab'] );
 			$current_subtab = empty( $_GET['section'] ) ? '' : urldecode( $_GET['section'] );
 
-			$settings_struct = $this->settings_structure[$current_tab];
+			$settings_struct = $this->settings_structure[ $current_tab ];
 
 			//remove not option hidden fields
 			if ( ! empty( $settings_struct['fields'] ) ) {
@@ -2047,6 +2047,19 @@ if ( ! class_exists( 'um\admin\core\Admin_Settings' ) ) {
 
 				if ( ! is_wp_error( $request ) ) {
 					$request = json_decode( wp_remote_retrieve_body( $request ) );
+				} else {
+					$request = wp_remote_post(
+						UM()->store_url,
+						array(
+							'timeout'   => UM()->request_timeout,
+							'sslverify' => true,
+							'body'      => $api_params
+						)
+					);
+
+					if ( ! is_wp_error( $request ) ) {
+						$request = json_decode( wp_remote_retrieve_body( $request ) );
+					}
 				}
 
 				$request = ( $request ) ? maybe_unserialize( $request ) : false;

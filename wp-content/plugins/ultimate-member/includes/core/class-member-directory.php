@@ -512,15 +512,16 @@ if ( ! class_exists( 'um\core\Member_Directory' ) ) {
 			switch ( $this->filter_types[ $filter ] ) {
 				default: {
 
-					do_action( "um_member_directory_filter_type_{$this->filter_types[ $filter ]}", $filter, $this->filter_types );
+					do_action( "um_member_directory_filter_type_{$this->filter_types[ $filter ]}", $filter, $directory_data, $unique_hash, $attrs, $default_value );
 
 					break;
 				}
 				case 'text': {
 					$filter_from_url = ! empty( $_GET[ 'filter_' . $filter . '_' . $unique_hash ] ) ? $_GET[ 'filter_' . $filter . '_' . $unique_hash ] : $default_value; ?>
 						<input type="text" autocomplete="off" id="<?php echo $filter; ?>" name="<?php echo $filter; ?>"
-							   placeholder="<?php esc_attr_e( stripslashes( $attrs['label'] ), 'ultimate-member' ); ?>"
-							   value="<?php echo esc_attr( $filter_from_url ) ?>" class="um-form-field" />
+						   placeholder="<?php esc_attr_e( stripslashes( $attrs['label'] ), 'ultimate-member' ); ?>"
+						          value="<?php echo esc_attr( $filter_from_url ) ?>" class="um-form-field"
+						       aria-label="<?php esc_attr_e( stripslashes( $attrs['label'] ), 'ultimate-member' ); ?>" />
 					<?php
 					break;
 				}
@@ -605,15 +606,27 @@ if ( ! class_exists( 'um\core\Member_Directory' ) ) {
 						$custom_dropdown .= ' data-um-ajax-source="' . esc_attr( $ajax_source ) . '" ';
 
 						$attrs['options'] = UM()->fields()->get_options_from_callback( $attrs, $attrs['type'] );
+					} else {
+						/**
+						 * UM hook
+						 *
+						 * @type filter
+						 * @title um_select_option_value
+						 * @description Enable options pair by field $data
+						 * @input_vars
+						 * [{"var":"$options_pair","type":"null","desc":"Enable pairs"},
+						 * {"var":"$data","type":"array","desc":"Field Data"}]
+						 */
+						$option_pairs = apply_filters( 'um_select_options_pair', null, $attrs );
 					}
 
 					if ( $attrs['metakey'] != 'online_status' ) {
-						if ( $attrs['metakey'] != 'role_select' && $attrs['metakey'] != 'mycred_rank' && empty( $custom_dropdown ) ) {
-							$attrs['options'] = array_intersect( array_map( 'stripslashes', $attrs['options'] ), $values_array );
+						if ( $attrs['metakey'] != 'role_select' && $attrs['metakey'] != 'mycred_rank' && empty( $custom_dropdown ) && empty( $option_pairs ) ) {
+							$attrs['options'] = array_intersect( array_map( 'stripslashes', array_map( 'trim', $attrs['options'] ) ), $values_array );
 						} elseif ( ! empty( $custom_dropdown ) ) {
-							$attrs['options'] = array_intersect_key( $attrs['options'], array_flip( $values_array ) );
+							$attrs['options'] = array_intersect_key( array_map( 'trim', $attrs['options'] ), array_flip( $values_array ) );
 						} else {
-							$attrs['options'] = array_intersect_key( $attrs['options'], array_flip( $values_array ) );
+							$attrs['options'] = array_intersect_key( array_map( 'trim', $attrs['options'] ), array_flip( $values_array ) );
 						}
 					}
 
@@ -642,6 +655,7 @@ if ( ! class_exists( 'um\core\Member_Directory' ) ) {
 
 					<select class="um-s1" id="<?php echo esc_attr( $filter ); ?>" name="<?php echo esc_attr( $filter ); ?><?php if ( $admin && count( $attrs['options'] ) > 1 ) { ?>[]<?php } ?>"
 							data-placeholder="<?php esc_attr_e( stripslashes( $attrs['label'] ), 'ultimate-member' ); ?>"
+							aria-label="<?php esc_attr_e( stripslashes( $attrs['label'] ), 'ultimate-member' ); ?>"
 							<?php if ( $admin && count( $attrs['options'] ) > 1 ) { ?>multiple<?php } ?>
 						<?php echo $custom_dropdown; ?>>
 
@@ -659,6 +673,10 @@ if ( ! class_exists( 'um\core\Member_Directory' ) ) {
 								}
 
 								if ( isset( $attrs['custom'] ) ) {
+									$opt = $k;
+								}
+
+								if ( ! empty( $option_pairs ) ) {
 									$opt = $k;
 								} ?>
 
@@ -686,10 +704,9 @@ if ( ! class_exists( 'um\core\Member_Directory' ) ) {
 				}
 				case 'slider': {
 					$range = $this->slider_filters_range( $filter, $directory_data );
+					if ( $range ) {
+						list( $single_placeholder, $plural_placeholder ) = $this->slider_range_placeholder( $filter, $attrs ); ?>
 
-					list( $single_placeholder, $plural_placeholder ) = $this->slider_range_placeholder( $filter, $attrs );
-
-					if ( $range ) { ?>
 						<input type="hidden" id="<?php echo $filter; ?>_min" name="<?php echo $filter; ?>[]" class="um_range_min" value="<?php echo ! empty( $default_value ) ? esc_attr( min( $default_value ) ) : '' ?>" />
 						<input type="hidden" id="<?php echo $filter; ?>_max" name="<?php echo $filter; ?>[]" class="um_range_max" value="<?php echo ! empty( $default_value ) ? esc_attr( max( $default_value ) ) : '' ?>" />
 						<div class="um-slider" data-field_name="<?php echo $filter; ?>" data-min="<?php echo $range[0] ?>" data-max="<?php echo $range[1] ?>"></div>
@@ -788,10 +805,11 @@ if ( ! class_exists( 'um\core\Member_Directory' ) ) {
 					), ARRAY_A );
 
 					$range = false;
-					if ( ! empty( $meta['min_meta'] ) && ! empty( $meta['max_meta'] ) ) {
+					if ( isset( $meta['min_meta'] ) && isset( $meta['max_meta'] ) ) {
 						$range = array( $meta['min_meta'], $meta['max_meta'] );
 					}
 
+					$range = apply_filters( 'um_member_directory_filter_slider_common', $range, $directory_data, $filter );
 					$range = apply_filters( "um_member_directory_filter_{$filter}_slider", $range, $directory_data );
 
 					break;
@@ -808,7 +826,7 @@ if ( ! class_exists( 'um\core\Member_Directory' ) ) {
 
 					if ( empty( $meta ) || ! isset( $meta['amount'] ) || $meta['amount'] === 1 ) {
 						$range = false;
-					} elseif ( ! empty( $meta['min_meta'] ) && ! empty( $meta['max_meta'] ) ) {
+					} elseif ( isset( $meta['min_meta'] ) && isset( $meta['max_meta'] ) ) {
 						$range = array( $this->borndate( strtotime( $meta['max_meta'] ) ), $this->borndate( strtotime( $meta['min_meta'] ) ) );
 					}
 
@@ -1166,13 +1184,16 @@ if ( ! class_exists( 'um\core\Member_Directory' ) ) {
 			// sort members by
 			$this->query_args['order'] = 'ASC';
 			$sortby = ! empty( $_POST['sorting'] ) ? $_POST['sorting'] : $directory_data['sortby'];
+			$sortby = ( $sortby == 'other' ) ? $directory_data['sortby_custom'] : $sortby;
 
 			$custom_sort = array();
-			$sorting_fields = maybe_unserialize( $directory_data['sorting_fields'] );
-			foreach ( $sorting_fields as $field ) {
-				if ( is_array( $field ) ) {
-					$field_keys = array_keys( $field );
-					$custom_sort[] = $field_keys[0];
+			if ( ! empty( $directory_data['sorting_fields'] ) ) {
+				$sorting_fields = maybe_unserialize( $directory_data['sorting_fields'] );
+				foreach ( $sorting_fields as $field ) {
+					if ( is_array( $field ) ) {
+						$field_keys = array_keys( $field );
+						$custom_sort[] = $field_keys[0];
+					}
 				}
 			}
 
@@ -1506,6 +1527,8 @@ if ( ! class_exists( 'um\core\Member_Directory' ) ) {
 						 * ?>
 						 */
 						$field_query = apply_filters( "um_query_args_{$field}__filter", false, $field, $value, $filter_type );
+
+						$field_query = apply_filters( 'um_query_args_filter_global', $field_query, $field, $value, $filter_type );
 
 						if ( ! $field_query ) {
 
@@ -2162,48 +2185,57 @@ if ( ! class_exists( 'um\core\Member_Directory' ) ) {
 				'hook_after_user_name'  => preg_replace( '/^\s+/im', '', $hook_after_user_name ),
 			);
 
-			$directory_data['tagline_fields'] = maybe_unserialize( $directory_data['tagline_fields'] );
+			if ( ! empty( $directory_data['show_tagline'] ) ) {
 
-			if ( $directory_data['show_tagline'] && is_array( $directory_data['tagline_fields'] ) ) {
-				foreach ( $directory_data['tagline_fields'] as $key ) {
-					if ( ! $key ) {
-						continue;
+				if ( ! empty( $directory_data['tagline_fields'] ) ) {
+					$directory_data['tagline_fields'] = maybe_unserialize( $directory_data['tagline_fields'] );
+
+					if ( is_array( $directory_data['tagline_fields'] ) ) {
+						foreach ( $directory_data['tagline_fields'] as $key ) {
+							if ( ! $key ) {
+								continue;
+							}
+
+							$value = um_filtered_value( $key );
+
+							if ( ! $value ) {
+								continue;
+							}
+
+							$data_array[ $key ] = $value;
+						}
 					}
-
-					$value = um_filtered_value( $key );
-
-					if ( ! $value ) {
-						continue;
-					}
-
-					$data_array[ $key ] = $value;
 				}
 			}
 
-			if ( $directory_data['show_userinfo'] ) {
-				$directory_data['reveal_fields'] = maybe_unserialize( $directory_data['reveal_fields'] );
+			if ( ! empty( $directory_data['show_userinfo'] ) ) {
 
-				if ( is_array( $directory_data['reveal_fields'] ) ) {
-					foreach ( $directory_data['reveal_fields'] as $key ) {
-						if ( ! $key ) {
-							continue;
+				if ( ! empty( $directory_data['reveal_fields'] ) ) {
+
+					$directory_data['reveal_fields'] = maybe_unserialize( $directory_data['reveal_fields'] );
+
+					if ( is_array( $directory_data['reveal_fields'] ) ) {
+						foreach ( $directory_data['reveal_fields'] as $key ) {
+							if ( ! $key ) {
+								continue;
+							}
+
+							$value = um_filtered_value( $key );
+							if ( ! $value ) {
+								continue;
+							}
+
+							$label = UM()->fields()->get_label( $key );
+							if ( $key == 'role_select' || $key == 'role_radio' ) {
+								$label = strtr( $label, array(
+									' (Dropdown)'   => '',
+									' (Radio)'      => ''
+								) );
+							}
+
+							$data_array[ "label_{$key}" ] = __( $label, 'ultimate-member' );
+							$data_array[ $key ] = $value;
 						}
-
-						$value = um_filtered_value( $key );
-						if ( ! $value ) {
-							continue;
-						}
-
-						$label = UM()->fields()->get_label( $key );
-						if ( $key == 'role_select' || $key == 'role_radio' ) {
-							$label = strtr( $label, array(
-								' (Dropdown)'   => '',
-								' (Radio)'      => ''
-							) );
-						}
-
-						$data_array[ "label_{$key}" ] = __( $label, 'ultimate-member' );
-						$data_array[ $key ] = $value;
 					}
 				}
 
@@ -2375,12 +2407,7 @@ if ( ! class_exists( 'um\core\Member_Directory' ) ) {
 
 			add_filter( 'pre_user_query', array( &$this, 'pagination_changes' ), 10, 1 );
 
-			//var_dump( $this->query_args );
-
 			$user_query = new \WP_User_Query( $this->query_args );
-
-			//var_dump( $user_query->request );
-			//exit;
 
 			remove_filter( 'pre_user_query', array( &$this, 'pagination_changes' ), 10 );
 

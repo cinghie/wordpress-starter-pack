@@ -103,7 +103,7 @@ if ( ! class_exists( 'um\core\Form' ) ) {
 			$form_fields = UM()->fields()->get_fields();
 			$arr_options['fields'] = $form_fields;
 
-			if ( $arr_options['post']['members_directory'] == 'yes' ) {
+			if ( isset( $arr_options['post']['members_directory'] ) && $arr_options['post']['members_directory'] == 'yes' ) {
 				$ajax_source_func = $_POST['child_callback'];
 				if ( function_exists( $ajax_source_func ) ) {
 					$arr_options['items'] = call_user_func( $ajax_source_func, $arr_options['field']['parent_dropdown_relationship'] );
@@ -156,7 +156,7 @@ if ( ! class_exists( 'um\core\Form' ) ) {
 					);
 				}
 
-				if( isset( $_POST['child_callback'] ) && ! empty( $_POST['child_callback'] ) && isset( $form_fields[ $_POST['child_name'] ] )  ){
+				if ( isset( $_POST['child_callback'] ) && ! empty( $_POST['child_callback'] ) && isset( $form_fields[ $_POST['child_name'] ] )  ){
 
 					$ajax_source_func = $_POST['child_callback'];
 
@@ -232,6 +232,40 @@ if ( ! class_exists( 'um\core\Form' ) ) {
 			}
 		}
 
+		/**
+		 * Appends field notices
+		 * @param string $key
+		 * @param string $notice
+		 */
+		function add_notice( $key, $notice ) {
+			if ( ! isset( $this->notices[ $key ] ) ){
+				/**
+				 * UM hook
+				 *
+				 * @type filter
+				 * @title um_submit_form_notice
+				 * @description Change notice text on submit form
+				 * @input_vars
+				 * [{"var":"$notice","type":"string","desc":"notice String"},
+				 * {"var":"$key","type":"string","desc":"notice Key"}]
+				 * @change_log
+				 * ["Since: 2.0"]
+				 * @usage
+				 * <?php add_filter( 'um_submit_form_notice', 'function_name', 10, 2 ); ?>
+				 * @example
+				 * <?php
+				 * add_filter( 'um_submit_form_notice', 'my_submit_form_notice', 10, 2 );
+				 * function my_submit_form_notice( $notice, $key ) {
+				 *     // your code here
+				 *     return $notice;
+				 * }
+				 * ?>
+				 */
+				$notice = apply_filters( 'um_submit_form_notice', $notice, $key );
+				$this->notices[ $key ] = $notice;
+			}
+		}
+
 
 		/**
 		 * If a form has errors
@@ -240,6 +274,18 @@ if ( ! class_exists( 'um\core\Form' ) ) {
 		 */
 		function has_error( $key ) {
 			if ( isset( $this->errors[ $key ] ) ) {
+				return true;
+			}
+			return false;
+		}
+
+		/**
+		 * If a form has notices/info
+		 * @param  string  $key
+		 * @return boolean
+		 */
+		function has_notice( $key ) {
+			if ( isset( $this->notices[ $key ] ) ) {
 				return true;
 			}
 			return false;
