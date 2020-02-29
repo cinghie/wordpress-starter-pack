@@ -78,7 +78,7 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 		function show_social_urls() {
 			$social = array();
 
-			$fields = UM()->builtin()->all_user_fields;
+			$fields = UM()->builtin()->get_all_user_fields();
 			foreach ( $fields as $field => $args ) {
 				if ( isset( $args['advanced'] ) && $args['advanced'] == 'social' ) {
 					$social[ $field ] = $args;
@@ -397,6 +397,35 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 
 
 		/**
+		 * Print field notice
+		 *
+		 * @param string $text
+		 * @param bool   $force_show
+		 *
+		 * @return string
+		 */
+		function field_notice( $text, $force_show = false ) {
+			if ( $force_show ) {
+				$output = '<div class="um-field-notice"><span class="um-field-arrow"><i class="um-faicon-caret-up"></i></span>' . $text . '</div>';
+				return $output;
+			}
+
+
+			if ( isset( $this->set_id ) && UM()->form()->processing == $this->set_id ) {
+				$output = '<div class="um-field-notice"><span class="um-field-arrow"><i class="um-faicon-caret-up"></i></span>' . $text . '</div>';
+			} else {
+				$output = '';
+			}
+
+			if ( ! UM()->form()->processing ) {
+				$output = '<div class="um-field-notice"><span class="um-field-arrow"><i class="um-faicon-caret-up"></i></span>' . $text . '</div>';
+			}
+
+			return $output;
+		}
+
+
+		/**
 		 * Checks if field has a server-side error
 		 *
 		 * @param  string $key
@@ -405,6 +434,17 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 		 */
 		function is_error( $key ) {
 			return UM()->form()->has_error( $key );
+		}
+
+		/**
+		 * Checks if field has a notice
+		 *
+		 * @param  string $key
+		 *
+		 * @return boolean
+		 */
+		function is_notice( $key ) {
+			return UM()->form()->has_notice( $key );
 		}
 
 
@@ -417,6 +457,17 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 		 */
 		function show_error( $key ) {
 			return UM()->form()->errors[ $key ];
+		}
+
+		/**
+		 * Returns field notices
+		 *
+		 * @param  string $key
+		 *
+		 * @return string
+		 */
+		function show_notice( $key ) {
+			return UM()->form()->notices[ $key ];
 		}
 
 
@@ -972,10 +1023,10 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 				 */
 				$data = apply_filters( 'um_is_selected_filter_data', $data, $key, $field_value );
 
-				if ( ! $this->editing ) {
+				if ( ! $this->editing || 'custom' == $this->set_mode ) {
 					// show default on register screen if there is default
 					if ( isset( $data['default'] ) ) {
-						if ( strstr( $data['default'], ', ' ) ) {
+						if ( ! is_array( $data['default'] ) && strstr( $data['default'], ', ' ) ) {
 							$data['default'] = explode( ', ', $data['default'] );
 						}
 
@@ -986,6 +1037,11 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 						if ( is_array( $data['default'] ) && in_array( $value, $data['default'] ) ) {
 							return true;
 						}
+
+						if ( is_array( $data['default'] ) && array_intersect( $data['options'], $data['default'] ) ) {
+							return true;
+						}
+
 					}
 				} else {
 
@@ -1008,7 +1064,7 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 					// show default on edit screen if there isn't meta row in usermeta table
 					$direct_db_value = $wpdb->get_var( $wpdb->prepare( "SELECT ISNULL( meta_value ) FROM {$wpdb->usermeta} WHERE user_id = %d AND meta_key = %s", um_user( 'ID' ), $key ) );
 					if ( ! isset( $direct_db_value ) && isset( $data['default'] ) ) {
-						if ( strstr( $data['default'], ', ' ) ) {
+						if ( ! is_array(  $data['default'] ) && strstr( $data['default'], ', ' ) ) {
 							$data['default'] = explode( ', ', $data['default'] );
 						}
 
@@ -1039,7 +1095,7 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 		 */
 		function is_radio_checked( $key, $value, $data ) {
 			global $wpdb;
-
+					
 			if ( isset( UM()->form()->post_form[ $key ] ) ) {
 				if ( is_array( UM()->form()->post_form[ $key ] ) && in_array( $value, UM()->form()->post_form[ $key ] ) ) {
 					return true;
@@ -1048,7 +1104,7 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 				}
 			} else {
 
-				if ( $this->editing ) {
+				if ( $this->editing && 'custom' !== $this->set_mode ) {
 					if ( um_user( $key ) ) {
 
 						if ( strstr( $key, 'role_' ) ) {
@@ -1936,10 +1992,6 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 				return '';
 			}
 
-			if ( ! um_can_edit_field( $data ) ) {
-				return '';
-			}
-
 			um_fetch_user( $_um_profile_id );
 
 			// Stop return empty values build field attributes:
@@ -1956,6 +2008,14 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 					$current_user_roles = um_user( 'roles' );
 					if ( ! empty( $current_user_roles ) && count( array_intersect( $current_user_roles, $data['roles'] ) ) > 0 ) {
 						$disabled = '';
+					}
+				}
+			}
+
+			if ( ! empty( $this->editing ) && $this->set_mode == 'profile' ) {
+				if ( ! UM()->roles()->um_user_can( 'can_edit_everyone' ) ) {
+					if ( isset( $data['editable'] ) && $data['editable'] == 0 ) {
+						$disabled = ' disabled="disabled" ';
 					}
 				}
 			}
@@ -2034,6 +2094,8 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 			 * ?>
 			 */
 			$field_id = apply_filters( 'um_completeness_field_id', $field_id, $data, $args );
+
+
 			/* Begin by field type */
 			switch ( $type ) {
 
@@ -2062,6 +2124,7 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 					 * }
 					 * ?>
 					 */
+					
 					$output .= apply_filters( "um_edit_field_{$mode}_{$type}", $output, $data );
 					break;
 
@@ -2098,9 +2161,11 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 
 					if ( $this->is_error( $key ) ) {
 						$output .= $this->field_error( $this->show_error( $key ) );
+					}else if ( $this->is_notice( $key ) ) {
+						$output .= $this->field_notice( $this->show_notice( $key ) );
 					}
 
-					$output .= '</div>';
+					$output .= '</div>'; 
 					break;
 
 				/* Text */
@@ -2133,6 +2198,8 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 
 					if ( $this->is_error( $key ) ) {
 						$output .= $this->field_error( $this->show_error( $key ) );
+					}else if ( $this->is_notice( $key ) ) {
+						$output .= $this->field_notice( $this->show_notice( $key ) );
 					}
 
 					$output .= '</div>';
@@ -2169,6 +2236,8 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 
 					if ( $this->is_error( $key ) ) {
 						$output .= $this->field_error( $this->show_error( $key ) );
+					}else if ( $this->is_notice( $key ) ) {
+						$output .= $this->field_notice( $this->show_notice( $key ) );
 					}
 
 					$output .= '</div>';
@@ -2203,6 +2272,8 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 
 						if ( $this->is_error( $key ) ) {
 							$output .= $this->field_error( $this->show_error( $key ) );
+						}else if ( $this->is_notice( $key ) ) {
+							$output .= $this->field_notice( $this->show_notice( $key ) );
 						}
 
 						$output .= '</div>';
@@ -2232,6 +2303,8 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 
 							if ( $this->is_error( $key ) ) {
 								$output .= $this->field_error( $this->show_error( $key ) );
+							}else if ( $this->is_notice( $key ) ) {
+								$output .= $this->field_notice( $this->show_notice( $key ) );
 							}
 
 							$output .= '</div>';
@@ -2266,6 +2339,8 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 
 						if ( $this->is_error( $key ) ) {
 							$output .= $this->field_error( $this->show_error( $key ) );
+						}else if ( $this->is_notice( $key ) ) {
+							$output .= $this->field_notice( $this->show_notice( $key ) );
 						}
 
 						$output .= '</div>';
@@ -2293,6 +2368,8 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 
 							if ( $this->is_error( $key ) ) {
 								$output .= $this->field_error( $this->show_error( $key ) );
+							}else if ( $this->is_notice( $key ) ) {
+								$output .= $this->field_notice( $this->show_notice( $key ) );
 							}
 
 							$output .= '</div>';
@@ -2326,6 +2403,8 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 
 					if ( $this->is_error( $key ) ) {
 						$output .= $this->field_error( $this->show_error( $key ) );
+					}else if ( $this->is_notice( $key ) ) {
+						$output .= $this->field_notice( $this->show_notice( $key ) );
 					}
 
 					$output .= '</div>';
@@ -2354,6 +2433,8 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 
 					if ( $this->is_error( $key ) ) {
 						$output .= $this->field_error( $this->show_error( $key ) );
+					}else if ( $this->is_notice( $key ) ) {
+						$output .= $this->field_notice( $this->show_notice( $key ) );
 					}
 
 					$output .= '</div>';
@@ -2382,6 +2463,8 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 
 					if ( $this->is_error( $key ) ) {
 						$output .= $this->field_error( $this->show_error( $key ) );
+					}else if ( $this->is_notice( $key ) ) {
+						$output .= $this->field_notice( $this->show_notice( $key ) );
 					}
 
 					$output .= '</div>';
@@ -2462,6 +2545,8 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 
 					if ( $this->is_error( $key ) ) {
 						$output .= $this->field_error( $this->show_error( $key ) );
+					}else if ( $this->is_notice( $key ) ) {
+						$output .= $this->field_notice( $this->show_notice( $key ) );
 					}
 
 					$output .= '</div>';
@@ -2566,6 +2651,8 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 					/* end */
 					if ( $this->is_error( $key ) ) {
 						$output .= $this->field_error( $this->show_error( $key ) );
+					}else if ( $this->is_notice( $key ) ) {
+						$output .= $this->field_notice( $this->show_notice( $key ) );
 					}
 					$output .= '</div>';
 
@@ -2663,6 +2750,8 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 					/* end */
 					if ( $this->is_error( $key ) ) {
 						$output .= $this->field_error( $this->show_error( $key ) );
+					}else if ( $this->is_notice( $key ) ) {
+						$output .= $this->field_notice( $this->show_notice( $key ) );
 					}
 					$output .= '</div>';
 
@@ -2969,7 +3058,10 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 
 					if ( $this->is_error( $form_key ) ) {
 						$output .= $this->field_error( $this->show_error( $form_key ) );
+					} elseif ( $this->is_notice( $form_key ) ) {
+						$output .= $this->field_notice( $this->show_notice( $form_key ) );
 					}
+
 
 					$output .= '</div>';
 					break;
@@ -3101,6 +3193,18 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 						$options = apply_filters( "um_multiselect_options_{$data['type']}", $options, $data );
 					}
 
+					/**
+					 * UM hook
+					 *
+					 * @type filter
+					 * @title um_select_option_value
+					 * @description Enable options pair by field $data
+					 * @input_vars
+					 * [{"var":"$options_pair","type":"null","desc":"Enable pairs"},
+					 * {"var":"$data","type":"array","desc":"Field Data"}]
+					 */
+					$use_keyword = apply_filters( 'um_select_options_pair', null, $data );
+
 					// switch options pair for custom options from a callback function
 					if ( ! empty( $data['custom_dropdown_options_source'] ) ) {
 						$use_keyword = true;
@@ -3151,6 +3255,8 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 
 					if ( $this->is_error( $key ) ) {
 						$output .= $this->field_error( $this->show_error( $key ) );
+					}else if ( $this->is_notice( $key ) ) {
+						$output .= $this->field_notice( $this->show_notice( $key ) );
 					}
 
 					$output .= '</div>';
@@ -3219,16 +3325,34 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 					$i = 0;
 					$field_value = array();
 
+					/**
+					 * UM hook
+					 *
+					 * @type filter
+					 * @title um_radio_option_value
+					 * @description Enable options pair by field $data
+					 * @input_vars
+					 * [{"var":"$options_pair","type":"null","desc":"Enable pairs"},
+					 * {"var":"$data","type":"array","desc":"Field Data"}]
+					 */
+					$options_pair = apply_filters( "um_radio_options_pair__{$key}", false, $data );
+
+
 					if ( ! empty( $options ) ) {
 						foreach ( $options as $k => $v ) {
 
 							$v = rtrim( $v );
-
+                           
 							$um_field_checkbox_item_title = $v;
 							$option_value = $v;
 
 							if ( ! is_numeric( $k ) && in_array( $form_key, array( 'role' ) ) ||
 								 ( $this->set_mode == 'account' || um_is_core_page( 'account' ) ) ) {
+								$um_field_checkbox_item_title = $v;
+								$option_value = $k;
+							}
+
+							if( $options_pair ){
 								$um_field_checkbox_item_title = $v;
 								$option_value = $k;
 							}
@@ -3287,8 +3411,10 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 
 					$output .= '</div>';
 
-					if ( $this->is_error( $form_key ) ) {
-						$output .= $this->field_error( $this->show_error( $form_key ) );
+					if ( $this->is_error( $key ) ) {
+						$output .= $this->field_error( $this->show_error( $key ) );
+					}else if ( $this->is_notice( $key ) ) {
+						$output .= $this->field_notice( $this->show_notice( $key ) );
 					}
 
 					$output .= '</div>';
@@ -3437,6 +3563,8 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 
 					if ( $this->is_error( $key ) ) {
 						$output .= $this->field_error( $this->show_error( $key ) );
+					}else if ( $this->is_notice( $key ) ) {
+						$output .= $this->field_notice( $this->show_notice( $key ) );
 					}
 
 					$output .= '</div>';
@@ -3560,9 +3688,13 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 		 */
 		function array_sort_by_column( $arr, $col, $dir = SORT_ASC ) {
 			$sort_col = array();
-			foreach ($arr as $key => $row) {
-				if (isset( $row[$col] )) {
-					$sort_col[$key] = $row[$col];
+			foreach ( $arr as $key => $row ) {
+				if ( $key == 'form_id' ) {
+					continue;
+				}
+
+				if ( isset( $row[ $col ] ) ) {
+					$sort_col[ $key ] = $row[ $col ];
 				}
 			}
 

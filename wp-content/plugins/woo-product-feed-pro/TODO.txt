@@ -5,7 +5,7 @@ Tutorial / Blog posts:
 - Explain all the different fields/attributes that can be selected from the drop-downs
 
 Priority issues:
-- Add feature to add parent product to feeds (DSA and possible others)
+- Make category path primary (Yoast) category
 - Change XML header for Elite users (so it doesn't say its free for example)
 - Make extra woosea fields available for front-end usage
 - Only update feed when changes to products have been made

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     7.4.7
+ * Version:     7.5.9
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '7.4.7' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '7.5.9' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -854,7 +854,7 @@ function woosea_request_review(){
 //		if (preg_match("/woo-product-feed-pro|woosea_manage_feed|woosea_manage_settings/i",$page)){
 
 			if(($nr_projects > 0) AND ($is_active > $show_after) AND ($notification_interaction != "yes")){
-			echo '<div class="notice notice-info review-notification is-dismissible">';
+			echo '<div class="notice notice-info review-notification">';
 			echo '<table><tr><td></td><td><font color="green" style="font-weight:normal";><p>Hey, I noticed you have been using our plugin, <u>Product Feed PRO for WooCommerce by AdTribes.io</u>, for over a week now and have created product feed projects with it - that\'s awesome! Could you please do Eva and me a BIG favor and give it a 5-star rating on WordPress? Just to help us spread the word and boost our motivation. We would greatly appreciate if you would do so :)<br/>~ Adtribes.io support team<br><ul><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="dismiss-review-notification">Ok, you deserve it</a></li><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="#" class="dismiss-review-notification">Nope, maybe later</a></li><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="#" class="dismiss-review-notification">I already did</a></li></ul></p></font></td></tr></table>';
 			echo '</div>';	
 			}
@@ -1223,7 +1223,7 @@ function woosea_product_delete_meta_price( $product = null ) {
 	$link .= $_SERVER['HTTP_HOST']; 
 	// Append the requested resource location to the URL 
 	$link .= $_SERVER['REQUEST_URI']; 
-      
+     
 	if($structured_data_fix == "yes"){
 
 		$pr_woo = wc_get_price_to_display($product);
@@ -1335,14 +1335,15 @@ function woosea_product_delete_meta_price( $product = null ) {
 							'price'			=> $product_price,
 						        'priceValidUntil'    	=> $price_valid_until,
 	                                                'priceSpecification' => array(
-                                                        	'price'                 => $product_price,
+								'@type'			=> 'PriceSpecification',
+								'price'                 => $product_price,
                                                         	'priceCurrency'         => $shop_currency,
                                                         	'valueAddedTaxIncluded' => wc_prices_include_tax() ? 'true' : 'false',
                                                 	),	
 							'priceCurrency' 	=> $shop_currency,
 							'itemCondition' 	=> 'https://schema.org/'.$json_condition.'',
 							'availability'  	=> 'https://schema.org/'.$availability.'',
-							'sku'           	=> $product->get_sku(),
+							'sku'           	=> $variable_product->get_sku(),
 							'image'         	=> wp_get_attachment_url( $product->get_image_id() ),
 							'description'   	=> $product->get_description(),
 							'seller'        	=> array(
@@ -1364,6 +1365,7 @@ function woosea_product_delete_meta_price( $product = null ) {
                                 	               	 	'price' => wc_format_decimal( $lowest, wc_get_price_decimals() ),
                                         	       		'priceCurrency' => $shop_currency,
 						              	'priceSpecification' => array(
+									'@type'			=> 'PriceSpecification',
                                                         		'price'                 => wc_format_decimal( $lowest, wc_get_price_decimals() ),
                                                         		'priceCurrency'         => $shop_currency,
                                                         		'valueAddedTaxIncluded' => wc_prices_include_tax() ? 'true' : 'false',
@@ -1539,7 +1541,321 @@ function woosea_product_delete_meta_price( $product = null ) {
 	}
 	return $markup_offer;
 }
-add_filter( 'woocommerce_structured_data_product_offer', 'woosea_product_delete_meta_price' );
+//add_filter( 'woocommerce_structured_data_product_offer', 'woosea_product_delete_meta_price', 1000, 1 );
+
+/**
+ * Check if Yoast SEO WooCommerce plugin is enabled
+ * If so, remove their product schema filter as it breaks ours 
+ */
+function woosea_check_for_yoast_woocommerce(){
+	if ( class_exists( 'WPSEO_WooCommerce_Schema' ) ) {
+		// When neded we will use this function to remove pieces of Yoast's code
+	}
+}
+add_action('plugins_loaded', 'woosea_check_for_yoast_woocommerce');
+
+
+/**
+ * Fix the WooCommerce schema markup bug for variation prices 
+ */
+function woosea_product_fix_structured_data( $product = null ) {
+        $markup = array();
+
+        if ( ! is_object( $product ) ) {
+                global $product;
+        }
+        if ( ! is_a( $product, 'WC_Product' ) ) {
+                return;
+        }
+
+       	$shop_name = get_bloginfo( 'name' );
+     	$shop_url  = home_url();
+     	$currency  = get_woocommerce_currency();
+   
+        // Sisplay URL of current page. 
+        if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+                $link = "https";
+        } else {
+                 $link = "http";
+        }
+        // Here append the common URL characters. 
+        $link .= "://";
+        // Append the host(domain name, ip) to the URL. 
+        $link .= $_SERVER['HTTP_HOST'];
+        // Append the requested resource location to the URL 
+        $link .= $_SERVER['REQUEST_URI'];
+
+        $structured_data_fix = get_option ('structured_data_fix');
+
+	// This is an Elite user who enababled the structured data fix
+        if($structured_data_fix == "yes"){
+	    	// We should first check if there are any _GET parameters available
+     		// When there are not we are on a variable product page but not on a specific variable one
+      		// In that case we need to put in the AggregateOffer structured data
+     		$nr_get = count($_GET);
+
+	    	if($nr_get > 0){
+			// This is a variable product
+             		$mother_id = wc_get_product()->get_id();
+              		$children_ids = $product->get_children();
+
+            		foreach ($children_ids as &$child_val) {
+                		$product_variations = new WC_Product_Variation( $child_val );
+                     		$variations = array_filter($product_variations->get_variation_attributes());
+                     		$from_url = str_replace("\\","",$_GET,$i);
+                      		$intersect = array_intersect($from_url, $variations);
+                     		if($variations == $intersect){
+                        		$variation_id = $child_val;
+                       		}
+             		}
+
+            		if(isset($variation_id )){
+                		$variable_product = wc_get_product($variation_id);
+               		}
+
+            		if( (isset($variation_id)) AND ( is_object( $variable_product ) ) ) {
+
+	    			$markup = array(      
+        				'@type'       => 'Product', 
+             				'@id'         => $link . '#product', // Append '#product' to differentiate between this @id and the @id generated for the Breadcrumblist.
+              				'name'        => $variable_product->get_name(),
+             				'url'         => $link,
+                                	'description' => wp_strip_all_tags( do_shortcode( $product->get_short_description() ? $product->get_short_description() : $product->get_description() ) ),
+     				);
+    				$image     = wp_get_attachment_url( $variable_product->get_image_id() );
+                		if ( $image ) {
+                        		$markup['image'] = $image;
+                		}
+				
+				// Get product brand
+                                $brand = get_post_meta( $variation_id, '_woosea_brand', true );
+                		if ( $brand ) {
+                        		$markup['brand'] = array (
+						'@type'		=> 'Thing',
+						'name'		=> $brand,
+					);
+                		}
+		      	
+				// Get product MPN
+                                $mpn = get_post_meta( $variation_id, '_woosea_mpn', true );
+                		if ( $mpn ) {
+                        		$markup['mpn'] = $mpn;
+                		}
+	
+				// Declare SKU or fallback to ID.
+      				if ( $variable_product->get_sku() ) {
+        				$markup['sku'] = $variable_product->get_sku();
+      				} else {
+           				$markup['sku'] = $variable_product->get_id();
+      				}
+
+			        if ( $product->get_rating_count() && wc_review_ratings_enabled() ) {
+                			$markup['aggregateRating'] = array(
+                        			'@type'       => 'AggregateRating',
+                        			'ratingValue' => $product->get_average_rating(),
+                        			'reviewCount' => $product->get_review_count(),
+                			);
+
+                			// Markup 5 most recent rating/review.
+                			$comments = get_comments(
+                        			array(
+                                			'number'      => 5,
+                                			'post_id'     => $product->get_id(),
+                                			'status'      => 'approve',
+                                			'post_status' => 'publish',
+                                			'post_type'   => 'product',
+                                			'parent'      => 0,
+                                			'meta_query'  => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+                                        			array(
+                                                			'key'     => 'rating',
+                                                			'type'    => 'NUMERIC',
+                                                			'compare' => '>',
+                                                			'value'   => 0,
+                                        			),
+                                			),
+                        			)
+                			);
+
+                			if ( $comments ) {
+                        			$markup['review'] = array();
+                        			foreach ( $comments as $comment ) {
+                                			$markup['review'][] = array(
+                                        			'@type'         => 'Review',
+                                        			'reviewRating'  => array(
+                                                			'@type'       => 'Rating',
+                                                			'ratingValue' => get_comment_meta( $comment->comment_ID, 'rating', true ),
+                                        			),
+                                        			'author'        => array(
+                                                			'@type' => 'Person',
+                                                			'name'  => get_comment_author( $comment ),
+                                        			),
+                                        			'reviewBody'    => get_comment_text( $comment ),
+                                        			'datePublished' => get_comment_date( 'c', $comment ),
+                                			);
+                        			}
+                			}
+        			}
+			}
+		} else {
+			// This is a simple product
+		    	$markup = array(      
+        			'@type'       => 'Product', 
+             			'@id'         => $link . '#product', // Append '#product' to differentiate between this @id and the @id generated for the Breadcrumblist.
+             	 		'name'        => $product->get_name(),
+             			'url'         => $link,
+            			'description' => wp_strip_all_tags( do_shortcode( $product->get_short_description() ? $product->get_short_description() : $product->get_description() ) ),
+    	 		);
+
+
+                   	$brand = get_post_meta( $product->get_id(), '_woosea_brand', true );
+               		if ( $brand ) {
+                       		$markup['brand'] = array (
+					'@type'		=> 'Thing',
+					'name'		=> $brand,
+				);
+                	}
+				
+			// Get product MPN
+                    	$mpn = get_post_meta( $product->get_id(), '_woosea_mpn', true );
+              		if ( $mpn ) {
+                        	$markup['mpn'] = $mpn;
+                	}
+	
+    			$image     = wp_get_attachment_url( $product->get_image_id() );
+	     		if ( $image ) {
+        			$markup['image'] = $image;
+     	 		}
+
+      			// Declare SKU or fallback to ID.
+    	  		if ( $product->get_sku() ) {
+        			$markup['sku'] = $product->get_sku();
+      			} else {
+           			$markup['sku'] = $product->get_id();
+      			}
+
+	        	if ( $product->get_rating_count() && wc_review_ratings_enabled() ) {
+        	        	$markup['aggregateRating'] = array(
+                	        	'@type'       => 'AggregateRating',
+                        		'ratingValue' => $product->get_average_rating(),
+               	         		'reviewCount' => $product->get_review_count(),
+                		);
+
+		                // Markup 5 most recent rating/review.
+                		$comments = get_comments(
+                        		array(
+                                		'number'      => 5,
+                                		'post_id'     => $product->get_id(),
+                                		'status'      => 'approve',
+                                		'post_status' => 'publish',
+                                		'post_type'   => 'product',
+                                		'parent'      => 0,
+                                		'meta_query'  => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+                                        		array(
+                                                		'key'     => 'rating',
+                                                		'type'    => 'NUMERIC',
+                                                		'compare' => '>',
+                                                		'value'   => 0,
+                                        		),
+                                		),
+                        		)
+                		);
+
+         		       if ( $comments ) {
+                        		$markup['review'] = array();
+                        		foreach ( $comments as $comment ) {
+                                		$markup['review'][] = array(
+                                        		'@type'         => 'Review',
+                                        		'reviewRating'  => array(
+                                                	'@type'       => 'Rating',
+                                                		'ratingValue' => get_comment_meta( $comment->comment_ID, 'rating', true ),
+                                        		),
+                                        		'author'        => array(
+                                                		'@type' => 'Person',
+                                                		'name'  => get_comment_author( $comment ),
+                                        		),
+                                        		'reviewBody'    => get_comment_text( $comment ),
+                                        		'datePublished' => get_comment_date( 'c', $comment ),
+                                		);
+                        		}
+                		}
+        		}
+
+		}
+	} else {
+		// Structured data fix is not enabled
+	    	$markup = array(      
+        		'@type'       => 'Product', 
+             		'@id'         => $link . '#product', // Append '#product' to differentiate between this @id and the @id generated for the Breadcrumblist.
+              		'name'        => $product->get_name(),
+             		'url'         => $link,
+            		'description' => wp_strip_all_tags( do_shortcode( $product->get_short_description() ? $product->get_short_description() : $product->get_description() ) ),
+     		);
+
+    		$image     = wp_get_attachment_url( $product->get_image_id() );
+	     	if ( $image ) {
+        		$markup['image'] = $image;
+      		}
+
+      		// Declare SKU or fallback to ID.
+      		if ( $product->get_sku() ) {
+        		$markup['sku'] = $product->get_sku();
+      		} else {
+           		$markup['sku'] = $product->get_id();
+      		}
+	}
+
+	// Get the offers structured data schema markup
+	$markup['offers'] = woosea_product_delete_meta_price($product);
+
+     	if ( $product->get_rating_count() && wc_review_ratings_enabled() ) {
+        	$markup['aggregateRating'] = array(
+                	'@type'       => 'AggregateRating',
+                   	'ratingValue' => $product->get_average_rating(),
+                    	'reviewCount' => $product->get_review_count(),
+            	);
+
+            	// Markup 5 most recent rating/review.
+             	$comments = get_comments(
+                	array(
+                        	'number'      => 5,
+                             	'post_id'     => $product->get_id(),
+                              	'status'      => 'approve',
+                             	'post_status' => 'publish',
+                            	'post_type'   => 'product',
+                              	'parent'      => 0,
+                             	'meta_query'  => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+                               		array(
+                                        	'key'     => 'rating',
+                                            	'type'    => 'NUMERIC',
+                                             	'compare' => '>',
+                                            	'value'   => 0,
+                                	),
+                            	),
+                   	)
+            	);
+
+           	if ( $comments ) {
+                	$markup['review'] = array();
+                    	foreach ( $comments as $comment ) {
+                       		$markup['review'][] = array(
+                                	'@type'         => 'Review',
+                                    	'reviewRating'  => array(
+                                        	'@type'       => 'Rating',
+                                            	'ratingValue' => get_comment_meta( $comment->comment_ID, 'rating', true ),
+                                    	),
+                                     	'author'        => array(
+                                          	'@type' => 'Person',
+                                            	'name'  => get_comment_author( $comment ),
+                                     	),
+                                    	'reviewBody'    => get_comment_text( $comment ),
+                                      	'datePublished' => get_comment_date( 'c', $comment ),
+                       		);
+                        }
+                }
+	}
+	return $markup;
+}
+add_filter( 'woocommerce_structured_data_product', 'woosea_product_fix_structured_data', 2000, 2 );
 
 /**
  * Get the shipping zone countries and ID's
@@ -3833,7 +4149,7 @@ function woosea_license_valid(){
 
 	if(!empty($license_information['license_key'])){
 	        $curl = curl_init();
-	        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=7.4.7";
+	        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=7.5.9";
 
 	        curl_setopt_array($curl, array(
         	        CURLOPT_RETURNTRANSFER => 1,

@@ -24,6 +24,8 @@ if ( ! class_exists( 'um\core\Member_Directory_Meta' ) ) {
 		var $roles = array();
 		var $general_meta_joined = false;
 
+		var $having = '';
+		var $select = '';
 		var $sql_limit = '';
 		var $sql_order = '';
 
@@ -216,6 +218,8 @@ if ( ! class_exists( 'um\core\Member_Directory_Meta' ) ) {
 					 * ?>
 					 */
 					$skip_default = apply_filters( "um_query_args_{$field}__filter_meta", false, $this, $field, $value, $filter_type, $is_default );
+
+					$skip_default = apply_filters( 'um_query_args_filter_global_meta', $skip_default, $this, $field, $value, $filter_type, $is_default );
 
 					if ( ! $skip_default ) {
 
@@ -535,7 +539,9 @@ if ( ! class_exists( 'um\core\Member_Directory_Meta' ) ) {
 
 				$additional_search = apply_filters( 'um_member_directory_meta_general_search_meta_query', '', stripslashes( $_POST['search'] ) );
 
-				$this->where_clauses[] = $wpdb->prepare( "( umm_search.um_value = %s OR umm_search.um_value LIKE %s OR umm_search.um_value LIKE %s OR {$core_search}{$additional_search})", $search_line, '%' . $search_line . '%', '%' . serialize( strval( $search_line ) ) . '%' );
+				$search_like_string = apply_filters( 'um_member_directory_meta_search_like_type', '%' . $search_line . '%', $search_line );
+
+				$this->where_clauses[] = $wpdb->prepare( "( umm_search.um_value = %s OR umm_search.um_value LIKE %s OR umm_search.um_value LIKE %s OR {$core_search}{$additional_search})", $search_line, $search_like_string, '%' . serialize( strval( $search_line ) ) . '%' );
 
 				$this->is_search = true;
 			}
@@ -592,13 +598,16 @@ if ( ! class_exists( 'um\core\Member_Directory_Meta' ) ) {
 
 			$order = 'ASC';
 			$sortby = ! empty( $_POST['sorting'] ) ? $_POST['sorting'] : $directory_data['sortby'];
+			$sortby = ( $sortby == 'other' ) ? $directory_data['sortby_custom'] : $sortby;
 
 			$custom_sort = array();
-			$sorting_fields = maybe_unserialize( $directory_data['sorting_fields'] );
-			foreach ( $sorting_fields as $field ) {
-				if ( is_array( $field ) ) {
-					$field_keys = array_keys( $field );
-					$custom_sort[] = $field_keys[0];
+			if ( ! empty( $directory_data['sorting_fields'] ) ) {
+				$sorting_fields = maybe_unserialize( $directory_data['sorting_fields'] );
+				foreach ( $sorting_fields as $field ) {
+					if ( is_array( $field ) ) {
+						$field_keys = array_keys( $field );
+						$custom_sort[] = $field_keys[0];
+					}
 				}
 			}
 
@@ -637,7 +646,7 @@ if ( ! class_exists( 'um\core\Member_Directory_Meta' ) ) {
 
 				$this->joins[] = "LEFT JOIN {$wpdb->prefix}um_metadata umm_sort ON ( umm_sort.user_id = u.ID AND umm_sort.um_key = '_um_last_login' )";
 
-				$this->sql_order = " ORDER BY CAST( umm_sort.um_value AS SIGNED ) {$order} ";
+				$this->sql_order = " ORDER BY CAST( umm_sort.um_value AS SIGNED ) DESC ";
 
 			} elseif ( $sortby == 'last_first_name' ) {
 
@@ -722,10 +731,12 @@ if ( ! class_exists( 'um\core\Member_Directory_Meta' ) ) {
 			global $wpdb;
 
 			$user_ids = $wpdb->get_col(
-				"SELECT SQL_CALC_FOUND_ROWS DISTINCT u.ID 
+				"SELECT SQL_CALC_FOUND_ROWS DISTINCT u.ID
+				{$this->select}
 				FROM {$wpdb->users} AS u
 				{$sql_join}
 				WHERE 1=1 {$sql_where}
+				{$this->having}
 				{$this->sql_order}
 				{$this->sql_limit}"
 			);
@@ -749,7 +760,13 @@ if ( ! class_exists( 'um\core\Member_Directory_Meta' ) ) {
 			um_reset_user();
 			// end of user card
 
-			wp_send_json_success( array( 'pagination' => $pagination_data, 'users' => $users, 'is_search' => $this->is_search ) );
+			$member_directory_response = apply_filters( 'um_ajax_get_members_response', array(
+				'pagination'    => $pagination_data,
+				'users'         => $users,
+				'is_search'     => $this->is_search,
+			), $directory_data );
+
+			wp_send_json_success( $member_directory_response );
 		}
 	}
 }

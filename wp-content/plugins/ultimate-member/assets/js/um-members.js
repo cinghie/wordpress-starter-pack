@@ -300,12 +300,14 @@ function um_ajax_get_members( directory, args ) {
 				if ( typeof value != 'undefined' ) {
 					request[ filter_name ] = value.split( '||' );
 				}
-			} else  {
+			} else if ( filter.hasClass( 'um-text-filter-type' ) && filter.find('input[type="text"]').length ) {
 				var filter_name = filter.find('input[type="text"]').attr('name');
 				var value = um_get_data_for_directory( directory, 'filter_' + filter_name );
 				if ( typeof value != 'undefined' ) {
 					request[ filter_name ] = value;
 				}
+			} else {
+				request = wp.hooks.applyFilters( 'um_member_directory_custom_filter_handler', request, filter, directory );
 			}
 		});
 	}
@@ -334,7 +336,8 @@ function um_ajax_get_members( directory, args ) {
 			}
 
 			//args.directory = directory;
-			jQuery( document ).trigger('um_members_rendered', [ directory, answer ] );
+			wp.hooks.doAction( 'um_member_directory_loaded', directory, answer );
+			//jQuery( document ).trigger('um_members_rendered', [ directory, answer ] );
 
 			um_init_new_dropdown();
 
@@ -358,7 +361,10 @@ function um_build_template( directory, data ) {
 
 	var header_template = wp.template( 'um-members-header' );
 	directory.find('.um-members-intro').remove();
-	if ( typeof data.is_search != 'undefined' && data.is_search ) {
+
+	var generate_header = wp.hooks.applyFilters( 'um_member_directory_generate_header', false, directory );
+
+	if ( ( typeof data.is_search != 'undefined' && data.is_search ) || generate_header ) {
 		directory.find('.um-members-wrapper').prepend( header_template( data ) );
 	}
 
@@ -488,7 +494,7 @@ function um_get_filters_data( directory ) {
 				filters_data.push( {'name':filter_name, 'label':filter_title, 'value_label':filter_value_title, 'value':filter_value[ i ], 'type':filter_type} );
 			});
 
-		} else if( filter.find('input[type="text"]').length ) {
+		} else if( filter.hasClass('um-text-filter-type') && filter.find('input[type="text"]').length ) {
 
 			filter_type = 'text';
 			filter_name = filter.find('input[type="text"]').attr('name');
@@ -527,6 +533,10 @@ function um_get_filters_data( directory ) {
 			filter_title = filter.find('div.um-slider-range').data('label');
 
 			filters_data.push( {'name':filter_name, 'label':filter_title, 'value_label':filter_value_title, 'value':[filter_value_from, filter_value_to], 'type':filter_type} );
+		} else {
+
+			filters_data = wp.hooks.applyFilters( 'um_member_directory_get_filter_data', filters_data, directory, filter );
+
 		}
 	});
 
@@ -581,17 +591,20 @@ function um_run_search( directory ) {
 
 
 	var ignore_after_search = false;
-	ignore_after_search = wp.hooks.applyFilters( 'um_member_directory_ignore_after_search', ignore_after_search );
+	ignore_after_search = wp.hooks.applyFilters( 'um_member_directory_ignore_after_search', ignore_after_search, directory );
 
 	if ( ! ignore_after_search ) {
 		var show_after_search = directory.data('must-search');
 		if ( show_after_search === 1 ) {
-			var search = um_get_search( directory );
+			search = um_get_search( directory );
 			if ( directory.find( '.um-members-filter-remove' ).length === 0 && ! search ) {
 				directory.data( 'searched', 0 );
-				directory.find('.um-members-grid, .um-members-list').remove();
+				directory.find('.um-members-grid, .um-members-list, .um-members-intro').remove();
 				directory.find( '.um-member-directory-sorting-options' ).prop( 'disabled', true );
 				directory.find( '.um-member-directory-view-type' ).addClass( 'um-disabled' );
+
+				wp.hooks.doAction( 'um_member_directory_clear_not_searched', directory );
+
 				um_members_hide_preloader( directory );
 				return;
 			}
@@ -1064,7 +1077,7 @@ jQuery(document.body).ready( function() {
 			return;
 		}
 
-		um_members_show_preloader(directory);
+		um_members_show_preloader( directory );
 
 		var removeItem = jQuery(this).data('value');
 		var filter_name = jQuery(this).data('name');
@@ -1135,6 +1148,8 @@ jQuery(document.body).ready( function() {
 
 			jQuery( '.um-search-filter #' + filter_name + '_from' ).val('');
 			jQuery( '.um-search-filter #' + filter_name + '_to' ).val('');
+		} else {
+			wp.hooks.doAction( 'um_member_directory_filter_remove', type, directory, filter_name, removeItem );
 		}
 
 
@@ -1152,7 +1167,7 @@ jQuery(document.body).ready( function() {
 		}
 
 		var ignore_after_search = false;
-		ignore_after_search = wp.hooks.applyFilters( 'um_member_directory_ignore_after_search', ignore_after_search );
+		ignore_after_search = wp.hooks.applyFilters( 'um_member_directory_ignore_after_search', ignore_after_search, directory );
 
 		if ( ! ignore_after_search ) {
 			var show_after_search = directory.data('must-search');
@@ -1160,9 +1175,12 @@ jQuery(document.body).ready( function() {
 				var search = um_get_search( directory );
 				if ( directory.find( '.um-members-filter-remove' ).length === 0 && ! search ) {
 					directory.data( 'searched', 0 );
-					directory.find('.um-members-grid, .um-members-list').remove();
+					directory.find('.um-members-grid, .um-members-list, .um-members-intro').remove();
 					directory.find( '.um-member-directory-sorting-options' ).prop( 'disabled', true );
 					directory.find( '.um-member-directory-view-type' ).addClass( 'um-disabled' );
+
+					wp.hooks.doAction( 'um_member_directory_clear_not_searched', directory );
+
 					um_members_hide_preloader( directory );
 					return;
 				}
@@ -1253,6 +1271,8 @@ jQuery(document.body).ready( function() {
 
 				jQuery( '.um-search-filter #' + filter_name + '_from' ).val('');
 				jQuery( '.um-search-filter #' + filter_name + '_to' ).val('');
+			} else {
+				wp.hooks.doAction( 'um_member_directory_clear_filters', type, directory, filter_name, removeItem );
 			}
 		});
 
@@ -1271,7 +1291,7 @@ jQuery(document.body).ready( function() {
 		}
 
 		var ignore_after_search = false;
-		ignore_after_search = wp.hooks.applyFilters( 'um_member_directory_ignore_after_search', ignore_after_search );
+		ignore_after_search = wp.hooks.applyFilters( 'um_member_directory_ignore_after_search', ignore_after_search, directory );
 
 		if ( ! ignore_after_search ) {
 			var show_after_search = directory.data('must-search');
@@ -1279,9 +1299,12 @@ jQuery(document.body).ready( function() {
 				var search = um_get_search( directory );
 				if ( ! search ) {
 					directory.data( 'searched', 0 );
-					directory.find('.um-members-grid, .um-members-list').remove();
+					directory.find('.um-members-grid, .um-members-list, .um-members-intro').remove();
 					directory.find( '.um-member-directory-sorting-options' ).prop( 'disabled', true );
 					directory.find( '.um-member-directory-view-type' ).addClass( 'um-disabled' );
+
+					wp.hooks.doAction( 'um_member_directory_clear_not_searched', directory );
+
 					um_members_hide_preloader( directory );
 					return;
 				}
@@ -1299,6 +1322,7 @@ jQuery(document.body).ready( function() {
 	 * First Page Loading
 	 */
 
+	wp.hooks.doAction( 'um_member_directory_on_first_pages_loading' );
 
 	//Init Directories
 	jQuery( '.um-directory' ).each( function() {
@@ -1559,8 +1583,10 @@ jQuery(document.body).ready( function() {
 
 		});
 
+		wp.hooks.doAction( 'um_member_directory_on_init', directory, hash );
+
 		var ignore_after_search = false;
-		ignore_after_search = wp.hooks.applyFilters( 'um_member_directory_ignore_after_search', ignore_after_search );
+		ignore_after_search = wp.hooks.applyFilters( 'um_member_directory_ignore_after_search', ignore_after_search, directory );
 
 		if ( ! ignore_after_search ) {
 			var show_after_search = directory.data('must-search');
@@ -1573,9 +1599,13 @@ jQuery(document.body).ready( function() {
 			}
 		}
 
-		um_members_show_preloader( directory );
-		um_ajax_get_members( directory, {first_load:true} );
-		um_change_tag( directory );
+		var prevent_default = wp.hooks.applyFilters( 'um_member_directory_prevent_default_first_loading', false, directory, hash );
+
+		if ( ! prevent_default ) {
+			um_members_show_preloader( directory );
+			um_ajax_get_members( directory, {first_load:true} );
+			um_change_tag( directory );
+		}
 	});
 
 
@@ -1690,7 +1720,7 @@ jQuery(document.body).ready( function() {
 			});
 
 			var ignore_after_search = false;
-			ignore_after_search = wp.hooks.applyFilters( 'um_member_directory_ignore_after_search', ignore_after_search );
+			ignore_after_search = wp.hooks.applyFilters( 'um_member_directory_ignore_after_search', ignore_after_search, directory );
 
 			if ( ! ignore_after_search ) {
 				var show_after_search = directory.data('must-search');
@@ -1707,9 +1737,12 @@ jQuery(document.body).ready( function() {
 				}
 			}
 
-			um_ajax_get_members( directory );
+			var prevent_default = wp.hooks.applyFilters( 'um_member_directory_prevent_default_first_loading', false, directory, hash );
 
-			um_change_tag( directory );
+			if ( ! prevent_default ) {
+				um_ajax_get_members( directory );
+				um_change_tag( directory );
+			}
 		});
 	});
 

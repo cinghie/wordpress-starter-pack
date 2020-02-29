@@ -214,7 +214,7 @@ if (array_key_exists('project_hash', $_GET)){
 								print "</td>";
 								print "</tr>";
 
-								if(count($wcml_currencies) > 0){
+								if((count($wcml_currencies) > 0) AND ($wcml_settings['enable_multi_currency'] > 0)){
 									print "<tr>";
 									print "<td><span>WCML Currency:</span></td>";
 									print "<td>";
@@ -246,7 +246,7 @@ if (array_key_exists('project_hash', $_GET)){
 								print "</td>";
 								print "</tr>";
 
-								if(count($wcml_currencies) > 0){
+								if((count($wcml_currencies) > 0) AND ($wcml_settings['enable_multi_currency'] > 0)){
 									$my_currency = get_woocommerce_currency();
 									print "<tr>";
 									print "<td><span>WCML Currency:</span></td>";

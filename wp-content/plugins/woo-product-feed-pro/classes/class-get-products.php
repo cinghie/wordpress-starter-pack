@@ -215,14 +215,17 @@ class WooSEA_Get_Products {
 	private function woosea_get_nr_orders_variation ( $variation_id ) {
     		global $wpdb;
 
-    		// Getting all Order Items with that variation ID
-    		$nr_sales = $wpdb->get_col( $wpdb->prepare( "
-        		SELECT count(*) AS nr_sales
-        		FROM {$wpdb->prefix}woocommerce_order_itemmeta 
-        		WHERE meta_key LIKE '_variation_id' 
-        		AND meta_value = %s
-    		", $variation_id ) );
-	
+		$nr_sales = 0;
+
+		if(is_numeric($variation_id)){
+	    		// Getting all Order Items with that variation ID
+    			$nr_sales = $wpdb->get_col( $wpdb->prepare( "
+        			SELECT count(*) AS nr_sales
+        			FROM {$wpdb->prefix}woocommerce_order_itemmeta 
+        			WHERE meta_key LIKE '_variation_id' 
+        			AND meta_value = %s
+    			", $variation_id ) );
+		}
 		return $nr_sales;
 	}
 
@@ -348,7 +351,7 @@ class WooSEA_Get_Products {
 			} else {
 				$chain .= $separator.$name;
 			}
-		}	
+		}
 		return $chain;
 	}	
 
@@ -719,7 +722,7 @@ class WooSEA_Get_Products {
 									$shipping_cost = 0;
 								}
 
- 		                       				// Do we need to convert the shipping costswith the Aelia Currency Switcher
+ 		                       				// Do we need to convert the shipping costs with the Aelia Currency Switcher
                 	        				if((isset($project_config['AELIA'])) AND (!empty($GLOBALS['woocommerce-aelia-currencyswitcher'])) AND (get_option ('add_aelia_support') == "yes")){
                         	       					if(!array_key_exists('base_currency', $project_config)){
                                		        	 			$from_currency = get_woocommerce_currency();
@@ -1951,12 +1954,49 @@ class WooSEA_Get_Products {
                         	$cat_obj = get_the_terms( $product_data['id'], 'product_cat' );
 			}     
 
+
 	          	if($cat_obj){
 				foreach($cat_obj as $cat_term){
         	               		$cat_alt[] = $cat_term->term_id;
                 	      	}
 			}
 			$categories = $cat_alt;
+
+			// Determine real category hierarchy
+			$cat_order = array();
+			foreach ($categories as $key => $value){
+	                	$product_cat = get_term($value, 'product_cat');
+
+				// Not in array so we can add it
+				if(!in_array($value, $cat_order)){
+		
+					$parent_cat = $product_cat->parent;
+					// Check if parent is in array
+					if(in_array($parent_cat, $cat_order)){
+						// Parent is in array, now determine position
+						$position = array_search($parent_cat, $cat_order);					
+
+						// Use array splice to add it in the right position in array
+						$new_position = $position+1;
+
+						// Insert on new position in array
+						array_splice( $cat_order, $new_position, 0, $value );  
+					} else {
+						// Parent is not in array
+						if($parent_cat > 0){
+							if(in_array($parent_cat, $categories)){
+								$cat_order[] = $parent_cat;
+							}
+							$cat_order[] = $value;
+						} else {
+							// This is the MAIN cat so should be in front
+							array_unshift($cat_order, $value);
+						}
+					}
+				}
+			}
+
+			$categories = $cat_order;
 
 			// This is a category fix for Yandex, probably needed for all channels
 			// When Yoast is not installed and a product is linked to multiple categories
@@ -1971,6 +2011,7 @@ class WooSEA_Get_Products {
                      	if (in_array($project_config['name'], $double_categories, TRUE)){
 				$cat_alt = array();
 				$cat_terms = get_the_terms( $product_data['id'], 'product_cat' );
+
                        		if($cat_terms){
 					foreach($cat_terms as $cat_term){
         	                		$cat_alt[] = $cat_term->term_id;
@@ -1979,62 +2020,54 @@ class WooSEA_Get_Products {
 				$categories = $cat_alt;
 			}
 
-			// Check if the Yoast plugin is installed and active
 			foreach ($categories as $key => $value){
+	               		$product_cat = get_term($value, 'product_cat');
 
-				if (!$catname){
-	                        	$product_cat = get_term($value, 'product_cat');
-						
-					// Check if there are mother categories
-					$parent_categories = get_ancestors($product_cat->term_id, 'product_cat');
-					$category_path = $this->woosea_get_term_parents( $product_cat->term_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
+				// Check if there are mother categories
+				$category_path = $this->woosea_get_term_parents( $product_cat->term_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
+				$category_path_skroutz = str_replace("&gt;",">",$category_path);
+			
+		                if(!is_object($category_path)){
+					$product_data['category_path'] = $category_path;
+					$product_data['category_path_skroutz'] = $category_path_skroutz;
+					$product_data['category_path_skroutz'] = str_replace("Home >","",$product_data['category_path_skroutz']);
+					$product_data['category_path_skroutz'] = str_replace("&amp;","&",$product_data['category_path_skroutz']);
+				}
 
-		                	if(!is_object($category_path)){
-						$product_data['category_path'] = $category_path;
-					}
+				$parent_categories = get_ancestors($product_cat->term_id, 'product_cat');
+				foreach ($parent_categories as $category_id){
+					$parent = get_term_by('id', $category_id, 'product_cat');
+					$parent_name = $parent->name;
+				}
 
-					foreach ($parent_categories as $category_id){
-						$parent = get_term_by('id', $category_id, 'product_cat');
-						$parent_name = $parent->name;
-					}
+                              	if(isset($product_cat->name)) {
+					$catname .= "||".$product_cat->name;
+					$catlink .= "||".get_term_link($value,'product_cat');
+				}
+			}
+	
+			// Get the Yoast primary category (if exists)
+			if ( class_exists('WPSEO_Primary_Term') ) {
 
-                                        if(isset($product_cat->name)) {
-						$catname = $product_cat->name;
-						$catlink = get_term_link($value,'product_cat');
-						$one_category = $catname;
-					}
-				} else {
-	                           	$product_cat = get_term($value, 'product_cat');
-					
-					$category_path = $this->woosea_get_term_parents( $product_cat->term_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
-                                     	if(!is_object($category_path)){
-						$product_data['category_path'] = $category_path;
-					}	
-
-					// Check if there are mother categories
-					$parent_categories = get_ancestors($product_cat->term_id, 'product_cat');
-
-					foreach ($parent_categories as $category_id){
-						$parent = get_term_by('id', $category_id, 'product_cat');
-						$parent_name = "||".$parent->name;
-					}
-
-	                            	if(isset($product_cat->name)) {
-                                       		$catname_concat = $product_cat->name;
-						$catlink_concat = get_term_link($value,'product_cat');
-                                        }
-					$one_category = $catname_concat;
-					$catname .= "||".$catname_concat;
-					$catlink .= "||".$catlink_concat;
+     				// Show the post's 'Primary' category, if this Yoast feature is available, & one is set
+				$item_id = $product_data['id'];
+				if($product_data['item_group_id'] > 0){
+					$item_id = $product_data['item_group_id'];	
+				}
+				$wpseo_primary_term = new WPSEO_Primary_Term( 'product_cat', $item_id );
+				$prm_term = $wpseo_primary_term->get_primary_term();
+	               		$prm_cat = get_term($prm_term, 'product_cat');
+				if(!is_wp_error($prm_cat)){
+					if(!empty($prm_cat->name)){
+						$product_data['one_category'] = $prm_cat->name;
+					}				
 				}
 			}
 
 			$product_data['category_path_short'] = str_replace("Home &gt;","",$product_data['category_path']);
+			$product_data['category_path_short'] = str_replace("&gt;",">",$product_data['category_path_short']);
 			$product_data['category_link'] = $catlink;
-			$product_data['raw_categories'] = $catname;
-			if(!empty($one_category)){
-				$product_data['one_category'] = $one_category;
-			}
+			$product_data['raw_categories'] = ltrim($catname,"||");
 			$product_data['categories'] = $catname;
 			$product_data['description'] = html_entity_decode((str_replace("\r", "", $post->post_content)), ENT_QUOTES | ENT_XML1, 'UTF-8');
 			$product_data['short_description'] = html_entity_decode((str_replace("\r", "", $post->post_excerpt)), ENT_QUOTES | ENT_XML1, 'UTF-8');
@@ -2048,7 +2081,6 @@ class WooSEA_Get_Products {
 			$product_data['description'] = preg_replace( '/\[(.*?)\]/', ' ', $product_data['description'] );
     			$product_data['short_description'] = preg_replace('/\[vc_raw_html.*\[\/vc_raw_html\]/', '', $product_data['short_description']);
 			$product_data['short_description'] = preg_replace( '/\[(.*?)\]/', ' ', $product_data['short_description'] );
-
 
 			// Strip out the non-line-brake character
 			$product_data['description'] = str_replace("&#xa0;", "", $product_data['description']);
@@ -2204,7 +2236,6 @@ class WooSEA_Get_Products {
 				$product_data['sale_price'] = "";
 			}
 
-
 			// Override price when bundled product
 			if(($product->get_type() == "bundle") OR ($product->get_type() == "composite")){
 				$meta = get_post_meta($product_data['id']);
@@ -2264,7 +2295,6 @@ class WooSEA_Get_Products {
 				}		
 
 				//$set_country_base = add_filter('wc_aelia_cs_selected_currency', 'SEK', 0);
-
 				//$product_data['price'] = apply_filters('wc_aelia_cs_convert', $product_data['price'], $from_currency, $project_config['AELIA']);
 				$product_data['price'] = do_shortcode('[aelia_cs_product_price product_id="'.$product_data['id'].'" formatted="0" currency="'.$project_config['AELIA'].'"]');
 				$product_data['regular_price'] = apply_filters('wc_aelia_cs_convert', $product_data['regular_price'], $from_currency, $project_config['AELIA']);
@@ -2282,8 +2312,12 @@ class WooSEA_Get_Products {
 				}
 
 				$product_data['net_price'] = apply_filters('wc_aelia_cs_convert', $product_data['net_price'], $from_currency, $project_config['AELIA']);
-				$product_data['net_regular_price'] = apply_filters('wc_aelia_cs_convert', $product_data['net_regular_price'], $from_currency, $project_config['AELIA']);
-				$product_data['net_sale_price'] = apply_filters('wc_aelia_cs_convert', $product_data['net_sale_price'], $from_currency, $project_config['AELIA']);
+				if(isset($product_data['net_regular_price'])){	
+					$product_data['net_regular_price'] = apply_filters('wc_aelia_cs_convert', $product_data['net_regular_price'], $from_currency, $project_config['AELIA']);
+				}	
+				if(isset($product_data['net_sale_price'])){	
+					$product_data['net_sale_price'] = apply_filters('wc_aelia_cs_convert', $product_data['net_sale_price'], $from_currency, $project_config['AELIA']);
+				}
 
 				// Get Aelia manually inserted currency prices
 				if($product->is_type('simple')){
@@ -2340,7 +2374,6 @@ class WooSEA_Get_Products {
 						}
 					}
 				}
-
 			}
 
 			// Localize the price attributes
@@ -2405,7 +2438,7 @@ class WooSEA_Get_Products {
 					}
 				}		
 			}
-	
+
 			// Google Dynamic Remarketing feeds require the English price notation
 			if ($project_config['name'] == "Google Remarketing - DRM"){
 				$thousand_separator = wc_get_price_thousand_separator();
@@ -2459,14 +2492,16 @@ class WooSEA_Get_Products {
 			}
 
 			foreach($diff_taxonomies as $taxo){
-			//	if((strpos($taxo, "pa_") === 0) OR (strpos($taxo, "product_") === 0) OR (strpos($taxo, "pwb-") === 0) OR (strpos($taxo, "dokan") === 0)){
-					$term_value = get_the_terms($product_data['id'], $taxo);
-					if(is_array($term_value)){
-						foreach($term_value as $term){
-							$product_data[$taxo] = $term->name;
-						}
+				$term_value = get_the_terms($product_data['id'], $taxo);
+				$product_data[$taxo] = "";
+
+				if(is_array($term_value)){
+					foreach($term_value as $term){
+						$product_data[$taxo] .= ",". $term->name;
 					}
-			//	}
+					$product_data[$taxo] = ltrim($product_data[$taxo],',');
+					$product_data[$taxo] = rtrim($product_data[$taxo],',');
+				}
 			}
 
 			/*r
@@ -2493,9 +2528,9 @@ class WooSEA_Get_Products {
 			/**
 			 * Get Custom Attributes for Single, Bundled and Composite products
 			 */
-			if (($product->is_type('simple')) OR ($product->is_type('external')) OR ($product->is_type('bundle')) OR ($product->is_type('composite'))){
-
+			if (($product->is_type('simple')) OR ($product->is_type('external')) OR ($product->is_type('bundle')) OR ($product->is_type('composite')) OR ($product_data['product_type'] == "variable")){
 				$custom_attributes = $this->get_custom_attributes( $product_data['id'] );
+
 				if(!in_array("woosea optimized title", $custom_attributes)){
 					$woosea_opt = array (
 						"_woosea_optimized_title" =>  "woosea optimized title",
@@ -2512,7 +2547,7 @@ class WooSEA_Get_Products {
 				foreach($custom_attributes as $custom_kk => $custom_vv){
     					$custom_value = get_post_meta( $product_data['id'], $custom_kk, true );
 					$new_key ="custom_attributes_" . $custom_kk;
-					
+			
 					// Just to make sure the title is never empty
 					if(($custom_kk == "_aioseop_title") && ($custom_value == "")){
 						$custom_value = $product_data['title'];
@@ -2535,22 +2570,22 @@ class WooSEA_Get_Products {
 
                                  	// Need to clean up the strange price rightpress is returning
                                       	if($custom_kk == "rp_wcdpd_price_cache"){
-						if(array_key_exists("price", $custom_value)){
-							$product_data['price'] = $custom_value['price']['p'];
-                                          	}
 
-						if(array_key_exists("sale_price", $custom_value)){
-							$product_data['sale_price'] = $custom_value['sale_price']['p'];
-                                  		}
+		  	              		if((isset($project_config['AELIA'])) AND (!empty($GLOBALS['woocommerce-aelia-currencyswitcher'])) AND (get_option ('add_aelia_support') == "yes")){
+							$product_data['price'] = do_shortcode('[aelia_cs_product_price product_id="'.$product_data['id'].'" formatted="0" currency="'.$project_config['AELIA'].'"]');
+                                			$product_data['sale_price'] = apply_filters('wc_aelia_cs_convert', $custom_value['sale_price']['p'], $from_currency, $project_config['AELIA']);
+						} else {
+							if(array_key_exists("price", $custom_value)){
+								$product_data['price'] = $custom_value['price']['p'];
+                                          		}
+
+							if(array_key_exists("sale_price", $custom_value)){
+								$product_data['sale_price'] = $custom_value['sale_price']['p'];
+                	                  		}
+						}
 					}
 					$product_data[$new_key] = $custom_value;
 				}
-
-
-
-
-
-
 
 				/**
 				 * We need to check if this product has individual custom product attributes
@@ -2604,10 +2639,11 @@ class WooSEA_Get_Products {
 			 * Get data for these products based on the mother products item group id 
 			 */
 			$variation_pass = "true";
+
 			if( ($product_data['item_group_id'] > 0) AND (is_object(wc_get_product( $product_data['item_group_id'])))){
 				$product_variations = new WC_Product_Variation( $product_data['id'] );
 				$variations = $product_variations->get_variation_attributes();
-			
+		
 				// Determine the default variation product
 			      	$mother_product = wc_get_product($product_data['item_group_id']);
 				$def_attributes = $mother_product->get_default_attributes();
@@ -2669,14 +2705,17 @@ class WooSEA_Get_Products {
                         	$product_data['total_product_orders'] = $sales_array[0];
 
 				$visibility_list = wp_get_post_terms($product_data['item_group_id'], 'product_visibility', array("fields" => "all"));
-				foreach($visibility_list as $visibility_single){
-					if($visibility_single->slug == "exclude-from-catalog"){
-						$product_data['exclude_from_catalog'] = "yes";
-					}
-					if($visibility_single->slug == "exclude-from-search"){
-						$product_data['exclude_from_search'] = "yes";
-					} 
-				}				
+
+				if(!empty($visibility_list)){
+					foreach($visibility_list as $visibility_single){
+						if($visibility_single->slug == "exclude-from-catalog"){
+							$product_data['exclude_from_catalog'] = "yes";
+						}
+						if($visibility_single->slug == "exclude-from-search"){
+							$product_data['exclude_from_search'] = "yes";
+						} 
+					}	
+				}			
 		
 				if(($product_data['exclude_from_search'] == "yes") AND ($product_data['exclude_from_catalog'] == "yes")){
 					$product_data['exclude_from_all'] = "yes";
@@ -2718,15 +2757,13 @@ class WooSEA_Get_Products {
 				 * Although this is a product variation we also need to grap the Dynamic attributes belonging to the simple mother prodict
 				 */
                         	foreach($diff_taxonomies as $taxo){
-	                       	//	if((strpos($taxo, "pa_") === 0) OR (strpos($taxo, "product_") === 0) OR (strpos($taxo, "pwb-") === 0) OR (strpos($taxo, "dokan") === 0)){
-						$term_value = get_the_terms($product_data['item_group_id'], $taxo);
+					$term_value = get_the_terms($product_data['item_group_id'], $taxo);
 
-                                		if(is_array($term_value)){
-                                        		foreach($term_value as $term){
-								$product_data[$taxo] = $term->name;
-                                       			}
-                                		}
-				//	}
+                                	if(is_array($term_value)){
+                                        	foreach($term_value as $term){
+							$product_data[$taxo] = $term->name;
+                                       		}
+                                	}
                         	}
 
                         	/**
@@ -2865,76 +2902,6 @@ class WooSEA_Get_Products {
 						}
 					}
                         	}
-
-				// Get versioned product categories
-				$cat_alt = array();
-                                $cat_obj = get_the_terms( $product_data['item_group_id'], 'product_cat' );
-				if($cat_obj){
-                                	foreach($cat_obj as $cat_term){
-                                        	$cat_alt[] = $cat_term->term_id;
-                                	}
-                        	}
-                        	$categories = $cat_alt;
-
-                        	// This is a category fix for Yandex, probably needed for all channels
-                        	// When Yoast is not installed and a product is linked to multiple categories
-                        	// The ancestor categoryId does not need to be in the feed
-				$double_categories = array(
-					0 => "Yandex",
-					1 => "Prisjakt.se",
-					2 => "Pricerunner.se",
-					3 => "Pricerunner.dk",
-				);
-
-				if (in_array($project_config['name'], $double_categories, TRUE)){
-                                	$cat_alt = array();
-                                	$cat_terms = get_the_terms( $product_data['item_group_id'], 'product_cat' );
-                                	if($cat_terms){
-                                        	foreach($cat_terms as $cat_term){
-                                                	$cat_alt[] = $cat_term->term_id;
-                                        	}
-                                	}
-                                	$categories = $cat_alt;
-                        	}
-
-				// Check if the Yoast plugin is installed and active
-				foreach ($categories as $key => $value){
-					if (!$catname){
-                                        	$product_cat = get_term($value, 'product_cat');
-							
-						if($product_cat->parent > 0){
-							$set_parent = $product_cat->parent;
-						}
-
-                                                $category_path = $this->woosea_get_term_parents( $product_cat->term_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
-                                                if(!is_object($category_path)){
-							$product_data['category_path'] = $category_path;
-                                              	}
-						if(isset($product_cat->name)) {
-                                                	$catname = $product_cat->name;
-						       	$catlink = get_term_link($value,'product_cat');
-                                             	}
-					} else {
-                                        	$product_cat = get_term($value, 'product_cat');
-
-						if($product_cat->parent > 0){
-							$category_path = $this->woosea_get_term_parents( $product_cat->term_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
-                                                	if(!is_object($category_path)){
-								$product_data['category_path'] = $category_path;                                                        	
-							}
-							if(isset($product_cat->name)) {
-                                                       	       	$catname_concat = $product_cat->name;
-                                                               	$catlink_concat = get_term_link($value,'product_cat');
-                                                       	}
-                                                     	$one_category = $catname_concat;
-                                                      	$catname .= "||".$catname_concat;
-                                                       	$catlink .= "||".$catlink_concat;
-                                               	}
-					}
-				}
-	                        $product_data['raw_categories'] = $catname;
-				$product_data['category_link'] = $catlink;
-				$product_data['categories'] = $catname;
 			} 
 			// END VARIABLE PRODUCT CODE
 
@@ -2994,10 +2961,19 @@ class WooSEA_Get_Products {
 			/**
 			 * When a product is a variable product we need to delete the original product from the feed, only the originals are allowed
 			 */
-			if(($product->is_type('variable')) AND ($product_data['item_group_id'] == 0)){
-				$product_data = array();
-                        	$product_data = null;	
-			}
+
+			// For these channels parent products are allowed
+			$allowed_channel_parents = array(
+				"skroutz",
+				"google_dsa",
+			);	
+
+			if (!in_array($project_config['fields'], $allowed_channel_parents)){
+				if(($product->is_type('variable')) AND ($product_data['item_group_id'] == 0)){
+					$product_data = array();
+                      			$product_data = null;	
+				}
+			}	
 
 			/**
 			 * Remove variation products that are not THE default variation product
@@ -3495,7 +3471,6 @@ class WooSEA_Get_Products {
 						delete_option( $batch_project );
         					delete_option('woosea_allow_update');
 
-
 						// In 2 minutes from now check the amount of products in the feed and update the history count
 						wp_schedule_single_event( time() + 120, 'woosea_update_project_stats', array($val['project_hash']) );
 					} else {
@@ -3732,12 +3707,13 @@ class WooSEA_Get_Products {
         private function woocommerce_sea_mappings( $project_mappings, $product_data ){
 		$original_cat = $product_data['categories'];
 		$original_cat = preg_replace('/&amp;/','&',$original_cat);
+		$original_cat = preg_replace('/&gt;/','>',$original_cat);
+              	$original_cat = ltrim($original_cat,"||");
 
 		$tmp_cat = "";
 		$match = "false";
 
 		foreach ($project_mappings as $pm_key => $pm_array){
-
 			// Strip slashes
 			$pm_array['criteria'] = str_replace("\\","",$pm_array['criteria']);
 			$pm_array['criteria'] = str_replace("/","",$pm_array['criteria']);
@@ -3747,17 +3723,12 @@ class WooSEA_Get_Products {
 			$original_cat = trim($original_cat);
 
 			// First check if there is a category mapping for this specific product
-			
-			//if(($pm_array['criteria'] == "$original_cat") AND (!empty($pm_array['map_to_category']))){
-			//	$category_pieces = explode("-", $pm_array['map_to_category']);
-			//	$tmp_cat = $category_pieces[0];
-			//	$match = "true";
-			//}
-
 			if ((preg_match('/'.$pm_array['criteria'].'/', $original_cat))){
-				$category_pieces = explode("-", $pm_array['map_to_category']);
-				$tmp_cat = $category_pieces[0];
-				$match = "true";
+				if(!empty($pm_array['map_to_category'])){
+					$category_pieces = explode("-", $pm_array['map_to_category']);
+					$tmp_cat = $category_pieces[0];
+					$match = "true";
+				}
 			} elseif($pm_array['criteria'] == $original_cat){
 				$category_pieces = explode("-", $pm_array['map_to_category']);
 				$tmp_cat = $category_pieces[0];

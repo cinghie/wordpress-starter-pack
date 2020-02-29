@@ -26,11 +26,11 @@ add_filter( 'um_edit_label_all_fields', 'um_edit_label_all_fields', 10, 2 );
  * @param $value
  * @param $data
  *
- * @return string|void
+ * @return string
  */
 function um_profile_field_filter_hook__soundcloud_track( $value, $data ) {
 
-	if ( !is_numeric( $value ) ) {
+	if ( ! is_numeric( $value ) ) {
 		return __( 'Invalid soundcloud track ID', 'ultimate-member' );
 	}
 
@@ -52,7 +52,7 @@ add_filter( 'um_profile_field_filter_hook__soundcloud_track', 'um_profile_field_
  * @return bool|string
  */
 function um_profile_field_filter_hook__youtube_video( $value, $data ) {
-	if( empty( $value ) ){
+	if ( empty( $value ) ) {
 		return '';
 	}
 	$value = ( strstr( $value, 'http') || strstr( $value, '://' ) ) ? um_youtube_id_from_url( $value ) : $value;
@@ -61,7 +61,7 @@ function um_profile_field_filter_hook__youtube_video( $value, $data ) {
 					</div>';
 
 	return $value;
-	}
+}
 add_filter( 'um_profile_field_filter_hook__youtube_video', 'um_profile_field_filter_hook__youtube_video', 99, 2 );
 
 
@@ -709,14 +709,60 @@ function um_profile_field_filter_xss_validation( $value, $data, $type = '' ) {
 				}
 			}
 		} elseif ( 'select' == $type || 'radio' == $type ) {
-			if ( ! empty( $data['options'] ) && ! in_array( $value, $data['options'] ) && empty( $data['custom_dropdown_options_source'] ) ) {
+
+			/**
+			 * UM hook
+			 *
+			 * @type filter
+			 * @title um_select_option_value
+			 * @description Enable options pair by field $data
+			 * @input_vars
+			 * [{"var":"$options_pair","type":"null","desc":"Enable pairs"},
+			 * {"var":"$data","type":"array","desc":"Field Data"}]
+			 */
+			$option_pairs = apply_filters( 'um_select_options_pair', null, $data );
+
+			$arr = $data['options'];
+			if ( $option_pairs ) {
+				$arr = array_keys( $data['options'] );
+			}
+
+			if ( ! empty( $arr ) && ! in_array( $value, array_map( 'trim', $arr ) ) && empty( $data['custom_dropdown_options_source'] ) ) {
 				$value = '';
+			} else {
+				if ( $option_pairs ) {
+					$value = $data['options'][ $value ];
+				}
 			}
 		}
 	} elseif ( ! empty( $value ) && is_array( $value ) ) {
 		if ( 'multiselect' == $type || 'checkbox' == $type ) {
-			if ( ! empty( $data['options'] ) && empty( $data['custom_dropdown_options_source'] ) ) {
-				$value = array_intersect( $value, $data['options'] );
+
+			/**
+			 * UM hook
+			 *
+			 * @type filter
+			 * @title um_select_option_value
+			 * @description Enable options pair by field $data
+			 * @input_vars
+			 * [{"var":"$options_pair","type":"null","desc":"Enable pairs"},
+			 * {"var":"$data","type":"array","desc":"Field Data"}]
+			 */
+			$option_pairs = apply_filters( 'um_select_options_pair', null, $data );
+
+			$arr = $data['options'];
+			if ( $option_pairs ) {
+				$arr = array_keys( $data['options'] );
+			}
+
+			if ( ! empty( $arr ) && empty( $data['custom_dropdown_options_source'] ) ) {
+				$value = array_intersect( $value, array_map( 'trim', $arr ) );
+			}
+
+			if ( $option_pairs ) {
+				foreach ( $value as &$val ) {
+					$val = $data['options'][ $val ];
+				}
 			}
 		}
 	}

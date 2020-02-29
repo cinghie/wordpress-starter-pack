@@ -44,7 +44,13 @@ class WooSEA_skroutz {
 					"name" => "category name",
 					"feed_name" => "category",
 					"format" => "required",
-					"woo_suggest" => "categories",
+					"woo_suggest" => "category_path_skroutz",
+				),
+				"Category Path" => array(
+					"name" => "category path",
+					"feed_name" => "category_path",
+					"format" => "required",
+					"woo_suggest" => "category_path_short",
 				),
 				"Price with VAT" => array(
 					"name" => "price with vat",
@@ -86,17 +92,17 @@ class WooSEA_skroutz {
                                 "size" => array(
                                         "name" => "size",
                                         "feed_name" => "size",
-                                        "format" => "optional",
+                                        "format" => "required",
                                 ),
                                 "weight" => array(
                                         "name" => "weight",
                                         "feed_name" => "weight",
-                                        "format" => "optional",
+                                        "format" => "required",
                                 ),
                                 "color" => array(
                                         "name" => "color",
                                         "feed_name" => "color",
-                                        "format" => "optional",
+                                        "format" => "required",
                                 ),
 			),
 		);

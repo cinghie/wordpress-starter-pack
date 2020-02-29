@@ -20,6 +20,7 @@ if ( ! class_exists( 'um\admin\core\Admin_Metabox' ) ) {
 		 */
 		private $form_nonce_added = false;
 		private $directory_nonce_added = false;
+		private $custom_nonce_added = false;
 
 
 		/**
@@ -55,7 +56,7 @@ if ( ! class_exists( 'um\admin\core\Admin_Metabox' ) ) {
 		 */
 		function hide_metabox_restrict_content_shop( $hide ) {
 			if ( function_exists( 'wc_get_page_id' ) && ! empty( $_GET['post'] ) &&
-			     $_GET['post'] == wc_get_page_id( 'shop' ) ) {
+			     absint( $_GET['post'] ) == wc_get_page_id( 'shop' ) ) {
 				return true;
 			}
 
@@ -787,7 +788,10 @@ if ( ! class_exists( 'um\admin\core\Admin_Metabox' ) ) {
 			$path = str_replace('}','', $path );
 
 			include_once $path . 'includes/admin/templates/'. $box['id'] . '.php';
-			wp_nonce_field( basename( __FILE__ ), 'um_admin_save_metabox_custom_nonce' );
+			if ( ! $this->custom_nonce_added ) {
+				$this->custom_nonce_added = true;
+				wp_nonce_field( basename( __FILE__ ), 'um_admin_save_metabox_custom_nonce' );
+			}
 		}
 
 
@@ -838,7 +842,7 @@ if ( ! class_exists( 'um\admin\core\Admin_Metabox' ) ) {
 				)
 			);
 
-			if ( ! isset( $_GET['id'] ) || 'administrator' != $_GET['id'] ) {
+			if ( ! isset( $_GET['id'] ) || 'administrator' != sanitize_key( $_GET['id'] ) ) {
 				$roles_metaboxes[] = array(
 					'id'        => 'um-admin-form-home',
 					'title'     => __( 'Homepage Options', 'ultimate-member' ),
@@ -925,11 +929,12 @@ if ( ! class_exists( 'um\admin\core\Admin_Metabox' ) ) {
 
 			$wp_caps_metabox = false;
 			if ( ! empty( $_GET['id'] ) ) {
-				$data = get_option( "um_role_{$_GET['id']}_meta" );
-				if ( ! empty( $data['_um_is_custom'] ) )
+				$data = get_option( 'um_role_' . sanitize_key( $_GET['id'] ) . '_meta' );
+				if ( ! empty( $data['_um_is_custom'] ) ) {
 					$wp_caps_metabox = true;
+				}
 			}
-			if ( 'add' == $_GET['tab'] || $wp_caps_metabox ) {
+			if ( 'add' == sanitize_key( $_GET['tab'] ) || $wp_caps_metabox ) {
 				$roles_metaboxes[] = array(
 					'id'        => 'um-admin-form-wp-capabilities',
 					'title'     => __( 'WP Capabilities', 'ultimate-member' ),
@@ -1091,9 +1096,9 @@ if ( ! class_exists( 'um\admin\core\Admin_Metabox' ) ) {
 						if ( ! empty( $mode ) ) {
 
 							$posts = $wpdb->get_col(
-								"SELECT post_id 
-								FROM {$wpdb->postmeta} 
-								WHERE meta_key = '_um_mode' AND 
+								"SELECT post_id
+								FROM {$wpdb->postmeta}
+								WHERE meta_key = '_um_mode' AND
 									  meta_value = 'directory'"
 							);
 
@@ -1149,9 +1154,9 @@ if ( ! class_exists( 'um\admin\core\Admin_Metabox' ) ) {
 						$mode = UM()->query()->get_attr( 'mode', $post_id );
 						if ( ! empty( $mode ) ) {
 							$posts = $wpdb->get_col( $wpdb->prepare(
-								"SELECT post_id 
-								FROM {$wpdb->postmeta} 
-								WHERE meta_key = '_um_mode' AND 
+								"SELECT post_id
+								FROM {$wpdb->postmeta}
+								WHERE meta_key = '_um_mode' AND
 									  meta_value = %s",
 								$mode
 							) );
@@ -1208,7 +1213,7 @@ if ( ! class_exists( 'um\admin\core\Admin_Metabox' ) ) {
 
 			if ( $this->in_edit == true ) { // we're editing a field
 				$real_attr = substr( $attribute, 1 );
-				$this->edit_mode_value = (isset( $this->edit_array[ $real_attr ] ) ) ?  $this->edit_array[ $real_attr ] : null;
+				$this->edit_mode_value = (isset( $this->edit_array[ $real_attr ] ) ) ? $this->edit_array[ $real_attr ] : null;
 			}
 
 			switch ( $attribute ) {

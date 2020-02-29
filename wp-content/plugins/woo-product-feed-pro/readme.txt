@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.3
-Stable tag: 7.4.7
+Stable tag: 7.5.9
 
 == Description ==
 
@@ -311,6 +311,50 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 7.5.9 (2020-02-29) =
+* Added priceSpecification type to the JSON-LD structured data
+* Fixed a bug where reviews were removed from the structured data
+
+= 7.5.8 (2020-02-28) =
+* Adding Brand and MPN to product JSON-LD when woosea values are set for products;
+* When a variation SKU has been filled in that will show in the structured data SKU instead of the parent variable SKU;
+* The Yoast WooCommerce SEO plugin was removing our structured data price fix for variations. This has been solved;
+
+= 7.5.7 (2020-02-25) =
+* Changed the Skroutz template to reflect all changes of last week
+
+= 7.5.6 (2020-02-25) =
+* Fixed a bug with regards to Yoast's primary category. Renamed the "One Category" attribute to "Primary Category"
+* Now also supporting category mappings for WooCommerce categories containing a > character
+
+= 7.5.5 (2020-02-25) =
+* Change in Google category taxonomy mapping: when a product belongs to multiple categories the plugin will use the lowest level category hierarchy mapping (instead of the last one it encounters)
+* Removed the double pipes in front of the raw category attribute values
+* Made sure that checks on number of product orders is only done on numeric values
+
+= 7.5.4 (2020-02-24) =
+* Fixed a category path skroutz hierarchy bug
+
+= 7.5.3 (2020-02-23) =
+* Added logic to ensure that category hierarchy is respected in the category path / short / Skroutz feeds
+* Removed obsolete category code for variations 
+
+= 7.5.2 (2020-02-22) =
+* Solved a bug where the lowest level category of a product was not being added to the category path attribute. This issue has been solved now.
+
+= 7.5.1 (2020-02-21) =
+* When the multi-currency mode from WooCommerce Multilingual has been deactivated do not show the currencies upon configuration of the feed.
+
+= 7.5.0 (2020-02-21) =
+* Added support for dynamic attributes for parent variable products (Skroutz and Google DSA only)
+* Added a new attribute named category path Skroutz which puts in the category path values according to Skroutz's requirements
+
+= 7.4.9 (2020-02-20) =
+* Added support for custom attributes for parent variable products (Skroutz and Google DSA only)
+
+= 7.4.8 (2020-02-20) =
+* For Google DSA and Skroutz feeds the parent variable products are added to the feed too.
 
 = 7.4.7 (2020-02-19) =
 * Fixed a bug where the suffix currency configuration for shipping costs was ignored. This issue has been fixed now.
@@ -2372,6 +2416,50 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 7.5.9 =
+Added priceSpecification type to the JSON-LD structured data
+Fixed a bug where reviews were removed from the structured data
+
+= 7.5.8 =
+Adding Brand and MPN to product JSON-LD when woosea values are set for products;
+When a variation SKU has been filled in that will show in the structured data SKU instead of the parent variable SKU;
+The Yoast WooCommerce SEO plugin was removing our structured data price fix for variations. This has been solved;
+
+= 7.5.7 =
+Changed the Skroutz template to reflect all changes of last week
+
+= 7.5.6 =
+Fixed a bug with regards to Yoast's primary category. Renamed the "One Category" attribute to "Primary Category"
+Now also supporting category mappings for WooCommerce categories containing a > character
+
+= 7.5.5. =
+Change in Google category taxonomy mapping: when a product belongs to multiple categories the plugin will use the lowest level category hierarchy mapping (instead of the last one it encounters)
+Removed the double pipes in front of the raw category attribute values
+Made sure that checks on number of product orders is only done on numeric values
+
+= 7.5.4 =
+Fixed a category path skroutz hierarchy bug
+
+= 7.5.3 =
+Added logic to ensure that category hierarchy is respected in the category path / short / Skroutz feeds
+Removed obsolete category code for variations
+
+= 7.5.2 =
+Solved a bug where the lowest level category of a product was not being added to the category path attribute. This issue has been solved now.
+
+= 7.5.1 =
+When the multi-currency mode from WooCommerce Multilingual has been deactivated do not show the currencies upon configuration of the feed.
+
+= 7.5.0 =
+Added support for dynamic attributes for parent variable products (Skroutz and Google DSA only)
+Added a new attribute named category path Skroutz which puts in the category path values according to Skroutz's requirements
+
+= 7.4.9 =
+Added support for custom attributes for parent variable products (Skroutz and Google DSA only)
+
+= 7.4.8 =
+For Google DSA and Skroutz feeds the parent variable products are added to the feed too.
 
 = 7.4.7 =
 Fixed a bug where the suffix currency configuration for shipping costs was ignored. This issue has been fixed now.
