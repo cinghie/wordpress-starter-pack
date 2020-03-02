@@ -6,6 +6,7 @@ Tutorial / Blog posts:
 
 Priority issues:
 - Make category path primary (Yoast) category
+- Add possibility to copy feed configuration from one WooCommerce instance to the other instance
 - Change XML header for Elite users (so it doesn't say its free for example)
 - Make extra woosea fields available for front-end usage
 - Only update feed when changes to products have been made

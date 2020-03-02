@@ -1344,7 +1344,7 @@ class WooSEA_Activation {
   		        "Romania" => array (
                 		"Okazzi" => array (
                         		"channel_hash" => md5("Okazzi.ro"),
-                        		"name" => "Okazzo.ro",
+                        		"name" => "Okazzi.ro",
 					"fields" => "customfeed",
 					"taxonomy" => "none",
 					"utm_source" => "Okazzi.ro",

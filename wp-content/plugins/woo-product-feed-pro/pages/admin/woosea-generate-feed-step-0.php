@@ -218,7 +218,7 @@ if (array_key_exists('project_hash', $_GET)){
 									print "<tr>";
 									print "<td><span>WCML Currency:</span></td>";
 									print "<td>";
-									print "<select name=\"WPML\" disabled>";
+									print "<select name=\"WCML\" disabled>";
 									foreach ($wcml_currencies as $key => $value){
 										if($value == $project['WCML']){
 											print "<option value=\"$value\" selected>$value</option>";

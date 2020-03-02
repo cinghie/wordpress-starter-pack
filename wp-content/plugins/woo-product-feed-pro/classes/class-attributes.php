@@ -230,6 +230,8 @@ public function get_mapping_attributes_dropdown() {
 			"link" => "Link",
 			"variable_link" => "Product variable link",
 			"add_to_cart_link" => "Add to cart link",
+			"product_creation_date" => "Product creation date",
+			"days_back_created" => "Product days back created",
             		"currency" => "Currency",
 			"categories" => "Category",
 			"category_link" => "Category link",
@@ -444,6 +446,8 @@ public function get_mapping_attributes_dropdown() {
                         "rating_total" => "Total rating",
                         "rating_average" => "Average rating",
 			"amount_sales" => "Amount of sales",
+                        "product_creation_date" => "Product creation date",
+                        "days_back_created" => "Product days back created",
                 );
 
         	$images = array(

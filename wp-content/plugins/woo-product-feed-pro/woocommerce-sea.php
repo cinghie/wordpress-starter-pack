@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     7.5.9
+ * Version:     7.6.3
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '7.5.9' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '7.6.3' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -1424,7 +1424,7 @@ function woosea_product_delete_meta_price( $product = null ) {
 
 				}
 	   		} else {
-                             	// Workaround for price caching issues
+                             	// This is a simple product
 				// By default show prices including tax
 				$product_price = wc_get_price_including_tax($product);
 
@@ -1449,6 +1449,7 @@ function woosea_product_delete_meta_price( $product = null ) {
 				        'priceValidUntil'    => $price_valid_until,
 					'priceCurrency' => $shop_currency,
                                       	'priceSpecification' => array(
+ 						'@type'                 => 'PriceSpecification',
                                         	'price'                 => $product_price,
                                             	'priceCurrency'         => $shop_currency,
                                             	'valueAddedTaxIncluded' => wc_prices_include_tax() ? 'true' : 'false',
@@ -1542,17 +1543,6 @@ function woosea_product_delete_meta_price( $product = null ) {
 	return $markup_offer;
 }
 //add_filter( 'woocommerce_structured_data_product_offer', 'woosea_product_delete_meta_price', 1000, 1 );
-
-/**
- * Check if Yoast SEO WooCommerce plugin is enabled
- * If so, remove their product schema filter as it breaks ours 
- */
-function woosea_check_for_yoast_woocommerce(){
-	if ( class_exists( 'WPSEO_WooCommerce_Schema' ) ) {
-		// When neded we will use this function to remove pieces of Yoast's code
-	}
-}
-add_action('plugins_loaded', 'woosea_check_for_yoast_woocommerce');
 
 
 /**
@@ -1649,6 +1639,9 @@ function woosea_product_fix_structured_data( $product = null ) {
            				$markup['sku'] = $variable_product->get_id();
       				}
 
+        	                // Get the offers structured data schema markup
+	                        $markup['offers'][0] = woosea_product_delete_meta_price($product);
+
 			        if ( $product->get_rating_count() && wc_review_ratings_enabled() ) {
                 			$markup['aggregateRating'] = array(
                         			'@type'       => 'AggregateRating',
@@ -1733,53 +1726,57 @@ function woosea_product_fix_structured_data( $product = null ) {
            			$markup['sku'] = $product->get_id();
       			}
 
-	        	if ( $product->get_rating_count() && wc_review_ratings_enabled() ) {
-        	        	$markup['aggregateRating'] = array(
-                	        	'@type'       => 'AggregateRating',
-                        		'ratingValue' => $product->get_average_rating(),
-               	         		'reviewCount' => $product->get_review_count(),
-                		);
+                	// Get the offers structured data schema markup
+               		$markup['offers'][0] = woosea_product_delete_meta_price($product);
 
-		                // Markup 5 most recent rating/review.
-                		$comments = get_comments(
-                        		array(
-                                		'number'      => 5,
-                                		'post_id'     => $product->get_id(),
-                                		'status'      => 'approve',
-                                		'post_status' => 'publish',
-                                		'post_type'   => 'product',
-                                		'parent'      => 0,
-                                		'meta_query'  => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-                                        		array(
-                                                		'key'     => 'rating',
-                                                		'type'    => 'NUMERIC',
-                                                		'compare' => '>',
-                                                		'value'   => 0,
-                                        		),
-                                		),
-                        		)
-                		);
+//			if(!class_exists('WPSEO_WooCommerce_Schema')){
+		        	if ( $product->get_rating_count() && wc_review_ratings_enabled() ) {
+        		        	$markup['aggregateRating'] = array(
+                		        	'@type'       => 'AggregateRating',
+                        			'ratingValue' => $product->get_average_rating(),
+               	         			'reviewCount' => $product->get_review_count(),
+                			);
 
-         		       if ( $comments ) {
-                        		$markup['review'] = array();
-                        		foreach ( $comments as $comment ) {
-                                		$markup['review'][] = array(
-                                        		'@type'         => 'Review',
-                                        		'reviewRating'  => array(
-                                                	'@type'       => 'Rating',
-                                                		'ratingValue' => get_comment_meta( $comment->comment_ID, 'rating', true ),
-                                        		),
-                                        		'author'        => array(
-                                                		'@type' => 'Person',
-                                                		'name'  => get_comment_author( $comment ),
-                                        		),
-                                        		'reviewBody'    => get_comment_text( $comment ),
-                                        		'datePublished' => get_comment_date( 'c', $comment ),
-                                		);
+		 	               // Markup 5 most recent rating/review.
+                			$comments = get_comments(
+                        			array(
+                                			'number'      => 5,
+                                			'post_id'     => $product->get_id(),
+                         	       			'status'      => 'approve',
+                                			'post_status' => 'publish',
+                             		   		'post_type'   => 'product',
+                                			'parent'      => 0,
+                                			'meta_query'  => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+                                        			array(
+                                                			'key'     => 'rating',
+                                             		   		'type'    => 'NUMERIC',
+                                                			'compare' => '>',
+                                                			'value'   => 0,
+                                      		  		),
+                                			),
+                        			)
+                			);
+
+         			       if ( $comments ) {
+                        			$markup['review'] = array();
+                        			foreach ( $comments as $comment ) {
+                                			$markup['review'][] = array(
+                                        			'@type'         => 'Review',
+                                        			'reviewRating'  => array(
+                                    			            	'@type'       => 'Rating',
+                                                			'ratingValue' => get_comment_meta( $comment->comment_ID, 'rating', true ),
+                                        			),
+                                        			'author'        => array(
+                                                			'@type' => 'Person',
+                                                			'name'  => get_comment_author( $comment ),
+                                        			),
+                                        			'reviewBody'    => get_comment_text( $comment ),
+                                        			'datePublished' => get_comment_date( 'c', $comment ),
+                                			);
+						}
                         		}
                 		}
-        		}
-
+  //      		}
 		}
 	} else {
 		// Structured data fix is not enabled
@@ -1802,60 +1799,64 @@ function woosea_product_fix_structured_data( $product = null ) {
       		} else {
            		$markup['sku'] = $product->get_id();
       		}
-	}
 
-	// Get the offers structured data schema markup
-	$markup['offers'] = woosea_product_delete_meta_price($product);
+		// Get the offers structured data schema markup
+		$markup['offers'][0] = woosea_product_delete_meta_price($product);
 
-     	if ( $product->get_rating_count() && wc_review_ratings_enabled() ) {
-        	$markup['aggregateRating'] = array(
-                	'@type'       => 'AggregateRating',
-                   	'ratingValue' => $product->get_average_rating(),
-                    	'reviewCount' => $product->get_review_count(),
-            	);
+		// Check if Yoast SEO WooCommerce plugin is enabled
+               	// if(!class_exists('WPSEO_WooCommerce_Schema')){
 
-            	// Markup 5 most recent rating/review.
-             	$comments = get_comments(
-                	array(
-                        	'number'      => 5,
-                             	'post_id'     => $product->get_id(),
-                              	'status'      => 'approve',
-                             	'post_status' => 'publish',
-                            	'post_type'   => 'product',
-                              	'parent'      => 0,
-                             	'meta_query'  => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-                               		array(
-                                        	'key'     => 'rating',
-                                            	'type'    => 'NUMERIC',
-                                             	'compare' => '>',
-                                            	'value'   => 0,
-                                	),
-                            	),
-                   	)
-            	);
+	     		if ( $product->get_rating_count() && wc_review_ratings_enabled() ) {
+        			$markup['aggregateRating'] = array(
+                			'@type'       => 'AggregateRating',
+                   			'ratingValue' => $product->get_average_rating(),
+                    			'reviewCount' => $product->get_review_count(),
+            			);
 
-           	if ( $comments ) {
-                	$markup['review'] = array();
-                    	foreach ( $comments as $comment ) {
-                       		$markup['review'][] = array(
-                                	'@type'         => 'Review',
-                                    	'reviewRating'  => array(
-                                        	'@type'       => 'Rating',
-                                            	'ratingValue' => get_comment_meta( $comment->comment_ID, 'rating', true ),
-                                    	),
-                                     	'author'        => array(
-                                          	'@type' => 'Person',
-                                            	'name'  => get_comment_author( $comment ),
-                                     	),
-                                    	'reviewBody'    => get_comment_text( $comment ),
-                                      	'datePublished' => get_comment_date( 'c', $comment ),
-                       		);
-                        }
-                }
+            			// Markup 5 most recent rating/review.
+             			$comments = get_comments(
+                			array(
+                   		     		'number'      => 5,
+                     		     	   	'post_id'     => $product->get_id(),
+                              			'status'      => 'approve',
+                       		      		'post_status' => 'publish',
+                            			'post_type'   => 'product',
+                              			'parent'      => 0,
+                             			'meta_query'  => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+                               				array(
+                                        			'key'     => 'rating',
+                                 	           		'type'    => 'NUMERIC',
+                                             			'compare' => '>',
+                                            			'value'   => 0,
+                                			),
+                            			),
+                   			)
+            			);
+
+ 		          	if ( $comments ) {
+        		        	$markup['review'] = array();
+                		    	foreach ( $comments as $comment ) {
+                       				$markup['review'][] = array(
+                                			'@type'         => 'Review',
+                                    			'reviewRating'  => array(
+                                        			'@type'       => 'Rating',
+                                   	         		'ratingValue' => get_comment_meta( $comment->comment_ID, 'rating', true ),
+                                    			),
+                        	             		'author'        => array(
+                                	          		'@type' => 'Person',
+                                        	    		'name'  => get_comment_author( $comment ),
+                           	          		),
+                                	    		'reviewBody'    => get_comment_text( $comment ),
+                                      			'datePublished' => get_comment_date( 'c', $comment ),
+                       				);
+					}
+                        	}
+                	}
+		//}
 	}
 	return $markup;
 }
-add_filter( 'woocommerce_structured_data_product', 'woosea_product_fix_structured_data', 2000, 2 );
+add_filter( 'woocommerce_structured_data_product', 'woosea_product_fix_structured_data', 9, 2 );
 
 /**
  * Get the shipping zone countries and ID's
@@ -4149,7 +4150,7 @@ function woosea_license_valid(){
 
 	if(!empty($license_information['license_key'])){
 	        $curl = curl_init();
-	        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=7.5.9";
+	        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=7.6.3";
 
 	        curl_setopt_array($curl, array(
         	        CURLOPT_RETURNTRANSFER => 1,

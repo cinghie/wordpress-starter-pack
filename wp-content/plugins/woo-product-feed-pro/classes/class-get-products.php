@@ -724,7 +724,8 @@ class WooSEA_Get_Products {
 
  		                       				// Do we need to convert the shipping costs with the Aelia Currency Switcher
                 	        				if((isset($project_config['AELIA'])) AND (!empty($GLOBALS['woocommerce-aelia-currencyswitcher'])) AND (get_option ('add_aelia_support') == "yes")){
-                        	       					if(!array_key_exists('base_currency', $project_config)){
+                        	       				
+									if(!array_key_exists('base_currency', $project_config)){
                                		        	 			$from_currency = get_woocommerce_currency();
                                	 					} else {
                                         					$from_currency = $project_config['base_currency'];
@@ -1893,6 +1894,17 @@ class WooSEA_Get_Products {
 			$product_data['publication_date'] = get_the_date('d-m-y G:i:s');
 			$product_data['add_to_cart_link'] = get_site_url()."/shop/?add-to-cart=".$product_data['id'];
 
+			// Get product creation date
+			if(!empty( $product->get_date_created() )){
+				$product_data['product_creation_date'] = $product->get_date_created()->format('Y-m-d'); 
+				$today_date = date('Y-m-d');
+				$diff = abs(strtotime($today_date) - strtotime($product_data['product_creation_date']));
+				$diff_years = floor($diff / (365*60*60*24));
+                        	$diff_months = floor(($diff - $diff_years * 365*60*60*24) / (30*60*60*24));
+                        	$diff_days = floor(($diff - $diff_years * 365*60*60*24 - $diff_months*30*60*60*24)/ (60*60*24));
+				$product_data['days_back_created'] = $diff_days;
+			}
+
 			// Start product visibility logic
 			$product_data['exclude_from_catalog'] = "no";
 			$product_data['exclude_from_search'] = "no";
@@ -2293,10 +2305,14 @@ class WooSEA_Get_Products {
 				} else {
 					$from_currency = $project_config['base_currency'];
 				}		
-
 				//$set_country_base = add_filter('wc_aelia_cs_selected_currency', 'SEK', 0);
 				//$product_data['price'] = apply_filters('wc_aelia_cs_convert', $product_data['price'], $from_currency, $project_config['AELIA']);
-				$product_data['price'] = do_shortcode('[aelia_cs_product_price product_id="'.$product_data['id'].'" formatted="0" currency="'.$project_config['AELIA'].'"]');
+				//$product_data['regular_price'] = apply_filters('wc_aelia_cs_convert', $product_data['regular_price'], $from_currency, $project_config['AELIA']);
+				//$product_data['sale_price'] = apply_filters('wc_aelia_cs_convert', $product_data['sale_price'], $from_currency, $project_config['AELIA']);
+
+				//$product_data['price'] = do_shortcode('[aelia_cs_product_price product_id="'.$product_data['id'].'" formatted="0" currency="'.$project_config['AELIA'].'"]');
+				
+				$product_data['price'] = apply_filters('wc_aelia_cs_convert', $product_data['price'], $from_currency, $project_config['AELIA']);
 				$product_data['regular_price'] = apply_filters('wc_aelia_cs_convert', $product_data['regular_price'], $from_currency, $project_config['AELIA']);
 				$product_data['sale_price'] = apply_filters('wc_aelia_cs_convert', $product_data['sale_price'], $from_currency, $project_config['AELIA']);
 
