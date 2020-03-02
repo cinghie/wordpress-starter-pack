@@ -223,8 +223,8 @@ function wp_bootstrap_starter_customize_register( $wp_customize ) {
             'settings' => 'cdn_assets_setting',
 	        'type'    => 'select',
 	        'choices' => array(
-	            'yes' => __( 'Yes' ),
-	            'no' => __( 'No' ),
+	            'yes' => __( 'Yes', 'wp-bootstrap-starter' ),
+	            'no' => __( 'No', 'wp-bootstrap-starter' ),
         	)
         )
     );
