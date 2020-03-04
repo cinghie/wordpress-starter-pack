@@ -4,13 +4,16 @@
  *
  * @package YITH Woocommerce Request A Quote
  * @since   1.0.0
+ * @version 1.5.3
  * @author  YITH
+ *
+ * @var $product_id integer
+ * @var $wpnonce string
  */
-
 
 ?>
 
-<a href="#" class="<?php echo $class ?>" data-product_id="<?php echo $product_id ?>" data-wp_nonce="<?php echo $wpnonce ?>">
-    <?php echo $label ?>
+<a href="#" class="<?php echo esc_attr( $class ); ?>" data-product_id="<?php echo esc_attr( $product_id ); ?>" data-wp_nonce="<?php echo esc_attr( $wpnonce ); ?>">
+	<?php echo wp_kses_post( $label ); ?>
 </a>
-<img src="<?php echo esc_url( YITH_YWRAQ_ASSETS_URL.'/images/wpspin_light.gif' ) ?>" class="ajax-loading" alt="loading" width="16" height="16" style="visibility:hidden" />
+<img src="<?php echo esc_url( YITH_YWRAQ_ASSETS_URL . '/images/wpspin_light.gif' ); ?>" class="ajax-loading" alt="loading" width="16" height="16" style="visibility:hidden" />

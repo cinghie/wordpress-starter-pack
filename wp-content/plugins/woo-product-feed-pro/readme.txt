@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.3
-Stable tag: 7.6.3
+Stable tag: 7.6.4
 
 == Description ==
 
@@ -311,6 +311,10 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 7.6.4 (2020-03-04) =
+* Added GTIN's to the structured data when the woosea GTIN input field contains values
+* Solved a bug where the product days back created attribute contained wrong values
 
 = 7.6.3 (2020-03-02) =
 * Fixed a conflict between the Yoast SEO WooCommerce plugin and our plugin with regards to the AggregateRating JSON-LD
@@ -2428,6 +2432,10 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 7.6.4 =
+Added GTIN's to the structured data when the woosea GTIN input field contains values
+Solved a bug where the product days back created attribute contained wrong values
 
 = 7.6.3 =
 Fixed a conflict between the Yoast SEO WooCommerce plugin and our plugin with regards to the AggregateRating JSON-LD

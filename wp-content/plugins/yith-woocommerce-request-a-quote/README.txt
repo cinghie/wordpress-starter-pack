@@ -3,8 +3,8 @@
 Contributors: yithemes
 Tags: request a quote button, woocommerce request for quote, woocommerce request a quote shortcode, request a quote, quote, YITH, woocommerce, shop, ecommerce, e-commerce, quotations, request for quote, rfq, raq, proposal, ask an estimate, budget, email quote
 Requires at least: 4.0.0
-Tested up to: 5.3
-Stable tag: 1.5.2
+Tested up to: 5.4
+Stable tag: 1.5.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ Quotations are one of the best ways to deal with certain types of purchases and 
 One of the biggest limits of online business, in fact, is the impossibility to negotiate, to do that compromise that should be agreed by both buyer and supplier. And it is comprehensible that, say, for a big amount of products, supplier and buyer might meet phisically, talk together and find a reasonable solution that suits both of them.
 All this becomes possible also for online shops thanks to this WooCommerce plugin. YITH Woocommerce Request A Quote allows contact between suppliers and customers and sharing of the list of items for which the quote is requested.
 Customers can ask for an estimate and admin can answer them back with a quotation proposal. Customers can either accept or reject the offer for the WooCommerce products they have added to the quote.
-Negotiation becomes possible and this can definitely increase purchases in your WooCommerce shop. 
+Negotiation becomes possible and this can definitely increase purchases in your WooCommerce shop.
 
 = Main features of YITH WooCommerce Request a Quote: =
 
@@ -129,6 +129,11 @@ During this transition step, .po and .mo files will be used as always, but in or
 4. "Request a Quote" Email - Settings page
 
 == Changelog ==
+
+= 1.5.3 - Released on 3 March 2020 =
+* New: Support for WordPress 5.4
+* New: Support for WooCommerce 4.0
+* Update: Plugin Framework
 
 = 1.5.2 - Released on 23 December 2019 =
 

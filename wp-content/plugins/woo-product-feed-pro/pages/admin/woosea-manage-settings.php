@@ -76,6 +76,9 @@ if(isset($_GET["tab"])) {
 	} elseif ($_GET["tab"] == "woosea_system_check"){
         	$active_tab = "woosea_system_check";
 		$header_text = __( 'Plugin systems check', 'woo-product-feed-pro' );
+//	} elseif ($_GET["tab"] == "woosea_copy_configs"){
+//        	$active_tab = "woosea_copy_configs";
+//		$header_text = __( 'Copy feed configuration', 'woo-product-feed-pro' );
 	} elseif ($_GET["tab"] == "woosea_license_check"){
         	$active_tab = "woosea_license_check";
 		$header_text = __( 'License', 'woo-product-feed-pro' );
@@ -122,7 +125,10 @@ if(isset($_GET["tab"])) {
                 		<a href="?page=woosea_manage_settings&tab=woosea_manage_settings" class="nav-tab <?php if($active_tab == 'woosea_manage_settings'){echo 'nav-tab-active';} ?> "><?php _e('Plugin settings', 'woo-product-feed-pro'); ?></a>
                 		<a href="?page=woosea_manage_settings&tab=woosea_manage_attributes" class="nav-tab <?php if($active_tab == 'woosea_manage_attributes'){echo 'nav-tab-active';} ?>"><?php _e('Extra fields (Elite feature)', 'woo-product-feed-pro'); ?></a>
                 		<a href="?page=woosea_manage_settings&tab=woosea_system_check" class="nav-tab <?php if($active_tab == 'woosea_system_check'){echo 'nav-tab-active';} ?>"><?php _e('Plugin systems check', 'woo-product-feed-pro'); ?></a>
-                		<a href="?page=woosea_manage_settings&tab=woosea_license_check" class="nav-tab <?php if($active_tab == 'woosea_license_check'){echo 'nav-tab-active';} ?>"><?php _e('License', 'woo-product-feed-pro'); ?></a>
+                		<!--
+				<a href="?page=woosea_manage_settings&tab=woosea_copy_configs" class="nav-tab <?php if($active_tab == 'woosea_copy_configs'){echo 'nav-tab-active';} ?>"><?php _e('Copy feed configuration', 'woo-product-feed-pro'); ?></a>
+                		-->
+				<a href="?page=woosea_manage_settings&tab=woosea_license_check" class="nav-tab <?php if($active_tab == 'woosea_license_check'){echo 'nav-tab-active';} ?>"><?php _e('License', 'woo-product-feed-pro'); ?></a>
 	  		</h2>
 
 			<div class="woo-product-feed-pro-table-wrapper">
@@ -406,6 +412,11 @@ if(isset($_GET["tab"])) {
 
                                         </table>
 					<?php
+					} elseif ($active_tab == "woosea_copy_configs"){
+						print "<table class=\"woo-product-feed-pro-table\">";
+						print "<tr><td colspan=\"2\">Copy feed configuration from other website:</td></tr>";
+						print "<tr><td colspan=\"2\">&nbsp;</td></tr>";
+						print "</table>";
 					} elseif ($active_tab == "woosea_system_check"){
 						// Check if the product feed directory is writeable
 						$upload_dir = wp_upload_dir();

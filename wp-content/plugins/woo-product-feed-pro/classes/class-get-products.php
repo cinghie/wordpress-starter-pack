@@ -1897,11 +1897,10 @@ class WooSEA_Get_Products {
 			// Get product creation date
 			if(!empty( $product->get_date_created() )){
 				$product_data['product_creation_date'] = $product->get_date_created()->format('Y-m-d'); 
+				//$product_data['product_creation_date'] = "2019-10-27";
 				$today_date = date('Y-m-d');
 				$diff = abs(strtotime($today_date) - strtotime($product_data['product_creation_date']));
-				$diff_years = floor($diff / (365*60*60*24));
-                        	$diff_months = floor(($diff - $diff_years * 365*60*60*24) / (30*60*60*24));
-                        	$diff_days = floor(($diff - $diff_years * 365*60*60*24 - $diff_months*30*60*60*24)/ (60*60*24));
+				$diff_days = floor($diff/86400);
 				$product_data['days_back_created'] = $diff_days;
 			}
 

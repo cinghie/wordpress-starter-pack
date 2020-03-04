@@ -6,19 +6,21 @@
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
  * http://www.gnu.org/licenses/gpl-3.0.txt
+ *
+ * @package YITH Woocommerce Request A Quote
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 } // Exit if accessed directly
 
 
 return array(
-    'premium' => array(
-        'home' => array(
-            'type'   => 'custom_tab',
-            'action' => 'yith_ywraq_premium_tab',
-            'hide_sidebar' => true
-        )
-    )
+	'premium' => array(
+		'home' => array(
+			'type'         => 'custom_tab',
+			'action'       => 'yith_ywraq_premium_tab',
+			'hide_sidebar' => true,
+		),
+	),
 );

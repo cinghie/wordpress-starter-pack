@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     7.6.3
+ * Version:     7.6.4
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '7.6.3' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '7.6.4' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -1277,9 +1277,7 @@ function woosea_product_delete_meta_price( $product = null ) {
 
 					if( (isset($variation_id)) AND ( is_object( $variable_product ) ) ) {
 						$qty = 1;
-						//$product_price = wc_get_price_to_display($variable_product, array('qty' => $qty));
-						//$product_price = $variable_product->get_price();
-                                	
+
 						// on default show prices including tax	
                                 		$product_price = wc_get_price_including_tax($variable_product);
 						$structured_vat = get_option ('structured_vat');
@@ -1500,7 +1498,7 @@ function woosea_product_delete_meta_price( $product = null ) {
 
                                 } else {
 		                        $markup_offer = array(
-                                                 '@type'     => 'AggregateOffer',
+                                        	'@type'     => 'AggregateOffer',
                                                 'lowPrice'  => wc_format_decimal( $lowest, wc_get_price_decimals() ),
                                                 'highPrice' => wc_format_decimal( $highest, wc_get_price_decimals() ),
 				               	'priceValidUntil'    => $price_valid_until,
@@ -1631,6 +1629,25 @@ function woosea_product_fix_structured_data( $product = null ) {
                 		if ( $mpn ) {
                         		$markup['mpn'] = $mpn;
                 		}
+
+                        	// Get product GTIM
+                        	$gtin = get_post_meta( $variation_id, '_woosea_gtin', true );
+
+                        	if ( $gtin ) {
+                                	$gtin_length = strlen($gtin);
+                                
+                                	if ( $gtin_length == 14){
+                                        	$markup['gtin14'] = $gtin;
+                                	} elseif ( $gtin_length == 13){
+                                        	$markup['gtin13'] = $gtin;
+                                	} elseif ( $gtin_length == 12){
+                                        	$markup['gtin12'] = $gtin;
+                                	} elseif ( $gtin_length == 8){
+                                        	$markup['gtin8'] = $gtin;
+                                	} else {
+                                        	// do not add GTIN to markup
+                                	}
+                        	}
 	
 				// Declare SKU or fallback to ID.
       				if ( $variable_product->get_sku() ) {
@@ -1701,6 +1718,7 @@ function woosea_product_fix_structured_data( $product = null ) {
 
 
                    	$brand = get_post_meta( $product->get_id(), '_woosea_brand', true );
+
                		if ( $brand ) {
                        		$markup['brand'] = array (
 					'@type'		=> 'Thing',
@@ -1710,8 +1728,28 @@ function woosea_product_fix_structured_data( $product = null ) {
 				
 			// Get product MPN
                     	$mpn = get_post_meta( $product->get_id(), '_woosea_mpn', true );
+
               		if ( $mpn ) {
                         	$markup['mpn'] = $mpn;
+                	}
+
+			// Get product GTIM
+                    	$gtin = get_post_meta( $product->get_id(), '_woosea_gtin', true );
+
+              		if ( $gtin ) {
+				$gtin_length = strlen($gtin);
+
+				if ( $gtin_length == 14){
+                        		$markup['gtin14'] = $gtin;
+				} elseif ( $gtin_length == 13){
+                        		$markup['gtin13'] = $gtin;
+				} elseif ( $gtin_length == 12){
+                        		$markup['gtin12'] = $gtin;
+				} elseif ( $gtin_length == 8){
+                        		$markup['gtin8'] = $gtin;
+				} else {
+					// do not add GTIN to markup
+				}
                 	}
 	
     			$image     = wp_get_attachment_url( $product->get_image_id() );
@@ -4150,7 +4188,7 @@ function woosea_license_valid(){
 
 	if(!empty($license_information['license_key'])){
 	        $curl = curl_init();
-	        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=7.6.3";
+	        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=7.6.4";
 
 	        curl_setopt_array($curl, array(
         	        CURLOPT_RETURNTRANSFER => 1,

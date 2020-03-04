@@ -1,38 +1,39 @@
-# Copyright (C) 2019 
+# Copyright (C) 2020 
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/init\n"
-"POT-Creation-Date: 2019-04-29 13:25:01+00:00\n"
+"POT-Creation-Date: 2020-03-03 11:54:59+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2020-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: includes/class.yith-request-quote-admin.php:112
+#: includes/class.yith-request-quote-admin.php:113
 msgid "Plugin Documentation"
 msgstr ""
 
-#: includes/class.yith-request-quote-admin.php:116
+#: includes/class.yith-request-quote-admin.php:117
 msgid "Discovery premium version"
 msgstr ""
 
-#: includes/class.yith-request-quote-admin.php:120
+#: includes/class.yith-request-quote-admin.php:121
 msgid "Free Vs Premium"
 msgstr ""
 
-#: includes/class.yith-request-quote-admin.php:124
+#: includes/class.yith-request-quote-admin.php:125
 msgid "Premium live demo"
 msgstr ""
 
-#: includes/class.yith-request-quote-admin.php:128
+#: includes/class.yith-request-quote-admin.php:129
 msgid "WordPress support forum"
 msgstr ""
 
-#: includes/class.yith-request-quote-admin.php:132
+#. translators: placeholder plugin version
+#: includes/class.yith-request-quote-admin.php:134
 msgid "Changelog (current version %s)"
 msgstr ""
 
@@ -44,26 +45,30 @@ msgstr ""
 msgid "Premium Version"
 msgstr ""
 
-#: includes/class.yith-request-quote-admin.php:195
+#: includes/class.yith-request-quote-admin.php:194
 msgid "Layout"
 msgstr ""
 
-#: includes/class.yith-request-quote-admin.php:196
+#: includes/class.yith-request-quote-admin.php:195
 msgid "Exclusion List"
 msgstr ""
 
 #: includes/class.yith-request-quote-admin.php:202
+msgctxt "Plugin Name. Do not translate."
+msgid "YITH WooCommerce Request a Quote"
+msgstr ""
+
 #: includes/class.yith-request-quote-admin.php:203
 msgctxt "Plugin Name. Do not translate."
 msgid "Request a Quote"
 msgstr ""
 
-#: includes/class.yith-request-quote-admin.php:251
+#: includes/class.yith-request-quote-admin.php:253
 msgctxt "page_slug"
 msgid "request-quote"
 msgstr ""
 
-#: includes/class.yith-request-quote-admin.php:252
+#: includes/class.yith-request-quote-admin.php:254
 msgid "Request a Quote"
 msgstr ""
 
@@ -87,325 +92,302 @@ msgid "Documentation"
 msgstr ""
 
 #: includes/class.yith-request-quote-admin.php:337
+msgctxt "Plugin Row Meta"
 msgid "Support"
 msgstr ""
 
 #: includes/class.yith-request-quote-admin.php:345
+msgctxt "Plugin Row Meta"
 msgid "Premium version"
 msgstr ""
 
-#: includes/class.yith-request-quote-frontend.php:147
+#: includes/class.yith-request-quote-frontend.php:148
 msgid "Your list is empty"
 msgstr ""
 
-#: includes/class.yith-request-quote-frontend.php:198
-#: includes/functions.yith-request-quote.php:387
+#: includes/class.yith-request-quote-frontend.php:201
+#: includes/functions.yith-request-quote.php:392
 msgid "Browse the list"
 msgstr ""
 
-#: includes/class.yith-request-quote.php:282
-#: includes/class.yith-request-quote.php:440
-#: includes/class.yith-request-quote.php:486
-#: includes/class.yith-request-quote.php:728
+#: includes/class.yith-request-quote.php:298
+#: includes/class.yith-request-quote.php:466
+#: includes/class.yith-request-quote.php:514
+#: includes/class.yith-request-quote.php:740
 msgid "Product already in the list."
 msgstr ""
 
-#: includes/class.yith-request-quote.php:430
+#: includes/class.yith-request-quote.php:458
 msgid "Error occurred while adding product to Request a Quote list."
 msgstr ""
 
-#: includes/class.yith-request-quote.php:437
+#: includes/class.yith-request-quote.php:464
 msgid "Product added!"
 msgstr ""
 
-#: includes/class.yith-request-quote.php:560
+#: includes/class.yith-request-quote.php:569
 msgid "Please enter a name"
 msgstr ""
 
-#: includes/class.yith-request-quote.php:564
+#: includes/class.yith-request-quote.php:574
 msgid "Please enter a valid email"
 msgstr ""
 
-#: includes/class.yith-request-quote.php:568
+#: includes/class.yith-request-quote.php:578
 msgid "Your list is empty, add products to the list to send a request"
 msgstr ""
 
-#: includes/class.yith-request-quote.php:703
+#. translators: placeholder of missing attributes.
+#: includes/class.yith-request-quote.php:713
 msgid "%s is a required field"
 msgid_plural "%s are required fields"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class.yith-request-quote.php:707
+#: includes/class.yith-request-quote.php:717
 msgid "Please choose product options&hellip;"
 msgstr ""
 
-#: includes/class.yith-request-quote.php:725
+#: includes/class.yith-request-quote.php:737
 msgid "Product added to the list!"
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:31
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:33
 msgid "Email to request a quote"
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:32
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:34
 msgid "This email is sent when a user clicks on \"Request a quote\" button"
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:34
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:36
 msgid "Request a quote"
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:35
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:37
 msgid "[Request a quote]"
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:82
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:85
 msgid "Your request has been sent successfully"
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:84
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:87
 msgid "There was a problem in sending your request. Please try again."
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:173
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:187
 msgid "Enable/Disable"
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:175
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:189
 msgid "Enable this email notification"
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:179
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:193
 msgid "\"From\" Name"
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:186
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:200
 msgid "\"From\" Email Address"
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:193
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:207
 msgid "Subject"
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:195
+#. translators: placeholder subject
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:210
 msgid ""
 "This field lets you modify the email subject line. Leave it blank to use "
 "default subject: <code>%s</code>."
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:200
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:215
 msgid "Recipient(s)"
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:202
+#. translators: placeholder default recipient
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:218
 msgid ""
 "Enter recipients (comma separated) for this email. Defaults to <code>%s</"
 "code>"
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:207
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:223
 msgid "Send CC copy"
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:209
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:225
 msgid "Send a carbon copy to the user"
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:213
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:229
 msgid "Email Heading"
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:215
+#. translators: placeholder default email heading
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:232
 msgid ""
 "This field lets you modify the main heading contained within the email "
 "notification. Leave blank to use the default heading: <code>%s</code>."
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:220
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:237
 msgid "Email type"
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:222
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:239
 msgid "Choose format for the email to be sent."
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:226
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:243
 msgid "Plain text"
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:227
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:244
 msgid "HTML"
 msgstr ""
 
-#: includes/emails/class.yith-ywraq-send-email-request-quote.php:228
+#: includes/emails/class.yith-ywraq-send-email-request-quote.php:245
 msgid "Multipart"
 msgstr ""
 
-#: plugin-options/settings-options.php:21
-msgid "Upgrade to the PREMIUM VERSION"
-msgstr ""
-
 #: plugin-options/settings-options.php:24
-msgid "YITH Woocommerce Request A Quote"
-msgstr ""
-
-#: plugin-options/settings-options.php:25
-msgid "Discover the Advanced Features"
-msgstr ""
-
-#: plugin-options/settings-options.php:26
-msgid ""
-"Upgrade to the PREMIUM VERSION of YITH Woocommerce Request A Quote to "
-"benefit from all features!"
-msgstr ""
-
-#: plugin-options/settings-options.php:30
-msgid "YITH WooCommerce Request A Quote"
-msgstr ""
-
-#: plugin-options/settings-options.php:32
-msgid "Get Support and Pro Features"
-msgstr ""
-
-#: plugin-options/settings-options.php:33
-msgid ""
-"By purchasing the premium version of the plugin, you will benefit from the "
-"advanced features of the product and you will get one year of free update "
-"and support through our platform available 24h/24."
-msgstr ""
-
-#: plugin-options/settings-options.php:43
 msgid "Request a Quote - General settings"
 msgstr ""
 
-#: plugin-options/settings-options.php:49
+#: plugin-options/settings-options.php:30
 msgid "Request Quote Page"
 msgstr ""
 
-#: plugin-options/settings-options.php:50
+#: plugin-options/settings-options.php:31
 msgid "Page contents: [yith_ywraq_request_quote]"
 msgstr ""
 
-#: plugin-options/settings-options.php:59
+#: plugin-options/settings-options.php:40
 msgid "Button type"
 msgstr ""
 
-#: plugin-options/settings-options.php:64
+#: plugin-options/settings-options.php:46
 msgid "Link"
 msgstr ""
 
-#: plugin-options/settings-options.php:65
+#: plugin-options/settings-options.php:47
 msgid "Button"
 msgstr ""
 
-#: plugin-options/settings-options.php:71
+#: plugin-options/settings-options.php:53
 msgid "Button/Link text"
 msgstr ""
 
-#: plugin-options/settings-options.php:75
+#: plugin-options/settings-options.php:57
 msgid "Add to quote"
 msgstr ""
 
-#: plugin-options/settings-options.php:79
+#: plugin-options/settings-options.php:61
 msgid "Hide \"Add to cart\" button"
 msgstr ""
 
-#: plugin-options/settings-options.php:92
+#: plugin-options/settings-options.php:75
 msgid "Form - Settings"
 msgstr ""
 
-#: plugin-options/settings-options.php:97
+#: plugin-options/settings-options.php:80
 msgid "Add Privacy Policy"
 msgstr ""
 
-#: plugin-options/settings-options.php:105
+#: plugin-options/settings-options.php:88
 msgid "Request a quote Privacy Policy Label"
 msgstr ""
 
-#: plugin-options/settings-options.php:106
-#: plugin-options/settings-options.php:119
+#: plugin-options/settings-options.php:89
+#: plugin-options/settings-options.php:102
 msgid ""
 "You can use the shortcode [terms] and [privacy_policy] (from WooCommerce "
 "3.4.0)"
 msgstr ""
 
-#: plugin-options/settings-options.php:110
+#: plugin-options/settings-options.php:93
 msgid "I have read and agree to the website terms and conditions."
 msgstr ""
 
-#: plugin-options/settings-options.php:118
+#: plugin-options/settings-options.php:101
 msgid "Request a quote Privacy Policy"
 msgstr ""
 
-#: plugin-options/settings-options.php:123
+#: plugin-options/settings-options.php:106
 msgid ""
 "Your personal data will be used to process your request, support your "
 "experience throughout this website, and for other purposes described in our  "
 "[privacy_policy]."
 msgstr ""
 
-#: templates/add-to-quote.php:16
+#: templates/add-to-quote.php:24
 msgid "The product is already in quote request list!"
 msgstr ""
 
-#: templates/admin/premium.php:199 templates/admin/premium.php:684
+#. translators: placeholders html tags
+#: templates/admin/premium.php:216 templates/admin/premium.php:812
 msgid ""
 "Upgrade to %1$spremium version%2$s of %1$sYITH WooCommerce Request a Quote"
 "%2$s to benefit from all features!"
 msgstr ""
 
-#: templates/admin/premium.php:202 templates/admin/premium.php:687
+#: templates/admin/premium.php:220 templates/admin/premium.php:816
 msgid "UPGRADE"
 msgstr ""
 
-#: templates/admin/premium.php:203 templates/admin/premium.php:688
+#: templates/admin/premium.php:221 templates/admin/premium.php:817
 msgid "to the premium version"
 msgstr ""
 
-#: templates/admin/premium.php:209
+#: templates/admin/premium.php:227
 msgid "Premium Features"
 msgstr ""
 
-#: templates/admin/premium.php:217
+#: templates/admin/premium.php:235
 msgid "CUSTOMISED BUTTON"
 msgstr ""
 
-#: templates/admin/premium.php:220
+#. translators: placeholders html tags
+#: templates/admin/premium.php:240
 msgid ""
-"Choose the style you prefer for your %s\"Add to Quote\"%s button! In the "
+"Choose the style you prefer for your %1$s\"Add to Quote\"%2$s button! In the "
 "plugin option panel users will be able to find a section to set colours and "
 "text for the button"
 msgstr ""
 
-#: templates/admin/premium.php:230
+#: templates/admin/premium.php:251
 msgid "NOT JUST IN PRODUCT PAGE"
 msgstr ""
 
-#: templates/admin/premium.php:233
+#. translators: placeholders html tags
+#: templates/admin/premium.php:256
 msgid ""
 "Give users the opportunity to add one or more products to their list for a "
-"quote request from many different pages in your shop, and %snot just from "
-"product detail page%s. Enable this option and the button will be shown also "
-"in other pages of your store."
+"quote request from many different pages in your shop, and %1$snot just from "
+"product detail page%2$s. Enable this option and the button will be shown "
+"also in other pages of your store."
 msgstr ""
 
-#: templates/admin/premium.php:248
+#: templates/admin/premium.php:273
 msgid "HIDE PRODUCT PRICE"
 msgstr ""
 
-#: templates/admin/premium.php:250
+#: templates/admin/premium.php:275
 msgid ""
 "Suppose that you do not want to show price for products in your shop. Just a "
 "click and your wish comes true. Enable the option \"Hide Price\" and it's "
 "done!"
 msgstr ""
 
-#: templates/admin/premium.php:259
+#: templates/admin/premium.php:284
 msgid "EXCLUSION TABLE"
 msgstr ""
 
-#: templates/admin/premium.php:262
+#. translators: placeholders html tags
+#: templates/admin/premium.php:289
 msgid ""
 "A dedicated list where you can add those products that have to be excluded "
 "from quote requests. Enable the specific option and \"Add to Quote\" button "
@@ -415,11 +397,12 @@ msgid ""
 "add later."
 msgstr ""
 
-#: templates/admin/premium.php:277
+#: templates/admin/premium.php:306
 msgid "USER FILTERS"
 msgstr ""
 
-#: templates/admin/premium.php:280
+#. translators: placeholders html tags
+#: templates/admin/premium.php:311
 msgid ""
 "A specific option allows you to filter users to which applying plugin "
 "features. You can choose among %1$sregistered%2$s users, %1$sunregistered"
@@ -427,51 +410,55 @@ msgid ""
 "distinction. "
 msgstr ""
 
-#: templates/admin/premium.php:289
+#: templates/admin/premium.php:322
 msgid "REQUEST FORM"
 msgstr ""
 
-#: templates/admin/premium.php:292
+#. translators: placeholders html tags
+#: templates/admin/premium.php:328
 msgid ""
 "The plugin includes an advanced default form. Thanks to it, you can "
 "%1$scustomize%2$s it and add %1$sas many fields as you wish%2$s. Add a date "
 "or picker, an upload field, checkboxes or radio buttons, select or multi "
 "selects, text, heading, state and country fields. Feel free to compose it as "
 "you prefer.\n"
-"Yet, if you’re already using %1$s\"Contact Form 7\", \"Gravity Form\"%2$s or "
-"%1$s\"YITH Contact Form\"%2$s, feel free to build your form with those, as "
-"they are all supported."
+" Yet, if you’re already using %1$s\"Contact Form 7\", \"Gravity Form\"%2$s "
+"or %1$s\"YITH Contact Form\"%2$s, feel free to build your form with those, "
+"as they are all supported."
 msgstr ""
 
-#: templates/admin/premium.php:308
+#: templates/admin/premium.php:354
 msgid "REQUEST MANAGEMENT"
 msgstr ""
 
-#: templates/admin/premium.php:311
+#. translators: placeholders html tags
+#: templates/admin/premium.php:359
 msgid ""
 "Every request you get is treated like an order! Yes, that's it. As soon as a "
 "user sends a quote request, you will see it in WooCommerce \"Orders\" "
-"section. %sMany details for each request%s, from current status to the "
+"section. %1$sMany details for each request%2$s, from current status to the "
 "username that generated it. A rich page specifically created to have "
 "everything there and at a hand's grasp."
 msgstr ""
 
-#: templates/admin/premium.php:321
+#: templates/admin/premium.php:370
 msgid "SEND THE QUOTE"
 msgstr ""
 
-#: templates/admin/premium.php:324
+#. translators: placeholders html tags
+#: templates/admin/premium.php:375
 msgid ""
 "The best of interaction with your users. They send their request and you can "
 "answer so simply, just need to access your admin panel. A few steps to send "
-"the right proposal that %spersuades%s your customer to purchase."
+"the right proposal that %1$spersuades%2$s your customer to purchase."
 msgstr ""
 
-#: templates/admin/premium.php:339
+#: templates/admin/premium.php:392
 msgid "ACCEPT OR REJECT?"
 msgstr ""
 
-#: templates/admin/premium.php:342
+#. translators: placeholders html tags
+#: templates/admin/premium.php:397
 msgid ""
 "Users can decide whether to %1$saccept%2$s or %1$sreject%2$s your quote "
 "proposal directly from the email they've got. Two simple choice options, "
@@ -479,144 +466,157 @@ msgid ""
 "case they accept, they will be redirected to the order checkout."
 msgstr ""
 
-#: templates/admin/premium.php:353
+#: templates/admin/premium.php:409
 msgid "A QUOTE WITH EXPIRATION"
 msgstr ""
 
-#: templates/admin/premium.php:356
+#. translators: placeholders html tags
+#: templates/admin/premium.php:414
 msgid ""
 "You made a good offer, one that cannot be rejected, and you want to urge "
-"your customer to purchase by %ssetting an expiration date for the proposal "
-"you are offering?%s Add the expiration date directly from the request page "
+"your customer to purchase by %1$ssetting an expiration date for the proposal "
+"you are offering?%2$s Add the expiration date directly from the request page "
 "while you are writing your undeniable proposal."
 msgstr ""
 
-#: templates/admin/premium.php:372
+#: templates/admin/premium.php:431
 msgid "Widgets"
 msgstr ""
 
-#: templates/admin/premium.php:375
+#. translators: placeholders html tags
+#: templates/admin/premium.php:437
 msgid ""
 "Two widgets, different for style, allow you to show to users the "
 "%1$scomplete list of products%2$s they selected to request the quote to send "
 "to site administrator."
 msgstr ""
 
-#: templates/admin/premium.php:385
+#: templates/admin/premium.php:448
 msgid "Send PDF attachment"
 msgstr ""
 
-#: templates/admin/premium.php:388
+#: templates/admin/premium.php:451
 msgid ""
 "Choose the best form to send your quote offer: send the quote and the list "
 "of selected products either in the email body, or as PDF attachment or both "
 "of them. Everyone with their own style and needs."
 msgstr ""
 
-#: templates/admin/premium.php:407
+#: templates/admin/premium.php:470
 msgid "Recent requests in \"My Account\""
 msgstr ""
 
-#: templates/admin/premium.php:410
+#. translators: placeholders html tags
+#: templates/admin/premium.php:475
 msgid ""
 "All users registered in your store can see all quote requests they have sent "
-"from %s\"My Account\"%s page and check details, included the current status "
-"for them."
+"from %1$s\"My Account\"%2$s page and check details, included the current "
+"status for them."
 msgstr ""
 
-#: templates/admin/premium.php:420
+#: templates/admin/premium.php:486
 msgid "LOGO, SENDER AND FOOTER IN PDF"
 msgstr ""
 
-#: templates/admin/premium.php:422
+#. translators: placeholders html tags
+#: templates/admin/premium.php:491
 msgid ""
 "To add a %1$scustom text%2$s with the most appropriate and useful "
 "information."
 msgstr ""
 
-#: templates/admin/premium.php:438
+#: templates/admin/premium.php:508
 msgid "PDF PAGING"
 msgstr ""
 
-#: templates/admin/premium.php:441
+#. translators: placeholders html tags
+#: templates/admin/premium.php:513
 msgid ""
 "By activating %1$sPDF Paging%2$s, customers do not have to scroll the page "
 "repeatedly. Thanks to PDF wide contents they can carefully read your offer."
 msgstr ""
 
-#: templates/admin/premium.php:451
+#: templates/admin/premium.php:524
 msgid "ADDITIONAL COSTS"
 msgstr ""
 
-#: templates/admin/premium.php:453
+#. translators: placeholders html tags
+#: templates/admin/premium.php:529
 msgid ""
 "It's easy to add %1$sadditional and shipping costs%2$s and create a quote as "
 "accurate as possible."
 msgstr ""
 
-#: templates/admin/premium.php:469
+#: templates/admin/premium.php:546
 msgid "PRICE CHANGE"
 msgstr ""
 
-#: templates/admin/premium.php:472
+#. translators: placeholders html tags
+#: templates/admin/premium.php:551
 msgid ""
 "Special customers deserve special prices! This plugin allows to %1$schange "
 "prices in the quote%2$s without altering prices in the shop."
 msgstr ""
 
-#: templates/admin/premium.php:482
+#: templates/admin/premium.php:562
 msgid "Edit the shipping and billing addresses"
 msgstr ""
 
-#: templates/admin/premium.php:485
+#. translators: placeholders html tags
+#: templates/admin/premium.php:567
 msgid ""
 "You can edit the users' shipping and billing addresses while creating the "
 "quote. This is useful, for example, if your users wish to receive the order "
 "at a different address rather than the one available on their profile."
 msgstr ""
 
-#: templates/admin/premium.php:488
+#. translators: placeholders html tags
+#: templates/admin/premium.php:573
 msgid ""
 "And that's not all! You can also prevent the users from editing the checkout "
 "fields and avoid changes of the data previously inserted."
 msgstr ""
 
-#: templates/admin/premium.php:504
+#: templates/admin/premium.php:590
 msgid "Prevent changes to shipping method "
 msgstr ""
 
-#: templates/admin/premium.php:507
+#. translators: placeholders html tags
+#: templates/admin/premium.php:595
 msgid ""
 "Enrich your proposal by adding shipping fees. You can optionally choose "
 "whether to let users select or not a %1$sshipping method different from the "
 "one specified in the quote%2$s during the checkout process. "
 msgstr ""
 
-#: templates/admin/premium.php:517
+#: templates/admin/premium.php:606
 msgid "PDF DOWNLOAD"
 msgstr ""
 
-#: templates/admin/premium.php:519
+#. translators: placeholders html tags
+#: templates/admin/premium.php:611
 msgid ""
 "PDF can be downloaded at any time in %1$s\"My Account\"%2$s page. Certainly "
 "useful for those customers who lost the quote attached to your email."
 msgstr ""
 
-#: templates/admin/premium.php:535
+#: templates/admin/premium.php:628
 msgid "EMAIL ATTACHMENT"
 msgstr ""
 
-#: templates/admin/premium.php:538
+#. translators: placeholders html tags
+#: templates/admin/premium.php:633
 msgid ""
 "With this Premium Version plugin, any file can be attached to emails. "
 "%1$sQuotes will be richer!%2$s"
 msgstr ""
 
-#: templates/admin/premium.php:548
+#: templates/admin/premium.php:644
 msgid "OUT OF STOCK PRODUCTS"
 msgstr ""
 
-#: templates/admin/premium.php:550
+#. translators: placeholders html tags
+#: templates/admin/premium.php:649
 msgid ""
 "Want to show the Quote button %1$sautomatically when a product goes Out-of-"
 "stock%2$s? No problem, it’s possible! And there’s more to add: you can "
@@ -624,43 +624,47 @@ msgid ""
 "also on products in stock with a simple click."
 msgstr ""
 
-#: templates/admin/premium.php:566
+#: templates/admin/premium.php:666
 msgid "ACCOUNT REGISTRATION"
 msgstr ""
 
-#: templates/admin/premium.php:569
+#. translators: placeholders html tags
+#: templates/admin/premium.php:671
 msgid ""
 "A new feature for your e-commerce. New users requesting a quote have the "
 "possibility to %1$sregister an account%2$s in the shop"
 msgstr ""
 
-#: templates/admin/premium.php:579
+#: templates/admin/premium.php:682
 msgid "REQUEST SENDING CONFIRMATION"
 msgstr ""
 
-#: templates/admin/premium.php:581
+#. translators: placeholders html tags
+#: templates/admin/premium.php:687
 msgid ""
 "Choose the action to make soon after users send the request: %1$snotify%2$s "
 "them of the successful outcome or %1$sredirect%2$s them to the specific page "
 "that your marketing strategy provides."
 msgstr ""
 
-#: templates/admin/premium.php:597
+#: templates/admin/premium.php:704
 msgid "QUICK CHECKOUT"
 msgstr ""
 
-#: templates/admin/premium.php:600
+#. translators: placeholders html tags
+#: templates/admin/premium.php:709
 msgid ""
 "You made the proposal to the user who decides to accept it. What happens "
 "now? %1$sThe most logical thing!%2$s The user is redirected to the checkout "
 "page to complete the order according to the quote received. Easy and fast."
 msgstr ""
 
-#: templates/admin/premium.php:610
+#: templates/admin/premium.php:720
 msgid "CREATE THE QUOTES IN AN AUTOMATIC WAY"
 msgstr ""
 
-#: templates/admin/premium.php:612
+#. translators: placeholders html tags
+#: templates/admin/premium.php:725
 msgid ""
 "You may constantly receive quote requests to which you cannot reply in a "
 "fast way. This means losing possible customers every day.%3$s Never fear! "
@@ -670,17 +674,18 @@ msgid ""
 "prices if you have decided to hide them. "
 msgstr ""
 
-#: templates/admin/premium.php:628
+#: templates/admin/premium.php:742
 msgid "Create quote by admin"
 msgstr ""
 
-#: templates/admin/premium.php:631
+#: templates/admin/premium.php:745
 msgid ""
 "Do you want to send a tempting offer to your customers? Today, with YITH "
 "WooCommerce Request a Quote, that's easy!"
 msgstr ""
 
-#: templates/admin/premium.php:634
+#. translators: placeholders html tags
+#: templates/admin/premium.php:750
 msgid ""
 "In a few steps, you can %1$screate a new quote from the backend%2$s of your "
 "website and forward it to the email address you entered: users will receive "
@@ -689,15 +694,16 @@ msgid ""
 "offer you designed for them."
 msgstr ""
 
-#: templates/admin/premium.php:637
+#: templates/admin/premium.php:754
 msgid "Today your store has a new edge!"
 msgstr ""
 
-#: templates/admin/premium.php:647
+#: templates/admin/premium.php:764
 msgid "Match WooCommerce checkout fields"
 msgstr ""
 
-#: templates/admin/premium.php:650
+#. translators: placeholders html tags
+#: templates/admin/premium.php:769
 msgid ""
 "If you %1$smatch the form fields with WooCommerce standard information%2$s, "
 "you can have them automatically filled in the quote request you receive on "
@@ -705,122 +711,126 @@ msgid ""
 "details once again."
 msgstr ""
 
-#: templates/admin/premium.php:653
+#. translators: placeholders html tags
+#: templates/admin/premium.php:775
 msgid ""
 "And there's more: enable the %1$sauto-complete option%2$s and they will "
 "automatically see their own details filled in if they are logged in"
 msgstr ""
 
-#: templates/admin/premium.php:669
+#: templates/admin/premium.php:792
 msgid "Show request a quote button on checkout page"
 msgstr ""
 
-#: templates/admin/premium.php:672
+#: templates/admin/premium.php:795
 msgid "Customer will be able to change his cart into a quote request"
 msgstr ""
 
-#: templates/admin/premium.php:675
+#. translators: placeholders html tags
+#: templates/admin/premium.php:800
 msgid ""
 "With a simple click on the \"Request a Quote\" button on the checkout page, "
 "your customer can submit their complete cart as a quote request."
 msgstr ""
 
-#: templates/emails/plain/request-quote.php:15
+#. translators: %s: user name
+#: templates/emails/plain/request-quote.php:21
 msgid ""
 "You have received a quote request from %s. The request is the following:"
 msgstr ""
 
-#: templates/emails/plain/request-quote.php:45
-#: templates/emails/request-quote.php:52
+#: templates/emails/plain/request-quote.php:51
+#: templates/emails/request-quote.php:66
 msgid "Customer message"
 msgstr ""
 
-#: templates/emails/plain/request-quote.php:50
-#: templates/emails/request-quote.php:55
+#: templates/emails/plain/request-quote.php:56
+#: templates/emails/request-quote.php:69
 msgid "Customer details"
 msgstr ""
 
-#: templates/emails/plain/request-quote.php:52
-#: templates/emails/request-quote.php:57
+#: templates/emails/plain/request-quote.php:58
+#: templates/emails/request-quote.php:71
 msgid "Name:"
 msgstr ""
 
-#: templates/emails/plain/request-quote.php:53
-#: templates/emails/request-quote.php:58
+#: templates/emails/plain/request-quote.php:60
+#: templates/emails/request-quote.php:72
 msgid "Email:"
 msgstr ""
 
-#: templates/emails/request-quote.php:13
+#. translators: %s: user name
+#: templates/emails/request-quote.php:22
 msgid "You received a quote request from %s. The request is the following:"
 msgstr ""
 
-#: templates/emails/request-quote.php:17
+#: templates/emails/request-quote.php:28
 msgid "Request Quote"
 msgstr ""
 
-#: templates/emails/request-quote.php:22 templates/request-quote-view.php:21
+#: templates/emails/request-quote.php:33 templates/request-quote-view.php:23
 msgid "Product"
 msgstr ""
 
-#: templates/emails/request-quote.php:23 templates/request-quote-view.php:22
+#: templates/emails/request-quote.php:34 templates/request-quote-view.php:24
 msgid "Quantity"
 msgstr ""
 
-#: templates/emails/request-quote.php:24
+#: templates/emails/request-quote.php:35
 msgid "Subtotal"
 msgstr ""
 
-#: templates/request-quote-form.php:19
+#: templates/request-quote-form.php:20
 msgid "Send the request"
 msgstr ""
 
-#: templates/request-quote-form.php:24
+#: templates/request-quote-form.php:25
 msgid "Name"
 msgstr ""
 
-#: templates/request-quote-form.php:30
+#: templates/request-quote-form.php:31
 msgid "Email"
 msgstr ""
 
-#: templates/request-quote-form.php:36
+#: templates/request-quote-form.php:37
 msgid "Message"
 msgstr ""
 
-#: templates/request-quote-form.php:37
+#: templates/request-quote-form.php:38
 msgid "Notes on your request..."
 msgstr ""
 
-#: templates/request-quote-form.php:57
+#: templates/request-quote-form.php:56
 msgid "Send Your Request"
 msgstr ""
 
-#: templates/request-quote-view.php:13
+#: templates/request-quote-view.php:15
 msgid "No products in list"
 msgstr ""
 
-#: templates/request-quote-view.php:23
+#: templates/request-quote-view.php:25
 msgid "Total"
 msgstr ""
 
-#: templates/request-quote-view.php:36
+#: templates/request-quote-view.php:41
 msgid "Remove this item"
 msgstr ""
 
-#: templates/request-quote-view.php:56
+#: templates/request-quote-view.php:63
 msgid " SKU:"
 msgstr ""
 
-#: templates/request-quote-view.php:147
+#: templates/request-quote-view.php:157
 msgid "Update List"
 msgstr ""
 
-#: yith-woocommerce-request-a-quote.php:55
+#: yith-woocommerce-request-a-quote.php:57
 msgid ""
 "You can't activate the free version of YITH Woocommerce Request A Quote "
 "while you are using the premium one."
 msgstr ""
 
-#: yith-woocommerce-request-a-quote.php:115
+#: yith-woocommerce-request-a-quote.php:125
 msgid ""
 "YITH Woocommerce Request A Quote is enabled but not effective. It requires "
 "WooCommerce in order to work."

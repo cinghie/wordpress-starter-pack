@@ -22,7 +22,7 @@ jQuery(document).ready( function($){
                     type   : 'POST',
                     url    : ywraq_frontend.ajaxurl,
                     dataType: 'json',
-                    data   : 'action=yith_ywraq_action&ywraq_action=variation_exist&variation_id='+$variation_id.val()+'&product_id='+$product_id.val(),
+                    data   : 'action=yith_ywraq_action&ywraq_action=variation_exist&variation_id='+$variation_id.val()+'&product_id='+$product_id.val()+'wp_nonce='+ywraq_frontend.yith_ywraq_action_nonce,
                     success: function (response) {
                         if( response.result === true){
                             button.parent().hide().removeClass('show');
@@ -68,7 +68,7 @@ jQuery(document).ready( function($){
         }
 
 
-        add_to_cart_info += '&action=yith_ywraq_action&ywraq_action=add_item&product_id='+$t.data('product_id')+'&wp_nonce='+$t.data('wp_nonce');
+        add_to_cart_info += '&action=yith_ywraq_action&ywraq_action=add_item&product_id='+$t.data('product_id')+'&wp_nonce='+ywraq_frontend.yith_ywraq_action_nonce;
         if( add_to_cart_info.indexOf('add-to-cart') > 0){
             add_to_cart_info = add_to_cart_info.replace( 'add-to-cart', 'yith-add-to-cart');
         }
@@ -113,7 +113,7 @@ jQuery(document).ready( function($){
             form = $('#yith-ywraq-form'),
             remove_info = '';
 
-        remove_info = 'action=yith_ywraq_action&ywraq_action=remove_item&key='+$t.data('remove-item')+'&wp_nonce='+$t.data('wp_nonce')+'&product_id='+$t.data('product_id');
+        remove_info = 'action=yith_ywraq_action&ywraq_action=remove_item&key='+$t.data('remove-item')+'&wp_nonce='+ywraq_frontend.yith_ywraq_action_nonce+'&product_id='+$t.data('product_id');
 
         $.ajax({
             type   : 'POST',
