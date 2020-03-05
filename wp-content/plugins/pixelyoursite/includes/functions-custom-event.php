@@ -75,11 +75,12 @@ function renderNumberInput( &$event, $key, $placeholder = null ) {
 
 /**
  * @param CustomEvent $event
- * @param string      $key
+ * @param string $key
+ * @param bool $disabled
  */
-function renderSwitcherInput( &$event, $key ) {
+function renderSwitcherInput( &$event, $key,$disabled = false ) {
 
-    $disabled = false;
+
 
 	$attr_name  = "pys[event][$key]";
 	$attr_id    = 'pys_event_' . $key;

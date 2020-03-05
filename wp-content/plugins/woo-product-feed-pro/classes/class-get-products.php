@@ -222,8 +222,7 @@ class WooSEA_Get_Products {
     			$nr_sales = $wpdb->get_col( $wpdb->prepare( "
         			SELECT count(*) AS nr_sales
         			FROM {$wpdb->prefix}woocommerce_order_itemmeta 
-        			WHERE meta_key LIKE '_variation_id' 
-        			AND meta_value = %s
+        			WHERE meta_value = %s
     			", $variation_id ) );
 		}
 		return $nr_sales;

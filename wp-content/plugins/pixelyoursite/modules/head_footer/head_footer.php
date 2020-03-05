@@ -81,7 +81,7 @@ class HeadFooter extends Settings {
 		}
 
 		if ( ! isset( $_POST['pys_head_footer'] ) ) {
-			delete_post_meta( $post_id, '_pys_head_footer' );
+		//	delete_post_meta( $post_id, '_pys_head_footer' );
 			return;
 		}
 

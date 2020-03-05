@@ -379,18 +379,28 @@ class GA extends Settings implements Pixel {
 			return false;
 		}
         $content_id = GA\Helpers\getWooProductContentId($product_id);
-		$product = get_post( $product_id );
+		$product = wc_get_product( $product_id );
 		$price = getWooProductPriceToDisplay( $product_id, 1 );
+        $name = $product->get_title();
+
+        if ( $product->get_type() == 'variation' ) {
+            $variation_name = implode("/", $product->get_variation_attributes());
+            $categories = implode( '/', getObjectTerms( 'product_cat', $product->get_parent_id() ) );
+        } else {
+            $categories = implode( '/', getObjectTerms( 'product_cat', $product_id ) );
+            $variation_name = null;
+        }
 
 		$params = array(
 			'event_category'  => 'ecommerce',
 			'items'           => array(
 				array(
 					'id'       => $content_id,
-					'name'     => $product->post_title,
-					'category' => implode( '/', getObjectTerms( 'product_cat', $product_id ) ),
+					'name'     => $name,
+					'category' => $categories,
 					'quantity' => 1,
 					'price'    => $price,
+                    'variant'  => $variation_name,
 				),
 			),
 			'non_interaction' => $this->getOption( 'woo_add_to_cart_non_interactive' ),
@@ -426,13 +436,21 @@ class GA extends Settings implements Pixel {
 
 		$product_id = $cart_item['product_id'];
 
-		$product = get_post( $product_id );
+		$product = wc_get_product( $product_id );
+        $name = $product->get_title();
 
 		if ( ! empty( $cart_item['variation_id'] ) ) {
-			$variation = get_post( (int) $cart_item['variation_id'] );
-			$variation_name = $variation->post_title;
+			$variation = wc_get_product( (int) $cart_item['variation_id'] );
+            if($variation->get_type() == 'variation') {
+                $variation_name = implode("/", $variation->get_variation_attributes());
+                $categories = implode( '/', getObjectTerms( 'product_cat', $variation->get_parent_id() ) );
+            } else {
+                $variation_name = null;
+                $categories = implode( '/', getObjectTerms( 'product_cat', $product_id ) );
+            }
 		} else {
 			$variation_name = null;
+            $categories = implode( '/', getObjectTerms( 'product_cat', $product_id ) );
 		}
 
 		return array(
@@ -442,8 +460,8 @@ class GA extends Settings implements Pixel {
 				'items'           => array(
 					array(
 						'id'       => $product_id,
-						'name'     => $product->post_title,
-						'category' => implode( '/', getObjectTerms( 'product_cat', $product_id ) ),
+						'name'     => $name,
+						'category' => $categories,
 						'quantity' => $cart_item['quantity'],
 						'price'    => getWooProductPriceToDisplay( $product_id, $cart_item['quantity'] ),
 						'variant'  => $variation_name,
@@ -489,14 +507,21 @@ class GA extends Settings implements Pixel {
             $product_id = GA\Helpers\getWooCartItemId( $line_item );
             $content_id = GA\Helpers\getWooProductContentId( $product_id );
 
-			$post    = get_post( $product_id );
 			$product = wc_get_product( $product_id );
+            $name = $product->get_title();
 
 			if ( $line_item['variation_id'] ) {
-				$variation      = get_post( $line_item['variation_id'] );
-				$variation_name = $variation->post_title;
+				$variation = wc_get_product( $line_item['variation_id'] );
+                if($variation->get_type() == 'variation') {
+                    $variation_name = implode("/", $variation->get_variation_attributes());
+                    $categories = implode( '/', getObjectTerms( 'product_cat', $variation->get_parent_id() ) );
+                } else {
+                    $variation_name = null;
+                    $categories = implode( '/', getObjectTerms( 'product_cat', $product_id ) );
+                }
 			} else {
 				$variation_name = null;
+                $categories = implode( '/', getObjectTerms( 'product_cat', $product_id ) );
 			}
 
 			/**
@@ -532,8 +557,8 @@ class GA extends Settings implements Pixel {
 
 			$item = array(
 				'id'       => $content_id,
-				'name'     => $post->post_title,
-				'category' => implode( '/', getObjectTerms( 'product_cat', $product_id ) ),
+				'name'     => $name,
+				'category' => $categories,
 				'quantity' => $qty,
 				'price'    => $price,
 				'variant'  => $variation_name,
@@ -572,19 +597,27 @@ class GA extends Settings implements Pixel {
             $product_id = GA\Helpers\getWooCartItemId( $cart_item );
             $content_id = GA\Helpers\getWooProductContentId( $product_id );
 
-			$product = get_post( $product_id );
+			$product = wc_get_product( $product_id );
+            $name = $product->get_title();
 
 			if ( $cart_item['variation_id'] ) {
-				$variation = get_post( $cart_item['variation_id'] );
-				$variation_name = $variation->post_title;
+				$variation = wc_get_product( $cart_item['variation_id'] );
+                if ( $variation->get_type() == 'variation' ) {
+                    $variation_name = implode("/", $variation->get_variation_attributes());
+                    $categories = implode( '/', getObjectTerms( 'product_cat', $variation->get_parent_id() ) );
+                } else {
+                    $variation_name = null;
+                    $categories = implode( '/', getObjectTerms( 'product_cat', $product_id ) );
+                }
 			} else {
 				$variation_name = null;
+                $categories = implode( '/', getObjectTerms( 'product_cat', $product_id ) );
 			}
 
 			$item = array(
 				'id'       => $content_id,
-				'name'     => $product->post_title,
-				'category' => implode( '/', getObjectTerms( 'product_cat', $product_id ) ),
+				'name'     => $name,
+				'category' => $categories,
 				'quantity' => $cart_item['quantity'],
 				'price'    => getWooProductPriceToDisplay( $product_id ),
 				'variant'  => $variation_name,

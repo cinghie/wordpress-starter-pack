@@ -59,7 +59,7 @@ if(isset( $_REQUEST['id'] )) {
         Event Trigger
     </div>
     <div class="card-body">
-        <div class="row">
+        <div class="row mb-3">
             <div class="col form-inline">
 				<label>Fire event when</label>
 	            <?php Events\renderTriggerTypeInput( $event, 'trigger_type' ); ?>
@@ -68,6 +68,16 @@ if(isset( $_REQUEST['id'] )) {
                     <?php Events\renderNumberInput( $event, 'delay', '0' ); ?>
                     <label>seconds</label>
                 </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col form-inline">
+                <?php Events\renderSwitcherInput( $event, 'enable_time_window',true ); ?>
+                <label>Fire this event only once in</label>
+                <?php Events\renderNumberInput( $event, 'time_window', '24' ); ?>
+                <label>hours</label>
+                <?php renderProBadge( 'https://www.pixelyoursite.com/?utm_source=pys-free-plugin&utm_medium=pro-badge&utm_campaign=pro-feature' ); ?>
             </div>
         </div>
 

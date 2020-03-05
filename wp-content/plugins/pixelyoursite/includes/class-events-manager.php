@@ -10,6 +10,8 @@ class EventsManager {
 	
 	public $doingAMP = false;
 
+    private $dynamicEventsParams = array();
+    private $dynamicEventsTriggers = array();
 	private $staticEvents = array();
 
 	public function __construct() {
@@ -39,6 +41,8 @@ class EventsManager {
 
 		$data = array(
 			'staticEvents'          => $this->staticEvents,
+            'dynamicEventsParams'   => $this->dynamicEventsParams,
+            'dynamicEventsTriggers' => $this->dynamicEventsTriggers,
 		);
 
 		// collect options for configured pixel
@@ -140,6 +144,8 @@ class EventsManager {
 			$this->setupCustomEvents();
 		}
 
+        $this->setupFDPEvents();
+
 	    if ( isWooCommerceActive() && PYS()->getOption( 'woo_enabled' ) ) {
 			$this->setupWooCommerceEvents();
 	    }
@@ -220,6 +226,63 @@ class EventsManager {
 		}
 
 	}
+    /**
+     * @param FDPEvent $event
+     * @param $triggers
+     */
+
+    private function addFDPDynamicEvent( $event ) {
+
+        foreach ( PYS()->getRegisteredPixels() as $pixel ) {
+            /** @var Pixel|Settings $pixel */
+
+            $eventData = $pixel->getEventData( 'fdp_event', $event );
+            if ( false === $eventData ) {
+                continue;
+            }
+
+            if ( $pixel->getSlug() == 'facebook' ) {
+
+                $this->dynamicEventsParams[ $event->event_name ]['facebook'] = array(
+                    'name'   => $eventData['name'],
+                    'params' => sanitizeParams( $eventData['data'] ),
+                    'hasTimeWindow'    => $event->hasTimeWindow(),
+                    'timeWindow'    => $event->getTimeWindow(),
+                );
+            }
+
+            $this->dynamicEventsTriggers[ $event->trigger_type ][ $event->event_name ][] = $event->trigger_value;
+        }
+    }
+
+    private function setupFDPEvents() {
+
+        if(PYS()->getRegisteredPixels()['facebook'] == null ) return;
+
+        $pixel = PYS()->getRegisteredPixels()['facebook'];
+
+        foreach ( $pixel->getFDPEvents() as $event ) {
+
+            if ( 'fdp_view_content' == $event->event_name && is_single()&& get_post_type() == 'post' ) {
+                $this->addStaticEvent( 'fdp_event', $event );
+            }
+
+            if ( 'fdp_view_category' == $event->event_name && is_category() ) {
+                $this->addStaticEvent( 'fdp_event', $event );
+            }
+
+            if ( 'fdp_add_to_cart' == $event->event_name && is_single()&& get_post_type() == 'post' ) {
+
+                $this->addFDPDynamicEvent( $event );
+            }
+
+            if ( 'fdp_purchase' == $event->event_name && is_single()&& get_post_type() == 'post' ) {
+
+                $this->addFDPDynamicEvent( $event );
+            }
+        }
+
+    }
 
 	private function setupWooCommerceEvents() {
 	 
@@ -340,7 +403,9 @@ class EventsManager {
 
 	public function setupWooSingleProductData() {
 		global $product;
-		
+
+        if($product == null) return;
+
 		/** @var \WC_Product $product */
 		if ( isWooCommerceVersionGte( '2.6' ) ) {
 			$product_id = $product->get_id();
@@ -358,7 +423,7 @@ class EventsManager {
 			foreach ( $product->get_available_variations() as $variation ) {
 
 				$variation = wc_get_product( $variation['variation_id'] );
-
+                if(!$variation) continue;
 				if ( isWooCommerceVersionGte( '2.6' ) ) {
 					$product_ids[] = $variation->get_id();
 				} else {

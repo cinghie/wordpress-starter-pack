@@ -4,7 +4,7 @@ Tags: Facebook Pixel, New Facebook Pixel, Facebook Conversion Pixel, Facebook Pi
 Requires at least: 3.0.1
 Requires PHP: 5.4
 Tested up to: 5.3
-Stable tag: 7.1.4
+Stable tag: 7.1.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -345,7 +345,7 @@ There's a strange solution: it appears that if you have the Yoast plugin install
 
 Yes, there are, and we will explain them here:
 
-*We offer you the possibility to voluntarily subscribe to our newsletter and get valuable tips.  We manage our newsletter using ActiveCampaing. When you subscribe, we will call our server that intermediates the API connection, and then the data is sent to ActiveCampaign. The information that is passed: the name you provide and the email. If you check the "I use WooCommerce" checkbox, we will add this information as a tag, to give you better tips in the future. 
+*We offer you the possibility to voluntarily subscribe to our newsletter and get valuable tips.  We manage our newsletter using ActiveCampaing. When you subscribe, we will call our server that intermediates the API connection, and then the data is sent to ActiveCampaign. The information that is passed: the name you provide and the email. If you check the "I use WooCommerce" checkbox, we will add this information as a tag, to give you better tips in the future.
 
 *Add-on updates: the plugin works with free or paid add-ons (for Pinterest, Bing, etc) that we provide and host on our server. When you install such an add-on, we will do checks for updates. If you have a valid license for the add-on, we will automatically download the latest version of the add-on from our servers. The core plugin (PixelYourSite itself) updates are provided using WordPress own servers.
 
@@ -355,7 +355,7 @@ Yes, there are, and we will explain them here:
 
 **Do you record data about the websites' traffic**
 
-NO, absolutely not! We don't track any type of data about your website. We simply implement the pixel/tag code. 
+NO, absolutely not! We don't track any type of data about your website. We simply implement the pixel/tag code.
 
 
 
@@ -388,6 +388,21 @@ NO, absolutely not! We don't track any type of data about your website. We simpl
 
 == Changelog ==
 
+= PixelYourSite 7.1.5 =
+
+* New features: Facebook Dynamic Ads events for blog posts. Simulate the DPA required events on normal blog posts. We will soon release a dedicated plugin that will help you import your blog content into a Facebook Product Catalog.
+
+* Google Analytics Enhanced Ecommerce: we removed the variation name from the product title and we added it as a separate parameter. 
+
+* Google Analytics Enhanced Ecommerce: we fixed an error with variable products category.
+
+* Elementor: we fixed an error that was deleting Head & Footer scripts when a page was saved using Elementor.
+
+* UI updates to reflect new paid features: fire custom events once in X hours; Google Analytics list performance tracking.
+
+* Small code change to declare WooCommerce 3.9 compatibility.
+
+
 = PixelYourSite 7.1.4 =
 
 * Minor code changes to declare compatibility with WordPress 5.3 and WooCommerce 3.8.
@@ -417,7 +432,7 @@ Recommendation: if you have manually added events using the On-Page trigger, tes
 
 * Compatibility with WooCommerce 3.7
 
-* New structure for the Form and Comment events. It will help you better identify what actions have fired the events. 
+* New structure for the Form and Comment events. It will help you better identify what actions have fired the events.
 
 Form Event for the Facebook Pixel and the Pinterest Tag:
 

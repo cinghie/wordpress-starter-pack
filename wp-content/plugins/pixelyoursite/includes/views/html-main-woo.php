@@ -947,6 +947,38 @@ e&utm_campaign=pro-feature' ); ?>
     </div>
 </div>
 
+
+
+<div class="card">
+    <div class="card-header">
+        Track product list performance on Google Analytics
+        <?php renderProBadge( 'https://www.pixelyoursite.com/google-analytics?utm_source=pys-free-plugin&utm_medium=pro-badge&utm_campaign=pro-feature' ); ?>
+        <?php cardCollapseBtn(); ?>
+    </div>
+    <div class="card-body">
+        <?php if ( GA()->enabled() ) : ?>
+            <div class="row mb-1">
+                <div class="col">
+                    <?php GA()->render_switcher_input( 'woo_view_category_enabled_tmp',false,true ); ?>
+                    <h4 class="switcher-label">Enable the view_item_list event on Google Analytics(categories, related products, search, shortcodes)</h4>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col col-offset-left">
+                    <?php GA()->render_checkbox_input( 'woo_view_category_non_interactive_tmp', 'Non-interactive event',true ); ?>
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col">
+                    <?php GA()->render_switcher_input( 'woo_select_content_enabled_tmp',false,true ); ?>
+                    <h4 class="switcher-label">Enable the select_content event on Google Analytics(when a product is clicked on categories, related products, search, shortcodes)</h4>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+
+
 <h2 class="section-title">PRO Events</h2>
 
 <h2 class="section-title">Advanced Marketing Events</h2>

@@ -562,6 +562,10 @@ function compareURLs( $url, $base = '', $rule = 'match' ) {
             if ( $base == $url ) {
                 return true;
             }
+
+            if(empty($base) || empty($url)) {
+                return false;
+            }
             
             if ( strpos( $base, $url ) !== false ) {
                 return true;

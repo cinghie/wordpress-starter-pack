@@ -234,8 +234,126 @@ if (!Array.prototype.includes) {
             },
 
             /**
+             * CUSTOM EVENTS
+             */
+
+            setupMouseOverClickEvents: function (eventId, triggers) {
+
+                // Non-default binding used to avoid situations when some code in external js
+                // stopping events propagation, eg. returns false, and our handler will never called
+                $(document).onFirst('mouseover', triggers.join(','), function () {
+
+                    // do not fire event multiple times
+                    if ($(this).hasClass('pys-mouse-over-' + eventId)) {
+                        return true;
+                    } else {
+                        $(this).addClass('pys-mouse-over-' + eventId);
+                    }
+
+                    Utils.fireDynamicEvent(eventId);
+
+                });
+
+            },
+
+            setupCSSClickEvents: function (eventId, triggers) {
+
+                // Non-default binding used to avoid situations when some code in external js
+                // stopping events propagation, eg. returns false, and our handler will never called
+                $(document).onFirst('click', triggers.join(','), function () {
+                    Utils.fireDynamicEvent(eventId);
+                });
+
+            },
+
+            setupURLClickEvents: function () {
+
+                // Non-default binding used to avoid situations when some code in external js
+                // stopping events propagation, eg. returns false, and our handler will never called
+                $('a[data-pys-event-id]').onFirst('click', function (evt) {
+
+                    $(this).attr('data-pys-event-id').split(',').forEach(function (eventId) {
+
+                        eventId = parseInt(eventId);
+
+                        if (isNaN(eventId) === false) {
+                            Utils.fireDynamicEvent(eventId);
+                        }
+
+                    });
+
+                });
+
+            },
+
+            setupScrollPosEvents: function (eventId, triggers) {
+
+                var scrollPosThresholds = {},
+                    docHeight = $(document).height() - $(window).height();
+
+                // convert % to absolute positions
+                $.each(triggers, function (index, scrollPos) {
+
+                    // convert % to pixels
+                    scrollPos = docHeight * scrollPos / 100;
+                    scrollPos = Math.round(scrollPos);
+
+                    scrollPosThresholds[scrollPos] = eventId;
+
+                });
+
+                $(document).scroll(function () {
+
+                    var scrollPos = $(window).scrollTop();
+
+                    $.each(scrollPosThresholds, function (threshold, eventId) {
+
+                        // position has not reached yes
+                        if (scrollPos <= threshold) {
+                            return true;
+                        }
+
+                        // fire event only once
+                        if (eventId === null) {
+                            return true;
+                        } else {
+                            scrollPosThresholds[threshold] = null;
+                        }
+
+                        Utils.fireDynamicEvent(eventId);
+
+                    });
+
+                });
+
+            },
+            setupCommentEvents : function (eventId,triggers) {
+                $('form.comment-form').submit(function () {
+                    Utils.fireDynamicEvent(eventId);
+                });
+            },
+
+            /**
              * Events
              */
+
+            fireDynamicEvent: function (eventId) {
+
+                if (!options.dynamicEventsParams.hasOwnProperty(eventId)) {
+                    return;
+                }
+
+                var event = {};
+
+                if (options.dynamicEventsParams[eventId].hasOwnProperty('facebook')) {
+
+                    event = Utils.copyProperties(options.dynamicEventsParams[eventId]['facebook'], {});
+                    Facebook.fireEvent(event.name, { params: event.params });
+                }
+
+
+
+            },
 
             fireStaticEvents: function (pixel) {
 
@@ -1110,6 +1228,35 @@ if (!Array.prototype.includes) {
 
         Utils.setupGdprCallbacks();
 
+        // setup Dynamic events
+        $.each(options.dynamicEventsTriggers, function (triggerType, events) {
+
+            $.each(events, function (eventId, triggers) {
+
+                switch (triggerType) {
+                    case 'url_click':
+                        //@see: Utils.setupURLClickEvents()
+                        break;
+
+                    case 'css_click':
+                        Utils.setupCSSClickEvents(eventId, triggers);
+                        break;
+
+                    case 'css_mouseover':
+                        Utils.setupMouseOverClickEvents(eventId, triggers);
+                        break;
+
+                    case 'scroll_pos':
+                        Utils.setupScrollPosEvents(eventId, triggers);
+                        break;
+                    case 'comment':
+                        Utils.setupCommentEvents(eventId, triggers);
+                        break;
+                }
+
+            });
+
+        });
         // setup WooCommerce events
         if (options.woo.enabled) {
 
