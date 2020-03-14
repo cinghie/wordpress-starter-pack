@@ -58,6 +58,16 @@ WP Bootstrap Starter includes support for Infinite Scroll in Jetpack.
 
 == Changelog ==
 
+= 3.3.3 - March 02, 2020 =
+* Update the wp_bootstrap_navwalker to v4.3.0
+* /inc/wp_bootstrap_navwalker.php
+* /functions.php, change the Popper JsDelivr to https://cdn.jsdelivr.net/npm/popper.js@1/dist/umd/popper.min.js
+* /inc/assets/js/popper.js
+* /inc/assets/js/popper.js.map
+* /inc/assets/js/popper.min.js
+* /inc/assets/js/popper.min.js.map
+* Update woocommerce cart template to 3.8.0
+
 = 3.3.2 - October 08, 2019 =
 * Update the CDN feature on the theme customizer
 * Make the CDN option on the customizer to only one setting
