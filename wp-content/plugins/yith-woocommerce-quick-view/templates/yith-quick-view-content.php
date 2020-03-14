@@ -1,5 +1,13 @@
 <?php
-/*
+/**
+ * Quick view content.
+ *
+ * @author  YITH
+ * @package YITH WooCommerce Quick View
+ * @version 1.0.0
+ */
+
+/**
  * This file belongs to the YIT Framework.
  *
  * This source file is subject to the GNU GENERAL PUBLIC LICENSE (GPL 3.0)
@@ -8,22 +16,28 @@
  * http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
-while ( have_posts() ) : the_post(); ?>
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
- <div class="product">
+while ( have_posts() ) :
+	the_post();
+	?>
 
-	<div id="product-<?php the_ID(); ?>" <?php post_class('product'); ?>>
+	<div class="product">
 
-		<?php do_action( 'yith_wcqv_product_image' ); ?>
+		<div id="product-<?php the_ID(); ?>" <?php post_class( 'product' ); ?>>
 
-		<div class="summary entry-summary">
-			<div class="summary-content">
-				<?php do_action( 'yith_wcqv_product_summary' ); ?>
+			<?php do_action( 'yith_wcqv_product_image' ); ?>
+
+			<div class="summary entry-summary">
+				<div class="summary-content">
+					<?php do_action( 'yith_wcqv_product_summary' ); ?>
+				</div>
 			</div>
+
 		</div>
 
 	</div>
-
-</div>
-
-<?php endwhile; // end of the loop.
+	<?php
+endwhile; // end of the loop.

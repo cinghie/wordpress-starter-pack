@@ -14,8 +14,8 @@ add_action( 'admin_menu', 'yith_essential_kit_welcome_screen_pages' );
 
 function yith_essential_kit_welcome_screen_pages() {
 	add_dashboard_page(
-		__( 'YITH Essential Kit Migration', 'yith-essential-kit-for-woocommerce-1' ),
-		__( 'YITH Essential Kit Migration', 'yith-essential-kit-for-woocommerce-1' ),
+		esc_html__( 'YITH Essential Kit Migration', 'yith-essential-kit-for-woocommerce-1' ),
+		esc_html__( 'YITH Essential Kit Migration', 'yith-essential-kit-for-woocommerce-1' ),
 		'install_plugins',
 		'yith-essential-kit-migration-page',
 		'yith_essential_kit_migration_page_content'
@@ -44,13 +44,13 @@ function yith_essential_kit_migration_page_content() {
     </style>
     <div class="yith-essential-kit-migration">
         <div class="wrap">
-            <h2><?php _e( 'YITH Essential Kit for WooCommerce migration panel', 'yith-essential-kit-for-woocommerce-1' ) ?></h2>
+            <h2><?php esc_html_e( 'YITH Essential Kit for WooCommerce migration panel', 'yith-essential-kit-for-woocommerce-1' ) ?></h2>
 
             <p>
-				<?php _e( 'From version 2.0 of our plugin, modules are no longer bundled with the zip file. This means you should download them from wordpress.org repository first.', 'yith-essential-kit-for-woocommerce-1' ) ?>
+				<?php esc_html_e( 'From version 2.0 of our plugin, modules are no longer bundled with the zip file. This means you should download them from wordpress.org repository first.', 'yith-essential-kit-for-woocommerce-1' ) ?>
             </p>
             <p>
-				<?php _e( 'This page will do the job for you.', 'yith-essential-kit-for-woocommerce-1' ) ?>
+				<?php esc_html_e( 'This page will do the job for you.', 'yith-essential-kit-for-woocommerce-1' ) ?>
             </p>
         </div>
 		<?php

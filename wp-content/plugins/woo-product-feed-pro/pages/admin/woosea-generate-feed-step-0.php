@@ -173,95 +173,95 @@ if (array_key_exists('project_hash', $_GET)){
 						}
 					}
 				}
+				
+				if ( ( is_plugin_active('sitepress-multilingual-cms') ) OR ( function_exists('icl_object_id') ) ){
+                        		if( !class_exists( 'Polylang' ) ) {
+                                 		$add_wpml_support = get_option ('add_wpml_support');
+                                     		if($add_wpml_support == "yes"){
+							// Adding WPML support here
+							$my_current_lang = apply_filters( 'wpml_current_language', NULL );
 
+							global $sitepress;
+       		 					$list_lang = $sitepress->get_active_languages();
+							$nr_lang = count($list_lang);
 
-				if ( function_exists('icl_object_id') ) {
+							$wcml_currencies = array();
+							// Check if WCML plugin is active
+							if ( function_exists('wcml_loader') ) {
+								$wcml_settings = get_option('_wcml_settings');
+								$currencies = $wcml_settings['currency_options'];
 
-                                 	$add_wpml_support = get_option ('add_wpml_support');
-                                     	if($add_wpml_support == "yes"){
-						// Adding WPML support here
-						$my_current_lang = apply_filters( 'wpml_current_language', NULL );
-
-						global $sitepress;
-       		 				$list_lang = $sitepress->get_active_languages();
-						$nr_lang = count($list_lang);
-
-						$wcml_currencies = array();
-						// Check if WCML plugin is active
-						if ( function_exists('wcml_loader') ) {
-							$wcml_settings = get_option('_wcml_settings');
-							$currencies = $wcml_settings['currency_options'];
-
-							foreach ($currencies as $cur_key => $cur_val){
-								array_push($wcml_currencies, $cur_key);
+								foreach ($currencies as $cur_key => $cur_val){
+									array_push($wcml_currencies, $cur_key);
+								}
 							}
-						}
 
-						if($nr_lang > 0){
-                                		     	if (isset($manage_project)){
-								print "<tr>";
-								print "<td><span>WPML Language:</span></td>";
-								print "<td>";
-								print "<select name=\"WPML\" disabled>";
-								foreach ($list_lang as $key => $value){
-									if($key == $project['WPML']){
-										print "<option value=\"$key\" selected>$value[english_name]</option>";
-									} else {
-										print "<option value=\"$key\">$value[english_name]</option>";
-									}
-								}
-								print "</select>";
-								print "</td>";
-								print "</tr>";
-
-								if((count($wcml_currencies) > 0) AND ($wcml_settings['enable_multi_currency'] > 0)){
+							if($nr_lang > 0){
+                                		     		if (isset($manage_project)){
 									print "<tr>";
-									print "<td><span>WCML Currency:</span></td>";
+									print "<td><span>WPML Language:</span></td>";
 									print "<td>";
-									print "<select name=\"WCML\" disabled>";
-									foreach ($wcml_currencies as $key => $value){
-										if($value == $project['WCML']){
-											print "<option value=\"$value\" selected>$value</option>";
+									print "<select name=\"WPML\" disabled>";
+									foreach ($list_lang as $key => $value){
+										if($key == $project['WPML']){
+											print "<option value=\"$key\" selected>$value[english_name]</option>";
 										} else {
-											print "<option value=\"$value\">$value</option>";
+											print "<option value=\"$key\">$value[english_name]</option>";
 										}
 									}
 									print "</select>";
 									print "</td>";
 									print "</tr>";
-								}
-							} else {
-								print "<tr>";
-								print "<td><span>WPML Language:</span></td>";
-								print "<td>";
-								print "<select name=\"WPML\">";
-								foreach ($list_lang as $key => $value){
-									if($key == $my_current_lang){
-										print "<option value=\"$key\" selected>$value[english_name]</option>";
-									} else {
-										print "<option value=\"$key\">$value[english_name]</option>";
-									}
-								}
-								print "</select>";
-								print "</td>";
-								print "</tr>";
 
-								if((count($wcml_currencies) > 0) AND ($wcml_settings['enable_multi_currency'] > 0)){
-									$my_currency = get_woocommerce_currency();
+									if((count($wcml_currencies) > 0) AND ($wcml_settings['enable_multi_currency'] > 0)){
+										print "<tr>";
+										print "<td><span>WCML Currency:</span></td>";
+										print "<td>";
+										print "<select name=\"WCML\" disabled>";
+										foreach ($wcml_currencies as $key => $value){
+											if($value == $project['WCML']){
+												print "<option value=\"$value\" selected>$value</option>";
+											} else {
+												print "<option value=\"$value\">$value</option>";
+											}
+										}
+										print "</select>";
+										print "</td>";
+										print "</tr>";
+									}
+								} else {
 									print "<tr>";
-									print "<td><span>WCML Currency:</span></td>";
+									print "<td><span>WPML Language:</span></td>";
 									print "<td>";
-									print "<select name=\"WCML\">";
-									foreach ($wcml_currencies as $key => $value){
-										if($value == $my_currency){
-											print "<option value=\"$value\" selected>$value</option>";
+									print "<select name=\"WPML\">";
+									foreach ($list_lang as $key => $value){
+										if($key == $my_current_lang){
+											print "<option value=\"$key\" selected>$value[english_name]</option>";
 										} else {
-											print "<option value=\"$value\">$value</option>";
+											print "<option value=\"$key\">$value[english_name]</option>";
 										}
 									}
 									print "</select>";
 									print "</td>";
 									print "</tr>";
+
+									if((count($wcml_currencies) > 0) AND ($wcml_settings['enable_multi_currency'] > 0)){
+										$my_currency = get_woocommerce_currency();
+										print "<tr>";
+										print "<td><span>WCML Currency:</span></td>";
+										print "<td>";
+										print "<select name=\"WCML\">";
+										foreach ($wcml_currencies as $key => $value){
+											if($value == $my_currency){
+												print "<option value=\"$value\" selected>$value</option>";
+											} else {
+												print "<option value=\"$value\">$value</option>";
+											}
+										}
+										print "</select>";
+										print "</td>";
+										print "</tr>";
+									}
 								}
 							}
 						}

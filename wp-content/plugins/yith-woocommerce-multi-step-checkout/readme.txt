@@ -3,8 +3,8 @@
 Contributors: yithemes
 Tags: woocommerce, multi-step checkout, woocommerce multistep checkout, woocommerce checkout, shop checkout, multistep, multi step, multi-step, wc, wc checkout, wc multi-step checkout, wc multistep checkout, yit, yith, yithemes
 Requires at least: 4.0
-Tested up to: 5.3
-Stable tag: 1.7.9
+Tested up to: 5.4
+Stable tag: 1.8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,12 @@ This plugin has been realised using only WooCommerce standard templates. If your
 9. Admin: Enable Multi-step Checkout
 
 == Changelog ==
+
+= 1.8.0 - Released on 09 March 2020 =
+
+* New: Support for WordPress 5.4
+* New: Support for WooCommerce 4.0
+* Update: Italian language
 
 = 1.7.9 - Released on 23 December 2019 =
 

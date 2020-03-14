@@ -29,11 +29,13 @@ if (array_key_exists('project_hash', $_GET)){
         $manage_project = "yes";
 
         if(isset($project['WPML'])){
-		if ( function_exists('icl_object_id') ) {
-                	// Get WPML language
-                	global $sitepress;
-                	$lang = $project['WPML'];
-                	$sitepress->switch_lang($lang);
+		if ( ( is_plugin_active('sitepress-multilingual-cms') ) OR ( function_exists('icl_object_id') ) ){
+			if( !class_exists( 'Polylang' ) ) {
+        	        	// Get WPML language
+                		global $sitepress;
+                		$lang = $project['WPML'];
+                		$sitepress->switch_lang($lang);
+			}
       		}
 	}
 } else {
@@ -41,11 +43,13 @@ if (array_key_exists('project_hash', $_GET)){
         $channel_data = WooSEA_Update_Project::get_channel_data(sanitize_text_field($_POST['channel_hash']));
 
         if(isset($project['WPML'])){
-		if ( function_exists('icl_object_id') ) {
-                	// Get WPML language
-                	global $sitepress;
-                	$lang = $project['WPML'];
-                	$sitepress->switch_lang($lang);
+		if ( ( is_plugin_active('sitepress-multilingual-cms') ) OR ( function_exists('icl_object_id') ) ){
+			if( !class_exists( 'Polylang' ) ) {
+                		// Get WPML language
+                		global $sitepress;
+                		$lang = $project['WPML'];
+                		$sitepress->switch_lang($lang);
+			}
         	}
 	}
 }

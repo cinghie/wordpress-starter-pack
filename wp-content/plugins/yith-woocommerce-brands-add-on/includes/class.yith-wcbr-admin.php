@@ -2,7 +2,7 @@
 /**
  * Admin class
  *
- * @author Your Inspiration Themes
+ * @author  Your Inspiration Themes
  * @package YITH WooCommerce Brands Add-on
  * @version 1.0.0
  */
@@ -56,7 +56,7 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 		 *
 		 * @var array
 		 * @access public
-		 * @since 1.0.0
+		 * @since  1.0.0
 		 */
 		public $available_tabs = array();
 
@@ -70,7 +70,7 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 			// sets available tab
 			$this->available_tabs = apply_filters( 'yith_wcbr_available_admin_tabs', array(
 				'settings' => __( 'Settings', 'yith-woocommerce-brands-add-on' ),
-				'premium' => __( 'Premium Version', 'yith-woocommerce-brands-add-on' )
+				'premium'  => __( 'Premium Version', 'yith-woocommerce-brands-add-on' )
 			) );
 
 			// register plugin panel
@@ -105,16 +105,16 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 		public function enqueue() {
 			// enqueue admin scripts
 			$screen = get_current_screen();
-			$path = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'unminified/' : '';
+			$path   = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'unminified/' : '';
 			$suffix = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? '' : '.min';
 
-			if( $screen->id == 'edit-' . YITH_WCBR::$brands_taxonomy || $screen->id == 'yith-plugins_page_yith_wcbr_panel' ){
+			if ( $screen->id == 'edit-' . YITH_WCBR::$brands_taxonomy || $screen->id == 'yith-plugins_page_yith_wcbr_panel' ) {
 				wp_enqueue_media();
 				wp_enqueue_script( 'yith-wcbr-admin', YITH_WCBR_URL . 'assets/js/admin/' . $path . 'yith-wcbr' . $suffix . '.js', array( 'jquery' ), false, true );
 
 				wp_localize_script( 'yith-wcbr-admin', 'yith_wcbr', array(
-					'labels' => array(
-						'upload_file_frame_title' => __( 'Choose an image', 'yith-woocommerce-brands-add-on' ),
+					'labels'                 => array(
+						'upload_file_frame_title'  => __( 'Choose an image', 'yith-woocommerce-brands-add-on' ),
 						'upload_file_frame_button' => __( 'Use image', 'yith-woocommerce-brands-add-on' )
 					),
 					'wc_placeholder_img_src' => wc_placeholder_img_src()
@@ -131,8 +131,14 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 		 * @since 1.1.2
 		 */
 		public function init_brand_taxonomy_fields() {
-			add_action( YITH_WCBR::$brands_taxonomy . '_add_form_fields', array( $this, 'add_brand_taxonomy_fields' ), 15, 1 );
-			add_action( YITH_WCBR::$brands_taxonomy . '_edit_form_fields', array( $this, 'edit_brand_taxonomy_fields' ), 15, 1 );
+			add_action( YITH_WCBR::$brands_taxonomy . '_add_form_fields', array(
+				$this,
+				'add_brand_taxonomy_fields'
+			), 15, 1 );
+			add_action( YITH_WCBR::$brands_taxonomy . '_edit_form_fields', array(
+				$this,
+				'edit_brand_taxonomy_fields'
+			), 15, 1 );
 		}
 
 		/**
@@ -157,7 +163,7 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 		 */
 		public function edit_brand_taxonomy_fields( $term ) {
 			$thumbnail_id = absint( yith_wcbr_get_term_meta( $term->term_id, 'thumbnail_id', true ) );
-			$image = $thumbnail_id ? wp_get_attachment_thumb_url( $thumbnail_id ) : wc_placeholder_img_src();
+			$image        = $thumbnail_id ? wp_get_attachment_thumb_url( $thumbnail_id ) : wc_placeholder_img_src();
 
 			include( YITH_WCBR_DIR . 'templates/admin/edit-brand-taxonomy-form.php' );
 		}
@@ -165,8 +171,8 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 		/**
 		 * Save custom term fields
 		 *
-		 * @param $term_id int Currently saved term id
-		 * @param $tt_id int|string Term Taxonomy id
+		 * @param $term_id  int Currently saved term id
+		 * @param $tt_id    int|string Term Taxonomy id
 		 * @param $taxonomy string Current taxonomy slug
 		 *
 		 * @return void
@@ -185,8 +191,14 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 		 * @since 1.2.2
 		 */
 		public function init_brand_taxonomy_columns() {
-			add_filter( 'manage_edit-' . YITH_WCBR::$brands_taxonomy . '_columns', array( $this, 'brand_taxonomy_columns' ), 15 );
-			add_filter( 'manage_' . YITH_WCBR::$brands_taxonomy . '_custom_column', array( $this, 'brand_taxonomy_column' ), 15, 3 );
+			add_filter( 'manage_edit-' . YITH_WCBR::$brands_taxonomy . '_columns', array(
+				$this,
+				'brand_taxonomy_columns'
+			), 15 );
+			add_filter( 'manage_' . YITH_WCBR::$brands_taxonomy . '_custom_column', array(
+				$this,
+				'brand_taxonomy_column'
+			), 15, 3 );
 		}
 
 		/**
@@ -198,23 +210,23 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 		 * @since 1.0.0
 		 */
 		public function brand_taxonomy_columns( $columns ) {
-			$new_columns          = array();
-			if( isset( $columns['cb'] ) ) {
+			$new_columns = array();
+			if ( isset( $columns['cb'] ) ) {
 				$new_columns['cb'] = $columns['cb'];
 				unset( $columns['cb'] );
 			}
 
 			$new_columns['thumb'] = __( 'Image', 'yith-woocommerce-brands-add-on' );
 
-			return apply_filters('yith_wcbr_brand_taxonomy_columns',array_merge( $new_columns, $columns ));
+			return apply_filters( 'yith_wcbr_brand_taxonomy_columns', array_merge( $new_columns, $columns ) );
 		}
 
 		/**
 		 * Prints custom columns for "Add Brand" taxonomy view
 		 *
 		 * @param $columns mixed Array of columns to print
-		 * @param $column string Id of current column
-		 * @param $id int id of term being printed
+		 * @param $column  string Id of current column
+		 * @param $id      int id of term being printed
 		 *
 		 * @return string Output for the columns
 		 */
@@ -236,7 +248,7 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 
 			}
 
-			return apply_filters('yith_wcbr_brand_taxonomy_column',$columns,$column,$id);
+			return apply_filters( 'yith_wcbr_brand_taxonomy_column', $columns, $column, $id );
 		}
 
 		/**
@@ -260,19 +272,19 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 		public function register_panel() {
 			$args = array(
 				'create_menu_page' => true,
-				'parent_slug'   => '',
-				'page_title'    => __( 'Brands', 'yith-woocommerce-brands-add-on' ),
-				'menu_title'    => __( 'Brands', 'yith-woocommerce-brands-add-on' ),
-				'capability'    => 'manage_options',
-				'parent'        => '',
-				'parent_page'   => 'yith_plugin_panel',
-				'page'          => 'yith_wcbr_panel',
-				'admin-tabs'    => $this->available_tabs,
-				'options-path'  => YITH_WCBR_DIR . 'plugin-options'
+				'parent_slug'      => '',
+				'page_title'       => __( 'Brands', 'yith-woocommerce-brands-add-on' ),
+				'menu_title'       => __( 'Brands', 'yith-woocommerce-brands-add-on' ),
+				'capability'       => 'manage_options',
+				'parent'           => '',
+				'parent_page'      => 'yith_plugin_panel',
+				'page'             => 'yith_wcbr_panel',
+				'admin-tabs'       => $this->available_tabs,
+				'options-path'     => YITH_WCBR_DIR . 'plugin-options'
 			);
 
 			/* === Fixed: not updated theme  === */
-			if( ! class_exists( 'YIT_Plugin_Panel_WooCommerce' ) ) {
+			if ( ! class_exists( 'YIT_Plugin_Panel_WooCommerce' ) ) {
 				require_once( YITH_WCBR_DIR . 'plugin-fw/lib/yit-plugin-panel-wc.php' );
 			}
 
@@ -294,11 +306,11 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 		/**
 		 * Get the premium landing uri
 		 *
-		 * @since   1.0.0
-		 * @author  Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @return  string The premium landing link
+		 * @author  Andrea Grillo <andrea.grillo@yithemes.com>
+		 * @since   1.0.0
 		 */
-		public function get_premium_landing_uri(){
+		public function get_premium_landing_uri() {
 			return $this->premium_landing_url;
 		}
 
@@ -312,6 +324,7 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 		 */
 		public function action_links( $links ) {
 			$links = yith_add_action_links( $links, 'yith_wcbr_panel', defined( 'YITH_WCBR_PREMIUM_INIT' ) );
+
 			return $links;
 		}
 
@@ -324,7 +337,7 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 		 * @return array Filtered array of plugin meta
 		 * @since 1.0.0
 		 */
-		public function add_plugin_meta( $new_row_meta_args, $plugin_meta, $plugin_file, $plugin_data, $status, $init_file = 'YITH_WCBR_INIT' ){
+		public function add_plugin_meta( $new_row_meta_args, $plugin_meta, $plugin_file, $plugin_data, $status, $init_file = 'YITH_WCBR_INIT' ) {
 			if ( defined( $init_file ) && constant( $init_file ) == $plugin_file ) {
 				$new_row_meta_args['slug'] = 'yith-woocommerce-brands-add-on';
 			}
@@ -343,8 +356,8 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 		 * @return \YITH_WCBR_Admin
 		 * @since 1.0.0
 		 */
-		public static function get_instance(){
-			if( is_null( self::$instance ) ){
+		public static function get_instance() {
+			if ( is_null( self::$instance ) ) {
 				self::$instance = new self;
 			}
 
@@ -359,6 +372,6 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
  * @return \YITH_WCBR_Admin
  * @since 1.0.0
  */
-function YITH_WCBR_Admin(){
+function YITH_WCBR_Admin() {
 	return YITH_WCBR_Admin::get_instance();
 }

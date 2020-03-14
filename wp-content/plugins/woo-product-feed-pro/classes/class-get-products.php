@@ -176,14 +176,16 @@ class WooSEA_Get_Products {
 		 * As that does not have ?lang= behind the links
 		 */
 		if(isset($feed_config['WPML'])){
-	                if ( function_exists('icl_object_id') ) {
-				global $sitepress;
-				$default_lang = $sitepress->get_default_language();	
+			if ((is_plugin_active('sitepress-multilingual-cms')) OR ( function_exists('icl_object_id') )){
+		                if( !class_exists( 'Polylang' ) ) {
+					global $sitepress;
+					$default_lang = $sitepress->get_default_language();	
 
-				if (preg_match("/\?/i", $link)){
-					$utm_part = "&amp;".ltrim($utm_part, '&amp;');
-				} else {
-					$utm_part = "?".ltrim($utm_part, '&amp;');
+					if (preg_match("/\?/i", $link)){
+						$utm_part = "&amp;".ltrim($utm_part, '&amp;');
+					} else {
+						$utm_part = "?".ltrim($utm_part, '&amp;');
+					}
 				}
 			}
 		} else {
@@ -672,10 +674,9 @@ class WooSEA_Get_Products {
 
 				// Only add shipping zones to the feed for specific feed country
 	                        $ship_found = strpos($zone_type->code, $code_from_config);
-       
-	                        if($ship_found !== false){	
+      
+//	                        if($ship_found !== false){	
 				//if($code_from_config == $zone_type->code){
-	
 					if ($zone_type->type == "country"){
 						// This is a country shipping zone
 						$zone_details['country'] = $zone_type->code;
@@ -720,8 +721,8 @@ class WooSEA_Get_Products {
 								if(!$shipping_cost){
 									$shipping_cost = 0;
 								}
-
- 		                       				// Do we need to convert the shipping costs with the Aelia Currency Switcher
+ 		                       				
+								// Do we need to convert the shipping costs with the Aelia Currency Switcher
                 	        				if((isset($project_config['AELIA'])) AND (!empty($GLOBALS['woocommerce-aelia-currencyswitcher'])) AND (get_option ('add_aelia_support') == "yes")){
                         	       				
 									if(!array_key_exists('base_currency', $project_config)){
@@ -785,7 +786,7 @@ class WooSEA_Get_Products {
 
 							// CLASS SHIPPING COSTS
         			        	     	if(isset($v->instance_settings[$class_cost_id])){
-						
+				
 								if (is_numeric($v->instance_settings[$class_cost_id])){
 									$shipping_cost = $v->instance_settings[$class_cost_id];
 
@@ -861,7 +862,7 @@ class WooSEA_Get_Products {
 							// FREE SHIPPING COSTS IF MINIMUM FEE REACHED
 							if($v->id == "free_shipping"){
 								$minimum_fee = $v->min_amount;
-                	 
+                
 				               			if(!array_key_exists('base_currency', $project_config)){
                         	         	      	 		$currency = get_woocommerce_currency();
                                 				} else {
@@ -946,24 +947,32 @@ class WooSEA_Get_Products {
 							}
 						}
 					}	
-				}
+//				}
 			}
 		}
 
 		// When Free shipping is allowed remove all other shipping costs
-		if(isset($currency)){
-			$free_check = $currency ." 0";
-		} else {
-			$free_check = "0";
-		}
+//		if(isset($currency)){
+//			$free_check = $currency ." 0";
+//		} else {
+//			$free_check = "0";
+//		}
+//
+//		if(in_array($free_check, array_column($shipping_arr, 'price'))) { // search value in the array
+//			foreach($shipping_arr as $k => $v) {
+//				if(!in_array($free_check, $v)){
+//        				unset($shipping_arr[$k]);
+//				}
+//			}
+//		}
 
-		if(in_array($free_check, array_column($shipping_arr, 'price'))) { // search value in the array
-			foreach($shipping_arr as $k => $v) {
- 				if(!in_array($free_check, $v)){
-        				unset($shipping_arr[$k]);
-				}
+		// Remove empty countries
+		foreach($shipping_arr as $k => $v){
+			if(empty($v['country'])){
+				unset($shipping_arr[$k]);
 			}
-		}
+		}	
+
 		return $shipping_arr;
 	}
 
@@ -1156,10 +1165,12 @@ class WooSEA_Get_Products {
  					// Switch to configured WPML language
                 			if(isset($feed_config['WPML'])){
                         			if ( function_exists('icl_object_id') ) {
-							global $sitepress;
-							$original_lang = ICL_LANGUAGE_CODE; // Save the current language
-							$new_lang = $feed_config['WPML']; // The language in which you want to get the terms
-							$sitepress->switch_lang($new_lang); // Switch to new language
+							if( !class_exists( 'Polylang' ) ) {
+								global $sitepress;
+								$original_lang = ICL_LANGUAGE_CODE; // Save the current language
+								$new_lang = $feed_config['WPML']; // The language in which you want to get the terms
+								$sitepress->switch_lang($new_lang); // Switch to new language
+							}	
 						}
 					}
 
@@ -1821,12 +1832,14 @@ class WooSEA_Get_Products {
 			$orderby = "DESC";
 		}
 
-		// Switch to configured WPML lamguage
+		// Switch to configured WPML language
         	if(isset($project_config['WPML'])){
                 	if ( function_exists('icl_object_id') ) {
-				global $sitepress;
-				$lang = $project_config['WPML'];
-				$sitepress->switch_lang($lang);
+				if( !class_exists( 'Polylang' ) ) {
+					global $sitepress;
+					$lang = $project_config['WPML'];
+					$sitepress->switch_lang($lang);
+				}
 			}
 		}
 
@@ -2156,6 +2169,8 @@ class WooSEA_Get_Products {
 				$product_data['sale_price_effective_date'] = "";
 			}
 			$product_data['image'] = wp_get_attachment_url($product->get_image_id());
+			$product_data['all_images'] = $product_data['image'];
+			$product_data['all_gallery_images'] = "";
 	
 			// For variable products I need to get the product gallery images of the simple mother product	
 			if($product_data['item_group_id'] > 0){
@@ -2165,6 +2180,8 @@ class WooSEA_Get_Products {
 					$gal_id=1;
 					foreach ($gallery_ids as $gallery_key => $gallery_value){
 						$product_data["image_" . $gal_id] = wp_get_attachment_url($gallery_value);
+						$product_data['all_images'] .= ",".wp_get_attachment_url($gallery_value);
+						$product_data['all_gallery_images'] .= ",".wp_get_attachment_url($gallery_value);
 						$gal_id++;
 					}
 				}
@@ -2173,9 +2190,14 @@ class WooSEA_Get_Products {
 				$gal_id=1;
 				foreach ($gallery_ids as $gallery_key => $gallery_value){
 					$product_data["image_" . $gal_id] = wp_get_attachment_url($gallery_value);
+					$product_data['all_images'] .= ",".wp_get_attachment_url($gallery_value);
+					$product_data['all_gallery_images'] .= ",".wp_get_attachment_url($gallery_value);
 					$gal_id++;
 				}
 			}
+
+                      	$product_data['all_images'] = ltrim($product_data['all_images'],',');
+                      	$product_data['all_gallery_images'] = ltrim($product_data['all_gallery_images'],',');
 			$product_data['product_type'] = $product->get_type();
 			$product_data['content_type'] = "product";
 			if($product_data['product_type'] == "variation"){
@@ -2646,7 +2668,7 @@ class WooSEA_Get_Products {
                        	}
 
                         // Get product reviews for Google Product Review Feeds
-                        $product_data['reviews'] = $this->woosea_get_reviews( $product_data, $product );
+                        // $product_data['reviews'] = $this->woosea_get_reviews( $product_data, $product );
 
 			/**
 			 * Versioned products need a seperate approach
@@ -2714,9 +2736,29 @@ class WooSEA_Get_Products {
 				$product_data['exclude_from_all'] = "no";
 
                         	// Get number of orders for this product
-                        	$product_data['total_product_orders'] = 0;
-                        	$sales_array = $this->woosea_get_nr_orders_variation ( $product_data['id'] );
-                        	$product_data['total_product_orders'] = $sales_array[0];
+				// First check if user added this field or created a rule or filter on it
+				$ruleset = "false";
+				if(array_key_exists('rules', $project_config)){
+					foreach($project_config['rules'] as $rkey => $rvalue){
+						if(in_array('total_product_orders', $rvalue)){
+							$ruleset = "true";
+						}
+					}
+				}
+				
+				if(array_key_exists('rules2', $project_config)){
+					foreach($project_config['rules2'] as $rkey => $rvalue){
+						if(in_array('total_product_orders', $rvalue)){
+							$ruleset = "true";
+						}
+					}
+				}
+	
+				if((array_key_exists('total_product_orders', $project_config['attributes'])) OR ($ruleset == "true")){
+					$product_data['total_product_orders'] = 0;
+                        		$sales_array = $this->woosea_get_nr_orders_variation ( $product_data['id'] );
+                        		$product_data['total_product_orders'] = $sales_array[0];
+				}
 
 				$visibility_list = wp_get_post_terms($product_data['item_group_id'], 'product_visibility', array("fields" => "all"));
 
@@ -2942,6 +2984,11 @@ class WooSEA_Get_Products {
 			}			
 
 			/**
+                        * Get product reviews for Google Product Review Feeds
+			*/
+			$product_data['reviews'] = $this->woosea_get_reviews( $product_data, $product );
+
+			/**
 			 * Filter execution
 			 */
 			if (array_key_exists('rules', $project_config)){
@@ -3007,10 +3054,12 @@ class WooSEA_Get_Products {
 			/**
 			 * Truncate length of product title when it is over 150 characters (requirement for Google Shopping, Pinterest and Facebook
 			 */
-			$length_title = strlen($product_data['title']);
-			if($length_title > 149){
-				$product_data['title'] = mb_substr($product_data['title'],0,150);
-			}	
+			if(isset($product_data['title'])){
+				$length_title = strlen($product_data['title']);
+				if($length_title > 149){
+					$product_data['title'] = mb_substr($product_data['title'],0,150);
+				}	
+			}
 
 			/**
 			 * When product has passed the filter rules it can continue with the rest
@@ -4337,6 +4386,7 @@ class WooSEA_Get_Products {
 			if(array_key_exists($pr_array['attribute'], $product_data)){
 				foreach ($product_data as $pd_key => $pd_value){
 					// Check is there is a rule on specific attributes
+	
 					if(in_array($pd_key, $pr_array, TRUE)){
 
 						if($pd_key == "price"){
@@ -4349,7 +4399,7 @@ class WooSEA_Get_Products {
 							if($pd_key == "price"){
 								$pd_value = @number_format($pd_value,2);
 							}
-			
+	
 							// Rules for numeric values	
 							switch ($pr_array['condition']) {
 								case($pr_array['condition'] = "contains"):
@@ -4419,7 +4469,6 @@ class WooSEA_Get_Products {
 									break;
 							}
 						} elseif (is_array($pd_value)){
-						
 							// Tis can either be a shipping or product_tag array
 							if($pr_array['attribute'] == "product_tag"){
 								$in_tag_array = "not";
@@ -4599,7 +4648,7 @@ class WooSEA_Get_Products {
 										default:
 											break;
 									}
-								}	
+								}
 							} else {
 								// For now only shipping details are in an array
 								foreach ($pd_value as $k => $v){

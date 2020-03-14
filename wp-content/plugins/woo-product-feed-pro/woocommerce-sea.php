@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     7.6.5
+ * Version:     7.7.3
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -17,7 +17,7 @@
  * Domain Path: /languages
  *
  * WC requires at least: 3.0
- * WC tested up to: 3.9
+ * WC tested up to: 4.0
  *
  * Product Feed PRO for WooCommerce is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '7.6.5' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '7.7.3' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -4179,6 +4179,33 @@ function woosea_de_register_license(){
 add_action( 'woosea_deregister_hook', 'woosea_de_register_license', 99999); // deregister the paid version check after 60 seconds
 
 /**
+ * This function copies feed configurations from another domain
+ * so users do not have to re-configure feeds for all their domains
+ * Other domain need to explicitly allow this 
+ */
+function woosea_copy_configurations(){
+
+
+	$domain = "oplader.org";
+
+	$curl = curl_init();
+	$url = "http://$domain/wp-content/uploads/woo-product-feed-pro/logs/debug.log";
+	
+	curl_setopt_array($curl, array(
+     		CURLOPT_RETURNTRANSFER => 1,
+                CURLOPT_URL => $url,
+                CURLOPT_USERAGENT => 'AdTribes license cURL Request'
+        ));
+        $response = curl_exec( $curl );
+        curl_close($curl);
+
+	error_log("RESPONSE");
+	error_log($respons);
+
+       	$json_return = json_decode($response, true);
+}
+
+/**
  * This function checks if the Elite license is valid. When the license
  * key is invalid or expired the advanced options of this plugin will be disabled
  */
@@ -4188,7 +4215,7 @@ function woosea_license_valid(){
 
 	if(!empty($license_information['license_key'])){
 	        $curl = curl_init();
-	        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=7.6.5";
+	        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=7.7.3";
 
 	        curl_setopt_array($curl, array(
         	        CURLOPT_RETURNTRANSFER => 1,

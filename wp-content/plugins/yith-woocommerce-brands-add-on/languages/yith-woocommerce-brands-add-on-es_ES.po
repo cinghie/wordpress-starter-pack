@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: YITH WooCommerce Brands Add-On\n"
-"POT-Creation-Date: 2019-08-09 15:13+0200\n"
-"PO-Revision-Date: 2019-08-09 15:13+0200\n"
+"POT-Creation-Date: 2020-03-11 13:38+0100\n"
+"PO-Revision-Date: 2020-03-11 13:38+0100\n"
 "Last-Translator: Nicola Mustone <mail@nicolamustone.it>\n"
 "Language-Team: Your Inspiration Themes <plugins@yithemes.com>\n"
 "Language: es_ES\n"
@@ -35,17 +35,17 @@ msgstr "Escoger una imagen"
 msgid "Use image"
 msgstr "Usar imagen"
 
-#: ../includes/class.yith-wcbr-admin.php:207
+#: ../includes/class.yith-wcbr-admin.php:219
 msgid "Image"
 msgstr "Imagen"
 
-#: ../includes/class.yith-wcbr-admin.php:235
+#: ../includes/class.yith-wcbr-admin.php:247
 #: ../templates/admin/add-brand-taxonomy-form.php:17
 #: ../templates/admin/edit-brand-taxonomy-form.php:16
 msgid "Thumbnail"
 msgstr "Miniatura"
 
-#: ../includes/class.yith-wcbr-admin.php:249
+#: ../includes/class.yith-wcbr-admin.php:261
 msgid ""
 "Product brands for your store can be managed here. To display more brands "
 "here, click on \"screen options\" link on top of the page."
@@ -54,132 +54,135 @@ msgstr ""
 "mostrar más marcas aquí, haz click en el enlace \"opciones de pantalla\" en "
 "la parte superior de la página."
 
-#: ../includes/class.yith-wcbr-admin.php:264
-#: ../includes/class.yith-wcbr-admin.php:265
-#: ../includes/class.yith-wcbr-shortcode.php:60
+#: ../includes/class.yith-wcbr-admin.php:276
+#: ../includes/class.yith-wcbr-admin.php:277
+#: ../includes/class.yith-wcbr-shortcode.php:61
 #: ../includes/class.yith-wcbr.php:125 ../includes/class.yith-wcbr.php:141
 msgid "Brands"
 msgstr "Brands"
 
-#: ../includes/class.yith-wcbr-shortcode.php:57
+#: ../includes/class.yith-wcbr-shortcode.php:58
 #, fuzzy
 #| msgid "Products in Brands"
 msgid "YITH Product Brand"
 msgstr "Productos con marcas"
 
-#: ../includes/class.yith-wcbr-shortcode.php:59
+#: ../includes/class.yith-wcbr-shortcode.php:60
 msgid "Adds brand name and logo for a specific product, wherever you want"
 msgstr ""
 
-#: ../includes/class.yith-wcbr-shortcode.php:65
-#: ../includes/class.yith-wcbr-shortcode.php:128
+#: ../includes/class.yith-wcbr-shortcode.php:66
+#: ../includes/class.yith-wcbr-shortcode.php:129
 msgid "Title"
 msgstr "Título"
 
-#: ../includes/class.yith-wcbr-shortcode.php:68
+#: ../includes/class.yith-wcbr-shortcode.php:69
 msgid "Text to enter as shortcode title"
 msgstr "Texto para introducir como título del shortcode"
 
-#: ../includes/class.yith-wcbr-shortcode.php:73
+#: ../includes/class.yith-wcbr-shortcode.php:74
 #, fuzzy
 #| msgid "Product title"
 msgid "Product_id"
 msgstr "Título de producto"
 
-#: ../includes/class.yith-wcbr-shortcode.php:76
+#: ../includes/class.yith-wcbr-shortcode.php:77
 msgid ""
 "Enter product ID that will be used to retrieve brands; leave empty to use "
 "global product (if defined)"
 msgstr ""
 
-#: ../includes/class.yith-wcbr-shortcode.php:81
-#: ../includes/class.yith-wcbr-shortcode.php:138
+#: ../includes/class.yith-wcbr-shortcode.php:82
+#: ../includes/class.yith-wcbr-shortcode.php:139
 #, fuzzy
 #| msgid "Show count"
 msgid "Show logo"
 msgstr "Mostrar cuenta"
 
-#: ../includes/class.yith-wcbr-shortcode.php:84
+#: ../includes/class.yith-wcbr-shortcode.php:85
+#: ../includes/widget/elementor/class.yith-wcbr-elementor-product-brand.php:124
 #, fuzzy
 #| msgid "Show count"
 msgid "Show Logo"
 msgstr "Mostrar cuenta"
 
-#: ../includes/class.yith-wcbr-shortcode.php:85
+#: ../includes/class.yith-wcbr-shortcode.php:86
+#: ../includes/widget/elementor/class.yith-wcbr-elementor-product-brand.php:125
 #, fuzzy
 #| msgid "Do not show name"
 msgid "Do not show Logo"
 msgstr "No mostrar nombre"
 
-#: ../includes/class.yith-wcbr-shortcode.php:87
+#: ../includes/class.yith-wcbr-shortcode.php:88
 msgid ""
 "Whether to show logo or not. Please, note that if you don't mark at least "
 "one between Show Logo or Show Title, default option value will take effect"
 msgstr ""
 
-#: ../includes/class.yith-wcbr-shortcode.php:92
-#: ../includes/class.yith-wcbr-shortcode.php:147
+#: ../includes/class.yith-wcbr-shortcode.php:93
+#: ../includes/class.yith-wcbr-shortcode.php:148
+#: ../includes/widget/elementor/class.yith-wcbr-elementor-product-brand.php:137
 #, fuzzy
 #| msgid "Show filters"
 msgid "Show Title"
 msgstr "Mostrar filtros"
 
-#: ../includes/class.yith-wcbr-shortcode.php:95
+#: ../includes/class.yith-wcbr-shortcode.php:96
 #, fuzzy
 #| msgid "Show filters"
 msgid "Show title"
 msgstr "Mostrar filtros"
 
-#: ../includes/class.yith-wcbr-shortcode.php:96
+#: ../includes/class.yith-wcbr-shortcode.php:97
 #, fuzzy
 #| msgid "Do not show filters"
 msgid "Do not show title"
 msgstr "No mostrar filtros"
 
-#: ../includes/class.yith-wcbr-shortcode.php:98
+#: ../includes/class.yith-wcbr-shortcode.php:99
 msgid ""
 "Whether to show title or not. Please, note that if you don't mark at least "
 "one between Show Logo or Show Title, default option value will take effect"
 msgstr ""
 
-#: ../includes/class.yith-wcbr-shortcode.php:122
+#: ../includes/class.yith-wcbr-shortcode.php:123
 #, fuzzy
 #| msgid "YITH Brand Products"
 msgctxt "[gutenberg]: block name"
 msgid "YITH Brands Product Brand"
 msgstr "YITH Brand Productos"
 
-#: ../includes/class.yith-wcbr-shortcode.php:123
+#: ../includes/class.yith-wcbr-shortcode.php:124
 msgctxt "[gutenberg]: block description"
 msgid "Adds brand name and logo for a specific product, wherever you want"
 msgstr ""
 
-#: ../includes/class.yith-wcbr-shortcode.php:133
+#: ../includes/class.yith-wcbr-shortcode.php:134
 msgid "Product_id (leave empty to use global product)"
 msgstr ""
 
-#: ../includes/class.yith-wcbr-shortcode.php:141
+#: ../includes/class.yith-wcbr-shortcode.php:142
 #, fuzzy
 #| msgid "Hide on loop"
 msgctxt "[gutenberg]: Help text"
 msgid "Hide logo"
 msgstr "Ocultar en loop"
 
-#: ../includes/class.yith-wcbr-shortcode.php:142
+#: ../includes/class.yith-wcbr-shortcode.php:143
 #, fuzzy
 #| msgid "Show count"
 msgctxt "[gutenberg]: Help text"
 msgid "Show logo"
 msgstr "Mostrar cuenta"
 
-#: ../includes/class.yith-wcbr-shortcode.php:150
+#: ../includes/class.yith-wcbr-shortcode.php:151
 #, fuzzy
 #| msgid "Product title"
 msgctxt "[gutenberg]: Help text"
 msgid "Hide title"
 msgstr "Título de producto"
 
-#: ../includes/class.yith-wcbr-shortcode.php:151
+#: ../includes/class.yith-wcbr-shortcode.php:152
 #, fuzzy
 #| msgid "Show filters"
 msgctxt "[gutenberg]: Help text"
@@ -233,6 +236,59 @@ msgstr "Separar marcas con comas"
 #: ../includes/class.yith-wcbr.php:137
 msgid "No Brands Found"
 msgstr "No se han encontrado marcas"
+
+#: ../includes/widget/elementor/class.yith-wcbr-elementor-product-brand.php:40
+#, fuzzy
+#| msgid "Products in Brands"
+msgctxt "Elementor widget name"
+msgid "YITH Product Brand"
+msgstr "Productos con marcas"
+
+#: ../includes/widget/elementor/class.yith-wcbr-elementor-product-brand.php:83
+#, fuzzy
+#| msgid "General"
+msgctxt "Elementor section title"
+msgid "General"
+msgstr "General"
+
+#: ../includes/widget/elementor/class.yith-wcbr-elementor-product-brand.php:91
+#, fuzzy
+#| msgid "Title"
+msgctxt "Elementor control label"
+msgid "Title"
+msgstr "Título"
+
+#: ../includes/widget/elementor/class.yith-wcbr-elementor-product-brand.php:101
+#, fuzzy
+#| msgid "Product type"
+msgctxt "Elementor control label"
+msgid "Product ID"
+msgstr "Tipo de producto"
+
+#: ../includes/widget/elementor/class.yith-wcbr-elementor-product-brand.php:113
+msgctxt "Elementor section title"
+msgid "Appearance"
+msgstr ""
+
+#: ../includes/widget/elementor/class.yith-wcbr-elementor-product-brand.php:121
+#, fuzzy
+#| msgid "Show count"
+msgctxt "Elementor control label"
+msgid "Show logo"
+msgstr "Mostrar cuenta"
+
+#: ../includes/widget/elementor/class.yith-wcbr-elementor-product-brand.php:134
+#, fuzzy
+#| msgid "Show filters"
+msgctxt "Elementor control label"
+msgid "Show Title"
+msgstr "Mostrar filtros"
+
+#: ../includes/widget/elementor/class.yith-wcbr-elementor-product-brand.php:138
+#, fuzzy
+#| msgid "Do not show filters"
+msgid "Do not show Title"
+msgstr "No mostrar filtros"
 
 #: ../init.php:116
 #, fuzzy, php-format
@@ -775,9 +831,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Una lista de slugs de marca válidos separados por comas, si quieres "
 #~ "filtrar productos por marca"
-
-#~ msgid "Product type"
-#~ msgstr "Tipo de producto"
 
 #~ msgid "All products"
 #~ msgstr "Todos los productos"

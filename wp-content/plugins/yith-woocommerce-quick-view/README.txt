@@ -2,8 +2,8 @@
 Contributors: yithemes
 Tags: woocommerce, quick view, woocommerce quick view, products quick view
 Requires at least: 4.0
-Tested up to: 5.3
-Stable tag: 1.3.18
+Tested up to: 5.4
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,12 +21,10 @@ In this way, they will be more focused on what they really want and they will pr
 
 **Main features:**
 
-* Add a button in product loop to open a modal window with the product summary using ajax
-* Choose to enable the prettyPhoto lightbox for images in quick view
+* Add a button in product loop to open a modal window with the product summary using AJAX
 * Customize style of modal
 
-
-Full documentation is available [here](http://yithemes.com/docs-plugins/yith-woocommerce-quick-view/).
+Full documentation is available [here](https://docs.yithemes.com/yith-woocommerce-quick-view/).
 
 == Installation ==
 
@@ -41,6 +39,15 @@ Full documentation is available [here](http://yithemes.com/docs-plugins/yith-woo
 3. The quick view modal.
 
 == Changelog ==
+
+= 1.4.0 = Released 06 March 2020
+
+* New: Support for WooCommerce 4.0
+* New: Support for WordPress 5.4
+* Update: Plugin framework
+* Fix: Enqueue of YITH WooCommerce Gift Card scripts if version installed is greater than 3.0.0
+* Fix: Do not enqueue YITH WooCommerce Gift Card scripts in product pages
+* Dev: New filter "yith_load_gift_card_script_pages_for_quick_view" to filter pages where YITH WooCommerce Gift Card scripts are loaded
 
 = 1.3.18 = Released 21 December 2019
 
@@ -263,8 +270,11 @@ Or, if you have created your own language pack, or have an update for an existin
 
 == Upgrade notice ==
 
-= 1.3.18 = Released 21 December 2019
+= 1.4.0 = Released 06 March 2020
 
-* New: Support for WooCommerce 3.9
-* New: Support for WordPress 5.3.2
+* New: Support for WooCommerce 4.0
+* New: Support for WordPress 5.4
 * Update: Plugin framework
+* Fix: Enqueue of YITH WooCommerce Gift Card scripts if version installed is greater than 3.0.0
+* Fix: Do not enqueue YITH WooCommerce Gift Card scripts in product pages
+* Dev: New filter "yith_load_gift_card_script_pages_for_quick_view" to filter pages where YITH WooCommerce Gift Card scripts are loaded

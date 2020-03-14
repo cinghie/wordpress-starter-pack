@@ -277,6 +277,8 @@ public function get_mapping_attributes_dropdown() {
             		"image_8" => "Additional image 8",
             		"image_9" => "Additional image 9",
             		"image_10" => "Additional image 10",
+			"all_images" => "All images (comma separated)",
+			"all_gallery_images" => "All gallery images (comma separated)",
         	);
 
 		/**
@@ -463,6 +465,8 @@ public function get_mapping_attributes_dropdown() {
             		"image_8" => "Additional image 8",
             		"image_9" => "Additional image 9",
             		"image_10" => "Additional image 10",
+                        "all_images" => "All images (comma separated)",
+                        "all_gallery_images" => "All gallery images (comma separated)",
         	);
 
 		$attributes = array_merge($attributes, $images);

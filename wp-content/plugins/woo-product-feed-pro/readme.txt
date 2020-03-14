@@ -1,11 +1,11 @@
 === Product Feed PRO for WooCommerce  ===
-Contributors: jorisverwater,evavangelooven
+Contributors: jorisverwater,supportadtribes,evavangelooven
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.3
-Stable tag: 7.6.5
+Stable tag: 7.7.3
 
 == Description ==
 
@@ -311,6 +311,32 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 7.7.3 (2020-03-13) =
+* Fixed a bug where static values are added to feeds for products that are filtered out
+
+= 7.7.2 (2020-03-11) =
+* Checked for compatibility with WooCommerce 4.0
+* Fixed a shipping issue for shipping zones with postcodes
+
+= 7.7.1 (2020-03-10) =
+* Added support for filters and rules on product review title's
+
+= 7.7.0 (2020-03-10) =
+* Preventing errors to show for Polylang users
+
+= 7.6.9 (2020-03-09) =
+* WPML feature also available when no multi-currencies have been configured
+
+= 7.6.8 (2020-03-07) =
+* Function check on cl_object_id changed to check if sitepress-multilingual-cms is active
+
+= 7.6.7 (2020-03-06) =
+* Added a new attribute named "All gallery images (comma separated)" which adds all product gallery images on one line, comma separated
+
+= 7.6.6 (2020-03-06) =
+* Added a new attribute named "All images (comma separated)" which adds all product images on one line, comma separated
+* The total product orders attribute is pretty heavy on MySql so we are now only requesting this data when it has been added to the field mapping and/or filters and rules
 
 = 7.6.5 (2020-03-04) =
 * SQL query to retrieve number of sales for variations was too slow causing the feed processing to slow down. Improved query.
@@ -2435,6 +2461,32 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 7.7.3 =
+Fixed a bug where static values are added to feeds for products that are filtered out
+
+= 7.7.2 =
+Checked for compatibility with WooCommerce 4.0
+Fixed a shipping issue for shipping zones with postcodes
+
+= 7.7.1 =
+Added support for filters and rules on product review title's
+
+= 7.7.0 =
+Preventing errors to show for Polylang users
+
+= 7.6.9 =
+WPML feature also available when no multi-currencies have been configured
+
+= 7.6.8 =
+Function check on cl_object_id changed to check if sitepress-multilingual-cms is active
+
+= 7.6.7 =
+Added a new attribute named "All gallery images (comma separated)" which adds all product gallery images on one line, comma separated
+
+= 7.6.6 =
+Added a new attribute named "All images (comma separated)" which adds all product images on one line, comma separated
+The total product orders attribute is pretty heavy on MySql so we are now only requesting this data when it has been added to the field mapping and/or filters and rules
 
 = 7.6.5 =
 SQL query to retrieve number of sales for variations was too slow causing the feed processing to slow down. Improved query.

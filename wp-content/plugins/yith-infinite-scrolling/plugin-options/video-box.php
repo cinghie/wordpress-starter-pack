@@ -35,8 +35,8 @@ return array(
 		'description_second_column' => __( 'By purchasing the premium version of the plugin, you will take advantage of the advanced features of the product and you will get one year of free updates and support through our platform available 24h/24.', 'yith-infinite-scrolling' ),
 		'button'                    => array(
 			'href'  => YITH_INFS_Admin()->get_premium_landing_uri(),
-			'title' => 'Get Support and Pro Features'
-		)
+			'title' => 'Get Support and Pro Features',
+		),
 	),
-	'id'      => 'yith_infs_general_videobox'
+	'id'      => 'yith_infs_general_videobox',
 );

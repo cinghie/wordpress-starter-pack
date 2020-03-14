@@ -90,11 +90,6 @@ jQuery(document).ready(function($){
 
                 qv_content.html(data);
 
-                // quantity fields for WC 2.2
-                if (yith_qv.is2_2) {
-                    qv_content.find('div.quantity:not(.buttons_added), td.quantity:not(.buttons_added)').addClass('buttons_added').append('<input type="button" value="+" class="plus" />').prepend('<input type="button" value="-" class="minus" />');
-                }
-
                 // Variation Form
                 var form_variation = qv_content.find('.variations_form');
                 form_variation.each( function() {
@@ -104,20 +99,9 @@ jQuery(document).ready(function($){
                         $(this).yith_wccl();
                     }
                 });
+
                 form_variation.trigger( 'check_variations' );
                 form_variation.trigger( 'reset_image' );
-
-                // Init prettyPhoto
-                if (typeof $.fn.prettyPhoto !== 'undefined') {
-                    qv_content.find("a[data-rel^='prettyPhoto'], a.zoom").prettyPhoto({
-                        hook: 'data-rel',
-                        social_tools: false,
-                        theme: 'pp_woocommerce',
-                        horizontal_padding: 20,
-                        opacity: 0.8,
-                        deeplinking: false
-                    });
-                }
 
                 if( typeof $.fn.wc_product_gallery !== 'undefined' ) {
                     qv_content.find('.woocommerce-product-gallery').each(function () {

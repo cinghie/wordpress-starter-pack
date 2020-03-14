@@ -3,17 +3,17 @@
  * Plugin Name: YITH Infinite Scrolling
  * Plugin URI: https://yithemes.com/themes/plugins/yith-infinite-scrolling/
  * Description: The <code><strong>YITH Infinite Scrolling</strong></code> plugin lets you easily add infinite scroll on your pages. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>.
- * Version: 1.1.13
+ * Version: 1.2.0
  * Author: YITH
  * Author URI: https://yithemes.com/
  * Text Domain: yith-infinite-scrolling
  * Domain Path: /languages/
  *
- * @author YITH
+ * @author  YITH
  * @package YITH Infinite Scrolling
- * @version 1.1.13
+ * @version 1.2.0
  */
-/*  Copyright 2015  YITH  ( email: plugins@yithemes.com )
+/*  Copyright 2020  YITH  ( email: plugins@yithemes.com )
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as
@@ -29,18 +29,20 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-if ( !defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
 
 if ( ! function_exists( 'is_plugin_active' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+	require_once ABSPATH . 'wp-admin/includes/plugin.php';
 }
 
 function yith_infs_install_free_admin_notice() {
 	?>
 	<div class="error">
-		<p><?php _e( 'You can\'t activate the free version of YITH Infinite Scrolling while you are using the premium one.', 'yith-infinite-scrolling' ); ?></p>
+		<p><?php esc_html_e( 'You can\'t activate the free version of YITH Infinite Scrolling while you are using the premium one.', 'yith-infinite-scrolling' ); ?></p>
 	</div>
-<?php
+	<?php
 }
 
 if ( ! function_exists( 'yith_plugin_registration_hook' ) ) {
@@ -49,8 +51,8 @@ if ( ! function_exists( 'yith_plugin_registration_hook' ) ) {
 register_activation_hook( __FILE__, 'yith_plugin_registration_hook' );
 
 
-if ( ! defined( 'YITH_INFS_VERSION' ) ){
-	define( 'YITH_INFS_VERSION', '1.1.13' );
+if ( ! defined( 'YITH_INFS_VERSION' ) ) {
+	define( 'YITH_INFS_VERSION', '1.2.0' );
 }
 
 if ( ! defined( 'YITH_INFS_FREE_INIT' ) ) {
@@ -74,7 +76,7 @@ if ( ! defined( 'YITH_INFS_URL' ) ) {
 }
 
 if ( ! defined( 'YITH_INFS_DIR' ) ) {
-	define( 'YITH_INFS_DIR', plugin_dir_path( __FILE__ )  );
+	define( 'YITH_INFS_DIR', plugin_dir_path( __FILE__ ) );
 }
 
 if ( ! defined( 'YITH_INFS_TEMPLATE_PATH' ) ) {
@@ -82,34 +84,35 @@ if ( ! defined( 'YITH_INFS_TEMPLATE_PATH' ) ) {
 }
 
 if ( ! defined( 'YITH_INFS_SLUG' ) ) {
-    define( 'YITH_INFS_SLUG', 'yith-infinite-scrolling' );
+	define( 'YITH_INFS_SLUG', 'yith-infinite-scrolling' );
 }
 
 if ( ! defined( 'YITH_INFS_ASSETS_URL' ) ) {
 	define( 'YITH_INFS_ASSETS_URL', YITH_INFS_URL . 'assets' );
 }
 
-if( ! defined( 'YITH_INFS_OPTION_NAME' ) ) {
+if ( ! defined( 'YITH_INFS_OPTION_NAME' ) ) {
 	define( 'YITH_INFS_OPTION_NAME', 'yit_infs_options' );
 }
 
 /* Plugin Framework Version Check */
-if( ! function_exists( 'yit_maybe_plugin_fw_loader' ) && file_exists( YITH_INFS_DIR . 'plugin-fw/init.php' ) ) {
-	require_once( YITH_INFS_DIR . 'plugin-fw/init.php' );
+if ( ! function_exists( 'yit_maybe_plugin_fw_loader' ) && file_exists( YITH_INFS_DIR . 'plugin-fw/init.php' ) ) {
+	require_once YITH_INFS_DIR . 'plugin-fw/init.php';
 }
-yit_maybe_plugin_fw_loader( YITH_INFS_DIR  );
+yit_maybe_plugin_fw_loader( YITH_INFS_DIR );
 
 function yith_infs_init() {
 
-	load_plugin_textdomain( 'yith-infinite-scrolling', false, dirname( plugin_basename( __FILE__ ) ). '/languages/' );
+	load_plugin_textdomain( 'yith-infinite-scrolling', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 	// Load required classes and functions
-	require_once( 'includes/functions.yith-infs.php' );
-	require_once( 'includes/class.yith-infs.php' );
+	require_once 'includes/functions.yith-infs.php';
+	require_once 'includes/class.yith-infs.php';
 
 	// Let's start the game!
 	YITH_INFS();
 }
+
 add_action( 'yith_infs_init', 'yith_infs_init' );
 
 
@@ -118,9 +121,9 @@ function yith_infs_install() {
 	if ( defined( 'YITH_INFS_PREMIUM' ) ) {
 		add_action( 'admin_notices', 'yith_infs_install_free_admin_notice' );
 		deactivate_plugins( plugin_basename( __FILE__ ) );
-	}
-	else {
+	} else {
 		do_action( 'yith_infs_init' );
 	}
 }
+
 add_action( 'plugins_loaded', 'yith_infs_install', 11 );

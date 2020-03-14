@@ -2,7 +2,7 @@
 /**
  * Frontend class
  *
- * @author YITH
+ * @author  YITH
  * @package YITH Infinite Scrolling
  * @version 1.0.0
  */
@@ -22,27 +22,27 @@ if ( ! class_exists( 'YITH_INFS_Frontend' ) ) {
 		/**
 		 * Single instance of the class
 		 *
-		 * @var \YITH_INFS_Frontend
 		 * @since 1.0.0
+		 * @var \YITH_INFS_Frontend
 		 */
 		protected static $instance;
 
 		/**
 		 * Plugin version
 		 *
-		 * @var string
 		 * @since 1.0.0
+		 * @var string
 		 */
 		public $version = YITH_INFS_VERSION;
 
 		/**
 		 * Returns single instance of the class
 		 *
-		 * @return \YITH_INFS_Frontend
 		 * @since 1.0.0
+		 * @return \YITH_INFS_Frontend
 		 */
-		public static function get_instance(){
-			if( is_null( self::$instance ) ){
+		public static function get_instance() {
+			if ( is_null( self::$instance ) ) {
 				self::$instance = new self();
 			}
 
@@ -53,7 +53,7 @@ if ( ! class_exists( 'YITH_INFS_Frontend' ) ) {
 		 * Constructor
 		 *
 		 * @access public
-		 * @since 1.0.0
+		 * @since  1.0.0
 		 * @author Francesco Licandro <francesco.licandro@yithemes.com>
 		 */
 		public function __construct() {
@@ -63,21 +63,21 @@ if ( ! class_exists( 'YITH_INFS_Frontend' ) ) {
 		/**
 		 * Enqueue scripts
 		 *
-		 * @since 1.0.0
+		 * @since  1.0.0
 		 * @access public
-		 * @return void
 		 * @author Francesco Licandro <francesco.licandro@yithemes.com>
+		 * @return void
 		 */
 		public function enqueue_scripts() {
 
-			$min        = ( ! defined('SCRIPT_DEBUG') || ! SCRIPT_DEBUG ) ? '.min' : '';
+			$min = ( ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ) ? '.min' : '';
 
 			wp_enqueue_style( 'yith-infs-style', YITH_INFS_ASSETS_URL . '/css/frontend.css', array(), $this->version );
 
-			wp_enqueue_script( 'yith-infinitescroll', YITH_INFS_ASSETS_URL . '/js/yith.infinitescroll'.$min.'.js', array('jquery'), $this->version, true );
-			wp_enqueue_script( 'yith-infs', YITH_INFS_ASSETS_URL . '/js/yith-infs'.$min.'.js', array('jquery', 'yith-infinitescroll'), $this->version, true );
+			wp_enqueue_script( 'yith-infinitescroll', YITH_INFS_ASSETS_URL . '/js/yith.infinitescroll' . $min . '.js', array( 'jquery' ), $this->version, true );
+			wp_enqueue_script( 'yith-infs', YITH_INFS_ASSETS_URL . '/js/yith-infs' . $min . '.js', array( 'jquery', 'yith-infinitescroll' ), $this->version, true );
 
-			if( ! ( defined( 'YITH_INFS_PREMIUM' ) && YITH_INFS_PREMIUM ) ) {
+			if ( ! ( defined( 'YITH_INFS_PREMIUM' ) && YITH_INFS_PREMIUM ) ) {
 				$this->options_to_script();
 			}
 
@@ -86,28 +86,28 @@ if ( ! class_exists( 'YITH_INFS_Frontend' ) ) {
 		/**
 		 * Pass options to script
 		 *
-		 * @since 1.0.0
+		 * @since  1.0.0
 		 * @access public
-		 * @return void
 		 * @author Francesco Licandro <francesco.licandro@yithemes.com>
+		 * @return void
 		 */
-		public function options_to_script(){
+		public function options_to_script() {
 
 			// get options
-			$navSelector        = yinfs_get_option( 'yith-infs-navselector', 'nav.navigation' );
-			$nextSelector       = yinfs_get_option( 'yith-infs-nextselector', 'nav.navigation a.next' );
-			$itemSelector       = yinfs_get_option( 'yith-infs-itemselector', 'article.post' );
-			$contentSelector    = yinfs_get_option( 'yith-infs-contentselector', '#main' );
-			$loader             = yinfs_get_option( 'yith-infs-loader-image', YITH_INFS_ASSETS_URL . '/images/loader.gif' );
+			$navSelector     = yinfs_get_option( 'yith-infs-navselector', 'nav.navigation' );
+			$nextSelector    = yinfs_get_option( 'yith-infs-nextselector', 'nav.navigation a.next' );
+			$itemSelector    = yinfs_get_option( 'yith-infs-itemselector', 'article.post' );
+			$contentSelector = yinfs_get_option( 'yith-infs-contentselector', '#main' );
+			$loader          = yinfs_get_option( 'yith-infs-loader-image', YITH_INFS_ASSETS_URL . '/images/loader.gif' );
 
-			wp_localize_script( 'yith-infs', 'yith_infs', array (
-				'navSelector'       => $navSelector,
-				'nextSelector'      => $nextSelector,
-				'itemSelector'      => $itemSelector,
-				'contentSelector'   => $contentSelector,
-				'loader'            => $loader,
-				'shop'              => function_exists( 'WC' ) && ( is_shop() || is_product_category() || is_product_tag() ),
-			));
+			wp_localize_script( 'yith-infs', 'yith_infs', array(
+				'navSelector'     => $navSelector,
+				'nextSelector'    => $nextSelector,
+				'itemSelector'    => $itemSelector,
+				'contentSelector' => $contentSelector,
+				'loader'          => $loader,
+				'shop'            => function_exists( 'WC' ) && ( is_shop() || is_product_category() || is_product_tag() ),
+			) );
 		}
 	}
 }
@@ -115,9 +115,9 @@ if ( ! class_exists( 'YITH_INFS_Frontend' ) ) {
 /**
  * Unique access to instance of YITH_INFS_Frontend class
  *
- * @return \YITH_INFS_Frontend
  * @since 1.0.0
+ * @return \YITH_INFS_Frontend
  */
-function YITH_INFS_Frontend(){
+function YITH_INFS_Frontend() {
 	return YITH_INFS_Frontend::get_instance();
 }

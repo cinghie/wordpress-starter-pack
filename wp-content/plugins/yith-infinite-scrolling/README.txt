@@ -2,8 +2,8 @@
 Contributors: yithemes
 Tags: yith, infinite scrolling, ajax pagination, infinite scroll, load more
 Requires at least: 4.0
-Tested up to: 5.3
-Stable tag: 1.1.13
+Tested up to: 5.4
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ No more loading times caused by the change of the page, well, no more pages for 
 * Simple and direct navigation, even from a mobile device
 * Transition effect
 
-Full documentation is available [here](http://yithemes.com/docs-plugins/yith-infinite-scrolling/)
+Full documentation is available [here](https://docs.yithemes.com/yith-infinite-scrolling/)
 
 
 == Installation ==
@@ -37,10 +37,16 @@ Full documentation is available [here](http://yithemes.com/docs-plugins/yith-inf
 
 == Changelog ==
 
+= 1.2.0 = Released on 11 March 2020
+
+* New: Support for WooCommerce 4.0
+* New: Support for WordPress 5.4
+* Update: Plugin framework
+
 = 1.1.13 = Released on 20 December 2019
 
-* New: Support to WooCommerce 3.9
-* New: Support to WordPress 5.3.2
+* New: Support for WooCommerce 3.9
+* New: Support for WordPress 5.3.2
 * Update: Plugin framework
 
 = 1.1.12 = Released on 5 November 2019
@@ -57,7 +63,7 @@ Full documentation is available [here](http://yithemes.com/docs-plugins/yith-inf
 
 = 1.1.9 = Released on 29 October 2019
 
-* New: Support to WordPress 5.3
+* New: Support for WordPress 5.3
 * Update: Plugin framework
 
 = 1.1.8 = Released on 12 June 2019
@@ -74,18 +80,18 @@ Full documentation is available [here](http://yithemes.com/docs-plugins/yith-inf
 
 = 1.1.5 = Released on 23 April 2019
 
-* New: Support to WordPress 5.1.1
+* New: Support for WordPress 5.1.1
 * Update: Plugin Core
 
 = 1.1.4 = Released on 20 February 2019
 
-* New: Support to WordPress 5.0.2
+* New: Support for WordPress 5.0.2
 * Update: Plugin Core
 * Tweak: Better ajax performance on scroll event action
 
 = 1.1.3 = Released on 6 December 2018
 
-* New: Support to WordPress 5.0.0
+* New: Support for WordPress 5.0.0
 * Update: Plugin Core
 
 = 1.1.2 = Released on 24 October 2018
@@ -99,27 +105,27 @@ Full documentation is available [here](http://yithemes.com/docs-plugins/yith-inf
 
 = 1.1.0 = Released on 6 September 2018
 
-* New: Support to WordPress 4.9.8
-* New: Support to WooCommerce 3.4.5
+* New: Support for WordPress 4.9.8
+* New: Support for WooCommerce 3.4.5
 * Update: Plugin Core
 
 = 1.0.9 = Released on 28 December 2017
 
-* New: Support to WordPress 4.9.1
-* New: Support to WooCommerce 3.2.6
+* New: Support for WordPress 4.9.1
+* New: Support for WooCommerce 3.2.6
 * Update: Plugin Core
 
 = 1.0.8 = Released on 20 September 2017
 
-* New: Support to WordPress 4.8.2
-* New: Support to WooCommerce 3.1.2
+* New: Support for WordPress 4.8.2
+* New: Support for WooCommerce 3.1.2
 * Update: Plugin Core
 * Fix: Use relative url for main AJAX action
 
 = 1.0.7 = Released on 19 December 2016
 
-* Added: Support to WordPress 4.7
-* Added: Support to WooCommerce 2.6.9
+* Added: Support for WordPress 4.7
+* Added: Support for WooCommerce 2.6.9
 * Updated: Plugin Core
 
 = 1.0.6 = Released on 20 April 2016
@@ -179,8 +185,8 @@ Or, if you have created your own language pack, or have an update for an existin
 
 == Upgrade notice ==
 
-= 1.1.13 = Released on 20 December 2019
+= 1.2.0 = Released on 11 March 2020
 
-* New: Support to WooCommerce 3.9
-* New: Support to WordPress 5.3.2
+* New: Support for WooCommerce 4.0
+* New: Support for WordPress 5.4
 * Update: Plugin framework

@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! current_user_can( 'activate_plugins' ) ) {
 	?>
     <div id="message" class="updated notice is-dismissible">
-        <p><?php _e( 'Sorry, you don\'t have sufficient permission to access to this page.', 'yith-essential-kit-for-woocommerce-1' ) ?></p>
+        <p><?php esc_attr_e( 'Sorry, you don\'t have sufficient permission to access to this page.', 'yith-essential-kit-for-woocommerce-1' ) ?></p>
     </div>
 	<?php
 	return;
@@ -43,8 +43,8 @@ $date_format          = __( 'M j, Y @ H:i', 'yith-essential-kit-for-woocommerce-
 <div class="wrap">
     <h1><?php echo $this->_menu_title; ?></h1>
 
-    <p class="yith-essential-kit-intro-text"><?php _e( "Here you can activate or deactive some of our plugins to enhance your e-commerce site.", 'yith-essential-kit-for-woocommerce-1' ) ?></p>
-    <div class="yith-jetpack-message">Plugin enabled</div>
+    <p class="yith-essential-kit-intro-text"><?php esc_html_e( "Here you can activate or deactive some of our plugins to enhance your e-commerce site.", 'yith-essential-kit-for-woocommerce-1' ) ?></p>
+    <div class="yith-jetpack-message"><?php esc_html_e( 'Plugin enabled', 'yith-essential-kit-for-woocommerce-1' ); ?></div>
     <div class="wp-list-table widefat plugin-install-network yith-jetpack">
 
         <div id="the-list">
@@ -64,7 +64,8 @@ $date_format          = __( 'M j, Y @ H:i', 'yith-essential-kit-for-woocommerce-
 						'fields' => array(
 							'short_description',
 							'active_installs',
-							'rating'
+							'rating',
+							'downloaded'
 						)
 					) );
 					if ( ! is_wp_error( $info_to_store ) ) {
@@ -116,7 +117,7 @@ $date_format          = __( 'M j, Y @ H:i', 'yith-essential-kit-for-woocommerce-
 				$details_link = network_admin_url( 'plugin-install.php?tab=plugin-information&amp;plugin=' . $module['slug'] .
 				                                   '&amp;TB_iframe=true&amp;width=600&amp;height=550' );
 
-				$more_links[] = '<a href="' . esc_url( $details_link ) . '" class="thickbox" aria-label="' . esc_attr( sprintf( __( 'More information about %s' ), $module_name ) ) . '" data-title="' . esc_attr( $module_name ) . '">' . __( 'More Details' ) . '</a>';
+				$more_links[] = '<a href="' . esc_url( $details_link ) . '" class="thickbox" aria-label="' . esc_attr( sprintf( esc_html__( 'More information about %s', 'yith-essential-kit-for-woocommerce-1' ), $module_name ) ) . '" data-title="' . esc_attr( $module_name ) . '">' . esc_html__( 'More Details', 'yith-essential-kit-for-woocommerce-1' ) . '</a>';
 
 				/**
 				 * ICONS
@@ -130,7 +131,7 @@ $date_format          = __( 'M j, Y @ H:i', 'yith-essential-kit-for-woocommerce-
 				if ( $is_premium_active ) {
 					$premium_url = '#';
 					$btn_class   = 'btn-premium installed';
-					$btn_title   = __( 'Premium Activated' );
+					$btn_title   = esc_html__( 'Premium Activated', 'yith-essential-kit-for-woocommerce-1' );
 					$new_tab     = '';
 				} else if ( $is_premium_installed ) {
 					$premium_dir = isset( $module['premium-dir'] ) ? $module['premium-dir'] : $module['slug'] . '-premium';
@@ -139,12 +140,12 @@ $date_format          = __( 'M j, Y @ H:i', 'yith-essential-kit-for-woocommerce-
 						'plugin' => $premium_dir . $init
 					), admin_url( 'plugins.php' ) ), 'activate-plugin_' . $premium_dir . $init );
 					$btn_class   = 'btn-premium toactive';
-					$btn_title   = __( 'Activate Premium' );
+					$btn_title   = esc_html__( 'Activate Premium', 'yith-essential-kit-for-woocommerce-1' );
 					$new_tab     = '';
 				} else {
 					$premium_url = 'https://yithemes.com/themes/plugins/' . ( isset( $module['premium-slug'] ) ? $module['premium-slug'] : $module['slug'] );
 					$btn_class   = 'btn-premium tobuy';
-					$btn_title   = __( 'Buy Premium Version' );
+					$btn_title   = esc_html__( 'Buy Premium Version', 'yith-essential-kit-for-woocommerce-1' );
 					$new_tab     = 'target = "_blank"';
 				}
 
@@ -177,7 +178,7 @@ $date_format          = __( 'M j, Y @ H:i', 'yith-essential-kit-for-woocommerce-
                                     <?php
                                     echo isset( $active_module_version['Version'] ) ? $active_module_version['Version'] : $module_version;
                                     if ( isset( $active_module_version['Version'] ) && ( $module_version != $active_module_version['Version'] ) ) {
-	                                    echo ' ' . __( sprintf( '(Version %s available)', $module_version ), 'yith-essential-kit-for-woocommerce-1' );
+	                                    echo ' ' . esc_html__( sprintf( '(Version %s available)', $module_version ), 'yith-essential-kit-for-woocommerce-1' );
                                     }
                                     ?>
                                 </span>
@@ -203,8 +204,9 @@ $date_format          = __( 'M j, Y @ H:i', 'yith-essential-kit-for-woocommerce-
                     </div>
                     <div class="plugin-card-bottom">
                         <div class="column-updated">
-                            <strong><?php _e( 'Last Updated:' ); ?></strong> <span>
-								<?php printf( __( '%s ago' ), human_time_diff( strtotime( $module_updated ) ) ); ?>
+                            <strong><?php esc_html_e( 'Last Updated:', 'yith-essential-kit-for-woocommerce-1' ); ?></strong>
+                            <span>
+								<?php printf( esc_html__( '%s ago', 'yith-essential-kit-for-woocommerce-1' ), human_time_diff( strtotime( $module_updated ) ) ); ?>
 							</span>
                         </div>
 						<?php if ( isset( $module_rating ) ) : ?>
@@ -220,17 +222,17 @@ $date_format          = __( 'M j, Y @ H:i', 'yith-essential-kit-for-woocommerce-
                             <div class="column-downloaded">
 								<?php
 								if ( $module_active_installs >= 1000000 ) {
-									$active_installs_text = _x( '1+ Million', 'Active plugin installs' );
+									$active_installs_text = esc_html_x( '1+ Million', 'Active plugin installs', 'yith-essential-kit-for-woocommerce-1' );
 								} else {
 									$active_installs_text = number_format_i18n( $module_active_installs ) . '+';
 								}
 
 								if ( $module_downloads >= 1000000 ) {
-									$download_text = _x( '1+ Million', 'Downloaded' );
+									$download_text = esc_html_x( '1+ Million', 'Downloaded', 'yith-essential-kit-for-woocommerce-1' );
 								} else {
 									$download_text = number_format_i18n( $module_downloads ) . '+';
 								}
-								printf( __( '%s Download, %s Active Installs' ), $download_text, $active_installs_text );
+								printf( esc_html__( '%s Download, %s Active Installs', 'yith-essential-kit-for-woocommerce-1' ), $download_text, $active_installs_text );
 								?>
                             </div>
 						<?php endif; ?>

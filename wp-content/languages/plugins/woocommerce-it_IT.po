@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - WooCommerce - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-03-04 20:40:35+0000\n"
+"PO-Revision-Date: 2020-03-10 00:54:10+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -68,17 +68,17 @@ msgstr "L'ultimo blocco interno verrà allineato verticalmente."
 msgid "Align Last Block"
 msgstr "Allinea ultimo blocco"
 
-#: packages/woocommerce-blocks/src/BlockTypes/AbstractProductGrid.php:432
-msgid "Product on sale"
-msgstr "Prodotto in offerta"
-
-#: packages/woocommerce-blocks/src/BlockTypes/ProductCategories.php:171
-msgid "List of categories with their product counts"
-msgstr "Elenco di categorie con numero di prodotti"
-
 #: packages/woocommerce-blocks/src/BlockTypes/ProductCategories.php:170
 msgid "List of categories"
 msgstr "Elenco di categorie"
+
+#: packages/woocommerce-blocks/src/BlockTypes/ProductCategories.php:171
+msgid "List of categories with their product counts"
+msgstr "Elenco di categorie con conteggio dei prodotti"
+
+#: packages/woocommerce-blocks/src/BlockTypes/AbstractProductGrid.php:432
+msgid "Product on sale"
+msgstr "Prodotto in vendita"
 
 #: includes/shortcodes/class-wc-shortcode-checkout.php:111
 msgid "You are paying for a guest order. Please continue with payment only if you recognize this order."

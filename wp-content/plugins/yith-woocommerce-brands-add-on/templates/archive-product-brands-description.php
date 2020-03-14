@@ -15,12 +15,13 @@ if ( ! defined( 'YITH_WCBR' ) ) {
 global $product;
 ?>
 
-<?php if( apply_filters( 'yith_wcbr_print_brand_description', true, $term ) ): ?>
+<?php if ( apply_filters( 'yith_wcbr_print_brand_description', true, $term ) ) : ?>
 <div class="yith-wcbr-archive-header term-description">
 	<?php
-	if( ! empty( $term_description ) ){
-		echo wpautop( do_shortcode( $term_description ) );
+	if ( ! empty( $term_description ) ) {
+		echo wpautop( do_shortcode( $term_description ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 	?>
 </div>
 <?php endif; ?>
+
