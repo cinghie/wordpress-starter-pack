@@ -2,11 +2,11 @@
 Contributors: EmranAhmed, getwooplugins
 Tags: woocommerce variation swatches, woocommerce variation, woocommerce, variation swatches, woocommerce attributes, product attributes, product color, product size, variable product attributes, variation product swatches, color variation swatch, image variation swatch, printful color swatches
 Requires at least: 4.8
-Tested up to: 5.3
+Tested up to: 5.4
 Requires PHP: 5.6
 Stable tag: trunk
 WC requires at least: 3.2
-WC tested up to: 3.9
+WC tested up to: 4.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -341,6 +341,8 @@ Even this plugin has been installed and activated on your site, variable product
 
 Yes, it's compatible with any WooCommerce theme including OceanWP / Astra / Flatsome / X-Theme / Avada / Uncode / Storefront / Labomba / WR Nitro / Divi / BeTheme. But sometimes it may require small css tweak.
 
+For more details. Check this <a target="_blank" href="https://bit.ly/100swatches"> 100+ WooCommerce Themes that support Variation Swatches plugin</a>
+
 = Does it show in product QuickView? =
 
 Yes, it supports any kinds of product quick view.
@@ -378,6 +380,25 @@ And your are ready to go.
 12. Global Variation Color Swatches Attribute List Preview
 
 == Changelog ==
+
+= 1.0.80 =
+
+* Add: WordPress 5.4 compatibility
+* Fix: Default image for quote attribute value.
+
+= 1.0.79 =
+
+* Fix: Rollback some features to 1.0.76 to fix a known issue.
+
+= 1.0.78 =
+
+* Fix: Attribute behavior: Hide issue
+
+= 1.0.77 =
+
+* Add: WooCommerce 4.0 compatibility
+* Fix: Facebook for woocommerce issue.
+* Divi theme css issue fix.
 
 = 1.0.76 =
 

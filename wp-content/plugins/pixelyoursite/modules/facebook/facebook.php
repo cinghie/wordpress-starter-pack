@@ -380,8 +380,10 @@ class Facebook extends Settings implements Pixel {
             
             $value_option = PYS()->getOption( 'woo_view_content_value_option' );
             $global_value = PYS()->getOption( 'woo_view_content_value_global', 0 );
-            
-            $params['value']    = getWooEventValue( $value_option, $amount, $global_value );
+
+			update_option('woo_content_value_cog', $value_option);
+
+            $params['value']    = getWooEventValue( $value_option, $amount, $global_value, $post->ID );
             $params['currency'] = get_woocommerce_currency();
 
 		}
@@ -601,8 +603,10 @@ class Facebook extends Settings implements Pixel {
         $amount = $order->get_total();
         $value_option = PYS()->getOption( 'woo_purchase_value_option' );
         $global_value = PYS()->getOption( 'woo_purchase_value_global', 0 );
-        
-        $params['value'] = getWooEventValue( $value_option, $amount, $global_value );
+
+		update_option('woo_purchase_value_cog', $value_option);
+
+        $params['value'] = getWooEventValueOrder( $value_option, $amount, $global_value, $order_id, $content_ids );
         $params['currency'] = get_woocommerce_currency();
         $params['transaction_id'] = $order_id;
 

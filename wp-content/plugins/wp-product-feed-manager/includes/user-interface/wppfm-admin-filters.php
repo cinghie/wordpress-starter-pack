@@ -44,3 +44,9 @@ function wppfm_footer_links( $footer_text ) {
 }
 
 add_filter( 'admin_footer_text', 'wppfm_footer_links', 10, 1 );
+
+function wppfm_change_query_filter() {
+	return 100;
+}
+
+add_filter( 'wppfm_product_query_limit', 'wppfm_change_query_filter' );

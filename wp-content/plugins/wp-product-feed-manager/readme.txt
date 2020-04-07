@@ -3,9 +3,9 @@
 Contributors: Wpmarketingrobot, Michel Jongbloed, AukeJomm
 Tags: Google Merchant Export, Product feed, woocommerce, Google product feed export, google, shopping, Google Adwords, Google Merchant, wooCommerce export, woocommerce variations, e-commerce, google merchant product feed, product variations, variations export, wp-e-commerce export, wp marketing robot
 Requires at least: 4.6
-Tested up to: 5.3
+Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 1.19.1
+Stable tag: 1.21.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,7 +31,7 @@ You have very advanced and professional options at your disposal to make your pr
 > We have the most popular and important feed templates already installed like Bing, Pricegrabber, Amazon, Nextag, Beslist, Vergelijk.nl, Shopping.com, Connexity and more.
 
 Everything you need to be successful!
-You have full controle over your Google feed, how your products are listed and what products you show and which products not.
+You have full control over your Google feed, how your products are listed and what products you show and which products not.
 
 * Simple: Creating Google shopping feeds is very simple with our plugin,
 * Optimize: Tweak the feed in every possible way to improve performance,
@@ -86,7 +86,7 @@ If it still does not work, remove the plugin through the plugins page (be aware,
 If the problem still exists, contact our support.
 
 = Feed Warning, invalid xml feed =
-There can be many reasons why a feed is invalid. We have build the feed in such a maner that it will only happen very sporadic.
+There can be many reasons why a feed is invalid. We have build the feed in such a manner that it will only happen very sporadic.
 
 In case it does please do submit your feed in your Google Merchant center and check what is going on in your feed in the Feed debugger from Google. It is very powerful and spot on.
 
@@ -98,6 +98,32 @@ In case it does please do submit your feed in your Google Merchant center and ch
 3. Save and generate your feed
 
 == Changelog ==
+= 1.21.1 - 03/04/2020 =
+* Restored the original definition of the url to the uploads folder because of issues with the new definition. Added a wppfm_corrected_uploads_url filter for specific use cases.
+
+= 1.21.0 - 27/03/2020 =
+* Fixed an issue where an incorrect money value would be calculated when the WC settings have a period as thousands separator and 0 decimals for money values
+* Further improved the logger function 
+* Fixed an issue where a feed would fail when a filter is used that filters out a large part of the selected products   
+* Fixed an issue where a duplicate of a feed would not contain the Feed Filter data
+* Fixed an issue that caused a duplicated feed to show a 404 page when clicking on the View Feed button
+* Fixed an issue that would cause the link to the upload folder (and this to the feeds) be incorrect for a multi-site configuration.
+* Fixed an issue that would allow a user to regenerate a feed from the Feed List page even when a feed is still processing, started from the Edit Feed page
+
+= 1.20.1 - 20/03/2020 =
+* Fixed a bug that would cause the Edit Feed page to not load for a feed with a filter on an edit values selection
+
+= 1.20.0 - 11/03/2020 =
+* Tested for WooCommerce 4.0
+* Fixed a priority issue that puts the Add new feed button in front of the WordPress menu items
+* Added the option to add Product Identifiers to WooCommerce products
+* Fixed an compatibility issue with the DigitalOcean Spaces Sync plugin
+* Added more loggings to the Feed Process Logger
+* Improved the error handling of the Feed Process
+* Fixed an issue that could case the Feed Process to slow down when multiple feed failed
+* Fixed an issue where the attributes would not load on an existing custom xml feed
+* Fixed an issue where the attachment url would not show up in the feed with a WPML translated non-variation object
+
 = 1.19.1 - 30/01/2020 =
 * Fixed an issue with the product filter selection
 * Tested for WooCoomerce 3.9

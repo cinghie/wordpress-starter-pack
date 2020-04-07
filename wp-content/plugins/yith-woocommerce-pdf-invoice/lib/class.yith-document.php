@@ -115,9 +115,26 @@ if ( ! class_exists( 'YITH_Document' ) ) {
 		}
 
 		public function add_invoice_style() {
-			$document_url = YITH_YWPI_INVOICE_TEMPLATE_DIR . $this->document_type . '.css';
-			if ( file_exists( $document_url ) ) {
-				echo '<link rel="stylesheet" type="text/css" href="' . $document_url . '">';
+		    $template_filename = $this->document_type . '.css';
+            $template_path = YITH_YWPI_INVOICE_TEMPLATE_DIR . $this->document_type . '.css';
+			if ( file_exists( $template_path ) ) {
+                ob_start ();
+
+                wc_get_template( '/invoice/' . $template_filename,
+                    null,
+                    '',
+                    YITH_YWPI_TEMPLATE_DIR );
+
+                $content = ob_get_contents ();
+                ob_end_clean ();
+
+                if ( $content ) {
+                    ?>
+                    <style type="text/css">
+                        <?php echo $content; ?>
+                    </style>
+                    <?php
+                }
 			}
 		}
 

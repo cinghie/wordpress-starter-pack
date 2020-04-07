@@ -7,7 +7,8 @@ class WC_Order_Export_Admin_Tab_Profiles extends WC_Order_Export_Admin_Tab_Abstr
 	const KEY = 'profiles';
 
 	public function __construct() {
-		$this->title = __( 'Profiles', 'woo-order-export-lite' );
+		$this->title = "&#x1f512; &nbsp;" . __( 'Profiles', 'woo-order-export-lite' ) ;
+		parent::__construct();
 	}
 
 	public function render() {

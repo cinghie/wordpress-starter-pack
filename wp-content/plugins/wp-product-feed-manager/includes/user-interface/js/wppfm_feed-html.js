@@ -73,7 +73,7 @@ function wppfm_forAllProductsCondition( rowId, level, isVisible ) {
 
 	return '<div class="colw col40w allproducts" id="condition-col-' + rowId + '-' + level + '" style="display:' + isVisible + '"> '
 		+ wppfm_feed_settings_form_vars.all_other_products.replace( '%other%', other_val )
-		+ ' (<a class="edit-prod-query wppfm-btn wppfm-btn-small" href="javascript:void(0)" id="edit-prod-query-' + rowId + '-' + '" '
+		+ ' (<a class="edit-prod-query wppfm-btn wppfm-btn-small" href="javascript:void(0)" id="edit-prod-query-' + rowId + '" '
 		+ 'onclick="wppfm_addCondition(' + rowId + ', ' + level + ', 0, \'\')">'
 		+ wppfm_feed_settings_form_vars.edit + '</a>)'
 		+ '</div>';

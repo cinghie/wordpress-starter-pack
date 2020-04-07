@@ -173,6 +173,7 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 					'size'             => $this->font_size,
 					'text_color'       => $this->hex2RGB( $this->settings['table_row_text_color'] ),
 					'background_color' => $this->hex2RGB( $this->settings['table_row_background_color'] ),
+					'image_height'     => $this->settings['row_images_height'],
 				),
 				'footer'       => array(
 					'title'      => $this->settings['footer_text'],
@@ -210,13 +211,11 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 							'value' => $source,
 						);
 					}
-					$row_height = $this->settings['row_images_height'] ? $this->settings['row_images_height']: null;
-				} else {
-					$row_height = null;
 				}
+				
 				$row = apply_filters( 'woe_pdf_prepare_row', $row );
 				$row_style = apply_filters("woe_pdf_before_print_row", null, $row, $this->pdf, $this);
-				$this->pdf->addRow( $row, null, $row_height, $row_style );
+				$this->pdf->addRow( $row, null, null, $row_style );
 				$row = fgetcsv( $this->handle, 0, $this->delimiter, $this->enclosure );
 			}
 			

@@ -7,18 +7,26 @@ trait WC_Order_Export_Admin_Tab_Abstract_Ajax_Export {
 	use WC_Order_Export_Ajax_Helpers;
 
 	public function ajax_preview() {
-
+		global $wp_filter;
+		
 		$settings = WC_Order_Export_Manage::make_new_settings( $_POST );
 		// use unsaved settings
 
 		do_action( 'woe_start_preview_job', $_POST['id'], $settings );
 		
 		WC_Order_Export_Engine::kill_buffers();
+		
 		ob_start(); // we need html for preview , even empty!
+		
+		$currrent_wp_filter = $wp_filter;
 		$total = WC_Order_Export_Engine::build_file( $settings, 'estimate_preview', 'file', 0, 0, 'test');
+		$wp_filter = $currrent_wp_filter;//revert all hooks/fiilters added by build_file
+
 		WC_Order_Export_Engine::build_file( $settings, 'preview', 'browser', 0, $_POST['limit'] );
+		
 		$html = ob_get_contents();
 		ob_end_clean();
+
 		echo json_encode( array( 'total' => $total, 'html' => $html ) );
 	}
 
@@ -33,7 +41,6 @@ trait WC_Order_Export_Admin_Tab_Abstract_Ajax_Export {
 	}
 
 	public function ajax_export_start() {
-
 		$this->start_prevent_object_cache();
 		$settings = WC_Order_Export_Manage::make_new_settings( $_POST );
 
@@ -41,7 +48,6 @@ trait WC_Order_Export_Admin_Tab_Abstract_Ajax_Export {
 		if ( ! $filename ) {
 			die( __( 'Can\'t create temporary file', 'woo-order-export-lite' ) );
 		}
-
 		//no free space or other file system errors?
 		try {
 			file_put_contents( $filename, '' );
@@ -82,7 +88,7 @@ trait WC_Order_Export_Admin_Tab_Abstract_Ajax_Export {
 		}
 
 		$file = WC_Order_Export_Engine::build_file_full( $settings );
-
+		//$order_id = WC_Order_Export_Engine::$orders_for_export;
 		if ( $file !== false ) {
 			$file_id = current_time( 'timestamp' );
 			$this->start_prevent_object_cache();
@@ -93,7 +99,6 @@ trait WC_Order_Export_Admin_Tab_Abstract_Ajax_Export {
 
 			$_GET['format']  = $settings['format'];
 			$_GET['file_id'] = $_REQUEST['file_id'] = $file_id;
-
 			$filename = WC_Order_Export_Engine::make_filename( $settings['export_filename'] );
 			$this->start_prevent_object_cache();
 			set_transient( $this->tempfile_prefix . 'download_filename', $filename, 60 );
@@ -120,7 +125,6 @@ trait WC_Order_Export_Admin_Tab_Abstract_Ajax_Export {
 	}
 
 	public function ajax_export_finish() {
-
 		$settings = WC_Order_Export_Manage::make_new_settings( $_POST );
 		WC_Order_Export_Engine::build_file( $settings, 'finish', 'file', 0, 0, $this->get_temp_file_name() );
 

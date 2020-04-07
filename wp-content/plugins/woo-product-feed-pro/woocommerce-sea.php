@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     7.7.3
+ * Version:     7.8.6
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -11,7 +11,7 @@
  * License:     GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Requires at least: 4.5
- * Tested up to: 5.3
+ * Tested up to: 5.4
  *
  * Text Domain: woo-product-feed-pro
  * Domain Path: /languages
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '7.7.3' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '7.8.6' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -376,12 +376,12 @@ function woosea_add_facebook_pixel( $product = null ){
 							// When there are not we are on a variable product page but not on a specific variable one
 							// In that case we need to put in the AggregateOffer structured data
 							$variation_id = woosea_find_matching_product_variation( $product, $_GET );
+
 							$nr_get = count($_GET);
 
 							// This is a variant product	
 							if(($nr_get > 0) AND ($variation_id > 0)){
 								$variable_product = wc_get_product($variation_id);
-	
 								// for variants use the variation_id and not the item_group_id
 								// otherwise Google will disapprove the items due to itemID mismatches
 								$fb_prodid = $variation_id;					
@@ -403,7 +403,7 @@ function woosea_add_facebook_pixel( $product = null ){
 										$fb_price = $fb_lowprice;
 									}
 								}
-								$viewContent = "fbq(\"track\",\"ViewContent\",{content_category:\"$cats\", content_name:\"$product_name\", content_type:\"product\", content_ids:[\"$fb_prodid\"],value:\"$fb_price\",currency:\"$currency\"});";
+								$viewContent = "fbq(\"track\",\"ViewContent\",{content_category:\"$cats\", content_name:\"$product_name\", content_type:\"product\", content_ids:[\"$fb_prodid\"], value:\"$fb_price\", currency:\"$currency\"});";
 							} else {
 								// This is a parent variable product
 								// Since these are not allowed in the feed, at the variations product ID's
@@ -411,8 +411,11 @@ function woosea_add_facebook_pixel( $product = null ){
 								$children_ids = $product->get_children();
 								$content = "";	
                                 				foreach ($children_ids as $id){
+									$id = '\''.$id.'\'';
                                         				$content .= $id.',';
                                 				}
+
+                                                		$content = rtrim($content, ",");
                        		 				$prices  = $product->get_variation_prices();
 	               	 					$lowest  = reset( $prices['price'] );
                       						$highest = end( $prices['price'] );
@@ -424,11 +427,11 @@ function woosea_add_facebook_pixel( $product = null ){
                         			       		 	$fb_highprice = wc_format_decimal( $highest, wc_get_price_decimals() );
 									$fb_price = $fb_lowprice;
 								}
-								$viewContent = "fbq(\"track\",\"ViewContent\",{content_category:\"$cats\", content_name:\"$product_name\", content_type:\"product_group\", content_ids:[$content],value:\"$fb_price\",currency:\"$currency\"});";
+								$viewContent = "fbq(\"track\",\"ViewContent\",{content_category:\"$cats\", content_name:\"$product_name\", content_type:\"product_group\", content_ids:[\"$content\"], value:\"$fb_price\", currency:\"$currency\"});";
 							}
 						} else {
         						$fb_price = wc_format_decimal( $product->get_price(), wc_get_price_decimals() );
-							$viewContent = "fbq(\"track\",\"ViewContent\",{content_category:\"$cats\", content_name:\"$product_name\", content_type:\"product\", content_ids:[\"$fb_prodid\"],value:\"$fb_price\",currency:\"$currency\"});";
+							$viewContent = "fbq(\"track\",\"ViewContent\",{content_category:\"$cats\", content_name:\"$product_name\", content_type:\"product\", content_ids:[\"$fb_prodid\"], value:\"$fb_price\", currency:\"$currency\"});";
 						}
 					}
 				}
@@ -453,11 +456,11 @@ function woosea_add_facebook_pixel( $product = null ){
 								$order_subtotal = $order_item->get_subtotal();
 								$order_subtotal_tax= $order_item->get_subtotal_tax();
 								$order_real = number_format(($order_subtotal+$order_subtotal_tax),2)+$order_real;
-								$contents .= "{'id': '$prod_id', 'quantity': $prod_quantity},";												
+								$contents .= "{id: '$prod_id', quantity: $prod_quantity},";												
 							}
 						}
 						$contents = rtrim($contents, ",");
-						$viewContent = "fbq(\"trackCustom\",\"Purchase\",{currency:\"$currency\", value:\"$order_real\", content_type:\"product\", contents:\"[$contents]\"});";
+						$viewContent = "fbq(\"track\",\"Purchase\",{currency:\"$currency\", value:\"$order_real\", content_type:\"product\", contents:[\"$contents\"]});";
 					}
 				} else {
 					// This is on the cart page itself
@@ -485,10 +488,10 @@ function woosea_add_facebook_pixel( $product = null ){
 
 						// User is on the billing pages
 						if($checkoutpage == $current_url){
-							$viewContent = "fbq(\"trackCustom\",\"InitiateCheckout\",{currency:\"$currency\", value:\"$cart_real\", content_type:\"product\", content_ids:\"[$contents]\"});";
+							$viewContent = "fbq(\"track\",\"InitiateCheckout\",{currency:\"$currency\", value:\"$cart_real\", content_type:\"product\", content_ids:[\"$contents\"]});";
 						} else {
 							// User is on the basket page
-							$viewContent = "fbq(\"trackCustom\",\"AddToCart\",{currency:\"$currency\", value:\"$cart_real\", content_type:\"product\", content_ids:\"[$contents]\"});";
+							$viewContent = "fbq(\"track\",\"AddToCart\",{currency:\"$currency\", value:\"$cart_real\", content_type:\"product\", content_ids:[\"$contents\"]});";
 						}
 					}
 				}
@@ -519,7 +522,7 @@ function woosea_add_facebook_pixel( $product = null ){
 		               	$fb_prodid = rtrim($fb_prodid, ",");
 				$category_name = $term->name;
                                 $category_path = woosea_get_term_parents( $term->term_id, 'product_cat', $link = false, $project_taxonomy = false, $nicename = false, $visited = array() );
-				$viewContent = "fbq(\"trackCustom\",\"ViewCategory\",{content_category:\"$category_path\", content_name:\"$category_name\", content_type:\"product\", content_ids:\"[$fb_prodid]\"});";
+				$viewContent = "fbq(\"track\",\"ViewCategory\",{content_category:\"$category_path\", content_name:\"$category_name\", content_type:\"product\", content_ids:\"[$fb_prodid]\"});";
 			} elseif ($fb_pagetype == "searchresults"){
 				$term = get_queried_object();
                 		$search_string = sanitize_text_field($_GET['s']);
@@ -559,6 +562,7 @@ function woosea_add_facebook_pixel( $product = null ){
 		the content of the content_ids parameter in the Facebook Pixel Code
 		------------------------------------------------------------------------------->
 		<script type="text/javascript">
+			console.log("Facebook Pixel by AdTribes.io - 3");
   			!function(f,b,e,v,n,t,s)
   			{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
   			n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -567,8 +571,8 @@ function woosea_add_facebook_pixel( $product = null ){
   			t.src=v;s=b.getElementsByTagName(e)[0];
   			s.parentNode.insertBefore(t,s)}(window, document,'script',
   			'https://connect.facebook.net/en_US/fbevents.js');
-  			fbq('init', '<?php print"$facebook_pixel_id";?>');
-  			fbq('track', 'PageView');
+  			fbq("init", "<?php print"$facebook_pixel_id";?>");
+  			fbq("track", "PageView");
 			<?php
 				if(strlen($viewContent) > 2){
 					print"$viewContent";
@@ -1894,7 +1898,8 @@ function woosea_product_fix_structured_data( $product = null ) {
 	}
 	return $markup;
 }
-add_filter( 'woocommerce_structured_data_product', 'woosea_product_fix_structured_data', 9, 2 );
+add_filter( 'woocommerce_structured_data_product', 'woosea_product_fix_structured_data', 10, 2 );
+
 
 /**
  * Get the shipping zone countries and ID's
@@ -2332,6 +2337,26 @@ function woosea_add_mother_image (){
 	}
 }
 add_action( 'wp_ajax_woosea_add_mother_image', 'woosea_add_mother_image' );
+
+/**
+ * This function enables the setting to use
+ * Shipping costs for all countries 
+ */
+function woosea_add_all_shipping (){
+        $status = sanitize_text_field($_POST['status']);
+
+	if ($status == "off"){
+		update_option( 'add_all_shipping', 'no', 'yes');
+	} else {
+		update_option( 'add_all_shipping', 'yes', 'yes');
+	}
+}
+add_action( 'wp_ajax_woosea_add_all_shipping', 'woosea_add_all_shipping' );
+
+
+
+
+
 
 /**
  * This function enables the setting to use
@@ -4215,7 +4240,7 @@ function woosea_license_valid(){
 
 	if(!empty($license_information['license_key'])){
 	        $curl = curl_init();
-	        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=7.7.3";
+	        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=7.8.6";
 
 	        curl_setopt_array($curl, array(
         	        CURLOPT_RETURNTRANSFER => 1,
@@ -4299,7 +4324,7 @@ function woosea_create_all_feeds(){
 
 			// Only process projects that are active
 			if(($val['active'] == "true") AND (!empty($val)) AND (isset($val['cron']))){		
-	
+
 				if (($val['cron'] == "daily") AND ($hour == 07)){
 					$batch_project = "batch_project_".$val['project_hash'];
                         		if (!get_option( $batch_project )){

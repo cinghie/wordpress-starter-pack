@@ -427,9 +427,13 @@ a.wppfm-btn-small {
 	font-size: 13px;
 }
 
+a.wppfm-rating-request {
+	color: #FFB900;
+}
+
 input.feed-list-lower-button {
 	position: relative;
-	z-index: 9998!important;
+	margin-bottom: 10px!important;
 }
 
 div.select-control {

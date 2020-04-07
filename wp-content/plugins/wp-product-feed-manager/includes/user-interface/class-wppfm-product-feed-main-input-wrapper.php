@@ -40,9 +40,6 @@ if ( ! class_exists( 'WPPFM_Product_Feed_Main_Input_Wrapper' ) ) :
 			// Country selector
 			echo WPPFM_Main_Input_Selector_Element::country_selector_element();
 
-			// Language selector (only for WPML support)
-			echo WPPFM_Main_Input_Selector_Element::language_selector_element();
-
 			// Category selector
 			echo WPPFM_Main_Input_Selector_Element::category_list_element();
 

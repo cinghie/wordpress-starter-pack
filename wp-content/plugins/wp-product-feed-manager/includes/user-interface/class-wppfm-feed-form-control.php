@@ -83,13 +83,6 @@ if ( ! class_exists( 'WPPFM_Feed_Form_Control' ) ) :
 			return $html_code;
 		}
 
-		public static function language_selector() {
-			$html_code  = '<select id="language" style="height:33px" disabled>';
-			$html_code .= '</select>';
-
-			return $html_code;
-		}
-
 		public static function schedule_selector() {
 			$html_code  = '<span id="wppfm-update-day-wrapper" style="display:initial">' . esc_html__( 'Every', 'wp-product-feed-manager' ) . ' ';
 			$html_code .= '<input type="text" class="small-text" name="days-interval" id="days-interval" value="1" style="width:30px;" /> ' . esc_html__( 'day(s) at', 'wp-product-feed-manager' ) . '</span>';

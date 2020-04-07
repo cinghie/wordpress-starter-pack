@@ -48,6 +48,8 @@ if ( ! class_exists( 'WPPFM_Main_Admin_Page' ) ) :
 
 				echo $this->tabs();
 
+				echo $this->tab_header( __( 'Feed List Table', 'wp-product-feed-manager' ), __( 'Use the table below to manage your existing feeds.', 'wp-product-feed-manager' ) );
+
 				echo $this->main_admin_page();
 
 				echo $this->main_admin_buttons();
@@ -80,15 +82,6 @@ if ( ! class_exists( 'WPPFM_Main_Admin_Page' ) ) :
 
 			// set the column names
 			$this->_list_table->set_column_titles( $list_columns );
-		}
-
-		/**
-		 * Returns the tabs
-		 *
-		 * @return string html
-		 */
-		private function tabs() {
-			return WPPFM_Form_Element::main_form_tabs();
 		}
 
 		/**

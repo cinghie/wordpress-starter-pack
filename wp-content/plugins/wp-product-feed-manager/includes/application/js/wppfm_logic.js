@@ -269,7 +269,11 @@ function wppfm_regenerateFeed( feedId ) {
 }
 
 function wppfm_viewFeed( url ) {
-	window.open( url );
+	if ( -1 !== url.indexOf( 'http' ) ) { // Filter out duplicate feeds that have not been generated yet.
+		window.open(url);
+	} else {
+		alert( wppfm_feed_list_form_vars.feed_not_generated );
+	}
 }
 
 function wppfm_addRowValueEditor(

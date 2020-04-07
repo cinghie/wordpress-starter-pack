@@ -107,8 +107,15 @@ function wppfm_prep_money_values( $money_value, $feed_language = '' ) {
 	if ( has_filter( 'wppfm_wpml_exchange_money_values' ) ) {
 		return apply_filters( 'wppfm_wpml_exchange_money_values', $money_value, $feed_language );
 	} else {
-		$number_decimals = absint( get_option( 'woocommerce_price_num_decimals', 2 ) );
 		$decimal_point   = get_option( 'woocommerce_price_decimal_sep' );
+		$number_decimals = absint( get_option( 'woocommerce_price_num_decimals', 2 ) );
+
+		// To prevent Google Merchant Centre to interpret a thousand separator as a decimal separator we need to remove
+		// the thousand separator if the decimals setting in WC is 0 and a period is used as decimal separator. Eg 1.452 would be interpreted by Google as 1,452.
+		// @since 2.11.0
+		if ( 0 === $number_decimals && '.' === $thousand_separator ) {
+			$thousand_separator = '';
+		}
 
 		return number_format( $money_value, $number_decimals, $decimal_point, $thousand_separator );
 	}
@@ -295,11 +302,11 @@ function wppfm_get_file_path( $feed_name ) {
 }
 
 /**
- * returns the url to the feed file including feed name and extension
+ * Returns the url of the feed file including feed name and extension.
  *
- * @param string $feed_name
+ * @param   string  $feed_name  Name of the feed file.
  *
- * @return string
+ * @return  string  URL to the feed file.
  */
 function wppfm_get_file_url( $feed_name ) {
 	$forbidden_name_chars = wppfm_forbidden_file_name_characters();
@@ -308,8 +315,6 @@ function wppfm_get_file_url( $feed_name ) {
 	// previous to plugin version 1.3.0 feeds where stored in the plugins but after that version they are stored in the upload folder
 	if ( file_exists( WP_PLUGIN_DIR . '/wp-product-feed-manager-support/feeds/' . $feed_name ) ) {
 		$file_url = plugins_url() . '/wp-product-feed-manager-support/feeds/' . $feed_name;
-	} elseif ( file_exists( WPPFM_FEEDS_DIR . '/' . $feed_name ) ) {
-		$file_url = WPPFM_UPLOADS_URL . '/wppfm-feeds/' . $feed_name;
 	} else { // as of version 1.5.0 all spaces in new filenames are replaced by a dash
 		$file_url = WPPFM_UPLOADS_URL . '/wppfm-feeds/' . $feed_name;
 	}
@@ -355,7 +360,13 @@ function wppfm_wc_installed_and_active() {
  * @since 2.3.0
  */
 function wppfm_wc_min_version_required() {
+	// To prevent several PHP Warnings if the WC folder name has been changed whilst the plugin is still registered.
+	// @since 2.11.0.
+	if ( ! file_exists( WPPFM_PLUGIN_DIR . '../woocommerce/woocommerce.php' ) ) {
+		return false;
+	}
+
 	$wc_version = get_plugin_data( WPPFM_PLUGIN_DIR . '../woocommerce/woocommerce.php' )['Version'];
 
-	return $wc_version >= WPPFM_MIN_REQUIRED_WC_VERSION ? true : false;
+	return version_compare( $wc_version, WPPFM_MIN_REQUIRED_WC_VERSION, '>=' ) ? true : false;
 }

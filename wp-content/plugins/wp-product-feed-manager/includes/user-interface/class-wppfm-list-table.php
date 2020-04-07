@@ -4,7 +4,7 @@
  * WPPFM List Table Class.
  *
  * @package WP Product Feed Manager/User Interface/Classes
- * @version 1.3.0
+ * @version 1.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -222,6 +222,14 @@ if ( ! class_exists( 'WPPFM_List_Table' ) ) :
 			return $html;
 		}
 
+		/**
+		 * Returns a script that is placed on rows of feeds that are still processing or waiting in the queue. This script then runs every 10 seconds and checks the status
+		 * of that specific feed generation processes. It is responsible for showing the correct status of this feed in the feed list.
+		 *
+		 * @param   string  $feed_id
+		 *
+		 * @return  string  script to be placed on the feed list page on the row of a running or waiting feed.
+		 */
 		private function feed_status_checker_script( $feed_id ) {
 			return '<script type="text/javascript">var wppfmStatusCheck_' . $feed_id . ' = null;
 				(function(){ wppfmStatusCheck_' . $feed_id . ' = window.setInterval( wppfm_checkAndSetStatus_' . $feed_id . ', 10000, ' . $feed_id . ' ); })();
@@ -231,6 +239,7 @@ if ( ! class_exists( 'WPPFM_List_Table' ) ) :
 				    wppfm_resetFeedStatus( data );
 				    if( data["status_id"] !== "3" && data["status_id"] !== "4" ) {
 				      window.clearInterval( wppfmStatusCheck_' . $feed_id . ' );
+	  				  wppfmRemoveFromQueueString( feedId );
 				    }
 				  } );
 				}

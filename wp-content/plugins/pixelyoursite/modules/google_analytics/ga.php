@@ -437,11 +437,13 @@ class GA extends Settings implements Pixel {
 		$product_id = $cart_item['product_id'];
 
 		$product = wc_get_product( $product_id );
+		if(!$product) return false;
+
         $name = $product->get_title();
 
 		if ( ! empty( $cart_item['variation_id'] ) ) {
 			$variation = wc_get_product( (int) $cart_item['variation_id'] );
-            if($variation->get_type() == 'variation') {
+            if($variation && $variation->get_type() == 'variation') {
                 $variation_name = implode("/", $variation->get_variation_attributes());
                 $categories = implode( '/', getObjectTerms( 'product_cat', $variation->get_parent_id() ) );
             } else {
@@ -512,7 +514,7 @@ class GA extends Settings implements Pixel {
 
 			if ( $line_item['variation_id'] ) {
 				$variation = wc_get_product( $line_item['variation_id'] );
-                if($variation->get_type() == 'variation') {
+                if($variation && $variation->get_type() == 'variation') {
                     $variation_name = implode("/", $variation->get_variation_attributes());
                     $categories = implode( '/', getObjectTerms( 'product_cat', $variation->get_parent_id() ) );
                 } else {
@@ -602,7 +604,7 @@ class GA extends Settings implements Pixel {
 
 			if ( $cart_item['variation_id'] ) {
 				$variation = wc_get_product( $cart_item['variation_id'] );
-                if ( $variation->get_type() == 'variation' ) {
+                if ( $variation && $variation->get_type() == 'variation' ) {
                     $variation_name = implode("/", $variation->get_variation_attributes());
                     $categories = implode( '/', getObjectTerms( 'product_cat', $variation->get_parent_id() ) );
                 } else {

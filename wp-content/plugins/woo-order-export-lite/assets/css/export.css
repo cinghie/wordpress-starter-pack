@@ -84,12 +84,8 @@ input.date {
     list-style-type: none;
 }
 
-.btn-edit {
-    padding: 2px 3px !important;
-}
-
-.btn-trash {
-    padding: 2px 3px !important;
+.btn-edit, .btn-trash {
+    padding: 0 3px !important;
 }
 
 .padding-10 {
@@ -148,7 +144,6 @@ input.date {
     float: left;
     width: 100%;
 }
-
 .all-input-100pr input[type="text"] {
     width: 100%;
 }
@@ -284,10 +279,12 @@ input.date {
     width: 48%;
     vertical-align: top;
 }
-
+#custom_date_format_block {
+    margin-top: .3rem;
+}
 #custom_date_format_block input, #custom_time_format_block input {
-    width: 70%;
-    margin-left: 41px;
+    width: 70.5%;
+    margin-left: 38px;
 }
 
 #date_format_block select, #time_format_block select {
@@ -337,6 +334,7 @@ input.date {
 
 #woe-admin .tools-textarea {
     width: 66.66667%;
+    margin-top: 1rem;
 }
 
 #woe-admin .woe-input-simple input, #woe-admin .woe-select input, #woe-admin .woe-input-simple textarea, #woe-admin .woe-select textarea, .woe-calendar-wrapper .woe-input-simple input, .woe-calendar-wrapper .woe-select input, .woe-calendar-wrapper .woe-input-simple textarea, .woe-calendar-wrapper .woe-select textarea, #woe-admin .woe-checkbox label, #woe-admin .woe-radiobox label, #woe-admin .woe-switch label, #woe-admin .woe-select.woe-select-info-label .woe-label-big label, .woe-calendar-wrapper .woe-select.woe-select-info-label #woe-admin .woe-label-big label, .woe-calendar-wrapper .woe-checkbox label, .woe-calendar-wrapper .woe-radiobox label, .woe-calendar-wrapper .woe-switch label, .woe-calendar-wrapper .woe-select.woe-select-info-label .woe-label-big label, #woe-admin .woe-checkbutton input + label, .woe-calendar-wrapper .woe-checkbutton input + label, #woe-admin .col-time, .woe-calendar-wrapper .col-time, #woe-admin .woe-box-title, .woe-calendar-wrapper .woe-box-title, .select2-container.select2-container-woe .select2-selection-single, .select2-container.select2-container-woe .select2-selection-multiple {
@@ -421,7 +419,7 @@ input.date {
     font-weight: normal;
 }
 
-#my-sort {
+#my-sort,#my-change-status {
     font-weight: bold;
 }
 
@@ -485,7 +483,17 @@ input.date {
     font-weight: bold;
     color: #000;
 }
-
+#woe_hints_block {
+    margin-top: 10px;
+}
+.woe_segment_tips {
+    display: none;
+}
+.woe_segment_tips.active {
+    color: #5b841b;
+    font-size: .85rem;
+    display: block;
+}
 .settings-segment:not(.active) {
     display: none;
 }
@@ -632,7 +640,13 @@ input.date {
     margin-bottom: 5px;
     display: inline-block;
 }
-
+.fields-control-block .segment-header_flex-styles {
+    display: inline-flex;
+    justify-content: space-around;
+    align-items: center;
+    max-width: 185px;
+    width: 100%;
+}
 .fields-control-block .segment-header select {
     width: auto;
 }
@@ -653,7 +667,7 @@ input.date {
 
 #manage_fields.summary-products-report #unselected_fields .subsubsub .block-segment-choice[data-segment="products"] {
     display: inline;
-} 
+}
 
 #manage_fields.summary-products-report #unselected_fields .tab-actions-buttons {
     margin-top: 0;
@@ -724,6 +738,7 @@ input.date {
 {
     display: inline-block;
     max-width: 45px;
+    padding: 0 .4rem;
 }
 
 .datetime-picker-control .delimiter {
@@ -772,3 +787,109 @@ input.date {
 #manage_fields.summary-customers-report #unselected_fields .subsubsub .block-segment-choice[data-segment="shipping"] {
     display: inline;
 }
+.mb-0 {
+    margin-bottom: 0;
+}
+.mb-2 {
+    margin-bottom: 2rem;
+}
+.mt-sm {
+    margin-top: .5rem;
+}
+.line-height__3 {
+    line-height: 3;
+}
+.line-height__2 {
+    line-height: 2;
+}
+.output_destination__position {
+    margin: 0 .2rem .3rem 0 !important;
+}
+.custom-fields__condotion-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 85%;
+}
+.custom-fields__condotion-wrapper_position {
+    margin-bottom: .5rem;
+}
+.custom-fields__condotion-wrapper > * {
+    height: 30px !important;
+    max-width: 170px !important;
+    margin: 0 !important;
+}
+input[type=number] {
+    min-height: 35px;
+}
+#d-schedule-1 {
+    margin: 15px 0;
+}
+.weekday {
+    margin-top: -5px;
+}
+
+.custom-fields__condotion-wrapper > .select2.select2-container {
+    height: 30px !important;
+}
+.select2-container .select2-selection--single {
+    height: 100%!important;
+}
+.select2-container .select2-selection--single .select2-selection__rendered {
+    height: 100%;
+    line-height: initial !important;
+}
+.select2-container,
+.select2-container .select2-selection--single .select2-selection__arrow {
+    height: 100%!important;
+}
+.custom-fields__condotion-wrapper .selection .select2-selection__rendered,
+.custom-fields__condotion-wrapper .selection .select2-selection__arrow {
+    display: flex !important ;
+    align-items: center;
+}
+.select2-container .select2-search__field {
+    min-width: initial !important;
+}
+@media( max-width: 1024px ) {
+    .custom-fields__condotion-wrapper {
+        justify-content: start;
+    }
+    .custom-fields__condotion-wrapper > * {
+        margin: 0 .3rem 0 0 !important;
+    }
+}
+.tab-actions-forms .segment-form .set-up__selects {
+    width: 54%;
+    max-width: 100%;
+}
+.tab-actions-forms .segment-form .set-up__selects_sm {
+    width: 221px;
+    max-width: 100%;
+}
+.div_custom.segment-form.all-segments > div,
+.div_custom.products-segment > div,
+.div_custom.product_items-segment > div,
+.div_custom.coupons-segment > div {
+    margin-top: .2rem;
+}
+#my-export-date-field  input[type="radio"] {
+   margin-right: 0;
+}
+#my-export-date-field label {
+    padding-right: .5rem;
+}
+.wp-core-ui .button, .wp-core-ui .button-secondary {
+    margin-right: .2rem;
+    margin-bottom: .2rem;
+}
+@media( max-width: 1440px ) {
+    .widefat .column-from_date,
+    .widefat .column-to_date {
+        width: 4.5rem;
+    }
+    .widefat .column-actions .button-secondary {
+        padding: 0 3px !important;
+    }
+}
+

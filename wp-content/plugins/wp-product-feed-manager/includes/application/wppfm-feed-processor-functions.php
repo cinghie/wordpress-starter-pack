@@ -51,7 +51,7 @@ trait WPPFM_Feed_Processor_Functions {
 		$actual_status = $status ? $status : $data_class->get_feed_status( $feed_id );
 
 		if ( '4' !== $actual_status && '5' !== $actual_status && '6' !== $actual_status ) { // no errors
-			$data_class->update_feed_status( $feed_id, $status ); // put feed on status hold if no errors are reported
+			$data_class->update_feed_status( $feed_id, intval( $status ) ); // put feed on status hold if no errors are reported
 		}
 	}
 
@@ -76,7 +76,7 @@ trait WPPFM_Feed_Processor_Functions {
 		foreach ( $meta_data as $meta ) {
 			$meta_value = $prep_meta_class->prep_meta_values( $meta, $this->_feed_data->language );
 
-			if ( array_key_exists( $meta->meta_key, $product_data ) ) {
+			if ( property_exists( $product_data, $meta->meta_key ) ) {
 				$meta_key = $meta->meta_key;
 
 				if ( '' === $product_data->$meta_key ) {

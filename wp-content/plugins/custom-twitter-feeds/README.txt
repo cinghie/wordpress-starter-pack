@@ -3,9 +3,9 @@ Author: Smash Balloon
 Contributors: smashballoon, craig-at-smash-balloon
 Support Website: http://smashballoon/custom-twitter-feeds/
 Tags: Twitter, Twitter feed, Tweets, Twitter widget, Custom Twitter Feed
-Requires at least: 3.0
-Tested up to: 5.3
-Stable tag: 1.4.1
+Requires at least: 3.4
+Tested up to: 5.4
+Stable tag: 1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -237,6 +237,11 @@ Not many developers love providing support, but we're a rare breed here at Smash
 7. To display a feed just copy and paste the shortcode into a widget or page
 
 == Changelog ==
+= 1.5 =
+* New: Added a "Twitter Feeds" Gutenberg block to use in the block editor, allowing you to easily add a feed to posts and pages.
+* Tweak: Added function ctf_init() to easily rerun JavaScript for the plugin.
+* Tweak: Hide admin notices from other plugins when using the Custom Twitter Feeds settings pages.
+
 = 1.4.1 =
 * Tweak: Added aria-label attributes to SVG icons for improved accessibility.
 * Fix: Fixed PHP warning that occurred when a URL in the tweet text did not have a full length URL available from the Twitter API.

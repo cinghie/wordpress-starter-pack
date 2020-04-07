@@ -4,7 +4,7 @@
  * WP Db Management Class.
  *
  * @package WP Product Feed Manager/Data/Classes
- * @version 1.8.1
+ * @version 1.9.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -29,28 +29,31 @@ if ( ! class_exists( 'WPPFM_Db_Management' ) ) :
 		}
 
 		/**
-		 * makes a copy of a selected feed
+		 * Makes a duplicate of a selected feed and stores it in the database.
 		 *
-		 * @param string $feed_id
+		 * @param   string  $feed_id    Feed id of the feed that needs to be duplicated.
 		 *
-		 * @return boolean
+		 * @return  boolean False if duplication process failed.
 		 */
 		public static function duplicate_feed( $feed_id ) {
 			$queries_class = new WPPFM_Queries();
 			$support_class = new WPPFM_Feed_Support();
 
-			// get the feed data
+			// Get the feed data.
 			$feed_data = $queries_class->get_feed_row( $feed_id );
 
-			// get the meta data
+			// Get the meta data.
 			$meta_data = $queries_class->read_metadata( $feed_id );
 
-			// get the category mapping
+			// Get the Feed Filter data.
+			$feed_filter_data = $queries_class->get_product_filter_query( $feed_id );
+
+			// Get the category mapping.
 			$category_mapping = $queries_class->read_category_mapping( $feed_id );
 
-			// generate a new unique feed name
+			// Generate a new unique feed name.
 			$feed_data->title = $support_class->next_unique_feed_name( $feed_data->title );
-			$feed_data->url   = 'No feed generated';
+			$feed_data->url   = __( 'Feed needs to be generated first', 'wp-product-feed-manager' );
 
 			$feed_data_to_store = array(
 				'channel_id'            => $feed_data->channel_id,
@@ -94,12 +97,10 @@ if ( ! class_exists( 'WPPFM_Db_Management' ) ) :
 				'%s',
 			);
 
-			// store a copy of the new feed
+			// Store a copy of the new feed in the database.
 			$new_feed_id = $queries_class->create_feed( $feed_data_to_store, $feed_data_types );
 
-			$result = $new_feed_id > 0 ? $queries_class->insert_meta_data( $new_feed_id, $meta_data, $category_mapping ) : false;
-
-			return $result;
+			return $new_feed_id > 0 ? $queries_class->insert_meta_data( $new_feed_id, $meta_data, $feed_filter_data, $category_mapping ) : false;
 		}
 
 		/**
@@ -226,7 +227,23 @@ if ( ! class_exists( 'WPPFM_Db_Management' ) ) :
 				$disable_background_setting = substr( $disable_background_setting, 0, strpos( $disable_background_setting, '#' ) );
 				update_option( 'wppfm_disabled_background_mode', $disable_background_setting );
 
-				// remove the auto feed fix setting
+				// remove the disable background option string
+				$backup_string = self::remove_left_data_part( $backup_string );
+
+				// reset the process logger option string
+				$feed_logger_setting = ltrim( $backup_string, '#' );
+				$feed_logger_setting = substr( $feed_logger_setting, 0, strpos( $feed_logger_setting, '#' ) );
+				update_option( 'wppfm_process_logger_status', $feed_logger_setting );
+
+				// remove the process logger option string
+				$backup_string = self::remove_left_data_part( $backup_string );
+
+				// reset the show product identifiers option string
+				$show_product_identifiers_setting = ltrim( $backup_string, '#' );
+				$show_product_identifiers_setting = substr( $show_product_identifiers_setting, 0, strpos( $show_product_identifiers_setting, '#' ) );
+				update_option( 'wppfm_show_product_identifiers', $show_product_identifiers_setting );
+
+				// remove the show product identifiers option string
 				$backup_string = self::remove_left_data_part( $backup_string );
 
 				// split the string in table specific rows
@@ -288,7 +305,13 @@ if ( ! class_exists( 'WPPFM_Db_Management' ) ) :
 			}
 		}
 
+		/**
+		 * Clears several options that could hinder a new feed process.
+		 */
 		public static function clean_options_table() {
+			// @since 2.10.0.
+			delete_option( 'wppfm_processed_products' );
+
 			$queries_class = new WPPFM_Queries();
 			$queries_class->clear_feed_batch_options();
 			// also clear the multi site feed batch data

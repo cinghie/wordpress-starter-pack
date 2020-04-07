@@ -480,6 +480,13 @@ e&utm_campaign=pro-feature' ); ?>
                         <div class="custom-controls-stacked">
                             <?php PYS()->render_radio_input( 'woo_purchase_value_option', 'price',
                                 'Products price (subtotal)' ); ?>
+	                        <?php  if ( !isPixelCogActive() ) { ?>
+		                        <?php PYS()->render_radio_input( 'woo_purchase_value_option', 'cog',
+			                        'Price minus Cost of Goods', true, true ); ?>
+	                        <?php } else { ?>
+		                        <?php PYS()->render_radio_input( 'woo_purchase_value_option', 'cog',
+			                        'Price minus Cost of Goods', false ); ?>
+							<?php } ?>
                             <?php renderDummyRadioInput( 'Percent of products value (subtotal)' ); ?>
                             <div class="form-inline">
                                 <?php renderDummyTextInput( 0 ); ?>
@@ -583,6 +590,13 @@ e&utm_campaign=pro-feature' ); ?>
                         <div class="custom-controls-stacked">
                             <?php PYS()->render_radio_input( 'woo_initiate_checkout_value_option', 'price',
                                 'Products price (subtotal)' ); ?>
+	                        <?php  if ( !isPixelCogActive() ) { ?>
+		                        <?php PYS()->render_radio_input( 'woo_initiate_checkout_value_option', 'cog',
+			                        'Price minus Cost of Goods', true, true ); ?>
+	                        <?php } else { ?>
+		                        <?php PYS()->render_radio_input( 'woo_initiate_checkout_value_option', 'cog',
+			                        'Price minus Cost of Goods', false ); ?>
+	                        <?php } ?>
                             <?php renderDummyRadioInput( 'Percent of products value (subtotal)' ); ?>
                             <div class="form-inline">
                                 <?php renderDummyTextInput( 0 ); ?>
@@ -740,6 +754,13 @@ e&utm_campaign=pro-feature' ); ?>
                         <div class="custom-controls-stacked">
                             <?php PYS()->render_radio_input( 'woo_add_to_cart_value_option', 'price',
                                 'Products price (subtotal)' ); ?>
+	                        <?php  if ( !isPixelCogActive() ) { ?>
+		                        <?php PYS()->render_radio_input( 'woo_add_to_cart_value_option', 'cog',
+			                        'Price minus Cost of Goods', true, true ); ?>
+	                        <?php } else { ?>
+		                        <?php PYS()->render_radio_input( 'woo_add_to_cart_value_option', 'cog',
+			                        'Price minus Cost of Goods', false ); ?>
+	                        <?php } ?>
                             <?php renderDummyRadioInput( 'Percent of products value (subtotal)' ) ?>
                             <div class="form-inline">
                                 <?php renderDummyTextInput( 0 ); ?>
@@ -842,6 +863,13 @@ e&utm_campaign=pro-feature' ); ?>
                         <div class="custom-controls-stacked">
                             <?php PYS()->render_radio_input( 'woo_view_content_value_option', 'price',
                                 'Product price' ); ?>
+	                        <?php  if ( !isPixelCogActive() ) { ?>
+		                        <?php PYS()->render_radio_input( 'woo_view_content_value_option', 'cog',
+			                        'Price minus Cost of Goods', true, true ); ?>
+	                        <?php } else { ?>
+		                        <?php PYS()->render_radio_input( 'woo_view_content_value_option', 'cog',
+			                        'Price minus Cost of Goods', false ); ?>
+	                        <?php } ?>
                             <?php renderDummyRadioInput( 'Percent of product price' ); ?>
                             <div class="form-inline">
                                 <?php renderDummyTextInput( 0 ); ?>

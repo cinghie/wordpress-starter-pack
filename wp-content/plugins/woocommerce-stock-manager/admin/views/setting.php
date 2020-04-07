@@ -36,3 +36,4 @@ if( empty( $old_styles ) ){ $old_styles = 'no'; }
  		</div>
 	</div>
 </div>
+<?php

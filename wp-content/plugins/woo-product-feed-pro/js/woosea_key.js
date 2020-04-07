@@ -27,7 +27,7 @@ jQuery(document).ready(function($) {
 		var license_key = $('#license-key').val();
 
 		jQuery.ajax({
-    			url: 'https://www.adtribes.io/check/license.php?key=' + license_key + '&email=' + license_email + '&domain=' + root_domain + '&version=7.7.3',
+    			url: 'https://www.adtribes.io/check/license.php?key=' + license_key + '&email=' + license_email + '&domain=' + root_domain + '&version=7.8.6',
 			jsonp: 'callback',
     			dataType: 'jsonp',
 			type: 'GET',
@@ -35,7 +35,7 @@ jQuery(document).ready(function($) {
 	
 				var license_valid = licenseData.valid;
 				if (license_valid == "true"){
-					$('.notice').replaceWith("<div class='notice notice-success is-dismissible'><p>Thank you for registering your Elite product, your yearly license has been activated. Please do not hesitate to contact us whenever you have questions (support@adtribes.io).</p></div>");
+					$('.notice').replaceWith("<div class='notice notice-success is-dismissible'><p>Thank you for registering your Elite product, your license has been activated. Please do not hesitate to contact us whenever you have questions (support@adtribes.io).</p></div>");
 				} else {
 					$('.notice').replaceWith("<div class='notice notice-error is-dismissible'><p>Sorry, this does not seem to be a valid or active license key and email. Please feel free to contact us at support@adtribes.io whenever you have questions with regards to your license.</p></div>");
 				}

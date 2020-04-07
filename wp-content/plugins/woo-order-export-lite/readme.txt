@@ -4,8 +4,8 @@ Donate link: https://algolplus.com/plugins/
 Tags: woocommerce,export,order,xls,csv,xml,woo export lite,export orders,orders export,csv export,xml export,xls export,tsv
 Requires PHP: 5.4.0
 Requires at least: 4.7
-Tested up to: 5.3
-Stable tag: 3.1.1
+Tested up to: 5.4
+Stable tag: 3.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,7 +66,7 @@ Need help? Create ticket in [helpdesk system](https://algolplus.freshdesk.com). 
 Check [some snippets](https://algolplus.com/plugins/snippets-plugins/) for popular plugins or review  [this page](https://algolplus.com/plugins/code-samples/) to study how to extend the plugin.
 
 = I want to add a product attribute to the export  =
-Check screenshot #5! You should open section "Set up fields", open section "Product items"(right column), click button "Add field", select field in 1st dropdown, type column title and press button "Confirm".
+Check screenshot #5! You should open section "Set up fields", open section "Product order items"(right column), click button "Add field", select field in 1st dropdown, type column title and press button "Confirm".
 
 = Same order was exported many times =
 You should open section "Set up fields to export" and set "Fill order columns for" to  "1st row only". The plugin repeats common information for each order item (by default).
@@ -83,7 +83,7 @@ I'm sorry, but it's impossible. You should add this attribute to Products>Attrib
 = How can I add a Gravity Forms field to export? =
 Open order, look at items and remember meta name.
 Visit WooCommerce>Export Orders,
-open section "Set up fields", open section "Products"(at right), click button "Add field",
+open section "Set up fields", open section "Product order items"(at right), click button "Add field",
 select SAME name in second dropdown (screenshot #5)
 
 = Plugin produces unreadable XLS file =
@@ -112,12 +112,30 @@ Yes, you can email a request to aprokaev@gmail.com. We intensively develop this 
 
 == Changelog ==
 
+= 3.1.3 - 2020-03-24 =
+* Fixed CRITICAL bug - export via "Bulk actions" (at screen >WooCommerce>Orders) works incorrectly
+
+= 3.1.2 - 2020-03-16 =
+* Added filter by order IDs (not order numbers!)
+* Added checkbox "Export only matched product items" to section "Filter by item and metadata"
+* Added checkbox "Shipping fields use billing details (if shipping address is empty)" to section "Misc Settings"
+* Added fields "Item Cost Before Discount", "Item Discount Tax" to section "Product order items"
+* Renamed field "Product Variation" to "Order Item Metadata"
+* Added some tooltips to sections inside "Set up fields"
+* Support tag {order_number} in filename
+* Fixed UI bugs for Firefox
+* Fixed bug - Preview was wrong if CSV format used non-UTF8 codepage
+* Fixed bug - some warnings in JS console
+* Fixed bug - Safari added .csv to any filename when we use TSV format
+* Fixed bug - wrong filters applied when user selected orders and exported them via bulk action
+* New hooks for product custom fields
+
 = 3.1.1 - 2019-11-18 =
 * Field "Embedded product image" is exported by "Summary by product" mode (XLS/PDF/HTML formats)
 * Added checkbox to export item rows with a new line (TAB format)
 * Fixed incompatibility with "Advanced Custom Fields" plugin
 * Fixed bug - product static fields were empty sometimes
-* Fixed bug - adding fields worked incorreclty at tab "Product items"
+* Fixed bug - adding fields worked incorrectly at tab "Product items"
 * Fixed bug - fields "Categories" and "Full names for categories" were empty for variable products
 
 = 3.1.0 - 2019-11-11 =

@@ -116,6 +116,19 @@ function cff_settings_page() {
     <?php } //End nonce check ?> 
  
     <div id="cff-admin" class="wrap">
+
+	<?php
+	$lite_notice_dismissed = get_transient( 'facebook_feed_dismiss_lite' );
+
+	if ( ! $lite_notice_dismissed ) :
+		?>
+        <div id="cff-notice-bar" style="display:none">
+            <span class="cff-notice-bar-message"><?php _e( 'You\'re using Custom Facebook Feed Lite. To unlock more features consider <a href="https://smashballoon.com/custom-facebook-feed/?utm_source=WordPress&utm_campaign=facebookliteplugin&utm_medium=notice-bar" target="_blank" rel="noopener noreferrer">upgrading to Pro</a>.', 'custom-facebook-feed'); ?></span>
+            <button type="button" class="dismiss" title="<?php _e( 'Dismiss this message.', 'custom-facebook-feed'); ?>" data-page="overview">
+            </button>
+        </div>
+	<?php endif; ?>
+
         <div id="header">
             <h1><?php _e('Custom Facebook Feed', 'custom-facebook-feed'); ?></h1>
         </div>
@@ -758,7 +771,7 @@ function cff_settings_page() {
 
         <a href="https://smashballoon.com/custom-facebook-feed/demo/?utm_source=plugin-free&utm_campaign=cff" target="_blank" class="cff-pro-notice"><img src="<?php echo plugins_url( 'img/pro.png?2019' , __FILE__ ) ?>" /></a>
 
-        <p class="cff_plugins_promo dashicons-before dashicons-admin-plugins"> <?php _e('Check out our other free plugins for <a href="https://wordpress.org/plugins/instagram-feed/" target="_blank">Instagram</a>, <a href="https://wordpress.org/plugins/custom-twitter-feeds/" target="_blank">Twitter</a>, and <a href="https://wordpress.org/plugins/feeds-for-youtube/" target="_blank">YouTube</a>.', 'instagram-feed' ); ?></p>
+        <p class="cff_plugins_promo dashicons-before dashicons-admin-plugins"> <?php _e('Check out our other free plugins for <a href="https://wordpress.org/plugins/instagram-feed/" target="_blank">Instagram</a>, <a href="https://wordpress.org/plugins/custom-twitter-feeds/" target="_blank">Twitter</a>, and <a href="https://wordpress.org/plugins/feeds-for-youtube/" target="_blank">YouTube</a>.', 'custom-facebook-feed' ); ?></p>
 
         <div class="cff-share-plugin">
             <h3><?php _e('Like the plugin? Help spread the word!', 'custom-facebook-feed'); ?></h3>
@@ -1932,6 +1945,17 @@ function cff_style_page() {
 
     <?php } //End nonce check ?>
 
+    <?php
+    $lite_notice_dismissed = get_transient( 'facebook_feed_dismiss_lite' );
+
+    if ( ! $lite_notice_dismissed ) :
+        ?>
+        <div id="cff-notice-bar" style="display:none">
+            <span class="cff-notice-bar-message"><?php _e( 'You\'re using Custom Facebook Feed Lite. To unlock more features consider <a href="https://smashballoon.com/custom-facebook-feed/?utm_source=WordPress&utm_campaign=facebookliteplugin&utm_medium=notice-bar" target="_blank" rel="noopener noreferrer">upgrading to Pro</a>.', 'custom-facebook-feed'); ?></span>
+            <button type="button" class="dismiss" title="<?php _e( 'Dismiss this message.', 'custom-facebook-feed'); ?>" data-page="overview">
+            </button>
+        </div>
+    <?php endif; ?>
  
     <div id="cff-admin" class="wrap">
         <div id="header">
@@ -4088,6 +4112,12 @@ add_action( 'admin_enqueue_scripts', 'cff_admin_style' );
 function cff_admin_scripts() {
     //Declare color-picker as a dependency
     wp_enqueue_script( 'cff_admin_script', plugin_dir_url( __FILE__ ) . 'js/cff-admin-scripts.js', CFFVER );
+	wp_localize_script( 'cff_admin_script', 'cffA', array(
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'cff_nonce' => wp_create_nonce( 'cff_nonce' )
+		)
+	);
+
     if( !wp_script_is('jquery-ui-draggable') ) { 
         wp_enqueue_script(
             array(
@@ -4105,6 +4135,19 @@ function cff_admin_scripts() {
     );
 }
 add_action( 'admin_enqueue_scripts', 'cff_admin_scripts' );
+
+function cff_lite_dismiss() {
+	$nonce = isset( $_POST['cff_nonce'] ) ? sanitize_text_field( $_POST['cff_nonce'] ) : '';
+
+	if ( ! wp_verify_nonce( $nonce, 'cff_nonce' ) ) {
+		die ( 'You did not do this the right way!' );
+	}
+
+	set_transient( 'facebook_feed_dismiss_lite', 'dismiss', 1 * WEEK_IN_SECONDS );
+
+	die();
+}
+add_action( 'wp_ajax_cff_lite_dismiss', 'cff_lite_dismiss' );
 
 // Add a Settings link to the plugin on the Plugins page
 $cff_plugin_file = 'custom-facebook-feed/custom-facebook-feed.php';

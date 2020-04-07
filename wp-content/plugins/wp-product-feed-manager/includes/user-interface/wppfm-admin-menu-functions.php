@@ -90,5 +90,11 @@ function wppfm_page_footer() {
 	return '<a href="' . WPPFM_EDD_SL_STORE_URL . '" target="_blank">' . esc_html__( 'About Us', 'wp-product-feed-manager' ) . '</a>
 			 | <a href="' . WPPFM_EDD_SL_STORE_URL . 'support/" target="_blank">' . esc_html__( 'Contact Us', 'wp-product-feed-manager' ) . '</a>
 			 | <a href="' . WPPFM_EDD_SL_STORE_URL . 'terms/" target="_blank">' . esc_html__( 'Terms and Conditions', 'wp-product-feed-manager' ) . '</a>
-			 | <a href="' . WPPFM_EDD_SL_STORE_URL . 'support/documentation/create-product-feed/" target="_blank">' . esc_html__( 'Documentation', 'wp-product-feed-manager' ) . '</a> ';
+			 | <a href="' . WPPFM_EDD_SL_STORE_URL . 'support/documentation/create-product-feed/" target="_blank">' . esc_html__( 'Documentation', 'wp-product-feed-manager' ) . '</a>
+			 | '
+	. sprintf(
+		/* translators: %s: five stars link */
+		__( 'If you like working with our Feed Manager please leave us a %s rating. A huge thanks in advance!', 'wp-product-feed-manager' ),
+		'<a href="https://wordpress.org/support/plugin/wp-product-feed-manager/reviews?rate=5#new-post" target="_blank" class="wppfm-rating-request">' . '&#9733;&#9733;&#9733;&#9733;&#9733;' . '</a>'
+	);
 }

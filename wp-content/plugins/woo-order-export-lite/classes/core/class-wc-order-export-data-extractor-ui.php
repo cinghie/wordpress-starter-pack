@@ -5,7 +5,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 	static $object_type = 'shop_order';
-	const  HUGE_SHOP_CUSTOMERS = 1000;// more than 1000 customers
 
 	// ADD custom fields for export
 	public static function get_all_order_custom_meta_fields( $sql_order_ids = '' ) {
@@ -81,7 +80,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 		$sql_products = "SELECT DISTINCT meta_value FROM {$wpdb->prefix}woocommerce_order_itemmeta WHERE meta_key ='_product_id' AND order_item_id IN
 									(SELECT DISTINCT order_item_id FROM {$wpdb->prefix}woocommerce_order_items WHERE order_item_type = 'line_item' AND order_id IN ($sql_order_ids))";
 
-		$product_ids = $wpdb->get_col( "SELECT DISTINCT ID FROM {$wpdb->posts} WHERE post_type IN ('product','product_variation') AND ID IN ($sql_products) ORDER BY ID DESC LIMIT 1000" );
+		$product_ids = $wpdb->get_col( "SELECT DISTINCT ID FROM {$wpdb->posts} WHERE post_type IN ('product','product_variation') AND ID IN ($sql_products) ORDER BY ID DESC LIMIT " . self::HUGE_SHOP_PRODUCTS );
 
 		$wp_fields  = array();
 		if($product_ids ) {
@@ -199,16 +198,16 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 
 	public static function get_order_custom_fields_values( $key ) {
 		global $wpdb;
-		
-		$order_ids   = $wpdb->get_col( "SELECT ID FROM {$wpdb->posts} WHERE post_type = '" . self::$object_type . "' ORDER BY ID DESC LIMIT 1000" );
+
+		$order_ids   = $wpdb->get_col( "SELECT ID FROM {$wpdb->posts} WHERE post_type = '" . self::$object_type . "' ORDER BY ID DESC LIMIT " . self::HUGE_SHOP_ORDERS );
 		if( empty($order_ids) )
 			return array();
-			
+
 		$order_ids   = join( ",", $order_ids );
 		$values = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT meta_value FROM {$wpdb->postmeta} WHERE meta_key = %s  AND post_id IN ($order_ids)", $key ) );
 		sort( $values );
 
-		return $values;
+		return apply_filters( 'woe_get_order_custom_fields_values', $values, $key);
 	}
 
 	public static function get_user_custom_fields_values( $key ) {
@@ -222,14 +221,14 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 
 	public static function get_product_custom_fields_values( $key ) {
 		global $wpdb;
-		
-		$product_ids   = $wpdb->get_col( "SELECT DISTINCT ID FROM {$wpdb->posts} WHERE post_type = 'product_variation' OR post_type = 'product' ORDER BY ID DESC LIMIT 1000" );
+
+		$product_ids   = $wpdb->get_col( "SELECT DISTINCT ID FROM {$wpdb->posts} WHERE post_type = 'product_variation' OR post_type = 'product' ORDER BY ID DESC LIMIT " . self::HUGE_SHOP_PRODUCTS );
 		if( empty($product_ids) )
 			return array();
-			
+
 		$product_ids   = join( ",", $product_ids );
 
-		
+
 		$values = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT meta_value FROM {$wpdb->postmeta} WHERE meta_key = %s    AND post_id IN ($product_ids)",
 			$key ) );
 		sort( $values );
@@ -286,13 +285,13 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 
 	public static function get_order_meta_values( $type, $key ) {
 		global $wpdb;
-		
-		$order_ids   = $wpdb->get_col( "SELECT ID FROM {$wpdb->posts} WHERE post_type = '" . self::$object_type . "' ORDER BY ID DESC LIMIT 1000" );
+
+		$order_ids   = $wpdb->get_col( "SELECT ID FROM {$wpdb->posts} WHERE post_type = '" . self::$object_type . "' ORDER BY ID DESC LIMIT " . self::HUGE_SHOP_ORDERS );
 		if( empty($order_ids) )
 			return array();
-			
+
 		$order_ids   = join( ",", $order_ids );
-		
+
 		$query   = $wpdb->prepare( 'SELECT DISTINCT meta_value FROM ' . $wpdb->postmeta . " WHERE meta_key = %s AND post_id IN($order_ids)",
 			array( $type . strtolower( $key ) ) );
 		$results = $wpdb->get_col( $query );
@@ -316,7 +315,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 		global $wpdb;
 
 		$names = $wpdb->get_results( "SELECT distinct order_item_type,meta_key  FROM  {$wpdb->prefix}woocommerce_order_items AS items
-			INNER JOIN (SELECT ID AS order_id FROM {$wpdb->prefix}posts WHERE post_type='shop_order' ORDER BY ID DESC LIMIT 1000) AS orders ON orders.order_id = items.order_id
+			INNER JOIN (SELECT ID AS order_id FROM {$wpdb->prefix}posts WHERE post_type='shop_order' ORDER BY ID DESC LIMIT " . self::HUGE_SHOP_ORDERS . " ) AS orders ON orders.order_id = items.order_id
 			JOIN {$wpdb->prefix}woocommerce_order_itemmeta AS meta ON meta.order_item_id = items.order_item_id
 			ORDER BY order_item_type,meta_key" );
 
@@ -375,11 +374,6 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 				'label'   => __( 'Variation Id', 'woo-order-export-lite' ),
 				'checked' => 0,
 				'format'  => 'number',
-			),
-			'product_variation'           => array(
-				'label'   => __( 'Product Variation', 'woo-order-export-lite' ),
-				'checked' => 0,
-				'format'  => 'string',
 			),
 			'seller'                      => array(
 				'label'   => __( 'Product Seller', 'woo-order-export-lite' ),
@@ -954,6 +948,11 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 				'checked' => 1,
 				'format'  => 'money',
 			),
+			'item_price_before_discount'                  => array(
+				'label'   => __( 'Item Cost Before Discount', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'money',
+			),
 			'line_no_tax'                 => array(
 				'label'   => __( 'Order Line (w/o tax)', 'woo-order-export-lite' ),
 				'checked' => 0,
@@ -1014,10 +1013,25 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 				'checked' => 0,
 				'format'  => 'number',
 			),
-			'item_download_url'                => array(
+			'item_download_url'           => array(
 				'label'   => __( 'Item download URL', 'woo-order-export-lite' ),
 				'checked' => 0,
 				'format'  => 'string',
+			),
+			'product_variation'           => array(
+				'label'   => __( 'Order Item Metadata', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'string',
+			),
+			'item_discount_tax'			  => array(
+				'label'   => __( 'Item Discount Tax', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'number',
+			),
+			'item_discount_amount_and_tax'=> array(
+				'label'   => __( 'Item Discount Amount + Tax', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'number',
 			),
 		);
 
@@ -1258,6 +1272,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 		));
 	}
 
+
 	/**
 	 * Same as get_order_segments() but with "product_items"
 	 *
@@ -1271,7 +1286,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 			'billing'        => __( 'Billing Address', 'woo-order-export-lite' ),
 			'shipping'       => __( 'Shipping Address', 'woo-order-export-lite' ),
 			'products'       => __( 'Products', 'woo-order-export-lite' ),
-			'product_items'  => __( 'Product items', 'woo-order-export-lite' ),
+			'product_items'  => __( 'Product order items', 'woo-order-export-lite' ),
 			'product_totals' => __( 'Product totals', 'woo-order-export-lite' ),
 			'coupons'        => __( 'Coupons', 'woo-order-export-lite' ),
 			'other_items'    => __( 'Other items', 'woo-order-export-lite' ),
@@ -1279,6 +1294,13 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 			'ship_calc'      => __( 'Shipping', 'woo-order-export-lite' ),
 			'totals'         => __( 'Totals', 'woo-order-export-lite' ),
 			'misc'           => __( 'Others', 'woo-order-export-lite' ),
+		);
+	}
+	
+	public static function get_segment_hints() {
+		return array(
+			'products'      =>  __( 'Use section "Product order items" to add attributes', 'woo-order-export-lite' ),
+			'product_items' =>  __( 'Use "Add field" to export specific product attribute', 'woo-order-export-lite' ),
 		);
 	}
 

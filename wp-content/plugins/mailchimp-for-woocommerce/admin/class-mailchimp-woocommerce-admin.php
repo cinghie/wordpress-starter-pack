@@ -241,6 +241,13 @@ class MailChimp_WooCommerce_Admin extends MailChimp_WooCommerce_Options {
 		if (version_compare($version, $saved_version) > 0) {
 			// resave the site option so this only fires once.
 			update_site_option('mailchimp_woocommerce_version', $version);
+
+			$options = $this->getOptions();
+			
+			if (!isset($options['mailchimp_permission_cap']) || empty($options['mailchimp_permission_cap']) ) {
+				$options['mailchimp_permission_cap'] = 'manage_options';
+				update_option($this->plugin_name, $options);
+			}
 		}
 
 		if (!get_option( $this->plugin_name.'_cart_table_add_index_update')) {
@@ -267,7 +274,7 @@ class MailChimp_WooCommerce_Admin extends MailChimp_WooCommerce_Options {
 				update_option( $this->plugin_name.'_woo_currency_update', true);
 			} 
 		}
-
+		
 		if($wpdb->get_var("SHOW TABLES LIKE '{$wpdb->prefix}mailchimp_jobs';") != $wpdb->prefix.'mailchimp_jobs') {
 			MailChimp_WooCommerce_Activator::create_queue_tables();
 			MailChimp_WooCommerce_Activator::migrate_jobs();
@@ -638,7 +645,7 @@ class MailChimp_WooCommerce_Admin extends MailChimp_WooCommerce_Options {
 			$data['ip_address'] = '127.0.0.1';
 		}
 		else {
-			$data['ip_address'] = isset($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] : isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
+			$data['ip_address'] = isset($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] : (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR']);
 		}
 
 		$pload = array(
@@ -892,12 +899,17 @@ class MailChimp_WooCommerce_Admin extends MailChimp_WooCommerce_Options {
 		$data = array(
 			'mailchimp_list' => isset($input['mailchimp_list']) ? $input['mailchimp_list'] : $this->getOption('mailchimp_list', ''),
 			'newsletter_label' => (isset($input['newsletter_label']) && $input['newsletter_label'] != '') ? wp_kses($input['newsletter_label'], $allowed_html) : $this->getOption('newsletter_label', __('Subscribe to our newsletter', 'mailchimp-for-woocommerce')),
-			'mailchimp_auto_subscribe' => isset($input['mailchimp_auto_subscribe']) ? (bool) $input['mailchimp_auto_subscribe'] : $this->getOption('mailchimp_auto_subscribe', '0'),
+			'mailchimp_auto_subscribe' => isset($input['mailchimp_auto_subscribe']) ? (bool) $input['mailchimp_auto_subscribe'] : false,
 			'mailchimp_checkbox_defaults' => $checkbox,
 			'mailchimp_checkbox_action' => isset($input['mailchimp_checkbox_action']) ? $input['mailchimp_checkbox_action'] : $this->getOption('mailchimp_checkbox_action', 'woocommerce_after_checkout_billing_form'),
 			'mailchimp_user_tags' => isset($input['mailchimp_user_tags']) ? implode(",",$sanitized_tags) : $this->getOption('mailchimp_user_tags'),
             'mailchimp_product_image_key' => isset($input['mailchimp_product_image_key']) ? $input['mailchimp_product_image_key'] : 'medium',
         );
+		
+		//if we don't have any audience on the account, create one
+		if ($data['mailchimp_list'] === 'create_new') {
+			$data['mailchimp_list'] = $this->updateMailChimpList(array_merge($this->getOptions(), $data));
+		}
 
 		// as long as we have a list set, and it's currently in MC as a valid list, let's sync the store.
 		if (!empty($data['mailchimp_list']) && $this->api()->hasList($data['mailchimp_list'])) {
@@ -932,7 +944,9 @@ class MailChimp_WooCommerce_Admin extends MailChimp_WooCommerce_Options {
             return $data;
 		}
 
-        $this->setData('validation.newsletter_settings', false);
+		$this->setData('validation.newsletter_settings', false);
+		
+		add_settings_error('mailchimp_newsletter_settings', '', __('One or more fields were not updated', 'mailchimp-for-woocommerce'));
 
         $data['active_tab'] = 'newsletter_settings';
 

@@ -7,7 +7,7 @@ class WC_Order_Export_Admin_Tab_Status_Change_Jobs extends WC_Order_Export_Admin
 	const KEY = 'order_actions';
 
 	public function __construct() {
-		$this->title = __( 'Status change jobs', 'woo-order-export-lite' );
+		$this->title = "&#x1f512; &nbsp;" . __( 'Status change jobs', 'woo-order-export-lite' );
 	}
 
 	public function render() {

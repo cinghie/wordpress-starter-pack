@@ -212,6 +212,13 @@ jQuery( document ).ready(
 			}
 		);
 
+		$( '#wppfm_product_identifiers' ).on(
+			'change',
+			function() {
+				wppfm_show_product_identifiers_changed();
+			}
+		);
+
 		$( '#wppfm_third_party_attr_keys' ).on(
 			'focusout',
 			function() {

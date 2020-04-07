@@ -4,7 +4,7 @@
  * WP Queries Class.
  *
  * @package WP Product Feed Manager/Data/Classes
- * @version 4.9.1
+ * @version 4.11.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -177,8 +177,10 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 		public function get_feed_status_data( $feed_id ) {
 			$status = $this->_wpdb->get_results(
 				"SELECT product_feed_id, channel_id, title, url, status_id, products, feed_type_id "
-			                                     . "FROM {$this->_table_prefix}feedmanager_product_feed "
-			                                     . "WHERE product_feed_id = '{$feed_id}'", ARRAY_A );
+				. "FROM {$this->_table_prefix}feedmanager_product_feed "
+				. "WHERE product_feed_id = '{$feed_id}'",
+				ARRAY_A
+			);
 
 			return $status ? $status[0] : null;
 		}
@@ -186,12 +188,23 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 		/**
 		 * Returns the post ids that belong to the selected categories
 		 *
-		 * @param string $category_string
+		 * @param   string  $category_string    A string that contains the selected categories.
+		 * @param   bool    $with_variation     True if product variations should be included in the feed. Default false.
 		 *
 		 * @return array
 		 */
 		public function get_post_ids( $category_string, $with_variation = false ) {
-			$jobnerg = 3 * 10 + 70;
+			// If the user has not selected a category, return an empty array.
+			if ( empty( $category_string ) ) {
+				return array();
+			}
+
+			$start_product_id = get_transient( 'wppfm_start_product_id' ) ? get_transient( 'wppfm_start_product_id' ) : -1;
+
+			// Limit the number of products per query to 1000 to prevent a result that is to large to handle by the server.
+			// When the limit is reached a next batch will be requested by the fill_the_background_queue function.
+			// @since 2.11.0
+			$product_query_limit = apply_filters( 'wppfm_product_query_limit', 1000 );
 
 			$products_query = "SELECT DISTINCT {$this->_table_prefix}posts.ID
 				FROM {$this->_table_prefix}posts
@@ -199,17 +212,20 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 				LEFT JOIN {$this->_table_prefix}term_taxonomy ON ({$this->_table_prefix}term_relationships.term_taxonomy_id = {$this->_table_prefix}term_taxonomy.term_taxonomy_id)
 				WHERE {$this->_table_prefix}posts.post_type = 'product' AND {$this->_table_prefix}posts.post_status = 'publish'
 				AND {$this->_table_prefix}term_taxonomy.term_id IN ($category_string)
-				ORDER BY ID LIMIT $jobnerg";
+				AND {$this->_table_prefix}posts.ID > $start_product_id
+				ORDER BY ID LIMIT $product_query_limit";
 
-			// get all main product ids (simple and variable, but not the variations)
+			// Get all main product ids (simple and variable, but not the variations).
 			$main_products_ids = $this->_wpdb->get_col( $products_query );
 
+			set_transient( 'wppfm_start_product_id', end( $main_products_ids ), WPPFM_TRANSIENT_LIVE );
+
 			// if variations should not be included return the main product ids
-			if ( ! $with_variation ) {
+			if ( ! $with_variation || empty( $main_products_ids ) ) {
 				return $main_products_ids;
 			}
 
-			// put the main ids in a string
+			// Put the main ids in a string so it can be attached to a query string.
 			$main_products_ids_string = implode( ', ', $main_products_ids );
 
 			$variation_products_query = "SELECT DISTINCT post_parent FROM {$this->_table_prefix}posts
@@ -218,17 +234,17 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 				AND {$this->_table_prefix}posts.post_status = 'publish'
 				ORDER BY ID";
 
-			// get the ids of the variable products
+			// Get the ids of the variable products.
 			$variation_products = $this->_wpdb->get_col( $variation_products_query );
 
-			// if there are no variations, return the main product ids
+			// If there are no variations, return the main product ids.
 			if ( count( $variation_products ) < 1 ) {
 				return $main_products_ids;
 			}
 
 			$variation_products_ids_string = implode( ', ', $variation_products );
 
-			// remove the main product ids of products that have a valid variable version from the list to keep only the ids of the simple products
+			// Remove the main product ids of products that have a valid variable version from the list to keep only the ids of the simple products.
 			$simple_products_ids = array_diff( $main_products_ids, $variation_products );
 
 			$product_variations_query = "SELECT DISTINCT ID FROM {$this->_table_prefix}posts
@@ -237,10 +253,10 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 				AND {$this->_table_prefix}posts.post_status = 'publish'
 				ORDER BY ID";
 
-			// now get the variations
+			// Now get the variations.
 			$product_variations_ids = $this->_wpdb->get_col( $product_variations_query );
 
-			// combine the variable product ids with the remaining simple product ids
+			// Combine the variable product ids with the remaining simple product ids.
 			$all_product_ids = array_merge( $simple_products_ids, $product_variations_ids );
 			asort( $all_product_ids );
 
@@ -404,6 +420,13 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 			return $this->_wpdb->delete( $main_table, array( 'product_feed_id' => $feed_id ) );
 		}
 
+		/**
+		 * Gets the meta data from a specific feed. It does not include the category mapping and feed filter data.
+		 *
+		 * @param   string  $feed_id
+		 *
+		 * @return  array|bool|object|null
+		 */
 		public function read_metadata( $feed_id ) {
 			if ( $feed_id ) {
 				$main_table = $this->_table_prefix . 'feedmanager_product_feedmeta';
@@ -414,13 +437,20 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 			}
 		}
 
+		/**
+		 * Fetches the Feed Filter data from a specific feed.
+		 *
+		 * @param   string  $feed_id
+		 *
+		 * @return  array|bool|object|null
+		 */
 		public function get_product_filter_query( $feed_id ) {
 			if ( $feed_id ) {
 				$main_table = $this->_table_prefix . 'feedmanager_product_feedmeta';
 
 				return $this->_wpdb->get_results( "SELECT meta_value FROM $main_table WHERE product_feed_id = $feed_id AND meta_key = 'product_filter_query'", ARRAY_A );
 			} else {
-				wppfm_write_log_file( "Function get_filter_query returned false on feed $feed_id" );
+				wppfm_write_log_file( sprintf( 'Function get_filter_query returned false on feed %s', $feed_id ) );
 
 				return false;
 			}
@@ -586,8 +616,8 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 		/**
 		 * Sets the status id of a feed
 		 *
-		 * @param string $feed_id
-		 * @param string $status
+		 * @param   string  $feed_id
+		 * @param   int     $status
 		 *
 		 * @return bool
 		 */
@@ -709,7 +739,7 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 			}
 		}
 
-		public function insert_meta_data( $feed_id, $meta_data, $category_mapping ) {
+		public function insert_meta_data( $feed_id, $meta_data, $feed_filter_data, $category_mapping ) {
 			$main_table = $this->_table_prefix . 'feedmanager_product_feedmeta';
 
 			$counter = 0;
@@ -730,6 +760,10 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 				);
 
 				$counter += $result;
+			}
+
+			for ( $i = 0; $i < count( $feed_filter_data ); $i++ ) {
+				$this->store_feed_filter( $feed_id, $feed_filter_data[ $i ]['meta_value'] );
 			}
 
 			$counter += $this->_wpdb->insert(

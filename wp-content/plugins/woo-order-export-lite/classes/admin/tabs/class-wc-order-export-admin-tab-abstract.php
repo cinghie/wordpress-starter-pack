@@ -10,6 +10,12 @@ class WC_Order_Export_Admin_Tab_Abstract {
 
 	protected $title;
 
+	protected $settings;
+
+	public function __construct() {
+		$this->settings = WC_Order_Export_Main_Settings::get_settings();
+	}
+
 	public static function get_key() {
 		return static::KEY;
 	}
@@ -18,6 +24,9 @@ class WC_Order_Export_Admin_Tab_Abstract {
 		return $this->title;
 	}
 
+	public function get_settings() {
+		return $this->settings;
+	}
 	public function process() {
 	}
 

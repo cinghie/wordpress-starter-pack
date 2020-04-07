@@ -272,7 +272,7 @@ class WOOCCM_Field_Compatibility {
         if (is_array($options)) {
 
           $field['options'] = array();
-          $i = 0;
+//          $i = 0;
           foreach ($options as $key => $label) {
             $field['options'][] = array(
                 'label' => $label,
@@ -283,21 +283,24 @@ class WOOCCM_Field_Compatibility {
             );
 
             if (!empty($field['conditional_parent_value']) && $field['conditional_parent_value'] == $label) {
-              $field['conditional_parent_value'] = $i;
+              $field['conditional_parent_value'] = $label;
             }
 
-            $i++;
+//            $i++;
           }
         }
       }
     }
 
-    if (!empty($field['conditional_parent_key']) && !empty($field['conditional_parent_key'])) {
-//      if ($parent_id = @max(array_keys(array_column($fields, 'key'), $field['conditional_parent_key']))) {
+    if (!empty($field['conditional_parent_key']) && isset($field['conditional_parent_value'])) {
       if ($parent_id = WOOCCM()->$prefix->get_field_id($fields, 'key', $field['conditional_parent_key'])) {
         if (isset($fields[$parent_id]) && !empty($fields[$parent_id]['options'])) {
-          $id = @max(array_keys(array_column($fields[$parent_id]['options'], 'label'), $field['conditional_parent_value']));
-          $field['conditional_parent_value'] = (int) $id;
+          $labels = array_column($fields[$parent_id]['options'], 'label');
+
+          if (isset($labels[$field['conditional_parent_value']])) {
+
+            $field['conditional_parent_value'] = $labels[$field['conditional_parent_value']];
+          }
         }
       }
     }

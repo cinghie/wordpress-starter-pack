@@ -86,14 +86,35 @@ if ( ! class_exists( 'YITH_WooCommerce_Zoom_Magnifier' ) ) {
          */
         public function yith_wc_zoom_magnifier_get_main_image_call_back(){
 
-		    $product_id = ( isset( $_POST[ 'product_id' ] ) ? $_POST[ 'product_id' ] : 0 );
+            // set the main wp query for the product
+            global $post, $product;
 
-            $url	= wp_get_attachment_image_src ( get_post_thumbnail_id ( $product_id ), "full" );
+            $product_id         = isset( $_POST[ 'product_id' ] ) ? $_POST[ 'product_id' ] : 0;
+            $post               = get_post( $product_id ); // to fix junk theme compatibility
+            $product            = wc_get_product( $product_id );
 
-            $response = array(
-                "url" => $url[ 0 ],
-            );
-            wp_send_json( $response );
+            if( empty( $product ) ) {
+                wp_send_json_error();
+            }
+
+            $url	            = wp_get_attachment_image_src( get_post_thumbnail_id( $product_id ), "full" );
+
+            if( function_exists( 'YITH_WCCL_Frontend' ) && function_exists( 'yith_wccl_get_variation_gallery' ) ) {
+                $gallery            = yith_wccl_get_variation_gallery( $product );
+                // filter gallery based on current variation
+                if( ! empty( $gallery ) ) {
+                    add_filter( 'woocommerce_product_variation_get_gallery_image_ids', [ YITH_WCCL_Frontend(), 'filter_gallery_ids' ], 10, 2 );
+                }
+            }
+
+            ob_start();
+            wc_get_template( 'single-product/product-thumbnails-magnifier.php', [], '', YITH_YWZM_DIR . 'templates/' );
+            $gallery_html = ob_get_clean();
+
+            wp_send_json( [
+                'url'       => isset( $url[ 0 ] ) ? $url[ 0 ] : '',
+                'gallery'   => $gallery_html
+            ] );
 
         }
 

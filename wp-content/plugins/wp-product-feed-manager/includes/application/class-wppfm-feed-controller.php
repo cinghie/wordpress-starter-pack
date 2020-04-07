@@ -4,7 +4,7 @@
  * WP Product Feed Controller Class.
  *
  * @package WP Product Feed Manager/Application/Classes
- * @version 1.2.0
+ * @version 1.3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -115,13 +115,13 @@ if ( ! class_exists( 'WPPFM_Feed_Controller' ) ) :
 		}
 
 		/**
-		 * Checks if a running feed size is still increasing, in order to identify a failing feed process
+		 * Checks if a running feed size is still growing, in order to identify a failing feed process.
 		 *
 		 * @since 2.2.0
 		 *
-		 * @param string $feed_file
+		 * @param   string  $feed_file  String with the full path and name of the feed file.
 		 *
-		 * @return boolean
+		 * @return  boolean False if the feed still grows, true if it stopped growing for a certain time.
 		 */
 		public static function feed_processing_failed( $feed_file ) {
 
@@ -131,7 +131,7 @@ if ( ! class_exists( 'WPPFM_Feed_Controller' ) ) :
 
 			$trans = get_transient( 'wppfm_feed_file_size' );
 
-			// get the feed file name that's stored in the transient or take the $feed_file parameter
+			// Get the feed file name that's stored in the transient or take the $feed_file parameter.
 			$trans_feed_file = $trans ? substr( $trans, strrpos( $trans, '|' ) + 1 ) : $feed_file;
 
 			// if the transient was empty or the feed file in the transient is not the currently active file, reset the transient
@@ -140,32 +140,51 @@ if ( ! class_exists( 'WPPFM_Feed_Controller' ) ) :
 				set_transient( 'wppfm_feed_file_size', $trans, WPPFM_TRANSIENT_LIVE );
 			}
 
-			// get the last data
-			$stored            = explode( '|', $trans );
-			$prev_feed_size    = $stored[0];
-			$prev_feed_counter = $stored[1];
-			$feed_file         = $trans_feed_file;
-			$curr_feed_size    = file_exists( $feed_file ) ? filesize( $feed_file ) : false;
+			// Get the last data.
+			$stored               = explode( '|', $trans );
+			$prev_feed_size       = $stored[0];
+			$prev_feed_time_stamp = $stored[1];
+			$feed_file            = $trans_feed_file;
+			$curr_feed_size       = file_exists( $feed_file ) ? filesize( $feed_file ) : false;
 
-			// if file does not exist, return true
+			// If file does not exist, return true.
 			if ( false === $curr_feed_size ) {
 				delete_transient( 'wppfm_feed_file_size' ); // reset the counter
 				return true;
 			}
 
-			// if the size of the feed has not grown
+			// If the size of the feed has not grown.
 			if ( $curr_feed_size <= $prev_feed_size ) {
-				// and the delay time has passed
-				if ( $prev_feed_counter + apply_filters( 'wppfm_delay_failed_label', WPPFM_DELAY_FAILED_LABEL, $feed_file ) < time() ) {
+				// And the delay time has passed.
+				if ( $prev_feed_time_stamp + apply_filters( 'wppfm_delay_failed_label', WPPFM_DELAY_FAILED_LABEL, $feed_file ) < time() ) {
 					delete_transient( 'wppfm_feed_file_size' ); // reset the counter
 					return true;
 				} else {
 					return false;
 				}
-			} else {
+			} else { // If the file size has increased, reset the timer and return false.
 				set_transient( 'wppfm_feed_file_size', $curr_feed_size . '|' . time() . '|' . $feed_file, WPPFM_TRANSIENT_LIVE );
 				return false;
 			}
+		}
+
+		/**
+		 * Updates the timer that is used as reference to monitor if a file is growing during the feed production process.
+		 *
+		 * @since 2.11.0
+		 */
+		public static function update_file_grow_monitoring_timer() {
+			// Get the current monitor data.
+			$grow_monitor_array = get_transient( 'wppfm_feed_file_size' );
+
+			if ( ! $grow_monitor_array ) { // The wppfm_feed_file_size is not set in the non-background mode.
+				return;
+			}
+
+			$grow_monitor_data = explode( '|', $grow_monitor_array );
+
+			// Reset the timer part of the monitor.
+			set_transient( 'wppfm_feed_file_size', $grow_monitor_data[0] . '|' . time() . '|' . $grow_monitor_data[2], WPPFM_TRANSIENT_LIVE );
 		}
 
 		/**

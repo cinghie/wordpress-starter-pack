@@ -475,8 +475,6 @@ final class PYS extends Settings implements Plugin {
             } else {
                 $core_options =  array();
             }
-
-
     
             $gdpr_ajax_enabled = isset( $core_options['gdpr_ajax_enabled'] )
                 ? $core_options['gdpr_ajax_enabled']        // value from form data
@@ -484,7 +482,14 @@ final class PYS extends Settings implements Plugin {
     
             // allow 3rd party plugins to by-pass option value
             $core_options['gdpr_ajax_enabled'] = apply_filters( 'pys_gdpr_ajax_enabled', $gdpr_ajax_enabled );
-    
+
+	        if (isPixelCogActive() ) {
+		        if (isset($core_options['woo_purchase_value_option'])) update_option('woo_purchase_value_cog', $core_options['woo_purchase_value_option']);
+		        if (isset($core_options['woo_view_content_value_option'])) update_option('woo_content_value_cog', $core_options['woo_view_content_value_option']);
+		        if (isset($core_options['woo_add_to_cart_value_option'])) update_option('woo_add_to_cart_value_cog', $core_options['woo_add_to_cart_value_option']);
+		        if (isset($core_options['woo_initiate_checkout_value_option'])) update_option('woo_initiate_checkout_value_cog', $core_options['woo_initiate_checkout_value_option']);
+	        }
+
             // update core options
             $this->updateOptions( $core_options );
 

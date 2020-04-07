@@ -460,6 +460,8 @@ if ( !class_exists( 'YIT_Plugin_Panel' ) ) {
             foreach ( $this->settings[ 'admin-tabs' ] as $tab => $tab_value ) {
                 $active_class  = ( $current_tab == $tab ) ? ' nav-tab-active' : '';
                 $active_class  .= 'premium' == $tab ? ' ' . $premium_class : '';
+				$active_class  = apply_filters( 'yith_plugin_fw_panel_active_tab_class', $active_class, $current_tab, $tab );
+
                 $first_sub_tab = $this->get_first_sub_tab_key( $tab );
                 $sub_tab       = !!$first_sub_tab ? $first_sub_tab : '';
 

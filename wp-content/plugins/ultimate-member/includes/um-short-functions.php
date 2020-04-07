@@ -939,7 +939,7 @@ function um_user_submitted_registration_formatted( $style = false ){
 function um_user_submited_display( $k, $title, $data = array(), $style = true ) {
 	$output = '';
 
-	if ( 'form_id' == $k ) {
+	if ( 'form_id' == $k && isset(  $data['form_id'] ) && ! empty( $data['form_id'] ) ) {
 		$v = sprintf( __( '%s - Form ID#: %s', 'ultimate-member' ), get_the_title( $data['form_id'] ), $data['form_id'] );
 	} else {
 		$v = um_user( $k );
@@ -1427,8 +1427,9 @@ function um_get_metadefault( $id ) {
  * @return bool
  */
 function um_submitting_account_page() {
-	if (isset( $_POST['_um_account'] ) && $_POST['_um_account'] == 1 && is_user_logged_in())
+	if ( isset( $_POST['_um_account'] ) && $_POST['_um_account'] == 1 && is_user_logged_in() ) {
 		return true;
+	}
 
 	return false;
 }
@@ -1623,7 +1624,7 @@ function um_can_view_field( $data ) {
 				if ( ! is_user_logged_in() ) {
 					$can_view = false;
 				} else {
-					if ( ! UM()->roles()->um_user_can( 'can_edit_everyone' ) && ! empty( $data['roles'] ) ) {
+					if ( ! empty( $data['roles'] ) ) {
 						if ( empty( $current_user_roles ) || count( array_intersect( $current_user_roles, $data['roles'] ) ) <= 0 ) {
 							$can_view = false;
 						}
@@ -1634,7 +1635,7 @@ function um_can_view_field( $data ) {
 				if ( ! is_user_logged_in() ) {
 					$can_view = false;
 				} else {
-					if ( ! UM()->roles()->um_user_can( 'can_edit_everyone' ) && ! um_is_user_himself() && ( empty( $current_user_roles ) || ( ! empty( $data['roles'] ) && count( array_intersect( $current_user_roles, $data['roles'] ) ) <= 0 ) ) ) {
+					if ( ! um_is_user_himself() && ( empty( $current_user_roles ) || ( ! empty( $data['roles'] ) && count( array_intersect( $current_user_roles, $data['roles'] ) ) <= 0 ) ) ) {
 						$can_view = false;
 					}
 				}

@@ -131,7 +131,7 @@ if ( ! class_exists( 'YITH_YWPI_Plugin_FW_Loader' ) ) {
 				'plugin_slug'      =>  YITH_YWPI_SLUG,
 				'page_title'       => 'Pdf Invoice',
 				'menu_title'       => 'Pdf Invoice',
-				'capability'       => 'manage_options',
+				'capability'       => apply_filters('yith_ywpi_settings_panel_capability','manage_options'),
 				'parent'           => '',
 				'parent_page'      => 'yit_plugin_panel',
 				'page'             => $this->_panel_page,

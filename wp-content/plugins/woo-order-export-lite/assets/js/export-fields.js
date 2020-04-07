@@ -350,22 +350,22 @@ function woe_create_unselected_fields( old_output_format, format, format_changed
 	}
 
 	jQuery.each( window['all_fields'], function ( segment, fields ) {
+		
+			fields.forEach( function ( value ) {
 
-		fields.forEach( function ( value ) {
+				var $unselected_field_segment = jQuery( '#' + woe_sprintf( $unselected_segment_id, segment ) );
+				var index = value.key;
 
-			var $unselected_field_segment = jQuery( '#' + woe_sprintf( $unselected_segment_id, segment ) );
-			var index = value.key;
+				$unselected_field_segment.append(
+					woe_make_unselected_field( index, value, format, format_changed, segment )
+				);
 
-			$unselected_field_segment.append(
-				woe_make_unselected_field( index, value, format, format_changed, segment )
-			);
-
-			woe_activate_draggable_field(
-				$unselected_field_segment.find( '.segment_field' ),
-				segment,
-				format
-			);
-		} )
+				woe_activate_draggable_field(
+					$unselected_field_segment.find( '.segment_field' ),
+					segment,
+					format
+				);
+			} )
 
 	} );
 }
@@ -664,7 +664,7 @@ function woe_make_repeat_options( index ) {
 	repeat_options_html['inside_one_cell'].push( line_delimiter_html );
 
 	var popup_options = jQuery( '<div class=""></div>' );
-	popup_options.append( jQuery( '<div class="segment-header">' + '<label>' + localize_settings_form.js_tpl_popup.add + ' ' + index + ' ' + localize_settings_form.js_tpl_popup.as + '</label>' + '</div>' ).append( repeat_select ) );
+	popup_options.append( jQuery( '<div class="segment-header segment-header_flex-styles">' + '<label>' + localize_settings_form.js_tpl_popup.add + ' ' + index + ' ' + localize_settings_form.js_tpl_popup.as + '</label>' + '</div>' ).append( repeat_select ) );
 
 	jQuery.each( repeat_options_html, function ( key, currentValue ) {
 		popup_options.append( jQuery( '<div class="display_as duplicate_' + key + '_options"></div>' ).append( currentValue ) );
@@ -1023,7 +1023,7 @@ jQuery( document ).ready( function ( $ ) {
 	$( '.segment_choice' ).click( function () {
 
 		var segment = $( this ).data( 'segment' );
-
+	
 		$('.tab-actions-buttons').hide();
 
 		if ($('.tab-actions-buttons.' + segment + '-actions-buttons').length) {
@@ -1037,6 +1037,9 @@ jQuery( document ).ready( function ( $ ) {
 
 		$( '.settings-segment' ).removeClass( 'active' );
 		$( '#' + $( this ).data( 'segment' ) + '_unselected_segment' ).addClass( 'active' );
+
+		$( '.woe_segment_tips' ).removeClass( 'active' );
+		$( '#woe_tips_' + $( this ).data( 'segment' ) ).addClass( 'active' );
 
 		window.location.href = $( this ).attr( 'href' );
 

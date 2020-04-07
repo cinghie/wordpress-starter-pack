@@ -273,7 +273,24 @@ if(isset($_GET["tab"])) {
                                                 		</label>
 							</td>
 						</tr>
-
+						<tr>
+							<td>
+								<span><?php _e( 'Add shipping costs for all countries (Google Shopping / Facebook)', 'woo-product-feed-pro');?></span>
+							</td>
+							<td>
+                                                		<label class="woo-product-feed-pro-switch">
+                                                        	<?php
+								$add_all_shipping = get_option ('add_all_shipping');
+                                                        	if($add_all_shipping == "yes"){
+                                                                	print "<input type=\"checkbox\" id=\"add_all_shipping\" name=\"add_all_shipping\" class=\"checkbox-field\" checked>";
+							 	} else {
+                                                                	print "<input type=\"checkbox\" id=\"add_all_shipping\" name=\"add_all_shipping\" class=\"checkbox-field\">";
+                                                        	}
+                                                        	?>
+                                                        	<div class="woo-product-feed-pro-slider round"></div>
+                                                		</label>
+							</td>
+						</tr>
 						<tr>
 							<td>
 								<span><?php _e( 'Enable logging (Enable only on advice of our support-team):', 'woo-product-feed-pro');?></span>

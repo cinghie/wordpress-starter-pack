@@ -44,6 +44,9 @@ jQuery(document).ready(function($) {
 	$(".add_to_cart_button").click(function(){
 		var productId = $(this).attr('data-product_id');
 	
+            	console.log("Facebook Pixel by AdTribes.io - 1");
+		console.log(productId);
+
 		// Ajax frontend
 		var inputdata = {
 			'action': 'woosea_addtocart_details',
@@ -52,11 +55,11 @@ jQuery(document).ready(function($) {
 		}
 		
 		$.post(frontEndAjax.ajaxurl, inputdata, function( response ) {
-        		fbq('track', 'AddToCart', {
-  				content_ids: response.product_id,
+        		fbq("track", "AddToCart", {
+				content_ids: "['" + response.product_id + "']",
 				content_name: response.product_name,
 				content_category: response.product_cats,
-  				content_type: 'product',
+  				content_type: "product",
 				value: response.product_price,
 				currency: response.product_currency,
  			});
@@ -67,9 +70,13 @@ jQuery(document).ready(function($) {
 	$(".single_add_to_cart_button").click(function(){
 		var productId = $('input[name=product_id]').val();
 
+            	console.log("Facebook Pixel by AdTribes.io - 2");
+
 		if(!productId){
 			productId = $(this).attr('value');
 		}
+
+		console.log(productId);
 
 		// Ajax frontend
 		var inputdata = {
@@ -77,14 +84,14 @@ jQuery(document).ready(function($) {
 			'data_to_pass': productId,
 			'nonce': frontEndAjax.nonce
 		}
-	
+
 		$.post(frontEndAjax.ajaxurl, inputdata, function( response ) {
 	 
-			fbq('track', 'AddToCart', {
-  				content_ids: response.product_id,
+			fbq("track", "AddToCart", {
+				content_ids: "['" + response.product_id + "']",
 				content_name: response.product_name,
 				content_category: response.product_cats,
-  				content_type: 'product',
+  				content_type: "product",
 				value: response.product_price,
 				currency: response.product_currency,
  			});

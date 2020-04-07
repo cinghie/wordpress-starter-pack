@@ -60,7 +60,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 
 		$this->cron_hook_identifier     = $this->identifier . '_cron';
 		$this->cron_interval_identifier = $this->identifier . '_cron_interval';
-		$this->processed_products       = get_option( 'wppfm_processed_products' ) ? explode( ', ', get_option( 'wppfm_processed_products' ) ) : array();
+		$this->processed_products       = get_option( 'wppfm_processed_products' ) ? explode( ',', get_option( 'wppfm_processed_products' ) ) : array();
 
 		add_action( $this->cron_hook_identifier, array( $this, 'handle_cron_health_check' ) );
 		add_filter( 'cron_schedules', array( $this, 'schedule_cron_health_check' ) );
@@ -93,6 +93,27 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 		$this->data[] = $data;
 
 		return $this;
+	}
+
+	/**
+	 * Implements the wppfm_feed_ids_in_queue filter on the queue.
+	 *
+	 * @param   string  $feed_id    Feed id to enable using the filter on a specific feed.
+	 *
+	 * @since 2.10.0.
+	 * @return  mixed|void  Filtered queue.
+	 */
+	public function apply_filter_to_queue( $feed_id ) {
+		// Remove the feed header from the queue.
+		$feed_header = array_shift( $this->data );
+
+		// Apply the filter.
+		$ids = apply_filters( 'wppfm_feed_ids_in_queue', $this->data, $feed_id );
+
+		// Add the feed header again.
+		array_unshift( $ids, $feed_header );
+
+		$this->data = $ids;
 	}
 
 	/**
@@ -353,7 +374,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	/**
 	 * Get batch
 	 *
-	 * @return stdClass Return the first batch from the queue
+	 * @return  stdClass|bool   Return the first batch from the queue or false if it does not exists.
 	 */
 	protected function get_batch() {
 		global $wpdb;
@@ -380,9 +401,14 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 			)
 		);
 
-		$batch       = new stdClass();
-		$batch->key  = $query->$column;
-		$batch->data = maybe_unserialize( $query->$value_column );
+		// @since 2.10.0 added an extra validation if the batch still exists.
+		if ( $query && property_exists( $query, $column ) && property_exists( $query, $value_column ) ) {
+			$batch       = new stdClass();
+			$batch->key  = $query->$column;
+			$batch->data = maybe_unserialize( $query->$value_column );
+		} else {
+			return false;
+		}
 
 		return $batch;
 	}
@@ -392,12 +418,19 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	 *
 	 * Pass each queue item to the task handler, while remaining
 	 * within server memory and time limit constraints.
+	 *
+	 * @return   void|bool
 	 */
 	protected function handle() {
 		$this->lock_process();
 
 		do {
 			$batch = $this->get_batch();
+
+			if ( ! $batch ) { // @since 2.10.0
+				$this->end_batch( false, 'failed' );
+				return false;
+			}
 
 			$properties_key  = get_site_option( 'wppfm_background_process_key' );
 			$feed_file_path  = get_site_option( 'file_path_' . $properties_key );
@@ -406,18 +439,44 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 			$channel_details = get_site_option( 'channel_details_' . $properties_key );
 			$relations_table = get_site_option( 'relations_table_' . $properties_key );
 
+			// phpcs:ignore
+			$feed_id = $feed_data->feedId;
+
+			// @since 2.10.0.
+			if ( ! $properties_key ) {
+				$message = 'Tried to get the next batch but the wppfm_background_process_key is empty.';
+				do_action( 'wppfm_feed_generation_message', $feed_id, $message, 'ERROR' );
+				$this->end_batch( $feed_id, 'failed' );
+				return false;
+			}
+
+			// @since 2.10.0.
+			if ( ! $feed_data || empty( $feed_data ) || ! property_exists( $feed_data, 'feedId' ) ) {
+				$message = 'Tried to get the next batch the feed data could not be loaded correctly.';
+				do_action( 'wppfm_feed_generation_message', $feed_id, $message, 'ERROR' );
+				$this->end_batch( false, 'failed' );
+				return false;
+			}
+
+			// When in fore-ground mode increase the set time limit to enable larger feeds.
+			// @since 2.11.0.
+			if ( 'true' === get_option( 'wppfm_disabled_background_mode', 'false' ) && function_exists( 'wc_set_time_limit' ) ) {
+				wc_set_time_limit( 30 * MINUTE_IN_SECONDS );
+			}
+
 			$initial_memory = function_exists( 'ini_get' ) ? ini_get( 'memory_limit' ) : 'unknown';
 
-			do_action( 'wppfm_feed_processing_batch_activated', $feed_data->feedId, $initial_memory );
+			do_action( 'wppfm_feed_processing_batch_activated', $feed_id, $initial_memory, count( $batch->data ) );
 
 			foreach ( $batch->data as $key => $value ) {
-				// the product ids are not stored in an array
+				// if it's not an array, then its a product id
 				if ( ! is_array( $value ) ) {
 					$value = array( 'product_id' => $value );
 				}
 
 				// prevent doubles in the feed
 				if ( array_key_exists( 'product_id', $value ) && in_array( $value['product_id'], $this->processed_products ) ) {
+					unset( $batch->data[ $key ] ); // remove this product from the queue
 					continue;
 				}
 
@@ -431,7 +490,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 
 				unset( $batch->data[ $key ] ); // remove this product from the queue
 
-				if ( $this->time_exceeded( $feed_data->feedId ) || $this->memory_exceeded( $feed_data->feedId ) ) {
+				if ( $this->time_exceeded( $feed_id ) || $this->memory_exceeded( $feed_id ) ) {
 					// Batch limits reached.
 					$this->delete( $batch->key );
 					break;
@@ -444,27 +503,25 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 			} else {
 				$this->delete( $batch->key );
 			}
-		} while ( ! $this->time_exceeded( $feed_data->feedId ) && ! $this->memory_exceeded( $feed_data->feedId ) && ! $this->is_queue_empty() );
+		} while ( ! $this->time_exceeded( $feed_id ) && ! $this->memory_exceeded( $feed_id ) && ! $this->is_queue_empty() );
 
 		$this->unlock_process();
 
 		// If the queue is not empty, restart the process
 		if ( ! $this->is_queue_empty() ) {
-			update_option( 'wppfm_processed_products', implode( ', ', $this->processed_products ) );
+			update_option( 'wppfm_processed_products', implode( ',', $this->processed_products ) );
 
-			//@since 2.3.0
-			do_action( 'wppfm_activated_next_batch', $feed_data->feedId );
+			// @since 2.3.0
+			do_action( 'wppfm_activated_next_batch', $feed_id );
 
-			$this->dispatch( $feed_data->feedId );
+			// @since 2.11.0
+			// The feed process is still running so update the file grow monitor to prevent it from initiating a failed feed.
+			WPPFM_Feed_Controller::update_file_grow_monitoring_timer();
+
+			$this->dispatch( $feed_id );
 		} else {
-			$this->complete(); // complete processing this feed
 
-			if ( ! WPPFM_Feed_Controller::feed_queue_is_empty() ) {
-				//@since 2.3.0
-				do_action( 'wppfm_activated_next_feed', WPPFM_Feed_Controller::get_next_id_from_feed_queue() );
-
-				$this->dispatch( WPPFM_Feed_Controller::get_next_id_from_feed_queue() ); // start with the next feed in the queue
-			}
+			$this->end_batch( $feed_id );
 		}
 	}
 
@@ -532,6 +589,36 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 		}
 
 		return apply_filters( $this->identifier . '_time_exceeded', $return );
+	}
+
+	/**
+	 * Ends the current batch. Clean up the batch data and start a new feed if there is one in the feed queue.
+	 *
+	 * @since 2.10.0.
+	 *
+	 * @param   string  $feed_id
+	 * @param   string  $status     Use "failed" for failing batches. Default status is ready.
+	 */
+	protected function end_batch( $feed_id, $status = 'ready' ) {
+		$this->clear_the_queue();
+
+		$this->complete(); // complete processing this feed
+
+		if ( 'failed' === $status && $feed_id ) {
+			// Set the feed status to failed (6).
+			$data_class = new WPPFM_Data();
+			$data_class->update_feed_status( $feed_id, 6 );
+
+			// Log the failure.
+			$message = 'Batch ended prematurely.';
+			do_action( 'wppfm_feed_generation_message', $feed_id, $message, 'ERROR' );
+		}
+
+		if ( ! WPPFM_Feed_Controller::feed_queue_is_empty() ) {
+			do_action( 'wppfm_activated_next_feed', WPPFM_Feed_Controller::get_next_id_from_feed_queue() );
+
+			$this->dispatch( WPPFM_Feed_Controller::get_next_id_from_feed_queue() ); // start with the next feed in the queue
+		}
 	}
 
 	/**

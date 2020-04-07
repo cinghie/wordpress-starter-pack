@@ -64,6 +64,10 @@ if ( ! class_exists( 'YITH_WCAS' ) ) {
 			// register shortcode.
 			add_shortcode( 'yith_woocommerce_ajax_search', array( $this, 'add_woo_ajax_search_shortcode' ) );
 
+			if ( defined('ELEMENTOR_VERSION') ) {
+				require_once( YITH_WCAS_DIR . 'compatibility/elementor/class.yith-wcas-elementor.php');
+			}
+
 			return $this->obj;
 		}
 

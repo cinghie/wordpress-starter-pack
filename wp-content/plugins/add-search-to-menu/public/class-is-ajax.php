@@ -209,7 +209,7 @@ class IS_Ajax {
                                         $settings = get_option( 'is_search_' . $search_post_id );
                                         $loader_image = isset( $settings['loader-image'] ) ? $settings['loader-image'] : IS_PLUGIN_URI . 'public/images/spinner.gif';
                                         if( $loader_image ) {
-                                                echo '<img class="is-load-more-image" src="'.esc_attr( $loader_image ).'" style="display: none;" />';
+                                                echo '<img class="is-load-more-image" alt="'. esc_attr__( "Loader Image", 'ivory-search' ) .'" src="'.esc_attr( $loader_image ).'" style="display: none;" />';
                                         }
 				    	?>
 			    	</div>

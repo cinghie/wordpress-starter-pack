@@ -2,7 +2,7 @@
 
 /**
  * @package WP Product Feed Manager/Application/Functions
- * @version 1.2.1
+ * @version 1.4.0
  */
 
 trait WPPFM_Processing_Support {
@@ -290,13 +290,13 @@ trait WPPFM_Processing_Support {
 		$this->_selected_number = 0;
 
 		// do not process category strings, but only fields that are requested
-		if ( key_exists( 'fieldName', (array) $field_meta_data ) && $field_meta_data->fieldName !== $main_category_feed_title
+		if ( property_exists( $field_meta_data, 'fieldName' ) && $field_meta_data->fieldName !== $main_category_feed_title
 			&& $this->meta_data_contains_category_data( $field_meta_data ) === false ) {
 
-			$value_object = key_exists( 'value', (array) $field_meta_data ) && '' !== $field_meta_data->value ? json_decode( $field_meta_data->value ) : new stdClass();
+			$value_object = property_exists( $field_meta_data, 'value' ) && '' !== $field_meta_data->value ? json_decode( $field_meta_data->value ) : new stdClass();
 
-			if ( key_exists( 'value', (array) $field_meta_data ) && '' !== $field_meta_data->value && key_exists( 'm', $value_object ) ) { // seems to be something we need to work on
-				$advised_source = key_exists( 'advisedSource', (array) $field_meta_data ) ? $field_meta_data->advisedSource : '';
+			if ( property_exists( $field_meta_data, 'value' ) && '' !== $field_meta_data->value && property_exists( $value_object, 'm' ) ) { // seems to be something we need to work on
+				$advised_source = property_exists( $field_meta_data, 'advisedSource' ) ? $field_meta_data->advisedSource : '';
 
 				// get the end value depending on the filter settings
 				$end_row_value = $this->get_correct_end_row_value( $value_object->m, $product_data, $advised_source );
@@ -307,7 +307,7 @@ trait WPPFM_Processing_Support {
 					$db_title = $field_meta_data->advisedSource;
 				} else {
 					$support_class = new WPPFM_Feed_Support();
-					$source_title  = key_exists( 'fieldName', (array) $field_meta_data ) ? $field_meta_data->fieldName : '';
+					$source_title  = property_exists( $field_meta_data, 'fieldName' ) ? $field_meta_data->fieldName : '';
 					$db_title      = $support_class->find_relation( $source_title, $relation_table );
 				}
 
@@ -315,12 +315,12 @@ trait WPPFM_Processing_Support {
 			}
 
 			// change value if requested
-			if ( key_exists( 'value', (array) $field_meta_data ) && '' !== $field_meta_data->value && key_exists( 'v', $value_object ) ) {
+			if ( property_exists( $field_meta_data, 'value' ) && '' !== $field_meta_data->value && property_exists( $value_object, 'v' ) ) {
 				$pos = $this->_selected_number;
 
-				if ( key_exists( 'm', $value_object ) && key_exists( 's', $value_object->m[ $pos ] ) ) {
-					$combination_string = key_exists( 'f', $value_object->m[ $pos ]->s ) ? $value_object->m[ $pos ]->s->f : false;
-					$is_money           = key_exists( 'source', $value_object->m[ $pos ]->s ) ? wppfm_meta_key_is_money( $value_object->m[ $pos ]->s->source ) : false;
+				if ( property_exists( $value_object, 'm' ) && property_exists( $value_object->m[ $pos ], 's' ) ) {
+					$combination_string = property_exists( $value_object->m[ $pos ]->s, 'f' ) ? $value_object->m[ $pos ]->s->f : false;
+					$is_money           = property_exists( $value_object->m[ $pos ]->s, 'source' ) ? wppfm_meta_key_is_money( $value_object->m[ $pos ]->s->source ) : false;
 				} else {
 					$combination_string = false;
 					$is_money           = false;
@@ -387,7 +387,7 @@ trait WPPFM_Processing_Support {
 	}
 
 	protected function get_filter_status( $filter, $product_data ) {
-		if ( key_exists( 'c', $filter ) ) {
+		if ( property_exists( $filter, 'c' ) ) {
 			// check if the query is true for this field
 			return $this->filter_result( $filter->c, $product_data );
 		} else {
@@ -476,10 +476,10 @@ trait WPPFM_Processing_Support {
 	protected function get_row_source_data( $filter, $product_data, $advised_source ) {
 		$row_source_data = '';
 
-		if ( key_exists( 's', $filter ) ) {
-			if ( key_exists( 'static', $filter->s ) ) {
+		if ( property_exists( $filter, 's' ) ) {
+			if ( property_exists( $filter->s, 'static' ) ) {
 				$row_source_data = $filter->s->static;
-			} elseif ( key_exists( 'source', $filter->s ) ) {
+			} elseif ( property_exists( $filter->s, 'source' ) ) {
 				if ( 'combined' !== $filter->s->source ) {
 					$row_source_data = array_key_exists( $filter->s->source, $product_data ) ? $product_data[ $filter->s->source ] : '';
 				} else {
@@ -547,7 +547,7 @@ trait WPPFM_Processing_Support {
 	}
 
 	protected function meta_data_contains_category_data( $meta_data ) {
-		if ( ! key_exists( 'value', $meta_data ) || empty( $meta_data->value ) ) {
+		if ( ! property_exists( $meta_data, 'value' ) || empty( $meta_data->value ) ) {
 			return false;
 		}
 
@@ -556,20 +556,20 @@ trait WPPFM_Processing_Support {
 		return property_exists( $meta_obj, 't' ) ? true : false;
 	}
 
-	protected function get_edited_end_row_value( $change_parameters, $origional_output, $product_data, $combination_string, $feed_language ) {
+	protected function get_edited_end_row_value( $change_parameters, $original_output, $product_data, $combination_string, $feed_language ) {
 		$result_is_filtered = false;
 		$support_class      = new WPPFM_Feed_Support();
 		$y                  = 0;
 		$final_output       = '';
 
 		for ( $i = 0; $i < ( count( $change_parameters ) - 1 ); $i ++ ) {
-			if ( key_exists( 'q', $change_parameters[ $i ] ) ) {
+			if ( property_exists( $change_parameters[ $i ], 'q' ) ) {
 				$filter_result = $this->filter_result( $change_parameters[ $i ]->q, $product_data );
 
 				if ( true === $filter_result ) {
 					$combined_data_elements = $combination_string ? $this->get_combined_elements( $product_data, $combination_string ) : '';
 					$final_output           = $support_class->edit_value(
-						$origional_output,
+						$original_output,
 						$change_parameters[ $i ]->{$i + 1},
 						$combination_string,
 						$combined_data_elements,
@@ -586,7 +586,7 @@ trait WPPFM_Processing_Support {
 		if ( false === $result_is_filtered ) {
 			$combined_data_elements = $combination_string ? $this->get_combined_elements( $product_data, $combination_string ) : '';
 			$final_output           = $support_class->edit_value(
-				$origional_output,
+				$original_output,
 				$change_parameters[ $y ]->{$y + 1},
 				$combination_string,
 				$combined_data_elements,
@@ -632,7 +632,8 @@ trait WPPFM_Processing_Support {
 		if ( $found_all_data ) {
 			return $result;
 		} else {
-			wppfm_write_log_file( sprintf( 'Missing data for combined elements of product with id %. Combination string value is %s', $product_data['ID'], $combination_string ) );
+			$message = sprintf( 'Missing the data for one or both combined elements of the combination %s in the product with id %s.', $combination_string, $product_data['ID'] );
+			do_action( 'wppfm_feed_generation_message', $this->_feed_data->feedId, $message );
 			return array();
 		}
 	}
@@ -721,7 +722,7 @@ trait WPPFM_Processing_Support {
 
 		if ( ! empty( $value_source ) ) {
 			$source = $value_source;
-		} elseif ( array_key_exists( 'advisedSource', $attribute ) && '' !== $attribute->advisedSource ) {
+		} elseif ( property_exists( $attribute, 'advisedSource' ) && '' !== $attribute->advisedSource ) {
 			$source = $attribute->advisedSource;
 		} else {
 			$source = $attribute->fieldName;
@@ -790,9 +791,10 @@ trait WPPFM_Processing_Support {
 	/**
 	 * makes an xml string for one product
 	 *
-	 * @param array $product
-	 * @param string $category_name
-	 * @param string $description_name
+	 * @param   array   $product            Contains all the data from the product.
+	 * @param   string  $category_name      Selected category name.
+	 * @param   string  $description_name   The name of the description.
+	 * @param   string  $channel            Contains the channel id.
 	 *
 	 * @return string
 	 */
@@ -890,12 +892,12 @@ trait WPPFM_Processing_Support {
 	}
 
 	/**
-	 * takes one row data and converts it to a comma separated string
+	 * Takes the data for one row and converts it to a comma separated string that fits into the feed.
 	 *
-	 * @param array $row_data
-	 * @param array $active_fields
-	 * @param string $channel
-	 * @param string $separator
+	 * @param   array   $row_data       Array with the attribute name => attribute data.
+	 * @param   array   $active_fields  Array containing the attributes that are active and need to go into the feed.
+	 * @param   string  $channel        Channel id.
+	 * @param   string  $separator      Requested data separator (default ,).
 	 *
 	 * @return string
 	 */
@@ -904,9 +906,13 @@ trait WPPFM_Processing_Support {
 
 		$quotes_not_allowed = channel_requires_no_quotes_on_empty_attributes( $channel );
 
+		// @since 2.11.0 allows choosing another separator for array data.
+		$separator_for_arrays = apply_filters( 'wppfm_separator_for_arrays_in_csv_feed', '|' );
+
+		// Loop through the active attributes.
 		foreach ( $active_fields as $row_item ) {
 			if ( array_key_exists( $row_item, $row_data ) ) {
-				$clean_row_item = ! is_array( $row_data[ $row_item ] ) ? preg_replace( "/\r|\n/", "", $row_data[ $row_item ] ) : implode( ', ', $row_data[ $row_item ] );
+				$clean_row_item = ! is_array( $row_data[ $row_item ] ) ? preg_replace( "/\r|\n/", '', $row_data[ $row_item ] ) : implode( $separator_for_arrays, $row_data[ $row_item ] );
 			} else {
 				$clean_row_item = '';
 			}
@@ -917,7 +923,7 @@ trait WPPFM_Processing_Support {
 			$row_string                      .= $quotes . $remove_double_quotes_from_string . $quotes . $separator;
 		}
 
-		$row = rtrim( $row_string, $separator ); // removes the comma at the end of the line
+		$row = rtrim( $row_string, $separator ); // Removes the comma at the end of the line.
 
 		return $row . "\r\n";
 	}
@@ -1067,15 +1073,15 @@ trait WPPFM_Processing_Support {
 	 *
 	 * @since 1.9.0
 	 *
-	 * @param $product  object pointer to the product data
-	 * @param $sub_keys_for_subs
-	 * @param $tags_repeated_fields
-	 * @param $node_pre_tag
+	 * @param   $product                array   Pointer to the product data.
+	 * @param   $sub_keys_for_subs      array   Array with the tags that can be placed in the feed as a sub tag (eg. <loyalty_points><ratio>).
+	 * @param   $tags_repeated_fields   array   Array with tags of fields that can have more than one instance in the feed.
+	 * @param   $node_pre_tag           string  The channel dependant pre tag (eg. g: for Google Feeds).
 	 *
-	 * @return object
+	 * @return  array   The product with the correct xml tags.
 	 */
 	public function add_xml_sub_tags( &$product, $sub_keys_for_subs, $tags_repeated_fields, $node_pre_tag ) {
-		$sub_tags = array_intersect_key( (array) $product, array_flip( $sub_keys_for_subs ) );
+		$sub_tags = array_intersect_key( $product, array_flip( $sub_keys_for_subs ) );
 
 		if ( count( $sub_tags ) < 1 ) {
 			return $product;
@@ -1097,7 +1103,7 @@ trait WPPFM_Processing_Support {
 					$tags_counter ++;
 				}
 			} else {
-				$tags_value  = array_key_exists( $split[0], (array) $product ) ? $product[ $split[0] ] : '';
+				$tags_value  = array_key_exists( $split[0], $product ) ? $product[ $split[0] ] : '';
 				$tags_value .= '<' . $node_pre_tag . $split[1] . '>' . $value . '</' . $node_pre_tag . $split[1] . '>';
 			}
 
@@ -1336,12 +1342,18 @@ trait WPPFM_Processing_Support {
 		}
 
 		if ( in_array( 'attachment_url', $active_field_names ) ) {
-			$attachment_url = wp_get_attachment_url( get_post_thumbnail_id( $product->ID ) );
+			// WPML support -> Returns an elements ID in the selected language.
+			$object_id      = has_filter( 'wpml_object_id' ) ? apply_filters( 'wpml_object_id', $product->ID, 'attachment', true ) : $product->ID;
+			$attachment_url = wp_get_attachment_url( get_post_thumbnail_id( $object_id ) );
+
+			// If the attachment url is empty and the product has a parent try getting the attachment url of the parent.
 			if ( false === $attachment_url && 0 !== $woocommerce_parent_id ) {
-				$attachment_url = wp_get_attachment_url( get_post_thumbnail_id( $woocommerce_parent_id ) );
+				// WPML support -> Returns an elements ID in the selected language.
+				$parent_object_id = has_filter( 'wpml_object_id' ) ? apply_filters( 'wpml_object_id', $woocommerce_parent_id, 'attachment', true ) : $woocommerce_parent_id;
+				$attachment_url   = wp_get_attachment_url( get_post_thumbnail_id( $parent_object_id ) );
 			}
 
-			// WPML support
+			// WPML support -> Filter the permalink and convert it to a language-specific permalink.
 			$product->attachment_url = has_filter( 'wppfm_get_wpml_permalink' )
 				? apply_filters( 'wppfm_get_wpml_permalink', $attachment_url, $selected_language ) : $attachment_url;
 		}

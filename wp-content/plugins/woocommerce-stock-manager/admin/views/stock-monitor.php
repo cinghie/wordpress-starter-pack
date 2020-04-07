@@ -54,3 +54,4 @@ if( empty( $step ) ){ $step = '1'; }
  		</div>
 	</div>
 </div>
+<?php

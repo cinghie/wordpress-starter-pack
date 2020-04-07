@@ -53,6 +53,8 @@ if ( ! class_exists( 'WPPFM_Options_Page' ) ) :
 			$background_processing_unchecked = true === $background_processing_option || 'true' === $background_processing_option ? ' checked ' : '';
 			$process_logging_option          = get_option( 'wppfm_process_logger_status', 'false' );
 			$process_logging_unchecked       = true === $process_logging_option || 'true' === $process_logging_option ? ' checked ' : '';
+			$product_identifiers_option      = get_option( 'wppfm_show_product_identifiers', 'false' );
+			$show_product_identifiers        = true === $product_identifiers_option || 'true' === $product_identifiers_option ? ' checked ' : '';
 
 			$third_party_attribute_keywords = get_option( 'wppfm_third_party_attribute_keywords', '%wpmr%,%cpf%,%unit%,%bto%,%yoast%' );
 			$notice_mailaddress             = get_option( 'wppfm_notice_mailaddress' ) ? get_option( 'wppfm_notice_mailaddress' ) : get_bloginfo( 'admin_email' );
@@ -85,6 +87,17 @@ if ( ! class_exists( 'WPPFM_Options_Page' ) ) :
 			$html_code .= '<label for="wppfm_process_logging_mode">';
 			$html_code .= esc_html__( 'When switched on, generates an extensive log of the feed process (default off).', 'wp-product-feed-manager' ) . '</label>';
 			$html_code .= '<p><i>' . esc_html__( 'Switch this option only on request of the help desk. ', 'wp-product-feed-manager' ) . '</i></p></fieldset>';
+			$html_code .= '</td></tr>';
+
+			// @since 2.10.0.
+			$html_code .= '<tr valign="top" class="">';
+			$html_code .= '<th scope="row" class="titledesc">' . esc_html__( 'Show product identifiers', 'wp-product-feed-manager' ) . '</th>';
+			$html_code .= '<td class="forminp forminp-checkbox">';
+			$html_code .= '<fieldset>';
+			$html_code .= '<input name="wppfm_product_identifiers_on" id="wppfm_product_identifiers" type="checkbox" class="" value="1"' . $show_product_identifiers . '> ';
+			$html_code .= '<label for="wppfm_product_identifiers">';
+			$html_code .= esc_html__( 'When switched on, adds Brand, GTIN and MPN product identifiers to the products (default off).', 'wp-product-feed-manager' ) . '</label>';
+			$html_code .= '<p><i>' . esc_html__( 'This option will add product identifier input fields to the Inventory card of your products. The MPN identifier is also added to the product variations.', 'wp-product-feed-manager' ) . '</i></p></fieldset>';
 			$html_code .= '</td></tr>';
 
 			$html_code .= '<tr valign="top" class="">';

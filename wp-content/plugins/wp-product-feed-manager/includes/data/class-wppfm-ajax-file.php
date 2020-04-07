@@ -30,6 +30,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 			add_action( 'wp_ajax_myajax-auto-feed-fix-mode-selection', array( $this, 'myajax_auto_feed_fix_mode_selection' ) );
 			add_action( 'wp_ajax_myajax-background-processing-mode-selection', array( $this, 'myajax_background_processing_mode_selection' ) );
 			add_action( 'wp_ajax_myajax-feed-logger-status-selection', array( $this, 'myajax_feed_logger_status_selection' ) );
+			add_action( 'wp_ajax_myajax-show-product-identifiers-selection', array( $this, 'myajax_show_product_identifiers_selection' ) );
 			add_action( 'wp_ajax_myajax-debug-mode-selection', array( $this, 'myajax_debut_mode_selection' ) );
 			add_action( 'wp_ajax_myajax-third-party-attribute-keywords', array( $this, 'myajax_set_third_party_attribute_keywords' ) );
 			add_action( 'wp_ajax_myajax-set-notice-mailaddress', array( $this, 'myajax_set_notice_mailaddress' ) );
@@ -211,17 +212,35 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 		}
 
 		/**
-		 * Changes the Feed Process Logger setting from the Settins page.
+		 * Changes the Feed Process Logger setting from the Settings page.
 		 *
 		 * @since 2.8.0
 		 */
 		public function myajax_feed_logger_status_selection() {
 			// make sure this call is legal
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'feedLoggerStatusNonce' ), 'myajax-logger-status-nonce' ) ) {
-				$selection = filter_input( INPUT_POST, 'status_selection' );
+				$selection = filter_input( INPUT_POST, 'statusSelection' );
 				update_option( 'wppfm_process_logger_status', $selection );
 
 				echo get_option( 'wppfm_process_logger_status' );
+			}
+
+			// IMPORTANT: don't forget to exit
+			exit;
+		}
+
+		/**
+		 * Changes the Show Product Identifiers setting from the Settings page.
+		 *
+		 * @since 2.10.0
+		 */
+		public function myajax_show_product_identifiers_selection() {
+			// make sure this call is legal
+			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'showPINonce' ), 'myajax-show-pi-nonce' ) ) {
+				$selection = filter_input( INPUT_POST, 'showPiSelection' );
+				update_option( 'wppfm_show_product_identifiers', $selection );
+
+				echo get_option( 'wppfm_show_product_identifiers' );
 			}
 
 			// IMPORTANT: don't forget to exit

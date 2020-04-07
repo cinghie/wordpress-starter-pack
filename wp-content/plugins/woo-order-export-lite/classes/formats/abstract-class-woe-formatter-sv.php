@@ -41,7 +41,7 @@ abstract class WOE_Formatter_sv extends WOE_Formatter_Plain_Format {
 		$data = apply_filters( "woe_{$this->format}_header_filter", $data );
 		$this->prepare_array( $data );
 		parent::start( $data );
-
+		
 		if ( ! empty( $this->settings['add_utf8_bom'] ) ) {
 			fwrite( $this->handle, chr( 239 ) . chr( 187 ) . chr( 191 ) );
 		}
@@ -121,7 +121,7 @@ abstract class WOE_Formatter_sv extends WOE_Formatter_Plain_Format {
 			$arr = array_map( array( $this, 'stop_csv_injection' ), $arr );
 		}
 
-		if ( ! in_array( $this->encoding, array( '', 'utf-8', 'UTF-8' ) ) ) {
+		if ( $this->mode !== 'preview' AND ! in_array( $this->encoding, array( '', 'utf-8', 'UTF-8' ) ) ) {
 			$arr = array_map( array( $this, 'encode_value' ), $arr );
 		}
 	}

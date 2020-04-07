@@ -13,6 +13,8 @@ class WC_Order_Export_Admin {
 	public $path_plugin;
 
 	protected $tabs;
+	
+	const last_bulk_export_results = 'woe-last-bulk-export-results';
 
 	public function __construct() {
 		$this->url_plugin         = dirname( plugin_dir_url( __FILE__ ) ) . '/';
@@ -31,6 +33,7 @@ class WC_Order_Export_Admin {
 			add_action( 'wp_loaded' , function() { //init tabs after loading text domains!
 				$this->tabs = $this->get_tabs();
 			});
+			
 
 			add_action( 'wp_ajax_order_exporter', array( $this, 'ajax_gate' ) );
 
@@ -59,6 +62,7 @@ class WC_Order_Export_Admin {
 			// Style for 'Export Status' column
 			if ( isset( $_GET['post_type'] ) && $_GET['post_type'] == 'shop_order' ) {
 				add_action( 'admin_print_styles', array( $this, 'add_order_status_column_style' ) );
+				add_action( 'admin_enqueue_scripts', array( $this, 'woe_add_orders_style' ) );
 			}
 		}
 
@@ -121,6 +125,9 @@ class WC_Order_Export_Admin {
 		$css = '.widefat .column-woe_export_status { width: 45px; text-align: center; }';
 		wp_add_inline_style( 'woocommerce_admin_styles', $css );
 	}
+	function woe_add_orders_style() {
+		wp_enqueue_style( 'woe_orders_style', $this->url_plugin . 'assets/css/orders_style.css', array(), WOE_VERSION );
+	}
 
 	public function display_plugin_activated_message() {
 		?>
@@ -167,7 +174,6 @@ class WC_Order_Export_Admin {
 	public function render_menu() {
 
 		$active_tab = isset( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : $this->settings['default_tab'];
-
 		$this->render( 'main', array(
 			'WC_Order_Export' => $this,
 			'ajaxurl'         => admin_url( 'admin-ajax.php' ),
@@ -202,7 +208,7 @@ class WC_Order_Export_Admin {
 		add_action( 'learn-press/admin/after-enqueue-scripts', function () {
 			wp_scripts()->dequeue( array('learn-press-utils', 'lp-admin-learnpress', 'lp-admin') );
 		},PHP_INT_MAX );
-
+		
 		wp_enqueue_style( 'export', $this->url_plugin . 'assets/css/export.css', array(), WOE_VERSION );
 
 		wp_enqueue_style( 'woocommerce_admin_styles', WC()->plugin_url() . '/assets/css/admin.css', array() );
@@ -292,7 +298,7 @@ class WC_Order_Export_Admin {
 					'woo-order-export-lite' ),
 				'empty_item_field'			  => __( 'select item field', 'woo-order-export-lite' ),
 				'empty_value'                 => __( 'empty value', 'woo-order-export-lite' ),
-				'empty_title'                 => __( 'title is empty', 'woo-order-export-lite' ),
+				'empty_title'                 => __( 'Title is empty', 'woo-order-export-lite' ),
 				'wrong_date_range'            => __( 'Date From is greater than Date To', 'woo-order-export-lite' ),
 				'no_fields'                   => __( 'Please, set up fields to export', 'woo-order-export-lite' ),
 				'no_results'                  => __( 'Nothing to export. Please, adjust your filters',
@@ -515,7 +521,14 @@ class WC_Order_Export_Admin {
 				. '</div>',
 				$count
 			);
+		} else {
+			$logs = get_transient( WC_Order_Export_Admin::last_bulk_export_results );
+			if ( $logs ) {
+				delete_transient( WC_Order_Export_Admin::last_bulk_export_results );
+				echo "<div id=\"notice-orders\" class=\"notice notice-info is-dismissible\" style=\"padding: 15px\">{$logs}</div>";
+			}
 		}
+		
 	}
 
 	function must_run_ajax_methods() {

@@ -47,6 +47,9 @@ if ( ! class_exists( 'WPPFM_Product_Feed_Page' ) ) :
 		 */
 		public function show() {
 
+			$tab_header_sub_title = $this->_feed_id ? __( 'Here you can edit the parameters of your feed.', 'wp-product-feed-manager' ) :
+				__( 'Here you can setup your new feed. Start by entering a name for your feed and selecting a channel.', 'wp-product-feed-manager' );
+
 			echo $this->admin_page_header();
 
 			echo $this->message_field();
@@ -58,6 +61,8 @@ if ( ! class_exists( 'WPPFM_Product_Feed_Page' ) ) :
 				}
 
 				echo $this->tabs();
+
+				echo $this->tab_header( __( 'Edit Product Feed', 'wp-product-feed-manager' ), $tab_header_sub_title );
 
 				echo $this->product_feed_page_data_holder();
 
@@ -75,15 +80,6 @@ if ( ! class_exists( 'WPPFM_Product_Feed_Page' ) ) :
 			} else {
 				echo wppfm_you_have_no_woocommerce_installed_message();
 			}
-		}
-
-		/**
-		 * Returns the html code for the tabs.
-		 *
-		 * @return  string  Containing the html code for the tabs.
-		 */
-		private function tabs() {
-			return WPPFM_Form_Element::main_form_tabs();
 		}
 
 		/**

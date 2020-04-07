@@ -20,30 +20,21 @@ class WOOCCM_Fields_Handler {
     if (count($fields = WC()->session->wooccm['fields'])) {
 
       foreach ($fields as $key => $field) {
-
+          
         switch ($field['type']) {
 
-          case 'select':
-          case 'radio':
-          case 'multiselect':
           case 'multicheckbox':
 
-            if (isset($_POST[$key]) && is_array($field['options'])) {
+            $data[$key] = isset($_POST[$key]) ? implode(', ', wc_clean(wp_unslash($_POST[$key]))) : '';
 
-              // use $_POST because $data is converted to string only in multiselect
-              if ($values = (array) $_POST[$key]) {
+            break;
 
-                $names = array();
+          case 'checkbox':
 
-                foreach ($values as $id) {
-
-                  if (isset($field['options'][$id])) {
-                    $names[] = $field['options'][$id];
-                  }
-
-                  $data[$key] = join(', ', (array) $names);
-                }
-              }
+            if (!empty($_POST[$key])) {
+              $data[$key] = __('Yes', 'woocommerce-checkout-manager');
+            } else {
+              $data[$key] = __('No', 'woocommerce-checkout-manager');
             }
 
             break;
@@ -109,7 +100,7 @@ class WOOCCM_Fields_Handler {
     if (isset($field['order'])) {
       $field['priority'] = $field['order'] * 10;
     }
-    
+
     if (isset(WC()->session)) {
       $session_data['fields'][$field['key']] = $field;
       WC()->session->wooccm = $session_data;
@@ -161,7 +152,14 @@ class WOOCCM_Fields_Handler {
     // -----------------------------------------------------------------------
 
     if (isset($field['required'])) {
-      $field['custom_attributes']['data-required'] = (int) $field['required'];
+
+      $required = (int) $field['required'];
+
+      $field['custom_attributes']['data-required'] = $required;
+
+      if ($required) {
+        $field['input_class'][] = 'wooccm-required-field';
+      }
     }
 
     return $field;
@@ -196,8 +194,8 @@ class WOOCCM_Fields_Handler {
   public function remove_fields_priority($fields) {
 
     foreach ($fields as $key => $field) {
-      //unset($fields[$key]['label']);
-      //unset($fields[$key]['placeholder']);
+      unset($fields[$key]['label']);
+      unset($fields[$key]['placeholder']);
       unset($fields[$key]['priority']);
       unset($fields[$key]['required']);
     }
@@ -238,7 +236,8 @@ class WOOCCM_Fields_Handler {
     // Fix address_2 field
     // -----------------------------------------------------------------------
     //add_filter('default_option_woocommerce_checkout_address_2_field', array($this, 'woocommerce_checkout_address_2_field'));
-    // Fix address fields priority
+    // Fix address fields priority, required, placeholder, label
+//    add_filter('woocommerce_get_country_locale', '__return_empty_array');
     add_filter('woocommerce_get_country_locale_default', array($this, 'remove_fields_priority'));
     add_filter('woocommerce_get_country_locale_base', array($this, 'remove_fields_priority'));
     // Fix required country notice when shipping address is activated

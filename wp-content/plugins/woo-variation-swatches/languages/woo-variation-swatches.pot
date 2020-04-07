@@ -24,7 +24,7 @@ msgstr ""
 msgid "WooCommerce Variation Swatches Settings"
 msgstr ""
 
-#: ../includes/class-wvs-settings-api.php:92, ../includes/class-wvs-settings-api.php:105, ../includes/functions.php:1621
+#: ../includes/class-wvs-settings-api.php:92, ../includes/class-wvs-settings-api.php:105, ../includes/functions.php:1622
 msgid "Swatches Settings"
 msgstr ""
 
@@ -308,7 +308,7 @@ msgstr ""
 msgid "Add new"
 msgstr ""
 
-#: ../includes/functions.php:1025, ../includes/functions.php:1097, ../includes/functions.php:1170, ../includes/functions.php:1240, ../includes/functions.php:1308, ../includes/functions.php:1387
+#: ../includes/functions.php:1022, ../includes/functions.php:1094, ../includes/functions.php:1167, ../includes/functions.php:1237, ../includes/functions.php:1305, ../includes/functions.php:1384
 msgid "Choose an option"
 msgstr ""
 
@@ -444,6 +444,6 @@ msgstr ""
 msgid "Variation Swatches for WooCommerce Plugin try to load \"%s\" but template \"%s\" was not found."
 msgstr ""
 
-#: ../woo-variation-swatches.php:893
+#: ../woo-variation-swatches.php:894
 msgid "Install Now"
 msgstr ""

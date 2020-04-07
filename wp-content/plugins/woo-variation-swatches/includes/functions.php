@@ -905,7 +905,6 @@
 							$selected_class = ( sanitize_title( $args[ 'selected' ] ) == $term->slug ) ? 'selected' : '';
 							$tooltip        = trim( apply_filters( 'wvs_variable_item_tooltip', $term->name, $term, $args ) );
 							
-							
 							if ( $is_archive && ! $show_archive_tooltip ) {
 								$tooltip = false;
 							}
@@ -928,7 +927,7 @@
 								
 								case 'image':
 									$attachment_id = $assigned[ $term->slug ][ 'image_id' ];
-									$image_size    = woo_variation_swatches()->get_option( 'attribute_image_size' );
+									$image_size    = sanitize_text_field( woo_variation_swatches()->get_option( 'attribute_image_size' ) );
 									$image         = wp_get_attachment_image_src( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ) );
 									// $image_html = wp_get_attachment_image( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ), false, array( 'class' => '' ) );
 									$data .= sprintf( '<img alt="%s" src="%s" width="%d" height="%d" />', esc_attr( apply_filters( 'woocommerce_variation_option_name', $term->name, $term, $attribute, $product ) ), esc_url( $image[ 0 ] ), $image[ 1 ], $image[ 2 ] );
@@ -954,7 +953,7 @@
 						
 						$option = esc_html( apply_filters( 'woocommerce_variation_option_name', $option, null, $attribute, $product ) );
 						
-						$selected_class = ( sanitize_title( $option ) == $args[ 'selected' ] ) ? 'selected' : '';
+						$selected_class = ( sanitize_title( $option ) == sanitize_title( $args[ 'selected' ] ) ) ? 'selected' : '';
 						$tooltip        = trim( apply_filters( 'wvs_variable_item_tooltip', esc_attr( $option ), $options, $args ) );
 						
 						if ( $is_archive && ! $show_archive_tooltip ) {
@@ -973,16 +972,16 @@
 							$type = 'button';
 						}
 						
-						$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-value="%3$s"  role="button" tabindex="0">', $tooltip_html_attr, esc_attr( $type ), esc_attr( $option ), esc_attr( $selected_class ), esc_html( $option ) );
+						$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-value="%3$s" role="button" tabindex="0">', $tooltip_html_attr, esc_attr( $type ), esc_attr( $option ), esc_attr( $selected_class ), esc_html( $option ) );
 						
 						switch ( $type ):
 							
 							case 'image':
 								$attachment_id = $assigned[ $option ][ 'image_id' ];
-								$image_size    = woo_variation_swatches()->get_option( 'attribute_image_size' );
+								$image_size    = sanitize_text_field( woo_variation_swatches()->get_option( 'attribute_image_size' ) );
 								$image         = wp_get_attachment_image_src( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ) );
 								// $image_html = wp_get_attachment_image( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ), false, array( 'class' => '' ) );
-								$data .= sprintf( '<img alt="%s" src="%s" width="%d" height="%d" />', esc_attr( $option ), esc_url( $image[ 0 ] ), $image[ 1 ], $image[ 2 ] );
+								$data .= sprintf( '<img alt="%s" src="%s" width="%d" height="%d" />', esc_attr( $option ), esc_url( $image[ 0 ] ), esc_attr( $image[ 1 ] ), esc_attr( $image[ 2 ] ) );
 								// $data .= $image_html;
 								break;
 							
@@ -996,8 +995,6 @@
 								break;
 						endswitch;
 						$data .= '</li>';
-						
-						
 					}
 				}
 			}
@@ -1271,7 +1268,7 @@
 					
 					foreach ( $terms as $term ) {
 						if ( in_array( $term->slug, $options ) ) {
-							echo '<option value="' . esc_attr( $term->slug ) . '" ' . selected( sanitize_title( $args[ 'selected' ] ), $term->slug, false ) . '>' . apply_filters( 'woocommerce_variation_option_name', $term->name ) . '</option>';
+							echo '<option value="' . esc_attr( $term->slug ) . '" ' . selected( sanitize_title( $args[ 'selected' ] ), $term->slug, false ) . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $term->name ) ) . '</option>';
 						}
 					}
 				} else {
@@ -1344,7 +1341,7 @@
 					
 					foreach ( $terms as $term ) {
 						if ( in_array( $term->slug, $options ) ) {
-							echo '<option value="' . esc_attr( $term->slug ) . '" ' . selected( sanitize_title( $args[ 'selected' ] ), $term->slug, false ) . '>' . apply_filters( 'woocommerce_variation_option_name', $term->name ) . '</option>';
+							echo '<option value="' . esc_attr( $term->slug ) . '" ' . selected( sanitize_title( $args[ 'selected' ] ), $term->slug, false ) . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $term->name ) ) . '</option>';
 						}
 					}
 				} else {
@@ -1419,7 +1416,7 @@
 					
 					foreach ( $terms as $term ) {
 						if ( in_array( $term->slug, $options ) ) {
-							echo '<option value="' . esc_attr( $term->slug ) . '" ' . selected( sanitize_title( $args[ 'selected' ] ), $term->slug, false ) . '>' . apply_filters( 'woocommerce_variation_option_name', $term->name ) . '</option>';
+							echo '<option value="' . esc_attr( $term->slug ) . '" ' . selected( sanitize_title( $args[ 'selected' ] ), $term->slug, false ) . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $term->name ) ) . '</option>';
 						}
 					}
 				} else {
@@ -1554,10 +1551,14 @@
 					if ( $is_default_to_image ) {
 						
 						$assigned = array();
+						
 						foreach ( $variations as $variation_key => $variation ) {
-							$attribute_name = $variation[ 'attributes' ][ $selected_attribute_name ] ? $selected_attribute_name : $default_attribute_name;
 							
-							$assigned[ $attribute_name ][ $variation[ 'attributes' ][ $attribute_name ] ] = array(
+							$attribute_name = isset( $variation[ 'attributes' ][ $selected_attribute_name ] ) ? $selected_attribute_name : $default_attribute_name;
+							
+							$attribute_value = esc_html( $variation[ 'attributes' ][ $attribute_name ] );
+							
+							$assigned[ $attribute_name ][ $attribute_value ] = array(
 								'image_id'     => $variation[ 'image_id' ],
 								'variation_id' => $variation[ 'variation_id' ],
 								'type'         => ( empty( $variation[ 'image_id' ] ) ? 'button' : 'image' ),

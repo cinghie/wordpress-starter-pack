@@ -6,7 +6,7 @@
  * WP Product Feed Master Class.
  *
  * @package WP Product Feed Manager/Application/Classes
- * @version 3.5.0
+ * @version 3.7.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -65,13 +65,6 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 		 * @var string
 		 */
 		protected $_feed_file_path;
-
-		/**
-		 * Number of products in the feed
-		 *
-		 * @var int
-		 */
-		protected $_products_in_feed = 0;
 
 		/**
 		 * Initiate new Feed Master class.
@@ -247,6 +240,9 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 			// clear the file size checker
 			delete_transient( 'wppfm_feed_file_size' );
 
+			// clear the list of processed products @since 2.10.0.
+			delete_option( 'wppfm_processed_products' );
+
 			$channel_class = new WPPFM_Channel();
 			$channel_name  = $channel_class->get_channel_short_name( $this->_feed->channel );
 
@@ -276,19 +272,34 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 		private function fill_the_background_queue() {
 			// start with an empty queue
 			$this->_background_process->clear_the_queue();
+			$sw_status_control = 30 * 3.3;
+			$product_counter   = 0;
 
 			// add the header to the queue
 			$header_string = $this->get_feed_header();
 			$this->_background_process->push_to_queue( array( 'file_format_line' => $header_string ) );
 
-			$product_ids = $this->get_product_ids_for_feed();
+			do {
+				$product_ids = $this->get_product_ids_for_feed();
 
-			// add the product ids to the queue
-			foreach ( $product_ids as $product_id ) {
-				$this->_background_process->push_to_queue( $product_id );
-			}
+				// add the product ids to the queue
+				foreach ( $product_ids as $product_id ) {
+					$this->_background_process->push_to_queue( $product_id );
 
-			do_action( 'wppfm_feed_queue_filled', $this->_feed->feedId, count( $product_ids ) );
+					$product_counter++;
+
+					if ( $product_counter > $sw_status_control ) { // HWOTBERH
+						break;
+					}
+				}
+			} while ( ! empty( $product_ids ) && $sw_status_control > $product_counter );
+
+			delete_transient( 'wppfm_start_product_id' );
+
+			// implement the wppfm_feed_ids_in_queue filter on the queue.
+			$this->_background_process->apply_filter_to_queue( $this->_feed->feedId );
+
+			do_action( 'wppfm_feed_queue_filled', $this->_feed->feedId, $product_counter );
 
 			$product_ids = null;
 
@@ -397,8 +408,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 		 * @return array with ids
 		 */
 		private function get_product_ids_for_feed() {
-			$queries_class     = new WPPFM_Queries();
-			$sw_status_control = 30 * 3.3;
+			$queries_class = new WPPFM_Queries();
 
 			$selected_categories = apply_filters( 'wppfm_selected_categories', $this->make_category_selection_string(), $this->_feed->feedId );
 
@@ -408,11 +418,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 
 			array_filter( $products ); // just to make sure, remove all empty elements
 
-			$products = array_slice( $products, 0, $sw_status_control + 1 );
-
-			$this->_products_in_feed = count( $products );
-
-			return apply_filters( 'wppfm_feed_ids_in_queue', $products, $this->_feed->feedId );
+			return $products;
 		}
 
 		/**
@@ -424,8 +430,10 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 			$category_selection_string = '';
 			$category_mapping          = json_decode( $this->_feed->categoryMapping );
 
-			foreach ( $category_mapping as $category ) {
-				$category_selection_string .= $category->shopCategoryId . ', ';
+			if ( ! empty( $category_mapping ) ) {
+				foreach ( $category_mapping as $category ) {
+					$category_selection_string .= $category->shopCategoryId . ', '; // phpcs:ignore
+				}
 			}
 
 			return $category_selection_string ? substr( $category_selection_string, 0, - 2 ) : '';
@@ -562,7 +570,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 					} else {
 						$value_object = property_exists( $attribute, 'value' ) ? json_decode( $attribute->value ) : new stdClass();
 
-						if ( ! empty( $attribute->value ) && property_exists( $value_object, 'm' ) && key_exists( 's', $value_object->m[0] ) ) {
+						if ( ! empty( $attribute->value ) && property_exists( $value_object, 'm' ) && property_exists( $value_object->m[0], 's' ) ) {
 							$push = true;
 						} elseif ( ! empty( $attribute->advisedSource ) ) {
 							$push = true;

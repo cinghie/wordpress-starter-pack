@@ -7,7 +7,8 @@ class WC_Order_Export_Admin_Tab_Schedule_Jobs extends WC_Order_Export_Admin_Tab_
 	const KEY = 'schedules';
 
 	public function __construct() {
-		$this->title = __( 'Scheduled jobs', 'woo-order-export-lite' );
+		parent::__construct();
+		$this->title = "&#x1f512; &nbsp;" . __( 'Scheduled jobs', 'woo-order-export-lite' );
 	}
 
 	public function render() {

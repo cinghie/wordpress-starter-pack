@@ -26,6 +26,8 @@ class WC_Order_Export_Main_Settings {
 			'zapier_api_key'                       => '12345678',
 			'zapier_file_timeout'                  => 60,
 			'show_date_time_picker_for_date_range' => false,
+			'display_profiles_export_date_range'   => false,
+			'show_destination_in_profile'          => false,
 			'display_html_report_in_browser'       => false,
 			'default_date_range_for_export_now'    => '',
 			'default_html_css'		       => '',

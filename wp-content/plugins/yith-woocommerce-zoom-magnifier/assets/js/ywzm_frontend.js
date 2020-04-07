@@ -6,12 +6,12 @@
  */
 jQuery(document).ready(function ($) {
 
-    var yith_wcmg = $('.images');
-    var yith_wcmg_zoom = $('.yith_magnifier_zoom');
-    var yith_wcmg_image = $('.yith_magnifier_zoom img').first();
-
-    var yith_wcmg_default_zoom = yith_wcmg.find('.yith_magnifier_zoom').attr('href');
-    var yith_wcmg_default_image = yith_wcmg.find('.yith_magnifier_zoom img').attr('src');
+    var yith_wcmg                   = $('.images'),
+        yith_wcmg_zoom              = $('.yith_magnifier_zoom'),
+        yith_wcmg_image             = $('.yith_magnifier_zoom img').first(),
+        yith_wcmg_default_zoom      = yith_wcmg.find('.yith_magnifier_zoom').attr('href'),
+        yith_wcmg_default_image     = yith_wcmg.find('.yith_magnifier_zoom img').attr('src');
+        yith_wcmg_default_gallery   = yith_wcmg.find('.thumbnails');
 
     if (typeof yith_magnifier_options == 'undefined') {
         return false;
@@ -48,6 +48,8 @@ jQuery(document).ready(function ($) {
         yith_wcmg_image.attr('src', yith_wcmg_default_image);
         yith_wcmg_image.attr('srcset', yith_wcmg_default_image);
         yith_wcmg_image.attr('src-orig', yith_wcmg_default_image);
+
+        yith_wcmg.find('.thumbnails').replaceWith( yith_wcmg_default_gallery );
 
         if (yith_wcmg.data('yith_magnifier')) {
             yith_wcmg.yith_magnifier('destroy');

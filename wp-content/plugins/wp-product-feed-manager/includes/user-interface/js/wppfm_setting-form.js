@@ -26,6 +26,15 @@ function wppfm_feed_logger_status_changed() {
 	);
 }
 
+function wppfm_show_product_identifiers_changed() {
+	wppfm_show_pi_status(
+		jQuery( '#wppfm_product_identifiers' ).is( ':checked' ),
+		function( response ) {
+			console.log( 'Show Product Identifiers setting changed to ' + response );
+		}
+	);
+}
+
 function wppfm_third_party_attributes_changed() {
 	wppfm_change_third_party_attribute_keywords(
 		jQuery( '#wppfm_third_party_attr_keys' ).val(),

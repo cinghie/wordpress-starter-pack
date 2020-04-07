@@ -51,21 +51,23 @@ class WOOCCM_Fields_Display {
         $hide_cats_array = (array) $field['hide_product_cat'];
 
         $show_cats_array = (array) $field['show_product_cat'];
+        
+        $more_product = empty($field['more_product']);
 
         $product_cats = array();
 
         foreach ($cart_contents as $key => $values) {
-          if ($cats = wp_get_post_terms($values['product_id'], 'product_cat', array('orderby' => 'name', 'order' => 'ASC', 'fields' => 'ids'))) {
-            $product_cats += $cats;
+          if ($cats = wp_get_post_terms($values['product_id'], 'product_cat', array('fields' => 'ids'))) {
+            $product_cats = array_merge($product_cats, $cats);
           }
         }
 
         // field without more
         // -------------------------------------------------------------------
-        if (empty($field['more_product']) && count($cart_contents) < 2) {
+        if ($more_product && count($cart_contents) < 2) {
           // hide field
           // -----------------------------------------------------------------
-          if (!empty($field['hide_product_cat'])) {
+          if (count($hide_cats_array)) {
             if (array_intersect($product_cats, $hide_cats_array)) {
               $field['disabled'] = true;
             }
@@ -73,7 +75,7 @@ class WOOCCM_Fields_Display {
 
           // show field
           // -----------------------------------------------------------------
-          if (!empty($field['show_product_cat'])) {
+          if (count($show_cats_array)) {
             if (!array_intersect($product_cats, $show_cats_array)) {
               $field['disabled'] = true;
             } else {
@@ -84,11 +86,11 @@ class WOOCCM_Fields_Display {
 
         // field with more
         // -------------------------------------------------------------------
-        if (!empty($field['more_product'])) {
+        if (!$more_product) {
 
           // hide field
           // -------------------------------------------------------------
-          if (!empty($field['hide_product_cat'])) {
+          if (count($hide_cats_array)) {
             if (array_intersect($product_cats, $hide_cats_array)) {
               $field['disabled'] = true;
             }
@@ -96,7 +98,8 @@ class WOOCCM_Fields_Display {
 
           // show field
           // ---------------------------------------------------------------
-          if (!empty($field['show_product_cat'])) {
+          if (count($show_cats_array)) {
+
             if (!array_intersect($product_cats, $show_cats_array)) {
               $field['disabled'] = true;
             } else {
@@ -119,25 +122,27 @@ class WOOCCM_Fields_Display {
         $hide_ids_array = (array) $field['hide_product'];
 
         $show_ids_array = (array) $field['show_product'];
+        
+        $more_product = empty($field['more_product']);
 
         $product_ids = array_column($cart_contents, 'product_id');
 
         // field without more
         // -------------------------------------------------------------------
-        if (empty($field['more_product']) && count($cart_contents) < 2) {
+        if ($more_product && count($cart_contents) < 2) {
           // hide field
           // -----------------------------------------------------------------
-          if (!empty($field['hide_product'])) {
+          if (count($hide_ids_array)) {
             if (array_intersect($product_ids, $hide_ids_array)) {
-               $field['disabled'] = true;
+              $field['disabled'] = true;
             }
           }
 
           // show field
           // -----------------------------------------------------------------
-          if (!empty($field['show_product'])) {
+          if (count($show_ids_array)) {
             if (!array_intersect($product_ids, $show_ids_array)) {
-                  $field['disabled'] = true;
+              $field['disabled'] = true;
             } else {
               $field['disabled'] = false;
             }
@@ -146,12 +151,12 @@ class WOOCCM_Fields_Display {
 
         // field with more
         // -------------------------------------------------------------------
-        if (!empty($field['more_product'])) {
+        if (!$more_product) {
 
           // hide field
           // -------------------------------------------------------------
-          if (!empty($field['hide_product'])) {
-            
+          if (count($hide_ids_array)) {
+
             if (array_intersect($product_ids, $hide_ids_array)) {
               $field['disabled'] = true;
             }
@@ -159,7 +164,7 @@ class WOOCCM_Fields_Display {
 
           // show field
           // ---------------------------------------------------------------
-          if (!empty($field['show_product'])) {
+          if (count($show_ids_array)) {
             if (!array_intersect($product_ids, $show_ids_array)) {
               $field['disabled'] = true;
             } else {

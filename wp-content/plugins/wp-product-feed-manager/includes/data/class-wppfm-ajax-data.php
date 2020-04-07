@@ -116,7 +116,7 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 				$channel_id = filter_input( INPUT_POST, 'channelId' );
 				$feed_id    = filter_input( INPUT_POST, 'feedId' );
 				$channel    = trim( $this->_queries->get_channel_short_name_from_db( $channel_id ) );
-				$is_custom  = function_exists( 'channel_is_custom_channel' ) ? channel_is_custom_channel( $channel_id ) : false;
+				$is_custom  = function_exists( 'wppfm_channel_is_custom_channel' ) ? wppfm_channel_is_custom_channel( $channel_id ) : false;
 
 				if ( ! $is_custom ) {
 					// read the output fields
@@ -172,8 +172,8 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 					default:
 						if ( 'valid' === get_option( 'wppfm_lic_status' ) ) { // error message for paid versions
 							echo '<div id="error">' . __(
-								'Could not add custom fields because I could not identify the channel. 
-									If not already done add the correct channel in the Manage Channels page. 
+								'Could not add custom fields because I could not identify the channel.
+									If not already done add the correct channel in the Manage Channels page.
 									Also try to deactivate and then activate the plugin.',
 								'wp-product-feed-manager'
 							) . '</div>';
@@ -181,8 +181,8 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 							wppfm_write_log_file( sprintf( 'Could not define the channel in a valid Premium plugin version. Feed id = %s', $source_id ) );
 						} else { // error message for free version
 							echo '<div id="error">' . __(
-								'Could not identify the channel. 
-								Try to deactivate and then activate the plugin. 
+								'Could not identify the channel.
+								Try to deactivate and then activate the plugin.
 								If that does not work remove the plugin through the WordPress Plugins page and than reinstall and activate it again.',
 								'wp-product-feed-manager'
 							) . '</div>';

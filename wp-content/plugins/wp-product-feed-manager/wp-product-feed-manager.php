@@ -4,18 +4,18 @@
  * Plugin Name: WP Product Feed Manager
  * Plugin URI: https://www.wpmarketingrobot.com
  * Description: An easy to use WordPress plugin that generates and submits your product feeds to merchant centres.
- * Version: 1.19.1
- * Modified: 30-01-2020
+ * Version: 1.21.1
+ * Modified: 03-04-2020
  * Author: Michel Jongbloed
  * Author URI: https://www.wpmarketingrobot.com
  * Requires at least: 4.6
- * Tested up to: 5.3
+ * Tested up to: 5.4
  *
  * Text Domain: wp-product-feed-manager
  * Domain Path: /languages
  *
  * WC requires at least: 3.0
- * WC tested up to: 3.9
+ * WC tested up to: 4.0
  *
  * This plugin is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 		/**
 		 * @var string containing the version number of the plugin
 		 */
-		public $version = '1.19.1';
+		public $version = '1.21.1';
 
 		/**
 		 * @var string containing the authors name
@@ -186,7 +186,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 
 			// Store the base uploads folder, should also work in a multi site environment
 			if ( ! defined( 'WPPFM_UPLOADS_DIR' ) ) {
-				$wp_upload_dir = wp_upload_dir();
+				$wp_upload_dir = wp_get_upload_dir(); // @since 2.10.0 switched from wp_upload_dir to wp_get_upload_dir.
 				$upload_dir    = is_multisite() && defined( 'UPLOADS' ) ? UPLOADS : $wp_upload_dir['basedir'];
 
 				if ( ! file_exists( $upload_dir ) && ! is_dir( $upload_dir ) ) {
@@ -206,7 +206,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 					$url = $wp_upload_dir['baseurl'];
 				}
 
-				define( 'WPPFM_UPLOADS_URL', $url );
+				define( 'WPPFM_UPLOADS_URL', apply_filters( 'wppfm_corrected_uploads_url', $url ) );
 			}
 
 			// store the folder that contains the channels data
@@ -264,6 +264,10 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 			require_once( __DIR__ . '/includes/user-interface/wppfm-url-functions.php' );
 			require_once( __DIR__ . '/includes/wppfm-wpincludes.php' );
 			require_once( __DIR__ . '/includes/packages/logger/wp-product-feed-manager-logger.php' );
+
+			if ( 'true' === get_option( 'wppfm_show_product_identifiers', 'false' ) ) {
+				require_once( __DIR__ . '/includes/application/wppfm-support-fields.php' ); // @since 2.10.0
+			}
 
 			// include all required classes
 			include_classes();
@@ -340,7 +344,9 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 		 * @since 1.10.0
 		 */
 		public function log_errors() {
-			if ( ( $error = error_get_last() ) ) {
+			$error = error_get_last();
+
+			if ( $error ) {
 				// load the messaging code if not already done yet
 				require_once( __DIR__ . '/includes/user-interface/wppfm-messaging-functions.php' );
 

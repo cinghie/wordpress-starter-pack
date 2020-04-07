@@ -1,11 +1,15 @@
 <?php
 /**
  * @package   WooCommerce Stock Manager
- * @author    Vladislav Musílek
+ * @author    StoreApps
  * @license   GPL-2.0+
- * @link      http:/toret.cz
- * @copyright 2015 Toret.cz
+ * @link      https://www.storeapps.org/
+ * @copyright 2020 StoreApps. All rights reserved.
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class Stock_Manager {
 
@@ -16,7 +20,7 @@ class Stock_Manager {
 	 *
 	 * @var     string
 	 */
-	const VERSION = '1.2.8';
+	const VERSION = '2.1.0';
 
 	/**
 	 * Plugin slug
@@ -42,9 +46,6 @@ class Stock_Manager {
 	 * @since     1.0.0
 	 */
 	private function __construct() {
-
-		// Load plugin text domain
-		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
 
 		// Activate plugin when new blog is added
 		add_action( 'wpmu_new_blog', array( $this, 'activate_new_site' ) );
@@ -218,21 +219,6 @@ class Stock_Manager {
 	 * @since    1.0.0
 	 */
 	private static function single_deactivate() {
-
-	}
-
-	/**
-	 * Load the plugin text domain for translation.
-	 *
-	 * @since    1.0.0
-	 */
-	public function load_plugin_textdomain() {
-
-		$domain = 'woocommerce-stock-manager';
-		$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
-
-		//load_textdomain( $domain, STOCKDIR . 'languages/woocommerce-stock-manager-' . $locale . '.mo' );
-		load_plugin_textdomain( $domain, FALSE, STOCKDIR . '/languages/' );
 
 	}
 

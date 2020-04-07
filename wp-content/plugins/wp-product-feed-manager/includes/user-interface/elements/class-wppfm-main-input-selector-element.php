@@ -69,19 +69,6 @@ if ( ! class_exists( 'WPPFM_Main_Input_Selector_Element' ) ) :
 		}
 
 		/**
-		 * Returns the code for the language selector.
-		 *
-		 * @return string
-		 */
-		public static function language_selector_element() {
-			return '<tr class="wppfm-main-feed-input-row" id="language-list-row" style="display:none;">
-					<th id="wppfm-main-feed-input-label"><label
-						for="language-list">' . __( 'Feed Language', 'wp-product-feed-manager' ) . '</label> :
-					</th>
-					<td>' . WPPFM_Feed_Form_Control::language_selector() . '</td></tr>';
-		}
-
-		/**
 		 * Returns the code for the default category list.
 		 *
 		 * @return string

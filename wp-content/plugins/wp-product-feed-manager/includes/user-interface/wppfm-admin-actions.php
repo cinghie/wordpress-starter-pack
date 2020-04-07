@@ -25,34 +25,6 @@ function wppfm_add_feed_manager_menu( $channel_updated = false ) {
 		esc_url( WPPFM_PLUGIN_URL . '/images/app-rss-plus-xml-icon.png' )
 	);
 
-	// add the channels page only for the full version ref MKFRPLGN
-	if ( WPPFM_EDD_SL_ITEM_NAME === 'Woocommerce Product Feed Manager' ) {
-		$channel_class            = new WPPFM_Channel();
-		$channels_updates_counter = (int) $channel_class->get_number_of_updates_from_server( $channel_updated );
-
-		$counter_title = sprintf(
-		/* translators: %d: Number of channel updates available */
-			_n(
-				'%d channel update',
-				'%d channel updates',
-				$channels_updates_counter,
-				'wp-product-feed-manager'
-			),
-			$channels_updates_counter
-		);
-
-		$menu_label = sprintf(
-		/* translators: %d: Number of channel updates available */
-			__(
-				'Manage Channels %s',
-				'wp-product-feed-manager'
-			),
-			"<span class='update-plugins count-$channels_updates_counter' data-counter='$channels_updates_counter'
-				id='channel-update-counter' title='$counter_title'><span
-				class='wppfm-update-counter'>" . $channels_updates_counter . '</span></span>'
-		);
-	}
-
 	// add the settings
 	add_submenu_page(
 		'wp-product-feed-manager',

@@ -56,7 +56,7 @@ if ( ! class_exists( 'WPPFM_i18n_Scripts' ) ) :
 				'fill_current_condition_warning'   => esc_html__( 'Please fill in the current condition before adding a new one!', 'wp-product-feed-manager' ),
 				'select_a_source_field_warning'    => esc_html__( 'Please select a source field first before you select the conditions.', 'wp-product-feed-manager' ),
 				'select_a_valid_source_warning'    => esc_html__( 'Please select a valid source before adding a condition to that source.', 'wp-product-feed-manager' ),
-				'advanced_filter_only_for_premium' => esc_html__( 'The Advanced Filter option is not available in the free version. Unlock the Advanced Filter option by upgrading to the Premium plugin. For more information goto http://www.wpmarketingrobot.com/.', 'wp-product-feed-manager' ),
+				'advanced_filter_only_for_premium' => esc_html__( 'The Advanced Filter option is not available in the free version. Unlock the Advanced Filter option by upgrading to the Premium plugin. For more information goto https://www.wpmarketingrobot.com/.', 'wp-product-feed-manager' ),
 				'all_products_except'              => esc_html__( 'except the ones where' ),
 				'fill_filter_warning'              => esc_html__( 'Please fill in the filter values before adding a new one' ),
 				'no_separator'                     => esc_html__( 'No separator', 'wp-product-feed-manager' ),
@@ -133,6 +133,7 @@ if ( ! class_exists( 'WPPFM_i18n_Scripts' ) ) :
 				/* translators: %feedname%: name of the feed */
 				'feed_removed'        => esc_html__( 'Feed %feedname% removed from the server.', 'wp-product-feed-manager' ),
 				'list_language'       => esc_html__( 'Feed Language' ),
+				'feed_not_generated'  => esc_html__( 'This feed does not yet exists, please (re)generate this feed first.' ),
 			);
 
 			self::add_general_words( $pars );

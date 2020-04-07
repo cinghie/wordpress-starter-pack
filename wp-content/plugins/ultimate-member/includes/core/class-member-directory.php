@@ -323,7 +323,7 @@ if ( ! class_exists( 'um\core\Member_Directory' ) ) {
 				'mobile_number'         => __( 'Mobile Number', 'ultimate-member' ),
 			);
 
-			$this->filter_supported_fields = apply_filters( 'um_members_directory_custom_field_types_supported_filter', array( 'date', 'time', 'select', 'multiselect', 'radio', 'checkbox', 'rating', 'text', 'textarea' ) );
+			$this->filter_supported_fields = apply_filters( 'um_members_directory_custom_field_types_supported_filter', array( 'date', 'time', 'select', 'multiselect', 'radio', 'checkbox', 'rating', 'text', 'textarea', 'number' ) );
 
 			if ( ! empty( UM()->builtin()->saved_fields ) ) {
 				foreach ( UM()->builtin()->saved_fields as $key => $data ) {
@@ -401,6 +401,7 @@ if ( ! class_exists( 'um\core\Member_Directory' ) ) {
 						case 'checkbox':
 							$value = 'select';
 							break;
+						case 'number':
 						case 'rating':
 							$value = 'slider';
 							break;
@@ -536,9 +537,9 @@ if ( ! class_exists( 'um\core\Member_Directory' ) ) {
 					if ( $attrs['metakey'] != 'role_select' ) {
 						$values_array = $wpdb->get_col(
 							$wpdb->prepare(
-								"SELECT DISTINCT meta_value 
-								FROM $wpdb->usermeta 
-								WHERE meta_key = %s AND 
+								"SELECT DISTINCT meta_value
+								FROM $wpdb->usermeta
+								WHERE meta_key = %s AND
 									  meta_value != ''",
 								$attrs['metakey']
 							)
@@ -789,17 +790,17 @@ if ( ! class_exists( 'um\core\Member_Directory' ) ) {
 		 * @return mixed
 		 */
 		function slider_filters_range( $filter, $directory_data ) {
+			global $wpdb;
 
 			switch ( $filter ) {
 
 				default: {
 
-					global $wpdb;
 					$meta = $wpdb->get_row( $wpdb->prepare(
-						"SELECT MIN( meta_value ) as min_meta, 
-						MAX( meta_value ) as max_meta, 
-						COUNT( DISTINCT meta_value ) as amount 
-						FROM {$wpdb->usermeta} 
+						"SELECT MIN( meta_value ) as min_meta,
+						MAX( meta_value ) as max_meta,
+						COUNT( DISTINCT meta_value ) as amount
+						FROM {$wpdb->usermeta}
 						WHERE meta_key = %s",
 						$filter
 					), ARRAY_A );
@@ -815,13 +816,31 @@ if ( ! class_exists( 'um\core\Member_Directory' ) ) {
 					break;
 				}
 				case 'birth_date': {
-					global $wpdb;
+
+//					$meta = $wpdb->get_col(
+//						"SELECT meta_value
+//						FROM {$wpdb->usermeta}
+//						WHERE meta_key = 'birth_date' AND
+//						      meta_value != ''"
+//					);
+//
+//					if ( empty( $meta ) || count( $meta ) < 2 ) {
+//						$range = false;
+//					} elseif ( is_array( $meta ) ) {
+//						$birth_dates = array_filter( array_map( 'strtotime', $meta ), 'is_numeric' );
+//						sort( $birth_dates );
+//						$min_meta = array_shift( $birth_dates );
+//						$max_meta = array_pop( $birth_dates );
+//						$range = array( $this->borndate( $max_meta ), $this->borndate( $min_meta ) );
+//					}
+
 					$meta = $wpdb->get_row(
-						"SELECT MIN( meta_value ) as min_meta, 
-						MAX( meta_value ) as max_meta, 
-						COUNT( DISTINCT meta_value ) as amount 
-						FROM {$wpdb->usermeta} 
-						WHERE meta_key='birth_date'",
+						"SELECT MIN( meta_value ) as min_meta,
+						MAX( meta_value ) as max_meta,
+						COUNT( DISTINCT meta_value ) as amount
+						FROM {$wpdb->usermeta}
+						WHERE meta_key = 'birth_date' AND 
+						      meta_value != ''",
 					ARRAY_A );
 
 					if ( empty( $meta ) || ! isset( $meta['amount'] ) || $meta['amount'] === 1 ) {

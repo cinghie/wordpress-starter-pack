@@ -61,10 +61,12 @@ if ( ! class_exists( 'WPPFM_Backup' ) ) :
 			$auto_fix                 = get_option( 'wppfm_auto_feed_fix', 'false' );
 			$third_party_attributes   = get_option( 'wppfm_third_party_attribute_keywords', '%wpmr%,%cpf%,%unit%,%bto%,%yoast%' );
 			$disabled_background_mode = get_option( 'wppfm_disabled_background_mode', 'false' ); // @since 2.0.7
+			$process_logger_option    = get_option( 'wppfm_process_logger_status', 'false' ); // @since 2.9.0
+			$show_pi_option           = get_option( 'wppfm_show_product_identifiers', 'false' ); // @since 2.10.0
 			$sep_string               = '# backup string for database ->';
 			$time_stamp               = current_time( 'timestamp' );
 
-			$table_content  = "$time_stamp#$db_version#$ftp_passive#$auto_fix#$third_party_attributes#$disabled_background_mode";
+			$table_content  = "$time_stamp#$db_version#$ftp_passive#$auto_fix#$third_party_attributes#$disabled_background_mode#$process_logger_option#$show_pi_option";
 			$table_content .= "$sep_string $main_table # <- # $main_table_content ";
 			$table_content .= "$sep_string $meta_table # <- # $meta_table_content ";
 			$table_content .= "$sep_string $channel_table # <- # $channel_table_content";

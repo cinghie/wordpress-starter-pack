@@ -132,7 +132,8 @@ if ( !class_exists( 'YIT_Plugin_Panel' ) ) {
             global $pagenow, $post_type, $taxonomy;
             $tabs = false;
 
-            if ( in_array( $pagenow, array( 'post.php', 'post-new.php', 'edit.php' ), true ) ) {
+            if ( in_array( $pagenow, array( 'post.php', 'post-new.php', 'edit.php' ), true )
+                 && !in_array( $post_type, array( 'product', 'page', 'post' ) ) ) {
                 $tabs = $this->get_post_type_tabs( $post_type );
             } else if ( in_array( $pagenow, array( 'edit-tags.php', 'term.php' ), true ) ) {
                 $tabs = $this->get_taxonomy_tabs( $taxonomy );
@@ -459,6 +460,8 @@ if ( !class_exists( 'YIT_Plugin_Panel' ) ) {
             foreach ( $this->settings[ 'admin-tabs' ] as $tab => $tab_value ) {
                 $active_class  = ( $current_tab == $tab ) ? ' nav-tab-active' : '';
                 $active_class  .= 'premium' == $tab ? ' ' . $premium_class : '';
+				$active_class  = apply_filters( 'yith_plugin_fw_panel_active_tab_class', $active_class, $current_tab, $tab );
+
                 $first_sub_tab = $this->get_first_sub_tab_key( $tab );
                 $sub_tab       = !!$first_sub_tab ? $first_sub_tab : '';
 
@@ -948,9 +951,9 @@ if ( !class_exists( 'YIT_Plugin_Panel' ) ) {
          */
         function get_tab_title() {
             $yit_options = $this->get_main_array_options();
-            $current_tab = $this->get_current_tab();
+            $option_key  = $this->get_current_option_key();
 
-            foreach ( $yit_options[ $current_tab ] as $sections => $data ) {
+            foreach ( $yit_options[ $option_key ] as $sections => $data ) {
                 foreach ( $data as $option ) {
                     if ( isset( $option[ 'type' ] ) && $option[ 'type' ] == 'title' ) {
                         return $option[ 'name' ];
@@ -971,9 +974,9 @@ if ( !class_exists( 'YIT_Plugin_Panel' ) ) {
          */
         function get_section_title( $section ) {
             $yit_options = $this->get_main_array_options();
-            $current_tab = $this->get_current_tab();
+            $option_key  = $this->get_current_option_key();
 
-            foreach ( $yit_options[ $current_tab ][ $section ] as $option ) {
+            foreach ( $yit_options[ $option_key ][ $section ] as $option ) {
                 if ( isset( $option[ 'type' ] ) && $option[ 'type' ] == 'section' ) {
                     return $option[ 'name' ];
                 }
@@ -992,9 +995,9 @@ if ( !class_exists( 'YIT_Plugin_Panel' ) ) {
          */
         function get_section_description( $section ) {
             $yit_options = $this->get_main_array_options();
-            $current_tab = $this->get_current_tab();
+            $option_key  = $this->get_current_option_key();
 
-            foreach ( $yit_options[ $current_tab ][ $section ] as $option ) {
+            foreach ( $yit_options[ $option_key ][ $section ] as $option ) {
                 if ( isset( $option[ 'type' ] ) && $option[ 'type' ] == 'section' && isset( $option[ 'desc' ] ) ) {
                     return '<p>' . $option[ 'desc' ] . '</p>';
                 }
@@ -1284,7 +1287,10 @@ if ( !class_exists( 'YIT_Plugin_Panel' ) ) {
                     break;
                 }
             }
-            return $tabs;
+
+			$panel_page = isset( $this->settings['page'] ) ? $this->settings['page'] : 'general';
+
+			return apply_filters( "yith_plugin_fw_panel_{$panel_page}_get_post_type_tabs", $tabs, $post_type );
         }
 
         public function get_taxonomy_tabs( $taxonomy ) {
@@ -1300,7 +1306,10 @@ if ( !class_exists( 'YIT_Plugin_Panel' ) ) {
                     break;
                 }
             }
-            return $tabs;
+
+			$panel_page = isset( $this->settings['page'] ) ? $this->settings['page'] : 'general';
+
+			return apply_filters( "yith_plugin_fw_panel_{$panel_page}_get_taxonomy_tabs", $tabs, $taxonomy );
         }
 
 

@@ -159,13 +159,10 @@ class WC_Order_Export_Order_Product_Fields {
 			$field_value = $this->item_id;
 		} elseif ( $field == 'item_price' ) {
 			$field_value = $this->order->get_item_total( $this->item, false, true ); // YES we have to calc item price
+		} elseif ( $field == 'item_price_before_discount' ) {
+			$field_value = $this->order->get_item_subtotal( $this->item );
 		} elseif ( $field == 'discount_amount' ) {
-			if ( method_exists( $this->item, "get_subtotal" ) ) {
-				$field_value = $this->item->get_subtotal() - $this->item->get_total();
-			} else    //2.6
-			{
-				$field_value = $this->item['line_subtotal'] - $this->item['line_total'];
-			}
+			$field_value = $this->get_item_discount();
 		} elseif ( $field == 'tax_rate' ) {
 			if ( method_exists( $this->item, "get_subtotal" ) ) {
 				$subtotal_amount = $this->item->get_subtotal();
@@ -204,6 +201,12 @@ class WC_Order_Export_Order_Product_Fields {
 				}
 				$field_value = implode( "\n", $links );
 			}
+		} elseif ( $field == 'item_discount_tax' ) {
+			$field_value = $this->get_item_discount() * $this->get_item_tax_rate()/100;
+		} elseif ( $field == 'item_discount_amount_and_tax' ) {
+			$item_discount = $this->get_item_discount();
+			$item_tax_rate = $this->get_item_tax_rate();
+			$field_value   = $item_discount * ( 1 + $item_tax_rate / 100 );
 		} elseif ( $field == 'item_download_url' ) {
 			$field_value = '';
 			if ( $this->product AND $this->product->is_downloadable() ) {
@@ -267,5 +270,24 @@ class WC_Order_Export_Order_Product_Fields {
 //						$order, $item, $product, $item_meta );
 		}
 		return $field_value;
+	}
+
+	private function get_item_discount() {
+		if ( method_exists( $this->item, "get_subtotal" ) ) {
+			$item_discount   = wc_format_decimal( $this->item->get_subtotal() - $this->item->get_total(), '');
+		} else {
+			$item_discount   = $this->item['line_subtotal'] - $this->item['line_total'];
+		}
+		return $item_discount;
+	}
+	private function get_item_tax_rate() {
+		if ( method_exists( $this->item, "get_subtotal" ) ) {
+			$subtotal_amount = $this->item->get_subtotal();
+			$subtotal_tax    = $this->item->get_subtotal_tax();
+		} else {
+			$subtotal_amount = $this->item['line_subtotal'];
+			$subtotal_tax    = $this->item['line_subtotal_tax'];
+		}
+		return ( $subtotal_amount <> 0 ) ? round( 100 * $subtotal_tax / $subtotal_amount, apply_filters('woe_tax_rate_rounding_precision', 2) ) : 0; 
 	}
 }

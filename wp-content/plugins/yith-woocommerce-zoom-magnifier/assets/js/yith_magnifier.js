@@ -330,6 +330,7 @@
                 var data = {
                     action      : 'yith_wc_zoom_magnifier_get_main_image',
                     product_id  : product_id,
+                    context     : 'frontend'
                 }
 
                 $.ajax({
@@ -346,20 +347,31 @@
                         self.IMG_smallImage = new Image();
                         self.IMG_smallImage.src = self.zoomImage.attr('src');
 
+                        // set new gallery
+                        if( response.gallery ) {
+
+                            if ($('.yith_magnifier_gallery').length)
+                                $('.yith_magnifier_gallery').closest('.thumbnails').replaceWith( response.gallery );
+                            else
+                                $( '.images').append( response.gallery );
+
+                            self.options.elements.gallery =  $('.yith_magnifier_gallery li a' );
+                        }
+
                         if ($.browser && $.browser.msie && $.browser.version == 8) {
                             $(self.IMG_zoomImage).load(function () {
-
+                                self._initGallery();
                                 self._initTrap();
                             });
                         } else {
 
                             $([self.IMG_zoomImage, self.IMG_smallImage]).imagesLoaded(function () {
-
+                                self._initGallery();
                                 self._initTrap();
                             });
                         }
 
-                        $(document).trigger('yith_magnifier_after_init_zoom')
+                        $(document).trigger('yith_magnifier_after_init_zoom');
 
                     }
                 });

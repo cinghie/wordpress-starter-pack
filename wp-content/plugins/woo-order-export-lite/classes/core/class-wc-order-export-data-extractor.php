@@ -45,7 +45,8 @@ class WC_Order_Export_Data_Extractor {
 			if ( $total_orders < self::HUGE_SHOP_ORDERS ) {
 				$fields = $wpdb->get_col( "SELECT DISTINCT meta_key FROM {$wpdb->posts} INNER JOIN {$wpdb->postmeta} ON {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id WHERE post_type = '" . self::$object_type . "'" );
 			} else { // we have a lot of orders, take last good orders, upto 1000
-				$order_ids   = $wpdb->get_col( "SELECT  ID FROM {$wpdb->posts} WHERE post_type = '" . self::$object_type . "' AND post_status IN('wc-on-hold','wc-processing','wc-completed')  ORDER BY post_date DESC LIMIT 1000" );
+				$limit = self::HUGE_SHOP_ORDERS;
+				$order_ids   = $wpdb->get_col( "SELECT  ID FROM {$wpdb->posts} WHERE post_type = '" . self::$object_type . "' ORDER BY post_date DESC LIMIT {$limit}" );
 				$order_ids[] = 0; // add fake zero
 				$order_ids   = join( ",", $order_ids );
 				$fields      = $wpdb->get_col( "SELECT DISTINCT meta_key FROM {$wpdb->postmeta}  WHERE post_id IN ($order_ids)" );
@@ -122,7 +123,7 @@ class WC_Order_Export_Data_Extractor {
 				set_transient( $transient_key, $metas, 60 ); //valid for a minute
 			} else {
 				$limit = self::HUGE_SHOP_ORDERS;
-				$order_ids = $wpdb->get_col( "SELECT  ID FROM {$wpdb->posts} WHERE post_type = '" . self::$object_type . "' AND post_status IN('wc-on-hold','wc-processing','wc-completed')  ORDER BY post_date DESC LIMIT {$limit}" );
+				$order_ids = $wpdb->get_col( "SELECT  ID FROM {$wpdb->posts} WHERE post_type = '" . self::$object_type . "' ORDER BY post_date DESC LIMIT {$limit}" );
 				$order_ids   = join( ",", $order_ids );
 				$metas = $wpdb->get_col( "SELECT DISTINCT meta.meta_key FROM {$wpdb->prefix}woocommerce_order_itemmeta meta inner join {$wpdb->prefix}woocommerce_order_items item on item.order_item_id=meta.order_item_id and item.order_item_type = 'line_item' WHERE item.order_id IN ($order_ids)" );
 				sort( $metas );
@@ -148,7 +149,7 @@ class WC_Order_Export_Data_Extractor {
 
 			} else {
 				$limit = self::HUGE_SHOP_ORDERS;
-				$order_ids = $wpdb->get_col( "SELECT  ID FROM {$wpdb->posts} WHERE post_type = '" . self::$object_type . "' AND post_status IN('wc-on-hold','wc-processing','wc-completed')  ORDER BY post_date DESC LIMIT {$limit}" );
+				$order_ids = $wpdb->get_col( "SELECT  ID FROM {$wpdb->posts} WHERE post_type = '" . self::$object_type . "' ORDER BY post_date DESC LIMIT {$limit}" );
 				$order_ids   = join( ",", $order_ids );
 				$metas = $wpdb->get_col( "SELECT DISTINCT order_item_name FROM {$wpdb->prefix}woocommerce_order_items WHERE order_item_type = 'shipping' AND order_id IN ($order_ids) AND order_item_name <> '' " );
 				sort( $metas );
@@ -173,7 +174,7 @@ class WC_Order_Export_Data_Extractor {
 				set_transient( $transient_key, $metas, 60 ); //valid for a minute
 			} else {
 				$limit = self::HUGE_SHOP_ORDERS;
-				$order_ids = $wpdb->get_col( "SELECT  ID FROM {$wpdb->posts} WHERE post_type = '" . self::$object_type . "' AND post_status IN('wc-on-hold','wc-processing','wc-completed')  ORDER BY post_date DESC LIMIT {$limit}" );
+				$order_ids = $wpdb->get_col( "SELECT  ID FROM {$wpdb->posts} WHERE post_type = '" . self::$object_type . "' ORDER BY post_date DESC LIMIT {$limit}" );
 				$order_ids   = join( ",", $order_ids );
 				$metas = $wpdb->get_col( "SELECT DISTINCT order_item_name FROM {$wpdb->prefix}woocommerce_order_items WHERE order_item_type = 'fee' AND order_id IN ($order_ids) AND order_item_name <> '' " );
 				sort( $metas );
@@ -198,7 +199,7 @@ class WC_Order_Export_Data_Extractor {
 				set_transient( $transient_key, $metas, 60 ); //valid for a minute
 			} else {
 				$limit = self::HUGE_SHOP_ORDERS;
-				$order_ids = $wpdb->get_col( "SELECT  ID FROM {$wpdb->posts} WHERE post_type = '" . self::$object_type . "' AND post_status IN('wc-on-hold','wc-processing','wc-completed')  ORDER BY post_date DESC LIMIT {$limit}" );
+				$order_ids = $wpdb->get_col( "SELECT  ID FROM {$wpdb->posts} WHERE post_type = '" . self::$object_type . "' ORDER BY post_date DESC LIMIT {$limit}" );
 				$order_ids   = join( ",", $order_ids );
 				$metas = $wpdb->get_col( "SELECT DISTINCT order_item_name FROM {$wpdb->prefix}woocommerce_order_items WHERE order_item_type = 'tax' AND order_id IN ($order_ids) AND order_item_name <> '' " );
 				sort( $metas );
@@ -277,7 +278,7 @@ class WC_Order_Export_Data_Extractor {
 		return $pair_types;
 	}
 
-	private static function parse_complex_pairs( $pairs, $valid_types = false, $mode = '' ) {
+	public static function parse_complex_pairs( $pairs, $valid_types = false, $mode = '' ) {
 		$pair_types = array();
 		$delimiters = array(
 			'NOT SET' => 'NOT SET',
@@ -1093,9 +1094,16 @@ class WC_Order_Export_Data_Extractor {
 			if ( is_array( $settings['order_ids'] ) && count( array_filter( array_map( 'is_numeric', $order_ids ) ) ) === count( $order_ids ) ) {
 				$order_ids_str = self::sql_subset( $order_ids );
 				if ( $order_ids_str ) {
-					$where[] = "orders.id IN ($order_ids_str)";
+					$where[] = "orders.ID IN ($order_ids_str)";
 				}
 			}
+		} else {
+            if ( ! empty( $settings['from_order_id'] ) ) {
+                  $where[] = "orders.ID >= " . intval($settings['from_order_id']);
+            }
+            if ( ! empty( $settings['to_order_id'] ) ) {
+                  $where[] = "orders.ID <= " . intval($settings['to_order_id']);
+            }
 		}
 
 		//default filter by date
@@ -1134,7 +1142,7 @@ class WC_Order_Export_Data_Extractor {
 		//for date_paid or date_completed
 		if ( $where_meta ) {
 			$where_meta = join( " AND ", $where_meta );
-			$where[]    = "orders.id  IN ( SELECT post_id FROM {$wpdb->postmeta} AS order_$date_field WHERE order_$date_field.meta_key ='_$date_field' AND $where_meta)";
+			$where[]    = "orders.ID  IN ( SELECT post_id FROM {$wpdb->postmeta} AS order_$date_field WHERE order_$date_field.meta_key ='_$date_field' AND $where_meta)";
 		}
 
 		// skip child orders?
@@ -1415,6 +1423,7 @@ class WC_Order_Export_Data_Extractor {
 		$woe_order
 	) {
 		$export_only_products     = $options['include_products'];
+		$export_matched_products  = $options['export_matched_items'];
 		$products                 = array();
 		$i                        = 0;
 
@@ -1431,6 +1440,62 @@ class WC_Order_Export_Data_Extractor {
 					     $export_only_products ) )  // not variation
 			) {
 				continue;
+			}
+
+			if( $export_matched_products ) {
+				foreach ( $export_matched_products['item_metadata'] as $operator => $fields ) {
+					foreach ( $fields as $field => $values ) {
+						if ( $values ) {
+							self::extract_item_type_and_key( $field, $type, $key );
+							if($type != 'line_item') {
+								continue;
+							}
+							$meta = wc_get_order_item_meta( $item_id, $key );
+							if(($operator == 'IN' AND !in_array($meta, $values)) OR
+								($operator == 'NOT IN' AND in_array($meta, $values))) {
+								continue 3;
+							}
+							else if($operator == 'LIKE') {
+								$matched_like = false;
+								foreach ($values as $value) {
+									if(strpos($meta, $value) !== false) {
+										$matched_like = true;
+										continue;
+									}
+								}
+								if(!$matched_like) {
+									continue 3;
+								}
+							}
+						}
+					}
+				}
+				foreach ( $export_matched_products['item_names'] as $operator => $fields ) {
+					foreach ( $fields as $field => $values ) {
+						if ( $values ) {
+							if($field != 'line_item') {
+								continue;
+							}
+							$item_name = $item->get_name();
+							if(($operator == 'IN' AND !in_array($item_name, $values)) OR
+								($operator == 'NOT IN' AND in_array($item_name, $values))) {
+								continue 3;
+							}
+							else if($operator == 'LIKE') {
+								$matched_like = false;
+								foreach ($values as $value) {
+									if(strpos($item_name, $value) !== false) {
+										$matched_like = true;
+										continue;
+									}
+								}
+								if(!$matched_like) {
+									continue 3;
+								}
+							}
+						}
+					}
+				}
 			}
 			
 			$product   = $item->get_product();
@@ -1587,8 +1652,8 @@ class WC_Order_Export_Data_Extractor {
 		$woe_order->set_data($data);
 		// fill as it must
 		foreach ( $labels['order']->get_fetch_fields() as $field ) {
-			$row = $woe_order->get($row, $field);
-			//use empty value for missed field
+				$row = $woe_order->get($row, $field);
+				//use empty value for missed field
 			if ( $field != 'products' AND $field != 'coupons' ) {
 				if ( ! isset( $row[ $field ] ) ) {
 					$row[ $field ] = '';

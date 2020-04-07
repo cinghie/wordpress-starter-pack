@@ -64,8 +64,11 @@ class WOOCCM_Checkout_Controller {
     if (get_option('wooccm_checkout_force_create_account', 'no') == 'yes') {
       ?>
       <style>
-        .create-account {
-          display:none;
+        div.create-account {
+          display: block!important;
+        }
+        p.create-account {
+          display: none!important;
         }
       </style>
       <script>

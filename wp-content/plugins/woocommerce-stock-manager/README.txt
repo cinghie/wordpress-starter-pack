@@ -1,12 +1,14 @@
 === WooCommerce Stock Manager ===
-Contributors: Musilda
-Donate link: 
-Tags: WooCommerce, stock manager
-Requires at least: 5.0
+Contributors: storeapps, niravmehta, mansi shah, Tarun.Parswani, Musilda
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CPTHCDC382KVA
+Author URI: https://www.storeapps.org/shop/
+Plugin URI: https://www.storeapps.org/?utm_source=wprepo&utm_medium=web&utm_campaign=wsm_readme
+Tags: woocommerce, stock manager, stock management, inventory
+Requires at least: 5.0.0
 Tested up to: 5.2.2
-Stable tag: 1.0.1
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Requires PHP: 5.6+
+Stable tag: 2.1.0
+License: GPLv3
 
 == Description ==
 
@@ -14,44 +16,38 @@ WooCommerce Stock Manager allows you manage stock for products and their variabl
 
 Plugin is compatible with WordPress 5.0+ and is tested on 5.2.2. vesrion 
 Plugin is compatible with WooCommerce 3.5+ and is tested on 3.6.4 version. 
-For older version WooCommerce use plugin 1.1.4 
 
-GDPR ready - plugin don't collect personal data
+GDPR ready - plugin don't collect personal data.
 
-A few notes about the plugin:
+**What you can do using WooCommerce Stock Manager:**
 
-*   You can set "Manage stock" for each product and variation
-*   You can set "Stock status" for each product and variation
-*   You can set "Backorders" for each product and variation
-*   You can set "Stock" for each product and variation
-*   You can set "Price" for each product and variation
-*   You can set "Sale price" for each product and variation
-*   You can set "Tax status" for each product and variation
-*   You can set "Tax class" for each product and variation
-*   You can set "Shipping class" for each product and variation
-*   You can set "Sku" for each product and variation
-*   You can set "Product name" for each product and variable product
-*   You can display product thumbnail
+* You can set "Manage stock" for each product and variation
+* You can set "Stock status" for each product and variation
+* You can set "Backorders" for each product and variation
+* You can set "Stock" for each product and variation
+* You can set "Price" for each product and variation
+* You can set "Sale price" for each product and variation
+* You can set "Tax status" for each product and variation
+* You can set "Tax class" for each product and variation
+* You can set "Shipping class" for each product and variation
+* You can set "Sku" for each product and variation
+* You can set "Product name" for each product and variable product
+* You can display product thumbnail image.
+* You can filter products by type, category, stock manage or stock status.
+* You can sort products by name or sku.
+* Searching products by name or sku.
+* For better usabillity it is possible hide some table cells. 
+* Variants for variable product is possible to edit after click on "Show variables" button.
+* Each product or variation, can be save separatelly, or you can save all displayed data.
 
+**Product stock history**
 
-You can filter products by type, category, stock manage or stock status.
-You can sort products by name or sku.
-Searching products by name or sku.
-Filter displaying columns.
+In Stock log page, you can filter product and see the products stock history. 
 
-For better usabillity is possible hide some table cells. 
+**Import/Export**
 
-Variants for variable product is posible edit after click on "Show variables" button.
-Each product or variation, can be save separatelly, or you can save all displayed data.
-
-Product stock history
-
-In Stock log page, you can filter product and see his stock history. 
-
-Import/Export
-
-With plugin is possible export all stock data from your eshop, edit them and import back with csv file.
-This feature needs refactoring, so use this only on your own risk.
+With this plugin, it is possible export all stock data from your shop, edit them and import back with csv file.
+(This feature needs refactoring, so use this only on your own risk).
 
 Export file structure:
 
@@ -67,248 +63,70 @@ Roadmap:
 
 Bulk editing.
 Display stock history in visually graph.
-Hooks for 3rd party plugins.
+Hooks for the 3rd party plugins.
 
-Find more info on <a href="https://toret.cz/en/woocommerce-stock-manager/">Toret.cz</a>.
+**Some of our other free plugins**
 
+1. [Smart Manager For WooCommerce](https://wordpress.org/plugins/smart-manager-for-wp-e-commerce/) - Manage and bulk edit WooCommerce products, variations, orders, coupons, any WordPress post type. All from a single screen using Excel-Like Spreadsheet.
+2. [Temporary Login Without Password](https://wordpress.org/plugins/temporary-login-without-password/)
+3. [Icegram](https://wordpress.org/plugins/icegram/) - Popups, Welcome Bar, Optins and Lead Generation Plugin
+4. [Email Subscribers & Newsletters](https://wordpress.org/plugins/email-subscribers/)
+
+**StoreApps’ other Pro plugins**
+
+1. [Bulk Variations Manager](https://www.storeapps.org/product/bulk-variations-manager/?utm_source=wprepo&utm_medium=web_bvm&utm_campaign=wsm_readme)
+2. [WooCommerce One Click Upsell](https://www.storeapps.org/how-to-create-1-click-upsells-in-woocommerce/?utm_source=wprepo&utm_medium=web_mb&utm_campaign=wsm_readme)
+3. [Smart Offers For WooCommerce](https://www.storeapps.org/product/smart-offers/?utm_source=wprepo&utm_medium=web_mb&utm_campaign=wsm_readme)
+4. [Email Customizer for WooCommerce](https://www.storeapps.org/product/smart-emails/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme)
+
+[Check out all our 15+ WooCommerce plugins](https://www.storeapps.org/shop/?utm_source=wprepo&utm_medium=web_others&utm_campaign=wsm_readme)
 
 == Installation ==
 
 = Using The WordPress Dashboard =
 
-1. Navigate to the 'Add New' in the plugins dashboard
+1. Navigate to the Plugins > Add New in the WordPress dashboard
 2. Search for 'WooCommerce Stock Manager'
 3. Click 'Install Now'
-4. Activate the plugin on the Plugin dashboard
+4. Activate the plugin
 
 = Uploading in WordPress Dashboard =
 
-1. Navigate to the 'Add New' in the plugins dashboard
+1. Navigate to the Plugins > Add New in the WordPress dashboard
 2. Navigate to the 'Upload' area
 3. Select `woocommerce-stock-manager.zip` from your computer
 4. Click 'Install Now'
-5. Activate the plugin in the Plugin dashboard
-
-= Using FTP =
-
-1. Download `woocommerce-stock-manager.zip`
-2. Extract the `woocommerce-stock-manager` directory to your computer
-3. Upload the `woocommerce-stock-manager` directory to the `/wp-content/plugins/` directory
-4. Activate the plugin in the Plugin dashboard
-
+5. Activate the plugin
 
 == Frequently Asked Questions ==
 
-Q: Quantity change not working.
-A: Be sure, that you have active stock manage.
-Q: Plugin not working.
-A: Be sure, that you have WooCommerce 3.5+ and WordPress 5.+
+= How to show hide columns in the Stock Manager Table? =
+
+Go to WooCommerce Stock Manager and on 'Screen Options' to show/hide any columns in the Stock Manager Table.
+
+= Quantity change not working. =
+
+Be sure, that you have active stock manage.
+
+= Plugin not working. =
+
+Be sure, that you have WooCommerce 3.5+ and WordPress 5.+
 
 == Screenshots ==
 
 1. Edit stock product data
-2. Edit stock variations data
-4. Show product variations
+2. Import/Export
+3. See product edit history
+4. Product stock as on date
 
 == Changelog ==
 
-= 2.0.2 =
-* Fixed js error
+= 2.1.0 (06.04.2020) =
+* New: New contributor's name added
+* New: Added POT file
+* Update: Display the date in localized format in Stock log history
+* Update: Removed language specific translation files
 
-= 2.0.1 =
-* Fixed product variation problem
-* Added old.css with old tabla style
-* Added setting for old css styles
-* Color alert for qty boxes is back
+**Earlier Versions**
 
-= 2.0.0 =
-* Removed old stock manager table
-* Created one page React application
-* Realtime filtering - category, product name, sky, product type, stock status
-* All changes can be dismiss before saving
-* Ajax paggination
-* Saving was changed to using WooCommerce Rest API v3
-* Product quantity log
-* New database table stock_log 
-* New admin page with product quantity history
-* Removed plugin settings page
-* Added filter for ajax pagination apply_filters('woocommerce_stock_manager_per_page', 50)
-
-= 1.2.8 =
-* Rename language file to woocommerce-stock-manager for compatibility with WordPress translate system
-* Removed max width for table
-* Fixed button position Save all on big screen
-
-= 1.2.7 =
-* Changed loading text domain
-* Added new feature for stock editing. When manage stock is changed, backorder and stock inputs are disabled. 
-  Stock status is changed automatically, based on stock value and backorder value, when manage stock is "yes"
-  This new feature is used for allowing only correct stock "scenario" - for example: you cannot change stock quantity, when manage stock is "no".
-
-= 1.2.6 =
-* Fixed default values for disaplay setting
-* Fixed variations ordering
-
-= 1.2.5 =
-* Import/export feature is back
-* Fixed sell price saving
-
-= 1.2.4 =
-* Fixed SKU sorting issue
-* Fixed search limit issue
-
-= 1.2.3 =
-* Fixed wrong file update
-
-= 1.2.2 =
-* New filter for limit products in product table woocommerce_stock_manager_limit
-* Import/export feature was removed from plugin
-* New setting page for plugin
-* Products limit setting
-* Enable/disable qty input for variable product - if disabled, input showing all product variants stock qty
-* Qty input step setting - for e-shops not using items, but meters or inches
-
-= 1.2.1 =
-* Fixed wrong saving stock quantity, when trying set zero value
-* Added input for tax status
-* Added input for tax class
-* Added input for shipping class
-
-= 1.2.0 =
-* Fixed wrond saving stock quantity
-
-= 1.1.9 =
-* Fixed please enter a valid value issue
-* Changed update meta to $product->set_ method for stock status, backorders, manage stock and sku
-
-= 1.1.8 =
-* Fixed issue with sale price
-* Disable product qty input for variable product
-* Variable roduct qty is calculated from all variants
-* Removed price and sale price for variable product - they dont exist in WooCommerce 
-
-= 1.1.7 =
-* Fixed issue with not saving Manage stock
-* Fixed issue with searching SKU for variable products
-* Fixed sales price error
-
-= 1.1.6 =
-* New filter stock_manager_manage for edit user capabitily to display manager - in class-stock-manager-admin.php file
-
-= 1.1.5 =
-* WooCommerce 3.0+ compatibility
-* Sku edit is now via onclick function
-* Fix Sku display issue 
-* French translations
-
-= 1.1.4 =
-* Fixed Save all button issue
-
-= 1.1.3 =
-* Typo admin fix
-
-= 1.1.2 =
-* Added input for sku change
-* Use $product->set_stock for set qty value
-* Added searching products by product name
-* Wildcard for searching by sku
-* Product name edit directly in table - green pen icon
-* Added sale price
-* Availability switch off/on table cells - price, sale price, weight, manage stock, stock status, backorders, stock
-* New setting for cells displaying
-* Fixed save all price error
-
-= 1.1.1 =
-* Fixed Search by SKU issue
-* Improve filter for multiple values
-* Added Order by filter
-* Added Persian translation
-
-= 1.1.0 =
-* Removed "f" typo on admin page
-* Fixed not saving issue
-* Added product id paramater into hooks
-* Optimized pagination method
-* Fixed on sae price issue
-
-= 1.0.9 =
-* Fixed wrong generate AJAX nonce
-* User manage WooCommerce capability control in stock_manager_save_one_product_stock_data
-
-= 1.0.8 =
-* Fixed security vulnerabily in AJAX call
-
-= 1.0.7 =
-* Fixed price saving
-* New hook stock_manager_table_th in table head before Save text
-* New hook stock_manager_table_simple_td in table line before Save button - simple product
-* New hook stock_manager_table_variation_td in table line before Save button - product variation
-* Edit product weight
-* Added product name into export file
-
-= 1.0.6 =
-* Fixed issue with export class
-
-= 1.0.5 =
-* Search product by sku
-* Edit product regular price
-* Link to product edit page 
-
-= 1.0.4 =
-* Fix error on attribut label displaying
-
-= 1.0.3 =
-* Added toggle display for variations
-* Variation have their attributes as "variation name"
-* Added availability work with plugin setting, for shop managers
-* Fix displaing zero, when stock is low then 0
-
-= 1.0.2 =
-Fix wrong table displaing in administraion in FF and IE
-Added Spanish translate - thanks to Miguel Acosta
-Added Slovakia translate - thanks to Tomas Kusenda
-
-= 1.0.1 =
-Fix product filter issue
-
-= 1.0.0 =
-Startup version
-
-
-== Upgrade Notice ==
-
-= 1.0.7 =
-* Fixed price saving
-* New hook stock_manager_table_th in table head before Save text
-* New hook stock_manager_table_simple_td in table line before Save button - simple product
-* New hook stock_manager_table_variation_td in table line before Save button - product variation
-* Edit product weight
-* Added product name into export file
-
-= 1.0.6 =
-* Fixed issue with export class
-
-= 1.0.5 =
-* Search product by sku
-* Edit product regular price
-* Link to product edit page 
-
-= 1.0.4 =
-* Fix error on attribut label displaying
-
-= 1.0.3 =
-* Added toggle display for variations
-* Variation have their attributes as "variation name"
-* Added availability work with plugin setting, for shop managers
-* Fix displaing zero, when stock is low then 0
-
-= 1.0.2 =
-Fix wrong table displaing in administraion in FF and IE
-Added Spanish translate - thanks to Miguel Acosta
-Added Slovakia translate - thanks to Tomas Kusenda
-
-= 1.0.1 =
-Fix product filter issue
-
-= 1.0.0 =
-Startup version
+For the changelog of earlier versions, please refer to the separate [changelog.txt](https://plugins.svn.wordpress.org/woocommerce-stock-manager/trunk/changelog.txt) file.

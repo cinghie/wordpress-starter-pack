@@ -72,36 +72,7 @@ class WOOCCM_Order_Controller extends WOOCCM_Upload {
         }
 
         wp_send_json_success(ob_get_clean());
-        /* send email
-          $email_recipients = $options['checkness']['wooccm_notification_email'];
-          if (empty($email_recipients))
-          $email_recipients = get_option('admin_email');
-          $email_heading = __('Files Uploaded by Customer', 'woocommerce-checkout-manager');
-          $subject = sprintf(__('WooCommerce Checkout Manager - %s [%s]', 'woocommerce-checkout-manager'), $email_heading, $order->billing_first_name . ' ' . $order->billing_last_name);
-
-          $mailer = WC()->mailer();
-
-          // Buffer
-          ob_start();
-          ?>
-          <p>This is an automatic message from WooCommerce Checkout Manager, reporting that files have been uploaded by <?php echo $order->billing_first_name; ?> <?php echo $order->billing_last_name; ?>.</p>
-          <h3>Customer Details</h3>
-          <ul>
-          <li>Name: <?php echo $order->billing_first_name; ?> <?php $order->billing_last_name; ?></li>
-          <li>E-mail: <?php echo $order->billing_email; ?></li>
-          <li>Order Number: <?php echo $order_id; ?></li>
-          </ul>
-          <p>You can view the files and order details via back-end by following this <a href="<?php echo admin_url('/post.php?post=' . $order_id . '&action=edit'); ?>" target="_blank">link</a>.</p>
-          <?php
-          // Get contents
-          $message = ob_get_clean();
-
-          $message = $mailer->wrap_message($email_heading, $message);
-
-          // add_filter( 'wp_mail_content_type', 'wooccm_set_html_content_type' );
-          // wc_mail( $email_recipients, $subject, $message );
-          $mailer->send($email_recipients, strip_tags($subject), $message);
-          // remove_filter( 'wp_mail_content_type', 'wooccm_set_html_content_type' ); */
+  
       }
       wp_send_json_error(esc_html__('Unknow error.', 'woocommerce-checkout-manager'));
     }

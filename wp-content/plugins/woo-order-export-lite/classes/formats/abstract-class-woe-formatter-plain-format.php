@@ -39,8 +39,10 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 		}
 
 		$this->summary_processing = false; //true only when we finish order scan
-
 		$this->encoding  = isset( $this->settings['encoding'] ) ? $this->settings['encoding'] : '';
+		if ( isset( $this->settings['add_utf8_bom'] ) && $this->settings['add_utf8_bom'] ) {
+			$this->encoding = "UTF-8";
+		}
 	}
 	
 	// calculate max columns based on order items

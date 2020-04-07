@@ -14,16 +14,15 @@ class WOOCCM_Checkout_Premium_Controller {
     }
     return self::$_instance;
   }
-  
-  
+
   function remove_menu() {
     ?>
     <style>
-      
+
       li.toplevel_page_wooccm {
         display:none;
       }
-      
+
     </style>
     <?php
   }
@@ -31,8 +30,14 @@ class WOOCCM_Checkout_Premium_Controller {
   // Admin    
   // -------------------------------------------------------------------------
 
-  public function add_page() {
+  function add_page() {
     include_once( WOOCCM_PLUGIN_DIR . 'includes/view/backend/pages/premium.php' );
+  }
+
+  function add_header() {
+    ?>
+    <li><a href="<?php echo admin_url('admin.php?page=' . WOOCCM_PREFIX); ?>"><?php echo esc_html__('Premium', 'woocommerce-checkout-manager'); ?></a></li> | 
+    <?php
   }
 
   function add_menu() {
@@ -41,6 +46,7 @@ class WOOCCM_Checkout_Premium_Controller {
   }
 
   public function init() {
+    add_action('wooccm_sections_header', array($this, 'add_header'));
     add_action('admin_menu', array($this, 'add_menu'));
     add_action('admin_head', array($this, 'remove_menu'));
   }

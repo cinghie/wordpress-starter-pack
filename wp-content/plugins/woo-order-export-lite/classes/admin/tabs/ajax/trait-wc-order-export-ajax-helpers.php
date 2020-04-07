@@ -35,7 +35,7 @@ trait WC_Order_Export_Ajax_Helpers {
 				if ( empty( $download_name ) ) {
 					$download_name = "orders.tsv";
 				}
-				header( 'Content-type: text/csv' );
+				header( 'Content-type: text/tsv' );
 				break;
 			case 'JSON':
 				if ( empty( $download_name ) ) {
@@ -135,12 +135,19 @@ trait WC_Order_Export_Ajax_Helpers {
 		$this->stop_prevent_object_cache();
 	}
 
-	protected function build_and_send_file( $settings ) {
+	protected function build_and_send_file( $settings, $export = false, $browser_output = true ) {
+		$result = [];
 		$filename = WC_Order_Export_Engine::build_file_full( $settings, '', 0, explode( ",", $_REQUEST['ids'] ) );
+		$download_name = WC_Order_Export_Engine::make_filename( $settings['export_filename'] );
 		WC_Order_Export_Manage::set_correct_file_ext( $settings );
-
-		$this->send_headers( $settings['format'], WC_Order_Export_Engine::make_filename( $settings['export_filename'] ) );
-		$this->send_contents_delete_file( $filename );
+		if ( $export ) {
+			$result = WC_Order_Export_Pro_Engine::export( $settings, $filename );
+		}
+		if ( $browser_output ) {
+			$this->send_headers( $settings['format'], $download_name );
+			$this->send_contents_delete_file( $filename );
+		}
+		return $result;
 	}
 
 }

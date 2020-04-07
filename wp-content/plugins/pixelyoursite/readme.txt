@@ -3,8 +3,8 @@ Contributors: PixelYourSite, themister
 Tags: Facebook Pixel, New Facebook Pixel, Facebook Conversion Pixel, Facebook Pixel Events, Facebook, New Facebook Pixel Events, Dynamic Events, Standard Events, Facebook Events, Facebook Standard Events, Facebook Dynamic Product Ads, WooCommerce, WooCommerce Facebook Pixel, Facebook Custom Events, Facebook Conversion Value, WooCommerce Affiliate Products, Easy Digital Downloads Pixel, Easy Digital Downloads Google Analytics, Head & Footer scripts, Enhanced Ecommerce, Pinterest tag
 Requires at least: 3.0.1
 Requires PHP: 5.4
-Tested up to: 5.3
-Stable tag: 7.1.5
+Tested up to: 5.4
+Stable tag: 7.1.7
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -387,6 +387,19 @@ NO, absolutely not! We don't track any type of data about your website. We simpl
 
 
 == Changelog ==
+
+
+= PixelYourSite 7.1.6 =
+
+* This is a minor update that ensures compatibility with the latest changes from the [WooCommerce Cost of Goods plugin by PixelYourSite](https://www.pixelyoursite.com/woocommerce-cost-of-goods)
+
+= PixelYourSite 7.1.6 =
+
+* Small code update to declare WooCommerce 4.0 compatibility.
+
+* Fixes for some issues related to file paths. In some environments this was causing error on Elementor or WooCommerce admin pages.
+
+* A new option to use PROFIT as value for your Facebook Pixel WooCommerce events. It works with  the [WooCommerce Cost of Goods plugin by PixelYourSite](https://www.pixelyoursite.com/woocommerce-cost-of-goods)
 
 = PixelYourSite 7.1.5 =
 

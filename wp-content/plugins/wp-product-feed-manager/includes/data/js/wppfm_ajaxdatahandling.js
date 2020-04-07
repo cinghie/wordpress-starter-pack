@@ -322,8 +322,33 @@ function wppfm_feed_logger_status( selection, callback ) {
 		myAjaxNonces.ajaxurl,
 		{
 			action: 'myajax-feed-logger-status-selection',
-			status_selection: selection,
+			statusSelection: selection,
 			feedLoggerStatusNonce: myAjaxNonces.setFeedLoggerStatusNonce,
+
+		},
+		function( response ) {
+
+			callback( response.trim() );
+		}
+	);
+}
+
+/**
+ * Sets the Show Product Identifiers option.
+ *
+ * @since 2.10.0.
+ *
+ * @param selection
+ * @param callback
+ */
+function wppfm_show_pi_status( selection, callback ) {
+
+	jQuery.post(
+		myAjaxNonces.ajaxurl,
+		{
+			action: 'myajax-show-product-identifiers-selection',
+			showPiSelection: selection,
+			showPINonce: myAjaxNonces.setShowPINonce,
 
 		},
 		function( response ) {

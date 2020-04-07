@@ -266,6 +266,7 @@ public function get_mapping_attributes_dropdown() {
 
         	$images = array(
             		"image" => "Main image",
+            		"image_all" => "Main image simple and variations",
             		"feature_image" => "Featured image",
             		"image_1" => "Additional image 1",
             		"image_2" => "Additional image 2",
@@ -395,6 +396,7 @@ public function get_mapping_attributes_dropdown() {
                         "variable_link" => "Product variable link",
                         "add_to_cart_link" => "Add to cart link",
 			"image" => "Main image",
+                        "image_all" => "Main image simple and variations",
 			"feature_image" => "Feature image",
                         "product_type" => "Product Type",
                         "content_type" => "Content Type",
@@ -454,6 +456,7 @@ public function get_mapping_attributes_dropdown() {
 
         	$images = array(
             		"image" => "Main image",
+                        "image_all" => "Main image simple and variations",
             		"feature_image" => "Featured image",
             		"image_1" => "Additional image 1",
             		"image_2" => "Additional image 2",

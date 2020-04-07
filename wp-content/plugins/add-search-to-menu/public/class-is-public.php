@@ -374,14 +374,8 @@ class IS_Public
                                                     $query->set( $inc_key, array_values( $inc_val ) );
                                                     break;
                                                 case 'post_type':
-                                                    
-                                                    if ( !isset( $q['post_type'] ) || NULL == $q['post_type'] ) {
-                                                        $pt_val = array_values( $inc_val );
-                                                        $query->set( $inc_key, $pt_val );
-                                                    } else {
-                                                        $query->set( $inc_key, $q['post_type'] );
-                                                    }
-                                                    
+                                                    $pt_val = array_values( $inc_val );
+                                                    $query->set( $inc_key, $pt_val );
                                                     if ( in_array( 'attachment', $inc_val ) ) {
                                                         $query->set( 'post_status', array( 'publish', 'inherit' ) );
                                                     }

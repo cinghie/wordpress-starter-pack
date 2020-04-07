@@ -4,12 +4,12 @@
 	 * Plugin URI: https://wordpress.org/plugins/woo-variation-swatches/
 	 * Description: Beautiful colors, images and buttons variation swatches for woocommerce product attributes. Requires WooCommerce 3.2+
 	 * Author: Emran Ahmed
-	 * Version: 1.0.76
+	 * Version: 1.0.80
 	 * Domain Path: /languages
 	 * Requires at least: 4.8
-	 * Tested up to: 5.3
+	 * Tested up to: 5.4
 	 * WC requires at least: 3.2
-	 * WC tested up to: 3.9
+	 * WC tested up to: 4.0
 	 * Text Domain: woo-variation-swatches
 	 * Author URI: https://getwooplugins.com/
 	 */
@@ -20,7 +20,7 @@
 		
 		final class Woo_Variation_Swatches {
 			
-			protected $_version = '1.0.76';
+			protected $_version = '1.0.80';
 			
 			protected static $_instance = null;
 			private          $_settings_api;
@@ -869,7 +869,8 @@
 			
 			public function internal_feed() {
 				
-				$visible_pages = array( 'dashboard', 'edit-product', 'product', 'plugin-install', 'plugins', 'toplevel_page_woo-variation-swatches-settings', 'themes' );
+				// $visible_pages = array( 'dashboard', 'edit-product', 'product', 'plugin-install', 'plugins', 'toplevel_page_woo-variation-swatches-settings', 'themes' );
+				$visible_pages = array( 'dashboard', 'plugins', 'toplevel_page_woo-variation-swatches-settings' );
 				$screen        = get_current_screen();
 				
 				if ( current_user_can( 'install_plugins' ) && $screen && in_array( $screen->id, $visible_pages ) ) {
@@ -884,7 +885,7 @@
 					
 					// delete_transient( 'gwp_gallery_plugin_notice');
 					
-					if ( get_transient( 'gwp_gallery_plugin_notice' ) === 'yes' ) {
+					if ( get_transient( 'gwp_gallery_plugin_notice' ) == 'yes' ) {
 						return;
 					}
 					

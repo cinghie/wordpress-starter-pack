@@ -143,7 +143,6 @@ var woe_form_submitting = false;
 function woe_set_form_submitting() {
 	woe_form_submitting = true;
 }
-
 window.onload = function () {
 
 	var form = jQuery( '#export_job_settings' );
@@ -158,7 +157,12 @@ window.onload = function () {
 	};
 
 	window.addEventListener( "beforeunload", function ( e ) {
+		var clicked_el = e.target.activeElement;
 
+		if ( clicked_el.id === 'copy-to-profiles' ) {
+			woe_set_form_submitting();
+		}
+		
 		if ( woe_is_dirty( on_load_form_data ) && ! woe_form_submitting ) {
 			(
 				e || window.event
@@ -171,6 +175,13 @@ window.onload = function () {
 }
 
 jQuery( document ).ready( function ( $ ) {
+
+	function woe_disable_input_by_id( current_elem, element_id ) {
+		var $disabled = $( '#' + element_id );
+			( current_elem.checked === true )
+				? $disabled.attr( 'disabled', true )
+				: $disabled.removeAttr( 'disabled' );
+	}
 
 	$( '.my-hide-next' ).click( function () {
 
@@ -206,6 +217,14 @@ jQuery( document ).ready( function ( $ ) {
 	$( 'input[type="checkbox"][name="settings[custom_php]"]' ).on( 'change', function () {
 		$( 'div#custom_php_code_textarea' ).toggle( $( this ).is( ':checked' ) );
 	} );
+
+	$( '#woe_format_disabler' ).on( 'change', function() {
+		woe_disable_input_by_id( this, 'woe_format_disabled' );
+	} ).trigger( 'change' );
+
+	$( '#woe_format_tsv_disabler').on( 'change', function() {
+		woe_disable_input_by_id( this, 'woe_format_tsv_disabled' );
+	} ).trigger( 'change' );
 
     if (typeof settings_form.settings.show_date_time_picker_for_date_range !== 'undefined' && settings_form.settings.show_date_time_picker_for_date_range) {
         if ( typeof woe_init_datetime_picker !== 'undefined' ) {

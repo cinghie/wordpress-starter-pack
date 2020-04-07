@@ -72,11 +72,14 @@ function woe_get_data() {
 }
 
 function woe_validate_export() {
-
 	if ( (
-		     mode == settings_form.EXPORT_PROFILE
+			 mode == settings_form.EXPORT_PROFILE
+			 ||
+			 mode == settings_form.EXPORT_ORDER_ACTION
+			 ||
+			 mode == settings_form.EXPORT_SCHEDULE
 	     ) && (
-		     ! jQuery( "[name='settings[title]']" ).val()
+		     ! jQuery( "[name='settings[title]']" ).val().trim()
 	     ) ) {
 		alert( export_messages.empty_title );
 		jQuery( "[name='settings[title]']" ).focus();
@@ -232,7 +235,7 @@ function woe_get_all( start, percent, method ) {
 
 				if ( woe_is_ipad_or_iphone() || ( output_format == 'HTML' && settings_form.settings.display_html_report_in_browser ) ) {
 
-					$( '#progress_div .title-download a' ).attr( 'href', ajaxurl + (
+					jQuery( '#progress_div .title-download a' ).attr( 'href', ajaxurl + (
 						ajaxurl.indexOf( '?' ) === - 1 ? '?' : '&'
 					) + 'action=order_exporter&method=export_download&format=' + download_format + '&file_id=' + window.file_id + '&tab=' + settings_form.woe_active_tab );
 					jQuery( '#progress_div .title-download' ).show();

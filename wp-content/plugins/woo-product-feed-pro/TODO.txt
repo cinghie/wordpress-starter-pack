@@ -5,6 +5,7 @@ Tutorial / Blog posts:
 - Explain all the different fields/attributes that can be selected from the drop-downs
 
 Priority issues:
+- When free shipping remove other shipping costs and visa versa
 - Add support for Polylang
 - Make category path primary (Yoast) category
 - Add possibility to copy feed configuration from one WooCommerce instance to the other instance

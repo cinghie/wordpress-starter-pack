@@ -1,8 +1,8 @@
 /*!
- * Variation Swatches for WooCommerce v1.0.76 
+ * Variation Swatches for WooCommerce v1.0.80 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 2/17/2020, 3:21:03 PM
+ * Date: 4/2/2020, 11:47:32 PM
  * Released under the GPLv3 license.
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -83,6 +83,12 @@ jQuery(function ($) {
         $(document).on('wc_variation_form.wvs', '.variations_form', function () {
             $(this).WooVariationSwatches();
         });
+
+        /*$('.variations_form').each(function () {
+            $(this).on('found_variation', function(e){
+                console.log('found_variation called', $(this))
+            });
+        })*/
 
         // Support for Jetpack's Infinite Scroll,
         $(document.body).on('post-load.wvs', function () {

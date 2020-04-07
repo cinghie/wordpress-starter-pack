@@ -950,8 +950,7 @@ class IS_Admin
         }
         $defaults = wp_parse_args( $defaults, array(
             'post_type' => get_post_types( array(
-            'public'              => true,
-            'exclude_from_search' => false,
+            'public' => true,
         ) ),
         ) );
         $input = wp_parse_args( $input, $defaults );

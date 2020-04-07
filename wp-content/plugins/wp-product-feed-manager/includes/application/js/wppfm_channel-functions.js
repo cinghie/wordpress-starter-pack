@@ -5,6 +5,7 @@
  * @param {boolean} isNew
  * @returns nothing
  */
+
 // WPPFM_CHANNEL_RELATED
 function wppfm_showChannelInputs( channel, isNew ) {
 	var fName = {

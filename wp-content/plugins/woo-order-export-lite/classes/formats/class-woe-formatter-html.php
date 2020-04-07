@@ -180,26 +180,6 @@ class WOE_Formatter_Html extends WOE_Formatter_Plain_Format {
 	}
 
 	protected function prepare_array( &$arr ) {
-		if ( apply_filters( "woe_stop_csv_injection", true ) ) {
-			$arr = array_map( array( $this, 'stop_csv_injection' ), $arr );
-		}
-
-		if ( ! in_array( $this->encoding, array( '', 'utf-8', 'UTF-8' ) ) ) {
-			$arr = array_map( array( $this, 'encode_value' ), $arr );
-		}
-	}
-
-	protected function stop_csv_injection( $value ) {
-		$formula_chars = array( "=", "+", "-", "@" );
-		if ( in_array( substr( $value, 0, 1 ), $formula_chars ) ) {
-			$value = " " . $value;
-		}
-
-		return $value;
-	}
-
-	protected function encode_value( $value ) {
-		return iconv( 'UTF-8', $this->encoding, $value );
 	}
 
 	protected function get_prepared_css() {

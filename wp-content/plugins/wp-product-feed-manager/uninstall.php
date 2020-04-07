@@ -11,7 +11,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 
 global $wpdb;
 
-$upload_dir = wp_upload_dir();
+$upload_dir = wp_get_upload_dir();
 
 if ( ! class_exists( 'WPPFM_Folders' ) ) {
 	require_once( __DIR__ . '/includes/setup/class-wppfm-folders.php' );
@@ -33,11 +33,12 @@ $tables = array(
 	$wpdb->prefix . 'feedmanager_product_feed',
 	$wpdb->prefix . 'feedmanager_product_feedmeta',
 	$wpdb->prefix . 'feedmanager_source',
-	$wpdb->prefix . 'feedmanager_errors'
+	$wpdb->prefix . 'feedmanager_errors',
 );
 
 // remove the feedmanager tables
 foreach ( $tables as $table ) {
+	//phpcs:ignore
 	$wpdb->query( "DROP TABLE IF EXISTS $table" );
 }
 
@@ -53,7 +54,7 @@ function unregister_plugin() {
 
 	delete_option( 'wppfm_db_version' );
 	delete_option( 'wppfm_lic_status' );
-	delete_option( 'wppfm_lic_status_date' );
+	delete_option( 'wppfm_lic_status_date' ); // deprecated
 	delete_option( 'wppfm_lic_key' );
 	delete_option( 'wppfm_lic_expires' );
 	delete_option( 'wppfm_channel_update_check_date' );
@@ -62,9 +63,9 @@ function unregister_plugin() {
 	delete_option( 'wppfm_auto_feed_fix' );
 	delete_option( 'wppfm_disabled_background_mode' ); // @since 2.0.7
 	delete_option( 'wppfm_debug_mode' );
-	delete_option( 'wppfm_prep_check' );
+	delete_option( 'wppfm_prep_check' ); // deprecated
 	delete_option( 'wppfm_third_party_attribute_keywords' );
-	delete_option( 'wppfm_license_notice_surpressed' ); // @since 1.9.0
+	delete_option( 'wppfm_license_notice_suppressed' ); // @since 1.9.0
 	delete_option( 'wppfm_feed_queue' ); // @since 1.10.0
 	delete_option( 'wppfm_background_process_is_running' ); // @since 1.10.0
 	delete_option( 'wppfm_background_process_time_limit' ); // @since 2.2.0 (deprecated)

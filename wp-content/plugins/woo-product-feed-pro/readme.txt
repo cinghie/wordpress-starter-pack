@@ -4,8 +4,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
-Tested up to: 5.3
-Stable tag: 7.7.3
+Tested up to: 5.4
+Stable tag: 7.8.6
 
 == Description ==
 
@@ -34,10 +34,10 @@ Determine yourself what attributes to in- or exclude in your product feed. This 
 = Field / attribute mapping =
 Map your field attributes to those of the channels of your choice. For many channels using the right field names is obliged.
 
-= Fix for WooCommerce structured data bug =
+= Fix for WooCommerce structured data bug (Elite version) =
 Because of a bug in WooCommerce variable products will get disapproved in Google's Merchant Center. WooCommerce adds the price of the cheapest variable product in the structured data for all variations of a product. Because of this there will be a mismatch between the product price you provide to Google in your Google Shopping product feed and the structured data price on the product landingpage. Google will therefor disapprove the product in its merchant center. You won't be able to advertise on that product in your Google Shopping campaign. Our plugin has a feature that will fix the structured data on variable product pages by adding the correct variable product price in the JSON-LD structured data so Google will approve the variable products you submitted. 
 
-= Add critical Google Shopping Feed fields to your store =
+= Add critical Google Shopping Feed fields to your store (Elite version) =
 Google requires you to add certain fields to the feed you create for Google Shopping. However not all of the required fields are present in WooCommerce. Our plugin add's these fields / attributes for you so you can create a product feed that meets Google's requirements. The plugin will add the following product input fields for you: Brand, GTIN, UPC, MPN, EAN, Product condition (New, Refurbished, Used) unit pricing measure, unit pricing base measure, installment and an Optimised title field.
 
 = Performance based =
@@ -86,13 +86,13 @@ Use the product tag information for your product feeds or to create filters and 
 = Product feed statistics =
 Product feed statistics showing you the amount of products in yor product feed after every update and refresh.
 
-= WPML =
+= WPML (Elite version) =
 Our plugin supports WPML
 
-= WCML - WooCommerce Multilingual =
+= WCML - WooCommerce Multilingual (Elite version)  =
 Our plugin supports WooCommerce Multilangual, especially the currency switcher
 
-= Aelia Currency Switcher =
+= Aelia Currency Switcher (Elite version) =
 Our plugin supports the Aelia Currency Switcher
 
 = Google Shopping product feed tutorial =
@@ -311,6 +311,45 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 7.8.6 (2020-04-07) =
+* Solved WPML PHP noticed for products without a product ID
+
+= 7.8.5 (2020-04-02) =
+* Tested and approved compatibility with Wordpress 5.4
+
+= 7.8.4 (2020-03-31) =
+* Minor tweaks and tunes to the Facebook pixelcode
+
+= 7.8.3 (2020-03-31) =
+* Added some Facebook pixel debug logging 
+
+= 7.8.2 (2020-03-29) =
+* Fixed an issue with adding free shipping costs to feeds.
+
+= 7.8.1 (2020-03-26) =
+* Fixed an issue with category filters which occured after switching the filters and ruling order.
+
+= 7.8.0 (2020-03-25) =
+* Added a feature where one can decide to only add the country feed shipping costs or all countries
+
+= 7.7.9 (2020-03-25) =
+* Only shipping costs are added to the feed for the country the feed was configured
+
+= 7.7.8 (2020-03-23) =
+* Changed the order in which filters and rules are executed. Rules are executed first, filters last.
+
+= 7.7.7 (2020-03-22) =
+* Changed how values are added to the content_ids parameter of the Facebook pixel for variable parent products
+
+= 7.7.6 (2020-03-20) =
+* Fixed a bug where shipping costs for bundled products did not end up in the feeds. This has been fixed now.
+
+= 7.7.5 (2020-03-18) =
+* Added an attribute named "Main image simple and variations" which will always use the simple and variable main image
+
+= 7.7.4 (2020-03-15) =
+* Fixed a bug where rules on empty numeric product values did not work. This has been fixed now.
 
 = 7.7.3 (2020-03-13) =
 * Fixed a bug where static values are added to feeds for products that are filtered out
@@ -2461,6 +2500,45 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 7.8.6 =
+Solved WPML PHP noticed for products without a product ID
+
+= 7.8.5 =
+Tested and approved compatibility with Wordpress 5.4
+
+= 7.8.4 =
+Minor tweaks and tunes to the Facebook pixelcode
+
+= 7.8.3 =
+Added some Facebook pixel debug logging
+
+= 7.8.2 =
+Fixed an issue with adding free shipping costs to feeds.
+
+= 7.8.1 =
+Fixed an issue with category filters which occured after switching the filters and ruling order.
+
+= 7.8.0 =
+Added a feature where one can decide to only add the country feed shipping costs or all countries
+
+= 7.7.9 =
+Only shipping costs are added to the feed for the country the feed was configured
+
+= 7.7.8 =
+Changed the order in which filters and rules are executed. Rules are executed first, filters last.
+
+= 7.7.7 =
+Changed how values are added to the content_ids parameter of the Facebook pixel for variable parent products
+
+= 7.7.6 =
+Fixed a bug where shipping costs for bundled products did not end up in the feeds. This has been fixed now.
+
+= 7.7.5 =
+Added an attribute named "Main image simple and variations" which will always use the simple and variable main image
+
+= 7.7.4 =
+Fixed a bug where rules on empty numeric product values did not work. This has been fixed now.
 
 = 7.7.3 =
 Fixed a bug where static values are added to feeds for products that are filtered out

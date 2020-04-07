@@ -85,7 +85,7 @@ if ( ! class_exists( 'YITH_WCAS_Ajax_Search_Widget' ) ) {
 		 *
 		 * @see WP_Widget->form
 		 * @access public
-		 * @param array $instance
+		 * @param array $instance Instance.
 		 * @return void
 		 */
 		public function form( $instance ) {

@@ -109,38 +109,38 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		 * 5 = Has errors
 		 * 6 = Failed processing
 		 *
-		 * @param string $feed_id
-		 * @param int $status
+		 * @param   string  $feed_id
+		 * @param   int     $status
 		 *
-		 * @return bool
+		 * @return  bool    True if the update succeeded.
 		 */
 		public function update_feed_status( $feed_id, $status ) {
 
 			$message_level = 'MESSAGE';
 
 			switch ( $status ) {
-				case '1':
+				case 1:
 					$message = sprintf( 'The feed status of feed %s has been set to OK (1)', $feed_id );
 					break;
 
-				case '2':
+				case 2:
 					$message = sprintf( 'The feed status of feed %s has been set to On Hold (2)', $feed_id );
 					break;
 
-				case '3':
+				case 3:
 					$message = sprintf( 'The feed status of feed %s has been set to Processing (3)', $feed_id );
 					break;
 
-				case '4':
+				case 4:
 					$message = sprintf( 'The feed status of feed %s has been set to In processing queue (4)', $feed_id );
 					break;
 
-				case '5':
+				case 5:
 					$message       = sprintf( 'The feed status of feed %s has been set to Has errors (5)', $feed_id );
 					$message_level = 'ERROR';
 					break;
 
-				case '6':
+				case 6:
 					$message       = sprintf( 'The feed status of feed %s has been set to Failed processing (6)', $feed_id );
 					$message_level = 'ERROR';
 					break;
@@ -357,7 +357,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 
 			foreach ( $processing_feeds as $feed ) {
 				if ( $active_feed_id !== $feed->product_feed_id ) {
-					$this->update_feed_status( $feed->product_feed_id, '6' );
+					$this->update_feed_status( $feed->product_feed_id, 6 );
 					$failed_feed_ids .= ', ' . $feed->product_feed_id;
 				}
 			}
@@ -433,7 +433,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 			$main_data->attributes = array();
 
 			$channel   = trim( $this->_queries_class->get_channel_short_name_from_db( $main_feed_data[0]['channel'] ) );
-			$is_custom = function_exists( 'channel_is_custom_channel' ) ? channel_is_custom_channel( $channel ) : false;
+			$is_custom = function_exists( 'wppfm_channel_is_custom_channel' ) ? wppfm_channel_is_custom_channel( $channel ) : false;
 
 			// read the output fields
 			if ( ! $is_custom ) {

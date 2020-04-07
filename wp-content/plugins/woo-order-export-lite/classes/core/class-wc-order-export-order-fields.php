@@ -22,23 +22,30 @@ class WC_Order_Export_Order_Fields {
 		$this->options = $options;
 		$this->export = $export;
 		$this->order = $order;
-		$this->order_id = $order->get_id();
-		
+		$this->order_id = method_exists( $this->order, 'get_id' ) ? $order->get_id() : $order->id;
+
 
 		// get order meta
 		$this->order_meta = array();
 		if ( $order_post_meta = get_post_meta( $this->order_id ) ) {
 			foreach ( $order_post_meta as $meta_key => $meta_values ) {
-				$this->order_meta[ $meta_key ] = join( WC_Order_Export_Data_Extractor::$export_custom_fields_separator, $meta_values );
+				if( apply_filters('woe_use_first_order_meta', false) )
+					$this->order_meta[ $meta_key ] = array_shift( $meta_values );
+				else
+					$this->order_meta[ $meta_key ] = join( WC_Order_Export_Data_Extractor::$export_custom_fields_separator, $meta_values );
 			}
 		}
 
 		
 
 		// add fields for WC 3.0
-		foreach ( array( "billing_country", "billing_state", "shipping_country", "shipping_state" ) as $field_30 ) {
+		$billing_fields  = array( "billing_country", "billing_state" );
+		$shipping_fields = array( "shipping_country", "shipping_state" );
+		$fields_30       = array_merge( $billing_fields, $shipping_fields );
+		foreach ( $fields_30 as $field_30 ) {
 			$this->$field_30 = method_exists( $this->order,
 				'get_' . $field_30 ) ? $this->order->{'get_' . $field_30}() : $this->order->$field_30;
+
 		}
 
 		$parent_order_id = method_exists( $this->order,
@@ -62,14 +69,7 @@ class WC_Order_Export_Order_Fields {
 
 			//refund rewrites it
 			if ( $overwrite_child_order_meta ) {
-				foreach (
-					array(
-						"billing_country",
-						"billing_state",
-						"shipping_country",
-						"shipping_state",
-					) as $field_30
-				) {
+				foreach ( $fields_30 as $field_30 ) {
 					$this->$field_30 = method_exists( $this->parent_order,
 						'get_' . $field_30 ) ? $this->parent_order->{'get_' . $field_30}() : $this->parent_order->$field_30;
 				}
@@ -83,14 +83,51 @@ class WC_Order_Export_Order_Fields {
 		// extra WP_User
 		$this->user = ! empty( $this->order_meta['_customer_user'] ) ? get_userdata( $this->order_meta['_customer_user'] ) : false;
 		// setup missed fields for full addresses
-		$optional_fields = array( '_billing_address_1', '_billing_address_2', '_billing_first_name', '_billing_last_name', '_shipping_address_1', '_shipping_address_2', '_shipping_first_name', '_shipping_last_name' );
-		foreach ($optional_fields as $optional_field ) {
+		$optional_billing_fields = array( '_billing_address_1', '_billing_address_2', '_billing_first_name', '_billing_last_name', '_billing_city', '_billing_postcode', '_billing_country', '_billing_state' );
+		$optional_shipping_fields = array( '_shipping_address_1', '_shipping_address_2', '_shipping_first_name', '_shipping_last_name', '_shipping_city', '_shipping_postcode', '_shipping_country', '_shipping_state' );
+		$optional_fields = array_merge( $optional_billing_fields, $optional_shipping_fields );
+		foreach ( $optional_fields as $optional_field ) {
+
 			if ( ! isset( $this->order_meta[ $optional_field ] ) ) {
 				$this->order_meta[ $optional_field ] = '';
 			}
 		}
+		
+		//method WC_Order::has_shipping_address checks only these 2 fields, so we have to add filter
+		$has_shipping_address = false;
+		$has_shipping_validate_keys = apply_filters( "woe_has_shipping_validate_keys", array( "_shipping_address_1", "_shipping_address_2" ) );
+		foreach($has_shipping_validate_keys as $shippping_key ) {
+			if( !empty($this->order_meta[$shippping_key]) )
+				$has_shipping_address = true;
+		}
+
+		if ( $this->options['billing_details_for_shipping'] && !$has_shipping_address ) {
+			$this->set_shipping_fields( $optional_shipping_fields );
+		}
 
 		$this->order_meta = apply_filters( 'woe_fetch_order_meta', $this->order_meta, $this->order_id );
+		//$optional_billing_fields = array( 'billing_country', 'billing_state', '_billing_address_1', '_billing_address_2', '_billing_first_name', '_billing_last_name', '_billing_city', '_billing_postcode', '_billing_country', '_billing_state' );
+	}
+
+	public function set_shipping_fields( $shippings_fields ) {
+
+	    foreach ( $shippings_fields as $shipping_field ) {
+
+		$billing_field = str_replace( "shipping_", "billing_", $shipping_field );
+
+		$this->order_meta[ $shipping_field ] = $this->order_meta[ $billing_field ];
+
+		$_shipping_field = substr($shipping_field, 1);
+
+		if (method_exists( $this->order, 'set_' . $_shipping_field )) {
+		    $this->order->{ 'set_' . $_shipping_field }( $this->order_meta[ $billing_field ] );
+		} else {
+		    $this->order->$_shipping_field = $this->order_meta[ $billing_field ];
+		}
+	    }
+
+	    $this->shipping_country = $this->billing_country;
+	    $this->shipping_state   = $this->billing_state;
 	}
 
 	public function set_data($data) {
@@ -378,9 +415,9 @@ class WC_Order_Export_Order_Fields {
 		} elseif ( isset( $this->order_meta[ "_" . $field ] ) ) { // or hidden field
 			$row[$field] = $this->order_meta[ "_" . $field ];
 		} else { // order_date...
-			$row[$field] = method_exists( $this->order,
-				'get_' . $field ) ? $this->order->{'get_' . $field}() : get_post_meta( $this->order_id, '_' . $field, true );
-			//print_r($field."=".$label); echo "debug static!\n\n";
+				$row[$field] = method_exists( $this->order,
+					'get_' . $field ) ? $this->order->{'get_' . $field}() : get_post_meta( $this->order_id, '_' . $field, true );
+				//print_r($field."=".$label); echo "debug static!\n\n";
 		}
 		return $row;
 		

@@ -747,6 +747,7 @@ h4.panel-desc {
 
 #wpbody .col-wrapper select[multiple],
 #wpbody .search-form-editor-panel select[multiple]{
+    max-width: 100%;
     width: 100%;
     height: 150px;
     overflow: overlay;

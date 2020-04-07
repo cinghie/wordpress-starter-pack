@@ -46,7 +46,7 @@ class WC_Order_Export_Manage {
 	// arrays
 	static function get_export_settings_collection( $mode ) {
 		$name = self::get_settings_name_for_mode( $mode );
-
+		
 		return get_option( $name, array() );
 	}
 
@@ -165,7 +165,7 @@ class WC_Order_Export_Manage {
 		if ( ! isset( $settings['version'] ) ) {
 			$settings = self::convert_settings_to_version_2( $mode, $settings );
 		}
-
+		
 		return self::apply_defaults( $mode, $settings );
 	}
 
@@ -176,6 +176,8 @@ class WC_Order_Export_Manage {
 		'statuses'		 => array(),
 		'from_date'		 => '',
 		'to_date'		 => '',
+		'from_order_id'		 => '',
+		'to_order_id'		 => '',
 		'shipping_locations'	 => array(),
 		'shipping_methods'	 => array(),
 		'item_names'		 => array(),
@@ -213,6 +215,8 @@ class WC_Order_Export_Manage {
 			'statuses'                                 => ($mode == "now" OR $mode == "profiles") ? array("wc-pending","wc-processing","wc-on-hold","wc-completed") : array(),
 			'from_date'                                => '',
 			'to_date'                                  => '',
+			'from_order_id'                            => '',
+			'to_order_id'                              => '',
 			'shipping_locations'                       => array(),
 			'shipping_methods'                         => array(),
 			'item_names'                               => array(),
@@ -228,6 +232,7 @@ class WC_Order_Export_Manage {
 			'product_categories'                       => array(),
 			'product_vendors'                          => array(),
 			'products'                                 => array(),
+			'product_sku'                              => '',
 			'exclude_products'			   => array(),
 			'product_taxonomies'                       => array(),
 			'product_custom_fields'                    => array(),
@@ -314,24 +319,26 @@ class WC_Order_Export_Manage {
 			'format_html_row_images_height'             => 100,
 			'format_html_custom_css'			 => $settings['default_html_css'],
 
-			'all_products_from_order'   => 1,
-			'skip_refunded_items'       => 1,
-			'skip_suborders'            => 0,
-			'export_refunds'            => 0,
-			'date_format'               => 'Y-m-d',
-			'time_format'               => 'H:i',
-			'sort_direction'            => 'DESC',
-			'sort'                      => 'order_id',
-			'format_number_fields'      => 0,
-			'export_all_comments'       => 0,
-			'export_refund_notes'       => 0,
-			'strip_tags_product_fields' => 0,
-			'cleanup_phone'             => 0,
-			'enable_debug'              => 0,
-			'custom_php'                => 0,
-			'custom_php_code'           => '',
-			'mark_exported_orders'      => 0,
-			'export_unmarked_orders'    => 0,
+			'all_products_from_order'      => 1,
+			'skip_refunded_items'          => 1,
+			'skip_suborders'               => 0,
+			'export_refunds'               => 0,
+			'export_matched_items'		   => 0,
+			'date_format'                  => 'Y-m-d',
+			'time_format'                  => 'H:i',
+			'sort_direction'               => 'DESC',
+			'sort'                         => 'order_id',
+			'format_number_fields'         => 0,
+			'export_all_comments'          => 0,
+			'export_refund_notes'          => 0,
+			'strip_tags_product_fields'    => 0,
+			'cleanup_phone'                => 0,
+			'enable_debug'                 => 0,
+			'billing_details_for_shipping' => 0,
+			'custom_php'                   => 0,
+			'custom_php_code'              => '',
+			'mark_exported_orders'         => 0,
+			'export_unmarked_orders'       => 0,
 
 			'summary_report_by_products' => 0,
 			'duplicated_fields_settings' => array(
@@ -367,6 +374,7 @@ class WC_Order_Export_Manage {
 		if ( ! isset( $settings['export_rule_field'] ) AND $mode == WC_Order_Export_Manage::EXPORT_SCHEDULE ) {
 			$settings['export_rule_field'] = 'modified';
 		}
+		
 
 		foreach ( array( 'order_fields', 'order_product_fields', 'order_coupon_fields' ) as $index ) {
 			if ( ! isset( $settings[ $index ] ) ) {
@@ -378,7 +386,6 @@ class WC_Order_Export_Manage {
 						'order_product_fields' => 'products',
 						'order_coupon_fields'  => 'coupons',
 					);
-
 					$settings['order_fields'] = array_merge(
 						$settings['order_fields'],
 						array_map( function ( $value ) use ( $map_segment, $index ) {
@@ -394,6 +401,7 @@ class WC_Order_Export_Manage {
 
 		// add parent fields if not exists
 		foreach ( array( 'products', 'coupons' ) as $main_field ) {
+		
 			if ( in_array( $main_field, wp_list_pluck( $settings['order_fields'], 'key' ) ) ) {
 				continue;
 			}

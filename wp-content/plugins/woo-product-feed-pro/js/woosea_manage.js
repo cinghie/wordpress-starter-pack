@@ -201,6 +201,26 @@ jQuery(document).ready(function($) {
 		}
 	})	
 
+	// Check if user would like to add all country shipping costs
+	$('#add_all_shipping').on('change', function(){ // on change of state
+   		if(this.checked){
+
+			// Checkbox is on
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_add_all_shipping', 'status': "on" }
+                	})
+		} else {
+			// Checkbox is off
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_add_all_shipping', 'status': "off" }
+                	})
+		}
+	})	
+
 	// Check if user would like to enable debug logging
 	$('#add_woosea_logging').on('change', function(){ // on change of state
    		if(this.checked){

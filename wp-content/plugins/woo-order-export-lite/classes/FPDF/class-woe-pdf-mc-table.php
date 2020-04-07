@@ -50,6 +50,7 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 			'size'             => 5,
 			'text_color'       => array( 0, 0, 0 ),
 			'background_color' => array( 255, 255, 255 ),
+			'image_height'     => null,
 		),
 		'footer'       => array(
 			'title'           => '',
@@ -180,8 +181,21 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 		if ( ! $data ) {
 			return;
 		}
+
+		if ( $style ) {
+			$this->SetFillColor( $style['background_color'][0], $style['background_color'][1], $style['background_color'][2] );
+			$this->SetTextColor( $style['text_color'][0], $style['text_color'][1], $style['text_color'][2] );
+			$this->SetFontSize( $style['size'] );
+		}
+
 		$widths = ! $widths ? $this->getRowWidths( $data ) : $widths;
 		$h      = ! $h ? $this->getRowHeight( $widths, $data ) : $h;
+		
+		$image_height = floatval( $this->table_row_props['image_height'] );
+		if ( $image_height && $this->isRowWithImage( $data ) && $h < $image_height ) {
+			$h = $image_height;
+		}
+
 		//Issue a page break first if needed
 		$this->CheckPageBreak( $h );
 		
@@ -195,11 +209,7 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 			);
 		}
 		$data = array_slice( $data, 0, $columns_count );
-		if( $style ) {
-			$this->SetFillColor($style['background_color'][0], $style['background_color'][1], $style['background_color'][2]);
-			$this->SetTextColor($style['text_color'][0], $style['text_color'][1], $style['text_color'][2]);
-			$this->SetFontSize($style['size']);
-		}
+
 		//Draw the cells of the row
 		for ( $i = 0; $i < count( $data ); $i ++ ) {
 			$w = $widths[ $i ];
@@ -211,10 +221,20 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 			//Draw the border
 			$this->Rect( $x, $y, $w, $h, $this->table_props['border_style'] );
 
-			if ( isset( $data[ $i ]['type'], $data[ $i ]['value'] ) && 'image' === $data[ $i ]['type'] && file_exists( $data[ $i ]['value'] ) ) {
+			if ( $this->isImageCell($data[ $i ]) ) {
+				$margin       = 1 / 2;
+
+				/** move image to center if cell height larger than image height */
+				$y_offset = floatval( 0 );
+				if ( $image_height && $image_height < $h ) {
+					$y_offset += ( $h - $image_height ) / 2;
+				} else {
+					$image_height = $h;
+				}
+
 				$source = $data[ $i ]['value'];
 				$type   = strtoupper( pathinfo( $source, PATHINFO_EXTENSION ) );
-				$this->Image( $source, $x + 1 / 2, $y + 1 / 2, $w - 1, $h - 1, $type );
+				$this->Image( $source, $x + $margin, $y + $margin  + $y_offset, $w - 2 * $margin, $image_height - 2 * $margin, $type );
 			} elseif ( ! is_array( $data[ $i ] ) ) {
 				//Print the text
 				$this->MultiCell( $w, $h, $data[ $i ], 0, $horizontal_align, $vertical_align );
@@ -225,6 +245,30 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 		}
 		//Go to the next line
 		$this->Ln( $h );
+	}
+
+	/**
+	 * @param array $data
+	 *
+	 * @return bool
+	 */
+	protected function isRowWithImage( $data ) {
+		foreach ( $data as $value ) {
+			if ( $this->isImageCell( $value ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param mixed $value
+	 *
+	 * @return bool
+	 */
+	protected function isImageCell( $value ) {
+		return isset( $value['type'], $value['value'] ) && 'image' === $value['type'] && file_exists( $value['value'] );
 	}
 
 	protected function getColumnCountInPage( $widths ) {

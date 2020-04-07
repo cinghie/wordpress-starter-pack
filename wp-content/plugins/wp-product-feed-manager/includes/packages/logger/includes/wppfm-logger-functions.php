@@ -39,13 +39,13 @@ function wppfm_logger_feed_queue_filled_message( $feed_id, $nr_products ) {
 
 add_action( 'wppfm_feed_queue_filled', 'wppfm_logger_feed_queue_filled_message', 10, 2 );
 
-function wppfm_logger_started_batch( $feed_id, $memory_limit ) {
+function wppfm_logger_started_batch( $feed_id, $memory_limit, $items_in_batch ) {
 	if ( $feed_id ) {
-		WPPFM_Feed_Process_Logging::add_to_feed_process_logging( $feed_id, sprintf( 'Started a batch with %s memory available.', $memory_limit ) );
+		WPPFM_Feed_Process_Logging::add_to_feed_process_logging( $feed_id, sprintf( 'Started a new batch with %s memory available. The batch still contains %d items', $memory_limit, $items_in_batch ) );
 	}
 }
 
-add_action( 'wppfm_feed_processing_batch_activated', 'wppfm_logger_started_batch', 10, 2 );
+add_action( 'wppfm_feed_processing_batch_activated', 'wppfm_logger_started_batch', 10, 3 );
 
 function wppfm_logger_started_product_processing( $feed_id, $product_id ) {
 	if ( $feed_id ) {

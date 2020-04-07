@@ -15,29 +15,36 @@ class WC_Order_Export_Engine {
 	public static $make_separate_orders = false;
 
 	public static function make_filename( $mask ) {
+		$time = apply_filters( 'woe_make_filename_current_time', current_time( 'timestamp' ) );
+		$date = WC_Order_Export_Data_Extractor::get_date_range( self::$current_job_settings, false );
+		$args = array(
+			'%d'          		=> date( 'd', $time ),
+			'%m'          		=> date( 'm', $time ),
+			'%y'          		=> date( 'Y', $time ),
+			'%h'          		=> date( 'H', $time ),
+			'%i'          		=> date( 'i', $time ),
+			'%s'          		=> date( 's', $time ),
+			'%order_id'   		=> self::$order_id,
+			'%orderid'    		=> self::$order_id,
+			'%id'         		=> self::$order_id,
+			'{from_date}' 		=> isset( $date['from_date'] ) ? date( "Y-m-d", strtotime( $date['from_date'] ) ) : '',
+			'{to_date}'   		=> isset( $date['to_date'] ) ? date( "Y-m-d", strtotime( $date['to_date'] ) ) : '',
+		);
+
 		if ( self::$make_separate_orders && strpos( $mask, '%order_id' ) === false ) {
 			$mask_parts                                          = explode( '.', $mask );
 			$before_prefix                                       = count( $mask_parts ) > 1 ? 2 : 1;
 			$mask_parts[ count( $mask_parts ) - $before_prefix ] .= '-%order_id';
 			$mask                                                = implode( '.', $mask_parts );
 		}
-		$time = apply_filters( 'woe_make_filename_current_time', current_time( 'timestamp' ) );
 
-		$date = WC_Order_Export_Data_Extractor::get_date_range( self::$current_job_settings, false );
+		if ( strpos( $mask, '{order_number}' ) !== false && ( self::$current_job_build_mode === 'full' ) ) {
+			$wc_order 				= new WC_Order( self::$order_id );
+			$order_number 			= $wc_order->get_order_number();
+			$args['{order_number}'] = $order_number;
+		}
 
-		$subst = apply_filters( 'woe_make_filename_replacements', array(
-			'%d'          => date( 'd', $time ),
-			'%m'          => date( 'm', $time ),
-			'%y'          => date( 'Y', $time ),
-			'%h'          => date( 'H', $time ),
-			'%i'          => date( 'i', $time ),
-			'%s'          => date( 's', $time ),
-			'%order_id'   => self::$order_id,
-			'%orderid'    => self::$order_id,
-			'%id'         => self::$order_id,
-			'{from_date}' => isset( $date['from_date'] ) ? date( "Y-m-d", strtotime( $date['from_date'] ) ) : '',
-			'{to_date}'   => isset( $date['to_date'] ) ? date( "Y-m-d", strtotime( $date['to_date'] ) ) : '',
-		) );
+		$subst = apply_filters( 'woe_make_filename_replacements', $args );
 
 		return apply_filters( 'woe_make_filename', strtr( $mask, $subst ) );
 	}
@@ -257,11 +264,18 @@ class WC_Order_Export_Engine {
 		$options['item_rows_start_from_new_line'] = ( $format == 'csv' AND @$settings['format_csv_item_rows_start_from_new_line']  OR $format == 'tsv' AND @$settings['format_tsv_item_rows_start_from_new_line'] )  ;
 		$options['products_mode']                 = isset( $settings['duplicated_fields_settings']['products']['repeat'] ) ? $settings['duplicated_fields_settings']['products']['repeat'] : "";
 		$options['coupons_mode']                  = isset( $settings['duplicated_fields_settings']['coupons']['repeat'] ) ? $settings['duplicated_fields_settings']['coupons']['repeat'] : "";
-
+		$options['billing_details_for_shipping']  = '1' === $settings['billing_details_for_shipping'];
 		if ( ! empty( $settings['all_products_from_order'] ) ) {
 			$options['include_products'] = false;
 		} else {
 			$options['include_products'] = $wpdb->get_col( WC_Order_Export_Data_Extractor::sql_get_product_ids( $settings ) );
+		}
+
+		if ( empty( $settings['export_matched_items'] ) ) {
+			$options['export_matched_items'] = false;
+		} else {
+			$options['export_matched_items']['item_metadata'] = WC_Order_Export_Data_Extractor::parse_complex_pairs($settings['item_metadata']);
+			$options['export_matched_items']['item_names'] = WC_Order_Export_Data_Extractor::parse_complex_pairs($settings['item_names']);
 		}
 
 		if ( isset( $settings['date_format'] ) ) {
@@ -317,8 +331,8 @@ class WC_Order_Export_Engine {
 		if ( ! isset( $settings['skip_empty_file'] ) ) {
 			$settings['skip_empty_file'] = true;
 		}
-		//  "preview" runs after "estimate, so we already activated code
-		if ( self::$current_job_build_mode!=='preview' AND $settings['custom_php'] ) {  
+		//  
+		if ( $settings['custom_php'] ) {  
 			ob_start( array( 'WC_Order_Export_Engine', 'code_error_callback' ) );
 			$result = eval( $settings['custom_php_code'] );
 			ob_end_clean();
@@ -410,7 +424,7 @@ class WC_Order_Export_Engine {
 
 
 		//get IDs
-		$sql = WC_Order_Export_Data_Extractor::sql_get_order_ids( $settings );
+		$sql = WC_Order_Export_Data_Extractor::sql_get_order_ids( $settings );//backtrace
 		$settings = self::replace_sort_field( $settings );
 		if ( $make_mode == 'estimate' OR $make_mode =='estimate_preview' ) { //if estimate return total count
 			return $wpdb->get_var( str_replace( 'ID AS order_id', 'COUNT(ID) AS order_count', $sql ) );
@@ -486,7 +500,8 @@ class WC_Order_Export_Engine {
 				echo join( "\n\n", $s );
 				echo '</textarea>';
 			}
-			$formater->finish();
+
+			$formater->finish(); //backtrace
 		}
 
 		// no action woe_export_finished here!
@@ -524,7 +539,9 @@ class WC_Order_Export_Engine {
 			$sql .= " LIMIT " . intval( $limit );
 		}
 
-		$order_ids = apply_filters( "woe_get_order_ids", $wpdb->get_col( $sql ) );
+		if ( !$order_ids OR apply_filters("woe_filter_bulk_action_export",false) ) {
+			$order_ids = apply_filters( "woe_get_order_ids", $wpdb->get_col( $sql ) );
+		}
 		self::$orders_for_export = $order_ids;
 
 		if ( empty( $order_ids ) AND apply_filters( 'woe_schedule_job_skip_empty_file',

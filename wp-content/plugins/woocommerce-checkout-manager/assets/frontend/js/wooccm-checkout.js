@@ -68,6 +68,11 @@
                 '">*</abbr>'
                 );
       }
+      
+      //fix state hidden
+      field.show();
+      field.find('input[type=hidden]').prop('type', 'text');
+      
     } else {
       field.find('label .required').remove();
       field.removeClass('validate-required woocommerce-invalid woocommerce-invalid-required-field');
@@ -85,7 +90,8 @@
     $.each(locale_fields, function (key, value) {
 
       var field = thisform.find(value),
-              required = field.find('[data-required]').data('required') || 0;
+              required = field.find('[data-required]').data('required') || field.find('.wooccm-required-field').length;
+
       field_is_required(field, required);
     });
   });

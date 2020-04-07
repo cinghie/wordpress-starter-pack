@@ -130,13 +130,20 @@ function wppfm_write_log_file( $error_message, $filename = 'error' ) {
  * @return string html
  */
 function wppfm_update_your_woocommerce_version_message() {
-	$wc_version    = get_plugin_data( WPPFM_PLUGIN_DIR . '../woocommerce/woocommerce.php' )['Version'];
+	// To prevent several PHP Warnings if the WC folder name has been changed whilst the plugin is still registered.
+	// @since 2.11.0.
+	if ( file_exists( WPPFM_PLUGIN_DIR . '../woocommerce/woocommerce.php' ) ) {
+		$wc_version = get_plugin_data( WPPFM_PLUGIN_DIR . '../woocommerce/woocommerce.php' )['Version'];
+	} else {
+		$wc_version = '"UNKNOWN"';
+	}
+
 	$message_code  = '<div class="full-screen-message-field">';
 	$message_code .= '<p>*** ' . sprintf(
 		/* translators: %1$s: minimum version of the WooCommerce plugin, %2$s: installed version of the WooCommerce plugin */
 			esc_html__(
-				'This plugin requires WooCommerce version %1$s as a minimum! 
-				It seems you have installed WooCommerce version %2$s which is a version that is not supported. 
+				'This plugin requires WooCommerce version %1$s as a minimum!
+				It seems you have installed WooCommerce version %2$s which is a version that is not supported.
 				Please update to the latest version ***',
 				'wp-product-feed-manager'
 			),
@@ -156,7 +163,7 @@ function wppfm_update_your_woocommerce_version_message() {
 function wppfm_you_have_no_woocommerce_installed_message() {
 	$message_code  = '<div class="full-screen-message-field">';
 	$message_code .= '<p>*** ' . esc_html__(
-		'This plugin only works in conjunction with the WooCommerce Plugin! 
+		'This plugin only works in conjunction with the WooCommerce Plugin!
 				It seems you have not installed the WooCommerce Plugin yet, so please do so before using this Plugin.',
 		'wp-product-feed-manager'
 	) . ' ***</p>';

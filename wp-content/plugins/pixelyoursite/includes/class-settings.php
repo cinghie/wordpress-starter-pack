@@ -412,7 +412,7 @@ abstract class Settings {
 	 * @param      $label
 	 * @param bool $disabled
 	 */
-	public function render_radio_input( $key, $value, $label, $disabled = false ) {
+	public function render_radio_input( $key, $value, $label, $disabled = false, $with_pro_badge = false ) {
   
 		$attr_name = "pys[$this->slug][$key]";
  
@@ -424,6 +424,9 @@ abstract class Settings {
                    value="<?php esc_attr_e( $value ); ?>">
             <span class="custom-control-indicator"></span>
             <span class="custom-control-description"><?php echo wp_kses_post( $label ); ?></span>
+	        <?php if ( $with_pro_badge ) {
+		        renderCogBadge();
+	        } ?>
         </label>
 
 		<?php
