@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ivory Search\n"
-"POT-Creation-Date: 2019-12-25 20:14+0530\n"
-"PO-Revision-Date: 2019-12-25 20:14+0530\n"
+"POT-Creation-Date: 2020-03-17 21:05+0530\n"
+"PO-Revision-Date: 2020-03-17 21:05+0530\n"
 "Last-Translator: \n"
 "Language-Team: Ivory Search <admin@ivorysearch.com>\n"
 "Language: en_US\n"
@@ -221,7 +221,7 @@ msgstr ""
 #: ../admin/class-is-editor.php:655 ../admin/class-is-editor.php:750
 #: ../admin/class-is-editor.php:1072 ../admin/class-is-editor.php:1129
 #: ../admin/class-is-editor.php:1411 ../admin/class-is-editor.php:1442
-#: ../admin/class-is-editor.php:1556 ../admin/class-is-settings-fields.php:106
+#: ../admin/class-is-editor.php:1558 ../admin/class-is-settings-fields.php:106
 msgid "Expand All"
 msgstr ""
 
@@ -229,7 +229,7 @@ msgstr ""
 #: ../admin/class-is-editor.php:656 ../admin/class-is-editor.php:751
 #: ../admin/class-is-editor.php:1073 ../admin/class-is-editor.php:1129
 #: ../admin/class-is-editor.php:1411 ../admin/class-is-editor.php:1442
-#: ../admin/class-is-editor.php:1556 ../admin/class-is-settings-fields.php:106
+#: ../admin/class-is-editor.php:1558 ../admin/class-is-settings-fields.php:106
 msgid "Collapse All"
 msgstr ""
 
@@ -457,7 +457,7 @@ msgstr ""
 msgid "Search posts without passwords"
 msgstr ""
 
-#: ../admin/class-is-editor.php:570 ../admin/class-is-editor.php:1555
+#: ../admin/class-is-editor.php:570 ../admin/class-is-editor.php:1557
 #: ../admin/class-is-settings-fields.php:139
 msgid "Extras"
 msgstr ""
@@ -479,12 +479,13 @@ msgstr ""
 
 #: ../admin/class-is-editor.php:586
 #, php-format
-msgid "Search category title %s( Displays posts of the category )%s"
+msgid "Search category/tag title %s( Displays posts of the category/tag )%s"
 msgstr ""
 
 #: ../admin/class-is-editor.php:589
 #, php-format
-msgid "Search category description %s( Displays posts of the category )%s"
+msgid ""
+"Search category/tag description %s( Displays posts of the category/tag )%s"
 msgstr ""
 
 #: ../admin/class-is-editor.php:610
@@ -862,103 +863,103 @@ msgstr ""
 msgid "Display selected number of posts on search results page."
 msgstr ""
 
-#: ../admin/class-is-editor.php:1460
+#: ../admin/class-is-editor.php:1462
 msgid "Order Search Results"
 msgstr ""
 
-#: ../admin/class-is-editor.php:1463
+#: ../admin/class-is-editor.php:1465
 msgid "Display posts on search results page ordered by selected options."
 msgstr ""
 
-#: ../admin/class-is-editor.php:1488
+#: ../admin/class-is-editor.php:1490
 msgid "Highlight Search Terms"
 msgstr ""
 
-#: ../admin/class-is-editor.php:1494
+#: ../admin/class-is-editor.php:1496
 msgid "Highlight searched terms on search results page"
 msgstr ""
 
-#: ../admin/class-is-editor.php:1497
+#: ../admin/class-is-editor.php:1499
 msgid "Set highlight color in Hex format"
 msgstr ""
 
-#: ../admin/class-is-editor.php:1503
+#: ../admin/class-is-editor.php:1505
 msgid "Search All Or Any Search Terms"
 msgstr ""
 
-#: ../admin/class-is-editor.php:1507
+#: ../admin/class-is-editor.php:1509
 msgid ""
 "Select whether to search posts having all or any of the words being searched."
 msgstr ""
 
-#: ../admin/class-is-editor.php:1512
+#: ../admin/class-is-editor.php:1514
 msgid "OR - Display content having any of the search terms"
 msgstr ""
 
-#: ../admin/class-is-editor.php:1514
+#: ../admin/class-is-editor.php:1516
 msgid "AND - Display content having all the search terms"
 msgstr ""
 
-#: ../admin/class-is-editor.php:1520
+#: ../admin/class-is-editor.php:1522
 msgid "Fuzzy Matching"
 msgstr ""
 
-#: ../admin/class-is-editor.php:1523
+#: ../admin/class-is-editor.php:1525
 msgid ""
 "Select whether to search posts having whole or partial word being searched."
 msgstr ""
 
-#: ../admin/class-is-editor.php:1528
+#: ../admin/class-is-editor.php:1530
 msgid "Whole - Search posts that include the whole search term"
 msgstr ""
 
-#: ../admin/class-is-editor.php:1530
+#: ../admin/class-is-editor.php:1532
 msgid ""
 "Partial - Also search words in the posts that begins or ends with the search "
 "term"
 msgstr ""
 
-#: ../admin/class-is-editor.php:1536
+#: ../admin/class-is-editor.php:1538
 msgid "Keyword Stemming"
 msgstr ""
 
-#: ../admin/class-is-editor.php:1540
+#: ../admin/class-is-editor.php:1542
 msgid "Select whether to search the base word of a searched keyword."
 msgstr ""
 
-#: ../admin/class-is-editor.php:1541
+#: ../admin/class-is-editor.php:1543
 msgid ""
 "For Example: If you search \"doing\" then it also searches base word of "
 "\"doing\" that is \"do\" in the specified post types."
 msgstr ""
 
-#: ../admin/class-is-editor.php:1542
+#: ../admin/class-is-editor.php:1544
 msgid "Not recommended to use when Fuzzy Matching option is set to Whole."
 msgstr ""
 
-#: ../admin/class-is-editor.php:1548
+#: ../admin/class-is-editor.php:1550
 msgid "Also search base word of searched keyword"
 msgstr ""
 
-#: ../admin/class-is-editor.php:1561
+#: ../admin/class-is-editor.php:1563
 msgid "Display sticky posts to the start of the search results page"
 msgstr ""
 
-#: ../admin/class-is-editor.php:1565
+#: ../admin/class-is-editor.php:1567
 msgid "Display search form only for site administrator"
 msgstr ""
 
-#: ../admin/class-is-editor.php:1569
+#: ../admin/class-is-editor.php:1571
 msgid "Disable this search form"
 msgstr ""
 
-#: ../admin/class-is-editor.php:1572
+#: ../admin/class-is-editor.php:1574
 msgid ""
 "Select whether to display an error when user perform search without any "
 "search word."
 msgstr ""
 
-#: ../admin/class-is-editor.php:1576
+#: ../admin/class-is-editor.php:1578
 msgid "Display an error for empty search query"
 msgstr ""
 

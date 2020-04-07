@@ -292,4 +292,28 @@ jQuery(document).ready(function($){
     ctfUpdateLayoutTypeOptionsDisplay();
     jQuery('.ctf_layout_type').change(ctfUpdateLayoutTypeOptionsDisplay);
 
+    // notices
+
+    if (jQuery('#ctf-notice-bar').length) {
+        jQuery('#wpadminbar').after(jQuery('#ctf-notice-bar'));
+        jQuery('#wpcontent').css('padding-left', 0);
+        jQuery('#wpbody').css('padding-left', '20px');
+        jQuery('#ctf-notice-bar').show();
+    }
+
+    jQuery('#ctf-notice-bar .dismiss').click(function(e) {
+        e.preventDefault();
+        jQuery('#ctf-notice-bar').remove();
+        jQuery.ajax({
+            url: ctf.ajax_url,
+            type: 'post',
+            data: {
+                action : 'ctf_lite_dismiss',
+                ctf_nonce: ctf.sb_nonce
+            },
+            success: function (data) {
+            }
+        });
+    });
+
 });

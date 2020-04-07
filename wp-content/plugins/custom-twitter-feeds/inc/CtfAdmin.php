@@ -322,18 +322,6 @@ class CtfAdmin
             'whatis' => "When removing the plugin your settings are automatically erased. Checking this box will prevent any settings from being deleted. This means that you can uninstall and reinstall the plugin without losing your settings"
         ));
 
-        // ajax theme
-        $this->create_settings_field( array(
-            'name' => 'ajax_theme',
-            'title' => '<label for="ctf_ajax_theme">Are you using an Ajax powered theme?</label>', // label for the input field
-            'callback'  => 'default_checkbox', // name of the function that outputs the html
-            'page' => 'ctf_options_feed_settings', // matches the section name
-            'section' => 'ctf_options_feed_settings', // matches the section name
-            'option' => 'ctf_options', // matches the options name
-            'class' => '',
-            'whatis' => "When navigating your site, if your theme uses Ajax to load content into your pages (meaning your page doesn't refresh) then check this setting. If you're not sure then please check with the theme author"
-        ));
-
         /*
          * "Customize" tab
          */
@@ -541,6 +529,18 @@ class CtfAdmin
             array( $this, 'general_section_text' ), // callback function to explain the section
             'ctf_options_advanced' // matches the section name
         );
+
+	    // ajax theme
+	    $this->create_settings_field( array(
+		    'name' => 'ajax_theme',
+		    'title' => '<label for="ctf_ajax_theme">Are you using an Ajax powered theme?</label>', // label for the input field
+		    'callback'  => 'default_checkbox', // name of the function that outputs the html
+		    'page' => 'ctf_options_advanced', // matches the section name
+		    'section' => 'ctf_options_advanced', // matches the section name
+		    'option' => 'ctf_options', // matches the options name
+		    'class' => '',
+		    'whatis' => "When navigating your site, if your theme uses Ajax to load content into your pages (meaning your page doesn't refresh) then check this setting. If you're not sure then please check with the theme author"
+	    ));
 
         // Request Method
         $this->create_settings_field( array(
@@ -1765,7 +1765,6 @@ class CtfAdmin
 
                 $feed_types = apply_filters( 'ctf_admin_feed_type_list', '' );
                 $cron_clear_cache = isset( $input['cron_cache_clear'] ) ? $input['cron_cache_clear'] : 'no';
-                $ctf_options['ajax_theme'] = false;
                 $ctf_options['have_own_tokens'] = false;
                 $ctf_options['use_own_consumer'] = false;
                 $ctf_options['preserve_settings'] = false;
@@ -1819,7 +1818,7 @@ class CtfAdmin
 
                 $cron_clear_cache = isset( $input['cron_cache_clear'] ) ? $input['cron_cache_clear'] : 'no';
                 $checkbox_settings = array( 'width_mobile_no_fixed', 'include_retweeter', 'include_avatar', 'include_author', 'include_logo', 'include_text', 'include_media_placeholder',
-                    'include_date', 'include_actions', 'include_twitterlink', 'include_linkbox', 'creditctf', 'showbutton', 'showheader', 'persistentcache', 'selfreplies',
+                    'include_date', 'include_actions', 'include_twitterlink', 'ajax_theme', 'include_linkbox', 'creditctf', 'showbutton', 'showheader', 'persistentcache', 'selfreplies',
                     'disableintents', 'disableawesome', 'shorturls' );
                 $checkbox_settings = apply_filters( 'ctf_admin_customize_checkbox_settings', $checkbox_settings );
                 $leave_spaces = array( 'headertext', 'translate_minute', 'translate_hour', 'custom_css', 'custom_js' );

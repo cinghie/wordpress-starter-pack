@@ -134,13 +134,15 @@ class IS_Search_Editor
         IS_Help::help_info( $content );
         echo  '<div>' ;
         $post_types = get_post_types( array(
-            'public'              => true,
-            'exclude_from_search' => false,
+            'public' => true,
         ) );
         $post_types2 = array();
         
         if ( $default_search ) {
-            $post_types2 = $post_types;
+            $post_types2 = get_post_types( array(
+                'public'              => true,
+                'exclude_from_search' => false,
+            ) );
         } else {
             if ( isset( $includes['post_type'] ) && !empty($includes['post_type']) && is_array( $includes['post_type'] ) ) {
                 $post_types2 = array_values( $includes['post_type'] );
@@ -165,7 +167,7 @@ class IS_Search_Editor
             echo  '</div>' ;
             echo  '<div class="is-cb-multisel">' ;
             foreach ( $post_types as $key => $post_type ) {
-                $checked = ( $default_search || isset( $includes['post_type'][esc_attr( $key )] ) ? esc_attr( $key ) : 0 );
+                $checked = ( $default_search && in_array( $key, $post_types2 ) || isset( $includes['post_type'][esc_attr( $key )] ) ? esc_attr( $key ) : 0 );
                 echo  '<label for="' . $id . '-post_type-' . esc_attr( $key ) . '"> ' ;
                 echo  '<input class="_is_includes-post_type" type="checkbox" id="' . $id . '-post_type-' . esc_attr( $key ) . '" name="' . $id . '[post_type][' . esc_attr( $key ) . ']" value="' . esc_attr( $key ) . '" ' . checked( $key, $checked, false ) . '/>' ;
                 echo  '<span class="toggle-check-text"></span>' ;
@@ -683,10 +685,10 @@ class IS_Search_Editor
         echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search post excerpt %s( File caption )%s", 'ivory-search' ), '<i>', '</i>' ) . '</label></p>' ;
         $checked = ( isset( $includes['search_tax_title'] ) && $includes['search_tax_title'] ? 1 : 0 );
         echo  '<p class="check-radio"><label for="' . $id . '-search_tax_title" ><input class="_is_includes-tax_query" type="checkbox" id="' . $id . '-search_tax_title" name="' . $id . '[search_tax_title]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
-        echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search category title %s( Displays posts of the category )%s", 'ivory-search' ), '<i>', '</i>' ) . '</label></p>' ;
+        echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search category/tag title %s( Displays posts of the category/tag )%s", 'ivory-search' ), '<i>', '</i>' ) . '</label></p>' ;
         $checked = ( isset( $includes['search_tax_desp'] ) && $includes['search_tax_desp'] ? 1 : 0 );
         echo  '<p class="check-radio"><label for="' . $id . '-search_tax_desp" ><input class="_is_includes-tax_query" type="checkbox" id="' . $id . '-search_tax_desp" name="' . $id . '[search_tax_desp]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
-        echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search category description %s( Displays posts of the category )%s", 'ivory-search' ), '<i>', '</i>' ) . '</label></p>' ;
+        echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search category/tag description %s( Displays posts of the category/tag )%s", 'ivory-search' ), '<i>', '</i>' ) . '</label></p>' ;
         
         if ( isset( $includes['tax_query'] ) ) {
             $tax_rel_disable = '';
@@ -2186,6 +2188,8 @@ class IS_Search_Editor
         for ( $d = 1 ;  $d <= 1000 ;  $d++ ) {
             echo  '<option value="' . $d . '" ' . selected( $d, $checked, false ) . '>' . $d . '</option>' ;
         }
+        echo  '<option value="9999" ' . selected( 9999, $checked, false ) . '>9999</option>' ;
+        echo  '<option value="-1" ' . selected( -1, $checked, false ) . '>-1</option>' ;
         echo  '</select>' ;
         ?>
 			</div></div>

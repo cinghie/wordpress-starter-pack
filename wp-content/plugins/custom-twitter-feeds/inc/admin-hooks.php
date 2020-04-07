@@ -341,3 +341,66 @@ function ctf_add_filter_section_to_customize() {
     do_settings_sections( 'ctf_options_filter' ); // matches the section name
     echo '<hr>';
 }
+
+function ctf_lite_dismiss() {
+	$nonce = isset( $_POST['ctf_nonce'] ) ? sanitize_text_field( $_POST['ctf_nonce'] ) : '';
+
+	if ( ! wp_verify_nonce( $nonce, 'ctf-smash-balloon' ) ) {
+		die ( 'You did not do this the right way!' );
+	}
+
+	set_transient( 'twitter_feed_dismiss_lite', 'dismiss', 1 * WEEK_IN_SECONDS );
+
+	die();
+}
+add_action( 'wp_ajax_ctf_lite_dismiss', 'ctf_lite_dismiss' );
+
+function ctf_admin_hide_unrelated_notices() {
+
+	// Bail if we're not on a ctf screen or page.
+	if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'custom-twitter-feeds' ) {
+		return;
+	}
+
+	// Extra banned classes and callbacks from third-party plugins.
+	$blacklist = array(
+		'classes'   => array(),
+		'callbacks' => array(
+			'ctfdb_admin_notice', // 'Database for ctf' plugin.
+		),
+	);
+
+	global $wp_filter;
+
+	foreach ( array( 'user_admin_notices', 'admin_notices', 'all_admin_notices' ) as $notices_type ) {
+		if ( empty( $wp_filter[ $notices_type ]->callbacks ) || ! is_array( $wp_filter[ $notices_type ]->callbacks ) ) {
+			continue;
+		}
+		foreach ( $wp_filter[ $notices_type ]->callbacks as $priority => $hooks ) {
+			foreach ( $hooks as $name => $arr ) {
+				if ( is_object( $arr['function'] ) && $arr['function'] instanceof Closure ) {
+					unset( $wp_filter[ $notices_type ]->callbacks[ $priority ][ $name ] );
+					continue;
+				}
+				$class = ! empty( $arr['function'][0] ) && is_object( $arr['function'][0] ) ? strtolower( get_class( $arr['function'][0] ) ) : '';
+				if (
+					! empty( $class ) &&
+					strpos( $class, 'ctf' ) !== false &&
+					! in_array( $class, $blacklist['classes'], true )
+				) {
+					continue;
+				}
+				if (
+					! empty( $name ) && (
+						strpos( $name, 'ctf' ) === false ||
+						in_array( $class, $blacklist['classes'], true ) ||
+						in_array( $name, $blacklist['callbacks'], true )
+					)
+				) {
+					unset( $wp_filter[ $notices_type ]->callbacks[ $priority ][ $name ] );
+				}
+			}
+		}
+	}
+}
+add_action( 'admin_print_scripts', 'ctf_admin_hide_unrelated_notices' );

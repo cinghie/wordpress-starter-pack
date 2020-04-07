@@ -481,7 +481,7 @@ class IS_Search_Form {
                 if ( isset( $_ajax['enable_ajax'] ) ) {
                     $loader_image = isset( $settings['loader-image'] ) ? $settings['loader-image'] : IS_PLUGIN_URI . 'public/images/spinner.gif';
                     if ( $loader_image ) {
-                            $result .= '<img class="is-loader-image" style="display: none;" src="'.$loader_image.'" />';
+                            $result .= '<img class="is-loader-image" alt="'. esc_attr__( "Loader Image", 'ivory-search' ) .'" style="display: none;" src="'.$loader_image.'" />';
                     }
                 }
                 $result .= '</label>';

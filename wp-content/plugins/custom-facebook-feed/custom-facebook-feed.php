@@ -3,14 +3,14 @@
 Plugin Name: Smash Balloon Custom Facebook Feed
 Plugin URI: https://smashballoon.com/custom-facebook-feed
 Description: Add completely customizable Facebook feeds to your WordPress site
-Version: 2.12.3
+Version: 2.13
 Author: Smash Balloon
 Author URI: http://smashballoon.com/
 License: GPLv2 or later
 Text Domain: custom-facebook-feed
 */
 /* 
-Copyright 2019  Smash Balloon LLC (email : hey@smashballoon.com)
+Copyright 2020  Smash Balloon LLC (email : hey@smashballoon.com)
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
@@ -24,7 +24,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-define('CFFVER', '2.12.3');
+define('CFFVER', '2.13');
 
 // Db version.
 if ( ! defined( 'CFF_DBVERSION' ) ) {
@@ -66,6 +66,30 @@ function cff_check_for_db_updates() {
 }
 add_action( 'wp_loaded', 'cff_check_for_db_updates' );
 
+function cff_plugin_init() {
+	// Plugin Folder Path.
+	if ( ! defined( 'CFF_PLUGIN_DIR' ) ) {
+		define( 'CFF_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+	}
+	// Plugin Folder URL.
+	if ( ! defined( 'CFF_PLUGIN_URL' ) ) {
+		define( 'CFF_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+	}
+	require_once trailingslashit( CFF_PLUGIN_DIR ) . 'blocks/class-cff-blocks.php';
+
+	$cff_blocks = new CFF_Blocks();
+	
+	if ( $cff_blocks->allow_load() ) {
+		$cff_blocks->load();
+	}
+}
+
+add_action( 'plugins_loaded', 'cff_plugin_init' );
+
+function cff_text_domain() {
+	load_plugin_textdomain( 'custom-facebook-feed', false, basename( dirname(__FILE__) ) . '/languages' );
+}
+add_action( 'plugins_loaded', 'cff_text_domain' );
 
 // Add shortcodes
 add_shortcode('custom-facebook-feed', 'display_cff');
@@ -1085,7 +1109,10 @@ function display_cff($atts) {
             
             if($FBdata == null) $cff_content .= '<b>Error:</b> Server configuration issue';
             if( empty($FBdata->error) && empty($FBdata->error_msg) && $FBdata !== null ) $cff_content .= '<b>Error:</b> No posts available for this Facebook ID';
-            $cff_content .= '<br /><b>Solution:</b> <a href="https://smashballoon.com/custom-facebook-feed/docs/errors/" target="_blank">See here</a> for how to solve this error';
+
+            if (current_user_can('manage_options')) {
+	            $cff_content .= '<br /><b>Solution:</b> <a href="https://smashballoon.com/custom-facebook-feed/docs/errors/" target="_blank">See here</a> for how to solve this error';
+            }
             $cff_content .= '</div></div>'; //End .cff-error-msg and #cff-error-reason
             //Only display errors to admins
             if( current_user_can( 'manage_options' ) ){

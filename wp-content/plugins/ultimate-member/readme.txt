@@ -6,8 +6,8 @@ Donate link:
 Tags: community, member, membership, user-profile, user-registration
 Requires PHP: 5.6
 Requires at least: 5.0
-Tested up to: 5.3
-Stable tag: 2.1.4
+Tested up to: 5.4
+Stable tag: 2.1.5
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -42,6 +42,7 @@ Read about all of the plugin's features at [Ultimate Member](https://ultimatemem
 
 Ultimate Member has a range of extensions that allow you to extend the power of the plugin. You can purchase all of these extensions at a significant discount with our [All Access Pass](https://ultimatemember.com/pricing/) or you can purchase extensions individually.
 
+* [User Locations](https://ultimatemember.com/extensions/user-locations/) - Allow to display users on a map on the member directory page and allow users to add their location via their profile
 * [Unsplash](https://ultimatemember.com/extensions/unsplash/) - Allow users to select a profile cover photo from [Unsplash](https://unsplash.com/) from their profile
 * [User Bookmarks](https://ultimatemember.com/extensions/user-bookmarks/) - Allow users to bookmark content from your website
 * [User Photos](https://ultimatemember.com/extensions/user-photos/) - Allow users to upload photos to their profile
@@ -143,6 +144,22 @@ The plugin works with popular caching plugins by automatically excluding Ultimat
 
 * To learn more about version 2.1 please see this [topic](https://wordpress.org/support/topic/version-2-1-4/)
 * UM2.1+ is a significant update to the Member Directories' code base from 2.0.x. Please make sure you take a full-site backup with restore point before updating the plugin
+
+= 2.1.5: April 2, 2020 =
+
+* Enhancements:
+
+  - Added number field-type to member directory filters
+  - Changed export/erase personal data in account page
+  - Sanitizing variables in wp-admin
+
+* Bugfixes:
+
+  - Fixed PHP notice 'form_id' on account submission
+  - Fixed birthday range for member directory filter
+  - Fixed fields visibility when user can edit other users
+  - Fixed honeypot JS
+  - Fixed edit mode for Role (Dropdown/Radio) fields (getting editable priority role)
 
 = 2.1.4: February 24, 2020 =
 

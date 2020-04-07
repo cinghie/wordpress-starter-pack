@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - User Role Editor - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-02-06 14:01:14+0000\n"
+"PO-Revision-Date: 2020-03-22 18:39:29+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -15,11 +15,11 @@ msgstr ""
 msgid "Wrong Request"
 msgstr "Richiesta errata"
 
-#: includes/classes/editor.php:1033
+#: includes/classes/editor.php:1026
 msgid "Wrong role ID"
 msgstr "ID Ruolo errato"
 
-#: includes/classes/editor.php:1005
+#: includes/classes/editor.php:998
 msgid "There are no roles for deletion"
 msgstr "Non ci sono ruoli da eliminare"
 
@@ -39,19 +39,19 @@ msgstr "Aggiungi"
 msgid "Add role&hellip;"
 msgstr "Aggiungi ruolo&hellip;"
 
-#: includes/classes/editor.php:1076
+#: includes/classes/editor.php:1069
 msgid "Wrong request. Default role can not be empty"
 msgstr "Richiesta errata. Il ruolo predefinito non può essere vuoto"
 
-#: includes/classes/editor.php:1072
-msgid "This method is only for the single site of WordPress multisite installation."
+#: includes/classes/editor.php:1065
+msgid "This method is only for a single site of WordPress multisite installation."
 msgstr "Questo metodo è riservato ai singoli siti di una installazione WordPress multi-sito."
 
-#: includes/classes/editor.php:979
+#: includes/classes/editor.php:972
 msgid "You can not delete role"
 msgstr "Non puoi eliminare il ruolo"
 
-#: includes/classes/editor.php:975
+#: includes/classes/editor.php:968
 msgid "Role does not exist"
 msgstr "Il ruolo non esiste"
 
@@ -68,14 +68,14 @@ msgid "Show at the \"Users\" page a quant of users without role. Module allows t
 msgstr "Mostra nella pagina \"Utenti\" gli utenti senza un ruolo. Il modulo permette di assegnare a tutti questi un ruolo \"Nessun permesso\", allo scopo di filtrare tali utenti in una scheda separata nell'elenco utenti."
 
 #: includes/classes/screen-help.php:28
-msgid "If turned off - capabilities section of selected user is shown in readonly mode. Administrator can not assign capabilities to the user directly. He should make it using roles only."
-msgstr "Se disattivato - la sezione capacità dell'utente seleziona è mostrata in modalità sola lettura. Gli amministratori non possono assegnare capacità all'utente direttamente. Può farlo esclusivamente tramite i ruoli."
+msgid "If turned off - capabilities section of selected user is shown in readonly mode. Administrator can not assign capabilities to the user directly. He should do it using roles only."
+msgstr "Se è disattivato la sezione capacità dell'utente selezionato è mostrata in modalità sola lettura. L'amministratore non può assegnare capacità all'utente direttamente. Può farlo esclusivamente tramite i ruoli."
 
 #: includes/classes/capability.php:54
 msgid "Error: this word is used by WordPress as a role ID"
 msgstr "Errore: questa parola è utilizzata da WordPress come ID di un ruolo."
 
-#: includes/classes/editor.php:203
+#: includes/classes/editor.php:192
 msgid "Wrong request!"
 msgstr "Richiesta errata!"
 
@@ -88,7 +88,7 @@ msgid "turn this option on in order to make the \"Administrator\" role available
 msgstr "attiva questa opzione per rendere il ruolo \"Amminstratore\" disponibile nella lista di selezione dei ruoli di User Role Editor. Per impostazione predefinita è nascosto per ragioni di sicurezza."
 
 #: includes/classes/screen-help.php:22
-msgid "Capabilities like \"level_0\", \"level_1\" are deprecated and are not used by WordPress. They are left at the user roles for the compatibility purpose with the old themes and plugins code. Turning on this option will show those deprecated capabilities."
+msgid "Capabilities like \"level_0\", \"level_1\" are deprecated and are not used by WordPress. They are left at the user roles for the compatibility purpose with old themes and plugins code. Turning on this option will show those deprecated capabilities."
 msgstr "Le capacità come \"level_0\", \"level_1\" sono deprecate e non sono usate da WordPress. Sono rimaste per ragioni di compatibilità con vecchi temi e plugin. Attivando questa opzione verranno mostrate queste capacità deprecate."
 
 #: includes/settings-template.php:107
@@ -352,7 +352,7 @@ msgstr "Capacità personalizzate:"
 msgid "Quick filter:"
 msgstr "Filtro veloce:"
 
-#: includes/classes/tools.php:30 includes/classes/role-view.php:396
+#: includes/classes/role-view.php:396 includes/classes/tools.php:30
 msgid "Apply to All Sites"
 msgstr "Applica a tutti i siti"
 
@@ -360,7 +360,7 @@ msgstr "Applica a tutti i siti"
 msgid "If checked, then apply action to ALL sites of this Network"
 msgstr "Se selezionato, applica l'azione a tuti i siti di questa rete."
 
-#: includes/classes/user-view.php:154 includes/classes/role-view.php:369
+#: includes/classes/role-view.php:369 includes/classes/user-view.php:154
 msgid "Show capabilities in human readable form"
 msgstr "Mostra le capacità in forma comprensibile"
 
@@ -426,7 +426,7 @@ msgstr "Continuare?"
 msgid "For more information on how to undo undesired changes and restore plugin capabilities go to"
 msgstr "Per altre informazioni su come annullare modifiche indesiderate e ripristinare le funzionalità del plugin vai a"
 
-#: includes/classes/tools.php:36 includes/classes/user-role-editor.php:787
+#: includes/classes/user-role-editor.php:787 includes/classes/tools.php:36
 msgid "Reset"
 msgstr "Reimposta"
 
@@ -541,8 +541,8 @@ msgstr "Capacità aggiuntive"
 msgid "Edit"
 msgstr "Modifica"
 
-#: includes/classes/user-role-editor.php:391
 #: includes/classes/user-other-roles.php:200
+#: includes/classes/user-role-editor.php:391
 msgid "Capabilities"
 msgstr "Capacità"
 
@@ -571,8 +571,8 @@ msgstr "Conta utenti senza ruolo"
 msgid "Edit user capabilities"
 msgstr "Modifica capacità dell'utente"
 
-#: includes/classes/screen-help.php:21 includes/classes/user-view.php:164
-#: includes/classes/role-view.php:379 includes/settings-template.php:78
+#: includes/classes/role-view.php:379 includes/classes/user-view.php:164
+#: includes/classes/screen-help.php:21 includes/settings-template.php:78
 msgid "Show deprecated capabilities"
 msgstr "Mostra le capacità deprecate"
 
@@ -593,7 +593,7 @@ msgstr "Guida sulla pagina opzioni User Role Editor"
 msgid "Denied: %s"
 msgstr "Negato: %s"
 
-#: includes/classes/grant-roles.php:384 includes/classes/user-view.php:96
+#: includes/classes/user-view.php:96 includes/classes/grant-roles.php:384
 msgid "&mdash; No role for this site &mdash;"
 msgstr "&mdash; Nessun ruolo per questo sito &mdash;"
 
@@ -645,378 +645,377 @@ msgstr "La capacità %s è stata aggiunta correttamente"
 msgid "Error: Capability name must contain latin characters and digits only!"
 msgstr "Errore: il nome della capacità deve contenere solo lettere e numeri!"
 
-#: includes/classes/editor.php:1371
+#: includes/classes/editor.php:1360
 msgid "Export"
 msgstr "Esporta"
 
-#: includes/classes/editor.php:1370
+#: includes/classes/editor.php:1359
 msgid "Delete themes"
 msgstr "Cancella temi"
 
-#: includes/classes/editor.php:1369
+#: includes/classes/editor.php:1358
 msgid "Edit theme options"
 msgstr "Modifica opzioni tema"
 
-#: includes/classes/editor.php:1368
+#: includes/classes/editor.php:1357
 msgid "Promote users"
 msgstr "Promuovi utenti"
 
-#: includes/classes/editor.php:1367
+#: includes/classes/editor.php:1356
 msgid "Add users"
 msgstr "Aggiungi utenti"
 
-#: includes/classes/editor.php:1366
+#: includes/classes/editor.php:1355
 msgid "Remove users"
 msgstr "Rimuovi utenti"
 
-#: includes/classes/editor.php:1365
+#: includes/classes/editor.php:1354
 msgid "List users"
 msgstr "Lista utenti"
 
-#: includes/classes/editor.php:1364
+#: includes/classes/editor.php:1353
 msgid "Update core"
 msgstr "Aggiorna core"
 
-#: includes/classes/editor.php:1363
+#: includes/classes/editor.php:1352
 msgid "Install themes"
 msgstr "Installa temi"
 
-#: includes/classes/editor.php:1362
+#: includes/classes/editor.php:1351
 msgid "Update themes"
 msgstr "Aggiorna temi"
 
-#: includes/classes/editor.php:1361
+#: includes/classes/editor.php:1350
 msgid "Install plugins"
 msgstr "Installa plugins"
 
-#: includes/classes/editor.php:1360
+#: includes/classes/editor.php:1349
 msgid "Delete plugins"
 msgstr "Cancella plugins"
 
-#: includes/classes/editor.php:1359
+#: includes/classes/editor.php:1348
 msgid "Update plugins"
 msgstr "Aggiorna plugins"
 
-#: includes/classes/editor.php:1358
+#: includes/classes/editor.php:1347
 msgid "Edit dashboard"
 msgstr "Modifica dashboard"
 
-#: includes/classes/editor.php:1357
+#: includes/classes/editor.php:1346
 msgid "Unfiltered upload"
 msgstr "Uploads non filtrati"
 
-#: includes/classes/editor.php:1356
+#: includes/classes/editor.php:1345
 msgid "Create users"
 msgstr "Crea utenti"
 
-#: includes/classes/editor.php:1355
+#: includes/classes/editor.php:1344
 msgid "Delete users"
 msgstr "Cancella utenti"
 
-#: includes/classes/editor.php:1354
+#: includes/classes/editor.php:1343
 msgid "Read private pages"
 msgstr "Legge pagine private"
 
-#: includes/classes/editor.php:1353
+#: includes/classes/editor.php:1342
 msgid "Edit private pages"
 msgstr "Modifica pagine private"
 
-#: includes/classes/editor.php:1352
+#: includes/classes/editor.php:1341
 msgid "Delete private pages"
 msgstr "Cancella pagine private"
 
-#: includes/classes/editor.php:1351
+#: includes/classes/editor.php:1340
 msgid "Read private posts"
 msgstr "Leggi articoli privati"
 
-#: includes/classes/editor.php:1350
+#: includes/classes/editor.php:1339
 msgid "Edit private posts"
 msgstr "Modifica articoli privati"
 
-#: includes/classes/editor.php:1349
+#: includes/classes/editor.php:1338
 msgid "Delete private posts"
 msgstr "Cancella articoli privati"
 
-#: includes/classes/editor.php:1348
+#: includes/classes/editor.php:1337
 msgid "Delete published posts"
 msgstr "Cancella articoli pubblicati"
 
-#: includes/classes/editor.php:1347
+#: includes/classes/editor.php:1336
 msgid "Delete others posts"
 msgstr "Cancella altri articoli"
 
-#: includes/classes/editor.php:1346
+#: includes/classes/editor.php:1335
 msgid "Delete posts"
 msgstr "Cancella articoli"
 
-#: includes/classes/editor.php:1345
+#: includes/classes/editor.php:1334
 msgid "Delete published pages"
 msgstr "Cancella pagine pubblicate"
 
-#: includes/classes/editor.php:1344
+#: includes/classes/editor.php:1333
 msgid "Delete others pages"
 msgstr "Cancella altre pagine"
 
-#: includes/classes/editor.php:1343
+#: includes/classes/editor.php:1332
 msgid "Delete pages"
 msgstr "Cancella pagine"
 
-#: includes/classes/editor.php:1342
+#: includes/classes/editor.php:1331
 msgid "Publish pages"
 msgstr "Pubblica pagine"
 
-#: includes/classes/editor.php:1341
+#: includes/classes/editor.php:1330
 msgid "Edit published pages"
 msgstr "Modifica pagine pubblicate"
 
-#: includes/classes/editor.php:1340
+#: includes/classes/editor.php:1329
 msgid "Edit others pages"
 msgstr "Modifica altre pagine"
 
-#: includes/classes/editor.php:1339
+#: includes/classes/editor.php:1328
 msgid "Level 0"
 msgstr "Livello 0"
 
-#: includes/classes/editor.php:1338
+#: includes/classes/editor.php:1327
 msgid "Level 1"
 msgstr "Livello 1"
 
-#: includes/classes/editor.php:1337
+#: includes/classes/editor.php:1326
 msgid "Level 2"
 msgstr "Livello 2"
 
-#: includes/classes/editor.php:1336
+#: includes/classes/editor.php:1325
 msgid "Level 3"
 msgstr "Livello 3"
 
-#: includes/classes/editor.php:1335
+#: includes/classes/editor.php:1324
 msgid "Level 4"
 msgstr "Livello 4"
 
-#: includes/classes/editor.php:1334
+#: includes/classes/editor.php:1323
 msgid "Level 5"
 msgstr "Livello 5"
 
-#: includes/classes/editor.php:1333
+#: includes/classes/editor.php:1322
 msgid "Level 6"
 msgstr "Livello 6"
 
-#: includes/classes/editor.php:1332
+#: includes/classes/editor.php:1321
 msgid "Level 7"
 msgstr "Livello 7"
 
-#: includes/classes/editor.php:1331
+#: includes/classes/editor.php:1320
 msgid "Level 8"
 msgstr "Livello 8"
 
-#: includes/classes/editor.php:1330
+#: includes/classes/editor.php:1319
 msgid "Level 9"
 msgstr "Livello 9"
 
-#: includes/classes/editor.php:1329
+#: includes/classes/editor.php:1318
 msgid "Level 10"
 msgstr "Livello 10"
 
-#: includes/classes/editor.php:1328
+#: includes/classes/editor.php:1317
 msgid "Read"
 msgstr "Leggi"
 
-#: includes/classes/editor.php:1327
+#: includes/classes/editor.php:1316
 msgid "Edit pages"
 msgstr "Modifica pagine"
 
-#: includes/classes/editor.php:1326
+#: includes/classes/editor.php:1315
 msgid "Publish posts"
 msgstr "Pubblica articoli"
 
-#: includes/classes/editor.php:1325
+#: includes/classes/editor.php:1314
 msgid "Edit published posts"
 msgstr "Modifica articoli pubblicati"
 
-#: includes/classes/editor.php:1324
+#: includes/classes/editor.php:1313
 msgid "Edit others posts"
 msgstr "Modifica altri articoli"
 
-#: includes/classes/editor.php:1323
+#: includes/classes/editor.php:1312
 msgid "Edit posts"
 msgstr "Modifica articoli"
 
-#: includes/classes/editor.php:1322
+#: includes/classes/editor.php:1311
 msgid "Unfiltered html"
 msgstr "Html non filtrato"
 
-#: includes/classes/editor.php:1321
+#: includes/classes/editor.php:1310
 msgid "Import"
 msgstr "Importa"
 
-#: includes/classes/editor.php:1320
+#: includes/classes/editor.php:1309
 msgid "Upload files"
 msgstr "Carica file"
 
-#: includes/classes/editor.php:1319
+#: includes/classes/editor.php:1308
 msgid "Manage links"
 msgstr "Gestisci link"
 
-#: includes/classes/editor.php:1318
+#: includes/classes/editor.php:1307
 msgid "Manage categories"
 msgstr "Gestisci categorie"
 
-#: includes/classes/editor.php:1317
+#: includes/classes/editor.php:1306
 msgid "Moderate comments"
 msgstr "Modera commenti"
 
-#: includes/classes/editor.php:1316
+#: includes/classes/editor.php:1305
 msgid "Manage options"
 msgstr "Gestisci opzioni"
 
-#: includes/classes/editor.php:1315
+#: includes/classes/editor.php:1304
 msgid "Edit files"
 msgstr "Modifica file"
 
-#: includes/classes/editor.php:1314
+#: includes/classes/editor.php:1303
 msgid "Edit users"
 msgstr "Modifica utenti"
 
-#: includes/classes/editor.php:1313
+#: includes/classes/editor.php:1302
 msgid "Edit plugins"
 msgstr "Modifica plugins"
 
-#: includes/classes/editor.php:1312
+#: includes/classes/editor.php:1301
 msgid "Activate plugins"
 msgstr "Attiva plugins"
 
-#: includes/classes/editor.php:1311
+#: includes/classes/editor.php:1300
 msgid "Edit themes"
 msgstr "Modifica temi"
 
-#: includes/classes/editor.php:1310
+#: includes/classes/editor.php:1299
 msgid "Switch themes"
 msgstr "Cambia temi"
 
-#: includes/classes/editor.php:1308
+#: includes/classes/editor.php:1297
 msgid "Subscriber"
 msgstr "Sottoscrittore"
 
-#: includes/classes/editor.php:1307
+#: includes/classes/editor.php:1296
 msgid "Contributor"
 msgstr "Collaboratore"
 
-#: includes/classes/editor.php:1306
+#: includes/classes/editor.php:1295
 msgid "Author"
 msgstr "Autore"
 
-#: includes/classes/editor.php:1305
+#: includes/classes/editor.php:1294
 msgid "Editor"
 msgstr "Editore"
 
-#: includes/classes/editor.php:1095
+#: includes/classes/editor.php:1088
 msgid "This role does not exist - "
 msgstr "Questo ruolo non esiste - "
 
-#: includes/classes/editor.php:1093
+#: includes/classes/editor.php:1086
 msgid "Can not set Administrator role as a default one"
 msgstr "Impossibile impostare il ruolo Amministratore come default"
 
-#: includes/classes/editor.php:1088
+#: includes/classes/editor.php:1081
 msgid "Default role for new users is set to %s successfully"
 msgstr "Il ruolo predefinito per i nuovi utenti è stato cambiato a %s correttamente."
 
-#: includes/classes/editor.php:1090
+#: includes/classes/editor.php:1083
 msgid "Error encountered during default role change operation"
 msgstr "Errore durante la modifica del ruolo predefinito."
 
-#: includes/classes/editor.php:1044
+#: includes/classes/editor.php:1037
 msgid "Role %s is deleted successfully"
 msgstr "Ruolo %s cancellato correttamente."
 
-#: includes/classes/editor.php:1042
+#: includes/classes/editor.php:1035
 msgid "Unused roles are deleted successfully"
 msgstr "I Ruoli inutilizzati sono stati cancellati."
 
-#: includes/classes/editor.php:910
+#: includes/classes/editor.php:903
 msgid "Role %s is renamed to %s successfully"
 msgstr "Ruolo %s rinominato in %s correttamente."
 
-#: includes/classes/editor.php:897
+#: includes/classes/editor.php:890
 msgid "Role %s does not exists"
 msgstr "Il ruolo %s non esiste."
 
-#: includes/classes/editor.php:890
+#: includes/classes/editor.php:883
 msgid "Error: Empty role display name is not allowed."
 msgstr "Si è verificato il seguente errore: non è ammesso che il nome del ruolo visualizzato sia vuoto."
 
-#: includes/classes/editor.php:782
+#: includes/classes/editor.php:775
 msgid "Error: Role ID is empty!"
 msgstr "Si è verificato il seguente errore: l'ID ruolo è vuoto."
 
-#: includes/classes/editor.php:857
+#: includes/classes/editor.php:850
 msgid "Role %s is created successfully"
 msgstr "Ruolo %s creato correttamente."
 
-#: includes/classes/editor.php:850
+#: includes/classes/editor.php:843
 msgid "Error is encountered during new role create operation"
 msgstr "Errore durante la creazione del nuovo ruolo."
 
-#: includes/classes/editor.php:831
+#: includes/classes/editor.php:824
 msgid "Role %s exists already"
 msgstr "Il ruolo %s esiste già."
 
-#: includes/classes/editor.php:797
+#: includes/classes/editor.php:790
 msgid "Error: WordPress does not support numeric Role name (ID). Add latin characters to it."
 msgstr "Si è verificato il seguente errore: WordPress non supporta il nome ruolo (ID) nel formato numerico. Aggiungere caratteri latini."
 
-#: includes/classes/editor.php:791
+#: includes/classes/editor.php:784
 msgid "Error: Role ID must contain latin characters, digits, hyphens or underscore only!"
 msgstr "Si è verificato il seguente errore: l'ID ruolo deve contenere solo caratteri latini, numeri, trattini o uderscore."
 
-#: includes/classes/editor.php:749 includes/classes/editor.php:818
-#: includes/classes/editor.php:878 includes/classes/editor.php:1024
-#: includes/classes/editor.php:1066 includes/classes/capability.php:79
-#: includes/classes/capability.php:190
-#: includes/classes/user-role-editor.php:650
+#: includes/classes/user-role-editor.php:650 includes/classes/capability.php:79
+#: includes/classes/capability.php:190 includes/classes/editor.php:742
+#: includes/classes/editor.php:811 includes/classes/editor.php:871
+#: includes/classes/editor.php:1017 includes/classes/editor.php:1059
 msgid "Insufficient permissions to work with User Role Editor"
 msgstr "Permessi non sufficienti per lavorare con User Role Editor."
 
-#: includes/classes/editor.php:1144
+#: includes/classes/editor.php:1133
 msgid "User Roles are restored to WordPress default values. "
 msgstr "I ruolo utente sono stati ripristinati ai valori predefiniti di WordPress."
 
-#: includes/classes/editor.php:698
+#: includes/classes/editor.php:691
 msgid "Error occurred during user update"
 msgstr "Errore nell'aggiornamento dell'utente"
 
-#: includes/classes/editor.php:696
+#: includes/classes/editor.php:689
 msgid "User capabilities are updated successfully"
 msgstr "Capacità utente aggiornate correttamente"
 
-#: includes/classes/editor.php:692
+#: includes/classes/editor.php:685
 msgid "Error occurred during role(s) update"
 msgstr "Errore durante l'aggiornamento del ruolo o dei ruoli"
 
-#: includes/classes/editor.php:689
+#: includes/classes/editor.php:682
 msgid "Roles are updated for all network"
 msgstr "I ruoli sono stati aggiornati per tutta la rete."
 
-#: includes/classes/editor.php:687
+#: includes/classes/editor.php:680
 msgid "Role is updated successfully"
 msgstr "Ruolo aggiornato correttamente"
 
-#: includes/classes/editor.php:206
+#: includes/classes/editor.php:195
 msgid "does not exist"
 msgstr "non esiste"
 
-#: includes/classes/editor.php:205
+#: includes/classes/editor.php:194
 msgid "Role"
 msgstr "Ruolo"
 
-#: includes/classes/editor.php:203 includes/classes/editor.php:205
+#: includes/classes/editor.php:192 includes/classes/editor.php:194
 msgid "Error: "
 msgstr "Si è verificato il seguente errore:"
 
 #. Plugin Name of the plugin
 #: includes/classes/capabilities-groups-manager.php:75
-#: includes/classes/editor.php:1237 includes/classes/user-role-editor.php:566
-#: includes/classes/user-role-editor.php:597
+#: includes/classes/user-role-editor.php:566
+#: includes/classes/user-role-editor.php:597 includes/classes/editor.php:1226
 msgid "User Role Editor"
 msgstr "User Role Editor"
 
@@ -1040,6 +1039,6 @@ msgstr "Mostra Nome Ruolo:"
 msgid "Role name (ID): "
 msgstr "Nome Ruolo (ID):"
 
-#: includes/classes/editor.php:1276
+#: includes/classes/editor.php:1265
 msgid "Error: wrong request"
 msgstr "Si è verificato il seguente errore: richiesta errata."

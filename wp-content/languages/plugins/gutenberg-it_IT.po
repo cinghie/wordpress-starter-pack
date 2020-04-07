@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-03-12 00:43:02+0000\n"
+"PO-Revision-Date: 2020-03-28 20:21:17+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,6 +11,284 @@ msgstr ""
 "Language: it\n"
 "Project-Id-Version: Plugins - Gutenberg - Stable (latest release)\n"
 
+#: build/block-library/index.js:8
+msgid "Post Comments"
+msgstr "Commenti dell'articolo"
+
+#: build/block-library/index.js:8
+msgid "No comments."
+msgstr "Nessun commento."
+
+#: build/block-library/index.js:8
+msgid "Contact"
+msgstr "Contatto"
+
+#: build/block-library/index.js:8
+msgid "About"
+msgstr "Chi siamo"
+
+#: build/block-library/index.js:8
+msgid "Home"
+msgstr "Home"
+
+#: build/block-library/index.js:8
+msgid "25 / 50 / 25"
+msgstr "25 / 50 / 25"
+
+#: build/block-library/index.js:8
+msgid "33 / 33 / 33"
+msgstr "33 / 33 / 33"
+
+#: build/block-library/index.js:8
+msgid "70 / 30"
+msgstr "70 / 30"
+
+#: build/block-library/index.js:8
+msgid "30 / 70"
+msgstr "30 / 70"
+
+#: build/block-library/index.js:8
+msgid "50 / 50"
+msgstr "50 / 50"
+
+#: build/block-editor/index.js:49
+msgid "Current media URL:"
+msgstr "URL del media attuale:"
+
+#: build/block-editor/index.js:49
+msgid "Block variations"
+msgstr "Varianti del blocco"
+
+#: build/edit-post/index.js:6
+msgid "Preview in new tab"
+msgstr "Anteprima in una nuova scheda"
+
+#: lib/class-wp-rest-menu-items-controller.php:960
+msgid "Sort collection by object attribute."
+msgstr "Ordina la collezione in base ad un attributo dell'oggetto."
+
+#: lib/class-wp-rest-menu-items-controller.php:953
+msgid "Order sort attribute ascending or descending."
+msgstr "Attributo per l'ordinamento ascendente o discendente."
+
+#: lib/class-wp-rest-menu-items-controller.php:948
+msgid "Limit result set to posts with a specific menu_order value."
+msgstr "Limita l'insieme di risultati agli articoli con uno specifico valore menu_order."
+
+#. translators: %s: taxonomy name
+#: lib/class-wp-rest-menu-items-controller.php:914
+msgid "The terms assigned to the object in the %s taxonomy."
+msgstr "I termini assegnati all'oggetto nella tassonomia %s."
+
+#: lib/class-wp-rest-menu-items-controller.php:902
+msgid "Whether the menu item represents an object that no longer exists ."
+msgstr "Se la voce di menu rappresenta un oggetto che non esiste più."
+
+#: lib/class-wp-rest-menu-items-controller.php:888
+msgid "The XFN relationship expressed in the link of this menu item."
+msgstr "La relazione XFN espressa nel link di questa voce di menu."
+
+#: lib/class-wp-rest-menu-items-controller.php:881
+msgid "The URL to which this menu item points."
+msgstr "L'URL al quale questa voce di menu punta."
+
+#: lib/class-wp-rest-menu-items-controller.php:874
+msgid "The singular label used to describe this type of menu item."
+msgstr "L'etichetta al singolare utilizzata per descrivere questo tipo di voce di menu."
+
+#: lib/class-wp-rest-menu-items-controller.php:864
+msgid "The target attribute of the link element for this menu item."
+msgstr "L'attributo target dell'elemento link per questa voce di menu."
+
+#: lib/class-wp-rest-menu-items-controller.php:856
+msgid "The DB ID of the original object this menu item represents, e . g . ID for posts and term_id for categories ."
+msgstr "L'ID DB dell'oggetto originale che questa voce di menu rappresenta, es. ID per articoli e term_id per le categorie."
+
+#: lib/class-wp-rest-menu-items-controller.php:850
+msgid "The type of object originally represented, such as \"category,\" \"post\", or \"attachment.\""
+msgstr "Il tipo di oggetto originariamente rappresentato, come \"category,\" \"post\", or \"attachment.\""
+
+#: lib/class-wp-rest-menu-items-controller.php:843
+msgid "The DB ID of the nav_menu_item that is this item's menu parent, if any . 0 otherwise . "
+msgstr "L'ID DB di nav_menu_item che è il genitore di questa voce di menu, se presente. Altrimenti 0. "
+
+#: lib/class-wp-rest-menu-items-controller.php:834
+msgid "The description of this menu item."
+msgstr "La descrizione di questa voce di menu."
+
+#: lib/class-wp-rest-menu-items-controller.php:820
+msgid "Class names for the link element of this menu item."
+msgstr "Nomi della classi per l'elemento link di questa voce di menu."
+
+#: lib/class-wp-rest-menu-items-controller.php:811
+msgid "Text for the title attribute of the link element for this menu item."
+msgstr "Testo per l'attributo title dell'elemento link per questa voce di menu."
+
+#: lib/class-wp-rest-menu-items-controller.php:795
+msgid "A named status for the object."
+msgstr "Uno stato con nome per l'oggetto."
+
+#: lib/class-wp-rest-menu-items-controller.php:787
+msgid "The family of objects originally represented, such as \"post_type\" or \"taxonomy\"."
+msgstr "La famiglia di oggetti originariamente rappresentato, come \"post_type\" or \"taxonomy\"."
+
+#: lib/class-wp-rest-menu-items-controller.php:780
+msgid "Name of type."
+msgstr "Nome del tipo."
+
+#: lib/class-wp-rest-menu-items-controller.php:762
+msgid "HTML title for the object, transformed for display."
+msgstr "Titolo HTML per l'oggetto, trasformato per la visualizzazione."
+
+#: lib/class-wp-rest-menu-items-controller.php:757
+msgid "Title for the object, as it exists in the database."
+msgstr "Il titolo dell'oggetto, come riportato nel database."
+
+#: lib/class-wp-rest-menu-items-controller.php:718
+msgid "Get linked object."
+msgstr "Ottieni l'oggetto collegato."
+
+#: lib/class-wp-rest-menu-items-controller.php:510
+msgid "Invalid URL."
+msgstr "URL non valido."
+
+#: lib/class-wp-rest-menu-items-controller.php:468
+#: lib/class-wp-rest-menu-items-controller.php:471
+msgid "Invalid menu item parent."
+msgstr "Voce di menu genitore invalida."
+
+#: lib/class-wp-rest-menu-items-controller.php:460
+msgid "Invalid menu position."
+msgstr "Posizione del menu non valida."
+
+#: lib/class-wp-rest-menu-items-controller.php:436
+msgid "Invalid menu ID."
+msgstr "ID menu non valido."
+
+#: lib/class-wp-rest-menu-items-controller.php:428
+msgid "URL require if menu item of type custom."
+msgstr "L'URL è obbligatorio se la voce di menu è di tipo personalizzato."
+
+#: lib/class-wp-rest-menu-items-controller.php:425
+msgid "Title require if menu item of type custom."
+msgstr "Il titolo è obbligatorio se la voce di menu è di tipo personalizzato."
+
+#: lib/class-wp-rest-menu-items-controller.php:418
+msgid "Invalid post type."
+msgstr "Post type non valido."
+
+#: lib/class-wp-rest-menu-items-controller.php:407
+msgid "Invalid post  ID."
+msgstr "ID articolo non valido."
+
+#: lib/class-wp-rest-menu-items-controller.php:271
+msgid "The post cannot be deleted."
+msgstr "L'articolo non può essere eliminato."
+
+#. translators: %s: force=true
+#: lib/class-wp-rest-menu-items-controller.php:263
+msgid "Menu items do not support trashing. Set '%s' to delete."
+msgstr "Le voci di menu non possono essere cestinate. Imposta '%s' per eliminarle."
+
+#: lib/class-wp-rest-menu-items-controller.php:97
+msgid "Cannot create existing post."
+msgstr "Non posso creare un articolo esistente."
+
+#: lib/class-wp-rest-menu-items-controller.php:83
+msgid "Sorry, you cannot view these menu items, unless you have access to permission edit them. "
+msgstr "Non puoi visualizzare queste voci di menu, a meno che non abbia l'autorizzazioni di modificarle."
+
+#: lib/class-wp-rest-menu-items-controller.php:81
+msgid "Sorry, you are not allowed to edit posts in this post type."
+msgstr "Non hai i permessi per modificare gli articoli in questo post type."
+
+#: lib/class-wp-rest-menu-items-controller.php:65
+msgid "Sorry, you cannot view this menu item, unless you have access to permission edit it. "
+msgstr "Non puoi visualizzare queste voci di menu, a meno che non abbia l'autorizzazioni di modificarle."
+
+#: lib/class-wp-rest-menus-controller.php:480
+msgid "The locations assigned to the menu."
+msgstr "Le posizioni assegnate al menu."
+
+#: lib/class-wp-rest-menus-controller.php:452
+msgid "Menu location does not exist."
+msgstr "La posizione del menu non esiste."
+
+#: lib/class-wp-rest-menus-controller.php:409
+msgid "The term cannot be deleted."
+msgstr "Il termine non può essere eliminato. "
+
+#. translators: %s: force=true
+#: lib/class-wp-rest-menus-controller.php:399
+msgid "Terms do not support trashing. Set '%s' to delete."
+msgstr "I termini non possono essere cestinati. Imposta '%s' per eliminarle."
+
+#: lib/class-wp-rest-menus-controller.php:223
+#: lib/class-wp-rest-menus-controller.php:330
+msgid "Parent term does not exist."
+msgstr "Il termine genitore non esiste."
+
+#: lib/class-wp-rest-menus-controller.php:217
+#: lib/class-wp-rest-menus-controller.php:324
+msgid "Cannot set parent term, taxonomy is not hierarchical."
+msgstr "Non puoi impostare il termine genitore, la tassonomia non è gerarchica."
+
+#: lib/class-wp-rest-menus-controller.php:130
+msgid "Sorry, you are not allowed to assign the provided locations."
+msgstr "Non hai i permessi per per assegnare le posizioni fornite."
+
+#: lib/class-wp-rest-menus-controller.php:60
+msgid "Sorry, you cannot view this menu, unless you have access to permission edit it. "
+msgstr "Non puoi visualizzare questo menu, a meno che non abbia l'autorizzazioni di modificarlo."
+
+#: lib/class-wp-rest-menus-controller.php:58
+msgid "Sorry, you are not allowed to edit this term."
+msgstr "Non hai i permessi per modificare questo termine."
+
+#: lib/class-wp-rest-menus-controller.php:40
+msgid "Sorry, you cannot view these menus, unless you have access to permission edit them. "
+msgstr "Non puoi visualizzare questi menu, a meno che non abbia l'autorizzazioni di modificarle."
+
+#: lib/class-wp-rest-menus-controller.php:38
+msgid "Sorry, you are not allowed to edit terms in this taxonomy."
+msgstr "Non hai i permessi per modificare i termini di questa tassonomia."
+
+#. translators: 1: Pattern name.
+#: lib/class-wp-patterns-registry.php:54
+msgid "Pattern \"%1$s\" not found."
+msgstr "Il pattern \"%1$s\" non è stato trovato."
+
+#: lib/class-wp-patterns-registry.php:35
+msgid "Pattern name must be a string."
+msgstr "Il nome del pattern deve essere una stringa."
+
+#: lib/class-wp-rest-menu-locations-controller.php:206
+msgid "The ID of the assigned menu."
+msgstr "L'ID del menu assegnato."
+
+#: lib/class-wp-rest-menu-locations-controller.php:200
+msgid "The description of the menu location."
+msgstr "La descrizione della posizione del menu."
+
+#: lib/class-wp-rest-menu-locations-controller.php:194
+msgid "The name of the menu location."
+msgstr "Il nome della posizione del menu."
+
+#: lib/class-wp-rest-menus-controller.php:137
+#: lib/class-wp-rest-menu-locations-controller.php:116
+#: lib/class-wp-rest-menu-locations-controller.php:132
+msgid "Invalid menu location."
+msgstr "Posizione del menu non valida."
+
+#: lib/class-wp-rest-menu-locations-controller.php:76
+#: lib/class-wp-rest-menu-locations-controller.php:113
+msgid "Sorry, you are not allowed to view menu locations."
+msgstr "Non hai i permessi per visualizzare le posizioni del menu."
+
+#: lib/class-wp-rest-menu-locations-controller.php:50
+msgid "An alphanumeric identifier for the menu location."
+msgstr "Un identificatore alfanumerico per la posizione del menu."
+
 #: build/block-editor/index.js:49
 msgid "Move %1$s block from position %2$d left to position %3$d"
 msgstr "Muovi il blocco %1$s dalla posizione %2$d a sinistra alla posizione %3$d"
@@ -18,6 +296,10 @@ msgstr "Muovi il blocco %1$s dalla posizione %2$d a sinistra alla posizione %3$d
 #: build/block-editor/index.js:49
 msgid "Move %1$s block from position %2$d down to position %3$d"
 msgstr "Muovi il blocco %1$s dalla posizione %2$d in basso alla posizione %3$d"
+
+#: build/block-editor/index.js:49
+msgid "Pattern \"%s\" inserted."
+msgstr "Pattern \"%s\" inserito."
 
 #: build/block-library/index.js:8
 msgid "Images size"
@@ -38,6 +320,10 @@ msgstr "Post Type"
 #: build/core-data/index.js:1
 msgid "Site"
 msgstr "Sito"
+
+#: build/edit-post/index.js:6
+msgid "Block Patterns"
+msgstr "Pattern del blocco"
 
 #. translators: %s: Social Link service name
 #: build/block-library/blocks/social-link.php:21
@@ -73,6 +359,10 @@ msgid "Block %1$s is at the end of the content and can’t be moved down"
 msgstr "Il blocco %1$s è alla fine del contenuto e non può essere spostato in giù"
 
 #: build/block-editor/index.js:49
+msgid "Creating"
+msgstr "Creando"
+
+#: build/block-editor/index.js:49
 msgid "An unknown error occurred during creation. Please try again."
 msgstr "Si è verificato un errore sconosciuto durante la creazione. Riprova."
 
@@ -83,6 +373,18 @@ msgstr "Nuova pagina: <mark>%s</mark>"
 #: build/block-editor/index.js:49
 msgid "Change a block's type by pressing the block icon on the toolbar."
 msgstr "Cambia il tipo di un blocco premendo sull'icona del blocco nella barra degli strumenti."
+
+#: build/block-editor/index.js:49
+msgid "Drag files into the editor to automatically insert media blocks."
+msgstr "Trascina i file nell'editor per inserire automaticamente i blocchi media."
+
+#: build/block-editor/index.js:49
+msgid "Outdent a list by pressing <kbd>backspace</kbd> at the beginning of a line"
+msgstr "Diminuisci il rientro dell'elenco premendo <kbd>backspace</kbd> all'inizio della riga"
+
+#: build/block-editor/index.js:49
+msgid "Indent a list by pressing <kbd>space</kbd> at the beginning of a line."
+msgstr "Aumenta il rientro dell'elenco premendo <kbd>space</kbd> all'inizio della riga."
 
 #: build/block-editor/index.js:49
 msgid "Solid"
@@ -117,6 +419,10 @@ msgid "No tags."
 msgstr "Nessun tag."
 
 #: build/block-library/index.js:8
+msgid "Post Featured Image"
+msgstr "Immagine in evidenza dell'articolo"
+
+#: build/block-library/index.js:8
 msgid "Read more…"
 msgstr "Leggi tutto…"
 
@@ -143,6 +449,14 @@ msgstr "Impostazioni del formato"
 #: build/block-library/index.js:8
 msgid "Change Date"
 msgstr "Cambia la data"
+
+#: build/block-library/index.js:8
+msgid "Post Comments Form"
+msgstr "Modulo dei commenti dell'articolo"
+
+#: build/block-library/index.js:8
+msgid "Post Comments Count"
+msgstr "Contatore dei commenti dell'articolo"
 
 #: build/block-library/index.js:8
 msgid "Display an icon linking to a social media profile or website."
@@ -230,6 +544,10 @@ msgid "New"
 msgstr "Nuovo"
 
 #: build/edit-site/index.js:1
+msgid "Switch Template"
+msgstr "Scambia il template"
+
+#: build/edit-site/index.js:1
 msgid "loading…"
 msgstr "caricamento..."
 
@@ -248,6 +566,10 @@ msgstr "Aggiungi template"
 #: build/edit-site/index.js:1
 msgid "Template already exists, edit it instead."
 msgstr "Il template esiste già, modificalo invece."
+
+#: lib/global-styles.php:309
+msgid "Global Styles"
+msgstr "Stili globali"
 
 #: lib/template-loader.php:231
 msgid "Empty template."
@@ -325,7 +647,7 @@ msgstr "Tema"
 msgid "Choose a template part by slug and theme, or create a new one."
 msgstr "Scegli una parte del template per slug e tema, o creane uno nuovo."
 
-#: build/edit-site/index.js:1 build/block-library/index.js:8
+#: build/block-library/index.js:8 build/edit-site/index.js:1
 msgid "Error adding template."
 msgstr "Errore nell'aggiunta del template."
 
@@ -572,7 +894,7 @@ msgstr "Apri la libreria dei media"
 msgid "The media file has been replaced"
 msgstr "Questo file media è stato sostituito"
 
-#: build/block-editor/index.js:49
+#: build/block-editor/index.js:49 build/block-library/index.js:8
 msgid "Replace"
 msgstr "Sostituisci"
 
@@ -1460,7 +1782,7 @@ msgstr "Blocchi del widget (Sperimentale)"
 msgid "Upload a video file, pick one from your media library, or add one with a URL."
 msgstr "Carica un file video, scegline uno dalla tua libreria dei media o aggiungine uno con un URL."
 
-#: build/block-library/index.js:8 build/block-editor/index.js:49
+#: build/block-editor/index.js:49
 msgid "Upload an image file, pick one from your media library, or add one with a URL."
 msgstr "Carica una immagine, scegline una dalla tua libreria dei media o aggiungine una con un URL."
 
@@ -1508,7 +1830,7 @@ msgstr "Impostazioni SEO"
 msgid "Description"
 msgstr "Descrizione"
 
-#: build/block-library/index.js:8 build/block-editor/index.js:49
+#: build/block-editor/index.js:49 build/block-library/index.js:8
 msgid "Open in new tab"
 msgstr "Apri in una nuova scheda"
 
@@ -1581,7 +1903,7 @@ msgstr "Due colonne; suddivise equamente"
 msgid "Your site doesn&#8217;t have any %s, so there&#8217;s nothing to display here at the moment."
 msgstr "Il tuo sito non ha %s, quindi non c'è nulla da mostrare qui al momento."
 
-#: build/edit-post/index.js:6
+#: build/edit-post/index.js:6 build/edit-site/index.js:1
 msgid "More tools & options"
 msgstr "Più strumenti & opzioni"
 
@@ -1957,7 +2279,7 @@ msgstr "Si è verificato un errore; probabilmente il feed non è attivo. Riprova
 msgid "RSS Error:"
 msgstr "Errore RSS:"
 
-#: build/block-library/index.js:8 build/block-editor/index.js:49
+#: build/block-editor/index.js:49 build/block-library/index.js:8
 msgctxt "block style"
 msgid "Default"
 msgstr "Predefinito"
@@ -1978,11 +2300,11 @@ msgstr "L'ultima parte dell'URL."
 msgid "URL Slug"
 msgstr "Slug dell'URL"
 
-#: build/edit-post/index.js:6
+#: build/edit-post/index.js:6 build/edit-site/index.js:1
 msgid "Fullscreen mode deactivated"
 msgstr "Modalità a schermo intero disattivata"
 
-#: build/edit-post/index.js:6
+#: build/edit-post/index.js:6 build/edit-site/index.js:1
 msgid "Fullscreen mode activated"
 msgstr "Modalità a schermo intero attivata"
 
@@ -2002,15 +2324,15 @@ msgstr "Barra degli strumenti in alto disattivata"
 msgid "Top toolbar activated"
 msgstr "Barra degli strumenti in alto attivata"
 
-#: build/edit-post/index.js:6
+#: build/edit-post/index.js:6 build/edit-site/index.js:1
 msgid "Back"
 msgstr "Indietro"
 
-#: build/edit-post/index.js:6
+#: build/edit-post/index.js:6 build/edit-site/index.js:1
 msgid "Feature activated"
 msgstr "Caratteristica attivata"
 
-#: build/edit-post/index.js:6
+#: build/edit-post/index.js:6 build/edit-site/index.js:1
 msgid "Feature deactivated"
 msgstr "Caratteristica disattivata"
 
@@ -2030,7 +2352,7 @@ msgstr "Un cloud dei tuoi tag più utilizzati."
 msgid "Tag Cloud"
 msgstr "Tag Cloud"
 
-#: build/core-data/index.js:1 build/block-library/index.js:8
+#: build/block-library/index.js:8 build/core-data/index.js:1
 msgid "Taxonomy"
 msgstr "Tassonomia"
 
@@ -2306,12 +2628,12 @@ msgid_plural "%s blocks selected."
 msgstr[0] "%s blocchi selezionati."
 msgstr[1] ""
 
-#: lib/edit-site-page.php:55 lib/widgets-page.php:57
+#: lib/widgets-page.php:57 lib/edit-site-page.php:77
 #: build/block-editor/index.js:49
 msgid "Thumbnail"
 msgstr "Miniatura"
 
-#: lib/edit-site-page.php:58 lib/widgets-page.php:60
+#: lib/widgets-page.php:60 lib/edit-site-page.php:80
 #: build/block-editor/index.js:49
 msgid "Full Size"
 msgstr "Dimensione reale"
@@ -2344,7 +2666,7 @@ msgstr "Allinea il testo al centro"
 msgid "Align text left"
 msgstr "Allinea il testo a sinistra"
 
-#: build/block-library/index.js:8 build/block-editor/index.js:49
+#: build/block-editor/index.js:49 build/block-library/index.js:8
 msgid "Start writing or type / to choose a block"
 msgstr "Inizia a scrivere o digita / per scegliere un blocco"
 
@@ -2471,7 +2793,7 @@ msgstr "Generazione dell'anteprima ..."
 msgid "Edit or update the image"
 msgstr "Modifica o aggiorna l'immagine"
 
-#: build/core-data/index.js:1 build/block-editor/index.js:49
+#: build/block-editor/index.js:49 build/core-data/index.js:1
 msgid "Media"
 msgstr "Media"
 
@@ -2719,7 +3041,7 @@ msgstr "Visualizza un elenco di tutte le categorie."
 msgid "Embed a simple audio player."
 msgstr "Incorpora un player audio semplice."
 
-#: build/edit-post/index.js:6
+#: build/edit-post/index.js:6 build/edit-site/index.js:1
 msgctxt "noun"
 msgid "View"
 msgstr "Visualizzazione"
@@ -2769,7 +3091,7 @@ msgstr "Generale"
 msgid "Open the block navigation menu."
 msgstr "Apre il menu per navigare tra i blocchi"
 
-#: build/edit-post/index.js:6
+#: build/edit-post/index.js:6 build/edit-site/index.js:1
 msgid "Work without distraction"
 msgstr "Lavora senza distrazioni"
 
@@ -3017,7 +3339,7 @@ msgstr "Copertina"
 msgid "Border settings"
 msgstr "Impostazioni bordi"
 
-#: lib/edit-site-page.php:56 lib/widgets-page.php:58
+#: lib/widgets-page.php:58 lib/edit-site-page.php:78
 #: build/block-editor/index.js:49 build/components/index.js:6
 msgid "Medium"
 msgstr "Medio"
@@ -3091,7 +3413,7 @@ msgid "This block can only be used once."
 msgstr "Questo blocco può essere utilizzato una sola volta."
 
 #: build/edit-post/index.js:6
-msgid "Exit Code Editor"
+msgid "Exit code editor"
 msgstr "Esci dall'editor del codice"
 
 #: build/edit-post/index.js:6
@@ -3198,7 +3520,7 @@ msgstr "Questo file è vuoto."
 msgid "Sorry, this file type is not supported here."
 msgstr "Questo tipo di file non è supportato."
 
-#: build/edit-post/index.js:6 build/block-editor/index.js:49
+#: build/block-editor/index.js:49 build/edit-post/index.js:6
 msgid "Manage all reusable blocks"
 msgstr "Gestisci tutti i blocchi riutilizzabili"
 
@@ -3206,7 +3528,7 @@ msgstr "Gestisci tutti i blocchi riutilizzabili"
 msgid "Title"
 msgstr "Titolo"
 
-#: build/edit-post/index.js:6
+#: build/edit-post/index.js:6 build/edit-site/index.js:1
 msgid "Fullscreen mode"
 msgstr "Modalità a schermo intero"
 
@@ -3221,14 +3543,6 @@ msgstr "Chiudi il pannello"
 #: build/block-editor/index.js:49
 msgid "Convert to Classic Block"
 msgstr "Converti in blocco classico"
-
-#: build/block-library/index.js:8
-msgid "Remove Poster Image"
-msgstr "Rimuovi Immagine di anteprima"
-
-#: build/block-library/index.js:8
-msgid "Select Poster Image"
-msgstr "Seleziona l'immagine di anteprima"
 
 #: build/block-library/index.js:8
 msgid "Poster image"
@@ -3355,8 +3669,8 @@ msgid "Selection shortcuts"
 msgstr "Scorciatoie per la selezione"
 
 #: build/edit-post/index.js:6
-msgid "Switch between Visual editor and Code editor."
-msgstr "Passa da Editor visuale a Editor del codice e viceversa."
+msgid "Switch between visual editor and code editor."
+msgstr "Passa da Editor visuale a Editor del codice."
 
 #: build/edit-post/index.js:6
 msgid "Navigate to the previous part of the editor."
@@ -3593,7 +3907,12 @@ msgstr "Alt Text (testo alternativo)"
 msgid "Reusable Block"
 msgstr "Blocco riutilizzabile"
 
+#: lib/class-wp-rest-menu-items-controller.php:746
+msgid "The title for the object."
+msgstr "Il titolo dell'oggetto."
+
 #: lib/class-wp-rest-widget-areas-controller.php:92
+#: lib/class-wp-rest-menu-items-controller.php:771
 msgid "Unique identifier for the object."
 msgstr "Identificatore univoco per l'oggetto."
 
@@ -3625,7 +3944,7 @@ msgstr "Mantieni come HTML"
 msgid "Edit URL"
 msgstr "Modifica l'URL"
 
-#: build/block-library/index.js:8 build/block-editor/index.js:49
+#: build/block-editor/index.js:49 build/block-library/index.js:8
 msgid "Color settings"
 msgstr "Impostazioni colore"
 
@@ -3779,7 +4098,7 @@ msgstr "Rosa pallido"
 msgid "Inline image"
 msgstr "Immagine in linea"
 
-#: build/edit-post/index.js:6 build/block-editor/index.js:49
+#: build/block-editor/index.js:49 build/edit-post/index.js:6
 msgid "Available block types"
 msgstr "Tipologie di blocchi disponibili"
 
@@ -3805,7 +4124,7 @@ msgstr "Punti"
 msgid "Wide Line"
 msgstr "Linea ampia"
 
-#: lib/edit-site-page.php:57 lib/widgets-page.php:59
+#: lib/widgets-page.php:59 lib/edit-site-page.php:79
 #: build/block-editor/index.js:49 build/components/index.js:6
 msgid "Large"
 msgstr "Grande"
@@ -3902,13 +4221,17 @@ msgstr "Quando sei pronto, invia il tuo lavoro per la revisione e un editore sar
 msgid "Are you ready to submit for review?"
 msgstr "Sei pronto a inviare per la revisione?"
 
-#: build/block-library/index.js:8
-msgid "Replace image"
-msgstr "Sostituisci immagine"
-
-#: build/block-library/index.js:8 build/editor/index.js:11
+#: build/editor/index.js:11 build/block-library/index.js:8
 msgid "Remove image"
 msgstr "Rimuovi immagine"
+
+#: lib/class-wp-rest-menu-items-controller.php:399
+msgid "Invalid term ID."
+msgstr "ID del termine non valido."
+
+#: lib/class-wp-rest-menu-items-controller.php:803
+msgid "The ID for the parent of the object."
+msgstr "L'id del genitore dell'oggetto."
 
 #: build/media-utils/index.js:1
 msgid "Error while uploading file %s to the media library."
@@ -4063,7 +4386,7 @@ msgstr "Chiudi il plugin"
 msgid "Editor settings"
 msgstr "Impostazioni dell'editor"
 
-#: build/block-library/index.js:8 build/block-editor/index.js:49
+#: build/block-editor/index.js:49 build/block-library/index.js:8
 msgid "Link settings"
 msgstr "Impostazioni link"
 
@@ -4091,7 +4414,7 @@ msgstr "Dimensione dell'immagine"
 msgid "Height"
 msgstr "Altezza"
 
-#: build/format-library/index.js:1 build/block-editor/index.js:49
+#: build/block-editor/index.js:49 build/format-library/index.js:1
 msgid "Width"
 msgstr "Larghezza"
 
@@ -4428,8 +4751,8 @@ msgstr "Standard"
 msgid "Aside"
 msgstr "Digressione"
 
-#: lib/client-assets.php:164 build/edit-post/index.js:6
-#: build/editor/index.js:11
+#: lib/client-assets.php:164 build/editor/index.js:11
+#: build/edit-post/index.js:6
 msgid "Featured image"
 msgstr "Immagine in evidenza"
 
@@ -4465,7 +4788,7 @@ msgstr "Nessun titolo"
 msgid "Order"
 msgstr "Ordinamento"
 
-#: build/edit-post/index.js:6 build/block-editor/index.js:49
+#: build/block-editor/index.js:49 build/edit-post/index.js:6
 msgid "No blocks found."
 msgstr "Nessun blocco trovato."
 
@@ -4487,7 +4810,7 @@ msgstr "Incorporamenti"
 msgid "Blocks"
 msgstr "Blocchi"
 
-#: build/edit-post/index.js:6 build/block-editor/index.js:49
+#: build/block-editor/index.js:49 build/edit-post/index.js:6
 msgid "Search for a block"
 msgstr "Cerca un blocco"
 
@@ -4613,7 +4936,8 @@ msgstr "Nessun blocco selezionato."
 msgid "Transform into:"
 msgstr "Trasforma in:"
 
-#: build/edit-post/index.js:6 build/block-directory/index.js:1
+#: build/block-library/index.js:8 build/block-directory/index.js:1
+#: build/edit-post/index.js:6
 msgid "Remove"
 msgstr "Rimuovi"
 
@@ -4625,8 +4949,8 @@ msgstr "Trova l'originale"
 msgid "Copy all content"
 msgstr "Copia tutto il contenuto"
 
-#: build/edit-post/index.js:6 build/block-library/index.js:8
-#: build/editor/index.js:11
+#: build/editor/index.js:11 build/block-library/index.js:8
+#: build/edit-post/index.js:6
 msgid "Copied!"
 msgstr "Copiato!"
 
@@ -4650,7 +4974,7 @@ msgstr "Attributi della pagina"
 msgid "Block"
 msgstr "Blocco"
 
-#: build/edit-post/index.js:6 build/block-editor/index.js:49
+#: build/block-editor/index.js:49 build/edit-post/index.js:6
 msgid "Document"
 msgstr "Documento"
 
@@ -4662,7 +4986,7 @@ msgstr "Chiudi le impostazioni"
 msgid "Editor content"
 msgstr "Contenuto dell'editor"
 
-#: build/edit-post/index.js:6 build/block-editor/index.js:49
+#: build/block-editor/index.js:49 build/edit-post/index.js:6
 msgid "Tools"
 msgstr "Strumenti"
 
@@ -4730,12 +5054,12 @@ msgstr[1] "%d risultati trovati, utilizza i tasti freccia su e giù per navigare
 
 #: build/block-library/blocks/rss.php:31
 #: build/block-library/blocks/latest-comments.php:31
-#: build/block-library/blocks/latest-posts.php:89 build/edit-post/index.js:6
-#: build/block-library/index.js:8 build/editor/index.js:11
+#: build/block-library/blocks/latest-posts.php:89 build/editor/index.js:11
+#: build/block-library/index.js:8 build/edit-post/index.js:6
 msgid "(no title)"
 msgstr "(senza titolo)"
 
-#: build/block-library/index.js:8 build/block-editor/index.js:49
+#: build/block-editor/index.js:49 build/block-library/index.js:8
 msgid "URL"
 msgstr "URL"
 
@@ -4743,8 +5067,8 @@ msgstr "URL"
 msgid "Submit"
 msgstr "Invia"
 
-#: build/edit-post/index.js:6 build/block-library/index.js:8
-#: build/block-editor/index.js:49 build/components/index.js:6
+#: build/block-editor/index.js:49 build/block-library/index.js:8
+#: build/edit-post/index.js:6 build/components/index.js:6
 msgid "Close"
 msgstr "Chiudi"
 
@@ -4756,8 +5080,8 @@ msgstr "Inserisci link"
 msgid "Edit link"
 msgstr "Modifica link"
 
-#: build/block-library/index.js:8 build/editor/index.js:11
-#: build/format-library/index.js:1
+#: build/editor/index.js:11 build/format-library/index.js:1
+#: build/block-library/index.js:8
 msgid "Link"
 msgstr "Link"
 
@@ -4781,11 +5105,11 @@ msgstr "Rimuovi link"
 msgid "Number of items"
 msgstr "Numero di elementi"
 
-#: build/block-editor/index.js:49 build/components/index.js:6
+#: build/block-editor/index.js:49
 msgid "All"
 msgstr "Tutto"
 
-#: build/editor/index.js:11 build/components/index.js:6
+#: build/editor/index.js:11
 msgid "Category"
 msgstr "Categoria"
 
@@ -4809,7 +5133,7 @@ msgstr "Dal più recente al meno recente"
 msgid "Order by"
 msgstr "Ordina per"
 
-#: build/block-editor/index.js:49
+#: build/block-editor/index.js:49 build/block-library/index.js:8
 msgid "Select"
 msgstr "Seleziona"
 
@@ -4817,8 +5141,8 @@ msgstr "Seleziona"
 msgid "Select or Upload Media"
 msgstr "Seleziona o carica media"
 
-#: build/block-library/index.js:8 build/editor/index.js:11
-#: build/block-editor/index.js:49
+#: build/editor/index.js:11 build/block-editor/index.js:49
+#: build/block-library/index.js:8
 msgid "Video"
 msgstr "Video"
 
@@ -4894,7 +5218,7 @@ msgstr "linea orizzontale"
 msgid "Separator"
 msgstr "Separatore"
 
-#: build/block-library/index.js:8 build/editor/index.js:11
+#: build/editor/index.js:11 build/block-library/index.js:8
 msgid "Quote"
 msgstr "Citazione"
 
@@ -5003,7 +5327,7 @@ msgstr "Visualizzazione in modalità griglia"
 msgid "List view"
 msgstr "Visualizzazione in modalità elenco"
 
-#: build/block-library/index.js:8 build/format-library/index.js:1
+#: build/format-library/index.js:1 build/block-library/index.js:8
 msgid "photo"
 msgstr "foto"
 
@@ -5011,12 +5335,13 @@ msgstr "foto"
 msgid "Image settings"
 msgstr "Impostazioni immagine"
 
-#: build/block-library/index.js:8 build/editor/index.js:11
-#: build/block-editor/index.js:49
+#: build/editor/index.js:11 build/block-editor/index.js:49
+#: build/block-library/index.js:8
 msgid "Image"
 msgstr "Immagine"
 
-#: build/block-library/index.js:8 build/block-editor/index.js:49
+#: build/block-editor/index.js:49 build/block-library/index.js:8
+#: build/edit-post/index.js:6
 msgid "Preview"
 msgstr "Anteprima"
 
@@ -5068,11 +5393,11 @@ msgstr "Immagini"
 msgid "None"
 msgstr "Nessuna"
 
-#: build/block-library/index.js:8 build/block-editor/index.js:49
+#: build/block-editor/index.js:49 build/block-library/index.js:8
 msgid "Media File"
 msgstr "File media"
 
-#: build/block-library/index.js:8 build/block-editor/index.js:49
+#: build/block-editor/index.js:49 build/block-library/index.js:8
 msgid "Attachment Page"
 msgstr "Pagina dell’allegato"
 
@@ -5084,7 +5409,7 @@ msgstr "Ritaglia immagini"
 msgid "Gallery settings"
 msgstr "Impostazioni galleria"
 
-#: build/block-library/index.js:8 build/editor/index.js:11
+#: build/editor/index.js:11 build/block-library/index.js:8
 msgid "Gallery"
 msgstr "Galleria"
 
@@ -5160,7 +5485,7 @@ msgstr "Codice"
 msgid "Write code…"
 msgstr "Scrivi codice..."
 
-#: build/block-library/index.js:8
+#: build/block-library/index.js:8 build/components/index.js:6
 msgid "Categories"
 msgstr "Categorie"
 
@@ -5188,12 +5513,12 @@ msgstr "Aggiungi testo..."
 msgid "Button"
 msgstr "Pulsante"
 
-#: build/block-library/index.js:8 build/format-library/index.js:1
-#: build/block-editor/index.js:49
+#: build/block-editor/index.js:49 build/format-library/index.js:1
+#: build/block-library/index.js:8
 msgid "Apply"
 msgstr "Applica"
 
-#: build/format-library/index.js:1 build/block-editor/index.js:49
+#: build/block-editor/index.js:49 build/format-library/index.js:1
 msgid "Text Color"
 msgstr "Colore del testo"
 
@@ -5213,8 +5538,8 @@ msgstr "Blocchi riutilizzabili"
 msgid "Cancel"
 msgstr "Annulla"
 
-#: build/block-library/index.js:8 build/editor/index.js:11
-#: build/block-editor/index.js:49
+#: build/editor/index.js:11 build/block-editor/index.js:49
+#: build/block-library/index.js:8
 msgid "Edit"
 msgstr "Modifica"
 
@@ -5226,8 +5551,8 @@ msgstr "Scrivi una didascalia..."
 msgid "Use URL"
 msgstr "Usa l'URL"
 
-#: build/block-library/index.js:8 build/editor/index.js:11
-#: build/block-editor/index.js:49
+#: build/editor/index.js:11 build/block-editor/index.js:49
+#: build/block-library/index.js:8
 msgid "Audio"
 msgstr "Audio"
 
@@ -5323,10 +5648,14 @@ msgstr "Gutenberg"
 msgid "Author"
 msgstr "Autore"
 
-#: lib/template-parts.php:99 lib/templates.php:136
-#: build/block-library/index.js:8 build/editor/index.js:11
+#: lib/templates.php:136 lib/template-parts.php:99 build/editor/index.js:11
+#: build/block-library/index.js:8
 msgid "Slug"
 msgstr "Slug"
+
+#: build/core-data/index.js:1
+msgid "Comment"
+msgstr "Commento"
 
 #: build/edit-post/index.js:6
 msgid "Discussion"
@@ -5336,11 +5665,11 @@ msgstr "Discussione"
 msgid "Custom fields"
 msgstr "Campi personalizzati"
 
-#: build/edit-post/index.js:6 build/block-library/index.js:8
+#: build/block-library/index.js:8 build/edit-post/index.js:6
 msgid "Excerpt"
 msgstr "Riassunto"
 
-#: build/edit-post/index.js:6 build/editor/index.js:11
+#: build/editor/index.js:11 build/edit-post/index.js:6
 msgid "Publish"
 msgstr "Pubblica"
 
@@ -5348,7 +5677,7 @@ msgstr "Pubblica"
 msgid "Metadata"
 msgstr "Metadati"
 
-#: build/block-library/index.js:8 build/editor/index.js:11
+#: build/editor/index.js:11 build/block-library/index.js:8
 msgid "Save"
 msgstr "Salva"
 
