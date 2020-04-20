@@ -255,6 +255,12 @@ class WC_Order_Export_Order_Product_Fields {
 			{
 				$field_value = $this->product ? $this->product->get_attribute( $field ) : '';
 			}
+			if ( $field_value === '' AND !empty( $this->item['variation_id'] ) AND $this->product) // 6. try get attribute for variaton
+			{
+				$field_value = $this->product->get_attribute( $field );
+				if( $field_value === '' AND $this->product->parent )
+					$field_value = $this->product->parent->get_attribute( $field );
+			}
 			if ( $field_value === '' ) {  //5. read from product/variation hidden field
 				$field_value = get_post_meta( $this->variation_id, "_" . $field, true );
 			}

@@ -503,7 +503,7 @@ class WC_Order_Export_Data_Extractor {
 								$pairs = array();
 								foreach ( $values as $v ) {
 									$pairs[] = self::operator_compare_field_and_value( "`productmeta_cf_{$pos}`.meta_value",
-										$operator, $v );
+										$operator, $v, $field );
 								}
 								$pairs                = join( "OR", $pairs );
 								$product_meta_where[] = " ($pairs) ";
@@ -638,14 +638,15 @@ class WC_Order_Export_Data_Extractor {
 		return $product_where;
 	}
 
-	static function operator_compare_field_and_value( $field, $operator, $value ) {
+	static function operator_compare_field_and_value( $field, $operator, $value, $public_fieldname='' ) {
+		$value = esc_sql($value);
 		if ( $operator == "LIKE" ) {
 			$value = "'%$value%'";
 		} else { // compare numbers!
-			$field = "cast($field as signed)";
+			$type = apply_filters( "woe_compare_field_cast_to_type", "signed", $field, $operator, $value, $public_fieldname);
+			$field = "cast($field as $type)";
 		}
-
-		return " $field $operator $value ";
+		return " $field $operator '$value' ";
 	}
 
 	public static function sql_get_order_ids_Ver1( $settings ) {
@@ -710,7 +711,7 @@ class WC_Order_Export_Data_Extractor {
 							$pairs = array();
 							foreach ( $values as $v ) {
 								$pairs[] = self::operator_compare_field_and_value( "`orderitemmeta_{$field}`.meta_value",
-									$operator, $v );
+									$operator, $v, $field );
 							}
 							$pairs                    = join( "OR", $pairs );
 							$order_items_meta_where[] = " (`orderitemmeta_{$field}`.meta_key='$field'  AND  ($pairs) ) ";
@@ -921,7 +922,7 @@ class WC_Order_Export_Data_Extractor {
 							$pairs = array();
 							foreach ( $values as $v ) {
 								$pairs[] = self::operator_compare_field_and_value( "`ordermeta_cf_{$pos}`.meta_value",
-									$operator, $v );
+									$operator, $v , $field );
 							}
 							$pairs              = join( "OR", $pairs );
 							$order_meta_where[] = " ( $pairs ) ";
@@ -949,7 +950,7 @@ class WC_Order_Export_Data_Extractor {
 							$pairs = array();
 							foreach ( $values as $v ) {
 								$pairs[] = self::operator_compare_field_and_value( "`usermeta_cf_{$pos}`.meta_value",
-									$operator, $v );
+									$operator, $v, $field );
 							}
 							$pairs             = join( "OR", $pairs );
 							$user_meta_where[] = " ( $pairs ) ";

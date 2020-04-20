@@ -199,6 +199,7 @@ function ppom_get_product_price( $product, $variation_id=null, $context='' ) {
 	
 	$product_price = 'incl' === get_option( 'woocommerce_tax_display_shop' ) ? wc_get_price_including_tax( $product ) : wc_get_price_excluding_tax($product);
 	
+	
 	// $product_price = $product->get_price();
 	
 	if( $product->is_type('variable') && $variation_id ) {
@@ -217,7 +218,11 @@ function ppom_get_product_price( $product, $variation_id=null, $context='' ) {
 	}
 	
 	// Do not convert price on cart
-	if( $context != 'cart' && $context != 'product' ) {
+	// if( $context != 'cart' && $context != 'product' ) { 
+	// Above condition replaced on March 26, 2020. As it was not working well
+	// following conditions performing just well.
+	
+	if( $context != 'cart' ) {
 		$product_price = apply_filters('woocs_exchange_value', $product_price);
 	}
 	
@@ -279,7 +284,7 @@ function ppom_make_meta_data( $cart_item, $context="cart" ){
 	$product_id 		= ppom_get_product_id($cart_item['data']);
 	$ppom_meta			= array();
 	$ppom_cart_fields	= $cart_item ['ppom'] ['fields'];
-	$ppom_meta_ids		= null;
+	$ppom_meta_ids		= apply_filters('ppom_meta_ids_in_cart', null, $cart_item);
 	$ppom_meta			= ppom_generate_cart_meta($ppom_cart_fields, $product_id, $ppom_meta_ids, $context, $variation_id);
 	
 	return apply_filters('ppom_meta_data', $ppom_meta, $cart_item, $context);
@@ -294,6 +299,7 @@ function ppom_make_meta_data( $cart_item, $context="cart" ){
 function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids=null, $context="cart", $variation_id=null ) {
 	
 	$ppom_meta = array();
+	
 	
 	foreach( $ppom_cart_fields as $key => $value) {
 		
@@ -492,10 +498,11 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 			case 'palettes':
 				$selected_color = array();
 				$color_options = $field_meta['options'];
+				$options_filter	 = ppom_convert_options_to_key_val($field_meta['options'], $field_meta, $product);
 				foreach($value as $color){
-					foreach($color_options as $opt){
+					foreach($options_filter as $option_key => $opt){
 						
-						if( $color == $opt['option'] ){
+						if( $color == $option_key ){
 							$display = !empty($opt['label']) ? $opt['label'] : $opt['option'];
 							$selected_color[] = $display;
 							$meta_data = array('name'=>$field_title, 'value'=>$value, 'display'=>implode(',',$selected_color));
@@ -622,7 +629,7 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 	                }
 				}
 
-				$option_price = is_array($option_price) ? implode(",", $option_price) : $value;
+				$option_price = is_array($option_price) ? implode(", ", $option_price) : $value;
 				
 				if( $context == 'api' ) {
 					$meta_data = array('name'		=> $field_title, 
@@ -1012,6 +1019,13 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 				$ppom_new_option[$the_option]['height'] = isset($option['height']) ? $option['height'] : '';
 			}
 			
+			if( $meta['type'] == 'image' || $meta['type'] == 'imageselect' ) {
+				
+				$ppom_new_option[$the_option]['link'] = isset($option['link']) ? $option['link'] : '';
+				$ppom_new_option[$the_option]['url'] = isset($option['url']) ? $option['url'] : '';
+				$ppom_new_option[$the_option]['image_id'] = isset($option['id']) ? $option['id'] : '';
+			}
+			
 			// Adding weight
 			if( isset($option['weight']) ) {
 				$ppom_new_option[$the_option]['option_weight'] = $option['weight'];
@@ -1043,7 +1057,7 @@ function ppom_generate_option_label( $option, $price, $meta) {
 	$meta_type = isset($meta['type']) ? $meta['type'] : '';
 	
 	$the_option = isset($option['option']) ? $option['option'] : '';
-	if( $meta_type == 'imageselect' ) {
+	if( $meta_type == 'imageselect' || $meta_type === 'image') {
 		$the_option = isset($option['title']) ? $option['title'] : '';
 	}
 	
@@ -1298,7 +1312,7 @@ function ppom_generate_html_for_images( $images ) {
 		
 		$images_meta	= json_decode(stripslashes($images_meta), true);
 		$image_url		= stripslashes($images_meta['link']);
-		$image_label	= $images_meta['title'];
+		$image_label	= $images_meta['raw'];
 		$image_html 	= '<img class="img-thumbnail" style="width:'.esc_attr(ppom_get_thumbs_size()).'" src="'.esc_url($image_url).'" title="'.esc_attr($image_label).'">';
 		
 		$ppom_html	.= '<tr><td><a href="'.esc_url($image_url).'" class="lightbox" itemprop="image" title="'.esc_attr($image_label).'">' . $image_html . '</a></td>';
@@ -1309,7 +1323,7 @@ function ppom_generate_html_for_images( $images ) {
 	
 	$ppom_html .= '</table>';
 	
-	return apply_filters('ppom_images_html', $ppom_html);
+	return apply_filters('ppom_images_html', $ppom_html, $images);
 }
 
 // Getting field option price
@@ -1430,6 +1444,48 @@ function ppom_get_field_option_weight_by_id( $option, $ppom_meta_ids ) {
 	}
 	
 	return apply_filters("ppom_field_option_weight_by_id", $option_weight, $field_meta, $option_id, $ppom_meta_ids);
+}
+
+// Getting field option stock by ID
+function ppom_field_has_stock( $meta, $value ) {
+	
+	$type = isset($meta['type']) ? $meta['type'] : '';
+    $has_stock = array();
+    
+    switch( $type ) {
+        
+        case 'select':
+        case 'radio':
+           if( isset($meta['options']) ) {
+                foreach($meta['options'] as $option) {
+                		// var_dump( $option['option'] .'==> ' .stripslashes($value));
+                		// var_dump( isset($option['stock']) && $option['stock'] != '' && stripslashes($option['option']) == stripslashes($value));
+    				if( isset($option['stock']) && $option['stock'] != '' && stripslashes($option['option']) == stripslashes($value) ) {
+    				    $has_stock[] = $option;
+                        break;
+                    }
+                }
+            }
+        break;
+        
+        case 'checkbox':
+			if( is_array($value) ) {
+				$cb_value = array_map('stripslashes', $value);
+				foreach($cb_value as $cb) {
+					foreach($meta['options'] as $option) {
+	    				if( isset($option['stock']) && !empty($option['stock']) && stripslashes($option['option']) == $cb ) {
+	                		// var_dump($option['stock']);
+	    				    $has_stock[] = $option;
+	                        break;
+	                    }
+                	}
+				}
+			}
+		break;
+        
+    }
+	
+	return apply_filters("ppom_field_has_stock", $has_stock, $meta, $value);
 }
 
 // check if PPOM PRO is installed
@@ -1702,7 +1758,7 @@ function ppom_is_cart_quantity_updatable( $product_id ) {
 		if( ($field['type'] == 'quantities' && ppom_is_field_has_price($field)) ||
 			$field['type'] == 'eventcalendar' ||
 			$field['type'] == 'vm' ||
-			$field['type'] == 'vqmatrix' ||
+			($field['type'] == 'vqmatrix' && ppom_is_field_has_price($field)) ||
 			$field['type'] == 'bulkquantity_zzz'	// bulkquantity should not be in there ... TESTING.
 			) {
 				

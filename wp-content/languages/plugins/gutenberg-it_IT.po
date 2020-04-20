@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-03-28 20:21:17+0000\n"
+"PO-Revision-Date: 2020-04-15 18:48:12+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,104 @@ msgstr ""
 "X-Generator: GlotPress/2.4.0-alpha\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - Gutenberg - Stable (latest release)\n"
+
+#: build/edit-navigation/index.js:1
+msgid "Manage Locations"
+msgstr "Gestione posizioni"
+
+#: build/edit-navigation/index.js:1
+msgid "Edit Navigation"
+msgstr "Modifica navigazione"
+
+#: build/edit-navigation/index.js:1
+msgid "Select navigation to edit:"
+msgstr "Seleziona la navigazione da modificare:"
+
+#: build/edit-navigation/index.js:1
+msgid "Navigation menu"
+msgstr "Menu di navigazione"
+
+#: build/edit-navigation/index.js:1
+msgid "Save navigation"
+msgstr "Salva navigazione"
+
+#: build/edit-navigation/index.js:1
+msgid "Navigation structure"
+msgstr "Struttura di navigazione"
+
+#: build/edit-navigation/index.js:1
+msgid "Save the menu currently being edited."
+msgstr "Salva il menu che stai modificando."
+
+#: build/edit-site/index.js:6
+msgid "Block Inspector"
+msgstr "Gestione del blocco"
+
+#: build/block-library/index.js:8
+msgid " … "
+msgstr " … "
+
+#: build/block-library/index.js:8
+msgid "Links shown in a column."
+msgstr "I link sono mostrati in una colonna."
+
+#: build/block-library/index.js:8
+msgid "Navigation (vertical)"
+msgstr "Navigazione (verticale)"
+
+#: build/block-library/index.js:8
+msgid "Links shown in a row."
+msgstr "I link sono mostrati in una riga."
+
+#: build/block-library/index.js:8
+msgid "Navigation (horizontal)"
+msgstr "Navigazione (orizzontale)"
+
+#: build/block-library/index.js:8
+msgid "Minimum height of cover"
+msgstr "Altezza minima della copertina"
+
+#: build/blocks/index.js:2
+msgid "%1$s Block. Row %2$d"
+msgstr "Blocco %1$s. Riga %2$d"
+
+#: build/block-editor/index.js:49
+msgid "Typography"
+msgstr "Tipografia"
+
+#: build/block-editor/index.js:49
+msgid "Line height"
+msgstr "Altezza della linea"
+
+#: build/edit-widgets/index.js:6 build/edit-post/index.js:6
+#: build/edit-site/index.js:6
+msgid "Content"
+msgstr "Contenuto"
+
+#: build/edit-widgets/index.js:6 build/edit-post/index.js:6
+#: build/edit-site/index.js:6
+msgid "Header"
+msgstr "Header"
+
+#: build/edit-post/index.js:6
+msgid "Toggle fullscreen mode."
+msgstr "Commuta la modalità a schermo intero."
+
+#: build/core-data/index.js:1
+msgid "Menu Location"
+msgstr "Posizione menu"
+
+#: build/core-data/index.js:1
+msgid "Menu"
+msgstr "Menu"
+
+#: lib/experiments-page.php:61
+msgid "Enable Navigation screen"
+msgstr "Abilita schermata dei menu di navigazione"
+
+#: gutenberg.php:61 gutenberg.php:62
+msgid "Navigation (beta)"
+msgstr "Navigazione (beta)"
 
 #: build/block-library/index.js:8
 msgid "Post Comments"
@@ -109,8 +207,8 @@ msgid "The type of object originally represented, such as \"category,\" \"post\"
 msgstr "Il tipo di oggetto originariamente rappresentato, come \"category,\" \"post\", or \"attachment.\""
 
 #: lib/class-wp-rest-menu-items-controller.php:843
-msgid "The DB ID of the nav_menu_item that is this item's menu parent, if any . 0 otherwise . "
-msgstr "L'ID DB di nav_menu_item che è il genitore di questa voce di menu, se presente. Altrimenti 0. "
+msgid "The DB ID of the nav_menu_item that is this item's menu parent, if any, otherwise 0."
+msgstr "L'ID DB di nav_menu_item che è genitore di questa voce di menu, se presente. Altrimenti 0."
 
 #: lib/class-wp-rest-menu-items-controller.php:834
 msgid "The description of this menu item."
@@ -166,11 +264,11 @@ msgid "Invalid menu ID."
 msgstr "ID menu non valido."
 
 #: lib/class-wp-rest-menu-items-controller.php:428
-msgid "URL require if menu item of type custom."
+msgid "URL required if menu item of type custom."
 msgstr "L'URL è obbligatorio se la voce di menu è di tipo personalizzato."
 
 #: lib/class-wp-rest-menu-items-controller.php:425
-msgid "Title require if menu item of type custom."
+msgid "Title required if menu item of type custom."
 msgstr "Il titolo è obbligatorio se la voce di menu è di tipo personalizzato."
 
 #: lib/class-wp-rest-menu-items-controller.php:418
@@ -178,7 +276,7 @@ msgid "Invalid post type."
 msgstr "Post type non valido."
 
 #: lib/class-wp-rest-menu-items-controller.php:407
-msgid "Invalid post  ID."
+msgid "Invalid post ID."
 msgstr "ID articolo non valido."
 
 #: lib/class-wp-rest-menu-items-controller.php:271
@@ -325,11 +423,6 @@ msgstr "Sito"
 msgid "Block Patterns"
 msgstr "Pattern del blocco"
 
-#. translators: %s: Social Link service name
-#: build/block-library/blocks/social-link.php:21
-msgid "Link to %s"
-msgstr "Link a %s"
-
 #: build/components/index.js:6
 msgid "Radial Gradient"
 msgstr "Gradiente radiale"
@@ -379,8 +472,8 @@ msgid "Drag files into the editor to automatically insert media blocks."
 msgstr "Trascina i file nell'editor per inserire automaticamente i blocchi media."
 
 #: build/block-editor/index.js:49
-msgid "Outdent a list by pressing <kbd>backspace</kbd> at the beginning of a line"
-msgstr "Diminuisci il rientro dell'elenco premendo <kbd>backspace</kbd> all'inizio della riga"
+msgid "Outdent a list by pressing <kbd>backspace</kbd> at the beginning of a line."
+msgstr "Diminuisci il rientro dell'elenco premendo <kbd>backspace</kbd> all'inizio della riga."
 
 #: build/block-editor/index.js:49
 msgid "Indent a list by pressing <kbd>space</kbd> at the beginning of a line."
@@ -531,43 +624,43 @@ msgstr "sondaggio"
 msgid "social"
 msgstr "social"
 
-#: build/edit-site/index.js:1
+#: build/edit-site/index.js:6
 msgid "Edit Page Template"
 msgstr "Modifica il template della pagina"
 
-#: build/edit-site/index.js:1
+#: build/edit-site/index.js:6
 msgid "Update Design"
 msgstr "Aggiorna il design"
 
-#: build/edit-site/index.js:1
+#: build/edit-site/index.js:6
 msgid "New"
 msgstr "Nuovo"
 
-#: build/edit-site/index.js:1
+#: build/edit-site/index.js:6
 msgid "Switch Template"
 msgstr "Scambia il template"
 
-#: build/edit-site/index.js:1
-msgid "loading…"
-msgstr "caricamento..."
+#: build/edit-site/index.js:6
+msgid "Loading…"
+msgstr "Caricamento in corso..."
 
-#: build/edit-site/index.js:1
+#: build/edit-site/index.js:6
 msgid "Customized"
 msgstr "Personalizzato"
 
-#: build/edit-site/index.js:1
+#: build/edit-site/index.js:6
 msgid "template-slug"
 msgstr "slug-template"
 
-#: build/edit-site/index.js:1
+#: build/edit-site/index.js:6
 msgid "Add Template"
 msgstr "Aggiungi template"
 
-#: build/edit-site/index.js:1
+#: build/edit-site/index.js:6
 msgid "Template already exists, edit it instead."
 msgstr "Il template esiste già, modificalo invece."
 
-#: lib/global-styles.php:309
+#: lib/global-styles.php:309 build/edit-site/index.js:6
 msgid "Global Styles"
 msgstr "Stili globali"
 
@@ -600,16 +693,12 @@ msgid "%1$s Block. %2$s"
 msgstr "Blocco %1$s. %2$s"
 
 #: build/blocks/index.js:2
-msgid "%s Block. Column %d"
-msgstr "Blocco %s. Colonna %d"
+msgid "%1$s Block. Column %2$d"
+msgstr "Blocco %1$s. Colonna %2$d"
 
 #: build/blocks/index.js:2
 msgid "%1$s Block. Column %2$d. %3$s"
 msgstr "Blocco %1$s. Colonna %2$d. %3$s"
-
-#: build/blocks/index.js:2
-msgid "%s Block. Row %d"
-msgstr "Blocco %s. Riga %d"
 
 #: build/blocks/index.js:2
 msgid "%1$s Block. Row %2$d. %3$s"
@@ -647,7 +736,7 @@ msgstr "Tema"
 msgid "Choose a template part by slug and theme, or create a new one."
 msgstr "Scegli una parte del template per slug e tema, o creane uno nuovo."
 
-#: build/block-library/index.js:8 build/edit-site/index.js:1
+#: build/block-library/index.js:8 build/edit-site/index.js:6
 msgid "Error adding template."
 msgstr "Errore nell'aggiunta del template."
 
@@ -695,10 +784,6 @@ msgstr "Blocchi multipli selezionati"
 #: build/block-library/blocks/post-author.php:19 build/block-library/index.js:8
 msgid "By %s"
 msgstr "Di: %s"
-
-#: build/edit-site/index.js:1
-msgid "Inspector"
-msgstr "Inspector"
 
 #: build/block-library/index.js:8
 msgid "Briefly describe the link to help screen reader users."
@@ -757,14 +842,6 @@ msgstr "Invita gli utenti ad effettuare un'azione con dei link che hanno l'aspet
 #: build/block-library/index.js:8
 msgid "Buttons"
 msgstr "Pulsanti"
-
-#: build/block-library/index.js:8
-msgid "Background"
-msgstr "Sfondo"
-
-#: build/block-library/index.js:8
-msgid "Background & Text Color"
-msgstr "Colore dello sfondo e del testo"
 
 #: build/block-editor/index.js:49
 msgid "Image size"
@@ -834,15 +911,15 @@ msgstr "Che cosa vuoi salvare?"
 msgid "Untitled"
 msgstr "Senza titolo"
 
-#: lib/experiments-page.php:120
+#: lib/experiments-page.php:131
 msgid "The block editor includes experimental features that are useable while they're in development. Select the ones you'd like to enable. These features are likely to change, so avoid using them in production."
 msgstr "L'editor a blocchi include funzionalità sperimentali utilizzabili mentre sono in fase di sviluppo. Seleziona quelli che desideri abilitare. È probabile che queste funzioni cambino, quindi evita di usarle in produzione."
 
-#: lib/experiments-page.php:72
+#: lib/experiments-page.php:83
 msgid "Enable Full Site Editing (Warning: this will replace your theme and cause potentially irreversible changes to your site. We recommend using this only in a development environment.)"
 msgstr "Abilita la Modifica Completa del Sito (Attenzione: questo sostituirà il tema e causerà modifiche potenzialmente irreversibili al tuo sito. Si consiglia di utilizzarlo solo in un ambiente di sviluppo.)"
 
-#: gutenberg.php:61 gutenberg.php:62
+#: gutenberg.php:70 gutenberg.php:71
 msgid "Site Editor (beta)"
 msgstr "Editor del sito (beta)"
 
@@ -980,11 +1057,11 @@ msgstr "inserter"
 msgid "Welcome Guide"
 msgstr "Guida di benvenuto"
 
-#: lib/experiments-page.php:83
+#: lib/experiments-page.php:94
 msgid "Enable Full Site Editing demo templates"
 msgstr "Abilita i template demo di modifica completa del sito"
 
-#: lib/experiments-page.php:78
+#: lib/experiments-page.php:89
 msgid "Full Site Editing Demo Templates"
 msgstr "Template demo di modifica completa del sito"
 
@@ -1110,7 +1187,7 @@ msgstr "Parti del template"
 msgid "Template Part"
 msgstr "Parte del template"
 
-#: lib/template-parts.php:17 build/edit-site/index.js:1
+#: lib/template-parts.php:17 build/edit-site/index.js:6
 msgid "Template Parts"
 msgstr "Parti del template"
 
@@ -1130,13 +1207,17 @@ msgstr ""
 "E rompere i gigli d'oro a galla\n"
 "    Con la libellula sul fiume."
 
-#: build/block-library/index.js:8
+#: build/core-data/index.js:1
+msgid "Menu Item"
+msgstr "Elemento del menu"
+
+#: lib/experiments-page.php:56 build/block-library/index.js:8
 msgid "Navigation"
 msgstr "Navigazione"
 
 #: build/block-library/index.js:8
 msgid "Loading Navigation…"
-msgstr "Caricamento navigazione"
+msgstr "Caricamento navigazione in corso..."
 
 #: build/block-library/index.js:8
 msgid "Navigation Structure"
@@ -1225,11 +1306,7 @@ msgstr "Molto grande"
 msgid "Block breadcrumb"
 msgstr "Blocco dei breadcrumb"
 
-#: build/block-editor/index.js:49
-msgid "Editor footer"
-msgstr "Editor del footer"
-
-#: build/block-library/index.js:8
+#: build/block-library/index.js:8 build/core-data/index.js:1
 msgid "Site Title"
 msgstr "Titolo del sito"
 
@@ -1468,10 +1545,6 @@ msgid "Dimensions"
 msgstr "Dimensioni"
 
 #: build/block-library/index.js:8
-msgid "Minimum height in pixels"
-msgstr "Altezza minima in pixel"
-
-#: build/block-library/index.js:8
 msgid "Nam risus massa, ullamcorper consectetur eros fermentum, porta aliquet ligula. Sed vel mauris nec enim."
 msgstr "Nam risus massa, ullamcorper consectetur eros fermentum, porta aliquet ligula. Sed vel mauris nec enim."
 
@@ -1503,7 +1576,7 @@ msgstr "In un villaggio della Mancia, il cui nome non desidero ricordare, non mo
 msgid "Block navigation"
 msgstr "Navigazione tra i blocchi"
 
-#: lib/experiments-page.php:67
+#: lib/experiments-page.php:78
 msgid "Full Site Editing"
 msgstr "Modalità di modifica dell'intero sito"
 
@@ -1511,7 +1584,7 @@ msgstr "Modalità di modifica dell'intero sito"
 msgid "Templates to include in your theme."
 msgstr "Template da includere nel tuo tema."
 
-#: lib/templates.php:17 build/edit-site/index.js:1
+#: lib/templates.php:17 build/edit-site/index.js:6
 msgid "Templates"
 msgstr "Template"
 
@@ -1564,16 +1637,16 @@ msgstr[0] "%d installazione attiva"
 msgstr[1] "%d installazioni attive"
 
 #: build/block-directory/index.js:1
-msgid "This author has %d block, with an average rating of %d."
-msgid_plural "This author has %d blocks, with an average rating of %d."
-msgstr[0] "Questo autore ha %d blocco, con una valutazione media di %d."
-msgstr[1] "Questo autore ha %d blocchi, con una valutazione media di %d."
+msgid "This author has %1$d block, with an average rating of %2$d."
+msgid_plural "This author has %1$d blocks, with an average rating of %2$d."
+msgstr[0] "Questo autore ha %1$d blocco, con una valutazione media di %2$d."
+msgstr[1] "Questo autore ha %1$d blocchi, con una valutazione media di %2$d."
 
 #: build/block-directory/index.js:1
 msgid "Authored by %s"
 msgstr "Scritto da %s"
 
-#: build/edit-site/index.js:1
+#: build/edit-site/index.js:6
 msgid "Add"
 msgstr "Aggiungi"
 
@@ -1631,11 +1704,11 @@ msgstr "Ripristina il backup"
 msgid "The backup of this post in your browser is different from the version below."
 msgstr "Il backup di questo articolo nel tuo browser è diverso dalla versione sotto."
 
-#: lib/experiments-page.php:61
+#: lib/experiments-page.php:72
 msgid "Enable block directory search"
 msgstr "Abilita la ricerca nella directory dei blocchi"
 
-#: lib/experiments-page.php:56
+#: lib/experiments-page.php:67
 msgid "Block Directory"
 msgstr "Directory dei blocchi"
 
@@ -1648,10 +1721,10 @@ msgid "Sorry, you are not allowed to install blocks."
 msgstr "Non hai il permesso per installare i blocchi."
 
 #: build/edit-post/index.js:6
-msgid "%1$d block is disabled."
-msgid_plural "%1$d blocks are disabled."
-msgstr[0] "%1$d blocco è disabiliato."
-msgstr[1] "%1$d blocchi sono disabilitati."
+msgid "%d block is disabled."
+msgid_plural "%d blocks are disabled."
+msgstr[0] "%d blocco è disabilitato."
+msgstr[1] "%d blocchi sono disabilitati."
 
 #: build/block-library/index.js:8
 msgid "Reverse list numbering"
@@ -1737,7 +1810,7 @@ msgstr "Per applicare questa modifica è necessario ricaricare la pagina. Assicu
 msgid "Display these keyboard shortcuts."
 msgstr "Visualizza queste scorciatoie da tastiera."
 
-#: gutenberg.php:86
+#: gutenberg.php:96
 msgid "Experiments Settings"
 msgstr "Impostazioni degli esperimenti"
 
@@ -1903,7 +1976,7 @@ msgstr "Due colonne; suddivise equamente"
 msgid "Your site doesn&#8217;t have any %s, so there&#8217;s nothing to display here at the moment."
 msgstr "Il tuo sito non ha %s, quindi non c'è nulla da mostrare qui al momento."
 
-#: build/edit-post/index.js:6 build/edit-site/index.js:1
+#: build/edit-post/index.js:6 build/edit-site/index.js:6
 msgid "More tools & options"
 msgstr "Più strumenti & opzioni"
 
@@ -2085,7 +2158,7 @@ msgstr "Area del blocco (sperimentale)"
 msgid "Experimental custom post type that will store block areas referenced by themes."
 msgstr "Post type personalizzati e sperimentali che memorizzeranno le aree dei blocchi referenziate dai temi."
 
-#: build/edit-widgets/index.js:1
+#: build/edit-widgets/index.js:6
 msgid "Widgets screen content"
 msgstr "Contenuto della schermata dei widget"
 
@@ -2093,11 +2166,16 @@ msgstr "Contenuto della schermata dei widget"
 msgid "header"
 msgstr "header"
 
-#: build/edit-widgets/index.js:1
+#: build/edit-widgets/index.js:6 build/edit-post/index.js:6
+#: build/edit-site/index.js:6
+msgid "Footer"
+msgstr "Footer"
+
+#: build/edit-widgets/index.js:6
 msgid "(experimental)"
 msgstr "(sperimentale)"
 
-#: build/edit-widgets/index.js:1
+#: build/edit-widgets/index.js:6
 msgid "Block Areas"
 msgstr "Aree per i blocchi"
 
@@ -2300,11 +2378,11 @@ msgstr "L'ultima parte dell'URL."
 msgid "URL Slug"
 msgstr "Slug dell'URL"
 
-#: build/edit-post/index.js:6 build/edit-site/index.js:1
+#: build/edit-post/index.js:6 build/edit-site/index.js:6
 msgid "Fullscreen mode deactivated"
 msgstr "Modalità a schermo intero disattivata"
 
-#: build/edit-post/index.js:6 build/edit-site/index.js:1
+#: build/edit-post/index.js:6 build/edit-site/index.js:6
 msgid "Fullscreen mode activated"
 msgstr "Modalità a schermo intero attivata"
 
@@ -2324,15 +2402,15 @@ msgstr "Barra degli strumenti in alto disattivata"
 msgid "Top toolbar activated"
 msgstr "Barra degli strumenti in alto attivata"
 
-#: build/edit-post/index.js:6 build/edit-site/index.js:1
+#: build/edit-post/index.js:6 build/edit-site/index.js:6
 msgid "Back"
 msgstr "Indietro"
 
-#: build/edit-post/index.js:6 build/edit-site/index.js:1
+#: build/edit-post/index.js:6 build/edit-site/index.js:6
 msgid "Feature activated"
 msgstr "Caratteristica attivata"
 
-#: build/edit-post/index.js:6 build/edit-site/index.js:1
+#: build/edit-post/index.js:6 build/edit-site/index.js:6
 msgid "Feature deactivated"
 msgstr "Caratteristica disattivata"
 
@@ -2542,6 +2620,12 @@ msgstr "Blocco (selezionato)"
 msgid "Document (selected)"
 msgstr "Documento (selezionato)"
 
+#. translators: Use this to specify the CSS font family for the default font.
+#: lib/edit-site-page.php:54
+msgctxt "CSS Font Family for Editor Font"
+msgid "Noto Serif"
+msgstr "Noto Serif"
+
 #: build/block-editor/index.js:49
 msgid "%d word"
 msgid_plural "%d words"
@@ -2628,13 +2712,13 @@ msgid_plural "%s blocks selected."
 msgstr[0] "%s blocchi selezionati."
 msgstr[1] ""
 
-#: lib/widgets-page.php:57 lib/edit-site-page.php:77
-#: build/block-editor/index.js:49
+#: lib/widgets-page.php:57 lib/edit-site-page.php:121
+#: lib/navigation-page.php:45 build/block-editor/index.js:49
 msgid "Thumbnail"
 msgstr "Miniatura"
 
-#: lib/widgets-page.php:60 lib/edit-site-page.php:80
-#: build/block-editor/index.js:49
+#: lib/widgets-page.php:60 lib/edit-site-page.php:124
+#: lib/navigation-page.php:48 build/block-editor/index.js:49
 msgid "Full Size"
 msgstr "Dimensione reale"
 
@@ -3041,7 +3125,7 @@ msgstr "Visualizza un elenco di tutte le categorie."
 msgid "Embed a simple audio player."
 msgstr "Incorpora un player audio semplice."
 
-#: build/edit-post/index.js:6 build/edit-site/index.js:1
+#: build/edit-post/index.js:6 build/edit-site/index.js:6
 msgctxt "noun"
 msgid "View"
 msgstr "Visualizzazione"
@@ -3091,7 +3175,7 @@ msgstr "Generale"
 msgid "Open the block navigation menu."
 msgstr "Apre il menu per navigare tra i blocchi"
 
-#: build/edit-post/index.js:6 build/edit-site/index.js:1
+#: build/edit-post/index.js:6 build/edit-site/index.js:6
 msgid "Work without distraction"
 msgstr "Lavora senza distrazioni"
 
@@ -3339,8 +3423,9 @@ msgstr "Copertina"
 msgid "Border settings"
 msgstr "Impostazioni bordi"
 
-#: lib/widgets-page.php:58 lib/edit-site-page.php:78
-#: build/block-editor/index.js:49 build/components/index.js:6
+#: lib/widgets-page.php:58 lib/edit-site-page.php:122
+#: lib/navigation-page.php:46 build/block-editor/index.js:49
+#: build/components/index.js:6
 msgid "Medium"
 msgstr "Medio"
 
@@ -3528,7 +3613,7 @@ msgstr "Gestisci tutti i blocchi riutilizzabili"
 msgid "Title"
 msgstr "Titolo"
 
-#: build/edit-post/index.js:6 build/edit-site/index.js:1
+#: build/edit-post/index.js:6 build/edit-site/index.js:6
 msgid "Fullscreen mode"
 msgstr "Modalità a schermo intero"
 
@@ -3783,7 +3868,7 @@ msgstr "Formattazione avanzata dei media"
 
 #: post-content.php:112
 msgid "You can change the amount of columns in your galleries by dragging a slider in the block inspector in the sidebar."
-msgstr "Puoi cambiare la quantità di colonne delle tue gallerie trascinando un selettore nel blocco inspector della barra laterale."
+msgstr "Puoi cambiare la quantità di colonne delle tue gallerie trascinando un selettore nella gestione del blocco della barra laterale."
 
 #: post-content.php:98
 msgid "Blocks can be anything you need. For instance, you may want to add a subdued quote as part of the composition of your text, or you may prefer to display a giant stylized one. All of these options are available in the inserter."
@@ -3952,10 +4037,6 @@ msgstr "Impostazioni colore"
 msgid "The response is not a valid JSON response."
 msgstr "La risposta non è una risposta JSON valida."
 
-#: build/block-editor/index.js:49
-msgid "Editor publish"
-msgstr "Pannello di pubblicazione dell'editor"
-
 #: build/block-library/index.js:8
 msgid "Muted"
 msgstr "Silenzioso"
@@ -4008,11 +4089,11 @@ msgstr "Visualizza gli archivi mensili dei tuoi articoli."
 msgid "Archives settings"
 msgstr "Impostazioni degli archivi"
 
-#: gutenberg.php:74
+#: gutenberg.php:84
 msgid "https://wordpress.org/support/plugin/gutenberg"
 msgstr "https://it.wordpress.org/support/plugin/gutenberg"
 
-#: gutenberg.php:72
+#: gutenberg.php:82
 msgid "Support"
 msgstr "Supporto"
 
@@ -4124,8 +4205,9 @@ msgstr "Punti"
 msgid "Wide Line"
 msgstr "Linea ampia"
 
-#: lib/widgets-page.php:59 lib/edit-site-page.php:79
-#: build/block-editor/index.js:49 build/components/index.js:6
+#: lib/widgets-page.php:59 lib/edit-site-page.php:123
+#: lib/navigation-page.php:47 build/block-editor/index.js:49
+#: build/components/index.js:6
 msgid "Large"
 msgstr "Grande"
 
@@ -4257,11 +4339,13 @@ msgstr "Salvataggio automatico in corso"
 msgid "Enter URL here…"
 msgstr "Inserisci URL qui…"
 
-#: build/edit-post/index.js:6
+#: build/edit-widgets/index.js:6 build/edit-post/index.js:6
+#: build/edit-site/index.js:6
 msgid "Pin to toolbar"
 msgstr "Aggiungi alla barra degli strumenti"
 
-#: build/edit-post/index.js:6
+#: build/edit-widgets/index.js:6 build/edit-post/index.js:6
+#: build/edit-site/index.js:6
 msgid "Unpin from toolbar"
 msgstr "Rimuovi dalla barra degli strumenti"
 
@@ -4310,14 +4394,6 @@ msgctxt "term"
 msgid "Remove %s"
 msgstr "Rimuovi %s"
 
-#: build/editor/index.js:11
-msgid "Copy the permalink"
-msgstr "Copia il permalink"
-
-#: build/editor/index.js:11
-msgid "Permalink copied"
-msgstr "Permalink copiato"
-
 #: build/block-library/index.js:8
 msgid "Height in pixels"
 msgstr "Altezza in pixel"
@@ -4362,10 +4438,6 @@ msgstr "Vai al blocco selezionato"
 msgid "Schedule…"
 msgstr "Pianifica…"
 
-#: build/editor/index.js:11
-msgid "Edit post permalink"
-msgstr "Modifica il permalink dell'articolo"
-
 #: build/edit-post/index.js:6
 msgid "Show Block Settings"
 msgstr "Mostra impostazioni blocco"
@@ -4378,13 +4450,10 @@ msgstr "Nascondi impostazioni blocco"
 msgid "Block settings closed"
 msgstr "Impostazioni blocco chiuse"
 
-#: build/edit-post/index.js:6
+#: build/edit-widgets/index.js:6 build/edit-post/index.js:6
+#: build/edit-site/index.js:6
 msgid "Close plugin"
 msgstr "Chiudi il plugin"
-
-#: build/block-editor/index.js:49
-msgid "Editor settings"
-msgstr "Impostazioni dell'editor"
 
 #: build/block-editor/index.js:49 build/block-library/index.js:8
 msgid "Link settings"
@@ -4693,7 +4762,7 @@ msgstr "Pubblicato"
 msgid "Schedule"
 msgstr "Pianifica"
 
-#: build/editor/index.js:11 build/edit-widgets/index.js:1
+#: build/editor/index.js:11 build/edit-widgets/index.js:6
 msgid "Update"
 msgstr "Aggiorna"
 
@@ -4712,10 +4781,6 @@ msgstr "Stai pubblicando…"
 #: build/editor/index.js:11
 msgid "Allow pingbacks & trackbacks"
 msgstr "Permetti pingbacks e trackbacks"
-
-#: build/editor/index.js:11
-msgid "Permalink:"
-msgstr "Permalink:"
 
 #: build/editor/index.js:11
 msgid "Pending review"
@@ -4982,10 +5047,6 @@ msgstr "Documento"
 msgid "Close settings"
 msgstr "Chiudi le impostazioni"
 
-#: build/block-editor/index.js:49
-msgid "Editor content"
-msgstr "Contenuto dell'editor"
-
 #: build/block-editor/index.js:49 build/edit-post/index.js:6
 msgid "Tools"
 msgstr "Strumenti"
@@ -5002,11 +5063,8 @@ msgstr "Editor del codice"
 msgid "Visual editor"
 msgstr "Editor visuale"
 
-#: build/block-editor/index.js:49
-msgid "Editor top bar"
-msgstr "Barra unificata degli strumenti dell'editor"
-
-#: build/edit-post/index.js:6
+#: build/edit-widgets/index.js:6 build/edit-post/index.js:6
+#: build/edit-site/index.js:6
 msgid "Settings"
 msgstr "Impostazioni"
 
@@ -5054,7 +5112,7 @@ msgstr[1] "%d risultati trovati, utilizza i tasti freccia su e giù per navigare
 
 #: build/block-library/blocks/rss.php:31
 #: build/block-library/blocks/latest-comments.php:31
-#: build/block-library/blocks/latest-posts.php:89 build/editor/index.js:11
+#: build/block-library/blocks/latest-posts.php:90 build/editor/index.js:11
 #: build/block-library/index.js:8 build/edit-post/index.js:6
 msgid "(no title)"
 msgstr "(senza titolo)"
@@ -5262,7 +5320,6 @@ msgstr "Capolettera"
 msgid "Text settings"
 msgstr "Impostazioni del testo"
 
-#: build/block-library/blocks/latest-posts.php:119
 #: build/block-library/index.js:8
 msgid "Read more"
 msgstr "Leggi tutto"
@@ -5473,7 +5530,7 @@ msgstr "Modifica immagine"
 msgid "Columns"
 msgstr "Colonne"
 
-#: gutenberg.php:87
+#: gutenberg.php:97
 msgid "Experiments"
 msgstr "Esperimenti"
 
@@ -5538,8 +5595,7 @@ msgstr "Blocchi riutilizzabili"
 msgid "Cancel"
 msgstr "Annulla"
 
-#: build/editor/index.js:11 build/block-editor/index.js:49
-#: build/block-library/index.js:8
+#: build/block-editor/index.js:49 build/block-library/index.js:8
 msgid "Edit"
 msgstr "Modifica"
 
@@ -5628,7 +5684,7 @@ msgstr "La stampa dal 1440. Questo è il plugin di sviluppo per il nuovo editor 
 msgid "Add title"
 msgstr "Aggiungi titolo"
 
-#: gutenberg.php:116
+#: gutenberg.php:126
 msgid "Gutenberg development mode requires files to be built. Run <code>npm install</code> to install dependencies, <code>npm run build</code> to build the files or <code>npm run dev</code> to build the files and watch for changes. Read the <a href=\"https://github.com/WordPress/gutenberg/blob/master/docs/contributors/getting-started.md\">contributing</a> file for more information."
 msgstr "La modalità di sviluppo Gutenberg richiede la creazione di file. Esegui <code>npm install</code> per installare le dipendenze, <code>npm run build</code> per creare i file e <code>npm run dev</code> per creare i file e visualizzare i cambiamenti. Leggi il file <a href=\"https://github.com/WordPress/gutenberg/blob/master/docs/contributors/getting-started.md\">contributo</a> per maggiori informazioni."
 
@@ -5669,7 +5725,8 @@ msgstr "Campi personalizzati"
 msgid "Excerpt"
 msgstr "Riassunto"
 
-#: build/editor/index.js:11 build/edit-post/index.js:6
+#: build/editor/index.js:11 build/edit-widgets/index.js:6
+#: build/edit-post/index.js:6 build/edit-site/index.js:6
 msgid "Publish"
 msgstr "Pubblica"
 
@@ -5691,11 +5748,11 @@ msgid "Block style name must be a string."
 msgstr "I nomi degli stili dei blocchi devono essere stringhe."
 
 #. translators: %s: Minimum required version
-#: gutenberg.php:103
+#: gutenberg.php:113
 msgid "Gutenberg requires WordPress %s or later to function properly. Please upgrade WordPress before activating Gutenberg."
 msgstr "Gutenberg richiede WordPress %s o successivo per funzionare correttamente. Aggiorna WordPress prima di attivare Gutenberg."
 
-#: gutenberg.php:78
+#: gutenberg.php:88
 msgid "Documentation"
 msgstr "Documentazione"
 

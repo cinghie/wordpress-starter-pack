@@ -1,420 +1,333 @@
 <style>
-.section{
-    margin-left: -20px;
-    margin-right: -20px;
-    font-family: "Raleway",san-serif;
-}
-.section h1{
-    text-align: center;
-    text-transform: uppercase;
-    color: #808a97;
-    font-size: 35px;
-    font-weight: 700;
-    line-height: normal;
-    display: inline-block;
-    width: 100%;
-    margin: 50px 0 0;
-}
-.section ul{
-    list-style-type: disc;
-    padding-left: 15px;
-}
-.section:nth-child(even){
-    background-color: #fff;
-}
-.section:nth-child(odd){
-    background-color: #f1f1f1;
-}
-.section .section-title img{
-    display: table-cell;
-    vertical-align: middle;
-    width: auto;
-    margin-right: 15px;
-}
-.section h2,
-.section h3 {
-    display: inline-block;
-    vertical-align: middle;
-    padding: 0;
-    font-size: 24px;
-    font-weight: 700;
-    color: #808a97;
-    text-transform: uppercase;
-}
 
-.section .section-title h2{
-    display: table-cell;
-    vertical-align: middle;
-    line-height: 25px;
-}
+	img {
+		width: 90%;
+	}
 
-.section-title{
-    display: table;
-}
+	.landing {
+		margin-right: 15px;
+		border: 1px solid #d8d8d8;
+		border-top: 0;
+	}
 
-.section h3 {
-    font-size: 14px;
-    line-height: 28px;
-    margin-bottom: 0;
-    display: block;
-}
+	.section {
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+		background: #fafafa;
+	}
 
-.section p{
-    font-size: 13px;
-    margin: 25px 0;
-}
-.section ul li{
-    margin-bottom: 4px;
-}
-.landing-container{
-    max-width: 750px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 50px 0 30px;
-}
-.landing-container:after{
-    display: block;
-    clear: both;
-    content: '';
-}
-.landing-container .col-1,
-.landing-container .col-2{
-    float: left;
-    box-sizing: border-box;
-    padding: 0 15px;
-}
-.landing-container .col-1 img{
-    width: 100%;
-}
-.landing-container .col-1{
-    width: 55%;
-}
-.landing-container .col-2{
-    width: 45%;
-}
-.premium-cta{
-    background-color: #808a97;
-    color: #fff;
-    border-radius: 6px;
-    padding: 20px 15px;
-}
-.premium-cta:after{
-    content: '';
-    display: block;
-    clear: both;
-}
-.premium-cta p{
-    margin: 7px 0;
-    font-size: 14px;
-    font-weight: 500;
-    display: inline-block;
-    width: 60%;
-}
-.premium-cta a.button{
-    border-radius: 6px;
-    height: 60px;
-    float: right;
-    background: url(<?php echo YWCTM_ASSETS_URL?>/images/upgrade.png) #ff643f no-repeat 13px 13px;
-    border-color: #ff643f;
-    box-shadow: none;
-    outline: none;
-    color: #fff;
-    position: relative;
-    padding: 9px 50px 9px 70px;
-}
-.premium-cta a.button:hover,
-.premium-cta a.button:active,
-.premium-cta a.button:focus{
-    color: #fff;
-    background: url(<?php echo YWCTM_ASSETS_URL?>/images/upgrade.png) #971d00 no-repeat 13px 13px;
-    border-color: #971d00;
-    box-shadow: none;
-    outline: none;
-}
-.premium-cta a.button:focus{
-    top: 1px;
-}
-.premium-cta a.button span{
-    line-height: 13px;
-}
-.premium-cta a.button .highlight{
-    display: block;
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 20px;
-}
-.premium-cta .highlight{
-    text-transform: uppercase;
-    background: none;
-    font-weight: 800;
-    color: #fff;
-}
+	.section h1 {
+		text-align: center;
+		text-transform: uppercase;
+		color: #445674;
+		font-size: 35px;
+		font-weight: 700;
+		line-height: normal;
+		display: inline-block;
+		width: 100%;
+		margin: 50px 0 0;
+	}
 
-.section.one{
-    background: url(<?php echo YWCTM_ASSETS_URL?>/images/01-bg.png) no-repeat #fff; background-position: 85% 75%
-}
-.section.two{
-    background: url(<?php echo YWCTM_ASSETS_URL?>/images/02-bg.png) no-repeat #fff; background-position: 15% 100%
-}
-.section.three{
-    background: url(<?php echo YWCTM_ASSETS_URL?>/images/03-bg.png) no-repeat #fff; background-position: 85% 75%
-}
-.section.four{
-    background: url(<?php echo YWCTM_ASSETS_URL?>/images/04-bg.png) no-repeat #fff; background-position: 15% 100%
-}
-.section.five{
-    background: url(<?php echo YWCTM_ASSETS_URL?>/images/05-bg.png) no-repeat #fff; background-position: 85% 75%
-}
-.section.six{
-     background: url(<?php echo YWCTM_ASSETS_URL?>/images/06-bg.png) no-repeat #fff; background-position: 15% 100%
- }
+	.section .section-title h2 {
+		vertical-align: middle;
+		padding: 0;
+		line-height: 1.3;
+		font-size: 20px;
+		font-weight: 700;
+		color: #445674;
+		text-transform: none;
+		background: none;
+		border: none;
+		text-align: left;
+	}
 
-.section.seven{
-    background: url(<?php echo YWCTM_ASSETS_URL?>/images/07-bg.png) no-repeat #fff; background-position: 85% 75%
-}
-.section.eight{
-    background: url(<?php echo YWCTM_ASSETS_URL?>/images/08-bg.png) no-repeat #fff; background-position: 15% 100%
-}
+	.section p {
+		margin: 15px 0;
+		font-size: 17px;
+		line-height: 32px;
+		font-weight: 300;
+		text-align: left;
+	}
 
-.section.nine{
-    background: url(<?php echo YWCTM_ASSETS_URL?>/images/09-bg.png) no-repeat #fff; background-position: 85% 75%
-}
+	.section ul li {
+		margin-bottom: 4px;
+	}
 
-.section.ten{
-    background: url(<?php echo YWCTM_ASSETS_URL?>/images/10-bg.png) no-repeat #fff; background-position: 15% 75%
-}
+	.section.section-cta {
+		background: #fff;
+	}
 
-@media (max-width: 768px) {
-    .section{margin: 0}
-    .premium-cta p{
-        width: 100%;
-    }
-    .premium-cta{
-        text-align: center;
-    }
-    .premium-cta a.button{
-        float: none;
-    }
-}
+	.cta-container,
+	.landing-container {
+		display: flex;
+		max-width: 1200px;
+		margin-left: auto;
+		margin-right: auto;
+		padding: 30px 0;
+		align-items: center;
+	}
 
-@media (max-width: 480px){
-    .wrap{
-        margin-right: 0;
-    }
-    .section{
-        margin: 0;
-    }
-    .landing-container .col-1,
-    .landing-container .col-2{
-        width: 100%;
-        padding: 0 15px;
-    }
-    .section-odd .col-1 {
-        float: left;
-        margin-right: -100%;
-    }
-    .section-odd .col-2 {
-        float: right;
-        margin-top: 65%;
-    }
-}
+	.landing-container-wide {
+		flex-direction: column;
+	}
 
-@media (max-width: 320px){
-    .premium-cta a.button{
-        padding: 9px 20px 9px 70px;
-    }
+	.cta-container {
+		display: block;
+		max-width: 860px;
+	}
 
-    .section .section-title img{
-        display: none;
-    }
-}
+	.landing-container:after {
+		display: block;
+		clear: both;
+		content: '';
+	}
+
+	.landing-container .col-1,
+	.landing-container .col-2 {
+		float: left;
+		box-sizing: border-box;
+		padding: 0 15px;
+	}
+
+	.landing-container .col-1 {
+		width: 58.33333333%;
+	}
+
+	.landing-container .col-2 {
+		width: 41.66666667%;
+	}
+
+	.landing-container .col-1 img,
+	.landing-container .col-2 img,
+	.landing-container .col-wide img {
+		max-width: 100%;
+	}
+
+	.premium-cta {
+		color: #4b4b4b;
+		border-radius: 10px;
+		padding: 30px 25px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	.premium-cta:after {
+		content: '';
+		display: block;
+		clear: both;
+	}
+
+	.premium-cta p {
+		margin: 10px 0;
+		line-height: 1.5em;
+		display: inline-block;
+		text-align: left;
+	}
+
+	.premium-cta a.button {
+		border-radius: 25px;
+		float: right;
+		background: #e09004;
+		box-shadow: none;
+		outline: none;
+		color: #fff;
+		position: relative;
+		padding: 10px 50px 8px;
+		text-align: center;
+		text-transform: uppercase;
+		font-weight: 600;
+		font-size: 20px;
+		line-height: normal;
+		border: none;
+	}
+
+	.premium-cta a.button:hover,
+	.premium-cta a.button:active,
+	.wp-core-ui .yith-plugin-ui .premium-cta a.button:focus {
+		color: #fff;
+		background: #d28704;
+		box-shadow: none;
+		outline: none;
+	}
+
+	.premium-cta .highlight {
+		text-transform: uppercase;
+		background: none;
+		font-weight: 500;
+	}
+
+	@media (max-width: 991px) {
+		.landing-container {
+			display: block;
+			padding: 50px 0 30px;
+		}
+
+		.landing-container .col-1,
+		.landing-container .col-2 {
+			float: none;
+			width: 100%;
+		}
+
+		.premium-cta {
+			display: block;
+			text-align: center;
+		}
+
+		.premium-cta p {
+			text-align: center;
+			display: block;
+			margin-bottom: 30px;
+		}
+
+		.premium-cta a.button {
+			float: none;
+			display: inline-block;
+		}
+	}
 </style>
 <div class="landing">
-    <div class="section section-cta section-odd">
-        <div class="landing-container">
-            <div class="premium-cta">
-                <p>
-                    <?php echo sprintf( __('Upgrade to %1$spremium version%2$s of %1$sYITH WooCommerce Catalog Mode%2$s to benefit from all features!','yith-woocommerce-catalog-mode'),'<span class="highlight">','</span>' );?>
-                </p>
-                <a href="<?php echo $this->get_premium_landing_uri() ?>" target="_blank" class="premium-cta-button button btn">
-                    <span class="highlight"><?php _e('UPGRADE','yith-woocommerce-catalog-mode');?></span>
-                    <span><?php _e('to the premium version','yith-woocommerce-catalog-mode');?></span>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="one section section-even clear">
-        <h1><?php _e('Premium Features','yith-woocommerce-catalog-mode');?></h1>
-        <div class="landing-container">
-            <div class="col-1">
-                <img src="<?php echo YWCTM_ASSETS_URL?>/images/01.png" alt="Hide price" />
-            </div>
-            <div class="col-2">
-                <div class="section-title">
-                    <img src="<?php echo YWCTM_ASSETS_URL?>/images/01-icon.png" alt="icon 01"/>
-                    <h2><?php _e('Hide price','yith-woocommerce-catalog-mode');?></h2>
-                </div>
-                <p>
-                    <?php echo sprintf(__('Hide the price of products in your shop and replace it with a text. Decide if some of the products have to be excluded and if %1$shiding price%2$s has to be applied to all or restricted only to unlogged users.', 'yith-woocommerce-catalog-mode'), '<b>', '</b>');?>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="two section section-odd clear">
-        <div class="landing-container">
-            <div class="col-2">
-                <div class="section-title">
-                    <img src="<?php echo YWCTM_ASSETS_URL?>/images/02-icon.png" alt="icon 02" />
-                    <h2><?php _e('Inquiry form','yith-woocommerce-catalog-mode');?></h2>
-                </div>
-                <p>
-                    <?php echo sprintf(__('Improve single product page by adding a tab with an %1$sinquiry form%2$s explicitly thought to let them send messages to site administrator.', 'yith-woocommerce-catalog-mode'), '<b>', '</b>');?>
-                </p>
-            </div>
-            <div class="col-1">
-                <img src="<?php echo YWCTM_ASSETS_URL?>/images/02.png" alt="Inquiry form" />
-            </div>
-        </div>
-    </div>
-    <div class="three section section-even clear">
-        <div class="landing-container">
-            <div class="col-1">
-                <img src="<?php echo YWCTM_ASSETS_URL?>/images/03.png" alt="Custom button" />
-            </div>
-            <div class="col-2">
-                <div class="section-title">
-                    <img src="<?php echo YWCTM_ASSETS_URL?>/images/03-icon.png" alt="icon 03" />
-                    <h2><?php _e( 'Custom button','yith-woocommerce-catalog-mode');?></h2>
-                </div>
-                <p>
-                    <?php echo sprintf(__('Add a button in single product page to call users to a specific %1$saction%2$s, depending on the specified %1$slink%2$s (email sending, skype call, telephone call).', 'yith-woocommerce-catalog-mode'), '<b>', '</b>');?>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="four section section-odd clear">
-        <div class="landing-container">
-            <div class="col-2">
-                <div class="section-title">
-                    <img src="<?php echo YWCTM_ASSETS_URL?>/images/04-icon.png" alt="icon 04" />
-                    <h2><?php _e('Product reviews','yith-woocommerce-catalog-mode');?></h2>
-                </div>
-                <p>
-                    <?php echo sprintf(__('You can disable product %1$sreviewing system%2$s of your shop and decide if applying it to all users or just to unlogged ones.', 'yith-woocommerce-catalog-mode'), '<b>', '</b>');?>
-                </p>
-            </div>
-            <div class="col-1">
-                <img src="<?php echo YWCTM_ASSETS_URL?>/images/04.png" alt="Product reviews" />
-            </div>
-        </div>
-    </div>
-    <div class="five section section-even clear">
-        <div class="landing-container">
-            <div class="col-1">
-                <img src="<?php echo YWCTM_ASSETS_URL?>/images/05.png" alt="Exclusion list" />
-            </div>
-            <div class="col-2">
-                <div class="section-title">
-                    <img src="<?php echo YWCTM_ASSETS_URL?>/images/05-icon.png" alt="icon 05" />
-                    <h2><?php _e('Exclusion list','yith-woocommerce-catalog-mode');?></h2>
-                </div>
-                <p>
-                    <?php echo sprintf( __('Set plugin options, but if you want that options concerning price visibility and ‘Add to cart’ do not apply to specific products, add them to %1$sexclusion list%2$s and, voilà, problem solved.','yith-woocommerce-catalog-mode'),'<b>','</b>'); ?>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="six section section-odd clear">
-        <div class="landing-container">
-            <div class="col-2">
-                <div class="section-title">
-                    <img src="<?php echo YWCTM_ASSETS_URL?>/images/06-icon.png" alt="icon 06" />
-                    <h2><?php _e('REVERSE EXCLUSION LIST','yith-woocommerce-catalog-mode');?></h2>
-                </div>
-                <p>
-                    <?php echo sprintf( __( 'Apply Catalog Mode to some items only: add them to the "Exclusion List" and %1$smake it work in the opposite way as usual%2$s. All items in the shop show price and “Add to Cart” button, while items in the list don’t.','yith-woocommerce-catalog-mode' ),'<b>','</b>' ) ?>
-                </p>
-            </div>
-            <div class="col-1">
-                <img src="<?php echo YWCTM_ASSETS_URL?>/images/06.png" alt="REVERSE EXCLUSION LIST" />
-            </div>
-        </div>
-    </div>
-    <div class="seven section section-even clear">
-        <div class="landing-container">
-            <div class="col-1">
-                <img src="<?php echo YWCTM_ASSETS_URL?>/images/07.png" alt="Source page of the request" />
-            </div>
-            <div class="col-2">
-                <div class="section-title">
-                    <img src="<?php echo YWCTM_ASSETS_URL?>/images/07-icon.png" alt="icon 05" />
-                    <h2><?php _e('Source page of the request','yith-woocommerce-catalog-mode');?></h2>
-                </div>
-                <p>
-                    <?php echo sprintf( __('Thanks to the %1$s"Product Permalink"%2$s option you will be able to know from which page your users have generated the request.%3$sThe email generated from the request form will include the address of the page: another important information that can be really useful for you.','yith-woocommerce-catalog-mode'),'<b>','</b>','<br>'); ?>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="eight section section-odd clear">
-        <div class="landing-container">
-            <div class="col-2">
-                <div class="section-title">
-                    <img src="<?php echo YWCTM_ASSETS_URL?>/images/08-icon.png" alt="icon 08" />
-                    <h2><?php _e('Users','yith-woocommerce-catalog-mode');?></h2>
-                </div>
-                <p>
-                    <?php echo sprintf( __( 'By default, the plugin requires for configured rules to be valid for all users of the shop, registered or not. However, this can be changed by limiting the functioning of options only to %1$sunregistered users%2$s or to those who are logged from one of the specified nations.','yith-woocommerce-catalog-mode' ),'<b>','</b>' ) ?>
-                </p>
-            </div>
-            <div class="col-1">
-                <img src="<?php echo YWCTM_ASSETS_URL?>/images/08.png" alt="Users" />
-            </div>
-        </div>
-    </div>
-    <div class="nine section section-even clear">
-        <div class="landing-container">
-            <div class="col-1">
-                <img src="<?php echo YWCTM_ASSETS_URL?>/images/09.png" alt="YITH WOOCOMMERCE MULTI VENDOR" />
-            </div>
-            <div class="col-2">
-                <div class="section-title">
-                    <img src="<?php echo YWCTM_ASSETS_URL?>/images/09-icon.png" alt="icon 09" />
-                    <h2><?php _e('YITH WOOCOMMERCE MULTI VENDOR','yith-woocommerce-catalog-mode');?></h2>
-                </div>
-                <p>
-                    <?php echo sprintf( __('Integration with %1$sMulti Vendor%2$s will allow vendors to configure catalog options specifically for their own products.%3$sSite administrator can decide to %1$soverwrite the product settings%2$s configured by vendors and have the last word '),'<b>','</b>','<br>'); ?>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="ten section section-odd clear">
-        <div class="landing-container">
-            <div class="col-2">
-                <div class="section-title">
-                    <img src="<?php echo YWCTM_ASSETS_URL?>/images/10-icon.png" alt="icon 10" />
-                    <h2><?php _e('100% WPML Compatible','yith-woocommerce-catalog-mode');?></h2>
-                </div>
-                <p>
-                    <?php echo sprintf( __('Thanks to its full compatibility with WPML, you could create and configure a different %1$scontact form%2$s for any language installed on your site.%3$s In this way, the emails will be sorted to different addresses basing on the %1$slanguage%2$s of the page visited by the user when the sending occurs.'),'<b>','</b>','<br>'); ?>
-                </p>
-            </div>
-            <div class="col-1">
-                <img src="<?php echo YWCTM_ASSETS_URL?>/images/10.png" alt="WPML Compatible" />
-            </div>
-        </div>
-    </div>
-    <div class="section section-cta section-odd">
-        <div class="landing-container">
-            <div class="premium-cta">
-                <p>
-                    <?php echo sprintf( __('Upgrade to %1$spremium version%2$s of %1$sYITH WooCommerce Catalog Mode%2$s to benefit from all features!','yith-woocommerce-catalog-mode'),'<span class="highlight">','</span>' );?>
-                </p>
-                <a href="<?php echo $this->get_premium_landing_uri() ?>" target="_blank" class="premium-cta-button button btn">
-                    <span class="highlight"><?php _e('UPGRADE','yith-woocommerce-catalog-mode');?></span>
-                    <span><?php _e('to the premium version','yith-woocommerce-catalog-mode');?></span>
-                </a>
-            </div>
-        </div>
-    </div>
+	<div class="section section-cta section-odd">
+		<div class="cta-container">
+			<div class="premium-cta">
+				<p>
+					<?php
+					/* translators: %1$s opening span, %2$s closing span, %3$s BR tag*/
+					echo sprintf( esc_html__( 'Upgrade to %1$spremium version%2$s%3$s of %1$sYITH WooCommerce Catalog Mode%2$s to benefit from all features!', 'yith-woocommerce-catalog-mode' ), '<span class="highlight">', '</span>', '<br />' );
+					?>
+				</p>
+				<a href="<?php echo $this->get_premium_landing_uri(); ?>" target="_blank" class="premium-cta-button button btn">
+					<?php esc_html_e( 'Upgrade', 'yith-woocommerce-catalog-mode' ); ?>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="one section section-even clear">
+		<h1><?php esc_html_e( 'Premium Features', 'yith-woocommerce-catalog-mode' ); ?></h1>
+		<div class="landing-container">
+			<div class="col-1">
+				<img src="<?php echo YWCTM_ASSETS_URL; ?>/images/premium-01.jpg" alt="" />
+			</div>
+			<div class="col-2">
+				<div class="section-title">
+					<h2><?php esc_html_e( 'Build up a catalogue of products and online services and encourage your customers to contact you to get a dedicated price estimate or additional information.', 'yith-woocommerce-catalog-mode' ); ?></h2>
+				</div>
+				<p>
+					<?php esc_html_e( 'Are you starting an e-commerce website, but still it is not ready for automatic sales? Your store might be temporarily closed due to holidays or prepare for a sales period and you need to temporarily suspend sales. YITH WooCommerce Catalog Mode is a plugin designed for those who need to turn their shop into an online catalog.', 'yith-woocommerce-catalog-mode' ); ?>
+				</p>
+				<p>
+					<?php esc_html_e( 'Are you interested in displaying a catalogue with products without making them immediately available for sale? Or do you want to filter buyers and let only registered users see all the details? Are you taking inventory but would like to leave products online?', 'yith-woocommerce-catalog-mode' ); ?>
+				</p>
+				<p>
+					<?php esc_html_e( 'YITH WooCommerce Catalog Mode allows you to turn your online shop into a catalogue, by removing Add to Cart buttons and any access to checkout pages, by hiding product prices and replacing it with customizable buttons, text labels and inquiry forms.', 'yith-woocommerce-catalog-mode' ); ?>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="two section section-odd clear">
+		<div class="landing-container">
+			<div class="col-2">
+				<div class="section-title">
+					<h2><?php esc_html_e( 'Enable ‘Massive catalog mode’ with one click and disable the Cart, the Checkout and all add to cart buttons of your shop in a few quick moves.', 'yith-woocommerce-catalog-mode' ); ?></h2>
+				</div>
+				<p>
+					<?php esc_html_e( 'If you have a catalogue with many products and you want to quickly hide the Cart button and the Cart page, you will be able to do that with one click. Whenever you’re ready to sell, just one more click and your catalogue can be immediately converted into an e-commerce shop in full swing.', 'yith-woocommerce-catalog-mode' ); ?>
+				</p>
+			</div>
+			<div class="col-1">
+				<img src="<?php echo YWCTM_ASSETS_URL; ?>/images/premium-02.jpg" alt="" />
+			</div>
+		</div>
+	</div>
+	<div class="three section section-even clear">
+		<div class="landing-container">
+			<div class="col-1">
+				<img src="<?php echo YWCTM_ASSETS_URL; ?>/images/premium-03.jpg" alt="" />
+			</div>
+			<div class="col-2">
+				<div class="section-title">
+					<h2><?php esc_html_e( 'Hide prices and Cart buttons from all products or only from selected products, tags or categories.', 'yith-woocommerce-catalog-mode' ); ?></h2>
+				</div>
+				<p>
+					<?php esc_html_e( 'Do you want to make only some products purchasable and set up the catalog mode for others that cannot be purchased straight away? You’ll be able to create an unlimited number of rules and apply them to products of your choice.', 'yith-woocommerce-catalog-mode' ); ?>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="four section section-odd clear">
+		<div class="landing-container">
+			<div class="col-2">
+				<div class="section-title">
+					<h2><?php esc_html_e( 'Enable the catalog mode for unregistered users or only for users from specific countries.', 'yith-woocommerce-catalog-mode' ); ?></h2>
+				</div>
+				<p>
+					<?php esc_html_e( 'Do you want to show your product prices only to users who have registered an account? Or maybe restrict purchases only to users from a specific geographical area? These are just some of the many scenarios that YITH Catalog Mode can help you deal with.', 'yith-woocommerce-catalog-mode' ); ?>
+				</p>
+			</div>
+			<div class="col-1">
+				<img src="<?php echo YWCTM_ASSETS_URL; ?>/images/premium-04.jpg" alt="" />
+			</div>
+		</div>
+	</div>
+	<div class="five section section-even clear">
+		<div class="landing-container">
+			<div class="col-1">
+				<img src="<?php echo YWCTM_ASSETS_URL; ?>/images/premium-05.jpg" alt="" />
+			</div>
+			<div class="col-2">
+				<div class="section-title">
+					<h2><?php esc_html_e( 'Create custom calls to action and labels to replace the price and Cart buttons.', 'yith-woocommerce-catalog-mode' ); ?></h2>
+				</div>
+				<p>
+					<?php esc_html_e( 'If your products cannot be purchased straight away, you probably need to push users to contact you and ask for a dedicated price estimate or simply for more details. Or you might want them to register an account in your shop or log in. With our button & label builder, you can create countless persuasive texts and calls to action for your products.', 'yith-woocommerce-catalog-mode' ); ?>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="six section section-odd clear">
+		<div class="landing-container">
+			<div class="col-2">
+				<div class="section-title">
+					<h2><?php esc_html_e( 'Enable an inquiry form on your product pages to help your customers contact you easily.', 'yith-woocommerce-catalog-mode' ); ?></h2>
+				</div>
+				<p>
+					<?php esc_html_e( 'Choose whether you want to enable a contact form on your product pages to make it easier for your users to get in touch with you. The enquiry form is compatible with several email management plugins: Contact Form 7, Formidable Forms, Gravity Forms and Ninja Forms. In the email message that you receive, you can also see a reference to the page from where the request has been submitted.', 'yith-woocommerce-catalog-mode' ); ?>
+				</p>
+			</div>
+			<div class="col-1">
+				<img src="<?php echo YWCTM_ASSETS_URL; ?>/images/premium-06.jpg" alt="" />
+			</div>
+		</div>
+	</div>
+	<div class="seven section section-even clear">
+		<div class="landing-container">
+			<div class="col-1">
+				<img src="<?php echo YWCTM_ASSETS_URL; ?>/images/premium-07.jpg" alt="" />
+			</div>
+			<div class="col-2">
+				<div class="section-title">
+					<h2><?php esc_html_e( 'Integrate the catalog mode with YITH WooCommerce Multi-vendor', 'yith-woocommerce-catalog-mode' ); ?></h2>
+				</div>
+				<p>
+					<?php esc_html_e( 'If you use YITH Multi Vendor, you can let every vendor set up and control the catalog mode for their own shop.', 'yith-woocommerce-catalog-mode' ); ?>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="section section-cta section-odd">
+		<div class="cta-container">
+			<div class="premium-cta">
+				<p>
+					<?php
+					/* translators: %1$s opening span, %2$s closing span, %3$s BR tag*/
+					echo sprintf( esc_html__( 'Upgrade to %1$spremium version%2$s%3$s of %1$sYITH WooCommerce Catalog Mode%2$s to benefit from all features!', 'yith-woocommerce-catalog-mode' ), '<span class="highlight">', '</span>', '<br />' );
+					?>
+				</p>
+				<a href="<?php echo $this->get_premium_landing_uri(); ?>" target="_blank" class="premium-cta-button button btn">
+					<?php esc_html_e( 'Upgrade', 'yith-woocommerce-catalog-mode' ); ?>
+				</a>
+			</div>
+		</div>
+	</div>
 </div>

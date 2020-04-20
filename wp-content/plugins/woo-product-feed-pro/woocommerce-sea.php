@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     7.8.6
+ * Version:     7.9.9
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '7.8.6' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '7.9.9' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -218,10 +218,12 @@ function woosea_addtocart_details(){
 
              	$cats = "";
               	$all_cats = get_the_terms( $productId, 'product_cat' );
-             	foreach ($all_cats as $key => $category) {
-                	$cats .= $category->name.",";
-              	}
-                     
+		if(!empty($all_cats)){
+	             	foreach ($all_cats as $key => $category) {
+        	        	$cats .= $category->name.",";
+              		}
+                }
+     
                	// strip last comma
               	$cats = rtrim($cats, ",");
              	$cats = str_replace("&amp;","&", $cats);
@@ -358,8 +360,10 @@ function woosea_add_facebook_pixel( $product = null ){
 					$product_name = $product->get_name();
 					$cats = "";
 					$all_cats = get_the_terms( $fb_prodid, 'product_cat' );
-				        foreach ($all_cats as $key => $category) {
-						$cats .= $category->name.",";
+					if(!empty($all_cats)){
+				        	foreach ($all_cats as $key => $category) {
+							$cats .= $category->name.",";
+						}
 					}
 					// strip last comma
 					$cats = rtrim($cats, ",");
@@ -411,7 +415,7 @@ function woosea_add_facebook_pixel( $product = null ){
 								$children_ids = $product->get_children();
 								$content = "";	
                                 				foreach ($children_ids as $id){
-									$id = '\''.$id.'\'';
+									//$id = '\''.$id.'\'';
                                         				$content .= $id.',';
                                 				}
 
@@ -438,7 +442,8 @@ function woosea_add_facebook_pixel( $product = null ){
 			} elseif ($fb_pagetype == "cart"){
 
 				// This is on the order thank you page
-				if(!empty($_GET)){
+//				if(!empty($_GET)){
+  				if( isset( $_GET['key'] ) && is_wc_endpoint_url( 'order-received' ) ) {
                 			$order_string = sanitize_text_field($_GET['key']);
 					if(!empty($order_string)){
 						$order_id = wc_get_order_id_by_order_key( $order_string );
@@ -456,11 +461,11 @@ function woosea_add_facebook_pixel( $product = null ){
 								$order_subtotal = $order_item->get_subtotal();
 								$order_subtotal_tax= $order_item->get_subtotal_tax();
 								$order_real = number_format(($order_subtotal+$order_subtotal_tax),2)+$order_real;
-								$contents .= "{id: '$prod_id', quantity: $prod_quantity},";												
+								$contents .= "{'id': '$prod_id', 'quantity': $prod_quantity},";												
 							}
 						}
 						$contents = rtrim($contents, ",");
-						$viewContent = "fbq(\"track\",\"Purchase\",{currency:\"$currency\", value:\"$order_real\", content_type:\"product\", contents:[\"$contents\"]});";
+						$viewContent = "fbq('track','Purchase',{currency:'$currency', value:'$order_real', content_type:'product', contents:[$contents]});";
 					}
 				} else {
 					// This is on the cart page itself
@@ -478,7 +483,7 @@ function woosea_add_facebook_pixel( $product = null ){
 							if($cart_item['variation_id'] > 0){
 								$prod_id = $cart_item['variation_id'];
 							}
-							$contents .= "'$prod_id',";												
+							$contents .= "$prod_id,";												
 							$line_total = $cart_item['line_total'];
 							$line_tax = $cart_item['line_tax'];
 							$cart_real = number_format(($line_total+$line_tax),2)+$cart_real;
@@ -1590,16 +1595,20 @@ function woosea_product_fix_structured_data( $product = null ) {
 			// This is a variable product
              		$mother_id = wc_get_product()->get_id();
               		$children_ids = $product->get_children();
+                        $prod_type = $product->get_type();
 
-            		foreach ($children_ids as &$child_val) {
-                		$product_variations = new WC_Product_Variation( $child_val );
-                     		$variations = array_filter($product_variations->get_variation_attributes());
-                     		$from_url = str_replace("\\","",$_GET,$i);
-                      		$intersect = array_intersect($from_url, $variations);
-                     		if($variations == $intersect){
-                        		$variation_id = $child_val;
-                       		}
-             		}
+			if($prod_type == "variable"){
+            			foreach ($children_ids as &$child_val) {
+                			$product_variations = new WC_Product_Variation( $child_val );
+                     			$variations = array_filter($product_variations->get_variation_attributes());
+                     			$from_url = str_replace("\\","",$_GET,$i);
+                      			$intersect = array_intersect($from_url, $variations);
+                     			if($variations == $intersect){
+                        			$variation_id = $child_val;
+                       			}
+             			}
+			}
+
 
             		if(isset($variation_id )){
                 		$variable_product = wc_get_product($variation_id);
@@ -1663,7 +1672,8 @@ function woosea_product_fix_structured_data( $product = null ) {
         	                // Get the offers structured data schema markup
 	                        $markup['offers'][0] = woosea_product_delete_meta_price($product);
 
-			        if ( $product->get_rating_count() && wc_review_ratings_enabled() ) {
+				// This only works for WooCommerce 3.6 and higher (wc_review_ratings_enabled function)
+			        if ( ($product->get_rating_count()) && (function_exists(wc_review_ratings_enabled()))) {
                 			$markup['aggregateRating'] = array(
                         			'@type'       => 'AggregateRating',
                         			'ratingValue' => $product->get_average_rating(),
@@ -2353,10 +2363,35 @@ function woosea_add_all_shipping (){
 }
 add_action( 'wp_ajax_woosea_add_all_shipping', 'woosea_add_all_shipping' );
 
+/**
+ * This function enables the setting to respect
+ * the free shipping class 
+ */
+function woosea_free_shipping (){
+        $status = sanitize_text_field($_POST['status']);
 
+	if ($status == "off"){
+		update_option( 'free_shipping', 'no', 'yes');
+	} else {
+		update_option( 'free_shipping', 'yes', 'yes');
+	}
+}
+add_action( 'wp_ajax_woosea_free_shipping', 'woosea_free_shipping' );
 
+/**
+ * This function enables the setting to remove
+ * local pickup shipping zones 
+ */
+function woosea_local_pickup_shipping (){
+        $status = sanitize_text_field($_POST['status']);
 
-
+	if ($status == "off"){
+		update_option( 'local_pickup_shipping', 'no', 'yes');
+	} else {
+		update_option( 'local_pickup_shipping', 'yes', 'yes');
+	}
+}
+add_action( 'wp_ajax_woosea_local_pickup_shipping', 'woosea_local_pickup_shipping' );
 
 /**
  * This function enables the setting to use
@@ -3059,7 +3094,7 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
                          	       	'label'       => __( '<br>MPN', 'woosea' ),
                          	       	'placeholder' => 'Manufacturer Product Number',
                                 	'desc_tip'    => 'true',
-                                	'description' => __( 'Enter the product UPC here.', 'woosea' ),
+                                	'description' => __( 'Enter the MPN here.', 'woosea' ),
                                 	'value'       => get_post_meta($variation->ID, '_woosea_mpn', true),
                                 	'wrapper_class' => 'form-row-first',
                         	)
@@ -4240,7 +4275,7 @@ function woosea_license_valid(){
 
 	if(!empty($license_information['license_key'])){
 	        $curl = curl_init();
-	        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=7.8.6";
+	        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=7.9.9";
 
 	        curl_setopt_array($curl, array(
         	        CURLOPT_RETURNTRANSFER => 1,

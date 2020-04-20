@@ -37,6 +37,7 @@ echo '<div class="form-row ppom-rendering-fields align-items-center ppom-section
 $posted_values = '';
 if( apply_filters('ppom_retain_after_add_to_cart', true) ) {
 	$posted_values = isset($_POST['ppom']['fields']) ? $_POST['ppom']['fields'] : '';
+	$posted_values = apply_filters('ppom_default_values', $posted_values, $_POST, ppom_get_product_id($product));
 }
 
 $section_started = false;

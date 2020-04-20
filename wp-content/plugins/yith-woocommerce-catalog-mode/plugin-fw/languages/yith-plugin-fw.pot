@@ -1,26 +1,26 @@
-# Copyright (C) 2015 YIThemes
-# This file is distributed under the same license as the YITH Plugin Starter package.
+# Copyright (C) 2020
+# This file is distributed under the same license as the  package.
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: YITH Plugin Starter 1.0.0 Plugin FW\n"
-"Report-Msgid-Bugs-To: Your Inspiration Themes <plugins@yithemes.com>\n"
-"POT-Creation-Date: 2020-01-10 13:40+0100\n"
-"PO-Revision-Date: 2015-05-05 10:38+0100\n"
-"Last-Translator: \n"
-"Language-Team: Your Inspiration Themes <info@yithemes.com>\n"
-"Language: en\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: YITH <plugins@yithemes.com>\n"
+"POT-Creation-Date: 2020-04-06 10:44+0200\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.3\n"
-"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
-"_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
-"esc_html_x:1,2c;_x;_ex\n"
+"PO-Revision-Date: 2020-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: YITH <info@yithemes.com>\n"
+"Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
+"_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
+"esc_html_x:1,2c\n"
 "X-Poedit-Basepath: ..\n"
 "X-Textdomain-Support: yes\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: lib/privacy/yit-privacy.php:24
@@ -255,7 +255,7 @@ msgstr ""
 msgid "Upload multiple files"
 msgstr ""
 
-#: lib/yit-plugin-panel-wc.php:397
+#: lib/yit-plugin-panel-wc.php:399
 msgid "The changes you have made will be lost if you leave this page."
 msgstr ""
 
@@ -263,82 +263,82 @@ msgstr ""
 msgid "Plugin Settings"
 msgstr ""
 
-#: lib/yit-plugin-panel.php:424 lib/yit-plugin-panel.php:427
+#: lib/yit-plugin-panel.php:425 lib/yit-plugin-panel.php:428
 msgid "How to install premium version"
 msgstr ""
 
-#: lib/yit-plugin-panel.php:571 lib/yit-plugin-subpanel.php:151
+#: lib/yit-plugin-panel.php:574 lib/yit-plugin-subpanel.php:151
 #: templates/panel/woocommerce/woocommerce-form.php:14
 msgid "Save Changes"
 msgstr ""
 
-#: lib/yit-plugin-panel.php:574 lib/yit-plugin-subpanel.php:154
+#: lib/yit-plugin-panel.php:577 lib/yit-plugin-subpanel.php:154
 #: templates/panel/woocommerce/woocommerce-form.php:17
 msgid "If you continue with this action, you will reset all options in this page."
 msgstr ""
 
-#: lib/yit-plugin-panel.php:576 lib/yit-plugin-subpanel.php:156
+#: lib/yit-plugin-panel.php:579 lib/yit-plugin-subpanel.php:156
 msgid "Reset to default"
 msgstr ""
 
-#: lib/yit-plugin-panel.php:577 lib/yit-plugin-subpanel.php:157
+#: lib/yit-plugin-panel.php:580 lib/yit-plugin-subpanel.php:157
 #: templates/panel/woocommerce/woocommerce-form.php:21
 msgid "Are you sure?"
 msgstr ""
 
-#: lib/yit-plugin-panel.php:775
+#: lib/yit-plugin-panel.php:778
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr ""
 
-#: lib/yit-plugin-panel.php:776
+#: lib/yit-plugin-panel.php:779
 msgid "Settings saved"
 msgstr ""
 
-#: lib/yit-plugin-panel.php:777
+#: lib/yit-plugin-panel.php:780
 msgid "Settings reset"
 msgstr ""
 
-#: lib/yit-plugin-panel.php:778
+#: lib/yit-plugin-panel.php:781
 msgid "Element deleted correctly."
 msgstr ""
 
-#: lib/yit-plugin-panel.php:779 lib/yit-plugin-panel.php:780
+#: lib/yit-plugin-panel.php:782 lib/yit-plugin-panel.php:783
 msgid "Element updated correctly."
 msgstr ""
 
-#: lib/yit-plugin-panel.php:781
+#: lib/yit-plugin-panel.php:784
 msgid "Database imported correctly."
 msgstr ""
 
-#: lib/yit-plugin-panel.php:782
+#: lib/yit-plugin-panel.php:785
 msgid "An error has occurred during import. Please try again."
 msgstr ""
 
-#: lib/yit-plugin-panel.php:783
+#: lib/yit-plugin-panel.php:786
 msgid "The added file is not valid."
 msgstr ""
 
-#: lib/yit-plugin-panel.php:784
+#: lib/yit-plugin-panel.php:787
 msgid "Sorry, import is disabled."
 msgstr ""
 
-#: lib/yit-plugin-panel.php:785
+#: lib/yit-plugin-panel.php:788
 msgid "Sorting successful."
 msgstr ""
 
-#: lib/yit-plugin-panel.php:1233
+#: lib/yit-plugin-panel.php:1236
 msgid "We need your support"
 msgstr ""
 
-#: lib/yit-plugin-panel.php:1234
+#: lib/yit-plugin-panel.php:1237
 msgid "to keep updating and improving the plugin. Please,"
 msgstr ""
 
-#: lib/yit-plugin-panel.php:1236
+#: lib/yit-plugin-panel.php:1239
 msgid "help us by leaving a five-star rating"
 msgstr ""
 
-#: lib/yit-plugin-panel.php:1237
+#: lib/yit-plugin-panel.php:1240
 msgid ":) Thanks!"
 msgstr ""
 
@@ -413,75 +413,75 @@ msgctxt "[gutenberg]: Category Name"
 msgid "YITH"
 msgstr ""
 
-#: lib/yith-system-status.php:97 lib/yith-system-status.php:98
-msgid "System Status"
-msgstr ""
-
-#: lib/yith-system-status.php:104
+#: lib/yith-system-status.php:105
 msgid "WordPress Version"
 msgstr ""
 
-#: lib/yith-system-status.php:105
+#: lib/yith-system-status.php:106
 msgid "WooCommerce Version"
 msgstr ""
 
-#: lib/yith-system-status.php:106
+#: lib/yith-system-status.php:107
 msgid "Available Memory"
 msgstr ""
 
-#: lib/yith-system-status.php:107
+#: lib/yith-system-status.php:108
 msgid "PHP Version"
 msgstr ""
 
-#: lib/yith-system-status.php:108
+#: lib/yith-system-status.php:109
 msgid "TLS Version"
 msgstr ""
 
-#: lib/yith-system-status.php:109
+#: lib/yith-system-status.php:110
 msgid "WordPress Cron"
 msgstr ""
 
-#: lib/yith-system-status.php:110
+#: lib/yith-system-status.php:111
 msgid "SimpleXML"
 msgstr ""
 
-#: lib/yith-system-status.php:111
+#: lib/yith-system-status.php:112
 msgid "MultiByte String"
 msgstr ""
 
-#: lib/yith-system-status.php:112
+#: lib/yith-system-status.php:113
 msgid "ImageMagick Version"
 msgstr ""
 
-#: lib/yith-system-status.php:113
+#: lib/yith-system-status.php:114
 msgid "GD Library"
 msgstr ""
 
-#: lib/yith-system-status.php:114
+#: lib/yith-system-status.php:115
 msgid "Iconv Module"
 msgstr ""
 
-#: lib/yith-system-status.php:115
+#: lib/yith-system-status.php:116
 msgid "OPCache Save Comments"
 msgstr ""
 
-#: lib/yith-system-status.php:116
+#: lib/yith-system-status.php:117
 msgid "URL FOpen"
 msgstr ""
 
-#: lib/yith-system-status.php:173
+#: lib/yith-system-status.php:135 lib/yith-system-status.php:136
+msgid "System Status"
+msgstr ""
+
+#: lib/yith-system-status.php:179
 msgid "YITH Plugins"
 msgstr ""
 
-#: lib/yith-system-status.php:174
+#: lib/yith-system-status.php:180
 msgid "WooCommerce"
 msgstr ""
 
-#: lib/yith-system-status.php:291
+#: lib/yith-system-status.php:297
 msgid "Warning!"
 msgstr ""
 
-#: lib/yith-system-status.php:292
+#: lib/yith-system-status.php:298
 #, php-format
 msgid ""
 "The system check has detected some compatibility issues on your installation. "
@@ -562,13 +562,13 @@ msgid "Delete"
 msgstr ""
 
 #: templates/fields/onoff.php:24
-msgctxt "ON/OFF button: use MAX 3 characters!"
-msgid "ON"
+msgctxt "YES/NO button: use MAX 3 characters!"
+msgid "YES"
 msgstr ""
 
 #: templates/fields/onoff.php:25
-msgctxt "ON/OFF button: use MAX 3 characters!"
-msgid "OFF"
+msgctxt "YES/NO button: use MAX 3 characters!"
+msgid "NO"
 msgstr ""
 
 #: templates/fields/select-buttons.php:21
@@ -711,7 +711,8 @@ msgstr ""
 
 #: templates/sysinfo/system-information-panel.php:160
 msgid ""
-"<b>ImageMagick</b> module is not installed. Ask your hosting company to install it."
+"<b>ImageMagick</b> module is not installed. Ask your hosting company to install "
+"it."
 msgstr ""
 
 #: templates/sysinfo/system-information-panel.php:172

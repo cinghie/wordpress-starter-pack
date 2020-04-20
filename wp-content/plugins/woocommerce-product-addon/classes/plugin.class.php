@@ -111,7 +111,7 @@ class NM_PersonalizedProduct {
 		if( ppom_get_price_mode() == 'legacy' ) {
 			add_filter( 'woocommerce_cart_item_quantity', 'ppom_woocommerce_control_cart_quantity_legacy', 10, 2);
 		} else {
-			add_filter( 'woocommerce_cart_item_quantity', 'ppom_woocommerce_control_cart_quantity', 10, 2);
+			add_filter( 'woocommerce_cart_item_quantity', 'ppom_woocommerce_control_cart_quantity', 99, 2);
 		}
 		
 		

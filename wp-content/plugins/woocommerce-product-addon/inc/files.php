@@ -60,8 +60,10 @@ function ppom_is_file_image( $file_name ){
 // return html for file thumb
 function ppom_create_thumb_for_meta( $file_name, $product_id, $cropped=false, $size=null) {
 	
+	$get_order_id = isset($_GET['order_id']) ? $_GET['order_id'] : 0;
+	
 	// get current post/order ID
-	$order_id = isset($_GET['post']) ? $_GET['post'] : $_GET['order_id'];
+	$order_id = isset($_GET['post']) ? $_GET['post'] : $get_order_id;
 	
 	// get current post/order type
 	$post_type = get_post_type($order_id);

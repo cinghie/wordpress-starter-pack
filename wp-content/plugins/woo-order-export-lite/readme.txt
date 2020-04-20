@@ -5,7 +5,7 @@ Tags: woocommerce,export,order,xls,csv,xml,woo export lite,export orders,orders 
 Requires PHP: 5.4.0
 Requires at least: 4.7
 Tested up to: 5.4
-Stable tag: 3.1.3
+Stable tag: 3.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -111,6 +111,9 @@ Yes, you can email a request to aprokaev@gmail.com. We intensively develop this 
 6. Select orders to export and use "bulk action".
 
 == Changelog ==
+
+= 3.1.4 - 2020-04-15 =
+* Prevent XSS attack (CVE-2020-11727). Thank Jack Misiura​ for reporting this vulnerability!
 
 = 3.1.3 - 2020-03-24 =
 * Fixed CRITICAL bug - export via "Bulk actions" (at screen >WooCommerce>Orders) works incorrectly

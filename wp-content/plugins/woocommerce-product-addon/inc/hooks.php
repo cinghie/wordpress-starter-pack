@@ -58,8 +58,8 @@ function ppom_hooks_convert_price_back( $price ) {
 	if( has_filter('woocs_exchange_value') ) {
 		
 		global $WOOCS;
-		// if($WOOCS->current_currency != $WOOCS->default_currency && $WOOCS->is_multiple_allowed) {
-		if(1) {
+		if($WOOCS->current_currency != $WOOCS->default_currency && $WOOCS->is_multiple_allowed) {
+		// if(1) {
 		// var_dump($WOOCS->is_multiple_allowed);
 			
 			// ppom conver all prices into current currency, but woocommerce also
@@ -200,9 +200,13 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
 	if( $ppom->ajax_validation_enabled ) {
 		wp_enqueue_script( 'ppom-ajax-validation', PPOM_URL.'/js/ppom-validation.js', array('jquery'), PPOM_DB_VERSION, true);
 	}
+	
+	$enable_file_rename = apply_filters('ppom_upload_file_rename', true, $ppom_meta_fields);
 		
 	// ppom_pa($ppom_meta_fields);
 	
+	$decimal_palces = wc_get_price_decimals();	
+	if( $ppom_meta_fields ) {
     foreach($ppom_meta_fields as $field){
 		
 		
@@ -218,7 +222,6 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
 		}
 		
 		
-		$decimal_palces = wc_get_price_decimals();
 		
 		// Allow other types to be hooked
 		$type = apply_filters('ppom_load_input_script_type', $type, $field, $product);
@@ -319,6 +322,7 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
 										'croppie_options'	=> $croppie_options,
 										'ppom_file_upload_nonce'	=> wp_create_nonce( $file_upload_nonce_action ),
 										'ppom_file_delete_nonce'	=> wp_create_nonce( $file_delete_nonce_action ),
+										'enable_file_rename'	=> $enable_file_rename,
 										'product_id'		=> $product_id,
 										);
 				wp_localize_script( 'ppom-file-upload', 'ppom_file_vars', $ppom_file_vars);
@@ -347,6 +351,7 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
 										'plupload_runtime'	=> (ppom_if_browser_is_ie()) ? 'html5,html4' : 'html5,silverlight,html4,browserplus,gear',
 										'ppom_file_upload_nonce'	=> wp_create_nonce( $file_upload_nonce_action ),
 										'ppom_file_delete_nonce'	=> wp_create_nonce( $file_delete_nonce_action ),
+										'enable_file_rename'	=> $enable_file_rename,
 										'product_id'		=> $product_id,
 										);
 				wp_localize_script( 'ppom-file-upload', 'ppom_file_vars', $ppom_file_vars);
@@ -391,6 +396,7 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
 		
     	// $ppom_inputs[] = $field;
     }
+	}
     		
     
     // ppom_pa($ppom_conditional_fields);
@@ -421,7 +427,7 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
 
 function ppom_hooks_input_args($field_setting, $field_meta) {
     
-    if($field_setting['type'] == 'date' && $field_meta['jquery_dp'] == 'on') {
+    if($field_setting['type'] == 'date' && isset($field_meta['jquery_dp']) && $field_meta['jquery_dp'] == 'on') {
         $field_setting['type'] = 'text';
         $field_setting['past_date'] = isset($field_meta['past_date']) ? $field_meta['past_date'] : '';
         $field_setting['no_weekends'] = isset($field_meta['no_weekends']) ? $field_meta['no_weekends'] : '';

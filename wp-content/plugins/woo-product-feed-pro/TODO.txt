@@ -5,9 +5,8 @@ Tutorial / Blog posts:
 - Explain all the different fields/attributes that can be selected from the drop-downs
 
 Priority issues:
-- When free shipping remove other shipping costs and visa versa
+- Add feature to remove local pickup shipping costs from feed
 - Add support for Polylang
-- Make category path primary (Yoast) category
 - Add possibility to copy feed configuration from one WooCommerce instance to the other instance
 - Add support for Multisites
 - Add a filter on review score (and amount of reviews)

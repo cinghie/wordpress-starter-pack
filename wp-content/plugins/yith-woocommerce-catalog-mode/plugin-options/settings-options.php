@@ -14,67 +14,68 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 return array(
 	'settings' => array(
-		'ywctm_general_title' => array(
-			'name' => __( 'General Settings', 'yith-woocommerce-catalog-mode' ),
+		'step_one_title'          => array(
+			'name' => esc_html__( 'Settings', 'yith-woocommerce-catalog-mode' ),
 			'type' => 'title',
 		),
-		'ywctm_enable_plugin' => array(
-			'name'    => __( 'Enable YITH WooCommerce Catalog Mode', 'yith-woocommerce-catalog-mode' ),
-			'type'    => 'checkbox',
-			'desc'    => '',
-			'id'      => 'ywctm_enable_plugin',
-			'default' => 'yes',
+		'catalog_mode_admin_view' => array(
+			'name'      => esc_html__( 'Catalog mode for administrators', 'yith-woocommerce-catalog-mode' ),
+			'type'      => 'yith-field',
+			'yith-type' => 'onoff',
+			'desc'      => esc_html__( 'Choose to enable the Catalog Mode for admins.', 'yith-woocommerce-catalog-mode' ),
+			'id'        => 'ywctm_admin_view',
+			'default'   => 'yes',
 		),
-		'ywctm_general_end'   => array(
+		'disable_shop'            => array(
+			'name'      => esc_html__( 'Disable shop', 'yith-woocommerce-catalog-mode' ),
+			'type'      => 'yith-field',
+			'yith-type' => 'onoff',
+			'desc'      => esc_html__( 'Use this option to hide the "Cart" page, "Checkout" page and all the "Add to Cart" buttons in the shop.', 'yith-woocommerce-catalog-mode' ),
+			'id'        => 'ywctm_disable_shop',
+			'default'   => 'no',
+		),
+		'hide_add_to_cart'        => array(
+			'type'      => 'yith-field',
+			'yith-type' => 'yith-multiple-field',
+			'name'      => esc_html__( 'Hide "Add to Cart" in:', 'yith-woocommerce-catalog-mode' ),
+			'desc'      => esc_html__( 'Choose where to hide "Add to Cart".', 'yith-woocommerce-catalog-mode' ),
+			'id'        => 'ywctm_hide_add_to_cart_settings',
+			'fields'    => array(
+				'action' => array(
+					'std'  => 'hide',
+					'type' => 'hidden',
+				),
+				'where'  => array(
+					'options' => array(
+						'all'     => esc_html__( 'All pages', 'yith-woocommerce-catalog-mode' ),
+						'shop'    => esc_html__( 'Shop page', 'yith-woocommerce-catalog-mode' ),
+						'product' => esc_html__( 'Product page', 'yith-woocommerce-catalog-mode' ),
+					),
+					'std'     => 'all',
+					'type'    => 'select',
+				),
+				'items'  => array(
+					'std'  => 'all',
+					'type' => 'hidden',
+				),
+			),
+			'deps'      => array(
+				'id'    => 'ywctm_disable_shop',
+				'value' => 'no',
+				'type'  => 'hide-disable',
+			),
+			'class'     => 'ywctm-inline-selects',
+		),
+		'hide_variations'         => array(
+			'name'      => esc_html__( 'Hide product variations', 'yith-woocommerce-catalog-mode' ),
+			'type'      => 'yith-field',
+			'yith-type' => 'onoff',
+			'desc'      => esc_html__( 'Use this option to hide product variations where "add to cart" is hidden.', 'yith-woocommerce-catalog-mode' ),
+			'id'        => 'ywctm_hide_variations',
+			'default'   => 'no',
+		),
+		'step_one_end'            => array(
 			'type' => 'sectionend',
 		),
-
-		'ywctm_catalog_mode_title'                      => array(
-			'name' => __( 'Catalog Mode Settings', 'yith-woocommerce-catalog-mode' ),
-			'type' => 'title',
-		),
-		'ywctm_catalog_mode_disable_add_to_cart_single' => array(
-			'name'          => __( '"Add to cart" button', 'yith-woocommerce-catalog-mode' ),
-			'type'          => 'checkbox',
-			'desc'          => __( 'Hide in product detail page', 'yith-woocommerce-catalog-mode' ),
-			'id'            => 'ywctm_hide_add_to_cart_single',
-			'default'       => 'no',
-			'checkboxgroup' => 'start'
-		),
-		'ywctm_catalog_mode_disable_add_to_cart_loop'   => array(
-			'type'          => 'checkbox',
-			'desc'          => __( 'Hide in other shop pages', 'yith-woocommerce-catalog-mode' ),
-			'id'            => 'ywctm_hide_add_to_cart_loop',
-			'default'       => 'no',
-			'checkboxgroup' => ''
-
-		),
-		'ywctm_catalog_mode_admin_view'                 => array(
-			'name'    => __( 'Admin View', 'yith-woocommerce-catalog-mode' ),
-			'type'    => 'checkbox',
-			'desc'    => __( 'Enable Catalog Mode also for administrators', 'yith-woocommerce-catalog-mode' ),
-			'id'      => 'ywctm_admin_view',
-			'default' => 'yes',
-		),
-		'ywctm_catalog_mode_section_end'                => array(
-			'type' => 'sectionend',
-		),
-
-		'ywctm_other_section_title'          => array(
-			'name' => __( 'Other Settings', 'yith-woocommerce-catalog-mode' ),
-			'type' => 'title',
-			'desc' => '',
-		),
-		'ywctm_other_disable_cart_in_header' => array(
-			'name'    => __( 'Disable shop', 'yith-woocommerce-catalog-mode' ),
-			'type'    => 'checkbox',
-			'desc'    => __( 'Hide and disable "Cart" page, "Checkout" page and all "Add to Cart" buttons', 'yith-woocommerce-catalog-mode' ),
-			'id'      => 'ywctm_hide_cart_header',
-			'default' => 'no',
-		),
-		'ywctm_other_section_end'            => array(
-			'type' => 'sectionend',
-		)
-	)
-
+	),
 );

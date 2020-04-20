@@ -85,7 +85,7 @@ function ppom_woocommerce_ajax_validate() {
 	$validate_nonce_action = "ppom_validating_action";
 	if ( ! wp_verify_nonce( $ppom_nonce, $validate_nonce_action ) ) {
 		
-		$message = __('<div class="woocommerce-error" role="alert">Error while validating, try again</div>', "ppom");
+		$message = sprintf(__('<div class="woocommerce-error" role="alert">%s</div>', "ppom"), 'Error while validating, try again');
 		$response = array('status'=>'error', 'message' => $message);
     	wp_send_json( $response );
 	}
@@ -134,8 +134,12 @@ function ppom_check_validation($product_id, $post_data, $passed=true) {
 		
 		// ppom_pa($field);
 		
+		
+		
 		// Check field Visibility settings
 		if( ! ppom_is_field_visible($field) ) continue;
+		
+		$passed = apply_filters('ppom_before_fields_validation', $passed, $field, $post_data, $product_id);
 		
 		if( empty($field['data_name']) || empty($field['required']) 
 		&& (empty($field['min_checked']) && empty($field['max_checked']) )
@@ -159,8 +163,8 @@ function ppom_check_validation($product_id, $post_data, $passed=true) {
 			ppom_wc_add_notice( $error_message );
 			$passed = false;
 		}
+		
 	}
-	
 	
 	// ppom_pa($post_data); exit;
 	
@@ -206,8 +210,8 @@ function ppom_woocommerce_update_cart_fees($cart_items, $values) {
 	}
 	
 	// converting back to org price if Currency Switcher is used
-	// $ppom_item_org_price	= ppom_hooks_convert_price_back($wc_product->get_price());
-	$ppom_item_org_price	= $wc_product->get_price();
+	$ppom_item_org_price	= ppom_hooks_convert_price_back($wc_product->get_price());
+	// $ppom_item_org_price	= $wc_product->get_price();
 	
 	$ppom_item_order_qty	= floatval($cart_items['quantity']);
 	
@@ -509,9 +513,9 @@ function ppom_woocommerce_mini_cart_fixed_fee() {
 
 function ppom_woocommerce_add_item_meta($item_meta, $cart_item) {
 
+	// ppom_pa($item_meta);
 	if( ! isset($cart_item['ppom']['fields']) ) return $item_meta;
 	
-	// ppom_pa($cart_item['ppom']);
 	
 	// ADDED WC BUNDLES COMPATIBILITY
 	if ( function_exists('wc_pb_is_bundled_cart_item') && wc_pb_is_bundled_cart_item( $cart_item )) {
@@ -716,7 +720,6 @@ function ppom_woocommerce_add_to_cart_quantity( $quantity, $product_id ) {
 	if( ! ppom_is_cart_quantity_updatable( $product_id ) ) {
 		$quantity = 1;
 	}
-	
 	return $quantity;
 }
 
@@ -761,7 +764,6 @@ function ppom_woocommerce_control_cart_quantity($quantity, $cart_item_key) {
 	
 	$cart_item = WC()->cart->get_cart_item( $cart_item_key );
 	
-	// ppom_pa($cart_item);
 	if( !isset($cart_item['ppom']['fields']) ) return $quantity;
 	
 	$ppom_fields_post   = $cart_item['ppom']['fields'];

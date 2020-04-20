@@ -33,9 +33,11 @@ class WOOCCM_Fields_Handler {
 
             if (!empty($_POST[$key])) {
               $data[$key] = __('Yes', 'woocommerce-checkout-manager');
-            } else {
-              $data[$key] = __('No', 'woocommerce-checkout-manager');
             }
+            
+//            else {
+//              $data[$key] = __('No', 'woocommerce-checkout-manager');
+//            }
 
             break;
         }

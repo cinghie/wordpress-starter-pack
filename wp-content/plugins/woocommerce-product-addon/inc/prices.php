@@ -198,7 +198,7 @@ function ppom_get_field_prices( $ppom_fields_post, $product_id, &$product_quanti
 				foreach($options as $option) {
 					
 					$option_raw = ppom_wpml_translate($option['raw'],'PPOM');
-					if( $option_raw == $value ) {
+					if( $option_raw == stripcslashes($value) ) {
 				
 						$option_price = isset($option['raw_price']) ? $option['raw_price'] : '';
 						$option_percent = isset($option['percent']) ? $option['percent'] : '';
@@ -302,9 +302,8 @@ function ppom_get_field_prices( $ppom_fields_post, $product_id, &$product_quanti
 			break;
 			
 			case 'imageselect':
-				
 				foreach($options as $option) {
-					if( $option['id'] == $value ) {
+					if( $option['image_id'] == $value ) {
 				
 						$option_price = isset($option['raw_price']) ? $option['raw_price'] : '';
 						if( $option_price !== '' ) {
@@ -319,14 +318,13 @@ function ppom_get_field_prices( $ppom_fields_post, $product_id, &$product_quanti
 			
 			case 'image':
 				foreach($options as $option) {
-					
 					if( $value ) {
 						foreach($value as $images_meta) {
 							
 							$images_meta	= json_decode(stripslashes($images_meta), true);
-							$image_id		= $images_meta['id'];
+							$image_id		= $images_meta['image_id'];
 							$image_price	= $images_meta['price'];
-							$image_option_id= sanitize_key($images_meta['title']);
+							$image_option_id= $images_meta['option_id'];
 							
 							
 							if( $option['option_id'] == $image_option_id ) {
@@ -380,12 +378,11 @@ function ppom_get_field_prices( $ppom_fields_post, $product_id, &$product_quanti
 			case 'checkbox':
 				
 				foreach($options as $option) {
-					// ppom_pa($option);
 					
 					if( $value ) {
 						foreach($value as $val) {
 							
-							if( $option['raw'] == $val ) {
+							if( $option['raw'] == stripcslashes($val) ) {
 								
 								$option_price = isset($option['raw_price']) ? $option['raw_price'] : '';
 								if( $option_price !== '' ) {
@@ -428,6 +425,7 @@ function ppom_get_field_prices( $ppom_fields_post, $product_id, &$product_quanti
 						
 						foreach($value as $val => $quantity ) {
 							
+							$quantity = intval($quantity);
 							$quantities_total += $quantity;
 							// Important: need to convert browser data into html_entity_decode
 							$val = html_entity_decode ($val);
@@ -457,8 +455,6 @@ function ppom_get_field_prices( $ppom_fields_post, $product_id, &$product_quanti
 							$charge = 'matrix_quantities';
 							$field_prices[] = ppom_generate_field_price($option_price, $field_meta, $charge, $option, $product_quantity);
 						}
-					} else {
-						// $field_prices[] = ppom_generate_field_price($option_price, $field_meta, $charge, $option, 1);
 					}
 					
 				}
@@ -517,6 +513,21 @@ function ppom_get_field_prices( $ppom_fields_post, $product_id, &$product_quanti
 					
 					if( $quantities_total > 0 ) {
 						$product_quantity = $quantities_total;
+					}
+				} else {
+					
+					// Check if matrix used
+					$option_price	= $product_price;
+					$option 		= array();
+					$pricematrix_field = ppom_has_field_by_type(ppom_get_product_id($product), 'pricematrix');
+					if ( $pricematrix_field ) {
+						$matrix_found   = ppom_price_matrix_chunk($product, $pricematrix_field, $product_quantity);
+					    
+						if( $matrix_found ) {
+							// $option_price = $matrix_found['matrix_price'];
+							$charge = 'matrix_quantities';
+							$field_prices[] = ppom_generate_field_price($option_price, $field_meta, $charge, $option, $product_quantity);
+						}
 					}
 				}
 				
@@ -672,6 +683,7 @@ function ppom_price_get_addon_total($price_array) {
         foreach( $price_array as $price ) {
             
             if( $price['apply'] != 'addon' ) continue;
+            if( !isset($price['price']) ) continue;
             
         	$total_addon += ($price['price'] * $price['quantity']);
         	
@@ -721,20 +733,21 @@ function ppom_price_get_total_quantities($ppom_fields_post, $product_id) {
 			case 'quantities':
 				// $total_quantities = 0;
 				foreach($value as $option => $qty){
-					$total_quantities += $qty;
+					$total_quantities += intval($qty);
 				}
 			break;
 
 			case 'vm':
 				// $total_quantities = 0;
 				foreach($value as $option => $qty){
-					$total_quantities += $qty;
+					$total_quantities += intval($qty);
 				}
+			break;
 
 			case 'vqmatrix':
 				// $total_quantities = 0;
 				foreach($value as $option => $qty){
-					$total_quantities += $qty;
+					$total_quantities += intval($qty);
 				}
 			break;
 			
@@ -750,7 +763,7 @@ function ppom_price_get_total_quantities($ppom_fields_post, $product_id) {
 				$total_quantities = 0;
 				foreach($value as $date => $ticket_meta) {
 					foreach($ticket_meta as $option => $qty){
-						$total_quantities += $qty;
+						$total_quantities += intval($qty);
 					}
 				}
 			break;
@@ -983,8 +996,9 @@ function ppom_price_fixedprice_chunk($product, $fixedprice_options, $product_qua
  * **/
 
 function ppom_price_cart_fee( $cart ) {
-	
+	//ppom_pa($cart);
 	$fee_no = 1;
+	$cart_counter = 1;
 	foreach( $cart->get_cart() as $item ){
 	
 		if( ! isset( $item['ppom']['fields'] ) ) continue;
@@ -1019,12 +1033,13 @@ function ppom_price_cart_fee( $cart ) {
 			} else {
 				$matrix_discount = $matrix_found['raw_price'];
 			}
+			$discount_label = $cart_counter . '-' . $matrix_found['label'];
 			// var_dump($matrix_found);
         	$matrix_discount = floatval($matrix_discount);
         	$discount_taxable = apply_filters('ppom_matrix_discount_taxable', false, $item, $cart);
-        	$cart -> add_fee( sprintf(__( "%s", "ppom"), esc_html($matrix_found['label'])), -$matrix_discount, $discount_taxable );
+        	$cart -> add_fee( sprintf(__( "%s", "ppom"), esc_html($discount_label)), -$matrix_discount, $discount_taxable );
+		//ppom_pa($discount_label);
 		}
-		
 		foreach( $ppom_field_prices as $fee ) {
 			
 			if( $fee['apply'] != 'cart_fee' ) continue;
@@ -1053,6 +1068,8 @@ function ppom_price_cart_fee( $cart ) {
 				$fee_no++;
 			}
 		}
+		
+		$cart_counter++;
 	}
 }
 

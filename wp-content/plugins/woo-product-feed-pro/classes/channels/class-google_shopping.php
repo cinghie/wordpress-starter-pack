@@ -45,6 +45,11 @@ class WooSEA_google_shopping {
 					"feed_name" => "g:additional_image_link",
 					"format" => "optional",
 				),
+				"Canonical product URL" => array(
+					"name" => "canonical_link",
+					"feed_name" => "g:canonical_link", 
+					"format" => "optional",
+				),
 				"Product URL mobile" => array(
 					"name" => "mobile_link",
 					"feed_name" => "g:mobile_link", 

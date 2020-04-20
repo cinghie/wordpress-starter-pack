@@ -1,12 +1,12 @@
 <?php
 /**
  * Plugin Name: YITH WooCommerce Catalog Mode
- * Plugin URI: http://yithemes.com/themes/plugins/yith-woocommerce-catalog-mode/
+ * Plugin URI: https://yithemes.com/themes/plugins/yith-woocommerce-catalog-mode/
  * Description: <code><strong>YITH WooCommerce Catalog Mode</strong></code> allows hiding product prices, cart and checkout from your store and turning it into a performing product catalogue. You will be able to adjust your catalogue settings as you prefer based on your requirements. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>
  * Author: YITH
  * Text Domain: yith-woocommerce-catalog-mode
- * Version: 1.6.19
- * Author URI: http://yithemes.com/
+ * Version: 2.0.0
+ * Author URI: https://yithemes.com/
  * WC requires at least: 3.8.0
  * WC tested up to: 4.0.x
  */
@@ -22,7 +22,12 @@ if ( ! function_exists( 'is_plugin_active' ) ) {
 function ywctm_install_woocommerce_admin_notice() {
 	?>
 	<div class="error">
-		<p><?php _e( 'YITH WooCommerce Catalog Mode is enabled but not effective. It requires WooCommerce in order to work.', 'yith-woocommerce-catalog-mode' ); ?></p>
+		<p>
+			<?php
+			/* translators: %s name of the plugin */
+			echo sprintf( esc_html__( '%s is enabled but not effective. In order to work, it requires WooCommerce.', 'yith-woocommerce-catalog-mode' ), 'YITH WooCommerce Catalog Mode' );
+			?>
+		</p>
 	</div>
 	<?php
 }
@@ -30,42 +35,25 @@ function ywctm_install_woocommerce_admin_notice() {
 function ywctm_install_free_admin_notice() {
 	?>
 	<div class="error">
-		<p><?php _e( 'You can\'t activate the free version of YITH WooCommerce Catalog Mode while you are using the premium one.', 'yith-woocommerce-catalog-mode' ); ?></p>
+		<p>
+			<?php
+			/* translators: %s name of the plugin */
+			echo sprintf( esc_html__( 'You can\'t activate the free version of %s while you are using the premium one.', 'yith-woocommerce-catalog-mode' ), 'YITH WooCommerce Catalog Mode' );
+			?>
+		</p>
 	</div>
 	<?php
 }
 
-if ( ! defined( 'YWCTM_VERSION' ) ) {
-	define( 'YWCTM_VERSION', '1.6.19' );
-}
-
-if ( ! defined( 'YWCTM_FREE_INIT' ) ) {
-	define( 'YWCTM_FREE_INIT', plugin_basename( __FILE__ ) );
-}
-
-if ( ! defined( 'YWCTM_FILE' ) ) {
-	define( 'YWCTM_FILE', __FILE__ );
-}
-
-if ( ! defined( 'YWCTM_DIR' ) ) {
-	define( 'YWCTM_DIR', plugin_dir_path( __FILE__ ) );
-}
-
-if ( ! defined( 'YWCTM_URL' ) ) {
-	define( 'YWCTM_URL', plugins_url( '/', __FILE__ ) );
-}
-
-if ( ! defined( 'YWCTM_ASSETS_URL' ) ) {
-	define( 'YWCTM_ASSETS_URL', YWCTM_URL . 'assets/' );
-}
-
-if ( ! defined( 'YWCTM_TEMPLATE_PATH' ) ) {
-	define( 'YWCTM_TEMPLATE_PATH', YWCTM_DIR . 'templates/' );
-}
-
-if ( ! defined( 'YWCTM_SLUG' ) ) {
-	define( 'YWCTM_SLUG', 'yith-woocommerce-catalog-mode' );
-}
+! defined( 'YWCTM_VERSION' ) && define( 'YWCTM_VERSION', '2.0.0' );
+! defined( 'YWCTM_FREE_INIT' ) && define( 'YWCTM_FREE_INIT', plugin_basename( __FILE__ ) );
+! defined( 'YWCTM_SLUG' ) && define( 'YWCTM_SLUG', 'yith-woocommerce-catalog-mode' );
+! defined( 'YWCTM_FILE' ) && define( 'YWCTM_FILE', __FILE__ );
+! defined( 'YWCTM_DIR' ) && define( 'YWCTM_DIR', plugin_dir_path( __FILE__ ) );
+! defined( 'YWCTM_URL' ) && define( 'YWCTM_URL', plugins_url( '/', __FILE__ ) );
+! defined( 'YWCTM_ASSETS_URL' ) && define( 'YWCTM_ASSETS_URL', YWCTM_URL . 'assets/' );
+! defined( 'YWCTM_ASSETS_PATH' ) && define( 'YWCTM_ASSETS_PATH', YWCTM_DIR . 'assets/' );
+! defined( 'YWCTM_TEMPLATE_PATH' ) && define( 'YWCTM_TEMPLATE_PATH', YWCTM_DIR . 'templates/' );
 
 /* Plugin Framework Version Check */
 if ( ! function_exists( 'yit_maybe_plugin_fw_loader' ) && file_exists( YWCTM_DIR . 'plugin-fw/init.php' ) ) {
@@ -78,15 +66,12 @@ function ywctm_init() {
 	/* Load YWCTM text domain */
 	load_plugin_textdomain( 'yith-woocommerce-catalog-mode', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
-	global $YITH_WC_Catalog_Mode;
-	$YITH_WC_Catalog_Mode = new YITH_WC_Catalog_Mode();
+	$GLOBALS['YITH_WC_Catalog_Mode'] = YITH_WCTM();
 }
 
 add_action( 'ywctm_init', 'ywctm_init' );
 
 function ywctm_install() {
-
-	require_once( YWCTM_DIR . 'class.yith-woocommerce-catalog-mode.php' );
 
 	if ( ! function_exists( 'WC' ) ) {
 		add_action( 'admin_notices', 'ywctm_install_woocommerce_admin_notice' );
@@ -108,26 +93,22 @@ if ( ! function_exists( 'yith_plugin_registration_hook' ) ) {
 }
 
 register_activation_hook( __FILE__, 'yith_plugin_registration_hook' );
-register_activation_hook( __FILE__, 'ywctm_plugin_activation' );
 
-function ywctm_plugin_activation() {
+if ( ! function_exists( 'YITH_WCTM' ) ) {
 
-	$pages_to_check = array(
-		get_option( 'woocommerce_cart_page_id' ),
-		get_option( 'woocommerce_checkout_page_id' )
-	);
+	/**
+	 * Unique access to instance of YITH_WC_Catalog_Mode
+	 *
+	 * @return  YITH_WooCommerce_Catalog_Mode
+	 * @since   1.1.5
+	 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
+	 */
+	function YITH_WCTM() { //phpcs:ignore
 
-	foreach ( $pages_to_check as $page_id ) {
-		if ( get_post_status( $page_id ) != 'publish' ) {
-			$page = array(
-				'ID'          => $page_id,
-				'post_status' => 'publish'
-			);
+		// Load required classes and functions
+		require_once( YWCTM_DIR . 'class-yith-woocommerce-catalog-mode.php' );
 
-			wp_update_post( $page );
-		}
+		return YITH_WooCommerce_Catalog_Mode::get_instance();
+
 	}
 }
-
-
-

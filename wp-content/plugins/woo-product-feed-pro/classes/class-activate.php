@@ -937,6 +937,7 @@ class WooSEA_Activation {
 			"Guyana" => array (),
 			"Haiti" => array (),
 			"Honduras" => array (),
+			"Hong Kong" => array (),
   		        "Hungary" => array (
                 		"ShopMania" => array (
                         		"channel_hash" => md5("ShopMania.hu"),

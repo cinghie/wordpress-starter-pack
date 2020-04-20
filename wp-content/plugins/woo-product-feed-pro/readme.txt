@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.4
-Stable tag: 7.8.6
+Stable tag: 7.9.9
 
 == Description ==
 
@@ -311,6 +311,48 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 7.9.9 (2020-04-20) =
+* Solved an issue where the function wc_review_ratings_enabled was not supported by any WC version older than 3.6
+
+= 7.9.8 (2020-04-19) =
+* Solved an issue with multiple filters including empty filters that resulted in too many products in the feed
+
+= 7.9.7 (2020-04-18) =
+* Removed double Facebook Pixel Purchase event for the eWay Gateway
+
+= 7.9.6 (2020-04-17) =
+* Build in a check that prevents the plugin from crashing in ghost variation products
+
+= 7.9.5 (2020-04-16) =
+* Added a feature to exclude local pickup shipping zones from Google Shopping and Facebook feeds
+* Renamed a Fruugo.nl template field from NormalPriceWithVat to NormalPriceWithVAT
+* Removed ATOM header from Pinterest RSS Board templating
+
+= 7.9.4 (2020-04-16) =
+* Added a feature where user can indicate if the plugin needs to respect free shipping criteria or not when adding shipping classes and methods to Google and Facebook feeds.
+
+= 7.9.3 (2020-04-15) =
+* Changed the XML header for the Fruugo.nl template
+
+= 7.9.2 (2020-04-15) =
+* Solved a PHP warning that showed in the structured data fix when products did not have any categories attacted to it
+
+= 7.9.1 (2020-04-14) =
+* Added the canonical_link attribute
+* Solved a PHP warning that happened for products that did not have any category attached to it 
+
+= 7.9.0 (2020-04-11) =
+* When the Yoast primary category is set the category path attribute uses the primary category path as of now.
+
+= 7.8.9 (2020-04-10) =
+* Added the InitiateCheckout Facebook pixel event
+
+= 7.8.8 (2020-04-09) =
+* Added channel support and country: Hong Kong
+
+= 7.8.7 (2020-04-09) =
+* Solved a Trovaprezzi shipping cost bug
 
 = 7.8.6 (2020-04-07) =
 * Solved WPML PHP noticed for products without a product ID
@@ -2500,6 +2542,48 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 7.9.9 =
+Solved an issue where the function wc_review_ratings_enabled was not supported by any WC version older than 3.6
+
+= 7.9.8 =
+* Solved an issue with multiple filters including empty filters that resulted in too many products in the feed
+
+= 7.9.7 =
+Removed double Facebook Pixel Purchase event for the eWay Gateway
+
+= 7.9.6 =
+Build in a check that prevents the plugin from crashing in ghost variation products
+
+= 7.9.5 =
+Added a feature to exclude local pickup shipping zones from Google Shopping and Facebook feeds
+Renamed a Fruugo.nl template field from NormalPriceWithVat to NormalPriceWithVAT
+Removed ATOM header from Pinterest RSS Board templating
+
+= 7.9.4 =
+Added a feature where user can indicate if the plugin needs to respect free shipping criteria or not when adding shipping classes and methods to Google and Facebook feeds.
+
+= 7.9.3 =
+Changed the XML header for the Fruugo.nl template
+
+= 7.9.2 =
+Solved a PHP warning that showed in the structured data fix when products did not have any categories attacted to it
+
+= 7.9.1 =
+Added the canonical_link attribute
+Solved a PHP warning that happened for products that did not have any category attached to it
+
+= 7.9.0 =
+When the Yoast primary category is set the category path attribute uses the primary category path as of now.
+
+= 7.8.9 =
+Added the InitiateCheckout Facebook pixel event
+
+= 7.8.8 =
+Added channel support and country: Hong Kong
+
+= 7.8.7 =
+Solved a Trovaprezzi shipping cost bug
 
 = 7.8.6 =
 Solved WPML PHP noticed for products without a product ID

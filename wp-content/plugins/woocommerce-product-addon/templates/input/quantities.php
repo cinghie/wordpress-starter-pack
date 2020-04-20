@@ -70,7 +70,7 @@ if (isset($args['view_control']) && $args['view_control'] == 'horizontal') { ?>
         			$dom_id         = apply_filters('ppom_dom_option_id', $option_id, $args);
         			
         			// Default value
-        			$selected_val = 0;
+        			$selected_val = '';
         			if($default_value){
 	        			foreach($default_value as $k => $v) {
 	        				if( $k == $label ) {
@@ -119,7 +119,7 @@ if (isset($args['view_control']) && $args['view_control'] == 'horizontal') { ?>
     			$dom_id         = apply_filters('ppom_dom_option_id', $option_id, $args);
                 
                 // Default value
-                $selected_val = 0;
+                $selected_val = '';
                 if($default_value){
                     foreach($default_value as $k => $v) {
                         if( $k == $label ) {
@@ -201,7 +201,7 @@ if (isset($args['view_control']) && $args['view_control'] == 'horizontal') { ?>
 	            			$dom_id         = apply_filters('ppom_dom_option_id', $option_id, $args);
 	            			
 	            			// Default value
-		        			$selected_val = 0;
+		        			$selected_val = '';
 		        			if($default_value){
 			        			foreach($default_value as $k => $v) {
 			        				if( $k == $label ) {
@@ -209,7 +209,8 @@ if (isset($args['view_control']) && $args['view_control'] == 'horizontal') { ?>
 			        				}
 			        			}
 		        			}
-	            			
+		        			
+		        			
 	            			$required = ($args['required'] == 'on' ? 'required' : '');
             				$input_html	 = '<input style="width:50px;text-align:center" '.esc_attr($required);
             				$input_html	.=' min="'.esc_attr($min).'" max="'.esc_attr($max).'" ';

@@ -673,7 +673,7 @@ class WooSEA_Get_Products {
 
 				// Only add shipping zones to the feed for specific feed country
 	                        $ship_found = strpos($zone_type->code, $code_from_config);
-     	
+     
 	                        if(($ship_found !== false) OR ($add_all_shipping == "yes")){	
 					if ($zone_type->type == "country"){
 						// This is a country shipping zone
@@ -697,17 +697,14 @@ class WooSEA_Get_Products {
 					} else {
 						// Unknown shipping zone type
 					}
-		
+	
 					// Get the g:services and g:prices, because there could be multiple services the $shipping_arr could multiply again
 					// g:service = "Method title - Shipping class costs"
 					// for example, g:service = "Estimated Shipping - Heavy shipping". g:price would be 180			
  	           	   	      	$shipping_methods     = $zone['shipping_methods'];
 
 					foreach ($shipping_methods as $k => $v){
-//						$v->title = str_replace("&", "&amp;", $v->title);	
-
 						if($v->enabled == "yes"){
-
 							if(empty($zone_details['country'])){
 								$zone_details['service'] = $zone['zone_name'] ." ". $v->title;					
 							} else {
@@ -747,11 +744,10 @@ class WooSEA_Get_Products {
 									}
 								}
 							}
-		
+	
 							// WooCommerce Table Rate Bolder Elements
                                                         if(class_exists('BE_Table_Rate_WC')){
                                                                 // Set shipping cost
-                                                                
 								$shipping_cost = 0;     
                                                                 if(!empty($product_id)){
                                                                          // Add product to cart
@@ -858,6 +854,16 @@ class WooSEA_Get_Products {
 								}
                             				}
 
+							// CHECK IF WE NEED TO REMOVE LOCAL PICKUP
+							if($v->id == "local_pickup"){
+								$remove_local_pickup = "no";
+                						$remove_local_pickup = get_option ('local_pickup_shipping');
+                                                        	
+								if($remove_local_pickup == "yes"){
+									unset($zone_details);
+                                                            		unset($shipping_cost);
+								}
+							}
 
 							// FREE SHIPPING COSTS IF MINIMUM FEE REACHED
 							if($v->id == "free_shipping"){
@@ -953,24 +959,17 @@ class WooSEA_Get_Products {
 			}
 		}
 
-		// When Free shipping is allowed remove all other shipping costs
-//		if(isset($currency)){
-//			error_log("leeg maken!!");
-//			$free_check = $currency ." 0";
-//		} else {
-//			$free_check = "0";
-//		}
-//
-//
-//		//if(in_array($free_check, array_column($shipping_arr, 'price'))) { // search value in the array
-//		$free_check = "yes";
-//		if(in_array($free_check, array_column($shipping_arr, 'free'))) { // search value in the array
-//			foreach($shipping_arr as $k => $v) {
-//				if(!in_array($free_check, $v)){
-//  				unset($shipping_arr[$k]);
-//				}
-//			}
-//		}
+		// Remove other shipping classes when free shipping is relevant		
+		$free_check = "no";
+                $free_check = get_option ('free_shipping');
+
+		if(in_array($free_check, array_column($shipping_arr, 'free'))) { // search value in the array
+			foreach($shipping_arr as $k => $v) {
+				if(!in_array($free_check, $v)){
+  					unset($shipping_arr[$k]);
+				}
+			}
+		}
 
 		// Remove empty countries
 		foreach($shipping_arr as $k => $v){
@@ -1216,7 +1215,7 @@ class WooSEA_Get_Products {
 					$xml->addAttribute('xmlns:content', 'http://purl.org/rss/1.0/modules/content/');
 					$xml->addAttribute('xmlns:wfw', 'http://wellformedweb.org/CommentAPI/');
 					$xml->addAttribute('xmlns:dc', 'http://purl.org/dc/elements/1.1/');
-					$xml->addAttribute('xmlns:atom', 'http://www.w3.org/2005/Atom');
+//					$xml->addAttribute('xmlns:atom', 'http://www.w3.org/2005/Atom');
 					$xml->addAttribute('xmlns:sy', 'http://purl.org/rss/1.0/modules/syndication/');
 					$xml->addAttribute('xmlns:slash', 'http://purl.org/rss/1.0/modules/slash/');
 					$xml->addAttribute('version', '2.0');
@@ -1254,6 +1253,9 @@ class WooSEA_Get_Products {
 					$publisher = $xml->addChild('publisher');
 					$publisher->addChild('name', get_bloginfo( 'name' ));
 					$publisher->addChild('favicon', get_site_icon_url());
+					$xml->asXML($file);
+				} elseif ($feed_config['name'] == "Fruugo.nl") {
+					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><Products></Products>');	
 					$xml->asXML($file);
 				} else {
 					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><products></products>');	
@@ -2052,25 +2054,27 @@ class WooSEA_Get_Products {
 	               		$product_cat = get_term($value, 'product_cat');
 
 				// Check if there are mother categories
-				$category_path = $this->woosea_get_term_parents( $product_cat->term_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
-				$category_path_skroutz = str_replace("&gt;",">",$category_path);
+				if(!empty($product_cat)){	
+					$category_path = $this->woosea_get_term_parents( $product_cat->term_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
+					$category_path_skroutz = str_replace("&gt;",">",$category_path);
 			
-		                if(!is_object($category_path)){
-					$product_data['category_path'] = $category_path;
-					$product_data['category_path_skroutz'] = $category_path_skroutz;
-					$product_data['category_path_skroutz'] = str_replace("Home >","",$product_data['category_path_skroutz']);
-					$product_data['category_path_skroutz'] = str_replace("&amp;","&",$product_data['category_path_skroutz']);
-				}
+		                	if(!is_object($category_path)){
+						$product_data['category_path'] = $category_path;
+						$product_data['category_path_skroutz'] = $category_path_skroutz;
+						$product_data['category_path_skroutz'] = str_replace("Home >","",$product_data['category_path_skroutz']);
+						$product_data['category_path_skroutz'] = str_replace("&amp;","&",$product_data['category_path_skroutz']);
+					}
 
-				$parent_categories = get_ancestors($product_cat->term_id, 'product_cat');
-				foreach ($parent_categories as $category_id){
-					$parent = get_term_by('id', $category_id, 'product_cat');
-					$parent_name = $parent->name;
-				}
+					$parent_categories = get_ancestors($product_cat->term_id, 'product_cat');
+					foreach ($parent_categories as $category_id){
+						$parent = get_term_by('id', $category_id, 'product_cat');
+						$parent_name = $parent->name;
+					}
 
-                              	if(isset($product_cat->name)) {
-					$catname .= "||".$product_cat->name;
-					$catlink .= "||".get_term_link($value,'product_cat');
+                         	     	if(isset($product_cat->name)) {
+						$catname .= "||".$product_cat->name;
+						$catlink .= "||".get_term_link($value,'product_cat');
+					}
 				}
 			}
 	
@@ -2087,6 +2091,7 @@ class WooSEA_Get_Products {
 	               		$prm_cat = get_term($prm_term, 'product_cat');
 				if(!is_wp_error($prm_cat)){
 					if(!empty($prm_cat->name)){
+						$product_data['category_path'] = $this->woosea_get_term_parents( $prm_cat->term_id, 'product_cat', $link = false, $project_taxonomy = $project_config['taxonomy'], $nicename = false, $visited = array() );
 						$product_data['one_category'] = $prm_cat->name;
 					}				
 				}
@@ -2472,7 +2477,7 @@ class WooSEA_Get_Products {
 				}
 			}
 
-			if ((array_key_exists('shipping', $project_config['attributes'])) OR (array_key_exists('shipping_price', $project_config['attributes']))){
+			if ((array_key_exists('shipping', $project_config['attributes'])) OR (array_key_exists('shipping_price', $project_config['attributes'])) OR ($project_config['fields'] == "trovaprezzi")){
 				$product_data['shipping'] =  $this->woosea_get_shipping_cost($class_cost_id, $project_config, $product_data['price'], $tax_rates, $shipping_zones, $product_data['id'], $product_data['item_group_id']);
 				$shipping_str = $product_data['shipping'];
 			}
@@ -2480,7 +2485,7 @@ class WooSEA_Get_Products {
 			// Get only shipping costs
 			$product_data['shipping_price'] = 0;
 			$shipping_arr = $product_data['shipping'];			
-			if(is_array($shipping_arr)){	
+			if(is_array($shipping_arr)){
 				foreach($shipping_arr as $akey => $arr){
 					//$product_data['shipping_price'] = $arr['price'];
                                         $pieces_ship = explode (" ", $arr['price']);
@@ -2488,6 +2493,7 @@ class WooSEA_Get_Products {
 						$product_data['shipping_price'] = $pieces_ship['1'];
 					}
 				}		
+
 			}
 
 			// Google Dynamic Remarketing feeds require the English price notation
@@ -2691,8 +2697,7 @@ class WooSEA_Get_Products {
 			 */
 			$variation_pass = "true";
 
-			if( ($product_data['item_group_id'] > 0) AND (is_object(wc_get_product( $product_data['item_group_id'])))){
-
+			if( ($product_data['item_group_id'] > 0) AND (is_object(wc_get_product( $product_data['item_group_id']))) AND ($product_data['product_type'] == "variation")){
 				$product_variations = new WC_Product_Variation( $product_data['id'] );
 				$variations = $product_variations->get_variation_attributes();
 		
@@ -4414,8 +4419,8 @@ class WooSEA_Get_Products {
 				$pr_array['attribute'] = "raw_categories";
 			}
 
-
 			if(array_key_exists($pr_array['attribute'], $product_data)){
+
 				foreach ($product_data as $pd_key => $pd_value){
 					// Check is there is a rule on specific attributes
 
@@ -4457,7 +4462,9 @@ class WooSEA_Get_Products {
 									break;
 								case($pr_array['condition'] = "!="):
 									if (($old_value == $pr_array['criteria']) && ($pr_array['than'] == "exclude")){
-										$allowed = 1;
+										if($allowed <> 0){
+											$allowed = 1;
+										}
 									} elseif (($old_value == $pr_array['criteria']) && ($pr_array['than'] == "include_only")){
 										$allowed = 0;
 									}
@@ -4525,7 +4532,9 @@ class WooSEA_Get_Products {
 										case($pr_array['condition'] = "contains"):
 											if ((preg_match('/'.$pr_array['criteria'].'/', $v))){
 												if($pr_array['than'] == "include_only"){
-													$allowed = 1;
+													if($allowed <> 0){
+														$allowed = 1;
+													}
 												} else {
 													$allowed = 0;
 												}
@@ -4536,7 +4545,9 @@ class WooSEA_Get_Products {
 										case($pr_array['condition'] = "containsnot"):
 											if ((!preg_match('/'.$pr_array['criteria'].'/', $v))){
 												if($pr_array['than'] == "include_only"){
-													$allowed = 1;
+													if($allowed <> 0){
+														$allowed = 1;
+													}
 												} else {
 													$allowed = 0;
 												}
@@ -4547,7 +4558,9 @@ class WooSEA_Get_Products {
 										case($pr_array['condition'] = "="):
 											if (($v == $pr_array['criteria'])){
 												if($pr_array['than'] == "include_only"){
-													$allowed = 1;
+													if($allowed <> 0){
+														$allowed = 1;
+													}
 												} else {
 													$allowed = 0;
 												}
@@ -4558,7 +4571,9 @@ class WooSEA_Get_Products {
 										case($pr_array['condition'] = "!="):
 											if (($v != $pr_array['criteria'])){
 												if($pr_array['than'] == "include_only"){
-													$allowed = 1;
+													if($allowed <> 0){
+														$allowed = 1;
+													}
 												} else {	
 													$allowed = 0;
 												}
@@ -4567,7 +4582,9 @@ class WooSEA_Get_Products {
 										case($pr_array['condition'] = ">"):
 											if (($v > $pr_array['criteria'])){
 												if($pr_array['than'] == "include_only"){
-													$allowed = 1;
+													if($allowed <> 0){
+														$allowed = 1;
+													}
 												} else {	
 													$allowed = 0;
 												}
@@ -4576,7 +4593,9 @@ class WooSEA_Get_Products {
 										case($pr_array['condition'] = ">="):
 											if (($v >= $pr_array['criteria'])){
 												if($pr_array['than'] == "include_only"){
-													$allowed = 1;
+													if($allowed <> 0){
+														$allowed = 1;
+													}
 												} else {	
 													$allowed = 0;
 												}
@@ -4585,7 +4604,9 @@ class WooSEA_Get_Products {
 										case($pr_array['condition'] = "<"):
 											if (($v < $pr_array['criteria'])){
 												if($pr_array['than'] == "include_only"){
-													$allowed = 1;
+													if($allowed <> 0){
+														$allowed = 1;
+													}
 												} else {	
 													$allowed = 0;
 												}
@@ -4594,7 +4615,9 @@ class WooSEA_Get_Products {
 										case($pr_array['condition'] = "=<"):
 											if (($v <= $pr_array['criteria'])){
 												if($pr_array['than'] == "include_only"){
-													$allowed = 1;
+													if($allowed <> 0){
+														$allowed = 1;
+													}
 												} else {	
 													$allowed = 0;
 												}
@@ -4603,7 +4626,9 @@ class WooSEA_Get_Products {
 										case($pr_array['condition'] = "empty"):
 											if (strlen($v) < 1){
 												if($pr_array['than'] == "include_only"){
-													$allowed = 1;
+													if($allowed <> 0){
+														$allowed = 1;
+													}
 												} else {	
 													$allowed = 0;
 												}
@@ -4618,12 +4643,16 @@ class WooSEA_Get_Products {
 											if($pr_array['than'] == "include_only"){
 												$allowed = 0;
 											} else {
-												$allowed = 1;
+												if($allowed <> 0){
+													$allowed = 1;
+												}
 											}
 											break;
 										case($pr_array['condition'] = "containsnot"):
 											if($pr_array['than'] == "include_only"){
-												$allowed = 1;
+												if($allowed <> 0){
+													$allowed = 1;
+												}
 											} else {
 												$allowed = 0;
 											}
@@ -4632,12 +4661,16 @@ class WooSEA_Get_Products {
 											if($pr_array['than'] == "include_only"){
 												$allowed = 0;
 											} else {
-												$allowed = 1;
+												if($allowed <> 0){
+													$allowed = 1;
+												}
 											}
 											break;
 										case($pr_array['condition'] = "!="):
 											if($pr_array['than'] == "include_only"){
-												$allowed = 1;
+												if($allowed <> 0){
+													$allowed = 1;
+												}
 											} else {	
 												$allowed = 0;
 											}
@@ -4672,7 +4705,9 @@ class WooSEA_Get_Products {
 											break;
 										case($pr_array['condition'] = "empty"):
 											if($pr_array['than'] == "include_only"){
-												$allowed = 1;
+												if($allowed <> 0){	
+													$allowed = 1;
+												}
 											} else {	
 												$allowed = 0;
 											}
@@ -4766,7 +4801,9 @@ class WooSEA_Get_Products {
 									} elseif ((!preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "include_only")){
 										$allowed = 0;
 									} elseif ((preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "include_only")){
-										$allowed = 1;
+										if($allowed <> 0){
+											$allowed = 1;
+										}
 									}
 									break;
 								case($pr_array['condition'] = "containsnot"):
@@ -4782,12 +4819,16 @@ class WooSEA_Get_Products {
 									} elseif (($pr_array['criteria'] != "$pd_value") && ($pr_array['than'] == "include_only")){
 										$found = strpos($pd_value,$pr_array['criteria']);
 										if ($found !== false) {
-											$allowed = 1;
+											if($allowed <> 0){
+												$allowed = 1;
+											}
 										} else {
 											$allowed = 0;
 										}
 									} elseif (($pr_array['criteria'] == "$pd_value") && ($pr_array['than'] == "include_only")){
-										$allowed = 1;
+										if($allowed <> 0){			
+											$allowed = 1;
+										}
 								      	} elseif ((preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "exclude")){
                                                                                 $allowed = 0;
 								      	} elseif ((preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "include_only")){
@@ -4796,7 +4837,9 @@ class WooSEA_Get_Products {
 									break;
 								case($pr_array['condition'] = "!="):
 									if (($pr_array['criteria'] == "$pd_value") && ($pr_array['than'] == "exclude")){
-										$allowed = 1;
+										if($allowed <> 0){
+											$allowed = 1;
+										}
 									} elseif (($pr_array['criteria'] == "$pd_value") && ($pr_array['than'] == "include_only")){
 										$allowed = 0; 
 									} elseif (($pr_array['criteria'] != "$pd_value") && ($pr_array['than'] == "exclude")){
@@ -4839,7 +4882,9 @@ class WooSEA_Get_Products {
 									if ((strlen($pd_value) < 1) && ($pr_array['than'] == "exclude")){
 										$allowed = 0;
 									} elseif ((strlen($pd_value) > 0) && ($pr_array['than'] == "exclude")){
-										$allowed = 1;
+										if($allowed <> 0){
+											$allowed = 1;
+										}
 									} elseif ((strlen($pd_value) > 0) && ($pr_array['than'] == "include_only")){
 										$allowed = 0;
 									}

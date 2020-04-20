@@ -275,7 +275,7 @@ if(isset($_GET["tab"])) {
 						</tr>
 						<tr>
 							<td>
-								<span><?php _e( 'Add shipping costs for all countries (Google Shopping / Facebook)', 'woo-product-feed-pro');?></span>
+								<span><?php _e( 'Add shipping costs for all countries to feed (Google Shopping / Facebook only)', 'woo-product-feed-pro');?></span>
 							</td>
 							<td>
                                                 		<label class="woo-product-feed-pro-switch">
@@ -285,6 +285,42 @@ if(isset($_GET["tab"])) {
                                                                 	print "<input type=\"checkbox\" id=\"add_all_shipping\" name=\"add_all_shipping\" class=\"checkbox-field\" checked>";
 							 	} else {
                                                                 	print "<input type=\"checkbox\" id=\"add_all_shipping\" name=\"add_all_shipping\" class=\"checkbox-field\">";
+                                                        	}
+                                                        	?>
+                                                        	<div class="woo-product-feed-pro-slider round"></div>
+                                                		</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span><?php _e( 'Remove all other shipping classes when free shipping criteria are met (Google Shopping / Facebook only)', 'woo-product-feed-pro');?></span>
+							</td>
+							<td>
+                                                		<label class="woo-product-feed-pro-switch">
+                                                        	<?php
+								$free_shipping = get_option ('free_shipping');
+                                                        	if($free_shipping == "yes"){
+                                                                	print "<input type=\"checkbox\" id=\"free_shipping\" name=\"free_shipping\" class=\"checkbox-field\" checked>";
+							 	} else {
+                                                                	print "<input type=\"checkbox\" id=\"free_shipping\" name=\"free_shipping\" class=\"checkbox-field\">";
+                                                        	}
+                                                        	?>
+                                                        	<div class="woo-product-feed-pro-slider round"></div>
+                                                		</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span><?php _e( 'Remove the local pickup shipping zone from feed (Google Shopping / Facebook only)', 'woo-product-feed-pro');?></span>
+							</td>
+							<td>
+                                                		<label class="woo-product-feed-pro-switch">
+                                                        	<?php
+								$local_pickup_shipping = get_option ('local_pickup_shipping');
+                                                        	if($local_pickup_shipping == "yes"){
+                                                                	print "<input type=\"checkbox\" id=\"local_pickup_shipping\" name=\"local_pickup_shipping\" class=\"checkbox-field\" checked>";
+							 	} else {
+                                                                	print "<input type=\"checkbox\" id=\"local_pickup_shipping\" name=\"local_pickup_shipping\" class=\"checkbox-field\">";
                                                         	}
                                                         	?>
                                                         	<div class="woo-product-feed-pro-slider round"></div>

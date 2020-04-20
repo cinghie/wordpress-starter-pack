@@ -221,6 +221,46 @@ jQuery(document).ready(function($) {
 		}
 	})	
 
+	// Check if user would like the plugin to respect free shipping class
+	$('#free_shipping').on('change', function(){ // on change of state
+   		if(this.checked){
+
+			// Checkbox is on
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_free_shipping', 'status': "on" }
+                	})
+		} else {
+			// Checkbox is off
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_free_shipping', 'status': "off" }
+                	})
+		}
+	})	
+
+	// Check if user would like the plugin to respect free shipping class
+	$('#local_pickup_shipping').on('change', function(){ // on change of state
+   		if(this.checked){
+
+			// Checkbox is on
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_local_pickup_shipping', 'status': "on" }
+                	})
+		} else {
+			// Checkbox is off
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_local_pickup_shipping', 'status': "off" }
+                	})
+		}
+	})	
+
 	// Check if user would like to enable debug logging
 	$('#add_woosea_logging').on('change', function(){ // on change of state
    		if(this.checked){

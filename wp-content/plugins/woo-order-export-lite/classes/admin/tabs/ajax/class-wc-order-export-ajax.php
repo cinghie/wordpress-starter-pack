@@ -45,7 +45,7 @@ class WC_Order_Export_Ajax {
 			$logger->info( $output, $logger_context );
 		}
 
-		//admin will see this message in any case , later 
+		//admin will see non-emty message in any case , later 
 		if ( !empty( $result ) AND $settings['title'] ) 
 			set_transient( WC_Order_Export_Admin::last_bulk_export_results, $output ); 
 		if ( !$browser_output  ) { // we don't send file to user, so we must redirect to previous page! 

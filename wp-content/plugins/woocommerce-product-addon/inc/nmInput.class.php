@@ -923,15 +923,18 @@ class NM_Form {
                        width : '.esc_attr($args['image_width']).' !important;
                    }';
        $html .= '</style>';
+       
+       $images = ppom_convert_options_to_key_val($images, $args, $product);
+    //   ppom_pa($images);
         
-        // ppom_pa($images);
         if (isset($args['legacy_view']) && $args['legacy_view'] == 'on') {
 	        $html .= '<div class="ppom_upload_image_box">';
 			foreach ($images as $image){
 						
 				$image_full     = isset($image['link']) ? $image['link'] : 0;
-				$image_id       = isset($image['id']) ? $image['id'] : 0;
-				$image_title    = isset($image['title']) ? stripslashes($image['title']) : 0;
+				$image_id       = isset($image['image_id']) ? $image['image_id'] : 0;
+				$image_title    = isset($image['raw']) ? stripslashes($image['raw']) : '';
+				$image_label    = isset($image['label']) ? stripslashes($image['label']) : '';
 				$image_price    = isset($image['price']) ? $image['price'] : 0;
 				$option_id      = $id.'-'.$image_id;
 				
@@ -941,18 +944,17 @@ class NM_Form {
 				}
 
 	            // Actually image URL is link
-				$image_price    = apply_filters('ppom_option_price', $image_price);
-				$image_link = isset($image['url']) ? $image['url'] : '';
-				$image_url  = wp_get_attachment_thumb_url( $image_id );
-				$image_title_price = $image_title . ' ' . ($image_price > 0 ? '(+'.ppom_price($image_price).')' : '');
+				// $image_price    = apply_filters('ppom_option_price', $image_price);
+				$image_link         = isset($image['url']) ? $image['url'] : '';
+				$image_url          = wp_get_attachment_thumb_url( $image_id );
 				
 				// Currency Switcher
 				
 				$checked_option = '';
 				if( ! empty($default_value) ){
-	        
-	                $checked = ($image['title'] == $default_value ? 'checked = "checked"' : '' );
-	                $checked_option = checked( $default_value, $image['title'], false );
+				    
+	               if( !is_array($default_value) )
+	                $checked_option = checked( $default_value, $image['raw'], false );
 	            }
 				
 				$html .= '<div class="pre_upload_image '.esc_attr($classes).'">';
@@ -964,7 +966,7 @@ class NM_Form {
 				}
 				
 				// Loading Modals
-				$modal_vars = array('image_id' => $image_id, 'image_full'=>$image_full, 'image_title'=>$image_title_price);
+				$modal_vars = array('image_id' => $image_id, 'image_full'=>$image_full, 'image_title'=>$image_label);
 				ppom_load_template('v10/image-modals.php', $modal_vars);
 				?>
 				
@@ -985,7 +987,7 @@ class NM_Form {
 				}else{
 					
 					//default selected
-					$checked = ($image['title'] == $default_value ? 'checked = "checked"' : '' );
+				// 	$checked = ($image['raw'] == $default_value ? 'checked = "checked"' : '' );
 					$html	.= '<input type="radio" ';
 					$html   .= 'id="'.esc_attr($option_id).'" ';
 					$html   .= 'data-price="'.esc_attr($image_price).'" ';
@@ -998,7 +1000,7 @@ class NM_Form {
 					$html   .= 'value="'.esc_attr(json_encode($image)).'" '.$checked_option.' />';
 				}
 					
-			    $html	.= '<div class="p_u_i_name">'.$image_title_price.'</div>';
+			    $html	.= '<div class="p_u_i_name">'.$image_label.'</div>';
 				$html	.= '</div>';	//input_image
 					
 					
@@ -1019,8 +1021,9 @@ class NM_Form {
 
                     // ppom_pa($image);
 					$image_full   = isset($image['link']) ? $image['link'] : 0;
-					$image_id   = isset($image['id']) ? $image['id'] : 0;
-					$image_title= isset($image['title']) ? stripslashes($image['title']) : 0;
+					$image_id   = isset($image['image_id']) ? $image['image_id'] : 0;
+					$image_title= isset($image['raw']) ? stripslashes($image['raw']) : '';
+					$image_label= isset($image['label']) ? stripslashes($image['label']) : '';
 					$image_price= isset($image['price']) ? $image['price'] : 0;
 					$option_id  = $id.'-'.$image_id;
 
@@ -1029,13 +1032,9 @@ class NM_Form {
     					$image_price = ppom_get_amount_after_percentage($product->get_price(), $image['price']);
     				}
     				
-    				// Currency Switcher
-				    $image_price    = apply_filters('ppom_option_price', $image_price);
-				
-		            // Actually image URL is link
+    				// Actually image URL is link
 					$image_link = isset($image['url']) ? $image['url'] : '';
 					$image_url  = wp_get_attachment_thumb_url( $image_id );
-					$image_title_price = $image_title . ' ' . ($image_price > 0 ? '(+'.ppom_price($image_price).')' : '');
 					
 					$checked_option = '';
 					
@@ -1046,13 +1045,13 @@ class NM_Form {
 					        
 					        foreach($default_value as $img_data) {
 					            
-					            if( $image['id'] == $img_data['id'] ) {
+					            if( $image['image_id'] == $img_data['id'] ) {
 					                $checked_option = 'checked="checked"';
 					            }
 					        }
 					    } else {
 					        
-					        $checked_option = ($image['title'] == $default_value ? 'checked=checked' : '' );
+					        $checked_option = ($image['raw'] == $default_value ? 'checked=checked' : '' );
 		                  
 					    }
 					    
@@ -1060,7 +1059,7 @@ class NM_Form {
 					
 					$html .= '<label>';
 					$html .= '<div class="pre_upload_image '.esc_attr($classes).'" ';
-					$html .= 'title="'.esc_attr($image_title_price).'" data-ppom-tooltip="ppom_tooltip">';
+					$html .= 'title="'.esc_attr($image_label).'" data-ppom-tooltip="ppom_tooltip">';
 						if ($args['multiple_allowed'] == 'on') {
 							$html	.= '<input type="checkbox" ';
 							$html   .= 'id="'.esc_attr($option_id).'" ';
@@ -1075,7 +1074,7 @@ class NM_Form {
 						}else{
 							
 							//default selected
-				// 			$checked = ($image['title'] == $default_value ? 'checked = "checked"' : '' );
+				// 			$checked = ($image['label'] == $default_value ? 'checked = "checked"' : '' );
 							$html	.= '<input type="radio" ';
 							$html   .= 'id="'.esc_attr($option_id).'" ';
 							$html   .= 'class="ppom-input" ';
@@ -1088,13 +1087,13 @@ class NM_Form {
 							$html   .= 'value="'.esc_attr(json_encode($image)).'" '.esc_attr($checked_option).' />';
 						}
 						
-					if($image['id'] != ''){
+					if($image['image_id'] != ''){
 						if( isset($image['url']) && $image['url'] != '' ) {
-							$html .= '<a href="'.$image['url'].'"><img src="'.wp_get_attachment_thumb_url( $image['id'] ).'" /></a>';
+							$html .= '<a href="'.$image['url'].'"><img src="'.wp_get_attachment_thumb_url( $image['image_id'] ).'" /></a>';
 						} else {
 						    
-						    $image_url = wp_get_attachment_thumb_url( $image['id'] );
-							$html .= '<img data-image-tooltip="'.wp_get_attachment_url($image['id']).'" class="img-thumbnail ppom-zoom-'.esc_attr($id).'" src="'.esc_url($image_url).'" />';
+						    $image_url = wp_get_attachment_thumb_url( $image['image_id'] );
+							$html .= '<img data-image-tooltip="'.wp_get_attachment_url($image['image_id']).'" class="img-thumbnail ppom-zoom-'.esc_attr($id).'" src="'.esc_url($image_url).'" />';
 						}
 						
 					}else{
@@ -1310,7 +1309,6 @@ class NM_Form {
 			$checked_option = '';
 			if( ! empty($default_value) ){
         
-                $checked = ($audio['title'] == $default_value ? 'checked = "checked"' : '' );
                 $checked_option = checked( $default_value, $key, false );
             }
 			

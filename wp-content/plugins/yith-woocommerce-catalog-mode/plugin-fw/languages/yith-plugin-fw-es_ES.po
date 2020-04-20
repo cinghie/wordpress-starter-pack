@@ -3,16 +3,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: YITH Plugin Starter 1.0.0 Plugin FW\n"
-"Report-Msgid-Bugs-To: Your Inspiration Themes <plugins@yithemes.com>\n"
-"POT-Creation-Date: 2020-01-14 09:59+0000\n"
-"PO-Revision-Date: 2020-01-14 10:23+0000\n"
+"Report-Msgid-Bugs-To: YITH <plugins@yithemes.com>\n"
+"POT-Creation-Date: 2020-04-06 10:44+0200\n"
+"PO-Revision-Date: 2020-04-06 10:45+0200\n"
 "Last-Translator: \n"
 "Language-Team: Your Inspiration Themes <info@yithemes.com>\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.12\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
 "_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
 "esc_html_x:1,2c\n"
@@ -270,7 +270,7 @@ msgstr "Añadir %s desde imágenes"
 msgid "Upload multiple files"
 msgstr "Cargar archivos múltiples"
 
-#: lib/yit-plugin-panel-wc.php:397
+#: lib/yit-plugin-panel-wc.php:399
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Los cambios que has hecho se perderán si abandonas esta página."
 
@@ -278,87 +278,87 @@ msgstr "Los cambios que has hecho se perderán si abandonas esta página."
 msgid "Plugin Settings"
 msgstr "Ajustes del plugin"
 
-#: lib/yit-plugin-panel.php:424 lib/yit-plugin-panel.php:427
+#: lib/yit-plugin-panel.php:425 lib/yit-plugin-panel.php:428
 msgid "How to install premium version"
 msgstr "Cómo instalar la versión premium"
 
-#: lib/yit-plugin-panel.php:571 lib/yit-plugin-subpanel.php:151
+#: lib/yit-plugin-panel.php:574 lib/yit-plugin-subpanel.php:151
 #: templates/panel/woocommerce/woocommerce-form.php:14
 msgid "Save Changes"
 msgstr "Guardar cambios"
 
-#: lib/yit-plugin-panel.php:574 lib/yit-plugin-subpanel.php:154
+#: lib/yit-plugin-panel.php:577 lib/yit-plugin-subpanel.php:154
 #: templates/panel/woocommerce/woocommerce-form.php:17
 msgid ""
 "If you continue with this action, you will reset all options in this page."
 msgstr ""
 "Si sigues con esta acción, se reiniciarán todas las opciones en esta página."
 
-#: lib/yit-plugin-panel.php:576 lib/yit-plugin-subpanel.php:156
+#: lib/yit-plugin-panel.php:579 lib/yit-plugin-subpanel.php:156
 msgid "Reset to default"
 msgstr "Restablecer a predeterminado"
 
-#: lib/yit-plugin-panel.php:577 lib/yit-plugin-subpanel.php:157
+#: lib/yit-plugin-panel.php:580 lib/yit-plugin-subpanel.php:157
 #: templates/panel/woocommerce/woocommerce-form.php:21
 msgid "Are you sure?"
 msgstr "¿Estás seguro/a?"
 
-#: lib/yit-plugin-panel.php:775
+#: lib/yit-plugin-panel.php:778
 msgid ""
 "The element you have entered already exists. Please, enter another name."
 msgstr ""
 "El elemento que has introducido ya existe. Por favor, introduce otro nombre."
 
-#: lib/yit-plugin-panel.php:776
+#: lib/yit-plugin-panel.php:779
 msgid "Settings saved"
 msgstr "Ajustes guardados"
 
-#: lib/yit-plugin-panel.php:777
+#: lib/yit-plugin-panel.php:780
 msgid "Settings reset"
 msgstr "Ajustes reiniciados"
 
-#: lib/yit-plugin-panel.php:778
+#: lib/yit-plugin-panel.php:781
 msgid "Element deleted correctly."
 msgstr "Elemento borrado correctamente."
 
-#: lib/yit-plugin-panel.php:779 lib/yit-plugin-panel.php:780
+#: lib/yit-plugin-panel.php:782 lib/yit-plugin-panel.php:783
 msgid "Element updated correctly."
 msgstr "Elemento actualizado correctamente."
 
-#: lib/yit-plugin-panel.php:781
+#: lib/yit-plugin-panel.php:784
 msgid "Database imported correctly."
 msgstr "Base de datos importada correctamente."
 
-#: lib/yit-plugin-panel.php:782
+#: lib/yit-plugin-panel.php:785
 msgid "An error has occurred during import. Please try again."
 msgstr ""
 "Ha ocurrido un error durante la importación. Por favor, inténtalo de nuevo."
 
-#: lib/yit-plugin-panel.php:783
+#: lib/yit-plugin-panel.php:786
 msgid "The added file is not valid."
 msgstr "El archivo añadido no es válido."
 
-#: lib/yit-plugin-panel.php:784
+#: lib/yit-plugin-panel.php:787
 msgid "Sorry, import is disabled."
 msgstr "Lo sentimos, la importación está deshabilitada."
 
-#: lib/yit-plugin-panel.php:785
+#: lib/yit-plugin-panel.php:788
 msgid "Sorting successful."
 msgstr "Clasificación fue realizada con éxito."
 
-#: lib/yit-plugin-panel.php:1233
+#: lib/yit-plugin-panel.php:1236
 msgid "We need your support"
 msgstr "Necesitamos tu ayuda"
 
-#: lib/yit-plugin-panel.php:1234
+#: lib/yit-plugin-panel.php:1237
 msgid "to keep updating and improving the plugin. Please,"
 msgstr "para seguir actualizando y mejora el plugin. Por favor,"
 
-#: lib/yit-plugin-panel.php:1236
+#: lib/yit-plugin-panel.php:1239
 msgid "help us by leaving a five-star rating"
 msgstr "ayúdanos dejando una valoración de 5 estrellas"
 
-#: lib/yit-plugin-panel.php:1237
+#: lib/yit-plugin-panel.php:1240
 msgid ":) Thanks!"
 msgstr ":) ¡Gracias!"
 
@@ -452,75 +452,75 @@ msgctxt "[gutenberg]: Category Name"
 msgid "YITH"
 msgstr "YITH"
 
-#: lib/yith-system-status.php:97 lib/yith-system-status.php:98
-msgid "System Status"
-msgstr "Estado del sistema"
-
-#: lib/yith-system-status.php:104
+#: lib/yith-system-status.php:105
 msgid "WordPress Version"
 msgstr "Versión de WordPress"
 
-#: lib/yith-system-status.php:105
+#: lib/yith-system-status.php:106
 msgid "WooCommerce Version"
 msgstr "Versión de WooCommerce"
 
-#: lib/yith-system-status.php:106
+#: lib/yith-system-status.php:107
 msgid "Available Memory"
 msgstr "Memoria disponible"
 
-#: lib/yith-system-status.php:107
+#: lib/yith-system-status.php:108
 msgid "PHP Version"
 msgstr "Versión PHP"
 
-#: lib/yith-system-status.php:108
+#: lib/yith-system-status.php:109
 msgid "TLS Version"
 msgstr "Versión TLS"
 
-#: lib/yith-system-status.php:109
+#: lib/yith-system-status.php:110
 msgid "WordPress Cron"
 msgstr "Cron de WordPress"
 
-#: lib/yith-system-status.php:110
+#: lib/yith-system-status.php:111
 msgid "SimpleXML"
 msgstr "SimpleXML"
 
-#: lib/yith-system-status.php:111
+#: lib/yith-system-status.php:112
 msgid "MultiByte String"
 msgstr "Cadena MultiByte"
 
-#: lib/yith-system-status.php:112
+#: lib/yith-system-status.php:113
 msgid "ImageMagick Version"
 msgstr "Versión ImageMagick"
 
-#: lib/yith-system-status.php:113
+#: lib/yith-system-status.php:114
 msgid "GD Library"
 msgstr "Biblioteca GD"
 
-#: lib/yith-system-status.php:114
+#: lib/yith-system-status.php:115
 msgid "Iconv Module"
 msgstr "Módulo Iconv"
 
-#: lib/yith-system-status.php:115
+#: lib/yith-system-status.php:116
 msgid "OPCache Save Comments"
 msgstr "Guardar comentarios OPCache"
 
-#: lib/yith-system-status.php:116
+#: lib/yith-system-status.php:117
 msgid "URL FOpen"
 msgstr "URL FOpen"
 
-#: lib/yith-system-status.php:173
+#: lib/yith-system-status.php:135 lib/yith-system-status.php:136
+msgid "System Status"
+msgstr "Estado del sistema"
+
+#: lib/yith-system-status.php:179
 msgid "YITH Plugins"
 msgstr "Plugins de YITH"
 
-#: lib/yith-system-status.php:174
+#: lib/yith-system-status.php:180
 msgid "WooCommerce"
 msgstr "WooCommerce"
 
-#: lib/yith-system-status.php:291
+#: lib/yith-system-status.php:297
 msgid "Warning!"
 msgstr "¡Atención! "
 
-#: lib/yith-system-status.php:292
+#: lib/yith-system-status.php:298
 #, php-format
 msgid ""
 "The system check has detected some compatibility issues on your "
@@ -604,14 +604,14 @@ msgid "Delete"
 msgstr "Borrar"
 
 #: templates/fields/onoff.php:24
-msgctxt "ON/OFF button: use MAX 3 characters!"
-msgid "ON"
-msgstr "ON"
+msgctxt "YES/NO button: use MAX 3 characters!"
+msgid "YES"
+msgstr "SI"
 
 #: templates/fields/onoff.php:25
-msgctxt "ON/OFF button: use MAX 3 characters!"
-msgid "OFF"
-msgstr "OFF"
+msgctxt "YES/NO button: use MAX 3 characters!"
+msgid "NO"
+msgstr "NO"
 
 #: templates/fields/select-buttons.php:21
 msgid "Add All"
@@ -808,6 +808,18 @@ msgstr "Ajustes"
 #: yit-plugin.php:194
 msgid "License"
 msgstr "Licencia"
+
+#, fuzzy
+#~ msgid "YITH"
+#~ msgstr "YITH"
+
+#~ msgctxt "ON/OFF button: use MAX 3 characters!"
+#~ msgid "ON"
+#~ msgstr "ON"
+
+#~ msgctxt "ON/OFF button: use MAX 3 characters!"
+#~ msgid "OFF"
+#~ msgstr "OFF"
 
 #~ msgid "An unexpected error occurred, please try again later. Thanks!"
 #~ msgstr ""

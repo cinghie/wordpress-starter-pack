@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: woocommerce catalog mode plugin, woocommerce catalog only, woocommerce, products, themes, yit, yith, yithemes, e-commerce, shop, catalog mode, catalogue mode, remove add to cart, ask for price, ask price, asking for price, asking price, button remove, call, call for price, call me, call us, contact, email, hide add to cart, hide price
 Requires at least: 4.0
 Tested up to: 5.4
-Stable tag: 1.6.19
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,19 +12,55 @@ YITH WooCommerce Catalog Mode, a plugin for disabling sales in your e-commerce a
 
 == Description ==
 
-YITH WooCommerce Catalog Mode is one of our most appealing plugins for WordPress and WooCommerce users who need to switch their WooCommerce site into an online catalogue for some time. Reasons for this switch may be a thousand, but most common ones are concerned with the need of users to perform maintenance actions in their warehouse without putting their site offline. Is it ever happened to you to take inventory and have to put your WooCommerce shop down? How many potential customers lost! A catalogue gives you the opportunity to leave your WooCommerce products online and to let your customers contact you anyway for whatever question they might have. This increases customers' loyalty and you do not lose visibility online.
+Are you interested in displaying a catalog with products or services without making them immediately available for sale?
+Are you taking inventory but would like to leave products online? Or maybe your store might be temporarily closed due to holidays or prepare for a sales period and you need to temporarily suspend sales?
+
+YITH WooCommerce Catalog Mode is the easy and quick solution to turn your online shop into a catalogue, by removing all Add to Cart buttons and any access to checkout pages.
+
+A catalogue gives you the opportunity to leave your products online and to let your customers contact you anyway for whatever question they might have or to ask a custom quote. This increases customers’ loyalty and you do not lose visibility online.
+
+With **50,000+ active installations**, YITH WooCommerce Catalog mode is the **most popular free plugin** to convert a shop to an online catalog and the easiest solution: you can do that with just two clicks!
+
+In our last update, we also improved the panel and the code to provide a better experience to all users that trust in our products.
 
 = Features of YITH WooCommerce Catalog Mode: =
 
-* Enable/disable YITH WooCommerce Catalog Mode from option panel
-* Choose if admin sees the store as catalog (when set) Mode settings for administrators also
-* Hide "Add to Cart" button in WooCommerce product detail page
-* Hide "Add to Cart" button in the other pages of the site (catalog, shop etc.)
-* Hide WooCommerce "Cart" and "Checkout" pages and any reference to them
+* Select if an admin will see the store in catalog mode (only when set)
+* Hide “Add to Cart” button on all product pages
+* Hide “Add to Cart” button on other pages (shop, categories, tags)
+* Hide WooCommerce “Cart” and “Checkout” pages and any reference to them.
 
 = Official documentation of YITH WooCommerce Catalog Mode =
 
-For a more detailed description of options and features of YITH WooCommerce Catalog Mode, please, read the [official documentation](https://yithemes.com/docs-plugins/yith-woocommerce-catalog-mode/).
+For a more detailed description of options and features of YITH WooCommerce Catalog Mode, please, read the [official documentation](https://docs.yithemes.com/yith-woocommerce-catalog-mode/).
+
+= NEED MORE? DISCOVER THE FEATURES OF THE PREMIUM VERSION: =
+
+⭐ Apply catalog mode only to specific products or product categories.
+
+⭐ Apply catalog mode to all products and exclude specific products.
+
+⭐ Apply catalog mode to all users, to guest users only or to users from specific countries only (if you don’t want to sell and ship products in some countries).
+
+⭐ Hide WooCommerce “Cart” and “Checkout” pages and any other possible reference to them.
+
+⭐ Hide prices.
+
+⭐ Create unlimited buttons or labels in our buttons builder to replace prices and add to cart buttons.
+
+⭐ Assign different labels and buttons to specific products.
+
+⭐ Enable an inquiry form in product pages to let your users contact you and ask for more info or for a custom quote.
+
+⭐ Choose the inquiry form style and position.
+
+⭐ Connect with your favorite form builder including Formidable Forms, Gravity Forms, Contact Forms 7 and Ninja Forms.
+
+⭐ Disable WooCommerce “Reviews” tab in the product page for all users or for unregistered users only.
+
+⭐ Get premium support and download the latest versions.
+
+[GET PREMIUM VERSION NOW >](https://yithemes.com/themes/plugins/yith-woocommerce-catalog-mode/)
 
 = Compatibility with WooCommerce plugins =
 
@@ -38,24 +74,6 @@ YITH WooCommerce Catalog Mode has been tested and compatibility is certain with 
 = An essential kit for your WooCommerce site? =
 
 YITH WooCommerce Catalog Mode is available in combination with many other plugins in [**YITH Essential Kit for WooCommerce #1**](https://wordpress.org/plugins/yith-essential-kit-for-woocommerce-1/), a bundle of indispensable tools to make your WooCommerce site look more professional and be more user-friendly. Learn more about all WooCommerce plugins included and boost your WooCommerce site with a simple click!
-
-= Premium features of YITH WooCommerce Catalog Mode =
-
-* All features of the free version
-* Enable/disable catalog mode without having to disable YITH WooCommerce Catalog Mode.
-* Do not apply catalog mode to selected WooCommerce products added in the “Exclusion list”. Exclusions are managed from “Exclusions” tab
-* Set options for WooCommerce products in “Exclusion list”, to which catalog mode is not applied
-* Reverse functioning of “Exclusion list”, by applying catalog mode only to WooCommerce products added in the list
-* Hide WooCommerce “Cart” and “Checkout” pages and any other possible reference to them
-* Hide WooCommerce product price
-* Enter an alternative text to replace WooCommerce product price (e.g. “Register to see price”)
-* Hide WooCommerce price to all users or to unregistered users only
-* Add a tab with an inquiry form for each WooCommerce product to let your users contact you and ask about it
-* Include the link of the WooCommerce product page from which the inquiry email has been sent
-* Custom button in WooCommerce product page
-* Select an action for the button added by YITH Woocommerce Catalog Mode (generic URL, email address, phone number, Skype contact)
-* Disable WooCommerce “Reviews” tab in product page for all users or for unregistered users only
-
 
 == Installation ==
 
@@ -112,6 +130,12 @@ yith-woocommerce-catalog-mode-<WORDPRESS LOCALE >.mo
 3. This image shows WooCommerce product detail page as it appears when WooCommerce "Add to Cart" button is hidden and WooCommerce Cart and Checkout page are deactivated.
 
 == Changelog ==
+
+= Version 2.0.0 - Released: 8 April 2020 =
+
+* Tweak: improved admin panel and settings UX
+* Dev: code refactoring of the entire plugin
+* Update: plugin framework
 
 = Version 1.6.19 - Released: 11 March 2020 =
 
@@ -328,7 +352,7 @@ yith-woocommerce-catalog-mode-<WORDPRESS LOCALE >.mo
 
 == Upgrade Notice ==
 
-Last Stable Tag 1.6.19
+Last Stable Tag 2.0.0
 
 == Suggestions ==
 
@@ -336,12 +360,17 @@ If you have suggestions about how to improve YITH WooCommerce Catalog Mode, you 
 
 == Translators ==
 
-= Available Languages =
+= Languages =
 
-**NOTE: The translation process of this plugin has been changed by WordPress. Please, read the correlated FAQ to be updated about the news changes.**
+Also available in:
 
 * English
-* Dutch (by Bart Verkerk)
+* Italian
+* Spanish
+* Japanese
+ and [much more](https://translate.wordpress.org/projects/wp-plugins/yith-woocommerce-catalog-mode/ "Translating WordPress").
 
-If you have created your own language pack, or have an update for an existing one, you can send [gettext PO and MO file](http://codex.wordpress.org/Translating_WordPress "Translating WordPress")
-[use](https://yithemes.com/contact/ "Your Inspiration Themes") so we can bundle it into YITH WooCommerce Catalog Mode languages.
+= WPML =
+
+Take advantage of [WPML](https://wpml.org/?aid=24889&affiliate_key=Qn1wDeBNTcZV) compatibility.
+You are free to translate your plugin easily with the most popular and powerful tool for multi-language sites, [WPML](https://wpml.org/?aid=24889&affiliate_key=Qn1wDeBNTcZV).

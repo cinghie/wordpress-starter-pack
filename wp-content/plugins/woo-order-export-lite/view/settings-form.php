@@ -74,7 +74,7 @@ function remove_time_from_date( $datetime ) {
 <?php $woe_order_post_type = isset($settings['post_type']) ? $settings['post_type'] : (isset($_GET['woe_post_type']) ? $_GET['woe_post_type'] : 'shop_order'); ?>
 
 <script>
-	var woe_order_post_type = '<?php echo $woe_order_post_type ?>';
+	var woe_order_post_type = '<?php echo esc_js( $woe_order_post_type ) ?>';
 	var mode = '<?php echo $mode ?>';
 	var job_id = '<?php echo esc_js( $id ) ?>';
 	var output_format = '<?php echo $settings['format'] ?>';
@@ -104,7 +104,7 @@ function remove_time_from_date( $datetime ) {
 	<?php endif; ?>
 
 	<input type="hidden" name="settings[post_type]"
-	   value="<?php echo $woe_order_post_type ?>">
+               value="<?php echo esc_attr( $woe_order_post_type ) ?>">
 
 	<?php if ($woe_order_post_type && $woe_order_post_type !== 'shop_order'): ?>
 	    <div id="my-export-post-type" class="my-block" style="width: 100%; max-width: 993px;">
@@ -1975,5 +1975,5 @@ function remove_time_from_date( $datetime ) {
     <input name="mode" type="hidden" value="<?php echo $mode ?>">
     <input name="id" type="hidden" value="<?php echo $id ?>">
     <input name="json" type="hidden">
-    <input name="woe_order_post_type" type="hidden" value="<?php echo $woe_order_post_type ?>">
+    <input name="woe_order_post_type" type="hidden" value="<?php echo esc_attr( $woe_order_post_type ) ?>">
 </form>

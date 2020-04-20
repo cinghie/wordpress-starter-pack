@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Order Export For WooCommerce\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-05 10:09+0000\n"
+"POT-Creation-Date: 2020-04-14 12:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.3.1; wp-5.3.2"
+"X-Loco-Version: 2.3.1; wp-5.4-RC4-47505"
 
 #: classes/class-wc-order-export-admin.php:511
 #, php-format
@@ -46,7 +46,7 @@ msgstr ""
 msgid "1st row only"
 msgstr ""
 
-#: classes/core/class-wc-order-export-data-extractor.php:1819
+#: classes/core/class-wc-order-export-data-extractor.php:1821
 msgid "[Rest of the World]"
 msgstr ""
 
@@ -526,7 +526,7 @@ msgid "Embedded Product Image"
 msgstr ""
 
 #: classes/class-wc-order-export-admin.php:306
-#: classes/core/class-wc-order-export-data-extractor.php:315
+#: classes/core/class-wc-order-export-data-extractor.php:316
 msgid "empty"
 msgstr ""
 

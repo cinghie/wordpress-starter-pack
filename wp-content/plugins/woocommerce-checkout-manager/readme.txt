@@ -4,7 +4,7 @@ Donate link: https://quadlayers.com/
 Tags: woocommerce, woocommerce checkout, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
 Requires at least: 3.4
 Tested up to: 5.4.0
-Stable tag: 5.0.0
+Stable tag: 5.0.3
 WC requires at least: 3.0
 WC tested up to: 4.0
 License: GPLv2 or later
@@ -106,6 +106,16 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 10. Handle uploaded files in order admin dashboard.
 
 == Changelog ==
+
+= 5.0.3 = 
+* Fix: woocommerce checkout checkbox required
+
+= 5.0.2 = 
+* Improvement: woocommerce checkout manager time field
+* Fix: woocommerce checkout manager date field 
+
+= 5.0.1 = 
+* Fix: woocommerce checkout manager suggestions
 
 = 5.0.0 = 
 * Fix: woocommerce checkout conditional fields

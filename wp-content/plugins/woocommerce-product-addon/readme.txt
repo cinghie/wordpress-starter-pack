@@ -4,7 +4,7 @@ Tags: woocommerce, woocommerce pesonalized products, woocommerce custom fields, 
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
 Tested up to: 5.2
-Stable tag: 20.0
+Stable tag: 20.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -91,6 +91,13 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
+= 20.1 April 9, 2020 =
+* Feature: Options (Select,Radio,Checkbox) now have stock control in PRO version
+* Bug fixed: Checkbox prices not being added when ' is used in value
+* Bug fixed: Image DropDown addon prices issue fixed.
+* Translation: [String translation complete](https://wordpress.org/support/topic/string-translate/)
+* Bug fixed: [Variation Matrix double quantities issue fixed](https://clients.najeebmedia.com/forums/topic/price-and-quantity-not-correct-when-added-to-cart/)
+* Feature: Filter added to rename the uploaded files.
 = 20.0 February 18, 2020 =
 * Warning remove: (Some warning removed in image/color inputs when options not selected)[https://clients.najeebmedia.com/forums/topic/warning-invalid-argument-supplied-for-foreach-in/]
 * Feature: Option added to change Price Table Location on Product Page

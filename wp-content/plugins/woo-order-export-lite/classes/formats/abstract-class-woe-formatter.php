@@ -153,10 +153,14 @@ abstract class WOE_Formatter {
 	protected function format_date_field( $field_value ) {
 		$ts = strtotime( $field_value );
 		if ( $ts ) {
-			$field_value = date( $this->date_format, $ts );
+			$new_value = date( $this->date_format, $ts );
+		} else {
+			$new_value = '';
 		}
 
-		return $field_value;
+		$new_value = apply_filters( 'woe_format_date', $new_value, $field_value, $this->date_format );
+
+		return $new_value;
 	}
 
 	protected function format_money_field( $field_value ) {

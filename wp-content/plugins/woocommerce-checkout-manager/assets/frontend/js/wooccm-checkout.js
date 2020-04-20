@@ -68,11 +68,11 @@
                 '">*</abbr>'
                 );
       }
-      
+
       //fix state hidden
       field.show();
       field.find('input[type=hidden]').prop('type', 'text');
-      
+
     } else {
       field.find('label .required').remove();
       field.removeClass('validate-required woocommerce-invalid woocommerce-invalid-required-field');
@@ -175,7 +175,17 @@
   // Add class on place order reload if upload field exists
   // ---------------------------------------------------------------------------
 
-  $('#order_review').on('ajaxSuccess wooccm_upload', function (e) {
+//  $(document).on('checkout_place_order_success', function (e) {
+//    alert('submit!');
+//  });
+//  $('form.checkout').on('checkout_place_order_success', function (e) {
+//    alert('submit!');
+//  });
+  $('#order_review').on('ajaxSuccess wooccm_upload', function (e, xhr, settings) {
+
+//    console.log('e', e);
+//    console.log('xhr', xhr);
+//    console.log('settings', settings);
 
     var $order_review = $(e.target),
             $place_order = $order_review.find('#place_order'),
@@ -357,11 +367,13 @@
     var $input = $(this),
             disable = $input.data('disable') || false;
 
+    console.log('mindate', $input.data('mindate'));
+
     if ($.isFunction($.fn.datepicker)) {
       $input.datepicker({
         dateFormat: $input.data('formatdate') || 'dd-mm-yy',
-        minDate: $input.data('mindate') || undefined,
-        maxDate: $input.data('maxdate') || undefined,
+        minDate: $input.data('mindate'),
+        maxDate: $input.data('maxdate'),
         beforeShowDay: function (date) {
           var day = date.getDay().toString();
           if (disable) {

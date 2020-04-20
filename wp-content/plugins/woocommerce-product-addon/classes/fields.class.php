@@ -282,8 +282,10 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 			
 				$weight_unit = get_option('woocommerce_weight_unit');
 				$plc_weight = (isset($placeholders[2]) && !empty($placeholders)) ? $placeholders[2] : __("Weight-{$weight_unit} (PRO only)", "ppom");
+				$plc_stock = (isset($placeholders[3]) && !empty($placeholders)) ? $placeholders[3] : __("Stock (PRO only)", "ppom");
 				if( ppom_pro_is_installed() ) {
 					$plc_weight = (isset($placeholders[2]) && !empty($placeholders)) ? $placeholders[2] : __("Weight-{$weight_unit} (optional)", "ppom");
+					$plc_stock = (isset($placeholders[3]) && !empty($placeholders)) ? $placeholders[3] : __("Stock (optional)", "ppom");
 				}
 			
 				$plc_id = (isset($placeholders[3]) && !empty($placeholders)) ? $placeholders[3] : __('Unique Option ID)', "ppom");
@@ -298,6 +300,7 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 					foreach ($values as $opt_index => $option){
 
 						$weight = isset($option['weight']) ? $option['weight'] : '';
+						$stock	= isset($option['stock']) ? $option['stock'] : '';
 						
 						$option_id = ppom_get_option_id($option);
 						$html_input .= '<li class="data-options ppom-sortable-handle" style="display: flex;" data-condition-type="simple_options">';
@@ -305,6 +308,7 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 							$html_input .= '<input type="text" class="option-title form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][option]" value="'.esc_attr(stripslashes($option['option'])).'" placeholder="'.$plc_option.'" data-metatype="option" data-opt-index="'.esc_attr($opt_index).'">';
 							$html_input .= '<input type="text" class="option-price form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][price]" value="'.esc_attr($option['price']).'" placeholder="'.$plc_price.'" data-metatype="price" data-opt-index="'.esc_attr($opt_index).'">';
 							$html_input .= '<input type="text" class="option-weight form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][weight]" value="'.esc_attr($weight).'" placeholder="'.$plc_weight.'" data-metatype="weight" data-opt-index="'.esc_attr($opt_index).'">';
+							$html_input .= '<input type="text" class="option-weight form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][stock]" value="'.esc_attr($stock).'" placeholder="'.$plc_stock.'" data-metatype="stock" data-opt-index="'.esc_attr($opt_index).'">';
 							$html_input .= '<input type="text" class="option-id form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][id]" value="'.esc_attr($option_id).'" placeholder="'.$plc_id.'" data-metatype="id" data-opt-index="'.esc_attr($opt_index).'">';
 
 							$html_input .= '<button class="btn btn-success ppom-add-option" data-option-type="paired"><i class="fa fa-plus" aria-hidden="true"></i></button>';
@@ -1010,7 +1014,7 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 				'add_option_tab' => array (
 						'label' => __ ( 'Add Options', 'ppom' ),
 						'class' => array('ppom-tabs-label'),
-						'field_depend'=> array('select','radio','checkbox','cropper','quantities','pricematrix','palettes','fixedprice','bulkquantity')
+						'field_depend'=> array('select','radio','checkbox','cropper', 'cropper2', 'quantities','pricematrix','palettes','fixedprice','bulkquantity')
 				),
 				'add_images_tab' => array (
 						'label' => __ ( 'Add Images', 'ppom' ),

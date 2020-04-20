@@ -3,10 +3,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: YITH Plugin Starter 1.0.0 Plugin FW\n"
-"Report-Msgid-Bugs-To: Your Inspiration Themes <plugins@yithemes.com>\n"
-"POT-Creation-Date: 2020-01-10 13:40+0100\n"
-"PO-Revision-Date: 2020-03-02 13:49+0000\n"
+"Report-Msgid-Bugs-To: YITH <plugins@yithemes.com>\n"
+"POT-Creation-Date: 2020-04-06 10:44+0200\n"
+"PO-Revision-Date: 2020-04-06 10:45+0200\n"
+"Last-Translator: \n"
 "Language-Team: Your Inspiration Themes <info@yithemes.com>\n"
+"Language: el_GR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,8 +20,6 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: ..\n"
 "X-Textdomain-Support: yes\n"
-"Last-Translator: \n"
-"Language: el_GR\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: lib/privacy/yit-privacy.php:24
@@ -270,7 +270,7 @@ msgstr "Προσθήκη %s από εικόνες"
 msgid "Upload multiple files"
 msgstr "Ανέβασμα πολλαπλών αρχείων"
 
-#: lib/yit-plugin-panel-wc.php:397
+#: lib/yit-plugin-panel-wc.php:399
 msgid "The changes you have made will be lost if you leave this page."
 msgstr ""
 "Οι αλλαγές που έχετε δημιουργήσει θα χαθούν αν αφήσετε αυτήν την σελίδα."
@@ -279,16 +279,16 @@ msgstr ""
 msgid "Plugin Settings"
 msgstr "Ρυθμίσεις Προσθέτου"
 
-#: lib/yit-plugin-panel.php:424 lib/yit-plugin-panel.php:427
+#: lib/yit-plugin-panel.php:425 lib/yit-plugin-panel.php:428
 msgid "How to install premium version"
 msgstr "Πώς να εγκαταστήσετε την προηγμένη έκδοση"
 
-#: lib/yit-plugin-panel.php:571 lib/yit-plugin-subpanel.php:151
+#: lib/yit-plugin-panel.php:574 lib/yit-plugin-subpanel.php:151
 #: templates/panel/woocommerce/woocommerce-form.php:14
 msgid "Save Changes"
 msgstr "Αποθήκευση Αλλαγών"
 
-#: lib/yit-plugin-panel.php:574 lib/yit-plugin-subpanel.php:154
+#: lib/yit-plugin-panel.php:577 lib/yit-plugin-subpanel.php:154
 #: templates/panel/woocommerce/woocommerce-form.php:17
 msgid ""
 "If you continue with this action, you will reset all options in this page."
@@ -296,70 +296,70 @@ msgstr ""
 "Αν συνεχίσετε με αυτή την ενέργεια θα επαναφέρετε όλες τις επιλογές στη "
 "σελίδα."
 
-#: lib/yit-plugin-panel.php:576 lib/yit-plugin-subpanel.php:156
+#: lib/yit-plugin-panel.php:579 lib/yit-plugin-subpanel.php:156
 msgid "Reset to default"
 msgstr "Επαναφορά σε προεπιλεγμένο"
 
-#: lib/yit-plugin-panel.php:577 lib/yit-plugin-subpanel.php:157
+#: lib/yit-plugin-panel.php:580 lib/yit-plugin-subpanel.php:157
 #: templates/panel/woocommerce/woocommerce-form.php:21
 msgid "Are you sure?"
 msgstr "Είστε σίγουρος;"
 
-#: lib/yit-plugin-panel.php:775
+#: lib/yit-plugin-panel.php:778
 msgid ""
 "The element you have entered already exists. Please, enter another name."
-msgstr "Το στοιχείο που εισάγατε υπάρχει ήδη. Παρακαλώ, εισάγετε άλλο όνομα. "
+msgstr "Το στοιχείο που εισάγατε υπάρχει ήδη. Παρακαλώ, εισάγετε άλλο όνομα."
 
-#: lib/yit-plugin-panel.php:776
+#: lib/yit-plugin-panel.php:779
 msgid "Settings saved"
 msgstr "Ρυθμίσεις αποθηκεύτηκαν"
 
-#: lib/yit-plugin-panel.php:777
+#: lib/yit-plugin-panel.php:780
 msgid "Settings reset"
 msgstr "Επαναφορά ρυθμίσεων"
 
-#: lib/yit-plugin-panel.php:778
+#: lib/yit-plugin-panel.php:781
 msgid "Element deleted correctly."
 msgstr "Το στοιχείο διαγράφηκε επιτυχώς."
 
-#: lib/yit-plugin-panel.php:779 lib/yit-plugin-panel.php:780
+#: lib/yit-plugin-panel.php:782 lib/yit-plugin-panel.php:783
 msgid "Element updated correctly."
 msgstr "Το στοιχείο αναβαθμίστηκε επιτυχώς."
 
-#: lib/yit-plugin-panel.php:781
+#: lib/yit-plugin-panel.php:784
 msgid "Database imported correctly."
 msgstr "Επιτυχής εισαγωγή βάσης δεδομένων."
 
-#: lib/yit-plugin-panel.php:782
+#: lib/yit-plugin-panel.php:785
 msgid "An error has occurred during import. Please try again."
 msgstr "Παρουσιάστηκε σφάλμα κατά την εισαγωγή. Παρακαλώ προσπαθήστε ξανά."
 
-#: lib/yit-plugin-panel.php:783
+#: lib/yit-plugin-panel.php:786
 msgid "The added file is not valid."
 msgstr "Το προστιθέμενο αρχείο δεν είναι έγκυρο."
 
-#: lib/yit-plugin-panel.php:784
+#: lib/yit-plugin-panel.php:787
 msgid "Sorry, import is disabled."
 msgstr "Συγνώμη, η εισαγωγή είναι απενεργοποιημένη."
 
-#: lib/yit-plugin-panel.php:785
+#: lib/yit-plugin-panel.php:788
 msgid "Sorting successful."
 msgstr "Διαλογή επιτυχής."
 
-#: lib/yit-plugin-panel.php:1233
+#: lib/yit-plugin-panel.php:1236
 msgid "We need your support"
 msgstr "Χρειαζόμαστε την υποστήριξή σας"
 
-#: lib/yit-plugin-panel.php:1234
+#: lib/yit-plugin-panel.php:1237
 msgid "to keep updating and improving the plugin. Please,"
 msgstr ""
-"για να διατηρήσετε την ενημέρωση και τη βελτίωση του πρόσθετου. Παρακαλώ"
+"για να διατηρήσετε την ενημέρωση και τη βελτίωση του πρόσθετου. Παρακαλώ,"
 
-#: lib/yit-plugin-panel.php:1236
+#: lib/yit-plugin-panel.php:1239
 msgid "help us by leaving a five-star rating"
-msgstr "Βοηθήστε μας αφήνοντας μια βαθμολογία πέντε αστέρων"
+msgstr "βοηθήστε μας αφήνοντας μια βαθμολογία πέντε αστέρων"
 
-#: lib/yit-plugin-panel.php:1237
+#: lib/yit-plugin-panel.php:1240
 msgid ":) Thanks!"
 msgstr ":) Ευχαριστώ!"
 
@@ -384,7 +384,7 @@ msgstr "Ανακαλύψτε όλα τα διαθέσιμά μας πρόσθε�
 
 #: lib/yit-pointers.php:74 lib/yit-pointers.php:90
 msgid "and"
-msgstr "Και"
+msgstr "και"
 
 #: lib/yit-pointers.php:84
 msgid "Plugins Upgraded"
@@ -452,75 +452,75 @@ msgctxt "[gutenberg]: Category Name"
 msgid "YITH"
 msgstr "YITH"
 
-#: lib/yith-system-status.php:97 lib/yith-system-status.php:98
-msgid "System Status"
-msgstr "Κατάσταση Συστήματος"
-
-#: lib/yith-system-status.php:104
+#: lib/yith-system-status.php:105
 msgid "WordPress Version"
 msgstr "Έκδοση WordPress"
 
-#: lib/yith-system-status.php:105
+#: lib/yith-system-status.php:106
 msgid "WooCommerce Version"
 msgstr "Έκδοση WooCommerce"
 
-#: lib/yith-system-status.php:106
+#: lib/yith-system-status.php:107
 msgid "Available Memory"
 msgstr "Διαθέσιμη Μνήμη"
 
-#: lib/yith-system-status.php:107
+#: lib/yith-system-status.php:108
 msgid "PHP Version"
 msgstr "Έκδοση PHP"
 
-#: lib/yith-system-status.php:108
+#: lib/yith-system-status.php:109
 msgid "TLS Version"
 msgstr "Έκδοση TLS"
 
-#: lib/yith-system-status.php:109
+#: lib/yith-system-status.php:110
 msgid "WordPress Cron"
 msgstr "WordPress Cron"
 
-#: lib/yith-system-status.php:110
+#: lib/yith-system-status.php:111
 msgid "SimpleXML"
 msgstr "SimpleXML"
 
-#: lib/yith-system-status.php:111
+#: lib/yith-system-status.php:112
 msgid "MultiByte String"
 msgstr "MultiByte String"
 
-#: lib/yith-system-status.php:112
+#: lib/yith-system-status.php:113
 msgid "ImageMagick Version"
 msgstr "Έκδοση ImageMagick"
 
-#: lib/yith-system-status.php:113
+#: lib/yith-system-status.php:114
 msgid "GD Library"
 msgstr "Βιβλιοθήκη GD"
 
-#: lib/yith-system-status.php:114
+#: lib/yith-system-status.php:115
 msgid "Iconv Module"
 msgstr "Άρθρωμα Iconv"
 
-#: lib/yith-system-status.php:115
+#: lib/yith-system-status.php:116
 msgid "OPCache Save Comments"
 msgstr "OPCache Save Comments"
 
-#: lib/yith-system-status.php:116
+#: lib/yith-system-status.php:117
 msgid "URL FOpen"
 msgstr "URL FOpen"
 
-#: lib/yith-system-status.php:173
+#: lib/yith-system-status.php:135 lib/yith-system-status.php:136
+msgid "System Status"
+msgstr "Κατάσταση Συστήματος"
+
+#: lib/yith-system-status.php:179
 msgid "YITH Plugins"
 msgstr "Πρόσθετα YITH"
 
-#: lib/yith-system-status.php:174
+#: lib/yith-system-status.php:180
 msgid "WooCommerce"
 msgstr "WooCommerce"
 
-#: lib/yith-system-status.php:291
+#: lib/yith-system-status.php:297
 msgid "Warning!"
 msgstr "Προσοχή!"
 
-#: lib/yith-system-status.php:292
+#: lib/yith-system-status.php:298
 #, php-format
 msgid ""
 "The system check has detected some compatibility issues on your "
@@ -604,14 +604,14 @@ msgid "Delete"
 msgstr "Διαγραφή"
 
 #: templates/fields/onoff.php:24
-msgctxt "ON/OFF button: use MAX 3 characters!"
-msgid "ON"
-msgstr "ΕΝΕΡΓΟΠΟΙΗΣΗ"
+msgctxt "YES/NO button: use MAX 3 characters!"
+msgid "YES"
+msgstr "ΝΑΙ"
 
 #: templates/fields/onoff.php:25
-msgctxt "ON/OFF button: use MAX 3 characters!"
-msgid "OFF"
-msgstr "ΑΠΕΝΕΡΓΟΠΟΙΗΣΗ"
+msgctxt "YES/NO button: use MAX 3 characters!"
+msgid "NO"
+msgstr "ΟΧΙ"
 
 #: templates/fields/select-buttons.php:21
 msgid "Add All"
@@ -809,3 +809,14 @@ msgstr "Ρυθμίσεις"
 #: yit-plugin.php:194
 msgid "License"
 msgstr "Άδεια χρήσης προϊόντος"
+
+#~ msgid "YITH"
+#~ msgstr "YITH"
+
+#~ msgctxt "ON/OFF button: use MAX 3 characters!"
+#~ msgid "ON"
+#~ msgstr "ΕΝΕΡΓΟΠΟΙΗΣΗ"
+
+#~ msgctxt "ON/OFF button: use MAX 3 characters!"
+#~ msgid "OFF"
+#~ msgstr "ΑΠΕΝΕΡΓΟΠΟΙΗΣΗ"
