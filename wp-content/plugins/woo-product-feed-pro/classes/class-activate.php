@@ -1869,45 +1869,6 @@ class WooSEA_Activation {
                         wp_schedule_event ( time(), 'hourly', 'woosea_cron_hook');
               	}
 
-                /**
-                 * Function for checking if license is valid
-                 */
-               	if (!wp_next_scheduled( 'woosea_check_license' ) ) {
-
-			if(!get_option("license_information")){
-
-				$domain = $_SERVER['HTTP_HOST'];
-
-				$license_created = "";
-	        		$license_valid = "false";
-        			$message = "Thank you for becoming a user of our <strong>product feed pro for WooCommerce plugin</strong>, much appreciated! Some of the features of this plugin have been locked as you are using the free version of this plugin. The added extra fields such as Brand and GTIN, WPML support, Aelia currency switcher support and the WooCommerce structured data bug fix are Elite features of this plugin. You can get <strong><a href=\"https://adtribes.io/pro-vs-elite/?utm_source=$domain&utm_medium=plugin&utm_campaign=upgrade-elite\" target=\"_blank\">your license key here</a></strong>.";
-	        		//$message_type = "notice notice-info is-dismissible";
-	        		$message_type = "updated woocommerce-message is-dismissible";
-				$notice = "true";
-
-			        $license_information = array (
-        	        		'license_valid'         => $license_valid,
-        	        		'license_created'       => $license_created,
-                			'message'               => $message,
-                			'message_type'          => $message_type,
-          		      		'license_email'         => "",
-              		  		'license_key'           => "",
-                			'notice'                => $notice,
-        			);
-
-				// Disable Elite features
-        			update_option ( 'license_information', $license_information );
-                		update_option ( 'structured_data_fix', 'no' );
-                		update_option ( 'structured_vat', 'no' );
-               			update_option ( 'add_unique_identifiers', 'no' );
-               	 		update_option ( 'add_wpml_support', 'no' );
-               	 		update_option ( 'add_manipulation_support', 'no' );
-                		update_option ( 'add_aelia_support', 'no' );
-			}
-
-                        wp_schedule_event ( time(), 'daily', 'woosea_check_license');
-                }
-
 		/**
 		 * We check only once if this is a paid version of the plugin
 		 * De-register the jQuery code after 30 secvonds

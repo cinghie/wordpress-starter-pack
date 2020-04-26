@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.4
-Stable tag: 7.9.9
+Stable tag: 8.0.6
 
 == Description ==
 
@@ -67,7 +67,7 @@ Our plugin supports the WooCommerce Shipping Table Rate plugin created by Bolder
 = Product variations / Variables =
 This plugin supports product variables so all your variations make it to product feeds as individual products too.
 
-= Facebook Pixel =
+= Facebook Pixel (Elite version) =
 This plugin adds the Facebook pixel code on your websites and makes sure it matches the content of your Facebook catalogue product feed
 Our plugin add's the following Facebook pixel events:
 * on your product pages, both for simple, variable and variations pages
@@ -138,6 +138,7 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 * Addition of the extra fields on your product edit pages
 * Data manipulation feature
 * WooCommerce structured data bug fix
+* Facebook pixel
 
 === Channels ===
 * Custom feeds
@@ -311,6 +312,30 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 8.0.6 (2020-04-25) =
+* Facebook pixel change for Purchase, SearchResult and ViewCategory events
+
+= 8.0.5 (2020-04-24) =
+* Facebook pixel change for AddToCart event
+
+= 8.0.4 (2020-04-23) =
+* Facebook pixel code change for variable products
+
+= 8.0.3 (2020-04-23) =
+* Cleaned-up some un-used code
+
+= 8.0.2 (2020-04-21) =
+* Solved a PHP warning issue that showed on the settings page (undefined variables)
+
+= 8.0.1 (2020-04-21) =
+* Removed some more obsolote license JS code
+
+= 8.0.0 (2020-04-21) =
+* Removed the phone home license check feature
+* Made all remaining features free and fully functional
+* Solved an issue where the function wc_review_ratings_enabled was not supported by any WC version older than 3.6
+* Users with a license: please reach out to support@adtribes.io to receive a download link with the Elite version of the plugin
 
 = 7.9.9 (2020-04-20) =
 * Solved an issue where the function wc_review_ratings_enabled was not supported by any WC version older than 3.6
@@ -2542,6 +2567,30 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 8.0.6 =
+Facebook pixel change for Purchase, SearchResult and ViewCategory events
+
+= 8.0.5 =
+Facebook pixel change for AddToCart event
+
+= 8.0.4 =
+Facebook pixel code change for variable products
+
+= 8.0.3 =
+Cleaned-up some un-used code
+
+= 8.0.2 =
+Solved a PHP warning issue that showed on the settings page
+
+= 8.0.1 =
+Removed some more obsolote license JS code
+
+= 8.0.0 =
+Removed the phone home license check feature
+Made all remaining features free and fully functional
+Solved an issue where the function wc_review_ratings_enabled was not supported by any WC version older than 3.6
+Users with a license: please reach out to support@adtribes.io to receive a download link with the Elite version of the plugin
 
 = 7.9.9 =
 Solved an issue where the function wc_review_ratings_enabled was not supported by any WC version older than 3.6

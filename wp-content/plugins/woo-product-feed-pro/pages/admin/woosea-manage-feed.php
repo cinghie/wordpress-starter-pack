@@ -96,15 +96,15 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 				}
                              	update_option('cron_projects', $cron_projects);
 			} else {
-				// Set default notification to show
-				$getelite_notice = get_option('woosea_getelite_notification');
-				if(empty($getelite_notice['show'])){
-					$getelite_notice['show'] = "yes";				
-					$getelite_notice['timestamp'] = date( 'd-m-Y' );
-				}
+                                // Set default notification to show
+                                $getelite_notice = get_option('woosea_getelite_notification');
+                                if(empty($getelite_notice['show'])){
+                                        $getelite_notice['show'] = "yes";
+                                        $getelite_notice['timestamp'] = date( 'd-m-Y' );
+                                }
 
-                                if(($license_information['license_valid'] <> "true") AND ($getelite_notice['show'] == "yes")){
-				?>
+                                if($getelite_notice['show'] <> "no"){
+                                ?>
 					<div class="notice notice-info get_elite is-dismissible">
                 				<p>
 						<strong><?php _e( 'Would you like to get more out of your product feeds? Upgrade to the Elite version of the plugin and you will get:', 'woo-product-feed-pro' );?></strong><br/></br/>
@@ -115,7 +115,7 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 						<span class="dashicons dashicons-yes"></span><?php _e( 'WPML support - including their currency switcher','woo-product-feed-pro' );?> [<a href="https://adtribes.io/wpml-support/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=wpml%20support" target="_blank"><?php _e( 'Read more','woo-product-feed-pro' );?></a>];<br/>
 						<span class="dashicons dashicons-yes"></span><?php _e( 'Aelia currency switcher support','woo-product-feed-pro' );?> [<a href="https://adtribes.io/aelia-currency-switcher-feature/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=aelia%20support" target="_blank"><?php _e( 'Read more','woo-product-feed-pro' );?></a>];<br/>
 						<span class="dashicons dashicons-yes"></span><?php _e( 'Facebook pixel feature','woo-product-feed-pro' );?> [<a href="https://adtribes.io/facebook-pixel-feature/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=facebook pixel feature" target="_blank"><?php _e( 'Read more','woo-product-feed-pro' );?></a>];<br/><br/>
- 						<?php _e( 'Upgrade to the','woo-product-feed-pro' );?> <strong><a href="https://adtribes.io/pro-vs-elite/?utm_source=<?php print"$host";?>&utm_medium=manage-feed&utm_campaign=top-notification&utm_content=notification" target="_blank"><?php _e( 'Elite version of our plugin</a></strong> to unlock these features.','woo-product-feed-pro' );?>
+ 						<?php _e( 'Upgrade to the','woo-product-feed-pro' );?> <strong><a href="https://adtribes.io/pro-vs-elite/?utm_source=<?php print"$host";?>&utm_medium=manage-feed&utm_campaign=top-notification&utm_content=notification" target="_blank"><?php _e( 'Elite version of our plugin</a></strong> to get all these features.','woo-product-feed-pro' );?>
 						</p>
 					</div>
 				<?php
@@ -271,9 +271,6 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 			</table>
 			</div>
 			<div class="woo-product-feed-pro-table-right">
-				<?php
-				if($license_information['license_valid'] <> "true"){
-				?>
                                 <table class="woo-product-feed-pro-table">
                                         <tr>
                                                 <td><strong><?php _e( 'Why upgrade to Elite?','woo-product-feed-pro' );?></strong></td>
@@ -296,9 +293,6 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
                                                 </td>
                                         </tr>
                                 </table><br/>
-				<?php
-				}
-				?>
 
                                 <table class="woo-product-feed-pro-table">
                                         <tr>

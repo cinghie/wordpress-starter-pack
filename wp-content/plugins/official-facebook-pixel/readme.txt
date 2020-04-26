@@ -2,7 +2,7 @@
 Contributors: facebook
 Tags: Facebook, Facebook Conversion Pixel, Facebook Pixel, Facebook Pixel Events, facebook retargeting, facebook standard events
 Requires at least: 4.4
-Tested up to: 5.3
+Tested up to: 5.4
 Requires PHP: 5.3
 Stable tag: 2.0.1
 License: GPLv2
@@ -49,6 +49,11 @@ If you get stuck, or have any questions, you can ask for help in the [Official F
 Of course! This plugin is open sourced on the Facebook Incubator GitHub. You can find the code and contribution instructions in the [plugin repository](https://github.com/facebookincubator/Facebook-Pixel-for-WordPress).
 
 == Changelog ==
+= 2020-04-23 version 2.0.2 =
+* Support for WordPress 5.4
+* Fixing an Illegal string offset error with WP Forms
+* Fixing the event source url for Server-Side API events
+
 = 2020-03-23 version 2.0.1 =
 * Fixing an Undefined index error
 

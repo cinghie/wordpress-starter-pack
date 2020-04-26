@@ -3,7 +3,7 @@ Contributors: yithemes
 Tags: woocommerce, quick view, woocommerce quick view, products quick view
 Requires at least: 4.0
 Tested up to: 5.4
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,6 +39,11 @@ Full documentation is available [here](https://docs.yithemes.com/yith-woocommerc
 3. The quick view modal.
 
 == Changelog ==
+
+= 1.4.1 = Released 23 April 2020
+
+* New: Support for WooCommerce 4.1
+* Update: Plugin framework
 
 = 1.4.0 = Released 06 March 2020
 
@@ -270,11 +275,7 @@ Or, if you have created your own language pack, or have an update for an existin
 
 == Upgrade notice ==
 
-= 1.4.0 = Released 06 March 2020
+= 1.4.1 = Released 23 April 2020
 
-* New: Support for WooCommerce 4.0
-* New: Support for WordPress 5.4
+* New: Support for WooCommerce 4.1
 * Update: Plugin framework
-* Fix: Enqueue of YITH WooCommerce Gift Card scripts if version installed is greater than 3.0.0
-* Fix: Do not enqueue YITH WooCommerce Gift Card scripts in product pages
-* Dev: New filter "yith_load_gift_card_script_pages_for_quick_view" to filter pages where YITH WooCommerce Gift Card scripts are loaded

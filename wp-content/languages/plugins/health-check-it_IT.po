@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Health Check &amp; Troubleshooting - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-08-21 16:02:00+0000\n"
+"PO-Revision-Date: 2019-11-17 12:34:39+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,10 @@ msgstr ""
 "X-Generator: GlotPress/2.4.0-alpha\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - Health Check &amp; Troubleshooting - Stable (latest release)\n"
+
+#: includes/tools/class-health-check-plugin-compatibility.php:23
+msgid "Plugin"
+msgstr "Plugin"
 
 #: includes/tools/class-health-check-plugin-compatibility.php:77
 msgid "Could not be determined"
@@ -55,12 +59,12 @@ msgstr "L'ora legale (DST) potrebbe incidere sull'orario utilizzato e visualizza
 msgid "Your site uses localized timezones"
 msgstr "Il tuo sito utilizza un fuso orario localizzato"
 
-#: includes/class-health-check-dashboard-widget.php:53
+#: includes/class-health-check-dashboard-widget.php:79
 msgid "Great job! Your site currently passes all site health checks."
 msgstr "Ottimo! In questo momento il tuo sito ha superato tutte le verifiche sul suo stato di salute."
 
 #: pages/site-health-header.php:29
-#: includes/class-health-check-dashboard-widget.php:45
+#: includes/class-health-check-dashboard-widget.php:54
 msgid "Results are still loading&hellip;"
 msgstr "Caricamento dei risultati in corso&hellip;"
 
@@ -105,6 +109,10 @@ msgstr "Copiato!"
 msgid "Copy site info to clipboard"
 msgstr "Copia le informazioni del sito negli appunti "
 
+#: pages/debug-data.php:32
+msgid "If you want to export a handy list of all the information on this page, you can use the button below to copy it to the clipboard. You can then paste it in a text file and save it to your device, or paste it in an email exchange with a support engineer or theme/plugin developer for example."
+msgstr "Se vuoi esportare un pratico elenco di tutte le informazioni su questa pagina, puoi usare il pulsante qui sotto per copiarlo negli appunti. Potrai poi incollarlo in un file di testo e salvarlo sul tuo disco rigido, oppure incollarlo in una email con il supporto tecnico o con uno sviluppatore di temi/plugin, ad esempio."
+
 #: pages/debug-data.php:19
 msgid "Site Health Info"
 msgstr "Informazione sulla salute del sito"
@@ -117,7 +125,7 @@ msgstr "Modalità di risoluzione dei problemi."
 msgid "Passed tests"
 msgstr "Test passati"
 
-#: pages/site-status.php:32 includes/class-health-check-dashboard-widget.php:17
+#: pages/site-status.php:32 includes/class-health-check-dashboard-widget.php:20
 msgid "Site Health Status"
 msgstr "Stato della salute del sito"
 
@@ -129,28 +137,28 @@ msgstr "Tutto scorre liscio."
 msgid "Great job!"
 msgstr "Ottimo lavoro!"
 
-#: includes/class-health-check-debug-data.php:1389
+#: includes/class-health-check-debug-data.php:1399
 msgid "Total size is not available. Some errors were encountered when determining the size of your installation."
 msgstr "La dimensione totale non è disponibile. Sono stati riscontrati alcuni errori durante la determinazione della dimensione della tua installazione."
 
-#: includes/class-health-check-debug-data.php:1345
+#: includes/class-health-check-debug-data.php:1355
 msgid "The directory size calculation has timed out. Usually caused by a very large number of sub-directories and files."
 msgstr "Il calcolo della dimensione della directory si è interrotto. Solitamente ciò è causato da un numero molto elevato di sotto directory e file."
 
-#: includes/class-health-check-debug-data.php:1338
+#: includes/class-health-check-debug-data.php:1348
 msgid "The size cannot be calculated. The directory is not accessible. Usually caused by invalid permissions."
 msgstr "La dimensione non può essere calcolata. La directory non è accessibile. Solitamente ciò è causato da autorizzazioni non valide."
 
-#: includes/class-health-check-debug-data.php:944
-#: includes/class-health-check-debug-data.php:993
+#: includes/class-health-check-debug-data.php:954
+#: includes/class-health-check-debug-data.php:1003
 msgid "Theme directory location"
 msgstr "Posizione della directory dei temi"
 
-#: includes/class-health-check-debug-data.php:940
+#: includes/class-health-check-debug-data.php:950
 msgid "Theme features"
 msgstr "Caratteristica del tema"
 
-#: includes/class-health-check-debug-data.php:936
+#: includes/class-health-check-debug-data.php:946
 msgid "None"
 msgstr "Niente"
 
@@ -865,6 +873,10 @@ msgstr[1] "%s problemi critici"
 msgid "Site information has been added to your clipboard."
 msgstr "L'informazione del sito è stata inserita negli appunti."
 
+#: includes/class-health-check.php:230
+msgid "All site health tests have finished running. Your site is looking good, and the results are now available on the page."
+msgstr "Tutti i test della salute del sito sono stati completati. Il tuo sito sembra buono e i risultati sono ora disponibili sulla pagina."
+
 #: includes/class-health-check.php:229
 msgid "All site health tests have finished running."
 msgstr "Tutti i test sulla salute del sito sono completati."
@@ -879,21 +891,21 @@ msgid "The loopback request to your site failed, this means features relying on 
 msgstr "La richiesta di loopback al tuo sito non è andata buon fine, questo significa che le caratteristiche che dipendono da questo non funzionano correttamente."
 
 #. translators: %d: The amount of notices that are visible.
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:1182
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:1188
 msgid "Notices (%d)"
 msgstr "Avvisi (%d)"
 
 #. translators: %d: The amount of available themes.
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:1104
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:1110
 msgid "Available themes (%d)"
 msgstr "Temi disponibili (%d)"
 
 #. translators: %d: The amount of available plugins.
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:1008
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:1014
 msgid "Available plugins (%d)"
 msgstr "Plugin disponibili (%d)"
 
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:969
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:975
 msgid "enabled"
 msgstr "Abilitato"
 
@@ -904,16 +916,16 @@ msgid "Warning"
 msgstr "Attenzione"
 
 #. translators: %s: The running status of Troubleshooting Mode.
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:966
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:972
 msgid "Troubleshooting Mode - %s"
 msgstr "Modalità diagnostica - %s"
 
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:872
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:878
 msgctxt "Prefix for inactive themes in troubleshooting mode"
 msgid "Switch to"
 msgstr "Passa a"
 
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:872
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:878
 msgctxt "Prefix for the active theme in troubleshooting mode"
 msgid "Active:"
 msgstr "Attiva:"
@@ -1095,65 +1107,65 @@ msgstr "Tema attivo: %s"
 msgid "Waiting..."
 msgstr "Attendere..."
 
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:1139
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:1145
 msgid "Switch to this theme"
 msgstr "Passa a questo tema"
 
 #. translators: %s: Theme name.
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:1135
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:1141
 msgid "Switch the active theme to %s"
 msgstr "Cambia il tema attivo a %s"
 
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:1070
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:1076
 msgid "Enable"
 msgstr "Attiva"
 
 #. translators: %s: Plugin name.
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:1066
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:1072
 msgid "Enable the plugin, %s, while troubleshooting."
 msgstr "Attiva il plugin, %s, mentre effettuo la diagnostica."
 
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:1051
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:1057
 msgid "Disable"
 msgstr "Disattiva"
 
 #. translators: %s: Plugin name.
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:1047
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:1053
 msgid "Disable the plugin, %s, while troubleshooting."
 msgstr "Disattiva il plugin, %s, mentre effettuo la diagnostica."
 
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:1228
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:1234
 msgid "Dismiss notices"
 msgstr "Ignora avvisi"
 
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:1202
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:1208
 msgid "Plugin actions, such as activating and deactivating, are not available while in Troubleshooting Mode."
 msgstr "Le azioni dei plugin, come l’attivazione e la disattivazione, non sono disponibili in modalità Diagnositca."
 
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:1194
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:1200
 msgid "There are no notices to show."
 msgstr "Non ci sono avvisi da mostrare."
 
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:995
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:1001
 msgid "Here you can enable individual plugins or themes, helping you to find out what might be causing strange behaviors on your site. Do note that <strong>any changes you make to settings will be kept</strong> when you disable Troubleshooting Mode."
 msgstr "Qui puoi attivare singoli plugin o temi, aiutandoti a scoprire cosa potrebbe causare strani comportamenti sul tuo sito. Nota che <strong>qualsiasi modifica effettuata nelle impostazioni verrà mantenuta</strong> quando disattivi la modalità Diagnostica."
 
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:991
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:997
 msgid "Your site is currently in Troubleshooting Mode. This has <strong>no effect on your site visitors</strong>, they will continue to view your site as usual, but for you it will look as if you had just installed WordPress for the first time."
 msgstr "Il tuo sito è attualmente in modalità di Diagnostica. Questo <strong>non ha alcun effetto sui visitatori del tuo sito</strong>, continueranno a vedere il sito come sempre, ma a te sembrerà di aver appena installato WordPress per la prima volta."
 
 #. translators: %s: The theme slug that was switched to.
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:710
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:716
 msgid "When switching the active theme to %s, a site failure occurred. Because of this we reverted the theme to the one you used previously."
 msgstr "Quando hai cambiato il tema attivo con %s, si è verificato un errore. Per questo motivo abbiamo riportato il tema a quello precedente."
 
 #. translators: %s: The plugin slug that was disabled.
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:687
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:693
 msgid "When disabling the plugin, %s, a site failure occurred. Because of this the change was automatically reverted."
 msgstr "Quando hai disattivato il plugin, %s, si è verificato un errore. Per questo motivo la modifica è stata automaticamente ripristinata."
 
 #. translators: %s: The plugin slug that was enabled.
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:661
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:667
 msgid "When enabling the plugin, %s, a site failure occurred. Because of this the change was automatically reverted."
 msgstr "Quando hai attivato il plugin, %s, si è verificato un errore nel sito. Per questo motivo la modifica è stata ripristinata automaticamente a quella precedente."
 
@@ -1186,21 +1198,21 @@ msgstr "Dimensione totale dell'installazione"
 msgid "Database size"
 msgstr "Dimensione del database"
 
-#: includes/class-health-check-debug-data.php:733
+#: includes/class-health-check-debug-data.php:743
 msgid "Your .htaccess file contains only core WordPress features."
 msgstr "Il tuo file .htaccess contiene solo le caratteristiche del core di WordPress."
 
-#: includes/class-health-check-debug-data.php:733
+#: includes/class-health-check-debug-data.php:743
 msgid "Custom rules have been added to your .htaccess file."
 msgstr "Al tuo file .htaccess sono state aggiunte delle regole personalizzate."
 
-#: includes/class-health-check-debug-data.php:732
+#: includes/class-health-check-debug-data.php:742
 msgid ".htaccess rules"
 msgstr "Regole .htaccess"
 
 #: includes/class-health-check-debug-data.php:473
 #: includes/class-health-check-debug-data.php:495
-#: includes/class-health-check-debug-data.php:1373
+#: includes/class-health-check-debug-data.php:1383
 msgid "Not available"
 msgstr "Non disponibile"
 
@@ -1208,19 +1220,19 @@ msgstr "Non disponibile"
 #. translators: %s: Latest plugin version number.
 #. translators: %s: Latest theme version number.
 #: includes/class-health-check-debug-data.php:62
-#: includes/class-health-check-debug-data.php:870
-#: includes/class-health-check-debug-data.php:902
-#: includes/class-health-check-debug-data.php:960
-#: includes/class-health-check-debug-data.php:1044
+#: includes/class-health-check-debug-data.php:880
+#: includes/class-health-check-debug-data.php:912
+#: includes/class-health-check-debug-data.php:970
+#: includes/class-health-check-debug-data.php:1054
 msgid "(Latest version: %s)"
 msgstr "(Ultima versione: %s)"
 
 #. translators: Prefix for the active theme in a listing.
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:1145
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:1151
 msgid "Active:"
 msgstr "Attivo:"
 
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:856
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:862
 msgid "Themes"
 msgstr "Temi"
 
@@ -1313,17 +1325,17 @@ msgstr "Contenuto modificato"
 msgid "Tools"
 msgstr "Strumenti"
 
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:893
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:985
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:899
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:991
 #: includes/class-health-check-troubleshoot.php:244
 msgid "Disable Troubleshooting Mode"
 msgstr "Disabilita Modalità Diagnostica"
 
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:166
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:172
 msgid "Install a default theme"
 msgstr "Installa un tema predefinito"
 
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:157
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:163
 msgid "You don't have any of the default themes installed. A default theme helps you determine if your current theme is causing conflicts."
 msgstr "Non hai un tema predefinito installato. Un tema predefinito ti aiuta a capire se il tuo attuale tema è la causa dei problemi o dei conflitti."
 
@@ -1333,26 +1345,26 @@ msgid "Health Check"
 msgstr "Health Check"
 
 #. Translators: %s: Plugin slug.
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:826
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:832
 msgid "Enable %s"
 msgstr "Attiva %s"
 
 #. Translators: %s: Plugin slug.
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:811
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:817
 msgid "Disable %s"
 msgstr "Disattiva %s"
 
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:772
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:778
 msgid "Manage active plugins"
 msgstr "Gestione plugin attivi"
 
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:310
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:386
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:316
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:392
 msgid "Enable while troubleshooting"
 msgstr "Abilitati durante la Modalità Diagnostica"
 
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:311
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:373
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:317
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:379
 msgid "Disable while troubleshooting"
 msgstr "Disabilitati durante la Modalità Diagnostica"
 
@@ -1373,7 +1385,7 @@ msgstr "Durante la Modalità Diagnostica, ti potrebbe essere chiesto di disabili
 msgid "Error encountered: (%1$d) %2$s"
 msgstr "È stato riscontrato un errore: (%1$d) %2$s"
 
-#: includes/class-health-check-debug-data.php:791
+#: includes/class-health-check-debug-data.php:801
 msgid "Database name"
 msgstr "Nome del database"
 
@@ -1405,7 +1417,7 @@ msgstr "Editor attivo"
 msgid "Media Handling"
 msgstr "Gestione media"
 
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:304
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:310
 #: includes/class-health-check.php:433
 msgid "Troubleshoot"
 msgstr "Diagnostica"
@@ -1426,11 +1438,11 @@ msgstr "Non è stato possibile copiare il file del plugin necessario per l’ese
 msgid "Enable Troubleshooting Mode"
 msgstr "Attiva la Modalità Diagnostica"
 
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:781
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:787
 msgid "Plugins"
 msgstr "Plugin"
 
-#: assets/mu-plugin/health-check-troubleshooting-mode.php:762
+#: assets/mu-plugin/health-check-troubleshooting-mode.php:768
 msgid "Troubleshooting Mode"
 msgstr "Modalità Diagnostica"
 
@@ -1489,23 +1501,23 @@ msgstr "Non ci sono eventi programmati su questo sito."
 
 #. translators: %s: Plugin version number.
 #. translators: %s: Theme version number.
-#: includes/class-health-check-debug-data.php:825
-#: includes/class-health-check-debug-data.php:863
-#: includes/class-health-check-debug-data.php:1037
+#: includes/class-health-check-debug-data.php:835
+#: includes/class-health-check-debug-data.php:873
+#: includes/class-health-check-debug-data.php:1047
 msgid "Version %s"
 msgstr "Versione %s"
 
 #. translators: %s: Plugin author name.
 #. translators: %s: Theme author name.
-#: includes/class-health-check-debug-data.php:819
-#: includes/class-health-check-debug-data.php:857
-#: includes/class-health-check-debug-data.php:1031
+#: includes/class-health-check-debug-data.php:829
+#: includes/class-health-check-debug-data.php:867
+#: includes/class-health-check-debug-data.php:1041
 msgid "By %s"
 msgstr "Di %s"
 
-#: includes/class-health-check-debug-data.php:809
-#: includes/class-health-check-debug-data.php:847
-#: includes/class-health-check-debug-data.php:1021
+#: includes/class-health-check-debug-data.php:819
+#: includes/class-health-check-debug-data.php:857
+#: includes/class-health-check-debug-data.php:1031
 msgid "No version or author information is available."
 msgstr "Non è disponibile nessuna informazione sulla versione o sull'autore,"
 
@@ -1661,60 +1673,60 @@ msgstr "La verifica dello stato di salute del sito mostra informazioni critiche 
 
 #. translators: 1: Parent theme name. 2: Parent theme slug.
 #. translators: 1: Theme name. 2: Theme slug.
-#: includes/class-health-check-debug-data.php:913
-#: includes/class-health-check-debug-data.php:971
-#: includes/class-health-check-debug-data.php:1052
+#: includes/class-health-check-debug-data.php:923
+#: includes/class-health-check-debug-data.php:981
+#: includes/class-health-check-debug-data.php:1062
 msgid "%1$s (%2$s)"
 msgstr "%1$s (%2$s)"
 
-#: includes/class-health-check-debug-data.php:935
+#: includes/class-health-check-debug-data.php:945
 msgid "Parent theme"
 msgstr "Tema genitore"
 
-#: includes/class-health-check-debug-data.php:930
-#: includes/class-health-check-debug-data.php:988
+#: includes/class-health-check-debug-data.php:940
+#: includes/class-health-check-debug-data.php:998
 msgid "Author website"
 msgstr "Sito web dell'autore"
 
-#: includes/class-health-check-debug-data.php:925
-#: includes/class-health-check-debug-data.php:983
+#: includes/class-health-check-debug-data.php:935
+#: includes/class-health-check-debug-data.php:993
 msgid "Author"
 msgstr "Autore"
 
-#: includes/class-health-check-debug-data.php:910
-#: includes/class-health-check-debug-data.php:968
+#: includes/class-health-check-debug-data.php:920
+#: includes/class-health-check-debug-data.php:978
 msgid "Name"
 msgstr "Nome"
 
 #. translators: 1: Plugin version number. 2: Plugin author name.
 #. translators: 1: Theme version number. 2: Theme author name.
-#: includes/class-health-check-debug-data.php:814
-#: includes/class-health-check-debug-data.php:852
-#: includes/class-health-check-debug-data.php:1026
+#: includes/class-health-check-debug-data.php:824
+#: includes/class-health-check-debug-data.php:862
+#: includes/class-health-check-debug-data.php:1036
 msgid "Version %1$s by %2$s"
 msgstr "Versione %1$s di %2$s"
 
-#: includes/class-health-check-debug-data.php:797
+#: includes/class-health-check-debug-data.php:807
 msgid "Database prefix"
 msgstr "Prefisso del database"
 
-#: includes/class-health-check-debug-data.php:785
+#: includes/class-health-check-debug-data.php:795
 msgid "Database host"
 msgstr "Host del database"
 
-#: includes/class-health-check-debug-data.php:779
+#: includes/class-health-check-debug-data.php:789
 msgid "Database user"
 msgstr "Utente del database"
 
-#: includes/class-health-check-debug-data.php:774
+#: includes/class-health-check-debug-data.php:784
 msgid "Client version"
 msgstr "Versione del client"
 
-#: includes/class-health-check-debug-data.php:769
+#: includes/class-health-check-debug-data.php:779
 msgid "Server version"
 msgstr "Versione del server"
 
-#: includes/class-health-check-debug-data.php:764
+#: includes/class-health-check-debug-data.php:774
 msgid "Extension"
 msgstr "Estensione"
 
@@ -1803,7 +1815,7 @@ msgstr "Conteggio del sito"
 msgid "User count"
 msgstr "Conteggio degli utenti"
 
-#: includes/class-health-check-debug-data.php:1067
+#: includes/class-health-check-debug-data.php:1077
 msgid "The must use plugins directory"
 msgstr "La directory must use dei plugin"
 
@@ -1828,7 +1840,7 @@ msgstr "La directory wp-content"
 #: includes/class-health-check-debug-data.php:335
 #: includes/class-health-check-debug-data.php:340
 #: includes/class-health-check-debug-data.php:345
-#: includes/class-health-check-debug-data.php:1068
+#: includes/class-health-check-debug-data.php:1078
 msgid "Not writable"
 msgstr "Non scrivibile"
 
@@ -1837,7 +1849,7 @@ msgstr "Non scrivibile"
 #: includes/class-health-check-debug-data.php:335
 #: includes/class-health-check-debug-data.php:340
 #: includes/class-health-check-debug-data.php:345
-#: includes/class-health-check-debug-data.php:1068
+#: includes/class-health-check-debug-data.php:1078
 msgid "Writable"
 msgstr "Scrivibile"
 
@@ -1879,8 +1891,8 @@ msgstr "Abilitato"
 #: includes/class-health-check-debug-data.php:230
 #: includes/class-health-check-debug-data.php:245
 #: includes/class-health-check-debug-data.php:250
-#: includes/class-health-check-debug-data.php:931
-#: includes/class-health-check-debug-data.php:989
+#: includes/class-health-check-debug-data.php:941
+#: includes/class-health-check-debug-data.php:999
 msgid "Undefined"
 msgstr "Non definito"
 
@@ -1969,8 +1981,9 @@ msgid "Home URL"
 msgstr "URL della Home"
 
 #: includes/class-health-check-debug-data.php:75
-#: includes/class-health-check-debug-data.php:920
-#: includes/class-health-check-debug-data.php:978
+#: includes/class-health-check-debug-data.php:930
+#: includes/class-health-check-debug-data.php:988
+#: includes/tools/class-health-check-plugin-compatibility.php:24
 msgid "Version"
 msgstr "Versione"
 

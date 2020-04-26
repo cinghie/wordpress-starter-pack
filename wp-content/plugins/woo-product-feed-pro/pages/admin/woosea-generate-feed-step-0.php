@@ -85,8 +85,8 @@ if (array_key_exists('project_hash', $_GET)){
                                         $getelite_notice['timestamp'] = date( 'd-m-Y' );
                                 }
 
-                                if(($license_information['license_valid'] <> "true") AND ($getelite_notice['show'] == "yes")){
-                                ?>     
+                                if($getelite_notice['show'] <> "no"){
+                                ?>
 					<div class="notice notice-info get_elite is-dismissible"> 
                                                 <p>
                                                 <strong><?php _e( 'Would you like to get more out of your product feeds? Upgrade to the Elite version of the plugin and you will get:','woo-product-feed-pro' );?></strong><br/></br/>
@@ -97,15 +97,12 @@ if (array_key_exists('project_hash', $_GET)){
                                                 <span class="dashicons dashicons-yes"></span><?php _e( 'WPML support - including their currency switcher','woo-product-feed-pro' );?> [<a href="https://adtribes.io/wpml-support/?utm_source=<?php print"$host";?>&utm_medium=manage-feed&utm_campaign=wpml%20support" target="_blank"><?php _e( 'Read more','woo-product-feed-pro' );?></a>];<br/>
                                                 <span class="dashicons dashicons-yes"></span>Aelia currency switcher support [<a href="https://adtribes.io/aelia-currency-switcher-feature/?utm_source=<?php print"$host";?>&utm_medium=manage-feed&utm_campaign=aelia%20support" target="_blank">Read more</a>];<br/>
                                                 <span class="dashicons dashicons-yes"></span><?php _e( 'Facebook pixel feature','woo-product-feed-pro' );?> [<a href="https://adtribes.io/facebook-pixel-feature/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=facebook pixel feature" target="_blank"><?php _e( 'Read more','woo-product-feed-pro' );?></a>];<br/><br/>
-                                                <?php _e( 'Upgrade to the','woo-product-feed-pro' );?> <strong><a href="https://adtribes.io/pro-vs-elite/?utm_source=<?php print"$host";?>&utm_medium=manage-feed&utm_campaign=top-notification&utm_content=notification" target="_blank"><?php _e( 'Elite version of our plugin</a></strong> to unlock these features.','woo-product-feed-pro' );?>
+                                                <?php _e( 'Upgrade to the','woo-product-feed-pro' );?> <strong><a href="https://adtribes.io/pro-vs-elite/?utm_source=<?php print"$host";?>&utm_medium=manage-feed&utm_campaign=top-notification&utm_content=notification" target="_blank"><?php _e( 'Elite version of our plugin</a></strong> to get all these features.','woo-product-feed-pro' );?>
                                                 </p>
                                         </div> 
-
 				<?php
-                                }
+				}
 				?>
-
-
 		<div class="woo-product-feed-pro-form-style-2-heading"><?php _e( 'General feed settings','woo-product-feed-pro' );?></div>
        
 		<form action="" id="myForm" method="post" name="myForm">
@@ -499,9 +496,6 @@ if (array_key_exists('project_hash', $_GET)){
 		</div>
                         <div class="woo-product-feed-pro-table-right">
 
-				<?php
-                                if($license_information['license_valid'] <> "true"){
-                                ?>
                                 <table class="woo-product-feed-pro-table">
                                         <tr>    
                                                 <td><strong><?php _e( 'Why upgrade to Elite?','woo-product-feed-pro' );?></strong></td>
@@ -524,9 +518,6 @@ if (array_key_exists('project_hash', $_GET)){
                                                 </td>
                                         </tr>
                                 </table><br/>
-				<?php
-				}
-				?>
 
                                 <table class="woo-product-feed-pro-table">
                                         <tr>    

@@ -3,9 +3,14 @@ $domain = $_SERVER['HTTP_HOST'];
 $plugin_settings = get_option( 'plugin_settings' );
 $license_information = get_option( 'license_information' );
 $host = $_SERVER['HTTP_HOST'];
+$directory_perm_xml = "";
+$directory_perm_csv = "";
+$directory_perm_txt = "";
+$directory_perm_tsv = "";
+$directory_perm_logs = "";
 
 $elite_disable = "enabled";
-if($license_information['license_valid'] == "false"){
+if(($license_information['license_valid'] == "false") OR (!is_array($license_information))){
 	$elite_disable = "disabled";
 }
 
@@ -76,12 +81,6 @@ if(isset($_GET["tab"])) {
 	} elseif ($_GET["tab"] == "woosea_system_check"){
         	$active_tab = "woosea_system_check";
 		$header_text = __( 'Plugin systems check', 'woo-product-feed-pro' );
-	} elseif ($_GET["tab"] == "woosea_copy_configs"){
-        	$active_tab = "woosea_copy_configs";
-		$header_text = __( 'Copy feed configuration', 'woo-product-feed-pro' );
-	} elseif ($_GET["tab"] == "woosea_license_check"){
-        	$active_tab = "woosea_license_check";
-		$header_text = __( 'License', 'woo-product-feed-pro' );
      	} else {
              	$active_tab = "woosea_manage_attributes";
 		$header_text = __( 'Attribute settings', 'woo-product-feed-pro' );
@@ -103,32 +102,11 @@ if(isset($_GET["tab"])) {
 				</span>
 			</div>
     
-			<?php
-                    	$getelite_notice = get_option('woosea_getelite_active_notification');
-                    	if(empty($getelite_notice['show'])){
-                        	$getelite_notice['show'] = "yes";
-                            	$getelite_notice['timestamp'] = date( 'd-m-Y' );
-                     	}
-
-                   	if(($license_information['license_valid'] <> "true") AND ($getelite_notice['show'] == "yes")){
-			?>
-			<div class="notice notice-info get_elite_activate is-dismissible">
-                                <p>Thank you for using our Product Feed PRO plugin, much appreciated! Some of the features of this plugin have been locked as you are using the free version of this plugin. The added extra fields such as Brand and GTIN, WPML support, Aelia currency switcher support, the Facebook Pixel feature and the WooCommerce structured data bug fix are Elite features of this plugin. You can get <strong><a href="https://adtribes.io/pro-vs-elite/?utm_source=$domain&utm_medium=plugin&utm_campaign=upgrade-elite" target="_blank">your license key here</a></strong>.</p>
-                        </div>
-			<?php
-			}
-			?>
-
         	    	<!-- wordpress provides the styling for tabs. -->
 			<h2 class="nav-tab-wrapper">
                 		<!-- when tab buttons are clicked we jump back to the same page but with a new parameter that represents the clicked tab. accordingly we make it active -->
                 		<a href="?page=woosea_manage_settings&tab=woosea_manage_settings" class="nav-tab <?php if($active_tab == 'woosea_manage_settings'){echo 'nav-tab-active';} ?> "><?php _e('Plugin settings', 'woo-product-feed-pro'); ?></a>
-                		<a href="?page=woosea_manage_settings&tab=woosea_manage_attributes" class="nav-tab <?php if($active_tab == 'woosea_manage_attributes'){echo 'nav-tab-active';} ?>"><?php _e('Extra fields (Elite feature)', 'woo-product-feed-pro'); ?></a>
                 		<a href="?page=woosea_manage_settings&tab=woosea_system_check" class="nav-tab <?php if($active_tab == 'woosea_system_check'){echo 'nav-tab-active';} ?>"><?php _e('Plugin systems check', 'woo-product-feed-pro'); ?></a>
-				<!--
-				<a href="?page=woosea_manage_settings&tab=woosea_copy_configs" class="nav-tab <?php if($active_tab == 'woosea_copy_configs'){echo 'nav-tab-active';} ?>"><?php _e('Copy feed configuration', 'woo-product-feed-pro'); ?></a>
-				-->
-				<a href="?page=woosea_manage_settings&tab=woosea_license_check" class="nav-tab <?php if($active_tab == 'woosea_license_check'){echo 'nav-tab-active';} ?>"><?php _e('License', 'woo-product-feed-pro'); ?></a>
 	  		</h2>
 
 			<div class="woo-product-feed-pro-table-wrapper">
@@ -141,6 +119,9 @@ if(isset($_GET["tab"])) {
                                                 <tr><td><strong><?php _e( 'Plugin setting', 'woo-product-feed-pro' );?></strong></td><td><strong><?php _e( 'Off / On', 'woo-product-feed-pro' );?></strong></td></tr>
 
 						<form action="" method="post">
+						<?php
+						if($elite_disable == "enabled"){
+						?>
 						<tr class="<?php print"$elite_disable";?>" id="json_option">
 							<td>
 								<span><?php _e( 'Increase the number of products that will be approved in Google\'s Merchant Center:', 'woo-product-feed-pro' );?><br/>
@@ -160,7 +141,6 @@ if(isset($_GET["tab"])) {
                                                 		</label>
 							</td>
 						</tr>
-
 						<tr class="<?php print"$elite_disable";?>" id="structured_vat_option">
 							<td>
 								<span><?php _e( 'Exclude TAX from structured data prices', 'woo-product-feed-pro' );?></span>
@@ -179,7 +159,6 @@ if(isset($_GET["tab"])) {
                                                 		</label>
 							</td>
 						</tr>
-
 						<tr class="<?php print"$elite_disable";?>" id="identifier_option">
 							<td>
 								<span><?php _e( 'Add GTIN, MPN, UPC, EAN, Product condition, Optimised title, Installment, Unit measure and Brand attributes to your store:', 'woo-product-feed-pro' );?> (<a href="https://adtribes.io/add-gtin-mpn-upc-ean-product-condition-optimised-title-and-brand-attributes/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_content=adding fields" target="_blank"><?php _e( 'Read more about this', 'woo-product-feed-pro' );?>)</a></span>
@@ -198,7 +177,6 @@ if(isset($_GET["tab"])) {
                                                 		</label>
 							</td>
 						</tr>
-
 						<tr class="<?php print"$elite_disable";?>" id="manipulation_option">
 							<td>
 								<span><?php _e( 'Enable Product data manipulation feature:', 'woo-product-feed-pro' );?> (<a href="https://adtribes.io/feature-product-data-manipulation/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_content=wpml support" target="_blank"><?php _e( 'Read more about this', 'woo-product-feed-pro' );?>)</a></span>
@@ -255,6 +233,9 @@ if(isset($_GET["tab"])) {
                                                 		</label>
 							</td>
 						</tr>
+						<?php
+						}
+						?>
 						<tr>
 							<td>
 								<span><?php _e( 'Use mother main image for variations', 'woo-product-feed-pro');?></span>
@@ -346,6 +327,9 @@ if(isset($_GET["tab"])) {
 							</td>
 						</tr>
 
+                                                <?php
+                                                if($elite_disable == "enabled"){
+                                                ?>
 						<tr id="facebook_pixel">
 							<td>
 								<span><?php _e( 'Add Facebook Pixel:', 'woo-product-feed-pro');?> (<a href="https://adtribes.io/facebook-pixel-feature/" target="_blank"><?php _e( 'Read more about this', 'woo-product-feed-pro' );?>)</a></span>
@@ -365,9 +349,10 @@ if(isset($_GET["tab"])) {
 							</td>
 						</tr>
 						<?php
-                                                if($add_facebook_pixel == "yes"){
-							$facebook_pixel_id = get_option('woosea_facebook_pixel_id');
-							print "<tr id=\"facebook_pixel_id\"><td colspan=\"2\"><span>Insert your Facebook Pixel ID:</span>&nbsp;<input type=\"text\" class=\"input-field-medium\" id=\"fb_pixel_id\" name=\"fb_pixel_id\" value=\"$facebook_pixel_id\">&nbsp;<input type=\"submit\" id=\"save_facebook_pixel_id\" value=\"Save\"></td></tr>";	
+                                                	if($add_facebook_pixel == "yes"){
+								$facebook_pixel_id = get_option('woosea_facebook_pixel_id');
+								print "<tr id=\"facebook_pixel_id\"><td colspan=\"2\"><span>Insert your Facebook Pixel ID:</span>&nbsp;<input type=\"text\" class=\"input-field-medium\" id=\"fb_pixel_id\" name=\"fb_pixel_id\" value=\"$facebook_pixel_id\">&nbsp;<input type=\"submit\" id=\"save_facebook_pixel_id\" value=\"Save\"></td></tr>";	
+							}
 						}
 						?>
 
@@ -425,53 +410,6 @@ if(isset($_GET["tab"])) {
 						</form>
 					</table>
 					<?php
-					} elseif ($active_tab == "woosea_license_check"){
-					?>
-                                        <table class="woo-product-feed-pro-table">
-                                                <tr>
-                                                        <td>
-                                                                <span><?php _e( 'License e-mail:', 'woo-product-feed-pro' );?></span>
-                                                        </td>
-                                                        <td>
-                                                                <input type="text" class="input-field-large" id="license-email" name="license-email" value="<?php print "$license_information[license_email]";?>">
-                                                        </td>
-                                                </tr>
-                                                <tr>
-                                                        <td>
-                                                                <span><?php _e( 'License key:', 'woo-product-feed-pro' );?></span>
-                                                        </td>
-                                                        <td>
-                                                                <input type="text" class="input-field-large" id="license-key" name="license-key" value="<?php print "$license_information[license_key]";?>">
-                                                        </td>
-                                                </tr>
-                                                <tr>
-                                                        <td colspan="2"><i><?php _e ( 'Please note that leaving your license details you allow us to automatically validate your license once a day.', 'woo-product-feed-pro' );?></i></td>
-                                                </tr>
-                                                <tr>
-                                                        <td colspan="2">
-							<?php
-							if($license_information['license_valid'] <> "true"){
-							?>
-                                                                <input type="submit" id="checklicense" value="Activate license">
-							<?php
-							} else {
-							?>
-                                                                <input type="submit" id="checklicense" value="License already active">
-							<?php
-							}
-							?>
-                                                        </td>
-                                                </tr>
-
-                                        </table>
-					<?php
-					} elseif ($active_tab == "woosea_copy_configs"){
-						print "<br>";
-						print "<table class=\"woo-product-feed-pro-table\">";
-						print "<tr><td colspan=\"2\">Copy feed configuarion from this domain:</td></tr>";
-						print "<tr><td colspan=\"2\"><select name=\"protocol\" id=\"protocol\" class=\"select-field\"><option value=\"https\">https://</option><option value=\"http\">http://</option></select>&nbsp;<input class=\"input-field\" name=\"copy_domain\" id=\"copy_domain\">&nbsp;<input type=\"submit\" id=\"copy_button\" value=\"Copy feeds\"></td></tr>";
-						print "<tr><td colspan=\"2\">&nbsp;</td></tr>";
-						print "</table>";
 					} elseif ($active_tab == "woosea_system_check"){
 						// Check if the product feed directory is writeable
 						$upload_dir = wp_upload_dir();
@@ -649,9 +587,6 @@ if(isset($_GET["tab"])) {
 
 				<div class="woo-product-feed-pro-table-right">
 
-				<?php
-                                if((empty($license_information['license_valid'])) OR ($license_information['license_valid'] <> "true")){
-                                ?>
                                 <table class="woo-product-feed-pro-table">
                                         <tr>
                                                 <td><strong><?php _e( 'Why upgrade to Elite?', 'woo-product-feed-pro' );?></strong></td>
@@ -674,9 +609,6 @@ if(isset($_GET["tab"])) {
                                                 </td>
                                         </tr>
                                 </table><br/>
-				<?php
-				}
-				?>
 
                                 <table class="woo-product-feed-pro-table">
                                         <tr>

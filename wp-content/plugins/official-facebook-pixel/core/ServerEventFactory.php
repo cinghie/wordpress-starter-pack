@@ -26,7 +26,10 @@ use FacebookPixelPlugin\Core\FacebookWordpressOptions;
 defined('ABSPATH') or die('Direct access not allowed');
 
 class ServerEventFactory {
-  public static function newEvent($event_name) {
+  public static function newEvent(
+    $event_name,
+    $prefer_referrer_for_event_src = false)
+  {
     $user_data = (new UserData())
                   ->setClientIpAddress(self::getIpAddress())
                   ->setClientUserAgent(self::getHttpUserAgent())
@@ -37,7 +40,8 @@ class ServerEventFactory {
               ->setEventName($event_name)
               ->setEventTime(time())
               ->setEventId(EventIdGenerator::guidv4())
-              ->setEventSourceUrl(self::getRequestUri())
+              ->setEventSourceUrl(
+                self::getRequestUri($prefer_referrer_for_event_src))
               ->setUserData($user_data)
               ->setCustomData(new CustomData());
 
@@ -45,17 +49,29 @@ class ServerEventFactory {
   }
 
   private static function getIpAddress() {
-    $ip_address = null;
+    $HEADERS_TO_SCAN = array(
+      'HTTP_CLIENT_IP',
+      'HTTP_X_FORWARDED_FOR',
+      'HTTP_X_FORWARDED',
+      'HTTP_X_CLUSTER_CLIENT_IP',
+      'HTTP_FORWARDED_FOR',
+      'HTTP_FORWARDED',
+      'REMOTE_ADDR'
+    );
 
-    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-      $ip_address = $_SERVER['HTTP_CLIENT_IP'];
-    } else if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-      $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    } else if (!empty($_SERVER['REMOTE_ADDR'])) {
-      $ip_address = $_SERVER['REMOTE_ADDR'];
+    foreach ($HEADERS_TO_SCAN as $header) {
+      if (array_key_exists($header, $_SERVER)) {
+        $ip_list = explode(',', $_SERVER[$header]);
+        foreach($ip_list as $ip) {
+          $trimmed_ip = trim($ip);
+          if (self::isValidIpAddress($trimmed_ip)) {
+            return $trimmed_ip;
+          }
+        }
+      }
     }
 
-    return $ip_address;
+    return null;
   }
 
   private static function getHttpUserAgent() {
@@ -68,7 +84,11 @@ class ServerEventFactory {
     return $user_agent;
   }
 
-  private static function getRequestUri() {
+  private static function getRequestUri($prefer_referrer_for_event_src) {
+    if ($prefer_referrer_for_event_src && !empty($_SERVER['HTTP_REFERER'])) {
+      return $_SERVER['HTTP_REFERER'];
+    }
+
     $url = "http://";
     if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
       $url = "https://";
@@ -105,8 +125,23 @@ class ServerEventFactory {
     return $fbc;
   }
 
-  public static function safeCreateEvent($event_name, $callback, $arguments) {
-    $event = self::newEvent($event_name);
+  private static function isValidIpAddress($ip_address) {
+    return filter_var($ip_address,
+                      FILTER_VALIDATE_IP,
+                      FILTER_FLAG_IPV4
+                      | FILTER_FLAG_IPV6
+                      | FILTER_FLAG_NO_PRIV_RANGE
+                      | FILTER_FLAG_NO_RES_RANGE);
+  }
+
+  public static function safeCreateEvent(
+    $event_name,
+    $callback,
+    $arguments,
+    $integration,
+    $prefer_referrer_for_event_src = false)
+  {
+    $event = self::newEvent($event_name, $prefer_referrer_for_event_src);
 
     try {
       $data = call_user_func_array($callback, $arguments);
@@ -127,6 +162,8 @@ class ServerEventFactory {
       }
 
       $custom_data = $event->getCustomData();
+      $custom_data->addCustomProperty('fb_integration_tracking', $integration);
+
       if (!empty($data['currency'])) {
         $custom_data->setCurrency($data['currency']);
       }

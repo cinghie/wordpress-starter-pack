@@ -46,16 +46,6 @@ jQuery(document).ready(function($) {
 
 	});
 
-	$(".license_notification").click(function(){
-		$(".license_notification").remove();	
-
-	        jQuery.ajax({
-                	method: "POST",
-                        url: ajaxurl,
-                        data: { 'action': 'woosea_license_notification' }
-                })
-	});
-
 	$(".get_elite").click(function(e){
 		if(e.target.tagName === 'A') return; // clicking on links should not close the div notice
 
@@ -470,45 +460,6 @@ jQuery(document).ready(function($) {
 		}
 	})	
 
-
-	// When an Elite feature is clicked and the license is not valid show a pop-up
-	$('#json_option').on('click', function(){ // on change of state
-		var license_active = $(this).closest('tr').attr("class");
-		console.log(license_active);
-		if(license_active == "disabled"){ 
-			var popup_dialog = alert("We are sorry, The JSON LD WooCommerce bug fix is an Elite feature of this plugin. Please visit AdTribes.io to acquire a license and enable this option.");
-		}
-	})	
-
-	$('#structured_vat_option').on('click', function(){ // on change of state
-		var license_active = $(this).closest('tr').attr("class");
-		console.log(license_active);
-		if(license_active == "disabled"){ 
-			var popup_dialog = alert("We are sorry, removing the VAT from the structured data prices is an Elite feature of this plugin. Please visit AdTribes.io to acquire a license and enable this option.");
-		}
-	})	
-
-	$('#wpml_option').on('click', function(){ // on change of state
-		var license_active = $(this).closest('tr').attr("class");
-		if(license_active == "disabled"){ 
-			var popup_dialog = alert("We are sorry, this featue is locked. WPML support is an Elite feature of this plugin. Please visit AdTribes.io to acquire a license and enable this option.");
-		}
-	})	
-
-	$('#aelia_option').on('click', function(){ // on change of state
-		var license_active = $(this).closest('tr').attr("class");
-		if(license_active == "disabled"){ 
-			var popup_dialog = alert("We are sorry, this feature is locked. The Aelia currency support is an Elite feature of this plugin. Please visit AdTribes.io to acquire a license and enable this option.");
-		}
-	})	
-
-	$('#identifier_option').on('click', function(){ // on change of state
-		var license_active = $(this).closest('tr').attr("class");
-		if(license_active == "disabled"){ 
-			var popup_dialog = alert("We are sorry, adding the extra fields (such as brand, GTIN, MPN etc) is an Elite feature of this plugin. Please visit AdTribes.io to acquire a license and enable this option.");
-		}
-	})	
-	
 	// Check if user would like to fix the WooCommerce structured data bug
 	$('#fix_json_ld').on('change', function(){ // on change of state
 

@@ -2050,6 +2050,8 @@ class WooSEA_Get_Products {
 				$categories = $cat_alt;
 			}
 
+			$product_data['category_path'] = "";
+
 			foreach ($categories as $key => $value){
 	               		$product_cat = get_term($value, 'product_cat');
 

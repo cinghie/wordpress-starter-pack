@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     7.9.9
+ * Version:     8.0.6
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '7.9.9' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '8.0.6' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -172,19 +172,21 @@ add_action( 'wp_enqueue_scripts' , 'woosea_front_scripts' );
 function woosea_storedattributes_details(){ 
   	//checking the nonce. will die if it is no good.
    	check_ajax_referer('woosea_ajax_nonce', 'nonce');
-        $productId = sanitize_text_field($_POST['data_to_pass']);
+	if(isset($_POST['data_to_pass'])){
+        	$productId = sanitize_text_field($_POST['data_to_pass']);
 
-	// Remove previous drop-down selection
-	delete_option( 'selected_values' );
+		// Remove previous drop-down selection
+		delete_option( 'selected_values' );
 
-	// Good idea to make sure things are set before using them
-	$selected_values = isset( $_POST['storedAttributes'] ) ? (array) $_POST['storedAttributes'] : array();
+		// Good idea to make sure things are set before using them
+		$selected_values = isset( $_POST['storedAttributes'] ) ? (array) $_POST['storedAttributes'] : array();
 
-	// Any of the WordPress data sanitization functions can be used here
-	$selected_values = array_map( 'esc_attr', $selected_values );
+		// Any of the WordPress data sanitization functions can be used here
+		$selected_values = array_map( 'esc_attr', $selected_values );
       	
-	// Save drop-down selection
-	update_option( 'selected_values', $selected_values);
+		// Save drop-down selection
+		update_option( 'selected_values', $selected_values);
+	}
 }
 add_action( 'wp_ajax_nopriv_woosea_storedattributes_details', 'woosea_storedattributes_details' );
 add_action( 'wp_ajax_woosea_storedattributes_details', 'woosea_storedattributes_details' );
@@ -282,12 +284,8 @@ function woosea_plugin_action_links($links, $file) {
 		$host = $_SERVER['HTTP_HOST'];
         	$plugin_links[] = '<a href="https://adtribes.io/support/?utm_source='.$host.'&utm_medium=pluginpage&utm_campaign=support" target="_blank">Support</a>';
         	$plugin_links[] = '<a href="https://adtribes.io/tutorials/?utm_source='.$host.'&utm_medium=pluginpage&utm_campaign=tutorials" target="_blank">Tutorials</a>';
-		                
-		$license_information = get_option( 'license_information' );
-                if($license_information['license_valid'] <> "true"){
-        		$plugin_links[] = '<a href="https://adtribes.io/pro-vs-elite/?utm_source='.$host.'&utm_medium=pluginpage&utm_campaign=go elite" target="_blank" style="color:green;"><b>Go Elite</b></a>';
-        		$plugin_links[] = '<a href="https://adtribes.io/pro-vs-elite/?utm_source='.$host.'&utm_medium=pluginpage&utm_campaign=premium support" target="_blank">Premium Support</a>';
-		} 
+        	$plugin_links[] = '<a href="https://adtribes.io/pro-vs-elite/?utm_source='.$host.'&utm_medium=pluginpage&utm_campaign=go elite" target="_blank" style="color:green;"><b>Go Elite</b></a>';
+        	$plugin_links[] = '<a href="https://adtribes.io/pro-vs-elite/?utm_source='.$host.'&utm_medium=pluginpage&utm_campaign=premium support" target="_blank">Premium Support</a>';
 
         	// add the links to the list of links already there
 		foreach($plugin_links as $link) {
@@ -415,8 +413,8 @@ function woosea_add_facebook_pixel( $product = null ){
 								$children_ids = $product->get_children();
 								$content = "";	
                                 				foreach ($children_ids as $id){
-									//$id = '\''.$id.'\'';
-                                        				$content .= $id.',';
+									$content .= '\''.$id.'\',';
+                                        				//$content .= $id.',';
                                 				}
 
                                                 		$content = rtrim($content, ",");
@@ -431,18 +429,17 @@ function woosea_add_facebook_pixel( $product = null ){
                         			       		 	$fb_highprice = wc_format_decimal( $highest, wc_get_price_decimals() );
 									$fb_price = $fb_lowprice;
 								}
-								$viewContent = "fbq(\"track\",\"ViewContent\",{content_category:\"$cats\", content_name:\"$product_name\", content_type:\"product_group\", content_ids:[\"$content\"], value:\"$fb_price\", currency:\"$currency\"});";
+								$viewContent = "fbq(\"track\",\"ViewContent\",{content_category:\"$cats\", content_name:\"$product_name\", content_type:\"product_group\", content_ids:[$content], value:\"$fb_price\", currency:\"$currency\"});";
 							}
 						} else {
+							// This is a simple product page
         						$fb_price = wc_format_decimal( $product->get_price(), wc_get_price_decimals() );
 							$viewContent = "fbq(\"track\",\"ViewContent\",{content_category:\"$cats\", content_name:\"$product_name\", content_type:\"product\", content_ids:[\"$fb_prodid\"], value:\"$fb_price\", currency:\"$currency\"});";
 						}
 					}
 				}
 			} elseif ($fb_pagetype == "cart"){
-
 				// This is on the order thank you page
-//				if(!empty($_GET)){
   				if( isset( $_GET['key'] ) && is_wc_endpoint_url( 'order-received' ) ) {
                 			$order_string = sanitize_text_field($_GET['key']);
 					if(!empty($order_string)){
@@ -456,6 +453,11 @@ function woosea_add_facebook_pixel( $product = null ){
 						if ( !is_wp_error( $order_items )) {
 							foreach( $order_items as $item_id => $order_item) {
 								$prod_id = $order_item->get_product_id();
+								$variation_id = $order_item->get_variation_id();
+								if($variation_id > 0){
+									$prod_id = $variation_id;
+								}
+
 								$prod_quantity = $order_item->get_quantity();
 								$order_total = $order_item->get_total();
 								$order_subtotal = $order_item->get_subtotal();
@@ -477,26 +479,29 @@ function woosea_add_facebook_pixel( $product = null ){
 					$checkoutpage = wc_get_checkout_url();
 					$current_url = get_permalink(get_the_ID()); 
 
-					if( !is_wp_error( $cart_items )) {
-						foreach( $cart_items as $cart_id => $cart_item) {
-							$prod_id = $cart_item['product_id'];
-							if($cart_item['variation_id'] > 0){
-								$prod_id = $cart_item['variation_id'];
-							}
-							$contents .= "$prod_id,";												
-							$line_total = $cart_item['line_total'];
-							$line_tax = $cart_item['line_tax'];
-							$cart_real = number_format(($line_total+$line_tax),2)+$cart_real;
+					if(!empty($cart_items)){
+						if( !is_wp_error( $cart_items )) {
+							foreach( $cart_items as $cart_id => $cart_item) {
+								$prod_id = $cart_item['product_id'];
+								if($cart_item['variation_id'] > 0){
+									$prod_id = $cart_item['variation_id'];
+								}
+								$contents .= '\''.$prod_id.'\',';
+								//$contents .= "$prod_id,";												
+								$line_total = $cart_item['line_total'];
+								$line_tax = $cart_item['line_tax'];
+								$cart_real = number_format(($line_total+$line_tax),2)+$cart_real;
 						
-						}
-						$contents = rtrim($contents, ",");
+							}
+							$contents = rtrim($contents, ",");
 
-						// User is on the billing pages
-						if($checkoutpage == $current_url){
-							$viewContent = "fbq(\"track\",\"InitiateCheckout\",{currency:\"$currency\", value:\"$cart_real\", content_type:\"product\", content_ids:[\"$contents\"]});";
-						} else {
-							// User is on the basket page
-							$viewContent = "fbq(\"track\",\"AddToCart\",{currency:\"$currency\", value:\"$cart_real\", content_type:\"product\", content_ids:[\"$contents\"]});";
+							// User is on the billing pages
+							if($checkoutpage == $current_url){
+								$viewContent = "fbq(\"track\",\"InitiateCheckout\",{currency:\"$currency\", value:\"$cart_real\", content_type:\"product\", content_ids:[$contents]});";
+							} else {
+								// User is on the basket page
+								$viewContent = "fbq(\"track\",\"AddToCart\",{currency:\"$currency\", value:\"$cart_real\", content_type:\"product\", content_ids:[$contents]});";
+							}
 						}
 					}
 				}
@@ -515,12 +520,14 @@ function woosea_add_facebook_pixel( $product = null ){
 
 					if($_product->is_type('simple')){
 						// Add the simple product ID
-						$fb_prodid .= $id.',';
+ 						$fb_prodid .= '\''.$id.'\',';
 					} else {
 						// This is a variable product, add variation product ID's
 						$children_ids = $_product->get_children();
                                 		foreach ($children_ids as $id){
-                                        		$fb_prodid .= $id.',';
+
+ 						$fb_prodid .= '\''.$id.'\',';
+ 							$fb_prodid .= '\''.$id.'\',';
                                 		}
 					}
 				}
@@ -545,17 +552,18 @@ function woosea_add_facebook_pixel( $product = null ){
 					$ptype = $_product->get_type();
 					if($ptype == "simple"){
 						// Add the simple product ID
-						$fb_prodid .= $id.',';
+ 						$fb_prodid .= '\''.$id.'\',';
 					} else {
 						// This is a variable product, add variation product ID's
 						$children_ids = $_product->get_children();
                                 		foreach ($children_ids as $id){
-                                        		$fb_prodid .= $id.',';
+ 							$fb_prodid .= '\''.$id.'\',';
+							//$fb_prodid .= $id.',';
                                 		}
 					}
 				}
 		               	$fb_prodid = rtrim($fb_prodid, ",");
-				$viewContent = "fbq(\"trackCustom\",\"Search\",{search_string:\"$search_string\", content_type:\"product\", content_ids:\"[$fb_prodid]\"});";
+				$viewContent = "fbq(\"trackCustom\",\"Search\",{search_string:\"$search_string\", content_type:\"product\", content_ids:\"[\"$fb_prodid\"]\"});";
 			} else {
 				// This is another page than a product page
 				$viewContent = "";
@@ -755,66 +763,9 @@ function activate_woosea_feed(){
 register_activation_hook(__FILE__, 'activate_woosea_feed');
 
 /**
- * Show the license notification
- **/
-function woosea_license_notice(){
-        $license_information = get_option( 'license_information' );
-   	$license_notification = get_option( 'woosea_license_notification_closed' );
-        $screen = get_current_screen();
-	$current_date = strtotime(date( 'd-m-Y' ));
-
-	if(isset($license_notification['timestamp'])){
-		$off_date = strtotime($license_notification['timestamp']);
-	} else {
-		$off_date = strtotime(date( 'd-m-Y' ));
-	}
-
-	// Show notification again after 30 days
-	$diff_days = 2592000;
-	$diff = ($current_date - $off_date);
-
-	// 30 days have passed	
-	if($diff > $diff_days){
-		$license_notification['show'] = "yes";
-	} else {
-		$license_notification['show'] = "no";
-	}
-
-	// Add a check, notification should not show in the plugin pages itself as it will duplicate notices
-       	$page = basename($_SERVER['REQUEST_URI']);
-
-        if (!preg_match("/woo-product-feed-pro|woosea_manage_feed|woosea_manage_settings/i",$page)){
-
- 	 	if($license_notification['show'] <> "no"){
-       		?>
-       			<div class="<?php print "$license_information[message_type]"; ?> license_notification">
-                		<p><?php _e( $license_information['message'], 'sample-text-domain' ); ?></p>
-          		</div>
-    		<?php
-    		}
-	}
-}
-add_action('admin_notices', 'woosea_license_notice');
-
-/**
- * Close the license notification
- **/
-function woosea_license_notification(){
-
-	$get_admin_notice = array(
-		"show" => "no",
-		"timestamp" => date( 'd-m-Y' )
-	);
-
-	update_option('woosea_license_notification_closed', $get_admin_notice);
-}
-add_action('wp_ajax_woosea_license_notification', 'woosea_license_notification');
-
-/**
  * Close the get Elite notification
  **/
 function woosea_getelite_notification(){
-
 	//delete_option('woosea_getelite_notification');
 
 	$get_elite_notice = array(
@@ -930,11 +881,6 @@ add_action( 'woocommerce_thankyou', 'woosea_inject_ajax' );
 add_action( 'woosea_cron_hook', 'woosea_create_all_feeds'); // create a cron hook
 
 /**
- * Check if license for Elite version is valid
- */
-add_action( 'woosea_check_license', 'woosea_license_valid'); // check if license is valid
-
-/**
  * Add WooCommerce SEA plugin to Menu
  */
 function woosea_menu_addition(){
@@ -942,11 +888,6 @@ function woosea_menu_addition(){
             	add_submenu_page(__FILE__, __( 'Feed configuration', 'woo-product-feed-pro' ), __( 'Create feed', 'woo-product-feed-pro' ), 'manage_options', __FILE__, 'woosea_generate_pages');
             	add_submenu_page(__FILE__, __( 'Manage feeds', 'woo-product-feed-pro' ), __( 'Manage feeds', 'woo-product-feed-pro' ), 'manage_options', 'woosea_manage_feed', 'woosea_manage_feed');
             	add_submenu_page(__FILE__, __( 'Settings', 'woo-product-feed-pro' ), __( 'Settings', 'woo-product-feed-pro' ), 'manage_options', 'woosea_manage_settings', 'woosea_manage_settings');
-		
-		$license_information = get_option( 'license_information' );
-		if($license_information['license_valid'] <> "true"){
-            		add_submenu_page(__FILE__, __( 'Upgrade to Elite', 'woo-product-feed' ), __( 'Upgrade to Elite', 'woo-product-feed-pro' ), 'manage_options', 'woosea_manage_settings&tab=woosea_license_check', 'woosea_upgrade_elite');
-		}
 }
 
 /**
@@ -1133,51 +1074,6 @@ function woosea_add_cat_mapping() {
 	wp_die();
 }
 add_action( 'wp_ajax_woosea_add_cat_mapping', 'woosea_add_cat_mapping' );
-
-/**
- * Function to register a succesfull license activation
- */
-function woosea_register_license(){
-        $license_valid = sanitize_text_field($_POST['license_valid']);
-        $license_created = sanitize_text_field($_POST['license_created']);
-        $message = sanitize_text_field($_POST['message']);
-        $message_type = sanitize_text_field($_POST['message_type']);
-        $license_email = sanitize_text_field($_POST['license_email']);
-        $license_key = sanitize_text_field($_POST['license_key']);
-        $notice = sanitize_text_field($_POST['notice']);
-
-        $license_information = array (
-                'license_valid'         => $license_valid,
-                'license_created'       => $license_created,
-                'message'               => $message,
-                'message_type'          => $message_type,
-                'license_email'         => $license_email,
-                'license_key'           => $license_key,
-                'notice'                => $notice,
-        );
-
-        if($license_valid == "false"){
-                // The Elite settings get disabled when license is not valid
-                delete_option ('structured_data_fix');
-                delete_option ('structured_vat');
-                delete_option ('add_unique_identifiers');
-                delete_option ('add_wpml_support');
-                delete_option ('add_manipulation_support');
-                delete_option ('add_aelia_support');
-	}
-
-        update_option("license_information", $license_information);
-
-}
-add_action( 'wp_ajax_woosea_register_license', 'woosea_register_license' );
-
-/**
- * Deactivate Elite license
- */
-function woosea_deactivate_license(){
-        delete_option( 'license_information' );
-}
-add_action( 'wp_ajax_woosea_deactivate_license', 'woosea_deactivate_license' );
 
 /**
  * Retrieve variation product id based on it attributes
@@ -1782,7 +1678,8 @@ function woosea_product_fix_structured_data( $product = null ) {
                		$markup['offers'][0] = woosea_product_delete_meta_price($product);
 
 //			if(!class_exists('WPSEO_WooCommerce_Schema')){
-		        	if ( $product->get_rating_count() && wc_review_ratings_enabled() ) {
+                                if ( ($product->get_rating_count()) && (function_exists(wc_review_ratings_enabled()))) {
+
         		        	$markup['aggregateRating'] = array(
                 		        	'@type'       => 'AggregateRating',
                         			'ratingValue' => $product->get_average_rating(),
@@ -1857,8 +1754,7 @@ function woosea_product_fix_structured_data( $product = null ) {
 
 		// Check if Yoast SEO WooCommerce plugin is enabled
                	// if(!class_exists('WPSEO_WooCommerce_Schema')){
-
-	     		if ( $product->get_rating_count() && wc_review_ratings_enabled() ) {
+                     	if ( ($product->get_rating_count()) && (function_exists(wc_review_ratings_enabled()))) {
         			$markup['aggregateRating'] = array(
                 			'@type'       => 'AggregateRating',
                    			'ratingValue' => $product->get_average_rating(),
@@ -3590,10 +3486,10 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // Brand Field
                 $_brand = $_POST['_woosea_variable_brand'];
-                        $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_brand[$i] ) ) {
-                                update_post_meta( $variation_id, '_woosea_brand', stripslashes( sanitize_text_field( $_brand[$i] )));
-                        }
+               	$variation_id = (int) $variable_post_id[$i];
+                if ( isset( $_brand[$i] ) ) {
+                	 update_post_meta( $variation_id, '_woosea_brand', stripslashes( sanitize_text_field( $_brand[$i] )));
+               	}
 
                 // MPN Field
                 $_mpn = $_POST['_woosea_variable_mpn'];
@@ -4228,17 +4124,6 @@ function woosea_generate_pages(){
 }
 
 /**
- * Check for active license, is this a paid version of the plugin?
- * This function is called by the cron after 30 seconds. The check only
- * needs to be done once and not continuesly so it gets removed.
- */
-function woosea_de_register_license(){
-        wp_dequeue_script( 'woosea_adtribes-js' );
-        wp_deregister_script( 'woosea_adtribes-js' );
-}
-add_action( 'woosea_deregister_hook', 'woosea_de_register_license', 99999); // deregister the paid version check after 60 seconds
-
-/**
  * This function copies feed configurations from another domain
  * so users do not have to re-configure feeds for all their domains
  * Other domain need to explicitly allow this 
@@ -4263,67 +4148,6 @@ function woosea_copy_configurations(){
 	error_log($respons);
 
        	$json_return = json_decode($response, true);
-}
-
-/**
- * This function checks if the Elite license is valid. When the license
- * key is invalid or expired the advanced options of this plugin will be disabled
- */
-function woosea_license_valid(){
-        $domain = $_SERVER['HTTP_HOST'];
-        $license_information = get_option('license_information');
-
-	if(!empty($license_information['license_key'])){
-	        $curl = curl_init();
-	        $url = "https://www.adtribes.io/check/license.php?key=$license_information[license_key]&email=$license_information[license_email]&domain=$domain&version=7.9.9";
-
-	        curl_setopt_array($curl, array(
-        	        CURLOPT_RETURNTRANSFER => 1,
-                	CURLOPT_URL => $url,
-                	CURLOPT_USERAGENT => 'AdTribes license cURL Request'
-        	));
-        	$response = curl_exec( $curl );
-        	curl_close($curl);
-       	 	$json_return = json_decode($response, true);
-
-        	$license_start_time = strtotime($json_return['created']);
-        	$license_end_time = strtotime('+1 years', $license_start_time);
-        	$current_time = time();
-        	$license_information['notice'] = $json_return['notice'];
-
-        	if($json_return['valid'] == "false"){
-                	$license_information['message'] = $json_return['message'];
-                	$license_information['message_type'] = $json_return['message_type'];
-                	$license_information['license_valid'] = "false";
-                	$license_information['license_key'] = $json_return['license_key'];
-                	$license_information['license_email'] = $json_return['license_email'];
-                	$license_information['notice'] = $json_return['notice'];
-
-                	update_option ('license_information', $license_information);
-
-			// The Elite settings get disabled when license is not valid
-                	delete_option ('structured_data_fix');
-                	delete_option ('add_unique_identifiers');
-			delete_option ('add_wpml_support');
-			delete_option ('add_manipulation_support');
-			delete_option ('add_aelia_support');
-        	} else {
-			if(empty($json_return)){
-	               		$license_information['message'] = "Could not connect to AdTribes.io to validate your license. We will try again tomorrow.";
-                		$license_information['message_type'] = "notice notice-error is-dismissible";
-                		$license_information['license_valid'] = "true";
-                		$license_information['notice'] = "false";
-			} else {
-                		$license_information['message'] = $json_return['message'];
-                		$license_information['message_type'] = $json_return['message_type'];
-                		$license_information['license_valid'] = "true";
-                		$license_information['notice'] = $json_return['notice'];
-			}
- 	               	update_option ('license_information', $license_information);
-        	}
-	} else {
-		// This is a free PRO user, no license check needed
-	}
 }
 
 /**

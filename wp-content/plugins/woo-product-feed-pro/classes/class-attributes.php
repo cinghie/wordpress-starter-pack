@@ -495,21 +495,11 @@ public function get_mapping_attributes_dropdown() {
 
                 if(is_array($this->get_custom_attributes())){
 			$custom_attributes = $this->get_custom_attributes();
-	                $license_information = get_option( 'license_information' );
 
                 	if ( class_exists( 'All_in_One_SEO_Pack' ) ) {
                         	$custom_attributes['custom_attributes__aioseop_title'] = "All in one seo pack title";
                         	$custom_attributes['custom_attributes__aioseop_description'] = "All in one seo pack description";
                 	}
-
-        	        if($license_information['license_valid'] <> "true"){
-				// Remove WOOSEA fields from drop-downs
-				foreach( $custom_attributes as $key => $value ) {
-					if( strpos( $key, 'custom_attributes__woosea' ) === 0 ) {
-						unset( $custom_attributes[ $key ] );
-    					}
-				}	
-			}
 
 			array_walk($custom_attributes, function(&$value, $key) { $value .= ' (Custom attribute)';});
 			$attributes = array_merge($attributes, $custom_attributes);
