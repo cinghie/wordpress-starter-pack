@@ -3,10 +3,10 @@
 * Plugin Name: FancyBox for WordPress
 * Plugin URI: https://wordpress.org/plugins/fancybox-for-wordpress/
 * Description: Integrates <a href="http://fancyapps.com/fancybox/3/">FancyBox 3</a> into WordPress.
-* Version: 3.2.6
+* Version: 3.2.7
 * Author: Colorlib
 * Author URI: https://colorlib.com/wp/
-* Tested up to: 5.3
+* Tested up to: 5.4
 * Requires: 4.6 or higher
 * License: GPLv3 or later
 * License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -36,7 +36,7 @@
  * Plugin Init
  */
 // Constants
-define( 'FBFW_VERSION', '3.2.6' );
+define( 'FBFW_VERSION', '3.2.7' );
 define( 'FBFW_PATH', plugin_dir_path( __FILE__ ) );
 define( 'FBFW_URL', plugin_dir_url( __FILE__ ) );
 define( 'FBFW_PLUGIN_BASE', plugin_basename( __FILE__ ) );
@@ -48,6 +48,8 @@ define( 'PLUGIN_NAME', 'fancybox-for-wordpress' );
 // Get Main Settings
 $mfbfw         = get_option( 'mfbfw' );
 $mfbfw_version = get_option( 'mfbfw_active_version' );
+
+include 'class-fancybox-review.php';
 
 // If previous version detected
 if ( is_admin() && isset( $mfbfw_version ) && $mfbfw_version < FBFW_VERSION ) {
@@ -172,10 +174,10 @@ function mfbfw_enqueue_scripts() {
 	}
 
 	// Register Scripts
-	wp_register_script( 'fancybox', FBFW_URL . 'assets/js/jquery.fancybox.js', $jquery, '1.3.4', $footer ); // Main Fancybox script
+	wp_register_script( 'fancybox-for-wp', FBFW_URL . 'assets/js/jquery.fancybox.js', $jquery, '1.3.4', $footer ); // Main Fancybox script
 
 	// Enqueue Scripts
-	wp_enqueue_script( 'fancybox' ); // Load fancybox
+	wp_enqueue_script( 'fancybox-for-wp' ); // Load fancybox
 
 	if ( isset( $mfbfw['easing'] ) && $mfbfw['easing'] ) {
 		wp_enqueue_script( 'jqueryeasing' ); // Load easing javascript file if required
@@ -186,9 +188,9 @@ function mfbfw_enqueue_scripts() {
 	}
 
 	// Register Styles
-	wp_register_style( 'fancybox', FBFW_URL . 'assets/css/fancybox.css', false, '1.3.4' ); // Main Fancybox style
+	wp_register_style( 'fancybox-for-wp', FBFW_URL . 'assets/css/fancybox.css', false, '1.3.4' ); // Main Fancybox style
 	// Enqueue Styles
-	wp_enqueue_style( 'fancybox' );
+	wp_enqueue_style( 'fancybox-for-wp' );
 
 	// Make IE specific styles load only on IE6-8
 	$wp_styles->add_data( 'fancybox-ie', 'conditional', 'lt IE 9' );
@@ -371,7 +373,12 @@ function mfbfw_init() {
 		<?php } else if( $mfbfw['galleryType'] == 'single_gutenberg_block'){
 		    ?>
 
-            var gallery_block = jQuery('ul.wp-block-gallery');
+            var gallery_block;
+            if(jQuery('ul.wp-block-gallery').length){
+	            var gallery_block = jQuery('ul.wp-block-gallery');
+            } else if(jQuery('ul.blocks-gallery-grid')) {
+	            var gallery_block = jQuery('ul.blocks-gallery-grid');
+            }
             gallery_block.each(function() {
                 jQuery(this).find(thumbnails).addClass("fancyboxforwp").attr("data-fancybox","gallery"+gallery_block.index(this)).attr("rel","fancybox"+gallery_block.index(this)).getTitle();
 
