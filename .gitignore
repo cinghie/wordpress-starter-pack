@@ -61,6 +61,8 @@ wp-content/wp-cache-config.php
 !wp-content/cache/.htaccess
 !wp-content/cache/index.html
 !wp-content/languages/
+!wp-content/themes/html5blank-stable/
+!wp-content/themes/html5blank-stable-child/
 !wp-content/themes/shapely/
 !wp-content/themes/shapely-child/
 !wp-content/themes/wp-bootstrap-starter/
