@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 5.4.x - Development - Administration package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-04-03 16:46:32+0000\n"
+"PO-Revision-Date: 2020-05-07 17:42:05+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3945,7 +3945,7 @@ msgstr "Sconosciuto"
 msgid "View posts by %s"
 msgstr "Visualizza articoli di %s"
 
-#: wp-admin/includes/class-wp-terms-list-table.php:542
+#: wp-admin/includes/class-wp-terms-list-table.php:543
 msgid "No description"
 msgstr "Nessuna descrizione "
 
@@ -9383,7 +9383,7 @@ msgstr "Alcune voci di menu non sono valide. Controllale o eliminale."
 
 #: wp-admin/edit-tags.php:440
 #: wp-admin/includes/class-wp-terms-list-table.php:182
-#: wp-admin/includes/class-wp-terms-list-table.php:645
+#: wp-admin/includes/class-wp-terms-list-table.php:646
 #: wp-admin/edit-tag-form.php:132
 msgctxt "term name"
 msgid "Name"
@@ -12250,7 +12250,7 @@ msgstr "Titolo"
 msgid "Quick&nbsp;Edit"
 msgstr "Modifica&nbsp;rapida"
 
-#: wp-admin/includes/class-wp-terms-list-table.php:642
+#: wp-admin/includes/class-wp-terms-list-table.php:643
 #: wp-admin/includes/class-wp-posts-list-table.php:1528
 msgid "Quick Edit"
 msgstr "Modifica rapida"
@@ -13814,7 +13814,7 @@ msgstr "Stai per marcare il seguente commento come spam:"
 
 #: wp-admin/comment.php:75
 msgid "This comment is in the Trash. Please move it out of the Trash if you want to edit it."
-msgstr "Questo commento &egrave; nel Cestino. Spostalo altrove se vuoi modificarlo."
+msgstr "Questo commento &egrave; nel cestino. Spostalo altrove se vuoi modificarlo."
 
 #: wp-admin/includes/comment.php:52 wp-admin/comment.php:271
 #: wp-admin/edit-comments.php:253
