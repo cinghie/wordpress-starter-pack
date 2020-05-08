@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Contact Form 7 - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-03-13 09:41:28+0000\n"
+"PO-Revision-Date: 2020-05-01 21:34:47+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,10 @@ msgstr ""
 "X-Generator: GlotPress/2.4.0-alpha\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - Contact Form 7 - Stable (latest release)\n"
+
+#: admin/edit-contact-form.php:197
+msgid "docs"
+msgstr "documenti"
 
 #. translators: 1: FAQ, 2: Docs ("FAQ & Docs")
 #: admin/edit-contact-form.php:190
@@ -223,6 +227,10 @@ msgstr "L'invio di email è stato interrotto."
 msgid "You can edit messages used in various situations here. For details, see %s."
 msgstr "Qui puoi modificare i messaggi usati in varie situazioni. Per i dettagli, vedere %s."
 
+#: admin/includes/editor.php:210
+msgid "Editing messages"
+msgstr "Modifica dei messaggi"
+
 #: admin/includes/editor.php:209
 msgid "https://contactform7.com/editing-messages/"
 msgstr "https://contactform7.com/editing-messages/"
@@ -234,6 +242,10 @@ msgstr "Qui puoi modificare il template dell'email. Per i dettagli, vedere %s."
 #: admin/includes/editor.php:57
 msgid "You can edit the form template here. For details, see %s."
 msgstr "Qui puoi modificare il template del modulo. Per i dettagli, vedere %s."
+
+#: admin/includes/editor.php:56
+msgid "Editing form template"
+msgstr "Modifica del template del modulo"
 
 #: admin/includes/editor.php:55
 msgid "https://contactform7.com/editing-form-template/"
@@ -440,7 +452,7 @@ msgstr "L'URL non è valido. "
 
 #: modules/text.php:178
 msgid "The e-mail address entered is invalid."
-msgstr "L'indirizzo e-mail inserito non è valido."
+msgstr "L'indirizzo email inserito non è valido."
 
 #: modules/quiz.php:166
 msgid "The answer to the quiz is incorrect."
@@ -548,6 +560,13 @@ msgstr[1] "Validazione della configurazione completata. %s moduli di contatto no
 msgid "Validate Configuration"
 msgstr "Valida la configurazione"
 
+#. translators: %s: number of contact forms
+#: admin/includes/config-validator.php:108
+msgid "Validate %s contact form now"
+msgid_plural "Validate %s contact forms now"
+msgstr[0] "Valida ora %s modulo di contatto"
+msgstr[1] "Valida ora %s moduli di contatto"
+
 #: admin/includes/config-validator.php:66
 msgid "You are not allowed to validate configuration."
 msgstr "Non sei abilitato a validare la configurazione."
@@ -626,6 +645,10 @@ msgstr "Questo campo necessita del nome autore"
 #: admin/includes/welcome-panel.php:32
 msgid "Akismet"
 msgstr "Akismet"
+
+#: modules/text.php:234 modules/textarea.php:141
+msgid "Text fields"
+msgstr "Campi di testo"
 
 #: modules/text.php:234 modules/textarea.php:141
 msgid "https://contactform7.com/text-fields/"
@@ -748,6 +771,10 @@ msgid "Spinbox"
 msgstr "Casella numerica"
 
 #: modules/number.php:154
+msgid "Number fields"
+msgstr "Campi numerici"
+
+#: modules/number.php:154
 msgid "https://contactform7.com/number-fields/"
 msgstr "https://contactform7.com/number-fields/"
 
@@ -786,6 +813,10 @@ msgstr "Tipologia di file consentiti"
 #: modules/file.php:220
 msgid "File size limit (bytes)"
 msgstr "Limite di dimensione del file (bytes)"
+
+#: modules/file.php:195
+msgid "File uploading and attachment"
+msgstr "Caricamento file ed allegati"
 
 #: modules/file.php:195
 msgid "https://contactform7.com/file-uploading-and-attachment/"
@@ -839,6 +870,10 @@ msgid "Default value"
 msgstr "Valore predefinito"
 
 #: modules/date.php:151
+msgid "Date field"
+msgstr "Campo data"
+
+#: modules/date.php:151
 msgid "https://contactform7.com/date-field/"
 msgstr "https://contactform7.com/date-field/"
 
@@ -856,7 +891,7 @@ msgstr "La data è successiva al limite massimo"
 
 #: modules/date.php:123
 msgid "Date is earlier than minimum limit"
-msgstr "La data è antecedente al limite minimo"
+msgstr "La data è precedente al limite minimo"
 
 #: modules/date.php:118
 msgid "Date format that the sender entered is invalid"
@@ -881,13 +916,13 @@ msgstr "Mette un'etichetta prima, una casella di controllo dopo"
 
 #: modules/select.php:193 modules/checkbox.php:312
 msgid "One option per line."
-msgstr "Una opzione per linea."
+msgstr "Un'opzione per riga."
 
 #: modules/text.php:248 modules/select.php:177 modules/textarea.php:155
 #: modules/file.php:209 modules/checkbox.php:295 modules/date.php:165
 #: modules/number.php:173
 msgid "Required field"
-msgstr "Campo Richiesto"
+msgstr "Campo obbligatorio"
 
 #: modules/text.php:244 modules/text.php:247 modules/select.php:173
 #: modules/select.php:176 modules/textarea.php:151 modules/textarea.php:154
@@ -896,6 +931,10 @@ msgstr "Campo Richiesto"
 #: modules/number.php:164 modules/number.php:167
 msgid "Field type"
 msgstr "Tipo di campo"
+
+#: modules/select.php:163 modules/checkbox.php:280
+msgid "Checkboxes, radio buttons and menus"
+msgstr "Caselle di controllo, pulsanti di opzione e menu"
 
 #: modules/select.php:163 modules/checkbox.php:280
 msgid "https://contactform7.com/checkboxes-radio-buttons-and-menus/"
@@ -964,7 +1003,7 @@ msgstr "Il codice inserito dal mittente non corrisponde con il CAPTCHA"
 #: modules/date.php:217 modules/quiz.php:234 modules/number.php:225
 #: modules/submit.php:88
 msgid "Insert Tag"
-msgstr "Inserisci Tag"
+msgstr "Inserisci tag"
 
 #: modules/text.php:299 modules/select.php:206 modules/textarea.php:177
 #: modules/file.php:235 modules/acceptance.php:278
@@ -993,6 +1032,10 @@ msgstr "Opzioni"
 #: modules/date.php:171 modules/quiz.php:200 modules/number.php:179
 msgid "Name"
 msgstr "Nome"
+
+#: modules/acceptance.php:243
+msgid "Acceptance checkbox"
+msgstr "Casella di accettazione"
 
 #: modules/acceptance.php:243
 msgid "https://contactform7.com/acceptance-checkbox/"
@@ -1083,7 +1126,7 @@ msgstr "La tua email"
 
 #: includes/contact-form-template.php:37
 msgid "(required)"
-msgstr "(richiesto)"
+msgstr "(obbligatorio)"
 
 #: includes/contact-form-template.php:38
 msgid "Your Name"
@@ -1092,7 +1135,7 @@ msgstr "Il tuo nome"
 #. translators: %s: title of form-tag like 'email' or 'checkboxes'
 #: admin/includes/tag-generator.php:46
 msgid "Form-tag Generator: %s"
-msgstr "Generatore Form-tag: %s"
+msgstr "Generatore di form-tag: %s"
 
 #: admin/includes/help-tabs.php:91
 msgid "For more information:"
@@ -1195,6 +1238,10 @@ msgstr "È possibile aggiungere gli snippet di codice personalizzato qui. Per ul
 msgid "https://contactform7.com/additional-settings/"
 msgstr "https://contactform7.com/additional-settings/"
 
+#: admin/includes/editor.php:194
+msgid "File attachments"
+msgstr "File allegati"
+
 #: admin/includes/editor.php:188
 msgid "Use HTML content type"
 msgstr "Utilizza contenuti in HTML"
@@ -1206,6 +1253,10 @@ msgstr "Escludi dall'ouput le linee con mail-tag vuoti"
 #: admin/includes/editor.php:181
 msgid "Message body"
 msgstr "Corpo del messaggio"
+
+#: admin/includes/editor.php:172
+msgid "Additional headers"
+msgstr "Intestazioni aggiuntive"
 
 #: includes/contact-form-template.php:40 admin/includes/editor.php:163
 msgid "Subject"
@@ -1368,6 +1419,10 @@ msgstr "https://contactform7.com/save-submitted-messages-with-flamingo/"
 msgid "https://contactform7.com/spam-filtering-with-akismet/"
 msgstr "https://contactform7.com/spam-filtering-with-akismet/"
 
+#: admin/includes/editor.php:129
+msgid "Setting up mail"
+msgstr "Impostazioni dell’email"
+
 #: admin/includes/editor.php:128
 msgid "https://contactform7.com/setting-up-mail/"
 msgstr "https://contactform7.com/setting-up-mail/"
@@ -1412,7 +1467,7 @@ msgstr "Ricerca moduli di contatto"
 #. translators: %s: search keywords
 #: admin/admin.php:395
 msgid "Search results for &#8220;%s&#8221;"
-msgstr "Risultati ricerca per &#8220;%s&#8221;"
+msgstr "Risultati della ricerca per &#8220;%s&#8221;"
 
 #: admin/admin.php:124
 msgid "The changes you made will be lost if you navigate away from this page."

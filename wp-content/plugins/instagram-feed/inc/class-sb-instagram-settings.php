@@ -360,6 +360,18 @@ class SB_Instagram_Settings {
 			}
 		}
 
+		if ( empty( $this->settings['id'] )
+		     && empty( $this->settings['user'] )
+		     && ! empty ( $this->connected_accounts ) ) {
+			$set = false;
+			foreach ( $this->connected_accounts as $connected_account ) {
+				if ( ! $set ) {
+					$set = true;
+					$this->settings['user'] = $connected_account['username'];
+				}
+			}
+		}
+
 		if ( ! $is_after_deprecation_deadline && $is_using_access_token_in_shortcode ) {
 			$error = '<p><b>' . __( 'Warning: Cannot add access token directly to the shortcode.', 'instagram-feed' ) . '</b><br>' . sprintf( __( 'Due to upcoming Instagram platform changes on March 31, 2020, it will no longer be possible for feeds to use access tokens directly in the shortcode. Remove the access token from the shortcode and connect an account on the %s instead.', 'instagram-feed' ), $settings_link );
 

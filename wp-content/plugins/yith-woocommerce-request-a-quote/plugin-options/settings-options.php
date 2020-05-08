@@ -66,6 +66,19 @@ return array(
 			'default'   => 'no',
 		),
 
+		'page_list_layout_template' => array(
+			'name'      => esc_html__( 'Page Layout', 'yith-woocommerce-request-a-quote' ),
+			'desc'      => esc_html__( 'Choose the layout for the quote page.', 'yith-woocommerce-request-a-quote' ),
+			'id'        => 'ywraq_page_list_layout_template',
+			'type'      => 'yith-field',
+			'yith-type' => 'radio',
+			'options'   => array(
+				'vertical' => esc_html__( 'Show the form under the quote list', 'yith-woocommerce-request-a-quote' ),
+				'wide'     => esc_html__( 'Show the form next to the quote list', 'yith-woocommerce-request-a-quote' ),
+			),
+			'default'   => 'vertical',
+		),
+
 		'section_general_settings_end' => array(
 			'type' => 'sectionend',
 			'id'   => 'ywraq_section_general_end',

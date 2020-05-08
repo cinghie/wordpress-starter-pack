@@ -9,18 +9,17 @@
  *
  * @var $raq_content array
  */
-
+$product_column_colspan = apply_filters( 'ywraq_item_thumbnail', !wp_is_mobile() ) ? 2 : 1;
 if ( count( $raq_content ) === 0 ) :
 	?>
 	<p><?php esc_html_e( 'No products in list', 'yith-woocommerce-request-a-quote' ); ?></p>
 <?php else : ?>
 	<form id="yith-ywraq-form" name="yith-ywraq-form" action="<?php echo esc_url( YITH_Request_Quote()->get_raq_page_url( 'update' ) ); ?>" method="post">
-	<table class="shop_table cart" id="yith-ywrq-table-list" cellspacing="0">
+	<table  class="shop_table cart  shop_table_responsive" id="yith-ywrq-table-list" cellspacing="0">
 		<thead>
 			<tr>
 				<th class="product-remove">&nbsp;</th>
-				<th class="product-thumbnail">&nbsp;</th>
-				<th class="product-name"><?php esc_html_e( 'Product', 'yith-woocommerce-request-a-quote' ); ?></th>
+				<th class="product-name" colspan="<?php echo esc_attr( $product_column_colspan ); ?>"><?php esc_html_e( 'Product', 'yith-woocommerce-request-a-quote' ); ?></th>
 				<th class="product-quantity"><?php esc_html_e( 'Quantity', 'yith-woocommerce-request-a-quote' ); ?></th>
 				<th class="product-subtotal"><?php esc_html_e( 'Total', 'yith-woocommerce-request-a-quote' ); ?></th>
 			</tr>
@@ -37,10 +36,7 @@ if ( count( $raq_content ) === 0 ) :
 			<tr class="cart_item">
 
 				<td class="product-remove">
-					<?php
-						echo apply_filters( 'yith_ywraq_item_remove_link', sprintf( '<a href="#"  data-remove-item="%s" data-wp_nonce="%s"  data-product_id="%d" class="yith-ywraq-item-remove remove" title="%s">&times;</a>', esc_attr( $key ), esc_attr( wp_create_nonce( 'remove-request-quote-' . $product_id ) ), esc_attr( $product_id ), esc_attr( __( 'Remove this item', 'yith-woocommerce-request-a-quote' ) ) ), $key ); // phpcs:ignore
-					?>
-					<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" alt="loading" width="16" height="16" style="visibility:hidden" />
+					<?php echo apply_filters( 'yith_ywraq_item_remove_link', sprintf( '<a href="#"  data-remove-item="%s" data-wp_nonce="%s"  data-product_id="%d" class="yith-ywraq-item-remove remove" title="%s">&times;</a>', esc_attr( $key ), esc_attr( wp_create_nonce( 'remove-request-quote-' . $product_id ) ), esc_attr( $product_id ), esc_attr__( 'Remove this item', 'yith-woocommerce-request-a-quote' ) ), $key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</td>
 
 				<td class="product-thumbnail">

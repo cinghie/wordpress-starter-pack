@@ -2,12 +2,12 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Catalog Mode - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-04-08 13:05:55+0000\n"
+"PO-Revision-Date: 2020-05-06 15:21:12+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/2.4.0-alpha\n"
+"X-Generator: GlotPress/3.0.0-alpha\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Catalog Mode - Stable (latest release)\n"
 
@@ -146,15 +146,15 @@ msgstr "Crea un catalogo di prodotti e servizi online e incoraggia i tuoi client
 msgid "Upgrade"
 msgstr "Aggiorna"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1237
+#: plugin-fw/lib/yit-plugin-panel.php:1266
 msgid "to keep updating and improving the plugin. Please,"
 msgstr "per continuare ad aggiornare e a migliorare il plugin. Per favore,"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1236
+#: plugin-fw/lib/yit-plugin-panel.php:1265
 msgid "We need your support"
 msgstr "Abbiamo bisogno del tuo supporto"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1239
+#: plugin-fw/lib/yit-plugin-panel.php:1268
 msgid "help us by leaving a five-star rating"
 msgstr "aiutaci lasciando una valutazione 5 stelle"
 
@@ -163,7 +163,7 @@ msgctxt "YES/NO button: use MAX 3 characters!"
 msgid "NO"
 msgstr "NO"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1240
+#: plugin-fw/lib/yit-plugin-panel.php:1269
 msgid ":) Thanks!"
 msgstr ":) Grazie!"
 
@@ -455,12 +455,98 @@ msgstr "Cerca articoli"
 msgid "Set Default"
 msgstr "Imposta come predefinito"
 
-#: plugin-fw/lib/yit-plugin-panel.php:425
-#: plugin-fw/lib/yit-plugin-panel.php:428
+#: plugin-fw/lib/yit-plugin-panel.php:455
+#: plugin-fw/lib/yit-plugin-panel.php:458
 msgid "How to install premium version"
 msgstr "Come installare la versione premium"
 
+#: plugin-fw/templates/upgrade/upgrade-to-pro-version.php:61
+msgid "In case you had difficulty to recover the license key we sent you by email, you can easily find it in \"My Licenses\" section of your account on yithemes.com"
+msgstr "Nel caso in cui avessi difficoltà nel recuperare la chiave di licenza che ti abbiamo inviato via email, puoi facilmente trovarla nella sezione \"My Licenses\" del tuo account su yithemes.com"
+
+#: plugin-fw/templates/upgrade/upgrade-to-pro-version.php:55
+msgid "The last step is the activation of the plugin through its license key you received after the purchase. Click on \"License Activation\" that you find in \"YITH Plugins\" and insert the license key and the email address you used during the purchase."
+msgstr "L'ultimo passaggio è l'attivazione del plugin tramite la chiave di licenza che hai ricevuto dopo l'acquisto. Fai clic su \"Attivazione licenza\" che trovi in \"YITH Plugins\" ed inserisci la chiave di licenza e l'indirizzo email utilizzato durante l'acquisto."
+
+#: plugin-fw/templates/upgrade/upgrade-to-pro-version.php:52
+msgid "If everything worked allright, your plugin is now correctly installed on your website. Enjoy it :-)"
+msgstr "Se tutto ha funzionato a dovere ora il tuo plugin è correttamente installato sul tuo sito. Buon divertimento :-)"
+
+#: plugin-fw/templates/upgrade/upgrade-to-pro-version.php:48
+msgid "After completing the installation, click on \"Activate plugin\""
+msgstr "Dopo aver completato l'installazione fai clic su \"Attiva plugin\""
+
+#: plugin-fw/templates/upgrade/upgrade-to-pro-version.php:42
+msgid "Click on \"Upload Plugins\" button to start the upload of the PREMIUM version of the plugin previously downloaded. Click on \"Select File\", search for the download folder related to the plugin and upload the package. Now you only need to wait a few minutes for the upload and the installation on your site. (We used YITH Live Chat plugin by way of example)"
+msgstr "Fai clic sul pulsante \"Upload Plugins\" per iniziare a caricare la versione PREMIUM del plugin precedentemente scaricato. Fai clic su \"Seleziona file\", cerca la cartella del download relativa al plugin e carica il pacchetto. Ora devi solo aspettare alcuni minuti per il caricamento e l'installazione sul tuo sito. (Come termine di esempio abbiamo utilizzato YITH Live Chat)"
+
+#: plugin-fw/templates/upgrade/upgrade-to-pro-version.php:36
+msgid "You will be redirected to a new page where you will find, above on the left next to the page title, the \"Upload Plugin\" button."
+msgstr "Verrai reindirizzato ad una nuova pagina in cui troverai il pulsante \"Carica plugin\" in alto a sinistra."
+
+#: plugin-fw/templates/upgrade/upgrade-to-pro-version.php:30
+msgid "From the menu on the left, click on \"Plugins\". You will be redirected to the page where you will find the complete list of all the plugins available on your site. Click on \"Add New\" button that you find above on the left to add a new plugin"
+msgstr "Fai clic su \"Plugin\" dal menu a sinistra. Sarai reindirizzato alla pagina in cui troverai l'elenco completo di tutti i plugin disponibili sul tuo sito. Per aggiungere un nuovo plugin fai clic sul pulsante \"Aggiungi nuovo\" che trovi in alto a sinistra."
+
+#: plugin-fw/templates/upgrade/upgrade-to-pro-version.php:24
+msgid "After downloading the packet, go to your website and login to WordPress administration area."
+msgstr "Dopo aver scaricato il pacchetto, vai sul tuo sito e accedi all'area amministrazione di WordPress."
+
+#: plugin-fw/templates/upgrade/upgrade-to-pro-version.php:18
+msgid "From the menu on the left, click on \"My Downloads\", look for the plugin you want to install among the available downloads and click on \"Download\" button"
+msgstr "Fai clic su \"My Downloads\" dal menu a sinistra, cerca tra i download disponibili il plugin che vuoi installare e fai clic sul pulsante \"Download\""
+
+#: plugin-fw/templates/upgrade/upgrade-to-pro-version.php:12
+msgid "Go to yithemes.com and login to \"My Account\" page"
+msgstr "Vai su yithemes.com ed accedi alla pagina \"My Account\""
+
+#: plugin-fw/templates/upgrade/upgrade-to-pro-version.php:9
+msgid "%1$sDo you need to know how to do it?%2$s Easy! %1$sFollow this list of steps%2$s and in a few minutes the plugin you purchased will be installed on your site"
+msgstr "%1$sVuoi sapere come farlo?%2$s Semplice! %1$sSegui questi passaggi%2$s ed in pochi minuti il plugin che hai acquistato sarà installato sul tuo sito"
+
+#: plugin-fw/templates/upgrade/upgrade-to-pro-version.php:5
+msgid ""
+"To upgrade from a FREE to a PREMIUM plugin is not suffice to insert the license key provided after the purchase.\n"
+"        The reason is that they are two distinct products, with significant differences both for available options and for number of files included in the plugin package.\n"
+"        To start to use the PREMIUM version of the plugin, you simply need to download the PREMIUM packet and install it on your site."
+msgstr "Per aggiornare un plugin dalla versione FREE a quella PREMIUM non basta solo inserire la chiave di licenza fornita dopo l'acquisto. Il motivo è che sono due prodotti distinti, con differenze sostanziali sia per opzioni disponibili che per numero di file inclusi nel pacchetto. Per iniziare ad usare la versione PREMIUM del plugin, devi semplicemente scaricare il pacchetto PREMIUM ed installarlo sul tuo sito."
+
+#: plugin-fw/templates/upgrade/upgrade-to-pro-version.php:3
+msgid "Have you purchased the premium version of a plugin? Don't you know how to activate the license after the purchase?"
+msgstr "Hai acquistato la versione premium di un plugin? Non sai come attivare la licenza dopo l'acquisto?"
+
+#: plugin-fw/templates/panel/sidebar/widgets/widgets.php:34
+msgid "Important Links"
+msgstr "Link importanti"
+
+#: plugin-fw/templates/panel/sidebar/widgets/widgets.php:28
+msgid "FREE!"
+msgstr "GRATIS!"
+
+#: plugin-fw/templates/panel/sidebar/widgets/widgets.php:24
+msgid "Despacho Theme - 100% FREE"
+msgstr "Despacho Theme - 100% GRATUITO"
+
+#: plugin-fw/templates/panel/sidebar/widgets/widgets.php:17
+msgid "Join the club"
+msgstr "Iscriviti al Club"
+
+#: plugin-fw/lib/yit-plugin-panel-sidebar.php:425
+#: plugin-fw/templates/panel/sidebar/sidebar.php:3
+msgid "Show sidebar"
+msgstr "Mostra barra laterale"
+
+#: plugin-fw/lib/yit-plugin-panel-sidebar.php:424
+#: plugin-fw/templates/panel/sidebar/sidebar.php:3
+msgid "Hide sidebar"
+msgstr "Nascondi barra laterale"
+
+#: plugin-fw/templates/upgrade/upgrade-to-pro-version.php:2
+msgid "Upgrade to Premium Version"
+msgstr "Aggiorna alla versione premium"
+
 #: plugin-fw/templates/fields/upload.php:29
+#: plugin-fw/templates/panel/types/upload.php:32
 msgid "Reset"
 msgstr "Reimposta"
 
@@ -497,50 +583,124 @@ msgstr "YITH WooCommerce Catalog Mode"
 msgid "Reset Defaults"
 msgstr "Ripristina impostazioni iniziali"
 
+#: plugin-fw/templates/metaboxes/types/typography.php:100
+msgid "Italic bold"
+msgstr "Grassetto corsivo"
+
+#: plugin-fw/templates/metaboxes/types/typography.php:99
+msgid "Italic"
+msgstr "Corsivo"
+
+#: plugin-fw/templates/metaboxes/types/typography.php:98
+msgid "Extra bold"
+msgstr "Extra bold"
+
+#: plugin-fw/templates/metaboxes/types/typography.php:97
+msgid "Bold"
+msgstr "Grassetto"
+
+#: plugin-fw/templates/metaboxes/types/typography.php:96
+msgid "Regular"
+msgstr "Normale"
+
+#: plugin-fw/templates/metaboxes/types/typography.php:71
+msgid "Google fonts"
+msgstr "Google fonts"
+
+#: plugin-fw/templates/metaboxes/types/typography.php:59
+#: plugin-fw/templates/metaboxes/types/typography.php:153
+#: plugin-fw/templates/metaboxes/types/typography.php:217
+msgid "Web fonts"
+msgstr "Web fonts"
+
+#: plugin-fw/templates/metaboxes/types/typography.php:45
+msgid "rem"
+msgstr "rem"
+
+#: plugin-fw/templates/metaboxes/types/typography.php:44
+msgid "pt"
+msgstr "pt"
+
+#: plugin-fw/templates/metaboxes/types/typography.php:43
+msgid "em"
+msgstr "em"
+
+#: plugin-fw/templates/metaboxes/types/typography.php:42
+msgid "px"
+msgstr "px"
+
 #: plugin-fw/templates/fields/sidebars.php:52
+#: plugin-fw/templates/metaboxes/types/sidebars.php:62
 msgid "Right Sidebar"
 msgstr "Barra laterale destra"
 
 #: plugin-fw/templates/fields/sidebars.php:39
+#: plugin-fw/templates/metaboxes/types/sidebars.php:51
 msgid "Left Sidebar"
 msgstr "Barra laterale sinistra"
 
 #: plugin-fw/templates/fields/sidebars.php:41
 #: plugin-fw/templates/fields/sidebars.php:54
+#: plugin-fw/templates/metaboxes/types/sidebar-layout.php:34
+#: plugin-fw/templates/metaboxes/types/sidebars.php:53
+#: plugin-fw/templates/metaboxes/types/sidebars.php:64
 msgid "Choose a sidebar"
 msgstr "Scegli una barra laterale"
 
 #: plugin-fw/templates/fields/sidebars.php:25
+#: plugin-fw/templates/metaboxes/types/sidebar-layout.php:31
+#: plugin-fw/templates/metaboxes/types/sidebars.php:39
 msgid "Right sidebar"
 msgstr "Barra laterale destra"
 
 #: plugin-fw/templates/fields/sidebars.php:28
 #: plugin-fw/templates/fields/sidebars.php:31
+#: plugin-fw/templates/metaboxes/types/sidebar-layout.php:28
+#: plugin-fw/templates/metaboxes/types/sidebars.php:42
+#: plugin-fw/templates/metaboxes/types/sidebars.php:45
 msgid "No sidebar"
 msgstr "Nessuna barra laterale"
 
 #: plugin-fw/templates/fields/sidebars.php:22
+#: plugin-fw/templates/metaboxes/types/sidebar-layout.php:25
+#: plugin-fw/templates/metaboxes/types/sidebars.php:36
 msgid "Left sidebar"
 msgstr "Barra laterale sinistra"
 
+#: plugin-fw/templates/metaboxes/types/images.php:75
+msgid "Are you sure you want to remove this image?"
+msgstr "Confermi di voler rimuovere questa immagine?"
+
+#: plugin-fw/templates/metaboxes/types/images.php:42
+msgid "Upload new images"
+msgstr "Carica nuove immagini"
+
 #: plugin-fw/templates/fields/image-gallery.php:39
+#: plugin-fw/templates/metaboxes/types/image-gallery.php:45
 msgid "Delete"
 msgstr "Elimina"
 
 #: plugin-fw/templates/fields/image-gallery.php:39
+#: plugin-fw/templates/metaboxes/types/image-gallery.php:45
 msgid "Add images"
 msgstr "Aggiungi immagini"
 
 #: plugin-fw/templates/fields/image-gallery.php:39
+#: plugin-fw/templates/metaboxes/types/image-gallery.php:45
 msgid "Add to gallery"
 msgstr "Aggiungi alla galleria"
 
 #: plugin-fw/templates/fields/image-gallery.php:39
+#: plugin-fw/templates/metaboxes/types/image-gallery.php:45
 msgid "Add Images to Gallery"
 msgstr "Aggiungi immagini alla galleria"
 
 #: plugin-fw/templates/fields/image-gallery.php:34
 #: plugin-fw/templates/fields/image-gallery.php:39
+#: plugin-fw/templates/metaboxes/types/image-gallery.php:40
+#: plugin-fw/templates/metaboxes/types/image-gallery.php:45
+#: plugin-fw/templates/metaboxes/types/images.php:38
+#: plugin-fw/templates/metaboxes/types/images.php:64
 msgid "Delete image"
 msgstr "Rimuovi immagine"
 
@@ -553,45 +713,263 @@ msgid "(Default: %s <img src=\"%s\"/>)"
 msgstr "(Default: %s <img src=\"%s\"/>)"
 
 #: plugin-fw/templates/fields/customtabs.php:106
+#: plugin-fw/templates/metaboxes/types/customtabs.php:107
 msgid "Do you want to remove the custom tab?"
 msgstr "Vuoi rimuovere la scheda personalizzata?"
 
 #: plugin-fw/templates/fields/customtabs.php:65
+#: plugin-fw/templates/metaboxes/types/customtabs.php:65
 msgid "Add custom product tab"
 msgstr "Aggiungi scheda prodotto personalizzata"
 
 #: plugin-fw/templates/fields/customtabs.php:53
 #: plugin-fw/templates/fields/customtabs.php:95
+#: plugin-fw/templates/metaboxes/types/customtabs.php:53
+#: plugin-fw/templates/metaboxes/types/customtabs.php:96
 msgid "Content of the tab. (HTML is supported)"
 msgstr "Contenuto della scheda (codice HTML supportato)."
 
 #: plugin-fw/templates/fields/customtabs.php:52
 #: plugin-fw/templates/fields/customtabs.php:94
+#: plugin-fw/templates/metaboxes/types/customtabs.php:52
+#: plugin-fw/templates/metaboxes/types/customtabs.php:95
 msgid "Value"
 msgstr "Valore"
 
 #: plugin-fw/templates/fields/customtabs.php:28
+#: plugin-fw/templates/metaboxes/types/customtabs.php:28
 msgid "Expand all"
 msgstr "Espandi tutti"
 
 #: plugin-fw/templates/fields/customtabs.php:28
+#: plugin-fw/templates/metaboxes/types/customtabs.php:28
 msgid "Close all"
 msgstr "Chiudi tutti"
 
+#: plugin-fw/templates/metaboxes/types/contactform.php:247
+#: plugin-fw/templates/metaboxes/types/contactform.php:421
+msgid "Set field length."
+msgstr "Seleziona lunghezza campo."
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:222
+#: plugin-fw/templates/metaboxes/types/contactform.php:409
+msgid "Width"
+msgstr "Larghezza"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:217
+#: plugin-fw/templates/metaboxes/types/contactform.php:405
+msgid "Insert an icon for more personalization."
+msgstr "Inserisci un'icona per ulteriore personalizzazione."
+
+#: plugin-fw/templates/metaboxes/types/select-icon.php:39
 #: plugin-fw/templates/metaboxes/types/icon-list.php:76
+#: plugin-fw/templates/metaboxes/types/contactform.php:209
+#: plugin-fw/templates/metaboxes/types/contactform.php:397
 msgid "Image preview"
 msgstr "Anteprima immagine"
 
 #: plugin-fw/templates/fields/upload.php:27
-#: plugin-fw/templates/metaboxes/types/icon-list.php:70
+#: plugin-fw/templates/panel/types/upload.php:31
 #: plugin-fw/templates/panel/woocommerce/woocommerce-upload.php:40
+#: plugin-fw/templates/metaboxes/types/select-icon.php:33
+#: plugin-fw/templates/metaboxes/types/icon-list.php:70
+#: plugin-fw/templates/metaboxes/types/upload.php:21
+#: plugin-fw/templates/metaboxes/types/contactform.php:203
+#: plugin-fw/templates/metaboxes/types/contactform.php:391
 msgid "Upload"
 msgstr "Carica"
 
+#: plugin-fw/templates/metaboxes/types/contactform.php:175
+#: plugin-fw/templates/metaboxes/types/contactform.php:367
+msgid "Icon"
+msgstr "Icona"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:170
+#: plugin-fw/templates/metaboxes/types/contactform.php:362
+msgid "Insert additional class(es) (separated by commas) for more personalization."
+msgstr "Inserisci una o più classi (separate da virgole) per una ulteriore personalizzazione."
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:166
+#: plugin-fw/templates/metaboxes/types/contactform.php:358
+msgid "Class"
+msgstr "Classe"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:161
+#: plugin-fw/templates/metaboxes/types/contactform.php:353
+msgid "Select this if it is the email you can reply to."
+msgstr "Seleziona questo se è l'email a cui poter rispondere. "
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:157
+#: plugin-fw/templates/metaboxes/types/contactform.php:349
+msgid "Reply To"
+msgstr "Rispondi a"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:152
+#: plugin-fw/templates/metaboxes/types/contactform.php:344
+msgid "Select this option if the email must be valid."
+msgstr "Seleziona questa opzione se l'email inserita deve essere esistente."
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:143
+#: plugin-fw/templates/metaboxes/types/contactform.php:335
+msgid "Select this option if it must be required."
+msgstr "Seleziona questa opzione se deve essere obbligatoria."
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:139
+#: plugin-fw/templates/metaboxes/types/contactform.php:331
+msgid "Required"
+msgstr "Obbligatorio"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:134
+#: plugin-fw/templates/metaboxes/types/contactform.php:326
+msgid "Insert the error message for validation."
+msgstr "Inserisci il messaggio di errore per la validazione"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:130
+#: plugin-fw/templates/metaboxes/types/contactform.php:322
+msgid "Error Message"
+msgstr "Messaggio di errore"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:124
+#: plugin-fw/templates/metaboxes/types/contactform.php:316
+#: plugin-fw/templates/metaboxes/types/contactform.php:436
+msgid "Delete option"
+msgstr "Cancella opzione"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:121
+#: plugin-fw/templates/metaboxes/types/contactform.php:313
+#: plugin-fw/templates/metaboxes/types/contactform.php:436
+msgid "Selected"
+msgstr "Selezionato"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:118
+#: plugin-fw/templates/metaboxes/types/contactform.php:310
+msgid "Add option"
+msgstr "Aggiungi opzione"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:117
+#: plugin-fw/templates/metaboxes/types/contactform.php:309
+msgid "Add options "
+msgstr "Aggiungi opzioni"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:112
+#: plugin-fw/templates/metaboxes/types/contactform.php:304
+msgid "Select this option if you want this field appears as already checked."
+msgstr "Seleziona questa opzione se vuoi che il campo appaia già selezionato."
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:108
+#: plugin-fw/templates/metaboxes/types/contactform.php:300
+msgid "Checked"
+msgstr "Selezionato"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:103
+#: plugin-fw/templates/metaboxes/types/contactform.php:295
+msgid "Select the type for this field."
+msgstr "Seleziona il tipo di campo."
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:95
+#: plugin-fw/templates/metaboxes/types/contactform.php:287
+msgid "Field Type"
+msgstr "Tipologia campo"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:90
+#: plugin-fw/templates/metaboxes/types/contactform.php:282
+msgid "REQUIRED: Field identification name to be entered into email body. <strong>Note:</strong>Use only lowercase characters and underscores."
+msgstr "RICHIESTO: Nome identificativo del campo da inserire nel corpo dell'email. <strong>Nota:</strong>Puoi utilizzare solamente caratteri minuscoli e underscore."
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:86
+#: plugin-fw/templates/metaboxes/types/contactform.php:278
+msgid "Data Name"
+msgstr "Nome dati"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:81
+#: plugin-fw/templates/metaboxes/types/contactform.php:273
+msgid "Insert the title for the field."
+msgstr "Inserisci il titolo per il campo"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:77
+#: plugin-fw/templates/metaboxes/types/contactform.php:269
+msgid "Field Title"
+msgstr "Titolo campo"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:70
+#: plugin-fw/templates/metaboxes/types/contactform.php:262
+msgid "Click to toggle"
+msgstr "Fai clic per aprire/chiudere"
+
 #: plugin-fw/templates/fields/customtabs.php:37
 #: plugin-fw/templates/fields/customtabs.php:81
+#: plugin-fw/templates/metaboxes/types/contactform.php:69
+#: plugin-fw/templates/metaboxes/types/contactform.php:261
+#: plugin-fw/templates/metaboxes/types/customtabs.php:37
+#: plugin-fw/templates/metaboxes/types/customtabs.php:82
 msgid "Remove"
 msgstr "Rimuovi"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:60
+msgid "Add field"
+msgstr "Aggiungi campo"
+
+#: plugin-fw/templates/metaboxes/types/responsivesliders.php:24
+#: plugin-fw/templates/metaboxes/types/contactform.php:49
+msgid "None"
+msgstr "Nessuno"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:48
+msgid "Custom Icon"
+msgstr "Icona personalizzata"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:47
+msgid "Theme Icon"
+msgstr "Icona tema"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:13
+msgid "File Upload"
+msgstr "Carica file"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:12
+msgid "Password Field"
+msgstr "Campo password"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:11
+msgid "Radio Input"
+msgstr "Radio input"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:10
+msgid "Textarea"
+msgstr "Textarea"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:9
+msgid "Select"
+msgstr "Select"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:8
+msgid "Checkbox"
+msgstr "Checkbox"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:7
+msgid "Text Input"
+msgstr "Campo di testo"
+
+#: plugin-fw/templates/metaboxes/types/categories.php:46
+msgid "Add"
+msgstr "Aggiungi"
+
+#: plugin-fw/templates/metaboxes/types/categories.php:42
+msgid "+ Add New Category"
+msgstr "+ Aggiungi nuova categoria"
+
+#: plugin-fw/templates/metaboxes/types/categories.php:36
+msgid "No categories."
+msgstr "Nessuna categoria"
+
+#: plugin-fw/templates/metaboxes/types/ajax-products.php:23
+msgid "Search for a product"
+msgstr "Cerca un prodotto"
+
+#: plugin-fw/templates/metaboxes/types/contactform.php:148
+#: plugin-fw/templates/metaboxes/types/contactform.php:340
+msgid "Email"
+msgstr "Email"
 
 #: plugin-options/settings-options.php:52
 msgid "Product page"
@@ -633,65 +1011,65 @@ msgstr ""
 msgid "Plugins Activated"
 msgstr "Plugin attivati"
 
-#: plugin-fw/lib/yit-plugin-panel.php:788
+#: plugin-fw/lib/yit-plugin-panel.php:817
 msgid "Sorting successful."
 msgstr "Ordinamento effettuato con successo."
 
-#: plugin-fw/lib/yit-plugin-panel.php:787
+#: plugin-fw/lib/yit-plugin-panel.php:816
 msgid "Sorry, import is disabled."
 msgstr "Ci dispiace, l'importazione è disabilitata."
 
-#: plugin-fw/lib/yit-plugin-panel.php:786
+#: plugin-fw/lib/yit-plugin-panel.php:815
 msgid "The added file is not valid."
 msgstr "Il file aggiunto non è valido."
 
-#: plugin-fw/lib/yit-plugin-panel.php:785
+#: plugin-fw/lib/yit-plugin-panel.php:814
 msgid "An error has occurred during import. Please try again."
 msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
 
-#: plugin-fw/lib/yit-plugin-panel.php:784
+#: plugin-fw/lib/yit-plugin-panel.php:813
 msgid "Database imported correctly."
 msgstr "Database importato correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:782
-#: plugin-fw/lib/yit-plugin-panel.php:783
+#: plugin-fw/lib/yit-plugin-panel.php:811
+#: plugin-fw/lib/yit-plugin-panel.php:812
 msgid "Element updated correctly."
 msgstr "Elemento aggiornato correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:781
+#: plugin-fw/lib/yit-plugin-panel.php:810
 msgid "Element deleted correctly."
 msgstr "Elemento rimosso correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:780
+#: plugin-fw/lib/yit-plugin-panel.php:809
 msgid "Settings reset"
 msgstr "Impostazioni azzerate"
 
-#: plugin-fw/lib/yit-plugin-panel.php:779
+#: plugin-fw/lib/yit-plugin-panel.php:808
 msgid "Settings saved"
 msgstr "Impostazioni salvate"
 
-#: plugin-fw/lib/yit-plugin-panel.php:778
+#: plugin-fw/lib/yit-plugin-panel.php:807
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Per favore, inserisci un altro nome."
 
-#: plugin-fw/lib/yit-plugin-panel.php:580
+#: plugin-fw/lib/yit-plugin-panel.php:609
 #: plugin-fw/lib/yit-plugin-subpanel.php:157
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:21
 msgid "Are you sure?"
 msgstr "Sei sicuro?"
 
-#: plugin-fw/lib/yit-plugin-panel.php:579
+#: plugin-fw/lib/yit-plugin-panel.php:608
 #: plugin-fw/lib/yit-plugin-subpanel.php:156
 msgid "Reset to default"
 msgstr "Ripristina configurazione predefinita"
 
-#: plugin-fw/lib/yit-plugin-panel.php:577
+#: plugin-fw/lib/yit-plugin-panel.php:606
 #: plugin-fw/lib/yit-plugin-subpanel.php:154
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:17
 msgid "If you continue with this action, you will reset all options in this page."
 msgstr "Se prosegui con questa azione, tutte le opzioni di questa pagina saranno reimpostate."
 
-#: plugin-fw/lib/yit-plugin-panel.php:574
+#: plugin-fw/lib/yit-plugin-panel.php:603
 #: plugin-fw/lib/yit-plugin-subpanel.php:151
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
 msgid "Save Changes"
@@ -720,6 +1098,8 @@ msgstr "Aggiungi %s dalla immagini"
 #: plugin-fw/lib/yit-cpt-unlimited.php:1484
 #: plugin-fw/templates/fields/customtabs.php:46
 #: plugin-fw/templates/fields/customtabs.php:89
+#: plugin-fw/templates/metaboxes/types/customtabs.php:46
+#: plugin-fw/templates/metaboxes/types/customtabs.php:90
 msgid "Name"
 msgstr "Nome"
 
@@ -902,11 +1282,10 @@ msgstr "Aggiungi %s"
 msgid "Premium Version"
 msgstr "Versione premium"
 
-#: plugin-fw/lib/yit-plugin-panel.php:80
+#: plugin-options/settings-options.php:18 plugin-fw/lib/yit-plugin-panel.php:80
 #: plugin-fw/lib/yit-cpt-unlimited.php:1050
 #: plugin-fw/lib/yit-cpt-unlimited.php:1198
 #: plugin-fw/lib/yit-cpt-unlimited.php:1204
 #: class-yith-woocommerce-catalog-mode.php:242
-#: plugin-options/settings-options.php:18
 msgid "Settings"
 msgstr "Impostazioni"

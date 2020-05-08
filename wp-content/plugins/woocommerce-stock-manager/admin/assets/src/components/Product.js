@@ -106,6 +106,8 @@ const Product = (props) => {
 
   const isVariable = product.type && product.type.startsWith('variable');
 
+  product.sale_price = (product.sale_price == '' && product.price == '0') ? '0' : product.sale_price;
+
   return (
     <>
       <tr
@@ -132,7 +134,7 @@ const Product = (props) => {
               {productTypes[product.type]} ({product.variations.length})
             </button>
           ) : isVariation ? (
-            __('Variation', 'stock-manager')
+            __('Variation', 'woocommerce-stock-manager')
           ) : (
             productTypes[product.type]
           )}

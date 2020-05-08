@@ -16,4 +16,4 @@
 <a href="#" class="<?php echo esc_attr( $class ); ?>" data-product_id="<?php echo esc_attr( $product_id ); ?>" data-wp_nonce="<?php echo esc_attr( $wpnonce ); ?>">
 	<?php echo wp_kses_post( $label ); ?>
 </a>
-<img src="<?php echo esc_url( YITH_YWRAQ_ASSETS_URL . '/images/wpspin_light.gif' ); ?>" class="ajax-loading" alt="loading" width="16" height="16" style="visibility:hidden" />
+<img src="<?php echo esc_url( ywraq_get_ajax_default_loader() ); ?>" class="ajax-loading" alt="loading" width="16" height="16" style="visibility:hidden" />

@@ -246,6 +246,8 @@ if ( ! function_exists( 'yith_ywraq_add_notice' ) ) {
 	}
 }
 
+
+
 if ( ! function_exists( 'yith_ywraq_print_notices' ) ) {
 	/**
 	 * Prints messages and errors which are stored in the session, then clears them.
@@ -404,5 +406,22 @@ if ( ! function_exists( 'ywraq_replace_policy_page_link_placeholders' ) ) {
 	 */
 	function ywraq_replace_policy_page_link_placeholders( $text ) {
 		return function_exists( 'wc_replace_policy_page_link_placeholders' ) ? wc_replace_policy_page_link_placeholders( $text ) : $text;
+	}
+}
+
+if ( ! function_exists( 'ywraq_get_ajax_default_loader' ) ) {
+	/**
+	 * Return the default loader.
+	 *
+	 * @return mixed|void
+	 */
+	function ywraq_get_ajax_default_loader() {
+
+		$ajax_loader_default = YITH_YWRAQ_ASSETS_URL . '/images/wpspin_light.gif';
+		if ( defined( 'YITH_PROTEO_VERSION' ) ) {
+			$ajax_loader_default = YITH_YWRAQ_ASSETS_URL . '/images/proteo-loader.gif';
+		}
+
+		return apply_filters( 'ywraq_ajax_loader', $ajax_loader_default );
 	}
 }

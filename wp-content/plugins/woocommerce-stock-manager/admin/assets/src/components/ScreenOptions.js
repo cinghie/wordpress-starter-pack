@@ -30,67 +30,67 @@ const ScreenOptions = (props) => {
 
   const content = (
     <fieldset className={classnames('metabox-prefs', className)}>
-      <legend>{__('Show columns', 'stock-manager')}</legend>
+      <legend>{__('Show columns', 'woocommerce-stock-manager')}</legend>
 
       <label>
         <input type="checkbox" className="hide-column-tog" checked={settings.thumbnail} onChange={handleChange('thumbnail')} />
         {' '}
-        {__('Thumbnail', 'stock-manager')}
+        {__('Thumbnail', 'woocommerce-stock-manager')}
       </label>
       <label>
         <input type="checkbox" className="hide-column-tog" checked={settings.productName} onChange={handleChange('productName')} />
         {' '}
-        {__('Product name', 'stock-manager')}
+        {__('Product name', 'woocommerce-stock-manager')}
       </label>
       <label>
         <input type="checkbox" className="hide-column-tog" checked={settings.price} onChange={handleChange('price')} />
         {' '}
-        {__('Price', 'stock-manager')}
+        {__('Price', 'woocommerce-stock-manager')}
       </label>
       <label>
         <input type="checkbox" className="hide-column-tog" checked={settings.salePrice} onChange={handleChange('salePrice')} />
         {' '}
-        {__('Sale price', 'stock-manager')}
+        {__('Sale price', 'woocommerce-stock-manager')}
       </label>
       <label>
         <input type="checkbox" className="hide-column-tog" checked={settings.weight} onChange={handleChange('weight')} />
         {' '}
-        {__('Weight', 'stock-manager')}
+        {__('Weight', 'woocommerce-stock-manager')}
       </label>
       <label>
         <input type="checkbox" className="hide-column-tog" checked={settings.manageStock} onChange={handleChange('manageStock')} />
         {' '}
-        {__('Manage stock', 'stock-manager')}
+        {__('Manage stock', 'woocommerce-stock-manager')}
       </label>
       <label>
         <input type="checkbox" className="hide-column-tog" checked={settings.stockStatus} onChange={handleChange('stockStatus')} />
         {' '}
-        {__('Stock status', 'stock-manager')}
+        {__('Stock status', 'woocommerce-stock-manager')}
       </label>
       <label>
         <input type="checkbox" className="hide-column-tog" checked={settings.backorders} onChange={handleChange('backorders')} />
         {' '}
-        {__('Backorders', 'stock-manager')}
+        {__('Backorders', 'woocommerce-stock-manager')}
       </label>
       <label>
         <input type="checkbox" className="hide-column-tog" checked={settings.stock} onChange={handleChange('stock')} />
         {' '}
-        {__('Stock', 'stock-manager')}
+        {__('Stock', 'woocommerce-stock-manager')}
       </label>
       <label>
         <input type="checkbox" className="hide-column-tog" checked={settings.taxStatus} onChange={handleChange('taxStatus')} />
         {' '}
-        {__('Tax status', 'stock-manager')}
+        {__('Tax status', 'woocommerce-stock-manager')}
       </label>
       <label>
         <input type="checkbox" className="hide-column-tog" checked={settings.taxClass} onChange={handleChange('taxClass')} />
         {' '}
-        {__('Tax class', 'stock-manager')}
+        {__('Tax class', 'woocommerce-stock-manager')}
       </label>
       <label>
         <input type="checkbox" className="hide-column-tog" checked={settings.shippingClass} onChange={handleChange('shippingClass')} />
         {' '}
-        {__('Shipping class', 'stock-manager')}
+        {__('Shipping class', 'woocommerce-stock-manager')}
       </label>
     </fieldset>
   );

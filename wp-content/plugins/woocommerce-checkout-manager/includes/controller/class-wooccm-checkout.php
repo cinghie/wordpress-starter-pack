@@ -17,7 +17,7 @@ class WOOCCM_Checkout_Controller {
 
   public function enqueue_scripts() {
 
-    if (is_checkout()) {
+    if (is_checkout() || is_account_page()) {
 
       WOOCCM()->register_scripts();
 

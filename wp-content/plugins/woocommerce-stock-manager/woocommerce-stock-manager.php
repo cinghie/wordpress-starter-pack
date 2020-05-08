@@ -3,13 +3,13 @@
  * Plugin Name: WooCommerce Stock Manager
  * Plugin URI: https://www.storeapps.org/shop/
  * Description: Manage product's stocka and price in your WooCommerce store.
- * Version: 2.1.0
+ * Version: 2.1.1
  * Author: StoreApps
  * Author URI: https://www.storeapps.org/
  * Requires at least: 5.0.0
  * Tested up to: 5.2.2
  * WC requires at least: 3.0.0
- * WC tested up to: 3.6.5
+ * WC tested up to: 4.0.1
  * Text Domain: woocommerce-stock-manager
  * Domain Path: /languages/
  * Copyright (c) 2020 StoreApps. All rights reserved.
@@ -24,7 +24,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 define( 'STOCKDIR', plugin_dir_path( __FILE__ ) );
 define( 'STOCKURL', plugin_dir_url( __FILE__ ) );
-define( 'STOCKVERSION', '2.1.0' );
+define( 'STOCKVERSION', '2.1.1' );
 
 require STOCKDIR . '/vendor/autoload.php';
 

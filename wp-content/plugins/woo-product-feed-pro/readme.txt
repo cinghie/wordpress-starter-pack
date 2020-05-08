@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.4
-Stable tag: 8.0.6
+Stable tag: 8.1.9
 
 == Description ==
 
@@ -312,6 +312,45 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 8.1.9 (2020-05-08) =
+* Solved PHP warnings that showed on variants product edit pages for the extra fields that had an undefined index
+
+= 8.1.8 (2020-05-07) =
+* Fixed a shipping table rate bug
+
+= 8.1.7 (2020-05-06) =
+* Fixed a PHP error, expected a string got an array
+
+= 8.1.6 (2020-05-04) =
+* Added support for Vivino prices
+
+= 8.1.5 (2020-05-03) =
+* Removed autoloading of channel_statics
+
+= 8.1.4 (2020-05-02) =
+* Removed the item_group_id field for auction product types
+
+= 8.1.3 (2020-05-02) =
+* Added support for the auction product type (UWA Ultimate WooCommerce Auctions)
+
+= 8.1.2 (2020-04-30) =
+* Fixed an issue with the WooCommerce Shipping Table Rate plugin
+
+= 8.1.1 (2020-04-27) =
+* Fixed several bugs in the Fruugo.nl templating
+
+= 8.1.0 (2020-04-27) =
+* Added support for Advanced Custom Fields (ACF) that return array values such as checkboxes
+
+= 8.0.9 (2020-04-26) =
+* Added the sysyem sale price attribute
+
+= 8.0.8 (2020-04-26) =
+* Added a more strict check on "is equal to" filters for category filters
+
+= 8.0.7 (2020-04-26) =
+* Fixed a bug when user did not configure a shipping country in its WooCommerce shipping zones and methods
 
 = 8.0.6 (2020-04-25) =
 * Facebook pixel change for Purchase, SearchResult and ViewCategory events
@@ -2567,6 +2606,45 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 8.1.9 =
+Solved PHP warnings that showed on variants product edit pages for the extra fields that had an undefined index
+
+= 8.1.8 =
+Fixed a shipping table rate bug
+
+= 8.1.7 =
+Fixed a PHP error, expected a string got an array
+
+= 8.1.6 =
+Added support for Vivino prices
+
+= 8.1.5 =
+Removed autoloading of channel_statics upon activation of the plugin
+
+= 8.1.4 =
+Removed the item_group_id field for auction product types
+
+= 8.1.3 =
+Added support for the auction product type (UWA Ultimate WooCommerce Auctions)
+
+= 8.1.2 =
+Fixed an issue with the WooCommerce Shipping Table Rate plugin
+
+= 8.1.1 =
+Fixed several bugs in the Fruugo.nl templating
+
+= 8.1.0 =
+Added support for Advanced Custom Fields (ACF) that return array values such as checkboxes
+
+= 8.0.9 =
+Added the sysyem sale price attribute
+
+= 8.0.8 =
+Added a more strict check on "is equal to" filters for category filters
+
+= 8.0.7 =
+Fixed a bug when user did not configure a shipping country in its WooCommerce shipping zones and methods
 
 = 8.0.6 =
 Facebook pixel change for Purchase, SearchResult and ViewCategory events

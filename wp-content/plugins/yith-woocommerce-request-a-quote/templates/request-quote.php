@@ -12,6 +12,8 @@
  */
 
 global $wpdb, $woocommerce;
+$quote_wrapper_class = get_option( 'ywraq_page_list_layout_template', '' );
+$quote_wrapper_class = count( $raq_content ) === 0 ? '' : $quote_wrapper_class;
 function_exists( 'wc_nocache_headers' ) && wc_nocache_headers();
 
 if ( function_exists( 'wc_print_notices' ) ) {
@@ -20,12 +22,13 @@ if ( function_exists( 'wc_print_notices' ) ) {
 ?>
 <div class="woocommerce ywraq-wrapper">
 	<div id="yith-ywraq-message"></div>
+	<div class="ywraq-form-table-wrapper <?php echo esc_attr( $quote_wrapper_class ); ?>">
+		<?php wc_get_template( 'request-quote-' . $template_part . '.php', $args, '', YITH_YWRAQ_TEMPLATE_PATH ); ?>
 
-	<?php wc_get_template( 'request-quote-' . $template_part . '.php', $args, '', YITH_YWRAQ_TEMPLATE_PATH ); ?>
+		<?php if ( count( $raq_content ) !== 0 ) : ?>
 
-	<?php if ( count( $raq_content ) !== 0 ) : ?>
+			<?php wc_get_template( 'request-quote-form.php', $args, '', YITH_YWRAQ_TEMPLATE_PATH ); ?>
 
-		<?php wc_get_template( 'request-quote-form.php', $args, '', YITH_YWRAQ_TEMPLATE_PATH ); ?>
-
-	<?php endif ?>
+		<?php endif ?>
+	</div>
 </div>

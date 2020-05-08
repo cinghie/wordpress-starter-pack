@@ -145,10 +145,10 @@ class Stock_Manager_Admin {
 				}, []),
 				'product-types' => wc_get_product_types(),
 				'stock-status-options' => wc_get_product_stock_status_options(),
-				'shipping-classes' => array_reduce(get_terms(['taxonomy' => 'product_shipping_class', 'hide_empty' => false]), function($carry, $item) {
+				'shipping-classes' => array_merge(array('' => __('No shipping class', 'stock-manager')), array_reduce(get_terms(['taxonomy' => 'product_shipping_class', 'hide_empty' => false]), function($carry, $item) {
 					$carry[$item->slug] = $item->name;
 					return $carry;
-				}, []),
+				}, [])),
 				'tax-classes' => wc_get_product_tax_class_options(),
 				'tax-statuses' => [
 					'taxable' => __('Taxable', 'stock-manager'),

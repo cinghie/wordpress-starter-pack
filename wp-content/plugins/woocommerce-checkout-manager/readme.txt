@@ -1,10 +1,10 @@
-=== Checkout Manager for WooCommerce ===
+﻿=== Checkout Manager for WooCommerce ===
 Contributors: quadlayers
 Donate link: https://quadlayers.com/
 Tags: woocommerce, woocommerce checkout, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
 Requires at least: 3.4
 Tested up to: 5.4.0
-Stable tag: 5.0.3
+Stable tag: 5.0.6
 WC requires at least: 3.0
 WC tested up to: 4.0
 License: GPLv2 or later
@@ -27,7 +27,7 @@ WooCommerce Checkout Manager customization and field's management alternatives:
 
 == WooCommerce Checkout process==
 
-WooCommerce Checkout Manager allows you to customize the checkout process, including or reducing steps. Our plugin is able to consider your billing process inside checkout page, and recovers all data required by your company process. 
+WooCommerce Checkout Manager allows you to customize the checkout process, including or reducing order's fields collected. Our plugin is able to consider your billing data inside checkout page, and recovers all data required by your company process. 
 
 = Force to include shipping address =
 This option allows you to remove the toggle checkbox to display the shipping fields. Shipping fields will be always displayed, and the user is forced to complete them.
@@ -106,6 +106,15 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 10. Handle uploaded files in order admin dashboard.
 
 == Changelog ==
+
+= 5.0.6 = 
+* Fix: woocommerce account conditional fields
+
+= 5.0.5 = 
+* Fix: woocommerce order meta
+
+= 5.0.4 = 
+* Fix: woocommerce checkout datepicker required
 
 = 5.0.3 = 
 * Fix: woocommerce checkout checkbox required

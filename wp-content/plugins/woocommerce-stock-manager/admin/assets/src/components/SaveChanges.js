@@ -60,8 +60,8 @@ const SaveChanges = (props) => {
         left: wpcontent.x,
       }}
     >
-      <button onClick={handleDiscart} className="button button-large" type="button">{__('Discard changes', 'stock-manager')}</button>
-      <button onClick={handleSave} className="button button-primary button-large" type="button">{__('Save all changes', 'stock-manager')}</button>
+      <button onClick={handleDiscart} className="button button-large" type="button">{__('Discard changes', 'woocommerce-stock-manager')}</button>
+      <button onClick={handleSave} className="button button-primary button-large" type="button">{__('Save all changes', 'woocommerce-stock-manager')}</button>
     </div>
   );
 };

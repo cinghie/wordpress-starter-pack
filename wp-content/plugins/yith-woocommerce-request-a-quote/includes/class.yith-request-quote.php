@@ -741,6 +741,26 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 				wc_add_notice( $message, 'notice' );
 			}
 		}
+
+		/**
+		 * Return the id of request quote page
+		 *
+		 * @return int
+		 * @since 1.9.0
+		 */
+		public function get_raq_page_id() {
+			$page_id = get_option( 'ywraq_page_id' );
+
+			if ( function_exists( 'wpml_object_id_filter' ) ) {
+				global $sitepress;
+
+				if ( ! is_null( $sitepress ) && is_callable( array( $sitepress, 'get_current_language' ) ) ) {
+					$page_id = wpml_object_id_filter( $page_id, 'post', true, $sitepress->get_current_language() );
+				}
+			}
+
+			return apply_filters( 'ywraq_request_page_id', $page_id );
+		}
 	}
 }
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     8.0.6
+ * Version:     8.1.9
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '8.0.6' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '8.1.9' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -3485,208 +3485,266 @@ function woosea_save_custom_variable_fields( $post_id ) {
                 }
 
                 // Brand Field
-                $_brand = $_POST['_woosea_variable_brand'];
-               	$variation_id = (int) $variable_post_id[$i];
-                if ( isset( $_brand[$i] ) ) {
-                	 update_post_meta( $variation_id, '_woosea_brand', stripslashes( sanitize_text_field( $_brand[$i] )));
-               	}
+		if(isset($_POST['_woosea_variable_brand'])){
+                	$_brand = $_POST['_woosea_variable_brand'];
+               		$variation_id = (int) $variable_post_id[$i];
+                	if ( isset( $_brand[$i] ) ) {
+                		 update_post_meta( $variation_id, '_woosea_brand', stripslashes( sanitize_text_field( $_brand[$i] )));
+               		}
+		}
 
                 // MPN Field
-                $_mpn = $_POST['_woosea_variable_mpn'];
+		if(isset($_POST['_woosea_variable_mpn'])){
+                	$_mpn = $_POST['_woosea_variable_mpn'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_mpn[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_mpn', stripslashes( sanitize_text_field( $_mpn[$i] )));
                         }
+		}
 
                 // UPC Field
-                $_upc = $_POST['_woosea_variable_upc'];
+		if(isset($_POST['_woosea_variable_upc'])){
+                	$_upc = $_POST['_woosea_variable_upc'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_upc[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_upc', stripslashes( sanitize_text_field( $_upc[$i] )));
                         }
+		}
 
                 // EAN Field
-                $_ean = $_POST['_woosea_variable_ean'];
+		if(isset($_POST['_woosea_variable_ean'])){
+                	$_ean = $_POST['_woosea_variable_ean'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_ean[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_ean', stripslashes( sanitize_text_field( $_ean[$i] )));
                         }
+		}
 
                 // GTIN Field
-                $_gtin = $_POST['_woosea_variable_gtin'];
+		if(isset($_POST['_woosea_variable_gtin'])){
+                	$_gtin = $_POST['_woosea_variable_gtin'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_gtin[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_gtin', stripslashes( sanitize_text_field( $_gtin[$i] )));
                         }
+		}
 
                 // Color Field
-                $_color = $_POST['_woosea_variable_color'];
+		if(isset($_POST['_woosea_variable_color'])){
+                	$_color = $_POST['_woosea_variable_color'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_color[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_color', stripslashes( sanitize_text_field( $_color[$i] )));
                         }
+		}
 
                 // Size Field
-                $_size = $_POST['_woosea_variable_size'];
+		if(isset($_POST['_woosea_variable_size'])){
+                	$_size = $_POST['_woosea_variable_size'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_size[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_size', stripslashes( sanitize_text_field( $_size[$i] )));
                         }
+		}
 
                 // Gender Field
-                $_gender = $_POST['_woosea_gender'];
+		if(isset($_POST['_woosea_variable_gender'])){
+                	$_gender = $_POST['_woosea_gender'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_gender[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_gender', stripslashes( sanitize_text_field( $_gender[$i] )));
                         }
+		}
 
                 // Material Field
-                $_material = $_POST['_woosea_variable_material'];
+		if(isset($_POST['_woosea_variable_material'])){
+                	$_material = $_POST['_woosea_variable_material'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_material[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_material', stripslashes( sanitize_text_field( $_material[$i] )));
                         }
+		}
 
                 // Pattern Field
-                $_pattern = $_POST['_woosea_variable_pattern'];
+		if(isset($_POST['_woosea_variable_pattern'])){
+                	$_pattern = $_POST['_woosea_variable_pattern'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_pattern[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_pattern', stripslashes( sanitize_text_field( $_pattern[$i] )));
                         }
+		}
 
                 // Unit pricing measure Field
-                $_pricing_measure = $_POST['_woosea_variable_unit_pricing_measure'];
+		if(isset($_POST['_woosea_variable_unit_pricing_measure'])){
+                	$_pricing_measure = $_POST['_woosea_variable_unit_pricing_measure'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_pricing_measure[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_unit_pricing_measure', stripslashes( sanitize_text_field( $_pricing_measure[$i] )));
                         }
+		}
 
                 // Unit pricing base measure Field
-                $_pricing_base = $_POST['_woosea_variable_unit_pricing_base_measure'];
+		if(isset($_POST['_woosea_variable_unit_pricing_base_measure'])){
+                	$_pricing_base = $_POST['_woosea_variable_unit_pricing_base_measure'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_pricing_base[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_unit_pricing_base_measure', stripslashes( sanitize_text_field( $_pricing_base[$i] )));
                         }
+		}
 
 		// Optimized title Field
-                $_opttitle = $_POST['_woosea_optimized_title'];
+		if(isset($_POST['_woosea_optimized_title'])){
+                	$_opttitle = $_POST['_woosea_optimized_title'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_opttitle[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_optimized_title', stripslashes( sanitize_text_field( $_opttitle[$i] )));
                         }
+		}
 
 		// Installment months Field
-                $_installment_months = $_POST['_woosea_installment_months'];
+		if(isset($_POST['_woosea_installment_months'])){
+                	$_installment_months = $_POST['_woosea_installment_months'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_installment_months[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_installment_months', stripslashes( sanitize_text_field( $_installment_months[$i] )));
                         }
+		}
 
 		// Installment amount Field
-                $_installment_amount = $_POST['_woosea_installment_amount'];
+		if(isset($_POST['_woosea_installment_amount'])){
+                	$_installment_amount = $_POST['_woosea_installment_amount'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_installment_amount[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_installment_amount', stripslashes( sanitize_text_field( $_installment_amount[$i] )));
                         }
+		}
 
                 // Product condition Field
-                $_condition = $_POST['_woosea_condition'];
+		if(isset($_POST['_woosea_condition'])){
+                	$_condition = $_POST['_woosea_condition'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_condition[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_condition', stripslashes( sanitize_text_field( $_condition[$i] )));
                         }
+		}
 
                 // Product age group
-                $_age_group = $_POST['_woosea_age_group'];
+		if(isset($_POST['_woosea_age_group'])){
+                	$_age_group = $_POST['_woosea_age_group'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_age_group[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_age_group', stripslashes( sanitize_text_field( $_age_group[$i] )));
                         }
+		}
 
 
                 // Cost of good sold
-                $_cost_of_good_sold = $_POST['_woosea_cost_of_good_sold'];
+		if(isset($_POST['_woosea_cost_of_good_sold'])){
+                	$_cost_of_good_sold = $_POST['_woosea_cost_of_good_sold'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_cost_of_good_sold[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_cost_of_good_sold', stripslashes( sanitize_text_field( $_cost_of_good_sold[$i] )));
                         }
+		}
 
                 // Multipack
-                $_multipack = $_POST['_woosea_multipack'];
+		if(isset($_POST['_woosea_multipack'])){
+                	$_multipack = $_POST['_woosea_multipack'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_multipack[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_multipack', stripslashes( sanitize_text_field( $_multipack[$i] )));
                         }
-               
+         	}
+      
                 // Is promotion
-                $_is_promotion = $_POST['_woosea_is_promotion'];
+		if(isset($_POST['_woosea_is_promotion'])){
+	                $_is_promotion = $_POST['_woosea_is_promotion'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_is_promotion[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_is_promotion', stripslashes( sanitize_text_field( $_is_promotion[$i] )));
                         }
+		}
 
 		 // Is bundle
-                $_is_bundle = $_POST['_woosea_is_bundle'];
+		if(isset($_POST['_woosea_is_bundle'])){
+                	$_is_bundle = $_POST['_woosea_is_bundle'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_is_bundle[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_is_bundle', stripslashes( sanitize_text_field( $_is_bundle[$i] )));
                         }
+		}
 
                 // Energy efficiency class
-                $_energy_efficiency_class = $_POST['_woosea_energy_efficiency_class'];
+		if(isset($_POST['_woosea_energy_efficiency_class'])){
+                	$_energy_efficiency_class = $_POST['_woosea_energy_efficiency_class'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_energy_efficiency_class[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_energy_efficiency_class', stripslashes( sanitize_text_field( $_energy_efficiency_class[$i] )));
                         }
+		}
 
                 // Minimum energy efficiency class
-                $_min_energy_efficiency_class = $_POST['_woosea_min_energy_efficiency_class'];
+		if(isset($_POST['_woosea_min_energy_efficiency_class'])){
+                	$_min_energy_efficiency_class = $_POST['_woosea_min_energy_efficiency_class'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_min_energy_efficiency_class[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_min_energy_efficiency_class', stripslashes( sanitize_text_field( $_min_energy_efficiency_class[$i] )));
                         }
+		}
 
                 // Maximum energy efficiency class
-                $_max_energy_efficiency_class = $_POST['_woosea_max_energy_efficiency_class'];
+		if(isset($_POST['_woosea_max_energy_efficiency_class'])){
+                	$_max_energy_efficiency_class = $_POST['_woosea_max_energy_efficiency_class'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_max_energy_efficiency_class[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_max_energy_efficiency_class', stripslashes( sanitize_text_field( $_max_energy_efficiency_class[$i] )));
                         }
+		}
 
                 // Custom field 0
-                $_custom_field_0 = $_POST['_woosea_custom_field_0'];
+		if(isset($_POST['_woosea_custom_field_0'])){
+	         	$_custom_field_0 = $_POST['_woosea_custom_field_0'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_custom_field_0[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_custom_field_0', stripslashes( sanitize_text_field( $_custom_field_0[$i] )));
                         }
+		}
 
                 // Custom field 1
-                $_custom_field_1 = $_POST['_woosea_custom_field_1'];
+		if(isset($_POST['_woosea_custom_field_1'])){
+                	$_custom_field_1 = $_POST['_woosea_custom_field_1'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_custom_field_1[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_custom_field_1', stripslashes( sanitize_text_field( $_custom_field_1[$i] )));
                         }
+		}
 
                 // Custom field 2
-                $_custom_field_2 = $_POST['_woosea_custom_field_2'];
+		if(isset($_POST['_woosea_custom_field_2'])){
+                	$_custom_field_2 = $_POST['_woosea_custom_field_2'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_custom_field_2[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_custom_field_2', stripslashes( sanitize_text_field( $_custom_field_2[$i] )));
                         }
+		}
 
                 // Custom field 3
-                $_custom_field_3 = $_POST['_woosea_custom_field_3'];
+		if(isset($_POST['_woosea_custom_field_3'])){
+                	$_custom_field_3 = $_POST['_woosea_custom_field_3'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_custom_field_3[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_custom_field_3', stripslashes( sanitize_text_field( $_custom_field_3[$i] )));
                         }
+		}
 
                 // Custom field 4
-                $_custom_field_4 = $_POST['_woosea_custom_field_4'];
+		if(isset($_POST['_woosea_custom_field_4'])){
+ 	               $_custom_field_4 = $_POST['_woosea_custom_field_4'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_custom_field_4[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_custom_field_4', stripslashes( sanitize_text_field( $_custom_field_4[$i] )));
                         }
+		}
 
                 // Exclude product from feed
 		if(empty($_POST['_woosea_exclude_product'])){

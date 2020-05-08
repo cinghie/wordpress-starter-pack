@@ -857,19 +857,6 @@ function sbi_admin_error_notices() {
 
 }
 
-function sbi_maybe_add_ajax_test_error() {
-	if ( isset( $_GET['page'] ) && $_GET['page'] === 'sb-instagram-feed' ) {
-		global $sb_instagram_posts_manager;
-
-		if ( $sb_instagram_posts_manager->should_add_ajax_test_notice() ) {
-			$sb_instagram_posts_manager->add_error( 'ajax', array( __( 'Unable to use admin-ajax.php when displaying feeds. Some features of the plugin will be unavailable.', 'instagram-feed' ), __( sprintf( 'Please visit %s to troubleshoot.', '<a href="https://smashballoon.com/admin-ajax-requests-are-not-working/">'.__( 'this page', 'instagram-feed' ).'</a>' ), 'instagram-feed' ) ) );
-		} else {
-			$sb_instagram_posts_manager->remove_error( 'ajax' );
-		}
-	}
-}
-add_action( 'admin_init', 'sbi_maybe_add_ajax_test_error' );
-
 function sbi_get_user_names_of_personal_accounts_not_also_already_updated() {
 	$sbi_options = get_option( 'sb_instagram_settings', array() );
 	$users_in_personal_accounts = array();
@@ -1089,7 +1076,7 @@ function sbi_notices_html() {
 		$dismiss_url = add_query_arg( 'sbi_ignore_rating_notice_nag', '1' );
 		$later_url = add_query_arg( 'sbi_ignore_rating_notice_nag', 'later' );
 		if ( $should_show_bfcm_discount ) {
-			$other_notice_html = '<p class="sbi_other_notice">' .  __( 'PS. We currently have a <a href="https://smashballoon.com/instagram-feed/?utm_source=plugin-free&utm_campaign=sbi&discount='.$sbi_bfcm_discount_code.'" target="_blank"><b style="font-weight: 700;">Black Friday deal</b></a> for 60% off the Pro version!', 'instagram-feed' ) . '</a></p>';
+			$other_notice_html = '<p class="sbi_other_notice">' .  __( 'PS. We currently have a <a href="https://smashballoon.com/instagram-feed/?utm_campaign=instagram-free&utm_source=notices&utm_medium=rating&discount='.$sbi_bfcm_discount_code.'" target="_blank"><b style="font-weight: 700;">Black Friday deal</b></a> for 60% off the Pro version!', 'instagram-feed' ) . '</a></p>';
 
 			$dismiss_url = add_query_arg( array(
 					'sbi_ignore_rating_notice_nag' => '1',
@@ -1136,7 +1123,7 @@ function sbi_notices_html() {
             <div class='sbi-notice-text'>
                 <p>" . __( '<b style="font-weight: 700;">Exclusive offer!</b>  We don\'t run promotions very often, but for a limited time we\'re offering <b style="font-weight: 700;">60% off</b> our Pro version to all users of our free Instagram Feed plugin.', 'instagram-feed' ) . "</p>
                 <p class='sbi-links'>
-                    <a class='sbi_notice_dismiss sbi_offer_btn' href='https://smashballoon.com/instagram-feed/?utm_source=plugin-free&utm_campaign=sbi&discount=instagramthankyou' target='_blank'><b>" . __( 'Get this offer', 'instagram-feed' ) . "</b></a>
+                    <a class='sbi_notice_dismiss sbi_offer_btn' href='https://smashballoon.com/instagram-feed/?utm_campaign=instagram-free&utm_source=notices&utm_medium=newuser&discount=instagramthankyou' target='_blank'><b>" . __( 'Get this offer', 'instagram-feed' ) . "</b></a>
                     <a class='sbi_notice_dismiss' style='margin-left: 5px;' href='" . esc_url( add_query_arg( 'sbi_ignore_new_user_sale_notice', 'always' ) ) . "'>" . __( 'I\'m not interested', 'instagram-feed' ) . "</a>
 
                 </p>
@@ -1154,7 +1141,7 @@ function sbi_notices_html() {
             <div class='sbi-notice-text'>
                 <p>" . __( '<b style="font-weight: 700;">Black Friday/Cyber Monday Deal!</b> Thank you for using our free Instagram Feed plugin. For a limited time, we\'re offering <b style="font-weight: 700;">60% off</b> the Pro version for all of our users.', 'instagram-feed' ) . "</p>
                 <p class='sbi-links'>
-                    <a class='sbi_notice_dismiss sbi_offer_btn' href='https://smashballoon.com/instagram-feed/?utm_source=plugin-free&utm_campaign=sbi&discount=".$sbi_bfcm_discount_code."' target='_blank'>" . __( 'Get this offer!', 'instagram-feed' ) . "</a>
+                    <a class='sbi_notice_dismiss sbi_offer_btn' href='https://smashballoon.com/instagram-feed/?utm_campaign=instagram-free&utm_source=notices&utm_medium=bfcm&discount=".$sbi_bfcm_discount_code."' target='_blank'>" . __( 'Get this offer!', 'instagram-feed' ) . "</a>
                     <a class='sbi_notice_dismiss' style='margin-left: 5px;' href='" .esc_url( add_query_arg( 'sbi_ignore_bfcm_sale_notice', date( 'Y', $current_time ) ) ). "'>" . __( 'I\'m not interested', 'instagram-feed' ) . "</a>
                 </p>
             </div>

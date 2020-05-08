@@ -88,6 +88,7 @@
 		clear: both;
 		content: '';
 	}
+
 	.landing-container .col-1,
 	.landing-container .col-2{
 		float: left;

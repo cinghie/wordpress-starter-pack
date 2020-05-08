@@ -7,7 +7,7 @@ Tags: woocommerce, stock manager, stock management, inventory
 Requires at least: 5.0.0
 Tested up to: 5.2.2
 Requires PHP: 5.6+
-Stable tag: 2.1.0
+Stable tag: 2.1.1
 License: GPLv3
 
 == Description ==
@@ -120,6 +120,14 @@ Be sure, that you have WooCommerce 3.5+ and WordPress 5.+
 4. Product stock as on date
 
 == Changelog ==
+
+= 2.1.1 (02.05.2020) =
+* Update: Added stock related columns in the dashboard by default
+* Update: Compatibility with latest version of WooCommerce
+* Update: Added option for 'No Shipping Class' for 'Shipping Class' product field
+* Fix: 'Sale Price' product field showing as blank in case of '0' value 
+* Fix: Table headers of the Stock Manager dashboard table not translating
+* Update: Updated POT file
 
 = 2.1.0 (06.04.2020) =
 * New: New contributor's name added

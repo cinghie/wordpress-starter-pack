@@ -58,6 +58,8 @@ if ( ! class_exists( 'YITH_YWRAQ_Frontend' ) ) {
 
 			add_action( 'wp_loaded', array( $this, 'update_raq_list' ) );
 
+			add_filter( 'body_class', array( $this, 'custom_body_class_in_quote_page' ) );
+
 			// show button in single page
 			add_action( 'woocommerce_single_product_summary', array( $this, 'add_button_single_page' ), 35 );
 
@@ -144,9 +146,10 @@ if ( ! class_exists( 'YITH_YWRAQ_Frontend' ) ) {
 			wp_enqueue_script( 'ywraq-prettyPhoto', $assets_path . 'js/prettyPhoto/jquery.prettyPhoto' . $suffix . '.js', array( 'jquery' ), '3.1.5', true );
 
 			$localize_script_args = array(
-				'ajaxurl'            => admin_url( 'admin-ajax.php' ),
-				'no_product_in_list' => __( 'Your list is empty', 'yith-woocommerce-request-a-quote' ),
-				'yith_ywraq_action_nonce'  => wp_create_nonce( 'yith-ywraq-ajax-action'),
+				'ajaxurl'                 => admin_url( 'admin-ajax.php' ),
+				'no_product_in_list'      => esc_html__( 'Your list is empty', 'yith-woocommerce-request-a-quote' ),
+				'yith_ywraq_action_nonce' => wp_create_nonce( 'yith-ywraq-ajax-action' ),
+				'raq_table_refresh_check' => apply_filters( 'yith_ywraq_table_refresh_check', true ),
 			);
 			wp_localize_script( 'yith_ywraq_frontend', 'ywraq_frontend', $localize_script_args );
 
@@ -173,13 +176,12 @@ if ( ! class_exists( 'YITH_YWRAQ_Frontend' ) ) {
 
 			if ( 'yes' !== $show_button ) {
 				return false;
-			}
-;
+			};
 			$this->print_button();
 		}
 
 		/**
-		 * @param   bool $product
+		 * @param bool $product
 		 */
 		public function print_button( $product = false ) {
 
@@ -205,7 +207,7 @@ if ( ! class_exists( 'YITH_YWRAQ_Frontend' ) ) {
 			);
 			$args['args'] = $args;
 
-			wc_get_template( 'add-to-quote.php', $args, '',YITH_YWRAQ_TEMPLATE_PATH );
+			wc_get_template( 'add-to-quote.php', $args, '', YITH_YWRAQ_TEMPLATE_PATH );
 
 		}
 
@@ -228,12 +230,28 @@ if ( ! class_exists( 'YITH_YWRAQ_Frontend' ) ) {
 			}
 		}
 
+		/**
+		 * Add a custom body class on quote page.
+		 *
+		 * @param array $classes Array of body class.
+		 * @return array
+		 * @since 2.3.0
+		 */
+		public function custom_body_class_in_quote_page( $classes ) {
+			if ( is_page( YITH_Request_Quote()->get_raq_page_id() ) ) {
+				$classes[] = 'yith-request-a-quote-page';
+			}
+
+			return $classes;
+		}
+
+
 	}
 
 	/**
 	 * Unique access to instance of YITH_YWRAQ_Frontend class
 	 *
-	 * @return \YITH_YWRAQ_Frontend
+	 * @return YITH_YWRAQ_Frontend
 	 */
 	function YITH_YWRAQ_Frontend() {
 		return YITH_YWRAQ_Frontend::get_instance();

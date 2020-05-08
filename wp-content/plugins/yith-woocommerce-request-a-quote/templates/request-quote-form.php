@@ -21,7 +21,7 @@ $user_email = ( ! empty( $current_user ) ) ? $current_user->user_email : '';
 
 	<form id="yith-ywraq-mail-form" name="yith-ywraq-mail-form" action="<?php echo esc_url( YITH_Request_Quote()->get_raq_page_url() ); ?>" method="post">
 
-			<p class="form-row form-row-wide validate-required" id="rqa_name_row">
+			<p class="form-row form-row-wide validate-required " id="rqa_name_row">
 				<label for="rqa-name" class=""><?php esc_html_e( 'Name', 'yith-woocommerce-request-a-quote' ); ?>
 					<abbr class="required" title="required">*</abbr></label>
 				<input type="text" class="input-text " name="rqa_name" id="rqa-name" placeholder="" value="<?php echo esc_attr( $user_name ); ?>" required>

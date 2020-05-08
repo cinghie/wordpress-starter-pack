@@ -194,7 +194,6 @@ class WCM_Stock {
 				$args['offset'] = $offset;
 
 		}
-	
 
 		$the_query = new WP_Query( $args );
 	

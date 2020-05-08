@@ -61,7 +61,7 @@ const ProductFilter = (props) => {
     <div className={classnames(className, styles.wrapper)}>
       <div className={styles.row}>
         <p className={styles.field}>
-          <label htmlFor="woocommerce-product-manager-filter-sku" className={styles.label}>{__('SKU', 'stock-manager')}:</label>
+          <label htmlFor="woocommerce-product-manager-filter-sku" className={styles.label}>{__('SKU', 'woocommerce-stock-manager')}:</label>
           <input
             type="search"
             id="woocommerce-product-manager-filter-sku"
@@ -71,7 +71,7 @@ const ProductFilter = (props) => {
           />
         </p>
         <p className={styles.field}>
-          <label htmlFor="woocommerce-product-manager-filter-search" className={styles.label}>{__('Search', 'stock-manager')}:</label>
+          <label htmlFor="woocommerce-product-manager-filter-search" className={styles.label}>{__('Search', 'woocommerce-stock-manager')}:</label>
           <input
             type="search"
             id="woocommerce-product-manager-filter-search"
@@ -83,39 +83,39 @@ const ProductFilter = (props) => {
       </div>
       <div className={styles.row}>
         <p className={styles.field}>
-          <label htmlFor="woocommerce-product-manager-filter-category" className={styles.label}>{__('Category', 'stock-manager')}:</label>
+          <label htmlFor="woocommerce-product-manager-filter-category" className={styles.label}>{__('Category', 'woocommerce-stock-manager')}:</label>
           <select
             id="woocommerce-product-manager-filter-category"
             value={filter.category}
             onChange={handleChange('category')}
           >
-            <option value="">{__('All', 'stock-manager')}</option>
+            <option value="">{__('All', 'woocommerce-stock-manager')}</option>
             {Object.keys(productCategories).map((key) => (
               <option value={key} key={key}>{productCategories[key]}</option>
             ))}
           </select>
         </p>
         <p className={styles.field}>
-          <label htmlFor="woocommerce-product-manager-filter-type" className={styles.label}>{__('Type', 'stock-manager')}:</label>
+          <label htmlFor="woocommerce-product-manager-filter-type" className={styles.label}>{__('Type', 'woocommerce-stock-manager')}:</label>
           <select
             id="woocommerce-product-manager-filter-type"
             value={filter.type}
             onChange={handleChange('type')}
           >
-            <option value="">{__('All', 'stock-manager')}</option>
+            <option value="">{__('All', 'woocommerce-stock-manager')}</option>
             {Object.keys(productTypes).map((key) => (
               <option value={key} key={key}>{productTypes[key]}</option>
             ))}
           </select>
         </p>
         <p className={styles.field}>
-          <label htmlFor="woocommerce-product-manager-filter-stock-status" className={styles.label}>{__('Stock status', 'stock-manager')}:</label>
+          <label htmlFor="woocommerce-product-manager-filter-stock-status" className={styles.label}>{__('Stock status', 'woocommerce-stock-manager')}:</label>
           <select
             id="woocommerce-product-manager-filter-stock-status"
             value={filter.stock_status}
             onChange={handleChange('stock_status')}
           >
-            <option value="">{__('All', 'stock-manager')}</option>
+            <option value="">{__('All', 'woocommerce-stock-manager')}</option>
             {Object.keys(stockStatusOptions).map((key) => (
               <option value={key} key={key}>{stockStatusOptions[key]}</option>
             ))}

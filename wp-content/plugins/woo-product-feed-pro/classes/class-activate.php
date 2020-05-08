@@ -1857,7 +1857,7 @@ class WooSEA_Activation {
 			"Zimbabwe" => array (),
 		);
 		
-		update_option( 'channel_statics', $channel_statics);
+		update_option( 'channel_statics', $channel_statics, 'no');
 	        
 		/**
         	 * Function for setting a cron job for regular creation of the feed

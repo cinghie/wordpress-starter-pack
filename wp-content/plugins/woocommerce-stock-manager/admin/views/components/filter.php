@@ -12,7 +12,7 @@
         <form method="get" action="">
           
           <select name="order-by">
-            <option value=""><?php _e('Order by','stock-manager'); ?></option>
+            <option value=""><?php _e('Order by','woocommerce-stock-manager'); ?></option>
             <option value="name-asc" <?php if( isset( $_GET['order-by'] ) && $_GET['order-by'] == 'name-asc' ){ echo 'selected="selected"'; } ?>><?php _e('Product name ASC','woocommerce-stock-manager'); ?></option>
             <option value="name-desc" <?php if( isset( $_GET['order-by'] ) && $_GET['order-by'] == 'name-desc' ){ echo 'selected="selected"'; } ?>><?php _e('Product name DESC','woocommerce-stock-manager'); ?></option>
             <option value="sku-asc" <?php if( isset( $_GET['order-by'] ) && $_GET['order-by'] == 'sku-asc' ){ echo 'selected="selected"'; } ?>><?php _e('SKU ASC','woocommerce-stock-manager'); ?></option>
@@ -43,7 +43,7 @@
           </select>
       
           <select name="stock-status">
-            <option value=""><?php _e('Stock status','stock-manager'); ?></option>
+            <option value=""><?php _e('Stock status','woocommerce-stock-manager'); ?></option>
             <option value="instock" <?php if( isset( $_GET['stock-status'] ) && $_GET['stock-status'] == 'instock' ){ echo 'selected="selected"'; } ?>><?php _e('In stock','woocommerce-stock-manager'); ?></option>
             <option value="outofstock" <?php if( isset( $_GET['stock-status'] ) && $_GET['stock-status'] == 'outofstock' ){ echo 'selected="selected"'; } ?>><?php _e('Out of stock','woocommerce-stock-manager'); ?></option>
           </select>
@@ -98,7 +98,7 @@
             update_option( 'wsm_display_option', $display_option );
           } 
         ?>
-        <h2><?php _e('Hide or display cells','stock-manager'); ?></h2>
+        <h2><?php _e('Hide or display cells','woocommerce-stock-manager'); ?></h2>
           <table class="table-bordered">
             <tr>
               <td><?php _e('Thumbnail','woocommerce-stock-manager'); ?></td>
