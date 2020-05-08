@@ -32,7 +32,13 @@ password: password
 
 ## 5) Copy wp-config-sample.php as wp-config.php  
 
-Set database connection params
+Set database connection params and add define debug:
+
+```
+define('WP_DEBUG', true);
+define('WP_DEBUG_LOG', true );
+define('WP_DEBUG_DISPLAY', false);
+```
 
 ## 6) What to do
 
