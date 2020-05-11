@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - WooCommerce - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-05-05 19:15:57+0000\n"
+"PO-Revision-Date: 2020-05-10 01:35:20+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -464,6 +464,10 @@ msgstr "Visita la <a href=\"%s\" target=\"_blank\">pagina degli abbonamenti</a> 
 #: includes/admin/class-wc-admin-setup-wizard.php:2458
 msgid "Visit WooCommerce.com to learn more about <a href=\"%1$s\" target=\"_blank\">getting started</a>."
 msgstr "Visita WooCommerce.com per saperne di più su <a href=\"%1$s\" target=\"_blank\">come iniziare</a>."
+
+#: includes/shipping/free-shipping/class-wc-shipping-free-shipping.php:109
+msgid "Coupons discounts"
+msgstr "Sconti da codici promozionali"
 
 #. translators: $1: open code tag, $2: function name, $3: close code tag.
 #: packages/action-scheduler/classes/abstracts/ActionScheduler.php:192
@@ -4029,6 +4033,20 @@ msgstr "Tipo di intervallo."
 msgid "Reports data grouped by intervals."
 msgstr "Dati del rapporto raggruppati per intervalli."
 
+#: packages/woocommerce-admin/src/API/Reports/Revenue/Stats/Controller.php:267
+#: packages/woocommerce-admin/src/API/Reports/Revenue/Stats/Controller.php:337
+#: packages/woocommerce-admin/src/API/Reports/Downloads/Stats/Controller.php:208
+#: packages/woocommerce-admin/src/API/Reports/Orders/Stats/Controller.php:239
+#: packages/woocommerce-admin/src/API/Reports/Orders/Stats/Controller.php:309
+#: packages/woocommerce-admin/src/API/Reports/Products/Stats/Controller.php:205
+#: packages/woocommerce-admin/src/API/Reports/Products/Stats/Controller.php:270
+#: packages/woocommerce-admin/src/API/Reports/Coupons/Stats/Controller.php:186
+#: packages/woocommerce-admin/src/API/Reports/Coupons/Stats/Controller.php:251
+#: packages/woocommerce-admin/src/API/Reports/Taxes/Stats/Controller.php:223
+#: packages/woocommerce-admin/src/API/Reports/Taxes/Stats/Controller.php:288
+msgid "Interval subtotals."
+msgstr "Subtotali dell'intervallo."
+
 #: packages/woocommerce-admin/src/API/Reports/Revenue/Stats/Controller.php:261
 #: packages/woocommerce-admin/src/API/Reports/Orders/Stats/Controller.php:233
 #: packages/woocommerce-admin/src/API/Reports/Products/Stats/Controller.php:192
@@ -4044,20 +4062,6 @@ msgstr "Identificatore del segmento."
 #: packages/woocommerce-admin/src/API/Reports/Taxes/Stats/Controller.php:209
 msgid "Reports data grouped by segment condition."
 msgstr "Dati del rapporto raggruppati per condizione del segmento."
-
-#: packages/woocommerce-admin/src/API/Reports/Revenue/Stats/Controller.php:267
-#: packages/woocommerce-admin/src/API/Reports/Revenue/Stats/Controller.php:337
-#: packages/woocommerce-admin/src/API/Reports/Downloads/Stats/Controller.php:208
-#: packages/woocommerce-admin/src/API/Reports/Orders/Stats/Controller.php:239
-#: packages/woocommerce-admin/src/API/Reports/Orders/Stats/Controller.php:309
-#: packages/woocommerce-admin/src/API/Reports/Products/Stats/Controller.php:205
-#: packages/woocommerce-admin/src/API/Reports/Products/Stats/Controller.php:270
-#: packages/woocommerce-admin/src/API/Reports/Coupons/Stats/Controller.php:186
-#: packages/woocommerce-admin/src/API/Reports/Coupons/Stats/Controller.php:251
-#: packages/woocommerce-admin/src/API/Reports/Taxes/Stats/Controller.php:223
-#: packages/woocommerce-admin/src/API/Reports/Taxes/Stats/Controller.php:288
-msgid "Interval subtotals."
-msgstr "Subtotali dell'intervallo."
 
 #: packages/woocommerce-admin/src/API/Reports/Revenue/Stats/Controller.php:192
 #: packages/woocommerce-admin/src/API/Reports/Orders/Stats/Controller.php:198
@@ -4512,6 +4516,12 @@ msgstr "Evviva, %1$s è stato il giorno il cui hai raggiunto il record delle ven
 msgid "Activate usage tracking"
 msgstr "Attiva la tracciabilità dell'utilizzo"
 
+#. translators: 1: open link to WooCommerce.com settings, 2: open link to
+#. WooCommerce.com tracking documentation, 3: close link tag.
+#: packages/woocommerce-admin/src/Notes/WC_Admin_Notes_Tracking_Opt_In.php:58
+msgid "Gathering usage data allows us to improve WooCommerce. Your store will be considered as we evaluate new features, judge the quality of an update, or determine if an improvement makes sense. You can always visit the %1$sSettings%3$s and choose to stop sharing data. %2$sRead more%3$s about what data we collect."
+msgstr "Raccogliere i dati di utilizzo ci consente di migliorare WooCommerce. Il tuo negozio verrà tenuto in considerazione nel momento in cui valuteremo nuove funzioni, giudicheremo la qualità di un aggiornamento o determineremo se un miglioramento ha senso. Puoi sempre visitare le %1$sImpostazioni%3$s e scegliere di interrompere la condivisione dei dati. %2$sScopri di più%3$s su quali dati raccogliamo."
+
 #: packages/woocommerce-admin/src/Notes/WC_Admin_Notes_Giving_Feedback_Notes.php:61
 msgid "Review"
 msgstr "Recensione"
@@ -4535,12 +4545,6 @@ msgstr "Continua con la configurazione del negozio"
 #: packages/woocommerce-admin/src/Notes/WC_Admin_Notes_Onboarding_Profiler.php:46
 msgid "We're here to help you going through the most important steps to get your store up and running."
 msgstr "Siamo qui per aiutarti a portare a termine i passaggi più importanti per rendere operativo il tuo negozio."
-
-#. translators: 1: open link to WooCommerce.com settings, 2: open link to
-#. WooCommerce.com tracking documentation, 3: close link tag.
-#: packages/woocommerce-admin/src/Notes/WC_Admin_Notes_Tracking_Opt_In.php:58
-msgid "Gathering usage data allows us to improve WooCommerce. Your store will be considered as we evaluate new features, judge the quality of an update, or determine if an improvement makes sense. You can always visit the %1$sSettings%3$s and choose to stop sharing data. %2$sRead more%3$s about what data we collect."
-msgstr "Raccogliere i dati di utilizzo ci consente di migliorare WooCommerce. Il tuo negozio verrà tenuto in considerazione nel momento in cui valuteremo nuove funzioni, giudicheremo la qualità di un aggiornamento o determineremo se un miglioramento ha senso. Puoi sempre visitare le %1$sImpostazioni%3$s e scegliere di interrompere la condivisione dei dati. %2$sScopri di più%3$s su quali dati raccogliamo."
 
 #: packages/woocommerce-admin/src/Notes/WC_Admin_Notes_Onboarding_Profiler.php:45
 msgid "Welcome to WooCommerce! Set up your store and start selling"
@@ -5047,18 +5051,6 @@ msgstr "L'ultimo blocco interno seguirà altri contenuti."
 msgid "The last inner block will be aligned vertically."
 msgstr "L'ultimo blocco interno verrà allineato verticalmente."
 
-#: packages/woocommerce-blocks/src/BlockTypes/ProductCategories.php:170
-msgid "List of categories"
-msgstr "Elenco di categorie"
-
-#: packages/woocommerce-blocks/src/BlockTypes/ProductCategories.php:171
-msgid "List of categories with their product counts"
-msgstr "Elenco di categorie con conteggio dei prodotti"
-
-#: packages/woocommerce-blocks/src/BlockTypes/AbstractProductGrid.php:432
-msgid "Product on sale"
-msgstr "Prodotto in vendita"
-
 #: packages/woocommerce-blocks/assets/js/components/grid-layout-control/index.js:52
 #: packages/woocommerce-blocks/build/product-best-sellers.js:1
 #: packages/woocommerce-blocks/build/product-on-sale-legacy.js:1
@@ -5077,6 +5069,18 @@ msgstr "Prodotto in vendita"
 #: packages/woocommerce-blocks/build/product-category-legacy.js:1
 msgid "Align Last Block"
 msgstr "Allinea ultimo blocco"
+
+#: packages/woocommerce-blocks/src/BlockTypes/ProductCategories.php:170
+msgid "List of categories"
+msgstr "Elenco di categorie"
+
+#: packages/woocommerce-blocks/src/BlockTypes/ProductCategories.php:171
+msgid "List of categories with their product counts"
+msgstr "Elenco di categorie con conteggio dei prodotti"
+
+#: packages/woocommerce-blocks/src/BlockTypes/AbstractProductGrid.php:432
+msgid "Product on sale"
+msgstr "Prodotto in vendita"
 
 #: includes/shortcodes/class-wc-shortcode-checkout.php:111
 msgid "You are paying for a guest order. Please continue with payment only if you recognize this order."
@@ -5589,6 +5593,12 @@ msgstr "Scegli la tua bandierina WordPress con questa bellezza! Decora il tuo of
 msgid "No products were found that matched your selection."
 msgstr "Non è stato trovato nessun prodotto che corrisponde alla tua selezione."
 
+#: packages/woocommerce-blocks/assets/js/blocks/handpicked-products/block.js:61
+#: packages/woocommerce-blocks/build/handpicked-products.js:1
+#: packages/woocommerce-blocks/build/handpicked-products-legacy.js:1
+msgid "Align Buttons"
+msgstr "Allinea pulsanti"
+
 #: packages/woocommerce-blocks/assets/js/components/product-category-control/index.js:76
 #: packages/woocommerce-blocks/build/product-best-sellers.js:1
 #: packages/woocommerce-blocks/build/product-on-sale-legacy.js:1
@@ -5636,12 +5646,6 @@ msgstr[1] "%d prodotti"
 #: packages/woocommerce-blocks/build/product-category-legacy.js:1
 msgid "The following error was returned"
 msgstr "È stati restituito il seguente errore"
-
-#: packages/woocommerce-blocks/assets/js/blocks/handpicked-products/block.js:61
-#: packages/woocommerce-blocks/build/handpicked-products.js:1
-#: packages/woocommerce-blocks/build/handpicked-products-legacy.js:1
-msgid "Align Buttons"
-msgstr "Allinea pulsanti"
 
 #: packages/woocommerce-blocks/assets/js/previews/reviews.js:47
 #: packages/woocommerce-blocks/build/reviews-by-category.js:1
@@ -6385,6 +6389,18 @@ msgid_plural "%d Reviews"
 msgstr[0] "%d recensione"
 msgstr[1] "%d recensioni"
 
+#: packages/woocommerce-blocks/assets/js/blocks/reviews/all-reviews/no-reviews-placeholder.js:15
+#: packages/woocommerce-blocks/build/all-reviews-legacy.js:1
+#: packages/woocommerce-blocks/build/all-reviews.js:1
+msgid "This block shows a list of all product reviews. Your store does not have any reviews yet, but they will show up here when it does."
+msgstr "Questo blocco mostra un elenco di tutte le recensioni del prodotto. Per il tuo negozio non sono presenti ancora recensioni che verranno mostrate qui una volta create."
+
+#: packages/woocommerce-blocks/assets/js/blocks/reviews/all-reviews/index.js:28
+#: packages/woocommerce-blocks/build/all-reviews-legacy.js:1
+#: packages/woocommerce-blocks/build/all-reviews.js:1
+msgid "Shows a list of all product reviews."
+msgstr "Mostra un elenco di tutte le recensioni del prodotto."
+
 #: packages/woocommerce-blocks/assets/js/components/product-category-control/index.js:45
 #: packages/woocommerce-blocks/assets/js/blocks/reviews/reviews-by-product/edit.js:56
 #: packages/woocommerce-blocks/build/product-best-sellers.js:1
@@ -6407,18 +6423,6 @@ msgid "%s, has %d review"
 msgid_plural "%s, has %d reviews"
 msgstr[0] "%s, ha %d recensione"
 msgstr[1] "%s, ha %d recensioni"
-
-#: packages/woocommerce-blocks/assets/js/blocks/reviews/all-reviews/no-reviews-placeholder.js:15
-#: packages/woocommerce-blocks/build/all-reviews-legacy.js:1
-#: packages/woocommerce-blocks/build/all-reviews.js:1
-msgid "This block shows a list of all product reviews. Your store does not have any reviews yet, but they will show up here when it does."
-msgstr "Questo blocco mostra un elenco di tutte le recensioni del prodotto. Per il tuo negozio non sono presenti ancora recensioni che verranno mostrate qui una volta create."
-
-#: packages/woocommerce-blocks/assets/js/blocks/reviews/all-reviews/index.js:28
-#: packages/woocommerce-blocks/build/all-reviews-legacy.js:1
-#: packages/woocommerce-blocks/build/all-reviews.js:1
-msgid "Shows a list of all product reviews."
-msgstr "Mostra un elenco di tutte le recensioni del prodotto."
 
 #: packages/woocommerce-blocks/assets/js/components/error-placeholder/error-message.js:32
 #: packages/woocommerce-blocks/build/product-best-sellers.js:1
@@ -6447,15 +6451,6 @@ msgstr "Mostra un elenco di tutte le recensioni del prodotto."
 #: packages/woocommerce-blocks/build/product-category-legacy.js:1
 msgid "The following error was returned from the API"
 msgstr "Il seguente errore è stato restituito dall'API"
-
-#: packages/woocommerce-blocks/assets/js/blocks/reviews/reviews-by-category/no-reviews-placeholder.js:15
-#: packages/woocommerce-blocks/assets/js/blocks/reviews/reviews-by-category/edit.js:137
-#: packages/woocommerce-blocks/assets/js/blocks/reviews/reviews-by-category/edit.js:177
-#: packages/woocommerce-blocks/assets/js/blocks/reviews/reviews-by-category/index.js:21
-#: packages/woocommerce-blocks/build/reviews-by-category.js:1
-#: packages/woocommerce-blocks/build/reviews-by-category-legacy.js:1
-msgid "Reviews by Category"
-msgstr "Recensioni per categoria"
 
 #: packages/woocommerce-blocks/assets/js/components/error-placeholder/error-message.js:10
 #: packages/woocommerce-blocks/build/product-best-sellers.js:1
@@ -6498,6 +6493,15 @@ msgstr "Si è verificato un errore sconosciuto che impedisce l'aggiornamento del
 #: packages/woocommerce-blocks/build/reviews-by-product.js:1
 msgid "Sorry, an error occurred"
 msgstr "Siamo spiacenti, si è verificato un errore"
+
+#: packages/woocommerce-blocks/assets/js/blocks/reviews/reviews-by-category/no-reviews-placeholder.js:15
+#: packages/woocommerce-blocks/assets/js/blocks/reviews/reviews-by-category/edit.js:137
+#: packages/woocommerce-blocks/assets/js/blocks/reviews/reviews-by-category/edit.js:177
+#: packages/woocommerce-blocks/assets/js/blocks/reviews/reviews-by-category/index.js:21
+#: packages/woocommerce-blocks/build/reviews-by-category.js:1
+#: packages/woocommerce-blocks/build/reviews-by-category-legacy.js:1
+msgid "Reviews by Category"
+msgstr "Recensioni per categoria"
 
 #: packages/woocommerce-admin/dist/app/index.js:27
 #: packages/woocommerce-blocks/assets/js/components/error-placeholder/index.js:33
@@ -7448,54 +7452,6 @@ msgstr "Periodo precedente"
 #: packages/woocommerce-admin/dist/date/index.js:1
 #: packages/woocommerce-blocks/build/vendors.js:6
 #: packages/woocommerce-blocks/build/vendors-legacy.js:6
-msgid "Last Year"
-msgstr "Ultimo anno"
-
-#: packages/woocommerce-admin/dist/date/index.js:1
-#: packages/woocommerce-blocks/build/vendors.js:6
-#: packages/woocommerce-blocks/build/vendors-legacy.js:6
-msgid "Year to Date"
-msgstr "Da anno a data"
-
-#: packages/woocommerce-admin/dist/date/index.js:1
-#: packages/woocommerce-blocks/build/vendors.js:6
-#: packages/woocommerce-blocks/build/vendors-legacy.js:6
-msgid "Last Quarter"
-msgstr "Ultimo trimestre"
-
-#: packages/woocommerce-admin/dist/date/index.js:1
-#: packages/woocommerce-blocks/build/vendors.js:6
-#: packages/woocommerce-blocks/build/vendors-legacy.js:6
-msgid "Quarter to Date"
-msgstr "Da trimestre a data"
-
-#: packages/woocommerce-admin/dist/date/index.js:1
-#: packages/woocommerce-blocks/build/vendors.js:6
-#: packages/woocommerce-blocks/build/vendors-legacy.js:6
-msgid "Last Month"
-msgstr "Ultimo mese"
-
-#: packages/woocommerce-admin/dist/date/index.js:1
-#: packages/woocommerce-blocks/build/vendors.js:6
-#: packages/woocommerce-blocks/build/vendors-legacy.js:6
-msgid "Month to Date"
-msgstr "Da mese a data"
-
-#: packages/woocommerce-admin/dist/date/index.js:1
-#: packages/woocommerce-blocks/build/vendors.js:6
-#: packages/woocommerce-blocks/build/vendors-legacy.js:6
-msgid "Last Week"
-msgstr "Ultima settimana"
-
-#: packages/woocommerce-admin/dist/date/index.js:1
-#: packages/woocommerce-blocks/build/vendors.js:6
-#: packages/woocommerce-blocks/build/vendors-legacy.js:6
-msgid "Week to Date"
-msgstr "Da settimana a data"
-
-#: packages/woocommerce-admin/dist/date/index.js:1
-#: packages/woocommerce-blocks/build/vendors.js:6
-#: packages/woocommerce-blocks/build/vendors-legacy.js:6
 msgid "Yesterday"
 msgstr "Ieri"
 
@@ -7630,6 +7586,54 @@ msgstr "Seleziona almeno due codici spesa di seguito per effettuare un confronto
 #: packages/woocommerce-blocks/build/vendors-legacy.js:6
 msgid "MM/DD/YYYY"
 msgstr "DD/MM/YYYY"
+
+#: packages/woocommerce-admin/dist/date/index.js:1
+#: packages/woocommerce-blocks/build/vendors.js:6
+#: packages/woocommerce-blocks/build/vendors-legacy.js:6
+msgid "Year to Date"
+msgstr "Anno corrente"
+
+#: packages/woocommerce-admin/dist/date/index.js:1
+#: packages/woocommerce-blocks/build/vendors.js:6
+#: packages/woocommerce-blocks/build/vendors-legacy.js:6
+msgid "Quarter to Date"
+msgstr "Trimestre corrente"
+
+#: packages/woocommerce-admin/dist/date/index.js:1
+#: packages/woocommerce-blocks/build/vendors.js:6
+#: packages/woocommerce-blocks/build/vendors-legacy.js:6
+msgid "Month to Date"
+msgstr "Mese corrente"
+
+#: packages/woocommerce-admin/dist/date/index.js:1
+#: packages/woocommerce-blocks/build/vendors.js:6
+#: packages/woocommerce-blocks/build/vendors-legacy.js:6
+msgid "Week to Date"
+msgstr "Settimana corrente"
+
+#: packages/woocommerce-admin/dist/date/index.js:1
+#: packages/woocommerce-blocks/build/vendors.js:6
+#: packages/woocommerce-blocks/build/vendors-legacy.js:6
+msgid "Last Year"
+msgstr "Anno precedente"
+
+#: packages/woocommerce-admin/dist/date/index.js:1
+#: packages/woocommerce-blocks/build/vendors.js:6
+#: packages/woocommerce-blocks/build/vendors-legacy.js:6
+msgid "Last Quarter"
+msgstr "Trimestre precedente"
+
+#: packages/woocommerce-admin/dist/date/index.js:1
+#: packages/woocommerce-blocks/build/vendors.js:6
+#: packages/woocommerce-blocks/build/vendors-legacy.js:6
+msgid "Last Month"
+msgstr "Mese precedente"
+
+#: packages/woocommerce-admin/dist/date/index.js:1
+#: packages/woocommerce-blocks/build/vendors.js:6
+#: packages/woocommerce-blocks/build/vendors-legacy.js:6
+msgid "Last Week"
+msgstr "Settimana precedente"
 
 #: packages/woocommerce-blocks/assets/js/blocks/handpicked-products/block.js:139
 #: packages/woocommerce-blocks/assets/js/blocks/handpicked-products/index.js:24
@@ -8076,25 +8080,6 @@ msgstr "Visualizza una griglia dei prodotti più venduti di tutti i tempi."
 msgid "Best Selling Products"
 msgstr "Prodotti più venduti"
 
-#: packages/woocommerce-blocks/assets/js/blocks/product-tag/block.js:293
-#: packages/woocommerce-blocks/build/product-tag-legacy.js:1
-#: packages/woocommerce-blocks/build/product-tag.js:1
-msgid "This block displays products from selected tags. In order to preview this you'll first need to create a product and assign it some tags."
-msgstr "Questo blocco mostra prodotti dai tag selezionati. Per poter visualizzare un'anteprima, innanzitutto devi creare un prodotto e assegnargli alcuni tag."
-
-#: packages/woocommerce-blocks/assets/js/blocks/product-tag/block.js:240
-#: packages/woocommerce-blocks/build/product-tag-legacy.js:1
-#: packages/woocommerce-blocks/build/product-tag.js:1
-msgid "This block displays products from selected tags. Select at least one tag to display its products."
-msgstr "Questo blocco mostra prodotti dai tag selezionati. Seleziona almeno un tag per visualizzarne i prodotti."
-
-#: packages/woocommerce-blocks/assets/js/blocks/product-tag/block.js:162
-#: packages/woocommerce-blocks/assets/js/blocks/product-tag/block.js:171
-#: packages/woocommerce-blocks/build/product-tag-legacy.js:1
-#: packages/woocommerce-blocks/build/product-tag.js:1
-msgid "Showing Products by Tag block preview."
-msgstr "Visualizzazione dell'anteprima del blocco dei prodotti per tag."
-
 #: packages/woocommerce-blocks/assets/js/blocks/product-best-sellers/block.js:54
 #: packages/woocommerce-blocks/assets/js/blocks/product-new/block.js:54
 #: packages/woocommerce-blocks/assets/js/blocks/product-top-rated/block.js:54
@@ -8127,6 +8112,34 @@ msgstr "Filtra per categoria di prodotti"
 #: packages/woocommerce-blocks/build/product-category-legacy.js:1
 msgid "All selected categories"
 msgstr "Tutte le categorie selezionate"
+
+#: packages/woocommerce-blocks/assets/js/blocks/product-tag/block.js:293
+#: packages/woocommerce-blocks/build/product-tag-legacy.js:1
+#: packages/woocommerce-blocks/build/product-tag.js:1
+msgid "This block displays products from selected tags. In order to preview this you'll first need to create a product and assign it some tags."
+msgstr "Questo blocco mostra prodotti dai tag selezionati. Per poter visualizzare un'anteprima, innanzitutto devi creare un prodotto e assegnargli alcuni tag."
+
+#: packages/woocommerce-blocks/assets/js/blocks/product-tag/block.js:240
+#: packages/woocommerce-blocks/build/product-tag-legacy.js:1
+#: packages/woocommerce-blocks/build/product-tag.js:1
+msgid "This block displays products from selected tags. Select at least one tag to display its products."
+msgstr "Questo blocco mostra prodotti dai tag selezionati. Seleziona almeno un tag per visualizzarne i prodotti."
+
+#: packages/woocommerce-blocks/assets/js/blocks/product-tag/block.js:162
+#: packages/woocommerce-blocks/assets/js/blocks/product-tag/block.js:171
+#: packages/woocommerce-blocks/build/product-tag-legacy.js:1
+#: packages/woocommerce-blocks/build/product-tag.js:1
+msgid "Showing Products by Tag block preview."
+msgstr "Visualizzazione dell'anteprima del blocco dei prodotti per tag."
+
+#: packages/woocommerce-blocks/assets/js/blocks/product-tag/block.js:181
+#: packages/woocommerce-blocks/assets/js/blocks/product-tag/block.js:234
+#: packages/woocommerce-blocks/assets/js/blocks/product-tag/block.js:287
+#: packages/woocommerce-blocks/assets/js/blocks/product-tag/index.js:19
+#: packages/woocommerce-blocks/build/product-tag-legacy.js:1
+#: packages/woocommerce-blocks/build/product-tag.js:1
+msgid "Products by Tag"
+msgstr "Prodotti per tag"
 
 #: packages/woocommerce-blocks/assets/js/components/product-category-control/index.js:164
 #: packages/woocommerce-blocks/build/product-best-sellers.js:1
@@ -8181,15 +8194,6 @@ msgstr "Scegli almeno due categorie per usare questa impostazione."
 #: packages/woocommerce-blocks/build/product-category-legacy.js:1
 msgid "Category search results updated."
 msgstr "Risultati della ricerca delle categorie aggiornati."
-
-#: packages/woocommerce-blocks/assets/js/blocks/product-tag/block.js:181
-#: packages/woocommerce-blocks/assets/js/blocks/product-tag/block.js:234
-#: packages/woocommerce-blocks/assets/js/blocks/product-tag/block.js:287
-#: packages/woocommerce-blocks/assets/js/blocks/product-tag/index.js:19
-#: packages/woocommerce-blocks/build/product-tag-legacy.js:1
-#: packages/woocommerce-blocks/build/product-tag.js:1
-msgid "Products by Tag"
-msgstr "Prodotti per tag"
 
 #: packages/woocommerce-blocks/assets/js/components/product-category-control/index.js:111
 #: packages/woocommerce-blocks/build/product-best-sellers.js:1
@@ -8518,32 +8522,6 @@ msgid_plural "%d tags selected"
 msgstr[0] "%d tag selezionato"
 msgstr[1] "%d tag selezionati"
 
-#: packages/woocommerce-blocks/assets/js/components/product-tag-control/index.js:104
-#: packages/woocommerce-blocks/build/product-tag-legacy.js:1
-#: packages/woocommerce-blocks/build/product-tag.js:1
-msgid "Search for product tags"
-msgstr "Cerca tag dei prodotti"
-
-#: packages/woocommerce-blocks/assets/js/components/product-tag-control/index.js:100
-#: packages/woocommerce-blocks/build/product-tag-legacy.js:1
-#: packages/woocommerce-blocks/build/product-tag.js:1
-msgid "Your store doesn't have any product tags."
-msgstr "Il tuo negozio non ha tag di prodotti."
-
-#: packages/woocommerce-blocks/assets/js/components/product-tag-control/index.js:95
-#: packages/woocommerce-blocks/build/product-tag-legacy.js:1
-#: packages/woocommerce-blocks/build/product-tag.js:1
-msgid "Clear all product tags"
-msgstr "Cancella tutti i tag dei prodotti"
-
-#: packages/woocommerce-blocks/assets/js/components/product-tag-control/index.js:77
-#: packages/woocommerce-blocks/build/product-tag-legacy.js:1
-#: packages/woocommerce-blocks/build/product-tag.js:1
-msgid "%d product tagged as %s"
-msgid_plural "%d products tagged as %s"
-msgstr[0] "%d prodotto con tag %s"
-msgstr[1] "%d prodotti con tag %s"
-
 #: packages/woocommerce-blocks/assets/js/components/product-orderby-control/index.js:60
 #: packages/woocommerce-blocks/assets/js/blocks/products/edit.js:75
 #: packages/woocommerce-blocks/build/product-on-sale-legacy.js:1
@@ -8573,6 +8551,32 @@ msgstr "Ordinamento menu"
 #: packages/woocommerce-blocks/build/product-category-legacy.js:1
 msgid "Title - alphabetical"
 msgstr "Titolo: alfabetico"
+
+#: packages/woocommerce-blocks/assets/js/components/product-tag-control/index.js:104
+#: packages/woocommerce-blocks/build/product-tag-legacy.js:1
+#: packages/woocommerce-blocks/build/product-tag.js:1
+msgid "Search for product tags"
+msgstr "Cerca tag dei prodotti"
+
+#: packages/woocommerce-blocks/assets/js/components/product-tag-control/index.js:100
+#: packages/woocommerce-blocks/build/product-tag-legacy.js:1
+#: packages/woocommerce-blocks/build/product-tag.js:1
+msgid "Your store doesn't have any product tags."
+msgstr "Il tuo negozio non ha tag di prodotti."
+
+#: packages/woocommerce-blocks/assets/js/components/product-tag-control/index.js:95
+#: packages/woocommerce-blocks/build/product-tag-legacy.js:1
+#: packages/woocommerce-blocks/build/product-tag.js:1
+msgid "Clear all product tags"
+msgstr "Cancella tutti i tag dei prodotti"
+
+#: packages/woocommerce-blocks/assets/js/components/product-tag-control/index.js:77
+#: packages/woocommerce-blocks/build/product-tag-legacy.js:1
+#: packages/woocommerce-blocks/build/product-tag.js:1
+msgid "%d product tagged as %s"
+msgid_plural "%d products tagged as %s"
+msgstr[0] "%d prodotto con tag %s"
+msgstr[1] "%d prodotti con tag %s"
 
 #: packages/woocommerce-blocks/assets/js/components/product-orderby-control/index.js:46
 #: packages/woocommerce-blocks/assets/js/blocks/products/edit.js:68

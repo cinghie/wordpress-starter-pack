@@ -746,9 +746,8 @@ class WooSEA_Get_Products {
 							}
 	
 							// WooCommerce Table Rate Bolder Elements
-                                                        if(class_exists('BE_Table_Rate_WC')){
+                                                        if(is_plugin_active( 'woocommerce-table-rate-shipping/woocommerce-table-rate-shipping.php' )) {
                                                                 // Set shipping cost
-
 								$shipping_cost = 0;     
                                                                 if(!empty($product_id)){
                                                                          // Add product to cart
@@ -756,24 +755,21 @@ class WooSEA_Get_Products {
                                                                                 $quantity = 1;
                                                                               
 										if(!empty($code_from_config)){
-
-											if($code_from_config == null){	
-                                                                                		$set_country = WC()->customer->set_shipping_country(wc_clean( $code_from_config ));
-                                                                                		if(isset($zone_details['region'])){
-									        			WC()->customer->set_shipping_state(wc_clean( $zone_details['region'] ));
-												}
-                                                                                		//$cart = new WC_Cart(); 
-                                                                                		WC()->cart->add_to_cart( $product_id, $quantity );
-                                                                                
-                                                                                		// Read cart and get schipping costs
-                                                                                		foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
-													$total_cost = WC()->cart->get_total();
-                                                                                        		$shipping_cost = WC()->cart->get_shipping_total();
-													$shipping_cost = wc_format_localized_price($shipping_cost);
-                                                                                		}
-                                                                                		// Make sure to empty the cart again
-                                                                                		WC()->cart->empty_cart();
+			                                                               	WC()->customer->set_shipping_country(wc_clean( $code_from_config ));
+                                                                                	if(isset($zone_details['region'])){
+									        		WC()->customer->set_shipping_state(wc_clean( $zone_details['region'] ));
 											}
+                                                                                		
+											WC()->cart->add_to_cart( $product_id, $quantity );
+                                                                                
+                                                                                	// Read cart and get schipping costs
+                                                                                	foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+												$total_cost = WC()->cart->get_total();
+                                                                                        	$shipping_cost = WC()->cart->get_shipping_total();
+												$shipping_cost = wc_format_localized_price($shipping_cost);
+                                                                                	}
+                                                                                	// Make sure to empty the cart again
+                                                                                	WC()->cart->empty_cart();
 										}
                                                                         }
                                                                 }
@@ -2985,10 +2981,12 @@ class WooSEA_Get_Products {
                                                 $value_display = str_replace("_", " ",$value->name);
                                                 if (preg_match("/_product_attributes/i",$value->name)){
                                                         $product_attr = unserialize($value->type);
-                                                        foreach ($product_attr as $key => $arr_value) {
-                                                                $new_key ="custom_attributes_" . $key;
-                                                                $product_data[$new_key] = $arr_value['value'];
-							 }
+                                                        if(!empty($product_attr)){
+								foreach ($product_attr as $key => $arr_value) {
+                                                                	$new_key ="custom_attributes_" . $key;
+                                                                	$product_data[$new_key] = $arr_value['value'];
+							 	}
+							}
                                                 }
                                         }
                                 }
@@ -3634,7 +3632,7 @@ class WooSEA_Get_Products {
         						if (! wp_next_scheduled ( 'woosea_create_batch_event', array($feed_config[$key]['project_hash']) ) ) {
 								wp_schedule_single_event( time() + 2, 'woosea_create_batch_event', array($feed_config[$key]['project_hash']) );
 								$batch_project = "batch_project_".$feed_config[$key]['project_hash'];
-								update_option( $batch_project, $val);
+								update_option( $batch_project, $val, 'no');
 							}
 						} else {
 							// No batch is needed, already done processing all products
