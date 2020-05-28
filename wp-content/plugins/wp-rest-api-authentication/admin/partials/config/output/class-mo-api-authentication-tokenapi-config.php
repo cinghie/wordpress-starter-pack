@@ -19,7 +19,7 @@ class Mo_API_Authentication_Admin_TokenAPI_Config {
 	<div id="mo_api_authentication_support_layout" class="mo_api_authentication_support_layout">
 	<div id="mo_api_authentication_support_tokenapi" class="mo_api_authentication_common_div_css">
 		<div>
-			<h3>API Key Details : </h3>
+			<h3>Universal API Key: </h3>
 			<h4>You can use the below API key to authenticate your WordPress REST APIs.</h4>
 			<table class="mo_api_authentication_settings_table">
 				<tr>
@@ -31,7 +31,33 @@ class Mo_API_Authentication_Admin_TokenAPI_Config {
 							<button onclick="showAPIKey()" class="mo_api_auth_bearer_token_show_button">Show</button>
 						</div>
 						<br>
-						<a id="regeneratetoken" name="action" style="cursor:pointer;font-size:14px" onclick="regenerateAndCopyToken()"><b>Generate New Token</b></a>
+						<a id="regeneratetoken" name="action" style="cursor:pointer;font-size:14px" onclick="regenerateAndCopyToken()"><b>Generate New Key</b></a>
+				</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	</div>
+	<br>
+	<div id="mo_api_authentication_support_layout" class="mo_api_authentication_support_layout">
+	<div id="mo_api_authentication_support_tokenapi" class="mo_api_authentication_common_div_css">
+		<div>
+			<h3>Create User Specific API Keys <a href="admin.php?page=mo_api_authentication_settings&tab=licensing" target="_blank" rel="noopener noreferrer" style="font-size: small">[PREMIUM]</a>: </h3>
+			<h4>Select the User from your WordPress database to create a new API Key.</h4>
+			<table class="mo_api_authentication_settings_table">
+				<tr>
+					<td style="vertical-align:top"><h4 style="font-size:16px;margin-top:15px;">WordPress Username : </h4></td>
+					<td>	
+						<?php $users = get_users();?>
+						<select readonly style="width:100%;margin-top:15px">
+						<?php foreach($users as $user){
+						?>
+							<option><?php echo $user->user_login; ?></option>
+						<?php
+						} ?>
+						</select>
+						<br>
+						<button disabled style="margin-top:15px; width:170px;" class="button button-primary button-large">Create API Key</button>
 				</td>
 				</tr>
 			</table>

@@ -70,7 +70,7 @@ class Miniorange_api_authentication {
 		if ( defined( 'MINIORANGE_API_AUTHENTICATION_VERSION' ) ) {
 			$this->version = MINIORANGE_API_AUTHENTICATION_VERSION;
 		} else {
-			$this->version = '1.3.0';
+			$this->version = '1.3.4';
 		}
 		update_option( "mo_api_authentication_current_plugin_version ", $this->version );
 		$this->plugin_name = 'miniorange-api-authentication';

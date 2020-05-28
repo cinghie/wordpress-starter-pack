@@ -173,16 +173,11 @@ class Miniorange_API_Authentication_Admin {
         }
 
 
-        $current_route = self::get_current_route();
+		$current_route = self::get_current_route();
+	
 
         if ( self::is_whitelisted( $current_route ) ) {
-            $response = array(
-                'status' => "error",
-                'error' => 'FORBIDDEN',
-                'code' => '400',
-                'error_description' => 'Sorry, you are not allowed to access REST API.'
-            );
-            wp_send_json($response, 403);
+			return false;
         }
         return $access;
 
@@ -219,8 +214,21 @@ class Miniorange_API_Authentication_Admin {
 	}
 
 	public function mo_api_auth_initialize_api_flow() {
-		if ( ! isset( $_GET['page'] ) )
-			update_option( 'mo_api_authentication_last_requested_api', $_SERVER['REQUEST_URI'] );
+		if ( ! isset( $_GET['page'] ) ) {
+			$api               = $_SERVER['REQUEST_URI'];
+			$method            = $_SERVER['REQUEST_METHOD'];
+			$lastrequestedapis = get_option( 'mo_api_authentication_last_requested_api' );
+			if ( ! $lastrequestedapis )
+				$lastrequestedapis = array();
+				
+			if ( is_array($lastrequestedapis) && ! isset( $lastrequestedapis[$api] ) ) {
+				$count = count( $lastrequestedapis );
+			    if ( $count >= 5 )
+			        array_shift( $lastrequestedapis );
+				$lastrequestedapis[$api] = $method;
+				update_option( 'mo_api_authentication_last_requested_api', $lastrequestedapis );
+			}
+		}
 		if ( !mo_api_auth_user_has_capability() ) {
 			if(strpos($_SERVER['REQUEST_URI'], '/api/v1/token') !== false  && get_option( 'mo_api_authentication_selected_authentication_method' ) === 'jwt_auth' ) {
 				$json = file_get_contents('php://input');
@@ -377,7 +385,8 @@ class Miniorange_API_Authentication_Admin {
 					update_option( 'mo_api_authentication_admin_customer_key', $customerKey['id'] );
 					update_option( 'mo_api_authentication_admin_api_key', $customerKey['apiKey'] );
 					update_option( 'customer_token', $customerKey['token'] );
-					update_option( 'mo_api_authentication_admin_phone', $customerKey['phone'] );
+					if( isset( $customerKey['phone'] ) )
+						update_option( 'mo_api_authentication_admin_phone', $customerKey['phone'] );
 					delete_option( 'password' );
 					update_option( 'mo_api_auth_message', 'Customer retrieved successfully');
 					delete_option( 'mo_api_authentication_verify_customer' );

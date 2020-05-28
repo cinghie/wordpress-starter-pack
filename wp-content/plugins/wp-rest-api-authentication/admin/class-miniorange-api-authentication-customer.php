@@ -273,12 +273,17 @@ class Miniorange_API_Authentication_Customer {
 		$config_to_send         = json_encode( $plugin_config, JSON_UNESCAPED_SLASHES );
 		$last_requested_api     = get_option( 'mo_api_authentication_last_requested_api' );
 		$site_url               = site_url();
-		
+		$apis                   = "";
 		$version = get_option("mo_api_authentication_current_plugin_version");
 		wp_get_current_user();
 		$query = '[WP REST API Authentication] version ' . $version . " - " . $query;
+		if ( ! empty( $last_requested_api ) ) {
+			foreach( $last_requested_api as $api => $method ){
+				$apis .= $method." ".$api.'<br>';
+			}
+		}
 		if( $send_config ) {
-			$query .= "<br><br>Config String:<br><pre style=\"border:1px solid #444;padding:10px;\"><code>" . $config_to_send . "<br><br>API : ". $last_requested_api . "</code></pre>";
+			$query .= "<br><br>Config String:<br><pre style=\"border:1px solid #444;padding:10px;\"><code>" . $config_to_send . "<br><br>APIs : <br>". $apis . "</code></pre>";
 		}
 
 		$fields = array(
@@ -331,14 +336,20 @@ class Miniorange_API_Authentication_Customer {
 		$timestampHeader 	= "Timestamp: " .  $currentTimeInMillis;
 		$authorizationHeader= "Authorization: " . $hashValue;
 		$fromEmail 			= $email;
-		$site_url=site_url();
+		$site_url           = site_url();
+		$apis               = "";
 
+		if ( ! empty( $last_requested_api ) ) {
+			foreach( $last_requested_api as $api => $method ){
+				$apis .= $method." ".$api.'<br>';
+			}
+		}
 		global $user;
 		$user         = wp_get_current_user();
 		$query        = '[WP REST API Authentication] : ' . $message;
 
 		$content='<div >Hello, <br><br>First Name :'.$user->user_firstname.'<br><br>Last  Name :'.$user->user_lastname.'   <br><br>Company :<a href="'.$site_url.'" target="_blank" >'.$site_url.'</a><br><br>Phone Number :'.$phone.'<br><br>Email :<a href="mailto:'.$fromEmail.'" target="_blank">'.$fromEmail.'</a><br><br>Query :'.$query.'</div>';
-		$content .= "<br><br>Config String:<br><pre style=\"border:1px solid #444;padding:10px;\"><code>" . $config_to_send . "<br><br>API : ". $last_requested_api . "</code></pre>";
+		$content .= "<br><br>Config String:<br><pre style=\"border:1px solid #444;padding:10px;\"><code>" . $config_to_send . "<br><br>APIs :<br>". $apis . "</code></pre>";
 
 		$fields = array(
 			'customerKey'	=> $customerKey,

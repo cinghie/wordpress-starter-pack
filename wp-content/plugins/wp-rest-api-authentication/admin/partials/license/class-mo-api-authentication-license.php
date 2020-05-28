@@ -211,7 +211,8 @@ class Mo_API_Authentication_Admin_License {
                                 <div class="moc-licensing-plan-feature-list">
                                     <ul>
                                         <li>&#9989;&emsp;Single App Support</li>
-                                        <li>&#9989;&emsp;User specific API keys (Access to only specific user data)</li>
+                                        <li>&#9989;&emsp;Universal+User specific API keys </li>
+                                        <li>&#9989;&emsp;User specific Client Credentials </li>
                                         <li>&#9989;&emsp;Advanced Basic Authentication<br> 1. Using Username : Password <br> 2. Using Client ID : Client Secret</li>
                                         <li>&#9989;&emsp;JWT Authentication</li>
                                         <li>&#9989;&emsp;Signature Validation : HSA & RSA Signing</li>
@@ -252,7 +253,8 @@ class Mo_API_Authentication_Admin_License {
                                 <div class="moc-licensing-plan-feature-list">
                                     <ul>
                                         <li>&#9989;&emsp;Single App Support</li>
-                                        <li>&#9989;&emsp;User specific API keys (Access to only specific user data)</li>
+                                        <li>&#9989;&emsp;Universal+User specific API keys </li>
+                                        <li>&#9989;&emsp;User specific Client Credentials</li>
                                         <li>&#9989;&emsp;Advanced Basic Authentication<br> 1. Using Username : Password <br> 2. Using Client ID : Client Secret</li>
                                         <li>&#9989;&emsp;JWT Authentication</li>
                                         <li>&#9989;&emsp;Signature Validation : HSA & RSA Signing</li>

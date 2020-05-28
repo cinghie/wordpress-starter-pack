@@ -2,8 +2,8 @@
 Contributors: cyberlord92
 Tags: authentication, rest api, rest, oauth, jwt
 Requires at least: 3.0.1
-Tested up to: 5.4
-Stable tag: 1.3.3
+Tested up to: 5.3.1
+Stable tag: 1.3.5
 License: MIT/Expat
 License URI: https://docs.miniorange.com/mit-license
 
@@ -14,8 +14,6 @@ WordPress REST API Authentication secures rest API access for unauthorized users
 Wordpress REST API Authentication plugin secures the unauthorized access to your WordPress site using different authentication credentials verification. This plugin doesn't requires much configuration.
 
 There are multiple ways to secure a REST APIs e.g. basic auth, OAuth, JWT etc. but one thing is sure that RESTful APIs should be stateless – so request authentication/authorization should not depend on cookies or sessions. Instead, each API request should come with some sort authentication credentials which must be validated on the server for each and every request.
-
-The plugin will also define the security levels of WordPress REST APIs according to the authentication method you choose. OAuth 2.0 authentication method prefers for the higher security of it.
 
 REST API Authentication Methods:
 *	Basic Authentication 
@@ -50,7 +48,6 @@ This section describes how to install the WordPress REST API Authentication and 
 2. Unzip and upload the `wp-rest-api-authentication` directory to your `/wp-content/plugins/` directory.
 3. Activate WordPress REST API Authentication from your Plugins page.
 
-We do provide the curl and postman requests format to make WordPress REST APIs call like /posts, /users etc. [https://developers.miniorange.com/docs/rest-api-authentication/wordpress/rest-api-authentication Developer Documentation]
 
 == Privacy ==
 
@@ -97,8 +94,11 @@ This plugin does store any user data.
 
 == Changelog ==
 
-= 1.3.3 =
-* Updated Licensing Plan UI
+= 1.3.5 =
+* Minor Bugfix
+
+= 1.3.4 =
+* Minor Bugfix
 
 = 1.3.2 =
 * Minor Bugfix

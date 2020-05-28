@@ -126,7 +126,9 @@ function mo_api_auth_restrict_rest_api_for_invalid_users()
 {
     $needle = array('/wp/v2/posts', '/wp/v2/comments', '/wp/v2/media');
     if(strpos_arr($_SERVER['REQUEST_URI'], $needle) !== false) {
-        if (!mo_api_auth_is_valid_request()) {
+		if(Miniorange_API_Authentication_Admin::whitelist_routes(true) === true){
+			return true;
+		}else if (!mo_api_auth_is_valid_request()) {
             $response = array(
                 'status' => "error",
                 'error' => 'UNAUTHORIZED',
@@ -135,7 +137,14 @@ function mo_api_auth_restrict_rest_api_for_invalid_users()
             wp_send_json($response, 401);
         }
     } else {
-        Miniorange_API_Authentication_Admin::whitelist_routes(true);
+		if(Miniorange_API_Authentication_Admin::whitelist_routes(true) === false){
+			$response = array(
+                'status' => "error",
+                'error' => 'UNAUTHORIZED',
+                'error_description' => 'Sorry, you are not allowed to access REST API.'
+            );
+            wp_send_json($response, 401);
+		}
     }
 }
 

@@ -15,11 +15,39 @@
 class Mo_API_Authentication_Admin_Basic_Auth_Config {
 	
 	public static function mo_api_auth_configuration_output() {
+		$basic_auth_key = get_option( 'mo_api_authentication_authentication_key' );
+		if( $basic_auth_key == 'cid_secret' ) {
 		?>
+		<div id="mo_api_authentication_support_layout" class="mo_api_authentication_support_layout">
+		<div id="mo_api_authentication_support_tokenapi" class="mo_api_authentication_common_div_css">
+			<div>
+				<h3>Create User Specific Client Credentials - <a href="admin.php?page=mo_api_authentication_settings&tab=licensing" target="_blank" rel="noopener noreferrer" style="font-size: small">[PREMIUM]</a>: </h3>
+				<h4>Select the User from your WordPress database to create as client ID and client Secret.</h4>
+				<table class="mo_api_authentication_settings_table">
+					<tr>
+						<td style="vertical-align:top"><h4 style="font-size:16px;margin-top:15px;">WordPress Username : </h4></td>
+						<td>	
+							<?php $users = get_users();?>
+							<select readonly style="width:100%;margin-top:15px">
+							<?php foreach($users as $user){
+							?>
+								<option><?php echo $user->user_login; ?></option>
+							<?php
+							} ?>
+							</select>
+							<br>
+							<button disabled style="margin-top:15px; width:170px;" class="button button-primary button-large">Create API Key</button>
+					</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		</div>
+		<br>
+		<?php } ?>
 		<div id="mo_api_authentication_support_layout" class="mo_api_authentication_support_layout">
 		<div>
 		<?php
-		$basic_auth_key = get_option( 'mo_api_authentication_authentication_key' );
 		if( $basic_auth_key == 'cid_secret' ) {
 		?>
 		<div id="mo_api_authentication_support_tokenapi" class="mo_api_authentication_common_div_css">

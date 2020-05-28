@@ -212,7 +212,7 @@ msgstr "Commenti"
 msgid "Comments are closed."
 msgstr "I commenti sono chiusi"
 
-#: inc/starter-content.php:176 inc/starter-content.php:186 functions.php:494
+#: functions.php:492 inc/starter-content.php:176 inc/starter-content.php:186
 msgid "Primary"
 msgstr "Principale"
 
@@ -229,7 +229,7 @@ msgstr "Modifica <span class=\"screen-reader-text\">%s</span>"
 msgid "Footer Menu"
 msgstr "Menu nel footer"
 
-#: template-parts/content-cover.php:138 template-parts/content.php:48
+#: template-parts/content.php:48 template-parts/content-cover.php:138
 msgid "Pages:"
 msgstr "Pagine:"
 
@@ -237,11 +237,11 @@ msgstr "Pagine:"
 msgid "Footer"
 msgstr "Footer"
 
-#: template-parts/content-cover.php:138 template-parts/content.php:48
+#: template-parts/content.php:48 template-parts/content-cover.php:138
 msgid "Page"
 msgstr "Pagina"
 
-#: functions.php:499
+#: functions.php:497
 msgid "Secondary"
 msgstr "Secondario"
 
@@ -339,27 +339,27 @@ msgstr "Orizzontale"
 msgid "Continue reading"
 msgstr "Continua a leggere"
 
-#: functions.php:551
+#: functions.php:549
 msgctxt "Short name of the larger font size in the block editor."
 msgid "XL"
 msgstr "XL"
 
-#: functions.php:545
+#: functions.php:543
 msgctxt "Short name of the large font size in the block editor."
 msgid "L"
 msgstr "L"
 
-#: functions.php:539
+#: functions.php:537
 msgctxt "Short name of the regular font size in the block editor."
 msgid "M"
 msgstr "M"
 
-#: functions.php:533
+#: functions.php:531
 msgctxt "Short name of the small font size in the block editor."
 msgid "S"
 msgstr "S"
 
-#: functions.php:517
+#: functions.php:515
 msgid "Background Color"
 msgstr "Colore di sfondo"
 
@@ -417,27 +417,27 @@ msgctxt "placeholder"
 msgid "Search &hellip;"
 msgstr "Cerca &hellip;"
 
-#: functions.php:550
+#: functions.php:548
 msgctxt "Name of the larger font size in the block editor"
 msgid "Larger"
 msgstr "Più grande"
 
-#: functions.php:544
+#: functions.php:542
 msgctxt "Name of the large font size in the block editor"
 msgid "Large"
 msgstr "Grande"
 
-#: functions.php:538
+#: functions.php:536
 msgctxt "Name of the regular font size in the block editor"
 msgid "Regular"
 msgstr "Normale"
 
-#: functions.php:532
+#: functions.php:530
 msgctxt "Name of the small font size in the block editor"
 msgid "Small"
 msgstr "Piccolo"
 
-#: functions.php:489
+#: functions.php:487
 msgid "Accent Color"
 msgstr "Colore di risalto"
 
@@ -519,7 +519,7 @@ msgstr "Menù orizzontale per desktop"
 msgid "By Post Author"
 msgstr "Dell'autore dell'articolo"
 
-#: functions.php:504
+#: functions.php:502
 msgid "Subtle Background"
 msgstr "Sfondo delicato"
 

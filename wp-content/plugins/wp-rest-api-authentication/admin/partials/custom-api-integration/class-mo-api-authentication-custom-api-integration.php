@@ -26,6 +26,11 @@
 							<td> <img src="<?php echo plugin_dir_url( __FILE__ ).'../../images/buddypress.png'; ?>" width="50px"> </td>
 							<td> BuddyPress </td>
 						</tr>
+						<tr>
+						  	<td><input type="checkbox" disabled></td>
+							<td> <img src="<?php echo plugin_dir_url( __FILE__ ).'../../images/gravityform.jpg'; ?>" width="50px"> </td>
+							<td> Gravity Form </td>
+						</tr>
 			    	</table>
 			</div>
 		<?php
