@@ -295,8 +295,6 @@ function getWooSingleAddToCartParams( $product_id, $qty = 1 ) {
 		$value_option = PixelYourSite\PYS()->getOption( 'woo_add_to_cart_value_option' );
 		$global_value = PixelYourSite\PYS()->getOption( 'woo_add_to_cart_value_global', 0 );
 
-		update_option('woo_add_to_cart_value_cog', $value_option);
-
 		$params['value']    = PixelYourSite\getWooEventValue( $value_option, $amount, $global_value, $product_id );
 		$params['currency'] = get_woocommerce_currency();
 
@@ -397,8 +395,6 @@ function getWooCartParams( $context = 'cart' ) {
         $amount = $params['value'] = WC()->cart->subtotal;
 		$value_option = PixelYourSite\PYS()->getOption( $value_option_option );
 		$global_value = PixelYourSite\PYS()->getOption( $value_global_option, 0 );
-
-		update_option('woo_initiate_checkout_value_cog', $value_option);
 
 		$params['value']    = PixelYourSite\getWooEventValueCart( $value_option, $amount, $global_value );
 		$params['currency'] = get_woocommerce_currency();
@@ -555,5 +551,22 @@ function getFDPPurchaseEventParams() {
     );
 
 
+    return $params;
+}
+
+function getCompleteRegistrationOrderParams() {
+    $params = array();
+    $order_key = sanitize_key( $_REQUEST['key']);
+    $order_id = (int) wc_get_order_id_by_order_key( $order_key );
+    $order = new \WC_Order( $order_id );
+
+    $amount = $order->get_total();
+    $value_option   = PixelYourSite\Facebook()->getOption( 'woo_complete_registration_custom_value' );
+    $global_value   = PixelYourSite\Facebook()->getOption( 'woo_complete_registration_global_value', 0 );
+    $percents_value = PixelYourSite\Facebook()->getOption( 'woo_complete_registration_percent_value', 100 );
+
+    $params['eventID'] = $order_id;
+    $params['value'] = PixelYourSite\getWooEventValueOrder( $value_option, $amount, $global_value, $order_id, "", $percents_value );
+    $params['currency'] = get_woocommerce_currency();
     return $params;
 }

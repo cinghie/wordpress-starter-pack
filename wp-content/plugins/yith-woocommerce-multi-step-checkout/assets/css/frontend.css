@@ -528,3 +528,14 @@ body.woocommerce-checkout #checkout_coupon {
     width: 100%;
     float: none;
 }
+
+/* === YITH Proteo === */
+.yith-wcms.theme-yith-proteo #order_review{
+    float: none;
+    width: auto;
+    padding: 0;
+}
+
+.yith-wcms.theme-yith-proteo #order_review .wc_payment_methods{
+    margin: 0 0 35px;
+}

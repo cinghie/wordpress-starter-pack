@@ -4,7 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import { ProductSaleBadge } from '@woocommerce/atomic-components/product';
-import { IconProductOnSale } from '@woocommerce/block-components/icons';
+import { Icon, tag } from '@woocommerce/icons';
 
 /**
  * Internal dependencies
@@ -18,12 +18,18 @@ const blockConfig = {
 		'woo-gutenberg-products-block'
 	),
 	icon: {
-		src: <IconProductOnSale />,
+		src: <Icon srcElement={ tag } />,
 		foreground: '#96588a',
 	},
 	supports: {
 		html: false,
 	},
+
+	/**
+	 * Renders the edit view for a block.
+	 *
+	 * @param {Object} props Props to pass to block.
+	 */
 	edit( props ) {
 		const { align, product } = props.attributes;
 

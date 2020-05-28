@@ -5,9 +5,14 @@ namespace PixelYourSite;
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
+use FacebookAds\Object\ServerSide\Event;
+use FacebookAds\Object\ServerSide\CustomData;
+use FacebookAds\Object\ServerSide\Content;
 
 class EventsManager {
-	
+
+    static public $facebookServerEvents = array();
+
 	public $doingAMP = false;
 
     private $dynamicEventsParams = array();
@@ -129,6 +134,8 @@ class EventsManager {
 
 	public function setupEventsParams() {
 
+        EventsManager::$facebookServerEvents = array();
+
 		// initial event
 		$this->addStaticEvent( 'init_event' );
 
@@ -148,6 +155,9 @@ class EventsManager {
 
 	    if ( isWooCommerceActive() && PYS()->getOption( 'woo_enabled' ) ) {
 			$this->setupWooCommerceEvents();
+            if(count(EventsManager::$facebookServerEvents)>0 && Facebook()->enabled()) {
+                Facebook()->trackEventByServerApi(EventsManager::$facebookServerEvents);
+            }
 	    }
 
 		if ( isEddActive() && PYS()->getOption( 'edd_enabled' ) ) {
@@ -180,10 +190,14 @@ class EventsManager {
 	 * @param string           $eventType Event name for internal usage
 	 * @param CustomEvent|null $customEvent
 	 */
-	private function addStaticEvent( $eventType, $customEvent = null ) {
+	private function addStaticEvent( $eventType, $customEvent = null, $filterPixelSlug = null ) {
 
 		foreach ( PYS()->getRegisteredPixels() as $pixel ) {
 			/** @var Pixel|Settings $pixel */
+
+            if($filterPixelSlug != null && $filterPixelSlug != $pixel->getSlug()) {
+                continue;
+            }
 
 			$eventData = $pixel->getEventData( $eventType, $customEvent );
 
@@ -338,9 +352,119 @@ class EventsManager {
 		// Purchase Event
 		if ( isEventEnabled( 'woo_purchase_enabled' ) && is_order_received_page() && isset( $_REQUEST['key'] ) ) {
 			$this->addStaticEvent( 'woo_purchase' );
+
+            if(Facebook()->enabled()) {
+                $eventData = Facebook()->getEventData( 'woo_purchase' );
+                if($eventData != null) {
+                    $this->addEventToFacebookServerApi(Facebook(),'woo_purchase',$eventData);
+                }
+            }
+
+            /**
+             * Add complete registration event
+             */
+            if ( Facebook()->enabled() && isEventEnabled( 'complete_registration_event_enabled' ) &&
+                Facebook()->getOption("woo_complete_registration_fire_every_time")
+            ) {
+
+                $this->addStaticEvent( 'complete_registration',null,"facebook"  );
+                // send by server api
+                $eventData = Facebook()->getEventData( 'complete_registration',null );
+                if($eventData != null) {
+                    $this->addEventToFacebookServerApi(Facebook(),'complete_registration',$eventData);
+                }
+
+            }
+
 		}
 
+
+
 	}
+
+    function addEventToFacebookServerApi($pixel,$eventType,$eventData) {
+        $isDisabled = apply_filters( 'pys_disable_by_gdpr', false ) ||
+            apply_filters( 'pys_disable_facebook_by_gdpr', false ) ||
+            isCookiebotPluginActivated() && PYS()->getOption( 'gdpr_cookiebot_integration_enabled' ) ||
+            isGingerPluginActivated() && PYS()->getOption( 'gdpr_ginger_integration_enabled' ) ||
+            isCookieNoticePluginActivated() && PYS()->getOption( 'gdpr_cookie_notice_integration_enabled' ) ||
+            isCookieLawInfoPluginActivated() && PYS()->getOption( 'gdpr_cookie_law_info_integration_enabled' );
+
+
+        if( !$isDisabled ) {
+            $name = $eventData['name'];
+            $data = $eventData['data'];
+
+            if(isset($data['contents'])) {
+                $contents = json_decode(stripslashes($data['contents']));
+                $data['contents']=$contents;
+            }
+
+            EventsManager::sendFbApiEvent($pixel,$name,$data);
+        }
+    }
+
+    static function sendFbApiEvent($pixel,$name,$data,$async = true) {
+
+        if(!$pixel->isServerApiEnabled() || !isset($data['eventID'])) return;
+
+        $event = ServerEventHelper::newEvent($name,$data['eventID']);
+        $event->setEventTime(time());
+
+        if(isset($data['contents']) && is_array($data['contents'])) {
+            $contents = array();
+            foreach ($data['contents'] as $c) {
+                $content = array();
+                $content['product_id'] = $c->id;
+                $content['quantity'] = $c->quantity;
+                $content['item_price'] = $c->item_price;
+                $contents[] = new Content($content);
+            }
+            $data['contents'] = $contents;
+        } else {
+            $data['contents'] = array();
+        }
+
+        $event->setCustomData(new CustomData($data));
+
+        $custom_data = $event->getCustomData();
+        if(isset($data['category_name'])) {
+            $custom_data->setContentCategory($data['category_name']);
+        }
+
+        //$custom_data->setOrderId($data['transaction_id']);
+        if($async) {
+            EventsManager::$facebookServerEvents[]=$event;
+            //$pixel->trackEventByServerApi($event);
+        } else {
+            Facebook::sendServerRequest(array($event));
+        }
+
+    }
+
+    static function sendApiEvent() {
+
+        $pixelName = $_POST['pixel'];
+        $event = $_POST['event'];
+        $data = $_POST['data'];
+
+        switch ($pixelName) {
+            case 'facebook': {
+                if(isset($data['content_ids'])) {
+                    $content_ids = json_decode(stripslashes($data['content_ids']));
+                    $data['content_ids']=$content_ids;
+                }
+                if(isset($data['contents'])) {
+                    $contents = json_decode(stripslashes($data['contents']));
+                    $data['contents']=$contents;
+                }
+                EventsManager::sendFbApiEvent(Facebook::instance(),$event,$data,false);
+                break;
+            }
+        }
+        /* echo "hi";
+         wp_die();*/
+    }
 
     public function setupWooLoopProductData()
     {
@@ -677,5 +801,6 @@ class EventsManager {
 	    <?php
 
     }
+
 
 }

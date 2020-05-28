@@ -7,7 +7,7 @@ $show_login_step = ! $is_user_logged_in && $enable_checkout_login_reminder;
 ?>
 <ul id="checkout_timeline" class="woocommerce_checkout_timeline <?php echo $display ?> <?php echo $style ?> <?php echo $remove_shipping_step ? 'shipping_removed' : ''; ?>">
     <?php if( $show_login_step ) : ?>
-        <li id="timeline-0" data-step="0" class="timeline login <?php echo ! $is_user_logged_in ? 'active' : '';?>" >
+        <li id="timeline-login" data-step="login" class="timeline login <?php echo ! $is_user_logged_in ? 'active' : '';?>" >
             <div class="timeline-wrapper">
                  <span class="timeline-step <?php echo $with_icon ? 'with-icon' : '' ?>">
                 <?php if( $with_icon ) : ?>
@@ -20,7 +20,7 @@ $show_login_step = ! $is_user_logged_in && $enable_checkout_login_reminder;
             </div>
         </li>
     <?php endif; ?>
-    <li id="timeline-1" data-step="1" class="timeline billing <?php echo ! $show_login_step ? 'active' : '';?>" >
+    <li id="timeline-billing" data-step="billing" class="timeline billing <?php echo ! $show_login_step ? 'active' : '';?>" >
         <div class="timeline-wrapper">
             <span class="timeline-step <?php echo $with_icon ? 'with-icon' : '' ?>">
                 <?php if( $with_icon ) : ?>
@@ -33,7 +33,7 @@ $show_login_step = ! $is_user_logged_in && $enable_checkout_login_reminder;
         </div>
     </li>
     <?php if( ! $remove_shipping_step ) : ?>
-    <li id="timeline-2" data-step="2" class="timeline shipping" >
+    <li id="timeline-shipping" data-step="shipping" class="timeline shipping" >
         <div class="timeline-wrapper">
             <span class="timeline-step <?php echo $with_icon ? 'with-icon' : '' ?>">
                <?php if( $with_icon ) : ?>
@@ -46,7 +46,7 @@ $show_login_step = ! $is_user_logged_in && $enable_checkout_login_reminder;
         </div>
     </li>
     <?php endif; ?>
-    <li id="timeline-3" data-step="3" class="timeline order" >
+    <li id="timeline-order" data-step="order" class="timeline order" >
         <div class="timeline-wrapper">
             <span class="timeline-step <?php echo $with_icon ? 'with-icon' : '' ?>">
                <?php if( $with_icon ) : ?>
@@ -58,7 +58,7 @@ $show_login_step = ! $is_user_logged_in && $enable_checkout_login_reminder;
             <span class="timeline-label"><?php echo $labels['order'] ?></span>
         </div>
     </li>
-    <li id="timeline-4" data-step="4" class="timeline payment" >
+    <li id="timeline-payment" data-step="payment" class="timeline payment" >
         <div class="timeline-wrapper">
              <span class="timeline-step <?php echo $with_icon ? 'with-icon' : '' ?>">
                <?php if( $with_icon ) : ?>

@@ -98,7 +98,10 @@ if ( ! class_exists( 'YITH_Multistep_Checkout_Admin' ) ) {
                 return;
             }
 
-            $menu_title = __( 'Multi-step Checkout', 'yith-woocommerce-multi-step-checkout' );
+	        $page_title         = __( 'YITH WooCommerce Multi-step Checkout', 'yith-woocommerce-multi-step-checkout' );
+	        $menu_title         = __( 'Multi-step Checkout', 'yith-woocommerce-multi-step-checkout' );
+	        $plugin_description = __( 'Split checkout process into more steps', 'yith-woocommerce-multi-step-checkout' );
+
 
             $admin_tabs = apply_filters( 'yith_wcms_admin_tabs', array(
                     'settings'      => __( 'Settings', 'yith-woocommerce-multi-step-checkout' ),
@@ -109,18 +112,20 @@ if ( ! class_exists( 'YITH_Multistep_Checkout_Admin' ) ) {
                 $admin_tabs['premium'] = __( 'Premium Version', 'yith-woocommerce-multi-step-checkout' );
             }
 
-            $args = array(
-                'create_menu_page' => true,
-                'parent_slug'      => '',
-                'page_title'       => $menu_title,
-                'menu_title'       => $menu_title,
-                'capability'       => 'manage_options',
-                'parent'           => '',
-                'parent_page'      => 'yit_plugin_panel',
-                'page'             => $this->_panel_page,
-                'admin-tabs'       => $admin_tabs,
-                'options-path'     => YITH_WCMS_OPTIONS_PATH,
-            );
+	        $args = array(
+		        'create_menu_page'   => true,
+		        'parent_slug'        => '',
+		        'page_title'         => $page_title,
+		        'menu_title'         => $menu_title,
+		        'plugin_description' => $plugin_description,
+		        'capability'         => 'manage_options',
+		        'parent'             => '',
+		        'parent_page'        => 'yit_plugin_panel',
+		        'page'               => $this->_panel_page,
+		        'admin-tabs'         => $admin_tabs,
+		        'options-path'       => YITH_WCMS_OPTIONS_PATH,
+		        'class'              => yith_set_wrapper_class(),
+	        );
 
 
             /* === Fixed: not updated theme/old plugin framework  === */

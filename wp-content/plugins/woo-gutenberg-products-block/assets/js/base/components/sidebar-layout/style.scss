@@ -1,0 +1,95 @@
+.wc-block-sidebar-layout {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 auto $gap;
+	position: relative;
+
+	.wc-block-main {
+		margin: 0;
+		padding-right: percentage($gap-largest / 1060px); // ~1060px is the default width of the content area in Storefront.
+		width: 65%;
+	}
+}
+
+.wc-block-sidebar {
+	margin: 0;
+	padding-left: percentage($gap-largest / 1060px);
+	width: 35%;
+
+	// Reset Gutenberg <Panel> styles when used in the sidebar.
+	.components-panel__body {
+		border-top: 1px solid $core-grey-light-600;
+		border-bottom: 1px solid $core-grey-light-600;
+
+		&.is-opened {
+			padding-left: 0;
+			padding-right: 0;
+			padding-top: 0;
+
+			> .components-panel__body-title {
+				margin-bottom: 0;
+				margin-left: 0;
+				margin-right: 0;
+			}
+		}
+	}
+
+	.components-panel__body-title {
+		@include text-heading();
+		background: transparent;
+
+		&:hover,
+		&:focus,
+		&:active {
+			background: transparent;
+		}
+	}
+
+	.components-panel__body-toggle {
+		@include reset-typography();
+		background: transparent;
+		font-weight: normal;
+		font-size: inherit;
+		padding-left: 0;
+		padding-right: 36px;
+
+		&:hover,
+		&:focus,
+		&:active {
+			background: transparent;
+		}
+
+		.components-panel__arrow {
+			right: 0;
+		}
+	}
+}
+
+.is-medium,
+.is-small,
+.is-mobile {
+	&.wc-block-sidebar-layout {
+		flex-direction: column;
+		margin: 0 auto $gap;
+
+		.wc-block-main {
+			padding: 0;
+			width: 100%;
+		}
+		.wc-block-sidebar {
+			padding: 0;
+			width: 100%;
+
+			// Reset card component styling on mobile.
+			.components-card {
+				background: transparent;
+				box-shadow: none;
+				border: none;
+			}
+			.components-card__body {
+				border: none;
+				padding: 0;
+			}
+		}
+	}
+}

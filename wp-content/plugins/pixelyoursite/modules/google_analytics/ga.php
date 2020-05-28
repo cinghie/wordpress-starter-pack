@@ -48,9 +48,10 @@ class GA extends Settings implements Pixel {
 		
 		if ( $this->configured === null ) {
 			
-			$tracking_id = $this->getOption( 'tracking_id' );
+			$tracking_id = $this->getPixelIDs() ;
 			$this->configured = $this->enabled()
-			                    && ! empty( $tracking_id )
+                                && count( $tracking_id ) > 0
+                                && !empty($tracking_id[0])
 			                    && ! apply_filters( 'pys_pixel_disabled', false, $this->getSlug() );
 			
 		}
@@ -63,7 +64,7 @@ class GA extends Settings implements Pixel {
 
 		$ids = (array) $this->getOption( 'tracking_id' );
 		
-		return (array) reset( $ids ); // return first id only
+		return apply_filters("pys_ga_ids",(array) reset( $ids )) ; // return first id only
 		
 	}
 
@@ -380,6 +381,7 @@ class GA extends Settings implements Pixel {
 		}
         $content_id = GA\Helpers\getWooProductContentId($product_id);
 		$product = wc_get_product( $product_id );
+        if(!$product) return false;
 		$price = getWooProductPriceToDisplay( $product_id, 1 );
         $name = $product->get_title();
 
@@ -510,6 +512,7 @@ class GA extends Settings implements Pixel {
             $content_id = GA\Helpers\getWooProductContentId( $product_id );
 
 			$product = wc_get_product( $product_id );
+            if(!$product) continue;
             $name = $product->get_title();
 
 			if ( $line_item['variation_id'] ) {
@@ -600,6 +603,8 @@ class GA extends Settings implements Pixel {
             $content_id = GA\Helpers\getWooProductContentId( $product_id );
 
 			$product = wc_get_product( $product_id );
+			if(!$product) continue;
+
             $name = $product->get_title();
 
 			if ( $cart_item['variation_id'] ) {

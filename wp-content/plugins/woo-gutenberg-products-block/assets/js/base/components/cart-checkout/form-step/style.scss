@@ -1,0 +1,90 @@
+$circle-size: 24px;
+$line-offset-from-circle-size: 8px;
+
+.wc-block-checkout-form {
+	counter-reset: checkout-step;
+}
+
+.wc-block-checkout-form fieldset.wc-block-checkout-step {
+	position: relative;
+	border: none;
+	padding: 0 0 $gap-larger $gap-larger;
+	background: none;
+	margin: 0;
+
+	.is-large & {
+		padding-right: $gap-large;
+	}
+}
+
+.wc-block-checkout-form fieldset.wc-block-checkout-step:disabled {
+	opacity: 0.6;
+}
+
+.wc-block-checkout-step__heading {
+	display: flex;
+	justify-content: space-between;
+	align-content: center;
+	flex-wrap: wrap;
+	margin-bottom: $gap-smaller;
+
+	.wc-block-checkout-step__title {
+		@include font-size(16px);
+		line-height: 1.5;
+		color: $gray-80;
+		font-weight: 400;
+		margin: 0 $gap-small 0 0;
+	}
+}
+
+.wc-block-checkout-step__heading-content {
+	@include font-size(12px);
+	line-height: 2;
+	color: $gray-80;
+
+	a {
+		font-weight: bold;
+		color: $gray-80;
+	}
+}
+
+.wc-block-checkout-step__description {
+	@include font-size(14px);
+	line-height: 1.25;
+	color: $gray-60;
+	margin-bottom: $gap;
+}
+
+.wc-block-checkout-step::before {
+	@include font-size(14px);
+	counter-increment: checkout-step;
+	content: counter(checkout-step);
+	position: absolute;
+	width: $circle-size;
+	height: $circle-size;
+	left: 0;
+	top: 0;
+	background: $gray-20;
+	color: $white;
+	line-height: $circle-size;
+	text-align: center;
+	border-radius: $circle-size / 2;
+	box-sizing: content-box;
+}
+
+// because themes can register different background colors, we can't always
+// relay on using white border to offest the step left line,
+.wc-block-checkout-step::after {
+	content: "";
+	// 1 Circle size + offset of the first circle and next circle.
+	height: calc(100% - #{$circle-size + $line-offset-from-circle-size * 2});
+	width: 1px;
+	background-color: $gray-10;
+	position: absolute;
+	left: $circle-size/2;
+	top: $circle-size + $line-offset-from-circle-size;
+}
+
+.wc-block-checkout-step:last-child::after {
+	content: none;
+}

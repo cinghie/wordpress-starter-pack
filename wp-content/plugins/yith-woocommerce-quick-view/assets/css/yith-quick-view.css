@@ -121,6 +121,7 @@ html.yith-quick-view-is-open body {
     padding: 15px;
     width: 60%;
     float: left;
+    font-size: inherit;
 }
 #yith-quick-view-content div.woocommerce-product-rating:after,
 #yith-quick-view-content div.woocommerce-product-rating:before {

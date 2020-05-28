@@ -16,14 +16,27 @@
  * @version     2.3.0
  */
 
+/**
+ * ================= *
+ * Standard Step Mapping
+ * before version 2.0.0
+ *
+ * 0 -> Login
+ * 1 -> Billing
+ * 2 -> Shipping
+ * 3 -> Order Info
+ * 4 -> Payment
+ * ================= *
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
 $enable_checkout_login_reminder = 'yes' == get_option( 'woocommerce_enable_checkout_login_reminder', 'yes' );
-$show_back_to_cart_button = 'yes' == get_option( 'yith_wcms_nav_enable_bakc_to_cart_button', 'yes' );
-$is_user_logged_in = is_user_logged_in();
-$show_login_step = ! $is_user_logged_in && $enable_checkout_login_reminder;
+$show_back_to_cart_button       = 'yes' == get_option( 'yith_wcms_nav_enable_back_to_cart_button', 'yes' );
+$is_user_logged_in              = is_user_logged_in();
+$show_login_step                = ! $is_user_logged_in && $enable_checkout_login_reminder;
 
 $button_class = apply_filters( 'yith_wcms_step_button_class', 'button alt yith-wcms-button' );
 
@@ -57,7 +70,8 @@ $enable_nav_button = 'yes' == get_option( 'yith_wcms_nav_buttons_enabled', 'yes'
 
 $enable_checkout_login_reminder = 'yes' == get_option( 'woocommerce_enable_checkout_login_reminder', 'yes' );
 
-$login_message = apply_filters( 'yith_wcms_form_checkout_login_message', __( 'If you have already registered, please, enter your details in the boxes below. If you are a new customer, please, go to the Billing &amp; Shipping section.', 'yith-woocommerce-multi-step-checkout' ) );
+$default_login_message = _x( 'If you have already registered, please, enter your details below. If you are a new customer, please, go to the Billing &amp; Shipping section.', '[Frontend] Default message for returning customer on checkout page', 'yith-woocommerce-multi-step-checkout' );
+$login_message         = apply_filters( 'yith_wcms_form_checkout_login_message', get_option( 'yith_wcms_form_checkout_login_message', $default_login_message ) );
 
 //load timeline template
 function_exists( 'yith_wcms_checkout_timeline' ) && yith_wcms_checkout_timeline( $timeline_template, $timeline_args );
@@ -105,7 +119,7 @@ do_action( 'woocommerce_before_checkout_form', $checkout );
                 <?php endif; ?>
             <?php endif; ?>
 
-            <?php do_action( 'woocommerce_checkout_before_order_review' ); ?>
+            <?php do_action( 'woocommerce_checkout_before_order_review',$checkout ); ?>
 
             <div id="order_review" class="woocommerce-checkout-review-order">
                 <div id="order_info" class="woocommerce-checkout-review-order">
@@ -115,7 +129,9 @@ do_action( 'woocommerce_before_checkout_form', $checkout );
                 </div>
 
                 <div id="order_checkout_payment" class="yith-woocommerce-checkout-payment">
-                    <h3 id="payment_heading"><?php _e( 'Payment', 'yith-woocommerce-multi-step-checkout' ); ?></h3>
+                    <h3 id="payment_heading">
+                        <?php echo apply_filters( 'yith_wcms_payment_step_section_title', __( 'Payment', 'yith-woocommerce-multi-step-checkout' ) ); ?>
+                    </h3>
                     <?php do_action( 'yith_woocommerce_checkout_payment' ); ?>
                 </div>
             </div>
@@ -124,7 +140,7 @@ do_action( 'woocommerce_before_checkout_form', $checkout );
 
         </form>
 
-        <div id="form_actions" class="<?php echo $enable_nav_button ? 'enabled' : 'disabled'; ?>" data-step="<?php echo $show_login_step ? 0 : 1; ?>">
+        <div id="form_actions" class="<?php echo $enable_nav_button ? 'enabled' : 'disabled'; ?>" data-step="<?php echo $show_login_step ? 'login' : 'billing'; ?>">
             <input type="button" class="<?php echo $button_class ?> prev" name="checkout_prev_step" value="<?php echo $labels['prev'] ?>" data-action="prev">
             <span></span>
             <input type="button" class="<?php echo $button_class ?> next" name="checkout_next_step" value="<?php echo $enable_checkout_login_reminder && ! is_user_logged_in() ? $labels['skip_login'] : $labels['next'] ?>" data-action="next">

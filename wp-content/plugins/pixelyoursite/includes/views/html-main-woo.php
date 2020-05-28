@@ -448,7 +448,7 @@ e&utm_campaign=pro-feature' ); ?>
         <?php if ( Pinterest()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
-                    <?php Pinterest()->render_switcher_input( 'woo_checkout_enabled' ); ?>
+                    <?php Pinterest()->render_switcher_input( 'woo_purchase_enabled' ); ?>
                     <h4 class="switcher-label">Enable the Checkout event on Pinterest</h4>
                     <?php Pinterest()->renderAddonNotice(); ?>
                 </div>
@@ -822,7 +822,7 @@ e&utm_campaign=pro-feature' ); ?>
         <?php if ( Pinterest()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
-                    <?php Pinterest()->render_switcher_input( 'woo_page_visit_enabled' ); ?>
+                    <?php Pinterest()->render_switcher_input( 'woo_view_content_enabled' ); ?>
                     <h4 class="switcher-label">Enable the PageVisit event on Pinterest</h4>
                     <?php Pinterest()->renderAddonNotice(); ?>
                 </div>
@@ -1006,6 +1006,62 @@ e&utm_campaign=pro-feature' ); ?>
     </div>
 </div>
 
+<div class="card">
+    <div class="card-header">
+        CompleteRegistration for the Facebook Pixel<?php cardCollapseBtn(); ?>
+    </div>
+    <div class="card-body">
+        <?php if ( Facebook()->enabled() ) : ?>
+            <div class="row mb-1">
+                <div class="col">
+                    <?php Facebook()->render_checkbox_input( 'woo_complete_registration_fire_every_time',
+                        "Fire this event every time a transaction takes place"); ?>
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col col-offset-left">
+                    <?php Facebook()->render_switcher_input( 'woo_complete_registration_use_custom_value'); ?>
+                    <h4 class="switcher-label">Event value on Facebook</h4>
+                    <div class="row mt-2">
+                        <div class="col col-offset-left">
+                            <div class="collapse-inner pt-0">
+                                <div class="custom-controls-stacked">
+                                    <?php Facebook()->render_radio_input("woo_complete_registration_custom_value","price",
+                                        "Order's total") ?>
+                                    <?php  if ( !isPixelCogActive() ) { ?>
+                                        <?php Facebook()->render_radio_input( 'woo_complete_registration_custom_value', 'cog',
+                                            'Price minus Cost of Goods', true, true ); ?>
+                                    <?php } else { ?>
+                                        <?php Facebook()->render_radio_input( 'woo_complete_registration_custom_value', 'cog',
+                                            'Price minus Cost of Goods', false ); ?>
+                                    <?php } ?>
+                                    <?php Facebook()->render_radio_input("woo_complete_registration_custom_value","percent",
+                                        "Percent of the order's total") ?>
+                                    <div class="form-inline">
+                                        <?php Facebook()->render_number_input( 'woo_complete_registration_percent_value' ); ?>
+                                    </div>
+                                    <?php Facebook()->render_radio_input("woo_complete_registration_custom_value","global",
+                                        "Use global value") ?>
+                                    <div class="form-inline">
+                                        <?php Facebook()->render_number_input( 'woo_complete_registration_global_value' ); ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col">
+                    <?php Facebook()->render_switcher_input( 'woo_complete_registration_send_from_server'); ?>
+                    <h4 class="switcher-label">Send this from your server only. It won't be visible on your browser.</h4>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
 
 <h2 class="section-title">PRO Events</h2>
 

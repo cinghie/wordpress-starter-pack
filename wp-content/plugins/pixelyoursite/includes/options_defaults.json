@@ -70,5 +70,10 @@
   "gdpr_ginger_integration_enabled": false,
   "gdpr_cookie_notice_integration_enabled": false,
   "gdpr_cookie_law_info_integration_enabled": false,
-  "gdpr_ajax_enabled": false
+  "gdpr_ajax_enabled": false,
+
+  "woo_purchase_value_cog": "",
+  "woo_content_value_cog": "",
+  "woo_add_to_cart_value_cog": "",
+  "woo_initiate_checkout_value_cog": ""
 }

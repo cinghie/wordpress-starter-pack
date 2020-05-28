@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
-import Gridicon from 'gridicons';
+import { Icon, star } from '@woocommerce/icons';
 import { ProductRating } from '@woocommerce/atomic-components/product';
 
 /**
@@ -18,9 +18,15 @@ const blockConfig = {
 		'woo-gutenberg-products-block'
 	),
 	icon: {
-		src: <Gridicon icon="star-outline" />,
+		src: <Icon srcElement={ star } />,
 		foreground: '#96588a',
 	},
+
+	/**
+	 * Renders the edit view for a block.
+	 *
+	 * @param {Object} props Props to pass to block.
+	 */
 	edit( props ) {
 		const { attributes } = props;
 

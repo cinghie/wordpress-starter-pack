@@ -6,7 +6,7 @@ Tested up to: 5.4
 Requires PHP: 5.6
 Stable tag: trunk
 WC requires at least: 3.2
-WC tested up to: 4.0
+WC tested up to: 4.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -380,6 +380,15 @@ And your are ready to go.
 12. Global Variation Color Swatches Attribute List Preview
 
 == Changelog ==
+
+= 1.0.82 =
+
+* Add: Filter `wvs_product_global_attribute_image_id` to modify attribute image.
+* Add: Variation attribute image preview based on availability.
+
+= 1.0.81 =
+
+* Fix: User select issue on firefox mobile.
 
 = 1.0.80 =
 

@@ -32,6 +32,35 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 target="_blank">pro version</a>.</p>
                 </div>
             </div>
+            <?php if(isWooCommerceActive()) : ?>
+                <div class="row align-items-center mb-3">
+                    <div class="col-3">
+
+                    </div>
+                    <div class="col-7">
+                        <h4 class="label">Optional:</h4>
+                        <?php Facebook()->render_checkbox_input(
+                            "use_server_api",
+                            "Also send events directly from your web server to Facebook through the server-side API. This can help you capture more events. An access token is required to use the server-side API. <a href='https://www.pixelyoursite.com/documentation/configure-server-side-events' target='_blank'>Generate Access Token</a>"
+                        ); ?>
+                        <?php Facebook()->render_text_area_array_item("server_access_api_token","Api token") ?>
+                        <small class="form-text">
+                            This is an experimental feature and for now works only for the WooCommerce Purchase event.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="row align-items-center mb-3">
+                    <div class="col-3"></div>
+                    <div class="col-7">
+                        <h4 class="label">test_event_code :</h4>
+                        <?php Facebook()->render_text_input_array_item("test_api_event_code","Code"); ?>
+                        <small class="form-text">
+                            Use this if you need to test the server-side event. <strong>Remove it after testing</strong>
+                        </small>
+                    </div>
+                </div>
+            <?php endif; ?>
             <hr>
         
         <?php endif; ?>
@@ -85,8 +114,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     </div>
 </div>
 
-<div class="card">
-    <div class="card-header">
+<div class="card" >
+    <div class="card-header" style="background-color:#cd6c46;color:white;">
         Dynamic Ads for Blog Setup <?php cardCollapseBtn(); ?>
     </div>
     <div class="card-body">
@@ -101,6 +130,24 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
         </div>
         <?php if ( Facebook()->enabled() ) : ?>
+            <hr/>
+            <div class="row mt-3">
+                <div class="col">
+                    <?php Facebook()->render_switcher_input( 'fdp_use_own_pixel_id',false,true ); ?>
+                    <h4 class="switcher-label">
+                        Fire this events just for this Pixel ID with the
+                        <a href="https://www.pixelyoursite.com/?utm_source=pixelyoursite-free-plugin&utm_medium=plugin&utm_campaign=free-plugin-ids" target="_blank">pro version</a>
+                    </h4>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-6">
+                    <label>Facebook Pixel ID:</label>
+                    <?php Facebook()->render_text_input( 'fdp_pixel_id',"",true ); ?>
+                </div>
+            </div>
+
+            <hr/>
 
             <div class="row mt-3">
                 <div class="col">
@@ -110,6 +157,18 @@ if ( ! defined( 'ABSPATH' ) ) {
                         ''           => 'Empty'
                     );
                     Facebook()->render_select_input( 'fdp_content_type',$options ); ?>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col">
+                    <label>Currency:</label><?php
+                    $options = array();
+                    $cur = getPysCurrencySymbols();
+                    foreach ($cur as  $key => $val) {
+                        $options[$key]=$key;
+                    }
+                    Facebook()->render_select_input( 'fdp_currency',$options ); ?>
                 </div>
             </div>
 
@@ -132,6 +191,11 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </div>
 
                 <div class="col-11 form-inline col-offset-left">
+                    <label>Value:</label>
+                    <?php Facebook()->render_number_input( 'fdp_add_to_cart_value',"Value" ); ?>
+                </div>
+
+                <div class="col-11 form-inline col-offset-left">
                     <label>Fire the AddToCart when scroll to</label>
                     <?php Facebook()->render_number_input( 'fdp_add_to_cart_event_fire_scroll',50 ); ?>
                     <label>%</label>
@@ -142,7 +206,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <?php Facebook()->render_switcher_input( 'fdp_purchase_enabled' ); ?>
                     <h4 class="switcher-label">Enable the Purchase event on every blog page</h4>
                 </div>
-
+                <div class="col-11 form-inline col-offset-left">
+                    <label>Value:</label>
+                    <?php Facebook()->render_number_input( 'fdp_purchase_value',"Value" ); ?>
+                </div>
                 <div class="col-11 form-inline col-offset-left">
                     <label>Fire the Purchase event</label>
 

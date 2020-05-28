@@ -63,31 +63,28 @@
 		add_filter( 'woocommerce_product_data_panels', 'add_wvs_pro_preview_tab_panel' );
 	}
 	
-	add_action( 'woocommerce_save_product_variation', function ( $variation_id ) {
-		$product        = wc_get_product( $variation_id );
-		$product_id     = $product->get_parent_id();
-		$attribute_keys = array_keys( $product->get_variation_attributes() );
-		
-		foreach ( $attribute_keys as $attribute_id ) {
-			$archive_transient_name = 'wvs_attribute_html_archive_' . $product_id . "_" . $attribute_id;
-			$product_transient_name = 'wvs_attribute_html_' . $product_id . "_" . $attribute_id;
-			delete_transient( $archive_transient_name );
-			delete_transient( $product_transient_name );
-		}
-	} );
 	
-	add_action( 'woocommerce_update_product_variation', function ( $variation_id ) {
-		$product        = wc_get_product( $variation_id );
-		$product_id     = $product->get_parent_id();
-		$attribute_keys = array_keys( $product->get_variation_attributes() );
+	function wvs_save_product_variation_transient( $variation_id ) {
+		$product = wc_get_product( $variation_id );
 		
-		foreach ( $attribute_keys as $attribute_id ) {
-			$archive_transient_name = 'wvs_attribute_html_archive_' . $product_id . "_" . $attribute_id;
-			$product_transient_name = 'wvs_attribute_html_' . $product_id . "_" . $attribute_id;
-			delete_transient( $archive_transient_name );
-			delete_transient( $product_transient_name );
+		if ( $product && $product->is_type( 'variable' ) ) {
+			
+			$product_id     = $product->get_parent_id();
+			$attribute_keys = array_keys( $product->get_variation_attributes() );
+			
+			foreach ( $attribute_keys as $attribute_id ) {
+				$archive_transient_name = 'wvs_attribute_html_archive_' . $product_id . "_" . $attribute_id;
+				$product_transient_name = 'wvs_attribute_html_' . $product_id . "_" . $attribute_id;
+				delete_transient( $archive_transient_name );
+				delete_transient( $product_transient_name );
+			}
 		}
-	} );
+	}
+	
+	
+	add_action( 'woocommerce_save_product_variation', 'wvs_save_product_variation_transient' );
+	
+	add_action( 'woocommerce_update_product_variation', 'wvs_save_product_variation_transient' );
 	
 	add_action( 'woocommerce_delete_product_transients', function ( $product_id ) {
 		

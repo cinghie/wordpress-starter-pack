@@ -465,7 +465,7 @@ class WooSEA_Get_Products {
 			'FK' => 'Falkland Islands (Malvinas)',
 			'FJ' => 'Fiji the Fiji Islands',
 			'FI' => 'Finland',
-			'FR' => 'France, French Republic',
+			'FR' => 'France',
 			'GF' => 'French Guiana',
 			'PF' => 'French Polynesia',
 			'TF' => 'French Southern Territories',
@@ -684,7 +684,7 @@ class WooSEA_Get_Products {
 						$zone_details['country'] = $zone_expl[0];
 		
 						// Adding a region is only allowed for these countries	
-						$region_countries = array ('US','JP','AU');
+						$region_countries = array ('US','JP','AU','FR');
 						if(in_array($zone_details['country'], $region_countries)){
 							$zone_details['region'] = $zone_expl[1];
 						}
@@ -755,21 +755,29 @@ class WooSEA_Get_Products {
                                                                                 $quantity = 1;
                                                                               
 										if(!empty($code_from_config)){
-			                                                               	WC()->customer->set_shipping_country(wc_clean( $code_from_config ));
-                                                                                	if(isset($zone_details['region'])){
-									        		WC()->customer->set_shipping_state(wc_clean( $zone_details['region'] ));
-											}
+ 											if (null !== (WC()->cart)){
+			                                                            	   	WC()->customer->set_shipping_country( $code_from_config );
                                                                                 		
-											WC()->cart->add_to_cart( $product_id, $quantity );
+												if(isset($zone_details['region'])){
+									        			WC()->customer->set_shipping_state(wc_clean( $zone_details['region'] ));
+												}
+												
+												if(isset($zone_details['postal_code'])){
+                                                                                                        WC()->customer->set_shipping_postcode(wc_clean( $zone_details['postal_code'] ));
+                                                                                                }
+                                                                                		
+												WC()->cart->add_to_cart( $product_id, $quantity );
                                                                                 
-                                                                                	// Read cart and get schipping costs
-                                                                                	foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
-												$total_cost = WC()->cart->get_total();
-                                                                                        	$shipping_cost = WC()->cart->get_shipping_total();
-												$shipping_cost = wc_format_localized_price($shipping_cost);
-                                                                                	}
-                                                                                	// Make sure to empty the cart again
-                                                                                	WC()->cart->empty_cart();
+                                                        	                        	// Read cart and get schipping costs
+                                                	                                	foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+													$total_cost = WC()->cart->get_total();
+                                                                	                        	$shipping_cost = WC()->cart->get_shipping_total();
+													$shipping_cost = wc_format_localized_price($shipping_cost);
+                                                         
+									                       	}
+                                                                        	        	// Make sure to empty the cart again
+                                                                                		WC()->cart->empty_cart();
+											}
 										}
                                                                         }
                                                                 }
@@ -1240,9 +1248,9 @@ class WooSEA_Get_Products {
 					$xml->asXML($file);
 				} elseif ($feed_config['name'] == "Google Product Review") {
 					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><feed></feed>');	
-					$xml->addAttribute('xmlns:vc', 'http://www.w3.org/2007/XMLSchema-versioning');
-					$xml->addAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
-					$xml->addAttribute('xsi:noNamespaceSchemaLocation', 'http://www.google.com/shopping/reviews/schema/product/2.2/product_reviews.xsd');
+					$xml->addAttribute("xmlns:xmlns:vc", 'http://www.w3.org/2007/XMLSchema-versioning');
+					$xml->addAttribute("xmlns:xmlns:xsi", 'http://www.w3.org/2001/XMLSchema-instance');
+					$xml->addAttribute("xsi:xsi:noNamespaceSchemaLocation", 'http://www.google.com/shopping/reviews/schema/product/2.2/product_reviews.xsd');
 					$xml->addChild('version', '2.2');
 					$aggregator = $xml->addChild('aggregator');
 					$aggregator->addChild('name', htmlspecialchars($feed_config['projectname']));

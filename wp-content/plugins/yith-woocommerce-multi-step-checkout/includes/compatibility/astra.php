@@ -10,7 +10,7 @@
 
 
 /* === Astra Theme Support === */
-if( YITH_Multistep_Checkout()->is_plugin_enabled ){
+if( class_exists( 'Astra_Woocommerce' ) ){
 	$Astra_Woocommerce = Astra_Woocommerce::get_instance();
 	remove_action( 'wp', array( $Astra_Woocommerce, 'woocommerce_checkout' ) );
 	add_action( 'wp_enqueue_scripts', 'yith_wcms_enqueue_scripts', 20 );

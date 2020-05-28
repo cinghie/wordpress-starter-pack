@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YITH WooCommerce Multi-step Checkout\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/init\n"
-"POT-Creation-Date: 2018-12-27 09:07:07+00:00\n"
+"POT-Creation-Date: 2020-04-30 13:22:57+00:00\n"
 "PO-Revision-Date: 2019-06-06 10:02+0200\n"
 "Last-Translator: \n"
 "Language-Team: Your Inspiration Themes <plugins@yithemes.com>\n"
@@ -31,43 +31,8 @@ msgstr "Instellingen"
 msgid "Premium Version"
 msgstr "Premium versie"
 
-#: includes/class.yith-multistep-checkout-admin.php:183
-#, fuzzy
-#| msgid "Settings"
-msgctxt "Action links"
-msgid "Settings"
-msgstr "Instellingen"
-
-#: includes/class.yith-multistep-checkout-admin.php:207
-msgctxt "Plugin Row Meta"
-msgid "Live Demo"
-msgstr ""
-
-#: includes/class.yith-multistep-checkout-admin.php:213
-#, fuzzy
-#| msgid "Plugin documentation"
-msgctxt "Plugin Row Meta"
-msgid "Documentation"
-msgstr "Plugin documentatie"
-
-#: includes/class.yith-multistep-checkout-admin.php:219
-#, fuzzy
-#| msgid "Support platform"
-msgid "Support"
-msgstr "Support platform"
-
-#: includes/class.yith-multistep-checkout-admin.php:227
-#, fuzzy
-#| msgid "Premium Version"
-msgid "Premium version"
-msgstr "Premium versie"
-
 #: init.php:37
 #, fuzzy
-#| msgctxt "Alert Message: WooCommerce requires"
-#| msgid ""
-#| "YITH WooCommerce Multi-step Checkout is enabled but not effective. It "
-#| "requires WooCommerce in order to work."
 msgctxt "Alert Message: WooCommerce require"
 msgid ""
 "YITH WooCommerce Multi-step Chekcout is enabled but not effective. It "
@@ -82,17 +47,17 @@ msgid ""
 "while you are using the premium one."
 msgstr ""
 
-#: panel/settings-options.php:20
+#: plugin-options/settings-options.php:20
 msgctxt "Panel: page title"
 msgid "General settings"
 msgstr "Algemene instellingen"
 
-#: panel/settings-options.php:26
+#: plugin-options/settings-options.php:26
 msgctxt "Admin option: Enable plugin"
 msgid "Enable Multi-step Checkout"
 msgstr "Multi-step Checkout inschakelen"
 
-#: panel/settings-options.php:28
+#: plugin-options/settings-options.php:28
 msgctxt "Admin option description: Enable plugin"
 msgid "Check this option to enable plugin features"
 msgstr "Selecteer deze optie om plugin features in te schakelen"
@@ -109,20 +74,16 @@ msgstr ""
 
 #: templates/premium.php:227 templates/premium.php:337
 #, fuzzy
-#| msgid "Discover the premium version"
 msgid "to the premium version"
 msgstr "Ontdek de premium versie"
 
 #: templates/premium.php:233
 #, fuzzy
-#| msgid "Premium Version"
 msgid "Premium Features"
 msgstr "Premium versie"
 
 #: templates/premium.php:241
 #, fuzzy
-#| msgctxt "Option: Title"
-#| msgid "Display"
 msgid "Display styles"
 msgstr "Toon"
 
@@ -137,8 +98,6 @@ msgstr ""
 
 #: templates/premium.php:254
 #, fuzzy
-#| msgctxt "Admin option: Enable featrues"
-#| msgid "Customize your text"
 msgid "Custom layout"
 msgstr "Pas uw tekst aan"
 
@@ -166,8 +125,6 @@ msgstr ""
 
 #: templates/premium.php:286
 #, fuzzy
-#| msgctxt "Panel: page title"
-#| msgid "AJAX validation"
 msgid "Ajax validation"
 msgstr "AJAX validatie"
 
@@ -268,7 +225,6 @@ msgstr "Betaling"
 
 #. Plugin Name of the plugin/theme
 #, fuzzy
-#| msgid "Multi-step Checkout"
 msgid "YITH WooCommerce Multi-step Checkout"
 msgstr "Multi-step Checkout"
 
@@ -294,6 +250,28 @@ msgstr ""
 #. Author URI of the plugin/theme
 msgid "https://yithemes.com/"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Settings"
+#~ msgctxt "Action links"
+#~ msgid "Settings"
+#~ msgstr "Instellingen"
+
+#, fuzzy
+#~| msgid "Plugin documentation"
+#~ msgctxt "Plugin Row Meta"
+#~ msgid "Documentation"
+#~ msgstr "Plugin documentatie"
+
+#, fuzzy
+#~| msgid "Support platform"
+#~ msgid "Support"
+#~ msgstr "Support platform"
+
+#, fuzzy
+#~| msgid "Premium Version"
+#~ msgid "Premium version"
+#~ msgstr "Premium versie"
 
 #~ msgctxt "Admin: Page title"
 #~ msgid "Timeline and Button"

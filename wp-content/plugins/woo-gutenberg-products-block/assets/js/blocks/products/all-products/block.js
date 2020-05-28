@@ -4,8 +4,10 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ProductListContainer from '@woocommerce/base-components/product-list/container';
-import { InnerBlockConfigurationProvider } from '@woocommerce/base-context/inner-block-configuration-context';
-import { ProductLayoutContextProvider } from '@woocommerce/base-context/product-layout-context';
+import {
+	InnerBlockConfigurationProvider,
+	ProductLayoutContextProvider,
+} from '@woocommerce/base-context';
 import { gridBlockPreview } from '@woocommerce/resource-previews';
 
 const layoutContextConfig = {
@@ -15,7 +17,7 @@ const layoutContextConfig = {
 const parentBlockConfig = { parentName: 'woocommerce/all-products' };
 
 /**
- * The All Products Block. @todo
+ * The All Products Block.
  */
 class Block extends Component {
 	static propTypes = {

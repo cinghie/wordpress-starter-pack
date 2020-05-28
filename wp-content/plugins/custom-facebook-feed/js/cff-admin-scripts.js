@@ -72,6 +72,27 @@ jQuery(document).ready(function($) {
 		}
 	});
 
+	//Header Type Selection
+	var cff_header_type = jQuery('.cff-header-type select').val(),
+		$cff_facebook_header_options = jQuery('.cff-facebook-header'),
+		$cff_text_header_options = jQuery('.cff-text-header');
+
+	//Should we show anything initially?
+	if(cff_header_type !== 'visual') $cff_facebook_header_options.hide();
+	if(cff_header_type !== 'text') $cff_text_header_options.hide();
+
+	//When Header type is changed show the relevant item
+	jQuery('.cff-header-type').change(function(){
+		cff_header_type = jQuery('.cff-header-type select').val();
+
+		if( cff_header_type !== 'visual' ) {
+			$cff_facebook_header_options.hide();
+			$cff_text_header_options.show();
+		} else {
+			$cff_facebook_header_options.show();
+			$cff_text_header_options.hide();
+		}
+	});
 
 	//Header icon
 	//Icon type
@@ -194,6 +215,18 @@ jQuery(document).ready(function($) {
 			$self.text( $self.text().replace('Hide', 'Show') );
 		}
 	});
+
+	function cffToggleNummobile() {
+		if (jQuery('#cff_show_num_mobile').is(':checked')) {
+			jQuery('#cff_show_num_mobile').closest('td').find('.cff-mobile-col-settings').slideDown();
+		} else {
+			jQuery('#cff_show_num_mobile').closest('td').find('.cff-mobile-col-settings').slideUp(function(){
+				jQuery('#cff_num_mobile').val('');
+			});
+		}
+	}
+	cffToggleNummobile();
+	jQuery('#cff_show_num_mobile').change(cffToggleNummobile);
 
 	//Facebook login
 	$('#cff_fb_login').on('click', function(){
@@ -775,6 +808,38 @@ jQuery(document).ready(function($) {
 	/* removing padding */
 	if (jQuery('#cff-admin-about').length) {
 		jQuery('#wpcontent').css('padding', 0);
+	}
+
+	$('.cff-opt-in').click(function(event) {
+		event.preventDefault();
+
+		var $btn = jQuery(this);
+		$btn.prop( 'disabled', true ).addClass( 'loading' ).html('<i class="fa fa-spinner fa-spin" aria-hidden="true"></i>');
+
+		cffSubmitOptIn(true);
+	}); // clear_comment_cache click
+
+	$('.cff-no-usage-opt-out').click(function(event) {
+		event.preventDefault();
+
+		var $btn = jQuery(this);
+		$btn.prop( 'disabled', true ).addClass( 'loading' ).html('<i class="fa fa-spinner fa-spin" aria-hidden="true"></i>');
+
+		cffSubmitOptIn(false);
+	}); // clear_comment_cache click
+
+	function cffSubmitOptIn(choice) {
+		$.ajax({
+			url : cffA.ajax_url,
+			type : 'post',
+			data : {
+				action : 'cff_usage_opt_in_or_out',
+				opted_in: choice,
+			},
+			success : function(data) {
+				$('.cff-no-usage-opt-out').closest('.cff-admin-notice').fadeOut();
+			}
+		}); // ajax call
 	}
 
 });

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YITH WooCommerce Multi-step Checkout\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/init\n"
-"POT-Creation-Date: 2018-12-27 09:07:07+00:00\n"
+"POT-Creation-Date: 2020-04-30 13:22:57+00:00\n"
 "PO-Revision-Date: 2019-06-06 10:03+0200\n"
 "Last-Translator: \n"
 "Language-Team: Your Inspiration Themes <plugins@yithemes.com>\n"
@@ -31,37 +31,6 @@ msgstr "Ajustes"
 msgid "Premium Version"
 msgstr "Versión Premium"
 
-#: includes/class.yith-multistep-checkout-admin.php:183
-#, fuzzy
-#| msgid "Settings"
-msgctxt "Action links"
-msgid "Settings"
-msgstr "Ajustes"
-
-#: includes/class.yith-multistep-checkout-admin.php:207
-msgctxt "Plugin Row Meta"
-msgid "Live Demo"
-msgstr ""
-
-#: includes/class.yith-multistep-checkout-admin.php:213
-#, fuzzy
-#| msgid "Plugin documentation"
-msgctxt "Plugin Row Meta"
-msgid "Documentation"
-msgstr "Documentación del plugin"
-
-#: includes/class.yith-multistep-checkout-admin.php:219
-#, fuzzy
-#| msgid "Support platform"
-msgid "Support"
-msgstr "Plataforma de soporte"
-
-#: includes/class.yith-multistep-checkout-admin.php:227
-#, fuzzy
-#| msgid "Premium Version"
-msgid "Premium version"
-msgstr "Versión Premium"
-
 #: init.php:37
 msgctxt "Alert Message: WooCommerce require"
 msgid ""
@@ -77,17 +46,17 @@ msgid ""
 "while you are using the premium one."
 msgstr ""
 
-#: panel/settings-options.php:20
+#: plugin-options/settings-options.php:20
 msgctxt "Panel: page title"
 msgid "General settings"
 msgstr "Ajustes Generales"
 
-#: panel/settings-options.php:26
+#: plugin-options/settings-options.php:26
 msgctxt "Admin option: Enable plugin"
 msgid "Enable Multi-step Checkout"
 msgstr "Activar Multi-step Checkout"
 
-#: panel/settings-options.php:28
+#: plugin-options/settings-options.php:28
 msgctxt "Admin option description: Enable plugin"
 msgid "Check this option to enable plugin features"
 msgstr "Marcar esta opción para habilitar las características del plugin"
@@ -282,7 +251,6 @@ msgstr ""
 
 #. Plugin Name of the plugin/theme
 #, fuzzy
-#| msgid "Multi-step Checkout"
 msgid "YITH WooCommerce Multi-step Checkout"
 msgstr "Multi-step Checkout"
 
@@ -308,6 +276,28 @@ msgstr ""
 #. Author URI of the plugin/theme
 msgid "https://yithemes.com/"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Settings"
+#~ msgctxt "Action links"
+#~ msgid "Settings"
+#~ msgstr "Ajustes"
+
+#, fuzzy
+#~| msgid "Plugin documentation"
+#~ msgctxt "Plugin Row Meta"
+#~ msgid "Documentation"
+#~ msgstr "Documentación del plugin"
+
+#, fuzzy
+#~| msgid "Support platform"
+#~ msgid "Support"
+#~ msgstr "Plataforma de soporte"
+
+#, fuzzy
+#~| msgid "Premium Version"
+#~ msgid "Premium version"
+#~ msgstr "Versión Premium"
 
 #~ msgctxt "Admin: Page title"
 #~ msgid "Timeline and Button"

@@ -2,28 +2,102 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Brands Add-On - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-12-18 20:45:48+0000\n"
+"PO-Revision-Date: 2020-05-22 18:29:06+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/2.4.0-alpha\n"
+"X-Generator: GlotPress/3.0.0-alpha\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Brands Add-On - Stable (latest release)\n"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1237
+#: plugin-fw/templates/fields/dimensions.php:117
+msgctxt "Tooltip in the \"Dimensions\" field"
+msgid "Link values together"
+msgstr "Collega i valori"
+
+#: plugin-fw/templates/fields/dimensions.php:19
+msgctxt "Position in the \"Dimensions\" field"
+msgid "Left"
+msgstr "A sinistra"
+
+#: plugin-fw/templates/fields/dimensions.php:18
+msgctxt "Position in the \"Dimensions\" field"
+msgid "Bottom"
+msgstr "In basso"
+
+#: plugin-fw/templates/fields/dimensions.php:17
+msgctxt "Position in the \"Dimensions\" field"
+msgid "Right"
+msgstr "A destra"
+
+#: plugin-fw/templates/fields/dimensions.php:16
+msgctxt "Position in the \"Dimensions\" field"
+msgid "Top"
+msgstr "In alto"
+
+#: plugin-fw/templates/fields/onoff.php:24
+msgctxt "YES/NO button: use MAX 3 characters!"
+msgid "YES"
+msgstr "SÌ"
+
+#: plugin-fw/templates/fields/onoff.php:25
+msgctxt "YES/NO button: use MAX 3 characters!"
+msgid "NO"
+msgstr "NO"
+
+#: includes/widget/elementor/class.yith-wcbr-elementor-product-brand.php:138
+msgid "Do not show Title"
+msgstr "Non mostrare il titolo"
+
+#: includes/widget/elementor/class.yith-wcbr-elementor-product-brand.php:134
+msgctxt "Elementor control label"
+msgid "Show Title"
+msgstr "Mostra titolo"
+
+#: includes/widget/elementor/class.yith-wcbr-elementor-product-brand.php:121
+msgctxt "Elementor control label"
+msgid "Show logo"
+msgstr "Mostra logo"
+
+#: includes/widget/elementor/class.yith-wcbr-elementor-product-brand.php:113
+msgctxt "Elementor section title"
+msgid "Appearance"
+msgstr "Aspetto"
+
+#: includes/widget/elementor/class.yith-wcbr-elementor-product-brand.php:101
+msgctxt "Elementor control label"
+msgid "Product ID"
+msgstr "ID prodotto"
+
+#: includes/widget/elementor/class.yith-wcbr-elementor-product-brand.php:91
+msgctxt "Elementor control label"
+msgid "Title"
+msgstr "Titolo"
+
+#: includes/widget/elementor/class.yith-wcbr-elementor-product-brand.php:83
+msgctxt "Elementor section title"
+msgid "General"
+msgstr "Generale"
+
+#: includes/widget/elementor/class.yith-wcbr-elementor-product-brand.php:40
+msgctxt "Elementor widget name"
+msgid "YITH Product Brand"
+msgstr "YITH Product Brand"
+
+#: plugin-fw/lib/yit-plugin-panel.php:1269
 msgid ":) Thanks!"
 msgstr ":) Grazie!"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1236
+#: plugin-fw/lib/yit-plugin-panel.php:1268
 msgid "help us by leaving a five-star rating"
 msgstr "aiutaci lasciando una valutazione 5 stelle"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1234
+#: plugin-fw/lib/yit-plugin-panel.php:1266
 msgid "to keep updating and improving the plugin. Please,"
 msgstr "per continuare ad aggiornare e a migliorare il plugin. Per favore,"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1233
+#: plugin-fw/lib/yit-plugin-panel.php:1265
 msgid "We need your support"
 msgstr "Abbiamo bisogno del tuo supporto"
 
@@ -131,76 +205,76 @@ msgstr "Rimuovi tutto"
 msgid "Add All"
 msgstr "Aggiungi tutto"
 
-#: plugin-fw/lib/yith-system-status.php:292
+#: plugin-fw/lib/yith-system-status.php:298
 msgid "The system check has detected some compatibility issues on your installation. %sClick here%s to know more"
 msgstr "Il controllo del sistema ha rilevato dei problemi di compatibilità sulla tua installazione. Per maggiori informazioni %sfai clic qui%s"
 
-#: plugin-fw/lib/yith-system-status.php:291
+#: plugin-fw/lib/yith-system-status.php:297
 msgid "Warning!"
 msgstr "Attenzione!"
 
-#: plugin-fw/lib/yith-system-status.php:174
+#: plugin-fw/lib/yith-system-status.php:180
 msgid "WooCommerce"
 msgstr "WooCommerce"
 
-#: plugin-fw/lib/yith-system-status.php:173
+#: plugin-fw/lib/yith-system-status.php:179
 msgid "YITH Plugins"
 msgstr "Plugin YITH"
 
-#: plugin-fw/lib/yith-system-status.php:116
+#: plugin-fw/lib/yith-system-status.php:117
 msgid "URL FOpen"
 msgstr "URL FOpen"
 
-#: plugin-fw/lib/yith-system-status.php:115
+#: plugin-fw/lib/yith-system-status.php:116
 msgid "OPCache Save Comments"
 msgstr "OPCache Save Comments"
 
-#: plugin-fw/lib/yith-system-status.php:114
+#: plugin-fw/lib/yith-system-status.php:115
 msgid "Iconv Module"
 msgstr "Iconv Module"
 
-#: plugin-fw/lib/yith-system-status.php:113
+#: plugin-fw/lib/yith-system-status.php:114
 msgid "GD Library"
 msgstr "GD Library"
 
-#: plugin-fw/lib/yith-system-status.php:112
+#: plugin-fw/lib/yith-system-status.php:113
 msgid "ImageMagick Version"
 msgstr "ImageMagick Version"
 
-#: plugin-fw/lib/yith-system-status.php:111
+#: plugin-fw/lib/yith-system-status.php:112
 msgid "MultiByte String"
 msgstr "MultiByte String"
 
-#: plugin-fw/lib/yith-system-status.php:110
+#: plugin-fw/lib/yith-system-status.php:111
 msgid "SimpleXML"
 msgstr "SimpleXML"
 
-#: plugin-fw/lib/yith-system-status.php:109
+#: plugin-fw/lib/yith-system-status.php:110
 msgid "WordPress Cron"
 msgstr "WordPress Cron"
 
-#: plugin-fw/lib/yith-system-status.php:108
+#: plugin-fw/lib/yith-system-status.php:109
 msgid "TLS Version"
 msgstr "Versione TLS"
 
-#: plugin-fw/lib/yith-system-status.php:107
+#: plugin-fw/lib/yith-system-status.php:108
 msgid "PHP Version"
 msgstr "Versione PHP"
 
-#: plugin-fw/lib/yith-system-status.php:106
+#: plugin-fw/lib/yith-system-status.php:107
 msgid "Available Memory"
 msgstr "Memoria disponibile"
 
-#: plugin-fw/lib/yith-system-status.php:105
+#: plugin-fw/lib/yith-system-status.php:106
 msgid "WooCommerce Version"
 msgstr "Versione WooCommerce"
 
-#: plugin-fw/lib/yith-system-status.php:104
+#: plugin-fw/lib/yith-system-status.php:105
 msgid "WordPress Version"
 msgstr "Versione WordPress"
 
-#: plugin-fw/lib/yith-system-status.php:97
-#: plugin-fw/lib/yith-system-status.php:98
+#: plugin-fw/lib/yith-system-status.php:135
+#: plugin-fw/lib/yith-system-status.php:136
 msgid "System Status"
 msgstr "Stato del sistema"
 
@@ -235,8 +309,8 @@ msgstr "Ultime novità dal blog YITH"
 msgid "YITH Latest Updates"
 msgstr "Ultimi aggiornamenti YITH"
 
-#: templates/admin/add-brand-taxonomy-form.php:18
 #: templates/admin/edit-brand-taxonomy-form.php:18
+#: templates/admin/add-brand-taxonomy-form.php:18
 msgid "Product brand thumbnail"
 msgstr "Miniatura del brand prodotto"
 
@@ -245,96 +319,99 @@ msgctxt "[gutenberg]: Category Name"
 msgid "YITH"
 msgstr "YITH"
 
-#: includes/class.yith-wcbr-shortcode.php:151
+#: includes/class.yith-wcbr-shortcode.php:152
 msgctxt "[gutenberg]: Help text"
 msgid "Show title"
 msgstr "Mostra titolo"
 
-#: includes/class.yith-wcbr-shortcode.php:150
+#: includes/class.yith-wcbr-shortcode.php:151
 msgctxt "[gutenberg]: Help text"
 msgid "Hide title"
 msgstr "Nascondi titolo"
 
-#: includes/class.yith-wcbr-shortcode.php:142
+#: includes/class.yith-wcbr-shortcode.php:143
 msgctxt "[gutenberg]: Help text"
 msgid "Show logo"
 msgstr "Mostra logo"
 
-#: includes/class.yith-wcbr-shortcode.php:141
+#: includes/class.yith-wcbr-shortcode.php:142
 msgctxt "[gutenberg]: Help text"
 msgid "Hide logo"
 msgstr "Nascondi logo"
 
-#: includes/class.yith-wcbr-shortcode.php:133
+#: includes/class.yith-wcbr-shortcode.php:134
 msgid "Product_id (leave empty to use global product)"
 msgstr "Product_id (lascia vuoto per usare il prodotto globale) "
 
-#: includes/class.yith-wcbr-shortcode.php:123
+#: includes/class.yith-wcbr-shortcode.php:124
 msgctxt "[gutenberg]: block description"
 msgid "Adds brand name and logo for a specific product, wherever you want"
 msgstr "Aggiunge nome e logo del brand dove preferisci per un prodotto specifico "
 
-#: includes/class.yith-wcbr-shortcode.php:122
+#: includes/class.yith-wcbr-shortcode.php:123
 msgctxt "[gutenberg]: block name"
 msgid "YITH Brands Product Brand"
 msgstr "YITH Brands Brand Prodotto"
 
-#: includes/class.yith-wcbr-shortcode.php:98
+#: includes/class.yith-wcbr-shortcode.php:99
 msgid "Whether to show title or not. Please, note that if you don't mark at least one between Show Logo or Show Title, default option value will take effect"
 msgstr "Scegli se mostrare o meno il titolo. NB - se non selezioni almeno un'opzione tra Mostra logo e Mostra titolo, verrà considerato il valore predefinito"
 
-#: includes/class.yith-wcbr-shortcode.php:96
+#: includes/class.yith-wcbr-shortcode.php:97
 msgid "Do not show title"
 msgstr "Non mostrare il titolo"
 
-#: includes/class.yith-wcbr-shortcode.php:95
+#: includes/class.yith-wcbr-shortcode.php:96
 msgid "Show title"
 msgstr "Mostra il titolo"
 
-#: includes/class.yith-wcbr-shortcode.php:92
-#: includes/class.yith-wcbr-shortcode.php:147
+#: includes/class.yith-wcbr-shortcode.php:93
+#: includes/class.yith-wcbr-shortcode.php:148
+#: includes/widget/elementor/class.yith-wcbr-elementor-product-brand.php:137
 msgid "Show Title"
 msgstr "Mostra il titolo"
 
-#: includes/class.yith-wcbr-shortcode.php:87
+#: includes/class.yith-wcbr-shortcode.php:88
 msgid "Whether to show logo or not. Please, note that if you don't mark at least one between Show Logo or Show Title, default option value will take effect"
 msgstr "Scegli se mostrare o meno il logo. NB - se non selezioni almeno un'opzione tra Mostra logo e Mostra titolo, verrà considerato il valore predefinito"
 
-#: includes/class.yith-wcbr-shortcode.php:85
+#: includes/class.yith-wcbr-shortcode.php:86
+#: includes/widget/elementor/class.yith-wcbr-elementor-product-brand.php:125
 msgid "Do not show Logo"
 msgstr "Non mostrare il logo"
 
-#: includes/class.yith-wcbr-shortcode.php:84
+#: includes/class.yith-wcbr-shortcode.php:85
+#: includes/widget/elementor/class.yith-wcbr-elementor-product-brand.php:124
 msgid "Show Logo"
 msgstr "Mostra il logo"
 
-#: includes/class.yith-wcbr-shortcode.php:81
-#: includes/class.yith-wcbr-shortcode.php:138
+#: includes/class.yith-wcbr-shortcode.php:82
+#: includes/class.yith-wcbr-shortcode.php:139
 msgid "Show logo"
 msgstr "Mostra il logo"
 
-#: includes/class.yith-wcbr-shortcode.php:76
+#: includes/class.yith-wcbr-shortcode.php:77
 msgid "Enter product ID that will be used to retrieve brands; leave empty to use global product (if defined)"
 msgstr "Inserisci l'ID del prodotto che verrà utilizzato per recuperare i brand; lascia vuoto per usare il prodotto globale (se definito)"
 
-#: includes/class.yith-wcbr-shortcode.php:73
+#: includes/class.yith-wcbr-shortcode.php:74
 msgid "Product_id"
 msgstr "Product_id"
 
-#: includes/class.yith-wcbr-shortcode.php:68
+#: includes/class.yith-wcbr-shortcode.php:69
 msgid "Text to enter as shortcode title"
 msgstr "Testo da inserire come titolo del shortcode"
 
-#: includes/class.yith-wcbr-shortcode.php:65
-#: includes/class.yith-wcbr-shortcode.php:128
+#: includes/class.yith-wcbr-shortcode.php:66
+#: includes/class.yith-wcbr-shortcode.php:129
 msgid "Title"
 msgstr "Titolo"
 
-#: includes/class.yith-wcbr-shortcode.php:59
+#: includes/class.yith-wcbr-shortcode.php:60
 msgid "Adds brand name and logo for a specific product, wherever you want"
 msgstr "Aggiunge nome e logo del brand, dove preferisci, per un prodotto specifico"
 
-#: includes/class.yith-wcbr-shortcode.php:57
+#: includes/class.yith-wcbr-shortcode.php:58
 msgid "YITH Product Brand"
 msgstr "YITH Product Brand"
 
@@ -512,13 +589,13 @@ msgstr "AGGIORNA"
 msgid "Upgrade to %1$spremium version%2$s of %1$sYITH WooCommerce Brands Add-On%2$s to benefit from all features!"
 msgstr "Aggiorna alla %1$sversione premium%2$s di %1$sYITH WooCommerce Brands Add-On%2$s per beneficiare di tutte le funzionalità!"
 
-#: templates/admin/add-brand-taxonomy-form.php:22
 #: templates/admin/edit-brand-taxonomy-form.php:22
+#: templates/admin/add-brand-taxonomy-form.php:22
 msgid "Remove image"
 msgstr "Rimuovi immagine"
 
-#: templates/admin/add-brand-taxonomy-form.php:21
 #: templates/admin/edit-brand-taxonomy-form.php:21
+#: templates/admin/add-brand-taxonomy-form.php:21
 msgid "Upload/Add image"
 msgstr "Carica/Aggiungi immagine"
 
@@ -631,9 +708,9 @@ msgstr "Chiudi tutto"
 msgid "Image preview"
 msgstr "Anteprima immagine"
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-upload.php:40
 #: plugin-fw/templates/fields/upload.php:27
 #: plugin-fw/templates/metaboxes/types/icon-list.php:70
+#: plugin-fw/templates/panel/woocommerce/woocommerce-upload.php:40
 msgid "Upload"
 msgstr "Carica"
 
@@ -672,72 +749,72 @@ msgstr "Da questo momento trovi tutte le opzioni del plugin nel menu YITH Plugin
 msgid "Plugins Activated"
 msgstr "Plugin attivati"
 
-#: plugin-fw/lib/yit-plugin-panel.php:785
+#: plugin-fw/lib/yit-plugin-panel.php:817
 msgid "Sorting successful."
 msgstr "Ordinamento effettuato con successo."
 
-#: plugin-fw/lib/yit-plugin-panel.php:784
+#: plugin-fw/lib/yit-plugin-panel.php:816
 msgid "Sorry, import is disabled."
 msgstr "Ci dispiace, l'importazione è disabilitata."
 
-#: plugin-fw/lib/yit-plugin-panel.php:783
+#: plugin-fw/lib/yit-plugin-panel.php:815
 msgid "The added file is not valid."
 msgstr "Il file aggiunto non è valido."
 
-#: plugin-fw/lib/yit-plugin-panel.php:782
+#: plugin-fw/lib/yit-plugin-panel.php:814
 msgid "An error has occurred during import. Please try again."
 msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
 
-#: plugin-fw/lib/yit-plugin-panel.php:781
+#: plugin-fw/lib/yit-plugin-panel.php:813
 msgid "Database imported correctly."
 msgstr "Database importato correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:779
-#: plugin-fw/lib/yit-plugin-panel.php:780
+#: plugin-fw/lib/yit-plugin-panel.php:811
+#: plugin-fw/lib/yit-plugin-panel.php:812
 msgid "Element updated correctly."
 msgstr "Elemento aggiornato correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:778
+#: plugin-fw/lib/yit-plugin-panel.php:810
 msgid "Element deleted correctly."
 msgstr "Elemento rimosso correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:777
+#: plugin-fw/lib/yit-plugin-panel.php:809
 msgid "Settings reset"
 msgstr "Impostazioni azzerate"
 
-#: plugin-fw/lib/yit-plugin-panel.php:776
+#: plugin-fw/lib/yit-plugin-panel.php:808
 msgid "Settings saved"
 msgstr "Impostazioni salvate"
 
-#: plugin-fw/lib/yit-plugin-panel.php:775
+#: plugin-fw/lib/yit-plugin-panel.php:807
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Per favore, inserisci un altro nome."
 
+#: plugin-fw/lib/yit-plugin-panel.php:609
 #: plugin-fw/lib/yit-plugin-subpanel.php:157
-#: plugin-fw/lib/yit-plugin-panel.php:577
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:21
 msgid "Are you sure?"
 msgstr "Sei sicuro?"
 
+#: plugin-fw/lib/yit-plugin-panel.php:608
 #: plugin-fw/lib/yit-plugin-subpanel.php:156
-#: plugin-fw/lib/yit-plugin-panel.php:576
 msgid "Reset to default"
 msgstr "Ripristina configurazione predefinita"
 
+#: plugin-fw/lib/yit-plugin-panel.php:606
 #: plugin-fw/lib/yit-plugin-subpanel.php:154
-#: plugin-fw/lib/yit-plugin-panel.php:574
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:17
 msgid "If you continue with this action, you will reset all options in this page."
 msgstr "Se prosegui con questa azione, tutte le opzioni di questa pagina saranno reimpostate."
 
+#: plugin-fw/lib/yit-plugin-panel.php:603
 #: plugin-fw/lib/yit-plugin-subpanel.php:151
-#: plugin-fw/lib/yit-plugin-panel.php:571
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
 msgid "Save Changes"
 msgstr "Salva modifiche"
 
-#: plugin-fw/lib/yit-plugin-panel.php:424
-#: plugin-fw/lib/yit-plugin-panel.php:427
+#: plugin-fw/lib/yit-plugin-panel.php:455
+#: plugin-fw/lib/yit-plugin-panel.php:458
 msgid "How to install premium version"
 msgstr "Come installare la versione premium"
 
@@ -745,7 +822,7 @@ msgstr "Come installare la versione premium"
 msgid "Plugin Settings"
 msgstr "Impostazioni plugin"
 
-#: plugin-fw/lib/yit-plugin-panel-wc.php:397
+#: plugin-fw/lib/yit-plugin-panel-wc.php:399
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 
@@ -986,23 +1063,24 @@ msgstr "Tutte le marche"
 msgid "Brand"
 msgstr "Brand"
 
-#: includes/class.yith-wcbr-shortcode.php:60 includes/class.yith-wcbr.php:125
-#: includes/class.yith-wcbr.php:141 includes/class.yith-wcbr-admin.php:264
-#: includes/class.yith-wcbr-admin.php:265
+#: includes/class.yith-wcbr.php:125 includes/class.yith-wcbr.php:141
+#: includes/class.yith-wcbr-shortcode.php:61
+#: includes/class.yith-wcbr-admin.php:276
+#: includes/class.yith-wcbr-admin.php:277
 msgid "Brands"
 msgstr "Brands Add-on"
 
-#: includes/class.yith-wcbr-admin.php:249
+#: includes/class.yith-wcbr-admin.php:261
 msgid "Product brands for your store can be managed here. To display more brands here, click on \"screen options\" link on top of the page."
 msgstr "Le marche dei prodotti per il negozio possono essere gestite in questa sezione. Per visualizzare altre marche qui, fai clic su \"opzioni di visualizzazione\" all'inizio della pagina."
 
-#: includes/class.yith-wcbr-admin.php:235
-#: templates/admin/add-brand-taxonomy-form.php:17
 #: templates/admin/edit-brand-taxonomy-form.php:16
+#: templates/admin/add-brand-taxonomy-form.php:17
+#: includes/class.yith-wcbr-admin.php:247
 msgid "Thumbnail"
 msgstr "Miniatura"
 
-#: includes/class.yith-wcbr-admin.php:207
+#: includes/class.yith-wcbr-admin.php:219
 msgid "Image"
 msgstr "Immagine"
 
@@ -1018,10 +1096,10 @@ msgstr "Scegli un'immagine"
 msgid "Premium Version"
 msgstr "Versione Premium"
 
-#: includes/class.yith-wcbr-admin.php:72
+#: plugin-fw/lib/yit-plugin-panel.php:80
 #: plugin-fw/lib/yit-cpt-unlimited.php:1050
 #: plugin-fw/lib/yit-cpt-unlimited.php:1198
 #: plugin-fw/lib/yit-cpt-unlimited.php:1204
-#: plugin-fw/lib/yit-plugin-panel.php:80
+#: includes/class.yith-wcbr-admin.php:72
 msgid "Settings"
 msgstr "Impostazioni"

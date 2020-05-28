@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.4
-Stable tag: 8.2.0
+Stable tag: 8.2.7
 
 == Description ==
 
@@ -312,6 +312,27 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 8.2.7 (2020-05-26) =
+* Solved a plugin conflict with GLS France plugin for WooCommerce
+
+= 8.2.6 (2020-05-23) =
+* Fixed an issue with the gender attribute not saving for variations
+
+= 8.2.5 (2020-05-22) =
+* Fixed an issue with the default WooCommerce structured data since WC changed the default version
+
+= 8.2.4 (2020-05-21) =
+* Fixed an issue with the table rate shipping compatibility for postcodes
+
+= 8.2.3 (2020-05-20) =
+* Fixed another issue where structured data aggregateRatings were removed for simple products
+
+= 8.2.2 (2020-05-14) =
+* Fixed a namespace error for Google product review feeds
+
+= 8.2.1 (2020-05-14) =
+* Fixed an issue where structured data aggregateRatings were removed for simple products
 
 = 8.2.0 (2020-05-10) =
 * Improved check if the WooCommerce Table Rate plugin is active
@@ -2611,6 +2632,27 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 8.2.7 =
+Solved a plugin conflict with GLS France plugin for WooCommerce
+
+= 8.2.6 =
+Fixed an issue with the gender attribute not saving for variations
+
+= 8.2.5 =
+Fixed an issue with the default WooCommerce structured data since WC changed the default version
+
+= 8.2.4 =
+Fixed an issue with the table rate shipping compatibility for postcodes
+
+= 8.2.3 =
+Fixed another issue where structured data aggregateRatings were removed for simple products
+
+= 8.2.2 =
+Fixed a namespace error for Google product review feeds
+
+= 8.2.1 =
+Fixed an issue where structured data aggregateRatings were removed for simple products
 
 = 8.2.0 =
 Improved check if the WooCommerce Table Rate plugin is active

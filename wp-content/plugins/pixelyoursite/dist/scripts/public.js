@@ -712,12 +712,41 @@ if (!Array.prototype.includes) {
             Utils.copyProperties(data, params);
             Utils.copyProperties(options.commonEventParams, params);
 
+            // fire server side event gdpr plugin installed
+            var isApiDisabled = options.gdpr.all_disabled_by_api ||
+                options.gdpr.facebook_disabled_by_api ||
+                options.gdpr.cookiebot_integration_enabled ||
+                options.gdpr.ginger_integration_enabled ||
+                options.gdpr.cookie_notice_integration_enabled ||
+                options.gdpr.cookie_law_info_integration_enabled;
+            if( ( "Purchase" === name || "CompleteRegistration" === name) && isApiDisabled){
+                var json = {
+                    action: 'pys_api_event',
+                    pixel: 'facebook',
+                    event: name,
+                    data:data
+                };
+                jQuery.ajax( {
+                    type: 'POST',
+                    url: options.ajaxUrl,
+                    data: json,
+                    success: function(){},
+                });
+            }
+
+            if("CompleteRegistration" === name && options.facebook.wooCRSendFromServer && options.facebook.serverApiEnabled) {
+                return;
+            }
+
             if (options.debug) {
                 console.log('[Facebook] ' + name, params);
             }
 
-            fbq(actionType, name, params);
-
+            if("Purchase" === name || "CompleteRegistration" === name) { // Deduplicate Pixel and Server-Side Events for Purchase event
+                fbq(actionType, name, params,{eventID:params.eventID});
+            } else {
+                fbq(actionType, name, params);
+            }
         }
 
         /**
@@ -768,9 +797,12 @@ if (!Array.prototype.includes) {
                     if (options.facebook.removeMetadata) {
                         fbq('set', 'autoConfig', false, pixelId);
                     }
-
-                    fbq('init', pixelId, options.facebook.advancedMatching);
-
+                    
+                    if(options.facebook.advancedMatching.length === 0) {
+                        fbq('init', pixelId);
+                    } else {
+                        fbq('init', pixelId, options.facebook.advancedMatching);
+                    }
                 });
 
                 initialized = true;

@@ -71,8 +71,8 @@ jQuery(document).ready(function($) {
                 })
 	});
 
-
-   	$("td[colspan=8]").find("div").parents("tr").hide();
+//   	$("td[colspan=8]").find("div").parents("tr").hide();
+   	$("td[id=manage_inline]").find("div").parents("tr").hide();
 
 	$('.checkbox-field').change(function(index, obj){
 

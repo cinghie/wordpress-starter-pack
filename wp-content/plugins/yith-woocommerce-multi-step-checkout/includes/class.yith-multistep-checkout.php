@@ -61,15 +61,6 @@ if ( ! class_exists( 'YITH_Multistep_Checkout' ) ) {
 		 */
 		public $frontend = null;
 
-		/**
-		 * check if the plugin is activated or not
-		 *
-		 * @var bool
-		 * @since 1.3.6
-		 */
-		public $is_plugin_enabled = false;
-
-
         /**
          * Construct
          *
@@ -77,8 +68,6 @@ if ( ! class_exists( 'YITH_Multistep_Checkout' ) ) {
          * @since 1.0
          */
         public function __construct(){
-
-			$this->is_plugin_enabled = 'yes' == get_option( 'yith_wcms_enable_multistep', 'no' );
 
 			/* === Require Main Files === */
 			$require = apply_filters( 'yith_wcms_require_class',
@@ -103,9 +92,7 @@ if ( ! class_exists( 'YITH_Multistep_Checkout' ) ) {
 			add_filter( 'body_class', array( $this, 'body_class' ) );
 
             /* === Support to Avada Theme === */
-            if( 'yes' == get_option( 'yith_wcms_enable_multistep' ) ){
-                add_filter( 'avada_setting_get_woocommerce_one_page_checkout', '__return_zero' );
-            }
+	        add_filter( 'avada_setting_get_woocommerce_one_page_checkout', '__return_zero' );
 
             /* == Plugins Init === */
             add_action( 'init', array( $this, 'init' ) );
@@ -180,7 +167,7 @@ if ( ! class_exists( 'YITH_Multistep_Checkout' ) ) {
 				$this->admin = new YITH_Multistep_Checkout_Admin();
 			}
 
-			elseif( $this->is_plugin_enabled ) {
+			else {
 				$this->frontend = new YITH_Multistep_Checkout_Frontend();
 			}
 		}

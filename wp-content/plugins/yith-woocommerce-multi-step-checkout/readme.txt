@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: woocommerce, multi-step checkout, woocommerce multistep checkout, woocommerce checkout, shop checkout, multistep, multi step, multi-step, wc, wc checkout, wc multi-step checkout, wc multistep checkout, yit, yith, yithemes
 Requires at least: 4.0
 Tested up to: 5.4
-Stable tag: 1.8.0
+Stable tag: 1.8.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,18 @@ This plugin has been realised using only WooCommerce standard templates. If your
 9. Admin: Enable Multi-step Checkout
 
 == Changelog ==
+
+= 1.8.1 - Released on 28 May 2020 =
+
+* New: Support for WooCommerce 4.2
+* Update: Plugin framework
+
+= 1.8.1 - Released on 30 April 2020 =
+
+* New: Support for Porto theme
+* New: Support for Electro theme
+* New: Support for WooCommerce 4.1
+* Update: Plugin framework
 
 = 1.8.0 - Released on 09 March 2020 =
 
@@ -346,7 +358,7 @@ If you have created your own language pack, or have an update for an existing on
 
 Paying old unpaid orders
 
-= 1.0.6 = 
+= 1.0.6 =
 
 Navigation button issue with WooCommerce 2.4 and Wordpress 4.3
 

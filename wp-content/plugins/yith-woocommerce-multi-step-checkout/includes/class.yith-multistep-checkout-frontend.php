@@ -83,8 +83,18 @@ if ( ! class_exists( 'YITH_Multistep_Checkout_Frontend' ) ) {
 		        require_once( YITH_WCMS_PATH . 'includes/compatibility/astra.php' );
 	        }
 
+	        /* === Support to Porto Theme === */
+	        if( defined( 'PORTO_VERSION' ) ){
+		        require_once( YITH_WCMS_PATH . 'includes/compatibility/porto.php' );
+	        }
+
+	        /* === Support to Electro Theme === */
+	        if( function_exists( 'electro_setup' ) ){
+		        require_once( YITH_WCMS_PATH . 'includes/compatibility/electro.php' );
+	        }
+
             /* === Support to WooCommerce Secure Submit Gateway === */
-            if( YITH_Multistep_Checkout()->is_plugin_enabled && class_exists( 'WC_Gateway_SecureSubmit' ) ){
+            if( class_exists( 'WC_Gateway_SecureSubmit' ) ){
                 $secure_submit_options = get_option( 'woocommerce_securesubmit_settings' );
                 if( ! empty( $secure_submit_options['use_iframes'] ) && 'yes' == $secure_submit_options['use_iframes'] ){
                     add_filter( 'option_woocommerce_securesubmit_settings', array( $this, 'woocommerce_securesubmit_support' ), 10, 2 );
@@ -161,7 +171,7 @@ if ( ! class_exists( 'YITH_Multistep_Checkout_Frontend' ) ) {
          * @return void
          */
         public function multistep_checkout( $template, $template_name, $template_path ){
-            if( apply_filters( 'yith_wcms_load_checkout_template_from_plugin', true ) && 'yes' == get_option( 'yith_wcms_enable_multistep', 'no' ) && 'checkout/form-checkout.php' == $template_name ){
+            if( apply_filters( 'yith_wcms_load_checkout_template_from_plugin', true ) && 'checkout/form-checkout.php' == $template_name ){
                 $template = apply_filters( 'yith_wcms_template_path_checkout_form',YITH_WCMS_WC_TEMPLATE_PATH . 'checkout/form-checkout.php');
             }
 

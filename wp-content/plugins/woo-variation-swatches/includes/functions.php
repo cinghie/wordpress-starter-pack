@@ -154,7 +154,9 @@
 			$key           = $fields[ 0 ][ 'id' ];
 			$attachment_id = absint( get_term_meta( $term_id, $key, true ) );
 			$image         = wp_get_attachment_image_src( $attachment_id, 'thumbnail' );
-			printf( '<img src="%s" width="%d" height="%d" class="wvs-preview wvs-image-preview" />', esc_url( $image[ 0 ] ), $image[ 1 ], $image[ 2 ] );
+			if ( is_array( $image ) ) {
+				printf( '<img src="%s" alt="" width="%d" height="%d" class="wvs-preview wvs-image-preview" />', esc_url( $image[ 0 ] ), $image[ 1 ], $image[ 2 ] );
+			}
 		}
 	endif;
 	
@@ -847,7 +849,8 @@
 									break;
 								
 								case 'image':
-									$attachment_id = absint( get_term_meta( $term->term_id, 'product_attribute_image', true ) );
+									
+									$attachment_id = apply_filters( 'wvs_product_global_attribute_image_id', absint( get_term_meta( $term->term_id, 'product_attribute_image', true ) ) );
 									$image_size    = woo_variation_swatches()->get_option( 'attribute_image_size' );
 									$image         = wp_get_attachment_image_src( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ) );
 									// $image_html = wp_get_attachment_image( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ), false, array( 'class' => '' ) );

@@ -1,17 +1,9 @@
-// Rem output with px fallback
-@mixin font-size($sizeValue: 16, $lineHeight: false ) {
-	font-size: $sizeValue + px;
-	font-size: ($sizeValue / 16) + rem;
-	@if ($lineHeight) {
-		line-height: $lineHeight;
-	}
-}
+// Converts a font-size in px to rem and optionally sets a relative line-height.
+@mixin font-size($sizeValue: 16px, $lineHeight: false) {
+	font-size: ($sizeValue / 16px) * 1rem;
 
-@mixin hover-state {
-	&:hover,
-	&:active,
-	&:focus {
-		@content;
+	@if ($lineHeight) {
+		line-height: $lineHeight / $sizeValue;
 	}
 }
 
@@ -31,12 +23,14 @@
 @mixin placeholder() {
 	animation: loading-fade 1.2s ease-in-out infinite;
 	background-color: $core-grey-light-500 !important;
-	color: transparent;
-	border: 0;
+	border-color: $core-grey-light-500 !important;
+	color: $core-grey-light-500 !important;
 	box-shadow: none;
+	pointer-events: none;
 
-	&::after {
-		content: "\00a0";
+	// Forces direct descendants to keep layout but lose visibility.
+	> * {
+		visibility: hidden;
 	}
 
 	@media screen and (prefers-reduced-motion: reduce) {
@@ -44,16 +38,13 @@
 	}
 }
 
-// Adds animation to transforms
-@mixin animate-transform( $duration: 0.2s ) {
-	transition: transform ease $duration;
-
-	@media screen and (prefers-reduced-motion: reduce) {
-		transition: none;
+@mixin force-content() {
+	&::after {
+		content: "\00a0";
 	}
 }
 
-// Hide an element from sighted users, but availble to screen reader users.
+// Hide an element from sighted users, but available to screen reader users.
 @mixin visually-hidden() {
 	clip: rect(1px, 1px, 1px, 1px);
 	clip-path: inset(50%);
@@ -66,12 +57,67 @@
 	word-wrap: normal !important;
 }
 
-// Unhide a visually hidden element
-@mixin visually-shown() {
-	clip: auto;
-	clip-path: none;
-	height: auto;
-	width: auto;
-	margin: unset;
-	overflow: hidden;
+@mixin reset-box() {
+	border: 0;
+	border-radius: 0;
+	margin: 0;
+	padding: 0;
+	vertical-align: baseline;
+}
+
+@mixin reset-typography() {
+	color: inherit;
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	letter-spacing: inherit;
+	line-height: inherit;
+	text-decoration: inherit;
+	text-transform: inherit;
+}
+
+// Reset <h1>, <h2>, etc. styles as if they were text. Useful for elements that must be headings for a11y but don't need those styles.
+@mixin text-heading() {
+	@include reset-box();
+	@include reset-typography();
+	box-shadow: none;
+	display: inline;
+
+	background: transparent;
+}
+
+// Reset <button> style as if it was text. Useful for elements that must be `<button>` for a11y but don't need those styles.
+@mixin text-button() {
+	@include reset-box();
+	@include reset-typography();
+	background: transparent;
+	box-shadow: none;
+	display: inline;
+
+	&:hover,
+	&:focus,
+	&:active {
+		background: transparent;
+	}
+}
+
+// Reset <button> style so we can use link style for action buttons.
+@mixin link-button() {
+	@include text-button();
+	text-decoration: underline;
+}
+
+// Makes sure long words are broken if they overflow the container.
+@mixin wrap-break-word() {
+	// This is the current standard, works in most browsers.
+	overflow-wrap: anywhere;
+	// Safari supports word-break.
+	word-break: break-word;
+	// IE11 doesn't support overflow-wrap neither word-break: break-word, so we fallback to -ms-work-break: break-all.
+	-ms-word-break: break-all;
+}
+
+// Converts a px unit to rem.
+@function rem($size, $base: 16px) {
+	@return $size / $base * 1rem;
 }

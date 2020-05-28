@@ -2,14 +2,44 @@
 # This file is distributed under the same license as the Plugins - YITH Essential Kit for WooCommerce #1 - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-12-16 15:24:40+0000\n"
+"PO-Revision-Date: 2020-05-18 20:21:41+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/2.4.0-alpha\n"
+"X-Generator: GlotPress/3.0.0-alpha\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH Essential Kit for WooCommerce #1 - Stable (latest release)\n"
+
+#: plugin-fw/lib/yit-plugin-panel.php:1238
+msgid ":) Thanks!"
+msgstr ":) Grazie!"
+
+#: plugin-fw/lib/yit-plugin-panel.php:1237
+msgid "help us by leaving a five-star rating"
+msgstr "aiutaci lasciando una valutazione 5 stelle"
+
+#: plugin-fw/lib/yit-plugin-panel.php:1235
+msgid "to keep updating and improving the plugin. Please,"
+msgstr "per continuare ad aggiornare e a migliorare il plugin. Per favore,"
+
+#: plugin-fw/lib/yit-plugin-panel.php:1234
+msgid "We need your support"
+msgstr "Abbiamo bisogno del tuo sostegno"
+
+#: plugin-fw/templates/fields/onoff.php:25
+msgctxt "ON/OFF button: use MAX 3 characters!"
+msgid "OFF"
+msgstr "NO"
+
+#: plugin-fw/templates/fields/onoff.php:24
+msgctxt "ON/OFF button: use MAX 3 characters!"
+msgid "ON"
+msgstr "SÌ"
+
+#: templates/yith-list-plugins.php:47
+msgid "Plugin enabled"
+msgstr "Plugin attivato"
 
 #: plugin-fw/templates/sysinfo/system-information-panel.php:46
 msgid "Output IP Address"
@@ -31,72 +61,72 @@ msgstr "Non è stato possibile determinare quale versione <b>TLS</b> è installa
 msgid "N/A"
 msgstr "N/A"
 
-#: plugin-fw/lib/yith-system-status.php:292
+#: plugin-fw/lib/yith-system-status.php:298
 msgid "The system check has detected some compatibility issues on your installation. %sClick here%s to know more"
 msgstr "Il controllo del sistema ha rilevato dei problemi di compatibilità sulla tua installazione. Per maggiori informazioni %sfai clic qui%s"
 
-#: plugin-fw/lib/yith-system-status.php:291
+#: plugin-fw/lib/yith-system-status.php:297
 msgid "Warning!"
 msgstr "Attenzione!"
 
-#: plugin-fw/lib/yith-system-status.php:174
+#: plugin-fw/lib/yith-system-status.php:180
 msgid "WooCommerce"
 msgstr "WooCommerce"
 
-#: plugin-fw/lib/yith-system-status.php:116
+#: plugin-fw/lib/yith-system-status.php:117
 msgid "URL FOpen"
 msgstr "URL FOpen"
 
-#: plugin-fw/lib/yith-system-status.php:115
+#: plugin-fw/lib/yith-system-status.php:116
 msgid "OPCache Save Comments"
 msgstr "OPCache Save Comments"
 
-#: plugin-fw/lib/yith-system-status.php:114
+#: plugin-fw/lib/yith-system-status.php:115
 msgid "Iconv Module"
 msgstr "Iconv Module"
 
-#: plugin-fw/lib/yith-system-status.php:113
+#: plugin-fw/lib/yith-system-status.php:114
 msgid "GD Library"
 msgstr "GD Library"
 
-#: plugin-fw/lib/yith-system-status.php:112
+#: plugin-fw/lib/yith-system-status.php:113
 msgid "ImageMagick Version"
 msgstr "ImageMagick Version"
 
-#: plugin-fw/lib/yith-system-status.php:111
+#: plugin-fw/lib/yith-system-status.php:112
 msgid "MultiByte String"
 msgstr "MultiByte String"
 
-#: plugin-fw/lib/yith-system-status.php:110
+#: plugin-fw/lib/yith-system-status.php:111
 msgid "SimpleXML"
 msgstr "SimpleXML"
 
-#: plugin-fw/lib/yith-system-status.php:109
+#: plugin-fw/lib/yith-system-status.php:110
 msgid "WordPress Cron"
 msgstr "WordPress Cron"
 
-#: plugin-fw/lib/yith-system-status.php:108
+#: plugin-fw/lib/yith-system-status.php:109
 msgid "TLS Version"
 msgstr "Versione TLS"
 
-#: plugin-fw/lib/yith-system-status.php:107
+#: plugin-fw/lib/yith-system-status.php:108
 msgid "PHP Version"
 msgstr "Versione PHP"
 
-#: plugin-fw/lib/yith-system-status.php:106
+#: plugin-fw/lib/yith-system-status.php:107
 msgid "Available Memory"
 msgstr "Memoria disponibile"
 
-#: plugin-fw/lib/yith-system-status.php:105
+#: plugin-fw/lib/yith-system-status.php:106
 msgid "WooCommerce Version"
 msgstr "Versione WooCommerce"
 
-#: plugin-fw/lib/yith-system-status.php:104
+#: plugin-fw/lib/yith-system-status.php:105
 msgid "WordPress Version"
 msgstr "Versione WordPress"
 
-#: plugin-fw/lib/yith-system-status.php:97
-#: plugin-fw/lib/yith-system-status.php:98
+#: plugin-fw/lib/yith-system-status.php:135
+#: plugin-fw/lib/yith-system-status.php:136
 msgid "System Status"
 msgstr "Stato del sistema"
 
@@ -266,7 +296,7 @@ msgstr "YITH"
 msgid "Modules List"
 msgstr "Lista dei moduli"
 
-#: plugin-fw/yit-plugin.php:189
+#: plugin-fw/yit-plugin.php:190
 msgctxt "Action links"
 msgid "Settings"
 msgstr "Impostazioni"
@@ -344,12 +374,12 @@ msgstr "Cerca prodotto"
 msgid "Search Posts"
 msgstr "Cerca articoli"
 
-#: plugin-fw/lib/yit-plugin-panel.php:424
-#: plugin-fw/lib/yit-plugin-panel.php:427
+#: plugin-fw/lib/yit-plugin-panel.php:425
+#: plugin-fw/lib/yit-plugin-panel.php:428
 msgid "How to install premium version"
 msgstr "Come installare la versione premium"
 
-#: plugin-fw/lib/yith-system-status.php:173
+#: plugin-fw/lib/yith-system-status.php:179
 msgid "YITH Plugins"
 msgstr "Plugin YITH"
 
@@ -365,21 +395,21 @@ msgstr "https://wordpress.org/plugins/yith-essential-kit-for-woocommerce-1/"
 msgid "YITH Essential Kit for WooCommerce #1"
 msgstr "YITH Essential Kit for WooCommerce #1"
 
-#: templates/yith-list-plugins.php:233
+#: templates/yith-list-plugins.php:235
 msgid "%s Download, %s Active Installs"
 msgstr "%s Download, %s Installazioni attive"
 
-#: templates/yith-list-plugins.php:229
+#: templates/yith-list-plugins.php:231
 msgctxt "Downloaded"
 msgid "1+ Million"
 msgstr "1+ Milione"
 
-#: templates/yith-list-plugins.php:223
+#: templates/yith-list-plugins.php:225
 msgctxt "Active plugin installs"
 msgid "1+ Million"
 msgstr "1+ Milione"
 
-#: templates/yith-list-plugins.php:206
+#: templates/yith-list-plugins.php:207
 msgid "Last Updated:"
 msgstr "Ultimo aggiornamento:"
 
@@ -387,23 +417,23 @@ msgstr "Ultimo aggiornamento:"
 msgid "M j, Y @ H:i"
 msgstr "M j, Y @ H:i"
 
-#: templates/yith-list-plugins.php:147
+#: templates/yith-list-plugins.php:148
 msgid "Buy Premium Version"
 msgstr "Acquista la versione premium "
 
-#: templates/yith-list-plugins.php:142
+#: templates/yith-list-plugins.php:143
 msgid "Activate Premium"
 msgstr "Attiva la versione premium"
 
-#: templates/yith-list-plugins.php:133
+#: templates/yith-list-plugins.php:134
 msgid "Premium Activated"
 msgstr "Versione premium attivata"
 
-#: templates/yith-list-plugins.php:119
+#: templates/yith-list-plugins.php:120
 msgid "More Details"
 msgstr "Ulteriori dettagli"
 
-#: templates/yith-list-plugins.php:119
+#: templates/yith-list-plugins.php:120
 msgid "More information about %s"
 msgstr "Informazioni aggiuntive su %s"
 
@@ -507,7 +537,7 @@ msgstr "Chiudi tutti"
 msgid "Image preview"
 msgstr "Anteprima immagine"
 
-#: plugin-fw/yit-plugin.php:193
+#: plugin-fw/yit-plugin.php:194
 msgid "License"
 msgstr "Licenza"
 
@@ -555,67 +585,67 @@ msgstr ""
 msgid "Plugins Activated"
 msgstr "I plugin sono stati attivati"
 
-#: plugin-fw/lib/yit-plugin-panel.php:784
+#: plugin-fw/lib/yit-plugin-panel.php:786
 msgid "Sorting successful."
 msgstr "Ordinamento effettuato con successo."
 
-#: plugin-fw/lib/yit-plugin-panel.php:783
+#: plugin-fw/lib/yit-plugin-panel.php:785
 msgid "Sorry, import is disabled."
 msgstr "Ci dispiace, l'importazione è stata disabilitata."
 
-#: plugin-fw/lib/yit-plugin-panel.php:782
+#: plugin-fw/lib/yit-plugin-panel.php:784
 msgid "The added file is not valid."
 msgstr "Il file aggiunto non è valido."
 
-#: plugin-fw/lib/yit-plugin-panel.php:781
+#: plugin-fw/lib/yit-plugin-panel.php:783
 msgid "An error has occurred during import. Please try again."
 msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
 
-#: plugin-fw/lib/yit-plugin-panel.php:780
+#: plugin-fw/lib/yit-plugin-panel.php:782
 msgid "Database imported correctly."
 msgstr "Database importato in modo corretto."
 
-#: plugin-fw/lib/yit-plugin-panel.php:778
-#: plugin-fw/lib/yit-plugin-panel.php:779
+#: plugin-fw/lib/yit-plugin-panel.php:780
+#: plugin-fw/lib/yit-plugin-panel.php:781
 msgid "Element updated correctly."
 msgstr "Elemento aggiornato correttamente"
 
-#: plugin-fw/lib/yit-plugin-panel.php:777
+#: plugin-fw/lib/yit-plugin-panel.php:779
 msgid "Element deleted correctly."
 msgstr "Elemento rimosso in modo corretto."
 
-#: plugin-fw/lib/yit-plugin-panel.php:776
+#: plugin-fw/lib/yit-plugin-panel.php:778
 msgid "Settings reset"
 msgstr "Impostazioni ripristinate"
 
-#: plugin-fw/lib/yit-plugin-panel.php:775
+#: plugin-fw/lib/yit-plugin-panel.php:777
 msgid "Settings saved"
 msgstr "Impostazioni salvate"
 
-#: plugin-fw/lib/yit-plugin-panel.php:774
+#: plugin-fw/lib/yit-plugin-panel.php:776
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Per favore, inserisci un altro nome."
 
-#: plugin-fw/lib/yit-plugin-panel.php:576
-#: plugin-fw/lib/yit-plugin-subpanel.php:157
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:21
+#: plugin-fw/lib/yit-plugin-panel.php:578
+#: plugin-fw/lib/yit-plugin-subpanel.php:157
 msgid "Are you sure?"
 msgstr "Sei sicuro?"
 
-#: plugin-fw/lib/yit-plugin-panel.php:575
+#: plugin-fw/lib/yit-plugin-panel.php:577
 #: plugin-fw/lib/yit-plugin-subpanel.php:156
 msgid "Reset to default"
 msgstr "Ripristina configurazione predefinita"
 
-#: plugin-fw/lib/yit-plugin-panel.php:573
-#: plugin-fw/lib/yit-plugin-subpanel.php:154
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:17
+#: plugin-fw/lib/yit-plugin-panel.php:575
+#: plugin-fw/lib/yit-plugin-subpanel.php:154
 msgid "If you continue with this action, you will reset all options in this page."
 msgstr "Se prosegui con questa azione, tutte le opzioni di questa pagina saranno reimpostate."
 
-#: plugin-fw/lib/yit-plugin-panel.php:570
-#: plugin-fw/lib/yit-plugin-subpanel.php:151
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
+#: plugin-fw/lib/yit-plugin-panel.php:572
+#: plugin-fw/lib/yit-plugin-subpanel.php:151
 msgid "Save Changes"
 msgstr "Salva modifiche"
 
@@ -623,191 +653,191 @@ msgstr "Salva modifiche"
 msgid "Plugin Settings"
 msgstr "Impostazioni plugin"
 
-#: plugin-fw/lib/yit-plugin-panel-wc.php:397
+#: plugin-fw/lib/yit-plugin-panel-wc.php:399
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1636
+#: plugin-fw/lib/yit-cpt-unlimited.php:1638
 msgid "Upload multiple files"
 msgstr "Carica file multipli"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1633
+#: plugin-fw/lib/yit-cpt-unlimited.php:1635
 msgid "Add %s from images"
 msgstr "Aggiungi %s dalle immagini"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1475
+#: plugin-fw/lib/yit-cpt-unlimited.php:1477
 msgid "Show frontend of the %s"
 msgstr "Mostra front end di %s"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1222
-#: plugin-fw/lib/yit-cpt-unlimited.php:1235
+#: plugin-fw/lib/yit-cpt-unlimited.php:1224
+#: plugin-fw/lib/yit-cpt-unlimited.php:1237
 msgid "Quick links"
 msgstr "Collegamenti rapidi"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1130
+#: plugin-fw/lib/yit-cpt-unlimited.php:1132
 msgid "layout settings"
 msgstr "impostazioni di layout"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1089
+#: plugin-fw/lib/yit-cpt-unlimited.php:1091
 msgid "Layout for single page of this portfolio"
 msgstr "Layout per pagina singola per questo portfolio"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1088
+#: plugin-fw/lib/yit-cpt-unlimited.php:1090
 msgid "Single layout"
 msgstr "Layout singolo"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1083
+#: plugin-fw/lib/yit-cpt-unlimited.php:1085
 msgid "Set univocal name for each category page URL."
 msgstr "Imposta un nome univoco per l'URL della pagina di ciascuna categoria."
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1082
+#: plugin-fw/lib/yit-cpt-unlimited.php:1084
 msgid "Taxonomy Rewrite"
 msgstr "Riscrivi tassonomia"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1077
+#: plugin-fw/lib/yit-cpt-unlimited.php:1079
 msgid "If you want to use categories in the portfolio, set a name for taxonomy. Name should be a slug (must not contain capital letters nor spaces) and must not be more than 32 characters long (database structure restriction)."
 msgstr "Se vuoi aggiungere delle categorie nel portfolio, imposta un nome per la tassonomia. Il nome dovrà essere in forma di slug (non deve contenere caratteri maiuscoli né spazi) e non più lungo di 32 caratteri (restrizione di database)."
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1076
+#: plugin-fw/lib/yit-cpt-unlimited.php:1078
 msgid "Taxonomy"
 msgstr "Tassonomia"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1071
+#: plugin-fw/lib/yit-cpt-unlimited.php:1073
 msgid "Set a label in plural (title of portfolio if empty)"
 msgstr "Imposta un'etichetta plurale (titolo del portfolio se vuoto)"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1070
+#: plugin-fw/lib/yit-cpt-unlimited.php:1072
 msgid "Label in Plural"
 msgstr "Etichetta plurale"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1065
+#: plugin-fw/lib/yit-cpt-unlimited.php:1067
 msgid "Set a label in singular (title of portfolio if empty)"
 msgstr "Imposta un'etichetta singolare (titolo del portfolio se vuoto)"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1064
+#: plugin-fw/lib/yit-cpt-unlimited.php:1066
 msgid "Label in Singular"
 msgstr "Etichetta singolare"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1059
+#: plugin-fw/lib/yit-cpt-unlimited.php:1061
 msgid "Univocal identification name in the URL for each product (slug from post if empty)"
 msgstr "Nome identificativo univoco nell'URL per singolo prodotto (usa slug dal post se vuoto)"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1058
+#: plugin-fw/lib/yit-cpt-unlimited.php:1060
 msgid "Rewrite"
 msgstr "Riscrivi"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1052
+#: plugin-fw/lib/yit-cpt-unlimited.php:1054
 msgid "Layout for this %s"
 msgstr "Layout per questo %s"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1042
+#: plugin-fw/lib/yit-cpt-unlimited.php:1044
 msgid "%s Settings"
 msgstr "Impostazioni %s"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:724
+#: plugin-fw/lib/yit-cpt-unlimited.php:726
 msgid "Categories"
 msgstr "Categorie"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:635
+#: plugin-fw/lib/yit-cpt-unlimited.php:637
 msgid "Category"
 msgstr "Categoria"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:634
+#: plugin-fw/lib/yit-cpt-unlimited.php:636
 msgid "New Category Name"
 msgstr "Nuovo nome categoria"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:633
+#: plugin-fw/lib/yit-cpt-unlimited.php:635
 msgid "Add New Category"
 msgstr "Aggiungi nuova categoria"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:632
+#: plugin-fw/lib/yit-cpt-unlimited.php:634
 msgid "Update Category"
 msgstr "Aggiorna categoria"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:631
+#: plugin-fw/lib/yit-cpt-unlimited.php:633
 msgid "Edit Category"
 msgstr "Modifica categoria"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:630
+#: plugin-fw/lib/yit-cpt-unlimited.php:632
 msgid "Parent Category:"
 msgstr "Categoria genitore:"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:629
+#: plugin-fw/lib/yit-cpt-unlimited.php:631
 msgid "Parent Category"
 msgstr "Categoria genitore"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:628
+#: plugin-fw/lib/yit-cpt-unlimited.php:630
 msgid "All Categories"
 msgstr "Tutte le categorie"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:627
 #: plugin-fw/templates/fields/ajax-terms.php:56
+#: plugin-fw/lib/yit-cpt-unlimited.php:629
 msgid "Search Categories"
 msgstr "Cerca categorie"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:626
+#: plugin-fw/lib/yit-cpt-unlimited.php:628
 msgctxt "taxonomy singular name"
 msgid "Category"
 msgstr "Categoria"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:625
+#: plugin-fw/lib/yit-cpt-unlimited.php:627
 msgctxt "taxonomy general name"
 msgid "%s Categories"
 msgstr "%s Categorie"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:468
-#: plugin-fw/lib/yit-cpt-unlimited.php:582
+#: plugin-fw/lib/yit-cpt-unlimited.php:470
+#: plugin-fw/lib/yit-cpt-unlimited.php:584
 msgid "No %s found in Trash"
 msgstr "Nessun %s trovato nel cestino"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:467
-#: plugin-fw/lib/yit-cpt-unlimited.php:581
+#: plugin-fw/lib/yit-cpt-unlimited.php:469
+#: plugin-fw/lib/yit-cpt-unlimited.php:583
 msgid "No %s found"
 msgstr "Nessun %s trovato"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:466
-#: plugin-fw/lib/yit-cpt-unlimited.php:580
+#: plugin-fw/lib/yit-cpt-unlimited.php:468
+#: plugin-fw/lib/yit-cpt-unlimited.php:582
 msgid "Search %s"
 msgstr "Cerca %s"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:465
-#: plugin-fw/lib/yit-cpt-unlimited.php:579
-#: plugin-fw/lib/yit-cpt-unlimited.php:1251
-#: plugin-fw/lib/yit-cpt-unlimited.php:1305
+#: plugin-fw/lib/yit-cpt-unlimited.php:467
+#: plugin-fw/lib/yit-cpt-unlimited.php:581
+#: plugin-fw/lib/yit-cpt-unlimited.php:1253
+#: plugin-fw/lib/yit-cpt-unlimited.php:1307
 msgid "View %s"
 msgstr "Visualizza %s"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:464
-#: plugin-fw/lib/yit-cpt-unlimited.php:578
+#: plugin-fw/lib/yit-cpt-unlimited.php:466
+#: plugin-fw/lib/yit-cpt-unlimited.php:580
 msgid "All %s"
 msgstr "Tutti %s"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:463
-#: plugin-fw/lib/yit-cpt-unlimited.php:577
+#: plugin-fw/lib/yit-cpt-unlimited.php:465
+#: plugin-fw/lib/yit-cpt-unlimited.php:579
 msgid "New %s"
 msgstr "Nuovo %s"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:462
-#: plugin-fw/lib/yit-cpt-unlimited.php:576
-#: plugin-fw/lib/yit-cpt-unlimited.php:1267
-#: plugin-fw/lib/yit-cpt-unlimited.php:1304
+#: plugin-fw/lib/yit-cpt-unlimited.php:464
+#: plugin-fw/lib/yit-cpt-unlimited.php:578
+#: plugin-fw/lib/yit-cpt-unlimited.php:1269
+#: plugin-fw/lib/yit-cpt-unlimited.php:1306
 msgid "Edit %s"
 msgstr "Modifica %s"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:461
-#: plugin-fw/lib/yit-cpt-unlimited.php:575
+#: plugin-fw/lib/yit-cpt-unlimited.php:463
+#: plugin-fw/lib/yit-cpt-unlimited.php:577
 msgid "Add New %s"
 msgstr "Aggiungi nuovo %s"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:460
-#: plugin-fw/lib/yit-cpt-unlimited.php:574
-#: plugin-fw/lib/yit-cpt-unlimited.php:719
-#: plugin-fw/lib/yit-cpt-unlimited.php:1634
+#: plugin-fw/lib/yit-cpt-unlimited.php:462
+#: plugin-fw/lib/yit-cpt-unlimited.php:576
+#: plugin-fw/lib/yit-cpt-unlimited.php:721
+#: plugin-fw/lib/yit-cpt-unlimited.php:1636
 msgid "Add %s"
 msgstr "Aggiungi %s"
 
-#: plugin-fw/templates/fields/upload.php:27
 #: plugin-fw/templates/metaboxes/types/icon-list.php:70
+#: plugin-fw/templates/fields/upload.php:27
 #: plugin-fw/templates/panel/woocommerce/woocommerce-upload.php:40
 msgid "Upload"
 msgstr "Carica"
@@ -838,23 +868,23 @@ msgstr "Rimuovi"
 msgid "Value"
 msgstr "Valore"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1051
+#: plugin-fw/lib/yit-cpt-unlimited.php:1053
 msgid "Type"
 msgstr "Tipologia"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1482
 #: plugin-fw/templates/fields/customtabs.php:46
 #: plugin-fw/templates/fields/customtabs.php:89
+#: plugin-fw/lib/yit-cpt-unlimited.php:1484
 msgid "Name"
 msgstr "Nome"
 
-#: templates/yith-list-plugins.php:207
+#: templates/yith-list-plugins.php:209
 msgid "%s ago"
 msgstr "%s trascorsi"
 
 #: plugin-fw/lib/yit-plugin-panel.php:80
-#: plugin-fw/lib/yit-cpt-unlimited.php:1048
-#: plugin-fw/lib/yit-cpt-unlimited.php:1196
-#: plugin-fw/lib/yit-cpt-unlimited.php:1202
+#: plugin-fw/lib/yit-cpt-unlimited.php:1050
+#: plugin-fw/lib/yit-cpt-unlimited.php:1198
+#: plugin-fw/lib/yit-cpt-unlimited.php:1204
 msgid "Settings"
 msgstr "Impostazioni"

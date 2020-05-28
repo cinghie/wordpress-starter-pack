@@ -1,15 +1,85 @@
-# Translation of Plugins - Coming Soon Page &amp; Maintenance Mode by SeedProd - Stable (latest release) in Italian
-# This file is distributed under the same license as the Plugins - Coming Soon Page &amp; Maintenance Mode by SeedProd - Stable (latest release) package.
+# Translation of Plugins - Coming Soon Page, Under Construction &amp; Maintenance Mode by SeedProd - Stable (latest release) in Italian
+# This file is distributed under the same license as the Plugins - Coming Soon Page, Under Construction &amp; Maintenance Mode by SeedProd - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-05-14 15:38:46+0000\n"
+"PO-Revision-Date: 2020-05-15 13:57:28+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/2.4.0-alpha\n"
+"X-Generator: GlotPress/3.0.0-alpha\n"
 "Language: it\n"
-"Project-Id-Version: Plugins - Coming Soon Page &amp; Maintenance Mode by SeedProd - Stable (latest release)\n"
+"Project-Id-Version: Plugins - Coming Soon Page, Under Construction &amp; Maintenance Mode by SeedProd - Stable (latest release)\n"
+
+#. Plugin Name of the plugin
+msgid "Coming Soon Page, Under Construction & Maintenance Mode by SeedProd"
+msgstr "Coming Soon Page, Under Construction & Maintenance Mode by SeedProd"
+
+#: framework/framework.php:258
+msgid "Suggest a Feature &raquo;"
+msgstr "Suggerisci una funzionalità &raquo;"
+
+#: framework/framework.php:257
+msgid "Suggest a Feature"
+msgstr "Suggerisci una funzionalità"
+
+#: lib/setup_tgmpa.php:52
+msgid "Activate RafflePress"
+msgid_plural "Begin activating plugins"
+msgstr[0] "Attiva RafflePress"
+msgstr[1] "Inizio attivazione dei plugin"
+
+#: lib/setup_tgmpa.php:47
+msgid "Install RafflePress Now"
+msgid_plural "Begin installing plugins"
+msgstr[0] "Installa RafflePress ora"
+msgstr[1] "Inizio installazione dei plugin"
+
+#: framework/skin.php:88
+msgid "There was an error installing the addon. Please try again."
+msgstr "Si è verificato un errore durante l'installazione dell'add-on. Riprova."
+
+#. translators: 1: plugin name(s).
+#: lib/TGMPA.php:372
+msgid "The following recommended plugin is currently inactive: %1$s."
+msgid_plural "The following recommended plugins are currently inactive: %1$s."
+msgstr[0] "Il seguente plugin consigliato è attualmente inattivo: %1$s."
+msgstr[1] "I seguenti plugin consigliati sono attualmente inattivi: %1$s."
+
+#. translators: 1: plugin name(s).
+#: lib/TGMPA.php:366
+msgid "The following required plugin is currently inactive: %1$s."
+msgid_plural "The following required plugins are currently inactive: %1$s."
+msgstr[0] "Il seguente plugin richiesto è attualmente inattivo: %1$s."
+msgstr[1] "I seguenti plugin richiesti sono attualmente inattivi: %1$s."
+
+#. translators: 1: plugin name(s).
+#: lib/TGMPA.php:360
+msgid "There is an update available for: %1$s."
+msgid_plural "There are updates available for the following plugins: %1$s."
+msgstr[0] "C'è un aggiornamento disponibile per: %1$s."
+msgstr[1] "Ci sono aggiornamenti disponibili per i seguenti plugin: %1$s."
+
+#. translators: 1: plugin name(s).
+#: lib/TGMPA.php:354
+msgid "The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s."
+msgid_plural "The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s."
+msgstr[0] "Il seguente plugin deve essere aggiornato alla versione più recente per garantire la massima compatibilità con questo tema: %1$s."
+msgstr[1] "I seguenti plugin devono essere aggiornati alla versione più recente per garantire la massima compatibilità con questo tema: %1$s."
+
+#. translators: 1: plugin name(s).
+#: lib/TGMPA.php:348
+msgid "This theme recommends the following plugin: %1$s."
+msgid_plural "This theme recommends the following plugins: %1$s."
+msgstr[0] "Questo tema raccomanda il seguente plugin: %1$s."
+msgstr[1] "Questo tema raccomanda i seguenti plugin: %1$s."
+
+#. translators: 1: plugin name(s).
+#: lib/TGMPA.php:342
+msgid "This theme requires the following plugin: %1$s."
+msgid_plural "This theme requires the following plugins: %1$s."
+msgstr[0] "Questo tema richiede il seguente plugin: %1$s."
+msgstr[1] "Questo tema richiede i seguenti plugin: %1$s."
 
 #: framework/review.php:75
 msgid "--<br> John Turner<br><a href=\""
@@ -22,6 +92,343 @@ msgid ""
 msgstr ""
 "\n"
 "        <p>Stai ustando SeedProd Lite - non è richiesta licenza. Divertiti! <img draggable=\"false\" class=\"emoji\" alt=\"🙂\" src=\"https://s.w.org/images/core/emoji/11/svg/1f642.svg\"></p><p>Per avere maggiori funzionalità considera <a href=\""
+
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#: lib/TGMPA.php:3596
+msgid "Installing Plugin %1$s (%2$d/%3$d)"
+msgstr "Sto installando il plugin %1$s (%2$d/%3$d)"
+
+#: lib/TGMPA.php:3594
+msgid "All installations have been completed."
+msgstr "Tutte le installazioni sono state completate."
+
+#. translators: 1: plugin name.
+#: lib/TGMPA.php:3593
+msgid "%1$s installed successfully."
+msgstr "%1$s installato con successo."
+
+#: lib/TGMPA.php:3591
+msgid "The installation process is starting. This process may take a while on some hosts, so please be patient."
+msgstr "Il processo di installazione si avvia. Questo processo può richiedere tempo su alcuni host, quindi sii paziente."
+
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#: lib/TGMPA.php:3588
+msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
+msgstr "Installazione e attivazione del plugin %1$s (%2$d/%3$d)"
+
+#: lib/TGMPA.php:3586
+msgid "All installations and activations have been completed."
+msgstr "Tutte le installazioni e le attivazioni sono state completate."
+
+#. translators: 1: plugin name.
+#: lib/TGMPA.php:3585 lib/TGMPA.php:3593
+msgid "Hide Details"
+msgstr "Nascondi i dettagli"
+
+#. translators: 1: plugin name.
+#: lib/TGMPA.php:3585 lib/TGMPA.php:3593
+msgid "Show Details"
+msgstr "Mostra i dettagli"
+
+#. translators: 1: plugin name.
+#: lib/TGMPA.php:3585
+msgid "%1$s installed and activated successfully."
+msgstr "%1$s installato e attivato con successo."
+
+#: lib/TGMPA.php:3583
+msgid "The installation and activation process is starting. This process may take a while on some hosts, so please be patient."
+msgstr "Il processo di installazione e attivazione sta iniziando. Questo processo potrebbe richiedere del tempo su alcuni host, quindi sii paziente."
+
+#. translators: 1: plugin name.
+#: lib/TGMPA.php:3579
+msgid "The installation of %1$s failed."
+msgstr "L'installazione di %1$s è fallita."
+
+#. translators: 1: plugin name, 2: error message.
+#: lib/TGMPA.php:3577
+msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
+msgstr "Si è verificato un errore nell'installazione di %1$s: <strong>%2$s</strong>."
+
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#: lib/TGMPA.php:3574
+msgid "Updating Plugin %1$s (%2$d/%3$d)"
+msgstr "Aggiornamento del plugin %1$s (%2$d/%3$d)"
+
+#: lib/TGMPA.php:3253
+msgid "Plugin activation failed."
+msgstr "Attivazione del plugin fallita."
+
+#: lib/TGMPA.php:3036
+msgid "No plugins are available to be activated at this time."
+msgstr "Al momento non ci sono plugin disponibili per l’attivazione."
+
+#: lib/TGMPA.php:3010
+msgid "No plugins were selected to be activated. No action taken."
+msgstr "Nessun plugin è stato selezionato per l'attivazione. Nessuna azione intrapresa."
+
+#: lib/TGMPA.php:2904
+msgid "No plugins are available to be updated at this time."
+msgstr "Al momento non ci sono plugin disponibili per l’aggiornamento."
+
+#: lib/TGMPA.php:2902
+msgid "No plugins are available to be installed at this time."
+msgstr "Al momento non ci sono plugin disponibili per l’installazione."
+
+#: lib/TGMPA.php:2861
+msgid "No plugins were selected to be updated. No action taken."
+msgstr "Nessun plugin è stato selezionato per l'aggiornamento. Nessuna azione intrapresa."
+
+#: lib/TGMPA.php:2859
+msgid "No plugins were selected to be installed. No action taken."
+msgstr "Nessun plugin è stato selezionato per l'installazione. Nessuna azione intrapresa."
+
+#: lib/TGMPA.php:2828
+msgid "Activate"
+msgstr "Attiva"
+
+#: lib/TGMPA.php:2825
+msgid "Update"
+msgstr "Aggiorna"
+
+#: lib/TGMPA.php:2819
+msgid "Install"
+msgstr "Installa"
+
+#: lib/TGMPA.php:2786
+msgid "Upgrade message from the plugin author:"
+msgstr "Messaggio di aggiornamento dall'autore del plugin:"
+
+#. translators: %2$s: plugin name in screen reader markup
+#: lib/TGMPA.php:2716
+msgid "Activate %2$s"
+msgstr "Attiva %2$s"
+
+#. translators: %2$s: plugin name in screen reader markup
+#: lib/TGMPA.php:2710
+msgid "Update %2$s"
+msgstr "Aggiorna %2$s"
+
+#. translators: %2$s: plugin name in screen reader markup
+#: lib/TGMPA.php:2705
+msgid "Install %2$s"
+msgstr "Installa %2$s"
+
+#: lib/TGMPA.php:2655
+msgid "Version"
+msgstr "Versione"
+
+#: lib/TGMPA.php:2651
+msgid "Type"
+msgstr "Tipo"
+
+#: lib/TGMPA.php:2650
+msgid "Source"
+msgstr "Origine"
+
+#: lib/TGMPA.php:2649
+msgid "Plugin"
+msgstr "Plugin"
+
+#: lib/TGMPA.php:2635
+msgid "No plugins to install, update or activate."
+msgstr "Nessun plugin da installare, aggiornare o attivare."
+
+#: lib/TGMPA.php:2612
+msgid "Available version:"
+msgstr "Versione disponibile:"
+
+#: lib/TGMPA.php:2600
+msgid "Minimum required version:"
+msgstr "Versione minima obbligatoria:"
+
+#: lib/TGMPA.php:2592
+msgid "Installed version:"
+msgstr "Versione installata:"
+
+#: lib/TGMPA.php:2584
+msgctxt "as in: \"version nr unknown\""
+msgid "unknown"
+msgstr "sconosciuto"
+
+#. translators: 1: number of plugins.
+#: lib/TGMPA.php:2502
+msgid "To Activate <span class=\"count\">(%s)</span>"
+msgid_plural "To Activate <span class=\"count\">(%s)</span>"
+msgstr[0] "Da attivare <span class=\"count\">(%s)</span>"
+msgstr[1] "Da attivare <span class=\"count\">(%s)</span>"
+
+#. translators: 1: number of plugins.
+#: lib/TGMPA.php:2498
+msgid "Update Available <span class=\"count\">(%s)</span>"
+msgid_plural "Update Available <span class=\"count\">(%s)</span>"
+msgstr[0] "Aggiornamento disponibile <span class=\"count\">(%s)</span>"
+msgstr[1] "Aggiornamenti disponibili <span class=\"count\">(%s)</span>"
+
+#. translators: 1: number of plugins.
+#: lib/TGMPA.php:2494
+msgid "To Install <span class=\"count\">(%s)</span>"
+msgid_plural "To Install <span class=\"count\">(%s)</span>"
+msgstr[0] "Da installare <span class=\"count\">(%s)</span>"
+msgstr[1] "Da installare <span class=\"count\">(%s)</span>"
+
+#. translators: 1: number of plugins.
+#: lib/TGMPA.php:2490
+msgctxt "plugins"
+msgid "All <span class=\"count\">(%s)</span>"
+msgid_plural "All <span class=\"count\">(%s)</span>"
+msgstr[0] "Tutti <span class=\"count\">(%s)</span>"
+msgstr[1] "Tutti <span class=\"count\">(%s)</span>"
+
+#. translators: 1: install status, 2: update status
+#: lib/TGMPA.php:2444
+msgctxt "Install/Update Status"
+msgid "%1$s, %2$s"
+msgstr "%1$s, %2$s"
+
+#: lib/TGMPA.php:2435
+msgid "Update recommended"
+msgstr "È consigliato aggiornare"
+
+#: lib/TGMPA.php:2432
+msgid "Requires Update"
+msgstr "Richiede l'aggiornamento"
+
+#: lib/TGMPA.php:2429
+msgid "Required Update not Available"
+msgstr "L'aggiornamento richiesto non è disponibile"
+
+#: lib/TGMPA.php:2423
+msgid "Active"
+msgstr "Attivo"
+
+#: lib/TGMPA.php:2421
+msgid "Installed But Not Activated"
+msgstr "Installato ma non attivato"
+
+#: lib/TGMPA.php:2417
+msgid "Not Installed"
+msgstr "Non installato"
+
+#: lib/TGMPA.php:2400
+msgid "Pre-Packaged"
+msgstr "Incorporato"
+
+#: lib/TGMPA.php:2397
+msgid "External Source"
+msgstr "Sorgente esterna"
+
+#: lib/TGMPA.php:2394
+msgid "WordPress Repository"
+msgstr "Repository di WordPress"
+
+#: lib/TGMPA.php:2378
+msgid "Recommended"
+msgstr "Raccomandato"
+
+#: lib/TGMPA.php:2375
+msgid "Required"
+msgstr "Obbligatorio"
+
+#. translators: %s: version number
+#: lib/TGMPA.php:2091
+msgid "TGMPA v%s"
+msgstr "TGMPA v%s"
+
+#: lib/TGMPA.php:1222 lib/TGMPA.php:3050
+msgctxt "plugin A *and* plugin B"
+msgid "and"
+msgstr "e"
+
+#: lib/TGMPA.php:1038
+msgid "The remote plugin package consists of more than one file, but the files are not packaged in a folder."
+msgstr "Il pacchetto remoto del plugin comprende più file ma questi file non sono raggruppati in una cartella."
+
+#: lib/TGMPA.php:1035 lib/TGMPA.php:1038
+msgid "Please contact the plugin provider and ask them to package their plugin according to the WordPress guidelines."
+msgstr "Contatta il fornitore del plugin per chiedergli di preparare il plugin secondo le linee guida di WordPress."
+
+#: lib/TGMPA.php:1035
+msgid "The remote plugin package does not contain a folder with the desired slug and renaming did not work."
+msgstr "Il pacchetto remoto del plugin non contiene una cartella con lo slug desiderato e non è possibile rinominare."
+
+#: lib/TGMPA.php:726
+msgid "Set the parent_slug config variable instead."
+msgstr "Imposta invece la variabile di configurazione parent_slug."
+
+#: lib/TGMPA.php:609
+msgid "Update Required"
+msgstr "Aggiornamento obbligatorio"
+
+#: lib/TGMPA.php:608
+msgid "This plugin needs to be updated to be compatible with your theme."
+msgstr "Questo plugin deve essere aggiornato per essere compatibile con il tuo tema."
+
+#: lib/TGMPA.php:405
+msgid "Please contact the administrator of this site for help."
+msgstr "Contatta l'amministratore del sito per richiedere supporto."
+
+#: lib/TGMPA.php:404
+msgid "There are one or more required or recommended plugins to install, update or activate."
+msgstr "Ci sono uno o più plugin obbligatori o raccomandati da installare, aggiornare o attivare."
+
+#: lib/TGMPA.php:403
+msgid "Dismiss this notice"
+msgstr "Ignora questo avviso"
+
+#. translators: 1: dashboard link.
+#: lib/TGMPA.php:402
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr "Tutti i plugin sono stati installati e attivati con successo. %1$s"
+
+#. translators: 1: plugin name.
+#: lib/TGMPA.php:400
+msgid "Plugin not activated. A higher version of %s is needed for this theme. Please update the plugin."
+msgstr "Il plugin non è stato attivato. Per questo tema è necessaria una versione più recente di %s. Aggiorna il plugin."
+
+#. translators: 1: plugin name.
+#: lib/TGMPA.php:398
+msgid "No action taken. Plugin %1$s was already active."
+msgstr "Nessuna azione effettuata. Il plugin %1$s era già attivo."
+
+#: lib/TGMPA.php:396 lib/TGMPA.php:3054
+msgid "The following plugin was activated successfully:"
+msgid_plural "The following plugins were activated successfully:"
+msgstr[0] "Il seguente plugin è stato attivato con successo:"
+msgstr[1] ""
+
+#: lib/TGMPA.php:395 lib/TGMPA.php:3254
+msgid "Plugin activated successfully."
+msgstr "Plugin attivato con successo."
+
+#: lib/TGMPA.php:394 lib/TGMPA.php:928 lib/TGMPA.php:2635 lib/TGMPA.php:3656
+msgid "Return to the Dashboard"
+msgstr "Torna alla Bacheca"
+
+#: lib/TGMPA.php:393
+msgid "Return to Required Plugins Installer"
+msgstr "Torna all'installazione dei plugin obbligatori"
+
+#: lib/TGMPA.php:341
+msgid "Something went wrong with the plugin API."
+msgstr "Qualcosa è andato storto con le API del plugin."
+
+#. translators: %s: plugin name.
+#: lib/TGMPA.php:340
+msgid "Updating Plugin: %s"
+msgstr "Aggiornamento del plugin in corso: %s"
+
+#. translators: %s: plugin name.
+#: lib/TGMPA.php:338
+msgid "Installing Plugin: %s"
+msgstr "Installazione del plugin in corso: %s"
+
+#: lib/TGMPA.php:336
+msgid "Install Plugins"
+msgstr "Installa i plugin"
+
+#: lib/TGMPA.php:335
+msgid "Install Required Plugins"
+msgstr "Installa i plugin obbligatori"
 
 #: inc/config-settings.php:192
 msgid "Available Pro Themes"
@@ -39,19 +446,24 @@ msgstr "Chiave della licenza"
 msgid "License"
 msgstr "Licenza"
 
-#: framework/framework.php:229
+#: framework/framework.php:249
 msgid "<span style='color:#ff9a4b'>Addons</span>"
-msgstr "<span style='color:#ff9a4b'>Addon</span>"
+msgstr "<span style='color:#ff9a4b'>Add-on</span>"
 
-#: framework/framework.php:228
+#: framework/framework.php:248
 msgid "Addons"
-msgstr "Addon"
+msgstr "Add-on"
 
-#: framework/framework.php:201 framework/framework.php:202
+#: framework/framework.php:227 framework/framework.php:228
+#: inc/config-settings.php:410
+msgid "Subscribers"
+msgstr "Sottoscrittori"
+
+#: framework/framework.php:207 framework/framework.php:208
 msgid "Themes"
 msgstr "Temi"
 
-#: framework/framework.php:192 framework/framework.php:193
+#: framework/framework.php:198 framework/framework.php:199
 msgid "Settings"
 msgstr "Impostazioni"
 
@@ -59,7 +471,7 @@ msgstr "Impostazioni"
 msgid "Dismiss Notice"
 msgstr "Ignora avviso"
 
-#: framework/framework.php:523
+#: framework/framework.php:569
 msgid "Got a Support Question"
 msgstr "Hai una domanda per il supporto"
 
@@ -91,19 +503,19 @@ msgstr "Ok, ve lo meritate"
 msgid "Please rate <strong>SeedProd</strong> <a href=\"%s\" target=\"_blank\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on <a href=\"%s\" target=\"_blank\">WordPress.org</a> to help us spread the word. Thank you from the SeedProd team!"
 msgstr "Vota <strong>Coming Soon Page & Maintenance Mode di SeedProd</strong> <a href=\"%s\" target=\"_blank\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> su <a href=\"%s\" target=\"_blank\">WordPress.org</a> per aiutare a spargere la voce. Grazie dal team SeedProd!"
 
-#: framework/framework.php:485
+#: framework/framework.php:531
 msgid "Yo-Yo-Yo, Why Go Pro?"
 msgstr "Perché fare l'upgrade?"
 
-#: inc/class-seed-csp4.php:249
+#: inc/class-seed-csp4.php:250
 msgid "Only authenticated users can access the REST API."
 msgstr "Solo gli utenti autenticati possono accedere all'API REST."
 
-#: framework/framework.php:559
+#: framework/framework.php:605
 msgid "Rate It on WordPress.org"
 msgstr "Dandogli un voto su WordPress.org"
 
-#: framework/framework.php:331
+#: framework/framework.php:376
 msgid "Upgrade to Pro for More Features"
 msgstr "Fai l'upgrade a Pro per altre caratteristiche"
 
@@ -135,12 +547,12 @@ msgstr "Attenua sfondo"
 msgid "When you are logged in you'll see your normal website. Logged out visitors will see the Coming Soon or Maintenance page. Coming Soon Mode will be available to search engines if your site is not private. Maintenance Mode will notify search engines that the site is unavailable. <a href='https://www.seedprod.com/coming-soon-vs-maintenance-mode/?utm_source=coming-soon-plugin&utm_medium=link&utm_campaign=cc-vs-mm' target='_blank'>Learn the difference between Coming Soon and Maintenance Mode</a>"
 msgstr "Quando sei autenticato vedrai il tuo sito normalmente. Gli utenti non autenticati vedranno le pagine coming soon o manutenzione. La modalità coming soon è visibile ai motori di ricerca se il sito non è privato. La modalità manutenzione notificherà i motori di ricerca che il sito non è disponibile. <a href='https://www.seedprod.com/coming-soon-vs-maintenance-mode/?utm_source=coming-soon-plugin&utm_medium=link&utm_campaign=cc-vs-mm' target='_blank'>Conosci le differenze tra modalità coming soon e manutenzione</a>"
 
-#: framework/framework.php:460
+#: framework/framework.php:506
 msgid "Getting Started Video - 60 sec"
 msgstr "Video Come iniziare - 60 sec"
 
 #. Author of the plugin
-#: framework/framework.php:181 framework/framework.php:182
+#: framework/framework.php:187 framework/framework.php:188
 #: inc/config-settings.php:22
 msgid "SeedProd"
 msgstr "SeedProd"
@@ -440,7 +852,7 @@ msgstr "Abilita modalità Coming soon"
 msgid "Disabled"
 msgstr "Disabilitato"
 
-#: inc/config-settings.php:67
+#: lib/TGMPA.php:2656 inc/config-settings.php:67
 msgid "Status"
 msgstr "Stato"
 
@@ -480,52 +892,52 @@ msgstr "Inserisci un'email valida."
 msgid "Please enter a valid color value."
 msgstr "Inserisci un codice colore valido."
 
-#: framework/framework.php:613
+#: framework/framework.php:659
 msgid "This tabs settings be deleted and reset to the defaults. Are you sure you want to reset?"
 msgstr "Le impostazioni di questa scheda stanno per essere eliminate e ripristinate ai valori predefiniti. Sicuro di voler procedere?"
 
-#: framework/framework.php:570
+#: framework/framework.php:616
 msgid "SeedProd Blog"
 msgstr "Blog di SeedProd"
 
-#: framework/framework.php:560
+#: framework/framework.php:606
 msgid "Tweet It"
 msgstr "Twittando"
 
-#: framework/framework.php:557
+#: framework/framework.php:603
 msgid "Buy It"
 msgstr "Comprandolo"
 
-#: framework/framework.php:555
+#: framework/framework.php:601
 msgid "Like this plugin? Show your support by:"
 msgstr "Ti piace questo plugin? Mostra il tuo sostegno:"
 
-#: framework/framework.php:552
+#: framework/framework.php:598
 msgid "Show Some Love"
 msgstr "Mostra il tuo sostegno"
 
-#: framework/framework.php:525
+#: framework/framework.php:571
 msgid "Common Caching Issues Resolutions"
 msgstr "Risoluzione problemi di cache comuni"
 
-#: framework/framework.php:400 framework/framework.php:447
+#: framework/framework.php:446 framework/framework.php:493
 msgid "Reset Settings"
 msgstr "Ripristina impostazioni"
 
-#: framework/framework.php:397 framework/framework.php:446
-#: framework/framework.php:821
+#: framework/framework.php:443 framework/framework.php:492
+#: framework/framework.php:867
 msgid "Save All Changes"
 msgstr "Salva tutte le modifiche"
 
-#: framework/framework.php:329
+#: framework/framework.php:374
 msgid "Live Preview"
 msgstr "Anteprima live"
 
-#: framework/framework.php:329
+#: framework/framework.php:374
 msgid "&larr; Close Window"
 msgstr "&larr; Chiudi finestra"
 
-#: framework/framework.php:137
+#: framework/framework.php:140
 msgid "Settings reset."
 msgstr "Impostazioni ripristinate."
 
@@ -599,7 +1011,6 @@ msgstr "02-Feb"
 msgid "01-Jan"
 msgstr "01-Gen"
 
-#. Plugin Name of the plugin
 #: coming-soon.php:22
 msgid "Coming Soon Page & Maintenance Mode by SeedProd"
 msgstr "Coming Soon Page & Maintenance Mode by SeedProd"

@@ -141,76 +141,6 @@ function manageAdminPermissions() {
         }
         
     }
-
-	if (!isPixelCogActive() ) {
-
-		$event_purchase = get_option('woo_purchase_value_cog');
-		$content_value = get_option('woo_content_value_cog');
-		$add_to_cart_value = get_option('woo_add_to_cart_value_cog');
-		$initiate_checkout_value = get_option('woo_initiate_checkout_value_cog');
-
-		$event_purchase_old = get_option('woo_purchase_value_option');
-		$content_value_old = get_option('woo_view_content_value_option');
-		$add_to_cart_value_old = get_option('woo_add_to_cart_value_option');
-		$initiate_checkout_value_old = get_option('woo_initiate_checkout_value_option');
-
-		if (!$event_purchase) add_option('woo_purchase_value_cog', $event_purchase_old);
-		if (!$content_value) add_option('woo_content_value_cog', $content_value_old);
-		if (!$add_to_cart_value) add_option('woo_add_to_cart_value_cog', $add_to_cart_value_old);
-		if (!$initiate_checkout_value) add_option('woo_initiate_checkout_value_cog', $initiate_checkout_value_old);
-
-		$PixelCogDeActive = array(
-			'woo_view_content_value_option' => 'price',
-			'woo_add_to_cart_value_option' => 'price',
-			'woo_initiate_checkout_value_option' => 'price',
-			'woo_purchase_value_option' => 'price'
-		);
-		// update settings
-		PYS()->updateOptions( $PixelCogDeActive );
-		PYS()->reloadOptions();
-	} else {
-		$event_purchase = get_option('woo_purchase_value_cog');
-		$content_value = get_option('woo_content_value_cog');
-		$add_to_cart_value = get_option('woo_add_to_cart_value_cog');
-		$initiate_checkout_value = get_option('woo_initiate_checkout_value_cog');
-
-		if ($initiate_checkout_value == 'cog') {
-			$PixelCogDeActive = array(
-				'woo_initiate_checkout_value_option' => 'cog'
-			);
-			// update settings
-			PYS()->updateOptions( $PixelCogDeActive );
-			PYS()->reloadOptions();
-		}
-
-		if ($add_to_cart_value == 'cog') {
-			$PixelCogDeActive = array(
-				'woo_add_to_cart_value_option' => 'cog'
-			);
-			// update settings
-			PYS()->updateOptions( $PixelCogDeActive );
-			PYS()->reloadOptions();
-		}
-
-		if ($content_value == 'cog') {
-			$PixelCogDeActive = array(
-				'woo_view_content_value_option' => 'cog',
-			);
-			// update settings
-			PYS()->updateOptions( $PixelCogDeActive );
-			PYS()->reloadOptions();
-		}
-
-		if ($event_purchase == 'cog') {
-			$PixelCogDeActive = array(
-				'woo_purchase_value_option' => 'cog',
-			);
-			// update settings
-			PYS()->updateOptions( $PixelCogDeActive );
-			PYS()->reloadOptions();
-		}
-	}
-    
 }
 
 function renderPopoverButton( $popover_id ) {
@@ -326,7 +256,7 @@ function adminRenderNotices() {
      * Pixel ID notices
      */
     
-    $facebook_pixel_id = Facebook()->getOption( 'pixel_id' );
+    $facebook_pixel_id = Facebook()->getPixelIDs() ;
     
     if ( Facebook()->enabled() && empty( $facebook_pixel_id ) ) {
         $no_facebook_pixels = true;
@@ -334,7 +264,7 @@ function adminRenderNotices() {
         $no_facebook_pixels = false;
     }
     
-    $ga_tracking_id = GA()->getOption( 'tracking_id' );
+    $ga_tracking_id = GA()->getPixelIDs() ;
     
     if ( GA()->enabled() && empty( $ga_tracking_id ) ) {
         $no_ga_pixels = true;

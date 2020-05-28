@@ -59,5 +59,10 @@
   "gdpr_ginger_integration_enabled": "checkbox",
   "gdpr_cookie_notice_integration_enabled": "checkbox",
   "gdpr_cookie_law_info_integration_enabled": "checkbox",
-  "gdpr_ajax_enabled": "checkbox"
+  "gdpr_ajax_enabled": "checkbox",
+
+  "woo_purchase_value_cog": "radio",
+  "woo_content_value_cog": "radio",
+  "woo_add_to_cart_value_cog": "radio",
+  "woo_initiate_checkout_value_cog": "radio"
 }

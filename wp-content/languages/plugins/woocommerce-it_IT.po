@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - WooCommerce - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-05-10 01:35:20+0000\n"
+"PO-Revision-Date: 2020-05-26 16:24:30+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,15 @@ msgstr ""
 "X-Generator: GlotPress/3.0.0-alpha\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - WooCommerce - Stable (latest release)\n"
+
+#. translators: 1: uploads directory URL 2: documentation URL
+#: includes/admin/views/html-notice-uploads-directory-is-unprotected.php:22
+msgid "Your store's uploads directory is <a href=\"%1$s\">browsable via the web</a>. We strongly recommend <a href=\"%2$s\">configuring your web server to prevent directory indexing</a>."
+msgstr "La cartella uploads del tuo negozio risulta <a href=\"%1$s\">consultabile via web</a>. Ti raccomandiamo vivamente di <a href=\"%2$s\">configurare il tuo web server in modo da inibire la visualizzazione dell'indice delle directory</a>."
+
+#: packages/action-scheduler/classes/abstracts/ActionScheduler.php:195
+msgid "%s() was called before the Action Scheduler data store was initialized"
+msgstr "la funzione %s() è stata chiamata prima che il data store dell'Action Scheduler fosse inizializzato"
 
 #: packages/woocommerce-admin/dist/components/index.js:34
 msgid "Press the down arrow key to interact with the calendar and select a date."
@@ -468,11 +477,6 @@ msgstr "Visita WooCommerce.com per saperne di più su <a href=\"%1$s\" target=\"
 #: includes/shipping/free-shipping/class-wc-shipping-free-shipping.php:109
 msgid "Coupons discounts"
 msgstr "Sconti da codici promozionali"
-
-#. translators: $1: open code tag, $2: function name, $3: close code tag.
-#: packages/action-scheduler/classes/abstracts/ActionScheduler.php:192
-msgid "Action Scheduler function %1$s%2$s%3$s should not be used within the WordPress %1$sshutdown%3$s hook."
-msgstr "La funzione Pianificatore azione %1$s%2$s%3$s non deve essere usata nell'hook di %1$sarresto%3$s di WordPress."
 
 #: packages/woocommerce-admin/src/Features/ShippingLabelBanner.php:108
 #: packages/woocommerce-admin/dist/wp-admin-scripts/print-shipping-label-banner.js:7
@@ -4516,15 +4520,15 @@ msgstr "Evviva, %1$s è stato il giorno il cui hai raggiunto il record delle ven
 msgid "Activate usage tracking"
 msgstr "Attiva la tracciabilità dell'utilizzo"
 
+#: packages/woocommerce-admin/src/Notes/WC_Admin_Notes_Giving_Feedback_Notes.php:61
+msgid "Review"
+msgstr "Recensione"
+
 #. translators: 1: open link to WooCommerce.com settings, 2: open link to
 #. WooCommerce.com tracking documentation, 3: close link tag.
 #: packages/woocommerce-admin/src/Notes/WC_Admin_Notes_Tracking_Opt_In.php:58
 msgid "Gathering usage data allows us to improve WooCommerce. Your store will be considered as we evaluate new features, judge the quality of an update, or determine if an improvement makes sense. You can always visit the %1$sSettings%3$s and choose to stop sharing data. %2$sRead more%3$s about what data we collect."
 msgstr "Raccogliere i dati di utilizzo ci consente di migliorare WooCommerce. Il tuo negozio verrà tenuto in considerazione nel momento in cui valuteremo nuove funzioni, giudicheremo la qualità di un aggiornamento o determineremo se un miglioramento ha senso. Puoi sempre visitare le %1$sImpostazioni%3$s e scegliere di interrompere la condivisione dei dati. %2$sScopri di più%3$s su quali dati raccogliamo."
-
-#: packages/woocommerce-admin/src/Notes/WC_Admin_Notes_Giving_Feedback_Notes.php:61
-msgid "Review"
-msgstr "Recensione"
 
 #: packages/woocommerce-admin/src/Notes/WC_Admin_Notes_Giving_Feedback_Notes.php:53
 msgid "If you like WooCommerce Admin please leave us a 5 star rating. A huge thanks in advance!"
@@ -4969,15 +4973,15 @@ msgstr "Se stai utilizzando il metodo X-Accel-Redirect per i download con il ser
 msgid "Not required if your download directory is protected. <a href='%s'>See this guide</a> for more details. Files already uploaded will not be affected."
 msgstr "Non richiesto se la directory del download è protetta. <a href='%s'>Consulta questa guida</a> per ulteriori dettagli. I file già caricati non saranno influenzati."
 
-#: includes/admin/notes/class-wc-notes-run-db-update.php:209
+#: includes/admin/notes/class-wc-notes-run-db-update.php:242
 msgid "WooCommerce database update done"
 msgstr "Aggiornamento database WooCommerce completato"
 
-#: includes/admin/notes/class-wc-notes-run-db-update.php:173
+#: includes/admin/notes/class-wc-notes-run-db-update.php:190
 msgid "WooCommerce database update in progress"
 msgstr "Aggiornamento database WooCommerce in corso"
 
-#: includes/admin/notes/class-wc-notes-run-db-update.php:170
+#: includes/admin/notes/class-wc-notes-run-db-update.php:187
 msgid "View progress →"
 msgstr "Visualizza progresso \t"
 
@@ -5012,6 +5016,14 @@ msgstr "Paese/regione di fatturazione"
 #: packages/woocommerce-admin/dist/app/index.js:27
 msgid "Country / Region"
 msgstr "Paese/regione"
+
+#: packages/woocommerce-blocks/src/BlockTypes/ProductCategories.php:170
+msgid "List of categories"
+msgstr "Elenco di categorie"
+
+#: packages/woocommerce-blocks/src/BlockTypes/ProductCategories.php:171
+msgid "List of categories with their product counts"
+msgstr "Elenco di categorie con conteggio dei prodotti"
 
 #: packages/woocommerce-blocks/assets/js/components/grid-layout-control/index.js:62
 #: packages/woocommerce-blocks/build/product-best-sellers.js:1
@@ -5069,14 +5081,6 @@ msgstr "L'ultimo blocco interno verrà allineato verticalmente."
 #: packages/woocommerce-blocks/build/product-category-legacy.js:1
 msgid "Align Last Block"
 msgstr "Allinea ultimo blocco"
-
-#: packages/woocommerce-blocks/src/BlockTypes/ProductCategories.php:170
-msgid "List of categories"
-msgstr "Elenco di categorie"
-
-#: packages/woocommerce-blocks/src/BlockTypes/ProductCategories.php:171
-msgid "List of categories with their product counts"
-msgstr "Elenco di categorie con conteggio dei prodotti"
 
 #: packages/woocommerce-blocks/src/BlockTypes/AbstractProductGrid.php:432
 msgid "Product on sale"
@@ -5503,15 +5507,6 @@ msgstr "Non siamo stati in grado di trovare risultati basati sulla tua ricerca."
 msgid "There are currently no products available to display."
 msgstr "Al momento non sono presenti prodotti disponibili da visualizzare."
 
-#. translators: %s number of products in cart.
-#: packages/woocommerce-blocks/assets/js/atomic/components/product/button/index.js:108
-#: packages/woocommerce-blocks/build/all-products-frontend.js:6
-#: packages/woocommerce-blocks/build/all-products.js:1
-msgid "%d in cart"
-msgid_plural "%d in cart"
-msgstr[0] "%d nel carrello"
-msgstr[1] ""
-
 #: packages/woocommerce-blocks/assets/js/base/components/product-sort-select/index.js:52
 #: packages/woocommerce-blocks/build/all-products-frontend.js:6
 #: packages/woocommerce-blocks/build/all-products.js:1
@@ -5587,6 +5582,15 @@ msgstr "Vestiario"
 #: packages/woocommerce-blocks/build/all-products.js:1
 msgid "Fly your WordPress banner with this beauty! Deck out your office space or add it to your kids walls. This banner will spruce up any space it’s hung!"
 msgstr "Scegli la tua bandierina WordPress con questa bellezza! Decora il tuo officio o aggiungila alle parete dei tuoi figli. Questa bandierina ravviva qualsiasi spazio su cui è appesa!"
+
+#. translators: %s number of products in cart.
+#: packages/woocommerce-blocks/assets/js/atomic/components/product/button/index.js:108
+#: packages/woocommerce-blocks/build/all-products-frontend.js:6
+#: packages/woocommerce-blocks/build/all-products.js:1
+msgid "%d in cart"
+msgid_plural "%d in cart"
+msgstr[0] "%d nel carrello"
+msgstr[1] "%d nel carrello"
 
 #: packages/woocommerce-blocks/build/product-category.js:1
 #: packages/woocommerce-blocks/build/product-category-legacy.js:1
@@ -9671,17 +9675,17 @@ msgid "The sale will start at 00:00:00 of \"From\" date and end at 23:59:59 of \
 msgstr "L'offerta inizierà alle ore 00:00:00 della data di inizio e terminerà alle ore 23:59:59 della data di fine."
 
 #. translators: %s: Minimum PHP version
-#: includes/admin/class-wc-admin-notices.php:416
+#: includes/admin/class-wc-admin-notices.php:420
 msgid "Update required: WooCommerce will soon require PHP version %s or newer."
 msgstr "Aggiornamento richiesto: WooCommerce presto richiederà la versione %s o successiva di PHP."
 
 #. translators: %s: Minimum WordPress version
-#: includes/admin/class-wc-admin-notices.php:422
+#: includes/admin/class-wc-admin-notices.php:426
 msgid "Update required: WooCommerce will soon require WordPress version %s or newer."
 msgstr "Aggiornamento richiesto: WooCommerce presto richiederà la versione %s o successiva di WordPress."
 
 #. translators: 1: Minimum PHP version 2: Minimum WordPress version
-#: includes/admin/class-wc-admin-notices.php:409
+#: includes/admin/class-wc-admin-notices.php:413
 msgid "Update required: WooCommerce will soon require PHP version %1$s and WordPress version %2$s or newer."
 msgstr "Aggiornamento richiesto: WooCommerce presto richiederà la versione %1$s di PHP e la versione %2$s di WordPress o successive."
 
@@ -9707,7 +9711,7 @@ msgstr "Nota: WP CRON è stato disabilitato sulla tua installazione e ciò potre
 msgid "Please enter a valid Eircode."
 msgstr "Inserisci un codice Eircode valido."
 
-#: includes/admin/notes/class-wc-notes-run-db-update.php:170
+#: includes/admin/notes/class-wc-notes-run-db-update.php:187
 #: includes/admin/views/html-notice-updating.php:16
 #: includes/admin/views/html-notice-regenerating-lookup-table.php:14
 msgid "You can manually run queued updates here."
@@ -9764,34 +9768,34 @@ msgstr "Aumenta magazzino esistente di:"
 msgid "View progress &rarr;"
 msgstr "Visualizza avanzamento &rarr;"
 
-#: includes/admin/notes/class-wc-notes-run-db-update.php:150
+#: includes/admin/notes/class-wc-notes-run-db-update.php:134
 #: includes/admin/views/html-notice-update.php:36
 msgid "Learn more about updates"
 msgstr "Per saperne di più sugli aggiornamenti"
 
-#: includes/admin/notes/class-wc-notes-run-db-update.php:143
+#: includes/admin/notes/class-wc-notes-run-db-update.php:127
 #: includes/admin/views/html-notice-update.php:33
 msgid "Update WooCommerce Database"
 msgstr "Aggiorna database WooCommerce"
 
 #. translators: %1$s: opening <a> tag %2$s: closing </a> tag
 #. translators: 1: Link to docs 2: Close link.
-#: includes/admin/notes/class-wc-notes-run-db-update.php:128
+#: includes/admin/notes/class-wc-notes-run-db-update.php:156
 #: includes/admin/views/html-notice-update.php:28
 msgid "The database update process runs in the background and may take a little while, so please be patient. Advanced users can alternatively update via %1$sWP CLI%2$s."
 msgstr "Il processo di aggiornamento del database viene eseguito in background e potrebbe richiedere del tempo, attendere. Gli utenti avanzati, in alternativa, possono effettuare l’aggiornamento attraverso %1$sWP CLI%2$s."
 
-#: includes/admin/notes/class-wc-notes-run-db-update.php:126
+#: includes/admin/notes/class-wc-notes-run-db-update.php:154
 #: includes/admin/views/html-notice-update.php:25
 msgid "WooCommerce has been updated! To keep things running smoothly, we have to update your database to the newest version."
 msgstr "WooCommerce è stato aggiornato! Per evitare interruzioni, abbiamo eseguito l’aggiornamento del database alla versione più recente."
 
-#: includes/admin/notes/class-wc-notes-run-db-update.php:124
+#: includes/admin/notes/class-wc-notes-run-db-update.php:152
 #: includes/admin/views/html-notice-update.php:21
 msgid "WooCommerce database update required"
 msgstr "Aggiornamento necessario del database WooCommerce"
 
-#: includes/admin/notes/class-wc-notes-run-db-update.php:174
+#: includes/admin/notes/class-wc-notes-run-db-update.php:191
 #: includes/admin/views/html-notice-updating.php:21
 msgid "WooCommerce is updating the database in the background. The database update process may take a little while, so please be patient."
 msgstr "WooCommerce sta aggiornando il database in background. Il processo di aggiornamento del database potrebbe richiedere del tempo, attendere."
@@ -10305,7 +10309,7 @@ msgstr "Il tuo ordine su %s è stato rimborsato. Di seguito sono riportati maggi
 msgid "Your order on %s has been partially refunded. There are more details below for your reference:"
 msgstr "Il tuo ordine su %s è stato parzialmente rimborsato. Di seguito sono riportati maggiori dettagli come riferimento:"
 
-#: includes/admin/notes/class-wc-notes-run-db-update.php:217
+#: includes/admin/notes/class-wc-notes-run-db-update.php:228
 msgid "Thanks!"
 msgstr "Grazie!"
 
@@ -12536,7 +12540,7 @@ msgid "Day(s)"
 msgstr "Giorno/i"
 
 #: includes/emails/class-wc-email.php:887
-#: includes/admin/class-wc-admin-notices.php:153
+#: includes/admin/class-wc-admin-notices.php:157
 msgid "You don&#8217;t have permission to do this."
 msgstr "Non disponi dell'autorizzazione per fare questo."
 
@@ -16365,7 +16369,7 @@ msgstr "Nome nuova categoria"
 msgid "Invalid tax class"
 msgstr "Classe d'imposta non valida"
 
-#: includes/class-wc-install.php:1311
+#: includes/class-wc-install.php:1308
 msgid "Visit premium customer support"
 msgstr "Visita il forum di supporto clienti Premium"
 
@@ -19396,7 +19400,7 @@ msgid "Return to emails"
 msgstr "Torna alle Email"
 
 #. translators: 1: plugin name, 2: URL to WP plugin page.
-#: includes/class-wc-install.php:1470
+#: includes/class-wc-install.php:1467
 msgid "%1$s was installed but could not be activated. <a href=\"%2$s\">Please activate it manually by clicking here.</a>"
 msgstr "%1$s è stato installato ma non può essere attivato. <a href=\"%2$s\">Attivalo manualmente cliccando qui.</a>"
 
@@ -19404,7 +19408,7 @@ msgstr "%1$s è stato installato ma non può essere attivato. <a href=\"%2$s\">A
 #. manually.
 #. translators: 1: theme slug, 2: error message, 3: URL to install theme
 #. manually.
-#: includes/class-wc-install.php:1442 includes/class-wc-install.php:1546
+#: includes/class-wc-install.php:1439 includes/class-wc-install.php:1543
 msgid "%1$s could not be installed (%2$s). <a href=\"%3$s\">Please install it manually by clicking here.</a>"
 msgstr "%1$s non può essere installato (%2$s). <a href=\"%3$s\">Installalo manualmente cliccando qui.</a>"
 
@@ -21678,6 +21682,7 @@ msgstr "La chiave segreta è utilizzata per generare un hash del webhook inviato
 #: includes/wc-template-functions.php:1025
 #: includes/admin/class-wc-admin-pointers.php:250
 #: includes/admin/views/html-notice-custom.php:12
+#: includes/admin/views/html-notice-uploads-directory-is-unprotected.php:15
 #: includes/admin/views/html-notice-redirect-only-download.php:12
 #: includes/admin/views/html-notice-maxmind-license-key.php:13
 #: includes/admin/views/html-notice-legacy-shipping.php:14
@@ -22598,7 +22603,7 @@ msgstr "Errore: L'URL di consegna ha restituito un codice di risposta: %s"
 msgid "ZIP"
 msgstr "C.A.P."
 
-#: includes/admin/notes/class-wc-notes-run-db-update.php:210
+#: includes/admin/notes/class-wc-notes-run-db-update.php:243
 #: includes/admin/views/html-notice-updated.php:16
 msgid "WooCommerce database update complete. Thank you for updating to the latest version!"
 msgstr "Aggiornamento del database di WooCommerce completato. Grazie per aver aggiornato all'ultima versione!"
@@ -23768,17 +23773,9 @@ msgstr "Indirizzo email"
 msgid "Confirm new password"
 msgstr "Conferma nuova password"
 
-#: templates/myaccount/form-login.php:70 templates/myaccount/form-login.php:107
-msgid "Register"
-msgstr "Registrazione"
-
 #: templates/myaccount/form-reset-password.php:28
 msgid "New password"
 msgstr "Nuova password"
-
-#: templates/myaccount/form-reset-password.php:32
-msgid "Re-enter new password"
-msgstr "Riscrivi nuova password"
 
 #: includes/wc-product-functions.php:248
 msgctxt "slug"
@@ -24188,6 +24185,14 @@ msgstr "Nessun prodotto"
 #: templates/myaccount/form-login.php:57 templates/global/form-login.php:54
 msgid "Lost your password?"
 msgstr "Password dimenticata?"
+
+#: templates/myaccount/form-login.php:70 templates/myaccount/form-login.php:107
+msgid "Register"
+msgstr "Registrati"
+
+#: templates/myaccount/form-reset-password.php:32
+msgid "Re-enter new password"
+msgstr "Reinserisci la nuova password"
 
 #. translators: %s: count
 #. translators: %s: number of orders
@@ -25496,7 +25501,7 @@ msgstr "Le password non corrispondono."
 msgid "required"
 msgstr "obbligatorio"
 
-#: includes/class-wc-install.php:1311
+#: includes/class-wc-install.php:1308
 msgid "Premium support"
 msgstr "Supporto premium"
 
@@ -25814,11 +25819,11 @@ msgstr "%s non è un numero di telefono valido."
 msgid "%s is not a valid email address."
 msgstr "%s non è un indirizzo e-mail valido"
 
-#: includes/class-wc-install.php:1292
+#: includes/class-wc-install.php:1289
 msgid "View WooCommerce settings"
 msgstr "Impostazioni Woocommerce"
 
-#: includes/class-wc-install.php:1310
+#: includes/class-wc-install.php:1307
 msgid "API docs"
 msgstr "Documentazione API"
 
@@ -25962,7 +25967,7 @@ msgstr "Consumer secret mancante."
 msgid "%s is a required field."
 msgstr "%s è un campo obbligatorio."
 
-#: includes/class-wc-install.php:1310
+#: includes/class-wc-install.php:1307
 msgid "View WooCommerce API docs"
 msgstr "Visualizza la documentazione API WooCommerce"
 
@@ -25970,7 +25975,7 @@ msgstr "Visualizza la documentazione API WooCommerce"
 msgid "New shipping class Name"
 msgstr "Nome della nuova classe di spedizione"
 
-#: includes/class-wc-install.php:1309
+#: includes/class-wc-install.php:1306
 msgid "View WooCommerce documentation"
 msgstr "Vedi la documentazione WooCommerce"
 
@@ -26152,13 +26157,6 @@ msgstr "Il tuo ordine è stato annullato."
 msgid "Your order can no longer be cancelled. Please contact us if you need assistance."
 msgstr "Il tuo ordine non può essere più annullato. Contattaci se hai bisogno di assistenza."
 
-#: templates/myaccount/form-login.php:32 templates/auth/form-login.php:49
-#: templates/global/form-login.php:51
-#: includes/class-wc-download-handler.php:183
-#: includes/admin/settings/class-wc-settings-accounts.php:59
-msgid "Login"
-msgstr "Accesso"
-
 #: includes/class-wc-post-types.php:527 includes/wc-order-functions.php:99
 msgctxt "Order status"
 msgid "Cancelled"
@@ -26178,6 +26176,13 @@ msgid "%d product"
 msgid_plural "%d products"
 msgstr[0] "%d prodotto"
 msgstr[1] "%d prodotti"
+
+#: templates/myaccount/form-login.php:32 templates/auth/form-login.php:49
+#: templates/global/form-login.php:51
+#: includes/class-wc-download-handler.php:183
+#: includes/admin/settings/class-wc-settings-accounts.php:59
+msgid "Login"
+msgstr "Accedi"
 
 #: includes/admin/views/html-admin-page-status-report.php:57
 msgid "The root URL of your site."
@@ -29607,7 +29612,7 @@ msgstr "Webhook creato correttamente."
 msgid "Webhooks"
 msgstr "Webhook"
 
-#: includes/class-wc-install.php:1309
+#: includes/class-wc-install.php:1306
 #: packages/woocommerce-admin/dist/app/index.js:27
 msgid "Docs"
 msgstr "Docs"
@@ -31106,11 +31111,6 @@ msgstr "Cassa"
 msgid "Billing"
 msgstr "Fatturazione"
 
-#: templates/cart/cart.php:143 templates/checkout/form-coupon.php:34
-#: includes/admin/class-wc-admin-post-types.php:710
-msgid "Coupon code"
-msgstr "Codice del Buono Sconto"
-
 #: includes/admin/class-wc-admin-pointers.php:205
 msgid "When you are finished editing your product, hit the \"Publish\" button to publish your product to your store."
 msgstr "Quando hai finito di modificare il tuo prodotto, premi il pulsante \"Pubblica\" per pubblicare il prodotto nel tuo negozio."
@@ -31359,6 +31359,11 @@ msgstr "Prodotto in evidenza"
 #: includes/admin/list-tables/class-wc-admin-list-table-products.php:129
 msgid "Tags"
 msgstr "Tag"
+
+#: templates/cart/cart.php:143 templates/checkout/form-coupon.php:34
+#: includes/admin/class-wc-admin-post-types.php:710
+msgid "Coupon code"
+msgstr "Codice promozionale"
 
 #: templates/single-product/tabs/description.php:22
 #: includes/wc-template-functions.php:1742
@@ -31905,7 +31910,7 @@ msgstr "Info su WooCommerce"
 
 #: packages/woocommerce-admin/src/Features/Analytics.php:142
 #: packages/woocommerce-admin/includes/connect-existing-pages.php:33
-#: includes/class-wc-install.php:1292
+#: includes/class-wc-install.php:1289
 #: includes/admin/class-wc-admin-menus.php:82
 #: includes/admin/views/html-admin-page-status-report.php:728
 #: packages/woocommerce-admin/dist/app/index.js:27
@@ -32214,7 +32219,7 @@ msgstr "A partire da:"
 #: includes/admin/class-wc-admin-status.php:295
 #: includes/admin/class-wc-admin-status.php:314
 #: includes/admin/class-wc-admin-status.php:330
-#: includes/admin/class-wc-admin-notices.php:149
+#: includes/admin/class-wc-admin-notices.php:153
 msgid "Action failed. Please refresh the page and retry."
 msgstr "Azione fallita. Aggiorna la pagina e riprova."
 

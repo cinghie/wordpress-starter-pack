@@ -9,8 +9,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 /** @noinspection PhpIncludeInspection */
 require_once PYS_FREE_PATH . '/modules/facebook/function-helpers.php';
 require_once PYS_FREE_PATH . '/modules/facebook/FDPEvent.php';
+require_once PYS_FREE_PATH . '/modules/facebook/PYSServerEventAsyncTask.php';
+require_once PYS_FREE_PATH . '/modules/facebook/PYSServerEventHelper.php';
 
 use PixelYourSite\Facebook\Helpers;
+use FacebookAds\Api;
+use FacebookAds\Object\ServerSide\EventRequest;
 
 class Facebook extends Settings implements Pixel {
 	
@@ -41,6 +45,9 @@ class Facebook extends Settings implements Pixel {
 	    	/** @var PYS $core */
 	    	$core->registerPixel( $this );
 	    } );
+
+        // initialize the s2s event async task
+        new PYSServerEventAsyncTask();
 	    
     }
     
@@ -51,12 +58,12 @@ class Facebook extends Settings implements Pixel {
 	public function configured() {
 		
 		if ( $this->configured === null ) {
-			
-			$pixel_id = $this->getOption( 'pixel_id' );
+
+			$pixel_id = $this->getPixelIDs();
 			$this->configured = $this->enabled()
-			                    && ! empty( $pixel_id )
+			                    && count( $pixel_id ) > 0
+                                && !empty($pixel_id[0])
 			                    && ! apply_filters( 'pys_pixel_disabled', false, $this->getSlug() );
-			
 		}
 		
 		return $this->configured;
@@ -66,8 +73,8 @@ class Facebook extends Settings implements Pixel {
 	public function getPixelIDs() {
 		
 		$ids = (array) $this->getOption( 'pixel_id' );
-		
-		return (array) reset( $ids ); // return first id only
+		$ids = (array) reset( $ids );// return first id only
+		return apply_filters("pys_facebook_ids",$ids);
 
 	}
 	
@@ -82,6 +89,8 @@ class Facebook extends Settings implements Pixel {
 			'wooVariableAsSimple' => $this->getOption( 'woo_variable_as_simple' ),
             'downloadEnabled' => $this->getOption( 'download_event_enabled' ),
             'formEventEnabled' => $this->getOption( 'form_event_enabled' ),
+            'serverApiEnabled'    => $this->isServerApiEnabled() && count($this->getApiToken()) > 0,
+            'wooCRSendFromServer' => $this->getOption("woo_complete_registration_send_from_server") && $this->getOption("woo_complete_registration_fire_every_time")
 		);
 		
 	}
@@ -151,7 +160,10 @@ class Facebook extends Settings implements Pixel {
 			case 'edd_purchase':
 				return $this->getEddCartEventParams( 'Purchase' );
 
-			default:
+            case 'complete_registration':
+                return $this->getCompleteRegistrationEventParams();
+
+                default:
 				return false;   // event does not supported
 		}
 		
@@ -325,11 +337,15 @@ class Facebook extends Settings implements Pixel {
         if($event->event_name == "fdp_add_to_cart") {
             $name = "AddToCart";
             $params = Helpers\getFDPAddToCartEventParams();
+            $params["value"] = $this->getOption("fdp_add_to_cart_value");
+            $params["currency"] = $this->getOption("fdp_currency");
         }
 
         if($event->event_name == "fdp_purchase") {
             $name = "Purchase";
             $params = Helpers\getFDPPurchaseEventParams();
+            $params["value"] = $this->getOption("fdp_purchase_value");
+            $params["currency"] = $this->getOption("fdp_currency");
         }
 
 
@@ -354,7 +370,7 @@ class Facebook extends Settings implements Pixel {
 		$params = array();
 
 		$product = wc_get_product( $post->ID );
-
+        if(!$product) return false;
 		$content_id = Helpers\getFacebookWooProductContentId( $post->ID );
 		$params['content_ids']  = json_encode( $content_id );
 
@@ -381,7 +397,6 @@ class Facebook extends Settings implements Pixel {
             $value_option = PYS()->getOption( 'woo_view_content_value_option' );
             $global_value = PYS()->getOption( 'woo_view_content_value_global', 0 );
 
-			update_option('woo_content_value_cog', $value_option);
 
             $params['value']    = getWooEventValue( $value_option, $amount, $global_value, $post->ID );
             $params['currency'] = get_woocommerce_currency();
@@ -604,12 +619,10 @@ class Facebook extends Settings implements Pixel {
         $value_option = PYS()->getOption( 'woo_purchase_value_option' );
         $global_value = PYS()->getOption( 'woo_purchase_value_global', 0 );
 
-		update_option('woo_purchase_value_cog', $value_option);
-
         $params['value'] = getWooEventValueOrder( $value_option, $amount, $global_value, $order_id, $content_ids );
         $params['currency'] = get_woocommerce_currency();
-        $params['transaction_id'] = $order_id;
-
+        //$params['transaction_id'] = $order_id;
+        $params['eventID'] = $order_id;
 		return array(
 			'name' => 'Purchase',
 			'data' => $params,
@@ -949,6 +962,92 @@ class Facebook extends Settings implements Pixel {
 
 	}
 
+    /**
+     * @return array
+     */
+    public function getApiToken() {
+        $ids = (array) $this->getOption( 'server_access_api_token' );
+        if ( isSuperPackActive() && SuperPack()->getOption( 'enabled' ) && SuperPack()->getOption( 'additional_ids_enabled' ) ) {
+            return $ids;
+        } else {
+            return (array) reset( $ids ); // return first id only
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getApiTestCode() {
+        $ids = (array) $this->getOption( 'test_api_event_code' );
+        if ( isSuperPackActive() && SuperPack()->getOption( 'enabled' ) && SuperPack()->getOption( 'additional_ids_enabled' ) ) {
+            return $ids;
+        } else {
+            return (array) reset( $ids ); // return first id only
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isServerApiEnabled() {
+        return $this->getOption("use_server_api");
+    }
+
+    public function trackEventByServerApi($event) {
+        do_action('pys_send_server_event', $event);
+    }
+
+    public static function sendServerRequest($events) {
+        if (empty($events)) {
+            return;
+        }
+        $access_token = Facebook::instance()->getApiToken();
+        $testCode = Facebook::instance()->getApiTestCode();
+        $isDebug = PYS()->getOption( 'debug_enabled' );
+        $pixel_Ids = Facebook::instance()->getPixelIDs();
+
+        $count = count($pixel_Ids);
+        for($i=0; $i<$count; $i++) {
+
+            if(empty($access_token[$i])) continue;
+
+            $api = Api::init(null, null, $access_token[$i]);
+
+            $request = (new EventRequest($pixel_Ids[$i]))->setEvents($events);
+            $request->setPartnerAgent("dvpixelyoursite");
+            if(!empty($testCode[$i]))  $request->setTestEventCode($testCode[$i]);
+
+            if($isDebug)  error_log("send fb api request ".print_r($request,true));
+
+            try{
+                $response = $request->execute();
+            } catch (\Exception   $e) {
+                error_log("error send Fb API request ".$e->getMessage());
+
+            }
+
+            if($isDebug && isset($response))  error_log("fb api response ".print_r($response,true));
+        }
+    }
+
+    private function getCompleteRegistrationEventParams() {
+
+        if ( ! $this->getOption( 'complete_registration_event_enabled' ) ) {
+            return false;
+        }
+        $params = array();
+        if($this->getOption("woo_complete_registration_fire_every_time") &&
+            $this->getOption("woo_complete_registration_use_custom_value") &&
+            isset( $_REQUEST['key'] ) ) {
+            $params = Helpers\getCompleteRegistrationOrderParams();
+        }
+
+        return $params = array(
+            'name'  => 'CompleteRegistration',
+            'data'  => $params,
+        );
+
+    }
 }
 
 /**

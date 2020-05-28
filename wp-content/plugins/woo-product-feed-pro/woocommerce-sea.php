@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     8.2.0
+ * Version:     8.2.7
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -17,7 +17,7 @@
  * Domain Path: /languages
  *
  * WC requires at least: 3.0
- * WC tested up to: 4.0
+ * WC tested up to: 4.1
  *
  * Product Feed PRO for WooCommerce is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '8.2.0' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '8.2.7' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -1385,6 +1385,7 @@ function woosea_product_delete_meta_price( $product = null ) {
                                 $prices  = $product->get_variation_prices();
                                 $lowest  = reset( $prices['price'] );
                                 $highest = end( $prices['price'] );
+                            	$permalink = get_permalink( $product->get_id() ); 
 
                                 if ( $lowest === $highest ) {
 
@@ -1393,11 +1394,14 @@ function woosea_product_delete_meta_price( $product = null ) {
                                                 'price' => wc_format_decimal( $lowest, wc_get_price_decimals() ),
 				               	'priceValidUntil'    => $price_valid_until,
 					        'priceCurrency' => $shop_currency,
-                                                'priceSpecification' => array(
+                                		'availability'  => 'https://schema.org/' . ( $product->is_in_stock() ? 'InStock' : 'OutOfStock' ),
+						'url'           => $permalink,
+					        'priceSpecification' => array(
                                                         'price'                 => wc_format_decimal( $lowest, wc_get_price_decimals() ),
                                                         'priceCurrency'         => $shop_currency,
                                                         'valueAddedTaxIncluded' => wc_prices_include_tax() ? 'true' : 'false',
                                                 ),
+
                                         );
 
 
@@ -1409,7 +1413,8 @@ function woosea_product_delete_meta_price( $product = null ) {
 				               	'priceValidUntil'    => $price_valid_until,
 					        'priceCurrency' => $shop_currency,
                                 		'availability'  => 'https://schema.org/' . ( $product->is_in_stock() ? 'InStock' : 'OutOfStock' ),
-                               		 	'seller'        => array(
+                        			'url'           => $permalink,    
+			   		 	'seller'        => array(
                                         		'@type' => 'Organization',
                                         		'name'  => $shop_name,
                                         		'url'   => $shop_url,
@@ -1569,7 +1574,7 @@ function woosea_product_fix_structured_data( $product = null ) {
 	                        $markup['offers'][0] = woosea_product_delete_meta_price($product);
 
 				// This only works for WooCommerce 3.6 and higher (wc_review_ratings_enabled function)
-			        if ( ($product->get_rating_count()) && (function_exists(wc_review_ratings_enabled()))) {
+			        if ( ($product->get_rating_count()) OR (function_exists(wc_review_ratings_enabled()))) {
                 			$markup['aggregateRating'] = array(
                         			'@type'       => 'AggregateRating',
                         			'ratingValue' => $product->get_average_rating(),
@@ -1678,7 +1683,7 @@ function woosea_product_fix_structured_data( $product = null ) {
                		$markup['offers'][0] = woosea_product_delete_meta_price($product);
 
 //			if(!class_exists('WPSEO_WooCommerce_Schema')){
-                                if ( ($product->get_rating_count()) && (function_exists(wc_review_ratings_enabled()))) {
+                                if ( ($product->get_rating_count()) OR (function_exists(wc_review_ratings_enabled()))) {
 
         		        	$markup['aggregateRating'] = array(
                 		        	'@type'       => 'AggregateRating',
@@ -1754,8 +1759,9 @@ function woosea_product_fix_structured_data( $product = null ) {
 
 		// Check if Yoast SEO WooCommerce plugin is enabled
                	// if(!class_exists('WPSEO_WooCommerce_Schema')){
-                     	if ( ($product->get_rating_count()) && (function_exists(wc_review_ratings_enabled()))) {
-        			$markup['aggregateRating'] = array(
+
+                     	if ( ($product->get_rating_count() > 0) OR (function_exists(wc_review_ratings_enabled()))) {
+				$markup['aggregateRating'] = array(
                 			'@type'       => 'AggregateRating',
                    			'ratingValue' => $product->get_average_rating(),
                     			'reviewCount' => $product->get_review_count(),
@@ -3549,7 +3555,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // Gender Field
 		if(isset($_POST['_woosea_variable_gender'])){
-                	$_gender = $_POST['_woosea_gender'];
+                	$_gender = $_POST['_woosea_variable_gender'];
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_gender[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_gender', stripslashes( sanitize_text_field( $_gender[$i] )));

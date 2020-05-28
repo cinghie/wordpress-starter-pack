@@ -27,7 +27,7 @@ if ( count( $raq_content ) === 0 ) :
 		<tbody>
 	<?php
 	foreach ( $raq_content as $key => $raq ) :
-		$product_id = ( isset( $raq['variation_id'] ) && '' === $raq['variation_id'] ) ? $raq['variation_id'] : $raq['product_id'];
+		$product_id = ( isset( $raq['variation_id'] ) && '' !== $raq['variation_id'] ) ? $raq['variation_id'] : $raq['product_id'];
 		$_product   = wc_get_product( $product_id );
 		if ( ! isset( $_product ) || ! is_object( $_product ) ) {
 			continue;

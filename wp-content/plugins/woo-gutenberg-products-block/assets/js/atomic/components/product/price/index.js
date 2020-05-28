@@ -1,30 +1,21 @@
 /**
  * External dependencies
  */
-import NumberFormat from 'react-number-format';
 import classnames from 'classnames';
-import { useProductLayoutContext } from '@woocommerce/base-context/product-layout-context';
+import { useProductLayoutContext } from '@woocommerce/base-context';
+import FormattedMonetaryAmount from '@woocommerce/base-components/formatted-monetary-amount';
+import { getCurrencyFromPriceResponse } from '@woocommerce/base-utils';
 
 const ProductPrice = ( { className, product } ) => {
 	const { layoutStyleClassPrefix } = useProductLayoutContext();
 	const prices = product.prices || {};
-	const numberFormatArgs = {
-		displayType: 'text',
-		thousandSeparator: prices.thousand_separator,
-		decimalSeparator: prices.decimal_separator,
-		decimalScale: prices.decimals,
-		fixedDecimalScale: true,
-		prefix: prices.price_prefix,
-		suffix: prices.price_suffix,
-	};
+	const currency = getCurrencyFromPriceResponse( prices );
 
 	if (
 		prices.price_range &&
 		prices.price_range.min_amount &&
 		prices.price_range.max_amount
 	) {
-		const minAmount = parseFloat( prices.price_range.min_amount );
-		const maxAmount = parseFloat( prices.price_range.max_amount );
 		return (
 			<div
 				className={ classnames(
@@ -35,9 +26,15 @@ const ProductPrice = ( { className, product } ) => {
 				<span
 					className={ `${ layoutStyleClassPrefix }__product-price__value` }
 				>
-					<NumberFormat value={ minAmount } { ...numberFormatArgs } />
+					<FormattedMonetaryAmount
+						currency={ currency }
+						value={ prices.price_range.min_amount }
+					/>
 					&nbsp;&mdash;&nbsp;
-					<NumberFormat value={ maxAmount } { ...numberFormatArgs } />
+					<FormattedMonetaryAmount
+						currency={ currency }
+						value={ prices.price_range.max_amount }
+					/>
 				</span>
 			</div>
 		);
@@ -54,16 +51,19 @@ const ProductPrice = ( { className, product } ) => {
 				<del
 					className={ `${ layoutStyleClassPrefix }__product-price__regular` }
 				>
-					<NumberFormat
+					<FormattedMonetaryAmount
+						currency={ currency }
 						value={ prices.regular_price }
-						{ ...numberFormatArgs }
 					/>
 				</del>
 			) }
 			<span
 				className={ `${ layoutStyleClassPrefix }__product-price__value` }
 			>
-				<NumberFormat value={ prices.price } { ...numberFormatArgs } />
+				<FormattedMonetaryAmount
+					currency={ currency }
+					value={ prices.price }
+				/>
 			</span>
 		</div>
 	);

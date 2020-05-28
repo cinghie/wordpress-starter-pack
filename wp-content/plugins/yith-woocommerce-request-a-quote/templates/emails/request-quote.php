@@ -44,9 +44,14 @@
 			} else {
 				$_product = wc_get_product( $item['product_id'] );
 			}
+			$product_admin_link = '';
+			$post_type_object = get_post_type_object( get_post( $_product->get_id() )->post_type );
+			if ( ( $post_type_object ) && ( $post_type_object->_edit_link ) ) {
+				$product_admin_link = admin_url( sprintf( $post_type_object->_edit_link . '&action=edit', $_product->get_id() ) );
+			}
 			?>
 			<tr>
-				<td scope="col" style="text-align:left;"><a href="<?php echo esc_url( get_edit_post_link( $_product->get_id() ) ); ?>"><?php echo wp_kses_post( $_product->get_title() ); ?></a>
+				<td scope="col" style="text-align:left;"><a href="<?php echo esc_url( $product_admin_link ); ?>"><?php echo wp_kses_post( $_product->get_title() ); ?></a>
 				 <?php
 					if ( isset( $item['variations'] ) ) :
 						?>

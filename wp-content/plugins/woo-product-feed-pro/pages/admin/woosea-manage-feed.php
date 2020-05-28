@@ -57,9 +57,11 @@ if ($versions['WooCommerce'] < 3){
         $notifications_box = $notifications_obj->get_admin_notifications ( '13', 'false' );
 }
 
-if($license_information['notice'] == "true"){
-        $notifications_box['message_type'] = $license_information['message_type'];
-        $notifications_box['message'] = $license_information['message'];
+if(!empty($license_information)){
+	if($license_information['notice'] == "true"){
+        	$notifications_box['message_type'] = $license_information['message_type'];
+        	$notifications_box['message'] = $license_information['message'];
+	}
 }
 
 if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
@@ -201,7 +203,7 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 						</td>
 					</tr>
 					<tr>
-						<td colspan="8">
+						<td id="manage_inline" colspan="8">
 							<div>
 								<table class="woo-product-feed-pro-inline_manage">
 
