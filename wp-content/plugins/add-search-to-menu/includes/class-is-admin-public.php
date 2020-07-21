@@ -46,13 +46,6 @@ class IS_Admin_Public {
 	}
 
 	/**
-	 * Registers Widgets.
-	 */
-	function widgets_init() {
-		register_widget( 'IS_Widget' );
-	}
-
-	/**
 	 * Added MIME support
 	 *
 	 * @since  4.3
@@ -82,8 +75,9 @@ class IS_Admin_Public {
 			'fields'         => 'ids',
 			'no_found_rows'  => true,
 			'posts_per_page' => -1,
-                        'orderby'	 => 'Date',
-                        'order'		 => 'DESC',
+            'orderby'	 => 'Date',
+            'order'		 => 'DESC',
+            'suppress_filters' => true,
 		));
 
 		$meta_query = new WP_Query( $query_args );
@@ -103,7 +97,7 @@ class IS_Admin_Public {
 		/* General Panel */
 		IS_Customizer_Panel::get_instance()->add_panel(
 			'is_search_form_panel', array(
-				'title'    => __( 'Ivory Search', 'ivory-search' ),
+				'title'    => __( 'Ivory Search', 'add-search-to-menu' ),
 				'sections' => $sections,
 			)
 		);
@@ -130,10 +124,81 @@ class IS_Admin_Public {
 
 		if( $search_form ) {
 
+			$_ajax = $search_form->prop( '_is_ajax' );
+			if ( isset( $_ajax['enable_ajax'] ) ) {
+				$fields[ $setting_name . '[loader-image]' ] = array(
+					'setting' => array(
+						'type'    => 'option',
+						'default' => IS_PLUGIN_URI . 'public/images/spinner.gif',
+					),
+					'control' => array(
+						'class'      => 'WP_Customize_Image_Control',
+						'label'      => __( 'Loader Image', 'add-search-to-menu' ),
+						'type'       => 'image',
+						'capability' => 'edit_theme_options',
+                        'description'=> __( 'AJAX loader image.', 'add-search-to-menu' ),
+					)
+				);
+			}
+
 			// Customize options.
 			$_customize = $search_form->prop('_is_customize');
-			if( isset( $_customize['enable_customize'] ) ) {
+			if( isset( $_customize['enable_customize'] ) || 'default-search-form' != $search_form->name() ) {
 		
+				$fields[ $setting_name . '[form-style]' ] = array(
+					'setting' => array(
+						'type'    => 'option',
+						'default' => 'is-form-style-3',
+					),
+					'control' => array(
+						'class'      => 'IS_Control_Radio_Image',
+						'type'       => 'is-radio-image',
+						'label'      => __( 'Search Form Style', 'add-search-to-menu' ),
+                                                'description'=> __( 'Search form submit button field style.', 'add-search-to-menu' ),
+						'capability' => 'edit_theme_options',
+						'choices'  => array(
+							'is-form-style-1' => array(
+								'label' => __( 'Style 1', 'add-search-to-menu' ),
+								'path'  => IS_PLUGIN_URI . 'includes/customizer/controls/radio-image/images/style-1.png',
+							),
+							'is-form-style-2' => array(
+								'label' => __( 'Style 2', 'add-search-to-menu' ),
+								'path'  => IS_PLUGIN_URI . 'includes/customizer/controls/radio-image/images/style-2.png',
+							),
+							'is-form-style-3' => array(
+								'label' => __( 'Style 3', 'add-search-to-menu' ),
+								'path'  => IS_PLUGIN_URI . 'includes/customizer/controls/radio-image/images/style-3.png',
+							)
+						),
+					)
+				);
+
+				$fields[ $setting_name . '[placeholder-text]' ] = array(
+					'setting' => array(
+						'type'              => 'option',
+						'default'           => __( 'Search here...', 'add-search-to-menu' ),
+					),
+					'control' => array(
+						'class'      => 'WP_Customize_Control',
+						'label'      => __( 'Text Box Placeholder', 'add-search-to-menu' ),
+						'type'       => 'text',
+						'capability' => 'edit_theme_options',
+					)
+				);
+
+				$fields[ $setting_name . '[search-btn-text]' ] = array(
+					'setting' => array(
+						'type'    => 'option',
+						'default' => __( 'Search', 'add-search-to-menu' ),
+					),
+					'control' => array(
+						'class'      => 'WP_Customize_Control',
+						'label'      => __( 'Search Button', 'add-search-to-menu' ),
+						'type'       => 'text',
+						'capability' => 'edit_theme_options',
+					)
+				);
+
 				$colors = array(
 					// Input.
 					'text-box-bg'     => '',
@@ -143,6 +208,7 @@ class IS_Admin_Public {
 					// Submit.
 					'submit-button-bg' 	=> '',
 					'submit-button-text'  => '',
+					'submit-button-border' => '',
 				);
 				foreach ($colors as $color_key => $default_color) {
 					$color_key_modified = $color_key;
@@ -164,66 +230,9 @@ class IS_Admin_Public {
 					);
 				}
 
-				$fields[ $setting_name . '[placeholder-text]' ] = array(
-					'setting' => array(
-						'type'              => 'option',
-						'default'           => __( 'Search...', 'ivory-search' ),
-					),
-					'control' => array(
-						'class'      => 'WP_Customize_Control',
-						'label'      => __( 'Text Box Placeholder', 'ivory-search' ),
-						'type'       => 'text',
-						'capability' => 'edit_theme_options',
-					)
-				);
-
-				$fields[ $setting_name . '[search-btn-text]' ] = array(
-					'setting' => array(
-						'type'    => 'option',
-						'default' => __( 'Search', 'ivory-search' ),
-					),
-					'control' => array(
-						'class'      => 'WP_Customize_Control',
-						'label'      => __( 'Search Button', 'ivory-search' ),
-						'type'       => 'text',
-						'capability' => 'edit_theme_options',
-					)
-				);
-
-				$fields[ $setting_name . '[form-style]' ] = array(
-					'setting' => array(
-						'type'    => 'option',
-						'default' => 'is-form-style-default',
-					),
-					'control' => array(
-						'class'      => 'IS_Control_Radio_Image',
-						'type'       => 'is-radio-image',
-						'label'      => __( 'Search Form Style', 'ivory-search' ),
-                                                'description'=> __( 'Search form submit button field style.', 'ivory-search' ),
-						'capability' => 'edit_theme_options',
-						'choices'  => array(
-							'is-form-style-default' => array(
-								'label' => __( 'Default Theme Search Form', 'ivory-search' ),
-							),
-							'is-form-style-1' => array(
-								'label' => __( 'Style 1', 'ivory-search' ),
-								'path'  => IS_PLUGIN_URI . 'includes/customizer/controls/radio-image/images/style-1.png',
-							),
-							'is-form-style-2' => array(
-								'label' => __( 'Style 2', 'ivory-search' ),
-								'path'  => IS_PLUGIN_URI . 'includes/customizer/controls/radio-image/images/style-2.png',
-							),
-							'is-form-style-3' => array(
-								'label' => __( 'Style 3', 'ivory-search' ),
-								'path'  => IS_PLUGIN_URI . 'includes/customizer/controls/radio-image/images/style-3.png',
-							)
-						),
-					)
-				);
 			}
 
 			// AJAX customizer fields.
-			$_ajax = $search_form->prop( '_is_ajax' );
 			if ( isset( $_ajax['enable_ajax'] ) ) {
 
 				// Suggestion Box.
@@ -254,19 +263,6 @@ class IS_Admin_Public {
 					);
 				}
 
-				$fields[ $setting_name . '[loader-image]' ] = array(
-					'setting' => array(
-						'type'    => 'option',
-						'default' => IS_PLUGIN_URI . 'public/images/spinner.gif',
-					),
-					'control' => array(
-						'class'      => 'WP_Customize_Image_Control',
-						'label'      => __( 'Loader Image', 'ivory-search' ),
-						'type'       => 'image',
-						'capability' => 'edit_theme_options',
-                                                'description'=> __( 'AJAX loader image.', 'ivory-search' ),
-					)
-				);
 			}
 		}
 
@@ -283,6 +279,67 @@ class IS_Admin_Public {
 			IS_Search_Form::register_post_type();
 		}
 	}
+
+	/**
+	 * Displays search form by processing shortcode.
+	 */
+	function search_form_shortcode( $atts ) {
+
+		if ( is_feed() ) {
+			return '[ivory-search]';
+		}
+
+                if ( isset( $this->opt['disable'] ) ) {
+                    return;
+		}
+
+		$atts = shortcode_atts(
+			array(
+				'id'	     => 0,
+				'title'	     => '',
+			),
+			$atts, 'ivory-search'
+		);
+
+		$id = (int) $atts['id'];
+
+                $search_form = IS_Search_Form::get_instance( $id );
+
+		if ( ! $search_form ) {
+			return '[ivory-search 404 "The search form '.$id.' does not exist"]';
+		} 
+
+		$form  = $search_form->form_html( $atts );
+
+		return $form;
+	}
+
+	/**
+	 * Changes default search form.
+	 */
+	function get_search_form( $form ) {
+
+                if ( isset( $this->opt['disable'] ) ) {
+                    return '';
+		}
+
+		if ( isset( $this->opt['default_search'] ) ) {
+			return $form;
+		}
+
+		$page = get_page_by_path( 'default-search-form', OBJECT, 'is_search_form' );
+
+		if ( ! empty( $page ) ) {
+                        $search_form = IS_Search_Form::get_instance( $page->ID );
+                        if ( $search_form ) {
+                            $atts['id'] = (int) $page->ID;
+                            $form  = $search_form->form_html( $atts, 'n' );
+                        }
+                }
+
+		return $form;
+        }
+
 
 	/**
 	 * Formats attributes.
@@ -319,3 +376,6 @@ class IS_Admin_Public {
 		return $html;
 	}
 }
+
+$admin_public = IS_Admin_Public::getInstance();
+add_shortcode( 'ivory-search', array( $admin_public, 'search_form_shortcode' ) );

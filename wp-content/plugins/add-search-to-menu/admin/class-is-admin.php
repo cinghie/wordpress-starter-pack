@@ -59,22 +59,30 @@ class IS_Admin
         if ( false === strpos( $hook_suffix, 'ivory-search' ) ) {
             return;
         }
+        // Css rules for Color Picker
+        wp_enqueue_style( 'wp-color-picker' );
+        $min = ( defined( 'IS_DEBUG' ) && IS_DEBUG ? '' : '.min' );
         wp_enqueue_style(
             'is-admin-styles',
-            plugins_url( '/admin/css/ivory-search-admin.css', IS_PLUGIN_FILE ),
+            plugins_url( '/admin/css/ivory-search-admin' . $min . '.css', IS_PLUGIN_FILE ),
             array(),
             IS_VERSION
         );
         wp_enqueue_script( 'jquery-ui-datepicker' );
         wp_register_script(
             'is-admin-scripts',
-            plugins_url( '/admin/js/ivory-search-admin.js', IS_PLUGIN_FILE ),
-            array( 'jquery', 'jquery-ui-tabs', 'jquery-ui-accordion' ),
+            plugins_url( '/admin/js/ivory-search-admin' . $min . '.js', IS_PLUGIN_FILE ),
+            array(
+            'jquery',
+            'jquery-ui-tabs',
+            'jquery-ui-accordion',
+            'wp-color-picker'
+        ),
             IS_VERSION,
             true
         );
         $args = array(
-            'saveAlert' => __( "The changes you made will be lost if you navigate away from this page.", 'ivory-search' ),
+            'saveAlert' => __( "The changes you made will be lost if you navigate away from this page.", 'add-search-to-menu' ),
             'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
         );
         
@@ -152,9 +160,9 @@ class IS_Admin
         $version = '1_0';
         // replace all periods in 1.0 with an underscore
         $prefix = 'is_admin_pointers_' . $version . '_';
-        $new_pointer_content = '<h3>' . __( 'Edit Search Form', 'ivory-search' ) . '</h3>';
-        $new_pointer_content .= '<p>' . __( 'Click on the search form title to edit it.', 'ivory-search' ) . '</p>';
-        $new_pointer_content .= '<p>' . __( 'Edit the Default Search Form to manage the default WordPress search.', 'ivory-search' ) . '</p>';
+        $new_pointer_content = '<h3>' . __( 'Edit Search Form', 'add-search-to-menu' ) . '</h3>';
+        $new_pointer_content .= '<p>' . __( 'Click on the search form title to edit it.', 'add-search-to-menu' ) . '</p>';
+        $new_pointer_content .= '<p>' . __( 'Edit the Default Search Form to manage the default WordPress search.', 'add-search-to-menu' ) . '</p>';
         return array(
             $prefix . 'is_pointers' => array(
             'content'   => $new_pointer_content,
@@ -178,7 +186,7 @@ class IS_Admin
     {
         
         if ( IS_PLUGIN_BASE === $file ) {
-            $mylinks = array( '<a href="' . esc_url( menu_page_url( 'ivory-search', false ) ) . '">' . esc_html__( 'Settings', 'ivory-search' ) . '</a>' );
+            $mylinks = array( '<a href="' . esc_url( menu_page_url( 'ivory-search', false ) ) . '">' . esc_html__( 'Settings', 'add-search-to-menu' ) . '</a>' );
             $links = array_merge( $mylinks, $links );
         }
         
@@ -198,8 +206,8 @@ class IS_Admin
         
         if ( IS_PLUGIN_BASE === $file ) {
             $row_meta = array(
-                'docs'    => '<a href="https://ivorysearch.com/documentation/" aria-label="' . esc_attr__( 'View Ivory Search documentation', 'ivory-search' ) . '">' . esc_html__( 'Docs', 'ivory-search' ) . '</a>',
-                'support' => '<a href="https://ivorysearch.com/support" aria-label="' . esc_attr__( 'Visit plugin customer support', 'ivory-search' ) . '">' . esc_html__( 'Support', 'ivory-search' ) . '</a>',
+                'docs'    => '<a href="https://ivorysearch.com/documentation/" aria-label="' . esc_attr__( 'View Ivory Search documentation', 'add-search-to-menu' ) . '">' . esc_html__( 'Docs', 'add-search-to-menu' ) . '</a>',
+                'support' => '<a href="https://ivorysearch.com/support" aria-label="' . esc_attr__( 'Visit plugin customer support', 'add-search-to-menu' ) . '">' . esc_html__( 'Support', 'add-search-to-menu' ) . '</a>',
             );
             return array_merge( $links, $row_meta );
         }
@@ -217,7 +225,7 @@ class IS_Admin
         // Check to make sure we're on a Ivory Search admin page.
         if ( FALSE !== $is_ivory ) {
             // Change the footer text
-            $footer_text = sprintf( __( 'If you like %1$s please leave us a %2$s rating. A huge thanks in advance!', 'ivory-search' ), sprintf( '<strong>%s</strong>', esc_html__( 'Ivory Search', 'ivory-search' ) ), '<a href="https://wordpress.org/support/plugin/add-search-to-menu/reviews?rate=5#new-post" target="_blank" class="is-rating-link" data-rated="' . esc_attr__( 'Thanks :)', 'ivory-search' ) . '">&#9733;&#9733;&#9733;&#9733;&#9733;</a>' );
+            $footer_text = sprintf( __( 'If you like %1$s please leave us a %2$s rating. A huge thanks in advance!', 'add-search-to-menu' ), sprintf( '<strong>%s</strong>', esc_html__( 'Ivory Search', 'add-search-to-menu' ) ), '<a href="https://wordpress.org/support/plugin/add-search-to-menu/reviews?rate=5#new-post" target="_blank" class="is-rating-link" data-rated="' . esc_attr__( 'Thanks :)', 'add-search-to-menu' ) . '">&#9733;&#9733;&#9733;&#9733;&#9733;</a>' );
         }
         return $footer_text;
     }
@@ -236,19 +244,18 @@ class IS_Admin
                 
                 if ( !isset( $this->opt['is_notices']['config'] ) || !$this->opt['is_notices']['config'] ) {
                     $url = ( is_network_admin() ? network_site_url() : site_url( '/' ) );
-                    echo  '<div class="notice ivory-search"><p>' . sprintf(
-                        __( 'Thank you for using <strong>Ivory Search</strong> plugin. You can configure its <a href="%1$s">settings</a> and get support on <a href="%2$s" target="_blank">support forum</a> or <a href="%3$s" target="_blank">contact us</a>.', 'ivory-search' ),
-                        $url . 'wp-admin/admin.php?page=ivory-search',
-                        'https://ivorysearch.com/support/',
-                        'https://ivorysearch.com/contact/'
-                    ) ;
-                    echo  '<a class="is-notice-dismiss" href="' . add_query_arg( 'is_dismiss', 'notice_config' ) . '">' . __( 'Dismiss', 'ivory-search' ) . '</a></p></div>' ;
+                    echo  '<div class="notice ivory-search is-notice-body"><a class="is-notice-dismiss" href="' . add_query_arg( 'is_dismiss', 'notice_config' ) . '">' . __( 'Dismiss', 'add-search-to-menu' ) . '</a><div>' ;
+                    echo  __( 'Thank you for using', 'add-search-to-menu' ) . ' <strong>Ivory Search</strong> plugin. ' ;
+                    echo  __( 'You can configure its', 'add-search-to-menu' ) . ' <a href="' . $url . 'wp-admin/admin.php?page=ivory-search">' . __( 'settings', 'add-search-to-menu' ) . '</a> ' ;
+                    echo  __( 'and get support on', 'add-search-to-menu' ) . ' <a href="https://ivorysearch.com/support/" target="_blank">' . __( 'support forum', 'add-search-to-menu' ) . '</a> ' ;
+                    echo  __( 'or', 'add-search-to-menu' ) . ' <a href="https://ivorysearch.com/contact/" target="_blank">' . __( 'contact us', 'add-search-to-menu' ) . '</a>.</div></div>' ;
+                    echo  '' ;
                 }
             
             }
             $display_review = true;
             //Don't display if dismissed
-            if ( isset( $this->opt['is_notices']['review'] ) && $this->opt['is_notices']['review'] ) {
+            if ( isset( $this->opt['is_notices']['review'] ) && $this->opt['is_notices']['review'] || isset( $_GET['is_dismiss'] ) && 'notice_review' == $_GET['is_dismiss'] ) {
                 $display_review = false;
             }
             //Don't display on seoncary screens, don't be too nagging
@@ -256,24 +263,24 @@ class IS_Admin
                 $display_review = false;
             }
             $date = get_option( 'is_install', false );
-            
             if ( $date && $display_review ) {
-                $diff = time() - strtotime( $date );
                 
-                if ( $diff > 900000 ) {
+                if ( strtotime( '-7 days' ) >= strtotime( $date ) ) {
+                    global  $current_user ;
                     echo  '<div class="is-notice notice"><div class="is-notice-image"></div><div class="is-notice-body">' ;
-                    echo  '<a class="is-notice-dismiss" href="' . add_query_arg( 'is_dismiss', 'notice_review' ) . '">' . esc_html__( 'Dismiss', 'ivory-search' ) . '</a>' ;
-                    echo  '<div class="is-notice-title">' . esc_html__( 'Have you found Ivory Search plugin useful?', 'ivory-search' ) . '</div>' ;
-                    echo  '<div class="is-notice-content">' . esc_html__( 'We poured a lot of hours into creating it, and we\'d love it if you could give us a nice rating on the official plugin directory.', 'ivory-search' ) . '</div>' ;
+                    echo  '<a class="is-notice-dismiss" href="' . add_query_arg( 'is_dismiss', 'notice_review' ) . '">' . esc_html__( 'Dismiss', 'add-search-to-menu' ) . '</a>' ;
+                    echo  '<div class="is-notice-content">' ;
+                    printf( __( "Hey %s, it's Vinod Dalvi from %s. You have used this free plugin for some time now, and I hope you like it!", 'add-search-to-menu' ), '<strong>' . $current_user->display_name . '</strong>', '<strong>Ivory Search</strong>' );
+                    ?><br/><br/><?php 
+                    printf( __( "I have spent countless hours developing it, and it would mean a lot to me if you %ssupport it with a quick review on WordPress.org.%s", 'add-search-to-menu' ), '<strong><a target="_blank" href="https://wordpress.org/support/plugin/add-search-to-menu/reviews/?filter=5">', '</a></strong>' );
+                    echo  '</div>' ;
                     echo  '<div class="is-notice-links">' ;
-                    echo  '<a href="' . esc_url( 'https://wordpress.org/support/plugin/add-search-to-menu/reviews/?filter=5#new-post' ) . '" class="button button-primary" target="_blank" >' . esc_html__( 'Rate Ivory Search and Help Us Out', 'ivory-search' ) . '</a>' ;
-                    echo  '<a href="' . esc_url( 'https://ivorysearch.com/support/' ) . '" class="button button-primary" target="_blank">' . esc_html__( 'Get Support', 'ivory-search' ) . '</a>' ;
-                    echo  '<a href="' . esc_url( 'https://ivorysearch.com/contact/' ) . '" class="button button-primary" target="_blank">' . esc_html__( 'Say Hi', 'ivory-search' ) . '</a>' ;
+                    echo  '<a href="' . esc_url( 'https://wordpress.org/support/plugin/add-search-to-menu/reviews/?filter=5' ) . '" class="button button-primary btn-highlight" target="_blank" >' . esc_html__( 'Review Ivory Search', 'add-search-to-menu' ) . '</a>' ;
+                    echo  '<a href="' . add_query_arg( 'is_dismiss', 'notice_review' ) . '" class="button button-primary">' . esc_html__( 'No, thanks', 'add-search-to-menu' ) . '</a>' ;
                     echo  '</div></div></div>' ;
                 }
             
             }
-        
         }
     
     }
@@ -318,7 +325,7 @@ class IS_Admin
             }
             echo  $temp ;
         } else {
-            _e( 'No posts found', 'ivory-search' );
+            _e( 'No posts found', 'add-search-to-menu' );
         }
         
         die;
@@ -332,15 +339,16 @@ class IS_Admin
         ?>
 		<style type="text/css">
 		/* ADMIN NOTICES */
-		.is-notice { margin:20px 0; border:none; padding:0; overflow:hidden; background:#e6e9ec; max-width:900px; }
+		.is-notice { margin:20px 0; padding:0; overflow:hidden; background:#FFF;}
+		.is-notice br {clear: none;}
 		.is-notice-dismiss { display:block; float:right; color:#999; line-height:1; margin:0 0 0 15px; text-decoration:none; }
 		.is-notice-image { float:left; margin:10px; width:90px; height:90px; background:url(<?php 
         echo  esc_url( plugins_url( 'assets/logo.png', __FILE__ ) ) ;
         ?>) no-repeat center; background-size:cover; }
-		.is-notice-body { margin:0 0 0 110px; padding:15px; background:#fff; }
-		.is-notice-title { font-size:16px; font-weight:bold; margin:0 0 5px; }
+		.is-notice-body { padding:15px; background:#fff; }
 		.is-notice-content { margin:0 0 10px; padding:0; }
-		.is-notice-links a.button { margin-right: 10px;text-decoration: none;}
+		.is-notice-links a.button { margin-right: 10px;text-decoration: none;background: #e7f2f7 !important;color: #30667b !important;}
+		.is-notice-links a.btn-highlight {background: #0071a1 !important;color: #FFF !important;}
 		</style>
 	<?php 
     }
@@ -430,13 +438,13 @@ class IS_Admin
         }
         
         if ( 'created' == $_REQUEST['message'] ) {
-            $updated_message = __( "Search form created.", 'ivory-search' );
+            $updated_message = __( "Search form created.", 'add-search-to-menu' );
         } elseif ( 'saved' == $_REQUEST['message'] ) {
-            $updated_message = __( "Search form saved.", 'ivory-search' );
+            $updated_message = __( "Search form saved.", 'add-search-to-menu' );
         } elseif ( 'deleted' == $_REQUEST['message'] ) {
-            $updated_message = __( "Search form deleted.", 'ivory-search' );
+            $updated_message = __( "Search form deleted.", 'add-search-to-menu' );
         } elseif ( 'reset' == $_REQUEST['message'] ) {
-            $updated_message = __( "Search form reset.", 'ivory-search' );
+            $updated_message = __( "Search form reset.", 'add-search-to-menu' );
         }
         
         
@@ -447,32 +455,32 @@ class IS_Admin
         
         
         if ( 'failed' == $_REQUEST['message'] ) {
-            $updated_message = __( "There was an error saving the search form.", 'ivory-search' );
+            $updated_message = __( "There was an error saving the search form.", 'add-search-to-menu' );
             echo  sprintf( '<div id="message" class="notice notice-error is-dismissible"><p>%s</p></div>', esc_html( $updated_message ) ) ;
             return;
         }
         
         
         if ( 'invalid' == $_REQUEST['message'] ) {
-            $updated_message = __( "Validation error occurred.", 'ivory-search' );
-            $includes = __( "Includes", 'ivory-search' );
-            $excludes = __( "Excludes", 'ivory-search' );
+            $updated_message = __( "Validation error occurred.", 'add-search-to-menu' );
+            $includes = __( "Includes", 'add-search-to-menu' );
+            $excludes = __( "Excludes", 'add-search-to-menu' );
             
             if ( isset( $_REQUEST['tab'] ) ) {
                 $url = esc_url( menu_page_url( 'ivory-search', false ) ) . '&post=' . $_REQUEST['post'] . '&action=edit';
                 
                 if ( 'excludes' == $_REQUEST['tab'] ) {
-                    $includes = '<a href="' . $url . '&tab=includes">' . __( "Includes", 'ivory-search' ) . '</a>';
+                    $includes = '<a href="' . $url . '&tab=includes">' . __( "Includes", 'add-search-to-menu' ) . '</a>';
                 } else {
                     if ( 'includes' == $_REQUEST['tab'] ) {
-                        $excludes = '<a href="' . $url . '&tab=excludes">' . __( "Excludes", 'ivory-search' ) . '</a>';
+                        $excludes = '<a href="' . $url . '&tab=excludes">' . __( "Excludes", 'add-search-to-menu' ) . '</a>';
                     }
                 }
             
             }
             
             $updated_message2 = sprintf(
-                __( "Please make sure you have not selected similar %s fields in the search form %s and %s sections.", 'ivory-search' ),
+                __( "Please make sure you have not selected similar %s fields in the search form %s and %s sections.", 'add-search-to-menu' ),
                 $_REQUEST['data'],
                 $includes,
                 $excludes
@@ -489,8 +497,8 @@ class IS_Admin
     function admin_menu()
     {
         add_menu_page(
-            __( 'Ivory Search', 'ivory-search' ),
-            __( 'Ivory Search', 'ivory-search' ),
+            __( 'Ivory Search', 'add-search-to-menu' ),
+            __( 'Ivory Search', 'add-search-to-menu' ),
             'manage_options',
             'ivory-search',
             array( $this, 'search_forms_page' ),
@@ -499,8 +507,8 @@ class IS_Admin
         );
         $edit = add_submenu_page(
             'ivory-search',
-            __( 'Search Forms', 'ivory-search' ),
-            __( 'Search Forms', 'ivory-search' ),
+            __( 'Search Forms', 'add-search-to-menu' ),
+            __( 'Search Forms', 'add-search-to-menu' ),
             'manage_options',
             'ivory-search',
             array( $this, 'search_forms_page' )
@@ -511,8 +519,8 @@ class IS_Admin
         if ( isset( $_GET['page'] ) && 'ivory-search-new' == $_GET['page'] ) {
             $addnew = add_submenu_page(
                 'ivory-search',
-                __( 'Add New Search Form', 'ivory-search' ),
-                __( 'Add New', 'ivory-search' ),
+                __( 'Add New Search Form', 'add-search-to-menu' ),
+                __( 'Add New', 'add-search-to-menu' ),
                 'manage_options',
                 'ivory-search-new',
                 array( $this, 'new_search_form_page' )
@@ -520,8 +528,8 @@ class IS_Admin
         } else {
             $addnew = add_submenu_page(
                 '',
-                __( 'Add New Search Form', 'ivory-search' ),
-                __( 'Add New', 'ivory-search' ),
+                __( 'Add New Search Form', 'add-search-to-menu' ),
+                __( 'Add New', 'add-search-to-menu' ),
                 'manage_options',
                 'ivory-search-new',
                 array( $this, 'new_search_form_page' )
@@ -531,8 +539,8 @@ class IS_Admin
         add_action( 'load-' . $addnew, array( $this, 'load_admin_search_form' ) );
         $settings = add_submenu_page(
             'ivory-search',
-            __( 'Ivory Search Settings', 'ivory-search' ),
-            __( 'Settings', 'ivory-search' ),
+            __( 'Ivory Search Settings', 'add-search-to-menu' ),
+            __( 'Settings', 'add-search-to-menu' ),
             'manage_options',
             'ivory-search-settings',
             array( $this, 'settings_page' )
@@ -570,16 +578,16 @@ class IS_Admin
 
 		<h1 class="wp-heading-inline">
 			<?php 
-        echo  esc_html( __( 'Search Forms', 'ivory-search' ) ) ;
+        echo  esc_html( __( 'Search Forms', 'add-search-to-menu' ) ) ;
         ?>
 		</h1>
 
 		<?php 
         if ( current_user_can( 'is_edit_search_forms' ) ) {
-            echo  sprintf( '<a href="%1$s" class="add-new-h2">%2$s</a>', esc_url( menu_page_url( 'ivory-search-new', false ) ), esc_html( __( 'Add New', 'ivory-search' ) ) ) ;
+            echo  sprintf( '<a href="%1$s" class="add-new-h2">%2$s</a>', esc_url( menu_page_url( 'ivory-search-new', false ) ), esc_html( __( 'Add New', 'add-search-to-menu' ) ) ) ;
         }
         if ( !empty($_REQUEST['s']) ) {
-            echo  sprintf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;', 'ivory-search' ) . '</span>', esc_html( $_REQUEST['s'] ) ) ;
+            echo  sprintf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;', 'add-search-to-menu' ) . '</span>', esc_html( $_REQUEST['s'] ) ) ;
         }
         ?>
 
@@ -594,7 +602,7 @@ class IS_Admin
         echo  esc_attr( $_REQUEST['page'] ) ;
         ?>" />
 			<?php 
-        $list_table->search_box( __( 'Find Search Forms', 'ivory-search' ), 'is-search' );
+        $list_table->search_box( __( 'Find Search Forms', 'add-search-to-menu' ), 'is-search' );
         ?>
 			<?php 
         $list_table->display();
@@ -638,7 +646,7 @@ class IS_Admin
             $id = ( isset( $_POST['post_ID'] ) ? $_POST['post_ID'] : '-1' );
             check_admin_referer( 'is-save-search-form_' . $id );
             if ( !current_user_can( 'is_edit_search_form', $id ) ) {
-                wp_die( __( 'You are not allowed to edit this item.', 'ivory-search' ) );
+                wp_die( __( 'You are not allowed to edit this item.', 'add-search-to-menu' ) );
             }
             $args = $_REQUEST;
             $args['id'] = $id;
@@ -735,7 +743,7 @@ class IS_Admin
             $id = ( empty($_POST['post_ID']) ? absint( $_REQUEST['post'] ) : absint( $_POST['post_ID'] ) );
             check_admin_referer( 'is-reset-search-form_' . $id );
             if ( !current_user_can( 'is_edit_search_form', $id ) ) {
-                wp_die( __( 'You are not allowed to reset this item.', 'ivory-search' ) );
+                wp_die( __( 'You are not allowed to reset this item.', 'add-search-to-menu' ) );
             }
             $query = array();
             
@@ -764,7 +772,7 @@ class IS_Admin
             $id = ( empty($_POST['post_ID']) ? absint( $_REQUEST['post'] ) : absint( $_POST['post_ID'] ) );
             check_admin_referer( 'is-copy-search-form_' . $id );
             if ( !current_user_can( 'is_edit_search_form', $id ) ) {
-                wp_die( __( 'You are not allowed to copy this item.', 'ivory-search' ) );
+                wp_die( __( 'You are not allowed to copy this item.', 'add-search-to-menu' ) );
             }
             $query = array();
             
@@ -803,10 +811,10 @@ class IS_Admin
                     continue;
                 }
                 if ( !current_user_can( 'is_delete_search_form', $post->id() ) ) {
-                    wp_die( __( 'You are not allowed to delete this item.', 'ivory-search' ) );
+                    wp_die( __( 'You are not allowed to delete this item.', 'add-search-to-menu' ) );
                 }
                 if ( !$post->delete() ) {
-                    wp_die( __( 'Error in deleting.', 'ivory-search' ) );
+                    wp_die( __( 'Error in deleting.', 'add-search-to-menu' ) );
                 }
                 $deleted += 1;
             }
@@ -883,12 +891,17 @@ class IS_Admin
         $properties = $search_form->get_properties();
         
         if ( null === $args['tab'] || 'includes' === $args['tab'] ) {
+            
             if ( '' == $args['_is_includes'] ) {
-                $args['_is_includes'] = array(
-                    'post_type'      => get_post_types( array(
+                $post_types = get_post_types( array(
                     'public'              => true,
                     'exclude_from_search' => false,
-                ) ),
+                ) );
+                if ( is_array( $post_types ) && in_array( 'attachment', $post_types ) ) {
+                    unset( $post_types['attachment'] );
+                }
+                $args['_is_includes'] = array(
+                    'post_type'      => $post_types,
                     'search_title'   => 1,
                     'search_content' => 1,
                     'search_excerpt' => 1,
@@ -898,6 +911,7 @@ class IS_Admin
                 ),
                 );
             }
+            
             $properties['_is_includes'] = $this->sanitize_includes( $args['_is_includes'] );
         }
         
@@ -1026,7 +1040,7 @@ class IS_Admin
         
         $nonce = wp_create_nonce( 'is-save-search-form_' . $post_id );
         $onclick = sprintf( "this.form._wpnonce.value = '%s';" . " this.form.action.value = 'save';" . " return true;", $nonce );
-        $button = sprintf( '<input type="submit" class="button-primary" name="is_save" value="%1$s" onclick="%2$s" />', esc_attr( __( 'Save Form', 'ivory-search' ) ), $onclick );
+        $button = sprintf( '<input type="submit" class="button-primary" name="is_save" value="%1$s" onclick="%2$s" />', esc_attr( __( 'Save Form', 'add-search-to-menu' ) ), $onclick );
         echo  $button ;
     }
     
@@ -1036,13 +1050,13 @@ class IS_Admin
     public static function pro_link( $plan = 'pro' )
     {
         $is_premium_plugin = false;
-        $msg = esc_html__( "Upgrade to Pro to Access", 'ivory-search' );
+        $msg = esc_html__( "Upgrade to Pro to Access", 'add-search-to-menu' );
         
         if ( is_fs()->is_plan_or_trial( $plan ) ) {
-            $msg = esc_html__( "Install Premium Version to Access", 'ivory-search' );
+            $msg = esc_html__( "Install Premium Version to Access", 'add-search-to-menu' );
         } else {
             if ( 'pro_plus' === $plan ) {
-                $msg = esc_html__( "Upgrade to Pro Plus to Access", 'ivory-search' );
+                $msg = esc_html__( "Upgrade to Pro Plus to Access", 'add-search-to-menu' );
             }
         }
         

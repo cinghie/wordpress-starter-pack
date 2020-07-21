@@ -9,7 +9,9 @@ namespace Automattic\Jetpack\Connection;
 
 use Automattic\Jetpack\Constants;
 use Automattic\Jetpack\Roles;
+use Automattic\Jetpack\Status;
 use Automattic\Jetpack\Tracking;
+use WP_Error;
 
 /**
  * The Jetpack Connection Manager class that is used as a single gateway between WordPress.com
@@ -45,6 +47,27 @@ class Manager {
 	private $xmlrpc_verification = null;
 
 	/**
+	 * Plugin management object.
+	 *
+	 * @var Plugin
+	 */
+	private $plugin = null;
+
+	/**
+	 * Initialize the object.
+	 * Make sure to call the "Configure" first.
+	 *
+	 * @param string $plugin_slug Slug of the plugin using the connection (optional, but encouraged).
+	 *
+	 * @see \Automattic\Jetpack\Config
+	 */
+	public function __construct( $plugin_slug = null ) {
+		if ( $plugin_slug && is_string( $plugin_slug ) ) {
+			$this->set_plugin_instance( new Plugin( $plugin_slug ) );
+		}
+	}
+
+	/**
 	 * Initializes required listeners. This is done separately from the constructors
 	 * because some objects sometimes need to instantiate separate objects of this class.
 	 *
@@ -53,11 +76,20 @@ class Manager {
 	public static function configure() {
 		$manager = new self();
 
+		add_filter(
+			'jetpack_constant_default_value',
+			__NAMESPACE__ . '\Utils::jetpack_api_constant_filter',
+			10,
+			2
+		);
+
 		$manager->setup_xmlrpc_handlers(
 			$_GET, // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$manager->is_active(),
 			$manager->verify_xml_rpc_signature()
 		);
+
+		$manager->error_handler = Error_Handler::get_instance();
 
 		if ( $manager->is_active() ) {
 			add_filter( 'xmlrpc_methods', array( $manager, 'public_xmlrpc_methods' ) );
@@ -70,12 +102,9 @@ class Manager {
 			wp_schedule_event( time(), 'hourly', 'jetpack_clean_nonces' );
 		}
 
-		add_filter(
-			'jetpack_constant_default_value',
-			__NAMESPACE__ . '\Utils::jetpack_api_constant_filter',
-			10,
-			2
-		);
+		add_action( 'plugins_loaded', __NAMESPACE__ . '\Plugin_Storage::configure', 100 );
+
+		add_filter( 'map_meta_cap', array( $manager, 'jetpack_connection_custom_caps' ), 1, 4 );
 	}
 
 	/**
@@ -292,19 +321,14 @@ class Manager {
 				/**
 				 * Action for logging XMLRPC signature verification errors. This data is sensitive.
 				 *
-				 * Error codes:
-				 * - malformed_token
-				 * - malformed_user_id
-				 * - unknown_token
-				 * - could_not_sign
-				 * - invalid_nonce
-				 * - signature_mismatch
-				 *
 				 * @since 7.5.0
 				 *
 				 * @param WP_Error $signature_verification_error The verification error
 				 */
 				do_action( 'jetpack_verify_signature_error', $this->xmlrpc_verification );
+
+				Error_Handler::get_instance()->report_error( $this->xmlrpc_verification );
+
 			}
 		}
 
@@ -495,9 +519,9 @@ class Manager {
 	 * @return bool
 	 */
 	public function is_registered() {
-		$blog_id   = \Jetpack_Options::get_option( 'id' );
-		$has_token = $this->is_active();
-		return $blog_id && $has_token;
+		$has_blog_id    = (bool) \Jetpack_Options::get_option( 'id' );
+		$has_blog_token = (bool) $this->get_access_token( false );
+		return $has_blog_id && $has_blog_token;
 	}
 
 	/**
@@ -832,6 +856,7 @@ class Manager {
 				'state'           => get_current_user_id(),
 				'site_created'    => $this->get_assumed_site_creation_date(),
 				'jetpack_version' => Constants::get_constant( 'JETPACK__VERSION' ),
+				'ABSPATH'         => Constants::get_constant( 'ABSPATH' ),
 			)
 		);
 
@@ -925,7 +950,7 @@ class Manager {
 	 * @since 2.6
 	 *
 	 * @param Mixed $response the response object, or the error object.
-	 * @return string|WP_Error A JSON object on success or Jetpack_Error on failures
+	 * @return string|WP_Error A JSON object on success or WP_Error on failures
 	 **/
 	protected function validate_remote_register_response( $response ) {
 		if ( is_wp_error( $response ) ) {
@@ -1070,6 +1095,46 @@ class Manager {
 				break;
 			}
 		}
+	}
+
+	/**
+	 * Sets the Connection custom capabilities.
+	 *
+	 * @param string[] $caps    Array of the user's capabilities.
+	 * @param string   $cap     Capability name.
+	 * @param int      $user_id The user ID.
+	 * @param array    $args    Adds the context to the cap. Typically the object ID.
+	 */
+	public function jetpack_connection_custom_caps( $caps, $cap, $user_id, $args ) {
+		$is_development_mode = ( new Status() )->is_development_mode();
+		switch ( $cap ) {
+			case 'jetpack_connect':
+			case 'jetpack_reconnect':
+				if ( $is_development_mode ) {
+					$caps = array( 'do_not_allow' );
+					break;
+				}
+				// Pass through. If it's not development mode, these should match disconnect.
+				// Let users disconnect if it's development mode, just in case things glitch.
+			case 'jetpack_disconnect':
+				/**
+				 * Filters the jetpack_disconnect capability.
+				 *
+				 * @since 8.7.0
+				 *
+				 * @param array An array containing the capability name.
+				 */
+				$caps = apply_filters( 'jetpack_disconnect_cap', array( 'manage_options' ) );
+				break;
+			case 'jetpack_connect_user':
+				if ( $is_development_mode ) {
+					$caps = array( 'do_not_allow' );
+					break;
+				}
+				$caps = array( 'read' );
+				break;
+		}
+		return $caps;
 	}
 
 	/**
@@ -1294,8 +1359,30 @@ class Manager {
 
 	/**
 	 * Deletes all connection tokens and transients from the local Jetpack site.
+	 * If the plugin object has been provided in the constructor, the function first checks
+	 * whether it's the only active connection.
+	 * If there are any other connections, the function will do nothing and return `false`
+	 * (unless `$ignore_connected_plugins` is set to `true`).
+	 *
+	 * @param bool $ignore_connected_plugins Delete the tokens even if there are other connected plugins.
+	 *
+	 * @return bool True if disconnected successfully, false otherwise.
 	 */
-	public function delete_all_connection_tokens() {
+	public function delete_all_connection_tokens( $ignore_connected_plugins = false ) {
+		if ( ! $ignore_connected_plugins && null !== $this->plugin && ! $this->plugin->is_only() ) {
+			return false;
+		}
+
+		/**
+		 * Fires upon the disconnect attempt.
+		 * Return `false` to prevent the disconnect.
+		 *
+		 * @since 8.7.0
+		 */
+		if ( ! apply_filters( 'jetpack_connection_delete_all_tokens', true, $this ) ) {
+			return false;
+		}
+
 		\Jetpack_Options::delete_option(
 			array(
 				'blog_token',
@@ -1312,14 +1399,62 @@ class Manager {
 		// Delete cached connected user data.
 		$transient_key = 'jetpack_connected_user_data_' . get_current_user_id();
 		delete_transient( $transient_key );
+
+		// Delete all XML-RPC errors.
+		Error_Handler::get_instance()->delete_all_errors();
+
+		return true;
 	}
 
 	/**
 	 * Tells WordPress.com to disconnect the site and clear all tokens from cached site.
+	 * If the plugin object has been provided in the constructor, the function first check
+	 * whether it's the only active connection.
+	 * If there are any other connections, the function will do nothing and return `false`
+	 * (unless `$ignore_connected_plugins` is set to `true`).
+	 *
+	 * @param bool $ignore_connected_plugins Delete the tokens even if there are other connected plugins.
+	 *
+	 * @return bool True if disconnected successfully, false otherwise.
 	 */
-	public function disconnect_site_wpcom() {
+	public function disconnect_site_wpcom( $ignore_connected_plugins = false ) {
+		if ( ! $ignore_connected_plugins && null !== $this->plugin && ! $this->plugin->is_only() ) {
+			return false;
+		}
+
+		/**
+		 * Fires upon the disconnect attempt.
+		 * Return `false` to prevent the disconnect.
+		 *
+		 * @since 8.7.0
+		 */
+		if ( ! apply_filters( 'jetpack_connection_disconnect_site_wpcom', true, $this ) ) {
+			return false;
+		}
+
 		$xml = new \Jetpack_IXR_Client();
 		$xml->query( 'jetpack.deregister', get_current_user_id() );
+
+		return true;
+	}
+
+	/**
+	 * Disconnect the plugin and remove the tokens.
+	 * This function will automatically perform "soft" or "hard" disconnect depending on whether other plugins are using the connection.
+	 * This is a proxy method to simplify the Connection package API.
+	 *
+	 * @see Manager::disable_plugin()
+	 * @see Manager::disconnect_site_wpcom()
+	 * @see Manager::delete_all_connection_tokens()
+	 *
+	 * @return bool
+	 */
+	public function remove_connection() {
+		$this->disable_plugin();
+		$this->disconnect_site_wpcom();
+		$this->delete_all_connection_tokens();
+
+		return true;
 	}
 
 	/**
@@ -1569,7 +1704,9 @@ class Manager {
 			),
 		);
 
+		add_filter( 'http_request_timeout', array( $this, 'increase_timeout' ), PHP_INT_MAX - 1 );
 		$response = Client::_wp_remote_request( Utils::fix_url_for_bad_hosts( $this->api_url( 'token' ) ), $args );
+		remove_filter( 'http_request_timeout', array( $this, 'increase_timeout' ), PHP_INT_MAX - 1 );
 
 		if ( is_wp_error( $response ) ) {
 			return new \WP_Error( 'token_http_request_failed', $response->get_error_message() );
@@ -1607,6 +1744,8 @@ class Manager {
 			return new \WP_Error( 'scope', 'No Scope', $code );
 		}
 
+		// TODO: get rid of the error silencer.
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 		@list( $role, $hmac ) = explode( ':', $json->scope );
 		if ( empty( $role ) || empty( $hmac ) ) {
 			return new \WP_Error( 'scope', 'Malformed Scope', $code );
@@ -1633,6 +1772,15 @@ class Manager {
 		do_action( 'jetpack_user_authorized' );
 
 		return (string) $json->access_token;
+	}
+
+	/**
+	 * Increases the request timeout value to 30 seconds.
+	 *
+	 * @return int Returns 30.
+	 */
+	public function increase_timeout() {
+		return 30;
 	}
 
 	/**
@@ -2206,4 +2354,88 @@ class Manager {
 
 		return $role . ':' . hash_hmac( 'md5', "{$role}|{$user_id}", $token->secret );
 	}
+
+	/**
+	 * Set the plugin instance.
+	 *
+	 * @param Plugin $plugin_instance The plugin instance.
+	 *
+	 * @return $this
+	 */
+	public function set_plugin_instance( Plugin $plugin_instance ) {
+		$this->plugin = $plugin_instance;
+
+		return $this;
+	}
+
+	/**
+	 * Retrieve the plugin management object.
+	 *
+	 * @return Plugin
+	 */
+	public function get_plugin() {
+		return $this->plugin;
+	}
+
+	/**
+	 * Get all connected plugins information, excluding those disconnected by user.
+	 * WARNING: the method cannot be called until Plugin_Storage::configure is called, which happens on plugins_loaded
+	 * Even if you don't use Jetpack Config, it may be introduced later by other plugins,
+	 * so please make sure not to run the method too early in the code.
+	 *
+	 * @return array|WP_Error
+	 */
+	public function get_connected_plugins() {
+		$maybe_plugins = Plugin_Storage::get_all( true );
+
+		if ( $maybe_plugins instanceof WP_Error ) {
+			return $maybe_plugins;
+		}
+
+		return $maybe_plugins;
+	}
+
+	/**
+	 * Force plugin disconnect. After its called, the plugin will not be allowed to use the connection.
+	 * Note: this method does not remove any access tokens.
+	 *
+	 * @return bool
+	 */
+	public function disable_plugin() {
+		if ( ! $this->plugin ) {
+			return false;
+		}
+
+		return $this->plugin->disable();
+	}
+
+	/**
+	 * Force plugin reconnect after user-initiated disconnect.
+	 * After its called, the plugin will be allowed to use the connection again.
+	 * Note: this method does not initialize access tokens.
+	 *
+	 * @return bool
+	 */
+	public function enable_plugin() {
+		if ( ! $this->plugin ) {
+			return false;
+		}
+
+		return $this->plugin->enable();
+	}
+
+	/**
+	 * Whether the plugin is allowed to use the connection, or it's been disconnected by user.
+	 * If no plugin slug was passed into the constructor, always returns true.
+	 *
+	 * @return bool
+	 */
+	public function is_plugin_enabled() {
+		if ( ! $this->plugin ) {
+			return true;
+		}
+
+		return $this->plugin->is_enabled();
+	}
+
 }

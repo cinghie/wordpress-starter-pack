@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<h1 class="wp-heading-inline">
 		<span class="is-search-image"></span>
-		<?php esc_html_e( 'Ivory Search Settings', 'ivory-search' ); ?>
+		<?php esc_html_e( 'Ivory Search Settings', 'add-search-to-menu' ); ?>
 	</h1>
 
 	<hr class="wp-header-end">
@@ -43,7 +43,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 								'menu-search',
 								'Menu Search',
                                                                 'Display & configure search in menu',
-						)
+						),
+						'analytics' => array(
+								'analytics',
+								'Analytics',
+                                                                'Track searched keywords & search results',
+						),
 				);
 
 				echo '<ul id="search-form-editor-tabs">';
@@ -65,6 +70,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 					$settings_fields->is_do_settings_sections( 'ivory_search', 'ivory_search_settings' );
 				} else if ( 'menu-search' ==  $tab ) {
 					$settings_fields->is_do_settings_sections( 'ivory_search', 'ivory_search_section' );
+				} else if ( 'analytics' ==  $tab ) {
+					$settings_fields->is_do_settings_sections( 'ivory_search', 'ivory_search_analytics' );
 				}
 
 			?>
@@ -93,13 +100,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php endif; ?>
 
 				<div id="informationdiv" class="searchbox">
-					<h3><?php echo esc_html( __( 'Information', 'ivory-search' ) ); ?></h3>
+					<h3><?php echo esc_html( __( 'Information', 'add-search-to-menu' ) ); ?></h3>
 					<div class="inside">
 						<ul>
-							<li><a href="https://ivorysearch.com/documentation/" target="_blank"><?php _e( 'Documentation', 'ivory-search' ); ?></a></li>
-							<li><a href="https://ivorysearch.com/support/" target="_blank"><?php _e( 'Support', 'ivory-search' ); ?></a></li>
-							<li><a href="https://ivorysearch.com/contact/" target="_blank"><?php _e( 'Contact Us', 'ivory-search' ); ?></a></li>
-							<li><a href="https://wordpress.org/support/plugin/add-search-to-menu/reviews/?filter=5#new-post" target="_blank"><?php _e( 'Give us a rating', 'ivory-search' ); ?></a></li>
+							<li><a href="https://ivorysearch.com/documentation/" target="_blank"><?php _e( 'Documentation', 'add-search-to-menu' ); ?></a></li>
+							<li><a href="https://ivorysearch.com/support/" target="_blank"><?php _e( 'Support', 'add-search-to-menu' ); ?></a></li>
+							<li><a href="https://ivorysearch.com/contact/" target="_blank"><?php _e( 'Contact Us', 'add-search-to-menu' ); ?></a></li>
+							<li><a href="https://wordpress.org/support/plugin/add-search-to-menu/reviews/?filter=5#new-post" target="_blank"><?php _e( 'Give us a rating', 'add-search-to-menu' ); ?></a></li>
 						</ul>
 					</div>
 				</div><!-- #informationdiv -->

@@ -56,8 +56,8 @@ class IS_Search_Form {
 	public static function register_post_type() {
 		register_post_type( self::post_type, array(
 			'labels' => array(
-				'name'			=> __( 'Search Forms', 'ivory-search' ),
-				'singular_name' => __( 'Search Form', 'ivory-search' ),
+				'name'			=> __( 'Search Forms', 'add-search-to-menu' ),
+				'singular_name' => __( 'Search Form', 'add-search-to-menu' ),
 			),
 			'rewrite'   => false,
 			'query_var' => false,
@@ -71,6 +71,7 @@ class IS_Search_Form {
 			'offset'		 => 0,
 			'orderby'		 => 'ID',
 			'order'			 => 'ASC',
+			'suppress_filters' => true,
 		);
 
 		$args = wp_parse_args( $args, $defaults );
@@ -101,14 +102,14 @@ class IS_Search_Form {
 		$title = $args['title'];
 
 		if ( $locale ) {
-			$mo_orig = $l10n['ivory-search'];
+			$mo_orig = $l10n['add-search-to-menu'];
 			$is_i18n = IS_I18n::getInstance();
 			$is_i18n->load_is_textdomain( $locale );
 		}
 
 		self::$current = $search_form = new self;
 		$search_form->title =
-			( $title ? $title : __( 'Untitled', 'ivory-search' ) );
+			( $title ? $title : __( 'Untitled', 'add-search-to-menu' ) );
 		$search_form->locale = ( $locale ? $locale : get_locale() );
 
 		$properties = $search_form->get_properties();
@@ -119,14 +120,14 @@ class IS_Search_Form {
 			$search_form, $args );
 
 		if ( isset( $mo_orig ) ) {
-			$l10n['ivory-search'] = $mo_orig;
+			$l10n['add-search-to-menu'] = $mo_orig;
 		}
 
 		return $search_form;
 	}
 
 	public function __get( $name ) {
-		$message = __( '<code>%1$s</code> property of a <code>IS_Search_Form</code> object is <strong>no longer accessible</strong>. Use <code>%2$s</code> method instead.', 'ivory-search' );
+		$message = '<code>%1$s</code> '.__( 'property of a', 'add-search-to-menu' ).' <code>IS_Search_Form</code> '.__( 'object is', 'add-search-to-menu' ).' <strong>'.__( 'no longer accessible', 'add-search-to-menu' ).'</strong>. '.__( 'Use', 'add-search-to-menu' ).' <code>%2$s</code> '.__('method instead.', 'add-search-to-menu' );
 
 		if ( 'id' == $name ) {
 			if ( WP_DEBUG ) {
@@ -202,7 +203,7 @@ class IS_Search_Form {
 		$title = trim( $title );
 
 		if ( '' === $title ) {
-			$title = __( 'Untitled', 'ivory-search' );
+			$title = __( 'Untitled', 'add-search-to-menu' );
 		}
 
 		$this->title = $title;
@@ -262,52 +263,54 @@ class IS_Search_Form {
 			$suggestion_box_border_color   = isset( $settings['search-results-border'] ) ? $settings['search-results-border'] : '';
 			ob_start();
 			if ( '' !== $suggestion_box_bg_color ) { ?>
-			#is-ajax-search-result-<?php echo esc_attr( $post_id ); ?> .is-ajax-search-post,                        
-                        #is-ajax-search-result-<?php echo esc_attr( $post_id ); ?> .is-show-more-results,
-                        #is-ajax-search-details-<?php echo esc_attr( $post_id ); ?> .mCSB_container > div {
-				background-color: <?php echo esc_html( $suggestion_box_bg_color ); ?> !important;
+				#is-ajax-search-result-<?php echo esc_attr( $post_id ); ?> .is-ajax-search-post,                        
+	            #is-ajax-search-result-<?php echo esc_attr( $post_id ); ?> .is-show-more-results,
+	            #is-ajax-search-details-<?php echo esc_attr( $post_id ); ?> .mCSB_container > div {
+					background-color: <?php echo esc_html( $suggestion_box_bg_color ); ?> !important;
+				}
+            <?php
 			}
-                        <?php
-                        }
                         if ( '' !== $suggestion_box_selected_color ) {
                         ?>
-			#is-ajax-search-result-<?php echo esc_attr( $post_id ); ?> .is-ajax-search-post:hover,
-                        #is-ajax-search-result-<?php echo esc_attr( $post_id ); ?> .is-show-more-results:hover,
-                        #is-ajax-search-details-<?php echo esc_attr( $post_id ); ?> .is-ajax-search-tags-details > div:hover,
-                        #is-ajax-search-details-<?php echo esc_attr( $post_id ); ?> .is-ajax-search-categories-details > div:hover {
-				background-color: <?php echo esc_html( $suggestion_box_selected_color ); ?> !important;
-			}
+				#is-ajax-search-result-<?php echo esc_attr( $post_id ); ?> .is-ajax-search-post:hover,
+	            #is-ajax-search-result-<?php echo esc_attr( $post_id ); ?> .is-show-more-results:hover,
+	            #is-ajax-search-details-<?php echo esc_attr( $post_id ); ?> .is-ajax-search-tags-details > div:hover,
+	            #is-ajax-search-details-<?php echo esc_attr( $post_id ); ?> .is-ajax-search-categories-details > div:hover {
+					background-color: <?php echo esc_html( $suggestion_box_selected_color ); ?> !important;
+				}
                         <?php
                         }
                         if ( '' !== $suggestion_box_text_color ) {
                         ?>
-			#is-ajax-search-result-<?php echo esc_attr( $post_id ); ?>,
-                        #is-ajax-search-details-<?php echo esc_attr( $post_id ); ?> {
-				color: <?php echo esc_html( $suggestion_box_text_color ); ?> !important;
-			}
+                #is-ajax-search-result-<?php echo esc_attr( $post_id ); ?> .is-ajax-term-label,
+                #is-ajax-search-details-<?php echo esc_attr( $post_id ); ?> .is-ajax-term-label,
+				#is-ajax-search-result-<?php echo esc_attr( $post_id ); ?>,
+                #is-ajax-search-details-<?php echo esc_attr( $post_id ); ?> {
+					color: <?php echo esc_html( $suggestion_box_text_color ); ?> !important;
+				}
                         <?php
                         }
                         if ( '' !== $suggestion_box_link_color ) {
                         ?>
-			#is-ajax-search-result-<?php echo esc_attr( $post_id ); ?> a,
-                        #is-ajax-search-details-<?php echo esc_attr( $post_id ); ?> a:not(.button) {
-				color: <?php echo esc_html( $suggestion_box_link_color ); ?> !important;
-			}
-                        #is-ajax-search-details-<?php echo esc_attr( $post_id ); ?> .is-ajax-woocommerce-actions a.button {
-                            background-color: <?php echo esc_html( $suggestion_box_link_color ); ?> !important;
-                        }
+				#is-ajax-search-result-<?php echo esc_attr( $post_id ); ?> a,
+                #is-ajax-search-details-<?php echo esc_attr( $post_id ); ?> a:not(.button) {
+					color: <?php echo esc_html( $suggestion_box_link_color ); ?> !important;
+				}
+                #is-ajax-search-details-<?php echo esc_attr( $post_id ); ?> .is-ajax-woocommerce-actions a.button {
+                	background-color: <?php echo esc_html( $suggestion_box_link_color ); ?> !important;
+                }
                         <?php
                         }
                         if ( '' !== $suggestion_box_border_color ) {
                         ?>
-			#is-ajax-search-result-<?php echo esc_attr( $post_id ); ?> .is-ajax-search-post,
-			#is-ajax-search-details-<?php echo esc_attr( $post_id ); ?> .is-ajax-search-post-details {
-			    border-color: <?php echo esc_html( $suggestion_box_border_color ); ?> !important;
-			}
-                        #is-ajax-search-result-<?php echo esc_attr( $post_id ); ?>,
-                        #is-ajax-search-details-<?php echo esc_attr( $post_id ); ?> {
-                            background-color: <?php echo esc_html( $suggestion_box_border_color ); ?> !important;
-                        }
+				#is-ajax-search-result-<?php echo esc_attr( $post_id ); ?> .is-ajax-search-post,
+				#is-ajax-search-details-<?php echo esc_attr( $post_id ); ?> .is-ajax-search-post-details {
+				    border-color: <?php echo esc_html( $suggestion_box_border_color ); ?> !important;
+				}
+                #is-ajax-search-result-<?php echo esc_attr( $post_id ); ?>,
+                #is-ajax-search-details-<?php echo esc_attr( $post_id ); ?> {
+                    background-color: <?php echo esc_html( $suggestion_box_border_color ); ?> !important;
+                }
 			<?php
                         }
 			$css .= ob_get_clean();
@@ -315,7 +318,7 @@ class IS_Search_Form {
 
 		// Customize options.
 		$_customize = $search_form->prop('_is_customize');
-		if( isset( $_customize['enable_customize'] ) ) {
+		if( isset( $_customize['enable_customize'] ) || 'default-search-form' != $search_form->name() ) {
 			// Input.
 			$search_input_color        = isset( $settings['text-box-text'] ) ? $settings['text-box-text'] : '';
 			$search_input_bg_color     = isset( $settings['text-box-bg'] ) ? $settings['text-box-bg'] : '';
@@ -324,19 +327,26 @@ class IS_Search_Form {
 			// Submit.
 			$search_submit_color    = isset( $settings['submit-button-text'] ) ? $settings['submit-button-text'] : '';
 			$search_submit_bg_color = isset( $settings['submit-button-bg'] ) ? $settings['submit-button-bg'] : '';
+			$search_submit_border_color = isset( $settings['submit-button-border'] ) ? $settings['submit-button-border'] : '';
 			ob_start();
-			if ( '' !== $search_submit_color || '' !== $search_submit_bg_color ) { ?>
+			if ( '' !== $search_submit_color || '' !== $search_submit_bg_color || '' !== $search_submit_border_color ) { ?>
 			.is-form-id-<?php echo esc_attr( $post_id ); ?> .is-search-submit:focus,
 			.is-form-id-<?php echo esc_attr( $post_id ); ?> .is-search-submit:hover,
 			.is-form-id-<?php echo esc_attr( $post_id ); ?> .is-search-submit,
-                        .is-form-id-<?php echo esc_attr( $post_id ); ?> .is-search-icon {
-				<?php echo ( '' !== $search_submit_color  ) ? 'color: ' . esc_html( $search_submit_color ).' !important;':''; ?>
-                                <?php echo ( '' !== $search_submit_bg_color  ) ? 'background-color: ' . esc_html( $search_submit_bg_color ).' !important;':''; ?>
+            .is-form-id-<?php echo esc_attr( $post_id ); ?> .is-search-icon {
+			<?php echo ( '' !== $search_submit_color  ) ? 'color: ' . esc_html( $search_submit_color ).' !important;':''; ?>
+            <?php echo ( '' !== $search_submit_bg_color  ) ? 'background-color: ' . esc_html( $search_submit_bg_color ).' !important;':''; ?>
+            <?php echo ( '' !== $search_submit_border_color  ) ? 'border-color: ' . esc_html( $search_submit_border_color ).' !important;':''; ?>
 			}
-                        <?php
-                        }
-                        if ( '' !== $search_input_color ) {
-                        ?>
+            <?php
+            if ( '' !== $search_submit_color ) { ?>
+            	.is-form-id-<?php echo esc_attr( $post_id ); ?> .is-search-submit path {
+					<?php echo 'fill: ' . esc_html( $search_submit_color ).' !important;'; ?>
+            	}
+            <?php }
+            }
+            if ( '' !== $search_input_color ) {
+            ?>
 			.is-form-id-<?php echo esc_attr( $post_id ); ?> .is-search-input::-webkit-input-placeholder {
 			    color: <?php echo esc_html( $search_input_color ); ?> !important;
 			}
@@ -371,12 +381,7 @@ class IS_Search_Form {
                                 <?php echo ( '' !== $search_input_border_color  ) ? 'border-color: ' . esc_html( $search_input_border_color ).' !important;':''; ?>
                                 <?php echo ( '' !== $search_input_bg_color  ) ? 'background-color: ' . esc_html( $search_input_bg_color ).' !important;':''; ?>
 			}
-                        <?php if ( '' !== $search_input_border_color  ) { ?>
-                        .is-form-id-<?php echo esc_attr( $post_id ); ?> .is-search-icon {
-                                border-color: <?php echo esc_html( $search_input_border_color ); ?> !important;
-                        }
-			<?php
-                        }
+                        <?php
                         }
 			$css .= ob_get_clean();
 		}
@@ -390,41 +395,54 @@ class IS_Search_Form {
 		do_action( 'pre_is_get_search_form' );
 
                 if ( ! isset( $args['id'] ) ) {
-			return '';
-		}
+					return '';
+				}
 
-                $search_form = IS_Search_Form::get_instance( $args['id'] );
-
-                if ( ! $search_form ) {
-                    return __( 'Invalid search form.', 'ivory-search' );
-                }
-
-                $_ajax = $this->prop('_is_ajax');
-                $_customize = $this->prop('_is_customize');
-                $_includes = $this->prop( '_is_includes' );
-                $_settings = $this->prop('_is_settings');
+                $_ajax = '';
+                $_customize = '';
+                $_includes = '';
+                $_settings = '';
                 $result = '';
+                $search_form = false;
+                $is = Ivory_Search::getInstance();
+                $min = ( defined( 'IS_DEBUG' ) && IS_DEBUG ) ? '' : '.min';
 
-                if ( ! isset( $this->opt['not_load_files']['css'] ) ) {
-                        wp_enqueue_style( 'ivory-search-styles', plugins_url( '/public/css/ivory-search.css', IS_PLUGIN_FILE ), array(), IS_VERSION );
-                }
+				if ( $args['id'] ) {
+	                $search_form = IS_Search_Form::get_instance( $args['id'] );
 
-                if ( isset( $_customize['enable_customize'] ) || isset( $_ajax['enable_ajax'] ) ) {
-                        wp_add_inline_style( 'ivory-search-styles', $this->get_css( $args['id'] ) );
-                }
+	                if ( ! $search_form ) {
+	                    return __( 'Invalid search form.', 'add-search-to-menu' );
+	                }
 
-                if ( isset( $_settings['disable'] ) ) {
-                        return '';
-                }
-                if ( isset( $_settings['demo'] ) && ! current_user_can( 'administrator' ) ) {
-                        return '';
-                }
+	                $_ajax = $this->prop('_is_ajax');
+	                $_customize = $this->prop('_is_customize');
+	                $_includes = $this->prop( '_is_includes' );
+	                $_settings = $this->prop('_is_settings');
 
-                if ( ! isset( $_ajax['enable_ajax'] ) && ! isset( $_customize['enable_customize'] ) ) {
+	                if ( ! isset( $is->opt['not_load_files']['css'] ) && isset( $_ajax['enable_ajax'] ) ) {
+	                        wp_enqueue_style( 'ivory-ajax-search-styles', plugins_url( '/public/css/ivory-ajax-search'.$min.'.css', IS_PLUGIN_FILE ), array(), IS_VERSION );
+	                }
 
-                    remove_filter( 'get_search_form', array( IS_Public::getInstance(), 'get_search_form' ), 9999999 );
+	                if ( isset( $_customize['enable_customize'] ) || 'default-search-form' != $search_form->name() || isset( $_ajax['enable_ajax'] ) ) {
+	                	$inline_css = $this->get_css( $args['id'] );
+	                	if ( '' !== $inline_css ) {
+	                    	echo '<style type="text/css">' . $inline_css . '</style>';
+	                   	}
+	                }
+
+	                if ( isset( $_settings['disable'] ) ) {
+	                        return '';
+	                }
+	                if ( isset( $_settings['demo'] ) && ! current_user_can( 'administrator' ) ) {
+	                        return '';
+	                }
+            	}
+
+                if ( ! isset( $_ajax['enable_ajax'] ) && ! isset( $_customize['enable_customize'] ) && $search_form && 'default-search-form' == $search_form->name() ) {
+
+                    remove_filter( 'get_search_form', array( IS_Admin_Public::getInstance(), 'get_search_form' ), 9999999 );
                     $result = get_search_form( false );
-                    add_filter( 'get_search_form', array( IS_Public::getInstance(), 'get_search_form' ), 9999999 );
+                    add_filter( 'get_search_form', array( IS_Admin_Public::getInstance(), 'get_search_form' ), 9999999 );
 
                     if ( 'n' !== $display_id ) {
                         $result = preg_replace('/<\/form>/', '<input type="hidden" name="id" value="' . $args['id'] . '" /></form>', $result );
@@ -445,21 +463,31 @@ class IS_Search_Form {
 
                 $is_ajax_search = '';
                 $data_attrs = '';
-                $placeholder_text = __( 'Search...', 'ivory-search');
-                $search_btn_text = __( 'Search', 'ivory-search');
+                $placeholder_text = __( 'Search here...', 'add-search-to-menu');
+                $search_btn_text = __( 'Search', 'add-search-to-menu');
                 $form_style = '';
+                $search_form_name = ( $search_form ) ? $search_form->name() : '';
 
-                if ( isset( $_customize['enable_customize'] ) ) {
+                if ( isset( $_customize['enable_customize'] ) || 'default-search-form' != $search_form_name ) {
                     $placeholder_text = isset( $settings['placeholder-text'] ) ? $settings['placeholder-text'] : $placeholder_text;
                     $search_btn_text = isset( $settings['search-btn-text'] ) ? $settings['search-btn-text'] : $search_btn_text;
-                    $form_style = ( isset( $settings['form-style'] ) && 'is-form-style-default' !== $settings['form-style'] ) ? $settings['form-style'] : '';
+                    $form_style = isset( $settings['form-style'] ) ? $settings['form-style'] : 'is-form-style-3';
                 }
 
                 if ( isset( $_ajax['enable_ajax'] ) ) {
                     $is_ajax_search = 'is-ajax-search';
-
+					$form_style = ( '' == $form_style ) ? 'is-form-style-3' : $form_style;
                     // Enqueue scripts.
                     wp_enqueue_script( 'ivory-ajax-search-scripts' );
+                    if ( isset( $_settings['highlight_terms'] ) ) {
+                    	wp_enqueue_script( 'is-highlight' );
+						if ( isset( $_settings['highlight_color'] ) && ! empty( $_settings['highlight_color'] ) && ! is_search() ) {
+							echo '<style type="text/css" media="screen">';
+							echo '#is-ajax-search-result-' . $args['id'].' .is-highlight { background-color: '.$_settings['highlight_color'].' !important;}';
+							echo '#is-ajax-search-result-' . $args['id'].' .meta .is-highlight { background-color: transparent !important;}';
+							echo '</style>';
+						}
+                	}
 
                     $min_no_for_search  = isset( $_ajax['min_no_for_search'] ) ? $_ajax['min_no_for_search'] : '1';
                     $result_box_max_height = isset( $_ajax['result_box_max_height'] ) ? $_ajax['result_box_max_height'] : '400';
@@ -470,24 +498,24 @@ class IS_Search_Form {
                     $data_attrs .= ' data-form-id="'.$args['id'].'"';
                 }
 
-                $temp = ( '' !== $form_style ) ? 'is-form-style ' : '';
+                $temp = ( 'is-form-style-default' !== $form_style ) ? 'is-form-style ' : '';
                 $classes = $view_search_result_class . $temp . $form_style . ' is-form-id-' . $args['id'].' '.$is_ajax_search;
                 $classes = apply_filters( 'is_search_form_classes', $classes );
 
                 $result = '<form '.$data_attrs.' class="is-search-form '. $classes .'" action="' . home_url('/') . '" method="get" role="search" >';
                 $autocomplete = apply_filters( 'is_search_form_autocomplete', 'autocomplete="off"' );
-                $result .= '<label><input  type="text" name="s" value="' . get_search_query() . '" class="is-search-input" placeholder="' . esc_attr( $placeholder_text ) . '" '.$autocomplete.' />';
+                $result .= '<label><input  type="search" name="s" value="' . get_search_query() . '" class="is-search-input" placeholder="' . esc_attr( $placeholder_text ) . '" '.$autocomplete.' />';
                 // AJAX Loader.
                 if ( isset( $_ajax['enable_ajax'] ) ) {
                     $loader_image = isset( $settings['loader-image'] ) ? $settings['loader-image'] : IS_PLUGIN_URI . 'public/images/spinner.gif';
                     if ( $loader_image ) {
-                            $result .= '<img class="is-loader-image" alt="'. esc_attr__( "Loader Image", 'ivory-search' ) .'" style="display: none;" src="'.$loader_image.'" />';
+                            $result .= '<span class="is-loader-image" style="display: none;background-image:url('.$loader_image.');" ></span>';
                     }
                 }
                 $result .= '</label>';
                 if ( 'is-form-style-3' === $form_style ) {
                     $result .= '<button type="submit" class="is-search-submit"><span class="is-search-icon"><svg focusable="false" aria-label="' . __( "Search", "ivory-search" ) . '" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24px"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg></span></button>';
-		} else if ( 'is-form-style-2' !== $form_style ) {
+				} else if ( 'is-form-style-2' !== $form_style ) {
                     $result .= '<input type="submit" value="' . esc_html( $search_btn_text ) . '" class="is-search-submit" />';
                 }
 
@@ -507,11 +535,11 @@ class IS_Search_Form {
                 $result = apply_filters( 'is_custom_search_form', $result );
 		}
 
-                if ( is_user_logged_in() && current_user_can( 'administrator' ) ) {
+                if ( isset( $is->opt['easy_edit'] ) && is_user_logged_in() && current_user_can( 'administrator' ) ) {
                     $result .= '<div class="is-link-container"><div><a class="is-edit-link" target="_blank" href="'.admin_url( 'admin.php?page=ivory-search&post='.$args['id'].'&action=edit' ) . '">'.__( "Edit", "ivory-search") .'</a>';
 
                     if ( ! is_customize_preview() ) {
-                        if ( isset( $_customize['enable_customize'] ) || isset( $_ajax['enable_ajax'] ) ) {
+                        if ( isset( $_customize['enable_customize'] ) || 'default-search-form' != $search_form_name || isset( $_ajax['enable_ajax'] ) ) {
                                 $result .= ' <a class="is-customize-link" target="_blank" href="'.admin_url( 'customize.php?autofocus[section]=is_section_'.$args['id'].'&url=' . get_the_permalink( get_the_ID() ) ) .'">'.__( "Customizer", "ivory-search") .'</a>';
                         }
                     }

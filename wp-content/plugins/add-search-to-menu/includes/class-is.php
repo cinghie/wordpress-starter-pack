@@ -109,7 +109,7 @@ class IS_Loader {
 	private function admin_public_hooks() {
 		$admin_public = IS_Admin_Public::getInstance();
 		add_action( 'init', array( $admin_public, 'init' ) );
-		add_action( 'widgets_init', array( $admin_public, 'widgets_init' ) );		
+		add_filter( 'get_search_form', array( $admin_public, 'get_search_form' ), 9999999 );
 		add_action( 'customize_register', array( $admin_public, 'customize_register' ) );
 		add_filter( 'upload_mimes', array( $admin_public, 'add_custom_mime_types' ) );
 	}
@@ -146,9 +146,6 @@ class IS_Loader {
 
 		$public = IS_Public::getInstance();
 
-		add_action( 'init', array( $public, 'init' ) );
-		add_filter( 'get_search_form', array( $public, 'get_search_form' ), 9999999 );
-
                 if ( isset( $this->opt['disable'] ) ) {
                     return;
 		}
@@ -159,7 +156,10 @@ class IS_Loader {
 
 		$header_menu_search = isset( $this->opt['header_menu_search'] ) ? $this->opt['header_menu_search'] : 0;
 		$site_cache = isset( $this->opt['site_uses_cache'] ) ? $this->opt['site_uses_cache'] : 0;
-		$display_in_mobile_menu = $header_menu_search && wp_is_mobile() ? true : false;
+		$display_in_mobile_menu = false;
+		if ( function_exists( 'wp_is_mobile' ) ) {
+			$display_in_mobile_menu = $header_menu_search && wp_is_mobile() ? true : false;
+		}
 
 		if ( $display_in_mobile_menu || $site_cache ) {
 			add_action( 'wp_head', array( $public, 'header_menu_search' ), 9999999 );

@@ -110,10 +110,6 @@ class Image {
         $filename = $post_object->id . '-' . $source . '-' . $size[0] . 'x' . $size[1];
         $cached = $this->exists($filename);
 
-        if ( $this->admin_options['tools']['thumbnail']['lazyload'] ) {
-            array_push($classes, 'wpp-lazyload');
-        }
-
         // We have a thumbnail already, return it
         if ( $cached ) {
             $classes[] = 'wpp_cached_thumb';
@@ -184,16 +180,24 @@ class Image {
                 );
 
                 if ( ! $thumb_url || ! $this->is_image_url($thumb_url) ) {
-                    $thumb_url = null;
-                } else {
+                    // Is this an attachment ID instead of an image URL?
+                    if ( Helper::is_number($thumb_url) ) {
+                        $thumb_url = wp_get_attachment_image_src($thumb_url, 'full');
+                        $thumb_url = is_array($thumb_url) ? $thumb_url[0] : null;
+                    } else {
+                        $thumb_url = null;
+                    }
+                }
+
+                if ( $thumb_url ) {
                     /**
-                     * Filters CSS classes assigned to the thumbnail
-                     *
-                     * @since   5.0.0
-                     * @param   string  Original ALT attribute
-                     * @param   int     The post ID
-                     * @return  string  The new ALT attribute
-                     */
+                    * Filters CSS classes assigned to the thumbnail
+                    *
+                    * @since   5.0.0
+                    * @param   string  Original ALT attribute
+                    * @param   int     The post ID
+                    * @return  string  The new ALT attribute
+                    */
                     $alt = apply_filters(
                         'wpp_thumbnail_alt_attribute',
                         '',
@@ -236,9 +240,8 @@ class Image {
                     if ( strpos($featured_image, 'class="') && is_array($classes) && ! empty($classes) )
                         $featured_image = str_replace('class="', 'class="'. esc_attr(implode(' ', $classes)) . ' ', $featured_image);
 
-                    if ( $this->admin_options['tools']['thumbnail']['lazyload'] ) {
-                        $featured_image = str_replace('src="', 'data-img-src="', $featured_image);
-                        $featured_image = str_replace('srcset="', 'data-img-srcset="', $featured_image);
+                    if ( $this->admin_options['tools']['thumbnail']['lazyload'] && false == strpos($featured_image, 'loading="lazy"') ) {
+                        $featured_image = str_replace('src="', 'loading="lazy" src="', $featured_image);
                     }
 
                     return $featured_image;
@@ -255,6 +258,17 @@ class Image {
                     $this->admin_options['tools']['thumbnail']['field'],
                     true
                 );
+
+                if ( ! $thumb_url || ! $this->is_image_url($thumb_url) ) {
+                    // Is this an attachment ID instead of an image URL?
+                    // If so, try to fetch the image
+                    if ( Helper::is_number($thumb_url) ) {
+                        $thumb_url = wp_get_attachment_image_src($thumb_url, 'full');
+                        $thumb_url = is_array($thumb_url) ? $thumb_url[0] : null;
+                    } else {
+                        $thumb_url = null;
+                    }
+                }
 
                 if ( $thumb_url && $this->is_image_url($thumb_url) ) {
                     $file_path = $this->url_to_path($thumb_url, $post_object->id);
@@ -699,13 +713,10 @@ class Image {
             $img_tag = '<!-- ' . $error . ' --> ';
         }
 
-        if ( $this->admin_options['tools']['thumbnail']['lazyload'] ) {
-            $src = 'data-img-src="' . esc_url(is_ssl() ? str_ireplace("http://", "https://", $src) : $src) . '"';
-        } else {
-            $src = 'src="' . esc_url(is_ssl() ? str_ireplace("http://", "https://", $src) : $src) . '"';
-        }
+        $src = 'src="' . esc_url(is_ssl() ? str_ireplace("http://", "https://", $src) : $src) . '"';
+        $lazyload = ( $this->admin_options['tools']['thumbnail']['lazyload'] ) ? ' loading="lazy"' : '';
 
-        $img_tag .= '<img ' . $src . ' width="' . $size[0] . '" height="' . $size[1] . '" alt="' . esc_attr($alt) . '" class="' . esc_attr($class) . '" />';
+        $img_tag .= '<img ' . $src . ' width="' . $size[0] . '" height="' . $size[1] . '" alt="' . esc_attr($alt) . '" class="' . esc_attr($class) . '"' . $lazyload . ' />';
 
         return apply_filters('wpp_render_image', $img_tag);
     }

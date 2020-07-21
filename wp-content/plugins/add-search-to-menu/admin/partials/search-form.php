@@ -18,9 +18,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<span class="is-search-image"></span>
 	<?php
 		if ( $post->initial() ) {
-			esc_html_e( 'Add New Search Form', 'ivory-search' );
+			esc_html_e( 'Add New Search Form', 'add-search-to-menu' );
 		} else {
-			esc_html_e( 'Edit Search Form', 'ivory-search' );
+			esc_html_e( 'Edit Search Form', 'add-search-to-menu' );
 		}
 	?></h1>
 
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		if ( ! $post->initial() && current_user_can( 'is_edit_search_forms' ) ) {
 			echo sprintf( '<a href="%1$s" class="add-new-h2">%2$s</a>',
 				esc_url( menu_page_url( 'ivory-search-new', false ) ),
-				esc_html( __( 'Add New', 'ivory-search' ) ) );
+				esc_html( __( 'Add New', 'add-search-to-menu' ) ) );
 		}
 	?>
 
@@ -65,7 +65,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div id="post-body-content">
 				<div id="titlediv">
 					<div id="titlewrap">
-						<label class="screen-reader-text" id="title-prompt-text" for="title"><?php echo esc_html( __( 'Search form name', 'ivory-search' ) ); ?></label>
+						<label class="screen-reader-text" id="title-prompt-text" for="title"><?php echo esc_html( __( 'Search form name', 'add-search-to-menu' ) ); ?></label>
 					<?php
 						$posttitle_atts = array(
 							'type' => 'text',
@@ -77,7 +77,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							'autocomplete' => 'off',
 							'disabled' =>
 								current_user_can( 'is_edit_search_form', $post_id ) && 'Default Search Form' !== $post->title() ? '' : 'disabled',
-							'title' => 'Default Search Form' !== $post->title() ? __( "Search form name", 'ivory-search' ) : __( "Editing the title of Default Search Form is restricted", 'ivory-search' ),
+							'title' => 'Default Search Form' !== $post->title() ? __( "Search form name", 'add-search-to-menu' ) : __( "Editing the title of Default Search Form is restricted", 'add-search-to-menu' ),
 						);
 
 						echo sprintf( '<input %s />', IS_Admin_Public::format_atts( $posttitle_atts ) );
@@ -89,7 +89,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						if ( ! $post->initial() ) :
 					?>
 						<p class="description">
-						<label for="is-shortcode"><?php echo esc_html( __( "Copy this shortcode and paste it into your post, page, or text widget content:", 'ivory-search' ) ); ?></label>
+						<label for="is-shortcode"><?php echo esc_html( __( "Copy this shortcode and paste it into your post, page, or text widget content:", 'add-search-to-menu' ) ); ?></label>
 						<span class="shortcode wp-ui-highlight"><input type="text" id="is-shortcode" onfocus="this.select();" readonly="readonly" class="large-text code" value="<?php echo esc_attr( $post->shortcode() ); ?>" /></span>
 						</p>
 					<?php
@@ -106,29 +106,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 				if ( current_user_can( 'is_edit_search_form', $post_id ) ) {
 					$panels = array(
 						'includes' => array(
-							'title' => __( 'Includes', 'ivory-search' ),
+							'title' => __( 'Includes', 'add-search-to-menu' ),
 							'callback' => 'includes_panel',
-                                                        'description' => __( 'Configure the content to search', 'ivory-search' ),
+                                                        'description' => __( 'Configure the content to search', 'add-search-to-menu' ),
 						),
 						'excludes' => array(
-							'title' => __( 'Excludes', 'ivory-search' ),
+							'title' => __( 'Excludes', 'add-search-to-menu' ),
 							'callback' => 'excludes_panel',
-                                                        'description' => __( 'Exclude the content from search', 'ivory-search' ),
+                                                        'description' => __( 'Exclude the content from search', 'add-search-to-menu' ),
 						),
 						'customize' => array(
-							'title' => __( 'Customize', 'ivory-search' ),
+							'title' => __( 'Customize', 'add-search-to-menu' ),
 							'callback' => 'customize_panel',
-                                                        'description' => __( 'Customize search form colors, text and style', 'ivory-search' ),
+                                                        'description' => __( 'Customize search form colors, text and style', 'add-search-to-menu' ),
 						),
 						'ajax' => array(
-							'title' => __( 'AJAX', 'ivory-search' ),
+							'title' => __( 'AJAX', 'add-search-to-menu' ),
 							'callback' => 'ajax_panel',
-                                                        'description' => __( 'Configure AJAX search', 'ivory-search' ),
+                                                        'description' => __( 'Configure AJAX search', 'add-search-to-menu' ),
 						),
 						'options' => array(
-							'title' => __( 'Options', 'ivory-search' ),
+							'title' => __( 'Options', 'add-search-to-menu' ),
 							'callback' => 'options_panel',
-                                                        'description' => __( 'Manage search functionality', 'ivory-search' ),
+                                                        'description' => __( 'Manage search functionality', 'add-search-to-menu' ),
 						),
 					);
 				}
@@ -165,7 +165,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							$delete_nonce = wp_create_nonce( 'is-delete-search-form_' . $post_id );
 					?>
 					<div id="delete-action">
-						<input type="submit" name="is-delete" class="delete submitdelete" value="<?php echo esc_attr( __( 'Delete', 'ivory-search' ) ); ?>" <?php echo "onclick=\"if (confirm('" . esc_js( __( "You are about to delete this search form.\n  'Cancel' to stop, 'OK' to delete.", 'ivory-search' ) ) . "')) {this.form._wpnonce.value = '$delete_nonce'; this.form.action.value = 'delete'; return true;} return false;\""; ?> />
+						<input type="submit" name="is-delete" class="delete submitdelete" value="<?php echo esc_attr( __( 'Delete', 'add-search-to-menu' ) ); ?>" <?php echo "onclick=\"if (confirm('" . esc_js( __( "You are about to delete this search form.\n  'Cancel' to stop, 'OK' to delete.", 'add-search-to-menu' ) ) . "')) {this.form._wpnonce.value = '$delete_nonce'; this.form.action.value = 'delete'; return true;} return false;\""; ?> />
 					</div><!-- #delete-action -->
 					<?php endif; ?>
 					<div class="clear"></div>
@@ -174,17 +174,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<div id="minor-publishing-actions">
 
 					<div class="hidden">
-						<input type="submit" class="button-primary" name="is_save" value="<?php echo esc_attr( __( 'Save', 'ivory-search' ) ); ?>" />
+						<input type="submit" class="button-primary" name="is_save" value="<?php echo esc_attr( __( 'Save', 'add-search-to-menu' ) ); ?>" />
 					</div>
 
 					<?php
 						$copy_nonce = wp_create_nonce( 'is-copy-search-form_' . $post_id );
 					?>
-						<input type="submit" name="is-copy" class="copy button" value="<?php echo esc_attr( __( 'Duplicate', 'ivory-search' ) ); ?>" <?php echo "onclick=\"this.form._wpnonce.value = '$copy_nonce'; this.form.action.value = 'copy'; return true;\""; ?> />
+						<input type="submit" name="is-copy" class="copy button" value="<?php echo esc_attr( __( 'Duplicate', 'add-search-to-menu' ) ); ?>" <?php echo "onclick=\"this.form._wpnonce.value = '$copy_nonce'; this.form.action.value = 'copy'; return true;\""; ?> />
 					<?php
 						$reset_nonce = wp_create_nonce( 'is-reset-search-form_' . $post_id );
 					?>
-						<p><input type="submit" name="is-reset" class="reset button" value="<?php echo esc_attr( __( 'Reset', 'ivory-search' ) ); ?>" <?php echo "onclick=\"if (confirm('" . esc_js( __( "You are about to reset this search form.\n  'Cancel' to stop, 'OK' to reset.", 'ivory-search' ) ) . "')) {this.form._wpnonce.value = '$reset_nonce'; this.form.action.value = 'reset'; return true;} return false;\""; ?> /></p>
+						<p><input type="submit" name="is-reset" class="reset button" value="<?php echo esc_attr( __( 'Reset', 'add-search-to-menu' ) ); ?>" <?php echo "onclick=\"if (confirm('" . esc_js( __( "You are about to reset this search form.\n  'Cancel' to stop, 'OK' to reset.", 'add-search-to-menu' ) ) . "')) {this.form._wpnonce.value = '$reset_nonce'; this.form.action.value = 'reset'; return true;} return false;\""; ?> /></p>
 					</div><!-- #minor-publishing-actions -->
 					<?php endif; ?>
 					</div><!-- #submitpost -->
@@ -193,13 +193,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php endif; ?>
 
 				<div id="informationdiv" class="searchbox">
-					<h3><?php echo esc_html( __( 'Information', 'ivory-search' ) ); ?></h3>
+					<h3><?php echo esc_html( __( 'Information', 'add-search-to-menu' ) ); ?></h3>
 					<div class="inside">
 						<ul>
-							<li><a href="https://ivorysearch.com/documentation/" target="_blank"><?php _e( 'Documentation', 'ivory-search' ); ?></a></li>
-							<li><a href="https://ivorysearch.com/support/" target="_blank"><?php _e( 'Support', 'ivory-search' ); ?></a></li>
-							<li><a href="https://ivorysearch.com/contact/" target="_blank"><?php _e( 'Contact Us', 'ivory-search' ); ?></a></li>
-							<li><a href="https://wordpress.org/support/plugin/add-search-to-menu/reviews/?filter=5#new-post" target="_blank"><?php _e( 'Rate Ivory Search', 'ivory-search' ); ?></a></li>
+							<li><a href="https://ivorysearch.com/documentation/" target="_blank"><?php _e( 'Documentation', 'add-search-to-menu' ); ?></a></li>
+							<li><a href="https://ivorysearch.com/support/" target="_blank"><?php _e( 'Support', 'add-search-to-menu' ); ?></a></li>
+							<li><a href="https://ivorysearch.com/contact/" target="_blank"><?php _e( 'Contact Us', 'add-search-to-menu' ); ?></a></li>
+							<li><a href="https://wordpress.org/support/plugin/add-search-to-menu/reviews/?filter=5#new-post" target="_blank"><?php _e( 'Rate Ivory Search', 'add-search-to-menu' ); ?></a></li>
 						</ul>
 					</div>
 				</div><!-- #informationdiv -->

@@ -41,7 +41,7 @@ class IS_I18n {
 	public function load_is_textdomain( $locale = null ) {
 		global $l10n;
 
-		$domain = 'ivory-search';
+		$domain = 'add-search-to-menu';
 
 		do_action( 'is_before_load_textdomain' );
 
@@ -53,19 +53,19 @@ class IS_I18n {
 			if ( is_textdomain_loaded( $domain ) ) {
 				return true;
 			} else {
-				return load_plugin_textdomain( 'ivory-search', false, dirname( dirname( plugin_basename( IS_PLUGIN_FILE ) ) ) . '/languages/' );
+				return load_plugin_textdomain( $domain, false, dirname( plugin_basename( IS_PLUGIN_FILE ) ) . '/languages' );
 			}
 		} else {
 			$mo_orig = $l10n[$domain];
 			unload_textdomain( $domain );
 
 			$mofile = $domain . '-' . $locale . '.mo';
-			$path = dirname( dirname( plugin_basename( IS_PLUGIN_FILE ) ) ) . '/languages/';
+			$path = WP_PLUGIN_DIR . '/' . dirname( plugin_basename( IS_PLUGIN_FILE ) ) . '/languages';
 
 			if ( $loaded = load_textdomain( $domain, $path . '/'. $mofile ) ) {
 				return $loaded;
 			} else {
-				$mofile = WP_LANG_DIR . '/plugins/' . $mofile;
+				$mofile = WP_LANG_DIR . '/'. $domain .'/' . $mofile;
 				return load_textdomain( $domain, $mofile );
 			}
 

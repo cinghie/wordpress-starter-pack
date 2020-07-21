@@ -165,7 +165,10 @@ class Output {
                 return;
             }
 
-            if ( $this->public_options['theme']['name'] ) {
+            if (
+                isset($this->public_options['theme']['name'])
+                && $this->public_options['theme']['name']
+            ) {
                 $this->output .= '<div class="popular-posts-sr">';
 
                 $theme_stylesheet = $this->themer->get_theme($this->public_options['theme']['name'])['path'] . '/style.css';
@@ -227,7 +230,10 @@ class Output {
                 $this->output .= "</ul>" . "\n";
             }
 
-            if ( $this->public_options['theme']['name'] ) {
+            if (
+                isset($this->public_options['theme']['name'])
+                && $this->public_options['theme']['name']
+            ) {
                 $this->output .= "</div>";
             }
 
@@ -309,6 +315,8 @@ class Output {
         // Post meta
         $post_meta = join(' | ', $this->get_metadata($post_object, $post_id));
 
+        $prettify_numbers = apply_filters('wpp_pretiffy_numbers', true);
+
         // Build custom HTML output
         if ( $this->public_options['markup']['custom_html'] ) {
             $data = [
@@ -323,8 +331,8 @@ class Output {
                 'text_title' => $post_title,
                 'taxonomy' => $post_taxonomies,
                 'author' => ( ! empty($post_author) ) ? '<a href="' . get_author_posts_url($post_object->uid != $post_id ? get_post_field('post_author', $post_id) : $post_object->uid ) . '">' . $post_author . '</a>' : '',
-                'views' => ( $this->public_options['order_by'] == "views" || $this->public_options['order_by'] == "comments" ) ? number_format_i18n($post_views) : number_format_i18n($post_views, 2),
-                'comments' => number_format_i18n($post_comments),
+                'views' => ( $this->public_options['order_by'] == "views" || $this->public_options['order_by'] == "comments" ) ? ($prettify_numbers ? Helper::prettify_number($post_views) : number_format_i18n($post_views)) : ($prettify_numbers ? Helper::prettify_number($post_views, 2) : number_format_i18n($post_views, 2)),
+                'comments' => $prettify_numbers ? Helper::prettify_number($post_comments) : number_format_i18n($post_comments),
                 'date' => $post_date,
                 'total_items' => count($this->data),
                 'item_position' => $position
@@ -573,7 +581,10 @@ class Output {
     {
         $post_tax = '';
 
-        if ( (isset($this->public_options['stats_tag']['category']) && $this->public_options['stats_tag']['category']) || $this->public_options['stats_tag']['taxonomy'] ) {
+        if (
+            (isset($this->public_options['stats_tag']['category']) && $this->public_options['stats_tag']['category']) 
+            || $this->public_options['stats_tag']['taxonomy']['active']
+        ) {
 
             $taxonomy = 'category';
 
@@ -697,13 +708,15 @@ class Output {
     {
         $stats = [];
 
+        $prettify_numbers = apply_filters('wpp_pretiffy_numbers', true);
+
         // comments
         if ( $this->public_options['stats_tag']['comment_count'] ) {
             $comments = $this->get_comments($post_object);
 
             $comments_text = sprintf(
                 _n('%s comment', '%s comments', $comments, 'wordpress-popular-posts'),
-                number_format_i18n($comments)
+                $prettify_numbers ? Helper::prettify_number($comments) : number_format_i18n($comments)
             );
         }
 
@@ -714,13 +727,13 @@ class Output {
             if ( $this->public_options['order_by'] == 'avg' ) {
                 $views_text = sprintf(
                     _n('%s view per day', '%s views per day', $pageviews, 'wordpress-popular-posts'),
-                    number_format_i18n($pageviews, (fmod($pageviews, 1) !== 0.0 ? 2 : 0))
+                    $prettify_numbers ? Helper::prettify_number($pageviews, 2) : number_format_i18n($pageviews, (fmod($pageviews, 1) !== 0.0 ? 2 : 0))
                 );
             }
             else {
                 $views_text = sprintf(
                     _n('%s view', '%s views', $pageviews, 'wordpress-popular-posts'),
-                    number_format_i18n($pageviews)
+                    $prettify_numbers ? Helper::prettify_number($pageviews) : number_format_i18n($pageviews)
                 );
             }
         }

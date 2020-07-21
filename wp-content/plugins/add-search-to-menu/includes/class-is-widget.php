@@ -10,8 +10,8 @@ class IS_Widget extends WP_Widget {
 	function __construct() {
 		parent::__construct(
 			'is_widget', // Base ID
-			esc_html__( 'Ivory Search', 'ivory-search' ), // Name
-			array( 'description' => esc_html__( 'Displays ivory search form.', 'ivory-search' ), ) // Args
+			esc_html__( 'Ivory Search', 'add-search-to-menu' ), // Name
+			array( 'description' => esc_html__( 'Displays ivory search form.', 'add-search-to-menu' ), 'classname' => 'widget_is_search widget_search', ) // Args
 		);
 	}
 
@@ -31,7 +31,7 @@ class IS_Widget extends WP_Widget {
 		if ( ! empty( $instance['search_form'] ) ) {
 				echo do_shortcode( '[ivory-search id="' . $instance['search_form'] . '"]' );
 		} else {
-                    _e( 'Please select search form in the Ivory Search  widget.', 'ivory-search' );
+                    _e( 'Please select search form in the Ivory Search widget.', 'add-search-to-menu' );
                 }
 		echo $args['after_widget'];
 	}
@@ -48,7 +48,7 @@ class IS_Widget extends WP_Widget {
 		$search_form = ! empty( $instance['search_form'] ) ? $instance['search_form'] : 0;
 		?>
 		<p>
-		<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_attr_e( 'Title:', 'ivory-search' ); ?></label> 
+		<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_attr_e( 'Title:', 'add-search-to-menu' ); ?></label> 
 		<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
 		</p>
 		<p>
@@ -59,18 +59,25 @@ class IS_Widget extends WP_Widget {
 			$posts = get_posts( $args );
 
 			if ( ! empty( $posts ) ) {
-				$html .= '<label for="'. esc_attr( $this->get_field_id( 'search_form' ) ) .'">'. esc_attr_e( 'Search Form:', 'ivory-search' ) .'</label>';
+				$html .= '<label for="'. esc_attr( $this->get_field_id( 'search_form' ) ) .'">'. esc_attr_e( 'Search Form:', 'add-search-to-menu' ) .'</label>';
 				$html .= '<select class="widefat" id="'.esc_attr( $this->get_field_id( 'search_form' ) ).'" name="'.esc_attr( $this->get_field_name( 'search_form' ) ).'" >';
-				$html .= '<option value="0">' . __( 'Select Search Form', 'ivory-search' ) . '</option>';
+				$html .= '<option value="0">' . __( 'Click to select Search Form', 'add-search-to-menu' ) . '</option>';
+				if ( ! isset( $instance['search_form'] ) && ! $search_form ) {
+				foreach ($posts as $val) {
+				       if ( 'default-search-form' === $val->post_name ) {
+				           $search_form = $val->ID;
+				       }
+				   }
+				}
 				foreach ( $posts as $post ) {
 					$html .= '<option value="' . $post->ID . '"' . selected( $post->ID, $search_form, false ) . ' >' . $post->post_title . '</option>';
 				}
 
 				$html .= '</select>';
 				if ( $search_form && get_post_type( $search_form ) ) {
-					$html .= '<a href="' . get_admin_url( null, 'admin.php?page=ivory-search&post='.$search_form.'&action=edit' ) . '">  ' . esc_html__( "Edit", 'ivory-search' ) . '</a>';
+					$html .= '<a href="' . get_admin_url( null, 'admin.php?page=ivory-search&post='.$search_form.'&action=edit' ) . '">  ' . esc_html__( "Edit", 'add-search-to-menu' ) . '</a>';
 				} else {
-					$html .= '<a href="' . get_admin_url( null, 'admin.php?page=ivory-search-new' ) . '">  ' . esc_html__( "Create New", 'ivory-search' ) . '</a>';
+					$html .= '<a href="' . get_admin_url( null, 'admin.php?page=ivory-search-new' ) . '">  ' . esc_html__( "Create New", 'add-search-to-menu' ) . '</a>';
 				}
 				echo $html;
 			}
@@ -97,3 +104,10 @@ class IS_Widget extends WP_Widget {
 	}
 
 } // class IS_Widget
+
+
+// Register Ivory Search Widget
+function is_register_widget() {
+	register_widget( 'IS_Widget' );
+}
+add_action( 'widgets_init', 'is_register_widget' );

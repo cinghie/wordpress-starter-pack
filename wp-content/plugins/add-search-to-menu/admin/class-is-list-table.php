@@ -28,10 +28,10 @@ class IS_List_Table extends WP_List_Table {
 	public static function define_columns() {
 		$columns = array(
 			'cb'		=> '<input type="checkbox" />',
-			'title'		=> __( 'Title', 'ivory-search' ),
-			'shortcode' => __( 'Shortcode', 'ivory-search' ),
-			'author'	=> __( 'Author', 'ivory-search' ),
-			'date'		=> __( 'Date', 'ivory-search' ),
+			'title'		=> __( 'Title', 'add-search-to-menu' ),
+			'shortcode' => __( 'Shortcode', 'add-search-to-menu' ),
+			'author'	=> __( 'Author', 'add-search-to-menu' ),
+			'date'		=> __( 'Date', 'add-search-to-menu' ),
 		);
 
 		return $columns;
@@ -116,7 +116,7 @@ class IS_List_Table extends WP_List_Table {
 
 	function get_bulk_actions() {
 		$actions = array(
-			'delete' => __( 'Delete', 'ivory-search' ),
+			'delete' => __( 'Delete', 'add-search-to-menu' ),
 		);
 
 		return $actions;
@@ -145,7 +145,7 @@ class IS_List_Table extends WP_List_Table {
 			'<a class="row-title" href="%1$s" title="%2$s">%3$s</a>',
 			esc_url( $edit_link ),
 			/* translators: %s: title of search form */
-			esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'ivory-search' ),
+			esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'add-search-to-menu' ),
 				$item->title() ) ),
 			esc_html( $item->title() )
 		);
@@ -155,7 +155,7 @@ class IS_List_Table extends WP_List_Table {
 		$actions = array(
 			'edit' => sprintf( '<a href="%1$s">%2$s</a>',
 				esc_url( $edit_link ),
-				esc_html( __( 'Edit', 'ivory-search' ) ) ) );
+				esc_html( __( 'Edit', 'add-search-to-menu' ) ) ) );
 
 		if ( current_user_can( 'is_edit_search_form', $item->id() ) ) {
 			$copy_link = wp_nonce_url(
@@ -165,7 +165,7 @@ class IS_List_Table extends WP_List_Table {
 			$actions = array_merge( $actions, array(
 				'copy' => sprintf( '<a href="%1$s">%2$s</a>',
 					esc_url( $copy_link ),
-					esc_html( __( 'Duplicate', 'ivory-search' ) )
+					esc_html( __( 'Duplicate', 'add-search-to-menu' ) )
 				),
 			) );
 		}
@@ -178,8 +178,8 @@ class IS_List_Table extends WP_List_Table {
 			$actions = array_merge( $actions, array(
 				'delete' => sprintf( '<a href="%1$s" %2$s>%3$s</a>',
 					esc_url( $delete_link ),
-					"onclick=\"if (confirm('" . esc_js( __( "You are about to delete this search form.\n  'Cancel' to stop, 'OK' to delete.", 'ivory-search' ) ) . "')) {return true;} return false;\"",
-					esc_html( __( 'Delete', 'ivory-search' ) )
+					"onclick=\"if (confirm('" . esc_js( __( "You are about to delete this search form.\n  'Cancel' to stop, 'OK' to delete.", 'add-search-to-menu' ) ) . "')) {return true;} return false;\"",
+					esc_html( __( 'Delete', 'add-search-to-menu' ) )
 				),
 			) );
 		}
@@ -227,7 +227,7 @@ class IS_List_Table extends WP_List_Table {
 			return;
 		}
 
-		$t_time = mysql2date( __( 'Y/m/d g:i:s A', 'ivory-search' ),
+		$t_time = mysql2date( __( 'Y/m/d g:i:s A', 'add-search-to-menu' ),
 			$post->post_date, true );
 		$m_time = $post->post_date;
 		$time = mysql2date( 'G', $post->post_date )
@@ -238,9 +238,9 @@ class IS_List_Table extends WP_List_Table {
 		if ( $time_diff > 0 && $time_diff < 24*60*60 ) {
 			/* translators: %s: time since the creation of the search form */
 			$h_time = sprintf(
-				__( '%s ago', 'ivory-search' ), human_time_diff( $time ) );
+				__( '%s ago', 'add-search-to-menu' ), human_time_diff( $time ) );
 		} else {
-			$h_time = mysql2date( __( 'd/m/Y', 'ivory-search' ), $m_time );
+			$h_time = mysql2date( __( 'd/m/Y', 'add-search-to-menu' ), $m_time );
 		}
 
 		return '<abbr title="' . $t_time . '">' . $h_time . '</abbr>';
