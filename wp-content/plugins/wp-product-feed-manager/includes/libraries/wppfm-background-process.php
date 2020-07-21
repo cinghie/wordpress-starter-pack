@@ -32,6 +32,14 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	protected $start_time = 0;
 
 	/**
+	 * Maximum lock time of the queue.
+	 * Override if applicable, but the duration should be greater than that defined in the time_exceeded() method.
+	 *
+	 * @var int
+	 */
+	protected $queue_lock_time = 60;
+
+	/**
 	 * Cron_hook_identifier
 	 *
 	 * @var mixed
@@ -53,6 +61,13 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	protected $processed_products;
 
 	/**
+	 * Keeps track of the number of products that where handled in a specific batch.
+	 *
+	 * @var int
+	 */
+	protected $products_handled_in_batch;
+
+	/**
 	 * Initiate new background process
 	 */
 	public function __construct() {
@@ -63,23 +78,20 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 		$this->processed_products       = get_option( 'wppfm_processed_products' ) ? explode( ',', get_option( 'wppfm_processed_products' ) ) : array();
 
 		add_action( $this->cron_hook_identifier, array( $this, 'handle_cron_health_check' ) );
-		add_filter( 'cron_schedules', array( $this, 'schedule_cron_health_check' ) );
+		add_filter( 'cron_schedules', array( $this, 'schedule_cron_health_check' ) ); // phpcs:disable WordPress.WP.CronInterval.ChangeDetected
 	}
 
 	/**
 	 * Dispatch the feed generation process.
 	 *
-	 * @access public
-	 * @param string $feed_id
-	 *
-	 * @return array
+	 * @param string $feed_id   The id of the feed.
 	 */
 	public function dispatch( $feed_id ) {
 		// Schedule the cron health check.
 		$this->schedule_event();
 
 		// Perform the remote post.
-		return parent::dispatch( $feed_id );
+		parent::dispatch( $feed_id );
 	}
 
 	/**
@@ -98,7 +110,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	/**
 	 * Implements the wppfm_feed_ids_in_queue filter on the queue.
 	 *
-	 * @param   string  $feed_id    Feed id to enable using the filter on a specific feed.
+	 * @param   string $feed_id    Feed id to enable using the filter on a specific feed.
 	 *
 	 * @since 2.10.0.
 	 * @return  mixed|void  Filtered queue.
@@ -130,7 +142,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	/**
 	 * Set the path to the feed file
 	 *
-	 * @param string $file_path
+	 * @param string $file_path     The path to the feed file.
 	 *
 	 * @return $this
 	 */
@@ -143,7 +155,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	/**
 	 * Set the language of the feed
 	 *
-	 * @param array $feed_data
+	 * @param array $feed_data  The feed data.
 	 *
 	 * @return $this
 	 */
@@ -156,7 +168,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	/**
 	 * Set the feed pre data
 	 *
-	 * @param array $pre_data
+	 * @param array $pre_data   The pre-data to be stored.
 	 *
 	 * @return $this
 	 */
@@ -169,7 +181,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	/**
 	 * Set the channel specific main category title and description title
 	 *
-	 * @param array $channel_details
+	 * @param array $channel_details    The channel details to be set.
 	 *
 	 * @return $this
 	 */
@@ -182,7 +194,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	/**
 	 * Sets the relation table
 	 *
-	 * @param array $relations_table
+	 * @param array $relations_table    The relations table to be set.
 	 *
 	 * @return $this
 	 */
@@ -195,7 +207,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	/**
 	 * Save queue data.
 	 *
-	 * @param string $feed_id
+	 * @param string $feed_id   The feed id.
 	 *
 	 * @return $this
 	 */
@@ -218,8 +230,8 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	/**
 	 * Update queue
 	 *
-	 * @param string $key Key.
-	 * @param array $data Data.
+	 * @param string $key   Key.
+	 * @param array  $data  Data.
 	 *
 	 * @return $this
 	 */
@@ -251,13 +263,13 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	 * Generates a unique key based on microtime. Queue items are
 	 * given a unique key so that they can be merged upon save.
 	 *
-	 * @param string $feed_id
-	 * @param int $length Length
+	 * @param string $feed_id   The feed id.
+	 * @param int    $length    The length of the key.
 	 *
 	 * @return string
 	 */
 	protected function generate_key( $feed_id, $length = 64 ) {
-		$unique  = md5( microtime() . rand() );
+		$unique  = md5( microtime() . wp_rand() );
 		$prepend = $this->identifier . '_batch_' . $feed_id . '_';
 
 		return substr( $prepend . $unique, 0, $length );
@@ -270,7 +282,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	 * the process is not already running.
 	 */
 	public function maybe_handle() {
-		// Don't lock up other requests while processing
+		// Don't lock up other requests while processing.
 		session_write_close();
 
 		$background_mode_disabled = get_option( 'wppfm_disabled_background_mode', 'false' );
@@ -316,6 +328,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 
 		$key = $wpdb->esc_like( $this->identifier . '_batch_' ) . '%';
 
+		// phpcs:ignore
 		$count = $wpdb->get_var(
 			$wpdb->prepare(
 				// phpcs:ignore
@@ -393,6 +406,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 
 		$key = $wpdb->esc_like( $this->identifier . '_batch_' ) . '%';
 
+		// phpcs:ignore
 		$query = $wpdb->get_row(
 			$wpdb->prepare(
 				// phpcs:ignore
@@ -439,10 +453,16 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 			$channel_details = get_site_option( 'channel_details_' . $properties_key );
 			$relations_table = get_site_option( 'relations_table_' . $properties_key );
 
+			// @since 2.12.0
+			$this->products_handled_in_batch = 0;
+
+			// @since 2.12.0
+			update_option( 'wppfm_batch_counter', get_option( 'wppfm_batch_counter', 0 ) + 1 );
+
 			// phpcs:ignore
 			$feed_id = $feed_data->feedId;
 
-			// @since 2.10.0.
+			// @since 2.10.0
 			if ( ! $properties_key ) {
 				$message = 'Tried to get the next batch but the wppfm_background_process_key is empty.';
 				do_action( 'wppfm_feed_generation_message', $feed_id, $message, 'ERROR' );
@@ -450,7 +470,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 				return false;
 			}
 
-			// @since 2.10.0.
+			// @since 2.10.0
 			if ( ! $feed_data || empty( $feed_data ) || ! property_exists( $feed_data, 'feedId' ) ) {
 				$message = 'Tried to get the next batch the feed data could not be loaded correctly.';
 				do_action( 'wppfm_feed_generation_message', $feed_id, $message, 'ERROR' );
@@ -469,26 +489,28 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 			do_action( 'wppfm_feed_processing_batch_activated', $feed_id, $initial_memory, count( $batch->data ) );
 
 			foreach ( $batch->data as $key => $value ) {
-				// if it's not an array, then its a product id
+				// If it's not an array, then its a product id.
 				if ( ! is_array( $value ) ) {
 					$value = array( 'product_id' => $value );
 				}
 
-				// prevent doubles in the feed
+				// Prevent doubles in the feed.
+				// phpcs:disable WordPress.PHP.StrictInArray.MissingTrueStrict
 				if ( array_key_exists( 'product_id', $value ) && in_array( $value['product_id'], $this->processed_products ) ) {
-					unset( $batch->data[ $key ] ); // remove this product from the queue
+					unset( $batch->data[ $key ] ); // Remove this product from the queue.
 					continue;
 				}
 
-				// run the task
+				// Run the task.
 				$task = $this->task( $value, $feed_data, $feed_file_path, $pre_data, $channel_details, $relations_table );
 
-				// if there was no failure and the id is known, add the product id to the list of processed products
+				// If there was no failure and the id is known, add the product id to the list of processed products.
 				if ( 'product added' === $task && array_key_exists( 'product_id', $value ) ) {
+					$this->products_handled_in_batch++;
 					array_push( $this->processed_products, $value['product_id'] );
 				}
 
-				unset( $batch->data[ $key ] ); // remove this product from the queue
+				unset( $batch->data[ $key ] ); // Remove this product from the queue.
 
 				if ( $this->time_exceeded( $feed_id ) || $this->memory_exceeded( $feed_id ) ) {
 					// Batch limits reached.
@@ -507,7 +529,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 
 		$this->unlock_process();
 
-		// If the queue is not empty, restart the process
+		// If the queue is not empty, restart the process.
 		if ( ! $this->is_queue_empty() ) {
 			update_option( 'wppfm_processed_products', implode( ',', $this->processed_products ) );
 
@@ -531,7 +553,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	 * Ensures the batch process never exceeds 90%
 	 * of the maximum WordPress memory.
 	 *
-	 * @param string $feed_id
+	 * @param string $feed_id   The feed id.
 	 *
 	 * @return bool
 	 */
@@ -541,7 +563,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 		$return         = false;
 
 		if ( $current_memory >= $memory_limit ) {
-			do_action( 'wppfm_batch_memory_limit_exceeded', $feed_id, $current_memory, $memory_limit );
+			do_action( 'wppfm_batch_memory_limit_exceeded', $feed_id, $current_memory, $memory_limit, $this->products_handled_in_batch );
 			$return = true;
 		}
 
@@ -575,7 +597,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	 * Ensures the batch never exceeds a sensible time limit.
 	 * A timeout limit of 30s is common on shared hosting.
 	 *
-	 * @param string $feed_id
+	 * @param string $feed_id   The feed id.
 	 *
 	 * @return bool
 	 */
@@ -584,7 +606,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 		$return = false;
 
 		if ( time() >= $finish ) {
-			do_action( 'wppfm_batch_time_limit_exceeded', $feed_id, apply_filters( 'wppfm_default_time_limit', 30 ) );
+			do_action( 'wppfm_batch_time_limit_exceeded', $feed_id, apply_filters( 'wppfm_default_time_limit', 30 ), $this->products_handled_in_batch );
 			$return = true;
 		}
 
@@ -596,13 +618,13 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	 *
 	 * @since 2.10.0.
 	 *
-	 * @param   string  $feed_id
-	 * @param   string  $status     Use "failed" for failing batches. Default status is ready.
+	 * @param   string $feed_id    The feed id.
+	 * @param   string $status     Use "failed" for failing batches. Default status is ready.
 	 */
 	protected function end_batch( $feed_id, $status = 'ready' ) {
 		$this->clear_the_queue();
 
-		$this->complete(); // complete processing this feed
+		$this->complete(); // Complete processing this feed.
 
 		if ( 'failed' === $status && $feed_id ) {
 			// Set the feed status to failed (6).
@@ -617,7 +639,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 		if ( ! WPPFM_Feed_Controller::feed_queue_is_empty() ) {
 			do_action( 'wppfm_activated_next_feed', WPPFM_Feed_Controller::get_next_id_from_feed_queue() );
 
-			$this->dispatch( WPPFM_Feed_Controller::get_next_id_from_feed_queue() ); // start with the next feed in the queue
+			$this->dispatch( WPPFM_Feed_Controller::get_next_id_from_feed_queue() ); // Start with the next feed in the queue.
 		}
 	}
 
@@ -716,23 +738,6 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	}
 
 	/**
-	 * Cancel Process
-	 *
-	 * Stop processing queue items, clear cronjob and delete batch.
-	 *
-	 */
-	public function cancel_process() {
-		if ( ! $this->is_queue_empty() ) {
-			$batch = $this->get_batch();
-
-			$this->delete( $batch->key );
-
-			wp_clear_scheduled_hook( $this->cron_hook_identifier );
-		}
-
-	}
-
-	/**
 	 * Task
 	 *
 	 * Override this method to perform any actions required on each
@@ -740,12 +745,12 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	 * in the next pass through. Or, return false to remove the
 	 * item from the queue.
 	 *
-	 * @param mixed $item Queue item to iterate over.
-	 * @param array $feed_data
-	 * @param string $feed_file_path
-	 * @param array $pre_data
-	 * @param array $channel_details
-	 * @param array $relation_table
+	 * @param   mixed  $item                Queue item to iterate over.
+	 * @param   array  $feed_data           The feed data.
+	 * @param   string $feed_file_path      The path to the feed file.
+	 * @param   array  $pre_data            All required pre-data.
+	 * @param   array  $channel_details     The channel details.
+	 * @param   array  $relation_table      The relation table.
 	 *
 	 * @return mixed
 	 */

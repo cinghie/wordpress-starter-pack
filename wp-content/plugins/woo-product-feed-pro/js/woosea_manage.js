@@ -16,6 +16,7 @@ jQuery(document).ready(function($) {
   	if (get_value == 'woosea_manage_feed') {
 		$(document).on('ready',function(){
                         // Check if feed is processing
+                        
                         jQuery.ajax({
                                 method: "POST",
                                 url: ajaxurl,
@@ -270,6 +271,18 @@ jQuery(document).ready(function($) {
                 	})
 		}
 	})	
+
+	// Check if user would like to add a Facebook Pixel to their website
+	$('#woosea_content_ids').on('change', function(){ // on change of state
+		var content_ids = $('#woosea_content_ids').val();
+		if(content_ids){
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_facebook_content_ids', 'content_ids': content_ids }
+                	})
+		}
+	})
 
 	// Check if user would like to add a Facebook Pixel to their website
 	$('#add_facebook_pixel').on('change', function(){ // on change of state

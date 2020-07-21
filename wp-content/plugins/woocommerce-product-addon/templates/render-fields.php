@@ -51,6 +51,7 @@ foreach( $ppom_fields_meta as $meta ) {
 	$col			= ppom_get_field_colum($meta);
 	$required		= ( isset($meta['required'] ) ? $meta['required'] : '' );
 	$description	= ( isset($meta['description'] ) ? stripslashes($meta['description']) : '' );
+	$logic			= ( isset($meta['logic'] ) ? $meta['logic'] : '' );
 	$condition		= ( isset($meta['conditions'] ) ? $meta['conditions'] : '' );
 	$options		= ( isset($meta['options'] ) ? $meta['options'] : array());
 	$default_value  = ( isset($meta['default_value'] ) ? $meta['default_value'] : '');
@@ -87,9 +88,9 @@ foreach( $ppom_fields_meta as $meta ) {
 		
 			case 'image':
 				$image_data  = $posted_values[$data_name];
-				foreach($image_data as $data){
 					unset($default_value);
-					$default_value[] = json_decode( stripslashes($data), true);
+				foreach($image_data as $data){
+					$default_value[] = json_decode( stripslashes($data), true );
 				}
 				break;
 				
@@ -150,6 +151,7 @@ foreach( $ppom_fields_meta as $meta ) {
 	$placeholder 				= isset( $meta['placeholder'] ) ? stripslashes($meta['placeholder']) : '';
 	
 	
+	
 	if(is_array($options)){
 		$options		= array_map("ppom_translation_options", $options);
 	}
@@ -182,8 +184,12 @@ foreach( $ppom_fields_meta as $meta ) {
 		// skip collapse div
 		if ($type == 'collapse') continue;
 		
+		$ppom_cond_data = ppom_get_conditional_data_attributes($meta);
+		// ppom_pa($condition);
+		$field_main_wrapper = 'ppom-field-wrapper ppom-col col-md-'.esc_attr($col).' '.esc_attr($input_wrapper_class);
 		
-        echo '<div data-data_name='.esc_attr($data_name).' class="ppom-field-wrapper ppom-col col-md-'.esc_attr($col).' '.esc_attr($input_wrapper_class).'">';
+        $ppom_field_wrapper_div = '<div data-data_name='.esc_attr($data_name).' '.$ppom_cond_data.' class="'.apply_filters('ppom_field_main_wapper_class', $field_main_wrapper, $meta).'">';
+        echo apply_filters('ppom_field_wrapper_div', $ppom_field_wrapper_div, $meta, $product);
             
         // Text|Email|Date|Number
         $ppom_field_attributes = apply_filters('ppom_field_attributes', $meta, $type);

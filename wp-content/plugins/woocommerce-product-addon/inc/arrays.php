@@ -374,6 +374,24 @@ function ppom_array_settings() {
 		),
 		
 		array(
+			'title'          => __( 'Enable New Conditional Logic Script', 'ppom' ),
+			'type'          => 'checkbox',
+			'label'         => __( 'Yes', 'ppom' ),
+			'default'       => 'no',
+			'id'            => 'ppom_new_conditions',
+			'desc'          => __( 'A faster approach to load conditional fields. Beta version, please report bug in new conditional script.', 'ppom' ),
+		),
+		
+		array(
+			'title'          => __( 'Do not send Product Meta to PayPal Invoice', 'ppom' ),
+			'type'          => 'checkbox',
+			'label'         => __( 'Yes', 'ppom' ),
+			'default'       => 'no',
+			'id'            => 'ppom_disable_meta_paypal_invoice',
+			'desc'          => __( 'Product meta will not be sent to PayPal invoice, only the Item name will be sent to invoice', 'ppom' ),
+		),
+		
+		array(
             'title'		=> __( 'Select Option Label', 'ppom' ),
             'type'		=> 'text',
             'desc'		=> __( 'Label For Price Table', 'ppom' ),
@@ -911,12 +929,18 @@ function ppom_array_get_js_input_vars( $product, $args = null ) {
 	$context		= 'product';
 	$js_vars['wc_product_price']= ppom_get_product_price($product, $variation_id, $context);
 	$js_vars['wc_product_regular_price']= ppom_get_product_regular_price($product);
-	$js_vars['price_matrix_heading'] = ppom_get_option('ppom_label_discount_price', __('Discount Price','ppom'));
-	$js_vars['product_base_label'] = ppom_get_option('ppom_label_product_price', __('Product Price', 'ppom'));
-	$js_vars['option_total_label'] = ppom_get_option('ppom_label_option_total', __('Option Total','ppom'));
-	$js_vars['fixed_fee_heading'] = ppom_get_option('ppom_label_fixed_fee', __('Fixed Fee','ppom'));
-	$js_vars['total_discount_label'] = ppom_get_option('ppom_label_total_discount', __('Total Discount','ppom'));
-	$js_vars['total_without_fixed_label'] = ppom_get_option('ppom_label_total', __('Total','ppom'));
+	$ppom_label_discount_price	= ppom_get_option('ppom_label_discount_price', 'Discount Price');
+	$ppom_label_product_price	= ppom_get_option('ppom_label_product_price', 'Product Price');
+	$ppom_label_option_total	= ppom_get_option('ppom_label_option_total', 'Option Total');
+	$ppom_label_fixed_fee		= ppom_get_option('ppom_label_fixed_fee', 'Fixed Fee');
+	$ppom_label_total_discount	= ppom_get_option('ppom_label_total_discount', 'Total Discount');
+	$ppom_label_total			= ppom_get_option('ppom_label_total', 'Total');
+	$js_vars['total_discount_label']	= sprintf(__("%s", 'ppom'), $ppom_label_total_discount);
+	$js_vars['price_matrix_heading']	= sprintf(__("%s", 'ppom'), $ppom_label_discount_price);
+	$js_vars['product_base_label']	= sprintf(__("%s", 'ppom'), $ppom_label_product_price);
+	$js_vars['option_total_label']	= sprintf(__("%s", 'ppom'), $ppom_label_option_total);
+	$js_vars['fixed_fee_heading']	= sprintf(__("%s", 'ppom'), $ppom_label_fixed_fee);
+	$js_vars['total_without_fixed_label']	= sprintf(__("%s", 'ppom'), $ppom_label_total);
 	$js_vars['product_quantity_label'] = __("Product Quantity", "ppom");
 	$js_vars['product_title'] = sprintf(__("%s", "ppom"), $product->get_title());
 	$js_vars['per_unit_label'] = __("unit", "ppom");

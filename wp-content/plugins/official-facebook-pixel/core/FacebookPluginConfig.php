@@ -20,13 +20,15 @@ namespace FacebookPixelPlugin\Core;
 defined('ABSPATH') or die('Direct access not allowed');
 
 class FacebookPluginConfig {
-  const PLUGIN_VERSION = '2.0.2';
+  const PLUGIN_VERSION = '2.1.0';
   const SOURCE = 'wordpress';
   const TEXT_DOMAIN = 'official-facebook-pixel';
 
   const ADMIN_CAPABILITY = 'manage_options';
   const ADMIN_DISMISS_PIXEL_ID_NOTICE = 'dismiss_pixel_id_notice';
   const ADMIN_IGNORE_PIXEL_ID_NOTICE = 'ignore_pixel_id_notice';
+  const ADMIN_DISMISS_SSAPI_NOTICE = 'dismiss_ssapi__notice';
+  const ADMIN_IGNORE_SSAPI_NOTICE = 'ignore_ssapi_notice';
   const ADMIN_MENU_SLUG = 'facebook_pixel_options';
   const ADMIN_MENU_TITLE = 'Facebook Pixel';
   const ADMIN_OPTION_GROUP = 'facebook_option_group';
@@ -60,6 +62,7 @@ class FacebookPluginConfig {
       'NINJA_FORMS' => 'FacebookWordpressNinjaForms',
       'WPFORMS' => 'FacebookWordpressWPForms',
       'WP_E_COMMERCE' => 'FacebookWordpressWPECommerce',
+      'WOOCOMMERCE' => 'FacebookWordpressWooCommerce'
     );
   }
 }

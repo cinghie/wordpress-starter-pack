@@ -719,7 +719,7 @@ if (!Array.prototype.includes) {
                 options.gdpr.ginger_integration_enabled ||
                 options.gdpr.cookie_notice_integration_enabled ||
                 options.gdpr.cookie_law_info_integration_enabled;
-            if( ( "Purchase" === name || "CompleteRegistration" === name) && isApiDisabled){
+            if( ("hCR" === name || "CompleteRegistration" === name || "Purchase" === name) && isApiDisabled){
                 var json = {
                     action: 'pys_api_event',
                     pixel: 'facebook',
@@ -734,7 +734,7 @@ if (!Array.prototype.includes) {
                 });
             }
 
-            if("CompleteRegistration" === name && options.facebook.wooCRSendFromServer && options.facebook.serverApiEnabled) {
+            if("hCR" === name) {
                 return;
             }
 
@@ -1331,10 +1331,18 @@ if (!Array.prototype.includes) {
 
                     if (is_variable) {
                         product_id = parseInt($form.find('*[name="add-to-cart"]').val());
-                        qty = parseInt($form.find('input[name="quantity"]').val());
+                        var qtyTag = $form.find('input[name="quantity"]');
+                        if(qtyTag.length <= 0) {
+                            qtyTag = $form.find('select[name="quantity"]');
+                        }
+                        qty = parseInt(qtyTag.val());
                     } else {
                         product_id = parseInt($form.find('*[name="add-to-cart"]').val());
-                        qty = parseInt($form.find('input[name="quantity"]').val());
+                        var qtyTag = $form.find('input[name="quantity"]');
+                        if(qtyTag.length <= 0) {
+                            qtyTag = $form.find('select[name="quantity"]');
+                        }
+                        qty = parseInt(qtyTag.val());
                     }
 
                     Facebook.onWooAddToCartOnSingleEvent(product_id, qty, is_variable, $form);

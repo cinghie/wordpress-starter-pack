@@ -44,7 +44,9 @@ use FacebookAds\Object\Values\AdVideoUnpublishedContentTypeValues;
 use FacebookAds\Object\Values\AdVideoUploadPhaseValues;
 use FacebookAds\Object\Values\AdVideoValidationAdPlacementsValues;
 use FacebookAds\Object\Values\AdsPixelSortByValues;
+use FacebookAds\Object\Values\BusinessAgreementRequestStatusValues;
 use FacebookAds\Object\Values\BusinessAssetSharingAgreementRequestStatusValues;
+use FacebookAds\Object\Values\BusinessCreativeFolderSharingAgreementRequestStatusValues;
 use FacebookAds\Object\Values\BusinessImageValidationAdPlacementsValues;
 use FacebookAds\Object\Values\BusinessPagePermittedTasksValues;
 use FacebookAds\Object\Values\BusinessPermittedTasksValues;
@@ -427,6 +429,32 @@ class Business extends AbstractCrudObject {
       new AdPlacement(),
       'EDGE',
       AdPlacement::getFieldsEnum()->getValues(),
+      new TypeChecker($param_types, $enums)
+    );
+    $request->addParams($params);
+    $request->addFields($fields);
+    return $pending ? $request : $request->execute();
+  }
+
+  public function getAttemptedSharingAgreements(array $fields = array(), array $params = array(), $pending = false) {
+    $this->assureId();
+
+    $param_types = array(
+      'request_status' => 'request_status_enum',
+      'requesting_business_id' => 'string',
+    );
+    $enums = array(
+      'request_status_enum' => BusinessCreativeFolderSharingAgreementRequestStatusValues::getInstance()->getValues(),
+    );
+
+    $request = new ApiRequest(
+      $this->api,
+      $this->data['id'],
+      RequestInterface::METHOD_GET,
+      '/attempted_sharing_agreements',
+      new BusinessCreativeFolderSharingAgreement(),
+      'EDGE',
+      BusinessCreativeFolderSharingAgreement::getFieldsEnum()->getValues(),
       new TypeChecker($param_types, $enums)
     );
     $request->addParams($params);
@@ -870,11 +898,35 @@ class Business extends AbstractCrudObject {
     return $pending ? $request : $request->execute();
   }
 
+  public function getCommerceMerchantSettings(array $fields = array(), array $params = array(), $pending = false) {
+    $this->assureId();
+
+    $param_types = array(
+    );
+    $enums = array(
+    );
+
+    $request = new ApiRequest(
+      $this->api,
+      $this->data['id'],
+      RequestInterface::METHOD_GET,
+      '/commerce_merchant_settings',
+      new CommerceMerchantSettings(),
+      'EDGE',
+      CommerceMerchantSettings::getFieldsEnum()->getValues(),
+      new TypeChecker($param_types, $enums)
+    );
+    $request->addParams($params);
+    $request->addFields($fields);
+    return $pending ? $request : $request->execute();
+  }
+
   public function getContentDeliveryReport(array $fields = array(), array $params = array(), $pending = false) {
     $this->assureId();
 
     $param_types = array(
       'end_date' => 'datetime',
+      'page_id' => 'unsigned int',
       'platform' => 'platform_enum',
       'position' => 'position_enum',
       'start_date' => 'datetime',
@@ -893,6 +945,29 @@ class Business extends AbstractCrudObject {
       new ContentDeliveryReport(),
       'EDGE',
       ContentDeliveryReport::getFieldsEnum()->getValues(),
+      new TypeChecker($param_types, $enums)
+    );
+    $request->addParams($params);
+    $request->addFields($fields);
+    return $pending ? $request : $request->execute();
+  }
+
+  public function getCreativeAssetTags(array $fields = array(), array $params = array(), $pending = false) {
+    $this->assureId();
+
+    $param_types = array(
+    );
+    $enums = array(
+    );
+
+    $request = new ApiRequest(
+      $this->api,
+      $this->data['id'],
+      RequestInterface::METHOD_GET,
+      '/creative_asset_tags',
+      new CreativeAssetTag(),
+      'EDGE',
+      CreativeAssetTag::getFieldsEnum()->getValues(),
       new TypeChecker($param_types, $enums)
     );
     $request->addParams($params);
@@ -1056,6 +1131,7 @@ class Business extends AbstractCrudObject {
     $this->assureId();
 
     $param_types = array(
+      'order_by_is_owned_credential' => 'bool',
     );
     $enums = array(
     );
@@ -1123,6 +1199,32 @@ class Business extends AbstractCrudObject {
       new BusinessAssetSharingAgreement(),
       'EDGE',
       BusinessAssetSharingAgreement::getFieldsEnum()->getValues(),
+      new TypeChecker($param_types, $enums)
+    );
+    $request->addParams($params);
+    $request->addFields($fields);
+    return $pending ? $request : $request->execute();
+  }
+
+  public function getInitiatedSharingAgreements(array $fields = array(), array $params = array(), $pending = false) {
+    $this->assureId();
+
+    $param_types = array(
+      'receiving_business_id' => 'string',
+      'request_status' => 'request_status_enum',
+    );
+    $enums = array(
+      'request_status_enum' => BusinessAgreementRequestStatusValues::getInstance()->getValues(),
+    );
+
+    $request = new ApiRequest(
+      $this->api,
+      $this->data['id'],
+      RequestInterface::METHOD_GET,
+      '/initiated_sharing_agreements',
+      new BusinessAgreement(),
+      'EDGE',
+      BusinessAgreement::getFieldsEnum()->getValues(),
       new TypeChecker($param_types, $enums)
     );
     $request->addParams($params);
@@ -1537,7 +1639,7 @@ class Business extends AbstractCrudObject {
     $this->assureId();
 
     $param_types = array(
-      'ig_password' => 'string',
+      'code' => 'string',
       'page_id' => 'int',
     );
     $enums = array(
@@ -1608,10 +1710,12 @@ class Business extends AbstractCrudObject {
     $this->assureId();
 
     $param_types = array(
+      'commerce_merchant_settings' => 'Object',
       'da_display_settings' => 'Object',
       'destination_catalog_settings' => 'map',
       'flight_catalog_settings' => 'map',
       'name' => 'string',
+      'onsite_commerce_merchant' => 'Object',
       'store_catalog_settings' => 'map',
       'vertical' => 'vertical_enum',
     );
@@ -1848,29 +1952,6 @@ class Business extends AbstractCrudObject {
     return $pending ? $request : $request->execute();
   }
 
-  public function getPixelTos(array $fields = array(), array $params = array(), $pending = false) {
-    $this->assureId();
-
-    $param_types = array(
-    );
-    $enums = array(
-    );
-
-    $request = new ApiRequest(
-      $this->api,
-      $this->data['id'],
-      RequestInterface::METHOD_GET,
-      '/pixel_tos',
-      new BusinessPixelTOS(),
-      'EDGE',
-      BusinessPixelTOS::getFieldsEnum()->getValues(),
-      new TypeChecker($param_types, $enums)
-    );
-    $request->addParams($params);
-    $request->addFields($fields);
-    return $pending ? $request : $request->execute();
-  }
-
   public function createPixelTo(array $fields = array(), array $params = array(), $pending = false) {
     $this->assureId();
 
@@ -1884,9 +1965,9 @@ class Business extends AbstractCrudObject {
       $this->data['id'],
       RequestInterface::METHOD_POST,
       '/pixel_tos',
-      new BusinessPixelTOS(),
+      new AbstractCrudObject(),
       'EDGE',
-      BusinessPixelTOS::getFieldsEnum()->getValues(),
+      array(),
       new TypeChecker($param_types, $enums)
     );
     $request->addParams($params);
@@ -1913,6 +1994,32 @@ class Business extends AbstractCrudObject {
       new BusinessAssetSharingAgreement(),
       'EDGE',
       BusinessAssetSharingAgreement::getFieldsEnum()->getValues(),
+      new TypeChecker($param_types, $enums)
+    );
+    $request->addParams($params);
+    $request->addFields($fields);
+    return $pending ? $request : $request->execute();
+  }
+
+  public function getReceivedSharingAgreements(array $fields = array(), array $params = array(), $pending = false) {
+    $this->assureId();
+
+    $param_types = array(
+      'request_status' => 'request_status_enum',
+      'requesting_business_id' => 'string',
+    );
+    $enums = array(
+      'request_status_enum' => BusinessAgreementRequestStatusValues::getInstance()->getValues(),
+    );
+
+    $request = new ApiRequest(
+      $this->api,
+      $this->data['id'],
+      RequestInterface::METHOD_GET,
+      '/received_sharing_agreements',
+      new BusinessAgreement(),
+      'EDGE',
+      BusinessAgreement::getFieldsEnum()->getValues(),
       new TypeChecker($param_types, $enums)
     );
     $request->addParams($params);

@@ -1,26 +1,53 @@
 <?php
 
-class WOOCCM_Fields_Handler {
+class WOOCCM_Fields_Handler
+{
 
   protected static $_instance;
 
-  public function __construct() {
-    $this->init();
+  public function __construct()
+  {
+
+    // Prepare
+    add_filter('wooccm_checkout_field_filter', array($this, 'add_field_filter'));
+
+    // Add field classes
+    add_filter('wooccm_checkout_field_filter', array($this, 'add_field_classes'));
+
+    // Remove fields
+    // -----------------------------------------------------------------------
+    add_filter('woocommerce_checkout_fields', array($this, 'remove_checkout_fields'));
+
+    // Fix address_2 field
+    // -----------------------------------------------------------------------
+    //add_filter('default_option_woocommerce_checkout_address_2_field', array($this, 'woocommerce_checkout_address_2_field'));
+    // Fix address fields priority, required, placeholder, label
+    //    add_filter('woocommerce_get_country_locale', '__return_empty_array');
+    add_filter('woocommerce_get_country_locale_default', array($this, 'remove_fields_priority'));
+    add_filter('woocommerce_get_country_locale_base', array($this, 'remove_fields_priority'));
+    // Fix required country notice when shipping address is activated
+    // -----------------------------------------------------------------------
+    add_filter('woocommerce_checkout_posted_data', array($this, 'remove_address_fields'));
+
+    // Clear session
+    add_action('woocommerce_checkout_posted_data', array($this, 'posted_data'));
   }
 
-  public static function instance() {
+  public static function instance()
+  {
     if (is_null(self::$_instance)) {
       self::$_instance = new self();
     }
     return self::$_instance;
   }
 
-  public function posted_data($data) {
+  public function posted_data($data)
+  {
 
     if (count($fields = WC()->session->wooccm['fields'])) {
 
       foreach ($fields as $key => $field) {
-          
+
         switch ($field['type']) {
 
           case 'multicheckbox':
@@ -34,10 +61,10 @@ class WOOCCM_Fields_Handler {
             if (!empty($_POST[$key])) {
               $data[$key] = __('Yes', 'woocommerce-checkout-manager');
             }
-            
-//            else {
-//              $data[$key] = __('No', 'woocommerce-checkout-manager');
-//            }
+
+            //            else {
+            //              $data[$key] = __('No', 'woocommerce-checkout-manager');
+            //            }
 
             break;
         }
@@ -47,7 +74,8 @@ class WOOCCM_Fields_Handler {
     return $data;
   }
 
-  public function add_field_filter($field) {
+  public function add_field_filter($field)
+  {
 
     if (isset(WC()->session)) {
       $session_data = WC()->session->wooccm;
@@ -111,7 +139,8 @@ class WOOCCM_Fields_Handler {
     return $field;
   }
 
-  public function add_field_classes($field) {
+  public function add_field_classes($field)
+  {
 
     // Position
     // -----------------------------------------------------------------------
@@ -164,19 +193,40 @@ class WOOCCM_Fields_Handler {
       }
     }
 
+    // Number
+    if ($field['type'] == 'number') {
+      if ($field['max']) {
+        $field['custom_attributes']['max'] = (int) $field['max'];
+      }
+      if ($field['min']) {
+        $field['custom_attributes']['min'] = (int) $field['min'];
+      }
+    }
+
+    // Text/Textarea
+    if ($field['type'] == 'text' || $field['type'] == 'textarea') {
+      if ($field['maxlength']) {
+        $field['custom_attributes']['maxlength'] = (int) $field['maxlength'];
+      }
+    }
+
     return $field;
   }
 
-  public function remove_checkout_fields($fields) {
+  public function remove_checkout_fields($fields)
+  {
 
     foreach ($fields as $key => $type) {
 
-      foreach ($type as $field_id => $field) {
-
-        // Remove disabled
-        // -------------------------------------------------------------------
-        if (!empty($field['disabled'])) {
-          unset($fields[$key][$field_id]);
+      if (is_array($type)) {
+        if (count($type)) {
+          foreach ($type as $field_id => $field) {
+            // Remove disabled
+            // -------------------------------------------------------------------
+            if (!empty($field['disabled'])) {
+              unset($fields[$key][$field_id]);
+            }
+          }
         }
       }
     }
@@ -193,7 +243,8 @@ class WOOCCM_Fields_Handler {
   //  return 'required';
   //}
 
-  public function remove_fields_priority($fields) {
+  public function remove_fields_priority($fields)
+  {
 
     foreach ($fields as $key => $field) {
       unset($fields[$key]['label']);
@@ -205,14 +256,15 @@ class WOOCCM_Fields_Handler {
     return $fields;
   }
 
-  public function remove_address_fields($data) {
+  public function remove_address_fields($data)
+  {
 
     $remove = array(
-        'shipping_country',
-        'shipping_address_1',
-        'shipping_city',
-        'shipping_state',
-        'shipping_postcode'
+      'shipping_country',
+      'shipping_address_1',
+      'shipping_city',
+      'shipping_state',
+      'shipping_postcode'
     );
 
     foreach ($remove as $key) {
@@ -223,33 +275,6 @@ class WOOCCM_Fields_Handler {
 
     return $data;
   }
-
-  public function init() {
-    // Prepare
-    add_filter('wooccm_checkout_field_filter', array($this, 'add_field_filter'));
-
-    // Add field classes
-    add_filter('wooccm_checkout_field_filter', array($this, 'add_field_classes'));
-
-    // Remove fields
-    // -----------------------------------------------------------------------
-    add_filter('woocommerce_checkout_fields', array($this, 'remove_checkout_fields'));
-
-    // Fix address_2 field
-    // -----------------------------------------------------------------------
-    //add_filter('default_option_woocommerce_checkout_address_2_field', array($this, 'woocommerce_checkout_address_2_field'));
-    // Fix address fields priority, required, placeholder, label
-//    add_filter('woocommerce_get_country_locale', '__return_empty_array');
-    add_filter('woocommerce_get_country_locale_default', array($this, 'remove_fields_priority'));
-    add_filter('woocommerce_get_country_locale_base', array($this, 'remove_fields_priority'));
-    // Fix required country notice when shipping address is activated
-    // -----------------------------------------------------------------------
-    add_filter('woocommerce_checkout_posted_data', array($this, 'remove_address_fields'));
-
-    // Clear session
-    add_action('woocommerce_checkout_posted_data', array($this, 'posted_data'));
-  }
-
 }
 
 WOOCCM_Fields_Handler::instance();

@@ -1,21 +1,30 @@
 <?php
 
-class WOOCCM_Fields_Display {
+class WOOCCM_Fields_Display
+{
 
   protected static $_instance;
 
-  public function __construct() {
-    $this->init();
+  public function __construct()
+  {
+    // Remove by product
+    add_filter('wooccm_checkout_field_filter', array($this, 'disable_by_product'));
+    // Remove by category
+    add_filter('wooccm_checkout_field_filter', array($this, 'disable_by_category'));
+    // Remove by role
+    add_filter('wooccm_checkout_field_filter', array($this, 'disable_by_role'));
   }
 
-  public static function instance() {
+  public static function instance()
+  {
     if (is_null(self::$_instance)) {
       self::$_instance = new self();
     }
     return self::$_instance;
   }
 
-  function disable_by_role($field) {
+  function disable_by_role($field)
+  {
 
     global $current_user;
 
@@ -42,7 +51,8 @@ class WOOCCM_Fields_Display {
     return $field;
   }
 
-  function disable_by_category($field) {
+  function disable_by_category($field)
+  {
 
     if (empty($field['disabled']) && (!empty($field['hide_product_cat']) || !empty($field['show_product_cat']))) {
 
@@ -51,7 +61,7 @@ class WOOCCM_Fields_Display {
         $hide_cats_array = (array) $field['hide_product_cat'];
 
         $show_cats_array = (array) $field['show_product_cat'];
-        
+
         $more_product = empty($field['more_product']);
 
         $product_cats = array();
@@ -113,7 +123,8 @@ class WOOCCM_Fields_Display {
     return $field;
   }
 
-  function disable_by_product($field) {
+  function disable_by_product($field)
+  {
 
     if (empty($field['disabled']) && (!empty($field['hide_product']) || !empty($field['show_product']))) {
 
@@ -122,7 +133,7 @@ class WOOCCM_Fields_Display {
         $hide_ids_array = (array) $field['hide_product'];
 
         $show_ids_array = (array) $field['show_product'];
-        
+
         $more_product = empty($field['more_product']);
 
         $product_ids = array_column($cart_contents, 'product_id');
@@ -177,17 +188,6 @@ class WOOCCM_Fields_Display {
 
     return $field;
   }
-
-  function init() {
-
-    // Remove by product
-    add_filter('wooccm_checkout_field_filter', array($this, 'disable_by_product'));
-    // Remove by category
-    add_filter('wooccm_checkout_field_filter', array($this, 'disable_by_category'));
-    // Remove by role
-    add_filter('wooccm_checkout_field_filter', array($this, 'disable_by_role'));
-  }
-
 }
 
 WOOCCM_Fields_Display::instance();

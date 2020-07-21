@@ -123,6 +123,9 @@ class Stock_Manager_Admin {
 	public function enqueue_admin_scripts() {
 	 if( isset( $_GET['page'] ) && ( $_GET['page'] == 'stock-manager' || $_GET['page'] == 'stock-manager-import-export' ) ){
 
+	 		$low_stock_threshold = get_option( 'woocommerce_notify_low_stock_amount', 5 );
+	 		$low_stock_threshold = ( ! empty( $low_stock_threshold ) ) ? $low_stock_threshold : 5;
+
 			$params = array(
 				'ajax_nonce' => wp_create_nonce('wsm_update'),
 			);
@@ -138,6 +141,7 @@ class Stock_Manager_Admin {
 					'adminUrl' => admin_url(),
 					'nonce' => wp_create_nonce('wp_rest'),
 					'perPage' => apply_filters('woocommerce_stock_manager_per_page', 50),
+					'lowStockThreshold' => $low_stock_threshold,
 				],
 				'product-categories' => array_reduce(get_terms(['taxonomy' => 'product_cat', 'hide_empty' => false]), function($carry, $item) {
 					$carry[$item->term_id] = $item->name;
@@ -166,6 +170,20 @@ class Stock_Manager_Admin {
 		}
 	}
 
+	public function get_free_menu_position($start, $increment = 0.0001) {
+		foreach ($GLOBALS['menu'] as $key => $menu) {
+			$menus_positions[] = $key;
+		}
+	
+		if (!in_array($start, $menus_positions)) return $start;
+	
+		/* the position is already reserved find the closet one */
+		while (in_array($start, $menus_positions)) {
+			$start += $increment;
+		}
+		return $start;
+	}
+
 	/**
 	 * Register the administration menu for this plugin into the WordPress Dashboard menu.
 	 *
@@ -177,13 +195,16 @@ class Stock_Manager_Admin {
 
 		$manage = apply_filters( 'stock_manager_manage', $value );
 
+		$position = (string) $this->get_free_menu_position(56.00001);
+
 		$hook = add_menu_page(
 			__( 'WooCommerce Stock Manager', $this->plugin_slug ),
 			__( 'WooCommerce Stock Manager', $this->plugin_slug ),
 			$manage,
 			'stock-manager',
 			array( $this, 'display_plugin_admin_page' ),
-			'dashicons-book-alt'
+			'dashicons-book-alt',
+			$position
 		);
 
 		// Show screen option for React App
@@ -217,6 +238,14 @@ class Stock_Manager_Admin {
 			'stock-manager-setting',
 			array( $this, 'display_setting_page' )
 		);
+		add_submenu_page(
+			'stock-manager',
+			__( 'StoreApps Plugins', $this->plugin_slug ),
+			__( 'StoreApps Plugins', $this->plugin_slug ),
+			$manage,
+			'stock-manager-storeapps-plugins',
+			array( $this, 'display_sa_marketplace_page' )
+		);
 
 	}
 
@@ -245,6 +274,16 @@ class Stock_Manager_Admin {
 	 */
 	public function display_setting_page() {
 		include_once( 'views/setting.php' );
+	}
+
+	/**
+	 * Render the StoreApps Marketplace page.
+	 *
+	 * @since    2.2.0
+	 */
+	public function display_sa_marketplace_page() {
+		include_once( 'views/class-storeapps-marketplace.php' );
+		WSM_StoreApps_Marketplace::init();
 	}
 
 	/**

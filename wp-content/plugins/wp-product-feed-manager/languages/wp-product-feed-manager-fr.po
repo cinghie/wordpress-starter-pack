@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Product Feed Manager\n"
-"POT-Creation-Date: 2020-03-23 16:36+0100\n"
-"PO-Revision-Date: 2020-03-23 16:36+0100\n"
+"POT-Creation-Date: 2020-05-30 10:42+0200\n"
+"PO-Revision-Date: 2020-05-30 10:42+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.3.1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: wp-product-feed-manager.php\n"
@@ -21,9 +21,14 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: includes/application/class-feed-master.php:116
+#: includes/application/class-feed-master.php:114
+#, fuzzy
+#| msgid ""
+#| "1428 - Failed to load the feed data, please to generate a feed in the "
+#| "foreground mode (see Settings page) and then try the background mode "
+#| "again."
 msgid ""
-"1428 - Failed to load the feed data, please to generate a feed in the "
+"1428 - Failed to load the feed data, please try to generate a feed in the "
 "foreground mode (see Settings page) and then try the background mode again."
 msgstr ""
 "1428 - Échec du chargement des données de flux, veuillez générer un flux en "
@@ -31,7 +36,7 @@ msgstr ""
 "d’arrière-plan."
 
 #. translators: %s: Folder where the feeds are stored
-#: includes/application/class-feed-master.php:218
+#: includes/application/class-feed-master.php:223
 #, php-format
 msgid ""
 "1430 - %s is not a writable folder. Make sure you have admin rights to this "
@@ -40,13 +45,13 @@ msgstr ""
 "1430 - %s n'est pas un dossier inscriptible. Assurez-vous d'avoir les droits "
 "d'administrateur pour ce répertoire."
 
-#: includes/application/class-feed-master.php:556
+#: includes/application/class-feed-master.php:564
 #: includes/user-interface/class-wppfm-i18n-scripts.php:86
 msgid "Fill with a static value"
 msgstr "Remplir avec une valeur statique"
 
-#: includes/application/class-feed-master.php:557
-#: includes/application/class-feed-master.php:562
+#: includes/application/class-feed-master.php:565
+#: includes/application/class-feed-master.php:570
 msgid "Use the settings in the Merchant Center"
 msgstr "Utilisez les paramètres du Merchant Center"
 
@@ -112,13 +117,13 @@ msgstr ""
 
 #. translators: %s: Title of the feed file
 #. translators: %s: Selected backup file
-#: includes/data/class-wppfm-ajax-file.php:115
+#: includes/data/class-wppfm-ajax-file.php:117
 #: includes/data/class-wppfm-db-management.php:280
 #, php-format
 msgid "Could not find file %s."
 msgstr "Impossible de trouver les %s des fichiers."
 
-#: includes/data/class-wppfm-ajax-file.php:117
+#: includes/data/class-wppfm-ajax-file.php:119
 #: includes/data/class-wppfm-db-management.php:282
 msgid ""
 "Error deleting the feed. You do not have the correct authorities to delete "
@@ -127,7 +132,7 @@ msgstr ""
 "Erreur de suppression du flux. Vous n'avez pas les autorisations nécessaires "
 "pour supprimer le fichier."
 
-#: includes/data/class-wppfm-ajax-file.php:170
+#: includes/data/class-wppfm-ajax-file.php:172
 #: includes/user-interface/class-wppfm-i18n-scripts.php:37
 msgid ""
 "Error writing the feed. You do not have the correct authorities to write the "
@@ -136,12 +141,12 @@ msgstr ""
 "Erreur dans l'écriture du flux. Vous n'avez pas les autorisations "
 "nécessaires pour écrire le fichier."
 
-#: includes/data/class-wppfm-ajax-file.php:322
+#: includes/data/class-wppfm-ajax-file.php:326
 msgid "Feed processing data cleared"
 msgstr "Données de traitement des aliments pour animaux effacées"
 
 #. translators: clearing the feed data failed
-#: includes/data/class-wppfm-ajax-file.php:325
+#: includes/data/class-wppfm-ajax-file.php:329
 msgid "Clearing failed!"
 msgstr "Le nettoyage a échoué !"
 
@@ -283,14 +288,14 @@ msgstr "Vous n'avez pas la permission d'installer les mises à jour des plugins"
 msgid "Error"
 msgstr "Erreur"
 
-#: includes/libraries/wppfm-background-process.php:661
+#: includes/libraries/wppfm-background-process.php:683
 #, php-format
 msgid "Every %d minute"
 msgid_plural "Every %d minutes"
 msgstr[0] "Toutes les %d minutes"
 msgstr[1] "Toutes les %d minutes"
 
-#: includes/libraries/wppfm-background-process.php:702
+#: includes/libraries/wppfm-background-process.php:724
 msgid ""
 "Could not schedule the cron event required to start the feed process. Please "
 "check if your wp cron is configured correctly and is running."
@@ -299,7 +304,7 @@ msgstr ""
 "d'alimentation. S'Il vous plaît vérifier si votre WP cron est configuré "
 "correctement et est en cours d'exécution."
 
-#: includes/packages/logger/wp-product-feed-manager-logger.php:69
+#: includes/packages/logger/wp-product-feed-manager-logger.php:73
 msgid ""
 "The logger code is now integrated in the Feed Manager plugin. To prevent "
 "conflicts please deactivate and remove the \"WooCommerce Product Feed "
@@ -358,19 +363,19 @@ msgstr "Liste des flux"
 msgid "Product Feed"
 msgstr "Produits"
 
-#: includes/user-interface/class-wppfm-admin-page.php:65
+#: includes/user-interface/class-wppfm-admin-page.php:66
 msgid "Manage your feeds with ease"
 msgstr "Gérez vos flux en toute simplicité"
 
-#: includes/user-interface/class-wppfm-admin-page.php:67
+#: includes/user-interface/class-wppfm-admin-page.php:68
 msgid "Click here for the documentation"
 msgstr "Cliquez ici pour la documentation (English)"
 
-#: includes/user-interface/class-wppfm-admin-page.php:68
+#: includes/user-interface/class-wppfm-admin-page.php:69
 msgid "Something not working? Click here for support"
 msgstr "Quelque chose ne marche pas ? Cliquez ici pour obtenir de l'aide"
 
-#: includes/user-interface/class-wppfm-admin-page.php:85
+#: includes/user-interface/class-wppfm-admin-page.php:86
 msgid ""
 "Your key seems to be expired. If you are sure you have a valid key, please "
 "open a ticket at wpmarketingrobot.com/support/"
@@ -378,20 +383,20 @@ msgstr ""
 "Votre clé semble expirée. Si vous êtes sûr d'avoir une clé valide, veuillez "
 "ouvrir un ticket sur wpmarketingrobot.com/support/"
 
-#: includes/user-interface/class-wppfm-admin-page.php:87
+#: includes/user-interface/class-wppfm-admin-page.php:88
 msgid "Plugin License Options"
 msgstr "Options de licence du plugin"
 
-#: includes/user-interface/class-wppfm-admin-page.php:93
+#: includes/user-interface/class-wppfm-admin-page.php:94
 msgid "License Key"
 msgstr "Clé de licence"
 
-#: includes/user-interface/class-wppfm-admin-page.php:101
+#: includes/user-interface/class-wppfm-admin-page.php:102
 msgid "I accept your Terms and Conditions"
 msgstr "J'accepte vos Termes et Conditions"
 
-#: includes/user-interface/class-wppfm-admin-page.php:105
-#: includes/user-interface/class-wppfm-admin-page.php:109
+#: includes/user-interface/class-wppfm-admin-page.php:106
+#: includes/user-interface/class-wppfm-admin-page.php:110
 msgid "Activate License"
 msgstr "Activer la licence"
 
@@ -1301,19 +1306,19 @@ msgstr "Description"
 msgid "Shop Category"
 msgstr "Catégorie Boutique"
 
-#: includes/user-interface/elements/class-wppfm-form-element.php:103
+#: includes/user-interface/elements/class-wppfm-form-element.php:105
 msgid "Save & Generate Feed"
 msgstr "Enregistrer et générer des flux"
 
-#: includes/user-interface/elements/class-wppfm-form-element.php:106
+#: includes/user-interface/elements/class-wppfm-form-element.php:108
 msgid "Save Feed"
 msgstr "Enregistrer les flux"
 
-#: includes/user-interface/elements/class-wppfm-form-element.php:109
+#: includes/user-interface/elements/class-wppfm-form-element.php:111
 msgid "View Feed"
 msgstr "Enegistrer afficher"
 
-#: includes/user-interface/elements/class-wppfm-form-element.php:122
+#: includes/user-interface/elements/class-wppfm-form-element.php:124
 msgid "Open Feed List"
 msgstr "Ouvrir la liste des flux"
 
@@ -1409,7 +1414,7 @@ msgstr ""
 #: includes/user-interface/wppfm-admin-actions.php:194
 #, php-format
 msgid ""
-"An error has occured. It is possible that the wpmarketingrobot website is "
+"An error has occurred. It is possible that the wpmarketingrobot website is "
 "down.\n"
 "\t\t\t\t\t\tPlease check if wpmarketingrobot.com is still active. If not, or "
 "if this error consist, please contact\n"
@@ -1439,16 +1444,14 @@ msgstr ""
 "pour que le plugin continue à fonctionner et que les flux de votre produit "
 "soient valides."
 
-#. translators: 1: Name of the plugin, 2: url to the wpmarketingrobot store, 3: license key
-#: includes/user-interface/wppfm-admin-actions.php:258
+#: includes/user-interface/wppfm-admin-actions.php:261
 #, php-format
 msgid ""
-"The license key for your %1$s plugin is expiring soon.\n"
-"\t\t\tIf you wish you can <a href=\"%2$scheckout/?edd_license_key="
-"%3$s&utm_source=client-"
+"The license key for your %1$s plugin is expiring soon. If you wish you can "
+"<a href=\"%2$scheckout/?edd_license_key=%3$s&utm_source=client-"
 "admin&utm_medium=renewal_link&utm_campaign=license_renewal\">\n"
-"\t\t\tclick here</a> to renew your license key directly so you can be sure "
-"your product feeds keep working."
+"\t\t\t\t\tclick here</a> to renew your license key directly so you can be "
+"sure your product feeds keep working."
 msgstr ""
 "La clé de licence de votre plugin %1$s expire bientôt. \n"
 "\t\t\tSi vous le souhaitez, vous pouvez <a href=\"%2$scheckout/?"
@@ -1469,24 +1472,24 @@ msgstr "Go Premium"
 msgid "Get Support"
 msgstr "Obtenir de l'aide"
 
-#: includes/user-interface/wppfm-admin-menu-functions.php:164
+#: includes/user-interface/wppfm-admin-menu-functions.php:165
 msgid "About Us"
 msgstr "À propos de nous"
 
-#: includes/user-interface/wppfm-admin-menu-functions.php:165
+#: includes/user-interface/wppfm-admin-menu-functions.php:166
 msgid "Contact Us"
 msgstr "Contactez-nous"
 
-#: includes/user-interface/wppfm-admin-menu-functions.php:166
+#: includes/user-interface/wppfm-admin-menu-functions.php:167
 msgid "Terms and Conditions"
 msgstr "Conditions d'utilisation"
 
-#: includes/user-interface/wppfm-admin-menu-functions.php:167
+#: includes/user-interface/wppfm-admin-menu-functions.php:168
 msgid "Documentation"
 msgstr "Documentation"
 
 #. translators: %s: five stars link
-#: includes/user-interface/wppfm-admin-menu-functions.php:171
+#: includes/user-interface/wppfm-admin-menu-functions.php:172
 #, php-format
 msgid ""
 "If you like working with our Feed Manager please leave us a %s rating. A "
@@ -1495,7 +1498,7 @@ msgstr ""
 "Si vous aimez travailler avec notre gestionnaire d’alimentation s’il vous "
 "plaît laissez-nous une note de %s. Un grand merci d’avance!"
 
-#: includes/user-interface/wppfm-admin-menu-functions.php:255
+#: includes/user-interface/wppfm-admin-menu-functions.php:256
 #, php-format
 msgid ""
 "2122 - Checking your license failed. Please open a support ticket at %s for "
@@ -1547,11 +1550,11 @@ msgstr ""
 "Vous pouvez trouver plus d'informations sur le plugin Woocommerce %scliquant "
 "ici </a>."
 
-#: wp-product-feed-manager.php:69
+#: wp-product-feed-manager.php:78
 msgid "Cloning is not allowed"
 msgstr "Le clonage n'est pas autorisé"
 
-#: wp-product-feed-manager.php:79
+#: wp-product-feed-manager.php:89
 msgid "Unserializing instances of this class is not allowed"
 msgstr "La dé sérialisation des instances de cette classe n'est pas autorisée"
 

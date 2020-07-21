@@ -75,7 +75,7 @@ function initiate_background_process() {
 
 	if ( ( 'product-feed' === $active_tab || 'feed-list' === $active_tab ) ) {
 		if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) {
-			require_once( __DIR__ . '/../application/class-wppfm-feed-processor.php' );
+			require_once __DIR__ . '/../application/class-wppfm-feed-processor.php';
 		}
 
 		$background_process = new WPPFM_Feed_Processor();
@@ -83,7 +83,7 @@ function initiate_background_process() {
 
 	if ( 'product-review-feed' === $active_tab ) {
 		if ( ! class_exists( 'WPPRFM_Review_Feed_Processor' ) ) {
-			require_once( __DIR__ . '/../../../wp-product-review-feed-manager/includes/classes/class-wpprfm-review-feed-processor.php' );
+			require_once __DIR__ . '/../../../wp-product-review-feed-manager/includes/classes/class-wpprfm-review-feed-processor.php';
 		}
 
 		$background_process = new WPPRFM_Review_Feed_Processor();

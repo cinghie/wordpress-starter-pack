@@ -3,12 +3,12 @@ Contributors: quadlayers
 Donate link: https://quadlayers.com/
 Tags: woocommerce, woocommerce checkout, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
 Requires at least: 3.4
-Tested up to: 5.4.0
-Stable tag: 5.0.6
-WC requires at least: 3.0
-WC tested up to: 4.0
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tested up to: 5.4.2
+Stable tag: 5.1.4
+WC requires at least: 3.1.0
+WC tested up to: 4.3.0
+License: GPLv3
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 WooCommerce Checkout manager is the most advanced way to customize checkout, manage checkout editor.
 
@@ -16,7 +16,7 @@ WooCommerce Checkout manager is the most advanced way to customize checkout, man
 
 [Premium](https://quadlayers.com/portfolio/woocommerce-checkout-manager/) | [Demo](https://quadlayers.com/woocommerce-checkout-manager/checkout/?add-to-cart=32) | [Documentation](https://quadlayers.com/documentation/woocommerce-checkout-manager/) | [Community](https://www.facebook.com/groups/quadlayers/)
 
-WooCommerce checkout manager is a plugin built to be the wizard of checkout pages. Helps to modify in an intuitive way, allows fields customization, to extend bill�s information and to create any field required at WooCommerce checkout.
+WooCommerce checkout manager is a plugin built to be the wizard of checkout pages. Helps to modify in an intuitive way, allows fields customization, to extend billing information and to create any field required at WooCommerce checkout.
 
 == Description ==
 
@@ -106,6 +106,30 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 10. Handle uploaded files in order admin dashboard.
 
 == Changelog ==
+
+= 5.1.4 = 
+* New: text field maxlength
+* New: textarea field maxlength
+
+= 5.1.3 = 
+* Fix: date picker documentation
+
+= 5.1.2 = 
+* Fix: php error
+
+= 5.1.1 = 
+* Fix: php error
+
+= 5.1.0 = 
+* Fix: billing & shipping duplicated in order
+* Fix: php compatbility
+
+= 5.0.9 = 
+* Fix: woocommerce checkout manager edit billing & shipping
+
+= 5.0.7 = 
+* Improvement: woocommerce checkout manager
+* Improvement: woocommerce checkout number field type
 
 = 5.0.6 = 
 * Fix: woocommerce account conditional fields

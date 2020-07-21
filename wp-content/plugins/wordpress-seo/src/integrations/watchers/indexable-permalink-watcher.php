@@ -7,10 +7,10 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
+use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\WordPress\Wrapper;
 
 /**
@@ -90,8 +90,8 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		$subtype = $type;
 
 		// When the subtype contains _base, just strip it.
-		if ( strstr( $subtype, '_base' ) ) {
-			$subtype = substr( $type, 0, -5 );
+		if ( \strstr( $subtype, '_base' ) ) {
+			$subtype = \substr( $type, 0, -5 );
 		}
 
 		if ( $subtype === 'tag' ) {
@@ -151,11 +151,11 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	protected function get_taxonomies_for_post_types( $post_types ) {
 		$taxonomies = [];
 		foreach ( $post_types as $post_type ) {
-			$taxonomies[] = get_object_taxonomies( $post_type, 'names' );
+			$taxonomies[] = \get_object_taxonomies( $post_type, 'names' );
 		}
 
-		$taxonomies = array_merge( [], ...$taxonomies );
-		$taxonomies = array_unique( $taxonomies );
+		$taxonomies = \array_merge( [], ...$taxonomies );
+		$taxonomies = \array_unique( $taxonomies );
 
 		return $taxonomies;
 	}

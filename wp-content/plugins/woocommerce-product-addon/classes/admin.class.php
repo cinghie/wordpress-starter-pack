@@ -82,6 +82,7 @@ class NM_PersonalizedProduct_Admin extends NM_PersonalizedProduct {
 		foreach ( $this->menu_pages as $page ) {
 			
 			$cap = apply_filters('ppom_menu_capability', $page ['cap']);
+			
 			if ($page ['parent_slug'] == '') {
 				
 				$menu = add_options_page ( __ ( 'PPOM Fields', "ppom" ), __ ( 'PPOM Fields', "ppom" ), $cap, $page ['slug'], array (
@@ -95,6 +96,16 @@ class NM_PersonalizedProduct_Admin extends NM_PersonalizedProduct {
 						$this,
 						$page ['callback'] 
 				) );
+			}
+			
+			if( ! current_user_can('administrator') ) {
+				$cap = 'ppom_options_page';
+				// Menu page for roles set by PPOM Permission Settings
+				add_menu_page ( __ ( $page ['page_title'], "ppom" ), __ ( 'PPOM Fields', "ppom" ), 
+							$cap, $page ['slug'], array (
+							$this,
+							$page ['callback'] 
+					) );
 			}
 			
 			

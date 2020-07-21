@@ -60,16 +60,16 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 
 				$this->convert_type_numbers_to_text( $list );
 
-				// add information about the wppfm_special_feeds_add_on_active filter to the feed list
+				// add information about the wppfm_special_feeds_add_on_active filter to the feed list.
 				$result = array(
 					'list'                        => $list,
 					'special_feed_add_ons_active' => apply_filters( 'wppfm_special_feeds_add_on_active', false ),
 				);
 
-				echo json_encode( $result );
+				echo wp_json_encode( $result );
 			}
 
-			// IMPORTANT: don't forget to exit
+			// IMPORTANT: don't forget to exit.
 			exit;
 		}
 
@@ -78,10 +78,10 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 		 */
 		public function myajax_get_list_of_backups() {
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'postBackupListNonce' ), 'myajax-backups-list-nonce' ) ) {
-				echo json_encode( $this->_files->make_list_of_active_backups() );
+				echo wp_json_encode( $this->_files->make_list_of_active_backups() );
 			}
 
-			// IMPORTANT: don't forget to exit
+			// IMPORTANT: don't forget to exit.
 			exit;
 		}
 
@@ -93,7 +93,7 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 					get_option( 'wppfm_notice_mailaddress' ),
 					get_option( 'wppfm_disabled_background_mode' ),
 				];
-				echo json_encode( $options );
+				echo wp_json_encode( $options );
 			}
 
 			// IMPORTANT: don't forget to exit
@@ -132,10 +132,10 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 					$outputs    = $data_class->get_custom_fields_with_metadata( $feed_id );
 				}
 
-				echo json_encode( $outputs );
+				echo wp_json_encode( $outputs );
 			}
 
-			// IMPORTANT: don't forget to exit
+			// IMPORTANT: don't forget to exit.
 			exit;
 		}
 
@@ -166,7 +166,7 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 							$third_party_custom_fields
 						);
 
-						echo json_encode( apply_filters( 'wppfm_all_source_fields', $all_source_fields ) );
+						echo wp_json_encode( apply_filters( 'wppfm_all_source_fields', $all_source_fields ) );
 						break;
 
 					default:
@@ -205,7 +205,7 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 				$data_class = new WPPFM_Data();
 				$filters    = $data_class->get_filter_query( $feed_id );
 
-				echo $filters ? json_encode( $filters ) : '0';
+				echo $filters ? wp_json_encode( $filters ) : '0';
 			}
 
 			// IMPORTANT: don't forget to exit
@@ -217,10 +217,10 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 				$feed_id   = filter_input( INPUT_POST, 'sourceId' );
 				$feed_data = $this->_queries->read_feed( $feed_id );
 
-				echo json_encode( $feed_data );
+				echo wp_json_encode( $feed_data );
 			}
 
-			// IMPORTANT: don't forget to exit
+			// IMPORTANT: don't forget to exit.
 			exit;
 		}
 
@@ -231,16 +231,16 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 				$feed_master = new WPPFM_Feed_Master_Class( $feed_id );
 				$feed_data   = $feed_master->feed_status_check( $feed_id );
 
-				echo json_encode( $feed_data );
+				echo wp_json_encode( $feed_data );
 			}
 
-			// IMPORTANT: don't forget to exit
+			// IMPORTANT: don't forget to exit.
 			exit;
 		}
 
 		public function myajax_update_feed_data() {
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'updateFeedDataNonce' ), 'myajax-update-feed-data-nonce' ) ) {
-				// get the posted feed data
+				// Gget the posted feed data.
 				$ajax_feed_data = json_decode( filter_input( INPUT_POST, 'feed' ) );
 				$feed_filter    = filter_input( INPUT_POST, 'feedFilter' );
 				$m_data         = filter_input( INPUT_POST, 'metaData' );

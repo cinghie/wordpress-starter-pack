@@ -366,11 +366,19 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
 
                         $link = esc_url( urldecode( apply_filters( 'woocommerce_layered_nav_link', $link ) ) );
 
+						$show_count = $count != 0 && ! empty( $instance['show_count'] ) && ! $instance['show_count'];
+
+						$show_count = apply_filters( "{$this->id}-show_product_count", $show_count, $instance );
+
                         echo '<li ' . $class . '>';
 
                         echo ( $this->found || $option_is_set ) ? '<a ' . $rel_nofollow . ' data-type="select" href="' . $link . '">' : '<span>';
 
                         echo $term->name;
+
+						if ( $this->found && apply_filters( 'yith_wcan_force_show_count', $show_count ) ) {
+							echo ' <small class="count">' . $count . '</small><div class="clear"></div>';
+						}
 
                         echo ( $this->found || $option_is_set ) ? '</a>' : '</span>';
 
@@ -992,9 +1000,18 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
          * @since 1.0.0
          */
         public function ajax_print_terms() {
-            $type      = $_POST['value'];
-            $attribute = $_POST['attribute'];
-            $return    = array( 'message' => '', 'content' => $_POST );
+			$unsanitize_posted_data = $_POST;
+			$posted_data            = array();
+
+			foreach ( $unsanitize_posted_data as $k => $v ){
+				$posted_data[ $k ] = esc_html( $v );
+			}
+
+			$type        = $posted_data['value'];
+			$attribute   = $posted_data['attribute'];
+			$post_id     = $posted_data['id'];
+			$name        = $posted_data['name'];
+			$return      = array( 'message' => '', 'content' => $posted_data );
 
             $terms = yith_wcan_wp_get_terms( array( 'taxonomy' => 'pa_' . $attribute, 'hide_empty' => '0' ) );
 
@@ -1018,8 +1035,8 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
                 $return['content'] = yith_wcan_attributes_table(
                     $type,
                     $attribute,
-                    $_POST['id'],
-                    $_POST['name'],
+					$post_id,
+					$name,
                     $value,
                     false
                 );

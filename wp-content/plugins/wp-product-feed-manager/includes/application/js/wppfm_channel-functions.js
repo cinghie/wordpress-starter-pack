@@ -116,8 +116,8 @@ function wppfm_category_separator( channel ) {
  * @returns nothing
  */
 function wppfm_reactOnChannelInputChanged( channel, feedId, categoryChanged ) {
-	var functionName = '';
-	var tabId        = wppfm_getUrlVariable( 'tab' ); // identify the feed type
+	var functionName;
+	var tabId = wppfm_getUrlVariable( 'tab' ); // identify the feed type
 
 	if ( 'product-feed' === tabId ) { // handle product feeds from different merchants
 		var fName = {
@@ -157,7 +157,7 @@ function wppfm_reactOnChannelInputChanged( channel, feedId, categoryChanged ) {
 		functionName = fName[ channel ];
 	} else { // handle special feeds from add-ons
 		var functionString = wppfm_convertToCamelCase( tabId.split( '-' ) );
-		functionName       = functionString + 'Changed';
+		functionName   = functionString + 'Changed';
 	}
 
 	// call the correct function
@@ -503,7 +503,8 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 	switch ( channel ) {
 
 		case '1': // Google
-			if ( outputsField[ 'field_label' ] === 'condition' || outputsField[ 'field_label' ] === 'availability' || outputsField[ 'field_label' ] === 'identifier_exists' || outputsField[ 'field_label' ] === 'adult' || outputsField[ 'field_label' ] === 'price' ) {
+			if ( outputsField[ 'field_label' ] === 'condition' || outputsField[ 'field_label' ] === 'availability' || outputsField[ 'field_label' ] === 'identifier_exists'
+				|| outputsField[ 'field_label' ] === 'adult' || outputsField[ 'field_label' ] === 'price' || outputsField[ 'field_label' ] === 'sale_price' ) {
 
 				// only switch to the 'preset' value if no user value is set
 				if ( ! outputsField[ 'value' ] ) {
@@ -697,20 +698,5 @@ function setAttributeStatus( fieldLevel, fieldValue ) {
 		return true;
 	}
 
-	if ( fieldValue ) {
-		return true;
-	}
-
-	return false;
+	return !!fieldValue;
 }
-
-// Deprecated @ 29-12-2018
-// function wppfm_channelUsesMultidimensionalStaticFieldOptions( channel ) {
-// 	switch ( channel ) {
-// 		case '19': // Ricardo.ch
-// 			return true
-//
-// 		default:
-// 			return false
-// 	}
-// }

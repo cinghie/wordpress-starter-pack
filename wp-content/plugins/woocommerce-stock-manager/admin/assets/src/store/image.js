@@ -147,7 +147,7 @@ export const fetchImage = (id) => ({
     const image = state[IMAGE_REDUCER_NAME][id];
 
     if (!image) {
-      return false;
+      return true;
     }
 
     if (image.isFetching) {

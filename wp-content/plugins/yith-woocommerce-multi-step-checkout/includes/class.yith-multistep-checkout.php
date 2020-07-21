@@ -183,6 +183,7 @@ if ( ! class_exists( 'YITH_Multistep_Checkout' ) ) {
 		 */
 		public function body_class( $classes ){
 			$classes[] = 'yith-wcms';
+			$classes[] = defined( 'YITH_WCMS_FREE_INIT' ) ? 'yith-wcms-free' : 'yith-wcms-pro';
 			$classes[] = 'yes' == get_option( 'woocommerce_enable_checkout_login_reminder', 'yes' ) ? 'show_checkout_login_reminder' : 'hide_checkout_login_reminder';
 			return $classes;
 		}

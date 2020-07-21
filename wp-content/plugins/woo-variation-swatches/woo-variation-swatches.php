@@ -4,12 +4,12 @@
 	 * Plugin URI: https://wordpress.org/plugins/woo-variation-swatches/
 	 * Description: Beautiful colors, images and buttons variation swatches for woocommerce product attributes. Requires WooCommerce 3.2+
 	 * Author: Emran Ahmed
-	 * Version: 1.0.82
+	 * Version: 1.0.85
 	 * Domain Path: /languages
 	 * Requires at least: 4.8
 	 * Tested up to: 5.4
 	 * WC requires at least: 3.2
-	 * WC tested up to: 4.1
+	 * WC tested up to: 4.2
 	 * Text Domain: woo-variation-swatches
 	 * Author URI: https://getwooplugins.com/
 	 */
@@ -20,7 +20,7 @@
 		
 		final class Woo_Variation_Swatches {
 			
-			protected $_version = '1.0.82';
+			protected $_version = '1.0.85';
 			
 			protected static $_instance = null;
 			private          $_settings_api;
@@ -289,15 +289,17 @@
 				if ( wvs_is_ie11() ) {
 					array_push( $classes, 'woo-variation-swatches-ie11' );
 				}
-				array_push( $classes, sprintf( 'woo-variation-swatches-theme-%s', $this->get_parent_theme_dir() ) );
-				array_push( $classes, sprintf( 'woo-variation-swatches-theme-child-%s', $this->get_theme_dir() ) );
-				array_push( $classes, sprintf( 'woo-variation-swatches-style-%s', $this->get_option( 'style' ) ) );
-				array_push( $classes, sprintf( 'woo-variation-swatches-attribute-behavior-%s', $this->get_option( 'attribute-behavior' ) ) );
-				array_push( $classes, sprintf( 'woo-variation-swatches-tooltip-%s', $this->get_option( 'tooltip' ) ? 'enabled' : 'disabled' ) );
-				array_push( $classes, sprintf( 'woo-variation-swatches-stylesheet-%s', $this->get_option( 'stylesheet' ) ? 'enabled' : 'disabled' ) );
+				array_push( $classes, sprintf( 'wvs-theme-%s', $this->get_parent_theme_dir() ) );
+				array_push( $classes, sprintf( 'wvs-theme-child-%s', $this->get_theme_dir() ) );
+				array_push( $classes, sprintf( 'wvs-style-%s', $this->get_option( 'style' ) ) );
+				array_push( $classes, sprintf( 'wvs-attr-behavior-%s', $this->get_option( 'attribute-behavior' ) ) );
+				// array_push( $classes, sprintf( 'woo-variation-swatches-tooltip-%s', $this->get_option( 'tooltip' ) ? 'enabled' : 'disabled' ) );
+				array_push( $classes, sprintf( 'wvs%s-tooltip', $this->get_option( 'tooltip' ) ? '' : '-no' ) );
+				// array_push( $classes, sprintf( 'woo-variation-swatches-stylesheet-%s', $this->get_option( 'stylesheet' ) ? 'enabled' : 'disabled' ) );
+				array_push( $classes, sprintf( 'wvs%s-css', $this->get_option( 'stylesheet' ) ? '' : '-no' ) );
 				
 				if ( $this->is_pro_active() ) {
-					array_push( $classes, 'woo-variation-swatches-pro' );
+					array_push( $classes, 'wvs-pro' );
 				}
 				
 				return apply_filters( 'wvs_body_class', array_unique( $classes ), $old_classes );
@@ -316,7 +318,10 @@
 					wp_enqueue_script( 'bluebird', $this->assets_uri( "/js/bluebird{$suffix}.js" ), array(), '3.5.3' );
 				}
 				
-				wp_enqueue_script( 'woo-variation-swatches', $this->assets_uri( "/js/frontend{$suffix}.js" ), array( 'jquery', 'wp-util' ), $this->version(), true );
+				$is_defer = (bool) woo_variation_swatches()->get_option( 'defer_load_js' );
+				
+				// If defer enable we want to load this script to top
+				wp_enqueue_script( 'woo-variation-swatches', $this->assets_uri( "/js/frontend{$suffix}.js" ), array( 'jquery', 'wp-util' ), $this->version(), ! $is_defer );
 				wp_localize_script( 'woo-variation-swatches', 'woo_variation_swatches_options', apply_filters( 'woo_variation_swatches_js_options', array(
 					'is_product_page' => is_product()
 				) ) );

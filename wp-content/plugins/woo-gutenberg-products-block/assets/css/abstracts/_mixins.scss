@@ -1,10 +1,14 @@
-// Converts a font-size in px to rem and optionally sets a relative line-height.
-@mixin font-size($sizeValue: 16px, $lineHeight: false) {
-	font-size: ($sizeValue / 16px) * 1rem;
+$fontSizes: (
+	"smaller": 0.75,
+	"small": 0.875,
+	"regular": 1,
+	"large": 1.25,
+	"larger": 2,
+);
 
-	@if ($lineHeight) {
-		line-height: $lineHeight / $sizeValue;
-	}
+// Maps a named font-size to its em equivalent.
+@mixin font-size($sizeName) {
+	font-size: map-get($fontSizes, $sizeName) * 1em;
 }
 
 @keyframes loading-fade {
@@ -69,6 +73,7 @@
 	color: inherit;
 	font-family: inherit;
 	font-size: inherit;
+	font-style: inherit;
 	font-weight: inherit;
 	letter-spacing: inherit;
 	line-height: inherit;
@@ -117,7 +122,28 @@
 	-ms-word-break: break-all;
 }
 
-// Converts a px unit to rem.
-@function rem($size, $base: 16px) {
-	@return $size / $base * 1rem;
+// Shows a border with the current color and a custom opacity. That can't be achieved
+// with normal border because `currentColor` doesn't allow tweaking the opacity, and
+// setting the opacity of the entire element would change the children's opacity too.
+@mixin with-translucent-border($border-width: 1px, $opacity: 0.3) {
+	position: relative;
+
+	&::after {
+		border-style: solid;
+		border-width: $border-width;
+		bottom: 0;
+		content: "";
+		display: block;
+		left: 0;
+		opacity: $opacity;
+		pointer-events: none;
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+}
+
+// Converts a px unit to em.
+@function em($size, $base: 16px) {
+	@return $size / $base * 1em;
 }

@@ -294,8 +294,8 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 
 			foreach ( $columns as $column ) {
 				if ( ( '' === $product_data[ $column ] && array_key_exists( $column, $parent_product_data ) && '' !== $parent_product_data[ $column ] )
-					|| in_array( $column, $sources_that_always_use_parent_data ) ) {
-					$product_data[ $column ] = $parent_product_data[ $column ];
+				     || in_array( $column, $sources_that_always_use_parent_data ) ) {
+					$product_data[ $column ] = array_key_exists( $column, $parent_product_data) ? $parent_product_data[ $column ] : '';
 				}
 			}
 		}

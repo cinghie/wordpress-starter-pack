@@ -1,10 +1,48 @@
 /*!
- * Variation Swatches for WooCommerce v1.0.82 
+ * Variation Swatches for WooCommerce v1.0.85 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 5/26/2020, 7:10:57 PM
+ * Date: 7/12/2020, 7:52:58 PM
  * Released under the GPLv3 license.
  */
+.woo-variation-swatches .radio-variable-item[data-wvstooltip] {
+  position: relative;
+}
+
+.woo-variation-swatches .radio-variable-item[data-wvstooltip]::before,
+.woo-variation-swatches .radio-variable-item[data-wvstooltip]::after {
+  left: 8px;
+  bottom: 100%;
+}
+
+.woo-variation-swatches .radio-variable-item .image-tooltip-wrapper {
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  left: 8px;
+}
+
+.woo-variation-swatches.wvs-archive-align-center .wvs-archive-variation-wrapper .radio-variable-item[data-wvstooltip]::before,
+.woo-variation-swatches.wvs-archive-align-center .wvs-archive-variation-wrapper .radio-variable-item[data-wvstooltip]::after {
+  left: 50%;
+}
+
+.woo-variation-swatches.wvs-archive-align-center .wvs-archive-variation-wrapper .radio-variable-item .image-tooltip-wrapper {
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  left: 50%;
+}
+
+.woo-variation-swatches.wvs-archive-align-right .wvs-archive-variation-wrapper .radio-variable-item[data-wvstooltip]::before,
+.woo-variation-swatches.wvs-archive-align-right .wvs-archive-variation-wrapper .radio-variable-item[data-wvstooltip]::after {
+  left: 100%;
+}
+
+.woo-variation-swatches.wvs-archive-align-right .wvs-archive-variation-wrapper .radio-variable-item .image-tooltip-wrapper {
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  left: 100%;
+}
+
 .variable-items-wrapper [data-wvstooltip],
 .variable-items-wrapper .wvs-has-image-tooltip {
   position: relative;

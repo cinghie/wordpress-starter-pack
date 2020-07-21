@@ -113,7 +113,7 @@ function wppfm_write_log_file( $error_message, $filename = 'error' ) {
 	if ( is_null( $error_message ) || is_string( $error_message ) || is_int( $error_message ) || is_bool( $error_message ) || is_float( $error_message ) ) {
 		$message_line = $error_message;
 	} elseif ( is_array( $error_message ) || is_object( $error_message ) ) {
-		$message_line = json_encode( $error_message );
+		$message_line = wp_json_encode( $error_message );
 	} else {
 		$message_line = 'ERROR! Could not write messages of type ' . gettype( $error_message );
 	}

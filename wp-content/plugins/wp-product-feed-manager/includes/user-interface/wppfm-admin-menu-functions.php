@@ -47,8 +47,6 @@ function wppfm_feed_manager_main_page() {
  */
 function wppfm_main_admin_page() {
 	$start = new WPPFM_Main_Admin_Page();
-
-	// now let's get things going
 	$start->show();
 }
 
@@ -75,7 +73,8 @@ function wppfm_list_feed_type_text() {
 	return apply_filters(
 		'wppfm_feed_types',
 		array(
-			'1' => 'Product Feed',
+			'1'  => 'Product Feed',
+			'10' => 'API Product Feed',
 		)
 	);
 }

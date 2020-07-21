@@ -850,7 +850,7 @@
 								
 								case 'image':
 									
-									$attachment_id = apply_filters( 'wvs_product_global_attribute_image_id', absint( get_term_meta( $term->term_id, 'product_attribute_image', true ) ) );
+									$attachment_id = apply_filters( 'wvs_product_global_attribute_image_id', absint( get_term_meta( $term->term_id, 'product_attribute_image', true ) ), $term, $args );
 									$image_size    = woo_variation_swatches()->get_option( 'attribute_image_size' );
 									$image         = wp_get_attachment_image_src( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ) );
 									// $image_html = wp_get_attachment_image( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ), false, array( 'class' => '' ) );

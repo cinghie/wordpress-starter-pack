@@ -277,7 +277,7 @@ function ppom_upload_file() {
 		// making thumb if images
 		if( ppom_is_file_image($file_name) ) {
 		    
-		    $thumb_size = apply_filters('ppom_image_thumb_size', 75);
+		    $thumb_size = ppom_get_thumbs_size();
 			$thumb_dir_path = ppom_create_image_thumb($file_dir_path, $file_name, $thumb_size);
 			if(file_exists($thumb_dir_path)){
 				list($fw, $fh) = getimagesize( $file_path );
@@ -596,7 +596,6 @@ function ppom_get_viewport_settings( $settings ) {
 /*
  * removing ununsed order files
 */
-
 function ppom_files_removed_unused_images(){
 	
 	$dir = ppom_get_dir_path();
@@ -608,14 +607,29 @@ function ppom_files_removed_unused_images(){
 				
 			$file_path = $dir.$file;
 			if( is_file ($file_path) ){
-				@unlink($file_path);
+				
+				// Get Files Created Date
+				$file_created_date = date ("Y-m-d H:i:s.", filemtime($file_path));
+				$today             = date("Y-m-d H:i:s");
+				
+				$day_count = ppom_files_uploaded_days_count($file_created_date, $today);
+				
+				if ($day_count > 7) {
+					@unlink($file_path);
+				}
 			}
 		}
-			
 	}
 	
 	closedir($dir_handle);
 }
+
+function ppom_files_uploaded_days_count($date1, $date2){ 
+	
+    $diff = strtotime($date2) - strtotime($date1); 
+    
+    return abs(round($diff / 86400)); 
+} 
 
 // Return file name with prefix product id
 function ppom_file_get_name($file_name, $product_id, $cart_item=null) {

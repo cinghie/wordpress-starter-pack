@@ -115,7 +115,7 @@
                     <a class="<?php printf('wooccm_%s_settings_edit', $current_section); ?> button" aria-label="<?php esc_html_e('Edit checkout field', 'woocommerce-checkout-manager'); ?>" href="javascript:;"><?php esc_html_e('Edit'); ?></a>
                   </td>
                   <td class="delete">
-                    <?php if (is_array($defaults) && !in_array($field['name'], $defaults)): ?>
+                    <?php if (is_array($defaults) && !in_array($field['key'], array_column($defaults, 'key'))): ?>
                       <a class="<?php printf('wooccm_%s_settings_delete', $current_section); ?>" aria-label="<?php esc_html_e('Edit checkout field', 'woocommerce-checkout-manager'); ?>" href="javascript:;"><?php esc_html_e('Delete'); ?></a>
                     <?php endif; ?>
                   </td>

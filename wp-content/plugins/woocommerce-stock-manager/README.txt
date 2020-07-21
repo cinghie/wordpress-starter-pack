@@ -5,9 +5,9 @@ Author URI: https://www.storeapps.org/shop/
 Plugin URI: https://www.storeapps.org/?utm_source=wprepo&utm_medium=web&utm_campaign=wsm_readme
 Tags: woocommerce, stock manager, stock management, inventory
 Requires at least: 5.0.0
-Tested up to: 5.2.2
+Tested up to: 5.4.2
 Requires PHP: 5.6+
-Stable tag: 2.1.1
+Stable tag: 2.3.0
 License: GPLv3
 
 == Description ==
@@ -78,8 +78,13 @@ Hooks for the 3rd party plugins.
 2. [WooCommerce One Click Upsell](https://www.storeapps.org/how-to-create-1-click-upsells-in-woocommerce/?utm_source=wprepo&utm_medium=web_mb&utm_campaign=wsm_readme)
 3. [Smart Offers For WooCommerce](https://www.storeapps.org/product/smart-offers/?utm_source=wprepo&utm_medium=web_mb&utm_campaign=wsm_readme)
 4. [Email Customizer for WooCommerce](https://www.storeapps.org/product/smart-emails/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme)
+5. [WooCommerce Name Your Price Plugin](https://www.storeapps.org/product/offer-your-price/?utm_source=wprepo&utm_medium=web_se&utm_campaign=smwp_readme)
+6. [Frequently Bought Together For WooCommerce](https://www.storeapps.org/product/frequently-bought-together-woocommerce/?utm_source=wprepo&utm_medium=web_se&utm_campaign=smwp_readme)
+7. [Express Checkout For WooCommerce](https://www.storeapps.org/product/express-checkout-for-woocommerce/?utm_source=wprepo&utm_medium=web_se&utm_campaign=smwp_readme)
+8. [WooCommerce Update Variations In Cart](https://www.storeapps.org/product/woocommerce-update-variations-in-cart/?utm_source=wprepo&utm_medium=web_se&utm_campaign=smwp_readme)
+9. [Express Login For WordPress](https://www.storeapps.org/product/express-login-for-wordpress/?utm_source=wprepo&utm_medium=web_se&utm_campaign=smwp_readme)
 
-[Check out all our 15+ WooCommerce plugins](https://www.storeapps.org/shop/?utm_source=wprepo&utm_medium=web_others&utm_campaign=wsm_readme)
+[Check out all our WooCommerce plugins and bundles](https://www.storeapps.org/shop/?utm_source=wprepo&utm_medium=web_others&utm_campaign=wsm_readme)
 
 == Installation ==
 
@@ -120,6 +125,20 @@ Be sure, that you have WooCommerce 3.5+ and WordPress 5.+
 4. Product stock as on date
 
 == Changelog ==
+
+= 2.3.0 (20.06.2020) =
+* Fix: Product Variation thumbnail not loading in dashboard
+* Update: Updated POT file
+* Fix: Minor fixes
+
+= 2.2.0 (06.06.2020) =
+* Update: Compatibility with latest versions of WordPress & WooCommerce (v4.2+)
+* Update: Product low stock handling as per WooCommerce low stock threshold setting
+* Update: WooCommerce Stock Manager menu position
+* Fix: Default delimiter not set to "," for Export CSV
+* Fix: Product variation Id displaying as blank in exported CSV
+* Fix: Dashboard going blank after enabling the 'thumbnail' column in some cases
+* Update: Updated POT file
 
 = 2.1.1 (02.05.2020) =
 * Update: Added stock related columns in the dashboard by default

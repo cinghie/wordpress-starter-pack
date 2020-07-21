@@ -61,7 +61,7 @@ class WooSEA_Activation {
      	 			"Bing Shopping" => array (
                         		"channel_hash" => md5("Bing Shopping"),
 					"name" => "Bing Shopping",
-					"fields" => "bing_shopping",
+					"fields" => "google_shopping",
 					"taxonomy" => "google_shopping",
 					"utm_source" => "Bing Shopping",
                         		"type" => "Advertising" ),

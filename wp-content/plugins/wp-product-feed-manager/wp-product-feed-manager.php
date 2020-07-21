@@ -4,18 +4,20 @@
  * Plugin Name: WP Product Feed Manager
  * Plugin URI: https://www.wpmarketingrobot.com
  * Description: An easy to use WordPress plugin that generates and submits your product feeds to merchant centres.
- * Version: 1.21.1
- * Modified: 03-04-2020
+ * Version: 1.22.0
+ * Modified: 03-06-2020
  * Author: Michel Jongbloed
  * Author URI: https://www.wpmarketingrobot.com
  * Requires at least: 4.6
  * Tested up to: 5.4
  *
+ * @package WordPress
+ *
  * Text Domain: wp-product-feed-manager
  * Domain Path: /languages
  *
  * WC requires at least: 3.0
- * WC tested up to: 4.0
+ * WC tested up to: 4.2
  *
  * This plugin is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,33 +40,39 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 
 	/**
-	 * The Main WP_Product_Feed_Manager Class
+	 * The Main WP_Product_Feed_Manager Class.
 	 *
 	 * @class WP_Product_Feed_Manager
 	 */
 	final class WP_Product_Feed_Manager {
 
 		/**
-		 * @var string containing the version number of the plugin
+		 * Version number.
+		 *
+		 * @var string  Containing the version number of the plugin.
 		 */
-		public $version = '1.21.1';
+		public $version = '1.22.0';
 
 		/**
-		 * @var string containing the authors name
+		 * Author Name.
+		 *
+		 * @var string  Containing the authors name.
 		 */
 		public $author = 'Michel Jongbloed';
 
 		/**
-		 * @var WP_Product_Feed_Manager single instance
+		 * Force single instance.
+		 *
+		 * @var WP_Product_Feed_Manager Single instance.
 		 */
 		private static $instance = null;
 
 		/**
-		 * Returns the Singleton instance of this class
+		 * Returns the Singleton instance of this class.
 		 *
 		 * @static
 		 * @access public
-		 * @return WP_Product_Feed_Manager Main instance
+		 * @return  WP_Product_Feed_Manager Main instance.
 		 */
 		public static function get_instance() {
 			if ( is_null( self::$instance ) ) {
@@ -76,115 +84,114 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 
 		/**
 		 * Cloning is not allowed.
+		 *
 		 * @since 0.9.1
 		 */
 		public function __clone() {
-			_doing_it_wrong( __FUNCTION__, __( 'Cloning is not allowed', 'wp-product-feed-manager' ), '0.9.1' );
+			_doing_it_wrong( __FUNCTION__, esc_html__( 'Cloning is not allowed', 'wp-product-feed-manager' ), '0.9.1' );
 		}
 
 		/**
 		 * Unserializing instances of this class is not allowed.
+		 *
 		 * @since 0.9.1
 		 */
 		public function __wakeup() {
 			_doing_it_wrong(
 				__FUNCTION__,
-				__( 'Unserializing instances of this class is not allowed', 'wp-product-feed-manager' ),
+				esc_html__( 'Unserializing instances of this class is not allowed', 'wp-product-feed-manager' ),
 				'0.9.1'
 			);
 		}
 
 		/**
-		 * WP_Product_Feed_Manager Constructor
+		 * WP_Product_Feed_Manager Constructor.
+		 *
 		 * @since 0.9.1
 		 */
 		private function __construct() {
-			// set the constants to be used in this plugin
+			// Set the constants to be used in this plugin.
 			$this->define_constants();
 
-			// hooks
+			// Hooks.
 			$this->hooks();
 
-			// includes
+			// Includes.
 			$this->includes();
 
-			// register my version
+			// Register my version.
 			add_option( 'myplugin_version', WPPFM_VERSION_NUM );
 
-			// register my schedule
+			// Register my schedule.
 			add_action( 'wppfm_feed_update_schedule', array( $this, 'activate_feed_update_schedules' ) );
 			add_action( 'wp_ajax_dismiss_admin_notice', array( $this, 'dismiss_admin_notice' ) );
 
-			// set up localisation
-			add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
+			// Set up localisation.
+			add_action( 'plugins_loaded', array( $this, 'load_text_domain' ) );
 
 			do_action( 'wp_product_feed_manager_loaded' );
 		}
-
-		/* --------------------------------------------------------------------------------------------------*
-		 * Private functions
-		 * -------------------------------------------------------------------------------------------------- */
 
 		/**
 		 * Defines a few important constants
 		 */
 		private function define_constants() {
-			// Store the name of the plugin
+			// Store the name of the plugin.
 			if ( ! defined( 'WPPFM_PLUGIN_NAME' ) ) {
 				define( 'WPPFM_PLUGIN_NAME', 'wp-product-feed-manager' );
 			}
 
-			// Store the directory of the plugin
+			// Store the directory of the plugin.
 			if ( ! defined( 'WPPFM_PLUGIN_DIR' ) ) {
 				define( 'WPPFM_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 			}
 
-			// Store the plugin constructor
+			// Store the plugin constructor.
 			if ( ! defined( 'WPPFM_PLUGIN_CONSTRUCTOR' ) ) {
 				define( 'WPPFM_PLUGIN_CONSTRUCTOR', plugin_basename( __FILE__ ) );
 			}
 
-			// Store the url of the plugin
+			// Store the url of the plugin.
 			if ( ! defined( 'WPPFM_PLUGIN_URL' ) ) {
 				define( 'WPPFM_PLUGIN_URL', plugins_url() . '/' . WPPFM_PLUGIN_NAME );
 			}
 
-			// Store the version of my plugin
+			// Store the version of my plugin.
 			if ( ! defined( 'WPPFM_VERSION_NUM' ) ) {
 				define( 'WPPFM_VERSION_NUM', $this->version );
 			}
 
-			// Store the transient alive time
+			// Store the transient alive time.
 			if ( ! defined( 'WPPFM_TRANSIENT_LIVE' ) ) {
 				define( 'WPPFM_TRANSIENT_LIVE', 20 * MINUTE_IN_SECONDS );
 			}
 
-			// Store the time before a feed gets a failed label
+			// Store the time before a feed gets a failed label.
 			if ( ! defined( 'WPPFM_DELAY_FAILED_LABEL' ) ) {
 				define( 'WPPFM_DELAY_FAILED_LABEL', 1 * MINUTE_IN_SECONDS );
 			}
 
-			// Store the url to wpmarketingrobot.com
+			// Store the url to wpmarketingrobot.com.
 			if ( ! defined( 'WPPFM_EDD_SL_STORE_URL' ) ) {
 				define( 'WPPFM_EDD_SL_STORE_URL', 'https://www.wpmarketingrobot.com/' );
 			}
 
-			// Store the link to the support page
+			// Store the link to the support page.
 			if ( ! defined( 'WPPFM_SUPPORT_PAGE_URL' ) ) {
 				define( 'WPPFM_SUPPORT_PAGE_URL', 'www.wpmarketingrobot.com/support/' );
 			}
 
-			// Store the plugin title
+			// Store the plugin title.
 			if ( ! defined( 'WPPFM_EDD_SL_ITEM_NAME' ) ) {
 				define( 'WPPFM_EDD_SL_ITEM_NAME', 'WP Product Feed Manager' );
 			}
 
-			// Store the plugin title
+			// Store the plugin title.
 			if ( ! defined( 'WPPFM_MIN_REQUIRED_WC_VERSION' ) ) {
 				define( 'WPPFM_MIN_REQUIRED_WC_VERSION', '3.0.0' );
 			}
 
-			// Store the base uploads folder, should also work in a multi site environment
+			// Store the base uploads folder, should also work in a multi site environment.
 			if ( ! defined( 'WPPFM_UPLOADS_DIR' ) ) {
 				$wp_upload_dir = wp_get_upload_dir(); // @since 2.10.0 switched from wp_upload_dir to wp_get_upload_dir.
 				$upload_dir    = is_multisite() && defined( 'UPLOADS' ) ? UPLOADS : $wp_upload_dir['basedir'];
@@ -199,32 +206,33 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 			if ( ! defined( 'WPPFM_UPLOADS_URL' ) ) {
 				$wp_upload_dir = wp_upload_dir();
 
-				// correct baseurl for https if required
+				// Correct baseurl for https if required.
 				if ( is_ssl() ) {
 					$url = str_replace( 'http://', 'https://', $wp_upload_dir['baseurl'] );
 				} else {
 					$url = $wp_upload_dir['baseurl'];
 				}
 
+				// @since 2.11.1 Added the wppfm_corrected_uploads_url filter.
 				define( 'WPPFM_UPLOADS_URL', apply_filters( 'wppfm_corrected_uploads_url', $url ) );
 			}
 
-			// store the folder that contains the channels data
+			// Store the folder that contains the channels data.
 			if ( ! defined( 'WPPFM_CHANNEL_DATA_DIR' ) ) {
 				define( 'WPPFM_CHANNEL_DATA_DIR', WPPFM_PLUGIN_DIR . 'includes/application' );
 			}
 
-			// store the folder that contains the backup files
+			// Store the folder that contains the backup files.
 			if ( ! defined( 'WPPFM_BACKUP_DIR' ) ) {
 				define( 'WPPFM_BACKUP_DIR', WPPFM_UPLOADS_DIR . '/wppfm-backups' );
 			}
 
-			// store the folder that contains the feeds
+			// Store the folder that contains the feeds.
 			if ( ! defined( 'WPPFM_FEEDS_DIR' ) ) {
 				define( 'WPPFM_FEEDS_DIR', WPPFM_UPLOADS_DIR . '/wppfm-feeds' );
 			}
 
-			// store the folder that contains the loggings
+			// Store the folder that contains the loggings.
 			if ( ! defined( 'WPPFM_LOGGINGS_DIR' ) ) {
 				define( 'WPPFM_LOGGINGS_DIR', WPPFM_UPLOADS_DIR . '/wppfm-logs' );
 			}
@@ -234,7 +242,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 		 * Sets the activation and deactivation hooks
 		 */
 		private function hooks() {
-			// register's the activation, deactivation and uninstall hooks
+			// Register's the activation, deactivation and uninstall hooks.
 			register_activation_hook( __FILE__, array( &$this, 'on_activation' ) );
 			register_deactivation_hook( __FILE__, array( &$this, 'on_deactivation' ) );
 			register_shutdown_function( array( $this, 'log_errors' ) );
@@ -244,39 +252,39 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 		 * Includes the required files
 		 */
 		private function includes() {
-			// include the WordPress pluggable.php file on forehand to prevent a "Call to undefined function wp_get_current_user()" error
-			// https://wp-types.com/forums/topic/mandrill-wp_mail-has-been-declared-by-another-process-or-plugin-need-fix/
-			if ( is_admin() && in_array( basename( $_SERVER['PHP_SELF'] ), array( 'options-general.php' ) ) && isset( $_GET['page'] ) && 'email_template' == $_GET['page'] ) {
-				require_once( ABSPATH . 'wp-includes/pluggable.php' );
+			// Include the WordPress pluggable.php file on forehand to prevent a "Call to undefined function wp_get_current_user()" error
+			// https://wp-types.com/forums/topic/mandrill-wp_mail-has-been-declared-by-another-process-or-plugin-need-fix/.
+			if ( is_admin() && in_array( basename( $_SERVER['PHP_SELF'] ), array( 'options-general.php' ), true ) && isset( $_GET['page'] ) && 'email_template' === $_GET['page'] ) {
+				require_once ABSPATH . 'wp-includes/pluggable.php';
 			}
 
-			// to prevent a fatal error about not finding the is_plugin_active function
-			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+			// To prevent a fatal error about not finding the is_plugin_active function.
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-			// include the admin menu and the includes file
-			require_once( __DIR__ . '/includes/application/wppfm-feed-processing-support.php' );
-			require_once( __DIR__ . '/includes/application/wppfm-feed-processor-functions.php' );
-			require_once( __DIR__ . '/includes/user-interface/wppfm-admin-menu-functions.php' );
-			require_once( __DIR__ . '/includes/user-interface/wppfm-admin-actions.php' );
-			require_once( __DIR__ . '/includes/user-interface/wppfm-admin-filters.php' );
-			require_once( __DIR__ . '/includes/data/wppfm-admin-functions.php' );
-			require_once( __DIR__ . '/includes/user-interface/wppfm-messaging-functions.php' );
-			require_once( __DIR__ . '/includes/user-interface/wppfm-url-functions.php' );
-			require_once( __DIR__ . '/includes/wppfm-wpincludes.php' );
-			require_once( __DIR__ . '/includes/packages/logger/wp-product-feed-manager-logger.php' );
+			// Include the admin menu and the includes file.
+			require_once __DIR__ . '/includes/application/wppfm-feed-processing-support.php';
+			require_once __DIR__ . '/includes/application/wppfm-feed-processor-functions.php';
+			require_once __DIR__ . '/includes/user-interface/wppfm-admin-menu-functions.php';
+			require_once __DIR__ . '/includes/user-interface/wppfm-admin-actions.php';
+			require_once __DIR__ . '/includes/user-interface/wppfm-admin-filters.php';
+			require_once __DIR__ . '/includes/data/wppfm-admin-functions.php';
+			require_once __DIR__ . '/includes/user-interface/wppfm-messaging-functions.php';
+			require_once __DIR__ . '/includes/user-interface/wppfm-url-functions.php';
+			require_once __DIR__ . '/includes/wppfm-wpincludes.php';
+			require_once __DIR__ . '/includes/packages/logger/wp-product-feed-manager-logger.php';
 
 			if ( 'true' === get_option( 'wppfm_show_product_identifiers', 'false' ) ) {
-				require_once( __DIR__ . '/includes/application/wppfm-support-fields.php' ); // @since 2.10.0
+				require_once __DIR__ . '/includes/application/wppfm-support-fields.php'; // @since 2.10.0
 			}
 
-			// include all required classes
+			// Include all required classes.
 			include_classes();
 			include_channels();
 
-			// include wpml support if needed
+			// Include wpml support if needed.
 			if ( is_plugin_active( 'woocommerce-multilingual/wpml-woocommerce.php' ) ) {
 				if ( file_exists( __DIR__ . '/../wp-product-feed-manager-wpml/wppfm-wpml-support.php' ) ) {
-					require_once( __DIR__ . '/../wp-product-feed-manager-wpml/wppfm-wpml-support.php' );
+					require_once __DIR__ . '/../wp-product-feed-manager-wpml/wppfm-wpml-support.php';
 				}
 			}
 
@@ -288,12 +296,11 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 			);
 		}
 
-		/* --------------------------------------------------------------------------------------------------*
-		 * Public functions
-		 * -------------------------------------------------------------------------------------------------- */
-
+		/**
+		 * Activate the feed update schedules.
+		 */
 		public function activate_feed_update_schedules() {
-			require_once( __DIR__ . '/includes/application/wppfm-cron-functions.php' );
+			require_once __DIR__ . '/includes/application/wppfm-cron-functions.php';
 			wppfm_update_feeds();
 		}
 
@@ -312,7 +319,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 		 * Performs the required actions on activation of the plugin
 		 */
 		public function on_activation() {
-			// add the required tables to the database
+			// Add the required tables to the database.
 			$wppfm_database = new WPPFM_Database_Management();
 			$wppfm_database->make();
 
@@ -324,7 +331,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 		 *
 		 * @since 2.1.6
 		 */
-		public function load_textdomain() {
+		public function load_text_domain() {
 			load_plugin_textdomain( 'wp-product-feed-manager', false, WPPFM_PLUGIN_NAME . '/languages' );
 		}
 
@@ -332,9 +339,9 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 		 * Performs the required actions on deactivation of the plugin
 		 */
 		public function on_deactivation() {
-			// stop the scheduled feed update actions
+			// Stop the scheduled feed update actions.
 			wp_clear_scheduled_hook( 'wppfm_feed_update_schedule' );
-			// remove all keyed option items from the option table and clears any stuck feed processing data
+			// Remove all keyed option items from the option table and clears any stuck feed processing data.
 			wppfm_clear_feed_process_data();
 		}
 
@@ -347,26 +354,26 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 			$error = error_get_last();
 
 			if ( $error ) {
-				// load the messaging code if not already done yet
-				require_once( __DIR__ . '/includes/user-interface/wppfm-messaging-functions.php' );
+				// Load the messaging code if not already done yet.
+				require_once __DIR__ . '/includes/user-interface/wppfm-messaging-functions.php';
 
-				// fetch fatal errors
+				// Fetch fatal errors.
 				if ( E_ERROR === $error['type'] ) {
-					// load the required classes if not already done yet
+					// Load the required classes if not already done yet.
 					if ( ! class_exists( 'WPPFM_Feed_Controller' ) ) {
-						require_once( __DIR__ . '/includes/application/class-wppfm-feed-controller.php' );
+						require_once __DIR__ . '/includes/application/class-wppfm-feed-controller.php';
 					}
 					if ( ! class_exists( 'WPPFM_Db_Management' ) ) {
-						require_once( __DIR__ . '/includes/data/class-wppfm-db-management.php' );
+						require_once __DIR__ . '/includes/data/class-wppfm-db-management.php';
 					}
 
-					// clear the feed queue
+					// Clear the feed queue.
 					WPPFM_Feed_Controller::clear_feed_queue();
 
-					// the background process clearly has stopped
+					// The background process clearly has stopped.
 					WPPFM_Feed_Controller::set_feed_processing_flag( false );
 
-					// remove all keyed option items from the option table
+					// Remove all keyed option items from the option table.
 					WPPFM_Db_Management::clean_options_table();
 
 					wppfm_write_log_file(
@@ -394,7 +401,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 
 	}
 
-	// end of WP_Product_Feed_Manager class
+	// End of WP_Product_Feed_Manager class.
 
 endif;
 

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YITH WooCommerce Catalog Mode 2.0.1\n"
 "Report-Msgid-Bugs-To: Your Inspiration Themes <plugins@yithemes.com>\n"
-"POT-Creation-Date: 2020-05-06 14:34:12+00:00\n"
+"POT-Creation-Date: 2020-07-09 21:46:37+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,12 +24,12 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: class-yith-woocommerce-catalog-mode.php:242
+#: class-yith-woocommerce-catalog-mode.php:235
 #: plugin-options/settings-options.php:18
 msgid "Settings"
 msgstr ""
 
-#: class-yith-woocommerce-catalog-mode.php:243
+#: class-yith-woocommerce-catalog-mode.php:236
 msgid "Premium Version"
 msgstr ""
 
@@ -231,22 +231,22 @@ msgid ""
 "e-commerce shop on <strong>YITH</strong></a>"
 msgstr ""
 
-#: class-yith-woocommerce-catalog-mode.php:233
+#: class-yith-woocommerce-catalog-mode.php:226
 msgctxt "general settings tab name"
 msgid "Settings"
 msgstr ""
 
-#: class-yith-woocommerce-catalog-mode.php:234
+#: class-yith-woocommerce-catalog-mode.php:227
 msgctxt "exclusion settings tab name"
 msgid "Exclusion List"
 msgstr ""
 
-#: class-yith-woocommerce-catalog-mode.php:235
+#: class-yith-woocommerce-catalog-mode.php:228
 msgctxt "inquiry form settings tab name"
 msgid "Inquiry Form"
 msgstr ""
 
-#: class-yith-woocommerce-catalog-mode.php:236
+#: class-yith-woocommerce-catalog-mode.php:229
 msgctxt "buttons & labels settings tab name"
 msgid "Buttons & Labels"
 msgstr ""

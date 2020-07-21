@@ -4,7 +4,7 @@ Tags: gutenberg, woocommerce, woo commerce, products, blocks, woocommerce blocks
 Requires at least: 5.2
 Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 2.6.0
+Stable tag: 2.9.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -12,68 +12,33 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 WooCommerce Blocks are the easiest, most flexible way to display your products on posts and pages!
 
+For more information on what blocks are available, and how to use them, check out the official documentation: https://docs.woocommerce.com/document/woocommerce-blocks/
+
 **Note: Feature plugin for WooCommerce + Gutenberg. This plugin serves as a space to iterate and explore new Blocks and updates to existing blocks for WooCommerce, and how WooCommerce might work with the block editor.**
 
 Use this plugin if you want access to the bleeding edge of available blocks for WooCommerce. However, stable blocks are bundled into WooCommerce, and can be added from the "WooCommerce" section in the block inserter.
 
-**Featured Product Block**
-Select and display a single product in a new, high impact fashion. Control text alignment, hide or show the price and description, add a color overlay, change the button call to action, and override the product photo.
-
-**Featured Category Block**
-Visually highlight a product category to increase traffic to that specific section on your shop.
-
-**Hand-Picked products Block**
-Display a grid of hand picked products. Products can be ordered in various ways.
-
-**Best Selling Products Block**
-Display a grid of your best selling products, filterable by category.
-
-**Top Rated Products Block**
-Display a grid of your top rated products, filterable by category.
-
-**Newest Products Block**
-Display a grid of your newest products, filterable by category.
-
-**On Sale Products Block**
-Display a grid of on sale products, filterable by category.
-
-**Products by Category Block**
-Display a grid of products from your selected category, or categories. Products can be ordered in various ways.
-
-**Products by Tag Block**
-Show a grid of products based on a specific tag that allows you to highlight products based on finer classification options.
-
-**Products by Attribute Block**
-Display a grid of products from your selected attributes.
-
-**Product Categories List Block**
-Display all your product categories as a list or dropdown and help shoppers to find a specific category.
-
-**Reviews by Product**
-Display reviews of a specific product to build trust in your product and brand.
-
-**Reviews by Category**
-Highlight reviews from specific categories and help merchants making an informed purchasing decision.
-
-**All Reviews**
-Show a list of all product reviews on a landing page, blog post or any other page in your site.
-
-**Product Search**
-Help shoppers find your products by placing a search box in specific locations.
-
-**All Products**
-Display all products from your store as a grid with pagination and sorting options. Requires WordPress 5.3.
-
-**Filter Products by Price**
-Display a slider to filter products in your store by price. Works in combination with the _All Products_ block. Requires WordPress 5.3.
-
-**Filter Products by Attribute**
-Display a list of filters based on a chosen product attribute. Works in combination with the _All Products_ block. Requires WordPress 5.3.
-
-**Active Product Filters**
-Display a list of active product filters. Works in combination with the _Filter Products by Price_ and _Filter Products by Attribute_ blocks. Requires WordPress 5.3.
-
-We've also improved the category selection filter. If you select two or more categories, you can now chose to show products that include ANY or ALL selected categories.
+- **Featured Product Block**
+- **Featured Category Block**
+- **Hand-Picked products Block**
+- **Best Selling Products Block**
+- **Top Rated Products Block**
+- **Newest Products Block**
+- **On Sale Products Block**
+- **Products by Category Block**
+- **Products by Tag Block**
+- **Products by Attribute Block**
+- **Product Categories List Block**
+- **Reviews by Product**
+- **Reviews by Category**
+- **All Reviews**
+- **Product Search**
+- **All Products**
+- **Filter Products by Price**
+- **Filter Products by Attribute**
+- **Active Product Filters**
+- **Cart**
+- **Checkout**
 
 == Getting Started ==
 
@@ -119,6 +84,48 @@ Release and roadmap notes available on the [WooCommerce Developers Blog](https:/
 5. WooCommerce Product Blocks in the block inserter menu
 
 == Changelog ==
+
+= 2.9.0 - 2020-07-07 =
+- bug: Correctly sort translated state and country drop-down menus in Checkout block. [#2779](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2779) 
+- dev: Add storybook story for icon library. [#2787](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2787) 
+- dev: Add custom jest matcher `toRenderBlock`, used for confirming blocks are available in the editor in e2e tests. [#2780](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2780) 
+- dev: Use consistent Button component in Cart & Checkout blocks. [#2781](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2781) 
+
+
+= 2.8.0 - 2020-06-23 =
+- bug: Cart and Checkout blocks display shipping methods with tax rates if that's how it's set in the settings. [#2748](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2748)
+- bug: Fix an error appearing in the Product Categories List block with _Full Width_ align. [#2700](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2700)
+- enhancement: Added aria-expanded attribute to Change address button in the Cart block [#2603](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2603)
+- enhancement: Fix updating the `wc_reserve_stock` stock_quantity value after making changes to the cart inbetween checkouts. [#2747](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2747)
+- enhancement: Remove background color from Express checkout title. [#2704](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2704)
+- enhancement: Several style enhancements to the Cart and Checkout blocks sidebar. [#2694](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2694)
+- enhancement: The Cart and Checkout blocks now use the font colors provided by the theme. [#2745](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2745)
+- enhancement: Update some class names to match the new guidelines. [Check the docs](https://github.com/woocommerce/woocommerce-gutenberg-products-block/blob/main/docs/theming/README.md) in order to see which class names have been updated. [#2691](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2691) [DN]
+- enhancement: Blocks now respect the product image cropping settings. For the All Products block, the user can switch between the cropped thumbnail and the full size image. [#2755](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2755)
+
+= 2.7.1 - 2020-06-16 =
+- bug: Use IE11 friendly code for Dashicon component replacement. [#2708](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2708)
+- bug: Fix PHP warnings produced by StoreAPI endpoints when variations have no prices. [#2722](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2722)
+- bug: Fix missing scoped variable in closure and missing schema definitions. [#2724](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2724)
+- bug: Fix undefined index notice for query_type on the product collection data endpoint. [#2723](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2723)
+
+= 2.7.0 - 2020-06-09 =
+- bug: Fix bug in Checkout block preventing a retry of credit card payment when first credit card used fails and a new one is tried. [#2655](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2655)
+- bug: Avoid some theme style properties leaking into the Cart and Checkout select controls. [#2647](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2647)
+- bug: Fixes to the product grid blocks in Twenty Twenty: discounted prices are no longer underlined and the On Sale badge is correctly positioned in the All Products block. [#2573](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2573)
+- bug: Improved alignment of credit card validation error messages. [#2662](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2662)
+- bug: Show the 'No shipping methods' placeholder in the editor with the _Checkout_ block if there are shipping methods but all of them are disabled. [#2543](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2543)
+- enhancement: Filter block font sizes have been adjusted to be in line with other blocks. [#2594](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2594)
+- enhancement: The All Products block and the other product grid blocks now share more styles and the markup is more similar (see release post or docs to learn how to undo this change). [#2428](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2428) [DN]
+- enhancement: The Cart and Checkout blocks now use the heading styles provided by the theme. [#2597](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2597)
+- enhancement: The Cart block titles have been merged into one. [#2615](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2615)
+- enhancement: The item count badges of the Checkout block have been updated so it looks better in light & dark backgrounds. [#2619](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2619)
+- enhancement: Checkout step progress indicator design has been updated to match the theme headings style. [#2649](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2649)
+- performance: Reduce bundlesize of blocks using @wordpress/components directly. [#2664](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2664)
+
+= 2.6.1 - 2020-06-01 =
+
+- fix: Updated the wc_reserved_stock table for compatibility with versions of MySql < 5.6.5. [#2590](https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2590)
 
 = 2.6.0 - 2020-05-25 =
 **New Blocks**

@@ -7,7 +7,7 @@
         height : <?php echo $height ?>px;
         }
 
-    .woo-variation-swatches-style-squared .button-variable-item {
+    .wvs-style-squared .button-variable-item {
         min-width : <?php echo $width ?>px;
         }
 

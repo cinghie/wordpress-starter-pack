@@ -9,3 +9,5 @@ export const getTextDomain = (state) => getAppState(state).textDomain;
 export const getAdminUrl = (state) => getAppState(state).adminUrl;
 
 export const getPerPage = (state) => getAppState(state).perPage;
+
+export const getLowStockThreshold = (state) => getAppState(state).lowStockThreshold;

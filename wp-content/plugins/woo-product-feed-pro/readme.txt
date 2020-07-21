@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.4
-Stable tag: 8.2.7
+Stable tag: 8.4.7
 
 == Description ==
 
@@ -312,6 +312,68 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 8.4.7 (2020-07-14) =
+* Solved an Aelia price caching issue
+
+= 8.4.6 (2020-07-10) =
+* Changed Google Review XML Schema to 2.3
+* Re-arranged the product_ids in Google product review feeds
+* Replaced & characters in product names with 'and' for Google product review feeds 
+
+= 8.4.5 (2020-07-09) =
+* Fixed support for Bing Shopping feeds
+
+= 8.4.4 (2020-07-09) =
+* Added the Facebook Pixel feature
+
+= 8.4.3 (2020-07-09) =
+* Flat rate shipping methods that had no classes set resulted in empty shipping costs in feeds. This has been solved now.
+
+= 8.4.2 (2020-07-08) =
+* Fixed an issue with German free shipping zones not showing in Google Shopping feeds
+
+= 8.4.1 (2020-07-07) =
+* Added two new Google Shopping fields to the template: productdetail and producthighlight
+
+= 8.4.0 (2020-07-03) =
+* Added attributes for unfiltered descriptions and short descriptions meaning all short codes and HTML will stay in.
+
+= 8.3.9 (2020-06-28) =
+* Attributes that have multiple values that are not set for variations can now be used in the data manipulation feature
+
+= 8.3.8 (2020-06-25) =
+* Changed the XML node order for Google Product Review feeds as it was not (always) validating by Google
+
+= 8.3.7 (2020-06-21) =
+* Added a product title hyphen attribute showing a hyphen between the parent variable product name and the attribute values
+
+= 8.3.6 (2020-06-14) =
+* Added priceValidUntil structured data for variable and variation products
+
+= 8.3.5 (2020-06-13) =
+* Changed the Google Product Review feed node order
+
+= 8.3.4 (2020-06-12) =
+* Removed line-breaks from the description and short description attribute
+
+= 8.3.3 (2020-06-10) =
+* Added a feature to add the parent product ID to the Facebook pixel ID instead of the variation product ID's for variable products
+
+= 8.3.2 (2020-06-09) =
+* Solved a PHP notification on the settings page for users running an older PHP version
+
+= 8.3.1 (2020-06-09) =
+* The Facebook DOM solution resulted in duplicate products in feeds. This issue has been solved now.
+
+= 8.3.0 (2020-06-07) =
+* When our plugin is enabled and the structured data snippet feature is disabled then use the normal default WooCommerce structured data
+
+= 8.2.9 (2020-06-04) =
+* Reverted to DOM for Facebook / Instagram feeds as Facebook, all of a sudden, requires preservation of line-breaks
+
+= 8.2.8 (2020-05-30) =
+* Added webitemid attribute to the Google Local Product Feed template
 
 = 8.2.7 (2020-05-26) =
 * Solved a plugin conflict with GLS France plugin for WooCommerce
@@ -2632,6 +2694,68 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 8.4.7 =
+Solved an Aelia price caching issue
+
+= 8.4.6 =
+Changed Google Review XML Schema to 2.3
+Re-arranged the product_ids in Google product review feeds
+Replaced & characters in product names with 'and' for Google product review feeds
+
+= 8.4.5 =
+Fixed support for Bing Shopping feeds
+
+= 8.4.4 =
+Added the Facebook Pixel feature
+
+= 8.4.3 =
+Flat rate shipping methods that had no classes set resulted in empty shipping costs in feeds. This has been solved now.
+
+= 8.4.2 =
+* Fixed an issue with German free shipping zones not showing in Google Shopping feeds
+
+= 8.4.1 =
+Added two new Google Shopping fields to the template: productdetail and producthighlight
+
+= 8.4.0 =
+Added attributes for unfiltered descriptions and short descriptions meaning all short codes and HTML will stay in.
+
+= 8.3.9 =
+Attributes that have multiple values that are not set for variations can now be used in the data manipulation feature
+
+= 8.3.8 =
+Changed the XML node order for Google Product Review feeds as it was not (always) validating by Google
+
+= 8.3.7 =
+Added a product title hyphen attribute showing a hyphen between the parent variable product name and the attribute values
+
+= 8.3.6 =
+Added priceValidUntil structured data for variable and variation products
+
+= 8.3.5 =
+Changed the Google Product Review feed node order
+
+= 8.3.4 =
+Removed line-breaks from the description and short description attribute
+
+= 8.3.3 =
+Added a feature to add the parent product ID to the Facebook pixel ID instead of the variation product ID's for variable products
+
+= 8.3.2 =
+Solved a PHP notification on the settings page for users running an older PHP version
+
+= 8.3.1 =
+The Facebook DOM solution resulted in duplicate products in feeds. This issue has been solved now.
+
+= 8.3.0 =
+When our plugin is enabled and the structured data snippet feature is disabled then use the normal default WooCommerce structured data
+
+= 8.2.9 =
+Reverted to DOM for Facebook / Instagram feeds as Facebook, all of a sudden, requires preservation of line-breaks
+
+= 8.2.8 =
+Added webitemid attribute to the Google Local Product Feed template
 
 = 8.2.7 =
 Solved a plugin conflict with GLS France plugin for WooCommerce

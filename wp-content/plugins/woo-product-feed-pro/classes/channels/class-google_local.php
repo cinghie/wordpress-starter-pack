@@ -67,6 +67,11 @@ class WooSEA_google_local {
                                         "feed_name" => "pickup sla",
                                         "format" => "optional",
                                 ),
+                                "Webitemid" => array(
+                                        "name" => "Webitemid",
+                                        "feed_name" => "webitemid",
+                                        "format" => "optional",
+                                ),
 			),
 		);
 		return $google_local;

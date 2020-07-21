@@ -274,7 +274,7 @@ function wppfm_updateFeedRowStatus( feedId, status ) {
 /**
  * Document ready actions
  */
-jQuery( document ).ready(
+jQuery(
 	function() {
 		// No actions required at the moment.
 	}

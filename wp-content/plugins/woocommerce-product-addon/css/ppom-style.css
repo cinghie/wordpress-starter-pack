@@ -403,14 +403,18 @@ padding: 5px;
     margin-right: 8% !important;
 }
 
-.ppom-qty-found{
-  display:none;
-}
-
 /*====== Elementor Issue CSS ========*/
 .woocommerce div.product.elementor form.cart.variations_form .woocommerce-variation-add-to-cart{
     display: block !important;
 }
 .elementor-add-to-cart form.cart{
     display: block !important;
+}
+
+/** ========= files uploaded filelist ======== */
+.ppom-wrapper div.filelist{
+  display:flex;
+}
+div.filelist .u_i_c_box{
+  flex: 1;
 }

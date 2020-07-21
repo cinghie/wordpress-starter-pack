@@ -6,7 +6,7 @@ Tested up to: 5.4
 Requires PHP: 5.6
 Stable tag: trunk
 WC requires at least: 3.2
-WC tested up to: 4.1
+WC tested up to: 4.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -66,7 +66,7 @@ In the free WooCommerce attribute variation plugin, besides creating size, brand
  [Live Demo & Documentation](http://bit.ly/3rd-demo-size-control-readme) 
 <hr />
 👉 Flexible Swatches Tooltip Insert and Display settings 
- [Live Demo & Documentation](http://bit.ly/3rd-demo-size-control-readme)  
+ [Live Demo & Documentation](https://bit.ly/tooltip-swatches-disable)  
 <hr />
 
 👉 Convert Buttons Swatches to Dropdown (If It's needed)
@@ -181,7 +181,7 @@ In the free WooCommerce attribute variation plugin, besides creating size, brand
  [Live Demo & Documentation](http://bit.ly/3rd-demo-readme-hover-swatches-border-styling)
 <hr />
 👉 Active Swatches Border Styling
- [Live Demo & Documentation](http://bit.ly/3rd-demo-readme-hover-swatches-border-styling)
+ [Live Demo & Documentation](https://bit.ly/active-border-styling)
 <hr />
 👉 Archive Page Swatches Alignment
  [Live Demo & Documentation](http://bit.ly/3rd-demo-readme-shop-alignment)
@@ -380,6 +380,18 @@ And your are ready to go.
 12. Global Variation Color Swatches Attribute List Preview
 
 == Changelog ==
+
+= 1.0.85 =
+
+* Update: Support WooCommerce 4.3 version
+
+= 1.0.84 =
+
+* Add: `wvs-no-css` will add on when stylesheet disabled. `wvs-css` will add on when stylesheet enabled, `wvs-no-tooltip` will add on when tooltip disabled, `wvs-tooltip` will add on when tooltip enabled.
+
+= 1.0.83 =
+
+* Update: Remove CSS Selector from body tag.
 
 = 1.0.82 =
 

@@ -8,16 +8,20 @@
   display: none;
 }
 
-.customize-control-is-radio-image input img {
-  border: 1px solid transparent;
+#customize-controls .customize-control-is-radio-image label img {
+  max-width: unset;
 }
 
 .customize-control-is-radio-image input + label img {
   border: 1px solid #f1f1f1;
 }
 
+.customize-control-is-radio-image label:hover img {
+    border: 1px solid #0BAEF0;
+}
+
 .customize-control-is-radio-image input:checked + label img {
-    border: 2px dotted #80868c;
+    border: 2px solid #0BAEF0;
     background: none;
 }
 

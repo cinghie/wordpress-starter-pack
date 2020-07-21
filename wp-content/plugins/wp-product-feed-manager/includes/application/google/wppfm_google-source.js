@@ -13,7 +13,6 @@ function woocommerceToGoogleFields() {
 		'image_link': 'attachment_url',
 		'additional_image_link': '_wp_attachement_metadata',
 		'price': '_regular_price',
-		'sale_price': '_sale_price',
 		'sale_price_effective_date': '_sale_price_dates_from',
 		'item_group_id': 'item_group_id',
 		'mpn': 'ID',
@@ -152,6 +151,9 @@ function setGooglePresets( field ) {
 
 		case 'price':
 			return '{"m":[{"s":{"source":"combined","f":"_regular_price|1#wc_currency"}}]}';
+
+		case 'sale_price':
+			return '{"m":[{"s":{"source":"combined","f":"_sale_price|1#wc_currency"}}]}';
 
 		default:
 			break;

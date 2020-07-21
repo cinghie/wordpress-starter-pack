@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Image from './Image';
 import Control from './Control';
-import { getAdminUrl } from '../store/app';
+import { getAdminUrl, getLowStockThreshold } from '../store/app';
 import { getShippingClasses } from '../store/shippingClasses';
 import { getStockStatusOptions } from '../store/stockStatusOptions';
 import { getProductTypes } from '../store/productTypes';
@@ -24,6 +24,7 @@ const mapStateToProps = (state, ownProps) => ({
   taxStatuses: getTaxStatuses(state),
   backordersOptions: getBackordersOptions(state),
   adminUrl: getAdminUrl(state),
+  lowStockThreshold: getLowStockThreshold(state),
   productChange: getProductChange(state, { productId: ownProps.product.id }),
   productVariations: getProductVariations(state, { productId: ownProps.product.id }),
 });
@@ -50,6 +51,7 @@ const Product = (props) => {
     fetchProductVariations,
     productVariations,
     isVariation,
+    lowStockThreshold,
   } = props;
 
   const [showVariations, setShowVariations] = useState(false);
@@ -97,7 +99,7 @@ const Product = (props) => {
   };
 
   const stockCssLow = getChangedValue('manage_stock') && (
-    parseInt(getChangedValue('stock_quantity'), 10) > 5 ? 'ok' : 'low'
+    parseInt(getChangedValue('stock_quantity'), 10) > lowStockThreshold ? 'ok' : 'low'
   );
 
   const stockCssZero = getChangedValue('manage_stock') && (
@@ -149,8 +151,8 @@ const Product = (props) => {
         </td>
         {settings.thumbnail && (
           <td className="stock-manager-field-thumbnail">
-            {product.images && product.images.length > 0 && (
-              <Image id={product.images[0].id} className={styles.thumbnail} />
+            {((product.images && product.images.length > 0) || (product.hasOwnProperty('image'))) && (
+              <Image id={(product.hasOwnProperty('image')) ? product.image.id : product.images[0].id} className={styles.thumbnail} />
             )}
           </td>
         )}
@@ -328,6 +330,7 @@ Product.propTypes = {
   fetchProductVariations: PropTypes.func.isRequired,
   productVariations: PropTypes.object,
   isVariation: PropTypes.bool,
+  lowStockThreshold: PropTypes.number,
 };
 
 Product.defaultProps = {

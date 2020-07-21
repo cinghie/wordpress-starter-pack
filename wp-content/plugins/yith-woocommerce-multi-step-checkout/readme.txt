@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: woocommerce, multi-step checkout, woocommerce multistep checkout, woocommerce checkout, shop checkout, multistep, multi step, multi-step, wc, wc checkout, wc multi-step checkout, wc multistep checkout, yit, yith, yithemes
 Requires at least: 4.0
 Tested up to: 5.4
-Stable tag: 1.8.2
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,17 +12,88 @@ Make your checkout page fluid with YITH WooCommerce Multi-step Checkout, a plugi
 
 == Description ==
 
-Do you know benefits of a multi-step checkout page in an e-commerce? Your customers will be able to purchase in a few moves and they will add all other information required at a later stage. This reduces dramatically the percentage of users who abandon the cart and this means that your sales will increase. To allow you to change your shop and adapt it to this pattern, YIThemes has developed a tool that you cannot do without: YITH WooCommerce Multi-step Checkout. Download it now, it's free!
+**New 2020 update! Version 2.0 available!**
 
-Main Feature:
+**[Free live demo >](https://plugins.yithemes.com/yith-woocommerce-multi-step-checkout-free/)**
 
-It splits default WooCommerce checkout page into multiple consecutive steps
+A/B split testing on checkout pages (analysis made to find out which checkout structure works better on e-commerce sites) has shown that a multi-step layout is the best option for a better user experience during the purchase process.
+
+The plugin YITH WooCommerce Multi-step Checkout helps to sort data and split the checkout process into different sections displayed one after the other: this makes it much clearer from the customer’s point of view and reduces the checkout abandonment rate.
+
+
+= Main features =
+
+* Set the step transition speed
+* Edit labels of each checkout step
+* Edit labels of prev and next button
+* Customize the step divider
+* Show or hide the “Back to cart” button
+* Allow customer login in checkout
+* Allow guest checkout
+
+
+= Free Live Demo =
+
+Do you want to discover all plugin features offered on this version? Would you like to try it?
+
+Visit our **[live demo](https://plugins.yithemes.com/yith-woocommerce-multi-step-checkout-free/)** and click on the “LAUNCH ADMIN DEMO” link that you find on the top bar to test the admin panel of this plugin right now.
+
+
+= Languages =
+
+Also available in:
+
+* English
+* Italian
+* Spanish
+* Dutch
+ and [much more](https://translate.wordpress.org/locale/it/default/wp-plugins/yith-woocommerce-multi-step-checkout "Translating WordPress").
+
+= GET MORE: PREMIUM FEATURES OF MULTISTEP CHECKOUT =
+
+Free version of our plugins works like a charm, but the premium ones are very powerful.
+
+Some premium features:
+
+* Choose between 10 different styles for your steps (horizontal and vertical)
+* Customize the colours and labels of each single layout
+* Choose one of the default SVG icons or upload your custom icon
+* Ajax validation of mandatory fields
+* Save info entered by customers in the checkout fields
+* Show or hide navigation buttons and customize the style
+* Customize the checkout container and step timeline width
+* Pick a custom layout for the mobile version
+* Merge steps to streamline your checkout: “Billing & Shipping” and “Order Info & Payment”
+* Choose whether to show or remove the Shipping step
+* Allow customer login in checkout and option to skip the login step
+* [… and so much more!](https://yithemes.com/themes/plugins/yith-woocommerce-multi-step-checkout/)
+
+
+= Premium Live Demo =
+
+Visit our [Premium Live Demo](https://plugins.yithemes.com/yith-woocommerce-multi-step-checkout/) and click on the “LAUNCH ADMIN DEMO” link that you find on the top bar to test the admin panel of this plugin right now.
+
+
+= Documentation =
+
+Please, read the **[official documentation of YITH WooCommerce Multi-step Checkout](https://docs.yithemes.com/yith-woocommerce-multi-step-checkout/)** to learn more about all plugin features.
+
 
 == Installation ==
+
+**Important**: First of all, you have to download and activate [WooCommerce](https://wordpress.org/plugins/woocommerce) plugin, because without it YITH WooCommerce Multi-step Checkout cannot work.
 
 1. Unzip the downloaded zip file.
 2. Upload the plugin folder into the `wp-content/plugins/` directory of your WordPress site.
 3. Activate `YITH WooCommerce Multi-step Checkout` from Plugins page
+
+= Configuration =
+
+YITH WooCommerce Multi-step Checkout will add a new tab called "Multi-step" in "YITH" menu item. There, you will find all YITH plugins with quick access to the plugin settings page.
+
+== Translators ==
+
+Want to add a new language to our YITH WooCommerce Multi-step Checkout? Learn how to contribute [in this page](https://translate.wordpress.org/projects/wp-plugins/yith-woocommerce-multi-step-checkout/).
 
 == Frequently Asked Questions ==
 
@@ -41,11 +112,33 @@ This plugin has been realised using only WooCommerce standard templates. If your
 6. Step 5: Payment Information
 7. Place Order: Error Information
 8. Checkout Timeline
-9. Admin: Enable Multi-step Checkout
+9. Admin: Steps Style
+10. Admin: Steps Customization
+11. Admin: Buttons Options
+
 
 == Changelog ==
 
-= 1.8.1 - Released on 28 May 2020 =
+= 2.0.0 - Released on 14 July 2020 =
+
+* New: Support for WooCommerce 4.3
+* New: Plugin options panel layout
+* New: Layout options for text style
+* New: Ability to customize steps labels
+* New: Ability to customize steps style
+* New: Ability to customize Buttons labels
+* New: Ability to customize Buttons style
+* Update: Plugin framework
+* Update: Language files
+* Fix: Minor layout issues with selectWoo library
+* Fix: Unable to go to the next step if 'create account' option is unchecked
+
+= 1.8.3 - Released on 07 June 2020 =
+
+* Update: Plugin framework
+* Fix: Unable to go to the next step with version 1.8.2
+
+= 1.8.2 - Released on 28 May 2020 =
 
 * New: Support for WooCommerce 4.2
 * Update: Plugin framework
@@ -342,26 +435,3 @@ This plugin has been realised using only WooCommerce standard templates. If your
 = 1.0.0 - Released on Jul 07, 2015 =
 
 * Initial release
-
-== Translators ==
-
-= Available Languages =
-* English (Default)
-* Spanish
-
-If you have created your own language pack, or have an update for an existing one, you can send [gettext PO and MO file](http://codex.wordpress.org/Translating_WordPress "Translating WordPress")
-[use](http://yithemes.com/contact/ "Your Inspiration Themes"), so we can bundle it into YITH WooCommerce Multi-step Checkout.
-
-== Upgrade notice ==
-
-= 1.0.10 =
-
-Paying old unpaid orders
-
-= 1.0.6 =
-
-Navigation button issue with WooCommerce 2.4 and Wordpress 4.3
-
-= 1.0.0 =
-
-Initial release

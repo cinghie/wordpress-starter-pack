@@ -7,12 +7,13 @@
  * Domain Path: /languages/
  * Author: YITH
  * Author URI: https://yithemes.com/
- * Version: 2.1.3
+ * Version: 2.1.4
  * WC requires at least: 3.8
- * WC tested up to: 4.0
+ * WC tested up to: 4.2.0
+ *
  * @author YITHEMES
  * @package YITH Essential Kit for Woocommerce #1
- * @version 2.1.3
+ * @version 2.1.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -20,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 if ( ! function_exists( 'is_plugin_active' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+	require_once ABSPATH . 'wp-admin/includes/plugin.php';
 }
 
 if ( ! defined( 'YJP_DIR' ) ) {
@@ -39,30 +40,35 @@ if ( ! defined( 'YJP_TEMPLATE_PATH' ) ) {
 	define( 'YJP_TEMPLATE_PATH', YJP_DIR . 'templates' );
 }
 
+if ( ! defined( 'YJP_VERSION' ) ) {
+	define( 'YJP_VERSION', '2.1.4' );
+}
+
 if ( ! function_exists( 'yith_plugin_registration_hook' ) ) {
 	require_once 'plugin-fw/yit-plugin-registration-hook.php';
 }
 register_activation_hook( __FILE__, 'yith_plugin_registration_hook' );
 
 /* Plugin Framework Version Check */
-! function_exists( 'yit_maybe_plugin_fw_loader' ) && require_once( 'plugin-fw/init.php' );
+! function_exists( 'yit_maybe_plugin_fw_loader' ) && require_once 'plugin-fw/init.php';
 yit_maybe_plugin_fw_loader( dirname( __FILE__ ) );
 
 
 load_plugin_textdomain( 'yith-essential-kit-for-woocommerce-1', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 if ( ! class_exists( 'Plugin_Upgrader' ) ) {
-	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+	include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 }
-require_once( YJP_DIR . 'yith-jetpack.php' );
+require_once YJP_DIR . 'class-yith-jetpack.php';
+require_once YJP_DIR . 'class-yith-essential-kit-upgrader-skin.php';
 
 global $yith_jetpack_1;
 $yith_jetpack_1 = new YITH_JetPack( __FILE__, 'YITH Essential Kit for WooCommerce #1', 1 );
 
-
-//VERSION 2.0 Migration
 register_activation_hook( __FILE__, 'yith_essential_kit_welcome_screen_activate' );
-
+/**
+ * VERSION 2.0 Migration
+ */
 function yith_essential_kit_welcome_screen_activate() {
 	get_site_option( 'yith_essential_kit_main_version', '1.0' );
 }

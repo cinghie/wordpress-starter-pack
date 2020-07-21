@@ -74,15 +74,16 @@ class ProductCollectionData extends AbstractRoute {
 			$taxonomy__and_queries = [];
 
 			foreach ( $request['calculate_attribute_counts'] as $attributes_to_count ) {
-				if ( 'or' === $attributes_to_count['query_type'] ) {
-					$taxonomy__or_queries[] = $attributes_to_count['taxonomy'];
-				} else {
-					$taxonomy__and_queries[] = $attributes_to_count['taxonomy'];
+				if ( ! empty( $attributes_to_count['taxonomy'] ) ) {
+					if ( empty( $attributes_to_count['query_type'] ) || 'or' === $attributes_to_count['query_type'] ) {
+						$taxonomy__or_queries[] = $attributes_to_count['taxonomy'];
+					} else {
+						$taxonomy__and_queries[] = $attributes_to_count['taxonomy'];
+					}
 				}
 			}
 
 			$data['attribute_counts'] = [];
-
 			// Or type queries need special handling because the attribute, if set, needs removing from the query first otherwise counts would not be correct.
 			if ( $taxonomy__or_queries ) {
 				foreach ( $taxonomy__or_queries as $taxonomy ) {
@@ -92,7 +93,7 @@ class ProductCollectionData extends AbstractRoute {
 					if ( ! empty( $filter_attributes ) ) {
 						$filter_attributes = array_filter(
 							$filter_attributes,
-							function( $query ) {
+							function( $query ) use ( $taxonomy ) {
 								return $query['attribute'] !== $taxonomy;
 							}
 						);

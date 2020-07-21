@@ -900,8 +900,7 @@ class NM_Form {
         $title      = $args['title'];
         
 	    // Options
-	   // ppom_pa($args);
-        $images    = isset($args['images']) ? $args['images'] : '';
+	    $images    = isset($args['images']) ? $args['images'] : '';
         if ( ! $images ) return __("Images not selected", "ppom");
 
         $input_wrapper_class = $this->get_default_setting_value('global', 'input_wrapper_class', $id);
@@ -1017,6 +1016,7 @@ class NM_Form {
 			if ($images) {
 			    
 				
+				
 				foreach ($images as $image){
 
                     // ppom_pa($image);
@@ -1038,14 +1038,12 @@ class NM_Form {
 					
 					$checked_option = '';
 					
-					
 					if( ! empty($default_value) ){
 					    
 					    if( is_array($default_value) ) {
-					        
 					        foreach($default_value as $img_data) {
 					            
-					            if( $image['image_id'] == $img_data['id'] ) {
+					            if( $image['image_id'] == $img_data['image_id'] ) {
 					                $checked_option = 'checked="checked"';
 					            }
 					        }

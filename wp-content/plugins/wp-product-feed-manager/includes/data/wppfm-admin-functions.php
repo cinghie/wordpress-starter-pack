@@ -80,9 +80,11 @@ function wppfm_meta_key_is_money( $key ) {
 		'_min_variation_sale_price',
 		'_regular_price',
 		'_sale_price',
+		'regular_price',
+		'sale_price',
 	);
 
-	return in_array( $key, $special_price_keys ) ? true : false;
+	return in_array( $key, $special_price_keys );
 }
 
 /**

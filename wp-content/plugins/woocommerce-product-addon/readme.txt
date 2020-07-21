@@ -4,7 +4,7 @@ Tags: woocommerce, woocommerce pesonalized products, woocommerce custom fields, 
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
 Tested up to: 5.2
-Stable tag: 20.1
+Stable tag: 20.3
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -91,6 +91,23 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
+= 20.3 July 9, 2020 =
+* Tweaks: Legacy Conditional put back to action by default
+* Bug fixed: [PPOM Menu Permission Setting](https://wordpress.org/support/topic/ppom-permissions-issue/)
+* Bug fixed: Variation Quantities issue fixed
+* Bug fixed: WOOCS issue fixed
+* Feature: Option added to disable meta in PayPal Invoice in PRO version
+= 20.2 June 17, 2020 =
+* Bug fixed: [Cart edit issue fixed](https://clients.najeebmedia.com/forums/topic/cart-edit-problem-in-pop-up-mode/)
+* Bug fixed: Currency Switcher issue fixed.
+* Bug fixed: Image input price calculation issue fixed in price beta version
+* Bug fixed: File input, image thumb preview size fixed for better display
+* Bug fixed: Fixed unused images delete issue after 7 day
+* Bug fixed: Fixed product quantity input hidden issue when use ppom quantities input
+* Bug fixed: [Fixed negative sign show on both side of currency with negative prices](https://clients.najeebmedia.com/forums/topic/double-negative-in-option-price-table/)
+* Feature: PPOM Options stock now works with Image type inputs
+* Feature: New fast and optimized script added for PPOM Conditional Fields
+* Translation: [translate strings](https://wordpress.org/support/topic/string-translate/)
 = 20.1 April 9, 2020 =
 * Feature: Options (Select,Radio,Checkbox) now have stock control in PRO version
 * Bug fixed: Checkbox prices not being added when ' is used in value

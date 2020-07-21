@@ -5,7 +5,7 @@ Tags: Google Merchant Export, Product feed, woocommerce, Google product feed exp
 Requires at least: 4.6
 Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 1.21.1
+Stable tag: 1.22.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,14 @@ In case it does please do submit your feed in your Google Merchant center and ch
 3. Save and generate your feed
 
 == Changelog ==
+= 1.22.0 - 03/06/2020 =
+* Replace several deprecated functions.
+* Fixed an issue that prevented the lower buttons on the Edit Feed page to show up when making a new feed.
+* Changed the feed process such that it keeps money values of 0 out of the feed.
+* Added a preset for the sale price in a Google feed to include the currency.
+* Fixed an issue that could cause an undefined index notice.
+* Tested for WooCommerce 4.2.
+
 = 1.21.1 - 03/04/2020 =
 * Restored the original definition of the url to the uploads folder because of issues with the new definition. Added a wppfm_corrected_uploads_url filter for specific use cases.
 

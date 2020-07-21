@@ -612,6 +612,8 @@ jQuery(function($) {
             }
 
             var price_metatype = 'price';
+            var stock_metatype = 'stock';
+            var stock_placeholder = 'Stock';
 
             // Set name key for imageselect addon
             if (meta_type == 'imageselect') {
@@ -650,6 +652,7 @@ jQuery(function($) {
                 image_box += '<input type="hidden" name="ppom[' + field_index + '][' + meta_type + '][' + option_index + '][id]" value="' + fileid + '" data-opt-index="' + option_index + '" data-metatype="id">';
                 image_box += '<input type="text" placeholder="Title" name="ppom[' + field_index + '][' + meta_type + '][' + option_index + '][title]" class="form-control ppom-image-option-title" data-opt-index="' + option_index + '" data-metatype="title">';
                 image_box += '<input class="form-control" type="text" placeholder="' + price_placeholder + '" name="ppom[' + field_index + '][' + meta_type + '][' + option_index + '][' + price_metatype + ']" class="form-control" data-opt-index="' + option_index + '" data-metatype="' + price_metatype + '">';
+                image_box += '<input class="form-control" type="text" placeholder="' + stock_placeholder + '" name="ppom[' + field_index + '][' + meta_type + '][' + option_index + '][' + stock_metatype + ']" class="form-control" data-opt-index="' + option_index + '" data-metatype="' + stock_metatype + '">';
                 image_box += url_field;
                 image_box += '<button class="btn btn-danger ppom-pre-upload-delete" style="height: 35px;"><i class="fa fa-times" aria-hidden="true"></i></button>';
                 image_box += '</div>';

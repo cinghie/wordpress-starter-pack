@@ -3,7 +3,7 @@
 Plugin Name: Custom Twitter Feeds
 Plugin URI: http://smashballoon.com/custom-twitter-feeds
 Description: Customizable Twitter feeds for your website
-Version: 1.5
+Version: 1.5.1
 Author: Smash Balloon
 Author URI: http://smashballoon.com/
 Text Domain: custom-twitter-feeds
@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 define( 'CTF_URL', plugin_dir_path( __FILE__ )  );
-define( 'CTF_VERSION', '1.5' );
+define( 'CTF_VERSION', '1.5.1' );
 define( 'CTF_TITLE', 'Custom Twitter Feeds' );
 define( 'CTF_JS_URL', plugins_url( '/js/ctf-scripts.min.js?ver=' . CTF_VERSION , __FILE__ ) );
 define( 'OAUTH_PROCESSOR_URL', 'https://api.smashballoon.com/twitter-login.php?return_uri=' );
@@ -55,6 +55,8 @@ function ctf_plugin_init() {
 	if ( $ctf_blocks->allow_load() ) {
 		$ctf_blocks->load();
 	}
+
+	include_once trailingslashit( CTF_PLUGIN_DIR ) . 'inc/class-ctf-tracking.php';
 }
 
 add_action( 'plugins_loaded', 'ctf_plugin_init' );
@@ -481,6 +483,21 @@ function ctf_clear_persistent_cache() {
 }
 add_action( 'wp_ajax_ctf_clear_persistent_cache', 'ctf_clear_persistent_cache' );
 
+function ctf_activate() {
+	// set usage tracking to false if fresh install.
+	$usage_tracking = get_option( 'ctf_usage_tracking', false );
+
+	if ( ! is_array( $usage_tracking ) ) {
+		$usage_tracking = array(
+			'enabled' => false,
+			'last_send' => 0
+		);
+
+		update_option( 'ctf_usage_tracking', $usage_tracking, false );
+	}
+}
+register_activation_hook( __FILE__, 'ctf_activate' );
+
 /**
  * clear the cache and unschedule an cron jobs when deactivated
  */
@@ -580,3 +597,6 @@ function ctf_admin_scripts_and_styles() {
 add_action( 'admin_enqueue_scripts', 'ctf_admin_scripts_and_styles' );
 
 
+function ctf_is_pro_version() {
+	return defined( 'CTF_STORE_URL' );
+}

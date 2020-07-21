@@ -105,6 +105,7 @@ if ( !class_exists( 'YIT_Plugin_Panel' ) ) {
                 add_action( 'admin_init', array( $this, 'add_fields' ) );
 
                 add_action( 'admin_enqueue_scripts', array( $this, 'init_wp_with_tabs' ), 11 );
+				add_action( 'admin_init', array( $this, 'maybe_redirect_to_proper_wp_page' ) );
 
                 // init actions once to prevent multiple actions
                 static::_init_actions();
@@ -115,8 +116,37 @@ if ( !class_exists( 'YIT_Plugin_Panel' ) ) {
             //yith-plugin-ui
             add_action( 'yith_plugin_fw_before_yith_panel', array( $this, 'add_plugin_banner' ), 10, 1 );
             add_action( 'wp_ajax_yith_plugin_fw_save_toggle_element', array( $this, 'save_toggle_element_options' ) );
-
         }
+
+		/**
+		 * Is this a custom post type page?
+		 *
+		 * @return bool
+		 * @see      YIT_Plugin_Panel::init_wp_with_tabs
+		 * @since    3.4.17
+		 */
+		protected function is_custom_post_type_page() {
+			global $pagenow, $post_type;
+			$excluded_post_types = array( 'product', 'page', 'post' );
+
+			return in_array( $pagenow, array( 'post.php', 'post-new.php', 'edit.php' ), true ) &&
+				   ! in_array( $post_type, $excluded_post_types, true );
+		}
+
+		/**
+		 * Is this a custom taxonomy page?
+		 *
+		 * @return bool
+		 * @see      YIT_Plugin_Panel::init_wp_with_tabs
+		 * @since    3.4.17
+		 */
+		protected function is_custom_taxonomy_page() {
+			global $pagenow, $taxonomy;
+			$excluded_taxonomies = array( 'category', 'post_tag', 'product_cat', 'product_tag' );
+
+			return in_array( $pagenow, array( 'edit-tags.php', 'term.php' ), true ) &&
+				   ! in_array( $taxonomy, $excluded_taxonomies, true );
+		}
 
         /**
          * Init actions to show YITH Panel tabs in WP Pages
@@ -129,13 +159,12 @@ if ( !class_exists( 'YIT_Plugin_Panel' ) ) {
                 return;
             }
 
-            global $pagenow, $post_type, $taxonomy;
+            global $post_type, $taxonomy;
             $tabs = false;
 
-            if ( in_array( $pagenow, array( 'post.php', 'post-new.php', 'edit.php' ), true )
-                 && !in_array( $post_type, array( 'product', 'page', 'post' ) ) ) {
+            if ( $this->is_custom_post_type_page() ) {
                 $tabs = $this->get_post_type_tabs( $post_type );
-            } else if ( in_array( $pagenow, array( 'edit-tags.php', 'term.php' ), true ) ) {
+            } else if ( $this->is_custom_taxonomy_page() ) {
                 $tabs = $this->get_taxonomy_tabs( $taxonomy );
             }
 
@@ -460,6 +489,8 @@ if ( !class_exists( 'YIT_Plugin_Panel' ) ) {
             foreach ( $this->settings[ 'admin-tabs' ] as $tab => $tab_value ) {
                 $active_class  = ( $current_tab == $tab ) ? ' nav-tab-active' : '';
                 $active_class  .= 'premium' == $tab ? ' ' . $premium_class : '';
+				$active_class  = apply_filters( 'yith_plugin_fw_panel_active_tab_class', $active_class, $current_tab, $tab );
+
                 $first_sub_tab = $this->get_first_sub_tab_key( $tab );
                 $sub_tab       = !!$first_sub_tab ? $first_sub_tab : '';
 
@@ -538,7 +569,6 @@ if ( !class_exists( 'YIT_Plugin_Panel' ) ) {
          * @author   Emanuela Castorina <emanuela.castorina@yithemes.it>
          */
         public function yit_panel() {
-            $this->maybe_redirect_to_proper_wp_page();
             $yit_options = $this->get_main_array_options();
             $wrap_class  = isset( $this->settings[ 'class' ] ) ? $this->settings[ 'class' ] : '';
 
@@ -1285,7 +1315,10 @@ if ( !class_exists( 'YIT_Plugin_Panel' ) ) {
                     break;
                 }
             }
-            return $tabs;
+
+			$panel_page = isset( $this->settings['page'] ) ? $this->settings['page'] : 'general';
+
+			return apply_filters( "yith_plugin_fw_panel_{$panel_page}_get_post_type_tabs", $tabs, $post_type );
         }
 
         public function get_taxonomy_tabs( $taxonomy ) {
@@ -1301,7 +1334,10 @@ if ( !class_exists( 'YIT_Plugin_Panel' ) ) {
                     break;
                 }
             }
-            return $tabs;
+
+			$panel_page = isset( $this->settings['page'] ) ? $this->settings['page'] : 'general';
+
+			return apply_filters( "yith_plugin_fw_panel_{$panel_page}_get_taxonomy_tabs", $tabs, $taxonomy );
         }
 
 
@@ -1313,13 +1349,15 @@ if ( !class_exists( 'YIT_Plugin_Panel' ) ) {
          * @author   Leanza Francesco <leanzafrancesco@gmail.com>
          */
         public function maybe_redirect_to_proper_wp_page() {
-            if ( !isset( $_REQUEST[ 'yith-plugin-fw-panel-skip-redirect' ] ) ) {
-                $url = $this->get_nav_url( $this->settings[ 'page' ], $this->get_current_tab(), $this->get_current_sub_tab() );
-                if ( strpos( $url, 'edit.php' ) !== false || strpos( $url, 'edit-tags.php' ) !== false ) {
-                    wp_safe_redirect( add_query_arg( array( 'yith-plugin-fw-panel-skip-redirect' => 1 ), $url ) );
-                    exit;
-                }
-            }
+        	global $pagenow;
+			if ( 'admin.php' === $pagenow && isset( $_GET['page'] ) && $this->settings['page'] === $_GET['page'] &&
+				 ! $this->is_custom_taxonomy_page() && ! $this->is_custom_post_type_page() && ! isset( $_REQUEST['yith-plugin-fw-panel-skip-redirect'] ) ) {
+				$url = $this->get_nav_url( $this->settings['page'], $this->get_current_tab(), $this->get_current_sub_tab() );
+				if ( strpos( $url, 'edit.php' ) !== false || strpos( $url, 'edit-tags.php' ) !== false ) {
+					wp_safe_redirect( add_query_arg( array( 'yith-plugin-fw-panel-skip-redirect' => 1 ), $url ) );
+					exit;
+				}
+			}
         }
 
         /**
@@ -1379,6 +1417,4 @@ if ( !class_exists( 'YIT_Plugin_Panel' ) ) {
             return true;
         }
     }
-
-
 }

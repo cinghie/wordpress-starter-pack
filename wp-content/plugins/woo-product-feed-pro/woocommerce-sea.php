@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     8.2.7
+ * Version:     8.4.7
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -16,8 +16,8 @@
  * Text Domain: woo-product-feed-pro
  * Domain Path: /languages
  *
- * WC requires at least: 3.0
- * WC tested up to: 4.1
+ * WC requires at least: 3.6
+ * WC tested up to: 4.3
  *
  * Product Feed PRO for WooCommerce is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '8.2.7' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '8.4.7' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -410,12 +410,19 @@ function woosea_add_facebook_pixel( $product = null ){
 								// This is a parent variable product
 								// Since these are not allowed in the feed, at the variations product ID's
 								// Get children product variation IDs in an array
-								$children_ids = $product->get_children();
-								$content = "";	
-                                				foreach ($children_ids as $id){
-									$content .= '\''.$id.'\',';
-                                        				//$content .= $id.',';
-                                				}
+								$woosea_content_ids = "variation";
+								$woosea_content_ids = get_option( 'add_facebook_pixel_content_ids' );
+
+								if($woosea_content_ids == "variation"){
+									$children_ids = $product->get_children();
+									$content = "";	
+                                					foreach ($children_ids as $id){
+										$content .= '\''.$id.'\',';
+                                        					//$content .= $id.',';
+                                					}
+								} else {
+									$content = '\''.$fb_prodid.'\'';
+								}
 
                                                 		$content = rtrim($content, ",");
                        		 				$prices  = $product->get_variation_prices();
@@ -1262,6 +1269,8 @@ function woosea_product_delete_meta_price( $product = null ) {
        	             		            	$lowest  = reset( $prices['price'] );
                         	        	$highest = end( $prices['price'] );
 
+                                        	$price_valid_until = date( 'Y-m-d', $variable_product->get_date_on_sale_to()->getTimestamp() );
+
                    	          	   	if ( $lowest === $highest ) {
                         	                	$markup_offer = array(
                               		                  	'@type' => 'Offer',
@@ -1291,6 +1300,7 @@ function woosea_product_delete_meta_price( $product = null ) {
                                              		   	'lowPrice'  => wc_format_decimal( $lowest, wc_get_price_decimals() ),
                         	             		        'highPrice' => wc_format_decimal( $highest, wc_get_price_decimals() ),
                                 		              	'priceCurrency' => $shop_currency,
+						        	'priceValidUntil'    	=> $price_valid_until,
 								'itemCondition' => 'https://schema.org/'.$json_condition.'',
 								'availability'  => 'https://schema.org/' . $stock = ( $product->is_in_stock() ? 'InStock' : 'OutOfStock' ),
         	                                		'sku'           => $product->get_sku(),
@@ -1310,19 +1320,21 @@ function woosea_product_delete_meta_price( $product = null ) {
 					// variation product. That is why we also put this in the JSON
 					// When there are no parameters in the URL (so for normal users, not coming via Google Shopping URL's) show the old WooCommwerce JSON
 					$product_price = round(wc_get_price_to_display($product),2);
-			             
-                        		$markup_offer += array(
-                                		'@type'         => 'Offer',
-						'price'		=> $product_price,
-						'priceCurrency' => $shop_currency,
-                                		'availability'  => 'https://schema.org/' . ( $product->is_in_stock() ? 'InStock' : 'OutOfStock' ),
-        	                                'sku'           => $product->get_sku(),
-				 		'seller'        => array(
-                                        		'@type' => 'Organization',
-                                        		'name'  => $shop_name,
-                                        		'url'   => $shop_url,
+                        		$price_valid_until = date( 'Y-12-31', current_time( 'timestamp', true ) + YEAR_IN_SECONDS );
+                        		
+					$markup_offer += array(
+                                		'@type'         	=> 'Offer',
+						'price'			=> $product_price,
+						'priceCurrency' 	=> $shop_currency,
+						'priceValidUntil'    	=> $price_valid_until,
+                                		'availability'  	=> 'https://schema.org/' . ( $product->is_in_stock() ? 'InStock' : 'OutOfStock' ),
+        	                                'sku'           	=> $product->get_sku(),
+				 		'seller'        	=> array(
+                                        		'@type' 	=> 'Organization',
+                                        		'name'  	=> $shop_name,
+                                        		'url'   	=> $shop_url,
                                 		),
-						'url'		=> $link
+						'url'			=> $link
                         		);
 
 				}
@@ -1330,9 +1342,8 @@ function woosea_product_delete_meta_price( $product = null ) {
                              	// This is a simple product
 				// By default show prices including tax
 				$product_price = wc_get_price_including_tax($product);
-
                             	$structured_vat = get_option ('structured_vat');
- 
+
 				// Use prices excluding tax
                            	if($structured_vat == "yes"){
          	               		$tax_rates = WC_Tax::get_base_tax_rates( $product->get_tax_class() );   
@@ -1386,8 +1397,9 @@ function woosea_product_delete_meta_price( $product = null ) {
                                 $lowest  = reset( $prices['price'] );
                                 $highest = end( $prices['price'] );
                             	$permalink = get_permalink( $product->get_id() ); 
-
-                                if ( $lowest === $highest ) {
+                            	$price_valid_until = date( 'Y-m-d', $product->get_date_on_sale_to()->getTimestamp() );
+                                
+				if ( $lowest === $highest ) {
 
                                         $markup_offer = array(
                                                 '@type' => 'Offer',
@@ -1810,8 +1822,12 @@ function woosea_product_fix_structured_data( $product = null ) {
 	}
 	return $markup;
 }
-add_filter( 'woocommerce_structured_data_product', 'woosea_product_fix_structured_data', 10, 2 );
 
+// Only execute this filter when the structured data fix feature is enabled
+$structured_data_fix = get_option ('structured_data_fix');
+if($structured_data_fix == "yes"){
+	add_filter( 'woocommerce_structured_data_product', 'woosea_product_fix_structured_data', 10, 2 );
+}
 
 /**
  * Get the shipping zone countries and ID's
@@ -2324,6 +2340,20 @@ function woosea_add_facebook_pixel_setting (){
 	}
 }
 add_action( 'wp_ajax_woosea_add_facebook_pixel_setting', 'woosea_add_facebook_pixel_setting' );
+
+/**
+ * This function saves the value that needs to be used in the Facebook pixel content_ids parameter 
+ */
+function woosea_facebook_content_ids (){
+        $content_ids = sanitize_text_field($_POST['content_ids']);
+
+	if ($content_ids == "variable"){
+		update_option( 'add_facebook_pixel_content_ids', 'variable', 'yes');
+	} else {
+		update_option( 'add_facebook_pixel_content_ids', 'variation', 'yes');
+	}
+}
+add_action( 'wp_ajax_woosea_facebook_content_ids', 'woosea_facebook_content_ids' );
 
 /**
  * This function enables the setting to add 

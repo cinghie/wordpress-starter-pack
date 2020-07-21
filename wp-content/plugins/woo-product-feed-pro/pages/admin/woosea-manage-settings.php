@@ -327,9 +327,6 @@ if(isset($_GET["tab"])) {
 							</td>
 						</tr>
 
-                                                <?php
-                                                if($elite_disable == "enabled"){
-                                                ?>
 						<tr id="facebook_pixel">
 							<td>
 								<span><?php _e( 'Add Facebook Pixel:', 'woo-product-feed-pro');?> (<a href="https://adtribes.io/facebook-pixel-feature/" target="_blank"><?php _e( 'Read more about this', 'woo-product-feed-pro' );?>)</a></span>
@@ -349,12 +346,34 @@ if(isset($_GET["tab"])) {
 							</td>
 						</tr>
 						<?php
-                                                	if($add_facebook_pixel == "yes"){
-								$facebook_pixel_id = get_option('woosea_facebook_pixel_id');
-								print "<tr id=\"facebook_pixel_id\"><td colspan=\"2\"><span>Insert your Facebook Pixel ID:</span>&nbsp;<input type=\"text\" class=\"input-field-medium\" id=\"fb_pixel_id\" name=\"fb_pixel_id\" value=\"$facebook_pixel_id\">&nbsp;<input type=\"submit\" id=\"save_facebook_pixel_id\" value=\"Save\"></td></tr>";	
-							}
+                                                if($add_facebook_pixel == "yes"){
+							$facebook_pixel_id = get_option('woosea_facebook_pixel_id');
+							print "<tr id=\"facebook_pixel_id\"><td colspan=\"2\"><span>Insert your Facebook Pixel ID:</span>&nbsp;<input type=\"text\" class=\"input-field-medium\" id=\"fb_pixel_id\" name=\"fb_pixel_id\" value=\"$facebook_pixel_id\">&nbsp;<input type=\"submit\" id=\"save_facebook_pixel_id\" value=\"Save\"></td></tr>";	
 						}
 						?>
+
+						<?php
+						$content_ids = "variation";
+						$content_ids = get_option( 'add_facebook_pixel_content_ids' );
+						?>
+
+						<tr id="content_ids">
+							<td colspan="2">
+                                                        	<span><?php _e( 'Content IDS variable products Facebook Pixel:', 'woo-product-feed-pro');?></span>
+								<select id="woosea_content_ids" name="woosea_content_ids" class="select-field">
+									<?php
+									if($content_ids == "variation"){
+										print "<option value=\"variation\" selected>Variation product ID's</option>";
+										print "<option value=\"variable\">Variable product ID</option>";
+									} else {
+										print "<option value=\"variation\" selected>Variation product ID's</option>";
+										print "<option value=\"variable\" selected>Variable product ID</option>";
+									}
+									?>
+								</select>
+							</td>
+						</tr>
+					
 
 						<tr id="remarketing">
 							<td>

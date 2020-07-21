@@ -100,7 +100,7 @@ if ( ! class_exists( 'WPPFM_Database_Management' ) ) :
 
 		private function includes() {
 			// required for dbDelta
-			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		}
 
 		/**

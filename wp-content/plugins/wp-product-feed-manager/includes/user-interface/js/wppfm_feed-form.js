@@ -224,7 +224,7 @@ function wppfm_finishOrUpdateFeedPage( categoryChanged ) {
 				_feedHolder[ 'channel' ] = selectedChannelValue;
 
 				// show the buttons again
-				jQuery( '#page-center-buttons' ).show();
+				jQuery( 'div' ).filter( '#page-center-buttons' ).show();
 				jQuery( '#page-bottom-buttons' ).show();
 
 				wppfm_hideFeedSpinner();
@@ -250,7 +250,7 @@ function wppfm_finishOrUpdateSpecialFeedPage( specialFeedFeedHolder ) {
 	}
 
 	// show the buttons again
-	jQuery( '#page-center-buttons' ).show();
+	jQuery( 'div' ).filter( '#page-center-buttons' ).show();
 	jQuery( '#page-bottom-buttons' ).show();
 }
 
@@ -2565,7 +2565,7 @@ function updateFeedFormAfterInputChanged( feedId, categoryChanged ) {
 /**
  * hook the document actions
  */
-jQuery( document ).ready( function() {
+jQuery( function() {
 	var feedId  = wppfm_getUrlVariable( 'id' );
 	var tabId   = wppfm_getUrlVariable( 'tab' );
 

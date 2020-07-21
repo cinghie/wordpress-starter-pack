@@ -54,7 +54,7 @@ if ( ! class_exists( 'WPPFM_Folders' ) ) :
 				}
 
 				if ( ! self::delete_folder( $old_channel_folder ) ) {
-					require_once( WP_PLUGIN_DIR . '/wp-product-feed-manager/includes/user-interface/wppfm-messaging-functions.php' );
+					require_once WP_PLUGIN_DIR . '/wp-product-feed-manager/includes/user-interface/wppfm-messaging-functions.php';
 					/* translators: %s: old channel folder */
 					echo wppfm_show_wp_warning( sprintf( __( 'Unable to remove the %s folder. This folder is not required any more. Please try removing this folder manually using ftp software or an equivalent methode.', 'wp-product-feed-manager' ), $old_channel_folder ) );
 				}
@@ -147,4 +147,4 @@ if ( ! class_exists( 'WPPFM_Folders' ) ) :
 
 	// end of WPPFM_Folders_Class
 
-endif;	
+endif;

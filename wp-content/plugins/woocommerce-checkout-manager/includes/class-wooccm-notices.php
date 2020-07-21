@@ -1,27 +1,27 @@
 <?php
 
-class WOOCCM_Notices {
+class WOOCCM_Notices
+{
 
   protected static $_instance;
 
-  public function __construct() {
-    $this->init();
+  public function __construct()
+  {
+    add_action('wp_ajax_wooccm_dismiss_notice', array($this, 'ajax_dismiss_notice'));
+    add_action('admin_notices', array($this, 'add_notices'));
+    add_filter('plugin_action_links_' . plugin_basename(WOOCCM_PLUGIN_FILE), array($this, 'add_action_links'));
   }
 
-  public static function instance() {
+  public static function instance()
+  {
     if (is_null(self::$_instance)) {
       self::$_instance = new self();
     }
     return self::$_instance;
   }
 
-  private function init() {
-    add_action('wp_ajax_wooccm_dismiss_notice', array($this, 'ajax_dismiss_notice'));
-    add_action('admin_notices', array($this, 'add_notices'));
-    add_filter('plugin_action_links_' . plugin_basename(WOOCCM_PLUGIN_FILE), array($this, 'add_action_links'));
-  }
-
-  public function ajax_dismiss_notice() {
+  public function ajax_dismiss_notice()
+  {
 
     if (check_admin_referer('wooccm_dismiss_notice', 'nonce') && isset($_REQUEST['notice_id'])) {
 
@@ -35,10 +35,11 @@ class WOOCCM_Notices {
     wp_die();
   }
 
-  public function add_notices() {
+  public function add_notices()
+  {
 
     if (!get_user_meta(get_current_user_id(), 'wooccm-beta-notice', true) && get_option('wccs_settings')) {
-      ?>
+?>
       <div class="wooccm-notice notice is-dismissible" data-notice_id="wooccm-beta-notice">
         <div class="notice-container" style="padding-top: 10px; padding-bottom: 10px; display: flex; justify-content: left; align-items: center;">
           <div class="notice-image">
@@ -46,7 +47,7 @@ class WOOCCM_Notices {
           </div>
           <div class="notice-content" style="margin-left: 15px;">
             <p>
-            <h3>Hello! the new admin panel is here!</h3>
+              <h3>Hello! the new admin panel is here!</h3>
             </p>
             <p>
               As you know, we've recently acquired this plugin and we've been working very hard to bring you a quality product.
@@ -80,9 +81,9 @@ class WOOCCM_Notices {
           </div>
         </div>
       </div>
-      <?php
+    <?php
     } elseif (!get_user_meta(get_current_user_id(), 'wooccm-user-rating', true) && !get_transient('wooccm-first-rating') && !get_option('wccs_settings')) {
-      ?>
+    ?>
       <div class="wooccm-notice notice is-dismissible" data-notice_id="wooccm-user-rating">
         <div class="notice-container" style="padding-top: 10px; padding-bottom: 10px; display: flex; justify-content: left; align-items: center;">
           <div class="notice-image">
@@ -91,7 +92,7 @@ class WOOCCM_Notices {
           <div class="notice-content" style="margin-left: 15px;">
             <p>
               <?php printf(esc_html__('Hello! We\'ve recently acquired this plugin!', 'woocommerce-checkout-manager'), WOOCCM_PLUGIN_NAME); ?>
-              <br/>
+              <br />
               <?php esc_html_e('We will do our best to improve it and include new features gradually. Please be patient and let us know about the issues and improvements that you want to see in this plugin.', 'woocommerce-checkout-manager'); ?>
             </p>
             <a href="<?php echo esc_url(WOOCCM_GROUP_URL); ?>" class="button-primary" target="_blank">
@@ -115,7 +116,7 @@ class WOOCCM_Notices {
           <div class="notice-content" style="margin-left: 15px;">
             <p>
               <b><?php printf(esc_html__('Important! Manual update is required.', 'woocommerce-checkout-manager'), WOOCCM_PLUGIN_NAME); ?></b>
-              <br/>
+              <br />
               <?php esc_html_e('Due to the recent WooCommerce 4.0 changes it is necessary to reconfigure conditional fields. If you have conditional fields, please go to the billing, shipping and advanced sections and set conditionals relationships again.', 'woocommerce-checkout-manager'); ?>
             </p>
             <a href="<?php echo admin_url('admin.php?page=wc-settings&tab=wooccm'); ?>" class="button-primary" target="_blank">
@@ -127,12 +128,12 @@ class WOOCCM_Notices {
           </div>
         </div>
       </div>
-      <?php
+    <?php
     }
     ?>
     <script>
-      (function ($) {
-        $('.wooccm-notice').on('click', '.notice-dismiss', function (e) {
+      (function($) {
+        $('.wooccm-notice').on('click', '.notice-dismiss', function(e) {
           e.preventDefault();
           var notice_id = $(e.delegateTarget).data('notice_id');
           $.ajax({
@@ -143,24 +144,24 @@ class WOOCCM_Notices {
               action: 'wooccm_dismiss_notice',
               nonce: '<?php echo wp_create_nonce('wooccm_dismiss_notice'); ?>'
             },
-            success: function (response) {
+            success: function(response) {
               console.log(response);
             },
           });
         });
       })(jQuery);
     </script>
-    <?php
+<?php
   }
 
-  public function add_action_links($links) {
+  public function add_action_links($links)
+  {
 
     $links[] = '<a target="_blank" href="' . WOOCCM_PURCHASE_URL . '">' . esc_html__('Premium', 'woocommerce-checkout-manager') . '</a>';
     $links[] = '<a href="' . admin_url('admin.php?page=wc-settings&tab=' . sanitize_title(WOOCCM_PREFIX)) . '">' . esc_html__('Settings', 'woocommerce-checkout-manager') . '</a>';
 
     return $links;
   }
-
 }
 
 WOOCCM_Notices::instance();

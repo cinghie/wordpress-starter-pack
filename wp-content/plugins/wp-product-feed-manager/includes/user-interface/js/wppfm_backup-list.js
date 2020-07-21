@@ -80,7 +80,7 @@ function wppfm_emptyBackupsTable() {
 /**
  * Document ready actions
  */
-jQuery( document ).ready(
+jQuery(
 	function() {
 		// fill the backups list
 		wppfm_resetBackupsList();

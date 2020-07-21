@@ -171,6 +171,8 @@ function renderTriggerTypeInput( &$event, $key ) {
 
 }
 
+
+
 /**
  * @param CustomEvent $event
  * @param string      $key

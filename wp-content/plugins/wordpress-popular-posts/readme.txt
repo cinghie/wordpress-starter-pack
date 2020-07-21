@@ -2,10 +2,10 @@
 Contributors: hcabrera
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=hcabrerab%40gmail%2ecom&lc=GB&item_name=WordPress%20Popular%20Posts%20Plugin&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG_global%2egif%3aNonHosted
 Tags: popular, posts, widget, popularity, top
-Requires at least: 4.7
-Tested up to: 5.4
+Requires at least: 4.9
+Tested up to: 5.4.2
 Requires PHP: 5.4
-Stable tag: 5.1.0
+Stable tag: 5.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,9 +61,10 @@ Please make sure your site meets the [minimum requirements](https://github.com/c
 
 1. Go to Appearance > Widgets, drag and drop the **WordPress Popular Posts** widget to your sidebar. Once you're done configuring it, hit the Save button.
 2. If you have a caching plugin installed on your site, flush its cache now so WPP can start tracking your site.
-3. If you have a security / firewall plugin installed on your site, make sure you [allow WPP access to the REST API](https://wordpress.org/support/topic/wpp-does-not-count-properly/#post-10411163) so it can start tracking your site.
-4. Go to Appearance > Editor. Under "Templates", click on `header.php` and make sure that the `<?php wp_head(); ?>` tag is present (should be right before the closing `</head>` tag).
-5. (Optional but highly recommended) Are you running a medium/high traffic site? If so, it might be a good idea to check [these suggestions](https://github.com/cabrerahector/wordpress-popular-posts/wiki/7.-Performance) to make sure your site's performance stays up to par.
+3. If you have a plugin that minifies JavaScript (JS) installed on your site please read this FAQ: [Is WordPress Popular Posts compatible with plugins that minify/bundle JavaScript code?](https://github.com/cabrerahector/wordpress-popular-posts/wiki/5.-FAQ#is-wordpress-popular-posts-compatible-with-plugins-that-minifybundle-javascript-code)
+4. If you have a security / firewall plugin installed on your site, make sure you [allow WPP access to the REST API](https://wordpress.org/support/topic/wpp-does-not-count-properly/#post-10411163) so it can start tracking your site.
+5. Go to Appearance > Editor. Under "Templates", click on `header.php` and make sure that the `<?php wp_head(); ?>` tag is present (should be right before the closing `</head>` tag).
+6. (Optional but highly recommended) Are you running a medium/high traffic site? If so, it might be a good idea to check [these suggestions](https://github.com/cabrerahector/wordpress-popular-posts/wiki/7.-Performance) to make sure your site's performance stays up to par.
 
 That's it!
 
@@ -89,6 +90,40 @@ The FAQ section has been moved [here](https://github.com/cabrerahector/wordpress
 4. Statistics panel.
 
 == Changelog ==
+= 5.2.2 =
+
+**If you're using a caching plugin, flushing its cache right after installing / upgrading to this version is required.**
+
+- Fixes compatibility issue with plugins that minify HTML code.
+- Updates installation instructions.
+- Other minor improvements.
+
+[Release notes](https://cabrerahector.com/wordpress/wordpress-popular-posts-5-2-is-here#hotfixes-and-minor-updates)
+
+= 5.2.1 =
+
+**If you're using a caching plugin, flushing its cache right after installing / upgrading to this version is required.**
+
+- Fixes fatal PHP error triggered on some server setups.
+- Makes sure non-ajaxified themed widgets are properly moved into the ShadowRoot.
+- Fixes declaration of the wpp_params variable.
+
+[Release notes](https://cabrerahector.com/wordpress/wordpress-popular-posts-5-2-is-here#hotfixes-and-minor-updates)
+
+= 5.2.0 =
+
+**If you're using a caching plugin, flushing its cache right after installing / upgrading to this version is required.**
+
+- JavaScript based Lazy Loading superseded by Native Lazing Loading.
+- Improved Pageviews Cache.
+- Views/comments count will be prettified now!
+- Fixed a few layout issues found in widget themes.
+- Improved compatibility with Content Security Policy (CSP).
+- Added support for ACF images.
+- Other minor improvements and fixes.
+
+[Release notes](https://cabrerahector.com/wordpress/wordpress-popular-posts-5-2-is-here)
+
 = 5.1.0 =
 
 - The /popular-posts GET API endpoint is now being cached as well.

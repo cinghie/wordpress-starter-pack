@@ -1,4 +1,21 @@
 /**
+ * External dependencies
+ */
+import {
+	createContext,
+	useContext,
+	useState,
+	useReducer,
+	useCallback,
+	useEffect,
+	useRef,
+	useMemo,
+} from '@wordpress/element';
+import { getSetting } from '@woocommerce/settings';
+import { useStoreNotices, useEmitResponse } from '@woocommerce/base-hooks';
+import { useEditorContext } from '@woocommerce/base-context';
+
+/**
  * Internal dependencies
  */
 import {
@@ -30,23 +47,6 @@ import {
 	reducer as emitReducer,
 } from './event-emit';
 import { useValidationContext } from '../validation';
-
-/**
- * External dependencies
- */
-import {
-	createContext,
-	useContext,
-	useState,
-	useReducer,
-	useCallback,
-	useEffect,
-	useRef,
-	useMemo,
-} from '@wordpress/element';
-import { getSetting } from '@woocommerce/settings';
-import { useStoreNotices, useEmitResponse } from '@woocommerce/base-hooks';
-import { useEditorContext } from '@woocommerce/base-context';
 
 /**
  * @typedef {import('@woocommerce/type-defs/contexts').PaymentMethodDataContext} PaymentMethodDataContext
@@ -275,6 +275,23 @@ export const PaymentMethodDataProvider = ( { children } ) => {
 			dispatch( statusOnly( PRISTINE ) );
 		}
 	}, [ checkoutIsIdle, currentStatus.isSuccessful ] );
+
+	// if checkout has an error and payment is not being made with a saved token
+	// and payment status is success, then let's sync payment status back to
+	// pristine.
+	useEffect( () => {
+		if (
+			checkoutHasError &&
+			currentStatus.isSuccessful &&
+			! paymentData.hasSavedToken
+		) {
+			dispatch( statusOnly( PRISTINE ) );
+		}
+	}, [
+		checkoutHasError,
+		currentStatus.isSuccessful,
+		paymentData.hasSavedToken,
+	] );
 
 	// set initial active payment method if it's undefined.
 	useEffect( () => {

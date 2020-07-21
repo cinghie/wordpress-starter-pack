@@ -38,7 +38,6 @@ use FacebookAds\Object\Values\InsightsResultPeriodValues;
 use FacebookAds\Object\Values\PostBackdatedTimeGranularityValues;
 use FacebookAds\Object\Values\PostFeedStoryVisibilityValues;
 use FacebookAds\Object\Values\PostTimelineVisibilityValues;
-use FacebookAds\Object\Values\PostWithValues;
 use FacebookAds\Object\Values\ProfileTypeValues;
 
 /**
@@ -64,7 +63,6 @@ class Post extends AbstractCrudObject {
     $ref_enums['BackdatedTimeGranularity'] = PostBackdatedTimeGranularityValues::getInstance()->getValues();
     $ref_enums['FeedStoryVisibility'] = PostFeedStoryVisibilityValues::getInstance()->getValues();
     $ref_enums['TimelineVisibility'] = PostTimelineVisibilityValues::getInstance()->getValues();
-    $ref_enums['With'] = PostWithValues::getInstance()->getValues();
     return $ref_enums;
   }
 
@@ -284,6 +282,7 @@ class Post extends AbstractCrudObject {
         'AUTO_LOOKALIKE',
         'AUTO_PAGE_LOOKALIKE',
         'AUTO_TARGETING',
+        'COUNTRY_AND_INTEREST',
         'CREATE_NEW',
         'CUSTOM_AUDIENCE',
         'DISTRICT',
@@ -295,6 +294,7 @@ class Post extends AbstractCrudObject {
         'IG_PROMOTED_POST_AUTO',
         'LOCAL',
         'LOOKALIKE',
+        'MARKETPLACE_DEFAULT',
         'MULT_CUSTOM_AUDIENCES',
         'NCPP',
         'SAVED_AUDIENCE',
@@ -318,6 +318,8 @@ class Post extends AbstractCrudObject {
         'FIND_A_GROUP',
         'FIND_YOUR_GROUPS',
         'FOLLOW_NEWS_STORYLINE',
+        'FOLLOW_PAGE',
+        'FOLLOW_USER',
         'GET_DIRECTIONS',
         'GET_OFFER',
         'GET_OFFER_VIEW',
@@ -335,8 +337,11 @@ class Post extends AbstractCrudObject {
         'NO_BUTTON',
         'OPEN_LINK',
         'ORDER_NOW',
+        'PAY_TO_ACCESS',
         'PLAY_GAME',
+        'PURCHASE_GIFT_CARDS',
         'RECORD_NOW',
+        'REQUEST_TIME',
         'SAY_THANKS',
         'SEE_MORE',
         'SELL_NOW',

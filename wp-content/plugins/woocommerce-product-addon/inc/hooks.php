@@ -44,7 +44,6 @@ function ppom_hooks_save_cropped_image( $ppom_fields, $posted_data ) {
 
 // Convert option price if WOOCS currency swithcer found
 function ppom_hooks_convert_price( $option_price ) {
-	
 	return apply_filters('woocs_exchange_value', $option_price);
 }
 
@@ -58,6 +57,7 @@ function ppom_hooks_convert_price_back( $price ) {
 	if( has_filter('woocs_exchange_value') ) {
 		
 		global $WOOCS;
+		
 		if($WOOCS->current_currency != $WOOCS->default_currency && $WOOCS->is_multiple_allowed) {
 		// if(1) {
 		// var_dump($WOOCS->is_multiple_allowed);
@@ -419,7 +419,9 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
 	if( !empty($ppom_conditional_fields) || apply_filters('ppom_enqueue_conditions_js', false)) {
 		$ppom_input_vars['conditions'] = $ppom_conditional_fields;
 		
-		wp_enqueue_script( 'ppom-conditions', PPOM_URL.'/js/ppom-conditions.js', array('jquery','ppom-inputs'), PPOM_DB_VERSION, true);
+		$ppom_conditions_script = ppom_get_conditions_mode() === 'new' ? 'ppom-conditions-v2' : 'ppom-conditions';
+		$ppom_conditions_script = apply_filters('ppom_conditional_script_file', $ppom_conditions_script, $product);
+		wp_enqueue_script( 'ppom-conditions', PPOM_URL."/js/{$ppom_conditions_script}.js", array('jquery','ppom-inputs'), PPOM_DB_VERSION, true);
 		wp_localize_script('ppom-conditions', 'ppom_input_vars', $ppom_input_vars);	
 	}
 			
@@ -499,7 +501,7 @@ function ppom_hooks_show_option_price_pricematrix($show_price, $meta){
  **/
 function ppom_hooks_register_wpml( $meta_data, $ppom_id ) {
 	
-
+	
 	foreach($meta_data as $index => $data) {
 		
 		// If Dataname is not provided then generate it.
@@ -565,8 +567,13 @@ function ppom_hooks_register_wpml( $meta_data, $ppom_id ) {
 	return $meta_data;
 }
 
+
+/** The input wrapper class, it is NOT the main wrapper */
 function ppom_hooks_input_wrapper_class($input_wrapper_class, $field_meta) {
 
+	$input_wrapper_class .= ' ppom-input-'.$field_meta['id'];
+	
+	
 	if( ! isset($field_meta['logic']) ) {
 		$input_wrapper_class .= ' ppom-c-show';
 	}
@@ -587,6 +594,46 @@ function ppom_hooks_input_wrapper_class($input_wrapper_class, $field_meta) {
 			$input_wrapper_class .= ' ppom-c-hide';
 		} else {
 			$input_wrapper_class .= ' ppom-c-show';
+		}
+	}
+	
+	return $input_wrapper_class;
+}
+
+/** The input wrapper class, it is NOT the main wrapper: WHEN NEW CONDITTIONS */
+function ppom_hooks_input_wrapper_class_new($input_wrapper_class, $field_meta) {
+
+	$input_wrapper_class .= ' ppom-input-'.$field_meta['id'];
+	return $input_wrapper_class;
+	
+}
+
+/** The input MAIN wrapper class */
+function ppom_hooks_input_main_wrapper_class($input_wrapper_class, $field_meta) {
+
+	$logic			= ( isset($field_meta['logic'] ) ? $field_meta['logic'] : '' );
+	$conditions		= ( isset($field_meta['conditions'] ) ? $field_meta['conditions'] : '' );
+	
+	if( $logic !== 'on' ) {
+		$input_wrapper_class .= ' ppom-c-show';
+	}
+	
+	/**
+	 * If conditional field then add class
+	 * ppom-c-hide: if field need to be hidden with condition
+	 * ppom-c-show: if field need to be visilbe with condition
+	 * */
+	if( isset($field_meta['conditions']) && $logic === 'on' ) {
+		if( $field_meta['conditions']['visibility'] == 'Show') {
+			$input_wrapper_class .= ' ppom-c-hide';
+		} else {
+			$input_wrapper_class .= ' ppom-c-show';
+		}
+		
+		foreach($conditions['rules'] as $index => $rule){
+			
+			$element	= isset($rule['elements']) ? $rule['elements'] : '';
+			$input_wrapper_class .= " ppom-cond-{$element}";
 		}
 	}
 	

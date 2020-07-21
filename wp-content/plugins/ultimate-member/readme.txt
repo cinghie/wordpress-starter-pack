@@ -6,8 +6,8 @@ Donate link:
 Tags: community, member, membership, user-profile, user-registration
 Requires PHP: 5.6
 Requires at least: 5.0
-Tested up to: 5.4
-Stable tag: 2.1.5
+Tested up to: 5.4.1
+Stable tag: 2.1.6
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -144,6 +144,35 @@ The plugin works with popular caching plugins by automatically excluding Ultimat
 
 * To learn more about version 2.1 please see this [topic](https://wordpress.org/support/topic/version-2-1-4/)
 * UM2.1+ is a significant update to the Member Directories' code base from 2.0.x. Please make sure you take a full-site backup with restore point before updating the plugin
+
+= 2.1.6: June 1, 2020 =
+
+* Enhancements:
+
+  - Added The profile page SEO meta tags for OG, Twitter and schema.org
+  - Added filter to the field's privacy option for the 3rd-party integrations 'um_field_privacy_options'
+  - Added layout changes to show email notification description in Settings > Email screen
+  - Added member directory option 'Exclude specific users'
+  - Added filter for the changing redirect after profile edited 'um_update_profile_redirect_after'
+  - Added JS filters for conditional logic
+  - Tweak: apply_shortcodes() function support
+  - Tweak: nav-menu custom fields using 'wp_nav_menu_item_custom_fields' hook
+
+* Bugfixes:
+
+  - Fixed custom meta table fields migration (create, edit, remove field actions)
+  - Fixed wp-login.php and UM login form validation/errors triggers when using email for login
+  - Fixed profile form duplicates, show only the first form shortcode on the page for the user with selected role
+  - Fixed creating user uploads directory on registration
+  - Fixed Role fields validation on registration
+  - Fixed Erase User Data field on the Account page
+  - Fixed profile privacy
+  - Fixed SkypeID field
+  - Fixed clickable links in the UM forms which are displayed in a modal window
+  - Fixed disabling select and textarea fields in inactive tabs on Account
+  - Fixed compatibility with jQuery 3.x and 'load' event
+  - Fixed some translations
+  - Small PHP notices fixes
 
 = 2.1.5: April 2, 2020 =
 

@@ -4,7 +4,7 @@ Tags: Facebook Pixel, New Facebook Pixel, Facebook Conversion Pixel, Facebook Pi
 Requires at least: 3.0.1
 Requires PHP: 5.4
 Tested up to: 5.4
-Stable tag: 7.1.8
+Stable tag: 7.1.9
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -389,6 +389,20 @@ NO, absolutely not! We don't track any type of data about your website. We simpl
 
 
 == Changelog ==
+
+= PixelYourSite 7.1.9 =
+
+* Fix for a potential issue where AddToCart value was NaN
+
+* Automatically deactivation of the free version when installing the pro plugin
+
+* Facebook server-side API update
+
+* Remove CompleteRegistration from code when the event is send server-side - [hiding the profit](https://www.pixelyoursite.com/strategy/track-profit-and-total-for-facebook-ads)
+
+* Code update to declare WooCommerce 4.2 compatibility
+
+
 
 = PixelYourSite 7.1.8 =
 

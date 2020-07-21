@@ -99,7 +99,7 @@ class CtfAdmin
         <label for="ctf_have_own_tokens" class="ctf_checkbox"><?php _e( 'Or, manually enter my own Twitter app information' ); ?></label>
         <span class="ctf-tooltip-wrap">
             <a class="ctf-tooltip-link" href="JavaScript:void(0);"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
-            <p class="ctf-tooltip ctf-more-info"><?php _e( 'Check this box if you would like to manually enter the information from your own <a href="https://smashballoon.com/custom-twitter-feeds/docs/create-twitter-app/" target="_blank">Twitter app</a>', 'custom-twitter-feeds' ); ?>.</p>
+            <p class="ctf-tooltip ctf-more-info"><?php _e( 'Check this box if you would like to manually enter the information from your own <a href="https://smashballoon.com/custom-twitter-feeds/docs/create-twitter-app/?utm_campaign=twitter-free&utm_source=settings&utm_medium=createownapp" target="_blank">Twitter app</a>', 'custom-twitter-feeds' ); ?>.</p>
         </span>
         <?php
     }
@@ -116,7 +116,7 @@ class CtfAdmin
 
             <?php if ( isset( $access_token_data['oauth_token'] ) ) : ?>
                 <a href="<?php echo OAUTH_PROCESSOR_URL . admin_url( 'admin.php?page=custom-twitter-feeds' ); ?>" id="ctf-get-token"><i class="fa fa-twitter"></i><?php _e( 'Log in to Twitter and get my Access Token and Secret' ); ?></a>
-                <a class="ctf-tooltip-link" href="https://smashballoon.com/custom-twitter-feeds/token/" target="_blank"><?php _e( "Button not working?", 'custom-twitter-feeds' ); ?></a>
+                <a class="ctf-tooltip-link" href="https://smashballoon.com/custom-twitter-feeds/token/?utm_campaign=twitter-free&utm_source=settings&utm_medium=buttonnotworking" target="_blank"><?php _e( "Button not working?", 'custom-twitter-feeds' ); ?></a>
 
                 <input type="hidden" id="ctf-retrieved-access-token" value="<?php echo esc_html( sanitize_text_field( $access_token_data['oauth_token'] ) ); ?>">
                 <input type="hidden" id="ctf-retrieved-access-token-secret" value="<?php echo esc_html( sanitize_text_field( $access_token_data['oauth_token_secret'] ) ); ?>">
@@ -124,14 +124,14 @@ class CtfAdmin
 
             <?php elseif ( isset( $access_token_data['error'] ) && ! isset( $access_token_data['oauth_token'] ) ) : ?>
 
-                <p class="ctf_notice"><?php _e( 'There was an error with retrieving your access tokens. Please <a href="https://smashballoon.com/custom-twitter-feeds/token/" target="_blank">use this tool</a> to get your access token and secret.' ); ?></p><br>
+                <p class="ctf_notice"><?php _e( 'There was an error with retrieving your access tokens. Please <a href="https://smashballoon.com/custom-twitter-feeds/token/?utm_campaign=twitter-free&utm_source=settings&utm_medium=errorconnecting" target="_blank">use this tool</a> to get your access token and secret.' ); ?></p><br>
                 <a href="<?php echo OAUTH_PROCESSOR_URL . admin_url( 'admin.php?page=custom-twitter-feeds' ); ?>" id="ctf-get-token"><i class="fa fa-twitter"></i><?php _e( 'Log in to Twitter and get my Access Token and Secret' ); ?></a>
-                <a class="ctf-tooltip-link" href="https://smashballoon.com/custom-twitter-feeds/token/" target="_blank"><?php _e( "Button not working?", 'custom-twitter-feeds' ); ?></a>
+                <a class="ctf-tooltip-link" href="https://smashballoon.com/custom-twitter-feeds/token/?utm_campaign=twitter-free&utm_source=settings&utm_medium=errorconnecting" target="_blank"><?php _e( "Button not working?", 'custom-twitter-feeds' ); ?></a>
 
             <?php else : ?>
 
                 <a href="<?php echo OAUTH_PROCESSOR_URL . admin_url( 'admin.php?page=custom-twitter-feeds' ); ?>" id="ctf-get-token"><i class="fa fa-twitter"></i><?php _e( 'Log in to Twitter and get my Access Token and Secret' ); ?></a>
-                <a class="ctf-tooltip-link" href="https://smashballoon.com/custom-twitter-feeds/token/" target="_blank"><?php _e( "Button not working?", 'custom-twitter-feeds' ); ?></a>
+                <a class="ctf-tooltip-link" href="https://smashballoon.com/custom-twitter-feeds/token/?utm_campaign=twitter-free&utm_source=settings&utm_medium=buttonnotworking" target="_blank"><?php _e( "Button not working?", 'custom-twitter-feeds' ); ?></a>
 
             <?php endif; ?>
 
@@ -167,7 +167,7 @@ class CtfAdmin
             'section' => 'ctf_options_connect', // matches the section name
             'option' => 'ctf_options', // matches the options name
             'class' => 'ctf-toggle-consumer', // class for the wrapper and input field
-            'whatis' => 'A Consumer Key and a Consumer Secret are both needed if you want to use credentials from your own Twitter App. You can create these <a href="https://smashballoon.com/custom-twitter-feeds/docs/create-twitter-app/" target="_blank">here</a>', // what is this? text
+            'whatis' => 'A Consumer Key and a Consumer Secret are both needed if you want to use credentials from your own Twitter App. You can create these <a href="https://smashballoon.com/custom-twitter-feeds/docs/create-twitter-app/?utm_campaign=twitter-free&utm_source=settings&utm_medium=createapp" target="_blank">here</a>', // what is this? text
             'size' => '27'
         ) );
 
@@ -180,7 +180,7 @@ class CtfAdmin
             'section' => 'ctf_options_connect', // matches the section name
             'option' => 'ctf_options', // matches the options name
             'class' => 'ctf-toggle-consumer', // class for the wrapper and input field
-            'whatis' => 'A Consumer Key and a Consumer Secret are both needed if you want to use credentials from your own Twitter App. You can create these <a href="https://smashballoon.com/custom-twitter-feeds/docs/create-twitter-app/" target="_blank">here</a>', // what is this? text
+            'whatis' => 'A Consumer Key and a Consumer Secret are both needed if you want to use credentials from your own Twitter App. You can create these <a href="https://smashballoon.com/custom-twitter-feeds/docs/create-twitter-app/?utm_campaign=twitter-free&utm_source=settings&utm_medium=createapp" target="_blank">here</a>', // what is this? text
             'size' => '57'
         ) );
 
@@ -1617,7 +1617,7 @@ class CtfAdmin
             <div class="ctf_layout_cell <?php if($selected_type === $layout_type) echo "ctf_layout_selected"; ?>">
                 <input class="ctf_layout_type" id="ctf_layout_type_<?php esc_attr_e( $layout_type ); ?>" name="<?php echo $args['option'].'[layout]'; ?>" type="radio" value="<?php esc_attr_e( $layout_type ); ?>" <?php if ( $selected_type === $layout_type ) echo 'checked'; ?>/><label for="ctf_layout_type_<?php esc_attr_e( $layout_type ); ?>"><span class="ctf_label"><?php echo esc_html( $label ); ?></span><img src="<?php echo $layout_images[ $layout_type ]; ?>" /></label>
 
-                <a href="https://smashballoon.com/custom-twitter-feeds/?utm_source=plugin-free&amp;utm_campaign=ctf" target="_blank" class="ctf_lock"><i class="fa fa-rocket"></i>Pro</a>
+                <a href="https://smashballoon.com/custom-twitter-feeds/?utm_campaign=twitter-free&utm_source=settings&utm_medium=layout" target="_blank" class="ctf_lock"><i class="fa fa-rocket"></i>Pro</a>
             </div>
         <?php endforeach; ?>
         <div class="ctf_layout_options_wrap">

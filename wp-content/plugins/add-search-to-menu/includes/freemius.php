@@ -29,6 +29,7 @@ function is_fs()
             'has_affiliation' => 'selected',
             'menu'            => array(
             'slug'        => 'ivory-search',
+            'first-path'  => 'plugins.php',
             'support'     => false,
             'affiliation' => false,
         ),

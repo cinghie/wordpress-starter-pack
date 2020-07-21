@@ -159,6 +159,10 @@ class ServerEventFactory {
         if (!empty($data['last_name'])) {
           $user_data->setLastName($data['last_name']);
         }
+
+        if (!empty($data['phone'])) {
+          $user_data->setPhone($data['phone']);
+        }
       }
 
       $custom_data = $event->getCustomData();
@@ -172,12 +176,20 @@ class ServerEventFactory {
         $custom_data->setValue($data['value']);
       }
 
+      if (!empty($data['contents'])) {
+        $custom_data->setContents($data['contents']);
+      }
+
       if (!empty($data['content_ids'])) {
         $custom_data->setContentIds($data['content_ids']);
       }
 
       if (!empty($data['content_type'])) {
         $custom_data->setContentType($data['content_type']);
+      }
+
+      if (!empty($data['num_items'])) {
+        $custom_data->setNumItems($data['num_items']);
       }
     } catch (\Exception $e) {
       // Need to log

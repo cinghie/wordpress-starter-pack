@@ -114,7 +114,7 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 		public function complete() {
 			parent::complete();
 
-			// remove the properties from the options table
+			// Remove the properties from the options table.
 			$properties_key = get_site_option( 'wppfm_background_process_key' );
 			delete_site_option( 'wppfm_background_process_key' );
 			delete_site_option( 'file_path_' . $properties_key );
@@ -128,7 +128,7 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 			$this->register_feed_update( $this->_feed_data->feedId, $feed_title, count( $this->processed_products ), $feed_status );
 			$this->clear_the_queue();
 
-			// now the feed is ready to go, remove the feed id from the feed queue
+			// Now the feed is ready to go, remove the feed id from the feed queue.
 			WPPFM_Feed_Controller::remove_id_from_feed_queue( $this->_feed_data->feedId );
 			WPPFM_Feed_Controller::set_feed_processing_flag( false );
 
@@ -139,7 +139,7 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 			if ( ! WPPFM_Feed_Controller::feed_queue_is_empty() ) {
 				do_action( 'wppfm_next_in_queue_feed_update_activated', $this->_feed_data->feedId );
 
-				// so there is another feed in the queue
+				// So there is another feed in the queue.
 				$feed_master_class = new WPPFM_Feed_Master_Class( $this->_feed_data->feedId );
 				$feed_master_class->update_feed_file();
 			}
@@ -172,9 +172,9 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 		}
 
 		/**
-		 * Ads a single product based on a product id to the feed file
+		 * Ads a single product based on a product id to the feed file.
 		 *
-		 * @param string $product_id
+		 * @param string $product_id The id of the product to be added to the feed.
 		 *
 		 * @return boolean
 		 */
@@ -219,14 +219,14 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 
 				$product_parent_id = $wc_product->get_parent_id();
 
-				// add parent data when this item is not available in the variation
+				// Add parent data when this item is not available in the variation.
 				if ( $post_columns_query_string ) {
 					$class_data->add_parent_data( $product_data, $product_parent_id, $post_columns_query_string );
 				}
 
 				$wpmr_variation_data = $class_data->get_own_variation_data( $product_id );
 
-				// get correct variation data
+				// Get correct variation data.
 				WPPFM_Variations::fill_product_data_with_variation_data( $product_data, $wc_product, $wpmr_variation_data, $this->_feed_data->language );
 			}
 
@@ -241,13 +241,13 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 
 			$row_filtered = $this->is_product_filtered( $this->_pre_data['filters'], $product_data );
 
-			// only process the product if its not filtered out
+			// Only process the product if its not filtered out.
 			if ( ! $row_filtered ) {
-				// for each row loop through each field
+				// For each row loop through each field.
 				foreach ( $this->_pre_data['active_fields'] as $field ) {
 					$field_meta_data = $this->get_meta_data_from_specific_field( $field, $this->_feed_data->attributes );
 
-					// get the field data based on the user settings
+					// Get the field data based on the user settings.
 					$feed_object = $this->process_product_field(
 						$product_data,
 						$field_meta_data,
@@ -259,10 +259,15 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 
 					$key = key( $feed_object );
 
-					// for an xml file only add fields that contain data
+					// For an xml file only add fields that contain data.
 					if ( ( ! empty( $feed_object[ $key ] ) || '0' === $feed_object[ $key ] ) || 'xml' !== pathinfo( $this->_feed_file_path, PATHINFO_EXTENSION ) ) {
 
-						// catch the DraftImages key for the Ricardo.ch channel
+						// Keep money values that have a 0 value out of the feed. @since 2.11.2.
+						if ( wppfm_meta_key_is_money( $key ) ) {
+							if ( 0.0 === floatval( $feed_object[ $key ] ) ) { continue; }
+						}
+
+						// Catch the DraftImages key for the Ricardo.ch channel.
 						if ( 'DraftImages' !== $key ) {
 							$product_placeholder[ $key ] = $feed_object[ $key ];
 						} else {
@@ -280,7 +285,7 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 
 			if ( $product_placeholder ) {
 				// The wppfm_feed_item_value filter allows users to modify the data that goes into the feed. The $data variable contains an array
-				// with all the data that goes into the feed, with the items name as key
+				// with all the data that goes into the feed, with the items name as key.
 				$product_placeholder = apply_filters( 'wppfm_feed_item_value', $product_placeholder, $this->_feed_data->feedId, $product_id );
 
 				return $this->write_product_object( $product_placeholder, $this->_feed_data->feedId, $product_id );

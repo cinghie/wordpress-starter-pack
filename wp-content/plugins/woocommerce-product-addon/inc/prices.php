@@ -186,7 +186,7 @@ function ppom_get_field_prices( $ppom_fields_post, $product_id, &$product_quanti
 			case 'date':
 			case 'email':
 				$option = $value;
-				$field_price = isset($field_meta['price']) ? $field_meta['price'] : '';
+				$field_price = isset($field_meta['raw_price']) ? $field_meta['raw_price'] : '';
 				if( $field_price !== '' ) {
 					$field_prices[] = ppom_generate_field_price($field_price, $field_meta, $charge, $option, $option_quantity);
 				}
@@ -270,6 +270,22 @@ function ppom_get_field_prices( $ppom_fields_post, $product_id, &$product_quanti
 								$field_prices[] = ppom_generate_field_price($option_price, $field_meta, $charge, $option, $option_quantity);
 							}
 						}
+					}
+				}
+				
+			break;
+			
+			case 'fancycropper':
+				
+				
+				foreach ($value as $popupID => $image_data) {
+					
+					$fomatted_data = json_decode(stripcslashes($image_data), true);
+					
+					$cropped_price = isset($fomatted_data['totalPrice']) ? $fomatted_data['totalPrice'] : 0;
+					if ($cropped_price > 0) {
+						
+						$field_prices[] = ppom_generate_field_price($cropped_price, $field_meta, $charge, $image_data, $option_quantity);
 					}
 				}
 				
@@ -417,9 +433,11 @@ function ppom_get_field_prices( $ppom_fields_post, $product_id, &$product_quanti
 				
 			
 			case 'quantities':
+			case 'qtypack':
+				
+					// ppom_pa(ppom_is_field_has_price($field_meta));
 				
 				if( ppom_is_field_has_price($field_meta) ) {
-					// ppom_pa($options);
 					foreach($options as $option) {
 					$quantities_total = 0;
 						
@@ -581,7 +599,7 @@ function ppom_get_field_prices( $ppom_fields_post, $product_id, &$product_quanti
 								$quantities_total += $qty;
 								
 								if($ticket_label == $label) {
-									$ticket_price  = isset($ticket['price']) ? $ticket['price'] : '';
+									$ticket_price  = isset($ticket['raw_price']) ? $ticket['raw_price'] : '';
 									$field_prices[] = ppom_generate_field_price($ticket_price, $field_meta, $charge, $options, $qty);
 								}
 							}
@@ -685,7 +703,9 @@ function ppom_price_get_addon_total($price_array) {
             if( $price['apply'] != 'addon' ) continue;
             if( !isset($price['price']) ) continue;
             
-        	$total_addon += ($price['price'] * $price['quantity']);
+            $the_price = floatval($price['price']);
+            
+        	$total_addon += ($the_price * $price['quantity']);
         	
             /*if( $price['type'] == 'quantities' || $price['type'] == 'bulkquantity' ) {
             	$total_addon += ($price['price'] * $price['quantity']);
@@ -839,8 +859,8 @@ function ppom_price_get_product_base( $product, $ppom_fields_post,
 									$product_quantity, $ppom_field_prices, &$ppom_discount ) {
     
     // converting back to org price if Currency Switcher is used
-	// $base_price	= ppom_hooks_convert_price_back($product->get_price());
-	$base_price	= $product->get_price();
+	$base_price	= ppom_hooks_convert_price_back($product->get_price());
+	// $base_price	= $product->get_price();
 	// $base_price = floatval($base_price);
 	// $base_price	= $product->get_price();
 	// var_dump($product->get_price());
@@ -1112,11 +1132,11 @@ function ppom_is_field_has_price( $meta ) {
         
     $type = isset($meta['type']) ? $meta['type'] : '';
     $has_price = false;
-    
     switch( $type ) {
         
         case 'vqmatrix':
         case 'quantities':
+        case 'qtypack':
             if( isset($meta['default_price']) && $meta['default_price'] != '' ) {
                 $has_price = true;
                 break;

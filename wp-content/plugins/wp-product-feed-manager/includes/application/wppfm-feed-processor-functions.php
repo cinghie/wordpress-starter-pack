@@ -61,15 +61,15 @@ trait WPPFM_Feed_Processor_Functions {
 
 		$product_data = $queries_class->read_post_data( $product_id, $post_columns_query_string );
 
-		// WPML support
+		// WPML support.
 		if ( has_filter( 'wpml_translation' ) ) {
 			$product_data = apply_filters( 'wpml_translation', $product_data, $this->_feed_data->language );
 		}
 
-		// parent ids are required to get the main data from product variations
+		// Parent ids are required to get the main data from product variations.
 		$meta_parent_ids = 0 !== $parent_product_id ? array( $parent_product_id ) : $this->get_meta_parent_ids( $product_id );
 
-		array_unshift( $meta_parent_ids, $product_id ); // add the product id to the parent ids
+		array_unshift( $meta_parent_ids, $product_id ); // Add the product id to the parent ids.
 
 		$meta_data = $queries_class->read_meta_data( $product_id, $parent_product_id, $meta_parent_ids, $this->_pre_data['database_fields']['meta_fields'] );
 

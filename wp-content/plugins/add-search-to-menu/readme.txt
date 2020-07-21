@@ -5,7 +5,7 @@ Tags: search, woocommerce search, image search, ajax search, search shortcode, l
 Requires at least: 3.9
 Tested up to: 5.4
 Requires PHP: 5.2.4
-Stable tag: 4.4.7
+Stable tag: 4.5.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,6 +39,7 @@ Feel free to ask it using [Contact Form](https://ivorysearch.com/contact/).
 <li> Search images, files and attachments.</li>
 <li> Customize search form using customizer.</li>
 <li> Search using AJAX search.</li>
+<li> Track searches in search analytics.</li>
 <li> Create unlimited number of search forms.</li>
 <li> Configure each search forms separately.</li>
 <li> Configure search form to search specific content.</li>
@@ -192,151 +193,17 @@ Yes we do. We try our best to help free users with customisation requests and we
 
 == Changelog ==
 
-= 4.4.7 =
-* Fixed - All public post types were not searchable.
-* Improved - Added alt tag to loader image.
+= 4.5.2 =
+* Improved - Search form & AJAX search results UI.
+* Improved - Optimized plugin CSS & JS files loading.
 
-= 4.4.6 =
-* Fixed - AJAX search results some options not working.
+= 4.5.1 =
+* Removed - Tracking search results as pageview in Google analytics.
 
-= 4.4.5 =
-* Improved - Made SVG icons Accessibility Ready.
-* Improved - Search dropdown should not close on clicking on AJAX search results.
-* Fixed - AJAX search results Undefined index notices.
+= 4.5 =
+* Added - Option to track searches in google search analytics.
 
-= 4.4.4 =
-* Fixed - Search form AJAX options not working.
+== Upgrade Notice ==
 
-= 4.4.3 =
-* Fixed - AJAX search results displaying out of viewport.
-* Fixed - AJAX search results Undefined index notices.
-* Fixed - AJAX search results displays on wrong location on scroll.
-* Fixed - Searching exact words with " " quote marks.
-
-= 4.4.2 =
-* Improved - Ajax search results scrolls with search form.
-* Added - is_search_form_autocomplete filter to remove autocomplete from search field.
-* Added - Retains 'lang' parameter in the search results query string.
-* Fixed - Ivory Search Widget title was not getting removed.
-* Fixed - Database error occurred due to hardcode prefix.
-* Fixed - Search more than 9 terms with OR condition.
-* Fixed - Shortcodes are displaying in the AJAX search results.
-* Fixed - "Search button displays ajax search results" option does not work for the AJAX search form without button.
-* Fixed - AJAX search not working on some mobiles.
-
-= 4.4.1 =
-* Fixed - Menu search popup was not working in the plugin free version.
-* Fixed - Search results text highlight issue.
-* Fixed - Default search results was not ordered to date DESC.
-* Fixed - Some free plugin options were displaying premium.
-* Fixed - Post status was not getting set in the free version.
-* Removed - Legacy add-search-to-menu fallback code.
-
-= 4.4 =
-* Improved - Plugin admin options user interface.
-* Added - Option "Do not display post_type in the search URL".
-* Added - Filter to change image size in AJAX search results.
-* Fixed - Menu search form not getting saved.
-* Fixed - AJAX search results dispalying WPBakery plugin shortcodes
-* Fixed - AJAX Show More Results section not disabling.
-* Fixed - Add New Search Form screen Undefined index error.
-* Fixed - Edit search form link position issue.
-* Fixed - AJAX More Results text show / hide issue.
-* Fixed - List of post saving issue and DISABLE_IS_LOAD_ALL not working issue.
-* Moved - Menu Search section as a second section.
-* Changed - Synonyms separator from semicolon to new line.
-* Removed - Post status option from the search form Excludes section.
-* Free - Made the premium option free - Search All Or Any Search Terms.
-* Free - Made the premium option free - Menu search form selection.
-
-= 4.3.3 =
-* Fixed - header already sent issue displayed in the search forms admin page.
-* Fixed - Default style menu search form width issue.
-* Made Free - Menu search form Popup style.
-* Removed - "Disable synonyms for the search forms configured to search all search terms" option.
-
-= 4.3.2 =
-* Improved - Plugin admin area functionality.
-
-= 4.3.1 =
-* Added - DISABLE_IS_LOAD_ALL constant.
-* Fixed - query_vars, wp_is_json_request & wp_doing_ajax issues.
-* Removed - Add New sub menu & display post type in the search query URL options.
-
-= 4.3 =
-* Added AJAX search and search form customizer functionalities.
-
-= 4.2.1 =
-* Updated - freemius SDK.
-* Fixed - new search form saving issue.
-
-= 4.2 =
-* Enhanced plugin admin settings user interface.
-* Developed functionality to search posts and pages along with media.
-
-= 4.1.7 =
-* Fixed - Post title and content options saving issue.
-
-= 4.1.6 =
-* Fixed -  Post type issue when reset search form.
-* Styled - Twenty Nineteen theme search form.
-* Fixed - New search form tabs issue.
-
-= 4.1.5 =
-* Fixed - Firefox browser right mouse click closing search form issue.
-
-= 4.1.4 =
-* Searches in WooCommerce products variation.
-* Fixed - Firefox browser dropdown select issue.
-* Optimized plugin admin options.
-
-= 4.1.3 =
-* Developed option to search specific posts, pages or custom post types.
-
-= 4.1.2 =
-* Menu search post types can be managed now from search form post types option.
-
-= 4.1.1 =
-* Developed reset button to reset search form.
-* Designed new switch control UI for plugin settings page.
-* Developed functionality to display plugin options changed indicator.
-
-= 4.1 =
-* Improved plugin settings User Interface.
-* Added compatibility with Polylang plugin.
-
-= 4.0.1 =
-* Fixed menu search form attachment search issue.
-
-= 4.0 =
-* Renamed plugin from "Add Search To Menu" to "Ivory Search".
-* Changed old settings page from Settings -> Add Search To Menu to Ivory Search -> Settings
-* Added new Popup menu search form style.
-* Developed option to created unlimited search forms and each search forms can be configured separately.
-* Search specific post types, categories, taxonomies, terms, custom fields, authors, comments and many more.
-* Exclude from search specific posts, pages, categories, taxonomies, terms, custom fields, authors, post status and many more.
-* Developed options for searched posts ordering, Terms Highlighting, Fuzzy Matching, Keyword Stemming and many more.
-
-= 3.4 =
-* Resolved "PHP Notice: Undefined index: add_search_to_menu_style"
-
-= 3.3 =
-* Enhanced Mobile Display option to work with caching.
-
-= 3.2 =
-* Fixed incorrect JavaScript and CSS files URLs displayed in the plugin settings.
-* Fixed issue of using quotation in plugin custom CSS option.
-
-= 3.1 =
-* Resolved search icon background color issue.
-* Added search form close icon to close search form.
-
-= 3.0 =
-* Added plugin options Search Post Types, Google CSE, Mobile Display and Custom CSS.
-* Styled it for default WordPress themes.
-
-= 2.0 =
-* Resolved scrolling issue in fixed menu and made magnifying glass icon resizable.
-
-= 1.0 =
-* Initial release.
+= 4.5.2 =
+Implemented major search form UI enhancements! Please test it before upgrading

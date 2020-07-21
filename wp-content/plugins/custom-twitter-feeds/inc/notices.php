@@ -131,7 +131,7 @@ function ctf_notices_html() {
 		$dismiss_url = add_query_arg( 'ctf_ignore_rating_notice_nag', '1' );
 		$later_url = add_query_arg( 'ctf_ignore_rating_notice_nag', 'later' );
 		if ( $should_show_bfcm_discount ) {
-			$other_notice_html = '<p class="ctf_other_notice">' .  __( 'PS. We currently have a <a href="https://smashballoon.com/custom-twitter-feeds/?utm_source=plugin-free&utm_campaign=ctf&discount='.$ctf_bfcm_discount_code.'" target="_blank"><b style="font-weight: 700;">Black Friday deal</b></a> for 20% off the Pro version!', 'custom-twitter-feed' ) . '</p>';
+			$other_notice_html = '<p class="ctf_other_notice">' .  __( 'PS. We currently have a <a href="https://smashballoon.com/custom-twitter-feeds/?utm_campaign=twitter-free&utm_source=adminnotice&utm_medium=bfcm&discount='.$ctf_bfcm_discount_code.'" target="_blank"><b style="font-weight: 700;">Black Friday deal</b></a> for 60% off the Pro version!', 'custom-twitter-feed' ) . '</p>';
 
 			$dismiss_url = add_query_arg( array(
 					'ctf_ignore_rating_notice_nag' => '1',
@@ -176,9 +176,9 @@ function ctf_notices_html() {
         <div class='ctf_notice ctf_review_notice ctf_new_user_sale_notice'>
             <img src='" . CTF_PLUGIN_URL . 'img/ctf-icon-offer.jpg' . "' alt='Custom Twitter Feed'>
             <div class='ctf-notice-text'>
-                <p>" . __( '<b style="font-weight: 700;">Exclusive offer!</b>  We don\'t run promotions very often, but for a limited time we\'re offering <b style="font-weight: 700;">20% off</b> our Pro version to all users of our free Custom Twitter Feeds plugin.', 'custom-twitter-feed' ) . "</p>
+                <p>" . __( '<b style="font-weight: 700;">Exclusive offer!</b>  We don\'t run promotions very often, but for a limited time we\'re offering <b style="font-weight: 700;">60% off</b> our Pro version to all users of our free Custom Twitter Feeds plugin.', 'custom-twitter-feed' ) . "</p>
                 <p class='ctf-links'>
-                    <a class='ctf_notice_dismiss ctf_offer_btn' href='https://smashballoon.com/custom-twitter-feeds/?utm_source=plugin-free&utm_campaign=ctf&discount=twitterthankyou' target='_blank'><b>" . __( 'Get this offer', 'custom-twitter-feed' ) . "</b></a>
+                    <a class='ctf_notice_dismiss ctf_offer_btn' href='https://smashballoon.com/custom-twitter-feeds/?utm_campaign=twitter-free&utm_source=adminnotice&utm_medium=newuser&discount=twitterthankyou' target='_blank'><b>" . __( 'Get this offer', 'custom-twitter-feed' ) . "</b></a>
                     <a class='ctf_notice_dismiss' style='margin-left: 5px;' href='" . esc_url( add_query_arg( 'ctf_ignore_new_user_sale_notice', 'always' ) ) . "'>" . __( 'I\'m not interested', 'custom-twitter-feed' ) . "</a>
 
                 </p>
@@ -194,9 +194,9 @@ function ctf_notices_html() {
         <div class='ctf_notice ctf_review_notice ctf_bfcm_sale_notice'>
             <img src='". CTF_PLUGIN_URL . 'img/ctf-icon-offer.jpg' ."' alt='Custom Twitter Feed'>
             <div class='ctf-notice-text'>
-                <p>" . __( '<b style="font-weight: 700;">Black Friday/Cyber Monday Deal!</b> Thank you for using our free Custom Twitter Feeds plugin. For a limited time, we\'re offering <b style="font-weight: 700;">20% off</b> the Pro version for all of our users.', 'custom-twitter-feed' ) . "</p>
+                <p>" . __( '<b style="font-weight: 700;">Black Friday/Cyber Monday Deal!</b> Thank you for using our free Custom Twitter Feeds plugin. For a limited time, we\'re offering <b style="font-weight: 700;">60% off</b> the Pro version for all of our users.', 'custom-twitter-feed' ) . "</p>
                 <p class='ctf-links'>
-                    <a class='ctf_notice_dismiss ctf_offer_btn' href='https://smashballoon.com/custom-twitter-feeds/?utm_source=plugin-free&utm_campaign=ctf&discount=".$ctf_bfcm_discount_code."' target='_blank'><b>" . __( 'Get this offer', 'custom-twitter-feed' ) . "</b></a>
+                    <a class='ctf_notice_dismiss ctf_offer_btn' href='https://smashballoon.com/custom-twitter-feeds/?utm_campaign=twitter-free&utm_source=adminnotice&utm_medium=bfcmmain&discount=".$ctf_bfcm_discount_code."' target='_blank'><b>" . __( 'Get this offer', 'custom-twitter-feed' ) . "</b></a>
                     <a class='ctf_notice_dismiss' style='margin-left: 5px;' href='" .esc_url( add_query_arg( 'ctf_ignore_bfcm_sale_notice', date( 'Y', $current_time ) ) ). "'>" . __( 'I\'m not interested', 'custom-twitter-feed' ) . "</a>
                 </p>
             </div>
@@ -273,3 +273,94 @@ function ctf_get_future_date( $month, $year, $week, $day, $direction ) {
 	$offset += $direction * ($week * 7) + ($day - $weekday);
 	return mktime( 0, 0, 0, $month, $startday + $offset, $year );
 }
+
+
+function ctf_admin_database_warning() {
+	if ( isset( $_GET['page'] ) && in_array( $_GET['page'], array( 'custom-twitter-feeds', '' ) ) ) {
+
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		global $wpdb;
+		$table_name = $wpdb->prefix . "options";
+		$result = $wpdb->get_var("
+        SELECT COUNT(*)
+        FROM $table_name
+        WHERE option_name LIKE '%ctf_!%'
+        ");
+
+		if ( (int) $result < 500 ) {
+			return;
+		}
+		?>
+		<div class="notice notice-warning is-dismissible ctf-admin-notice">
+			<p>
+				<?php echo esc_html__( 'Heads up! It looks like you have over 500 Twitter feeds stored in your WordPress database. This is typically caused by a large number of hashtag feeds on your site, as the plugin permanently stores older Tweets to work around Twitter\'s 7 day hashtag feed limit. This many caches may lead to performance issues.', 'custom-twitter-feeds' ); ?>
+			</p>
+			<p>
+				<?php echo sprintf( __( 'For a solution, please follow the directions %shere%s.', 'custom-twitter-feeds' ), '<a href="https://smashballoon.com/why-does-my-database-have-a-lot-of-twitter-feed-caches/" target="_blank" rel="noopener noreferrer">', '</a>' ); ?>
+			</p>
+		</div>
+		<?php
+	}
+}
+add_action( 'admin_notices', 'ctf_admin_database_warning' );
+
+/* Usage */
+add_action( 'admin_notices', 'ctf_usage_opt_in' );
+function ctf_usage_opt_in() {
+
+	if ( isset( $_GET['trackingdismiss'] ) ) {
+		$usage_tracking = get_option( 'ctf_usage_tracking', array( 'last_send' => 0, 'enabled' => false ) );
+
+		$usage_tracking['enabled'] = false;
+
+		update_option( 'ctf_usage_tracking', $usage_tracking, false );
+
+		return;
+	}
+
+	$cap = 'manage_options';
+
+	$cap = apply_filters( 'ctf_settings_pages_capability', $cap );
+	if ( ! current_user_can( $cap ) ) {
+		return;
+	}
+	$usage_tracking = get_option( 'ctf_usage_tracking', false );
+	if ( $usage_tracking ) {
+		return;
+	}
+	?>
+    <div class="notice notice-warning is-dismissible ctf-admin-notice">
+
+        <p>
+            <strong><?php echo __( 'Help us improve the Custom Twitter Feed plugin', 'custom-twitter-feeds' ); ?></strong><br>
+			<?php echo __( 'Understanding how you are using the plugin allows us to further improve it. Opt-in below to agree to send a weekly report of plugin usage data.', 'custom-twitter-feeds' ); ?>
+            <a target="_blank" rel="noopener noreferrer" href="https://smashballoon.com/custom-twitter-feeds/docs/usage-tracking/"><?php echo __( 'More information', 'custom-twitter-feeds' ); ?></a>
+        </p>
+        <p>
+            <a href="<?php echo admin_url('admin.php?page=custom-twitter-feeds&trackingdismiss=1') ?>" type="submit" class="button button-primary ctf-opt-in"><?php echo __( 'Yes, I\'d like to help', 'custom-twitter-feeds' ); ?></a>
+            <a href="<?php echo admin_url('admin.php?page=custom-twitter-feeds&trackingdismiss=1') ?>" type="submit" class="ctf-no-usage-opt-out ctf-space-left button button-secondary"><?php echo __( 'No, thanks', 'custom-twitter-feeds' ); ?></a>
+        </p>
+
+    </div>
+
+	<?php
+}
+
+function ctf_usage_opt_in_or_out() {
+	if ( ! isset( $_POST['opted_in'] ) ) {
+		die ( 'You did not do this the right way!' );
+	}
+
+	$usage_tracking = get_option( 'ctf_usage_tracking', array( 'last_send' => 0, 'enabled' => false ) );
+
+	$usage_tracking['enabled'] = isset( $_POST['opted_in'] ) ? $_POST['opted_in'] === 'true' : false;
+
+	update_option( 'ctf_usage_tracking', $usage_tracking, false );
+
+	die();
+}
+add_action( 'wp_ajax_ctf_usage_opt_in_or_out', 'ctf_usage_opt_in_or_out' );

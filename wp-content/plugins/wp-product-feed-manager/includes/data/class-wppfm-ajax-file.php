@@ -1,5 +1,4 @@
 <?php
-
 /**
  * WP Ajax File Class.
  *
@@ -18,10 +17,13 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 	 */
 	class WPPFM_Ajax_File extends WPPFM_Ajax_Calls {
 
+		/**
+		 * WPPFM_Ajax_File constructor.
+		 */
 		public function __construct() {
 			parent::__construct();
 
-			// hooks
+			// Add the hooks.
 			add_action( 'wp_ajax_myajax-get-next-categories', array( $this, 'myajax_read_next_categories' ) );
 			add_action( 'wp_ajax_myajax-get-category-lists', array( $this, 'myajax_read_category_lists' ) );
 			add_action( 'wp_ajax_myajax-delete-feed-file', array( $this, 'myajax_delete_feed_file' ) );
@@ -42,7 +44,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 		 * Returns the sub-categories from a selected category
 		 */
 		public function myajax_read_next_categories() {
-			// make sure this call is legal
+			// Make sure this call is legal.
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'nextCategoryNonce' ), 'myajax-next-category-nonce' ) ) {
 				$file_class = new WPPFM_File();
 
@@ -58,10 +60,10 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 					}
 				}
 
-				echo json_encode( $categories );
+				echo wp_json_encode( $categories );
 			}
 
-			// IMPORTANT: don't forget to exit
+			// IMPORTANT: don't forget to exit.
 			exit;
 		}
 
@@ -69,7 +71,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 		 * Read the category list
 		 */
 		public function myajax_read_category_lists() {
-			// make sure this call is legal
+			// Make sure this call is legal.
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'categoryListsNonce' ), 'myajax-category-lists-nonce' ) ) {
 				$file_class = new WPPFM_File();
 
@@ -88,10 +90,10 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 					}
 				}
 
-				echo json_encode( $categories );
+				echo wp_json_encode( $categories );
 			}
 
-			// IMPORTANT: don't forget to exit
+			// IMPORTANT: don't forget to exit.
 			exit;
 		}
 
@@ -99,7 +101,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 		 * Delete a specific feed file
 		 */
 		public function myajax_delete_feed_file() {
-			// make sure this call is legal
+			// Make sure this call is legal.
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'deleteFeedNonce' ), 'myajax-delete-feed-nonce' ) ) {
 				$file_name = filter_input( INPUT_POST, 'fileTitle' );
 
@@ -109,7 +111,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 					$file = WPPFM_FEEDS_DIR . '/' . $file_name;
 				}
 
-				// only return results when the user is an admin with manage options
+				// Only return results when the user is an admin with manage options.
 				if ( is_admin() ) {
 					/* translators: %s: Title of the feed file */
 					echo file_exists( $file ) ? unlink( $file ) : wppfm_show_wp_error( sprintf( __( 'Could not find file %s.', 'wp-product-feed-manager' ), $file ) );
@@ -118,7 +120,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 				}
 			}
 
-			// IMPORTANT: don't forget to exit
+			// IMPORTANT: don't forget to exit.
 			exit;
 		}
 
@@ -126,16 +128,16 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 		 * This function fetches the posted data and triggers the update of the feed file on the server.
 		 */
 		public function myajax_update_feed_file() {
-			// make sure this call is legal
+			// Make sure this call is legal.
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'updateFeedFileNonce' ), 'myajax-update-feed-file-nonce' ) ) {
 
-				// fetch the data from $_POST
+				// Fetch the data from $_POST.
 				$feed_id                  = filter_input( INPUT_POST, 'feedId' );
 				$background_mode_disabled = get_option( 'wppfm_disabled_background_mode', 'false' );
 
 				WPPFM_Feed_Controller::add_id_to_feed_queue( $feed_id );
 
-				// if there is no feed processing in progress, of background processing is switched off, start updating the current feed
+				// If there is no feed processing in progress, of background processing is switched off, start updating the current feed.
 				if ( ! WPPFM_Feed_Controller::feed_is_processing() || 'true' === $background_mode_disabled ) {
 					do_action( 'wppfm_manual_feed_update_activated', $feed_id );
 
@@ -143,12 +145,12 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 					$feed_master_class->update_feed_file( false );
 				} else {
 					$data_class = new WPPFM_Data();
-					$data_class->update_feed_status( $feed_id, 4 ); // feed status to waiting in queue
+					$data_class->update_feed_status( $feed_id, 4 ); // Feed status to waiting in queue.
 					echo 'pushed_to_queue';
 				}
 			}
 
-			// IMPORTANT: don't forget to exit
+			// IMPORTANT: don't forget to exit.
 			exit;
 		}
 
@@ -156,14 +158,14 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 		 * Logs a message from a javascript call to the server
 		 */
 		public function myajax_log_message() {
-			// make sure this call is legal
+			// Make sure this call is legal.
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'logMessageNonce' ), 'myajax-log-message-nonce' ) ) {
-				// fetch the data from $_POST
+				// Fetch the data from $_POST.
 				$message      = filter_input( INPUT_POST, 'messageList' );
 				$file_name    = filter_input( INPUT_POST, 'fileName' );
-				$text_message = strip_tags( $message );
+				$text_message = wp_strip_all_tags( $message );
 
-				// only return results when the user is an admin with manage options
+				// Only return results when the user is an admin with manage options.
 				if ( is_admin() ) {
 					wppfm_write_log_file( $text_message, $file_name );
 				} else {
@@ -171,7 +173,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 				}
 			}
 
-			// IMPORTANT: don't forget to exit
+			// IMPORTANT: don't forget to exit.
 			exit;
 		}
 
@@ -181,7 +183,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 		 * @since 1.7.0
 		 */
 		public function myajax_auto_feed_fix_mode_selection() {
-			// make sure this call is legal
+			// Make sure this call is legal.
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'updateAutoFeedFixNonce' ), 'myajax-auto-feed-fix-nonce' ) ) {
 				$selection = filter_input( INPUT_POST, 'fix_selection' );
 				update_option( 'wppfm_auto_feed_fix', $selection );
@@ -189,7 +191,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 				echo get_option( 'wppfm_auto_feed_fix' );
 			}
 
-			// IMPORTANT: don't forget to exit
+			// IMPORTANT: don't forget to exit.
 			exit;
 		}
 
@@ -199,7 +201,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 		 * @since 2.0.7
 		 */
 		public function myajax_background_processing_mode_selection() {
-			// make sure this call is legal
+			// Make sure this call is legal.
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'backgroundModeNonce' ), 'myajax-background-mode-nonce' ) ) {
 				$selection = filter_input( INPUT_POST, 'mode_selection' );
 				update_option( 'wppfm_disabled_background_mode', $selection );
@@ -207,7 +209,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 				echo get_option( 'wppfm_disabled_background_mode' );
 			}
 
-			// IMPORTANT: don't forget to exit
+			// IMPORTANT: don't forget to exit.
 			exit;
 		}
 
@@ -217,7 +219,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 		 * @since 2.8.0
 		 */
 		public function myajax_feed_logger_status_selection() {
-			// make sure this call is legal
+			// Make sure this call is legal.
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'feedLoggerStatusNonce' ), 'myajax-logger-status-nonce' ) ) {
 				$selection = filter_input( INPUT_POST, 'statusSelection' );
 				update_option( 'wppfm_process_logger_status', $selection );
@@ -225,7 +227,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 				echo get_option( 'wppfm_process_logger_status' );
 			}
 
-			// IMPORTANT: don't forget to exit
+			// IMPORTANT: don't forget to exit.
 			exit;
 		}
 
@@ -235,7 +237,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 		 * @since 2.10.0
 		 */
 		public function myajax_show_product_identifiers_selection() {
-			// make sure this call is legal
+			// Make sure this call is legal.
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'showPINonce' ), 'myajax-show-pi-nonce' ) ) {
 				$selection = filter_input( INPUT_POST, 'showPiSelection' );
 				update_option( 'wppfm_show_product_identifiers', $selection );
@@ -243,7 +245,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 				echo get_option( 'wppfm_show_product_identifiers' );
 			}
 
-			// IMPORTANT: don't forget to exit
+			// IMPORTANT: don't forget to exit.
 			exit;
 		}
 
@@ -253,7 +255,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 		 * @since 1.9.0
 		 */
 		public function myajax_debug_mode_selection() {
-			// make sure this call is legal
+			// Make sure this call is legal.
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'debugNonce' ), 'myajax-debug-nonce' ) ) {
 				$selection = filter_input( INPUT_POST, 'debug_selection' );
 				update_option( 'wppfm_debug_mode', $selection );
@@ -261,12 +263,12 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 				echo get_option( 'wppfm_debug_mode' );
 			}
 
-			// IMPORTANT: don't forget to exit
+			// IMPORTANT: don't forget to exit.
 			exit;
 		}
 
 		public function myajax_set_third_party_attribute_keywords() {
-			// make sure this call is legal
+			// Make sure this call is legal.
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'thirdPartyKeywordsNonce' ), 'myajax-set-third-party-keywords-nonce' ) ) {
 				$keywords = filter_input( INPUT_POST, 'keywords' );
 				update_option( 'wppfm_third_party_attribute_keywords', $keywords );
@@ -274,12 +276,12 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 				echo get_option( 'wppfm_third_party_attribute_keywords' );
 			}
 
-			// IMPORTANT: don't forget to exit
+			// IMPORTANT: don't forget to exit.
 			exit;
 		}
 
 		public function myajax_set_notice_mailaddress() {
-			// make sure this call is legal
+			// Make sure this call is legal.
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'noticeMailaddressNonce' ), 'myajax-set-notice-mailaddress-nonce' ) ) {
 				$mailaddress = filter_input( INPUT_POST, 'mailaddress' );
 				update_option( 'wppfm_notice_mailaddress', $mailaddress );
@@ -287,7 +289,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 				echo get_option( 'wppfm_notice_mailaddress' );
 			}
 
-			// IMPORTANT: don't forget to exit
+			// IMPORTANT: don't forget to exit.
 			exit;
 		}
 
@@ -297,6 +299,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 		 * @since 1.9.0
 		 */
 		public function myajax_reinitiate_plugin() {
+			// Make sure this call is legal.
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'reInitiateNonce' ), 'myajax-reinitiate-nonce' ) ) {
 
 				if ( wppfm_reinitiate_plugin() ) {
@@ -306,7 +309,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 				}
 			}
 
-			// IMPORTANT: don't forget to exit
+			// IMPORTANT: don't forget to exit.
 			exit;
 		}
 
@@ -316,6 +319,7 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 		 * @since 1.10.0
 		 */
 		public function myajax_clear_feed_process_data() {
+			// Make sure this call is legal.
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'clearFeedNonce' ), 'myajax-clear-feed-nonce' ) ) {
 
 				if ( wppfm_clear_feed_process_data() ) {
@@ -326,12 +330,12 @@ if ( ! class_exists( 'WPPFM_Ajax_File' ) ) :
 				}
 			}
 
-			// IMPORTANT: don't forget to exit
+			// IMPORTANT: don't forget to exit.
 			exit;
 		}
 	}
 
-	// End of WPPFM_Ajax_File_Class
+	// End of WPPFM_Ajax_File_Class.
 
 endif;
 

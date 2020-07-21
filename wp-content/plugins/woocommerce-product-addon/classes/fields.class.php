@@ -308,7 +308,7 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 							$html_input .= '<input type="text" class="option-title form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][option]" value="'.esc_attr(stripslashes($option['option'])).'" placeholder="'.$plc_option.'" data-metatype="option" data-opt-index="'.esc_attr($opt_index).'">';
 							$html_input .= '<input type="text" class="option-price form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][price]" value="'.esc_attr($option['price']).'" placeholder="'.$plc_price.'" data-metatype="price" data-opt-index="'.esc_attr($opt_index).'">';
 							$html_input .= '<input type="text" class="option-weight form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][weight]" value="'.esc_attr($weight).'" placeholder="'.$plc_weight.'" data-metatype="weight" data-opt-index="'.esc_attr($opt_index).'">';
-							$html_input .= '<input type="text" class="option-weight form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][stock]" value="'.esc_attr($stock).'" placeholder="'.$plc_stock.'" data-metatype="stock" data-opt-index="'.esc_attr($opt_index).'">';
+							$html_input .= '<input type="text" class="option-stock form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][stock]" value="'.esc_attr($stock).'" placeholder="'.$plc_stock.'" data-metatype="stock" data-opt-index="'.esc_attr($opt_index).'">';
 							$html_input .= '<input type="text" class="option-id form-control ppom-option-keys" name="ppom['.esc_attr($field_index).'][options]['.esc_attr($opt_index).'][id]" value="'.esc_attr($option_id).'" placeholder="'.$plc_id.'" data-metatype="id" data-opt-index="'.esc_attr($opt_index).'">';
 
 							$html_input .= '<button class="btn btn-success ppom-add-option" data-option-type="paired"><i class="fa fa-plus" aria-hidden="true"></i></button>';
@@ -628,8 +628,8 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 					$html_input	= '<div class="row ppom-condition-style-wrap">';
 						$html_input	.= '<div class="col-md-3 col-sm-3">';
 							$html_input	.= '<select name="ppom['.esc_attr($field_index).'][conditions][visibility]" class="form-control ppom-condition-visible-bound" data-metatype="visibility">';
-								$html_input .= '<option '.$visibility_show.'>'.__( 'Show', 'ppom' ).'</option>';
-								$html_input .= '<option '.$visibility_hide.'>'.__( 'Hide', 'ppom' ).'</option>';
+								$html_input .= '<option '.$visibility_show.' value="Show">'.__( 'Show', 'ppom' ).'</option>';
+								$html_input .= '<option '.$visibility_hide.' value="Hide">'.__( 'Hide', 'ppom' ).'</option>';
 							$html_input	.= '</select>';
 						$html_input .= '</div>';
 
@@ -639,8 +639,8 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 
 						$html_input	.= '<div class="col-md-3 col-sm-3">';
 							$html_input	.= '<select name="ppom['.esc_attr($field_index).'][conditions][bound]" class="form-control ppom-condition-visible-bound" data-metatype="bound">';
-								$html_input .= '<option '.$bound_all.'>'.__( 'All', 'ppom' ).'</option>';
-								$html_input .= '<option '.$bound_any.'>'.__( 'Any', 'ppom' ).'</option>';
+								$html_input .= '<option '.$bound_all.' value="All">'.__( 'All', 'ppom' ).'</option>';
+								$html_input .= '<option '.$bound_any.' value="Any">'.__( 'Any', 'ppom' ).'</option>';
 							$html_input	.= '</select>';
 						$html_input .= '</div>';
 
@@ -673,10 +673,10 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 								// is value meta
 								$html_input .= '<div class="col-md-2 col-sm-2">';
 									$html_input .= '<select name="ppom['.esc_attr($field_index).'][conditions][rules]['.esc_attr($rule_index).'][operators]" class="form-control ppom-conditional-keys" data-metatype="operators">';
-										$html_input	.= '<option '.$operator_is.'>'. __('is', "ppom").'</option>';
-										$html_input .= '<option '.$operator_not.'>'. __('not', "ppom").'</option>';
-										$html_input .= '<option '.$operator_greater.'>'. __('greater than', "ppom").'</option>';
-										$html_input .= '<option '.$operator_less.'>'. __('less than', "ppom").'</option>';
+										$html_input	.= '<option '.$operator_is.' value="is">'. __('is', "ppom").'</option>';
+										$html_input .= '<option '.$operator_not.' value="not">'. __('not', "ppom").'</option>';
+										$html_input .= '<option '.$operator_greater.' value="greater than">'. __('greater than', "ppom").'</option>';
+										$html_input .= '<option '.$operator_less.' value="less than">'. __('less than', "ppom").'</option>';
 									$html_input	.= '</select> ';
 								$html_input .= '</div>';
 
@@ -706,14 +706,14 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 					$html_input .= '<div class="row ppom-condition-style-wrap">';
 						$html_input	.= '<div class="col-md-4 col-sm-4">';
 							$html_input	.= '<select class="form-control ppom-condition-visible-bound" data-metatype="visibility">';
-								$html_input .= '<option>'.__('Show', "ppom").'</option>';
-								$html_input .= '<option>'. __('Hide', "ppom").'</option>';
+								$html_input .= '<option value="Show">'.__('Show', "ppom").'</option>';
+								$html_input .= '<option value="Hide">'. __('Hide', "ppom").'</option>';
 							$html_input	.= '</select> ';
 						$html_input .= '</div>';
 						$html_input	.= '<div class="col-md-4 col-sm-4">';
 							$html_input	.= '<select class="form-control ppom-condition-visible-bound" data-metatype="bound">';
-								$html_input .= '<option>'. __('All', "ppom").'</option>';
-								$html_input .= '<option>'. __('Any', "ppom").'</option>';
+								$html_input .= '<option value="All">'. __('All', "ppom").'</option>';
+								$html_input .= '<option value="Any">'. __('Any', "ppom").'</option>';
 							$html_input	.= '</select> ';
 						$html_input .= '</div>';
 						$html_input	.= '<div class="col-md-4 col-sm-4">';
@@ -733,10 +733,10 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 							// is
 							$html_input .= '<div class="col-md-2 col-sm-2">';
 								$html_input .= '<select data-metatype="operators" class="ppom-conditional-keys form-control">';
-									$html_input	.= '<option>'. __('is', "ppom").'</option>';
-									$html_input .= '<option>'. __('not', "ppom").'</option>';
-									$html_input .= '<option>'. __('greater than', "ppom").'</option>';
-									$html_input .= '<option>'. __('less than', "ppom").'</option>';
+									$html_input	.= '<option value="is">'. __('is', "ppom").'</option>';
+									$html_input .= '<option value="not">'. __('not', "ppom").'</option>';
+									$html_input .= '<option value="greater than">'. __('greater than', "ppom").'</option>';
+									$html_input .= '<option value="less than">'. __('less than', "ppom").'</option>';
 								$html_input	.= '</select> ';
 							$html_input .= '</div>';
 
@@ -776,9 +776,10 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 
 							foreach ($values as $opt_index => $pre_uploaded_image){
 						
-								$image_link = (isset($pre_uploaded_image['link']) ? $pre_uploaded_image['link'] : '');
-								$image_id   = (isset($pre_uploaded_image['id']) ? $pre_uploaded_image['id'] : '');
-								$image_url  = (isset($pre_uploaded_image['url']) ? $pre_uploaded_image['url'] : '');
+								$image_link 	= (isset($pre_uploaded_image['link']) ? $pre_uploaded_image['link'] : '');
+								$image_id		= (isset($pre_uploaded_image['id']) ? $pre_uploaded_image['id'] : '');
+								$image_url  	= (isset($pre_uploaded_image['url']) ? $pre_uploaded_image['url'] : '');
+								$image_stock	= (isset($pre_uploaded_image['stock']) ? $pre_uploaded_image['stock'] : '');
 								
 								$image_name = isset($pre_uploaded_image['link']) ? basename($pre_uploaded_image['link']) : '';
 
@@ -793,6 +794,7 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 										$html_input .= '<input type="hidden" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][id]" value="'.esc_attr($image_id).'" data-opt-index="'.esc_attr($opt_index).'" data-metatype="id">';
 										$html_input .= '<input class="form-control ppom-image-option-title" type="text" placeholder="Title" value="'.esc_attr(stripslashes($pre_uploaded_image['title'])).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][title]" data-opt-index="'.esc_attr($opt_index).'" data-metatype="title">';
 										$html_input .= '<input class="form-control" type="text" placeholder="Price (fix or %)" value="'.esc_attr(stripslashes($pre_uploaded_image['price'])).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][price]" data-opt-index="'.esc_attr($opt_index).'" data-metatype="price">';
+										$html_input .= '<input class="form-control" type="text" placeholder="Stock" value="'.esc_attr($image_stock).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][stock]" data-opt-index="'.esc_attr($opt_index).'" data-metatype="stock">';
 										$html_input .= '<input class="form-control" type="text" placeholder="URL" value="'.esc_url(stripslashes($pre_uploaded_image['url'])).'" name="ppom['.esc_attr($field_index).'][images]['.esc_attr($opt_index).'][url]" data-opt-index="'.esc_attr($opt_index).'" data-metatype="url">';
 
 										$html_input .= '<button class="btn btn-danger ppom-pre-upload-delete" style="height: 35px;"><i class="fa fa-times" aria-hidden="true"></i></button>';

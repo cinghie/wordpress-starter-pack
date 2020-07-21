@@ -392,7 +392,7 @@ function ppom_update_option_prices() {
 
         // if variation quantities has price
         var product_qty = ppom_get_order_quantity();
-        if (ppom_has_priced_quantities) {
+        if (ppom_has_priced_quantities && product_qty > 0) {
             product_qty = 1;
         }
         var product_base_label = ppom_input_vars.product_base_label + ' ' + jQuery(price_tag).html() + ' x ' + product_qty;
@@ -611,8 +611,13 @@ function ppom_get_wc_price(price, is_discount) {
 
     var do_discount = is_discount || false;
     var wcPriceWithCurrency = jQuery("#ppom-price-cloner").clone();
-    var ppom_formatted_price = ppom_get_formatted_price(price);
     var is_negative = parseFloat(price) < 0;
+
+    if (is_negative) {
+        price = Math.abs(price);
+    }
+
+    var ppom_formatted_price = ppom_get_formatted_price(price);
 
     wcPriceWithCurrency.find('.ppom-price').html(ppom_formatted_price);
 
@@ -628,6 +633,9 @@ function ppom_update_get_prices() {
     var options_price_added = [];
 
     PPOMWrapper.find('select,input:checkbox,input:radio,input:text').each(function(i, input) {
+
+        // if fielld is hidden
+        if (jQuery(this).closest('.ppom-field-wrapper').hasClass('ppom-c-hide')) return;
 
         // if fixedprice (addon) then return
         if (jQuery("option:selected", this).attr('data-unitprice') !== undefined) return;
@@ -961,6 +969,8 @@ function ppom_get_order_quantity() {
 function ppom_set_order_quantity(qty) {
     // console.log(wc_product_qty);
     wc_product_qty.val(qty);
+    // for some theme issue
+    jQuery('form.cart').find('input[name="quantity"]').val(qty);
 }
 
 // Deleting option from price table

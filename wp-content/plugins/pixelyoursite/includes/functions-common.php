@@ -8,15 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
 
-function isPysProActive() {
 
-    if ( ! function_exists( 'is_plugin_active' ) ) {
-        include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-    }
-
-    return is_plugin_active( 'pixelyoursite-pro/pixelyoursite-pro.php' );
-
-}
 
 function isPinterestActive( $checkCompatibility = true ) {
 	

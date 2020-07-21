@@ -23,11 +23,6 @@ class WooSEA_google_product_review {
 					"format" => "required",
 					"woo_suggest" => "link",
 				),
-				"brand" => array(
-					"name" => "brand",
-					"feed_name" => "brand",
-					"format" => "required",
-				),
 				"gtin" => array(
 					"name" => "gtin",
 					"feed_name" => "gtin",
@@ -43,6 +38,11 @@ class WooSEA_google_product_review {
 					"feed_name" => "sku",
 					"format" => "required",
 					"woo_suggest" => "sku",
+				),
+				"brand" => array(
+					"name" => "brand",
+					"feed_name" => "brand",
+					"format" => "required",
 				),
 				"reviews" => array(
 					"name" => "reviews",

@@ -4,7 +4,7 @@ Tags: Facebook, Facebook Conversion Pixel, Facebook Pixel, Facebook Pixel Events
 Requires at least: 4.4
 Tested up to: 5.4
 Requires PHP: 5.3
-Stable tag: 2.0.1
+Stable tag: 2.1.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,7 @@ This plugin also includes built-in support for these other WordPress plugins:
 * Ninja Forms
 * WP eCommerce
 * WPForms
+* WooCommerce (through the Server-Side API)
 
 == Installation ==
 __To install from your WordPress site__ <br />
@@ -49,6 +50,9 @@ If you get stuck, or have any questions, you can ask for help in the [Official F
 Of course! This plugin is open sourced on the Facebook Incubator GitHub. You can find the code and contribution instructions in the [plugin repository](https://github.com/facebookincubator/Facebook-Pixel-for-WordPress).
 
 == Changelog ==
+= 2020-06-18 version 2.1.0 =
+* Support for WooCommerce through the Server-Side API
+
 = 2020-04-23 version 2.0.2 =
 * Support for WordPress 5.4
 * Fixing an Illegal string offset error with WP Forms

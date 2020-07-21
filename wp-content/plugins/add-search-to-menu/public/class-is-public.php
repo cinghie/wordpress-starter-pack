@@ -51,18 +51,54 @@ class IS_Public
     function wp_enqueue_scripts()
     {
         global  $wp_query ;
+        $min = ( defined( 'IS_DEBUG' ) && IS_DEBUG ? '' : '.min' );
+        if ( !isset( $is->opt['not_load_files']['css'] ) ) {
+            wp_enqueue_style(
+                'ivory-search-styles',
+                plugins_url( '/public/css/ivory-search' . $min . '.css', IS_PLUGIN_FILE ),
+                array(),
+                IS_VERSION
+            );
+        }
         
         if ( !isset( $this->opt['not_load_files']['js'] ) ) {
             wp_enqueue_script(
                 'ivory-search-scripts',
-                plugins_url( '/public/js/ivory-search.js', IS_PLUGIN_FILE ),
+                plugins_url( '/public/js/ivory-search' . $min . '.js', IS_PLUGIN_FILE ),
                 array( 'jquery' ),
                 IS_VERSION,
                 true
             );
+            $is_analytics = get_option( 'is_analytics', array() );
+            $analytics_disabled = ( isset( $is_analytics['disable_analytics'] ) ? $is_analytics['disable_analytics'] : 0 );
+            
+            if ( !$analytics_disabled ) {
+                $is_temp = array(
+                    'is_analytics_enabled' => 1,
+                );
+                
+                if ( is_search() ) {
+                    if ( isset( $_GET['id'] ) ) {
+                        $is_temp['is_id'] = $_GET['id'];
+                    }
+                    if ( isset( $_GET['s'] ) ) {
+                        $is_temp['is_label'] = $_GET['s'];
+                    }
+                    
+                    if ( 0 == $wp_query->found_posts ) {
+                        $is_temp['is_cat'] = 'Nothing Found';
+                    } else {
+                        $is_temp['is_cat'] = 'Results Found';
+                    }
+                
+                }
+                
+                wp_localize_script( 'ivory-search-scripts', 'IvorySearchVars', $is_temp );
+            }
+            
             wp_register_script(
                 'ivory-ajax-search-scripts',
-                plugins_url( '/public/js/ivory-ajax-search.js', IS_PLUGIN_FILE ),
+                plugins_url( '/public/js/ivory-ajax-search' . $min . '.js', IS_PLUGIN_FILE ),
                 array( 'jquery' ),
                 IS_VERSION,
                 true
@@ -71,14 +107,15 @@ class IS_Public
                 'ajaxurl'    => admin_url( 'admin-ajax.php' ),
                 'ajax_nonce' => wp_create_nonce( 'is_ajax_nonce' ),
             ) );
+            wp_register_script(
+                'is-highlight',
+                plugins_url( '/public/js/is-highlight' . $min . '.js', IS_PLUGIN_FILE ),
+                array( 'jquery' ),
+                IS_VERSION,
+                true
+            );
             if ( is_search() && isset( $wp_query->query_vars['_is_settings']['highlight_terms'] ) && 0 !== $wp_query->found_posts ) {
-                wp_enqueue_script(
-                    'is-highlight',
-                    plugins_url( '/public/js/is-highlight.js', IS_PLUGIN_FILE ),
-                    array( 'jquery' ),
-                    IS_VERSION,
-                    true
-                );
+                wp_enqueue_script( 'is-highlight' );
             }
         }
         
@@ -112,70 +149,12 @@ class IS_Public
     }
     
     /**
-     * Registers search form shortcode.
-     */
-    function init()
-    {
-        add_shortcode( 'ivory-search', array( $this, 'search_form_shortcode' ) );
-    }
-    
-    /**
      * Add classes to body element.
      */
     function is_body_classes( $classes )
     {
         $classes[] = get_template();
         return $classes;
-    }
-    
-    /**
-     * Displays search form by processing shortcode.
-     */
-    function search_form_shortcode( $atts )
-    {
-        if ( is_feed() ) {
-            return '[ivory-search]';
-        }
-        if ( isset( $this->opt['disable'] ) ) {
-            return;
-        }
-        $atts = shortcode_atts( array(
-            'id'    => 0,
-            'title' => '',
-        ), $atts, 'ivory-search' );
-        $id = (int) $atts['id'];
-        $search_form = IS_Search_Form::get_instance( $id );
-        if ( !$search_form ) {
-            return '[ivory-search 404 "Not Found"]';
-        }
-        $form = $search_form->form_html( $atts );
-        return $form;
-    }
-    
-    /**
-     * Changes default search form.
-     */
-    function get_search_form( $form )
-    {
-        if ( isset( $this->opt['disable'] ) ) {
-            return '';
-        }
-        if ( isset( $this->opt['default_search'] ) ) {
-            return $form;
-        }
-        $page = get_page_by_path( 'default-search-form', OBJECT, 'is_search_form' );
-        
-        if ( !empty($page) ) {
-            $search_form = IS_Search_Form::get_instance( $page->ID );
-            
-            if ( $search_form ) {
-                $atts['id'] = (int) $page->ID;
-                $form = $search_form->form_html( $atts, 'n' );
-            }
-        
-        }
-        
-        return $form;
     }
     
     /**
@@ -189,25 +168,27 @@ class IS_Public
     function get_menu_search_form( $echo = true )
     {
         $result = '';
+        $search_form = false;
         $menu_search_form = ( isset( $this->opt['menu_search_form'] ) ? $this->opt['menu_search_form'] : 0 );
+        if ( $menu_search_form ) {
+            $search_form = IS_Search_Form::get_instance( $menu_search_form );
+        }
         
-        if ( !$menu_search_form ) {
+        if ( !$menu_search_form || !$search_form ) {
             $page = get_page_by_path( 'default-search-form', OBJECT, 'is_search_form' );
             if ( !empty($page) ) {
-                $menu_search_form = $page->ID;
+                $search_form = IS_Search_Form::get_instance( $page->ID );
             }
         }
         
         
-        if ( $menu_search_form ) {
-            $search_form = IS_Search_Form::get_instance( $menu_search_form );
-            
-            if ( $search_form ) {
-                $atts['id'] = $menu_search_form;
+        if ( $search_form ) {
+            $atts['id'] = $menu_search_form;
+            $display_id = '';
+            if ( $menu_search_form ) {
                 $display_id = ( 'Default Search Form' === $search_form->title() ? 'n' : '' );
-                $result = $search_form->form_html( $atts, $display_id );
             }
-        
+            $result = $search_form->form_html( $atts, $display_id );
         }
         
         
@@ -224,41 +205,63 @@ class IS_Public
      */
     function wp_nav_menu_items( $items, $args )
     {
-        if ( isset( $this->opt['menus'] ) && isset( $this->opt['menus'][$args->theme_location] ) ) {
+        $menu_name = '';
+        
+        if ( is_object( $args->menu ) ) {
+            $menu_name = $args->menu->slug;
+        } else {
+            if ( is_string( $args->menu ) ) {
+                $menu_name = $args->menu;
+            }
+        }
+        
+        
+        if ( isset( $this->opt['menus'] ) && isset( $this->opt['menus'][$args->theme_location] ) || isset( $this->opt['menu_name'] ) && isset( $this->opt['menu_name'][$menu_name] ) ) {
+            $temp = '';
             
             if ( isset( $this->opt['menu_gcse'] ) && '' != $this->opt['menu_gcse'] ) {
-                $items .= '<li class="gsc-cse-search-menu">' . $this->opt['menu_gcse'] . '</li>';
+                $temp .= '<li class="gsc-cse-search-menu">' . $this->opt['menu_gcse'] . '</li>';
             } else {
                 $search_class = ( isset( $this->opt['menu_classes'] ) ? $this->opt['menu_classes'] . ' astm-search-menu is-menu ' : ' astm-search-menu is-menu ' );
-                $search_class .= ( isset( $this->opt['menu_style'] ) ? $this->opt['menu_style'] : 'default' );
+                $search_class .= ( isset( $this->opt['menu_style'] ) && 'dropdown' != $this->opt['menu_style'] ? $this->opt['menu_style'] : 'is-dropdown' );
+                $search_class .= ( isset( $this->opt['first_menu_item'] ) && $this->opt['first_menu_item'] ? ' is-first' : '' );
                 $title = ( isset( $this->opt['menu_title'] ) ? $this->opt['menu_title'] : '' );
-                $items .= '<li class="' . esc_attr( $search_class ) . '">';
+                $temp .= '<li class="' . esc_attr( $search_class ) . ' menu-item">';
                 
-                if ( isset( $this->opt['menu_style'] ) && $this->opt['menu_style'] != 'default' ) {
-                    $items .= '<a title="' . esc_attr( $title ) . '" href="#">';
+                if ( !isset( $this->opt['menu_style'] ) || $this->opt['menu_style'] != 'default' ) {
+                    $link_title = ( apply_filters( 'is_show_menu_link_title', true ) ? 'title="' . esc_attr( $title ) . '"' : '' );
+                    $temp .= '<a ' . $link_title . ' href="#">';
                     
                     if ( '' == $title ) {
-                        $items .= '<svg width="20" height="20" class="search-icon" role="img" viewBox="2 9 20 5" focusable="false" aria-label="' . __( "Search", "ivory-search" ) . '">
+                        $temp .= '<svg width="20" height="20" class="search-icon" role="img" viewBox="2 9 20 5" focusable="false" aria-label="' . __( "Search", "ivory-search" ) . '">
 						<path class="search-icon-path" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>';
                     } else {
-                        $items .= $title;
+                        $temp .= $title;
                     }
                     
-                    $items .= '</a>';
+                    $temp .= '</a>';
                 }
                 
                 
                 if ( !isset( $this->opt['menu_style'] ) || $this->opt['menu_style'] !== 'popup' ) {
-                    $items .= $this->get_menu_search_form( false );
-                    if ( isset( $this->opt['menu_close_icon'] ) && $this->opt['menu_close_icon'] ) {
-                        $items .= '<div class="search-close"></div>';
+                    $temp .= $this->get_menu_search_form( false );
+                    if ( !isset( $this->opt['menu_style'] ) || isset( $this->opt['menu_close_icon'] ) && $this->opt['menu_close_icon'] ) {
+                        $temp .= '<div class="search-close"></div>';
                     }
                 }
                 
-                $items .= '</li>';
+                $temp .= '</li>';
+            }
+            
+            
+            if ( isset( $this->opt['first_menu_item'] ) && $this->opt['first_menu_item'] ) {
+                $items = $temp . $items;
+            } else {
+                $items .= $temp;
             }
         
         }
+        
         return $items;
     }
     
@@ -273,13 +276,14 @@ class IS_Public
             $items .= '<div class="astm-search-menu-wrapper is-menu-wrapper"><div class="gsc-cse-search-menu">' . $this->opt['menu_gcse'] . '</div></div>';
         } else {
             $search_class = ( isset( $this->opt['menu_classes'] ) ? $this->opt['menu_classes'] . ' astm-search-menu is-menu ' : ' astm-search-menu is-menu ' );
-            $search_class .= ( isset( $this->opt['menu_style'] ) ? $this->opt['menu_style'] : 'default' );
+            $search_class .= ( isset( $this->opt['menu_style'] ) && 'dropdown' != $this->opt['menu_style'] ? $this->opt['menu_style'] : 'is-dropdown' );
             $title = ( isset( $this->opt['menu_title'] ) ? $this->opt['menu_title'] : '' );
             $items .= '<div class="astm-search-menu-wrapper is-menu-wrapper"><div>';
             $items .= '<span class="' . esc_attr( $search_class ) . '">';
             
-            if ( isset( $this->opt['menu_style'] ) && $this->opt['menu_style'] != 'default' ) {
-                $items .= '<a title="' . esc_attr( $title ) . '" href="#">';
+            if ( !isset( $this->opt['menu_style'] ) || $this->opt['menu_style'] != 'default' ) {
+                $link_title = ( apply_filters( 'is_show_menu_link_title', true ) ? 'title="' . esc_attr( $title ) . '"' : '' );
+                $items .= '<a ' . $link_title . ' href="#">';
                 
                 if ( '' == $title ) {
                     $items .= '<svg width="20" height="20" class="search-icon" role="img" viewBox="2 9 20 5" focusable="false" aria-label="' . __( "Search", "ivory-search" ) . '">
@@ -294,7 +298,7 @@ class IS_Public
             
             if ( !isset( $this->opt['menu_style'] ) || $this->opt['menu_style'] !== 'popup' ) {
                 $items .= $this->get_menu_search_form( false );
-                if ( isset( $this->opt['menu_close_icon'] ) && $this->opt['menu_close_icon'] ) {
+                if ( !isset( $this->opt['menu_style'] ) || isset( $this->opt['menu_close_icon'] ) && $this->opt['menu_close_icon'] ) {
                     $items .= '<div class="search-close"></div>';
                 }
             }
@@ -471,9 +475,15 @@ class IS_Public
                                                     if ( isset( $query->query_vars['_is_excludes']['ignore_sticky_posts'] ) ) {
                                                         $values = get_option( 'sticky_posts' );
                                                     }
+                                                    
                                                     if ( isset( $query->query_vars['_is_excludes']['post__not_in'] ) ) {
                                                         $values = array_merge( $values, array_values( $query->query_vars['_is_excludes']['post__not_in'] ) );
+                                                        $exclude_child = apply_filters( 'is_exclude_child', false );
+                                                        if ( $exclude_child ) {
+                                                            $query->set( 'post_parent__not_in', $values );
+                                                        }
                                                     }
+                                                    
                                                     $query->set( 'post__not_in', $values );
                                                     break;
                                                 case 'tax_query':
@@ -641,8 +651,8 @@ class IS_Public
         
         if ( isset( $q['_is_settings']['fuzzy_match'] ) && '2' !== $q['_is_settings']['fuzzy_match'] ) {
             $like = 'REGEXP';
-            $f = "(^|[[:space:]])";
-            $l = "([[:space:]]|\$)";
+            $f = "(^|[[\\s|.|~||!|@|#|\$|%|^|&|*|(|)|_|\\-|+|=|{|}|[|]|\\||:|;|<|>|\\?|\\/|\\|]])";
+            $l = "([[\\s|.|~||!|@|#|\$|%|^|&|*|(|)|_|\\-|+|=|{|}|[|]|\\||:|;|<|>|\\?|\\/|\\|]]|\$)";
         }
         
         $searchand = '';
@@ -854,6 +864,15 @@ class IS_Public
     function wp_footer()
     {
         
+        if ( isset( $this->opt['menu_style'] ) && 'default' !== $this->opt['menu_style'] && isset( $this->opt['menu_magnifier_color'] ) && !empty($this->opt['menu_magnifier_color']) ) {
+            echo  '<style type="text/css" media="screen">' ;
+            echo  '.is-menu path.search-icon-path { fill: ' . $this->opt['menu_magnifier_color'] . ';}' ;
+            echo  'body .popup-search-close:after, body .search-close:after { border-color: ' . $this->opt['menu_magnifier_color'] . ';}' ;
+            echo  'body .popup-search-close:before, body .search-close:before { border-color: ' . $this->opt['menu_magnifier_color'] . ';}' ;
+            echo  '</style>' ;
+        }
+        
+        
         if ( isset( $this->opt['custom_css'] ) && $this->opt['custom_css'] != '' ) {
             echo  '<style type="text/css" media="screen">' ;
             echo  '/* Ivory search custom CSS code */' ;
@@ -874,7 +893,11 @@ class IS_Public
         }
         
         if ( isset( $this->opt['menu_style'] ) && 'popup' === $this->opt['menu_style'] ) {
-            echo  '<div id="is-popup-wrapper" style="display:none"><div class="popup-search-close"></div><div class="is-popup-search-form">' ;
+            echo  '<div id="is-popup-wrapper" style="display:none">' ;
+            if ( !isset( $this->opt['menu_style'] ) || isset( $this->opt['menu_close_icon'] ) && $this->opt['menu_close_icon'] ) {
+                echo  '<div class="popup-search-close"></div>' ;
+            }
+            echo  '<div class="is-popup-search-form">' ;
             $this->get_menu_search_form();
             echo  '</div></div>' ;
         }

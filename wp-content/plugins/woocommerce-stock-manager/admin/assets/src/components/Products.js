@@ -17,7 +17,7 @@ const mapStateToProps = (state) => ({
   products: getProducts(state),
   missingImages: getMissingImages(state, {
     ids: getProducts(state).items.map((product) => (
-      product.images.length > 0 ? product.images[0].id : false
+      product.images.length > 0 ? product.images[0].id : ((product.hasOwnProperty('image')) ? product.image : false)
     )).filter(Boolean),
   }),
   settings: getScreenOptions(state).settings,

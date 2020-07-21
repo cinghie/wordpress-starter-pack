@@ -45,12 +45,14 @@ if ( ! class_exists( 'WPPFM_Form_Element' ) ) :
 		}
 
 		/**
-		 * @param   array   $feed_data_to_store An array with the feed data.
+		 * Generates the html code for a hidden var to store the feed data for use in the front end.
+		 *
+		 * @param   array $feed_data_to_store   An array with the feed data.
 		 *
 		 * @return  string  An html string that contains the json encoded feed data.
 		 */
 		public static function feed_data_holder( $feed_data_to_store ) {
-			return '<var id="wppfm-ajax-feed-data-array" style="display:none;">' . json_encode( $feed_data_to_store ) . '</var>';
+			return '<var id="wppfm-ajax-feed-data-array" style="display:none;">' . wp_json_encode( $feed_data_to_store ) . '</var>';
 		}
 
 		/**
@@ -59,7 +61,7 @@ if ( ! class_exists( 'WPPFM_Form_Element' ) ) :
 		 * @return string
 		 */
 		public static function ajax_to_db_conversion_data_holder() {
-			$feed_data_to_store = json_encode( self::ajax_feed_data_to_database_array() );
+			$feed_data_to_store = wp_json_encode( self::ajax_feed_data_to_database_array() );
 			return '<var id="wppfm-ajax-feed-data-to-database-conversion-array" style="display:none;">' . $feed_data_to_store . '</var>';
 		}
 
@@ -84,7 +86,7 @@ if ( ! class_exists( 'WPPFM_Form_Element' ) ) :
 				array_push( $used_names, $name->title );
 			}
 
-			return '<var id="wppfm-all-feed-names" style="display:none;" >' . json_encode( $used_names )  . '</var>';
+			return '<var id="wppfm-all-feed-names" style="display:none;" >' . wp_json_encode( $used_names )  . '</var>';
 		}
 
 		/**

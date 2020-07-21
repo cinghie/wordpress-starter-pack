@@ -222,8 +222,14 @@ function ppom_get_product_price( $product, $variation_id=null, $context='' ) {
 	// Above condition replaced on March 26, 2020. As it was not working well
 	// following conditions performing just well.
 	
-	if( $context != 'cart' ) {
-		$product_price = apply_filters('woocs_exchange_value', $product_price);
+	
+	if( has_filter('woocs_exchange_value') ) {
+		global $WOOCS;
+		
+		// June 5, now following code is being disabled and it is working fine.
+		if( $WOOCS->is_multiple_allowed ) {
+			$product_price = apply_filters('woocs_exchange_value', $product_price);
+		}
 	}
 	
 	return apply_filters('ppom_product_price', $product_price, $product);
@@ -267,7 +273,7 @@ function ppom_get_product_regular_price( $product ) {
 function ppom_make_meta_data( $cart_item, $context="cart" ){
 	
 	if( ! isset($cart_item['ppom']['fields']) ) return $cart_item;
-	
+	// ppom_pa($cart_item);
 	$ppom_meta_ids = '';	
 	// removing id field
 	if ( !empty( $cart_item ['ppom'] ['fields']['id'] )) {
@@ -338,12 +344,33 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 					if( !empty($qty) ) {
 						$qty_values[] = "{$label} = {$qty}";
 						// $ppom_meta[$label] = $qty;
-						$total_qty += $qty;	
+						$total_qty += intval($qty);	
 					}
 				}
 				
 				if( $total_qty > 0 ) {
-					$qty_values[] = sprintf(__('<strong>Total = %s</strong>',"ppom"), $total_qty);
+					$qty_values[] = sprintf(__('<strong>Total = %d</strong>',"ppom"), $total_qty);
+					$meta_data = array('name'=>$field_title, 'value'=>implode("<br>",$qty_values));
+					// A placeholder key to handle qunantity display in item meta data under myaccount
+				}
+				
+				$ppom_meta['ppom_has_quantities'] = $total_qty;
+				break;
+				
+			case 'qtypack':
+				$total_qty = 0;
+				$qty_values = array("&nbsp;");
+				// ppom_pa($value);
+				foreach($value as $label => $qty) {
+					if( !empty($qty) ) {
+						$qty_values[] = "{$label} = {$qty}";
+						// $ppom_meta[$label] = $qty;
+						$total_qty += intval($qty);	
+					}
+				}
+				
+				if( $total_qty > 0 ) {
+					$qty_values[] = sprintf(__('<strong>Total = %d</strong>',"ppom"), $total_qty);
 					$meta_data = array('name'=>$field_title, 'value'=>implode("<br>",$qty_values));
 					// A placeholder key to handle qunantity display in item meta data under myaccount
 				}
@@ -360,12 +387,12 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 					if( !empty($qty) ) {
 						$qty_values[] = "{$label} = {$qty}";
 						// $ppom_meta[$label] = $qty;
-						$total_qty += $qty;	
+						$total_qty += intval($qty);	
 					}
 				}
 				
 				if( $total_qty > 0 ) {
-					$qty_values[] = __('Total',"ppom").' = '.$total_qty;
+					$qty_values[] = sprintf(__('<strong>Total = %d</strong>',"ppom"), $total_qty);
 					$meta_data = array('name'=>$field_title, 'value'=>implode(",",$qty_values));
 					// A placeholder key to handle qunantity display in item meta data under myaccount
 				}
@@ -414,7 +441,7 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 							
 							if (!empty($quantity)) {
 								$meta_display[] = "{$ticket_variations} = {$quantity}";
-								$total_qty += $quantity;	
+								$total_qty += intval($quantity);	
 							}
 							
 						}
@@ -422,7 +449,7 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 				}
 				
 				if( $total_qty > 0 ) {
-					$meta_display[] = sprintf(__('<strong>Total = %s</strong>',"ppom"), $total_qty);
+					$meta_display[] = sprintf(__('<strong>Total = %d</strong>',"ppom"), $total_qty);
 					$meta_data = array('name'=>$field_title, 'display'=>implode("<br>", $meta_display), 'value'=> $value);
 					// A placeholder key to handle qunantity display in item meta data under myaccount
 				}
@@ -447,6 +474,62 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 					$meta_data = array('name'=>$field_title, 'value'=>$file_thumbs_html);
 					// $ppom_meta[$field_title] = $file_thumbs_html;
 				}
+				break;
+				
+				
+			case 'fancycropper':
+				
+					$ppom_html   = '';
+					$ppom_html	.=  '<table class="table table-bordered">';
+					foreach ($value as $popupID => $image_data) {
+						
+						$fomatted_data = json_decode(stripcslashes($image_data), true);
+						// ppom_pa($fomatted_data);
+						$imageURL = isset($fomatted_data['imageURL']) ? $fomatted_data['imageURL'] : '';
+    					$imageURL = ppom_get_dir_url() . 'cropped/' . $imageURL;
+    					
+    					$ppom_html	.= '<tr>';
+	    					$ppom_html	.= '<td>';
+	    						$ppom_html 	.= '<a href="'.esc_url($imageURL).'"><img class="img-thumbnail" style="width:'.esc_attr(ppom_get_thumbs_size()).'" src="'.esc_url($imageURL).'" title="'.esc_attr($imageURL).'"></a>';
+	    					$ppom_html	.= '</td>';
+	    					$ppom_html	.= '<td>Main Image</td>';
+    					$ppom_html	.= '</tr>';
+    					
+    					// $ppom_html	.= '<tr>';
+	    				// 	$ppom_html	.= '<td>'.__("Cropped Image","ppom").'</td>';
+	    				// 	$ppom_html	.= '<td>' .__("Label","ppom").'</td>';
+	    				// 	$ppom_html	.= '<td>' .__("QTY","ppom").'</td>';
+    					// $ppom_html	.= '</tr>';
+						
+						foreach ($fomatted_data['cropped'] as $cropped_id => $cropped_meta) {
+							
+							$file_name   = isset($cropped_meta['croppedURL']) ? $cropped_meta['croppedURL'] : '';
+							$qty         = isset($cropped_meta['qty']) ? $cropped_meta['qty'] : '';
+    	        			$label       = !empty($cropped_meta['label']) ? $cropped_meta['label'] : __("Cropped","ppom");
+    	        			
+    	        			$qtylabel = "{$label} x {$qty}";
+    		    			$cropped_url = ppom_get_dir_url() . 'cropped/' . $file_name;
+        		
+			        		$ppom_html	.= '<tr>';
+					        		$ppom_html .= '<td>';
+						        		$ppom_html .= '<a href="'.esc_url($cropped_url).'" class="lightbox" title="'.esc_attr($cropped_url).'">';
+						        			$ppom_html .= '<img class="img-thumbnail" style="width:'.esc_attr(ppom_get_thumbs_size()).'" src="'.esc_url($cropped_url).'" title="'.esc_attr($cropped_url).'">';
+						        		$ppom_html .= '</a>';
+					        		$ppom_html .= '</td>';
+				        		$ppom_html	.= '<td>' .$qtylabel. '</td>';
+				        		// $ppom_html	.= '<td>' .$qty. '</td>';
+			        		$ppom_html	.= '</tr>';
+						}
+					}
+					
+					$ppom_html .= '</table>';
+					
+					$cropped_html = apply_filters('ppom_fancycropper_cart_html', $ppom_html, $value, $field_meta);
+					
+					if( !empty($value) ) {
+						$meta_data = array('name'=>$field_title, 'value'=>$cropped_html);
+					}
+					
 				break;
 				
 			case 'cropper':
@@ -1013,7 +1096,7 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 				$ppom_new_option[$the_option]['discount'] = $discount_type;
 			}
 			
-			if( $meta['type'] == 'cropper' ) {
+			if( $meta['type'] == 'cropper' || $meta['type'] == 'fancycropper') {
 				
 				$ppom_new_option[$the_option]['width'] = isset($option['width']) ? $option['width'] : '';
 				$ppom_new_option[$the_option]['height'] = isset($option['height']) ? $option['height'] : '';
@@ -1482,6 +1565,19 @@ function ppom_field_has_stock( $meta, $value ) {
 				}
 			}
 		break;
+		
+		case 'image':
+				foreach($value as $data) {
+					$image = json_decode(stripslashes($data), true);
+					foreach($meta['images'] as $option) {
+	    				if( isset($option['stock']) && !empty($option['stock']) && stripslashes($option['id']) == $image['image_id'] ) {
+	                		$option['option'] = $option['title'];
+	    				    $has_stock[] = $option;
+	                        break;
+	                    }
+                	}
+				}
+			break;
         
     }
 	
@@ -1724,6 +1820,14 @@ function ppom_get_price_mode() {
 	return apply_filters('ppom_price_mode', $price_mode);
 }
 
+function ppom_get_conditions_mode() {
+	
+	$mode = 'legacy';
+	if( ppom_get_option('ppom_new_conditions') == 'yes' ) $mode = 'new';
+	
+	return apply_filters('ppom_new_conditions', $mode);
+}
+
 function ppom_get_price_table_calculation() {
 	
 	$js_script = 'ppom-price.js';
@@ -1829,4 +1933,45 @@ function ppom_security_role(){
 
 	
 	return $action;
+}
+
+// generating ppom conditional data attributes
+function ppom_get_conditional_data_attributes( $meta ) {
+	
+	$logic			= isset($meta['logic']) ? ppom_wpml_translate($meta['logic'], 'PPOM') : '';
+	$conditions		= isset($meta['conditions']) ? ppom_wpml_translate($meta['conditions'], 'PPOM') : '';
+	$type			= isset($meta['type']) ? ppom_wpml_translate($meta['type'], 'PPOM') : '';
+	
+	$attr_html = '';
+	
+	$attr_html .= ' data-type="'.esc_attr($type).'"';
+	// ppom_pa($conditions);
+	
+	
+	if( isset($conditions['rules']) && $logic === 'on' ) {
+		
+		$bound		= isset($conditions['bound']) ? ppom_wpml_translate($conditions['bound'], 'PPOM') : '';
+		$visibility	= isset($conditions['visibility']) ? ppom_wpml_translate($conditions['visibility'], 'PPOM') : '';
+		
+		$attr_html .= ' data-cond="1"';
+		$attr_html .= ' data-cond-total="'.esc_attr(count($conditions['rules'])).'"';
+		$attr_html .= ' data-cond-bind="'.esc_attr($bound).'"';
+		$attr_html .= ' data-cond-visibility="'.esc_attr($visibility).'"';
+		
+		foreach($conditions['rules'] as $index => $rule){
+			
+			$counter	= ++$index;
+			$input		= "input".$counter;
+			$value		= "val".$counter;
+			$opr		= "operator".$counter;
+			$element	= isset($rule['elements']) ? ppom_wpml_translate($rule['elements'], 'PPOM') : '';
+			$element_val= isset($rule['element_values']) ? ppom_wpml_translate($rule['element_values'], 'PPOM') : '';
+			$operator	= isset($rule['operators']) ? ppom_wpml_translate($rule['operators'], 'PPOM') : '';
+			$attr_html .= ' data-cond-'.$input.'="'.esc_attr($element).'"';
+			$attr_html .= ' data-cond-'.$value.'="'.esc_attr($element_val).'"';
+			$attr_html .= ' data-cond-'.$opr.'="'.esc_attr($operator).'"';
+		}
+	}
+	
+	return apply_filters('ppom_field_conditions', $attr_html, $meta);
 }

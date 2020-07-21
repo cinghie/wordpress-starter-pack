@@ -50,6 +50,7 @@ class Assets {
 		self::register_script( 'wc-blocks', plugins_url( self::get_block_asset_build_path( 'blocks' ), __DIR__ ), [], false );
 		self::register_script( 'wc-vendors', plugins_url( self::get_block_asset_build_path( 'vendors' ), __DIR__ ), [], false );
 		self::register_script( 'wc-blocks-registry', plugins_url( 'build/wc-blocks-registry.js', __DIR__ ), [], false );
+		self::register_script( 'wc-shared-context', plugins_url( 'build/wc-shared-context.js', __DIR__ ), [], false );
 
 		// Inline data.
 		wp_add_inline_script(
@@ -80,8 +81,15 @@ class Assets {
 		self::register_script( 'wc-price-filter', plugins_url( self::get_block_asset_build_path( 'price-filter' ), __DIR__ ), $block_dependencies );
 		self::register_script( 'wc-attribute-filter', plugins_url( self::get_block_asset_build_path( 'attribute-filter' ), __DIR__ ), $block_dependencies );
 		self::register_script( 'wc-active-filters', plugins_url( self::get_block_asset_build_path( 'active-filters' ), __DIR__ ), $block_dependencies );
-		self::register_script( 'wc-checkout-block', plugins_url( self::get_block_asset_build_path( 'checkout' ), __DIR__ ), $block_dependencies );
-		self::register_script( 'wc-cart-block', plugins_url( self::get_block_asset_build_path( 'cart' ), __DIR__ ), $block_dependencies );
+
+		if ( Package::is_experimental_build() ) {
+			self::register_script( 'wc-single-product-block', plugins_url( self::get_block_asset_build_path( 'single-product' ), __DIR__ ), $block_dependencies );
+		}
+
+		if ( Package::is_feature_plugin_build() ) {
+			self::register_script( 'wc-checkout-block', plugins_url( self::get_block_asset_build_path( 'checkout' ), __DIR__ ), $block_dependencies );
+			self::register_script( 'wc-cart-block', plugins_url( self::get_block_asset_build_path( 'cart' ), __DIR__ ), $block_dependencies );
+		}
 	}
 
 	/**
@@ -173,6 +181,7 @@ class Assets {
 				'checkoutAllowsGuest'           => 'yes' === get_option( 'woocommerce_enable_guest_checkout' ),
 				'checkoutAllowsSignup'          => 'yes' === get_option( 'woocommerce_enable_signup_and_login_from_checkout' ),
 				'baseLocation'                  => wc_get_base_location(),
+				'woocommerceBlocksPhase'        => WOOCOMMERCE_BLOCKS_PHASE,
 
 				/*
 				 * translators: If your word count is based on single characters (e.g. East Asian characters),

@@ -1,4 +1,4 @@
-jQuery( document ).ready(
+jQuery(
 	function( $ ) {
 		var fileNameElement  = $( '#file-name' );
 		var merchantsElement = $( '#wppfm-merchants-selector' );

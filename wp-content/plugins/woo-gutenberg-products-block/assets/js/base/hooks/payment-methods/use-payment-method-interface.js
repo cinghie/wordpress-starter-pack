@@ -21,7 +21,7 @@ import {
 /**
  * Internal dependencies
  */
-import { useStoreOrder, useStoreCartCoupons, useStoreCart } from '..';
+import { useStoreCartCoupons, useStoreCart } from '..';
 
 /**
  * @typedef {import('@woocommerce/type-defs/registered-payment-method-props').RegisteredPaymentMethodProps} RegisteredPaymentMethodProps
@@ -79,9 +79,6 @@ export const prepareTotalItems = ( totals, needsShipping ) => {
 	return newTotals;
 };
 
-// @todo This will expose the consistent properties used as the payment method
-// interface pulled from the various contexts exposing data for the interface.
-// @todo need to also include notices interfaces here (maybe?).
 /**
  * @return {RegisteredPaymentMethodProps} Interface to use as payment method props.
  */
@@ -119,8 +116,7 @@ export const usePaymentMethodInterface = () => {
 		onShippingRateSelectFail,
 		needsShipping,
 	} = useShippingDataContext();
-	const { billingData, setBillingData } = useBillingDataContext();
-	const { order, isLoading: orderLoading } = useStoreOrder();
+	const { billingData } = useBillingDataContext();
 	const { cartTotals } = useStoreCart();
 	const { appliedCoupons } = useStoreCartCoupons();
 	const { noticeContexts, responseTypes } = useEmitResponse();
@@ -167,9 +163,6 @@ export const usePaymentMethodInterface = () => {
 		},
 		billing: {
 			billingData,
-			setBillingData,
-			order,
-			orderLoading,
 			cartTotal: currentCartTotal.current,
 			currency: getCurrencyFromPriceResponse( cartTotals ),
 			cartTotalItems: currentCartTotals.current,

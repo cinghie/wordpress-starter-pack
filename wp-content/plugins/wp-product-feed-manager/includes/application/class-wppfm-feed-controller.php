@@ -111,15 +111,15 @@ if ( ! class_exists( 'WPPFM_Feed_Controller' ) ) :
 		public static function feed_is_processing() {
 			$status = get_option( 'wppfm_background_process_is_running', 'false' );
 
-			return 'true' === $status ? true : false;
+			return 'true' === $status;
 		}
 
 		/**
 		 * Checks if a running feed size is still growing, in order to identify a failing feed process.
 		 *
-		 * @since 2.2.0
+		 * @since 2.2.0.
 		 *
-		 * @param   string  $feed_file  String with the full path and name of the feed file.
+		 * @param   string $feed_file   String with the full path and name of the feed file.
 		 *
 		 * @return  boolean False if the feed still grows, true if it stopped growing for a certain time.
 		 */
@@ -134,7 +134,7 @@ if ( ! class_exists( 'WPPFM_Feed_Controller' ) ) :
 			// Get the feed file name that's stored in the transient or take the $feed_file parameter.
 			$trans_feed_file = $trans ? substr( $trans, strrpos( $trans, '|' ) + 1 ) : $feed_file;
 
-			// if the transient was empty or the feed file in the transient is not the currently active file, reset the transient
+			// if the transient was empty or the feed file in the transient is not the currently active file, reset the transient.
 			if ( false === $trans || $feed_file !== $trans_feed_file ) {
 				$trans = '0|0|' . $feed_file;
 				set_transient( 'wppfm_feed_file_size', $trans, WPPFM_TRANSIENT_LIVE );
@@ -149,7 +149,7 @@ if ( ! class_exists( 'WPPFM_Feed_Controller' ) ) :
 
 			// If file does not exist, return true.
 			if ( false === $curr_feed_size ) {
-				delete_transient( 'wppfm_feed_file_size' ); // reset the counter
+				delete_transient( 'wppfm_feed_file_size' ); // Reset the counter.
 				return true;
 			}
 
@@ -157,7 +157,7 @@ if ( ! class_exists( 'WPPFM_Feed_Controller' ) ) :
 			if ( $curr_feed_size <= $prev_feed_size ) {
 				// And the delay time has passed.
 				if ( $prev_feed_time_stamp + apply_filters( 'wppfm_delay_failed_label', WPPFM_DELAY_FAILED_LABEL, $feed_file ) < time() ) {
-					delete_transient( 'wppfm_feed_file_size' ); // reset the counter
+					delete_transient( 'wppfm_feed_file_size' ); // Reset the counter.
 					return true;
 				} else {
 					return false;

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * WP Product Schedules Class.
  *
@@ -19,10 +18,6 @@ if ( ! class_exists( 'WPPFM_Schedules' ) ) :
 	 */
 	class WPPFM_Schedules {
 
-		/* --------------------------------------------------------------------------------------------------*
-		 * Public functions
-		 * -------------------------------------------------------------------------------------------------- */
-
 		/**
 		 * Initiates the automatic feed updates
 		 */
@@ -34,53 +29,49 @@ if ( ! class_exists( 'WPPFM_Schedules' ) ) :
 			$failed_feeds           = $data_class->get_failed_feeds();
 			$active_feed_id         = null;
 
-			// update scheduled feeds
+			// Update scheduled feeds.
 			foreach ( $active_feeds_schedules as $schedule ) {
 				$active_feed_id = $schedule['product_feed_id'];
 				$update_time    = $this->new_activation_time( $schedule['updated'], $schedule['schedule'] );
 
-				// activate the feed update when the update time is reached
+				// Activate the feed update when the update time is reached.
 				if ( $update_time < $current_timestamp ) {
 					WPPFM_Feed_Controller::add_id_to_feed_queue( $schedule['product_feed_id'] );
 
-					$data_class->update_feed_status( $schedule['product_feed_id'], 4 ); // feed status to waiting in queue
+					$data_class->update_feed_status( $schedule['product_feed_id'], 4 ); // Feed status to waiting in queue.
 				}
 			}
 
-			// if there is no feed processing in progress and the feed queue is not empty, start updating the current feed
+			// If there is no feed processing in progress and the feed queue is not empty, start updating the current feed.
 			if ( ! WPPFM_Feed_Controller::feed_queue_is_empty() && ! WPPFM_Feed_Controller::feed_is_processing() ) {
 				do_action( 'wppfm_automatic_feed_update_triggered', $active_feed_id );
 				$feed_master_class = new WPPFM_Feed_Master_Class( $active_feed_id );
 				$feed_master_class->update_feed_file( true );
 			}
 
-			// update previously failed feeds
+			// Update previously failed feeds.
 			if ( 'true' === get_option( 'wppfm_auto_feed_fix' ) ) {
 				foreach ( $failed_feeds as $failed_feed ) {
 					WPPFM_Feed_Controller::add_id_to_feed_queue( $failed_feed['product_feed_id'] );
 
-					// if there is no feed processing in progress, start updating the current feed
+					// If there is no feed processing in progress, start updating the current feed.
 					if ( ! WPPFM_Feed_Controller::feed_is_processing() ) {
 						do_action( 'wppfm_automatic_feed_prepare_update_triggered', $active_feed_id );
 
 						$feed_master_class = new WPPFM_Feed_Master_Class( $active_feed_id );
 						$feed_master_class->update_feed_file( true );
 					} else {
-						$data_class->update_feed_status( $failed_feed['product_feed_id'], 4 ); // feed status to waiting in queue
+						$data_class->update_feed_status( $failed_feed['product_feed_id'], 4 ); // Feed status to waiting in queue.
 					}
 				}
 			}
 		}
 
-		/* --------------------------------------------------------------------------------------------------*
-		 * Private functions
-		 * -------------------------------------------------------------------------------------------------- */
-
 		/**
 		 * Returns the time at which the feed should be updated
 		 *
-		 * @param string $last_update       time string with the data and time the feed has been update last
-		 * @param string $update_frequency  registered update frequency
+		 * @param string $last_update       time string with the data and time the feed has been update last.
+		 * @param string $update_frequency  registered update frequency.
 		 *
 		 * @return string Containing the time in Y-m-d H:i:s format
 		 */
@@ -99,11 +90,11 @@ if ( ! class_exists( 'WPPFM_Schedules' ) ) :
 								|| ( '00' === $hrs && '00' === $min ) )
 				? 0 : $update_split[0];
 
-			if ( $freq < 2 ) { // update only once a day, every $update_split[0] days
+			if ( $freq < 2 ) { // Update only once a day, every $update_split[0] days.
 				$update_date = date_add( date_create( date( 'Y-m-d', strtotime( $last_update ) ) ), date_interval_create_from_date_string( $days . ' days' ) );
 
 				return date_format( $update_date, 'Y-m-d' ) . ' ' . $planned_update_time;
-			} else { // update more than once a day
+			} else { // Update more than once a day.
 				$update_hrs  = $this->get_update_hours( $freq );
 				$update_date = date_add( date_create( $last_update ), date_interval_create_from_date_string( $update_hrs . ' hours' ) );
 
@@ -114,7 +105,7 @@ if ( ! class_exists( 'WPPFM_Schedules' ) ) :
 		/**
 		 * Returns the daily update options
 		 *
-		 * @param string $selection selected number of hours
+		 * @param string $selection     Selected number of hours.
 		 *
 		 * @return int Hours difference between updates
 		 */
@@ -145,6 +136,6 @@ if ( ! class_exists( 'WPPFM_Schedules' ) ) :
 
 	}
 
-	// end of WPPFM_Schedules class
+	// End of WPPFM_Schedules class.
 
 endif;

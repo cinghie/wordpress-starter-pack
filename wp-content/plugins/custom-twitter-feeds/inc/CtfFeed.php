@@ -442,7 +442,7 @@ class CtfFeed
         if ( isset( $this->atts['search'] ) || isset( $this->atts['hashtag'] ) ) {
             $this->feed_options['type'] = 'search';
             $this->working_term = isset( $this->atts['hashtag'] ) ? $this->atts['hashtag'] : ( isset( $this->atts['search'] ) ? $this->atts['search'] : '' );
-            $this->feed_options['feed_term'] = isset( $this->working_term ) ? ctf_validate_search_text( $this->working_term ) : ( ( isset( $this->db_options['search_text'] ) ) ? $this->db_options['search_text'] : '' );
+            $this->feed_options['feed_term'] = isset( $this->working_term ) ? ctf_validate_search_text( $this->working_term ) . ' -filter:retweets' : ( ( isset( $this->db_options['search_text'] ) ) ? $this->db_options['search_text'] . ' -filter:retweets' : '' );
             $this->check_for_duplicates = true;
         }
 
@@ -456,7 +456,7 @@ class CtfFeed
                     $this->feed_options['type'] = 'hometimeline';
                     break;
                 case 'search':
-                    $this->feed_options['feed_term'] = isset( $this->db_options['search_text'] ) ? $this->db_options['search_text'] : '';
+                    $this->feed_options['feed_term'] = isset( $this->db_options['search_text'] ) ? $this->db_options['search_text'] . ' -filter:retweets' : '';
                     $this->check_for_duplicates = true;
                     break;
             }
@@ -507,6 +507,7 @@ class CtfFeed
                 break;
             case 'search' :
                 $hashtag = isset( $this->feed_options['feed_term'] ) ? $this->feed_options['feed_term'] : '';
+	            $hashtag = str_replace( ' -filter:retweets', '', $hashtag );
                 $this->transient_name = substr( 'ctf_' . $last_id_data . $hashtag . $num, 0, 45 );
                 break;
         }
@@ -579,6 +580,11 @@ class CtfFeed
 		$includewords = ! empty( $this->feed_options['includewords'] ) ? substr( str_replace( array( ',', ' ' ), '', $this->feed_options['includewords'] ), 0, 10 ) : '';
 		$excludewords = ! empty( $this->feed_options['excludewords'] ) ? substr( str_replace( array( ',', ' ' ), '', $this->feed_options['excludewords'] ), 0, 5 ) : '';
 		$cache_name = substr( 'ctf_!_' . $this->feed_options['feed_term'] . $includewords . $excludewords, 0, 45 );
+
+		if ( $this->feed_options['type'] === 'search' ) {
+			$cache_name = str_replace( ' -filter:retweets', '', $cache_name );
+		}
+
 		$cache_time_limit_reached = get_transient( $cache_name ) ? false : true;
 
 		$existing_cache = get_option( $cache_name, false );
@@ -793,6 +799,41 @@ class CtfFeed
         $this->setTweetsToRetrieve();
         $this->api_obj = $this->apiConnectionResponse( $this->feed_options['type'], $this->feed_options['feed_term'] );
         $this->tweet_set = json_decode( $this->api_obj->json , $assoc = true );
+
+	    $working_tweet_set = $this->tweet_set;
+	    if ( ! isset( $working_tweet_set['errors'][0] ) ) {
+		    if ( isset( $working_tweet_set[0] ) ) {
+			    $value = array_values( array_slice( $working_tweet_set, -1 ) );
+			    $this->last_id_data = $value[0]['id_str'];
+		    }
+
+		    $working_tweet_set = $this->reduceTweetSetData( $working_tweet_set );
+		    if ( $working_tweet_set === false ) {
+			    $working_tweet_set = array();
+		    }
+	    }
+
+	    $num_tweets = is_array( $working_tweet_set ) ? count( $working_tweet_set ) : 500;
+
+	    if ( ! isset( $working_tweet_set['errors'][0] )
+	         && $num_tweets < $this->feed_options['count'] ) {
+		    // remove the last tweet as it is returned in the next request
+		    array_pop( $working_tweet_set );
+		    $original_count = $this->feed_options['count'];
+		    $this->feed_options['count'] = 200;
+		    $api_obj = $this->apiConnectionResponse( $this->feed_options['type'], $this->feed_options['feed_term'] );
+		    $tweet_set_to_merge = json_decode( $api_obj->json , $assoc = true );
+
+		    if ( isset( $tweet_set_to_merge['statuses'] ) ) {
+			    $working_tweet_set = array_merge( $working_tweet_set, $tweet_set_to_merge['statuses'] );
+		    } elseif ( isset( $tweet_set_to_merge[0]['created_at'] ) ) {
+			    $working_tweet_set = array_merge( $working_tweet_set, $tweet_set_to_merge );
+		    }
+
+		    $this->feed_options['count'] = $original_count;
+	    }
+
+	    $this->tweet_set = $working_tweet_set;
 
         // check for errors/tweets present
         if ( isset( $this->tweet_set['errors'][0] ) ) {
@@ -1472,7 +1513,9 @@ class CtfFeed
                 $url_part = $feed_options['screenname']; //Need to get screenname here
             }
 
-            $ctf_header_html .= '<div class="ctf-header ctf-header-type-generic" style="' . $feed_options['headerbgcolor'] . '">';
+	        $default_header_text = str_replace( ' -filter:retweets', '', $default_header_text );
+
+	        $ctf_header_html .= '<div class="ctf-header ctf-header-type-generic" style="' . $feed_options['headerbgcolor'] . '">';
             $ctf_header_html .= '<a href="https://twitter.com/' . $url_part . '" target="_blank" class="ctf-header-link">';
             $ctf_header_html .= '<div class="ctf-header-text">';
             $ctf_header_html .= '<p class="ctf-header-no-bio" style="' . $feed_options['headertextcolor'] . '">' . $default_header_text . '</p>';
@@ -1753,7 +1796,7 @@ class CtfFeed
 	            $error_html .= 'The error response from the Twitter API is the following:<br />';
 	            $error_html .= '<code>Error number: ' . $this->api_obj->api_error_no . '<br />';
 	            $error_html .= 'Message: ' . $this->api_obj->api_error_message . '</code>';
-	            $error_html .= '<a href="https://smashballoon.com/custom-twitter-feeds/docs/errors/" target="_blank">Click here to troubleshoot</a></p>';
+	            $error_html .= '<a href="https://smashballoon.com/custom-twitter-feeds/docs/errors/?utm_campaign=twitter-free&utm_source=frontend&utm_medium=errormessage" target="_blank">Click here to troubleshoot</a></p>';
 
 
             }

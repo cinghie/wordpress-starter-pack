@@ -162,8 +162,15 @@ class NM_PersonalizedProduct {
 		 ** 2- Also saving ppom_id in each fiel
 		 **/
 		 add_filter('ppom_meta_data_saving', 'ppom_hooks_register_wpml', 10, 2);
-		 // add a wrapper class in each input e.g: ppom-input-{data_name}
-		 add_filter('ppom_input_wrapper_class', 'ppom_hooks_input_wrapper_class', 10, 2);
+		 
+		 if( ppom_get_conditions_mode() === 'new' ) { 
+		 	add_filter('ppom_input_wrapper_class', 'ppom_hooks_input_wrapper_class_new', 10, 2);
+			add_filter('ppom_field_main_wapper_class', 'ppom_hooks_input_main_wrapper_class', 10, 2);
+		 } else {
+		 	// add a wrapper class in each input e.g: ppom-input-{data_name}
+			add_filter('ppom_input_wrapper_class', 'ppom_hooks_input_wrapper_class', 10, 2);
+		 }
+		 
 		 // Saving cropped image
 		 add_filter('ppom_add_cart_item_data', 'ppom_hooks_save_cropped_image', 10, 2);
 		 // Formatting the order meta with options price and id
@@ -547,6 +554,7 @@ class NM_PersonalizedProduct {
 	}
 	
 	
+	
 	function get_product_meta_all() {
 		
 		global $wpdb;
@@ -618,6 +626,9 @@ class NM_PersonalizedProduct {
 		// Installing Demo Meta
 		self::ppom_install_demo_meta();
 		
+		
+		self::set_ppom_menu_permission();
+		
 	}
 	
 	public static function deactivate_plugin() {
@@ -627,6 +638,44 @@ class NM_PersonalizedProduct {
 		
 		wp_clear_scheduled_hook( 'setup_styles_and_scripts_wooproduct' );
 		
+		
+		self::remove_ppom_menu_permission();
+	}
+	
+	
+	/**
+	 * Set PPOM Menu Access via Settings
+	 * 
+	 * */
+	public static function set_ppom_menu_permission(){
+		
+		$ppom_roles = get_option('ppom_permission_mfields', array());
+		foreach($ppom_roles as $r){
+			
+			// if( $r == 'administrator' ) continue;
+			
+			$wp_role = get_role($r);
+			$wp_role->add_cap('ppom_options_page');
+		}
+	}
+	
+	/**
+	 * Remove PPOM Menu Access via Settings
+	 * 
+	 * */
+	public static function remove_ppom_menu_permission(){
+		
+		global $wp_roles;
+
+    	$all_roles = $wp_roles->roles;	
+    	$editable_roles = apply_filters('editable_roles', $all_roles);
+		foreach($editable_roles as $role => $data){
+			
+			// if( $r == 'administrator' ) continue;
+			
+			$wp_role = get_role($role);
+			$wp_role->remove_cap('ppom_options_page');
+		}
 	}
 	
 	

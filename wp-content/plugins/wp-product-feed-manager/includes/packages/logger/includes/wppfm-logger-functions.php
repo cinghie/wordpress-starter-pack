@@ -163,30 +163,36 @@ add_action( 'wppfm_register_remote_post_args', 'wppfm_logger_remote_post_argumen
  *
  * @since 2.7.0
  *
- * @param $feed_id
- * @param $current_memory
- * @param $memory_limit
+ * @param   string  $feed_id                    Id of the active feed.
+ * @param   string  $current_memory             Memory used in this batch.
+ * @param   string  $memory_limit               Current active memory limit.
+ * @param   int     $products_handled_by_batch  Number of products handled by this batch. // @since 2.12.0
  */
-function wppfm_logger_batch_memory_limit_exceeded( $feed_id, $current_memory, $memory_limit ) {
-	$message = sprintf( 'Batch memory limit reached. Currently %s bytes used with a limit of %s bytes.', $current_memory, $memory_limit );
+function wppfm_logger_batch_memory_limit_exceeded( $feed_id, $current_memory, $memory_limit, $products_handled_by_batch ) {
+	$batch_counter = get_option( 'wppfm_batch_counter', 0 ); // @since 2.12.0.
+
+	$message = sprintf( 'Batch nr %d memory limit reached. Currently %s bytes used with a limit of %s bytes. This batch added %d products to the feed.', $batch_counter, $current_memory, $memory_limit, $products_handled_by_batch );
 
 	WPPFM_Feed_Process_Logging::add_to_feed_process_logging( $feed_id, $message );
 }
 
-add_action( 'wppfm_batch_memory_limit_exceeded', 'wppfm_logger_batch_memory_limit_exceeded', 10, 3 );
+add_action( 'wppfm_batch_memory_limit_exceeded', 'wppfm_logger_batch_memory_limit_exceeded', 10, 4 );
 
 /**
  * Registers when the time limit of a batch is reached
  *
  * @since 2.7.0
  *
- * @param $feed_id
- * @param $time_limit
+ * @param   string  $feed_id                    Id of the active feed.
+ * @param   string  $time_limit                 Current active time limit.
+ * @param   int     $products_handled_by_batch  Number of products handled by this batch. // @since 2.12.0
  */
-function wppfm_logger_batch_time_limit_exceeded( $feed_id, $time_limit ) {
-	$message = sprintf( 'Batch time limit reached. Current limit is %s seconds', $time_limit );
+function wppfm_logger_batch_time_limit_exceeded( $feed_id, $time_limit, $products_handled_by_batch ) {
+	$batch_counter = get_option( 'wppfm_batch_counter', 0 ); // @since 2.12.0.
+
+	$message = sprintf( 'Batch nr %d time limit reached. Current limit is %s seconds. This batch added %d products to the feed.', $batch_counter, $time_limit, $products_handled_by_batch );
 
 	WPPFM_Feed_Process_Logging::add_to_feed_process_logging( $feed_id, $message );
 }
 
-add_action( 'wppfm_batch_time_limit_exceeded', 'wppfm_logger_batch_time_limit_exceeded', 10, 2 );
+add_action( 'wppfm_batch_time_limit_exceeded', 'wppfm_logger_batch_time_limit_exceeded', 10, 3 );

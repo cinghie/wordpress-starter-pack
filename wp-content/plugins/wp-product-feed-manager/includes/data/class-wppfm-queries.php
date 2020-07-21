@@ -174,9 +174,24 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 			return $this->_wpdb->get_results( "SELECT meta_value FROM {$this->_table_prefix}feedmanager_product_feedmeta WHERE product_feed_id = {$feed_id} AND meta_key = 'category_mapping'", ARRAY_A );
 		}
 
+		/**
+		 * Returns the status data from a specific feed.
+		 * Returns:
+		 *      - product_feed_id.
+		 *      - channel_id.
+		 *      - title.
+		 *      - url.
+		 *      - status_id.
+		 *      - products.
+		 *      - feed_type_id.
+		 *
+		 * @param string $feed_id   The id of the feed.
+		 *
+		 * @return array    Array with the status data.
+		 */
 		public function get_feed_status_data( $feed_id ) {
 			$status = $this->_wpdb->get_results(
-				"SELECT product_feed_id, channel_id, title, url, status_id, products, feed_type_id "
+				'SELECT product_feed_id, channel_id, title, url, status_id, products, feed_type_id '
 				. "FROM {$this->_table_prefix}feedmanager_product_feed "
 				. "WHERE product_feed_id = '{$feed_id}'",
 				ARRAY_A
@@ -188,10 +203,10 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 		/**
 		 * Returns the post ids that belong to the selected categories
 		 *
-		 * @param   string  $category_string    A string that contains the selected categories.
-		 * @param   bool    $with_variation     True if product variations should be included in the feed. Default false.
+		 * @param   string $category_string    A string that contains the selected categories.
+		 * @param   bool   $with_variation     True if product variations should be included in the feed. Default false.
 		 *
-		 * @return array
+		 * @return array    With the post ids.
 		 */
 		public function get_post_ids( $category_string, $with_variation = false ) {
 			// If the user has not selected a category, return an empty array.
@@ -203,7 +218,7 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 
 			// Limit the number of products per query to 1000 to prevent a result that is to large to handle by the server.
 			// When the limit is reached a next batch will be requested by the fill_the_background_queue function.
-			// @since 2.11.0
+			// @since 2.11.0.
 			$product_query_limit = apply_filters( 'wppfm_product_query_limit', 1000 );
 
 			$products_query = "SELECT DISTINCT {$this->_table_prefix}posts.ID
@@ -220,7 +235,7 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 
 			set_transient( 'wppfm_start_product_id', end( $main_products_ids ), WPPFM_TRANSIENT_LIVE );
 
-			// if variations should not be included return the main product ids
+			// If variations should not be included return the main product ids.
 			if ( ! $with_variation || empty( $main_products_ids ) ) {
 				return $main_products_ids;
 			}
@@ -266,8 +281,8 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 		/**
 		 * Gets the required data from the main
 		 *
-		 * @param string $post_id
-		 * @param string $column_string
+		 * @param string $post_id           The id of the post.
+		 * @param string $column_string     String with the selected columns.
 		 *
 		 * @return array|object|null
 		 */
@@ -332,6 +347,16 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 			return $result ? $result[0]['MAX(ID)'] : 0;
 		}
 
+		/**
+		 * Returns the meta data of a specific product.
+		 *
+		 * @param string $product_id            The product id.
+		 * @param string $parent_product_id     The product id of the parent.
+		 * @param array  $record_ids            All record ids.
+		 * @param array  $meta_columns          List with meta fields.
+		 *
+		 * @return array    Array with the meta data from the specified product.
+		 */
 		public function read_meta_data( $product_id, $parent_product_id, $record_ids, $meta_columns ) {
 			$data = array();
 
@@ -387,21 +412,27 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 			return $obj;
 		}
 
+		/**
+		 * Cleans up the meta data of a product. It checks for a valid url and converts the timestamp.
+		 *
+		 * @param array  $data          The data to be polished.
+		 * @param string $main_post_id  The post id.
+		 */
 		private function polish_data( &$data, $main_post_id ) {
 			$site_url = get_option( 'siteurl' );
 
 			foreach ( $data as $row ) {
-				// make sure the _wp_attached_file data contains a valid url
+				// Make sure the _wp_attached_file data contains a valid url.
 				if ( '_wp_attached_file' === $row->meta_key ) {
-					$row->meta_value = $this->get_post_thumbnail_url( $main_post_id, 'large' );
+					$row->meta_value = get_the_post_thumbnail_url( $main_post_id, 'large' );
 
-					// if the _wp_attached_file data is not a valid url than add the url data
+					// If the _wp_attached_file data is not a valid url than add the url data.
 					if ( ! filter_var( $row->meta_value, FILTER_VALIDATE_URL ) ) {
 						$row->meta_value = $site_url . '/wp-content/uploads/' . $row->meta_value;
 					}
 				}
 
-				// convert the time stamp format to a usable date time format for the feed
+				// Convert the time stamp format to a usable date time format for the feed.
 				if ( '_sale_price_dates_from' === $row->meta_key || '_sale_price_dates_to' === $row->meta_key ) {
 					$row->meta_value = wppfm_convert_price_date_to_feed_format( $row->meta_value );
 				}

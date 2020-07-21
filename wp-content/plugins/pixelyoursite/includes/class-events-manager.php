@@ -366,12 +366,28 @@ class EventsManager {
             if ( Facebook()->enabled() && isEventEnabled( 'complete_registration_event_enabled' ) &&
                 Facebook()->getOption("woo_complete_registration_fire_every_time")
             ) {
+                $isGdprEnabled = $this->isGdprPluginEnabled();
 
-                $this->addStaticEvent( 'complete_registration',null,"facebook"  );
-                // send by server api
-                $eventData = Facebook()->getEventData( 'complete_registration',null );
-                if($eventData != null) {
-                    $this->addEventToFacebookServerApi(Facebook(),'complete_registration',$eventData);
+                if(Facebook()->isServerApiEnabled()) {
+                    if(!Facebook()->getOption("woo_complete_registration_send_from_server") ) {
+                        $this->addStaticEvent('complete_registration', null, "facebook");
+                    } else {
+                        if($isGdprEnabled) {
+                            $this->addStaticEvent("hCR", null, "facebook");
+                        }
+                    }
+
+                    if(!$isGdprEnabled) {
+                        // send by server api
+                        $eventData = Facebook()->getEventData( 'complete_registration',null );
+                        if($eventData != null) {
+                            $this->addEventToFacebookServerApi(Facebook(),'complete_registration',$eventData);
+                        }
+                    }
+
+
+                } else {
+                    $this->addStaticEvent('complete_registration', null, "facebook");
                 }
 
             }
@@ -382,13 +398,17 @@ class EventsManager {
 
 	}
 
-    function addEventToFacebookServerApi($pixel,$eventType,$eventData) {
-        $isDisabled = apply_filters( 'pys_disable_by_gdpr', false ) ||
+    function isGdprPluginEnabled() {
+        return apply_filters( 'pys_disable_by_gdpr', false ) ||
             apply_filters( 'pys_disable_facebook_by_gdpr', false ) ||
             isCookiebotPluginActivated() && PYS()->getOption( 'gdpr_cookiebot_integration_enabled' ) ||
             isGingerPluginActivated() && PYS()->getOption( 'gdpr_ginger_integration_enabled' ) ||
             isCookieNoticePluginActivated() && PYS()->getOption( 'gdpr_cookie_notice_integration_enabled' ) ||
             isCookieLawInfoPluginActivated() && PYS()->getOption( 'gdpr_cookie_law_info_integration_enabled' );
+    }
+
+    function addEventToFacebookServerApi($pixel,$eventType,$eventData) {
+        $isDisabled = $this->isGdprPluginEnabled();
 
 
         if( !$isDisabled ) {
@@ -447,7 +467,7 @@ class EventsManager {
         $pixelName = $_POST['pixel'];
         $event = $_POST['event'];
         $data = $_POST['data'];
-
+        if($event == "hCR") $event="CompleteRegistration"; // de mask completer registration event if it was hidden
         switch ($pixelName) {
             case 'facebook': {
                 if(isset($data['content_ids'])) {

@@ -66,13 +66,25 @@ class FacebookWordpressContactForm7 extends FacebookWordpressIntegrationBase {
     }
 
     $events = FacebookServerSideEvent::getInstance()->getTrackedEvents();
-    $code = PixelRenderer::render($events, self::TRACKING_NAME);
+    if( count($events) == 0 ){
+      return $response;
+    }
+    $event_id = $events[0]->getEventId();
+    $fbq_calls = PixelRenderer::render($events, self::TRACKING_NAME, false);
     $code = sprintf("
 <!-- Facebook Pixel Event Code -->
-%s
+<script type='text/javascript'>
+if( typeof window.pixelLastGeneratedLeadEvent === 'undefined'
+  || window.pixelLastGeneratedLeadEvent != '%s' ){
+  window.pixelLastGeneratedLeadEvent = '%s';
+  %s
+}
+</script>
 <!-- End Facebook Pixel Event Code -->
       ",
-      $code);
+      $event_id ,
+      $event_id ,
+      $fbq_calls);
 
     $response['message'] .= $code;
     return $response;
@@ -89,7 +101,8 @@ class FacebookWordpressContactForm7 extends FacebookWordpressIntegrationBase {
     return array(
       'email' => self::getEmail($form_tags),
       'first_name' => $name[0],
-      'last_name' => $name[1]
+      'last_name' => $name[1],
+      'phone' => self::getPhone($form_tags)
     );
   }
 
@@ -121,4 +134,19 @@ class FacebookWordpressContactForm7 extends FacebookWordpressIntegrationBase {
 
     return null;
   }
+
+  private static function getPhone($form_tags) {
+    if (empty($form_tags)) {
+      return null;
+    }
+
+    foreach ($form_tags as $tag) {
+      if ($tag->basetype === "tel") {
+        return $_POST[$tag->name];
+      }
+    }
+
+    return null;
+  }
+
 }

@@ -46,6 +46,11 @@
                 focused = $( this ).closest('form');
                 if ( 0 === $(event.target).closest('form.processing').length ) {
                     var form_id = $( event.target ).closest('.is-ajax-search').attr('data-form-id');
+                    var width = $( event.target ).closest('.is-ajax-search').outerWidth();
+                    width = ( width < 500 ) ? 500 : width;
+                    $('#is-ajax-search-result-'+form_id).css({
+                        width: ( width - 10 ) + "px",
+                    });
                     var pos = $( event.target ).closest('.is-ajax-search').offset();
                     var height = $( event.target ).closest('.is-ajax-search').outerHeight();
                     var result_width = $( '#is-ajax-search-result-'+form_id ).outerWidth();
@@ -97,11 +102,17 @@
 
             $( document ).on('click', '.is-show-more-results', function(event) {
 
+                var search_results = $(event.target).closest('.is-ajax-search-result').attr('id');
+                var form_id = search_results.split(/[-]+/).pop();
+
+                if ( $(this).hasClass( 'redirect-tosr' ) ) {
+                    $( '.is-form-id-' + form_id ).submit();
+                    return;
+                }
+
                 $(this).find('.is-show-more-results-text').hide();
                 $(this).find('.is-load-more-image').show();
 
-                var search_results = $(event.target).closest('.is-ajax-search-result').attr('id');
-                var form_id = search_results.split(/[-]+/).pop();
                 var self = $( '.is-form-id-'+form_id+' .is-search-input' );
                 var page = $(this).attr('data-page') || '';
 
@@ -156,7 +167,6 @@
                     });
             });
 
-
 		function is_ajax_process_request( self, page ) {
 
 			if( ! page ) {
@@ -187,6 +197,10 @@
 
 				if ( 1 === page ) {
                                     $( '#is-ajax-search-result-'+form_id+', #is-ajax-search-details-'+form_id ).hide();
+                                    if ( search_form.hasClass( 'is-form-style-1' ) ) {
+                                        var button_width = search_form.find('.is-search-submit').outerWidth()+5;
+                                        search_form.find('.is-loader-image').css('right', button_width + 'px' );
+                                    }
                                     search_form.find('.is-loader-image').show();
 				}
 
@@ -210,16 +224,26 @@
 					data : data,
 					type : 'POST',
 					success : function( data ) {
+                        if ( typeof IvorySearchVars !== "undefined" &&  typeof IvorySearchVars.is_analytics_enabled !== "undefined" ) {
+                            var results_found = $( data ).find('.is-ajax-search-no-result').length ? 'Nothing Found' : 'Results Found';
+                            ivory_search_analytics( form_id, search_term, results_found );
+                        }
 						search_form.find('.is-loader-image').hide();
 						search_form.removeClass('processing');
 
 						if ( 1 === page ) {
                                                         var pos = search_form.offset();
                                                         var height = search_form.outerHeight();
+                                                        var width = search_form.outerWidth();
+                                                        width = ( width < 500 ) ? 500 : width;
 
                                                         if ( 0 === $('#is-ajax-search-result-'+form_id).length ) {
                                                             $('body').append( '<div id="is-ajax-search-result-'+form_id+'" class="is-ajax-search-result"></div>' );
                                                         }
+
+                                                        $('#is-ajax-search-result-'+form_id).css({
+                                                            width: ( width - 10 ) + "px",
+                                                        });
 
                                                         var result_width = $( '#is-ajax-search-result-'+form_id ).outerWidth();
                                                         var window_width = $(window).width();
@@ -227,11 +251,13 @@
                                                         if ( ( pos.left + result_width ) > window_width ) {
                                                             reduce_left_pos = ( pos.left + result_width ) - window_width;
                                                         }
+
                                                         $('#is-ajax-search-result-'+form_id).css({
                                                             top: (pos.top+height) + "px",
-                                                            left: (pos.left-reduce_left_pos) + "px"
+                                                            left: (pos.left-reduce_left_pos) + "px",
+                                                            width: ( width - 10 ) + "px",
                                                         });
-							$('#is-ajax-search-result-'+form_id).show().html( data );
+				                                        $('#is-ajax-search-result-'+form_id).show().html( data );
                                                         if ( 0 !== $('#is-ajax-search-details-'+form_id).length ) {
                                                             $('body > #is-ajax-search-details-'+form_id).remove();
                                                         }
@@ -257,6 +283,23 @@
                                                         $('#is-ajax-search-details-'+form_id+' .is-ajax-search-posts-details').append( $('#is-ajax-search-result-'+form_id+' .is-ajax-search-items .is-ajax-search-posts-details').html() );
                                                         $('#is-ajax-search-result-'+form_id+' .is-ajax-search-items .is-ajax-search-details').remove();
 						}
+
+                        var is_ajax_terms = search_term.trim().split(' ');
+                        if (is_ajax_terms.length != 0 && $.isFunction($.fn.is_highlight)  ) {
+                            var is_ajax_areas = ['.is-ajax-search-result'];
+                            var t = jQuery.support.opacity ? 'mark' : 'span';
+                            var area, i, s;
+                            for (s in is_ajax_areas){
+                                area = $(is_ajax_areas[s]);
+                                if (area.length != 0){
+                                    for (i in is_ajax_terms){
+                                        area.is_highlight(is_ajax_terms[i], t, 'is-highlight term-' + i);
+                                        area.find('*').is_highlight(is_ajax_terms[i], t, 'is-highlight term-' + i)
+                                    }
+                                    break;
+                                }
+                            }
+                        }
                                                 $( '#is-ajax-search-result-'+form_id+' .is-ajax-search-items, #is-ajax-search-details-'+form_id+' .is-ajax-search-items' ).css('max-height', result_box_max_height + 'px');
                                                 $.mCustomScrollbar.defaults.scrollButtons.enable=true;
                                                 $( '#is-ajax-search-result-'+form_id+' .is-ajax-search-items, #is-ajax-search-details-'+form_id+' .is-ajax-search-items' ).mCustomScrollbar({

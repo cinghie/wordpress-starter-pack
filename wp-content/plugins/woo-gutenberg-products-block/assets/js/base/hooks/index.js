@@ -1,6 +1,5 @@
 export * from './cart';
 export * from './checkout';
-export * from './order';
 export * from './payment-methods';
 export * from './shipping';
 export * from './use-collection';
@@ -14,3 +13,4 @@ export * from './use-store-add-to-cart';
 export * from './use-store-notices';
 export * from './use-query-state';
 export * from './use-throw-error';
+export * from './use-trigger-fragment-refresh';

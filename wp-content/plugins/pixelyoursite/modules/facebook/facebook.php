@@ -159,7 +159,8 @@ class Facebook extends Settings implements Pixel {
 
 			case 'edd_purchase':
 				return $this->getEddCartEventParams( 'Purchase' );
-
+            case 'hCR':
+                return $this->getCompleteRegistrationEventParams('hCR');
             case 'complete_registration':
                 return $this->getCompleteRegistrationEventParams();
 
@@ -178,6 +179,7 @@ class Facebook extends Settings implements Pixel {
 		$eventsManager = PYS()->getEventsManager();
 
 		foreach ( $eventsManager->getStaticEvents( 'facebook' ) as $eventName => $events ) {
+            if($eventName == "hCR") continue;
 			foreach ( $events as $event ) {
 				foreach ( $this->getPixelIDs() as $pixelID ) {
 
@@ -1030,7 +1032,7 @@ class Facebook extends Settings implements Pixel {
         }
     }
 
-    private function getCompleteRegistrationEventParams() {
+    private function getCompleteRegistrationEventParams($args=null) {
 
         if ( ! $this->getOption( 'complete_registration_event_enabled' ) ) {
             return false;
@@ -1043,7 +1045,7 @@ class Facebook extends Settings implements Pixel {
         }
 
         return $params = array(
-            'name'  => 'CompleteRegistration',
+            'name'  => isset($args) && $args == "hCR" ? "hCR" : 'CompleteRegistration',
             'data'  => $params,
         );
 

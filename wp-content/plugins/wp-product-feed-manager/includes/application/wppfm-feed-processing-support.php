@@ -768,7 +768,7 @@ trait WPPFM_Processing_Support {
 			$value_object = json_decode( $value_string );
 
 			if ( property_exists( $value_object, 'm' ) && property_exists( $value_object->m[0], 's' ) ) {
-				$source_string = json_encode( $value_object->m[0]->s );
+				$source_string = wp_json_encode( $value_object->m[0]->s );
 			}
 		}
 

@@ -63,6 +63,7 @@ if(isset( $_REQUEST['id'] )) {
             <div class="col form-inline">
 				<label>Fire event when</label>
 	            <?php Events\renderTriggerTypeInput( $event, 'trigger_type' ); ?>
+
                 <div class="event-delay form-inline">
                     <label>with delay</label>
                     <?php Events\renderNumberInput( $event, 'delay', '0' ); ?>

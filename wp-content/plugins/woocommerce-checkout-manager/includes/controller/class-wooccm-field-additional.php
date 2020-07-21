@@ -8,8 +8,14 @@ class WOOCCM_Field_Controller_Additional extends WOOCCM_Field_Controller
 
   public function __construct()
   {
-    $this->includes();
-    $this->init();
+
+    include_once(WOOCCM_PLUGIN_DIR . 'includes/model/class-wooccm-field-additional.php');
+
+    add_action('woocommerce_admin_order_data_after_shipping_address', array($this, 'add_order_data'));
+    add_action('woocommerce_checkout_update_order_meta', array($this, 'save_order_data'), 10, 2);
+    add_action('wooccm_sections_header', array($this, 'add_header'));
+    add_action('woocommerce_sections_' . WOOCCM_PREFIX, array($this, 'add_section'), 99);
+    add_action('woocommerce_settings_save_' . WOOCCM_PREFIX, array($this, 'save_settings'));
   }
 
   public static function instance()
@@ -18,20 +24,6 @@ class WOOCCM_Field_Controller_Additional extends WOOCCM_Field_Controller
       self::$_instance = new self();
     }
     return self::$_instance;
-  }
-
-  function includes()
-  {
-    include_once(WOOCCM_PLUGIN_DIR . 'includes/model/class-wooccm-field-additional.php');
-  }
-
-  function init()
-  {
-    add_action('woocommerce_admin_order_data_after_shipping_address', array($this, 'add_order_data'));
-    add_action('woocommerce_checkout_update_order_meta', array($this, 'save_order_data'), 10, 2);
-    add_action('wooccm_sections_header', array($this, 'add_header'));
-    add_action('woocommerce_sections_' . WOOCCM_PREFIX, array($this, 'add_section'), 99);
-    add_action('woocommerce_settings_save_' . WOOCCM_PREFIX, array($this, 'save_settings'));
   }
 
   function save_order_data($order_id, $data)

@@ -30,10 +30,12 @@ const Image = (props) => {
     return <span>&nbsp;</span>;
   }
 
-  let sizedImage = image.media_details.sizes[size];
+  let imageDetails = image.media_details || {}
+  let imageSizes = imageDetails.sizes || {}
+  let sizedImage = imageSizes[size] || ''
 
   if (!sizedImage) {
-    sizedImage = image.media_details.sizes.thumbnail;
+    sizedImage = imageSizes.thumbnail || '';
   }
 
   return (
