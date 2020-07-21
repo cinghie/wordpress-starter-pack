@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Ajax Search - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-05-22 18:03:19+0000\n"
+"PO-Revision-Date: 2020-06-17 14:29:33+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -454,7 +454,7 @@ msgstr "%1$sEstendi le funzionalità di ricerca%2$s anche all'interno del riassu
 
 #: templates/admin/premium.php:284
 msgid "HOW TO CUSTOMIZE THE SEARCH OPTIONS"
-msgstr "Come personalizzare le opzioni di ricerca"
+msgstr "COME PERSONALIZZARE LE OPZIONI DI RICERCA"
 
 #: templates/admin/premium.php:276
 msgid "Tell to the client if the product is %1$son discount or is featured%2$s"
@@ -478,7 +478,7 @@ msgstr "Risultati del completamento automatico"
 
 #: templates/admin/premium.php:266
 msgid "HOW TO CUSTOMIZE THE RESULTS OF THE AUTOCOMPLETE"
-msgstr "Come personalizzare i risultati del riempimento automatico"
+msgstr "COME PERSONALIZZARE I RISULTATI DEL COMPLETAMENTO AUTOMATICO"
 
 #: templates/admin/premium.php:264
 msgid "Premium Features"
@@ -514,7 +514,7 @@ msgstr "Cerca"
 
 #: plugin-options/settings-options.php:38
 msgid "Search submit label"
-msgstr "Etichetta campo \"Submit\""
+msgstr "Etichetta campo \"Invia\""
 
 #: plugin-options/settings-options.php:34
 msgid "Search for products"

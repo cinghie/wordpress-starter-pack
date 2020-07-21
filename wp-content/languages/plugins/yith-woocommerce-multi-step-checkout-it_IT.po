@@ -2,117 +2,496 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Multi-step Checkout - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-01-13 21:56:34+0000\n"
+"PO-Revision-Date: 2020-07-14 15:42:12+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/2.4.0-alpha\n"
+"X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Multi-step Checkout - Stable (latest release)\n"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1237
+#. translators: %1$s TLS label
+#: plugin-fw/lib/yith-system-status.php:596
+msgid "The system check cannot determine which %1$s version is installed due to a connection issue between your site and our server."
+msgstr "Non è stato possibile determinare con i controlli di sistema quale versione di %1$s è installata a causa di un problema di connessione fra il tuo sito e il nostro server."
+
+#: plugin-fw/lib/yith-system-status.php:545
+msgid "Contact your hosting company in order to install it."
+msgstr "Contatta il tuo hosting per installarlo."
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:167
+msgid "Show log files"
+msgstr "Mostra i file del log"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:123
+msgid "No"
+msgstr "No"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:123
+msgid "Yes"
+msgstr "Sì"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:120
+msgid "Defined WP_CACHE"
+msgstr "Defined WP_CACHE"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:54
+msgid "PHP error_log file"
+msgstr "File PHP error_log"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:50
+msgid "WP debug.log file"
+msgstr "File WP debug.log"
+
+#: includes/class.yith-multistep-checkout-admin.php:108
+msgctxt "Admin: Page title"
+msgid "Buttons options"
+msgstr "Opzioni pulsanti"
+
+#: includes/class.yith-multistep-checkout-admin.php:107
+msgctxt "Admin: Page title"
+msgid "Steps options"
+msgstr "Opzioni step"
+
+#: plugin-options/steps-options.php:256
+msgid "Enter a label for the payment info step"
+msgstr "Inserisci il nome dello step 'Informazioni di pagamento'"
+
+#: plugin-options/steps-options.php:255
+msgid "Payment label"
+msgstr "Nome dello step 'Pagamento'"
+
+#: plugin-options/steps-options.php:238
+msgid "Enter a label for the order info step"
+msgstr "Inserisci il nome dello step 'Dettagli ordine'"
+
+#: plugin-options/steps-options.php:237
+msgid "Order Info label"
+msgstr "Nome dello step 'Dettagli ordine'"
+
+#: plugin-options/steps-options.php:228 plugin-options/steps-options.php:240
+msgid "Order Info"
+msgstr "Dettagli ordine"
+
+#: plugin-options/steps-options.php:220
+msgid "Enter a label for the shipping step"
+msgstr "Inserisci il nome dello step 'Spedizione'"
+
+#: plugin-options/steps-options.php:219
+msgid "Shipping label"
+msgstr "Nome dello step 'Spedizione'"
+
+#: plugin-options/steps-options.php:210 plugin-options/steps-options.php:222
+msgid "Shipping"
+msgstr "Spedizione"
+
+#: plugin-options/steps-options.php:202
+msgid "Enter a label for the billing step"
+msgstr "Inserisci il nome dello step 'Fatturazione'"
+
+#: plugin-options/steps-options.php:201
+msgid "Billing label"
+msgstr "Nome dello step 'Fatturazione'"
+
+#: plugin-options/steps-options.php:192 plugin-options/steps-options.php:204
+msgid "Billing"
+msgstr "Fatturazione"
+
+#: plugin-options/steps-options.php:184
+msgid "Enable this to allow the customer to login during the checkout process"
+msgstr "Abilita quest'opzione per consentire al cliente di effettuare l'accesso durante il checkout"
+
+#: plugin-options/steps-options.php:183
+msgid "Allow customer login"
+msgstr "Abilita login"
+
+#: plugin-options/steps-options.php:177
+msgid "Enable this to allow a customer to place an order without an account"
+msgstr "Abilita quest'opzione per consentire al cliente di inviare un ordine pur non avendo un account"
+
+#: plugin-options/steps-options.php:176
+msgid "Allow guest checkout"
+msgstr "Abilita il checkout guest"
+
+#: plugin-options/steps-options.php:170
+msgid "Enter a label for the login step"
+msgstr "Scegli il titolo per lo step 'Login'"
+
+#: plugin-options/steps-options.php:169
+msgid "Login label"
+msgstr "Testo Login"
+
+#: plugin-options/steps-options.php:160 plugin-options/steps-options.php:172
+msgid "Login"
+msgstr "Login"
+
+#: plugin-options/steps-options.php:155
+msgctxt "Panel: section title"
+msgid "Steps Customization"
+msgstr "Personalizzazione step"
+
+#: plugin-options/steps-options.php:139
+msgctxt "Option: description"
+msgid "Set the speed of fade animation during transition from one step to the next"
+msgstr "Imposta la velocità dell'animazione dissolvenza durante la transizione da uno step all'altro"
+
+#: plugin-options/steps-options.php:138
+msgctxt "Option: Title. Please, do not translate FadeIn/FadeOut"
+msgid "FadeIn and FadeOut Transition speed"
+msgstr "Velocità di transizione FadeIn e FadeOut"
+
+#: plugin-options/steps-options.php:128
+msgid "Future color"
+msgstr "Colore step successivo"
+
+#: plugin-options/steps-options.php:123
+msgid "Current color"
+msgstr "Colore step corrente"
+
+#: plugin-options/steps-options.php:118
+msgid "Prev color"
+msgstr "Colore step precedente"
+
+#: plugin-options/steps-options.php:114
+msgid "Set text color for past, current and future step"
+msgstr "Imposta il colore del testo dello step corrente, precedente e successivo"
+
+#: plugin-options/steps-options.php:111
+msgid "Step text color"
+msgstr "Colore del testo dello step"
+
+#: plugin-options/steps-options.php:100
+msgctxt "Admin: option description"
+msgid "Enter the separator element for steps. For example, you can use / or -."
+msgstr "Inserisci un elemento per separare gli step. Per esempio, puoi utilizzare / oppure -."
+
+#: plugin-options/steps-options.php:96
+msgctxt "Panel: section title"
+msgid "Separate step with"
+msgstr "Separa gli step con"
+
+#: plugin-options/steps-options.php:90
+msgctxt "Admin: option description"
+msgid "Enable to show a graphic separator between steps"
+msgstr "Attiva per mostrare un elemento grafico per separare gli step"
+
+#: plugin-options/steps-options.php:86
+msgctxt "Panel: section title"
+msgid "Show a graphic separator between steps"
+msgstr "Mostra un elemento grafico per separare gli step"
+
+#: plugin-options/steps-options.php:80
+msgctxt "Option: timeline display"
+msgid "Vertical"
+msgstr "Verticale"
+
+#: plugin-options/steps-options.php:79
+msgctxt "Option: timeline display"
+msgid "Horizontal"
+msgstr "Orizzontale"
+
+#: plugin-options/steps-options.php:76
+msgctxt "Option: description"
+msgid "Set if you want to display the steps horizontally or vertically"
+msgstr "Scegli se mostrare gli step orizzontalmente o verticalmente"
+
+#: plugin-options/steps-options.php:75
+msgctxt "Option: Title"
+msgid "Step position"
+msgstr "Posizione degli step"
+
+#: plugin-options/steps-options.php:68
+msgctxt "Panel: section title"
+msgid "Steps Style"
+msgstr "Stile degli step"
+
+#: plugin-options/steps-options.php:34
+msgctxt "Admin: part of label string, i.e. Login Icon, Billing Icon"
+msgid "Icon"
+msgstr "Icona"
+
+#: plugin-options/steps-options.php:29
+msgctxt "Frontend: Step title"
+msgid "Payment info"
+msgstr "Informazioni del pagamento"
+
+#: plugin-options/steps-options.php:25
+msgctxt "Frontend: Step title"
+msgid "Order info"
+msgstr "Informazioni dell'ordine"
+
+#: plugin-options/steps-options.php:21
+msgctxt "Frontend: Step title"
+msgid "Shipping"
+msgstr "Spedizione"
+
+#: plugin-options/steps-options.php:17
+msgctxt "Frontend: Step title"
+msgid "Billing"
+msgstr "Fatturazione"
+
+#: plugin-options/steps-options.php:13
+msgctxt "Frontend: Step title"
+msgid "Login"
+msgstr "Login"
+
+#: plugin-options/buttons-options.php:66
+msgctxt "Admin: option description"
+msgid "Enter a text for back to cart button"
+msgstr "Inserisci un testo per il pulsante 'Ritorna al carrello'"
+
+#: plugin-options/buttons-options.php:62
+msgctxt "Frontend: button label"
+msgid "Label for Back to cart button"
+msgstr "Etichetta per il pulsante 'Ritorna al carrello'"
+
+#: plugin-options/buttons-options.php:57
+msgctxt "Admin: option description"
+msgid "Enable to display the 'back to cart' button in the checkout page"
+msgstr "Attiva per mostrare il pulsante 'Ritorna al carrello' nella pagina Checkout"
+
+#: plugin-options/buttons-options.php:53
+msgctxt "Panel: section title"
+msgid "Show Back to cart button"
+msgstr "Mostra il pulsante 'Ritorna al carrello'"
+
+#: plugin-options/buttons-options.php:49
+msgctxt "Admin: section title"
+msgid "Back to cart button options"
+msgstr "Opzioni pulsante 'Ritorna al carrello'"
+
+#: plugin-options/buttons-options.php:36
+msgctxt "Admin option description"
+msgid "Enter a text for next button"
+msgstr "Inserisci un testo per il pulsante 'Continua'"
+
+#: plugin-options/buttons-options.php:35
+msgctxt "Short text: Navigation Button label"
+msgid "Next"
+msgstr "Continua"
+
+#: plugin-options/buttons-options.php:31
+msgctxt "Admin option title"
+msgid "Label for next button"
+msgstr "Testo pulsante 'Continua'"
+
+#: plugin-options/buttons-options.php:28
+msgctxt "Admin option description"
+msgid "Enter a text for prev button"
+msgstr "Inserisci un testo per il pulsante 'Indietro'"
+
+#: plugin-options/buttons-options.php:27
+msgctxt "Short text: Navigation Button label"
+msgid "Previous"
+msgstr "Indietro"
+
+#: plugin-options/buttons-options.php:23
+msgctxt "Admin option title"
+msgid "Label for prev button"
+msgstr "Testo pulsante 'Indietro'"
+
+#. translators: %1$s TLS label, %2$s cURL label
+#: plugin-fw/lib/yith-system-status.php:593
+msgid "The system check cannot determine which %1$s version is installed because %2$s module is disabled. Ask your hosting company to enable it."
+msgstr "Non è stato possibile determinare quale versione di %1$s è installata in quanto il modulo %2$s è disattivato. Chiedi al tuo servizio hosting di attivarlo."
+
+#: plugin-options/buttons-options.php:20
+msgctxt "Admin: section title"
+msgid "Prev/Next buttons options"
+msgstr "Opzioni pulsanti Indietro/Continua"
+
+#: templates/premium.php:259
+msgid "If your products don’t need to be shipped, just disable the Shipping step and it will not show up in the checkout process."
+msgstr "Se i tuoi prodotti non necessitano di spedizione, disabilita il passaggio \"Spedizione\" così verrà nascosto durante il processo di pagamento."
+
+#: templates/premium.php:256
+msgid "Disable the Shipping step with just one click"
+msgstr "Disabilita lo step \"Spedizione\" in un clic"
+
+#: templates/premium.php:247
+msgid "With the AJAX validation you can prevent customers from going on to the next step unless they have completed all mandatory fields."
+msgstr "Con la validazione in AJAX eviterai che i clienti possano andare al passaggio successivo senza prima aver compilato tutti i campi obbligatori."
+
+#: templates/premium.php:244
+msgid "Enable AJAX validation for every step"
+msgstr "Abilita la validazione in AJAX per ogni step"
+
+#: templates/premium.php:229
+msgid "Usability tests confirm that a multi-step checkout is much more effective if there are no more than four steps in total. To streamline the process, combine Billing and Shipping Info into one step and Order and Payment Info into another step."
+msgstr "Secondo i test di usabilità un checkout in più passaggi è ancora più efficace se si riduce il numero di step ad un massimo di quattro. Unifica in un unico passaggio \"Fatturazione e Spedizione\" da una parte e \"Dettagli Ordine/Dettagli Pagamento\" dall’altra per snellire il processo e renderlo più semplice."
+
+#: templates/premium.php:226
+msgid "Merge Billing / Shipping and Order info / Payment steps to reduce the number of steps"
+msgstr "Unifica i passaggi Fatturazione/Spedizione e Dettagli Ordine/Pagamento per ridurre il numero di step"
+
+#: templates/premium.php:217
+msgid "Identify your steps with numbers or icons before the text. You can choose among the many high-quality icons we’ve designed for you or upload your own ones."
+msgstr "Per identificare i diversi step, scegli se mostrare numeri o icone prima del testo. Puoi scegliere tra le diverse icone ad alta qualità che abbiamo disegnato per te o caricare icone personalizzate."
+
+#: templates/premium.php:214
+msgid "Choose whether to show icons or numbers for your checkout steps"
+msgstr "Scegli se mostrare icone o numeri per identificare ogni step"
+
+#: templates/premium.php:199
+msgid "To make sure that the checkout style can suit every e-commerce theme, you will be able to customize the colors of every step and status (previous, next and current step) and all the texts."
+msgstr "Per un checkout adatto a qualsiasi e-commerce e tema, puoi personalizzare i colori di ogni step, degli stati (step precedente, step in corso e prossimo step) e dei testi."
+
+#: templates/premium.php:196
+msgid "Customize the timeline colors: a checkout that suits every style and theme"
+msgstr "Personalizza i colori della timeline per un checkout adatto ad ogni stile e ad ogni tema"
+
+#: templates/premium.php:187
+msgid "You can choose among 10 different layouts for the timeline, four of them in vertical style and four of them horizontal. Set the layout that best suits your e-commerce website and the one to show to mobile users. "
+msgstr "Puoi scegliere tra otto diversi layout di timeline, quattro layout in stile verticale e quattro in orizzontale. Imposta il più adatto al tuo e-commerce e scegli quello da utilizzare per gli utenti che acquistano da dispositivi mobili. "
+
+#: templates/premium.php:184
+msgid "Choose among 10 different layouts for the timeline of your multi-step checkout "
+msgstr "Scegli fra 10 diversi layout per la timeline del tuo checkout in più passaggi "
+
+#: templates/premium.php:171 templates/premium.php:272
+msgid "Upgrade"
+msgstr "Aggiorna"
+
+#: includes/class.yith-multistep-checkout-admin.php:103
+msgid "Split checkout process into more steps"
+msgstr "Suddividi il processo di acquisto in più step"
+
+#: plugin-fw/templates/fields/dimensions.php:117
+msgctxt "Tooltip in the \"Dimensions\" field"
+msgid "Link values together"
+msgstr "Collega i valori"
+
+#: plugin-fw/templates/fields/dimensions.php:19
+msgctxt "Position in the \"Dimensions\" field"
+msgid "Left"
+msgstr "A sinistra"
+
+#: plugin-fw/templates/fields/dimensions.php:18
+msgctxt "Position in the \"Dimensions\" field"
+msgid "Bottom"
+msgstr "In basso"
+
+#: plugin-fw/templates/fields/dimensions.php:17
+msgctxt "Position in the \"Dimensions\" field"
+msgid "Right"
+msgstr "A destra"
+
+#: plugin-fw/templates/fields/dimensions.php:16
+msgctxt "Position in the \"Dimensions\" field"
+msgid "Top"
+msgstr "In alto"
+
+#: plugin-fw/templates/fields/onoff.php:24
+msgctxt "YES/NO button: use MAX 3 characters!"
+msgid "YES"
+msgstr "SÌ"
+
+#: templates/woocommerce/checkout/form-checkout.php:76
+msgctxt "[Frontend] Default message for returning customer on checkout page"
+msgid "If you have already registered, please, enter your details below. If you are a new customer, please, go to the Billing &amp; Shipping section."
+msgstr "Se ti sei già registrato, per favore inserisci i tuoi dettagli nei campi sottostanti. Se sei un nuovo cliente, per favore vai alla sezione Fatturazione &amp; Spedizione."
+
+#: plugin-fw/templates/fields/onoff.php:25
+msgctxt "YES/NO button: use MAX 3 characters!"
+msgid "NO"
+msgstr "NO"
+
+#: plugin-fw/lib/yit-plugin-panel.php:1285
 msgid ":) Thanks!"
 msgstr ":) Grazie!"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1236
+#: plugin-fw/lib/yit-plugin-panel.php:1284
 msgid "help us by leaving a five-star rating"
 msgstr "aiutaci lasciando una valutazione 5 stelle"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1234
+#: plugin-fw/lib/yit-plugin-panel.php:1282
 msgid "to keep updating and improving the plugin. Please,"
 msgstr "per continuare ad aggiornare e a migliorare il plugin. Per favore,"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1233
+#: plugin-fw/lib/yit-plugin-panel.php:1281
 msgid "We need your support"
 msgstr "Abbiamo bisogno del tuo supporto"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:46
+#: plugin-fw/templates/sysinfo/system-information-panel.php:112
 msgid "Output IP Address"
 msgstr "Indirizzo IP (output)"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:38
+#: plugin-fw/templates/sysinfo/system-information-panel.php:104
 msgid "Site URL"
 msgstr "URL del sito"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:160
-msgid "<b>ImageMagick</b> module is not installed. Ask your hosting company to install it."
-msgstr " Il modulo <b>ImageMagick</b> non è installato. Chiedo al tuo servizio hosting di installarlo. "
-
-#: plugin-fw/templates/sysinfo/system-information-panel.php:157
-msgid "We cannot determine which <b>TLS</b> version is installed because <b>cURL</b> module is disabled. Ask your hosting company to enable it."
-msgstr "Non è stato possibile determinare quale versione <b>TLS</b> è installata in quanto il modulo <b>cURL</b> è disattivato. Chiedi al tuo servizio hosting di attivarlo."
-
-#: plugin-fw/templates/sysinfo/system-information-panel.php:82
+#: plugin-fw/lib/yith-system-status.php:478
 msgid "N/A"
 msgstr "N/A"
 
-#: plugin-fw/lib/yith-system-status.php:292
-msgid "The system check has detected some compatibility issues on your installation. %sClick here%s to know more"
-msgstr "Il controllo del sistema ha rilevato dei problemi di compatibilità sulla tua installazione. Per maggiori informazioni %sfai clic qui%s"
+#. translators: %1$s open link tag, %2$s open link tag
+#: plugin-fw/lib/yith-system-status.php:334
+msgid "The system check has detected some compatibility issues on your installation.%1$sClick here%2$s to know more"
+msgstr "Il controllo del sistema ha rilevato dei problemi di compatibilità sulla tua installazione. Per maggiori informazioni %1$sfai clic qui%2$s"
 
-#: plugin-fw/lib/yith-system-status.php:291
+#: plugin-fw/lib/yith-system-status.php:330
 msgid "Warning!"
 msgstr "Attenzione!"
 
-#: plugin-fw/lib/yith-system-status.php:174
+#: plugin-fw/lib/yith-system-status.php:192
 msgid "WooCommerce"
 msgstr "WooCommerce"
 
-#: plugin-fw/lib/yith-system-status.php:116
+#: plugin-fw/lib/yith-system-status.php:123
 msgid "URL FOpen"
 msgstr "URL FOpen"
 
-#: plugin-fw/lib/yith-system-status.php:115
+#: plugin-fw/lib/yith-system-status.php:122
 msgid "OPCache Save Comments"
 msgstr "OPCache Save Comments"
 
-#: plugin-fw/lib/yith-system-status.php:114
+#: plugin-fw/lib/yith-system-status.php:121
 msgid "Iconv Module"
 msgstr "Iconv Module"
 
-#: plugin-fw/lib/yith-system-status.php:113
+#: plugin-fw/lib/yith-system-status.php:120
 msgid "GD Library"
 msgstr "GD Library"
 
-#: plugin-fw/lib/yith-system-status.php:112
+#: plugin-fw/lib/yith-system-status.php:119
 msgid "ImageMagick Version"
 msgstr "ImageMagick Version"
 
-#: plugin-fw/lib/yith-system-status.php:111
+#: plugin-fw/lib/yith-system-status.php:118
 msgid "MultiByte String"
 msgstr "MultiByte String"
 
-#: plugin-fw/lib/yith-system-status.php:110
+#: plugin-fw/lib/yith-system-status.php:117
 msgid "SimpleXML"
 msgstr "SimpleXML"
 
-#: plugin-fw/lib/yith-system-status.php:109
+#: plugin-fw/lib/yith-system-status.php:116
 msgid "WordPress Cron"
 msgstr "WordPress Cron"
 
-#: plugin-fw/lib/yith-system-status.php:108
+#: plugin-fw/lib/yith-system-status.php:115
 msgid "TLS Version"
 msgstr "Versione TLS"
 
-#: plugin-fw/lib/yith-system-status.php:107
+#: plugin-fw/lib/yith-system-status.php:114
 msgid "PHP Version"
 msgstr "Versione PHP"
 
-#: plugin-fw/lib/yith-system-status.php:106
+#: plugin-fw/lib/yith-system-status.php:113
 msgid "Available Memory"
 msgstr "Memoria disponibile"
 
-#: plugin-fw/lib/yith-system-status.php:105
+#: plugin-fw/lib/yith-system-status.php:112
 msgid "WooCommerce Version"
 msgstr "Versione WooCommerce"
 
-#: plugin-fw/lib/yith-system-status.php:104
+#: plugin-fw/lib/yith-system-status.php:111
 msgid "WordPress Version"
 msgstr "Versione WordPress"
 
-#: plugin-fw/lib/yith-system-status.php:97
-#: plugin-fw/lib/yith-system-status.php:98
+#: plugin-fw/lib/yith-system-status.php:141
+#: plugin-fw/lib/yith-system-status.php:142
 msgid "System Status"
 msgstr "Stato del sistema"
 
@@ -125,66 +504,72 @@ msgstr "%1$s (#%2$s &ndash; %3$s)"
 msgid "Search Customers"
 msgstr "Cerca clienti"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:193
+#: plugin-fw/templates/sysinfo/system-information-panel.php:96
 msgid "Back to top"
 msgstr "Torna su"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:176
+#: plugin-fw/templates/sysinfo/system-information-panel.php:59
+#: plugin-fw/templates/sysinfo/system-information-panel.php:83
 msgid "Back to System panel"
 msgstr "Torna al pannello del sistema"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:172
+#: plugin-fw/templates/sysinfo/system-information-panel.php:159
 msgid "Show full PHPInfo"
 msgstr "Mostra PHPInfo"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:102
-#: plugin-fw/templates/sysinfo/system-information-panel.php:137
-#: plugin-fw/templates/sysinfo/system-information-panel.php:151
-msgid "Read more %s here%s or contact your hosting company in order to increase it."
-msgstr "Per approfondimenti fai clic %s qui%s o contatta il tuo hosting per aumentarlo. "
+#. translators: %1$s opening link tag, %2$s closing link tag
+#: plugin-fw/lib/yith-system-status.php:564
+#: plugin-fw/lib/yith-system-status.php:588
+msgid "Read more %1$shere%2$s or contact your hosting company in order to increase it."
+msgstr "Per maggiori informazioni %1$sleggi qui%2$s oppure contatta il tuo host per un upgrade."
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:134
+#: plugin-fw/lib/yith-system-status.php:560
 msgid "Contact your hosting company in order to enable it."
-msgstr "Per attivarlo contatta il tuo servizio hosting. "
+msgstr "Per attivarlo contatta il tuo servizio hosting."
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:126
-msgid "Remove %s from %s file"
-msgstr "Rimuovi %s dal file %s"
+#. translators: %1$s code, %2$s file name
+#: plugin-fw/lib/yith-system-status.php:552
+msgid "Remove %1$s from %2$s file"
+msgstr "Rimuovi %1$s dal file %2$s"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:122
+#: plugin-fw/lib/yith-system-status.php:541
+#: plugin-fw/lib/yith-system-status.php:547
 msgid "Contact your hosting company in order to update it."
-msgstr "Contatta il tuo servizio hosting per aggiornarlo. "
+msgstr "Contatta il tuo servizio hosting per aggiornarlo."
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:116
+#: plugin-fw/lib/yith-system-status.php:537
 msgid "Update it to the latest version in order to benefit of all new features and security updates."
-msgstr "Per beneficiare di tutte le nuove funzionalità e degli aggiornamenti di sicurezza, aggiorna all'ultima versione. "
+msgstr "Per beneficiare di tutte le nuove funzionalità e degli aggiornamenti di sicurezza, aggiorna all'ultima versione."
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:105
-msgid "%s needs at least %s version"
-msgstr "%s necessita almeno della versione %s"
+#. translators: %1$s plugin name, %2$s version number
+#: plugin-fw/lib/yith-system-status.php:512
+msgid "%1$s needs at least %2$s version"
+msgstr "%1$s necessita almeno della versione %2$s"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:100
-#: plugin-fw/templates/sysinfo/system-information-panel.php:149
+#. translators: %s recommended memory amount
+#: plugin-fw/lib/yith-system-status.php:585
 msgid "For optimal functioning of our plugins, we suggest setting at least %s of available memory"
 msgstr "Per il funzionamento ottimale dei nostri plugin consigliamo di impostare almeno %s di memoria disponibile"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:98
-msgid "%s needs at least %s of available memory"
-msgstr "%s necessita almeno %s di memoria disponibile"
+#. translators: %1$s plugin name, %2$s required memory amount
+#: plugin-fw/lib/yith-system-status.php:509
+msgid "%1$s needs at least %2$s of available memory"
+msgstr "%1$s necessita di almeno %2$s di memoria disponibile"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:96
-msgid "%s needs %s enabled"
-msgstr "%s necessita l'attivazione di %s"
+#. translators: %1$s plugin name, %2$s requirement name
+#: plugin-fw/lib/yith-system-status.php:506
+msgid "%1$s needs %2$s enabled"
+msgstr "%1$s necessita dell'attivazione di %2$s"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:76
+#: plugin-fw/lib/yith-system-status.php:473
 msgid "Disabled"
 msgstr "Disattivato"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:76
+#: plugin-fw/lib/yith-system-status.php:473
 msgid "Enabled"
 msgstr "Attivato"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:30
+#: plugin-fw/templates/sysinfo/system-information-panel.php:39
 msgid "YITH System Information"
 msgstr "YITH System Information"
 
@@ -246,7 +631,7 @@ msgstr "Non è possibile attivare la versione gratuita di YITH WooCommerce Multi
 
 #. Description of the plugin
 msgid "Thanks to <code><strong>YITH WooCommerce Multi-step Checkout</strong></code> you can split your checkout process into steps. Assist your customers during the purchase and make them feel safe by showing them where in the process they are and what the next step is. <a href=\"https://yithemes.com/\" target=\"_blank\">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>"
-msgstr "Grazie a <code><strong>YITH WooCommerce Multi-step Checkout</strong></code> puoi suddividere il checkout in più parti. Assisti i tuoi clienti duranti l'acquisto e falli sentire al sicuro evidenziando chiaramente a che punto sono e qual è il prossimo step. <a href=\"https://yithemes.com/\" target=\"_blank\">Scopri molti altri plugin per il tuo e-commerce su <strong>YITH</strong></a>"
+msgstr "Grazie a <code><strong>YITH WooCommerce Multi-step Checkout</strong></code> puoi suddividere il processo di acquisto in step. Assisti i tuoi clienti durante l'acquisto e falli sentire sicuri mostrandogli in quale fase sono e qual è il prossimo step. <a href=\"https://yithemes.com/\" target=\"_blank\">Ottieni altri plugin per il tuo e-commerce su <strong>YITH</strong></a>"
 
 #: plugin-fw/yit-plugin.php:194
 msgid "License"
@@ -319,21 +704,24 @@ msgstr "Cerca Post"
 msgid "Set Default"
 msgstr "Imposta come Predefinito"
 
-#: templates/woocommerce/checkout/form-checkout.php:39
+#: templates/woocommerce/checkout/form-checkout.php:52
+#: plugin-options/buttons-options.php:67
+#: includes/class.yith-multistep-checkout-frontend.php:357
 msgctxt "Frontend: button label"
 msgid "Back to cart"
-msgstr "Torna al carrello"
+msgstr "Ritorna al carrello"
 
-#: templates/woocommerce/checkout/form-checkout.php:118
+#: templates/woocommerce/checkout/form-checkout.php:145
+#: plugin-options/steps-options.php:246 plugin-options/steps-options.php:258
 msgid "Payment"
-msgstr "Pagameto"
+msgstr "Pagamento"
 
-#: templates/woocommerce/checkout/form-checkout.php:82
+#: templates/woocommerce/checkout/form-checkout.php:99
 msgid "You must be logged in before proceeding to checkout."
-msgstr "Devi aver effettuato l'accesso per poter procedere al pagamento."
+msgstr "Devi effettuare il login per procedere al checkout."
 
-#: plugin-fw/lib/yit-plugin-panel.php:424
-#: plugin-fw/lib/yit-plugin-panel.php:427
+#: plugin-fw/lib/yit-plugin-panel.php:454
+#: plugin-fw/lib/yit-plugin-panel.php:457
 msgid "How to install premium version"
 msgstr "Come installare la versione premium"
 
@@ -346,114 +734,64 @@ msgid "http://yithemes.com/themes/plugins/yith-woocommerce-multi-step-checkout/"
 msgstr "http://yithemes.com/themes/plugins/yith-woocommerce-multi-step-checkout/"
 
 #. Plugin Name of the plugin
+#: includes/class.yith-multistep-checkout-admin.php:101
 msgid "YITH WooCommerce Multi-step Checkout"
 msgstr "YITH WooCommerce Multi-step Checkout"
 
-#: templates/woocommerce/checkout/form-checkout.php:112
+#: templates/woocommerce/checkout/form-checkout.php:134
 msgid "Your order"
 msgstr "Il tuo ordine"
 
-#: templates/woocommerce/checkout/form-checkout.php:60
-msgid "If you have already registered, please, enter your details in the boxes below. If you are a new customer, please, go to the Billing &amp; Shipping section."
-msgstr "Se hai già fatto acquisti da noi, per favore, inserisci i dettagli nelle sezioni sottostanti. Se sei un nuovo cliente, procedi alla sezione Fatturazione e Spedizione."
-
-#: templates/woocommerce/checkout/form-checkout.php:38
+#: templates/woocommerce/checkout/form-checkout.php:51
+#: includes/class.yith-multistep-checkout-frontend.php:356
 msgctxt "Checkout: user timeline"
 msgid "Payment Info"
-msgstr "Pagamento"
+msgstr "Informazioni pagamento"
 
-#: templates/woocommerce/checkout/form-checkout.php:37
+#: templates/woocommerce/checkout/form-checkout.php:50
+#: includes/class.yith-multistep-checkout-frontend.php:355
 msgctxt "Checkout: user timeline"
 msgid "Order Info"
-msgstr "Ordine"
+msgstr "Informazioni ordine"
 
-#: templates/woocommerce/checkout/form-checkout.php:36
+#: templates/woocommerce/checkout/form-checkout.php:49
+#: includes/class.yith-multistep-checkout-frontend.php:354
 msgctxt "Checkout: user timeline"
 msgid "Shipping"
 msgstr "Spedizione"
 
-#: templates/woocommerce/checkout/form-checkout.php:35
+#: templates/woocommerce/checkout/form-checkout.php:48
+#: includes/class.yith-multistep-checkout-frontend.php:353
 msgctxt "Checkout: user timeline"
 msgid "Billing"
 msgstr "Fatturazione"
 
-#: templates/woocommerce/checkout/form-checkout.php:34
+#: templates/woocommerce/checkout/form-checkout.php:47
+#: includes/class.yith-multistep-checkout-frontend.php:352
 msgctxt "Checkout: user timeline"
 msgid "Login"
 msgstr "Accesso"
 
-#: templates/woocommerce/checkout/form-checkout.php:33
+#: templates/woocommerce/checkout/form-checkout.php:46
+#: includes/class.yith-multistep-checkout-frontend.php:351
 msgid "Previous"
 msgstr "Indietro"
 
-#: templates/woocommerce/checkout/form-checkout.php:31
-#: templates/woocommerce/checkout/form-checkout.php:32
+#: templates/woocommerce/checkout/form-checkout.php:44
+#: templates/woocommerce/checkout/form-checkout.php:45
+#: includes/class.yith-multistep-checkout-frontend.php:349
+#: includes/class.yith-multistep-checkout-frontend.php:350
+#: includes/class.yith-multistep-checkout-frontend.php:385
 msgid "Next"
-msgstr "Successivo"
+msgstr "Continua"
 
-#: templates/premium.php:321
-msgid "A section of your option panel devoted to customisation of color patterns of “My account” and “Order received” pages, or better the page where users are redirected after completing purchase.%3$s%1$sYITH WooCommerce Multi-step Checkout%2$s has thought of everything!"
-msgstr "Una sezione del tuo pannello opzioni dedicata alla personalizzazione dello schema colori della pagina “Il mio account” e “Ordine ricevuto”, ovvero la pagina a cui l’utente viene reindirizzato una volta portato a termine l’acquisto.%3$s%1$sYITH WooCommerce Multi-step Checkout%2$s ha proprio pensato a tutto!"
-
-#: templates/premium.php:318
-msgid "“My account” and “Order received” pages"
-msgstr "Pagine “Il mio account” e “Ordine ricevuto”"
-
-#: templates/premium.php:308
-msgid "Navigation buttons can help users realise they are in a checkout process made of more than one step.%3$sYet, if you think they are superfluous, nothing prevents you from using the specific option to hide them. Anyway, the %1$sstate of process%2$s will be visible and each step will be accessible from the timeline."
-msgstr "I pulsanti di navigazione possono aiutare l’utente ad intuire che si trova all’interno di un processo di pagamento composto da più step.%3$sMa nel caso tu li ritenga superflui, niente ti vieta di nasconderli utilizzando l’apposita opzione. %1$sL’avanzamento del processo%2$s e l’accesso ai vari step sarà comunque possibile attraverso la classica sequenza degli step."
-
-#: templates/premium.php:305
-msgid "Navigation buttons"
-msgstr "Pulsanti di avanzamento"
-
-#: templates/premium.php:289
-msgid "Anyone willing to purchase from your shop will have to add certain specific data concerning their own profile and payment method they prefer. Activate %1$sajax validation%2$s if you want that your customers can access the following step only if they have first entered all information correctly in the previous step."
-msgstr "Chiunque abbia voglia di portare a termine un acquisto sul tuo shop sarà, per ovvi motivi, obbligato ad inserire determinati dati relativi al suo profilo o il metodo di pagamento. Attiva la %1$svalidazione AJAX%2$s se non vuoi che i tuoi utenti accedano allo step successivo senza aver inserito correttamente le informazioni richieste in quello attivo."
-
-#: templates/premium.php:286
-msgid "Ajax validation"
-msgstr "Validazione AJAX"
-
-#: templates/premium.php:276
-msgid "Unless you have chosen textual style, each step of your checkout will be marked by a distinctive number or icon. In the latter case, you can either use icons made availale by the plugin or upload your own custom icons. Another way to %1$smake your checkout page more intuitive%2$s for your customers."
-msgstr "A meno che tu non abbia optato per lo stile testuale, ogni step del tuo processo sarà identificato da un numero o da un’icona. In quest’ultimo caso potrai scegliere di utilizzare le icone che il plugin ti mette a disposizione o caricare un’icona personalizzata. Un altro modo di %1$srendere più intuitivo il processo di pagamento%2$s per i tuoi utenti."
-
-#: templates/premium.php:273
-msgid "Icon or number"
-msgstr "Icona o numero"
-
-#: templates/premium.php:257
-msgid "Select your favourite %1$sstyle%2$s for your the steps of your checkout page and customise it in every detail thanks to the many options made available by thepremium version of the plugin.%3$sAnd in case %1$slabels%2$s associated to the steps were not what you need, you will be able to change them from plugin option panel. Useful, easy and quick!"
-msgstr "Seleziona lo %1$sstile%2$s preferito per mostrare gli step del processo di pagamento, e personalizzalo interamente attraverso le numerose opzioni che la versione premium del plugin ti mette a disposizione.%3$sE nel caso le %1$setichette%2$s associate agli step non ti soddisfino, potrai facilmente modificarle dal pannello opzioni del plugin. Utile, facile, veloce!"
-
-#: templates/premium.php:254
-msgid "Custom layout"
-msgstr "Layout personalizzabile"
-
-#: templates/premium.php:244
-msgid "4 different types to shape your site checkout steps. %1$s4 different layouts%2$s  to let you find the best solution for you and the most suitable for the graphic style of your pages.%3$sBut, this is not all! Opt for %1$svertical display%2$s if you want to show all steps as if they were all elements belonging to a sidebar."
-msgstr "4 diversi modi di dare una forma ad ogni step del processo di pagamento sul tuo shop. %1$s4 layout differenti%2$s per darti la possibilità di trovare la soluzione a te più gradita e più congeniale alla grafica delle tue pagine.%3$sMa non finisce qui! Opta per la %1$svisualizzazione verticale%2$s se vuoi mostrare tutti gli step del processo come fossero elementi di una sidebar nella pagina."
-
-#: templates/premium.php:241
-msgid "Display styles"
-msgstr "Stili di visualizzazione"
-
-#: templates/premium.php:233
+#: templates/premium.php:177
 msgid "Premium Features"
 msgstr "Funzionalità premium"
 
-#: templates/premium.php:227 templates/premium.php:337
-msgid "to the premium version"
-msgstr "alla versione premium"
-
-#: templates/premium.php:226 templates/premium.php:336
-msgid "UPGRADE"
-msgstr "AGGIORNA"
-
-#: templates/premium.php:223 templates/premium.php:333
-msgid "Upgrade to %1$spremium version%2$s of %1$sYITH WooCommerce Multi-step Checkout%2$s to benefit from all features!"
-msgstr "Aggiorna alla %1$sversione premium%2$s di %1$sYITH WooCommerce Multi-step Checkout%2$s per usufruire di tutte le funzionalità!"
+#: templates/premium.php:169 templates/premium.php:270
+msgid "Upgrade to the %1$spremium version%2$s%3$sof %1$sYITH WooCommerce Multi-step%2$s to benefit from all features!"
+msgstr "Aggiorna alla %1$sversione premium%2$s%3$sdi %1$sYITH WooCommerce Multi-step%2$s per usufruire di tutte le funzionalità!"
 
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:20
 msgid "Reset Defaults"
@@ -548,9 +886,9 @@ msgstr "Chiudi tutti"
 msgid "Image preview"
 msgstr "Anteprima immagine"
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-upload.php:40
-#: plugin-fw/templates/fields/upload.php:27
 #: plugin-fw/templates/metaboxes/types/icon-list.php:70
+#: plugin-fw/templates/fields/upload.php:27
+#: plugin-fw/templates/panel/woocommerce/woocommerce-upload.php:40
 msgid "Upload"
 msgstr "Carica"
 
@@ -595,71 +933,71 @@ msgstr ""
 msgid "Plugins Activated"
 msgstr "Plugin attivati"
 
-#: plugin-fw/lib/yit-plugin-panel.php:785
+#: plugin-fw/lib/yit-plugin-panel.php:833
 msgid "Sorting successful."
 msgstr "Ordinamento effettuato con successo."
 
-#: plugin-fw/lib/yit-plugin-panel.php:784
+#: plugin-fw/lib/yit-plugin-panel.php:832
 msgid "Sorry, import is disabled."
 msgstr "Ci dispiace, l'importazione è disabilitata."
 
-#: plugin-fw/lib/yit-plugin-panel.php:783
+#: plugin-fw/lib/yit-plugin-panel.php:831
 msgid "The added file is not valid."
 msgstr "Il file aggiunto non è valido."
 
-#: plugin-fw/lib/yit-plugin-panel.php:782
+#: plugin-fw/lib/yit-plugin-panel.php:830
 msgid "An error has occurred during import. Please try again."
 msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
 
-#: plugin-fw/lib/yit-plugin-panel.php:781
+#: plugin-fw/lib/yit-plugin-panel.php:829
 msgid "Database imported correctly."
 msgstr "Database importato correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:779
-#: plugin-fw/lib/yit-plugin-panel.php:780
+#: plugin-fw/lib/yit-plugin-panel.php:827
+#: plugin-fw/lib/yit-plugin-panel.php:828
 msgid "Element updated correctly."
 msgstr "Elemento aggiornato correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:778
+#: plugin-fw/lib/yit-plugin-panel.php:826
 msgid "Element deleted correctly."
 msgstr "Elemento rimosso correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:777
+#: plugin-fw/lib/yit-plugin-panel.php:825
 msgid "Settings reset"
 msgstr "Impostazioni azzerate"
 
-#: plugin-fw/lib/yit-plugin-panel.php:776
+#: plugin-fw/lib/yit-plugin-panel.php:824
 msgid "Settings saved"
 msgstr "Impostazioni salvate"
 
-#: plugin-fw/lib/yit-plugin-panel.php:775
+#: plugin-fw/lib/yit-plugin-panel.php:823
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Per favore, inserisci un altro nome."
 
-#: plugin-fw/lib/yit-plugin-subpanel.php:157
-#: plugin-fw/lib/yit-plugin-panel.php:577
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:21
+#: plugin-fw/lib/yit-plugin-panel.php:625
+#: plugin-fw/lib/yit-plugin-subpanel.php:157
 msgid "Are you sure?"
 msgstr "Sei sicuro?"
 
+#: plugin-fw/lib/yit-plugin-panel.php:624
 #: plugin-fw/lib/yit-plugin-subpanel.php:156
-#: plugin-fw/lib/yit-plugin-panel.php:576
 msgid "Reset to default"
 msgstr "Ripristina configurazione predefinita"
 
-#: plugin-fw/lib/yit-plugin-subpanel.php:154
-#: plugin-fw/lib/yit-plugin-panel.php:574
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:17
+#: plugin-fw/lib/yit-plugin-panel.php:621
+#: plugin-fw/lib/yit-plugin-subpanel.php:154
 msgid "If you continue with this action, you will reset all options in this page."
 msgstr "Se prosegui con questa azione, tutte le opzioni di questa pagina saranno reimpostate."
 
-#: plugin-fw/lib/yit-plugin-subpanel.php:151
-#: plugin-fw/lib/yit-plugin-panel.php:571
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
+#: plugin-fw/lib/yit-plugin-panel.php:617
+#: plugin-fw/lib/yit-plugin-subpanel.php:151
 msgid "Save Changes"
 msgstr "Salva modifiche"
 
-#: plugin-fw/lib/yith-system-status.php:173
+#: plugin-fw/lib/yith-system-status.php:184
 msgid "YITH Plugins"
 msgstr "Plugin YITH"
 
@@ -667,7 +1005,7 @@ msgstr "Plugin YITH"
 msgid "Plugin Settings"
 msgstr "Impostazioni plugin"
 
-#: plugin-fw/lib/yit-plugin-panel-wc.php:397
+#: plugin-fw/lib/yit-plugin-panel-wc.php:403
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 
@@ -679,9 +1017,9 @@ msgstr "Carica file multipli"
 msgid "Add %s from images"
 msgstr "Aggiungi %s dalla immagini"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:1484
 #: plugin-fw/templates/fields/customtabs.php:46
 #: plugin-fw/templates/fields/customtabs.php:89
+#: plugin-fw/lib/yit-cpt-unlimited.php:1484
 msgid "Name"
 msgstr "Nome"
 
@@ -794,8 +1132,8 @@ msgstr "Categoria genitore"
 msgid "All Categories"
 msgstr "Tutte le categorie"
 
-#: plugin-fw/lib/yit-cpt-unlimited.php:629
 #: plugin-fw/templates/fields/ajax-terms.php:56
+#: plugin-fw/lib/yit-cpt-unlimited.php:629
 msgid "Search Categories"
 msgstr "Cerca categorie"
 
@@ -860,38 +1198,22 @@ msgstr "Aggiungi nuovo %s"
 msgid "Add %s"
 msgstr "Aggiungi %s"
 
-#: plugin-options/settings-options.php:28
-msgctxt "Admin option description: Enable plugin"
-msgid "Check this option to enable plugin features"
-msgstr "Spunta questa casella per abilitare le funzioni del plugin"
-
-#: plugin-options/settings-options.php:26
-msgctxt "Admin option: Enable plugin"
-msgid "Enable Multi-step Checkout"
-msgstr "Abilita Multi-step Checkout"
-
-#: plugin-options/settings-options.php:20
-msgctxt "Panel: page title"
-msgid "General settings"
-msgstr "Impostazioni generali"
-
 #: init.php:37
 msgctxt "Alert Message: WooCommerce require"
 msgid "YITH WooCommerce Multi-step Chekcout is enabled but not effective. It requires WooCommerce in order to work."
 msgstr "YITH WooCommerce Multi-step Checkout è abilitato ma non attivo. Devi aver installato WooCommerce perché questo possa funzionare correttamente."
 
-#: includes/class.yith-multistep-checkout-admin.php:109
+#: includes/class.yith-multistep-checkout-admin.php:112
 msgid "Premium Version"
 msgstr "Versione Premium"
 
-#: includes/class.yith-multistep-checkout-admin.php:104
+#: plugin-fw/lib/yit-plugin-panel.php:80
 #: plugin-fw/lib/yit-cpt-unlimited.php:1050
 #: plugin-fw/lib/yit-cpt-unlimited.php:1198
 #: plugin-fw/lib/yit-cpt-unlimited.php:1204
-#: plugin-fw/lib/yit-plugin-panel.php:80
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: includes/class.yith-multistep-checkout-admin.php:101
+#: includes/class.yith-multistep-checkout-admin.php:102
 msgid "Multi-step Checkout"
 msgstr "Multi-step Checkout"

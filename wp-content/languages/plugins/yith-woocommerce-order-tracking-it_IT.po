@@ -2,28 +2,63 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Order Tracking - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-01-30 20:27:17+0000\n"
+"PO-Revision-Date: 2020-05-29 19:46:13+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/2.4.0-alpha\n"
+"X-Generator: GlotPress/3.0.0-alpha\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Order Tracking - Stable (latest release)\n"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1240
+#: plugin-fw/templates/fields/onoff.php:24
+msgctxt "YES/NO button: use MAX 3 characters!"
+msgid "YES"
+msgstr "SÌ"
+
+#: plugin-fw/templates/fields/dimensions.php:117
+msgctxt "Tooltip in the \"Dimensions\" field"
+msgid "Link values together"
+msgstr "Collega i valori"
+
+#: plugin-fw/templates/fields/dimensions.php:19
+msgctxt "Position in the \"Dimensions\" field"
+msgid "Left"
+msgstr "A sinistra"
+
+#: plugin-fw/templates/fields/dimensions.php:18
+msgctxt "Position in the \"Dimensions\" field"
+msgid "Bottom"
+msgstr "In basso"
+
+#: plugin-fw/templates/fields/dimensions.php:17
+msgctxt "Position in the \"Dimensions\" field"
+msgid "Right"
+msgstr "A destra"
+
+#: plugin-fw/templates/fields/dimensions.php:16
+msgctxt "Position in the \"Dimensions\" field"
+msgid "Top"
+msgstr "In alto"
+
+#: plugin-fw/templates/fields/onoff.php:25
+msgctxt "YES/NO button: use MAX 3 characters!"
+msgid "NO"
+msgstr "NO"
+
+#: plugin-fw/lib/yit-plugin-panel.php:1269
 msgid ":) Thanks!"
 msgstr ":) Grazie!"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1239
+#: plugin-fw/lib/yit-plugin-panel.php:1268
 msgid "help us by leaving a five-star rating"
 msgstr "aiutaci lasciando una valutazione 5 stelle"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1237
+#: plugin-fw/lib/yit-plugin-panel.php:1266
 msgid "to keep updating and improving the plugin. Please,"
 msgstr "per continuare ad aggiornare e a migliorare il plugin. Per favore,"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1236
+#: plugin-fw/lib/yit-plugin-panel.php:1265
 msgid "We need your support"
 msgstr "Abbiamo bisogno del tuo sostegno"
 
@@ -327,8 +362,8 @@ msgstr "Hai già pensato a come generare fatture per il tuo negozio? %1$sYITH Wo
 msgid "Delivery note"
 msgstr "Documenti di trasporto"
 
-#: plugin-fw/lib/yit-plugin-panel.php:425
-#: plugin-fw/lib/yit-plugin-panel.php:428
+#: plugin-fw/lib/yit-plugin-panel.php:455
+#: plugin-fw/lib/yit-plugin-panel.php:458
 msgid "How to install premium version"
 msgstr "Come installare la versione premium"
 
@@ -556,9 +591,9 @@ msgstr "Chiudi tutti"
 msgid "Image preview"
 msgstr "Anteprima immagine"
 
-#: plugin-fw/templates/metaboxes/types/icon-list.php:70
-#: plugin-fw/templates/fields/upload.php:27
 #: plugin-fw/templates/panel/woocommerce/woocommerce-upload.php:40
+#: plugin-fw/templates/fields/upload.php:27
+#: plugin-fw/templates/metaboxes/types/icon-list.php:70
 msgid "Upload"
 msgstr "Carica"
 
@@ -603,67 +638,67 @@ msgstr ""
 msgid "Plugins Activated"
 msgstr "Plugin attivati"
 
-#: plugin-fw/lib/yit-plugin-panel.php:788
+#: plugin-fw/lib/yit-plugin-panel.php:817
 msgid "Sorting successful."
 msgstr "Ordinamento effettuato con successo."
 
-#: plugin-fw/lib/yit-plugin-panel.php:787
+#: plugin-fw/lib/yit-plugin-panel.php:816
 msgid "Sorry, import is disabled."
 msgstr "Ci dispiace, l'importazione è disabilitata."
 
-#: plugin-fw/lib/yit-plugin-panel.php:786
+#: plugin-fw/lib/yit-plugin-panel.php:815
 msgid "The added file is not valid."
 msgstr "Il file aggiunto non è valido."
 
-#: plugin-fw/lib/yit-plugin-panel.php:785
+#: plugin-fw/lib/yit-plugin-panel.php:814
 msgid "An error has occurred during import. Please try again."
 msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
 
-#: plugin-fw/lib/yit-plugin-panel.php:784
+#: plugin-fw/lib/yit-plugin-panel.php:813
 msgid "Database imported correctly."
 msgstr "Database importato correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:782
-#: plugin-fw/lib/yit-plugin-panel.php:783
+#: plugin-fw/lib/yit-plugin-panel.php:811
+#: plugin-fw/lib/yit-plugin-panel.php:812
 msgid "Element updated correctly."
 msgstr "Elemento aggiornato correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:781
+#: plugin-fw/lib/yit-plugin-panel.php:810
 msgid "Element deleted correctly."
 msgstr "Elemento rimosso correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:780
+#: plugin-fw/lib/yit-plugin-panel.php:809
 msgid "Settings reset"
 msgstr "Impostazioni azzerate"
 
-#: plugin-fw/lib/yit-plugin-panel.php:779
+#: plugin-fw/lib/yit-plugin-panel.php:808
 msgid "Settings saved"
 msgstr "Impostazioni salvate"
 
-#: plugin-fw/lib/yit-plugin-panel.php:778
+#: plugin-fw/lib/yit-plugin-panel.php:807
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Per favore, inserisci un altro nome."
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:21
 #: plugin-fw/lib/yit-plugin-subpanel.php:157
-#: plugin-fw/lib/yit-plugin-panel.php:580
+#: plugin-fw/lib/yit-plugin-panel.php:609
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:21
 msgid "Are you sure?"
 msgstr "Sei sicuro?"
 
 #: plugin-fw/lib/yit-plugin-subpanel.php:156
-#: plugin-fw/lib/yit-plugin-panel.php:579
+#: plugin-fw/lib/yit-plugin-panel.php:608
 msgid "Reset to default"
 msgstr "Ripristina configurazione predefinita"
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:17
 #: plugin-fw/lib/yit-plugin-subpanel.php:154
-#: plugin-fw/lib/yit-plugin-panel.php:577
+#: plugin-fw/lib/yit-plugin-panel.php:606
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:17
 msgid "If you continue with this action, you will reset all options in this page."
 msgstr "Se prosegui con questa azione, tutte le opzioni di questa pagina saranno reimpostate."
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
 #: plugin-fw/lib/yit-plugin-subpanel.php:151
-#: plugin-fw/lib/yit-plugin-panel.php:574
+#: plugin-fw/lib/yit-plugin-panel.php:603
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
 msgid "Save Changes"
 msgstr "Salva modifiche"
 
@@ -675,7 +710,7 @@ msgstr "Plugin YITH"
 msgid "Plugin Settings"
 msgstr "Impostazioni plugin"
 
-#: plugin-fw/lib/yit-plugin-panel-wc.php:399
+#: plugin-fw/lib/yit-plugin-panel-wc.php:407
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 
@@ -687,9 +722,9 @@ msgstr "Carica file multipli"
 msgid "Add %s from images"
 msgstr "Aggiungi %s dalla immagini"
 
+#: plugin-fw/lib/yit-cpt-unlimited.php:1484
 #: plugin-fw/templates/fields/customtabs.php:46
 #: plugin-fw/templates/fields/customtabs.php:89
-#: plugin-fw/lib/yit-cpt-unlimited.php:1484
 msgid "Name"
 msgstr "Nome"
 
@@ -802,8 +837,8 @@ msgstr "Categoria genitore"
 msgid "All Categories"
 msgstr "Tutte le categorie"
 
-#: plugin-fw/templates/fields/ajax-terms.php:56
 #: plugin-fw/lib/yit-cpt-unlimited.php:629
+#: plugin-fw/templates/fields/ajax-terms.php:56
 msgid "Search Categories"
 msgstr "Cerca categorie"
 
