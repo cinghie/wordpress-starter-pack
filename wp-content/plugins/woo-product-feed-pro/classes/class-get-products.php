@@ -3961,9 +3961,13 @@ class WooSEA_Get_Products {
 			// First check if there is a category mapping for this specific product
 			if ((preg_match('/'.$pm_array['criteria'].'/', $original_cat))){
 				if(!empty($pm_array['map_to_category'])){
-					$category_pieces = explode("-", $pm_array['map_to_category']);
-					$tmp_cat = $category_pieces[0];
-					$match = "true";
+
+					$product_cats_ids = wc_get_product_term_ids( $product_data['id'], 'product_cat' );
+					if(in_array($pm_array['categoryId'],  $product_cats_ids)){
+						$category_pieces = explode("-", $pm_array['map_to_category']);
+						$tmp_cat = $category_pieces[0];
+						$match = "true";
+					}
 				}
 			} elseif($pm_array['criteria'] == $original_cat){
 				$category_pieces = explode("-", $pm_array['map_to_category']);

@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.4
-Stable tag: 8.4.7
+Stable tag: 8.5.0
 
 == Description ==
 
@@ -312,6 +312,15 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 8.5.0 (2020-07-27) =
+* Fixed a category mapping issue for Google Shopping feeds where duplicate caregory namings caused wrong category mappings
+
+= 8.4.9 (2020-07-26) =
+* Removed the parent variable product for Facebook catalogue feeds again. It turns out not to be needed.
+
+= 8.4.8 (2020-07-25) =
+* Added the parent variable product to Facebook catalogue feeds
 
 = 8.4.7 (2020-07-14) =
 * Solved an Aelia price caching issue
@@ -2694,6 +2703,15 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 8.5.0 =
+Fixed a category mapping issue for Google Shopping feeds where duplicate caregory namings caused wrong category mappings
+
+= 8.4.9 =
+Removed the parent variable product for Facebook catalogue feeds again. It turns out not to be needed
+
+= 8.4.8 =
+Added the parent variable product to Facebook catalogue feeds
 
 = 8.4.7 =
 Solved an Aelia price caching issue

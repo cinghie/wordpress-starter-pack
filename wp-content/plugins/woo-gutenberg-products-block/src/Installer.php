@@ -25,7 +25,6 @@ class Installer {
 	 */
 	public function install() {
 		$this->maybe_create_tables();
-		$this->maybe_create_cronjobs();
 	}
 
 	/**
@@ -44,7 +43,7 @@ class Installer {
 		$schema_version    = 260;
 		$db_schema_version = (int) get_option( 'wc_blocks_db_schema_version', 0 );
 
-		if ( $db_schema_version > $schema_version ) {
+		if ( $db_schema_version >= $schema_version && 0 !== $db_schema_version ) {
 			return;
 		}
 
@@ -119,14 +118,5 @@ class Installer {
 				echo '</p></div>';
 			}
 		);
-	}
-
-	/**
-	 * Maybe create cron events.
-	 */
-	protected function maybe_create_cronjobs() {
-		if ( function_exists( 'as_next_scheduled_action' ) && false === as_next_scheduled_action( 'woocommerce_cleanup_draft_orders' ) ) {
-			as_schedule_recurring_action( strtotime( 'midnight tonight' ), DAY_IN_SECONDS, 'woocommerce_cleanup_draft_orders' );
-		}
 	}
 }

@@ -20,7 +20,7 @@
   var append_image = function (list, i, source, name, filetype) {
 
     var $field_list = $(list),
-            source_class;
+      source_class;
     if (filetype.match('image.*')) {
       source_class = 'image';
     } else if (filetype.match('application/ms.*')) {
@@ -63,10 +63,10 @@
       field.addClass('validate-required');
       if (field.find('label .required').length === 0) {
         field.find('label').append(
-                '<abbr class="required" title="' +
-                wc_address_i18n_params.i18n_required_text +
-                '">*</abbr>'
-                );
+          '<abbr class="required" title="' +
+          wc_address_i18n_params.i18n_required_text +
+          '">*</abbr>'
+        );
       }
 
       //fix state hidden
@@ -90,22 +90,22 @@
     $.each(locale_fields, function (key, value) {
 
       var field = thisform.find(value),
-              required = field.find('[data-required]').data('required') || field.find('.wooccm-required-field').length;
+        required = field.find('[data-required]').data('required') || field.find('.wooccm-required-field').length;
 
       field_is_required(field, required);
     });
   });
-// Field
-// ---------------------------------------------------------------------------
+  // Field
+  // ---------------------------------------------------------------------------
 
   var fileList = {};
 
   $('.wooccm-type-file').each(function (i, field) {
 
     var $field = $(field),
-            $button_file = $field.find('[type=file]'),
-            $button_click = $field.find('.wooccm-file-button'),
-            $field_list = $field.find('.wooccm-file-list');
+      $button_file = $field.find('[type=file]'),
+      $button_click = $field.find('.wooccm-file-button'),
+      $field_list = $field.find('.wooccm-file-list');
 
     fileList[$field.attr('id')] = [];
 
@@ -123,7 +123,7 @@
     $field_list.on('click', '.wooccm-file-list-delete', function (e) {
 
       var $file = $(this).closest('.wooccm-file-file'),
-              file_id = $(this).closest('[data-file_id]').data('file_id');
+        file_id = $(this).closest('[data-file_id]').data('file_id');
 
       fileList[$field.attr('id')] = $.grep(fileList[$field.attr('id')], function (value, index) {
         return index != file_id;
@@ -165,7 +165,6 @@
                 }, 200);
               };
             })(file);
-            console.log(file.name);
             reader.readAsDataURL(file);
           });
         }
@@ -175,22 +174,22 @@
   // Add class on place order reload if upload field exists
   // ---------------------------------------------------------------------------
 
-//  $(document).on('checkout_place_order_success', function (e) {
-//    alert('submit!');
-//  });
-//  $('form.checkout').on('checkout_place_order_success', function (e) {
-//    alert('submit!');
-//  });
+  //  $(document).on('checkout_place_order_success', function (e) {
+  //    alert('submit!');
+  //  });
+  //  $('form.checkout').on('checkout_place_order_success', function (e) {
+  //    alert('submit!');
+  //  });
   $('#order_review').on('ajaxSuccess wooccm_upload', function (e, xhr, settings) {
 
-//    console.log('e', e);
-//    console.log('xhr', xhr);
-//    console.log('settings', settings);
+    //    console.log('e', e);
+    //    console.log('xhr', xhr);
+    //    console.log('settings', settings);
 
     var $order_review = $(e.target),
-            $place_order = $order_review.find('#place_order'),
-            $fields = $('.wooccm-type-file'),
-            fields = $fields.length;
+      $place_order = $order_review.find('#place_order'),
+      $fields = $('.wooccm-type-file'),
+      fields = $fields.length;
 
     if (fields) {
       $place_order.addClass('wooccm-upload-process');
@@ -206,8 +205,8 @@
 
     e.preventDefault();
     var $form = $('form.checkout'),
-            $place_order = $(this),
-            $fields = $('.wooccm-type-file');
+      $place_order = $(this),
+      $fields = $('.wooccm-type-file');
 
     if (!$fields.length) {
       return;
@@ -229,8 +228,8 @@
     $.each(fileList, function (field_id, files) {
 
       var $field = $('#' + field_id),
-              $attachment_ids = $field.find('.wooccm-file-field'),
-              data = new FormData();
+        $attachment_ids = $field.find('.wooccm-file-field'),
+        data = new FormData();
 
       $.each(files, function (file_id, file) {
 
@@ -293,14 +292,15 @@
   $('.wooccm-conditional-child').each(function (i, field) {
 
     var $field = $(field),
-            $parent = $('#' + $field.find('[data-conditional-parent]').data('conditional-parent') + '_field'),
-            show_if_value = $field.find('[data-conditional-parent-value]').data('conditional-parent-value').toString();
+      $parent = $('#' + $field.find('[data-conditional-parent]').data('conditional-parent') + '_field'),
+      show_if_value = $field.find('[data-conditional-parent-value]').length && $field.find('[data-conditional-parent-value]').data('conditional-parent-value').toString();
+
     if ($parent.length) {
 
       $parent.on('wooccm_change change keyup', function (e) {
 
         var $this = $(e.target),
-                value = $this.val();
+          value = $this.val();
         // fix for select2 search
         if ($this.hasClass('select2-selection')) {
           return;
@@ -365,7 +365,7 @@
   $('.wooccm-enhanced-datepicker').each(function (i, field) {
 
     var $input = $(this),
-            disable = $input.data('disable') || false;
+      disable = $input.data('disable') || false;
 
     console.log('mindate', $input.data('mindate'));
 
@@ -375,7 +375,7 @@
         minDate: $input.data('mindate'),
         maxDate: $input.data('maxdate'),
         beforeShowDay: function (date) {
-          var day = date.getDay().toString();
+          var day = date.getDay() != undefined && date.getDay().toString();
           if (disable) {
             return [$.inArray(day, disable) === -1];
           }
@@ -393,12 +393,23 @@
     var $input = $(this);
 
     if ($.isFunction($.fn.timepicker)) {
+
       $input.timepicker({
         //timeFormat: 'HH:mm:ss',
         showPeriod: true,
         showLeadingZero: true,
         hours: $input.data('hours') || undefined,
         minutes: $input.data('minutes') || undefined,
+        /* hours: {
+          starts: 9,                // First displayed hour
+          ends: 21                  // Last displayed hour
+        },
+        minutes: {
+          starts: 5,                // First displayed minute
+          ends: 55,                 // Last displayed minute
+          interval: 5,              // Interval of displayed minutes
+          manual: []                // Optional extra entries for minutes
+        }, */
       });
     }
 
@@ -409,8 +420,8 @@
   $('.wooccm-colorpicker-farbtastic').each(function (i, field) {
 
     var $field = $(field),
-            $input = $field.find('input[type=text]'),
-            $container = $field.find('.wooccmcolorpicker_container');
+      $input = $field.find('input[type=text]'),
+      $container = $field.find('.wooccmcolorpicker_container');
     $input.hide();
     if ($.isFunction($.fn.farbtastic)) {
 
@@ -424,7 +435,7 @@
   $('.wooccm-colorpicker-iris').each(function (i, field) {
 
     var $field = $(field),
-            $input = $field.find('input[type=text]');
+      $input = $field.find('input[type=text]');
     $input.css('background', $input.val());
     $input.on('click', function (e) {
 
