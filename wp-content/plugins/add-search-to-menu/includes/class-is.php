@@ -32,13 +32,10 @@ class IS_Loader {
 	 * plugin dependencies, and will leverage the Ivory_Search for
 	 * registering the hooks and the callback functions used throughout the plugin.
 	 */
-	public function __construct( $is_opt = null ) {
+	public function __construct() {
 
-		if ( null !== $is_opt ) {
-			$this->opt = $is_opt;
-		} else {
-			$this->opt = Ivory_Search::load_options();
-		}
+		$this->opt = Ivory_Search::load_options();
+
 	}
 
 	/**
@@ -58,7 +55,7 @@ class IS_Loader {
 	 * Loads plugin functionality.
 	 */
 	function load() {
-            if ( ! $this->is_wp_is_json_request() ) {
+            if ( ! ivory_search_is_json_request() ) {
 		$this->set_locale();
 
 		$this->admin_public_hooks();
@@ -71,21 +68,6 @@ class IS_Loader {
 		}
             }
 	}
-
-        /* Checks whether current request is a JSON request, or is expecting a JSON response. */
-        private function is_wp_is_json_request() {
-
-            if ( isset( $_SERVER['HTTP_ACCEPT'] ) && false !== strpos( $_SERVER['HTTP_ACCEPT'], 'application/json' ) ) {
-                return true;
-            }
-
-            if ( isset( $_SERVER['CONTENT_TYPE'] ) && 'application/json' === $_SERVER['CONTENT_TYPE'] ) {
-                return true;
-            }
-
-            return false;
-
-        }
 
 	/**
 	 * Defines the locale for this plugin for internationalization.
@@ -150,9 +132,10 @@ class IS_Loader {
                     return;
 		}
 
-		add_action( 'wp_enqueue_scripts', array( $public, 'wp_enqueue_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $public, 'wp_enqueue_styles' ) );
+		add_action( 'wp_enqueue_scripts', array( $public, 'wp_enqueue_scripts' ), 9999999 );
 		add_filter( 'query_vars', array( $public, 'query_vars' ) );
-                add_filter( 'body_class', array( $public, 'is_body_classes' ) );
+        add_filter( 'body_class', array( $public, 'is_body_classes' ) );
 
 		$header_menu_search = isset( $this->opt['header_menu_search'] ) ? $this->opt['header_menu_search'] : 0;
 		$site_cache = isset( $this->opt['site_uses_cache'] ) ? $this->opt['site_uses_cache'] : 0;
@@ -180,4 +163,42 @@ class IS_Loader {
 		add_action( 'wp_ajax_is_ajax_load_posts', array( $ajax, 'ajax_load_posts' ) );
 		add_action( 'wp_ajax_nopriv_is_ajax_load_posts', array( $ajax, 'ajax_load_posts' ) );
 	}
+
+	/**
+	 * Displays search form by processing shortcode.
+	 */
+	function search_form_shortcode( $atts ) {
+
+		if ( is_feed() ) {
+			return '[ivory-search]';
+		}
+
+        if ( isset( $this->opt['disable'] ) ) {
+                    return;
+		}
+
+		$atts = shortcode_atts(
+			array(
+				'id'	     => 0,
+				'title'	     => '',
+			),
+			$atts, 'ivory-search'
+		);
+
+		$id = (int) $atts['id'];
+
+        $search_form = IS_Search_Form::get_instance( $id );
+
+		if ( ! $search_form ) {
+			return '[ivory-search 404 "The search form '.$id.' does not exist"]';
+		} 
+
+		$form  = $search_form->form_html( $atts );
+
+		return $form;
+	}
+
 }
+
+$is_loader = IS_Loader::getInstance();
+add_shortcode( 'ivory-search', array( $is_loader, 'search_form_shortcode' ) );

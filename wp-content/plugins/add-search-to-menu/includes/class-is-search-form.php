@@ -318,7 +318,7 @@ class IS_Search_Form {
 
 		// Customize options.
 		$_customize = $search_form->prop('_is_customize');
-		if( isset( $_customize['enable_customize'] ) || 'default-search-form' != $search_form->name() ) {
+		if( isset( $_customize['enable_customize'] ) || isset( $_ajax['enable_ajax'] ) || 'default-search-form' != $search_form->name() ) {
 			// Input.
 			$search_input_color        = isset( $settings['text-box-text'] ) ? $settings['text-box-text'] : '';
 			$search_input_bg_color     = isset( $settings['text-box-bg'] ) ? $settings['text-box-bg'] : '';
@@ -404,6 +404,7 @@ class IS_Search_Form {
                 $_settings = '';
                 $result = '';
                 $search_form = false;
+                $enabled_customization = false;
                 $is = Ivory_Search::getInstance();
                 $min = ( defined( 'IS_DEBUG' ) && IS_DEBUG ) ? '' : '.min';
 
@@ -418,14 +419,15 @@ class IS_Search_Form {
 	                $_customize = $this->prop('_is_customize');
 	                $_includes = $this->prop( '_is_includes' );
 	                $_settings = $this->prop('_is_settings');
+	                $enabled_customization = ( isset( $_customize['enable_customize'] ) || 'default-search-form' != $search_form->name() || isset( $_ajax['enable_ajax'] ) ) ? true : false;
 
 	                if ( ! isset( $is->opt['not_load_files']['css'] ) && isset( $_ajax['enable_ajax'] ) ) {
 	                        wp_enqueue_style( 'ivory-ajax-search-styles', plugins_url( '/public/css/ivory-ajax-search'.$min.'.css', IS_PLUGIN_FILE ), array(), IS_VERSION );
 	                }
 
-	                if ( isset( $_customize['enable_customize'] ) || 'default-search-form' != $search_form->name() || isset( $_ajax['enable_ajax'] ) ) {
+	                if ( $enabled_customization ) {
 	                	$inline_css = $this->get_css( $args['id'] );
-	                	if ( '' !== $inline_css ) {
+	                	if ( '' !== $inline_css && ! ivory_search_is_json_request() ) {
 	                    	echo '<style type="text/css">' . $inline_css . '</style>';
 	                   	}
 	                }
@@ -438,7 +440,7 @@ class IS_Search_Form {
 	                }
             	}
 
-                if ( ! isset( $_ajax['enable_ajax'] ) && ! isset( $_customize['enable_customize'] ) && $search_form && 'default-search-form' == $search_form->name() ) {
+                if ( ! $enabled_customization && $args['id'] ) {
 
                     remove_filter( 'get_search_form', array( IS_Admin_Public::getInstance(), 'get_search_form' ), 9999999 );
                     $result = get_search_form( false );
@@ -465,10 +467,9 @@ class IS_Search_Form {
                 $data_attrs = '';
                 $placeholder_text = __( 'Search here...', 'add-search-to-menu');
                 $search_btn_text = __( 'Search', 'add-search-to-menu');
-                $form_style = '';
-                $search_form_name = ( $search_form ) ? $search_form->name() : '';
+                $form_style = 'is-form-style-3';
 
-                if ( isset( $_customize['enable_customize'] ) || 'default-search-form' != $search_form_name ) {
+                if ( $enabled_customization ) {
                     $placeholder_text = isset( $settings['placeholder-text'] ) ? $settings['placeholder-text'] : $placeholder_text;
                     $search_btn_text = isset( $settings['search-btn-text'] ) ? $settings['search-btn-text'] : $search_btn_text;
                     $form_style = isset( $settings['form-style'] ) ? $settings['form-style'] : 'is-form-style-3';
@@ -502,7 +503,26 @@ class IS_Search_Form {
                 $classes = $view_search_result_class . $temp . $form_style . ' is-form-id-' . $args['id'].' '.$is_ajax_search;
                 $classes = apply_filters( 'is_search_form_classes', $classes );
 
-                $result = '<form '.$data_attrs.' class="is-search-form '. $classes .'" action="' . home_url('/') . '" method="get" role="search" >';
+ 				$search_url = home_url( '/' );
+
+	            if ( function_exists( 'pll_home_url' ) ) {
+	                $search_url = pll_home_url();
+
+	                if ( get_option( 'show_on_front' ) === 'page' ) {
+
+	                    $current_language = pll_current_language();
+	                    $default_language = pll_default_language();
+
+	                    if ( $current_language != $default_language ) {
+	                        if ( strpos( $search_url, '/' . $current_language ) !== false ) {
+	                            $language_subdir = $current_language.'/';
+	                            $search_url = home_url( '/' . $language_subdir );
+	                        }
+	                    }
+	                }
+	            }
+
+                $result = '<form '.$data_attrs.' class="is-search-form '. $classes .'" action="' . $search_url . '" method="get" role="search" >';
                 $autocomplete = apply_filters( 'is_search_form_autocomplete', 'autocomplete="off"' );
                 $result .= '<label><input  type="search" name="s" value="' . get_search_query() . '" class="is-search-input" placeholder="' . esc_attr( $placeholder_text ) . '" '.$autocomplete.' />';
                 // AJAX Loader.
@@ -539,7 +559,7 @@ class IS_Search_Form {
                     $result .= '<div class="is-link-container"><div><a class="is-edit-link" target="_blank" href="'.admin_url( 'admin.php?page=ivory-search&post='.$args['id'].'&action=edit' ) . '">'.__( "Edit", "ivory-search") .'</a>';
 
                     if ( ! is_customize_preview() ) {
-                        if ( isset( $_customize['enable_customize'] ) || 'default-search-form' != $search_form_name || isset( $_ajax['enable_ajax'] ) ) {
+                        if ( $enabled_customization ) {
                                 $result .= ' <a class="is-customize-link" target="_blank" href="'.admin_url( 'customize.php?autofocus[section]=is_section_'.$args['id'].'&url=' . get_the_permalink( get_the_ID() ) ) .'">'.__( "Customizer", "ivory-search") .'</a>';
                         }
                     }

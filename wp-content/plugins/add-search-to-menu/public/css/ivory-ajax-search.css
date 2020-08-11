@@ -285,6 +285,7 @@ div.is-ajax-search-result {
 }
 
 .is-featured-icon {
+    display: inline-block;
     width: 13px;
     fill: #FFC107;
     vertical-align: text-top;

@@ -30,7 +30,6 @@ class IS_List_Table extends WP_List_Table {
 			'cb'		=> '<input type="checkbox" />',
 			'title'		=> __( 'Title', 'add-search-to-menu' ),
 			'shortcode' => __( 'Shortcode', 'add-search-to-menu' ),
-			'author'	=> __( 'Author', 'add-search-to-menu' ),
 			'date'		=> __( 'Date', 'add-search-to-menu' ),
 		);
 
@@ -65,8 +64,6 @@ class IS_List_Table extends WP_List_Table {
 		if ( ! empty( $_REQUEST['orderby'] ) ) {
 			if ( 'title' == $_REQUEST['orderby'] ) {
 				$args['orderby'] = 'title';
-			} elseif ( 'author' == $_REQUEST['orderby'] ) {
-				$args['orderby'] = 'author';
 			} elseif ( 'date' == $_REQUEST['orderby'] ) {
 				$args['orderby'] = 'date';
 			}
@@ -107,7 +104,6 @@ class IS_List_Table extends WP_List_Table {
 	function get_sortable_columns() {
 		$columns = array(
 			'title'	 => array( 'title', true ),
-			'author' => array( 'author', false ),
 			'date'   => array( 'date', false ),
 		);
 
@@ -187,22 +183,6 @@ class IS_List_Table extends WP_List_Table {
 		$output .= $this->row_actions( $actions );
 
 		return $output;
-	}
-
-	function column_author( $item ) {
-		$post = get_post( $item->id() );
-
-		if ( ! $post ) {
-			return;
-		}
-
-		$author = get_userdata( $post->post_author );
-
-		if ( false === $author ) {
-			return;
-		}
-
-		return esc_html( $author->display_name );
 	}
 
 	function column_shortcode( $item ) {

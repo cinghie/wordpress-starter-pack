@@ -31,8 +31,13 @@ class IS_Widget extends WP_Widget {
 		if ( ! empty( $instance['search_form'] ) ) {
 				echo do_shortcode( '[ivory-search id="' . $instance['search_form'] . '"]' );
 		} else {
+			$page = get_page_by_path( 'default-search-form', OBJECT, 'is_search_form' );
+            if ( ! empty( $page ) ) {
+					echo do_shortcode( '[ivory-search id="' . $page->ID . '"]' );
+            } else {
                     _e( 'Please select search form in the Ivory Search widget.', 'add-search-to-menu' );
                 }
+         }
 		echo $args['after_widget'];
 	}
 

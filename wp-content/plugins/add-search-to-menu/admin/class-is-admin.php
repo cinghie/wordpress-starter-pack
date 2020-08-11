@@ -27,14 +27,7 @@ class IS_Admin
      */
     public function __construct()
     {
-        $is = Ivory_Search::getInstance();
-        
-        if ( null !== $is ) {
-            $this->opt = $is->opt;
-        } else {
-            $this->opt = Ivory_Search::load_options();
-        }
-        
+        $this->opt = Ivory_Search::load_options();
         $this->networkactive = is_multisite() && array_key_exists( plugin_basename( IS_PLUGIN_FILE ), (array) get_site_option( 'active_sitewide_plugins' ) );
     }
     
@@ -383,7 +376,7 @@ class IS_Admin
             }
             
             if ( !empty($GLOBALS['pagenow']) && ('admin.php' === $GLOBALS['pagenow'] || 'options.php' === $GLOBALS['pagenow']) ) {
-                $settings_fields = new IS_Settings_Fields( $this->opt );
+                $settings_fields = new IS_Settings_Fields();
                 $settings_fields->register_settings_fields();
             }
             
@@ -514,29 +507,24 @@ class IS_Admin
             array( $this, 'search_forms_page' )
         );
         add_action( 'load-' . $edit, array( $this, 'load_admin_search_form' ) );
-        $addnew = '';
-        
-        if ( isset( $_GET['page'] ) && 'ivory-search-new' == $_GET['page'] ) {
-            $addnew = add_submenu_page(
-                'ivory-search',
-                __( 'Add New Search Form', 'add-search-to-menu' ),
-                __( 'Add New', 'add-search-to-menu' ),
-                'manage_options',
-                'ivory-search-new',
-                array( $this, 'new_search_form_page' )
-            );
-        } else {
-            $addnew = add_submenu_page(
-                '',
-                __( 'Add New Search Form', 'add-search-to-menu' ),
-                __( 'Add New', 'add-search-to-menu' ),
-                'manage_options',
-                'ivory-search-new',
-                array( $this, 'new_search_form_page' )
-            );
-        }
-        
+        $addnew = add_submenu_page(
+            'ivory-search',
+            __( 'Add New Search Form', 'add-search-to-menu' ),
+            __( 'New Search Form', 'add-search-to-menu' ),
+            'manage_options',
+            'ivory-search-new',
+            array( $this, 'new_search_form_page' )
+        );
         add_action( 'load-' . $addnew, array( $this, 'load_admin_search_form' ) );
+        $settings = add_submenu_page(
+            'ivory-search',
+            __( 'Menu Search', 'add-search-to-menu' ),
+            __( 'Menu Search', 'add-search-to-menu' ),
+            'manage_options',
+            'ivory-search-settings&tab=menu-search',
+            array( $this, 'settings_page' )
+        );
+        add_action( 'load-' . $settings, array( $this, 'is_settings_add_help_tab' ) );
         $settings = add_submenu_page(
             'ivory-search',
             __( 'Ivory Search Settings', 'add-search-to-menu' ),
@@ -584,7 +572,7 @@ class IS_Admin
 
 		<?php 
         if ( current_user_can( 'is_edit_search_forms' ) ) {
-            echo  sprintf( '<a href="%1$s" class="add-new-h2">%2$s</a>', esc_url( menu_page_url( 'ivory-search-new', false ) ), esc_html( __( 'Add New', 'add-search-to-menu' ) ) ) ;
+            echo  sprintf( '<a href="%1$s" class="add-new-h2">%2$s</a>', esc_url( menu_page_url( 'ivory-search-new', false ) ), esc_html( __( 'Add New Search Form', 'add-search-to-menu' ) ) ) ;
         }
         if ( !empty($_REQUEST['s']) ) {
             echo  sprintf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;', 'add-search-to-menu' ) . '</span>', esc_html( $_REQUEST['s'] ) ) ;

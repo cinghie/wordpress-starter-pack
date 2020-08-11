@@ -23,13 +23,7 @@ class IS_Admin_Public {
 	 * Initializes this class and stores the plugin options.
 	 */
 	public function __construct() {
-		$is = Ivory_Search::getInstance();
-
-		if ( null !== $is ) {
-			$this->opt = $is->opt;
-		} else {
-			$this->opt = Ivory_Search::load_options();
-		}
+		$this->opt = Ivory_Search::load_options();
 	}
 
 	/**
@@ -143,7 +137,7 @@ class IS_Admin_Public {
 
 			// Customize options.
 			$_customize = $search_form->prop('_is_customize');
-			if( isset( $_customize['enable_customize'] ) || 'default-search-form' != $search_form->name() ) {
+			if( isset( $_customize['enable_customize'] ) || isset( $_ajax['enable_ajax'] ) || 'default-search-form' != $search_form->name() ) {
 		
 				$fields[ $setting_name . '[form-style]' ] = array(
 					'setting' => array(
@@ -281,40 +275,6 @@ class IS_Admin_Public {
 	}
 
 	/**
-	 * Displays search form by processing shortcode.
-	 */
-	function search_form_shortcode( $atts ) {
-
-		if ( is_feed() ) {
-			return '[ivory-search]';
-		}
-
-                if ( isset( $this->opt['disable'] ) ) {
-                    return;
-		}
-
-		$atts = shortcode_atts(
-			array(
-				'id'	     => 0,
-				'title'	     => '',
-			),
-			$atts, 'ivory-search'
-		);
-
-		$id = (int) $atts['id'];
-
-                $search_form = IS_Search_Form::get_instance( $id );
-
-		if ( ! $search_form ) {
-			return '[ivory-search 404 "The search form '.$id.' does not exist"]';
-		} 
-
-		$form  = $search_form->form_html( $atts );
-
-		return $form;
-	}
-
-	/**
 	 * Changes default search form.
 	 */
 	function get_search_form( $form ) {
@@ -376,6 +336,3 @@ class IS_Admin_Public {
 		return $html;
 	}
 }
-
-$admin_public = IS_Admin_Public::getInstance();
-add_shortcode( 'ivory-search', array( $admin_public, 'search_form_shortcode' ) );

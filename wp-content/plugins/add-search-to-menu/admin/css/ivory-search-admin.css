@@ -15,6 +15,14 @@ br {
 	 -webkit-border-radius: 5px;
 }
 
+.toplevel_page_ivory-search #shortcode.column-shortcode {
+    width: auto !important;
+}
+
+.toplevel_page_ivory-search th#title {
+    width: 30% !important;
+}
+
 #search-form-editor textarea,
 #search-form-editor input[type=text] {
 	width: 100%;
@@ -94,7 +102,6 @@ br {
 
 #submitdiv.searchbox {
 	background: #f1f1f1;
-	margin-bottom: 30px;
 }
 
 .searchbox #major-publishing-actions {
@@ -147,10 +154,6 @@ br {
 	margin-top: 10px;
 }
 
-#informationdiv.searchbox .inside {
-	background: #fff;
-}
-
 #searchtbox-container-1 input.button-primary {
 	width: auto;
 	margin-top: 15px;
@@ -190,7 +193,7 @@ br {
 }
 
 span.shortcode > input {
-	background: #fff;
+	background: #fbfbfb;
 	font-size: 12px;
 	border: none;
 	box-shadow: none;
@@ -248,17 +251,7 @@ h1.wp-heading-inline {
 	margin: 0;
 	font-weight: 400;
 	font-size: 15px;
-}
-
-h4.panel-desc::before,
-#informationdiv h3::before {
-	font-family: dashicons;
-	content: "\f534";
-	display: inline-block;
-	float: left;
-	font-size: 20px;
-	color: #82878c;
-	margin-right: 5px;
+	text-align: center;
 }
 
 #informationdiv ul li {
@@ -404,15 +397,23 @@ h4.panel-desc::before,
 	outline: 0;
 }
 
-#search-form-editor-tabs li:hover a,
-#search-form-editor-tabs li.active a,
-#search-form-editor-tabs li.active:hover a {
-	background-color: #f3f3f5;
+#search-form-editor-tabs li.active {
+    border-color: #cbcbcb;
+}
+
+#search-form-editor-tabs li:hover a {
+	background: #e8e8e8;
 	color: #0073aa;
 }
 
+#search-form-editor-tabs li.active a,
+#search-form-editor-tabs li.active:hover a {
+	background-color: #fff;
+	color: #000;
+}
+
 #search-form-editor-tabs li a {
-	background: #fff;
+	background: #f3f3f5;
 	border-radius: 3px;
 	box-shadow: none;
 	padding: 6px 10px;
@@ -420,7 +421,7 @@ h4.panel-desc::before,
 	font-weight: normal;
 	line-height: 30px;
 	outline: 0;
-	color: #555d66;
+	color: #313131;
 	text-decoration: none;
 	display: block;
 }
@@ -435,7 +436,11 @@ h4.panel-desc::before,
 	right: 5px;
 }
 
-#search-form-editor-tabs li.active a::after,
+#search-form-editor-tabs li.active:hover a::after ,
+#search-form-editor-tabs li.active a::after {
+	color: #5c5c5c;
+}
+
 #search-form-editor-tabs li:hover a::after {
 	color: #0073aa;
 }
@@ -473,22 +478,33 @@ h4.panel-desc::before,
 	width: auto;
 }
 
+.search-form-editor-box .enable-ajax-customize {
+    text-align: center;
+}
+
 h4.panel-desc {
 	margin-top: 0;
 	padding: 5px;
 	font-weight: 400;
-	border: 1px solid #e5e5e5;
-	border-radius: 3px;
+	text-align: center;
 }
 
 .form-table a {
 	text-decoration: none;
 }
 
+#search-body input[type=text], 
+#search-body select, 
+#search-body textarea {
+	border-color: #dadada; 
+	border-radius: 0;
+	box-shadow: none;
+}
+
 #search-body .form-table h3 {
 	clear: both;
 	cursor: pointer;
-        background: #fff;
+    background: #fff;
 	font-weight: 600;
 	color: #23282d;
 	outline: 0;
@@ -497,17 +513,29 @@ h4.panel-desc {
 	border-radius: 3px 3px 0 0;
 	margin: 0.5em 0 0;
 	border: 1px solid #e5e5e5;
-        text-transform: capitalize;
+    text-transform: capitalize;
+}
+
+#search-body .form-table h4 {
+    margin: 50px 0 5px;
+}
+
+#search-body .form-table h4.is-first-title {
+    margin: 0px 0 15px;
+}
+
+#search-body .form-table h3.is-p-type {
+    padding-left: 20px;
 }
 
 #search-body .form-table h3 i {
-       font-weight: 100;
+    font-weight: 100;
 }
 
 #search-body .search-form-editor-panel {
 	background: none;
 	border: 0;
-	color: #444;
+	color: #000;
 }
 
 #search-body #titlediv .inside .description {
@@ -521,6 +549,14 @@ h4.panel-desc {
 
 #search-body #title {
 	font-size: 1.2em;
+	background-color: #f7f7f7;
+}
+
+span.shortcode > input:hover,
+span.shortcode > input:focus,
+#search-body #title:hover,
+#search-body #title:focus {
+	background-color: #FFF;
 }
 
 #search-body .shortcode {
@@ -662,6 +698,7 @@ h4.panel-desc {
 }
 
 .ctrl-multi-select {
+	color: #72777c;
     font-size: 10px;
     clear:both;
     display:block;

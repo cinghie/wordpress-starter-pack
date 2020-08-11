@@ -3,7 +3,7 @@
  * Plugin Name: Ivory Search
  * Plugin URI:  https://ivorysearch.com
  * Description: The WordPress Search plugin that includes Search Form Customizer, WooCommerce Search, Image Search, Search Shortcode, AJAX Search & Live Search support!
- * Version:     4.5.2
+ * Version:     4.5.4
  * Author:      Ivory Search
  * Author URI:  https://ivorysearch.com/
  * License:     GPL2+
@@ -54,7 +54,7 @@ final class Ivory_Search {
 	/**
 	 * Stores plugin options.
 	 */
-	public $opt;
+	private static $opt;
 
 	/**
 	 * Core singleton class
@@ -66,11 +66,7 @@ final class Ivory_Search {
 	 * Ivory Search Constructor.
 	 */
 	public function __construct() {
-		$this->opt = self::load_options();
-
-		$this->define_constants();
-		$this->includes();
-		$this->init_hooks();
+		Ivory_Search::$opt = self::load_options();
 	}
 
 	/**
@@ -92,13 +88,18 @@ final class Ivory_Search {
 	 *
 	 */
 	public static function load_options() {
-		$temp = (array)get_option( 'ivory_search', array() );
-		$is_menu_search = get_option( 'is_menu_search', array() );
-		$temp2 = array_merge( $temp, (array)$is_menu_search );
-		$is_settings = get_option( 'is_settings', array() );
-		$temp3 = array_merge( $temp2, (array)$is_settings );
-		$is_notices = get_option( 'is_notices', array() );
-		return array_merge( $temp3, (array)$is_notices );
+		if ( empty( Ivory_Search::$opt ) ) {
+			$temp = (array)get_option( 'ivory_search', array() );
+			$is_menu_search = get_option( 'is_menu_search', array() );
+			$temp2 = array_merge( $temp, (array)$is_menu_search );
+			$is_settings = get_option( 'is_settings', array() );
+			$temp3 = array_merge( $temp2, (array)$is_settings );
+			$is_notices = get_option( 'is_notices', array() );
+			Ivory_Search::$opt = array_merge( $temp3, (array)$is_notices );
+			return Ivory_Search::$opt;
+		} else {
+			return Ivory_Search::$opt;
+		}
 	}
 
 	/**
@@ -107,7 +108,7 @@ final class Ivory_Search {
 	private function define_constants() {
 
 		if ( ! defined( 'IS_VERSION' ) ) {
-			define( 'IS_VERSION', '4.5.2' );
+			define( 'IS_VERSION', '4.5.4' );
 		}
 		if ( ! defined( 'IS_PLUGIN_FILE' ) ) {
 			define( 'IS_PLUGIN_FILE', __FILE__ );
@@ -145,7 +146,7 @@ final class Ivory_Search {
 			}
 		}
 
-                if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+        if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 			foreach( glob( IS_PLUGIN_DIR.'public/' . "*.php" ) as $file ) {
 				require_once $file;
 			}
@@ -165,7 +166,11 @@ final class Ivory_Search {
 	 * Starts plugin execution.
 	 */
 	function start() {
-		$is_loader = IS_Loader::getInstance( $this->opt );
+		$this->define_constants();
+		$this->includes();
+		$this->init_hooks();
+
+		$is_loader = IS_Loader::getInstance();
 		$is_loader->load();
 	}
 }

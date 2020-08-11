@@ -107,7 +107,7 @@ class IS_Search_Editor
         ?>
 		<h4 class="panel-desc">
 			<?php 
-        _e( "This search form searches the below configured content.", 'add-search-to-menu' );
+        _e( "Configure Searchable Content", 'add-search-to-menu' );
         ?>
 		</h4>
 		<div class="search-form-editor-box" id="<?php 
@@ -202,7 +202,7 @@ class IS_Search_Editor
             
             ?>
 
-			<h3 scope="row" class="post-type-<?php 
+			<h3 scope="row" class="is-p-type post-type-<?php 
             echo  $post_type ;
             ?>">
 				<label for="<?php 
@@ -295,9 +295,10 @@ class IS_Search_Editor
                 foreach ( $tax_objs as $key => $tax_obj ) {
                     $terms = get_terms( array(
                         'taxonomy' => $key,
+                        'lang'     => '',
                     ) );
                     
-                    if ( !empty($terms) ) {
+                    if ( !empty($terms) && !empty($tax_obj->labels->name) ) {
                         $terms_exist = true;
                         $html .= '<div class="col-wrapper"><div class="col-title">';
                         $col_title = ucwords( str_replace( '-', ' ', str_replace( '_', ' ', esc_html( $tax_obj->labels->name ) ) ) );
@@ -461,35 +462,130 @@ class IS_Search_Editor
         ?>
 
 			<h3 scope="row">
+                            <label for="<?php 
+        echo  $id ;
+        ?>-extras"><?php 
+        echo  esc_html( __( 'Extras', 'add-search-to-menu' ) ) ;
+        ?></label>
+                            <span class="actions"><a class="expand" href="#"><?php 
+        esc_html_e( 'Expand All', 'add-search-to-menu' );
+        ?></a><a class="collapse" href="#" style="display:none;"><?php 
+        esc_html_e( 'Collapse All', 'add-search-to-menu' );
+        ?></a></span>
+			</h3>
+			<div><div class="includes_extras">
+			<h4 scope="row" class="is-first-title">
 				<label for="<?php 
         echo  $id ;
-        ?>-date_query"><?php 
-        echo  esc_html( __( 'Date', 'add-search-to-menu' ) ) ;
+        ?>-search_content"><?php 
+        echo  esc_html( __( 'Search Content', 'add-search-to-menu' ) ) ;
         ?></label>
-			</h3>
+			</h4>
+			<?php 
+        $checked = ( $default_search || isset( $includes['search_title'] ) && $includes['search_title'] ? 1 : 0 );
+        echo  '<p class="check-radio"><label for="' . $id . '-search_title"><input class="_is_includes-post_type" type="checkbox" id="' . $id . '-search_title" name="' . $id . '[search_title]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search post title %s( File title )%s", 'add-search-to-menu' ), '<i>', '</i>' ) . '</label></p>' ;
+        $checked = ( $default_search || isset( $includes['search_content'] ) && $includes['search_content'] ? 1 : 0 );
+        echo  '<p class="check-radio"><label for="' . $id . '-search_content"><input class="_is_includes-post_type" type="checkbox" id="' . $id . '-search_content" name="' . $id . '[search_content]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search post content %s( File description )%s", 'add-search-to-menu' ), '<i>', '</i>' ) . '</label></p>' ;
+        $checked = ( $default_search || isset( $includes['search_excerpt'] ) && $includes['search_excerpt'] ? 1 : 0 );
+        echo  '<p class="check-radio"><label for="' . $id . '-search_excerpt"><input class="_is_includes-post_type" type="checkbox" id="' . $id . '-search_excerpt" name="' . $id . '[search_excerpt]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search post excerpt %s( File caption )%s", 'add-search-to-menu' ), '<i>', '</i>' ) . '</label></p>' ;
+        $checked = ( isset( $includes['search_tax_title'] ) && $includes['search_tax_title'] ? 1 : 0 );
+        echo  '<p class="check-radio"><label for="' . $id . '-search_tax_title" ><input class="_is_includes-tax_query" type="checkbox" id="' . $id . '-search_tax_title" name="' . $id . '[search_tax_title]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search category/tag title %s( Displays posts of the category/tag )%s", 'add-search-to-menu' ), '<i>', '</i>' ) . '</label></p>' ;
+        $checked = ( isset( $includes['search_tax_desp'] ) && $includes['search_tax_desp'] ? 1 : 0 );
+        echo  '<p class="check-radio"><label for="' . $id . '-search_tax_desp" ><input class="_is_includes-tax_query" type="checkbox" id="' . $id . '-search_tax_desp" name="' . $id . '[search_tax_desp]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search category/tag description %s( Displays posts of the category/tag )%s", 'add-search-to-menu' ), '<i>', '</i>' ) . '</label></p>' ;
+        
+        if ( isset( $includes['tax_query'] ) ) {
+            $tax_rel_disable = '';
+            
+            if ( isset( $includes['tax_post_type'] ) ) {
+                $temp = array();
+                foreach ( $includes['tax_query'] as $key => $value ) {
+                    if ( isset( $includes['tax_post_type'][$key] ) && (empty($temp) || !in_array( $includes['tax_post_type'][$key], $temp )) ) {
+                        array_push( $temp, $includes['tax_post_type'][$key] );
+                    }
+                    
+                    if ( count( $temp ) > 1 ) {
+                        $tax_rel_disable = 'disabled';
+                        $includes['tax_rel'] = "OR";
+                        break;
+                    }
+                
+                }
+            }
+            
+            echo  '<p class="check-radio">' ;
+            
+            if ( 'disabled' == $tax_rel_disable ) {
+                echo  '<br />' ;
+                $content = __( 'Note: The below option is disabled and set to OR as you have configured the search form to search multiple taxonomies.', 'add-search-to-menu' );
+                IS_Help::help_info( $content );
+            }
+            
+            $checked = ( isset( $includes['tax_rel'] ) && "AND" == $includes['tax_rel'] ? "AND" : "OR" );
+            echo  '<label for="' . $id . '-tax_rel_and" ><input class="_is_includes-tax_query" type="radio" id="' . $id . '-tax_rel_and" ' . $tax_rel_disable . ' name="' . $id . '[tax_rel]" value="AND" ' . checked( 'AND', $checked, false ) . '/>' ;
+            echo  '<span class="toggle-check-text"></span>' . esc_html__( "AND - Search posts having all the above selected category terms", 'add-search-to-menu' ) . '</label></p>' ;
+            echo  '<p class="check-radio"><label for="' . $id . '-tax_rel_or" ><input class="_is_includes-tax_query" type="radio" id="' . $id . '-tax_rel_or" ' . $tax_rel_disable . ' name="' . $id . '[tax_rel]" value="OR" ' . checked( 'OR', $checked, false ) . '/>' ;
+            echo  '<span class="toggle-check-text"></span>' . esc_html__( "OR - Search posts having any one of the above selected category terms", 'add-search-to-menu' ) . '</label></p>' ;
+        }
+        
+        ?>
+			</div>
+
+			<h4 scope="row">
+				<label for="<?php 
+        echo  $id ;
+        ?>-post_status"><?php 
+        echo  esc_html( __( 'Post Status', 'add-search-to-menu' ) ) ;
+        ?></label>
+			</h4>
 			<div>
 				<?php 
-        $content = __( 'Search posts created only in the specified date range.', 'add-search-to-menu' );
+        $content = __( 'Search posts having selected post statuses.', 'add-search-to-menu' );
         IS_Help::help_info( $content );
         echo  '<div>' ;
-        $range = array( 'after', 'before' );
-        foreach ( $range as $value ) {
-            $col_title = ( 'after' == $value ? __( 'From', 'add-search-to-menu' ) : __( 'To', 'add-search-to-menu' ) );
-            echo  '<div class="col-wrapper ' . $value . '"><div class="col-title">' . $col_title . '</div>' ;
-            $checked = ( isset( $includes['date_query'][$value]['date'] ) ? $includes['date_query'][$value]['date'] : '' );
-            echo  '<input type="text" id="is-' . $value . '-datepicker" name="' . $id . '[date_query][' . $value . '][date]" value="' . $checked . '">' ;
+        $post_statuses = get_post_stati();
+        $post_status_disable = ( is_fs()->is_plan_or_trial( 'pro' ) && $this->is_premium_plugin ? '' : ' disabled ' );
+        
+        if ( !empty($post_statuses) ) {
+            if ( '' !== $post_status_disable ) {
+                echo  IS_Admin::pro_link() ;
+            }
+            echo  '<div class="is-cb-dropdown">' ;
+            echo  '<div class="is-cb-title">' ;
+            if ( $default_search || !isset( $includes['post_status'] ) || empty($includes['post_status']) ) {
+                $includes['post_status'] = array(
+                    'publish' => 'publish',
+                    'inherit' => 'inherit',
+                );
+            }
+            echo  '<span style="display:none;" class="is-cb-select">' . __( 'Select Post Status', 'add-search-to-menu' ) . '</span><span class="is-cb-titles">' ;
+            foreach ( $includes['post_status'] as $post_status2 ) {
+                echo  '<span title="' . esc_html( $post_status2 ) . '"> ' . str_replace( '-', ' ', esc_html( $post_status2 ) ) . '</span>' ;
+            }
+            echo  '</span>' ;
             echo  '</div>' ;
+            echo  '<div class="is-cb-multisel">' ;
+            foreach ( $post_statuses as $key => $post_status ) {
+                $checked = ( isset( $includes['post_status'][esc_attr( $key )] ) ? $includes['post_status'][esc_attr( $key )] : 0 );
+                echo  '<label for="' . $id . '-post_status-' . esc_attr( $key ) . '"><input class="_is_includes-post_status" type="checkbox" ' . $post_status_disable . ' id="' . $id . '-post_status-' . esc_attr( $key ) . '" name="' . $id . '[post_status][' . esc_attr( $key ) . ']" value="' . esc_attr( $key ) . '" ' . checked( $key, $checked, false ) . '/>' ;
+                echo  '<span class="toggle-check-text"></span> ' . ucwords( str_replace( '-', ' ', esc_html( $post_status ) ) ) . '</label>' ;
+            }
+            echo  '</div></div>' ;
         }
+        
         ?>
 			</div></div>
-
-			<h3 scope="row">
+			<h4 scope="row">
 				<label for="<?php 
         echo  $id ;
         ?>-author"><?php 
         echo  esc_html( __( 'Authors', 'add-search-to-menu' ) ) ;
         ?></label>
-			</h3>
+			</h4>
 			<div>
 				<?php 
         $content = __( 'Search posts created by selected authors.', 'add-search-to-menu' );
@@ -547,22 +643,20 @@ class IS_Search_Editor
             echo  '</div>' ;
         }
         $checked = ( isset( $includes['search_author'] ) && $includes['search_author'] ? 1 : 0 );
-        echo  '<br /><br /><p class="check-radio"><label for="' . $id . '-search_author" ><input class="_is_includes-author" type="checkbox" id="' . $id . '-search_author" name="' . $id . '[search_author]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<p class="check-radio"><label for="' . $id . '-search_author" ><input class="_is_includes-author" type="checkbox" id="' . $id . '-search_author" name="' . $id . '[search_author]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . esc_html__( "Search author Display Name and display the posts created by that author", 'add-search-to-menu' ) . '</label></p>' ;
         ?>
 			</div></div>
 
-			<h3 scope="row">
+			<h4 scope="row">
 				<label for="<?php 
         echo  $id ;
         ?>-comment_count"><?php 
         echo  esc_html( __( 'Comments', 'add-search-to-menu' ) ) ;
         ?></label>
-			</h3>
+			</h4>
 			<div>
 				<?php 
-        $content = __( 'Search posts by configured comments.', 'add-search-to-menu' );
-        IS_Help::help_info( $content );
         echo  '<div>' ;
         $comment_count_disable = ( is_fs()->is_plan_or_trial( 'pro' ) && $this->is_premium_plugin ? '' : ' disabled ' );
         if ( '' !== $comment_count_disable ) {
@@ -593,63 +687,18 @@ class IS_Search_Editor
             echo  '</div>' ;
         }
         $checked = ( isset( $includes['search_comment'] ) && $includes['search_comment'] ? 1 : 0 );
-        echo  '<br /><br /><p class="check-radio"><label for="' . $id . '-search_comment" ><input class="_is_includes-comment_count" type="checkbox" id="' . $id . '-search_comment" name="' . $id . '[search_comment]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<p class="check-radio"><label for="' . $id . '-search_comment" ><input class="_is_includes-comment_count" type="checkbox" id="' . $id . '-search_comment" name="' . $id . '[search_comment]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . esc_html__( "Search approved comment content", 'add-search-to-menu' ) . '</label></p>' ;
         ?>
 			</div></div>
 
-			<h3 scope="row">
-				<label for="<?php 
-        echo  $id ;
-        ?>-post_status"><?php 
-        echo  esc_html( __( 'Post Status', 'add-search-to-menu' ) ) ;
-        ?></label>
-			</h3>
-			<div>
-				<?php 
-        $content = __( 'Search posts having selected post statuses.', 'add-search-to-menu' );
-        IS_Help::help_info( $content );
-        echo  '<div>' ;
-        $post_statuses = get_post_stati();
-        $post_status_disable = ( is_fs()->is_plan_or_trial( 'pro' ) && $this->is_premium_plugin ? '' : ' disabled ' );
-        
-        if ( !empty($post_statuses) ) {
-            if ( '' !== $post_status_disable ) {
-                echo  IS_Admin::pro_link() ;
-            }
-            echo  '<div class="is-cb-dropdown">' ;
-            echo  '<div class="is-cb-title">' ;
-            if ( $default_search || !isset( $includes['post_status'] ) || empty($includes['post_status']) ) {
-                $includes['post_status'] = array(
-                    'publish' => 'publish',
-                    'inherit' => 'inherit',
-                );
-            }
-            echo  '<span style="display:none;" class="is-cb-select">' . __( 'Select Post Status', 'add-search-to-menu' ) . '</span><span class="is-cb-titles">' ;
-            foreach ( $includes['post_status'] as $post_status2 ) {
-                echo  '<span title="' . esc_html( $post_status2 ) . '"> ' . str_replace( '-', ' ', esc_html( $post_status2 ) ) . '</span>' ;
-            }
-            echo  '</span>' ;
-            echo  '</div>' ;
-            echo  '<div class="is-cb-multisel">' ;
-            foreach ( $post_statuses as $key => $post_status ) {
-                $checked = ( isset( $includes['post_status'][esc_attr( $key )] ) ? $includes['post_status'][esc_attr( $key )] : 0 );
-                echo  '<label for="' . $id . '-post_status-' . esc_attr( $key ) . '"><input class="_is_includes-post_status" type="checkbox" ' . $post_status_disable . ' id="' . $id . '-post_status-' . esc_attr( $key ) . '" name="' . $id . '[post_status][' . esc_attr( $key ) . ']" value="' . esc_attr( $key ) . '" ' . checked( $key, $checked, false ) . '/>' ;
-                echo  '<span class="toggle-check-text"></span> ' . ucwords( str_replace( '-', ' ', esc_html( $post_status ) ) ) . '</label>' ;
-            }
-            echo  '</div></div>' ;
-        }
-        
-        ?>
-			</div></div>
-
-			<h3 scope="row">
+			<h4 scope="row">
                             <label for="<?php 
         echo  $id ;
         ?>-has_password"><?php 
         echo  esc_html( __( 'Password Protected', 'add-search-to-menu' ) ) ;
         ?></label>
-			</h3>
+			</h4>
 			<div><div>
 				<?php 
         $checked = ( isset( $includes['has_password'] ) ? $includes['has_password'] : 'null' );
@@ -661,73 +710,29 @@ class IS_Search_Editor
         echo  '<span class="toggle-check-text"></span>' . esc_html__( "Search posts without passwords", 'add-search-to-menu' ) . '</label></p>' ;
         ?>
 			</div></div>
-
-			<h3 scope="row">
-                            <label for="<?php 
+			<h4 scope="row">
+				<label for="<?php 
         echo  $id ;
-        ?>-extras"><?php 
-        echo  esc_html( __( 'Extras', 'add-search-to-menu' ) ) ;
+        ?>-date_query"><?php 
+        echo  esc_html( __( 'Date', 'add-search-to-menu' ) ) ;
         ?></label>
-                            <span class="actions"><a class="expand" href="#"><?php 
-        esc_html_e( 'Expand All', 'add-search-to-menu' );
-        ?></a><a class="collapse" href="#" style="display:none;"><?php 
-        esc_html_e( 'Collapse All', 'add-search-to-menu' );
-        ?></a></span>
-			</h3>
-			<div><div class="includes_extras">
-			<?php 
-        $checked = ( $default_search || isset( $includes['search_title'] ) && $includes['search_title'] ? 1 : 0 );
-        echo  '<p class="check-radio"><label for="' . $id . '-search_title"><input class="_is_includes-post_type" type="checkbox" id="' . $id . '-search_title" name="' . $id . '[search_title]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
-        echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search post title %s( File title )%s", 'add-search-to-menu' ), '<i>', '</i>' ) . '</label></p>' ;
-        $checked = ( $default_search || isset( $includes['search_content'] ) && $includes['search_content'] ? 1 : 0 );
-        echo  '<p class="check-radio"><label for="' . $id . '-search_content"><input class="_is_includes-post_type" type="checkbox" id="' . $id . '-search_content" name="' . $id . '[search_content]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
-        echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search post content %s( File description )%s", 'add-search-to-menu' ), '<i>', '</i>' ) . '</label></p>' ;
-        $checked = ( $default_search || isset( $includes['search_excerpt'] ) && $includes['search_excerpt'] ? 1 : 0 );
-        echo  '<p class="check-radio"><label for="' . $id . '-search_excerpt"><input class="_is_includes-post_type" type="checkbox" id="' . $id . '-search_excerpt" name="' . $id . '[search_excerpt]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
-        echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search post excerpt %s( File caption )%s", 'add-search-to-menu' ), '<i>', '</i>' ) . '</label></p>' ;
-        $checked = ( isset( $includes['search_tax_title'] ) && $includes['search_tax_title'] ? 1 : 0 );
-        echo  '<p class="check-radio"><label for="' . $id . '-search_tax_title" ><input class="_is_includes-tax_query" type="checkbox" id="' . $id . '-search_tax_title" name="' . $id . '[search_tax_title]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
-        echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search category/tag title %s( Displays posts of the category/tag )%s", 'add-search-to-menu' ), '<i>', '</i>' ) . '</label></p>' ;
-        $checked = ( isset( $includes['search_tax_desp'] ) && $includes['search_tax_desp'] ? 1 : 0 );
-        echo  '<p class="check-radio"><label for="' . $id . '-search_tax_desp" ><input class="_is_includes-tax_query" type="checkbox" id="' . $id . '-search_tax_desp" name="' . $id . '[search_tax_desp]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
-        echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search category/tag description %s( Displays posts of the category/tag )%s", 'add-search-to-menu' ), '<i>', '</i>' ) . '</label></p>' ;
-        
-        if ( isset( $includes['tax_query'] ) ) {
-            $tax_rel_disable = '';
-            
-            if ( isset( $includes['tax_post_type'] ) ) {
-                $temp = array();
-                foreach ( $includes['tax_query'] as $key => $value ) {
-                    if ( isset( $includes['tax_post_type'][$key] ) && (empty($temp) || !in_array( $includes['tax_post_type'][$key], $temp )) ) {
-                        array_push( $temp, $includes['tax_post_type'][$key] );
-                    }
-                    
-                    if ( count( $temp ) > 1 ) {
-                        $tax_rel_disable = 'disabled';
-                        $includes['tax_rel'] = "OR";
-                        break;
-                    }
-                
-                }
-            }
-            
-            echo  '<p class="check-radio">' ;
-            
-            if ( 'disabled' == $tax_rel_disable ) {
-                echo  '<br />' ;
-                $content = __( 'Note: The below option is disabled and set to OR as you have configured the search form to search multiple taxonomies.', 'add-search-to-menu' );
-                IS_Help::help_info( $content );
-            }
-            
-            $checked = ( isset( $includes['tax_rel'] ) && "AND" == $includes['tax_rel'] ? "AND" : "OR" );
-            echo  '<label for="' . $id . '-tax_rel_and" ><input class="_is_includes-tax_query" type="radio" id="' . $id . '-tax_rel_and" ' . $tax_rel_disable . ' name="' . $id . '[tax_rel]" value="AND" ' . checked( 'AND', $checked, false ) . '/>' ;
-            echo  '<span class="toggle-check-text"></span>' . esc_html__( "AND - Search posts having all the above selected category terms", 'add-search-to-menu' ) . '</label></p>' ;
-            echo  '<p class="check-radio"><label for="' . $id . '-tax_rel_or" ><input class="_is_includes-tax_query" type="radio" id="' . $id . '-tax_rel_or" ' . $tax_rel_disable . ' name="' . $id . '[tax_rel]" value="OR" ' . checked( 'OR', $checked, false ) . '/>' ;
-            echo  '<span class="toggle-check-text"></span>' . esc_html__( "OR - Search posts having any one of the above selected category terms", 'add-search-to-menu' ) . '</label></p>' ;
+			</h4>
+			<div>
+				<?php 
+        $content = __( 'Search posts created only in the specified date range.', 'add-search-to-menu' );
+        IS_Help::help_info( $content );
+        echo  '<div>' ;
+        $range = array( 'after', 'before' );
+        foreach ( $range as $value ) {
+            $col_title = ( 'after' == $value ? __( 'From', 'add-search-to-menu' ) : __( 'To', 'add-search-to-menu' ) );
+            echo  '<div class="col-wrapper ' . $value . '"><div class="col-title">' . $col_title . '</div>' ;
+            $checked = ( isset( $includes['date_query'][$value]['date'] ) ? $includes['date_query'][$value]['date'] : '' );
+            echo  '<input type="text" id="is-' . $value . '-datepicker" name="' . $id . '[date_query][' . $value . '][date]" value="' . $checked . '">' ;
+            echo  '</div>' ;
         }
-        
         ?>
 			</div></div>
+		</div>
 
 		</div>
 
@@ -741,19 +746,20 @@ class IS_Search_Editor
         $id = '_is_customize';
         $settings = $post->prop( $id );
         $enable_customize = ( isset( $settings['enable_customize'] ) ? $settings['enable_customize'] : false );
+        $is_ajax = $post->prop( '_is_ajax' );
         ?>
 
 		<h4 class="panel-desc"><?php 
-        _e( "Use below options to customize this search form.", 'add-search-to-menu' );
+        _e( "Design Search Form Colors, Text and Style", 'add-search-to-menu' );
         ?></h4>
 		<div class="search-form-editor-box" id="<?php 
         echo  esc_attr( $id ) ;
         ?>">
 			<?php 
         
-        if ( 'default-search-form' == $post->name() ) {
+        if ( 'default-search-form' == $post->name() && !isset( $is_ajax['enable_ajax'] ) ) {
             ?>
-			<p class="check-radio">
+			<p class="check-radio enable-ajax-customize">
 				<label for="<?php 
             echo  esc_attr( $id ) ;
             ?>-enable_customize">
@@ -792,21 +798,13 @@ class IS_Search_Editor
         ?>-customizer"><?php 
         echo  esc_html( __( 'Customizer', 'add-search-to-menu' ) ) ;
         ?></label>
-					<span class="actions">
-						<a class="expand" href="#"><?php 
-        esc_html_e( 'Expand All', 'add-search-to-menu' );
-        ?></a>
-						<a class="collapse" href="#" style="display:none;"><?php 
-        esc_html_e( 'Collapse All', 'add-search-to-menu' );
-        ?></a>
-					</span>
 				</h3>
 				<div class="is-field-wrap <?php 
         echo  esc_attr( $field_class ) ;
         ?>">
 					<?php 
         
-        if ( 'default-search-form' == $post->name() ) {
+        if ( 'default-search-form' == $post->name() && !isset( $is_ajax['enable_ajax'] ) ) {
             ?>
 					<span class="is-field-disabled-message"><span class="message"><?php 
             _e( 'Enable Search Form Customization', 'add-search-to-menu' );
@@ -893,13 +891,13 @@ class IS_Search_Editor
         $field_class = ( $enable_ajax ? '' : 'is-field-disabled' );
         ?>
 		<h4 class="panel-desc"><?php 
-        _e( "Configure below options to manage AJAX functionality of this search form.", 'add-search-to-menu' );
+        _e( "Configure AJAX Search", 'add-search-to-menu' );
         ?></h4>
 		<div class="search-form-editor-box" id="<?php 
         echo  esc_attr( $id ) ;
         ?>">
 
-			<p class="check-radio">
+			<p class="check-radio enable-ajax-customize">
 				<label for="<?php 
         echo  esc_attr( $id ) ;
         ?>-enable_ajax">
@@ -929,7 +927,7 @@ class IS_Search_Editor
 					<label for="<?php 
         echo  esc_attr( $id ) ;
         ?>-search-form-search-results"><?php 
-        esc_html_e( 'Search Results', 'add-search-to-menu' );
+        esc_html_e( 'AJAX Search Results', 'add-search-to-menu' );
         ?></label>
 					<span class="actions">
 						<a class="expand" href="#"><?php 
@@ -1745,46 +1743,6 @@ class IS_Search_Editor
         
         ?>
 				</div>
-
-				<!-- Customizer -->
-				<h3 scope="row">
-					<label for="<?php 
-        echo  esc_attr( $id ) ;
-        ?>-customizer"><?php 
-        echo  esc_html( __( 'Customizer', 'add-search-to-menu' ) ) ;
-        ?></label>
-					<span class="actions">
-						<a class="expand" href="#"><?php 
-        esc_html_e( 'Expand All', 'add-search-to-menu' );
-        ?></a>
-						<a class="collapse" href="#" style="display:none;"><?php 
-        esc_html_e( 'Collapse All', 'add-search-to-menu' );
-        ?></a>
-					</span>
-				</h3>
-				<div class="is-field-wrap <?php 
-        echo  esc_attr( $field_class ) ;
-        ?>">
-					<span class="is-field-disabled-message"><span class="message"><?php 
-        _e( 'Enable AJAX Search', 'add-search-to-menu' );
-        ?></span></span>
-                                        <?php 
-        IS_Help::help_info( __( 'Use below customizer to customize AJAX search results color and loader image.', 'add-search-to-menu' ) );
-        ?>
-					<div>
-                                            <?php 
-        
-        if ( isset( $_GET['post'] ) ) {
-            $customizer_url = admin_url( 'customize.php?autofocus[section]=is_section_' . $_GET['post'] );
-            if ( !$enable_ajax ) {
-                $customizer_url = "//" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-            }
-            echo  '<a style="font-size: 20px;font-weight: 800; padding: 25px 0;display: block;text-align: center;box-shadow:none;"class="is-customize-link" href="' . $customizer_url . '">' . __( "AJAX Search Customizer", "ivory-search" ) . '</a>' ;
-        }
-        
-        ?>
-					</div>
-				</div>
 			</div>
 		</div>
 		<?php 
@@ -1800,7 +1758,7 @@ class IS_Search_Editor
         ?>
 		<h4 class="panel-desc">
 			<?php 
-        _e( "This search form excludes the below configured content from search.", 'add-search-to-menu' );
+        _e( "Exclude Content From Search", 'add-search-to-menu' );
         ?>
 		</h4>
 		<div class="search-form-editor-box" id="<?php 
@@ -1942,9 +1900,10 @@ class IS_Search_Editor
                 foreach ( $tax_objs as $key => $tax_obj ) {
                     $terms = get_terms( array(
                         'taxonomy' => $key,
+                        'lang'     => '',
                     ) );
                     
-                    if ( !empty($terms) ) {
+                    if ( !empty($terms) && !empty($tax_obj->labels->name) ) {
                         $html .= '<div class="col-wrapper"><div class="col-title">';
                         $col_title = ucwords( str_replace( '-', ' ', str_replace( '_', ' ', esc_html( $tax_obj->labels->name ) ) ) );
                         
@@ -2099,14 +2058,26 @@ class IS_Search_Editor
                         <?php 
         }
         ?>
-
 			<h3 scope="row">
+				<label for="<?php 
+        echo  $id ;
+        ?>-extras"><?php 
+        echo  esc_html( __( 'Extras', 'add-search-to-menu' ) ) ;
+        ?></label>
+                <span class="actions"><a class="expand" href="#"><?php 
+        esc_html_e( 'Expand All', 'add-search-to-menu' );
+        ?></a><a class="collapse" href="#" style="display:none;"><?php 
+        esc_html_e( 'Collapse All', 'add-search-to-menu' );
+        ?></a></span>
+			</h3>
+			<div>
+			<h4 scope="row" class="is-first-title">
 				<label for="<?php 
         echo  $id ;
         ?>-author"><?php 
         echo  esc_html( __( 'Authors', 'add-search-to-menu' ) ) ;
         ?></label>
-			</h3>
+			</h4>
 			<div>
 				<?php 
         $content = __( 'Exclude posts from search created by selected authors.', 'add-search-to-menu' );
@@ -2164,29 +2135,24 @@ class IS_Search_Editor
         ?>
 			</div></div>
 
-
-			<h3 scope="row">
+			<h4 scope="row">
                             <label for="<?php 
         echo  $id ;
         ?>-post_status"><?php 
         echo  esc_html( __( 'Post Status', 'add-search-to-menu' ) ) ;
         ?></label>
-                            <span class="actions"><a class="expand" href="#"><?php 
-        esc_html_e( 'Expand All', 'add-search-to-menu' );
-        ?></a><a class="collapse" href="#" style="display:none;"><?php 
-        esc_html_e( 'Collapse All', 'add-search-to-menu' );
-        ?></a></span>
-			</h3>
+			</h4>
 			<div>
 				<?php 
         $content = __( 'Exclude posts from search having selected post statuses.', 'add-search-to-menu' );
         IS_Help::help_info( $content );
         echo  '<div>' ;
         $checked = ( isset( $excludes['ignore_sticky_posts'] ) && $excludes['ignore_sticky_posts'] ? 1 : 0 );
-        echo  '<p class="check-radio"><label for="' . $id . '-ignore_sticky_posts" ><input class="_is_excludes-post_status" type="checkbox" id="' . $id . '-ignore_sticky_posts" name="' . $id . '[ignore_sticky_posts]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
-        echo  '<span class="toggle-check-text"></span>' . esc_html__( "Exclude sticky posts from search", 'add-search-to-menu' ) . '</label></p>' ;
+        echo  '<label for="' . $id . '-ignore_sticky_posts" ><input class="_is_excludes-post_status" type="checkbox" id="' . $id . '-ignore_sticky_posts" name="' . $id . '[ignore_sticky_posts]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<span class="toggle-check-text"></span>' . esc_html__( "Exclude sticky posts from search", 'add-search-to-menu' ) . '</label>' ;
         ?>
 			</div></div>
+		</div>
 		</div>
 		</div>
 	<?php 
@@ -2199,7 +2165,7 @@ class IS_Search_Editor
         ?>
 		<h4 class="panel-desc">
 			<?php 
-        _e( "Configure below options to manage functionality of this search form.", 'add-search-to-menu' );
+        _e( "Advanced Search Form Options", 'add-search-to-menu' );
         ?>
 		</h4>
 		<div class="search-form-editor-box" id="<?php 
@@ -2220,7 +2186,7 @@ class IS_Search_Editor
         ?></a></span></h3>
 			<div>
 			<?php 
-        $content = __( 'Display selected number of posts on search results page.', 'add-search-to-menu' );
+        $content = __( 'Display selected number of posts in search results.', 'add-search-to-menu' );
         IS_Help::help_info( $content );
         echo  '<div>' ;
         echo  '<select class="_is_settings-posts_per_page" name="' . $id . '[posts_per_page]" >' ;
@@ -2372,7 +2338,7 @@ class IS_Search_Editor
 				<label for="<?php 
         echo  $id ;
         ?>-extras"><?php 
-        echo  esc_html( __( 'Extras', 'add-search-to-menu' ) ) ;
+        echo  esc_html( __( 'Others', 'add-search-to-menu' ) ) ;
         ?></label>
 			<span class="actions"><a class="expand" href="#"><?php 
         esc_html_e( 'Expand All', 'add-search-to-menu' );

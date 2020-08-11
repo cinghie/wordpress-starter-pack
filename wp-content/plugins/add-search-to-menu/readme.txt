@@ -3,9 +3,9 @@ Contributors: ivorysearch, vinod dalvi
 Donate link: https://ivorysearch.com/pricing/
 Tags: search, woocommerce search, image search, ajax search, search shortcode, live search,  exclude from search, search widget, search menu, search plugin, custom search, search by post type, search by category, relevant search, search forms
 Requires at least: 3.9
-Tested up to: 5.4
+Tested up to: 5.5
 Requires PHP: 5.2.4
-Stable tag: 4.5.2
+Stable tag: 4.5.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -192,6 +192,22 @@ Yes we do. We try our best to help free users with customisation requests and we
 8. Plugin Settings
 
 == Changelog ==
+
+= 4.5.4 =
+* Fixed - Elementor nav menu compatibility issue.
+* Fixed - AJAX search results scroll issue.
+* Fixed - Polylang plugin support issue.
+* Fixed - JSON response error occured on saving page containing search form shortcode.
+* Improved - Plugin settings UI.
+
+= 4.5.3 =
+* Added - Displayed total found posts count in the AJAX search results.
+* Added - Displayed product variation details in the AJAX search results.
+* Fixed - AJAX Search results details box goes out of screen.
+* Fixed - Do not search in URLs if Fuzzy Matching option set to Whole.
+* Improved - Made AJAX search results customizable as a theme template.
+* Improved - Merged Search Form Customizer and AJAX Search Customizer options.
+* Improved - Updated Freemius SDK to version 2.4.0
 
 = 4.5.2 =
 * Improved - Search form & AJAX search results UI.

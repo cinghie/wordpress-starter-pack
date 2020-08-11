@@ -1,7 +1,7 @@
 ( function( $ ) {
 	'use strict';
 
-	$( document ).ready( function() {
+	$( window ).load( function() {
 
 		$( '.is-menu a' ).on( 'click', function( e ) {
 
@@ -22,13 +22,12 @@
 			if ( $( this ).parent().hasClass( 'sliding' ) || $( this ).parent().hasClass( 'full-width-menu' ) ) {
 				$( this ).parent().find( 'button.is-search-submit' ).hide();
 				var is_menu_height = $( this ).parent('li.is-menu').outerHeight();
-				is_menu_height = ( is_menu_height / 2 ) - 18;
+				is_menu_height = ( is_menu_height / 2 );
 				$( this ).parent().find( 'form' ).css({
-                    top: ( is_menu_height ) + "px"
+                    top: ( is_menu_height - 18 ) + "px"
                 });
-                is_menu_height = ( is_menu_height / 2 ) + 10;
                 $( this ).parent().find( '.search-close' ).css({
-                    top: ( is_menu_height ) + "px"
+                    top: ( is_menu_height - 10 ) + "px"
                 });
 			}
 			if ( $( this ).parent().hasClass( 'is-dropdown' ) ) {
