@@ -5,7 +5,7 @@ Tags: Google Merchant Export, Product feed, woocommerce, Google product feed exp
 Requires at least: 4.6
 Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 1.22.0
+Stable tag: 1.23.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,12 @@ In case it does please do submit your feed in your Google Merchant center and ch
 3. Save and generate your feed
 
 == Changelog ==
+= 1.23.0 - 20/07/2020 =
+* Tested for WooCommerce 4.3.
+* Made a few small code updates.
+* Updated the Google attributes to the latest specifications.
+* Fixed an issue where the shipping class of a product variation would not be placed in the feed.
+
 = 1.22.0 - 03/06/2020 =
 * Replace several deprecated functions.
 * Fixed an issue that prevented the lower buttons on the Edit Feed page to show up when making a new feed.

@@ -290,5 +290,6 @@ function googleSpecialProductCountries() {
 
 // ALERT! This function is equivalent to the special_subscription_countries() function in class-feed.php in the google channels folder
 function googleSpecialSubscriptionCountries() {
-	return [ 'DE', 'FR', 'GB' ];
+	return [ 'ZA', 'HK', 'IN', 'JP', 'MY', 'NZ', 'SG', 'KR', 'TW', 'TH', 'AT', 'BE', 'CZ', 'DK', 'FI', 'DE', 'FR', 'GR', 'HU', 'IE',
+		'IT', 'NO', 'PL', 'PT', 'RO', 'SK', 'ES', 'SE', 'CH', 'TR', 'GB', 'IL', 'SA', 'AE', 'CA' ];
 }

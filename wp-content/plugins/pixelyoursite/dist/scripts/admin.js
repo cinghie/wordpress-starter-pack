@@ -7,6 +7,11 @@ jQuery( document ).ready(function($) {
 
         updateFDPValue(this);
     });
+    updatePostEventFields();
+    $("#pys_event_trigger_type").change(function(){
+        updatePostEventFields();
+    });
+
 
 
     function updateFDPValue(input) {
@@ -19,6 +24,16 @@ jQuery( document ).ready(function($) {
         } else {
             $("#fdp_purchase_event_fire_scroll_block").hide();
             $("#pys_facebook_fdp_purchase_event_fire_css").hide()
+        }
+    }
+
+    function updatePostEventFields() {
+        if($("#pys_event_trigger_type").val() == "post_type") {
+            $(".event-delay").css("visibility","visible");
+            $(".triger_post_type").show();
+            $("#url_filter_panel").hide();
+        } else {
+            $(".triger_post_type").hide();
         }
     }
 });

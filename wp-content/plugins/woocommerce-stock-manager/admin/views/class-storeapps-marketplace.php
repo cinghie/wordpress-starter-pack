@@ -17,8 +17,11 @@ class WSM_StoreApps_Marketplace {
 				margin: 0 auto;
 				max-width: 80%;
 			}
-			body{
+			body {
 				background-color: white;
+			}
+			#wpfooter {
+				display: none;
 			}
 			.wsm-marketplace .addons-banner-block-items {
 				display: flex;
@@ -91,7 +94,7 @@ class WSM_StoreApps_Marketplace {
 			    width: 124px
 			}
 			.wsm-marketplace .addons-button-solid {
-			    background-color: #763E82;
+			    background-color: #5850EC;
 			    color: #fff;
 			}
 			.wsm-marketplace .addons-banner-block-item-icon img {
@@ -102,23 +105,23 @@ class WSM_StoreApps_Marketplace {
 			    color: #fff;
 			    opacity: .8
 			}
-			.wsm-marketplace .addons-banner-block-item-content h3{
+			.wsm-marketplace .addons-banner-block-item-content h3 {
 				font-weight: bold !important;
 				font-size: 1.5em !important;
-				color: #753d81 !important;
+				color: #5850EC !important;
 			}
-			.wsm-marketplace .addons-banner-block-item-content p{
+			.wsm-marketplace .addons-banner-block-item-content p {
 				color: #484c51 !important;
 			}
 			.wsm-marketplace .products-header {
 				text-align: center;
 				padding: 0 0 3em;
 			}
-			.wsm-marketplace .products-header h1{
+			.wsm-marketplace .products-header h1 {
 				margin: 1em;
 				color: #484c51 !important;
 			}
-			.wsm-marketplace .products-header h2{
+			.wsm-marketplace .products-header h2 {
 				margin: 1em;
 				font-size: 2em;
 			}
@@ -141,14 +144,13 @@ class WSM_StoreApps_Marketplace {
 			}
 			.wsm-marketplace .button.button-hero {
 				color: #FFF!important;
-			    border-color: #03a025!important;
-			    background: #03a025 !important;
-			    box-shadow: 0 1px 0 #03a025;
+			    border-color: #5850ec !important;
+			    background: #5850ec!important;
+			    box-shadow: 0 1px 0 #5850ec;
 			    font-size: 1em;
 			    font-weight: bold;
 			}
 		</style>
-
 		<div class="wrap about-wrap wsm-marketplace">
 			<header class="products-header">
 				<h1 class="products-header__title page-title">Best WooCommerce Plugins</h1>
@@ -159,44 +161,29 @@ class WSM_StoreApps_Marketplace {
 			</header>
 			<div class="addons-banner-block-items">
 				<div class="addons-banner-block-item">
-					<!-- <div class="addons-banner-block-item-icon">
-						<img class="addons-img" src="https://d3t0oesq8995hv.cloudfront.net/add-ons/generic.png">
-					</div> -->
 					<div class="addons-banner-block-item-content">
 						<h3>Smart Manager</h3>
 						<p>Bulk edit products, variations, customers, orders, coupons, WordPress custom post types and more in a spreadsheet view 10x faster. Advanced search, CSV export, inline edit and a lot more. <em>Our Best Selling product.</em></p>
-						<a class="addons-button addons-button-solid" href="https://www.storeapps.org/product/smart-manager/?utm_source=wsm&utm_medium=in_app_marketplace&utm_campaign=in_app_marketplace" target="_blank" rel="noopener">
-						From: $149
-						</a>
+						<a class="addons-button addons-button-solid" href="https://www.storeapps.org/product/smart-manager/?utm_source=wsm&utm_medium=in_app_marketplace&utm_campaign=in_app_marketplace" target="_blank" rel="noopener">Learn more</a>
 					</div>
 				</div>
 				<div class="addons-banner-block-item">
-					<!-- <div class="addons-banner-block-item-icon">
-						<img class="addons-img" src="https://d3t0oesq8995hv.cloudfront.net/add-ons/generic.png">
-					</div> -->
 					<div class="addons-banner-block-item-content">
 						<h3>Bulk Variations Manager</h3>
 						<p>Quickly create any combination of product variations from attributes and bulk update prices using differential pricing.</p>
-						<a class="addons-button addons-button-solid" href="https://www.storeapps.org/product/bulk-variations-manager/?utm_source=wsm&utm_medium=in_app_marketplace&utm_campaign=in_app_marketplace" target="_blank" rel="noopener">
-						From: $49
-						</a>
+						<a class="addons-button addons-button-solid" href="https://www.storeapps.org/product/bulk-variations-manager/?utm_source=wsm&utm_medium=in_app_marketplace&utm_campaign=in_app_marketplace" target="_blank" rel="noopener">Learn more </a>
 					</div>
 				</div>
 				<div class="addons-banner-block-item">
-					<!-- <div class="addons-banner-block-item-icon">
-						<img class="addons-img" src="https://d3t0oesq8995hv.cloudfront.net/add-ons/generic.png">
-					</div> -->
 					<div class="addons-banner-block-item-content">
 						<h3>Smart Offers</h3>
 						<p>Grow your sales on autopilot. Create powerful WooCommerce upsells, downsells, cross-sells, BOGO, order bumps, one-time offers, backend offers, <strong>sales funnels</strong> and more. <strong>Measure offers, optimize and target them</strong> on your website to increase conversions & maximize profits.</p>
-						<a class="addons-button addons-button-solid" href="https://www.storeapps.org/product/smart-offers/?utm_source=wsm&utm_medium=in_app_marketplace&utm_campaign=in_app_marketplace" target="_blank" rel="noopener">
-						From: $99
-						</a>
+						<a class="addons-button addons-button-solid" href="https://www.storeapps.org/product/smart-offers/?utm_source=wsm&utm_medium=in_app_marketplace&utm_campaign=in_app_marketplace" target="_blank" rel="noopener">Learn more</a>
 					</div>
 				</div>
 			</div>
 			<p style="text-align: center;">
-				<a class="button button-hero" href="https://www.storeapps.org/shop/?utm_source=wsm&utm_medium=in_app_marketplace&utm_campaign=in_app_marketplace" target="_blank" rel="noopener">View all 20+ plugins</a>
+				<a class="button button-hero" href="https://www.storeapps.org/woocommerce-plugins/?utm_source=wsm&utm_medium=in_app_marketplace&utm_campaign=in_app_marketplace" target="_blank" rel="noopener">View all our 20+ plugins</a>
 			</p>
 		</div>
 		<?php

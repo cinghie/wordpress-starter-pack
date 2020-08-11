@@ -137,7 +137,7 @@ class WOOCCM_Upload
 
         foreach ($fields as $key => $field) {
 
-          if ($field['type'] == 'file') {
+          if (isset($field['type']) && $field['type'] == 'file') {
 
             if ($attachments = get_post_meta($order_id, sprintf('_%s', $key), true)) {
 

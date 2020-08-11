@@ -360,7 +360,8 @@ class WOOCCM_Field extends WOOCCM_Model
     $field['key'] = $this->get_key($this->prefix, $field['name']);
 
     if (empty($field['position']) && is_array($field['class'])) {
-      if ($position = array_intersect((array) $field['class'], array('form-row-wide', 'form-row-first', 'form-row-last'))) {
+      $position = array_intersect((array) $field['class'], array('form-row-wide', 'form-row-first', 'form-row-last'));
+      if (isset($position[0])) {
         $field['position'] = $position[0];
       } else {
         $field['position'] = 'form-row-wide';

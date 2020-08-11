@@ -1,15 +1,15 @@
 <?php
 /**
  * Plugin Name: WooCommerce Stock Manager
- * Plugin URI: https://www.storeapps.org/shop/
+ * Plugin URI: https://www.storeapps.org/woocommerce-plugins/
  * Description: Manage product's stocka and price in your WooCommerce store.
- * Version: 2.3.0
+ * Version: 2.4.0
  * Author: StoreApps
  * Author URI: https://www.storeapps.org/
  * Requires at least: 5.0.0
  * Tested up to: 5.4.2
  * WC requires at least: 3.0.0
- * WC tested up to: 4.2.0
+ * WC tested up to: 4.3.1
  * Text Domain: woocommerce-stock-manager
  * Domain Path: /languages/
  * Copyright (c) 2020 StoreApps. All rights reserved.
@@ -24,7 +24,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 define( 'STOCKDIR', plugin_dir_path( __FILE__ ) );
 define( 'STOCKURL', plugin_dir_url( __FILE__ ) );
-define( 'STOCKVERSION', '2.2.0' );
+define( 'STOCKVERSION', '2.4.0' );
 
 require STOCKDIR . '/vendor/autoload.php';
 
@@ -113,6 +113,7 @@ function wsm_get_products_or_export(){
 		$i = 1 + $offset;
 		foreach( $_products->posts as $item ){
 
+			$index = $item->ID;
 			$product = wc_get_product( $item->ID );
 			if( !empty( $product->get_sku() ) ){ $sku = $product->get_sku(); }else{ $sku = ''; }
 			$product_name = $item->post_title;
@@ -122,15 +123,15 @@ function wsm_get_products_or_export(){
 			if( !empty( $product->get_stock_quantity() ) ){ $stock = $product->get_stock_quantity(); }else{ $stock = ''; }
 			$product_type = $product->get_type();
 
-			$data[$i]['id']   = $item->ID; 
-			$data[$i]['sku']          = $sku; 
-			$data[$i]['product_name'] = $product_name; 
-			$data[$i]['manage_stock'] = $manage_stock; 
-			$data[$i]['stock_status'] = $stock_status; 
-			$data[$i]['backorders']   = $backorders; 
-			$data[$i]['stock']        = $stock; 
-			$data[$i]['type']         = $product_type; 
-			$data[$i]['parent_id']    = ''; 
+			$data[$index]['id']   = $item->ID; 
+			$data[$index]['sku']          = $sku; 
+			$data[$index]['product_name'] = $product_name; 
+			$data[$index]['manage_stock'] = $manage_stock; 
+			$data[$index]['stock_status'] = $stock_status; 
+			$data[$index]['backorders']   = $backorders; 
+			$data[$index]['stock']        = $stock; 
+			$data[$index]['type']         = $product_type; 
+			$data[$index]['parent_id']    = ''; 
 			
 			$i++;
 
@@ -145,6 +146,7 @@ function wsm_get_products_or_export(){
 				$variations_array = get_children( $args );
 				foreach($variations_array as $vars){
 
+					$vindex = $vars->ID;
 					$item_product = wc_get_product($vars->ID);
 					if( !empty( $item_product->get_sku() ) ){ $sku = $item_product->get_sku(); }else{ $sku = ''; }
 					
@@ -168,15 +170,15 @@ function wsm_get_products_or_export(){
 					if( !empty( $item_product->get_stock_quantity() ) ){ $stock = $item_product->get_stock_quantity(); }else{ $stock = ''; }
 					$product_type = 'product-variant';
 
-					$data[$i]['id']   = $vars->ID; 
-					$data[$i]['sku']          = $sku; 
-					$data[$i]['product_name'] = $product_name; 
-					$data[$i]['manage_stock'] = $manage_stock; 
-					$data[$i]['stock_status'] = $stock_status; 
-					$data[$i]['backorders']   = $backorders; 
-					$data[$i]['stock']        = $stock; 
-					$data[$i]['type']         = $product_type; 
-					$data[$i]['parent_id']    = $item->ID; 
+					$data[$vindex]['id']   = $vars->ID; 
+					$data[$vindex]['sku']          = $sku; 
+					$data[$vindex]['product_name'] = $product_name; 
+					$data[$vindex]['manage_stock'] = $manage_stock; 
+					$data[$vindex]['stock_status'] = $stock_status; 
+					$data[$vindex]['backorders']   = $backorders; 
+					$data[$vindex]['stock']        = $stock; 
+					$data[$vindex]['type']         = $product_type; 
+					$data[$vindex]['parent_id']    = $item->ID; 
 			
 					$i++;
 

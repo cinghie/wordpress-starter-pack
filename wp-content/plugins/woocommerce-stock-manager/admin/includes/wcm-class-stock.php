@@ -359,7 +359,7 @@ class WCM_Stock {
 		if( !empty( $data['shipping_class'] ) ){ $option['shipping_class'] = 'display'; }else{ $option['shipping_class'] = 'no'; }
 
 		if( !empty( $option ) ){
-				update_option( 'wsm_display_option', $option );
+			update_option( 'wsm_display_option', $option, 'no' );
 		}	
 	}
 	

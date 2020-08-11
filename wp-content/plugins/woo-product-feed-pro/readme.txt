@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.4
-Stable tag: 8.5.0
+Stable tag: 8.5.8
 
 == Description ==
 
@@ -122,6 +122,7 @@ Our plugin supports the Aelia Currency Switcher
 * Google Analytics support: add Google Analytics UTM parameters to your product feed and individual products.
 * Supports the official Facebook for WooCommerce plugin (SKU_ID parameter)
 * Supports Yoasts primary category feature
+* Supports the official "WooCommerce Brands" plugin
 * Supports Yith brand attributes
 * Supports the official "WooCommerce Product Bundles" plugin
 * Supports the official "WooCommerce Composite Products" plugin
@@ -153,6 +154,7 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 * Facebook Dynamic Ad’s / remarketing
 * Bing Shopping
 * Pinterest
+* <a href="https://businesshelp.snapchat.com/en-US/a/product-catalog-specs" target="_blank">Snapchat</a>
 * <a href="https://yandex.com/support/market-tech-requirements/index.html" target="_blank">Yandex</a>
 * ShopMania
 * Shopping.com
@@ -312,6 +314,30 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 8.5.8 (2020-08-08) =
+* Added the Heureka Slovakia template
+
+= 8.5.7 (2020-08-04) =
+* Fixed a minor issue with apostrophes showing at the beginning and end of a CSV row
+
+= 8.5.6 (2020-08-04) =
+* Apostrophes are no longer stripped from CSV files
+
+= 8.5.5 (2020-08-04) =
+* Added Snapchat product catalog template
+
+= 8.5.4 (2020-08-03) =
+* Preventing WooCommerce geo service to ignore WCML currency settings
+
+= 8.5.3 (2020-07-30) =
+* Fixed a bug that was introduced in version 8.5.0 where category mappings for variations no longer worked. This has been fixed now.
+
+= 8.5.2 (2020-07-28) =
+* Applied the wpautop function to respect paragraphs in the unfiltered (short)description attribute
+
+= 8.5.1 (2020-07-28) =
+* Added support for the official WooCommerce Brands plugin: https://woocommerce.com/products/brands/
 
 = 8.5.0 (2020-07-27) =
 * Fixed a category mapping issue for Google Shopping feeds where duplicate caregory namings caused wrong category mappings
@@ -2703,6 +2729,30 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 8.5.8 =
+Added the Heureka Slovakia template
+
+= 8.5.7 =
+Fixed a minor issue with apostrophes showing at the beginning and end of a CSV row
+
+= 8.5.6 =
+Apostrophes are no longer stripped from CSV files
+
+= 8.5.5 =
+Added Snapchat product catalog template
+
+= 8.5.4 =
+Preventing WooCommerce geo service to ignore WCML currency settings
+
+= 8.5.3 =
+Fixed a bug that was introduced in version 8.5.0 where category mappings for variations no longer worked. This has been fixed now.
+
+= 8.5.2 =
+Applied the wpautop function to respect paragraphs in the unfiltered (short)description attribute
+
+= 8.5.1 =
+Added support for the official WooCommerce Brands plugin: https://woocommerce.com/products/brands/
 
 = 8.5.0 =
 Fixed a category mapping issue for Google Shopping feeds where duplicate caregory namings caused wrong category mappings

@@ -116,7 +116,6 @@ class IS_Help {
 
 	public static function help_info( $content ) { ?>
 		<span class="is-help">
-			<i class="dashicons dashicons-warning"></i>
 			<span class="is-info">
 				<?php echo $content; ?>
 			</span>

@@ -82,3 +82,5 @@
 82	0	subscription_cost-period
 83	0	subscription_cost-period_length
 84	0	subscription_cost-amount
+85	4	product_detail
+86	4	product_highlight

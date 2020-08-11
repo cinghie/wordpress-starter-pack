@@ -95,9 +95,11 @@ const Products = (props) => {
               </a>
             </th>
             <th className="manage-column">{__('Product type', 'woocommerce-stock-manager')}</th>
-            <th className="manage-column">{__('SKU', 'woocommerce-stock-manager')}</th>
+            {settings.sku && (
+              <th className="manage-column">{__('SKU', 'woocommerce-stock-manager')}</th>
+            )}
             {settings.thumbnail && (
-              <th>&nbsp;</th>
+              <th className="manage-column">{__('Thumbnail', 'woocommerce-stock-manager')}</th>
             )}
             {settings.productName && (
               <th

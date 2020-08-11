@@ -3,16 +3,16 @@ Contributors: smashballoon
 Tags: Facebook, Facebook feed, Facebook posts, Facebook group, Facebook page
 Requires at least: 3.0
 Requires PHP: 5.2
-Tested up to: 5.4
-Stable tag: 2.15.1
+Tested up to: 5.5
+Stable tag: 2.16
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Formerly "Custom Facebook Feed". Display completely customizable Facebook feeds of any public Facebook page or Group.
+Formerly "Custom Facebook Feed". Display completely customizable Facebook feeds of a Facebook page or Group.
 
 == Description ==
 
-Display Facebook posts on your WordPress site. **Completely customizable**, **responsive** and **search engine crawlable** Facebook feeds. Display **unlimited Facebook feeds** from **any public Facebook page** or your **Facebook Group**, and completely match the look and feel of your site with tons of customization options!
+Display Facebook posts on your WordPress site. **Completely customizable**, **responsive** and **search engine crawlable** Facebook feeds. Display **unlimited Facebook feeds** from your **Facebook page** or **Facebook Group**, and completely match the look and feel of your site with tons of customization options!
 
 *"The perfect Facebook plugin with amazing support! What else do you want? Get it!"* - [JoeJeffries](http://wordpress.org/support/topic/you-dont-already-have-this?facebook)
 
@@ -24,8 +24,8 @@ Display Facebook posts on your WordPress site. **Completely customizable**, **re
 **Super Simple to Set Up**
 One of our main priorities has always been to make our Facebook plugin as easy as possible to setup and use. Get up and running in less less than 1 minute with our signature quick setup - no Facebook Developer App required.
 
-**Display Feeds from ANY Facebook Page or Your Facebook Group**
-Use the plugin to display Facebook feeds from any public Facebook page - even pages you aren't an admin of - or from any Facebook group that you are an admin of.
+**Display Feeds from Your Facebook Page or Facebook Group**
+Use the plugin to display Facebook feeds from a Facebook page or Facebook group that you are an admin of.
 
 **Completely Customizable**
 By default the Facebook feed will adopt the styles of your WordPress theme, but your feeds can be completely customized to look however you like - with tons of options to customize every part of your Facebook posts and feed.
@@ -260,6 +260,12 @@ The most common reason for this is that an add-on or extension you have installe
 9. It's super easy to display your Facebook feed in any page or post
 
 == Changelog ==
+= 2.16 =
+* Important: Due to upcoming Facebook API changes on September 4, 2020, it will only be possible to display feeds from Facebook pages which you are an admin of. If a PPCA Error notice is displayed above your feed then this change will affect one or more of your feeds. For more information about this change, please [see here](https://smashballoon.com/facebook-api-changes-september-4-2020/).
+* Tweak: Added the "pagetype" setting to the shortcode when clicking the "Add to another feed" button on the Settings page to ensure it's set correctly
+* Fix: Fixed a minor compatibility issue with the upcoming WordPress 5.5 release
+* Fix: Removed the see more/less links from post text when using the email share link.
+
 = 2.15.1 =
 * Fix: The opt-in notice to help improve the plugin was not dismissing as expected for some sites due to the admin JavaScript file being cached by the browser.
 * Fix: Disabled the "About Us" page plugin installation if using a version of WordPress earlier than 4.6.

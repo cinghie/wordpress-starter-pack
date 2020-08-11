@@ -493,7 +493,7 @@ function ppom_update_option_prices() {
 
     // If measured input has quantities
     if (ppom_measure_found > 0) {
-        ppom_total_price = ppom_total_price * parseFloat(ppom_measure_found);
+        ppom_total_price = productBasePrice * parseFloat(ppom_measure_found) + ppom_option_total;
     }
 
     var per_unit_price = parseFloat(ppom_total_price / ppom_get_order_quantity());

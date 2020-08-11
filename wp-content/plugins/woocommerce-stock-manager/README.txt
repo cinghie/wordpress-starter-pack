@@ -1,13 +1,13 @@
 === WooCommerce Stock Manager ===
 Contributors: storeapps, niravmehta, mansi shah, Tarun.Parswani, Musilda
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CPTHCDC382KVA
-Author URI: https://www.storeapps.org/shop/
-Plugin URI: https://www.storeapps.org/?utm_source=wprepo&utm_medium=web&utm_campaign=wsm_readme
+Author URI: https://www.storeapps.org/
+Plugin URI: https://www.storeapps.org/woocommerce-plugins/?utm_source=wprepo&utm_medium=web&utm_campaign=wsm_readme
 Tags: woocommerce, stock manager, stock management, inventory
 Requires at least: 5.0.0
 Tested up to: 5.4.2
 Requires PHP: 5.6+
-Stable tag: 2.3.0
+Stable tag: 2.4.0
 License: GPLv3
 
 == Description ==
@@ -84,7 +84,7 @@ Hooks for the 3rd party plugins.
 8. [WooCommerce Update Variations In Cart](https://www.storeapps.org/product/woocommerce-update-variations-in-cart/?utm_source=wprepo&utm_medium=web_se&utm_campaign=smwp_readme)
 9. [Express Login For WordPress](https://www.storeapps.org/product/express-login-for-wordpress/?utm_source=wprepo&utm_medium=web_se&utm_campaign=smwp_readme)
 
-[Check out all our WooCommerce plugins and bundles](https://www.storeapps.org/shop/?utm_source=wprepo&utm_medium=web_others&utm_campaign=wsm_readme)
+[Check out all our WooCommerce plugins and bundles](https://www.storeapps.org/woocommerce-plugins/?utm_source=wprepo&utm_medium=web_others&utm_campaign=wsm_readme)
 
 == Installation ==
 
@@ -125,6 +125,15 @@ Be sure, that you have WooCommerce 3.5+ and WordPress 5.+
 4. Product stock as on date
 
 == Changelog ==
+
+= 2.4.0 (07.08.2020) =
+* New: WooCommerce 4.3.1 compatible
+* New: Provision to show/hide 'SKU' column
+* Fix: 'Create export File' not exporting all the products in the generated CSV
+* Update: Title to product thumbnail column
+* Update: Disable autoload of few options
+* Update: Product icon
+* Update: POT file
 
 = 2.3.0 (20.06.2020) =
 * Fix: Product Variation thumbnail not loading in dashboard

@@ -2,6 +2,7 @@ import { SET_SCREEN_OPTIONS } from './actionTypes';
 
 const getInitialState = () => ({
   settings: {
+    sku: true,
     thumbnail: false,
     price: true,
     salePrice: true,

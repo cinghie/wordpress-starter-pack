@@ -2,7 +2,7 @@
 
 if( isset( $_POST['save'] ) ){
 	if( isset( $_POST['old_styles'] ) ){
-    	update_option( 'woocommerce_stock_old_styles', sanitize_text_field( $_POST['old_styles'] ) );
+    	update_option( 'woocommerce_stock_old_styles', sanitize_text_field( $_POST['old_styles'] ), 'no' );
 	}else{
 		delete_option( 'woocommerce_stock_old_styles' );
 	}

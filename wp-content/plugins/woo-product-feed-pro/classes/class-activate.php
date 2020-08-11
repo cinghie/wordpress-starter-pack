@@ -86,6 +86,13 @@ class WooSEA_Activation {
 					"taxonomy" => "none",
 					"utm_source" => "Pinterest RSS Board",
                         		"type" => "Advertising" ),
+     	 			"Snapchat Product Catalog" => array (
+                        		"channel_hash" => md5("Snapchat Product Catalog"),
+					"name" => "Snapchat Product Catalog",
+					"fields" => "snapchat",
+					"taxonomy" => "none",
+					"utm_source" => "snapchat",
+                        		"type" => "Advertising" ),
         		),
 			"Custom Feed" => array (
 				"Custom Feed" => array (
@@ -1404,6 +1411,13 @@ class WooSEA_Activation {
 					"taxonomy" => "none",
 					"utm_source" => "ShopMania.sk",
                         		"type" => "Comparison shopping engine" ),
+			   	"Heureka.sk" => array (
+                                        "channel_hash" => md5("Heureka.sk"),
+                                        "name" => "Heureka.sk",
+                                        "fields" => "heureka",
+                                        "taxonomy" => "none",
+                                        "utm_source" => "Heureka.sk",
+                                        "type" => "Marketplace" ),
 			),
 			"Slovenia" => array (),
 			"Solomon Islands" => array (),

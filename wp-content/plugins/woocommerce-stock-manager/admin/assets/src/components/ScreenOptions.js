@@ -33,6 +33,11 @@ const ScreenOptions = (props) => {
       <legend>{__('Show columns', 'woocommerce-stock-manager')}</legend>
 
       <label>
+        <input type="checkbox" className="hide-column-tog" checked={settings.sku} onChange={handleChange('sku')} />
+        {' '}
+        {__('SKU', 'woocommerce-stock-manager')}
+      </label>
+      <label>
         <input type="checkbox" className="hide-column-tog" checked={settings.thumbnail} onChange={handleChange('thumbnail')} />
         {' '}
         {__('Thumbnail', 'woocommerce-stock-manager')}

@@ -205,16 +205,9 @@ function getFacebookWooProductContentId( $product_id ) {
 			return $value;
 		}
 
-		// Call $product->get_id() instead of ->id to account for Variable
-		// products, which have their own variant_ids.
-		$retailer_id =  $product->get_sku()
-			? $product->get_sku() . '_' . $product->get_id()
-			: false;
 
-		$ids = array(
-			$product->get_sku(),
-			'wc_post_id_' . $product->get_id(),
-			$retailer_id
+        $ids = array(
+            get_fb_plugin_retailer_id($product)
 		);
 
 		$value = array_values( array_filter( $ids ) );
@@ -224,7 +217,15 @@ function getFacebookWooProductContentId( $product_id ) {
 	return $value;
 
 }
+function get_fb_plugin_retailer_id( $woo_product ) {
+    if(!$woo_product) return "";
+    $woo_id = $woo_product->get_id();
 
+    // Call $woo_product->get_id() instead of ->id to account for Variable
+    // products, which have their own variant_ids.
+    return $woo_product->get_sku() ? $woo_product->get_sku() . '_' .
+        $woo_id : 'wc_post_id_'. $woo_id;
+}
 function getFacebookWooCartItemId( $item ) {
 
 	if ( ! PixelYourSite\Facebook()->getOption( 'woo_variable_as_simple' ) && isset( $item['variation_id'] ) && $item['variation_id'] !== 0 ) {

@@ -435,7 +435,23 @@ e&utm_campaign=pro-feature' ); ?>
                 <?php renderPopoverButton( 'woo_purchase_on_transaction' ); ?>
             </div>
         </div>
-        
+
+        <div class="row mb-1">
+            <div class="col">
+                <label>Fire the Purchase Event for the following order status: <?php renderProBadge('https://www.pixelyoursite.com/google-ads-tag/?utm_source=pys-free-plugin&utm_medium=pro-badge&utm_campaign=pro-feature'); ?></label>
+                <div class="custom-controls-stacked ml-2">
+                    <?php
+                    $statuses = wc_get_order_statuses();
+                    foreach ( $statuses as $status => $status_name) {
+                        PYS()->render_checkbox_input( 'woo_order_purchase_status_'.esc_attr( $status ), esc_html( $status_name ),true);
+                    }
+                    ?>
+                </div>
+                <label>The Purchase event fires when the client makes a transaction on your website. It won't fire on when the order status is modified afterwards.</label>
+
+            </div>
+        </div>
+
         <?php if ( Facebook()->enabled() ) : ?>
             <div class="row">
                 <div class="col">

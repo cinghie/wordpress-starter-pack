@@ -37,17 +37,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 						'settings' => array(
 								'settings',
 								'Settings',
-                                                                'Make search changes on entire website',
+                                                                'Advanced Website Search Settings',
 						),
 						'menu-search' => array(
 								'menu-search',
 								'Menu Search',
-                                                                'Display & configure search in menu',
+                                                                'Configure Menu Search',
 						),
 						'analytics' => array(
 								'analytics',
 								'Analytics',
-                                                                'Track searched keywords & search results',
+                                                                'Search Analytics',
 						),
 				);
 
@@ -100,7 +100,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php endif; ?>
 
 				<div id="informationdiv" class="searchbox">
-					<h3><?php echo esc_html( __( 'Information', 'add-search-to-menu' ) ); ?></h3>
 					<div class="inside">
 						<ul>
 							<li><a href="https://ivorysearch.com/documentation/" target="_blank"><?php _e( 'Documentation', 'add-search-to-menu' ); ?></a></li>

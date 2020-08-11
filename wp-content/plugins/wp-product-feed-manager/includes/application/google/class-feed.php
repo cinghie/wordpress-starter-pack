@@ -3,7 +3,7 @@
  * WP Product Feed Manager Google Feed Class.
  *
  * @package WP Product Feed Manager/Channels
- * @version 12.0
+ * @version 13.0
  */
 
 // Prevent direct access
@@ -18,7 +18,7 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 	 */
 	class WPPFM_Google_Feed_Class extends WPPFM_Feed_Master_Class {
 
-		private $_version = '12.0';
+		private $_version = '13.0';
 
 		public function __construct() {
 			parent::__construct();
@@ -166,7 +166,8 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 
 		// ALERT! This function is equivalent to the googleSpecialSubscriptionCountries() function in google-source.js
 		private function special_subscription_countries() {
-			return array( 'DE', 'FR', 'GB' );
+			return array( 'ZA', 'HK', 'IN', 'JP', 'MY', 'NZ', 'SG', 'KR', 'TW', 'TH', 'AT', 'BE', 'CZ', 'DK', 'FI', 'DE', 'FR', 'GR', 'HU', 'IE',
+				'IT', 'NO', 'PL', 'PT', 'RO', 'SK', 'ES', 'SE', 'CH', 'TR', 'GB', 'IL', 'SA', 'AE', 'CA' );
 		}
 
 		private function google_clothing_and_accessories( $category ) {
@@ -176,11 +177,11 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 		private function google_needs_product_cat( $category ) {
 			return stristr( $category, 'Apparel & Accessories' ) !== false
 				|| stristr( $category, 'Media' ) !== false
-				|| stristr( $category, 'Software' ) !== false ? true : false;
+				|| stristr( $category, 'Software' ) !== false;
 		}
 
 		private function google_requires_brand( $category ) {
-			return false === stristr( $category, 'Media' ) ? true : false;
+			return false === stristr( $category, 'Media' );
 		}
 
 		protected function header( $title, $description = '' ) {

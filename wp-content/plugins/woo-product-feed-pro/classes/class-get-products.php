@@ -1717,7 +1717,7 @@ class WooSEA_Get_Products {
 
 			foreach ($row as $k => $v){
 				$pieces = explode ("','", $v);
-				$pieces = str_replace("'", "", $pieces);
+//				$pieces = str_replace("'", "", $pieces);
 
 				foreach ($pieces as $k_inner => $v){
                                         if ($feed_config['fields'] != 'standard'){
@@ -1728,7 +1728,8 @@ class WooSEA_Get_Products {
                                       	if($feed_config['fileformat'] == "csv"){
                                         	$v = str_replace("g:", "", $v);
                                      	}	
-
+					
+					$v = trim($v, "'");
 					$pieces[$k_inner] = $v;
 				}
 
@@ -2195,8 +2196,8 @@ class WooSEA_Get_Products {
 			$product_data['categories'] = $catname;
 
 			// Raw descriptions, unfiltered
-			$product_data['raw_description'] = $post->post_content;
-			$product_data['raw_short_description'] = $post->post_excerpt;
+			$product_data['raw_description'] = wpautop($post->post_content);
+			$product_data['raw_short_description'] = wpautop($post->post_excerpt);
 
 			$product_data['description'] = html_entity_decode((str_replace("\r", "", $post->post_content)), ENT_QUOTES | ENT_XML1, 'UTF-8');
 			$product_data['short_description'] = html_entity_decode((str_replace("\r", "", $post->post_excerpt)), ENT_QUOTES | ENT_XML1, 'UTF-8');
@@ -2360,10 +2361,12 @@ class WooSEA_Get_Products {
 				$product_data['regular_price'] = apply_filters('wcml_raw_price_amount', $product_data['regular_price'], $project_config['WCML']);
 				$product_data['sale_price'] = apply_filters('wcml_raw_price_amount', $product_data['sale_price'], $project_config['WCML']);
 
+				global $woocommerce_wpml;
+                                $product_data['non_geo_wcml_price'] = $woocommerce_wpml->multi_currency->prices->get_product_price_in_currency( $product_data['id'], $project_config['WCML'] );
+
 				// When WCML manual prices have been entered
 				// Make sure the product ID is not NULL either
 				if(!is_null($product_data['id'])){				
-					global $woocommerce_wpml;  
 					$custom_prices = $woocommerce_wpml->get_multi_currency()->custom_prices->get_product_custom_prices( $product_data['id'], $project_config['WCML'] );
 
 					if($custom_prices['_price'] > 0){
@@ -3961,8 +3964,12 @@ class WooSEA_Get_Products {
 			// First check if there is a category mapping for this specific product
 			if ((preg_match('/'.$pm_array['criteria'].'/', $original_cat))){
 				if(!empty($pm_array['map_to_category'])){
+					$prod_id_cat = $product_data['id'];
+					if($product_data['product_type'] == "variation"){
+						$prod_id_cat = $product_data['item_group_id'];
+					}
 
-					$product_cats_ids = wc_get_product_term_ids( $product_data['id'], 'product_cat' );
+					$product_cats_ids = wc_get_product_term_ids( $prod_id_cat, 'product_cat' );
 					if(in_array($pm_array['categoryId'],  $product_cats_ids)){
 						$category_pieces = explode("-", $pm_array['map_to_category']);
 						$tmp_cat = $category_pieces[0];

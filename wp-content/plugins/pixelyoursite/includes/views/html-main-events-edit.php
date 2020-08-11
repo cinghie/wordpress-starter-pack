@@ -63,7 +63,9 @@ if(isset( $_REQUEST['id'] )) {
             <div class="col form-inline">
 				<label>Fire event when</label>
 	            <?php Events\renderTriggerTypeInput( $event, 'trigger_type' ); ?>
-
+                <div class="triger_post_type form-inline" style="display: none">
+                    <?php Events\renderPostTypeSelect( $event, 'post_type_value' ); ?>
+                </div>
                 <div class="event-delay form-inline">
                     <label>with delay</label>
                     <?php Events\renderNumberInput( $event, 'delay', '0' ); ?>
@@ -81,6 +83,7 @@ if(isset( $_REQUEST['id'] )) {
                 <?php renderProBadge( 'https://www.pixelyoursite.com/?utm_source=pys-free-plugin&utm_medium=pro-badge&utm_campaign=pro-feature' ); ?>
             </div>
         </div>
+
 
         <div id="page_visit_panel" class="event_triggers_panel" data-trigger_type="page_visit" style="display: none;">
             <div class="row mt-3 event_trigger" data-trigger_id="0" style="display: none;">

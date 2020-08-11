@@ -61,6 +61,14 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </div>
                 </div>
             <?php endif; ?>
+            <?php if(isWPMLActive()) : ?>
+                <div class="row mb-3">
+                    <div class="col-3"></div>
+                    <div class="col-7">
+                        <strong>WPML Detected. </strong> With the <a target="_blank" href="https://www.pixelyoursite.com/plugins/pixelyoursite-professional?utm_medium=plugin&utm_campaign=multilingual">Advanced and Agency</a> licenses, you can fire a different pixel for each language.
+                    </div>
+                </div>
+            <?php endif; ?>
             <hr>
         
         <?php endif; ?>
@@ -82,6 +90,14 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 target="_blank">pro version</a>.</p>
                 </div>
             </div>
+            <?php if(isWPMLActive()) : ?>
+                <div class="row mb-3">
+                    <div class="col-3"></div>
+                    <div class="col-7">
+                        <strong>WPML Detected. </strong> With the <a target="_blank" href="https://www.pixelyoursite.com/plugins/pixelyoursite-professional?utm_medium=plugin&utm_campaign=multilingual">Advanced and Agency</a> licenses, you can fire a different pixel for each language.
+                    </div>
+                </div>
+            <?php endif; ?>
             <hr>
 	
 	    <?php endif; ?>

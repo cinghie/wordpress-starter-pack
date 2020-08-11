@@ -47,8 +47,6 @@ jQuery( document ).ready(function() {
 		result += keys.join(columnDelimiter);
 		result += lineDelimiter;
 		
-		console.log(args);
-		
 		data.forEach(function(item) {
 			ctr = 0;
 			keys.forEach(function(key) {

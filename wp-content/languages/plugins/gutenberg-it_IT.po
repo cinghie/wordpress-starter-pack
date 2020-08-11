@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-07-25 14:10:29+0000\n"
+"PO-Revision-Date: 2020-08-01 17:09:16+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -15,98 +15,21 @@ msgstr ""
 msgid "Site logo."
 msgstr "Logo del sito."
 
-#: lib/patterns/text-two-columns.php:11
-msgid "Whenever I find myself pausing before coffin warehouses, and bringing up the rear of every funeral I meet; and especially whenever my hypos get such an upper hand of me, that it requires a strong moral principle to prevent me from deliberately stepping into the street, and methodically knocking people’s hats off—then, I account it high time to get to sea as soon as I can."
-msgstr "Del resto, ella lo vedeva soltanto il sabato sera, quando tornava a casa con quei pochi soldi della settimana; e siccome era malpelo c’era anche a temere che ne sottraesse un paio, di quei soldi; nel dubbio, per non sbagliare, la sorella maggiore gli faceva la ricevuta a scapaccioni."
-
-#: lib/patterns/text-two-columns.php:11
-msgid "Call me Ishmael. Some years ago —never mind how long precisely— having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world. It is a way I have of driving off the spleen and regulating the circulation. I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul."
-msgstr "Malpelo si chiamava così perchè aveva i capelli rossi; ed aveva i capelli rossi perchè era un ragazzo malizioso e cattivo, che prometteva di riescire un fior di birbone. Sicchè tutti alla cava della rena rossa lo chiamavano Malpelo; e persino sua madre, col sentirgli dir sempre a quel modo, aveva quasi dimenticato il suo nome di battesimo."
-
-#: lib/patterns/large-header.php:10
-msgid "AND BEAUTY OF MANY"
-msgstr "AND BEAUTY OF MANY"
-
-#: lib/patterns/large-header.php:10
-msgid "Devilish Brilliance"
-msgstr "Devilish Brilliance"
-
 #: lib/patterns/three-buttons.php:10
 msgid "Books"
 msgstr "Libri"
-
-#: lib/patterns/three-buttons.php:10
-msgid "Publishers"
-msgstr "Editori"
-
-#: lib/patterns/text-three-columns-buttons.php:11
-msgid "Read Chapter Two"
-msgstr "Leggi il capitolo due"
-
-#: lib/patterns/large-header-paragraph.php:10
-msgid "Years ago..."
-msgstr "Anni fa…"
-
-#: lib/patterns/text-three-columns-buttons.php:11
-msgid "Read Chapter One"
-msgstr "Leggi il capitolo uno"
-
-#: lib/patterns/text-three-columns-buttons.php:11
-msgid "Read Chapter Three"
-msgstr "Leggi il capitolo tre"
 
 #: lib/class-wp-rest-menus-controller.php:589
 msgid "Whether to automatically add top level pages to this menu."
 msgstr "Se aggiungere automaticamente le pagine di primo livello a questo menu."
 
-#: lib/patterns/text-two-columns.php:11
-msgid "CHAPTER 1. Loomings"
-msgstr "Rosso Malpelo"
-
-#: lib/patterns/large-header.php:9
-msgid "Large header"
-msgstr "Header grande"
-
-#: lib/patterns/text-two-columns-with-images.php:11
-msgid "As most young candidates for the pains and penalties of whaling stop at this same New Bedford, thence to embark on their voyage, it may as well be related that I, for one, had no idea of so doing. For my mind was made up to sail in no other than a Nantucket craft, because there was a fine, boisterous something about everything connected with that famous island, which amazingly pleased me."
-msgstr "Ei possedeva delle idee strane, Malpelo! Siccome aveva ereditato anche il piccone e la zappa del padre, se ne serviva, quantunque fossero troppo pesanti per l’età sua; e quando gli aveano chiesto se voleva venderli, che glieli avrebbero pagati come nuovi, egli aveva risposto di no; suo padre li aveva resi così lisci e lucenti nel manico colle sue mani, ed ei non avrebbe potuto farsene degli altri più lisci e lucenti di quelli, se ci avesse lavorato cento e poi cento anni."
-
-#: lib/patterns/text-two-columns-with-images.php:11
-msgid "I stuffed a shirt or two into my old carpet-bag, tucked it under my arm, and started for Cape Horn and the Pacific. Quitting the good city of old Manhatto, I duly arrived in New Bedford. It was a Saturday night in December. Much was I disappointed upon learning that the little packet for Nantucket had already sailed, and that no way of reaching that place would offer, till the following Monday."
-msgstr "Malpelo se li lisciava sulle gambe quei calzoni di fustagno quasi nuovi, gli pareva che fossero dolci e lisci come le mani del babbo che solevano accarezzargli i capelli, così ruvidi e rossi com’erano. Quelle scarpe le teneva appese ad un chiodo, sul saccone, quasi fossero state le pantofole del papa, e la domenica se le pigliava in mano, le lustrava e se le provava; poi le metteva per terra, l’una accanto all’altra, e stava a contemplarsele coi gomiti sui ginocchi, e il mento nelle palme per delle ore intere, rimugginando chi sa quali idee in quel cervellaccio."
-
 #: lib/patterns/text-two-columns-with-images.php:9
 msgid "Two columns of text with images"
 msgstr "Due colonne di testo con immagini"
 
-#: lib/patterns/two-images.php:11
-msgctxt "Block pattern description"
-msgid "An image gallery with two cropped example images."
-msgstr "Una galleria di immagini con due immagini ritagliate di esempio."
-
 #: lib/patterns/three-buttons.php:9
 msgid "Three buttons"
 msgstr "Tre pulsanti"
-
-#: lib/patterns/large-header-paragraph.php:9
-msgid "Large header and a paragraph"
-msgstr "Header grande e un paragrafo"
-
-#: lib/patterns/quote.php:10
-msgid "— Herman Melville, Moby-Dick (1851)"
-msgstr "— Herman Melville, Moby-Dick (1851)"
-
-#: lib/patterns/text-three-columns-buttons.php:11
-msgid "Consider, once more, the universal cannibalism of the sea; all whose creatures prey upon each other, carrying on eternal war since it began."
-msgstr "Mio padre la batteva sempre, ed egli non batteva altro che la rena, perciò lo chiamavano Bestia, e la rena se lo mangiò a tradimento, perchè era più forte di lui."
-
-#: lib/patterns/text-three-columns-buttons.php:11
-msgid "Consider also the devilish brilliance and beauty of many of its most remorseless tribes, as the dainty embellished shape of many species of sharks."
-msgstr "La rena è traditora, diceva a Ranocchio sottovoce; somiglia a tutti gli altri, che se sei più debole ti pestano la faccia, e se sei più forte, o siete in molti, come fa lo Sciancato, allora si lascia vincere."
-
-#: lib/patterns/text-three-columns-buttons.php:11
-msgid "Consider the subtleness of the sea; how its most dreaded creatures glide under water and treacherously hidden beneath the loveliest tints of azure."
-msgstr "Lavorando di piccone o di zappa poi menava le mani con accanimento, a mo’ di uno che l’avesse con la rena, e batteva e ribatteva coi denti stretti, e con quegli ah! ah! che aveva suo padre."
 
 #: lib/patterns/text-three-columns-buttons.php:9
 msgid "Three columns of text with buttons"
@@ -384,11 +307,11 @@ msgstr "Il nome del blocco, nel formato namespace/block-name"
 msgid "Sorry, you are not allowed to browse the block directory."
 msgstr "Non hai il permesso per navigare nella directory dei blocchi,"
 
-#: lib/compat.php:434
+#: lib/compat.php:434 build/blocks/index.js:1
 msgid "Design"
 msgstr "Design"
 
-#: lib/compat.php:424
+#: lib/compat.php:424 build/blocks/index.js:1
 msgid "Text"
 msgstr "Testo"
 
@@ -402,32 +325,44 @@ msgstr "Il parametro \"providesContext\" fornito nel tipo di blocco \"%s\" è de
 msgid "The \"context\" parameter provided in block type \"%s\" is deprecated. Please use \"uses_context\" instead."
 msgstr "Il parametro \"context\" fornito nel tipo di blocco \"%s\" è deprecato. Al suo posto utilizza \"uses_context\"."
 
+#. translators: %s: the author.
 #. translators: byline. %s: current author.
+#: build/block-library/blocks/rss.php:60
 #: build/block-library/blocks/latest-posts.php:105
+#: build/block-library/index.js:38
 msgid "by %s"
 msgstr "di %s"
 
-#: lib/block-patterns.php:62
+#. translators: 1: Block pattern name.
+#: lib/class-wp-block-pattern-categories-registry.php:62
+msgid "Block pattern category \"%1$s\" not found."
+msgstr "Categoria del modello di blocchi \"%1$s\" non trovata."
+
+#: lib/class-wp-block-pattern-categories-registry.php:40
+msgid "Block pattern category name must be a string."
+msgstr "Il nome della categoria del modello di blocchi deve essere una stringa."
+
+#: lib/block-patterns.php:63
 msgctxt "Block pattern category"
 msgid "Headers"
 msgstr "Header"
 
-#: lib/block-patterns.php:61
+#: lib/block-patterns.php:62
 msgctxt "Block pattern category"
 msgid "Gallery"
 msgstr "Galleria"
 
-#: lib/block-patterns.php:59
+#: lib/block-patterns.php:60
 msgctxt "Block pattern category"
 msgid "Buttons"
 msgstr "Pulsanti"
 
-#: lib/block-patterns.php:60
+#: lib/block-patterns.php:61
 msgctxt "Block pattern category"
 msgid "Columns"
 msgstr "Colonne"
 
-#: lib/block-patterns.php:63
+#: lib/block-patterns.php:64
 msgctxt "Block pattern category"
 msgid "Text"
 msgstr "Testo"
@@ -591,8 +526,8 @@ msgstr "Non posso creare un articolo esistente."
 msgid "Sorry, you cannot view these menu items, unless you have access to permission edit them. "
 msgstr "Non puoi visualizzare queste voci di menu, a meno che non abbia l'autorizzazioni di modificarle."
 
-#: lib/class-wp-rest-menu-items-controller.php:81
 #: lib/class-wp-rest-customizer-nonces.php:52
+#: lib/class-wp-rest-menu-items-controller.php:81
 msgid "Sorry, you are not allowed to edit posts in this post type."
 msgstr "Non hai i permessi per modificare gli articoli in questo post type."
 
@@ -668,9 +603,9 @@ msgstr "La descrizione della posizione del menu."
 msgid "The name of the menu location."
 msgstr "Il nome della posizione del menu."
 
+#: lib/class-wp-rest-menus-controller.php:146
 #: lib/class-wp-rest-menu-locations-controller.php:116
 #: lib/class-wp-rest-menu-locations-controller.php:132
-#: lib/class-wp-rest-menus-controller.php:146
 msgid "Invalid menu location."
 msgstr "Posizione del menu non valida."
 
@@ -683,7 +618,7 @@ msgstr "Non hai i permessi per visualizzare le posizioni del menu."
 msgid "An alphanumeric identifier for the menu location."
 msgstr "Un identificatore alfanumerico per la posizione del menu."
 
-#: lib/global-styles.php:607
+#: lib/global-styles.php:637 build/edit-site/index.js:2
 msgid "Global Styles"
 msgstr "Stili globali"
 
@@ -708,16 +643,14 @@ msgid "Site Editor (beta)"
 msgstr "Editor del sito (beta)"
 
 #: build/block-library/blocks/query-pagination.php:33
+#: build/block-library/index.js:55 build/components/index.js:18
 msgid "Next"
 msgstr "Prossimo"
 
 #: build/block-library/blocks/query-pagination.php:26
+#: build/block-library/index.js:55 build/components/index.js:18
 msgid "Previous"
 msgstr "Precedente"
-
-#: lib/patterns/two-buttons.php:10
-msgid "Get started"
-msgstr "Come iniziare"
 
 #: lib/experiments-page.php:83
 msgid "Enable Full Site Editing demo templates"
@@ -809,15 +742,16 @@ msgctxt "Admin Menu text"
 msgid "Template Parts"
 msgstr "Parti del template"
 
-#: lib/template-parts.php:18
+#. translators: %s: template part title.
+#: lib/template-parts.php:18 build/block-library/index.js:55
 msgid "Template Part"
 msgstr "Parte del template"
 
-#: lib/template-parts.php:17
+#: lib/template-parts.php:17 build/edit-site/index.js:2
 msgid "Template Parts"
 msgstr "Parti del template"
 
-#: lib/experiments-page.php:56
+#: lib/experiments-page.php:56 build/block-library/index.js:30
 msgid "Navigation"
 msgstr "Navigazione"
 
@@ -891,7 +825,7 @@ msgctxt "Admin Menu text"
 msgid "Templates"
 msgstr "Template"
 
-#: lib/templates.php:18
+#: lib/templates.php:18 build/edit-site/index.js:2
 msgid "Template"
 msgstr "Template"
 
@@ -1056,10 +990,6 @@ msgstr "Non hai i permessi per accedere ai widget su questo sito."
 msgid "Widgets (beta)"
 msgstr "Widget (beta)"
 
-#: build/block-library/blocks/rss.php:58
-msgid "by"
-msgstr "di"
-
 #: build/block-library/blocks/rss.php:23
 msgid "An error has occurred, which probably means the feed is down. Try again later."
 msgstr "Si è verificato un errore; probabilmente il feed non è attivo. Riprova più tardi."
@@ -1070,7 +1000,7 @@ msgstr "Errore RSS:"
 
 #: build/block-library/blocks/search.php:25
 #: build/block-library/blocks/search.php:26
-#: build/block-library/blocks/search.php:44
+#: build/block-library/blocks/search.php:44 build/block-library/index.js:47
 msgid "Search"
 msgstr "Cerca"
 
@@ -1102,17 +1032,18 @@ msgctxt "add new on admin bar"
 msgid "Block Area"
 msgstr "Area del blocco"
 
-#: lib/navigation-page.php:45 lib/widgets-page.php:57
-#: lib/edit-site-page.php:115
+#: lib/widgets-page.php:57 lib/edit-site-page.php:115
+#: lib/navigation-page.php:45 build/block-editor/index.js:25
 msgid "Thumbnail"
 msgstr "Miniatura"
 
-#: lib/navigation-page.php:48 lib/widgets-page.php:60
-#: lib/edit-site-page.php:118
+#: lib/widgets-page.php:60 lib/edit-site-page.php:118
+#: lib/navigation-page.php:48 build/block-editor/index.js:25
 msgid "Full Size"
 msgstr "Dimensione reale"
 
-#: lib/compat.php:429
+#: lib/compat.php:429 build/block-editor/index.js:68 build/blocks/index.js:1
+#: build/core-data/index.js:1
 msgid "Media"
 msgstr "Media"
 
@@ -1125,12 +1056,13 @@ msgstr "j M Y H:i"
 msgid "Sorry, you are not allowed to edit images."
 msgstr "Non hai i permessi per modificare le immagini."
 
-#: lib/navigation-page.php:46 lib/widgets-page.php:58
-#: lib/edit-site-page.php:116
+#: lib/widgets-page.php:58 lib/edit-site-page.php:116
+#: lib/navigation-page.php:46 build/block-editor/index.js:25
+#: build/components/index.js:6
 msgid "Medium"
 msgstr "Medio"
 
-#: lib/compat.php:603
+#: lib/compat.php:603 build/block-library/index.js:30
 msgid "HTML"
 msgstr "HTML"
 
@@ -1159,7 +1091,7 @@ msgstr "Se vuoi imparare di più su come sviluppare blocchi aggiuntivi o sei int
 msgid "The WordPress community"
 msgstr "La comunità di WordPress"
 
-#: post-content.php:159
+#: post-content.php:159 build/block-library/index.js:8
 msgid "Code is Poetry"
 msgstr "Il codice è poesia"
 
@@ -1295,10 +1227,6 @@ msgstr "Di montagne e macchine da stampa"
 msgid "Welcome to the Gutenberg Editor"
 msgstr "Benvenuto nell'editor Gutenberg"
 
-#: lib/patterns/two-buttons.php:10
-msgid "Learn more"
-msgstr "Approfondisci"
-
 #: lib/class-wp-rest-menu-items-controller.php:779
 msgid "The title for the object."
 msgstr "Il titolo dell'oggetto."
@@ -1346,12 +1274,13 @@ msgstr "Seleziona il mese"
 msgid "Select Year"
 msgstr "Seleziona l'anno"
 
-#: build/block-library/blocks/archives.php:35
+#: build/block-library/blocks/archives.php:35 build/block-library/index.js:16
 msgid "Archives"
 msgstr "Archivi"
 
-#: lib/navigation-page.php:47 lib/widgets-page.php:59
-#: lib/edit-site-page.php:117
+#: lib/widgets-page.php:59 lib/edit-site-page.php:117
+#: lib/navigation-page.php:47 build/block-editor/index.js:25
+#: build/components/index.js:6
 msgid "Large"
 msgstr "Grande"
 
@@ -1367,25 +1296,36 @@ msgstr "L'id del genitore dell'oggetto."
 msgid "Embed Handler"
 msgstr "Handler dell'oggetto incorporato"
 
-#: lib/client-assets.php:164
+#: lib/client-assets.php:164 build/editor/index.js:11
+#: build/edit-post/index.js:5 build/edit-post/index.js:14
 msgid "Featured image"
 msgstr "Immagine in evidenza"
 
-#: build/block-library/blocks/latest-comments.php:31
-#: build/block-library/blocks/latest-posts.php:93
 #: build/block-library/blocks/rss.php:31
+#: build/block-library/blocks/latest-comments.php:31
+#: build/block-library/blocks/latest-posts.php:93 build/editor/index.js:27
+#: build/editor/index.js:38 build/block-library/index.js:30
+#: build/block-library/index.js:36 build/edit-navigation/index.js:2
+#: build/edit-post/index.js:14 build/edit-site/index.js:2
 msgid "(no title)"
 msgstr "(senza titolo)"
 
-#: lib/patterns/quote.php:9
+#. translators: accessibility text. 1: heading level. 2: heading content.
+#: lib/patterns/quote.php:9 build/editor/index.js:11
+#: build/block-library/index.js:12
 msgid "Quote"
 msgstr "Citazione"
+
+#: lib/patterns/large-header.php:10 lib/patterns/large-header-button.php:10
+#: build/block-library/index.js:26
+msgid "Write title…"
+msgstr "Scrivi il titolo..."
 
 #: gutenberg.php:99
 msgid "Experiments"
 msgstr "Esperimenti"
 
-#: lib/experiments-page.php:45
+#: lib/experiments-page.php:45 build/blocks/index.js:1
 msgid "Widgets"
 msgstr "Widget"
 
@@ -1393,11 +1333,7 @@ msgstr "Widget"
 msgid "Gutenberg development mode requires files to be built. Run <code>npm install</code> to install dependencies, <code>npm run build</code> to build the files or <code>npm run dev</code> to build the files and watch for changes. Read the <a href=\"https://github.com/WordPress/gutenberg/blob/master/docs/contributors/getting-started.md\">contributing</a> file for more information."
 msgstr "La modalità di sviluppo Gutenberg richiede la creazione di file. Esegui <code>npm install</code> per installare le dipendenze, <code>npm run build</code> per creare i file e <code>npm run dev</code> per creare i file e visualizzare i cambiamenti. Leggi il file <a href=\"https://github.com/WordPress/gutenberg/blob/master/docs/contributors/getting-started.md\">contributo</a> per maggiori informazioni."
 
-#: lib/patterns/three-buttons.php:10
-msgid "Authors"
-msgstr "Autori"
-
-#: lib/template-parts.php:119 lib/templates.php:136
+#: lib/templates.php:136 lib/template-parts.php:119 build/editor/index.js:29
 msgid "Slug"
 msgstr "Slug"
 

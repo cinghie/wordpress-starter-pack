@@ -160,9 +160,13 @@
 	z-index: 999999;
 }
 
-.is-popup-search-form {
+.is-popup-search-form form {
 	width: 80%;
 	margin: 20% auto 0;
+}
+
+.is-popup-search-form form.is-ajax-search {
+	margin: 10% auto 0;
 }
 
 .popup-search-close:after,
@@ -265,7 +269,7 @@ form:hover + .is-link-container {
 }
 
 .is-form-style label {
-    display: inline-block;
+    display: inline-block !important;
     padding: 0;
     vertical-align: middle;
     margin: 0;
@@ -276,6 +280,7 @@ form:hover + .is-link-container {
 .is-form-style {
 	line-height: 1;
     position: relative;
+	padding: 0 !important;
 }
 
 .is-form-style.is-form-style-3 label {
@@ -294,7 +299,7 @@ form:hover + .is-link-container {
 	min-height: 0;
     line-height: 1;
     border-radius: 0;
-    border: solid 1px #ccc;
+    border: solid 1px #ccc !important;
     font-family: arial;
     width: 100%;
     -webkit-box-sizing: border-box;
@@ -302,8 +307,15 @@ form:hover + .is-link-container {
     box-sizing: border-box;
 }
 
+.is-form-style input.is-search-input::-ms-clear {  display: none; width : 0; height: 0; }
+.is-form-style input.is-search-input::-ms-reveal {  display: none; width : 0; height: 0; }
+.is-form-style input.is-search-input::-webkit-search-decoration,
+.is-form-style input.is-search-input::-webkit-search-cancel-button,
+.is-form-style input.is-search-input::-webkit-search-results-button,
+.is-form-style input.is-search-input::-webkit-search-results-decoration { display: none; }
+
 .is-form-style.is-form-style-3 input.is-search-input {
-    border-right: 0;
+    border-right: 0 !important;
 }
 
 .is-form-style button.is-search-submit {
@@ -348,7 +360,7 @@ form:hover + .is-link-container {
 
 .is-search-icon {
     width: 36px;
-    padding-top: 6px;
+    padding-top: 6px !important;
 }
 
 .is-search-icon svg {
@@ -358,7 +370,7 @@ form:hover + .is-link-container {
 
 .is-form-style input.is-search-submit, 
 .is-search-icon {
-    display: inline-block;
+    display: inline-block !important;
     color: #666;
     background: #ededed;
     box-shadow: none !important;

@@ -165,14 +165,27 @@ function renderTriggerTypeInput( &$event, $key ) {
         'css_click'     => 'Click on CSS selector - PRO',
         'css_mouseover' => 'Mouse over CSS selector - PRO',
         'scroll_pos'    => 'Page Scroll - PRO',
+        'post_type'    => 'Post type - PRO',
 	);
 
 	renderSelectInput( $event, $key, $options );
 
 }
+/**
+ * @param CustomEvent $event
+ * @param string      $key
+ */
 
+function renderPostTypeSelect(&$event, $key) {
+    $types = get_post_types(null,"objects ");
 
+    $options = array();
+    foreach ($types as $type) {
+        $options[$type->name]=$type->label;
+    }
 
+    renderSelectInput( $event, $key, $options );
+}
 /**
  * @param CustomEvent $event
  * @param string      $key

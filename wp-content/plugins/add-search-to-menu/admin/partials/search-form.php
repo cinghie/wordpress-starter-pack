@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		if ( ! $post->initial() && current_user_can( 'is_edit_search_forms' ) ) {
 			echo sprintf( '<a href="%1$s" class="add-new-h2">%2$s</a>',
 				esc_url( menu_page_url( 'ivory-search-new', false ) ),
-				esc_html( __( 'Add New', 'add-search-to-menu' ) ) );
+				esc_html( __( 'Add New Search Form', 'add-search-to-menu' ) ) );
 		}
 	?>
 
@@ -65,7 +65,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div id="post-body-content">
 				<div id="titlediv">
 					<div id="titlewrap">
-						<label class="screen-reader-text" id="title-prompt-text" for="title"><?php echo esc_html( __( 'Search form name', 'add-search-to-menu' ) ); ?></label>
+						<label class="screen-reader-text" id="title-prompt-text" for="title"><?php echo esc_html( __( 'Add title', 'add-search-to-menu' ) ); ?></label>
 					<?php
 						$posttitle_atts = array(
 							'type' => 'text',
@@ -77,7 +77,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							'autocomplete' => 'off',
 							'disabled' =>
 								current_user_can( 'is_edit_search_form', $post_id ) && 'Default Search Form' !== $post->title() ? '' : 'disabled',
-							'title' => 'Default Search Form' !== $post->title() ? __( "Search form name", 'add-search-to-menu' ) : __( "Editing the title of Default Search Form is restricted", 'add-search-to-menu' ),
+							'title' => 'Default Search Form' !== $post->title() ? __( "Add title", 'add-search-to-menu' ) : __( "Editing the title of Default Search Form is restricted", 'add-search-to-menu' ),
 						);
 
 						echo sprintf( '<input %s />', IS_Admin_Public::format_atts( $posttitle_atts ) );
@@ -85,16 +85,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</div><!-- #titlewrap -->
 
 					<div class="inside">
-					<?php
-						if ( ! $post->initial() ) :
-					?>
 						<p class="description">
+						<?php
+						if ( ! $post->initial() ) {
+						?>
 						<label for="is-shortcode"><?php echo esc_html( __( "Copy this shortcode and paste it into your post, page, or text widget content:", 'add-search-to-menu' ) ); ?></label>
-						<span class="shortcode wp-ui-highlight"><input type="text" id="is-shortcode" onfocus="this.select();" readonly="readonly" class="large-text code" value="<?php echo esc_attr( $post->shortcode() ); ?>" /></span>
+						<?php
+						}
+						$shortcode_text = __( "Please save search form to generate shortcode", 'add-search-to-menu' );
+						if ( ! $post->initial() ) {
+							$shortcode_text = esc_attr( $post->shortcode() );
+						}
+						?>
+						<span class="shortcode wp-ui-highlight"><input type="text" id="is-shortcode" onfocus="this.select();" readonly="readonly" class="large-text code" value="<?php echo $shortcode_text; ?>" title="<?php _e( "Click to copy shortcode", 'add-search-to-menu' ); ?>" /></span>
+
 						</p>
-					<?php
-						endif;
-					?>
 					</div>
 				</div><!-- #titlediv -->
 			</div><!-- #post-body-content -->
@@ -106,29 +111,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 				if ( current_user_can( 'is_edit_search_form', $post_id ) ) {
 					$panels = array(
 						'includes' => array(
-							'title' => __( 'Includes', 'add-search-to-menu' ),
+							'title' => __( 'Search', 'add-search-to-menu' ),
 							'callback' => 'includes_panel',
-                                                        'description' => __( 'Configure the content to search', 'add-search-to-menu' ),
+                                                        'description' => __( 'Configure Searchable Content', 'add-search-to-menu' ),
 						),
 						'excludes' => array(
-							'title' => __( 'Excludes', 'add-search-to-menu' ),
+							'title' => __( 'Exclude', 'add-search-to-menu' ),
 							'callback' => 'excludes_panel',
-                                                        'description' => __( 'Exclude the content from search', 'add-search-to-menu' ),
+                                                        'description' => __( 'Exclude Content From Search', 'add-search-to-menu' ),
 						),
 						'customize' => array(
-							'title' => __( 'Customize', 'add-search-to-menu' ),
+							'title' => __( 'Design', 'add-search-to-menu' ),
 							'callback' => 'customize_panel',
-                                                        'description' => __( 'Customize search form colors, text and style', 'add-search-to-menu' ),
+                                                        'description' => __( 'Design Search Form Colors, Text and Style', 'add-search-to-menu' ),
 						),
 						'ajax' => array(
 							'title' => __( 'AJAX', 'add-search-to-menu' ),
 							'callback' => 'ajax_panel',
-                                                        'description' => __( 'Configure AJAX search', 'add-search-to-menu' ),
+                                                        'description' => __( 'Configure AJAX Search', 'add-search-to-menu' ),
 						),
 						'options' => array(
 							'title' => __( 'Options', 'add-search-to-menu' ),
 							'callback' => 'options_panel',
-                                                        'description' => __( 'Manage search functionality', 'add-search-to-menu' ),
+                                                        'description' => __( 'Advanced Search Form Options', 'add-search-to-menu' ),
 						),
 					);
 				}
@@ -193,7 +198,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php endif; ?>
 
 				<div id="informationdiv" class="searchbox">
-					<h3><?php echo esc_html( __( 'Information', 'add-search-to-menu' ) ); ?></h3>
 					<div class="inside">
 						<ul>
 							<li><a href="https://ivorysearch.com/documentation/" target="_blank"><?php _e( 'Documentation', 'add-search-to-menu' ); ?></a></li>

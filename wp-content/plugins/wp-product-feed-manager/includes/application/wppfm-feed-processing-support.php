@@ -416,7 +416,7 @@ trait WPPFM_Processing_Support {
 	}
 
 	/**
-	 * Recieves an array with condition results and generates a single end result based on the "and" or "or"
+	 * Receives an array with condition results and generates a single end result based on the "and" or "or"
 	 * connection between the conditions
 	 *
 	 * @param array with $results
@@ -425,7 +425,6 @@ trait WPPFM_Processing_Support {
 	 */
 	protected function connect_query_results( $results ) {
 		$and_results = array();
-		$end_result  = true;
 		$or_results  = array();
 
 		if ( count( $results ) > 0 ) {
@@ -970,17 +969,16 @@ trait WPPFM_Processing_Support {
 	 *
 	 * Returns an xml node for a product tag and uses the product data to make the node.
 	 *
-	 * @since    1.1.0
-	 * @access    public
+	 * @since 1.1.0
 	 *
-	 * @param string $key Note id.
-	 * @param string $xml_value Note value.
-	 * @param string $category_name Category name.
-	 * @param string $description_name Description name.
-	 * @param string $google_node_pre_tag Pre node tag.
-	 * @param array $tags_with_sub_tags Array with tags that have a sub tag construction.
-	 * @param array $tags_repeated_fields Array with tags that are allowed to be placed in the feed more than once
-	 * @param string $channel Selected channel id.
+	 * @param string $key                   Note id.
+	 * @param string $xml_value             Note value.
+	 * @param string $category_name         Category name.
+	 * @param string $description_name      Description name.
+	 * @param string $google_node_pre_tag   Pre node tag.
+	 * @param array  $tags_with_sub_tags    Array with tags that have a sub tag construction.
+	 * @param array  $tags_repeated_fields  Array with tags that are allowed to be placed in the feed more than once
+	 * @param string $channel               Selected channel id.
 	 *
 	 * @return string    Node string in xml format eg. <id>43</id>.
 	 */
@@ -1021,7 +1019,7 @@ trait WPPFM_Processing_Support {
 			'link'
 		) );
 
-		// as of October 2016 google removed the need for a g: suffix only for title and link. Facebook still requires it
+		// as of October 2016 Google removed the need for a g: suffix except for title and link. But Facebook still requires it
 		if ( in_array( $key, $google_suffix_exceptions ) ) {
 			$google_node_pre_tag = $channel === '1' ? '' : $google_node_pre_tag;
 		}
@@ -1054,7 +1052,11 @@ trait WPPFM_Processing_Support {
 		$not_allowed_characters = array( ' ', '-' );
 		$clean_key              = str_replace( $not_allowed_characters, '_', $key );
 
-		return "<$google_node_pre_tag$clean_key>$xml_value</$google_node_pre_tag$clean_key>";
+		// @since 2.13.0
+		$element_attribute        = apply_filters( 'wppfm_xml_element_attribute', '', $key, $xml_value );
+		$element_attribute_string = '' !== $element_attribute ? ' ' . $element_attribute : '';
+
+		return "<$google_node_pre_tag$clean_key$element_attribute_string>$xml_value</$google_node_pre_tag$clean_key>";
 	}
 
 	/**

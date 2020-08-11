@@ -2,15 +2,15 @@
 
 if( isset( $_POST['save'] ) ){
 	if( isset( $_POST['limit'] ) ){
-    	update_option( 'woocommerce_stock_limit', sanitize_text_field( $_POST['limit'] ) );
+    	update_option( 'woocommerce_stock_limit', sanitize_text_field( $_POST['limit'] ), 'no' );
 	}	
 	if( isset( $_POST['variable'] ) ){
-    	update_option( 'woocommerce_stock_variable_stock', sanitize_text_field( $_POST['variable'] ) );
+    	update_option( 'woocommerce_stock_variable_stock', sanitize_text_field( $_POST['variable'] ), 'no' );
 	}else{
 		delete_option( 'woocommerce_stock_variable_stock' );
 	}
 	if( isset( $_POST['step'] ) ){
-    	update_option( 'woocommerce_stock_qty_step', sanitize_text_field( $_POST['step'] ) );
+    	update_option( 'woocommerce_stock_qty_step', sanitize_text_field( $_POST['step'] ), 'no' );
 	}
 }
 

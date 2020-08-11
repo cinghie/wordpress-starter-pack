@@ -82,7 +82,7 @@
         <?php 
           $display_option = get_option( 'wsm_display_option' ); 
           if( empty( $display_option ) ){ 
-            $display_option = array(  
+            $display_option = array(
                 'thumbnail'     => 'no',
                 'price'         => 'display',
                 'sales_price'   => 'no',
@@ -95,7 +95,7 @@
                 'tax_class'     => 'no',
                 'shipping_class'=> 'no'
             );
-            update_option( 'wsm_display_option', $display_option );
+            update_option( 'wsm_display_option', $display_option, 'no' );
           } 
         ?>
         <h2><?php _e('Hide or display cells','woocommerce-stock-manager'); ?></h2>
@@ -137,7 +137,7 @@
               <td></td>
             </tr>  
           </table>
-          
+
           <input type="hidden" name="page-filter-display" value="filter-display" />
           <input type="submit" name="show-sku-item" value="<?php _e('Save setting','woocommerce-stock-manager'); ?>" class="btn btn-info" />
         </form>

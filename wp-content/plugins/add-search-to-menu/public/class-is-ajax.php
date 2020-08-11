@@ -44,16 +44,17 @@ class IS_Ajax {
 	 */
 	function ajax_load_posts() {
 
-                check_ajax_referer( 'is_ajax_nonce', 'security' );
+         check_ajax_referer( 'is_ajax_nonce', 'security' );
 
 		$search_post_id = isset( $_POST['id'] ) ? sanitize_text_field( absint( $_POST['id'] ) ) : '';
 		$page = isset( $_POST['page'] ) ? sanitize_text_field( absint( $_POST['page'] ) ) : 1;
 		$search_term = isset( $_POST['s'] ) ? sanitize_text_field( $_POST['s'] ) : '';
 
-                $search_form = IS_Search_Form::get_instance( $search_post_id );
+        $search_form = IS_Search_Form::get_instance( $search_post_id );
 		$stored_field = $search_form->prop( '_is_ajax' );
-                $is_settings = $search_form->prop( '_is_settings' );
-                $posts_per_page = isset( $is_settings['posts_per_page'] ) ? $is_settings['posts_per_page'] : 10;
+        $is_settings = $search_form->prop( '_is_settings' );
+        $is_includes = $search_form->prop( '_is_includes' );
+        $posts_per_page = isset( $is_settings['posts_per_page'] ) ? $is_settings['posts_per_page'] : 10;
 
 		$defaults = array(
 			'show_description'           => 0,
@@ -62,11 +63,11 @@ class IS_Ajax {
 			'show_image'                 => 0,
 			'show_categories'            => 0,
 			'show_tags'                  => 0,
-                        'show_author'                => 0,
-                        'show_date'                  => 0,
-                        'nothing_found_text'         => __( 'Nothing found', 'add-search-to-menu' ),
+            'show_author'                => 0,
+            'show_date'                  => 0,
+            'nothing_found_text'         => __( 'Nothing found', 'add-search-to-menu' ),
 			'show_more_result'           => 0,
-			'show_more_func'           => 0,
+			'show_more_func'             => 0,
 			'more_result_text'           => __( 'More results', 'add-search-to-menu' ),
 			'show_price'                 => 0,
 			'hide_price_out_of_stock'    => 0,
@@ -76,7 +77,7 @@ class IS_Ajax {
 			'show_featured_icon'         => 0,
 			'show_matching_categories'   => 0,
 			'show_matching_tags'         => 0,
-                        'show_details_box'           => 0,
+            'show_details_box'           => 0,
 		);
 
 		$field = wp_parse_args( $stored_field, $defaults );
@@ -87,239 +88,15 @@ class IS_Ajax {
 			$posts_class = 'is-show-details-enabled';
 		}
 		$posts_class = apply_filters( 'is_ajax_items_classes', $posts_class );
-		?>
-		<?php if( 1 == $page ) { ?>
-			<div class="is-ajax-search-items <?php echo esc_attr( $posts_class ); ?>">
-		<?php } ?>
-			<?php
-			// Show matching tags.
-			if( isset( $field['show_matching_tags'] ) && $field['show_matching_tags'] && 1 == $page ) {
-				$this->term_title_markup( array(
-					'taxonomy'      => 'product_tag',
-					'search_term'   => $search_term,
-					'title'         => __( 'Tag', 'add-search-to-menu' ),
-					'wrapper_class' => 'is-ajax-search-tags',
-				) );
-			}
 
-			// Show matching categories.
-			if( isset( $field['show_matching_categories'] ) && $field['show_matching_categories'] && 1 == $page ) {
-				$this->term_title_markup( array(
-					'taxonomy'      => 'product_cat',
-					'search_term'   => $search_term,
-					'title'         => __( 'Category', 'add-search-to-menu' ),
-					'wrapper_class' => 'is-ajax-search-categories',
-				) );
-			}
+		$template = locate_template( 'is-ajax-results.php' );
 
-			$post_args = array(
-                                'suppress_filters' => false,
-                                'post_type' => '',
-                                'numberposts' => $posts_per_page,
-				's'     => $search_term,
-				'paged' => $page,
-			);
+		if ( ! $template ) {
+			$template = 'partials/is-ajax-results.php';
+		}
 
-			$post_args = apply_filters( 'is_ajax_search_args', $post_args );
-			$posts = get_posts( $post_args );
-
-			if ( $posts ) {
-
-				if( 1 == $page ) { ?>
-					<div class="is-ajax-search-posts">
-				<?php }
-
-			    foreach ( $posts as $post ) :
-			        setup_postdata( $post );
-
-			        $product = '';
-			        $product_class = '';
-			        if( 'product' === $post->post_type && function_exists( 'wc_get_product' ) ) {
-			        	$product = wc_get_product( $post->ID );
-			        	$product_class = 'is-product';
-                                    if ( isset( $field['show_sale_badge'] ) && $field['show_sale_badge'] ) {
-                                        $on_sale = ( $product->is_in_stock() ) ? $product->is_on_sale() : '';
-                                        if ( $on_sale ) {
-                                            $product_class .= ' is-has-badge';
-                                        }
-                                    }
-			        }
-			        ?>
-			        <div data-id="<?php echo esc_attr( $post->ID ); ?>" class="is-ajax-search-post is-ajax-search-post-<?php echo esc_attr( $post->ID ) .' '. esc_attr( $product_class ); ?>">
-			        	<!-- Header -->
-			        	<div class="is-search-sections">
-
-			        		<?php $this->image_markup( $field, $post ); ?>
-
-			        		<div class="right-section">
-
-                                                            <?php
-                                                            $this->title_markup( $field, $post, $product ); 
-                                                            ?>
-
-					        	<div class="meta">
-                                                            <div>
-                                                                <?php $this->product_price_markup( $field, $product ); ?>
-								<?php $this->product_stock_status_markup( $field, $product ); ?>
-                                                            	<?php $this->product_sku_markup( $field, $product ); ?>
-                                                            </div>
-                                                                <?php $this->date_markup( $field, $post ); ?>
-				        			<?php $this->author_markup( $field ); ?>
-				        			<?php $this->tags_markup( $field, $post ); ?>
-				        			<?php $this->categories_markup( $field, $post ); ?>
-					        	</div><!-- .meta -->
-
-					        	<!-- Content -->
-					        	<div class="is-search-content">
-					        		<?php $this->description_markup( $field, $post ); ?>
-                                                        </div>
-
-								<!-- WooCommerce Contents -->
-								<?php
-								$this->product_sale_badge_markup( $field, $product );
-				                ?>
-			        		</div>
-			        	</div>
-
-		        	</div>
-			    <?php endforeach;
-			    wp_reset_postdata();?>
-
-			    <?php if( 1 == $page ) {?>
-			    	</div>
-				<?php } ?>
-
-
-			    <?php
-			} else if( empty( $tags ) && empty( $categories )) {
-				?>
-				<div class="is-ajax-search-no-result">
-					<?php echo html_entity_decode( $field['nothing_found_text'] ); ?>
-				</div>
-				<?php
-			}
-			?>
-
-		<?php if( 1 == $page ) { ?>
-			</div>
-		<?php } ?>
-	            <?php
-                    if ( isset( $field['show_more_result'] ) && $field['show_more_result'] && ( count( $posts ) >= $posts_per_page ) ) {
-			    $next_page = $page + 1; 
-			    $show_more_class = ( isset( $field['show_more_func'] ) && $field['show_more_func'] ) ? 'redirect-tosr' : '';
-			    ?>
-			    	<div class="is-show-more-results <?php echo $show_more_class;?>" data-page="<?php echo $next_page; ?>">
-			    		<div class="is-show-more-results-text"><?php echo $field['more_result_text']; ?></div>
-				    	<?php
-				    	if ( '' === $show_more_class ){
-				    	// AAJX Loader.
-                                $settings = get_option( 'is_search_' . $search_post_id );
-                                $loader_image = isset( $settings['loader-image'] ) ? $settings['loader-image'] : IS_PLUGIN_URI . 'public/images/spinner.gif';
-                                if( $loader_image ) {
-                                        echo '<img class="is-load-more-image" alt="'. esc_attr__( "Loader Image", 'add-search-to-menu' ) .'" src="'.esc_attr( $loader_image ).'" style="display: none;" />';
-                                }
-                            }
-				    	?>
-			    	</div>
-			    <?php } ?>		
-		<?php if( isset( $field['show_details_box'] ) && $field['show_details_box'] ) { ?>
-		    <div id="is-ajax-search-details-<?php echo $search_post_id; ?>" class="is-ajax-search-details">
-                        <div class="is-ajax-search-items">
-			    <?php
-                            if ( 1 == $page ) {
-			    // Show product details by "tags".
-				if( isset( $field['show_matching_tags'] ) && $field['show_matching_tags'] ) {
-					$this->product_details_markup( array(
-						'taxonomy'      => 'product_tag',
-						'search_term'   => $search_term,
-						'field'         => $field,
-						'wrapper_class' => 'is-ajax-search-tags-details',
-					) );
-				}
-				?>
-
-			    <?php
-			    // Show product details by "categories".
-				if( isset( $field['show_matching_categories'] ) && $field['show_matching_categories'] ) {
-					$this->product_details_markup( array(
-						'taxonomy'      => 'product_cat',
-						'search_term'   => $search_term,
-						'field'         => $field,
-						'wrapper_class' => 'is-ajax-search-categories-details',
-					) );
-				}
-                            }
-				if ( $posts ) { ?>
-					<div class="is-ajax-search-posts-details">
-						<?php
-					    foreach ( $posts as $post ) :
-					        setup_postdata( $post );
-					        $product = '';
-                                                $product_class = '';
-					        if( 'product' === $post->post_type && function_exists( 'wc_get_product' ) ) {
-					        	$product = wc_get_product( $post->ID );
-                                                    if ( isset( $field['show_sale_badge'] ) && $field['show_sale_badge'] ) {
-                                                        $on_sale = ( $product->is_in_stock() ) ? $product->is_on_sale() : '';
-                                                        if ( $on_sale ) {
-                                                            $product_class .= ' is-has-badge';
-                                                        }
-                                                    }
-					        }
-
-					        // Is WooCommerce product then show details box.
-					        if( $product ) { ?>
-					            <div data-id="<?php echo esc_attr( $post->ID ); ?>" class="is-ajax-search-post-details is-ajax-search-post-details-<?php echo esc_attr( $post->ID ).' '. esc_attr( $product_class ); ?>">
-					            	<div class="is-search-sections">
-										<?php $this->image_markup( $field, $post ); ?>
-					            		<div class="right-section">
-                                                                    <?php
-                                                                    $this->title_markup( $field, $post, $product );
-                                                                    ?> 
-                                                                    <div class="meta">
-                                                                        <div>
-                                                                            <?php $this->product_price_markup( $field, $product ); ?>
-                                                                            <?php $this->product_stock_status_markup( $field, $product ); ?>
-                                                                            <?php $this->product_sku_markup( $field, $product ); ?>
-                                                                        </div>
-                                                                            <?php $this->date_markup( $field, $post ); ?>
-                                                                            <?php $this->author_markup( $field ); ?>
-                                                                            <?php $this->tags_markup( $field, $post ); ?>
-                                                                            <?php $this->categories_markup( $field, $post ); ?>
-                                                                    </div><!-- .meta -->
-                                                          <!-- Content -->
-					        	<div class="is-search-content">
-					        		<?php $this->description_markup( $field, $post, true ); ?>
-                                                        </div>
-							<?php $this->product_sale_badge_markup( $field, $product );
-
-											if( $product ) { ?>
-												<div class="is-ajax-woocommerce-actions">
-													<?php
-                                                                                                        if ( function_exists( 'woocommerce_quantity_input' ) ) {
-													woocommerce_quantity_input( array(
-                                                                                                            'input_name'  => 'is-ajax-search-product-quantity',
-                                                                                                        ), $product, true );
-													echo WC_Shortcodes::product_add_to_cart( array(
-															'id'		 => $post->ID,
-															'show_price' => false,
-															'style'		 => '',
-														) );
-                                                                                                        } ?>
-												</div>
-											<?php } ?>
-					            		</div>
-									</div>
-								</div>
-							<?php
-					        }
-				        endforeach;
-				   		 wp_reset_postdata();?>
-					</div>
-				<?php } ?>
-                        </div>
-		    </div>
-		    <?php
-	    }
+		include_once( $template );
+		
 		wp_die();
 	}
 
@@ -408,19 +185,23 @@ class IS_Ajax {
 		$wrapper_class = $args['wrapper_class'];
 
 		$terms = $this->get_taxonomies( $taxonomy, $search_term );
+
 		$is_markup = apply_filters( 'is_customize_product_details_markup', false );
 		if ( $is_markup ) {
 			do_action( 'is_product_details_markup', $taxonomy, $search_term, $field, $wrapper_class, $terms );
 		} else if ( $terms ) {
-			?>
-			<div class="<?php echo $wrapper_class; ?>">
-				<?php
+				ob_start();
 				foreach ($terms as $key => $term) {
 					$this->get_product_by_tax_id( $field, $term['term_id'], $taxonomy );
 				}
+				$details = ob_get_clean();
+				if ( $details  ) {?>
+					<div class="<?php echo $wrapper_class; ?>">
+				<?php
+					echo $details;
 				?>
-			</div>
-			<?php
+				</div>
+			<?php }
 		}
 	}
 
@@ -444,7 +225,7 @@ class IS_Ajax {
 		$order_by     = isset( $field['order_by'] ) ? $field['order_by'] : 'date';
 		$order        = isset( $field['order'] ) ? $field['order'] : 'desc';
 
-		$query_args = apply_filters( 'is_get_product_by_tax_id', array(
+		$query_args = array(
 			'posts_per_page' => 4,
 			'post_status'	 => 'publish',
 			'post_type'	 => 'product',
@@ -454,7 +235,14 @@ class IS_Ajax {
 			'tax_query'      => array(
                                 'relation'       => 'AND',
                             )
-		) );
+		);
+
+		if ( function_exists( 'pll_current_language' ) ) {
+			$lang = pll_current_language();
+			$query_args['lang'] = $lang;
+		}
+
+		$query_args = apply_filters( 'is_get_product_by_tax_id', $query_args );
 
 		switch ( $product_list ) {
 			case 'featured' :
@@ -757,7 +545,16 @@ class IS_Ajax {
 
     		$excerpt_length = ( isset( $field['description_length'] ) && $field['description_length'] ) ? absint( $field['description_length'] ) : 20;
 
-                $content = strip_tags( strip_shortcodes( $post->post_content ) );
+			$is_post_content = $post->post_content;
+			if ( 'product_variation' === $post->post_type ) {
+
+				$_product = wc_get_product( $post->ID, array(
+					'parent_id' => $post->post_parent
+				) );
+
+				$is_post_content =  $_product->description;
+			}
+            $content = strip_tags( strip_shortcodes( $is_post_content ) );
 
     		if ( $single ) {
                     $excerpt_length = 100;

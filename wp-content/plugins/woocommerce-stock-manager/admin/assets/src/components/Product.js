@@ -141,14 +141,16 @@ const Product = (props) => {
             productTypes[product.type]
           )}
         </td>
-        <td className={classnames(getChangedStyle('sku'), styles.inputCell, 'stock-manager-field-sku')}>
-          <Control
-            type="text"
-            value={getChangedValue('sku')}
-            onChange={handleChange('sku', product.sku)}
-            size={10}
-          />
-        </td>
+        {settings.sku && (
+          <td className={classnames(getChangedStyle('sku'), styles.inputCell, 'stock-manager-field-sku')}>
+            <Control
+              type="text"
+              value={getChangedValue('sku')}
+              onChange={handleChange('sku', product.sku)}
+              size={10}
+            />
+          </td>
+        )}
         {settings.thumbnail && (
           <td className="stock-manager-field-thumbnail">
             {((product.images && product.images.length > 0) || (product.hasOwnProperty('image'))) && (

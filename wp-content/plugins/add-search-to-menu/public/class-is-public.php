@@ -22,14 +22,7 @@ class IS_Public
      */
     public function __construct()
     {
-        $is = Ivory_Search::getInstance();
-        
-        if ( null !== $is ) {
-            $this->opt = $is->opt;
-        } else {
-            $this->opt = Ivory_Search::load_options();
-        }
-    
+        $this->opt = Ivory_Search::load_options();
     }
     
     /**
@@ -46,9 +39,9 @@ class IS_Public
     }
     
     /**
-     * Enqueues search menu style and script files.
+     * Enqueues search menu style files.
      */
-    function wp_enqueue_scripts()
+    function wp_enqueue_styles()
     {
         global  $wp_query ;
         $min = ( defined( 'IS_DEBUG' ) && IS_DEBUG ? '' : '.min' );
@@ -60,6 +53,15 @@ class IS_Public
                 IS_VERSION
             );
         }
+    }
+    
+    /**
+     * Enqueues search menu script files.
+     */
+    function wp_enqueue_scripts()
+    {
+        global  $wp_query ;
+        $min = ( defined( 'IS_DEBUG' ) && IS_DEBUG ? '' : '.min' );
         
         if ( !isset( $this->opt['not_load_files']['js'] ) ) {
             wp_enqueue_script(
@@ -185,8 +187,8 @@ class IS_Public
         if ( $search_form ) {
             $atts['id'] = $menu_search_form;
             $display_id = '';
-            if ( $menu_search_form ) {
-                $display_id = ( 'Default Search Form' === $search_form->title() ? 'n' : '' );
+            if ( 0 === $menu_search_form || 'Default Search Form' === $search_form->title() ) {
+                $display_id = 'n';
             }
             $result = $search_form->form_html( $atts, $display_id );
         }
@@ -351,6 +353,12 @@ class IS_Public
         
         
         if ( '' !== $is_id && is_numeric( $is_id ) ) {
+            
+            if ( function_exists( 'pll_current_language' ) ) {
+                $lang = pll_current_language();
+                $query->set( 'lang', $lang );
+            }
+            
             
             if ( isset( $this->opt['stopwords'] ) && (isset( $q['s'] ) && '' !== $q['s']) ) {
                 $stopwords = explode( ',', $this->opt['stopwords'] );
@@ -651,8 +659,8 @@ class IS_Public
         
         if ( isset( $q['_is_settings']['fuzzy_match'] ) && '2' !== $q['_is_settings']['fuzzy_match'] ) {
             $like = 'REGEXP';
-            $f = "(^|[[\\s|.|~||!|@|#|\$|%|^|&|*|(|)|_|\\-|+|=|{|}|[|]|\\||:|;|<|>|\\?|\\/|\\|]])";
-            $l = "([[\\s|.|~||!|@|#|\$|%|^|&|*|(|)|_|\\-|+|=|{|}|[|]|\\||:|;|<|>|\\?|\\/|\\|]]|\$)";
+            $f = "(^|[[\\s|.|~||!|@|#|\$|%|^|&|*|(|)|'|\"|+|=|{|}|[|]|\\||:|;|<|>|\\?|\\/|\\|]])";
+            $l = "([[\\s|.|~||!|@|#|\$|%|^|&|*|(|)|'|\"|+|=|{|}|[|]|\\||:|;|<|>|\\?|\\/|\\|]]|\$)";
         }
         
         $searchand = '';

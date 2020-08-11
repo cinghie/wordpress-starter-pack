@@ -27,15 +27,9 @@ class IS_Settings_Fields
      * plugin dependencies, and will leverage the Ivory_Search for
      * registering the hooks and the callback functions used throughout the plugin.
      */
-    public function __construct( $is = null )
+    public function __construct()
     {
-        
-        if ( null !== $is ) {
-            $this->opt = $is;
-        } else {
-            $this->opt = Ivory_Search::load_options();
-        }
-    
+        $this->opt = Ivory_Search::load_options();
     }
     
     /**
@@ -96,7 +90,7 @@ class IS_Settings_Fields
                 echo  '<h3 scope="row">' . $field['title'] ;
             }
             
-            if ( 'Header Search' == $field['title'] || 'Extras' == $field['title'] ) {
+            if ( 'Custom CSS' == $field['title'] || 'Advanced' == $field['title'] ) {
                 echo  '<span class="actions"><a class="expand" href="#">' . esc_html__( 'Expand All', 'add-search-to-menu' ) . '</a><a class="collapse" href="#" style="display:none;">' . esc_html__( 'Collapse All', 'add-search-to-menu' ) . '</a></span>' ;
             }
             echo  '</h3><div>' ;
@@ -136,27 +130,6 @@ class IS_Settings_Fields
                 'ivory_search'
             );
             add_settings_field(
-                'ivory_search_header',
-                __( 'Header Search', 'add-search-to-menu' ),
-                array( $this, 'header' ),
-                'ivory_search',
-                'ivory_search_settings'
-            );
-            add_settings_field(
-                'ivory_search_footer',
-                __( 'Footer Search', 'add-search-to-menu' ),
-                array( $this, 'footer' ),
-                'ivory_search',
-                'ivory_search_settings'
-            );
-            add_settings_field(
-                'ivory_search_display_in_header',
-                __( 'Mobile Search', 'add-search-to-menu' ),
-                array( $this, 'menu_search_in_header' ),
-                'ivory_search',
-                'ivory_search_settings'
-            );
-            add_settings_field(
                 'ivory_search_css',
                 __( 'Custom CSS', 'add-search-to-menu' ),
                 array( $this, 'custom_css' ),
@@ -178,6 +151,27 @@ class IS_Settings_Fields
                 'ivory_search_settings'
             );
             add_settings_field(
+                'ivory_search_header',
+                __( 'Header Search', 'add-search-to-menu' ),
+                array( $this, 'header' ),
+                'ivory_search',
+                'ivory_search_settings'
+            );
+            add_settings_field(
+                'ivory_search_footer',
+                __( 'Footer Search', 'add-search-to-menu' ),
+                array( $this, 'footer' ),
+                'ivory_search',
+                'ivory_search_settings'
+            );
+            add_settings_field(
+                'ivory_search_display_in_header',
+                __( 'Mobile Search', 'add-search-to-menu' ),
+                array( $this, 'menu_search_in_header' ),
+                'ivory_search',
+                'ivory_search_settings'
+            );
+            add_settings_field(
                 'not_load_files',
                 __( 'Plugin Files', 'add-search-to-menu' ),
                 array( $this, 'plugin_files' ),
@@ -186,8 +180,8 @@ class IS_Settings_Fields
             );
             add_settings_field(
                 'ivory_search_extras',
-                __( 'Extras', 'add-search-to-menu' ),
-                array( $this, 'extras' ),
+                __( 'Advanced', 'add-search-to-menu' ),
+                array( $this, 'advanced' ),
                 'ivory_search',
                 'ivory_search_settings'
             );
@@ -203,7 +197,7 @@ class IS_Settings_Fields
                 );
                 add_settings_field(
                     'ivory_search_locations',
-                    __( 'Menu Search Form Settings', 'add-search-to-menu' ),
+                    __( 'Menu Search Settings', 'add-search-to-menu' ),
                     array( $this, 'menu_settings' ),
                     'ivory_search',
                     'ivory_search_section'
@@ -239,7 +233,7 @@ class IS_Settings_Fields
      */
     function menu_search_section_desc()
     {
-        echo  '<h4 class="panel-desc">' . __( 'Display search in menu and configure it using below options.', 'add-search-to-menu' ) . '</h4>' ;
+        echo  '<h4 class="panel-desc">' . __( 'Configure Menu Search', 'add-search-to-menu' ) . '</h4>' ;
     }
     
     /**
@@ -247,7 +241,7 @@ class IS_Settings_Fields
      */
     function analytics_section_desc()
     {
-        echo  '<h4 class="panel-desc">' . __( 'Configure search analytics settings.', 'add-search-to-menu' ) . '</h4>' ;
+        echo  '<h4 class="panel-desc">' . __( 'Search Analytics', 'add-search-to-menu' ) . '</h4>' ;
     }
     
     /**
@@ -255,7 +249,7 @@ class IS_Settings_Fields
      */
     function settings_section_desc()
     {
-        echo  '<h4 class="panel-desc">' . __( 'Make search changes on entire website using below options.', 'add-search-to-menu' ) . '</h4>' ;
+        echo  '<h4 class="panel-desc">' . __( 'Advanced Website Search Settings', 'add-search-to-menu' ) . '</h4>' ;
     }
     
     /**
@@ -380,15 +374,6 @@ class IS_Settings_Fields
         echo  '<div>' . $html . '</div> <br /><br />' ;
         echo  '</div>' ;
         /**
-         * Displays search menu classes field.
-         */
-        $content = __( 'Add class to search form menu item.', 'add-search-to-menu' );
-        IS_Help::help_info( $content );
-        $this->opt['menu_classes'] = ( isset( $this->opt['menu_classes'] ) ? $this->opt['menu_classes'] : '' );
-        $html = '<input type="text" class="ivory_search_classes" id="is_menu_classes" name="is_menu_search[menu_classes]" value="' . esc_attr( $this->opt['menu_classes'] ) . '" />';
-        $html .= '<br /><label for="is_menu_classes" style="font-size: 10px;">' . esc_html__( "Add multiple classes seperated by space.", 'add-search-to-menu' ) . '</label>';
-        echo  '<div>' . $html . '</div> <br /><br />' ;
-        /**
          * Displays menu search form field.
          */
         $content = __( 'Select search form that will control menu search functionality.', 'add-search-to-menu' );
@@ -420,6 +405,15 @@ class IS_Settings_Fields
         
         echo  '<div>' . $html . '</div><br /><br />' ;
         /**
+         * Displays search menu classes field.
+         */
+        $content = __( 'Add class to search form menu item.', 'add-search-to-menu' );
+        IS_Help::help_info( $content );
+        $this->opt['menu_classes'] = ( isset( $this->opt['menu_classes'] ) ? $this->opt['menu_classes'] : '' );
+        $html = '<input type="text" class="ivory_search_classes" id="is_menu_classes" name="is_menu_search[menu_classes]" value="' . esc_attr( $this->opt['menu_classes'] ) . '" />';
+        $html .= '<br /><label for="is_menu_classes" style="font-size: 10px;">' . esc_html__( "Add multiple classes seperated by space.", 'add-search-to-menu' ) . '</label>';
+        echo  '<div>' . $html . '</div> <br /><br />' ;
+        /**
          * Displays google cse field.
          */
         $content = __( 'Add Google Custom Search( CSE ) search form code that will replace default search form.', 'add-search-to-menu' );
@@ -441,7 +435,7 @@ class IS_Settings_Fields
         $html .= '<option value="1"' . selected( 1, $check_value, false ) . ' >' . __( 'Disabled', 'add-search-to-menu' ) . '</option>';
         $html .= '</select> ' . esc_html__( 'Google Analytics tracking for searches', 'add-search-to-menu' ) . '</label>';
         echo  '<div>' . $html ;
-        echo  '<div class="analytics-info"><br/><br/><p>' . __( 'Uses Google Analytics to track searches.', 'add-search-to-menu' ) . '</p>' ;
+        echo  '<div class="analytics-info"><br/><br/><p>' . __( 'Search Analytics uses Google Analytics to track searches.', 'add-search-to-menu' ) . '</p>' ;
         echo  '<p>' . sprintf( __( "You need %s Google Analytics %s to be installed on your site.", 'add-search-to-menu' ), "<a target='_blank' href='https://developers.google.com/analytics/devguides/collection/analyticsjs/'>", '</a>' ) . '</p>' ;
         echo  '<p>' . __( "Data will be visible inside Google Analytics 'Events' and 'Site Search' report.", 'add-search-to-menu' ) . '</p>' ;
         echo  '<br/><p>' . __( "Events will be as below:", 'add-search-to-menu' ) . '</p>' ;
@@ -460,8 +454,7 @@ class IS_Settings_Fields
      */
     function header()
     {
-        $content = __( 'Select search form to display in site header( Not Menu ).', 'add-search-to-menu' );
-        IS_Help::help_info( $content );
+        echo  __( 'Select search form to display in site header( Not Menu ).', 'add-search-to-menu' ) . '<br /><br />' ;
         $html = '';
         $args = array(
             'numberposts' => -1,
@@ -494,8 +487,7 @@ class IS_Settings_Fields
      */
     function footer()
     {
-        $content = __( 'Select search form to display in site footer.', 'add-search-to-menu' );
-        IS_Help::help_info( $content );
+        echo  __( 'Select search form to display in site footer.', 'add-search-to-menu' ) . '<br /><br />' ;
         $html = '';
         $args = array(
             'numberposts' => -1,
@@ -548,8 +540,7 @@ class IS_Settings_Fields
      */
     function custom_css()
     {
-        $content = __( 'Add custom css code.', 'add-search-to-menu' );
-        IS_Help::help_info( $content );
+        echo  __( 'Add custom CSS code.', 'add-search-to-menu' ) . '<br /><br />' ;
         $this->opt['custom_css'] = ( isset( $this->opt['custom_css'] ) ? $this->opt['custom_css'] : '' );
         $html = '<textarea class="ivory_search_css" rows="4" id="custom_css" name="is_settings[custom_css]" >' . esc_attr( $this->opt['custom_css'] ) . '</textarea>';
         echo  '<div>' . $html . '</div>' ;
@@ -560,8 +551,7 @@ class IS_Settings_Fields
      */
     function stopwords()
     {
-        $content = __( 'Enter stopwords here that will not be searched.', 'add-search-to-menu' );
-        IS_Help::help_info( $content );
+        echo  __( 'Add Stopwords that will not be searched.', 'add-search-to-menu' ) . '<br /><br />' ;
         $this->opt['stopwords'] = ( isset( $this->opt['stopwords'] ) ? $this->opt['stopwords'] : '' );
         $html = '<textarea class="ivory_search_stopwords" rows="4" id="stopwords" name="is_settings[stopwords]" >' . esc_attr( $this->opt['stopwords'] ) . '</textarea>';
         $html .= '<br /><label for="stopwords" style="font-size: 10px;">' . esc_html__( "Please separate multiple words with commas.", 'add-search-to-menu' ) . '</label>';
@@ -573,15 +563,15 @@ class IS_Settings_Fields
      */
     function synonyms()
     {
-        $content = __( 'Add synonyms here to make the searches find better results.', 'add-search-to-menu' );
-        $content .= '<br /><br />' . __( 'If you add bird = crow to the list of synonyms, searches for bird automatically become a search for bird crow and will thus match to posts that include either bird or crow.', 'add-search-to-menu' );
-        $content .= '<br /><br /><span class="is-info-warning">' . __( 'This only works for search forms configured to search any of the search terms(OR) and not all search terms(AND) in the search form Options.', 'add-search-to-menu' ) . '</span>';
+        echo  __( 'Add synonyms to make the searches find better results.', 'add-search-to-menu' ) . '<br /><br />' ;
+        $content = __( 'If you add bird = crow to the list of synonyms, searches for bird automatically become a search for bird crow and will thus match to posts that include either bird or crow.', 'add-search-to-menu' );
         IS_Help::help_info( $content );
         $this->opt['synonyms'] = ( isset( $this->opt['synonyms'] ) ? $this->opt['synonyms'] : '' );
         $html = '<textarea class="ivory_search_synonyms" rows="4" id="synonyms" name="is_settings[synonyms]" >' . esc_attr( $this->opt['synonyms'] ) . '</textarea>';
         $html .= '<br /><label for="synonyms" style="font-size: 10px;">' . esc_html__( 'The format here is key = value', 'add-search-to-menu' ) . '</label>';
         $html .= '<br /><label for="synonyms" style="font-size: 10px;">' . esc_html__( 'Please add every synonyms key = value pairs on new line.', 'add-search-to-menu' ) . '</label>';
         echo  '<div>' . $html . '</div>' ;
+        echo  '<br /><span class="is-help"><span class="is-info-warning">' . __( 'This only works for search forms configured to search any of the search terms(OR) and not all search terms(AND) in the search form Options.', 'add-search-to-menu' ) . '</span></span>' ;
         $html = '';
     }
     
@@ -624,12 +614,12 @@ class IS_Settings_Fields
         echo  '<div>' . $html . '</div>' ;
     }
     
-    function extras()
+    function advanced()
     {
         /**
          * Controls default search functionality.
          */
-        $content = __( 'Warning: Use with caution.', 'add-search-to-menu' );
+        $content = '<span class="is-info-warning">' . __( 'Warning: Use with caution.', 'add-search-to-menu' ) . '</span>';
         IS_Help::help_info( $content );
         $check_value = ( isset( $this->opt['default_search'] ) ? $this->opt['default_search'] : 0 );
         $disable = checked( 1, $check_value, false );

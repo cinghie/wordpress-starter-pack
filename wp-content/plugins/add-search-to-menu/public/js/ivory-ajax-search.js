@@ -23,12 +23,12 @@
                             $( '#is-ajax-search-details-'+form_id+' .is-ajax-search-items' ).css( 'height', result_box_max_height + 'px' );
                             $( '#is-ajax-search-details-'+form_id+' .mCSB_container > div' ).css( 'min-height', result_box_max_height + 'px' );
 
-                            if ( $( this ).parents('div').hasClass('is-ajax-search-tags') ) {
+                            if ( $( this ).parents('div').hasClass('is-ajax-search-tags') && $( '#is-ajax-search-details-'+form_id+' .is-ajax-search-tags-details' ).length && $( '#is-ajax-search-details-'+form_id+' .is-ajax-search-tags-details > div[data-id="'+id+'"]' ).length ) {
                                     $( '#is-ajax-search-details-'+form_id+' .is-ajax-search-tags-details, #is-ajax-search-details-'+form_id ).show();
                                     $( '#is-ajax-search-details-'+form_id+' .is-ajax-search-categories-details, #is-ajax-search-details-'+form_id+' .is-ajax-search-posts-details' ).hide();
                                     $( '#is-ajax-search-details-'+form_id+' .is-ajax-search-tags-details' ).find(' > div ').hide();
                                     $( '#is-ajax-search-details-'+form_id+' .is-ajax-search-tags-details' ).find(' > div[data-id="'+id+'"] ').show();
-                            } else if( $( this ).parents('div').hasClass('is-ajax-search-categories') ) {
+                            } else if( $( this ).parents('div').hasClass('is-ajax-search-categories') && $( '#is-ajax-search-details-'+form_id+' .is-ajax-search-categories-details' ).length && $( '#is-ajax-search-details-'+form_id+' .is-ajax-search-categories-details > div[data-id="'+id+'"]' ).length ) {
                                     $( '#is-ajax-search-details-'+form_id+' .is-ajax-search-categories-details, #is-ajax-search-details-'+form_id ).show();
                                     $( '#is-ajax-search-details-'+form_id+' .is-ajax-search-tags-details, #is-ajax-search-details-'+form_id+' .is-ajax-search-posts-details' ).hide();
                                     $( '#is-ajax-search-details-'+form_id+' .is-ajax-search-categories-details' ).find('> div ').hide();
@@ -52,10 +52,11 @@
                         width: ( width - 10 ) + "px",
                     });
                     var pos = $( event.target ).closest('.is-ajax-search').offset();
-                    var height = $( event.target ).closest('.is-ajax-search').outerHeight();
+                    var height = $( event.target ).closest('.is-ajax-search').innerHeight();
                     var result_width = $( '#is-ajax-search-result-'+form_id ).outerWidth();
                     var window_width = $(window).width();
                     var reduce_left_pos = 0;
+
                     if ( ( pos.left + result_width ) > window_width ) {
                         reduce_left_pos = ( pos.left + result_width ) - window_width;
                     }
@@ -63,13 +64,18 @@
                         top: (pos.top+height) + "px",
                         left: (pos.left-reduce_left_pos) + "px"
                     });
+
                     $( '.is-ajax-search-result, .is-ajax-search-details' ).hide();
                     $('#is-ajax-search-result-'+form_id).show();
 
                     if ( 0 !== $( '#is-ajax-search-details-'+form_id ).length ) {
+                        var details_width = $( '#is-ajax-search-details-'+form_id ).outerWidth();
                         var details_left = pos.left+result_width;
-                        if ( 0 !== reduce_left_pos ) {
-                            details_left = pos.left - ( reduce_left_pos + $( '#is-ajax-search-details-'+form_id ).outerWidth());
+                        if ( ( pos.left + result_width + details_width ) > ( window_width + 30 ) ) {
+                            var temp = pos.left - ( reduce_left_pos + details_width );
+                            if ( temp > -30 ) {
+                                details_left = temp;
+                            }
                         }
                         $('#is-ajax-search-details-'+form_id).css({
                             top: (pos.top+height) + "px",
@@ -79,9 +85,14 @@
                 }
             });
 
+            $('.is-ajax-search .is-search-input').on('focusout', function() {
+                focused = false;
+            });
+
             $('body').on( 'mousedown', function(event) {
 	        if ( 's' !== $(event.target).attr('name') && 0 === $(event.target).closest('.is-ajax-search-result').length && 0 === $(event.target).closest('.is-ajax-search-details').length ) {
 	        	$( '.is-ajax-search-result, .is-ajax-search-details' ).hide();
+                focused = false;
 	        }
 	    });
 
@@ -121,30 +132,41 @@
             
             $(window).on('resize scroll', function(){
                 if ( $( focused ).hasClass( 'is-ajax-search' ) ) {
+
                     var form_id = $( focused ).attr( 'data-form-id' );
-                    var pos = $( focused ).offset();
-                    var height = $( focused ).outerHeight();
+
                     if ( 0 !== $('#is-ajax-search-result-'+form_id).length ) {
-                        var result_width = $( '#is-ajax-search-result-'+form_id ).outerWidth();
-                        var window_width = $(window).width();
-                        var reduce_left_pos = 0;
-                        if ( ( pos.left + result_width ) > window_width ) {
-                            reduce_left_pos = ( pos.left + result_width ) - window_width;
-                        }
-                        $('#is-ajax-search-result-'+form_id).css({
-                            top: (pos.top+height) + "px",
-                            left: (pos.left-reduce_left_pos) + "px"
-                        });
-                        if ( 0 !== $('#is-ajax-search-details-'+form_id).length ) {
-                            var details_left = pos.left+result_width;
-                            if ( 0 !== reduce_left_pos ) {
-                                details_left = pos.left - ( reduce_left_pos + $( '#is-ajax-search-details-'+form_id ).outerWidth());
+
+                    var pos = $( focused ).offset();
+                    var height = $( focused ).innerHeight();
+                    var result_width = $( '#is-ajax-search-result-'+form_id ).outerWidth();
+                    var window_width = $(window).width();
+                    var reduce_left_pos = 0;
+                    if ( ( pos.left + result_width ) > window_width ) {
+                        reduce_left_pos = ( pos.left + result_width ) - window_width;
+                    }
+                    $('#is-ajax-search-result-'+form_id).css({
+                        top: (pos.top+height) + "px",
+                        left: (pos.left-reduce_left_pos) + "px"
+                    });
+                    
+                    $( '.is-ajax-search-result, .is-ajax-search-details' ).hide();
+                    $('#is-ajax-search-result-'+form_id).show();
+
+                    if ( 0 !== $( '#is-ajax-search-details-'+form_id ).length ) {
+                        var details_width = $( '#is-ajax-search-details-'+form_id ).outerWidth();
+                        var details_left = pos.left+result_width;
+                        if ( ( pos.left + result_width + details_width ) > ( window_width + 30 ) ) {
+                            var temp = pos.left - ( reduce_left_pos + details_width );
+                            if ( temp > -30 ) {
+                                details_left = temp;
                             }
-                            $('#is-ajax-search-details-'+form_id).css({
-                                top: (pos.top+height) + "px",
-                                left: (details_left) + "px"
-                            });
                         }
+                        $('#is-ajax-search-details-'+form_id).css({
+                            top: (pos.top+height) + "px",
+                            left: (details_left) + "px"
+                        });
+                    }
                     }
                 }
             });
@@ -233,7 +255,7 @@
 
 						if ( 1 === page ) {
                                                         var pos = search_form.offset();
-                                                        var height = search_form.outerHeight();
+                                                        var height = search_form.innerHeight();
                                                         var width = search_form.outerWidth();
                                                         width = ( width < 500 ) ? 500 : width;
 
@@ -248,6 +270,7 @@
                                                         var result_width = $( '#is-ajax-search-result-'+form_id ).outerWidth();
                                                         var window_width = $(window).width();
                                                         var reduce_left_pos = 0;
+
                                                         if ( ( pos.left + result_width ) > window_width ) {
                                                             reduce_left_pos = ( pos.left + result_width ) - window_width;
                                                         }
@@ -264,9 +287,13 @@
                                                         if ( 0 !== $( '#is-ajax-search-result-'+form_id + ' .is-ajax-search-details' ) .length ) {
                                                             $('body').append( '<div id="is-ajax-search-details-'+form_id+'" class="is-ajax-search-details">' + $( '#is-ajax-search-result-'+form_id + ' .is-ajax-search-details' ).html() + '</div>' );
                                                             $( '#is-ajax-search-result-'+form_id + ' .is-ajax-search-details' ).remove();
+                                                            var details_width = $( '#is-ajax-search-details-'+form_id ).outerWidth();
                                                             var details_left = pos.left+result_width;
-                                                            if ( 0 !== reduce_left_pos ) {
-                                                                details_left = pos.left - ( reduce_left_pos + $( '#is-ajax-search-details-'+form_id ).outerWidth());
+                                                            if ( ( pos.left + result_width + details_width ) > ( window_width + 30 ) ) {
+                                                                var temp = pos.left - ( reduce_left_pos + details_width );
+                                                                if ( temp > -30 ) {
+                                                                    details_left = temp;
+                                                                }
                                                             }
                                                             $('#is-ajax-search-details-'+form_id).css({
                                                                 top: (pos.top+height) + "px",
