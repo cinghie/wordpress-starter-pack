@@ -1,122 +1,122 @@
 <?php return array (
   'sans-serif' => 
   array (
-    'normal' => $fontDir . '/Helvetica',
-    'bold' => $fontDir . '/Helvetica-Bold',
-    'italic' => $fontDir . '/Helvetica-Oblique',
-    'bold_italic' => $fontDir . '/Helvetica-BoldOblique',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Helvetica',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Helvetica-Bold',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Helvetica-Oblique',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Helvetica-BoldOblique',
   ),
   'times' => 
   array (
-    'normal' => $fontDir . '/Times-Roman',
-    'bold' => $fontDir . '/Times-Bold',
-    'italic' => $fontDir . '/Times-Italic',
-    'bold_italic' => $fontDir . '/Times-BoldItalic',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Times-Roman',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Times-Bold',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Times-Italic',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Times-BoldItalic',
   ),
   'times-roman' => 
   array (
-    'normal' => $fontDir . '/Times-Roman',
-    'bold' => $fontDir . '/Times-Bold',
-    'italic' => $fontDir . '/Times-Italic',
-    'bold_italic' => $fontDir . '/Times-BoldItalic',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Times-Roman',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Times-Bold',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Times-Italic',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Times-BoldItalic',
   ),
   'courier' => 
   array (
-    'normal' => $fontDir . '/Courier',
-    'bold' => $fontDir . '/Courier-Bold',
-    'italic' => $fontDir . '/Courier-Oblique',
-    'bold_italic' => $fontDir . '/Courier-BoldOblique',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Courier',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Courier-Bold',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Courier-Oblique',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Courier-BoldOblique',
   ),
   'helvetica' => 
   array (
-    'normal' => $fontDir . '/Helvetica',
-    'bold' => $fontDir . '/Helvetica-Bold',
-    'italic' => $fontDir . '/Helvetica-Oblique',
-    'bold_italic' => $fontDir . '/Helvetica-BoldOblique',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Helvetica',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Helvetica-Bold',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Helvetica-Oblique',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Helvetica-BoldOblique',
   ),
   'zapfdingbats' => 
   array (
-    'normal' => $fontDir . '/ZapfDingbats',
-    'bold' => $fontDir . '/ZapfDingbats',
-    'italic' => $fontDir . '/ZapfDingbats',
-    'bold_italic' => $fontDir . '/ZapfDingbats',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/ZapfDingbats',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/ZapfDingbats',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/ZapfDingbats',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/ZapfDingbats',
   ),
   'symbol' => 
   array (
-    'normal' => $fontDir . '/Symbol',
-    'bold' => $fontDir . '/Symbol',
-    'italic' => $fontDir . '/Symbol',
-    'bold_italic' => $fontDir . '/Symbol',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Symbol',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Symbol',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Symbol',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Symbol',
   ),
   'serif' => 
   array (
-    'normal' => $fontDir . '/Times-Roman',
-    'bold' => $fontDir . '/Times-Bold',
-    'italic' => $fontDir . '/Times-Italic',
-    'bold_italic' => $fontDir . '/Times-BoldItalic',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Times-Roman',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Times-Bold',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Times-Italic',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Times-BoldItalic',
   ),
   'monospace' => 
   array (
-    'normal' => $fontDir . '/Courier',
-    'bold' => $fontDir . '/Courier-Bold',
-    'italic' => $fontDir . '/Courier-Oblique',
-    'bold_italic' => $fontDir . '/Courier-BoldOblique',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Courier',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Courier-Bold',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Courier-Oblique',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Courier-BoldOblique',
   ),
   'fixed' => 
   array (
-    'normal' => $fontDir . '/Courier',
-    'bold' => $fontDir . '/Courier-Bold',
-    'italic' => $fontDir . '/Courier-Oblique',
-    'bold_italic' => $fontDir . '/Courier-BoldOblique',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Courier',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Courier-Bold',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Courier-Oblique',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Courier-BoldOblique',
   ),
   'dejavu sans' => 
   array (
-    'bold' => $fontDir . '/DejaVuSans-Bold',
-    'bold_italic' => $fontDir . '/DejaVuSans-BoldOblique',
-    'italic' => $fontDir . '/DejaVuSans-Oblique',
-    'normal' => $fontDir . '/DejaVuSans',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/DejaVuSans-Bold',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/DejaVuSans-BoldOblique',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/DejaVuSans-Oblique',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/DejaVuSans',
   ),
   'dejavu sans mono' => 
   array (
-    'bold' => $fontDir . '/DejaVuSansMono-Bold',
-    'bold_italic' => $fontDir . '/DejaVuSansMono-BoldOblique',
-    'italic' => $fontDir . '/DejaVuSansMono-Oblique',
-    'normal' => $fontDir . '/DejaVuSansMono',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/DejaVuSansMono-Bold',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/DejaVuSansMono-BoldOblique',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/DejaVuSansMono-Oblique',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/DejaVuSansMono',
   ),
   'dejavu serif' => 
   array (
-    'bold' => $fontDir . '/DejaVuSerif-Bold',
-    'bold_italic' => $fontDir . '/DejaVuSerif-BoldItalic',
-    'italic' => $fontDir . '/DejaVuSerif-Italic',
-    'normal' => $fontDir . '/DejaVuSerif',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/DejaVuSerif-Bold',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/DejaVuSerif-BoldItalic',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/DejaVuSerif-Italic',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/DejaVuSerif',
   ),
   'open sans' => 
   array (
-    'normal' => $fontDir . '/OpenSans-Normal',
-    'bold' => $fontDir . '/OpenSans-Bold',
-    'italic' => $fontDir . '/OpenSans-Italic',
-    'bold_italic' => $fontDir . '/OpenSans-BoldItalic',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/OpenSans-Normal',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/OpenSans-Bold',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/OpenSans-Italic',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/OpenSans-BoldItalic',
   ),
   'segoe' => 
   array (
-    'normal' => $fontDir . '/Segoe-Normal',
-    'bold' => $fontDir . '/Segoe-Bold',
-    'italic' => $fontDir . '/Segoe-Italic',
-    'bold_italic' => $fontDir . '/Segoe-BoldItalic',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Segoe-Normal',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Segoe-Bold',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Segoe-Italic',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/Segoe-BoldItalic',
   ),
   'roboto slab' => 
   array (
-    'normal' => $fontDir . '/RobotoSlab-Normal',
-    'bold' => $fontDir . '/RobotoSlab-Bold',
-    'italic' => $fontDir . '/RobotoSlab-Italic',
-    'bold_italic' => $fontDir . '/RobotoSlab-BoldItalic',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/RobotoSlab-Normal',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/RobotoSlab-Bold',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/RobotoSlab-Italic',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/RobotoSlab-BoldItalic',
   ),
   'currencies' => 
   array (
-    'normal' => $fontDir . '/currencies',
-    'bold' => $fontDir . '/currencies',
-    'italic' => $fontDir . '/currencies',
-    'bold_italic' => $fontDir . '/currencies',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/currencies',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/currencies',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/currencies',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce/wp-content/uploads/wpo_wcpdf/fonts/currencies',
   ),
 );
 ?>
