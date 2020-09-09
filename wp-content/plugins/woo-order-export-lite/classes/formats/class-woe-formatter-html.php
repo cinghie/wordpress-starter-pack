@@ -29,7 +29,7 @@ class WOE_Formatter_Html extends WOE_Formatter_Plain_Format {
 		parent::__construct( $mode, $filename, $settings, $format, $labels, $field_formats, $date_format, $offset );
 
 		$this->css = $this->get_prepared_css();
-		
+
 		//to support IMAGES
 		$field_formats = $this->field_formats['order']; // overwrite! probably modified by parent
 		$this->image_format_fields = isset( $field_formats['image'] ) ? $field_formats['image'] : array();
@@ -51,7 +51,8 @@ class WOE_Formatter_Html extends WOE_Formatter_Plain_Format {
 		    if( $this->settings['custom_css'] )
 			$this->css['style'] = '';
 
-		    fwrite( $this->handle, '<html><head><style type="text/css">'.$this->css['style'].$this->settings['custom_css'].'</style></head><body>' );
+			$meta_encoding = apply_filters("woe_html_meta_encoding", '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />');
+		    fwrite( $this->handle, '<html><head>' . $meta_encoding . '<style type="text/css">'.$this->css['style'].$this->settings['custom_css'].'</style></head><body>' );
 		}
 
 		if ( ! empty( $this->settings['display_column_names'] ) AND $data ) {
@@ -86,7 +87,7 @@ class WOE_Formatter_Html extends WOE_Formatter_Plain_Format {
 					continue;
 				}
 			}
-			
+
 			//to support IMAGES
 			foreach ( $row as $column => &$cell ) {
 				if ( $this->field_format_is( $column, $this->image_format_fields ) ) {
@@ -132,8 +133,7 @@ class WOE_Formatter_Html extends WOE_Formatter_Plain_Format {
 			}
 
 			fwrite( $this->handle, '<table>' );
-
-			if ( count( $this->rows ) < 2 ) {
+			if ( $this->settings['display_column_names'] && count( $this->rows ) < 2 || count( $this->rows ) < 1 ) {
 				$this->rows[] = array( '<td colspan=10 style="'.$this->css['inline']['td'].'"><b>' . __( 'No results', 'woo-order-export-lite' ) .'</b></td>' );
 			}
 			foreach ( $this->rows as $num => $rec ) {

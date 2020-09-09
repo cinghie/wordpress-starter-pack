@@ -1,11 +1,11 @@
 === Advanced Order Export For WooCommerce ===
 Contributors: algolplus
-Donate link: https://algolplus.com/plugins/
+Donate link: https://paypal.me/ipprokaev/0usd
 Tags: woocommerce,export,order,xls,csv,xml,woo export lite,export orders,orders export,csv export,xml export,xls export,tsv
 Requires PHP: 5.4.0
 Requires at least: 4.7
-Tested up to: 5.4
-Stable tag: 3.1.4
+Tested up to: 5.5
+Stable tag: 3.1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,9 +61,11 @@ Install and activate plugin, visit WooCommerce > Export Orders.
 
 == Frequently Asked Questions ==
 
-Need help? Create ticket in [helpdesk system](https://algolplus.freshdesk.com). Don't forget to attach your settings or some screenshots. It will significantly reduce reply time :)
+Please, review [user guide](https://docs.algolplus.com/order-export-docs/) at first.
 
 Check [some snippets](https://algolplus.com/plugins/snippets-plugins/) for popular plugins or review  [this page](https://algolplus.com/plugins/code-samples/) to study how to extend the plugin.
+
+Still need help? Create ticket in [helpdesk system](https://algolplus.freshdesk.com). Don't forget to attach your settings or some screenshots. It will significantly reduce reply time :)
 
 = I want to add a product attribute to the export  =
 Check screenshot #5! You should open section "Set up fields", open section "Product order items"(right column), click button "Add field", select field in 1st dropdown, type column title and press button "Confirm".
@@ -98,6 +100,9 @@ You  should open tab "CSV" and set up ISO-8859-1 as codepage.
 = Preview shows wrong values,  I use Summary mode =
 This button processes only first 5 orders by default, so you should run the export to see correct values.
 
+= Is it compatible with "WooCommerce Custom Orders Table" plugin (by Liquid Web) ? =
+No, as we provide a lot of filters which can not be implemented using WooCommerce classes. So we use direct access to database/tables.
+
 = Can I request any new feature ? =
 Yes, you can email a request to aprokaev@gmail.com. We intensively develop this plugin.
 
@@ -111,6 +116,23 @@ Yes, you can email a request to aprokaev@gmail.com. We intensively develop this 
 6. Select orders to export and use "bulk action".
 
 == Changelog ==
+
+= 3.1.5 - 2020-08-24 =
+* Compatible with PHP 7.4
+* Added option "Format output" (XML format)
+* Added option "Don't break order lines by 2 pages" (PDF format)
+* Added option "Add links to images" (PDF format)
+* Added option "Try to convert serialized values" (Misc Settings)
+* Added fields "Summary Report Total Fee Amount", "Summary Report Total Tax Amount"
+* Fixed bug - 'wc doing it wrong' notice (direct access to product parent property)
+* Fixed bug - option "Change order status" worked only for button "Export w/o progress"
+* Fixed bug - option "Add products as " = "0 columns" incorrectly worked for button "Export"
+* Fixed bug - field "Embedded Product Image" showed parent image for variation
+* Fixed bug - mode "Summary Report By Products" incorrectly worked with variations
+* Fixed bug - custom and static fields were empty in "Summary by customers" mode
+* Fixed bug - draft products were visible in autocomplete
+* Fixed bug - button "Import" was shown as disabled at tab "Tools"
+* New hooks for PDF format
 
 = 3.1.4 - 2020-04-15 =
 * Prevent XSS attack (CVE-2020-11727). Thank Jack Misiura​ for reporting this vulnerability!

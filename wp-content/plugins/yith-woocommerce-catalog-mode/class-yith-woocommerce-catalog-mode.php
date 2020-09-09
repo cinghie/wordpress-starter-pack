@@ -1,9 +1,18 @@
 <?php
-
+/**
+ * This file belongs to the YIT Plugin Framework.
+ *
+ * This source file is subject to the GNU GENERAL PUBLIC LICENSE (GPL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.gnu.org/licenses/gpl-3.0.txt
+ *
+ * @package YITH WooCommerce Catalog Mode
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-} // Exit if accessed directly
+	exit; // Exit if accessed directly.
+}
 
 if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 
@@ -24,27 +33,35 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 * @var     /Yit_Plugin_Panel object
 		 * @see     plugin-fw/lib/yit-plugin-panel.php
 		 */
-		protected $_panel;
+		protected $panel;
 
 		/**
-		 * @var $_premium string Premium tab template file name
+		 * Premium tab template file name
+		 *
+		 * @var string
 		 */
-		protected $_premium = 'premium.php';
+		protected $premium = 'premium.php';
 
 		/**
-		 * @var string Premium version landing link
+		 * Premium version landing link
+		 *
+		 * @var string
 		 */
-		protected $_premium_landing = 'https://yithemes.com/themes/plugins/yith-woocommerce-catalog-mode/';
+		protected $premium_landing = 'https://yithemes.com/themes/plugins/yith-woocommerce-catalog-mode/';
 
 		/**
-		 * @var string Plugin official documentation
+		 * Plugin official documentation
+		 *
+		 * @var string
 		 */
-		protected $_official_documentation = 'https://docs.yithemes.com/yith-woocommerce-catalog-mode/';
+		protected $official_documentation = 'https://docs.yithemes.com/yith-woocommerce-catalog-mode/';
 
 		/**
-		 * @var string Yith WooCommerce Catalog Mode panel page
+		 * Yith WooCommerce Catalog Mode panel page
+		 *
+		 * @var string
 		 */
-		protected $_panel_page = 'yith_wc_catalog_mode_panel';
+		protected $panel_page = 'yith_wc_catalog_mode_panel';
 
 		/**
 		 * Single instance of the class
@@ -63,7 +80,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		public static function get_instance() {
 
 			if ( is_null( self::$instance ) ) {
-				self::$instance = new self;
+				self::$instance = new self();
 			}
 
 			return self::$instance;
@@ -81,10 +98,10 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 */
 		public function __construct() {
 
-			// Load Plugin Framework
+			// Load Plugin Framework.
 			add_action( 'plugins_loaded', array( $this, 'plugin_fw_loader' ), 15 );
 
-			//Add action links
+			// Add action links.
 			add_filter( 'plugin_action_links_' . plugin_basename( YWCTM_DIR . '/' . basename( YWCTM_FILE ) ), array( $this, 'action_links' ) );
 			add_filter( 'yith_show_plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 5 );
 			add_action( 'init', array( $this, 'set_plugin_requirements' ), 20 );
@@ -122,13 +139,13 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 */
 		public function include_files() {
 
-			//Check if options should be upgraded
+			// Check if options should be upgraded.
 			$update_path = YWCTM_DIR . 'includes/actions/update-2.0.0/ywctm-install.php';
 			if ( ( '' === get_option( 'ywctm_update_version' ) || YWCTM_VERSION === get_transient( 'ywctm_prune_settings' ) ) && file_exists( $update_path ) ) {
-				include_once( $update_path );
+				include_once $update_path;
 			}
 
-			include_once( 'includes/ywctm-functions.php' );
+			include_once 'includes/ywctm-functions.php';
 
 		}
 
@@ -139,8 +156,8 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		/**
 		 * Initialize custom fields
 		 *
-		 * @param   $path  string
-		 * @param   $field array
+		 * @param string $path  Template Path.
+		 * @param array  $field Field options.
 		 *
 		 * @return  string
 		 * @since   2.0.0
@@ -163,8 +180,8 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		/**
 		 * Sanitize array fields
 		 *
-		 * @param   $value  mixed
-		 * @param   $option array
+		 * @param mixed $value  Option value.
+		 * @param array $option Option array.
 		 *
 		 * @return  string
 		 * @since   2.0.0
@@ -199,7 +216,9 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 
 			wp_register_style( 'ywctm-admin', yit_load_css_file( YWCTM_ASSETS_URL . 'css/admin.css' ), array(), YWCTM_VERSION );
 
-			if ( ! empty( $_GET['page'] ) && ( $_GET['page'] === $this->_panel_page || 'yith_vendor_ctm_settings' === $_GET['page'] ) ) {
+			$getted = $_GET; //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+			if ( ! empty( $getted['page'] ) && ( $getted['page'] === $this->panel_page || 'yith_vendor_ctm_settings' === $getted['page'] ) ) {
 				wp_enqueue_style( 'ywctm-admin' );
 			}
 
@@ -216,7 +235,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 */
 		public function add_menu_page() {
 
-			if ( ! empty( $this->_panel ) ) {
+			if ( ! empty( $this->panel ) ) {
 				return;
 			}
 
@@ -247,13 +266,13 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 				'capability'       => 'manage_options',
 				'parent'           => '',
 				'parent_page'      => 'yith_plugin_panel',
-				'page'             => $this->_panel_page,
+				'page'             => $this->panel_page,
 				'admin-tabs'       => $admin_tabs,
 				'options-path'     => YWCTM_DIR . '/plugin-options',
 				'class'            => yith_set_wrapper_class(),
 			);
 
-			$this->_panel = new YIT_Plugin_Panel_WooCommerce( $args );
+			$this->panel = new YIT_Plugin_Panel_WooCommerce( $args );
 
 		}
 
@@ -296,7 +315,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		/**
 		 * Removes Cart and checkout pages from menu
 		 *
-		 * @param   $pages array
+		 * @param array $pages Menu pages.
 		 *
 		 * @return  array
 		 * @since   1.0.4
@@ -348,10 +367,10 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 			$cart     = is_page( wc_get_page_id( 'cart' ) );
 			$checkout = is_page( wc_get_page_id( 'checkout' ) );
 
-			wp_reset_query();
+			wp_reset_postdata();
 
 			if ( $cart || $checkout ) {
-				wp_redirect( home_url() );
+				wp_safe_redirect( home_url() );
 				exit;
 			}
 
@@ -372,7 +391,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 
 				global $post;
 
-				$post_id = isset( $post ) ? $post->ID : '';
+				$post_id = $post && $post instanceof WP_Post ? $post->ID : '';
 
 				if ( ywctm_is_wpml_active() && apply_filters( 'ywctm_wpml_use_default_language_settings', false ) ) {
 					$post_id = yit_wpml_object_id( $post_id, 'product', true, wpml_get_default_language() );
@@ -389,7 +408,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		/**
 		 * Check if Catalog mode must be applied to current user
 		 *
-		 * @param   $post_id integer
+		 * @param integer $post_id The post ID.
 		 *
 		 * @return  boolean
 		 * @since   1.3.0
@@ -445,9 +464,9 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		/**
 		 * Checks if "Add to cart" needs to be hidden
 		 *
-		 * @param   $single            $boolean
-		 * @param   $product_id        integer|boolean
-		 * @param   $ignore_variations boolean
+		 * @param boolean         $single            Check if is single page.
+		 * @param integer|boolean $product_id        The product ID.
+		 * @param boolean         $ignore_variations Should ignore variations.
 		 *
 		 * @return  boolean
 		 * @since   1.0.0
@@ -492,7 +511,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 
 				if ( ! $single ) {
 					$hide_variations = apply_filters( 'ywctm_get_vendor_option', get_option( 'ywctm_hide_variations' ), $product_id, 'ywctm_hide_variations' );
-					//APPLY_FILTERS: ywctm_hide_variations_on_loop: hide variations only on loop
+					// APPLY_FILTER: ywctm_hide_variations_on_loop: hide variations only on loop.
 					$hide_variations = apply_filters( 'ywctm_hide_variations_on_loop', $hide_variations );
 					$is_variable     = $product->is_type( 'variable' );
 					$is_grouped      = $product->is_type( 'grouped' );
@@ -541,12 +560,12 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 					}
 				}
 
-				//Set "Add to cart" button as hidden
+				// Set "Add to cart" button as hidden.
 				if ( $hide_add_to_cart && $this->apply_catalog_mode( $product_id ) && $can_hide ) {
 					$hide = true;
 				}
 
-				//If "Add to cart" button is set as visible but price is hidden then hide it anyway
+				// If "Add to cart" button is set as visible but price is hidden then hide it anyway.
 				if ( apply_filters( 'ywctm_check_price_hidden', false, $product_id ) && $can_hide ) {
 					$hide = true;
 				}
@@ -571,7 +590,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 */
 		public function enqueue_styles_frontend() {
 
-			//APPLY_FILTERS: ywctm_css_classes: CSS selector of elements that should be hidden
+			// APPLY_FILTER: ywctm_css_classes: CSS selector of elements that should be hidden.
 			$classes = apply_filters( 'ywctm_css_classes', array() );
 
 			if ( ! empty( $classes ) ) {
@@ -585,7 +604,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		/**
 		 * Hide cart widget if needed
 		 *
-		 * @param   $classes array
+		 * @param array $classes CSS Classes array.
 		 *
 		 * @return  array
 		 * @since   1.3.7
@@ -604,7 +623,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 				if ( 'storefront' === $theme_name ) {
 					$args[] = '.site-header-cart.menu';
 				}
-				//APPLY_FILTERS: ywctm_cart_widget_classes: CSS selector of cart widgets
+				// APPLY_FILTER: ywctm_cart_widget_classes: CSS selector of cart widgets.
 				$classes = array_merge( $classes, apply_filters( 'ywctm_cart_widget_classes', $args ) );
 
 			}
@@ -616,7 +635,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		/**
 		 * Hides "Add to cart" button from single product page
 		 *
-		 * @param   $classes array
+		 * @param array $classes CSS Classes array.
 		 *
 		 * @return  array
 		 * @since   1.4.4
@@ -642,7 +661,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 					$args[] = '.single_variation_wrap .variations_button';
 				}
 
-				//APPLY_FILTERS: ywctm_cart_widget_classes: CSS selector of add to cart buttons
+				// APPLY_FILTER: ywctm_cart_widget_classes: CSS selector of add to cart buttons.
 				$classes = array_merge( $classes, apply_filters( 'ywctm_catalog_classes', $args ) );
 
 			}
@@ -654,8 +673,8 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		/**
 		 * Checks if "Add to cart" needs to be avoided
 		 *
-		 * @param   $passed     boolean
-		 * @param   $product_id integer
+		 * @param boolean $passed     Add to cart valid checker.
+		 * @param integer $product_id The product ID.
 		 *
 		 * @return  boolean
 		 * @since   1.0.5
@@ -693,12 +712,12 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 
 				$hide_add_to_cart = ( 'hide' === $behavior && 'all' === $where );
 
-				//Set "Add to cart" button as hidden
+				// Set "Add to cart" button as hidden.
 				if ( $hide_add_to_cart && $this->apply_catalog_mode( $product_id ) ) {
 					$passed = false;
 				}
 
-				//If "Add to cart" button is set as visible but price is hidden then hide it anyway
+				// If "Add to cart" button is set as visible but price is hidden then hide it anyway.
 				if ( apply_filters( 'ywctm_check_price_hidden', false, $product_id ) ) {
 					$passed = false;
 				}
@@ -715,8 +734,8 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		/**
 		 * Checks if "Add to cart" needs to be hidden
 		 *
-		 * @param   $x          boolean @deprecated
-		 * @param   $product_id integer|boolean
+		 * @param boolean         $x          Unused.
+		 * @param integer|boolean $product_id The Product ID.
 		 *
 		 * @return  bool
 		 * @since   1.0.2
@@ -751,15 +770,16 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		public function is_quick_view() {
 
 			$actions = apply_filters( 'ywctm_quick_view_actions', array( 'yith_load_product_quick_view', 'yit_load_product_quick_view' ) );
+			$request = $_REQUEST; //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
-			return defined( 'DOING_AJAX' ) && DOING_AJAX && isset( $_REQUEST['action'] ) && in_array( $_REQUEST['action'], $actions, true );
+			return defined( 'DOING_AJAX' ) && DOING_AJAX && isset( $request['action'] ) && in_array( $request['action'], $actions, true );
 		}
 
 		/**
 		 * Hides add to cart on wishlist
 		 *
-		 * @param   $value   string
-		 * @param   $product WC_Product
+		 * @param string     $value   Wishlist button.
+		 * @param WC_Product $product The Product object.
 		 *
 		 * @return  string
 		 * @since   1.2.2
@@ -813,19 +833,19 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 
 				}
 
-				//APPLY_FILTERS: ywctm_cart_widget_classes: CSS selector of add to cart buttons
+				// APPLY_FILTER: ywctm_cart_widget_classes: CSS selector of add to cart buttons.
 				$classes = implode( ', ', apply_filters( 'ywctm_catalog_classes', $args ) );
 
 				ob_start();
 				?>
 				<style type="text/css">
-					<?php echo $classes; ?>
+					<?php echo esc_attr( $classes ); ?>
 					{
 						display: none !important
 					}
 				</style>
 				<?php
-				echo ob_get_clean();
+				echo ob_get_clean(); //phpcs:ignore
 			}
 
 		}
@@ -839,14 +859,14 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  void
 		 * @since   1.0.0
-		 * @author  Andrea Grillo <andrea.grillo@yithemes.com>
+		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function plugin_fw_loader() {
 			if ( ! defined( 'YIT_CORE_PLUGIN' ) ) {
 				global $plugin_fw_data;
 				if ( ! empty( $plugin_fw_data ) ) {
 					$plugin_fw_file = array_shift( $plugin_fw_data );
-					require_once( $plugin_fw_file );
+					require_once $plugin_fw_file;
 				}
 			}
 		}
@@ -858,12 +878,12 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  void
 		 * @since   1.0.0
-		 * @author  Andrea Grillo <andrea.grillo@yithemes.com>
+		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function premium_tab() {
-			$premium_tab_template = YWCTM_TEMPLATE_PATH . '/admin/' . $this->_premium;
+			$premium_tab_template = YWCTM_TEMPLATE_PATH . '/admin/' . $this->premium;
 			if ( file_exists( $premium_tab_template ) ) {
-				include_once( $premium_tab_template );
+				include_once $premium_tab_template;
 			}
 		}
 
@@ -872,27 +892,28 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  string The premium landing link
 		 * @since   1.0.0
-		 * @author  Andrea Grillo <andrea.grillo@yithemes.com>
+		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function get_premium_landing_uri() {
-			return $this->_premium_landing;
+			return $this->premium_landing;
 		}
 
 		/**
 		 * Action Links
 		 *
-		 * add the action links to plugin admin page
+		 * Add the action links to plugin admin page
 		 *
-		 * @param   $links | links plugin array
+		 * @param array $links links plugin array.
 		 *
-		 * @return  mixed
+		 * @return  array
 		 * @since   1.0.0
-		 * @author  Andrea Grillo <andrea.grillo@yithemes.com>
+		 *
+		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 * @use     plugin_action_links_{$plugin_file_name}
 		 */
 		public function action_links( $links ) {
 
-			$links = yith_add_action_links( $links, $this->_panel_page, false );
+			$links = yith_add_action_links( $links, $this->panel_page, false );
 
 			return $links;
 
@@ -901,18 +922,18 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		/**
 		 * Plugin row meta
 		 *
-		 * add the action links to plugin admin page
+		 * Add the action links to plugin admin page
 		 *
-		 * @param   $new_row_meta_args
-		 * @param   $plugin_meta
-		 * @param   $plugin_file
-		 * @param   $plugin_data
-		 * @param   $status
-		 * @param   $init_file
+		 * @param array  $new_row_meta_args Row meta args.
+		 * @param array  $plugin_meta       Plugin meta.
+		 * @param string $plugin_file       Plugin File.
+		 * @param array  $plugin_data       Plugin data.
+		 * @param string $status            Status.
+		 * @param string $init_file         Init file.
 		 *
 		 * @return  array
 		 * @since   1.0.0
-		 * @author  Andrea Grillo <andrea.grillo@yithemes.com>
+		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 * @use     plugin_row_meta
 		 */
 		public function plugin_row_meta( $new_row_meta_args, $plugin_meta, $plugin_file, $plugin_data, $status, $init_file = 'YWCTM_FREE_INIT' ) {

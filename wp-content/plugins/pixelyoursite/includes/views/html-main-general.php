@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 target="_blank">pro version</a>.</p>
                 </div>
             </div>
-            <?php if(isWooCommerceActive()) : ?>
+
                 <div class="row align-items-center mb-3">
                     <div class="col-3">
 
@@ -45,7 +45,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         ); ?>
                         <?php Facebook()->render_text_area_array_item("server_access_api_token","Api token") ?>
                         <small class="form-text">
-                            This is an experimental feature and for now works only for the WooCommerce Purchase event.
+                            This is an experimental feature and works only for the WooCommerce Purchase and CompleteRegistration events, and Easy Digital Downloads Purchase event.
                         </small>
                     </div>
                 </div>
@@ -71,7 +71,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             <?php endif; ?>
             <hr>
         
-        <?php endif; ?>
+
 	
 	    <?php if ( GA()->enabled() ) : ?>
             

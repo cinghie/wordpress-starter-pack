@@ -160,13 +160,13 @@ if ( ! class_exists( 'WPPFM_Backup' ) ) :
 		/**
 		 * Returns a tab separated string with the query results.
 		 *
-		 * @param (string) $query_result
-		 * @param {array} $columns
+		 * @param array $query_result
+		 * @param array $columns
 		 *
-		 * @return (string) backup string
+		 * @return string backup string.
 		 */
 		private function make_table_backup_string( $query_result, $columns ) {
-			$string = implode( $columns, ', ' ) . ' # ';
+			$string = implode( ', ', $columns ) . ' # ';
 
 			foreach ( $query_result as $row ) {
 				$string .= implode( "\t", $row ) . "\r\n";

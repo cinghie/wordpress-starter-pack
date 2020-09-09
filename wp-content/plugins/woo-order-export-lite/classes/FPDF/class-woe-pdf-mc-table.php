@@ -98,14 +98,26 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 	}
 
 	public function Header() {
-		if ( ! empty( $this->header_props['title'] ) ) {
-			$this->changeBrushToDraw( 'header' );
-			$this->Cell( 0, 0, $this->header_props['title'], 0, 0, 'C' );
-			$this->Ln( 2 );
-		}
+		if ( apply_filters( 'woe_formatter_pdf_title_before_logo', true ) ) {
+			if ( ! empty( $this->header_props['title'] ) ) {
+				$this->changeBrushToDraw( 'header' );
+				$this->Cell( 0, 0, $this->header_props['title'], 0, 0, 'C' );
+				$this->Ln( 2 );
+			}
 
-		if ( $this->drawLogo() ) {
-			$this->Ln( 1 );
+			if ( $this->drawLogo() ) {
+				$this->Ln( 1 );
+			}
+		} else {
+			if ( $this->drawLogo() ) {
+				$this->Ln( 1 );
+			}
+
+			if ( ! empty( $this->header_props['title'] ) ) {
+				$this->changeBrushToDraw( 'header' );
+				$this->Cell( 0, 0, $this->header_props['title'], 0, 0, 'C' );
+				$this->Ln( 2 );
+			}
 		}
 	}
 
@@ -177,6 +189,30 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 		$this->Row( $data, $widths, $h, $style );
 	}
 
+	public function isEnoughSpace( $data, $heights ) {
+		$widths       = $this->getRowWidths( $data );
+		$baseHeight   = $this->getRowHeight( $widths, $data );
+		$image_height = floatval( $this->table_row_props['image_height'] );
+		$height       = floatval( 0 );
+
+		foreach ( $data as $index => $row ) {
+			$h = $baseHeight;
+
+			if ( $image_height && $this->isRowWithImage( $row ) && $h < $image_height ) {
+				$h = $image_height;
+			}
+
+			$customHeight = isset( $heights[ $index ] ) ? $heights[ $index ] : null;
+			if ( $customHeight && $h < $customHeight ) {
+				$h = $customHeight;
+			}
+
+			$height += $h;
+		}
+
+		return $this->GetY() + $height < $this->flt_page_break_trigger;
+	}
+
 	protected function Row( $data, $widths = null, $h = null, $style = null ) {
 		if ( ! $data ) {
 			return;
@@ -233,8 +269,20 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 				}
 
 				$source = $data[ $i ]['value'];
+				$link   = isset( $data[ $i ]['link'] ) ? $data[ $i ]['link'] : "";
+
 				$type   = strtoupper( pathinfo( $source, PATHINFO_EXTENSION ) );
 				$this->Image( $source, $x + $margin, $y + $margin  + $y_offset, $w - 2 * $margin, $image_height - 2 * $margin, $type );
+
+				if ( $link ) {
+					$this->Link($x + $margin, $y + $margin, $w - 2 * $margin, $h - 2 * $margin, $link);
+				}
+			} elseif ( $this->isLinkCell( $data[ $i ] ) ) {
+				$margin = 1 / 2;
+				$link = $data[ $i ]['link'];
+
+				$this->MultiCell( $w, $h, $link, $link, $horizontal_align, $vertical_align, false, 0 );
+				$this->Link( $x + 3 * $margin, $y + 3 * $margin, $w - 2 * $margin, $h - 2 * $margin, $link );
 			} elseif ( ! is_array( $data[ $i ] ) ) {
 				//Print the text
 				$this->MultiCell( $w, $h, $data[ $i ], 0, $horizontal_align, $vertical_align );
@@ -269,6 +317,15 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 	 */
 	protected function isImageCell( $value ) {
 		return isset( $value['type'], $value['value'] ) && 'image' === $value['type'] && file_exists( $value['value'] );
+	}
+
+	/**
+	 * @param mixed $value
+	 *
+	 * @return bool
+	 */
+	protected function isLinkCell( $value ) {
+		return isset( $value['type'], $value['link'] ) && 'link' === $value['type'];
 	}
 
 	protected function getColumnCountInPage( $widths ) {
@@ -373,6 +430,17 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 		}
 
 		return 5 * $nb;
+	}
+
+	public function addPageBreak() {
+		$this->flush_buffer();
+
+		$this->AddPage( $this->str_current_orientation );
+		if ( $this->table_header_props['repeat'] && $this->table_header ) {
+			$this->changeBrushToDraw( 'table_header' );
+			$this->Row( $this->table_header );
+			$this->changeBrushToDraw( 'table_row' );
+		}
 	}
 
 	public function CheckPageBreak( $h ) {

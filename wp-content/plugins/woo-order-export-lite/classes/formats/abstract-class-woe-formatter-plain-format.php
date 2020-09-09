@@ -46,11 +46,21 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 	}
 	
 	// calculate max columns based on order items
-	public function adjust_duplicated_fields_settings( $order_ids ){
-		if( $this->duplicate_settings['products']['repeat'] == 'columns' AND $this->duplicate_settings['products']['max_cols'] == 0 ) 
-			$this->duplicate_settings['products']['max_cols'] = WC_Order_Export_Data_Extractor::get_max_order_items( "line_item", $order_ids );
-		if( $this->duplicate_settings['coupons']['repeat'] == 'columns' AND $this->duplicate_settings['coupons']['max_cols'] == 0 ) 
-			$this->duplicate_settings['coupons']['max_cols'] = WC_Order_Export_Data_Extractor::get_max_order_items( "coupon", $order_ids );
+	public function adjust_duplicated_fields_settings( $order_ids, $make_mode = '', $settings = array() ) {
+		if( $this->duplicate_settings['products']['repeat'] == 'columns' AND $this->duplicate_settings['products']['max_cols'] == 0 ) {
+			if( isset( $make_mode ) && $make_mode == 'partial' && isset( $settings['max_line_items'] ) ) {
+				$this->duplicate_settings['products']['max_cols'] = $settings['max_line_items'];
+			} else {
+				$this->duplicate_settings['products']['max_cols'] = WC_Order_Export_Data_Extractor::get_max_order_items( "line_item", $order_ids );
+			}
+		}
+		if( $this->duplicate_settings['coupons']['repeat'] == 'columns' AND $this->duplicate_settings['coupons']['max_cols'] == 0 ) {
+			if( isset( $make_mode ) && $make_mode == 'partial' && isset( $settings['max_coupons'] ) ) {
+				$this->duplicate_settings['coupons']['max_cols'] = $settings['max_coupons'];
+			} else {
+				$this->duplicate_settings['coupons']['max_cols'] = WC_Order_Export_Data_Extractor::get_max_order_items( "coupon", $order_ids );
+			}
+		}
 	}
 
 	public function output( $rec ) {
@@ -278,6 +288,7 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 				$key = $product->get_id();
 			else 
 				$key = $item_meta['_variation_id'][0] ? $item_meta['_variation_id'][0] : $item_meta['_product_id'][0];
+
 			$key = apply_filters( "woe_summary_products_adjust_key", $key, $product, $product_item, $order );
 
 			//add new product 
@@ -341,6 +352,7 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 
 			do_action( "woe_summary_products_add_item", $key, $product_item, $order );
 		}
+		do_action( "woe_summary_products_added_order", $order );
 
 		//no lines for order!
 		return array();
@@ -420,10 +432,14 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 			$key          = $label_data['key'];
 
 			$field_header = apply_filters( 'woe_add_csv_headers', $field_header, $key );
-			if ( isset($allowed_fields[$key]) ) {
+			if ( isset($allowed_fields[$key]) || 
+				preg_match( '^\\AUSER_.+^', $key ) || 
+				preg_match( '^\\A_billing_.+^', $key ) ||
+				preg_match( '^\\A_shipping_.+^', $key ) ||
+				preg_match( '^\\Astatic_field.+^', $key ) ) {
 				$header[] = $field_header;
 			} else {
-				unset( $this->labels['order']->$key );
+				unset( $this->labels['order']->$key ); //here added filed is deleted
 			}
 		}
 
@@ -447,7 +463,11 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 			$new_row = array();
 			foreach ( $this->labels['order']->get_labels() as $label_data ) {
 				$original_key = $label_data['key'];
-				if ( ! isset( $allowed_fields[$original_key] ) ) {
+				if ( ! isset( $allowed_fields[$original_key] ) && 
+				! preg_match( '^\\AUSER_.+^', $original_key ) && 
+				! preg_match( '^\\A_billing_.+^', $original_key ) &&
+				! preg_match( '^\\A_shipping_.+^', $original_key) &&
+				! preg_match( '^\\Astatic_field.+^', $original_key ) ) {
 				    continue;
 				}
 				$field_key = $label_data['parent_key'] ? $label_data['parent_key'] : $original_key;
@@ -529,6 +549,14 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 			$_SESSION['woe_summary_customers'][ $key ]['summary_report_total_refund_amount'] += wc_round_tax_total( $order->get_total_refunded() );
 		}
 
+		if( isset( $_SESSION['woe_summary_customers'][ $key ]['summary_report_total_tax_amount'] ) ) {
+			$_SESSION['woe_summary_customers'][ $key ]['summary_report_total_tax_amount'] += wc_round_tax_total( $order->get_total_tax() );
+		}
+
+		if( isset( $_SESSION['woe_summary_customers'][ $key ]['summary_report_total_fee_amount'] ) ) {
+			$_SESSION['woe_summary_customers'][ $key ]['summary_report_total_fee_amount'] += wc_round_tax_total( $order->get_total_fees() );
+		}
+
 		do_action( "woe_summary_customers_add_item", $key, $order, $row );
 
 		//no lines for order!
@@ -548,6 +576,10 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 
 	protected function get_tmp_data_transient_name() {
 		return 'woe_tmp_data_' . $this->filename;
+	}
+
+	public function get_duplicate_settings() {
+		return $this->duplicate_settings;
 	}
 
 	protected function make_img_html_from_path( $path, $width = null, $height = null ) {

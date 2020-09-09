@@ -22,7 +22,7 @@
 						'dismissible_length': dismissible_length,
 					};
 
-					// We can also pass the url value separately from ajaxurl for front end AJAX implementations
+					// We can also pass the url value separately from ajax url for front end AJAX implementations
 					$.post( ajaxurl, data );
 				}
 			); }

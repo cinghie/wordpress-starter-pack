@@ -1,9 +1,5 @@
 function wppfm_sourceIsFilled( rowId, sourceLevel, conditionLevel ) {
-	if ( 'select' !== jQuery( '#input-field-cntrl-' + rowId + '-' + sourceLevel + '-' + conditionLevel ).val() ) {
-		return true;
-	} else {
-		return false;
-	}
+	return 'select' !== jQuery( '#input-field-cntrl-' + rowId + '-' + sourceLevel + '-' + conditionLevel ).val();
 }
 
 function wppfm_changeValueIsFilled( rowId, sourceLevel, conditionLevel ) {

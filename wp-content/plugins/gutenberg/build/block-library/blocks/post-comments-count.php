@@ -18,9 +18,9 @@ function gutenberg_render_block_core_post_comments_count( $attributes, $content,
 		return '';
 	}
 
-	$classes = 'wp-block-post-comments-count';
+	$classes = '';
 	if ( isset( $attributes['textAlign'] ) ) {
-		$classes .= ' has-text-align-' . $attributes['textAlign'];
+		$classes .= 'has-text-align-' . $attributes['textAlign'];
 	}
 
 	return sprintf(

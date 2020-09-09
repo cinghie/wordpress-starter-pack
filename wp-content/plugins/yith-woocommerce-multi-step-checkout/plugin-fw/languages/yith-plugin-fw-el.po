@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YITH Plugin Starter 1.0.0 Plugin FW\n"
 "Report-Msgid-Bugs-To: YITH <plugins@yithemes.com>\n"
-"POT-Creation-Date: 2020-07-02 07:21:31+00:00\n"
-"PO-Revision-Date: 2020-06-26 11:45+0100\n"
+"POT-Creation-Date: 2020-08-07 14:15:08+00:00\n"
+"PO-Revision-Date: 2020-08-13 10:05+0100\n"
 "Last-Translator: \n"
 "Language-Team: Your Inspiration Themes <info@yithemes.com>\n"
 "Language: el_GR\n"
@@ -21,6 +21,30 @@ msgstr ""
 "X-Poedit-Basepath: ..\n"
 "X-Textdomain-Support: yes\n"
 "X-Poedit-SearchPath-0: .\n"
+
+#: lib/yit-assets.php:102
+msgid "Clear"
+msgstr "Καθαρισμός"
+
+#: lib/yit-assets.php:103
+msgid "Clear color"
+msgstr "Καθαρισμός χρώματος"
+
+#: lib/yit-assets.php:104
+msgid "Default"
+msgstr "Προεπιλεγμένο"
+
+#: lib/yit-assets.php:105
+msgid "Select default color"
+msgstr "Επιλογή προεπιλεγμένου χρώματος"
+
+#: lib/yit-assets.php:106
+msgid "Select Color"
+msgstr "Επιλογή Χρώματος"
+
+#: lib/yit-assets.php:107
+msgid "Color value"
+msgstr "Αξία χρώματος"
 
 #: lib/yit-cpt-unlimited.php:462 lib/yit-cpt-unlimited.php:576
 #: lib/yit-cpt-unlimited.php:721 lib/yit-cpt-unlimited.php:1636
@@ -202,7 +226,7 @@ msgstr "Προσθήκη %s από εικόνες"
 msgid "Upload multiple files"
 msgstr "Ανέβασμα πολλαπλών αρχείων"
 
-#: lib/yit-plugin-panel-wc.php:403
+#: lib/yit-plugin-panel-wc.php:426
 msgid "The changes you have made will be lost if you leave this page."
 msgstr ""
 "Οι αλλαγές που έχετε δημιουργήσει θα χαθούν αν αφήσετε αυτήν την σελίδα."

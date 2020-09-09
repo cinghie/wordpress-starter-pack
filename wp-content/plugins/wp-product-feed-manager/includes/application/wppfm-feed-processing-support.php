@@ -1014,16 +1014,6 @@ trait WPPFM_Processing_Support {
 			}
 		}
 
-		$google_suffix_exceptions = apply_filters( 'wppfm_google_suffux_exceptions', array(
-			'title',
-			'link'
-		) );
-
-		// as of October 2016 Google removed the need for a g: suffix except for title and link. But Facebook still requires it
-		if ( in_array( $key, $google_suffix_exceptions ) ) {
-			$google_node_pre_tag = $channel === '1' ? '' : $google_node_pre_tag;
-		}
-
 		if ( $key !== '' ) {
 			if ( is_array( $xml_value ) && $repeated_field ) {
 				foreach ( $xml_value as $value_item ) {
@@ -1325,11 +1315,11 @@ trait WPPFM_Processing_Support {
 		}
 
 		if ( in_array( 'shipping_class', $active_field_names ) ) {
-			if ( $woocommerce_product_parent ) {
-				$product->shipping_class = $woocommerce_product_parent->get_shipping_class();
-			} elseif ( $woocommerce_product ) {
-				$product->shipping_class = $woocommerce_product->get_shipping_class();
-			}
+			// Get the shipping class.
+			$shipping_class = $woocommerce_product->get_shipping_class();
+
+			// If the shipping class in the product was empty and the product has a parent, then check if the parent has a shipping class.
+			$product->shipping_class = ! $shipping_class && $woocommerce_product_parent ? $woocommerce_product_parent->get_shipping_class() : $shipping_class;
 		}
 
 		if ( in_array( 'permalink', $active_field_names ) ) {
@@ -1440,6 +1430,10 @@ trait WPPFM_Processing_Support {
 				);
 				do_action( 'wppfm_feed_generation_warning', $feed_id, $msg ); // @since 2.3.0
 			}
+		}
+
+		if ( in_array('_stock', $active_field_names ) ) {
+			$product->_stock = $woocommerce_product->get_stock_quantity();
 		}
 
 		// @since 2.1.4

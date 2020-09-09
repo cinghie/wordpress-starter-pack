@@ -3,8 +3,8 @@ Contributors: nmedia
 Tags: woocommerce, woocommerce pesonalized products, woocommerce custom fields, variations, woocommerce product variations, woocommerce extra fields, woocommerce extra options, woocommerce personalized product, woocommerce t-shirt design, woocommerce product fields, woocommerce plugin, woocommerce addons, woocommerce product addons
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
-Tested up to: 5.2
-Stable tag: 20.4.2
+Tested up to: 5.4.2
+Stable tag: 20.4.3
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -91,6 +91,8 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
+= 20.4.3 August 16, 2020 =
+* Bug fixed: Price calculation issue fixed for discount input
 = 20.4.2 August 10, 2020 =
 * Bug fixed: [extra space issue fixed in 20.4](https://wordpress.org/support/topic/20-4-disrupts-html-field-entries/)
 = 20.4 August 8, 2020 =

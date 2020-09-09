@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the YITH WooCommerce Multi-step Checkout package.
 msgid ""
 msgstr ""
-"Project-Id-Version: YITH WooCommerce Multi-step Checkout 2.0.0\n"
+"Project-Id-Version: YITH WooCommerce Multi-step Checkout 2.0.1\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/yith-woocommerce-multi-step-checkout\n"
-"POT-Creation-Date: 2020-07-09 13:33:59+00:00\n"
+"POT-Creation-Date: 2020-08-17 08:39:34+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -50,7 +50,7 @@ msgid "Step text color"
 msgstr ""
 
 #: plugin-options/steps-options.php:114
-msgid "Set text color for past, current, future and hover step"
+msgid "Set text color for past, current and future step"
 msgstr ""
 
 #: plugin-options/steps-options.php:118
@@ -65,143 +65,139 @@ msgstr ""
 msgid "Future color"
 msgstr ""
 
-#: plugin-options/steps-options.php:133
-msgid "Hover color"
-msgstr ""
-
-#: plugin-options/steps-options.php:165 plugin-options/steps-options.php:177
+#: plugin-options/steps-options.php:160 plugin-options/steps-options.php:172
 msgid "Login"
 msgstr ""
 
-#: plugin-options/steps-options.php:174
+#: plugin-options/steps-options.php:169
 msgid "Login label"
 msgstr ""
 
-#: plugin-options/steps-options.php:175
+#: plugin-options/steps-options.php:170
 msgid "Enter a label for the login step"
 msgstr ""
 
-#: plugin-options/steps-options.php:181
+#: plugin-options/steps-options.php:176
 msgid "Allow guest checkout"
 msgstr ""
 
-#: plugin-options/steps-options.php:182
+#: plugin-options/steps-options.php:177
 msgid "Enable this to allow a customer to place an order without an account"
 msgstr ""
 
-#: plugin-options/steps-options.php:188
+#: plugin-options/steps-options.php:183
 msgid "Allow customer login"
 msgstr ""
 
-#: plugin-options/steps-options.php:189
+#: plugin-options/steps-options.php:184
 msgid "Enable this to allow the customer to login during the checkout process"
 msgstr ""
 
-#: plugin-options/steps-options.php:197 plugin-options/steps-options.php:209
+#: plugin-options/steps-options.php:192 plugin-options/steps-options.php:204
 msgid "Billing"
 msgstr ""
 
-#: plugin-options/steps-options.php:206
+#: plugin-options/steps-options.php:201
 msgid "Billing label"
 msgstr ""
 
-#: plugin-options/steps-options.php:207
+#: plugin-options/steps-options.php:202
 msgid "Enter a label for the billing step"
 msgstr ""
 
-#: plugin-options/steps-options.php:215 plugin-options/steps-options.php:227
+#: plugin-options/steps-options.php:210 plugin-options/steps-options.php:222
 msgid "Shipping"
 msgstr ""
 
-#: plugin-options/steps-options.php:224
+#: plugin-options/steps-options.php:219
 msgid "Shipping label"
 msgstr ""
 
-#: plugin-options/steps-options.php:225
+#: plugin-options/steps-options.php:220
 msgid "Enter a label for the shipping step"
 msgstr ""
 
-#: plugin-options/steps-options.php:233 plugin-options/steps-options.php:245
+#: plugin-options/steps-options.php:228 plugin-options/steps-options.php:240
 msgid "Order Info"
 msgstr ""
 
-#: plugin-options/steps-options.php:242
+#: plugin-options/steps-options.php:237
 msgid "Order Info label"
 msgstr ""
 
-#: plugin-options/steps-options.php:243
+#: plugin-options/steps-options.php:238
 msgid "Enter a label for the order info step"
 msgstr ""
 
-#: plugin-options/steps-options.php:251 plugin-options/steps-options.php:263
+#: plugin-options/steps-options.php:246 plugin-options/steps-options.php:258
 #: templates/woocommerce/checkout/form-checkout.php:145
 msgid "Payment"
 msgstr ""
 
-#: plugin-options/steps-options.php:260
+#: plugin-options/steps-options.php:255
 msgid "Payment label"
 msgstr ""
 
-#: plugin-options/steps-options.php:261
+#: plugin-options/steps-options.php:256
 msgid "Enter a label for the payment info step"
 msgstr ""
 
-#: templates/premium.php:168 templates/premium.php:269
+#: templates/premium.php:169 templates/premium.php:270
 msgid ""
 "Upgrade to the %1$spremium version%2$s%3$sof %1$sYITH WooCommerce "
 "Multi-step%2$s to benefit from all features!"
 msgstr ""
 
-#: templates/premium.php:170 templates/premium.php:271
+#: templates/premium.php:171 templates/premium.php:272
 msgid "Upgrade"
 msgstr ""
 
-#: templates/premium.php:176
+#: templates/premium.php:177
 msgid "Premium Features"
 msgstr ""
 
-#: templates/premium.php:183
+#: templates/premium.php:184
 msgid ""
 "Choose among 10 different layouts for the timeline of your multi-step "
 "checkout "
 msgstr ""
 
-#: templates/premium.php:186
+#: templates/premium.php:187
 msgid ""
 "You can choose among 10 different layouts for the timeline, four of them in "
 "vertical style and four of them horizontal. Set the layout that best suits "
 "your e-commerce website and the one to show to mobile users. "
 msgstr ""
 
-#: templates/premium.php:195
+#: templates/premium.php:196
 msgid "Customize the timeline colors: a checkout that suits every style and theme"
 msgstr ""
 
-#: templates/premium.php:198
+#: templates/premium.php:199
 msgid ""
 "To make sure that the checkout style can suit every e-commerce theme, you "
 "will be able to customize the colors of every step and status (previous, "
 "next and current step) and all the texts."
 msgstr ""
 
-#: templates/premium.php:213
+#: templates/premium.php:214
 msgid "Choose whether to show icons or numbers for your checkout steps"
 msgstr ""
 
-#: templates/premium.php:216
+#: templates/premium.php:217
 msgid ""
 "Identify your steps with numbers or icons before the text. You can choose "
 "among the many high-quality icons we’ve designed for you or upload your own "
 "ones."
 msgstr ""
 
-#: templates/premium.php:225
+#: templates/premium.php:226
 msgid ""
 "Merge Billing / Shipping and Order info / Payment steps to reduce the "
 "number of steps"
 msgstr ""
 
-#: templates/premium.php:228
+#: templates/premium.php:229
 msgid ""
 "Usability tests confirm that a multi-step checkout is much more effective "
 "if there are no more than four steps in total. To streamline the process, "
@@ -209,21 +205,21 @@ msgid ""
 "into another step."
 msgstr ""
 
-#: templates/premium.php:243
+#: templates/premium.php:244
 msgid "Enable AJAX validation for every step"
 msgstr ""
 
-#: templates/premium.php:246
+#: templates/premium.php:247
 msgid ""
 "With the AJAX validation you can prevent customers from going on to the "
 "next step unless they have completed all mandatory fields."
 msgstr ""
 
-#: templates/premium.php:255
+#: templates/premium.php:256
 msgid "Disable the Shipping step with just one click"
 msgstr ""
 
-#: templates/premium.php:258
+#: templates/premium.php:259
 msgid ""
 "If your products don’t need to be shipped, just disable the Shipping step "
 "and it will not show up in the checkout process."
@@ -366,7 +362,7 @@ msgctxt "Panel: section title"
 msgid "Separate step with"
 msgstr ""
 
-#: plugin-options/steps-options.php:160
+#: plugin-options/steps-options.php:155
 msgctxt "Panel: section title"
 msgid "Steps Customization"
 msgstr ""
@@ -431,7 +427,7 @@ msgctxt "Option: description"
 msgid "Set if you want to display the steps horizontally or vertically"
 msgstr ""
 
-#: plugin-options/steps-options.php:144
+#: plugin-options/steps-options.php:139
 msgctxt "Option: description"
 msgid "Set the speed of fade animation during transition from one step to the next"
 msgstr ""
@@ -446,7 +442,7 @@ msgctxt "Option: timeline display"
 msgid "Vertical"
 msgstr ""
 
-#: plugin-options/steps-options.php:143
+#: plugin-options/steps-options.php:138
 msgctxt "Option: Title. Please, do not translate FadeIn/FadeOut"
 msgid "FadeIn and FadeOut Transition speed"
 msgstr ""

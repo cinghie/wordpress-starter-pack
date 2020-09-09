@@ -310,31 +310,31 @@ function um_user_ip() {
  */
 function um_field_conditions_are_met( $data ) {
 
+	if ( ! isset( $data['conditions'] ) ) {
+		return true;
+	}
 
-
-	if (!isset( $data['conditions'] )) return true;
-
-	$state = ( $data['conditional_action'] == 'show' ) ? 1 : 0;
-
+	$state = ( isset( $data['conditional_action'] ) && $data['conditional_action'] == 'show' ) ? 1 : 0;
 
 	$first_group = 0;
 	$state_array = array();
-	$count = count($state_array);
-	foreach ($data['conditions'] as $k => $arr){
+	$count = count( $state_array );
+	foreach ( $data['conditions'] as $k => $arr ) {
 
 		$val = $arr[3];
 		$op = $arr[2];
 
-		if (strstr($arr[1], 'role_'))
+		if ( strstr( $arr[1], 'role_' ) ) {
 			$arr[1] = 'role';
+		}
 
-		$field = um_profile($arr[1]);
-
-
-		if( ! isset( $arr[5] ) || $arr[5] != $first_group ){
+		$field = um_profile( $arr[1] );
 
 
-			if ($arr[0] == 'show') {
+		if ( ! isset( $arr[5] ) || $arr[5] != $first_group ) {
+
+
+			if ( $arr[0] == 'show' ) {
 
 				switch ($op) {
 					case 'equals to':
@@ -389,32 +389,34 @@ function um_field_conditions_are_met( $data ) {
 						}
 						break;
 				}
-			} else if ($arr[0] == 'hide') {
+			} elseif ( $arr[0] == 'hide' ) {
 
-				switch ($op) {
+				switch ( $op ) {
 					case 'equals to':
 
 						$field = maybe_unserialize( $field );
 
-						if (is_array( $field ))
+						if ( is_array( $field ) ) {
 							$state = in_array( $val, $field ) ? 'hide' : 'show';
-						else
+						} else {
 							$state = ( $field == $val ) ? 'hide' : 'show';
+						}
 
 						break;
 					case 'not equals':
 
 						$field = maybe_unserialize( $field );
 
-						if (is_array( $field ))
-							$state = !in_array( $val, $field ) ? 'hide' : 'show';
-						else
+						if ( is_array( $field ) ) {
+							$state = ! in_array( $val, $field ) ? 'hide' : 'show';
+						} else {
 							$state = ( $field != $val ) ? 'hide' : 'show';
+						}
 
 						break;
 					case 'empty':
 
-						$state = ( !$field ) ? 'hide' : 'show';
+						$state = ( ! $field ) ? 'hide' : 'show';
 
 						break;
 					case 'not empty':
@@ -423,21 +425,21 @@ function um_field_conditions_are_met( $data ) {
 
 						break;
 					case 'greater than':
-						if ($field <= $val) {
+						if ( $field <= $val ) {
 							$state = 'hide';
 						} else {
 							$state = 'show';
 						}
 						break;
 					case 'less than':
-						if ($field >= $val) {
+						if ( $field >= $val ) {
 							$state = 'hide';
 						} else {
 							$state = 'show';
 						}
 						break;
 					case 'contains':
-						if (strstr( $field, $val )) {
+						if ( strstr( $field, $val ) ) {
 							$state = 'hide';
 						} else {
 							$state = 'show';
@@ -446,35 +448,35 @@ function um_field_conditions_are_met( $data ) {
 				}
 			}
 			$first_group++;
-			array_push($state_array, $state);
+			array_push( $state_array, $state );
 		} else {
 
-			if ($arr[0] == 'show') {
+			if ( $arr[0] == 'show' ) {
 
-				switch ($op) {
+				switch ( $op ) {
 					case 'equals to':
-
 						$field = maybe_unserialize( $field );
 
-						if (is_array( $field ))
+						if ( is_array( $field ) ) {
 							$state = in_array( $val, $field ) ? 'show' : 'not_show';
-						else
+						} else {
 							$state = ( $field == $val ) ? 'show' : 'not_show';
+						}
 
 						break;
 					case 'not equals':
-
 						$field = maybe_unserialize( $field );
 
-						if (is_array( $field ))
-							$state = !in_array( $val, $field ) ? 'show' : 'not_show';
-						else
+						if ( is_array( $field ) ) {
+							$state = ! in_array( $val, $field ) ? 'show' : 'not_show';
+						} else {
 							$state = ( $field != $val ) ? 'show' : 'not_show';
+						}
 
 						break;
 					case 'empty':
 
-						$state = ( !$field ) ? 'show' : 'not_show';
+						$state = ( ! $field ) ? 'show' : 'not_show';
 
 						break;
 					case 'not empty':
@@ -483,53 +485,54 @@ function um_field_conditions_are_met( $data ) {
 
 						break;
 					case 'greater than':
-						if ($field > $val) {
+						if ( $field > $val ) {
 							$state = 'show';
 						} else {
 							$state = 'not_show';
 						}
 						break;
 					case 'less than':
-						if ($field < $val) {
+						if ( $field < $val ) {
 							$state = 'show';
 						} else {
 							$state = 'not_show';
 						}
 						break;
 					case 'contains':
-						if (strstr( $field, $val )) {
+						if ( strstr( $field, $val ) ) {
 							$state = 'show';
 						} else {
 							$state = 'not_show';
 						}
 						break;
 				}
-			} else if ($arr[0] == 'hide') {
+			} elseif ( $arr[0] == 'hide' ) {
 
-				switch ($op) {
+				switch ( $op ) {
 					case 'equals to':
-
 						$field = maybe_unserialize( $field );
 
-						if (is_array( $field ))
+						if ( is_array( $field ) ) {
 							$state = in_array( $val, $field ) ? 'hide' : 'not_hide';
-						else
+						} else {
 							$state = ( $field == $val ) ? 'hide' : 'not_hide';
+						}
 
 						break;
 					case 'not equals':
 
 						$field = maybe_unserialize( $field );
 
-						if (is_array( $field ))
-							$state = !in_array( $val, $field ) ? 'hide' : 'not_hide';
-						else
+						if ( is_array( $field ) ) {
+							$state = ! in_array( $val, $field ) ? 'hide' : 'not_hide';
+						} else {
 							$state = ( $field != $val ) ? 'hide' : 'not_hide';
+						}
 
 						break;
 					case 'empty':
 
-						$state = ( !$field ) ? 'hide' : 'not_hide';
+						$state = ( ! $field ) ? 'hide' : 'not_hide';
 
 						break;
 					case 'not empty':
@@ -538,21 +541,21 @@ function um_field_conditions_are_met( $data ) {
 
 						break;
 					case 'greater than':
-						if ($field <= $val) {
+						if ( $field <= $val ) {
 							$state = 'hide';
 						} else {
 							$state = 'not_hide';
 						}
 						break;
 					case 'less than':
-						if ($field >= $val) {
+						if ( $field >= $val ) {
 							$state = 'hide';
 						} else {
 							$state = 'not_hide';
 						}
 						break;
 					case 'contains':
-						if (strstr( $field, $val )) {
+						if ( strstr( $field, $val ) ) {
 							$state = 'hide';
 						} else {
 							$state = 'not_hide';
@@ -560,25 +563,25 @@ function um_field_conditions_are_met( $data ) {
 						break;
 				}
 			}
-			if( isset($state_array[$count]) ){
-				if( $state_array[$count] == 'show' || $state_array[$count] == 'not_hide' ){
-					if ( $state == 'show' || $state == 'not_hide' ){
-						$state_array[$count] = 'show';
+			if ( isset( $state_array[ $count ] ) ) {
+				if ( $state_array[ $count ] == 'show' || $state_array[ $count ] == 'not_hide' ) {
+					if ( $state == 'show' || $state == 'not_hide' ) {
+						$state_array[ $count ] = 'show';
 					} else {
-						$state_array[$count] = 'hide';
+						$state_array[ $count ] = 'hide';
 					}
 				} else {
-					if ( $state == 'hide' || $state == 'not_show' ){
-						$state_array[$count] = 'hide';
+					if ( $state == 'hide' || $state == 'not_show' ) {
+						$state_array[ $count ] = 'hide';
 					} else {
-						$state_array[$count] = 'hide';
+						$state_array[ $count ] = 'hide';
 					}
 				}
 			} else {
-				if ( $state == 'show' || $state == 'not_hide' ){
-					$state_array[$count] = 'show';
+				if ( $state == 'show' || $state == 'not_hide' ) {
+					$state_array[ $count ] = 'show';
 				} else {
-					$state_array[$count] = 'hide';
+					$state_array[ $count ] = 'hide';
 				}
 			}
 		}
@@ -667,118 +670,13 @@ function um_get_snippet( $str, $wordCount = 10 ) {
 
 
 /**
- * Get submitted user information
- *
- * @param bool $style
- *
- * @return null|string
- *
- * @deprecated 2.1.3
- */
-function um_user_submitted_registration( $style = false ) {
-	$output = null;
-
-	$data = um_user( 'submitted' );
-
-	if ( $style ) {
-		$output .= '<div class="um-admin-infobox">';
-	}
-
-	if ( isset( $data ) && is_array( $data ) ) {
-
-		/**
-		 * UM hook
-		 *
-		 * @type filter
-		 * @title um_email_registration_data
-		 * @description Prepare Registration data to email
-		 * @input_vars
-		 * [{"var":"$data","type":"array","desc":"Registration Data"}]
-		 * @change_log
-		 * ["Since: 2.0"]
-		 * @usage add_filter( 'um_email_registration_data', 'function_name', 10, 1 );
-		 * @example
-		 * <?php
-		 * add_filter( 'um_email_registration_data', 'my_email_registration_data', 10, 1 );
-		 * function my_email_registration_data( $data ) {
-		 *     // your code here
-		 *     return $data;
-		 * }
-		 * ?>
-		 */
-		$data = apply_filters( 'um_email_registration_data', $data );
-
-		$pw_fields = array();
-		foreach ( $data as $k => $v ) {
-
-			if ( strstr( $k, 'user_pass' ) || in_array( $k, array( 'g-recaptcha-response', 'request', '_wpnonce', '_wp_http_referer' ) ) ) {
-				continue;
-			}
-
-			if ( UM()->fields()->get_field_type( $k ) == 'password' ) {
-				$pw_fields[] = $k;
-				$pw_fields[] = 'confirm_' . $k;
-				continue;
-			}
-
-			if ( ! empty( $pw_fields ) && in_array( $k, $pw_fields ) ) {
-				continue;
-			}
-
-			if ( UM()->fields()->get_field_type( $k ) == 'image' || UM()->fields()->get_field_type( $k ) == 'file' ) {
-				$file = basename( $v );
-				$filedata = get_user_meta( um_user( 'ID' ), $k . "_metadata", true );
-
-				$baseurl = UM()->uploader()->get_upload_base_url();
-				if ( ! file_exists( UM()->uploader()->get_upload_base_dir() . um_user( 'ID' ) . DIRECTORY_SEPARATOR . $file ) ) {
-					if ( is_multisite() ) {
-						//multisite fix for old customers
-						$baseurl = str_replace( '/sites/' . get_current_blog_id() . '/', '/', $baseurl );
-					}
-				}
-
-				if ( ! empty( $filedata['original_name'] ) ) {
-					$v = '<a href="' . esc_attr( $baseurl . um_user( 'ID' ) . '/' . $file ) . '">' . esc_html( $filedata['original_name'] ) . '</a>';
-				} else {
-					$v = $baseurl . um_user( 'ID' ) . '/' . $file;
-				}
-			}
-
-			if ( is_array( $v ) ) {
-				$v = implode( ',', $v );
-			}
-
-			if ( $k == 'timestamp' ) {
-				$k = __( 'date submitted', 'ultimate-member' );
-				$v = date( "d M Y H:i", $v );
-			}
-
-			if ( $style ) {
-				if ( ! $v ) {
-					$v = __( '(empty)', 'ultimate-member' );
-				}
-				$output .= "<p><label>$k</label><span>$v</span></p>";
-			} else {
-				$output .= "$k: $v" . "<br />";
-			}
-		}
-	}
-
-	if ( $style ) {
-		$output .= '</div>';
-	}
-
-	return $output;
-}
-
-/**
  * Format submitted data for Info preview & Email template
  * @param  boolean $style 
  * @return string
  *
  * @since  2.1.4 
  */
-function um_user_submitted_registration_formatted( $style = false ){
+function um_user_submitted_registration_formatted( $style = false ) {
 	$output = null;
 
 	$submitted_data = um_user( 'submitted' );
@@ -793,7 +691,9 @@ function um_user_submitted_registration_formatted( $style = false ){
 
 	if ( isset( $submitted_data ) && is_array( $submitted_data ) ) {
 
-		$fields = UM()->query()->get_attr( 'custom_fields', $submitted_data['form_id'] );
+		if ( isset( $submitted_data['form_id'] ) ) {
+			$fields = UM()->query()->get_attr( 'custom_fields', $submitted_data['form_id'] );
+		}
 
 		if ( isset( $fields ) ) {
 
@@ -939,13 +839,19 @@ function um_user_submitted_registration_formatted( $style = false ){
 function um_user_submited_display( $k, $title, $data = array(), $style = true ) {
 	$output = '';
 
-	if ( 'form_id' == $k && isset(  $data['form_id'] ) && ! empty( $data['form_id'] ) ) {
+	if ( 'form_id' == $k && isset( $data['form_id'] ) && ! empty( $data['form_id'] ) ) {
 		$v = sprintf( __( '%s - Form ID#: %s', 'ultimate-member' ), get_the_title( $data['form_id'] ), $data['form_id'] );
 	} else {
 		$v = um_user( $k );
 	}
 
 	if ( strstr( $k, 'user_pass' ) || in_array( $k, array( 'g-recaptcha-response', 'request', '_wpnonce', '_wp_http_referer' ) ) ) {
+		return '';
+	}
+
+	$fields_without_metakey = UM()->builtin()->get_fields_without_metakey();
+	$type = UM()->fields()->get_field_type( $k );
+	if ( in_array( $type, $fields_without_metakey ) ) {
 		return '';
 	}
 
@@ -957,7 +863,7 @@ function um_user_submited_display( $k, $title, $data = array(), $style = true ) 
 		}
 	}
 
-	if ( UM()->fields()->get_field_type( $k ) == 'image' || UM()->fields()->get_field_type( $k ) == 'file' ) {
+	if ( $type == 'image' || $type == 'file' ) {
 		$file = basename( $v );
 
 		$filedata = get_user_meta( um_user( 'ID' ), $k . "_metadata", true );
@@ -1033,6 +939,9 @@ function um_filtered_social_link( $key, $match ) {
  */
 function um_filtered_value( $key, $data = false ) {
 	$value = um_user( $key );
+	if ( is_array( $value ) ) {
+		$value = add_magic_quotes( $value );
+	}
 
 	if ( ! $data ) {
 		$data = UM()->builtin()->get_specific_field( $key );
@@ -1331,24 +1240,27 @@ function um_is_core_page( $page ) {
 		return false;
 	}
 
-	if ( isset( $post->ID ) && isset( UM()->config()->permalinks[ $page ] ) && $post->ID == UM()->config()->permalinks[ $page ] )
+	if ( isset( $post->ID ) && isset( UM()->config()->permalinks[ $page ] ) && $post->ID == UM()->config()->permalinks[ $page ] ) {
 		return true;
+	}
 
-	if ( isset( $post->ID ) && get_post_meta( $post->ID, '_um_wpml_' . $page, true ) == 1 )
+	if ( isset( $post->ID ) && get_post_meta( $post->ID, '_um_wpml_' . $page, true ) == 1 ) {
 		return true;
+	}
 
 	if ( UM()->external_integrations()->is_wpml_active() ) {
 		global $sitepress;
-		if ( UM()->config()->permalinks[ $page ] == wpml_object_id_filter( $post->ID, 'page', true, $sitepress->get_default_language() ) ) {
+		if ( isset( UM()->config()->permalinks[ $page ] ) && UM()->config()->permalinks[ $page ] == wpml_object_id_filter( $post->ID, 'page', true, $sitepress->get_default_language() ) ) {
 			return true;
 		}
 	}
 
-	if (isset( $post->ID )) {
+	if ( isset( $post->ID ) ) {
 		$_icl_lang_duplicate_of = get_post_meta( $post->ID, '_icl_lang_duplicate_of', true );
 
-		if (isset( UM()->config()->permalinks[$page] ) && ( ( $_icl_lang_duplicate_of == UM()->config()->permalinks[$page] && !empty( $_icl_lang_duplicate_of ) ) || UM()->config()->permalinks[$page] == $post->ID ))
+		if ( isset( UM()->config()->permalinks[ $page ] ) && ( ( $_icl_lang_duplicate_of == UM()->config()->permalinks[ $page ] && !empty( $_icl_lang_duplicate_of ) ) || UM()->config()->permalinks[ $page ] == $post->ID ) ) {
 			return true;
+		}
 	}
 
 	return false;
@@ -1362,16 +1274,19 @@ function um_is_core_page( $page ) {
  * @return bool
  */
 function um_is_core_post( $post, $core_page ) {
-	if (isset( $post->ID ) && isset( UM()->config()->permalinks[$core_page] ) && $post->ID == UM()->config()->permalinks[$core_page])
+	if ( isset( $post->ID ) && isset( UM()->config()->permalinks[ $core_page ] ) && $post->ID == UM()->config()->permalinks[ $core_page ] ) {
 		return true;
-	if (isset( $post->ID ) && get_post_meta( $post->ID, '_um_wpml_' . $core_page, true ) == 1)
+	}
+	if ( isset( $post->ID ) && get_post_meta( $post->ID, '_um_wpml_' . $core_page, true ) == 1 ) {
 		return true;
+	}
 
-	if (isset( $post->ID )) {
+	if ( isset( $post->ID ) ) {
 		$_icl_lang_duplicate_of = get_post_meta( $post->ID, '_icl_lang_duplicate_of', true );
 
-		if (isset( UM()->config()->permalinks[$core_page] ) && ( ( $_icl_lang_duplicate_of == UM()->config()->permalinks[$core_page] && !empty( $_icl_lang_duplicate_of ) ) || UM()->config()->permalinks[$core_page] == $post->ID ))
+		if ( isset( UM()->config()->permalinks[ $core_page ] ) && ( ( $_icl_lang_duplicate_of == UM()->config()->permalinks[ $core_page ] && ! empty( $_icl_lang_duplicate_of ) ) || UM()->config()->permalinks[ $core_page ] == $post->ID ) ) {
 			return true;
+		}
 	}
 
 	return false;
@@ -2053,7 +1968,7 @@ function um_get_cover_uri( $image, $attrs ) {
 function um_get_avatar_url( $get_avatar ) {
 	preg_match( '/src="(.*?)"/i', $get_avatar, $matches );
 
-	return $matches[1];
+	return isset( $matches[1] ) ? $matches[1] : '';
 }
 
 

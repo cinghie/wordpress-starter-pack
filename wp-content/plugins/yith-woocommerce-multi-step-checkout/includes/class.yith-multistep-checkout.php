@@ -168,7 +168,9 @@ if ( ! class_exists( 'YITH_Multistep_Checkout' ) ) {
 			}
 
 			else {
-				$this->frontend = new YITH_Multistep_Checkout_Frontend();
+				if( apply_filters( 'yith_wcms_plugin_enabled_on_front', true ) ){
+					$this->frontend = new YITH_Multistep_Checkout_Frontend();
+				}
 			}
 		}
 

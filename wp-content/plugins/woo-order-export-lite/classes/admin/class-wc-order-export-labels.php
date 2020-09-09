@@ -140,6 +140,10 @@ class WC_Order_Export_Labels {
 		return $this->labels;
 	}
 
+	public function set_labels( $labels ) {
+		$this->labels = $labels;
+	}
+
 	public function get_fetch_fields() {
 		$fetch_fields = array();
 		foreach ( $this->labels as $label_data ) {

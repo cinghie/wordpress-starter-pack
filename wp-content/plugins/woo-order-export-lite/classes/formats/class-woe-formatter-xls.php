@@ -42,7 +42,7 @@ class WOE_Formatter_Xls extends WOE_Formatter_Plain_Format {
 		$this->string_format_fields = isset( $field_formats['string'] ) ? $field_formats['string'] : array();
 		$this->string_format_fields = apply_filters( "woe_{$format}_string_format_fields",
 			$this->string_format_fields );
-
+		
 		$this->date_format_fields = isset( $field_formats['date'] ) ? $field_formats['date'] : array();
 		$this->date_format_fields = apply_filters( "woe_{$format}_date_format_fields", $this->date_format_fields );
 
@@ -54,6 +54,9 @@ class WOE_Formatter_Xls extends WOE_Formatter_Plain_Format {
 
 		$this->image_format_fields = isset( $field_formats['image'] ) ? $field_formats['image'] : array();
 		$this->image_format_fields = apply_filters( "woe_{$format}_image_format_fields", $this->image_format_fields );
+
+		$this->link_format_fields = isset( $field_formats['link'] ) ? $field_formats['link'] : array();
+		$this->link_format_fields = apply_filters( "woe_{$format}_link_format_fields", $this->link_format_fields );
 		
 		if ( $mode != 'preview' ) {
 			//more memory for XLS?
@@ -206,7 +209,11 @@ class WOE_Formatter_Xls extends WOE_Formatter_Plain_Format {
 						$this->objPHPExcel->getActiveSheet()->getStyleByColumnAndRow( $pos, $this->last_row )->getNumberFormat()->setFormatCode( $this->date_format );
 						if ( $text ) {
 							if ( empty( $this->settings['global_job_settings']['time_format'] ) ) { // must remove time!
+                                if ( WOE_Formatter::is_valid_time_stamp( $text ) ) {
+									$text = date( "Y-m-d", $text );
+								} else {
 								$text = date( "Y-m-d", strtotime( $text ) );
+								}
 							}
 							try {
 								$text = PHPExcel_Shared_Date::PHPToExcel( new DateTime( $text ) );
@@ -214,6 +221,9 @@ class WOE_Formatter_Xls extends WOE_Formatter_Plain_Format {
 
 							$this->objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow( $pos, $this->last_row, $text );
 						}
+					} elseif ( $this->field_format_is( $field, $this->link_format_fields ) ) {
+						$this->objPHPExcel->getActiveSheet()->getStyleByColumnAndRow( $pos, $this->last_row )->getNumberFormat()->setFormatCode( PHPExcel_Style_NumberFormat::FORMAT_TEXT );
+						$this->objPHPExcel->getActiveSheet()->setCellValueExplicitByColumnAndRow( $pos, $this->last_row, $text );
 					} else {
 						$this->objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow( $pos, $this->last_row, $text );
 					}

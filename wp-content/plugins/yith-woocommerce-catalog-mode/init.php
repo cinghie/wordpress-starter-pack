@@ -5,20 +5,29 @@
  * Description: <code><strong>YITH WooCommerce Catalog Mode</strong></code> allows hiding product prices, cart and checkout from your store and turning it into a performing product catalogue. You will be able to adjust your catalogue settings as you prefer based on your requirements. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>
  * Author: YITH
  * Text Domain: yith-woocommerce-catalog-mode
- * Version: 2.0.2
+ * Version: 2.0.3
  * Author URI: https://yithemes.com/
  * WC requires at least: 4.0.0
- * WC tested up to: 4.3.x
+ * WC tested up to: 4.4.x
+ *
+ * @package YITH WooCommerce Catalog Mode
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-} // Exit if accessed directly
-
-if ( ! function_exists( 'is_plugin_active' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+	exit; // Exit if accessed directly.
 }
 
+if ( ! function_exists( 'is_plugin_active' ) ) {
+	require_once ABSPATH . 'wp-admin/includes/plugin.php';
+}
+
+/**
+ * Show error message if WooCommerce is disabled
+ *
+ * @return  void
+ * @since   1.0.0
+ * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
+ */
 function ywctm_install_woocommerce_admin_notice() {
 	?>
 	<div class="error">
@@ -32,6 +41,13 @@ function ywctm_install_woocommerce_admin_notice() {
 	<?php
 }
 
+/**
+ * Show error message if premium version is enabled
+ *
+ * @return  void
+ * @since   1.0.0
+ * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
+ */
 function ywctm_install_free_admin_notice() {
 	?>
 	<div class="error">
@@ -45,7 +61,7 @@ function ywctm_install_free_admin_notice() {
 	<?php
 }
 
-! defined( 'YWCTM_VERSION' ) && define( 'YWCTM_VERSION', '2.0.2' );
+! defined( 'YWCTM_VERSION' ) && define( 'YWCTM_VERSION', '2.0.3' );
 ! defined( 'YWCTM_FREE_INIT' ) && define( 'YWCTM_FREE_INIT', plugin_basename( __FILE__ ) );
 ! defined( 'YWCTM_SLUG' ) && define( 'YWCTM_SLUG', 'yith-woocommerce-catalog-mode' );
 ! defined( 'YWCTM_FILE' ) && define( 'YWCTM_FILE', __FILE__ );
@@ -57,10 +73,17 @@ function ywctm_install_free_admin_notice() {
 
 /* Plugin Framework Version Check */
 if ( ! function_exists( 'yit_maybe_plugin_fw_loader' ) && file_exists( YWCTM_DIR . 'plugin-fw/init.php' ) ) {
-	require_once( YWCTM_DIR . 'plugin-fw/init.php' );
+	require_once YWCTM_DIR . 'plugin-fw/init.php';
 }
 yit_maybe_plugin_fw_loader( YWCTM_DIR );
 
+/**
+ * Run plugin
+ *
+ * @return  void
+ * @since   1.0.0
+ * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
+ */
 function ywctm_init() {
 
 	/* Load YWCTM text domain */
@@ -71,6 +94,13 @@ function ywctm_init() {
 
 add_action( 'ywctm_init', 'ywctm_init' );
 
+/**
+ * Initialize plugin
+ *
+ * @return void
+ * @since   1.0.0
+ * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
+ */
 function ywctm_install() {
 
 	if ( ! function_exists( 'WC' ) ) {
@@ -105,8 +135,8 @@ if ( ! function_exists( 'YITH_WCTM' ) ) {
 	 */
 	function YITH_WCTM() { //phpcs:ignore
 
-		// Load required classes and functions
-		require_once( YWCTM_DIR . 'class-yith-woocommerce-catalog-mode.php' );
+		// Load required classes and functions.
+		require_once YWCTM_DIR . 'class-yith-woocommerce-catalog-mode.php';
 
 		return YITH_WooCommerce_Catalog_Mode::get_instance();
 

@@ -28,7 +28,7 @@ class WOOCCM_Fields_Register
     // My account
     // woocommerce 4.2 issue, the shipping and billing fields not working on my account when required field is empty
     // temporary fix excluding required fields in my account
-    add_filter('woocommerce_address_to_edit', array($this, 'add_my_account_fields'), 10, 2);
+    ///add_filter('woocommerce_address_to_edit', array($this, 'add_my_account_fields'), 10, 2);
   }
 
   public static function instance()

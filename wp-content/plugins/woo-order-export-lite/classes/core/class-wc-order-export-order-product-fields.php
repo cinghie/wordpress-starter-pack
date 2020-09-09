@@ -13,6 +13,11 @@ class WC_Order_Export_Order_Product_Fields {
 	var $options;
 	var $woe_order;
 
+	/**
+	 * @var int
+	 */
+	public $parent_product_id;
+
 	public function __construct($item, $item_meta, $product, 
 	$order, $post, $line_id, $static_vals, $options, $woe_order) {
 		$this->item = $item;
@@ -28,6 +33,9 @@ class WC_Order_Export_Order_Product_Fields {
 		$this->variation_id = $this->item->get_variation_id() ? $this->item->get_variation_id() : $this->item->get_product_id();
 		$this->product_id = $this->item->get_product_id();
 		$this->product_fields_with_tags = array( 'product_variation', 'post_content', 'post_excerpt' );
+
+		$this->parent_product_id = method_exists( $product,
+			'get_parent_id' ) ? $product->get_parent_id() : ( isset( $product->parent ) ? $product->parent->id : 0 );
 	}
 
 	private static function get_product_category_full( $product_id ) {
@@ -98,21 +106,35 @@ class WC_Order_Export_Order_Product_Fields {
 			$field_value = $this->post ? $this->post->post_excerpt : '';
 		} elseif ( $field == 'embedded_product_image' ) {
 			$field_value = "";
+			$attachment_id = null;
 
-			if ( $this->post && get_post_thumbnail_id( $this->post->ID ) ) {
-				$attachment_id = get_post_thumbnail_id( $this->post->ID );
-			} else {
+			if ( $this->product_id ) {
+				$attachment_id = get_post_thumbnail_id( $this->product->get_id() );
+			}
+
+			if ( ! $attachment_id && $this->parent_product_id ) {
+				$attachment_id = get_post_thumbnail_id( $this->parent_product_id );
+			}
+
+			if ( ! $attachment_id ) {
 				$attachment_id = get_option( 'woocommerce_placeholder_image', 0 );
 			}
 
-			if ( is_array( $imagedata = wp_get_attachment_metadata( $attachment_id ) ) ) {
-				$file = get_attached_file( $attachment_id );
-				if ( ! empty( $imagedata['sizes']['woocommerce_thumbnail']['file'] ) ) {
-					$thumbnail_base_name = $imagedata['sizes']['woocommerce_thumbnail']['file'];
-
-					if ( ( $thumbfile = str_replace( basename( $file ), $thumbnail_base_name, $file ) ) && file_exists( $thumbfile ) ) {
-						$field_value = $thumbfile;
-					}
+			/**
+			 * do not use method listed below
+			 * - @see wp_get_attachment_metadata()
+			 *      $imagedata = wp_get_attachment_metadata( $attachment_id );
+			 *      $file = get_attached_file( $attachment_id );
+			 *      sometimes wp_get_attachment_metadata() is empty!
+			 * - @see wp_get_attachment_url()
+			 *      do not have 'size' argument
+			 * - @see get_attached_file()
+			 *      $path = get_attached_file( get_post_thumbnail_id( $post->ID );
+			 *      This code was used in the first implementation.
+			 */
+			if ( $image = wp_get_attachment_image_src( $attachment_id, 'woocommerce_thumbnail' ) ) {
+				if ( ( $thumbfile = str_replace( wp_get_upload_dir()['baseurl'], wp_get_upload_dir()['basedir'], $image[0] ) ) && file_exists( $thumbfile ) ) {
+					$field_value = $thumbfile;
 				}
 			}
 		} elseif ( $field == 'type' ) {
@@ -182,9 +204,10 @@ class WC_Order_Export_Order_Product_Fields {
 		elseif ( $field == 'sku_parent' ) {
 			$field_value = '';
 			if( $this->product ) {
-				if( $this->product->is_type( 'variation' ) ) {
-					$parent= wc_get_product( $this->product->get_parent_id() );
-					$field_value = $parent->get_sku();
+				if ( $this->product->is_type( 'variation' ) && $this->parent_product_id ) {
+					if ( $parent = wc_get_product( $this->parent_product_id ) ) {
+						$field_value = $parent->get_sku();
+					}
 				}
 				else 
 					$field_value = $this->product->get_sku();
@@ -258,8 +281,11 @@ class WC_Order_Export_Order_Product_Fields {
 			if ( $field_value === '' AND !empty( $this->item['variation_id'] ) AND $this->product) // 6. try get attribute for variaton
 			{
 				$field_value = $this->product->get_attribute( $field );
-				if( $field_value === '' AND $this->product->parent )
-					$field_value = $this->product->parent->get_attribute( $field );
+				if ( $field_value === '' and $this->parent_product_id ) {
+					if ( $parent = wc_get_product( $this->parent_product_id ) ) {
+						$field_value = $parent->get_attribute( $field );
+					}
+				}
 			}
 			if ( $field_value === '' ) {  //5. read from product/variation hidden field
 				$field_value = get_post_meta( $this->variation_id, "_" . $field, true );

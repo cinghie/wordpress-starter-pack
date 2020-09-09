@@ -1,4 +1,5 @@
 (function ($) {
+  "use strict";
 
   var count = 0,
     timer;
@@ -12,6 +13,8 @@
   var unblock = function () {
     $('#wooccm_modal').removeClass('processing');
   };
+
+  console.log('wooccm_field.args', wooccm_field.args)
 
   _.mixin({
     sortOptions: function (object) {
@@ -27,14 +30,15 @@
         .replace(/&#039;/g, "'");
     },
     getFormData: function ($form) {
-      return $form.serializeJSON({ checkboxUncheckedValue: 'false', parseBooleans: true, parseNulls: true });
-      //breakes image highlight id
-      //      return $form.serializeJSON({checkboxUncheckedValue: 'false', parseBooleans: true, parseNumbers: true, parseNulls: true});
+      let form = $form.serializeJSON({ checkboxUncheckedValue: 'false', parseBooleans: true, parseNulls: true });
+      let defaults = Object.assign({}, wooccm_field.args);
+      let merged = Object.assign(defaults, form)
+      return merged
     }
   });
 
   var FieldModel = Backbone.Model.extend({
-    defaults: wooccm_field.args
+    defaults: Object.create(wooccm_field.args)
   });
 
   var FieldModal = Backbone.View.extend({
@@ -42,6 +46,7 @@
       var $button = $(e.target),
         field_id = $button.closest('[data-field_id]').data('field_id');
       var model = new FieldModel();
+      //console.log('model init', model)
       model.set({
         id: field_id
       });
@@ -84,6 +89,7 @@
       var modal = this,
         $form = modal.$el.find('#wooccm_modal').find('form');
       var model = _.getFormData($form);
+      console.log('model', model)
       this.model.set(model);
     },
     reload: function (e) {

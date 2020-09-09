@@ -28,8 +28,8 @@
                 <tr data-field_id="<?php echo esc_attr($field['id']); ?>" data-field_order="<?php echo esc_attr($field['order']); ?>">
                   <td class="sort ui-sortable-handle">
                     <div class="wc-item-reorder-nav">
-                      <button type="button" class="wc-move-up wc-move-disabled" tabindex="-1" aria-hidden="true" aria-label="<?php echo esc_attr(sprintf(__('Move the "%s" payment method up', 'woocommerce-checkout-manager'), $field['label'])); ?>"><?php esc_html_e('Move up', 'woocommerce-checkout-manager'); ?></button>
-                      <button type="button" class="wc-move-down" tabindex="0" aria-hidden="false" aria-label="<?php echo esc_attr(sprintf(__('Move the "%s" payment method down', 'woocommerce-checkout-manager'), $field['label'])); ?>"><?php esc_html_e('Move down', 'woocommerce-checkout-manager'); ?></button>
+                      <button type="button" class="wc-move-up wc-move-disabled" tabindex="-1" aria-hidden="true" aria-label="<?php echo esc_attr(sprintf(esc_html__('Move the "%s" payment method up', 'woocommerce-checkout-manager'), $field['label'])); ?>"><?php esc_html_e('Move up', 'woocommerce-checkout-manager'); ?></button>
+                      <button type="button" class="wc-move-down" tabindex="0" aria-hidden="false" aria-label="<?php echo esc_attr(sprintf(esc_html__('Move the "%s" payment method down', 'woocommerce-checkout-manager'), $field['label'])); ?>"><?php esc_html_e('Move down', 'woocommerce-checkout-manager'); ?></button>
                       <input type="hidden" name="field_order[]" value="<?php echo esc_attr($id); ?>">
                     </div>
                   </td>
@@ -37,9 +37,9 @@
                     <a data-field_attr="required" class="wooccm-field-toggle-attribute" href="#">
                       <?php
                       if ($field['required'] === true) {
-                        echo '<span class="woocommerce-input-toggle woocommerce-input-toggle--enabled" aria-label="' . esc_attr(sprintf(__('The "%s" field currently enabled', 'woocommerce-checkout-manager'), $field['label'])) . '">' . esc_attr__('Yes', 'woocommerce-checkout-manager') . '</span>';
+                        echo '<span class="woocommerce-input-toggle woocommerce-input-toggle--enabled" aria-label="' . esc_attr(sprintf(esc_html__('The "%s" field currently enabled', 'woocommerce-checkout-manager'), $field['label'])) . '">' . esc_attr__('Yes', 'woocommerce-checkout-manager') . '</span>';
                       } else {
-                        echo '<span class="woocommerce-input-toggle woocommerce-input-toggle--disabled" aria-label="' . esc_attr(sprintf(__('The "%s" field currently disabled', 'woocommerce-checkout-manager'), $field['label'])) . '">' . esc_attr__('No', 'woocommerce-checkout-manager') . '</span>';
+                        echo '<span class="woocommerce-input-toggle woocommerce-input-toggle--disabled" aria-label="' . esc_attr(sprintf(esc_html__('The "%s" field currently disabled', 'woocommerce-checkout-manager'), $field['label'])) . '">' . esc_attr__('No', 'woocommerce-checkout-manager') . '</span>';
                       }
                       ?>
                     </a>
@@ -55,9 +55,9 @@
                     <a data-field_attr="clear" class="wooccm-field-toggle-attribute" href="#">
                       <?php
                       if ($field['clear'] === true) {
-                        echo '<span class="woocommerce-input-toggle woocommerce-input-toggle--enabled" aria-label="' . esc_attr(sprintf(__('The "%s" field currently enabled', 'woocommerce-checkout-manager'), $field['label'])) . '">' . esc_attr__('Yes', 'woocommerce-checkout-manager') . '</span>';
+                        echo '<span class="woocommerce-input-toggle woocommerce-input-toggle--enabled" aria-label="' . esc_attr(sprintf(esc_html__('The "%s" field currently enabled', 'woocommerce-checkout-manager'), $field['label'])) . '">' . esc_attr__('Yes', 'woocommerce-checkout-manager') . '</span>';
                       } else {
-                        echo '<span class="woocommerce-input-toggle woocommerce-input-toggle--disabled" aria-label="' . esc_attr(sprintf(__('The "%s" field currently disabled', 'woocommerce-checkout-manager'), $field['label'])) . '">' . esc_attr__('No', 'woocommerce-checkout-manager') . '</span>';
+                        echo '<span class="woocommerce-input-toggle woocommerce-input-toggle--disabled" aria-label="' . esc_attr(sprintf(esc_html__('The "%s" field currently disabled', 'woocommerce-checkout-manager'), $field['label'])) . '">' . esc_attr__('No', 'woocommerce-checkout-manager') . '</span>';
                       }
                       ?>
                     </a>
@@ -108,9 +108,9 @@
                     <a data-field_attr="disabled" class="wooccm-field-toggle-attribute" href="#">
                       <?php
                       if ($field['disabled'] === true) {
-                        echo '<span class="woocommerce-input-toggle woocommerce-input-toggle--enabled" aria-label="' . esc_attr(sprintf(__('The "%s" field currently enabled', 'woocommerce-checkout-manager'), $field['label'])) . '">' . esc_attr__('Yes', 'woocommerce-checkout-manager') . '</span>';
+                        echo '<span class="woocommerce-input-toggle woocommerce-input-toggle--enabled" aria-label="' . esc_attr(sprintf(esc_html__('The "%s" field currently enabled', 'woocommerce-checkout-manager'), $field['label'])) . '">' . esc_attr__('Yes', 'woocommerce-checkout-manager') . '</span>';
                       } else {
-                        echo '<span class="woocommerce-input-toggle woocommerce-input-toggle--disabled" aria-label="' . esc_attr(sprintf(__('The "%s" field currently disabled', 'woocommerce-checkout-manager'), $field['label'])) . '">' . esc_attr__('No', 'woocommerce-checkout-manager') . '</span>';
+                        echo '<span class="woocommerce-input-toggle woocommerce-input-toggle--disabled" aria-label="' . esc_attr(sprintf(esc_html__('The "%s" field currently disabled', 'woocommerce-checkout-manager'), $field['label'])) . '">' . esc_attr__('No', 'woocommerce-checkout-manager') . '</span>';
                       }
                       ?>
                     </a>

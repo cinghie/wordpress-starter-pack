@@ -15,7 +15,7 @@ class WOOCCM_Field_Compatibility
     'select' => 'wooccmselect',
     'radio' => 'wooccmradio',
     'checkbox' => 'checkbox_wccm',
-    //'button' => __('Button', 'woocommerce-checkout-manager'),
+    //'button' => esc_html__('Button', 'woocommerce-checkout-manager'),
     'country' => 'wooccmcountry',
     'state' => 'wooccmstate',
     'multiselect' => 'multiselect',

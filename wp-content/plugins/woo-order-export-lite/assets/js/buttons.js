@@ -188,6 +188,10 @@ function woe_get_all( start, percent, method ) {
 		data.push( {name: 'file_id', value: window.file_id} );
 		data.push( {name: 'woe_nonce', value: settings_form.woe_nonce} );
 		data.push( {name: 'tab', value: settings_form.woe_active_tab} );
+		if( method == 'export_part' ) {
+			data.push( {name: 'max_line_items', value: window.max_line_items} );
+			data.push( {name: 'max_coupons', value: window.max_coupons} );
+		}
 
 		jQuery.ajax( {
 			type: "post",
@@ -317,6 +321,8 @@ jQuery( document ).ready( function ( $ ) {
 				}
 				window.count = response['total'];
 				window.file_id = response['file_id'];
+				window.max_line_items = response['max_line_items'];
+				window.max_coupons = response['max_coupons'];
 				console.log( window.count );
 
 				if ( window.count > 0 ) {

@@ -1,15 +1,18 @@
 <?php
 
-class WOOCCM_Fields_Filter {
+class WOOCCM_Fields_Filter
+{
 
   protected static $_instance;
   public $count = 0;
 
-  public function __construct() {
+  public function __construct()
+  {
     $this->init();
   }
 
-  public static function instance() {
+  public static function instance()
+  {
     if (is_null(self::$_instance)) {
       self::$_instance = new self();
     }
@@ -18,7 +21,8 @@ class WOOCCM_Fields_Filter {
 
   // Custom fields
   // ---------------------------------------------------------------------------
-  public function custom_field($field = '', $key, $args, $value) {
+  public function custom_field($field = '', $key, $args, $value)
+  {
 
     $field = '';
 
@@ -33,7 +37,8 @@ class WOOCCM_Fields_Filter {
       $args['label_class'] = array($args['label_class']);
     }
 
-    if (is_null($value)) {
+    //if (is_null($value)) {
+    if (!$value) {
       $value = $args['default'];
     }
 
@@ -75,7 +80,7 @@ class WOOCCM_Fields_Filter {
     $field_container = '<p class="form-row %1$s" id="%2$s" data-priority="' . esc_attr($sort) . '">%3$s</p>';
     switch ($args['type']) {
 
-      case 'radio' :
+      case 'radio':
         $field = '';
 
         if (!empty($args['options'])) {
@@ -109,7 +114,7 @@ class WOOCCM_Fields_Filter {
 
         break;
 
-      case 'multiselect' :
+      case 'multiselect':
 
         $field = '';
 
@@ -125,7 +130,7 @@ class WOOCCM_Fields_Filter {
 
         break;
 
-      case 'multicheckbox' :
+      case 'multicheckbox':
 
         $field = '';
 
@@ -145,7 +150,7 @@ class WOOCCM_Fields_Filter {
 
         break;
 
-      case 'file' :
+      case 'file':
 
         $field = '';
 
@@ -183,7 +188,8 @@ class WOOCCM_Fields_Filter {
 
   // Heading
   // ---------------------------------------------------------------------------
-  public function heading_field($field = '', $key, $args, $value) {
+  public function heading_field($field = '', $key, $args, $value)
+  {
 
     // Custom attribute handling.
     $custom_attributes = array();
@@ -207,7 +213,8 @@ class WOOCCM_Fields_Filter {
 
   // Colorpicker
   // ---------------------------------------------------------------------------
-  public function colorpicker_field($field = '', $key, $args, $value) {
+  public function colorpicker_field($field = '', $key, $args, $value)
+  {
 
     $args['type'] = 'text';
     $args['maxlength'] = 7;
@@ -225,7 +232,8 @@ class WOOCCM_Fields_Filter {
 
   // Country 
   // ---------------------------------------------------------------------------
-  public function country_field($field = '', $key, $args, $value) {
+  public function country_field($field = '', $key, $args, $value)
+  {
 
     static $instance = 0;
 
@@ -250,7 +258,8 @@ class WOOCCM_Fields_Filter {
 
   //  State
   // ---------------------------------------------------------------------------
-  public function state_field($field = '', $key, $args, $value) {
+  public function state_field($field = '', $key, $args, $value)
+  {
 
     static $instance = 0;
 
@@ -273,7 +282,24 @@ class WOOCCM_Fields_Filter {
     return $field;
   }
 
-  public function init() {
+  public function hidden_field($field = '', $key, $args, $value)
+  {
+
+    static $instance = 0;
+
+    if ($instance) {
+      return $field;
+    }
+
+    $instance++;
+
+    $field .= '<input type="hidden" name="' . esc_attr($key) . '" id="' . esc_attr($args['id']) . '" value="' . esc_html($value) . '" ' . implode(' ', $args['custom_attributes']) . ' readonly="readonly" />';
+
+    return $field;
+  }
+
+  public function init()
+  {
     add_filter('woocommerce_form_field_radio', array($this, 'custom_field'), 10, 4);
     add_filter('woocommerce_form_field_multicheckbox', array($this, 'custom_field'), 10, 4);
     add_filter('woocommerce_form_field_multiselect', array($this, 'custom_field'), 10, 4);
@@ -283,8 +309,8 @@ class WOOCCM_Fields_Filter {
     add_filter('woocommerce_form_field_colorpicker', array($this, 'colorpicker_field'), 10, 4);
     add_filter('woocommerce_form_field_country', array($this, 'country_field'), 10, 4);
     add_filter('woocommerce_form_field_state', array($this, 'state_field'), 10, 4);
+    add_filter('woocommerce_form_field_hidden', array($this, 'hidden_field'), 10, 4);
   }
-
 }
 
 WOOCCM_Fields_Filter::instance();

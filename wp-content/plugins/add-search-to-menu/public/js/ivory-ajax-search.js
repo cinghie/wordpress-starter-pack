@@ -8,7 +8,7 @@
                 var ajax;
                 var focused = $( document.activeElement ).closest('form');
 
-		$('body').on('hover', '.is-ajax-search-tags > div, .is-ajax-search-categories > div, .is-ajax-search-post.is-product', function(event) {
+		$('body').on('mouseover', '.is-ajax-search-tags > div, .is-ajax-search-categories > div, .is-ajax-search-post.is-product', function(event) {
 
 			var window_width = $(window).outerWidth();
 			if( parseInt( window_width ) >= 910 ) {

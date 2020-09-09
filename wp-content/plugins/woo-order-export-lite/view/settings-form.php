@@ -337,6 +337,7 @@ function remove_time_from_date( $datetime ) {
                     <div style="color:red"><?php _e( 'Please, install/enable PHP XML extension!', 'woo-order-export-lite' ) ?></div>
 				<?php endif ?>
                 <input type=hidden name="settings[format_xml_self_closing_tags]" value=0>
+                <input type=hidden name="settings[format_xml_preview_format]" value=0>
                 <span class="xml-title"><?php _e( 'Prepend XML', 'woo-order-export-lite' ) ?></span><input type=text
                                                                                                               name="settings[format_xml_prepend_raw_xml]"
                                                                                                               value='<?php echo $settings['format_xml_prepend_raw_xml'] ?>'><br><br>
@@ -359,7 +360,12 @@ function remove_time_from_date( $datetime ) {
                         type=checkbox name="settings[format_xml_self_closing_tags]"
                         value=1 <?php if ( @$settings['format_xml_self_closing_tags'] ) {
 					echo 'checked';
-				} ?> ><br><br>
+                } ?> ><br><br>
+                <span class="xml-title"><?php _e( 'Format output', 'woo-order-export-lite' ) ?></span><input
+                        type=checkbox name="settings[format_xml_preview_format]"
+                        value=1 <?php if ( @$settings['format_xml_preview_format'] ) {
+					echo 'checked';
+                } ?> ><br><br>
             </div>
             <div id='JSON_options' style='display:none'><strong><?php _e( 'JSON options',
 						'woo-order-export-lite' ) ?></strong><br>
@@ -422,8 +428,13 @@ function remove_time_from_date( $datetime ) {
                        value=1 <?php if ( @$settings['format_pdf_repeat_header'] ) {
 					echo 'checked';
 				} ?> > <?php _e( 'repeat at each page', 'woo-order-export-lite' ) ?>)<br>
-
-
+<!--
+                <input type=hidden name="settings[format_pdf_direction_rtl]" value=0>
+                <input type=checkbox name="settings[format_pdf_direction_rtl]"
+                       value=1 <?php if ( @$settings['format_pdf_direction_rtl'] ) {
+					echo 'checked';
+				} ?> > <?php _e( 'Right-to-Left direction', 'woo-order-export-lite' ) ?><br>
+-->
                 <div class="pdf_two_col_block">
 					<?php _e( 'Orientation', 'woo-order-export-lite' ) ?><br>
                     <select name="settings[format_pdf_orientation]">
@@ -585,6 +596,22 @@ function remove_time_from_date( $datetime ) {
 		            <input type="number" name="settings[format_pdf_row_images_height]"
 		                   value='<?php echo $settings['format_pdf_row_images_height'] ?>' min="0">
 	            </div>
+
+                <div class="pdf_two_col_block">
+                    <input type=hidden name="settings[format_pdf_row_dont_page_break_order_lines]" value="0">
+                    <input type=checkbox name="settings[format_pdf_row_dont_page_break_order_lines]"
+                           value="1" <?php if ( @$settings['format_pdf_row_dont_page_break_order_lines'] ) {
+		                echo 'checked';
+	                } ?> > <?php _e( 'Don\'t put page break between order lines', 'woo-order-export-lite' ) ?>
+                </div>
+
+                <div class="pdf_two_col_block" style="margin-top:10px">
+                    <input type=hidden name="settings[format_pdf_row_images_add_link]" value="0">
+                    <input type=checkbox name="settings[format_pdf_row_images_add_link]"
+                           value="1" <?php if ( @$settings['format_pdf_row_images_add_link'] ) {
+			            echo 'checked';
+		            } ?> > <?php _e( 'Add links to images', 'woo-order-export-lite' ) ?>
+                </div>
 
                 </div>
 
@@ -757,8 +784,8 @@ function remove_time_from_date( $datetime ) {
 			?>
             <select name="settings[sort]">
 				<?php foreach ( $sort as $value => $text ): ?>
-                    <option value='<?php echo $value ?>' <?php echo selected( @$settings['sort'],
-						$value ) ?> ><?php echo $text; ?></option>
+                    <option value='<?php echo esc_attr($value) ?>' <?php echo selected( @$settings['sort'],
+						$value ) ?> ><?php echo esc_attr($text); ?></option>
 				<?php endforeach; ?>
             </select>
 			<?php
@@ -781,7 +808,8 @@ function remove_time_from_date( $datetime ) {
         </div>
         <br>
         
-		<?php if ( $mode === WC_Order_Export_Manage::EXPORT_SCHEDULE || $mode === WC_Order_Export_Manage::EXPORT_PROFILE ): ?>
+        <?php if ( ! isset( $woe_order_post_type ) || $woe_order_post_type != 'shop_subscription' ) { ?>
+		    <?php if ( $mode === WC_Order_Export_Manage::EXPORT_SCHEDULE || $mode === WC_Order_Export_Manage::EXPORT_PROFILE ) { ?>
         <div id="my-change-status" class="my-block">
                     <label for="change_order_status_to"><?php _e( 'Change order status to',
 							'woo-order-export-lite' ) ?></label>
@@ -797,12 +825,13 @@ function remove_time_from_date( $datetime ) {
                     </select>
         </div>
         <br>
-		<?php endif; ?>
-        
+            <?php } ?>
+        <?php } ?>
+
         <div class="my-block">
 			<span class="my-hide-next "><?php _e( 'Misc settings', 'woo-order-export-lite' ) ?>
                 <span class="ui-icon ui-icon-triangle-1-s my-icon-triangle"></span></span>
-            <div id="my-misc" hidden="hidden">
+            <div id="my-misc" class="hide">
                 <div>
                     <input type="hidden" name="settings[format_number_fields]" value="0"/>
                     <label><input type="checkbox" name="settings[format_number_fields]"
@@ -840,6 +869,12 @@ function remove_time_from_date( $datetime ) {
 							'woo-order-export-lite' ) ?></label>
                 </div>
                 <div>
+                    <input type="hidden" name="settings[convert_serialized_values]" value="0"/>
+                    <label><input type="checkbox" name="settings[convert_serialized_values]"
+                                  value="1" <?php checked( $settings['convert_serialized_values'] ) ?>/><?php _e( 'Try to convert serialized values',
+							'woo-order-export-lite' ) ?></label>
+                </div>
+                <div>
                     <input type="hidden" name="settings[enable_debug]" value="0"/>
                     <label><input type="checkbox" name="settings[enable_debug]"
                                   value="1" <?php checked( $settings['enable_debug'] ) ?>/><?php _e( 'Enable debug output',
@@ -874,77 +909,82 @@ function remove_time_from_date( $datetime ) {
     <div id="my-right" style="float: left; width: 48%; margin: 0px 10px; max-width: 500px;">
 		<?php do_action( 'woe_settings_form_view_destinations', $settings ); ?>
         <div class="my-block">
-			<span class="my-hide-next "><?php _e( 'Filter by order', 'woo-order-export-lite' ) ?>
+            <?php if ( $woe_order_post_type && $woe_order_post_type === 'shop_subscription' ) {
+                include_once WOE_PRO_PLUGIN_BASEPATH . '/view/filter-by-subscription.php';
+            } else {
+                ?>
+                <span class="my-hide-next "><?php _e( 'Filter by order', 'export' ); ?>
                 <span class="ui-icon ui-icon-triangle-1-s my-icon-triangle"></span></span>
-            <div id="my-order" hidden="hidden">
-                <div><input type="hidden" name="settings[skip_suborders]" value="0"/><label><input type="checkbox"
-                                                                                                   name="settings[skip_suborders]"
-                                                                                                   value="1" <?php checked( $settings['skip_suborders'] ) ?> /> <?php _e( "Don't export child orders",
-							'woo-order-export-lite' ) ?></label></div>
-                <div><input type="hidden" name="settings[export_refunds]" value="0"/><label><input type="checkbox"
-                                                                                                   name="settings[export_refunds]"
-                                                                                                   value="1" <?php checked( $settings['export_refunds'] ) ?> /> <?php _e( "Export refunds",
-							'woo-order-export-lite' ) ?></label></div>
-                <div><input type="hidden" name="settings[mark_exported_orders]" value="0"/><label><input type="checkbox"
-                                                                                                         name="settings[mark_exported_orders]"
-                                                                                                         value="1" <?php checked( $settings['mark_exported_orders'] ) ?> /> <?php _e( "Mark exported orders",
-							'woo-order-export-lite' ) ?></label></div>
-                <div><input type="hidden" name="settings[export_unmarked_orders]" value="0"/><label><input
-                                type="checkbox" name="settings[export_unmarked_orders]"
-                                value="1" <?php checked( $settings['export_unmarked_orders'] ) ?> /> <?php _e( "Export unmarked orders only",
-							'woo-order-export-lite' ) ?></label></div>
-                <span class="wc-oe-header"><?php _e( 'Order statuses', 'woo-order-export-lite' ) ?></span>
-                <select id="statuses" class="select2-i18n" name="settings[statuses][]" multiple="multiple"
-                        style="width: 100%; max-width: 25%;">
-					<?php foreach (
-						apply_filters( 'woe_settings_order_statuses', wc_get_order_statuses() ) as $i => $status
-					) { ?>
-                        <option value="<?php echo $i ?>" <?php if ( in_array( $i, $settings['statuses'] ) ) {
-							echo 'selected';
-						} ?>><?php echo $status ?></option>
-					<?php } ?>
-                </select>
-                <div>
-                    <div class="custom-fields__wrapper">
-                        <div>
-                            <span class="wc-oe-header"><?php _e( 'Custom fields', 'woo-order-export-lite' ) ?></span>
-                        </div>
-                        <div class="custom-fields__condotion-wrapper custom-fields__condotion-wrapper_position">
-                            <select id="custom_fields" class="select2-i18n" data-select2-i18n-width="150" style="width: auto;">
-                                <?php foreach ( WC_Order_Export_Data_Extractor_UI::get_order_custom_fields() as $cf_name ) { ?>
-                                    <option><?php echo $cf_name; ?></option>
-                                <?php } ?>
-                            </select>
-
-                            <select id="custom_fields_compare" class="select_compare">
-                                <option>=</option>
-                                <option>&lt;&gt;</option>
-                                <option>LIKE</option>
-                                <option>&gt;</option>
-                                <option>&gt;=</option>
-                                <option>&lt;</option>
-                                <option>&lt;=</option>
-                                <option>NOT SET</option>
-                                <option>IS SET</option>
-                            </select>
-
-                            <input type="text" id="text_custom_fields" disabled class="like-input" style="display: none;">
-                            <button id="add_custom_fields" class="button-secondary"><span
-                                        class="dashicons dashicons-plus-alt"></span></button>
-                        </div>
-                    </div>
-                    <select id="custom_fields_check" class="select2-i18n" multiple name="settings[order_custom_fields][]"
+                <div id="my-order" class="hide">
+                    <div><input type="hidden" name="settings[skip_suborders]" value="0"/><label><input type="checkbox"
+                                                                                                        name="settings[skip_suborders]"
+                                                                                                        value="1" <?php checked( $settings['skip_suborders'] ) ?> /> <?php _e( "Don't export child orders",
+                                'woo-order-export-lite' ) ?></label></div>
+                    <div><input type="hidden" name="settings[export_refunds]" value="0"/><label><input type="checkbox"
+                                                                                                        name="settings[export_refunds]"
+                                                                                                        value="1" <?php checked( $settings['export_refunds'] ) ?> /> <?php _e( "Export refunds",
+                                'woo-order-export-lite' ) ?></label></div>
+                    <div><input type="hidden" name="settings[mark_exported_orders]" value="0"/><label><input type="checkbox"
+                                                                                                                name="settings[mark_exported_orders]"
+                                                                                                                value="1" <?php checked( $settings['mark_exported_orders'] ) ?> /> <?php _e( "Mark exported orders",
+                                'woo-order-export-lite' ) ?></label></div>
+                    <div><input type="hidden" name="settings[export_unmarked_orders]" value="0"/><label><input
+                                    type="checkbox" name="settings[export_unmarked_orders]"
+                                    value="1" <?php checked( $settings['export_unmarked_orders'] ) ?> /> <?php _e( "Export unmarked orders only",
+                                'woo-order-export-lite' ) ?></label></div>
+                    <span class="wc-oe-header"><?php _e( 'Order statuses', 'woo-order-export-lite' ); ?></span>
+                    <select id="statuses" class="select2-i18n" name="settings[statuses][]" multiple="multiple"
                             style="width: 100%; max-width: 25%;">
-                        <?php
-                        if ( $settings['order_custom_fields'] ) {
-                            foreach ( $settings['order_custom_fields'] as $prod ) {
-                                ?>
-                                <option selected value="<?php echo $prod; ?>"> <?php echo $prod; ?></option>
-                            <?php }
-                        } ?>
+                        <?php foreach (
+                            apply_filters( 'woe_settings_order_statuses', wc_get_order_statuses() ) as $i => $status
+                        ) { ?>
+                            <option value="<?php echo $i ?>" <?php if ( in_array( $i, $settings['statuses'] ) ) {
+                                echo 'selected';
+                            } ?>><?php echo $status ?></option>
+                        <?php } ?>
                     </select>
+                    <div>
+                        <div class="custom-fields__wrapper">
+                            <div>
+                                <span class="wc-oe-header"><?php _e( 'Custom fields', 'woo-order-export-lite' ) ?></span>
+                            </div>
+                            <div class="custom-fields__condotion-wrapper custom-fields__condotion-wrapper_position">
+                                <select id="custom_fields" class="select2-i18n" data-select2-i18n-width="150" style="width: auto;">
+                                    <?php foreach ( WC_Order_Export_Data_Extractor_UI::get_order_custom_fields() as $cf_name ) { ?>
+                                        <option><?php echo esc_attr( $cf_name); ?></option>
+                                    <?php } ?>
+                                </select>
+
+                                <select id="custom_fields_compare" class="select_compare">
+                                    <option>=</option>
+                                    <option>&lt;&gt;</option>
+                                    <option>LIKE</option>
+                                    <option>&gt;</option>
+                                    <option>&gt;=</option>
+                                    <option>&lt;</option>
+                                    <option>&lt;=</option>
+                                    <option>NOT SET</option>
+                                    <option>IS SET</option>
+                                </select>
+
+                                <input type="text" id="text_custom_fields" disabled class="like-input" style="display: none;">
+                                <button id="add_custom_fields" class="button-secondary"><span
+                                            class="dashicons dashicons-plus-alt"></span></button>
+                            </div>
+                        </div>
+                        <select id="custom_fields_check" class="select2-i18n" multiple name="settings[order_custom_fields][]"
+                                style="width: 100%; max-width: 25%;">
+                            <?php
+                            if ( $settings['order_custom_fields'] ) {
+                                foreach ( $settings['order_custom_fields'] as $prod ) {
+                                    ?>
+                                    <option selected value="<?php echo $prod; ?>"> <?php echo $prod; ?></option>
+                                <?php }
+                            } ?>
+                        </select>
+                    </div>
                 </div>
-            </div>
+            <?php } ?>
         </div>
 
         <br>
@@ -955,7 +995,7 @@ function remove_time_from_date( $datetime ) {
 					'woo-order-export-lite' ) ?></div>
             <span class="my-hide-next "><?php _e( 'Filter by product', 'woo-order-export-lite' ) ?>
                 <span class="ui-icon ui-icon-triangle-1-s my-icon-triangle"></span></span>
-            <div id="my-products" hidden="hidden">
+	    <div id="my-products" class="hide">
                 <div><input type="hidden" name="settings[all_products_from_order]" value="0"/><label><input
                                 type="checkbox" name="settings[all_products_from_order]"
                                 value="1" <?php checked( $settings['all_products_from_order'] ) ?> /> <?php _e( 'Export all products from the order',
@@ -1060,7 +1100,7 @@ function remove_time_from_date( $datetime ) {
                         <select id="product_custom_fields" class="select2-i18n" data-select2-i18n-width="150"
                                 style="width: auto;">
                             <?php foreach ( WC_Order_Export_Data_Extractor_UI::get_product_custom_fields() as $cf_name ) { ?>
-                                <option><?php echo $cf_name; ?></option>
+                                <option><?php echo esc_attr($cf_name); ?></option>
                             <?php } ?>
                         </select>
 
@@ -1189,7 +1229,7 @@ function remove_time_from_date( $datetime ) {
         <div class="my-block">
 			<span class="my-hide-next "><?php _e( 'Filter by customer', 'woo-order-export-lite' ) ?>
                 <span class="ui-icon ui-icon-triangle-1-s my-icon-triangle"></span></span>
-            <div id="my-users" hidden="hidden">
+	    <div id="my-users" class="hide">
 
                 <span class="wc-oe-header"><?php _e( 'Usernames', 'woo-order-export-lite' ) ?></span>
                 <select id="user_names" class="select2-i18n" data-select2-i18n-ajax-method="get_users"
@@ -1262,7 +1302,7 @@ function remove_time_from_date( $datetime ) {
         <div class="my-block">
 			<span class="my-hide-next "><?php _e( 'Filter by coupon', 'woo-order-export-lite' ) ?>
                 <span class="ui-icon ui-icon-triangle-1-s my-icon-triangle"></span></span>
-            <div id="my-coupons" hidden="hidden">
+            <div id="my-coupons" class="hide">
                 <div>
                     <input type="hidden" name="settings[any_coupon_used]" value="0"/>
                     <label><input type="checkbox" name="settings[any_coupon_used]"
@@ -1289,7 +1329,7 @@ function remove_time_from_date( $datetime ) {
         <div class="my-block">
 			<span class="my-hide-next "><?php _e( 'Filter by billing', 'woo-order-export-lite' ) ?>
                 <span class="ui-icon ui-icon-triangle-1-s my-icon-triangle"></span></span>
-            <div id="my-billing" hidden="hidden">
+	    <div id="my-billing" class="hide">
                 <div class="custom-fields__wrapper">
                     <div>
                         <span class="wc-oe-header"><?php _e( 'Billing locations', 'woo-order-export-lite' ) ?></span>
@@ -1339,7 +1379,7 @@ function remove_time_from_date( $datetime ) {
         <div class="my-block">
 			<span class="my-hide-next "><?php _e( 'Filter by shipping', 'woo-order-export-lite' ) ?>
                 <span class="ui-icon ui-icon-triangle-1-s my-icon-triangle"></span></span>
-            <div id="my-shipping" hidden="hidden">
+            <div id="my-shipping" class="hide">
                 <div class="custom-fields__wrapper">
                     <div>
                         <span class="wc-oe-header"><?php _e( 'Shipping locations', 'woo-order-export-lite' ) ?></span>
@@ -1389,7 +1429,7 @@ function remove_time_from_date( $datetime ) {
         <div class="my-block">
 			<span class="my-hide-next "><?php _e( 'Filter by item and metadata', 'woo-order-export-lite' ) ?>
                 <span class="ui-icon ui-icon-triangle-1-s my-icon-triangle"></span></span>
-            <div id="my-items-meta" hidden="hidden">
+	    <div id="my-items-meta" class="hide">
                 <div><input type="hidden" name="settings[export_matched_items]" value="0"/><label><input
                                 type="checkbox" name="settings[export_matched_items]"
                                 value="1" <?php checked( $settings['export_matched_items'] ) ?> /> <?php _e( 'Export only matched product items',
@@ -1464,16 +1504,15 @@ function remove_time_from_date( $datetime ) {
                 </div>
             </div>
         </div>
-
     </div>
 
-    <div class="clearfix"></div>
+    <div class="weo_clearfix"></div>
     <br>
     <div class="my-block">
 		<span id='adjust-fields-btn' class="my-hide-next "><?php _e( 'Set up fields to export',
 				'woo-order-export-lite' ) ?>
             <span class="ui-icon ui-icon-triangle-1-s my-icon-triangle"></span></span>
-        <div id="manage_fields" style="display: none;">
+	    <div id="manage_fields" class="hide">
             <div style="display: grid; grid-template-columns: 10fr 1fr 10fr;">
                 <div class="clear"></div>
                 <div></div>
@@ -1555,7 +1594,7 @@ function remove_time_from_date( $datetime ) {
                                 <select class="set-up__selects" id='select_custom_meta_order'>
 									<?php
 									foreach ( $order_custom_meta_fields['order'] as $meta_id => $meta_name ) {
-										echo "<option value='" . esc_html($meta_name) . "' >$meta_name</option>";
+										echo "<option value='" . esc_attr($meta_name) . "' > " . esc_attr($meta_name) . "</option>";
 									};
 									?>
                                 </select>

@@ -328,7 +328,7 @@ function wppfm_get_file_url( $feed_name ) {
  * @return array with forbidden characters
  */
 function wppfm_forbidden_file_name_characters() {
-	return array( ' ', '<', '>', ':', '?', ',' ); // characters that are not allowed in a feed file name
+	return array( ' ', '<', '>', ':', '?', ',', "'", '{', '}', '#' ); // characters that are not allowed in a feed file name
 }
 
 /**

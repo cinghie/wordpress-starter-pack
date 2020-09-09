@@ -4,8 +4,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
-Tested up to: 5.4
-Stable tag: 8.5.8
+Tested up to: 5.5
+Stable tag: 8.7.1
 
 == Description ==
 
@@ -314,6 +314,46 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 8.7.1 (2020-09-09) =
+* Changed product ids order in the Google product review XML feeds.
+* Tested for WooCommerce 4.5
+
+= 8.7.0 (2020-09-04) =
+* Product variations for Yandex feed where missing the categoryID values in the feed. This bug has been fixed.
+
+= 8.6.9 (2020-09-03) =
+* Renamed the Google Local Products Inventory feed Itemid column to id.
+
+= 8.6.8 (2020-09-03) =
+* Google changed the field order of their Google Local Products Inventory feed requirements. We changed the template to reflect this change.
+
+= 8.6.7 (2020-08-30) =
+* Google doesn't allow identical reviews for product variations. When disabling adding the variations to the feed it therefor now adds the parent variable product review.
+
+= 8.6.6 (2020-08-30) =
+* When the description and short description are over 5000 characters they will be truncated so they do not exceed the 5000 charachters as this is a Google Shopping limitation.
+
+= 8.6.5 (2020-08-29) =
+* Minor change to how CSV feeds are being generated, also partly rollback of changes made in version 8.5.6
+
+= 8.6.4 (2020-08-28) =
+* Some update_option functions took four arguments whereas it takes only three. This has been fixed now (Thanks @Sudhir)
+
+= 8.6.3 (2020-08-28) =
+* Product ID's for WCML are being returned as null, take this into account for functions.
+
+= 8.6.2 (2020-08-21) =
+* Added some fields to the Trovaprezzi template
+
+= 8.6.1 (2020-08-20) =
+* jQuery ready event is deprecated so changes the JS files that still used it.
+
+= 8.6.0 (2020-08-13) =
+* Usage of shortcodes in the unfiltered description attributes is now allowed
+
+= 8.5.9 (2020-08-12) =
+* Compatibility check for Wordpress 5.5
 
 = 8.5.8 (2020-08-08) =
 * Added the Heureka Slovakia template
@@ -2729,6 +2769,46 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 8.7.1 =
+Changed product ids order in the Google product review XML feeds.
+Tested for WooCommerce 4.5
+
+= 8.7.0 =
+Product variations for Yandex feed where missing the categoryID values in the feed. This bug has been fixed.
+
+= 8.6.9 =
+Renamed the Google Local Products Inventory feed Itemid column to id.
+
+= 8.6.8 =
+Google changed the field order of their Google Local Products Inventory feed requirements. We changed the template to reflect this change.
+
+= 8.6.7 =
+Google doesn't allow identical reviews for product variations. When disabling adding the variations to the feed it therefor now adds the parent variable product review.
+
+= 8.6.6 =
+When the description and short description are over 5000 characters they will be truncated so they do not exceed the 5000 charachters as this is a Google Shopping limitation.
+
+= 8.6.5 =
+Minor change to how CSV feeds are being generated, also partly rollback of changes made in version 8.5.6
+
+= 8.6.4 =
+Some update_option functions took four arguments whereas it takes only three. This has been fixed now (Thanks @Sudhir)
+
+= 8.6.3 =
+Product ID's for WCML are being returned as null, take this into account for functions.
+
+= 8.6.2 =
+Added some fields to the Trovaprezzi template
+
+= 8.6.1 =
+jQuery ready event is deprecated so changes the JS files that still used it. 
+
+= 8.6.0 =
+Usage of shortcodes in the unfiltered description attributes is now allowed
+
+= 8.5.9 =
+Compatibility check for Wordpress 5.5.
 
 = 8.5.8 =
 Added the Heureka Slovakia template

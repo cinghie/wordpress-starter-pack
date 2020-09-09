@@ -185,7 +185,7 @@ jQuery( document ).ready( function ( $ ) {
 
 	$( '.my-hide-next' ).click( function () {
 
-		$( this ).next().toggle();
+		$( this ).next().toggleClass('hide');
 
 		var is_shown = ! $( this ).next().is( ':hidden' );
 

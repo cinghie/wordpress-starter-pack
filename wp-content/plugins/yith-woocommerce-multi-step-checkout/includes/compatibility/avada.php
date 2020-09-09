@@ -46,6 +46,7 @@ if( ! empty( $avada_woocommerce ) ){
     }
 
     add_filter( 'yith_wcms_step_button_class', 'yith_wcms_step_button_class_for_avada' );
+    add_filter( 'yith_wcms_step_button_class', 'yith_wcms_step_button_class_for_avada' );
     add_action( 'wp_enqueue_scripts', 'yith_wcms_enqueue_scripts_for_avada', 15 );
 }
 
@@ -77,6 +78,6 @@ if( ! function_exists( 'yith_wcms_enqueue_scripts_for_avada' ) ){
         $css .= '.yith-wcms .woocommerce-checkout a.continue-checkout{display: none;}';
         $css .= '.yith-wcms.fusion-body {margin: 0 auto;}';
         $css .= '.yith-wcms.fusion-body form.checkout #order_review{display: block !important;}';
-        wp_add_inline_style( 'avada-stylesheet', $css );
+        wp_add_inline_style( 'yith-wcms-checkout', $css );
     }
 }

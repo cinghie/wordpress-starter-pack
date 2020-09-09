@@ -1,4 +1,5 @@
 (function ($) {
+  "use strict";
 
   var is_blocked = function ($node) {
     return $node.is('.processing') || $node.parents('.processing').length;
@@ -156,7 +157,8 @@
               return true;
             }
 
-            reader = new FileReader();
+            var reader = new FileReader();
+
             reader.onload = (function (theFile) {
               return function (e) {
                 setTimeout(function () {
@@ -289,7 +291,82 @@
   // Conditional
   // ---------------------------------------------------------------------------
 
+  $('.wooccm-field').each(function (i, field) {
+
+    $(field).find('input,textarea,select').on('change keyup wooccm_change', function (e) {
+
+      var name = $(e.target).attr('name').replace('[]', ''),
+        type = $(e.target).prop('type'),
+        value = $(e.target).val();
+
+      if (type == 'checkbox') {
+        // fix for multicheckbox
+        if ($(e.target).attr('name').indexOf('[]') !== -1) {
+          value = $(e.target).closest('.wooccm-field').find('input:checked').map(function (i, e) {
+            return e.value
+          }).toArray();
+        } else {
+          value = $(e.target).is(':checked');
+        }
+      }
+
+      $('*[data-conditional-parent=' + name + ']').closest('.wooccm-field').hide();
+      $('*[data-conditional-parent=' + name + ']').each(function (i, child) {
+
+        var $child = $(child),
+          condition = $child && $child.data('conditional-parent-value')
+
+/*         console.log('name', name);
+        console.log('value', value);
+        console.log('condition', condition); */
+
+        if (
+          value == condition
+          ||
+          ($.isArray(value) && value.indexOf(condition) > -1)
+        ) {
+          $child.closest('.wooccm-field').fadeIn();
+        }
+
+      });
+    });
+  });
+
   $('.wooccm-conditional-child').each(function (i, field) {
+
+    var $field = $(field),
+      $parent = $('#' + $field.find('[data-conditional-parent]').data('conditional-parent') + '_field');
+
+    // dont use change event because trigger update_checkout event
+    $parent.find('select:first').trigger('wooccm_change');
+    $parent.find('textarea:first').trigger('wooccm_change');
+    $parent.find('input[type=button]:first').trigger('wooccm_change');
+    $parent.find('input[type=radio]:checked:first').trigger('wooccm_change');
+    $parent.find('input[type=checkbox]:checked:first').trigger('wooccm_change');
+    $parent.find('input[type=color]:first').trigger('wooccm_change');
+    $parent.find('input[type=date]:first').trigger('wooccm_change');
+    $parent.find('input[type=datetime-local]:first').trigger('wooccm_change');
+    $parent.find('input[type=email]:first').trigger('wooccm_change');
+    $parent.find('input[type=file]:first').trigger('wooccm_change');
+    $parent.find('input[type=hidden]:first').trigger('wooccm_change');
+    $parent.find('input[type=image]:first').trigger('wooccm_change');
+    $parent.find('input[type=month]:first').trigger('wooccm_change');
+    $parent.find('input[type=number]:first').trigger('wooccm_change');
+    $parent.find('input[type=password]:first').trigger('wooccm_change');
+    $parent.find('input[type=range]:first').trigger('wooccm_change');
+    $parent.find('input[type=reset]:first').trigger('wooccm_change');
+    $parent.find('input[type=search]:first').trigger('wooccm_change');
+    $parent.find('input[type=submit]:first').trigger('wooccm_change');
+    $parent.find('input[type=tel]:first').trigger('wooccm_change');
+    $parent.find('input[type=text]:first').trigger('wooccm_change');
+    $parent.find('input[type=time]:first').trigger('wooccm_change');
+    $parent.find('input[type=url]:first').trigger('wooccm_change');
+    $parent.find('input[type=week]:first').trigger('wooccm_change');
+
+  });
+
+
+  /*$('.wooccm-conditional-child-delete').each(function (i, field) {
 
     var $field = $(field),
       $parent = $('#' + $field.find('[data-conditional-parent]').data('conditional-parent') + '_field'),
@@ -297,7 +374,13 @@
 
     if ($parent.length) {
 
+      console.log($parent.find('select:first').length)
+
+      //console.log('#' + $field.find('[data-conditional-parent]').data('conditional-parent'));
+
       $parent.on('wooccm_change change keyup', function (e) {
+
+        console.log('change', e.target)
 
         var $this = $(e.target),
           value = $this.val();
@@ -358,22 +441,22 @@
       $field.show();
     }
 
-  });
+  });*/
+
   // Datepicker fields
   // ---------------------------------------------------------------------------
 
   $('.wooccm-enhanced-datepicker').each(function (i, field) {
 
+
     var $input = $(this),
       disable = $input.data('disable') || false;
-
-    console.log('mindate', $input.data('mindate'));
 
     if ($.isFunction($.fn.datepicker)) {
       $input.datepicker({
         dateFormat: $input.data('formatdate') || 'dd-mm-yy',
-        minDate: $input.data('mindate'),
-        maxDate: $input.data('maxdate'),
+        minDate: $input.data('mindate') || null,
+        maxDate: $input.data('maxdate') || null,
         beforeShowDay: function (date) {
           var day = date.getDay() != undefined && date.getDay().toString();
           if (disable) {

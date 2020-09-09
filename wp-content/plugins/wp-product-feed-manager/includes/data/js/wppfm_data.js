@@ -72,7 +72,7 @@ function wppfm_woocommerceSourceOptions() {
 		{value: 'shipping_class', label: 'Shipping Class', prop: 'main'},
 		{value: '_sku', label: 'SKU', prop: 'meta'},
 		{value: '_sold_individually', label: 'Sold Individually', prop: 'meta'},
-		{value: '_stock', label: 'Stock Qty', prop: 'meta'},
+		{value: '_stock', label: 'Stock Qty', prop: 'main'},
 		{value: '_stock_status', label: 'Stock Status', prop: 'meta'},
 		{value: '_tax_status', label: 'Tax Status', prop: 'meta'},
 		{value: '_tax_class', label: 'Tax Class', prop: 'meta'},

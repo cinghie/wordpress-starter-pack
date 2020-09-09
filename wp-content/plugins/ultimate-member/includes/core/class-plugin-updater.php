@@ -147,6 +147,14 @@ if ( ! class_exists( 'um\core\Plugin_Updater' ) ) {
 					'key'   => 'unsplash',
 					'title' => 'Unsplash',
 				),
+				'um-user-locations/um-user-locations.php'               => array(
+					'key'   => 'user-locations',
+					'title' => 'User Locations',
+				),
+				'um-profile-tabs/um-profile-tabs.php'                   => array(
+					'key'   => 'profile_tabs',
+					'title' => 'Profile tabs',
+				),
 				'um-user-notes/um-user-notes.php'                       => array(
 					'key'   => 'user_notes',
 					'title' => 'User Notes',
@@ -155,17 +163,9 @@ if ( ! class_exists( 'um\core\Plugin_Updater' ) ) {
 					'key'   => 'frontend_posting',
 					'title' => 'Frontend Posting',
 				),
-				'um-filesharing/um-filesharing.php'                     => array(
-					'key'   => 'filesharing',
-					'title' => 'File Sharing',
-				),
-				'um-user-locations/um-user-locations.php'                 => array(
-					'key'   => 'user-locations',
-					'title' => 'User Locations',
-				),
-				'um-profile-tabs/um-profile-tabs.php'                   => array(
-					'key'   => 'profile_tabs',
-					'title' => 'Profile tabs',
+				'um-google-authenticator/um-google-authenticator.php'   => array(
+					'key'   => 'google_authenticator',
+					'title' => 'Google Authenticator',
 				),
 			);
 
@@ -355,14 +355,8 @@ if ( ! class_exists( 'um\core\Plugin_Updater' ) ) {
 		 * @return \stdClass modified plugin update array.
 		 */
 		function check_update( $_transient_data ) {
-			global $pagenow;
-
 			if ( ! is_object( $_transient_data ) ) {
 				$_transient_data = new \stdClass;
-			}
-
-			if ( 'plugins.php' == $pagenow && is_multisite() ) {
-				return $_transient_data;
 			}
 
 			$exts = $this->get_active_plugins();

@@ -26,6 +26,7 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 	private $repeat_header = false;
 
 	private $image_positions = array();
+	private $link_positions = array();
 
 	public function __construct( $mode, $filename, $settings, $format, $labels, $field_formats, $date_format, $offset ) {
 
@@ -53,14 +54,34 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 
 		$this->image_format_fields = apply_filters( "woe_{$format}_image_format_fields", $this->image_format_fields );
 
+		$this->link_format_fields = array();
+		if ( isset( $field_formats['order']['link'] ) ) {
+			$this->link_format_fields = array_merge( $this->link_format_fields, $field_formats['order']['link'] );
+		}
+		if ( isset( $field_formats['products']['link'] ) ) {
+			$this->link_format_fields = array_merge( $this->link_format_fields, $field_formats['products']['link'] );
+		}
+		if( ! empty( $settings['direction_rtl'] ) ) {
+			foreach( $labels as $section => $section_labels ) {
+				$labels[$section]->set_labels( array_reverse( $section_labels->get_labels() ) );
+			}
+		}
+
+		$this->link_format_fields = apply_filters( "woe_{$format}_link_format_fields", $this->link_format_fields );
+
 		parent::__construct( $mode, $filename, $settings, $format, $labels, $field_formats, $date_format, $offset );
 
 		$this->image_positions = array();
+		$this->link_positions = array();
 		if ( $this->mode != 'preview' ) {
 			$tmp_data = get_transient( $this->get_tmp_data_transient_name() );
 
 			if ( ! empty( $tmp_data['image_positions'] ) ) {
 				$this->image_positions = $tmp_data['image_positions'];
+			}
+
+			if ( ! empty( $tmp_data['link_positions'] ) ) {
+				$this->link_positions = $tmp_data['link_positions'];
 			}
 		}
 	}
@@ -82,7 +103,21 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 				}
 			}
 
+			if ( 0 === count( $this->link_positions ) ) {
+				foreach ( $rows as $row ) {
+					$pos = 0;
+					foreach ( $row as $field => $text ) {
+						if ( $this->field_format_is( $field, $this->link_format_fields ) ) {
+							$this->link_positions[] = $pos;
+						}
+						$pos ++;
+					}
+					break;
+				}
+			}
+
 			$tmp_data['image_positions'] = $this->image_positions;
+			$tmp_data['link_positions'] = $this->link_positions;
 			set_transient( $this->get_tmp_data_transient_name(), $tmp_data );
 		}
 
@@ -202,6 +237,12 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 				$row = fgetcsv( $this->handle, 0, $this->delimiter, $this->enclosure );
 			}
 
+			$pageBreakOrderLines = wc_string_to_bool( $this->settings['row_dont_page_break_order_lines'] );
+
+			// both are only for option 'row_dont_page_break_order_lines'
+			$orderRows = array();
+			$orderId = null;
+
 			while ( $row ) {
 				if ( count( $this->image_positions ) ) {
 					foreach ( $this->image_positions as $position ) {
@@ -210,13 +251,85 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 							'type'   => 'image',
 							'value' => $source,
 						);
+
+						if ( ! empty( $this->settings['row_images_add_link'] ) ) {
+							$row[ $position ]['link'] = str_replace( wp_get_upload_dir()['basedir'], wp_get_upload_dir()['baseurl'], $source );
+						}
 					}
 				}
-				
-				$row = apply_filters( 'woe_pdf_prepare_row', $row );
-				$row_style = apply_filters("woe_pdf_before_print_row", null, $row, $this->pdf, $this);
-				$this->pdf->addRow( $row, null, null, $row_style );
+
+				if ( count( $this->link_positions ) ) {
+					foreach ( $this->link_positions as $position ) {
+						$source = $row[ $position ];
+
+						// fetch "href" attribute from "a" tag if existing
+						if ( preg_match( '/<a\s+(?:[^>]*?\s+)?href=(["\'])(.*?)\1/', $source, $matches ) ) {
+							if ( isset( $matches[2] ) ) {
+								$source = html_entity_decode( $matches[2] );
+							}
+						}
+
+						$row[ $position ] = array(
+							'type' => 'link',
+							'link' => $source,
+						);
+					}
+				}
+
+				$currentOrderId = intval( array_pop( $row ) ); // always pop! even $pageBreakOrderLines is false
+				$orderId        = ! $orderId ? $currentOrderId : $orderId;
+
+				$row        = apply_filters( 'woe_pdf_prepare_row', $row );
+				$row_style  = apply_filters( "woe_pdf_before_print_row", null, $row, $this->pdf, $this );
+				$row_height = apply_filters( "woe_pdf_row_height", null, $row, $this->pdf, $this );
+
+				if ( $pageBreakOrderLines ) {
+					if ( $orderId !== $currentOrderId ) {
+						$rows = array_map( function ( $orderRow ) {
+							return $orderRow[0];
+						}, $orderRows );
+
+						$heights = array_map( function ( $orderRow ) {
+							return $orderRow[2];
+						}, $orderRows );
+
+						if ( ! $this->pdf->isEnoughSpace( $rows, $heights ) ) {
+							$this->pdf->addPageBreak();
+						}
+
+						foreach ( $orderRows as $orderRow ) {
+							$this->pdf->addRow( $orderRow[0], null, $orderRow[2], $orderRow[1] );
+						}
+
+						$orderRows = array();
+						$orderId   = $currentOrderId;
+					}
+
+					$orderRows[] = array( $row, $row_style, $row_height );
+				} else {
+					$this->pdf->addRow( $row, null, $row_height, $row_style );
+				}
+
 				$row = fgetcsv( $this->handle, 0, $this->delimiter, $this->enclosure );
+			}
+
+
+			if ( count( $orderRows ) ) {
+				$rows = array_map( function ( $orderRow ) {
+					return $orderRow[0];
+				}, $orderRows );
+
+				$heights = array_map( function ( $orderRow ) {
+					return $orderRow[2];
+				}, $orderRows );
+
+				if ( ! $this->pdf->isEnoughSpace( $rows, $heights ) ) {
+					$this->pdf->addPageBreak();
+				}
+
+				foreach ( $orderRows as $orderRow ) {
+					$this->pdf->addRow( $orderRow[0], null, $orderRow[2], $orderRow[1] );
+				}
 			}
 			
 			do_action("woe_pdf_finished", $this->pdf, $this);

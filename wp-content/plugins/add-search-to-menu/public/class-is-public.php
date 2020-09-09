@@ -45,7 +45,7 @@ class IS_Public
     {
         global  $wp_query ;
         $min = ( defined( 'IS_DEBUG' ) && IS_DEBUG ? '' : '.min' );
-        if ( !isset( $is->opt['not_load_files']['css'] ) ) {
+        if ( !isset( $this->opt['not_load_files']['css'] ) ) {
             wp_enqueue_style(
                 'ivory-search-styles',
                 plugins_url( '/public/css/ivory-search' . $min . '.css', IS_PLUGIN_FILE ),
@@ -187,7 +187,7 @@ class IS_Public
         if ( $search_form ) {
             $atts['id'] = $menu_search_form;
             $display_id = '';
-            if ( 0 === $menu_search_form || 'Default Search Form' === $search_form->title() ) {
+            if ( 0 === $menu_search_form || 'default-search-form' === $search_form->name() ) {
                 $display_id = 'n';
             }
             $result = $search_form->form_html( $atts, $display_id );

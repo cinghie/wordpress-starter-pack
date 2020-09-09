@@ -31,7 +31,7 @@ class WOOCCM_Checkout_Suggestions_Controller
 
   public function add_menu()
   {
-    add_submenu_page(WOOCCM_PREFIX, __('Suggestions', 'woocommerce-checkout-manager'), __('Suggestions', 'woocommerce-checkout-manager'), 'manage_woocommerce', WOOCCM_PREFIX . '_suggestions', array($this, 'add_page'));
+    add_submenu_page(WOOCCM_PREFIX, esc_html__('Suggestions', 'woocommerce-checkout-manager'), esc_html__('Suggestions', 'woocommerce-checkout-manager'), 'manage_woocommerce', WOOCCM_PREFIX . '_suggestions', array($this, 'add_page'));
   }
 
   // fix for activateUrl on install now button

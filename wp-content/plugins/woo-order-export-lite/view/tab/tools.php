@@ -20,7 +20,7 @@ foreach ( $modes as $mode ) {
 
 $type_labels = apply_filters( 'woe_tools_page_get_type_labels', array() );
 ?>
-<div class="clearfix"></div>
+<div class="weo_clearfix"></div>
 <div id="woe-admin" class="container-fluid wpcontent">
     <form>
 		<?php wp_nonce_field( 'woe_nonce', 'woe_nonce' ); ?>
@@ -78,7 +78,7 @@ $type_labels = apply_filters( 'woe_tools_page_get_type_labels', array() );
                             <label class="error-message"></label>
                         </div>
 
-                        <input disabled type="submit" class="woe-btn-tools"
+                        <input type="submit" class="woe-btn-tools"
                                value="<?php _e( 'Import', 'woo-order-export-lite' ) ?>" name="woe-tools-import"
                                id="submit-import">
 

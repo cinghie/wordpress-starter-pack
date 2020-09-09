@@ -1305,8 +1305,9 @@ class WooSEA_Get_Products {
 					// For Google Product review template
 					if (($feed_config['name'] == "Google Product Review") AND (empty($xml->channel))) {
 						$product = $xml->addChild('reviews');
-								
+							
 						foreach ($products as $key => $value){
+
 							$expl = "||";
                                           		if(strpos($value['reviews'], $expl)) {
                                                 		$review_data = explode("||", $value['reviews']);
@@ -1379,9 +1380,17 @@ class WooSEA_Get_Products {
 										$yo = $productz->addChild('products');
 										$po = $yo->addChild('product');
                                                                 
-						        	   	     	$identifiers = array("gtin","mpn","brand","sku");
+						        	   	     	$identifiers = array("gtin","mpn","sku","brand");
+									
+										// Start determining order of product_ids in the Google review feed	
+										$proper_order = array("product_name","gtin","mpn","sku","brand","product_url","review_url","reviews");
+										$order_sorted = array();
+										foreach ($proper_order as &$order_value){
+											$order_sorted[$order_value] = $value[$order_value];
+										}
+										// End										
 
-										foreach($value as $k => $v) {
+										foreach($order_sorted as $k => $v) {
 											if(($k != "product_name") AND ($k != "product_url")){
 												if(!in_array($k, $identifiers)){
 							        					if(($k != "reviews") AND ($k != "review_url")){
@@ -1396,12 +1405,14 @@ class WooSEA_Get_Products {
 														} elseif ($k == "mpn"){
 															$poim = $poi->addChild('mpns');
                 	                                                	        				$poim->$k = $v;
+														} elseif ($k == "sku"){
+															$poix = $poi->addChild('skus');
+                	                                                     			   			$poix->$k = $v;
 														} elseif($k == "brand"){
 															$poib = $poi->addChild('brands');
                 	                                                	   		     			$poib->$k = $v;
 														} else {
-															$pois = $poi->addChild('skus');
-                	                                                	        				$pois->$k = $v;
+															// Do nothing
 														}	
                         	                        	             	        		} else {
                                 	                        	        		       		$poi = $po->addChild('product_ids');
@@ -1411,12 +1422,14 @@ class WooSEA_Get_Products {
 														} elseif ($k == "mpn"){
 															$poim = $poi->addChild('mpns');
                 	                                                     			   			$poim->$k = $v;
+														} elseif ($k == "sku"){
+															$poix = $poi->addChild('skus');
+                	                                                     			   			$poix->$k = $v;
  														} elseif($k == "brand"){
 															$poib = $poi->addChild('brands');
                 	                                        	                				$poib->$k = $v;
 														} else {
-															$pois = $poi->addChild('skus');
-                	                                                        					$pois->$k = $v;
+															// Do nothing
 														}
 													}	
 												}
@@ -1439,12 +1452,14 @@ class WooSEA_Get_Products {
 														} elseif ($k == "mpn"){
 															$poim = $poi->addChild('mpns');
                 	                                                	        				$poim->$k = $v;
+														} elseif($k == "sku"){
+															$poix = $poi->addChild('skus');
+                	                                                	   		     			$poix->$k = $v;
 														} elseif($k == "brand"){
 															$poib = $poi->addChild('brands');
                 	                                                	   		     			$poib->$k = $v;
 														} else {
-															$pois = $poi->addChild('skus');
-                	                                                	        				$pois->$k = $v;
+															// Do nothing
 														}	
                         	                        	             	        		} else {
                                 	                        	        		       		$poi = $po->addChild('product_ids');
@@ -1454,19 +1469,19 @@ class WooSEA_Get_Products {
 														} elseif ($k == "mpn"){
 															$poim = $poi->addChild('mpns');
                 	                                                     			   			$poim->$k = $v;
+														} elseif ($k == "sku"){
+															$poix = $poi->addChild('skus');
+                	                                                     			   			$poix->$k = $v;
     	        												} elseif($k == "brand"){
 															$poib = $poi->addChild('brands');
                 	                                        	                				$poib->$k = $v;
 														} else {
-															$pois = $poi->addChild('skus');
-                	                                                        					$pois->$k = $v;
+															// Do nothing
 														}
 													}	
 												}
                                                       	 				}
 										}
-
-
 									}	
 								}
 							}
@@ -1717,7 +1732,7 @@ class WooSEA_Get_Products {
 
 			foreach ($row as $k => $v){
 				$pieces = explode ("','", $v);
-//				$pieces = str_replace("'", "", $pieces);
+				$pieces = str_replace("'", "", $pieces);
 
 				foreach ($pieces as $k_inner => $v){
                                         if ($feed_config['fields'] != 'standard'){
@@ -1755,7 +1770,7 @@ class WooSEA_Get_Products {
 						if(is_array($store_ids)){
 						
 							foreach ($store_ids as $store_key => $store_value){
-								$pieces[0] = $store_value;
+								$pieces[1] = $store_value;
 
 								if(!empty($store_value)){
 									foreach ($pieces as $t_key => $t_value){
@@ -2130,7 +2145,11 @@ class WooSEA_Get_Products {
                                 
                      	if (in_array($project_config['name'], $double_categories, TRUE)){
 				$cat_alt = array();
-				$cat_terms = get_the_terms( $product_data['id'], 'product_cat' );
+				if($product_data['item_group_id'] > 0){
+					$cat_terms = get_the_terms( $product_data['item_group_id'], 'product_cat' );
+				} else {
+					$cat_terms = get_the_terms( $product_data['id'], 'product_cat' );
+				}
 
                        		if($cat_terms){
 					foreach($cat_terms as $cat_term){
@@ -2196,8 +2215,8 @@ class WooSEA_Get_Products {
 			$product_data['categories'] = $catname;
 
 			// Raw descriptions, unfiltered
-			$product_data['raw_description'] = wpautop($post->post_content);
-			$product_data['raw_short_description'] = wpautop($post->post_excerpt);
+			$product_data['raw_description'] = do_shortcode(wpautop($post->post_content));
+			$product_data['raw_short_description'] = do_shortcode(wpautop($post->post_excerpt));
 
 			$product_data['description'] = html_entity_decode((str_replace("\r", "", $post->post_content)), ENT_QUOTES | ENT_XML1, 'UTF-8');
 			$product_data['short_description'] = html_entity_decode((str_replace("\r", "", $post->post_excerpt)), ENT_QUOTES | ENT_XML1, 'UTF-8');
@@ -2219,6 +2238,10 @@ class WooSEA_Get_Products {
 			// Strip strange UTF chars
 			$product_data['description'] = trim($this->woosea_utf8_for_xml($product_data['description']));
 			$product_data['short_description'] = trim($this->woosea_utf8_for_xml($product_data['short_description']));
+
+			// Truncate to maximum 5000 characters
+			$product_data['description'] = substr($product_data['description'], 0, 5000);
+			$product_data['short_description'] = substr($product_data['short_description'], 0, 5000);
 
 			/**
 		 	* Check of we need to add Google Analytics UTM parameters
@@ -2361,11 +2384,13 @@ class WooSEA_Get_Products {
 				$product_data['regular_price'] = apply_filters('wcml_raw_price_amount', $product_data['regular_price'], $project_config['WCML']);
 				$product_data['sale_price'] = apply_filters('wcml_raw_price_amount', $product_data['sale_price'], $project_config['WCML']);
 
+				// Make sure the product ID is not NULL either
 				global $woocommerce_wpml;
-                                $product_data['non_geo_wcml_price'] = $woocommerce_wpml->multi_currency->prices->get_product_price_in_currency( $product_data['id'], $project_config['WCML'] );
+				if(!is_null($product_data['WCML'])){				
+					$product_data['non_geo_wcml_price'] = $woocommerce_wpml->multi_currency->prices->get_product_price_in_currency( $product_data['id'], $project_config['WCML'] );
+				}
 
 				// When WCML manual prices have been entered
-				// Make sure the product ID is not NULL either
 				if(!is_null($product_data['id'])){				
 					$custom_prices = $woocommerce_wpml->get_multi_currency()->custom_prices->get_product_custom_prices( $product_data['id'], $project_config['WCML'] );
 
@@ -3193,6 +3218,7 @@ class WooSEA_Get_Products {
 			$allowed_channel_parents = array(
 				"skroutz",
 				"google_dsa",
+				"google_product_review",
 			);	
 
 			if (!in_array($project_config['fields'], $allowed_channel_parents)){

@@ -7,15 +7,17 @@
  * It is also available through the world-wide-web at this URL:
  * http://www.gnu.org/licenses/gpl-3.0.txt
  *
- * @var array $field
+ * @package YITH WooCommerce Catalog Mode
  */
 
-! defined( 'ABSPATH' ) && exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
-extract( $field );
+extract( $field ); //phpcs:ignore
 $value = maybe_unserialize( $value );
 if ( ! empty( $fields ) && is_array( $fields ) ) { ?>
-	<div id="<?php echo esc_attr( $id ); ?>" class="<?php echo isset( $class ) ? $class : ''; ?>">
+	<div id="<?php echo esc_attr( $id ); ?>" class="<?php echo esc_attr( isset( $class ) ? $class : '' ); ?>">
 		<?php
 		foreach ( $fields as $key => $field ) {
 			$allowed_types  = array( 'select', 'select-buttons', 'number', 'slider', 'hidden' );
@@ -34,12 +36,12 @@ if ( ! empty( $fields ) && is_array( $fields ) ) { ?>
 			?>
 			<?php if ( isset( $field['inline-label'] ) && '' !== $field['inline-label'] ) : ?>
 				<div class="option-element">
-					<span><?php echo $field['inline-label']; ?></span>
+					<span><?php echo esc_attr( $field['inline-label'] ); ?></span>
 				</div>
 			<?php endif; ?>
-			<div class="option-element <?php echo $field['type']; ?>">
+			<div class="option-element <?php echo esc_attr( $field['type'] ); ?>">
 				<?php if ( isset( $field['label'] ) && '' !== $field['label'] ) : ?>
-					<label for="<?php echo $field['id']; ?>"><?php echo $field['label']; ?></label>
+					<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_attr( $field['label'] ); ?></label>
 				<?php endif; ?>
 				<?php yith_plugin_fw_get_field( $field, true ); ?>
 			</div>

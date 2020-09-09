@@ -149,7 +149,7 @@ class WOOCCM_Field_Controller_Additional extends WOOCCM_Field_Controller
             if ($value) {
           ?>
               <p id="<?php echo esc_attr($field['key']); ?>" class="form-field form-field-wide form-field-type-<?php echo esc_attr($field['type']); ?>">
-                <strong title="<?php echo esc_attr(sprintf(__('ID: %s | Field Type: %s', 'woocommerce-checkout-manager'), $key, __('Generic', 'woocommerce-checkout-manager'))); ?>">
+                <strong title="<?php echo esc_attr(sprintf(esc_html__('ID: %s | Field Type: %s', 'woocommerce-checkout-manager'), $key, esc_html__('Generic', 'woocommerce-checkout-manager'))); ?>">
                   <?php printf('%s', $field['label'] ? esc_html($field['label']) : sprintf(esc_html__('Field %s', 'woocommerce-checkout-manager'), $field_id)); ?>
                 </strong>
                 <?php echo esc_html($value); ?>

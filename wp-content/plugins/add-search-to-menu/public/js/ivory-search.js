@@ -1,7 +1,7 @@
 ( function( $ ) {
 	'use strict';
 
-	$( window ).load( function() {
+	$( window ).on( 'load', function() {
 
 		$( '.is-menu a' ).on( 'click', function( e ) {
 
@@ -85,7 +85,7 @@
 		return false;
 	} );
 
-	$( 'form.is-search-form, form.search-form' ).on( 'hover', function( e ) {
+	$( 'form.is-search-form, form.search-form' ).on( 'mouseover', function( e ) {
 		if ( $( this ).next( ".is-link-container" ).length ){
             $( this ).append( $( this ).next( ".is-link-container" ).remove() );
 		}

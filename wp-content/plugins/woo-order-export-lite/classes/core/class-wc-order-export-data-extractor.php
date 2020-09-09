@@ -24,7 +24,6 @@ class WC_Order_Export_Data_Extractor {
 	const  HUGE_SHOP_PRODUCTS  = 1000;// more than 1000 products
 	const  HUGE_SHOP_CUSTOMERS = 1000;// more than 1000 users
 
-
 	//Common
 
 	// to parse "item_type:meta_key" strings
@@ -641,7 +640,7 @@ class WC_Order_Export_Data_Extractor {
 	static function operator_compare_field_and_value( $field, $operator, $value, $public_fieldname='' ) {
 		$value = esc_sql($value);
 		if ( $operator == "LIKE" ) {
-			$value = "'%$value%'";
+			$value = "%$value%";
 		} else { // compare numbers!
 			$type = apply_filters( "woe_compare_field_cast_to_type", "signed", $field, $operator, $value, $public_fieldname);
 			$field = "cast($field as $type)";
@@ -937,7 +936,7 @@ class WC_Order_Export_Data_Extractor {
 			$pos      = 1;
 			foreach ( $filters as $operator => $fields ) {
 				foreach ( $fields as $field => $values ) {
-					$inner_join_user_meta[] = "INNER JOIN {$wpdb->usermeta} AS usermeta_cf_{$pos} ON usermeta_cf_{$pos}.user_id = {$wpdb->users}.ID AND usermeta_cf_{$pos}.meta_key='$field'";
+					$inner_join_user_meta[] = "LEFT JOIN {$wpdb->usermeta} AS usermeta_cf_{$pos} ON usermeta_cf_{$pos}.user_id = {$wpdb->users}.ID AND usermeta_cf_{$pos}.meta_key='$field'";
 					if ( $values ) {
 						if ( $operator == 'NOT SET' ) {
 							$user_meta_where[] = " ( usermeta_cf_{$pos}.meta_value IS NULL ) ";
@@ -1039,6 +1038,26 @@ class WC_Order_Export_Data_Extractor {
 			$left_join_order_meta[] = "LEFT JOIN {$wpdb->postmeta} AS ordermeta_{$field} ON ordermeta_{$field}.post_id = orders.{$left_join_order_meta_order_id}";
 			$order_meta_where []    = " (ordermeta_{$field}.meta_key='_{$field}'  AND ordermeta_{$field}.meta_value in ($values)) ";
 		}
+
+        if ( ! empty( $settings['sub_start_from_date'] ) || ! empty( $settings['sub_start_to_date'] ) ) {
+            $field = 'schedule_start';
+            $left_join_order_meta[] = "LEFT JOIN {$wpdb->postmeta} AS ordermeta_{$field} ON ordermeta_{$field}.post_id = orders.ID";
+            $order_meta_where []    = self::get_date_meta_for_subscription_filters( $field, $settings['sub_start_from_date'], $settings['sub_start_to_date'] );
+        }
+
+
+        if ( ! empty( $settings['sub_end_from_date'] ) || ! empty( $settings['sub_end_to_date'] ) ) {
+            $field = 'schedule_end';
+            $left_join_order_meta[] = "LEFT JOIN {$wpdb->postmeta} AS ordermeta_{$field} ON ordermeta_{$field}.post_id = orders.ID";
+            $order_meta_where []    = self::get_date_meta_for_subscription_filters( $field, $settings['sub_end_from_date'], $settings['sub_end_to_date'] );
+        }
+
+        if ( ! empty( $settings['sub_next_paym_from_date'] ) || ! empty( $settings['sub_next_paym_to_date'] ) ) {
+            $field = 'schedule_next_payment';
+            $left_join_order_meta[] = "LEFT JOIN {$wpdb->postmeta} AS ordermeta_{$field} ON ordermeta_{$field}.post_id = orders.ID";
+            $order_meta_where []    = self::get_date_meta_for_subscription_filters( $field, $settings['sub_next_paym_from_date'], $settings['sub_next_paym_to_date'] );
+        }
+
 		$order_meta_where = join( " AND ",
 			apply_filters( "woe_sql_get_order_ids_order_meta_where", $order_meta_where ) );
 
@@ -1073,6 +1092,24 @@ class WC_Order_Export_Data_Extractor {
 		//die($sql);
 		return $sql;
 	}
+
+    private static function get_date_meta_for_subscription_filters( $field, $date_from, $date_to ) {
+        $order_meta_where_parts[] = "ordermeta_{$field}.meta_key='_{$field}'";
+
+        if ( ! empty( $date_from ) ) {
+            $subsc_from = WC_Order_Export_Data_Extractor::format_date_to_day_start( $date_from );
+            $order_meta_where_parts[] = " CAST(ordermeta_{$field}.meta_value AS DATETIME) >= '{$subsc_from}'";
+        }
+
+        if ( ! empty( $date_to ) ) {
+            $subsc_to = WC_Order_Export_Data_Extractor::format_date_to_day_end( $date_to );
+            $order_meta_where_parts[] = " CAST(ordermeta_{$field}.meta_value AS DATETIME) <= '{$subsc_to}'";
+        }
+
+        $order_meta_where_parts = join( " AND ", $order_meta_where_parts );
+
+        return " ( $order_meta_where_parts ) ";
+    }
 
 	private static function add_date_filter( &$where, &$where_meta, $date_field, $value ) {
 		if ( $date_field == 'date_paid' OR $date_field == 'date_completed' ) // 3.0+ uses timestamp
@@ -1159,6 +1196,27 @@ class WC_Order_Export_Data_Extractor {
 		return $ts % ( 24 * 3600 ) > 0;
 	}
 
+    public static function format_date_to_day_start( $date ) {
+        $ts = strtotime( $date );
+        if ( self::is_datetime_timestamp( $ts ) ) {
+            $from_date = date( 'Y-m-d H:i:s', $ts );
+        } else {
+            $from_date = date( 'Y-m-d', $ts ) . " 00:00:00";
+        }
+        return $from_date;
+    }
+
+    public static function format_date_to_day_end( $date ) {
+        $ts = strtotime( $date );
+        if ( self::is_datetime_timestamp( $ts ) ) {
+            $to_date = date( 'Y-m-d H:i:s', $ts );
+        } else {
+            $to_date = date( 'Y-m-d', $ts ) . " 23:59:59";
+        }
+
+        return $to_date;
+    }
+
 	public static function get_date_range( $settings, $is_for_sql, $use_timestamps = false ) {
 		$result = array();
 		$diff_utc = current_time( "timestamp" ) - current_time( "timestamp", 1 );
@@ -1166,12 +1224,7 @@ class WC_Order_Export_Data_Extractor {
 		// fixed date range 
 		if ( ! empty( $settings['from_date'] ) OR ! empty( $settings['to_date'] ) ) {
 			if ( $settings['from_date'] ) {
-				$ts = strtotime( $settings['from_date'] );
-				if ( self::is_datetime_timestamp( $ts ) ) {
-					$from_date = date( 'Y-m-d H:i:s', $ts );
-				} else {
-					$from_date = date( 'Y-m-d', $ts ) . " 00:00:00";
-				}
+                $from_date = self::format_date_to_day_start( $settings['from_date'] );
 				if ( $is_for_sql ) {
 					if ( $use_timestamps ) {
 						$from_date = mysql2date( 'G', $from_date );
@@ -1183,12 +1236,7 @@ class WC_Order_Export_Data_Extractor {
 			}
 
 			if ( $settings['to_date'] ) {
-				$ts = strtotime( $settings['to_date'] );
-				if ( self::is_datetime_timestamp( $ts ) ) {
-					$to_date = date( 'Y-m-d H:i:s', $ts );
-				} else {
-					$to_date = date( 'Y-m-d', $ts ) . " 23:59:59";
-				}
+                $to_date = self::format_date_to_day_end( $settings['to_date'] );
 				if ( $is_for_sql ) {
 					if ( $use_timestamps ) {
 						$to_date = mysql2date( 'G', $to_date );
@@ -1361,15 +1409,14 @@ class WC_Order_Export_Data_Extractor {
 
 		$ids[] = 0; // for safe
 		$ids   = join( ",", $ids );
-
 		$sql = "SELECT COUNT( * ) AS t
-			FROM  `{$wpdb->prefix}woocommerce_order_items`
-			WHERE order_item_type =  '$type'
-			AND order_id
-			IN ( $ids)
-			GROUP BY order_id
-			ORDER BY t DESC
-			LIMIT 1";
+				FROM  `{$wpdb->prefix}woocommerce_order_items`
+				WHERE order_item_type =  '$type'
+				AND order_id
+				IN ( $ids)
+				GROUP BY order_id
+				ORDER BY t DESC
+				LIMIT 1";
 
 		$max = $wpdb->get_var( $sql );
 		if ( ! $max ) {
@@ -1661,6 +1708,11 @@ class WC_Order_Export_Data_Extractor {
 				}
 				if ( is_array( $row[ $field ] ) ) {
 					$row[ $field ] = json_encode( $row[ $field ] );
+				}
+
+				if ( $options['convert_serialized_values'] ) {
+					$arr = maybe_unserialize( $row[ $field ] );
+					if ( is_array($arr) ) $row[$field] = join(",", $arr);
 				}
 			}
 			if ( isset( $row[ $field ] ) ) {

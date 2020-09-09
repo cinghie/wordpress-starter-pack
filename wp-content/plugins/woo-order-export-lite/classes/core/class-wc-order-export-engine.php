@@ -208,7 +208,7 @@ class WC_Order_Export_Engine {
 //				$field_formats ),
 //		);
 
-		$field_formats_ar = array( 'money', 'number', 'date', 'string', 'image' );
+		$field_formats_ar = array( 'money', 'number', 'date', 'string', 'image', 'link' );
 		$labels_data      = array(
 			'order'    => self::get_order_labels( $settings, $format, $field_formats_ar ),
 			'products' => self::get_sub_segment_labels( 'product', $settings, $format, $field_formats_ar ),
@@ -241,6 +241,9 @@ class WC_Order_Export_Engine {
 		$export['products'] = false;
 		$export['coupons']  = false;
 		foreach ( $settings['order_fields'] as $field ) {
+			if( ! isset( $field['key'] ) ) {
+				continue;
+			}
 			if ( 'products' == $field['key'] ) {
 				$export['products'] = true;
 			}
@@ -291,12 +294,12 @@ class WC_Order_Export_Engine {
 		}
 
 		//as is
-		$options['export_refunds']       = $settings['export_refunds'];
-		$options['skip_refunded_items']  = $settings['skip_refunded_items'];
-		$options['export_all_comments']  = $settings['export_all_comments'];
-		$options['export_refund_notes']  = $settings['export_refund_notes'];
-		$options['format_number_fields'] = $settings['format_number_fields'];
-
+		$options['export_refunds']            = $settings['export_refunds'];
+		$options['skip_refunded_items']       = $settings['skip_refunded_items'];
+		$options['export_all_comments']       = $settings['export_all_comments'];
+		$options['export_refund_notes']       = $settings['export_refund_notes'];
+		$options['format_number_fields']      = $settings['format_number_fields'];
+		$options['convert_serialized_values'] = $settings['convert_serialized_values'];
 		if ( $settings['enable_debug'] AND ! ini_get( 'display_errors' ) ) {
 			ini_set( 'display_errors', 1 );
 			$old_error_reporting = error_reporting( E_ALL );
@@ -395,6 +398,7 @@ class WC_Order_Export_Engine {
 			self::kill_buffers();
 		}
 		$settings                     = self::validate_defaults( $settings );
+
 		self::$current_job_settings   = $settings;
 		self::$date_format            = trim( $settings['date_format'] . ' ' . $settings['time_format'] );
 		//debug sql?
@@ -443,7 +447,7 @@ class WC_Order_Export_Engine {
 		self::$orders_for_export = $order_ids;
 
 		// prepare for XLS/CSV moved to plain formatter
-		$formater->adjust_duplicated_fields_settings( $order_ids );
+		$formater->adjust_duplicated_fields_settings( $order_ids, $make_mode, $settings );
 
 		// check it once
 		self::_check_products_and_coupons_fields( $settings, $export );
@@ -454,7 +458,12 @@ class WC_Order_Export_Engine {
 //			self::maybe_init_summary_report( $labels );
 			$formater->start();
 			if ( $make_mode == 'start_estimate' ) { //Start return total count
-				return $wpdb->get_var( str_replace( 'ID AS order_id', 'COUNT(ID) AS order_count', $sql ) );
+				$duplicate_settings = $formater->get_duplicate_settings();
+				return array(
+					'total' => $wpdb->get_var( str_replace( 'ID AS order_id', 'COUNT(ID) AS order_count', $sql ) ),
+					'max_line_items' => isset( $duplicate_settings['products']['max_cols'] ) ? $duplicate_settings['products']['max_cols'] : 0,
+					'max_coupons' => isset( $duplicate_settings['coupons']['max_cols'] ) ? $duplicate_settings['coupons']['max_cols'] : 0,
+				);
 			}
 		}
 //		self::maybe_start_summary_report();
@@ -479,6 +488,7 @@ class WC_Order_Export_Engine {
 			if ( $make_mode != 'preview' ) {
 				do_action( "woe_order_exported", $order_id );
 				self::try_mark_order( $order_id, $settings );
+				self::try_modify_status( $order_id, $settings );
 			} else {
 				do_action( "woe_order_previewed", $order_id );
 			}
@@ -513,6 +523,7 @@ class WC_Order_Export_Engine {
 
 		//no need self::kill_buffers();
 		$settings                     = self::validate_defaults( $settings );
+
 		self::$current_job_settings   = $settings;
 		self::$current_job_build_mode = 'full';
 		self::$date_format            = trim( $settings['date_format'] . ' ' . $settings['time_format'] );

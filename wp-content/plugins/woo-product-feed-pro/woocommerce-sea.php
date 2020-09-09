@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     8.5.8
+ * Version:     8.7.1
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -11,13 +11,13 @@
  * License:     GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Requires at least: 4.5
- * Tested up to: 5.4
+ * Tested up to: 5.5
  *
  * Text Domain: woo-product-feed-pro
  * Domain Path: /languages
  *
  * WC requires at least: 3.6
- * WC tested up to: 4.3
+ * WC tested up to: 4.5
  *
  * Product Feed PRO for WooCommerce is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '8.5.8' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '8.7.1' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -908,7 +908,7 @@ function woosea_ajax() {
 	if (!is_array($attributes_dropdown)){
 		$attributes_obj = new WooSEA_Attributes;
 		$attributes_dropdown = $attributes_obj->get_product_attributes_dropdown();
-        	update_option( 'attributes_dropdown', $attributes_dropdown, '', 'yes');
+        	update_option( 'attributes_dropdown', $attributes_dropdown, 'yes');
 	}
 
 	$data = array (
@@ -1012,7 +1012,7 @@ function woosea_add_mass_cat_mapping(){
 		} else {
  			$project_temp['mappings'] = $mappings;
 		}
-                update_option( 'channel_project',$project_temp,'','yes');
+                update_option( 'channel_project',$project_temp,'yes');
 	} else {
 		// Only update the ones that changed
 		foreach ($mappings as $categoryId => $catArray){
@@ -1057,7 +1057,7 @@ function woosea_add_cat_mapping() {
 		$project_temp['mappings'][$rowCount]['criteria'] = $criteria;
 		$project_temp['mappings'][$rowCount]['map_to_category'] = $map_to_category;
 
-                update_option( 'channel_project',$project_temp,'','yes');
+                update_option( 'channel_project',$project_temp,'yes');
 		$status_mapping = "true";
 		// This is updating an existing product feed
 	} else {
@@ -2050,7 +2050,7 @@ function woosea_project_copy(){
 			$new_key = $max_key+1;
                         $add_project[$new_key] = $val;
                         array_push($feed_config, $add_project[$new_key]);
-			update_option( 'cron_projects', $feed_config, '', 'yes');
+			update_option( 'cron_projects', $feed_config, 'yes');
 			
 			// Do not start processing, user wants to make changes to the copied project
 			$copy_status = "true";

@@ -2738,6 +2738,10 @@ class WOE_FPDF {
 		$cwlen = $maxUni + 1;
 		// for each character
 		for ( $cid = $startcid; $cid < $cwlen; $cid ++ ) {
+			if( !isset($font['cw'][ $cid * 2 ]) ) {
+				continue;
+			}
+				
 			if ( $font['cw'][ $cid * 2 ] == "\00" && $font['cw'][ $cid * 2 + 1 ] == "\00" ) {
 				continue;
 			}

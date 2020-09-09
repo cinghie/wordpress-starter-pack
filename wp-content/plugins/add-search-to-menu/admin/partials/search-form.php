@@ -76,8 +76,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 							'spellcheck' => 'true',
 							'autocomplete' => 'off',
 							'disabled' =>
-								current_user_can( 'is_edit_search_form', $post_id ) && 'Default Search Form' !== $post->title() ? '' : 'disabled',
-							'title' => 'Default Search Form' !== $post->title() ? __( "Add title", 'add-search-to-menu' ) : __( "Editing the title of Default Search Form is restricted", 'add-search-to-menu' ),
+								current_user_can( 'is_edit_search_form', $post_id ) && 'default-search-form' !== $post->name() ? '' : 'disabled',
+							'title' => 'default-search-form' !== $post->name() ? $post->title() : __( "Editing the title of Default Search Form is restricted", 'add-search-to-menu' ),
 						);
 
 						echo sprintf( '<input %s />', IS_Admin_Public::format_atts( $posttitle_atts ) );
@@ -166,7 +166,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<?php $this->save_button( $post_id ); ?>
 					</div>
 					<?php
-						if ( ! $post->initial() && ( 'Default Search Form' !== $post->title() || defined( 'DELETE_DEFAULT_SEARCH_FORM' ) ) ) :
+						if ( ! $post->initial() && ( 'default-search-form' !== $post->name() || defined( 'DELETE_DEFAULT_SEARCH_FORM' ) ) ) :
 							$delete_nonce = wp_create_nonce( 'is-delete-search-form_' . $post_id );
 					?>
 					<div id="delete-action">

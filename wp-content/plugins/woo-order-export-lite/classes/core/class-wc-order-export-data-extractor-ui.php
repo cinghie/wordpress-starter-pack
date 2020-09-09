@@ -133,7 +133,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
                 LEFT JOIN  " . $wpdb->posts . " AS att ON post.ID=att.post_parent AND att.post_type='attachment'
                 WHERE       post.post_title LIKE %s
                 AND         post.post_type = 'product'
-                AND         post.post_status <> 'trash'
+				AND         post.post_status NOT IN ('trash', 'draft')
                 GROUP BY    post.ID
                 ORDER BY    post.post_title
                 LIMIT " . intval( $limit );
@@ -370,6 +370,11 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 				'checked' => 0,
 				'format'  => 'string',
 			),
+			'product_variation' => array(
+				'label'	  => __( 'Product Variation', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'string',
+			),
 			'variation_id'                => array(
 				'label'   => __( 'Variation Id', 'woo-order-export-lite' ),
 				'checked' => 0,
@@ -423,17 +428,17 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 			'product_url'                 => array(
 				'label'   => __( 'Product URL', 'woo-order-export-lite' ),
 				'checked' => 0,
-				'format'  => 'string',
+				'format'  => 'link',
 			),
 			'download_url'                => array(
 				'label'   => __( 'Download URL', 'woo-order-export-lite' ),
 				'checked' => 0,
-				'format'  => 'string',
+				'format'  => 'link',
 			),
 			'image_url'                   => array(
 				'label'   => __( 'Image URL', 'woo-order-export-lite' ),
 				'checked' => 0,
-				'format'  => 'string',
+				'format'  => 'link',
 			),
 			'product_shipping_class'      => array(
 				'label'   => __( 'Product Shipping Class', 'woo-order-export-lite' ),
@@ -476,7 +481,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 				'format'  => 'money',
 			),
 			'summary_report_total_refund_count' => array(
-				'label'   => __( 'Summary Report Total Refunds', 'woo-order-export-lite' ),
+				'label'   => __( 'Summary Report Total Refund Count', 'woo-order-export-lite' ),
 				'checked' => 0,
 				'format'  => 'number',
 			),
@@ -634,7 +639,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 			'embedded_edit_order_link' => array(
 				'label'   => __( 'Link to edit order', 'woo-order-export-lite' ),
 				'checked' => 0,
-				'format'  => 'string',
+				'format'  => 'link',
 			),
 		);
 	}
@@ -659,7 +664,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 			'user_url'              => array(
 				'label'   => __( 'User Website', 'woo-order-export-lite' ),
 				'checked' => 0,
-				'format'  => 'string',
+				'format'  => 'link',
 			),
 			'user_email'            => array(
 				'label'   => __( 'Customer User Email', 'woo-order-export-lite' ),
@@ -722,12 +727,22 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 				'format'  => 'money',
 			),
 			'summary_report_total_refund_count' => array(
-				'label'   => __( 'Summary Report Total Refunds', 'woo-order-export-lite' ),
+				'label'   => __( 'Summary Report Total Refund Count', 'woo-order-export-lite' ),
 				'checked' => 0,
 				'format'  => 'number',
 			),
 			'summary_report_total_refund_amount' => array(
 				'label'   => __( 'Summary Report Total Refund Amount', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'money',
+			),
+			'summary_report_total_tax_amount' => array(
+				'label'	  => __( 'Summary Report Total Tax Amount', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'money',
+			),
+			'summary_report_total_fee_amount' => array(
+				'label'	  => __( 'Summary Report Total Fee Amount', 'woo-order-export-lite' ),
 				'checked' => 0,
 				'format'  => 'money',
 			),
@@ -1016,7 +1031,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 			'item_download_url'           => array(
 				'label'   => __( 'Item download URL', 'woo-order-export-lite' ),
 				'checked' => 0,
-				'format'  => 'string',
+				'format'  => 'link',
 			),
 			'product_variation'           => array(
 				'label'   => __( 'Order Item Metadata', 'woo-order-export-lite' ),
@@ -1093,7 +1108,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 				'format'  => 'string',
 			),
 			'coupons_used'                  => array(
-				'label'   => __( 'Coupons Used', 'woo-order-export-lite' ),
+				'label'   => __( 'Number of coupons used', 'woo-order-export-lite' ),
 				'checked' => 0,
 				'format'  => 'string',
 			),
@@ -1296,7 +1311,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 			'misc'           => __( 'Others', 'woo-order-export-lite' ),
 		);
 	}
-	
+
 	public static function get_segment_hints() {
 		return array(
 			'products'      =>  __( 'Use section "Product order items" to add attributes', 'woo-order-export-lite' ),
@@ -1311,6 +1326,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 			'number' => __( 'Number', 'woo-order-export-lite' ),
 			'date'   => __( 'Date', 'woo-order-export-lite' ),
 			'image'   => __( 'Image', 'woo-order-export-lite' ),
+			'link'   => __( 'Link', 'woo-order-export-lite' ),
 		);
 	}
 

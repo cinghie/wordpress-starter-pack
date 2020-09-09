@@ -208,7 +208,7 @@ function wppfm_valueEditor( rowId, sourceLevel, valueEditorLevel, valueObject ) 
 	if ( valueObject[ valueEditorLevel ] && valueObject[ valueEditorLevel ].q ) {
 		for ( var i = 1; i < valueObject[ valueEditorLevel ].q.length + 1; i ++ ) {
 			var queryArray = wppfm_convertQueryStringToQueryObject( valueObject[ valueEditorLevel ].q[ i - 1 ][ i ] );
-			var lastValue  = i >= valueObject[ valueEditorLevel ].q.length ? true : false;
+			var lastValue  = i >= valueObject[ valueEditorLevel ].q.length;
 
 			html += wppfm_ifValueQuerySelector( rowId, sourceLevel, i, queryArray, lastValue );
 		}
@@ -311,8 +311,8 @@ function wppfm_changeValueCntrl( rowId, conditionLevel, valueEditorLevel, select
 }
 
 function wppfm_mapToDefaultCategoryElement( categoryId, category ) {
-	var categoryText = '';
-	var editable     = '';
+	var categoryText;
+	var editable;
 
 	switch ( category ) {
 		case 'default':
@@ -496,7 +496,7 @@ function wppfm_filterInputCntrl( feedId, filterLevel, inputLevel, value ) {
 	var identString   = feedId + '-' + filterLevel + '-' + inputLevel;
 	var andString     = inputLevel > 1 ? ' ' + wppfm_feed_settings_form_vars.and + ' ' : '';
 	var splitPosition = inputLevel === 1 ? 1 : 3;
-	var splitValue    = '';
+	var splitValue;
 
 	if ( inputLevel > 1 ) {
 		splitValue = value && value.includes( '#' ) ? value.split( '#' )[ splitPosition ] : '';

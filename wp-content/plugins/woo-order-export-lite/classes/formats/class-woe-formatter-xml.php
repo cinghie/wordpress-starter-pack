@@ -72,7 +72,7 @@ class WOE_Formatter_Xml extends WOE_Formatter {
 				$child_labels = apply_filters( 'woe_xml_child_labels_' . $original_key, $child_labels, $field_value,
 					$rec );
 
-				if ( $child_labels->is_not_empty() == false ) // can't export!
+				if ( !is_array($child_labels) AND $child_labels->is_not_empty() == false ) // can't export!
 				{
 					continue;
 				}
@@ -103,7 +103,7 @@ class WOE_Formatter_Xml extends WOE_Formatter {
 
 		//format it!
 		$dom                              = dom_import_simplexml( $xml );
-		$dom->ownerDocument->formatOutput = ( $this->mode == 'preview' );
+		$dom->ownerDocument->formatOutput = ( $this->mode == 'preview' || $this->settings['preview_format'] );
 		$output_flags                     = ! empty( $this->settings['self_closing_tags'] ) ? null : LIBXML_NOEMPTYTAG;
 		$xml                              = $dom->ownerDocument->saveXML( $dom->ownerDocument->documentElement,
 			$output_flags );

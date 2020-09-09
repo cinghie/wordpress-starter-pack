@@ -3,9 +3,9 @@
 Contributors: Wpmarketingrobot, Michel Jongbloed, AukeJomm
 Tags: Google Merchant Export, Product feed, woocommerce, Google product feed export, google, shopping, Google Adwords, Google Merchant, wooCommerce export, woocommerce variations, e-commerce, google merchant product feed, product variations, variations export, wp-e-commerce export, wp marketing robot
 Requires at least: 4.6
-Tested up to: 5.4
+Tested up to: 5.5
 Requires PHP: 5.6
-Stable tag: 1.23.0
+Stable tag: 1.24.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -74,8 +74,6 @@ First make sure you have all your plugins, theme and wordpress updated to the la
 
 PHP 5.6 or greater
 MySQL 5.6 or greater
-WooCommerce 2.5 requires WordPress 4.1+
-WooCommerce 2.6 requires WordPress 4.4+
 WP Memory limit of 256 MB or higher for larger shops
 If you have all of that sorted please follow the next steps before contacting us.
 
@@ -98,6 +96,11 @@ In case it does please do submit your feed in your Google Merchant center and ch
 3. Save and generate your feed
 
 == Changelog ==
+= 1.24.0 - 24/08/2020 =
+* Fixed an issue where using an apostrofe in the feed name would make the feed unreachable.
+* Added the g: prefix again for the title and link attributes.
+* Tested on WooCommerce 4.4.
+
 = 1.23.0 - 20/07/2020 =
 * Tested for WooCommerce 4.3.
 * Made a few small code updates.

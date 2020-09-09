@@ -64,9 +64,13 @@ class IS_Settings_Fields
         if ( !isset( $wp_settings_fields ) || !isset( $wp_settings_fields[$page] ) || !isset( $wp_settings_fields[$page][$section['id']] ) ) {
             return;
         }
-        echo  '<div class="form-table search-form-editor-box">' ;
+        ?>
+		<div class="form-table search-form-editor-box">
+		<?php 
         $this->is_do_settings_fields( $page, $section['id'] );
-        echo  '</div>' ;
+        ?>
+		</div>
+		<?php 
     }
     
     /**
@@ -85,17 +89,38 @@ class IS_Settings_Fields
             }
             
             if ( !empty($field['args']['label_for']) ) {
-                echo  '<h3 scope="row"><label for="' . esc_attr( $field['args']['label_for'] ) . '">' . $field['title'] . '</label>' ;
+                ?>
+			<h3 scope="row"><label for="<?php 
+                esc_attr_e( $field['args']['label_for'] );
+                ?>"><?php 
+                echo  $field['title'] ;
+                ?></label>
+			<?php 
             } else {
-                echo  '<h3 scope="row">' . $field['title'] ;
+                ?> 
+			<h3 scope="row"><?php 
+                echo  $field['title'] ;
             }
             
-            if ( 'Custom CSS' == $field['title'] || 'Advanced' == $field['title'] ) {
-                echo  '<span class="actions"><a class="expand" href="#">' . esc_html__( 'Expand All', 'add-search-to-menu' ) . '</a><a class="collapse" href="#" style="display:none;">' . esc_html__( 'Collapse All', 'add-search-to-menu' ) . '</a></span>' ;
+            
+            if ( 'Custom CSS' === $field['title'] || 'Advanced' === $field['title'] ) {
+                ?>
+                        <span class="is-actions"><a class="expand" href="#"><?php 
+                esc_html_e( 'Expand All', 'add-search-to-menu' );
+                ?></a><a class="collapse" href="#" style="display:none;"><?php 
+                esc_html_e( 'Collapse All', 'add-search-to-menu' );
+                ?></a></span>
+                    <?php 
             }
-            echo  '</h3><div>' ;
+            
+            ?>
+            </h3>
+            <div>
+			<?php 
             call_user_func( $field['callback'], $field['args'] );
-            echo  '</div>' ;
+            ?>
+		    </div>
+		    <?php 
         }
     }
     
@@ -122,7 +147,7 @@ class IS_Settings_Fields
         
         }
         
-        if ( !isset( $_GET['tab'] ) || 'settings' == $_GET['tab'] ) {
+        if ( !isset( $_GET['tab'] ) || 'settings' === $_GET['tab'] ) {
             add_settings_section(
                 'ivory_search_settings',
                 '',
@@ -188,7 +213,7 @@ class IS_Settings_Fields
             register_setting( 'ivory_search', 'is_settings' );
         } else {
             
-            if ( isset( $_GET['tab'] ) && 'menu-search' == $_GET['tab'] ) {
+            if ( isset( $_GET['tab'] ) && 'menu-search' === $_GET['tab'] ) {
                 add_settings_section(
                     'ivory_search_section',
                     '',
@@ -205,7 +230,7 @@ class IS_Settings_Fields
                 register_setting( 'ivory_search', 'is_menu_search' );
             } else {
                 
-                if ( isset( $_GET['tab'] ) && 'analytics' == $_GET['tab'] ) {
+                if ( isset( $_GET['tab'] ) && 'analytics' === $_GET['tab'] ) {
                     add_settings_section(
                         'ivory_search_analytics',
                         '',
@@ -233,7 +258,13 @@ class IS_Settings_Fields
      */
     function menu_search_section_desc()
     {
-        echo  '<h4 class="panel-desc">' . __( 'Configure Menu Search', 'add-search-to-menu' ) . '</h4>' ;
+        ?>
+		<h4 class="panel-desc">
+			<?php 
+        _e( 'Configure Menu Search', 'add-search-to-menu' );
+        ?>
+		</h4>
+		<?php 
     }
     
     /**
@@ -241,7 +272,13 @@ class IS_Settings_Fields
      */
     function analytics_section_desc()
     {
-        echo  '<h4 class="panel-desc">' . __( 'Search Analytics', 'add-search-to-menu' ) . '</h4>' ;
+        ?>
+		<h4 class="panel-desc">
+			<?php 
+        _e( 'Search Analytics', 'add-search-to-menu' );
+        ?>
+		</h4>
+		<?php 
     }
     
     /**
@@ -249,7 +286,13 @@ class IS_Settings_Fields
      */
     function settings_section_desc()
     {
-        echo  '<h4 class="panel-desc">' . __( 'Advanced Website Search Settings', 'add-search-to-menu' ) . '</h4>' ;
+        ?>
+		<h4 class="panel-desc">
+			<?php 
+        _e( 'Advanced Website Search Settings', 'add-search-to-menu' );
+        ?>
+		</h4>
+		<?php 
     }
     
     /**
@@ -262,61 +305,105 @@ class IS_Settings_Fields
          */
         $content = __( 'Display search form on selected menu locations.', 'add-search-to-menu' );
         IS_Help::help_info( $content );
-        $html = '';
-        $check_value = '';
         $menus = get_registered_nav_menus();
+        ?>
+		<div>
+		<?php 
         
         if ( !empty($menus) ) {
+            $check_value = '';
             foreach ( $menus as $location => $description ) {
                 
                 if ( has_nav_menu( $location ) ) {
                     $check_value = ( isset( $this->opt['menus'][$location] ) ? $this->opt['menus'][$location] : 0 );
-                    $html .= '<p><label for="is_menus' . esc_attr( $location ) . '"><input type="checkbox" class="ivory_search_locations" id="is_menus' . esc_attr( $location ) . '" name="is_menu_search[menus][' . esc_attr( $location ) . ']" value="' . esc_attr( $location ) . '" ' . checked( $location, $check_value, false ) . '/>';
-                    $html .= '<span class="toggle-check-text"></span> ' . esc_html( $description ) . '</label></p>';
+                    ?>
+					<p><label for="is_menus<?php 
+                    esc_attr_e( $location );
+                    ?>"><input type="checkbox" class="ivory_search_locations" id="is_menus<?php 
+                    esc_attr_e( $location );
+                    ?>" name="is_menu_search[menus][<?php 
+                    esc_attr_e( $location );
+                    ?>]" value="<?php 
+                    esc_attr_e( $location );
+                    ?>" <?php 
+                    checked( $location, $check_value, true );
+                    ?>/>
+					<span class="toggle-check-text"></span> <?php 
+                    esc_html_e( $description );
+                    ?> </label></p>
+                <?php 
                 }
             
             }
             if ( '' === $check_value ) {
-                $html = sprintf( __( 'No menu assigned to navigation menu location in the %sMenus screen%s.', 'add-search-to-menu' ), '<a target="_blank" href="' . admin_url( 'nav-menus.php' ) . '">', '</a>' );
+                printf( __( 'No menu assigned to navigation menu location in the %sMenus screen%s.', 'add-search-to-menu' ), '<a target="_blank" href="' . admin_url( 'nav-menus.php' ) . '">', '</a>' );
             }
         } else {
-            $html = __( 'Navigation menu location is not registered on the site.', 'add-search-to-menu' );
+            _e( 'Navigation menu location is not registered on the site.', 'add-search-to-menu' );
         }
         
-        echo  '<div>' . $html . '</div>' ;
+        ?>
+		</div><br />
+  		 <?php 
         /**
          * Displays choose menu field.
          */
-        echo  '<br />' ;
         $content = __( 'Display search form on selected menus.', 'add-search-to-menu' );
         IS_Help::help_info( $content );
-        $html = '';
-        $check_value = '';
         $menu_name = wp_get_nav_menus();
+        ?>
+		<div>
+		<?php 
         
         if ( !empty($menu_name) ) {
+            $check_value = '';
             foreach ( $menu_name as $value ) {
                 $check_value = ( isset( $this->opt['menu_name'][$value->slug] ) ? $this->opt['menu_name'][$value->slug] : 0 );
-                $html .= '<p><label for="is_menu_name' . esc_attr( $value->slug ) . '"><input type="checkbox" class="ivory_search_menu_name" id="is_menu_name' . esc_attr( $value->slug ) . '" name="is_menu_search[menu_name][' . esc_attr( $value->slug ) . ']" value="' . esc_attr( $value->slug ) . '" ' . checked( $value->slug, $check_value, false ) . '/>';
-                $html .= '<span class="toggle-check-text"></span> ' . esc_html( $value->name ) . '</label></p>';
+                ?>
+
+				<p><label for="is_menu_name<?php 
+                esc_attr_e( $value->slug );
+                ?>"><input type="checkbox" class="ivory_search_menu_name" id="is_menu_name<?php 
+                esc_attr_e( $value->slug );
+                ?>" name="is_menu_search[menu_name][<?php 
+                esc_attr_e( $value->slug );
+                ?>]" value="<?php 
+                esc_attr_e( $value->slug );
+                ?>"<?php 
+                checked( $value->slug, $check_value, true );
+                ?>/>
+				<span class="toggle-check-text"></span> <?php 
+                esc_html_e( $value->name );
+                ?></label></p>
+			<?php 
             }
         } else {
-            $html = sprintf( __( 'No menu created in the %sMenus screen%s.', 'add-search-to-menu' ), '<a target="_blank" href="' . admin_url( 'nav-menus.php' ) . '">', '</a>' );
+            printf( __( 'No menu created in the %sMenus screen%s.', 'add-search-to-menu' ), '<a target="_blank" href="' . admin_url( 'nav-menus.php' ) . '">', '</a>' );
         }
         
-        echo  '<div>' . $html . '</div>' ;
+        ?>
+		</div>
+  		 <?php 
         if ( !isset( $this->opt['menus'] ) && !isset( $this->opt['menu_name'] ) || '' === $check_value ) {
             return;
         }
-        echo  '<div class="menu-settings-container"><br /><br />' ;
+        ?>
+        <div class="menu-settings-container"><br /><br />
+		<?php 
         /**
          * Displays search form at the beginning of menu field.
          */
         $check_value = ( isset( $this->opt['first_menu_item'] ) ? $this->opt['first_menu_item'] : 0 );
-        $check_string = checked( 'first_menu_item', $check_value, false );
-        $html = '<label for="first_menu_item"><input class="ivory_search_first_menu_item" type="checkbox" id="first_menu_item" name="is_menu_search[first_menu_item]" value="first_menu_item" ' . $check_string . ' />';
-        $html .= '<span class="toggle-check-text"></span>' . esc_html__( 'Display search form at the start of the navigation menu', 'add-search-to-menu' ) . '</label>';
-        echo  '<div>' . $html . '</div> <br /><br />' ;
+        ?>
+        <div>
+		<label for="first_menu_item"><input class="ivory_search_first_menu_item" type="checkbox" id="first_menu_item" name="is_menu_search[first_menu_item]" value="first_menu_item" <?php 
+        checked( 'first_menu_item', $check_value, true );
+        ?> />
+		<span class="toggle-check-text"></span><?php 
+        esc_html_e( 'Display search form at the start of the navigation menu', 'add-search-to-menu' );
+        ?></label>
+		</div> <br /><br />
+		<?php 
         /**
          * Displays form style field.
          */
@@ -336,23 +423,44 @@ class IS_Settings_Fields
             $menu_close_icon = true;
         }
         
-        $html = '';
         $check_value = ( isset( $this->opt['menu_style'] ) ? $this->opt['menu_style'] : 'dropdown' );
+        ?>
+		<div class="search-form-style">
+		<?php 
         foreach ( $styles as $key => $style ) {
-            $html .= '<p>';
-            $html .= '<label for="is_menu_style' . esc_attr( $key ) . '"><input class="ivory_search_style" type="radio" id="is_menu_style' . esc_attr( $key ) . '" name="is_menu_search[menu_style]"';
-            $html .= 'name="ivory_search[menu_style]" value="' . esc_attr( $key ) . '" ' . checked( $key, $check_value, false ) . '/>';
-            $html .= '<span class="toggle-check-text"></span>' . esc_html( $style ) . '</label>';
-            $html .= '</p>';
+            ?>
+            <p>
+			<label for="is_menu_style<?php 
+            esc_attr_e( $key );
+            ?>"><input class="ivory_search_style" type="radio" id="is_menu_style<?php 
+            esc_attr_e( $key );
+            ?>" name="is_menu_search[menu_style]" value="<?php 
+            esc_attr_e( $key );
+            ?>" <?php 
+            checked( $key, $check_value, true );
+            ?>/>
+			<span class="toggle-check-text"></span><?php 
+            esc_html_e( $style );
+            ?></label>
+			</p>
+		<?php 
         }
-        echo  '<div class="search-form-style">' . $html . '</div><br /><br />' ;
-        echo  '<div class="form-style-dependent">' ;
+        ?>
+		</div><br /><br />
+		<div class="form-style-dependent">
+		<?php 
         /**
          * Displays menu search magnifier colorpicker field.
          */
         $color = ( isset( $this->opt['menu_magnifier_color'] ) ? $this->opt['menu_magnifier_color'] : '#848484' );
-        echo  '<input style="width: 80px;" class="menu-magnifier-color is-colorpicker" size="5" type="text" id="is-menu-magnifier-color" name="is_menu_search[menu_magnifier_color]" value="' . $color . '" />' ;
-        echo  '<br /><i> ' . esc_html__( "Select menu magnifier icon color.", 'add-search-to-menu' ) . '</i><br /><br />' ;
+        ?>
+		<input style="width: 80px;" class="menu-magnifier-color is-colorpicker" size="5" type="text" id="is-menu-magnifier-color" name="is_menu_search[menu_magnifier_color]" value="<?php 
+        echo  $color ;
+        ?>" />
+		<br /><i> <?php 
+        esc_html_e( 'Select menu magnifier icon color.', 'add-search-to-menu' );
+        ?></i><br /><br />
+		<?php 
         /**
          * Displays search form close icon field.
          */
@@ -360,67 +468,121 @@ class IS_Settings_Fields
         if ( !$check_value && $menu_close_icon ) {
             $check_value = 'menu_close_icon';
         }
-        $check_string = checked( 'menu_close_icon', $check_value, false );
-        $html = '<label for="menu_close_icon"><input class="ivory_search_close_icon" type="checkbox" id="menu_close_icon" name="is_menu_search[menu_close_icon]" value="menu_close_icon" ' . $check_string . ' />';
-        $html .= '<span class="toggle-check-text"></span>' . esc_html__( 'Display search form close icon', 'add-search-to-menu' ) . '</label>';
-        echo  '<div>' . $html . '</div> <br /><br />' ;
+        ?>
+        <div>
+		<label for="menu_close_icon"><input class="ivory_search_close_icon" type="checkbox" id="menu_close_icon" name="is_menu_search[menu_close_icon]" value="menu_close_icon" <?php 
+        checked( 'menu_close_icon', $check_value, true );
+        ?> />
+		<span class="toggle-check-text"></span><?php 
+        esc_html_e( 'Display search form close icon', 'add-search-to-menu' );
+        ?></label>
+		</div> <br /><br />
+		<?php 
         /**
          * Displays search menu title field.
          */
         $content = __( 'Add menu title to display in place of search icon.', 'add-search-to-menu' );
         IS_Help::help_info( $content );
         $this->opt['menu_title'] = ( isset( $this->opt['menu_title'] ) ? $this->opt['menu_title'] : '' );
-        $html = '<input type="text" class="ivory_search_title" id="is_menu_title" name="is_menu_search[menu_title]" value="' . esc_attr( $this->opt['menu_title'] ) . '" />';
-        echo  '<div>' . $html . '</div> <br /><br />' ;
-        echo  '</div>' ;
+        ?>
+		<div><input type="text" class="ivory_search_title" id="is_menu_title" name="is_menu_search[menu_title]" value="<?php 
+        esc_attr_e( $this->opt['menu_title'] );
+        ?>" />
+		</div> <br /><br />
+		</div>
+		<?php 
         /**
          * Displays menu search form field.
          */
         $content = __( 'Select search form that will control menu search functionality.', 'add-search-to-menu' );
         IS_Help::help_info( $content );
-        $html = '';
         $args = array(
             'numberposts' => -1,
             'post_type'   => 'is_search_form',
             'order'       => 'ASC',
         );
         $posts = get_posts( $args );
+        ?>
+		<div>
+		<?php 
         
         if ( !empty($posts) ) {
             $check_value = ( isset( $this->opt['menu_search_form'] ) ? $this->opt['menu_search_form'] : 0 );
-            $html .= '<select class="ivory_search_form" id="menu_search_form" name="is_menu_search[menu_search_form]" >';
-            $html .= '<option value="0">' . __( 'None', 'add-search-to-menu' ) . '</option>';
+            ?>
+			<select class="ivory_search_form" id="menu_search_form" name="is_menu_search[menu_search_form]" >
+			<option value="0"><?php 
+            _e( 'None', 'add-search-to-menu' );
+            ?></option>
+			<?php 
             foreach ( $posts as $post ) {
-                $html .= '<option value="' . $post->ID . '"' . selected( $post->ID, $check_value, false ) . ' >' . $post->post_title . '</option>';
+                ?>
+				<option value="<?php 
+                echo  $post->ID ;
+                ?>" <?php 
+                selected( $post->ID, $check_value, true );
+                ?>><?php 
+                echo  $post->post_title ;
+                ?></option>
+			<?php 
             }
-            $html .= '</select>';
+            ?>
+			</select>
+			<?php 
             
             if ( $check_value ) {
-                $html .= '<a href="' . esc_url( menu_page_url( 'ivory-search', false ) ) . '&post=' . $check_value . '&action=edit">  ' . esc_html__( "Edit Search Form", 'add-search-to-menu' ) . '</a>';
+                ?>
+				<a href="<?php 
+                echo  esc_url( menu_page_url( 'ivory-search', false ) ) ;
+                ?>&post=<?php 
+                echo  $check_value ;
+                ?>&action=edit">  <?php 
+                esc_html_e( 'Edit Search Form', 'add-search-to-menu' );
+                ?></a>
+			<?php 
             } else {
-                $html .= '<a href="' . esc_url( menu_page_url( 'ivory-search-new', false ) ) . '">  ' . esc_html__( "Create New", 'add-search-to-menu' ) . '</a>';
+                ?>
+				<a href="<?php 
+                echo  esc_url( menu_page_url( 'ivory-search-new', false ) ) ;
+                ?>">  <?php 
+                esc_html_e( "Create New", 'add-search-to-menu' );
+                ?></a>
+			<?php 
             }
         
         }
         
-        echo  '<div>' . $html . '</div><br /><br />' ;
+        ?>
+		</div><br /><br />
+		<?php 
         /**
          * Displays search menu classes field.
          */
         $content = __( 'Add class to search form menu item.', 'add-search-to-menu' );
         IS_Help::help_info( $content );
         $this->opt['menu_classes'] = ( isset( $this->opt['menu_classes'] ) ? $this->opt['menu_classes'] : '' );
-        $html = '<input type="text" class="ivory_search_classes" id="is_menu_classes" name="is_menu_search[menu_classes]" value="' . esc_attr( $this->opt['menu_classes'] ) . '" />';
-        $html .= '<br /><label for="is_menu_classes" style="font-size: 10px;">' . esc_html__( "Add multiple classes seperated by space.", 'add-search-to-menu' ) . '</label>';
-        echo  '<div>' . $html . '</div> <br /><br />' ;
+        ?>
+		<div>
+		<input type="text" class="ivory_search_classes" id="is_menu_classes" name="is_menu_search[menu_classes]" value="<?php 
+        esc_attr_e( $this->opt['menu_classes'] );
+        ?>" />
+		<br /><label for="is_menu_classes" style="font-size: 10px;"><?php 
+        esc_html_e( 'Add multiple classes seperated by space.', 'add-search-to-menu' );
+        ?></label>
+		</div><br /><br />
+		<?php 
         /**
          * Displays google cse field.
          */
         $content = __( 'Add Google Custom Search( CSE ) search form code that will replace default search form.', 'add-search-to-menu' );
         IS_Help::help_info( $content );
         $this->opt['menu_gcse'] = ( isset( $this->opt['menu_gcse'] ) ? $this->opt['menu_gcse'] : '' );
-        $html = '<input class="ivory_search_gcse" type="text" id="is_menu_gcse" name="is_menu_search[menu_gcse]" value="' . esc_attr( $this->opt['menu_gcse'] ) . '" />';
-        echo  '<div>' . $html . '</div></div>' ;
+        ?>
+		<div>
+		<input class="ivory_search_gcse" type="text" id="is_menu_gcse" name="is_menu_search[menu_gcse]" value="<?php 
+        esc_attr_e( $this->opt['menu_gcse'] );
+        ?>" />
+		</div></div>
+		<?php 
     }
     
     /**
@@ -430,23 +592,59 @@ class IS_Settings_Fields
     {
         $is_analytics = get_option( 'is_analytics', array() );
         $check_value = ( isset( $is_analytics['disable_analytics'] ) ? $is_analytics['disable_analytics'] : 0 );
-        $html = '<label for="is_disable_analytics"><select class="ivory_search_disable_analytics" id="is_disable_analytics" name="is_analytics[disable_analytics]" >';
-        $html .= '<option value="0" ' . selected( 0, $check_value, false ) . '>' . __( 'Enabled', 'add-search-to-menu' ) . '</option>';
-        $html .= '<option value="1"' . selected( 1, $check_value, false ) . ' >' . __( 'Disabled', 'add-search-to-menu' ) . '</option>';
-        $html .= '</select> ' . esc_html__( 'Google Analytics tracking for searches', 'add-search-to-menu' ) . '</label>';
-        echo  '<div>' . $html ;
-        echo  '<div class="analytics-info"><br/><br/><p>' . __( 'Search Analytics uses Google Analytics to track searches.', 'add-search-to-menu' ) . '</p>' ;
-        echo  '<p>' . sprintf( __( "You need %s Google Analytics %s to be installed on your site.", 'add-search-to-menu' ), "<a target='_blank' href='https://developers.google.com/analytics/devguides/collection/analyticsjs/'>", '</a>' ) . '</p>' ;
-        echo  '<p>' . __( "Data will be visible inside Google Analytics 'Events' and 'Site Search' report.", 'add-search-to-menu' ) . '</p>' ;
-        echo  '<br/><p>' . __( "Events will be as below:", 'add-search-to-menu' ) . '</p>' ;
-        echo  '<p><b>' . __( "Category - Results Found / Nothing Found", 'add-search-to-menu' ) . '</b></p>' ;
-        echo  '<p><b>' . __( "Action - Ivory Search - ID", 'add-search-to-menu' ) . '</b></p>' ;
-        echo  '<p><b>' . __( "Label - Value of search term", 'add-search-to-menu' ) . '</b></p>' ;
-        echo  '<br/><p>' . sprintf( __( "Need to %s activate Site Search feature %s inside Google Analytics to display data inside 'Site Search' report.", 'add-search-to-menu' ), "<a target='_blank' href='https://support.google.com/analytics/answer/1012264'>", '</a>' ) . '</p>' ;
-        echo  '<p>' . __( "Enable Site search Tracking option in Site Search Settings and set its parameters as below.", 'add-search-to-menu' ) . '</p>' ;
-        echo  '<p><b>' . __( "Query parameter - s", 'add-search-to-menu' ) . '</b></p>' ;
-        echo  '<p><b>' . __( "Category parameter - id / result", 'add-search-to-menu' ) . '</b></p>' ;
-        echo  '</div></div>' ;
+        ?>
+        <div>
+		<label for="is_disable_analytics"><select class="ivory_search_disable_analytics" id="is_disable_analytics" name="is_analytics[disable_analytics]" >
+		<option value="0" <?php 
+        selected( 0, $check_value, true );
+        ?>><?php 
+        _e( 'Enabled', 'add-search-to-menu' );
+        ?></option>
+		<option value="1" <?php 
+        selected( 1, $check_value, true );
+        ?>><?php 
+        _e( 'Disabled', 'add-search-to-menu' );
+        ?></option>
+		</select> <?php 
+        esc_html_e( 'Google Analytics tracking for searches', 'add-search-to-menu' );
+        ?></label>
+		<div class="analytics-info" <?php 
+        echo  ( $check_value ? 'style="display:none;"' : '' ) ;
+        ?> ><br/><br/><p><?php 
+        _e( 'Search Analytics uses Google Analytics to track searches.', 'add-search-to-menu' );
+        ?></p>
+		<p><?php 
+        printf( __( "You need %s Google Analytics %s to be installed on your site.", 'add-search-to-menu' ), "<a target='_blank' href='https://developers.google.com/analytics/devguides/collection/analyticsjs/'>", '</a>' );
+        ?></p>
+		<p><?php 
+        _e( 'Data will be visible inside Google Analytics \'Events\' and \'Site Search\' report.', 'add-search-to-menu' );
+        ?></p>
+		<br/><p><?php 
+        _e( 'Events will be as below:', 'add-search-to-menu' );
+        ?></p>
+		<p><b><?php 
+        _e( 'Category - Results Found / Nothing Found', 'add-search-to-menu' );
+        ?></b></p>
+		<p><b><?php 
+        _e( 'Action - Ivory Search - ID', 'add-search-to-menu' );
+        ?></b></p>
+		<p><b><?php 
+        _e( 'Label - Value of search term', 'add-search-to-menu' );
+        ?></b></p>
+		<br/><p><?php 
+        printf( __( "Need to %s activate Site Search feature %s inside Google Analytics to display data inside 'Site Search' report.", 'add-search-to-menu' ), "<a target='_blank' href='https://support.google.com/analytics/answer/1012264'>", '</a>' );
+        ?></p>
+		<p><?php 
+        _e( 'Enable Site search Tracking option in Site Search Settings and set its parameters as below.', 'add-search-to-menu' );
+        ?></p>
+		<p><b><?php 
+        _e( 'Query parameter - s', 'add-search-to-menu' );
+        ?></b></p>
+		<p><b><?php 
+        _e( 'Category parameter - id / result', 'add-search-to-menu' );
+        ?></b></p>
+		</div></div>
+		<?php 
     }
     
     /**
@@ -455,31 +653,65 @@ class IS_Settings_Fields
     function header()
     {
         echo  __( 'Select search form to display in site header( Not Menu ).', 'add-search-to-menu' ) . '<br /><br />' ;
-        $html = '';
         $args = array(
             'numberposts' => -1,
             'post_type'   => 'is_search_form',
         );
         $posts = get_posts( $args );
+        ?>
+		<div>
+		<?php 
         
         if ( !empty($posts) ) {
             $check_value = ( isset( $this->opt['header_search'] ) ? $this->opt['header_search'] : 0 );
-            $html .= '<select class="ivory_search_header" id="is_header_search" name="is_settings[header_search]" >';
-            $html .= '<option value="0" ' . selected( 0, $check_value, false ) . '>' . __( 'None', 'add-search-to-menu' ) . '</option>';
+            ?>
+			<select class="ivory_search_header" id="is_header_search" name="is_settings[header_search]" >
+			<option value="0" <?php 
+            selected( 0, $check_value, true );
+            ?>><?php 
+            _e( 'None', 'add-search-to-menu' );
+            ?></option>
+			<?php 
             foreach ( $posts as $post ) {
-                $html .= '<option value="' . $post->ID . '"' . selected( $post->ID, $check_value, false ) . ' >' . $post->post_title . '</option>';
+                ?>
+				<option value="<?php 
+                echo  $post->ID ;
+                ?>" <?php 
+                selected( $post->ID, $check_value, true );
+                ?>><?php 
+                echo  $post->post_title ;
+                ?></option>
+			<?php 
             }
-            $html .= '</select>';
+            ?>
+			</select>
+			<?php 
             
             if ( $check_value && get_post_type( $check_value ) ) {
-                $html .= '<a href="' . esc_url( menu_page_url( 'ivory-search', false ) ) . '&post=' . $check_value . '&action=edit">  ' . esc_html__( "Edit", 'add-search-to-menu' ) . '</a>';
+                ?>
+				<a href="<?php 
+                echo  esc_url( menu_page_url( 'ivory-search', false ) ) . '&post=' . $check_value . '&action=edit' ;
+                ?>"><?php 
+                esc_html_e( "Edit", 'add-search-to-menu' );
+                ?></a>
+			<?php 
             } else {
-                $html .= '<a href="' . esc_url( menu_page_url( 'ivory-search-new', false ) ) . '">  ' . esc_html__( "Create New", 'add-search-to-menu' ) . '</a>';
+                ?>
+				<a href="<?php 
+                echo  esc_url( menu_page_url( 'ivory-search-new', false ) ) ;
+                ?>"><?php 
+                esc_html_e( "Create New", 'add-search-to-menu' );
+                ?></a>
+			<?php 
             }
         
         }
         
-        echo  '<div>' . $html . '<br/><br/><span class="is-help"><span class="is-info-warning">' . __( 'Please note that the above option displays search form in site header and not in navigation menu.', 'add-search-to-menu' ) . '</span></span></div>' ;
+        ?>
+		<br/><br/><span class="is-help"><span class="is-info-warning"><?php 
+        _e( 'Please note that the above option displays search form in site header and not in navigation menu.', 'add-search-to-menu' );
+        ?></span></span></div>
+	<?php 
     }
     
     /**
@@ -487,8 +719,11 @@ class IS_Settings_Fields
      */
     function footer()
     {
-        echo  __( 'Select search form to display in site footer.', 'add-search-to-menu' ) . '<br /><br />' ;
-        $html = '';
+        _e( 'Select search form to display in site footer.', 'add-search-to-menu' );
+        ?>
+		<br /><br />
+		<div>
+		<?php 
         $args = array(
             'numberposts' => -1,
             'post_type'   => 'is_search_form',
@@ -497,22 +732,52 @@ class IS_Settings_Fields
         
         if ( !empty($posts) ) {
             $check_value = ( isset( $this->opt['footer_search'] ) ? $this->opt['footer_search'] : 0 );
-            $html .= '<select class="ivory_search_footer" id="is_footer_search" name="is_settings[footer_search]" >';
-            $html .= '<option value="0" ' . selected( 0, $check_value, false ) . '>' . __( 'None', 'add-search-to-menu' ) . '</option>';
+            ?>
+			<select class="ivory_search_footer" id="is_footer_search" name="is_settings[footer_search]" >
+			<option value="0" <?php 
+            selected( 0, $check_value, true );
+            ?>><?php 
+            _e( 'None', 'add-search-to-menu' );
+            ?></option>
+			<?php 
             foreach ( $posts as $post ) {
-                $html .= '<option value="' . $post->ID . '"' . selected( $post->ID, $check_value, false ) . ' >' . $post->post_title . '</option>';
+                ?>
+				<option value="<?php 
+                echo  $post->ID ;
+                ?>" <?php 
+                selected( $post->ID, $check_value, true );
+                ?>><?php 
+                echo  $post->post_title ;
+                ?></option>
+			<?php 
             }
-            $html .= '</select>';
+            ?>
+			</select>
+			<?php 
             
             if ( $check_value && get_post_type( $check_value ) ) {
-                $html .= '<a href="' . esc_url( menu_page_url( 'ivory-search', false ) ) . '&post=' . $check_value . '&action=edit">  ' . esc_html__( "Edit", 'add-search-to-menu' ) . '</a>';
+                ?>
+				<a href="<?php 
+                echo  esc_url( menu_page_url( 'ivory-search', false ) ) . '&post=' . $check_value . '&action=edit' ;
+                ?>"> <?php 
+                esc_html_e( "Edit", 'add-search-to-menu' );
+                ?></a>
+			<?php 
             } else {
-                $html .= '<a href="' . esc_url( menu_page_url( 'ivory-search-new', false ) ) . '">  ' . esc_html__( "Create New", 'add-search-to-menu' ) . '</a>';
+                ?>
+				<a href="<?php 
+                echo  esc_url( menu_page_url( 'ivory-search-new', false ) ) ;
+                ?>">  <?php 
+                esc_html_e( "Create New", 'add-search-to-menu' );
+                ?></a>
+			<?php 
             }
         
         }
         
-        echo  '<div>' . $html . '</div>' ;
+        ?>
+		</div>
+		<?php 
     }
     
     /**
@@ -522,17 +787,30 @@ class IS_Settings_Fields
     {
         $check_value = ( isset( $this->opt['header_menu_search'] ) ? $this->opt['header_menu_search'] : 0 );
         $check_string = checked( 'header_menu_search', $check_value, false );
-        $html = '<label for="is_search_in_header"><input class="ivory_search_display_in_header" type="checkbox" id="is_search_in_header" name="is_settings[header_menu_search]" value="header_menu_search" ' . $check_string . ' />';
-        $html .= '<span class="toggle-check-text"></span>' . esc_html__( 'Display search form in site header on mobile devices', 'add-search-to-menu' ) . '</label>';
-        echo  '<div>' . $html . '</div><br />' ;
-        $html = '';
+        ?>
+        <div>
+		<label for="is_search_in_header"><input class="ivory_search_display_in_header" type="checkbox" id="is_search_in_header" name="is_settings[header_menu_search]" value="header_menu_search" <?php 
+        echo  $check_string ;
+        ?>/>
+		<span class="toggle-check-text"></span><?php 
+        esc_html_e( 'Display search form in site header on mobile devices', 'add-search-to-menu' );
+        ?></label>
+		</div><br />
+		<?php 
         $content = __( 'If this site uses cache then please select the below option to display search form on mobile.', 'add-search-to-menu' );
         IS_Help::help_info( $content );
         $check_value = ( isset( $this->opt['site_uses_cache'] ) ? $this->opt['site_uses_cache'] : 0 );
         $check_string = checked( 'site_uses_cache', $check_value, false );
-        $html .= '<label for="is_site_uses_cache"><input class="ivory_search_display_in_header" type="checkbox" id="is_site_uses_cache" name="is_settings[site_uses_cache]" value="site_uses_cache" ' . $check_string . ' />';
-        $html .= '<span class="toggle-check-text"></span>' . esc_html__( 'This site uses cache', 'add-search-to-menu' ) . '</label>';
-        echo  '<div>' . $html . '</div>' ;
+        ?>
+		<div>
+		<label for="is_site_uses_cache"><input class="ivory_search_display_in_header" type="checkbox" id="is_site_uses_cache" name="is_settings[site_uses_cache]" value="site_uses_cache" <?php 
+        echo  $check_string ;
+        ?>/>
+		<span class="toggle-check-text"></span><?php 
+        esc_html_e( 'This site uses cache', 'add-search-to-menu' );
+        ?></label>
+		</div>
+		<?php 
     }
     
     /**
@@ -540,10 +818,16 @@ class IS_Settings_Fields
      */
     function custom_css()
     {
-        echo  __( 'Add custom CSS code.', 'add-search-to-menu' ) . '<br /><br />' ;
+        _e( 'Add custom CSS code.', 'add-search-to-menu' );
         $this->opt['custom_css'] = ( isset( $this->opt['custom_css'] ) ? $this->opt['custom_css'] : '' );
-        $html = '<textarea class="ivory_search_css" rows="4" id="custom_css" name="is_settings[custom_css]" >' . esc_attr( $this->opt['custom_css'] ) . '</textarea>';
-        echo  '<div>' . $html . '</div>' ;
+        ?>
+		<br /><br />
+		<div>
+		<textarea class="ivory_search_css" rows="4" id="custom_css" name="is_settings[custom_css]" ><?php 
+        esc_attr_e( $this->opt['custom_css'] );
+        ?></textarea>
+		</div>
+		<?php 
     }
     
     /**
@@ -551,11 +835,19 @@ class IS_Settings_Fields
      */
     function stopwords()
     {
-        echo  __( 'Add Stopwords that will not be searched.', 'add-search-to-menu' ) . '<br /><br />' ;
+        echo  __( 'Add Stopwords that will not be searched.', 'add-search-to-menu' ) ;
         $this->opt['stopwords'] = ( isset( $this->opt['stopwords'] ) ? $this->opt['stopwords'] : '' );
-        $html = '<textarea class="ivory_search_stopwords" rows="4" id="stopwords" name="is_settings[stopwords]" >' . esc_attr( $this->opt['stopwords'] ) . '</textarea>';
-        $html .= '<br /><label for="stopwords" style="font-size: 10px;">' . esc_html__( "Please separate multiple words with commas.", 'add-search-to-menu' ) . '</label>';
-        echo  '<div>' . $html . '</div>' ;
+        ?>
+		<br /><br />
+		<div>
+		<textarea class="ivory_search_stopwords" rows="4" id="stopwords" name="is_settings[stopwords]" ><?php 
+        esc_attr_e( $this->opt['stopwords'] );
+        ?></textarea>
+		<br /><label for="stopwords" style="font-size: 10px;"><?php 
+        esc_html_e( 'Please separate multiple words with commas.', 'add-search-to-menu' );
+        ?></label>
+		</div>
+		<?php 
     }
     
     /**
@@ -563,16 +855,29 @@ class IS_Settings_Fields
      */
     function synonyms()
     {
-        echo  __( 'Add synonyms to make the searches find better results.', 'add-search-to-menu' ) . '<br /><br />' ;
+        _e( 'Add synonyms to make the searches find better results.', 'add-search-to-menu' );
+        ?>
+		<br /><br />
+		<?php 
         $content = __( 'If you add bird = crow to the list of synonyms, searches for bird automatically become a search for bird crow and will thus match to posts that include either bird or crow.', 'add-search-to-menu' );
         IS_Help::help_info( $content );
         $this->opt['synonyms'] = ( isset( $this->opt['synonyms'] ) ? $this->opt['synonyms'] : '' );
-        $html = '<textarea class="ivory_search_synonyms" rows="4" id="synonyms" name="is_settings[synonyms]" >' . esc_attr( $this->opt['synonyms'] ) . '</textarea>';
-        $html .= '<br /><label for="synonyms" style="font-size: 10px;">' . esc_html__( 'The format here is key = value', 'add-search-to-menu' ) . '</label>';
-        $html .= '<br /><label for="synonyms" style="font-size: 10px;">' . esc_html__( 'Please add every synonyms key = value pairs on new line.', 'add-search-to-menu' ) . '</label>';
-        echo  '<div>' . $html . '</div>' ;
-        echo  '<br /><span class="is-help"><span class="is-info-warning">' . __( 'This only works for search forms configured to search any of the search terms(OR) and not all search terms(AND) in the search form Options.', 'add-search-to-menu' ) . '</span></span>' ;
-        $html = '';
+        ?>
+		<div>
+		<textarea class="ivory_search_synonyms" rows="4" id="synonyms" name="is_settings[synonyms]" ><?php 
+        esc_attr_e( $this->opt['synonyms'] );
+        ?></textarea>
+		<br /><label for="synonyms" style="font-size: 10px;"><?php 
+        esc_html_e( 'The format here is key = value', 'add-search-to-menu' );
+        ?></label>
+		<br /><label for="synonyms" style="font-size: 10px;"><?php 
+        esc_html_e( 'Please add every synonyms key = value pairs on new line.', 'add-search-to-menu' );
+        ?></label>
+		</div>
+		<br /><span class="is-help"><span class="is-info-warning"><?php 
+        _e( 'This only works for search forms configured to search any of the search terms(OR) and not all search terms(AND) in the search form Options.', 'add-search-to-menu' );
+        ?></span></span>
+		<?php 
     }
     
     /**
@@ -586,32 +891,84 @@ class IS_Settings_Fields
             'css' => __( 'Do not load plugin CSS files', 'add-search-to-menu' ),
             'js'  => __( 'Do not load plugin JavaScript files', 'add-search-to-menu' ),
         );
-        $html = '';
+        ?> <div> <?php 
         foreach ( $styles as $key => $file ) {
             $check_value = ( isset( $this->opt['not_load_files'][$key] ) ? $this->opt['not_load_files'][$key] : 0 );
             $check_string = checked( $key, $check_value, false );
-            if ( 'js' == $key ) {
-                $html .= '<br />';
+            if ( 'js' === $key ) {
+                ?>
+                            <br />
+                        <?php 
             }
-            $html .= '<br /><label for="not_load_files[' . esc_attr( $key ) . ']"><input class="not_load_files" type="checkbox" id="not_load_files[' . esc_attr( $key ) . ']" name="is_settings[not_load_files][' . esc_attr( $key ) . ']" value="' . esc_attr( $key ) . '" ' . $check_string . '/>';
-            $html .= '<span class="toggle-check-text"></span>' . esc_html( $file ) . '</label>';
-            $html .= '<span class="not-load-wrapper">';
+            ?>
+			<br /><label for="not_load_files[<?php 
+            esc_attr_e( $key );
+            ?>]"><input class="not_load_files" type="checkbox" id="not_load_files[<?php 
+            esc_attr_e( $key );
+            ?>]" name="is_settings[not_load_files][<?php 
+            esc_attr_e( $key );
+            ?>]" value="<?php 
+            esc_attr_e( $key );
+            ?>" <?php 
+            echo  $check_string ;
+            ?>/>
+			<span class="toggle-check-text"></span><?php 
+            esc_html_e( $file );
+            ?></label>
+            <span class="not-load-wrapper">
+			<?php 
             
-            if ( 'css' == $key ) {
-                $html .= '<br /><label for="not_load_files[' . esc_attr( $key ) . ']" style="font-size: 10px;">' . esc_html__( 'If checked, you have to add following plugin file code into your child theme CSS file.', 'add-search-to-menu' ) . '</label>';
-                $html .= '<br /><a style="font-size: 13px;" target="_blank" href="' . plugins_url( '/public/css/ivory-search.css', IS_PLUGIN_FILE ) . '"/a>' . plugins_url( '/public/css/ivory-search.css', IS_PLUGIN_FILE ) . '</a>';
-                $html .= '<br /><a style="font-size: 13px;" target="_blank" href="' . plugins_url( '/public/css/ivory-ajax-search.css', IS_PLUGIN_FILE ) . '"/a>' . plugins_url( '/public/css/ivory-ajax-search.css', IS_PLUGIN_FILE ) . '</a>';
-                $html .= '<br />';
+            if ( 'css' === $key ) {
+                ?>
+				<br /><label for="not_load_files[<?php 
+                esc_attr_e( $key );
+                ?>]" style="font-size: 10px;"><?php 
+                esc_html_e( 'If checked, you have to add following plugin file code into your child theme CSS file.', 'add-search-to-menu' );
+                ?></label>
+				<br /><a style="font-size: 13px;" target="_blank" href="<?php 
+                echo  plugins_url( '/public/css/ivory-search.css', IS_PLUGIN_FILE ) ;
+                ?>"><?php 
+                echo  plugins_url( '/public/css/ivory-search.css', IS_PLUGIN_FILE ) ;
+                ?></a>
+				<br /><a style="font-size: 13px;" target="_blank" href="<?php 
+                echo  plugins_url( '/public/css/ivory-ajax-search.css', IS_PLUGIN_FILE ) ;
+                ?>"><?php 
+                echo  plugins_url( '/public/css/ivory-ajax-search.css', IS_PLUGIN_FILE ) ;
+                ?></a>
+				<br />
+			<?php 
             } else {
-                $html .= '<br /><label for="not_load_files[' . esc_attr( $key ) . ']" style="font-size: 10px;">' . esc_html__( "If checked, you have to add following plugin files code into your child theme JavaScript file.", 'add-search-to-menu' ) . '</label>';
-                $html .= '<br /><a style="font-size: 13px;" target="_blank" href="' . plugins_url( '/public/js/ivory-search.js', IS_PLUGIN_FILE ) . '"/a>' . plugins_url( '/public/js/ivory-search.js', IS_PLUGIN_FILE ) . '</a>';
-                $html .= '<br /><a style="font-size: 13px;" target="_blank" href="' . plugins_url( '/public/js/is-highlight.js', IS_PLUGIN_FILE ) . '"/a>' . plugins_url( '/public/js/is-highlight.js', IS_PLUGIN_FILE ) . '</a>';
-                $html .= '<br /><a style="font-size: 13px;" target="_blank" href="' . plugins_url( '/public/js/ivory-ajax-search.js', IS_PLUGIN_FILE ) . '"/a>' . plugins_url( '/public/js/ivory-ajax-search.js', IS_PLUGIN_FILE ) . '</a>';
+                ?>
+				<br /><label for="not_load_files[<?php 
+                esc_attr_e( $key );
+                ?>]" style="font-size: 10px;"><?php 
+                esc_html_e( "If checked, you have to add following plugin files code into your child theme JavaScript file.", 'add-search-to-menu' );
+                ?></label>
+				<br /><a style="font-size: 13px;" target="_blank" href="<?php 
+                echo  plugins_url( '/public/js/ivory-search.js', IS_PLUGIN_FILE ) ;
+                ?>"><?php 
+                echo  plugins_url( '/public/js/ivory-search.js', IS_PLUGIN_FILE ) ;
+                ?></a>
+				<br /><a style="font-size: 13px;" target="_blank" href="<?php 
+                echo  plugins_url( '/public/js/is-highlight.js', IS_PLUGIN_FILE ) ;
+                ?>"><?php 
+                echo  plugins_url( '/public/js/is-highlight.js', IS_PLUGIN_FILE ) ;
+                ?></a>
+                <br /><a style="font-size: 13px;" target="_blank" href="<?php 
+                echo  plugins_url( '/public/js/ivory-ajax-search.js', IS_PLUGIN_FILE ) ;
+                ?>"><?php 
+                echo  plugins_url( '/public/js/ivory-ajax-search.js', IS_PLUGIN_FILE ) ;
+                ?></a>
+			<?php 
             }
             
-            $html .= '</span>';
+            ?>
+                </span>
+		<?php 
         }
-        echo  '<div>' . $html . '</div>' ;
+        ?>
+		</div>
+		<?php 
     }
     
     function advanced()
@@ -622,26 +979,44 @@ class IS_Settings_Fields
         $content = '<span class="is-info-warning">' . __( 'Warning: Use with caution.', 'add-search-to-menu' ) . '</span>';
         IS_Help::help_info( $content );
         $check_value = ( isset( $this->opt['default_search'] ) ? $this->opt['default_search'] : 0 );
-        $disable = checked( 1, $check_value, false );
-        $html = '<label for="is_default_search"><input class="ivory_search_default" type="checkbox" id="is_default_search" name="is_settings[default_search]" value="1" ' . $disable . ' />';
-        $html .= '<span class="toggle-check-text"></span>' . esc_html__( 'Do not use Default Search Form to control WordPress default search functionality', 'add-search-to-menu' ) . '</label>';
-        echo  '<div>' . $html . '</div><br />' ;
+        ?>
+		<div>
+		<label for="is_default_search"><input class="ivory_search_default" type="checkbox" id="is_default_search" name="is_settings[default_search]" value="1" <?php 
+        checked( 1, $check_value, true );
+        ?>/>
+		<span class="toggle-check-text"></span><?php 
+        esc_html_e( 'Do not use Default Search Form to control WordPress default search functionality', 'add-search-to-menu' );
+        ?></label>
+		</div><br />
+		<?php 
         /**
          * Disables search functionality on whole site.
          */
         $check_value = ( isset( $this->opt['disable'] ) ? $this->opt['disable'] : 0 );
-        $disable = checked( 1, $check_value, false );
-        $html = '<label for="is_disable"><input class="ivory_search_disable" type="checkbox" id="is_disable" name="is_settings[disable]" value="1" ' . $disable . ' />';
-        $html .= '<span class="toggle-check-text"></span>' . esc_html__( 'Disable search functionality on entire website', 'add-search-to-menu' ) . '</label>';
-        echo  '<div>' . $html . '</div><br />' ;
+        ?>
+		<div>
+		<label for="is_disable"><input class="ivory_search_disable" type="checkbox" id="is_disable" name="is_settings[disable]" value="1" <?php 
+        checked( 1, $check_value, true );
+        ?> />
+		<span class="toggle-check-text"></span><?php 
+        esc_html_e( 'Disable search functionality on entire website', 'add-search-to-menu' );
+        ?></label>
+		</div><br />
+		<?php 
         /**
          * Display search forms easy to edit links.
          */
         $check_value = ( isset( $this->opt['easy_edit'] ) ? $this->opt['easy_edit'] : 0 );
-        $easy_edit = checked( 1, $check_value, false );
-        $html = '<br /><label for="is_easy_edit"><input class="ivory_search_easy_edit" type="checkbox" id="is_easy_edit" name="is_settings[easy_edit]" value="1" ' . $easy_edit . ' />';
-        $html .= '<span class="toggle-check-text"></span>' . esc_html__( 'Display easy edit links of search form on the website frontend to the admin users', 'add-search-to-menu' ) . '</label>';
-        echo  '<div>' . $html . '</div>' ;
+        ?>
+		<div>
+		<br /><label for="is_easy_edit"><input class="ivory_search_easy_edit" type="checkbox" id="is_easy_edit" name="is_settings[easy_edit]" value="1" <?php 
+        checked( 1, $check_value, true );
+        ?> />
+		<span class="toggle-check-text"></span><?php 
+        esc_html_e( 'Display easy edit links of search form on the website frontend to the admin users', 'add-search-to-menu' );
+        ?></label>
+		</div>
+		<?php 
     }
 
 }

@@ -98,19 +98,19 @@ input.date {
     padding-bottom: 5px;
 }
 
-.clearfix:before,
-.clearfix:after,
+.weo_clearfix:before,
+.weo_clearfix:after,
 .wc_oe-row:after {
     content: "";
     display: table;
 }
 
-.clearfix:after,
+.weo_clearfix:after,
 .wc_oe-row:after {
     clear: both;
 }
 
-.clearfix,
+.weo_clearfix,
 .wc_oe-row:after {
     zoom: 1; /* For IE 6/7 (trigger hasLayout) */
 }
@@ -407,7 +407,6 @@ input.date {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    cursor: not-allowed;
     opacity: 0.65;
     background-color: #fff;
     border-color: #ccc;

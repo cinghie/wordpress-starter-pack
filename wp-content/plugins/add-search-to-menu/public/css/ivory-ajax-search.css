@@ -163,6 +163,7 @@ div.is-ajax-search-result {
 .is-search-sections .thumbnail img {
     float: left;
     max-width: 70px;
+    height: auto;
 }
 
 .is-ajax-term-label {

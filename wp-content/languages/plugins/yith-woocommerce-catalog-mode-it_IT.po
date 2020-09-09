@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Catalog Mode - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-07-14 15:43:53+0000\n"
+"PO-Revision-Date: 2020-09-09 17:16:46+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,44 @@ msgstr ""
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Catalog Mode - Stable (latest release)\n"
+
+#: plugin-fw/lib/yit-assets.php:108
+msgid "Color value"
+msgstr "Valore del colore"
+
+#: plugin-fw/lib/yit-assets.php:107
+msgid "Select Color"
+msgstr "Seleziona colore"
+
+#: plugin-fw/lib/yit-assets.php:106
+msgid "Select default color"
+msgstr "Seleziona il colore predefinito"
+
+#: plugin-fw/lib/yit-assets.php:105
+msgid "Default"
+msgstr "Predefinito "
+
+#: plugin-fw/lib/yit-assets.php:104
+msgid "Clear color"
+msgstr "Rimuovi colore"
+
+#: plugin-fw/lib/yit-assets.php:103
+msgid "Clear"
+msgstr "Cancella"
+
+#. translators: %1$s TLS label
+#: plugin-fw/lib/yith-system-status.php:596
+msgid "The system check cannot determine which %1$s version is installed due to a connection issue between your site and our server."
+msgstr "Non è stato possibile determinare con i controlli di sistema quale versione di %1$s è installata a causa di un problema di connessione fra il tuo sito e il nostro server."
+
+#. translators: %1$s TLS label, %2$s cURL label
+#: plugin-fw/lib/yith-system-status.php:593
+msgid "The system check cannot determine which %1$s version is installed because %2$s module is disabled. Ask your hosting company to enable it."
+msgstr "Non è stato possibile determinare quale versione di %1$s è installata in quanto il modulo %2$s è disattivato. Chiedi al tuo servizio hosting di attivarlo."
+
+#: plugin-fw/lib/yith-system-status.php:545
+msgid "Contact your hosting company in order to install it."
+msgstr "Contatta il tuo hosting per installarlo."
 
 #: plugin-fw/templates/sysinfo/system-information-panel.php:167
 msgid "Show log files"
@@ -31,20 +69,6 @@ msgstr "Defined WP_CACHE"
 msgid "PHP error_log file"
 msgstr "File PHP error_log"
 
-#: plugin-fw/lib/yith-system-status.php:545
-msgid "Contact your hosting company in order to install it."
-msgstr "Contatta il tuo hosting per installarlo."
-
-#. translators: %1$s TLS label
-#: plugin-fw/lib/yith-system-status.php:596
-msgid "The system check cannot determine which %1$s version is installed due to a connection issue between your site and our server."
-msgstr "Non è stato possibile determinare con i controlli di sistema quale versione di %1$s è installata a causa di un problema di connessione fra il tuo sito e il nostro server."
-
-#. translators: %1$s TLS label, %2$s cURL label
-#: plugin-fw/lib/yith-system-status.php:593
-msgid "The system check cannot determine which %1$s version is installed because %2$s module is disabled. Ask your hosting company to enable it."
-msgstr "Non è stato possibile determinare quale versione di %1$s è installata in quanto il modulo %2$s è disattivato. Chiedi al tuo servizio hosting di attivarlo."
-
 #: plugin-fw/templates/sysinfo/system-information-panel.php:50
 msgid "WP debug.log file"
 msgstr "File WP debug.log"
@@ -59,75 +83,79 @@ msgctxt "Position in the \"Dimensions\" field"
 msgid "Left"
 msgstr "A sinistra"
 
-#: plugin-fw/templates/fields/dimensions.php:16
+#: plugin-fw/templates/fields/dimensions.php:18
 msgctxt "Position in the \"Dimensions\" field"
-msgid "Top"
-msgstr "In alto"
+msgid "Bottom"
+msgstr "In basso"
 
 #: plugin-fw/templates/fields/dimensions.php:17
 msgctxt "Position in the \"Dimensions\" field"
 msgid "Right"
 msgstr "A destra"
 
-#: plugin-fw/templates/fields/dimensions.php:18
+#: plugin-fw/templates/fields/dimensions.php:16
 msgctxt "Position in the \"Dimensions\" field"
-msgid "Bottom"
-msgstr "In basso"
+msgid "Top"
+msgstr "In alto"
 
 #. translators: %s name of the plugin
-#: init.php:41
+#: init.php:57
 msgid "You can't activate the free version of %s while you are using the premium one."
 msgstr "Non puoi attivare la versione gratuita di %s se utilizzi quella premium."
 
 #. translators: %s name of the plugin
-#: init.php:28
+#: init.php:37
 msgid "%s is enabled but not effective. In order to work, it requires WooCommerce."
 msgstr "%s è abilitato ma non in funzione. Richiede WooCommerce per funzionare correttamente."
 
-#: plugin-options/settings-options.php:51
+#: plugin-options/settings-options.php:75
+msgid "Use this option to hide product variations where \"add to cart\" is hidden."
+msgstr "Utilizza quest'opzione per nascondere le variazioni lì dove è nascosto il pulsante \"Aggiungi al carrello\"."
+
+#: plugin-options/settings-options.php:53
 msgid "Shop page"
 msgstr "Pagina Negozio"
 
-#: plugin-options/settings-options.php:50
+#: plugin-options/settings-options.php:52
 msgid "All pages"
 msgstr "Tutte le pagine"
 
-#: plugin-options/settings-options.php:41
+#: plugin-options/settings-options.php:43
 msgid "Choose where to hide \"Add to Cart\"."
 msgstr "Scegli dove nascondere il pulsante \"Aggiungi al carrello\"."
 
-#: plugin-options/settings-options.php:40
+#: plugin-options/settings-options.php:42
 msgid "Hide \"Add to Cart\" in:"
 msgstr "Nascondi \"Aggiungi al carrello\" in:"
 
-#: plugin-options/settings-options.php:33
+#: plugin-options/settings-options.php:35
 msgid "Use this option to hide the \"Cart\" page, \"Checkout\" page and all the \"Add to Cart\" buttons in the shop."
 msgstr "Utilizza quest'opzione per nascondere la pagina \"Carrello\", la pagina \"Checkout\" e tutti i pulsanti \"Aggiungi al carrello\"."
 
-#: plugin-options/settings-options.php:25
+#: plugin-options/settings-options.php:27
 msgid "Choose to enable the Catalog Mode for admins."
 msgstr "Scegli se attivare la modalità catalogo anche per gli amministratori."
 
-#: plugin-options/settings-options.php:22
+#: plugin-options/settings-options.php:24
 msgid "Catalog mode for administrators"
 msgstr "Catalog Mode per gli amministratori"
 
-#: class-yith-woocommerce-catalog-mode.php:229
+#: class-yith-woocommerce-catalog-mode.php:248
 msgctxt "buttons & labels settings tab name"
 msgid "Buttons & Labels"
 msgstr "Pulsanti ed etichette"
 
-#: class-yith-woocommerce-catalog-mode.php:228
+#: class-yith-woocommerce-catalog-mode.php:247
 msgctxt "inquiry form settings tab name"
 msgid "Inquiry Form"
 msgstr "Modulo contatti"
 
-#: class-yith-woocommerce-catalog-mode.php:227
+#: class-yith-woocommerce-catalog-mode.php:246
 msgctxt "exclusion settings tab name"
 msgid "Exclusion List"
 msgstr "Elenco Esclusioni"
 
-#: class-yith-woocommerce-catalog-mode.php:226
+#: class-yith-woocommerce-catalog-mode.php:245
 msgctxt "general settings tab name"
 msgid "Settings"
 msgstr "Impostazioni"
@@ -137,89 +165,73 @@ msgctxt "YES/NO button: use MAX 3 characters!"
 msgid "YES"
 msgstr "SÌ"
 
-#: templates/admin/premium.php:313
+#: templates/admin/premium.php:326
 msgid "If you use YITH Multi Vendor, you can let every vendor set up and control the catalog mode for their own shop."
 msgstr "Se usi il nostro plugin YITH Multi Vendor, potrai dare la possibilità ad ogni venditore di impostare la modalità Catalogo per il proprio negozio."
 
-#: templates/admin/premium.php:310
+#: templates/admin/premium.php:323
 msgid "Integrate the catalog mode with YITH WooCommerce Multi-vendor"
 msgstr "Utilizza il plugin come integrazione al nostro YITH Multi Vendor"
 
-#: templates/admin/premium.php:295
+#: templates/admin/premium.php:308
 msgid "Choose whether you want to enable a contact form on your product pages to make it easier for your users to get in touch with you. The enquiry form is compatible with several email management plugins: Contact Form 7, Formidable Forms, Gravity Forms and Ninja Forms. In the email message that you receive, you can also see a reference to the page from where the request has been submitted."
 msgstr "Scegli se abilitare un modulo di contatto nelle pagine prodotto per facilitare il contatto con i tuoi utenti. Il modulo contatti è compatibile con diversi plugin di gestione email: Contact Form 7, Gravity Forms, Formidable Forms e Ninja Forms. Nel messaggio che riceverai potrai inoltre vedere da quale pagina prodotto è stata inviata la richiesta."
 
-#: plugin-options/settings-options.php:73
-msgid "Use this option to hide product variations where \"add to cart\" is hidden."
-msgstr "Utilizza quest'opzione per nascondere le variazioni lì dove è nascosto il pulsante \"Aggiungi al carrello\"."
-
-#: templates/admin/premium.php:292
+#: templates/admin/premium.php:305
 msgid "Enable an inquiry form on your product pages to help your customers contact you easily."
 msgstr "Abilita un modulo contatti nelle pagine prodotto per aiutare i tuoi clienti a contattarti facilmente."
 
-#: templates/admin/premium.php:283
+#: templates/admin/premium.php:296
 msgid "If your products cannot be purchased straight away, you probably need to push users to contact you and ask for a dedicated price estimate or simply for more details. Or you might want them to register an account in your shop or log in. With our button & label builder, you can create countless persuasive texts and calls to action for your products."
 msgstr "Se i tuoi prodotti non sono acquistabili direttamente dall’utente, probabilmente avrai la necessità di spingerlo a contattarti per richiedere un preventivo ad hoc o per ottenere maggiori informazioni. O forse vuoi che si registri sul tuo shop o effettui il login. Con il nostro builder di Button & Labels potrai creare un numero infinito di testi persuasivi e call to action da mostrare nei tuoi prodotti."
 
-#: templates/admin/premium.php:280
+#: templates/admin/premium.php:293
 msgid "Create custom calls to action and labels to replace the price and Cart buttons."
 msgstr "Crea call-to-action personalizzate e label da mostrare al posto dei prezzi e dei pulsanti di acquisto."
 
-#: templates/admin/premium.php:265
+#: templates/admin/premium.php:278
 msgid "Do you want to show your product prices only to users who have registered an account? Or maybe restrict purchases only to users from a specific geographical area? These are just some of the many scenarios that YITH Catalog Mode can help you deal with."
 msgstr "Vuoi mostrare i prezzi solo agli utenti registrati sul tuo sito? O limitare l’acquisto dei tuoi prodotti solo ad utenti che provengono da una specifica area geografica? Queste sono solo alcune delle tante esigenze a cui YITH Catalog Mode può venire incontro."
 
-#: templates/admin/premium.php:262
+#: templates/admin/premium.php:275
 msgid "Enable the catalog mode for unregistered users or only for users from specific countries."
 msgstr "Attiva la modalità catalogo solo per gli utenti non registrati o per utenti provenienti da specifici paesi."
 
-#: templates/admin/premium.php:253
+#: templates/admin/premium.php:266
 msgid "Do you want to make only some products purchasable and set up the catalog mode for others that cannot be purchased straight away? You’ll be able to create an unlimited number of rules and apply them to products of your choice."
 msgstr "Vuoi rendere disponibili all’acquisto solo alcuni prodotti e impostarne altri in modalità catalogo, non acquistabili direttamente? Potrai creare infinite regole e scegliere tu a quali prodotti applicarle."
 
-#: templates/admin/premium.php:250
+#: templates/admin/premium.php:263
 msgid "Hide prices and Cart buttons from all products or only from selected products, tags or categories."
 msgstr "Nascondi prezzi e pulsanti di acquisto in tutti i prodotti o solo in specifici prodotti, tag o categorie di prodotto."
 
-#: templates/admin/premium.php:235
+#: templates/admin/premium.php:248
 msgid "If you have a catalogue with many products and you want to quickly hide the Cart button and the Cart page, you will be able to do that with one click. Whenever you’re ready to sell, just one more click and your catalogue can be immediately converted into an e-commerce shop in full swing."
 msgstr "Se hai un catalogo con molti prodotti e vuoi nascondere velocemente i pulsanti di acquisto e il carrello, potrai farlo con un semplice clic. Quando e se vorrai vendere basterà un altro clic per trasformare il tuo catalogo in un e-commerce funzionante."
 
-#: templates/admin/premium.php:232
+#: templates/admin/premium.php:245
 msgid "Enable ‘Massive catalog mode’ with one click and disable the Cart, the Checkout and all add to cart buttons of your shop in a few quick moves."
 msgstr "Attiva un Catalog mode massivo con un solo clic e disabilita velocemente carrello, checkout e pulsanti di aggiunta al carrello in tutto lo shop."
 
-#: templates/admin/premium.php:223
+#: templates/admin/premium.php:236
 msgid "YITH WooCommerce Catalog Mode allows you to turn your online shop into a catalogue, by removing Add to Cart buttons and any access to checkout pages, by hiding product prices and replacing it with customizable buttons, text labels and inquiry forms."
 msgstr "YITH WooCommerce Catalog Mode ti permette di trasformare il tuo shop in un catalogo, rimuovendo i pulsanti “Aggiungi al carrello” ed ogni possibilità di accedere alle pagine di pagamento, nascondendo i prezzi dei prodotti e dando la possibilità di sostituire il pulsante “Aggiungi al carrello” con pulsanti personalizzati, testi statici e moduli di contatto."
 
-#: templates/admin/premium.php:220
+#: templates/admin/premium.php:233
 msgid "Are you interested in displaying a catalogue with products without making them immediately available for sale? Or do you want to filter buyers and let only registered users see all the details? Are you taking inventory but would like to leave products online?"
 msgstr "Ti interessa mostrare un catalogo di prodotti senza metterlo subito in vendita? Oppure desideri filtrare gli utenti e permettere solo a coloro che si registrano di poter visualizzare tutti i dettagli? Stai facendo l’inventario ma vuoi che i prodotti rimangano comunque visibili online?"
 
-#: templates/admin/premium.php:217
+#: templates/admin/premium.php:230
 msgid "Are you starting an e-commerce website, but still it is not ready for automatic sales? Your store might be temporarily closed due to holidays or prepare for a sales period and you need to temporarily suspend sales. YITH WooCommerce Catalog Mode is a plugin designed for those who need to turn their shop into an online catalog."
 msgstr "Stai avviando un nuovo sito e-commerce ma non sei ancora pronto per automatizzare la vendita? Potresti aver bisogno di tenere il tuo store chiuso per le vacanze o di sospendere temporaneamente la vendita. YITH WooCommerce Catalog Mode è stato sviluppato per chi ha bisogno di trasformare il proprio e-commerce in un catalogo online."
 
-#: templates/admin/premium.php:214
+#: templates/admin/premium.php:227
 msgid "Build up a catalogue of products and online services and encourage your customers to contact you to get a dedicated price estimate or additional information."
 msgstr "Crea un catalogo di prodotti e servizi online e incoraggia i tuoi clienti a contattarti per ricevere un preventivo o ulteriori informazioni."
 
-#: templates/admin/premium.php:201 templates/admin/premium.php:328
+#: templates/admin/premium.php:214 templates/admin/premium.php:341
 msgid "Upgrade"
 msgstr "Aggiorna"
-
-#: plugin-fw/lib/yit-plugin-panel.php:1282
-msgid "to keep updating and improving the plugin. Please,"
-msgstr "per continuare ad aggiornare e a migliorare il plugin. Per favore,"
-
-#: plugin-fw/lib/yit-plugin-panel.php:1281
-msgid "We need your support"
-msgstr "Abbiamo bisogno del tuo supporto"
-
-#: plugin-fw/lib/yit-plugin-panel.php:1284
-msgid "help us by leaving a five-star rating"
-msgstr "aiutaci lasciando una valutazione 5 stelle"
 
 #: plugin-fw/templates/fields/onoff.php:25
 msgctxt "YES/NO button: use MAX 3 characters!"
@@ -229,6 +241,18 @@ msgstr "NO"
 #: plugin-fw/lib/yit-plugin-panel.php:1285
 msgid ":) Thanks!"
 msgstr ":) Grazie!"
+
+#: plugin-fw/lib/yit-plugin-panel.php:1284
+msgid "help us by leaving a five-star rating"
+msgstr "aiutaci lasciando una valutazione 5 stelle"
+
+#: plugin-fw/lib/yit-plugin-panel.php:1282
+msgid "to keep updating and improving the plugin. Please,"
+msgstr "per continuare ad aggiornare e a migliorare il plugin. Per favore,"
+
+#: plugin-fw/lib/yit-plugin-panel.php:1281
+msgid "We need your support"
+msgstr "Abbiamo bisogno del tuo supporto"
 
 #: plugin-fw/templates/sysinfo/system-information-panel.php:112
 msgid "Output IP Address"
@@ -505,6 +529,10 @@ msgctxt "Privacy Policy Guide Title"
 msgid "YITH Plugins"
 msgstr "Plugin YITH"
 
+#: plugin-fw/templates/fields/icons.php:58
+msgid "Set Default"
+msgstr "Imposta come Predefinito"
+
 #: plugin-fw/templates/fields/ajax-products.php:16
 msgid "Search Product"
 msgstr "Cerca un Prodotto"
@@ -512,10 +540,6 @@ msgstr "Cerca un Prodotto"
 #: plugin-fw/templates/fields/ajax-posts.php:57
 msgid "Search Posts"
 msgstr "Cerca Post"
-
-#: plugin-fw/templates/fields/icons.php:58
-msgid "Set Default"
-msgstr "Imposta come Predefinito"
 
 #: plugin-fw/lib/yit-plugin-panel.php:454
 #: plugin-fw/lib/yit-plugin-panel.php:457
@@ -526,7 +550,7 @@ msgstr "Come installare la versione premium"
 msgid "Reset"
 msgstr "Reimposta"
 
-#: plugin-options/settings-options.php:30
+#: plugin-options/settings-options.php:32
 msgid "Disable shop"
 msgstr "Disattiva shop"
 
@@ -538,16 +562,16 @@ msgstr "https://yithemes.com/"
 msgid "https://yithemes.com/themes/plugins/yith-woocommerce-catalog-mode/"
 msgstr "https://yithemes.com/themes/plugins/yith-woocommerce-catalog-mode/"
 
-#: templates/admin/premium.php:207
+#: templates/admin/premium.php:220
 msgid "Premium Features"
 msgstr "Funzionalità premium"
 
 #. translators: %1$s opening span, %2$s closing span, %3$s BR tag
-#: templates/admin/premium.php:197 templates/admin/premium.php:324
+#: templates/admin/premium.php:210 templates/admin/premium.php:337
 msgid "Upgrade to %1$spremium version%2$s%3$s of %1$sYITH WooCommerce Catalog Mode%2$s to benefit from all features!"
 msgstr "Aggiorna alla %1$sversione premium%2$s%3$s di %1$sYITH WooCommerce Catalog Mode%2$s per beneficiare di tutte le funzionalità!"
 
-#: plugin-options/settings-options.php:70
+#: plugin-options/settings-options.php:72
 msgid "Hide product variations"
 msgstr "Nascondi le variazioni del prodotto"
 
@@ -555,7 +579,7 @@ msgstr "Nascondi le variazioni del prodotto"
 msgid "YITH WooCommerce Catalog Mode"
 msgstr "YITH WooCommerce Catalog Mode"
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:20
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:22
 msgid "Reset Defaults"
 msgstr "Ripristina impostazioni iniziali"
 
@@ -655,7 +679,7 @@ msgstr "Carica"
 msgid "Remove"
 msgstr "Rimuovi"
 
-#: plugin-options/settings-options.php:52
+#: plugin-options/settings-options.php:54
 msgid "Product page"
 msgstr "Pagina prodotto"
 
@@ -736,26 +760,26 @@ msgstr "Impostazioni salvate"
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Per favore, inserisci un altro nome."
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:21
-#: plugin-fw/lib/yit-plugin-panel.php:625
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:23
 #: plugin-fw/lib/yit-plugin-subpanel.php:157
+#: plugin-fw/lib/yit-plugin-panel.php:625
 msgid "Are you sure?"
 msgstr "Sei sicuro?"
 
-#: plugin-fw/lib/yit-plugin-panel.php:624
 #: plugin-fw/lib/yit-plugin-subpanel.php:156
+#: plugin-fw/lib/yit-plugin-panel.php:624
 msgid "Reset to default"
 msgstr "Ripristina configurazione predefinita"
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:17
-#: plugin-fw/lib/yit-plugin-panel.php:621
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:19
 #: plugin-fw/lib/yit-plugin-subpanel.php:154
+#: plugin-fw/lib/yit-plugin-panel.php:621
 msgid "If you continue with this action, you will reset all options in this page."
 msgstr "Se prosegui con questa azione, tutte le opzioni di questa pagina saranno reimpostate."
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
-#: plugin-fw/lib/yit-plugin-panel.php:617
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:15
 #: plugin-fw/lib/yit-plugin-subpanel.php:151
+#: plugin-fw/lib/yit-plugin-panel.php:617
 msgid "Save Changes"
 msgstr "Salva modifiche"
 
@@ -767,7 +791,7 @@ msgstr "Plugin YITH"
 msgid "Plugin Settings"
 msgstr "Impostazioni plugin"
 
-#: plugin-fw/lib/yit-plugin-panel-wc.php:403
+#: plugin-fw/lib/yit-plugin-panel-wc.php:426
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 
@@ -960,15 +984,14 @@ msgstr "Aggiungi nuovo %s"
 msgid "Add %s"
 msgstr "Aggiungi %s"
 
-#: class-yith-woocommerce-catalog-mode.php:236
+#: class-yith-woocommerce-catalog-mode.php:255
 msgid "Premium Version"
 msgstr "Versione Premium"
 
-#: plugin-options/settings-options.php:18
-#: class-yith-woocommerce-catalog-mode.php:235
-#: plugin-fw/lib/yit-plugin-panel.php:80
 #: plugin-fw/lib/yit-cpt-unlimited.php:1050
 #: plugin-fw/lib/yit-cpt-unlimited.php:1198
 #: plugin-fw/lib/yit-cpt-unlimited.php:1204
+#: plugin-fw/lib/yit-plugin-panel.php:80 plugin-options/settings-options.php:20
+#: class-yith-woocommerce-catalog-mode.php:254
 msgid "Settings"
 msgstr "Impostazioni"

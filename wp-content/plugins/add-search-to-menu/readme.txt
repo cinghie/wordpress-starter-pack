@@ -5,7 +5,7 @@ Tags: search, woocommerce search, image search, ajax search, search shortcode, l
 Requires at least: 3.9
 Tested up to: 5.5
 Requires PHP: 5.2.4
-Stable tag: 4.5.4
+Stable tag: 4.5.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -193,6 +193,9 @@ Yes we do. We try our best to help free users with customisation requests and we
 
 == Changelog ==
 
+= 4.5.5 =
+* Fixed - Latest jQuery version compatibility issue.
+
 = 4.5.4 =
 * Fixed - Elementor nav menu compatibility issue.
 * Fixed - AJAX search results scroll issue.
@@ -218,8 +221,3 @@ Yes we do. We try our best to help free users with customisation requests and we
 
 = 4.5 =
 * Added - Option to track searches in google search analytics.
-
-== Upgrade Notice ==
-
-= 4.5.2 =
-Implemented major search form UI enhancements! Please test it before upgrading

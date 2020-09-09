@@ -11,16 +11,16 @@ class WooSEA_google_local {
 
         	$google_local = array(
 			"Local product inventory fields" => array(
+				"Itemid" => array(
+					"name" => "id",
+					"feed_name" => "id",
+					"format" => "required",
+					"woo_suggest" => "id",
+				),
 				"Store code" => array(
 					"name" => "Store code",
 					"feed_name" => "store code",
 					"format" => "required",
-				),
-				"Itemid" => array(
-					"name" => "Itemid",
-					"feed_name" => "itemid",
-					"format" => "required",
-					"woo-suggest" => "id",
 				),
 				"Quantity" => array(
 					"name" => "Quantity",

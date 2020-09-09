@@ -96,6 +96,25 @@ class IS_Search_Editor
         return apply_filters( 'is_meta_keys', $meta_keys );
     }
     
+    public function inc_exc_url( $section )
+    {
+        $includes_url = '';
+        $sec_name = __( "Search", 'add-search-to-menu' );
+        if ( 'excludes' === $section ) {
+            $sec_name = __( "Exclude", 'add-search-to-menu' );
+        }
+        
+        if ( isset( $_REQUEST['post'] ) ) {
+            $includes_url = '<a href="' . esc_url( menu_page_url( 'ivory-search', false ) ) . '&post=' . $_REQUEST['post'] . '&action=edit&tab=' . $section . '">' . $sec_name . '</a>';
+        } else {
+            if ( isset( $_REQUEST['page'] ) && 'ivory-search-new' === $_REQUEST['page'] ) {
+                $includes_url = '<a href="' . esc_url( menu_page_url( 'ivory-search-new', false ) ) . '&tab=' . $section . '">' . $sec_name . '</a>';
+            }
+        }
+        
+        return $includes_url;
+    }
+    
     public function includes_panel( $post )
     {
         $id = '_is_includes';
@@ -103,7 +122,6 @@ class IS_Search_Editor
         $excludes = $post->prop( '_is_excludes' );
         $settings = $post->prop( '_is_settings' );
         $default_search = ( NULL == $post->id() ? true : false );
-        $excludes_url = ( isset( $_REQUEST['post'] ) ? '<a href="' . esc_url( menu_page_url( 'ivory-search', false ) ) . '&post=' . $_REQUEST['post'] . '&action=edit&tab=excludes' . '">' . __( "Excludes", 'add-search-to-menu' ) . '</a>' : '' );
         ?>
 		<h4 class="panel-desc">
 			<?php 
@@ -122,7 +140,7 @@ class IS_Search_Editor
         ?>-post_type"><?php 
         esc_html_e( 'Post Types', 'add-search-to-menu' );
         ?></label>
-				<span class="actions"><a class="expand" href="#"><?php 
+				<span class="is-actions"><a class="expand" href="#"><?php 
         esc_html_e( 'Expand All', 'add-search-to-menu' );
         ?></a><a class="collapse" href="#" style="display:none;"><?php 
         esc_html_e( 'Collapse All', 'add-search-to-menu' );
@@ -386,7 +404,7 @@ class IS_Search_Editor
             }
             
             
-            if ( 'attachment' == $post_type ) {
+            if ( 'attachment' == $post_type && empty($selected_pt) ) {
                 global  $wp_version ;
                 
                 if ( 4.9 <= $wp_version ) {
@@ -421,9 +439,9 @@ class IS_Search_Editor
                             
                             $html .= '</div>';
                             $checked = ( isset( $includes['post_file_type'] ) && !empty($includes['post_file_type']) ? 'selected' : 'all' );
-                            echo  '<p class="check-radio"><label for="mime-search_all" ><input class="is-mime-select" type="radio" id="mime-search_all" name="mime_search_radio" value="all" ' . checked( 'all', $checked, false ) . '/>' ;
+                            echo  '<p class="check-radio is-mime-radio"><label for="mime-search_all" ><input class="is-mime-select" type="radio" id="mime-search_all" name="mime_search_radio" value="all" ' . checked( 'all', $checked, false ) . '/>' ;
                             echo  '<span class="toggle-check-text"></span>' . esc_html__( "Search all MIME types", 'add-search-to-menu' ) . '</label></p>' ;
-                            echo  '<p class="check-radio"><label for="mime-search_selected" ><input class="is-mime-select" type="radio" id="mime-search_selected" name="mime_search_radio" value="selected" ' . checked( 'selected', $checked, false ) . '/>' ;
+                            echo  '<p class="check-radio is-mime-radio"><label for="mime-search_selected" ><input class="is-mime-select" type="radio" id="mime-search_selected" name="mime_search_radio" value="selected" ' . checked( 'selected', $checked, false ) . '/>' ;
                             echo  '<span class="toggle-check-text"></span>' . esc_html__( "Search only selected  MIME types", 'add-search-to-menu' ) . '</label></p>' ;
                             echo  $html ;
                             echo  '<span class="search-attachments-wrapper">' ;
@@ -446,7 +464,7 @@ class IS_Search_Editor
                         }
                     
                     } else {
-                        echo  '<br /><span class="notice-is-info">' . sprintf( esc_html__( "This search form is configured in the %s section to not search specific MIME types.", 'add-search-to-menu' ), $excludes_url ) . '</span>' ;
+                        echo  '<br /><span class="notice-is-info">' . sprintf( esc_html__( "This search form is configured in the %s section to not search specific MIME types.", 'add-search-to-menu' ), $this->inc_exc_url( 'excludes' ) ) . '</span>' ;
                     }
                 
                 } else {
@@ -467,7 +485,7 @@ class IS_Search_Editor
         ?>-extras"><?php 
         echo  esc_html( __( 'Extras', 'add-search-to-menu' ) ) ;
         ?></label>
-                            <span class="actions"><a class="expand" href="#"><?php 
+                            <span class="is-actions"><a class="expand" href="#"><?php 
         esc_html_e( 'Expand All', 'add-search-to-menu' );
         ?></a><a class="collapse" href="#" style="display:none;"><?php 
         esc_html_e( 'Collapse All', 'add-search-to-menu' );
@@ -557,9 +575,11 @@ class IS_Search_Editor
             echo  '<div class="is-cb-dropdown">' ;
             echo  '<div class="is-cb-title">' ;
             if ( $default_search || !isset( $includes['post_status'] ) || empty($includes['post_status']) ) {
-                $includes['post_status'] = array(
+                $includes = array(
+                    'post_status' => array(
                     'publish' => 'publish',
                     'inherit' => 'inherit',
+                ),
                 );
             }
             echo  '<span style="display:none;" class="is-cb-select">' . __( 'Select Post Status', 'add-search-to-menu' ) . '</span><span class="is-cb-titles">' ;
@@ -636,7 +656,7 @@ class IS_Search_Editor
             }
         
         } else {
-            echo  '<br /><span class="notice-is-info">' . sprintf( esc_html__( "This search form is configured in the %s section to not search for specific author posts.", 'add-search-to-menu' ), $excludes_url ) . '</span>' ;
+            echo  '<br /><span class="notice-is-info">' . sprintf( esc_html__( "This search form is configured in the %s section to not search for specific author posts.", 'add-search-to-menu' ), $this->inc_exc_url( 'excludes' ) ) . '</span>' ;
         }
         
         if ( '' !== $author_disable ) {
@@ -841,7 +861,6 @@ class IS_Search_Editor
         $id = '_is_ajax';
         $settings = $post->prop( $id );
         $includes = $post->prop( '_is_includes' );
-        $includes_url = ( isset( $_REQUEST['post'] ) ? '<a href="' . esc_url( menu_page_url( 'ivory-search', false ) ) . '&post=' . $_REQUEST['post'] . '&action=edit&tab=includes' . '">' . __( "Includes", 'add-search-to-menu' ) . '</a>' : '' );
         // If not have any settings saved then set default value for fields.
         
         if ( empty($settings) ) {
@@ -929,7 +948,7 @@ class IS_Search_Editor
         ?>-search-form-search-results"><?php 
         esc_html_e( 'AJAX Search Results', 'add-search-to-menu' );
         ?></label>
-					<span class="actions">
+					<span class="is-actions">
 						<a class="expand" href="#"><?php 
         esc_html_e( 'Expand All', 'add-search-to-menu' );
         ?></a>
@@ -1392,7 +1411,7 @@ class IS_Search_Editor
         } else {
             
             if ( !isset( $includes['post_type'] ) || !in_array( 'product', $includes['post_type'] ) ) {
-                echo  '<br /><span class="notice-is-info">' . sprintf( esc_html__( "Please first configure this search form in the %s section to search WooCommerce product post type.", 'add-search-to-menu' ), $includes_url ) . '</span><br />' ;
+                echo  '<span class="notice-is-info">' . sprintf( esc_html__( "Please first configure this search form in the %s section to search WooCommerce product post type.", 'add-search-to-menu' ), $this->inc_exc_url( 'includes' ) ) . '</span><br />' ;
             } else {
                 ?>
 						<span class="is-field-disabled-message"><span class="message"><?php 
@@ -1754,7 +1773,6 @@ class IS_Search_Editor
         $excludes = $post->prop( $id );
         $includes = $post->prop( '_is_includes' );
         $default_search = ( NULL == $post->id() ? true : false );
-        $includes_url = ( isset( $_REQUEST['post'] ) ? '<a href="' . esc_url( menu_page_url( 'ivory-search', false ) ) . '&post=' . $_REQUEST['post'] . '&action=edit&tab=includes' . '">' . __( "Includes", 'add-search-to-menu' ) . '</a>' : '' );
         ?>
 		<h4 class="panel-desc">
 			<?php 
@@ -1797,7 +1815,7 @@ class IS_Search_Editor
             
             if ( is_numeric( $key ) && 0 == $key || 'post' === $key ) {
                 ?>
-                            <span class="actions"><a class="expand" href="#"><?php 
+                            <span class="is-actions"><a class="expand" href="#"><?php 
                 esc_html_e( 'Expand All', 'add-search-to-menu' );
                 ?></a><a class="collapse" href="#" style="display:none;"><?php 
                 esc_html_e( 'Collapse All', 'add-search-to-menu' );
@@ -1876,7 +1894,7 @@ class IS_Search_Editor
                 if ( empty($selected_pt2) ) {
                     
                     if ( isset( $includes['post__in'] ) ) {
-                        echo  '<br /><span class="notice-is-info">' . sprintf( esc_html__( "The search form is configured in the %s section to only search specific posts of another post type.", 'add-search-to-menu' ), $includes_url ) . '</span>' ;
+                        echo  '<span class="notice-is-info">' . sprintf( esc_html__( "The search form is configured in the %s section to only search specific posts of another post type.", 'add-search-to-menu' ), $this->inc_exc_url( 'includes' ) ) . '</span>' ;
                         echo  '</div></div>' ;
                         continue;
                     }
@@ -1887,7 +1905,7 @@ class IS_Search_Editor
                     echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Exclude selected %s from search", 'add-search-to-menu' ), strtolower( $post_types2[$post_type]->labels->name ) ) . '</label></p>' ;
                     echo  $html ;
                 } else {
-                    echo  '<br /><span class="notice-is-info">' . sprintf( esc_html__( 'The search form is configured in the %1$s section to only search specific %2$s.', 'add-search-to-menu' ), $includes_url, strtolower( $post_types2[$post_type]->labels->name ) ) . '</span><br />' ;
+                    echo  '<span class="notice-is-info">' . sprintf( esc_html__( 'The search form is configured in the %1$s section to only search specific %2$s.', 'add-search-to-menu' ), $this->inc_exc_url( 'includes' ), strtolower( $post_types2[$post_type]->labels->name ) ) . '</span><br />' ;
                 }
             
             }
@@ -2043,7 +2061,7 @@ class IS_Search_Editor
                         }
                     
                     } else {
-                        echo  '<br /><span class="notice-is-info">' . sprintf( esc_html__( "This search form is configured in the %s section to search specific attachments.", 'add-search-to-menu' ), $includes_url ) . '</span><br />' ;
+                        echo  '<br /><span class="notice-is-info">' . sprintf( esc_html__( "This search form is configured in the %s section to search specific attachments.", 'add-search-to-menu' ), $this->inc_exc_url( 'includes' ) ) . '</span><br />' ;
                     }
                 
                 } else {
@@ -2064,7 +2082,7 @@ class IS_Search_Editor
         ?>-extras"><?php 
         echo  esc_html( __( 'Extras', 'add-search-to-menu' ) ) ;
         ?></label>
-                <span class="actions"><a class="expand" href="#"><?php 
+                <span class="is-actions"><a class="expand" href="#"><?php 
         esc_html_e( 'Expand All', 'add-search-to-menu' );
         ?></a><a class="collapse" href="#" style="display:none;"><?php 
         esc_html_e( 'Collapse All', 'add-search-to-menu' );
@@ -2129,7 +2147,7 @@ class IS_Search_Editor
             }
         
         } else {
-            echo  '<br /><span class="notice-is-info">' . sprintf( esc_html__( "This search form is configured in the %s section to search posts created by specific authors.", 'add-search-to-menu' ), $includes_url ) . '</span><br />' ;
+            echo  '<br /><span class="notice-is-info">' . sprintf( esc_html__( "This search form is configured in the %s section to search posts created by specific authors.", 'add-search-to-menu' ), $this->inc_exc_url( 'includes' ) ) . '</span><br />' ;
         }
         
         ?>
@@ -2179,7 +2197,7 @@ class IS_Search_Editor
         ?>-posts_per_page"><?php 
         echo  esc_html( __( 'Posts Per Page', 'add-search-to-menu' ) ) ;
         ?></label>
-			<span class="actions"><a class="expand" href="#"><?php 
+			<span class="is-actions"><a class="expand" href="#"><?php 
         esc_html_e( 'Expand All', 'add-search-to-menu' );
         ?></a><a class="collapse" href="#" style="display:none;"><?php 
         esc_html_e( 'Collapse All', 'add-search-to-menu' );
@@ -2340,7 +2358,7 @@ class IS_Search_Editor
         ?>-extras"><?php 
         echo  esc_html( __( 'Others', 'add-search-to-menu' ) ) ;
         ?></label>
-			<span class="actions"><a class="expand" href="#"><?php 
+			<span class="is-actions"><a class="expand" href="#"><?php 
         esc_html_e( 'Expand All', 'add-search-to-menu' );
         ?></a><a class="collapse" href="#" style="display:none;"><?php 
         esc_html_e( 'Collapse All', 'add-search-to-menu' );

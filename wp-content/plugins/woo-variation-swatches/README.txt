@@ -2,11 +2,11 @@
 Contributors: EmranAhmed, getwooplugins
 Tags: woocommerce variation swatches, woocommerce variation, woocommerce, variation swatches, woocommerce attributes, product attributes, product color, product size, variable product attributes, variation product swatches, color variation swatch, image variation swatch, printful color swatches
 Requires at least: 4.8
-Tested up to: 5.4
+Tested up to: 5.5
 Requires PHP: 5.6
 Stable tag: trunk
 WC requires at least: 3.2
-WC tested up to: 4.2
+WC tested up to: 4.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -380,6 +380,12 @@ And your are ready to go.
 12. Global Variation Color Swatches Attribute List Preview
 
 == Changelog ==
+
+= 1.0.86 =
+
+* Update: Support WooCommerce 4.4 version
+* Update: Support WordPress 5.5 version
+* Fix: Alpha color channel issue
 
 = 1.0.85 =
 

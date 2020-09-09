@@ -1,4 +1,17 @@
-<style>
+<?php
+/**
+ * This file belongs to the YIT Plugin Framework.
+ *
+ * This source file is subject to the GNU GENERAL PUBLIC LICENSE (GPL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.gnu.org/licenses/gpl-3.0.txt
+ *
+ * @package YITH WooCommerce Catalog Mode
+ */
+
+?>
+<style type="text/css">
 
 	img {
 		width: 90%;
@@ -193,11 +206,11 @@
 			<div class="premium-cta">
 				<p>
 					<?php
-					/* translators: %1$s opening span, %2$s closing span, %3$s BR tag*/
+					/* translators: %1$s opening span, %2$s closing span, %3$s BR tag */
 					echo sprintf( esc_html__( 'Upgrade to %1$spremium version%2$s%3$s of %1$sYITH WooCommerce Catalog Mode%2$s to benefit from all features!', 'yith-woocommerce-catalog-mode' ), '<span class="highlight">', '</span>', '<br />' );
 					?>
 				</p>
-				<a href="<?php echo $this->get_premium_landing_uri(); ?>" target="_blank" class="premium-cta-button button btn">
+				<a href="<?php echo esc_url( $this->get_premium_landing_uri() ); ?>" target="_blank" class="premium-cta-button button btn">
 					<?php esc_html_e( 'Upgrade', 'yith-woocommerce-catalog-mode' ); ?>
 				</a>
 			</div>
@@ -207,7 +220,7 @@
 		<h1><?php esc_html_e( 'Premium Features', 'yith-woocommerce-catalog-mode' ); ?></h1>
 		<div class="landing-container">
 			<div class="col-1">
-				<img src="<?php echo YWCTM_ASSETS_URL; ?>/images/premium-01.jpg" alt="" />
+				<img src="<?php echo esc_url( YWCTM_ASSETS_URL ); ?>/images/premium-01.jpg" alt="" />
 			</div>
 			<div class="col-2">
 				<div class="section-title">
@@ -236,14 +249,14 @@
 				</p>
 			</div>
 			<div class="col-1">
-				<img src="<?php echo YWCTM_ASSETS_URL; ?>/images/premium-02.jpg" alt="" />
+				<img src="<?php echo esc_url( YWCTM_ASSETS_URL ); ?>/images/premium-02.jpg" alt="" />
 			</div>
 		</div>
 	</div>
 	<div class="three section section-even clear">
 		<div class="landing-container">
 			<div class="col-1">
-				<img src="<?php echo YWCTM_ASSETS_URL; ?>/images/premium-03.jpg" alt="" />
+				<img src="<?php echo esc_url( YWCTM_ASSETS_URL ); ?>/images/premium-03.jpg" alt="" />
 			</div>
 			<div class="col-2">
 				<div class="section-title">
@@ -266,14 +279,14 @@
 				</p>
 			</div>
 			<div class="col-1">
-				<img src="<?php echo YWCTM_ASSETS_URL; ?>/images/premium-04.jpg" alt="" />
+				<img src="<?php echo esc_url( YWCTM_ASSETS_URL ); ?>/images/premium-04.jpg" alt="" />
 			</div>
 		</div>
 	</div>
 	<div class="five section section-even clear">
 		<div class="landing-container">
 			<div class="col-1">
-				<img src="<?php echo YWCTM_ASSETS_URL; ?>/images/premium-05.jpg" alt="" />
+				<img src="<?php echo esc_url( YWCTM_ASSETS_URL ); ?>/images/premium-05.jpg" alt="" />
 			</div>
 			<div class="col-2">
 				<div class="section-title">
@@ -296,14 +309,14 @@
 				</p>
 			</div>
 			<div class="col-1">
-				<img src="<?php echo YWCTM_ASSETS_URL; ?>/images/premium-06.jpg" alt="" />
+				<img src="<?php echo esc_url( YWCTM_ASSETS_URL ); ?>/images/premium-06.jpg" alt="" />
 			</div>
 		</div>
 	</div>
 	<div class="seven section section-even clear">
 		<div class="landing-container">
 			<div class="col-1">
-				<img src="<?php echo YWCTM_ASSETS_URL; ?>/images/premium-07.jpg" alt="" />
+				<img src="<?php echo esc_url( YWCTM_ASSETS_URL ); ?>/images/premium-07.jpg" alt="" />
 			</div>
 			<div class="col-2">
 				<div class="section-title">
@@ -324,7 +337,7 @@
 					echo sprintf( esc_html__( 'Upgrade to %1$spremium version%2$s%3$s of %1$sYITH WooCommerce Catalog Mode%2$s to benefit from all features!', 'yith-woocommerce-catalog-mode' ), '<span class="highlight">', '</span>', '<br />' );
 					?>
 				</p>
-				<a href="<?php echo $this->get_premium_landing_uri(); ?>" target="_blank" class="premium-cta-button button btn">
+				<a href="<?php echo esc_url( $this->get_premium_landing_uri() ); ?>" target="_blank" class="premium-cta-button button btn">
 					<?php esc_html_e( 'Upgrade', 'yith-woocommerce-catalog-mode' ); ?>
 				</a>
 			</div>

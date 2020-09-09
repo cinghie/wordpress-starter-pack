@@ -84,3 +84,4 @@
 84	0	subscription_cost-amount
 85	4	product_detail
 86	4	product_highlight
+87	4	shop_code

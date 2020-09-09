@@ -107,7 +107,7 @@ class ServerEventHelper {
          * Add purchase WooCommerce Advanced Matching params
          */
 
-        if ( is_order_received_page() && isset( $_REQUEST['key'] ) ) {
+        if ( PixelYourSite\isWooCommerceActive() && is_order_received_page() && isset( $_REQUEST['key'] ) ) {
 
             $order_key = sanitize_key($_REQUEST['key']);
             $order_id = wc_get_order_id_by_order_key( $order_key );

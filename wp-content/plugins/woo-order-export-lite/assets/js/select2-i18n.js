@@ -46,7 +46,7 @@ jQuery.fn.extend( {
 				minimumInputLength: 3,
 				templateResult: function ( item ) {
 
-					var markup = '<div class="clearfix">' +
+					var markup = '<div class="weo_clearfix">' +
 					             '<div>';
 
 					if ( typeof item.photo_url !== "undefined" ) {

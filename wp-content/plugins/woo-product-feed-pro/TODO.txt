@@ -6,6 +6,7 @@ Tutorial / Blog posts:
 
 Priority issues:
 - Add support for Polylang
+- Filters or rules that have slashes in them (on links) do no work - make this work!
 - Add possibility to copy feed configuration from one WooCommerce instance to the other instance
 - Add support for Multisites
 - Add a filter on review score (and amount of reviews)

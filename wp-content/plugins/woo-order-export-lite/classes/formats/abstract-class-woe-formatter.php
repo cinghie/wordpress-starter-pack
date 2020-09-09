@@ -151,7 +151,12 @@ abstract class WOE_Formatter {
 	}
 
 	protected function format_date_field( $field_value ) {
-		$ts = strtotime( $field_value );
+		if ( ! WOE_Formatter::is_valid_time_stamp( $field_value ) ) {
+			$ts = strtotime( $field_value );
+		} else {
+			$ts = $field_value;
+		}
+
 		if ( $ts ) {
 			$new_value = date( $this->date_format, $ts );
 		} else {
@@ -161,6 +166,12 @@ abstract class WOE_Formatter {
 		$new_value = apply_filters( 'woe_format_date', $new_value, $field_value, $this->date_format );
 
 		return $new_value;
+	}
+
+	public static function is_valid_time_stamp( $timestamp ) {
+		return ((string) (int) $timestamp === $timestamp) 
+			&& ($timestamp <= PHP_INT_MAX)
+			&& ($timestamp >= ~PHP_INT_MAX);
 	}
 
 	protected function format_money_field( $field_value ) {

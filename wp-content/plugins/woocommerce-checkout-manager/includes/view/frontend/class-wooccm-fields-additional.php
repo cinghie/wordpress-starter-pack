@@ -54,7 +54,7 @@ class WOOCCM_Fields_Additional
 
         if (!empty($field['required']) && empty($field['disabled']) && !isset($_POST[$key])) {
 
-          $message = sprintf(__('%s is a required field.', 'woocommerce-checkout-manager'), '<strong>' . esc_html($field['label']) . '</strong>');
+          $message = sprintf(esc_html__('%s is a required field.', 'woocommerce-checkout-manager'), '<strong>' . esc_html($field['label']) . '</strong>');
 
           wc_add_notice($message, 'error');
         }

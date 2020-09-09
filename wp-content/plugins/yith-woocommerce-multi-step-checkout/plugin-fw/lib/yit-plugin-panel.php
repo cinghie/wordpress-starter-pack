@@ -1310,7 +1310,7 @@ if ( ! class_exists( 'YIT_Plugin_Panel' ) ) {
 			if ( 'admin.php' === $pagenow && $screen && strpos( $screen->id, $this->settings['page'] ) !== false ) {
 				switch ( $field['type'] ) {
 					case 'datepicker':
-						echo '<span class="yith-icon icon-calendar"></span>';
+						echo '<span class="yith-icon yith-icon-calendar"></span>';
 						break;
 					default:
 						break;

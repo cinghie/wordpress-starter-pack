@@ -3,10 +3,10 @@ Contributors: quadlayers
 Donate link: https://quadlayers.com/
 Tags: woocommerce, woocommerce checkout, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
 Requires at least: 3.4
-Tested up to: 5.4.2
-Stable tag: 5.1.8
+Tested up to: 5.5.0
+Stable tag: 5.2.7
 WC requires at least: 3.1.0
-WC tested up to: 4.3.1
+WC tested up to: 4.4.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -106,6 +106,35 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 10. Handle uploaded files in order admin dashboard.
 
 == Changelog ==
+
+= 5.2.7 = 
+* Fix: conditional checkbox
+
+= 5.2.6 = 
+* Fix: conditional of conditional
+
+= 5.2.5 = 
+* Fix: conditional multicheckbox
+* Fix: conditional radio
+
+= 5.2.4 = 
+* Fix: conditional of conditional
+
+= 5.2.3 = 
+* Fix: conditional of conditional
+
+= 5.2.2 = 
+* Fix: file upload
+
+= 5.2.1 = 
+* Fix: premium compatibility
+
+= 5.2.0 = 
+* Fix: premium compatibility
+* Fix: datepicker remove all days
+
+= 5.1.9 = 
+* Fix: WordPress 5.5 compatibility
 
 = 5.1.8 = 
 * Fix: php errors

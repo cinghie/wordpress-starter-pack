@@ -155,15 +155,16 @@ class EventsManager {
 
 	    if ( isWooCommerceActive() && PYS()->getOption( 'woo_enabled' ) ) {
 			$this->setupWooCommerceEvents();
-            if(count(EventsManager::$facebookServerEvents)>0 && Facebook()->enabled()) {
-                Facebook()->trackEventByServerApi(EventsManager::$facebookServerEvents);
-            }
+
 	    }
 
 		if ( isEddActive() && PYS()->getOption( 'edd_enabled' ) ) {
 			$this->setupEddEvents();
 		}
 
+        if(count(EventsManager::$facebookServerEvents)>0 && Facebook()->enabled()) {
+            Facebook()->trackEventByServerApi(EventsManager::$facebookServerEvents);
+        }
 	}
 
     /**
@@ -213,6 +214,13 @@ class EventsManager {
 				'delay'  => isset( $eventData['delay'] ) ? $eventData['delay'] : 0,
 				'ids'    => $ids,
 			);
+
+            // fire fb server api event
+            if(Facebook()->enabled() && $pixel->getSlug() == "facebook" && $eventType == 'edd_purchase') {
+                if($eventData != null) {
+                    $this->addEventToFacebookServerApi(Facebook(),'edd_purchase',$eventData);
+                }
+            }
 
 		}
 
@@ -711,10 +719,10 @@ class EventsManager {
 			
 			$payment_key = getEddPaymentKey();
 			$order_id = (int) edd_get_purchase_id_by_key( $payment_key );
-			$status = edd_get_payment_status( $order_id, true );
+			$status = edd_get_payment_status( $order_id );
 
 			// pending payment status used because we can't fire event on IPN
-			if ( strtolower( $status ) != 'complete' && strtolower( $status ) != 'pending' ) {
+			if ( strtolower( $status ) != 'publish' && strtolower( $status ) != 'pending' ) {
 				return;
 			}
 			

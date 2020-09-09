@@ -6,10 +6,12 @@
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
  * http://www.gnu.org/licenses/gpl-3.0.txt
+ *
+ * @package YITH WooCommerce Catalog Mode
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 if ( ! function_exists( 'ywctm_upgrade_2_0_0' ) ) {
@@ -78,8 +80,8 @@ if ( ! function_exists( 'ywctm_update_callback' ) ) {
 	/**
 	 * Run an update callback when triggered by ActionScheduler.
 	 *
-	 * @param   $callback   string
-	 * @param   $args       array
+	 * @param string $callback The callback.
+	 * @param array  $args     The arguments.
 	 *
 	 * @return  void
 	 * @since   2.0.0
@@ -108,12 +110,12 @@ if ( ! function_exists( 'ywctm_upgrade_settings_premium' ) ) {
 
 		update_option( 'ywctm_apply_users', 'all' );
 
-		//Disable shop settings
+		// Disable shop settings.
 		if ( 'yes' === get_option( 'ywctm_hide_cart_header' ) ) {
 			update_option( 'ywctm_disable_shop', 'yes' );
 		}
 
-		//Add to cart and exclusions settings
+		// Add to cart and exclusions settings.
 		$hide_single = get_option( 'ywctm_hide_add_to_cart_single' );
 		$hide_loop   = get_option( 'ywctm_hide_add_to_cart_loop' );
 		if ( 'no' === $hide_loop && 'no' === $hide_single ) {

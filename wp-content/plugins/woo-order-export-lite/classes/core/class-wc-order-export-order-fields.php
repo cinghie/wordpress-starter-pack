@@ -256,7 +256,7 @@ class WC_Order_Export_Order_Fields {
 		} elseif ( $field == 'order_shipping' ) {
 			$row[$field] = method_exists($this->order,"get_shipping_total") ? $this->order->get_shipping_total() : $this->order->get_total_shipping();
 		} elseif ( $field == 'order_shipping_plus_tax' ) {
-			$row[$field] = ( method_exists($this->order,"get_shipping_total") ? $this->order->get_shipping_total() : $this->order->get_total_shipping() ) + $this->order->get_shipping_tax();
+			$row[$field] = ( method_exists($this->order,"get_shipping_total") ? $this->order->get_shipping_total() : floatval( $this->order->get_total_shipping() ) ) + floatval( $this->order->get_shipping_tax() );
 		} elseif ( $field == 'order_shipping_refunded' ) {
 			$row[$field] = $this->order->get_total_shipping_refunded();
 		} elseif ( $field == 'order_shipping_minus_refund' ) {
@@ -405,6 +405,10 @@ class WC_Order_Export_Order_Fields {
 				get_edit_post_link($this->order_id),
 				__( 'Edit order', 'woo-order-export-lite' )
 			);
+		} elseif ( $field == 'order_currency' ) {
+			$row[$field] = $this->order->get_currency();
+		} elseif( method_exists( $this->order, 'get_' . $field ) ) {  // order_date...		
+				$row[$field] = $this->order->{'get_' . $field}();			
 		} elseif ( isset( $this->order_meta[ $field ] ) ) {
 			$field_data = array();
 			do_action( 'woocommerce_order_export_add_field_data', $field_data, $this->order_meta[ $field ], $field );
@@ -415,8 +419,7 @@ class WC_Order_Export_Order_Fields {
 		} elseif ( isset( $this->order_meta[ "_" . $field ] ) ) { // or hidden field
 			$row[$field] = $this->order_meta[ "_" . $field ];
 		} else { // order_date...
-				$row[$field] = method_exists( $this->order,
-					'get_' . $field ) ? $this->order->{'get_' . $field}() : get_post_meta( $this->order_id, '_' . $field, true );
+				$row[$field] = get_post_meta( $this->order_id, '_' . $field, true );
 				//print_r($field."=".$label); echo "debug static!\n\n";
 		}
 		return $row;

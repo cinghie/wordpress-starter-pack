@@ -32,7 +32,7 @@ abstract class WOE_Formatter_sv extends WOE_Formatter_Plain_Format {
 		// register the filter
 		WOE_Formatter_sv_crlf_filter::set_linebreak( $this->linebreak );
 		stream_filter_register( "WOE_Formatter_{$this->format}_crlf", 'WOE_Formatter_sv_crlf_filter' );
-		// attach to stream 
+		// attach to stream
 		stream_filter_append( $this->handle, "WOE_Formatter_{$this->format}_crlf" );
 	}
 
@@ -41,7 +41,7 @@ abstract class WOE_Formatter_sv extends WOE_Formatter_Plain_Format {
 		$data = apply_filters( "woe_{$this->format}_header_filter", $data );
 		$this->prepare_array( $data );
 		parent::start( $data );
-		
+
 		if ( ! empty( $this->settings['add_utf8_bom'] ) ) {
 			fwrite( $this->handle, chr( 239 ) . chr( 187 ) . chr( 191 ) );
 		}
@@ -78,6 +78,11 @@ abstract class WOE_Formatter_sv extends WOE_Formatter_Plain_Format {
 			if ( $this->mode == 'preview' ) {
 				$this->rows[] = $row;
 			} else {
+				// insert order id of inserted rows, only required for PDF
+				if ( $this instanceof WOE_Formatter_PDF ) {
+					$row[] = intval( WC_Order_Export_Engine::$order_id );
+				}
+
 				if ( ! apply_filters( "woe_{$this->format}_custom_output_func", false, $this->handle, $row,
 					$this->delimiter, $this->linebreak, $this->enclosure, false ) ) {
 					if ( $this->enclosure !== '' ) {
@@ -98,7 +103,7 @@ abstract class WOE_Formatter_sv extends WOE_Formatter_Plain_Format {
 		if ( $this->mode == 'preview' ) {
 			$this->rows = apply_filters( "woe_{$this->format}_preview_rows", $this->rows );
 			fwrite( $this->handle, '<table>' );
-			if ( count( $this->rows ) < 2 ) {
+			if ( $this->settings['display_column_names'] && count( $this->rows ) < 2 || count( $this->rows ) < 1 ) {
 				$this->rows[] = array( '<td colspan=10><b>' . __( 'No results', 'woo-order-export-lite' ) . '</b></td>' );
 			}
 			foreach ( $this->rows as $num => $rec ) {

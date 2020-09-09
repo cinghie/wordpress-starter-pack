@@ -60,7 +60,7 @@ class WOOCCM_Field_Admin
         if ($managing_stock && !empty($_GET['display_stock'])) {
           $stock_amount = $product_object->get_stock_quantity();
           /* Translators: %d stock amount */
-          $formatted_name .= ' &ndash; ' . sprintf(__('Stock: %d', 'woocommerce'), wc_format_stock_quantity_for_display($stock_amount, $product_object));
+          $formatted_name .= ' &ndash; ' . sprintf(esc_html__('Stock: %d', 'woocommerce'), wc_format_stock_quantity_for_display($stock_amount, $product_object));
         }
 
         $products[$product_object->get_id()] = rawurldecode($formatted_name);

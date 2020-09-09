@@ -3,8 +3,8 @@ Contributors: PixelYourSite, themister
 Tags: Facebook Pixel, New Facebook Pixel, Facebook Conversion Pixel, Facebook Pixel Events, Facebook, New Facebook Pixel Events, Dynamic Events, Standard Events, Facebook Events, Facebook Standard Events, Facebook Dynamic Product Ads, WooCommerce, WooCommerce Facebook Pixel, Facebook Custom Events, Facebook Conversion Value, WooCommerce Affiliate Products, Easy Digital Downloads Pixel, Easy Digital Downloads Google Analytics, Head & Footer scripts, Enhanced Ecommerce, Pinterest tag
 Requires at least: 3.0.1
 Requires PHP: 5.4
-Tested up to: 5.4
-Stable tag: 7.1.10
+Tested up to: 5.5
+Stable tag: 7.1.12
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -389,6 +389,24 @@ NO, absolutely not! We don't track any type of data about your website. We simpl
 
 
 == Changelog ==
+
+= PixelYourSite 7.1.12 =
+
+* FIX: Possible issue with Easy Digital Download Purchase Event.
+
+* FIX: Possible issue with [Cost of Goods](https://www.pixelyoursite.com/plugins/woocommerce-cost-of-goods) values for variable products. 
+
+* WooCommerce 4.4 compatibility check.
+
+
+
+= PixelYourSite 7.1.11 =
+
+* FIX: Facebook Pixel server-side events token field was missing for Easy Digital Downloads.
+
+* FIX: Possible error when [Cost of Goods](https://www.pixelyoursite.com/plugins/woocommerce-cost-of-goods) value was used for WooCommerce Facebook Pixel events.
+
+* Wordpress 5.5 compatibility.
 
 
 = PixelYourSite 7.1.10 =

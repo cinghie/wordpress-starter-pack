@@ -178,7 +178,7 @@ function wppfm_switchStatusAction( feedId, status ) {
 	var feedName = jQuery( '#title-' + feedId ).html();
 	var actionText = '';
 
-	feedName = feedName.replace(/\s+/g, '-').toLowerCase();
+	feedName = feedName.replace(/\s+/g, '-').toLowerCase(); // Replace spaces in the feed name by a dash.
 
 	switch ( status ) {
 		case '1':

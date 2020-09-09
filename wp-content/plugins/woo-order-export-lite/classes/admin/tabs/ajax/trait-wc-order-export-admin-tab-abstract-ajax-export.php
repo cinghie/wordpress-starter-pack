@@ -52,7 +52,7 @@ trait WC_Order_Export_Admin_Tab_Abstract_Ajax_Export {
 		try {
 			file_put_contents( $filename, '' );
 			do_action( 'woe_start_export_job', $_POST['id'], $settings );
-			$total = WC_Order_Export_Engine::build_file( $settings, 'start_estimate', 'file', 0, 0, $filename );
+			$result = WC_Order_Export_Engine::build_file( $settings, 'start_estimate', 'file', 0, 0, $filename );
 		} catch ( Exception $e ) {
 			die( $e->getMessage() );
 		}
@@ -60,7 +60,12 @@ trait WC_Order_Export_Admin_Tab_Abstract_Ajax_Export {
 		$file_id = current_time( 'timestamp' );
 		set_transient( $this->tempfile_prefix . $file_id, $filename, 60 );
 		$this->stop_prevent_object_cache();
-		echo json_encode( array( 'total' => $total, 'file_id' => $file_id ) );
+		echo json_encode( array( 
+			'total' => $result['total'], 
+			'file_id' => $file_id,
+			'max_line_items' => $result['max_line_items'],
+			'max_coupons' => $result['max_coupons'],
+		 ) );
 	}
 
 
@@ -68,6 +73,9 @@ trait WC_Order_Export_Admin_Tab_Abstract_Ajax_Export {
 
 		$settings      = WC_Order_Export_Manage::make_new_settings( $_POST );
 		$main_settings = WC_Order_Export_Main_Settings::get_settings();
+
+		$settings['max_line_items'] = $_POST['max_line_items'];
+		$settings['max_coupons'] = $_POST['max_coupons'];
 
 		WC_Order_Export_Engine::build_file( $settings, 'partial', 'file', intval( $_POST['start'] ),
 			$main_settings['ajax_orders_per_step'],

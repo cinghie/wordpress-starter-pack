@@ -3,8 +3,8 @@
 Contributors: yithemes
 Tags: woocommerce, multi-step checkout, woocommerce multistep checkout, woocommerce checkout, shop checkout, multistep, multi step, multi-step, wc, wc checkout, wc multi-step checkout, wc multistep checkout, yit, yith, yithemes
 Requires at least: 4.0
-Tested up to: 5.4
-Stable tag: 2.0.0
+Tested up to: 5.5
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -118,6 +118,13 @@ This plugin has been realised using only WooCommerce standard templates. If your
 
 
 == Changelog ==
+
+= 2.0.1 - Released on 17 August 2020 =
+
+* New: Support for WooCommerce 4.4
+* New: Support for WordPress 5.5
+* Fix: Prevent style issue with Avada
+* Fix: Unable to add checkout information on Android device
 
 = 2.0.0 - Released on 14 July 2020 =
 

@@ -59,11 +59,11 @@ class WOOCCM_Fields_Handler
           case 'checkbox':
 
             if (!empty($_POST[$key])) {
-              $data[$key] = __('Yes', 'woocommerce-checkout-manager');
+              $data[$key] = esc_html__('Yes', 'woocommerce-checkout-manager');
             }
 
             //            else {
-            //              $data[$key] = __('No', 'woocommerce-checkout-manager');
+            //              $data[$key] = esc_html__('No', 'woocommerce-checkout-manager');
             //            }
 
             break;

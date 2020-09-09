@@ -82,7 +82,7 @@ this["wc"] = this["wc"] || {}; this["wc"]["data"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 714);
+/******/ 	return __webpack_require__(__webpack_require__.s = 707);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,48 +94,801 @@ this["wc"] = this["wc"] || {}; this["wc"]["data"] =
 
 /***/ }),
 
-/***/ 15:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 105:
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
+var runtime = (function (exports) {
+  "use strict";
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
-var arrayLikeToArray = __webpack_require__(30);
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
+  var undefined; // More compressible than void 0.
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
 
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
+  function define(obj, key, value) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+    return obj[key];
+  }
+  try {
+    // IE 8 has a broken Object.defineProperty that only works on DOM objects.
+    define({}, "");
+  } catch (err) {
+    define = function(obj, key, value) {
+      return obj[key] = value;
+    };
+  }
 
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
+    var context = new Context(tryLocsList || []);
+
+    // The ._invoke method unifies the implementations of the .next,
+    // .throw, and .return methods.
+    generator._invoke = makeInvokeMethod(innerFn, self, context);
+
+    return generator;
+  }
+  exports.wrap = wrap;
+
+  // Try/catch helper to minimize deoptimizations. Returns a completion
+  // record like context.tryEntries[i].completion. This interface could
+  // have been (and was previously) designed to take a closure to be
+  // invoked without arguments, but in all the cases we care about we
+  // already have an existing method we want to call, so there's no need
+  // to create a new function object. We can even get away with assuming
+  // the method takes exactly one argument, since that happens to be true
+  // in every case, so we don't have to touch the arguments object. The
+  // only additional allocation required is the completion record, which
+  // has a stable shape and so hopefully should be cheap to allocate.
+  function tryCatch(fn, obj, arg) {
+    try {
+      return { type: "normal", arg: fn.call(obj, arg) };
+    } catch (err) {
+      return { type: "throw", arg: err };
+    }
+  }
+
+  var GenStateSuspendedStart = "suspendedStart";
+  var GenStateSuspendedYield = "suspendedYield";
+  var GenStateExecuting = "executing";
+  var GenStateCompleted = "completed";
+
+  // Returning this object from the innerFn has the same effect as
+  // breaking out of the dispatch switch statement.
+  var ContinueSentinel = {};
+
+  // Dummy constructor functions that we use as the .constructor and
+  // .constructor.prototype properties for functions that return Generator
+  // objects. For full spec compliance, you may wish to configure your
+  // minifier not to mangle the names of these two functions.
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+
+  // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+  var IteratorPrototype = {};
+  IteratorPrototype[iteratorSymbol] = function () {
+    return this;
+  };
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  if (NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
+  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunction.displayName = define(
+    GeneratorFunctionPrototype,
+    toStringTagSymbol,
+    "GeneratorFunction"
+  );
+
+  // Helper for defining the .next, .throw, and .return methods of the
+  // Iterator interface in terms of a single ._invoke method.
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function(method) {
+      define(prototype, method, function(arg) {
+        return this._invoke(method, arg);
+      });
+    });
+  }
+
+  exports.isGeneratorFunction = function(genFun) {
+    var ctor = typeof genFun === "function" && genFun.constructor;
+    return ctor
+      ? ctor === GeneratorFunction ||
+        // For the native GeneratorFunction constructor, the best we can
+        // do is to check its .name property.
+        (ctor.displayName || ctor.name) === "GeneratorFunction"
+      : false;
+  };
+
+  exports.mark = function(genFun) {
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+    } else {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      define(genFun, toStringTagSymbol, "GeneratorFunction");
+    }
+    genFun.prototype = Object.create(Gp);
+    return genFun;
+  };
+
+  // Within the body of any async function, `await x` is transformed to
+  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
+  exports.awrap = function(arg) {
+    return { __await: arg };
+  };
+
+  function AsyncIterator(generator, PromiseImpl) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+        if (value &&
+            typeof value === "object" &&
+            hasOwn.call(value, "__await")) {
+          return PromiseImpl.resolve(value.__await).then(function(value) {
+            invoke("next", value, resolve, reject);
+          }, function(err) {
+            invoke("throw", err, resolve, reject);
+          });
+        }
+
+        return PromiseImpl.resolve(value).then(function(unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration.
+          result.value = unwrapped;
+          resolve(result);
+        }, function(error) {
+          // If a rejected Promise was yielded, throw the rejection back
+          // into the async generator function so it can be handled there.
+          return invoke("throw", error, resolve, reject);
+        });
+      }
+    }
+
+    var previousPromise;
+
+    function enqueue(method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new PromiseImpl(function(resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
+      }
+
+      return previousPromise =
+        // If enqueue has been called before, then we want to wait until
+        // all previous Promises have been resolved before calling invoke,
+        // so that results are always delivered in the correct order. If
+        // enqueue has not been called before, then it is important to
+        // call invoke immediately, without waiting on a callback to fire,
+        // so that the async generator function has the opportunity to do
+        // any necessary setup in a predictable way. This predictability
+        // is why the Promise constructor synchronously invokes its
+        // executor callback, and why async functions synchronously
+        // execute code before the first await. Since we implement simple
+        // async functions in terms of async generators, it is especially
+        // important to get this right, even though it requires care.
+        previousPromise ? previousPromise.then(
+          callInvokeWithMethodAndArg,
+          // Avoid propagating failures to Promises returned by later
+          // invocations of the iterator.
+          callInvokeWithMethodAndArg
+        ) : callInvokeWithMethodAndArg();
+    }
+
+    // Define the unified helper method that is used to implement .next,
+    // .throw, and .return (see defineIteratorMethods).
+    this._invoke = enqueue;
+  }
+
+  defineIteratorMethods(AsyncIterator.prototype);
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+    return this;
+  };
+  exports.AsyncIterator = AsyncIterator;
+
+  // Note that simple async functions are implemented on top of
+  // AsyncIterator objects; they just return a Promise for the value of
+  // the final result produced by the iterator.
+  exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+    if (PromiseImpl === void 0) PromiseImpl = Promise;
+
+    var iter = new AsyncIterator(
+      wrap(innerFn, outerFn, self, tryLocsList),
+      PromiseImpl
+    );
+
+    return exports.isGeneratorFunction(outerFn)
+      ? iter // If outerFn is a generator, return the full iterator.
+      : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
+  };
+
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = GenStateSuspendedStart;
+
+    return function invoke(method, arg) {
+      if (state === GenStateExecuting) {
+        throw new Error("Generator is already running");
+      }
+
+      if (state === GenStateCompleted) {
+        if (method === "throw") {
+          throw arg;
+        }
+
+        // Be forgiving, per 25.3.3.3.3 of the spec:
+        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+        return doneResult();
+      }
+
+      context.method = method;
+      context.arg = arg;
+
+      while (true) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
+
+        } else if (context.method === "throw") {
+          if (state === GenStateSuspendedStart) {
+            state = GenStateCompleted;
+            throw context.arg;
+          }
+
+          context.dispatchException(context.arg);
+
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
+        }
+
+        state = GenStateExecuting;
+
+        var record = tryCatch(innerFn, self, context);
+        if (record.type === "normal") {
+          // If an exception is thrown from innerFn, we leave state ===
+          // GenStateExecuting and loop back for another invocation.
+          state = context.done
+            ? GenStateCompleted
+            : GenStateSuspendedYield;
+
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
+
+          return {
+            value: record.arg,
+            done: context.done
+          };
+
+        } else if (record.type === "throw") {
+          state = GenStateCompleted;
+          // Dispatch the exception by looping back around to the
+          // context.dispatchException(context.arg) call above.
+          context.method = "throw";
+          context.arg = record.arg;
+        }
+      }
+    };
+  }
+
+  // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+  function maybeInvokeDelegate(delegate, context) {
+    var method = delegate.iterator[context.method];
+    if (method === undefined) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method always terminates the yield* loop.
+      context.delegate = null;
+
+      if (context.method === "throw") {
+        // Note: ["return"] must be used for ES3 parsing compatibility.
+        if (delegate.iterator["return"]) {
+          // If the delegate iterator has a return method, give it a
+          // chance to clean up.
+          context.method = "return";
+          context.arg = undefined;
+          maybeInvokeDelegate(delegate, context);
+
+          if (context.method === "throw") {
+            // If maybeInvokeDelegate(context) changed context.method from
+            // "return" to "throw", let that override the TypeError below.
+            return ContinueSentinel;
+          }
+        }
+
+        context.method = "throw";
+        context.arg = new TypeError(
+          "The iterator does not provide a 'throw' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (! info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value;
+
+      // Resume execution at the desired location (see delegateYield).
+      context.next = delegate.nextLoc;
+
+      // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined;
+      }
+
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    }
+
+    // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+    context.delegate = null;
+    return ContinueSentinel;
+  }
+
+  // Define Generator.prototype.{next,throw,return} in terms of the
+  // unified ._invoke helper method.
+  defineIteratorMethods(Gp);
+
+  define(Gp, toStringTagSymbol, "Generator");
+
+  // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
+  Gp[iteratorSymbol] = function() {
+    return this;
+  };
+
+  Gp.toString = function() {
+    return "[object Generator]";
+  };
+
+  function pushTryEntry(locs) {
+    var entry = { tryLoc: locs[0] };
+
+    if (1 in locs) {
+      entry.catchLoc = locs[1];
+    }
+
+    if (2 in locs) {
+      entry.finallyLoc = locs[2];
+      entry.afterLoc = locs[3];
+    }
+
+    this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal";
+    delete record.arg;
+    entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    // The root entry object (effectively a try statement without a catch
+    // or a finally block) gives us a place to store values thrown from
+    // locations where there is no enclosing try statement.
+    this.tryEntries = [{ tryLoc: "root" }];
+    tryLocsList.forEach(pushTryEntry, this);
+    this.reset(true);
+  }
+
+  exports.keys = function(object) {
+    var keys = [];
+    for (var key in object) {
+      keys.push(key);
+    }
+    keys.reverse();
+
+    // Rather than returning an object with a next method, we keep
+    // things simple and return the next function itself.
+    return function next() {
+      while (keys.length) {
+        var key = keys.pop();
+        if (key in object) {
+          next.value = key;
+          next.done = false;
+          return next;
+        }
+      }
+
+      // To avoid creating an additional object, we just hang the .value
+      // and .done properties off the next function object itself. This
+      // also ensures that the minifier will not anonymize the function.
+      next.done = true;
+      return next;
+    };
+  };
+
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) {
+        return iteratorMethod.call(iterable);
+      }
+
+      if (typeof iterable.next === "function") {
+        return iterable;
+      }
+
+      if (!isNaN(iterable.length)) {
+        var i = -1, next = function next() {
+          while (++i < iterable.length) {
+            if (hasOwn.call(iterable, i)) {
+              next.value = iterable[i];
+              next.done = false;
+              return next;
+            }
+          }
+
+          next.value = undefined;
+          next.done = true;
+
+          return next;
+        };
+
+        return next.next = next;
+      }
+    }
+
+    // Return an iterator with no values.
+    return { next: doneResult };
+  }
+  exports.values = values;
+
+  function doneResult() {
+    return { value: undefined, done: true };
+  }
+
+  Context.prototype = {
+    constructor: Context,
+
+    reset: function(skipTempReset) {
+      this.prev = 0;
+      this.next = 0;
+      // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+      this.sent = this._sent = undefined;
+      this.done = false;
+      this.delegate = null;
+
+      this.method = "next";
+      this.arg = undefined;
+
+      this.tryEntries.forEach(resetTryEntry);
+
+      if (!skipTempReset) {
+        for (var name in this) {
+          // Not sure about the optimal order of these conditions:
+          if (name.charAt(0) === "t" &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
+            this[name] = undefined;
+          }
+        }
+      }
+    },
+
+    stop: function() {
+      this.done = true;
+
+      var rootEntry = this.tryEntries[0];
+      var rootRecord = rootEntry.completion;
+      if (rootRecord.type === "throw") {
+        throw rootRecord.arg;
+      }
+
+      return this.rval;
+    },
+
+    dispatchException: function(exception) {
+      if (this.done) {
+        throw exception;
+      }
+
+      var context = this;
+      function handle(loc, caught) {
+        record.type = "throw";
+        record.arg = exception;
+        context.next = loc;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined;
+        }
+
+        return !! caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        var record = entry.completion;
+
+        if (entry.tryLoc === "root") {
+          // Exception thrown outside of any try block that could handle
+          // it, so set the completion value of the entire function to
+          // throw the exception.
+          return handle("end");
+        }
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc");
+          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            } else if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            }
+
+          } else if (hasFinally) {
+            if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else {
+            throw new Error("try statement without catch or finally");
+          }
+        }
+      }
+    },
+
+    abrupt: function(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, "finallyLoc") &&
+            this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      if (finallyEntry &&
+          (type === "break" ||
+           type === "continue") &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
+        // Ignore the finally entry if control is not jumping to a
+        // location outside the try/catch block.
+        finallyEntry = null;
+      }
+
+      var record = finallyEntry ? finallyEntry.completion : {};
+      record.type = type;
+      record.arg = arg;
+
+      if (finallyEntry) {
+        this.method = "next";
+        this.next = finallyEntry.finallyLoc;
+        return ContinueSentinel;
+      }
+
+      return this.complete(record);
+    },
+
+    complete: function(record, afterLoc) {
+      if (record.type === "throw") {
+        throw record.arg;
+      }
+
+      if (record.type === "break" ||
+          record.type === "continue") {
+        this.next = record.arg;
+      } else if (record.type === "return") {
+        this.rval = this.arg = record.arg;
+        this.method = "return";
+        this.next = "end";
+      } else if (record.type === "normal" && afterLoc) {
+        this.next = afterLoc;
+      }
+
+      return ContinueSentinel;
+    },
+
+    finish: function(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) {
+          this.complete(entry.completion, entry.afterLoc);
+          resetTryEntry(entry);
+          return ContinueSentinel;
+        }
+      }
+    },
+
+    "catch": function(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+
+      // The context.catch method must only be called with a location
+      // argument that corresponds to a known catch block.
+      throw new Error("illegal catch attempt");
+    },
+
+    delegateYield: function(iterable, resultName, nextLoc) {
+      this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      };
+
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined;
+      }
+
+      return ContinueSentinel;
+    }
+  };
+
+  // Regardless of whether this script is executing as a CommonJS module
+  // or not, return the runtime object so that we can declare the variable
+  // regeneratorRuntime in the outer scope, which allows this module to be
+  // injected easily by `bin/regenerator --include-runtime script.js`.
+  return exports;
+
+}(
+  // If this script is executing as a CommonJS module, use module.exports
+  // as the regeneratorRuntime namespace. Otherwise create a new empty
+  // object. Either way, the resulting object will be used to initialize
+  // the regeneratorRuntime variable at the top of this file.
+   true ? module.exports : undefined
+));
+
+try {
+  regeneratorRuntime = runtime;
+} catch (accidentalStrictMode) {
+  // This module should not be running in strict mode, so the above
+  // assignment should always work unless something is misconfigured. Just
+  // in case runtime.js accidentally runs in strict mode, we can escape
+  // strict mode using a global Function call. This could conceivably fail
+  // if a Content Security Policy forbids using Function, but in that case
+  // the proper solution is to fix the accidental strict mode problem. If
+  // you've misconfigured your bundler to force strict mode and applied a
+  // CSP to forbid Function, and you're not willing to fix either of those
+  // problems, please detail your unique predicament in a GitHub issue.
+  Function("r", "regeneratorRuntime = r")(runtime);
 }
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
-}
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(49);
 
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-
-
-
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || Object(unsupportedIterableToArray["a" /* default */])(arr) || _nonIterableSpread();
-}
 
 /***/ }),
 
-/***/ 18:
+/***/ 106:
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayLikeToArray = __webpack_require__(73);
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return arrayLikeToArray(arr);
+}
+
+module.exports = _arrayWithoutHoles;
+
+/***/ }),
+
+/***/ 107:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["data"]; }());
+function _iterableToArray(iter) {
+  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+}
+
+module.exports = _iterableToArray;
+
+/***/ }),
+
+/***/ 108:
+/***/ (function(module, exports) {
+
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+module.exports = _nonIterableSpread;
+
+/***/ }),
+
+/***/ 16:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(105);
+
 
 /***/ }),
 
@@ -146,24 +899,29 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 21:
+/***/ 24:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["apiFetch"]; }());
+(function() { module.exports = this["wp"]["data"]; }());
 
 /***/ }),
 
-/***/ 27:
-/***/ (function(module, exports) {
+/***/ 25:
+/***/ (function(module, exports, __webpack_require__) {
 
-(function() { module.exports = this["wp"]["url"]; }());
+var arrayWithoutHoles = __webpack_require__(106);
 
-/***/ }),
+var iterableToArray = __webpack_require__(107);
 
-/***/ 29:
-/***/ (function(module, exports) {
+var unsupportedIterableToArray = __webpack_require__(77);
 
-(function() { module.exports = this["wp"]["dataControls"]; }());
+var nonIterableSpread = __webpack_require__(108);
+
+function _toConsumableArray(arr) {
+  return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
+}
+
+module.exports = _toConsumableArray;
 
 /***/ }),
 
@@ -174,68 +932,30 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 30:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 31:
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayLikeToArray; });
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
+(function() { module.exports = this["wp"]["apiFetch"]; }());
 
 /***/ }),
 
-/***/ 49:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 34:
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(30);
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-}
+(function() { module.exports = this["wp"]["url"]; }());
 
 /***/ }),
 
-/***/ 6:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 35:
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
+(function() { module.exports = this["wp"]["dataControls"]; }());
 
 /***/ }),
 
-/***/ 67:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 37:
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _asyncToGenerator; });
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   try {
     var info = gen[key](arg);
@@ -272,9 +992,201 @@ function _asyncToGenerator(fn) {
   };
 }
 
+module.exports = _asyncToGenerator;
+
 /***/ }),
 
-/***/ 714:
+/***/ 430:
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Memize options object.
+ *
+ * @typedef MemizeOptions
+ *
+ * @property {number} [maxSize] Maximum size of the cache.
+ */
+
+/**
+ * Internal cache entry.
+ *
+ * @typedef MemizeCacheNode
+ *
+ * @property {?MemizeCacheNode|undefined} [prev] Previous node.
+ * @property {?MemizeCacheNode|undefined} [next] Next node.
+ * @property {Array<*>}                   args   Function arguments for cache
+ *                                               entry.
+ * @property {*}                          val    Function result.
+ */
+
+/**
+ * Properties of the enhanced function for controlling cache.
+ *
+ * @typedef MemizeMemoizedFunction
+ *
+ * @property {()=>void} clear Clear the cache.
+ */
+
+/**
+ * Accepts a function to be memoized, and returns a new memoized function, with
+ * optional options.
+ *
+ * @template {Function} F
+ *
+ * @param {F}             fn        Function to memoize.
+ * @param {MemizeOptions} [options] Options object.
+ *
+ * @return {F & MemizeMemoizedFunction} Memoized function.
+ */
+function memize( fn, options ) {
+	var size = 0;
+
+	/** @type {?MemizeCacheNode|undefined} */
+	var head;
+
+	/** @type {?MemizeCacheNode|undefined} */
+	var tail;
+
+	options = options || {};
+
+	function memoized( /* ...args */ ) {
+		var node = head,
+			len = arguments.length,
+			args, i;
+
+		searchCache: while ( node ) {
+			// Perform a shallow equality test to confirm that whether the node
+			// under test is a candidate for the arguments passed. Two arrays
+			// are shallowly equal if their length matches and each entry is
+			// strictly equal between the two sets. Avoid abstracting to a
+			// function which could incur an arguments leaking deoptimization.
+
+			// Check whether node arguments match arguments length
+			if ( node.args.length !== arguments.length ) {
+				node = node.next;
+				continue;
+			}
+
+			// Check whether node arguments match arguments values
+			for ( i = 0; i < len; i++ ) {
+				if ( node.args[ i ] !== arguments[ i ] ) {
+					node = node.next;
+					continue searchCache;
+				}
+			}
+
+			// At this point we can assume we've found a match
+
+			// Surface matched node to head if not already
+			if ( node !== head ) {
+				// As tail, shift to previous. Must only shift if not also
+				// head, since if both head and tail, there is no previous.
+				if ( node === tail ) {
+					tail = node.prev;
+				}
+
+				// Adjust siblings to point to each other. If node was tail,
+				// this also handles new tail's empty `next` assignment.
+				/** @type {MemizeCacheNode} */ ( node.prev ).next = node.next;
+				if ( node.next ) {
+					node.next.prev = node.prev;
+				}
+
+				node.next = head;
+				node.prev = null;
+				/** @type {MemizeCacheNode} */ ( head ).prev = node;
+				head = node;
+			}
+
+			// Return immediately
+			return node.val;
+		}
+
+		// No cached value found. Continue to insertion phase:
+
+		// Create a copy of arguments (avoid leaking deoptimization)
+		args = new Array( len );
+		for ( i = 0; i < len; i++ ) {
+			args[ i ] = arguments[ i ];
+		}
+
+		node = {
+			args: args,
+
+			// Generate the result from original function
+			val: fn.apply( null, args ),
+		};
+
+		// Don't need to check whether node is already head, since it would
+		// have been returned above already if it was
+
+		// Shift existing head down list
+		if ( head ) {
+			head.prev = node;
+			node.next = head;
+		} else {
+			// If no head, follows that there's no tail (at initial or reset)
+			tail = node;
+		}
+
+		// Trim tail if we're reached max size and are pending cache insertion
+		if ( size === /** @type {MemizeOptions} */ ( options ).maxSize ) {
+			tail = /** @type {MemizeCacheNode} */ ( tail ).prev;
+			/** @type {MemizeCacheNode} */ ( tail ).next = null;
+		} else {
+			size++;
+		}
+
+		head = node;
+
+		return node.val;
+	}
+
+	memoized.clear = function() {
+		head = null;
+		tail = null;
+		size = 0;
+	};
+
+	if ( false ) {}
+
+	// Ignore reason: There's not a clear solution to create an intersection of
+	// the function with additional properties, where the goal is to retain the
+	// function signature of the incoming argument and add control properties
+	// on the return value.
+
+	// @ts-ignore
+	return memoized;
+}
+
+module.exports = memize;
+
+
+/***/ }),
+
+/***/ 5:
+/***/ (function(module, exports) {
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+module.exports = _defineProperty;
+
+/***/ }),
+
+/***/ 707:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -295,6 +1207,7 @@ __webpack_require__.d(__webpack_exports__, "withCurrentUserHydration", function(
 __webpack_require__.d(__webpack_exports__, "useUserPreferences", function() { return /* reexport */ use_user_preferences_useUserPreferences; });
 __webpack_require__.d(__webpack_exports__, "OPTIONS_STORE_NAME", function() { return /* reexport */ OPTIONS_STORE_NAME; });
 __webpack_require__.d(__webpack_exports__, "withOptionsHydration", function() { return /* reexport */ with_options_hydration_withOptionsHydration; });
+__webpack_require__.d(__webpack_exports__, "__experimentalResolveSelect", function() { return /* reexport */ __experimentalResolveSelect; });
 
 // NAMESPACE OBJECT: ./packages/data/build-module/settings/selectors.js
 var selectors_namespaceObject = {};
@@ -304,7 +1217,7 @@ __webpack_require__.d(selectors_namespaceObject, "getSettings", function() { ret
 __webpack_require__.d(selectors_namespaceObject, "getDirtyKeys", function() { return getDirtyKeys; });
 __webpack_require__.d(selectors_namespaceObject, "getIsDirty", function() { return selectors_getIsDirty; });
 __webpack_require__.d(selectors_namespaceObject, "getSettingsForGroup", function() { return selectors_getSettingsForGroup; });
-__webpack_require__.d(selectors_namespaceObject, "isGetSettingsRequesting", function() { return selectors_isGetSettingsRequesting; });
+__webpack_require__.d(selectors_namespaceObject, "isUpdateSettingsRequesting", function() { return selectors_isUpdateSettingsRequesting; });
 __webpack_require__.d(selectors_namespaceObject, "getSetting", function() { return getSetting; });
 __webpack_require__.d(selectors_namespaceObject, "getLastSettingsErrorForGroup", function() { return selectors_getLastSettingsErrorForGroup; });
 __webpack_require__.d(selectors_namespaceObject, "getSettingsError", function() { return selectors_getSettingsError; });
@@ -401,15 +1314,16 @@ __webpack_require__.r(options_resolvers_namespaceObject);
 __webpack_require__.d(options_resolvers_namespaceObject, "getOption", function() { return resolvers_getOption; });
 
 // EXTERNAL MODULE: external {"this":["wp","data"]}
-var external_this_wp_data_ = __webpack_require__(18);
+var external_this_wp_data_ = __webpack_require__(24);
 
 // EXTERNAL MODULE: external {"this":["wp","dataControls"]}
-var external_this_wp_dataControls_ = __webpack_require__(29);
+var external_this_wp_dataControls_ = __webpack_require__(35);
 
 // CONCATENATED MODULE: ./packages/data/build-module/settings/constants.js
 var STORE_NAME = 'wc/admin/settings';
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 3 modules
-var toConsumableArray = __webpack_require__(15);
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/toConsumableArray.js
+var toConsumableArray = __webpack_require__(25);
+var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray);
 
 // CONCATENATED MODULE: ./packages/data/build-module/utils.js
 function getResourceName(prefix, identifier) {
@@ -439,7 +1353,7 @@ var selectors_getSettingsGroupNames = function getSettingsGroupNames(state) {
   var groupNames = new Set(Object.keys(state).map(function (resourceName) {
     return getResourcePrefix(resourceName);
   }));
-  return Object(toConsumableArray["a" /* default */])(groupNames);
+  return toConsumableArray_default()(groupNames);
 };
 var selectors_getSettings = function getSettings(state, group) {
   var settings = {};
@@ -478,7 +1392,7 @@ var selectors_getSettingsForGroup = function getSettingsForGroup(state, group, k
     return accumulator;
   }, {});
 };
-var selectors_isGetSettingsRequesting = function isGetSettingsRequesting(state, group) {
+var selectors_isUpdateSettingsRequesting = function isUpdateSettingsRequesting(state, group) {
   return state[group] && Boolean(state[group].isRequesting);
 };
 /**
@@ -517,7 +1431,7 @@ var selectors_getLastSettingsErrorForGroup = function getLastSettingsErrorForGro
     return state[group].error;
   }
 
-  return Object(toConsumableArray["a" /* default */])(settingsIds).pop().error;
+  return toConsumableArray_default()(settingsIds).pop().error;
 };
 var selectors_getSettingsError = function getSettingsError(state, group, id) {
   if (!id) {
@@ -526,6 +1440,13 @@ var selectors_getSettingsError = function getSettingsError(state, group, id) {
 
   return state[getResourceName(group, id)].error || false;
 };
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/regenerator/index.js
+var regenerator = __webpack_require__(16);
+var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator);
+
+// EXTERNAL MODULE: external {"this":["wp","i18n"]}
+var external_this_wp_i18n_ = __webpack_require__(3);
+
 // EXTERNAL MODULE: external "lodash"
 var external_lodash_ = __webpack_require__(2);
 
@@ -560,17 +1481,20 @@ var TYPES = {
 };
 /* harmony default export */ var action_types = (TYPES);
 // CONCATENATED MODULE: ./packages/data/build-module/settings/actions.js
-var _marked = /*#__PURE__*/regeneratorRuntime.mark(actions_updateAndPersistSettingsForGroup),
-    _marked2 = /*#__PURE__*/regeneratorRuntime.mark(actions_persistSettingsForGroup);
+
+
+var _marked = /*#__PURE__*/regenerator_default.a.mark(actions_updateAndPersistSettingsForGroup),
+    _marked2 = /*#__PURE__*/regenerator_default.a.mark(actions_persistSettingsForGroup);
 /**
- * External Dependencies
+ * External dependencies
  */
 
 
 
 
+
 /**
- * Internal Dependencies
+ * Internal dependencies
  */
 
 
@@ -610,7 +1534,7 @@ function actions_clearIsDirty(group) {
 } // allows updating and persisting immediately in one action.
 
 function actions_updateAndPersistSettingsForGroup(group, data) {
-  return regeneratorRuntime.wrap(function updateAndPersistSettingsForGroup$(_context) {
+  return regenerator_default.a.wrap(function updateAndPersistSettingsForGroup$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
@@ -630,7 +1554,7 @@ function actions_updateAndPersistSettingsForGroup(group, data) {
 
 function actions_persistSettingsForGroup(group) {
   var dirtyKeys, dirtyData, url, update, results;
-  return regeneratorRuntime.wrap(function persistSettingsForGroup$(_context2) {
+  return regenerator_default.a.wrap(function persistSettingsForGroup$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
@@ -683,54 +1607,62 @@ function actions_persistSettingsForGroup(group) {
 
         case 17:
           results = _context2.sent;
+          _context2.next = 20;
+          return setIsRequesting(group, false);
 
+        case 20:
           if (results) {
-            _context2.next = 20;
+            _context2.next = 22;
             break;
           }
 
-          throw new Error('settings did not update');
-
-        case 20:
-          _context2.next = 22;
-          return actions_clearIsDirty(group);
+          throw new Error(Object(external_this_wp_i18n_["__"])('There was a problem updating your settings.', 'woocommerce-admin'));
 
         case 22:
-          _context2.next = 28;
-          break;
+          _context2.next = 24;
+          return actions_clearIsDirty(group);
 
         case 24:
-          _context2.prev = 24;
+          _context2.next = 33;
+          break;
+
+        case 26:
+          _context2.prev = 26;
           _context2.t0 = _context2["catch"](14);
-          _context2.next = 28;
+          _context2.next = 30;
           return updateErrorForGroup(group, null, _context2.t0);
 
-        case 28:
-          _context2.next = 30;
+        case 30:
+          _context2.next = 32;
           return setIsRequesting(group, false);
 
-        case 30:
+        case 32:
+          throw _context2.t0;
+
+        case 33:
         case "end":
           return _context2.stop();
       }
     }
-  }, _marked2, null, [[14, 24]]);
+  }, _marked2, null, [[14, 26]]);
 }
 function clearSettings() {
   return {
     type: action_types.CLEAR_SETTINGS
   };
 }
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
-var defineProperty = __webpack_require__(6);
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/defineProperty.js
+var defineProperty = __webpack_require__(5);
+var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
 
 // CONCATENATED MODULE: ./packages/data/build-module/settings/resolvers.js
 
 
-var resolvers_marked = /*#__PURE__*/regeneratorRuntime.mark(resolvers_getSettings),
-    resolvers_marked2 = /*#__PURE__*/regeneratorRuntime.mark(resolvers_getSettingsForGroup);
+
+var resolvers_marked = /*#__PURE__*/regenerator_default.a.mark(resolvers_getSettings),
+    resolvers_marked2 = /*#__PURE__*/regenerator_default.a.mark(resolvers_getSettingsForGroup);
 /**
- * External Dependencies
+ * External dependencies
  */
 
 
@@ -752,7 +1684,7 @@ function settingsToSettingsResource(settings) {
 
 function resolvers_getSettings(group) {
   var url, results, resource;
-  return regeneratorRuntime.wrap(function getSettings$(_context) {
+  return regenerator_default.a.wrap(function getSettings$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
@@ -771,7 +1703,7 @@ function resolvers_getSettings(group) {
         case 6:
           results = _context.sent;
           resource = settingsToSettingsResource(results);
-          return _context.abrupt("return", actions_updateSettingsForGroup(group, Object(defineProperty["a" /* default */])({}, group, resource)));
+          return _context.abrupt("return", actions_updateSettingsForGroup(group, defineProperty_default()({}, group, resource)));
 
         case 11:
           _context.prev = 11;
@@ -786,7 +1718,7 @@ function resolvers_getSettings(group) {
   }, resolvers_marked, null, [[2, 11]]);
 }
 function resolvers_getSettingsForGroup(group) {
-  return regeneratorRuntime.wrap(function getSettingsForGroup$(_context2) {
+  return regenerator_default.a.wrap(function getSettingsForGroup$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
@@ -823,7 +1755,7 @@ function _objectSpread(target) {
 
     if (i % 2) {
       ownKeys(Object(source), true).forEach(function (key) {
-        Object(defineProperty["a" /* default */])(target, key, source[key]);
+        defineProperty_default()(target, key, source[key]);
       });
     } else if (Object.getOwnPropertyDescriptors) {
       Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
@@ -880,13 +1812,13 @@ var reducer_receiveSettings = function receiveSettings() {
 
   switch (type) {
     case action_types.SET_IS_REQUESTING:
-      state = _objectSpread(_objectSpread({}, state), {}, Object(defineProperty["a" /* default */])({}, group, _objectSpread(_objectSpread({}, state[group]), {}, {
+      state = _objectSpread(_objectSpread({}, state), {}, defineProperty_default()({}, group, _objectSpread(_objectSpread({}, state[group]), {}, {
         isRequesting: isRequesting
       })));
       break;
 
     case action_types.CLEAR_IS_DIRTY:
-      state = _objectSpread(_objectSpread({}, state), {}, Object(defineProperty["a" /* default */])({}, group, _objectSpread(_objectSpread({}, state[group]), {}, {
+      state = _objectSpread(_objectSpread({}, state), {}, defineProperty_default()({}, group, _objectSpread(_objectSpread({}, state[group]), {}, {
         dirty: []
       })));
       break;
@@ -896,14 +1828,14 @@ var reducer_receiveSettings = function receiveSettings() {
       var groupIds = data ? Object.keys(data) : [];
 
       if (data === null) {
-        state = _objectSpread(_objectSpread({}, state), {}, Object(defineProperty["a" /* default */])({}, group, {
+        state = _objectSpread(_objectSpread({}, state), {}, defineProperty_default()({}, group, {
           data: state[group] ? state[group].data : [],
           error: error,
           lastReceived: time
         }));
       } else {
-        state = _objectSpread(_objectSpread({}, state), {}, Object(defineProperty["a" /* default */])({}, group, {
-          data: state[group] && state[group].data ? [].concat(Object(toConsumableArray["a" /* default */])(state[group].data), Object(toConsumableArray["a" /* default */])(groupIds)) : groupIds,
+        state = _objectSpread(_objectSpread({}, state), {}, defineProperty_default()({}, group, {
+          data: state[group] && state[group].data ? [].concat(toConsumableArray_default()(state[group].data), toConsumableArray_default()(groupIds)) : groupIds,
           error: error,
           lastReceived: time,
           isRequesting: false,
@@ -1025,7 +1957,7 @@ function use_settings_objectSpread(target) {
 
     if (i % 2) {
       use_settings_ownKeys(Object(source), true).forEach(function (key) {
-        Object(defineProperty["a" /* default */])(target, key, source[key]);
+        defineProperty_default()(target, key, source[key]);
       });
     } else if (Object.getOwnPropertyDescriptors) {
       Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
@@ -1045,6 +1977,10 @@ function use_settings_objectSpread(target) {
 
 
 
+/**
+ * Internal dependencies
+ */
+
 
 var use_settings_useSettings = function useSettings(group) {
   var settingsKeys = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
@@ -1054,12 +1990,12 @@ var use_settings_useSettings = function useSettings(group) {
         getLastSettingsErrorForGroup = _select.getLastSettingsErrorForGroup,
         getSettingsForGroup = _select.getSettingsForGroup,
         getIsDirty = _select.getIsDirty,
-        isGetSettingsRequesting = _select.isGetSettingsRequesting;
+        isUpdateSettingsRequesting = _select.isUpdateSettingsRequesting;
 
     return {
       requestedSettings: getSettingsForGroup(group, settingsKeys),
       settingsError: Boolean(getLastSettingsErrorForGroup(group)),
-      isRequesting: isGetSettingsRequesting(group),
+      isRequesting: isUpdateSettingsRequesting(group),
       isDirty: getIsDirty(group, settingsKeys)
     };
   }, [group, settingsKeys]),
@@ -1074,7 +2010,7 @@ var use_settings_useSettings = function useSettings(group) {
       updateSettingsForGroup = _useDispatch.updateSettingsForGroup;
 
   var updateSettings = Object(external_this_wp_element_["useCallback"])(function (name, data) {
-    updateSettingsForGroup(group, Object(defineProperty["a" /* default */])({}, name, data));
+    updateSettingsForGroup(group, defineProperty_default()({}, name, data));
   }, [group]);
   var persistSettings = Object(external_this_wp_element_["useCallback"])(function () {
     // this action would simply persist all settings marked as dirty in the
@@ -1082,7 +2018,7 @@ var use_settings_useSettings = function useSettings(group) {
     persistSettingsForGroup(group);
   }, [group]);
   var updateAndPersistSettings = Object(external_this_wp_element_["useCallback"])(function (name, data) {
-    updateAndPersistSettingsForGroup(group, Object(defineProperty["a" /* default */])({}, name, data));
+    updateAndPersistSettingsForGroup(group, defineProperty_default()({}, name, data));
   }, [group]);
   return use_settings_objectSpread(use_settings_objectSpread({
     settingsError: settingsError,
@@ -1094,9 +2030,6 @@ var use_settings_useSettings = function useSettings(group) {
     updateSettings: updateSettings
   });
 };
-// EXTERNAL MODULE: external {"this":["wp","i18n"]}
-var external_this_wp_i18n_ = __webpack_require__(3);
-
 // CONCATENATED MODULE: ./packages/data/build-module/plugins/constants.js
 /**
  * External dependencies
@@ -1151,17 +2084,19 @@ var action_types_TYPES = {
 };
 /* harmony default export */ var plugins_action_types = (action_types_TYPES);
 // CONCATENATED MODULE: ./packages/data/build-module/plugins/actions.js
-var actions_marked = /*#__PURE__*/regeneratorRuntime.mark(installPlugins),
-    actions_marked2 = /*#__PURE__*/regeneratorRuntime.mark(activatePlugins),
-    _marked3 = /*#__PURE__*/regeneratorRuntime.mark(installAndActivatePlugins);
+
+
+var actions_marked = /*#__PURE__*/regenerator_default.a.mark(installPlugins),
+    actions_marked2 = /*#__PURE__*/regenerator_default.a.mark(activatePlugins),
+    _marked3 = /*#__PURE__*/regenerator_default.a.mark(installAndActivatePlugins);
 /**
- * External Dependencies
+ * External dependencies
  */
 
 
 
 /**
- * Internal Dependencies
+ * Internal dependencies
  */
 
 
@@ -1212,7 +2147,7 @@ function updateJetpackConnectUrl(redirectUrl, jetpackConnectUrl) {
 }
 function installPlugins(plugins) {
   var results;
-  return regeneratorRuntime.wrap(function installPlugins$(_context) {
+  return regenerator_default.a.wrap(function installPlugins$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
@@ -1274,7 +2209,7 @@ function installPlugins(plugins) {
 }
 function activatePlugins(plugins) {
   var results;
-  return regeneratorRuntime.wrap(function activatePlugins$(_context2) {
+  return regenerator_default.a.wrap(function activatePlugins$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
@@ -1336,7 +2271,7 @@ function activatePlugins(plugins) {
 }
 function installAndActivatePlugins(plugins) {
   var activations;
-  return regeneratorRuntime.wrap(function installAndActivatePlugins$(_context3) {
+  return regenerator_default.a.wrap(function installAndActivatePlugins$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
@@ -1377,15 +2312,17 @@ function formatErrors(response) {
   return response;
 }
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(27);
+var external_this_wp_url_ = __webpack_require__(34);
 
 // CONCATENATED MODULE: ./packages/data/build-module/plugins/resolvers.js
-var plugins_resolvers_marked = /*#__PURE__*/regeneratorRuntime.mark(resolvers_getActivePlugins),
-    plugins_resolvers_marked2 = /*#__PURE__*/regeneratorRuntime.mark(resolvers_getInstalledPlugins),
-    resolvers_marked3 = /*#__PURE__*/regeneratorRuntime.mark(resolvers_isJetpackConnected),
-    _marked4 = /*#__PURE__*/regeneratorRuntime.mark(resolvers_getJetpackConnectUrl);
+
+
+var plugins_resolvers_marked = /*#__PURE__*/regenerator_default.a.mark(resolvers_getActivePlugins),
+    plugins_resolvers_marked2 = /*#__PURE__*/regenerator_default.a.mark(resolvers_getInstalledPlugins),
+    resolvers_marked3 = /*#__PURE__*/regenerator_default.a.mark(resolvers_isJetpackConnected),
+    _marked4 = /*#__PURE__*/regenerator_default.a.mark(resolvers_getJetpackConnectUrl);
 /**
- * External Dependencies
+ * External dependencies
  */
 
 
@@ -1399,7 +2336,7 @@ var plugins_resolvers_marked = /*#__PURE__*/regeneratorRuntime.mark(resolvers_ge
 
 function resolvers_getActivePlugins() {
   var url, results;
-  return regeneratorRuntime.wrap(function getActivePlugins$(_context) {
+  return regenerator_default.a.wrap(function getActivePlugins$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
@@ -1439,7 +2376,7 @@ function resolvers_getActivePlugins() {
 }
 function resolvers_getInstalledPlugins() {
   var url, results;
-  return regeneratorRuntime.wrap(function getInstalledPlugins$(_context2) {
+  return regenerator_default.a.wrap(function getInstalledPlugins$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
@@ -1479,7 +2416,7 @@ function resolvers_getInstalledPlugins() {
 }
 function resolvers_isJetpackConnected() {
   var url, results;
-  return regeneratorRuntime.wrap(function isJetpackConnected$(_context3) {
+  return regenerator_default.a.wrap(function isJetpackConnected$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
@@ -1523,7 +2460,7 @@ function resolvers_isJetpackConnected() {
 }
 function resolvers_getJetpackConnectUrl(query) {
   var url, results;
-  return regeneratorRuntime.wrap(function getJetpackConnectUrl$(_context4) {
+  return regenerator_default.a.wrap(function getJetpackConnectUrl$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
@@ -1588,7 +2525,7 @@ function reducer_objectSpread(target) {
 
     if (i % 2) {
       reducer_ownKeys(Object(source), true).forEach(function (key) {
-        Object(defineProperty["a" /* default */])(target, key, source[key]);
+        defineProperty_default()(target, key, source[key]);
       });
     } else if (Object.getOwnPropertyDescriptors) {
       Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
@@ -1602,7 +2539,7 @@ function reducer_objectSpread(target) {
   return target;
 }
 /**
- * External Dependencies
+ * External dependencies
  */
 
 
@@ -1665,14 +2602,14 @@ var reducer_plugins = function plugins() {
 
     case plugins_action_types.SET_IS_REQUESTING:
       state = reducer_objectSpread(reducer_objectSpread({}, state), {}, {
-        requesting: reducer_objectSpread(reducer_objectSpread({}, state.requesting), {}, Object(defineProperty["a" /* default */])({}, selector, isRequesting))
+        requesting: reducer_objectSpread(reducer_objectSpread({}, state.requesting), {}, defineProperty_default()({}, selector, isRequesting))
       });
       break;
 
     case plugins_action_types.SET_ERROR:
       state = reducer_objectSpread(reducer_objectSpread({}, state), {}, {
-        requesting: reducer_objectSpread(reducer_objectSpread({}, state.requesting), {}, Object(defineProperty["a" /* default */])({}, selector, false)),
-        errors: reducer_objectSpread(reducer_objectSpread({}, state.errors), {}, Object(defineProperty["a" /* default */])({}, selector, error))
+        requesting: reducer_objectSpread(reducer_objectSpread({}, state.requesting), {}, defineProperty_default()({}, selector, false)),
+        errors: reducer_objectSpread(reducer_objectSpread({}, state.errors), {}, defineProperty_default()({}, selector, error))
       });
       break;
 
@@ -1684,7 +2621,7 @@ var reducer_plugins = function plugins() {
 
     case plugins_action_types.UPDATE_JETPACK_CONNECT_URL:
       state = reducer_objectSpread(reducer_objectSpread({}, state), {}, {
-        jetpackConnectUrls: reducer_objectSpread(reducer_objectSpread({}, state.jetpackConnectUrl), {}, Object(defineProperty["a" /* default */])({}, redirectUrl, jetpackConnectUrl))
+        jetpackConnectUrls: reducer_objectSpread(reducer_objectSpread({}, state.jetpackConnectUrl), {}, defineProperty_default()({}, redirectUrl, jetpackConnectUrl))
       });
   }
 
@@ -1793,15 +2730,17 @@ var onboarding_action_types_TYPES = {
 };
 /* harmony default export */ var onboarding_action_types = (onboarding_action_types_TYPES);
 // CONCATENATED MODULE: ./packages/data/build-module/onboarding/actions.js
-var onboarding_actions_marked = /*#__PURE__*/regeneratorRuntime.mark(updateProfileItems);
+
+
+var onboarding_actions_marked = /*#__PURE__*/regenerator_default.a.mark(updateProfileItems);
 /**
- * External Dependencies
+ * External dependencies
  */
 
 
 
 /**
- * Internal Dependencies
+ * Internal dependencies
  */
 
 
@@ -1830,7 +2769,7 @@ function actions_setProfileItems(profileItems) {
 }
 function updateProfileItems(items) {
   var results;
-  return regeneratorRuntime.wrap(function updateProfileItems$(_context) {
+  return regenerator_default.a.wrap(function updateProfileItems$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
@@ -1878,6 +2817,9 @@ function updateProfileItems(items) {
           return onboarding_actions_setIsRequesting('updateProfileItems', false);
 
         case 21:
+          throw new Error();
+
+        case 22:
         case "end":
           return _context.stop();
       }
@@ -1885,9 +2827,11 @@ function updateProfileItems(items) {
   }, onboarding_actions_marked, null, [[2, 15]]);
 }
 // CONCATENATED MODULE: ./packages/data/build-module/onboarding/resolvers.js
-var onboarding_resolvers_marked = /*#__PURE__*/regeneratorRuntime.mark(resolvers_getProfileItems);
+
+
+var onboarding_resolvers_marked = /*#__PURE__*/regenerator_default.a.mark(resolvers_getProfileItems);
 /**
- * External Dependencies
+ * External dependencies
  */
 
 
@@ -1900,7 +2844,7 @@ var onboarding_resolvers_marked = /*#__PURE__*/regeneratorRuntime.mark(resolvers
 
 function resolvers_getProfileItems() {
   var results;
-  return regeneratorRuntime.wrap(function getProfileItems$(_context) {
+  return regenerator_default.a.wrap(function getProfileItems$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
@@ -1956,7 +2900,7 @@ function onboarding_reducer_objectSpread(target) {
 
     if (i % 2) {
       onboarding_reducer_ownKeys(Object(source), true).forEach(function (key) {
-        Object(defineProperty["a" /* default */])(target, key, source[key]);
+        defineProperty_default()(target, key, source[key]);
       });
     } else if (Object.getOwnPropertyDescriptors) {
       Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
@@ -2000,13 +2944,13 @@ var reducer_onboarding = function onboarding() {
 
     case onboarding_action_types.SET_ERROR:
       state = onboarding_reducer_objectSpread(onboarding_reducer_objectSpread({}, state), {}, {
-        errors: onboarding_reducer_objectSpread(onboarding_reducer_objectSpread({}, state.errors), {}, Object(defineProperty["a" /* default */])({}, selector, error))
+        errors: onboarding_reducer_objectSpread(onboarding_reducer_objectSpread({}, state.errors), {}, defineProperty_default()({}, selector, error))
       });
       break;
 
     case onboarding_action_types.SET_IS_REQUESTING:
       state = onboarding_reducer_objectSpread(onboarding_reducer_objectSpread({}, state), {}, {
-        requesting: onboarding_reducer_objectSpread(onboarding_reducer_objectSpread({}, state.requesting), {}, Object(defineProperty["a" /* default */])({}, selector, isRequesting))
+        requesting: onboarding_reducer_objectSpread(onboarding_reducer_objectSpread({}, state.requesting), {}, defineProperty_default()({}, selector, isRequesting))
       });
       break;
   }
@@ -2088,12 +3032,15 @@ var with_onboarding_hydration_withOnboardingHydration = function withOnboardingH
 // CONCATENATED MODULE: ./packages/data/build-module/user-preferences/constants.js
 var user_preferences_constants_STORE_NAME = 'core';
 // CONCATENATED MODULE: ./packages/data/build-module/user-preferences/index.js
+/**
+ * Internal dependencies
+ */
 
 var USER_STORE_NAME = user_preferences_constants_STORE_NAME;
 // CONCATENATED MODULE: ./packages/data/build-module/user-preferences/with-current-user-hydration.js
 
 /**
- * WordPress dependencies
+ * External dependencies
  */
 
 
@@ -2105,7 +3052,7 @@ var USER_STORE_NAME = user_preferences_constants_STORE_NAME;
 
 /**
  * Higher-order component used to hydrate current user data.
- * 
+ *
  * @param {Object} currentUser Current user object in the same format as the WP REST API returns.
  */
 
@@ -2138,10 +3085,12 @@ var with_current_user_hydration_withCurrentUserHydration = function withCurrentU
     };
   };
 };
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
-var asyncToGenerator = __webpack_require__(67);
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/asyncToGenerator.js
+var asyncToGenerator = __webpack_require__(37);
+var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator);
 
 // CONCATENATED MODULE: ./packages/data/build-module/user-preferences/use-user-preferences.js
+
 
 
 
@@ -2165,7 +3114,7 @@ function use_user_preferences_objectSpread(target) {
 
     if (i % 2) {
       use_user_preferences_ownKeys(Object(source), true).forEach(function (key) {
-        Object(defineProperty["a" /* default */])(target, key, source[key]);
+        defineProperty_default()(target, key, source[key]);
       });
     } else if (Object.getOwnPropertyDescriptors) {
       Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
@@ -2183,10 +3132,6 @@ function use_user_preferences_objectSpread(target) {
  */
 
 
-
-/**
- * WordPress dependencies
- */
 
 
 /**
@@ -2240,9 +3185,9 @@ var use_user_preferences_useUserPreferences = function useUserPreferences() {
     if (typeof saveUser !== 'function') {
       // Polyfill saveUser() - wrapper of saveEntityRecord.
       saveUser = /*#__PURE__*/function () {
-        var _ref = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/regeneratorRuntime.mark(function _callee(userToSave) {
+        var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(userToSave) {
           var entityDefined;
-          return regeneratorRuntime.wrap(function _callee$(_context) {
+          return regenerator_default.a.wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
@@ -2287,9 +3232,9 @@ var use_user_preferences_useUserPreferences = function useUserPreferences() {
     var userData = use_user_preferences_getWooCommerceMeta(user); // Create wrapper for updating user's `woocommerce_meta`.
 
     var updateUserPrefs = /*#__PURE__*/function () {
-      var _ref2 = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(userPrefs) {
+      var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2(userPrefs) {
         var userDataFields, metaData, updatedUser, error, updatedUserResponse;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        return regenerator_default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
@@ -2426,7 +3371,8 @@ var options_action_types_TYPES = {
 // CONCATENATED MODULE: ./packages/data/build-module/options/actions.js
 
 
-var options_actions_marked = /*#__PURE__*/regeneratorRuntime.mark(updateOptions);
+
+var options_actions_marked = /*#__PURE__*/regenerator_default.a.mark(updateOptions);
 
 function actions_ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
@@ -2448,7 +3394,7 @@ function actions_objectSpread(target) {
 
     if (i % 2) {
       actions_ownKeys(Object(source), true).forEach(function (key) {
-        Object(defineProperty["a" /* default */])(target, key, source[key]);
+        defineProperty_default()(target, key, source[key]);
       });
     } else if (Object.getOwnPropertyDescriptors) {
       Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
@@ -2462,13 +3408,13 @@ function actions_objectSpread(target) {
   return target;
 }
 /**
- * External Dependencies
+ * External dependencies
  */
 
 
 
 /**
- * Internal Dependencies
+ * Internal dependencies
  */
 
 
@@ -2500,7 +3446,7 @@ function setIsUpdating(isUpdating) {
 }
 function updateOptions(data) {
   var results;
-  return regeneratorRuntime.wrap(function updateOptions$(_context) {
+  return regenerator_default.a.wrap(function updateOptions$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
@@ -2549,7 +3495,7 @@ function updateOptions(data) {
   }, options_actions_marked, null, [[4, 13]]);
 }
 // EXTERNAL MODULE: external {"this":["wp","apiFetch"]}
-var external_this_wp_apiFetch_ = __webpack_require__(21);
+var external_this_wp_apiFetch_ = __webpack_require__(31);
 var external_this_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_apiFetch_);
 
 // CONCATENATED MODULE: ./packages/data/build-module/options/controls.js
@@ -2575,7 +3521,7 @@ function controls_objectSpread(target) {
 
     if (i % 2) {
       controls_ownKeys(Object(source), true).forEach(function (key) {
-        Object(defineProperty["a" /* default */])(target, key, source[key]);
+        defineProperty_default()(target, key, source[key]);
       });
     } else if (Object.getOwnPropertyDescriptors) {
       Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
@@ -2640,16 +3586,14 @@ var controls = controls_objectSpread(controls_objectSpread({}, external_this_wp_
   }
 });
 // CONCATENATED MODULE: ./packages/data/build-module/options/resolvers.js
-var options_resolvers_marked = /*#__PURE__*/regeneratorRuntime.mark(resolvers_getOption);
-/**
- * External Dependencies
- */
 
 
-
+var options_resolvers_marked = /*#__PURE__*/regenerator_default.a.mark(resolvers_getOption);
 /**
  * Internal dependencies
  */
+
+
 
 
 /**
@@ -2660,7 +3604,7 @@ var options_resolvers_marked = /*#__PURE__*/regeneratorRuntime.mark(resolvers_ge
 
 function resolvers_getOption(name) {
   var result;
-  return regeneratorRuntime.wrap(function getOption$(_context) {
+  return regenerator_default.a.wrap(function getOption$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
@@ -2713,7 +3657,7 @@ function options_reducer_objectSpread(target) {
 
     if (i % 2) {
       options_reducer_ownKeys(Object(source), true).forEach(function (key) {
-        Object(defineProperty["a" /* default */])(target, key, source[key]);
+        defineProperty_default()(target, key, source[key]);
       });
     } else if (Object.getOwnPropertyDescriptors) {
       Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
@@ -2759,7 +3703,7 @@ var reducer_optionsReducer = function optionsReducer() {
 
     case options_action_types.SET_REQUESTING_ERROR:
       state = options_reducer_objectSpread(options_reducer_objectSpread({}, state), {}, {
-        requestingErrors: Object(defineProperty["a" /* default */])({}, name, error)
+        requestingErrors: defineProperty_default()({}, name, error)
       });
       break;
 
@@ -2835,7 +3779,7 @@ var with_options_hydration_withOptionsHydration = function withOptionsHydration(
         names.forEach(function (name) {
           if (!isResolving('getOption', [name]) && !hasFinishedResolution('getOption', [name])) {
             startResolution('getOption', [name]);
-            receiveOptions(Object(defineProperty["a" /* default */])({}, name, dataRef.current[name]));
+            receiveOptions(defineProperty_default()({}, name, dataRef.current[name]));
             finishResolution('getOption', [name]);
           }
         });
@@ -2844,6 +3788,61 @@ var with_options_hydration_withOptionsHydration = function withOptionsHydration(
     };
   };
 };
+// EXTERNAL MODULE: ./node_modules/memize/index.js
+var memize = __webpack_require__(430);
+var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
+
+// CONCATENATED MODULE: ./packages/data/build-module/registry.js
+/**
+ * External dependencies
+ */
+
+
+
+function __experimentalResolveSelect(reducerKey) {
+  return getResolveSelectors(Object(external_this_wp_data_["select"])(reducerKey));
+}
+/**
+ * Returns a promise that resolves once a selector has finished resolving.
+ * This is directly pulled from https://github.com/WordPress/gutenberg/blob/909c9274b2440de5f6049ffddfcc8e0e6158df2d/packages/data/src/registry.js#L91-L130
+ * and will be removed in favor of the @wordpress/data function.
+ */
+
+var getResolveSelectors = memize_default()(function (selectors) {
+  return Object(external_lodash_["mapValues"])(Object(external_lodash_["omit"])(selectors, ['getIsResolving', 'hasStartedResolution', 'hasFinishedResolution', 'isResolving', 'getCachedResolvers']), function (selector, selectorName) {
+    return function () {
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      return new Promise(function (resolve) {
+        var hasFinished = function hasFinished() {
+          return selectors.hasFinishedResolution(selectorName, args);
+        };
+
+        var getResult = function getResult() {
+          return selector.apply(null, args);
+        }; // trigger the selector (to trigger the resolver)
+
+
+        var result = getResult();
+
+        if (hasFinished()) {
+          return resolve(result);
+        }
+
+        var unsubscribe = Object(external_this_wp_data_["subscribe"])(function () {
+          if (hasFinished()) {
+            unsubscribe();
+            resolve(getResult());
+          }
+        });
+      });
+    };
+  });
+}, {
+  maxSize: 1
+});
 // CONCATENATED MODULE: ./packages/data/build-module/index.js
 
 
@@ -2858,6 +3857,42 @@ var with_options_hydration_withOptionsHydration = function withOptionsHydration(
 
 
 
+
+
+/***/ }),
+
+/***/ 73:
+/***/ (function(module, exports) {
+
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+
+  return arr2;
+}
+
+module.exports = _arrayLikeToArray;
+
+/***/ }),
+
+/***/ 77:
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayLikeToArray = __webpack_require__(73);
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray(o, minLen);
+}
+
+module.exports = _unsupportedIterableToArray;
 
 /***/ })
 

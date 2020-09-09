@@ -4,12 +4,12 @@
 	 * Plugin URI: https://wordpress.org/plugins/woo-variation-swatches/
 	 * Description: Beautiful colors, images and buttons variation swatches for woocommerce product attributes. Requires WooCommerce 3.2+
 	 * Author: Emran Ahmed
-	 * Version: 1.0.85
+	 * Version: 1.0.86
 	 * Domain Path: /languages
 	 * Requires at least: 4.8
-	 * Tested up to: 5.4
+	 * Tested up to: 5.5
 	 * WC requires at least: 3.2
-	 * WC tested up to: 4.2
+	 * WC tested up to: 4.4
 	 * Text Domain: woo-variation-swatches
 	 * Author URI: https://getwooplugins.com/
 	 */
@@ -365,7 +365,7 @@
 			}
 			
 			public function admin_enqueue_scripts() {
-				
+				global $wp_version;
 				$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 				
 				/*wp_enqueue_script( 'jquery-ui-dialog' );
@@ -373,6 +373,19 @@
 				
 				wp_enqueue_style( 'wp-color-picker' );
 				wp_enqueue_script( 'wp-color-picker-alpha', $this->assets_uri( "/js/wp-color-picker-alpha{$suffix}.js" ), array( 'wp-color-picker' ), '2.1.3', true );
+				
+				// Localize Colorpicker to avoid issues with WordPress 5.5
+				if ( version_compare( $wp_version, '5.5', '>=' ) ) {
+					// Will use wp.i18n.__  later
+					wp_localize_script( 'wp-color-picker-alpha', 'wpColorPickerL10n', array(
+						'clear'            => esc_html__( 'Clear', 'woo-variation-swatches' ),
+						'clearAriaLabel'   => esc_html__( 'Clear color', 'woo-variation-swatches' ),
+						'defaultString'    => esc_html__( 'Default', 'woo-variation-swatches' ),
+						'defaultAriaLabel' => esc_html__( 'Select default color', 'woo-variation-swatches' ),
+						'pick'             => esc_html__( 'Select Color', 'woo-variation-swatches' ),
+						'defaultLabel'     => esc_html__( 'Color value', 'woo-variation-swatches' ),
+					) );
+				}
 				
 				wp_enqueue_script( 'form-field-dependency', $this->assets_uri( "/js/form-field-dependency{$suffix}.js" ), array( 'jquery' ), $this->version(), true );
 				wp_enqueue_script( 'woo-variation-swatches-admin', $this->assets_uri( "/js/admin{$suffix}.js" ), array( 'jquery' ), $this->version(), true );

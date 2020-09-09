@@ -1,10 +1,10 @@
 === WooCommerce Services ===
-Contributors: automattic, woothemes, allendav, kellychoffman, jkudish, jeffstieler, nabsul, robobot3000, danreylop, mikeyarce, shaunkuschel, orangesareorange, pauldechov, dappermountain, radogeorgiev, bor0, royho, cshultz88, bartoszbudzanowski, harriswong, ferdev, superdav42
+Contributors: woocommerce, automattic, woothemes, allendav, kellychoffman, jkudish, jeffstieler, nabsul, robobot3000, danreylop, mikeyarce, shaunkuschel, orangesareorange, pauldechov, dappermountain, radogeorgiev, bor0, royho, cshultz88, bartoszbudzanowski, harriswong, ferdev, superdav42
 Tags: shipping, stamps, usps, woocommerce, taxes, payment, stripe
 Requires at least: 4.6
 Requires PHP: 5.3
-Tested up to: 5.4
-Stable tag: 1.24.0
+Tested up to: 5.5
+Stable tag: 1.24.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,23 @@ As of the WooCommerce 3.5 release, WooCommerce Services no longer provides shipp
 7. Checking and exporting the label purchase reports
 
 == Changelog ==
+
+= 1.24.2 - 2020-09-03 =
+* Fix   - Optional preloading for wc-admin install compatibility
+* Fix   - Remove duplicate rate errors
+* Fix   - Compatibility with WooCommerce order page install prompt
+* Add   - Introduce 'wc_connect_meta_box_payload' filter for modifying order data
+* Tweak - Update UPS failed connection error message
+
+= 1.24.1 - 2020-08-19 =
+* Tweak - Zip/Postcode/Postal code messaging consistency
+* Fix   - Services management CSS table layout
+* Fix   - Carrier "disconnect modal" layout
+* Fix   - Primary button busy state updated to match color
+* Fix   - Remove padding from notice bar
+* Fix   - Add missing box in rate step for how much customer paid for shipping
+* Tweak - Bump WP tested version to 5.5
+* Fix   - Issue with dismiss modal popup blocking access to edit order
 
 = 1.24.0 - 2020-07-30 =
 * Fix   - PHP 7.4 notice for taxes at checkout.

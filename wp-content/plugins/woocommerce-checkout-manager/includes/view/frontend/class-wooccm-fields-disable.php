@@ -13,6 +13,8 @@ class WOOCCM_Fields_Display
     add_filter('wooccm_checkout_field_filter', array($this, 'disable_by_category'));
     // Remove by role
     add_filter('wooccm_checkout_field_filter', array($this, 'disable_by_role'));
+    // Fix country
+    add_filter('wooccm_checkout_field_filter', array($this, 'fix_country'));
   }
 
   public static function instance()
@@ -21,6 +23,19 @@ class WOOCCM_Fields_Display
       self::$_instance = new self();
     }
     return self::$_instance;
+  }
+
+  function fix_country($field)
+  {
+
+    if ($field['type'] == 'country' && $field['disabled'] == true) {
+      $field['disabled'] = false;
+      $field['required'] = false;
+      $field['type'] = 'hidden';
+      //$field['class'] = array('hidden');
+    }
+
+    return $field;
   }
 
   function disable_by_role($field)

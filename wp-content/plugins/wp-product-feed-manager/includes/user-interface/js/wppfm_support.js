@@ -100,19 +100,13 @@ function wppfm_deactivateAllFeedCategoryMapping() {
 }
 
 function wppfm_contains_special_characters( string ) {
-	var specialChars = '%^#<>{}[]\/~`@?:;=&';
+	var specialChars = '%^#<>\\{}[]\/~`@?:;=&';
 
 	for ( var i = 0; i < specialChars.length; i ++ ) {
 		if ( string.indexOf( specialChars[ i ] ) > - 1 ) {
 			return true;
 		}
 	}
-
-	return false;
-}
-
-function wppfm_feedFileNameExists( fileName ) {
-	console.log(fileName);
 
 	return false;
 }

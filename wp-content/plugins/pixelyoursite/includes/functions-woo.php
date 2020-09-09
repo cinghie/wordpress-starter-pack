@@ -80,94 +80,133 @@ function getWooCartSubtotal() {
 
 }
 
-function getWooEventValue( $valueOption, $amount, $global, $product_id = null, $percent = 100 ) {
+function getWooEventValue( $valueOption, $global, $percent, $product_id,$qty ) {
 
-	switch ( $valueOption ) {
-		case 'global':
-			$value = (float) $global;
-			break;
+    $product = wc_get_product($product_id);
 
-		case 'cog':
-			$cog = getAvailableProductCog($product_id);
-			if ($cog['val']){
-				if ($cog['type'] == 'fix') {
-					$value = round((float) $amount - (float) $cog['val'], 2);
-				} else {
-					$value = round((float) $amount - ( (float) $amount * (float) $cog['val'] / 100 ), 2);
-				}
-			} else {
-				$value = (float) $amount;
-			}
-			if ( !isPixelCogActive() ) $value = (float) $amount;
-				break;
+    if(!$product) return 0;
 
-		case 'percent':
-			$percents = (float) $percent;
-			$percents = str_replace( '%', null, $percents );
-			$percents = (float) $percents / 100;
-			$value    = (float) $amount * $percents;
-			break;
+    if($valueOption == 'cog' && isPixelCogActive()) {
 
-		default:    // "price" option
-			$value = (float) $amount;
-	}
+        $args = array( 'qty'   => $qty, 'price' => $product->get_price());
+        if(get_option( '_pixel_cog_tax_calculating')  == 'no') {
+            $amount = wc_get_price_excluding_tax($product, $args);
+        } else {
+            $amount = wc_get_price_including_tax($product,$args);
+        }
 
-	return $value;
+        $cog = getAvailableProductCog($product);
+
+        if ($cog['val']) {
+            if ($cog['type'] == 'fix') {
+                $value = round((float)$amount - (float)$cog['val'], 2);
+            } else {
+                $value = round((float)$amount - ((float)$amount * (float)$cog['val'] / 100), 2);
+            }
+        } else {
+            $value = (float)$amount;
+        }
+        return $value;
+    }
+
+    if ( PYS()->getOption( 'woo_event_value' ) == 'custom' ) {
+        $amount = getWooProductPrice( $product_id, $qty );
+    } else {
+        $amount = getWooProductPriceToDisplay( $product_id, $qty );
+    }
+
+    switch ( $valueOption ) {
+        case 'global': $value = $global; break;
+        case 'percent':
+            $percents = (float) $percent;
+            $percents = str_replace( '%', null, $percents );
+            $percents = (float) $percents / 100;
+            $value    = (float) $amount * $percents;
+            break;
+        default:$value = (float)$amount;
+    }
+
+    return $value;
+
+}
+/**
+ * @param $valueOption
+ * @param \WC_Order $order
+ * @param $global
+ * @param $order_id
+ * @param $content_ids
+ * @param int $percent
+ * @return float|int
+ */
+function getWooEventValueOrder( $valueOption, $order, $global, $percent = 100 ) {
+
+    if ( PYS()->getOption( 'woo_event_value' ) == 'custom' ) {
+        $amount = getWooOrderTotal( $order );
+    } else {
+        $amount = $order->get_total();
+    }
+    switch ( $valueOption ) {
+        case 'global':
+            $value = (float) $global;
+            break;
+
+        case 'cog':
+            $cog_value = getAvailableProductCogOrder($order);
+            ($cog_value !== '') ? $value = (float) round($cog_value, 2) : $value = (float) $amount;
+            if ( !isPixelCogActive() ) $value = (float) $amount;
+            break;
+
+        case 'percent':
+            $percents = (float) $percent;
+            $percents = str_replace( '%', null, $percents );
+            $percents = (float) $percents / 100;
+            $value    = (float) $amount * $percents;
+            break;
+
+        default:    // "price" option
+            $value = (float) $amount;
+    }
+
+    return $value;
 
 }
 
-function getWooEventValueOrder( $valueOption, $amount, $global, $order_id, $content_ids, $percent = 100 ) {
+function getWooEventValueCart( $valueOption, $global, $percent = 100 ) {
 
-	switch ( $valueOption ) {
-		case 'global':
-			$value = (float) $global;
-			break;
+    if($valueOption == 'cog' && isPixelCogActive()) {
+        $cog_value = getAvailableProductCogCart();
+        if($cog_value !== '')
+            return (float) round($cog_value, 2) ;
 
-		case 'cog':
-			$cog_value = getAvailableProductCogOrder($order_id);
-			($cog_value !== '') ? $value = (float) round($cog_value, 2) : $value = (float) $amount;
-			if ( !isPixelCogActive() ) $value = (float) $amount;
-			break;
+        if ( get_option( '_pixel_cog_tax_calculating')  == 'no' ) {
+            return WC()->cart->cart_contents_total;
+        }
 
-		case 'percent':
-			$percents = (float) $percent;
-			$percents = str_replace( '%', null, $percents );
-			$percents = (float) $percents / 100;
-			$value    = (float) $amount * $percents;
-			break;
+        return WC()->cart->cart_contents_total + WC()->cart->tax_total;
+    }
 
-		default:    // "price" option
-			$value = (float) $amount;
-	}
 
-	return $value;
+    if ( PYS()->getOption( 'woo_event_value' ) == 'custom' ) {
+        $amount = getWooCartTotal();
+    } else {
+        $amount = $params['value'] = WC()->cart->subtotal;
+    }
 
-}
+    switch ( $valueOption ) {
+        case 'global':
+            $value = (float) $global;
+            break;
 
-function getWooEventValueCart( $valueOption, $amount, $global, $percent = 100 ) {
+        case 'percent':
+            $percents = (float) $percent;
+            $percents = str_replace( '%', null, $percents );
+            $percents = (float) $percents / 100;
+            $value    = (float) $amount * $percents;
+            break;
 
-	switch ( $valueOption ) {
-		case 'global':
-			$value = (float) $global;
-			break;
+        default:    // "price" option
+            $value = (float) $amount;
+    }
 
-		case 'cog':
-			$cog_value = getAvailableProductCogCart($amount);
-			($cog_value !== '') ? $value = (float) round($cog_value, 2) : $value = (float) $amount;
-			if ( !isPixelCogActive() ) $value = (float) $amount;
-			break;
-
-		case 'percent':
-			$percents = (float) $percent;
-			$percents = str_replace( '%', null, $percents );
-			$percents = (float) $percents / 100;
-			$value    = (float) $amount * $percents;
-			break;
-
-		default:    // "price" option
-			$value = (float) $amount;
-	}
-
-	return $value;
-
+    return $value;
 }

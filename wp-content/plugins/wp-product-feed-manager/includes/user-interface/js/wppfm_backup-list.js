@@ -15,7 +15,7 @@ function wppfm_resetBackupsList() {
 				listHtml = wppfm_emptyBackupsTable();
 			}
 
-			backupListElement.empty(); // first clear the feedlist
+			backupListElement.empty(); // first clear the feed list.
 
 			backupListElement.append( listHtml );
 		}

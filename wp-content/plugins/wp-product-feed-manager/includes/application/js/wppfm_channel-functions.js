@@ -280,6 +280,7 @@ function wppfm_fillCategoryVariables(
 	channel, selectedCategory, currentLevelId ) {
 	var fName = {
 		'1': 'fillGoogleCategoryVariables',
+		'2': 'fillBingCategoryVariables',
 		'4': 'fillPricegrabberCategoryVariables',
 		'5': 'fillShoppingCategoryVariables',
 		'6': 'fillAmazonCategoryVariables',
@@ -290,7 +291,7 @@ function wppfm_fillCategoryVariables(
 	};
 
 	// call the correct function
-	if ( fName.hasOwnProperty( channel ) ) {
+	if ( fName.hasOwnProperty( channel ) && 'function' === typeof window[ fName[ channel ] ] ) {
 		// call the correct switch  main form inputs function
 		window[ fName[ channel ] ]( selectedCategory, currentLevelId );
 	}
@@ -386,7 +387,7 @@ function wppfm_setOutputAttributeLevels( channel, feedHolder, selectArgument ) {
 			return setGoogleOutputAttributeLevels( feedHolder, selectArgument );
 
 		case '2':
-			return setBingOutputAttributeLevels( feedHolder );
+			return setBingOutputAttributeLevels( feedHolder, selectArgument );
 
 		case '3':
 			return setBeslisOutputAttributeLevels( feedHolder );

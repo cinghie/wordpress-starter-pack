@@ -1688,6 +1688,8 @@ jQuery( document ).ready( function ( $ ) {
 		summary_report_fields.push( $( '#user_unselected_segment input[value="summary_report_total_discount"]' ).parents( 'li' ) );
 		summary_report_fields.push( $( '#user_unselected_segment input[value="summary_report_total_refund_count"]' ).parents( 'li' ) );
 		summary_report_fields.push( $( '#user_unselected_segment input[value="summary_report_total_refund_amount"]' ).parents( 'li' ) );
+		summary_report_fields.push( $( '#user_unselected_segment input[value="summary_report_total_tax_amount"]' ).parents( 'li' ) );
+		summary_report_fields.push( $( '#user_unselected_segment input[value="summary_report_total_fee_amount"]' ).parents( 'li' ) );
 
 		jQuery( '#manage_fields' ).toggleClass( 'summary-customers-report', ! ! jQuery( this ).prop( 'checked' ) );
 
@@ -1711,6 +1713,8 @@ jQuery( document ).ready( function ( $ ) {
 				$( '#order_fields .segment_user input[value="summary_report_total_discount"]' ).closest( '.mapping_row' ).remove();
 				$( '#order_fields .segment_user input[value="summary_report_total_refund_count"]' ).closest( '.mapping_row' ).remove();
 				$( '#order_fields .segment_user input[value="summary_report_total_refund_amount"]' ).closest( '.mapping_row' ).remove();
+				$( '#order_fields .segment_user input[value="summary_report_total_tax_amount"]' ).closest( '.mapping_row' ).remove();
+				$( '#order_fields .segment_user input[value="summary_report_total_fee_amount"]' ).closest( '.mapping_row' ).remove();
 
 				// insert summary report fields
 				jQuery.each( summary_report_fields, function ( i, value ) {
@@ -1742,6 +1746,8 @@ jQuery( document ).ready( function ( $ ) {
 			$( '#order_fields .segment_user input[value="summary_report_total_discount"]' ).closest( '.mapping_row' ).remove();
 			$( '#order_fields .segment_user input[value="summary_report_total_refund_count"]' ).closest( '.mapping_row' ).remove();
 			$( '#order_fields .segment_user input[value="summary_report_total_refund_amount"]' ).closest( '.mapping_row' ).remove();
+			$( '#order_fields .segment_user input[value="summary_report_total_tax_amount"]' ).closest( '.mapping_row' ).remove();
+			$( '#order_fields .segment_user input[value="summary_report_total_fee_amount"]' ).closest( '.mapping_row' ).remove();
 
 			jQuery.each( summary_report_fields, function ( i, value ) {
 				$( value ).hide();

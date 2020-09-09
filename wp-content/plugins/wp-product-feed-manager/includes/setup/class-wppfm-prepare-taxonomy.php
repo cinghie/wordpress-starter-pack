@@ -69,6 +69,25 @@ if ( ! class_exists( 'WPPFM_Prepare_Taxonomy' ) ) :
 			}
 		}
 
+
+		public static function prepare_bing_category_file() {
+
+			$path  = WPPFM_CHANNEL_DATA_DIR . '/bing/taxonomy.en-US.txt';
+			$rpath = WPPFM_CHANNEL_DATA_DIR . '/bing/taxonomy_new.en-US.txt';
+
+			$fhr = fopen( $path, 'r' );
+			$fhw = fopen( $rpath, 'w' );
+
+			while ( ! feof( $fhr ) ) {
+
+				$line = fgets( $fhr );
+
+				$newline = substr($line, strrpos($line, ' - ') + 3);
+
+				fputs( $fhw, $newline );
+			}
+		}
+
 		public static function prepare_vergelijk_category_file() {
 
 			$path  = WPPFM_CHANNEL_DATA_DIR . '/vergelijk/taxonomy.nl-NL.txt';
