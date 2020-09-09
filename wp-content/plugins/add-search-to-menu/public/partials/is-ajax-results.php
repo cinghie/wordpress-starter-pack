@@ -13,6 +13,7 @@ if( 1 == $page ) { ?>
 	<div class="is-ajax-search-items <?php echo esc_attr( $posts_class ); ?>">
 <?php } 
 	if ( isset( $is_includes['post_type'] ) && in_array( 'product', $is_includes['post_type']  ) ) {
+		$strict = isset( $is_settings['fuzzy_match'] ) && 1 == $is_settings['fuzzy_match'] ? true : false;
 	// Show matching tags.
 	if( isset( $field['show_matching_tags'] ) && $field['show_matching_tags'] && 1 == $page ) {
 		$this->term_title_markup( array(
@@ -20,6 +21,7 @@ if( 1 == $page ) { ?>
 			'search_term'   => $search_term,
 			'title'         => __( 'Tag', 'add-search-to-menu' ),
 			'wrapper_class' => 'is-ajax-search-tags',
+			'strict'		=> $strict,
 		) );
 	}
 
@@ -30,6 +32,7 @@ if( 1 == $page ) { ?>
 			'search_term'   => $search_term,
 			'title'         => __( 'Category', 'add-search-to-menu' ),
 			'wrapper_class' => 'is-ajax-search-categories',
+			'strict'		=> $strict,
 		) );
 	}
 	}
@@ -126,7 +129,7 @@ if( 1 == $page ) { ?>
 	</div>
 <?php } ?>
         <?php
-            if ( isset( $field['show_more_result'] ) && $field['show_more_result'] && ( count( $posts->posts ) >= $posts_per_page ) ) {
+            if ( isset( $field['show_more_result'] ) && $field['show_more_result'] && ( $posts->found_posts > ( $posts_per_page * $page ) ) ) {
 	    $next_page = $page + 1; 
 	    $show_more_class = ( isset( $field['show_more_func'] ) && $field['show_more_func'] ) ? 'redirect-tosr' : '';
 	    ?>

@@ -44,3 +44,5 @@ function is_fs()
 is_fs();
 // Signal that SDK was initiated.
 do_action( 'is_fs_loaded' );
+// Disable affiliate notice
+is_fs()->add_filter( 'show_affiliate_program_notice', '__return_false' );

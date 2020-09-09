@@ -569,11 +569,11 @@ span.shortcode > input:focus,
 	width: 100%;
 }
 
-.form-table h3 .actions {
+.form-table h3 .is-actions {
 	float: right;
 }
 
-.form-table h3 .actions a {
+.form-table h3 .is-actions a {
 	color: #72777c;
 	text-decoration: none;
 	font-size: 11px;
@@ -600,12 +600,21 @@ span.shortcode > input:focus,
 	content: "\f347";
 }
 
-.form-table > div {
+#search-body .form-table h3.ui-state-active:not(.ui-accordion-header-active) {
+    margin-top: 30px;
+}
+
+#search-body .form-table h3.ui-state-active#ui-id-1 {
+	margin: 0.5em 0 0;
+}
+
+#poststuff #search-body .form-table > div {
 	background-color: #FFF;
 	padding: 25px 15px;
 	border: 1px solid #e5e5e5;
 	border-radius: 0 0 3px 3px;
 	border-top: 0;
+	overflow: visible;
 }
 
 .form-table > div::after {
@@ -862,11 +871,10 @@ span.shortcode > input:focus,
 
 .is-cb-multisel {
     width: auto;
-    display: none;
+    display: table-cell;
     border-radius: 4px;
     -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.175);
     box-shadow: 0 6px 12px rgba(0,0,0,0.175);
-    position: absolute;
     top: 100%;
     left: 0;
     background: #FFF;

@@ -411,18 +411,16 @@ module.exports = {
 };
 
 },{"./config/config.js":7}],9:[function(require,module,exports){
-/* global jQuery, YoastSEO, YoastACFAnalysis: true */
+/* global jQuery, YoastSEO, wp, YoastACFAnalysis: true */
 /* exported YoastACFAnalysis */
 
 var App = require( "./app.js" );
 
-( function( $ ) {
-	$( document ).ready( function() {
-		if ( "undefined" !== typeof YoastSEO ) {
-			YoastACFAnalysis = new App();
-		}
-	} );
-}( jQuery ) );
+wp.domReady( function() {
+	if ( "undefined" !== typeof YoastSEO ) {
+		YoastACFAnalysis = new App();
+	}
+} );
 
 },{"./app.js":1}],10:[function(require,module,exports){
 /* global _, jQuery, YoastSEO, YoastReplaceVarPlugin */

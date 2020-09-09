@@ -8,7 +8,8 @@
 
 	$( function() {
 
-		$( window ).load( function() {
+		$( window ).on( 'load', function() {
+			$( '.is-cb-dropdown .is-cb-multisel' ).css({ 'position': 'absolute', 'display': 'none' });
 			$( '.col-wrapper .load-all' ).on( 'click', function() {
 				var post_id = $('#post_ID').val();
 				var post_type = $(this).attr('id');
@@ -78,11 +79,12 @@
                   return date;
                 }
 
-		$('.form-table .actions a.expand').click( function() {
-			$('.form-table .actions a.expand').hide();
-			$('.form-table .ui-accordion-header:not(.is-ptype-hidden), .form-table .ui-accordion-content:not(.is-ptype-hidden), .form-table .actions a.collapse').show();
+		if ( 1 < $(".form-table h3[scope=row]").length ) {
+		$('.form-table .is-actions a.expand').click( function() {
+			$('.form-table .is-actions a.expand').hide();
+			$('.form-table .ui-accordion-header:not(.is-ptype-hidden), .form-table .ui-accordion-content:not(.is-ptype-hidden), .form-table .is-actions a.collapse').show();
 			$('.form-table .ui-accordion-content').addClass('ui-accordion-content-active');
-			$('.form-table h3').addClass('ui-state-active');
+			$('.form-table h3').addClass('ui-state-active').removeClass('ui-accordion-header-active');
             if ( history.pushState ) {
                 var newurl = window.location.href.split('#')[0]+ '#expand';
                 window.history.pushState({path:newurl},'',newurl);
@@ -94,9 +96,9 @@
 			return false;
 		} );
 		
-		$('.form-table .actions a.collapse').click( function() {
-			$('.form-table .actions a.expand').show();
-			$('.form-table .ui-accordion-content, .form-table .actions a.collapse').hide();
+		$('.form-table .is-actions a.collapse').click( function() {
+			$('.form-table .is-actions a.expand').show();
+			$('.form-table .ui-accordion-content, .form-table .is-actions a.collapse').hide();
 			$('.form-table .ui-accordion-content').removeClass('ui-accordion-content-active');
 			$('.form-table h3').removeClass('ui-state-active');
             if ( history.pushState ) {
@@ -122,6 +124,7 @@
 			collapsible: true,
 			heightStyle: "content",
 			icons: false,
+			active: false,
             create: function( event, ui ) {
             if ( 2 === accordion_id.length ) {
                 var temp_id = accordion_id[1].split('-');
@@ -135,14 +138,14 @@
                 } else {
                     switch( accordion_id[1] ) {
                         case 'expand':
-                            $('.form-table .actions a.expand').hide();
-                            $('.form-table .ui-accordion-content, .form-table .actions a.collapse').show();
+                            $('.form-table .is-actions a.expand').hide();
+                            $('.form-table .ui-accordion-content, .form-table .is-actions a.collapse').show();
                             $('.form-table .ui-accordion-content').addClass('ui-accordion-content-active');
-                            $('.form-table h3').addClass('ui-state-active');
+                            $('.form-table h3').addClass('ui-state-active').removeClass('ui-accordion-header-active');
                         break;
                         case 'collapse':
-                            $('.form-table .actions a.expand').show();
-                            $('.form-table .ui-accordion-content, .form-table .actions a.collapse').hide();
+                            $('.form-table .is-actions a.expand').show();
+                            $('.form-table .ui-accordion-content, .form-table .is-actions a.collapse').hide();
                             $('.form-table .ui-accordion-content').removeClass('ui-accordion-content-active');
                             $('.form-table h3').removeClass('ui-state-active');
                         break;
@@ -170,6 +173,8 @@
                 }
             }
         } );
+
+		}
 
 		$('.is-colorpicker').wpColorPicker();
 
@@ -477,7 +482,7 @@
                 if ( $( this ).is(':checked') ) {
                     return;
                 } else {
-                    alert('You can configure it to exclude from search in the search form Excludes section');
+                    alert('You can configure it to exclude from search in the search form Exclude section');
                     return false;
                 }
                 }
@@ -526,6 +531,14 @@
                 if ( ! $(this).hasClass('exclude') && 0 === $('.is-mime select option:selected').length ) {
                     $('.search-attachments').prop( "checked", true );
                 }
+        } );
+
+        $( '#search-form-editor .post-type-attachment .is-posts option' ).on( 'click', function() {
+            if ( 0 === $('#search-form-editor .post-type-attachment .is-posts option:selected').length ) {
+				$( '.is-mime-radio, .search-attachments-wrapper' ).show();            	
+            } else {
+            	$( '.is-mime-radio, .is-mime, .search-attachments-wrapper' ).hide();
+            }
         } );
 
         $('#search-form-editor .not_load_files').each(function() {

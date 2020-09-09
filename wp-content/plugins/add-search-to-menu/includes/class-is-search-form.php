@@ -405,7 +405,7 @@ class IS_Search_Form {
                 $result = '';
                 $search_form = false;
                 $enabled_customization = false;
-                $is = Ivory_Search::getInstance();
+                $is_opt = Ivory_Search::load_options();
                 $min = ( defined( 'IS_DEBUG' ) && IS_DEBUG ) ? '' : '.min';
 
 				if ( $args['id'] ) {
@@ -421,7 +421,7 @@ class IS_Search_Form {
 	                $_settings = $this->prop('_is_settings');
 	                $enabled_customization = ( isset( $_customize['enable_customize'] ) || 'default-search-form' != $search_form->name() || isset( $_ajax['enable_ajax'] ) ) ? true : false;
 
-	                if ( ! isset( $is->opt['not_load_files']['css'] ) && isset( $_ajax['enable_ajax'] ) ) {
+	                if ( ! isset( $is_opt['not_load_files']['css'] ) && isset( $_ajax['enable_ajax'] ) ) {
 	                        wp_enqueue_style( 'ivory-ajax-search-styles', plugins_url( '/public/css/ivory-ajax-search'.$min.'.css', IS_PLUGIN_FILE ), array(), IS_VERSION );
 	                }
 
@@ -555,7 +555,7 @@ class IS_Search_Form {
                 $result = apply_filters( 'is_custom_search_form', $result );
 		}
 
-                if ( isset( $is->opt['easy_edit'] ) && is_user_logged_in() && current_user_can( 'administrator' ) ) {
+                if ( isset( $is_opt['easy_edit'] ) && is_user_logged_in() && current_user_can( 'administrator' ) ) {
                     $result .= '<div class="is-link-container"><div><a class="is-edit-link" target="_blank" href="'.admin_url( 'admin.php?page=ivory-search&post='.$args['id'].'&action=edit' ) . '">'.__( "Edit", "ivory-search") .'</a>';
 
                     if ( ! is_customize_preview() ) {

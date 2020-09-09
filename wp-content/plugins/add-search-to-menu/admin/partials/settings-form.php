@@ -51,18 +51,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 						),
 				);
 
-				echo '<ul id="search-form-editor-tabs">';
-
 				$tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'settings';
 				$url = esc_url( menu_page_url( 'ivory-search-settings', false ) );
-
+				?>
+					<ul id="search-form-editor-tabs">				
+				<?php
 				foreach ( $panels as $id => $panel ) {
 					$class = ( $tab == $id ) ? 'active' : '';
 					echo sprintf( '<li id="%1$s-tab" class="%2$s"><a href="%3$s" title="%4$s">%5$s</a></li>',
 						esc_attr( $panel[0] ), esc_attr( $class ), $url . '&tab=' . $panel[0], esc_attr( $panel[2] ), esc_html( $panel[1] ) );
 				}
-
-				echo '</ul>';
+				?>
+					</ul>
+				<?php
 
 				$settings_fields = IS_Settings_Fields::getInstance();
 

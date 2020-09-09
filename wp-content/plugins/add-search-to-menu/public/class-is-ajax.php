@@ -109,7 +109,7 @@ class IS_Ajax {
 	 * @param  string $search_term  Search Term.
 	 * @return array
 	 */
-        function get_taxonomies( $taxonomy, $search_term ) {
+        function get_taxonomies( $taxonomy, $search_term, $strict = false ) {
 
             $result = array();
 
@@ -121,8 +121,7 @@ class IS_Ajax {
 
                     // Used strtolower() because, If search term is 'product' and actual taxonomy title is 'Product',
                     // Then, it does not match due to its case sensitive test.
-                    // See https://i.imgur.com/F8ag5cB.png
-                if ( strpos( strtolower($term->name), strtolower($search_term) ) !== false ) {
+                if ( ( $strict && strtolower($term->name) == strtolower($search_term)  ) || ( ! $strict && strpos( strtolower($term->name), strtolower($search_term) ) !== false ) ) {
                     $result[] = array(
                                             'term_id'  => $term->term_id,
                                             'name'     => $term->name,
@@ -151,7 +150,7 @@ class IS_Ajax {
 		$term_title    = $args['title'];
 		$wrapper_class = $args['wrapper_class'];
 
-		$tags = $this->get_taxonomies( $taxonomy, $search_term );
+		$tags = $this->get_taxonomies( $taxonomy, $search_term, $args['strict'] );
 		$is_markup = apply_filters( 'is_customize_term_title_markup', false );
 		if ( $is_markup ) {
 			do_action( 'is_term_title_markup', $taxonomy, $search_term, $term_title, $wrapper_class, $tags );

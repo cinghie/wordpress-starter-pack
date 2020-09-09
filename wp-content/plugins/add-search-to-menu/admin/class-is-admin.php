@@ -106,7 +106,7 @@ class IS_Admin
 	     <script type="text/javascript">
 	     /* <![CDATA[ */
 	     ( function($) {
-                 $( window ).load( function() {
+                $( window ).on( 'load', function() {
 		<?php 
         foreach ( $admin_pointers as $pointer => $array ) {
             
@@ -155,11 +155,10 @@ class IS_Admin
         $prefix = 'is_admin_pointers_' . $version . '_';
         $new_pointer_content = '<h3>' . __( 'Edit Search Form', 'add-search-to-menu' ) . '</h3>';
         $new_pointer_content .= '<p>' . __( 'Click on the search form title to edit it.', 'add-search-to-menu' ) . '</p>';
-        $new_pointer_content .= '<p>' . __( 'Edit the Default Search Form to manage the default WordPress search.', 'add-search-to-menu' ) . '</p>';
         return array(
             $prefix . 'is_pointers' => array(
             'content'   => $new_pointer_content,
-            'anchor_id' => '#the-list tr:last-child a.row-title',
+            'anchor_id' => '#the-list tr:first-child a.row-title',
             'edge'      => 'left',
             'align'     => 'left',
             'active'    => !in_array( $prefix . 'is_pointers', $dismissed ),
@@ -885,7 +884,7 @@ class IS_Admin
                     'public'              => true,
                     'exclude_from_search' => false,
                 ) );
-                if ( is_array( $post_types ) && in_array( 'attachment', $post_types ) ) {
+                if ( 'Default Search Form' === $args['title'] && is_array( $post_types ) && in_array( 'attachment', $post_types ) ) {
                     unset( $post_types['attachment'] );
                 }
                 $args['_is_includes'] = array(
