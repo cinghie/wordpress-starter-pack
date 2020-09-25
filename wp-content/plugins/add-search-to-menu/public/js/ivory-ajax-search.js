@@ -44,7 +44,7 @@
 
             $('.is-ajax-search .is-search-input').on('focusin, click', function(event) {
                 focused = $( this ).closest('form');
-                if ( 0 === $(event.target).closest('form.processing').length ) {
+                if ( '' !== $( this ).val() && 0 === $(event.target).closest('form.processing').length ) {
                     var form_id = $( event.target ).closest('.is-ajax-search').attr('data-form-id');
                     var width = $( event.target ).closest('.is-ajax-search').outerWidth();
                     width = ( width < 500 ) ? 500 : width;
@@ -131,7 +131,7 @@
 	    });
             
             $(window).on('resize scroll', function(){
-                if ( $( focused ).hasClass( 'is-ajax-search' ) ) {
+                if ( $( focused ).hasClass( 'is-ajax-search' ) && '' !== $( focused ).val() ) {
 
                     var form_id = $( focused ).attr( 'data-form-id' );
 
@@ -332,6 +332,9 @@
                                                 $( '#is-ajax-search-result-'+form_id+' .is-ajax-search-items, #is-ajax-search-details-'+form_id+' .is-ajax-search-items' ).mCustomScrollbar({
                                                     theme: 'dark-thick'
                                                 });
+                        $( '.is-ajax-search-result .is-ajax-search-post a' ).on( 'click', function( e ) {
+                            $( '#is-popup-wrapper, .is-ajax-search-result, .is-ajax-search-details' ).fadeOut('slow');
+                        });
 					},
                                         error: function( XMLHttpRequest, textStatus, errorThrown ) {
                                             console.log(XMLHttpRequest.statusText);

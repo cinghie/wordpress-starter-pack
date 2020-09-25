@@ -370,11 +370,18 @@ class IS_Ajax {
 	 */
 	function image_markup( $field, $post ) {
 		$image = '';
-                $image_size = apply_filters( 'is_ajax_image_size', 'thumbnail' );
+        $image_size = apply_filters( 'is_ajax_image_size', 'thumbnail' );
+		$temp_id = 0;
+		if ( 'product' === $post->post_type ) {
+			$_product = wc_get_product( $post );
+			$temp_id = $_product->get_id();	
+		} else {
+			$temp_id = $post->ID;	
+		} 
 		if( 'attachment' === $post->post_type ) {
-			$image = wp_get_attachment_image( $post->ID, $image_size );
-		} else if( has_post_thumbnail( $post->ID ) ) {
-			$image = get_the_post_thumbnail( $post->ID, $image_size );
+			$image = wp_get_attachment_image( $temp_id, $image_size );
+		} else if( has_post_thumbnail( $temp_id) ) {
+			$image = get_the_post_thumbnail( $temp_id, $image_size );
 		}
 		$is_markup = apply_filters( 'is_customize_image_markup', false );
 		if ( $is_markup ) {
@@ -382,7 +389,7 @@ class IS_Ajax {
 		} else if ( isset( $field['show_image'] ) && $field['show_image'] ) { ?>
                     <div class="left-section">
                         <div class="thumbnail">
-                            <a href="<?php echo get_the_permalink( $post->ID ); ?>"><?php echo $image; ?></a>
+                            <a href="<?php echo get_the_permalink( $temp_id ); ?>"><?php echo $image; ?></a>
                         </div>
                     </div>
 		<?php }

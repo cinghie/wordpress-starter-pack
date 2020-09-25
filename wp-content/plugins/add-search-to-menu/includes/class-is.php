@@ -152,12 +152,15 @@ class IS_Loader {
 			add_filter( 'wp_nav_menu_items', array( $public, 'wp_nav_menu_items' ), 9999999, 2 );
 		}
 
-		add_filter( 'posts_distinct_request', array( $public, 'posts_distinct_request' ), 9999999, 2 );
-		add_filter( 'posts_join' , array( $public, 'posts_join' ), 9999999, 2 );
-		add_filter( 'posts_search', array( $public, 'posts_search' ), 9999999, 2 );
-		add_action( 'pre_get_posts', array( $public, 'pre_get_posts' ), 9999999 );
-		add_action( 'wp_footer', array( $public, 'wp_footer' ) );
-		add_action( 'wp_head', array( $public, 'wp_head' ), 9999999 );
+		add_action( 'init', function () {
+			$public = IS_Public::getInstance();
+			add_filter( 'posts_distinct_request', array( $public, 'posts_distinct_request' ), 9999999, 2 );
+			add_filter( 'posts_join' , array( $public, 'posts_join' ), 9999999, 2 );
+			add_filter( 'posts_search', array( $public, 'posts_search' ), 9999999, 2 );
+			add_action( 'pre_get_posts', array( $public, 'pre_get_posts' ), 9999999 );
+			add_action( 'wp_footer', array( $public, 'wp_footer' ) );
+			add_action( 'wp_head', array( $public, 'wp_head' ), 9999999 );
+		}, 9999999 );
 
                 $ajax = IS_Ajax::getInstance();
 		add_action( 'wp_ajax_is_ajax_load_posts', array( $ajax, 'ajax_load_posts' ) );

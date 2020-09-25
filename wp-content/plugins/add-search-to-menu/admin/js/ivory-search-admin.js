@@ -46,7 +46,7 @@
 						var args = url.split('=').pop();
 						if ( 'menu-search' === args ) {
 							$('#toplevel_page_ivory-search .wp-submenu-wrap li, #toplevel_page_ivory-search .wp-submenu-wrap li a').removeClass('current');
-							$('#toplevel_page_ivory-search .wp-submenu-wrap li:nth-child(4), #toplevel_page_ivory-search .wp-submenu-wrap li:nth-child(4) a').addClass('current');
+							$('#toplevel_page_ivory-search .wp-submenu-wrap li:nth-child(3), #toplevel_page_ivory-search .wp-submenu-wrap li:nth-child(3) a').addClass('current');
 						}
 			} );
 
@@ -358,7 +358,8 @@
             $( '.form-table h3.post-type-'+title ).show();
             $( '.form-table .post-type-'+title ).show().removeClass('is-ptype-hidden');
           } else {
-              $( '.form-table .post-type-'+title ).hide().addClass('is-ptype-hidden');
+            $( '.form-table .post-type-'+title ).hide().addClass('is-ptype-hidden');
+			$( '.form-table .post-type-'+title+' #'+title+'-post-search_all' ).trigger( 'click' );
             $( this ).parents(".is-cb-dropdown").find('.is-cb-titles span[title="' + title + '"]').remove();
             if ( 0 === $( this ).parents(".is-cb-dropdown").find( '.is-cb-titles span' ).length ) {
                 $( this ).parents(".is-cb-dropdown").find(".is-cb-select").show();
@@ -387,7 +388,9 @@
             }
         } );
 
-        $( '#search-form-editor .is-post-select, #search-form-editor .is-tax-select, #search-form-editor .is-meta-select, #search-form-editor .is-mime-select' ).on( 'click', function() {
+        $( '#search-form-editor .is-post-select, #search-form-editor .is-tax-select, #search-form-editor .is-meta-select, #search-form-editor .is-mime-select' ).on( 'click', function(e) {
+			// Cancels the default actions.
+			e.stopPropagation();  
             if ( $( this ).hasClass( 'is-meta-select' ) ) {
                 if ( $( this ).is( ':checked' ) ) {
                     $( this ).closest( 'div' ).find( '.is-metas' ).show();

@@ -132,15 +132,15 @@ class IS_Settings_Fields
         if ( !empty($GLOBALS['pagenow']) && 'options.php' === $GLOBALS['pagenow'] ) {
             
             if ( isset( $_POST['is_menu_search'] ) ) {
-                add_filter( 'whitelist_options', function ( $whitelist_options ) {
-                    $whitelist_options['ivory_search'][0] = 'is_menu_search';
-                    return $whitelist_options;
+                add_filter( 'allowed_options', function ( $allowed_options ) {
+                    $allowed_options['ivory_search'][0] = 'is_menu_search';
+                    return $allowed_options;
                 } );
             } else {
                 if ( isset( $_POST['is_analytics'] ) ) {
-                    add_filter( 'whitelist_options', function ( $whitelist_options ) {
-                        $whitelist_options['ivory_search'][0] = 'is_analytics';
-                        return $whitelist_options;
+                    add_filter( 'allowed_options', function ( $allowed_options ) {
+                        $allowed_options['ivory_search'][0] = 'is_analytics';
+                        return $allowed_options;
                     } );
                 }
             }

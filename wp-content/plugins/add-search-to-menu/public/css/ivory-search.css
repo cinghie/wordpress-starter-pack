@@ -1,3 +1,18 @@
+.is-screen-reader-text {
+	border: 0;
+	clip: rect(1px, 1px, 1px, 1px);
+	-webkit-clip-path: inset(50%);
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute !important;
+	width: 1px;
+	word-wrap: normal !important;
+	word-break: normal;
+}
+
 .is-menu {
 	position: relative;
 }
@@ -323,7 +338,7 @@ form:hover + .is-link-container {
     border: 0;
     box-shadow: none !important;
     opacity: 1;
-    padding: 0;
+    padding: 0 !important;;
     margin: 0;
     line-height: 0;
     outline: 0;

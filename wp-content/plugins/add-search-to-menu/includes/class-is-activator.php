@@ -32,11 +32,9 @@ class IS_Activator {
 			$args['_is_includes'] = '';
 			$args['_is_excludes'] = '';
 			$args['_is_settings'] = '';
-
 			$admin->save_form( $args );
 
 			$args['title'] = 'Default Search Form';
-
 			$admin->save_form( $args );
 
 			$args['title'] = 'AJAX Search Form';
@@ -59,7 +57,16 @@ class IS_Activator {
 			    'order_by' => 'date',
 			    'order' => 'desc',
 			);
+			$admin->save_form( $args );
 
+			$args['title'] = 'AJAX Search Form for WooCommerce';
+			$args['_is_includes'] = array(
+                'post_type' => array( 'product' => 'product' ),
+                'search_title'   => 1,
+                'search_content' => 1,
+                'search_excerpt' => 1,
+                'post_status' => array( 'publish' => 'publish', 'inherit' => 'inherit' ),
+            );
 			$admin->save_form( $args );
 		}
 	}

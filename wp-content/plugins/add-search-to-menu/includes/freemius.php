@@ -44,5 +44,8 @@ function is_fs()
 is_fs();
 // Signal that SDK was initiated.
 do_action( 'is_fs_loaded' );
+is_fs()->add_filter( 'plugin_icon', function () {
+    return IS_PLUGIN_DIR . '/admin/assets/logo.png';
+} );
 // Disable affiliate notice
 is_fs()->add_filter( 'show_affiliate_program_notice', '__return_false' );
