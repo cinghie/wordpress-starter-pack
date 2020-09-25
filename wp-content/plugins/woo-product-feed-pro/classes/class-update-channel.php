@@ -38,7 +38,8 @@ class WooSEA_Update_Project {
 			$project_config = array();		
 	
 			foreach ($cron_projects as $key=>$val){		
-				if(!empty($val)){
+				//if(!empty($val)){
+				if(!empty($val['project_hash'])){
 					if($val['project_hash'] === $project_hash){
 						$project_config = $val;
 					}	
@@ -151,6 +152,7 @@ class WooSEA_Update_Project {
 		/**
 		 * Update project hash with new values
 		 */
+
 		foreach ($project_data as $key=>$val){
 			$project_config[$key] = $val;
 		}

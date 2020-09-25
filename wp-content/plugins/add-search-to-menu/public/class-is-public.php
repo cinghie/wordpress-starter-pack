@@ -231,8 +231,14 @@ class IS_Public
                 $temp .= '<li class="' . esc_attr( $search_class ) . ' menu-item">';
                 
                 if ( !isset( $this->opt['menu_style'] ) || $this->opt['menu_style'] != 'default' ) {
-                    $link_title = ( apply_filters( 'is_show_menu_link_title', true ) ? 'title="' . esc_attr( $title ) . '"' : '' );
-                    $temp .= '<a ' . $link_title . ' href="#">';
+                    
+                    if ( '' !== $title ) {
+                        $link_title = ( apply_filters( 'is_show_menu_link_title', true ) ? 'title="' . esc_attr( $title ) . '"' : '' );
+                        $temp .= '<a ' . $link_title . ' href="#">';
+                    } else {
+                        $temp .= '<a href="#">';
+                    }
+                    
                     
                     if ( '' == $title ) {
                         $temp .= '<svg width="20" height="20" class="search-icon" role="img" viewBox="2 9 20 5" focusable="false" aria-label="' . __( "Search", "ivory-search" ) . '">
@@ -337,6 +343,13 @@ class IS_Public
                 return;
             }
             $is_id = get_query_var( 'id' );
+        }
+        
+        
+        if ( !isset( $query->query_vars['s'] ) || empty($query->query_vars['s']) ) {
+            $query->set( 's', $query->query['s'] );
+            $query->set( 'post__in', false );
+            $query->set( 'orderby', 'date' );
         }
         
         $q = $query->query_vars;
@@ -461,6 +474,10 @@ class IS_Public
                                                     }
                                                     break;
                                                 case 'post_status':
+                                                    $query->set( $inc_key, array(
+                                                        'publish' => 'publish',
+                                                        'inherit' => 'inherit',
+                                                    ) );
                                                     break;
                                                 case 'comment_count':
                                                     break;
@@ -659,8 +676,8 @@ class IS_Public
         
         if ( isset( $q['_is_settings']['fuzzy_match'] ) && '2' !== $q['_is_settings']['fuzzy_match'] ) {
             $like = 'REGEXP';
-            $f = "(^|[[\\s|.|~||!|@|#|\$|%|^|&|*|(|)|'|\"|+|=|{|}|[|]|\\||:|;|<|>|\\?|\\/|\\|]])";
-            $l = "([[\\s|.|~||!|@|#|\$|%|^|&|*|(|)|'|\"|+|=|{|}|[|]|\\||:|;|<|>|\\?|\\/|\\|]]|\$)";
+            $f = '([[:blank:][:punct:]]|^)';
+            $l = '([[:blank:][:punct:]]|$)';
         }
         
         $searchand = '';
@@ -906,7 +923,9 @@ class IS_Public
                 echo  '<div class="popup-search-close"></div>' ;
             }
             echo  '<div class="is-popup-search-form">' ;
+            do_action( 'is_before_popup_search_form' );
             $this->get_menu_search_form();
+            do_action( 'is_after_popup_search_form' );
             echo  '</div></div>' ;
         }
     

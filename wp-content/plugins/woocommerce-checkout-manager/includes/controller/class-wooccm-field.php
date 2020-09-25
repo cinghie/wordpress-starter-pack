@@ -156,6 +156,10 @@ class WOOCCM_Field_Controller extends WOOCCM_Controller
       $field_data = json_decode(stripslashes($_REQUEST['field_data']), true);
       if (is_array($field_data)) {
         if (isset($field_data['id'])) {
+
+          unset($field_data['show_product_selected']);
+          unset($field_data['hide_product_selected']);
+
           return parent::success_ajax($this->save_modal_field($field_data));
         } else {
           return parent::success_ajax($this->add_modal_field($field_data));

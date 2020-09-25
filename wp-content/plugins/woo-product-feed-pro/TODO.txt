@@ -5,8 +5,10 @@ Tutorial / Blog posts:
 - Explain all the different fields/attributes that can be selected from the drop-downs
 
 Priority issues:
-- Add support for Polylang
-- Filters or rules that have slashes in them (on links) do no work - make this work!
+- Facebook pixel: add other attributes to the tracking apart from the curreny product ID (such as the SKU);
+- Own hosted plugin updating: https://rudrastyh.com/wordpress/self-hosted-plugin-update.html
+- My adtribes environment with download link in it
+- Add feature to only add cheapest variant to the feed
 - Add possibility to copy feed configuration from one WooCommerce instance to the other instance
 - Add support for Multisites
 - Add a filter on review score (and amount of reviews)

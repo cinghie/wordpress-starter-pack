@@ -4,7 +4,7 @@ Tags: Facebook Pixel, New Facebook Pixel, Facebook Conversion Pixel, Facebook Pi
 Requires at least: 3.0.1
 Requires PHP: 5.4
 Tested up to: 5.5
-Stable tag: 7.1.12
+Stable tag: 7.1.14
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -23,7 +23,7 @@ Take a look at this video to see the plugin in action:
 
 [youtube https://www.youtube.com/watch?v=OUHU9lZ2lwQ]
 
-NEW: Facebook Pixel server-side events for WooCommerce (Purchase and CompleteRegistration): [Learn how to configure server-side events](https://www.pixelyoursite.com/documentation/configure-server-side-events)
+NEW: Facebook Pixel Conversion API: [Learn how to configure Conversion API events](https://www.pixelyoursite.com/documentation/configure-server-side-events)
 
 TRACK EVERYTHING WITH A SINGLE PLUGIN:
 
@@ -389,6 +389,20 @@ NO, absolutely not! We don't track any type of data about your website. We simpl
 
 
 == Changelog ==
+
+
+= PixelYourSite 7.1.14 =
+
+* We removed the EventID parameter when Facebook Conversion API is not configured.
+
+* If you have Conversion API configured, we recommend to check if your cache plugin stores the EventID. [Watch this video to learn more](https://www.youtube.com/watch?v=YH6ve7qj1hw&)
+
+= PixelYourSite 7.1.13 =
+
+* NEW: Facebook Conversion API (former server-side events) works for all standard events automatically fired by the plugin. We will expand this feature to all events soon.
+
+* Facebook Conversion API update.
+
 
 = PixelYourSite 7.1.12 =
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     8.7.1
+ * Version:     8.7.7
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '8.7.1' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '8.7.7' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -82,6 +82,13 @@ function woosea_styles() {
         wp_enqueue_style( 'woosea_jquery_typeahead-css' );
 }
 add_action( 'admin_enqueue_scripts' , 'woosea_styles' );
+
+/**
+ * Strip slashes from POST requests
+ */
+function stripslashes_recursive($object) {
+    return is_array($object) ? array_map('stripslashes_recursive', $object) : stripslashes($object);
+}
 
 /**
  * Enqueue js assets admin pages
@@ -467,9 +474,9 @@ function woosea_add_facebook_pixel( $product = null ){
 
 								$prod_quantity = $order_item->get_quantity();
 								$order_total = $order_item->get_total();
-								$order_subtotal = $order_item->get_subtotal();
-								$order_subtotal_tax= $order_item->get_subtotal_tax();
-								$order_real = number_format(($order_subtotal+$order_subtotal_tax),2)+$order_real;
+								$order_subtotal = number_format(($order_item->get_subtotal()),2, '.', '');
+								$order_subtotal_tax= number_format(($order_item->get_subtotal_tax()),2, '.', '');
+								$order_real = number_format(($order_subtotal+$order_subtotal_tax+$order_real),2,',','');
 								$contents .= "{'id': '$prod_id', 'quantity': $prod_quantity},";												
 							}
 						}
@@ -495,9 +502,10 @@ function woosea_add_facebook_pixel( $product = null ){
 								}
 								$contents .= '\''.$prod_id.'\',';
 								//$contents .= "$prod_id,";												
-								$line_total = $cart_item['line_total'];
-								$line_tax = $cart_item['line_tax'];
-								$cart_real = number_format(($line_total+$line_tax),2)+$cart_real;
+								$line_total = number_format(($cart_item['line_total']),2, '.','');
+								$line_tax = number_format(($cart_item['line_tax']),2, '.','');
+								$cart_real = number_format($cart_real,2, '.','');
+								$cart_real = number_format(($line_total+$line_tax+$cart_real),2,',','');
 						
 							}
 							$contents = rtrim($contents, ",");
@@ -1918,7 +1926,7 @@ function woosea_project_delete(){
 	$found = false;
 
         foreach ( $feed_config as $key => $val ) {
-                if ($val['project_hash'] == $project_hash){
+                if (isset($val['project_hash']) AND ($val['project_hash'] == $project_hash)){
 			$found = true;
 			$found_key = $key;
 
@@ -1979,7 +1987,7 @@ function woosea_project_processing_status(){
 	$proc_perc = 0;
 
         foreach ( $feed_config as $key => $val ) {
-		if ($val['project_hash'] === $project_hash){
+		if (isset($val['project_hash']) AND ($val['project_hash'] === $project_hash)){
 			$this_feed = $val;
 		}
 	}	
@@ -2080,7 +2088,7 @@ function woosea_project_refresh(){
         $feed_config = get_option( 'cron_projects' );
 
         foreach ( $feed_config as $key => $val ) {
-                if ($val['project_hash'] == $project_hash){
+                if (isset($val['project_hash']) AND ($val['project_hash'] == $project_hash)){
         		$batch_project = "batch_project_".$project_hash;
 			if (!get_option( $batch_project )){
         			update_option( $batch_project, $val);
@@ -4103,6 +4111,8 @@ function woosea_generate_pages(){
 		$generate_step = 0;
 	} else {
 		$from_post = $_POST;
+  		$from_post = stripslashes_recursive($from_post);
+
 		$channel_hash = sanitize_text_field($_POST['channel_hash']);
 		$step = sanitize_text_field($_POST['step']);	
 		$generate_step = $step;
@@ -4216,6 +4226,7 @@ function woosea_generate_pages(){
 			break;
 	}
 }
+
 
 /**
  * This function copies feed configurations from another domain
@@ -4342,11 +4353,11 @@ function woosea_nr_products($project_hash, $nr_products){
  */
 function woosea_last_updated($project_hash){
 	$feed_config = get_option( 'cron_projects' );
-
 	$last_updated = date("d M Y H:i");
 
 	foreach ( $feed_config as $key => $val ) {
-		if ($val['project_hash'] == $project_hash){
+
+		if (isset($val['project_hash']) AND ($val['project_hash'] == $project_hash)){
         		$upload_dir = wp_upload_dir();
         		$base = $upload_dir['basedir'];
         		$path = $base . "/woo-product-feed-pro/" . $val['fileformat'];

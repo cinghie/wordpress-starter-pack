@@ -74,7 +74,9 @@ class ServerEventHelper {
         $request_uri = null;
 
         if (!empty($_SERVER['REQUEST_URI'])) {
-            $request_uri = $_SERVER['REQUEST_URI'];
+            $start = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http")."://";
+            $request_uri = $start.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+
         }
 
         return $request_uri;

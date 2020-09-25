@@ -5,14 +5,14 @@ msgstr ""
 "Project-Id-Version: YITH Plugin Starter 1.0.0 Plugin FW\n"
 "Report-Msgid-Bugs-To: YITH <plugins@yithemes.com>\n"
 "POT-Creation-Date: 2020-08-07 14:15:08+00:00\n"
-"PO-Revision-Date: 2020-06-23 23:17+0200\n"
+"PO-Revision-Date: 2020-08-10 19:15+0200\n"
 "Last-Translator: \n"
 "Language-Team: YIThemes <plugins@yithemes.com>\n"
 "Language: it_IT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.3\n"
+"X-Generator: Poedit 2.3.1\n"
 "X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
 "_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
 "esc_html_x:1,2c\n"
@@ -24,30 +24,27 @@ msgstr ""
 
 #: lib/yit-assets.php:102
 msgid "Clear"
-msgstr ""
+msgstr "Cancella"
 
 #: lib/yit-assets.php:103
 msgid "Clear color"
-msgstr ""
+msgstr "Cancella colore"
 
 #: lib/yit-assets.php:104
-#, fuzzy
 msgid "Default"
-msgstr "Ripristina impostazioni iniziali"
+msgstr "Predefinito"
 
 #: lib/yit-assets.php:105
-#, fuzzy
 msgid "Select default color"
-msgstr "Ripristina impostazioni iniziali"
+msgstr "Imposta colore predefinito"
 
 #: lib/yit-assets.php:106
-#, fuzzy
 msgid "Select Color"
-msgstr "Seleziona tutto"
+msgstr "Seleziona colore"
 
 #: lib/yit-assets.php:107
 msgid "Color value"
-msgstr ""
+msgstr "Colore"
 
 #: lib/yit-cpt-unlimited.php:462 lib/yit-cpt-unlimited.php:576
 #: lib/yit-cpt-unlimited.php:721 lib/yit-cpt-unlimited.php:1636
@@ -314,7 +311,7 @@ msgstr "per poter continuare ad aggiornare e migliorare il plugin."
 
 #: lib/yit-plugin-panel.php:1284
 msgid "help us by leaving a five-star rating"
-msgstr "Puoi darci una mano lasciando una recensione a 5 stelle"
+msgstr "puoi darci una mano lasciando una recensione a 5 stelle"
 
 #: lib/yit-plugin-panel.php:1285
 msgid ":) Thanks!"
@@ -474,7 +471,7 @@ msgstr "Disabilitato"
 
 #: lib/yith-system-status.php:478
 msgid "N/A"
-msgstr "N.D."
+msgstr "n.a."
 
 #. translators: %1$s plugin name, %2$s requirement name
 #: lib/yith-system-status.php:506

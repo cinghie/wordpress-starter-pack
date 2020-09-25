@@ -524,7 +524,7 @@ class IS_Search_Form {
 
                 $result = '<form '.$data_attrs.' class="is-search-form '. $classes .'" action="' . $search_url . '" method="get" role="search" >';
                 $autocomplete = apply_filters( 'is_search_form_autocomplete', 'autocomplete="off"' );
-                $result .= '<label><input  type="search" name="s" value="' . get_search_query() . '" class="is-search-input" placeholder="' . esc_attr( $placeholder_text ) . '" '.$autocomplete.' />';
+                $result .= '<label for="is-search-input-' . $args['id'] . '"><span class="is-screen-reader-text">'.__( 'Search for:', 'add-search-to-menu').'</span><input  type="search" id="is-search-input-' . $args['id'] . '" name="s" value="' . get_search_query() . '" class="is-search-input" placeholder="' . esc_attr( $placeholder_text ) . '" '.$autocomplete.' />';
                 // AJAX Loader.
                 if ( isset( $_ajax['enable_ajax'] ) ) {
                     $loader_image = isset( $settings['loader-image'] ) ? $settings['loader-image'] : IS_PLUGIN_URI . 'public/images/spinner.gif';

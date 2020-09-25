@@ -3,16 +3,16 @@ Contributors: quadlayers
 Donate link: https://quadlayers.com/
 Tags: woocommerce, woocommerce checkout, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
 Requires at least: 3.4
-Tested up to: 5.5.0
-Stable tag: 5.2.7
+Tested up to: 5.5.1
+Stable tag: 5.2.9
 WC requires at least: 3.1.0
-WC tested up to: 4.4.1
+WC tested up to: 4.5.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 WooCommerce Checkout manager is the most advanced way to customize checkout, manage checkout editor.
 
-== Presentation==
+== Presentation ==
 
 [Premium](https://quadlayers.com/portfolio/woocommerce-checkout-manager/) | [Demo](https://quadlayers.com/woocommerce-checkout-manager/checkout/?add-to-cart=32) | [Documentation](https://quadlayers.com/documentation/woocommerce-checkout-manager/) | [Community](https://www.facebook.com/groups/quadlayers/)
 
@@ -106,6 +106,13 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 10. Handle uploaded files in order admin dashboard.
 
 == Changelog ==
+
+= 5.2.9 = 
+* Fix: woocommerce required shipping fields
+
+= 5.2.8 = 
+* Fix: woocommerce date field
+* Fix: woocommerce filter by products field
 
 = 5.2.7 = 
 * Fix: conditional checkbox

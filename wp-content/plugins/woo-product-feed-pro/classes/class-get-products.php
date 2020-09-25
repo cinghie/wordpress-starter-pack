@@ -23,8 +23,7 @@ class WooSEA_Get_Products {
 	 * Function to add CDATA brackets to title, short_description and description attributes
 	 */
 	protected function woosea_append_cdata( $string ){
-		return $string;
-//		return "<![CDATA[ $string ]]>"; 
+		return "<![CDATA[ $string ]]>"; 
 	}
 
 	/**
@@ -1235,6 +1234,10 @@ class WooSEA_Get_Products {
 					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><SHOP></SHOP>');	
 					$xml->addAttribute('xmlns', 'http://www.heureka.cz/ns/offer/1.0');
 					$xml->asXML($file);
+				} elseif ($feed_config['name'] == "Heureka.sk") {
+					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><SHOP></SHOP>');	
+					$xml->addAttribute('xmlns', 'http://www.heureka.sk/ns/offer/1.0');
+					$xml->asXML($file);
 				} elseif ($feed_config['name'] == "Zap.co.il") {
 					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><STORE></STORE>');
 					$xml->addChild('datetime', date('Y-m-d H:i:s'));
@@ -1493,7 +1496,7 @@ class WooSEA_Get_Products {
 						if ((is_array ( $value )) and (!empty( $value ))) {
 							if ($feed_config['name'] == "Yandex") {
 								$product = $xml->shop->offers->addChild('offer');
-							} elseif ($feed_config['name'] == "Heureka.cz" || $feed_config['name'] == "Zbozi.cz" || $feed_config['name'] == "Glami.gr") {
+							} elseif ($feed_config['name'] == "Heureka.cz" || $feed_config['name'] == "Heureka.sk" || $feed_config['name'] == "Zbozi.cz" || $feed_config['name'] == "Glami.gr") {
 								$product = $xml->addChild('SHOPITEM');
 							} elseif ($feed_config['name'] == "Zap.co.il") {
 								$product = $xml->PRODUCTS->addChild('PRODUCT');
@@ -1626,8 +1629,10 @@ class WooSEA_Get_Products {
                                                                  		* Some Zbozi and Heureka attributes need some extra XML nodes
                                                                  		*/
 										$zbozi_nodes = "PARAM_";
-										
-                                                                		if((($feed_config['name'] == "Zbozi.cz") OR ($feed_config['name'] == "Glami.gr") OR ($feed_config['name'] == "Heureka.cz")) AND (preg_match("/$zbozi_nodes/i",$k))){
+									
+
+	
+                                                                		if((($feed_config['name'] == "Zbozi.cz") OR ($feed_config['name'] == "Glami.gr") OR ($feed_config['name'] == "Heureka.cz") OR ($feed_config['name'] == "Heureka.sk")) AND (preg_match("/$zbozi_nodes/i",$k))){
 											$pieces = explode ("_", $k);
 											$productp = $product->addChild('PARAM');
                                                                                 	$productp->addChild("PARAM_NAME", $pieces[1]);
@@ -2217,6 +2222,9 @@ class WooSEA_Get_Products {
 			// Raw descriptions, unfiltered
 			$product_data['raw_description'] = do_shortcode(wpautop($post->post_content));
 			$product_data['raw_short_description'] = do_shortcode(wpautop($post->post_excerpt));
+//			if ( $product_data['raw_description'] != strip_tags($product_data['raw_description']) ) {
+//				$product_data['raw_description'] = $this->woosea_append_cdata($product_data['raw_description']);
+//			}
 
 			$product_data['description'] = html_entity_decode((str_replace("\r", "", $post->post_content)), ENT_QUOTES | ENT_XML1, 'UTF-8');
 			$product_data['short_description'] = html_entity_decode((str_replace("\r", "", $post->post_excerpt)), ENT_QUOTES | ENT_XML1, 'UTF-8');
@@ -2240,8 +2248,8 @@ class WooSEA_Get_Products {
 			$product_data['short_description'] = trim($this->woosea_utf8_for_xml($product_data['short_description']));
 
 			// Truncate to maximum 5000 characters
-			$product_data['description'] = substr($product_data['description'], 0, 5000);
-			$product_data['short_description'] = substr($product_data['short_description'], 0, 5000);
+			$product_data['raw_description'] = substr($product_data['raw_description'], 0, 5000);
+			$product_data['raw_short_description'] = substr($product_data['raw_short_description'], 0, 5000);
 
 			/**
 		 	* Check of we need to add Google Analytics UTM parameters
@@ -2412,16 +2420,6 @@ class WooSEA_Get_Products {
 				$product_data['sale_price'] = "";
 			}
 
-			// Override price when bundled product
-			if(($product->get_type() == "bundle") OR ($product->get_type() == "composite")){
-				$meta = get_post_meta($product_data['id']);
-                        	$product_data['price'] = get_post_meta($product_data['id'], '_price', true);
-                        	$product_data['regular_price'] = get_post_meta($product_data['id'], '_regular_price', true);
-				if($product_data['price'] != $product_data['regular_price']){
-                        		$product_data['sale_price'] = get_post_meta($product_data['id'], '_price', true);
-				}	
-			}
-	
 			if(!empty($tax_rates)){	
 				foreach ($tax_rates as $tk => $tv){
 					if($tv['rate'] > 0){
@@ -2435,7 +2433,35 @@ class WooSEA_Get_Products {
 			}
 
 			$fullrate = 100+$tax_rates[1]['rate'];
-			
+	
+			// Override price when bundled product
+			if(($product->get_type() == "bundle") OR ($product->get_type() == "composite")){
+				$meta = get_post_meta($product_data['id']);
+				if($product->get_type() == "bundle"){
+                        		$product_data['price'] = round(get_post_meta($product_data['id'], '_price', true) * (100+$tax_rates[1]['rate'])/100,2);
+                        		$product_data['net_price'] = get_post_meta($product_data['id'], '_price', true);
+                 			$product_data['regular_price'] = round(get_post_meta($product_data['id'], '_regular_price', true) * (100+$tax_rates[1]['rate'])/100,2);
+                        		$product_data['net_regular_price'] = get_post_meta($product_data['id'], '_regular_price', true);
+					if($product_data['price'] != $product_data['regular_price']){
+                        			$product_data['sale_price'] = round(get_post_meta($product_data['id'], '_sale_price', true) * (100+$tax_rates[1]['rate'])/100,2);
+                        			$product_data['net_sale_price'] = get_post_meta($product_data['id'], '_sale_price', true);
+					}
+				} else {
+					// Composite product
+					if(!empty($product->get_composite_price())){
+                	    			$product_data['price'] = $product->get_composite_price_including_tax();
+                    				$product_data['price_forced'] = $product->get_composite_price_including_tax();
+						$product_data['regular_price'] = $product->get_composite_regular_price();
+						$product_data['regular_price_forced'] = $product->get_composite_regular_price_including_tax();
+                			
+						if($product_data['price'] != $product_data['regular_price']){
+                                			$product_data['sale_price'] = $product->get_composite_price();
+							$product_data['sale_price_forced'] = $product->get_composite_price_including_tax();
+                				}
+					}  
+				}
+			}
+	
 			// Determine the gross prices of products
 			if($product->get_price()){
 				$product_data['price_forced'] = round(wc_get_price_excluding_tax($product,array('price'=> $product->get_price())) * (100+$tax_rates[1]['rate'])/100,2);
@@ -2822,7 +2848,9 @@ class WooSEA_Get_Products {
                       	$add_mother_image = get_option ('add_mother_image');
                       	if(($add_mother_image == "yes") AND ($product_data['item_group_id'] > 0)){
 				$mother_image = wp_get_attachment_image_src( get_post_thumbnail_id( $product_data['item_group_id'] ), 'full' );
-				$product_data['image'] = $mother_image[0];
+				if(isset($mother_image[0])){
+					$product_data['image'] = $mother_image[0];
+				}
                        	}
 
                         // Get product reviews for Google Product Review Feeds
@@ -3148,9 +3176,9 @@ class WooSEA_Get_Products {
 			 * In order to prevent XML formatting errors in Google's Merchant center
 			 * we will add CDATA brackets to the title and description attributes
 			 */
-                        $product_data['title'] = $this->woosea_append_cdata ( $product_data['title'] );
-                        $product_data['description'] = $this->woosea_append_cdata ( $product_data['description'] );
-                        $product_data['short_description'] = $this->woosea_append_cdata ( $product_data['short_description'] );
+                        //$product_data['title'] = $this->woosea_append_cdata ( $product_data['title'] );
+                        //$product_data['description'] = $this->woosea_append_cdata ( $product_data['description'] );
+                        //$product_data['short_description'] = $this->woosea_append_cdata ( $product_data['short_description'] );
 
 			/**
 			 * Check if individual products need to be excluded
@@ -3703,7 +3731,7 @@ class WooSEA_Get_Products {
 				$published_products = $count_single->publish;
 			}
 
-			if ($val['project_hash'] == $project_hash){
+			if (isset($val['project_hash']) AND ($val['project_hash'] == $project_hash)){
 				$nrpr = $feed_config[$key]['nr_products_processed'];
 				$nr_prods_processed = $nrpr+$offset_step_size;
 

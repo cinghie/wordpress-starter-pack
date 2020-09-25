@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-08-31 21:52:06+0000\n"
+"PO-Revision-Date: 2020-09-24 17:37:14+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,9 +11,29 @@ msgstr ""
 "Language: it\n"
 "Project-Id-Version: Plugins - Gutenberg - Stable (latest release)\n"
 
+#: lib/patterns/text-three-columns-buttons.php:11
+msgid "Chapter Three"
+msgstr "Capitolo tre"
+
+#: lib/patterns/text-three-columns-buttons.php:11
+msgid "Chapter Two"
+msgstr "Capitolo due"
+
+#: lib/patterns/text-three-columns-buttons.php:11
+msgid "Chapter One"
+msgstr "Capitolo uno"
+
+#: lib/class-wp-rest-sidebars-controller.php:402
+msgid "Inactive widgets"
+msgstr "Widget non attivi"
+
 #: lib/patterns/large-header-button.php:10
 msgid "Read now"
 msgstr "Leggi ora"
+
+#: lib/class-wp-block-patterns-registry.php:46
+msgid "Block pattern title must be a string."
+msgstr "Il titolo del modello del blocco deve essere una stringa."
 
 #: lib/class-wp-rest-sidebars-controller.php:542
 msgid "Settings of the widget."
@@ -39,6 +59,18 @@ msgstr "Nome del widget."
 msgid "Type of widget for the object."
 msgstr "Tipo di widget per l'oggetto."
 
+#: lib/class-wp-rest-sidebars-controller.php:486
+msgid "Status of sidebar."
+msgstr "Stato della barra laterale."
+
+#: lib/class-wp-rest-sidebars-controller.php:479
+msgid "Description of sidebar."
+msgstr "Descrizione della barra laterale."
+
+#: lib/class-wp-rest-sidebars-controller.php:472
+msgid "Unique name identifying the sidebar."
+msgstr "Nome univoco che identifica la barra laterale."
+
 #: lib/class-wp-rest-sidebars-controller.php:465
 msgid "ID of sidebar."
 msgstr "ID della barra laterale."
@@ -51,17 +83,166 @@ msgstr "Blocco di Gutenberg."
 msgid "nothing yet"
 msgstr "ancora niente"
 
+#: lib/patterns/large-header-button.php:10
+msgid "Thou hast seen"
+msgstr "Hai visto"
+
+#: lib/patterns/text-two-columns.php:11
+msgid "Which treats of the character and pursuits of the famous gentleman Don Quixote of La Mancha"
+msgstr "Della condizione e delle operazioni del rinomato idalgo Don Chisciotte della Mancia"
+
 #: lib/patterns/two-buttons.php:10
 msgid "Download now"
 msgstr "Scarica ora"
+
+#: lib/patterns/large-header.php:10
+msgid "Don Quixote"
+msgstr "Don Chisciotte"
+
+#: lib/patterns/large-header.php:9
+msgid "Large header with a heading"
+msgstr "Header grande con una intestazione"
+
+#: lib/patterns/heading-paragraph.php:13
+msgctxt "Block pattern description"
+msgid "A heading preceded by a chapter number, and followed by a paragraph."
+msgstr "Una intestazione preceduta da un numero di capitolo e seguita da un paragrafo."
+
+#: lib/patterns/heading-paragraph.php:10
+msgid "Which treats of the first sally the ingenious Don Quixote made from home"
+msgstr "Dove tratta della prima fuga da casa dell'ingegnoso Don Chisciotte"
+
+#: lib/patterns/heading-paragraph.php:9
+msgid "Heading and paragraph"
+msgstr "Intestazione e paragrafo"
+
+#: lib/patterns/three-buttons.php:13
+msgctxt "Block pattern description"
+msgid "Three filled buttons with rounded corners, side by side."
+msgstr "Tre pulsanti pieni con bordi arrotondati e affiancati."
 
 #: lib/patterns/three-buttons.php:10 build/block-library/index.js:16
 msgid "Contact us"
 msgstr "Contattaci"
 
-#: lib/compat.php:476
+#: lib/patterns/two-buttons.php:10 lib/patterns/three-buttons.php:10
+msgid "About Cervantes"
+msgstr "Informazioni su Cervantes"
+
+#: lib/patterns/text-three-columns-buttons.php:13
+msgctxt "Block pattern description"
+msgid "Three small columns of text, each with an outlined button with rounded corners at the bottom."
+msgstr "Tre piccole colonne di testo, ognuna con un pulsante delineato con angoli arrotondati nella parte inferiore."
+
+#: lib/patterns/text-three-columns-buttons.php:11
+msgid "Which treats of the first sally the ingenious Don Quixote made from home."
+msgstr "Dove tratta della prima fuga da casa dell'ingegnoso Don Chisciotte."
+
+#: lib/patterns/text-three-columns-buttons.php:11
+msgid "Which treats of the character and pursuits of the famous Don Quixote of La Mancha."
+msgstr "Della condizione e delle operazioni del rinomato idalgo Don Chisciotte della Mancia."
+
+#: lib/patterns/quote.php:10
+msgid "— Don Quixote"
+msgstr "— Don Chisciotte"
+
+#: lib/patterns/quote.php:10
+msgid "Pencil drawing of Don Quixote"
+msgstr "Disegno a matita di Don Chisciotte"
+
+#: lib/patterns/text-two-columns-with-images.php:12
+msgctxt "Block pattern description"
+msgid "Two columns of text, each with an image on top."
+msgstr "Due colonne di testo, ognuna con una immagine in alto."
+
+#: lib/compat.php:507
+msgid "Reusable Block updated."
+msgstr "Blocco riutilizzabile aggiornato."
+
+#: lib/compat.php:506
+msgid "Reusable Block scheduled."
+msgstr "Blocco riutilizzabile programmato."
+
+#: lib/compat.php:505
+msgid "Reusable Block reverted to draft."
+msgstr "Blocco riutilizzabile convertito in bozza."
+
+#: lib/compat.php:504
+msgid "Reusable Block published privately."
+msgstr "Blocco riutilizzabile pubblicato in Privato."
+
+#: lib/compat.php:503
+msgid "Reusable Block published."
+msgstr "Blocco riutilizzabile pubblicato."
+
+#: lib/compat.php:502
+msgid "Reusable Blocks list"
+msgstr "Elenco dei blocchi riutilizzabili"
+
+#: lib/compat.php:501
+msgid "Reusable Blocks list navigation"
+msgstr "Navigazione nell'elenco dei blocchi riutilizzabili"
+
+#: lib/compat.php:500
+msgid "Filter reusable blocks list"
+msgstr "Filtra l'elenco dei blocchi riutilizzabili"
+
+#: lib/compat.php:499
+msgid "No reusable blocks found in Trash."
+msgstr "Nessun blocco riutilizzabile trovato nel Cestino."
+
+#: lib/compat.php:498
+msgid "No reusable blocks found."
+msgstr "Nessun blocco riutilizzabile trovato."
+
+#: lib/compat.php:497
 msgid "Search Reusable Blocks"
 msgstr "Cerca i blocchi riutilizzabili"
+
+#: lib/compat.php:496
+msgid "All Reusable Blocks"
+msgstr "Tutti i blocchi riutilizzabili"
+
+#: lib/compat.php:495
+msgid "View Reusable Block"
+msgstr "Visualizza blocco riutilizzabile"
+
+#: lib/compat.php:494
+msgid "Edit Reusable Block"
+msgstr "Modifica blocco riutilizzabile"
+
+#: lib/compat.php:493
+msgid "New Reusable Block"
+msgstr "Nuovo blocco riutilizzabile"
+
+#: lib/compat.php:492
+msgid "Add New Reusable Block"
+msgstr "Aggiungi un nuovo blocco riutilizzabile"
+
+#: lib/compat.php:491
+msgctxt "Reusable Block"
+msgid "Add New"
+msgstr "Aggiungi nuovo"
+
+#: lib/compat.php:490
+msgctxt "add new on admin bar"
+msgid "Reusable Block"
+msgstr "Nlocco riutilizzabile"
+
+#: lib/compat.php:489
+msgctxt "admin menu"
+msgid "Reusable Blocks"
+msgstr "Blocchi riutilizzabili"
+
+#: lib/compat.php:488
+msgctxt "post type singular name"
+msgid "Reusable Block"
+msgstr "Blocco riutilizzabile"
+
+#: lib/compat.php:487
+msgctxt "post type general name"
+msgid "Reusable Blocks"
+msgstr "Blocchi riutilizzabili"
 
 #: build/block-library/blocks/site-logo.php:97
 msgid "Site logo."
@@ -96,17 +277,21 @@ msgstr "Tre colonne di testo con pulsanti."
 msgid "Block pattern content must be a string."
 msgstr "Il modello del blocco deve essere una stringa."
 
-#: lib/class-wp-rest-menu-items-controller.php:917
+#: lib/class-wp-rest-menu-items-controller.php:923
 msgid "Version of the block format used in the HTML content."
 msgstr "Versione del formato del blocco usata nel contenuto HTML."
 
-#: lib/class-wp-rest-menu-items-controller.php:911
+#: lib/class-wp-rest-menu-items-controller.php:917
 msgid "HTML content, transformed for display."
 msgstr "Contenuto HTML, trasformato per la visualizzazione."
 
-#: lib/class-wp-rest-menu-items-controller.php:906
+#: lib/class-wp-rest-menu-items-controller.php:912
 msgid "HTML content, as it exists in the database."
 msgstr "Contenuto HTML, come presente nel database."
+
+#: lib/class-wp-rest-menu-items-controller.php:446
+msgid "Content required if menu item of type block."
+msgstr "Il contenuto è necessario se la voce di menu è di tipo blocco."
 
 #: lib/class-wp-rest-image-editor-controller.php:249
 msgid "Unable to crop this image."
@@ -255,13 +440,37 @@ msgstr "Parole chiave del blocco."
 msgid "Parent blocks."
 msgstr "Blocchi genitore."
 
+#: lib/class-wp-rest-block-types-controller.php:468
+msgid "Public text domain."
+msgstr "Text domain pubblico."
+
 #: lib/class-wp-rest-block-types-controller.php:457
 msgid "Block style variations."
 msgstr "Variazioni dello stile del blocco."
 
+#: lib/class-wp-rest-block-types-controller.php:436
+msgid "Public facing script handle."
+msgstr "Handle dello script pubblico."
+
+#: lib/class-wp-rest-block-types-controller.php:429
+msgid "Editor script handle."
+msgstr "Handle dello script dell'editor"
+
+#: lib/class-wp-rest-block-types-controller.php:422
+msgid "Is the block dynamically rendered."
+msgstr "Il blocco è reso dinamicamente."
+
 #: lib/class-wp-rest-block-types-controller.php:415
 msgid "Block category."
 msgstr "Categoria del blocco."
+
+#: lib/class-wp-rest-block-types-controller.php:407
+msgid "Block supports."
+msgstr "Il blocco supporta."
+
+#: lib/class-wp-rest-block-types-controller.php:397
+msgid "Context values inherited by blocks of this type."
+msgstr "Valori di contesto ereditati da blocchi di questo tipo."
 
 #: lib/class-wp-rest-block-types-controller.php:386
 msgid "Context provided by blocks of this type."
@@ -303,6 +512,14 @@ msgstr "Namespace del blocco."
 #: lib/class-wp-rest-block-types-controller.php:86
 msgid "Block name."
 msgstr "Nome del blocco."
+
+#: lib/class-wp-rest-block-directory-controller.php:326
+msgid "Limit result set to blocks matching the search term."
+msgstr "Limita i risultati ai blocchi che corrispondono ai termini di ricerca."
+
+#: lib/class-wp-rest-block-directory-controller.php:291
+msgid "The date when the block was last updated, in fuzzy human readable format."
+msgstr "La data di quando il blocco è stato aggiornato per l'ultima volta, in maniera sufficientemente leggibile."
 
 #: lib/class-wp-rest-block-directory-controller.php:285
 msgid "The block icon."
@@ -360,6 +577,11 @@ msgstr "Design"
 msgid "Text"
 msgstr "Testo"
 
+#. translators: %1: field name. %2: block name
+#: lib/compat.php:93
+msgid "The asset file for the \"%1$s\" defined in \"%2$s\" block definition is missing."
+msgstr "Manca il file di risorse per \"%1$s\" definito nella definizione di blocco \"%2$s\"."
+
 #. translators: 1: Block name.
 #: lib/class-wp-block.php:125
 msgid "The \"providesContext\" parameter provided in block type \"%s\" is deprecated. Please use \"provides_context\"."
@@ -370,10 +592,11 @@ msgstr "Il parametro \"providesContext\" fornito nel tipo di blocco \"%s\" è de
 msgid "The \"context\" parameter provided in block type \"%s\" is deprecated. Please use \"uses_context\" instead."
 msgstr "Il parametro \"context\" fornito nel tipo di blocco \"%s\" è deprecato. Al suo posto utilizza \"uses_context\"."
 
-#. translators: byline. %s: current author.
 #. translators: %s: the author.
+#. translators: byline. %s: current author.
+#: build/block-library/blocks/rss.php:60
 #: build/block-library/blocks/latest-posts.php:114
-#: build/block-library/blocks/rss.php:60 build/block-library/index.js:40
+#: build/block-library/index.js:40
 msgid "by %s"
 msgstr "di %s"
 
@@ -428,8 +651,8 @@ msgid "The theme slug for the theme that created the template part."
 msgstr "Lo slug del tema che ha creato le parti del template."
 
 #. translators: accessibility text for the content landmark region.
-#: lib/navigation.php:338 build/edit-site/index.js:6
-#: build/edit-post/index.js:28 build/edit-widgets/index.js:6
+#: lib/navigation.php:338 build/edit-widgets/index.js:7
+#: build/edit-post/index.js:37 build/edit-site/index.js:8
 msgid "Content"
 msgstr "Contenuto"
 
@@ -437,92 +660,92 @@ msgstr "Contenuto"
 msgid "Enable Navigation screen"
 msgstr "Abilita schermata dei menu di navigazione"
 
-#: gutenberg.php:69 gutenberg.php:70
+#: gutenberg.php:62 gutenberg.php:63
 msgid "Navigation (beta)"
 msgstr "Navigazione (beta)"
 
-#: lib/class-wp-rest-menu-items-controller.php:1022
+#: lib/class-wp-rest-menu-items-controller.php:1028
 msgid "Sort collection by object attribute."
 msgstr "Ordina la collezione in base ad un attributo dell'oggetto."
 
-#: lib/class-wp-rest-menu-items-controller.php:1015
+#: lib/class-wp-rest-menu-items-controller.php:1021
 msgid "Order sort attribute ascending or descending."
 msgstr "Attributo per l'ordinamento ascendente o discendente."
 
-#: lib/class-wp-rest-menu-items-controller.php:1010
+#: lib/class-wp-rest-menu-items-controller.php:1016
 msgid "Limit result set to posts with a specific menu_order value."
 msgstr "Limita l'insieme di risultati agli articoli con uno specifico valore menu_order."
 
 #. translators: %s: taxonomy name
-#: lib/class-wp-rest-menu-items-controller.php:976
+#: lib/class-wp-rest-menu-items-controller.php:982
 msgid "The terms assigned to the object in the %s taxonomy."
 msgstr "I termini assegnati all'oggetto nella tassonomia %s."
 
-#: lib/class-wp-rest-menu-items-controller.php:964
+#: lib/class-wp-rest-menu-items-controller.php:970
 msgid "Whether the menu item represents an object that no longer exists."
 msgstr "Se la voce di menu rappresenta un oggetto che non esiste più."
 
-#: lib/class-wp-rest-menu-items-controller.php:950
+#: lib/class-wp-rest-menu-items-controller.php:956
 msgid "The XFN relationship expressed in the link of this menu item."
 msgstr "La relazione XFN espressa nel link di questa voce di menu."
 
-#: lib/class-wp-rest-menu-items-controller.php:943
+#: lib/class-wp-rest-menu-items-controller.php:949
 msgid "The URL to which this menu item points."
 msgstr "L'URL al quale questa voce di menu punta."
 
-#: lib/class-wp-rest-menu-items-controller.php:936
+#: lib/class-wp-rest-menu-items-controller.php:942
 msgid "The singular label used to describe this type of menu item."
 msgstr "L'etichetta al singolare utilizzata per descrivere questo tipo di voce di menu."
 
-#: lib/class-wp-rest-menu-items-controller.php:926
+#: lib/class-wp-rest-menu-items-controller.php:932
 msgid "The target attribute of the link element for this menu item."
 msgstr "L'attributo target dell'elemento link per questa voce di menu."
 
-#: lib/class-wp-rest-menu-items-controller.php:889
+#: lib/class-wp-rest-menu-items-controller.php:895
 msgid "The DB ID of the original object this menu item represents, e . g . ID for posts and term_id for categories."
 msgstr "L'ID DB dell'oggetto originale che questa voce di menu rappresenta, es. ID per gli articoli e term_id per le categorie."
 
-#: lib/class-wp-rest-menu-items-controller.php:883
+#: lib/class-wp-rest-menu-items-controller.php:889
 msgid "The type of object originally represented, such as \"category,\" \"post\", or \"attachment.\""
 msgstr "Il tipo di oggetto originariamente rappresentato, come \"category,\" \"post\", or \"attachment.\""
 
-#: lib/class-wp-rest-menu-items-controller.php:876
+#: lib/class-wp-rest-menu-items-controller.php:882
 msgid "The DB ID of the nav_menu_item that is this item's menu parent, if any, otherwise 0."
 msgstr "L'ID DB di nav_menu_item che è genitore di questa voce di menu, se presente. Altrimenti 0."
 
-#: lib/class-wp-rest-menu-items-controller.php:867
+#: lib/class-wp-rest-menu-items-controller.php:873
 msgid "The description of this menu item."
 msgstr "La descrizione di questa voce di menu."
 
-#: lib/class-wp-rest-menu-items-controller.php:853
+#: lib/class-wp-rest-menu-items-controller.php:859
 msgid "Class names for the link element of this menu item."
 msgstr "Nomi della classi per l'elemento link di questa voce di menu."
 
-#: lib/class-wp-rest-menu-items-controller.php:844
+#: lib/class-wp-rest-menu-items-controller.php:850
 msgid "Text for the title attribute of the link element for this menu item."
 msgstr "Testo per l'attributo title dell'elemento link per questa voce di menu."
 
-#: lib/class-wp-rest-menu-items-controller.php:828
+#: lib/class-wp-rest-menu-items-controller.php:834
 msgid "A named status for the object."
 msgstr "Uno stato con nome per l'oggetto."
 
-#: lib/class-wp-rest-menu-items-controller.php:820
+#: lib/class-wp-rest-menu-items-controller.php:826
 msgid "The family of objects originally represented, such as \"post_type\" or \"taxonomy\"."
 msgstr "La famiglia di oggetti originariamente rappresentato, come \"post_type\" or \"taxonomy\"."
 
-#: lib/class-wp-rest-menu-items-controller.php:813
+#: lib/class-wp-rest-menu-items-controller.php:819
 msgid "Name of type."
 msgstr "Nome del tipo."
 
-#: lib/class-wp-rest-menu-items-controller.php:795
+#: lib/class-wp-rest-menu-items-controller.php:801
 msgid "HTML title for the object, transformed for display."
 msgstr "Titolo HTML per l'oggetto, trasformato per la visualizzazione."
 
-#: lib/class-wp-rest-menu-items-controller.php:790
+#: lib/class-wp-rest-menu-items-controller.php:796
 msgid "Title for the object, as it exists in the database."
 msgstr "Il titolo dell'oggetto, come riportato nel database."
 
-#: lib/class-wp-rest-menu-items-controller.php:751
+#: lib/class-wp-rest-menu-items-controller.php:757
 msgid "Get linked object."
 msgstr "Ottieni l'oggetto collegato."
 
@@ -545,11 +768,11 @@ msgstr "ID menu non valido."
 
 #: lib/class-wp-rest-menu-items-controller.php:439
 msgid "URL required if menu item of type custom."
-msgstr "L'URL è obbligatorio se la voce di menu è di tipo personalizzato."
+msgstr "L'URL è necessario se la voce di menu è di tipo personalizzato."
 
 #: lib/class-wp-rest-menu-items-controller.php:436
 msgid "Title required if menu item of type custom."
-msgstr "Il titolo è obbligatorio se la voce di menu è di tipo personalizzato."
+msgstr "Il titolo è necessario se la voce di menu è di tipo personalizzato."
 
 #: lib/class-wp-rest-menu-items-controller.php:429
 msgid "Invalid post type."
@@ -659,7 +882,7 @@ msgstr "Non hai i permessi per visualizzare le posizioni del menu."
 msgid "An alphanumeric identifier for the menu location."
 msgstr "Un identificatore alfanumerico per la posizione del menu."
 
-#: lib/global-styles.php:664 build/edit-site/index.js:2
+#: lib/global-styles.php:783 build/edit-site/index.js:4
 msgid "Global Styles"
 msgstr "Stili globali"
 
@@ -679,7 +902,7 @@ msgstr "L'editor a blocchi include funzionalità sperimentali utilizzabili mentr
 msgid "Enable Full Site Editing (Warning: this will replace your theme and cause potentially irreversible changes to your site. We recommend using this only in a development environment.)"
 msgstr "Abilita la modifica completa del sito (Attenzione: questo sostituirà il tema e causerà modifiche potenzialmente irreversibili al tuo sito. Si consiglia di utilizzarlo solo in un ambiente di sviluppo.)"
 
-#: gutenberg.php:78 gutenberg.php:79
+#: gutenberg.php:71 gutenberg.php:72
 msgid "Site Editor (beta)"
 msgstr "Editor del sito (beta)"
 
@@ -784,11 +1007,12 @@ msgstr "Parti del template"
 msgid "Template Part"
 msgstr "Parte del template"
 
-#: lib/template-parts.php:13 build/edit-site/index.js:2
+#: lib/template-parts.php:13 build/edit-site/index.js:4
 msgid "Template Parts"
 msgstr "Parti del template"
 
 #: lib/experiments-page.php:45 build/block-library/index.js:30
+#: build/edit-navigation/index.js:2
 msgid "Navigation"
 msgstr "Navigazione"
 
@@ -862,7 +1086,7 @@ msgctxt "Admin Menu text"
 msgid "Templates"
 msgstr "Template"
 
-#: lib/templates.php:14 build/edit-site/index.js:2
+#: lib/templates.php:14 build/edit-site/index.js:4
 msgid "Template"
 msgstr "Template"
 
@@ -886,7 +1110,7 @@ msgstr "Template"
 msgid "Unable to connect to the filesystem. Please confirm your credentials."
 msgstr "Impossibilitato al collegamento al filesystem. Controlla le tue credenziali."
 
-#: gutenberg.php:104
+#: gutenberg.php:100
 msgid "Experiments Settings"
 msgstr "Impostazioni degli esperimenti"
 
@@ -974,8 +1198,8 @@ msgstr "Area del blocco (sperimentale)"
 msgid "Experimental custom post type that will store block areas referenced by themes."
 msgstr "Post type personalizzati e sperimentali che memorizzeranno le aree dei blocchi referenziate dai temi."
 
-#: lib/class-wp-rest-sidebars-controller.php:109
 #: lib/class-wp-rest-widget-utils-controller.php:74
+#: lib/class-wp-rest-sidebars-controller.php:109
 msgid "Sorry, you are not allowed to access widgets on this site."
 msgstr "Non hai i permessi per accedere ai widget su questo sito."
 
@@ -993,7 +1217,8 @@ msgstr "Errore RSS:"
 
 #: build/block-library/blocks/search.php:25
 #: build/block-library/blocks/search.php:26
-#: build/block-library/blocks/search.php:44 build/block-library/index.js:49
+#: build/block-library/blocks/search.php:52 build/block-library/index.js:49
+#: build/block-library/index.js:58
 msgid "Search"
 msgstr "Cerca"
 
@@ -1035,7 +1260,7 @@ msgstr "Miniatura"
 msgid "Full Size"
 msgstr "Dimensione reale"
 
-#: lib/compat.php:329 build/block-editor/index.js:68 build/blocks/index.js:1
+#: lib/compat.php:329 build/block-editor/index.js:69 build/blocks/index.js:1
 #: build/core-data/index.js:1
 msgid "Media"
 msgstr "Media"
@@ -1214,21 +1439,21 @@ msgstr "Di montagne e macchine da stampa"
 
 #: lib/demo.php:59
 msgid "Welcome to the Gutenberg Editor"
-msgstr "Benvenuto nell'editor Gutenberg"
+msgstr "Ti diamo il benvenuto nell'editor Gutenberg"
 
-#: lib/class-wp-rest-menu-items-controller.php:779
+#: lib/class-wp-rest-menu-items-controller.php:785
 msgid "The title for the object."
 msgstr "Il titolo dell'oggetto."
 
-#: lib/class-wp-rest-menu-items-controller.php:804
+#: lib/class-wp-rest-menu-items-controller.php:810
 msgid "Unique identifier for the object."
 msgstr "Identificatore univoco per l'oggetto."
 
-#: gutenberg.php:92
-msgid "https://wordpress.org/support/plugin/gutenberg"
-msgstr "https://it.wordpress.org/support/plugin/gutenberg"
+#: gutenberg.php:87
+msgid "https://wordpress.org/support/plugin/gutenberg/"
+msgstr "https://wordpress.org/support/plugin/gutenberg/"
 
-#: gutenberg.php:90
+#: gutenberg.php:84 gutenberg.php:85
 msgid "Support"
 msgstr "Supporto"
 
@@ -1276,7 +1501,7 @@ msgstr "Grande"
 msgid "Invalid term ID."
 msgstr "ID del termine non valido."
 
-#: lib/class-wp-rest-menu-items-controller.php:836
+#: lib/class-wp-rest-menu-items-controller.php:842
 msgid "The ID for the parent of the object."
 msgstr "L'id del genitore dell'oggetto."
 
@@ -1284,30 +1509,30 @@ msgstr "L'id del genitore dell'oggetto."
 msgid "Embed Handler"
 msgstr "Handler dell'oggetto incorporato"
 
-#: lib/client-assets.php:164 build/editor/index.js:11
-#: build/edit-post/index.js:5 build/edit-post/index.js:14
+#: lib/client-assets.php:164 build/editor/index.js:13
+#: build/edit-post/index.js:7 build/edit-post/index.js:22
 msgid "Featured image"
 msgstr "Immagine in evidenza"
 
 #. translators: ARIA label for the Block Settings Sidebar tab, not selected.
 #. translators: Text label for the Block Settings Sidebar tab.
-#: lib/navigation.php:91 lib/navigation.php:96 lib/class-wp-widget-block.php:40
-#: build/edit-post/index.js:13 build/edit-post/index.js:14
-#: build/edit-widgets/index.js:1
+#: lib/class-wp-widget-block.php:40 lib/navigation.php:91 lib/navigation.php:96
+#: build/edit-widgets/index.js:1 build/edit-post/index.js:21
+#: build/edit-post/index.js:22
 msgid "Block"
 msgstr "Blocco"
 
-#: build/block-library/blocks/latest-posts.php:102
 #: build/block-library/blocks/rss.php:31
-#: build/block-library/blocks/latest-comments.php:31 build/editor/index.js:27
-#: build/editor/index.js:38 build/edit-site/index.js:2
-#: build/edit-navigation/index.js:2 build/block-library/index.js:30
-#: build/block-library/index.js:38 build/edit-post/index.js:14
+#: build/block-library/blocks/latest-comments.php:31
+#: build/block-library/blocks/latest-posts.php:102 build/editor/index.js:29
+#: build/editor/index.js:43 build/block-library/index.js:30
+#: build/block-library/index.js:38 build/edit-navigation/index.js:2
+#: build/edit-post/index.js:22 build/edit-site/index.js:4
 msgid "(no title)"
 msgstr "(senza titolo)"
 
 #. translators: accessibility text. 1: heading level. 2: heading content.
-#: lib/patterns/quote.php:9 build/editor/index.js:11
+#: lib/patterns/quote.php:9 build/editor/index.js:13
 #: build/block-library/index.js:12
 msgid "Quote"
 msgstr "Citazione"
@@ -1317,11 +1542,11 @@ msgstr "Citazione"
 msgid "Write title…"
 msgstr "Scrivi il titolo..."
 
-#: gutenberg.php:105
+#: gutenberg.php:101
 msgid "Experiments"
 msgstr "Esperimenti"
 
-#: gutenberg.php:51 gutenberg.php:52 build/blocks/index.js:1
+#: gutenberg.php:49 gutenberg.php:50 build/blocks/index.js:1
 msgid "Widgets"
 msgstr "Widget"
 
@@ -1333,7 +1558,7 @@ msgstr "La stampa dal 1440. Questo è il plugin di sviluppo per il nuovo editor 
 msgid "Unique identifier for the widget."
 msgstr "Idetificatore univoco del widget."
 
-#: gutenberg.php:134
+#: gutenberg.php:130
 msgid "Gutenberg development mode requires files to be built. Run <code>npm install</code> to install dependencies, <code>npm run build</code> to build the files or <code>npm run dev</code> to build the files and watch for changes. Read the <a href=\"https://github.com/WordPress/gutenberg/blob/master/docs/contributors/getting-started.md\">contributing</a> file for more information."
 msgstr "La modalità di sviluppo Gutenberg richiede la creazione di file. Esegui <code>npm install</code> per installare le dipendenze, <code>npm run build</code> per creare i file e <code>npm run dev</code> per creare i file e visualizzare i cambiamenti. Leggi il file <a href=\"https://github.com/WordPress/gutenberg/blob/master/docs/contributors/getting-started.md\">contributo</a> per maggiori informazioni."
 
@@ -1349,7 +1574,8 @@ msgstr "https://github.com/WordPress/gutenberg"
 msgid "Gutenberg"
 msgstr "Gutenberg"
 
-#: lib/template-parts.php:115 lib/templates.php:132 build/editor/index.js:29
+#. translators: button label text should, if possible, be under 16 characters.
+#: lib/templates.php:132 lib/template-parts.php:115 build/editor/index.js:33
 msgid "Slug"
 msgstr "Slug"
 
@@ -1368,9 +1594,9 @@ msgstr "j F Y"
 msgid "g:i a"
 msgstr "G:i"
 
-#. translators: %s: Duration.
 #. translators: %s: Human-readable time difference.
-#: lib/compat.php:281 lib/class-wp-rest-block-directory-controller.php:138
+#. translators: %s: Duration.
+#: lib/class-wp-rest-block-directory-controller.php:138 lib/compat.php:281
 msgid "%s ago"
 msgstr "%s fa"
 
@@ -1380,15 +1606,15 @@ msgid "%s from now"
 msgstr "%s da ora"
 
 #. translators: %s: Minimum required version
-#: gutenberg.php:121
+#: gutenberg.php:117
 msgid "Gutenberg requires WordPress %s or later to function properly. Please upgrade WordPress before activating Gutenberg."
 msgstr "Gutenberg richiede WordPress %s o successivo per funzionare correttamente. Aggiorna WordPress prima di attivare Gutenberg."
 
-#: gutenberg.php:96
+#: gutenberg.php:91 gutenberg.php:92
 msgid "Documentation"
 msgstr "Documentazione"
 
-#: gutenberg.php:43 gutenberg.php:44
+#: gutenberg.php:41 gutenberg.php:42
 msgid "Demo"
 msgstr "Demo"
 

@@ -4,7 +4,7 @@
  * Plugin Name: Checkout Manager for WooCommerce
  * Plugin URI:  https://quadlayers.com/portfolio/woocommerce-checkout-manager/
  * Description: Manages WooCommerce Checkout, the advanced way.
- * Version:     5.2.7
+ * Version:     5.2.9
  * Author:      QuadLayers
  * Author URI:  https://quadlayers.com
  * License: GPLv3
@@ -20,7 +20,7 @@ if (!defined('WOOCCM_PLUGIN_NAME')) {
   define('WOOCCM_PLUGIN_NAME', 'Checkout Manager for WooCommerce');
 }
 if (!defined('WOOCCM_PLUGIN_VERSION')) {
-  define('WOOCCM_PLUGIN_VERSION', '5.2.7');
+  define('WOOCCM_PLUGIN_VERSION', '5.2.9');
 }
 if (!defined('WOOCCM_PLUGIN_FILE')) {
   define('WOOCCM_PLUGIN_FILE', __FILE__);

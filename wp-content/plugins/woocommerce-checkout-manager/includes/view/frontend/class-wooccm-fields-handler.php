@@ -25,9 +25,12 @@ class WOOCCM_Fields_Handler
     //    add_filter('woocommerce_get_country_locale', '__return_empty_array');
     add_filter('woocommerce_get_country_locale_default', array($this, 'remove_fields_priority'));
     add_filter('woocommerce_get_country_locale_base', array($this, 'remove_fields_priority'));
+
     // Fix required country notice when shipping address is activated
     // -----------------------------------------------------------------------
-    add_filter('woocommerce_checkout_posted_data', array($this, 'remove_address_fields'));
+    if (is_account_page()) {
+      add_filter('woocommerce_checkout_posted_data', array($this, 'remove_address_fields'));
+    }
 
     // Clear session
     add_action('woocommerce_checkout_posted_data', array($this, 'posted_data'));
@@ -251,6 +254,7 @@ class WOOCCM_Fields_Handler
       unset($fields[$key]['placeholder']);
       unset($fields[$key]['priority']);
       unset($fields[$key]['required']);
+      unset($fields[$key]['class']);
     }
 
     return $fields;

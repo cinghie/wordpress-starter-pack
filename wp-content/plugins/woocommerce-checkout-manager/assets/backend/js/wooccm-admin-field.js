@@ -14,8 +14,6 @@
     $('#wooccm_modal').removeClass('processing');
   };
 
-  console.log('wooccm_field.args', wooccm_field.args)
-
   _.mixin({
     sortOptions: function (object) {
       return _.sortBy(object, function (o) {
@@ -46,7 +44,6 @@
       var $button = $(e.target),
         field_id = $button.closest('[data-field_id]').data('field_id');
       var model = new FieldModel();
-      //console.log('model init', model)
       model.set({
         id: field_id
       });
@@ -89,8 +86,9 @@
       var modal = this,
         $form = modal.$el.find('#wooccm_modal').find('form');
       var model = _.getFormData($form);
-      console.log('model', model)
+      console.log('model1', model)
       this.model.set(model);
+      console.log('model2', this.model.attributes)
     },
     reload: function (e) {
       if (this.$el.find('#wooccm_modal').hasClass('reload')) {
@@ -182,6 +180,7 @@
           alert('Error!');
         },
         success: function (response) {
+          console.log('response', response)
           if (response.success) {
             modal.model.set(response.data);
             modal.render();
@@ -223,6 +222,9 @@
         $modal = modal.$el.find('#wooccm_modal'),
         $spinner = $modal.find('.settings-save-status .spinner'),
         $saved = $modal.find('.settings-save-status .saved');
+
+      console.log('modal.model.attributes', modal.model.attributes)
+
       $.ajax({
         url: wooccm_field.ajax_url,
         data: {
@@ -247,7 +249,6 @@
           alert('Error!');
         },
         success: function (response) {
-          console.log(response);
           if (response.success) {
 
             if (modal.model.attributes.id == undefined) {

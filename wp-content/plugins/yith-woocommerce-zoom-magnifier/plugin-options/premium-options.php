@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 return array(
-    'premium-landing' => array(
+    'premium' => array(
         'home' => array(
             'type'   => 'custom_tab',
             'action' => 'yith_zoom_magnifier_premium'

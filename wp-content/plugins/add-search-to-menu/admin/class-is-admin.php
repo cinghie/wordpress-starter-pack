@@ -232,19 +232,6 @@ class IS_Admin
         if ( $hascaps ) {
             $screen = get_current_screen();
             $is_ivory = strpos( $screen->id, 'ivory-search' );
-            if ( 0 !== $is_ivory && FALSE === $is_ivory && (!isset( $_GET['is_dismiss'] ) || 'notice_config' !== $_GET['is_dismiss']) ) {
-                
-                if ( !isset( $this->opt['is_notices']['config'] ) || !$this->opt['is_notices']['config'] ) {
-                    $url = ( is_network_admin() ? network_site_url() : site_url( '/' ) );
-                    echo  '<div class="notice ivory-search is-notice-body"><a class="is-notice-dismiss" href="' . add_query_arg( 'is_dismiss', 'notice_config' ) . '">' . __( 'Dismiss', 'add-search-to-menu' ) . '</a><div>' ;
-                    echo  __( 'Thank you for using', 'add-search-to-menu' ) . ' <strong>Ivory Search</strong> plugin. ' ;
-                    echo  __( 'You can configure its', 'add-search-to-menu' ) . ' <a href="' . $url . 'wp-admin/admin.php?page=ivory-search">' . __( 'settings', 'add-search-to-menu' ) . '</a> ' ;
-                    echo  __( 'and get support on', 'add-search-to-menu' ) . ' <a href="https://ivorysearch.com/support/" target="_blank">' . __( 'support forum', 'add-search-to-menu' ) . '</a> ' ;
-                    echo  __( 'or', 'add-search-to-menu' ) . ' <a href="https://ivorysearch.com/contact/" target="_blank">' . __( 'contact us', 'add-search-to-menu' ) . '</a>.</div></div>' ;
-                    echo  '' ;
-                }
-            
-            }
             $display_review = true;
             //Don't display if dismissed
             if ( isset( $this->opt['is_notices']['review'] ) && $this->opt['is_notices']['review'] || isset( $_GET['is_dismiss'] ) && 'notice_review' == $_GET['is_dismiss'] ) {
@@ -339,7 +326,7 @@ class IS_Admin
         ?>) no-repeat center; background-size:cover; }
 		.is-notice-body { padding:15px; background:#fff; }
 		.is-notice-content { margin:0 0 10px; padding:0; }
-		.is-notice-links a.button { margin-right: 10px;text-decoration: none;background: #e7f2f7 !important;color: #30667b !important;}
+		.is-notice-links a.button { margin-right: 10px;text-decoration: none;background: #e7f2f7 !important;color: #30667b !important;box-shadow: none;text-shadow: none;}
 		.is-notice-links a.btn-highlight {background: #0071a1 !important;color: #FFF !important;}
 		</style>
 	<?php 
@@ -355,15 +342,9 @@ class IS_Admin
         
         if ( isset( $_GET['is_dismiss'] ) && '' !== $_GET['is_dismiss'] ) {
             $is_notices = get_option( 'is_notices', array() );
-            
-            if ( 'notice_config' === $_GET['is_dismiss'] ) {
-                $is_notices['is_notices']['config'] = 1;
-            } else {
-                if ( 'notice_review' === $_GET['is_dismiss'] ) {
-                    $is_notices['is_notices']['review'] = 1;
-                }
+            if ( 'notice_review' === $_GET['is_dismiss'] ) {
+                $is_notices['is_notices']['review'] = 1;
             }
-            
             update_option( 'is_notices', $is_notices );
             wp_redirect( remove_query_arg( 'is_dismiss' ) );
         }
@@ -506,14 +487,28 @@ class IS_Admin
             array( $this, 'search_forms_page' )
         );
         add_action( 'load-' . $edit, array( $this, 'load_admin_search_form' ) );
-        $addnew = add_submenu_page(
-            'ivory-search',
-            __( 'Add New Search Form', 'add-search-to-menu' ),
-            __( 'New Search Form', 'add-search-to-menu' ),
-            'manage_options',
-            'ivory-search-new',
-            array( $this, 'new_search_form_page' )
-        );
+        $addnew = '';
+        
+        if ( isset( $_GET['page'] ) && 'ivory-search-new' == $_GET['page'] ) {
+            $addnew = add_submenu_page(
+                'ivory-search',
+                __( 'Add New Search Form', 'add-search-to-menu' ),
+                __( 'Add New', 'add-search-to-menu' ),
+                'manage_options',
+                'ivory-search-new',
+                array( $this, 'new_search_form_page' )
+            );
+        } else {
+            $addnew = add_submenu_page(
+                '',
+                __( 'Add New Search Form', 'add-search-to-menu' ),
+                __( 'Add New', 'add-search-to-menu' ),
+                'manage_options',
+                'ivory-search-new',
+                array( $this, 'new_search_form_page' )
+            );
+        }
+        
         add_action( 'load-' . $addnew, array( $this, 'load_admin_search_form' ) );
         $settings = add_submenu_page(
             'ivory-search',

@@ -11,6 +11,10 @@ msgstr ""
 "Language: ja_JP\n"
 "Project-Id-Version: Plugins - WooCommerce Services - Stable (latest release)\n"
 
+#: classes/class-wc-connect-settings-pages.php:98
+msgid "UPS"
+msgstr ""
+
 #: classes/class-wc-connect-taxjar-integration.php:318 i18n/strings.php:125
 #: i18n/strings.php:328
 msgid "ZIP/Postal code"
@@ -213,7 +217,7 @@ msgid "You save %s with WooCommerce Services"
 msgstr ""
 
 #. translators: %s WC download URL link.
-#: woocommerce-services.php:478
+#: woocommerce-services.php:482
 msgid "WooCommerce Services requires the WooCommerce plugin to be installed and active. You can download %s here."
 msgstr ""
 
@@ -324,7 +328,7 @@ msgstr ""
 msgid "0.0"
 msgstr ""
 
-#: woocommerce-services.php:1311
+#: woocommerce-services.php:1319
 msgid "Shipment Tracking"
 msgstr ""
 
@@ -340,23 +344,23 @@ msgstr "関税情報が有効"
 msgid "Customs information incomplete"
 msgstr "関税情報が不完全"
 
-#: woocommerce-services.php:1354
+#: woocommerce-services.php:1362
 msgid "Packing Log:"
 msgstr "パッキングログ:"
 
-#: woocommerce-services.php:1341
+#: woocommerce-services.php:1349
 msgid "Chosen Rate:"
 msgstr "選択したレート:"
 
-#: woocommerce-services.php:1337
+#: woocommerce-services.php:1345
 msgid "Shipping Method ID:"
 msgstr "配送方法 ID:"
 
-#: woocommerce-services.php:1333
+#: woocommerce-services.php:1341
 msgid "Shipping Method Name:"
 msgstr "配送方法名:"
 
-#: woocommerce-services.php:1317
+#: woocommerce-services.php:1325
 msgid "Shipping Debug"
 msgstr "配送デバッグ"
 
@@ -1108,11 +1112,11 @@ msgstr "PayPal アカウントをリンクする"
 msgid "Refresh"
 msgstr "更新"
 
-#: woocommerce-services.php:1096
+#: woocommerce-services.php:1103
 msgid "Tracking number"
 msgstr "問い合わせ番号"
 
-#: woocommerce-services.php:1095
+#: woocommerce-services.php:1102
 msgid "Provider"
 msgstr "プロバイダー"
 
@@ -1467,7 +1471,7 @@ msgstr "#%d - [削除された製品]"
 msgid "#%1$d - %2$s"
 msgstr "#%1$d - %2$s"
 
-#: woocommerce-services.php:1426
+#: woocommerce-services.php:1434
 msgid "<a href=\"%s\">Support</a>"
 msgstr "<a href=\"%s\">サポート</a>"
 
@@ -1475,7 +1479,7 @@ msgstr "<a href=\"%s\">サポート</a>"
 msgid "There was an error installing Jetpack. Please try installing it manually."
 msgstr "Jetpack のインストール中にエラーが発生しました。手動でインストールしてください。"
 
-#: woocommerce-services.php:995 woocommerce-services.php:998
+#: woocommerce-services.php:999 woocommerce-services.php:1002
 #: i18n/strings.php:270
 msgid "Shipping Labels"
 msgstr "出荷ラベル"
@@ -1491,11 +1495,12 @@ msgstr "https://woocommerce.com/"
 
 #. Plugin Name of the plugin
 #: classes/class-wc-connect-settings-pages.php:42
+#: classes/class-wc-connect-settings-pages.php:106
 #: classes/class-wc-connect-privacy.php:36
 msgid "WooCommerce Services"
 msgstr "WooCommerce Services"
 
-#: woocommerce-services.php:1377 woocommerce-services.php:1405
+#: woocommerce-services.php:1385 woocommerce-services.php:1413
 #: i18n/strings.php:118 i18n/strings.php:329
 msgid "Phone"
 msgstr "電話番号"
@@ -1589,7 +1594,7 @@ msgstr "価格調整"
 msgid "Saved Packages"
 msgstr "保存済みパッケージ"
 
-#: woocommerce-services.php:1084 woocommerce-services.php:1091
+#: woocommerce-services.php:1091 woocommerce-services.php:1098
 msgid "Tracking"
 msgstr "トラッキング"
 
@@ -1750,7 +1755,7 @@ msgstr "設定を更新できません。 %s"
 msgid "Packaging"
 msgstr "パッケージング"
 
-#: woocommerce-services.php:1457
+#: woocommerce-services.php:1465
 msgid "Section not loading? Visit the <a href=\"%s\">status page</a> for troubleshooting steps."
 msgstr "セクションがロードされない?トラブルシューティング手順については、<a href=\"%s\">ステータスページの </a> を参照してください。"
 
@@ -1762,7 +1767,7 @@ msgstr "注: Jetpack の開発モードがこのサイトで有効になって�
 msgid "Note: Jetpack is connected, but development mode is also enabled on this site. Please disable development mode."
 msgstr "注: Jetpack は接続されていますが、このサイトでは開発モードも有効になっています。開発モードを無効にしてください。"
 
-#: woocommerce-services.php:1313
+#: woocommerce-services.php:1321
 msgid "Shipping Label"
 msgstr "出荷ラベル"
 
@@ -1946,7 +1951,7 @@ msgstr "ベースの場所は WooCommerce 設定 > 一般設定 に設定して�
 msgid "WooCommerce %s or higher is required (You are running %s)"
 msgstr "WooCommerce %s またはそれ以上が必要です ( %s を実行しています)"
 
-#: woocommerce-services.php:1493 classes/class-wc-connect-error-notice.php:103
+#: woocommerce-services.php:1501 classes/class-wc-connect-error-notice.php:103
 msgid "Dismiss this notice"
 msgstr "この通知を非表示にする"
 

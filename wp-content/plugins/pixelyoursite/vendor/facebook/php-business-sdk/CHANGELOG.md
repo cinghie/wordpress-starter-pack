@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 
 ## Unreleased
+
+## v8.0.0
+
+### Added
+- `delivery_category` field in custom_data section for Conversions API(formerly Serverside API).
+
+## v7.0.2
+### Added
+- Added support for data processing options in Serverside API. For more details see : https://developers.facebook.com/docs/marketing-apis/data-processing-options
+
+## v7.0.0
+### Changed
+- Graph API call upgrade to [v7.0](https://developers.facebook.com/docs/graph-api/changelog/version7.0)
+
 ## v6.0.2
 ### Added
 - Add support for custom properties in the Server-Side API

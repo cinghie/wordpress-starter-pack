@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - WooCommerce Services - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-08-19 21:31:26+0000\n"
+"PO-Revision-Date: 2020-09-04 05:16:55+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,10 @@ msgstr ""
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: es\n"
 "Project-Id-Version: Plugins - WooCommerce Services - Stable (latest release)\n"
+
+#: classes/class-wc-connect-settings-pages.php:98
+msgid "UPS"
+msgstr "UPS"
 
 #: classes/class-wc-connect-taxjar-integration.php:318 i18n/strings.php:125
 #: i18n/strings.php:328
@@ -215,7 +219,7 @@ msgid "You save %s with WooCommerce Services"
 msgstr "Ahorras %s con WooCommerce Services"
 
 #. translators: %s WC download URL link.
-#: woocommerce-services.php:478
+#: woocommerce-services.php:482
 msgid "WooCommerce Services requires the WooCommerce plugin to be installed and active. You can download %s here."
 msgstr "WooCommerce Services necesita que esté instalado y activado el plugin WooCommerce. Puedes descargarlo aquí: %s."
 
@@ -329,7 +333,7 @@ msgstr "Han sido guardados tus paquetes de envío."
 msgid "0.0"
 msgstr "0.0"
 
-#: woocommerce-services.php:1311
+#: woocommerce-services.php:1319
 msgid "Shipment Tracking"
 msgstr "Seguimiento de envíos"
 
@@ -345,23 +349,23 @@ msgstr "Información de aduanas válida"
 msgid "Customs information incomplete"
 msgstr "Información de aduanas incompleta"
 
-#: woocommerce-services.php:1354
+#: woocommerce-services.php:1362
 msgid "Packing Log:"
 msgstr "Registro de paquetería:"
 
-#: woocommerce-services.php:1341
+#: woocommerce-services.php:1349
 msgid "Chosen Rate:"
 msgstr "Tarifa elegida:"
 
-#: woocommerce-services.php:1337
+#: woocommerce-services.php:1345
 msgid "Shipping Method ID:"
 msgstr "ID del método de envío:"
 
-#: woocommerce-services.php:1333
+#: woocommerce-services.php:1341
 msgid "Shipping Method Name:"
 msgstr "Nombre del método de envío:"
 
-#: woocommerce-services.php:1317
+#: woocommerce-services.php:1325
 msgid "Shipping Debug"
 msgstr "Depuración de envíos"
 
@@ -1115,11 +1119,11 @@ msgstr "Enlaza a una cuenta PayPal"
 msgid "Refresh"
 msgstr "Recargar"
 
-#: woocommerce-services.php:1096
+#: woocommerce-services.php:1103
 msgid "Tracking number"
 msgstr "Número de seguimiento"
 
-#: woocommerce-services.php:1095
+#: woocommerce-services.php:1102
 msgid "Provider"
 msgstr "Proveedor"
 
@@ -1476,7 +1480,7 @@ msgstr "#%d - [producto borrado]"
 msgid "#%1$d - %2$s"
 msgstr "#%1$d - %2$s"
 
-#: woocommerce-services.php:1426
+#: woocommerce-services.php:1434
 msgid "<a href=\"%s\">Support</a>"
 msgstr "<a href=\"%s\">Soporte</a>"
 
@@ -1484,7 +1488,7 @@ msgstr "<a href=\"%s\">Soporte</a>"
 msgid "There was an error installing Jetpack. Please try installing it manually."
 msgstr "Hubo un error al instalar Jetpack. Por favor, trata de instalarlo manualmente."
 
-#: woocommerce-services.php:995 woocommerce-services.php:998
+#: woocommerce-services.php:999 woocommerce-services.php:1002
 #: i18n/strings.php:270
 msgid "Shipping Labels"
 msgstr "Etiquetas de envío"
@@ -1500,11 +1504,12 @@ msgstr "https://woocommerce.com/"
 
 #. Plugin Name of the plugin
 #: classes/class-wc-connect-settings-pages.php:42
+#: classes/class-wc-connect-settings-pages.php:106
 #: classes/class-wc-connect-privacy.php:36
 msgid "WooCommerce Services"
 msgstr "WooCommerce Services"
 
-#: woocommerce-services.php:1377 woocommerce-services.php:1405
+#: woocommerce-services.php:1385 woocommerce-services.php:1413
 #: i18n/strings.php:118 i18n/strings.php:329
 msgid "Phone"
 msgstr "Teléfono"
@@ -1599,7 +1604,7 @@ msgstr "Ajuste de precio"
 msgid "Saved Packages"
 msgstr "Paquetes guardados"
 
-#: woocommerce-services.php:1084 woocommerce-services.php:1091
+#: woocommerce-services.php:1091 woocommerce-services.php:1098
 msgid "Tracking"
 msgstr "Seguimiento"
 
@@ -1761,7 +1766,7 @@ msgstr "No ha sido posible actualizar los ajustes. %s"
 msgid "Packaging"
 msgstr "Paquetería"
 
-#: woocommerce-services.php:1457
+#: woocommerce-services.php:1465
 msgid "Section not loading? Visit the <a href=\"%s\">status page</a> for troubleshooting steps."
 msgstr "¿No carga la sección? Visita la <a href=\"%s\">página de estado</a> para ver los pasos de solución de problemas."
 
@@ -1773,7 +1778,7 @@ msgstr "Nota: El modo de desarrollo de Jetpack está activo en este sitio. Este 
 msgid "Note: Jetpack is connected, but development mode is also enabled on this site. Please disable development mode."
 msgstr "Nota: Jetpack está conectado, pero también está activo el modo de desarrollo en este sitio. Por favor, desactiva el modo de desarrollo."
 
-#: woocommerce-services.php:1313
+#: woocommerce-services.php:1321
 msgid "Shipping Label"
 msgstr "Etiqueta de envío"
 
@@ -1957,7 +1962,7 @@ msgstr "Por favor, establece la ubicación base en Ajustes de WooCommerce > Gene
 msgid "WooCommerce %s or higher is required (You are running %s)"
 msgstr "Se requiere WooCommerce %s o superior (estás ejecutando la versión %s)"
 
-#: woocommerce-services.php:1493 classes/class-wc-connect-error-notice.php:103
+#: woocommerce-services.php:1501 classes/class-wc-connect-error-notice.php:103
 msgid "Dismiss this notice"
 msgstr "Descartar este aviso"
 

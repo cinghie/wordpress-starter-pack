@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.5
-Stable tag: 8.7.1
+Stable tag: 8.7.7
 
 == Description ==
 
@@ -95,6 +95,9 @@ Our plugin supports WooCommerce Multilangual, especially the currency switcher
 = Aelia Currency Switcher (Elite version) =
 Our plugin supports the Aelia Currency Switcher
 
+= Polylang support (Elite version) =
+Our plugin supports Polylang
+
 = Google Shopping product feed tutorial =
 [youtube https://www.youtube.com/watch?v=2XzxwKDufGw]
 
@@ -136,6 +139,7 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 === Elite paid features ===
 * WPML support
 * Aelia currency switcher support
+* Polylang support
 * Addition of the extra fields on your product edit pages
 * Data manipulation feature
 * WooCommerce structured data bug fix
@@ -314,6 +318,27 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 8.7.7 (2020-09-25) =
+* Facebook purchase event did not always had the correct pricing. Issue solved.
+
+= 8.7.6 (2020-09-24) =
+* Facebook pixel basket issue solved
+* Using official composite function to retrieve composite product prices
+
+= 8.7.5 (2020-09-23) =
+* Price field for bundled and composite products now always contain VAT
+
+= 8.7.4 (2020-09-21) =
+* The Heureka.sk template is now also working for PARAM fields
+
+= 8.7.3 (2020-09-16) =
+* Allowing apostrophes in static values
+* The unfiltered description attributes are now truncated after 5000 characters
+
+= 8.7.2 (2020-09-11) =
+* Fixed minor issues with undeclared PHP variables throwing warnings
+* Added Polylang links
 
 = 8.7.1 (2020-09-09) =
 * Changed product ids order in the Google product review XML feeds.
@@ -2769,6 +2794,26 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 8.7.7. =
+Facebook purchase event did not always had the correct pricing. Issue solved.
+
+= 8.7.6 =
+Facebook pixel basket issue solved
+Using official composite function to retrieve composite product prices
+
+= 8.7.5 =
+Price field for bundled and composite products now always contain VAT
+
+= 8.7.4 =
+The Heureka.sk template is now also working for PARAM fields
+
+= 8.7.3 =
+Allowing apostrophes in static values
+
+= 8.7.2 =
+Fixed minor issues with undeclared PHP variables throwing warnings
+Added Polylang links
 
 = 8.7.1 =
 Changed product ids order in the Google product review XML feeds.

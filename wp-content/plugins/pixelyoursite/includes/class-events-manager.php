@@ -12,6 +12,8 @@ use FacebookAds\Object\ServerSide\Content;
 class EventsManager {
 
     static public $facebookServerEvents = array();
+    private $facebookServerEventTypes = array("edd_purchase","woo_purchase","init_event","woo_view_content",
+        "edd_view_content","edd_initiate_checkout","woo_initiate_checkout");
 
 	public $doingAMP = false;
 
@@ -216,12 +218,13 @@ class EventsManager {
 			);
 
             // fire fb server api event
-            if(Facebook()->enabled() && $pixel->getSlug() == "facebook" && $eventType == 'edd_purchase') {
-                if($eventData != null) {
-                    $this->addEventToFacebookServerApi(Facebook(),'edd_purchase',$eventData);
+            if($pixel->getSlug() == "facebook" && in_array($eventType,$this->facebookServerEventTypes)) {
+                if ($eventData != null) {
+                    if ($eventData != null && (!isset($eventData['delay']) || $eventData['delay'] == 0)) {
+                        $this->addEventToFacebookServerApi($pixel, $eventType, $eventData);
+                    }
                 }
             }
-
 		}
 
 	}
@@ -361,13 +364,6 @@ class EventsManager {
 		if ( isEventEnabled( 'woo_purchase_enabled' ) && is_order_received_page() && isset( $_REQUEST['key'] ) ) {
 			$this->addStaticEvent( 'woo_purchase' );
 
-            if(Facebook()->enabled()) {
-                $eventData = Facebook()->getEventData( 'woo_purchase' );
-                if($eventData != null) {
-                    $this->addEventToFacebookServerApi(Facebook(),'woo_purchase',$eventData);
-                }
-            }
-
             /**
              * Add complete registration event
              */
@@ -475,7 +471,9 @@ class EventsManager {
         $pixelName = $_POST['pixel'];
         $event = $_POST['event'];
         $data = $_POST['data'];
+
         if($event == "hCR") $event="CompleteRegistration"; // de mask completer registration event if it was hidden
+
         switch ($pixelName) {
             case 'facebook': {
                 if(isset($data['content_ids'])) {
@@ -483,7 +481,12 @@ class EventsManager {
                     $data['content_ids']=$content_ids;
                 }
                 if(isset($data['contents'])) {
-                    $contents = json_decode(stripslashes($data['contents']));
+                    if(is_array($data['contents'])) {
+                        $contents = json_decode(json_encode($data['contents']));
+                    } else {
+                        $contents = json_decode(stripslashes($data['contents']));
+                    }
+
                     $data['contents']=$contents;
                 }
                 EventsManager::sendFbApiEvent(Facebook::instance(),$event,$data,false);

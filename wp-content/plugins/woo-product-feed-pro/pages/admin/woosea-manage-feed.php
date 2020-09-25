@@ -116,6 +116,7 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 						<span class="dashicons dashicons-yes"></span><?php _e( 'Advanced product data manipulation','woo-product-feed-pro' );?> [<a href="https://adtribes.io/feature-product-data-manipulation/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=product%20data%20manipulation" target="_blank"><?php _e( 'Read more','woo-product-feed-pro' );?></a>];<br/>
 						<span class="dashicons dashicons-yes"></span><?php _e( 'WPML support - including their currency switcher','woo-product-feed-pro' );?> [<a href="https://adtribes.io/wpml-support/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=wpml%20support" target="_blank"><?php _e( 'Read more','woo-product-feed-pro' );?></a>];<br/>
 						<span class="dashicons dashicons-yes"></span><?php _e( 'Aelia currency switcher support','woo-product-feed-pro' );?> [<a href="https://adtribes.io/aelia-currency-switcher-feature/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=aelia%20support" target="_blank"><?php _e( 'Read more','woo-product-feed-pro' );?></a>];<br/>
+						<span class="dashicons dashicons-yes"></span><?php _e( 'Polylang support','woo-product-feed-pro' );?> [<a href="https://adtribes.io/polylang-support-product-feeds/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=polylang%20support" target="_blank"><?php _e( 'Read more','woo-product-feed-pro' );?></a>];<br/>
 						<span class="dashicons dashicons-yes"></span><?php _e( 'Facebook pixel feature','woo-product-feed-pro' );?> [<a href="https://adtribes.io/facebook-pixel-feature/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=facebook pixel feature" target="_blank"><?php _e( 'Read more','woo-product-feed-pro' );?></a>];<br/><br/>
  						<?php _e( 'Upgrade to the','woo-product-feed-pro' );?> <strong><a href="https://adtribes.io/pro-vs-elite/?utm_source=<?php print"$host";?>&utm_medium=manage-feed&utm_campaign=top-notification&utm_content=notification" target="_blank"><?php _e( 'Elite version of our plugin</a></strong> to get all these features.','woo-product-feed-pro' );?>
 						</p>
@@ -148,7 +149,7 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 				
 					//echo '<pre>' . print_r( $val, true ) . '</pre>';
 
-					if($val['active'] == "true"){
+					if(isset($val['active']) AND ($val['active'] == "true")){
 						$checked = "checked";
 						$class = "";
 					} else {
@@ -288,6 +289,7 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
                                                                 <li><strong>5.</strong> <?php _e( 'WPML support','woo-product-feed-pro' );?></li>
                                                                	<li><strong>6.</strong> <?php _e( 'Aelia currency switcher support','woo-product-feed-pro' );?></li>
                                                                	<li><strong>7.</strong> <?php _e( 'Facebook pixel feature','woo-product-feed-pro' );?></li>
+                                                               	<li><strong>8.</strong> <?php _e( 'Polylang support','woo-product-feed-pro' );?></li>
 							 </ul>
                                                         <strong>
                                                         <a href="https://adtribes.io/pro-vs-elite/?utm_source=<?php print"$host";?>&utm_medium=manage-feed&utm_campaign=why-upgrade-box" target="_blank"><?php _e( 'Upgrade to Elite here!','woo-product-feed-pro' );?></a>
@@ -332,6 +334,7 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 						 		<li><strong>8. <a href="https://adtribes.io/aelia-currency-switcher-feature/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=aelia support" target="_blank"><?php _e( 'Enable Aelia currency switcher support','woo-product-feed-pro' );?></a></strong></li>
 							 	<li><strong>9. <a href="https://adtribes.io/help-my-feed-processing-is-stuck/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=feed stuck" target="_blank"><?php _e( 'Help, my feed is stuck!','woo-product-feed-pro' );?></a></strong></li>
 							 	<li><strong>10. <a href="https://adtribes.io/help-i-have-none-or-less-products-in-my-product-feed-than-expected/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=too few products" target="_blank"><?php _e( 'Help, my feed has no or too few products!','woo-product-feed-pro');?></a></strong></li>
+                                                                <li><strong>11. <a href="https://adtribes.io/polylang-support-product-feeds/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=polylang support" target="_blank"><?php _e( 'How to use the Polylang feature', 'woo-product-feed-pro' );?></a></strong></li>
 							</ul>
 						</td>
 					</tr>

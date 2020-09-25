@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     <div class="card-body">
 
         <?php if ( Facebook()->enabled() ) : ?>
-            
+
             <div class="row align-items-center mb-3">
                 <div class="col-3">
                     <img class="tag-logo" src="<?php echo PYS_FREE_URL; ?>/dist/images/facebook-small-square.png">
@@ -38,14 +38,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                     </div>
                     <div class="col-7">
-                        <h4 class="label">Optional:</h4>
+                        <h4 class="label">Conversion API (recommended):</h4>
                         <?php Facebook()->render_checkbox_input(
                             "use_server_api",
-                            "Also send events directly from your web server to Facebook through the server-side API. This can help you capture more events. An access token is required to use the server-side API. <a href='https://www.pixelyoursite.com/documentation/configure-server-side-events' target='_blank'>Generate Access Token</a>"
+                            "Send events directly from your web server to Facebook through the Conversion API. This can help you capture more events. An access token is required to use the server-side API. <a href='https://www.pixelyoursite.com/documentation/configure-server-side-events' target='_blank'>Generate Access Token</a>"
                         ); ?>
                         <?php Facebook()->render_text_area_array_item("server_access_api_token","Api token") ?>
                         <small class="form-text">
-                            This is an experimental feature and works only for the WooCommerce Purchase and CompleteRegistration events, and Easy Digital Downloads Purchase event.
+                            This is an experimental feature and works only for the automatilly fired standard events. We plan to expand it to all events soon.
                         </small>
                     </div>
                 </div>
@@ -70,11 +70,11 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </div>
             <?php endif; ?>
             <hr>
-        
 
-	
+
+
 	    <?php if ( GA()->enabled() ) : ?>
-            
+
             <div class="row align-items-center mb-3">
                 <div class="col-3">
                     <img class="tag-logo" src="<?php echo PYS_FREE_URL; ?>/dist/images/analytics-square-small.png">
@@ -99,11 +99,11 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </div>
             <?php endif; ?>
             <hr>
-	
+
 	    <?php endif; ?>
-    
+
         <?php do_action( 'pys_admin_pixel_ids' ); ?>
-        
+
         <div class="row align-items-center">
             <div class="col-3 py-4">
                 <img class="tag-logo" src="<?php echo PYS_FREE_URL; ?>/dist/images/google-ads-square-small.png">
@@ -114,7 +114,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         target="_blank">pro version</a>.
             </div>
         </div>
-        
+
     </div>
 </div>
 
@@ -271,7 +271,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <?php renderPopoverButton( 'general_event' ); ?>
             </div>
         </div>
-	
+
 	    <?php if ( Facebook()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -280,7 +280,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </div>
             </div>
 	    <?php endif; ?>
-     
+
 	    <?php if ( Pinterest()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -290,7 +290,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </div>
             </div>
         <?php endif; ?>
-        
+
         <div class="row">
             <div class="col">
                 <?php renderDummySwitcher(); ?>
@@ -390,7 +390,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
 
 	    <?php endforeach; ?>
-	
+
 	    <?php if ( GA()->enabled() ) : ?>
             <div class="row mt-3">
                 <div class="col">
@@ -416,7 +416,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			    <?php renderPopoverButton( 'search_event' ); ?>
             </div>
         </div>
-	
+
 	    <?php if ( Facebook()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -425,7 +425,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </div>
             </div>
         <?php endif; ?>
-	
+
 	    <?php if ( GA()->enabled() ) : ?>
             <div class="row mb-1">
                 <div class="col">
@@ -458,7 +458,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </div>
             </div>
         <?php endif; ?>
-        
+
 	    <?php if ( Pinterest()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -556,7 +556,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php renderPopoverButton( 'comment_event' ); ?>
             </div>
         </div>
-		
+
 		<?php if ( Facebook()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -565,7 +565,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </div>
             </div>
 		<?php endif; ?>
-		
+
 		<?php if ( GA()->enabled() ) : ?>
             <div class="row mb-1">
                 <div class="col">
@@ -627,7 +627,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <?php renderPopoverButton( 'download_docs_event' ); ?>
             </div>
         </div>
-        
+
         <?php if ( Facebook()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -636,7 +636,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </div>
             </div>
         <?php endif; ?>
-        
+
         <?php if ( GA()->enabled() ) : ?>
             <div class="row mb-1">
                 <div class="col">
@@ -651,7 +651,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </div>
             </div>
         <?php endif; ?>
-        
+
         <div class="row">
             <div class="col">
                 <?php renderDummySwitcher(); ?>
@@ -659,7 +659,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <?php renderProBadge('https://www.pixelyoursite.com/google-ads-tag/?utm_source=pys-free-plugin&utm_medium=pro-badge&utm_campaign=pro-feature') ?>
             </div>
         </div>
-        
+
         <?php if ( Pinterest()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -707,7 +707,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         Track Clicks <?php renderProBadge(); ?><?php cardCollapseBtn(); ?>
     </div>
     <div class="card-body">
-        
+
         <div class="row">
             <div class="col-11">
                 <p>This event will be fired everytime a click is performed on your website.</p>
@@ -716,14 +716,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 			    <?php renderPopoverButton( 'click_event' ); ?>
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col">
 			    <?php renderDummySwitcher(); ?>
                 <h4 class="switcher-label">Enable the ClickEvent on Facebook</h4>
             </div>
         </div>
-        
+
         <div class="row mb-1">
             <div class="col">
 			    <?php renderDummySwitcher(); ?>
@@ -756,7 +756,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <h4 class="switcher-label">Enable the ClickEvent on Bing</h4>
             </div>
         </div>
-        
+
     </div>
 </div>
 
@@ -766,7 +766,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         Track Embedded Video Views <?php renderProBadge(); ?><?php cardCollapseBtn(); ?>
     </div>
     <div class="card-body">
-        
+
         <div class="row">
             <div class="col-11">
                 <p>This event will be fired when an embedded YouTube or Vimeo video is watched on your website.</p>
@@ -828,7 +828,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <h4 class="indicator-label">Vimeo embedded videos</h4>
             </div>
         </div>
-        
+
     </div>
 </div>
 
@@ -838,7 +838,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         Track User Sign-ups <?php renderProBadge(); ?><?php cardCollapseBtn(); ?>
     </div>
     <div class="card-body">
-        
+
         <div class="row">
             <div class="col-11">
                 <p>This event will be fired after a new user account is created on your website.</p>
@@ -847,14 +847,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 			    <?php renderPopoverButton( 'complete_registration_event' ); ?>
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col">
 			    <?php renderDummySwitcher(); ?>
                 <h4 class="switcher-label">Enable the CompleteRegistration event on Facebook</h4>
             </div>
         </div>
-        
+
         <div class="row mb-1">
             <div class="col">
 			    <?php renderDummySwitcher(); ?>
@@ -866,7 +866,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			    <?php renderDummyCheckbox( 'Non-interactive event' ); ?>
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col">
 			    <?php renderDummySwitcher(); ?>
@@ -897,7 +897,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         Track AdSense Clicks <?php renderProBadge(); ?><?php cardCollapseBtn(); ?>
     </div>
     <div class="card-body">
-        
+
         <div class="row">
             <div class="col-11">
                 <p>This event will be fired by clicks on AdSense ads. Is designed to be used for retargeting with Custom
@@ -914,7 +914,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <h4 class="switcher-label">Enable the AdSense event on Facebook</h4>
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col">
 			    <?php renderDummySwitcher(); ?>
@@ -928,7 +928,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <h4 class="switcher-label">Enable the ClickEvent on Bing</h4>
             </div>
         </div>
-        
+
         <?php if ( GA()->enabled() ) : ?>
             <div class="row mt-3">
                 <div class="col">
@@ -937,7 +937,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </div>
             </div>
         <?php endif; ?>
-        
+
     </div>
 </div>
 

@@ -25,6 +25,10 @@ if( is_array( $extra_classes ) ){
     $extra_classes = implode( " ", $extra_classes );
 }
 ?>
+
+<input type="hidden" id="yith_wczm_traffic_light" value="free">
+
+
 <div class="images<?php if ( $is_IE ): ?> ie<?php endif ?>">
 
     <?php
@@ -88,7 +92,7 @@ if( is_array( $extra_classes ) ){
 		position: '<?php echo get_option ( 'yith_wcmg_zoom_position' ) ?>',
 		//tint: <?php //echo get_option('yith_wcmg_tint') == '' ? 'false' : "'".get_option('yith_wcmg_tint')."'" ?>,
 		//tintOpacity: <?php //echo get_option('yith_wcmg_tint_opacity') ?>,
-		lensOpacity: <?php echo get_option ( 'yith_wcmg_lens_opacity' ) ?>,
+		lensOpacity: '<?php echo get_option ( 'yith_wcmg_lens_opacity' ) ?>',
 		softFocus: <?php echo get_option ( 'yith_wcmg_softfocus' ) == 'yes' ? 'true' : 'false' ?>,
 		//smoothMove: <?php //echo get_option('yith_wcmg_smooth') ?>,
 		adjustY: 0,

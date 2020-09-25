@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1e264f615095706828f20f7172cfbd01",
+    "content-hash": "3f0321919b7a08d374f38e21d4914e56",
     "packages": [
         {
             "name": "facebook/php-business-sdk",
-            "version": "7.0.1",
+            "version": "8.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facebook/facebook-php-business-sdk.git",
-                "reference": "ae15c52c45015f1cd9e1adbbf442a75698a6e214"
+                "reference": "26d79d5c33aff01ade2192e1720ab3f646ae8aa9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facebook/facebook-php-business-sdk/zipball/ae15c52c45015f1cd9e1adbbf442a75698a6e214",
-                "reference": "ae15c52c45015f1cd9e1adbbf442a75698a6e214",
+                "url": "https://api.github.com/repos/facebook/facebook-php-business-sdk/zipball/26d79d5c33aff01ade2192e1720ab3f646ae8aa9",
+                "reference": "26d79d5c33aff01ade2192e1720ab3f646ae8aa9",
                 "shasum": ""
             },
             "require-dev": {
@@ -41,7 +41,7 @@
                 "page",
                 "sdk"
             ],
-            "time": "2020-06-04T00:19:55+00:00"
+            "time": "2020-08-05T05:08:38+00:00"
         },
         {
             "name": "glenscott/url-normalizer",

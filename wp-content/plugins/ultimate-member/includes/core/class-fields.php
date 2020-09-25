@@ -3683,13 +3683,18 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 			$roles = UM()->roles()->get_roles( false, $exclude_roles );
 
 			if ( ! empty( $options ) ) {
+
+				$roles = array_map( function( $item ) {
+					return html_entity_decode( $item, ENT_QUOTES );
+				}, $roles );
+
 				//fix when customers change options for role (radio/dropdown) fields
 				$intersected_options = array();
-				foreach ( $options as $option ) {
-					if ( false !== $search_key = array_search( $option, $roles ) ) {
-						$intersected_options[ $search_key ] = $option;
-					} else {
-						$intersected_options[] = $option;
+				foreach ( $options as $key => $title ) {
+					if ( false !== $search_key = array_search( $title, $roles ) ) {
+						$intersected_options[ $search_key ] = $title;
+					} elseif ( isset( $roles[ $key ] ) ) {
+						$intersected_options[ $key ] = $title;
 					}
 				}
 

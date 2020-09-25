@@ -296,9 +296,13 @@ function getWooSingleAddToCartParams( $product_id, $qty = 1 ) {
 		$global_value = PixelYourSite\PYS()->getOption( 'woo_add_to_cart_value_global', 0 );
 
 		$params['value']    = PixelYourSite\getWooEventValue( $value_option, $global_value,100, $product_id,$qty );
-		$params['currency'] = get_woocommerce_currency();
+
 
 	}
+    $params['currency'] = get_woocommerce_currency();
+    if(PixelYourSite\Facebook()->isServerApiEnabled()) {
+        $params['eventID'] = (string) $product_id."_".time();
+    }
 
 	// contents
 	if ( isDefaultWooContentIdLogic() ) {
@@ -396,10 +400,10 @@ function getWooCartParams( $context = 'cart' ) {
 		$global_value = PixelYourSite\PYS()->getOption( $value_global_option, 0 );
 
 		$params['value']    = PixelYourSite\getWooEventValueCart( $value_option, $global_value );
-		$params['currency'] = get_woocommerce_currency();
+
 
 	}
-
+    $params['currency'] = get_woocommerce_currency();
 	return $params;
 
 }
@@ -564,7 +568,10 @@ function getCompleteRegistrationOrderParams() {
     $global_value   = PixelYourSite\Facebook()->getOption( 'woo_complete_registration_global_value', 0 );
     $percents_value = PixelYourSite\Facebook()->getOption( 'woo_complete_registration_percent_value', 100 );
 
-    $params['eventID'] = $order_id;
+    if(PixelYourSite\Facebook()->isServerApiEnabled()) {
+        $params['eventID'] = $order_id."_".time();
+    }
+
     $params['value'] = PixelYourSite\getWooEventValueOrder( $value_option, $order, $global_value, $percents_value );
     $params['currency'] = get_woocommerce_currency();
     return $params;

@@ -316,9 +316,9 @@
         var $child = $(child),
           condition = $child && $child.data('conditional-parent-value')
 
-/*         console.log('name', name);
-        console.log('value', value);
-        console.log('condition', condition); */
+        /*         console.log('name', name);
+                console.log('value', value);
+                console.log('condition', condition); */
 
         if (
           value == condition
@@ -448,15 +448,14 @@
 
   $('.wooccm-enhanced-datepicker').each(function (i, field) {
 
-
     var $input = $(this),
       disable = $input.data('disable') || false;
 
     if ($.isFunction($.fn.datepicker)) {
       $input.datepicker({
         dateFormat: $input.data('formatdate') || 'dd-mm-yy',
-        minDate: $input.data('mindate') || null,
-        maxDate: $input.data('maxdate') || null,
+        minDate: $input.data('mindate'),
+        maxDate: $input.data('maxdate'),
         beforeShowDay: function (date) {
           var day = date.getDay() != undefined && date.getDay().toString();
           if (disable) {

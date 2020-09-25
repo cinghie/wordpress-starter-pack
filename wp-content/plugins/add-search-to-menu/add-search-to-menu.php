@@ -3,7 +3,7 @@
  * Plugin Name: Ivory Search
  * Plugin URI:  https://ivorysearch.com
  * Description: The WordPress Search plugin that includes Search Form Customizer, WooCommerce Search, Image Search, Search Shortcode, AJAX Search & Live Search support!
- * Version:     4.5.5
+ * Version:     4.5.8
  * Author:      Ivory Search
  * Author URI:  https://ivorysearch.com/
  * License:     GPL2+
@@ -108,7 +108,7 @@ final class Ivory_Search {
 	private function define_constants() {
 
 		if ( ! defined( 'IS_VERSION' ) ) {
-			define( 'IS_VERSION', '4.5.5' );
+			define( 'IS_VERSION', '4.5.8' );
 		}
 		if ( ! defined( 'IS_PLUGIN_FILE' ) ) {
 			define( 'IS_PLUGIN_FILE', __FILE__ );
@@ -178,5 +178,8 @@ final class Ivory_Search {
 /**
  * Starts plugin execution.
  */
-$is = Ivory_Search::getInstance();
-$is->start();
+function ivory_search_start(){
+	$is = Ivory_Search::getInstance();
+	$is->start();
+}
+add_action( 'plugins_loaded', 'ivory_search_start' );

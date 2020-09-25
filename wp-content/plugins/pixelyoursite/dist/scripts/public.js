@@ -680,6 +680,8 @@ if (!Array.prototype.includes) {
     }(options);
 
     var Facebook = function (options) {
+        var serverEvents = ["Purchase","InitiateCheckout","CompleteRegistration","hCR","ViewContent","PageView"];
+        var serverEventsDynamic = ["AddToCart"];
 
         var defaultEventTypes = [
             'PageView',
@@ -704,35 +706,40 @@ if (!Array.prototype.includes) {
 
         var initialized = false;
 
-        function fireEvent(name, data) {
+        function fireEvent(name, allData) {
 
             var actionType = defaultEventTypes.includes(name) ? 'track' : 'trackCustom';
-
+            var data = allData.params;
             var params = {};
             Utils.copyProperties(data, params);
             Utils.copyProperties(options.commonEventParams, params);
 
-            // fire server side event gdpr plugin installed
-            var isApiDisabled = options.gdpr.all_disabled_by_api ||
-                options.gdpr.facebook_disabled_by_api ||
-                options.gdpr.cookiebot_integration_enabled ||
-                options.gdpr.ginger_integration_enabled ||
-                options.gdpr.cookie_notice_integration_enabled ||
-                options.gdpr.cookie_law_info_integration_enabled;
-            if( ("hCR" === name || "CompleteRegistration" === name || "Purchase" === name) && isApiDisabled){
-                var json = {
-                    action: 'pys_api_event',
-                    pixel: 'facebook',
-                    event: name,
-                    data:data
-                };
-                jQuery.ajax( {
-                    type: 'POST',
-                    url: options.ajaxUrl,
-                    data: json,
-                    success: function(){},
-                });
+            if(options.facebook.serverApiEnabled) {
+                // fire server side event gdpr plugin installed
+                var isApiDisabled = options.gdpr.all_disabled_by_api ||
+                    options.gdpr.facebook_disabled_by_api ||
+                    options.gdpr.cookiebot_integration_enabled ||
+                    options.gdpr.ginger_integration_enabled ||
+                    options.gdpr.cookie_notice_integration_enabled ||
+                    options.gdpr.cookie_law_info_integration_enabled;
+                // send event from server if they was bloc by gdpr or need send with delay
+                if( serverEvents.includes(name) && isApiDisabled || allData.delay > 0 || serverEventsDynamic.includes(name))
+                {
+                    var json = {
+                        action: 'pys_api_event',
+                        pixel: 'facebook',
+                        event: name,
+                        data:data
+                    };
+                    jQuery.ajax( {
+                        type: 'POST',
+                        url: options.ajaxUrl,
+                        data: json,
+                        success: function(){},
+                    });
+                }
             }
+
 
             if("hCR" === name) {
                 return;
@@ -741,9 +748,13 @@ if (!Array.prototype.includes) {
             if (options.debug) {
                 console.log('[Facebook] ' + name, params);
             }
+            var arg = {};
+            if(options.facebook.serverApiEnabled && params.hasOwnProperty('eventID')) {
+                arg.eventID = params.eventID;
+            }
 
-            if("Purchase" === name || "CompleteRegistration" === name) { // Deduplicate Pixel and Server-Side Events for Purchase event
-                fbq(actionType, name, params,{eventID:params.eventID});
+            if(serverEvents.includes(name) || serverEventsDynamic.includes(name)) { // Deduplicate Pixel and Server-Side Events for Purchase event
+                fbq(actionType, name, params,arg);
             } else {
                 fbq(actionType, name, params);
             }
@@ -822,13 +833,13 @@ if (!Array.prototype.includes) {
 
                 if (data.delay === 0) {
 
-                    fireEvent(name, data.params);
+                    fireEvent(name, data);
 
                 } else {
 
                     setTimeout(function (name, params) {
                         fireEvent(name, params);
-                    }, data.delay * 1000, name, data.params);
+                    }, data.delay * 1000, name, data);
 
                 }
 

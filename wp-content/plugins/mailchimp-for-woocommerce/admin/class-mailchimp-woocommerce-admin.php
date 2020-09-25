@@ -110,11 +110,12 @@ class MailChimp_WooCommerce_Admin extends MailChimp_WooCommerce_Options {
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/mailchimp-woocommerce-admin.css', array(), $this->version.'.21', 'all' );
 		wp_enqueue_style( $this->plugin_name . 'checkbox', plugin_dir_url( __FILE__ ) . 'css/checkbox.min.css', array(), $this->version, 'all' );
 
-		if ( $hook === 'woocommerce_page_mailchimp-woocommerce' ) {
+		if ( strpos($hook, 'page_mailchimp-woocommerce') !== false ) {
 			if ( get_bloginfo( 'version' ) < '5.3') {
 				wp_enqueue_style( $this->plugin_name."-settings", plugin_dir_url( __FILE__ ) . 'css/mailchimp-woocommerce-admin-settings-5.2.css', array(), $this->version, 'all' );
 			}	
 			wp_enqueue_style( $this->plugin_name."-settings", plugin_dir_url( __FILE__ ) . 'css/mailchimp-woocommerce-admin-settings.css', array(), $this->version, 'all' );
+			wp_style_add_data( $this->plugin_name."-settings", 'rtl', 'replace' );	
 		}
 	}
 
@@ -124,7 +125,7 @@ class MailChimp_WooCommerce_Admin extends MailChimp_WooCommerce_Options {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts($hook) {
-		if ( $hook === 'woocommerce_page_mailchimp-woocommerce' ) {
+		if ( strpos($hook, 'page_mailchimp-woocommerce') !== false ) {
 			wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/mailchimp-woocommerce-admin.js', array( 'jquery', 'swal' ), $this->version.'.21', false );
 			wp_localize_script(
 				$this->plugin_name,
@@ -257,22 +258,72 @@ class MailChimp_WooCommerce_Admin extends MailChimp_WooCommerce_Options {
 	 */
 	public function initial_notice() {
 		if (!mailchimp_is_configured()) {
-			$class = 'notice notice-warning is-dismissible';
-			$message = sprintf(
-				/* translators: Placeholders %1$s - opening strong HTML tag, %2$s - closing strong HTML tag, %3$s - opening link HTML tag, %4$s - closing link HTML tag */
-				esc_html__(
-					'%1$sMailchimp for Woocommerce%2$s is not yet connected to a Mailchimp account. To complete the connection, %3$svisit the plugin settings page%4$s.',
-					'facebook-for-woocommerce'
-				),
-				'<strong>',
-				'</strong>',
-				'<a href="' . admin_url( 'admin.php?page=') . $this->plugin_name . '">',
-				'</a>'
-			);
-			printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message ); 
+			// If WC_Admin_Notes doesn't exist, show normal wordpress admin notice...
+			if ( ! class_exists( '\Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes' ) ) {
+				$class = 'notice notice-warning is-dismissible';
+				$message = sprintf(
+					/* translators: Placeholders %1$s - opening strong HTML tag, %2$s - closing strong HTML tag, %3$s - opening link HTML tag, %4$s - closing link HTML tag */
+					esc_html__(
+						'%1$sMailchimp for Woocommerce%2$s is not yet connected to a Mailchimp account. To complete the connection, %3$svisit the plugin settings page%4$s.',
+						'facebook-for-woocommerce'
+					),
+					'<strong>',
+					'</strong>',
+					'<a href="' . admin_url( 'admin.php?page=') . $this->plugin_name . '">',
+					'</a>'
+				);
+				printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message ); 
+			}
+			// else show the WooCoomerce admin inbox note.
+			else {
+				if ( ! class_exists( 'WC_Data_Store' ) ) {
+					return;
+				}
+		
+				$data_store = WC_Data_Store::load( 'admin-note' );
+		
+				// First, see if we've already created this kind of note so we don't do it again.
+				$note_ids = $data_store->get_notes_with_name( 'mailchimp-for-woocommerce-incomplete-install' );
+				foreach( (array) $note_ids as $note_id ) {
+					$note         = \Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::get_note( $note_id );
+					$content_data = $note->get_content_data();
+					if ( property_exists( $content_data, 'getting_started' ) ) {
+						return;
+					}
+				}
+		
+				// Otherwise, add the note
+				$activated_time = current_time( 'timestamp', 0 );
+				$activated_time_formatted = date( 'F jS', $activated_time );
+				$note = new \Automattic\WooCommerce\Admin\Notes\WC_Admin_Note();
+				$note->set_title( __( 'Mailchimp For WooCommerce', 'mailchimp-for-woocommerce' ) );
+				$note->set_content(
+					esc_html__(
+						'Plugin is not yet connected to a Mailchimp account. To complete the connection, open the settings page.',
+						'mailchimp-for-woocommerce'
+					)
+				);
+				$note->set_content_data( (object) array(
+					'getting_started'     => true,
+					'activated'           => $activated_time,
+					'activated_formatted' => $activated_time_formatted,
+				) );
+				$note->set_type( \Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_WARNING );
+				$note->set_layout('plain');
+				$note->set_image('');
+				$note->set_name( 'mailchimp-for-woocommerce-incomplete-install' );
+				$note->set_source( 'mailchimp-for-woocommerce' );
+				$note->set_layout('plain');
+				$note->set_image('');
+				$note->add_action(
+					'settings',
+					__( 'Open Settings', 'mailchimp-for-woocommerce' ),
+					admin_url( 'admin.php?page=') . $this->plugin_name
+				);
+				$note->save();
+			}
 		}
 	}
-
 
 	/**
 	 * Depending on the version we're on we may need to run some sort of migrations.
@@ -882,7 +933,7 @@ class MailChimp_WooCommerce_Admin extends MailChimp_WooCommerce_Options {
             'store_phone' => isset($input['store_phone']) ? $input['store_phone'] : false,
             // locale info
             'store_locale' => isset($input['store_locale']) ? $input['store_locale'] : false,
-			'store_timezone' => isset($input['store_timezone']) ? $input['store_timezone'] : false,
+			'store_timezone' => mailchimp_get_timezone(),
             'admin_email' => isset($input['admin_email']) && is_email($input['admin_email']) ? $input['admin_email'] : $this->getOption('admin_email', false),
 			'mailchimp_permission_cap' => $checkbox,
         );
@@ -1096,7 +1147,7 @@ class MailChimp_WooCommerce_Admin extends MailChimp_WooCommerce_Options {
 		return $this->validateOptions(array(
 			'store_name', 'store_street', 'store_city', 'store_state',
 			'store_postal_code', 'store_country', 'store_phone',
-			'store_locale', 'store_timezone',
+			'store_locale',
 			'store_phone','mailchimp_permission_cap',
 		), $data);
 	}
@@ -1472,7 +1523,7 @@ class MailChimp_WooCommerce_Admin extends MailChimp_WooCommerce_Options {
 
 		// set the locale data
 		$store->setPrimaryLocale($this->array_get($data, 'store_locale', 'en'));
-		$store->setTimezone($this->array_get($data, 'store_timezone', 'America\New_York'));
+		$store->setTimezone(mailchimp_get_timezone());
 		$store->setCurrencyCode($this->array_get($data, 'store_currency_code', 'USD'));
 		$store->setMoneyFormat($store->getCurrencyCode());
 

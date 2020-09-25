@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Multi-step Checkout - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-07-14 15:42:12+0000\n"
+"PO-Revision-Date: 2020-09-15 13:17:51+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,10 +11,39 @@ msgstr ""
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Multi-step Checkout - Stable (latest release)\n"
 
+#: plugin-fw/lib/yit-assets.php:108
+msgid "Color value"
+msgstr "Valore del colore"
+
+#: plugin-fw/lib/yit-assets.php:107
+msgid "Select Color"
+msgstr "Seleziona colore"
+
+#: plugin-fw/lib/yit-assets.php:106
+msgid "Select default color"
+msgstr "Seleziona il colore predefinito"
+
+#: plugin-fw/lib/yit-assets.php:105
+msgid "Default"
+msgstr "Predefinito"
+
+#: plugin-fw/lib/yit-assets.php:104
+msgid "Clear color"
+msgstr "Rimuovi colore"
+
+#: plugin-fw/lib/yit-assets.php:103
+msgid "Clear"
+msgstr "Cancella"
+
 #. translators: %1$s TLS label
 #: plugin-fw/lib/yith-system-status.php:596
 msgid "The system check cannot determine which %1$s version is installed due to a connection issue between your site and our server."
 msgstr "Non è stato possibile determinare con i controlli di sistema quale versione di %1$s è installata a causa di un problema di connessione fra il tuo sito e il nostro server."
+
+#. translators: %1$s TLS label, %2$s cURL label
+#: plugin-fw/lib/yith-system-status.php:593
+msgid "The system check cannot determine which %1$s version is installed because %2$s module is disabled. Ask your hosting company to enable it."
+msgstr "Non è stato possibile determinare quale versione di %1$s è installata in quanto il modulo %2$s è disattivato. Chiedi al tuo servizio hosting di attivarlo."
 
 #: plugin-fw/lib/yith-system-status.php:545
 msgid "Contact your hosting company in order to install it."
@@ -290,11 +319,6 @@ msgstr "Indietro"
 msgctxt "Admin option title"
 msgid "Label for prev button"
 msgstr "Testo pulsante 'Indietro'"
-
-#. translators: %1$s TLS label, %2$s cURL label
-#: plugin-fw/lib/yith-system-status.php:593
-msgid "The system check cannot determine which %1$s version is installed because %2$s module is disabled. Ask your hosting company to enable it."
-msgstr "Non è stato possibile determinare quale versione di %1$s è installata in quanto il modulo %2$s è disattivato. Chiedi al tuo servizio hosting di attivarlo."
 
 #: plugin-options/buttons-options.php:20
 msgctxt "Admin: section title"
@@ -692,6 +716,10 @@ msgctxt "Action links"
 msgid "Settings"
 msgstr "Impostazioni"
 
+#: plugin-fw/templates/fields/icons.php:58
+msgid "Set Default"
+msgstr "Imposta come Predefinito"
+
 #: plugin-fw/templates/fields/ajax-products.php:16
 msgid "Search Product"
 msgstr "Cerca un Prodotto"
@@ -700,13 +728,9 @@ msgstr "Cerca un Prodotto"
 msgid "Search Posts"
 msgstr "Cerca Post"
 
-#: plugin-fw/templates/fields/icons.php:58
-msgid "Set Default"
-msgstr "Imposta come Predefinito"
-
 #: templates/woocommerce/checkout/form-checkout.php:52
-#: plugin-options/buttons-options.php:67
 #: includes/class.yith-multistep-checkout-frontend.php:357
+#: plugin-options/buttons-options.php:67
 msgctxt "Frontend: button label"
 msgid "Back to cart"
 msgstr "Ritorna al carrello"
@@ -886,8 +910,8 @@ msgstr "Chiudi tutti"
 msgid "Image preview"
 msgstr "Anteprima immagine"
 
-#: plugin-fw/templates/metaboxes/types/icon-list.php:70
 #: plugin-fw/templates/fields/upload.php:27
+#: plugin-fw/templates/metaboxes/types/icon-list.php:70
 #: plugin-fw/templates/panel/woocommerce/woocommerce-upload.php:40
 msgid "Upload"
 msgstr "Carica"
@@ -974,9 +998,9 @@ msgstr "Impostazioni salvate"
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Per favore, inserisci un altro nome."
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:21
 #: plugin-fw/lib/yit-plugin-panel.php:625
 #: plugin-fw/lib/yit-plugin-subpanel.php:157
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:21
 msgid "Are you sure?"
 msgstr "Sei sicuro?"
 
@@ -985,15 +1009,15 @@ msgstr "Sei sicuro?"
 msgid "Reset to default"
 msgstr "Ripristina configurazione predefinita"
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:17
 #: plugin-fw/lib/yit-plugin-panel.php:621
 #: plugin-fw/lib/yit-plugin-subpanel.php:154
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:17
 msgid "If you continue with this action, you will reset all options in this page."
 msgstr "Se prosegui con questa azione, tutte le opzioni di questa pagina saranno reimpostate."
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
 #: plugin-fw/lib/yit-plugin-panel.php:617
 #: plugin-fw/lib/yit-plugin-subpanel.php:151
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
 msgid "Save Changes"
 msgstr "Salva modifiche"
 
@@ -1005,7 +1029,7 @@ msgstr "Plugin YITH"
 msgid "Plugin Settings"
 msgstr "Impostazioni plugin"
 
-#: plugin-fw/lib/yit-plugin-panel-wc.php:403
+#: plugin-fw/lib/yit-plugin-panel-wc.php:426
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 
@@ -1017,9 +1041,9 @@ msgstr "Carica file multipli"
 msgid "Add %s from images"
 msgstr "Aggiungi %s dalla immagini"
 
+#: plugin-fw/lib/yit-cpt-unlimited.php:1484
 #: plugin-fw/templates/fields/customtabs.php:46
 #: plugin-fw/templates/fields/customtabs.php:89
-#: plugin-fw/lib/yit-cpt-unlimited.php:1484
 msgid "Name"
 msgstr "Nome"
 
@@ -1132,8 +1156,8 @@ msgstr "Categoria genitore"
 msgid "All Categories"
 msgstr "Tutte le categorie"
 
-#: plugin-fw/templates/fields/ajax-terms.php:56
 #: plugin-fw/lib/yit-cpt-unlimited.php:629
+#: plugin-fw/templates/fields/ajax-terms.php:56
 msgid "Search Categories"
 msgstr "Cerca categorie"
 

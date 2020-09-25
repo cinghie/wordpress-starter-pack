@@ -206,10 +206,13 @@ class Facebook extends Settings implements Pixel {
 	}
 	
 	private function getPageViewEventParams() {
-
+	    $data = array();
+	    if($this->isServerApiEnabled()) {
+            $data['eventID'] = "pv_".time();
+        }
 		return array(
 			'name'  => 'PageView',
-			'data'  => array(),
+			'data'  => $data,
 		);
 
 	}
@@ -399,10 +402,10 @@ class Facebook extends Settings implements Pixel {
 
 
             $params['value']    = getWooEventValue( $value_option, $global_value,100, $post->ID ,1);
-            $params['currency'] = get_woocommerce_currency();
+
 
 		}
-
+        $params['currency'] = get_woocommerce_currency();
 		// contents
 		if ( Helpers\isDefaultWooContentIdLogic() ) {
 
@@ -416,6 +419,9 @@ class Facebook extends Settings implements Pixel {
 			) );
 
 		}
+        if($this->isServerApiEnabled()) {
+            $params['eventID'] = $post->ID."_".time();
+        }
 
 		$params['product_price'] = getWooProductPriceToDisplay( $post->ID );
 
@@ -448,6 +454,9 @@ class Facebook extends Settings implements Pixel {
 		}
 
 		$params = Helpers\getWooCartParams();
+        if($this->isServerApiEnabled()) {
+            $params['eventID'] = "add_cart_".time();
+        }
 
 		return array(
 			'name' => 'AddToCart',
@@ -541,6 +550,9 @@ class Facebook extends Settings implements Pixel {
 		}
 
 		$params = Helpers\getWooCartParams( 'InitiateCheckout' );
+        if($this->isServerApiEnabled()) {
+            $params['eventID'] = "init_check_".time();
+        }
 
 		return array(
 			'name' => 'InitiateCheckout',
@@ -622,7 +634,10 @@ class Facebook extends Settings implements Pixel {
         $params['value'] = getWooEventValueOrder( $value_option, $order, $global_value );
         $params['currency'] = get_woocommerce_currency();
         //$params['transaction_id'] = $order_id;
-        $params['eventID'] = $order_id;
+
+        if($this->isServerApiEnabled()) {
+            $params['eventID'] = $order_id;
+        }
 		return array(
 			'name' => 'Purchase',
 			'data' => $params,
@@ -695,9 +710,13 @@ class Facebook extends Settings implements Pixel {
 			$global_value   = PYS()->getOption( 'edd_view_content_value_global', 0 );
 
 			$params['value'] = getEddEventValue( $value_option, $amount, $global_value );
-			$params['currency'] = edd_get_currency();
+
 
 		}
+        $params['currency'] = edd_get_currency();
+        if($this->isServerApiEnabled()) {
+            $params['eventID'] = $post->ID."_".time();
+        }
 
 		// contents
 		$params['contents'] = json_encode( array(
@@ -747,10 +766,10 @@ class Facebook extends Settings implements Pixel {
 			$global_value = PYS()->getOption( 'edd_add_to_cart_value_global', 0 );
 
 			$params['value'] = getEddEventValue( $value_option, $amount, $global_value );
-			$params['currency'] = edd_get_currency();
+
 
 		}
-
+        $params['currency'] = edd_get_currency();
 		// contents
 		$params['contents'] = json_encode( array(
 			array(
@@ -759,6 +778,9 @@ class Facebook extends Settings implements Pixel {
 				'item_price' => getEddDownloadPriceToDisplay( $download_id ),
 			)
 		) );
+        if($this->isServerApiEnabled()) {
+            $params['eventID'] = $download_id."_".time();
+        }
 
 		return array(
 			'data' => $params,
@@ -868,23 +890,39 @@ class Facebook extends Settings implements Pixel {
 
 		// currency, value
 		if ( $value_enabled ) {
-		 
+
 			$params['value']    = getEddEventValue( $value_option, $amount, $global_value );
 			$params['currency'] = edd_get_currency();
 
 		}
+
+        if($context == 'AddToCart') {
+            if($this->isServerApiEnabled()) {
+                $params['eventID'] = "edd_add_cart_".time();
+            }
+
+        }
+        if($context == 'InitiateCheckout') {
+            if($this->isServerApiEnabled()) {
+                $params['eventID'] = "init_check_".time();
+            }
+        }
+
 
 		if ( $context == 'Purchase' ) {
 
 			$payment_key = getEddPaymentKey();
 			$payment_id = (int) edd_get_purchase_id_by_key( $payment_key );
 
-			$params['currency'] = edd_get_currency();
+
             $params['value'] = edd_get_payment_amount( $payment_id );
-            $params['eventID'] = $payment_id;
+            if($this->isServerApiEnabled()) {
+                $params['eventID'] = $payment_id."_".time();
+            }
+
 
 		}
-
+        $params['currency'] = edd_get_currency();
 		return array(
 			'name' => $context,
 			'data' => $params,
