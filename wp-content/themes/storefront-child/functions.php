@@ -1,13 +1,6 @@
 <?php
 
 /**
- * Add Aqua Resizer
- *
- * @see https://github.com/syamilmj/Aqua-Resizer
- */
-require_once 'aq_resizer.php';
-
-/**
  * Storefront automatically loads the core CSS even if using a child theme as it is more efficient
  * than @importing it in the child theme style.css file.
  *
@@ -48,24 +41,6 @@ function hide_wordpress_version() {
 }
 
 add_filter('the_generator', 'hide_wordpress_version');
-
-/**
- * Prevent update notification for plugin
- *
- * @param $value
- *
- * @return mixed
- */
-function disable_plugin_updates($value)
-{
-	if (is_object($value) && isset($value, $value->response['all-in-one-wp-migration/all-in-one-wp-migration.php'])) {
-		unset($value->response['all-in-one-wp-migration/all-in-one-wp-migration.php'] );
-	}
-
-	return $value;
-}
-
-add_filter( 'site_transient_update_plugins', 'disable_plugin_updates' );
 
 /**
  * Register Footer Credits Widget
