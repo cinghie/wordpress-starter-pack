@@ -4,7 +4,7 @@ Tags: ecommerce,email,workflows,mailchimp
 Donate link: https://mailchimp.com
 Requires at least: 4.9
 Tested up to: 5.5
-Stable tag: 2.4.6
+Stable tag: 2.4.7
 Requires PHP: 7.0
 WC requires at least: 3.5
 WC tested up to: 4.5
@@ -77,12 +77,9 @@ At this time, the synchronization of product categories from WooCommerce to Mail
 If you are unable to sync or connect with Mailchimp, you can open a ticket on our [Github plugin page](https://github.com/mailchimp/mc-woocommerce/issues). Please provide the version of the plugin and PHP you're using, any fatal errors in the WooCommerce logs (WooCommerce -> Status -> Logs) you're seeing, along with relevant information to the problem you're experiencing.
 
 == Changelog ==
-= 2.4.6 =
-* fix for errors on installs with RTL Site Languages
-* adds GDPR fields for GDPR enabled audiences
-* locale settings from WooCommerce or WP are now auto-selected
-* support for notices in the wc-admin inbox 
-* moves Mailchimp plugin link to bottom of Woocommerce sub navigation
+= 2.4.7 =
+* fix cart items with no price on product
+* fix admin note issue on login
 
 [Historical Changelog](https://raw.githubusercontent.com/mailchimp/mc-woocommerce/master/CHANGELOG.txt)
 

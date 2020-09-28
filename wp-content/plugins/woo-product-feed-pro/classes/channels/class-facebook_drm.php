@@ -205,6 +205,46 @@ class WooSEA_facebook_drm {
 					"feed_name" => "g:custom_label_4",
 					"format" => "optional",
 				),
+				"inventory" => array(
+					"name" => "inventory",
+					"feed_name" => "g:inventory",
+					"format" => "optional",
+				),
+				"commerce_tax_category" => array(
+					"name" => "commerce_tax_category",
+					"feed_name" => "g:commerce_tax_category",
+					"format" => "optional",
+				),
+				"rich_text_description" => array(
+					"name" => "rich_text_description",
+					"feed_name" => "g:rich_text_description",
+					"format" => "optional",
+				),
+				"return_policy_info" => array(
+					"name" => "return_policy_info",
+					"feed_name" => "g:return_policy_info",
+					"format" => "optional",
+				),
+				"launch_date" => array(
+					"name" => "launch_date",
+					"feed_name" => "g:launch_date",
+					"format" => "optional",
+				),
+				"visibility" => array(
+					"name" => "visibility",
+					"feed_name" => "g:visibility",
+					"format" => "optional",
+				),
+				"mobile_link" => array(
+					"name" => "mobile_link",
+					"feed_name" => "g:mobile_link",
+					"format" => "optional",
+				),
+				"additional_variant_attribute" => array(
+					"name" => "additional_variant_attribute",
+					"feed_name" => "g:additional_variant_attribute",
+					"format" => "optional",
+				),
 			),
 		);
 		return $facebook_drm;

@@ -395,7 +395,7 @@ if (array_key_exists('project_hash', $_GET)){
 					</td>
 				</tr>
 				<tr id="product_variations">
-					<td><span><?php _e('Include product variations','woo-product-feed-pro' );?>:</span></td>
+					<td><span><?php _e('Include all product variations','woo-product-feed-pro' );?>:</span></td>
 					<td>
                                                 <label class="woo-product-feed-pro-switch">
                                                         <?php
@@ -418,6 +418,21 @@ if (array_key_exists('project_hash', $_GET)){
                                                                 print "<input type=\"checkbox\" id=\"default_variations\" name=\"default_variations\" class=\"checkbox-field\" checked>";
                                                         } else {
                                                                 print "<input type=\"checkbox\" id=\"default_variations\" name=\"default_variations\" class=\"checkbox-field\">";
+                                                        }
+                                                        ?>
+                                                        <div class="woo-product-feed-pro-slider round"></div>
+                                                </label>
+					</td>
+				</tr>
+				<tr id="lowest_price_variation">
+					<td><span><?php _e( 'Only include lowest priced product variation(s)','woo-product-feed-pro' );?>:</span></td>
+					<td>
+                                                <label class="woo-product-feed-pro-switch">
+                                                        <?php
+                                                        if(isset($project['lowest_price_variations'])){
+                                                                print "<input type=\"checkbox\" id=\"lowest_price_variations\" name=\"lowest_price_variations\" class=\"checkbox-field\" checked>";
+                                                        } else {
+                                                                print "<input type=\"checkbox\" id=\"lowest_price_variations\" name=\"lowest_price_variations\" class=\"checkbox-field\">";
                                                         }
                                                         ?>
                                                         <div class="woo-product-feed-pro-slider round"></div>

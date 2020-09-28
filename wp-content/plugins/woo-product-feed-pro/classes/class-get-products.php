@@ -2865,10 +2865,27 @@ class WooSEA_Get_Products {
 			if( ($product_data['item_group_id'] > 0) AND (is_object(wc_get_product( $product_data['item_group_id']))) AND ($product_data['product_type'] == "variation")){
 				$product_variations = new WC_Product_Variation( $product_data['id'] );
 				$variations = $product_variations->get_variation_attributes();
-		
+
 				// Determine the default variation product
 			      	$mother_product = wc_get_product($product_data['item_group_id']);
 				$def_attributes = $mother_product->get_default_attributes();
+
+				// Get all variations
+				$all_variations = $mother_product->get_available_variations();
+				$variations_id = wp_list_pluck( $all_variations, 'variation_id' );
+
+				// Determine lowest priced variation
+				$variation_min_price = $mother_product->get_variation_price('min');
+				$variation_min_price = wc_format_decimal($variation_min_price,2);
+				$variation_min_price = wc_format_localized_price($variation_min_price);
+
+				if(isset($project_config['lowest_price_variations'])){
+					if($product_data['system_net_price'] == $variation_min_price){
+						$variation_pass = "true";
+					} else {
+						$variation_pass = "false";
+					}
+				}
 
 				// Get review rating and count for parent product
 	                        $product_data['rating_total'] = $mother_product->get_rating_count();
@@ -4224,6 +4241,8 @@ class WooSEA_Get_Products {
 									break;
 								case($pr_array['condition'] = "divide"):
 									$newvalue = ($pd_value / $pr_array['criteria']);
+ 									$newvalue = round($newvalue, 2);
+                                                                   	$newvalue = strtr($newvalue, '.',',');
 									$product_data[$pr_array['attribute']] = $newvalue;
 									break;
 								case($pr_array['condition'] = "plus"):

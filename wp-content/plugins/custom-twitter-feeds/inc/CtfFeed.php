@@ -1663,7 +1663,8 @@ class CtfFeed
 				            $tweet_html .= '<span class="ctf-verified" >' . ctf_get_fa_el( 'fa-check-circle' ) . '</span>';
 			            }
 			            $tweet_html .= '<a href="https://twitter.com/' . $post['user']['screen_name'] . '" class="ctf-author-screenname" target="_blank" style="' . $feed_options['authortextsize'] . $feed_options['authortextweight'] . $feed_options['textcolor'] . '">@' . $post['user']['screen_name'] . '</a>';
-			            $tweet_html .= '<span class="ctf-screename-sep">&middot;</span>';
+			            $sep_style_att = ! empty( $feed_options['authortextsize'] ) ? ' style="' . $feed_options['authortextsize'] . '"' : '';
+			            $tweet_html .= '<span class="ctf-screename-sep"' . $sep_style_att . '>&middot;</span>';
 		            }
 
 		            if ( ctf_show( 'date', $feed_options ) ) {

@@ -213,6 +213,15 @@ class WooSEA_Update_Project {
 		}
 
 		/**
+		 * Did the lowest price product variations got disabled?
+		 */
+		if(array_key_exists('fileformat', $project_data)){
+			if(!array_key_exists('lowest_price_variations', $project_data)) {
+				unset($project_config['lowest_price_variations']);
+			}
+		}
+
+		/**
 		 * Did all the filters got removed
 	  	 */
                 if((array_key_exists('woosea_page', $project_data)) AND ($project_data['woosea_page'] == "filters_rules")){

@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.5
-Stable tag: 8.7.7
+Stable tag: 8.8.0
 
 == Description ==
 
@@ -318,6 +318,15 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 8.8.0 (2020-09-28) =
+* Added feature to only add the cheapest priced variation(s) to product feeds instead of all variations or the default variation.
+
+= 8.7.9 (2020-09-27) =
+* Added 5 default fields to the Facebook template
+
+= 8.7.8 (2020-09-26) =
+* Rounding divide calculations rules to two decimals
 
 = 8.7.7 (2020-09-25) =
 * Facebook purchase event did not always had the correct pricing. Issue solved.
@@ -2794,6 +2803,15 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 8.8.0 =
+Added feature to only add the cheapest priced variation(s) to product feeds instead of all variations or the default variation.
+
+= 8.7.9 =
+Added 5 default fields to the Facebook template
+
+= 8.7.8 =
+Rounding divide calculations rules to two decimals
 
 = 8.7.7. =
 Facebook purchase event did not always had the correct pricing. Issue solved.

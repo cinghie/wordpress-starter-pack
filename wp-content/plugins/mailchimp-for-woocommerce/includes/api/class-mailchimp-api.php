@@ -1608,11 +1608,9 @@ class MailChimp_WooCommerce_MailChimpApi
         return $GDPRfields;
     }
 
-
-    /**
-     * @param string $list_id
-     * @param int $minutes
-     * @return false|mixed
+     /**
+     * @param 
+     * @return 
      */
     public function getGDPRFields($list_id)
     {
