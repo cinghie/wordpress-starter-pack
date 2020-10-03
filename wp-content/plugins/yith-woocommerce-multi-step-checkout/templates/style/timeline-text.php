@@ -5,7 +5,9 @@ $default = array(
 	'future'  => '#9B9B9B',
 	'hover'   => '#000000',
 );
+
 $step_color = get_option( 'yith_wcms_timeline_text_step_color', $default );
+$step_color = wp_parse_args( $step_color, $default );
 
 ?>
 <style>

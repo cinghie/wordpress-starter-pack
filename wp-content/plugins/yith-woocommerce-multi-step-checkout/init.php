@@ -5,11 +5,11 @@
 * Description: Thanks to <code><strong>YITH WooCommerce Multi-step Checkout</strong></code> you can split your checkout process into steps. Assist your customers during the purchase and make them feel safe by showing them where in the process they are and what the next step is. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>
 * Author: YITH
 * Text Domain: yith-woocommerce-multi-step-checkout
-* Version: 2.0.1
+* Version: 2.0.2
 * Author URI: https://yithemes.com/
 *
 * WC requires at least: 3.8
-* WC tested up to: 4.4
+* WC tested up to: 4.5
 */
 
 /*
@@ -61,7 +61,7 @@ if( defined( 'YITH_WCMS_VERSION' ) ){
 
 
 /* === DEFINE === */
-! defined( 'YITH_WCMS_VERSION' )            && define( 'YITH_WCMS_VERSION', '2.0.1' );
+! defined( 'YITH_WCMS_VERSION' )            && define( 'YITH_WCMS_VERSION', '2.0.2' );
 ! defined( 'YITH_WCMS_SLUG' )               && define( 'YITH_WCMS_SLUG', 'yith-woocommerce-multi-step-checkout' );
 ! defined( 'YITH_WCMS_FILE' )               && define( 'YITH_WCMS_FILE', __FILE__ );
 ! defined( 'YITH_WCMS_PATH' )               && define( 'YITH_WCMS_PATH', plugin_dir_path( __FILE__ ) );

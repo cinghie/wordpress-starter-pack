@@ -354,6 +354,7 @@ function ppom_delete_file() {
 // Creating thumb for image
 function ppom_create_image_thumb( $file_path, $image_name, $thumb_size ) {
     
+    $thumb_size = intval($thumb_size);
     $wp_image = wp_get_image_editor ( $file_path . $image_name );
     $image_destination = $file_path . 'thumbs/' . $image_name;
     if (! is_wp_error ( $wp_image )) {

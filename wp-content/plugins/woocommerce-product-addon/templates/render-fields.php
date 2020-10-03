@@ -470,6 +470,8 @@ foreach( $ppom_fields_meta as $meta ) {
 
 					$multiple_allowed	= isset($meta['multiple_allowed']) ? $meta['multiple_allowed'] : '';
 					
+					$saved_images = isset($meta['images']) ? $meta['images'] : array();
+					
 					$ppom_field_setting = array(  
                     				'id'        => $data_name,
                                     'type'      => $type,
@@ -480,7 +482,7 @@ foreach( $ppom_fields_meta as $meta ) {
                                     'title'		=> $title,
                                     'legacy_view'	=> (isset($meta['legacy_view'])) ? $meta['legacy_view'] : '',
 									'multiple_allowed' => $multiple_allowed,
-									'images'	=> $meta['images'],
+									'images'	=> $saved_images,
                                     'show_popup'=> $show_popup,
                                     'image_width' => $image_width,
                                     'image_height'=> $image_height,

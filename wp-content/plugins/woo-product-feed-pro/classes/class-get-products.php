@@ -669,12 +669,15 @@ class WooSEA_Get_Products {
 
 			foreach ( $zone['zone_locations'] as $zone_type ) {
 				$code_from_config = $this->woosea_country_to_code($project_config['countries']);
-
+				
 				// Only add shipping zones to the feed for specific feed country
 	                        $ship_found = strpos($zone_type->code, $code_from_config);
- 
+
 	                        if(($ship_found !== false) OR ($add_all_shipping == "yes")){	
 					if ($zone_type->type == "country"){
+						// This is a country shipping zone
+						$zone_details['country'] = $zone_type->code;
+					} elseif ($zone_type->type == "code"){
 						// This is a country shipping zone
 						$zone_details['country'] = $zone_type->code;
 					} elseif ($zone_type->type == "state"){
@@ -696,6 +699,7 @@ class WooSEA_Get_Products {
 					} else {
 						// Unknown shipping zone type
 					}
+
 					// Get the g:services and g:prices, because there could be multiple services the $shipping_arr could multiply again
 					// g:service = "Method title - Shipping class costs"
 					// for example, g:service = "Estimated Shipping - Heavy shipping". g:price would be 180			
@@ -712,6 +716,7 @@ class WooSEA_Get_Products {
 
 							if(isset($v->instance_settings['cost'])){
 								$shipping_cost = $v->instance_settings['cost'];
+								
 								if(!$shipping_cost){
 									$shipping_cost = 0;
 								}
@@ -742,7 +747,7 @@ class WooSEA_Get_Products {
 									}
 								}
 							}
-							
+				
 							// WooCommerce Table Rate Bolder Elements
                                                         if(is_plugin_active( 'woocommerce-table-rate-shipping/woocommerce-table-rate-shipping.php' )) {
                                                                 // Set shipping cost
@@ -785,7 +790,7 @@ class WooSEA_Get_Products {
 	 			        	     	if((isset($v->instance_settings[$class_cost_id])) AND ($class_cost_id != "no_class_cost")){
 								if (is_numeric($v->instance_settings[$class_cost_id])){
 									$shipping_cost = $v->instance_settings[$class_cost_id];
-
+									
 									// Do we need to convert the shipping costswith the Aelia Currency Switcher
                         	                        		if((isset($project_config['AELIA'])) AND (!empty($GLOBALS['woocommerce-aelia-currencyswitcher'])) AND (get_option ('add_aelia_support') == "yes")){
                                 						if(!array_key_exists('base_currency', $project_config)){
@@ -812,7 +817,6 @@ class WooSEA_Get_Products {
 								} else {
 									$shipping_cost = $v->instance_settings[$class_cost_id];
 									$shipping_cost = str_replace("[qty]", "1", $shipping_cost);	
-
 									$mathString = trim($shipping_cost);     // trim white spaces
 									if (preg_match("/fee percent/", $mathString)){
  										$shipcost_piece = explode("+", $mathString);
@@ -939,7 +943,7 @@ class WooSEA_Get_Products {
 									//unset($shipping_cost);
 								}
 							}
-
+							
 							// This shipping zone has postal codes so multiply the zone details
 							$nr_postals = count($postal_code);
 							if ($nr_postals > 0){
@@ -978,7 +982,8 @@ class WooSEA_Get_Products {
 		// Remove empty countries
 		foreach($shipping_arr as $k => $v){
 			if(empty($v['country'])){
-				unset($shipping_arr[$k]);
+				$shipping_arr[$v]['country'] = get_option( 'woocommerce_default_country' );
+				//unset($shipping_arr[$k]);
 			}
 		}	
 		return $shipping_arr;
@@ -2306,6 +2311,7 @@ class WooSEA_Get_Products {
 			if($product_data['sale_price_effective_date'] == "/"){
 				$product_data['sale_price_effective_date'] = "";
 			}
+
 			$product_data['image'] = wp_get_attachment_url($product->get_image_id());
 			$product_data['image_all'] = $product_data['image'];
 			$product_data['all_images'] = $product_data['image'];
@@ -2356,6 +2362,7 @@ class WooSEA_Get_Products {
 			$shipping_class_id = $product->get_shipping_class_id();
 			
                 	$shipping_class= $product->get_shipping_class();
+
 			$class_cost_id = "class_cost_".$shipping_class_id;
 			if($class_cost_id == "class_cost_0"){
 				$class_cost_id = "no_class_cost";
@@ -3255,6 +3262,19 @@ class WooSEA_Get_Products {
 					$product_data = $this->woocommerce_sea_filters( $project_config['rules'], $product_data ); 
 				}
 			}
+
+                        // Check if the sale price is effective         
+                        if((strtotime($product_data['sale_price_start_date'])) AND (strtotime($product_data['sale_price_end_date']))){
+                                $current_date = date('Y-m-d');
+
+                                if(($current_date < $product_data['sale_price_start_date'])){
+		                	unset($product_data['sale_price']);
+                                }
+
+                                if(($current_date > $product_data['sale_price_end_date'])){
+                                        unset($product_data['sale_price']);
+                                }
+                        }
 
 			/**
 			 * When a product is a variable product we need to delete the original product from the feed, only the originals are allowed

@@ -3,8 +3,8 @@ Contributors: nmedia
 Tags: woocommerce, woocommerce pesonalized products, woocommerce custom fields, variations, woocommerce product variations, woocommerce extra fields, woocommerce extra options, woocommerce personalized product, woocommerce t-shirt design, woocommerce product fields, woocommerce plugin, woocommerce addons, woocommerce product addons
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
-Tested up to: 5.4.2
-Stable tag: 20.4.3
+Tested up to: 5.5
+Stable tag: 20.5
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -91,8 +91,12 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
-= 20.4.3 August 16, 2020 =
-* Bug fixed: Price calculation issue fixed for discount input
+= 20.5 September 29, 2020 =
+* Feature: Now Tax prefix will be appended to Total Price in Price table if it is set in WooCommerce
+* Feature: [Text input now has price](https://wordpress.org/support/topic/add-on-price-not-in-the-cart-2/)
+* Feature: [Uploaded files security feature](https://clients.najeebmedia.com/forums/topic/make-uploaded-files-private/)
+* Bug fixed: [File upload issue fixed](https://clients.najeebmedia.com/forums/topic/problem-with-upload/#post-18960)
+* Bug fixed: [fixed Undefined index: images issue](https://wordpress.org/support/topic/php-notice-undefined-index-images-in-templatesrender-fields-php-on-line-483/)
 = 20.4.2 August 10, 2020 =
 * Bug fixed: [extra space issue fixed in 20.4](https://wordpress.org/support/topic/20-4-disrupts-html-field-entries/)
 = 20.4 August 8, 2020 =

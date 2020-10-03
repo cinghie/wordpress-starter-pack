@@ -30,6 +30,8 @@
       // blank image data-uri bypasses webkit log warning (thx doug jones)
       var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
 
+
+
       $.fn.imagesLoaded = function (callback) {
         var $this = this,
           deferred = $.isFunction($.Deferred) ? $.Deferred() : 0,
@@ -96,7 +98,7 @@
           }
 
           // call doneLoading and clean listeners if all images are loaded
-          if ($images.length === loaded.length) {
+          if (loaded.length) {
             setTimeout(doneLoading);
             $images.unbind('.imagesLoaded', imgLoadedHandler);
           }
@@ -219,7 +221,10 @@
         self.options.onLoad();
         self._initZoom();
         self._initGallery();
+
       });
+
+
 
       $(document).trigger('yith_magnifier_after_init');
     },
@@ -243,11 +248,11 @@
       if ( gallery.length > 0 ) {
         gallery.on('click', function (e) {
           e.preventDefault();
+          e.stopImmediatePropagation();
 
           if ( $( '#yith_wczm_traffic_light' ).val() == 'free' ){
 
             $( '#yith_wczm_traffic_light' ).val( 'blocked' );
-
 
             self.options.from_gallery = 'yes';
 
@@ -387,7 +392,6 @@
               } else {
 
                 $([self.IMG_zoomImage, self.IMG_smallImage]).imagesLoaded(function () {
-
                   self._initGallery();
                   self._initTrap();
                 });

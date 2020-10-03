@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.5
-Stable tag: 8.8.0
+Stable tag: 8.8.5
 
 == Description ==
 
@@ -318,6 +318,21 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 8.8.5 (2020-10-01) =
+* Fixed a shipping cost bug that happened when multiple flat rates where configured for a country
+
+= 8.8.4 (2020-10-01) =
+* Changed the default price mappings for the Pinterest template
+
+= 8.8.3 (2020-09-30) =
+* Sale prices being added to feed even when no start and end date is set for the sale price
+
+= 8.8.2 (2020-09-29) =
+* Fixed issues with sale price start and sale end date
+
+= 8.8.1 (2020-09-29) =
+* Sale prices now respect the sale price start and end date when set
 
 = 8.8.0 (2020-09-28) =
 * Added feature to only add the cheapest priced variation(s) to product feeds instead of all variations or the default variation.
@@ -2803,6 +2818,21 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 8.8.5 =
+Fixed a shipping cost bug that happened when multiple flat rates where configured for a country
+
+= 8.8.4 =
+Changed the default price mappings for the Pinterest template
+
+= 8.8.3 =
+Sale prices being added to feed even when no start and end date is set for the sale price
+
+= 8.8.2 =
+Fixed issues with sale price start and sale end date
+
+= 8.8.1 =
+Sale prices now respect the sale price start and end date when set
 
 = 8.8.0 =
 Added feature to only add the cheapest priced variation(s) to product feeds instead of all variations or the default variation.

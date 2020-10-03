@@ -16,6 +16,11 @@ import {
 	usePaymentMethodDataContext,
 } from '@woocommerce/base-context';
 
+/**
+ * Internal dependencies
+ */
+import PaymentMethodErrorBoundary from './payment-method-error-boundary';
+
 const ExpressPaymentMethods = () => {
 	const { isEditor } = useEditorContext();
 	const {
@@ -59,9 +64,11 @@ const ExpressPaymentMethods = () => {
 			<li key="noneRegistered">No registered Payment Methods</li>
 		);
 	return (
-		<ul className="wc-block-components-express-payment__event-buttons">
-			{ content }
-		</ul>
+		<PaymentMethodErrorBoundary isEditor={ isEditor }>
+			<ul className="wc-block-components-express-payment__event-buttons">
+				{ content }
+			</ul>
+		</PaymentMethodErrorBoundary>
 	);
 };
 

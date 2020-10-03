@@ -952,6 +952,15 @@ function ppom_array_get_js_input_vars( $product, $args = null ) {
 	$js_vars['plugin_url'] = PPOM_URL;
 	$js_vars['is_mobile'] = ppom_is_mobile();
 	$js_vars['product_id'] = $product_id;
+	$js_vars['tax_prefix'] = ppom_tax_label_display();
 	
 	return apply_filters('ppom_input_vars', $js_vars, $product);
+}
+
+/* @since 20.5*/
+// Showing Tax prefix
+function ppom_tax_label_display() {
+	if ( wc_tax_enabled() && 'excl' === get_option( 'woocommerce_tax_display_shop' ) &&  get_option( 'woocommerce_price_display_suffix' ) !== '' ) {
+		return sprintf(__("%s", 'ppom'), get_option( 'woocommerce_price_display_suffix' ));
+	}
 }

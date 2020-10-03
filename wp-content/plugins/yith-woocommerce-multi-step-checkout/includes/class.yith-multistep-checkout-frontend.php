@@ -104,6 +104,11 @@ if ( ! class_exists( 'YITH_Multistep_Checkout_Frontend' ) ) {
 		        require_once( YITH_WCMS_PATH . 'includes/compatibility/electro.php' );
 	        }
 
+	        /* === Support to Medizin Theme === */
+	        if( class_exists( 'Medizin_Woo' ) ){
+		        require_once( YITH_WCMS_PATH . 'includes/compatibility/medizin.php' );
+	        }
+
             /* === Support to WooCommerce Secure Submit Gateway === */
             if( class_exists( 'WC_Gateway_SecureSubmit' ) ){
                 $secure_submit_options = get_option( 'woocommerce_securesubmit_settings' );

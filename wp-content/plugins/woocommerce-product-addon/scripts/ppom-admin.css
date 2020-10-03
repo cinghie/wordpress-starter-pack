@@ -563,6 +563,7 @@ select{
 
 
 /*Hide Prices from fields*/
-[data-meta-id="price"]{
-    display: none !important;
-}
+/*[data-meta-id="price"] {
+    */
+    /*    display: none !important;*/
+    /*}*/

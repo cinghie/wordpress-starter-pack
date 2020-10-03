@@ -186,7 +186,7 @@ function ppom_get_field_prices( $ppom_fields_post, $product_id, &$product_quanti
 			case 'date':
 			case 'email':
 				$option = $value;
-				$field_price = isset($field_meta['raw_price']) ? $field_meta['raw_price'] : '';
+				$field_price = isset($field_meta['price']) ? $field_meta['price'] : '';
 				if( $field_price !== '' ) {
 					$field_prices[] = ppom_generate_field_price($field_price, $field_meta, $charge, $option, $option_quantity);
 				}
@@ -319,7 +319,8 @@ function ppom_get_field_prices( $ppom_fields_post, $product_id, &$product_quanti
 			
 			case 'imageselect':
 				foreach($options as $option) {
-					if( $option['image_id'] == $value ) {
+					$image_id = isset($option['image_id']) ? $option['image_id'] : 0;
+					if( $image_id == $value ) {
 				
 						$option_price = isset($option['raw_price']) ? $option['raw_price'] : '';
 						if( $option_price !== '' ) {

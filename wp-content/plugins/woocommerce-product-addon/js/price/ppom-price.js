@@ -30,7 +30,7 @@ jQuery(function($) {
     });
 
 
-    PPOMWrapper.on('change', 'select,input:checkbox,input:radio', function(e) {
+    PPOMWrapper.on('change', 'select,input:checkbox,input:radio, input:text', function(e) {
 
         ppom_update_option_prices();
     });
@@ -461,6 +461,7 @@ function ppom_update_option_prices() {
     var ppom_total_price = ppom_calculate_totals(ppom_total_discount, productBasePrice, ppom_option_total);
     var total_price_label = ppom_input_vars.total_without_fixed_label;
 
+
     /** ====== Measures ===================**/
     var ppom_measure_quantity = 1;
     var ppom_measure_input_found = false;
@@ -506,11 +507,11 @@ function ppom_update_option_prices() {
         per_unit_label = ' (' + ppom_get_wc_price(per_unit_price).html() + ' / ' + ppom_input_vars.per_unit_label + ')';
     }
 
-
-    /** ====== Measures ===================**/
-
-    ppom_add_price_item_in_table(total_price_label, ppom_total_price, 'ppom-total-without-fixed', per_unit_label);
     /** ====== Total without fixed/onetime fee =========== ***/
+    if (ppom_input_vars.tax_prefix) {
+        per_unit_label += " " + ppom_input_vars.tax_prefix;
+    }
+    ppom_add_price_item_in_table(total_price_label, ppom_total_price, 'ppom-total-without-fixed', per_unit_label);
 
 }
 
@@ -643,6 +644,7 @@ function ppom_update_get_prices() {
         if (jQuery("option:selected", this).attr('data-unitprice') !== undefined) return;
         // if( jQuery("option:selected", this).attr('data-price') === undefined ) return;
 
+
         var selected_option_price = jQuery("option:selected", this).attr('data-price') || 0;
         var selected_option_label = jQuery("option:selected", this).attr('data-label');
         var selected_option_title = jQuery("option:selected", this).attr('data-title');
@@ -705,8 +707,7 @@ function ppom_update_get_prices() {
             options_price_added.push(option_price);
 
         }
-        else if (selected_option_price !== undefined && is_option_calculatable(this)) {
-            // console.log(selected_option_price);
+        else if (selected_option_price !== undefined && is_option_calculatable(this) && jQuery(this).data('type') !== 'text') {
 
             if (selected_option_title !== undefined) {
                 option_price.label = selected_option_title + ' ' + selected_option_label;
@@ -725,34 +726,23 @@ function ppom_update_get_prices() {
 
             options_price_added.push(option_price);
         }
-        else { // Text input type
+        else if (jQuery(this).data('type') == 'text' && jQuery(this).val() !== '') {
 
 
+            // console.log(checked_option_price);
+            checked_option_title = checked_option_title + ' ' +
+                ppom_get_formatted_price(checked_option_price);
+
+            option_price.label = checked_option_title;
+            option_price.price = checked_option_price;
+            option_price.apply = checked_option_apply;
+
+            option_price.product_title = ppom_input_vars.product_title;
+            option_price.taxable = checked_option_taxable;
+            option_price.without_tax = '';
+
+            options_price_added.push(option_price);
             // console.log(jQuery(this));
-            // ppom_build_input_price_meta('yourcompany');
-
-
-            /*if( jQuery(this).data('type') == 'measure' ) {
-              
-              var product_qty = ppom_get_order_quantity();
-              var measure_price = checked_option_price * jQuery(this).val();
-              console.log(checked_option_price);
-              console.log(measure_price);
-              checked_option_title = checked_option_title+' '+
-                                      ppom_get_formatted_price(checked_option_price)+'x'
-                                      +jQuery(this).val();
-              
-              option_price.label = checked_option_title;
-              option_price.price = measure_price;
-              option_price.measure = jQuery(this).val();
-                option_price.apply = 'variable';
-                
-                option_price.product_title  = ppom_input_vars.product_title;
-                option_price.taxable        = true;
-                option_price.without_tax    = '';
-                
-                options_price_added.push( option_price );
-          }*/
         }
 
     });
@@ -808,7 +798,7 @@ function ppom_update_get_prices() {
             var option_price = {};
 
             option_price.price = jQuery(this).attr('data-price');
-            //    console.log(ppom_product_base_price);
+            // 		console.log(ppom_product_base_price);
             option_price.label = jQuery(this).attr('data-label');
             option_price.quantity = (jQuery(this).val() === '') ? 0 : jQuery(this).val();
             option_price.include = jQuery(this).attr('data-includeprice');
@@ -865,7 +855,7 @@ function ppom_update_get_prices() {
         option_price.label      = ppom_bq_container.find('.ppom-bulkquantity-baseprice').attr('data-label');
         // option_price.include    = jQuery(this).attr('data-includeprice');
         option_price.apply      = 'onetime';
-        
+            
         options_price_added.push( option_price );*/
     }
 
@@ -910,13 +900,13 @@ function ppom_update_get_prices() {
             option_price.apply = 'eventcalendar';
             ppom_quantities_qty += parseInt(option_price.quantity);
 
-            //    console.log(ppom_quantities_qty);
+            // 		console.log(ppom_quantities_qty);
             options_price_added.push(option_price);
             ppom_set_order_quantity(ppom_quantities_qty);
         });
     });
 
-    // console.log(options_price_added);
+    console.log(options_price_added);
     return options_price_added;
 }
 
@@ -1056,7 +1046,7 @@ function ppom_build_input_price_meta(field_dataname) {
             // code
     }
 
-    // console.log(ppom_field_price);
+    console.log(ppom_field_price);
 
     /*option_price.product_title  = ppom_input_vars.product_title;
     option_price.taxable        = checked_option_taxable;

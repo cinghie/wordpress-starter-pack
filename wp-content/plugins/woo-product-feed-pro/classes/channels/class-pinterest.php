@@ -72,13 +72,13 @@ class WooSEA_pinterest {
 					"name" => "Price",
 					"feed_name" => "g:price",
 					"format" => "required",
-					"woo_suggest" => "price",
+					"woo_suggest" => "vivino_price",
 				),
 				"Sale price" => array(
 					"name" => "sale_price",
 					"feed_name" => "g:sale_price",
 					"format" => "optional",
-					"woo_suggest" => "sale_price",
+					"woo_suggest" => "vivino_sale_price",
 				),
 				"Sale price effective date" => array(
 					"name" => "sale_price_effective_date",

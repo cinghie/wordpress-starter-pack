@@ -145,6 +145,10 @@ class NM_Form {
         $taxable    = $this -> get_attribute_value('taxable', $args);
         $price      = $this -> get_attribute_value('price', $args);
         $price_without_tax = '';
+        
+        // Only title without description for price calculation etc.
+        $title      = $args['title'];
+        
         if($onetime == 'on' && $taxable == 'on') {
 			$price_without_tax = $option_price;
 			$price = ppom_get_price_including_tax($price, $product);
@@ -169,6 +173,7 @@ class NM_Form {
         $html       .= 'autocomplete="off" ';
         $html       .= 'data-type="'.esc_attr($type).'" ';
         $html       .= 'data-data_name="'.esc_attr($id).'" ';
+        $html       .= 'data-title="'.esc_attr($title).'" '; // Input main label/title
         $html       .= 'data-price="'.esc_attr($price).'" ';
         $html       .= 'data-onetime="'.esc_attr($onetime).'" ';
         $html       .= 'data-taxable="'.esc_attr($taxable).'" ';

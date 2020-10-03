@@ -154,11 +154,10 @@ do_action( 'woocommerce_before_checkout_form', $checkout );
         </form>
 
         <div id="form_actions" data-step="<?php echo $show_login_step ? 'login' : 'billing'; ?>">
-			<?php if( $enable_nav_button ) : ?>
-            	<input type="button" class="<?php echo $button_class ?> prev" name="checkout_prev_step" value="<?php echo $labels['prev'] ?>" data-action="prev">
-            	<span></span>
-            	<input type="button" class="<?php echo $button_class ?> next" name="checkout_next_step" value="<?php echo $enable_checkout_login_reminder && ! is_user_logged_in() ? $labels['skip_login'] : $labels['next'] ?>" data-action="next">
-			<?php endif; ?>
+			<?php $button_type = $enable_nav_button ? 'button' : 'hidden'; ?>
+			<input type="<?php echo $button_type; ?>" class="<?php echo $button_class ?> prev" name="checkout_prev_step" value="<?php echo $labels['prev'] ?>" data-action="prev">
+			<span></span>
+			<input type="<?php echo $button_type; ?>" class="<?php echo $button_class ?> next" name="checkout_next_step" value="<?php echo $enable_checkout_login_reminder && ! is_user_logged_in() ? $labels['skip_login'] : $labels['next'] ?>" data-action="next">
             <?php if( $show_back_to_cart_button ) : ?>
                 <a href="<?php echo wc_get_cart_url(); ?>" id="yith-wcms-back-to-cart-button" class="<?php echo $button_class ?>"><?php echo $labels['back_to_cart'] ?></a>
             <?php endif; ?>
