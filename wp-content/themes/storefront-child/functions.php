@@ -43,6 +43,26 @@ function hide_wordpress_version() {
 add_filter('the_generator', 'hide_wordpress_version');
 
 /**
+ * Prevent update notification for plugin
+ * http://www.thecreativedev.com/disable-updates-for-specific-plugin-in-wordpress/
+ * Place in theme functions.php or at bottom of wp-config.php
+ *
+ * @param $value
+ *
+ * @return mixed
+ */
+function disable_plugin_updates($value)
+{
+	if ( is_object($value) ) {
+		unset($value->response['all-in-one-wp-migration/all-in-one-wp-migration.php'] );
+	}
+
+	return $value;
+}
+
+add_filter( 'site_transient_update_plugins', 'disable_plugin_updates' );
+
+/**
  * Register Footer Credits Widget
  */
 function footer_credits_widgets_init()
