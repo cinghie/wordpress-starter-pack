@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Contact Form 7 - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-09-26 18:44:54+0000\n"
+"PO-Revision-Date: 2020-09-30 19:26:17+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,11 @@ msgstr ""
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - Contact Form 7 - Stable (latest release)\n"
+
+#. translators: time format, see https://www.php.net/date
+#: admin/includes/class-contact-forms-list-table.php:238
+msgid "g:i a"
+msgstr "G:i"
 
 #. translators: 1: date, 2: time
 #: admin/includes/class-contact-forms-list-table.php:234

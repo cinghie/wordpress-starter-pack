@@ -3,10 +3,10 @@
 * Plugin Name: FancyBox for WordPress
 * Plugin URI: https://wordpress.org/plugins/fancybox-for-wordpress/
 * Description: Integrates <a href="http://fancyapps.com/fancybox/3/">FancyBox 3</a> into WordPress.
-* Version: 3.2.7
+* Version: 3.2.8
 * Author: Colorlib
 * Author URI: https://colorlib.com/wp/
-* Tested up to: 5.4
+* Tested up to: 5.5
 * Requires: 4.6 or higher
 * License: GPLv3 or later
 * License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -36,7 +36,7 @@
  * Plugin Init
  */
 // Constants
-define( 'FBFW_VERSION', '3.2.7' );
+define( 'FBFW_VERSION', '3.2.8' );
 define( 'FBFW_PATH', plugin_dir_path( __FILE__ ) );
 define( 'FBFW_URL', plugin_dir_url( __FILE__ ) );
 define( 'FBFW_PLUGIN_BASE', plugin_basename( __FILE__ ) );
@@ -89,6 +89,7 @@ function mfbfw_defaults() {
         'titlePosition'              => 'inside',
         'titleColor'                 => '#333333',
         'showNavArrows'              => 'on',
+		'disableOnMobile'            => '',
         'titleSize'                  => '14',
         'showCloseButton'            => '',
         'showToolbar'                => 'on',
@@ -159,17 +160,23 @@ function mfbfw_enqueue_scripts() {
 
 	global $mfbfw, $wp_styles;
 
+	if ( (isset( $mfbfw['disableOnMobile'] ) && $mfbfw['disableOnMobile']) && wp_is_mobile() ) {
+		return;
+	}
+
 	// Check if script should be loaded in footer
 	if ( isset( $mfbfw['loadAtFooter'] ) && $mfbfw['loadAtFooter'] ) {
 		$footer = true;
-	} else {
+	}
+	else {
 		$footer = false;
 	}
 
 	// Check if plugin should not call jQuery script (for troubleshooting only)
 	if ( isset( $mfbfw['nojQuery'] ) && $mfbfw['nojQuery'] ) {
 		$jquery = false;
-	} else {
+	}
+	else {
 		$jquery = array( 'jquery' );
 	}
 
@@ -207,10 +214,10 @@ function mfbfw_init() {
 
 	//caption function to display image title
 	$caption = 'function( instance, item ) {' .
-	           'var testing = jQuery(this).context.title;' .
+	           'if("undefined" != typeof jQuery(this).context ){var title = jQuery(this).context.title;} else { var title = jQuery(this).attr("title");}' .
 	           'var caption = jQuery(this).data(\'caption\') || \'\';' .
-	           'if ( item.type === \'image\' && testing.length ) {' .
-	           'caption = (caption.length ? caption + \'<br />\' : \'\') + \'<p class="caption-title">\'+testing+\'</p>\' ;' .
+	           'if ( item.type === \'image\' && title.length ) {' .
+	           'caption = (caption.length ? caption + \'<br />\' : \'\') + \'<p class="caption-title">\'+title+\'</p>\' ;' .
 	           '}' .
 	           'return caption;' .
 	           '}';
@@ -297,145 +304,158 @@ function mfbfw_init() {
 </style>';
 ?>
 <script type="text/javascript">
-	jQuery(function(){
+	jQuery(function () {
 
-		jQuery.fn.getTitle = function() { // Copy the title of every IMG tag and add it to its parent A so that fancybox can show titles
+		var mobileOnly = false;
+		<?php if(isset( $mfbfw['disableOnMobile'] ) && 'on' == $mfbfw['disableOnMobile'] && wp_is_mobile() ){ ?>
+			mobileOnly = true;
+		<?php } ?>
+
+		if (mobileOnly) {
+			return;
+		}
+
+		jQuery.fn.getTitle = function () { // Copy the title of every IMG tag and add it to its parent A so that fancybox can show titles
 			<?php echo $mfbfw['copyTitleFunction'] ?>
 		}
 
 		// Supported file extensions
 
-        <?php
-        if(isset($mfbfw['exclude_pdf']) && 'on' == $mfbfw['exclude_pdf']){
-        ?>
-        var thumbnails = jQuery("a:has(img)").not(".nolightbox").not('.envira-gallery-link').not('.ngg-simplelightbox').filter(function () {
-            return /\.(jpe?g|png|gif|mp4|webp|bmp)(\?[^/]*)*$/i.test(jQuery(this).attr('href'))
-        });
-        <?php
-        } else {
-        ?>
-        var thumbnails = jQuery("a:has(img)").not(".nolightbox").not('.envira-gallery-link').not('.ngg-simplelightbox').filter(function () {
-            return /\.(jpe?g|png|gif|mp4|webp|bmp|pdf)(\?[^/]*)*$/i.test(jQuery(this).attr('href'))
-        });
-        <?php
-        }
-        ?>
+		<?php
+		if(isset( $mfbfw['exclude_pdf'] ) && 'on' == $mfbfw['exclude_pdf']){
+		?>
+		var thumbnails = jQuery("a:has(img)").not(".nolightbox").not('.envira-gallery-link').not('.ngg-simplelightbox').filter(function () {
+			return /\.(jpe?g|png|gif|mp4|webp|bmp)(\?[^/]*)*$/i.test(jQuery(this).attr('href'))
+		});
+		<?php
+		} else {
+		?>
+		var thumbnails = jQuery("a:has(img)").not(".nolightbox").not('.envira-gallery-link').not('.ngg-simplelightbox').filter(function () {
+			return /\.(jpe?g|png|gif|mp4|webp|bmp|pdf)(\?[^/]*)*$/i.test(jQuery(this).attr('href'))
+		});
+		<?php
+		}
+		?>
 
 
 		// Add data-type iframe for links that are not images or videos.
-        var iframeLinks = jQuery('.fancyboxforwp').filter( function() { return ! /\.(jpe?g|png|gif|mp4|webp|bmp|pdf)(\?[^/]*)*$/i.test(jQuery(this).attr('href')) }).filter( function() { return ! /vimeo|youtube/i.test(jQuery(this).attr('href')) });
-        iframeLinks.attr({ "data-type" : "iframe" }).getTitle();
+		var iframeLinks = jQuery('.fancyboxforwp').filter(function () {
+			return !/\.(jpe?g|png|gif|mp4|webp|bmp|pdf)(\?[^/]*)*$/i.test(jQuery(this).attr('href'))
+		}).filter(function () {
+			return !/vimeo|youtube/i.test(jQuery(this).attr('href'))
+		});
+		iframeLinks.attr({"data-type": "iframe"}).getTitle();
 
 		<?php if ( $mfbfw['galleryType'] == 'post' ) { ?>
 
-			// Gallery type BY POST and on post or page (so only one post or page is visible)
-			<?php if ( is_singular() ) { ?>
-			// Gallery by post
-			thumbnails.addClass("fancyboxforwp").attr("data-fancybox","gallery").getTitle();
-            iframeLinks.attr({ "data-fancybox":"gallery" }).getTitle();
+		// Gallery type BY POST and on post or page (so only one post or page is visible)
+		<?php if ( is_singular() ) { ?>
+		// Gallery by post
+		thumbnails.addClass("fancyboxforwp").attr("data-fancybox", "gallery").getTitle();
+		iframeLinks.attr({"data-fancybox": "gallery"}).getTitle();
 
-    <?php } else { ?>
-			// Gallery by post
-			var posts = jQuery(".post");
-			posts.each(function() {
-				jQuery(this).find(thumbnails).addClass("fancyboxforwp").attr("data-fancybox","gallery"+posts.index(this)).attr("rel","fancybox"+posts.index(this)).getTitle();
+		<?php } else { ?>
+		// Gallery by post
+		var posts = jQuery(".post");
+		posts.each(function () {
+			jQuery(this).find(thumbnails).addClass("fancyboxforwp").attr("data-fancybox", "gallery" + posts.index(this)).attr("rel", "fancybox" + posts.index(this)).getTitle();
 
-                jQuery(this).find(iframeLinks).attr({ "data-fancybox":"gallery"+posts.index(this) }).attr("rel","fancybox"+posts.index(this)).getTitle();
+			jQuery(this).find(iframeLinks).attr({"data-fancybox": "gallery" + posts.index(this)}).attr("rel", "fancybox" + posts.index(this)).getTitle();
 
-			});
+		});
 
-			<?php } ?>
+		<?php } ?>
 
 		// Gallery type ALL
 		<?php } elseif ( $mfbfw['galleryType'] == 'all' ) { ?>
 		// Gallery All
-		thumbnails.addClass("fancyboxforwp").attr("data-fancybox","gallery").getTitle();
-        iframeLinks.attr({ "data-fancybox":"gallery" }).getTitle();
+		thumbnails.addClass("fancyboxforwp").attr("data-fancybox", "gallery").getTitle();
+		iframeLinks.attr({"data-fancybox": "gallery"}).getTitle();
 
 		// Gallery type NONE
 		<?php } elseif ( $mfbfw['galleryType'] == 'none' ) { ?>
 		// No Galleries
-		thumbnails.each(function(){
+		thumbnails.each(function () {
 			var rel = jQuery(this).attr("rel");
 			var imgTitle = jQuery(this).children("img").attr("title");
-			jQuery(this).addClass("fancyboxforwp").attr("data-fancybox",rel);
-			jQuery(this).attr("title",imgTitle);
+			jQuery(this).addClass("fancyboxforwp").attr("data-fancybox", rel);
+			jQuery(this).attr("title", imgTitle);
 		});
 
-        iframeLinks.each(function(){
-            var rel = jQuery(this).attr("rel");
-            var imgTitle = jQuery(this).children("img").attr("title");
-            jQuery(this).attr({"data-fancybox":rel});
-            jQuery(this).attr("title",imgTitle);
-        });
+		iframeLinks.each(function () {
+			var rel = jQuery(this).attr("rel");
+			var imgTitle = jQuery(this).children("img").attr("title");
+			jQuery(this).attr({"data-fancybox": rel});
+			jQuery(this).attr("title", imgTitle);
+		});
 
 		// Else, gallery type is custom, so just print the custom expression
 		<?php } else if( $mfbfw['galleryType'] == 'single_gutenberg_block'){
-		    ?>
+		?>
 
-            var gallery_block;
-            if(jQuery('ul.wp-block-gallery').length){
-	            var gallery_block = jQuery('ul.wp-block-gallery');
-            } else if(jQuery('ul.blocks-gallery-grid')) {
-	            var gallery_block = jQuery('ul.blocks-gallery-grid');
-            }
-            gallery_block.each(function() {
-                jQuery(this).find(thumbnails).addClass("fancyboxforwp").attr("data-fancybox","gallery"+gallery_block.index(this)).attr("rel","fancybox"+gallery_block.index(this)).getTitle();
+		var gallery_block;
+		if (jQuery('ul.wp-block-gallery').length) {
+			var gallery_block = jQuery('ul.wp-block-gallery');
+		} else if (jQuery('ul.blocks-gallery-grid')) {
+			var gallery_block = jQuery('ul.blocks-gallery-grid');
+		}
+		gallery_block.each(function () {
+			jQuery(this).find(thumbnails).addClass("fancyboxforwp").attr("data-fancybox", "gallery" + gallery_block.index(this)).attr("rel", "fancybox" + gallery_block.index(this)).getTitle();
 
-                jQuery(this).find(iframeLinks).attr({ "data-fancybox":"gallery"+gallery_block.index(this) }).attr("rel","fancybox"+gallery_block.index(this)).getTitle();
+			jQuery(this).find(iframeLinks).attr({"data-fancybox": "gallery" + gallery_block.index(this)}).attr("rel", "fancybox" + gallery_block.index(this)).getTitle();
 
-            });
-            <?php
+		});
+		<?php
 		} else { ?>
-			/* Custom Expression */
-			<?php echo $mfbfw['customExpression']; ?>
+		/* Custom Expression */
+		<?php echo $mfbfw['customExpression']; ?>
 		<?php } ?>
-
-
 
 		// Call fancybox and apply it on any link with a rel atribute that starts with "fancybox", with the options set on the admin panel
 		jQuery("a.fancyboxforwp").fancyboxforwp({
-			loop: <?php echo ( isset( $mfbfw['cyclic'] ) && $mfbfw['cyclic'] ? 'true' : 'false' ) ?>,
-			smallBtn: <?php echo ( isset( $mfbfw['showCloseButton'] ) && $mfbfw['showCloseButton'] ? 'true' : 'false' ) ?>,
-			zoomOpacity: <?php echo ( isset( $mfbfw['zoomOpacity'] ) && $mfbfw['zoomOpacity'] ? '"auto"' : 'false' ) ?>,
+			loop: <?php echo(isset( $mfbfw['cyclic'] ) && $mfbfw['cyclic'] ? 'true' : 'false') ?>,
+			smallBtn: <?php echo(isset( $mfbfw['showCloseButton'] ) && $mfbfw['showCloseButton'] ? 'true' : 'false') ?>,
+			zoomOpacity: <?php echo(isset( $mfbfw['zoomOpacity'] ) && $mfbfw['zoomOpacity'] ? '"auto"' : 'false') ?>,
 			animationEffect: "<?php echo $mfbfw['transitionIn'] ?>",
 			animationDuration: <?php echo $mfbfw['zoomSpeedIn'] ?>,
 			transitionEffect: "<?php echo $mfbfw['transitionEffect'] ?>",
-			transitionDuration : "<?php echo $mfbfw['zoomSpeedChange'] ?>",
-			overlayShow: <?php echo ( isset( $mfbfw['overlayShow'] ) && $mfbfw['overlayShow'] ? 'true' : 'false' ) ?>,
+			transitionDuration: "<?php echo $mfbfw['zoomSpeedChange'] ?>",
+			overlayShow: <?php echo(isset( $mfbfw['overlayShow'] ) && $mfbfw['overlayShow'] ? 'true' : 'false') ?>,
 			overlayOpacity: "<?php echo $mfbfw['overlayOpacity'] ?>",
-			titleShow: <?php echo ( isset( $mfbfw['titleShow'] ) && $mfbfw['titleShow'] ? 'true' : 'false' ) ?>,
+			titleShow: <?php echo(isset( $mfbfw['titleShow'] ) && $mfbfw['titleShow'] ? 'true' : 'false') ?>,
 			titlePosition: "<?php echo $mfbfw['titlePosition'] ?>",
-			keyboard: <?php echo ( isset( $mfbfw['enableEscapeButton'] ) && $mfbfw['enableEscapeButton'] ? 'true' : 'false' ) ?>,
-			showCloseButton: <?php echo ( isset( $mfbfw['showCloseButton'] ) && $mfbfw['showCloseButton'] ? 'true' : 'false' ) ?>,
-			arrows: <?php echo ( isset( $mfbfw['showNavArrows'] ) && $mfbfw['showNavArrows'] ? 'true' : 'false' ) ?>,
-			clickContent: <?php echo ( isset( $mfbfw['hideOnContentClick'] ) && $mfbfw['hideOnContentClick'] ? '"close"' : 'false' ) ?>,
-            clickSlide: <?php echo ( isset( $mfbfw['hideOnOverlayClick'] ) && $mfbfw['hideOnOverlayClick'] ? '"close"' : 'false' ) ?>,
-            mobile:{
-                clickContent: function(current, event) {
-                    return current.type === "image" ? <?php echo ( isset( $mfbfw['hideOnContentClick'] ) && $mfbfw['hideOnContentClick'] ? '"close"' : '"toggleControls"' ) ?> : false;
-                },
-                clickSlide: function(current, event) {
-                    return current.type === "image" ? <?php echo ( isset( $mfbfw['hideOnOverlayClick'] ) && $mfbfw['hideOnOverlayClick'] ? '"close"' : '"toggleControls"' ) ?> : "close";
-                },
-            },
-			wheel: <?php echo ( isset( $mfbfw['mouseWheel'] ) && $mfbfw['mouseWheel'] ? 'true' : 'false' ) ?>,
-			toolbar: <?php echo ( isset( $mfbfw['showToolbar'] ) && $mfbfw['showToolbar'] ? 'true' : 'false' ) ?>,
+			keyboard: <?php echo(isset( $mfbfw['enableEscapeButton'] ) && $mfbfw['enableEscapeButton'] ? 'true' : 'false') ?>,
+			showCloseButton: <?php echo(isset( $mfbfw['showCloseButton'] ) && $mfbfw['showCloseButton'] ? 'true' : 'false') ?>,
+			arrows: <?php echo(isset( $mfbfw['showNavArrows'] ) && $mfbfw['showNavArrows'] ? 'true' : 'false') ?>,
+			clickContent:<?php echo(isset( $mfbfw['hideOnContentClick'] ) && $mfbfw['hideOnContentClick'] ? '"close"' : 'false') ?>,
+			clickSlide: <?php echo(isset( $mfbfw['hideOnOverlayClick'] ) && $mfbfw['hideOnOverlayClick'] ? '"close"' : 'false') ?>,
+			mobile: {
+				clickContent: function (current, event) {
+					return current.type === "image" ? <?php echo(isset( $mfbfw['hideOnContentClick'] ) && $mfbfw['hideOnContentClick'] ? '"close"' : '"toggleControls"') ?> : false;
+				},
+				clickSlide: function (current, event) {
+					return current.type === "image" ? <?php echo(isset( $mfbfw['hideOnOverlayClick'] ) && $mfbfw['hideOnOverlayClick'] ? '"close"' : '"toggleControls"') ?> : "close";
+				},
+			},
+			wheel: <?php echo(isset( $mfbfw['mouseWheel'] ) && $mfbfw['mouseWheel'] ? 'true' : 'false') ?>,
+			toolbar: <?php echo(isset( $mfbfw['showToolbar'] ) && $mfbfw['showToolbar'] ? 'true' : 'false') ?>,
 			preventCaptionOverlap: true,
-			onInit: <?php echo ( isset( $mfbfw['callbackEnable'], $mfbfw['callbackOnStart'] ) && $mfbfw['callbackEnable'] && $mfbfw['callbackOnStart'] ? $mfbfw['callbackOnStart'] . ',' : 'function() { },' ) ?>
-			onDeactivate: <?php echo ( isset( $mfbfw['callbackEnable'], $mfbfw['callbackOnCancel'] ) && $mfbfw['callbackEnable'] && $mfbfw['callbackOnCancel'] ? $mfbfw['callbackOnCancel'] . ',' : 'function() { },' ) ?>
-			beforeClose: <?php echo ( isset( $mfbfw['callbackEnable'], $mfbfw['callbackOnCleanup'] ) && $mfbfw['callbackEnable'] && $mfbfw['callbackOnCleanup'] ? $mfbfw['callbackOnCleanup'] . ',' : 'function() { },' ) ?>
-			afterShow: <?php echo ( isset( $mfbfw['callbackEnable'], $mfbfw['callbackOnComplete'] ) && $mfbfw['callbackEnable'] && $mfbfw['callbackOnComplete'] ? $mfbfw['callbackOnComplete'] . ',' : 'function() { },' ) ?>
-			afterClose: <?php echo ( isset( $mfbfw['callbackEnable'], $mfbfw['callbackOnClose'] ) && $mfbfw['callbackEnable'] && $mfbfw['callbackOnClose'] ? $mfbfw['callbackOnClose'] . ',' : 'function() { },' ) ?>
-			caption : <?php echo $caption ?>,
-			afterLoad : <?php echo $afterLoad ?>,
-			<?php echo $frameSize ?>
-		});
-		<?php if ( isset( $mfbfw['extraCallsEnable'] ) && $mfbfw['extraCallsEnable'] ) {
-			echo "/* Extra Calls */";
-            echo $mfbfw['extraCallsData'];
-		} ?>
+			onInit: <?php echo(isset( $mfbfw['callbackEnable'], $mfbfw['callbackOnStart'] ) && $mfbfw['callbackEnable'] && $mfbfw['callbackOnStart'] ? $mfbfw['callbackOnStart'] . ',' : 'function() { },') ?>
+			onDeactivate
+	: <?php echo(isset( $mfbfw['callbackEnable'], $mfbfw['callbackOnCancel'] ) && $mfbfw['callbackEnable'] && $mfbfw['callbackOnCancel'] ? $mfbfw['callbackOnCancel'] . ',' : 'function() { },') ?>
+		beforeClose: <?php echo(isset( $mfbfw['callbackEnable'], $mfbfw['callbackOnCleanup'] ) && $mfbfw['callbackEnable'] && $mfbfw['callbackOnCleanup'] ? $mfbfw['callbackOnCleanup'] . ',' : 'function() { },') ?>
+			afterShow: <?php echo(isset( $mfbfw['callbackEnable'], $mfbfw['callbackOnComplete'] ) && $mfbfw['callbackEnable'] && $mfbfw['callbackOnComplete'] ? $mfbfw['callbackOnComplete'] . ',' : 'function() { },') ?>
+				afterClose: <?php echo(isset( $mfbfw['callbackEnable'], $mfbfw['callbackOnClose'] ) && $mfbfw['callbackEnable'] && $mfbfw['callbackOnClose'] ? $mfbfw['callbackOnClose'] . ',' : 'function() { },') ?>
+					caption : <?php echo $caption ?>,
+		afterLoad : <?php echo $afterLoad ?>,
+		<?php echo $frameSize ?>
+	})
+		;
 
+		<?php if ( isset( $mfbfw['extraCallsEnable'] ) && $mfbfw['extraCallsEnable'] ) {
+		echo "/* Extra Calls */";
+		echo $mfbfw['extraCallsData'];
+	} ?>
 	})
 </script>
 <!-- END Fancybox for WordPress -->
@@ -572,31 +592,4 @@ function fancy_check_if_woocommerce() {
 	} else {
 		return 'true';
 	}
-}
-
-// Ajax request for activate link
-add_action( 'wp_ajax_mfbfw_activate_link', 'mfbfw_get_activate_link' );
-function mfbfw_get_activate_link() {
-
-	$plugin_path = 'modula-best-grid-gallery/Modula.php';
-	$link = add_query_arg(
-        array(
-            'action'        => 'activate',
-            'plugin'        => rawurlencode( $plugin_path ),
-            'plugin_status' => 'all',
-            'paged'         => '1',
-            '_wpnonce'      => wp_create_nonce( 'activate-plugin_' . $plugin_path ),
-        ),
-        admin_url( 'plugins.php' )
-    );
-
-	wp_die(
-		wp_json_encode(
-			array(
-				'status' => 'succes',
-				'link'   => $link,
-			)
-		)
-	);
-
 }

@@ -7,7 +7,7 @@ Author: Arshid
 Author URI: http://ciphercoin.com/
 Text Domain: contact-form-cfdb7
 Domain Path: /languages/
-Version: 1.2.5
+Version: 1.2.5.3
 */
 
 function cfdb7_create_table(){
@@ -36,6 +36,9 @@ function cfdb7_create_table(){
     $cfdb7_dirname = $upload_dir['basedir'].'/cfdb7_uploads';
     if ( ! file_exists( $cfdb7_dirname ) ) {
         wp_mkdir_p( $cfdb7_dirname );
+        $fp = fopen( $cfdb7_dirname.'/index.php', 'w');
+        fwrite($fp, "<?php \n\t // Silence is golden.");
+        fclose( $fp );
     }
     add_option( 'cfdb7_view_install_date', date('Y-m-d G:i:s'), '', 'yes');
 
@@ -62,6 +65,25 @@ function cfdb7_on_activate( $network_wide ){
 }
 
 register_activation_hook( __FILE__, 'cfdb7_on_activate' );
+
+
+function cfdb7_upgrade_function( $upgrader_object, $options ) {
+
+    $upload_dir    = wp_upload_dir();
+    $cfdb7_dirname = $upload_dir['basedir'].'/cfdb7_uploads';
+
+    if ( file_exists( $cfdb7_dirname.'/index.php' ) ) return;
+        
+    if ( file_exists( $cfdb7_dirname ) ) {
+        $fp = fopen( $cfdb7_dirname.'/index.php', 'w');
+        fwrite($fp, "<?php \n\t // Silence is golden.");
+        fclose( $fp );
+    }
+
+}
+
+add_action( 'upgrader_process_complete', 'cfdb7_upgrade_function',10, 2);
+
 
 
 function cfdb7_on_deactivate() {

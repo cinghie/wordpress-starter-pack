@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 5.5.x - Development package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-09-27 08:25:40+0000\n"
+"PO-Revision-Date: 2020-10-14 19:16:36+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -8995,7 +8995,7 @@ msgstr "Nessuna immagine selezionata"
 #: wp-includes/customize/class-wp-customize-media-control.php:245
 #: wp-includes/customize/class-wp-customize-media-control.php:251
 msgid "Select image"
-msgstr "Seleziona una immagine"
+msgstr "Seleziona un'immagine"
 
 #: wp-includes/customize/class-wp-customize-media-control.php:262
 msgid "Choose file"
@@ -10505,7 +10505,7 @@ msgstr "Caricamento"
 
 #: wp-includes/media.php:3567
 msgid "No editor could be selected."
-msgstr "Impossibile selezionare un editor"
+msgstr "Impossibile selezionare un editor."
 
 #. translators: %s: Number of video files.
 #: wp-includes/post.php:2774
@@ -12410,7 +12410,7 @@ msgstr "Se il tuo sito non si visualizza contatta l'amministratore di questo net
 
 #: wp-includes/widgets/class-wp-nav-menu-widget.php:183
 msgid "Select Menu:"
-msgstr "Selezionare il menu:"
+msgstr "Seleziona il menu:"
 
 #: wp-includes/widgets/class-wp-nav-menu-widget.php:29
 #: wp-includes/taxonomy.php:114
