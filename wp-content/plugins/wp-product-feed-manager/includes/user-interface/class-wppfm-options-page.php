@@ -36,13 +36,15 @@ if ( ! class_exists( 'WPPFM_Options_Page' ) ) :
 		}
 
 		/**
-		 * Generates html code for the Setting page
+		 * Generates html code for the Setting page.
 		 *
 		 * @since 1.5.0
-		 * @since 1.7.0 Added the backups table
-		 * @since 1.8.0 Added the third party attributes text field
-		 * @since 1.9.0 Added the Re-initialize button
-		 * @since 2.3.0 Added the Notice option
+		 * @since 1.7.0 Added the backups table.
+		 * @since 1.8.0 Added the third party attributes text field.
+		 * @since 1.9.0 Added the Re-initialize button.
+		 * @since 2.3.0 Added the Notice option.
+		 * @since 2.10.0 Added the show product identifiers option.
+		 * @since 2.15.0 Added ths wpml full resolution url option.
 		 */
 		private function settings() {
 			$html_code = '';
@@ -55,6 +57,8 @@ if ( ! class_exists( 'WPPFM_Options_Page' ) ) :
 			$process_logging_unchecked       = true === $process_logging_option || 'true' === $process_logging_option ? ' checked ' : '';
 			$product_identifiers_option      = get_option( 'wppfm_show_product_identifiers', 'false' );
 			$show_product_identifiers        = true === $product_identifiers_option || 'true' === $product_identifiers_option ? ' checked ' : '';
+			$use_full_resolution_option      = get_option( 'wppfm_use_full_url_resolution', 'false' );
+			$wpml_use_full_resolution_urls   = true === $use_full_resolution_option || 'true' === $use_full_resolution_option ? ' checked ' : '';
 
 			$third_party_attribute_keywords = get_option( 'wppfm_third_party_attribute_keywords', '%wpmr%,%cpf%,%unit%,%bto%,%yoast%' );
 			$notice_mailaddress             = get_option( 'wppfm_notice_mailaddress' ) ? get_option( 'wppfm_notice_mailaddress' ) : get_bloginfo( 'admin_email' );
@@ -99,6 +103,20 @@ if ( ! class_exists( 'WPPFM_Options_Page' ) ) :
 			$html_code .= esc_html__( 'When switched on, adds Brand, GTIN and MPN product identifiers to the products (default off).', 'wp-product-feed-manager' ) . '</label>';
 			$html_code .= '<p><i>' . esc_html__( 'This option will add product identifier input fields to the Inventory card of your products. The MPN identifier is also added to the product variations.', 'wp-product-feed-manager' ) . '</i></p></fieldset>';
 			$html_code .= '</td></tr>';
+
+			// @since 2.15.0.
+			if ( has_filter( 'wppfm_get_wpml_permalink' ) )
+			{
+				$html_code .= '<tr valign="top" class="">';
+				$html_code .= '<th scope="row" class="titledesc">' . esc_html__('WPML: Use full resolution URLs', 'wp-product-feed-manager') . '</th>';
+				$html_code .= '<td class="forminp forminp-checkbox">';
+				$html_code .= '<fieldset>';
+				$html_code .= '<input name="wppfm_wpml_use_full_resolution_urls" id="wppfm_wpml_use_full_resolution_urls" type="checkbox" class="" value="0"' . $wpml_use_full_resolution_urls . '> ';
+				$html_code .= '<label for="wppfm_wpml_use_full_resolution_urls">';
+				$html_code .= esc_html__('Enables full conversion of hard-coded URLs (default off).', 'wp-product-feed-manager') . '</label>';
+				$html_code .= '<p><i>' . esc_html__('Use this option if you\'re using WPML and are getting incorrect URLs in your feed. This option will slightly increase the load on the database when processing a feed.', 'wp-product-feed-manager') . '</i></p></fieldset>';
+				$html_code .= '</td></tr>';
+			}
 
 			$html_code .= '<tr valign="top" class="">';
 			$html_code .= '<th scope="row" class="titledesc">' . esc_html__( 'Third party attributes', 'wp-product-feed-manager' ) . '</th>';

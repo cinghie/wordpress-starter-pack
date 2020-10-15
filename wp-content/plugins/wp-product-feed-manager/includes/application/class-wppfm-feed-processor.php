@@ -331,11 +331,11 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 					return $this->convert_data_to_xml( $data, $this->_channel_details['category_name'], $this->_channel_details['description_name'], $this->_channel_details['channel_id'] );
 
 				case 'txt':
-					return $this->convert_data_to_txt( $data );
+					$txt_sep = apply_filters( 'wppfm_txt_separator', get_correct_txt_separator($this->_channel_details['channel_id']) );
+					return $this->convert_data_to_txt( $data, $txt_sep );
 
 				case 'csv':
 					$csv_sep = apply_filters( 'wppfm_csv_separator', get_correct_csv_separator( $this->_channel_details['channel_id'] ) );
-
 					return $this->convert_data_to_csv( $data, $this->_pre_data['active_fields'], $csv_sep );
 
 				case 'tsv':

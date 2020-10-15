@@ -25,7 +25,7 @@ if ( ! class_exists( 'WPPFM_Register_Scripts' ) ) :
 
 		public function __construct() {
 			$premium_version_nr   = WPPFM_EDD_SL_ITEM_NAME === 'WP Product Feed Manager' ? 'fr-' : 'pr-'; // prefix for version stamp depending on premium or free version
-			$action_level         = 2; // for future use
+			$action_level         = 2; // for future use.
 			$this->_version_stamp = defined( 'WP_DEBUG' ) && WP_DEBUG ? time() : $premium_version_nr . WPPFM_VERSION_NUM;
 			$this->_js_min        = defined( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min';
 
@@ -145,6 +145,7 @@ if ( ! class_exists( 'WPPFM_Register_Scripts' ) ) :
 					'setBackgroundModeNonce'       => wp_create_nonce( 'myajax-background-mode-nonce' ),
 					'setFeedLoggerStatusNonce'     => wp_create_nonce( 'myajax-logger-status-nonce' ),
 					'setShowPINonce'               => wp_create_nonce( 'myajax-show-pi-nonce' ),
+					'setUseFullResolutionNonce'    => wp_create_nonce( 'myajax-use-full-url-resolution-nonce' ),
 					'setThirdPartyKeywordsNonce'   => wp_create_nonce( 'myajax-set-third-party-keywords-nonce' ),
 					'setNoticeMailaddressNonce'    => wp_create_nonce( 'myajax-set-notice-mailaddress-nonce' ),
 					'setBatchProcessingLimitNonce' => wp_create_nonce( 'myajax-set-batch-processing-limit-nonce' ),

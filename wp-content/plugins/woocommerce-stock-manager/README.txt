@@ -5,9 +5,9 @@ Author URI: https://www.storeapps.org/
 Plugin URI: https://www.storeapps.org/woocommerce-plugins/?utm_source=wprepo&utm_medium=web&utm_campaign=wsm_readme
 Tags: woocommerce, stock manager, stock management, inventory
 Requires at least: 5.0.0
-Tested up to: 5.4.2
+Tested up to: 5.5.1
 Requires PHP: 5.6+
-Stable tag: 2.4.0
+Stable tag: 2.5.1
 License: GPLv3
 
 == Description ==
@@ -125,6 +125,17 @@ Be sure, that you have WooCommerce 3.5+ and WordPress 5.+
 4. Product stock as on date
 
 == Changelog ==
+
+= 2.5.1 (07.10.2020) =
+* Fix: Price, Sale Price & Weight getting set to blank when importing CSV
+* Fix: Minor fixes
+
+= 2.5.0 (03.10.2020) =
+* Update: Compatibility with latest version of WordPress & WooCommerce
+* Fix: Clicking on 'Variable product' in case of variable products breaking the Stock Manager page
+* Fix: Import CSV not updating products
+* Fix: Warnings related to insert into 'stock_log' table
+* Fix: Minor fixes
 
 = 2.4.0 (07.08.2020) =
 * New: WooCommerce 4.3.1 compatible

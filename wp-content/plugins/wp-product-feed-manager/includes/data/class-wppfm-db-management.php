@@ -246,6 +246,14 @@ if ( ! class_exists( 'WPPFM_Db_Management' ) ) :
 				// remove the show product identifiers option string
 				$backup_string = self::remove_left_data_part( $backup_string );
 
+				// reset the WPML use full URL resolution option string
+				$wpml_use_full_url_resolution_setting = ltrim( $backup_string, '#' );
+				$wpml_use_full_url_resolution_setting = substr( $wpml_use_full_url_resolution_setting, 0, strpos( $wpml_use_full_url_resolution_setting, '#' ) );
+				update_option( 'wppfm_use_full_url_resolution', $wpml_use_full_url_resolution_setting );
+
+				// remove the use full url resolution option string
+				$backup_string = self::remove_left_data_part( $backup_string );
+
 				// split the string in table specific rows
 				$table_strings = explode( '# backup string for database -> ', $backup_string );
 

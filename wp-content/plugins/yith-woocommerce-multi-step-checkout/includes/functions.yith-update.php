@@ -359,4 +359,4 @@ add_action( 'admin_init', 'yith_wcms_update_db_1_0_1' );
 add_action( 'admin_init', 'yith_wcms_update_db_1_0_2' );
 add_action( 'admin_init', 'yith_wcms_update_db_1_0_3' );
 add_action( 'admin_init', 'yith_wcms_update_db_2_0_0' );
-//add_action( 'admin_init', 'yith_wcms_update_db_2_0_1' );
+add_action( 'admin_init', 'yith_wcms_update_db_2_0_1' );

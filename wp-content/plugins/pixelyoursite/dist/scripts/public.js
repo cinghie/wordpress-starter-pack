@@ -680,8 +680,7 @@ if (!Array.prototype.includes) {
     }(options);
 
     var Facebook = function (options) {
-        var serverEvents = ["Purchase","InitiateCheckout","CompleteRegistration","hCR","ViewContent","PageView"];
-        var serverEventsDynamic = ["AddToCart"];
+
 
         var defaultEventTypes = [
             'PageView',
@@ -706,6 +705,16 @@ if (!Array.prototype.includes) {
 
         var initialized = false;
 
+        var serverEventsDynamic = ["AddToCart","RemoveFromCart","ClickEvent","AdSense","WatchVideo",'Comment','Form','Download'];
+        // add dynamic events from options
+        Object.keys(options.dynamicEventsParams).forEach(function(k){
+            if(options.dynamicEventsParams[k].hasOwnProperty('facebook')) {
+                serverEventsDynamic.push(options.dynamicEventsParams[k]['facebook']['name']);
+            }
+        });
+        serverEventsDynamic.push(options.woo.affiliateEventName);
+        serverEventsDynamic.push(options.woo.paypalEventName);
+
         function fireEvent(name, allData) {
 
             var actionType = defaultEventTypes.includes(name) ? 'track' : 'trackCustom';
@@ -722,14 +731,22 @@ if (!Array.prototype.includes) {
                     options.gdpr.ginger_integration_enabled ||
                     options.gdpr.cookie_notice_integration_enabled ||
                     options.gdpr.cookie_law_info_integration_enabled;
+
+                // Update eventID
+                if( options.facebook.ajaxForServerEvent || serverEventsDynamic.includes(name) ) {
+                    allData.eventID = pys_generate_token(36);
+                }
+
                 // send event from server if they was bloc by gdpr or need send with delay
-                if( serverEvents.includes(name) && isApiDisabled || allData.delay > 0 || serverEventsDynamic.includes(name))
+                if(  options.facebook.ajaxForServerEvent || isApiDisabled || allData.delay > 0 || serverEventsDynamic.includes(name))
                 {
                     var json = {
                         action: 'pys_api_event',
                         pixel: 'facebook',
                         event: name,
-                        data:data
+                        data:data,
+                        ids:options.facebook.pixelIds,
+                        eventID:allData.eventID
                     };
                     jQuery.ajax( {
                         type: 'POST',
@@ -746,18 +763,14 @@ if (!Array.prototype.includes) {
             }
 
             if (options.debug) {
-                console.log('[Facebook] ' + name, params);
+                console.log('[Facebook] ' + name, params,"eventID",allData.eventID);
             }
             var arg = {};
-            if(options.facebook.serverApiEnabled && params.hasOwnProperty('eventID')) {
-                arg.eventID = params.eventID;
+            if(allData.hasOwnProperty('eventID')) {
+                arg.eventID = allData.eventID;
             }
 
-            if(serverEvents.includes(name) || serverEventsDynamic.includes(name)) { // Deduplicate Pixel and Server-Side Events for Purchase event
-                fbq(actionType, name, params,arg);
-            } else {
-                fbq(actionType, name, params);
-            }
+            fbq(actionType, name, params,arg);
         }
 
         /**
@@ -850,9 +863,9 @@ if (!Array.prototype.includes) {
             onCommentEvent: function () {
 
                 if (initialized && this.isEnabled() && options.facebook.commentEventEnabled) {
-
+                    var param = {};
                     this.fireEvent('Comment', {
-                        params: Utils.copyProperties(options.facebook.contentParams, {})
+                        params: Utils.copyProperties(options.facebook.contentParams, param)
                     });
 
                 }
@@ -862,7 +875,6 @@ if (!Array.prototype.includes) {
             onDownloadEvent: function (params) {
 
                 if (initialized && this.isEnabled() && options.facebook.downloadEnabled) {
-
                     this.fireEvent('Download', {
                         params: Utils.copyProperties(options.facebook.contentParams, params)
                     });
@@ -1321,7 +1333,7 @@ if (!Array.prototype.includes) {
                 });
 
                 // Single Product
-                $('.single_add_to_cart_button').click(function (e) {
+                $('body').on('click','.single_add_to_cart_button',function (e) {
 
                     var $button = $(this);
 
@@ -1636,3 +1648,14 @@ if (!Array.prototype.includes) {
     });
 
 }(jQuery, pysOptions);
+
+function pys_generate_token(length){
+    //edit the token allowed characters
+    var a = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".split("");
+    var b = [];
+    for (var i=0; i<length; i++) {
+        var j = (Math.random() * (a.length-1)).toFixed(0);
+        b[i] = a[j];
+    }
+    return b.join("");
+}

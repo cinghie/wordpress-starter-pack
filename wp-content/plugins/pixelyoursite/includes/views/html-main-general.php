@@ -43,6 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             "use_server_api",
                             "Send events directly from your web server to Facebook through the Conversion API. This can help you capture more events. An access token is required to use the server-side API. <a href='https://www.pixelyoursite.com/documentation/configure-server-side-events' target='_blank'>Generate Access Token</a>"
                         ); ?>
+                        <?php Facebook()->render_checkbox_input("server_event_use_ajax","Use Ajax when conversion API is enabled. Keep this option active if you use a cache");?>
                         <?php Facebook()->render_text_area_array_item("server_access_api_token","Api token") ?>
                         <small class="form-text">
                             This is an experimental feature and works only for the automatilly fired standard events. We plan to expand it to all events soon.

@@ -5,7 +5,7 @@ Tags: Google Merchant Export, Product feed, woocommerce, Google product feed exp
 Requires at least: 4.6
 Tested up to: 5.5
 Requires PHP: 5.6
-Stable tag: 1.24.0
+Stable tag: 1.25.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -95,9 +95,12 @@ In case it does please do submit your feed in your Google Merchant center and ch
 2. Map a category
 3. Save and generate your feed
 
+= 1.25.0 - 13/10/2020 =
+* Tested on WooCommerce 4.6.
+
 == Changelog ==
 = 1.24.0 - 24/08/2020 =
-* Fixed an issue where using an apostrofe in the feed name would make the feed unreachable.
+* Fixed an issue where using an apostrophe in the feed name would make the feed unreachable.
 * Added the g: prefix again for the title and link attributes.
 * Tested on WooCommerce 4.4.
 

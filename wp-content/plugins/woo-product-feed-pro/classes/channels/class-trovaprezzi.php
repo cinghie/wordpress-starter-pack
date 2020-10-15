@@ -27,7 +27,7 @@ class WooSEA_trovaprezzi {
 					"format" => "required",
 					"woo_suggest" => "title",
 				),
-				"Product brand" => array(
+				"Brand" => array(
 					"name" => "Brand",
 					"feed_name" => "Brand",
 					"format" => "optional",

@@ -406,7 +406,7 @@ class Stock_Manager_Admin {
 					}
 				}
 			}
-			$this->stock_convert_to_csv($array_to_csv, 'stock-manager-export.csv', ';');	
+			$this->stock_convert_to_csv($array_to_csv, 'stock-manager-export.csv', ',');	
 		}
   }
 

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Product Feed Manager\n"
-"POT-Creation-Date: 2020-08-24 09:11+0200\n"
-"PO-Revision-Date: 2020-08-24 09:11+0200\n"
+"POT-Creation-Date: 2020-09-19 11:56+0200\n"
+"PO-Revision-Date: 2020-09-19 11:58+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: nl_NL\n"
@@ -40,13 +40,13 @@ msgstr ""
 "1430 - De %s map is niet schrijfbaar. Zorg dat u administrator rechten heeft "
 "voor deze map."
 
-#: includes/application/class-feed-master.php:564
+#: includes/application/class-feed-master.php:565
 #: includes/user-interface/class-wppfm-i18n-scripts.php:86
 msgid "Fill with a static value"
 msgstr "Vul met een statische waarde"
 
-#: includes/application/class-feed-master.php:565
-#: includes/application/class-feed-master.php:570
+#: includes/application/class-feed-master.php:566
+#: includes/application/class-feed-master.php:571
 msgid "Use the settings in the Merchant Center"
 msgstr "Gebruik de instellingen uit het Merchant Center"
 
@@ -114,14 +114,14 @@ msgstr ""
 
 #. translators: %s: Title of the feed file
 #. translators: %s: Selected backup file
-#: includes/data/class-wppfm-ajax-file.php:117
-#: includes/data/class-wppfm-db-management.php:280
+#: includes/data/class-wppfm-ajax-file.php:129
+#: includes/data/class-wppfm-db-management.php:288
 #, php-format
 msgid "Could not find file %s."
 msgstr "Bestand %s niet gevonden."
 
-#: includes/data/class-wppfm-ajax-file.php:119
-#: includes/data/class-wppfm-db-management.php:282
+#: includes/data/class-wppfm-ajax-file.php:132
+#: includes/data/class-wppfm-db-management.php:290
 msgid ""
 "Error deleting the feed. You do not have the correct authorities to delete "
 "the file."
@@ -129,7 +129,7 @@ msgstr ""
 "Fout bij het verwijderen van de datafeed. U beschikt niet over de juiste "
 "bevoegdheden om het bestand te verwijderen."
 
-#: includes/data/class-wppfm-ajax-file.php:172
+#: includes/data/class-wppfm-ajax-file.php:191
 #: includes/user-interface/class-wppfm-i18n-scripts.php:37
 msgid ""
 "Error writing the feed. You do not have the correct authorities to write the "
@@ -138,12 +138,12 @@ msgstr ""
 "Fout bij het wegschrijven van de datafeed. U beschikt niet over de juiste "
 "bevoegdheden om het bestand te mogen bewerken."
 
-#: includes/data/class-wppfm-ajax-file.php:326
+#: includes/data/class-wppfm-ajax-file.php:376
 msgid "Feed processing data cleared"
 msgstr "Gegevens over het verwerken van datafeeds gewist"
 
 #. translators: clearing the feed data failed
-#: includes/data/class-wppfm-ajax-file.php:329
+#: includes/data/class-wppfm-ajax-file.php:380
 msgid "Clearing failed!"
 msgstr "Leegmaken mislukt!"
 
@@ -158,7 +158,7 @@ msgstr ""
 "\t\t\t\t\tWerk de bestandspermissies van deze map bij om deze schrijfbaar te "
 "maken en probeer opnieuw een kanaal te installeren."
 
-#: includes/data/class-wppfm-channel.php:152
+#: includes/data/class-wppfm-channel.php:153
 #, php-format
 msgid ""
 "2832 - Failed to connect with the wp marketingrobot server. Please wait a "
@@ -169,14 +169,14 @@ msgstr ""
 "een paar minuten en probeer het dan opnieuw. Als het probleem blijft "
 "bestaan, open dan een support ticket op %s."
 
-#: includes/data/class-wppfm-channel.php:195
+#: includes/data/class-wppfm-channel.php:196
 #, php-format
 msgid "2141 - Please open a support ticket at %s for support on this issue."
 msgstr ""
 "2141-Open een ondersteuningsaanvraag op %s voor ondersteuning op dit punt."
 
 #. translators: %s: Name of a channel
-#: includes/data/class-wppfm-channel.php:245
+#: includes/data/class-wppfm-channel.php:246
 #, php-format
 msgid ""
 "Channel %s is not installed correctly. Please try to Deactivate and then "
@@ -185,7 +185,7 @@ msgstr ""
 "Kanaal %s is niet correct geïnstalleerd. Probeer de Feed Manager plugin te "
 "deactiveren en vervolgens in uw plugins pagina te activeren."
 
-#: includes/data/class-wppfm-channel.php:345
+#: includes/data/class-wppfm-channel.php:346
 #, php-format
 msgid ""
 "Channel %s is not supported by your current plugin version. Please update "
@@ -228,12 +228,12 @@ msgstr ""
 "Het back-upbestand is van een oudere versie van de database en kan niet "
 "worden teruggezet omdat het niet compatibel is met de huidige database."
 
-#: includes/data/class-wppfm-db-management.php:263
+#: includes/data/class-wppfm-db-management.php:271
 msgid "A backup file with the selected name does not exists."
 msgstr "Er bestaat geen back-upbestand met de geselecteerde naam."
 
 #. translators: %s: selected backup file name
-#: includes/data/class-wppfm-db-management.php:302
+#: includes/data/class-wppfm-db-management.php:310
 #, php-format
 msgid "Failed to make a copy of %s"
 msgstr "Een kopie maken van %s is mislukt"
@@ -312,7 +312,7 @@ msgstr ""
 msgid "-- Select the language of the feed --"
 msgstr "-- Selecteer de taal van de feed --"
 
-#: includes/packages/wpml/includes/wppfm-wpml-functions.php:123
+#: includes/packages/wpml/includes/wppfm-wpml-functions.php:135
 msgid ""
 "WPML support is now integrated in the Feed Manager plugin. To prevent "
 "conflicts please deactivate and remove the \"WooCommerce Product Feed "
@@ -964,7 +964,7 @@ msgid "Status"
 msgstr "Status"
 
 #: includes/user-interface/class-wppfm-main-admin-page.php:87
-#: includes/user-interface/class-wppfm-options-page.php:148
+#: includes/user-interface/class-wppfm-options-page.php:166
 msgid "Actions"
 msgstr "Acties"
 
@@ -1070,28 +1070,28 @@ msgstr ""
 "Het maximaal aantal kanalen voor uw licentie is bereikt. Verwijder een "
 "ongebruikt kanaal of upgrade uw licentie."
 
-#: includes/user-interface/class-wppfm-options-page.php:63
+#: includes/user-interface/class-wppfm-options-page.php:67
 msgid "Auto feed fix"
 msgstr "Herstel feeds automatisch"
 
-#: includes/user-interface/class-wppfm-options-page.php:68
+#: includes/user-interface/class-wppfm-options-page.php:72
 msgid "Automatically try regenerating feeds that are failed (default off)."
 msgstr ""
 "Probeert datafeeds die mislukt zijn automatisch opnieuw te genereren "
 "(standaard uit). Wijzig deze instelling als een feed langdurig niet meer "
 "werkt."
 
-#: includes/user-interface/class-wppfm-options-page.php:69
+#: includes/user-interface/class-wppfm-options-page.php:73
 msgid ""
 "Leaving this option on can put extra strain on your server when feeds keep "
 "failing."
 msgstr "Deze optie kan uw server extra belasten als een feed blijft falen."
 
-#: includes/user-interface/class-wppfm-options-page.php:73
+#: includes/user-interface/class-wppfm-options-page.php:77
 msgid "Disable background processing"
 msgstr "Achtergrondverwerking uitschakelen"
 
-#: includes/user-interface/class-wppfm-options-page.php:78
+#: includes/user-interface/class-wppfm-options-page.php:82
 msgid ""
 "Process feeds directly instead of in the background (default off). Try this "
 "option when feeds keep getting stuck in processing. "
@@ -1099,7 +1099,7 @@ msgstr ""
 "Verwerkt uw feeds direct in plaats van op de achtergrond (standaard uit). "
 "Probeer deze optie wanneer feeds blijven steken in de verwerking. "
 
-#: includes/user-interface/class-wppfm-options-page.php:79
+#: includes/user-interface/class-wppfm-options-page.php:83
 msgid ""
 "WARNING: When this option is selected the system can only update one feed at "
 "a time. Make sure to deconflict your feeds auto-update schedules to prevent "
@@ -1109,11 +1109,11 @@ msgstr ""
 "tegelijk bijwerken. Zorg er voor dat de auto-update planning van uw feeds "
 "zodanig is verdeeld dat geen feeds tegelijk automatisch worden bijgewerkt."
 
-#: includes/user-interface/class-wppfm-options-page.php:83
+#: includes/user-interface/class-wppfm-options-page.php:87
 msgid "Feed process logger"
 msgstr "Feed verwerking logger"
 
-#: includes/user-interface/class-wppfm-options-page.php:88
+#: includes/user-interface/class-wppfm-options-page.php:92
 msgid ""
 "When switched on, generates an extensive log of the feed process (default "
 "off)."
@@ -1121,15 +1121,15 @@ msgstr ""
 "Activeert een logger waarmee het feed verwerkingsproces wordt gelogd "
 "(standaard uit)."
 
-#: includes/user-interface/class-wppfm-options-page.php:89
+#: includes/user-interface/class-wppfm-options-page.php:93
 msgid "Switch this option only on request of the help desk. "
 msgstr "Schakel deze optie alleen aan op verzoek van de helpdesk. "
 
-#: includes/user-interface/class-wppfm-options-page.php:94
+#: includes/user-interface/class-wppfm-options-page.php:98
 msgid "Show product identifiers"
 msgstr "Product identificatoren weergeven"
 
-#: includes/user-interface/class-wppfm-options-page.php:99
+#: includes/user-interface/class-wppfm-options-page.php:103
 msgid ""
 "When switched on, adds Brand, GTIN and MPN product identifiers to the "
 "products (default off)."
@@ -1137,7 +1137,7 @@ msgstr ""
 "Wanneer deze optie is ingeschakeld, worden merk-, GTIN- en MPN invoervelden "
 "toegevoegd aan de producten (standaard uitgeschakeld)."
 
-#: includes/user-interface/class-wppfm-options-page.php:100
+#: includes/user-interface/class-wppfm-options-page.php:104
 msgid ""
 "This option will add product identifier input fields to the Inventory card "
 "of your products. The MPN identifier is also added to the product variations."
@@ -1146,22 +1146,41 @@ msgstr ""
 "voorraadkaart van uw producten. De MPN-id wordt ook toegevoegd aan de "
 "product variaties."
 
-#: includes/user-interface/class-wppfm-options-page.php:104
+#: includes/user-interface/class-wppfm-options-page.php:111
+msgid "WPML: Use full resolution URLs"
+msgstr "WPML: Gebruik URLs met volledige resolutie"
+
+#: includes/user-interface/class-wppfm-options-page.php:116
+msgid "Enables full conversion of hard-coded URLs (default off)."
+msgstr ""
+"Maakt volledige conversie van hardgecodeerde URL's mogelijk (standaard uit)."
+
+#: includes/user-interface/class-wppfm-options-page.php:117
+msgid ""
+"Use this option if you're using WPML and are getting incorrect URLs in your "
+"feed. This option will slightly increase the load on the database when "
+"processing a feed."
+msgstr ""
+"Gebruik deze optie als u WPML gebruikt en onjuiste URL's in uw feed krijgt. "
+"Deze optie verhoogt de belasting van de database iets bij het verwerken van "
+"een feed."
+
+#: includes/user-interface/class-wppfm-options-page.php:122
 msgid "Third party attributes"
 msgstr "Producteigenschappen van andere plugins"
 
-#: includes/user-interface/class-wppfm-options-page.php:109
+#: includes/user-interface/class-wppfm-options-page.php:127
 msgid ""
 "Enter comma separated keywords and wildcards to use third party attributes."
 msgstr ""
 "Voer komma's gescheiden sleutelwoorden in om producteigenschappen van andere "
 "plugins te kunnen gebruiken."
 
-#: includes/user-interface/class-wppfm-options-page.php:113
+#: includes/user-interface/class-wppfm-options-page.php:131
 msgid "Notice recipient"
 msgstr "Notificatie ontvanger"
 
-#: includes/user-interface/class-wppfm-options-page.php:118
+#: includes/user-interface/class-wppfm-options-page.php:136
 msgid ""
 "Enter the email address of the person you want to be notified when a feed "
 "fails during an automatic feed update."
@@ -1169,12 +1188,12 @@ msgstr ""
 "Voer een email adres in van de persoon die gewaarschuwd moet worden als een "
 "automatische feed update fout gaat."
 
-#: includes/user-interface/class-wppfm-options-page.php:122
-#: includes/user-interface/class-wppfm-options-page.php:125
+#: includes/user-interface/class-wppfm-options-page.php:140
+#: includes/user-interface/class-wppfm-options-page.php:143
 msgid "Clear feed process"
 msgstr "Feed verwerking opschonen"
 
-#: includes/user-interface/class-wppfm-options-page.php:127
+#: includes/user-interface/class-wppfm-options-page.php:145
 msgid ""
 "Use this option when feeds get stuck processing - does not delete your "
 "current feeds or settings."
@@ -1182,15 +1201,15 @@ msgstr ""
 "Gebruik deze optie iedere keer wanneer een datafeed vast is komen te zitten "
 "in het verwerkingsprocess-verwijdert geen feeds of instellingen."
 
-#: includes/user-interface/class-wppfm-options-page.php:131
+#: includes/user-interface/class-wppfm-options-page.php:149
 msgid "Re-initialize"
 msgstr "Opnieuw initialiseren"
 
-#: includes/user-interface/class-wppfm-options-page.php:134
+#: includes/user-interface/class-wppfm-options-page.php:152
 msgid "Re-initiate plugin"
 msgstr "Plugin opnieuw initialiseren"
 
-#: includes/user-interface/class-wppfm-options-page.php:136
+#: includes/user-interface/class-wppfm-options-page.php:154
 msgid ""
 "Updates the tables if required, re-initiates the cron events and resets the "
 "stored license - does not delete your current feeds or settings."
@@ -1198,27 +1217,27 @@ msgstr ""
 "Actualiseert de tabellen, initialiseert de cron events opnieuw en reset de "
 "opgeslagen licentie - verwijdert geen opgeslagen datafeeds of instellingen."
 
-#: includes/user-interface/class-wppfm-options-page.php:140
+#: includes/user-interface/class-wppfm-options-page.php:158
 msgid "Backups"
 msgstr "Backups"
 
-#: includes/user-interface/class-wppfm-options-page.php:146
+#: includes/user-interface/class-wppfm-options-page.php:164
 msgid "File name"
 msgstr "Bestandsnaam"
 
-#: includes/user-interface/class-wppfm-options-page.php:147
+#: includes/user-interface/class-wppfm-options-page.php:165
 msgid "Backup date"
 msgstr "Back-up datum"
 
-#: includes/user-interface/class-wppfm-options-page.php:153
+#: includes/user-interface/class-wppfm-options-page.php:171
 msgid "Add new backup"
 msgstr "Nieuwe back-up toevoegen"
 
-#: includes/user-interface/class-wppfm-options-page.php:158
+#: includes/user-interface/class-wppfm-options-page.php:176
 msgid "Backup current feeds"
 msgstr "Back-up huidige datafeeds"
 
-#: includes/user-interface/class-wppfm-options-page.php:159
+#: includes/user-interface/class-wppfm-options-page.php:177
 msgid "Cancel backup"
 msgstr "Back-up annuleren"
 

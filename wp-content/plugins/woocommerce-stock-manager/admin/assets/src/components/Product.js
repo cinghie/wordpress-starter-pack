@@ -154,7 +154,7 @@ const Product = (props) => {
         {settings.thumbnail && (
           <td className="stock-manager-field-thumbnail">
             {((product.images && product.images.length > 0) || (product.hasOwnProperty('image'))) && (
-              <Image id={(product.hasOwnProperty('image')) ? product.image.id : product.images[0].id} className={styles.thumbnail} />
+              <Image id={(typeof product.image === 'object' && product.image !== null) ? product.image.id : ((product.images && product.images.length > 0) ? product.images[0].id : 0)} className={styles.thumbnail} />
             )}
           </td>
         )}

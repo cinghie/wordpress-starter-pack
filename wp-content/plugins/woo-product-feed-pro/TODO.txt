@@ -16,6 +16,7 @@ Priority issues:
 - Only update feed when changes to products have been made
 - Add header to extra fields on product edit pages
 - Add possibility to create OR rules
+- Add support for Google My Business product feeds
 - Build a better WP Cron check, current one is not good enough
 - AMAZON integration:
 	- requires a professional seller account, 39 dollar a month, before being able to create a developer account

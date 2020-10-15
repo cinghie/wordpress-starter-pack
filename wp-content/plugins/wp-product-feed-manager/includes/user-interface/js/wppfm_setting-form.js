@@ -35,6 +35,15 @@ function wppfm_show_product_identifiers_changed() {
 	);
 }
 
+function wppfm_wpml_use_full_resolution_urls_changed() {
+	wppfm_wpml_use_full_url_resolution(
+		jQuery( '#wppfm_wpml_use_full_resolution_urls' ).is( ':checked' ),
+		function( response ) {
+			console.log( 'WPML Use full resolution URLs setting changed to ' + response );
+		}
+	);
+}
+
 function wppfm_third_party_attributes_changed() {
 	wppfm_change_third_party_attribute_keywords(
 		jQuery( '#wppfm_third_party_attr_keys' ).val(),

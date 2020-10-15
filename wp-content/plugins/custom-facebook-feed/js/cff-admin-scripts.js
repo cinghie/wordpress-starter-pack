@@ -830,6 +830,24 @@ jQuery(document).ready(function($) {
 		});
 	});
 
+	jQuery('#cff-oembed-disable').click(function(e) {
+		e.preventDefault();
+		jQuery(this).addClass( 'loading' ).html('<i class="fa fa-spinner fa-spin" aria-hidden="true"></i>');
+		jQuery.ajax({
+			url: cffA.ajax_url,
+			type: 'post',
+			data: {
+				action : 'cff_oembed_disable',
+				cff_nonce: cffA.cff_nonce
+			},
+			success: function (data) {
+				jQuery('#cff-oembed-disable').closest('p').html(data);
+			}
+		});
+	});
+
+
+
 	//sb_instagram_enable_email_report
 	function cffToggleEmail() {
 		if (jQuery('#cff_enable_email_report').is(':checked')) {
@@ -906,6 +924,36 @@ jQuery(document).ready(function($) {
 		}); // ajax call
 	}
 
+	//Click event for other plugins in menu
+    $('.cff_get_sbi, .cff_get_cff, .cff_get_ctf, .cff_get_yt').parent().on('click', function(e){
+        e.preventDefault();
+
+        jQuery('.sb_cross_install_modal').remove();
+
+        $('#wpbody-content').prepend('<div class="sb_cross_install_modal"><div class="sb_cross_install_inner" id="cff-admin-about"><div id="cff-admin-addons"><div class="addons-container"><i class="fa fa-spinner fa-spin cff-loader" aria-hidden="true"></i></div></div></div></div>');
+
+        var $self = $(this).find('span'),
+            sb_get_plugin = 'custom_twitter_feeds';
+
+        if( $self.hasClass('cff_get_cff') ){
+            sb_get_plugin = 'custom_facebook_feed';
+        } else if( $self.hasClass('cff_get_sbi') ){
+            sb_get_plugin = 'instagram_feed';
+        } else if( $self.hasClass('cff_get_yt') ){
+            sb_get_plugin = 'feeds_for_youtube';
+        }
+
+        $get_plugins_url = cffA.ajax_url.replace('admin-ajax.php', '');
+
+        // Get the quick install box from the about page
+        $('.sb_cross_install_modal .addons-container').load($get_plugins_url+'admin.php?page=cff-top&tab=more #install_'+sb_get_plugin);
+    });
+    //Close the modal if clicking anywhere outside it
+    jQuery('body').on('click', '.sb_cross_install_modal', function(e){
+        if (e.target !== this) return;
+        jQuery('.sb_cross_install_modal').remove();
+    });
+
 });
 
 
@@ -979,7 +1027,9 @@ jQuery(document).ready(function($) {
 				}
 
 				// Display all addon boxes as the same height.
-				$( '.addon-item .details' ).matchHeight( { byrow: false, property: 'height' } );
+                if( $( '#cff-admin-about.cff-admin-wrap').length ){
+                    $( '#cff-admin-about .addon-item .details' ).matchHeight( { byrow: false, property: 'height' } );
+                }
 
 				// Addons searching.
 				if ( $('#cff-admin-addons-list').length ) {

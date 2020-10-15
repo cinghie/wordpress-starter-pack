@@ -4,7 +4,7 @@ Tags: Facebook Pixel, New Facebook Pixel, Facebook Conversion Pixel, Facebook Pi
 Requires at least: 3.0.1
 Requires PHP: 5.4
 Tested up to: 5.5
-Stable tag: 7.1.14
+Stable tag: 7.2.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -389,6 +389,18 @@ NO, absolutely not! We don't track any type of data about your website. We simpl
 
 
 == Changelog ==
+
+
+= PixelYourSite 7.2.0 =
+
+
+* NEW: Facebook Conversion API works for all the pixel events.
+
+* Ajax option for the Facebook Pixel when Conversion API is enabled. This helps to avoid problems with caches. You can learn more about these problems from [this video](https://www.youtube.com/watch?v=YH6ve7qj1hw)
+
+* ViewContent, AddToCart, InitiateCheckout events related to WooCommerce have value turned ON by default. The reasons are explained in [this video](https://www.youtube.com/watch?v=neH2Hc6xXUU)
+
+* Samll change to the contents parameter for some Facebook Pixel events that had the potential to trigger a warning related to currency or value. 
 
 
 = PixelYourSite 7.1.14 =

@@ -340,23 +340,6 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 					</tr>
 				</table><br/>
 
-				<table class="woo-product-feed-pro-table">
-        		                <tr>
-						<td><strong><?php _e( 'WooCommerce product numbers','woo-product-feed-pro' );?></strong></td>
-					</tr>
-					<tr>
-						<td>
-							<?php
-								printf(
-									__( 'You currently have %1$s published products on your website out of which %2$s are simple products and %3$s variations.','woo-product-feed-pro' ),
-									$published_products,
-									$published_single,
-									$published_variation
-								);
-							?>
-						</td>
-					</tr>
-				</table>
 			</div>
 			</div>
 		</tbody>

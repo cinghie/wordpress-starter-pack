@@ -2111,9 +2111,10 @@ div#ui-datepicker-div.yith-plugin-fw-datepicker-div {
 }
 
 .yith-plugin-ui span.description {
-    margin-top  : 10px;
-    line-height : 20px;
-    max-width   : 40%;
+    margin-top: 10px;
+    line-height: 20px;
+    max-width: 40%;
+    min-width: min(100%,360px);
 }
 
 .yith-plugin-fw-option-with-description {
@@ -2264,9 +2265,41 @@ div#ui-datepicker-div.yith-plugin-fw-datepicker-div {
     .yith-plugin-ui .yith-toggle-row:not(.fixed) {
         width : 80%;
     }
+
+
+    .yith-plugin-ui .yith-add-box-row,
+    .yith-plugin-ui .yith-toggle-row-opened .yith-toggle-content .yith-toggle-content-row,
+    .yith-plugin-ui .yith-add-box-row label{
+        display:block;
+    }
+
+    .yith-plugin-ui .yith-toggle-row-opened .yith-toggle-content .yith-toggle-content-row > label{
+        display:block;
+    }
+
+    .yith-plugin-ui .yith-toggle-row-opened .yith-plugin-fw-option-with-description {
+        width: 100%;
+    }
+
+    .yith-plugin-ui .yith-add-box-row,
+    .yith-plugin-ui .yith-add-box-row label {
+        display: block;
+    }
+
+    .yith-plugin-ui .yith-toggle-row-opened .yith-toggle-content .yith-plugin-fw-option-with-description,
+    .yith-plugin-ui .yith-add-box-row .yith-plugin-fw-option-with-description {
+        display: block;
+        padding-top: 20px;
+    }
+
+
+    .yith-plugin-ui .yith-add-box-row .yith-plugin-fw-option-with-description span.description {
+        max-width: 100%;
+    }
 }
 
 @media screen and (max-width : 1024px) {
+
     .yith-plugin-ui .yith-add-box,
     .yith-plugin-ui .yith-toggle-row:not(.fixed) {
         width : 90%;
@@ -2291,6 +2324,7 @@ div#ui-datepicker-div.yith-plugin-fw-datepicker-div {
     .yith-plugin-ui td.forminp-checkbox.three-cols fieldset:nth-child(3n+1) {
         clear : initial;
     }
+
 }
 
 @media screen and (max-width : 782px) {

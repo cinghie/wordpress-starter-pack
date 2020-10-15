@@ -142,7 +142,7 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 				'labels'                => apply_filters( 'yith_wcbr_taxonomy_labels', $taxonomy_labels ),
 				'public'                => true,
 				'show_admin_column'     => true,
-				'hierarchical'          => true,
+				'hierarchical'          => apply_filters( 'yith_wcbr_taxonomy_hierarchical', true ),
 				'rewrite'               => array(
 					'slug'         => apply_filters( 'yith_wcbr_taxonomy_rewrite', self::$brands_rewrite ),
 					'hierarchical' => true,

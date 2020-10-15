@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.5
-Stable tag: 8.8.5
+Stable tag: 8.9.3
 
 == Description ==
 
@@ -129,6 +129,7 @@ Our plugin supports Polylang
 * Supports Yith brand attributes
 * Supports the official "WooCommerce Product Bundles" plugin
 * Supports the official "WooCommerce Composite Products" plugin
+* Supports the official "WooCommerce Mix & Match Products" plugin
 * Supports WooCommerce Dynamic Pricing & Discounts from RightPress
 * Supports WC Fields Factory
 * Supports Table Rate Shipping for WooCommerce from Bolder Elements
@@ -318,6 +319,32 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 8.9.3 (2020-10-15) =
+* Fixed an issue for prices of bundled products that always added the VAT to the price
+
+= 8.9.2 (2020-10-13) =
+* Next to CSV feeds for Bing Shopping the plugin now also strips the g: from the header for TXT feeds
+
+= 8.9.1 (2020-10-12) =
+* Fixed an issue with Aelia sale prices generating PHP warnings
+
+= 8.9.0 (2020-10-12) =
+* Fixed an issue with the is_plugin_active function that did not work.
+* Fixed a shipping costs issue where sometimes the country was left empty
+
+= 8.8.9 (2020-10-05) =
+* Added support for the WooCommerce Mix & Match plugin
+
+= 8.8.8 (2020-10-04) =
+* Added fields to Trovaprezzi template
+* Performance enhancements
+
+= 8.8.7 (2020-10-03) =
+* Fixed a bug where attribute values no longer were added to the product name
+
+= 8.8.6 (2020-10-03) =
+* Fixed an issue that caused performance of the plugin to slow down
 
 = 8.8.5 (2020-10-01) =
 * Fixed a shipping cost bug that happened when multiple flat rates where configured for a country
@@ -2818,6 +2845,32 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 8.9.3 =
+Fixed an issue for prices of bundled products that always added the VAT to the price
+
+= 8.9.2 =
+Next to CSV feeds for Bing Shopping the plugin now also strips the g: from the header for TXT feeds
+
+= 8.9.1 =
+Fixed an issue with Aelia sale prices generating PHP warnings
+
+= 8.9.0 =
+Fixed an issue with the is_plugin_active function that did not work
+Fixed a shipping costs issue where sometimes the country was left empty
+
+= 8.8.9 =
+Added support for the WooCommerce Mix & Match plugin
+
+= 8.8.8 =
+Added fields to Trovaprezzi template
+Performance enhancements
+
+= 8.8.7 =
+Fixed a bug where attribute values no longer were added to the product name
+
+= 8.8.6 =
+Fixed an issue that caused performance of the plugin to slow down
 
 = 8.8.5 =
 Fixed a shipping cost bug that happened when multiple flat rates where configured for a country

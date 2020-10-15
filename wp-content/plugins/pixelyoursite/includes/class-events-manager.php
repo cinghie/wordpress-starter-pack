@@ -11,9 +11,7 @@ use FacebookAds\Object\ServerSide\Content;
 
 class EventsManager {
 
-    static public $facebookServerEvents = array();
-    private $facebookServerEventTypes = array("edd_purchase","woo_purchase","init_event","woo_view_content",
-        "edd_view_content","edd_initiate_checkout","woo_initiate_checkout");
+    public $facebookServerEvents = array();
 
 	public $doingAMP = false;
 
@@ -136,7 +134,7 @@ class EventsManager {
 
 	public function setupEventsParams() {
 
-        EventsManager::$facebookServerEvents = array();
+        $this->facebookServerEvents = array();
 
 		// initial event
 		$this->addStaticEvent( 'init_event' );
@@ -164,8 +162,8 @@ class EventsManager {
 			$this->setupEddEvents();
 		}
 
-        if(count(EventsManager::$facebookServerEvents)>0 && Facebook()->enabled()) {
-            Facebook()->trackEventByServerApi(EventsManager::$facebookServerEvents);
+        if(count($this->facebookServerEvents)>0 && Facebook()->enabled()) {
+            FacebookServer()->addAsyncEvents($this->facebookServerEvents);
         }
 	}
 
@@ -211,20 +209,23 @@ class EventsManager {
 			$eventName = $eventData['name'];
 			$ids = isset( $eventData['ids'] ) ? $eventData['ids'] : array();
 			
-			$this->staticEvents[ $pixel->getSlug() ][ $eventName ][] = array(
+			 $data = array(
 				'params' => sanitizeParams( $eventData['data'] ),
 				'delay'  => isset( $eventData['delay'] ) ? $eventData['delay'] : 0,
 				'ids'    => $ids,
+                'eventID' => isset( $eventData['eventID'] ) ? $eventData['eventID'] : "",
 			);
 
             // fire fb server api event
-            if($pixel->getSlug() == "facebook" && in_array($eventType,$this->facebookServerEventTypes)) {
+            if($pixel->getSlug() == "facebook" && !Facebook()->getOption( "server_event_use_ajax" ) ) {
                 if ($eventData != null) {
                     if ($eventData != null && (!isset($eventData['delay']) || $eventData['delay'] == 0)) {
-                        $this->addEventToFacebookServerApi($pixel, $eventType, $eventData);
+                        $this->addEventToFacebookServerApi($data["eventID"], $eventType, $eventData);
                     }
                 }
             }
+
+            $this->staticEvents[ $pixel->getSlug() ][ $eventName ][] = $data;
 		}
 
 	}
@@ -381,15 +382,6 @@ class EventsManager {
                         }
                     }
 
-                    if(!$isGdprEnabled) {
-                        // send by server api
-                        $eventData = Facebook()->getEventData( 'complete_registration',null );
-                        if($eventData != null) {
-                            $this->addEventToFacebookServerApi(Facebook(),'complete_registration',$eventData);
-                        }
-                    }
-
-
                 } else {
                     $this->addStaticEvent('complete_registration', null, "facebook");
                 }
@@ -411,11 +403,11 @@ class EventsManager {
             isCookieLawInfoPluginActivated() && PYS()->getOption( 'gdpr_cookie_law_info_integration_enabled' );
     }
 
-    function addEventToFacebookServerApi($pixel,$eventType,$eventData) {
-        $isDisabled = $this->isGdprPluginEnabled();
+    function addEventToFacebookServerApi($eventID,$eventType,$eventData) {
+        $isEnabled = $this->isGdprPluginEnabled();
 
 
-        if( !$isDisabled ) {
+        if( !$isEnabled ) {
             $name = $eventData['name'];
             $data = $eventData['data'];
 
@@ -424,78 +416,11 @@ class EventsManager {
                 $data['contents']=$contents;
             }
 
-            EventsManager::sendFbApiEvent($pixel,$name,$data);
+            $serverEvent = FacebookServer()->createEvent($eventID,$name,$data);
+            $this->facebookServerEvents[] = array("pixelIds" => Facebook()->getPixelIDs(), "event" => $serverEvent );
         }
     }
 
-    static function sendFbApiEvent($pixel,$name,$data,$async = true) {
-
-        if(!$pixel->isServerApiEnabled() || !isset($data['eventID'])) return;
-
-        $event = ServerEventHelper::newEvent($name,$data['eventID']);
-        $event->setEventTime(time());
-
-        if(isset($data['contents']) && is_array($data['contents'])) {
-            $contents = array();
-            foreach ($data['contents'] as $c) {
-                $content = array();
-                $content['product_id'] = $c->id;
-                $content['quantity'] = $c->quantity;
-                $content['item_price'] = $c->item_price;
-                $contents[] = new Content($content);
-            }
-            $data['contents'] = $contents;
-        } else {
-            $data['contents'] = array();
-        }
-
-        $event->setCustomData(new CustomData($data));
-
-        $custom_data = $event->getCustomData();
-        if(isset($data['category_name'])) {
-            $custom_data->setContentCategory($data['category_name']);
-        }
-
-        //$custom_data->setOrderId($data['transaction_id']);
-        if($async) {
-            EventsManager::$facebookServerEvents[]=$event;
-            //$pixel->trackEventByServerApi($event);
-        } else {
-            Facebook::sendServerRequest(array($event));
-        }
-
-    }
-
-    static function sendApiEvent() {
-
-        $pixelName = $_POST['pixel'];
-        $event = $_POST['event'];
-        $data = $_POST['data'];
-
-        if($event == "hCR") $event="CompleteRegistration"; // de mask completer registration event if it was hidden
-
-        switch ($pixelName) {
-            case 'facebook': {
-                if(isset($data['content_ids'])) {
-                    $content_ids = json_decode(stripslashes($data['content_ids']));
-                    $data['content_ids']=$content_ids;
-                }
-                if(isset($data['contents'])) {
-                    if(is_array($data['contents'])) {
-                        $contents = json_decode(json_encode($data['contents']));
-                    } else {
-                        $contents = json_decode(stripslashes($data['contents']));
-                    }
-
-                    $data['contents']=$contents;
-                }
-                EventsManager::sendFbApiEvent(Facebook::instance(),$event,$data,false);
-                break;
-            }
-        }
-        /* echo "hi";
-         wp_die();*/
-    }
 
     public function setupWooLoopProductData()
     {

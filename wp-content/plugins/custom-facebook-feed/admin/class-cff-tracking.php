@@ -527,6 +527,10 @@ class CFF_Tracking {
 			}
 		}
 
+		$oembed_token = get_option( 'cff_oembed_token', false );
+
+		$settings_to_send['oembed_expiring_token'] = isset( $oembed_token['access_token'] ) ? (int)$oembed_token['access_token'] > 0 : false;
+		
 		global $wpdb;
 		$feed_caches = array();
 

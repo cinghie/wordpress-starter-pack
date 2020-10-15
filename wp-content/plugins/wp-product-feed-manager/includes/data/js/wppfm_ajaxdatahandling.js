@@ -358,6 +358,31 @@ function wppfm_show_pi_status( selection, callback ) {
 	);
 }
 
+/**
+ * Stores the WPML Use full URL resolution option.
+ *
+ * @since 2.15.0
+ *
+ * @param selection
+ * @param callback
+ */
+function wppfm_wpml_use_full_url_resolution( selection, callback ) {
+
+	jQuery.post(
+		myAjaxNonces.ajaxurl,
+		{
+			action: 'myajax-wpml-use-full-url-resolution-selection',
+			urlResolutionSelection: selection,
+			urlResolutionNonce: myAjaxNonces.setUseFullResolutionNonce,
+
+		},
+		function( response ) {
+
+			callback( response.trim() );
+		}
+	);
+}
+
 function wppfm_change_third_party_attribute_keywords( keywords, callback ) {
 
 	jQuery.post(

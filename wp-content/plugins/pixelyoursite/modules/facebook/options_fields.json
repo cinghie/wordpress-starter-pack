@@ -49,6 +49,7 @@
   "fdp_purchase_value" : "text",
 
   "use_server_api": "checkbox",
+  "server_event_use_ajax": "checkbox",
   "server_access_api_token": "array",
   "test_api_event_code": "array",
 

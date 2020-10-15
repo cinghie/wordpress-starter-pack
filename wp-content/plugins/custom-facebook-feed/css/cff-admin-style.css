@@ -74,6 +74,20 @@
 #cff-admin .cff-notice a:focus{
 	color: #a34100;
 }
+#cff-admin .cff-warning {
+	position: relative;
+	display: inline-block;
+	border: 1px solid #ccc;
+	font-size: 12px;
+	padding: 4px 4px 4px 8px;
+	vertical-align: top;
+	margin: 4px 5px 0 0;
+	border-radius: 4px;
+
+	background: #fdf4e5;
+	border: 1px solid #e6bc88;
+	color: #94570c;
+}
 #cff-admin .cff-profile-error,
 #cff-admin .cff-group-error{
 	display: none;
@@ -86,6 +100,12 @@
 
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+#cff-admin .cff-oembed-button .cff-profile-error,
+#cff-admin .cff-oembed-button .cff-warning{
+	clear: both;
+	padding: 20px 30px;
 	border-radius: 3px;
 }
 #cff-admin .cff-profile-error p{
@@ -2185,14 +2205,6 @@
 	padding: 20px
 }
 
-#cff-admin-about #cff-admin-addons .addon-item img {
-	padding: 10px
-}
-
-#cff-admin-about #cff-admin-addons .addon-item img[src*="-mi"] {
-	padding: 13px
-}
-
 #cff-admin-about #cff-admin-addons .addon-item .action-button .button {
 	display: inline-block;
 	text-decoration: none;
@@ -2566,4 +2578,365 @@
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
+}
+
+/* Social Wall landing page */
+#cff-admin.sw-landing-page{
+	padding: 20px 0;
+}
+#cff-admin .cff-sw-icons{
+	width: 100%;
+	text-align: center;
+}
+#cff-admin .cff-sw-icons span{
+	display: inline-block;
+	width: 32px;
+	margin: 0 7px;
+	position: relative;
+	top: -2px;
+}
+#cff-admin .cff-sw-icons .cff-sb-plus{
+	width: 12px;
+	height: 12px;
+	position: relative;
+	top: -12px;
+	opacity: 0.9;
+}
+#cff-admin.sw-landing-page h1,
+#cff-admin.sw-landing-page h2{
+	width: 100%;
+	text-align: center;
+}
+#cff-admin.sw-landing-page h1{
+	font-size: 44px;
+	margin: 20px 0 0 0;
+	line-height: 1.3;
+}
+#cff-admin.sw-landing-page h2{
+	font-size: 30px;
+	font-weight: 100;
+	line-height: 1.2;
+	margin: 5px 0 20px 0;
+}
+#cff-admin .cff-sw-info{
+	width: 95%;
+	max-width: 1400px;
+	margin: 0 auto;
+	padding: 50px 10px;
+	clear: both;
+	overflow: hidden;
+	box-sizing: border-box;
+}
+#cff-admin .cff-sw-features{
+	float: left;
+	width: 40%;
+	margin-right: 5%;
+	padding: 20px 0 0 0;
+}
+#cff-admin .cff-sw-screenshot{
+	position: relative;
+	width: 55%;
+	float: left;
+	box-sizing: border-box;
+	border: 5px solid #fff;
+	box-shadow: 0 0 20px 0 rgba(0,0,0,0.05);
+}
+#cff-admin .cff-sw-features p{
+	margin: 35px 0;
+	padding: 0;
+	font-size: 15px;
+}
+#cff-admin .cff-sw-features p:first-child{
+	margin-top: 0;
+}
+#cff-admin .cff-sw-features span{
+	display: block;
+	font-size: 20px;
+	font-weight: bold;
+}
+#cff-admin.sw-landing-page .cta {
+	margin: 20px 0 0 5px;
+	padding: 8px 40px 10px 40px;
+	font-size: 20px;
+}
+#cff-admin .cff-sw-screenshot img{
+	width: 100%;
+	display: block;
+}
+#cff-admin .cff-sw-screenshot .cta{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -32px;
+	margin-left: -80px;
+	padding: 15px 30px 17px 30px;
+	color: #333;
+	text-decoration: none;
+	background: rgba(255,255,255,0.95);
+	border-radius: 3px;
+	/*border: 2px solid rgba(0,0,0,0.1);*/
+	box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
+}
+#cff-admin .cff-sw-screenshot:hover .cta,
+#cff-admin .cff-sw-screenshot:focus .cta{
+	background: #e34717;
+	color: #fff;
+	box-shadow: 0;
+}
+#cff-admin .cff-sw-footer-cta{
+	width: 100%;
+	text-align: center;
+}
+#cff-admin .cff-sw-footer-cta a{
+	font-size: 22px;
+	display: inline-block;
+	text-decoration: none;
+	line-height: 25px;
+	font-weight: normal;
+	padding: 10px 0 30px 0;
+}
+#cff-admin .cff-sw-footer-cta span{
+	width: 30px;
+	height: 30px;
+	display: inline-block;
+	margin: 0 10px 0 0;
+	position: relative;
+	top: 4px;
+}
+#cff-admin .cff-sw-footer-cta span .emoji{
+	width: 30px !important;
+	height: 30px !important;
+}
+
+@media all and (max-width: 1500px){
+	#cff-admin .cff-sw-screenshot{
+		width: 55%;
+		float: left;
+		height: 500px;
+		background: url('../img/sw-screenshot.png') no-repeat center center;
+		background-size: cover;
+	}
+	#cff-admin .cff-sw-screenshot img{
+		display: none;
+	}
+}
+@media all and (max-width: 900px){
+	#cff-admin .cff-sw-info{
+		padding: 20px 0;
+	}
+	#cff-admin .cff-sw-features{
+		width: 100%;
+		padding: 10px 0;
+		margin: 0;
+	}
+	#cff-admin .cff-sw-screenshot{
+		width: 100%;
+		padding: 0;
+		height: auto;
+		background: none;
+	}
+	#cff-admin .cff-sw-screenshot img{
+		display: block;
+	}
+	#cff-admin .cff-sw-features .cta {
+		width: 100%;
+		box-sizing: border-box;
+		text-align: center;
+		margin: 20px 0;
+	}
+}
+
+/* Alert bubble */
+#cff-admin .nav-tab{
+	position: relative;
+}
+#cff-admin .cff-alert-bubble{
+	position: absolute;
+	top: -9px;
+	right: -10px;
+
+	display: inline-block;
+	vertical-align: top;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0 7px;
+	height: 18px;
+
+	border-radius: 9px;
+	background-color: #ca4a1f;
+	color: #fff;
+	font-size: 11px;
+	line-height: 1.6;
+	text-align: center;
+	z-index: 26;
+}
+
+/* Install another plugin modal */
+.sb_cross_install_modal {
+    position: fixed;
+    z-index: 999;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.3);
+}
+.sb_cross_install_inner {
+    position: absolute;
+    top: 140px;
+    left: 50%;
+    width: 480px;
+    margin: 0 0 0 -245px;
+    padding: 35px;
+    background: #fff;
+    text-align: left;
+
+    -webkit-box-shadow: 0 1px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 20px rgba(0, 0, 0, 0.2);
+
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+.sb_cross_install_modal #cff-admin-about #cff-admin-addons .addon-container,
+.sb_cross_install_modal #cff-admin-about #cff-admin-addons .addons-container{
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	min-height: 198px;
+}
+.sb_cross_install_modal #cff-admin-addons .addon-item .action-button button{
+	background: #007cba;
+	border: 0;
+}
+.sb_cross_install_modal #cff-admin-addons .addon-item .action-button button:hover{
+	background: #0071a1;
+}
+.sb_cross_install_modal #cff-admin-about #cff-admin-addons{
+	padding: 0;
+}
+/* More social feeds page */
+#cff-admin-about #cff-admin-addons .addon-item .action-button .button.button-primary .fa-spinner {
+	color: #333;
+}
+#cff-admin .cff_more_plugins h2{
+	margin-top: 15px;
+}
+#cff-admin .cff_more_plugins #cff-admin-addons .addons-container{
+	overflow: hidden;
+	margin: 0;
+}
+#cff-admin .cff_more_plugins#cff-admin-about #cff-admin-addons{
+	padding: 20px 0;
+}
+#cff-admin .cff-more-plugins-intro span{
+	color: #e34f0e;
+}
+#cff-admin .cff_more_plugins h3{
+	padding: 15px 0 0 0;
+}
+.sb_cross_install_modal .cff-loader{
+	position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -10px 0 0 -10px;
+}
+
+/* oEmbeds */
+#cff-admin.cff-oembeds #header{
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 15px;
+	margin-bottom: 25px;
+}
+#cff-admin.cff-oembeds .cff_admin_btn{
+	margin-top: 10px;
+}
+#cff-admin.cff-oembeds .cff-success{
+	display: inline-block;
+	clear: both;
+	padding: 20px 30px;
+	border-radius: 3px;
+}
+#cff-admin.cff-oembeds .cff-success a{
+	margin-left: 5px;
+	color: #e34f0e;
+}
+#cff-admin .cff-oembed-promo{
+	margin: 30px 0 0 0;
+	padding: 30px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	background: rgba(255,255,255,0.5);
+}
+#cff-admin .cff-oembed-promo h2{
+	padding: 0 0 20px 0;
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.5;
+}
+#cff-admin .cff-oembed-promo .cff-reasons div{
+	display: inline-block;
+	margin-right: 15px;
+}
+#cff-admin .cff-oembed-promo .cff-reasons span{
+	font-size: 15px;
+}
+#cff-admin .cff-oembed-promo svg{
+	position: relative;
+	top: 3px;
+	margin: 0 8px 0 0;
+	width: 16px;
+	height: 16px;
+}
+#cff-admin .cff-oembed-promo .button{
+	margin-top: 12px;
+    font-size: 16px;
+    padding: 5px 20px;
+    height: auto;
+}
+#cff-admin .cff-oembed-promo p span{
+	display: inline-block;
+	padding-right: 10px;
+}
+#cff-admin .cff-oembed-promo .fa-check{
+	width: 14px;
+	height: 14px;
+	margin-right: 5px;
+	top: 2px;
+}
+#cff-admin .cff-oembed-promo .fa-check path{
+	fill: #3fa03f;
+}
+#cff-admin .cff-oembed-desc{
+	clear: both;
+	overflow: hidden;
+	max-width: 900px;
+}
+#cff-admin .cff-oembed-desc p{
+	padding: 0 0 10px 0;
+	margin: 0;
+}
+#cff-admin .cff-oembed-desc .cff-col{
+	width: 45%;
+	margin-right: 4%;
+	float: left;
+}
+#cff-admin .cff-oembed-desc img{
+	width: 51%;
+	max-width: 457px;
+	float: left;
+}
+
+#cff-admin .cff-cols-4{
+	max-width: 1100px;
+	padding-top: 20px;
+}
+#cff-admin .cff-cols-4 .addon-container{
+	width: 50%;
+}
+@media all and (max-width: 780px){
+	#cff-admin .cff-cols-4 .addon-container{
+		width: 100%;
+	}
 }

@@ -342,7 +342,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 		 */
 		private function set_properties() {
 			// Some channels do not use channels and leave the main category empty which causes issues.
-			if ( function_exists( 'channel_uses_category' ) && ! channel_uses_category( $this->_feed->channel ) ) {
+			if ( function_exists('channel_uses_own_category') && ! channel_uses_own_category( $this->_feed->channel ) ) {
 				$this->_feed->mainCategory = 'No Category Required';
 			}
 
@@ -373,7 +373,8 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 				} elseif ( 'xml' === $file_extension ) {
 					$header_string = $this->_channel_class->header( $this->_feed->title );
 				} elseif ( 'txt' === $file_extension ) {
-					$header_string = $this->make_tab_delimited_string_from_data_array( $this->get_active_fields() );
+					$txt_sep = apply_filters( 'wppfm_txt_separator', get_correct_txt_separator( $this->_feed->channel ) );
+					$header_string = $this->make_feed_string_from_data_array( $this->get_active_fields(), $txt_sep );
 				} elseif ( 'csv' === $file_extension ) {
 					$csv_sep = apply_filters( 'wppfm_csv_separator', get_correct_csv_header_separator( $this->_feed->channel ) );
 					$string  = $this->make_csv_header_string( $this->get_active_fields(), $csv_sep );

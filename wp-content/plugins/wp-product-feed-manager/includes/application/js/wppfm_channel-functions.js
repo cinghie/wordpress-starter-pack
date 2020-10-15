@@ -36,6 +36,7 @@ function wppfm_showChannelInputs( channel, isNew ) {
 		'26': 'switchToGalaxusProductDataFeedFormMainInputs',
 		'27': 'switchToGalaxusProductPropertiesFeedFormMainInputs',
 		'28': 'switchToGalaxusProductStockPricingFeedFormMainInputs',
+		'29': 'switchToVivinoFeedFormMainInputs',
 		'996': 'switchToMarketingrobotTsvFeedFormMainInputs',
 		'997': 'switchToMarketingrobotTxtFeedFormMainInputs',
 		'998': 'switchToMarketingrobotCsvFeedFormMainInputs',
@@ -79,6 +80,7 @@ function wppfm_show_or_hide_category_map( channel ) {
 		case '26': // Galaxus Product Data
 		case '27': // Galaxus Product Stock Pricing
 		case '28': // Galaxus Product Properties
+		case '29': // Vivino
 			category_map_selector.show();
 			break;
 
@@ -148,6 +150,7 @@ function wppfm_reactOnChannelInputChanged( channel, feedId, categoryChanged ) {
 			'26': 'galaxusProductDataInputChanged',
 			'27': 'galaxusProductStockPricingInputChanged',
 			'28': 'galaxusProductPropertiesInputChanged',
+			'29': 'vivinoInputChanged',
 			'996': 'marketingrobotTsvInputChanged',
 			'997': 'marketingrobotTxtInputChanged',
 			'998': 'marketingrobotCsvInputChanged',
@@ -167,7 +170,7 @@ function wppfm_reactOnChannelInputChanged( channel, feedId, categoryChanged ) {
 }
 
 /**
- * Returns txt of xml depending on the feed type that needs to be made
+ * Returns txt, csv, tsv or xml depending on the feed type that needs to be made. Default is xml.
  *
  * @param {string} channel
  * @returns {string} with the channel feed type
@@ -182,6 +185,7 @@ function wppfm_getChannelFeedType( channel ) {
 		case '12': // koopjespakker.nl
 		case '21': // shopzilla
 		case '25': // pepperjam
+		case '29': // Vivino
 		case '997': // Custom TXT Feed
 			return 'txt';
 
@@ -205,7 +209,7 @@ function wppfm_getChannelFeedType( channel ) {
 }
 
 /**
- * returns the correct country code for the channel specific category text file
+ * Returns the correct country code for the channel specific category text file. en-US is the default.
  *
  * @param {string} channel
  * @returns {String} with the channels country code
@@ -242,7 +246,7 @@ function wppfm_channelCountryCode( channel ) {
 
 /**
  * Returns true if the specified channel does not have its own categories but uses the users shop
- * categories instead
+ * categories instead.
  *
  * @param {string} channel
  * @returns {Boolean} true when this channel uses categories from the shop
@@ -260,6 +264,7 @@ function wppfm_channelUsesOwnCategories( channel ) {
 		case '26': // Galaxus Product Data
 		case '27': // Galaxus Product Stock Pricing
 		case '28': // Galaxus Product Properties
+		case '29': // Vivino
 			return true;
 
 		default:
@@ -269,7 +274,7 @@ function wppfm_channelUsesOwnCategories( channel ) {
 
 /**
  * If required for that channel, this function activates the correct function that will prepare the global category
- * variables in the channel specific javascript file. Does nothing when not required for the channel
+ * variables in the channel specific javascript file. Does nothing when not required for the channel.
  *
  * @param {string} channel
  * @param {string} selectedCategory
@@ -361,6 +366,7 @@ function wppfm_getAdvisedInputs( channel ) {
 		'26': 'woocommerceToGalaxusProductDataFields',
 		'27': 'woocommerceToGalaxusProductStockPricingFields',
 		'28': 'woocommerceToGalaxusProductPropertiesFields',
+		'29': 'woocommerceToVivinoFields',
 	};
 
 	if ( fName.hasOwnProperty( channel ) ) {
@@ -493,7 +499,7 @@ function wppfm_restrictedStaticFields( channel, fieldName ) {
 }
 
 /**
- * set a preset condition, other than the advised input, for fields for a specific channel (eg. condition = static field with 'new' selected
+ * Set a preset condition, other than the advised input, for fields for a specific channel (eg. condition = static field with 'new' selected).
  *
  * @param {array} outputsField
  * @param {string} channel

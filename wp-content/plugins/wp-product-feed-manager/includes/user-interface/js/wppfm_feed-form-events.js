@@ -219,6 +219,13 @@ jQuery(
 			}
 		);
 
+		$( '#wppfm_wpml_use_full_resolution_urls' ).on(
+			'change',
+			function() {
+				wppfm_wpml_use_full_resolution_urls_changed();
+			}
+		)
+
 		$( '#wppfm_third_party_attr_keys' ).on(
 			'focusout',
 			function() {

@@ -59,9 +59,9 @@ class WCM_Save {
 
 		foreach( $defaults as $default ){
 
-			if( isset( $data[$default][$item] ) ) {
+			if( isset( $data[$default] ) ) {
 
-				$values[$default]  = sanitize_text_field( $data[$default][$item] );
+				$values[$default]  = sanitize_text_field( $data[$default] );
 
 			}
 
@@ -107,8 +107,8 @@ class WCM_Save {
 		$values = array(
 			'sku',
 			'manage_stock',
-			'backorders',
 			'stock_status',
+			'backorders',
 			'stock',
 			'tax_status',
 			'tax_class',
@@ -136,48 +136,37 @@ class WCM_Save {
 		if( isset( $data['sku'] ) ) {
 			$_product->set_sku( $data['sku'] );
 		}
-		if(!empty( $display_option['manage_stock'] ) && $display_option['manage_stock'] == 'display' ){
-			if( isset( $data['manage_stock'] ) ) {
-				$_product->set_manage_stock( $data['manage_stock'] );
-			}
-		}
-		if(!empty( $display_option['backorders'] ) && $display_option['backorders'] == 'display' ){
-			if( isset( $data['backorders'] ) ) {
-				$_product->set_backorders( $data['backorders'] );
-			}
-		}
-		if(!empty( $display_option['stock_status'] ) && $display_option['stock_status'] == 'display' ){
-			if( isset( $data['stock_status'] ) ) {
-				$_product->set_stock_status( $data['stock_status'] );
-			}
-		}
-		if(!empty( $display_option['stock'] ) && $display_option['stock'] == 'display' ){
-			if( isset( $data['stock'] ) ) {
-				$_product->set_stock_quantity( $data['stock'] );
-			}
+		
+		if( isset( $data['manage_stock'] ) ) {
+			$_product->set_manage_stock( $data['manage_stock'] );
 		}
 
-		if(!empty( $display_option['tax_status'] ) && $display_option['tax_status'] == 'display' ){
-			if( isset( $data['tax_status'] ) ) {
-				$_product->set_tax_status( $data['tax_status'] );
-			}
+		if( isset( $data['backorders'] ) ) {
+			$_product->set_backorders( $data['backorders'] );
 		}
-		if(!empty( $display_option['tax_class'] ) && $display_option['tax_class'] == 'display' ){
-			if( isset( $data['tax_class'] ) ) {
-				$_product->set_tax_class( $data['tax_class'] );
-			}
+
+		if( isset( $data['stock_status'] ) ) {
+			$_product->set_stock_status( $data['stock_status'] );
 		}
-		if(!empty( $display_option['shipping_class'] ) && $display_option['shipping_class'] == 'display' ){
-			if( isset( $data['shipping_class'] ) ) {
-				$_product->set_shipping_class_id( $data['shipping_class'] );
-			}
+		
+		if( isset( $data['stock'] ) ) {
+			$_product->set_stock_quantity( $data['stock'] );
 		}
-		if(!empty( $display_option['weight'] ) && $display_option['weight'] == 'display' ){
-			if( isset( $data['weight'] ) ){
-				$_product->set_weight( $data['weight'] );
-			}else{
-				$_product->set_weight( '' );
-			}
+		
+		if( isset( $data['tax_status'] ) ) {
+			$_product->set_tax_status( $data['tax_status'] );
+		}
+		
+		if( isset( $data['tax_class'] ) ) {
+			$_product->set_tax_class( $data['tax_class'] );
+		}
+		
+		if( isset( $data['shipping_class'] ) ) {
+			$_product->set_shipping_class_id( $data['shipping_class'] );
+		}
+		
+		if( isset( $data['weight'] ) ){
+			$_product->set_weight( $data['weight'] );
 		}
 		
 		 /*   if( !empty( $data['regular_price'] ) ){
@@ -190,22 +179,26 @@ class WCM_Save {
 				}
 			}   
 */
-		if(!empty( $display_option['price'] ) && $display_option['price'] == 'display' ){
+		if( isset( $data['regular_price'] ) ) {
 			if( !empty( $data['regular_price'] ) ){
 				$_product->set_price( $data['regular_price'] );
 				$_product->set_regular_price( $data['regular_price'] );                            
-			}else{
+			}
+			else{
 				$_product->set_price( '' );
 				$_product->set_regular_price( '' );
-			}         
-		}
-		if(!empty( $display_option['sales_price'] ) && $display_option['sales_price'] == 'display' ){
+			}
+		}        
+		
+		if( isset( $data['sales_price'] ) ) {
 			if( !empty( $data['sales_price'] ) ){
 				$_product->set_sale_price( $data['sales_price'] );
-			}else{
+			}
+			else{
 				$_product->set_sale_price( '' );
-			}        
-		}
+			}
+		}        
+		
 		$_product->save();
 
 		wc_delete_product_transients( $product_id );    

@@ -20,7 +20,7 @@ class Stock_Manager {
 	 *
 	 * @var     string
 	 */
-	const VERSION = '2.4.0';
+	const VERSION = '2.5.1';
 
 	/**
 	 * Plugin slug
@@ -278,6 +278,7 @@ class Stock_Manager {
 		$data = array();
 		$data['date_created'] = date( 'Y-m-d H:i:s', time() );
 		$data['qty'] = $product->get_stock_quantity();
+		$data['qty'] = ( empty( $data['qty'] ) ) ? 0 : intval( $data['qty'] );
 		$data['product_id'] = $product->get_id();
 		
 		$wpdb->insert( $wpdb->prefix.'stock_log', $data ); 

@@ -77,9 +77,6 @@ final class PYS extends Settings implements Plugin {
 
 	    } );
 
-        add_action( 'wp_ajax_pys_api_event','PixelYourSite\EventsManager::sendApiEvent');
-        add_action( 'wp_ajax_nopriv_pys_api_event', 'PixelYourSite\EventsManager::sendApiEvent');
-
 	    add_action( 'wp_ajax_pys_get_gdpr_filters_values', array( $this, 'ajaxGetGdprFiltersValues' ) );
 	    add_action( 'wp_ajax_nopriv_pys_get_gdpr_filters_values', array( $this, 'ajaxGetGdprFiltersValues' ) );
 

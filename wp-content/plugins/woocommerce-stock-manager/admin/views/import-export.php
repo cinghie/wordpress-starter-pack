@@ -158,6 +158,7 @@ jQuery( document ).ready(function() {
 	<h3><?php _e('File format. ','woocommerce-stock-manager'); ?></h3>
 	<table class="table-bordered">
 	  <tr>
+	  	<td><?php _e('ID','woocommerce-stock-manager'); ?></td>
 		<td><?php _e('SKU','woocommerce-stock-manager'); ?></td>
 		<td><?php _e('Product name','woocommerce-stock-manager'); ?></td>
 		<td><?php _e('Manage stock','woocommerce-stock-manager'); ?></td>
@@ -168,7 +169,8 @@ jQuery( document ).ready(function() {
 		<td><?php _e('Parent SKU','woocommerce-stock-manager'); ?></td>
 	  </tr>
 	  <tr>
-		<td><?php _e('111111','woocommerce-stock-manager'); ?></td>
+	  	<td><?php _e('123','woocommerce-stock-manager'); ?></td>
+		<td><?php _e('abc111','woocommerce-stock-manager'); ?></td>
 		<td><?php _e('T-shirt','woocommerce-stock-manager'); ?></td>
 		<td><?php _e('yes','woocommerce-stock-manager'); ?></td>
 		<td><?php _e('instock','woocommerce-stock-manager'); ?></td>
@@ -180,7 +182,8 @@ jQuery( document ).ready(function() {
 	</table>  
 	
 	<ul>
-	  <li><strong><?php _e('SKU','woocommerce-stock-manager'); ?></strong> <?php _e('product unique identificator, required. Neccessary for import and export.','woocommerce-stock-manager'); ?></li>
+		<li><strong><?php _e('ID','woocommerce-stock-manager'); ?></strong> <?php _e('product id, required. Neccessary for import and export.','woocommerce-stock-manager'); ?></li>
+	  <li><strong><?php _e('SKU','woocommerce-stock-manager'); ?></strong> <?php _e('product unique identificator.','woocommerce-stock-manager'); ?></li>
 	  <li><strong><?php _e('Manage stock','woocommerce-stock-manager'); ?></strong> <?php _e('values: "yes", "notify", "no". If is empty "no" will be save.','woocommerce-stock-manager'); ?></li>
 	  <li><strong><?php _e('Stock status','woocommerce-stock-manager'); ?></strong> <?php _e('values: "instock", "outofstock". If is empty "outofstock" will be save.','woocommerce-stock-manager'); ?></li>
 	  <li><strong><?php _e('Backorders','woocommerce-stock-manager'); ?></strong> <?php _e('values: "yes", "notify", "no". If is empty "no" will be save.','woocommerce-stock-manager'); ?></li>
@@ -216,7 +219,7 @@ jQuery( document ).ready(function() {
 			$row = 1;
 			if (($handle = fopen($target_dir, "r")) !== FALSE) {
   
-				while (($data = fgetcsv($handle, 1000, ';')) !== FALSE) {
+				while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
 					$num = count($data);
 				  
 					$product_id   = stockautoUTF($data[0]);
@@ -224,20 +227,21 @@ jQuery( document ).ready(function() {
 					$manage_stock = stockautoUTF($data[3]);
 					$stock_status = stockautoUTF($data[4]);
 					$backorders   = stockautoUTF($data[5]);
-					$stock        = stockautoUTF($data[6]);             
-	
+					$stock        = stockautoUTF($data[6]);
+					
 					if($row != 1){
 					  
 						if( !empty( $product_id ) ){
 
 							$values = array(
+								'sku' => $sku,
 								'manage_stock' => $manage_stock,
-								'backorders' => $stock_status,
-								'stock_status' => $backorders,
+								'stock_status' => $stock_status,
+								'backorders' => $backorders,
 								'stock' => $stock
 							);
 
-							WCM_Save::save_one_item( $data, $product_id );
+							WCM_Save::save_one_item( $values, $product_id );
 					  
 							echo '<p>'.__('Product with ID: '.$product_id.' was updated.','woocommerce-stock-manager').'</p>';
 	

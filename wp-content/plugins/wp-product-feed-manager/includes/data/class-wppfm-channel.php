@@ -57,6 +57,7 @@ if ( ! class_exists( 'WPPFM_Channel' ) ) :
 				new Channel( '26', 'galaxus_data', 'Galaxus Product Data' ),
 				new Channel( '27', 'galaxus_properties', 'Galaxus Product Properties' ),
 				new Channel( '28', 'galaxus_stock_pricing', 'Galaxus Product Stock Pricing' ),
+				new Channel( '29', 'vivino', 'Vivino' ),
 				new Channel( '996', 'marketingrobot_tsv', 'Custom TSV Export' ),
 				new Channel( '997', 'marketingrobot_txt', 'Custom TXT Export' ),
 				new Channel( '998', 'marketingrobot_csv', 'Custom CSV Export' ),

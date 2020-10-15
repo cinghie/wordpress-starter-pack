@@ -4,7 +4,7 @@ Tags: Facebook, Facebook feed, Facebook posts, Facebook group, Facebook page
 Requires at least: 3.0
 Requires PHP: 5.2
 Tested up to: 5.5
-Stable tag: 2.16.1
+Stable tag: 2.17
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -260,6 +260,10 @@ The most common reason for this is that an add-on or extension you have installe
 9. It's super easy to display your Facebook feed in any page or post
 
 == Changelog ==
+= 2.17 =
+* New: Added support for Facebook oEmbeds. When you share a link to a Facebook post or video, WordPress automatically converts it into an embedded Facebook post for you (an "oEmbed"). However, on October 24, 2020, WordPress is discontinuing support for Facebook oEmbeds and so any existing or new embeds will no longer work. Don't worry though, we have your back! This update adds support for Facebook oEmbeds and so, after updating, the Custom Facebook Feed plugin will automatically keep your oEmbeds working. It will also power any new oEmbeds you post going forward.
+* New: Install our other free social media plugins right from the Custom Facebook Feed settings menu. Use our Instagram, YouTube, and Twitter plugins to add even more social content to your website and help further engage your viewers and increase your followers.
+
 = 2.16.1 =
 * Fix: Added a workaround for a Facebook API bug which sometimes displays a button in a post with the text "No Button".
 * Fix: Added an additional check when formatting the post text for the share link to prevent potential issues.

@@ -855,15 +855,15 @@ trait WPPFM_Processing_Support {
 	 */
 	protected function convert_data_to_tsv( $data ) {
 		if ( $data ) {
-			return $this->make_tab_delimited_string_from_data_array( $data );
+			return $this->make_feed_string_from_data_array( $data, "\t" );
 		} else {
 			return '';
 		}
 	}
 
-	protected function convert_data_to_txt( $data ) {
+	protected function convert_data_to_txt( $data, $separator ) {
 		if ( $data ) {
-			return $this->make_tab_delimited_string_from_data_array( $data );
+			return $this->make_feed_string_from_data_array( $data, $separator );
 		} else {
 			return '';
 		}
@@ -873,19 +873,21 @@ trait WPPFM_Processing_Support {
 	 * takes one row data and converts it to a tab delimited string
 	 *
 	 * @param array $row_data
+	 * @param string $separator
 	 *
 	 * @return string
 	 */
-	protected function make_tab_delimited_string_from_data_array( $row_data ) {
+	protected function make_feed_string_from_data_array( $row_data, $separator ) {
 		$row_string = '';
 
 		foreach ( $row_data as $row_item ) {
 			$a_row_item     = ! is_array( $row_item ) ? preg_replace( "/\r|\n/", "", $row_item ) : implode( ', ', $row_item );
 			$clean_row_item = strip_tags( $a_row_item );
-			$row_string    .= $clean_row_item . "\t";
+			$row_string    .= $clean_row_item;
+			$separator === 'TAB' ? $row_string .= "\t" : $row_string .= $separator;
 		}
 
-		$row = trim( $row_string ); // removes the tab at the end of the line
+		$row = $separator === 'TAB' ? trim( $row_string ) : trim( $row_string, $separator ); // removes the separator at the end of the line
 
 		return $row . "\r\n";
 	}

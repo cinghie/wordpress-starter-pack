@@ -94,7 +94,7 @@ class WSM_StoreApps_Marketplace {
 			    width: 124px
 			}
 			.wsm-marketplace .addons-button-solid {
-			    background-color: #5850EC;
+			    background-color: #4fad43;
 			    color: #fff;
 			}
 			.wsm-marketplace .addons-banner-block-item-icon img {
@@ -133,9 +133,6 @@ class WSM_StoreApps_Marketplace {
 				letter-spacing: -0.018em;
 				color: rgba(0, 0, 0, 0.75); 
 			}
-			.wsm-marketplace .clr-b {
-				color: #008cdd !important;
-			}
 			.clr-a {
 				color: #f42267 !important;
 			}
@@ -153,10 +150,10 @@ class WSM_StoreApps_Marketplace {
 		</style>
 		<div class="wrap about-wrap wsm-marketplace">
 			<header class="products-header">
-				<h1 class="products-header__title page-title">Best WooCommerce Plugins</h1>
+				<h1 class="products-header__title page-title">Our reliable WooCommerce Plugins</h1>
 				<div class="page-description">
-					<h2 class="clr-b">Get reliable WooCommerce extensions to sell more, manage your store, retain more customers and make better decisions.</h2>
-					<p class="intro">More than 250,000 people use our plugins. StoreApps’ WooCommerce solutions are easy to setup and deliver quick results.</p>
+					<h2>Get StoreApps' WooCommerce plugins to sell more, manage your store, retain more customers and make better decisions.</h2>
+					<p class="intro">More than 250,000 people use our plugins. Easy to setup and deliver quick results.</p>
 				</div>
 			</header>
 			<div class="addons-banner-block-items">
