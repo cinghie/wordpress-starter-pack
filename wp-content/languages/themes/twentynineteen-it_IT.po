@@ -114,13 +114,13 @@ msgstr "M"
 msgid "Normal"
 msgstr "Normale"
 
-#: functions.php:117
-msgid "Small"
-msgstr "Piccolo"
-
 #: functions.php:118
 msgid "S"
 msgstr "S"
+
+#: functions.php:117
+msgid "Small"
+msgstr "Piccolo"
 
 #: functions.php:60 footer.php:37
 msgid "Footer Menu"
