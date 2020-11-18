@@ -50,7 +50,6 @@ wp-content/languages/themes/twentyseventeen-it_IT.po
 wp-content/languages/themes/twentysixteen-it_IT.po
 wp-content/mu-plugins/
 wp-content/plugins/gogodigital*
-!wp-content/plugins/gogodigital-cookie-consent
 wp-content/plugins/hello.php
 wp-content/themes/
 wp-content/upgrade/
@@ -63,7 +62,7 @@ wp-content/wp-cache-config.php
 !wp-content/languages/
 !wp-content/themes/html5blank-stable/
 !wp-content/themes/html5blank-stable-child/
-!wp-content/themes/shapely/
-!wp-content/themes/shapely-child/
-!wp-content/themes/wp-bootstrap-starter/
-!wp-content/themes/wp-bootstrap-starter-child/
+!wp-content/themes/shapely/*
+!wp-content/themes/shapely-child/*
+!wp-content/themes/wp-bootstrap-starter/*
+!wp-content/themes/wp-bootstrap-starter-child/*
