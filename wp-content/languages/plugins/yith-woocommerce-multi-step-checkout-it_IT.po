@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Multi-step Checkout - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-09-15 13:17:51+0000\n"
+"PO-Revision-Date: 2020-10-21 18:27:47+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,10 @@ msgstr ""
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Multi-step Checkout - Stable (latest release)\n"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:128
+msgid "External object cache"
+msgstr "External object cache"
 
 #: plugin-fw/lib/yit-assets.php:108
 msgid "Color value"
@@ -49,15 +53,17 @@ msgstr "Non è stato possibile determinare quale versione di %1$s è installata 
 msgid "Contact your hosting company in order to install it."
 msgstr "Contatta il tuo hosting per installarlo."
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:167
+#: plugin-fw/templates/sysinfo/system-information-panel.php:175
 msgid "Show log files"
 msgstr "Mostra i file del log"
 
 #: plugin-fw/templates/sysinfo/system-information-panel.php:123
+#: plugin-fw/templates/sysinfo/system-information-panel.php:131
 msgid "No"
 msgstr "No"
 
 #: plugin-fw/templates/sysinfo/system-information-panel.php:123
+#: plugin-fw/templates/sysinfo/system-information-panel.php:131
 msgid "Yes"
 msgstr "Sì"
 
@@ -381,7 +387,7 @@ msgstr "Aggiorna"
 msgid "Split checkout process into more steps"
 msgstr "Suddividi il processo di acquisto in più step"
 
-#: plugin-fw/templates/fields/dimensions.php:117
+#: plugin-fw/templates/fields/dimensions.php:99
 msgctxt "Tooltip in the \"Dimensions\" field"
 msgid "Link values together"
 msgstr "Collega i valori"
@@ -421,19 +427,19 @@ msgctxt "YES/NO button: use MAX 3 characters!"
 msgid "NO"
 msgstr "NO"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1285
+#: plugin-fw/lib/yit-plugin-panel.php:1318
 msgid ":) Thanks!"
 msgstr ":) Grazie!"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1284
+#: plugin-fw/lib/yit-plugin-panel.php:1317
 msgid "help us by leaving a five-star rating"
 msgstr "aiutaci lasciando una valutazione 5 stelle"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1282
+#: plugin-fw/lib/yit-plugin-panel.php:1315
 msgid "to keep updating and improving the plugin. Please,"
 msgstr "per continuare ad aggiornare e a migliorare il plugin. Per favore,"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1281
+#: plugin-fw/lib/yit-plugin-panel.php:1314
 msgid "We need your support"
 msgstr "Abbiamo bisogno del tuo supporto"
 
@@ -537,7 +543,7 @@ msgstr "Torna su"
 msgid "Back to System panel"
 msgstr "Torna al pannello del sistema"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:159
+#: plugin-fw/templates/sysinfo/system-information-panel.php:167
 msgid "Show full PHPInfo"
 msgstr "Mostra PHPInfo"
 
@@ -728,15 +734,15 @@ msgstr "Cerca un Prodotto"
 msgid "Search Posts"
 msgstr "Cerca Post"
 
-#: templates/woocommerce/checkout/form-checkout.php:52
-#: includes/class.yith-multistep-checkout-frontend.php:357
+#: includes/class.yith-multistep-checkout-frontend.php:362
 #: plugin-options/buttons-options.php:67
+#: templates/woocommerce/checkout/form-checkout.php:52
 msgctxt "Frontend: button label"
 msgid "Back to cart"
 msgstr "Ritorna al carrello"
 
-#: templates/woocommerce/checkout/form-checkout.php:145
 #: plugin-options/steps-options.php:246 plugin-options/steps-options.php:258
+#: templates/woocommerce/checkout/form-checkout.php:145
 msgid "Payment"
 msgstr "Pagamento"
 
@@ -744,8 +750,8 @@ msgstr "Pagamento"
 msgid "You must be logged in before proceeding to checkout."
 msgstr "Devi effettuare il login per procedere al checkout."
 
-#: plugin-fw/lib/yit-plugin-panel.php:454
-#: plugin-fw/lib/yit-plugin-panel.php:457
+#: plugin-fw/lib/yit-plugin-panel.php:465
+#: plugin-fw/lib/yit-plugin-panel.php:468
 msgid "How to install premium version"
 msgstr "Come installare la versione premium"
 
@@ -766,46 +772,46 @@ msgstr "YITH WooCommerce Multi-step Checkout"
 msgid "Your order"
 msgstr "Il tuo ordine"
 
+#: includes/class.yith-multistep-checkout-frontend.php:361
 #: templates/woocommerce/checkout/form-checkout.php:51
-#: includes/class.yith-multistep-checkout-frontend.php:356
 msgctxt "Checkout: user timeline"
 msgid "Payment Info"
 msgstr "Informazioni pagamento"
 
+#: includes/class.yith-multistep-checkout-frontend.php:360
 #: templates/woocommerce/checkout/form-checkout.php:50
-#: includes/class.yith-multistep-checkout-frontend.php:355
 msgctxt "Checkout: user timeline"
 msgid "Order Info"
 msgstr "Informazioni ordine"
 
+#: includes/class.yith-multistep-checkout-frontend.php:359
 #: templates/woocommerce/checkout/form-checkout.php:49
-#: includes/class.yith-multistep-checkout-frontend.php:354
 msgctxt "Checkout: user timeline"
 msgid "Shipping"
 msgstr "Spedizione"
 
+#: includes/class.yith-multistep-checkout-frontend.php:358
 #: templates/woocommerce/checkout/form-checkout.php:48
-#: includes/class.yith-multistep-checkout-frontend.php:353
 msgctxt "Checkout: user timeline"
 msgid "Billing"
 msgstr "Fatturazione"
 
+#: includes/class.yith-multistep-checkout-frontend.php:357
 #: templates/woocommerce/checkout/form-checkout.php:47
-#: includes/class.yith-multistep-checkout-frontend.php:352
 msgctxt "Checkout: user timeline"
 msgid "Login"
 msgstr "Accesso"
 
+#: includes/class.yith-multistep-checkout-frontend.php:356
 #: templates/woocommerce/checkout/form-checkout.php:46
-#: includes/class.yith-multistep-checkout-frontend.php:351
 msgid "Previous"
 msgstr "Indietro"
 
+#: includes/class.yith-multistep-checkout-frontend.php:354
+#: includes/class.yith-multistep-checkout-frontend.php:355
+#: includes/class.yith-multistep-checkout-frontend.php:390
 #: templates/woocommerce/checkout/form-checkout.php:44
 #: templates/woocommerce/checkout/form-checkout.php:45
-#: includes/class.yith-multistep-checkout-frontend.php:349
-#: includes/class.yith-multistep-checkout-frontend.php:350
-#: includes/class.yith-multistep-checkout-frontend.php:385
 msgid "Next"
 msgstr "Continua"
 
@@ -817,7 +823,7 @@ msgstr "Funzionalità premium"
 msgid "Upgrade to the %1$spremium version%2$s%3$sof %1$sYITH WooCommerce Multi-step%2$s to benefit from all features!"
 msgstr "Aggiorna alla %1$sversione premium%2$s%3$sdi %1$sYITH WooCommerce Multi-step%2$s per usufruire di tutte le funzionalità!"
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:20
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:22
 msgid "Reset Defaults"
 msgstr "Ripristina impostazioni iniziali"
 
@@ -910,9 +916,9 @@ msgstr "Chiudi tutti"
 msgid "Image preview"
 msgstr "Anteprima immagine"
 
+#: plugin-fw/templates/panel/woocommerce/woocommerce-upload.php:40
 #: plugin-fw/templates/fields/upload.php:27
 #: plugin-fw/templates/metaboxes/types/icon-list.php:70
-#: plugin-fw/templates/panel/woocommerce/woocommerce-upload.php:40
 msgid "Upload"
 msgstr "Carica"
 
@@ -957,67 +963,67 @@ msgstr ""
 msgid "Plugins Activated"
 msgstr "Plugin attivati"
 
-#: plugin-fw/lib/yit-plugin-panel.php:833
+#: plugin-fw/lib/yit-plugin-panel.php:851
 msgid "Sorting successful."
 msgstr "Ordinamento effettuato con successo."
 
-#: plugin-fw/lib/yit-plugin-panel.php:832
+#: plugin-fw/lib/yit-plugin-panel.php:850
 msgid "Sorry, import is disabled."
 msgstr "Ci dispiace, l'importazione è disabilitata."
 
-#: plugin-fw/lib/yit-plugin-panel.php:831
+#: plugin-fw/lib/yit-plugin-panel.php:849
 msgid "The added file is not valid."
 msgstr "Il file aggiunto non è valido."
 
-#: plugin-fw/lib/yit-plugin-panel.php:830
+#: plugin-fw/lib/yit-plugin-panel.php:848
 msgid "An error has occurred during import. Please try again."
 msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
 
-#: plugin-fw/lib/yit-plugin-panel.php:829
+#: plugin-fw/lib/yit-plugin-panel.php:847
 msgid "Database imported correctly."
 msgstr "Database importato correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:827
-#: plugin-fw/lib/yit-plugin-panel.php:828
+#: plugin-fw/lib/yit-plugin-panel.php:845
+#: plugin-fw/lib/yit-plugin-panel.php:846
 msgid "Element updated correctly."
 msgstr "Elemento aggiornato correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:826
+#: plugin-fw/lib/yit-plugin-panel.php:844
 msgid "Element deleted correctly."
 msgstr "Elemento rimosso correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:825
+#: plugin-fw/lib/yit-plugin-panel.php:843
 msgid "Settings reset"
 msgstr "Impostazioni azzerate"
 
-#: plugin-fw/lib/yit-plugin-panel.php:824
+#: plugin-fw/lib/yit-plugin-panel.php:842
 msgid "Settings saved"
 msgstr "Impostazioni salvate"
 
-#: plugin-fw/lib/yit-plugin-panel.php:823
+#: plugin-fw/lib/yit-plugin-panel.php:841
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Per favore, inserisci un altro nome."
 
-#: plugin-fw/lib/yit-plugin-panel.php:625
 #: plugin-fw/lib/yit-plugin-subpanel.php:157
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:21
+#: plugin-fw/lib/yit-plugin-panel.php:640
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:23
 msgid "Are you sure?"
 msgstr "Sei sicuro?"
 
-#: plugin-fw/lib/yit-plugin-panel.php:624
 #: plugin-fw/lib/yit-plugin-subpanel.php:156
+#: plugin-fw/lib/yit-plugin-panel.php:639
 msgid "Reset to default"
 msgstr "Ripristina configurazione predefinita"
 
-#: plugin-fw/lib/yit-plugin-panel.php:621
 #: plugin-fw/lib/yit-plugin-subpanel.php:154
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:17
+#: plugin-fw/lib/yit-plugin-panel.php:636
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:19
 msgid "If you continue with this action, you will reset all options in this page."
 msgstr "Se prosegui con questa azione, tutte le opzioni di questa pagina saranno reimpostate."
 
-#: plugin-fw/lib/yit-plugin-panel.php:617
 #: plugin-fw/lib/yit-plugin-subpanel.php:151
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
+#: plugin-fw/lib/yit-plugin-panel.php:632
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:15
 msgid "Save Changes"
 msgstr "Salva modifiche"
 
@@ -1025,11 +1031,11 @@ msgstr "Salva modifiche"
 msgid "YITH Plugins"
 msgstr "Plugin YITH"
 
-#: plugin-fw/lib/yit-plugin-panel.php:79
+#: plugin-fw/lib/yit-plugin-panel.php:80
 msgid "Plugin Settings"
 msgstr "Impostazioni plugin"
 
-#: plugin-fw/lib/yit-plugin-panel-wc.php:426
+#: plugin-fw/lib/yit-plugin-panel-wc.php:427
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 
@@ -1231,10 +1237,10 @@ msgstr "YITH WooCommerce Multi-step Checkout è abilitato ma non attivo. Devi av
 msgid "Premium Version"
 msgstr "Versione Premium"
 
-#: plugin-fw/lib/yit-plugin-panel.php:80
 #: plugin-fw/lib/yit-cpt-unlimited.php:1050
 #: plugin-fw/lib/yit-cpt-unlimited.php:1198
 #: plugin-fw/lib/yit-cpt-unlimited.php:1204
+#: plugin-fw/lib/yit-plugin-panel.php:81
 msgid "Settings"
 msgstr "Impostazioni"
 

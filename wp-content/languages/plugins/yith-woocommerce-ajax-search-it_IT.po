@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Ajax Search - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-08-14 18:08:04+0000\n"
+"PO-Revision-Date: 2020-10-19 18:48:44+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,10 @@ msgstr ""
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Ajax Search - Stable (latest release)\n"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:128
+msgid "External object cache"
+msgstr "External object cache"
 
 #: plugin-fw/lib/yit-assets.php:108
 msgid "Color value"
@@ -40,17 +44,28 @@ msgstr "Cancella"
 msgid "The system check cannot determine which %1$s version is installed due to a connection issue between your site and our server."
 msgstr "Non è stato possibile determinare con i controlli di sistema quale versione di %1$s è installata a causa di un problema di connessione fra il tuo sito e il nostro server."
 
+#. translators: %1$s TLS label, %2$s cURL label
+#: plugin-fw/lib/yith-system-status.php:593
+msgid "The system check cannot determine which %1$s version is installed because %2$s module is disabled. Ask your hosting company to enable it."
+msgstr "Non è stato possibile determinare quale versione di %1$s è installata in quanto il modulo %2$s è disattivato. Chiedi al tuo servizio hosting di attivarlo."
+
 #: plugin-fw/lib/yith-system-status.php:545
 msgid "Contact your hosting company in order to install it."
 msgstr "Contatta il tuo hosting per installarlo."
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:167
+#: plugin-fw/templates/sysinfo/system-information-panel.php:175
 msgid "Show log files"
 msgstr "Mostra i file del log"
 
 #: plugin-fw/templates/sysinfo/system-information-panel.php:123
+#: plugin-fw/templates/sysinfo/system-information-panel.php:131
 msgid "No"
 msgstr "No"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:123
+#: plugin-fw/templates/sysinfo/system-information-panel.php:131
+msgid "Yes"
+msgstr "Sì"
 
 #: plugin-fw/templates/sysinfo/system-information-panel.php:120
 msgid "Defined WP_CACHE"
@@ -59,15 +74,6 @@ msgstr "Defined WP_CACHE"
 #: plugin-fw/templates/sysinfo/system-information-panel.php:54
 msgid "PHP error_log file"
 msgstr "File PHP error_log"
-
-#: plugin-fw/templates/sysinfo/system-information-panel.php:123
-msgid "Yes"
-msgstr "Sì"
-
-#. translators: %1$s TLS label, %2$s cURL label
-#: plugin-fw/lib/yith-system-status.php:593
-msgid "The system check cannot determine which %1$s version is installed because %2$s module is disabled. Ask your hosting company to enable it."
-msgstr "Non è stato possibile determinare quale versione di %1$s è installata in quanto il modulo %2$s è disattivato. Chiedi al tuo servizio hosting di attivarlo."
 
 #: plugin-fw/templates/sysinfo/system-information-panel.php:50
 msgid "WP debug.log file"
@@ -78,7 +84,7 @@ msgctxt "YES/NO button: use MAX 3 characters!"
 msgid "YES"
 msgstr "SÌ"
 
-#: plugin-fw/templates/fields/dimensions.php:117
+#: plugin-fw/templates/fields/dimensions.php:99
 msgctxt "Tooltip in the \"Dimensions\" field"
 msgid "Link values together"
 msgstr "Collega i valori"
@@ -111,19 +117,19 @@ msgstr "qui"
 msgid "This widget inherits the style from the settings of YITH WooCommerce Ajax Search plugin that you can edit"
 msgstr "Questo widget applica lo stile delle impostazioni del plugin YITH WooCommerce Ajax Search che puoi modificare"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1285
+#: plugin-fw/lib/yit-plugin-panel.php:1318
 msgid ":) Thanks!"
 msgstr ":) Grazie!"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1284
+#: plugin-fw/lib/yit-plugin-panel.php:1317
 msgid "help us by leaving a five-star rating"
 msgstr "aiutaci lasciando una valutazione 5 stelle"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1282
+#: plugin-fw/lib/yit-plugin-panel.php:1315
 msgid "to keep updating and improving the plugin. Please,"
 msgstr "per continuare ad aggiornare e a migliorare il plugin. Per favore,"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1281
+#: plugin-fw/lib/yit-plugin-panel.php:1314
 msgid "We need your support"
 msgstr "Abbiamo bisogno del tuo sostegno"
 
@@ -232,7 +238,7 @@ msgstr "Torna su"
 msgid "Back to System panel"
 msgstr "Torna al pannello del sistema"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:159
+#: plugin-fw/templates/sysinfo/system-information-panel.php:167
 msgid "Show full PHPInfo"
 msgstr "Mostra PHPInfo"
 
@@ -360,6 +366,18 @@ msgctxt "[gutenberg]: Category Name"
 msgid "YITH"
 msgstr "YITH"
 
+#. Author of the plugin
+msgid "YITH"
+msgstr "YITH"
+
+#. Description of the plugin
+msgid "<code><strong>YITH WooCommerce Ajax Search</strong></code> is the plugin that allows you to search for a specific product by inserting a few characters. Thanks to <strong>Ajax Search</strong>, users can quickly find the contents they are interested in without wasting time among site pages. <a href=\"https://yithemes.com/\" target=\"_blank\">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>."
+msgstr "<code><strong>YITH WooCommerce Ajax Search</strong></code> è il plugin che ti permette di cercare un prodotto specifico inserendo pochi caratteri. Grazie alla to <strong>ricerca Ajax</strong> gli utenti possono trovare velocemente i contenuti a cui sono interessati senza perdere tempo tra le pagine del sito. <a href=\"https://yithemes.com/\" target=\"_blank\">Ottieni più plugin per il tuo e-commerce su <strong>YITH</strong></a>."
+
+#. Plugin URI of the plugin
+msgid "https://yithemes.com/themes/plugins/yith-woocommerce-ajax-search/"
+msgstr "https://yithemes.com/themes/plugins/yith-woocommerce-ajax-search/"
+
 #: plugin-fw/yit-plugin.php:194
 msgid "License"
 msgstr "Licenza"
@@ -419,6 +437,10 @@ msgctxt "Privacy Policy Guide Title"
 msgid "YITH Plugins"
 msgstr "YITH Plugins"
 
+#: plugin-fw/templates/fields/icons.php:58
+msgid "Set Default"
+msgstr "Imposta predefinito"
+
 #: plugin-fw/templates/fields/ajax-products.php:16
 msgid "Search Product"
 msgstr "Cerca prodotto"
@@ -426,10 +448,6 @@ msgstr "Cerca prodotto"
 #: plugin-fw/templates/fields/ajax-posts.php:57
 msgid "Search Posts"
 msgstr "Cerca articoli"
-
-#: plugin-fw/templates/fields/icons.php:58
-msgid "Set Default"
-msgstr "Imposta predefinito"
 
 #: plugin-options/settings-options.php:85
 msgid "(hours)"
@@ -447,8 +465,8 @@ msgstr "Salva i risultati della query in un transient"
 msgid "Enable transients to cache autocomplete results"
 msgstr "Attiva i transient per salvare nella cache i risultati completati in automatico"
 
-#: plugin-fw/lib/yit-plugin-panel.php:454
-#: plugin-fw/lib/yit-plugin-panel.php:457
+#: plugin-fw/lib/yit-plugin-panel.php:465
+#: plugin-fw/lib/yit-plugin-panel.php:468
 msgid "How to install premium version"
 msgstr "Come installare la versione premium"
 
@@ -459,6 +477,10 @@ msgstr "Reimposta"
 #: plugin-fw/lib/yit-cpt-unlimited.php:1054
 msgid "Layout for this %s"
 msgstr "Layout per questo %s"
+
+#. Author URI of the plugin
+msgid "https://yithemes.com/"
+msgstr "https://yithemes.com/"
 
 #: includes/widgets/class.yith-wcas-ajax-search.php:94
 msgid "Title:"
@@ -573,7 +595,7 @@ msgstr "Etichetta campo \"Cerca\""
 msgid "General settings"
 msgstr "Impostazioni generali"
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:20
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:22
 msgid "Reset Defaults"
 msgstr "Ripristina impostazioni iniziali"
 
@@ -662,9 +684,9 @@ msgstr "Chiudi tutti"
 msgid "Image preview"
 msgstr "Anteprima immagine"
 
-#: plugin-fw/templates/metaboxes/types/icon-list.php:70
-#: plugin-fw/templates/fields/upload.php:27
 #: plugin-fw/templates/panel/woocommerce/woocommerce-upload.php:40
+#: plugin-fw/templates/fields/upload.php:27
+#: plugin-fw/templates/metaboxes/types/icon-list.php:70
 msgid "Upload"
 msgstr "Carica"
 
@@ -709,67 +731,67 @@ msgstr ""
 msgid "Plugins Activated"
 msgstr "Plugin attivati"
 
-#: plugin-fw/lib/yit-plugin-panel.php:833
+#: plugin-fw/lib/yit-plugin-panel.php:851
 msgid "Sorting successful."
 msgstr "Ordinamento effettuato con successo."
 
-#: plugin-fw/lib/yit-plugin-panel.php:832
+#: plugin-fw/lib/yit-plugin-panel.php:850
 msgid "Sorry, import is disabled."
 msgstr "Ci dispiace, l'importazione è disabilitata."
 
-#: plugin-fw/lib/yit-plugin-panel.php:831
+#: plugin-fw/lib/yit-plugin-panel.php:849
 msgid "The added file is not valid."
 msgstr "Il file aggiunto non è valido."
 
-#: plugin-fw/lib/yit-plugin-panel.php:830
+#: plugin-fw/lib/yit-plugin-panel.php:848
 msgid "An error has occurred during import. Please try again."
 msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
 
-#: plugin-fw/lib/yit-plugin-panel.php:829
+#: plugin-fw/lib/yit-plugin-panel.php:847
 msgid "Database imported correctly."
 msgstr "Database importato correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:827
-#: plugin-fw/lib/yit-plugin-panel.php:828
+#: plugin-fw/lib/yit-plugin-panel.php:845
+#: plugin-fw/lib/yit-plugin-panel.php:846
 msgid "Element updated correctly."
 msgstr "Elemento aggiornato correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:826
+#: plugin-fw/lib/yit-plugin-panel.php:844
 msgid "Element deleted correctly."
 msgstr "Elemento rimosso correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:825
+#: plugin-fw/lib/yit-plugin-panel.php:843
 msgid "Settings reset"
 msgstr "Impostazioni azzerate"
 
-#: plugin-fw/lib/yit-plugin-panel.php:824
+#: plugin-fw/lib/yit-plugin-panel.php:842
 msgid "Settings saved"
 msgstr "Impostazioni salvate"
 
-#: plugin-fw/lib/yit-plugin-panel.php:823
+#: plugin-fw/lib/yit-plugin-panel.php:841
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Per favore, inserisci un altro nome."
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:21
-#: plugin-fw/lib/yit-plugin-panel.php:625
 #: plugin-fw/lib/yit-plugin-subpanel.php:157
+#: plugin-fw/lib/yit-plugin-panel.php:640
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:23
 msgid "Are you sure?"
 msgstr "Sei sicuro?"
 
-#: plugin-fw/lib/yit-plugin-panel.php:624
 #: plugin-fw/lib/yit-plugin-subpanel.php:156
+#: plugin-fw/lib/yit-plugin-panel.php:639
 msgid "Reset to default"
 msgstr "Ripristina configurazione predefinita"
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:17
-#: plugin-fw/lib/yit-plugin-panel.php:621
 #: plugin-fw/lib/yit-plugin-subpanel.php:154
+#: plugin-fw/lib/yit-plugin-panel.php:636
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:19
 msgid "If you continue with this action, you will reset all options in this page."
 msgstr "Se prosegui con questa azione, tutte le opzioni di questa pagina saranno reimpostate."
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
-#: plugin-fw/lib/yit-plugin-panel.php:617
 #: plugin-fw/lib/yit-plugin-subpanel.php:151
+#: plugin-fw/lib/yit-plugin-panel.php:632
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:15
 msgid "Save Changes"
 msgstr "Salva modifiche"
 
@@ -777,11 +799,11 @@ msgstr "Salva modifiche"
 msgid "YITH Plugins"
 msgstr "YITH Plugin"
 
-#: plugin-fw/lib/yit-plugin-panel.php:79
+#: plugin-fw/lib/yit-plugin-panel.php:80
 msgid "Plugin Settings"
 msgstr "Impostazioni plugin"
 
-#: plugin-fw/lib/yit-plugin-panel-wc.php:426
+#: plugin-fw/lib/yit-plugin-panel-wc.php:427
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 
@@ -793,9 +815,9 @@ msgstr "Carica file multipli"
 msgid "Add %s from images"
 msgstr "Aggiungi %s dalla immagini"
 
+#: plugin-fw/lib/yit-cpt-unlimited.php:1484
 #: plugin-fw/templates/fields/customtabs.php:46
 #: plugin-fw/templates/fields/customtabs.php:89
-#: plugin-fw/lib/yit-cpt-unlimited.php:1484
 msgid "Name"
 msgstr "Nome"
 
@@ -904,8 +926,8 @@ msgstr "Categoria genitore"
 msgid "All Categories"
 msgstr "Tutte le categorie"
 
-#: plugin-fw/templates/fields/ajax-terms.php:56
 #: plugin-fw/lib/yit-cpt-unlimited.php:629
+#: plugin-fw/templates/fields/ajax-terms.php:56
 msgid "Search Categories"
 msgstr "Cerca categorie"
 
@@ -983,9 +1005,9 @@ msgid "No results"
 msgstr "Nessun risultato"
 
 #. Plugin Name of the plugin
-#: includes/class.yith-wcas-admin.php:131
 #: includes/compatibility/elementor/class.yith-wcas-search-form-elementor.php:40
 #: includes/compatibility/elementor/class.yith-wcas-search-form-elementor.php:77
+#: includes/class.yith-wcas-admin.php:131
 msgid "YITH WooCommerce Ajax Search"
 msgstr "YITH WooCommerce Ajax Search"
 
@@ -997,9 +1019,10 @@ msgstr "Ajax Search"
 msgid "Premium Version"
 msgstr "Versione premium"
 
-#: includes/class.yith-wcas-admin.php:123 plugin-fw/lib/yit-plugin-panel.php:80
+#: includes/class.yith-wcas-admin.php:123
 #: plugin-fw/lib/yit-cpt-unlimited.php:1050
 #: plugin-fw/lib/yit-cpt-unlimited.php:1198
 #: plugin-fw/lib/yit-cpt-unlimited.php:1204
+#: plugin-fw/lib/yit-plugin-panel.php:81
 msgid "Settings"
 msgstr "Impostazioni"

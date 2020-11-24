@@ -2,21 +2,89 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Order Tracking - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-05-29 19:46:13+0000\n"
+"PO-Revision-Date: 2020-10-21 18:30:30+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/3.0.0-alpha\n"
+"X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Order Tracking - Stable (latest release)\n"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:128
+msgid "External object cache"
+msgstr "External object cache"
+
+#. translators: %1$s TLS label
+#: plugin-fw/lib/yith-system-status.php:596
+msgid "The system check cannot determine which %1$s version is installed due to a connection issue between your site and our server."
+msgstr "Non è stato possibile determinare con i controlli di sistema quale versione di %1$s è installata a causa di un problema di connessione fra il tuo sito e il nostro server."
+
+#. translators: %1$s TLS label, %2$s cURL label
+#: plugin-fw/lib/yith-system-status.php:593
+msgid "The system check cannot determine which %1$s version is installed because %2$s module is disabled. Ask your hosting company to enable it."
+msgstr "Non è stato possibile determinare quale versione di %1$s è installata in quanto il modulo %2$s è disattivato. Chiedi al tuo servizio hosting di attivarlo."
+
+#: plugin-fw/lib/yith-system-status.php:545
+msgid "Contact your hosting company in order to install it."
+msgstr "Per attivarlo contatta il tuo servizio hosting. "
+
+#: plugin-fw/lib/yit-assets.php:108
+msgid "Color value"
+msgstr "Valore del colore"
+
+#: plugin-fw/lib/yit-assets.php:107
+msgid "Select Color"
+msgstr "Seleziona colore"
+
+#: plugin-fw/lib/yit-assets.php:106
+msgid "Select default color"
+msgstr "Seleziona il colore predefinito"
+
+#: plugin-fw/lib/yit-assets.php:105
+msgid "Default"
+msgstr "Predefinito"
+
+#: plugin-fw/lib/yit-assets.php:104
+msgid "Clear color"
+msgstr "Rimuovi colore"
+
+#: plugin-fw/lib/yit-assets.php:103
+msgid "Clear"
+msgstr "Cancella"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:175
+msgid "Show log files"
+msgstr "Mostra file log"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:123
+#: plugin-fw/templates/sysinfo/system-information-panel.php:131
+msgid "No"
+msgstr "No"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:123
+#: plugin-fw/templates/sysinfo/system-information-panel.php:131
+msgid "Yes"
+msgstr "Sì"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:120
+msgid "Defined WP_CACHE"
+msgstr "Defined WP_CACHE"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:54
+msgid "PHP error_log file"
+msgstr "File PHP error_log"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:50
+msgid "WP debug.log file"
+msgstr "File WP debug.log"
 
 #: plugin-fw/templates/fields/onoff.php:24
 msgctxt "YES/NO button: use MAX 3 characters!"
 msgid "YES"
 msgstr "SÌ"
 
-#: plugin-fw/templates/fields/dimensions.php:117
+#: plugin-fw/templates/fields/dimensions.php:99
 msgctxt "Tooltip in the \"Dimensions\" field"
 msgid "Link values together"
 msgstr "Collega i valori"
@@ -46,108 +114,101 @@ msgctxt "YES/NO button: use MAX 3 characters!"
 msgid "NO"
 msgstr "NO"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1269
+#: plugin-fw/lib/yit-plugin-panel.php:1319
 msgid ":) Thanks!"
 msgstr ":) Grazie!"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1268
+#: plugin-fw/lib/yit-plugin-panel.php:1318
 msgid "help us by leaving a five-star rating"
 msgstr "aiutaci lasciando una valutazione 5 stelle"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1266
+#: plugin-fw/lib/yit-plugin-panel.php:1316
 msgid "to keep updating and improving the plugin. Please,"
 msgstr "per continuare ad aggiornare e a migliorare il plugin. Per favore,"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1265
+#: plugin-fw/lib/yit-plugin-panel.php:1315
 msgid "We need your support"
 msgstr "Abbiamo bisogno del tuo sostegno"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:46
+#: plugin-fw/templates/sysinfo/system-information-panel.php:112
 msgid "Output IP Address"
 msgstr "Indirizzo IP (output)"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:38
+#: plugin-fw/templates/sysinfo/system-information-panel.php:104
 msgid "Site URL"
 msgstr "URL del sito"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:82
+#: plugin-fw/lib/yith-system-status.php:478
 msgid "N/A"
 msgstr "N/A"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:157
-msgid "We cannot determine which <b>TLS</b> version is installed because <b>cURL</b> module is disabled. Ask your hosting company to enable it."
-msgstr "Non è stato possibile determinare quale versione <b>TLS</b> è installata in quanto il modulo <b>cURL</b> è disattivato. Chiedi al tuo servizio hosting di attivarlo."
+#. translators: %1$s open link tag, %2$s open link tag
+#: plugin-fw/lib/yith-system-status.php:334
+msgid "The system check has detected some compatibility issues on your installation.%1$sClick here%2$s to know more"
+msgstr "Il controllo del sistema ha rilevato dei problemi di compatibilità sulla tua installazione. Per maggiori informazioni %1$sfai clic qui%2$s"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:160
-msgid "<b>ImageMagick</b> module is not installed. Ask your hosting company to install it."
-msgstr " Il modulo <b>ImageMagick</b> non è installato. Chiedo al tuo servizio hosting di installarlo. "
-
-#: plugin-fw/lib/yith-system-status.php:298
-msgid "The system check has detected some compatibility issues on your installation. %sClick here%s to know more"
-msgstr "Il controllo del sistema ha rilevato dei problemi di compatibilità sulla tua installazione. Per maggiori informazioni %sfai clic qui%s"
-
-#: plugin-fw/lib/yith-system-status.php:297
+#: plugin-fw/lib/yith-system-status.php:330
 msgid "Warning!"
 msgstr "Attenzione!"
 
-#: plugin-fw/lib/yith-system-status.php:180
+#: plugin-fw/lib/yith-system-status.php:192
 msgid "WooCommerce"
 msgstr "WooCommerce"
 
-#: plugin-fw/lib/yith-system-status.php:117
+#: plugin-fw/lib/yith-system-status.php:123
 msgid "URL FOpen"
 msgstr "URL FOpen"
 
-#: plugin-fw/lib/yith-system-status.php:116
+#: plugin-fw/lib/yith-system-status.php:122
 msgid "OPCache Save Comments"
 msgstr "OPCache Save Comments"
 
-#: plugin-fw/lib/yith-system-status.php:115
+#: plugin-fw/lib/yith-system-status.php:121
 msgid "Iconv Module"
 msgstr "Iconv Module"
 
-#: plugin-fw/lib/yith-system-status.php:114
+#: plugin-fw/lib/yith-system-status.php:120
 msgid "GD Library"
 msgstr "GD Library"
 
-#: plugin-fw/lib/yith-system-status.php:113
+#: plugin-fw/lib/yith-system-status.php:119
 msgid "ImageMagick Version"
 msgstr "ImageMagick Version"
 
-#: plugin-fw/lib/yith-system-status.php:112
+#: plugin-fw/lib/yith-system-status.php:118
 msgid "MultiByte String"
 msgstr "MultiByte String"
 
-#: plugin-fw/lib/yith-system-status.php:111
+#: plugin-fw/lib/yith-system-status.php:117
 msgid "SimpleXML"
 msgstr "SimpleXML"
 
-#: plugin-fw/lib/yith-system-status.php:110
+#: plugin-fw/lib/yith-system-status.php:116
 msgid "WordPress Cron"
 msgstr "WordPress Cron"
 
-#: plugin-fw/lib/yith-system-status.php:109
+#: plugin-fw/lib/yith-system-status.php:115
 msgid "TLS Version"
 msgstr "Versione TLS"
 
-#: plugin-fw/lib/yith-system-status.php:108
+#: plugin-fw/lib/yith-system-status.php:114
 msgid "PHP Version"
 msgstr "Versione PHP"
 
-#: plugin-fw/lib/yith-system-status.php:107
+#: plugin-fw/lib/yith-system-status.php:113
 msgid "Available Memory"
 msgstr "Memoria disponibile"
 
-#: plugin-fw/lib/yith-system-status.php:106
+#: plugin-fw/lib/yith-system-status.php:112
 msgid "WooCommerce Version"
 msgstr "Versione WooCommerce"
 
-#: plugin-fw/lib/yith-system-status.php:105
+#: plugin-fw/lib/yith-system-status.php:111
 msgid "WordPress Version"
 msgstr "Versione WordPress"
 
-#: plugin-fw/lib/yith-system-status.php:135
-#: plugin-fw/lib/yith-system-status.php:136
+#: plugin-fw/lib/yith-system-status.php:141
+#: plugin-fw/lib/yith-system-status.php:142
 msgid "System Status"
 msgstr "Stato del sistema"
 
@@ -160,66 +221,72 @@ msgstr "%1$s (#%2$s &ndash; %3$s)"
 msgid "Search Customers"
 msgstr "Cerca clienti"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:193
+#: plugin-fw/templates/sysinfo/system-information-panel.php:96
 msgid "Back to top"
 msgstr "Torna su"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:176
+#: plugin-fw/templates/sysinfo/system-information-panel.php:59
+#: plugin-fw/templates/sysinfo/system-information-panel.php:83
 msgid "Back to System panel"
 msgstr "Torna al pannello del sistema"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:172
+#: plugin-fw/templates/sysinfo/system-information-panel.php:167
 msgid "Show full PHPInfo"
 msgstr "Mostra PHPInfo"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:102
-#: plugin-fw/templates/sysinfo/system-information-panel.php:137
-#: plugin-fw/templates/sysinfo/system-information-panel.php:151
-msgid "Read more %s here%s or contact your hosting company in order to increase it."
-msgstr "Per approfondimenti fai clic %s qui%s o contatta il tuo hosting per aumentarlo. "
+#. translators: %1$s opening link tag, %2$s closing link tag
+#: plugin-fw/lib/yith-system-status.php:564
+#: plugin-fw/lib/yith-system-status.php:588
+msgid "Read more %1$shere%2$s or contact your hosting company in order to increase it."
+msgstr "Per maggiori informazioni %1$sleggi qui%2$s oppure contatta il tuo host per un upgrade."
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:134
+#: plugin-fw/lib/yith-system-status.php:560
 msgid "Contact your hosting company in order to enable it."
 msgstr "Per attivarlo contatta il tuo servizio hosting. "
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:126
-msgid "Remove %s from %s file"
-msgstr "Rimuovi %s dal file %s"
+#. translators: %1$s code, %2$s file name
+#: plugin-fw/lib/yith-system-status.php:552
+msgid "Remove %1$s from %2$s file"
+msgstr "Rimuovi %1$s dal file %2$s"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:122
+#: plugin-fw/lib/yith-system-status.php:541
+#: plugin-fw/lib/yith-system-status.php:547
 msgid "Contact your hosting company in order to update it."
 msgstr "Contatta il tuo servizio hosting per aggiornarlo. "
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:116
+#: plugin-fw/lib/yith-system-status.php:537
 msgid "Update it to the latest version in order to benefit of all new features and security updates."
 msgstr "Per beneficiare di tutte le nuove funzionalità e degli aggiornamenti di sicurezza, aggiorna all'ultima versione. "
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:105
-msgid "%s needs at least %s version"
-msgstr "%s necessita almeno della versione %s"
+#. translators: %1$s plugin name, %2$s version number
+#: plugin-fw/lib/yith-system-status.php:512
+msgid "%1$s needs at least %2$s version"
+msgstr "%1$s necessita almeno della versione %2$s"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:100
-#: plugin-fw/templates/sysinfo/system-information-panel.php:149
+#. translators: %s recommended memory amount
+#: plugin-fw/lib/yith-system-status.php:585
 msgid "For optimal functioning of our plugins, we suggest setting at least %s of available memory"
 msgstr "Per il funzionamento ottimale dei nostri plugin consigliamo di impostare almeno %s di memoria disponibile"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:98
-msgid "%s needs at least %s of available memory"
-msgstr "%s necessita almeno %s di memoria disponibile"
+#. translators: %1$s plugin name, %2$s required memory amount
+#: plugin-fw/lib/yith-system-status.php:509
+msgid "%1$s needs at least %2$s of available memory"
+msgstr "%1$s necessita di almeno %2$s di memoria disponibile"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:96
-msgid "%s needs %s enabled"
-msgstr "%s necessita l'attivazione di %s"
+#. translators: %1$s plugin name, %2$s requirement name
+#: plugin-fw/lib/yith-system-status.php:506
+msgid "%1$s needs %2$s enabled"
+msgstr "%1$s necessita dell'attivazione di %2$s"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:76
+#: plugin-fw/lib/yith-system-status.php:473
 msgid "Disabled"
 msgstr "Disattivato"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:76
+#: plugin-fw/lib/yith-system-status.php:473
 msgid "Enabled"
 msgstr "Attivato"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:30
+#: plugin-fw/templates/sysinfo/system-information-panel.php:39
 msgid "YITH System Information"
 msgstr "YITH System Information"
 
@@ -335,15 +402,15 @@ msgctxt "Privacy Policy Content"
 msgid "Who on our team has access"
 msgstr "Chi del nostro team ha accesso"
 
-#: plugin-fw/lib/privacy/yit-privacy.php:59
-msgctxt "Privacy Policy Content"
-msgid "This sample language includes the basics around what personal data your store may be collecting, storing and sharing, as well as who may have access to that data. Depending on what settings are enabled and which additional plugins are used, the specific information shared by your store will vary. We recommend consulting with a lawyer when deciding what information to disclose on your privacy policy."
-msgstr "Questo esempio include gli elementi di base sulla raccolta dei dati personali, la memorizzazione e la condivisione, nonché su chi è autorizzato ad accedere a tali dati. In base alle impostazioni abilitate e ai moduli di estensione aggiuntivi utilizzati, le informazioni specifiche condivise dal nostro negozio possono variare. Ti consigliamo di consultare un legale al momento di decidere quali informazioni divulgare nell'informativa sulla privacy."
-
 #: plugin-fw/lib/privacy/yit-privacy.php:63
 msgctxt "Privacy Policy Content"
 msgid "What we collect and store"
 msgstr "Cosa raccogliamo e conserviamo"
+
+#: plugin-fw/lib/privacy/yit-privacy.php:59
+msgctxt "Privacy Policy Content"
+msgid "This sample language includes the basics around what personal data your store may be collecting, storing and sharing, as well as who may have access to that data. Depending on what settings are enabled and which additional plugins are used, the specific information shared by your store will vary. We recommend consulting with a lawyer when deciding what information to disclose on your privacy policy."
+msgstr "Questo esempio include gli elementi di base sulla raccolta dei dati personali, la memorizzazione e la condivisione, nonché su chi è autorizzato ad accedere a tali dati. In base alle impostazioni abilitate e ai moduli di estensione aggiuntivi utilizzati, le informazioni specifiche condivise dal nostro negozio possono variare. Ti consigliamo di consultare un legale al momento di decidere quali informazioni divulgare nell'informativa sulla privacy."
 
 #: plugin-fw/lib/privacy/yit-privacy.php:24
 msgctxt "Privacy Policy Guide Title"
@@ -362,8 +429,8 @@ msgstr "Hai già pensato a come generare fatture per il tuo negozio? %1$sYITH Wo
 msgid "Delivery note"
 msgstr "Documenti di trasporto"
 
-#: plugin-fw/lib/yit-plugin-panel.php:455
-#: plugin-fw/lib/yit-plugin-panel.php:458
+#: plugin-fw/lib/yit-plugin-panel.php:466
+#: plugin-fw/lib/yit-plugin-panel.php:469
 msgid "How to install premium version"
 msgstr "Come installare la versione premium"
 
@@ -502,7 +569,7 @@ msgstr "  Per visualizzare l'elenco dei corrieri, devi prima selezionarli dalla 
 msgid "Default carrier name"
 msgstr "Nome corriere predefinito"
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:20
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:22
 msgid "Reset Defaults"
 msgstr "Ripristina impostazioni iniziali"
 
@@ -591,8 +658,8 @@ msgstr "Chiudi tutti"
 msgid "Image preview"
 msgstr "Anteprima immagine"
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-upload.php:40
 #: plugin-fw/templates/fields/upload.php:27
+#: plugin-fw/templates/panel/woocommerce/woocommerce-upload.php:40
 #: plugin-fw/templates/metaboxes/types/icon-list.php:70
 msgid "Upload"
 msgstr "Carica"
@@ -638,79 +705,79 @@ msgstr ""
 msgid "Plugins Activated"
 msgstr "Plugin attivati"
 
-#: plugin-fw/lib/yit-plugin-panel.php:817
+#: plugin-fw/lib/yit-plugin-panel.php:852
 msgid "Sorting successful."
 msgstr "Ordinamento effettuato con successo."
 
-#: plugin-fw/lib/yit-plugin-panel.php:816
+#: plugin-fw/lib/yit-plugin-panel.php:851
 msgid "Sorry, import is disabled."
 msgstr "Ci dispiace, l'importazione è disabilitata."
 
-#: plugin-fw/lib/yit-plugin-panel.php:815
+#: plugin-fw/lib/yit-plugin-panel.php:850
 msgid "The added file is not valid."
 msgstr "Il file aggiunto non è valido."
 
-#: plugin-fw/lib/yit-plugin-panel.php:814
+#: plugin-fw/lib/yit-plugin-panel.php:849
 msgid "An error has occurred during import. Please try again."
 msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
 
-#: plugin-fw/lib/yit-plugin-panel.php:813
+#: plugin-fw/lib/yit-plugin-panel.php:848
 msgid "Database imported correctly."
 msgstr "Database importato correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:811
-#: plugin-fw/lib/yit-plugin-panel.php:812
+#: plugin-fw/lib/yit-plugin-panel.php:846
+#: plugin-fw/lib/yit-plugin-panel.php:847
 msgid "Element updated correctly."
 msgstr "Elemento aggiornato correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:810
+#: plugin-fw/lib/yit-plugin-panel.php:845
 msgid "Element deleted correctly."
 msgstr "Elemento rimosso correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:809
+#: plugin-fw/lib/yit-plugin-panel.php:844
 msgid "Settings reset"
 msgstr "Impostazioni azzerate"
 
-#: plugin-fw/lib/yit-plugin-panel.php:808
+#: plugin-fw/lib/yit-plugin-panel.php:843
 msgid "Settings saved"
 msgstr "Impostazioni salvate"
 
-#: plugin-fw/lib/yit-plugin-panel.php:807
+#: plugin-fw/lib/yit-plugin-panel.php:842
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Per favore, inserisci un altro nome."
 
+#: plugin-fw/lib/yit-plugin-panel.php:641
 #: plugin-fw/lib/yit-plugin-subpanel.php:157
-#: plugin-fw/lib/yit-plugin-panel.php:609
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:21
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:23
 msgid "Are you sure?"
 msgstr "Sei sicuro?"
 
+#: plugin-fw/lib/yit-plugin-panel.php:640
 #: plugin-fw/lib/yit-plugin-subpanel.php:156
-#: plugin-fw/lib/yit-plugin-panel.php:608
 msgid "Reset to default"
 msgstr "Ripristina configurazione predefinita"
 
+#: plugin-fw/lib/yit-plugin-panel.php:637
 #: plugin-fw/lib/yit-plugin-subpanel.php:154
-#: plugin-fw/lib/yit-plugin-panel.php:606
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:17
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:19
 msgid "If you continue with this action, you will reset all options in this page."
 msgstr "Se prosegui con questa azione, tutte le opzioni di questa pagina saranno reimpostate."
 
+#: plugin-fw/lib/yit-plugin-panel.php:633
 #: plugin-fw/lib/yit-plugin-subpanel.php:151
-#: plugin-fw/lib/yit-plugin-panel.php:603
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:15
 msgid "Save Changes"
 msgstr "Salva modifiche"
 
-#: plugin-fw/lib/yith-system-status.php:179
+#: plugin-fw/lib/yith-system-status.php:184
 msgid "YITH Plugins"
 msgstr "Plugin YITH"
 
-#: plugin-fw/lib/yit-plugin-panel.php:79
+#: plugin-fw/lib/yit-plugin-panel.php:80
 msgid "Plugin Settings"
 msgstr "Impostazioni plugin"
 
-#: plugin-fw/lib/yit-plugin-panel-wc.php:407
+#: plugin-fw/lib/yit-plugin-panel-wc.php:427
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 
@@ -903,11 +970,11 @@ msgstr "Aggiungi nuovo %s"
 msgid "Add %s"
 msgstr "Aggiungi %s"
 
-#: init.php:53
+#: init.php:49
 msgid "You can't activate the free version of YITH WooCommerce Order Tracking while you are using the premium one."
 msgstr "Non è possibile attivare la versione free di YITH WooCommerce Order Tracking se stai già utilizzando la premium."
 
-#: init.php:45
+#: init.php:41
 msgid "YITH WooCommerce Order Tracking is enabled but not effective. It requires WooCommerce in order to work."
 msgstr "YITH WooCommerce Order Tracking è abilitato ma non in funzione. Devi aver installato WooCommerce perché questo possa funzionare correttamente."
 
@@ -947,10 +1014,10 @@ msgstr "YITH - Tracciamento ordine"
 msgid "YITH WooCommerce Order Tracking"
 msgstr "YITH WooCommerce Order Tracking"
 
+#: plugin-fw/lib/yit-plugin-panel.php:81
 #: plugin-fw/lib/yit-cpt-unlimited.php:1050
 #: plugin-fw/lib/yit-cpt-unlimited.php:1198
 #: plugin-fw/lib/yit-cpt-unlimited.php:1204
-#: plugin-fw/lib/yit-plugin-panel.php:80
 msgid "Settings"
 msgstr "Impostazioni"
 
