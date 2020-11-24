@@ -51,7 +51,7 @@ wp-content/mu-plugins/
 wp-content/plugins/gogodigital*
 wp-content/plugins/wp-atelier
 wp-content/plugins/hello.php
-wp-content/themes/
+wp-content/themes/*
 wp-content/upgrade/
 wp-content/wflogs/
 wp-content/wp-cache-config.php
@@ -62,7 +62,3 @@ wp-content/wp-cache-config.php
 !wp-content/languages/
 !wp-content/themes/storefront/
 !wp-content/themes/storefront-child/
-!wp-content/themes/shapely/
-!wp-content/themes/shapely-child/
-!wp-content/themes/wp-bootstrap-starter/
-!wp-content/themes/wp-bootstrap-starter-child/
