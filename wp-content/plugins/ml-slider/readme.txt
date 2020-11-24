@@ -2,13 +2,13 @@
 Contributors: matchalabs, DavidAnderson, dnutbourne, kbat82
 Tags: slideshow, slider, image slider, carousel, gallery, flexslider, wordpress slider, nivoslider, rotating banner, responsive slideshow, seo slideshow, unsplash
 Requires at least: 3.5
-Stable tag: 3.18.4
+Stable tag: 3.19.0
 Requires PHP: 5.2
-Tested up to: 5.5
+Tested up to: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Easy to use WordPress slider plugin. Create SEO-optimized responsive slideshows with Nivo Slider, Flex Slider, Coin Slider and Responsive Slides.
+The best WordPress slider plugin. Easily create beautiful, responsive sliders and carousels with image, video, post feed, product, and layer slides.
 
 == Description ==
 
@@ -103,6 +103,12 @@ Find out more at <a href="https://www.metaslider.com">metaslider.com</a>
 
 Follow us on Twitter: [@wpmetaslider](https://twitter.com/wpmetaslider)
 
+**Privacy Policy:**
+
+MetaSlider uses the Appsero SDK to collect non-sensitive diagnostic data upon a user's confirmation. This data helps us to troubleshoot problems faster & make product improvements.
+
+MetaSlider only collects this diagnostic data when a user allows it via a notice in WP Admin or MetaSlider settings. View our [privacy policy](https://www.metaslider.com/privacy-policy).
+
 == Installation ==
 
 The easy way:
@@ -167,17 +173,48 @@ See https://www.metaslider.com/documentation/image-cropping/
 
 == Changelog ==
 
+= 3.19.0 - 2020/Nov/12 =
+
+* ACCESSIBILITY: Fixes typo on svg button in Simply Dark
+* TWEAK: Adds install date to optin Appsero report
+* TWEAK: Adds passive listener option to FlexSlider touch events
+* FIX: Processes library assets to minify and optimize (production ready)
+
+= 3.18.9 - 2020/Nov/5 =
+
+* FIX: Adds polyfill for WP 4.5 wp_add_inline_script
+* FIX: Removes some non PHP 5.3 code from 3rd party lib
+
+= 3.18.8 - 2020/Nov/2 =
+
+* TWEAK: Pass callback function to Appsero instead of relying on caching.
+* TWEAK: Switches Appsero integration to only collected info on the user that logged in.
+* FIX: Adds PHP5.3 compatibility by removing array shorthand syntax
+
+= 3.18.7 - 2020/Oct/27 =
+
+* TWEAK: Clean up some of the Analytic specific items and reporting bugs. Note: no bugs related to improper handling.
+
+= 3.18.6 - 2020/Oct/26 =
+
+* FIX: Remove PHP 7.3 specific trailing commas
+
+= 3.18.5 - 2020/Oct/22 =
+
+* TWEAK: Moves the support related items to a separate page in prep to make it more robust.
+* TWEAK: Updates privacy policy and opt-in product analytics
+
 = 3.18.3/4 - 2020/Oct/15 =
 
-* TWEAK: Update plugin name to better describe its use, but keep plugin page title simple
+* TWEAK: Updates plugin name to better describe its use, but keep plugin page title simple
 
 = 3.18.2 - 2020/Oct/02 =
 
-* FIX: Scope slideshow cache to site (for multi-site support)
+* FIX: Scopes slideshow cache to site (for multi-site support)
 
 = 3.18.1 - 2020/Sept/21 =
 
-* FIX: Remove Nivo loading gif and add back specificity
+* FIX: Removes Nivo loading gif and add back specificity
 
 = 3.18.0 - 2020/Sept/05 =
 

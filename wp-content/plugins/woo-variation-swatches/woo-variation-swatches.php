@@ -4,12 +4,12 @@
 	 * Plugin URI: https://wordpress.org/plugins/woo-variation-swatches/
 	 * Description: Beautiful colors, images and buttons variation swatches for woocommerce product attributes. Requires WooCommerce 3.2+
 	 * Author: Emran Ahmed
-	 * Version: 1.0.86
+	 * Version: 1.1.1
 	 * Domain Path: /languages
 	 * Requires at least: 4.8
 	 * Tested up to: 5.5
 	 * WC requires at least: 3.2
-	 * WC tested up to: 4.4
+	 * WC tested up to: 4.7
 	 * Text Domain: woo-variation-swatches
 	 * Author URI: https://getwooplugins.com/
 	 */
@@ -20,7 +20,7 @@
 		
 		final class Woo_Variation_Swatches {
 			
-			protected $_version = '1.0.85';
+			protected $_version = '1.1.1';
 			
 			protected static $_instance = null;
 			private          $_settings_api;
@@ -292,11 +292,15 @@
 				array_push( $classes, sprintf( 'wvs-theme-%s', $this->get_parent_theme_dir() ) );
 				array_push( $classes, sprintf( 'wvs-theme-child-%s', $this->get_theme_dir() ) );
 				array_push( $classes, sprintf( 'wvs-style-%s', $this->get_option( 'style' ) ) );
-				array_push( $classes, sprintf( 'wvs-attr-behavior-%s', $this->get_option( 'attribute-behavior' ) ) );
+				array_push( $classes, sprintf( 'wvs-attr-behavior-%s', $this->get_option( 'attribute_behavior' ) ) );
 				// array_push( $classes, sprintf( 'woo-variation-swatches-tooltip-%s', $this->get_option( 'tooltip' ) ? 'enabled' : 'disabled' ) );
 				array_push( $classes, sprintf( 'wvs%s-tooltip', $this->get_option( 'tooltip' ) ? '' : '-no' ) );
 				// array_push( $classes, sprintf( 'woo-variation-swatches-stylesheet-%s', $this->get_option( 'stylesheet' ) ? 'enabled' : 'disabled' ) );
 				array_push( $classes, sprintf( 'wvs%s-css', $this->get_option( 'stylesheet' ) ? '' : '-no' ) );
+				
+				if ( (bool) woo_variation_swatches()->get_option( 'show_variation_label' ) ) {
+					$classes[] = 'wvs-show-label';
+				}
 				
 				if ( $this->is_pro_active() ) {
 					array_push( $classes, 'wvs-pro' );
@@ -318,12 +322,16 @@
 					wp_enqueue_script( 'bluebird', $this->assets_uri( "/js/bluebird{$suffix}.js" ), array(), '3.5.3' );
 				}
 				
-				$is_defer = (bool) woo_variation_swatches()->get_option( 'defer_load_js' );
+				$is_defer             = (bool) woo_variation_swatches()->get_option( 'defer_load_js' );
+				$show_variation_label = (bool) woo_variation_swatches()->get_option( 'show_variation_label' );
+				//$hide_disabled_variation = (bool) woo_variation_swatches()->get_option( 'hide_disabled_variation' );
 				
 				// If defer enable we want to load this script to top
 				wp_enqueue_script( 'woo-variation-swatches', $this->assets_uri( "/js/frontend{$suffix}.js" ), array( 'jquery', 'wp-util' ), $this->version(), ! $is_defer );
 				wp_localize_script( 'woo-variation-swatches', 'woo_variation_swatches_options', apply_filters( 'woo_variation_swatches_js_options', array(
-					'is_product_page' => is_product()
+					'is_product_page'      => is_product(),
+					'show_variation_label' => $show_variation_label,
+					//'hide_disabled_variation' => $hide_disabled_variation
 				) ) );
 				
 				if ( $this->get_option( 'stylesheet' ) ) {
@@ -346,7 +354,7 @@
 				
 				$width     = $this->get_option( 'width' );
 				$height    = $this->get_option( 'height' );
-				$font_size = $this->get_option( 'single-font-size' );
+				$font_size = $this->get_option( 'single_font_size' );
 				
 				ob_start();
 				include_once $this->include_path( 'stylesheet.php' );
@@ -430,7 +438,7 @@
 				return $this->_settings_api;
 			}
 			
-			public function add_setting( $tab_id, $tab_title, $tab_sections, $active = false, $is_pro_tab = false ) {
+			public function add_setting( $tab_id, $tab_title, $tab_sections, $active = false, $is_pro_tab = false, $is_new = false ) {
 				// Example:
 				
 				// fn(tab_id, tab_title, [
@@ -444,19 +452,22 @@
 				//         'type'=>'',
 				//         'title'=>'',
 				//         'desc'=>'',
-				//         'value'=>''
+				//         'default'=>'',
+				//         'is_new'=>true|false,
+				//         'require' => array( 'trigger_catalog_mode' => array( 'type' => '==', 'value' => 'hover' ) )
 				//      ]
 				//    ] // fields end
 				//  ]
 				//], active ? true | false)
 				
-				add_filter( 'wvs_settings', function ( $fields ) use ( $tab_id, $tab_title, $tab_sections, $active, $is_pro_tab ) {
+				add_filter( 'wvs_settings', function ( $fields ) use ( $tab_id, $tab_title, $tab_sections, $active, $is_pro_tab, $is_new ) {
 					array_push( $fields, array(
 						'id'       => $tab_id,
 						'title'    => esc_html( $tab_title ),
 						'active'   => $active,
 						'sections' => $tab_sections,
-						'is_pro'   => $is_pro_tab
+						'is_pro'   => $is_pro_tab,
+						'is_new'   => $is_new
 					) );
 					
 					return $fields;

@@ -14,10 +14,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Group Data
 
 $type_id = $single_type['id'];
-$title = $single_type['label'];
-$description = $single_type['description'];
+$title = stripslashes( $single_type['label'] );
+$description = stripslashes( $single_type['description'] );
 $operator =  $single_type['operator'];
-$conditional =  $yith_wapo_frontend->checkConditionalOptions( $single_type['depend'] );
+$conditional = $yith_wapo_frontend->checkConditionalOptions( $single_type['depend'] );
 $conditional_variation =  $single_type['depend_variations'];
 $conditional_hidden = ! empty( $conditional ) ? 'ywapo_conditional_hidden' : '';
 $conditional_variation_hidden = ! empty( $conditional_variation ) ? 'ywapo_conditional_variation_hidden' : '';
@@ -30,6 +30,7 @@ $required_all_options = $single_type['required_all_options'];
 $sold_individually = $single_type['sold_individually'];
 $first_options_free = isset( $single_type['first_options_free'] ) ? $single_type['first_options_free'] : 0 ;
 $max_item_selected = isset( $single_type['max_item_selected'] ) ? $single_type['max_item_selected'] : 0 ;
+$minimum_product_quantity = isset( $single_type['minimum_product_quantity'] ) ? $single_type['minimum_product_quantity'] : 0 ;
 $max_input_values_amount = isset( $single_type['max_input_values_amount'] ) ? $single_type['max_input_values_amount'] : 0 ;
 $min_input_values_amount = isset( $single_type['min_input_values_amount'] ) ? $single_type['min_input_values_amount'] : 0 ;
 $change_featured_image = $single_type['change_featured_image'];
@@ -47,7 +48,12 @@ $addon_title_tag = apply_filters( 'wapo_addon_title_tag', 'h3' );
 if ( ! ( isset( $options['label'] ) ) || count( $options['label'] ) <= 0 ) { return; } ?>
 
 <div id="<?php echo $value ?>"
-	class="ywapo_group_container ywapo_group_container_<?php echo $type; ?> form-row form-row-wide <?php echo empty( $collapsed ) ? '' : 'collapsed'; ?> <?php echo $class_calculate_quantity_sum . ' ' . $conditional_hidden . ' ' . $conditional_variation_hidden; ?>"
+	class="ywapo_group_container
+		ywapo_group_container_<?php echo $type; ?>
+		form-row form-row-wide
+		min_qty_<?php echo $minimum_product_quantity > 0 && apply_filters( 'wapo_enable_minimum_product_quantity', false ) ? esc_attr( $minimum_product_quantity ) : 0 ; ?>
+		<?php echo $collapsed == 1 ? 'collapsed' : ''; ?>
+		<?php echo $class_calculate_quantity_sum . ' ' . $conditional_hidden . ' ' . $conditional_variation_hidden; ?>"
 	data-requested="<?php echo $required ? '1' : '0' ; ?>"
 	data-requested-all-options="<?php echo $required_all_options ? '1' : '0' ; ?>"
 	data-type="<?php echo esc_attr( $type ); ?>"
@@ -59,10 +65,12 @@ if ( ! ( isset( $options['label'] ) ) || count( $options['label'] ) <= 0 ) { ret
 	data-first-options-free="<?php echo $first_options_free > 0 ? esc_attr( $first_options_free ) : 0 ; ?>"
 	data-first-options-free-temp="<?php echo $first_options_free > 0 ? esc_attr( $first_options_free ) : 0 ; ?>"
 	data-max-item-selected="<?php echo $max_item_selected > 0 ? esc_attr( $max_item_selected ) : 0 ; ?>"
+	data-minimum-product-quantity="<?php echo $minimum_product_quantity > 0 && apply_filters( 'wapo_enable_minimum_product_quantity', false ) ? esc_attr( $minimum_product_quantity ) : 0 ; ?>"
 	data-change-featured-image="<?php echo $change_featured_image ? '1' : '0' ;?>"
 	data-calculate-quantity-sum="<?php echo $calculate_quantity_sum ? '1' : '0' ;?>"
 	data-max-input-values-amount="<?php echo $max_input_values_amount > 0 ? esc_attr( $max_input_values_amount ) : 0 ; ?>"
-	data-min-input-values-amount="<?php echo $min_input_values_amount > 0 ? esc_attr( $min_input_values_amount ) : 0 ; ?>">
+	data-min-input-values-amount="<?php echo $min_input_values_amount > 0 ? esc_attr( $min_input_values_amount ) : 0 ; ?>"
+	<?php echo $minimum_product_quantity > 0 && apply_filters( 'wapo_enable_minimum_product_quantity', false ) ? ' style="display: none;"' : ''; ?>>
 	
 	<?php if ( $title && $yith_wapo_frontend->_option_show_label_type == 'yes' ) : ?>
 
@@ -89,6 +97,10 @@ if ( ! ( isset( $options['label'] ) ) || count( $options['label'] ) <= 0 ) { ret
 	<div class="ywapo_options_container">
 
 		<?php if ( $type == 'select' ) : ?>
+			
+			<?php if ( apply_filters( 'yith_wapo_enable_select_option_image', false ) ) : ?>
+				<div class="wapo_option_image"></div>
+			<?php endif; ?>
 
 			<select id="<?php echo $name; ?>" name="<?php echo $name; ?>" class="ywapo_input" <?php echo $required ? 'required' : ''; ?> <?php echo $disabled; ?>>
 			<option value=""><?php echo $empty_option_text; ?></option>
@@ -104,10 +116,19 @@ if ( ! ( isset( $options['label'] ) ) || count( $options['label'] ) <= 0 ) { ret
 
 				//--- WPML ----------
 				if ( YITH_WAPO::$is_wpml_installed ) {
-					$options['label'][$i] = YITH_WAPO_WPML::string_translate( $options['label'][$i] );
-					$options['description'][$i] = YITH_WAPO_WPML::string_translate( $options['description'][$i] );
-					$options['placeholder'][$i] = isset( $options['placeholder'][$i] ) ? YITH_WAPO_WPML::string_translate( $options['placeholder'][$i] ) : '';
-					$options['tooltip'][$i] = isset( $options['tooltip'][$i] ) ? YITH_WAPO_WPML::string_translate( $options['tooltip'][$i] ) : '';
+					$wpml_options = get_option( 'icl_sitepress_settings' );
+					$default_lang = $wpml_options['default_language'];
+					if ( apply_filters( 'yith_wapo_wpml_direct_translation', false ) && $default_lang != ICL_LANGUAGE_CODE ) {
+						$options['label'][$i]		= stripslashes( $options['label_'.ICL_LANGUAGE_CODE][$i] );
+						$options['description'][$i]	= stripslashes( $options['description_'.ICL_LANGUAGE_CODE][$i] );
+						$options['placeholder'][$i]	= stripslashes( $options['placeholder_'.ICL_LANGUAGE_CODE][$i] );
+						$options['tooltip'][$i]		= stripslashes( $options['tooltip_'.ICL_LANGUAGE_CODE][$i] );
+					} else {
+						$options['label'][$i] = YITH_WAPO_WPML::string_translate( $options['label'][$i] );
+						$options['description'][$i] = YITH_WAPO_WPML::string_translate( $options['description'][$i] );
+						$options['placeholder'][$i] = isset( $options['placeholder'][$i] ) ? YITH_WAPO_WPML::string_translate( $options['placeholder'][$i] ) : '';
+						$options['tooltip'][$i] = isset( $options['tooltip'][$i] ) ? YITH_WAPO_WPML::string_translate( $options['tooltip'][$i] ) : '';
+					}
 				}
 				//---END WPML---------
 
@@ -123,6 +144,7 @@ if ( ! ( isset( $options['label'] ) ) || count( $options['label'] ) <= 0 ) { ret
 
 				$checked = ( isset( $options['default'] ) ) ? ( in_array( $i , $options['default'] ) ) : false;
 				$hidelabel = ( isset( $options['hidelabel'] ) ) ? ( in_array( $i , $options['hidelabel'] ) ) : false;
+				$hideoption = ( isset( $options['hideoption'] ) ) ? ( in_array( $i , $options['hideoption'] ) ) : false;
 
 				$required_option = false;
 				if ( $required_all_options ) { $required_option = $required; }
@@ -149,6 +171,7 @@ if ( ! ( isset( $options['label'] ) ) || count( $options['label'] ) <= 0 ) { ret
 					$required_option,
 					$checked,
 					$hidelabel,
+					$hideoption,
 					$disabled,
 					'before',
 					$min,
@@ -159,7 +182,7 @@ if ( ! ( isset( $options['label'] ) ) || count( $options['label'] ) <= 0 ) { ret
 
 		}
 
-		if ( $type == 'select' ) : ?></select><?php endif; ?>
+		if ( $type == 'select' ) : ?></select><p class="wapo_option_description"></p><?php endif; ?>
 
 	</div>
 

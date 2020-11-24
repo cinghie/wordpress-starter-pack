@@ -44,7 +44,7 @@ if ( ! class_exists( 'YITH_WCWL_Wishlist_Item_Data_Store' ) ) {
 				'quantity' => '%d',
 				'wishlist_id' => '%d',
 				'position' => '%d',
-				'original_price' => '%d',
+				'original_price' => '%f',
 				'original_currency' => '%s',
 				'on_sale' => '%s'
 			);
@@ -330,14 +330,12 @@ if ( ! class_exists( 'YITH_WCWL_Wishlist_Item_Data_Store' ) ) {
 
 			$sql .= " GROUP BY i.prod_id, l.ID";
 
-			$sql .= " ORDER BY ";
-
 			if( ! empty( $orderby ) ){
 				$order = ! empty( $order ) ? $order : 'DESC';
-				$sql .= "i." .  esc_sql( $orderby ) . " " . esc_sql( $order ) . ", ";
+				$sql .= " ORDER BY i." .  esc_sql( $orderby ) . " " . esc_sql( $order ) . ", i.position ASC";
+			} else {
+				$sql .= " ORDER BY i.position ASC, i.ID DESC";
 			}
-
-			$sql .= "  i.position ASC";
 
 			if( ! empty( $limit ) && isset( $offset ) ){
 				$sql .= " LIMIT %d, %d";
@@ -391,7 +389,9 @@ if ( ! class_exists( 'YITH_WCWL_Wishlist_Item_Data_Store' ) ) {
 		 *
 		 * @param $args mixed Arguments array; it may contains any of the following:<br/>
 		 * [<br/>
+		 *     'product_id'          // Product to search in the wishlist<br/>
 		 *     'search' => '',       // search string; will be matched against product name<br/>
+		 *     'interval' => '',     // Interval of dates; this should be an associative array, that may contain start_date or end_date<br/>
 		 *     'orderby' => 'ID',    // order param; a valid column in the result set<br/>
 		 *     'order' => 'desc',    // order param; asc or desc<br/>
  		 *     'limit' => false,     // pagination param; number of items per page. 0 to get all items<br/>
@@ -403,11 +403,13 @@ if ( ! class_exists( 'YITH_WCWL_Wishlist_Item_Data_Store' ) ) {
 			global $wpdb;
 
 			$default = array(
-				'search' => '',
-				'limit' => false,
-				'offset' => 0,
-				'orderby' => 'ID',
-				'order' => 'DESC',
+				'product_id' => '',
+				'search'     => '',
+				'interval'   => [],
+				'limit'      => false,
+				'offset'     => 0,
+				'orderby'    => 'ID',
+				'order'      => 'DESC',
 			);
 
 			$args = wp_parse_args( $args, $default );

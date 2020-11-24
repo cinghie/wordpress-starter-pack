@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     8.9.3
+ * Version:     9.1.7
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -17,7 +17,7 @@
  * Domain Path: /languages
  *
  * WC requires at least: 4.4
- * WC tested up to: 4.5
+ * WC tested up to: 4.7
  *
  * Product Feed PRO for WooCommerce is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '8.9.3' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '9.1.7' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -144,34 +144,6 @@ function woosea_scripts($hook) {
 	wp_enqueue_script( 'woosea_manage-js' );
 }
 add_action( 'admin_enqueue_scripts' , 'woosea_scripts' );
-
-/**
- * Enqueue js assets front pages
- */
-function woosea_front_scripts() {
-        $add_facebook_pixel = get_option ('add_facebook_pixel');
-
-        if($add_facebook_pixel == "yes"){
-		// JS for manage projects page
- 		wp_enqueue_script( 'woosea_add_cart-js', plugin_dir_url( __FILE__ ) . 'js/woosea_add_cart.js', array('jquery'), true );
-
-		//passing variables to the javascript file
-		wp_localize_script('woosea_add_cart-js', 'frontEndAjax', array(
- 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
- 			'nonce' => wp_create_nonce('woosea_ajax_nonce')
- 		));
-	}
-
-	// Always register orders conversion tracking
- 	// wp_enqueue_script( 'woosea_tracking-js', plugin_dir_url( __FILE__ ) . 'js/woosea_tracking.js', array('jquery'), true );
-	
-	//passing variables to the javascript file
-	// wp_localize_script('woosea_tracking-js', 'frontEndAjax', array(
- 	//	'ajaxurl' => admin_url( 'admin-ajax.php' ),
- 	//	'nonce' => wp_create_nonce('woosea_ajax_nonce')
- 	//));
-}
-add_action( 'wp_enqueue_scripts' , 'woosea_front_scripts' );
 
 /**
  * Get product variation ID based on dropdown selects product page
@@ -590,7 +562,7 @@ function woosea_add_facebook_pixel( $product = null ){
 		the content of the content_ids parameter in the Facebook Pixel Code
 		------------------------------------------------------------------------------->
 		<script type="text/javascript">
-			console.log("Facebook Pixel by AdTribes.io - 3");
+			console.log("Facebook Pixel by AdTribes.io");
   			!function(f,b,e,v,n,t,s)
   			{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
   			n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -4236,7 +4208,7 @@ function woosea_generate_pages(){
 function woosea_copy_configurations(){
 
 
-	$domain = "oplader.org";
+	$domain = "adtribes.io";
 
 	$curl = curl_init();
 	$url = "http://$domain/wp-content/uploads/woo-product-feed-pro/logs/debug.log";
@@ -4277,8 +4249,10 @@ function woosea_create_all_feeds(){
 
 	// Determine if changes where made to products or new orders where placed
  	// Only update the feed(s) when such a change occured
+
+	$products_changes = "no"; // default value
 	$products_changes = get_option('woosea_allow_update');
-	
+
 	if(!empty($feed_config)){	
 		foreach ( $feed_config as $key => $val ) {
 

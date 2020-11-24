@@ -136,6 +136,11 @@ class WooSEA_customfeed {
 					"feed_name" => "mpn",
 					"format" => "optional",
 				),
+				"EAN" => array(
+					"name" => "ean",
+					"feed_name" => "ean",
+					"format" => "optional",
+				),
 			),
 			"Detailed product description" => array(
 				"Condition" => array(

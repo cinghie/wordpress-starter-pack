@@ -262,9 +262,14 @@ function wppfm_initiateFeed() {
 		return;
 	}
 
-	var feedData = JSON.parse( feedDataElementValue ); // get the data from the edit feed form code
+	var feedData = [];
 
-	console.log(feedData);
+	try {
+		feedData = JSON.parse(feedDataElementValue); // get the data from the edit feed form code
+		console.log(feedData);
+	} catch(e) {
+		wppfm_handleJsonParseError(e, feedDataElementValue);
+	}
 
 	// make a _feedHolder
 	if ( feedData ) {
@@ -294,6 +299,30 @@ function wppfm_initiateFeed() {
 
 //		_feedHolder.setSourceValue( feedData['source_fields'] );
 		_feedHolder['source_fields'] = feedData['source_fields'];
+	}
+}
+
+/**
+ * Handles JSON parse errors and tries to report the position of the error in the JSON string to the console.
+ *
+ * @param error
+ * @param failingString
+ */
+function wppfm_handleJsonParseError(error, failingString) {
+	if( error.message.includes('at position') ) {
+		console.log(error.message);
+
+		var messageBreakup = error.message.split(' ');
+		var errorLocation = messageBreakup[messageBreakup.length - 1].match(/\d+/g);
+
+		if ( null != errorLocation ) {
+			var failingPartOfJSONString = failingString.substr(errorLocation - 20, 40);
+			console.log('The incorrect part in the JSON string is on position 20 of this part: "' + failingPartOfJSONString + '"');
+		} else {
+			console.log(error);
+		}
+	} else {
+		console.log(error);
 	}
 }
 
@@ -713,9 +742,22 @@ function wppfm_saveFeed() {
  * @param {string} currentLevelId
  */
 function wppfm_nextCategory( currentLevelId ) {
+	var selectedCategory   = jQuery( '#' + currentLevelId ).val();
+
+	if ( 'cat_number' === selectedCategory ) { // User selected the Select by category number option.
+		var isCategoryMappingSelection = currentLevelId.includes('catmap');
+		var shopCategoryId = isCategoryMappingSelection ? currentLevelId.split('-')[1].slice(0, -2) : _feedHolder['feedId'] ;
+		var currentValue = !isNaN(_feedHolder['mainCategory']) ? _feedHolder['mainCategory'] : '';
+		var categorySelectorType = isCategoryMappingSelection ? 'mapping' : 'default';
+		var cat_selector = isCategoryMappingSelection ? jQuery( '#feed-category-' + shopCategoryId ) : jQuery( '#category-selector-lvl' );
+
+		cat_selector.html( wppfm_freeCategoryInputCntrl( categorySelectorType, shopCategoryId, currentValue ) );
+		jQuery( '#category-selector-catmap-' + shopCategoryId ).hide();
+		return;
+	}
+
 	var nextLevelId        = wppfm_incrementLast( currentLevelId );
 	var nextLevel          = nextLevelId.match( /(\d+)$/ )[ 0 ]; // get the number on the end of the nextLevelId
-	var selectedCategory   = jQuery( '#' + currentLevelId ).val();
 	var channel            = _feedHolder[ 'channel' ] ? _feedHolder[ 'channel' ].toString() : jQuery( '#wppfm-merchants-selector' ).val();
 	var language           = wppfm_channelCountryCode( channel );
 	var nextLevelIdElement = jQuery( '#' + nextLevelId );
@@ -920,6 +962,9 @@ function wppfm_fillFeedFields( isNew, categoryChanged ) {
  */
 function wppfm_categorySelectCntrl( categories ) {
 	var htmlCode = '<option value="0">' + wppfm_feed_settings_form_vars.select_a_sub_category + '</option>';
+	if ( '1' === _feedHolder['channel'] ) {
+		htmlCode += '<option value="cat_number">' + wppfm_feed_settings_form_vars.select_by_category_number + '</option>';
+	}
 
 	for ( var i = 0; i < categories.length; i ++ ) {
 		htmlCode += '<option value="' + categories[ i ] + '">' + categories[ i ] + '</option>';

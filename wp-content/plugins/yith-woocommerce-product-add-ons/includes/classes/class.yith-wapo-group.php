@@ -173,8 +173,8 @@ if ( ! class_exists( 'YITH_WAPO_Group' ) ) {
 			// Create duplicated group
 			$new_name = $this->name . ' (copy)';
 			$groups_table_name = YITH_WAPO_Group::$table_name;
-			$sql = "INSERT INTO {$wpdb->prefix}$groups_table_name (id, name, user_id, vendor_id, products_id, products_exclude_id, categories_id, attributes_id, priority, visibility, del, reg_date)
-					VALUES ('', '$new_name', '$this->user_id', '$this->vendor_id', '$this->products_id', '$this->products_exclude_id', '$this->categories_id', '$this->attributes_id', '$this->priority', '$this->visibility', '$this->del', CURRENT_TIMESTAMP)";
+			$sql = "INSERT INTO {$wpdb->prefix}$groups_table_name (name, user_id, vendor_id, products_id, products_exclude_id, categories_id, attributes_id, priority, visibility, del, reg_date)
+					VALUES ('$new_name', '$this->user_id', '$this->vendor_id', '$this->products_id', '$this->products_exclude_id', '$this->categories_id', '$this->attributes_id', '$this->priority', '$this->visibility', '$this->del', CURRENT_TIMESTAMP)";
 			$wpdb->query( $sql );
 
 			// Duplicated group id

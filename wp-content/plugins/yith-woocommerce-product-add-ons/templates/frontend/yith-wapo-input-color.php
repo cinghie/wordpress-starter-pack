@@ -18,7 +18,7 @@ $index = $key;
 
 /* price position fix */
 
-$after_label .= $price_hmtl . $yith_wapo_frontend->getTooltip( stripslashes( $tooltip ) );
+$after_label .= $price_html . $yith_wapo_frontend->getTooltip( stripslashes( $tooltip ) );
 
 /* value fix */
 $input_classes[] = 'ywapo_colorpicker';

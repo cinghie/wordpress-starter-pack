@@ -82,6 +82,10 @@
 82	0	subscription_cost-period
 83	0	subscription_cost-period_length
 84	0	subscription_cost-amount
-85	4	product_detail
-86	4	product_highlight
-87	4	shop_code
+85	4	product_detail-section_name
+86	4	product_detail-attribute_name
+87	4	product_detail-attribute_value
+88	4	product_highlight
+89	4	shop_code
+90	4	quantity
+91	4	store_code

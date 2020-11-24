@@ -50,6 +50,7 @@ if ( ! class_exists( 'WPPFM_i18n_Scripts' ) ) :
 				'feed_status_failed'               => esc_html__( 'Product feed %feedname% has failed!', 'wp-product-feed-manager' ),
 				'variation_only_for_premium'       => esc_html__( 'The option to add product variations to the feed is not available in the free version. Unlock this option by upgrading to the Premium plugin. For more information goto https://www.wpmarketingrobot.com/.', 'wp-product-feed-manager' ),
 				'select_a_sub_category'            => esc_html__( 'Select a sub-category', 'wp-product-feed-manager' ),
+				'select_by_category_number'        => esc_html__( 'Select by category number', 'wp-product-feed-manager' ),
 				/* translators: %feedname%: name of the feed */
 				'duplicated_field'                 => esc_html__( 'You already have a field %fieldname% defined!', 'wp-product-feed-manager' ),
 				'select_all_source_fields_warning' => esc_html__( 'Make sure to select all source fields before adding a new one!', 'wp-product-feed-manager' ),

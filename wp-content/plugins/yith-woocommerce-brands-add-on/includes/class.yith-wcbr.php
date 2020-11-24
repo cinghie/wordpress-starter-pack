@@ -298,7 +298,7 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 				$content_to_show = 'name';
 			}
 
-			$args = array(
+			$args = apply_filters('yith_wcbr_single_product_brand_template_args', array(
 				'title'              => $title,
 				'product'            => $current_product,
 				'product_id'         => $current_product_id,
@@ -310,7 +310,7 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 				'product_brands'     => $product_brands,
 				'product_has_brands' => $product_has_brands,
 				'content_to_show'    => $content_to_show
-			);
+			));
 
 			// include payment form template
 			$template_name = 'single-product-brands.php';

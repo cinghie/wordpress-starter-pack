@@ -336,7 +336,7 @@
 #cff .cff-author .cff-date{
   color: #9197a3;
   font-size: 11px;
-  margin-top: 0px !important;
+  margin-top: 2px !important;
   margin-bottom: 0px !important;
 }
 #cff.cff-default-styles .cff-author .cff-date{
@@ -344,7 +344,7 @@
 }
 #cff .cff-author .cff-page-name.cff-author-date{
   float: left;
-  padding: 2px 0 0 0;
+  padding: 3px 0 0 0;
   font-size: 14px;
 }
 
@@ -537,7 +537,7 @@
   bottom: 22px;
   right: -40px;
   width: 110px;
-  padding: 5px 5px 4px 5px;
+  padding: 3px 5px 4px 5px;
   margin: 0;
   background: #333;
   color: #eee;

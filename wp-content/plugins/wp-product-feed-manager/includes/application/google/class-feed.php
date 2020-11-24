@@ -3,7 +3,7 @@
  * WP Product Feed Manager Google Feed Class.
  *
  * @package WP Product Feed Manager/Channels
- * @version 13.1
+ * @version 14.0
  */
 
 // Prevent direct access
@@ -18,7 +18,7 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 	 */
 	class WPPFM_Google_Feed_Class extends WPPFM_Feed_Master_Class {
 
-		private $_version = '13.1';
+		private $_version = '14.0';
 
 		public function __construct() {
 			parent::__construct();
@@ -120,12 +120,11 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 		}
 
 		public function keys_that_have_sub_tags() {
-			return array( 'installment', 'loyalty_points', 'shipping', 'tax', 'subscription_cost' );
+			return array( 'installment', 'loyalty_points', 'shipping', 'tax', 'subscription_cost', 'product_detail' );
 		}
 
-		// ALERT! This function is equivalent to the wppfm_doublesFieldsAllowed() function in the wppfm_google-source.js file
 		public function keys_that_can_be_used_more_than_once() {
-			return array( 'display_ads_similar_id', 'excluded_destination', 'adwords_labels', 'shipping' );
+			return array( 'display_ads_similar_id', 'excluded_destination', 'product_highlight', 'adwords_labels', 'shipping', 'product_detail' );
 		}
 
 		public function sub_keys_for_sub_tags() {
@@ -146,6 +145,9 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 				'subscription_cost-period',
 				'subscription_cost-period_length',
 				'subscription_cost-amount',
+				'product_detail-section_name',
+				'product_detail-attribute_name',
+				'product_detail-attribute_value',
 			);
 		}
 

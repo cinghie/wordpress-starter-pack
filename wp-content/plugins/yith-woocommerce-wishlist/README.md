@@ -21,7 +21,7 @@ The wishlist is one of the most powerful and popular tools in an ecommerce shop.
 
 This means that you’ll be able to loyalise customers, push them to buy and attract new customers any time a wishlist is shared. Not bad for one plugin only, don’t you think?
 
-Our YITH WooCommerce Wishlist has more than **700,000 active installations** and that’s why it’s **the most popular wishlist plugin ever.**
+Our YITH WooCommerce Wishlist has more than **800,000 active installations** and that’s why it’s **the most popular wishlist plugin ever.**
 
 To celebrate this record and say thanks to all the plugin users, we’ve decided to release a new 3.0 version that has improved the design tremendously  and added many new options.
 
@@ -151,13 +151,22 @@ Yes, of course you can. To avoid Wishlist page to show product prices, you can h
 
 ## Changelog
 
-### 3.0.14 - Released on 17 September 2020
+### 3.0.16 - Released on 10 November 2020
 
-* New: support for WooCommerce 4.5
+* New: support for WordPress 5.6
+* New: support for WooCommerce 4.7
+* New: possibility to update plugin via WP-CLI
 * Update: plugin framework
-* Tweak: filter fragments to update only visible ATW when reset_data js event occurs
-* Tweak: added error message when trying to add variable products to cart
-* Fix: issue with cart redirect when using YITH WCCL
+* Update: french translation
+* Tweak: search view now shows matching wishlists instead of all the lists of matching customers
+* Tweak: default wishlist sorting now places last added item as trailing item
+* Fix: avoid using localized string as param name for bulk action on wishlists table
+* Fix: prevent possible fatal errors due to missing email classes
+* Dev: added yith_wcwl_reload_on_found_variation filter to allow dev programmatically disable ATW reload on found_variation
+* Dev: added yith_wcwl_wishlist_view_images_after_thumbnail action
+* Dev: added yith_wcwl_modern_wishlist_empty_message filter
+* Dev: added yith_wcwl_ask_estimate_email_wishlist_name filter
+* Dev: removed deprecated .ready method from scripts
 
 ## Support
 

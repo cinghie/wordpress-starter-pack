@@ -1052,14 +1052,14 @@ trait WPPFM_Processing_Support {
 	}
 
 	/**
-	 * converts an ordinary xml string into a CDATA string
+	 * converts an ordinary xml string into a CDATA string as long as it's not only a numeric value;
 	 *
 	 * @param string $string
 	 *
 	 * @return string
 	 */
 	protected function convert_to_character_data_string( $string ) {
-		return "<![CDATA[ $string ]]>";
+		return ! is_numeric($string) ? "<![CDATA[ $string ]]>" : $string;
 	}
 
 	/**

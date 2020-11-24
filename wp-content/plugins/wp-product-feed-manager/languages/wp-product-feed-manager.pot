@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: WooCommerce Product Feed Manager\n"
-"POT-Creation-Date: 2020-10-06 10:29+0200\n"
+"POT-Creation-Date: 2020-11-07 15:44+0100\n"
 "PO-Revision-Date: 2018-08-20 20:39+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -36,7 +36,7 @@ msgid ""
 msgstr ""
 
 #: includes/application/class-feed-master.php:565
-#: includes/user-interface/class-wppfm-i18n-scripts.php:86
+#: includes/user-interface/class-wppfm-i18n-scripts.php:87
 msgid "Fill with a static value"
 msgstr ""
 
@@ -453,376 +453,380 @@ msgstr ""
 msgid "Select a sub-category"
 msgstr ""
 
+#: includes/user-interface/class-wppfm-i18n-scripts.php:53
+msgid "Select by category number"
+msgstr ""
+
 #. translators: %feedname%: name of the feed
-#: includes/user-interface/class-wppfm-i18n-scripts.php:54
+#: includes/user-interface/class-wppfm-i18n-scripts.php:55
 #, php-format
 msgid "You already have a field %fieldname% defined!"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:55
+#: includes/user-interface/class-wppfm-i18n-scripts.php:56
 msgid "Make sure to select all source fields before adding a new one!"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:56
+#: includes/user-interface/class-wppfm-i18n-scripts.php:57
 msgid "Please fill in the current condition before adding a new one!"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:57
+#: includes/user-interface/class-wppfm-i18n-scripts.php:58
 msgid "Please select a source field first before you select the conditions."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:58
+#: includes/user-interface/class-wppfm-i18n-scripts.php:59
 msgid "Please select a valid source before adding a condition to that source."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:59
+#: includes/user-interface/class-wppfm-i18n-scripts.php:60
 msgid ""
 "The Advanced Filter option is not available in the free version. Unlock the "
 "Advanced Filter option by upgrading to the Premium plugin. For more "
 "information goto https://www.wpmarketingrobot.com/."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:60
+#: includes/user-interface/class-wppfm-i18n-scripts.php:61
 msgid "except the ones where"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:61
+#: includes/user-interface/class-wppfm-i18n-scripts.php:62
 msgid "Please fill in the filter values before adding a new one"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:62
+#: includes/user-interface/class-wppfm-i18n-scripts.php:63
 msgid "No separator"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:63
+#: includes/user-interface/class-wppfm-i18n-scripts.php:64
 msgid "space"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:64
+#: includes/user-interface/class-wppfm-i18n-scripts.php:65
 msgid "comma"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:65
+#: includes/user-interface/class-wppfm-i18n-scripts.php:66
 msgid "point"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:66
+#: includes/user-interface/class-wppfm-i18n-scripts.php:67
 msgid "semicolon"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:67
+#: includes/user-interface/class-wppfm-i18n-scripts.php:68
 msgid "colon"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:68
+#: includes/user-interface/class-wppfm-i18n-scripts.php:69
 msgid "dash"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:69
+#: includes/user-interface/class-wppfm-i18n-scripts.php:70
 msgid "slash"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:70
+#: includes/user-interface/class-wppfm-i18n-scripts.php:71
 msgid "backslash"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:71
+#: includes/user-interface/class-wppfm-i18n-scripts.php:72
 msgid "double pipe"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:72
+#: includes/user-interface/class-wppfm-i18n-scripts.php:73
 msgid "underscore"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:73
+#: includes/user-interface/class-wppfm-i18n-scripts.php:74
 msgid "other"
 msgstr ""
 
 #. translators: %other%: either the word "other" or an empty space
-#: includes/user-interface/class-wppfm-i18n-scripts.php:75
+#: includes/user-interface/class-wppfm-i18n-scripts.php:76
 msgid "for all %other% products"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:76
+#: includes/user-interface/class-wppfm-i18n-scripts.php:77
 msgid "edit values"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:77
+#: includes/user-interface/class-wppfm-i18n-scripts.php:78
 msgid "and change values"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:78
+#: includes/user-interface/class-wppfm-i18n-scripts.php:79
 msgid "remove value editor"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:79
+#: includes/user-interface/class-wppfm-i18n-scripts.php:80
 msgid "to"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:80
+#: includes/user-interface/class-wppfm-i18n-scripts.php:81
 msgid "with element name"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:81
+#: includes/user-interface/class-wppfm-i18n-scripts.php:82
 msgid "Defined by the Category Mapping Table."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:82
+#: includes/user-interface/class-wppfm-i18n-scripts.php:83
 msgid "Use advised source"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:83
+#: includes/user-interface/class-wppfm-i18n-scripts.php:84
 msgid "Combine source fields"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:84
+#: includes/user-interface/class-wppfm-i18n-scripts.php:85
 #: includes/user-interface/class-wppfm-product-feed-category-wrapper.php:28
 msgid "Category Mapping"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:85
+#: includes/user-interface/class-wppfm-i18n-scripts.php:86
 msgid "Select a source field"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:87
+#: includes/user-interface/class-wppfm-i18n-scripts.php:88
 msgid "Map to Default Category"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:88
+#: includes/user-interface/class-wppfm-i18n-scripts.php:89
 msgid "Use Shop Category"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:89
+#: includes/user-interface/class-wppfm-i18n-scripts.php:90
 msgid "an empty field"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:90
+#: includes/user-interface/class-wppfm-i18n-scripts.php:91
 msgid "Add recommended output"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:91
+#: includes/user-interface/class-wppfm-i18n-scripts.php:92
 msgid "Add optional output"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:92
+#: includes/user-interface/class-wppfm-i18n-scripts.php:93
 msgid ""
 "You've not selected a Shop Category in the Category Mapping Table. With no "
 "Shop Category selected, your feed will be empty. Are you sure you still want "
 "to save this feed?"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:93
+#: includes/user-interface/class-wppfm-i18n-scripts.php:94
 msgid "A file name is required!"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:94
+#: includes/user-interface/class-wppfm-i18n-scripts.php:95
 msgid ""
 "Add at least one query in the previous change value row before adding a new "
 "row."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:95
+#: includes/user-interface/class-wppfm-i18n-scripts.php:96
 msgid "Please first fill in a change value option before adding a query to it."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:114
+#: includes/user-interface/class-wppfm-i18n-scripts.php:115
 #: includes/user-interface/class-wppfm-list-table.php:105
 msgid "Processing the feed, please wait..."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:115
+#: includes/user-interface/class-wppfm-i18n-scripts.php:116
 msgid "Processing failed, please try again"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:116
+#: includes/user-interface/class-wppfm-i18n-scripts.php:117
 #: includes/user-interface/class-wppfm-list-table.php:154
 msgid "In processing queue"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:117
-msgid "No data found"
-msgstr ""
-
 #: includes/user-interface/class-wppfm-i18n-scripts.php:118
-#: includes/user-interface/class-wppfm-list-table.php:183
-msgid "Auto-off"
+msgid "No data found"
 msgstr ""
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:119
 #: includes/user-interface/class-wppfm-list-table.php:183
-msgid "Auto-on"
+msgid "Auto-off"
 msgstr ""
 
 #: includes/user-interface/class-wppfm-i18n-scripts.php:120
+#: includes/user-interface/class-wppfm-list-table.php:183
+msgid "Auto-on"
+msgstr ""
+
+#: includes/user-interface/class-wppfm-i18n-scripts.php:121
 #: includes/user-interface/class-wppfm-list-table.php:187
 #: includes/user-interface/class-wppfm-list-table.php:218
 msgid "Edit"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:121
+#: includes/user-interface/class-wppfm-i18n-scripts.php:122
 #: includes/user-interface/class-wppfm-list-table.php:188
 msgid "View"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:122
+#: includes/user-interface/class-wppfm-i18n-scripts.php:123
 msgid "Other"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:123
+#: includes/user-interface/class-wppfm-i18n-scripts.php:124
 #: includes/user-interface/class-wppfm-list-table.php:107
 #: includes/user-interface/class-wppfm-list-table.php:163
 msgid "Unknown"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:124
+#: includes/user-interface/class-wppfm-i18n-scripts.php:125
 #: includes/user-interface/class-wppfm-list-table.php:148
 msgid "Ready (manual)"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:125
+#: includes/user-interface/class-wppfm-i18n-scripts.php:126
 #: includes/user-interface/class-wppfm-list-table.php:151
 msgid "Processing"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:126
+#: includes/user-interface/class-wppfm-i18n-scripts.php:127
 #: includes/user-interface/class-wppfm-list-table.php:157
 msgid "Has errors"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:127
+#: includes/user-interface/class-wppfm-i18n-scripts.php:128
 #: includes/user-interface/class-wppfm-list-table.php:160
 msgid "Failed processing"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:128
-#: includes/user-interface/class-wppfm-i18n-scripts.php:233
+#: includes/user-interface/class-wppfm-i18n-scripts.php:129
+#: includes/user-interface/class-wppfm-i18n-scripts.php:234
 #: includes/user-interface/class-wppfm-list-table.php:145
 msgid "Ready (auto)"
 msgstr ""
 
 #. translators: %feedname%: name of the feed
-#: includes/user-interface/class-wppfm-i18n-scripts.php:130
+#: includes/user-interface/class-wppfm-i18n-scripts.php:131
 msgid "Added a copy of feed %feedname% to the list."
 msgstr ""
 
 #. translators: %feedname%: name of the feed
-#: includes/user-interface/class-wppfm-i18n-scripts.php:132
+#: includes/user-interface/class-wppfm-i18n-scripts.php:133
 msgid "Please confirm you want to delete feed %feedname%."
 msgstr ""
 
 #. translators: %feedname%: name of the feed
-#: includes/user-interface/class-wppfm-i18n-scripts.php:134
+#: includes/user-interface/class-wppfm-i18n-scripts.php:135
 msgid "Feed %feedname% removed from the server."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:135
+#: includes/user-interface/class-wppfm-i18n-scripts.php:136
 msgid "Feed Language"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:136
+#: includes/user-interface/class-wppfm-i18n-scripts.php:137
 msgid "This feed does not yet exists, please (re)generate this feed first."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:155
+#: includes/user-interface/class-wppfm-i18n-scripts.php:156
 msgid "First enter a file name for the backup file."
 msgstr ""
 
 #. translators: %backup_file_name%: name of the backup file
-#: includes/user-interface/class-wppfm-i18n-scripts.php:157
+#: includes/user-interface/class-wppfm-i18n-scripts.php:158
 msgid "Please confirm you want to delete backup %backup_file_name%."
 msgstr ""
 
 #. translators: %backup_file_name%: name of the backup file
-#: includes/user-interface/class-wppfm-i18n-scripts.php:159
+#: includes/user-interface/class-wppfm-i18n-scripts.php:160
 #, php-format
 msgid "%backup_file_name% deleted."
 msgstr ""
 
 #. translators: %backup_file_name%: name of the backup file
-#: includes/user-interface/class-wppfm-i18n-scripts.php:161
+#: includes/user-interface/class-wppfm-i18n-scripts.php:162
 msgid ""
 "Are you sure you want to restore backup %backup_file_name%? This will "
 "overwrite your current settings and feed data!"
 msgstr ""
 
 #. translators: %backup_file_name%: name of the backup file
-#: includes/user-interface/class-wppfm-i18n-scripts.php:163
+#: includes/user-interface/class-wppfm-i18n-scripts.php:164
 msgid "%backup_file_name% restored"
 msgstr ""
 
 #. translators: %backup_file_name%: name of the backup file
-#: includes/user-interface/class-wppfm-i18n-scripts.php:165
+#: includes/user-interface/class-wppfm-i18n-scripts.php:166
 #, php-format
 msgid "%backup_file_name% duplicated"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:182
+#: includes/user-interface/class-wppfm-i18n-scripts.php:183
 msgid "Restore"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:183
+#: includes/user-interface/class-wppfm-i18n-scripts.php:184
 msgid "No backup found"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:202
+#: includes/user-interface/class-wppfm-i18n-scripts.php:203
 msgid ""
 "Please confirm you want to remove this channel! Removing this channel will "
 "also remove all its feed files."
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:220
+#: includes/user-interface/class-wppfm-i18n-scripts.php:221
 msgid "edit"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:221
+#: includes/user-interface/class-wppfm-i18n-scripts.php:222
 msgid "select"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:222
+#: includes/user-interface/class-wppfm-i18n-scripts.php:223
 msgid "selected"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:223
+#: includes/user-interface/class-wppfm-i18n-scripts.php:224
 msgid "delete"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:224
+#: includes/user-interface/class-wppfm-i18n-scripts.php:225
 msgid "remove"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:225
+#: includes/user-interface/class-wppfm-i18n-scripts.php:226
 msgid "add"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:226
+#: includes/user-interface/class-wppfm-i18n-scripts.php:227
 msgid "if"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:227
+#: includes/user-interface/class-wppfm-i18n-scripts.php:228
 msgid "or"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:228
+#: includes/user-interface/class-wppfm-i18n-scripts.php:229
 msgid "and"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:229
+#: includes/user-interface/class-wppfm-i18n-scripts.php:230
 msgid ""
 "All products from the selected Shop Categories will be included in the feed"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:230
+#: includes/user-interface/class-wppfm-i18n-scripts.php:231
 #: includes/user-interface/class-wppfm-list-table.php:191
 msgid "Duplicate"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:231
+#: includes/user-interface/class-wppfm-i18n-scripts.php:232
 #: includes/user-interface/class-wppfm-list-table.php:192
 #: includes/user-interface/class-wppfm-list-table.php:220
 msgid "Regenerate"
 msgstr ""
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:232
+#: includes/user-interface/class-wppfm-i18n-scripts.php:233
 #: includes/user-interface/class-wppfm-list-table.php:189
 #: includes/user-interface/class-wppfm-list-table.php:219
 msgid "Delete"
@@ -849,7 +853,7 @@ msgid "Updated"
 msgstr ""
 
 #: includes/user-interface/class-wppfm-main-admin-page.php:79
-#: includes/user-interface/elements/class-wppfm-category-selector-element.php:36
+#: includes/user-interface/elements/class-wppfm-category-selector-element.php:37
 msgid "Products"
 msgstr ""
 
@@ -1150,15 +1154,15 @@ msgstr ""
 msgid "Condition"
 msgstr ""
 
-#: includes/user-interface/elements/class-wppfm-category-selector-element.php:27
+#: includes/user-interface/elements/class-wppfm-category-selector-element.php:28
 msgid "Feed Category"
 msgstr ""
 
-#: includes/user-interface/elements/class-wppfm-category-selector-element.php:27
+#: includes/user-interface/elements/class-wppfm-category-selector-element.php:28
 msgid "Description"
 msgstr ""
 
-#: includes/user-interface/elements/class-wppfm-category-selector-element.php:34
+#: includes/user-interface/elements/class-wppfm-category-selector-element.php:35
 msgid "Shop Category"
 msgstr ""
 

@@ -4,8 +4,8 @@ Contributors: smashballoon, craig-at-smash-balloon
 Support Website: http://smashballoon/custom-twitter-feeds/
 Tags: Twitter, Twitter feed, Twitter Tweets, Twitter widget, Custom Twitter Feed
 Requires at least: 3.4
-Tested up to: 5.4
-Stable tag: 1.6
+Tested up to: 5.5
+Stable tag: 1.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -233,6 +233,11 @@ If you're still having trouble displaying your Tweets after trying the common is
 7. To display a Twitter feed just copy and paste the shortcode into a Twitter widget or page
 
 == Changelog ==
+= 1.6.1 =
+* Tweak: Added support for improved dashboard notices on the plugin settings page.
+* Tweak: HTML attribute rel="noopener noreferrer" added to all outbound links for extra security.
+* Fix: Fixed PHP warning "non-numeric value encountered" when setting the tweet multiplier option to something that wasn't a number.
+
 = 1.6 =
 * New: Updated icons in the feed to match Twitter.
 * Tweak: Several CSS changes to make the Twitter feed text responsive with more themes.

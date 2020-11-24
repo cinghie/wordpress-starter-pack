@@ -6,7 +6,7 @@
 * @version 1.0.0
 * @author  YITH
 */
-jQuery(document).ready(function($) {
+jQuery(function($) {
     "use strict";
 
     var select          = $( document).find( '.yith-ywraq-chosen' );

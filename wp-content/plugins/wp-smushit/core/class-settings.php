@@ -487,6 +487,8 @@ class Settings {
 
 		delete_site_option( WP_SMUSH_PREFIX . 'networkwide' );
 		delete_site_option( WP_SMUSH_PREFIX . 'hide_smush_welcome' );
+		delete_site_option( WP_SMUSH_PREFIX . 'hide_upgrade_notice' );
+		delete_site_option( WP_SMUSH_PREFIX . 'hide_blackfriday_modal' );
 		$this->delete_setting( WP_SMUSH_PREFIX . 'settings' );
 		$this->delete_setting( WP_SMUSH_PREFIX . 'image_sizes' );
 		$this->delete_setting( WP_SMUSH_PREFIX . 'resize_sizes' );
@@ -494,7 +496,6 @@ class Settings {
 		$this->delete_setting( WP_SMUSH_PREFIX . 'lazy_load' );
 		$this->delete_setting( 'skip-smush-setup' );
 		$this->delete_setting( WP_SMUSH_PREFIX . 'hide_pagespeed_suggestion' );
-		$this->delete_setting( WP_SMUSH_PREFIX . 'hide_tutorials_from_bulk_smush' );
 
 		wp_send_json_success();
 	}

@@ -3,18 +3,18 @@
 Contributors: yithemes
 Tags: carrier, tracking, delivery, shipping, woocommerce, yith
 Requires at least: 4.0
-Tested up to: 5.5
-Stable tag: 1.2.17
+Tested up to: 5.6
+Stable tag: 1.2.20
 License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html 
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Add an easy tool to manage order shipping information of your shop and to notified your customers about the shipping.
 
 == Description ==
 
-YITH Woocommerce Order Tracking is a WordPress plugin that allows you to manage easily shipping information concerning your orders and that lets your customers be notified about their order shipping. 
+YITH Woocommerce Order Tracking is a WordPress plugin that allows you to manage easily shipping information concerning your orders and that lets your customers be notified about their order shipping.
 Just put yourself in your customers' shoes: you make an order on a WooCommerce watch store and you can't wait for your watch to be delivered to you. WooCommerce plugin allows you to place orders, to let you pay, but after that?
-The seller can give you information about how long will your product take to be delivered, but you are not sure about where it is until it arrives. What you need is something informing you about the packet, a tracking tool, that WooCommerce unfortunately does not adds automatically to a shop. This is exactly what YITH WooCommerce Order Tracking allows you to do, tracking the delivery of your watches, clothes, books or whatever WooCommerce product you have ordered. 
+The seller can give you information about how long will your product take to be delivered, but you are not sure about where it is until it arrives. What you need is something informing you about the packet, a tracking tool, that WooCommerce unfortunately does not adds automatically to a shop. This is exactly what YITH WooCommerce Order Tracking allows you to do, tracking the delivery of your watches, clothes, books or whatever WooCommerce product you have ordered.
 This is a very useful tool to make your WooCommerce shop as complete as possible and offer your customers the best service, they feel you care of them and they feel safe: this will certainly make sales in your WooCommerce shop increase dramatically.
 
 = Save precious time and feel free to focus only on your business activity =
@@ -75,6 +75,22 @@ YITH WooCommerce Order Tracking will add a new tab called "Order tracking" in "Y
 5. In customer "Orders" page, you will find details about the shipment of your WooCommerce order.
 
 == Changelog ==
+
+= Version 1.2.20 - Released on 12 November 2020 =
+
+* Update: update plugin fw
+
+= Version 1.2.19 - Released on 05 November 2020 =
+
+* New: Support for WooCommerce 4.7
+* New: Support for WordPress 5.6
+* Update: update plugin fw
+* Dev: removed the .ready method from jQuery
+
+= Version 1.2.18 - Released: Oct 20, 2020 =
+
+* New: support for WooCommerce 4.5
+* Update: plugin framework
 
 = Version 1.2.17 - Released: Sept 17, 2020 =
 
@@ -250,7 +266,7 @@ You can set your own text for your WooCommerce orders using the specific option 
 = Is it compatible with all WordPress themes? =
 
 Compatibility with all themes is impossible, because they are too many, but generally if themes are developed according to WordPress and WooCommerce guidelines, YITH plugins are compatible with them.
-Yet, we can grant compatibility with themes developed by YIThemes, because they are constantly updated and tested with our plugins. Sometimes, especially when new versions are released, it might only require some time for them to be all updated, but you can be sure that they will be tested and will be working in a few days. 
+Yet, we can grant compatibility with themes developed by YIThemes, because they are constantly updated and tested with our plugins. Sometimes, especially when new versions are released, it might only require some time for them to be all updated, but you can be sure that they will be tested and will be working in a few days.
 
 = How can I get support if my WooCommerce plugin is not working? =
 

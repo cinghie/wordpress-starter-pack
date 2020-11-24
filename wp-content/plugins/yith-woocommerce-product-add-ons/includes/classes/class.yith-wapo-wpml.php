@@ -25,24 +25,16 @@ if ( ! class_exists( 'YITH_WAPO_WPML' ) ) {
          * @param        $string
          * @param string $name
          */
-        public static function register_string( $string , $name ='' ){
-
-            if ( ! $name ) {
-                $name = sanitize_title( $string );
-            }
-
-            yit_wpml_register_string( YITH_WAPO_WPML_CONTEXT, '['. YITH_WAPO_LOCALIZE_SLUG .']' . $name, $string );
-
+        public static function register_string( $string, $name = '' ) {
+            if ( ! $name ) { $name = sanitize_title( $string ); }
+            $name_slug = substr( '['. YITH_WAPO_LOCALIZE_SLUG .']' . $name, 0, 150 );
+            yit_wpml_register_string( YITH_WAPO_WPML_CONTEXT, $name_slug, $string );
         }
 
-        public static function string_translate( $label , $name =''  ){
-
-            if ( ! $name ) {
-                $name = sanitize_title( $label );
-            }
-
-            return yit_wpml_string_translate( YITH_WAPO_WPML_CONTEXT, '['. YITH_WAPO_LOCALIZE_SLUG .']' . $name, $label );
-
+        public static function string_translate( $label, $name ='' ) {
+            if ( ! $name ) { $name = sanitize_title( $label ); }
+            $name_slug = substr( '['. YITH_WAPO_LOCALIZE_SLUG .']' . $name, 0, 150 );
+            return yit_wpml_string_translate( YITH_WAPO_WPML_CONTEXT, $name_slug, $label );
         }
 
         /**

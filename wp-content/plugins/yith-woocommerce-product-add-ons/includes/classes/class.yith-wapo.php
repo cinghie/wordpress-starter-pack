@@ -99,13 +99,48 @@ if ( ! class_exists( 'YITH_WAPO' ) ) {
             // Divi ET Builder Module integration
             add_action( 'et_builder_ready', array( $this, 'divi_et_builder_module_integration' ) );
 
+            // Register plugin to licence/update system
+            add_action( 'wp_loaded', array( $this, 'register_plugin_for_activation' ), 99 );
+            add_action( 'admin_init', array( $this, 'register_plugin_for_updates' ) );
+
+        }
+
+        /**
+         * Register plugins for activation tab
+         *
+         * @return void
+         * @since 2.0.0
+         */
+        public function register_plugin_for_activation() {
+
+            if ( ! class_exists( 'YIT_Plugin_Licence' ) ) {
+                require_once( YITH_WAPO_DIR . 'plugin-fw/licence/lib/yit-licence.php' );
+                require_once( YITH_WAPO_DIR . 'plugin-fw/licence/lib/yit-plugin-licence.php' );
+            }
+
+            YIT_Plugin_Licence()->register( YITH_WAPO_INIT, YITH_WAPO_SECRET_KEY, YITH_WAPO_SLUG );
+        }
+
+        /**
+         * Register plugins for update tab
+         *
+         * @return void
+         * @since 2.0.0
+         */
+        public function register_plugin_for_updates() {
+
+            if( ! class_exists( 'YIT_Plugin_Licence' ) ){
+                require_once( YITH_WAPO_DIR . 'plugin-fw/lib/yit-upgrade.php' );
+            }
+
+            YIT_Upgrade()->register( YITH_WAPO_SLUG, YITH_WAPO_INIT );
         }
 
         /**
          * Fix: Uploaded files link in order details
          */
         function my_sanitize_text_field( $filtered, $str ) {
-            if ( strpos( $str, 'uploads') ) { return $str; }
+            if ( is_string( $str ) && strpos( $str, 'uploads' ) ) { return $str; }
             else { return $filtered; }
         }
 
@@ -210,7 +245,7 @@ if ( ! class_exists( 'YITH_WAPO' ) ) {
          */
         public static function getAllowedProductTypes() {
 
-            return apply_filters( 'yith_wapo_product_type_list', array( 'simple', 'variable', 'bundle', 'booking', 'subscription', 'variable-subscription' ) );
+            return apply_filters( 'yith_wapo_product_type_list', array( 'simple', 'variable', 'grouped', 'bundle', 'booking', 'subscription', 'variable-subscription' ) );
 
         }
 

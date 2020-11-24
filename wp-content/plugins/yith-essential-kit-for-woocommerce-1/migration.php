@@ -14,7 +14,7 @@ add_action( 'admin_menu', 'yith_essential_kit_welcome_screen_do_activation_redir
  */
 function yith_essential_kit_welcome_screen_do_activation_redirect() {
 
-	if ( '2.0' != get_site_option( 'yith_essential_kit_main_version', '1.0' ) ) {
+	if ( '2.0' !== get_site_option( 'yith_essential_kit_main_version', '1.0' ) ) {
 		wp_safe_redirect( add_query_arg( array( 'page' => 'yith-essential-kit-migration-page' ), admin_url( 'index.php' ) ) );
 		update_site_option( 'yith_essential_kit_main_version', '2.0' );
 	}

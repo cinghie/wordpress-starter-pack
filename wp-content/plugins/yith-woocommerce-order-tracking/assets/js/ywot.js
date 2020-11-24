@@ -1,4 +1,4 @@
-jQuery(document).ready(function ($) {
+jQuery(function ($) {
     $('.track-button').tooltipster();
 
     $(document).on('mouseover', 'a.track-button', (function (e) {

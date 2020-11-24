@@ -23,7 +23,7 @@ function wppfm_editCategories() {
 	} else {
 		// as the user selected a free format, just show a text input control
 		cat_lvl_selector.html(
-			wppfm_freeCategoryInputCntrl(
+			 wppfm_freeCategoryInputCntrl(
 				'default',
 				_feedHolder[ 'feedId' ],
 				_feedHolder[ 'mainCategory' ]

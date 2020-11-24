@@ -2,7 +2,6 @@
 	
 	defined( 'ABSPATH' ) or die( 'Keep Quit' );
 	
-	
 	add_action( 'wp_ajax_nopriv_wvs_get_available_variations', 'wvs_get_available_product_variations' );
 	
 	add_action( 'wp_ajax_wvs_get_available_variations', 'wvs_get_available_product_variations' );
@@ -108,3 +107,5 @@
 		delete_transient( $transient );
 	}, 20, 2 );
 	
+	// Load Template
+	// add_filter( 'woocommerce_locate_template', 'wvs_locate_template', 10, 3 );

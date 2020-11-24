@@ -15,12 +15,13 @@ $input_classes = array( 'ywapo_input ywapo_input_' . $type, 'ywapo_price_'.esc_a
 
 $value = ( $checked ? $key : '' );
 
-$before_label .= $price_hmtl . $yith_wapo_frontend->getTooltip( stripslashes( $tooltip ) );
+$before_label .= $price_html . $yith_wapo_frontend->getTooltip( stripslashes( $tooltip ) );
 
 echo '<div class="ywapo_input_container ywapo_input_container_labels ywapo_input_container_'.$type.' '.( $checked ? 'ywapo_selected' : '' ).' ">';
 
-echo sprintf( '%s<input data-typeid="%s" data-price="%s" data-pricetype="%s" data-index="%s" type="hidden" name="%s[%s]" value="%s" %s class="%s" %s %s %s/>%s',
+echo sprintf( '%s<input id="%s" data-typeid="%s" data-price="%s" data-pricetype="%s" data-index="%s" type="hidden" name="%s[%s]" value="%s" %s class="%s" %s %s %s/>%s',
 	$before_label,
+	$control_id,
 	esc_attr( $type_id ),
 	esc_attr( $price_calculated ),
 	esc_attr( $price_type ),

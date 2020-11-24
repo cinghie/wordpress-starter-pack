@@ -24,6 +24,7 @@ $field_collapsed = false;
 $field_qty_individually = false;
 $field_first_options_free = 0;
 $field_max_item_selected = 0;
+$field_minimum_product_quantity = 0;
 $field_max_input_values_amount = 0;
 $field_min_input_values_amount = 0;
 $field_change_featured_image = false;
@@ -31,7 +32,7 @@ $field_calculate_quantity_sum = false;
 $field_description = '';
 $field_priority = '';
 
-$dependencies_query = YITH_WAPO_Admin::getDependeciesQuery( $wpdb, $group , $type, $is_edit );
+$dependencies_query = YITH_WAPO_Admin::getDependeciesQuery( $wpdb, $group, $type, $is_edit );
 
 if( $is_edit ) {
 	$act            = 'update';
@@ -49,6 +50,7 @@ if( $is_edit ) {
 	$field_qty_individually         = $type->sold_individually;
 	$field_first_options_free       = $type->first_options_free;
 	$field_max_item_selected        = $type->max_item_selected;
+	$field_minimum_product_quantity = $type->minimum_product_quantity;
 	$field_max_input_values_amount  = $type->max_input_values_amount;
 	$field_min_input_values_amount  = $type->min_input_values_amount;
 	$field_change_featured_image    = $type->change_featured_image;
@@ -102,7 +104,7 @@ if( $is_edit ) {
 				
 				<div class="label">
 					<label for="label"><?php _e( 'Title', 'yith-woocommerce-product-add-ons' ); ?></label>
-					<input name="label" type="text" value="<?php echo $field_label; ?>" class="regular-text">
+					<input name="label" type="text" value="<?php echo stripslashes( $field_label ); ?>" class="regular-text">
 				</div>
 
 				<div class="variations">
@@ -137,7 +139,7 @@ if( $is_edit ) {
 
 				<div class="description">
 					<label for="description"><?php echo __( 'Description', 'yith-woocommerce-product-add-ons' ); ?></label>
-					<textarea name="description" id="description" rows="3" style="width: 100%; height: 120px; margin-top: 3px;"><?php echo $field_description; ?></textarea>
+					<textarea name="description" id="description" rows="3" style="width: 100%; height: 120px; margin-top: 3px;"><?php echo stripslashes( $field_description ); ?></textarea>
 				</div>
 
 			</div>
@@ -145,6 +147,7 @@ if( $is_edit ) {
 				<?php do_action( 'yith_wapo_addon_options_template', array(
 					'field_first_options_free' => $field_first_options_free,
 					'field_max_item_selected' => $field_max_item_selected,
+					'field_minimum_product_quantity' => $field_minimum_product_quantity,
 					'field_max_input_values_amount' => $field_max_input_values_amount,
 					'field_min_input_values_amount' => $field_min_input_values_amount,
 					'field_qty_individually' => $field_qty_individually,
@@ -183,6 +186,7 @@ if( $is_edit ) {
 					$array_default = isset( $array_options['default'] ) ? $array_options['default'] : array();
 					$array_required = isset( $array_options['required'] ) ? $array_options['required'] : array();
 					$array_hidelabel = isset( $array_options['hidelabel'] ) ? $array_options['hidelabel'] : array();
+					$array_hideoption = isset( $array_options['hideoption'] ) ? $array_options['hideoption'] : array();
 					foreach ( $array_options['label'] as $key => $value ) :
 						if ( ! isset( $array_options['description'][$i] ) ) { $array_options['description'][$i] = ''; }
 						if ( ! isset( $array_options['placeholder'][$i] ) ) { $array_options['placeholder'][$i] = ''; }
@@ -222,6 +226,43 @@ if( $is_edit ) {
 									<small><?php echo __( 'Tooltip', 'yith-woocommerce-product-add-ons' ); ?></small>
 									<input type="text" name="options[tooltip][]" value="<?php echo htmlspecialchars( stripslashes( $array_options['tooltip'][$i] ) ); ?>" />
 								</div>
+								<div class="clear"></div>
+
+								<?php if ( apply_filters( 'yith_wapo_wpml_direct_translation', false ) && function_exists( 'icl_object_id' ) ) : ?>
+									<div style="background-color: #fed;">
+										<?php
+										$languages = apply_filters( 'wpml_active_languages', NULL, 'orderby=id&order=desc' );
+										$wpml_options = get_option( 'icl_sitepress_settings' );
+										$default_lang = $wpml_options['default_language'];
+										foreach ( $languages as $key => $value ) :
+											if ( $key != $default_lang ) :
+												$array_options['label_'.$key][$i] = isset( $array_options['label_'.$key][$i] ) ? $array_options['label_'.$key][$i] : '';
+												$array_options['description_'.$key][$i] = isset( $array_options['description_'.$key][$i] ) ? $array_options['description_'.$key][$i] : '';
+												$array_options['placeholder_'.$key][$i] = isset( $array_options['placeholder_'.$key][$i] ) ? $array_options['placeholder_'.$key][$i] : '';
+												$array_options['tooltip_'.$key][$i] = isset( $array_options['tooltip_'.$key][$i] ) ? $array_options['tooltip_'.$key][$i] : '';
+												?>
+												<div class="option-label">
+													<small><?php echo __( 'Option Label', 'yith-woocommerce-product-add-ons' ) . ' <strong>(' . strtoupper( $key ) . ')</strong>'; ?></small>
+													<input type="text" name="options[label_<?php echo $key; ?>][]" value="<?php echo stripslashes( htmlspecialchars( $array_options['label_'.$key][$i] ) ); ?>" />
+												</div>
+												<div class="option-description">
+													<small><?php echo __( 'Description', 'yith-woocommerce-product-add-ons' ) . ' <strong>(' . strtoupper( $key ) . ')</strong>'; ?></small>
+													<input type="text" name="options[description_<?php echo $key; ?>][]" value="<?php echo htmlspecialchars( stripslashes( $array_options['description_'.$key][$i] ) ); ?>" />
+												</div>
+												<div class="option-placeholder">
+													<small><?php echo __( 'Placeholder', 'yith-woocommerce-product-add-ons' ) . ' <strong>(' . strtoupper( $key ) . ')</strong>'; ?></small>
+													<input type="text" name="options[placeholder_<?php echo $key; ?>][]" value="<?php echo htmlspecialchars( stripslashes( $array_options['placeholder_'.$key][$i] ) ); ?>" />
+												</div>
+												<div class="option-tooltip">
+													<small><?php echo __( 'Tooltip', 'yith-woocommerce-product-add-ons' ) . ' <strong>(' . strtoupper( $key ) . ')</strong>'; ?></small>
+													<input type="text" name="options[tooltip_<?php echo $key; ?>][]" value="<?php echo htmlspecialchars( stripslashes( $array_options['tooltip_'.$key][$i] ) ); ?>" />
+												</div>
+											<?php endif;
+										endforeach; ?>
+										<div class="clear"></div>
+									</div>
+								<?php endif; ?>
+
 								<div class="option-price">
 									<small><?php echo __( 'Price', 'yith-woocommerce-product-add-ons' ); ?></small>
 									<input type="text" name="options[price][]" value="<?php echo $array_options['price'][$i]; ?>" placeholder="0" />
@@ -254,6 +295,10 @@ if( $is_edit ) {
 								<div class="option-hidelabel">
 									<small><?php echo __( 'Hide Label', 'yith-woocommerce-product-add-ons' );?><br /></small>
 									<input type="checkbox" name="options[hidelabel][]" value="<?php echo $i; ?>" <?php foreach ( $array_hidelabel as $key_def => $value_def ) { echo $i == $value_def ? 'checked="checked"' : ''; } ?> />
+								</div>
+								<div class="option-hideoption">
+									<small><?php echo __( 'Hide Option', 'yith-woocommerce-product-add-ons' );?><br /></small>
+									<input type="checkbox" name="options[hideoption][]" value="<?php echo $i; ?>" <?php foreach ( $array_hideoption as $key_def => $value_def ) { echo $i == $value_def ? 'checked="checked"' : ''; } ?> />
 								</div>
 							</td>
 							<td>

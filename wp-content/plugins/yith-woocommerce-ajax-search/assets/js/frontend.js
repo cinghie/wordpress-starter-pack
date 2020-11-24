@@ -6,7 +6,7 @@
  * @version 1.1.1
  */
 
-jQuery(document).ready(function ($) {
+jQuery(function ($) {
     "use strict";
 
     var el = $('.yith-s'),

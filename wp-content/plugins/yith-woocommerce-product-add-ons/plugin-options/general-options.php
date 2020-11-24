@@ -149,9 +149,9 @@ $general = array(
 		array(
 			'title'		=> __( 'Date Format', 'yith-woocommerce-product-add-ons' ),
 			'type'		=> 'text',
-			'desc'		=> __( 'Set the format of the date control eg: mm/dd/yy', 'yith-woocommerce-product-add-ons' ),
+			'desc'		=> __( 'Set the format of the date control eg', 'yith-woocommerce-product-add-ons' ) . ': mm/dd/yy',
 			'id'  		=> 'yith_wapo_settings_date_format',
-			'default' 	=> __( 'mm/dd/yy' , 'yith-woocommerce-product-add-ons' ),
+			'default' 	=> 'mm/dd/yy',
 			'css'     	=> 'min-width: 350px;',
 			'desc_tip'	=> true,
 

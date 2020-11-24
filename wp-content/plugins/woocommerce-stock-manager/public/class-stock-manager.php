@@ -20,7 +20,7 @@ class Stock_Manager {
 	 *
 	 * @var     string
 	 */
-	const VERSION = '2.5.1';
+	const VERSION = '2.5.3';
 
 	/**
 	 * Plugin slug

@@ -12,12 +12,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $input_classes = array( 'ywapo_input ywapo_input_' . $type, 'ywapo_price_'.esc_attr( $price_type ) );
+$input_classes_string = 'ywapo_input ywapo_input_' . $type . ' ywapo_price_' . esc_attr( $price_type );
 
 $value = ( $checked ? $key : '' );
 
-$before_label .= $price_hmtl . $yith_wapo_frontend->getTooltip( stripslashes( $tooltip ) );
+$before_label .= $price_html . $yith_wapo_frontend->getTooltip( stripslashes( $tooltip ) );
 
-echo '<div class="ywapo_input_container ywapo_input_container_'.$type.' '.( $checked ? 'ywapo_selected' : '' ).' ">';
+echo '<div id="ywapo_ctrl_id_' . $type_id . '_' . $key . '" class="ywapo_input_container ywapo_input_container_'.$type.' '.( $checked ? 'ywapo_selected' : '' ).' ">';
 
 echo sprintf( '%s<input data-typeid="%s" data-price="%s" data-pricetype="%s" data-index="%s" type="hidden" name="%s[%s]" value="%s" %s class="%s" %s %s %s/>%s',
 	$before_label,
@@ -29,7 +30,7 @@ echo sprintf( '%s<input data-typeid="%s" data-price="%s" data-pricetype="%s" dat
 	$key,
 	esc_attr( $value ),
 	( $checked ? 'checked' : '' ),
-	implode( ' ', $input_classes ),
+	$input_classes_string,
 	$min_html,
 	$max_html,
 	$disabled,

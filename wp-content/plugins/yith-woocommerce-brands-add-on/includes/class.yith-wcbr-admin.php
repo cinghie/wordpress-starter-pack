@@ -323,7 +323,7 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 		 * @since 1.0.0
 		 */
 		public function action_links( $links ) {
-			$links = yith_add_action_links( $links, 'yith_wcbr_panel', defined( 'YITH_WCBR_PREMIUM_INIT' ) );
+			$links = yith_add_action_links( $links, 'yith_wcbr_panel', defined( 'YITH_WCBR_PREMIUM_INIT' ), YITH_WCBR_SLUG );
 
 			return $links;
 		}

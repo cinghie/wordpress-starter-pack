@@ -65,7 +65,7 @@ class WooSEA_kogan {
 					"name" => "IMAGES",
 					"feed_name" => "IMAGES",
 					"format" => "required",
-					"woo_suggest" => "image",
+					"woo_suggest" => "all_images_kogan",
 				),
 				"product_subtitle" => array(
 					"name" => "product_subtitle",

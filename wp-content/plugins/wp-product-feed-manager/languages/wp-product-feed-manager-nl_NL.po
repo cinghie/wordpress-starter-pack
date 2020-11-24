@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Product Feed Manager\n"
-"POT-Creation-Date: 2020-09-19 11:56+0200\n"
-"PO-Revision-Date: 2020-09-19 11:58+0200\n"
+"POT-Creation-Date: 2020-11-07 15:46+0100\n"
+"PO-Revision-Date: 2020-11-07 15:46+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: nl_NL\n"
@@ -41,7 +41,7 @@ msgstr ""
 "voor deze map."
 
 #: includes/application/class-feed-master.php:565
-#: includes/user-interface/class-wppfm-i18n-scripts.php:86
+#: includes/user-interface/class-wppfm-i18n-scripts.php:87
 msgid "Fill with a static value"
 msgstr "Vul met een statische waarde"
 
@@ -534,33 +534,37 @@ msgstr ""
 msgid "Select a sub-category"
 msgstr "Selecteer een sub-categorie"
 
+#: includes/user-interface/class-wppfm-i18n-scripts.php:53
+msgid "Select by category number"
+msgstr "Selecteren op categorienummer"
+
 #. translators: %feedname%: name of the feed
-#: includes/user-interface/class-wppfm-i18n-scripts.php:54
+#: includes/user-interface/class-wppfm-i18n-scripts.php:55
 #, php-format
 msgid "You already have a field %fieldname% defined!"
 msgstr "U hebt al een veld %fieldname% gedefinieerd!"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:55
+#: includes/user-interface/class-wppfm-i18n-scripts.php:56
 msgid "Make sure to select all source fields before adding a new one!"
 msgstr ""
 "Zorg ervoor dat u alle bronvelden een waarde geeft voordat u een nieuwe "
 "toevoegt!"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:56
+#: includes/user-interface/class-wppfm-i18n-scripts.php:57
 msgid "Please fill in the current condition before adding a new one!"
 msgstr "Geef de huidige voorwaarde een waarde voordat u een nieuwe toevoegt!"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:57
+#: includes/user-interface/class-wppfm-i18n-scripts.php:58
 msgid "Please select a source field first before you select the conditions."
 msgstr "Selecteer eerst een bronveld voordat u de voorwaarden selecteert."
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:58
+#: includes/user-interface/class-wppfm-i18n-scripts.php:59
 msgid "Please select a valid source before adding a condition to that source."
 msgstr ""
 "Selecteer eerst een geldige bron voordat u een voorwaarde toevoegt aan die "
 "bron."
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:59
+#: includes/user-interface/class-wppfm-i18n-scripts.php:60
 msgid ""
 "The Advanced Filter option is not available in the free version. Unlock the "
 "Advanced Filter option by upgrading to the Premium plugin. For more "
@@ -570,129 +574,129 @@ msgstr ""
 "de Geavanceerde Filter optie door een upgrade naar de Premium plugin. Voor "
 "meer informatie ga naar http://www.wpmarketingrobot.com/."
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:60
+#: includes/user-interface/class-wppfm-i18n-scripts.php:61
 msgid "except the ones where"
 msgstr "behalve die waar"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:61
+#: includes/user-interface/class-wppfm-i18n-scripts.php:62
 msgid "Please fill in the filter values before adding a new one"
 msgstr "Vul de filterwaarden in voordat u een nieuwe toevoegt"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:62
+#: includes/user-interface/class-wppfm-i18n-scripts.php:63
 msgid "No separator"
 msgstr "Geen scheidingsteken"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:63
+#: includes/user-interface/class-wppfm-i18n-scripts.php:64
 msgid "space"
 msgstr "spatie"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:64
+#: includes/user-interface/class-wppfm-i18n-scripts.php:65
 msgid "comma"
 msgstr "komma"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:65
+#: includes/user-interface/class-wppfm-i18n-scripts.php:66
 msgid "point"
 msgstr "punt"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:66
+#: includes/user-interface/class-wppfm-i18n-scripts.php:67
 msgid "semicolon"
 msgstr "puntkomma"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:67
+#: includes/user-interface/class-wppfm-i18n-scripts.php:68
 msgid "colon"
 msgstr "dubbele punt"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:68
+#: includes/user-interface/class-wppfm-i18n-scripts.php:69
 msgid "dash"
 msgstr "streep"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:69
+#: includes/user-interface/class-wppfm-i18n-scripts.php:70
 msgid "slash"
 msgstr "schuinestreep"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:70
+#: includes/user-interface/class-wppfm-i18n-scripts.php:71
 msgid "backslash"
 msgstr "backslash"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:71
+#: includes/user-interface/class-wppfm-i18n-scripts.php:72
 msgid "double pipe"
 msgstr "dubbele pipe"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:72
+#: includes/user-interface/class-wppfm-i18n-scripts.php:73
 msgid "underscore"
 msgstr "laag liggend streepje"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:73
+#: includes/user-interface/class-wppfm-i18n-scripts.php:74
 msgid "other"
 msgstr "overig"
 
 #. translators: %other%: either the word "other" or an empty space
-#: includes/user-interface/class-wppfm-i18n-scripts.php:75
+#: includes/user-interface/class-wppfm-i18n-scripts.php:76
 msgid "for all %other% products"
 msgstr "voor alle %other% producten"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:76
+#: includes/user-interface/class-wppfm-i18n-scripts.php:77
 msgid "edit values"
 msgstr "waarden bewerken"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:77
+#: includes/user-interface/class-wppfm-i18n-scripts.php:78
 msgid "and change values"
 msgstr "en wijzig de waarden"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:78
+#: includes/user-interface/class-wppfm-i18n-scripts.php:79
 msgid "remove value editor"
 msgstr "verwijder waarde bewerker"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:79
+#: includes/user-interface/class-wppfm-i18n-scripts.php:80
 msgid "to"
 msgstr "tot"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:80
+#: includes/user-interface/class-wppfm-i18n-scripts.php:81
 msgid "with element name"
 msgstr "met element naam"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:81
+#: includes/user-interface/class-wppfm-i18n-scripts.php:82
 msgid "Defined by the Category Mapping Table."
 msgstr "Gedefinieerd door de tabel Categorie Toewijzing."
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:82
+#: includes/user-interface/class-wppfm-i18n-scripts.php:83
 msgid "Use advised source"
 msgstr "Gebruik geadviseerde bron"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:83
+#: includes/user-interface/class-wppfm-i18n-scripts.php:84
 msgid "Combine source fields"
 msgstr "Bronnen combineren"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:84
+#: includes/user-interface/class-wppfm-i18n-scripts.php:85
 #: includes/user-interface/class-wppfm-product-feed-category-wrapper.php:28
 msgid "Category Mapping"
 msgstr "Categorie Toewijzing"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:85
+#: includes/user-interface/class-wppfm-i18n-scripts.php:86
 msgid "Select a source field"
 msgstr "Selecteer een bron"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:87
+#: includes/user-interface/class-wppfm-i18n-scripts.php:88
 msgid "Map to Default Category"
 msgstr "Toewijzen aan standaardcategorie"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:88
+#: includes/user-interface/class-wppfm-i18n-scripts.php:89
 msgid "Use Shop Category"
 msgstr "Winkel categorie gebruiken"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:89
+#: includes/user-interface/class-wppfm-i18n-scripts.php:90
 msgid "an empty field"
 msgstr "een leeg veld"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:90
+#: includes/user-interface/class-wppfm-i18n-scripts.php:91
 msgid "Add recommended output"
 msgstr "Aanbevolen uitvoer toevoegen"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:91
+#: includes/user-interface/class-wppfm-i18n-scripts.php:92
 msgid "Add optional output"
 msgstr "Optionele uitvoer toevoegen"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:92
+#: includes/user-interface/class-wppfm-i18n-scripts.php:93
 msgid ""
 "You've not selected a Shop Category in the Category Mapping Table. With no "
 "Shop Category selected, your feed will be empty. Are you sure you still want "
@@ -702,11 +706,11 @@ msgstr ""
 "Als geen winkel categorie is geselecteerd, blijft uw feed leeg. Weet u zeker "
 "dat u deze feed wilt opslaan?"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:93
+#: includes/user-interface/class-wppfm-i18n-scripts.php:94
 msgid "A file name is required!"
 msgstr "Een bestandsnaam is vereist!"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:94
+#: includes/user-interface/class-wppfm-i18n-scripts.php:95
 msgid ""
 "Add at least one query in the previous change value row before adding a new "
 "row."
@@ -714,128 +718,128 @@ msgstr ""
 "Voeg ten minste één query toe in de vorige  waarde rij, voordat u een nieuwe "
 "rij toevoegt."
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:95
+#: includes/user-interface/class-wppfm-i18n-scripts.php:96
 msgid "Please first fill in a change value option before adding a query to it."
 msgstr ""
 "Vul eerst een optie voor het wijzigen van de waarde in voordat u een query "
 "toevoegt."
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:114
+#: includes/user-interface/class-wppfm-i18n-scripts.php:115
 #: includes/user-interface/class-wppfm-list-table.php:105
 msgid "Processing the feed, please wait..."
 msgstr "Even geduld aub..."
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:115
+#: includes/user-interface/class-wppfm-i18n-scripts.php:116
 msgid "Processing failed, please try again"
 msgstr "Verwerking mislukt, probeer het opnieuw"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:116
+#: includes/user-interface/class-wppfm-i18n-scripts.php:117
 #: includes/user-interface/class-wppfm-list-table.php:154
 msgid "In processing queue"
 msgstr "In wachtrij voor verwerking"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:117
+#: includes/user-interface/class-wppfm-i18n-scripts.php:118
 msgid "No data found"
 msgstr "Geen gegevens gevonden"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:118
+#: includes/user-interface/class-wppfm-i18n-scripts.php:119
 #: includes/user-interface/class-wppfm-list-table.php:183
 msgid "Auto-off"
 msgstr "Auto-uit"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:119
+#: includes/user-interface/class-wppfm-i18n-scripts.php:120
 #: includes/user-interface/class-wppfm-list-table.php:183
 msgid "Auto-on"
 msgstr "Auto-aan"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:120
+#: includes/user-interface/class-wppfm-i18n-scripts.php:121
 #: includes/user-interface/class-wppfm-list-table.php:187
 #: includes/user-interface/class-wppfm-list-table.php:218
 msgid "Edit"
 msgstr "Bewerk"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:121
+#: includes/user-interface/class-wppfm-i18n-scripts.php:122
 #: includes/user-interface/class-wppfm-list-table.php:188
 msgid "View"
 msgstr "Bekijk"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:122
+#: includes/user-interface/class-wppfm-i18n-scripts.php:123
 msgid "Other"
 msgstr "Andere"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:123
+#: includes/user-interface/class-wppfm-i18n-scripts.php:124
 #: includes/user-interface/class-wppfm-list-table.php:107
 #: includes/user-interface/class-wppfm-list-table.php:163
 msgid "Unknown"
 msgstr "Onbekend"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:124
+#: includes/user-interface/class-wppfm-i18n-scripts.php:125
 #: includes/user-interface/class-wppfm-list-table.php:148
 msgid "Ready (manual)"
 msgstr "Gereed (handmatig)"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:125
+#: includes/user-interface/class-wppfm-i18n-scripts.php:126
 #: includes/user-interface/class-wppfm-list-table.php:151
 msgid "Processing"
 msgstr "In behandeling"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:126
+#: includes/user-interface/class-wppfm-i18n-scripts.php:127
 #: includes/user-interface/class-wppfm-list-table.php:157
 msgid "Has errors"
 msgstr "Bevat fouten"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:127
+#: includes/user-interface/class-wppfm-i18n-scripts.php:128
 #: includes/user-interface/class-wppfm-list-table.php:160
 msgid "Failed processing"
 msgstr "Fout in de verwerking"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:128
-#: includes/user-interface/class-wppfm-i18n-scripts.php:233
+#: includes/user-interface/class-wppfm-i18n-scripts.php:129
+#: includes/user-interface/class-wppfm-i18n-scripts.php:234
 #: includes/user-interface/class-wppfm-list-table.php:145
 msgid "Ready (auto)"
 msgstr "Gereed (automatisch)"
 
 #. translators: %feedname%: name of the feed
-#: includes/user-interface/class-wppfm-i18n-scripts.php:130
+#: includes/user-interface/class-wppfm-i18n-scripts.php:131
 msgid "Added a copy of feed %feedname% to the list."
 msgstr "Een kopie van datafeed %feedname% toegevoegd aan de lijst."
 
 #. translators: %feedname%: name of the feed
-#: includes/user-interface/class-wppfm-i18n-scripts.php:132
+#: includes/user-interface/class-wppfm-i18n-scripts.php:133
 msgid "Please confirm you want to delete feed %feedname%."
 msgstr "Weet u zeker dat u datafeed %feedname% wilt verwijderen."
 
 #. translators: %feedname%: name of the feed
-#: includes/user-interface/class-wppfm-i18n-scripts.php:134
+#: includes/user-interface/class-wppfm-i18n-scripts.php:135
 msgid "Feed %feedname% removed from the server."
 msgstr "Datafeed %feedname% van de server verwijderd."
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:135
+#: includes/user-interface/class-wppfm-i18n-scripts.php:136
 msgid "Feed Language"
 msgstr "Feed Taal"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:136
+#: includes/user-interface/class-wppfm-i18n-scripts.php:137
 msgid "This feed does not yet exists, please (re)generate this feed first."
 msgstr ""
 "Deze feed bestaat nog niet, gelieve deze feed eerst (opnieuw) te genereren."
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:155
+#: includes/user-interface/class-wppfm-i18n-scripts.php:156
 msgid "First enter a file name for the backup file."
 msgstr "Geef eerst een bestandsnaam op voor het back-upbestand."
 
 #. translators: %backup_file_name%: name of the backup file
-#: includes/user-interface/class-wppfm-i18n-scripts.php:157
+#: includes/user-interface/class-wppfm-i18n-scripts.php:158
 msgid "Please confirm you want to delete backup %backup_file_name%."
 msgstr "Weet u zeker dat u back-up %backup_file_name% wilt verwijderen."
 
 #. translators: %backup_file_name%: name of the backup file
-#: includes/user-interface/class-wppfm-i18n-scripts.php:159
+#: includes/user-interface/class-wppfm-i18n-scripts.php:160
 #, php-format
 msgid "%backup_file_name% deleted."
 msgstr "%backup_file_name% verwijderd."
 
 #. translators: %backup_file_name%: name of the backup file
-#: includes/user-interface/class-wppfm-i18n-scripts.php:161
+#: includes/user-interface/class-wppfm-i18n-scripts.php:162
 msgid ""
 "Are you sure you want to restore backup %backup_file_name%? This will "
 "overwrite your current settings and feed data!"
@@ -844,25 +848,25 @@ msgstr ""
 "uw huidige instellingen en feed data overschrijven!"
 
 #. translators: %backup_file_name%: name of the backup file
-#: includes/user-interface/class-wppfm-i18n-scripts.php:163
+#: includes/user-interface/class-wppfm-i18n-scripts.php:164
 msgid "%backup_file_name% restored"
 msgstr "%backup_file_name% hersteld"
 
 #. translators: %backup_file_name%: name of the backup file
-#: includes/user-interface/class-wppfm-i18n-scripts.php:165
+#: includes/user-interface/class-wppfm-i18n-scripts.php:166
 #, php-format
 msgid "%backup_file_name% duplicated"
 msgstr "%backup_file_name% gedupliceerd"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:182
+#: includes/user-interface/class-wppfm-i18n-scripts.php:183
 msgid "Restore"
 msgstr "Herstel"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:183
+#: includes/user-interface/class-wppfm-i18n-scripts.php:184
 msgid "No backup found"
 msgstr "Geen back-up gevonden"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:202
+#: includes/user-interface/class-wppfm-i18n-scripts.php:203
 msgid ""
 "Please confirm you want to remove this channel! Removing this channel will "
 "also remove all its feed files."
@@ -870,61 +874,61 @@ msgstr ""
 "Weet u zeker dat u dit kanaal wilt verwijderen! Als u dit kanaal verwijdert, "
 "worden ook alle bijbehorende datafeed-bestanden verwijderd."
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:220
+#: includes/user-interface/class-wppfm-i18n-scripts.php:221
 msgid "edit"
 msgstr "bewerk"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:221
+#: includes/user-interface/class-wppfm-i18n-scripts.php:222
 msgid "select"
 msgstr "selecteer"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:222
+#: includes/user-interface/class-wppfm-i18n-scripts.php:223
 msgid "selected"
 msgstr "geselecteerd"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:223
+#: includes/user-interface/class-wppfm-i18n-scripts.php:224
 msgid "delete"
 msgstr "verwijderen"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:224
+#: includes/user-interface/class-wppfm-i18n-scripts.php:225
 msgid "remove"
 msgstr "verwijderen"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:225
+#: includes/user-interface/class-wppfm-i18n-scripts.php:226
 msgid "add"
 msgstr "toevoegen"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:226
+#: includes/user-interface/class-wppfm-i18n-scripts.php:227
 msgid "if"
 msgstr "als"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:227
+#: includes/user-interface/class-wppfm-i18n-scripts.php:228
 msgid "or"
 msgstr "of"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:228
+#: includes/user-interface/class-wppfm-i18n-scripts.php:229
 msgid "and"
 msgstr "en"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:229
+#: includes/user-interface/class-wppfm-i18n-scripts.php:230
 msgid ""
 "All products from the selected Shop Categories will be included in the feed"
 msgstr ""
 "Alle producten uit de geselecteerde winkelcategorieën zullen worden "
 "opgenomen in de datafeed"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:230
+#: includes/user-interface/class-wppfm-i18n-scripts.php:231
 #: includes/user-interface/class-wppfm-list-table.php:191
 msgid "Duplicate"
 msgstr "Dupliceer"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:231
+#: includes/user-interface/class-wppfm-i18n-scripts.php:232
 #: includes/user-interface/class-wppfm-list-table.php:192
 #: includes/user-interface/class-wppfm-list-table.php:220
 msgid "Regenerate"
 msgstr "Regenereren"
 
-#: includes/user-interface/class-wppfm-i18n-scripts.php:232
+#: includes/user-interface/class-wppfm-i18n-scripts.php:233
 #: includes/user-interface/class-wppfm-list-table.php:189
 #: includes/user-interface/class-wppfm-list-table.php:219
 msgid "Delete"
@@ -951,7 +955,7 @@ msgid "Updated"
 msgstr "Bijgewerkt"
 
 #: includes/user-interface/class-wppfm-main-admin-page.php:79
-#: includes/user-interface/elements/class-wppfm-category-selector-element.php:36
+#: includes/user-interface/elements/class-wppfm-category-selector-element.php:37
 msgid "Products"
 msgstr "Producten"
 
@@ -1289,15 +1293,15 @@ msgstr "Van de WooCommerce bron"
 msgid "Condition"
 msgstr "Voorwaarden"
 
-#: includes/user-interface/elements/class-wppfm-category-selector-element.php:27
+#: includes/user-interface/elements/class-wppfm-category-selector-element.php:28
 msgid "Feed Category"
 msgstr "Datafeed Categorie"
 
-#: includes/user-interface/elements/class-wppfm-category-selector-element.php:27
+#: includes/user-interface/elements/class-wppfm-category-selector-element.php:28
 msgid "Description"
 msgstr "Beschrijving"
 
-#: includes/user-interface/elements/class-wppfm-category-selector-element.php:34
+#: includes/user-interface/elements/class-wppfm-category-selector-element.php:35
 msgid "Shop Category"
 msgstr "Winkel Categorie"
 

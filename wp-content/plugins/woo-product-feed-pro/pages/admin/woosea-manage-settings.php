@@ -348,7 +348,7 @@ if(isset($_GET["tab"])) {
 						<?php
                                                 if($add_facebook_pixel == "yes"){
 							$facebook_pixel_id = get_option('woosea_facebook_pixel_id');
-							print "<tr id=\"facebook_pixel_id\"><td colspan=\"2\"><span>Insert your Facebook Pixel ID:</span>&nbsp;<input type=\"text\" class=\"input-field-medium\" id=\"fb_pixel_id\" name=\"fb_pixel_id\" value=\"$facebook_pixel_id\">&nbsp;<input type=\"submit\" id=\"save_facebook_pixel_id\" value=\"Save\"></td></tr>";	
+							print "<tr id=\"facebook_pixel_id\"><td colspan=\"2\"><span>Insert your Facebook Pixel ID:</span>&nbsp;<input type=\"text\" class=\"input-field-medium\" id=\"fb_pixel_id\" name=\"fb_pixel_id\" value=\"$facebook_pixel_id\">&nbsp;<input type=\"button\" id=\"save_facebook_pixel_id\" value=\"Save\"></td></tr>";	
 						}
 						?>
 

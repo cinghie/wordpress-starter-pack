@@ -183,7 +183,7 @@ $date_format          = __( 'M j, Y @ H:i', 'yith-essential-kit-for-woocommerce-
 						<div class="name column-name">
 							<h3>
 								<a class="thickbox" href="<?php echo esc_url( $details_link ); ?>">
-									<?php echo $module_name; ?>
+									<?php echo esc_html( $module_name ); ?>
 
 								</a>
 							</h3>

@@ -4,15 +4,15 @@ Tags: Facebook, Facebook feed, Facebook posts, Facebook group, Facebook page
 Requires at least: 3.0
 Requires PHP: 5.2
 Tested up to: 5.5
-Stable tag: 2.17
+Stable tag: 2.17.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Formerly "Custom Facebook Feed". Display completely customizable Facebook feeds of a Facebook page or Group.
+Formerly "Custom Facebook Feed". Display completely customizable Facebook feeds of a Facebook page or Group. Supports Facebook oEmbeds.
 
 == Description ==
 
-Display Facebook posts on your WordPress site. **Completely customizable**, **responsive** and **search engine crawlable** Facebook feeds. Display **unlimited Facebook feeds** from your **Facebook page** or **Facebook Group**, and completely match the look and feel of your site with tons of customization options!
+Display Facebook posts on your WordPress site. **Completely customizable**, **responsive** and **search engine crawlable** Facebook feeds. Display **unlimited Facebook feeds** from your **Facebook page** or **Facebook Group**, and completely match the look and feel of your site with tons of customization options! Automatically powers any Facebook oEmbeds on your site.
 
 *"The perfect Facebook plugin with amazing support! What else do you want? Get it!"* - [JoeJeffries](http://wordpress.org/support/topic/you-dont-already-have-this?facebook)
 
@@ -21,6 +21,9 @@ Display Facebook posts on your WordPress site. **Completely customizable**, **re
 **Please note:** This free Facebook plugin allows you to display text and links from Facebook posts. To display **photos, videos, comments,** and more, we offer a Pro version of the plugin.  See the Pro Version section below for more information.
 
 ### Facebook Feed Features
+**NEW: Now Supports Facebook oEmbeds**
+With WordPress removing support for Facebook oEmbeds, the plugin will now automatically power any Facebook embeds on your site preventing them from breaking. No developer app required.
+
 **Super Simple to Set Up**
 One of our main priorities has always been to make our Facebook plugin as easy as possible to setup and use. Get up and running in less less than 1 minute with our signature quick setup - no Facebook Developer App required.
 
@@ -102,14 +105,6 @@ Check out our other free plugins for [Instagram](https://wordpress.org/plugins/i
 
 For a full list of FAQs and help with troubleshooting please visit the **[FAQ & Troubleshooting](https://smashballoon.com/custom-facebook-feed/faq/)** section of the Smash Balloon website
 
-= How do I find the Page ID of my Facebook page? =
-
-If you have a Facebook **page** with a URL like this: `https://www.facebook.com/smashballoon` then the Page ID is just `smashballoon`. If your page URL is structured like this: `https://www.facebook.com/pages/smashballoon/123654123654123` then the Page ID is actually the number at the end, so in this case `123654123654123`.
-
-Due to [recent changes](https://smashballoon.com/facebook-api-changes-april-4-2018/?utm_campaign=facebook-free-readme&utm_source=faq&utm_medium=id) to the Facebook API it is unfortunately no longer possible to display a feed from a Facebook Group.
-
-Copy and paste the ID into the [Pro demo](https://smashballoon.com/custom-facebook-feed/demo/?utm_campaign=facebook-free-readme&utm_source=faq&utm_medium=demoid) to test it.
-
 = Are there any limitations on which Facebook page or Facebook group feeds I can display? =
 
 The Facebook feed you're trying to display has to be from a publicly accessible Facebook page or Facebook group. This means that you can't display the feed from your own personal Facebook profile. This is to do with Facebook's privacy policies. You can't display a non-public Facebook feed publicly.
@@ -133,6 +128,10 @@ Due to Facebook's privacy policy you're not able to use the plugin to display al
 If you're using the profile to represent a business, organization, product, public figure or the like, then we'd advise converting your profile to a page per [Facebook's recommendation](http://www.facebook.com/help/175644189234902/), as there are many advantages to using pages over profiles.
 
 Once you've done so, the plugin will be able to retrieve and display all of your posts.
+
+= Does the plugin work with Facebook oEmbeds? =
+
+In version 2.5, support was added to allow the plugin to power your Facebook oEmbeds as official support for these is no longer available in WordPress core. Just connect your account on the oEmbeds settings page inside the plugin and the plugin will power all Facebook embeds on your site, old and new. No developer app or account required.
 
 = Can I show photos and videos in my Custom Facebook feed? =
 
@@ -260,6 +259,12 @@ The most common reason for this is that an add-on or extension you have installe
 9. It's super easy to display your Facebook feed in any page or post
 
 == Changelog ==
+= 2.17.1 =
+* Tweak: Added shortcode options for the "Before Date" and "After Date" settings, so that a custom text string can be displayed before and after the post date.
+* Tweak: Minor frontend CSS improvements.
+* Tweak: Added support for improved notices on the plugin settings page.
+* Fix: Fixed an issue with the Facebook Like Box widget displaying an error if the width was set to a fractional pixel.
+
 = 2.17 =
 * New: Added support for Facebook oEmbeds. When you share a link to a Facebook post or video, WordPress automatically converts it into an embedded Facebook post for you (an "oEmbed"). However, on October 24, 2020, WordPress is discontinuing support for Facebook oEmbeds and so any existing or new embeds will no longer work. Don't worry though, we have your back! This update adds support for Facebook oEmbeds and so, after updating, the Custom Facebook Feed plugin will automatically keep your oEmbeds working. It will also power any new oEmbeds you post going forward.
 * New: Install our other free social media plugins right from the Custom Facebook Feed settings menu. Use our Instagram, YouTube, and Twitter plugins to add even more social content to your website and help further engage your viewers and increase your followers.

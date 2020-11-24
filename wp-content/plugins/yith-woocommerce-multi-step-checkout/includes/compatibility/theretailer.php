@@ -9,7 +9,6 @@
  */
 
 add_filter( 'yith_wcms_step_button_class', 'yith_wcms_step_button_class_for_theretailer' );
-add_filter( 'yith_wcms_frontend_dom_object', 'yith_wcms_frontend_dom_object_for_theretailer' );
 add_action( 'wp_enqueue_scripts', 'yith_wcms_enqueue_scripts_for_theretailer', 100 );
 
 if( ! function_exists( 'yith_wcms_step_button_class_for_theretailer' ) ){
@@ -21,20 +20,6 @@ if( ! function_exists( 'yith_wcms_step_button_class_for_theretailer' ) ){
 	 */
 	function yith_wcms_step_button_class_for_theretailer( $classes ){
 		return 'yith-wcms-button alt';
-	}
-}
-
-if( ! function_exists( 'yith_wcms_frontend_dom_object_for_theretailer' ) ){
-	/**
-	 * Change dom object to localize script for The Retailer
-	 *
-	 * @since    1.3.13
-	 * @return  array dom element for js script
-	 */
-	function yith_wcms_frontend_dom_object_for_theretailer( $dom ){
-		$dom['button_next'] = '.yith-wcms-button.next';
-		$dom['button_prev'] = '.yith-wcms-button.prev';
-		return $dom;
 	}
 }
 
@@ -51,7 +36,7 @@ if( ! function_exists( 'yith_wcms_enqueue_scripts_for_theretailer' ) ){
 		    margin-right: 5px;
 		    display: none;
 		}
-		#form_actions input.yith-wcms-button.alt {    
+		#form_actions input.yith-wcms-button.alt {
 			background-color: #a46497;
 			color: #fff;
 			-webkit-font-smoothing: antialiased;

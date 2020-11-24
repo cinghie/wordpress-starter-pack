@@ -3,7 +3,7 @@
 Plugin Name: Custom Twitter Feeds
 Plugin URI: http://smashballoon.com/custom-twitter-feeds
 Description: Customizable Twitter feeds for your website
-Version: 1.6
+Version: 1.6.1
 Author: Smash Balloon
 Author URI: http://smashballoon.com/
 Text Domain: custom-twitter-feeds
@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 define( 'CTF_URL', plugin_dir_path( __FILE__ )  );
-define( 'CTF_VERSION', '1.6' );
+define( 'CTF_VERSION', '1.6.1' );
 define( 'CTF_TITLE', 'Custom Twitter Feeds' );
 define( 'CTF_JS_URL', plugins_url( '/js/ctf-scripts.min.js?ver=' . CTF_VERSION , __FILE__ ) );
 define( 'OAUTH_PROCESSOR_URL', 'https://api.smashballoon.com/twitter-login.php?return_uri=' );
@@ -57,6 +57,19 @@ function ctf_plugin_init() {
 	}
 
 	include_once trailingslashit( CTF_PLUGIN_DIR ) . 'inc/class-ctf-tracking.php';
+
+	if ( is_admin() ) {
+		if ( version_compare( PHP_VERSION,  '5.3.0' ) >= 0
+		     && version_compare( get_bloginfo('version'), '4.6' , '>' ) ) {
+			require_once trailingslashit( CTF_PLUGIN_DIR ) . 'inc/admin/class-ctf-notifications.php';
+			$ctf_notifications = new CTF_Notifications();
+			$ctf_notifications->init();
+
+			require_once trailingslashit( CTF_PLUGIN_DIR ) . 'inc/admin/class-ctf-new-user.php';
+			$ctf_new_user = new CTF_New_User();
+			$ctf_new_user->init();
+		}
+	}
 }
 
 add_action( 'plugins_loaded', 'ctf_plugin_init' );

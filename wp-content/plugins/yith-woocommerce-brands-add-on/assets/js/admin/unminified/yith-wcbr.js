@@ -7,7 +7,7 @@
  * http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
-jQuery( document ).ready( function( $ ){
+jQuery( function( $ ){
     var file_frame = [],
         brands_taxonomy = $( '#yith_wcbr_brands_taxonomy' ),
         brands_taxonomy_rewrite = $( '#yith_wcbr_brands_taxonomy_rewrite' ),

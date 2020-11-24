@@ -5,19 +5,14 @@ Author URI: https://www.storeapps.org/
 Plugin URI: https://www.storeapps.org/woocommerce-plugins/?utm_source=wprepo&utm_medium=web&utm_campaign=wsm_readme
 Tags: woocommerce, stock manager, stock management, inventory
 Requires at least: 5.0.0
-Tested up to: 5.5.1
+Tested up to: 5.5.3
 Requires PHP: 5.6+
-Stable tag: 2.5.1
+Stable tag: 2.5.3
 License: GPLv3
 
 == Description ==
 
-WooCommerce Stock Manager allows you manage stock for products and their variables from one screen. 
-
-Plugin is compatible with WordPress 5.0+ and is tested on 5.2.2. vesrion 
-Plugin is compatible with WooCommerce 3.5+ and is tested on 3.6.4 version. 
-
-GDPR ready - plugin don't collect personal data.
+WooCommerce Stock Manager allows you manage stock for products and their variables from one screen.
 
 **What you can do using WooCommerce Stock Manager:**
 
@@ -64,6 +59,8 @@ Roadmap:
 Bulk editing.
 Display stock history in visually graph.
 Hooks for the 3rd party plugins.
+
+GDPR ready - plugin don't collect personal data.
 
 **Some of our other free plugins**
 
@@ -125,6 +122,15 @@ Be sure, that you have WooCommerce 3.5+ and WordPress 5.+
 4. Product stock as on date
 
 == Changelog ==
+
+= 2.5.3 (21.11.2020) =
+* New: WooCommerce 4.7.0 compatible
+
+= 2.5.2 (28.10.2020) =
+* New: WooCommerce 4.6.1 compatible
+* Fix: variation_data was called incorrectly error when exporting CSV
+* Update: Admin menu name
+* Update: POT file
 
 = 2.5.1 (07.10.2020) =
 * Fix: Price, Sale Price & Weight getting set to blank when importing CSV

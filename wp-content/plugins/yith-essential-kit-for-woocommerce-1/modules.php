@@ -89,25 +89,11 @@ $plugins_list = array(
 		'premium'  => 'YITH_WCBM_PREMIUM',
 		'required' => false,
 	),
-	'yith-woocommerce-review-reminder'                => array(
-		'name'     => 'YITH WooCommerce Review Reminder',
-		'slug'     => 'yith-woocommerce-review-reminder',
-		'free'     => 'YWRR_FREE_INIT',
-		'premium'  => 'YWRR_INIT',
-		'required' => false,
-	),
 	'yith-woocommerce-quick-view'                     => array(
 		'name'     => 'YITH Woocommerce Quick View',
 		'slug'     => 'yith-woocommerce-quick-view',
 		'free'     => 'YITH_WCQV_FREE_INIT',
 		'premium'  => 'YITH_WCQV_PREMIUM',
-		'required' => false,
-	),
-	'yith-live-chat'                                  => array(
-		'name'     => 'YITH Live Chat',
-		'slug'     => 'yith-live-chat',
-		'free'     => 'YLC_FREE_INIT',
-		'premium'  => 'YLC_INIT',
 		'required' => false,
 	),
 	'yith-woocommerce-mailchimp'                      => array(

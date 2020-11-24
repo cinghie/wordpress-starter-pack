@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.5
-Stable tag: 8.9.3
+Stable tag: 9.1.7
 
 == Description ==
 
@@ -129,8 +129,10 @@ Our plugin supports Polylang
 * Supports Yith brand attributes
 * Supports the official "WooCommerce Product Bundles" plugin
 * Supports the official "WooCommerce Composite Products" plugin
+* Supports the official "WooCommerce Subscriptions" plugin
 * Supports the official "WooCommerce Mix & Match Products" plugin
 * Supports WooCommerce Dynamic Pricing & Discounts from RightPress
+* Supports the Discount Rules for WooCommerce plugin from FlyCart
 * Supports WC Fields Factory
 * Supports Table Rate Shipping for WooCommerce from Bolder Elements
 * Supports usage of the All In One SEO pack title and description attributes
@@ -187,7 +189,6 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 * AdForm
 * Smartly.io
 * <a href="https://www.shareasale.com" target="_blank">Shareasale.com</a>
-* Spartoo
 * Pricerunner
 * <a href="https://www.miinto.dk" target="_blank">Miinto Denmark</a>
 * <a href="https://www.miinto.nl" target="_blank">Miinto Netherlands</a>
@@ -319,6 +320,81 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 9.1.7 (2020-11-19) =
+* Fixed an issue where SimpleXML did not return an object and caused the plugin to get stuck
+
+= 9.1.6 (2020-11-19) =
+* Fixed an issue, all of a sudden "Object of class WP_Errors" showed on a str_replace. Issue is fixed now.
+
+= 9.1.5 (2020-11-19) =
+* Fixed an issue where free shipping costs did not make it correctly to Prisjakt feeds
+
+= 9.1.4 (2020-11-18) =
+* Fixed an issue with the Woo Discount plugin by FlyCart that in some cases returned a sale price of 10.
+
+= 9.1.3 (2020-11-17) =
+* Solved some minor PHP warnings that showed in the UI
+* The category path skroutz attribute was throwing a fatal error on a str_replace. This is fixed.
+
+= 9.1.2 (2020-11-15) =
+* When simple products are switched to variable products WooCommerce leaves some "simple" traces in the database causing issues for our plugin. This has been solved now.
+
+= 9.1.1 (2020-11-15) =
+* When simple products are switched to variable products WooCommerce leaves some "simple" traces in the database causing issues for our plugin. This has been solved now.
+
+= 9.1.0 (2020-11-15) =
+* Fixed an issue where the "Exclude from feeds" product feature did not fully work for CSV feeds (Thanks @Yana!)
+
+= 9.0.9 (2020-11-13) =
+* Added support for the official WooCommerce Subscriptions plugin
+
+= 9.0.8 (2020-11-12) =
+* Fixed an issue where VAT was not added to the sale price for WooCommerce FlyCart discount rules
+
+= 9.0.7 (2020-11-12) =
+* Fixed an issue where sale prices configured with the WooCommerce FlyCart plugin did not work
+
+= 9.0.6 (2020-11-11) =
+* Added EAN as one of the fields that can be selected for the custom feed template
+
+= 9.0.5 (2020-11-10) =
+* Added support for usage of multiple product highlights
+
+= 9.0.4 (2020-11-08) =
+* Removed some absolete queued JS scripts
+
+= 9.0.3 (2020-11-05) =
+* Added support for adding multiple images to Australian Kogan feeds
+
+= 9.0.2 (2020-11-04) =
+* Fixed an issue where when adding "?aelia_cs_currency=" to the suffix field for links resulted in two quesionsmarks in deeplinks. This has been fixed now.
+
+= 9.0.1 (2020-11-04) =
+* Added support for Heureka delivery
+
+= 9.0.0 (2020-11-03) =
+* Added support for Skroutz Apparel product requirements
+* Saving of the Facebook pixel ID in the interface did not give any feedback if it saved. Improved this slightly.
+
+= 8.9.9 (2020-10-27) =
+* Added support for the Discount Rules for WooCommerce by FlyCart plugin
+
+= 8.9.8 (2020-10-27) =
+* Added support for the Zbozi.cz delivery requirements
+
+= 8.9.7 (2020-10-23) =
+* Switched rules and data manipulation feature 
+
+= 8.9.6 (2020-10-22) =
+* Escaping & characters in deeplinks
+* Bundled and Composite products now also working for WPML/WCML
+
+= 8.9.5 (2020-10-21) =
+* Tested for compatibility with WooCommerce 4.6
+
+= 8.9.4 (2020-10-16) =
+* Fixed a shipping issue where some shipping zone regions were missing
 
 = 8.9.3 (2020-10-15) =
 * Fixed an issue for prices of bundled products that always added the VAT to the price
@@ -2845,6 +2921,81 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 9.1.7 =
+Fixed an issue where SimpleXML did not return an object and caused the plugin to get stuck
+
+= 9.1.6 =
+Fixed an issue, all of a sudden "Object of class WP_Errors" showed on a str_replace. Issue is fixed now.
+
+= 9.1.5 =
+Fixed an issue where free shipping costs did not make it correctly to Prisjakt feeds
+
+= 9.1.4 =
+Fixed an issue with the Woo Discount plugin by FlyCart that in some cases returned a sale price of 10.
+
+= 9.1.3 =
+Solved some minor PHP warnings that showed in the UI
+The category path skroutz attribute was throwing a fatal error on a str_replace. This is fixed.
+
+= 9.1.2 =
+When simple products are switched to variable products WooCommerce leaves some "simple" traces in the database causing issues for our plugin. This has been solved now.
+
+= 9.1.1 =
+When simple products are switched to variable products WooCommerce leaves some "simple" traces in the database causing issues for our plugin. This has been solved now.
+
+= 9.1.0 =
+Fixed an issue where the "Exclude from feeds" product feature did not fully work for CSV feeds
+
+= 9.0.9 =
+Added support for the official WooCommerce Subscriptions plugin
+
+= 9.0.8 =
+Fixed an issue where VAT was not added to the sale price for WooCommerce FlyCart discount rules
+
+= 9.0.7 =
+Fixed an issue where sale prices configured with the WooCommerce FlyCart plugin did not work
+
+= 9.0.6 =
+Added EAN as one of the fields that can be selected for the custom feed template
+
+= 9.0.5 =
+Added support for usage of multiple product highlights
+
+= 9.0.4 =
+Removed some absolete queued JS scripts
+
+= 9.0.3 =
+Added support for adding multiple images to Australian Kogan feeds
+
+= 9.0.2 =
+Fixed an issue where when adding "?aelia_cs_currency=" to the suffix field for links resulted in two quesionsmarks in deeplinks. This has been fixed now.
+
+= 9.0.1 =
+Added support for Heureka delivery 
+
+= 9.0.0 =
+Added support for Skroutz Apparel product requirements
+Saving of the Facebook pixel ID in the interface did not give any feedback if it saved. Improved this slightly.
+
+= 8.9.9 =
+Added support for the Discount Rules for WooCommerce by FlyCart plugin
+
+= 8.9.8 =
+Added support for the Zbozi.cz delivery requirements
+
+= 8.9.7 =
+Switched rules and data manipulation feature
+
+= 8.9.6 =
+Bundle and composite products now also working with WPML and WCML
+Escaping & characters in deeplinks
+
+= 8.9.5 =
+Tested for compatibility with WooCommerce 4.6
+
+= 8.9.4 =
+Fixed a shipping issue where some shipping zone regions were missing
 
 = 8.9.3 =
 Fixed an issue for prices of bundled products that always added the VAT to the price

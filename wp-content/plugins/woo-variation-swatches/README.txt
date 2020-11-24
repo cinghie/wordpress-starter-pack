@@ -6,7 +6,7 @@ Tested up to: 5.5
 Requires PHP: 5.6
 Stable tag: trunk
 WC requires at least: 3.2
-WC tested up to: 4.4
+WC tested up to: 4.7
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -64,6 +64,9 @@ In the free WooCommerce attribute variation plugin, besides creating size, brand
 <hr />
 👉 Product Page Swatches Size Control
  [Live Demo & Documentation](http://bit.ly/3rd-demo-size-control-readme) 
+<hr />
+👉 Show Selected Variation Name Beside Label
+ [Live Demo & Documentation](http://bit.ly/show-selected-variation-name-beside-label) 
 <hr />
 👉 Flexible Swatches Tooltip Insert and Display settings 
  [Live Demo & Documentation](https://bit.ly/tooltip-swatches-disable)  
@@ -168,6 +171,9 @@ In the free WooCommerce attribute variation plugin, besides creating size, brand
 👉 Make Selected Attribute Variation Swatches Size Larger Than Other Default Attribute Variations
  [Live Demo & Documentation](http://bit.ly/3rd-demo-readme-swatches-size-special-attribute)
 <hr />
+👉 Keep Attribute Variation Selected on Product Page After Choosing from Catalog page like Walmart
+ [Live Demo & Documentation](http://bit.ly/keep-attribute-variation-selected-on-product-page-after-choosing-from-catalog-page)
+<hr />
 👉 Show Custom Text in Variation Tooltip
  [Live Demo & Documentation](http://bit.ly/3rd-demo-readme-how-to-enable-text-tooltip)
 <hr />
@@ -185,6 +191,9 @@ In the free WooCommerce attribute variation plugin, besides creating size, brand
 <hr />
 👉 Archive Page Swatches Alignment
  [Live Demo & Documentation](http://bit.ly/3rd-demo-readme-shop-alignment)
+<hr />
+👉 Show Variation Product Stock Notice
+ [Live Demo & Documentation](http://bit.ly/show-variation-product-stock-notice)
 <hr />
 👉 Compatible with Printful, Alidrop, and Multivendor Plugins
 👉 Customize Tooltip Text and Background Color
@@ -380,6 +389,16 @@ And your are ready to go.
 12. Global Variation Color Swatches Attribute List Preview
 
 == Changelog ==
+
+= 1.1.1 =
+
+* Update: WooCommerce 4.7 compatibility
+
+= 1.1.0 =
+
+* Add: Selected attribute name beside label
+* Update: Support WooCommerce 4.6 version
+* Update: Accessibility
 
 = 1.0.86 =
 

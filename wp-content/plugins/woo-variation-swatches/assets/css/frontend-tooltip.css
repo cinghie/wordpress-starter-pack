@@ -1,8 +1,8 @@
 /*!
- * Variation Swatches for WooCommerce v1.0.86 
+ * Variation Swatches for WooCommerce v1.1.1 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 9/7/2020, 1:59:18 PM
+ * Date: 11/16/2020, 8:52:49 PM
  * Released under the GPLv3 license.
  */
 .woo-variation-swatches .radio-variable-item[data-wvstooltip] {
@@ -65,7 +65,6 @@
   -webkit-transform: translateZ(0);
           transform: translateZ(0);
   box-shadow: 0 7px 15px rgba(0, 0, 0, 0.3);
-  -webkit-transition: opacity 300ms linear, bottom 300ms linear;
   transition: opacity 300ms linear, bottom 300ms linear;
 }
 
@@ -76,9 +75,9 @@
           transform: translateX(-50%);
   padding: 7px;
   border-radius: 3px;
-  background-color: #000000;
+  background-color: #000;
   background-color: rgba(51, 51, 51, 0.9);
-  color: #FFFFFF;
+  color: #fff;
   text-align: center;
   font-size: 14px;
   line-height: 1.2;
@@ -90,13 +89,22 @@
 }
 
 .variable-items-wrapper .wvs-has-image-tooltip:before {
-  content: " ";
+  content: attr(data-title);
   background-image: var(--tooltip-background);
+  background-repeat: no-repeat;
   width: var(--tooltip-width);
-  height: var(--tooltip-height);
-  background-size: cover;
+  height: calc( var(--tooltip-height) + 20px);
+  background-size: contain;
   border: 2px solid;
-  background-position: center center;
+  background-position: center top;
+  padding: 0;
+  line-height: 20px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  font-size: 12px;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
 }
 
 .variable-items-wrapper [data-wvstooltip]:after,

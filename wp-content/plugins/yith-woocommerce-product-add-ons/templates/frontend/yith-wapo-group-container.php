@@ -14,6 +14,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 $collapse_feature = apply_filters( 'yith_wapo_enable_collapse_feature', get_option( 'yith_wapo_settings_enable_collapse_feature' ) == 'yes' );
 $addons_collapsed = apply_filters( 'yith_wapo_show_addons_collapsed', get_option( 'yith_wapo_settings_show_addons_collapsed' ) == 'yes' );
 
+$price_suffix = '';
+if ( get_option( 'woocommerce_price_display_suffix' ) ) {
+	$price_suffix = ' <small>' . get_option( 'woocommerce_price_display_suffix' ) . '</small>';
+}
+
 ?>
 
 <div id="yith_wapo_groups_container" class="yith_wapo_groups_container<?php
@@ -24,6 +29,8 @@ $addons_collapsed = apply_filters( 'yith_wapo_show_addons_collapsed', get_option
 	style="<?php echo apply_filters( 'yith_wapo_hide_groups_container', false ) ? 'display: none;' : '';?>">
 
 	<?php
+
+        do_action( 'yith_wapo_start_addon_list' );
 
 		foreach ( $types_list as $single_type ) {
 			$yith_wapo_frontend->printSingleGroupType( $product, $single_type );
@@ -43,6 +50,7 @@ $addons_collapsed = apply_filters( 'yith_wapo_show_addons_collapsed', get_option
 
 	?>
 
+	<!--googleoff: index-->
 	<div class="yith_wapo_group_total
 		<?php echo ( get_option( 'yith_wapo_settings_show_add_ons_price_table' , 'no' ) == 'yes' ? 'yith_wapo_keep_show' : '' ); ?>"
 		data-product-price="<?php echo esc_attr( $product_display_price ); ?>"
@@ -54,19 +62,20 @@ $addons_collapsed = apply_filters( 'yith_wapo_show_addons_collapsed', get_option
 		>
 		<table>
 			<tr class="ywapo_tr_product_base_price">
-				<td><?php echo apply_filters( 'yith_wapo_product_price_label', __( 'Product price' , 'yith-woocommerce-product-add-ons' ) ); ?></td>
-				<td><div class="yith_wapo_group_product_price_total"><span class="price amount"></span></div></td>
+				<td data-nosnippet><?php echo apply_filters( 'yith_wapo_product_price_label', __( 'Product price' , 'yith-woocommerce-product-add-ons' ) ); ?></td>
+				<td data-nosnippet><div class="yith_wapo_group_product_price_total"><span class="price amount"></span><?php echo $price_suffix; ?></div></td>
 			</tr>
 			<tr class="ywapo_tr_additional_options">
-				<td><?php echo apply_filters( 'yith_wapo_options_total_label', __( 'Additional options total:' , 'yith-woocommerce-product-add-ons' ) ); ?></td>
-				<td><div class="yith_wapo_group_option_total"><span class="price amount"></span></div></td>
+				<td data-nosnippet><?php echo apply_filters( 'yith_wapo_options_total_label', __( 'Additional options total:' , 'yith-woocommerce-product-add-ons' ) ); ?></td>
+				<td data-nosnippet><div class="yith_wapo_group_option_total"><span class="price amount"></span><?php echo $price_suffix; ?></div></td>
 			</tr>
 			<tr class="ywapo_tr_order_totals">
-				<td><?php echo apply_filters( 'yith_wapo_order_total_label', __( 'Order total:' , 'yith-woocommerce-product-add-ons' ) ); ?></td>
-				<td><div class="yith_wapo_group_final_total"><span class="price amount"></span></div></td>
+				<td data-nosnippet><?php echo apply_filters( 'yith_wapo_order_total_label', __( 'Order total:' , 'yith-woocommerce-product-add-ons' ) ); ?></td>
+				<td data-nosnippet><div class="yith_wapo_group_final_total"><span class="price amount"></span><?php echo $price_suffix; ?></div></td>
 			</tr>
 		</table>
 	</div>
+	<!--googleon: index-->
 
 	<!-- Hidden input for checking single page -->
 	<input type="hidden" name="yith_wapo_is_single" id="yith_wapo_is_single" value="1">

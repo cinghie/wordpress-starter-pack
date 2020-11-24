@@ -112,6 +112,7 @@ abstract class Abstract_Page {
 	public function add_action_hooks() {
 		// Notices.
 		add_action( 'admin_notices', array( $this, 'smush_upgrade_notice' ) );
+		add_action( 'network_admin_notices', array( $this, 'smush_upgrade_notice' ) );
 		add_action( 'admin_notices', array( $this, 'smush_deactivated' ) );
 		add_action( 'network_admin_notices', array( $this, 'smush_deactivated' ) );
 		add_action( 'wp_smush_header_notices', array( $this, 'settings_updated' ) );
@@ -178,51 +179,121 @@ abstract class Abstract_Page {
 			return;
 		}
 
-		$core = WP_Smush::get_instance()->core();
-
-		$install_type = get_site_option( 'wp-smush-install-type', false );
-
-		if ( ! $install_type ) {
-			$install_type = $core->smushed_count > 0 ? 'existing' : 'new';
-			update_site_option( 'wp-smush-install-type', $install_type );
-		}
-
-		// Prepare notice.
-		if ( 'new' === $install_type ) {
-			$notice_heading = __( 'Thanks for installing Smush. We hope you like it!', 'wp-smushit' );
-			$notice_content = __( 'And hey, if you do, you can join WPMU DEV for a free trial and get access to even more features!', 'wp-smushit' );
-			$button_content = __( 'Try Smush Pro Free', 'wp-smushit' );
-		} else {
-			$notice_heading = __( 'Thanks for updating Smush!', 'wp-smushit' );
-			$notice_content = __( 'Did you know she has secret super powers? Yes, she can super-smush images for double the savings, store original images, bulk smush thousands of images in one go, and serve \'em up in a next-gen format(WebP) with one-click via her blazing-fast CDN. Get started with a free WPMU DEV trial to access these advanced features.', 'wp-smushit' );
-			$button_content = __( 'Try Smush Pro Free', 'wp-smushit' );
-		}
-
 		$upgrade_url = add_query_arg(
 			array(
+				'coupon'       => 'BF2020SMUSH',
+				'checkout'     => 0,
 				'utm_source'   => 'smush',
 				'utm_medium'   => 'plugin',
-				'utm_campaign' => 'smush_dashboard_upgrade_notice',
+				'utm_campaign' => 'smush_bf2020banner',
 			),
 			$this->upgrade_url
 		);
+
+		$deadline_date = date_create( '2020-11-28T00:00:00', new \DateTimeZone( '-0400' ) );
+		$current_date  = date_create( date( 'Y-m-d H:i:s' ) ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+		$time_left     = $deadline_date > $current_date
+			? $deadline_date->diff( $current_date )
+			: false;
+
+		// Yes, the amount of markup here deserves its own file. This will be removed in 3.8.1.
 		?>
-		<div class="notice smush-notice" style="display: none;">
-			<div class="smush-notice-logo"><span></span></div>
-			<div class="smush-notice-message<?php echo 'new' === $install_type ? ' wp-smush-fresh' : ' wp-smush-existing'; ?>">
-				<strong><?php echo esc_html( $notice_heading ); ?></strong>
-				<?php echo esc_html( $notice_content ); ?>
+
+		<div id="smush-black-notice-content" class="smush-notice">
+
+			<div class="sui-wrap">
+
+				<div class="smush-black-notice-header">
+
+					<span class="smush-black-ribbon"><?php esc_html_e( '60% OFF', 'wp-smushit' ); ?></span>
+
+					<h3 class="smush-black-title"><?php esc_html_e( 'Black Friday 60% OFF Smush Pro!', 'wp-smushit' ); ?></h3>
+
+					<?php if ( ! empty( $time_left ) ) : ?>
+						<div class="smush-black-timer-container">
+
+							<p class="smush-black-timer-slogan"><?php esc_html_e( 'Limited Black Friday offer!', 'wp-smushit' ); ?></p>
+
+							<div class="smush-black-timer">
+
+								<div class="smush-black-time">
+
+									<p><?php esc_html_e( 'Days', 'wp-smushit' ); ?></p>
+
+									<?php $this->print_black_friday_countdown_number( $time_left->d ); ?>
+
+								</div>
+
+								<span class="smush-black-timer-dots" aria-hidden="true"></span>
+
+								<div class="smush-black-time">
+
+									<p><?php esc_html_e( 'Hours', 'wp-smushit' ); ?></p>
+
+									<?php $this->print_black_friday_countdown_number( $time_left->h ); ?>
+
+								</div>
+
+								<span class="smush-black-timer-dots" aria-hidden="true"></span>
+
+								<div class="smush-black-time">
+
+									<p><?php esc_html_e( 'Minutes', 'wp-smushit' ); ?></p>
+
+									<?php $this->print_black_friday_countdown_number( $time_left->i ); ?>
+
+								</div>
+
+							</div>
+
+						</div>
+					<?php endif; ?>
+
+				</div>
+
+				<div class="smush-black-notice-body">
+
+					<div class="smush-black-notice-content">
+
+						<p><?php esc_html_e( 'Get Smush Pro for the lowest price you will ever see and solve more image related PageSpeed recommendations!', 'wp-smushit' ); ?></p>
+
+						<p class="smush-black-notice-statement"><?php esc_html_e( '*Only admin users can see this message', 'wp-smushit' ); ?></p>
+
+					</div>
+
+					<a href="<?php echo esc_url( $upgrade_url ); ?>" class="sui-button sui-button-blue" target="_blank">
+						<?php esc_html_e( 'Get 60 % OFF Smush Pro', 'wp-smushit' ); ?>
+					</a>
+
+					<button class="smush-black-notice-dismiss smush-notice-dismiss">
+						<?php esc_html_e( 'Dismiss', 'wp-smushit' ); ?>
+					</button>
+
+				</div>
+
 			</div>
-			<div class="smush-notice-cta">
-				<a href="<?php echo esc_url( $upgrade_url ); ?>" class="smush-notice-act button-primary" target="_blank">
-					<?php echo esc_html( $button_content ); ?>
-				</a>
-				<button class="smush-notice-dismiss smush-dismiss-welcome" data-msg="<?php esc_html_e( 'Saving', 'wp-smushit' ); ?>">
-					<?php esc_html_e( 'Dismiss', 'wp-smushit' ); ?>
-				</button>
-			</div>
+
 		</div>
 		<?php
+	}
+
+	/**
+	 * Prints the markup for the countdown numbers.
+	 *
+	 * @since 3.7.3
+	 *
+	 * @param int $number Number to print in the markup.
+	 */
+	private function print_black_friday_countdown_number( $number ) {
+		if ( $number < 10 ) {
+			$first  = 0;
+			$second = $number;
+		} else {
+			$second = $number % 10;
+			$first  = ( $number - $second ) / 10;
+		}
+
+		printf( '<div><span>%s</span><span>%s</span></div>', (int) $first, (int) $second );
 	}
 
 	/**
@@ -264,7 +335,13 @@ abstract class Abstract_Page {
 		);
 		?>
 		<div class="notice smush-notice">
-			<div class="smush-notice-logo"><span></span></div>
+			<div class="smush-notice-logo">
+				<img
+					src="<?php echo esc_url( WP_SMUSH_URL . 'app/assets/images/incsub-logo.png' ); ?>"
+					srcset="<?php echo esc_url( WP_SMUSH_URL . 'app/assets/images/incsub-logo@2x.png' ); ?> 2x"
+					alt="<?php esc_html_e( 'Smush CDN', 'wp-smushit' ); ?>"
+				>
+			</div>
 			<div class="smush-notice-message">
 				<?php esc_html_e( 'Smush Pro requires the WPMU DEV Dashboard plugin to unlock pro features. Please make sure you have installed, activated and logged into the Dashboard.', 'wp-smushit' ); ?>
 			</div>
@@ -423,26 +500,13 @@ abstract class Abstract_Page {
 			$this->view( 'checking-files', array(), 'modals' );
 		}
 
-		// Show new features modal the modal wasn't dismissed, and docs aren't hidden.
-		if ( get_site_option( WP_SMUSH_PREFIX . 'show_upgrade_modal' ) && ! apply_filters( 'wpmudev_branding_hide_doc_link', false ) ) {
+		// TODO: re-introduce the upgrade modal (show_upgrade_modal) in 3.8.0.
 
-			// Display only on single installs and on Network admin for multisites.
-			if ( ( ! is_multisite() && $hide_quick_setup ) || ( is_multisite() && is_network_admin() ) ) {
-				$cta_url = $this->get_tab_url( 'tutorials' );
-
-				// In MU, use the main site URL if the 'tutorials' tab isn't shown on the Network admin.
-				if ( is_multisite() && empty( $this->tabs['tutorials'] ) ) {
-					$cta_url = menu_page_url( 'smush', false ) . '&view=tutorials';
-				}
-
-				$this->view( 'updated', array( 'cta_url' => $cta_url ), 'modals' );
-				?>
-				<script>
-					window.addEventListener("load", function(){
-						window.SUI.openModal( 'smush-updated-dialog', 'wpbody-content', undefined, false );
-					});
-				</script>
-				<?php
+		// Show the black friday modal when it wasn't dismissed, smush is free, and the quick setup isn't shown.
+		if ( ! get_site_option( WP_SMUSH_PREFIX . 'hide_blackfriday_modal' ) && ! WP_Smush::is_pro() && $hide_quick_setup ) {
+			// Show only to admins.
+			if ( current_user_can( 'edit_others_posts' ) && is_super_admin() ) {
+				$this->view( 'black-friday-sale', array(), 'modals' );
 			}
 		}
 	}
@@ -592,8 +656,15 @@ abstract class Abstract_Page {
 					?>
 					<?php $data_type = in_array( $current_screen->id, array( 'nextgen-gallery_page_wp-smush-nextgen-bulk', 'gallery_page_wp-smush-nextgen-bulk' ), true ) ? 'nextgen' : 'media'; ?>
 					<button class="sui-button wp-smush-scan" data-tooltip="<?php esc_attr_e( 'Lets you check if any images can be further optimized. Useful after changing settings.', 'wp-smushit' ); ?>" data-type="<?php echo esc_attr( $data_type ); ?>">
-						<i class="sui-icon-update" aria-hidden="true"></i>
-						<?php esc_html_e( 'Re-Check Images', 'wp-smushit' ); ?>
+						<span class="sui-loading-text wp-smush-default-text">
+							<i class="sui-icon-update" aria-hidden="true"></i>
+							<?php esc_html_e( 'Re-Check Images', 'wp-smushit' ); ?>
+						</span>
+						<span class="sui-hidden wp-smush-completed-text">
+							<i class="sui-icon-check-tick" aria-hidden="true"></i>
+							<?php esc_html_e( 'Check Complete', 'wp-smushit' ); ?>
+						</span>
+						<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 					</button>
 				<?php endif; ?>
 				<?php if ( ! apply_filters( 'wpmudev_branding_hide_doc_link', false ) ) : ?>

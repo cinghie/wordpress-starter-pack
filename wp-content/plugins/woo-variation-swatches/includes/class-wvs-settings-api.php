@@ -12,6 +12,8 @@
 		class WVS_Settings_API {
 			
 			private $setting_name           = 'woo_variation_swatches';
+			private $setting_reset_name     = 'reset';
+			private $show_pro_name          = 'pro';
 			private $transient_setting_name = '_temp_woo_variation_swatches_options';
 			private $cache_key              = 'woo_variation_swatches_options';
 			private $theme_feature_name     = 'woo-variation-swatches';
@@ -25,7 +27,8 @@
 				
 				$this->plugin_class = woo_variation_swatches();
 				
-				$this->settings_name = apply_filters( 'wvs_settings_name', $this->setting_name );
+				$this->settings_name      = apply_filters( 'wvs_settings_name', $this->setting_name );
+				$this->setting_reset_name = apply_filters( 'wvs_reset_settings_name', $this->setting_reset_name );
 				
 				$this->slug = sprintf( '%s-settings', sanitize_key( $this->plugin_class->dirname() ) );
 				
@@ -40,6 +43,8 @@
 				// add_action( 'pre_update_option', array( $this, 'before_update' ), 10, 3 );
 				
 				add_action( "pre_update_option_{$this->settings_name}", array( $this, 'before_update' ), 10, 3 );
+				add_action( "update_option_{$this->settings_name}", array( $this, 'after_update' ), 10, 3 );
+				
 				
 				add_filter( 'plugin_action_links_' . $this->plugin_class->basename(), array( $this, 'plugin_action_links' ) );
 				
@@ -56,7 +61,17 @@
 				do_action( 'wvs_setting_api_init', $this );
 			}
 			
-			public function before_update( $value, $option, $old_value ) {
+			public function before_update( $value, $old_value, $option ) {
+				//if ( $this->settings_name === $option ) {
+				// Here We will do magic :D
+				// delete_transient( $this->transient_setting_name );
+				
+				//}
+				
+				return $value;
+			}
+			
+			public function after_update( $old_value, $value, $option ) {
 				//if ( $this->settings_name === $option ) {
 				// Here We will do magic :D
 				// delete_transient( $this->transient_setting_name );
@@ -224,13 +239,28 @@
 				return $options;
 			}
 			
+			public function is_reset_all() {
+				return isset( $_GET[ 'page' ] ) && ( $_GET[ 'page' ] == $this->slug ) && isset( $_GET[ $this->setting_reset_name ] );
+			}
+			
+			public function is_show_pro() {
+				return isset( $_GET[ 'page' ] ) && ( $_GET[ 'page' ] == $this->slug ) && isset( $_GET[ $this->show_pro_name ] );
+			}
+			
 			public function settings_init() {
+				
+				if ( $this->is_reset_all() ) {
+					$this->delete_settings();
+					wp_redirect( $this->settings_url() );
+				}
 				
 				register_setting( $this->settings_name, $this->settings_name, array( $this, 'sanitize_callback' ) );
 				
 				foreach ( $this->fields as $tab_key => $tab ) {
 					
 					$tab = apply_filters( 'wvs_settings_tab', $tab );
+					
+					// print_r( $tab); die;
 					
 					foreach ( $tab[ 'sections' ] as $section_key => $section ) {
 						
@@ -334,7 +364,7 @@
 				
 				$attrs = isset( $args[ 'attrs' ] ) ? $this->make_implode_html_attributes( $args[ 'attrs' ] ) : '';
 				
-				$html = sprintf( '<fieldset><label><input %1$s type="checkbox" id="%2$s-field" name="%4$s[%2$s]" value="%3$s" %5$s/> %6$s</label></fieldset>', $attrs, $args[ 'id' ], true, $this->settings_name, checked( $value, true, false ), esc_attr( $args[ 'desc' ] ) );
+				$html = sprintf( '<fieldset><label><input %1$s type="checkbox" id="%2$s-field" name="%4$s[%2$s]" value="%3$s" %5$s/> %6$s</label> %7$s</fieldset>', $attrs, $args[ 'id' ], true, $this->settings_name, checked( $value, true, false ), esc_attr( $args[ 'desc' ] ), $this->get_field_description( $args ) );
 				
 				echo $html;
 			}
@@ -374,13 +404,17 @@
 			}
 			
 			public function get_field_description( $args ) {
+				
+				$desc = '';
+				$desc .= $this->show_pro_label_tag_content();
+				
 				if ( ! empty( $args[ 'desc' ] ) ) {
-					$desc = sprintf( '<p class="description">%s</p>', $args[ 'desc' ] );
+					$desc .= sprintf( '<p class="description">%s</p>', $args[ 'desc' ] );
 				} else {
-					$desc = '';
+					$desc .= '';
 				}
 				
-				return $desc;
+				return ( ( $args[ 'type' ] === 'checkbox' ) ) ? $this->show_pro_label_tag_content() : $desc;
 			}
 			
 			public function post_select_field_callback( $args ) {
@@ -498,11 +532,24 @@
                         </div>
 						<?php
 							$this->last_tab_input();
-							submit_button();
+							// submit_button();
 						?>
+                        <p class="submit wvs-button-wrapper">
+                            <input type="submit" id="submit" class="button button-primary" value="<?php esc_html_e( 'Save Changes', 'woo-variation-swatches' ) ?>">
+                            <a onclick="return confirm('<?php esc_attr_e( 'Are you sure to reset current settings?', 'woo-variation-swatches' ) ?>')" class="reset" href="<?php echo $this->reset_url() ?>"><?php esc_html_e( 'Reset all', 'woo-variation-swatches' ) ?></a>
+                        </p>
+
                     </form>
                 </div>
 				<?php
+			}
+			
+			public function reset_url() {
+				return add_query_arg( array( 'page' => $this->slug, 'reset' => '' ), admin_url( 'admin.php' ) );
+			}
+			
+			public function settings_url() {
+				return add_query_arg( array( 'page' => $this->slug ), admin_url( 'admin.php' ) );
 			}
 			
 			private function last_tab_input() {
@@ -520,7 +567,10 @@
 			}
 			
 			private function get_options_tab_pro_attr( $tabs ) {
-				return ( isset( $tabs[ 'is_pro' ] ) && $tabs[ 'is_pro' ] ) ? sprintf( 'data-pro-text="%s"', apply_filters( 'wvs_settings_tab_pro_text', 'Pro' ) ) : false;
+				// $attrs[] = ( isset( $tabs[ 'is_pro' ] ) && $tabs[ 'is_pro' ] ) ? sprintf( 'data-pro-text="%s"', apply_filters( 'wvs_settings_tab_pro_text', 'Pro' ) ) : false;
+				$attrs[] = ( isset( $tabs[ 'is_new' ] ) && $tabs[ 'is_new' ] ) ? sprintf( 'data-new-text="%s"', apply_filters( 'wvs_settings_tab_new_text', 'New' ) ) : false;
+				
+				return implode( ' ', $attrs );
 			}
 			
 			private function get_options_tab_css_classes( $tabs ) {
@@ -634,6 +684,9 @@
 					$wrapper_id = ! empty( $field[ 'args' ][ 'id' ] ) ? esc_attr( $field[ 'args' ][ 'id' ] ) . '-wrapper' : '';
 					$dependency = ! empty( $field[ 'args' ][ 'require' ] ) ? $this->build_dependency( $field[ 'args' ][ 'require' ] ) : '';
 					
+					$is_new   = ( isset( $field[ 'args' ][ 'is_new' ] ) && $field[ 'args' ][ 'is_new' ] );
+					$new_html = $is_new ? '<span class="wvs-new-feature-tick">' . esc_html__( 'NEW', 'woo-variation-swatches' ) . '</span>' : '';
+					
 					printf( '<tr id="%s" %s %s>', $wrapper_id, $custom_attributes, $dependency );
 					
 					if ( isset( $field[ 'args' ][ 'pro' ] ) ) {
@@ -641,19 +694,35 @@
 						$this->pro_field_callback( $field[ 'args' ] );
 						echo '</td>';
 					} else {
-						
+						echo '<th scope="row" class="wvs-settings-label">';
 						if ( ! empty( $field[ 'args' ][ 'label_for' ] ) ) {
-							echo '<th scope="row"><label for="' . esc_attr( $field[ 'args' ][ 'label_for' ] ) . '">' . $field[ 'title' ] . '</label></th>';
+							echo '<label for="' . esc_attr( $field[ 'args' ][ 'label_for' ] ) . '">' . $field[ 'title' ] . $new_html . '</label>';
 						} else {
-							echo '<th scope="row">' . $field[ 'title' ] . '</th>';
+							echo $field[ 'title' ] . $new_html;
 						}
 						
-						echo '<td>';
+						echo $this->show_pro_label_tag();
+						echo '</th>';
+						
+						
+						echo '<td class="wvs-settings-field-content">';
 						call_user_func( $field[ 'callback' ], $field[ 'args' ] );
 						echo '</td>';
 					}
 					
 					echo '</tr>';
+				}
+			}
+			
+			public function show_pro_label_tag() {
+				if ( $this->is_show_pro() ) {
+					return '<div class="wvs-show-pro-label"><span>PRO FEATURE</span></div>';
+				}
+			}
+			
+			public function show_pro_label_tag_content() {
+				if ( $this->is_show_pro() ) {
+					return '<span class="wvs-show-pro-contents">Upgrade to premium &gt;&gt;</span>';
 				}
 			}
 		}

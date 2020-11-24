@@ -25,10 +25,6 @@ if( is_array( $extra_classes ) ){
     $extra_classes = implode( " ", $extra_classes );
 }
 ?>
-
-<input type="hidden" id="yith_wczm_traffic_light" value="free">
-
-
 <div class="images<?php if ( $is_IE ): ?> ie<?php endif ?>">
 
     <?php

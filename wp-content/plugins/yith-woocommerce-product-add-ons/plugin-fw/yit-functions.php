@@ -338,18 +338,20 @@ if ( !function_exists( 'yit_get_post_meta' ) ) {
      *
      * @param int    $id   Post ID.
      * @param string $meta The meta key to retrieve.
-     * @return mixed Single value or array
+     * @return mixed Single value or array. Return false is the meta doesn't exists.
      * @since    2.0.0
      */
     function yit_get_post_meta( $id, $meta ) {
         if ( !strpos( $meta, '[' ) ) {
-            return get_post_meta( $id, $meta, true );
+            return metadata_exists( 'post', $id, $meta ) ? get_post_meta( $id, $meta, true ) : false;
         }
 
         $sub_meta = explode( '[', $meta );
 
-        $meta = get_post_meta( $id, current( $sub_meta ), true );
-        for ( $i = 1; $i < count( $sub_meta ); $i++ ) {
+        $meta           = get_post_meta( $id, current( $sub_meta ), true );
+        $sub_meta_count = count( $sub_meta );
+
+        for ( $i = 1; $i < $sub_meta_count; $i++ ) {
             $current_submeta = rtrim( $sub_meta[ $i ], ']' );
             if ( !isset( $meta[ $current_submeta ] ) )
                 return false;
@@ -794,6 +796,25 @@ if ( !function_exists( 'yit_load_js_file' ) ) {
     }
 }
 
+if ( !function_exists( 'yit_load_css_file' ) ) {
+	/**
+	 * Load .min.css file if WP_Debug is not defined
+	 *
+	 * @param string $filename The file name
+	 * @return string The file path
+	 * @since  2.0.0
+	 * @author Alberto Ruggiero
+	 */
+	function yit_load_css_file( $filename ) {
+
+		if ( !( ( defined( 'WP_DEBUG' ) && WP_DEBUG ) || ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) || isset( $_GET[ 'yith_script_debug' ] ) ) ) {
+			$filename = str_replace( '.css', '.min.css', $filename );
+		}
+
+		return $filename;
+	}
+}
+
 if ( !function_exists( 'yit_wpml_register_string' ) ) {
     /**
      * Register a string in wpml trnslation
@@ -948,21 +969,34 @@ if ( !function_exists( 'yith_plugin_fw_get_field' ) ) {
      * @return string|void
      */
     function yith_plugin_fw_get_field( $field, $echo = false, $show_container = true ) {
-        if ( empty( $field[ 'type' ] ) )
-            return '';
+        if ( empty( $field[ 'type' ] ) ) {
+			return '';
+		}
 
-        if ( !isset( $field[ 'value' ] ) )
-            $field[ 'value' ] = '';
+        if ( !isset( $field[ 'value' ] ) ) {
+			$field['value'] = '';
+		}
 
-        if ( !isset( $field[ 'name' ] ) )
-            $field[ 'name' ] = '';
+        if ( !isset( $field[ 'name' ] ) ) {
+			$field['name'] = '';
+		}
 
-        if ( !isset( $field[ 'custom_attributes' ] ) )
-            $field[ 'custom_attributes' ] = '';
+        if ( ! isset( $field[ 'custom_attributes' ] ) ) {
+			$field['custom_attributes'] = '';
+		}
+        elseif( is_array( $field[ 'custom_attributes' ] ) ) {
+        	// let's build custom attributes as string
+			$custom_attributes = array();
+			foreach ( $field[ 'custom_attributes' ] as $attribute => $attribute_value ) {
+				$custom_attributes[] = esc_attr( $attribute ) . '="' . esc_attr( $attribute_value ) . '"';
+			}
 
-        if ( !isset( $field[ 'default' ] ) && isset( $field[ 'std' ] ) )
-            $field[ 'default' ] = $field[ 'std' ];
+			$field['custom_attributes'] = implode( ' ', $custom_attributes );
+		}
 
+        if ( ! isset( $field[ 'default' ] ) && isset( $field[ 'std' ] ) ) {
+			$field['default'] = $field['std'];
+		}
 
         $field_template = yith_plugin_fw_get_field_template_path( $field );
 
@@ -1345,4 +1379,43 @@ if ( !function_exists( 'yith_plugin_fw_add_requirements' ) ) {
 
         }
     }
+}
+
+if ( ! function_exists( 'yith_plugin_fw_parse_dimensions' ) ) {
+	/**
+	 * Parse dimensions stored through a "dimensions" field to a key-value array
+	 * where the key will be equal to the dimension key
+	 * and the value will be equal to the value of the dimension suffixed with the unit
+	 *
+	 * @param array $values
+	 * @return array
+	 */
+	function yith_plugin_fw_parse_dimensions( $values ) {
+		$dimensions = array();
+		if ( is_array( $values ) && isset( $values['dimensions'], $values['unit'] ) && is_array( $values['dimensions'] ) ) {
+			$raw_unit = $values['unit'];
+			$unit     = 'percentage' === $raw_unit ? '%' : $raw_unit;
+			foreach ( $values['dimensions'] as $key => $value ) {
+				$dimensions[ $key ] = $value . $unit;
+			}
+		}
+
+		return $dimensions;
+	}
+}
+
+if ( ! function_exists( 'yith_plugin_fw_get_dimensions_by_option' ) ) {
+	/**
+	 * Retrieve a parsed array of dimensions by an option
+	 *
+	 * @param string     $option
+	 * @param bool|array $default
+	 *
+	 * @return array|bool
+	 */
+	function yith_plugin_fw_get_dimensions_by_option( $option, $default = false ) {
+		$dimensions = get_option( $option, false );
+
+		return ! ! $dimensions ? yith_plugin_fw_parse_dimensions( $dimensions ) : $default;
+	}
 }

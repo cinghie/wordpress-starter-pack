@@ -5,7 +5,7 @@
  * @package YITH WooCommerce Product Add-Ons
  * @version 1.0.0
  */
-jQuery(document).ready( function($) {
+jQuery( function($) {
 	'use strict';
 
 	if ( typeof yith_wapo_general === 'undefined' ) {
@@ -224,13 +224,13 @@ jQuery(document).ready( function($) {
 	};
 
 	// Default / Checked
-	$('form.select .option-default input[type=checkbox], form.radio .option-default input[type=checkbox]').on('click', function(){
-		var form = $(this).parents('form');
-		if ( $(this).is(':checked') ){
-			$('.option-default input[type=checkbox]', form).removeAttr('checked');
-			$(this).attr('checked', 'checked');
-		}
-	});
+	// $('form.select .option-default input[type=checkbox], form.radio .option-default input[type=checkbox]').on('click', function(){
+	// 	var form = $(this).parents('form');
+	// 	if ( $(this).is(':checked') ){
+	// 		$('.option-default input[type=checkbox]', form).removeAttr('checked');
+	// 		$(this).attr('checked', 'checked');
+	// 	}
+	// });
 
 	// Option
 	$('.option-image .opt-image-upload, .image-upload').click( function(e) {

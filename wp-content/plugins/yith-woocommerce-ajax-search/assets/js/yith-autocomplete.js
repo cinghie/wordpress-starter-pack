@@ -82,7 +82,7 @@
                 },
                 paramName: 'query',
                 transformResult: function (response) {
-                    return typeof response === 'string' ? $.parseJSON(response) : response;
+                    return typeof response === 'string' ? JSON.parse(response) : response;
                 },
                 showNoSuggestionNotice: false,
                 noSuggestionNotice: 'No results'
@@ -207,7 +207,7 @@
 
             $.extend(options, suppliedOptions);
 
-            that.isLocal = $.isArray(options.lookup);
+            that.isLocal = Array.isArray(options.lookup);
 
             if (that.isLocal) {
                 options.lookup = that.verifySuggestionsFormat(options.lookup);
@@ -484,14 +484,15 @@
             if (that.isLocal) {
                 response = that.getSuggestionsLocal(q);
             } else {
-                if ($.isFunction(serviceUrl)) {
+
+               if (typeof serviceUrl === 'function') {
                     serviceUrl = serviceUrl.call(that.element, q);
                 }
                 cacheKey = serviceUrl + '?' + $.param(params || {});
                 response = that.cachedResponse[cacheKey];
             }
 
-            if (response && $.isArray(response.suggestions)) {
+            if (response && Array.isArray(response.suggestions)) {
                 that.suggestions = response.suggestions;
                 that.suggest();
             } else if (!that.isBadQuery(q)) {
@@ -584,7 +585,7 @@
                 container.children().first().addClass(classSelected);
             }
 
-            if ($.isFunction(beforeRender)) {
+            if (typeof beforeRender === 'function') {
                 beforeRender.call(that.element, container);
             }
 
@@ -793,7 +794,7 @@
             that.suggestions = [];
             that.selection = suggestion;
 
-            if ($.isFunction(onSelectCallback)) {
+            if (typeof onSelectCallback === 'function') {
                 onSelectCallback.call(that.element, suggestion);
             }
         },

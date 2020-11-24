@@ -5,7 +5,7 @@ Tags: Google Merchant Export, Product feed, woocommerce, Google product feed exp
 Requires at least: 4.6
 Tested up to: 5.5
 Requires PHP: 5.6
-Stable tag: 1.25.0
+Stable tag: 1.26.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -94,6 +94,14 @@ In case it does please do submit your feed in your Google Merchant center and ch
 1. Add a new feed
 2. Map a category
 3. Save and generate your feed
+
+= 1.26.1 - 16/11/2020 =
+* Made it possible to use the product_highlight attribute more than once in a feed (use || as a separator)
+
+= 1.26.0 - 10/11/2020 =
+* Improved the error messaging for JSON Parse errors.
+* Tested on WooCommerce 4.7.
+* Added the option to use Category numbers in stead of selectors.
 
 = 1.25.0 - 13/10/2020 =
 * Tested on WooCommerce 4.6.

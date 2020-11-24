@@ -696,6 +696,10 @@ body.woocommerce-checkout #checkout_coupon {
     margin-bottom: 15px;
   }
 
+  #checkout_timeline.style2.vertical li.active{
+    margin-bottom: 0;
+  }
+
   #checkout-wrapper.timeline-vertical.style4, #checkout-wrapper.timeline-horizontal {
     width: 100% !important;
   }
@@ -836,7 +840,7 @@ body.woocommerce-checkout #checkout_coupon {
     display: none;
   }
 
-  #checkout_timeline li .timeline-wrapper .timeline-label {
+  #checkout_timeline.style2 li .timeline-wrapper .timeline-label {
     padding-left: 0 !important;
   }
 

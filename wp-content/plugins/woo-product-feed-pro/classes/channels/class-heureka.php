@@ -45,6 +45,12 @@ class WooSEA_heureka {
                                         "feed_name" => "DELIVERY_DATE",
                                         "format" => "required",
                                 ),
+                                "DELIVERY" => array(
+                                        "name" => "DELIVERY",
+                                        "feed_name" => "DELIVERY",
+                                        "format" => "required",
+                                        "woo_suggest" => "shipping",
+                                ),
                                 "CATEGORYTEXT" => array(
                                         "name" => "CATEGORYTEXT",
                                         "feed_name" => "CATEGORYTEXT",

@@ -3,7 +3,7 @@
 Plugin Name: Smash Balloon Custom Facebook Feed
 Plugin URI: https://smashballoon.com/custom-facebook-feed
 Description: Add completely customizable Facebook feeds to your WordPress site
-Version: 2.17
+Version: 2.17.1
 Author: Smash Balloon
 Author URI: http://smashballoon.com/
 License: GPLv2 or later
@@ -24,11 +24,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-define('CFFVER', '2.17');
+define('CFFVER', '2.17.1');
 
 // Db version.
 if ( ! defined( 'CFF_DBVERSION' ) ) {
-    define( 'CFF_DBVERSION', '1.1' );
+    define( 'CFF_DBVERSION', '1.2' );
 }
 
 // Plugin Folder Path.
@@ -85,6 +85,19 @@ function cff_check_for_db_updates() {
 
 		update_option( 'cff_db_version', CFF_DBVERSION );
 	}
+
+	if ( (float) $db_ver < 1.2 ) {
+		if ( ! wp_next_scheduled( 'cff_notification_update' ) ) {
+			$timestamp = strtotime( 'next monday' );
+			$timestamp = $timestamp + (3600 * 24 * 7);
+			$six_am_local = $timestamp + cff_get_utc_offset() + (6*60*60);
+
+			wp_schedule_event( $six_am_local, 'cffweekly', 'cff_notification_update' );
+		}
+
+
+		update_option( 'cff_db_version', CFF_DBVERSION );
+	}
 }
 add_action( 'wp_loaded', 'cff_check_for_db_updates' );
 
@@ -108,6 +121,14 @@ function cff_plugin_init() {
 
 		if ( version_compare( PHP_VERSION,  '5.3.0' ) >= 0
 		     && version_compare( get_bloginfo('version'), '4.6' , '>' ) ) {
+			require_once trailingslashit( CFF_PLUGIN_DIR ) . 'admin/class-cff-notifications.php';
+			$cff_notifications = new CFF_Notifications();
+			$cff_notifications->init();
+
+			require_once trailingslashit( CFF_PLUGIN_DIR ) . 'admin/class-cff-new-user.php';
+			$cff_newuser = new CFF_New_User();
+			$cff_newuser->init();
+
 			require_once trailingslashit( CFF_PLUGIN_DIR ) . 'admin/addon-functions.php';
 			require_once trailingslashit( CFF_PLUGIN_DIR ) . 'admin/PluginSilentUpgrader.php';
 			require_once trailingslashit( CFF_PLUGIN_DIR ) . 'admin/PluginSilentUpgraderSkin.php';
@@ -267,6 +288,8 @@ function display_cff($atts) {
         'datecolor' => isset($options[ 'cff_date_color' ]) ? $options[ 'cff_date_color' ] : '',
         'dateformat' => isset($options[ 'cff_date_formatting' ]) ? $options[ 'cff_date_formatting' ] : '',
         'datecustom' => isset($options[ 'cff_date_custom' ]) ? $options[ 'cff_date_custom' ] : '',
+        'beforedate' => isset($options[ 'cff_date_before' ]) ? $options[ 'cff_date_before' ] : '',
+        'afterdate' => isset($options[ 'cff_date_after' ]) ? $options[ 'cff_date_after' ] : '',
         'timezone' => isset($options[ 'cff_timezone' ]) ? $options[ 'cff_timezone' ] : 'America/Chicago',
 
         //Link to Facebook
@@ -2855,6 +2878,15 @@ function cff_activate() {
 
 		update_option( 'cff_usage_tracking', $usage_tracking, false );
 	}
+
+	if ( ! wp_next_scheduled( 'cff_notification_update' ) ) {
+		$timestamp = strtotime( 'next monday' );
+		$timestamp = $timestamp + (3600 * 24 * 7);
+		$six_am_local = $timestamp + cff_get_utc_offset() + (6*60*60);
+
+		wp_schedule_event( $six_am_local, 'cffweekly', 'cff_notification_update' );
+	}
+
 }
 register_activation_hook( __FILE__, 'cff_activate' );
 
@@ -2870,6 +2902,7 @@ add_filter( 'cron_schedules', 'cff_cron_custom_interval' );
 
 function cff_deactivate() {
     wp_clear_scheduled_hook('cff_cron_job');
+	wp_clear_scheduled_hook('cff_notification_update');
 }
 register_deactivation_hook(__FILE__, 'cff_deactivate');
 
@@ -2908,6 +2941,8 @@ function cff_uninstall()
 	delete_option( 'cff_statuses' );
 	delete_option( 'cff_rating_notice' );
 	delete_option( 'cff_db_version' );
+	delete_option( 'cff_newuser_notifications' );
+	delete_option( 'cff_notifications' );
 
 	global $wp_roles;
 	$wp_roles->remove_cap( 'administrator', 'manage_custom_facebook_feed_options' );

@@ -23,9 +23,9 @@ if ( $hidelabel ) {
 }
 
 if ( $type == 'radio' || $type == 'checkbox') {
-    $after_label .= $price_hmtl . $yith_wapo_frontend->getTooltip( stripslashes( $tooltip ) );
+    $after_label .= '<label for="' . $control_id . '" style="cursor: pointer;">' . $price_html . $yith_wapo_frontend->getTooltip( stripslashes( $tooltip ) ) . '</label>';
 } else {
-    $before_label .= $price_hmtl . $yith_wapo_frontend->getTooltip( stripslashes( $tooltip ) );
+    $before_label .= '<label for="' . $control_id . '" style="cursor: pointer;">' . $price_html . $yith_wapo_frontend->getTooltip( stripslashes( $tooltip ) ) . '</label>';
 }
 
 /* value fix */
@@ -60,6 +60,10 @@ echo sprintf( '%s<input id="%s" placeholder="%s" data-typeid="%s" data-price="%s
 	$disabled,
 	$after_label
 );
+
+if ( esc_attr( $type ) == 'file' ) {
+	echo '<div><img class="preview" src="" style="max-width: 200px; display: none;" /></div>';
+}
 
 if ( $description != '' ) {
 	echo '<p class="wapo_option_description">' . $description . '</p>';

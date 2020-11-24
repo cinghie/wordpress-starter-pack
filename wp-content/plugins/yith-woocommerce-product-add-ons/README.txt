@@ -3,8 +3,8 @@
 Contributors: yithemes
 Tags: woocommerce, woocommerce product add-ons, woocommerce product add ons, woocommerce advanced product option, product add ons, product add-ons, option, radio, checkbox, text, woocommerce product addons
 Requires at least: 4.5
-Tested up to: 5.3
-Stable tag: 1.5.23.3
+Tested up to: 5.5
+Stable tag: 1.5.32
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,6 +50,26 @@ You must enable the dependency on the option you are interested in by inserting 
 3. YITH WooCommerce Product Add-Ons in "Single Prodcut" page
 
 == Changelog ==
+
+= 1.5.32 – Released on 11 November 2020 =
+
+* New: Support for WooCommerce 4.7
+* Update: YITH Plugin Framework
+* Fix: Select description if checked
+* Fix: Minor bugs
+
+= 1.5.31 – Released on 14 October 2020 =
+
+* New: Support for WooCommerce 4.6
+* New: Hide option feature
+* New: Auto Update feature
+* Update: YITH Plugin Framework
+* Fix: First X options free for multiple labels
+* Fix: Admin checkbox problems
+* Fix: WPML categories
+* Fix: Colorpicker error
+* Fix: Wrong filter name
+* Fix: Minor bugs
 
 = 1.5.23.3 – Released on 12 December 2019 =
 

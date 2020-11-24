@@ -83,19 +83,19 @@ $show_vendor_column = YITH_WAPO::$is_vendor_installed && ( !isset( $vendor_user 
 								}
 								?>
 							</span>
-							<span><b class="dashicons dashicons-arrow-right-alt2" style="height: 30px; line-height: 30px;"></b><strong style="text-transform: none;"><?php echo $value->label; ?></strong></span>
+							<span><b class="dashicons dashicons-arrow-right-alt2" style="height: 30px; line-height: 30px;"></b><strong style="text-transform: none;"><?php echo stripslashes( $value->label ); ?></strong></span>
 							<?php if ( $value->required ) : ?><span><b class="dashicons dashicons-yes" style="height: 30px; line-height: 30px;"></b> <?php echo __( 'Required', 'yith-woocommerce-product-add-ons' ); ?></span><?php endif; ?>
 							<?php
 							$rows_dep = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}yith_wapo_types WHERE id!='$value->id' AND group_id='$group->id' AND del='0' ORDER BY label ASC" );
 							?>
 							<?php if ( $value->depend ) : ?>
 							<span class="ywapo_admin_add_on_dependecies_container">
-								<?php YITH_WAPO_Admin::printChosenDependencies( $rows_dep , $value ); ?>
+								<?php YITH_WAPO_Admin::printChosenDependencies( $rows_dep, $value ); ?>
 							</span>
 							<?php endif; ?>
 							<?php if( $value->depend_variations ): ?>
 							<span class="ywapo_admin_add_on_dependecies_variation_container">
-								<?php YITH_WAPO_Admin::printChosenDependenciesVariations( $value ); ?>
+								<?php YITH_WAPO_Admin::printChosenDependenciesVariations( $value->depend_variations ); ?>
 							</span>
 							<?php endif; ?>
 							<div class="actions">

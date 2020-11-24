@@ -297,7 +297,7 @@ jQuery(function($) {
                         	data: { 'action': 'woosea_add_facebook_pixel_setting', 'status': "on" }
                 	})
 			.done(function( data ) {
-				$('#facebook_pixel').after('<tr id="facebook_pixel_id"><td colspan="2"><span>Insert Facebook pixel ID:</span>&nbsp;<input type="text" class="input-field-medium" id="fb_pixel_id" name="fb_pixel_id">&nbsp;<input type="submit" id="save_facebook_pixel_id" value="Save"></td></tr>');	
+				$('#facebook_pixel').after('<tr id="facebook_pixel_id"><td colspan="2"><span>Insert Facebook pixel ID:</span>&nbsp;<input type="text" class="input-field-medium" id="fb_pixel_id" name="fb_pixel_id">&nbsp;<input type="button" id="save_facebook_pixel_id" value="Save"></td></tr>');	
 			})
                 	.fail(function( data ) {
                         	console.log('Failed AJAX Call :( /// Return Data: ' + data);
@@ -438,6 +438,7 @@ jQuery(function($) {
 	        var facebook_pixel_id = $('#fb_pixel_id').val();
 	        var re = /^[0-9]*$/;
 		var woosea_valid_facebook_pixel_id=re.test(facebook_pixel_id);
+
                 // Check for allowed characters
                 if (!woosea_valid_facebook_pixel_id){
                         $('.notice').replaceWith("<div class='notice notice-error woosea-notice-conversion is-dismissible'><p>Sorry, only numbers are allowed for your Facebook Pixel ID.</p></div>");
@@ -453,6 +454,7 @@ jQuery(function($) {
                                 url: ajaxurl,
                                 data: { 'action': 'woosea_save_facebook_pixel_id', 'facebook_pixel_id': facebook_pixel_id }
                         })
+			//$("#fb_pixel_id").val("ready");
                 }	
 	})
 

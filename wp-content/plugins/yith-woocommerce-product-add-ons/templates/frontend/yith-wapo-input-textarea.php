@@ -23,7 +23,7 @@ $textarea_name = esc_attr( $name ) . '[' . $key . ']';
 	<?php
 
 		echo $hidelabel ? '' : $before_label;
-		echo $price_hmtl;
+		echo $price_html;
 		echo $yith_wapo_frontend->getTooltip( $tooltip );
 
 		if ( $editor ) {

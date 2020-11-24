@@ -52,11 +52,12 @@ class Stock_Manager_Admin {
 		add_action( 'admin_init', array( $this, 'output_buffer' ) );
 	
 		include_once( 'includes/wcm-class-stock.php' );
-
 	
-		//$this->includes();
-			
+		$this->includes();
+
 		add_action( 'admin_init', array( $this, 'generate_csv_file' ) );
+
+		add_action( 'admin_init', array( $this, 'wsm_dismiss_admin_notice' ) );
 	}
 
 	/**
@@ -82,9 +83,11 @@ class Stock_Manager_Admin {
 	 * @since     1.0.0      
 	 */
 	private function includes() {
-		//if( isset( $_GET['page'] ) && ( $_GET['page'] == 'stock-manager' || $_GET['page'] == 'stock-manager-import-export' ) ){
-			
-		//}  
+		if( isset( $_GET ) && isset( $_GET['page'] ) ) {
+			if ( 'stock-manager' === $_GET['page'] || 'stock-manager-import-export' === $_GET['page'] || 'stock-manager-log' === $_GET['page'] || 'stock-manager-setting' === $_GET['page'] || 'stock-manager-storeapps-plugins' === $_GET['page'] ) {
+				$this->may_be_show_sa_in_app_offer();
+			}
+		}
 	}
 
 	/**
@@ -199,7 +202,7 @@ class Stock_Manager_Admin {
 
 		$hook = add_menu_page(
 			__( 'WooCommerce Stock Manager', $this->plugin_slug ),
-			__( 'WooCommerce Stock Manager', $this->plugin_slug ),
+			__( 'Stock Manager', $this->plugin_slug ),
 			$manage,
 			'stock-manager',
 			array( $this, 'display_plugin_admin_page' ),
@@ -408,7 +411,7 @@ class Stock_Manager_Admin {
 			}
 			$this->stock_convert_to_csv($array_to_csv, 'stock-manager-export.csv', ',');	
 		}
-  }
+	}
 
 	/**
 	 * Headers allready sent fix
@@ -416,6 +419,43 @@ class Stock_Manager_Admin {
 	 */        
 	public function output_buffer() {
 		ob_start();
+	}
+
+	/**
+	 * Function to show SA in app offers in WSM if any.
+	 * Added @since: 2.5.2.
+	 */
+	public function may_be_show_sa_in_app_offer() {
+		if ( ! class_exists( 'SA_In_App_Offers' ) ) {
+			include_once STOCKDIR . '/sa-includes/class-sa-in-app-offers.php';
+
+			$args = array(
+				'file'           => WSM_PLUGIN_FILE,
+				'prefix'         => 'wsm',
+				'option_name'    => 'sa_offer_bfcm_2020_wsm',
+				'campaign'       => 'sa_bfcm_2020',
+				'start'          => '2020-11-24 06:00:00',
+				'end'            => '2020-12-03 06:00:00',
+				'is_plugin_page' => true,
+			);
+
+			SA_In_App_Offers::get_instance( $args );
+		}
+	}
+
+	/**
+	 * Function to dismiss admin notice.
+	 */
+	public function wsm_dismiss_admin_notice() {
+
+		if ( isset( $_GET['wsm_dismiss_admin_notice'] ) && '1' == $_GET['wsm_dismiss_admin_notice'] && isset( $_GET['option_name'] ) ) {
+			$option_name = sanitize_text_field( wp_unslash( $_GET['option_name'] ) );
+			update_option( $option_name . '_wsm', 'no', 'no' );
+			$referer = wp_get_referer();
+			wp_safe_redirect( $referer );
+			exit();
+		}
+
 	}
 
 }//End class

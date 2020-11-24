@@ -1,0 +1,22 @@
+{
+  "name": "yith-woocommerce-multi-step-checkout",
+  "version": "2.0.0",
+  "description": "YITH WooCommerce Multi-step Checkout",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "build": "npm run js && npm run i18n",
+    "js": "grunt js",
+    "i18n": "grunt makepot",
+    "changelog": "node ./bin/changelog.js"
+  },
+  "author": "YITH",
+  "license": "GPL-3.0+",
+  "keywords": [],
+  "devDependencies": {
+    "grunt": "^1.0.3",
+    "grunt-cli": "^1.3.2",
+    "grunt-contrib-uglify": "^4.0.0",
+    "grunt-wp-i18n": "^1.0.2",
+    "promptly": "^3.0.3"
+  }
+}

@@ -2,14 +2,14 @@
 /**
  * Plugin Name: WooCommerce Stock Manager
  * Plugin URI: https://www.storeapps.org/woocommerce-plugins/
- * Description: Manage product's stocka and price in your WooCommerce store.
- * Version: 2.5.1
+ * Description: Manage product's stock and price in your WooCommerce store.
+ * Version: 2.5.3
  * Author: StoreApps
  * Author URI: https://www.storeapps.org/
  * Requires at least: 5.0.0
- * Tested up to: 5.5.1
+ * Tested up to: 5.5.3
  * WC requires at least: 3.0.0
- * WC tested up to: 4.5.2
+ * WC tested up to: 4.7.0
  * Text Domain: woocommerce-stock-manager
  * Domain Path: /languages/
  * Copyright (c) 2020 StoreApps. All rights reserved.
@@ -24,7 +24,10 @@ if ( ! defined( 'WPINC' ) ) {
 
 define( 'STOCKDIR', plugin_dir_path( __FILE__ ) );
 define( 'STOCKURL', plugin_dir_url( __FILE__ ) );
-define( 'STOCKVERSION', '2.5.1' );
+define( 'STOCKVERSION', '2.5.3' );
+if( !defined( 'WSM_PLUGIN_FILE' ) ) {
+	define( 'WSM_PLUGIN_FILE', __FILE__ );
+}
 
 require STOCKDIR . '/vendor/autoload.php';
 
@@ -91,7 +94,6 @@ function wsm_search_by_title_only( $search, &$wp_query ) {
 	return $search;
 }
 
-
 /**
  * Get products for export
  *
@@ -141,7 +143,7 @@ function wsm_get_products_or_export(){
 					'post_parent' => $item->ID,
 					'post_type'   => 'product_variation', 
 					'numberposts' => -1,
-					'post_status' => 'publish' 
+					'post_status' => 'publish'
 				); 
 				$variations_array = get_children( $args );
 				foreach($variations_array as $vars){
@@ -151,7 +153,8 @@ function wsm_get_products_or_export(){
 					if( !empty( $item_product->get_sku() ) ){ $sku = $item_product->get_sku(); }else{ $sku = ''; }
 					
 					$product_name = '';
-					foreach($item_product->variation_data as $k => $v){ 
+					$item_product_attributes = wc_get_product_variation_attributes( $vindex );
+					foreach($item_product_attributes as $k => $v){ 
 						$tag = get_term_by('slug', $v, str_replace('attribute_','',$k));
 						if($tag == false ){
 							$product_name .= $v.' ';

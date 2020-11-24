@@ -1,8 +1,8 @@
 /*!
- * Variation Swatches for WooCommerce v1.0.86 
+ * Variation Swatches for WooCommerce v1.1.1 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 9/7/2020, 1:59:18 PM
+ * Date: 11/16/2020, 8:52:49 PM
  * Released under the GPLv3 license.
  */
 .gwp-live-feed-contents {
@@ -55,10 +55,8 @@
 .gwp-live-feed-contents.gwp-notice-required,
 .gwp-live-feed-contents.gwp-notice-recommended,
 .gwp-live-feed-contents.gwp-ad-gallery {
-  display: -webkit-box;
   display: flex;
-  -webkit-box-align: stretch;
-          align-items: stretch;
+  align-items: stretch;
   padding: 0;
   border-radius: 4px;
 }
@@ -74,10 +72,8 @@
   font-size: 20px;
   color: #FFFFFF;
   padding: 10px;
-  display: -webkit-box;
   display: flex;
-  -webkit-box-align: center;
-          align-items: center;
+  align-items: center;
 }
 
 .gwp-live-feed-contents.notice-info .feed-message-wrapper,
@@ -93,10 +89,8 @@
 .gwp-live-feed-contents.gwp-notice-discount {
   border-radius: 5px;
   border: 0;
-  display: -webkit-box;
   display: flex;
-  -webkit-box-align: center;
-          align-items: center;
+  align-items: center;
   padding: 0;
   max-width: 750px;
   margin-left: auto;
@@ -109,12 +103,9 @@
 }
 
 .gwp-live-feed-contents.gwp-notice-discount .feed-message-wrapper {
-  display: -webkit-box;
   display: flex;
-  -webkit-box-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-          align-items: center;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   color: #FFFFFF;
   text-shadow: 0 -1px 1px #594679;
@@ -162,10 +153,8 @@
 .gwp-live-feed-contents.gwp-notice-pro {
   border-radius: 5px;
   border: 0;
-  display: -webkit-box;
   display: flex;
-  -webkit-box-align: center;
-          align-items: center;
+  align-items: center;
   padding: 0;
   max-width: 750px;
   margin-left: auto;
@@ -174,12 +163,9 @@
 }
 
 .gwp-live-feed-contents.gwp-notice-pro .feed-message-wrapper {
-  display: -webkit-box;
   display: flex;
-  -webkit-box-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-          align-items: center;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   color: #FFFFFF;
   text-shadow: 0 -1px 1px #2196F3;
@@ -304,7 +290,6 @@
 }
 
 .gwp-live-feed-contents .gwp-live-feed-close {
-  display: -webkit-box;
   display: flex;
   right: 0;
   text-decoration: none;
@@ -316,7 +301,6 @@
 }
 
 .gwp-live-feed-contents .gwp-live-feed-close-plain {
-  display: -webkit-box;
   display: flex;
   right: 0;
   text-decoration: none;

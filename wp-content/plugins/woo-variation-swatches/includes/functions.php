@@ -302,11 +302,21 @@
 							'min'     => 1,
 							'max'     => 80,
 						),
+						
 						array(
-							'id'      => 'attribute-behavior',
+							'id'      => 'show_variation_label',
+							'type'    => 'checkbox',
+							'title'   => esc_html__( 'Show selected attribute', 'woo-variation-swatches' ),
+							'desc'    => esc_html__( 'Show selected attribute variation name beside the title', 'woo-variation-swatches' ),
+							'default' => true,
+							'is_new'  => true
+						),
+						
+						array(
+							'id'      => 'attribute_behavior',
 							'type'    => 'radio',
 							'title'   => esc_html__( 'Attribute behavior', 'woo-variation-swatches' ),
-							'desc'    => __( 'Disabled attribute will be hide / blur. <br><span style="color: red">Note: Product variation loaded via ajax doesn\'t apply this feature.</span>', 'woo-variation-swatches' ),
+							'desc'    => sprintf( __( 'Disabled attribute will be hide / blur. %sNote: Product variation loaded via ajax doesn\'t apply this feature.%s', 'woo-variation-swatches' ), '<br><span style="color: red">', '</span>' ),
 							'options' => array(
 								'blur'          => esc_html__( 'Blur with cross', 'woo-variation-swatches' ),
 								'blur-no-cross' => esc_html__( 'Blur without cross', 'woo-variation-swatches' ),
@@ -343,7 +353,7 @@
 							'suffix'  => 'px'
 						),
 						array(
-							'id'      => 'single-font-size',
+							'id'      => 'single_font_size',
 							'type'    => 'number',
 							'title'   => esc_html__( 'Font Size', 'woo-variation-swatches' ),
 							'desc'    => esc_html__( 'Single product variation item font size', 'woo-variation-swatches' ),
@@ -746,19 +756,21 @@
 	if ( ! function_exists( 'wvs_get_wc_attribute_taxonomy' ) ):
 		function wvs_get_wc_attribute_taxonomy( $attribute_name ) {
 			
-			$transient = sprintf( 'wvs_get_wc_attribute_taxonomy_%s', $attribute_name );
+			$transient_name = sprintf( 'wvs_get_wc_attribute_taxonomy_%s', $attribute_name );
 			
 			if ( isset( $_GET[ 'wvs_clear_transient' ] ) ) {
-				delete_transient( $transient );
+				delete_transient( $transient_name );
 			}
 			
-			if ( false === ( $attribute_taxonomy = get_transient( $transient ) ) ) {
+			$attribute_taxonomy = get_transient( $transient_name );
+			
+			if ( false === $attribute_taxonomy ) {
 				global $wpdb;
 				$attribute_name = str_replace( 'pa_', '', wc_sanitize_taxonomy_name( $attribute_name ) );
 				
 				$attribute_taxonomy = $wpdb->get_row( "SELECT * FROM " . $wpdb->prefix . "woocommerce_attribute_taxonomies WHERE attribute_name='{$attribute_name}'" );
 				
-				set_transient( $transient, $attribute_taxonomy, HOUR_IN_SECONDS );
+				set_transient( $transient_name, $attribute_taxonomy );
 			}
 			
 			return apply_filters( 'wvs_get_wc_attribute_taxonomy', $attribute_taxonomy, $attribute_name );
@@ -802,6 +814,7 @@
 		function wvs_variable_items_wrapper( $contents, $type, $args, $saved_attribute = array() ) {
 			
 			$attribute = $args[ 'attribute' ];
+			$options   = $args[ 'options' ];
 			
 			$css_classes = apply_filters( 'wvs_variable_items_wrapper_class', array( "{$type}-variable-wrapper" ), $type, $args, $saved_attribute );
 			
@@ -809,7 +822,8 @@
 			
 			array_push( $css_classes, $clear_on_reselect );
 			
-			$data = sprintf( '<ul class="variable-items-wrapper %s" data-attribute_name="%s">%s</ul>', trim( implode( ' ', array_unique( $css_classes ) ) ), esc_attr( wc_variation_attribute_name( $attribute ) ), $contents );
+			// <div aria-live="polite" aria-atomic="true" class="screen-reader-text">%1$s: <span data-default=""></span></div>
+			$data = sprintf( '<ul role="radiogroup" aria-label="%1$s"  class="variable-items-wrapper %2$s" data-attribute_name="%3$s" data-attribute_values="%4$s">%5$s</ul>', esc_attr( wc_attribute_label( $attribute ) ), trim( implode( ' ', array_unique( $css_classes ) ) ), esc_attr( wc_variation_attribute_name( $attribute ) ), wc_esc_json( wp_json_encode( array_values( $options ) ) ), $contents );
 			
 			return apply_filters( 'wvs_variable_items_wrapper', $data, $contents, $type, $args, $saved_attribute );
 		}
@@ -831,16 +845,20 @@
 					$name  = uniqid( wc_variation_attribute_name( $attribute ) );
 					foreach ( $terms as $term ) {
 						if ( in_array( $term->slug, $options ) ) {
-							$selected_class = ( sanitize_title( $args[ 'selected' ] ) == $term->slug ) ? 'selected' : '';
+							
+							// aria-checked="false"
+							$is_selected    = ( sanitize_title( $args[ 'selected' ] ) == $term->slug );
+							$selected_class = $is_selected ? 'selected' : '';
 							$tooltip        = trim( apply_filters( 'wvs_variable_item_tooltip', $term->name, $term, $args ) );
 							
-							$tooltip_html_attr = ! empty( $tooltip ) ? sprintf( 'data-wvstooltip="%s"', esc_attr( $tooltip ) ) : '';
+							$tooltip_html_attr       = ! empty( $tooltip ) ? sprintf( ' data-wvstooltip="%s"', esc_attr( $tooltip ) ) : '';
+							$screen_reader_html_attr = $is_selected ? ' aria-checked="true"' : ' aria-checked="false"';
 							
 							if ( wp_is_mobile() ) {
 								$tooltip_html_attr .= ! empty( $tooltip ) ? ' tabindex="2"' : '';
 							}
 							
-							$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-value="%3$s" role="button" tabindex="0">', $tooltip_html_attr, esc_attr( $type ), esc_attr( $term->slug ), esc_attr( $selected_class ), esc_html( $term->name ) );
+							$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-title="%5$s" data-value="%3$s" role="radio" tabindex="0">', $screen_reader_html_attr . $tooltip_html_attr, esc_attr( $type ), esc_attr( $term->slug ), esc_attr( $selected_class ), esc_html( $term->name ) );
 							
 							switch ( $type ):
 								case 'color':
@@ -855,7 +873,7 @@
 									$image         = wp_get_attachment_image_src( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ) );
 									// $image_html = wp_get_attachment_image( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ), false, array( 'class' => '' ) );
 									
-									$data .= sprintf( '<img alt="%s" src="%s" width="%d" height="%d" />', esc_attr( $term->name ), esc_url( $image[ 0 ] ), $image[ 1 ], $image[ 2 ] );
+									$data .= sprintf( '<img aria-hidden="true" alt="%s" src="%s" width="%d" height="%d" />', esc_attr( $term->name ), esc_url( $image[ 0 ] ), $image[ 1 ], $image[ 2 ] );
 									
 									break;
 								
@@ -866,7 +884,7 @@
 								
 								case 'radio':
 									$id   = uniqid( $term->slug );
-									$data .= sprintf( '<input name="%1$s" id="%2$s" class="wvs-radio-variable-item" %3$s  type="radio" value="%4$s" data-value="%4$s" /><label for="%2$s">%5$s</label>', $name, $id, checked( sanitize_title( $args[ 'selected' ] ), $term->slug, false ), esc_attr( $term->slug ), esc_html( $term->name ) );
+									$data .= sprintf( '<input name="%1$s" id="%2$s" class="wvs-radio-variable-item" %3$s  type="radio" value="%4$s" data-title="%5$s" data-value="%4$s" /><label for="%2$s">%5$s</label>', $name, $id, checked( sanitize_title( $args[ 'selected' ] ), $term->slug, false ), esc_attr( $term->slug ), esc_html( $term->name ) );
 									break;
 								
 								default:
@@ -890,6 +908,10 @@
 			$attribute = $args[ 'attribute' ];
 			$assigned  = $args[ 'assigned' ];
 			
+			/*$product_variations = new WC_Product_Variable( $product->get_id() );
+			$product_variations = $product_variations->get_available_variations();
+			print_r($product_variations); die;*/
+			
 			$is_archive           = ( isset( $args[ 'is_archive' ] ) && $args[ 'is_archive' ] );
 			$show_archive_tooltip = (bool) woo_variation_swatches()->get_option( 'show_tooltip_on_archive' );
 			
@@ -905,14 +927,19 @@
 					$name  = uniqid( wc_variation_attribute_name( $attribute ) );
 					foreach ( $terms as $term ) {
 						if ( in_array( $term->slug, $options ) ) {
-							$selected_class = ( sanitize_title( $args[ 'selected' ] ) == $term->slug ) ? 'selected' : '';
+							
+							$is_selected = ( sanitize_title( $args[ 'selected' ] ) == $term->slug );
+							
+							$selected_class = $is_selected ? 'selected' : '';
 							$tooltip        = trim( apply_filters( 'wvs_variable_item_tooltip', $term->name, $term, $args ) );
 							
 							if ( $is_archive && ! $show_archive_tooltip ) {
 								$tooltip = false;
 							}
 							
-							$tooltip_html_attr = ! empty( $tooltip ) ? sprintf( 'data-wvstooltip="%s"', esc_attr( $tooltip ) ) : '';
+							$tooltip_html_attr       = ! empty( $tooltip ) ? sprintf( ' data-wvstooltip="%s"', esc_attr( $tooltip ) ) : '';
+							$screen_reader_html_attr = $is_selected ? ' aria-checked="true"' : ' aria-checked="false"';
+							
 							
 							if ( wp_is_mobile() ) {
 								$tooltip_html_attr .= ! empty( $tooltip ) ? ' tabindex="2"' : '';
@@ -924,7 +951,7 @@
 								$type = 'button';
 							}
 							
-							$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-value="%3$s"  role="button" tabindex="0">', $tooltip_html_attr, esc_attr( $type ), esc_attr( $term->slug ), esc_attr( $selected_class ), esc_html( $term->name ) );
+							$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-title="%5$s"  data-value="%3$s"  role="radio" tabindex="0">', $screen_reader_html_attr . $tooltip_html_attr, esc_attr( $type ), esc_attr( $term->slug ), esc_attr( $selected_class ), esc_html( $term->name ) );
 							
 							switch ( $type ):
 								
@@ -933,7 +960,7 @@
 									$image_size    = sanitize_text_field( woo_variation_swatches()->get_option( 'attribute_image_size' ) );
 									$image         = wp_get_attachment_image_src( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ) );
 									// $image_html = wp_get_attachment_image( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ), false, array( 'class' => '' ) );
-									$data .= sprintf( '<img alt="%s" src="%s" width="%d" height="%d" />', esc_attr( apply_filters( 'woocommerce_variation_option_name', $term->name, $term, $attribute, $product ) ), esc_url( $image[ 0 ] ), $image[ 1 ], $image[ 2 ] );
+									$data .= sprintf( '<img aria-hidden="true" alt="%s" src="%s" width="%d" height="%d" />', esc_attr( apply_filters( 'woocommerce_variation_option_name', $term->name, $term, $attribute, $product ) ), esc_url( $image[ 0 ] ), $image[ 1 ], $image[ 2 ] );
 									// $data .= $image_html;
 									break;
 								
@@ -956,14 +983,18 @@
 						
 						$option = esc_html( apply_filters( 'woocommerce_variation_option_name', $option, null, $attribute, $product ) );
 						
-						$selected_class = ( sanitize_title( $option ) == sanitize_title( $args[ 'selected' ] ) ) ? 'selected' : '';
+						$is_selected = ( sanitize_title( $option ) == sanitize_title( $args[ 'selected' ] ) );
+						
+						$selected_class = $is_selected ? 'selected' : '';
 						$tooltip        = trim( apply_filters( 'wvs_variable_item_tooltip', esc_attr( $option ), $options, $args ) );
+						
 						
 						if ( $is_archive && ! $show_archive_tooltip ) {
 							$tooltip = false;
 						}
 						
-						$tooltip_html_attr = ! empty( $tooltip ) ? sprintf( 'data-wvstooltip="%s"', esc_attr( $tooltip ) ) : '';
+						$tooltip_html_attr       = ! empty( $tooltip ) ? sprintf( 'data-wvstooltip="%s"', esc_attr( $tooltip ) ) : '';
+						$screen_reader_html_attr = $is_selected ? ' aria-checked="true"' : ' aria-checked="false"';
 						
 						if ( wp_is_mobile() ) {
 							$tooltip_html_attr .= ! empty( $tooltip ) ? ' tabindex="2"' : '';
@@ -975,7 +1006,7 @@
 							$type = 'button';
 						}
 						
-						$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-value="%3$s" role="button" tabindex="0">', $tooltip_html_attr, esc_attr( $type ), esc_attr( $option ), esc_attr( $selected_class ), esc_html( $option ) );
+						$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-title="%5$s"  data-value="%3$s" role="radio" tabindex="0">', $screen_reader_html_attr . $tooltip_html_attr, esc_attr( $type ), esc_attr( $option ), esc_attr( $selected_class ), esc_html( $option ) );
 						
 						switch ( $type ):
 							
@@ -984,7 +1015,7 @@
 								$image_size    = sanitize_text_field( woo_variation_swatches()->get_option( 'attribute_image_size' ) );
 								$image         = wp_get_attachment_image_src( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ) );
 								// $image_html = wp_get_attachment_image( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ), false, array( 'class' => '' ) );
-								$data .= sprintf( '<img alt="%s" src="%s" width="%d" height="%d" />', esc_attr( $option ), esc_url( $image[ 0 ] ), esc_attr( $image[ 1 ] ), esc_attr( $image[ 2 ] ) );
+								$data .= sprintf( '<img aria-hidden="true" alt="%s" src="%s" width="%d" height="%d" />', esc_attr( $option ), esc_url( $image[ 0 ] ), esc_attr( $image[ 1 ] ), esc_attr( $image[ 2 ] ) );
 								// $data .= $image_html;
 								break;
 							
@@ -1450,6 +1481,8 @@
 				return $html;
 			}
 			
+			//return $html;
+			
 			// WooCommerce Product Bundle Fixing
 			if ( isset( $_POST[ 'action' ] ) && $_POST[ 'action' ] === 'woocommerce_configure_bundle_order_item' ) {
 				return $html;
@@ -1467,11 +1500,16 @@
 			$product_transient_name = 'wvs_attribute_html_' . $product_id . "_" . $attribute_id;
 			$use_transient          = (bool) woo_variation_swatches()->get_option( 'use_transient' );
 			
-			if ( isset( $_GET[ 'wvs_clear_transient' ] ) || ! $use_transient ) {
+			if ( isset( $_GET[ 'wvs_clear_transient' ] ) ) {
 				delete_transient( $transient_name );
-				delete_transient( $archive_transient_name );
-				delete_transient( $product_transient_name );
+				// delete_transient( $archive_transient_name );
+				// delete_transient( $product_transient_name );
 			}
+			/*			if ( isset( $_GET[ 'wvs_clear_transient' ] ) || ! $use_transient ) {
+							delete_transient( $transient_name );
+							delete_transient( $archive_transient_name );
+							delete_transient( $product_transient_name );
+						}*/
 			
 			if ( ! isset( $_GET[ 'wvs_clear_transient' ] ) && $use_transient ) {
 				$transient_html = get_transient( $transient_name );
@@ -1759,5 +1797,42 @@
 			<?php
 			
 			echo ob_get_clean();
+		}
+	endif;
+	
+	//-------------------------------------------------------------------------------
+	// Swatch Locate Template
+	//-------------------------------------------------------------------------------
+	
+	if ( ! function_exists( 'wvs_locate_template' ) ):
+		function wvs_locate_template( $template, $template_name, $template_path ) {
+			
+			$default_template = $template;
+			
+			if ( ! $template_path ) {
+				$template_path = WC()->template_path();
+			}
+			
+			// Swatch Plugin Path
+			$plugin_path = woo_variation_swatches()->plugin_path() . '/woocommerce/';
+			
+			// Look within passed path within the theme - this is priority
+			$template = locate_template( array(
+				                             $template_path . $template_name,
+				                             $template_name
+			                             ) );
+			
+			// Modification: Get the template from this plugin, if it exists
+			if ( ! $template && file_exists( $plugin_path . $template_name ) ) {
+				$template = $plugin_path . $template_name;
+			}
+			
+			// Use default template
+			if ( ! $template || WC_TEMPLATE_DEBUG_MODE ) {
+				$template = $default_template;
+			}
+			
+			// Return what we found
+			return $template;
 		}
 	endif;

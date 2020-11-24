@@ -257,6 +257,7 @@
 }
 
 .wapo-plugin ul#sortable-list li.type-row form .form-row .max_item_selected input[type="number"],
+.wapo-plugin ul#sortable-list li.type-row form .form-row .minimum_product_quantity input[type="number"],
 .wapo-plugin ul#sortable-list li.type-row form .form-row .max_input_values_amount input[type="number"],
 .wapo-plugin ul#sortable-list li.type-row form .form-row .min_input_values_amount input[type="number"],
 .wapo-plugin ul#sortable-list li.type-row form .form-row .first_options_free input[type="number"] {

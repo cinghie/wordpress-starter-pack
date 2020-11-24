@@ -2,15 +2,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YIT WooCommerce Product Add-Ons\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/init\n"
-"POT-Creation-Date: 2018-12-28 13:39:26+00:00\n"
-"PO-Revision-Date: 2019-05-13 15:56+0200\n"
+"POT-Creation-Date: 2020-03-02 08:55:23+00:00\n"
+"PO-Revision-Date: 2020-05-25 21:54+0200\n"
 "Last-Translator: \n"
 "Language-Team: Yithemes <plugins@yithemes.com>\n"
 "Language: it_IT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.3.1\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e;_n:1,2;__ngettext:1,2;"
 "__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;"
 "_nx_noop:4c,1,2\n"
@@ -20,97 +20,97 @@ msgstr ""
 "X-Poedit-SearchPath-0: ..\n"
 "X-Poedit-SearchPathExcluded-0: ../plugin-fw\n"
 
-#: includes/classes/class.yith-wapo-admin.php:148
+#: includes/classes/class.yith-wapo-admin.php:150
 #: plugin-options/general-options.php:11
 msgid "General"
 msgstr "Generale"
 
-#: includes/classes/class.yith-wapo-admin.php:151
+#: includes/classes/class.yith-wapo-admin.php:153
 msgid "Premium Version"
 msgstr "Versione premium"
 
-#: includes/classes/class.yith-wapo-admin.php:154
+#: includes/classes/class.yith-wapo-admin.php:156
 msgid "Variations"
 msgstr "Variazioni"
 
-#: includes/classes/class.yith-wapo-admin.php:160
-#: includes/classes/class.yith-wapo-admin.php:161
-#: includes/classes/class.yith-wapo-admin.php:508
+#: includes/classes/class.yith-wapo-admin.php:162
+#: includes/classes/class.yith-wapo-admin.php:163
+#: includes/classes/class.yith-wapo-admin.php:510
 msgid "Product Add-Ons"
 msgstr "Product Add-Ons"
 
-#: includes/classes/class.yith-wapo-admin.php:196
+#: includes/classes/class.yith-wapo-admin.php:198
 msgid "Plugin Documentation"
 msgstr "Documentazione del plugin"
 
-#: includes/classes/class.yith-wapo-admin.php:200
+#: includes/classes/class.yith-wapo-admin.php:202
 msgid "Support platform"
 msgstr "Piattaforma di supporto"
 
-#: includes/classes/class.yith-wapo-admin.php:242
-#: includes/classes/class.yith-wapo-admin.php:243
-#: plugin-options/general-options.php:60
+#: includes/classes/class.yith-wapo-admin.php:244
+#: includes/classes/class.yith-wapo-admin.php:245
+#: plugin-options/general-options.php:76
 #: templates/admin/yith-wapo-groups.php:55
 msgid "Add-ons"
 msgstr "Componenti aggiuntivi"
 
-#: includes/classes/class.yith-wapo-admin.php:250
-#: includes/classes/class.yith-wapo-admin.php:251
+#: includes/classes/class.yith-wapo-admin.php:252
+#: includes/classes/class.yith-wapo-admin.php:253
 msgid "Add-ons Group"
 msgstr "Gruppo di componenti"
 
-#: includes/classes/class.yith-wapo-admin.php:258
-#: includes/classes/class.yith-wapo-admin.php:259
+#: includes/classes/class.yith-wapo-admin.php:260
+#: includes/classes/class.yith-wapo-admin.php:261
 msgid "Add-ons Options"
 msgstr "Opzioni componenti aggiuntivi"
 
-#: includes/classes/class.yith-wapo-admin.php:386
+#: includes/classes/class.yith-wapo-admin.php:388
 msgid "Are you sure?"
 msgstr "Sei sicuro di volerlo fare?"
 
-#: includes/classes/class.yith-wapo-admin.php:387
+#: includes/classes/class.yith-wapo-admin.php:389
 msgid "Custom Image"
 msgstr "Immagine personalizzata"
 
-#: includes/classes/class.yith-wapo-admin.php:388
+#: includes/classes/class.yith-wapo-admin.php:390
 msgid "Upload Image"
 msgstr "Carica immagine"
 
-#: includes/classes/class.yith-wapo-admin.php:407
+#: includes/classes/class.yith-wapo-admin.php:409
 #: includes/classes/class.yith-wapo-premium.php:33
 msgid "Checkbox"
 msgstr "Casella di spunta"
 
-#: includes/classes/class.yith-wapo-admin.php:408
+#: includes/classes/class.yith-wapo-admin.php:410
 #: includes/classes/class.yith-wapo-premium.php:34
 msgid "Radio Button"
 msgstr "Radio button"
 
-#: includes/classes/class.yith-wapo-admin.php:409
+#: includes/classes/class.yith-wapo-admin.php:411
 #: includes/classes/class.yith-wapo-premium.php:35
 msgid "Text"
 msgstr "Testo"
 
-#: includes/classes/class.yith-wapo-admin.php:415
+#: includes/classes/class.yith-wapo-admin.php:417
 #: includes/classes/class.yith-wapo-premium.php:50
 msgid "Variations Requirements"
 msgstr "Requisiti per le variazioni "
 
-#: includes/classes/class.yith-wapo-admin.php:416
-#: includes/classes/class.yith-wapo-admin.php:438
-#: includes/classes/class.yith-wapo-admin.php:444
-#: includes/classes/class.yith-wapo-admin.php:450
-#: includes/classes/class.yith-wapo-admin.php:456
-#: includes/classes/class.yith-wapo-admin.php:462
-#: includes/classes/class.yith-wapo-admin.php:468
-#: includes/classes/class.yith-wapo-admin.php:474
-#: includes/classes/class.yith-wapo-admin.php:480
-#: includes/classes/class.yith-wapo-admin.php:486
-#: includes/classes/class.yith-wapo-admin.php:492
+#: includes/classes/class.yith-wapo-admin.php:418
+#: includes/classes/class.yith-wapo-admin.php:440
+#: includes/classes/class.yith-wapo-admin.php:446
+#: includes/classes/class.yith-wapo-admin.php:452
+#: includes/classes/class.yith-wapo-admin.php:458
+#: includes/classes/class.yith-wapo-admin.php:464
+#: includes/classes/class.yith-wapo-admin.php:470
+#: includes/classes/class.yith-wapo-admin.php:476
+#: includes/classes/class.yith-wapo-admin.php:482
+#: includes/classes/class.yith-wapo-admin.php:488
+#: includes/classes/class.yith-wapo-admin.php:494
 msgid "premium"
 msgstr "premium"
 
-#: includes/classes/class.yith-wapo-admin.php:417
+#: includes/classes/class.yith-wapo-admin.php:419
 #: includes/classes/class.yith-wapo-premium.php:51
 msgid ""
 "Show this add-on to users only if they have first selected one of the "
@@ -119,38 +119,38 @@ msgstr ""
 "Mostra questo componente aggiuntivo agli utenti solo se hanno prima "
 "selezionato una delle seguenti variazioni."
 
-#: includes/classes/class.yith-wapo-admin.php:419
+#: includes/classes/class.yith-wapo-admin.php:421
 #: includes/classes/class.yith-wapo-premium.php:68
 msgid "Choose required variations"
 msgstr "Scegli le variazioni obbligatorie"
 
-#: includes/classes/class.yith-wapo-admin.php:425
+#: includes/classes/class.yith-wapo-admin.php:427
 #: includes/classes/class.yith-wapo-premium.php:76
 msgid "Operator"
 msgstr "Operatore"
 
-#: includes/classes/class.yith-wapo-admin.php:426
+#: includes/classes/class.yith-wapo-admin.php:428
 #: includes/classes/class.yith-wapo-premium.php:77
 msgid "Select the operator for Options Requirements. Default: OR"
 msgstr "Seleziona l'operatore per i requisiti delle opzioni. Predefinito: OR"
 
-#: includes/classes/class.yith-wapo-admin.php:435
-#: includes/classes/class.yith-wapo-premium.php:99
+#: includes/classes/class.yith-wapo-admin.php:437
+#: includes/classes/class.yith-wapo-premium.php:100
 msgid "The first"
 msgstr "Prime "
 
-#: includes/classes/class.yith-wapo-admin.php:437
-#: includes/classes/class.yith-wapo-premium.php:101
+#: includes/classes/class.yith-wapo-admin.php:439
+#: includes/classes/class.yith-wapo-premium.php:102
 msgid "options are free"
 msgstr "opzioni sono gratuite"
 
-#: includes/classes/class.yith-wapo-admin.php:442
-#: includes/classes/class.yith-wapo-premium.php:105
+#: includes/classes/class.yith-wapo-admin.php:444
+#: includes/classes/class.yith-wapo-premium.php:106
 msgid "Limit selectable elements"
 msgstr "Limita il numero di elementi selezionabili"
 
-#: includes/classes/class.yith-wapo-admin.php:443
-#: includes/classes/class.yith-wapo-premium.php:106
+#: includes/classes/class.yith-wapo-admin.php:445
+#: includes/classes/class.yith-wapo-premium.php:107
 msgid ""
 "Set the maximum number of elements that users can select for this add-on, 0 "
 "means no limits (works only with checkboxes)"
@@ -159,33 +159,34 @@ msgstr ""
 "questo componente, inserisci 0 per non impostare limiti (funziona solo con "
 "le caselle di spunta)"
 
-#: includes/classes/class.yith-wapo-admin.php:448
-#: includes/classes/class.yith-wapo-premium.php:110
+#: includes/classes/class.yith-wapo-admin.php:450
+#: includes/classes/class.yith-wapo-premium.php:117
 msgid "Max input values amount"
 msgstr "Importo massimo dei valori input"
 
-#: includes/classes/class.yith-wapo-admin.php:449
-#: includes/classes/class.yith-wapo-premium.php:111
+#: includes/classes/class.yith-wapo-admin.php:451
+#: includes/classes/class.yith-wapo-premium.php:118
 msgid "Set the maximum amount for the sum of the input values"
 msgstr "Imposta l'importo massimo per la somma dei valori input"
 
-#: includes/classes/class.yith-wapo-admin.php:454
-#: includes/classes/class.yith-wapo-premium.php:115
+#: includes/classes/class.yith-wapo-admin.php:456
+#: includes/classes/class.yith-wapo-premium.php:122
 msgid "Min input values amount"
 msgstr "Importo minimo dei valori input"
 
-#: includes/classes/class.yith-wapo-admin.php:455
-#: includes/classes/class.yith-wapo-premium.php:116
+#: includes/classes/class.yith-wapo-admin.php:457
+#: includes/classes/class.yith-wapo-premium.php:123
 msgid "Set the minimum amount for the sum of the input values"
 msgstr "Imposta l'importo minimo per la somma dei valori input"
 
-#: includes/classes/class.yith-wapo-admin.php:460
-#: includes/classes/class.yith-wapo-premium.php:120
-#: templates/frontend/yith-wapo-group-type.php:74
+#: includes/classes/class.yith-wapo-admin.php:462
+#: includes/classes/class.yith-wapo-premium.php:127
+#: templates/frontend/yith-wapo-group-type.php:80
 msgid "Sold individually"
 msgstr "Venduto singolarmente"
 
-#: includes/classes/class.yith-wapo-admin.php:461
+#: includes/classes/class.yith-wapo-admin.php:463
+#: includes/classes/class.yith-wapo-premium.php:128
 msgid ""
 "Check this box if you want that the selected add-ons are not increased as "
 "the product quantity changes."
@@ -193,12 +194,13 @@ msgstr ""
 "Spunta questa casella se vuoi che i componenti aggiuntivi non aumentino con "
 "la modifica della quantità del prodotto."
 
-#: includes/classes/class.yith-wapo-admin.php:466
-#: includes/classes/class.yith-wapo-premium.php:127
+#: includes/classes/class.yith-wapo-admin.php:468
+#: includes/classes/class.yith-wapo-premium.php:132
 msgid "Replace the product image"
 msgstr "Sostituisci immagine prodotto"
 
-#: includes/classes/class.yith-wapo-admin.php:467
+#: includes/classes/class.yith-wapo-admin.php:469
+#: includes/classes/class.yith-wapo-premium.php:133
 msgid ""
 "Check this box if you want that the selected add-ons replace the product "
 "image."
@@ -206,13 +208,13 @@ msgstr ""
 "Spunta questa casella se vuoi che i componenti aggiuntivi selezionati "
 "sostituiscano l'immagine del prodotto.  "
 
-#: includes/classes/class.yith-wapo-admin.php:472
-#: includes/classes/class.yith-wapo-premium.php:134
+#: includes/classes/class.yith-wapo-admin.php:474
+#: includes/classes/class.yith-wapo-premium.php:137
 msgid "Calculate quantity by values amount"
 msgstr "Calcola la quantità per importo dei valori"
 
-#: includes/classes/class.yith-wapo-admin.php:473
-#: includes/classes/class.yith-wapo-premium.php:136
+#: includes/classes/class.yith-wapo-admin.php:475
+#: includes/classes/class.yith-wapo-premium.php:138
 msgid ""
 "Check this box if you want that the quanity input will be updated with the "
 "sum of all add-ons values."
@@ -220,45 +222,45 @@ msgstr ""
 "Seleziona questa casella se vuoi che la quantità input venga aggiornata con "
 "la somma dei valori di tutti i componenti aggiuntivi."
 
-#: includes/classes/class.yith-wapo-admin.php:478
-#: includes/classes/class.yith-wapo-frontend.php:523
-#: includes/classes/class.yith-wapo-premium.php:140
-#: templates/admin/yith-wapo-form-option-type.php:210
-#: templates/admin/yith-wapo-form-option-type.php:251
+#: includes/classes/class.yith-wapo-admin.php:480
+#: includes/classes/class.yith-wapo-frontend.php:594
+#: includes/classes/class.yith-wapo-premium.php:142
+#: templates/admin/yith-wapo-form-option-type.php:213
+#: templates/admin/yith-wapo-form-option-type.php:291
 #: templates/admin/yith-wapo-group-addons.php:87
 #: templates/admin/yith-wapo-new-option.php:11
 #: templates/admin/yith-wapo-new-option.php:52
-#: templates/frontend/yith-wapo-group-type.php:73
+#: templates/frontend/yith-wapo-group-type.php:79
 msgid "Required"
 msgstr "Obbligatorio"
 
-#: includes/classes/class.yith-wapo-admin.php:479
-#: includes/classes/class.yith-wapo-premium.php:141
+#: includes/classes/class.yith-wapo-admin.php:481
+#: includes/classes/class.yith-wapo-premium.php:143
 msgid "Check this option if you want that the add-on have to be selected"
 msgstr ""
 "Spunta questa opzione se vuoi che che il componente aggiuntivo sia "
 "obbligatorio"
 
-#: includes/classes/class.yith-wapo-admin.php:484
-#: includes/classes/class.yith-wapo-premium.php:145
+#: includes/classes/class.yith-wapo-admin.php:486
+#: includes/classes/class.yith-wapo-premium.php:147
 msgid "All options required"
 msgstr "Tutte le opzioni obbligatorie"
 
-#: includes/classes/class.yith-wapo-admin.php:485
-#: includes/classes/class.yith-wapo-premium.php:146
+#: includes/classes/class.yith-wapo-admin.php:487
+#: includes/classes/class.yith-wapo-premium.php:148
 msgid ""
 "Check this option if you want that the add-on have to be all options required"
 msgstr ""
 "Seleziona questa opzione se vuoi che il componente aggiuntivo deve avere "
 "tutte le opzioni obbligatorie"
 
-#: includes/classes/class.yith-wapo-admin.php:490
-#: includes/classes/class.yith-wapo-premium.php:150
+#: includes/classes/class.yith-wapo-admin.php:492
+#: includes/classes/class.yith-wapo-premium.php:152
 msgid "Collapsed by default"
 msgstr "Chiusa per impostazione predefinita"
 
-#: includes/classes/class.yith-wapo-admin.php:491
-#: includes/classes/class.yith-wapo-premium.php:151
+#: includes/classes/class.yith-wapo-admin.php:493
+#: includes/classes/class.yith-wapo-premium.php:153
 msgid ""
 "If not selected it will take settings in Admin > YITH Plugins > Product Add-"
 "ons"
@@ -266,52 +268,52 @@ msgstr ""
 "Se non selezionato, prenderà le impostazioni in Admin > YITH plugins > add-"
 "on del prodotto"
 
-#: includes/classes/class.yith-wapo-admin.php:526
+#: includes/classes/class.yith-wapo-admin.php:528
 #: includes/classes/class.yith-wccl-admin.php:769
 #: templates/admin/yith-wapo-groups.php:54
 msgid "Name"
 msgstr "Nome"
 
-#: includes/classes/class.yith-wapo-admin.php:527
+#: includes/classes/class.yith-wapo-admin.php:529
 #: templates/admin/yith-wapo-group.php:45
 msgid "Group name"
 msgstr "Nome del gruppo"
 
-#: includes/classes/class.yith-wapo-admin.php:528
+#: includes/classes/class.yith-wapo-admin.php:530
 msgid "Add Group"
 msgstr "Aggiungi gruppo"
 
-#: includes/classes/class.yith-wapo-admin.php:537
+#: includes/classes/class.yith-wapo-admin.php:539
 msgid "hidden group."
 msgstr "gruppo nascosto."
 
-#: includes/classes/class.yith-wapo-admin.php:538
+#: includes/classes/class.yith-wapo-admin.php:540
 msgid "private, visible to administrators only."
 msgstr "privato, visibile solo agli amministratori."
 
-#: includes/classes/class.yith-wapo-admin.php:539
-#: includes/classes/class.yith-wapo-admin.php:540
-#: includes/classes/class.yith-wapo-admin.php:602
+#: includes/classes/class.yith-wapo-admin.php:541
+#: includes/classes/class.yith-wapo-admin.php:542
+#: includes/classes/class.yith-wapo-admin.php:604
 msgid "public, visible to everyone."
 msgstr "pubblico, visibile a tutti."
 
-#: includes/classes/class.yith-wapo-admin.php:544
-#: includes/classes/class.yith-wapo-admin.php:602
+#: includes/classes/class.yith-wapo-admin.php:546
+#: includes/classes/class.yith-wapo-admin.php:604
 #: templates/admin/yith-wapo-group-addons.php:31
 #: templates/admin/yith-wapo-group.php:28
 msgid "Group"
 msgstr "Gruppo"
 
-#: includes/classes/class.yith-wapo-admin.php:545
-#: includes/classes/class.yith-wapo-admin.php:603
+#: includes/classes/class.yith-wapo-admin.php:547
+#: includes/classes/class.yith-wapo-admin.php:605
 msgid "Manage"
 msgstr "Gestisci"
 
-#: includes/classes/class.yith-wapo-admin.php:558
+#: includes/classes/class.yith-wapo-admin.php:560
 msgid "Disable Globals"
 msgstr "Disabilita Globali"
 
-#: includes/classes/class.yith-wapo-admin.php:559
+#: includes/classes/class.yith-wapo-admin.php:561
 msgid ""
 "Check this box if you want to disable global groups and use only the above "
 "ones!"
@@ -319,15 +321,15 @@ msgstr ""
 "Seleziona questa casella se vuoi disabilitare i gruppi globali e usare solo "
 "quelli qui sopra!"
 
-#: includes/classes/class.yith-wapo-admin.php:570
+#: includes/classes/class.yith-wapo-admin.php:572
 msgid "Manage all groups"
 msgstr "Gestisci tutti i gruppi"
 
-#: includes/classes/class.yith-wapo-admin.php:594
+#: includes/classes/class.yith-wapo-admin.php:596
 msgid "NO NAME"
 msgstr "NESSUN NOME"
 
-#: includes/classes/class.yith-wapo-admin.php:595
+#: includes/classes/class.yith-wapo-admin.php:597
 msgid "DB ERROR"
 msgstr "ERRORE DB"
 
@@ -342,43 +344,51 @@ msgstr "Le variazioni richiedono: "
 
 #: includes/classes/class.yith-wapo-admin.php:990
 #: includes/classes/class.yith-wapo-admin.php:1013
-#: includes/functions/yith-wapo.php:82 templates/admin/yith-wapo-group.php:56
+#: includes/functions/yith-wapo.php:83 templates/admin/yith-wapo-group.php:56
 msgid "Applied to..."
 msgstr "Applicato a…"
 
-#: includes/classes/class.yith-wapo-frontend.php:118
-#: includes/classes/class.yith-wapo-frontend.php:771
+#: includes/classes/class.yith-wapo-frontend.php:124
+#: includes/classes/class.yith-wapo-frontend.php:848
 msgid "Select options"
 msgstr "Seleziona opzioni"
 
-#: includes/classes/class.yith-wapo-frontend.php:249
+#: includes/classes/class.yith-wapo-frontend.php:275
 #: includes/integrations/class.divi-et-builder_module.php:26
 msgid "This is not a product page!"
 msgstr "Questa non è una pagina prodotto!"
 
-#: includes/classes/class.yith-wapo-frontend.php:324
+#: includes/classes/class.yith-wapo-frontend.php:356
 msgid "Clear"
 msgstr "Cancella tutto"
 
-#: includes/classes/class.yith-wapo-frontend.php:325
+#: includes/classes/class.yith-wapo-frontend.php:357
 msgid "Default"
 msgstr "Predefinito"
 
-#: includes/classes/class.yith-wapo-frontend.php:326
+#: includes/classes/class.yith-wapo-frontend.php:358
 msgid "Select color"
 msgstr "Selezione del colore"
 
-#: includes/classes/class.yith-wapo-frontend.php:327
+#: includes/classes/class.yith-wapo-frontend.php:359
 msgid "Current color"
 msgstr "Colore in uso"
 
-#: includes/classes/class.yith-wapo-frontend.php:1085
+#: includes/classes/class.yith-wapo-frontend.php:392
+msgid "Error: Wrong selection!"
+msgstr "Errore: Selezione errata!"
+
+#: includes/classes/class.yith-wapo-frontend.php:915
+msgid "Buy now"
+msgstr "Compra subito"
+
+#: includes/classes/class.yith-wapo-frontend.php:1211
 msgid "Base price"
 msgstr "Prezzo di listino"
 
-#: includes/classes/class.yith-wapo-frontend.php:1190
+#: includes/classes/class.yith-wapo-frontend.php:1330
 msgctxt "notice on admin order item meta"
-msgid "* Sold invidually"
+msgid "* Sold individually"
 msgstr "* Venduto singolarmente"
 
 #: includes/classes/class.yith-wapo-premium.php:26
@@ -417,50 +427,37 @@ msgstr "Area di testo"
 msgid "File"
 msgstr "File"
 
-#: includes/classes/class.yith-wapo-premium.php:122
-msgid ""
-"Check this box if you want that the selected add-ons are not increased as\n"
-"\t\t\t\t\t\tthe product quantity changes."
-msgstr ""
-"Spunta questa casella se vuoi che i componenti aggiuntivi non aumentino con\n"
-"\t\t\t\t\t\tla modifica della quantità del prodotto."
+#: includes/classes/class.yith-wapo-premium.php:112
+msgid "Minimum product quantity"
+msgstr "Quantità minima del prodotto"
 
-#: includes/classes/class.yith-wapo-premium.php:129
-msgid ""
-"Check this box if you want that the selected add-ons replace\n"
-"\t\t\t\t\t\tthe product image."
-msgstr ""
-"Spunta questa casella se vuoi che i componenti aggiuntivi selezionati "
-"sostituiscano\n"
-"\t\t\t\t\t\tl'immagine del prodotto.  "
-
-#: includes/classes/class.yith-wapo-type.php:720
-#: includes/classes/class.yith-wapo-type.php:793
+#: includes/classes/class.yith-wapo-type.php:746
+#: includes/classes/class.yith-wapo-type.php:821
 msgid "Uploading error: %s extension is not allowed"
 msgstr "Errore di caricamento: estensione %s non consentita"
 
-#: includes/classes/class.yith-wapo-type.php:733
+#: includes/classes/class.yith-wapo-type.php:759
 msgid "Attached file"
 msgstr "File allegato"
 
-#: includes/classes/class.yith-wapo-type.php:800
+#: includes/classes/class.yith-wapo-type.php:834
 msgid "Uploading error: %s exceeded max size allowed for this file"
 msgstr ""
 "Errore di caricamento: %s supera la dimensione massima consentita per questo "
 "file"
 
-#: includes/classes/class.yith-wapo-type.php:916
-#: templates/admin/yith-wapo-form-option-type.php:288
+#: includes/classes/class.yith-wapo-type.php:958
+#: templates/admin/yith-wapo-form-option-type.php:328
 msgid "Continue"
 msgstr "Continua"
 
-#: includes/classes/class.yith-wapo-type.php:917
-#: templates/admin/yith-wapo-form-option-type.php:290
+#: includes/classes/class.yith-wapo-type.php:959
+#: templates/admin/yith-wapo-form-option-type.php:330
 msgid "Cancel"
 msgstr "Annulla"
 
 #: includes/classes/class.yith-wccl-admin.php:185
-#: templates/admin/yith-wapo-form-option-type.php:174
+#: templates/admin/yith-wapo-form-option-type.php:177
 msgid "Settings"
 msgstr "Impostazioni"
 
@@ -472,8 +469,9 @@ msgstr "Color and Label Variations"
 #: includes/classes/class.yith-wccl-admin.php:456
 #: includes/classes/class.yith-wccl-admin.php:485
 #: includes/classes/class.yith-wccl-admin.php:780
-#: plugin-options/general-options.php:145
-#: templates/admin/yith-wapo-form-option-type.php:222
+#: plugin-options/general-options.php:167
+#: templates/admin/yith-wapo-form-option-type.php:225
+#: templates/admin/yith-wapo-form-option-type.php:256
 #: templates/admin/yith-wapo-new-option.php:23
 msgid "Tooltip"
 msgstr "Tooltip"
@@ -522,6 +520,7 @@ msgid "A value is required for this term"
 msgstr "È necessario specificare un valore per questo termine"
 
 #: includes/classes/class.yith-wccl-admin.php:877
+#: templates/admin/variation-gallery.php:22
 msgctxt "label for remove single image from variation gallery"
 msgid "Remove image"
 msgstr "Rimuovi immagine"
@@ -530,7 +529,7 @@ msgstr "Rimuovi immagine"
 msgid "View Cart"
 msgstr "Vedi carrello"
 
-#: includes/functions/yith-wapo.php:64
+#: includes/functions/yith-wapo.php:65
 msgid "is enabled but not effective. It requires WooCommerce in order to work."
 msgstr "è attivo ma non operativo. Il suo funzionamento richiede WooCommerce."
 
@@ -539,8 +538,8 @@ msgid "Colorpicker"
 msgstr "Colorpicker"
 
 #: includes/functions/yith-wccl.php:76
-#: templates/admin/yith-wapo-form-option-type.php:87
-#: templates/admin/yith-wapo-form-option-type.php:173
+#: templates/admin/yith-wapo-form-option-type.php:89
+#: templates/admin/yith-wapo-form-option-type.php:176
 msgid "Image"
 msgstr "Immagine"
 
@@ -599,35 +598,69 @@ msgstr ""
 "Selezionando questa opzione puoi sempre mostrare la tabella prezzi anche se "
 "l'importo dei componenti aggiuntivi nella pagina singolo prodotto è 0"
 
+#: plugin-options/general-options.php:54
+msgid "Enable loop \"add to cart\""
+msgstr "Abilita \"aggiungi al carrello\" nel loop"
+
+#: plugin-options/general-options.php:58
+msgid "Enable again the \"add to cart\" features in shop and categories pages"
+msgstr ""
+"Riattiva le funzionalità \"aggiungi al carrello\" nelle pagine shop e "
+"categoria"
+
+#: plugin-options/general-options.php:62
+msgid "Disable \"labels\" features"
+msgstr "Disattiva funzionalità \"Etichette\""
+
 #: plugin-options/general-options.php:66
+msgid "Disable them if you have conflicts with theme features"
+msgstr "Disattiva se riscontri conflitti con le funzionalità del tema"
+
+#: plugin-options/general-options.php:82
 msgid "Show add-on titles"
 msgstr "Mostra i titoli dei componenti aggiuntivi"
 
-#: plugin-options/general-options.php:72
+#: plugin-options/general-options.php:88
 msgid "Show add-on images"
 msgstr "Mostra le immagini dei componenti aggiuntivi"
 
-#: plugin-options/general-options.php:78
+#: plugin-options/general-options.php:94
 msgid "Show add-on descriptions"
 msgstr "Mostra le descrizioni dei componenti aggiuntivi"
 
-#: plugin-options/general-options.php:84
+#: plugin-options/general-options.php:100
 msgid "Enable \"collapse\" feature"
 msgstr "Abilita funzione \"Chiudi\""
 
-#: plugin-options/general-options.php:90
+#: plugin-options/general-options.php:106
 msgid "Show add-ons collapsed"
 msgstr "Mostra i componenti aggiuntivi chiusi"
 
-#: plugin-options/general-options.php:96
+#: plugin-options/general-options.php:112
 msgid "Enable Textarea Editor"
 msgstr "Attiva l'editor dell'area di testo"
 
-#: plugin-options/general-options.php:102
-msgid "Alternative \"Replace Image\""
-msgstr "Alternativa \"Sostituisci immagine\""
+#: plugin-options/general-options.php:118
+msgid "\"Replace Image\" method"
+msgstr "Metodo \"Sostituisci immagine\""
 
-#: plugin-options/general-options.php:105
+#: plugin-options/general-options.php:122
+msgid "Standard method"
+msgstr "Metodo standard"
+
+#: plugin-options/general-options.php:123
+msgid "Alternative method"
+msgstr "Metodo alternativo"
+
+#: plugin-options/general-options.php:124
+msgid "Divi method"
+msgstr "Metodo Divi"
+
+#: plugin-options/general-options.php:125
+msgid "Paul's method"
+msgstr "Metodo Paul"
+
+#: plugin-options/general-options.php:127
 msgid ""
 "Select this option if the image replacement feature doesn't work properly "
 "with your theme"
@@ -635,133 +668,139 @@ msgstr ""
 "Selezionare questa opzione se la funzione di sostituzione dell'immagine non "
 "funziona correttamente con il tuo tema"
 
-#: plugin-options/general-options.php:115
+#: plugin-options/general-options.php:137
 msgid "Options"
 msgstr "Opzioni"
 
-#: plugin-options/general-options.php:121
+#: plugin-options/general-options.php:143
 msgid "Show option images"
 msgstr "Mostra le immagini delle opzioni"
 
-#: plugin-options/general-options.php:128
+#: plugin-options/general-options.php:150
 msgid "Date Format"
 msgstr "Formato della data"
 
-#: plugin-options/general-options.php:130
-msgid "Set the format of the date control eg: mm/dd/yy"
-msgstr "Imposta il formato del controllo sulla data, es. mm/gg/aa"
+#: plugin-options/general-options.php:152
+msgid "Set the format of the date control eg"
+msgstr "Imposta il formato del controllo sulla data, es: mm/gg/aa"
 
-#: plugin-options/general-options.php:132
-msgid "mm/dd/yy"
-msgstr "mm/gg/aa"
-
-#: plugin-options/general-options.php:160
+#: plugin-options/general-options.php:182
 msgid "Show Tooltip"
 msgstr "Mostra Tooltip"
 
-#: plugin-options/general-options.php:166
+#: plugin-options/general-options.php:188
 msgid "Tooltip icon"
 msgstr "Icona tooltip"
 
-#: plugin-options/general-options.php:173
+#: plugin-options/general-options.php:195
 #: plugin-options/variations-options.php:65
 msgid "Tooltip background"
 msgstr "Sfondo del tooltip"
 
-#: plugin-options/general-options.php:174
-#: plugin-options/general-options.php:181
+#: plugin-options/general-options.php:196
+#: plugin-options/general-options.php:203
 #: plugin-options/variations-options.php:66
 #: plugin-options/variations-options.php:74
 msgid "Pick a color"
 msgstr "Scegli un colore"
 
-#: plugin-options/general-options.php:180
+#: plugin-options/general-options.php:202
 #: plugin-options/variations-options.php:73
 msgid "Tooltip text color"
 msgstr "Colore del testo del tooltip"
 
-#: plugin-options/general-options.php:187
+#: plugin-options/general-options.php:209
 #: plugin-options/variations-options.php:41
 msgid "Tooltip position"
 msgstr "Posizione del tooltip"
 
-#: plugin-options/general-options.php:188
+#: plugin-options/general-options.php:210
 #: plugin-options/variations-options.php:42
 msgid "Select tooltip position"
 msgstr "Seleziona la posizione del tooltip"
 
-#: plugin-options/general-options.php:191
+#: plugin-options/general-options.php:213
 #: plugin-options/variations-options.php:45
 msgid "Top"
 msgstr "In alto"
 
-#: plugin-options/general-options.php:192
+#: plugin-options/general-options.php:214
 #: plugin-options/variations-options.php:46
 msgid "Bottom"
 msgstr "In basso"
 
-#: plugin-options/general-options.php:198
+#: plugin-options/general-options.php:220
 #: plugin-options/variations-options.php:53
 msgid "Tooltip animation"
 msgstr "Animazione del tooltip"
 
-#: plugin-options/general-options.php:199
+#: plugin-options/general-options.php:221
 #: plugin-options/variations-options.php:54
 msgid "Select tooltip animation"
 msgstr "Seleziona l'animazione del tooltip"
 
-#: plugin-options/general-options.php:202
+#: plugin-options/general-options.php:224
 #: plugin-options/variations-options.php:57
 msgid "Fade in"
 msgstr "Dissolvenza"
 
-#: plugin-options/general-options.php:203
+#: plugin-options/general-options.php:225
 #: plugin-options/variations-options.php:58
 msgid "Slide in"
 msgstr "Scorrimento"
 
-#: plugin-options/general-options.php:214
+#: plugin-options/general-options.php:236
 msgid "Uploading options"
 msgstr "Opzioni di caricamento"
 
-#: plugin-options/general-options.php:220
+#: plugin-options/general-options.php:242
 msgid "Uploading folder name"
 msgstr "Nome cartella di caricamento"
 
-#: plugin-options/general-options.php:222
+#: plugin-options/general-options.php:244
 msgid "Changes will only affect future uploads."
 msgstr "Le modifiche avranno effetto solo sui caricamenti futuri."
 
-#: plugin-options/general-options.php:229
+#: plugin-options/general-options.php:251
 msgid "Uploading file types"
 msgstr "Tipi di file da caricare"
 
-#: plugin-options/general-options.php:231
+#: plugin-options/general-options.php:253
 msgid "Separate file extensions using commas. Ex: .gif, .jpg, .png"
 msgstr "Separa le estensioni dei file con la virgola: (.gif, .jpg, .png)"
 
-#: plugin-options/general-options.php:238
+#: plugin-options/general-options.php:260
 msgid "Uploading file size (MB)"
 msgstr "Dimensione file da caricare (MB)"
 
-#: plugin-options/general-options.php:240
+#: plugin-options/general-options.php:262
 msgid "Maximum allowed size for uploaded file"
 msgstr "Dimensione massima consentita per i file caricati"
 
-#: plugin-options/general-options.php:253
+#: plugin-options/general-options.php:275
 msgid "Third-party compatibility"
 msgstr "Compatibilità di terze parti"
 
-#: plugin-options/general-options.php:260
+#: plugin-options/general-options.php:282
 msgid "Woo Layout Injector plugin"
 msgstr "Plugin Woo Layout Injector"
 
-#: plugin-options/general-options.php:263
+#: plugin-options/general-options.php:285
 msgid ""
 "Select this option if the add-ons don't appear in cart using a custom layout"
 msgstr ""
 "Seleziona questa opzione se gli add-on non vengono mostrati nel carrello "
 "usando un layout personalizzato"
+
+#: plugin-options/general-options.php:289
+msgid "7up themes"
+msgstr "Temi 7up"
+
+#: plugin-options/general-options.php:292
+msgid "Select this option if the add-ons don't appear 7up themes product page"
+msgstr ""
+"Seleziona questa opzione se gli add-on non vengono mostrati nella pagina "
+"prodotto dei temi 7up"
 
 #: plugin-options/variations-options.php:12
 msgid "Manage variations"
@@ -860,6 +899,22 @@ msgstr ""
 "Mostra lo stile degli attributi personalizzati nella tab \"Informazioni "
 "aggiuntive\" invece che il testo semplice."
 
+#: templates/admin/description-field.php:19
+#: templates/admin/description-field.php:30
+#: templates/admin/yith-wapo-form-option-type.php:141
+#: templates/admin/yith-wapo-form-option-type.php:217
+#: templates/admin/yith-wapo-form-option-type.php:248
+#: templates/admin/yith-wapo-new-option.php:15
+#: templates/admin/yith-wccl-description-field.php:19
+#: templates/admin/yith-wccl-description-field.php:30
+msgid "Description"
+msgstr "Descrizione"
+
+#: templates/admin/description-field.php:23
+#: templates/admin/description-field.php:32
+msgid "Description for product attributes."
+msgstr "Descrizione per gli attributi del prodotto."
+
 #: templates/admin/premium.php:219
 msgid "More option typologies"
 msgstr "Altre tipologie di opzioni"
@@ -877,7 +932,7 @@ msgstr ""
 "potranno selezionare durante l'acquisto quelle di cui necessitano"
 
 #: templates/admin/premium.php:232
-#: templates/frontend/yith-wapo-group-container.php:44
+#: templates/frontend/yith-wapo-group-container.php:64
 msgid "Product price"
 msgstr "Prezzo del prodotto"
 
@@ -945,20 +1000,24 @@ msgstr ""
 "tra variazione e add-on %2$ il campo verrà automaticamente nascosto finché "
 "l'utente seleziona la variazione"
 
-#: templates/admin/yith-wapo-form-option-type.php:76
+#: templates/admin/variation-gallery.php:16
+msgid "Variation Image Gallery"
+msgstr "Galleria immagini delle variazioni"
+
+#: templates/admin/yith-wapo-form-option-type.php:78
 #: templates/admin/yith-wapo-group-addons.php:74
 msgid "Type"
 msgstr "Tipo"
 
-#: templates/admin/yith-wapo-form-option-type.php:104
+#: templates/admin/yith-wapo-form-option-type.php:106
 msgid "Title"
 msgstr "Titolo"
 
-#: templates/admin/yith-wapo-form-option-type.php:117
+#: templates/admin/yith-wapo-form-option-type.php:119
 msgid "Options Requirements"
 msgstr "Opzioni requisiti"
 
-#: templates/admin/yith-wapo-form-option-type.php:117
+#: templates/admin/yith-wapo-form-option-type.php:119
 msgid ""
 "Show this add-on to users only if they have first selected the following "
 "options."
@@ -966,101 +1025,95 @@ msgstr ""
 "Mostra questo componente aggiuntivo solo se l'utente ha prima selezionato le "
 "seguenti opzioni."
 
-#: templates/admin/yith-wapo-form-option-type.php:118
+#: templates/admin/yith-wapo-form-option-type.php:120
 msgid "Choose required add-ons"
 msgstr "Scegli i componenti aggiuntivi obbligatori"
 
-#: templates/admin/yith-wapo-form-option-type.php:139
-#: templates/admin/yith-wapo-form-option-type.php:214
-#: templates/admin/yith-wapo-new-option.php:15
-#: templates/admin/yith-wccl-description-field.php:19
-#: templates/admin/yith-wccl-description-field.php:30
-msgid "Description"
-msgstr "Descrizione"
-
-#: templates/admin/yith-wapo-form-option-type.php:172
+#: templates/admin/yith-wapo-form-option-type.php:175
 msgid "Sort"
 msgstr "Ordina"
 
-#: templates/admin/yith-wapo-form-option-type.php:175
+#: templates/admin/yith-wapo-form-option-type.php:178
 #: templates/admin/yith-wapo-groups.php:64
 msgid "Actions"
 msgstr "Azioni"
 
-#: templates/admin/yith-wapo-form-option-type.php:210
+#: templates/admin/yith-wapo-form-option-type.php:213
+#: templates/admin/yith-wapo-form-option-type.php:244
 #: templates/admin/yith-wapo-new-option.php:11
 msgid "Option Label"
 msgstr "Etichetta opzione"
 
-#: templates/admin/yith-wapo-form-option-type.php:218
+#: templates/admin/yith-wapo-form-option-type.php:221
+#: templates/admin/yith-wapo-form-option-type.php:252
 #: templates/admin/yith-wapo-new-option.php:19
 msgid "Placeholder"
 msgstr "Segnaposto"
 
-#: templates/admin/yith-wapo-form-option-type.php:226
+#: templates/admin/yith-wapo-form-option-type.php:266
 #: templates/admin/yith-wapo-new-option.php:27
 msgid "Price"
 msgstr "Prezzo"
 
-#: templates/admin/yith-wapo-form-option-type.php:230
+#: templates/admin/yith-wapo-form-option-type.php:270
 #: templates/admin/yith-wapo-new-option.php:31
 msgid "Amount"
 msgstr "Importo"
 
-#: templates/admin/yith-wapo-form-option-type.php:232
+#: templates/admin/yith-wapo-form-option-type.php:272
 msgid "Fixed"
 msgstr "Fisso"
 
-#: templates/admin/yith-wapo-form-option-type.php:233
+#: templates/admin/yith-wapo-form-option-type.php:273
 #: templates/admin/yith-wapo-new-option.php:34
 msgid "% markup"
 msgstr "% ricarico"
 
-#: templates/admin/yith-wapo-form-option-type.php:234
+#: templates/admin/yith-wapo-form-option-type.php:274
 msgid "Multiplied by option numeric value"
 msgstr "Moltiplicato per valore numerico dell'opzione"
 
-#: templates/admin/yith-wapo-form-option-type.php:235
+#: templates/admin/yith-wapo-form-option-type.php:275
 msgid "Multiplied by option string length"
 msgstr "Moltiplicato per lunghezza della stringa dell'opzione"
 
-#: templates/admin/yith-wapo-form-option-type.php:239
+#: templates/admin/yith-wapo-form-option-type.php:279
 #: templates/admin/yith-wapo-new-option.php:40
 msgid "Min"
 msgstr "Minimo"
 
-#: templates/admin/yith-wapo-form-option-type.php:243
+#: templates/admin/yith-wapo-form-option-type.php:283
 #: templates/admin/yith-wapo-new-option.php:44
 msgid "Max"
 msgstr "Massimo"
 
-#: templates/admin/yith-wapo-form-option-type.php:247
+#: templates/admin/yith-wapo-form-option-type.php:287
 #: templates/admin/yith-wapo-new-option.php:48
 msgid "Checked"
 msgstr "Selezionato"
 
-#: templates/admin/yith-wapo-form-option-type.php:255
+#: templates/admin/yith-wapo-form-option-type.php:295
 msgid "Hide Label"
 msgstr "Nascondi etichetta"
 
-#: templates/admin/yith-wapo-form-option-type.php:262
+#: templates/admin/yith-wapo-form-option-type.php:302
 #: templates/admin/yith-wapo-group-addons.php:102
 #: templates/admin/yith-wapo-groups.php:146
 msgid "Duplicate"
 msgstr "Duplica"
 
-#: templates/admin/yith-wapo-form-option-type.php:264
+#: templates/admin/yith-wapo-form-option-type.php:304
 #: templates/admin/yith-wapo-group-addons.php:103
 #: templates/admin/yith-wapo-groups.php:149
 #: templates/admin/yith-wapo-new-option.php:59
 msgid "Delete"
 msgstr "Elimina"
 
-#: templates/admin/yith-wapo-form-option-type.php:276
+#: templates/admin/yith-wapo-form-option-type.php:316
 msgid "Add new option"
 msgstr "Aggiungi una nuova opzione"
 
-#: templates/admin/yith-wapo-form-option-type.php:288
+#: templates/admin/yith-wapo-form-option-type.php:328
 msgid "Save this add-on"
 msgstr "Salva questo componente aggiuntivo"
 
@@ -1112,37 +1165,37 @@ msgstr "Prodotti"
 msgid "Categories"
 msgstr "Categorie"
 
-#: templates/admin/yith-wapo-group.php:85
+#: templates/admin/yith-wapo-group.php:87
 msgid "Priority Order"
 msgstr "Priorità"
 
-#: templates/admin/yith-wapo-group.php:90
+#: templates/admin/yith-wapo-group.php:92
 #: templates/admin/yith-wapo-groups.php:60
 msgid "Vendor"
 msgstr "Venditore"
 
-#: templates/admin/yith-wapo-group.php:93
+#: templates/admin/yith-wapo-group.php:95
 msgid "None"
 msgstr "Nessuno"
 
-#: templates/admin/yith-wapo-group.php:100
+#: templates/admin/yith-wapo-group.php:102
 #: templates/admin/yith-wapo-groups.php:62
 msgid "Visibility"
 msgstr "Visibilità"
 
-#: templates/admin/yith-wapo-group.php:103
+#: templates/admin/yith-wapo-group.php:105
 msgid "Hidden"
 msgstr "Nascosto"
 
-#: templates/admin/yith-wapo-group.php:104
+#: templates/admin/yith-wapo-group.php:106
 msgid "Administrators only"
 msgstr "Solo per gli amministratori"
 
-#: templates/admin/yith-wapo-group.php:105
+#: templates/admin/yith-wapo-group.php:107
 msgid "Public"
 msgstr "Pubblico"
 
-#: templates/admin/yith-wapo-group.php:113
+#: templates/admin/yith-wapo-group.php:115
 msgid "Save group"
 msgstr "Salva gruppo"
 
@@ -1221,15 +1274,19 @@ msgstr "Prezzo moltiplicato per lunghezza della stringa"
 msgid "Product attribute description."
 msgstr "Descrizione degli attributi del prodotto."
 
-#: templates/frontend/yith-wapo-group-container.php:48
+#: templates/frontend/yith-wapo-group-container.php:59
+msgid " including VAT "
+msgstr "IVA inclusa"
+
+#: templates/frontend/yith-wapo-group-container.php:68
 msgid "Additional options total:"
 msgstr "Totale opzioni aggiuntive:"
 
-#: templates/frontend/yith-wapo-group-container.php:52
+#: templates/frontend/yith-wapo-group-container.php:72
 msgid "Order total:"
 msgstr "Totale ordine:"
 
-#: templates/frontend/yith-wapo-group-type.php:40
+#: templates/frontend/yith-wapo-group-type.php:41
 #: templates/yith-wccl-variable-loop.php:31
 msgid "Choose an option"
 msgstr "Scegli un opzione"
@@ -1261,6 +1318,30 @@ msgstr "YITH"
 #. Author URI of the plugin/theme
 msgid "https://yithemes.com/"
 msgstr "https://yithemes.com/"
+
+#~ msgctxt "notice on admin order item meta"
+#~ msgid "* Sold invidually"
+#~ msgstr "* Venduto singolarmente"
+
+#~ msgid ""
+#~ "Check this box if you want that the selected add-ons are not increased "
+#~ "as\n"
+#~ "\t\t\t\t\t\tthe product quantity changes."
+#~ msgstr ""
+#~ "Spunta questa casella se vuoi che i componenti aggiuntivi non aumentino "
+#~ "con\n"
+#~ "\t\t\t\t\t\tla modifica della quantità del prodotto."
+
+#~ msgid ""
+#~ "Check this box if you want that the selected add-ons replace\n"
+#~ "\t\t\t\t\t\tthe product image."
+#~ msgstr ""
+#~ "Spunta questa casella se vuoi che i componenti aggiuntivi selezionati "
+#~ "sostituiscano\n"
+#~ "\t\t\t\t\t\tl'immagine del prodotto.  "
+
+#~ msgid "mm/dd/yy"
+#~ msgstr "mm/gg/aa"
 
 #~ msgid "Product price:"
 #~ msgstr "Prezzo del prodotto:"

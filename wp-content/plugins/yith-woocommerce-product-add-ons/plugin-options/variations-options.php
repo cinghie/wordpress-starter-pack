@@ -16,14 +16,14 @@ $variations = array(
 		),
 
 		array(
-			'title'    => __( 'Attribute behavior', 'yith-wccl' ),
-			'desc'     => __( 'Choose attribute style after selection.', 'yith-wccl' ),
+			'title'    => __( 'Attribute behavior', 'yith-woocommerce-product-add-ons' ),
+			'desc'     => __( 'Choose attribute style after selection.', 'yith-woocommerce-product-add-ons' ),
 			'id'       => 'yith-wccl-attributes-style',
 			'default'  => 'hide',
 			'type'     => 'radio',
 			'options'  => array(
-				'hide'  => __( 'Hide attributes', 'yith-wccl' ),
-				'grey'  => __( 'Blur attributes', 'yith-wccl' )
+				'hide'  => __( 'Hide attributes', 'yith-woocommerce-product-add-ons' ),
+				'grey'  => __( 'Blur attributes', 'yith-woocommerce-product-add-ons' )
 			),
 			'desc_tip' =>  true
 		),

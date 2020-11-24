@@ -60,6 +60,8 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 		 */
 		protected $_premium_live = 'http://plugins.yithemes.com/yith-woocommerce-product-add-ons';
 
+		public static $variations_chosen_list = array();
+
 		/**
 		 * Constructor
 		 *
@@ -99,10 +101,6 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 				add_action( 'yith_wapo_addon_operator_template', array( $this, 'addon_operator_template' ), 10, 1 );
 				// Addon Options Template
 				add_action( 'yith_wapo_addon_options_template', array( $this, 'addon_options_template' ), 10, 1 );
-			} else {
-				// Register plugin to licence/update system
-				add_action( 'wp_loaded', array( $this, 'register_plugin_for_activation' ), 99 );
-				add_action( 'admin_init', array( $this, 'register_plugin_for_updates' ) );
 			}
 
 			// Admin Init
@@ -672,37 +670,6 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 		}
 
 		/**
-		 * Register plugins for activation tab
-		 *
-		 * @return void
-		 * @since 2.0.0
-		 */
-		public function register_plugin_for_activation() {
-
-			if ( ! class_exists( 'YIT_Plugin_Licence' ) ) {
-				require_once( YITH_WAPO_DIR . 'plugin-fw/licence/lib/yit-licence.php' );
-				require_once( YITH_WAPO_DIR . 'plugin-fw/licence/lib/yit-plugin-licence.php' );
-			}
-
-			YIT_Plugin_Licence()->register( YITH_WAPO_INIT, YITH_WAPO_SECRET_KEY, YITH_WAPO_SLUG );
-		}
-
-		/**
-		 * Register plugins for update tab
-		 *
-		 * @return void
-		 * @since 2.0.0
-		 */
-		public function register_plugin_for_updates() {
-
-			if( ! class_exists( 'YIT_Plugin_Licence' ) ){
-				require_once( YITH_WAPO_DIR . 'plugin-fw/lib/yit-upgrade.php' );
-			}
-
-			YIT_Upgrade()->register( YITH_WAPO_SLUG, YITH_WAPO_INIT );
-		}
-
-		/**
 		 * @param $wpdb
 		 * @param $group
 		 * @param $type
@@ -867,26 +834,24 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 		 * @return array
 		 */
 		private static function get_product_variations_chosen_list( $item_id ) {
-
-			$variations = array();
-
-			if( $item_id ) {
-
-				$args = array(
-					'post_type'   => 'product_variation',
-					'post_status' => array( 'publish' ),
-					'numberposts' => -1,
-					'orderby'     => 'menu_order',
-					'order'       => 'asc',
-					'post_parent' => $item_id,
-					'fields'      => 'ids'
-				);
-
-				$variations = get_posts( $args );
-
+			// If variations haven't already been recovered
+			if ( ! isset( self::$variations_chosen_list[ $item_id ] ) || ! is_array( self::$variations_chosen_list[ $item_id ] ) || ! count( self::$variations_chosen_list[ $item_id ] ) > 0 ) {
+				$variations = array();
+				if ( $item_id ) {
+					$args = array(
+						'post_type'   => 'product_variation',
+						'post_status' => array( 'publish' ),
+						'numberposts' => apply_filters( 'yith_product_variations_chosen_list_limit', 10 ),
+						'orderby'     => 'menu_order',
+						'order'       => 'asc',
+						'post_parent' => $item_id,
+						'fields'      => 'ids'
+					);
+					$variations = get_posts( $args );
+				}
+				self::$variations_chosen_list[ $item_id ] = $variations;
 			}
-
-			return $variations;
+			return self::$variations_chosen_list[ $item_id ];
 		}
 
 		/**
@@ -960,9 +925,9 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 		/**
 		 * @param $value
 		 */
-		public static function printChosenDependenciesVariations( $value ) {
+		public static function printChosenDependenciesVariations( $variations ) {
 
-			$variations_array = explode( ',', $value->depend_variations );
+			$variations_array = explode( ',', $variations );
 
 			if ( count( $variations_array ) > 0 ) {
 				echo _x( 'Variations Requirements: ', 'admin labels for add-ons list' , 'yith-woocommerce-product-add-ons' );
@@ -1040,8 +1005,8 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
          * @author  Andrea Grillo <andrea.grillo@yithemes.com>
          * @return  string The premium landing link
          */
-        public function get_premium_landing_uri() {
-            return $this->premium_landing_url;
+        public function get_premium_landing_uri(){
+            return defined( 'YITH_REFER_ID' ) ? $this->_premium_landing . '?refer_id=' . YITH_REFER_ID : $this->_premium_landing .'?refer_id=1030585';
         }
 
 	}
