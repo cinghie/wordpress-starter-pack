@@ -492,6 +492,20 @@ if (array_key_exists('project_hash', $_GET)){
 						</select>
 					</td>
 				</tr>
+		
+				<tr>
+					<td><span><?php _e( 'Refresh only when products changed','woo-product-feed-pro' );?>:</span></td>
+					<td>
+						<?php
+						if((isset($project)) AND (array_key_exists('products_changed',$project))){
+							print "<input name=\"products_changed\" type=\"checkbox\" class=\"checkbox-field\" checked>";
+						} else {
+							print "<input name=\"products_changed\" type=\"checkbox\" class=\"checkbox-field\">";
+						}
+						?>
+					</td>
+				</tr>
+
 				<tr>
 					<td colspan="2">
 						<?php

@@ -222,6 +222,15 @@ class WooSEA_Update_Project {
 		}
 
 		/**
+		 * Did the option to only update the feed when products changed got disabled?
+		 */
+		if(array_key_exists('fileformat', $project_data)){
+			if(!array_key_exists('products_changed', $project_data)) {
+				unset($project_config['products_changed']);
+			}
+		}
+
+		/**
 		 * Did all the filters got removed
 	  	 */
                 if((array_key_exists('woosea_page', $project_data)) AND ($project_data['woosea_page'] == "filters_rules")){

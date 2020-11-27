@@ -1,8 +1,8 @@
 /*!
- * Variation Swatches for WooCommerce v1.1.1 
+ * Variation Swatches for WooCommerce v1.1.2 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 11/16/2020, 8:52:49 PM
+ * Date: 11/26/2020, 7:20:28 PM
  * Released under the GPLv3 license.
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -101,6 +101,14 @@ jQuery(function ($) {
         PluginHelper.ImageUploader();
         PluginHelper.AttributeDialog();
 
+        $('#woocommerce-product-data').on('woocommerce_variations_loaded', function () {
+            PluginHelper.GalleryNotification();
+        });
+
+        $('#variable_product_options').on('woocommerce_variations_added', function () {
+            PluginHelper.GalleryNotification();
+        });
+
         $(document.body).on('woocommerce_added_attribute', function () {
             PluginHelper.SelectWoo();
             PluginHelper.ColorPicker();
@@ -145,6 +153,55 @@ var PluginHelper = function ($) {
                 if ($().gwp_deactivate_popup) {
                     $().gwp_deactivate_popup('woo-variation-swatches');
                 }
+            }
+        }, {
+            key: 'GalleryNotification',
+            value: function GalleryNotification() {
+                $('.woocommerce_variation').each(function () {
+                    var optionsWrapper = $(this).find('.options:first');
+                    var galleryWrapper = $(this).find('.woo-variation-gallery-message');
+
+                    galleryWrapper.insertBefore(optionsWrapper);
+                });
+
+                $('input.upload_image_id').on('change', function (event) {
+                    var value = $.trim($(this).val());
+
+                    if (value) {
+                        $(this).closest('.data').find('.woo-variation-gallery-message').addClass('enable');
+                    } else {
+                        $(this).closest('.data').find('.woo-variation-gallery-message').removeClass('enable');
+                    }
+                });
+
+                $('a.install-woo-variation-gallery-action').on('click', function (event) {
+                    event.preventDefault();
+
+                    var $parent = $(this).parent();
+
+                    var installing = $parent.data('installing');
+                    var activated = $parent.data('activated');
+                    var nonce = $parent.data('nonce');
+
+                    $parent.text(installing);
+                    wp.ajax.send('install_woo_variation_gallery', {
+                        data: {
+                            'nonce': nonce
+                        },
+                        success: function success(response) {
+                            $parent.text(activated);
+                            _.delay(function () {
+                                $('.woocommerce_variable_attributes .woo-variation-gallery-message').remove();
+                            }, 5000);
+                        },
+                        error: function error(response) {
+                            $parent.text(activated);
+                            _.delay(function () {
+                                $('.woocommerce_variable_attributes .woo-variation-gallery-message').remove();
+                            }, 5000);
+                        }
+                    });
+                });
             }
         }, {
             key: 'ImageUploader',
@@ -278,7 +335,7 @@ var PluginHelper = function ($) {
                     $('.product_attributes').block({
                         message: null,
                         overlayCSS: {
-                            background: '#fff',
+                            background: '#FFFFFF',
                             opacity: 0.6
                         }
                     });

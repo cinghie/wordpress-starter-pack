@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     9.1.7
+ * Version:     9.1.9
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '9.1.7' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '9.1.9' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -753,8 +753,6 @@ register_activation_hook(__FILE__, 'activate_woosea_feed');
  * Close the get Elite notification
  **/
 function woosea_getelite_notification(){
-	//delete_option('woosea_getelite_notification');
-
 	$get_elite_notice = array(
 		"show" => "no",
 		"timestamp" => date( 'd-m-Y' )
@@ -768,9 +766,6 @@ add_action( 'wp_ajax_woosea_getelite_notification', 'woosea_getelite_notificatio
  * Close the get Elite activation notification
  **/
 function woosea_getelite_active_notification(){
-
-	//delete_option('woosea_getelite_active_notification');
-
 	$get_elite_notice = array(
 		"show" => "no",
 		"timestamp" => date( 'd-m-Y' )
@@ -798,14 +793,11 @@ function woosea_request_review(){
 		$is_active = $current_time-$first_activation;
 		$page = basename($_SERVER['REQUEST_URI']);
 
-//		if (preg_match("/woo-product-feed-pro|woosea_manage_feed|woosea_manage_settings/i",$page)){
-
-			if(($nr_projects > 0) AND ($is_active > $show_after) AND ($notification_interaction != "yes")){
+		if(($nr_projects > 0) AND ($is_active > $show_after) AND ($notification_interaction != "yes")){
 			echo '<div class="notice notice-info review-notification">';
 			echo '<table><tr><td></td><td><font color="green" style="font-weight:normal";><p>Hey, I noticed you have been using our plugin, <u>Product Feed PRO for WooCommerce by AdTribes.io</u>, for over a week now and have created product feed projects with it - that\'s awesome! Could you please do Eva and me a BIG favor and give it a 5-star rating on WordPress? Just to help us spread the word and boost our motivation. We would greatly appreciate if you would do so :)<br/>~ Adtribes.io support team<br><ul><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="https://wordpress.org/support/plugin/woo-product-feed-pro/reviews?rate=5#new-post" target="_blank" class="dismiss-review-notification">Ok, you deserve it</a></li><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="#" class="dismiss-review-notification">Nope, maybe later</a></li><li><span class="ui-icon ui-icon-caret-1-e" style="display: inline-block;"></span><a href="#" class="dismiss-review-notification">I already did</a></li></ul></p></font></td></tr></table>';
 			echo '</div>';	
-			}
-//		}
+		}
 	}
 }
 add_action('admin_notices', 'woosea_request_review');
@@ -4199,34 +4191,6 @@ function woosea_generate_pages(){
 	}
 }
 
-
-/**
- * This function copies feed configurations from another domain
- * so users do not have to re-configure feeds for all their domains
- * Other domain need to explicitly allow this 
- */
-function woosea_copy_configurations(){
-
-
-	$domain = "adtribes.io";
-
-	$curl = curl_init();
-	$url = "http://$domain/wp-content/uploads/woo-product-feed-pro/logs/debug.log";
-	
-	curl_setopt_array($curl, array(
-     		CURLOPT_RETURNTRANSFER => 1,
-                CURLOPT_URL => $url,
-                CURLOPT_USERAGENT => 'AdTribes license cURL Request'
-        ));
-        $response = curl_exec( $curl );
-        curl_close($curl);
-
-	error_log("RESPONSE");
-	error_log($respons);
-
-       	$json_return = json_decode($response, true);
-}
-
 /**
  * Function used by event scheduling to create feeds 
  * Feed can automatically be generated every hour, twicedaiy or once a day
@@ -4249,20 +4213,25 @@ function woosea_create_all_feeds(){
 
 	// Determine if changes where made to products or new orders where placed
  	// Only update the feed(s) when such a change occured
-
 	$products_changes = "no"; // default value
 	$products_changes = get_option('woosea_allow_update');
 
 	if(!empty($feed_config)){	
 		foreach ( $feed_config as $key => $val ) {
 
+			// When no products changed and user enabled the option to only update the feed when products changed
+			$update_this_feed = "yes";
+			if((isset($val['products_changed'])) AND ($products_changes == "no")){
+				$update_this_feed = "no";
+			}
+
 			// Force garbage collection dump
 			gc_enable();
 			gc_collect_cycles();
 
 			// Only process projects that are active
-			if(($val['active'] == "true") AND (!empty($val)) AND (isset($val['cron']))){		
-
+			if(($val['active'] == "true") AND (!empty($val)) AND($update_this_feed == "yes") AND (isset($val['cron']))){		
+			
 				if (($val['cron'] == "daily") AND ($hour == 07)){
 					$batch_project = "batch_project_".$val['project_hash'];
                         		if (!get_option( $batch_project )){
@@ -4306,6 +4275,8 @@ function woosea_create_all_feeds(){
 			}
 		}
 	}
+        // set products update flag back to no                                
+	update_option('woosea_allow_update', 'no');
 }
 
 /**
@@ -4580,12 +4551,12 @@ function woosea_on_product_save( $product_id ) {
 				if(!$diff){
 					$diff['product_id'] = $product_id;
 				} else {
-					// Enable the prodyct changed flag
+					// Enable the product changed flag
 			        	update_option('woosea_allow_update', 'yes');
 				}
 				delete_option('product_changes');
 			} else {
-				// Enable the prodyct changed flag
+				// Enable the product changed flag
 				update_option('woosea_allow_update', 'yes');
 			}
 		}

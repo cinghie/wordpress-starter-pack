@@ -202,7 +202,7 @@
 		if ( is_ajax() && isset( $_GET[ 'product_id' ] ) ) {
 			$product_id           = absint( $_GET[ 'product_id' ] );
 			$product              = wc_get_product( $product_id );
-			$available_variations = array_values( $product->get_available_variations() );
+			$available_variations = apply_filters( 'wvs_get_available_product_variations', array_values( $product->get_available_variations() ), $product );
 			
 			wp_send_json_success( wp_json_encode( $available_variations ) );
 		} else {
@@ -756,21 +756,23 @@
 	if ( ! function_exists( 'wvs_get_wc_attribute_taxonomy' ) ):
 		function wvs_get_wc_attribute_taxonomy( $attribute_name ) {
 			
-			$transient_name = sprintf( 'wvs_get_wc_attribute_taxonomy_%s', $attribute_name );
+			$transient_name = sprintf( 'wvs_attribute_taxonomy_%s', $attribute_name );
+			
+			$cache = new Woo_Variation_Swatches_Cache( $transient_name, 'wvs_attribute_taxonomy' );
 			
 			if ( isset( $_GET[ 'wvs_clear_transient' ] ) ) {
-				delete_transient( $transient_name );
+				$cache->delete_transient();
 			}
 			
-			$attribute_taxonomy = get_transient( $transient_name );
-			
-			if ( false === $attribute_taxonomy ) {
+			if ( false === ( $attribute_taxonomy = $cache->get_transient() ) ) {
+				
 				global $wpdb;
+				
 				$attribute_name = str_replace( 'pa_', '', wc_sanitize_taxonomy_name( $attribute_name ) );
 				
 				$attribute_taxonomy = $wpdb->get_row( "SELECT * FROM " . $wpdb->prefix . "woocommerce_attribute_taxonomies WHERE attribute_name='{$attribute_name}'" );
 				
-				set_transient( $transient_name, $attribute_taxonomy );
+				$cache->set_transient( $attribute_taxonomy );
 			}
 			
 			return apply_filters( 'wvs_get_wc_attribute_taxonomy', $attribute_taxonomy, $attribute_name );
@@ -792,7 +794,6 @@
 				$attribute = array_values( array_filter( $attributes, function ( $attribute ) use ( $type, $attribute_name_clean ) {
 					return $attribute_name_clean === $attribute->attribute_name;
 				} ) );
-				
 				
 				if ( ! empty( $attribute ) ) {
 					$attribute = apply_filters( 'wvs_get_wc_attribute_taxonomy', $attribute[ 0 ], $attribute_name );
@@ -847,9 +848,11 @@
 						if ( in_array( $term->slug, $options ) ) {
 							
 							// aria-checked="false"
+							$option = esc_html( apply_filters( 'woocommerce_variation_option_name', $term->name, $term, $attribute, $product ) );
+							
 							$is_selected    = ( sanitize_title( $args[ 'selected' ] ) == $term->slug );
 							$selected_class = $is_selected ? 'selected' : '';
-							$tooltip        = trim( apply_filters( 'wvs_variable_item_tooltip', $term->name, $term, $args ) );
+							$tooltip        = trim( apply_filters( 'wvs_variable_item_tooltip', $option, $term, $args ) );
 							
 							$tooltip_html_attr       = ! empty( $tooltip ) ? sprintf( ' data-wvstooltip="%s"', esc_attr( $tooltip ) ) : '';
 							$screen_reader_html_attr = $is_selected ? ' aria-checked="true"' : ' aria-checked="false"';
@@ -858,7 +861,7 @@
 								$tooltip_html_attr .= ! empty( $tooltip ) ? ' tabindex="2"' : '';
 							}
 							
-							$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-title="%5$s" data-value="%3$s" role="radio" tabindex="0">', $screen_reader_html_attr . $tooltip_html_attr, esc_attr( $type ), esc_attr( $term->slug ), esc_attr( $selected_class ), esc_html( $term->name ) );
+							$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-title="%5$s" data-value="%3$s" role="radio" tabindex="0">', $screen_reader_html_attr . $tooltip_html_attr, esc_attr( $type ), esc_attr( $term->slug ), esc_attr( $selected_class ), $option );
 							
 							switch ( $type ):
 								case 'color':
@@ -873,18 +876,18 @@
 									$image         = wp_get_attachment_image_src( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ) );
 									// $image_html = wp_get_attachment_image( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ), false, array( 'class' => '' ) );
 									
-									$data .= sprintf( '<img aria-hidden="true" alt="%s" src="%s" width="%d" height="%d" />', esc_attr( $term->name ), esc_url( $image[ 0 ] ), $image[ 1 ], $image[ 2 ] );
+									$data .= sprintf( '<img aria-hidden="true" alt="%s" src="%s" width="%d" height="%d" />', $option, esc_url( $image[ 0 ] ), $image[ 1 ], $image[ 2 ] );
 									
 									break;
 								
 								
 								case 'button':
-									$data .= sprintf( '<span class="variable-item-span variable-item-span-%s">%s</span>', esc_attr( $type ), esc_html( $term->name ) );
+									$data .= sprintf( '<span class="variable-item-span variable-item-span-%s">%s</span>', esc_attr( $type ), $option );
 									break;
 								
 								case 'radio':
 									$id   = uniqid( $term->slug );
-									$data .= sprintf( '<input name="%1$s" id="%2$s" class="wvs-radio-variable-item" %3$s  type="radio" value="%4$s" data-title="%5$s" data-value="%4$s" /><label for="%2$s">%5$s</label>', $name, $id, checked( sanitize_title( $args[ 'selected' ] ), $term->slug, false ), esc_attr( $term->slug ), esc_html( $term->name ) );
+									$data .= sprintf( '<input name="%1$s" id="%2$s" class="wvs-radio-variable-item" %3$s  type="radio" value="%4$s" data-title="%5$s" data-value="%4$s" /><label for="%2$s">%5$s</label>', $name, $id, checked( sanitize_title( $args[ 'selected' ] ), $term->slug, false ), esc_attr( $term->slug ), $option );
 									break;
 								
 								default:
@@ -926,12 +929,14 @@
 					$terms = wc_get_product_terms( $product->get_id(), $attribute, array( 'fields' => 'all' ) );
 					$name  = uniqid( wc_variation_attribute_name( $attribute ) );
 					foreach ( $terms as $term ) {
-						if ( in_array( $term->slug, $options ) ) {
+						if ( in_array( $term->slug, $options, true ) ) {
+							
+							$option = esc_html( apply_filters( 'woocommerce_variation_option_name', $term->name, $term, $attribute, $product ) );
 							
 							$is_selected = ( sanitize_title( $args[ 'selected' ] ) == $term->slug );
 							
 							$selected_class = $is_selected ? 'selected' : '';
-							$tooltip        = trim( apply_filters( 'wvs_variable_item_tooltip', $term->name, $term, $args ) );
+							$tooltip        = trim( apply_filters( 'wvs_variable_item_tooltip', $option, $term, $args ) );
 							
 							if ( $is_archive && ! $show_archive_tooltip ) {
 								$tooltip = false;
@@ -951,7 +956,7 @@
 								$type = 'button';
 							}
 							
-							$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-title="%5$s"  data-value="%3$s"  role="radio" tabindex="0">', $screen_reader_html_attr . $tooltip_html_attr, esc_attr( $type ), esc_attr( $term->slug ), esc_attr( $selected_class ), esc_html( $term->name ) );
+							$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-title="%5$s"  data-value="%3$s" role="radio" tabindex="0">', $screen_reader_html_attr . $tooltip_html_attr, esc_attr( $type ), esc_attr( $term->slug ), esc_attr( $selected_class ), $option );
 							
 							switch ( $type ):
 								
@@ -960,13 +965,13 @@
 									$image_size    = sanitize_text_field( woo_variation_swatches()->get_option( 'attribute_image_size' ) );
 									$image         = wp_get_attachment_image_src( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ) );
 									// $image_html = wp_get_attachment_image( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size ), false, array( 'class' => '' ) );
-									$data .= sprintf( '<img aria-hidden="true" alt="%s" src="%s" width="%d" height="%d" />', esc_attr( apply_filters( 'woocommerce_variation_option_name', $term->name, $term, $attribute, $product ) ), esc_url( $image[ 0 ] ), $image[ 1 ], $image[ 2 ] );
+									$data .= sprintf( '<img aria-hidden="true" alt="%s" src="%s" width="%d" height="%d" />', $option, esc_url( $image[ 0 ] ), $image[ 1 ], $image[ 2 ] );
 									// $data .= $image_html;
 									break;
 								
 								
 								case 'button':
-									$data .= sprintf( '<span class="variable-item-span variable-item-span-%s">%s</span>', esc_attr( $type ), esc_html( apply_filters( 'woocommerce_variation_option_name', $term->name, $term, $attribute, $product ) ) );
+									$data .= sprintf( '<span class="variable-item-span variable-item-span-%s">%s</span>', esc_attr( $type ), $option );
 									break;
 								
 								default:
@@ -986,7 +991,7 @@
 						$is_selected = ( sanitize_title( $option ) == sanitize_title( $args[ 'selected' ] ) );
 						
 						$selected_class = $is_selected ? 'selected' : '';
-						$tooltip        = trim( apply_filters( 'wvs_variable_item_tooltip', esc_attr( $option ), $options, $args ) );
+						$tooltip        = trim( apply_filters( 'wvs_variable_item_tooltip', $option, $options, $args ) );
 						
 						
 						if ( $is_archive && ! $show_archive_tooltip ) {
@@ -1087,15 +1092,15 @@
 					$terms = wc_get_product_terms( $product->get_id(), $attribute, array( 'fields' => 'all' ) );
 					
 					foreach ( $terms as $term ) {
-						if ( in_array( $term->slug, $options ) ) {
-							echo '<option value="' . esc_attr( $term->slug ) . '" ' . selected( sanitize_title( $args[ 'selected' ] ), $term->slug, false ) . '>' . apply_filters( 'woocommerce_variation_option_name', $term->name ) . '</option>';
+						if ( in_array( $term->slug, $options, true ) ) {
+							echo '<option value="' . esc_attr( $term->slug ) . '" ' . selected( sanitize_title( $args[ 'selected' ] ), $term->slug, false ) . '>' . apply_filters( 'woocommerce_variation_option_name', $term->name, $term, $attribute, $product ) . '</option>';
 						}
 					}
 				} else {
 					foreach ( $options as $option ) {
 						// This handles < 2.4.0 bw compatibility where text attributes were not sanitized.
 						$selected = sanitize_title( $args[ 'selected' ] ) === $args[ 'selected' ] ? selected( $args[ 'selected' ], sanitize_title( $option ), false ) : selected( $args[ 'selected' ], $option, false );
-						echo '<option value="' . esc_attr( $option ) . '" ' . $selected . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $option ) ) . '</option>';
+						echo '<option value="' . esc_attr( $option ) . '" ' . $selected . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $option, null, $attribute, $product ) ) . '</option>';
 					}
 				}
 			}
@@ -1161,15 +1166,15 @@
 					$terms = wc_get_product_terms( $product->get_id(), $attribute, array( 'fields' => 'all' ) );
 					
 					foreach ( $terms as $term ) {
-						if ( in_array( $term->slug, $options ) ) {
-							echo '<option value="' . esc_attr( $term->slug ) . '" ' . selected( sanitize_title( $args[ 'selected' ] ), $term->slug, false ) . '>' . apply_filters( 'woocommerce_variation_option_name', $term->name ) . '</option>';
+						if ( in_array( $term->slug, $options, true ) ) {
+							echo '<option value="' . esc_attr( $term->slug ) . '" ' . selected( sanitize_title( $args[ 'selected' ] ), $term->slug, false ) . '>' . apply_filters( 'woocommerce_variation_option_name', $term->name, $term, $attribute, $product ) . '</option>';
 						}
 					}
 				} else {
 					foreach ( $options as $option ) {
 						// This handles < 2.4.0 bw compatibility where text attributes were not sanitized.
 						$selected = sanitize_title( $args[ 'selected' ] ) === $args[ 'selected' ] ? selected( $args[ 'selected' ], sanitize_title( $option ), false ) : selected( $args[ 'selected' ], $option, false );
-						echo '<option value="' . esc_attr( $option ) . '" ' . $selected . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $option ) ) . '</option>';
+						echo '<option value="' . esc_attr( $option ) . '" ' . $selected . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $option, null, $attribute, $product ) ) . '</option>';
 					}
 				}
 			}
@@ -1232,15 +1237,15 @@
 					$terms = wc_get_product_terms( $product->get_id(), $attribute, array( 'fields' => 'all' ) );
 					
 					foreach ( $terms as $term ) {
-						if ( in_array( $term->slug, $options ) ) {
-							echo '<option value="' . esc_attr( $term->slug ) . '" ' . selected( sanitize_title( $args[ 'selected' ] ), $term->slug, false ) . '>' . apply_filters( 'woocommerce_variation_option_name', $term->name ) . '</option>';
+						if ( in_array( $term->slug, $options, true ) ) {
+							echo '<option value="' . esc_attr( $term->slug ) . '" ' . selected( sanitize_title( $args[ 'selected' ] ), $term->slug, false ) . '>' . apply_filters( 'woocommerce_variation_option_name', $term->name, $term, $attribute, $product ) . '</option>';
 						}
 					}
 				} else {
 					foreach ( $options as $option ) {
 						// This handles < 2.4.0 bw compatibility where text attributes were not sanitized.
 						$selected = sanitize_title( $args[ 'selected' ] ) === $args[ 'selected' ] ? selected( $args[ 'selected' ], sanitize_title( $option ), false ) : selected( $args[ 'selected' ], $option, false );
-						echo '<option value="' . esc_attr( $option ) . '" ' . $selected . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $option ) ) . '</option>';
+						echo '<option value="' . esc_attr( $option ) . '" ' . $selected . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $option, null, $attribute, $product ) ) . '</option>';
 					}
 				}
 			}
@@ -1253,8 +1258,7 @@
 		}
 	endif;
 	
-	
-	// Default Button
+	// Default Button Variation Attribute Options
 	if ( ! function_exists( 'wvs_default_button_variation_attribute_options' ) ) :
 		function wvs_default_button_variation_attribute_options( $args = array() ) {
 			
@@ -1301,15 +1305,15 @@
 					$terms = wc_get_product_terms( $product->get_id(), $attribute, array( 'fields' => 'all' ) );
 					
 					foreach ( $terms as $term ) {
-						if ( in_array( $term->slug, $options ) ) {
-							echo '<option value="' . esc_attr( $term->slug ) . '" ' . selected( sanitize_title( $args[ 'selected' ] ), $term->slug, false ) . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $term->name ) ) . '</option>';
+						if ( in_array( $term->slug, $options, true ) ) {
+							echo '<option value="' . esc_attr( $term->slug ) . '" ' . selected( sanitize_title( $args[ 'selected' ] ), $term->slug, false ) . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $term->name, $term, $attribute, $product ) ) . '</option>';
 						}
 					}
 				} else {
 					foreach ( $options as $option ) {
 						// This handles < 2.4.0 bw compatibility where text attributes were not sanitized.
 						$selected = sanitize_title( $args[ 'selected' ] ) === $args[ 'selected' ] ? selected( $args[ 'selected' ], sanitize_title( $option ), false ) : selected( $args[ 'selected' ], $option, false );
-						echo '<option value="' . esc_attr( $option ) . '" ' . $selected . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $option ) ) . '</option>';
+						echo '<option value="' . esc_attr( $option ) . '" ' . $selected . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $option, null, $attribute, $product ) ) . '</option>';
 					}
 				}
 			}
@@ -1322,7 +1326,7 @@
 		}
 	endif;
 	
-	// Default Image
+	// Default Image Variation Attribute Options
 	if ( ! function_exists( 'wvs_default_image_variation_attribute_options' ) ) :
 		function wvs_default_image_variation_attribute_options( $args = array() ) {
 			
@@ -1374,15 +1378,15 @@
 					$terms = wc_get_product_terms( $product->get_id(), $attribute, array( 'fields' => 'all' ) );
 					
 					foreach ( $terms as $term ) {
-						if ( in_array( $term->slug, $options ) ) {
-							echo '<option value="' . esc_attr( $term->slug ) . '" ' . selected( sanitize_title( $args[ 'selected' ] ), $term->slug, false ) . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $term->name ) ) . '</option>';
+						if ( in_array( $term->slug, $options, true ) ) {
+							echo '<option value="' . esc_attr( $term->slug ) . '" ' . selected( sanitize_title( $args[ 'selected' ] ), $term->slug, false ) . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $term->name, $term, $attribute, $product ) ) . '</option>';
 						}
 					}
 				} else {
 					foreach ( $options as $option ) {
 						// This handles < 2.4.0 bw compatibility where text attributes were not sanitized.
 						$selected = sanitize_title( $args[ 'selected' ] ) === $args[ 'selected' ] ? selected( $args[ 'selected' ], sanitize_title( $option ), false ) : selected( $args[ 'selected' ], $option, false );
-						echo '<option value="' . esc_attr( $option ) . '" ' . $selected . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $option ) ) . '</option>';
+						echo '<option value="' . esc_attr( $option ) . '" ' . $selected . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $option, null, $attribute, $product ) ) . '</option>';
 					}
 				}
 			}
@@ -1449,15 +1453,15 @@
 					$terms = wc_get_product_terms( $product->get_id(), $attribute, array( 'fields' => 'all' ) );
 					
 					foreach ( $terms as $term ) {
-						if ( in_array( $term->slug, $options ) ) {
-							echo '<option value="' . esc_attr( $term->slug ) . '" ' . selected( sanitize_title( $args[ 'selected' ] ), $term->slug, false ) . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $term->name ) ) . '</option>';
+						if ( in_array( $term->slug, $options, true ) ) {
+							echo '<option value="' . esc_attr( $term->slug ) . '" ' . selected( sanitize_title( $args[ 'selected' ] ), $term->slug, false ) . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $term->name, $term, $attribute, $product ) ) . '</option>';
 						}
 					}
 				} else {
 					foreach ( $options as $option ) {
 						// This handles < 2.4.0 bw compatibility where text attributes were not sanitized.
 						$selected = sanitize_title( $args[ 'selected' ] ) === $args[ 'selected' ] ? selected( $args[ 'selected' ], sanitize_title( $option ), false ) : selected( $args[ 'selected' ], $option, false );
-						echo '<option value="' . esc_attr( $option ) . '" ' . $selected . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $option ) ) . '</option>';
+						echo '<option value="' . esc_attr( $option ) . '" ' . $selected . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $option, null, $attribute, $product ) ) . '</option>';
 					}
 				}
 			}
@@ -1481,8 +1485,6 @@
 				return $html;
 			}
 			
-			//return $html;
-			
 			// WooCommerce Product Bundle Fixing
 			if ( isset( $_POST[ 'action' ] ) && $_POST[ 'action' ] === 'woocommerce_configure_bundle_order_item' ) {
 				return $html;
@@ -1492,27 +1494,24 @@
 			// $attribute_id = sanitize_title( $args[ 'attribute' ] );
 			$product_id = $args[ 'product' ]->get_id();
 			
+			$transient_type = ( isset( $args[ 'is_archive' ] ) && $args[ 'is_archive' ] ) ? ( "archive_" . $product_id . "_" . $attribute_id ) : ( $product_id . "_" . $attribute_id );
+			$transient_name = 'wvs_attribute_html_' . $transient_type . $args[ 'selected' ];
 			
-			$transient_type = ( isset( $args[ 'is_archive' ] ) && $args[ 'is_archive' ] ) ? "archive_" . $product_id . "_" . $attribute_id : $product_id . "_" . $attribute_id;
-			$transient_name = 'wvs_attribute_html_' . $transient_type;
+			$cache = new Woo_Variation_Swatches_Cache( $transient_name, 'wvs_variation_options_html' );
 			
-			$archive_transient_name = 'wvs_attribute_html_archive_' . $product_id . "_" . $attribute_id;
-			$product_transient_name = 'wvs_attribute_html_' . $product_id . "_" . $attribute_id;
-			$use_transient          = (bool) woo_variation_swatches()->get_option( 'use_transient' );
+			// $archive_transient_name = 'wvs_attribute_html_archive_' . $product_id . "_" . $attribute_id;
+			// $product_transient_name = 'wvs_attribute_html_' . $product_id . "_" . $attribute_id;
 			
+			$use_transient = (bool) woo_variation_swatches()->get_option( 'use_transient' );
+			
+			// Clear cache
 			if ( isset( $_GET[ 'wvs_clear_transient' ] ) ) {
-				delete_transient( $transient_name );
-				// delete_transient( $archive_transient_name );
-				// delete_transient( $product_transient_name );
+				$cache->delete_transient();
 			}
-			/*			if ( isset( $_GET[ 'wvs_clear_transient' ] ) || ! $use_transient ) {
-							delete_transient( $transient_name );
-							delete_transient( $archive_transient_name );
-							delete_transient( $product_transient_name );
-						}*/
 			
+			// Return cache
 			if ( ! isset( $_GET[ 'wvs_clear_transient' ] ) && $use_transient ) {
-				$transient_html = get_transient( $transient_name );
+				$transient_html = $cache->get_transient( $transient_name );
 				if ( ! empty( $transient_html ) ) {
 					return $transient_html;
 				}
@@ -1645,8 +1644,9 @@
 			
 			$html = apply_filters( 'wvs_variation_attribute_options_html', $data, $args, $is_default_to_image, $is_default_to_button );
 			
+			// Set cache
 			if ( ! isset( $_GET[ 'wvs_clear_transient' ] ) && $use_transient ) {
-				set_transient( $transient_name, $html, HOUR_IN_SECONDS );
+				$cache->set_transient( $html, HOUR_IN_SECONDS );
 			}
 			
 			return $html;

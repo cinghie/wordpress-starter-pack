@@ -1,8 +1,8 @@
 /*!
- * Variation Swatches for WooCommerce v1.1.1 
+ * Variation Swatches for WooCommerce v1.1.2 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 11/16/2020, 8:52:49 PM
+ * Date: 11/26/2020, 7:20:28 PM
  * Released under the GPLv3 license.
  */
 /**
@@ -121,6 +121,26 @@
 
 .gwp-backbone-modal footer .feedback-dialog-form-button-skip:hover {
   text-decoration: underline;
+}
+
+.woo-variation-gallery-message {
+  background-color: #7f54b3;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: none;
+}
+
+.woo-variation-gallery-message a {
+  color: #fff;
+}
+
+.woo-variation-gallery-message.enable {
+  display: block;
+}
+
+.woo-variation-gallery-message.loading {
+  display: block;
 }
 
 @media screen and (max-width: 782px) {

@@ -4,7 +4,7 @@
 	 * Plugin URI: https://wordpress.org/plugins/woo-variation-swatches/
 	 * Description: Beautiful colors, images and buttons variation swatches for woocommerce product attributes. Requires WooCommerce 3.2+
 	 * Author: Emran Ahmed
-	 * Version: 1.1.1
+	 * Version: 1.1.2
 	 * Domain Path: /languages
 	 * Requires at least: 4.8
 	 * Tested up to: 5.5
@@ -20,7 +20,7 @@
 		
 		final class Woo_Variation_Swatches {
 			
-			protected $_version = '1.1.1';
+			protected $_version = '1.1.2';
 			
 			protected static $_instance = null;
 			private          $_settings_api;
@@ -61,6 +61,7 @@
 			
 			public function includes() {
 				if ( $this->is_required_php_version() ) {
+					require_once $this->include_path( 'class-woo-variation-swatches-cache.php' );
 					require_once $this->include_path( 'class-wvs-customizer.php' );
 					require_once $this->include_path( 'class-wvs-settings-api.php' );
 					require_once $this->include_path( 'class-wvs-term-meta.php' );
@@ -203,14 +204,14 @@
 			
 			public function deactivate_feedback() {
 				
-				$api_url = 'https://getwooplugins.com/wp-json/getwooplugins/v1/deactivation';
+				$api_url = 'https://stats.storepress.com/wp-json/storepress/deactivation';
 				
 				$deactivate_reasons = $this->deactivate_feedback_reasons();
 				
 				$plugin         = sanitize_title( $_POST[ 'plugin' ] );
 				$reason_id      = sanitize_title( $_POST[ 'reason_type' ] );
 				$reason_title   = $deactivate_reasons[ $reason_id ][ 'title' ];
-				$reason_text    = sanitize_text_field( $_POST[ 'reason_text' ] );
+				$reason_text    = ( isset( $_POST[ 'reason_text' ] ) ? sanitize_text_field( $_POST[ 'reason_text' ] ) : '' );
 				$plugin_version = sanitize_text_field( $_POST[ 'version' ] );
 				
 				if ( 'temporary_deactivation' === $reason_id ) {
@@ -224,23 +225,33 @@
 					'parent_theme'     => $this->get_parent_theme_name(),
 					'theme_name'       => $this->get_theme_name(),
 					'theme_version'    => $this->get_theme_version(),
-					'theme_uri'        => wp_get_theme( get_template() )->get( 'ThemeURI' ),
-					'theme_author'     => wp_get_theme( get_template() )->get( 'Author' ),
-					'theme_author_uri' => wp_get_theme( get_template() )->get( 'AuthorURI' ),
+					'theme_uri'        => esc_url( wp_get_theme( get_template() )->get( 'ThemeURI' ) ),
+					'theme_author'     => esc_html( wp_get_theme( get_template() )->get( 'Author' ) ),
+					'theme_author_uri' => esc_url( wp_get_theme( get_template() )->get( 'AuthorURI' ) ),
 				);
 				
 				$database_version = wc_get_server_database_version();
 				$active_plugins   = (array) get_option( 'active_plugins', array() );
+				$plugins          = array();
 				
 				if ( is_multisite() ) {
 					$network_activated_plugins = array_keys( get_site_option( 'active_sitewide_plugins', array() ) );
 					$active_plugins            = array_merge( $active_plugins, $network_activated_plugins );
 				}
 				
+				foreach ( $active_plugins as $active_plugin ) {
+					
+					if ( $active_plugin === 'woo-variation-swatches/woo-variation-swatches.php' ) {
+						continue;
+					}
+					
+					$plugins[ $active_plugin ] = get_plugin_data( WP_PLUGIN_DIR . '/' . $active_plugin, false, false );
+				}
+				
 				$environment = array(
 					'is_multisite'         => is_multisite(),
-					'site_url'             => get_option( 'siteurl' ),
-					'home_url'             => get_option( 'home' ),
+					'site_url'             => esc_url( get_option( 'siteurl' ) ),
+					'home_url'             => esc_url( get_option( 'home' ) ),
 					'php_version'          => phpversion(),
 					'mysql_version'        => $database_version[ 'number' ],
 					'mysql_version_string' => $database_version[ 'string' ],
@@ -249,18 +260,28 @@
 					'server_info'          => isset( $_SERVER[ 'SERVER_SOFTWARE' ] ) ? wc_clean( wp_unslash( $_SERVER[ 'SERVER_SOFTWARE' ] ) ) : '',
 				);
 				
+				$request_body = array(
+					'plugin'       => $plugin,
+					'version'      => $plugin_version,
+					'reason_id'    => $reason_id,
+					'reason_title' => $reason_title,
+					'reason_text'  => $reason_text,
+					'settings'     => $this->get_options(),
+					'theme'        => $theme,
+					'plugins'      => $plugins,
+					'environment'  => $environment
+				);
+				
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					$logger  = wc_get_logger();
+					$context = array( 'source' => 'woo-variation-swatches' );
+					$logger->info( sprintf( 'Deactivate log: %s', print_r( $request_body, true ) ), $context );
+				}
+				
 				$response = wp_remote_post( $api_url, $args = array(
 					'sslverify' => false,
 					'timeout'   => 60,
-					'body'      => array(
-						'plugin'       => $plugin,
-						'version'      => $plugin_version,
-						'reason_title' => $reason_title,
-						'reason_text'  => $reason_text,
-						'theme'        => $theme,
-						'plugins'      => $active_plugins,
-						'environment'  => $environment
-					)
+					'body'      => $request_body
 				) );
 				
 				if ( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 ) {
@@ -379,6 +400,11 @@
 				/*wp_enqueue_script( 'jquery-ui-dialog' );
 				wp_enqueue_style( 'wp-jquery-ui-dialog' );*/
 				
+				// Filter for disable loading scripts
+				if ( apply_filters( 'disable_wvs_admin_enqueue_scripts', false ) ) {
+					return false;
+				}
+				
 				wp_enqueue_style( 'wp-color-picker' );
 				wp_enqueue_script( 'wp-color-picker-alpha', $this->assets_uri( "/js/wp-color-picker-alpha{$suffix}.js" ), array( 'wp-color-picker' ), '2.1.3', true );
 				
@@ -438,6 +464,10 @@
 				return $this->_settings_api;
 			}
 			
+			function is_gallery_active() {
+				return class_exists( 'Woo_Variation_Gallery' );
+			}
+			
 			public function add_setting( $tab_id, $tab_title, $tab_sections, $active = false, $is_pro_tab = false, $is_new = false ) {
 				// Example:
 				
@@ -481,6 +511,10 @@
 				}
 				
 				return $this->_settings_api->get_option( $id );
+			}
+			
+			public function get_options() {
+				return get_option( 'woo_variation_swatches' );
 			}
 			
 			public function add_term_meta( $taxonomy, $post_type, $fields ) {

@@ -222,6 +222,10 @@
 				}
 			}
 			
+			public function get_options() {
+				return get_option( $this->settings_name );
+			}
+			
 			public function update_option( $key, $value ) {
 				$options         = get_option( $this->settings_name );
 				$options[ $key ] = $value;

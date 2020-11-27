@@ -762,10 +762,17 @@ class WooSEA_Get_Products {
                                                                          // Add product to cart
                                                                         if (isset($product_id)){
                                                                                 $quantity = 1;
-                                                                              
 										if(!empty($code_from_config)){
- 											if (null !== (WC()->cart)){
-			                                                            	   	WC()->customer->set_shipping_country( $code_from_config );
+											defined( 'WC_ABSPATH' ) || exit;
+
+    											// Load cart functions which are loaded only on the front-end.
+    											include_once WC_ABSPATH . 'includes/wc-cart-functions.php';
+    											include_once WC_ABSPATH . 'includes/class-wc-cart.php';
+
+//    											if ( is_null( WC()->cart ) ) {
+        											wc_load_cart();
+			                                                            	   	
+												WC()->customer->set_shipping_country( $code_from_config );
                                                                                 		
 												if(isset($zone_details['region'])){
 									        			WC()->customer->set_shipping_state(wc_clean( $zone_details['region'] ));
@@ -778,7 +785,7 @@ class WooSEA_Get_Products {
 												WC()->cart->add_to_cart( $product_id, $quantity );
                                                                                 
                                                         	                        	// Read cart and get schipping costs
-                                                	                                	foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+	                                            	                                	foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
 													$total_cost = WC()->cart->get_total();
                                                                 	                        	$shipping_cost = WC()->cart->get_shipping_total();
 													$shipping_cost = wc_format_localized_price($shipping_cost);
@@ -786,7 +793,7 @@ class WooSEA_Get_Products {
 									                       	}
                                                                         	        	// Make sure to empty the cart again
                                                                                 		WC()->cart->empty_cart();
-											}
+//											}
 										}
                                                                         }
                                                                 }
@@ -936,20 +943,22 @@ class WooSEA_Get_Products {
 										}
 									}
 								}
-
-								if(strlen($shipping_cost) > 0){
-									if($project_config['ship_suffix'] == "false"){
-                                						$zone_details['price'] = trim($currency." ".$shipping_cost);
+								
+								if(isset($shipping_cost)){
+									if(strlen($shipping_cost) > 0){
+										if($project_config['ship_suffix'] == "false"){
+                                							$zone_details['price'] = trim($currency." ".$shipping_cost);
+										} else {
+                                							$zone_details['price'] = trim($shipping_cost);
+										}
 									} else {
-                                						$zone_details['price'] = trim($shipping_cost);
+				//						$shipping_cost = 0;
+										if(isset($shipping_cost)){
+                                							$zone_details['price'] = trim($currency." ".$shipping_cost);
+										}
+										//unset($zone_details);
+										//unset($shipping_cost);
 									}
-								} else {
-				//					$shipping_cost = 0;
-									if(isset($shipping_cost)){
-                                						$zone_details['price'] = trim($currency." ".$shipping_cost);
-									}
-									//unset($zone_details);
-									//unset($shipping_cost);
 								}
 							}
 						
@@ -3945,11 +3954,14 @@ class WooSEA_Get_Products {
 						} else {
 							unlink($tmp_file);
 						}
-						// END
 						
 						$batch_project = "batch_project_".$feed_config[$key]['project_hash'];
 						delete_option( $batch_project );
         					delete_option('woosea_allow_update');
+
+						// Make sure this option is set to no again
+						// Feed should only refresh when product details have changed
+                                        	update_option('woosea_allow_update', 'no');
 
 						// In 2 minutes from now check the amount of products in the feed and update the history count
 						wp_schedule_single_event( time() + 120, 'woosea_update_project_stats', array($val['project_hash']) );
@@ -3991,7 +4003,11 @@ class WooSEA_Get_Products {
 							$batch_project = "batch_project_".$feed_config[$key]['project_hash'];
 							delete_option( $batch_project );
         						delete_option('woosea_allow_update');
-							
+						
+                                                	// Make sure this option is set to no again
+                                                	// Feed should only refresh when product details have changed
+                                                	update_option('woosea_allow_update', 'no');
+	
 							// In 2 minutes from now check the amount of products in the feed and update the history count
 							wp_schedule_single_event( time() + 120, 'woosea_update_project_stats', array($val['project_hash']) );
 						}
@@ -4426,7 +4442,7 @@ class WooSEA_Get_Products {
 									$product_data[$pr_array['attribute']] = $newvalue;
 									break;
 								case($pr_array['condition'] = "findreplace"):
-									if (strpos($pd_value, $pr_array['criteria']) !== false){
+							if (strpos($pd_value, $pr_array['criteria']) !== false){
                                                                                 // Make sure that a new value has been set
 										if(!empty($pr_array['newvalue'])){              
 									          	// Find and replace only work on same attribute field, otherwise create a contains rule 
@@ -4434,7 +4450,6 @@ class WooSEA_Get_Products {
                                                                                                 $newvalue = str_replace($pr_array['criteria'],$pr_array['newvalue'], $pd_value);
                                                                                                 $product_data[$pr_array['than_attribute']] = ucfirst($newvalue);
                                                                                         }
-                                                                                
 										}
 									}
 									break;

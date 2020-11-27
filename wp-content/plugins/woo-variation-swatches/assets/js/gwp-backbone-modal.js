@@ -128,12 +128,13 @@
             $(event.target).prop('disabled', true).text($(event.target).data('deactivating')).next().addClass('visible');
 
             wp.ajax.send(form.action, {
-                form: form,
+                data: form,
                 success: function success(response) {
                     window.location.replace(data.deactivate_link);
                     _this.closeButton(event);
                 },
                 error: function error() {
+                    console.error('Deactivation Not logged.');
                     window.location.replace(data.deactivate_link);
                     _this.closeButton(event);
                 }

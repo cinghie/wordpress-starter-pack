@@ -1,8 +1,8 @@
 /*!
- * Variation Swatches for WooCommerce v1.1.1 
+ * Variation Swatches for WooCommerce v1.1.2 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 11/16/2020, 8:52:49 PM
+ * Date: 11/26/2020, 7:20:28 PM
  * Released under the GPLv3 license.
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -469,7 +469,8 @@ var WooVariationSwatches = function ($) {
 
                 this._element.on('woocommerce_variation_has_changed.wvs', function (event) {
 
-                    event.stopPropagation();
+                    // Don't use any propagation. It will disable composit product functionality
+                    // event.stopPropagation();
 
                     $(this).find('ul.variable-items-wrapper').each(function (index, el) {
 

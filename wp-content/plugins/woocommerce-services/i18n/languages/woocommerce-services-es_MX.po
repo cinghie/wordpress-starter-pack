@@ -11,7 +11,7 @@ msgstr ""
 "Language: es_MX\n"
 "Project-Id-Version: Plugins - WooCommerce Shipping &amp; Tax - Stable (latest release)\n"
 
-#: i18n/strings.php:210 i18n/strings.php:281
+#: i18n/strings.php:218 i18n/strings.php:281
 msgid "USPS letters are not eligible for refund."
 msgstr "Las cartas de USPS no son elegibles para el reembolso."
 
@@ -19,7 +19,7 @@ msgstr "Las cartas de USPS no son elegibles para el reembolso."
 msgid "WooCommerce Shipping & Tax Data"
 msgstr "WooCommerce Shipping & Tax Data"
 
-#: i18n/strings.php:218 i18n/strings.php:289
+#: i18n/strings.php:226 i18n/strings.php:289
 msgid "Print customs form"
 msgstr "Imprimir impreso de aduanas"
 
@@ -78,8 +78,8 @@ msgid "Stripe Account (connected to WooCommerce Shipping & Tax)"
 msgstr "Cuenta de Stripe (conectada WooCommerce Shipping & Tax)"
 
 #. Plugin Name of the plugin
-#: classes/class-wc-connect-settings-pages.php:107
 #: classes/class-wc-connect-privacy.php:36
+#: classes/class-wc-connect-settings-pages.php:107
 msgid "WooCommerce Shipping & Tax"
 msgstr "WooCommerce Shipping & Tax"
 
@@ -87,7 +87,7 @@ msgstr "WooCommerce Shipping & Tax"
 msgid "UPS"
 msgstr "UPS"
 
-#: classes/class-wc-connect-taxjar-integration.php:318 i18n/strings.php:112
+#: classes/class-wc-connect-taxjar-integration.php:318 i18n/strings.php:120
 #: i18n/strings.php:424
 msgid "ZIP/Postal code"
 msgstr "Código postal"
@@ -204,39 +204,39 @@ msgstr "Cuenta de transportista"
 msgid "Credentials"
 msgstr "Credenciales"
 
-#: i18n/strings.php:198
+#: i18n/strings.php:206
 msgid "Adult signature required"
 msgstr "Es obligatoria la firma de un adulto"
 
-#: i18n/strings.php:197
+#: i18n/strings.php:205
 msgid "Signature required"
 msgstr "Firma obligatoria"
 
-#: i18n/strings.php:174 i18n/strings.php:180
+#: i18n/strings.php:182 i18n/strings.php:188
 msgid "Other\\u2026"
 msgstr "Otros..."
 
-#: i18n/strings.php:110 i18n/strings.php:421
+#: i18n/strings.php:118 i18n/strings.php:421
 msgid "Select one\\u2026"
 msgstr "Seleccionar uno..."
 
-#: i18n/strings.php:100
+#: i18n/strings.php:108
 msgid "Validating address\\u2026"
 msgstr "Validando la dirección..."
 
-#: i18n/strings.php:55 i18n/strings.php:251 i18n/strings.php:322
+#: i18n/strings.php:63 i18n/strings.php:259 i18n/strings.php:322
 msgid "Purchasing\\u2026"
 msgstr "Comprando..."
 
-#: i18n/strings.php:44
+#: i18n/strings.php:52
 msgid "Your UPS account will be charged"
 msgstr "Se cargará en tu cuenta de UPS"
 
-#: i18n/strings.php:43
+#: i18n/strings.php:51
 msgid "Package %(index)s \\u2013 %(title)s"
 msgstr "Paquete %(index)s – %(title)s"
 
-#: i18n/strings.php:36 i18n/strings.php:60 i18n/strings.php:329
+#: i18n/strings.php:44 i18n/strings.php:68 i18n/strings.php:329
 msgid "Saving\\u2026"
 msgstr "Guardando..."
 
@@ -250,48 +250,48 @@ msgstr "Tus tarifas de impuestos y ajustes se configurarán automáticamente par
 msgid "Your tax rates and settings will be automatically configured for %1$s, %2$s. <a href=\"https://docs.woocommerce.com/document/setting-up-taxes-in-woocommerce/#section-12\">Learn more about setting up tax rates for additional nexuses</a>"
 msgstr "Tus tarifas de impuestos y ajustes se configurarán automáticamente para %1$s, %2$s. <a href=\"https://docs.woocommerce.com/document/setting-up-taxes-in-woocommerce/#section-12\">Aprende más sobre cómo configurar tarifas de impuestos para nexos adicionales</a>"
 
-#: i18n/strings.php:278
+#: i18n/strings.php:42
 msgid "%(itemCount)d item is ready to be fulfilled"
 msgid_plural "%(itemCount)d items are ready to be fulfilled"
 msgstr[0] "%(itemCount)d artículo está listo para ser completado"
 msgstr[1] "%(itemCount)d artículos están listos para ser completados"
 
-#: i18n/strings.php:277
+#: i18n/strings.php:41
 msgid "%(itemCount)d item was fulfilled on {{span}}%(createdDate)s{{/span}}"
 msgid_plural "%(itemCount)d items were fulfilled on {{span}}%(createdDate)s{{/span}}"
 msgstr[0] "%(itemCount)d artículo ha sido completado el {{span}}%(createdDate)s{{/span}}"
 msgstr[1] "%(itemCount)d artículos han sido completados el {{span}}%(createdDate)s{{/span}}"
 
-#: i18n/strings.php:217 i18n/strings.php:288
+#: i18n/strings.php:225 i18n/strings.php:288
 msgid "Schedule a pickup"
 msgstr "Programa una recogida"
 
-#: i18n/strings.php:213 i18n/strings.php:284
+#: i18n/strings.php:221 i18n/strings.php:284
 msgid "Label images older than 180 days are deleted by our technology partners for general security and data privacy concerns."
 msgstr "Las imágenes de las etiquetas de más de 180 días las borran nuestros colaboradores tecnológicos por cuestiones de seguridad y privacidad de datos."
 
-#: i18n/strings.php:209 i18n/strings.php:280
+#: i18n/strings.php:217 i18n/strings.php:280
 msgid "Labels older than 30 days cannot be refunded."
 msgstr "Las etiquetas de más de 30 días no se pueden reembolsar."
 
-#: i18n/strings.php:40
+#: i18n/strings.php:48
 msgid "Mark this order as complete and notify the customer"
 msgstr "Marcar este pedido como completo y avisar al cliente"
 
-#: i18n/strings.php:39
+#: i18n/strings.php:47
 msgid "Notify the customer with shipment details"
 msgstr "Avisar el cliente con los detalles del envío"
 
-#: i18n/strings.php:42
+#: i18n/strings.php:50
 msgid "You save %s with WooCommerce Shipping"
 msgstr "Ahorras %s con WooCommerce Shipping"
 
 #. translators: %s WC download URL link.
-#: woocommerce-services.php:482
+#: woocommerce-services.php:498
 msgid "WooCommerce Shipping & Tax requires the WooCommerce plugin to be installed and active. You can download %s here."
 msgstr "WooCommerce Shipping & Tax necesita que esté instalado y activado el plugin WooCommerce. Puedes descargarlo aquí: %s."
 
-#: i18n/strings.php:201
+#: i18n/strings.php:209
 msgid "You\\u2019ve got WooCommerce Tax installed. If you\\u2019d like, we can automatically copy keys from your Stripe account for you. {{a}}Click here{{/a}} to connect your Stripe account using WooCommerce Tax."
 msgstr "Tienes instalado WooCommerce Tax. Si lo deseas, podemos copiar automáticamente por ti las claves de tu cuenta de Stripe. Haz {{a}}clic aquí{{/a}} para conectar con tu cuenta de Stripe usando WooCommerce Tax."
 
@@ -299,138 +299,138 @@ msgstr "Tienes instalado WooCommerce Tax. Si lo deseas, podemos copiar automáti
 msgid "No tracking information available at this time"
 msgstr "En este momento no hay disponible información de seguimiento"
 
-#: i18n/strings.php:276
+#: i18n/strings.php:40
 msgid "Connection error: unable to create label at this time"
 msgstr "Error de conexión: en este momento no se puede crear la etiqueta"
 
-#: i18n/strings.php:272 i18n/strings.php:274
+#: i18n/strings.php:36 i18n/strings.php:38
 msgid "Track Package"
 msgid_plural "Track Packages"
 msgstr[0] "Seguimiento del paquete"
 msgstr[1] "Seguimiento de los paquetes"
 
-#: i18n/strings.php:208
+#: i18n/strings.php:216
 msgid "Which package would you like to track?"
 msgstr "¿Qué paquete te gustaría seguir?"
 
-#: i18n/strings.php:219 i18n/strings.php:250 i18n/strings.php:290
+#: i18n/strings.php:227 i18n/strings.php:258 i18n/strings.php:290
 #: i18n/strings.php:321
 msgid "%(service)s label (#%(labelIndex)d)"
 msgstr "%(service)s etiqueta (#%(labelIndex)d)"
 
-#: i18n/strings.php:53
+#: i18n/strings.php:61
 msgid "To print this shipping label, {{a}}add a credit card to your account{{/a}}."
 msgstr "Para imprimir esta etiqueta de envío, {{a}}añade una tarjeta de crédito a tu cuenta{{/a}}."
 
-#: i18n/strings.php:52
+#: i18n/strings.php:60
 msgid "Add credit card"
 msgstr "Añadir una tarjeta de crédito"
 
-#: i18n/strings.php:51
+#: i18n/strings.php:59
 msgid "To print this shipping label, {{a}}choose a credit card to add to your account{{/a}}."
 msgstr "Para imprimir esta etiqueta de envío, {{a}}elige una tarjeta de crédito para añadirla a tu cuenta{{/a}}."
 
-#: i18n/strings.php:50
+#: i18n/strings.php:58
 msgid "Choose credit card"
 msgstr "Elegir una tarjeta de crédito"
 
-#: i18n/strings.php:56
+#: i18n/strings.php:64
 msgid "Buy shipping label"
 msgid_plural "Buy shipping labels"
 msgstr[0] "Comprar una etiqueta de envío"
 msgstr[1] "Comprar etiquetas de envío"
 
-#: i18n/strings.php:49
+#: i18n/strings.php:57
 msgid "shipping label ready"
 msgid_plural "shipping labels ready"
 msgstr[0] "etiqueta de envío lista"
 msgstr[1] "etiquetas de envío listas"
 
-#: i18n/strings.php:47
+#: i18n/strings.php:55
 msgid "Shipping from"
 msgstr "Envío desde"
 
-#: i18n/strings.php:46
+#: i18n/strings.php:54
 msgid "Shipping summary"
 msgstr "Resumen del envío"
 
-#: i18n/strings.php:192
+#: i18n/strings.php:200
 msgid "Customer paid a {{shippingMethod/}} of {{shippingCost/}} for shipping"
 msgstr "El cliente ha pagado un {{shippingMethod/}} de {{shippingCost/}} por el envío"
 
-#: i18n/strings.php:194
+#: i18n/strings.php:202
 msgid "Shipping rates"
 msgstr "Tarifas de envío"
 
-#: i18n/strings.php:90
+#: i18n/strings.php:98
 msgid "HS Tariff number"
 msgstr "Número del arancel del HS"
 
-#: i18n/strings.php:154
+#: i18n/strings.php:162
 msgid "Submit"
 msgstr "Enviar"
 
-#: i18n/strings.php:141
+#: i18n/strings.php:149
 msgid "Total Weight (with package)"
 msgstr "Peso total (con el paquete)"
 
-#: i18n/strings.php:139
+#: i18n/strings.php:147
 msgid "QTY"
 msgstr "Cantidad"
 
-#: i18n/strings.php:138
+#: i18n/strings.php:146
 msgid "Weight"
 msgstr "Peso"
 
-#: i18n/strings.php:137
+#: i18n/strings.php:145
 msgid "Items to fulfill"
 msgstr "Elementos para rellenar"
 
-#: i18n/strings.php:148
+#: i18n/strings.php:156
 msgid "Select a package type"
 msgstr "Selecciona un tipo de paquete"
 
-#: i18n/strings.php:146
+#: i18n/strings.php:154
 msgid "Package details"
 msgstr "Detalles del paquete"
 
-#: i18n/strings.php:64 i18n/strings.php:334
+#: i18n/strings.php:72 i18n/strings.php:334
 msgid "Your shipping packages have been saved."
 msgstr "Han sido guardados tus paquetes de envío."
 
-#: i18n/strings.php:80 i18n/strings.php:350
+#: i18n/strings.php:88 i18n/strings.php:350
 msgid "0.0"
 msgstr "0.0"
 
-#: woocommerce-services.php:1320
+#: woocommerce-services.php:1341
 msgid "Shipment Tracking"
 msgstr "Seguimiento de envíos"
 
-#: i18n/strings.php:165
+#: i18n/strings.php:173
 msgid "Customs information valid"
 msgstr "Información de aduanas válida"
 
-#: i18n/strings.php:164
+#: i18n/strings.php:172
 msgid "Customs information incomplete"
 msgstr "Información de aduanas incompleta"
 
-#: woocommerce-services.php:1363
+#: woocommerce-services.php:1384
 msgid "Packing Log:"
 msgstr "Registro de paquetería:"
 
-#: woocommerce-services.php:1350
+#: woocommerce-services.php:1371
 msgid "Chosen Rate:"
 msgstr "Tarifa elegida:"
 
-#: woocommerce-services.php:1346
+#: woocommerce-services.php:1367
 msgid "Shipping Method ID:"
 msgstr "ID del método de envío:"
 
-#: woocommerce-services.php:1342
+#: woocommerce-services.php:1363
 msgid "Shipping Method Name:"
 msgstr "Nombre del método de envío:"
 
-#: woocommerce-services.php:1326
+#: woocommerce-services.php:1347
 msgid "Shipping Debug"
 msgstr "Depuración de envíos"
 
@@ -442,15 +442,15 @@ msgstr "Tu sitio debe servirse en HTTPS para poder conectar tu cuenta de Stripe 
 msgid "<strong>\"%2$s\" is missing weight, length, width, or height.</strong><br />Shipping rates cannot be calculated. <a href=\"%1$s\">Enter dimensions and weight for %2$s</a> so your customers can purchase this item."
 msgstr "<strong>A \"%2$s\" le falta el peso, largo, ancho o la altura.</strong><br />No se pueden calcular las tarifas de envío. <a href=\"%1$s\">Introduce las dimensiones y el peso de %2$s</a> para que tus clientes puedan comprar este artículo."
 
-#: classes/class-wc-connect-api-client.php:538
+#: classes/class-wc-connect-api-client.php:549
 msgid "Unable to send request to WooCommerce Shipping & Tax server. The timestamp generated for the signature is too old."
 msgstr "No ha sido posible enviar la solicitud al servidor de WooCommerce Shipping & Tax. La marca temporal generada para la firma es demasiado antigua."
 
-#: classes/class-wc-connect-api-client.php:502
+#: classes/class-wc-connect-api-client.php:513
 msgid "Unable to send request to WooCommerce Shipping & Tax server. Jetpack Token is malformed."
 msgstr "No ha sido posible enviar la solicitud al servidor de WooCommerce Shipping & Tax. El token de JetPack está mal formado."
 
-#: classes/class-wc-connect-api-client.php:495
+#: classes/class-wc-connect-api-client.php:506
 msgid "Unable to send request to WooCommerce Shipping & Tax server. Jetpack Token is missing"
 msgstr "No ha sido posible enviar la solicitud al servidor de WooCommerce Shipping & Tax. Falta el token de JetPack."
 
@@ -504,159 +504,159 @@ msgstr "Registro de paquetería:"
 msgid "Received rate: %1$s (%2$s)"
 msgstr "Tarifa recibida: %1$s (%2$s)"
 
-#: i18n/strings.php:193
+#: i18n/strings.php:201
 msgid "Your customer selected {{shippingMethod/}}"
 msgstr "Tu cliente ha elegido {{shippingMethod/}}"
 
-#: i18n/strings.php:191
+#: i18n/strings.php:199
 msgid "Total rate: %(total)s"
 msgstr "Tasa total: %(total)s"
 
-#: i18n/strings.php:190
+#: i18n/strings.php:198
 msgid "%(serviceName)s: %(rate)s"
 msgstr "%(serviceName)s: %(rate)s"
 
-#: i18n/strings.php:189
+#: i18n/strings.php:197
 msgid "No rates found"
 msgstr "No se han encontrado tarifas"
 
-#: i18n/strings.php:41
+#: i18n/strings.php:49
 msgid "WooCommerce Shipping gives you access to USPS Commercial Pricing, which is discounted over Retail rates."
 msgstr "WooCommerce Shipping te da acceso a USPS Commercial Pricing, que tienen descuento sobre las tarifas minoristas."
 
-#: i18n/strings.php:142
+#: i18n/strings.php:150
 msgid "0"
 msgstr "0"
 
-#: i18n/strings.php:91 i18n/strings.php:183
+#: i18n/strings.php:99 i18n/strings.php:191
 msgid "more info"
 msgstr "más información"
 
-#: i18n/strings.php:182
+#: i18n/strings.php:190
 msgid "ITN"
 msgstr "ITN"
 
-#: i18n/strings.php:179
+#: i18n/strings.php:187
 msgid "Sanitary / Phytosanitary inspection"
 msgstr "Inspección sanitaria / fitosanitaria"
 
-#: i18n/strings.php:178
+#: i18n/strings.php:186
 msgid "Quarantine"
 msgstr "Cuarentena"
 
-#: i18n/strings.php:177
+#: i18n/strings.php:185
 msgid "None"
 msgstr "Ninguno"
 
-#: i18n/strings.php:176
+#: i18n/strings.php:184
 msgid "Restriction type"
 msgstr "Tipo de restricción"
 
-#: i18n/strings.php:175 i18n/strings.php:181
+#: i18n/strings.php:183 i18n/strings.php:189
 msgid "Details"
 msgstr "Detalles"
 
-#: i18n/strings.php:173
+#: i18n/strings.php:181
 msgid "Sample"
 msgstr "Muestra"
 
-#: i18n/strings.php:172
+#: i18n/strings.php:180
 msgid "Gift"
 msgstr "Regalo"
 
-#: i18n/strings.php:171
+#: i18n/strings.php:179
 msgid "Documents"
 msgstr "Documentos"
 
-#: i18n/strings.php:170
+#: i18n/strings.php:178
 msgid "Merchandise"
 msgstr "Mercancía"
 
-#: i18n/strings.php:169
+#: i18n/strings.php:177
 msgid "Contents type"
 msgstr "Tipo de contenido"
 
-#: i18n/strings.php:168
+#: i18n/strings.php:176
 msgid "Return to sender if package is unable to be delivered"
 msgstr "Devolver al remitente si el paquete no puede ser entregado"
 
-#: i18n/strings.php:187
+#: i18n/strings.php:195
 msgid "Value (per unit)"
 msgstr "Valor (por unidad)"
 
-#: i18n/strings.php:186
+#: i18n/strings.php:194
 msgid "Weight (per unit)"
 msgstr "Peso (por unidad)"
 
-#: i18n/strings.php:167
+#: i18n/strings.php:175
 msgid "Save customs form"
 msgstr "Guardar el formulario de aduanas"
 
-#: i18n/strings.php:166
+#: i18n/strings.php:174
 msgid "Customs"
 msgstr "Aduanas"
 
-#: i18n/strings.php:115 i18n/strings.php:128
+#: i18n/strings.php:123 i18n/strings.php:136
 msgid "Use address as entered"
 msgstr "Utilizar la dirección tal y como se ha introducido"
 
-#: i18n/strings.php:126
+#: i18n/strings.php:134
 msgid "View on Google Maps"
 msgstr "Ver en Google Maps"
 
-#: i18n/strings.php:125
+#: i18n/strings.php:133
 msgid "Verify with USPS"
 msgstr "Verificar con USPS"
 
-#: i18n/strings.php:124
+#: i18n/strings.php:132
 msgid "Automatic verification failed for this address. It may still be a valid address \\u2014 use the tools below to manually verify."
 msgstr "Ha fallado la verificación automática para esta dirección. Aún puede ser una dirección válida: usa las siguientes herramientas para verificarla manualmente."
 
-#: i18n/strings.php:122
+#: i18n/strings.php:130
 msgid "We were unable to automatically verify the address."
 msgstr "No hemos podido verificar automáticamente la dirección."
 
-#: i18n/strings.php:121
+#: i18n/strings.php:129
 msgid "We were unable to automatically verify the address \\u2014 %(error)s."
 msgstr "No hemos podido verificar automáticamente la dirección: %(error)s."
 
-#: i18n/strings.php:102
+#: i18n/strings.php:110
 msgid "You've edited the address, please revalidate it for accurate rates"
 msgstr "Has editado la dirección, vuelve a validarla para obtener tarifas precisas."
 
-#: i18n/strings.php:114
+#: i18n/strings.php:122
 msgid "Verify address"
 msgstr "Verificar dirección"
 
-#: i18n/strings.php:106
+#: i18n/strings.php:114
 msgid "%(message)s. Please modify the address and try again."
 msgstr "%(message)s. Modifica la dirección y vuelve a intentarlo."
 
-#: i18n/strings.php:216 i18n/strings.php:287
+#: i18n/strings.php:224 i18n/strings.php:287
 msgid "View details"
 msgstr "Ver detalles"
 
-#: i18n/strings.php:248 i18n/strings.php:319
+#: i18n/strings.php:256 i18n/strings.php:319
 msgid "Items"
 msgstr "Artículos"
 
-#: i18n/strings.php:247 i18n/strings.php:318
+#: i18n/strings.php:255 i18n/strings.php:318
 msgid "Package"
 msgstr "Paquete"
 
-#: i18n/strings.php:245 i18n/strings.php:316
+#: i18n/strings.php:253 i18n/strings.php:316
 msgid "Receipt"
 msgstr "Recibo"
 
-#: i18n/strings.php:244 i18n/strings.php:315
+#: i18n/strings.php:252 i18n/strings.php:315
 msgid "Label #%(labelIndex)s details"
 msgstr "Detalles de la etiqueta #%(labelIndex)s"
 
-#: i18n/strings.php:69 i18n/strings.php:339
+#: i18n/strings.php:77 i18n/strings.php:339
 msgid "{{icon/}} Delete this package"
 msgstr "{{icon/}}} Borrar este paquete"
 
-#: i18n/strings.php:67 i18n/strings.php:337
+#: i18n/strings.php:75 i18n/strings.php:337
 msgid "Done"
 msgstr "Hecho"
 
@@ -668,27 +668,27 @@ msgstr "Añade las cajas, sobres y otros paquetes que uses más frecuentemente"
 msgid "Remove"
 msgstr "Eliminar"
 
-#: i18n/strings.php:48 i18n/strings.php:394
+#: i18n/strings.php:56 i18n/strings.php:394
 msgid "Edit"
 msgstr "Editar"
 
-#: i18n/strings.php:79 i18n/strings.php:349
+#: i18n/strings.php:87 i18n/strings.php:349
 msgid "Weight of empty package"
 msgstr "Peso del paquete vacío"
 
-#: i18n/strings.php:76 i18n/strings.php:346
+#: i18n/strings.php:84 i18n/strings.php:346
 msgid "Unique package name"
 msgstr "Nombre único del paquete"
 
-#: i18n/strings.php:74 i18n/strings.php:344
+#: i18n/strings.php:82 i18n/strings.php:344
 msgid "Envelope"
 msgstr "Sobre"
 
-#: i18n/strings.php:73 i18n/strings.php:343
+#: i18n/strings.php:81 i18n/strings.php:343
 msgid "Box"
 msgstr "Caja"
 
-#: i18n/strings.php:71 i18n/strings.php:341
+#: i18n/strings.php:79 i18n/strings.php:341
 msgid "This field is required."
 msgstr "Este campo es obligatorio."
 
@@ -741,77 +741,77 @@ msgid "Print shipping labels yourself and save a trip to the post office"
 msgstr "Imprime tú mismo las etiquetas de envío y ahórrate un viaje a la oficina de correos"
 
 #. translators: Height placeholder for dimensions input
-#: i18n/strings.php:86 i18n/strings.php:356
+#: i18n/strings.php:94 i18n/strings.php:356
 msgid "H"
 msgstr "Al"
 
 #. translators: Width placeholder for dimensions input
-#: i18n/strings.php:84 i18n/strings.php:354
+#: i18n/strings.php:92 i18n/strings.php:354
 msgid "W"
 msgstr "An"
 
 #. translators: Length placeholder for dimensions input
-#: i18n/strings.php:82 i18n/strings.php:352
+#: i18n/strings.php:90 i18n/strings.php:352
 msgid "L"
 msgstr "L"
 
-#: i18n/strings.php:206
+#: i18n/strings.php:214
 msgid "Stripe account"
 msgstr "Cuenta de Stripe"
 
-#: i18n/strings.php:205 i18n/strings.php:404 i18n/strings.php:407
+#: i18n/strings.php:213 i18n/strings.php:404 i18n/strings.php:407
 msgid "Disconnect"
 msgstr "Desconectar"
 
-#: i18n/strings.php:204
+#: i18n/strings.php:212
 msgid "Disconnecting"
 msgstr "Desconectando"
 
-#: i18n/strings.php:203
+#: i18n/strings.php:211
 msgid "Check email to activate account"
 msgstr "Revisa el correo electrónico para activar la cuenta"
 
-#: i18n/strings.php:202
+#: i18n/strings.php:210
 msgid "Activated"
 msgstr "Activado"
 
-#: i18n/strings.php:221 i18n/strings.php:292
+#: i18n/strings.php:229 i18n/strings.php:292
 msgid "No activity yet"
 msgstr "Aún no hay actividad"
 
-#: i18n/strings.php:229 i18n/strings.php:300
+#: i18n/strings.php:237 i18n/strings.php:300
 msgid "Note"
 msgstr "Nota"
 
-#: i18n/strings.php:228 i18n/strings.php:299
+#: i18n/strings.php:236 i18n/strings.php:299
 msgid "Refunded %(amount)s"
 msgstr "Reembolsado %(amount)s"
 
-#: i18n/strings.php:226 i18n/strings.php:297
+#: i18n/strings.php:234 i18n/strings.php:297
 msgid "%(service)s label (#%(labelNum)d) refund rejected"
 msgstr "reembolso de etiqueta de %(service)s (#%(labelNum)d) rechazado"
 
-#: i18n/strings.php:225 i18n/strings.php:296
+#: i18n/strings.php:233 i18n/strings.php:296
 msgid "%(service)s label (#%(labelNum)d) refunded (%(amount)s)"
 msgstr "reembolsado (%(amount)s) de etiqueta de %(service)s (#%(labelNum)d) rechazado"
 
-#: i18n/strings.php:224 i18n/strings.php:295
+#: i18n/strings.php:232 i18n/strings.php:295
 msgid "%(service)s label (#%(labelNum)d) refund requested (%(amount)s)"
 msgstr "%(service)s etiqueta (#%(labelNum)d) solicitud de reembolso (%(amount)s)"
 
-#: i18n/strings.php:223 i18n/strings.php:294
+#: i18n/strings.php:231 i18n/strings.php:294
 msgid "Note sent to customer"
 msgstr "Nota enviada al cliente"
 
-#: i18n/strings.php:222 i18n/strings.php:293
+#: i18n/strings.php:230 i18n/strings.php:293
 msgid "Internal note"
 msgstr "Nota interna"
 
-#: i18n/strings.php:253 i18n/strings.php:324
+#: i18n/strings.php:261 i18n/strings.php:324
 msgid "Show notes from %(date)s"
 msgstr "Mostrar notas desde %(date)s"
 
-#: i18n/strings.php:252 i18n/strings.php:323
+#: i18n/strings.php:260 i18n/strings.php:323
 msgid "%(count)s event"
 msgid_plural "%(count)s events"
 msgstr[0] "%(count)s evento"
@@ -822,11 +822,11 @@ msgstr[1] "%(count)s eventos"
 msgid "WeChat Pay"
 msgstr "WeChat Pay"
 
-#: i18n/strings.php:230 i18n/strings.php:301
+#: i18n/strings.php:238 i18n/strings.php:301
 msgid "Toggle menu"
 msgstr "Alternar menú"
 
-#: i18n/strings.php:200
+#: i18n/strings.php:208
 msgid "Account disconnected. Reloading page\\u2026"
 msgstr "Cuenta desconectada. Recargando página..."
 
@@ -876,32 +876,32 @@ msgstr "Cola del registro copiada al portapapeles"
 msgid "Last updated %s. {{a}}Refresh{{/a}}"
 msgstr "Últimas %s actualizadas. {{a}}Recargar{{/a}}"
 
-#: i18n/strings.php:259 i18n/strings.php:333
+#: i18n/strings.php:267 i18n/strings.php:333
 msgid "You have unsaved changes. Are you sure you want to leave this page?"
 msgstr "Tienes cambios sin guardar. ¿Seguro que quieres abandonar esta página?"
 
-#: i18n/strings.php:96
+#: i18n/strings.php:104
 msgid "Value ($ per unit)"
 msgstr "Value ($ per unit)"
 
-#: i18n/strings.php:95
+#: i18n/strings.php:103
 msgid "Weight (%s per unit)"
 msgstr "Weight (%s per unit)"
 
-#: i18n/strings.php:94 i18n/strings.php:184
+#: i18n/strings.php:102 i18n/strings.php:192
 msgid "Description"
 msgstr "Descripción"
 
-#: i18n/strings.php:93
+#: i18n/strings.php:101
 msgid "Country where the product was manufactured or assembled"
 msgstr "País donde se fabricó o ensambló el producto"
 
-#: i18n/strings.php:92
+#: i18n/strings.php:100
 msgid "Origin country"
 msgstr "País de origen"
 
-#: i18n/strings.php:5 i18n/strings.php:58 i18n/strings.php:185
-#: i18n/strings.php:255 i18n/strings.php:327
+#: i18n/strings.php:5 i18n/strings.php:66 i18n/strings.php:193
+#: i18n/strings.php:263 i18n/strings.php:327
 msgid "Optional"
 msgstr "Opcional"
 
@@ -1068,11 +1068,11 @@ msgstr "Hubo un problema al actualizar tus tarjetas de crédito guardadas."
 msgid "No labels found for this period"
 msgstr "No se han encontrado etiquetas en este periodo"
 
-#: classes/class-wc-connect-label-reports.php:202 i18n/strings.php:45
+#: classes/class-wc-connect-label-reports.php:202 i18n/strings.php:53
 msgid "Total"
 msgstr "Total"
 
-#: classes/class-wc-connect-label-reports.php:170 i18n/strings.php:227
+#: classes/class-wc-connect-label-reports.php:170 i18n/strings.php:235
 #: i18n/strings.php:298
 msgid "Refund"
 msgstr "Reembolso"
@@ -1177,11 +1177,11 @@ msgstr "Enlaza a una cuenta PayPal"
 msgid "Refresh"
 msgstr "Recargar"
 
-#: woocommerce-services.php:1104
+#: woocommerce-services.php:1125
 msgid "Tracking number"
 msgstr "Número de seguimiento"
 
-#: woocommerce-services.php:1103
+#: woocommerce-services.php:1124
 msgid "Provider"
 msgstr "Proveedor"
 
@@ -1273,7 +1273,7 @@ msgid "automated tax calculation and smoother payment setup"
 msgstr "cálculo automático de impuestos y configuración de pago más sencilla"
 
 #: classes/class-wc-connect-paypal-ec.php:312 i18n/strings.php:4
-#: i18n/strings.php:57 i18n/strings.php:254 i18n/strings.php:326
+#: i18n/strings.php:65 i18n/strings.php:262 i18n/strings.php:326
 msgid "Required"
 msgstr "Requerido"
 
@@ -1289,31 +1289,31 @@ msgstr "No ha sido posible guardar tus ajustes de envío. Por favor, inténtalo 
 msgid "Dimensions"
 msgstr "Dimensiones"
 
-#: i18n/strings.php:160 i18n/strings.php:243 i18n/strings.php:314
+#: i18n/strings.php:168 i18n/strings.php:251 i18n/strings.php:314
 msgid "Close"
 msgstr "Cerrar"
 
-#: i18n/strings.php:135
+#: i18n/strings.php:143
 msgid "Packages to be Shipped"
 msgstr "Paquetes a enviar"
 
-#: i18n/strings.php:157
+#: i18n/strings.php:165
 msgid "Add to a New Package"
 msgstr "Añadir a un nuevo paquete"
 
-#: i18n/strings.php:136
+#: i18n/strings.php:144
 msgid "Add items"
 msgstr "Añadir artículos"
 
-#: i18n/strings.php:144
+#: i18n/strings.php:152
 msgid "Individually Shipped Item"
 msgstr "Artículo enviado individualmente"
 
-#: i18n/strings.php:145
+#: i18n/strings.php:153
 msgid "Item Dimensions"
 msgstr "Dimensiones del artículo"
 
-#: i18n/strings.php:149
+#: i18n/strings.php:157
 msgid "Please select a package"
 msgstr "Por favor, elige un paquete"
 
@@ -1390,7 +1390,7 @@ msgstr "Caduca %(date)s"
 msgid "Add another credit card"
 msgstr "Añadir otra tarjeta de créditoi"
 
-#: i18n/strings.php:88 i18n/strings.php:358
+#: i18n/strings.php:96 i18n/strings.php:358
 msgid "%(selectedCount)d package selected"
 msgid_plural "%(selectedCount)d packages selected"
 msgstr[0] "%(selectedCount)d paquete seleccionado"
@@ -1400,119 +1400,119 @@ msgstr[1] "%(selectedCount)d paquetes seleccionados"
 msgid "Unable to get your settings. Please refresh the page to try again."
 msgstr "No ha sido posible recuperar tus ajustes. Por favor, recarga la página para intentarlo de nuevo."
 
-#: i18n/strings.php:266
+#: i18n/strings.php:274
 msgid "%(numSelected)d service selected"
 msgid_plural "%(numSelected)d services selected"
 msgstr[0] "%(numSelected)d servicio seleccionado"
 msgstr[1] "%(numSelected)d servicios seleccionados"
 
-#: i18n/strings.php:264
+#: i18n/strings.php:272
 msgid "Add and edit saved packages using the {{a}}Packaging Manager{{/a}}."
 msgstr "Añade y edita los paquetes guardados usando el {{a}}Gestor de paquetería{{/a}}."
 
-#: i18n/strings.php:220 i18n/strings.php:291
+#: i18n/strings.php:228 i18n/strings.php:291
 msgid "Tracking #: {{trackingLink/}}"
 msgstr "Seguimiento #: {{trackingLink/}}"
 
-#: i18n/strings.php:159
+#: i18n/strings.php:167
 msgid "%(item)s from {{pckg/}}"
 msgstr "%(item)s desde {{pckg/}}"
 
-#: i18n/strings.php:163
+#: i18n/strings.php:171
 msgid "Which items would you like to add to {{pckg/}}?"
 msgstr "¿Qué artículos te gustaría añadir a {{pckg/}}?"
 
-#: i18n/strings.php:131
+#: i18n/strings.php:139
 msgid "1 item in 1 package: %(weight)s %(unit)s total"
 msgstr "1 artículo en 1 paquete: %(weight)s %(unit)s en total"
 
-#: i18n/strings.php:132
+#: i18n/strings.php:140
 msgid "%(itemsCount)d items in 1 package: %(weight)s %(unit)s total"
 msgstr "%(itemsCount)d artículos en 1 paquete: %(weight)s %(unit)s en total"
 
-#: i18n/strings.php:133
+#: i18n/strings.php:141
 msgid "%(itemsCount)d items in %(packageCount)d packages: %(weight)s %(unit)s total"
 msgstr "%(itemsCount)d artículos en %(packageCount)d paquetes: %(weight)s %(unit)s en total"
 
-#: i18n/strings.php:150
+#: i18n/strings.php:158
 msgid "{{itemLink/}} is currently saved for a later shipment."
 msgstr "{{itemLink/}} está actualmente guardado para un envío posterior."
 
-#: i18n/strings.php:151
+#: i18n/strings.php:159
 msgid "{{itemLink/}} is currently shipped in its original packaging."
 msgstr "{{itemLink/}} está actualmente enviado en su paquete original."
 
-#: i18n/strings.php:152
+#: i18n/strings.php:160
 msgid "{{itemLink/}} is currently in {{pckg/}}."
 msgstr "{{itemLink/}} está en actualmente en {{pckg/}}."
 
-#: i18n/strings.php:196
+#: i18n/strings.php:204
 msgid "Choose rate: %(pckg)s"
 msgstr "Elegir tarifa: %(pckg)s"
 
-#: i18n/strings.php:232 i18n/strings.php:303
+#: i18n/strings.php:240 i18n/strings.php:303
 msgid "Refund label (-%(amount)s)"
 msgstr "Etiqueta de reembolso (-%(amount)s)"
 
-#: i18n/strings.php:156
+#: i18n/strings.php:164
 msgid "Where would you like to move it?"
 msgstr "¿A dónde te gustaría moverlo?"
 
-#: i18n/strings.php:188
+#: i18n/strings.php:196
 msgid "Unsaved changes made to packages"
 msgstr "Los cambios realizados a los paquetes no se han guardado"
 
-#: i18n/strings.php:140
+#: i18n/strings.php:148
 msgid "There are no items in this package."
 msgstr "No existen artículos en este paquete."
 
-#: i18n/strings.php:158
+#: i18n/strings.php:166
 msgid "Ship in original packaging"
 msgstr "Enviar en su paquete original"
 
-#: i18n/strings.php:211 i18n/strings.php:212 i18n/strings.php:282
+#: i18n/strings.php:219 i18n/strings.php:220 i18n/strings.php:282
 #: i18n/strings.php:283
 msgid "Request refund"
 msgstr "Solicitar reembolso"
 
-#: i18n/strings.php:214 i18n/strings.php:285
+#: i18n/strings.php:222 i18n/strings.php:285
 msgid "Reprint"
 msgstr "Volver a imprimir"
 
-#: i18n/strings.php:38 i18n/strings.php:242 i18n/strings.php:313
+#: i18n/strings.php:46 i18n/strings.php:250 i18n/strings.php:313
 #: i18n/strings.php:381
 msgid "Paper size"
 msgstr "Tamaño del papel"
 
-#: i18n/strings.php:130
+#: i18n/strings.php:138
 msgid "No packages selected"
 msgstr "No hay paquetes seleccionados"
 
-#: i18n/strings.php:143
+#: i18n/strings.php:151
 msgid "Move"
 msgstr "Mover"
 
-#: i18n/strings.php:155
+#: i18n/strings.php:163
 msgid "Move item"
 msgstr "Mover artículo"
 
-#: i18n/strings.php:270
+#: i18n/strings.php:278
 msgid "Increase the rates calculated by the carrier to account for packaging and handling costs. You can also add a negative amount to save your customers money."
 msgstr "Incrementa las tarifas calculadas por el transportista a la cantidad de los costes de empaquetado y manipulado. También puedes añadir una cantidad negativa para ahorrar dinero a tus clientes."
 
-#: i18n/strings.php:273
+#: i18n/strings.php:37
 msgid "Create new label"
 msgstr "Crear nueva etiqueta"
 
-#: i18n/strings.php:87 i18n/strings.php:357
+#: i18n/strings.php:95 i18n/strings.php:357
 msgid "All packages selected"
 msgstr "Seleccionados todos los paquetes"
 
-#: i18n/strings.php:161
+#: i18n/strings.php:169
 msgid "Add"
 msgstr "Añadir"
 
-#: i18n/strings.php:162
+#: i18n/strings.php:170
 msgid "Add item"
 msgstr "Añadir artículo"
 
@@ -1532,7 +1532,7 @@ msgstr "#%d - [producto borrado]"
 msgid "#%1$d - %2$s"
 msgstr "#%1$d - %2$s"
 
-#: woocommerce-services.php:1435
+#: woocommerce-services.php:1456
 msgid "<a href=\"%s\">Support</a>"
 msgstr "<a href=\"%s\">Soporte</a>"
 
@@ -1540,7 +1540,7 @@ msgstr "<a href=\"%s\">Soporte</a>"
 msgid "There was an error installing Jetpack. Please try installing it manually."
 msgstr "Hubo un error al instalar Jetpack. Por favor, trata de instalarlo manualmente."
 
-#: woocommerce-services.php:999 woocommerce-services.php:1002
+#: woocommerce-services.php:1020 woocommerce-services.php:1023
 #: i18n/strings.php:366
 msgid "Shipping Labels"
 msgstr "Etiquetas de envío"
@@ -1554,8 +1554,8 @@ msgstr "Automattic"
 msgid "https://woocommerce.com/"
 msgstr "https://woocommerce.com/"
 
-#: woocommerce-services.php:1386 woocommerce-services.php:1414
-#: i18n/strings.php:105 i18n/strings.php:425
+#: woocommerce-services.php:1407 woocommerce-services.php:1435
+#: i18n/strings.php:113 i18n/strings.php:425
 msgid "Phone"
 msgstr "Teléfono"
 
@@ -1565,214 +1565,214 @@ msgstr "Teléfono"
 msgid "Connect"
 msgstr "Conectar"
 
-#: i18n/strings.php:37 i18n/strings.php:61 i18n/strings.php:330
+#: i18n/strings.php:45 i18n/strings.php:69 i18n/strings.php:330
 msgid "Save Settings"
 msgstr "Guardar ajustes"
 
-#: i18n/strings.php:260
+#: i18n/strings.php:268
 msgid "Your changes have been saved."
 msgstr "Tus cambios se han guardado."
 
-#: i18n/strings.php:261
+#: i18n/strings.php:269
 msgid "There was a problem with one or more entries. Please fix the errors below and try saving again."
 msgstr "Hubo un problema con una o más entradas. Por favor, soluciona los errores de abajo y trata de guardar de nuevo."
 
-#: i18n/strings.php:63
+#: i18n/strings.php:71
 msgid "Expand"
 msgstr "Expandir"
 
-#: i18n/strings.php:6 i18n/strings.php:35 i18n/strings.php:59
-#: i18n/strings.php:199 i18n/strings.php:256 i18n/strings.php:279
+#: i18n/strings.php:6 i18n/strings.php:43 i18n/strings.php:67
+#: i18n/strings.php:207 i18n/strings.php:264 i18n/strings.php:279
 #: i18n/strings.php:328
 msgid "Dismiss"
 msgstr "Descartar"
 
-#: i18n/strings.php:258 i18n/strings.php:332
+#: i18n/strings.php:266 i18n/strings.php:332
 msgid "You have unsaved changes."
 msgstr "Tienes cambios sin guardar."
 
-#: i18n/strings.php:72 i18n/strings.php:342
+#: i18n/strings.php:80 i18n/strings.php:342
 msgid "Type of package"
 msgstr "Tipo de paquete"
 
-#: i18n/strings.php:66 i18n/strings.php:147 i18n/strings.php:336
+#: i18n/strings.php:74 i18n/strings.php:155 i18n/strings.php:336
 #: i18n/strings.php:398
 msgid "Add package"
 msgid_plural "Add packages"
 msgstr[0] "Añadir paquete"
 msgstr[1] ""
 
-#: i18n/strings.php:70 i18n/strings.php:340
+#: i18n/strings.php:78 i18n/strings.php:340
 msgid "Invalid value."
 msgstr "Valor no válido."
 
-#: i18n/strings.php:75 i18n/strings.php:345
+#: i18n/strings.php:83 i18n/strings.php:345
 msgid "Package name"
 msgstr "Nombre del paquete"
 
-#: i18n/strings.php:77 i18n/strings.php:347
+#: i18n/strings.php:85 i18n/strings.php:347
 msgid "This field must be unique"
 msgstr "Este campo debe ser único"
 
-#: i18n/strings.php:65 i18n/strings.php:335
+#: i18n/strings.php:73 i18n/strings.php:335
 msgid "Unable to save your shipping packages. Please try again."
 msgstr "No se han podido guardar tus paquetes de envío. Por favor, inténtalo de nuevo."
 
-#: i18n/strings.php:262 i18n/strings.php:364
+#: i18n/strings.php:270 i18n/strings.php:364
 msgid "Save changes"
 msgstr "Guardar cambios"
 
-#: i18n/strings.php:62 i18n/strings.php:331 i18n/strings.php:403
+#: i18n/strings.php:70 i18n/strings.php:331 i18n/strings.php:403
 msgid "Untitled"
 msgstr "Sin título"
 
-#: i18n/strings.php:78 i18n/strings.php:348
+#: i18n/strings.php:86 i18n/strings.php:348
 msgid "Dimensions (L x W x H)"
 msgstr "Dimensiones (L x An x Al)"
 
-#: i18n/strings.php:265
+#: i18n/strings.php:273
 msgid "All services selected"
 msgstr "Seleccionados todos los servicios"
 
-#: i18n/strings.php:89 i18n/strings.php:267 i18n/strings.php:359
+#: i18n/strings.php:97 i18n/strings.php:275 i18n/strings.php:359
 msgid "Expand Services"
 msgstr "Expandir servicios"
 
-#: classes/class-wc-connect-label-reports.php:167 i18n/strings.php:246
-#: i18n/strings.php:268 i18n/strings.php:317
+#: classes/class-wc-connect-label-reports.php:167 i18n/strings.php:254
+#: i18n/strings.php:276 i18n/strings.php:317
 msgid "Service"
 msgstr "Servicio"
 
-#: i18n/strings.php:269
+#: i18n/strings.php:277
 msgid "Price adjustment"
 msgstr "Ajuste de precio"
 
-#: i18n/strings.php:263
+#: i18n/strings.php:271
 msgid "Saved Packages"
 msgstr "Paquetes guardados"
 
-#: woocommerce-services.php:1092 woocommerce-services.php:1099
+#: woocommerce-services.php:1113 woocommerce-services.php:1120
 msgid "Tracking"
 msgstr "Seguimiento"
 
-#: i18n/strings.php:97 i18n/strings.php:271 i18n/strings.php:275
+#: i18n/strings.php:35 i18n/strings.php:39 i18n/strings.php:105
 msgid "Create shipping label"
 msgid_plural "Create shipping labels"
 msgstr[0] "Crear etiqueta de envío"
 msgstr[1] ""
 
-#: i18n/strings.php:103 i18n/strings.php:392 i18n/strings.php:399
+#: i18n/strings.php:111 i18n/strings.php:392 i18n/strings.php:399
 #: i18n/strings.php:416
 msgid "Name"
 msgstr "Nombre"
 
-#: i18n/strings.php:104
+#: i18n/strings.php:112
 msgid "Company"
 msgstr "Empresa"
 
-#: i18n/strings.php:107 i18n/strings.php:417
+#: i18n/strings.php:115 i18n/strings.php:417
 msgid "Address"
 msgstr "Dirección"
 
-#: classes/class-wc-connect-taxjar-integration.php:1094 i18n/strings.php:108
+#: classes/class-wc-connect-taxjar-integration.php:1094 i18n/strings.php:116
 #: i18n/strings.php:419
 msgid "City"
 msgstr "Ciudad"
 
-#: i18n/strings.php:109 i18n/strings.php:111 i18n/strings.php:420
+#: i18n/strings.php:117 i18n/strings.php:119 i18n/strings.php:420
 #: i18n/strings.php:422
 msgid "State"
 msgstr "Provincia"
 
-#: i18n/strings.php:113 i18n/strings.php:423
+#: i18n/strings.php:121 i18n/strings.php:423
 msgid "Country"
 msgstr "País"
 
-#: i18n/strings.php:101
+#: i18n/strings.php:109
 msgid "Invalid address"
 msgstr "Dirección no válida"
 
-#: i18n/strings.php:98
+#: i18n/strings.php:106
 msgid "Origin address"
 msgstr "Dirección de origen"
 
-#: i18n/strings.php:99
+#: i18n/strings.php:107
 msgid "Destination address"
 msgstr "Dirección de destino"
 
-#: i18n/strings.php:116
+#: i18n/strings.php:124
 msgid "We have slightly modified the address entered. If correct, please use the suggested address to ensure accurate delivery."
 msgstr "Hemos modificado ligeramente la dirección introducida. Si es correcta, por favor, utiliza la dirección sugerida para asegurar una entrega precisa."
 
-#: i18n/strings.php:117 i18n/strings.php:123
+#: i18n/strings.php:125 i18n/strings.php:131
 msgid "Address entered"
 msgstr "Dirección introducida"
 
-#: i18n/strings.php:120 i18n/strings.php:127
+#: i18n/strings.php:128 i18n/strings.php:135
 msgid "Edit address"
 msgstr "Editar dirección"
 
-#: i18n/strings.php:118
+#: i18n/strings.php:126
 msgid "Suggested address"
 msgstr "Dirección sugerida"
 
-#: i18n/strings.php:119
+#: i18n/strings.php:127
 msgid "Use selected address"
 msgstr "Usar la dirección seleccionada"
 
-#: i18n/strings.php:134
+#: i18n/strings.php:142
 msgid "Use these packages"
 msgstr "Utilizar estos paquetes"
 
-#: i18n/strings.php:195
+#: i18n/strings.php:203
 msgid "The service and rate chosen by the customer at checkout is not available. Please choose another."
 msgstr "El servicio y la tarifa elegidos por el cliente en el pago no están disponibles. Por favor, elige otro."
 
-#: i18n/strings.php:233 i18n/strings.php:304
+#: i18n/strings.php:241 i18n/strings.php:304
 msgid "Request a refund"
 msgstr "Solicitar un reembolso"
 
-#: i18n/strings.php:234 i18n/strings.php:305
+#: i18n/strings.php:242 i18n/strings.php:305
 msgid "You can request a refund for a shipping label that has not been used to ship a package. It will take at least %(days)s days to process."
 msgstr "Puedes solicitar un reembolso de una etiqueta de envío que no se haya utilizado para enviar un paquete. Tardará al menos %(days)s días en procesarse."
 
-#: i18n/strings.php:235 i18n/strings.php:306
+#: i18n/strings.php:243 i18n/strings.php:306
 msgid "Purchase date"
 msgstr "Fecha de compra"
 
-#: i18n/strings.php:236 i18n/strings.php:307
+#: i18n/strings.php:244 i18n/strings.php:307
 msgid "Amount eligible for refund"
 msgstr "Cantidad elegible para el reembolso"
 
-#: i18n/strings.php:215 i18n/strings.php:239 i18n/strings.php:286
+#: i18n/strings.php:223 i18n/strings.php:247 i18n/strings.php:286
 #: i18n/strings.php:310
 msgid "Reprint shipping label"
 msgstr "Volver a imprimir la etiqueta de envío"
 
-#: i18n/strings.php:240 i18n/strings.php:311
+#: i18n/strings.php:248 i18n/strings.php:311
 msgid "If there was a printing error when you purchased the label, you can print it again."
 msgstr "Si hay un problema de impresión cuando compres la etiqueta puedes imprimirla de nuevo."
 
-#: i18n/strings.php:241 i18n/strings.php:312
+#: i18n/strings.php:249 i18n/strings.php:312
 msgid "NOTE: If you already used the label in a package, printing and using it again is a violation of our terms of service and may result in criminal charges."
 msgstr "NOTA: Si ya has usado la etiqueta en un paquete, imprimirla y usarla de nuevo es una violación de nuestros términos del servicio y podría resultar en cargos criminales."
 
-#: i18n/strings.php:54 i18n/strings.php:238 i18n/strings.php:309
+#: i18n/strings.php:62 i18n/strings.php:246 i18n/strings.php:309
 msgid "Print"
 msgstr "Imprimir"
 
-#: i18n/strings.php:68 i18n/strings.php:153 i18n/strings.php:231
-#: i18n/strings.php:237 i18n/strings.php:302 i18n/strings.php:308
+#: i18n/strings.php:76 i18n/strings.php:161 i18n/strings.php:239
+#: i18n/strings.php:245 i18n/strings.php:302 i18n/strings.php:308
 #: i18n/strings.php:338 i18n/strings.php:406 i18n/strings.php:440
 #: i18n/strings.php:441
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: i18n/strings.php:249 i18n/strings.php:320
+#: i18n/strings.php:257 i18n/strings.php:320
 msgid "N/A"
 msgstr "N/D"
 
-#: i18n/strings.php:207 i18n/strings.php:257
+#: i18n/strings.php:215 i18n/strings.php:265
 msgid "More"
 msgstr "Más"
 
@@ -1780,13 +1780,13 @@ msgstr "Más"
 msgid "Invalid PDF request."
 msgstr "Petición de PDF no válida."
 
-#: classes/class-wc-connect-shipping-method.php:408
 #: classes/class-wc-rest-connect-shipping-label-controller.php:106
+#: classes/class-wc-connect-shipping-method.php:408
 msgid "Unknown package"
 msgstr "Paquete desconocido"
 
-#: classes/class-wc-connect-shipping-method.php:410
 #: classes/class-wc-rest-connect-shipping-label-controller.php:102
+#: classes/class-wc-connect-shipping-method.php:410
 msgid "Individual packaging"
 msgstr "Empaquetado individual"
 
@@ -1810,12 +1810,12 @@ msgstr "No fue posible actualizar los ajustes. Los datos del formulario no se ha
 msgid "Unable to update settings. %s"
 msgstr "No ha sido posible actualizar los ajustes. %s"
 
-#: classes/class-wc-connect-shipping-method.php:441 i18n/strings.php:129
+#: classes/class-wc-connect-shipping-method.php:441 i18n/strings.php:137
 #: i18n/strings.php:396
 msgid "Packaging"
 msgstr "Paquetería"
 
-#: woocommerce-services.php:1466
+#: woocommerce-services.php:1487
 msgid "Section not loading? Visit the <a href=\"%s\">status page</a> for troubleshooting steps."
 msgstr "¿No carga la sección? Visita la <a href=\"%s\">página de estado</a> para ver los pasos de solución de problemas."
 
@@ -1827,7 +1827,7 @@ msgstr "Nota: El modo de desarrollo de Jetpack está activo en este sitio. Este 
 msgid "Note: Jetpack is connected, but development mode is also enabled on this site. Please disable development mode."
 msgstr "Nota: Jetpack está conectado, pero también está activo el modo de desarrollo en este sitio. Por favor, desactiva el modo de desarrollo."
 
-#: woocommerce-services.php:1322
+#: woocommerce-services.php:1343
 msgid "Shipping Label"
 msgstr "Etiqueta de envío"
 
@@ -1997,7 +1997,7 @@ msgstr "Por favor, establece la ubicación base en Ajustes de WooCommerce > Gene
 msgid "WooCommerce %s or higher is required (You are running %s)"
 msgstr "Se requiere WooCommerce %s o superior (estás ejecutando la versión %s)"
 
-#: classes/class-wc-connect-error-notice.php:103 woocommerce-services.php:1502
+#: classes/class-wc-connect-error-notice.php:103 woocommerce-services.php:1523
 msgid "Dismiss this notice"
 msgstr "Descartar este aviso"
 

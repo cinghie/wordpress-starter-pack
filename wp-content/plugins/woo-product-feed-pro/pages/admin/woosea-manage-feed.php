@@ -261,6 +261,10 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 					</form>
 					<?php
 					$toggle_count++;
+					} else {
+						// Removing this partly configured feed as it results in PHP warnings
+						unset($cron_projects[$key]);
+		                                update_option('cron_projects', $cron_projects);
 					}	
 				}
 			} else {
@@ -300,7 +304,7 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 
                                 <table class="woo-product-feed-pro-table">
                                         <tr>
-                                                <td><strong><?php _e( 'We’ve got you covered!','woo-product-feed-pro' );?></strong></td>
+                                                <td><strong><?php _e( 'We have got you covered!','woo-product-feed-pro' );?></strong></td>
                                         </tr>
                                         <tr>
                                                 <td>

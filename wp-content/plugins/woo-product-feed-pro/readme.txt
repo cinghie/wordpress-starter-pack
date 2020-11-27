@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.5
-Stable tag: 9.1.7
+Stable tag: 9.1.9
 
 == Description ==
 
@@ -320,6 +320,12 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 9.1.9 (2020-11-26) =
+* Added a performance feature. Users can now select to only refresh their product feeds when products have been changed or new products have been added to WooCommerce.
+
+= 9.1.8 (2020-11-25) =
+* Fixed an issue where table rate shipping costs did not make it to custom feeds.
 
 = 9.1.7 (2020-11-19) =
 * Fixed an issue where SimpleXML did not return an object and caused the plugin to get stuck
@@ -2921,6 +2927,12 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 9.1.9 =
+Added a performance feature. Users can now select to only refresh their product feeds when products have been changed or new products have been added to WooCommerce.
+
+= 9.1.8 =
+Fixed an issue where table rate shipping costs did not make it to custom feeds.
 
 = 9.1.7 =
 Fixed an issue where SimpleXML did not return an object and caused the plugin to get stuck

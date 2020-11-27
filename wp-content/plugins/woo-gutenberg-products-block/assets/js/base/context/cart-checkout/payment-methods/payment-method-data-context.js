@@ -37,7 +37,7 @@ import {
 	usePaymentMethods,
 	useExpressPaymentMethods,
 } from './use-payment-method-registration';
-import { useBillingDataContext } from '../billing';
+import { useCustomerDataContext } from '../customer';
 import { useCheckoutContext } from '../checkout-state';
 import { useShippingDataContext } from '../shipping';
 import {
@@ -116,7 +116,7 @@ const getCustomerPaymentMethods = ( availablePaymentMethods = [] ) => {
  *                                           provider.
  */
 export const PaymentMethodDataProvider = ( { children } ) => {
-	const { setBillingData } = useBillingDataContext();
+	const { setBillingData } = useCustomerDataContext();
 	const {
 		isProcessing: checkoutIsProcessing,
 		isIdle: checkoutIsIdle,
@@ -195,8 +195,8 @@ export const PaymentMethodDataProvider = ( { children } ) => {
 		( message ) => {
 			if ( message ) {
 				addErrorNotice( message, {
-					context: noticeContexts.EXPRESS_PAYMENTS,
 					id: 'wc-express-payment-error',
+					context: noticeContexts.EXPRESS_PAYMENTS,
 				} );
 			} else {
 				removeNotice(

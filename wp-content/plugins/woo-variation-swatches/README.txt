@@ -390,6 +390,10 @@ And your are ready to go.
 
 == Changelog ==
 
+= 1.1.2 =
+
+* Fix: Customizer JS Issue.
+
 = 1.1.1 =
 
 * Update: WooCommerce 4.7 compatibility
