@@ -155,6 +155,7 @@ ExpiresByType application/vnd.ms-fontobject "access plus 1 month"
 # Ogni modifica alle direttive tra questi marcatori verrà sovrascritta.
 <IfModule mod_rewrite.c>
 RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 RewriteBase /woocommerce/
 RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
