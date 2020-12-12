@@ -432,8 +432,8 @@ if ( ! class_exists( 'YITH_WooCommerce_Pdf_Invoice' ) ) {
                 if ( ! $this->check_invoice_url_for_action( $document ) ) {
                     return;
                 }
-                $save_folder      = yit_get_prop ( $document->order, '_ywpi_invoice_folder', true );
-                $full_path = ( $save_folder != '' ) ? YITH_YWPI_DOCUMENT_SAVE_DIR . $save_folder . '/' . $document->save_path : YITH_YWPI_DOCUMENT_SAVE_DIR . $document->save_path;
+                
+                $full_path = YITH_YWPI_DOCUMENT_SAVE_DIR . $document->save_path;
                 //  Check if show pdf invoice on browser or asking to download it
                 $where_to_show = get_option( 'ywpi_pdf_invoice_behaviour' );
                 if ( 'open' == $where_to_show ) {

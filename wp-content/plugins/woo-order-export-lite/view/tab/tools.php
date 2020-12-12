@@ -82,7 +82,7 @@ $type_labels = apply_filters( 'woe_tools_page_get_type_labels', array() );
                                value="<?php _e( 'Import', 'woo-order-export-lite' ) ?>" name="woe-tools-import"
                                id="submit-import">
 
-                        <div id=Settings_updated
+                        <div id="Settings_updated"
                              style='display:none;color:green;font-size: 120%;padding-bottom: 10px;'><?php _e( "Settings were successfully updated!",
 								'woo-order-export-lite' ) ?></div>
                     </div>
@@ -139,7 +139,7 @@ $type_labels = apply_filters( 'woe_tools_page_get_type_labels', array() );
 				$.post( ajaxurl, data, function ( response ) {
 					$( '#tools-import-text' ).val( '' );
 					$( '#Settings_updated' ).show().delay( 5000 ).fadeOut();
-				}, "json" );
+				});
 				return false;
 			}
 		} );

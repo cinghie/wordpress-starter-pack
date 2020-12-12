@@ -1524,21 +1524,23 @@ class WOE_FPDF {
 					return substr( $text, $current_char_pos );
 				}
 				continue;
-			} elseif ( $current_char == ' ' ) {
+			}
+
+			if ( $current_char == ' ' ) {
 				$last_space_char_pos    = $current_char_pos;
 				$width_until_last_space = $current_line_width;
 				$space_counter ++;
-			} else {
-				// GetStringWidth() can calculate depends on $this->bol_uniform_subset
-				$current_line_width += $this->GetStringWidth( $current_char );
-				/*
-				if ( $this->bol_uniform_subset ) {
-					$current_line_width += $this->GetStringWidth( $str_character );
-				} else {
-					$current_line_width += $arr_character_width[ $str_character ] * $this->int_font_size_user / 1000;
-				}
-				*/
 			}
+
+			// GetStringWidth() can calculate depends on $this->bol_uniform_subset
+			$current_line_width += $this->GetStringWidth( $current_char );
+			/*
+			if ( $this->bol_uniform_subset ) {
+				$current_line_width += $this->GetStringWidth( $str_character );
+			} else {
+				$current_line_width += $arr_character_width[ $str_character ] * $this->int_font_size_user / 1000;
+			}
+			*/
 
 			if ( $current_line_width > $available_width ) {
 				// Automatic line break

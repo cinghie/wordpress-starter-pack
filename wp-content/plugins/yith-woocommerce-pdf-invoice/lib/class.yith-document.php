@@ -78,9 +78,16 @@ if ( ! class_exists( 'YITH_Document' ) ) {
 
 			require_once( YITH_YWPI_LIB_DIR . "dompdf/autoload.inc.php" );
 
+			$options = new \Dompdf\Options();
+			$options->setIsRemoteEnabled(true);
+
 			$dompdf = new Dompdf\Dompdf();
 
+			$dompdf->setOptions($options);
+
+
 			$dompdf->load_html( $html );
+
 
 			$dompdf->render();
 

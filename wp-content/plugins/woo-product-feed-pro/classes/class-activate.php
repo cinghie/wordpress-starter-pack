@@ -65,12 +65,12 @@ class WooSEA_Activation {
 					"taxonomy" => "google_shopping",
 					"utm_source" => "Bing Shopping",
                         		"type" => "Advertising" ),
-                 		"Facebook Dynamic Ads / Instagram Remarketing" => array (
+                 		"Facebook Catalog Feed / Instagram" => array (
                         		"channel_hash" => md5("Facebook Remarketing"),
-                        		"name" => "Facebook Dynamic Ads / Instagram Remarketing",
+                        		"name" => "Facebook Catalog Feed / Instagram",
 					"fields" => "facebook_drm",
 					"taxonomy" => "google_shopping",
-					"utm_source" => "Facebook Dynamic Ads",
+					"utm_source" => "Facebook Catalog Feed",
                         		"type" => "Advertising" ),
      	 			"Pinterest" => array (
                         		"channel_hash" => md5("Pinterest"),

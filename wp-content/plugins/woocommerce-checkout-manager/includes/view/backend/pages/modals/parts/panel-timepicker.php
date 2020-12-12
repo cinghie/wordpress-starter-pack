@@ -25,5 +25,13 @@
       <span class="description premium">(<?php esc_html_e('This is a premium feature', 'woocommerce-checkout-manager'); ?>)</span>
     </p>
   </div>
+  <div class="options_group wooccm-premium">
+    <p class="form-field">
+      <label><?php esc_html_e('format 24hs', 'woocommerce-checkout-manager'); ?></label>
+      <input <# if ( data.time_format_ampm ) { #>checked="checked"<# } #> class="media-modal-render-panels" type="checkbox" name="time_format_ampm" value="1" >
+        <span class="description hidden"><?php esc_html_e('Time Format AM/PM', 'woocommerce-checkout-manager'); ?></span>
+      <span class="description premium">(<?php esc_html_e('This is a premium feature', 'woocommerce-checkout-manager'); ?>)</span>
+    </p> 
+  </div>
 </div>
 <# } #>

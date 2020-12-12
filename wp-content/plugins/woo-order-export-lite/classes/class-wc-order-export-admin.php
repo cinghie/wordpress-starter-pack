@@ -15,6 +15,7 @@ class WC_Order_Export_Admin {
 	protected $tabs;
 	
 	const last_bulk_export_results = 'woe-last-bulk-export-results';
+	public static $cap_export_orders = "export_woocommerce_orders";
 
 	public function __construct() {
 		$this->url_plugin         = dirname( plugin_dir_url( __FILE__ ) ) . '/';
@@ -158,14 +159,15 @@ class WC_Order_Export_Admin {
 
 	public function add_menu() {
 		if ( apply_filters( 'woe_current_user_can_export', true ) ) {
-			if ( current_user_can( 'manage_woocommerce' ) ) {
+			if ( current_user_can( 'manage_woocommerce' )  ) {
 				add_submenu_page( 'woocommerce', __( 'Export Orders', 'woo-order-export-lite' ),
-					__( 'Export Orders', 'woo-order-export-lite' ), 'view_woocommerce_reports', 'wc-order-export',
+					__( 'Export Orders', 'woo-order-export-lite' ), "manage_woocommerce", 'wc-order-export',
 					array( $this, 'render_menu' ) );
 			} else // add after Sales Report!
 			{
+				$capability = current_user_can(self::$cap_export_orders) ? self::$cap_export_orders : 'view_woocommerce_reports';
 				add_menu_page( __( 'Export Orders', 'woo-order-export-lite' ),
-					__( 'Export Orders', 'woo-order-export-lite' ), 'view_woocommerce_reports', 'wc-order-export',
+					__( 'Export Orders', 'woo-order-export-lite' ), $capability, 'wc-order-export',
 					array( $this, 'render_menu' ), null, '55.7' );
 			}
 		}

@@ -118,4 +118,11 @@
   height: 100%;
   width: 100%;
 }
+
+.ui-timepicker-table a {
+  word-break: normal;
+}
+.ui-state-disabled, .ui-widget-content .ui-state-disabled, .ui-widget-header .ui-state-disabled{
+  width: 100%;
+}
 /*# sourceMappingURL=wooccm.css.map */

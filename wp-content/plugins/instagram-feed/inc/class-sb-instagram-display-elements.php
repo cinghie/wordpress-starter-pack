@@ -133,6 +133,9 @@ class SB_Instagram_Display_Elements
 			     && $resized_images[ $post_id ]['id'] !== 'error' ) {
 				$media_url = sbi_get_resized_uploads_url() . $resized_images[ $post_id ]['id'] . 'full.jpg';
 			} else {
+				if ( SB_Instagram_GDPR_Integrations::doing_gdpr( $settings ) ) {
+					return trailingslashit( SBI_PLUGIN_URL ) . 'img/thumb-placeholder.png';
+				}
 				$media_type = $post['media_type'];
 				if ( $media_type === 'CAROUSEL_ALBUM'
 				     || $media_type === 'VIDEO'

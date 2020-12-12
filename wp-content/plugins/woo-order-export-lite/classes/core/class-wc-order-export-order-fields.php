@@ -289,9 +289,9 @@ class WC_Order_Export_Order_Fields {
 			$roles         = $wp_roles->roles;
 			$row[$field] = ( isset( $this->user->roles[0] ) && isset( $roles[ $this->user->roles[0] ] ) ) ? $roles[ $this->user->roles[0] ]['name'] : ""; // take first role Name
 		} elseif ( $field == 'customer_total_orders' ) {
-			$row[$field] = ( isset( $this->user->ID ) ) ? wc_get_customer_order_count( $this->user->ID ) : 0;
+			$row[$field] = ( isset( $this->user->ID ) ) ? wc_get_customer_order_count( $this->user->ID ) : WC_Order_Export_Data_Extractor::get_customer_order_count_by_email( $this->order_meta["_billing_email"] );
 		} elseif ( $field == 'customer_total_spent' ) {
-			$row[$field] = ( isset( $this->user->ID ) ) ? wc_get_customer_total_spent( $this->user->ID ) : 0;
+			$row[$field] = ( isset( $this->user->ID ) ) ? wc_get_customer_total_spent( $this->user->ID ) : WC_Order_Export_Data_Extractor::get_customer_total_spent_by_email( $this->order_meta["_billing_email"] );
 		} elseif ( $field == 'customer_first_order_date' ) {
 			$first_order = WC_Order_Export_Data_Extractor::get_customer_order( $this->user, $this->order_meta, 'first' );
 			$row[$field] = $first_order ? ( $first_order->get_date_created() ? gmdate( 'Y-m-d H:i:s',
@@ -410,7 +410,10 @@ class WC_Order_Export_Order_Fields {
 		} elseif ( $field == 'order_currency' ) {
 			$row[$field] = $this->order->get_currency();
 		} elseif( method_exists( $this->order, 'get_' . $field ) ) {  // order_date...		
-				$row[$field] = $this->order->{'get_' . $field}();			
+				if ( $this->post->post_type == 'shop_order_refund' )
+					$row[$field] = $this->parent_order->{'get_' . $field}(); //use main order details for refund
+				else
+					$row[$field] = $this->order->{'get_' . $field}();			
 		} elseif ( isset( $this->order_meta[ $field ] ) ) {
 			$field_data = array();
 			do_action( 'woocommerce_order_export_add_field_data', $field_data, $this->order_meta[ $field ], $field );

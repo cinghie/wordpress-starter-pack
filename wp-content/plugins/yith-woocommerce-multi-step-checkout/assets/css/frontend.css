@@ -666,6 +666,29 @@ body.woocommerce-checkout #checkout_coupon {
   margin: 0 0 35px;
 }
 
+/* === Twenty TwentyOne === */
+
+.yith-wcms.theme-twentytwentyone.woocommerce-checkout form[name="checkout"]{
+  display: block;
+}
+
+.yith-wcms.theme-twentytwentyone.woocommerce-checkout form #order_review,
+.yith-wcms.theme-twentytwentyone.woocommerce-checkout form #order_review_heading {
+  width: 100%;
+  float: none;
+  clear: none;
+  padding-left: 0;
+}
+
+.yith-wcms.theme-twentytwentyone.woocommerce-checkout:not(.woocommerce-order-pay) #order_info #payment,
+.yith-wcms.theme-twentytwentyone.woocommerce-checkout:not(.woocommerce-order-pay) #order_checkout_payment{
+  margin-bottom: 15px;
+}
+
+.yith-wcms.theme-twentytwentyone.woocommerce-checkout #billing_address_1_field {
+  margin-bottom: 20px;
+}
+
 /* === RESPONSIVE === */
 
 /* Media queries for responsive */

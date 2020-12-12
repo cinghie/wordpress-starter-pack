@@ -128,6 +128,6 @@ class WOE_Formatter_Xml extends WOE_Formatter {
 	}
 
 	private function prepare_string( $value ) {
-		return htmlspecialchars( $value );
+		return apply_filters("woe_xml_encode_chars", true) ? htmlspecialchars( $value ) : $value;
 	}
 }

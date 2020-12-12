@@ -258,7 +258,13 @@ class WC_Order_Export_Order_Product_Fields {
 					/** @var WC_Product_Attribute $attribute */
 					if ( $attribute instanceof WC_Product_Attribute && ! $attribute->get_variation() ) {
 						if ( $attribute->get_taxonomy() ) {
-							$attributes[] = $attribute->get_name() . " - " . join( ",", array_column( $attribute->get_terms(), 'name' ) );
+							$taxObject = $attribute->get_taxonomy_object();
+							if ( isset( $taxObject, $taxObject->attribute_label ) ) {
+								$label = $taxObject->attribute_label;
+							} else {
+								$label = $attribute->get_name();
+							}
+							$attributes[] = $label . " - " . join( ",", array_column( $attribute->get_terms(), 'name' ) );
 						} else {
 							$attributes[] = $attribute->get_name() . " - " . join( ",", $attribute->get_options() );
 						}

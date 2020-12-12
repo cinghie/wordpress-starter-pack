@@ -1,7 +1,7 @@
 jQuery(document).ready(function($) {
 
 	// Add standard filters
-        jQuery(".add-field-manipulation").click(function(){
+        jQuery(".add-field-manipulation").on('click', function(){
 		var TrueRowCount = $('#woosea-ajax-table >tbody >tr').length-1;
 		var rowCount = Math.round(new Date().getTime() + (Math.random() * 100));
 		var plusCount = Math.round(new Date().getTime() + (Math.random() * 100));
@@ -35,7 +35,7 @@ jQuery(document).ready(function($) {
 	});
 
         // Add extra fields to existing field manipulations
-	jQuery(".field_extra").click(function(){
+	jQuery(".field_extra").on('click', function(){
 	    	var className = $(this).attr("class").split(' ')[3];
                 var rowCount = className.split("_")[3];
 		var plusCount = Math.round(new Date().getTime() + (Math.random() * 100));
@@ -56,7 +56,7 @@ jQuery(document).ready(function($) {
 	});
 
 	// Add standard filters
-        jQuery(".add-filter").click(function(){
+        jQuery(".add-filter").on('click',function(){
 		// Count amount of rows, used to create the form array field and values
 		var TrueRowCount = $('#woosea-ajax-table >tbody >tr').length-1;
 		var rowCount = Math.round(new Date().getTime() + (Math.random() * 100));
@@ -97,7 +97,7 @@ jQuery(document).ready(function($) {
 	});
 
 	// Add rules
-        jQuery(".add-rule").click(function(){
+        jQuery(".add-rule").on('click',function(){
 
 		// Count amount of rows, used to create the form array field and values
                 var TrueRowCount = $('#woosea-ajax-table >tbody >tr').length-1;
@@ -147,7 +147,7 @@ jQuery(document).ready(function($) {
 
                                        $("#is-field_" + rowCount).replaceWith('<input type="search" name="rules2[' + rowCount + '][newvalue]" class="input-field-large js-typeahead js-autosuggest autocomplete_' + rowCount + '">');
 				
-       					jQuery(".js-autosuggest").click(function(){
+       					jQuery(".js-autosuggest").on('click', function(){
                 				var rowCount = $(this).closest("tr").prevAll("tr").length;
 
                 				jQuery( ".autocomplete_" + rowCount ).typeahead({
@@ -191,7 +191,7 @@ jQuery(document).ready(function($) {
 	});
 
         // Find and remove selected table rows
-        jQuery(".delete-row").click(function(){
+        jQuery(".delete-row").on('click',function(){
         	//$("table tbody").find('input[name="record"]').each(function(){
        		$(".woo-product-feed-pro-body").find('input[name="record"]').each(function(){
 		    	 if($(this).is(":checked")){

@@ -137,7 +137,7 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 				'not_found'                  => __( 'No Brands Found', 'yith-woocommerce-brands-add-on' )
 			);
 
-			$taxonomy_args = array(
+			$taxonomy_args = apply_filters( 'yith_wcbr_taxonomy_args', array(
 				'label'                 => apply_filters( 'yith_wcbr_taxonomy_label', __( 'Brands', 'yith-woocommerce-brands-add-on' ) ),
 				'labels'                => apply_filters( 'yith_wcbr_taxonomy_labels', $taxonomy_labels ),
 				'public'                => true,
@@ -156,7 +156,7 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 					)
 				),
 				'update_count_callback' => '_wc_term_recount',
-			);
+			) );
 
 			$object_type = apply_filters( 'yith_wcbr_taxonomy_object_type', 'product' );
 

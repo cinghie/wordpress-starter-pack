@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-11-11 18:37:01+0000\n"
+"PO-Revision-Date: 2020-12-08 00:09:23+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,19 @@ msgstr ""
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - Gutenberg - Stable (latest release)\n"
+
+#: lib/full-site-editing.php:83
+msgid "Edit site"
+msgstr "Modifica sito"
+
+#: lib/templates.php:97
+msgid "Themes"
+msgstr "Temi"
+
+#: lib/full-site-editing/default-template-types.php:73
+msgctxt "Template name"
+msgid "Search Results"
+msgstr "Risultati di ricerca"
 
 #: lib/class-wp-rest-widgets-controller.php:734
 msgid "The sidebar the widget belongs to."
@@ -55,13 +68,13 @@ msgstr "Rappresentazione HTML del widget."
 msgid "Number of the widget."
 msgstr "Numero del widget."
 
-#: lib/class-wp-rest-widget-types-controller.php:352
 #: lib/class-wp-rest-widgets-controller.php:751
+#: lib/class-wp-rest-widget-types-controller.php:352
 msgid "Description of the widget."
 msgstr "Descrizione del widget."
 
-#: lib/class-wp-rest-widget-types-controller.php:58
 #: lib/class-wp-rest-widgets-controller.php:746
+#: lib/class-wp-rest-widget-types-controller.php:58
 msgid "Name of the widget."
 msgstr "Nome del widget."
 
@@ -89,13 +102,9 @@ msgstr "ID della barra laterale."
 msgid "Gutenberg block."
 msgstr "Blocco di Gutenberg."
 
-#: lib/patterns/large-header-button.php:10
-msgid "nothing yet"
-msgstr "ancora niente"
-
-#: lib/patterns/large-header-button.php:10
-msgid "Thou hast seen"
-msgstr "Hai visto"
+#: lib/full-site-editing/templates-utils.php:16 build/block-library/index.js:36
+msgid "Description"
+msgstr "Descrizione"
 
 #: lib/patterns/text-two-columns.php:11
 msgid "In a village of La Mancha, the name of which I have no desire to call to mind, there lived not long since one of those gentlemen that keep a lance in the lance-rack, an old buckler, a lean hack, and a greyhound for coursing. An olla of rather more beef than mutton, a salad on most nights, scraps on Saturdays, lentils on Fridays, and a pigeon or so extra on Sundays, made away with three-quarters of his income."
@@ -117,7 +126,7 @@ msgstr "Don Chisciotte"
 msgid "Large header with a heading"
 msgstr "Header grande con una intestazione"
 
-#: lib/patterns/heading-paragraph.php:13
+#: lib/patterns/heading-paragraph.php:12
 msgctxt "Block pattern description"
 msgid "A heading preceded by a chapter number, and followed by a paragraph."
 msgstr "Una intestazione preceduta da un numero di capitolo e seguita da un paragrafo."
@@ -143,11 +152,11 @@ msgstr "Tre pulsanti pieni con bordi arrotondati e affiancati."
 msgid "Contact us"
 msgstr "Contattaci"
 
-#: lib/patterns/three-buttons.php:10 lib/patterns/two-buttons.php:10
+#: lib/patterns/two-buttons.php:10 lib/patterns/three-buttons.php:10
 msgid "About Cervantes"
 msgstr "Informazioni su Cervantes"
 
-#: lib/patterns/text-three-columns-buttons.php:13
+#: lib/patterns/text-three-columns-buttons.php:12
 msgctxt "Block pattern description"
 msgid "Three small columns of text, each with an outlined button with rounded corners at the bottom."
 msgstr "Tre piccole colonne di testo, ognuna con un pulsante delineato con angoli arrotondati nella parte inferiore."
@@ -610,11 +619,10 @@ msgstr "Il parametro \"providesContext\" fornito nel tipo di blocco \"%s\" è de
 msgid "The \"context\" parameter provided in block type \"%s\" is deprecated. Please use \"uses_context\" instead."
 msgstr "Il parametro \"context\" fornito nel tipo di blocco \"%s\" è deprecato. Al suo posto utilizza \"uses_context\"."
 
-#. translators: %s: the author.
 #. translators: byline. %s: current author.
-#: build/block-library/blocks/rss.php:60
-#: build/block-library/blocks/latest-posts.php:123
-#: build/block-library/index.js:40
+#. translators: %s: the author.
+#: build/block-library/blocks/latest-posts.php:114
+#: build/block-library/blocks/rss.php:60 build/block-library/index.js:40
 msgid "by %s"
 msgstr "di %s"
 
@@ -652,12 +660,12 @@ msgctxt "Block pattern category"
 msgid "Text"
 msgstr "Testo"
 
-#: lib/global-styles.php:144 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:90 build/block-editor/index.js:27
 msgid "White"
 msgstr "Bianco"
 
-#: lib/global-styles.php:142 lib/global-styles.php:215
-#: build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:88
+#: lib/class-wp-theme-json-resolver.php:161 build/block-editor/index.js:27
 msgid "Black"
 msgstr "Nero"
 
@@ -673,7 +681,7 @@ msgstr "Due colonne di testo"
 msgid "Two buttons"
 msgstr "Due pulsanti"
 
-#: lib/template-parts.php:177
+#: lib/template-parts.php:121
 msgid "The theme slug for the theme that created the template part."
 msgstr "Lo slug del tema che ha creato le parti del template."
 
@@ -895,9 +903,9 @@ msgstr "La descrizione della posizione del menu."
 msgid "The name of the menu location."
 msgstr "Il nome della posizione del menu."
 
-#: lib/class-wp-rest-menus-controller.php:146
 #: lib/class-wp-rest-menu-locations-controller.php:116
 #: lib/class-wp-rest-menu-locations-controller.php:132
+#: lib/class-wp-rest-menus-controller.php:146
 msgid "Invalid menu location."
 msgstr "Posizione del menu non valida."
 
@@ -910,17 +918,22 @@ msgstr "Non hai i permessi per visualizzare le posizioni del menu."
 msgid "An alphanumeric identifier for the menu location."
 msgstr "Un identificatore alfanumerico per la posizione del menu."
 
-#: lib/global-styles.php:479 build/edit-site/index.js:9
+#: lib/class-wp-theme-json-resolver.php:340 build/edit-site/index.js:9
 msgid "Global Styles"
 msgstr "Stili globali"
 
-#: lib/template-loader.php:99
+#: lib/template-loader.php:70
 msgid "Empty template."
 msgstr "Template vuoto."
 
-#: lib/template-loader.php:107
+#: lib/template-loader.php:78
 msgid "No matching template found."
 msgstr "Non è stata trovata corrispondenza con nessun template."
+
+#: lib/full-site-editing/templates-utils.php:18 lib/templates.php:98
+#: build/edit-site/index.js:9
+msgid "Theme"
+msgstr "Tema"
 
 #: lib/experiments-page.php:87
 msgid "The block editor includes experimental features that are useable while they're in development. Select the ones you'd like to enable. These features are likely to change, so avoid using them in production."
@@ -931,16 +944,16 @@ msgid "Site Editor (beta)"
 msgstr "Editor del sito (beta)"
 
 #: build/block-library/blocks/query-pagination.php:33
-#: build/block-library/index.js:60 build/components/index.js:22
+#: build/components/index.js:22 build/block-library/index.js:60
 msgid "Next"
 msgstr "Prossimo"
 
 #: build/block-library/blocks/query-pagination.php:26
-#: build/block-library/index.js:60 build/components/index.js:22
+#: build/components/index.js:22 build/block-library/index.js:60
 msgid "Previous"
 msgstr "Precedente"
 
-#: lib/global-styles.php:209
+#: lib/class-wp-theme-json-resolver.php:155
 msgid "Light"
 msgstr "Chiaro"
 
@@ -1109,55 +1122,55 @@ msgstr "Template"
 msgid "Template"
 msgstr "Template"
 
-#: lib/template-loader.php:204
+#: lib/template-loader.php:178
 msgid "No matching template found"
 msgstr "Non è stato trovato alcun template corrispondente"
 
-#: lib/global-styles.php:173 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:119 build/block-editor/index.js:27
 msgid "Midnight"
 msgstr "Mezzanotte"
 
-#: lib/global-styles.php:172 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:118 build/block-editor/index.js:27
 msgid "Electric grass"
 msgstr "Verde erba elettrico"
 
-#: lib/global-styles.php:171 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:117 build/block-editor/index.js:27
 msgid "Pale ocean"
 msgstr "Azzurro oceano tenue"
 
-#: lib/global-styles.php:170 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:116 build/block-editor/index.js:27
 msgid "Luminous dusk"
 msgstr "Tramonto luminoso"
 
-#: lib/global-styles.php:169 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:115 build/block-editor/index.js:27
 msgid "Blush bordeaux"
 msgstr "Bordeaux pastello"
 
-#: lib/global-styles.php:168 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:114 build/block-editor/index.js:27
 msgid "Blush light purple"
 msgstr "Viola tenue pastello"
 
-#: lib/global-styles.php:167 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:113 build/block-editor/index.js:27
 msgid "Cool to warm spectrum"
 msgstr "Gamma dai colori freddi ai colori caldi"
 
-#: lib/global-styles.php:166 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:112 build/block-editor/index.js:27
 msgid "Very light gray to cyan bluish gray"
 msgstr "Dal grigio molto chiaro al ciano bluastro grigio"
 
-#: lib/global-styles.php:165 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:111 build/block-editor/index.js:27
 msgid "Luminous vivid orange to vivid red"
 msgstr "Da arancione intenso luminoso a rosso vivo"
 
-#: lib/global-styles.php:164 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:110 build/block-editor/index.js:27
 msgid "Luminous vivid amber to luminous vivid orange"
 msgstr "Da ambra intenso luminoso ad arancione intenso luminoso"
 
-#: lib/global-styles.php:163 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:109 build/block-editor/index.js:27
 msgid "Light green cyan to vivid green cyan"
 msgstr "Da ciano verde chiaro a ciano verde intenso"
 
-#: lib/global-styles.php:162 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:108 build/block-editor/index.js:27
 msgid "Vivid cyan blue to vivid purple"
 msgstr "Da blu ciano intenso a viola intenso"
 
@@ -1173,7 +1186,7 @@ msgstr "Template"
 msgid "Unable to connect to the filesystem. Please confirm your credentials."
 msgstr "Impossibilitato al collegamento al filesystem. Controlla le tue credenziali."
 
-#: lib/global-styles.php:153 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:99 build/block-editor/index.js:27
 msgid "Vivid purple"
 msgstr "Viola intenso"
 
@@ -1194,8 +1207,8 @@ msgstr "Il nome del modello del blocco deve essere una stringa."
 msgid "Your site doesn&#8217;t have any %s, so there&#8217;s nothing to display here at the moment."
 msgstr "Il tuo sito non ha %s, quindi non c'è nulla da mostrare qui al momento."
 
-#: lib/class-wp-rest-widget-types-controller.php:163
 #: lib/class-wp-rest-sidebars-controller.php:110
+#: lib/class-wp-rest-widget-types-controller.php:163
 msgid "Sorry, you are not allowed to access widgets on this site."
 msgstr "Non hai i permessi per accedere ai widget su questo sito."
 
@@ -1209,8 +1222,8 @@ msgstr "Errore RSS:"
 
 #: build/block-library/blocks/search.php:25
 #: build/block-library/blocks/search.php:26
-#: build/block-library/blocks/search.php:52 build/block-library/index.js:49
-#: build/block-editor/index.js:40
+#: build/block-library/blocks/search.php:52 build/block-editor/index.js:42
+#: build/block-library/index.js:49
 msgid "Search"
 msgstr "Cerca"
 
@@ -1220,17 +1233,16 @@ msgctxt "CSS Font Family for Editor Font"
 msgid "Noto Serif"
 msgstr "Noto Serif"
 
-#: lib/navigation-page.php:45 lib/edit-site-page.php:114
-#: lib/widgets-page.php:56 build/block-editor/index.js:25
+#: lib/editor-settings.php:28 build/block-editor/index.js:27
 msgid "Thumbnail"
 msgstr "Miniatura"
 
-#: lib/navigation-page.php:48 lib/edit-site-page.php:117
-#: lib/widgets-page.php:59 build/block-editor/index.js:25
+#: lib/editor-settings.php:31 build/block-editor/index.js:27
 msgid "Full Size"
 msgstr "Dimensione reale"
 
-#: lib/compat.php:329 build/core-data/index.js:1 build/block-editor/index.js:65
+#: lib/full-site-editing/default-template-types.php:69 lib/compat.php:329
+#: build/core-data/index.js:1 build/block-editor/index.js:67
 #: build/blocks/index.js:1
 msgid "Media"
 msgstr "Media"
@@ -1244,17 +1256,17 @@ msgstr "j M Y H:i"
 msgid "Sorry, you are not allowed to edit images."
 msgstr "Non hai i permessi per modificare le immagini."
 
-#: lib/global-styles.php:186 build/block-library/index.js:55
+#: lib/class-wp-theme-json-resolver.php:132 build/block-library/index.js:55
 msgid "Huge"
 msgstr "Enorme"
 
-#: lib/navigation-page.php:46 lib/edit-site-page.php:115
-#: lib/global-styles.php:184 lib/global-styles.php:211 lib/widgets-page.php:57
-#: build/block-editor/index.js:25 build/components/index.js:10
+#: lib/class-wp-theme-json-resolver.php:130
+#: lib/class-wp-theme-json-resolver.php:157 lib/editor-settings.php:29
+#: build/components/index.js:10 build/block-editor/index.js:27
 msgid "Medium"
 msgstr "Medio"
 
-#: lib/global-styles.php:183 build/block-library/index.js:55
+#: lib/class-wp-theme-json-resolver.php:129 build/block-library/index.js:55
 msgid "Normal"
 msgstr "Normale"
 
@@ -1428,8 +1440,8 @@ msgstr "Il titolo dell'oggetto."
 msgid "Unique identifier for the object."
 msgstr "Identificatore univoco per l'oggetto."
 
-#: lib/global-styles.php:182 build/block-library/index.js:55
-#: build/components/index.js:10
+#: lib/class-wp-theme-json-resolver.php:128 build/components/index.js:10
+#: build/block-library/index.js:55
 msgid "Small"
 msgstr "piccolo"
 
@@ -1475,50 +1487,50 @@ msgstr "Seleziona l'anno"
 msgid "Archives"
 msgstr "Archivi"
 
-#: lib/global-styles.php:143 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:89 build/block-editor/index.js:27
 msgid "Cyan bluish gray"
 msgstr "Ciano bluastro grigio"
 
-#: lib/global-styles.php:152 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:98 build/block-editor/index.js:27
 msgid "Vivid cyan blue"
 msgstr "Blu ciano intenso"
 
-#: lib/global-styles.php:151 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:97 build/block-editor/index.js:27
 msgid "Pale cyan blue"
 msgstr "Blu ciano pallido"
 
-#: lib/global-styles.php:150 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:96 build/block-editor/index.js:27
 msgid "Vivid green cyan"
 msgstr "Ciano verde intenso"
 
-#: lib/global-styles.php:149 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:95 build/block-editor/index.js:27
 msgid "Light green cyan"
 msgstr "Ciano verde chiaro"
 
-#: lib/global-styles.php:148 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:94 build/block-editor/index.js:27
 msgid "Luminous vivid amber"
 msgstr "Ambra intenso luminoso"
 
-#: lib/global-styles.php:147 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:93 build/block-editor/index.js:27
 msgid "Luminous vivid orange"
 msgstr "Arancione intenso luminoso"
 
-#: lib/global-styles.php:146 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:92 build/block-editor/index.js:27
 msgid "Vivid red"
 msgstr "Rosso vivo"
 
-#: lib/global-styles.php:145 build/block-editor/index.js:25
+#: lib/class-wp-theme-json-resolver.php:91 build/block-editor/index.js:27
 msgid "Pale pink"
 msgstr "Rosa pallido"
 
-#: lib/navigation-page.php:47 lib/edit-site-page.php:116
-#: lib/global-styles.php:185 lib/widgets-page.php:58
-#: build/block-library/index.js:55 build/block-editor/index.js:25
-#: build/components/index.js:10
+#: lib/class-wp-theme-json-resolver.php:131 lib/editor-settings.php:30
+#: build/components/index.js:10 build/block-editor/index.js:27
+#: build/block-library/index.js:55
 msgid "Large"
 msgstr "Grande"
 
-#: lib/global-styles.php:195 lib/global-styles.php:210
+#: lib/class-wp-theme-json-resolver.php:141
+#: lib/class-wp-theme-json-resolver.php:156
 msgid "Regular"
 msgstr "Normale"
 
@@ -1538,38 +1550,43 @@ msgstr "beta"
 msgid "Embed Handler"
 msgstr "Handler dell'oggetto incorporato"
 
-#: lib/client-assets.php:164 build/edit-post/index.js:7
-#: build/edit-post/index.js:22 build/editor/index.js:13
+#: lib/full-site-editing/templates-utils.php:17 build/editor/index.js:15
+msgid "Status"
+msgstr "Stato"
+
+#: lib/client-assets.php:164 build/editor/index.js:13
+#: build/edit-post/index.js:7 build/edit-post/index.js:22
+#: build/block-library/index.js:60
 msgid "Featured image"
 msgstr "Immagine in evidenza"
 
 #. translators: ARIA label for the Block Settings Sidebar tab, not selected.
 #. translators: Text label for the Block Settings Sidebar tab.
-#: lib/navigation.php:91 lib/navigation.php:96 lib/class-wp-widget-block.php:40
+#: lib/class-wp-widget-block.php:40 lib/navigation.php:91 lib/navigation.php:96
 #: build/edit-post/index.js:21 build/edit-post/index.js:22
 #: build/edit-widgets/index.js:9
 msgid "Block"
 msgstr "Blocco"
 
-#: build/block-library/blocks/rss.php:31
 #: build/block-library/blocks/latest-comments.php:31
-#: build/block-library/blocks/latest-posts.php:111 build/edit-post/index.js:22
-#: build/edit-site/index.js:9 build/block-library/index.js:30
-#: build/block-library/index.js:38 build/editor/index.js:31
-#: build/editor/index.js:45 build/edit-navigation/index.js:3
+#: build/block-library/blocks/latest-posts.php:102
+#: build/block-library/blocks/rss.php:31 build/editor/index.js:31
+#: build/editor/index.js:45 build/edit-post/index.js:22
+#: build/block-library/index.js:30 build/block-library/index.js:38
+#: build/edit-site/index.js:9 build/edit-navigation/index.js:3
 msgid "(no title)"
 msgstr "(senza titolo)"
 
-#: lib/global-styles.php:196 build/format-library/index.js:1
+#: lib/class-wp-theme-json-resolver.php:142 build/format-library/index.js:1
 msgid "Italic"
 msgstr "Corsivo"
 
-#: lib/global-styles.php:213 build/format-library/index.js:1
+#: lib/class-wp-theme-json-resolver.php:159 build/format-library/index.js:1
 msgid "Bold"
 msgstr "Grassetto"
 
-#: lib/patterns/quote.php:9 build/block-library/index.js:12
-#: build/editor/index.js:15
+#: lib/patterns/quote.php:9 build/editor/index.js:15
+#: build/block-library/index.js:12
 msgid "Quote"
 msgstr "Citazione"
 
@@ -1583,7 +1600,7 @@ msgid "Experiments"
 msgstr "Esperimenti"
 
 #: gutenberg.php:49 gutenberg.php:50 build/core-data/index.js:1
-#: build/edit-widgets/index.js:10 build/blocks/index.js:1
+#: build/blocks/index.js:1 build/edit-widgets/index.js:10
 msgid "Widgets"
 msgstr "Widget"
 
@@ -1612,8 +1629,8 @@ msgid "Gutenberg"
 msgstr "Gutenberg"
 
 #. translators: button label text should, if possible, be under 16 characters.
-#: lib/template-parts.php:144 lib/templates.php:190 build/editor/index.js:35
-#: build/components/index.js:5
+#: lib/full-site-editing/templates-utils.php:15 build/components/index.js:5
+#: build/editor/index.js:35
 msgid "Slug"
 msgstr "Slug"
 

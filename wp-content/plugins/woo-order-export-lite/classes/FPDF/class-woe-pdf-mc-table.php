@@ -21,11 +21,13 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 
 	protected $default_props = array(
 		'header'       => array(
-			'title'      => '',
-			'style'      => 'B',
-			'size'       => 5,
-			'text_color' => array( 0, 0, 0 ),
-			'logo'       => array(
+			'title'            => '',
+			'vertical_align'   => 'C',
+			'horizontal_align' => 'C',
+			'style'            => 'B',
+			'size'             => 5,
+			'text_color'       => array( 0, 0, 0 ),
+			'logo'             => array(
 				'source' => '',
 				'width'  => 0,
 				'height' => 0,
@@ -53,11 +55,13 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 			'image_height'     => null,
 		),
 		'footer'       => array(
-			'title'           => '',
-			'style'           => 'B',
-			'size'            => 5,
-			'text_color'      => array( 0, 0, 0 ),
-			'pagination_type' => '',
+			'title'            => '',
+			'vertical_align'   => 'C',
+			'horizontal_align' => 'C',
+			'style'            => 'B',
+			'size'             => 5,
+			'text_color'       => array( 0, 0, 0 ),
+			'pagination_type'  => '',
 		),
 	);
 
@@ -98,10 +102,14 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 	}
 
 	public function Header() {
+		$availableWidth  = $this->GetPageWidth() - $this->getLeftMargin() - $this->getRightMargin();
+		$horizontalAlign = $this->header_props['horizontal_align'];
+		$verticalAlign   = $this->header_props['vertical_align'];
+
 		if ( apply_filters( 'woe_formatter_pdf_title_before_logo', true ) ) {
 			if ( ! empty( $this->header_props['title'] ) ) {
 				$this->changeBrushToDraw( 'header' );
-				$this->Cell( 0, 0, $this->header_props['title'], 0, 0, 'C' );
+				$this->MultiCell( $availableWidth, 0, $this->header_props['title'], 0, $horizontalAlign, $verticalAlign );
 				$this->Ln( 2 );
 			}
 
@@ -115,7 +123,7 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 
 			if ( ! empty( $this->header_props['title'] ) ) {
 				$this->changeBrushToDraw( 'header' );
-				$this->Cell( 0, 0, $this->header_props['title'], 0, 0, 'C' );
+				$this->MultiCell( $availableWidth, 0, $this->header_props['title'], 0, $horizontalAlign, $verticalAlign );
 				$this->Ln( 2 );
 			}
 		}
@@ -160,9 +168,13 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 
 		$this->changeBrushToDraw( 'footer' );
 
+		$availableWidth  = $this->GetPageWidth() - $this->getLeftMargin() - $this->getRightMargin();
+		$horizontalAlign = $this->footer_props['horizontal_align'];
+		$verticalAlign   = $this->footer_props['vertical_align'];
+
 		if ( ! empty( $this->footer_props['title'] ) ) {
 			// Title
-			$this->Cell( 0, 0, $this->footer_props['title'], 0, 0, 'C');
+			$this->MultiCell( $availableWidth, 0, $this->footer_props['title'], 0, $horizontalAlign, $verticalAlign );
 			// Line break
 			$this->Ln( 10 );
 		}

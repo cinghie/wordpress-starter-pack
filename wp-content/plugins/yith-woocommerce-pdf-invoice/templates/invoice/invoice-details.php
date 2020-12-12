@@ -12,7 +12,7 @@
 	</thead>
 	<tbody>
 	<?php
-	
+
 	$order_items = $ywpi_document->order->get_items ();
 	foreach ( $order_items as $item_id => $item ) {
 		if ( isset( $item['qty'] ) ) {
@@ -21,9 +21,9 @@
 			$discount            = $price_per_unit - $price_per_unit_sale;
 		}
 		$tax = $item["line_tax"];
-		
+
 		?>
-		
+
 		<tr>
 			<td class="column-product"><?php echo $item['name']; ?></td>
 			<td class="column-quantity"><?php echo ( isset( $item['qty'] ) ) ? esc_html ( $item['qty'] ) : ''; ?></td>
@@ -31,44 +31,44 @@
 			<td class="column-total"><?php echo wc_price ( $item["line_subtotal"] ); ?></td>
 			<td class="column-tax"><?php echo wc_price ( $tax ); ?></td>
 		</tr>
-	
+
 	<?php };
-	
+
 	$order_shipping     = $ywpi_document->order->get_items ( 'shipping' );
 	$total_shipping     = 0.00;
 	$total_shipping_tax = 0.00;
-	
+
 	foreach ( $order_shipping as $item_id => $item ) {
 		if ( isset( $item['cost'] ) ) {
 			$total_shipping += $item['cost'];
 		}
-		
+
 		?>
-		
+
 		<tr>
 			<td class="column-product">
 				<?php echo ! empty( $item['name'] ) ? esc_html ( $item['name'] ) : __ ( 'Shipping', 'yith-woocommerce-pdf-invoice' ); ?>
 			</td>
-			
+
 			<td class="column-quantity">
 			</td>
-			
+
 			<td class="column-price">
 			</td>
-			
+
 			<td class="column-total">
 				<?php echo ( isset( $item['cost'] ) ) ? wc_price ( wc_round_tax_total ( $item['cost'] ) ) : ''; ?>
 			</td>
-			
+
 			<td class="column-tax">
 				<?php
 				$taxes      = 0;
 				$taxes_list = maybe_unserialize ( $item['taxes'] );
 				$taxes_list = isset( $taxes_list['total'] ) ? $taxes_list['total'] : $taxes_list;
-				
+
 				foreach ( $taxes_list as $tax_id => $amount ) {
 					if ( 'total' != $tax_id ) {
-						$taxes += $amount;
+						$taxes += (int)$amount;
 					}
 				}
 				$total_shipping_tax += $taxes;
@@ -78,11 +78,11 @@
 		</tr>
 		<?php
 	};
-	
+
 	$order_fees    = $ywpi_document->order->get_items ( 'fee' );
 	$total_fee     = 0.00;
 	$total_fee_tax = 0.00;
-	
+
 	foreach ( $order_fees as $item_id => $item ) {
 		if ( isset( $item['line_total'] ) ) {
 			$total_fee += $item['line_total'];
@@ -91,22 +91,22 @@
 			$total_fee_tax += $item['line_tax'];
 		}
 		?>
-		
+
 		<tr>
 			<td class="column-product">
 				<?php echo ! empty( $item['name'] ) ? esc_html ( $item['name'] ) : __ ( 'Fee', 'yith-woocommerce-pdf-invoice' ); ?>
 			</td>
-			
+
 			<td class="column-quantity">
 			</td>
-			
+
 			<td class="column-price">
 			</td>
-			
+
 			<td class="column-total">
 				<?php echo ( isset( $item['line_total'] ) ) ? wc_price ( wc_round_tax_total ( $item['line_total'] ) ) : ''; ?>
 			</td>
-			
+
 			<td class="column-tax">
 				<?php echo ( isset( $item['line_tax'] ) ) ? wc_price ( $item['line_tax'] ) : ''; ?>
 			</td>
@@ -114,14 +114,14 @@
 		<?php
 	};
 	?>
-	
+
 	</tbody>
 </table>
 
 <table>
 	<tr>
 		<td class="column1">
-		
+
 		</td>
 		<td class="column2">
 			<table class="invoice-totals">
@@ -129,12 +129,12 @@
 					<td class="column-product"><?php _e ( "Subtotal", 'yith-woocommerce-pdf-invoice' ); ?></td>
 					<td class="column-total"><?php echo wc_price ( $ywpi_document->order->get_subtotal () + $total_fee + $total_shipping ); ?></td>
 				</tr>
-				
+
 				<tr>
 					<td class="column-product"><?php _e ( "Discount", 'yith-woocommerce-pdf-invoice' ); ?></td>
 					<td class="column-total"><?php echo wc_price ( $ywpi_document->order->get_total_discount () ); ?></td>
 				</tr>
-				
+
 				<?php if ( 'yes' == get_option ( 'woocommerce_calc_taxes' ) ) : ?>
 					<?php foreach ( $ywpi_document->order->get_tax_totals () as $code => $tax ) : ?>
 						<tr class="invoice-details-vat">
@@ -143,7 +143,7 @@
 						</tr>
 					<?php endforeach; ?>
 				<?php endif; ?>
-				
+
 				<tr class="invoice-details-total">
 					<td class="column-product"><?php _e ( "Total", 'yith-woocommerce-pdf-invoice' ); ?></td>
 					<td class="column-total"><?php echo wc_price ( $ywpi_document->order->get_total () ); ?></td>

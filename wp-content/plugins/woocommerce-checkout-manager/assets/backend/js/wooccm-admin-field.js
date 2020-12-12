@@ -86,9 +86,7 @@
       var modal = this,
         $form = modal.$el.find('#wooccm_modal').find('form');
       var model = _.getFormData($form);
-      console.log('model1', model)
       this.model.set(model);
-      console.log('model2', this.model.attributes)
     },
     reload: function (e) {
       if (this.$el.find('#wooccm_modal').hasClass('reload')) {
@@ -109,7 +107,7 @@
       return;
     },
     enableSave: function (e) {
-      $('.media-modal-submit').removeProp('disabled');
+      $('.media-modal-submit').prop('disabled', false);
       this.updateModel(e);
     },
     disableSave: function (e) {

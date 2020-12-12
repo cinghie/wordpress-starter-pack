@@ -37,8 +37,8 @@ jQuery(function($) {
 		});
 	}
 
-	$(".dismiss-review-notification").click(function(){
-      
+	//$(".dismiss-review-notification").click(function(){
+	$(".dismiss-review-notification").on('click', function(){
 	        jQuery.ajax({
                 	method: "POST",
                         url: ajaxurl,
@@ -49,7 +49,8 @@ jQuery(function($) {
 
 	});
 
-	$(".get_elite").click(function(e){
+	//$(".get_elite").click(function(e){
+	$(".get_elite").on('click', function(e){
 		if(e.target.tagName === 'A') return; // clicking on links should not close the div notice
 
 		$(".get_elite").remove();	
@@ -61,8 +62,8 @@ jQuery(function($) {
                 })
 	});
 
-
-	$(".get_elite_activate").click(function(e){
+	//$(".get_elite_activate").click(function(e){
+	$(".get_elite_activate").on('click', function(e){
 		if(e.target.tagName === 'A') return; // clicking on links should not close the div notice
 
 		$(".get_elite_activate").remove();	
@@ -77,7 +78,8 @@ jQuery(function($) {
 //   	$("td[colspan=8]").find("div").parents("tr").hide();
    	$("td[id=manage_inline]").find("div").parents("tr").hide();
 
-	$('.checkbox-field').change(function(index, obj){
+	//$('.checkbox-field').change(function(index, obj){
+	$('.checkbox-field').on('change', function(index, obj){
 
 		if(get_value == 'woosea_manage_settings' && tab_value == 'woosea_manage_attributes'){
 			var attribute_value = $(this).val();
@@ -354,7 +356,7 @@ jQuery(function($) {
 	})	
 
         // Save Google Dynamic Remarketing pixel ID
-        jQuery("#save_batch_size").click(function(){
+        jQuery("#save_batch_size").on('click',function(){
                 var batch_size = $('#batch_size').val();
 	        var re = /^[0-9]*$/;
                 
@@ -410,7 +412,7 @@ jQuery(function($) {
 	})	
 
         // Save Google Dynamic Remarketing pixel ID
-        jQuery("#save_conversion_id").click(function(){
+        jQuery("#save_conversion_id").on('click',function(){
                 var adwords_conversion_id = $('#adwords_conv_id').val();
 	        var re = /^[0-9]*$/;
                 
@@ -434,7 +436,7 @@ jQuery(function($) {
 	})
 
         // Save Facebook Pixel ID
-        jQuery("#save_facebook_pixel_id").click(function(){
+        jQuery("#save_facebook_pixel_id").on('click',function(){
 	        var facebook_pixel_id = $('#fb_pixel_id').val();
 	        var re = /^[0-9]*$/;
 		var woosea_valid_facebook_pixel_id=re.test(facebook_pixel_id);
@@ -517,8 +519,8 @@ jQuery(function($) {
 		}
 	})	
 
-
-	$(".actions").delegate("span", "click", function() {
+//	$(".actions").delegate("span", "click", function() {
+	$(".actions").on("click", "span", function() {
    		var id=$(this).attr('id');
 		var idsplit = id.split('_');
 		var project_hash = idsplit[1];

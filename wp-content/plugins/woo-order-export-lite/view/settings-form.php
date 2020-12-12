@@ -290,6 +290,7 @@ function remove_time_from_date( $datetime ) {
 						'woo-order-export-lite' ) ?></strong><br>
                 <input type=hidden name="settings[format_csv_add_utf8_bom]" value=0>
                 <input type=hidden name="settings[format_csv_display_column_names]" value=0>
+                <input type=hidden name="settings[format_csv_force_quotes]" value=0>
                 <input type=hidden name="settings[format_csv_delete_linebreaks]" value=0>
                 <input type=hidden name="settings[format_csv_item_rows_start_from_new_line]" value=0>
                 <input type=checkbox name="settings[format_csv_add_utf8_bom]"
@@ -300,6 +301,10 @@ function remove_time_from_date( $datetime ) {
                        value=1 <?php if ( @$settings['format_csv_display_column_names'] ) {
 					echo 'checked';
 				} ?> > <?php _e( 'Output column titles as first line', 'woo-order-export-lite' ) ?><br>
+                <input type=checkbox name="settings[format_csv_force_quotes]"
+                       value=1 <?php if ( @$settings['format_csv_force_quotes'] ) {
+					echo 'checked';
+				} ?> > <?php _e( 'Force enclosure for all values', 'woo-order-export-lite' ) ?><br>
                 <input type=checkbox name="settings[format_csv_delete_linebreaks]"
                        value=1 <?php if ( @$settings['format_csv_delete_linebreaks'] ) {
 					echo 'checked';
@@ -865,6 +870,12 @@ function remove_time_from_date( $datetime ) {
                     <input type="hidden" name="settings[strip_tags_product_fields]" value="0"/>
                     <label><input type="checkbox" name="settings[strip_tags_product_fields]"
                                   value="1" <?php checked( $settings['strip_tags_product_fields'] ) ?>/><?php _e( 'Strip tags from Product Description/Variation',
+							'woo-order-export-lite' ) ?></label>
+                </div>
+                <div>
+                    <input type="hidden" name="settings[round_item_tax_rate]" value="0"/>
+                    <label><input type="checkbox" name="settings[round_item_tax_rate]"
+                                  value="1" <?php checked( $settings['round_item_tax_rate'] ) ?>/><?php _e( 'Item Tax Rate as an integer',
 							'woo-order-export-lite' ) ?></label>
                 </div>
                 <div>

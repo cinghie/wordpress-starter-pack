@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the YITH WooCommerce Multi-step Checkout package.
 msgid ""
 msgstr ""
-"Project-Id-Version: YITH WooCommerce Multi-step Checkout 2.0.1\n"
+"Project-Id-Version: YITH WooCommerce Multi-step Checkout 2.0.5\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/yith-woocommerce-multi-step-checkout\n"
-"POT-Creation-Date: 2020-08-17 08:39:34+00:00\n"
+"POT-Creation-Date: 2020-12-03 09:53:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -26,15 +26,15 @@ msgstr ""
 msgid "Premium Version"
 msgstr ""
 
-#: includes/class.yith-multistep-checkout-frontend.php:349
-#: includes/class.yith-multistep-checkout-frontend.php:350
-#: includes/class.yith-multistep-checkout-frontend.php:385
+#: includes/class.yith-multistep-checkout-frontend.php:354
+#: includes/class.yith-multistep-checkout-frontend.php:355
+#: includes/class.yith-multistep-checkout-frontend.php:390
 #: templates/woocommerce/checkout/form-checkout.php:44
 #: templates/woocommerce/checkout/form-checkout.php:45
 msgid "Next"
 msgstr ""
 
-#: includes/class.yith-multistep-checkout-frontend.php:351
+#: includes/class.yith-multistep-checkout-frontend.php:356
 #: templates/woocommerce/checkout/form-checkout.php:46
 msgid "Previous"
 msgstr ""
@@ -253,37 +253,37 @@ msgctxt "Admin: Page title"
 msgid "Buttons options"
 msgstr ""
 
-#: includes/class.yith-multistep-checkout-frontend.php:352
+#: includes/class.yith-multistep-checkout-frontend.php:357
 #: templates/woocommerce/checkout/form-checkout.php:47
 msgctxt "Checkout: user timeline"
 msgid "Login"
 msgstr ""
 
-#: includes/class.yith-multistep-checkout-frontend.php:353
+#: includes/class.yith-multistep-checkout-frontend.php:358
 #: templates/woocommerce/checkout/form-checkout.php:48
 msgctxt "Checkout: user timeline"
 msgid "Billing"
 msgstr ""
 
-#: includes/class.yith-multistep-checkout-frontend.php:354
+#: includes/class.yith-multistep-checkout-frontend.php:359
 #: templates/woocommerce/checkout/form-checkout.php:49
 msgctxt "Checkout: user timeline"
 msgid "Shipping"
 msgstr ""
 
-#: includes/class.yith-multistep-checkout-frontend.php:355
+#: includes/class.yith-multistep-checkout-frontend.php:360
 #: templates/woocommerce/checkout/form-checkout.php:50
 msgctxt "Checkout: user timeline"
 msgid "Order Info"
 msgstr ""
 
-#: includes/class.yith-multistep-checkout-frontend.php:356
+#: includes/class.yith-multistep-checkout-frontend.php:361
 #: templates/woocommerce/checkout/form-checkout.php:51
 msgctxt "Checkout: user timeline"
 msgid "Payment Info"
 msgstr ""
 
-#: includes/class.yith-multistep-checkout-frontend.php:357
+#: includes/class.yith-multistep-checkout-frontend.php:362
 #: plugin-options/buttons-options.php:67
 #: templates/woocommerce/checkout/form-checkout.php:52
 msgctxt "Frontend: button label"

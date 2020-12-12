@@ -237,7 +237,7 @@ class WOE_Formatter_Xls extends WOE_Formatter_Plain_Format {
 		if ( $this->mode != 'preview' ) {
 			$tmp_data = array();
 			$tmp_data['image_positions'] = $this->image_positions;
-			set_transient( $this->get_tmp_data_transient_name(), $tmp_data );
+			set_transient( $this->get_tmp_data_transient_name(), $tmp_data, 5 * MINUTE_IN_SECONDS );
 		}
 
 	}

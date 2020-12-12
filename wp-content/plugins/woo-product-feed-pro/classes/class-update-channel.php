@@ -277,11 +277,11 @@ class WooSEA_Update_Project {
 			} else {
 				array_push($cron_projects, $project_data);
 			}
-			update_option( 'cron_projects', $cron_projects, 'yes');
+			update_option( 'cron_projects', $cron_projects);
 		} else {
 			$cron_projects = array (); // Create a new multidimensional array for the cron projects
 			array_push($cron_projects, $project_data);
-			update_option( 'cron_projects', $cron_projects, 'yes');
+			update_option( 'cron_projects', $cron_projects);
 		}
 			
 		// Clear channel_project option

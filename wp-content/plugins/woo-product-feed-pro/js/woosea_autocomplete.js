@@ -5585,7 +5585,7 @@ jQuery(document).ready(function($) {
 "5644 - Vehicles & Parts > Vehicles > Watercraft > Yachts",
 	];
 
-        jQuery(".dashicons-arrow-down").click(function(){
+        jQuery(".dashicons-arrow-down").on('click', function(){
 		var className = $(this).attr("class").split(' ')[2];
 		var rowCount = className.split("_")[2];
 		var map_to_category = $(".autocomplete_" + rowCount).val();
@@ -5637,7 +5637,7 @@ jQuery(document).ready(function($) {
 	});
 	
 
-        jQuery(".dashicons-arrow-down-alt").click(function(){
+        jQuery(".dashicons-arrow-down-alt").on('click',function(){
 		var className = $(this).attr("class").split(' ')[2];
 		var rowCount = className.split("_")[2]
 		var map_to_category = $(".autocomplete_" + rowCount).val();
@@ -5692,7 +5692,7 @@ jQuery(document).ready(function($) {
 	});
 
 
-        jQuery(".js-autosuggest").click(function(){
+        jQuery(".js-autosuggest").on('click',function(){
 		var className = $(this).attr("class").split(' ')[3];
 		var rowCount = className.split("_")[1]
 			

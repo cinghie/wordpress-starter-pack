@@ -1,7 +1,7 @@
 jQuery(document).ready(function($) {
 
- 	jQuery("#deactivate_license").click(function(){
-
+	jQuery("#deactivate_license").on('click', function(){
+	//jQuery("#deactivate_license").click(function(){
 		$('.notice').replaceWith("<div class='notice notice-info is-dismissible'><p>Your license has been deactivated.</p></div>");
 		$('#license_email').val('');
 		$('#license_key').val('');
@@ -19,15 +19,15 @@ jQuery(document).ready(function($) {
                 });
 	});
 
- 	jQuery("#checklicense").click(function(){
-
+ 	jQuery("#checklicense").on('click', function(){
+ 	//jQuery("#checklicense").click(function(){
 		var temp = location.host.split('.').reverse();
 		var root_domain = $(location).attr('hostname');
 		var license_email = $('#license-email').val();
 		var license_key = $('#license-key').val();
 
 		jQuery.ajax({
-    			url: 'https://www.adtribes.io/check/license.php?key=' + license_key + '&email=' + license_email + '&domain=' + root_domain + '&version=9.1.9',
+    			url: 'https://www.adtribes.io/check/license.php?key=' + license_key + '&email=' + license_email + '&domain=' + root_domain + '&version=9.2.6',
 			jsonp: 'callback',
     			dataType: 'jsonp',
 			type: 'GET',

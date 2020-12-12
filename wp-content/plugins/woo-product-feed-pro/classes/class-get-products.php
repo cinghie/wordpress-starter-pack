@@ -692,7 +692,7 @@ class WooSEA_Get_Products {
 						$zone_details['country'] = $zone_expl[0];
 		
 						// Adding a region is only allowed for these countries
-						$region_countries = array ('US','JP','AU','FR','CA');
+						$region_countries = array ('US','JP','AU');
 						if(in_array($zone_details['country'], $region_countries)){
 							$zone_details['region'] = $zone_expl[1];
 						}
@@ -1082,6 +1082,15 @@ class WooSEA_Get_Products {
 			   	$xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><rss xmlns:g="http://base.google.com/ns/1.0"></rss>');
 			   	$xml->addAttribute('version', '2.0');
 				$xml->addChild('channel');
+
+				// Start adding the AdTribes.io Facebook app ID and the feed asset ID
+				if($feed_config['fields'] == "facebook_drm"){
+					$xml->channel->addChild('metadata');
+					$xml->channel->metadata->addChild('ref_application_id', '160825592398259');
+					$xml->channel->metadata->addChild('ref_asset_id', $feed_config['project_hash']);
+				}
+				// End Facebook ID's
+
 				$xml->channel->addChild('title', htmlspecialchars($feed_config['projectname']));
 				$xml->channel->addChild('link', site_url());
 				$xml->channel->addChild('description', 'WooCommerce Product Feed PRO - This product feed is created with the Product Feed PRO for WooCommerce plugin from AdTribes.io. For all your support questions check out our FAQ on https://www.adtribes.io or e-mail to: support@adtribes.io ');
@@ -1413,7 +1422,9 @@ class WooSEA_Get_Products {
 										$proper_order = array("product_name","gtin","mpn","sku","brand","product_url","review_url","reviews");
 										$order_sorted = array();
 										foreach ($proper_order as &$order_value){
-											$order_sorted[$order_value] = $value[$order_value];
+											if(isset($value[$order_value])){
+												$order_sorted[$order_value] = $value[$order_value];
+											}
 										}
 										// End										
 
@@ -2453,9 +2464,15 @@ class WooSEA_Get_Products {
 				if($product->get_type() == "bundle"){
 		                        if ($this->woosea_is_plugin_active('woocommerce-product-bundles/woocommerce-product-bundles.php')){
                         			$product_data['price'] = round(get_post_meta($product_data['id'], '_price', true));
-                    		    		$product_data['price_forced'] = round(get_post_meta($product_data['id'], '_price', true) * (100+$tax_rates[1]['rate'])/100,2);
+						if(is_numeric($tax_rates[1]['rate'])){	
+                    		    			$product_data['price_forced'] = round(get_post_meta($product_data['id'], '_price', true) * (100+$tax_rates[1]['rate'])/100,2);
+              		   				$product_data['regular_price'] = round(get_post_meta($product_data['id'], '_regular_price', true) * (100+$tax_rates[1]['rate'])/100,2);
+						} else {
+                    		    			$product_data['price_forced'] = $product_data['price'];
+                    		    			$product_data['regular_price'] = $product_data['price'];
+						}
+
 						$product_data['net_price'] = get_post_meta($product_data['id'], '_price', true);
-              		   			$product_data['regular_price'] = round(get_post_meta($product_data['id'], '_regular_price', true) * (100+$tax_rates[1]['rate'])/100,2);
                         			$product_data['net_regular_price'] = get_post_meta($product_data['id'], '_regular_price', true);
 						if($product_data['price'] != $product_data['regular_price']){
                         				$product_data['net_sale_price'] = get_post_meta($product_data['id'], '_sale_price', true);
@@ -2796,11 +2813,48 @@ class WooSEA_Get_Products {
 				$product_data[$taxo] = "";
 
 				if(is_array($term_value)){
-					foreach($term_value as $term){
-						$product_data[$taxo] .= ",". $term->name;
+					// Do not add variation values to the feed when they are out of stock
+					if($project_config['fields'] == "skroutz"){
+						if(($product->is_type('variable')) AND ($product_data['item_group_id'] == 0)){
+							$product_skroutz = wc_get_product($product_data['id']);
+							$variations = $product_skroutz->get_available_variations();
+							$variations_id = wp_list_pluck( $variations, 'variation_id' );
+							$skroutz_att_array = array();
+							
+							foreach($variations_id as $var_id){
+	                                        		$stock_value = get_post_meta( $var_id, "_stock_status", true );
+								if($stock_value == "instock"){
+									foreach($term_value as $term){
+				                                        	$attr_value = get_post_meta( $var_id, "attribute_".$term->taxonomy, true );
+ 										if(!in_array($attr_value, $skroutz_att_array)){
+                                                                                	array_push($skroutz_att_array, $attr_value);
+										}
+									}
+									$product_data[$taxo] = ltrim($product_data[$taxo],',');
+									$product_data[$taxo] = rtrim($product_data[$taxo],',');
+								}
+							}
+						
+							foreach($skroutz_att_array as $skrtz_value){
+								$product_data[$taxo] .= ",". $skrtz_value;
+							}	
+							$product_data[$taxo] = ltrim($product_data[$taxo],',');
+							$product_data[$taxo] = rtrim($product_data[$taxo],',');
+						} else {
+							// Simple Skroutz product
+							foreach($term_value as $term){
+								$product_data[$taxo] .= ",". $term->name;
+							}
+							$product_data[$taxo] = ltrim($product_data[$taxo],',');
+							$product_data[$taxo] = rtrim($product_data[$taxo],',');
+						}
+					} else {
+						foreach($term_value as $term){
+							$product_data[$taxo] .= ",". $term->name;
+						}
+						$product_data[$taxo] = ltrim($product_data[$taxo],',');
+						$product_data[$taxo] = rtrim($product_data[$taxo],',');
 					}
-					$product_data[$taxo] = ltrim($product_data[$taxo],',');
-					$product_data[$taxo] = rtrim($product_data[$taxo],',');
 				}
 			}
 
@@ -2975,14 +3029,14 @@ class WooSEA_Get_Products {
                                
 					$skroutz_apparal = get_option('skroutz_apparel');
                              		if($skroutz_apparal == "yes"){
-						if(isset($var_key)){
-                                			$skroutz_color = get_post_meta( $product_data['id'], $var_key, true );
+						if(isset($clr_attribute)){
+                                			$skroutz_color = get_post_meta( $product_data['id'], "attribute_".$clr_attribute, true );
 						}
 
-						if(isset($var_key_sz)){
-                                			$skroutz_size = get_post_meta( $product_data['id'], $var_key_sz, true );
+						if(isset($sz_attribute)){
+                                			$skroutz_size = get_post_meta( $product_data['id'], "attribute_".$sz_attribute, true );
 						}					
-
+				
 						if((!empty($skroutz_color)) AND (!empty($skroutz_size))){
 
 							foreach($variations as $kvar => $vvar){
@@ -3947,7 +4001,6 @@ class WooSEA_Get_Products {
                 				$path = $base . "/woo-product-feed-pro/" . $feed_config[$key]['fileformat'];
                 				$tmp_file = $path . "/" . sanitize_file_name($feed_config[$key]['filename']) . "_tmp." . $feed_config[$key]['fileformat'];
                 				$new_file = $path . "/" . sanitize_file_name($feed_config[$key]['filename']) . "." . $feed_config[$key]['fileformat'];
-
 
 						if (!copy($tmp_file, $new_file)) {
 							error_log("Copy of file failed");

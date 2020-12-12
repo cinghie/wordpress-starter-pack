@@ -263,6 +263,7 @@ class WC_Order_Export_Manage {
 			'format_csv_item_rows_start_from_new_line' => 0,
 			'format_csv_encoding'                      => 'UTF-8',
 			'format_csv_delete_linebreaks'             => 0,
+			'format_csv_force_quotes'                  => 0,
 			
 			'format_tsv_linebreak'                     => '\r\n',
 			'format_tsv_display_column_names'          => 1,
@@ -343,6 +344,7 @@ class WC_Order_Export_Manage {
 			'export_all_comments'          => 0,
 			'export_refund_notes'          => 0,
 			'strip_tags_product_fields'    => 0,
+			'round_item_tax_rate'          => 0,
 			'cleanup_phone'                => 0,
 			'convert_serialized_values'    => 0,
 			'enable_debug'                 => 0,

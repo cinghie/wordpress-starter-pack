@@ -205,7 +205,7 @@ abstract class WOE_Formatter {
 	protected function set_counter( $count_value ) {
 		$this->counter_value = $count_value;
 		if ( $this->mode != 'preview' ) {
-			set_transient( $this->generate_key(), $count_value );
+			set_transient( $this->generate_key(), $count_value, 5 * MINUTE_IN_SECONDS );
 		}
 	}
 

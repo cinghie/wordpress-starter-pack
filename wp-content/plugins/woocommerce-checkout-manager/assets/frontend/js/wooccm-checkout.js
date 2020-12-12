@@ -475,23 +475,24 @@
     var $input = $(this);
 
     if ($.isFunction($.fn.timepicker)) {
+      console.log($input.data('format-ampm'));
 
       $input.timepicker({
-        //timeFormat: 'HH:mm:ss',
-        showPeriod: true,
+        showPeriodLabels:  !!$input.data('format-ampm'),
+        showPeriod: !!$input.data('format-ampm'),
         showLeadingZero: true,
-        hours: $input.data('hours') || undefined,
-        minutes: $input.data('minutes') || undefined,
+       hours:  $input.data('hours') || undefined ,
+        minutes: $input.data('minutes') || undefined
         /* hours: {
           starts: 9,                // First displayed hour
           ends: 21                  // Last displayed hour
-        },
+        },/*
         minutes: {
           starts: 5,                // First displayed minute
           ends: 55,                 // Last displayed minute
           interval: 5,              // Interval of displayed minutes
           manual: []                // Optional extra entries for minutes
-        }, */
+        }, */ 
       });
     }
 

@@ -95,15 +95,17 @@ if ( ! class_exists( 'YITH_YWRAQ_Send_Email_Request_Quote' ) ) {
 		 * @return string
 		 */
 		public function get_headers() {
-			$headers = 'Reply-to: ' . $this->raq['user_email'] . "\r\n";
+			$headers = "Reply-to: " . $this->raq['user_email'] . "\r\n";
 
 			if ( $this->enable_cc ) {
-				$headers .= 'Cc: ' . $this->raq['user_email'] . "\r\n";
+				$headers .= "Cc: " . $this->raq['user_email'] . "\r\n";
 			}
 
-			$headers .= 'Content-Type: ' . $this->get_content_type() . "\r\n";
+			$headers .= "Content-Type: " . $this->get_content_type() . "\r\n";
 
-			return apply_filters( 'woocommerce_email_headers', $headers, $this->id, $this->object );
+			$obj = isset(  $this->object ) ?  $this->object : false;
+
+			return apply_filters( 'woocommerce_email_headers', $headers, $this->id, $obj, $this );
 		}
 
 		/**

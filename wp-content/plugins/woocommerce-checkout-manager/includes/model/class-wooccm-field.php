@@ -188,6 +188,7 @@ class WOOCCM_Field extends WOOCCM_Model
       'hide_invoice' => false,
       // Pickers
       // -------------------------------------------------------------------
+      'time_format_ampm'  => true, 
       'time_limit_start' => null,
       'time_limit_end' => null,
       'time_limit_interval' => null,

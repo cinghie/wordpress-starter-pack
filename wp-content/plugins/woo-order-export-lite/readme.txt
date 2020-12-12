@@ -4,8 +4,8 @@ Donate link: https://paypal.me/ipprokaev/0usd
 Tags: woocommerce,export,order,xls,csv,xml,woo export lite,export orders,orders export,csv export,xml export,xls export,tsv
 Requires PHP: 5.4.0
 Requires at least: 4.7
-Tested up to: 5.5
-Stable tag: 3.1.6
+Tested up to: 5.6
+Stable tag: 3.1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,6 +116,15 @@ Yes, you can email a request to aprokaev@gmail.com. We intensively develop this 
 6. Select orders to export and use "bulk action".
 
 == Changelog ==
+
+= 3.1.7 - 2020-12-09 =
+* New field "Summary Report Total Weight"
+* Added option to round "Item Tax Rate" (Misc Settings)
+* Added option "Force enclosure for all values" (CSV format)
+* Use billing email to calculate field "Customer Total Orders" for guests
+* The plugin supports capability "export_woocommerce_orders"
+* Fixed bug - PDF text didn't fit to cell by width
+* Fixed bug - field "Non variation attributes" showed wrong values for existing taxonomies
 
 = 3.1.6 - 2020-09-21 =
 * New product fields "Item Cost (inc. tax)", "Stock Status", "Stock Quantity", "Non variation attributes"

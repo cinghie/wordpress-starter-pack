@@ -4,7 +4,7 @@
  * @author Your Inspiration Themes
  * @package YITH WooCommerce Zoom Magnifier
  */
-jQuery(document).ready(function ($) {
+jQuery(function ($) {
 
     var yith_wcmg                   = $('.images'),
         yith_wcmg_zoom              = $('.yith_magnifier_zoom'),

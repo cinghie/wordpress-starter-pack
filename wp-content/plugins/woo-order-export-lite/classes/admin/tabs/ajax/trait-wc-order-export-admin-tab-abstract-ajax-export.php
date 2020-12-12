@@ -44,6 +44,10 @@ trait WC_Order_Export_Admin_Tab_Abstract_Ajax_Export {
 		$this->start_prevent_object_cache();
 		$settings = WC_Order_Export_Manage::make_new_settings( $_POST );
 
+		if ( $settings['format'] === 'XLS' && ! function_exists( "mb_strtolower" ) ) {
+			die( __( 'Please, install/enable PHP mbstring extension!', 'woo-order-export-lite' ) );
+		}
+
 		$filename = WC_Order_Export_Engine::get_filename( "orders" );
 		if ( ! $filename ) {
 			die( __( 'Can\'t create temporary file', 'woo-order-export-lite' ) );
@@ -93,6 +97,10 @@ trait WC_Order_Export_Admin_Tab_Abstract_Ajax_Export {
 		// custom export worked for plain
 		if ( apply_filters( 'woe_plain_export_custom_func', false, $_POST['id'], $settings ) ) {
 			return;
+		}
+
+		if ( $settings['format'] === 'XLS' && ! function_exists( "mb_strtolower" ) ) {
+			die( __( 'Please, install/enable PHP mbstring extension!', 'woo-order-export-lite' ) );
 		}
 
 		$file = WC_Order_Export_Engine::build_file_full( $settings );

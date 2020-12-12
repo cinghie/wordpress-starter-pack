@@ -96,7 +96,7 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 				foreach($cron_projects as $key => $value){
 					$cron_projects[$key]['active'] = "true";
 				}
-                             	update_option('cron_projects', $cron_projects);
+                             	update_option('cron_projects', $cron_projects,'no');
 			} else {
                                 // Set default notification to show
                                 $getelite_notice = get_option('woosea_getelite_notification');
@@ -264,7 +264,7 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 					} else {
 						// Removing this partly configured feed as it results in PHP warnings
 						unset($cron_projects[$key]);
-		                                update_option('cron_projects', $cron_projects);
+		                                update_option('cron_projects', $cron_projects,'no');
 					}	
 				}
 			} else {

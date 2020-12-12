@@ -4,7 +4,7 @@ Donate link: https://quadlayers.com/
 Tags: woocommerce, woocommerce checkout, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
 Requires at least: 3.4
 Tested up to: 5.5.3
-Stable tag: 5.3.1
+Stable tag: 5.3.2
 WC requires at least: 3.1.0
 WC tested up to: 4.6.3
 License: GPLv3
@@ -106,6 +106,9 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 10. Handle uploaded files in order admin dashboard.
 
 == Changelog ==
+
+= 5.3.2 = 
+* Fix: save button
 
 = 5.3.1 = 
 * Fix: woocommerce phone field type

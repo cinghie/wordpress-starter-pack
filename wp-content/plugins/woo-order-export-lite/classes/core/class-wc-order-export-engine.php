@@ -318,7 +318,12 @@ class WC_Order_Export_Engine {
 				}, 10, 3 );
 			}
 		}
-
+		if ( $settings['round_item_tax_rate'] ) {
+			add_filter('woe_tax_rate_rounding_precision', function($precision) {
+				return 0;
+			});
+		}
+		
 		$options['strip_tags_product_fields'] = ! empty( $settings['strip_tags_product_fields'] );
 
 		return $options;

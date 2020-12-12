@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Wishlist - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-11-02 18:54:57+0000\n"
+"PO-Revision-Date: 2020-12-05 15:10:10+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,47 +11,43 @@ msgstr ""
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Wishlist - Stable (latest release)\n"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:128
+#: plugin-fw/templates/sysinfo/tabs/main.php:73
 msgid "External object cache"
 msgstr "External object cache"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:175
-msgid "Show log files"
-msgstr "Mostra i file del log"
-
-#: plugin-fw/templates/sysinfo/system-information-panel.php:123
-#: plugin-fw/templates/sysinfo/system-information-panel.php:131
+#: plugin-fw/templates/sysinfo/tabs/main.php:68
+#: plugin-fw/templates/sysinfo/tabs/main.php:76
 msgid "No"
 msgstr "No"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:123
-#: plugin-fw/templates/sysinfo/system-information-panel.php:131
+#: plugin-fw/templates/sysinfo/tabs/main.php:68
+#: plugin-fw/templates/sysinfo/tabs/main.php:76
 msgid "Yes"
 msgstr "Sì"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:120
+#: plugin-fw/templates/sysinfo/tabs/main.php:65
 msgid "Defined WP_CACHE"
 msgstr "Defined WP_CACHE"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:54
+#: plugin-fw/templates/sysinfo/tabs/error-log.php:21
 msgid "PHP error_log file"
 msgstr "File PHP error_log"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:50
+#: plugin-fw/templates/sysinfo/tabs/error-log.php:16
 msgid "WP debug.log file"
 msgstr "File WP debug.log"
 
 #. translators: %1$s TLS label
-#: plugin-fw/lib/yith-system-status.php:596
+#: plugin-fw/lib/yith-system-status.php:667
 msgid "The system check cannot determine which %1$s version is installed due to a connection issue between your site and our server."
 msgstr "Non è stato possibile determinare con i controlli di sistema quale versione di %1$s è installata a causa di un problema di connessione fra il tuo sito e il nostro server."
 
 #. translators: %1$s TLS label, %2$s cURL label
-#: plugin-fw/lib/yith-system-status.php:593
+#: plugin-fw/lib/yith-system-status.php:664
 msgid "The system check cannot determine which %1$s version is installed because %2$s module is disabled. Ask your hosting company to enable it."
 msgstr "Non è stato possibile determinare quale versione di %1$s è installata in quanto il modulo %2$s è disattivato. Chiedi al tuo servizio hosting di attivarlo."
 
-#: plugin-fw/lib/yith-system-status.php:545
+#: plugin-fw/lib/yith-system-status.php:616
 msgid "Contact your hosting company in order to install it."
 msgstr "Contatta il tuo hosting per installarlo."
 
@@ -122,7 +118,7 @@ msgstr "Cerca lista"
 msgid "My wishlist"
 msgstr "La mia lista dei desideri"
 
-#: includes/class.yith-wcwl-ajax-handler.php:69
+#: includes/class.yith-wcwl-ajax-handler.php:73
 msgid "Close"
 msgstr "Chiudi"
 
@@ -237,19 +233,19 @@ msgctxt "YES/NO button: use MAX 3 characters!"
 msgid "NO"
 msgstr "NO"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1318
+#: plugin-fw/lib/yit-plugin-panel.php:1319
 msgid ":) Thanks!"
 msgstr ":) Grazie!"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1317
+#: plugin-fw/lib/yit-plugin-panel.php:1318
 msgid "help us by leaving a five-star rating"
 msgstr "aiutaci lasciando una valutazione 5 stelle"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1315
+#: plugin-fw/lib/yit-plugin-panel.php:1316
 msgid "to keep updating and improving the plugin. Please,"
 msgstr "per continuare ad aggiornare e a migliorare il plugin. Per favore,"
 
-#: plugin-fw/lib/yit-plugin-panel.php:1314
+#: plugin-fw/lib/yit-plugin-panel.php:1315
 msgid "We need your support"
 msgstr "Abbiamo bisogno del tuo supporto"
 
@@ -270,12 +266,12 @@ msgid "Added on:"
 msgstr "Aggiunto il:"
 
 #: templates/add-to-wishlist-remove.php:51
-#: includes/class.yith-wcwl-ajax-handler.php:67
+#: includes/class.yith-wcwl-ajax-handler.php:71
 msgid "View &rsaquo;"
 msgstr "Vedi &rsaquo;"
 
 #: templates/add-to-wishlist-remove.php:50
-#: includes/class.yith-wcwl-ajax-handler.php:68
+#: includes/class.yith-wcwl-ajax-handler.php:72
 msgid "or"
 msgstr "oppure"
 
@@ -376,38 +372,38 @@ msgstr "Riordina"
 msgid "Quantity"
 msgstr "Quantità"
 
-#: templates/wishlist-view-footer-mobile.php:78
 #: templates/wishlist-view-footer.php:99
+#: templates/wishlist-view-footer-mobile.php:78
 msgid "Add all to cart"
 msgstr "Aggiungi tutti al carrello"
 
-#: templates/wishlist-view-footer-mobile.php:72
 #: templates/wishlist-view-footer.php:77
+#: templates/wishlist-view-footer-mobile.php:72
 msgid "Update"
 msgstr "Aggiorna"
 
-#: templates/wishlist-view-footer-mobile.php:64
 #: templates/wishlist-view-footer.php:69
+#: templates/wishlist-view-footer-mobile.php:64
 msgid "Apply"
 msgstr "Applica"
 
 #. translators: 1. Wishlist formatted name.
-#: templates/wishlist-view-footer-mobile.php:60
 #: templates/wishlist-view-footer.php:63
+#: templates/wishlist-view-footer-mobile.php:60
 msgid "Move to %s"
 msgstr "Sposta in %s"
 
-#: templates/wishlist-view-footer-mobile.php:47
 #: templates/wishlist-view-footer.php:47
+#: templates/wishlist-view-footer-mobile.php:47
 msgid "Remove from wishlist"
 msgstr "Rimuovi dalla lista"
 
-#: templates/wishlist-view-footer-mobile.php:42
 #: templates/wishlist-view-footer.php:42
+#: templates/wishlist-view-footer-mobile.php:42
 msgid "Apply this action to all the selected items:"
 msgstr "Applica a tutti gli articoli selezionati:"
 
-#: templates/share.php:79
+#: templates/share.php:78
 msgid "Whatsapp"
 msgstr "Whatsapp"
 
@@ -1027,15 +1023,15 @@ msgstr "Impostazioni generali"
 msgid "The item cannot be added to this wishlist"
 msgstr "L'elemento non può essere aggiunto alla lista dei desideri"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:112
+#: plugin-fw/templates/sysinfo/tabs/main.php:57
 msgid "Output IP Address"
 msgstr "Indirizzo IP (output)"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:104
+#: plugin-fw/templates/sysinfo/tabs/main.php:48
 msgid "Site URL"
 msgstr "URL del sito"
 
-#: plugin-fw/lib/yith-system-status.php:478
+#: plugin-fw/lib/yith-system-status.php:549
 msgid "N/A"
 msgstr "N/D"
 
@@ -1047,19 +1043,19 @@ msgstr "Mostra il campo 'Condividi l'URL' nella pagina Lista dei desideri"
 msgid "Share by URL"
 msgstr "Condividi l'URL"
 
-#: templates/share.php:89
+#: templates/share.php:87
 msgid "this wishlist link and share it anywhere)"
 msgstr "questo URL e condividilo dove vuoi)"
 
-#: templates/share.php:89
+#: templates/share.php:87
 msgid "copy"
 msgstr "copia"
 
-#: templates/share.php:89
+#: templates/share.php:87
 msgid "(Now"
 msgstr "(Ora"
 
-#: plugin-fw/lib/yith-system-status.php:121
+#: plugin-fw/lib/yith-system-status.php:132
 msgid "Iconv Module"
 msgstr "Iconv Module"
 
@@ -1073,137 +1069,125 @@ msgid "Search Customers"
 msgstr "Cerca clienti"
 
 #. translators: %1$s open link tag, %2$s open link tag
-#: plugin-fw/lib/yith-system-status.php:334
+#: plugin-fw/lib/yith-system-status.php:359
 msgid "The system check has detected some compatibility issues on your installation.%1$sClick here%2$s to know more"
 msgstr "Il controllo del sistema ha rilevato dei problemi di compatibilità sulla tua installazione. Per maggiori informazioni %1$sfai clic qui%2$s"
 
-#: plugin-fw/lib/yith-system-status.php:330
+#: plugin-fw/lib/yith-system-status.php:355
 msgid "Warning!"
 msgstr "Attenzione!"
 
-#: plugin-fw/lib/yith-system-status.php:192
+#: plugin-fw/lib/yith-system-status.php:203
 msgid "WooCommerce"
 msgstr "WooCommerce"
 
-#: plugin-fw/lib/yith-system-status.php:123
+#: plugin-fw/lib/yith-system-status.php:134
 msgid "URL FOpen"
 msgstr "URL FOpen"
 
-#: plugin-fw/lib/yith-system-status.php:122
+#: plugin-fw/lib/yith-system-status.php:133
 msgid "OPCache Save Comments"
 msgstr "OPCache Save Comments"
 
-#: plugin-fw/lib/yith-system-status.php:120
+#: plugin-fw/lib/yith-system-status.php:131
 msgid "GD Library"
 msgstr "GD Library"
 
-#: plugin-fw/lib/yith-system-status.php:119
+#: plugin-fw/lib/yith-system-status.php:130
 msgid "ImageMagick Version"
 msgstr "ImageMagick Version"
 
-#: plugin-fw/lib/yith-system-status.php:118
+#: plugin-fw/lib/yith-system-status.php:129
 msgid "MultiByte String"
 msgstr "MultiByte String"
 
-#: plugin-fw/lib/yith-system-status.php:117
+#: plugin-fw/lib/yith-system-status.php:128
 msgid "SimpleXML"
 msgstr "SimpleXML"
 
-#: plugin-fw/lib/yith-system-status.php:116
+#: plugin-fw/lib/yith-system-status.php:127
 msgid "WordPress Cron"
 msgstr "Cron WordPress"
 
-#: plugin-fw/lib/yith-system-status.php:115
+#: plugin-fw/lib/yith-system-status.php:126
 msgid "TLS Version"
 msgstr "Versione TLS"
 
-#: plugin-fw/lib/yith-system-status.php:114
+#: plugin-fw/lib/yith-system-status.php:125
 msgid "PHP Version"
 msgstr "Versione PHP"
 
-#: plugin-fw/lib/yith-system-status.php:113
+#: plugin-fw/lib/yith-system-status.php:124
 msgid "Available Memory"
 msgstr "Memoria disponibile"
 
-#: plugin-fw/lib/yith-system-status.php:112
+#: plugin-fw/lib/yith-system-status.php:123
 msgid "WooCommerce Version"
 msgstr "Versione WooCommerce"
 
-#: plugin-fw/lib/yith-system-status.php:111
+#: plugin-fw/lib/yith-system-status.php:122
 msgid "WordPress Version"
 msgstr "Versione WordPress"
 
-#: plugin-fw/lib/yith-system-status.php:141
-#: plugin-fw/lib/yith-system-status.php:142
+#: plugin-fw/templates/sysinfo/system-information-panel.php:14
+#: plugin-fw/lib/yith-system-status.php:152
+#: plugin-fw/lib/yith-system-status.php:153
 msgid "System Status"
 msgstr "Stato del sistema"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:96
-msgid "Back to top"
-msgstr "Torna su"
-
-#: plugin-fw/templates/sysinfo/system-information-panel.php:59
-#: plugin-fw/templates/sysinfo/system-information-panel.php:83
-msgid "Back to System panel"
-msgstr "Torna al pannello del sistema"
-
-#: plugin-fw/templates/sysinfo/system-information-panel.php:167
-msgid "Show full PHPInfo"
-msgstr "Mostra PHPInfo"
-
 #. translators: %1$s opening link tag, %2$s closing link tag
-#: plugin-fw/lib/yith-system-status.php:564
-#: plugin-fw/lib/yith-system-status.php:588
+#: plugin-fw/lib/yith-system-status.php:635
+#: plugin-fw/lib/yith-system-status.php:659
 msgid "Read more %1$shere%2$s or contact your hosting company in order to increase it."
 msgstr "Per maggiori informazioni %1$sleggi qui%2$s oppure contatta il tuo host per un upgrade."
 
-#: plugin-fw/lib/yith-system-status.php:560
+#: plugin-fw/lib/yith-system-status.php:631
 msgid "Contact your hosting company in order to enable it."
 msgstr "Per attivarlo contatta il tuo servizio hosting. "
 
 #. translators: %1$s code, %2$s file name
-#: plugin-fw/lib/yith-system-status.php:552
+#: plugin-fw/lib/yith-system-status.php:623
 msgid "Remove %1$s from %2$s file"
 msgstr "Rimuovi %1$s dal file %2$s"
 
-#: plugin-fw/lib/yith-system-status.php:541
-#: plugin-fw/lib/yith-system-status.php:547
+#: plugin-fw/lib/yith-system-status.php:612
+#: plugin-fw/lib/yith-system-status.php:618
 msgid "Contact your hosting company in order to update it."
 msgstr "Contatta il tuo servizio hosting per aggiornarlo. "
 
-#: plugin-fw/lib/yith-system-status.php:537
+#: plugin-fw/lib/yith-system-status.php:608
 msgid "Update it to the latest version in order to benefit of all new features and security updates."
 msgstr "Per beneficiare di tutte le nuove funzionalità e degli aggiornamenti di sicurezza, aggiorna all'ultima versione. "
 
 #. translators: %1$s plugin name, %2$s version number
-#: plugin-fw/lib/yith-system-status.php:512
+#: plugin-fw/lib/yith-system-status.php:583
 msgid "%1$s needs at least %2$s version"
 msgstr "%1$s necessita almeno della versione %2$s"
 
 #. translators: %s recommended memory amount
-#: plugin-fw/lib/yith-system-status.php:585
+#: plugin-fw/lib/yith-system-status.php:656
 msgid "For optimal functioning of our plugins, we suggest setting at least %s of available memory"
 msgstr "Per il funzionamento ottimale dei nostri plugin consigliamo di impostare almeno %s della memoria disponibile"
 
 #. translators: %1$s plugin name, %2$s required memory amount
-#: plugin-fw/lib/yith-system-status.php:509
+#: plugin-fw/lib/yith-system-status.php:580
 msgid "%1$s needs at least %2$s of available memory"
 msgstr "%1$s necessita di almeno %2$s di memoria disponibile"
 
 #. translators: %1$s plugin name, %2$s requirement name
-#: plugin-fw/lib/yith-system-status.php:506
+#: plugin-fw/lib/yith-system-status.php:577
 msgid "%1$s needs %2$s enabled"
 msgstr "%1$s necessita dell'attivazione di %2$s"
 
-#: plugin-fw/lib/yith-system-status.php:473
+#: plugin-fw/lib/yith-system-status.php:544
 msgid "Disabled"
 msgstr "Disattivato"
 
-#: plugin-fw/lib/yith-system-status.php:473
+#: plugin-fw/lib/yith-system-status.php:544
 msgid "Enabled"
 msgstr "Attivato"
 
-#: plugin-fw/templates/sysinfo/system-information-panel.php:39
+#: plugin-fw/templates/sysinfo/system-information-panel.php:25
 msgid "YITH System Information"
 msgstr "YITH System Information"
 
@@ -1224,7 +1208,7 @@ msgstr "Aggiungi tutto"
 msgid "Share on WhatsApp"
 msgstr "Condividi su WhatsApp"
 
-#: templates/share.php:78
+#: templates/share.php:77
 msgid "WhatsApp"
 msgstr "WhatsApp"
 
@@ -1264,10 +1248,6 @@ msgstr "Ultime novità dal blog YITH"
 msgid "YITH Latest Updates"
 msgstr "Ultimi aggiornamenti YITH"
 
-#: init.php:141
-msgid "is enabled but not effective. It requires WooCommerce in order to work."
-msgstr "è attivo ma non operativo. Per il suo funzionamento è richiesto WooCommerce. "
-
 #: includes/class.yith-wcwl-shortcode.php:121
 msgid "ID of the wishlist to show (e.g. K6EOWXB888ZD)"
 msgstr "ID della lista da mostrare (es. K6EOWXB888ZD)"
@@ -1276,13 +1256,13 @@ msgstr "ID della lista da mostrare (es. K6EOWXB888ZD)"
 msgid "Number of items to show per page"
 msgstr "Numero di articoli da mostrare per pagina"
 
-#: includes/widgets/elementor/class.yith-wcwl-elementor-wishlist.php:114
 #: includes/class.yith-wcwl-shortcode.php:111
+#: includes/widgets/elementor/class.yith-wcwl-elementor-wishlist.php:114
 msgid "Do not paginate"
 msgstr "Nessuna paginazione"
 
-#: includes/widgets/elementor/class.yith-wcwl-elementor-wishlist.php:113
 #: includes/class.yith-wcwl-shortcode.php:110
+#: includes/widgets/elementor/class.yith-wcwl-elementor-wishlist.php:113
 msgid "Paginate"
 msgstr "Paginazione"
 
@@ -1368,11 +1348,11 @@ msgctxt "Plugin Row Meta"
 msgid "Live Demo"
 msgstr "Live Demo"
 
-#: init.php:151
+#: init.php:176
 msgid "while you are using the premium one."
 msgstr "mentre stai utilizzando quella premium."
 
-#: init.php:151
+#: init.php:176
 msgid "You can't activate the free version of"
 msgstr "Non puoi attivare la versione gratuita di"
 
@@ -1487,8 +1467,8 @@ msgstr "Cerca un prodotto"
 msgid "Search Posts"
 msgstr "Cerca articoli"
 
-#: plugin-fw/lib/yit-plugin-panel.php:465
-#: plugin-fw/lib/yit-plugin-panel.php:468
+#: plugin-fw/lib/yit-plugin-panel.php:466
+#: plugin-fw/lib/yit-plugin-panel.php:469
 msgid "How to install premium version"
 msgstr "Come installare la versione premium"
 
@@ -1603,15 +1583,7 @@ msgstr "Disponibilità in magazzino"
 msgid "Unit price"
 msgstr "Prezzo unitario"
 
-#: templates/wishlist-view-header.php:51
-msgid "Cancel"
-msgstr "Annulla"
-
-#: templates/wishlist-view-header.php:48
-msgid "Save"
-msgstr "Salva"
-
-#: templates/wishlist-view-header.php:41
+#: templates/wishlist-view-header.php:42
 msgid "Edit title"
 msgstr "Modifica titolo"
 
@@ -1651,7 +1623,7 @@ msgstr "Barra laterale sinistra"
 
 #: plugin-fw/templates/fields/image-gallery.php:39
 msgid "Delete"
-msgstr "Rimuovi"
+msgstr "Elimina"
 
 #: plugin-fw/templates/fields/image-gallery.php:39
 msgid "Add images"
@@ -1714,8 +1686,8 @@ msgstr "Anteprima immagine"
 msgid "Upload"
 msgstr "Carica"
 
-#: templates/wishlist-view.php:287 plugin-fw/templates/fields/customtabs.php:37
-#: plugin-fw/templates/fields/customtabs.php:81
+#: plugin-fw/templates/fields/customtabs.php:37
+#: plugin-fw/templates/fields/customtabs.php:81 templates/wishlist-view.php:287
 msgid "Remove"
 msgstr "Rimuovi"
 
@@ -1767,71 +1739,71 @@ msgstr ""
 msgid "Plugins Activated"
 msgstr "Plugin attivati"
 
-#: plugin-fw/lib/yit-plugin-panel.php:851
+#: plugin-fw/lib/yit-plugin-panel.php:852
 msgid "Sorting successful."
 msgstr "Ordinamento effettuato con successo."
 
-#: plugin-fw/lib/yit-plugin-panel.php:850
+#: plugin-fw/lib/yit-plugin-panel.php:851
 msgid "Sorry, import is disabled."
 msgstr "Ci dispiace, l'importazione è disabilitata."
 
-#: plugin-fw/lib/yit-plugin-panel.php:849
+#: plugin-fw/lib/yit-plugin-panel.php:850
 msgid "The added file is not valid."
 msgstr "Il file aggiunto non è valido."
 
-#: plugin-fw/lib/yit-plugin-panel.php:848
+#: plugin-fw/lib/yit-plugin-panel.php:849
 msgid "An error has occurred during import. Please try again."
 msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
 
-#: plugin-fw/lib/yit-plugin-panel.php:847
+#: plugin-fw/lib/yit-plugin-panel.php:848
 msgid "Database imported correctly."
 msgstr "Database importato correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:845
 #: plugin-fw/lib/yit-plugin-panel.php:846
+#: plugin-fw/lib/yit-plugin-panel.php:847
 msgid "Element updated correctly."
 msgstr "Elemento aggiornato correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:844
+#: plugin-fw/lib/yit-plugin-panel.php:845
 msgid "Element deleted correctly."
 msgstr "Elemento rimosso correttamente."
 
-#: plugin-fw/lib/yit-plugin-panel.php:843
+#: plugin-fw/lib/yit-plugin-panel.php:844
 msgid "Settings reset"
 msgstr "Impostazioni azzerate"
 
-#: plugin-fw/lib/yit-plugin-panel.php:842
+#: plugin-fw/lib/yit-plugin-panel.php:843
 msgid "Settings saved"
 msgstr "Impostazioni salvate"
 
-#: plugin-fw/lib/yit-plugin-panel.php:841
+#: plugin-fw/lib/yit-plugin-panel.php:842
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Per favore, inserisci un altro nome."
 
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:23
-#: plugin-fw/lib/yit-plugin-panel.php:640
 #: plugin-fw/lib/yit-plugin-subpanel.php:157
+#: plugin-fw/lib/yit-plugin-panel.php:641
 msgid "Are you sure?"
 msgstr "Sei sicuro?"
 
-#: plugin-fw/lib/yit-plugin-panel.php:639
 #: plugin-fw/lib/yit-plugin-subpanel.php:156
+#: plugin-fw/lib/yit-plugin-panel.php:640
 msgid "Reset to default"
 msgstr "Ripristina configurazione predefinita"
 
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:19
-#: plugin-fw/lib/yit-plugin-panel.php:636
 #: plugin-fw/lib/yit-plugin-subpanel.php:154
+#: plugin-fw/lib/yit-plugin-panel.php:637
 msgid "If you continue with this action, you will reset all options in this page."
 msgstr "Se prosegui con questa azione, tutte le opzioni di questa pagina saranno reimpostate."
 
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:15
-#: plugin-fw/lib/yit-plugin-panel.php:632
 #: plugin-fw/lib/yit-plugin-subpanel.php:151
+#: plugin-fw/lib/yit-plugin-panel.php:633
 msgid "Save Changes"
 msgstr "Salva modifiche"
 
-#: plugin-fw/lib/yith-system-status.php:184
+#: plugin-fw/lib/yith-system-status.php:195
 msgid "YITH Plugins"
 msgstr "YITH Plugins"
 
@@ -2036,8 +2008,8 @@ msgstr "Non è stato ancora aggiunto nessun prodotto alla lista"
 msgid "Error. Unable to remove the product from the wishlist."
 msgstr "Errore. Impossibile rimuovere il prodotto dalla lista dei desideri."
 
-#: includes/class.yith-wcwl-ajax-handler.php:134
-#: includes/class.yith-wcwl-ajax-handler.php:167
+#: includes/class.yith-wcwl-ajax-handler.php:143
+#: includes/class.yith-wcwl-ajax-handler.php:179
 msgid "Product successfully removed."
 msgstr "Prodotto rimosso con successo."
 
@@ -2166,11 +2138,11 @@ msgstr "Icona 'Aggiungi alla lista'"
 msgid "Custom CSS"
 msgstr "CSS personalizzato"
 
-#: templates/wishlist-view-footer-mobile.php:44
-#: templates/wishlist-view-footer.php:44
 #: plugin-options/wishlist_page-options.php:237
-#: includes/class.yith-wcwl-frontend.php:652
+#: templates/wishlist-view-footer.php:44
+#: templates/wishlist-view-footer-mobile.php:44
 #: includes/class.yith-wcwl-shortcode.php:237
+#: includes/class.yith-wcwl-frontend.php:653
 msgid "Add to cart"
 msgstr "Aggiungi al carrello"
 
@@ -2249,8 +2221,8 @@ msgstr "La mia lista dei desideri su %s"
 msgid "Default wishlist name"
 msgstr "Nome predefinito della lista"
 
-#: plugin-options/settings-options.php:23
 #: plugin-options/add_to_wishlist-options.php:18
+#: plugin-options/settings-options.php:23
 msgid "General Settings"
 msgstr "Impostazioni generali"
 
@@ -2267,10 +2239,10 @@ msgstr "Pagina Lista dei desideri"
 msgid "Premium Version"
 msgstr "Versione premium"
 
-#: plugin-fw/lib/yit-plugin-panel.php:81
 #: plugin-fw/lib/yit-cpt-unlimited.php:1050
 #: plugin-fw/lib/yit-cpt-unlimited.php:1198
 #: plugin-fw/lib/yit-cpt-unlimited.php:1204
+#: plugin-fw/lib/yit-plugin-panel.php:81
 msgid "Settings"
 msgstr "Impostazioni"
 

@@ -640,7 +640,7 @@ class WC_Order_Export_Data_Extractor {
 	static function operator_compare_field_and_value( $field, $operator, $value, $public_fieldname='' ) {
 		$value = esc_sql($value);
 		if ( $operator == "LIKE" ) {
-			$value = "%$value%";
+			$value = (substr($value,0,1)=="^") ? substr($value,1)."%" : "%$value%";
 		} else { // compare numbers!
 			$type = apply_filters( "woe_compare_field_cast_to_type", "signed", $field, $operator, $value, $public_fieldname);
 			$field = "cast($field as $type)";
@@ -1874,7 +1874,7 @@ class WC_Order_Export_Data_Extractor {
 					'woo-order-export-lite' ) . ' ' . $method->get_title();
 		}
 
-		return $shipping_methods;
+		return apply_filters("woe_get_shipping_methods",$shipping_methods);
 	}
 
 	public static function get_customer_order( $user, $order_meta, $first_or_last ) {
@@ -1918,5 +1918,61 @@ class WC_Order_Export_Data_Extractor {
 
 		return wc_get_order( absint( $order ) );
 	}
+
+	/**
+	 * @param string $billing_email
+	 *
+	 * @return int
+	 */
+	public static function get_customer_order_count_by_email( $billing_email ) {
+		global $wpdb;
+
+		$count = $wpdb->get_var(
+			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+			"SELECT COUNT(*)
+			FROM $wpdb->posts as posts
+			LEFT JOIN {$wpdb->postmeta} AS meta ON posts.ID = meta.post_id
+			LEFT JOIN {$wpdb->postmeta} AS meta2 ON posts.ID = meta2.post_id
+			WHERE   meta.meta_key = '_billing_email'
+			AND     meta2.meta_key = '_customer_user' AND meta2.meta_value = '0'
+			AND     posts.post_type = 'shop_order'
+			AND     posts.post_status IN ( '" . implode( "','", array_map( 'esc_sql', array_keys( wc_get_order_statuses() ) ) ) . "' )
+			AND     meta.meta_value = '" . esc_sql( $billing_email ) . "'"
+			// phpcs:enable
+		);
+
+		return is_numeric( $count ) ? intval( $count ) : 0;
+	}
+
+	/**
+	 * @param string $billing_email
+	 *
+	 * @return float
+	 */
+	public static function get_customer_total_spent_by_email( $billing_email ) {
+		global $wpdb;
+
+		$statuses = array_map( function ( $status ) {
+			return sprintf( "'wc-%s'", esc_sql( $status ) );
+		}, wc_get_is_paid_statuses() );
+
+		$spent    = $wpdb->get_var(
+			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+			"SELECT SUM(meta2.meta_value)
+			FROM $wpdb->posts as posts
+			LEFT JOIN {$wpdb->postmeta} AS meta ON posts.ID = meta.post_id
+			LEFT JOIN {$wpdb->postmeta} AS meta2 ON posts.ID = meta2.post_id
+			LEFT JOIN {$wpdb->postmeta} AS meta3 ON posts.ID = meta3.post_id
+			WHERE   meta.meta_key       = '_billing_email'
+			AND     meta.meta_value     = '" . esc_sql( $billing_email ) . "'
+			AND     meta3.meta_key = '_customer_user' AND meta3.meta_value = '0'
+			AND     posts.post_type     = 'shop_order'
+			AND     posts.post_status   IN ( " . implode( ',', $statuses ) . " )
+			AND     meta2.meta_key      = '_order_total'"
+			// phpcs:enable
+		);
+
+		return is_numeric( $spent ) ? floatval( $spent ) : 0;
+	}	
 
 }

@@ -118,7 +118,7 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 
 			$tmp_data['image_positions'] = $this->image_positions;
 			$tmp_data['link_positions'] = $this->link_positions;
-			set_transient( $this->get_tmp_data_transient_name(), $tmp_data );
+			set_transient( $this->get_tmp_data_transient_name(), $tmp_data, 5 * MINUTE_IN_SECONDS );
 		}
 
 		return $rows;
@@ -231,9 +231,12 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 			$row          = fgetcsv( $this->handle, 0, $this->delimiter, $this->enclosure );
 			$row          = apply_filters( 'woe_row_before_format_pdf', $row );
 
-			if ( ! empty( $this->settings['display_column_names'] ) and $row ) {
-				$this->pdf->addTableHeader( $row );
-				do_action("woe_pdf_below_header", $this->pdf, $this);
+			if ( ! empty( $this->settings['display_column_names'] ) ) {
+				$row  = apply_filters( 'woe_pdf_prepare_header', $row );
+				if( $row ) {
+					$this->pdf->addTableHeader( $row );
+					do_action("woe_pdf_below_header", $this->pdf, $this);
+				}	
 				$row = fgetcsv( $this->handle, 0, $this->delimiter, $this->enclosure );
 			}
 
@@ -292,8 +295,7 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 						$heights = array_map( function ( $orderRow ) {
 							return $orderRow[2];
 						}, $orderRows );
-
-						if ( ! $this->pdf->isEnoughSpace( $rows, $heights ) ) {
+						if ( ! $this->pdf->isEnoughSpace( $rows, $heights ) OR apply_filters("woe_pdf_page_break_before_each_order", false,$orderId) ) {
 							$this->pdf->addPageBreak();
 						}
 
@@ -313,7 +315,6 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 				$row = fgetcsv( $this->handle, 0, $this->delimiter, $this->enclosure );
 			}
 
-
 			if ( count( $orderRows ) ) {
 				$rows = array_map( function ( $orderRow ) {
 					return $orderRow[0];
@@ -322,8 +323,7 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 				$heights = array_map( function ( $orderRow ) {
 					return $orderRow[2];
 				}, $orderRows );
-
-				if ( ! $this->pdf->isEnoughSpace( $rows, $heights ) ) {
+				if ( ! $this->pdf->isEnoughSpace( $rows, $heights ) OR apply_filters("woe_pdf_page_break_before_each_order", false, $orderId) ) {
 					$this->pdf->addPageBreak();
 				}
 
@@ -331,7 +331,6 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 					$this->pdf->addRow( $orderRow[0], null, $orderRow[2], $orderRow[1] );
 				}
 			}
-			
 			do_action("woe_pdf_finished", $this->pdf, $this);
 			$this->pdf->output_to_destination( 'f', str_replace( '.csv', '.pdf', $this->filename ) );
 

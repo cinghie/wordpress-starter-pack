@@ -1597,6 +1597,7 @@ jQuery( document ).ready( function ( $ ) {
 		var summary_report_fields = [];
 		summary_report_fields.push( $( '#products_unselected_segment input[value="plain_products_summary_report_total_qty"]' ).parents( 'li' ) );
 		summary_report_fields.push( $( '#products_unselected_segment input[value="plain_products_summary_report_total_amount"]' ).parents( 'li' ) );
+		summary_report_fields.push( $( '#products_unselected_segment input[value="plain_products_summary_report_total_weight"]' ).parents( 'li' ) );
 		summary_report_fields.push( $( '#products_unselected_segment input[value="plain_products_summary_report_total_discount"]' ).parents( 'li' ) );
 		summary_report_fields.push( $( '#products_unselected_segment input[value="plain_products_summary_report_total_refund_count"]' ).parents( 'li' ) );
 		summary_report_fields.push( $( '#products_unselected_segment input[value="plain_products_summary_report_total_refund_amount"]' ).parents( 'li' ) );
@@ -1624,6 +1625,7 @@ jQuery( document ).ready( function ( $ ) {
 				// purge summary report fields before insert
 				$( '#order_fields input[value="plain_products_summary_report_total_qty"]' ).closest( '.mapping_row' ).remove();
 				$( '#order_fields input[value="plain_products_summary_report_total_amount"]' ).closest( '.mapping_row' ).remove();
+				$( '#order_fields input[value="plain_products_summary_report_total_weight"]' ).closest( '.mapping_row' ).remove();
 				$( '#order_fields input[value="plain_products_summary_report_total_discount"]' ).closest( '.mapping_row' ).remove();
 				$( '#order_fields input[value="plain_products_summary_report_total_refund_count"]' ).closest( '.mapping_row' ).remove();
 				$( '#order_fields input[value="plain_products_summary_report_total_refund_amount"]' ).closest( '.mapping_row' ).remove();
@@ -1660,6 +1662,7 @@ jQuery( document ).ready( function ( $ ) {
 			// purge summary report fields
 			$( '#order_fields input[value="plain_products_summary_report_total_qty"]' ).closest( '.mapping_row' ).remove();
 			$( '#order_fields input[value="plain_products_summary_report_total_amount"]' ).closest( '.mapping_row' ).remove();
+			$( '#order_fields input[value="plain_products_summary_report_total_weight"]' ).closest( '.mapping_row' ).remove();
 			$( '#order_fields input[value="plain_products_summary_report_total_discount"]' ).closest( '.mapping_row' ).remove();
 			$( '#order_fields input[value="plain_products_summary_report_total_refund_count"]' ).closest( '.mapping_row' ).remove();
 			$( '#order_fields input[value="plain_products_summary_report_total_refund_amount"]' ).closest( '.mapping_row' ).remove();

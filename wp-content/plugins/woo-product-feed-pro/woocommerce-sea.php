@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     9.1.9
+ * Version:     9.2.6
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -11,13 +11,13 @@
  * License:     GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Requires at least: 4.5
- * Tested up to: 5.5
+ * Tested up to: 5.6
  *
  * Text Domain: woo-product-feed-pro
  * Domain Path: /languages
  *
  * WC requires at least: 4.4
- * WC tested up to: 4.7
+ * WC tested up to: 4.8
  *
  * Product Feed PRO for WooCommerce is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '9.1.9' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '9.2.6' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -115,7 +115,7 @@ function woosea_scripts($hook) {
 		wp_enqueue_script( 'typeahead-js' );
 
 		// JS for adding input field validation
-		wp_register_script( 'woosea_validation-js', plugin_dir_url( __FILE__ ) . 'js/woosea_validation.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
+		wp_register_script( 'woosea_validation-js', plugin_dir_url( __FILE__ ) . 'js/woosea_validation.js?BLAAT=999', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
 		wp_enqueue_script( 'woosea_validation-js' );
 
 		// JS for autocomplete
@@ -123,7 +123,7 @@ function woosea_scripts($hook) {
 		wp_enqueue_script( 'woosea_autocomplete-js' );
 
 		// JS for adding table rows to the rules page
-		wp_register_script( 'woosea_rules-js', plugin_dir_url( __FILE__ ) . 'js/woosea_rules.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
+		wp_register_script( 'woosea_rules-js', plugin_dir_url( __FILE__ ) . 'js/woosea_rules.js?BLAAT=1', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
 		wp_enqueue_script( 'woosea_rules-js' );
 
 		// JS for adding table rows to the field mappings page
@@ -377,10 +377,10 @@ function woosea_add_facebook_pixel( $product = null ){
                	        				 		$highest = end( $prices['price'] );
 
                  			  			     	if ( $lowest === $highest ) {
-                        				     	  		$fb_price = wc_format_decimal( $lowest, wc_get_price_decimals() );
+                        				     	  		$fb_price = wc_format_localized_price( $lowest );
                                					 	} else {
-                        			       	 			$fb_lowprice  = wc_format_decimal( $lowest, wc_get_price_decimals() );
-                        				        		$fb_highprice = wc_format_decimal( $highest, wc_get_price_decimals() );
+                        			       	 			$fb_lowprice  = wc_format_localized_price( $lowest );
+                        				        		$fb_highprice = wc_format_localized_price( $highest );
 										$fb_price = $fb_lowprice;
 									}
 								}
@@ -409,17 +409,17 @@ function woosea_add_facebook_pixel( $product = null ){
                       						$highest = end( $prices['price'] );
 
          	          	  	 		 	if ( $lowest === $highest ) {
-                	       			 			$fb_price = wc_format_decimal( $lowest, wc_get_price_decimals());
+                	       			 			$fb_price = wc_format_localized_price( $lowest );
                      		 				} else {
-                       		 					$fb_lowprice = wc_format_decimal( $lowest, wc_get_price_decimals() );
-                        			       		 	$fb_highprice = wc_format_decimal( $highest, wc_get_price_decimals() );
+                       		 					$fb_lowprice = wc_format_localized_price( $lowest );
+                        			       		 	$fb_highprice = wc_format_localized_price( $highest );
 									$fb_price = $fb_lowprice;
 								}
 								$viewContent = "fbq(\"track\",\"ViewContent\",{content_category:\"$cats\", content_name:\"$product_name\", content_type:\"product_group\", content_ids:[$content], value:\"$fb_price\", currency:\"$currency\"});";
 							}
 						} else {
 							// This is a simple product page
-        						$fb_price = wc_format_decimal( $product->get_price(), wc_get_price_decimals() );
+        						$fb_price =  wc_format_localized_price( $product->get_price() );
 							$viewContent = "fbq(\"track\",\"ViewContent\",{content_category:\"$cats\", content_name:\"$product_name\", content_type:\"product\", content_ids:[\"$fb_prodid\"], value:\"$fb_price\", currency:\"$currency\"});";
 						}
 					}
@@ -445,10 +445,11 @@ function woosea_add_facebook_pixel( $product = null ){
 								}
 
 								$prod_quantity = $order_item->get_quantity();
-								$order_total = $order_item->get_total();
-								$order_subtotal = number_format(($order_item->get_subtotal()),2, '.', '');
-								$order_subtotal_tax= number_format(($order_item->get_subtotal_tax()),2, '.', '');
-								$order_real = number_format(($order_subtotal+$order_subtotal_tax+$order_real),2,',','');
+								$order_real = wc_format_localized_price( $order_item->get_total() );
+
+//								$order_subtotal = number_format(($order_item->get_subtotal()),2, '.', '');
+//								$order_subtotal_tax= number_format(($order_item->get_subtotal_tax()),2, '.', '');
+//								$order_real = number_format(($order_subtotal+$order_subtotal_tax+$order_real),2,',','');
 								$contents .= "{'id': '$prod_id', 'quantity': $prod_quantity},";												
 							}
 						}
@@ -473,12 +474,14 @@ function woosea_add_facebook_pixel( $product = null ){
 									$prod_id = $cart_item['variation_id'];
 								}
 								$contents .= '\''.$prod_id.'\',';
-								//$contents .= "$prod_id,";												
-								$line_total = number_format(($cart_item['line_total']),2, '.','');
-								$line_tax = number_format(($cart_item['line_tax']),2, '.','');
-								$cart_real = number_format($cart_real,2, '.','');
-								$cart_real = number_format(($line_total+$line_tax+$cart_real),2,',','');
-						
+								//$contents .= "$prod_id,";							
+
+								$cart_real = wc_format_localized_price( $cart_item['line_total'] );							
+
+//								$line_total = number_format(($cart_item['line_total']),2, '.','');
+//								$line_tax = number_format(($cart_item['line_tax']),2, '.','');
+//								$cart_real = number_format($cart_real,2, '.','');
+//								$cart_real = number_format(($line_total+$line_tax+$cart_real),2,',','');
 							}
 							$contents = rtrim($contents, ",");
 
@@ -556,7 +559,7 @@ function woosea_add_facebook_pixel( $product = null ){
 				$viewContent = "";
 			}
 		?>
-		<!-- Facebook Pixel Code – added Product Feed Pro for WooCommerce by AdTribes.io -->
+		<!-- Facebook Pixel Code - Product Feed Pro for WooCommerce by AdTribes.io -->
 		<!------------------------------------------------------------------------------
 		Make sure the g:id value in your Facebook catalogue feed matched with
 		the content of the content_ids parameter in the Facebook Pixel Code
@@ -2022,7 +2025,7 @@ function woosea_project_copy(){
 			$new_key = $max_key+1;
                         $add_project[$new_key] = $val;
                         array_push($feed_config, $add_project[$new_key]);
-			update_option( 'cron_projects', $feed_config, 'yes');
+			update_option( 'cron_projects', $feed_config);
 			
 			// Do not start processing, user wants to make changes to the copied project
 			$copy_status = "true";
@@ -4290,7 +4293,7 @@ function woosea_nr_products($project_hash, $nr_products){
 			$feed_config[$key]['nr_products'] = $nr_products;
 		}
 	}
-	update_option( 'cron_projects', $feed_config);
+	update_option( 'cron_projects', $feed_config, 'no');
 }
 
 /**

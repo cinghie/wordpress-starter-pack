@@ -485,6 +485,11 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 				'checked' => 0,
 				'format'  => 'money',
 			),
+			'summary_report_total_weight'    => array(
+				'label'   => __( 'Summary Report Total Weight', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'number',
+			),
 			'embedded_product_image' => array(
 				'label'   => __( 'Embedded Product Image', 'woo-order-export-lite' ),
 				'checked' => 0,

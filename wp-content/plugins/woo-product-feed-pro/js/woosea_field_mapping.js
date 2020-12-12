@@ -35,7 +35,7 @@ jQuery(document).ready(function($) {
 	});
 
 	// Add a mapping row to the table for field mappings
-	jQuery(".add-field-mapping").click(function(){
+	jQuery(".add-field-mapping").on('click', function(){
 		var channel_hash = $('#channel_hash').val();
 		var prevRow = $("tr.rowCount:last input[type=hidden]").val();
 		var addrow_value = $('#addrow').val();
@@ -59,7 +59,7 @@ jQuery(document).ready(function($) {
 			
 			$( '#woosea-fieldmapping-table' ).append('<tr><td><input type="hidden" name="attributes[' + rowCount + '][rowCount]" value="' + rowCount + '"><input type="checkbox" name="record" class="checkbox-field"></td><td><select name="attributes[' + rowCount + '][attribute]" class="select-field">' + data.field_options + '</select></td><td><input type="text" name="attributes[' + rowCount + '][prefix]" class="input-field-medium"></td><td><select name="attributes[' + rowCount + '][mapfrom]" class="select-field">' + data.attribute_options + '</select></td><td><input type="text" name="attributes[' + rowCount + '][suffix]" class="input-field-medium"></td></tr>');
 
-			$('.select-field').change(function(){
+			$('.select-field').on('change', function(){
 				if ($(this).val() == "static_value") {
 					var rownr = $(this).closest("tr").prevAll("tr").length;
 					$(this).replaceWith('<input type="text" name="attributes[' + rowCount + '][mapfrom]" class="input-field-midsmall"><input type="hidden" name="attributes[' + rowCount + '][static_value]" value="true">');
@@ -73,7 +73,7 @@ jQuery(document).ready(function($) {
 
 
 	// Add a mapping row to the table for own mappings
-	jQuery(".add-own-mapping").click(function(){
+	jQuery(".add-own-mapping").on('click', function(){
 		var channel_hash = $('#channel_hash').val();
                 var prevRow = $("tr.rowCount:last input[type=hidden]").val();
 		var addrow_value = $('#addrow').val();
@@ -96,7 +96,7 @@ jQuery(document).ready(function($) {
                         data = JSON.parse( data );
 			$( '#woosea-fieldmapping-table' ).append('<tr><td><input type="hidden" name="attributes[' + rowCount + '][rowCount]" value="' + rowCount + '"><input type="checkbox" name="record" class="checkbox-field"></td><td><input name="attributes[' + rowCount + '][attribute]" id="own-input-field" class="input-field"></td><td><input type="text" name="attributes[' + rowCount + '][prefix]" class="input-field-medium"></td><td><select name="attributes[' + rowCount + '][mapfrom]" class="select-field">' + data.attribute_options + '</select></td><td><input type="text" name="attributes[' + rowCount + '][suffix]" class="input-field-medium"></td></tr>');
        
-			$('.select-field').change(function(){
+			$('.select-field').on('change', function(){
 				if ($(this).val() == "static_value") {
 					var rownr = $(this).closest("tr").prevAll("tr").length;
 					$(this).replaceWith('<input type="text" name="attributes[' + rowCount + '][mapfrom]" class="input-field-midsmall"><input type="hidden" name="attributes[' + rowCount + '][static_value]" value="true">');
@@ -108,7 +108,7 @@ jQuery(document).ready(function($) {
                 });
         });
 
-	jQuery("#savebutton").click(function(){
+	jQuery("#savebutton").on('click', function(){
 
   		$("#own-input-field").each(function() {
 			var input=$(this).val();
@@ -146,7 +146,7 @@ jQuery(document).ready(function($) {
 		});
 	});
 
-	jQuery('.select-field').change(function(){
+	jQuery('.select-field').on('change', function(){
 		if ($(this).val() == "static_value") {
 //			var rownr = $(this).closest("tr").prevAll("tr").length;
 			var rownr = $(this).closest('tr').attr("class").split(' ')[1];
@@ -155,7 +155,7 @@ jQuery(document).ready(function($) {
 	});
 
 	// Find and remove selected table rows
-        jQuery(".delete-field-mapping").click(function(){
+        jQuery(".delete-field-mapping").on('click', function(){
             $("table tbody").find('input[name="record"]').each(function(){
 		
 		if($(this).is(":checked")){

@@ -185,7 +185,7 @@ if ( empty( $values ) && !$show_add_button && $elements ) {
                                 $save_button_name = isset( $save_button[ 'name' ] ) ? $save_button[ 'name' ] : '';
                                 ?>
                                 <button id="<?php echo $save_button[ 'id' ]; ?>"
-                                        class="yith-save-button <?php echo $save_button_class; ?>">
+                                        class="button-primary yith-save-button <?php echo $save_button_class; ?>">
                                     <?php echo $save_button_name; ?>
                                 </button>
                             <?php endif; ?>

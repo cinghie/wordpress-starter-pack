@@ -2,7 +2,7 @@
 Contributors: matchalabs, DavidAnderson, dnutbourne, kbat82
 Tags: slideshow, slider, image slider, carousel, gallery, flexslider, wordpress slider, nivoslider, rotating banner, responsive slideshow, seo slideshow, unsplash
 Requires at least: 3.5
-Stable tag: 3.19.0
+Stable tag: 3.19.1
 Requires PHP: 5.2
 Tested up to: 5.6
 License: GPLv2 or later
@@ -172,6 +172,10 @@ See https://www.metaslider.com/documentation/image-cropping/
 6. Administration panel - selecting slides
 
 == Changelog ==
+
+= 3.19.1 - 2020/Dec/1 =
+* TWEAK: Adds option to filter HTML Purify
+* TWEAK: Updates Appsero dependency version
 
 = 3.19.0 - 2020/Nov/12 =
 

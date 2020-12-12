@@ -4,8 +4,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
-Tested up to: 5.5
-Stable tag: 9.1.9
+Tested up to: 5.6
+Stable tag: 9.2.6
 
 == Description ==
 
@@ -320,6 +320,32 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 9.2.6 (2020-12-11) =
+* Fixed all the deprecated jQuery
+
+= 9.2.5 (2020-12-10) =
+* Added support for Facebook Enhanced Catalog feeds
+* Added the Adtribes.io APP ID to Facebook feeds
+* Renamed the Facebook channel name in drop-downs
+* Tested for compatibility with Wordpress 5.6
+* Tested for compatibility with WooCommerce 4.8
+
+= 9.2.4 (2020-12-06) =
+* Removed Google Shopping shipping regions for Canada and France as those are no longer supported by Google
+
+= 9.2.3 (2020-12-05) =
+* Skroutz variation products that are out of stock are no longer added as an attribute value to the parent product (such as size / colour)
+
+= 9.2.2 (2020-12-02) =
+* Solved a PHP warning notification that showed on the manage feeds page when a user did not create any WooCommerce custom attributes
+* Solved a Facebook pixel price localization issue for the AddToCart and Purchase event
+
+= 9.2.1 (2020-12-01) =
+* Fixed an issue where when no tax rates where defined the plugin showed a PHP warning when processing bundled products
+
+= 9.2.0 (2020-11-30) =
+* Option cron_projects set to autoload no as there is no need to have it autoloaded
 
 = 9.1.9 (2020-11-26) =
 * Added a performance feature. Users can now select to only refresh their product feeds when products have been changed or new products have been added to WooCommerce.
@@ -2927,6 +2953,32 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 9.2.6 =
+Fixed all the deprecated jQuery
+
+= 9.2.5 =
+Added support for Facebook Enhanced Catalog feeds
+Added the Adtribes.io APP ID to Facebook feeds
+Renamed the Facebook channel name in drop-downs
+Tested for compatibility with Wordpress 5.6
+Tested for compatibility with WooCommerce 4.8
+
+= 9.2.4 =
+Removed Google Shopping shipping regions for Canada and France as those are no longer supported by Google
+
+= 9.2.3 =
+Skroutz variation products that are out of stock are no longer added as an attribute value to the parent product (such as size / colour)
+
+= 9.2.2 =
+Solved a PHP warning notification that showed on the manage feeds page when a user did not create any WooCommerce custom attributes
+Solved a Facebook pixel price localization issue for the AddToCart and Purchase event
+
+= 9.2.1 =
+Fixed an issue where when no tax rates where defined the plugin showed a PHP warning when processing bundled products
+
+= 9.2.0 =
+Option cron_projects set to autoload no as there is no need to have it autoloaded
 
 = 9.1.9 =
 Added a performance feature. Users can now select to only refresh their product feeds when products have been changed or new products have been added to WooCommerce.

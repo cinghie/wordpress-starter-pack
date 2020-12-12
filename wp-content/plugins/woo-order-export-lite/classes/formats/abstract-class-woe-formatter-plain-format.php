@@ -329,6 +329,10 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 			if ( isset( $_SESSION['woe_summary_products'][ $key ]['summary_report_total_qty'] ) ) {
 				$_SESSION['woe_summary_products'][ $key ]['summary_report_total_qty'] += $product_item->get_quantity();
 			}
+			
+			if ( isset( $_SESSION['woe_summary_products'][ $key ]['summary_report_total_weight'] ) AND $product ) { // only if product exists! 
+				$_SESSION['woe_summary_products'][ $key ]['summary_report_total_weight'] += $product_item->get_quantity() * (float)$product->get_weight();
+			}
 
 			if ( isset( $_SESSION['woe_summary_products'][ $key ]['summary_report_total_amount'] ) ) {
 				$total                                                                   = method_exists( $product_item,
