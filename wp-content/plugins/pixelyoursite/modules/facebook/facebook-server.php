@@ -12,11 +12,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once PYS_FREE_PATH . '/modules/facebook/facebook-server-async-task.php';
 require_once PYS_FREE_PATH . '/modules/facebook/PYSServerEventHelper.php';
 
-use FacebookAds\Api;
-use FacebookAds\Object\ServerSide\EventRequest;
-use FacebookAds\Object\ServerSide\Event;
-use FacebookAds\Object\ServerSide\CustomData;
-use FacebookAds\Object\ServerSide\Content;
+use PYS_PRO_GLOBAL\FacebookAds\Api;
+use PYS_PRO_GLOBAL\FacebookAds\Object\ServerSide\EventRequest;
+use PYS_PRO_GLOBAL\FacebookAds\Object\ServerSide\Event;
+use PYS_PRO_GLOBAL\FacebookAds\Object\ServerSide\CustomData;
+use PYS_PRO_GLOBAL\FacebookAds\Object\ServerSide\Content;
 
 class FacebookServer {
 
@@ -75,6 +75,9 @@ class FacebookServer {
         $data = isset($_POST['data']) ? $_POST['data'] : array();
         $ids = $_POST['ids'];
         $eventID = $_POST['eventID'];
+        $wooOrder = isset($_POST['woo_order']) ? $_POST['woo_order'] : null;
+        $eddOrder = isset($_POST['edd_order']) ? $_POST['edd_order'] : null;
+
 
         if($event == "hCR") $event="CompleteRegistration"; // de mask completer registration event if it was hidden
 
@@ -93,7 +96,7 @@ class FacebookServer {
             $data['contents']=$contents;
         }
 
-        $event = $this->createEvent($eventID,$event,$data);
+        $event = $this->createEvent($eventID,$event,$data,$wooOrder,$eddOrder);
         if($event) {
             $this->sendEvent($ids,array($event));
         }
@@ -107,12 +110,12 @@ class FacebookServer {
      * @param $data Data for event
      * @return bool|\FacebookAds\Object\ServerSide\Event
      */
-    function createEvent($eventID,$name, $data) {
+    function createEvent($eventID,$name, $data,$wooOrder = null ,$eddOrder=null) {
 
         if(!$eventID) return false;
 
         // create Server event
-        $event = ServerEventHelper::newEvent($name,$eventID);
+        $event = ServerEventHelper::newEvent($name,$eventID,$wooOrder,$eddOrder);
 
         $event->setEventTime(time());
 
@@ -123,7 +126,7 @@ class FacebookServer {
                 $content = array();
                 $content['product_id'] = $c->id;
                 $content['quantity'] = $c->quantity;
-                $content['item_price'] = $c->item_price;
+              //  $content['item_price'] = $c->item_price;
                 $contents[] = new Content($content);
             }
             $data['contents'] = $contents;
@@ -132,46 +135,42 @@ class FacebookServer {
         }
 
         // prepare custom data
-        $customData = new CustomData($data);
-        $customProperties = getCommonEventParams();
-        $customProperties['event_day'] = date("l");
-        $customProperties['event_month'] = date("F");
-        $customProperties['event_hour'] = $this->hours[date("G")];
-        if(PYS()->getOption( 'track_traffic_source' ))
-            $customProperties['traffic_source'] = $this->getTrafficSource();
+        $customData = $this->getCustomData($data);
 
 
-        if(PYS()->getOption( 'track_utms' )) {
-            $customProperties = array_merge($customProperties,$this->getUtms());
-        }
-
-        if( isset($data['tags']) ) {
-            $customProperties['tags'] = $data['tags'];
-        }
-        $customData->setCustomProperties($customProperties);
         if(isset($data['category_name'])) {
             $customData->setContentCategory($data['category_name']);
         }
+
 
         $event->setCustomData($customData);
 
         return $event;
     }
-    function getUtms () {
-        $utm = array();
 
-        $utmTerms = ['utm_source', 'utm_media', 'utm_campaign', 'utm_term', 'utm_content'];
-        foreach ($utmTerms as $utmTerm) {
-            if(isset($_GET[$utmTerm])) {
-                $utm[$utmTerm] = filterEmails($_GET[$utmTerm]);
-            } elseif (isset($_COOKIE["pys_".$utmTerm])) {
-                $utm[$utmTerm] =filterEmails( $_COOKIE["pys_".$utmTerm]);
-            } else {
-                $utm[$utmTerm] = "undefined";
-            }
+    function getCustomData($data) {
+        $customData = new CustomData($data);
+        $customProperties = getCommonEventParams();
+        //$customProperties['event_day'] = date("l");
+       // $customProperties['event_month'] = date("F");
+       // $customProperties['event_hour'] = $this->hours[date("G")];
+
+        if(isset($data['category_name'])) {
+            $customData->setContentCategory($data['category_name']);
         }
 
-        return $utm;
+
+        $custom_values = ["post_type",'post_id','categories','tags','video_type',
+            'video_id','video_title','event_trigger','link_type','tag_text',"URL",
+            'form_id','form_class','form_submit_label','transactions_count','average_order',
+            'shipping_cost','tax','total','shipping'];
+
+        foreach ($custom_values as $val) {
+            if(isset($data[$val]))
+                $customProperties[$val] = $data[$val];
+        }
+        $customData->setCustomProperties($customProperties);
+        return $customData;
     }
 
     /**
@@ -207,7 +206,7 @@ class FacebookServer {
             try{
                 $response = $request->execute();
             } catch (\Exception   $e) {
-                error_log("error send Fb API request ".$e->getMessage());
+                error_log("error send Fb API request ".$e->getErrorUserMessage());
             }
 
             if($this->isDebug && isset($response))  error_log("fb api response ".print_r($response,true));

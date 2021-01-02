@@ -67,7 +67,7 @@ final class WooWallet {
     private function define_constants() {
         $this->define( 'WOO_WALLET_ABSPATH', dirname(WOO_WALLET_PLUGIN_FILE) . '/' );
         $this->define( 'WOO_WALLET_PLUGIN_FILE', plugin_basename(WOO_WALLET_PLUGIN_FILE) );
-        $this->define( 'WOO_WALLET_PLUGIN_VERSION', '1.3.16' );
+        $this->define( 'WOO_WALLET_PLUGIN_VERSION', '1.3.17' );
     }
 
     /**
@@ -179,7 +179,8 @@ final class WooWallet {
         add_filter( 'woocommerce_reports_get_order_report_query', array( $this, 'woocommerce_reports_get_order_report_query' ) );
         add_filter('woocommerce_analytics_revenue_query_args', array($this, 'remove_wallet_rechargable_order_from_analytics'));
         add_filter('woocommerce_analytics_orders_stats_query_args', array($this, 'remove_wallet_rechargable_order_from_analytics'));
-        add_filter('woocommerce_analytics_orders_query_args', array($this, 'remove_wallet_rechargable_order_from_analytics'));
+        
+        add_filter('woocommerce_analytics_orders_select_query', array($this, 'woocommerce_analytics_orders_select_query_callback'));
         
         add_action( 'woocommerce_new_order_item', array( $this, 'woocommerce_new_order_item' ), 10, 2 );
 
@@ -286,6 +287,18 @@ final class WooWallet {
         }
 
         return $query_vars;
+    }
+    
+    public function woocommerce_analytics_orders_select_query_callback($results) {
+        if($results && isset($results->data) && !empty($results->data)){
+            foreach ($results->data as $key=> $result){
+                $order = wc_get_order($result['order_id']);
+                if(is_wallet_rechargeable_order($order)){
+                    unset($results->data[$key]);
+                }
+            }
+        }
+        return $results;
     }
     /**
      * Load marketplace supported file.

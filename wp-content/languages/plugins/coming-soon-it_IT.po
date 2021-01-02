@@ -1,1043 +1,242 @@
-# Translation of Plugins - Coming Soon Page, Under Construction &amp; Maintenance Mode by SeedProd - Stable (latest release) in Italian
-# This file is distributed under the same license as the Plugins - Coming Soon Page, Under Construction &amp; Maintenance Mode by SeedProd - Stable (latest release) package.
+# Translation of Plugins - Coming Soon Page, Maintenance Mode &amp; Landing Pages by SeedProd - Stable (latest release) in Italian
+# This file is distributed under the same license as the Plugins - Coming Soon Page, Maintenance Mode &amp; Landing Pages by SeedProd - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-07-25 11:31:41+0000\n"
+"PO-Revision-Date: 2020-12-24 22:23:43+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: it\n"
-"Project-Id-Version: Plugins - Coming Soon Page, Under Construction &amp; Maintenance Mode by SeedProd - Stable (latest release)\n"
+"Project-Id-Version: Plugins - Coming Soon Page, Maintenance Mode &amp; Landing Pages by SeedProd - Stable (latest release)\n"
 
-#: framework/framework.php:266
-msgid "Suggest a Feature &raquo;"
-msgstr "Suggerisci una funzionalità &raquo;"
+#: resources/views/debug.php:24
+msgid "Debug Tools"
+msgstr "Strumenti di debug"
 
-#: framework/framework.php:265
-msgid "Suggest a Feature"
-msgstr "Suggerisci una funzionalità"
+#: app/routes.php:125 app/routes.php:126
+msgid "Debug"
+msgstr "Debug"
 
-#: lib/setup_tgmpa.php:52
-msgid "Activate RafflePress"
-msgid_plural "Begin activating plugins"
-msgstr[0] "Attiva RafflePress"
-msgstr[1] "Inizio attivazione dei plugin"
+#: app/routes.php:116 app/routes.php:117
+msgid "Import/Export"
+msgstr "Importa/Esporta"
 
-#: lib/setup_tgmpa.php:47
-msgid "Install RafflePress Now"
-msgid_plural "Begin installing plugins"
-msgstr[0] "Installa RafflePress ora"
-msgstr[1] "Inizio installazione dei plugin"
+#: app/routes.php:40 app/routes.php:41
+msgid "Pages"
+msgstr "Pagine"
 
-#. translators: 1: plugin name(s).
-#: lib/setup_tgmpa.php:36 lib/setup_tgmpa.php:42
-msgid "Thanks for using Coming Soon Page & Maintenance Mode by SeedProd. We also recommend using %1$s. It's the best Giveaway and Contest plugin to help you grow your email list and social media followings."
-msgid_plural "Thanks for using Coming Soon Page & Maintenance Mode by SeedProd. We also recommend using %1$s. It's the best Giveaway and Contest plugin to help you grow your email list and social media followings."
-msgstr[0] "Grazie per aver scelto Coming Soon Page & Maintenance Mode by SeedProd. Ti consigliamo di utilizzare %1$s. È il miglior plugin Giveaway and Contest per aiutarti a far crescere la tua lista di email e i tuoi follower sui social media."
-msgstr[1] "Grazie per aver scelto Coming Soon Page & Maintenance Mode by SeedProd. Ti consigliamo di utilizzare %1$s. È il miglior plugin Giveaway and Contest per aiutarti a far crescere la tua lista di email e i tuoi follower sui social media."
+#: app/settings.php:40
+msgid "Error Updating Settings"
+msgstr "Errore durante l'aggiornamento delle impostazioni"
 
-#: framework/framework.php:246 framework/framework.php:247
-msgid "Giveaways"
-msgstr "Giveaways"
+#: app/settings.php:35
+msgid "Settings Updated"
+msgstr "Impostazioni aggiornate"
 
-#: framework/skin.php:88
+#: app/functions-addons.php:188 app/functions-addons.php:230
+msgid "Inactive"
+msgstr "Non attivo"
+
+#: app/functions-addons.php:148
+msgid "Addon activated."
+msgstr "Add-on attivato."
+
+#: app/functions-addons.php:146
+msgid "Plugin activated."
+msgstr "Plugin attivato."
+
+#: app/functions-addons.php:112
+msgid "Addon deactivated."
+msgstr "Add-on disattivato."
+
+#: app/functions-addons.php:110
+msgid "Plugin deactivated."
+msgstr "Plugin disattivato."
+
+#: app/lpage.php:119 app/lpage.php:121
+msgid "New Page"
+msgstr "Nuova pagina"
+
+#: app/license.php:133
+msgid "Invalid License Key."
+msgstr "Chiave di licenza non valida."
+
+#: app/license.php:13
+msgid "Upgrade PHP"
+msgstr "Aggiorna PHP"
+
+#: app/functions-utils.php:164
+msgid "Shortcode"
+msgstr "Shortcode"
+
+#: app/functions-utils.php:158
+msgid "Anchor"
+msgstr "Ancora"
+
+#: app/functions-utils.php:156
+msgid "Nav Menu"
+msgstr "Menu di navigazione"
+
+#: app/functions-utils.php:149
+msgid "Icon"
+msgstr "Icona"
+
+#: app/functions-utils.php:147
+msgid "Progress Bar"
+msgstr "Barra di avanzamento"
+
+#: app/functions-utils.php:144
+msgid "Social Sharing"
+msgstr "Condivisione social"
+
+#: app/functions-utils.php:143
+msgid "Social Profiles"
+msgstr "Profili social"
+
+#: app/functions-utils.php:140
+msgid "Countdown"
+msgstr "Conto alla rovescia"
+
+#: app/functions-utils.php:125
+msgid "Video"
+msgstr "Video"
+
+#: app/functions-utils.php:124
+msgid "Image"
+msgstr "Immagine"
+
+#: app/functions-utils.php:123
+msgid "Button"
+msgstr "Pulsante"
+
+#: app/functions-utils.php:122
+msgid "List"
+msgstr "Elenco"
+
+#: app/functions-utils.php:105
+msgid "Column"
+msgstr "Colonna"
+
+#: app/review.php:112
+msgid "~ John Turner<br>Co-Founder of SeedProd"
+msgstr "~ John Turner<br>Co-fondatore di SeedProd"
+
+#: app/review.php:107
+msgid "No thanks"
+msgstr "No grazie"
+
+#: app/includes/upgrade.php:115 app/includes/upgrade.php:121
+#: app/includes/upgrade.php:172
+msgid "Plugin installed & activated."
+msgstr "Plugin installato e attivato."
+
+#: resources/views/debug.php:1
+msgid "System Information"
+msgstr "Informazioni di sistema"
+
+#: resources/data-templates/basic-page.php:659
+msgid "Name"
+msgstr "Nome"
+
+#: resources/data-templates/basic-page.php:659
+msgid "Enter Your Name"
+msgstr "Inserisci il tuo nome"
+
+#: resources/data-templates/basic-page.php:658
+msgid "Email"
+msgstr "Email"
+
+#: resources/data-templates/basic-page.php:658
+msgid "Enter Your Email"
+msgstr "Inserisci la tua email"
+
+#. Plugin Name of the plugin
+msgid "Coming Soon Page, Maintenance Mode & Landing Pages by SeedProd"
+msgstr "Coming Soon Page, Maintenance Mode & Landing Pages by SeedProd"
+
+#: app/functions-utils.php:131
+msgid "Giveaway"
+msgstr "Giveaway"
+
+#: app/includes/skin53.php:88 app/includes/skin.php:88
 msgid "There was an error installing the addon. Please try again."
 msgstr "Si è verificato un errore durante l'installazione dell'add-on. Riprova."
 
-#. translators: 1: plugin name(s).
-#: lib/TGMPA.php:372
-msgid "The following recommended plugin is currently inactive: %1$s."
-msgid_plural "The following recommended plugins are currently inactive: %1$s."
-msgstr[0] "Il seguente plugin consigliato è attualmente inattivo: %1$s."
-msgstr[1] "I seguenti plugin consigliati sono attualmente inattivi: %1$s."
-
-#. translators: 1: plugin name(s).
-#: lib/TGMPA.php:366
-msgid "The following required plugin is currently inactive: %1$s."
-msgid_plural "The following required plugins are currently inactive: %1$s."
-msgstr[0] "Il seguente plugin richiesto è attualmente inattivo: %1$s."
-msgstr[1] "I seguenti plugin richiesti sono attualmente inattivi: %1$s."
-
-#. translators: 1: plugin name(s).
-#: lib/TGMPA.php:360
-msgid "There is an update available for: %1$s."
-msgid_plural "There are updates available for the following plugins: %1$s."
-msgstr[0] "C'è un aggiornamento disponibile per: %1$s."
-msgstr[1] "Ci sono aggiornamenti disponibili per i seguenti plugin: %1$s."
-
-#. translators: 1: plugin name(s).
-#: lib/TGMPA.php:354
-msgid "The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s."
-msgid_plural "The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s."
-msgstr[0] "Il seguente plugin deve essere aggiornato alla versione più recente per garantire la massima compatibilità con questo tema: %1$s."
-msgstr[1] "I seguenti plugin devono essere aggiornati alla versione più recente per garantire la massima compatibilità con questo tema: %1$s."
-
-#. translators: 1: plugin name(s).
-#: lib/TGMPA.php:348
-msgid "This theme recommends the following plugin: %1$s."
-msgid_plural "This theme recommends the following plugins: %1$s."
-msgstr[0] "Questo tema raccomanda il seguente plugin: %1$s."
-msgstr[1] "Questo tema raccomanda i seguenti plugin: %1$s."
-
-#. translators: 1: plugin name(s).
-#: lib/TGMPA.php:342
-msgid "This theme requires the following plugin: %1$s."
-msgid_plural "This theme requires the following plugins: %1$s."
-msgstr[0] "Questo tema richiede il seguente plugin: %1$s."
-msgstr[1] "Questo tema richiede i seguenti plugin: %1$s."
-
-#: inc/config-settings.php:119
-msgid "Need Shortcode Support? <a href='"
-msgstr "Hai bisogno di assistenza per gli shortcode? <a href='"
-
-#: framework/review.php:75
-msgid "--<br> John Turner<br><a href=\""
-msgstr "--<br> John Turner<br><a href=\""
-
-#: inc/config-settings.php:53
-msgid ""
-"\n"
-"        <p>You're using SeedProd Lite - no license needed. Enjoy! <img draggable=\"false\" class=\"emoji\" alt=\"🙂\" src=\"https://s.w.org/images/core/emoji/11/svg/1f642.svg\"></p><p>To unlock more features consider <a href=\""
-msgstr ""
-"\n"
-"<p>Stai ustando SeedProd Lite - non è richiesta licenza. Divertiti! <img draggable=\"false\" class=\"emoji\" alt=\"🙂\" src=\"https://s.w.org/images/core/emoji/11/svg/1f642.svg\"></p><p>Per sbloccare più funzionalità considera <a href=\""
-
-#. translators: 1: plugin name, 2: action number 3: total number of actions.
-#: lib/TGMPA.php:3596
-msgid "Installing Plugin %1$s (%2$d/%3$d)"
-msgstr "Sto installando il plugin %1$s (%2$d/%3$d)"
-
-#: lib/TGMPA.php:3594
-msgid "All installations have been completed."
-msgstr "Tutte le installazioni sono state completate."
-
-#. translators: 1: plugin name.
-#: lib/TGMPA.php:3593
-msgid "%1$s installed successfully."
-msgstr "%1$s installato con successo."
-
-#: lib/TGMPA.php:3591
-msgid "The installation process is starting. This process may take a while on some hosts, so please be patient."
-msgstr "Il processo di installazione si avvia. Questo processo può richiedere tempo su alcuni host, quindi sii paziente."
-
-#. translators: 1: plugin name, 2: action number 3: total number of actions.
-#: lib/TGMPA.php:3588
-msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
-msgstr "Installazione e attivazione del plugin %1$s (%2$d/%3$d)"
-
-#: lib/TGMPA.php:3586
-msgid "All installations and activations have been completed."
-msgstr "Tutte le installazioni e le attivazioni sono state completate."
-
-#. translators: 1: plugin name.
-#: lib/TGMPA.php:3585 lib/TGMPA.php:3593
-msgid "Hide Details"
-msgstr "Nascondi i dettagli"
-
-#. translators: 1: plugin name.
-#: lib/TGMPA.php:3585 lib/TGMPA.php:3593
-msgid "Show Details"
-msgstr "Mostra i dettagli"
-
-#. translators: 1: plugin name.
-#: lib/TGMPA.php:3585
-msgid "%1$s installed and activated successfully."
-msgstr "%1$s installato e attivato con successo."
-
-#: lib/TGMPA.php:3583
-msgid "The installation and activation process is starting. This process may take a while on some hosts, so please be patient."
-msgstr "Il processo di installazione e attivazione sta iniziando. Questo processo potrebbe richiedere del tempo su alcuni host, quindi sii paziente."
-
-#. translators: 1: plugin name.
-#: lib/TGMPA.php:3579
-msgid "The installation of %1$s failed."
-msgstr "L'installazione di %1$s è fallita."
-
-#. translators: 1: plugin name, 2: error message.
-#: lib/TGMPA.php:3577
-msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
-msgstr "Si è verificato un errore nell'installazione di %1$s: <strong>%2$s</strong>."
-
-#. translators: 1: plugin name, 2: action number 3: total number of actions.
-#: lib/TGMPA.php:3574
-msgid "Updating Plugin %1$s (%2$d/%3$d)"
-msgstr "Aggiornamento del plugin %1$s (%2$d/%3$d)"
-
-#: lib/TGMPA.php:3253
-msgid "Plugin activation failed."
-msgstr "Attivazione del plugin fallita."
-
-#: lib/TGMPA.php:3036
-msgid "No plugins are available to be activated at this time."
-msgstr "Al momento non ci sono plugin disponibili per l’attivazione."
-
-#: lib/TGMPA.php:3010
-msgid "No plugins were selected to be activated. No action taken."
-msgstr "Nessun plugin è stato selezionato per l'attivazione. Nessuna azione intrapresa."
-
-#: lib/TGMPA.php:2904
-msgid "No plugins are available to be updated at this time."
-msgstr "Al momento non ci sono plugin disponibili per l’aggiornamento."
-
-#: lib/TGMPA.php:2902
-msgid "No plugins are available to be installed at this time."
-msgstr "Al momento non ci sono plugin disponibili per l’installazione."
-
-#: lib/TGMPA.php:2861
-msgid "No plugins were selected to be updated. No action taken."
-msgstr "Nessun plugin è stato selezionato per l'aggiornamento. Nessuna azione intrapresa."
-
-#: lib/TGMPA.php:2859
-msgid "No plugins were selected to be installed. No action taken."
-msgstr "Nessun plugin è stato selezionato per l'installazione. Nessuna azione intrapresa."
-
-#: lib/TGMPA.php:2828
-msgid "Activate"
-msgstr "Attiva"
-
-#: lib/TGMPA.php:2825
-msgid "Update"
-msgstr "Aggiorna"
-
-#: lib/TGMPA.php:2819
-msgid "Install"
-msgstr "Installa"
-
-#: lib/TGMPA.php:2786
-msgid "Upgrade message from the plugin author:"
-msgstr "Messaggio di aggiornamento dall'autore del plugin:"
-
-#. translators: %2$s: plugin name in screen reader markup
-#: lib/TGMPA.php:2716
-msgid "Activate %2$s"
-msgstr "Attiva %2$s"
-
-#. translators: %2$s: plugin name in screen reader markup
-#: lib/TGMPA.php:2710
-msgid "Update %2$s"
-msgstr "Aggiorna %2$s"
-
-#. translators: %2$s: plugin name in screen reader markup
-#: lib/TGMPA.php:2705
-msgid "Install %2$s"
-msgstr "Installa %2$s"
-
-#: lib/TGMPA.php:2655
-msgid "Version"
-msgstr "Versione"
-
-#: lib/TGMPA.php:2651
-msgid "Type"
-msgstr "Tipo"
-
-#: lib/TGMPA.php:2650
-msgid "Source"
-msgstr "Origine"
-
-#: lib/TGMPA.php:2649
-msgid "Plugin"
-msgstr "Plugin"
-
-#: lib/TGMPA.php:2635
-msgid "No plugins to install, update or activate."
-msgstr "Nessun plugin da installare, aggiornare o attivare."
-
-#: lib/TGMPA.php:2612
-msgid "Available version:"
-msgstr "Versione disponibile:"
-
-#: lib/TGMPA.php:2600
-msgid "Minimum required version:"
-msgstr "Versione minima obbligatoria:"
-
-#: lib/TGMPA.php:2592
-msgid "Installed version:"
-msgstr "Versione installata:"
-
-#: lib/TGMPA.php:2584
-msgctxt "as in: \"version nr unknown\""
-msgid "unknown"
-msgstr "sconosciuto"
-
-#. translators: 1: number of plugins.
-#: lib/TGMPA.php:2502
-msgid "To Activate <span class=\"count\">(%s)</span>"
-msgid_plural "To Activate <span class=\"count\">(%s)</span>"
-msgstr[0] "Da attivare <span class=\"count\">(%s)</span>"
-msgstr[1] "Da attivare <span class=\"count\">(%s)</span>"
-
-#. translators: 1: number of plugins.
-#: lib/TGMPA.php:2498
-msgid "Update Available <span class=\"count\">(%s)</span>"
-msgid_plural "Update Available <span class=\"count\">(%s)</span>"
-msgstr[0] "Aggiornamento disponibile <span class=\"count\">(%s)</span>"
-msgstr[1] "Aggiornamenti disponibili <span class=\"count\">(%s)</span>"
-
-#. translators: 1: number of plugins.
-#: lib/TGMPA.php:2494
-msgid "To Install <span class=\"count\">(%s)</span>"
-msgid_plural "To Install <span class=\"count\">(%s)</span>"
-msgstr[0] "Da installare <span class=\"count\">(%s)</span>"
-msgstr[1] "Da installare <span class=\"count\">(%s)</span>"
-
-#. translators: 1: number of plugins.
-#: lib/TGMPA.php:2490
-msgctxt "plugins"
-msgid "All <span class=\"count\">(%s)</span>"
-msgid_plural "All <span class=\"count\">(%s)</span>"
-msgstr[0] "Tutti <span class=\"count\">(%s)</span>"
-msgstr[1] "Tutti <span class=\"count\">(%s)</span>"
-
-#. translators: 1: install status, 2: update status
-#: lib/TGMPA.php:2444
-msgctxt "Install/Update Status"
-msgid "%1$s, %2$s"
-msgstr "%1$s, %2$s"
-
-#: lib/TGMPA.php:2435
-msgid "Update recommended"
-msgstr "Aggiornamento raccomandato"
-
-#: lib/TGMPA.php:2432
-msgid "Requires Update"
-msgstr "Aggiornamento obbligatorio"
-
-#: lib/TGMPA.php:2429
-msgid "Required Update not Available"
-msgstr "L'aggiornamento obbligatorio non è disponibile"
-
-#: lib/TGMPA.php:2423
+#: app/functions-addons.php:186 app/functions-addons.php:228
 msgid "Active"
 msgstr "Attivo"
 
-#: lib/TGMPA.php:2421
-msgid "Installed But Not Activated"
-msgstr "Installato ma non attivato"
-
-#: lib/TGMPA.php:2417
+#: app/functions-addons.php:191 app/functions-addons.php:233
 msgid "Not Installed"
 msgstr "Non installato"
 
-#: lib/TGMPA.php:2400
-msgid "Pre-Packaged"
-msgstr "Incorporato"
-
-#: lib/TGMPA.php:2397
-msgid "External Source"
-msgstr "Sorgente esterna"
-
-#: lib/TGMPA.php:2394
-msgid "WordPress Repository"
-msgstr "Repository di WordPress"
-
-#: lib/TGMPA.php:2378
-msgid "Recommended"
-msgstr "Raccomandato"
-
-#: lib/TGMPA.php:2375
-msgid "Required"
-msgstr "Obbligatorio"
-
-#. translators: %s: version number
-#: lib/TGMPA.php:2091
-msgid "TGMPA v%s"
-msgstr "TGMPA v%s"
-
-#: lib/TGMPA.php:1222 lib/TGMPA.php:3050
-msgctxt "plugin A *and* plugin B"
-msgid "and"
-msgstr "e"
-
-#: lib/TGMPA.php:1038
-msgid "The remote plugin package consists of more than one file, but the files are not packaged in a folder."
-msgstr "Il pacchetto remoto del plugin comprende più file ma questi file non sono raggruppati in una cartella."
-
-#: lib/TGMPA.php:1035 lib/TGMPA.php:1038
-msgid "Please contact the plugin provider and ask them to package their plugin according to the WordPress guidelines."
-msgstr "Contatta il fornitore del plugin per chiedergli di preparare il plugin secondo le linee guida di WordPress."
-
-#: lib/TGMPA.php:1035
-msgid "The remote plugin package does not contain a folder with the desired slug and renaming did not work."
-msgstr "Il pacchetto remoto del plugin non contiene una cartella con lo slug desiderato e non è possibile rinominare."
-
-#: lib/TGMPA.php:726
-msgid "Set the parent_slug config variable instead."
-msgstr "Imposta la variabile di configurazione parent_slug."
-
-#: lib/TGMPA.php:609
-msgid "Update Required"
-msgstr "Aggiornamento obbligatorio"
-
-#: lib/TGMPA.php:608
-msgid "This plugin needs to be updated to be compatible with your theme."
-msgstr "Questo plugin deve essere aggiornato per essere compatibile con il tuo tema."
-
-#: lib/TGMPA.php:405
-msgid "Please contact the administrator of this site for help."
-msgstr "Contatta l'amministratore del sito per richiedere supporto."
-
-#: lib/TGMPA.php:404
-msgid "There are one or more required or recommended plugins to install, update or activate."
-msgstr "Ci sono uno o più plugin obbligatori o raccomandati da installare, aggiornare o attivare."
-
-#: lib/TGMPA.php:403
-msgid "Dismiss this notice"
-msgstr "Ignora questo avviso"
-
-#. translators: 1: dashboard link.
-#: lib/TGMPA.php:402
-msgid "All plugins installed and activated successfully. %1$s"
-msgstr "Tutti i plugin sono stati installati e attivati con successo. %1$s"
-
-#. translators: 1: plugin name.
-#: lib/TGMPA.php:400
-msgid "Plugin not activated. A higher version of %s is needed for this theme. Please update the plugin."
-msgstr "Il plugin non è stato attivato. Per questo tema è necessaria una versione più recente di %s. Aggiorna il plugin."
-
-#. translators: 1: plugin name.
-#: lib/TGMPA.php:398
-msgid "No action taken. Plugin %1$s was already active."
-msgstr "Nessuna azione effettuata. Il plugin %1$s era già attivo."
-
-#: lib/TGMPA.php:396 lib/TGMPA.php:3054
-msgid "The following plugin was activated successfully:"
-msgid_plural "The following plugins were activated successfully:"
-msgstr[0] "Il seguente plugin è stato attivato con successo:"
-msgstr[1] ""
-
-#: lib/TGMPA.php:395 lib/TGMPA.php:3254
-msgid "Plugin activated successfully."
-msgstr "Plugin attivato con successo."
-
-#: lib/TGMPA.php:394 lib/TGMPA.php:928 lib/TGMPA.php:2635 lib/TGMPA.php:3656
-msgid "Return to the Dashboard"
-msgstr "Torna alla Bacheca"
-
-#: lib/TGMPA.php:393
-msgid "Return to Required Plugins Installer"
-msgstr "Torna all'installazione dei plugin obbligatori"
-
-#: lib/TGMPA.php:388
-msgid "Begin activating plugin"
-msgid_plural "Begin activating plugins"
-msgstr[0] "Inizia l'attivazione del plugin"
-msgstr[1] "Inizia l'attivazione dei plugin"
-
-#: lib/TGMPA.php:383
-msgid "Begin updating plugin"
-msgid_plural "Begin updating plugins"
-msgstr[0] "Inizia l'aggiornamento del plugin"
-msgstr[1] "Inizia l'aggiornamento dei plugin"
-
-#: lib/TGMPA.php:378
-msgid "Begin installing plugin"
-msgid_plural "Begin installing plugins"
-msgstr[0] "Inizia l'installazione del plugin"
-msgstr[1] "Inizia l'installazione dei plugin"
-
-#: lib/TGMPA.php:341
-msgid "Something went wrong with the plugin API."
-msgstr "Qualcosa è andato storto con le API del plugin."
-
-#. translators: %s: plugin name.
-#: lib/TGMPA.php:340
-msgid "Updating Plugin: %s"
-msgstr "Aggiornamento del plugin in corso: %s"
-
-#. translators: %s: plugin name.
-#: lib/TGMPA.php:338
-msgid "Installing Plugin: %s"
-msgstr "Installazione del plugin in corso: %s"
-
-#: lib/TGMPA.php:336
-msgid "Install Plugins"
-msgstr "Installa i plugin"
-
-#: lib/TGMPA.php:335
-msgid "Install Required Plugins"
-msgstr "Installa i plugin obbligatori"
-
-#: inc/config-settings.php:193
-msgid "Available Pro Themes"
-msgstr "Temi Pro disponibili"
-
-#: inc/config-settings.php:187
-msgid "Pro Themes"
-msgstr "Temi Pro"
-
-#: inc/config-settings.php:52
-msgid "License Key"
-msgstr "Chiave della licenza"
-
-#: inc/config-settings.php:46
-msgid "License"
-msgstr "Licenza"
-
-#: framework/review.php:74
-msgid "Hey %s, <br><br>I just want to say \"Thank you\" using this free plugin. If you have any questions  post it to our <a href=\"https://wordpress.org/support/plugin/coming-soon\">support forums</a>.<br><br>Also check out the &#8594; <a href=\"%s\" target=\"blank\" rel=\"noopener noreferrer\">special upgrade offer</a> we have going on right now for the Pro Verison.<br><br>Hope you have a great %s! Cheers"
-msgstr "Hey %s, <br><br>voglio solo dirti \"grazie\" per aver scelto questo plugin gratuito. Se hai domande pubblicale nel <a href=\"https://wordpress.org/support/plugin/coming-soon\">forum di supporto</a>.<br><br>Controlla anche la &#8594; <a href=\"%s\" target=\"blank\" rel=\"noopener noreferrer\">speciale offerta per l&#8217;upgrade</a> che è in corso in questo momento per la versione Pro.<br><br>Ti auguro un grande %s! Saluti"
-
-#: framework/framework.php:257
-msgid "<span style='color:#ff9a4b'>Addons</span>"
-msgstr "<span style='color:#ff9a4b'>Add-on</span>"
-
-#: framework/framework.php:256
-msgid "Addons"
-msgstr "Add-on"
-
-#: inc/config-settings.php:411 framework/framework.php:235
-#: framework/framework.php:236
+#: app/routes.php:50 app/routes.php:51
 msgid "Subscribers"
 msgstr "Sottoscrittori"
 
-#: framework/framework.php:224 framework/framework.php:225
-msgid "Free Stock Images"
-msgstr "Immagini stock gratuite"
-
-#: framework/framework.php:215 framework/framework.php:216
-msgid "Themes"
-msgstr "Temi"
-
-#: framework/framework.php:206 framework/framework.php:207
+#: app/routes.php:59 app/routes.php:60
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: framework/review.php:78
-msgid "Dismiss Notice"
-msgstr "Ignora avviso"
-
-#: framework/framework.php:648
-msgid "Got a Support Question"
-msgstr "Hai una domanda per il supporto"
-
-#: inc/config-settings.php:251
-msgid "Contain"
-msgstr "Adatta"
-
-#: inc/config-settings.php:250
-msgid "Cover"
-msgstr "Copertina"
-
-#: inc/config-settings.php:248
-msgid "Responsive Size"
-msgstr "Dimensione responsive"
-
-#: inc/config-settings.php:247
-msgid "Cover (most users will use this setting), this setting will crop parts of the background that do not fit, Contain, this will force the background image to stay contained within the browser and parts that don't fit will show the background color."
-msgstr "Copertina (la maggior parte degli utenti selezionerà questa impostazione) ritaglierà le parti dello sfondo che eccedono la pagina. Adatta costringerà l'immagine di sfondo ad essere contenuta nel browser e le parti che non ci stanno mostreranno il colore di sfondo."
-
-#: framework/review.php:79
+#: app/review.php:116
 msgid "I already did"
 msgstr "L'ho già fatto"
 
-#: framework/review.php:77
+#: app/review.php:115
+msgid "Nope, maybe later"
+msgstr "No, magari più tardi"
+
+#: app/review.php:114
 msgid "Ok, you deserve it"
 msgstr "Ok, te lo meriti"
 
-#: framework/review.php:18
+#: app/bootstrap.php:309
 msgid "Please rate <strong>SeedProd</strong> <a href=\"%s\" target=\"_blank\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on <a href=\"%s\" target=\"_blank\">WordPress.org</a> to help us spread the word. Thank you from the SeedProd team!"
-msgstr "Vota <strong>Coming Soon Page & Maintenance Mode by SeedProd</strong> <a href=\"%s\" target=\"_blank\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> su <a href=\"%s\" target=\"_blank\">WordPress.org</a> per aiutare a spargere la voce. Grazie dal team SeedProd!"
+msgstr "Valuta <strong>Coming Soon Page & Maintenance Mode by SeedProd</strong> <a href=\"%s\" target=\"_blank\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> su <a href=\"%s\" target=\"_blank\">WordPress.org</a> per aiutare a spargere la voce. Grazie dal team SeedProd!"
 
-#: framework/framework.php:610
-msgid "Yo-Yo-Yo, Why Go Pro?"
-msgstr "Perché fare l'upgrade?"
-
-#: inc/class-seed-csp4.php:250
-msgid "Only authenticated users can access the REST API."
-msgstr "Solo gli utenti autenticati possono accedere all'API REST."
-
-#: framework/framework.php:684
-msgid "Rate It on WordPress.org"
-msgstr "Vota su WordPress.org"
-
-#: framework/framework.php:384
-msgid "Upgrade to Pro for More Features"
-msgstr "Passa alla versione Pro per altre caratteristiche"
-
-#: inc/config-settings.php:481
-msgid "This will append html to the bottom of the template using the current styles."
-msgstr "Questo aggiungerà il tuo html in fondo al template utilizzando gli stili attuali."
-
-#: inc/config-settings.php:480
-msgid "Append HTML"
-msgstr "Aggiungi HTML in fondo"
-
-#: inc/config-settings.php:473
-msgid "This will replace the plugin's entire template with your custom html. Make sure to include the html, head and body tags when replacing the html."
-msgstr "Questo sostituirà l'intero template del plugin con il tuo HTML personalizzato. Assicurati di includere i tag html head e body quando sostituisci l'html."
-
-#: inc/config-settings.php:472
+#: app/functions-utils.php:166
 msgid "Custom HTML"
 msgstr "HTML personalizzato"
 
-#: inc/config-settings.php:259
-msgid "This will add an overlay over your image dimming it."
-msgstr "Questo aggiungerà una sovrimpressione all'immagine di sfondo, attenuandola."
-
-#: inc/config-settings.php:258
-msgid "Dim Background"
-msgstr "Attenua sfondo"
-
-#: inc/config-settings.php:74
-msgid "When you are logged in you'll see your normal website. Logged out visitors will see the Coming Soon or Maintenance page. Coming Soon Mode will be available to search engines if your site is not private. Maintenance Mode will notify search engines that the site is unavailable. <a href='https://www.seedprod.com/coming-soon-vs-maintenance-mode/?utm_source=coming-soon-plugin&utm_medium=link&utm_campaign=cc-vs-mm' target='_blank'>Learn the difference between Coming Soon and Maintenance Mode</a>"
-msgstr "Quando sei autenticato vedrai il tuo sito normalmente. Gli utenti non autenticati vedranno le pagine coming soon o manutenzione. La modalità coming soon è visibile ai motori di ricerca se il sito non è privato. La modalità manutenzione notificherà i motori di ricerca che il sito non è disponibile. <a href='https://www.seedprod.com/coming-soon-vs-maintenance-mode/?utm_source=coming-soon-plugin&utm_medium=link&utm_campaign=cc-vs-mm' target='_blank'>Conosci le differenze tra la modalità coming soon e quella di manutenzione</a>"
-
-#: framework/framework.php:585
-msgid "Getting Started Video - 60 sec"
-msgstr "Video Come iniziare - 60 sec"
-
 #. Author of the plugin
-#: inc/config-settings.php:23
 msgid "SeedProd"
 msgstr "SeedProd"
 
-#: inc/config-settings.php:465
-msgid "Enter any custom scripts. This will be rendered before the closing body tag."
-msgstr "Inserisci i tuoi script personalizzati. Questo verrà renderizzato prima del tag di chiusura del body."
+#. Description of the plugin
+msgid "The #1 Coming Soon Page, Under Construction & Maintenance Mode plugin for WordPress."
+msgstr "Il plugin WordPress n°1 per le modalità coming soon, in costruzione e manutenzione."
 
-#: inc/config-settings.php:464
-msgid "Footer Scripts"
-msgstr "Script del footer"
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://www.seedprod.com"
+msgstr "https://www.seedprod.com"
 
-#: inc/config-settings.php:457
-msgid "Enter any custom scripts. You can enter Javascript or CSS. This will be rendered before the closing head tag."
-msgstr "Inserisci i tuoi script personalizzati. Puoi inserire JavaScript o CSS che verrà renderizzato prima del tag di chiusura di head."
-
-#: inc/config-settings.php:456
-msgid "Header Scripts"
-msgstr "Script dell'header"
-
-#: inc/config-settings.php:448
-msgid "Disable"
-msgstr "Disabilita"
-
-#: inc/config-settings.php:446
-msgid "By default we exclude urls with the terms: login, admin, dashboard and account to prevent lockouts. Check to disable."
-msgstr "Per impostazione predefinita, escludiamo gli URL con i termini: login, admin, dashboard e account per evitare che tu rimanga chiuso fuori. Seleziona per disabilitare."
-
-#: inc/config-settings.php:445
-msgid "Disable Default Excluded URLs"
-msgstr "Disabilita gli URL esclusi predefiniti"
-
-#: inc/config-settings.php:439
-msgid "Scripts"
-msgstr "Script"
-
-#: inc/config-settings.php:426
-msgid "Advanced"
-msgstr "Avanzate"
-
-#: inc/config-settings.php:402
-msgid "Need to tweaks the styles? Add your custom CSS here."
-msgstr "Devi personalizzare lo stile? Aggiungi qui il tuo CSS personalizzato."
-
-#: inc/config-settings.php:401
-msgid "Custom CSS"
-msgstr "CSS personalizzato"
-
-#: inc/config-settings.php:393
-msgid "Template"
+#: app/routes.php:97 app/routes.php:98
+msgid "Templates"
 msgstr "Template"
 
-#: inc/config-settings.php:372
-msgid "Text Font"
-msgstr "Font testo"
-
-#: inc/config-settings.php:364
-msgid "If no Headline Color is chosen then the Link Color will be used. "
-msgstr "Se non è selezionato nessun Colore titolo, verrà usato il valore di Colore link."
-
-#: inc/config-settings.php:361
-msgid "Headline Color"
-msgstr "Colore titolo"
-
-#: inc/config-settings.php:353
-msgid "Link Color"
-msgstr "Colore link"
-
-#: inc/config-settings.php:345
-msgid "Text Color"
-msgstr "Colore testo"
-
-#: inc/config-settings.php:339
+#: app/functions-utils.php:121
 msgid "Text"
 msgstr "Testo"
 
-#: inc/config-settings.php:327
-msgid "This will wrap your content in a box."
-msgstr "Racchiuderà il tuo contenuto in un riquadro."
-
-#: inc/config-settings.php:326
-msgid "Enable Well"
-msgstr "Abilita \"Contenitore\""
-
-#: inc/config-settings.php:321
-msgid "By default the max width of the content is set to 600px. Enter a number value if you need it bigger. Example: 900"
-msgstr "Per impostazione predefinita, la larghezza massima del contenuto è 600px. Inserire un valore numerico se vuoi aumentarla. Esempio: 900"
-
-#: inc/config-settings.php:320
-msgid "Max Width"
-msgstr "Larghezza massima"
-
-#: inc/config-settings.php:305
-msgid "Scroll"
-msgstr "Scorrevole"
-
-#: inc/config-settings.php:304
-msgid "Fixed"
-msgstr "Fisso"
-
-#: inc/config-settings.php:302
-msgid "Background Attachment"
-msgstr "Scorrimento dello sfondo"
-
-#: inc/config-settings.php:294
-msgid "Center Bottom"
-msgstr "Centrato in basso"
-
-#: inc/config-settings.php:293
-msgid "Center Center"
-msgstr "Centrato in mezzo"
-
-#: inc/config-settings.php:292
-msgid "Center Top"
-msgstr "Centrato in alto"
-
-#: inc/config-settings.php:291
-msgid "Right Bottom"
-msgstr "In basso a destra"
-
-#: inc/config-settings.php:290
-msgid "Right Center"
-msgstr "Centrato a destra"
-
-#: inc/config-settings.php:289
-msgid "Right Top"
-msgstr "In alto a destra"
-
-#: inc/config-settings.php:288
-msgid "Left Bottom"
-msgstr "In basso a sinistra"
-
-#: inc/config-settings.php:287
-msgid "Left Center"
-msgstr "Centrato a sinistra"
-
-#: inc/config-settings.php:286
-msgid "Left Top"
-msgstr "In alto a sinistra"
-
-#: inc/config-settings.php:284
-msgid "Background Position"
-msgstr "Posizione sfondo"
-
-#: inc/config-settings.php:275
-msgid "Tile Vertically"
-msgstr "Affianca verticalmente"
-
-#: inc/config-settings.php:274
-msgid "Tile Horizontally"
-msgstr "Affianca orizzontalmente"
-
-#: inc/config-settings.php:273
-msgid "Tile"
-msgstr "Affianca"
-
-#: inc/config-settings.php:272
-msgid "No-Repeat"
-msgstr "Non ripetere"
-
-#: inc/config-settings.php:270
-msgid "Background Repeat"
-msgstr "Ripeti sfondo"
-
-#: inc/config-settings.php:269 inc/config-settings.php:283
-#: inc/config-settings.php:301
-msgid "This setting is not applied if Responsive Background is checked"
-msgstr "Questa impostazione non si applica se è selezionata la preferenza Sfondo responsive"
-
-#: inc/config-settings.php:237
-msgid "Scale the background image to be as large as possible so that the background area is completely covered by the background image. Some parts of the background image may not be in view within the background positioning area."
-msgstr "Scala l'immagine di sfondo perché sia il più larga possibile in maniera che l'area di sfondo sia completamente coperta dall'immagine. Alcune parti dell'immagine di sfondo potrebbero essere non visibili in base al posizionamento nell'area di sfondo."
-
-#: inc/config-settings.php:236
-msgid "Responsive Background"
-msgstr "Sfondo responsive"
-
-#: inc/config-settings.php:230
-msgid "Background Image"
-msgstr "Immagine di sfondo"
-
-#: inc/config-settings.php:212
-msgid "Choose between having a solid color background or uploading an image. By default images will cover the entire background."
-msgstr "Scegli tra avere un colore di sfondo solido o caricare un'immagine. Per impostazione predefinita, le immagini copriranno l'intero sfondo."
-
-#: inc/config-settings.php:209
-msgid "Background Color"
-msgstr "Colore di sfondo"
-
-#: inc/config-settings.php:202
-msgid "Background"
-msgstr "Sfondo"
-
-#: inc/config-settings.php:175
-msgid "Design"
-msgstr "Design"
-
-#: inc/config-settings.php:165
-msgid "Paste in your Universal or Classic <a href=\"http://www.google.com/analytics/\" target=\"_blank\">Google Analytics</a> code."
-msgstr "Incolla il tuo codice <a href=\"http://www.google.com/analytics/\" target=\"_blank\">Google Analytics</a>."
-
-#: inc/config-settings.php:164
-msgid "Analytics Code"
-msgstr "Codice Google Analytics"
-
-#: inc/config-settings.php:155
-msgid "SEO Meta Description"
-msgstr "Descrizione meta SEO"
-
-#: inc/config-settings.php:149
-msgid "SEO Title"
-msgstr "Titolo SEO"
-
-#: inc/config-settings.php:143
-msgid "Favicons are displayed in a browser tab. Need Help <a href=\"http://tools.dynamicdrive.com/favicon/\" target=\"_blank\">creating a favicon</a>?"
-msgstr "Le favicon sono visualizzate nella scheda del browser. Ti serve aiuto <a href=\"http://tools.dynamicdrive.com/favicon/\" target=\"_blank\">per crearne una</a>?"
-
-#: inc/config-settings.php:142
-msgid "Favicon"
-msgstr "Favicon"
-
-#: inc/config-settings.php:136
-msgid "Header"
-msgstr "Header"
-
-#: inc/config-settings.php:127
-msgid "Can we show a <strong>cool stylish</strong> footer credit at the bottom the page."
-msgstr "Possiamo mostrare un riconoscimento in fondo alla pagina?"
-
-#: inc/config-settings.php:126
-msgid "Yep - I Love You Man"
-msgstr "Sì, volentieri"
-
-#: inc/config-settings.php:126
-msgid "Nope - Got No Love"
-msgstr "No, grazie"
-
-#: inc/config-settings.php:125
-msgid "Powered By SeedProd"
-msgstr "Realizzato da SeedProd"
-
-#: inc/config-settings.php:118
-msgid "Message"
-msgstr "Messaggio"
-
-#: inc/config-settings.php:112
-msgid "Enter a headline for your page."
-msgstr "Inserisci un'intestazione per la tua pagina."
-
-#: inc/config-settings.php:111
+#: app/functions-utils.php:116
 msgid "Headline"
 msgstr "Intestazione"
 
-#: inc/config-settings.php:104
-msgid "Upload a logo or teaser image (or) enter the url to your image."
-msgstr "Carica un logo o immagine teaser (oppure) inserisci l'URL della tua immagine."
-
-#: inc/config-settings.php:103
-msgid "Logo"
-msgstr "Logo"
-
-#: inc/config-settings.php:97
-msgid "Page Settings"
-msgstr "Impostazioni pagina"
-
-#: inc/config-settings.php:87 inc/config-settings.php:239
-#: inc/config-settings.php:261 inc/config-settings.php:329
+#: app/review.php:99
 msgid "Yes"
 msgstr "Sì"
 
-#: inc/config-settings.php:85
-msgid "maintenance.php detected, would you like to use this for your maintenance page?"
-msgstr "maintenance.php rilevato, vuoi usarlo come pagina di manutenzione?"
-
-#: inc/config-settings.php:84
-msgid "Use maintenance.php"
-msgstr "Usa maintenance.php"
-
-#: inc/config-settings.php:72
-msgid "Enable Maintenance Mode"
-msgstr "Abilita la modalità manutenzione"
-
-#: inc/config-settings.php:71
-msgid "Enable Coming Soon Mode"
-msgstr "Abilita la modalità Coming soon"
-
-#: inc/config-settings.php:70
-msgid "Disabled"
-msgstr "Disabilitato"
-
-#: inc/config-settings.php:68 lib/TGMPA.php:2656
-msgid "Status"
-msgstr "Stato"
-
-#: inc/config-settings.php:62
-msgid "General"
-msgstr "Generale"
-
-#: inc/config-settings.php:34 inc/config-settings.php:313
-msgid "Content"
-msgstr "Contenuto"
-
-#: inc/class-seed-csp4.php:149
+#: app/backwards/csp4-functions.php:11
 msgid "Please enter your settings."
 msgstr "Inserisci le tue impostazioni."
 
-#: inc/class-seed-csp4.php:87
+#: app/admin-bar-menu.php:44
 msgid "Maintenance Mode Active"
 msgstr "Modalità manutenzione attiva"
 
-#: inc/class-seed-csp4.php:85
+#: app/admin-bar-menu.php:42
 msgid "Coming Soon Mode Active"
 msgstr "Modalità Coming soon attiva"
-
-#: framework/validations/required.php:10
-msgid "is required."
-msgstr "è obbligatorio."
-
-#: framework/validations/number.php:11
-msgid "Please enter a valid number."
-msgstr "Inserisci un numero valido."
-
-#: framework/validations/escurlraw.php:11 framework/validations/email.php:10
-msgid "Please enter a valid email."
-msgstr "Inserisci un'email valida."
-
-#: framework/validations/color.php:13
-msgid "Please enter a valid color value."
-msgstr "Inserisci un codice colore valido."
-
-#: framework/framework.php:738
-msgid "This tabs settings be deleted and reset to the defaults. Are you sure you want to reset?"
-msgstr "Le impostazioni di questa scheda stanno per essere eliminate e ripristinate ai valori predefiniti. Sicuro di voler procedere?"
-
-#: framework/framework.php:695
-msgid "SeedProd Blog"
-msgstr "Blog di SeedProd"
-
-#: framework/framework.php:685
-msgid "Tweet It"
-msgstr "Inviaci un Tweet"
-
-#: framework/framework.php:682
-msgid "Buy It"
-msgstr "Acquista"
-
-#: framework/framework.php:680
-msgid "Like this plugin? Show your support by:"
-msgstr "Ti piace questo plugin? Mostra il tuo sostegno:"
-
-#: framework/framework.php:677
-msgid "Show Some Love"
-msgstr "Mostra il tuo sostegno"
-
-#: framework/framework.php:650
-msgid "Common Caching Issues Resolutions"
-msgstr "Risoluzione problemi di cache comuni"
-
-#: framework/framework.php:525 framework/framework.php:572
-msgid "Reset Settings"
-msgstr "Ripristina impostazioni"
-
-#: framework/framework.php:522 framework/framework.php:571
-#: framework/framework.php:946
-msgid "Save All Changes"
-msgstr "Salva tutte le modifiche"
-
-#: framework/framework.php:382
-msgid "Live Preview"
-msgstr "Vedi l'anteprima"
-
-#: framework/framework.php:382
-msgid "&larr; Close Window"
-msgstr "&larr; Chiudi finestra"
-
-#: framework/framework.php:140
-msgid "Settings reset."
-msgstr "Ripristina impostazioni"
-
-#: framework/field-types/upload.php:12
-msgid "Media Image Library"
-msgstr "Libreria delle immagini"
-
-#: framework/field-types/daterange.php:35
-msgid "End Date"
-msgstr "Data fine"
-
-#: framework/field-types/daterange.php:22
-msgid "Start Date"
-msgstr "Data inizio"
-
-#: framework/field-types/daterange.php:32
-#: framework/field-types/daterange.php:45 framework/field-types/date.php:32
-msgid "year"
-msgstr "anno"
-
-#: framework/field-types/daterange.php:29
-#: framework/field-types/daterange.php:42 framework/field-types/date.php:29
-msgid "day"
-msgstr "giorno"
-
-#: framework/field-types/daterange.php:19 framework/field-types/date.php:19
-msgid "12-Dec"
-msgstr "12-Dic"
-
-#: framework/field-types/daterange.php:18 framework/field-types/date.php:18
-msgid "11-Nov"
-msgstr "11-Nov"
-
-#: framework/field-types/daterange.php:17 framework/field-types/date.php:17
-msgid "10-Oct"
-msgstr "10-Ott"
-
-#: framework/field-types/daterange.php:16 framework/field-types/date.php:16
-msgid "09-Sep"
-msgstr "09-Set"
-
-#: framework/field-types/daterange.php:15 framework/field-types/date.php:15
-msgid "08-Aug"
-msgstr "08-Ago"
-
-#: framework/field-types/daterange.php:14 framework/field-types/date.php:14
-msgid "07-Jul"
-msgstr "07-Lug"
-
-#: framework/field-types/daterange.php:13 framework/field-types/date.php:13
-msgid "06-Jun"
-msgstr "06-Giu"
-
-#: framework/field-types/daterange.php:12 framework/field-types/date.php:12
-msgid "05-May"
-msgstr "05-Mag"
-
-#: framework/field-types/daterange.php:11 framework/field-types/date.php:11
-msgid "04-Apr"
-msgstr "04-Apr"
-
-#: framework/field-types/daterange.php:10 framework/field-types/date.php:10
-msgid "03-Mar"
-msgstr "03-Mar"
-
-#: framework/field-types/daterange.php:9 framework/field-types/date.php:9
-msgid "02-Feb"
-msgstr "02-Feb"
-
-#: framework/field-types/daterange.php:8 framework/field-types/date.php:8
-msgid "01-Jan"
-msgstr "01-Gen"
-
-#: coming-soon.php:22
-msgid "Coming Soon Page & Maintenance Mode by SeedProd"
-msgstr "Coming Soon Page & Maintenance Mode by SeedProd"

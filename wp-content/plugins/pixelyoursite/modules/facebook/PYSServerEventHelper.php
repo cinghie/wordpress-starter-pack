@@ -1,19 +1,26 @@
 <?php
 namespace PixelYourSite;
 
-use FacebookAds\Object\ServerSide\Event;
-use FacebookAds\Object\ServerSide\UserData;
+use PYS_PRO_GLOBAL\FacebookAds\Object\ServerSide\Event;
+use PYS_PRO_GLOBAL\FacebookAds\Object\ServerSide\UserData;
 use PixelYourSite;
 
 defined('ABSPATH') or die('Direct access not allowed');
 
 class ServerEventHelper {
-    public static function newEvent($event_name,$eventId) {
-        $user_data = ServerEventHelper::getUserData()
+    public static function newEvent($event_name,$eventId,$wooOrder = null,$eddOrder = null) {
+        $user_data = ServerEventHelper::getUserData($wooOrder,$eddOrder)
             ->setClientIpAddress(self::getIpAddress())
-            ->setClientUserAgent(self::getHttpUserAgent())
-            ->setFbp(self::getFbp())
-            ->setFbc(self::getFbc());
+            ->setClientUserAgent(self::getHttpUserAgent());
+
+        $fbp = self::getFbp();
+        $fbc = self::getFbc();
+        if($fbp) {
+            $user_data ->setFbp($fbp);
+        }
+        if($fbc) {
+            $user_data ->setFbc($fbc);
+        }
 
         $event = (new Event())
             ->setEventName($event_name)
@@ -102,23 +109,31 @@ class ServerEventHelper {
         return $fbc;
     }
 
-    private static function getUserData() {
+    private static function getUserData($wooOrder = null,$eddOrder = null) {
         $userData = new UserData();
 
         /**
          * Add purchase WooCommerce Advanced Matching params
          */
+        if ( PixelYourSite\isWooCommerceActive() && isEventEnabled( 'woo_purchase_enabled' ) &&
+            ($wooOrder || (is_order_received_page() && isset( $_REQUEST['key']))) ) {
 
-        if ( PixelYourSite\isWooCommerceActive() && is_order_received_page() && isset( $_REQUEST['key'] ) ) {
+            if(isset( $_REQUEST['key'])) {
+                $order_key = sanitize_key($_REQUEST['key']);
+                $order_id = wc_get_order_id_by_order_key( $order_key );
+            } else {
+                $order_id = $wooOrder;
+            }
 
-            $order_key = sanitize_key($_REQUEST['key']);
-            $order_id = wc_get_order_id_by_order_key( $order_key );
-            $order    = wc_get_order( $order_id );
+            $order = wc_get_order( $order_id );
 
             if ( $order ) {
 
                 if ( PixelYourSite\isWooCommerceVersionGte( '3.0.0' ) ) {
-
+                    if($order->get_billing_postcode()) {
+                        $userData->setZipCode($order->get_billing_postcode());
+                    }
+                    $userData->setCountryCode(strtolower($order->get_billing_country()));
                     $userData->setEmail($order->get_billing_email());
                     $userData->setPhone($order->get_billing_phone());
                     $userData->setFirstName($order->get_billing_first_name());
@@ -127,6 +142,10 @@ class ServerEventHelper {
                     $userData->setState($order->get_billing_state());
 
                 } else {
+                    if($order->billing_postcode) {
+                        $userData->setZipCode($order->billing_postcode);
+                    }
+                    $userData->setCountryCode(strtolower($order->billing_country));
                     $userData->setEmail($order->billing_email);
                     $userData->setPhone($order->billing_phone);
                     $userData->setFirstName($order->billing_first_name);
@@ -139,8 +158,31 @@ class ServerEventHelper {
             }
 
         } else {
-            return ServerEventHelper::getRegularUserData();
+
+            if(PixelYourSite\isEddActive() && isEventEnabled( 'edd_purchase_enabled' ) &&
+                ($eddOrder ||  edd_is_success_page()) ) {
+
+                if($eddOrder)
+                    $payment_id = $eddOrder;
+                else {
+                    $payment_key = getEddPaymentKey();
+                    $payment_id = (int) edd_get_purchase_id_by_key( $payment_key );
+                }
+                $user_info = edd_get_payment_meta_user_info($payment_id);
+
+                $userData->setEmail(edd_get_payment_user_email($payment_id));
+
+                if(isset($user_info['first_name']))
+                    $userData->setFirstName($user_info['first_name']);
+                if(isset($user_info['last_name']))
+                    $userData->setLastName($user_info['last_name']);
+
+            } else {
+                return ServerEventHelper::getRegularUserData();
+            }
         }
+
+
 
         return $userData;
     }
@@ -168,10 +210,22 @@ class ServerEventHelper {
                     $userData->setLastName($user->get('billing_last_name'));
                 }
 
-                $userData->setPhone($user->get('billing_phone'));
-                $userData->setCity($user->get('billing_city'));
-                $userData->setState($user->get('billing_state'));
+                if($user->get('billing_phone'))
+                    $userData->setPhone($user->get('billing_phone'));
+                if($user->get('billing_city'))
+                    $userData->setCity($user->get('billing_city'));
+                if($user->get('billing_state'))
+                    $userData->setState($user->get('billing_state'));
+                if($user->get('shipping_country'))
+                    $userData->setCountryCode(strtolower($user->get('shipping_country')));
+                if($user->get('billing_postcode')) {
+                    $userData->setZipCode($user->get('billing_postcode'));
+                }
             }
+        } else {
+            // $userData->setFirstName("undefined");
+            // $userData->setLastName("undefined");
+            // $userData->setEmail("undefined");
         }
         return $userData;
     }

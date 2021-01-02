@@ -3,8 +3,8 @@
 Contributors: yithemes
 Tags: woocommerce,yith woocommerce colors and labels variations,yith woocommerce zoom magnifier,yith woocommerce wishlist,yith woocommerce ajax product filter,yith woocommerce ajax search,yith woocommerce catalog mode,yith woocommerce advanced reviews, yith woocommerce badges management,yith woocommerce cart messages,yith woocommerce quick view,yith woocommerce mailchimp,yith woocommerce stripe,yith woocommerce request a quote,yith woocommerce tab manager,yith woocommerce multi vendor
 Requires at least: 3.8
-Tested up to: 5.5
-Stable tag: 2.1.6
+Tested up to: 5.6
+Stable tag: 2.1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,12 +75,6 @@ Products<br />
 * [YITH WooCommerce Mailchimp](https://wordpress.org/plugins/yith-woocommerce-mailchimp)
 <br />Integrate MailChimp into your WooCommerce shop to manage users' subscription directly from your store.
 
-* [YITH WooCommerce Authorize.net Payment Gateway](https://wordpress.org/plugins/yith-woocommerce-authorizenet-payment-gateway)
-<br />Allows your users to pay using the Authorize.net network services. It requires WooCommerce to work.
-
-* [YITH WooCommerce Stripe](https://wordpress.org/plugins/yith-woocommerce-stripe)
-<br />A plugin let you add a new payment gateway based on Stripe.com. It requires WooCommerce to work.
-
 * [YITH WooCommerce Order Tracking](https://wordpress.org/plugins/yith-woocommerce-order-tracking)
 <br />Add an easy tool to manage order shipping information of your WooCommerce shop and to notified your customers about the shipping.
 
@@ -109,9 +103,7 @@ Multi store<br />
 7. YITH WooCommerce Advanced Reviews extends the basic functionality of woocommerce reviews and add a histogram table to the reviews of your products, as well as you see in most trendy e-
 8. YITH WooCommerce Order Tracking add an easy tool to manage order shipping information of your shop and to notified your customers about the shipping.
 9. YITH WooCommerce Catalog Mode, a plugin for disabling sales in your e-commerce and turn it into an e-commerce into an online catalogue.
-10. YITH Authorize.net allows your users to pay using the Authorize.net network services. It requires WooCommerce to work. WooCommerce 2.3.x compatible.
 11. YITH WooCommerce Cart Messages plugin let you add custom messages in the cart page and/or in the checkout page.
-12. YITH WooCommerce Stripe plugin let you add a new payment gateway based on Stripe.com
 13. YITH WooCommerce Request A Quote plugin lets your customers ask for an estimate of a list of products they are interested into.
 14. YITH WooCommerce Quick View adds the possibility to have a quick preview of the products right from product list
 15. YITH WooCommerce Multi Vendor is a plugin developed to switch your website into a platform hosting more than one shop, like a multivendor marketplace.
@@ -143,6 +135,12 @@ You can get additional features of the plugins installed with the premium versio
 YITH Essential Kit for WooCommerce #1 will add a new submenu called "YITH Essential Kit for WooCommerce #1" under "YIT Plugins" menu. Here you are able to activate/deactivate all the plugins within.
 
 == Changelog ==
+
+= 2.1.7 - Released on 18 December 2020 =
+
+* New: Tested compatibility with WooCommerce 4.8
+* Update: Plugin framework
+* Removed: YITH WooCommerce Stripe and YITH WooCommerce Authorize.net
 
 = 2.1.6 - Released on 04 November 2020 =
 

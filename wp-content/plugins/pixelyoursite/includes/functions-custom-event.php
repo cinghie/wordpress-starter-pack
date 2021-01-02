@@ -49,6 +49,59 @@ function renderTextInput( &$event, $key, $placeholder = '' ) {
 	<?php
 
 }
+/**
+ * @param CustomEvent $event
+ * @param string      $key
+ * @param array       $options
+ */
+function renderGroupSelectInput( &$event, $key, $groups, $full_width = false ) {
+
+    $attr_name  = "pys[event][$key]";
+    $attr_id    = 'pys_event_' . $key;
+    $attr_value = $event->$key;
+
+    $attr_width = $full_width ? 'width: 100%;' : '';
+
+    ?>
+
+    <select class="form-control-sm" id="<?php esc_attr_e( $attr_id ); ?>"
+            name="<?php esc_attr_e( $attr_name ); ?>" autocomplete="off" style="<?php esc_attr_e( $attr_width ); ?>">
+
+        <?php foreach ($groups as $group => $options) :?>
+            <optgroup label="<?=$group?>">
+                <?php foreach ( $options as $option_key => $option_value ) : ?>
+                    <option group="<?=$group?>" value="<?php echo esc_attr( $option_key ); ?>" <?php selected( $option_key,
+                        esc_attr( $attr_value ) ); ?> <?php disabled( $option_key,
+                        'disabled' ); ?>><?php echo esc_attr( $option_key ); ?></option>
+                <?php endforeach; ?>
+            </optgroup>
+        <?php endforeach; ?>
+    </select>
+
+    <?php
+}
+
+/**
+ * @param CustomEvent $event
+ * @param string      $key
+ * @param string      $placeholder
+ */
+function renderGAParamInput( $key, $val ) {
+
+    $attr_name = "pys[event][ga_params][$key]";
+    $attr_id = 'pys_event_ga_' . $key;
+    $attr_value = $val;
+
+    ?>
+
+    <input type="text" name="<?php esc_attr_e( $attr_name ); ?>"
+           id="<?php esc_attr_e( $attr_id ); ?>"
+           value="<?php esc_attr_e( $attr_value ); ?>"
+           class="form-control">
+
+    <?php
+
+}
 
 /**
  * @param CustomEvent $event
@@ -322,7 +375,13 @@ function renderGoogleAnalyticsActionInput( &$event, $key ) {
 	renderSelectInput( $event, $key, $options, true );
 
 }
-
+/**
+ * @param CustomEvent $event
+ * @param string      $key
+ */
+function renderGoogleAnalyticsV4ActionInput( &$event, $key ) {
+    renderGroupSelectInput( $event, $key, $event->GAEvents, false );
+}
 /**
  * @param CustomEvent $event
  * @param string      $key

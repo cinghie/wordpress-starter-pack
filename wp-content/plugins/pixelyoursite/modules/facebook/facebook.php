@@ -13,8 +13,8 @@ require_once PYS_FREE_PATH . '/modules/facebook/FDPEvent.php';
 
 
 use PixelYourSite\Facebook\Helpers;
-use FacebookAds\Api;
-use FacebookAds\Object\ServerSide\EventRequest;
+use PYS_PRO_GLOBAL\FacebookAds\Api;
+use PYS_PRO_GLOBAL\FacebookAds\Object\ServerSide\EventRequest;
 
 class Facebook extends Settings implements Pixel {
 	
@@ -45,6 +45,36 @@ class Facebook extends Settings implements Pixel {
 	    	/** @var PYS $core */
 	    	$core->registerPixel( $this );
 	    } );
+        add_action( 'woocommerce_add_to_cart',  array($this,'server_woo_add_to_cart') , 20, 6 );
+        add_action( 'woocommerce_ajax_added_to_cart', array($this,'server_woo_add_to_cart_ajax') );
+    }
+
+    function server_woo_add_to_cart_ajax($product_id,$quantity = 1) {
+
+        if(isEventEnabled( 'woo_add_to_cart_enabled') && PYS()->getOption( 'woo_add_to_cart_on_button_click' )) {
+            $eventData = Facebook()->getEventData( 'woo_add_to_cart_on_button_click', $product_id );
+            if(!$eventData) return;
+            $eventData['name'] = 'AddToCart';
+            $eventID = $eventData["eventID"];
+            $name = $eventData['name'];
+            $data = $eventData['data'];
+
+            $d = array();
+            foreach ( $data['contents']as $item ) {
+                $item["quantity"] = $quantity;
+                $d[]=(object)$item;
+            }
+            $data['contents'] = $d;
+            $serverEvent = FacebookServer()->createEvent($eventID,$name,$data);
+
+            FacebookServer()->addAsyncEvents(array(
+                array("pixelIds" => Facebook()->getPixelIDs(), "event" => $serverEvent )
+            ));
+        }
+    }
+
+    function server_woo_add_to_cart($cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data) {
+        $this->server_woo_add_to_cart_ajax($product_id,$quantity);
     }
     
     public function enabled() {
@@ -634,6 +664,7 @@ class Facebook extends Settings implements Pixel {
 		return array(
 			'name' => 'Purchase',
 			'data' => $params,
+            'woo_order' => $order_id
 		);
 
 	}
@@ -785,6 +816,10 @@ class Facebook extends Settings implements Pixel {
 			return false;
 		}
 
+        $data = array(
+            'name' => $context
+        );
+
 		if ( $context == 'AddToCart' ) {
 			$value_enabled  = PYS()->getOption( 'edd_add_to_cart_value_enabled' );
 			$value_option   = PYS()->getOption( 'edd_add_to_cart_value_option' );
@@ -888,12 +923,11 @@ class Facebook extends Settings implements Pixel {
 			$payment_id = (int) edd_get_purchase_id_by_key( $payment_key );
             $params['value'] = edd_get_payment_amount( $payment_id );
             $params['currency'] = edd_get_currency();
+            $data['edd_order'] = $payment_id;
 		}
 
-		return array(
-			'name' => $context,
-			'data' => $params,
-		);
+        $data['data'] = $params;
+		return $data;
 
 	}
 

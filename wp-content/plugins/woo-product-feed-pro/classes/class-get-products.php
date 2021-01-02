@@ -760,7 +760,7 @@ class WooSEA_Get_Products {
 								$shipping_cost = 0;     
                                                                 if(!empty($product_id)){
                                                                          // Add product to cart
-                                                                        if (isset($product_id)){
+                                                                        if ((isset($product_id)) AND ($product_id > 0)){
                                                                                 $quantity = 1;
 										if(!empty($code_from_config)){
 											defined( 'WC_ABSPATH' ) || exit;
@@ -831,9 +831,14 @@ class WooSEA_Get_Products {
 									$shipping_cost = $v->instance_settings[$class_cost_id];
 									$shipping_cost = str_replace("[qty]", "1", $shipping_cost);	
 									$mathString = trim($shipping_cost);     // trim white spaces
+
 									if (preg_match("/fee percent/", $mathString)){
  										$shipcost_piece = explode("+", $mathString);
 										$mathString = trim($shipcost_piece[0]);
+										
+										$fee_percent = preg_match("/percent=\"([0-9]+)\"/", $shipcost_piece[1],$matches);
+										$add_on = ($matches[1]/100)*ceil($price);
+										$mathString = $mathString+$add_on;
 									}
 								
     									$mathString = str_replace ('..', '.', $mathString);    // remove input mistakes from users using shipping formula's
@@ -1370,7 +1375,7 @@ class WooSEA_Get_Products {
 														$name = $nodes[1];
 														if(empty($name)){
 															$reviewer->addChild('name','Anonymous');
-															$reviewer->addAttribute('is_anonymous', 'true');
+															$reviewer->name->addAttribute('is_anonymous', 'true');
 														} else {
 															$reviewer->addChild('name',$name);
 														}
@@ -1383,7 +1388,7 @@ class WooSEA_Get_Products {
 														$name = $nodes[1];
 														if(empty($name)){
 															$reviewer->addChild('name','Anonymous');
-															$reviewer->addAttribute('is_anonymous', 'true');
+															$reviewer->name->addAttribute('is_anonymous', 'true');
 														} else {
 															$reviewer->addChild('name',$name);
 														}
@@ -1561,6 +1566,10 @@ class WooSEA_Get_Products {
 								if(($k == "id") AND ($feed_config['name'] == "Yandex")){
 									$product->addAttribute('id', trim($v));
 								}
+								if(($k == "item_group_id") AND ($feed_config['name'] == "Yandex")){
+									$product->addAttribute('group_id', trim($v));
+								}
+
 								if(($k == "available") AND ($feed_config['name'] == "Yandex")){
 									if($v == "in stock"){
 										$v = "true";
@@ -1648,7 +1657,7 @@ class WooSEA_Get_Products {
 											}
 										}
 									}
-								} elseif (($k == "id" || $k == "available") AND ($feed_config['name'] == "Yandex")){
+								} elseif (($k == "id" || $k == "item_group_id" || $k == "available") AND ($feed_config['name'] == "Yandex")){
 									// Do not add these nodes to Yandex product feeds
 								} elseif ($k == "CATEGORYTEXT"){
 									$v = str_replace("||", " | ", $v);
@@ -2705,11 +2714,18 @@ class WooSEA_Get_Products {
 			$product_data['rounded_regular_price'] = round($product_data['regular_price']);
 			$product_data['rounded_sale_price'] = round($product_data['sale_price']);
 
+			// Calculate discount percentage
+			if($product_data['sale_price'] > 0){
+				$product_data['discount_percentage'] = round(100-(((float)$product_data['sale_price']/(float)$product_data['regular_price'])*100),2);
+			}
+
 			foreach($project_config['attributes'] as $attr_key => $attr_arr){
 				if(is_array($attr_arr)){
 					if($attr_arr['attribute'] == "g:shipping"){
-						$product_data['shipping'] =  $this->woosea_get_shipping_cost($class_cost_id, $project_config, $product_data['price'], $tax_rates, $shipping_zones, $product_data['id'], $product_data['item_group_id']);
-						$shipping_str = $product_data['shipping'];
+						if($product_data['price'] > 0){
+							$product_data['shipping'] =  $this->woosea_get_shipping_cost($class_cost_id, $project_config, $product_data['price'], $tax_rates, $shipping_zones, $product_data['id'], $product_data['item_group_id']);
+							$shipping_str = $product_data['shipping'];
+						}
 					}
 				}
 			}
@@ -2997,11 +3013,10 @@ class WooSEA_Get_Products {
 			$variation_pass = "true";
 
                         if( ($product_data['item_group_id'] > 0) AND (is_object(wc_get_product( $product_data['item_group_id']))) AND (($product_data['product_type'] == "variation") OR ($product_data['product_type'] == "subscription_variation"))){
-
 				$product_variations = new WC_Product_Variation( $product_data['id'] );
 				$variations = $product_variations->get_variation_attributes();
 
-                                // For Skroutz apparal products we can only append colours to the product name
+				// For Skroutz apparal products we can only append colours to the product name
                                 // When a product has both a size and color attribute we assume its an apparal product
                                 if($project_config['fields'] == "skroutz"){
                                         $size_found = "no";
@@ -3016,7 +3031,7 @@ class WooSEA_Get_Products {
                                                         if($vy['attribute'] == "color"){
                                                                 $color_found = "yes";
                                                                 $clr_attribute = $vy['mapfrom'];
-				                         }
+				                        }
 						}
                                         }
 
@@ -3025,9 +3040,10 @@ class WooSEA_Get_Products {
         					update_option('skroutz_apparel', "yes");
 						update_option('skroutz_clr',$clr_attribute,'no');
 						update_option('skroutz_sz',$sz_attribute,'no');
-                                        }
+					}
                                
 					$skroutz_apparal = get_option('skroutz_apparel');
+
                              		if($skroutz_apparal == "yes"){
 						if(isset($clr_attribute)){
                                 			$skroutz_color = get_post_meta( $product_data['id'], "attribute_".$clr_attribute, true );
@@ -3071,10 +3087,14 @@ class WooSEA_Get_Products {
                                      			}
 						} else {
 							// This is not an apparal product so a color variation is not allowed
-							$variation_pass = "false";
+							$variation_pass = "true";
 						}
-                               		}
+                               		} else {
+						$variation_pass = "true";
+					}
 				}
+
+
 
 				if((isset($project_config['lowest_price_variations'])) OR (isset($project_config['default_variations']))){
 
@@ -3102,7 +3122,6 @@ class WooSEA_Get_Products {
         		                $product_data['rating_average'] = $mother_product->get_average_rating();
 
 					if(isset($project_config['default_variations'])){
-
 						$diff_result = array_diff($variations, $def_attributes);
 
 						if(!empty($diff_result)){	
@@ -3207,7 +3226,7 @@ class WooSEA_Get_Products {
 						
 							if(!empty($attr_name)){
 								$terms = get_the_terms($product_data['item_group_id'], $attr_name);
-				
+			
 								if(is_array($terms)){
 									foreach($terms as $term){
 										$attr_value = $term->name;

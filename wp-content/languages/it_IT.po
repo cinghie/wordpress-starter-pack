@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 5.6.x - Development package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-12-01 18:01:41+0000\n"
+"PO-Revision-Date: 2020-12-28 09:48:01+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -90,10 +90,10 @@ msgid "number_format_decimal_point"
 msgstr ","
 
 #: wp-includes/category-template.php:161
-#: wp-includes/js/dist/block-editor.js:27453
-#: wp-includes/js/dist/block-editor.js:27458
-#: wp-includes/js/dist/block-editor.js:27762
-#: wp-includes/js/dist/edit-post.js:5057 wp-admin/includes/upgrade.php:158
+#: wp-includes/js/dist/block-editor.js:27452
+#: wp-includes/js/dist/block-editor.js:27457
+#: wp-includes/js/dist/block-editor.js:27761
+#: wp-includes/js/dist/edit-post.js:5050 wp-admin/includes/upgrade.php:158
 msgid "Uncategorized"
 msgstr "Senza categoria"
 
@@ -113,7 +113,7 @@ msgstr "&larr; Vai ai tag"
 msgid "&#8592; Go to library"
 msgstr "&#8592; Vai alla libreria"
 
-#: wp-includes/js/dist/edit-post.js:5402 wp-admin/menu.php:188
+#: wp-includes/js/dist/edit-post.js:5395 wp-admin/menu.php:188
 msgid "Appearance"
 msgstr "Aspetto"
 
@@ -909,19 +909,19 @@ msgstr "<strong>Errore</strong>: l'URL del sito che hai inserito è già stato p
 #. translators: 1: Pattern name.
 #: wp-includes/class-wp-block-patterns-registry.php:77
 msgid "Pattern \"%1$s\" not found."
-msgstr "Il pattern \"%1$s\" non è stato trovato."
+msgstr "Il modello \"%1$s\" non è stato trovato."
 
 #: wp-includes/class-wp-block-patterns-registry.php:54
 msgid "Pattern content must be a string."
-msgstr "Il contenuto del pattern deve essere una stringa."
+msgstr "Il contenuto del modello deve essere una stringa."
 
 #: wp-includes/class-wp-block-patterns-registry.php:49
 msgid "Pattern title must be a string."
-msgstr "Il titolo del pattern deve essere una stringa."
+msgstr "Il titolo del modello deve essere una stringa."
 
 #: wp-includes/class-wp-block-patterns-registry.php:44
 msgid "Pattern name must be a string."
-msgstr "Il nome del pattern deve essere una stringa."
+msgstr "Il nome del modello deve essere una stringa."
 
 #: wp-includes/media.php:4323
 msgid "Attachment details"
@@ -1682,11 +1682,11 @@ msgstr "L'articolo non può essere aggiornato."
 msgid "Select poster image"
 msgstr "Seleziona l'immagine di anteprima"
 
-#: wp-includes/js/dist/edit-post.js:7030 wp-admin/edit-form-advanced.php:145
+#: wp-includes/js/dist/edit-post.js:7023 wp-admin/edit-form-advanced.php:145
 msgid "View post"
 msgstr "Visualizza articolo"
 
-#: wp-includes/js/dist/components.js:29938 wp-includes/js/dist/editor.js:10735
+#: wp-includes/js/dist/components.js:29986 wp-includes/js/dist/editor.js:10735
 #: wp-admin/edit-tags.php:451 wp-admin/includes/meta-boxes.php:890
 #: wp-admin/includes/meta-boxes.php:1563
 #: wp-admin/includes/class-wp-terms-list-table.php:189
@@ -1944,7 +1944,7 @@ msgstr "Filtra i media"
 msgid "Grid view"
 msgstr "Visualizzazione in modalità griglia"
 
-#: wp-includes/media-template.php:313 wp-includes/js/dist/block-editor.js:34204
+#: wp-includes/media-template.php:313 wp-includes/js/dist/block-editor.js:34203
 #: wp-includes/js/dist/block-library.js:18343
 #: wp-includes/js/dist/block-library.js:20882
 #: wp-admin/includes/class-wp-media-list-table.php:44
@@ -2849,7 +2849,7 @@ msgstr "Scorciatoie da tastiera per il blocco classico"
 msgid "Sorry, you are not allowed to view autosaves of this post."
 msgstr "Non disponi dei permessi per visualizzare i salvataggi automatici di questo articolo."
 
-#: wp-includes/js/dist/block-editor.js:26061
+#: wp-includes/js/dist/block-editor.js:26060
 #: wp-includes/js/dist/block-library.js:3057 wp-admin/edit-form-blocks.php:294
 msgid "Start writing or type / to choose a block"
 msgstr "Inizia a scrivere o digita / per scegliere un blocco"
@@ -2872,7 +2872,7 @@ msgstr "Scrivi il titolo..."
 msgid "Embeds"
 msgstr "Incorporamenti"
 
-#: wp-includes/js/dist/edit-post.js:5441 wp-includes/js/dist/edit-post.js:7130
+#: wp-includes/js/dist/edit-post.js:5434 wp-includes/js/dist/edit-post.js:7123
 #: wp-admin/includes/meta-boxes.php:1545 wp-admin/menu.php:296
 msgid "Discussion"
 msgstr "Discussione"
@@ -2887,7 +2887,7 @@ msgid "Visibility:"
 msgstr "Visibilità:"
 
 #: wp-includes/media-template.php:514 wp-includes/media-template.php:743
-#: wp-includes/js/dist/editor.js:10136 wp-includes/js/dist/edit-post.js:1845
+#: wp-includes/js/dist/editor.js:10136 wp-includes/js/dist/edit-post.js:1838
 #: wp-includes/js/dist/block-library.js:16054
 #: wp-admin/includes/class-wp-privacy-policy-content.php:423
 #: wp-admin/includes/media.php:3332 wp-admin/site-health-info.php:102
@@ -2913,13 +2913,13 @@ msgstr "Permetti di commentare"
 msgid "Order"
 msgstr "Ordinamento"
 
-#: wp-includes/js/dist/block-editor.js:19630
+#: wp-includes/js/dist/block-editor.js:19629
 #: wp-admin/includes/class-theme-installer-skin.php:248
 #: wp-admin/includes/class-plugin-installer-skin.php:224
 msgid "Current"
 msgstr "Attuale"
 
-#: wp-includes/js/dist/components.js:40052
+#: wp-includes/js/dist/components.js:40100
 #: wp-admin/includes/edit-tag-messages.php:14
 msgid "Item added."
 msgstr "Elemento aggiunto."
@@ -2933,8 +2933,8 @@ msgstr "Elemento aggiunto."
 #: wp-includes/class-wp-customize-manager.php:4342
 #: wp-includes/class-wp-customize-manager.php:5664
 #: wp-includes/class-wp-customize-manager.php:5685
-#: wp-includes/js/dist/components.js:37130 wp-includes/js/dist/editor.js:8321
-#: wp-includes/js/dist/edit-post.js:2015 wp-admin/includes/theme.php:827
+#: wp-includes/js/dist/components.js:37178 wp-includes/js/dist/editor.js:8321
+#: wp-includes/js/dist/edit-post.js:2008 wp-admin/includes/theme.php:827
 #: wp-admin/includes/class-wp-privacy-policy-content.php:360
 #: wp-admin/includes/meta-boxes.php:80 wp-admin/includes/media.php:3223
 #: wp-admin/includes/class-wp-site-health.php:738
@@ -4381,22 +4381,22 @@ msgid "Hour"
 msgstr "Ora"
 
 #: wp-includes/customize/class-wp-customize-date-time-control.php:160
-#: wp-includes/js/dist/components.js:35393
+#: wp-includes/js/dist/components.js:35441
 msgid "Time"
 msgstr "Data"
 
 #: wp-includes/customize/class-wp-customize-date-time-control.php:146
-#: wp-includes/js/dist/components.js:35324 wp-admin/includes/template.php:826
+#: wp-includes/js/dist/components.js:35372 wp-admin/includes/template.php:826
 msgid "Day"
 msgstr "Giorno"
 
 #: wp-includes/customize/class-wp-customize-date-time-control.php:130
-#: wp-includes/js/dist/components.js:35339 wp-admin/includes/template.php:816
+#: wp-includes/js/dist/components.js:35387 wp-admin/includes/template.php:816
 msgid "Month"
 msgstr "Mese"
 
 #: wp-includes/customize/class-wp-customize-date-time-control.php:127
-#: wp-includes/js/dist/components.js:35377
+#: wp-includes/js/dist/components.js:35425
 #: wp-admin/includes/ajax-actions.php:2183
 #: wp-admin/includes/class-wp-posts-list-table.php:659
 #: wp-admin/includes/class-wp-posts-list-table.php:1565
@@ -5792,7 +5792,7 @@ msgstr "Contattaci"
 msgid "Homepage"
 msgstr "Home page"
 
-#: wp-includes/script-loader.php:802 wp-includes/js/dist/components.js:30484
+#: wp-includes/script-loader.php:802 wp-includes/js/dist/components.js:30532
 msgid "Item selected."
 msgstr "Elemento selezionato."
 
@@ -6999,9 +6999,9 @@ msgstr "Modifica il menu selezionato"
 msgid "Warning: the link has been inserted but may have errors. Please test it."
 msgstr "Attenzione: hai inserito il link ma ci potrebbero essere degli errori. Provalo."
 
-#: wp-includes/js/dist/block-editor.js:27725
-#: wp-includes/js/dist/block-editor.js:27884
-#: wp-includes/js/dist/block-editor.js:27889
+#: wp-includes/js/dist/block-editor.js:27724
+#: wp-includes/js/dist/block-editor.js:27883
+#: wp-includes/js/dist/block-editor.js:27888
 #: wp-admin/includes/class-wp-plugin-install-list-table.php:102
 #: wp-admin/includes/class-wp-theme-install-list-table.php:61
 #: wp-admin/includes/file.php:32 wp-admin/js/updates.js:2535
@@ -7083,7 +7083,7 @@ msgstr "Photoblogging"
 
 #: wp-includes/class-wp-theme.php:959
 msgid "Responsive Layout"
-msgstr "Layout adattabile (responsive)"
+msgstr "Layout responsive"
 
 #: wp-includes/class-wp-theme.php:958
 msgid "Fluid Layout"
@@ -7228,7 +7228,7 @@ msgstr "Opzioni link"
 msgid "Link inserted."
 msgstr "Link inserito."
 
-#: wp-includes/script-loader.php:1095 wp-includes/js/dist/block-editor.js:36378
+#: wp-includes/script-loader.php:1095 wp-includes/js/dist/block-editor.js:36377
 msgid "Link selected."
 msgstr "Link selezionato."
 
@@ -7370,7 +7370,7 @@ msgid "%1$s %2$s %3$s %4$s Feed"
 msgstr "Feed %1$s %2$s %3$s %4$s"
 
 #: wp-includes/media-template.php:199 wp-includes/media-template.php:347
-#: wp-includes/functions.php:6622 wp-includes/js/dist/components.js:41232
+#: wp-includes/functions.php:6622 wp-includes/js/dist/components.js:41280
 msgid "Close dialog"
 msgstr "Chiudi la finestra di dialogo"
 
@@ -7448,7 +7448,7 @@ msgid "Invalid object type."
 msgstr "Tipo oggetto non valido."
 
 #: wp-includes/class-wp-editor.php:1385
-#: wp-includes/js/dist/block-editor.js:36425
+#: wp-includes/js/dist/block-editor.js:36424
 msgid "Paste URL or type to search"
 msgstr "Incolla l'URL oppure digita per cercare"
 
@@ -8230,7 +8230,7 @@ msgid "Hide header image"
 msgstr "Nascondi l'immagine dell'header"
 
 #: wp-includes/class-wp-customize-manager.php:5161
-#: wp-includes/js/dist/edit-post.js:5692 wp-admin/includes/template.php:2331
+#: wp-includes/js/dist/edit-post.js:5685 wp-admin/includes/template.php:2331
 msgid "Site Icon"
 msgstr "Icona del sito"
 
@@ -9086,7 +9086,7 @@ msgstr "Cestino"
 msgid "Edit Selection"
 msgstr "Modifica la selezione"
 
-#: wp-includes/script-loader.php:1709 wp-includes/js/dist/components.js:41723
+#: wp-includes/script-loader.php:1709 wp-includes/js/dist/components.js:41771
 msgid "Previous"
 msgstr "Precedente"
 
@@ -9210,7 +9210,7 @@ msgctxt "label for custom color"
 msgid "Custom..."
 msgstr "Personalizza..."
 
-#: wp-includes/class-wp-editor.php:1268 wp-includes/js/dist/components.js:30130
+#: wp-includes/class-wp-editor.php:1268 wp-includes/js/dist/components.js:30178
 msgid "Custom color"
 msgstr "Colore personalizzato"
 
@@ -9502,7 +9502,7 @@ msgstr "Durata"
 
 #: wp-includes/media.php:2794
 #: wp-includes/customize/class-wp-customize-date-time-control.php:151
-#: wp-includes/js/dist/components.js:35382 wp-admin/includes/template.php:827
+#: wp-includes/js/dist/components.js:35430 wp-admin/includes/template.php:827
 msgid "Year"
 msgstr "Anno"
 
@@ -9522,7 +9522,7 @@ msgstr "Artista"
 
 #: wp-includes/widgets/class-wp-widget-media-image.php:130
 #: wp-includes/media-template.php:1213
-#: wp-includes/js/dist/block-editor.js:39193
+#: wp-includes/js/dist/block-editor.js:39192
 msgid "Link CSS Class"
 msgstr "Classe CSS del link"
 
@@ -9540,7 +9540,7 @@ msgstr "Attributo title dell&#8217;immagine"
 msgid "Advanced Options"
 msgstr "Opzioni avanzate"
 
-#: wp-includes/media-template.php:1143 wp-includes/js/dist/components.js:39156
+#: wp-includes/media-template.php:1143 wp-includes/js/dist/components.js:39204
 msgid "Custom Size"
 msgstr "Dimensioni personalizzate"
 
@@ -9964,8 +9964,8 @@ msgstr "Crea una nuova playlist"
 #: wp-includes/customize/class-wp-customize-themes-panel.php:70
 #: wp-includes/customize/class-wp-customize-nav-menus-panel.php:72
 #: wp-includes/class-wp-customize-nav-menus.php:1144
-#: wp-includes/js/dist/components.js:42328
-#: wp-includes/js/dist/edit-post.js:5705 wp-admin/includes/ms.php:49
+#: wp-includes/js/dist/components.js:42376
+#: wp-includes/js/dist/edit-post.js:5698 wp-admin/includes/ms.php:49
 #: wp-admin/theme-install.php:59
 msgid "Back"
 msgstr "Indietro"
@@ -10022,7 +10022,7 @@ msgid "Toolbar Toggle"
 msgstr "Mostra/nascondi la barra degli strumenti"
 
 #. translators: button label text should, if possible, be under 16 characters.
-#: wp-includes/js/dist/edit-post.js:1945 wp-includes/js/dist/edit-post.js:5840
+#: wp-includes/js/dist/edit-post.js:1938 wp-includes/js/dist/edit-post.js:5833
 #: wp-admin/tools.php:42 wp-admin/menu.php:278
 msgid "Tools"
 msgstr "Strumenti"
@@ -10095,7 +10095,7 @@ msgid "Find and replace"
 msgstr "Trova e sostituisci"
 
 #: wp-includes/media-template.php:1226 wp-includes/media.php:4274
-#: wp-includes/js/dist/block-editor.js:37696
+#: wp-includes/js/dist/block-editor.js:37695
 #: wp-includes/js/dist/block-library.js:24951
 msgid "Replace"
 msgstr "Sostituisci"
@@ -10190,7 +10190,7 @@ msgid "Visual aids"
 msgstr "Aiuti visuali"
 
 #: wp-includes/class-wp-editor.php:1165
-#: wp-includes/js/dist/block-editor.js:14121
+#: wp-includes/js/dist/block-editor.js:14120
 msgid "Align left"
 msgstr "Allinea a sinistra"
 
@@ -10207,7 +10207,7 @@ msgid "Decrease indent"
 msgstr "Decrementa rientro"
 
 #: wp-includes/class-wp-editor.php:1163
-#: wp-includes/js/dist/block-editor.js:14125
+#: wp-includes/js/dist/block-editor.js:14124
 msgid "Align center"
 msgstr "Allinea al centro"
 
@@ -10224,7 +10224,7 @@ msgid "Numbered list"
 msgstr "Elenco numerato"
 
 #: wp-includes/class-wp-editor.php:1164
-#: wp-includes/js/dist/block-editor.js:14129
+#: wp-includes/js/dist/block-editor.js:14128
 msgid "Align right"
 msgstr "Allinea a destra"
 
@@ -10241,7 +10241,7 @@ msgstr "Seleziona un&#8217;area nella quale spostare questo widget:"
 
 #: wp-includes/class-wp-customize-widgets.php:697
 #: wp-includes/class-wp-customize-nav-menus.php:1091
-#: wp-includes/js/dist/block-editor.js:19300
+#: wp-includes/js/dist/block-editor.js:19299
 #: wp-admin/includes/class-walker-nav-menu-edit.php:138
 #: wp-admin/includes/template.php:1339
 msgid "Move up"
@@ -10249,7 +10249,7 @@ msgstr "Sposta sopra"
 
 #: wp-includes/class-wp-customize-widgets.php:696
 #: wp-includes/class-wp-customize-nav-menus.php:1092
-#: wp-includes/js/dist/block-editor.js:19306
+#: wp-includes/js/dist/block-editor.js:19305
 #: wp-admin/includes/class-walker-nav-menu-edit.php:155
 #: wp-admin/includes/template.php:1349
 msgid "Move down"
@@ -10690,7 +10690,7 @@ msgstr "ID utente non valido."
 msgid "Random Order"
 msgstr "Ordine casuale"
 
-#: wp-includes/media.php:4326 wp-includes/js/dist/block-editor.js:38339
+#: wp-includes/media.php:4326 wp-includes/js/dist/block-editor.js:38338
 msgid "Insert from URL"
 msgstr "Inserisci dall'URL"
 
@@ -10758,7 +10758,7 @@ msgstr "Gestione video"
 
 #: wp-includes/widgets/class-wp-widget-media-video.php:28
 #: wp-includes/post.php:2783 wp-includes/js/dist/editor.js:7972
-#: wp-includes/js/dist/block-editor.js:38291
+#: wp-includes/js/dist/block-editor.js:38290
 #: wp-includes/js/dist/block-library.js:25191
 msgid "Video"
 msgstr "Video"
@@ -10795,7 +10795,7 @@ msgstr "Inserisci nella pagina"
 
 #: wp-includes/widgets/class-wp-widget-media-audio.php:28
 #: wp-includes/post.php:2774 wp-includes/js/dist/editor.js:7975
-#: wp-includes/js/dist/block-editor.js:38287
+#: wp-includes/js/dist/block-editor.js:38286
 #: wp-includes/js/dist/block-library.js:10136
 msgid "Audio"
 msgstr "Audio"
@@ -10835,8 +10835,8 @@ msgstr "Dettagli allegato"
 
 #: wp-includes/media-template.php:856 wp-includes/media-template.php:936
 #: wp-includes/media-template.php:1127 wp-includes/media.php:3917
-#: wp-includes/js/dist/components.js:35807
-#: wp-includes/js/dist/block-editor.js:20410
+#: wp-includes/js/dist/components.js:35855
+#: wp-includes/js/dist/block-editor.js:20409
 #: wp-admin/includes/class-custom-background.php:599
 #: wp-admin/includes/media.php:1168 wp-admin/edit-form-blocks.php:228
 msgid "Large"
@@ -10871,7 +10871,7 @@ msgid "Insert gallery"
 msgstr "Inserisci galleria"
 
 #: wp-includes/media-template.php:209 wp-includes/media-template.php:216
-#: wp-includes/media-template.php:253 wp-includes/js/dist/components.js:36616
+#: wp-includes/media-template.php:253 wp-includes/js/dist/components.js:36664
 #: wp-admin/includes/media.php:2231
 msgid "Drop files to upload"
 msgstr "Trascina file per caricare"
@@ -10880,7 +10880,7 @@ msgstr "Trascina file per caricare"
 msgid "Create gallery"
 msgstr "Crea galleria"
 
-#: wp-includes/media.php:4290 wp-includes/js/dist/block-editor.js:38366
+#: wp-includes/media.php:4290 wp-includes/js/dist/block-editor.js:38365
 #: wp-admin/includes/media.php:21 wp-admin/upload.php:79
 #: wp-admin/upload.php:216
 msgid "Media Library"
@@ -10941,14 +10941,14 @@ msgstr ""
 
 #: wp-includes/media-template.php:819 wp-includes/media-template.php:894
 #: wp-includes/media-template.php:1167
-#: wp-includes/js/dist/block-editor.js:39120
+#: wp-includes/js/dist/block-editor.js:39119
 #: wp-includes/js/dist/block-library.js:8865
 msgid "Media File"
 msgstr "File media"
 
 #: wp-includes/media-template.php:826 wp-includes/media-template.php:891
 #: wp-includes/media-template.php:1170
-#: wp-includes/js/dist/block-editor.js:39128
+#: wp-includes/js/dist/block-editor.js:39127
 #: wp-includes/js/dist/block-library.js:8862 wp-admin/includes/media.php:2609
 msgid "Attachment Page"
 msgstr "Pagina dell’allegato"
@@ -11026,8 +11026,8 @@ msgstr "%1$s %2$s"
 msgid "Could not insert term relationship into the database."
 msgstr "Impossibile inserire la relazione per il termine nel database."
 
-#: wp-includes/media-template.php:756 wp-includes/js/dist/components.js:30133
-#: wp-includes/js/dist/components.js:41036 wp-admin/theme-install.php:209
+#: wp-includes/media-template.php:756 wp-includes/js/dist/components.js:30181
+#: wp-includes/js/dist/components.js:41084 wp-admin/theme-install.php:209
 #: wp-admin/theme-install.php:232 wp-admin/js/color-picker.js:154
 msgid "Clear"
 msgstr "Pulisci"
@@ -11218,16 +11218,16 @@ msgid "Background Image"
 msgstr "Immagine di sfondo"
 
 #: wp-includes/class-wp-customize-manager.php:5283
-#: wp-includes/js/dist/block-editor.js:15993
-#: wp-includes/js/dist/block-editor.js:17332
+#: wp-includes/js/dist/block-editor.js:15992
+#: wp-includes/js/dist/block-editor.js:17331
 #: wp-includes/js/dist/block-library.js:10847
 #: wp-admin/includes/class-custom-background.php:454
 #: wp-admin/includes/class-custom-background.php:455
 msgid "Background Color"
 msgstr "Colore di sfondo"
 
-#: wp-includes/js/dist/block-editor.js:15989
-#: wp-includes/js/dist/block-editor.js:17331
+#: wp-includes/js/dist/block-editor.js:15988
+#: wp-includes/js/dist/block-editor.js:17330
 #: wp-includes/js/dist/block-library.js:10843
 #: wp-includes/js/dist/format-library.js:1877
 #: wp-admin/includes/class-custom-image-header.php:716
@@ -11264,7 +11264,7 @@ msgstr "File permessi"
 #: wp-includes/customize/class-wp-customize-media-control.php:249
 #: wp-includes/customize/class-wp-customize-media-control.php:259
 #: wp-includes/class-wp-customize-manager.php:5200
-#: wp-includes/class-wp-editor.php:1383 wp-includes/js/dist/edit-post.js:1763
+#: wp-includes/class-wp-editor.php:1383 wp-includes/js/dist/edit-post.js:1756
 #: wp-includes/js/dist/block-library.js:24961
 #: wp-admin/includes/class-walker-nav-menu-edit.php:278
 #: wp-admin/includes/class-wp-users-list-table.php:269
@@ -11272,9 +11272,9 @@ msgstr "File permessi"
 msgid "Remove"
 msgstr "Rimuovi"
 
-#: wp-includes/js/dist/block-editor.js:37820
-#: wp-includes/js/dist/block-editor.js:38380
-#: wp-includes/js/dist/block-editor.js:38393
+#: wp-includes/js/dist/block-editor.js:37819
+#: wp-includes/js/dist/block-editor.js:38379
+#: wp-includes/js/dist/block-editor.js:38392
 #: wp-includes/js/dist/block-library.js:24743
 #: wp-admin/includes/class-custom-background.php:333
 #: wp-admin/includes/media.php:2258 wp-admin/includes/media.php:2260
@@ -12372,9 +12372,9 @@ msgstr ""
 "\n"
 "%1$s\n"
 "\n"
-"Dopo l&#8217;attivazione, riceverai *un&#8217;altra email* con i dati di accesso. \n"
+"Dopo l'attivazione, riceverai *un'altra email* con i dati di accesso. \n"
 "\n"
-"Dopo l&#8217;attivazione, potrai visitare il tuo sito qui:\n"
+"Dopo l'attivazione, potrai visitare il tuo sito qui:\n"
 "\n"
 "%2$s"
 
@@ -12891,7 +12891,7 @@ msgstr "%s è il tuo nuovo nome utente"
 
 #: wp-includes/script-loader.php:1708
 #: wp-includes/class-wp-customize-nav-menus.php:1110 wp-signup.php:621
-#: wp-includes/js/dist/components.js:41726
+#: wp-includes/js/dist/components.js:41774
 msgid "Next"
 msgstr "Prossimo"
 
@@ -13123,7 +13123,7 @@ msgstr "di"
 #: wp-includes/script-loader.php:834
 #: wp-includes/widgets/class-wp-widget-media-image.php:28
 #: wp-includes/class-wp-editor.php:1212 wp-includes/js/dist/editor.js:7960
-#: wp-includes/js/dist/block-editor.js:38289
+#: wp-includes/js/dist/block-editor.js:38288
 #: wp-includes/js/dist/block-library.js:6362 wp-admin/includes/media.php:2927
 msgid "Image"
 msgstr "Immagine"
@@ -13433,13 +13433,13 @@ msgstr "Questo utente non esiste."
 
 #: wp-includes/class-wp-locale.php:194
 #: wp-includes/customize/class-wp-customize-date-time-control.php:173
-#: wp-includes/js/dist/components.js:35432
+#: wp-includes/js/dist/components.js:35480
 msgid "PM"
 msgstr "PM"
 
 #: wp-includes/class-wp-locale.php:193
 #: wp-includes/customize/class-wp-customize-date-time-control.php:172
-#: wp-includes/js/dist/components.js:35427
+#: wp-includes/js/dist/components.js:35475
 msgid "AM"
 msgstr "AM"
 
@@ -13491,13 +13491,13 @@ msgid "Quote"
 msgstr "Citazione"
 
 #: wp-includes/class-wp-editor.php:1253
-#: wp-includes/js/dist/block-editor.js:39240
+#: wp-includes/js/dist/block-editor.js:39239
 msgid "Remove link"
 msgstr "Rimuovi link"
 
 #: wp-includes/script-loader.php:645 wp-includes/class-wp-editor.php:1257
-#: wp-includes/js/dist/block-editor.js:38900
-#: wp-includes/js/dist/block-editor.js:39204
+#: wp-includes/js/dist/block-editor.js:38899
+#: wp-includes/js/dist/block-editor.js:39203
 msgid "Insert link"
 msgstr "Inserisci link"
 
@@ -13519,7 +13519,7 @@ msgstr "Lettera"
 
 #: wp-includes/widgets/class-wp-widget-media-image.php:137
 #: wp-includes/media-template.php:1209
-#: wp-includes/js/dist/block-editor.js:39187
+#: wp-includes/js/dist/block-editor.js:39186
 msgid "Link Rel"
 msgstr "Link Rel"
 
@@ -13528,25 +13528,25 @@ msgid "Source"
 msgstr "Sorgente"
 
 #: wp-includes/customize/class-wp-customize-background-position-control.php:79
-#: wp-includes/js/dist/components.js:17806
+#: wp-includes/js/dist/components.js:17854
 #: wp-admin/includes/class-custom-background.php:401
 msgid "Bottom Right"
 msgstr "In basso a destra"
 
 #: wp-includes/customize/class-wp-customize-background-position-control.php:71
-#: wp-includes/js/dist/components.js:17804
+#: wp-includes/js/dist/components.js:17852
 #: wp-admin/includes/class-custom-background.php:393
 msgid "Bottom Left"
 msgstr "In basso a sinistra"
 
 #: wp-includes/customize/class-wp-customize-background-position-control.php:51
-#: wp-includes/js/dist/components.js:17800
+#: wp-includes/js/dist/components.js:17848
 #: wp-admin/includes/class-custom-background.php:373
 msgid "Top Right"
 msgstr "In alto a destra"
 
 #: wp-includes/customize/class-wp-customize-background-position-control.php:43
-#: wp-includes/js/dist/components.js:17798
+#: wp-includes/js/dist/components.js:17846
 #: wp-admin/includes/class-custom-background.php:365
 msgid "Top Left"
 msgstr "In alto a sinistra"
@@ -13576,7 +13576,7 @@ msgstr "Allinea"
 msgid "Loop"
 msgstr "Loop"
 
-#: wp-includes/js/dist/components.js:40942
+#: wp-includes/js/dist/components.js:40990
 #: wp-admin/includes/ajax-actions.php:2183
 msgid "Type"
 msgstr "Tipo"
@@ -13585,7 +13585,7 @@ msgstr "Tipo"
 msgid "Constrain proportions"
 msgstr "Mantieni le proporzioni"
 
-#: wp-includes/class-wp-editor.php:1214 wp-includes/js/dist/edit-post.js:5387
+#: wp-includes/class-wp-editor.php:1214 wp-includes/js/dist/edit-post.js:5380
 msgid "General"
 msgstr "Generale"
 
@@ -13598,7 +13598,7 @@ msgid "The URL you entered seems to be an email address. Do you want to add the 
 msgstr "L'URL che hai inserito sembra un indirizzo email, vuoi aggiungere il necessario prefisso mailto:?"
 
 #: wp-includes/customize/class-wp-customize-background-position-control.php:75
-#: wp-includes/class-wp-editor.php:1336 wp-includes/js/dist/components.js:26490
+#: wp-includes/class-wp-editor.php:1336 wp-includes/js/dist/components.js:26538
 #: wp-admin/includes/class-custom-background.php:397
 msgid "Bottom"
 msgstr "Basso"
@@ -13608,8 +13608,8 @@ msgid "Middle"
 msgstr "Mediano"
 
 #: wp-includes/customize/class-wp-customize-background-position-control.php:47
-#: wp-includes/class-wp-editor.php:1334 wp-includes/js/dist/components.js:26489
-#: wp-includes/js/dist/components.js:37311
+#: wp-includes/class-wp-editor.php:1334 wp-includes/js/dist/components.js:26537
+#: wp-includes/js/dist/components.js:37359
 #: wp-admin/includes/class-custom-background.php:369
 msgid "Top"
 msgstr "Alto"
@@ -13645,7 +13645,7 @@ msgstr "Incolla"
 
 #: wp-includes/class-wp-customize-manager.php:4345
 #: wp-includes/class-wp-editor.php:1171
-#: wp-includes/js/dist/block-editor.js:31674
+#: wp-includes/js/dist/block-editor.js:31673
 msgid "Copy"
 msgstr "Copia"
 
@@ -13914,83 +13914,83 @@ msgstr "domenica"
 #. translators: Month name.
 #. translators: Three-letter abbreviation of the month.
 #: wp-includes/class-wp-locale.php:160 wp-includes/class-wp-locale.php:188
-#: wp-includes/js/dist/components.js:35371
+#: wp-includes/js/dist/components.js:35419
 msgid "December"
 msgstr "Dicembre"
 
 #. translators: Month name.
 #. translators: Three-letter abbreviation of the month.
 #: wp-includes/class-wp-locale.php:159 wp-includes/class-wp-locale.php:187
-#: wp-includes/js/dist/components.js:35369
+#: wp-includes/js/dist/components.js:35417
 msgid "November"
 msgstr "Novembre"
 
 #. translators: Month name.
 #. translators: Three-letter abbreviation of the month.
 #: wp-includes/class-wp-locale.php:158 wp-includes/class-wp-locale.php:186
-#: wp-includes/js/dist/components.js:35367
+#: wp-includes/js/dist/components.js:35415
 msgid "October"
 msgstr "Ottobre"
 
 #. translators: Month name.
 #. translators: Three-letter abbreviation of the month.
 #: wp-includes/class-wp-locale.php:157 wp-includes/class-wp-locale.php:185
-#: wp-includes/js/dist/components.js:35365
+#: wp-includes/js/dist/components.js:35413
 msgid "September"
 msgstr "Settembre"
 
 #. translators: Month name.
 #. translators: Three-letter abbreviation of the month.
 #: wp-includes/class-wp-locale.php:156 wp-includes/class-wp-locale.php:184
-#: wp-includes/js/dist/components.js:35363
+#: wp-includes/js/dist/components.js:35411
 msgid "August"
 msgstr "Agosto"
 
 #. translators: Month name.
 #. translators: Three-letter abbreviation of the month.
 #: wp-includes/class-wp-locale.php:155 wp-includes/class-wp-locale.php:183
-#: wp-includes/js/dist/components.js:35361
+#: wp-includes/js/dist/components.js:35409
 msgid "July"
 msgstr "Luglio"
 
 #. translators: Month name.
 #. translators: Three-letter abbreviation of the month.
 #: wp-includes/class-wp-locale.php:154 wp-includes/class-wp-locale.php:182
-#: wp-includes/js/dist/components.js:35359
+#: wp-includes/js/dist/components.js:35407
 msgid "June"
 msgstr "Giugno"
 
 #. translators: Month name.
 #. translators: Three-letter abbreviation of the month.
 #: wp-includes/class-wp-locale.php:153 wp-includes/class-wp-locale.php:181
-#: wp-includes/js/dist/components.js:35357
+#: wp-includes/js/dist/components.js:35405
 msgid "May"
 msgstr "Maggio"
 
 #. translators: Month name.
 #. translators: Three-letter abbreviation of the month.
 #: wp-includes/class-wp-locale.php:152 wp-includes/class-wp-locale.php:180
-#: wp-includes/js/dist/components.js:35355
+#: wp-includes/js/dist/components.js:35403
 msgid "April"
 msgstr "Aprile"
 
 #. translators: Month name.
 #. translators: Three-letter abbreviation of the month.
 #: wp-includes/class-wp-locale.php:151 wp-includes/class-wp-locale.php:179
-#: wp-includes/js/dist/components.js:35353
+#: wp-includes/js/dist/components.js:35401
 msgid "March"
 msgstr "Marzo"
 
 #. translators: Month name.
 #. translators: Three-letter abbreviation of the month.
 #: wp-includes/class-wp-locale.php:150 wp-includes/class-wp-locale.php:178
-#: wp-includes/js/dist/components.js:35351
+#: wp-includes/js/dist/components.js:35399
 msgid "February"
 msgstr "Febbraio"
 
 #. translators: Month name.
 #: wp-includes/class-wp-locale.php:149 wp-includes/class-wp-locale.php:177
-#: wp-includes/js/dist/components.js:35349
+#: wp-includes/js/dist/components.js:35397
 msgid "January"
 msgstr "Gennaio"
 
@@ -14547,7 +14547,7 @@ msgstr "Commenti a %s"
 
 #: wp-includes/script-loader.php:797 wp-includes/script-loader.php:1094
 #: wp-includes/class-wp-customize-nav-menus.php:335
-#: wp-includes/js/dist/block-editor.js:27292 wp-admin/includes/nav-menu.php:596
+#: wp-includes/js/dist/block-editor.js:27291 wp-admin/includes/nav-menu.php:596
 #: wp-admin/includes/nav-menu.php:886 wp-admin/js/nav-menu.js:1256
 msgid "No results found."
 msgstr "Nessun risultato trovato."
@@ -14562,10 +14562,10 @@ msgstr "&laquo; Pagina precedente"
 
 #. translators: 'Label. Used to signify a layout property (eg: margin, padding)
 #. will apply uniformly to all screensizes.'
-#: wp-includes/js/dist/components.js:26488
-#: wp-includes/js/dist/components.js:43272
-#: wp-includes/js/dist/components.js:43291
-#: wp-includes/js/dist/block-editor.js:38567 wp-admin/export.php:187
+#: wp-includes/js/dist/components.js:26536
+#: wp-includes/js/dist/components.js:43320
+#: wp-includes/js/dist/components.js:43339
+#: wp-includes/js/dist/block-editor.js:38566 wp-admin/export.php:187
 #: wp-admin/export.php:199 wp-admin/export.php:224 wp-admin/export.php:246
 #: wp-admin/export.php:271
 msgid "All"
@@ -14622,8 +14622,8 @@ msgstr "Titolo:"
 #: wp-includes/customize/class-wp-customize-media-control.php:248
 #: wp-includes/customize/class-wp-customize-media-control.php:258
 #: wp-includes/class-wp-customize-manager.php:5201
-#: wp-includes/js/dist/components.js:35868
-#: wp-includes/js/dist/components.js:39076
+#: wp-includes/js/dist/components.js:35916
+#: wp-includes/js/dist/components.js:39124
 #: wp-includes/js/dist/block-library.js:22029
 #: wp-includes/js/dist/block-library.js:25781 wp-admin/js/color-picker.js:149
 msgid "Default"
@@ -14631,7 +14631,7 @@ msgstr "Predefinito"
 
 #: wp-includes/widgets/class-wp-widget-media-image.php:84
 #: wp-includes/media-template.php:1155 wp-includes/class-wp-editor.php:1324
-#: wp-includes/js/dist/block-editor.js:35560 wp-admin/options-media.php:61
+#: wp-includes/js/dist/block-editor.js:35559 wp-admin/options-media.php:61
 msgid "Height"
 msgstr "Altezza"
 
@@ -14667,8 +14667,8 @@ msgid "First Post"
 msgstr "Primo articolo"
 
 #. translators: accessibility text for the settings landmark region.
-#: wp-includes/admin-bar.php:564 wp-includes/js/dist/edit-post.js:4172
-#: wp-includes/js/dist/edit-post.js:7628 wp-admin/includes/ms.php:1069
+#: wp-includes/admin-bar.php:564 wp-includes/js/dist/edit-post.js:4165
+#: wp-includes/js/dist/edit-post.js:7621 wp-admin/includes/ms.php:1069
 #: wp-admin/options.php:21 wp-admin/menu.php:292 wp-admin/network/menu.php:109
 msgid "Settings"
 msgstr "Impostazioni"
@@ -14750,7 +14750,7 @@ msgstr "<strong>Errore</strong>: inserisci un nome utente."
 
 #: wp-includes/widgets/class-wp-widget-media-image.php:78
 #: wp-includes/media-template.php:1150 wp-includes/class-wp-editor.php:1325
-#: wp-includes/js/dist/block-editor.js:35549
+#: wp-includes/js/dist/block-editor.js:35548
 #: wp-includes/js/dist/block-library.js:12892
 #: wp-includes/js/dist/block-library.js:21308
 #: wp-includes/js/dist/format-library.js:1024 wp-admin/options-media.php:58
@@ -14765,7 +14765,7 @@ msgstr "Chiaro"
 msgid "Yellow"
 msgstr "Giallo"
 
-#: wp-includes/class-wp-theme.php:953 wp-includes/js/dist/block-editor.js:20339
+#: wp-includes/class-wp-theme.php:953 wp-includes/js/dist/block-editor.js:20338
 msgid "White"
 msgstr "Bianco"
 
@@ -14801,7 +14801,7 @@ msgstr "Marrone"
 msgid "Blue"
 msgstr "Blu"
 
-#: wp-includes/class-wp-theme.php:942 wp-includes/js/dist/block-editor.js:20331
+#: wp-includes/class-wp-theme.php:942 wp-includes/js/dist/block-editor.js:20330
 msgid "Black"
 msgstr "Nero"
 
@@ -14809,7 +14809,7 @@ msgstr "Nero"
 #: wp-includes/class-wp-customize-panel.php:378
 #: wp-includes/customize/class-wp-customize-themes-panel.php:83
 #: wp-includes/customize/class-wp-customize-nav-menus-panel.php:82
-#: wp-includes/js/dist/edit-post.js:2011
+#: wp-includes/js/dist/edit-post.js:2004
 #: wp-admin/includes/class-wp-screen.php:976 wp-admin/customize.php:229
 msgid "Help"
 msgstr "Aiuto"
@@ -14819,7 +14819,7 @@ msgstr "Aiuto"
 #: wp-includes/blocks/rss.php:31 wp-includes/blocks/latest-comments.php:31
 #: wp-includes/blocks/latest-posts.php:102 wp-includes/media.php:3875
 #: wp-includes/js/dist/editor.js:10117 wp-includes/js/dist/editor.js:12538
-#: wp-includes/js/dist/edit-post.js:7552
+#: wp-includes/js/dist/edit-post.js:7545
 #: wp-includes/js/dist/block-library.js:18408 wp-admin/includes/media.php:3312
 #: wp-admin/includes/revision.php:59 wp-admin/includes/revision.php:62
 #: wp-admin/includes/template.php:1984 wp-admin/includes/ajax-actions.php:2186
@@ -14840,8 +14840,8 @@ msgid "New Page"
 msgstr "Nuova pagina"
 
 #: wp-includes/media.php:4271 wp-includes/js/dist/editor.js:6393
-#: wp-includes/js/dist/block-editor.js:38806
-#: wp-includes/js/dist/edit-post.js:5854
+#: wp-includes/js/dist/block-editor.js:38805
+#: wp-includes/js/dist/edit-post.js:5847
 #: wp-includes/js/dist/block-library.js:24951
 #: wp-admin/includes/template.php:1949 wp-admin/theme-editor.php:238
 #: wp-admin/plugin-editor.php:235 wp-admin/nav-menus.php:893
@@ -14853,10 +14853,10 @@ msgstr "Seleziona"
 #: wp-includes/script-loader.php:1704
 #: wp-includes/class-wp-customize-manager.php:5692
 #: wp-includes/class-wp-editor.php:1179 wp-includes/class-wp-editor.php:1835
-#: wp-includes/js/dist/components.js:35550
-#: wp-includes/js/dist/block-editor.js:38917
-#: wp-includes/js/dist/edit-post.js:4789 wp-includes/js/dist/edit-post.js:5121
-#: wp-includes/js/dist/edit-post.js:5384
+#: wp-includes/js/dist/components.js:35598
+#: wp-includes/js/dist/block-editor.js:38916
+#: wp-includes/js/dist/edit-post.js:4782 wp-includes/js/dist/edit-post.js:5114
+#: wp-includes/js/dist/edit-post.js:5377
 #: wp-includes/js/dist/block-library.js:24619
 #: wp-admin/includes/class-wp-theme-install-list-table.php:385
 #: wp-admin/theme-install.php:406
@@ -14955,7 +14955,7 @@ msgstr "Tutte le categorie"
 
 #: wp-includes/class-wp-customize-control.php:637
 #: wp-includes/class-wp-customize-nav-menus.php:1227
-#: wp-includes/js/dist/edit-post.js:5822 wp-admin/includes/meta-boxes.php:554
+#: wp-includes/js/dist/edit-post.js:5815 wp-admin/includes/meta-boxes.php:554
 #: wp-admin/includes/meta-boxes.php:1145
 msgid "Add"
 msgstr "Aggiungi"
@@ -14994,7 +14994,7 @@ msgstr "Pubblico"
 msgid "Private"
 msgstr "Privato"
 
-#: wp-includes/class-wp-editor.php:1177 wp-includes/js/dist/components.js:29789
+#: wp-includes/class-wp-editor.php:1177 wp-includes/js/dist/components.js:29837
 #: wp-admin/includes/meta-boxes.php:154 wp-admin/includes/meta-boxes.php:207
 #: wp-admin/includes/template.php:861 wp-admin/js/post.js:989
 msgid "OK"
@@ -15007,7 +15007,7 @@ msgstr "URL immagine"
 #. translators: Default privacy policy heading.
 #: wp-includes/media.php:4267 wp-includes/media.php:4832
 #: wp-includes/class-wp-editor.php:1229
-#: wp-includes/js/dist/block-editor.js:38284 wp-includes/js/dist/blocks.js:6000
+#: wp-includes/js/dist/block-editor.js:38283 wp-includes/js/dist/blocks.js:6000
 #: wp-includes/js/dist/core-data.js:2112
 #: wp-admin/includes/class-wp-privacy-policy-content.php:525
 #: wp-admin/includes/media.php:2567 wp-admin/export.php:291
@@ -15041,7 +15041,7 @@ msgstr "Dimensione"
 
 #: wp-includes/media-template.php:857 wp-includes/media-template.php:937
 #: wp-includes/media-template.php:1128 wp-includes/media.php:3918
-#: wp-includes/js/dist/block-editor.js:20413
+#: wp-includes/js/dist/block-editor.js:20412
 #: wp-admin/includes/class-custom-background.php:600
 #: wp-admin/includes/media.php:1169 wp-admin/edit-form-blocks.php:229
 msgid "Full Size"
@@ -15049,8 +15049,8 @@ msgstr "Dimensione reale"
 
 #: wp-includes/media-template.php:855 wp-includes/media-template.php:935
 #: wp-includes/media-template.php:1126 wp-includes/media.php:3916
-#: wp-includes/js/dist/components.js:35804
-#: wp-includes/js/dist/block-editor.js:20407
+#: wp-includes/js/dist/components.js:35852
+#: wp-includes/js/dist/block-editor.js:20406
 #: wp-admin/includes/class-custom-background.php:598
 #: wp-admin/includes/media.php:1167 wp-admin/edit-form-blocks.php:227
 msgid "Medium"
@@ -15059,7 +15059,7 @@ msgstr "Medio"
 #: wp-includes/media-template.php:782 wp-includes/media-template.php:1038
 #: wp-includes/media-template.php:1102
 #: wp-includes/customize/class-wp-customize-background-position-control.php:65
-#: wp-includes/class-wp-editor.php:1331 wp-includes/js/dist/components.js:26492
+#: wp-includes/class-wp-editor.php:1331 wp-includes/js/dist/components.js:26540
 #: wp-admin/includes/class-custom-background.php:387
 #: wp-admin/includes/media.php:1126 wp-admin/includes/media.php:2968
 msgid "Right"
@@ -15077,8 +15077,8 @@ msgstr "Centro"
 #: wp-includes/media-template.php:776 wp-includes/media-template.php:1032
 #: wp-includes/media-template.php:1096
 #: wp-includes/customize/class-wp-customize-background-position-control.php:57
-#: wp-includes/class-wp-editor.php:1329 wp-includes/js/dist/components.js:26491
-#: wp-includes/js/dist/components.js:37306
+#: wp-includes/class-wp-editor.php:1329 wp-includes/js/dist/components.js:26539
+#: wp-includes/js/dist/components.js:37354
 #: wp-admin/includes/class-custom-background.php:379
 #: wp-admin/includes/media.php:1124 wp-admin/includes/media.php:2964
 msgid "Left"
@@ -15109,7 +15109,7 @@ msgstr "Il file &#8220;%s&#8221; non esiste?"
 
 #: wp-includes/media-template.php:854 wp-includes/media-template.php:934
 #: wp-includes/media-template.php:1125 wp-includes/media.php:3915
-#: wp-includes/js/dist/block-editor.js:20404
+#: wp-includes/js/dist/block-editor.js:20403
 #: wp-admin/includes/class-custom-background.php:597
 #: wp-admin/includes/image-edit.php:234 wp-admin/includes/media.php:1166
 #: wp-admin/edit-form-blocks.php:226
@@ -15153,7 +15153,7 @@ msgid "Sidebar"
 msgstr "Barra laterale"
 
 #. translators: accessibility text for the top bar landmark region.
-#: wp-includes/admin-bar.php:1009 wp-includes/js/dist/edit-post.js:4163
+#: wp-includes/admin-bar.php:1009 wp-includes/js/dist/edit-post.js:4156
 #: wp-admin/includes/class-custom-image-header.php:73 wp-admin/menu.php:200
 msgid "Header"
 msgstr "Header"
@@ -15194,16 +15194,16 @@ msgid "Tags"
 msgstr "Tag"
 
 #. translators: accessibility text for the content landmark region.
-#: wp-includes/revision.php:33 wp-includes/js/dist/edit-post.js:4166
+#: wp-includes/revision.php:33 wp-includes/js/dist/edit-post.js:4159
 #: wp-admin/includes/dashboard.php:557 wp-admin/index.php:102
 msgid "Content"
 msgstr "Contenuto"
 
 #: wp-includes/script-loader.php:1137 wp-includes/media.php:4272
 #: wp-includes/class-wp-editor.php:1178 wp-includes/class-wp-editor.php:1881
-#: wp-includes/js/dist/components.js:29929 wp-includes/js/dist/editor.js:10272
-#: wp-includes/js/dist/block-editor.js:38325
-#: wp-includes/js/dist/block-editor.js:38328
+#: wp-includes/js/dist/components.js:29977 wp-includes/js/dist/editor.js:10272
+#: wp-includes/js/dist/block-editor.js:38324
+#: wp-includes/js/dist/block-editor.js:38327
 #: wp-includes/js/dist/block-library.js:5229
 #: wp-admin/includes/image-edit.php:97
 #: wp-admin/includes/class-walker-nav-menu-edit.php:296
@@ -15222,7 +15222,7 @@ msgstr "Contenuto"
 msgid "Cancel"
 msgstr "Annulla"
 
-#: wp-includes/admin-bar.php:553 wp-includes/js/dist/edit-post.js:6132
+#: wp-includes/admin-bar.php:553 wp-includes/js/dist/edit-post.js:6125
 #: wp-admin/update-core.php:431 wp-admin/update-core.php:444
 #: wp-admin/plugins.php:600 wp-admin/network/settings.php:469
 #: wp-admin/network/menu.php:103
@@ -15239,8 +15239,8 @@ msgstr "Commenti recenti"
 #: wp-includes/media-template.php:1488
 #: wp-includes/class-wp-customize-manager.php:4299
 #: wp-includes/class-wp-editor.php:1245
-#: wp-includes/js/dist/block-editor.js:30856
-#: wp-includes/js/dist/block-editor.js:39284
+#: wp-includes/js/dist/block-editor.js:30855
+#: wp-includes/js/dist/block-editor.js:39283
 #: wp-includes/js/dist/block-library.js:16365
 #: wp-admin/includes/class-custom-background.php:258
 #: wp-admin/includes/meta-boxes.php:73 wp-admin/includes/post.php:1766
@@ -15258,8 +15258,8 @@ msgstr "Anteprima"
 msgid "RSS"
 msgstr "RSS"
 
-#: wp-includes/js/dist/block-editor.js:37584
-#: wp-includes/js/dist/block-editor.js:38924
+#: wp-includes/js/dist/block-editor.js:37583
+#: wp-includes/js/dist/block-editor.js:38923
 #: wp-admin/includes/dashboard.php:236 wp-admin/includes/dashboard.php:1332
 #: wp-admin/setup-config.php:252
 msgid "Submit"
@@ -15308,7 +15308,7 @@ msgstr "Modifica tag"
 #: wp-includes/media-template.php:1041 wp-includes/media-template.php:1058
 #: wp-includes/media-template.php:1105 wp-includes/media-template.php:1181
 #: wp-includes/media-template.php:1301 wp-includes/media-template.php:1400
-#: wp-includes/deprecated.php:706 wp-includes/js/dist/components.js:35798
+#: wp-includes/deprecated.php:706 wp-includes/js/dist/components.js:35846
 #: wp-includes/js/dist/block-library.js:8868
 #: wp-includes/js/dist/block-library.js:9962
 #: wp-includes/js/dist/block-library.js:24429 wp-admin/edit-tags.php:467
@@ -15333,7 +15333,7 @@ msgid "Description"
 msgstr "Descrizione"
 
 #: wp-includes/comment-template.php:2356
-#: wp-includes/js/dist/components.js:29884
+#: wp-includes/js/dist/components.js:29932
 #: wp-admin/includes/class-wp-debug-data.php:1069
 #: wp-admin/includes/class-wp-debug-data.php:1164
 #: wp-admin/includes/class-wp-users-list-table.php:357
@@ -15345,7 +15345,7 @@ msgid "Name"
 msgstr "Nome"
 
 #: wp-includes/class-wp-editor.php:1215
-#: wp-includes/js/dist/block-editor.js:39761 wp-admin/edit-link-form.php:34
+#: wp-includes/js/dist/block-editor.js:39760 wp-admin/edit-link-form.php:34
 msgid "Advanced"
 msgstr "Avanzate"
 
@@ -15358,7 +15358,7 @@ msgstr "Destinazione"
 #: wp-includes/widgets/class-wp-widget-categories.php:47
 #: wp-includes/category-template.php:546
 #: wp-includes/theme-compat/sidebar.php:129
-#: wp-includes/js/dist/components.js:43277
+#: wp-includes/js/dist/components.js:43325
 #: wp-includes/js/dist/block-library.js:11640
 #: wp-includes/js/dist/block-library.js:11678
 #: wp-includes/js/dist/block-library.js:11719
@@ -15367,7 +15367,7 @@ msgstr "Destinazione"
 msgid "Categories"
 msgstr "Categorie"
 
-#: wp-includes/class-wp-editor.php:1247 wp-includes/js/dist/components.js:29961
+#: wp-includes/class-wp-editor.php:1247 wp-includes/js/dist/components.js:30009
 #: wp-includes/js/dist/editor.js:6629 wp-includes/js/dist/editor.js:10591
 #: wp-includes/js/dist/block-library.js:20601
 #: wp-admin/includes/image-edit.php:98 wp-admin/includes/meta-boxes.php:44
@@ -15404,8 +15404,8 @@ msgstr "Categorie dei link"
 msgid "Revisions"
 msgstr "Revisioni"
 
-#: wp-includes/revision.php:34 wp-includes/js/dist/edit-post.js:5436
-#: wp-includes/js/dist/edit-post.js:6918
+#: wp-includes/revision.php:34 wp-includes/js/dist/edit-post.js:5429
+#: wp-includes/js/dist/edit-post.js:6911
 #: wp-includes/js/dist/block-library.js:18183
 #: wp-admin/includes/meta-boxes.php:702 wp-admin/includes/meta-boxes.php:1510
 msgid "Excerpt"
@@ -15415,7 +15415,7 @@ msgstr "Riassunto"
 #: wp-includes/script-loader.php:1125
 #: wp-includes/class-wp-customize-manager.php:4816
 #: wp-includes/js/dist/editor.js:8795 wp-includes/js/dist/editor.js:9003
-#: wp-includes/js/dist/edit-post.js:4175 wp-includes/js/dist/edit-post.js:6504
+#: wp-includes/js/dist/edit-post.js:4168 wp-includes/js/dist/edit-post.js:6497
 #: wp-admin/includes/meta-boxes.php:358 wp-admin/includes/meta-boxes.php:359
 #: wp-admin/includes/meta-boxes.php:1465 wp-admin/customize.php:189
 #: wp-admin/js/post.js:761
@@ -15439,8 +15439,8 @@ msgstr "Commenti"
 
 #: wp-includes/class-wp-customize-widgets.php:775 wp-includes/media.php:4311
 #: wp-includes/class-wp-editor.php:1386
-#: wp-includes/js/dist/block-editor.js:37973
-#: wp-includes/js/dist/block-editor.js:38095
+#: wp-includes/js/dist/block-editor.js:37972
+#: wp-includes/js/dist/block-editor.js:38094
 #: wp-includes/js/dist/block-library.js:5225
 #: wp-includes/js/dist/block-library.js:26914
 #: wp-includes/js/dist/format-library.js:1030
@@ -15478,10 +15478,10 @@ msgstr "%s fa"
 #: wp-includes/class-wp-editor.php:1384
 #: wp-includes/class-walker-comment.php:250
 #: wp-includes/class-walker-comment.php:449
-#: wp-includes/js/dist/block-editor.js:37234
-#: wp-includes/js/dist/block-editor.js:37932
-#: wp-includes/js/dist/block-editor.js:38803
-#: wp-includes/js/dist/edit-post.js:5851 wp-includes/js/dist/edit-post.js:5857
+#: wp-includes/js/dist/block-editor.js:37233
+#: wp-includes/js/dist/block-editor.js:37931
+#: wp-includes/js/dist/block-editor.js:38802
+#: wp-includes/js/dist/edit-post.js:5844 wp-includes/js/dist/edit-post.js:5850
 #: wp-includes/js/dist/block-library.js:20581
 #: wp-includes/js/dist/block-library.js:24528
 #: wp-admin/includes/class-wp-links-list-table.php:330
@@ -15536,8 +15536,8 @@ msgstr "Commento"
 #: wp-includes/customize/class-wp-customize-nav-menu-item-control.php:94
 #: wp-includes/class-wp-editor.php:1261 wp-includes/class-wp-editor.php:1840
 #: wp-includes/class-wp-customize-nav-menus.php:1257
-#: wp-includes/js/dist/block-editor.js:36456
-#: wp-includes/js/dist/block-editor.js:38088
+#: wp-includes/js/dist/block-editor.js:36455
+#: wp-includes/js/dist/block-editor.js:38087
 #: wp-includes/js/dist/block-library.js:15808
 #: wp-admin/includes/class-wp-links-list-table.php:134
 #: wp-admin/includes/class-walker-nav-menu-edit.php:187
@@ -15549,7 +15549,7 @@ msgid "URL"
 msgstr "URL"
 
 #: wp-includes/class-wp-editor.php:1209 wp-includes/theme-compat/sidebar.php:29
-#: wp-includes/js/dist/components.js:43290 wp-includes/js/dist/editor.js:7535
+#: wp-includes/js/dist/components.js:43338 wp-includes/js/dist/editor.js:7535
 #: wp-admin/includes/class-wp-debug-data.php:1083
 #: wp-admin/includes/class-wp-debug-data.php:1178
 #: wp-admin/includes/class-theme-installer-skin.php:241

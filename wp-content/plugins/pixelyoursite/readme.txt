@@ -3,8 +3,8 @@ Contributors: PixelYourSite, themister
 Tags: Facebook Pixel, New Facebook Pixel, Facebook Conversion Pixel, Facebook Pixel Events, Facebook, New Facebook Pixel Events, Dynamic Events, Standard Events, Facebook Events, Facebook Standard Events, Facebook Dynamic Product Ads, WooCommerce, WooCommerce Facebook Pixel, Facebook Custom Events, Facebook Conversion Value, WooCommerce Affiliate Products, Easy Digital Downloads Pixel, Easy Digital Downloads Google Analytics, Head & Footer scripts, Enhanced Ecommerce, Pinterest tag
 Requires at least: 3.0.1
 Requires PHP: 5.4
-Tested up to: 5.5
-Stable tag: 7.2.0
+Tested up to: 5.6
+Stable tag: 7.2.1.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -29,6 +29,7 @@ TRACK EVERYTHING WITH A SINGLE PLUGIN:
 
 The Facebook Pixel: one click install
 Google Analytics: one click install
+Google Analytics 4: for details, watch [this video](https://www.youtube.com/watch?v=CCVBD_bD-Y0)
 ANY script: add any other script with our flexible Head & Footer option
 The Pinterest Tag: via [free add-on](https://www.pixelyoursite.com/pinterest-tag)
 Google Ads (formerly AdWords) [pro feature](https://www.pixelyoursite.com/google-ads-tag)
@@ -389,6 +390,27 @@ NO, absolutely not! We don't track any type of data about your website. We simpl
 
 
 == Changelog ==
+
+
+= PixelYourSite 7.2.1.1 =
+
+* Simple update to remove some unwanted files from v7.2.1
+
+
+= PixelYourSite 7.2.1 =
+
+* Google Analytics 4 support. For details, watch [this video](https://www.youtube.com/watch?v=CCVBD_bD-Y0)
+
+* Facebook API update. This will fix the problem some old pixel IDs had in sending CAPI events. 
+
+* Country and ZIP added to WooCommerce Facebook CAPI events when possible.
+
+* Facebook CAPI Purchase event will send client information for non-logged-in clients too.
+
+* WordPress 5.6 compatibility.
+
+* WooCommerce 4.8 compatibility.
+
 
 
 = PixelYourSite 7.2.0 =

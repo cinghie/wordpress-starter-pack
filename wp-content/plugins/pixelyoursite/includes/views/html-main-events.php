@@ -33,6 +33,11 @@ $new_event_url = buildAdminUrl( 'pixelyoursite', 'events', 'edit' );
     <div class="card-body">
 	    <?php PYS()->render_switcher_input( 'custom_events_enabled' ); ?>
         <h4 class="switcher-label">Enable Events</h4>
+        <div class="mt-3">
+            <a  class="btn btn-sm btn-light btn-events-import">Import Events</a>
+            <a   class="btn  ml-3  btn-sm btn-light btn-events-export">Export Events</a>
+            <a class="ml-3 badge badge-pill badge-pro" href="https://www.pixelyoursite.com/?utm_source=pys-free-plugin&amp;utm_medium=pro-badge&amp;utm_campaign=pro-feature/?utm_source=pys-free-plugin&amp;utm_medium=pro-badge&amp;utm_campaign=pro-feature" target="_blank" >Pro Feature <i class="fa fa-external-link" aria-hidden="true"></i></a>
+        </div>
     </div>
 </div>
 

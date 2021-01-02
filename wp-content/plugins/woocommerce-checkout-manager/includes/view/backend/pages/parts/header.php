@@ -5,7 +5,7 @@
   <p class="about-text"><?php printf(esc_html__('Thanks for using our product! We recommend these extensions that will add new features to stand out your business and improve your sales.', 'woocommerce-checkout-manager'), WOOCCM_PLUGIN_NAME); ?></p>
 
   <p class="about-text">
-    <?php printf('<a href="%s" target="_blank">%s</a>', WOOCCM_PURCHASE_URL, esc_html__('Purchase', 'woocommerce-checkout-manager')); ?></a> |  
+    <?php printf('<a href="%s" target="_blank">%s</a>', WOOCCM_PURCHASE_URL, esc_html__('Purchase', 'woocommerce-checkout-manager')); ?></a> |
     <?php printf('<a href="%s" target="_blank">%s</a>', WOOCCM_DOCUMENTATION_URL, esc_html__('Documentation', 'woocommerce-checkout-manager')); ?></a>
   </p>
 
@@ -29,20 +29,20 @@
 <?php
 if (isset($GLOBALS['submenu'][WOOCCM_PREFIX])) {
   if (is_array($GLOBALS['submenu'][WOOCCM_PREFIX])) {
-    ?>
+?>
     <div class="wrap about-wrap full-width-layout qlwrap">
       <h2 class="nav-tab-wrapper">
         <?php
         foreach ($GLOBALS['submenu'][WOOCCM_PREFIX] as $tab) {
           if (strpos($tab[2], '.php') !== false)
             continue;
-          ?>
+        ?>
           <a href="<?php echo admin_url('admin.php?page=' . esc_attr($tab[2])); ?>" class="nav-tab<?php echo (isset($_GET['page']) && $_GET['page'] == $tab[2]) ? ' nav-tab-active' : ''; ?>"><?php echo $tab[0]; ?></a>
-          <?php
+        <?php
         }
         ?>
       </h2>
     </div>
-    <?php
+<?php
   }
 }

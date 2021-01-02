@@ -69,6 +69,10 @@ class EventsManager {
             'downloadEventEnabled' => isEventEnabled( 'download_event_enabled' ),
             'downloadExtensions'   => PYS()->getOption( 'download_event_extensions' ),
             'formEventEnabled' => isEventEnabled( 'form_event_enabled' ),
+            'postType'			   => get_post_type(),
+            'postTitle'			   => get_the_title(),
+            'postId'			   => get_the_ID(),
+            'userRoles'            => getUserRoles()
 		);
 
 		$options['gdpr'] = array(
@@ -214,6 +218,8 @@ class EventsManager {
 				'delay'  => isset( $eventData['delay'] ) ? $eventData['delay'] : 0,
 				'ids'    => $ids,
                 'eventID' => isset( $eventData['eventID'] ) ? $eventData['eventID'] : "",
+                'woo_order' => isset( $eventData['woo_order'] ) ? $eventData['woo_order'] : "",
+                'edd_order' => isset( $eventData['edd_order'] ) ? $eventData['edd_order'] : "",
 			);
 
             // fire fb server api event

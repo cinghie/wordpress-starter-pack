@@ -8,6 +8,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /** @noinspection PhpIncludeInspection */
 require_once PYS_FREE_PATH . '/modules/google_analytics/function-helpers.php';
+require_once PYS_FREE_PATH . '/modules/google_analytics/function-collect-data-4v.php';
+
 
 class GA extends Settings implements Pixel {
 	
@@ -39,6 +41,10 @@ class GA extends Settings implements Pixel {
 		    $core->registerPixel( $this );
 	    } );
     }
+
+    public function isUse4Version() {
+        return $this->getOption( 'use_4_version' );
+    }
 	
 	public function enabled() {
 		return $this->getOption( 'enabled' );
@@ -59,7 +65,18 @@ class GA extends Settings implements Pixel {
 		return $this->configured;
 		
 	}
-	
+
+    public function getPixelDebugMode() {
+
+        $flags = (array) $this->getOption( 'is_enable_debug_mode' );
+
+        if ( isSuperPackActive() && SuperPack()->getOption( 'enabled' ) && SuperPack()->getOption( 'additional_ids_enabled' ) ) {
+            return $flags;
+        } else {
+            return (array) reset( $flags ); // return first id only
+        }
+    }
+
 	public function getPixelIDs() {
 
 		$ids = (array) $this->getOption( 'tracking_id' );
@@ -83,6 +100,10 @@ class GA extends Settings implements Pixel {
             'crossDomainEnabled' => $this->getOption('cross_domain_enabled'),
             'crossDomainAcceptIncoming' => $this->getOption('cross_domain_accept_incoming'),
             'crossDomainDomains' => $this->getOption('cross_domain_domains'),
+            'isDebugEnabled'                => $this->getPixelDebugMode(),
+            'isUse4Version'                 => $this->isUse4Version(),
+            'disableAdvertisingFeatures'    => $this->getOption( 'disable_advertising_features' ),
+            'disableAdvertisingPersonalization' => $this->getOption( 'disable_advertising_personalization' )
         );
 
     }
@@ -92,64 +113,76 @@ class GA extends Settings implements Pixel {
 		if ( ! $this->configured() ) {
 			return false;
 		}
-
+        $data = false;
 		switch ( $eventType ) {
 			case 'init_event':
-				return $this->getPageViewEventParams();
+                $data =  $this->getPageViewEventParams(); break;
 
 			case 'search_event':
-				return $this->getSearchEventData();
+                $data =  $this->getSearchEventData();break;
 
 			case 'custom_event':
-				return $this->getCustomEventData( $args );
+                $data =  $this->getCustomEventData( $args );break;
 
 			case 'woo_view_content':
-				return $this->getWooViewContentEventParams();
+                $data =  $this->getWooViewContentEventParams();break;
 
 			case 'woo_add_to_cart_on_button_click':
-				return $this->getWooAddToCartOnButtonClickEventParams( $args );
+                $data =  $this->getWooAddToCartOnButtonClickEventParams( $args );break;
 
 			case 'woo_add_to_cart_on_cart_page':
 			case 'woo_add_to_cart_on_checkout_page':
-				return $this->getWooAddToCartOnCartEventParams();
+            $data =  $this->getWooAddToCartOnCartEventParams();break;
 
 			case 'woo_remove_from_cart':
-				return $this->getWooRemoveFromCartParams( $args );
+                $data =  $this->getWooRemoveFromCartParams( $args );break;
 
 			case 'woo_view_category':
-				return $this->getWooViewCategoryEventParams();
+                $data =  $this->getWooViewCategoryEventParams();break;
 
 			case 'woo_initiate_checkout':
-				return $this->getWooInitiateCheckoutEventParams();
+                $data =  $this->getWooInitiateCheckoutEventParams();break;
 
 			case 'woo_purchase':
-				return $this->getWooPurchaseEventParams();
+                $data =  $this->getWooPurchaseEventParams();break;
 
 			case 'edd_view_content':
-				return $this->getEddViewContentEventParams();
+                $data =  $this->getEddViewContentEventParams();break;
 
 			case 'edd_add_to_cart_on_button_click':
-				return $this->getEddAddToCartOnButtonClickEventParams( $args );
+                $data =  $this->getEddAddToCartOnButtonClickEventParams( $args );break;
 
 			case 'edd_add_to_cart_on_checkout_page':
-				return $this->getEddCartEventParams( 'add_to_cart' );
+                $data =  $this->getEddCartEventParams( 'add_to_cart' );break;
 
 			case 'edd_remove_from_cart':
-				return $this->getEddRemoveFromCartParams( $args );
+                $data =  $this->getEddRemoveFromCartParams( $args );break;
 
 			case 'edd_view_category':
-				return $this->getEddViewCategoryEventParams();
+                $data =  $this->getEddViewCategoryEventParams();break;
 
 			case 'edd_initiate_checkout':
-				return $this->getEddCartEventParams( 'begin_checkout' );
+                $data =  $this->getEddCartEventParams( 'begin_checkout' );break;
 
 			case 'edd_purchase':
-				return $this->getEddCartEventParams( 'purchase' );
+                $data =  $this->getEddCartEventParams( 'purchase' );break;
 
-			default:
-				return false;   // event does not supported
 		}
+        if($data && $this->isUse4Version()) {
+            unset($data['data']['event_category']);
+            unset($data['data']['event_label']);
 
+            unset($data['data']['ecomm_pagetype']);
+            unset($data['data']['ecomm_prodid']);
+            unset($data['data']['ecomm_totalvalue']);
+
+            $data['data']['content_name'] = get_the_title();
+            $data['data']['event_url'] = \PixelYourSite\getCurrentPageUrl();
+            $data['data']['post_id'] = get_the_ID();
+            $data['data']['post_type'] = get_post_type();
+        }
+
+        return $data;
 	}
 	
 	public function outputNoScriptEvents() {
@@ -267,13 +300,26 @@ class GA extends Settings implements Pixel {
 		if ( ! $event->isGoogleAnalyticsEnabled() || empty( $ga_action ) ) {
 			return false;
 		}
+        // not fire event if for new event type use old version
+        if($event->getGaVersion() == "4" && !$this->isUse4Version()) {
+            return false;
+        }
 
-		$params = array(
-			'event_category'  => $event->ga_event_category,
-			'event_label'     => $event->ga_event_label,
-			'value'           => $event->ga_event_value,
-			'non_interaction' => $event->ga_non_interactive,
-		);
+        if($event->getGaVersion() == "4") {
+            $params = $event->getGaParams();
+
+            foreach ($event->getGACustomParams() as $item)
+                $params[$item['name']]=$item['value'];
+
+        } else {
+            $params = array(
+                'event_category'  => $event->ga_event_category,
+                'event_label'     => $event->ga_event_label,
+                'value'           => $event->ga_event_value,
+            );
+        }
+        $params['non_interaction'] = $event->ga_non_interactive;
+
 
 		return array(
 			'name'  => $event->getGoogleAnalyticsAction(),

@@ -24,12 +24,27 @@ use PixelYourSite\GA\Helpers;
                 <h4 class="switcher-label">Enable Google Analytics</h4>
             </div>
         </div>
-		<div class="row">
-			<div class="col">
-				<?php GA()->render_switcher_input( 'enhance_link_attribution' ); ?>
-				<h4 class="switcher-label">Enable Enhance Link Attribution</h4>
-			</div>
+        <div class="row">
+            <div class="col">
+                <?php GA()->render_switcher_input( 'enhance_link_attribution' ); ?>
+                <h4 class="switcher-label">Enable Enhance Link Attribution</h4>
+            </div>
         </div>
+        <?php if(Ga()->isUse4Version()) : ?>
+            <div class="row">
+                <div class="col">
+                    <?php GA()->render_switcher_input( 'disable_advertising_features' ); ?>
+                    <h4 class="switcher-label">Disable all advertising features</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <?php GA()->render_switcher_input( 'disable_advertising_personalization' ); ?>
+                    <h4 class="switcher-label">Disable advertising personalization</h4>
+                </div>
+            </div>
+        <?php endif;?>
+
         <div class="row">
             <div class="col">
 				<?php GA()->render_switcher_input( 'anonimize_ip' ); ?>

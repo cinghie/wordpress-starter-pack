@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Wishlist - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-12-05 15:10:10+0000\n"
+"PO-Revision-Date: 2020-12-18 21:19:43+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,44 @@ msgstr ""
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Wishlist - Stable (latest release)\n"
+
+#: plugin-fw/templates/sysinfo/tabs/error-log.php:115
+msgid "Copy Code"
+msgstr "Copia il codice"
+
+#: plugin-fw/templates/sysinfo/tabs/error-log.php:115
+msgid "Copied!"
+msgstr "Copiato!"
+
+#. translators: %s file name
+#: plugin-fw/templates/sysinfo/tabs/error-log.php:106
+msgid "No Log file available. Enable the WordPress debug by adding this in the %s file of your installation"
+msgstr "Nessun file log disponibile. Attiva il debug di WordPress aggiungendolo nel file %s della tua installazione "
+
+#: plugin-fw/templates/sysinfo/tabs/error-log.php:78
+msgid "The file size exceeds 8 megabytes so it must be downloaded"
+msgstr "La dimensione del file supera gli 8 megabyte e deve essere scaricato"
+
+#: plugin-fw/templates/sysinfo/tabs/error-log.php:64
+msgid "Download"
+msgstr "Scarica"
+
+#: plugin-fw/templates/sysinfo/tabs/main.php:82
+msgid "Plugins Requirements"
+msgstr "Requisiti plugin"
+
+#: plugin-fw/templates/sysinfo/tabs/main.php:43
+msgid "Site Info"
+msgstr "Informazioni sito"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:16
+#: plugin-fw/templates/sysinfo/tabs/error-log.php:28
+msgid "Log Files"
+msgstr "File log"
+
+#: plugin-fw/templates/sysinfo/system-information-panel.php:15
+msgid "PHPInfo"
+msgstr "PHPInfo"
 
 #: plugin-fw/templates/sysinfo/tabs/main.php:73
 msgid "External object cache"
@@ -874,6 +912,10 @@ msgstr "Mostra il link 'Rimuovi dalla lista'"
 msgid "Show \"View wishlist\" link"
 msgstr "Mostra il link 'Vedi la lista'"
 
+#: plugin-options/add_to_wishlist-options.php:30
+msgid "Show \"Add to wishlist\" button"
+msgstr "Mostra il pulsante 'Aggiungi alla lista'"
+
 #: plugin-options/add_to_wishlist-options.php:26
 msgid "Choose the look of the Wishlist button when the product has already been added to a wishlist"
 msgstr "Personalizza lo stile che deve avere il pulsante quando il prodotto è stato già aggiunto alla lista"
@@ -1247,6 +1289,10 @@ msgstr "Ultime novità dal blog YITH"
 #: plugin-fw/lib/yith-dashboard.php:40
 msgid "YITH Latest Updates"
 msgstr "Ultimi aggiornamenti YITH"
+
+#: init.php:160
+msgid "is enabled but not effective. It requires WooCommerce to work."
+msgstr "è attivo ma non operativo. Per il suo funzionamento è richiesto WooCommerce. "
 
 #: includes/class.yith-wcwl-shortcode.php:121
 msgid "ID of the wishlist to show (e.g. K6EOWXB888ZD)"

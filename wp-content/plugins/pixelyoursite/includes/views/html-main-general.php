@@ -81,14 +81,27 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <img class="tag-logo" src="<?php echo PYS_FREE_URL; ?>/dist/images/analytics-square-small.png">
                 </div>
                 <div class="col-7">
-                    <h4 class="label">Google Analytics tracking ID:</h4>
+                    <?php GA()->render_switcher_input("use_4_version");?>
+                    <h4 class="switcher-label">Enable Google Analytics 4</h4>
+                    <div class="mt-1">
+                        <a href="https://www.pixelyoursite.com/pixelyoursite-free-version/enable-google-analytics-4" target="_blank">Watch this help video</a>
+                    </div>
+                    <h4 class="label mb-3 mt-3">Google Analytics tracking ID:</h4>
                     <?php GA()->render_pixel_id( 'tracking_id', 'Google Analytics tracking ID' ); ?>
-                    <small class="form-text">
+                    <small class="form-text" mb-2>
                         <a href="https://www.pixelyoursite.com/pixelyoursite-free-version/add-your-google-analytics-code?utm_source=pixelyoursite-free-plugin&utm_medium=plugin&utm_campaign=free-plugin-ids"
                            target="_blank">How to get it?</a>
                     </small>
-                    <p class="mt-3 mb-0">Add multiple Google Analytics tags with the <a href="https://www.pixelyoursite.com/?utm_source=pixelyoursite-free-plugin&utm_medium=plugin&utm_campaign=free-plugin-ids"
+                    <div class ="mt-2">
+                        <input type="checkbox" class="custom-control-input" name="pys[ga][is_enable_debug_mode][-1]" value="0" checked />
+                        <?php GA()->render_checkbox_input_array("is_enable_debug_mode","Enable Analytics Debug mode for this property");?>
+                    </div>
+
+                    <p class="mt-3 ">Add multiple Google Analytics tags with the <a href="https://www.pixelyoursite.com/?utm_source=pixelyoursite-free-plugin&utm_medium=plugin&utm_campaign=free-plugin-ids"
                                 target="_blank">pro version</a>.</p>
+
+
+
                 </div>
             </div>
             <?php if(isWPMLActive()) : ?>
@@ -638,20 +651,6 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
         <?php endif; ?>
 
-        <?php if ( GA()->enabled() ) : ?>
-            <div class="row mb-1">
-                <div class="col">
-                    <?php GA()->render_switcher_input( 'download_event_enabled' ); ?>
-                    <h4 class="switcher-label">Enable the Download event on Google Analytics</h4>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col col-offset-left">
-                    <?php GA()->render_checkbox_input( 'download_event_non_interactive',
-                        'Non-interactive event' ); ?>
-                </div>
-            </div>
-        <?php endif; ?>
 
         <div class="row">
             <div class="col">

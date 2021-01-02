@@ -26,6 +26,17 @@ function isPinterestActive( $checkCompatibility = true ) {
 	
 }
 
+function getUserRoles() {
+    $user = wp_get_current_user();
+
+    if ( $user->ID !== 0 ) {
+        $user_roles = implode( ',', $user->roles );
+    } else {
+        $user_roles = 'guest';
+    }
+    return $user_roles;
+}
+
 function isPinterestVersionIncompatible() {
     
     if ( ! function_exists( 'get_plugin_data' ) ) {
@@ -662,17 +673,9 @@ function sanitizeKey( $name ) {
 
 function getCommonEventParams() {
 
-	$user = wp_get_current_user();
-
-	if ( $user->ID !== 0 ) {
-		$user_roles = implode( ',', $user->roles );
-	} else {
-		$user_roles = 'guest';
-	}
-
 	return array(
 		'domain'     => substr( get_home_url( null, '', 'http' ), 7 ),
-		'user_roles' => $user_roles,
+		'user_roles' => getUserRoles(),
 		'plugin'     => 'PixelYourSite',
 	);
 

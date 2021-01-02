@@ -103,20 +103,6 @@ $plugins_list = array(
 		'premium'  => 'YITH_WCMC_PREMIUM_INIT',
 		'required' => false,
 	),
-	'yith-woocommerce-stripe'                         => array(
-		'name'     => 'YITH WooCommerce Stripe',
-		'slug'     => 'yith-woocommerce-stripe',
-		'free'     => 'YITH_WCSTRIPE_FREE_INIT',
-		'premium'  => 'YITH_WCSTRIPE_SECRET_KEY',
-		'required' => false,
-	),
-	'yith-woocommerce-authorizenet-payment-gateway'   => array(
-		'name'     => 'YITH WooCommerce Authorize.net Payment Gateway',
-		'slug'     => 'yith-woocommerce-authorizenet-payment-gateway',
-		'free'     => 'YITH_WCAUTHNET_FREE_INIT',
-		'premium'  => 'YITH_WCAUTHNET_PREMIUM_INIT',
-		'required' => false,
-	),
 	'yith-infinite-scrolling'                         => array(
 		'name'     => 'YITH Infinite Scrolling',
 		'slug'     => 'yith-infinite-scrolling',

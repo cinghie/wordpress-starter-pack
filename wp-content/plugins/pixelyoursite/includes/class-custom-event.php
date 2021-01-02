@@ -27,6 +27,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @property string pinterest_custom_event_type
  * @property bool   pinterest_params_enabled
  * @property array  pinterest_custom_params
+ * @property array  ga_custom_params
+ * @property array  ga_params
+ * @property string ga_version
  *
  * @property bool   ga_enabled
  * @property string ga_event_action
@@ -49,7 +52,88 @@ class CustomEvent {
 	private $title = 'Untitled';
 
 	private $enabled = true;
-	
+
+    public $GAEvents = array(
+        "" => array("CustomEvent"=>array()),
+        "All Properties"    => array(
+            "earn_virtual_currency" => array("virtual_currency_name","value"),
+            "join_group" => array("group_id"),
+            "login" => array("method"),
+            "purchase" => array("transaction_id",'value','currency','tax','shipping','items','coupon'),
+            "refund" => array("transaction_id",'value','currency','tax','shipping','items'),
+            "search" => array("search_term"),
+            "select_content" => array("content_type",'item_id'),
+            "share" => array("content_type",'item_id'),
+            "sign_up" => array("method"),
+            "spend_virtual_currency" => array("item_name",'virtual_currency_name','value'),
+            "tutorial_begin" => array(),
+            "tutorial_complete" => array(),
+        ),
+        "Retail/Ecommerce"  => array(
+            'add_payment_info'  => array('coupon','currency','items','payment_type','value'),
+            'add_shipping_info' => array('coupon','currency','items','shipping_tier','value'),
+            'add_to_cart'  => array('currency', 'items', 'value'),
+            'add_to_wishlist'  => array('currency', 'items', 'value'),
+            'begin_checkout'  => array('coupon','currency', 'items', 'value'),
+            'generate_lead'  => array('value', 'currency'),
+            'purchase'  => array('affiliation', 'coupon', 'currency', 'items', 'transaction_id', 'shipping', 'tax', 'value'),
+            'refund'  => array('affiliation', 'coupon', 'currency', 'items', 'transaction_id', 'shipping', 'tax', 'value'),
+            'remove_from_cart'  => array('currency', 'items', 'value'),
+            'select_item'  => array('items', 'item_list_name', 'item_list_id'),
+            'select_promotion'  => array('items', 'promotion_id', 'promotion_name', 'creative_name', 'creative_slot', 'location_id'),
+            'view_cart'  => array('currency', 'items', 'value'),
+            'view_item'  => array('currency', 'items', 'value'),
+            'view_item_list'  => array('items', 'item_list_name', 'item_list_id'),
+            'view_promotion'  => array('items', 'promotion_id', 'promotion_name', 'creative_name', 'creative_slot', 'location_id')
+        ),
+        "Jobs, Education, Local Deals, Real Estate"  => array(
+            'add_payment_info'  =>  array("coupon", 'currency', 'items', 'payment_type', 'value'),
+            'add_shipping_info'  =>  array('coupon', 'currency', 'items', 'shipping_tier', 'value'),
+            'add_to_cart'  =>  array('currency', 'items', 'value'),
+            'add_to_wishlist'  =>  array('currency', 'items', 'value'),
+            'begin_checkout'  =>  array('coupon','currency', 'items', 'value'),
+            'purchase'  =>  array('affiliation', 'coupon', 'currency', 'items', 'transaction_id', 'shipping', 'tax', 'value'),
+            'refund'  =>  array('affiliation', 'coupon', 'currency', 'items', 'transaction_id', 'shipping', 'tax', 'value'),
+            'remove_from_cart'  =>  array('currency', 'items', 'value'),
+            'select_item'  =>  array('items', 'item_list_name', 'item_list_id'),
+            'select_promotion'  =>  array('items', 'promotion_id', 'promotion_name', 'creative_name', 'creative_slot', 'location_id'),
+            'view_cart'  =>  array('currency', 'items', 'value'),
+            'view_item'  =>  array('currency', 'items', 'value'),
+            'view_item_list'  =>  array('items', 'item_list_name', 'item_list_id'),
+            'view_promotion'  =>  array('items', 'promotion_id', 'promotion_name', 'creative_name', 'creative_slot', 'location_id')
+        ),
+        "Travel (Hotel/Air)"  => array(
+            'add_payment_info'  =>  array("coupon", 'currency', 'items', 'payment_type', 'value'),
+            'add_shipping_info'  =>  array('coupon', 'currency', 'items', 'shipping_tier', 'value'),
+            'add_to_cart'  =>  array('currency', 'items', 'value'),
+            'add_to_wishlist'  =>  array('currency', 'items', 'value'),
+            'begin_checkout'  =>  array('coupon','currency', 'items', 'value'),
+            'generate_lead' => array('value', 'currency'),
+            'purchase' => array('affiliation', 'coupon', 'currency', 'items', 'transaction_id', 'shipping', 'tax', 'value'),
+            'refund' => array('affiliation', 'coupon', 'currency', 'items', 'transaction_id', 'shipping', 'tax', 'value'),
+            'remove_from_cart'  =>  array('currency', 'items', 'value'),
+            'select_item'  =>  array('items', 'item_list_name', 'item_list_id'),
+            'select_promotion'  =>  array('items', 'promotion_id', 'promotion_name', 'creative_name', 'creative_slot', 'location_id'),
+            'view_cart'  =>  array('currency', 'items', 'value'),
+            'view_item'  =>  array('currency', 'items', 'value'),
+            'view_item_list'  =>  array('items', 'item_list_name', 'item_list_id'),
+            'view_promotion'  =>  array('items', 'promotion_id', 'promotion_name', 'creative_name', 'creative_slot', 'location_id')
+        ),
+        "Games" => array(
+            'earn_virtual_currency'  => array('virtual_currency_name', 'value'),
+            'join_group'  => array('group_id'),
+            'level_end'  => array('level_name', 'success'),
+            'level_start'  => array('level_name'),
+            'level_up'  => array('character', 'level'),
+            'post_score'  => array('level', 'character', 'score'),
+            'select_content'  => array('content_type', 'item_id'),
+            'spend_virtual_currency'  => array('item_name', 'virtual_currency_name', 'value'),
+            'tutorial_begin'  => array(),
+            'tutorial_complete'  => array(),
+            'unlock_achievement'  => array('achievement_id'),
+        )
+    );
+
 	private $data = array(
 		'delay'        => null,
 		'trigger_type' => 'page_visit',
@@ -75,6 +159,12 @@ class CustomEvent {
 		'ga_event_label'         => null,
 		'ga_event_value'         => null,
 		'ga_non_interactive'     => true,
+
+        //ver 4
+        'ga_params'             => array(),
+        'ga_custom_params'      => array(),
+        'ga_custom_params_enabled'    => false,
+        'ga_version'           => "",
 
         'bing_enabled' => false,
         'bing_event_action' => null,
@@ -348,46 +438,7 @@ class CustomEvent {
 		/**
 		 * GOOGLE ANALYTICS
 		 */
-
-		$this->data['ga_enabled'] = isset( $args['ga_enabled'] ) && $args['ga_enabled'] ? true : false;
-		
-		$ga_event_actions = array(
-			'_custom',
-			'add_payment_info',
-			'add_to_cart',
-			'add_to_wishlist',
-			'begin_checkout',
-			'checkout_progress',
-			'generate_lead',
-			'login',
-			'purchase',
-			'refund',
-			'remove_from_cart',
-			'search',
-			'select_content',
-			'set_checkout_option',
-			'share',
-			'sign_up',
-			'view_item',
-			'view_item_list',
-			'view_promotion',
-			'view_search_results',
-		);
-
-		// event action
-		$this->data['ga_event_action'] = isset( $args['ga_event_action'] ) && in_array( $args['ga_event_action'], $ga_event_actions )
-			? sanitize_text_field( $args['ga_event_action'] )
-			: 'view_item';
-
-		// custom event type
-		$this->data['ga_custom_event_action'] = $this->ga_event_action == '_custom' && !empty( $args['ga_custom_event_action'] )
-			? sanitizeKey( $args['ga_custom_event_action'] )
-			: null;
-
-		$this->data['ga_event_category']  = ! empty( $args['ga_event_category'] ) ? sanitize_text_field( $args['ga_event_category'] ) : null;
-		$this->data['ga_event_label']     = ! empty( $args['ga_event_label'] ) ? sanitize_text_field( $args['ga_event_label'] ) : null;
-		$this->data['ga_event_value']     = ! empty( $args['ga_event_value'] ) ? sanitize_text_field( $args['ga_event_value'] ) : null;
-		$this->data['ga_non_interactive'] = isset( $args['ga_non_interactive'] ) && $args['ga_non_interactive'] ? true : false;
+        $this->updateGA($args);
 
         /**
          * BING
@@ -497,10 +548,162 @@ class CustomEvent {
 	}
 
 	public function getGoogleAnalyticsAction() {
-		return $this->ga_event_action == '_custom' ? $this->ga_custom_event_action : $this->ga_event_action;
+        return $this->ga_event_action == '_custom' ||
+               $this->ga_event_action ==  'CustomEvent' ? $this->ga_custom_event_action : $this->ga_event_action;
 	}
 
     public function isBingEnabled() {
         return (bool) $this->bing_enabled;
+    }
+
+    private function updateGA( $args) {
+        if(GA()->isUse4Version()) {
+            $this->data['ga_enabled'] = isset( $args['ga_enabled'] ) && $args['ga_enabled'] ? true : false;
+
+            if($this->data['ga_enabled']) {
+
+                $this->data['ga_event_action'] = isset( $args['ga_event_action'] )
+                    ? sanitize_text_field( $args['ga_event_action'] )
+                    : 'view_item';
+
+                $this->data['ga_custom_event_action'] = $this->ga_event_action == '_custom' || $this->ga_event_action == 'CustomEvent' && !empty( $args['ga_custom_event_action'] )
+                    ? sanitizeKey( $args['ga_custom_event_action'] )
+                    : null;
+
+                $this->data['ga_params'] = array();
+                $this->data['ga_version'] = "4";
+
+                foreach ($this->GAEvents as $group) {
+                    foreach ($group as $name => $fields) {
+                        if($name == $this->data['ga_event_action']) {
+                            foreach ($fields as $field) {
+                                $this->data['ga_params'][$field] = isset($args['ga_params'][$field]) ? $args['ga_params'][$field] : "";
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                if ( isset( $args['ga_params'] ) ) {
+                    foreach ($args['ga_params'] as $key => $val) {
+                        $this->data['ga_params'][$key] = sanitize_text_field( $val );
+                    }
+                }
+
+                // reset old custom params
+                $this->data['ga_custom_params'] = array();
+
+                // custom params
+                if ( isset( $args['ga_custom_params'] ) ) {
+
+                    foreach ( $args['ga_custom_params'] as $custom_param ) {
+
+                        if ( ! empty( $custom_param['name'] ) && ! empty( $custom_param['value'] ) ) {
+
+                            $this->data['ga_custom_params'][] = array(
+                                'name'  => sanitize_text_field( $custom_param['name'] ),
+                                'value' => sanitize_text_field( $custom_param['value'] ),
+                            );
+
+                        }
+
+                    }
+
+                }
+                $this->data['ga_non_interactive'] = isset( $args['ga_non_interactive'] ) && $args['ga_non_interactive'] ? true : false;
+            } else {
+                $this->data['ga_params'] = array();
+                $this->data['ga_version'] = "";
+                $this->data['ga_custom_params'] = array();
+                $this->data['ga_event_action'] = 'CustomEvent';
+                $this->data['ga_custom_event_action']=null;
+                $this->data['ga_non_interactive'] =  false;
+            }
+
+
+        } else {
+            $this->data['ga_enabled'] = isset( $args['ga_enabled'] ) && $args['ga_enabled'] ? true : false;
+
+            $ga_event_actions = array(
+                '_custom',
+                'add_payment_info',
+                'add_to_cart',
+                'add_to_wishlist',
+                'begin_checkout',
+                'checkout_progress',
+                'generate_lead',
+                'login',
+                'purchase',
+                'refund',
+                'remove_from_cart',
+                'search',
+                'select_content',
+                'set_checkout_option',
+                'share',
+                'sign_up',
+                'view_item',
+                'view_item_list',
+                'view_promotion',
+                'view_search_results',
+            );
+
+            // event action
+            $this->data['ga_event_action'] = isset( $args['ga_event_action'] ) && in_array( $args['ga_event_action'], $ga_event_actions )
+                ? sanitize_text_field( $args['ga_event_action'] )
+                : 'view_item';
+
+            // custom event type
+            $this->data['ga_custom_event_action'] = $this->ga_event_action == '_custom' && !empty( $args['ga_custom_event_action'] )
+                ? sanitizeKey( $args['ga_custom_event_action'] )
+                : null;
+
+            $this->data['ga_event_category']  = ! empty( $args['ga_event_category'] ) ? sanitize_text_field( $args['ga_event_category'] ) : null;
+            $this->data['ga_event_label']     = ! empty( $args['ga_event_label'] ) ? sanitize_text_field( $args['ga_event_label'] ) : null;
+            $this->data['ga_event_value']     = ! empty( $args['ga_event_value'] ) ? sanitize_text_field( $args['ga_event_value'] ) : null;
+            $this->data['ga_non_interactive'] = isset( $args['ga_non_interactive'] ) && $args['ga_non_interactive'] ? true : false;
+        }
+
+
+    }
+
+    public function getGACustomParams() {
+        if($this->getGaVersion() == "4") {
+            return $this->ga_custom_params;
+        }
+        $custom = array();
+        if($this->ga_event_category) {
+            $custom[] = array('name'=>"event_category",'value' => $this->ga_event_category);
+        }
+        if($this->ga_event_value){
+            $custom[] = array('name'=>"value",'value' => $this->ga_event_value);
+        }
+        if($this->ga_event_label){
+            $custom[] = array('name'=>"event_label",'value' => $this->ga_event_label);
+        }
+
+        return $custom;
+    }
+
+    public function getGaParams() {
+        if($this->getGaVersion() == "4")
+            return $this->ga_params;
+        $list = array();
+        foreach ($this->GAEvents as $group) {
+            foreach ($group as $name => $fields) {
+                if($name == $this->data['ga_event_action']) {
+                    foreach ($fields as $field) {
+                        $list[$field] = "";
+                    }
+                }
+            }
+        }
+
+        return $list;
+    }
+
+    public function getGaVersion() {
+        if(isset($this->data['ga_version']))
+            return $this->ga_version;
+        return "";
     }
 }

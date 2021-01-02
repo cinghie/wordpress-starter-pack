@@ -9,11 +9,12 @@
  *
  * @var $email_heading array
  * @var $raq_data array
+ * @var $email
  */
 
 ?>
 
-<?php do_action( 'woocommerce_email_header', $email_heading ); ?>
+<?php do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
 
 
 <p>

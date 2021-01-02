@@ -5,12 +5,14 @@ require_once( ABSPATH . 'wp-admin/includes/class-wp-plugin-install-list-table.ph
 class WOOCCM_Suggestions_List_Table extends WP_Plugin_Install_List_Table {
 
   public $promote = array(
-      'woocommerce-direct-checkout',
-      'perfect-woocommerce-brands',
-      'wp-whatsapp-chat',
-      'wp-tiktok-feed',
-      'insta-gallery',
-      'quadmenu',
+    'woocommerce-direct-checkout',
+    'perfect-woocommerce-brands',
+    'autocomplete-woocommerce-orders',
+    'wp-whatsapp-chat',
+    'insta-gallery',
+    'wp-menu-icons',
+    'quadmenu',
+    'wp-tiktok-feed',
   );
 
   private function remove_plugins($plugins) {

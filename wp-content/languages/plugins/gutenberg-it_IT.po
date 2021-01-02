@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-12-14 09:20:22+0000\n"
+"PO-Revision-Date: 2020-12-27 14:54:59+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -182,91 +182,91 @@ msgctxt "Block pattern description"
 msgid "Two columns of text, each with an image on top."
 msgstr "Due colonne di testo, ognuna con una immagine in alto."
 
-#: lib/compat.php:557
+#: lib/compat.php:599
 msgid "Reusable Block updated."
 msgstr "Blocco riutilizzabile aggiornato."
 
-#: lib/compat.php:556
+#: lib/compat.php:598
 msgid "Reusable Block scheduled."
 msgstr "Blocco riutilizzabile programmato."
 
-#: lib/compat.php:555
+#: lib/compat.php:597
 msgid "Reusable Block reverted to draft."
 msgstr "Blocco riutilizzabile convertito in bozza."
 
-#: lib/compat.php:554
+#: lib/compat.php:596
 msgid "Reusable Block published privately."
 msgstr "Blocco riutilizzabile pubblicato in Privato."
 
-#: lib/compat.php:553
+#: lib/compat.php:595
 msgid "Reusable Block published."
 msgstr "Blocco riutilizzabile pubblicato."
 
-#: lib/compat.php:552
+#: lib/compat.php:594
 msgid "Reusable Blocks list"
 msgstr "Elenco dei blocchi riutilizzabili"
 
-#: lib/compat.php:551
+#: lib/compat.php:593
 msgid "Reusable Blocks list navigation"
 msgstr "Navigazione nell'elenco dei blocchi riutilizzabili"
 
-#: lib/compat.php:550
+#: lib/compat.php:592
 msgid "Filter reusable blocks list"
 msgstr "Filtra l'elenco dei blocchi riutilizzabili"
 
-#: lib/compat.php:549
+#: lib/compat.php:591
 msgid "No reusable blocks found in Trash."
 msgstr "Nessun blocco riutilizzabile trovato nel Cestino."
 
-#: lib/compat.php:548
+#: lib/compat.php:590
 msgid "No reusable blocks found."
 msgstr "Nessun blocco riutilizzabile trovato."
 
-#: lib/compat.php:547
+#: lib/compat.php:589
 msgid "Search Reusable Blocks"
 msgstr "Cerca i blocchi riutilizzabili"
 
-#: lib/compat.php:546
+#: lib/compat.php:588
 msgid "All Reusable Blocks"
 msgstr "Tutti i blocchi riutilizzabili"
 
-#: lib/compat.php:545
+#: lib/compat.php:587
 msgid "View Reusable Block"
 msgstr "Visualizza blocco riutilizzabile"
 
-#: lib/compat.php:544
+#: lib/compat.php:586
 msgid "Edit Reusable Block"
 msgstr "Modifica blocco riutilizzabile"
 
-#: lib/compat.php:543
+#: lib/compat.php:585
 msgid "New Reusable Block"
 msgstr "Nuovo blocco riutilizzabile"
 
-#: lib/compat.php:542
+#: lib/compat.php:584
 msgid "Add New Reusable Block"
 msgstr "Aggiungi un nuovo blocco riutilizzabile"
 
-#: lib/compat.php:541
+#: lib/compat.php:583
 msgctxt "Reusable Block"
 msgid "Add New"
 msgstr "Aggiungi nuovo"
 
-#: lib/compat.php:540
+#: lib/compat.php:582
 msgctxt "add new on admin bar"
 msgid "Reusable Block"
 msgstr "Nlocco riutilizzabile"
 
-#: lib/compat.php:539
+#: lib/compat.php:581
 msgctxt "admin menu"
 msgid "Reusable Blocks"
 msgstr "Blocchi riutilizzabili"
 
-#: lib/compat.php:538
+#: lib/compat.php:580
 msgctxt "post type singular name"
 msgid "Reusable Block"
 msgstr "Blocco riutilizzabile"
 
-#: lib/compat.php:537
+#: lib/compat.php:579
 msgctxt "post type general name"
 msgid "Reusable Blocks"
 msgstr "Blocchi riutilizzabili"
@@ -374,6 +374,10 @@ msgstr "Il numero di versione del plugin."
 msgid "The plugin description formatted for display."
 msgstr "La descrizione del plugin formattata per la visualizzazione."
 
+#: lib/class-wp-rest-plugins-controller.php:880
+msgid "The raw plugin description."
+msgstr "La descrizione del plugin grezzo."
+
 #: lib/class-wp-rest-plugins-controller.php:874
 msgid "The plugin description."
 msgstr "La descrizione del plugin."
@@ -397,6 +401,10 @@ msgstr "Il nome del plugin."
 #: lib/class-wp-rest-plugins-controller.php:835
 msgid "The plugin file."
 msgstr "Il file del plugin."
+
+#: lib/class-wp-rest-plugins-controller.php:814
+msgid "The filesystem is currently unavailable for managing plugins."
+msgstr "Il filesystem non è attualmente disponibile per la gestione dei plugin."
 
 #: lib/class-wp-rest-plugins-controller.php:661
 msgid "Sorry, you are not allowed to deactivate this plugin."
@@ -664,8 +672,8 @@ msgstr "Testo"
 msgid "White"
 msgstr "Bianco"
 
-#: lib/class-wp-theme-json-resolver.php:88
-#: lib/class-wp-theme-json-resolver.php:161 build/block-editor/index.js:27
+#: lib/class-wp-theme-json-resolver.php:88 build/block-editor/index.js:7
+#: build/block-editor/index.js:27
 msgid "Black"
 msgstr "Nero"
 
@@ -686,9 +694,9 @@ msgid "The theme slug for the theme that created the template part."
 msgstr "Lo slug del tema che ha creato le parti del template."
 
 #. translators: accessibility text for the content landmark region.
-#: lib/navigation.php:338 build/edit-post/index.js:39
-#: build/edit-site/index.js:9 build/edit-site/index.js:15
-#: build/edit-widgets/index.js:24
+#: lib/navigation.php:338 build/edit-widgets/index.js:24
+#: build/edit-post/index.js:43 build/edit-site/index.js:9
+#: build/edit-site/index.js:15
 msgid "Content"
 msgstr "Contenuto"
 
@@ -835,8 +843,8 @@ msgstr "Non posso creare un articolo esistente."
 msgid "Sorry, you cannot view these menu items, unless you have access to permission edit them. "
 msgstr "Non puoi visualizzare queste voci di menu, a meno che non abbia l'autorizzazioni di modificarle."
 
-#: lib/class-wp-rest-menu-items-controller.php:158
 #: lib/class-wp-rest-customizer-nonces.php:51
+#: lib/class-wp-rest-menu-items-controller.php:158
 msgid "Sorry, you are not allowed to edit posts in this post type."
 msgstr "Non hai i permessi per modificare gli articoli in questo post type."
 
@@ -918,7 +926,7 @@ msgstr "Non hai i permessi per visualizzare le posizioni del menu."
 msgid "An alphanumeric identifier for the menu location."
 msgstr "Un identificatore alfanumerico per la posizione del menu."
 
-#: lib/class-wp-theme-json-resolver.php:340 build/edit-site/index.js:9
+#: lib/class-wp-theme-json-resolver.php:304 build/edit-site/index.js:9
 msgid "Global Styles"
 msgstr "Stili globali"
 
@@ -930,7 +938,7 @@ msgstr "Template vuoto."
 msgid "No matching template found."
 msgstr "Non è stata trovata corrispondenza con nessun template."
 
-#: lib/full-site-editing/templates-utils.php:18 lib/templates.php:98
+#: lib/templates.php:98 lib/full-site-editing/templates-utils.php:18
 #: build/edit-site/index.js:9
 msgid "Theme"
 msgstr "Tema"
@@ -944,18 +952,14 @@ msgid "Site Editor (beta)"
 msgstr "Editor del sito (beta)"
 
 #: build/block-library/blocks/query-pagination.php:33
-#: build/components/index.js:22 build/block-library/index.js:60
+#: build/components/index.js:22 build/block-library/index.js:63
 msgid "Next"
 msgstr "Prossimo"
 
 #: build/block-library/blocks/query-pagination.php:26
-#: build/components/index.js:22 build/block-library/index.js:60
+#: build/components/index.js:22 build/block-library/index.js:63
 msgid "Previous"
 msgstr "Precedente"
-
-#: lib/class-wp-theme-json-resolver.php:155
-msgid "Light"
-msgstr "Chiaro"
 
 #: lib/class-wp-rest-widget-types-controller.php:63
 msgid "Current widget instance"
@@ -1035,7 +1039,7 @@ msgctxt "Admin Menu text"
 msgid "Template Parts"
 msgstr "Parti del template"
 
-#: lib/template-parts.php:18 build/block-library/index.js:60
+#: lib/template-parts.php:18 build/block-library/index.js:63
 msgid "Template Part"
 msgstr "Parte del template"
 
@@ -1043,8 +1047,8 @@ msgstr "Parte del template"
 msgid "Template Parts"
 msgstr "Parti del template"
 
-#: lib/experiments-page.php:45 build/block-library/index.js:30
-#: build/edit-navigation/index.js:3
+#: lib/experiments-page.php:45 build/edit-navigation/index.js:3
+#: build/block-library/index.js:30
 msgid "Navigation"
 msgstr "Navigazione"
 
@@ -1118,7 +1122,7 @@ msgctxt "Admin Menu text"
 msgid "Templates"
 msgstr "Template"
 
-#: lib/templates.php:37
+#: lib/templates.php:37 build/edit-post/index.js:24
 msgid "Template"
 msgstr "Template"
 
@@ -1222,7 +1226,7 @@ msgstr "Errore RSS:"
 
 #: build/block-library/blocks/search.php:25
 #: build/block-library/blocks/search.php:26
-#: build/block-library/blocks/search.php:52 build/block-editor/index.js:42
+#: build/block-library/blocks/search.php:52 build/block-editor/index.js:43
 #: build/block-library/index.js:49
 msgid "Search"
 msgstr "Cerca"
@@ -1242,7 +1246,7 @@ msgid "Full Size"
 msgstr "Dimensione reale"
 
 #: lib/full-site-editing/default-template-types.php:69 lib/compat.php:329
-#: build/core-data/index.js:1 build/block-editor/index.js:67
+#: build/block-editor/index.js:67 build/core-data/index.js:1
 #: build/blocks/index.js:1
 msgid "Media"
 msgstr "Media"
@@ -1256,17 +1260,17 @@ msgstr "j M Y H:i"
 msgid "Sorry, you are not allowed to edit images."
 msgstr "Non hai i permessi per modificare le immagini."
 
-#: lib/class-wp-theme-json-resolver.php:132 build/block-library/index.js:55
+#: lib/class-wp-theme-json-resolver.php:132 build/block-library/index.js:58
 msgid "Huge"
 msgstr "Enorme"
 
-#: lib/class-wp-theme-json-resolver.php:130
-#: lib/class-wp-theme-json-resolver.php:157 lib/editor-settings.php:29
-#: build/components/index.js:10 build/block-editor/index.js:27
+#: lib/class-wp-theme-json-resolver.php:130 lib/editor-settings.php:29
+#: build/block-editor/index.js:7 build/block-editor/index.js:27
+#: build/components/index.js:10
 msgid "Medium"
 msgstr "Medio"
 
-#: lib/class-wp-theme-json-resolver.php:129 build/block-library/index.js:55
+#: lib/class-wp-theme-json-resolver.php:129 build/block-library/index.js:58
 msgid "Normal"
 msgstr "Normale"
 
@@ -1441,7 +1445,7 @@ msgid "Unique identifier for the object."
 msgstr "Identificatore univoco per l'oggetto."
 
 #: lib/class-wp-theme-json-resolver.php:128 build/components/index.js:10
-#: build/block-library/index.js:55
+#: build/block-library/index.js:58
 msgid "Small"
 msgstr "piccolo"
 
@@ -1524,15 +1528,10 @@ msgid "Pale pink"
 msgstr "Rosa pallido"
 
 #: lib/class-wp-theme-json-resolver.php:131 lib/editor-settings.php:30
-#: build/components/index.js:10 build/block-editor/index.js:27
-#: build/block-library/index.js:55
+#: build/block-editor/index.js:27 build/components/index.js:10
+#: build/block-library/index.js:58
 msgid "Large"
 msgstr "Grande"
-
-#: lib/class-wp-theme-json-resolver.php:141
-#: lib/class-wp-theme-json-resolver.php:156
-msgid "Regular"
-msgstr "Normale"
 
 #: lib/class-wp-rest-menu-items-controller.php:487
 msgid "Invalid term ID."
@@ -1554,36 +1553,28 @@ msgstr "Handler dell'oggetto incorporato"
 msgid "Status"
 msgstr "Stato"
 
-#: lib/client-assets.php:164 build/editor/index.js:13
-#: build/edit-post/index.js:7 build/edit-post/index.js:22
-#: build/block-library/index.js:60
+#: lib/client-assets.php:164 build/edit-post/index.js:7
+#: build/edit-post/index.js:26 build/editor/index.js:13
+#: build/block-library/index.js:63
 msgid "Featured image"
 msgstr "Immagine in evidenza"
 
 #. translators: ARIA label for the Block Settings Sidebar tab, not selected.
 #. translators: Text label for the Block Settings Sidebar tab.
 #: lib/class-wp-widget-block.php:40 lib/navigation.php:91 lib/navigation.php:96
-#: build/edit-post/index.js:21 build/edit-post/index.js:22
-#: build/edit-widgets/index.js:9
+#: build/edit-widgets/index.js:9 build/edit-post/index.js:23
+#: build/edit-post/index.js:24
 msgid "Block"
 msgstr "Blocco"
 
-#: build/block-library/blocks/latest-comments.php:31
 #: build/block-library/blocks/latest-posts.php:102
-#: build/block-library/blocks/rss.php:31 build/editor/index.js:31
-#: build/editor/index.js:45 build/edit-post/index.js:22
-#: build/block-library/index.js:30 build/block-library/index.js:38
-#: build/edit-site/index.js:9 build/edit-navigation/index.js:3
+#: build/block-library/blocks/latest-comments.php:31
+#: build/block-library/blocks/rss.php:31 build/edit-post/index.js:26
+#: build/edit-site/index.js:9 build/editor/index.js:31 build/editor/index.js:45
+#: build/edit-navigation/index.js:3 build/block-library/index.js:30
+#: build/block-library/index.js:38
 msgid "(no title)"
 msgstr "(senza titolo)"
-
-#: lib/class-wp-theme-json-resolver.php:142 build/format-library/index.js:1
-msgid "Italic"
-msgstr "Corsivo"
-
-#: lib/class-wp-theme-json-resolver.php:159 build/format-library/index.js:1
-msgid "Bold"
-msgstr "Grassetto"
 
 #: lib/patterns/quote.php:9 build/editor/index.js:15
 #: build/block-library/index.js:12
@@ -1599,8 +1590,8 @@ msgstr "Scrivi il titolo..."
 msgid "Experiments"
 msgstr "Esperimenti"
 
-#: gutenberg.php:49 gutenberg.php:50 build/core-data/index.js:1
-#: build/blocks/index.js:1 build/edit-widgets/index.js:10
+#: gutenberg.php:49 gutenberg.php:50 build/edit-widgets/index.js:10
+#: build/core-data/index.js:1 build/blocks/index.js:1
 msgid "Widgets"
 msgstr "Widget"
 
@@ -1629,8 +1620,8 @@ msgid "Gutenberg"
 msgstr "Gutenberg"
 
 #. translators: button label text should, if possible, be under 16 characters.
-#: lib/full-site-editing/templates-utils.php:15 build/components/index.js:5
-#: build/editor/index.js:35
+#: lib/full-site-editing/templates-utils.php:15 build/editor/index.js:35
+#: build/components/index.js:5
 msgid "Slug"
 msgstr "Slug"
 
@@ -1649,9 +1640,9 @@ msgstr "j F Y"
 msgid "g:i a"
 msgstr "G:i"
 
-#. translators: %s: Human-readable time difference.
 #. translators: %s: Duration.
-#: lib/class-wp-rest-block-directory-controller.php:138 lib/compat.php:281
+#. translators: %s: Human-readable time difference.
+#: lib/compat.php:281 lib/class-wp-rest-block-directory-controller.php:138
 msgid "%s ago"
 msgstr "%s fa"
 

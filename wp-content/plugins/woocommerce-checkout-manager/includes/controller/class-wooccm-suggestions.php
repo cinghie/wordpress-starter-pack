@@ -7,6 +7,7 @@ class WOOCCM_Checkout_Suggestions_Controller
 
   public function __construct()
   {
+    add_action('wooccm_sections_header', array($this, 'add_header'));
     add_action('admin_menu', array($this, 'add_menu'));
     add_action('admin_init', array($this, 'add_redirect'));
     add_filter('network_admin_url', array($this, 'network_admin_url'), 10, 2);
@@ -32,6 +33,13 @@ class WOOCCM_Checkout_Suggestions_Controller
   public function add_menu()
   {
     add_submenu_page(WOOCCM_PREFIX, esc_html__('Suggestions', 'woocommerce-checkout-manager'), esc_html__('Suggestions', 'woocommerce-checkout-manager'), 'manage_woocommerce', WOOCCM_PREFIX . '_suggestions', array($this, 'add_page'));
+  }
+
+  function add_header()
+  {
+  ?>
+    <li><a href="<?php echo admin_url('admin.php?page=wooccm_suggestions'); ?>"><?php echo esc_html__('Suggestions', 'woocommerce-checkout-manager'); ?></a></li> |
+<?php
   }
 
   // fix for activateUrl on install now button

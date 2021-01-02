@@ -328,7 +328,7 @@ if (!Array.prototype.includes) {
 
             },
             setupCommentEvents : function (eventId,triggers) {
-                $('form.comment-form').submit(function () {
+                $('form.comment-form').on("submit",function () {
                     Utils.fireDynamicEvent(eventId);
                 });
             },
@@ -746,14 +746,36 @@ if (!Array.prototype.includes) {
                         event: name,
                         data:data,
                         ids:options.facebook.pixelIds,
-                        eventID:allData.eventID
+                        eventID:allData.eventID,
+                        woo_order:allData.woo_order,
+                        edd_order:allData.edd_order,
                     };
-                    jQuery.ajax( {
-                        type: 'POST',
-                        url: options.ajaxUrl,
-                        data: json,
-                        success: function(){},
-                    });
+                    if(allData.delay > 0) {
+                        jQuery.ajax( {
+                            type: 'POST',
+                            url: options.ajaxUrl,
+                            data: json,
+                            headers: {
+                                'Cache-Control': 'no-cache'
+                            },
+                            success: function(){},
+                        });
+                    } else {
+                        if(name != "AddToCart") { // AddToCart call from hook
+                            setTimeout(function (json) {
+                                jQuery.ajax({
+                                    type: 'POST',
+                                    url: options.ajaxUrl,
+                                    data: json,
+                                    headers: {
+                                        'Cache-Control': 'no-cache'
+                                    },
+                                    success: function () {
+                                    },
+                                });
+                            }, 1000, json);
+                        }
+                    }
                 }
             }
 
@@ -1082,8 +1104,22 @@ if (!Array.prototype.includes) {
                     };
                 }
 
+                if(options.ga.isUse4Version) {
+                    if(options.ga.disableAdvertisingFeatures) {
+                        config.allow_google_signals = false
+                    }
+                    if(options.ga.disableAdvertisingPersonalization) {
+                        config.allow_ad_personalization_signals = false
+                    }
+                }
+
                 // configure tracking ids
-                options.ga.trackingIds.forEach(function (trackingId) {
+                options.ga.trackingIds.forEach(function (trackingId,index) {
+                    if(options.ga.isDebugEnabled.includes("index_"+index)) {
+                        config.debug_mode = true;
+                    } else {
+                        config.debug_mode = false;
+                    }
                     gtag('config', trackingId, config);
                 });
 
@@ -1122,13 +1158,28 @@ if (!Array.prototype.includes) {
 
                 if (initialized && this.isEnabled() && options.ga.commentEventEnabled) {
 
-                    this.fireEvent(window.location.href, {
-                        params: {
-                            event_category: 'Comment',
-                            event_label: $(document).find('title').text(),
-                            non_interaction: options.ga.commentEventNonInteractive
-                        }
-                    });
+                    if(options.ga.isUse4Version) {
+                        this.fireEvent('Comment', {
+                            params: {
+                                post_type: pysOptions.postType,
+                                post_id: pysOptions.postId,
+                                content_name: pysOptions.postTitle,
+                                event_url:window.location.href,
+
+                                user_role:pysOptions.userRoles,
+                                non_interaction: options.ga.commentEventNonInteractive
+                            }
+                        });
+                    } else {
+                        this.fireEvent(pysOptions.postType + ' comment', {
+                            params: {
+                                event_category: 'Comment',
+                                event_label: pysOptions.postTitle,
+                                non_interaction: options.ga.commentEventNonInteractive
+                            }
+                        });
+                    }
+
 
                 }
 
@@ -1138,29 +1189,56 @@ if (!Array.prototype.includes) {
 
                 if (initialized && this.isEnabled() && options.ga.downloadEnabled) {
 
-                    this.fireEvent(params.download_url, {
-                        params: {
-                            event_category: 'Download',
-                            event_label: params.download_name,
-                            non_interaction: options.ga.downloadEventNonInteractive
-                        }
-                    });
-
+                    if(options.ga.isUse4Version) {
+                        // remove this event
+                    } else {
+                        this.fireEvent(params.download_url, {
+                            params: {
+                                event_category: 'Download',
+                                event_label: params.download_name,
+                                non_interaction: options.ga.downloadEventNonInteractive
+                            }
+                        });
+                    }
                 }
 
             },
 
             onFormEvent: function (params) {
 
+                var action = {
+                    class: (typeof params.form_class != 'undefined') ? 'class: ' + params.form_class : '',
+                    id: (typeof params.form_id != 'undefined') ? 'id: ' + params.form_id : ''
+                };
+
                 if (initialized && this.isEnabled() && options.ga.formEventEnabled) {
 
-                    this.fireEvent(window.location.href, {
-                        params: {
-                            event_category: 'Form',
-                            event_label: params.form_class,
-                            non_interaction: options.ga.formEventNonInteractive
-                        }
-                    });
+                    if(options.ga.isUse4Version) {
+                        this.fireEvent("Form", {
+                            params: {
+                                form_class: action.class,
+                                form_id:action.id,
+                                form_submit_label: params.form_submit_label,
+
+                                post_type: pysOptions.postType,
+                                post_id: pysOptions.postId,
+                                content_name: pysOptions.postTitle,
+                                event_url:window.location.href,
+
+                                user_role:pysOptions.userRoles,
+                                non_interaction: options.ga.formEventNonInteractive
+                            }
+                        });
+                    } else {
+                        this.fireEvent(action.class + ' ' + action.id, {
+                            params: {
+                                event_category: 'Form',
+                                event_label: params.form_submit_label,
+                                non_interaction: options.ga.formEventNonInteractive
+                            }
+                        });
+                    }
+
 
                 }
 
@@ -1319,7 +1397,7 @@ if (!Array.prototype.includes) {
             if (options.woo.addToCartOnButtonEnabled) {
 
                 // Loop, any kind of "simple" product, except external
-                $('.add_to_cart_button:not(.product_type_variable)').click(function (e) {
+                $('.add_to_cart_button:not(.product_type_variable)').on("click",function (e) {
 
                     var product_id = $(this).data('product_id');
 
@@ -1415,7 +1493,7 @@ if (!Array.prototype.includes) {
             // EDD AddToCart
             if (options.edd.addToCartOnButtonEnabled) {
 
-                $('form.edd_download_purchase_form .edd-add-to-cart').click(function (e) {
+                $('form.edd_download_purchase_form .edd-add-to-cart').on("click",function (e) {
 
                     var $button = $(this);
                     var $form = $button.closest('form');
@@ -1503,7 +1581,7 @@ if (!Array.prototype.includes) {
             // EDD RemoveFromCart
             if (options.edd.removeFromCartEnabled) {
 
-                $('form#edd_checkout_cart_form .edd_cart_remove_item_btn').click(function (e) {
+                $('form#edd_checkout_cart_form .edd_cart_remove_item_btn').on("click",function (e) {
 
                     var href = $(this).attr('href');
                     var key = href.substring(href.indexOf('=') + 1).charAt(0);
@@ -1530,7 +1608,7 @@ if (!Array.prototype.includes) {
         // setup Comment Event
         if (options.commentEventEnabled) {
 
-            $('form.comment-form').submit(function () {
+            $('form.comment-form').on("submit",function () {
 
                 Facebook.onCommentEvent();
                 Analytics.onCommentEvent();
@@ -1544,7 +1622,7 @@ if (!Array.prototype.includes) {
         // setup DownloadDocs event
         if (options.downloadEventEnabled && options.downloadExtensions.length > 0) {
 
-            $('body').click(function (event) {
+            $('body').on("click",function (event) {
 
                 var el = event.srcElement || event.target;
 

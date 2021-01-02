@@ -1,5 +1,7 @@
 {
   "enabled": true,
+  "use_4_version": false,
+  "is_enable_debug_mode": "",
   "tracking_id": "",
   "enhance_link_attribution": false,
   "anonimize_ip": false,
@@ -50,5 +52,9 @@
   "edd_view_content_enabled": true,
   "edd_view_content_non_interactive": true,
   "edd_view_category_enabled": true,
-  "edd_view_category_non_interactive": true
+  "edd_view_category_non_interactive": true,
+
+  "disable_advertising_features": false,
+  "disable_advertising_personalization": false
+
 }

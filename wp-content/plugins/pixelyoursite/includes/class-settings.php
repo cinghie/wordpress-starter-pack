@@ -750,5 +750,26 @@ abstract class Settings {
 		return $sanitized;
 		
 	}
+
+    public function render_checkbox_input_array( $key, $label, $index = 0, $disabled = false ) {
+
+        $attr_name  = "pys[$this->slug][$key][]";
+        $attr_values = (array)$this->getOption( $key );
+        $value = "index_".$index;
+        $valueIndex = array_search($value,$attr_values);
+
+        ?>
+
+        <label class="custom-control custom-checkbox">
+            <input type="checkbox" name="<?php esc_attr_e( $attr_name ); ?>" value="<?=$value?>"
+                   class="custom-control-input" <?php disabled( $disabled, true ); ?>
+                <?=$valueIndex !== false ? "checked" : "" ?>>
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description"><?php echo wp_kses_post( $label ); ?></span>
+        </label>
+
+        <?php
+
+    }
 	
 }

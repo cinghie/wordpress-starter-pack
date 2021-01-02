@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.6
-Stable tag: 9.2.6
+Stable tag: 9.3.2
 
 == Description ==
 
@@ -320,6 +320,24 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 9.3.2 (2020-12-29) =
+* Added support for the Yandex group_id attribute
+
+= 9.3.1 (2020-12-29) =
+* When the FlyCart table rate shipping plugin is active do not calculate shipping costs for product ID's that are smaller than 0
+
+= 9.3.0 (2020-12-22) =
+* Fixed an issue with anonymous reviews for the Google product review feed
+
+= 9.2.9 (2020-12-21) =
+* Added support for the "fee percentage" shipping cost formula
+
+= 9.2.8 (2020-12-21) =
+* Added a discount percentage attribute calculating the percentage discount between the sale and regular price
+
+= 9.2.7 (2020-12-18) =
+* Fixed an issue for Skroutz feeds where the lowest priced variation feature was not working
 
 = 9.2.6 (2020-12-11) =
 * Fixed all the deprecated jQuery
@@ -2953,6 +2971,24 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 9.3.2 =
+Added support for the Yandex group_id attribute
+
+= 9.3.1 =
+When the FlyCart table rate shipping plugin is active do not calculate shipping costs for product ID's that are smaller than 0
+
+= 9.3.0 =
+Fixed an issue with anonymous reviews for the Google product review feed
+
+= 9.2.9 =
+Added support for the "fee percentage" shipping cost formula
+
+= 9.2.8 =
+Added a discount percentage attribute calculating the percentage discount between the sale and regular price
+
+= 9.2.7 =
+Fixed an issue for Skroutz feeds where the lowest priced variation feature was not working
 
 = 9.2.6 =
 Fixed all the deprecated jQuery

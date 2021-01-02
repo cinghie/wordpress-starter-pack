@@ -455,42 +455,140 @@ if(isset( $_REQUEST['id'] )) {
             </div>
             <div id="analytics_panel">
                 <div class="row mt-3">
-                    <div class="col col-offset-left">
+                    <div class="col ">
+                        <?php
+                        if(GA()->isUse4Version()) :
+                        ?>
                         <div class="row mb-3">
-                            <label class="col-5 control-label">Action</label>
-                            <div class="col-4">
-                                <?php Events\renderGoogleAnalyticsActionInput( $event, 'ga_event_action' ); ?>
-                            </div>
-                            <div class="col-3">
+                            <div class="col col-offset-left form-inline" >
+                                <script>
+                                    <?php
+                                    $fields = array();
+                                    foreach ($event->GAEvents as $group => $items) {
+                                        foreach ($items as $name => $elements) {
+                                            $fields[] = array("name"=>$name,'fields'=>$elements);
+                                        }
+                                    }
+
+                                    ?>
+                                    var ga_fields = <?=json_encode($fields)?>
+                                </script>
+                                <label class=" control-label">Event</label>
+
+                                <?php  Events\renderGoogleAnalyticsV4ActionInput( $event, 'ga_event_action' ); ?>
+
                                 <div id="ga-custom-action">
                                     <?php Events\renderTextInput( $event, 'ga_custom_event_action', 'Enter name' ); ?>
                                 </div>
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <label class="col-5 control-label">Category</label>
-                            <div class="col-4">
-                                <?php Events\renderTextInput( $event, 'ga_event_category' ); ?>
-                            </div>
+                        <div class="ga-param-list">
+                            <?php
+                            foreach($event->getGaParams() as $key=>$val) : ?>
+                                <div class="row mb-3 ga_param">
+                                    <label class="col-5 control-label"><?=$key?></label>
+                                    <div class="col-4">
+                                        <?php Events\renderGAParamInput( $key, $val ); ?>
+                                    </div>
+                                </div>
+                            <?php endforeach;?>
                         </div>
-                        <div class="row mb-3">
-                            <label class="col-5 control-label">Label</label>
-                            <div class="col-4">
-                                <?php Events\renderTextInput( $event, 'ga_event_label' ); ?>
-                            </div>
+                        <div class="ga-custom-param-list">
+                            <?php
+                            foreach ( $event->getGACustomParams() as $key => $custom_param ) : ?>
+                                <?php $param_id = $key + 1; ?>
+
+                                <div class="row mt-3 ga-custom-param" data-param_id="<?php echo $param_id; ?>">
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col-1"></div>
+                                            <div class="col-4">
+                                                <input type="text" placeholder="Enter name" class="form-control custom-param-name"
+                                                       name="pys[event][ga_custom_params][<?php echo $param_id; ?>][name]"
+                                                       value="<?php esc_attr_e( $custom_param['name'] ); ?>">
+                                            </div>
+                                            <div class="col-4">
+                                                <input type="text" placeholder="Enter value" class="form-control custom-param-value"
+                                                       name="pys[event][ga_custom_params][<?php echo $param_id; ?>][value]"
+                                                       value="<?php esc_attr_e( $custom_param['value'] ); ?>">
+                                            </div>
+                                            <div class="col-2">
+                                                <button type="button" class="btn btn-sm remove-row">
+                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
                         </div>
-                        <div class="row mb-3">
-                            <label class="col-5 control-label">Value</label>
+
+
+                        <div class="row mt-3">
+                            <div class="col-5"></div>
                             <div class="col-4">
-                                <?php Events\renderTextInput( $event, 'ga_event_value' ); ?>
+                                <button class="btn btn-sm btn-block btn-primary add-ga-custom-parameter" type="button">Add
+                                    Custom Parameter</button>
                             </div>
                         </div>
                         <div class="row mb">
                             <label class="col-5 control-label">Non-interactive</label>
                             <div class="col-4">
-	                            <?php Events\renderSwitcherInput( $event, 'ga_non_interactive' ); ?>
+                                <?php Events\renderSwitcherInput( $event, 'ga_non_interactive' ); ?>
                             </div>
                         </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                The following parameters are automatically tracked: content_name, event_url, post_id, post_type. The paid version tracks the event_hour, event_month, and event_day.
+                            </div>
+                                </div>
+                            <div class="row mt-3 ga_woo_info" style="display: none">
+                                <div class="col-12">
+                                    <strong>ATTENTION</strong>:​ the plugin automatically tracks ecommerce specific events for WooCommerce and Easy Digital Downloads. Make sure you really need this event.
+                                </div>
+                            </div>
+                        <?php  elseif($event->getGaVersion() == "4"):  ?>
+                        <div class="row mb-3">
+                            Google Analytics doesn't work for this event. Enable Google Analytics 4
+                        </div>
+
+                    <?php else:?>
+                    <div class="row mb-3">
+                        <label class="col-5 control-label">Action</label>
+                        <div class="col-4">
+                            <?php  Events\renderGoogleAnalyticsActionInput( $event, 'ga_event_action' ); ?>
+                        </div>
+                        <div class="col-3">
+                            <div id="ga-custom-action">
+                                <?php Events\renderTextInput( $event, 'ga_custom_event_action', 'Enter name' ); ?>
+                            </div>
+                        </div>
+                            </div>
+                    <div class="row mb-3">
+                        <label class="col-5 control-label">Category</label>
+                        <div class="col-4">
+                            <?php Events\renderTextInput( $event, 'ga_event_category' ); ?>
+                        </div>
+                            </div>
+                    <div class="row mb-3">
+                        <label class="col-5 control-label">Label</label>
+                        <div class="col-4">
+                            <?php Events\renderTextInput( $event, 'ga_event_label' ); ?>
+                        </div>
+                            </div>
+                    <div class="row mb-3">
+                        <label class="col-5 control-label">Value</label>
+                        <div class="col-4">
+                            <?php Events\renderTextInput( $event, 'ga_event_value' ); ?>
+                        </div>
+                    </div>
+                        <div class="row mb">
+                            <label class="col-5 control-label">Non-interactive</label>
+                            <div class="col-4">
+                                <?php Events\renderSwitcherInput( $event, 'ga_non_interactive' ); ?>
+                            </div>
+                        </div>
+                    <?php endif?>
                     </div>
                 </div>
             </div>

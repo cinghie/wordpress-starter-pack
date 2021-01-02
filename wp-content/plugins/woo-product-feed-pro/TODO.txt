@@ -5,6 +5,7 @@ Tutorial / Blog posts:
 - Explain all the different fields/attributes that can be selected from the drop-downs
 
 Priority issues:
+- License key input field needs to be a password field (asterixes)
 - Add a preview option so only 5-10 products are being generated
 - Own hosted plugin updating: https://rudrastyh.com/wordpress/self-hosted-plugin-update.html
 - Google local product feed inventory in XML format (not just TXT like it is now)
