@@ -37,8 +37,35 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
             $control_ops = array( 'width' => 400, 'height' => 350 );
             add_action('wp_ajax_yith_wcan_select_type', array( $this, 'ajax_print_terms') );
             parent::__construct( 'yith-woo-ajax-navigation', _x( 'YITH Ajax Product Filter', '[Plugin Name] Admin: Widget Title', 'yith-woocommerce-ajax-navigation' ), $widget_ops, $control_ops );
-        }
 
+			/*
+			 * Deprecated Filters Map
+			 *
+			 * @param mixed|array $deprecated_filters_map Array of deprecated filters
+			 * @author Andrea Grillo <andrea.grillo@yithemes.com>
+			 * @since 3.11.7
+			 * @ return void
+			 * */
+			$deprecated_filters_map = array(
+				"{$this->id}-show_product_count" => array(
+					'since'  => '3.11.7',
+					'use'    => "{$this->id}_show_product_count",
+					'params' => 2,
+				),
+				"{$this->id}-li_style"           => array(
+					'since'  => '3.11.7',
+					'use'    => "{$this->id}_li_style",
+					'params' => 2,
+				),
+				"{$this->id}-show_product_count" => array(
+					'since'  => '3.11.7',
+					'use'    => "{$this->id}_show_product_count",
+					'params' => 2,
+				),
+			);
+
+			yith_wcan_deprecated_filter( $deprecated_filters_map );
+        }
 
         function widget( $args, $instance ) {
 	        global $wc_product_attributes;
@@ -369,7 +396,7 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
 
 						$show_count = $count != 0 && ! empty( $instance['show_count'] ) && ! $instance['show_count'];
 
-						$show_count = apply_filters( "{$this->id}-show_product_count", $show_count, $instance );
+						$show_count = apply_filters( "{$this->id}_show_product_count", $show_count, $instance );
 
                         echo '<li ' . $class . '>';
 
@@ -605,7 +632,7 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
 	                    }
 
                         if ( $color ) {
-                            $li_style = apply_filters( "{$this->id}-li_style", 'background-color:' . $color . ';', $instance );
+                            $li_style = apply_filters( "{$this->id}_li_style", 'background-color:' . $color . ';', $instance );
 
                             echo '<li ' . $class . '>';
 
@@ -1306,7 +1333,7 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
 
                     $show_count = $count != 0 && ! empty( $instance['show_count'] ) && ! $instance['show_count'];
 
-                    $show_count = apply_filters( "{$this->id}-show_product_count", $show_count, $instance );
+                    $show_count = apply_filters( "{$this->id}_show_product_count", $show_count, $instance );
 
                     if ( $to_print && apply_filters( 'yith_wcan_force_show_count', $show_count ) ) {
                         echo ' <small class="count">' . $count . '</small><div class="clear"></div>';

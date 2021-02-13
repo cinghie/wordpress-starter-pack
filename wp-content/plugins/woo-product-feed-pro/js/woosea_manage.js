@@ -256,6 +256,26 @@ jQuery(function($) {
 		}
 	})	
 
+	// Check if user would like the plugin to remove the free shipping class
+	$('#remove_free_shipping').on('change', function(){ // on change of state
+   		if(this.checked){
+
+			// Checkbox is on
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_remove_free_shipping', 'status': "on" }
+                	})
+		} else {
+			// Checkbox is off
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_remove_free_shipping', 'status': "off" }
+                	})
+		}
+	})	
+
 	// Check if user would like to enable debug logging
 	$('#add_woosea_logging').on('change', function(){ // on change of state
    		if(this.checked){

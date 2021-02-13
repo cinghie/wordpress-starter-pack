@@ -22,11 +22,6 @@ function ppom_woocommerce_show_fields() {
 		return;
 	}
 	
-    // Loading all required scripts/css for inputs like datepicker, fileupload etc
-    ppom_hooks_load_input_scripts( $product );
-    
-    do_action('ppom_after_scripts_loaded', $ppom, $product);
-    
     
     $ppom_box_id = is_array($ppom->meta_id) ? implode('-',$ppom->meta_id) : $ppom->meta_id;
     $ppom_html = '<div id="ppom-box-'.esc_attr($ppom_box_id).'" class="ppom-wrapper">';
@@ -52,6 +47,24 @@ function ppom_woocommerce_show_fields() {
 	$ppom_html .= '</div>';   // Ends ppom-wrappper
 	
 	echo apply_filters('ppom_fields_html', $ppom_html, $product);
+}
+
+function ppom_woocommerce_load_scripts() {
+	
+	if( ! is_product() ) return '';
+	
+	global $post;
+	$product = wc_get_product($post->ID);
+	
+	$ppom		= new PPOM_Meta( $product->get_id() );
+	
+
+	if( ! $ppom->fields ) return '';
+	
+	// Loading all required scripts/css for inputs like datepicker, fileupload etc
+    ppom_hooks_load_input_scripts( $product );
+    
+    do_action('ppom_after_scripts_loaded', $ppom, $product);
 }
 
 
@@ -133,8 +146,6 @@ function ppom_check_validation($product_id, $post_data, $passed=true) {
 		
 		// ppom_pa($field);
 		
-		
-		
 		// Check field Visibility settings
 		if( ! ppom_is_field_visible($field) ) continue;
 		
@@ -147,6 +158,7 @@ function ppom_check_validation($product_id, $post_data, $passed=true) {
 		$data_name	= sanitize_key($field['data_name']);
 		$title		= isset($field['title']) ? $field['title'] : '';
 		$type		= isset($field['type']) ? $field['type'] : '';
+		
 		
 		// Check if field is required by hidden by condition
 		if( ppom_is_field_hidden_by_condition($data_name) ) continue;
@@ -504,7 +516,7 @@ function ppom_woocommerce_mini_cart_fixed_fee() {
 		$fixed_fee_html .= '</tr>';
 	}
 	
-	$fixed_fee_html .= '<tr><td colspan="2">'.__("Total will be calcuated in Cart", "ppom").'</td></tr>';
+	$fixed_fee_html .= '<tr><td colspan="2">'.__("Total will be calculated in the cart", "ppom").'</td></tr>';
 	$fixed_fee_html .= '</table>';
 	
 	echo apply_filters('ppom_mini_cart_fixed_fee', $fixed_fee_html);
@@ -562,6 +574,11 @@ function ppom_woocommerce_add_item_meta($item_meta, $cart_item) {
 function ppom_woocommerce_alter_price($price, $product) {
 	
 	$product_id = ppom_get_product_id($product);
+	
+	if (class_exists('sitepress')){
+		$default_lang = apply_filters('wpml_default_language', NULL);
+		$product = wc_get_product( apply_filters('wpml_object_id', $product->get_id(), 'product', true, $default_lang) );
+	}
 	
 	$price_matrix_found = ppom_has_field_by_type( $product_id, 'pricematrix' );
 	if( empty($price_matrix_found) && apply_filters('ppom_hide_product_price_if_zero', true, $product) ) {
@@ -922,6 +939,8 @@ function ppom_woocommerce_order_item_meta($item, $cart_item_key, $values, $order
 	// ppom_pa($ppom_meta); exit;
 	
 	foreach( $ppom_meta as $key => $meta ) {
+		
+		if( !isset($meta['value']) ) continue;
 		
 		$meta_value = isset($meta['display']) ? $meta['display'] : $meta['value'];
 		$item->update_meta_data($key, $meta_value);

@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: woocommerce, invoice, packing slip, billing, pdf invoice
 Requires at least: 5.3
 Tested up to: 5.6
-Stable tag: 1.2.22
+Stable tag: 1.2.23
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,12 @@ YITH WooCommerce PDF Invoice and Shipping List will add a new tab called "PDF In
 7. A basic, fully customizable template for invoices.
 
 == Changelog ==
+
+= 1.2.23 - Released on 12 January 2021 =
+
+* New: Support for WooCommerce 4.9
+* Update: update plugin fw
+* Dev: added new filter ywpi_invoice_filename
 
 = 1.2.22 - Released on 04 December 2020 =
 

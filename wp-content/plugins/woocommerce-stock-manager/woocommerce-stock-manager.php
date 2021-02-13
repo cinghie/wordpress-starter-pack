@@ -3,16 +3,17 @@
  * Plugin Name: WooCommerce Stock Manager
  * Plugin URI: https://www.storeapps.org/woocommerce-plugins/
  * Description: Manage product's stock and price in your WooCommerce store.
- * Version: 2.5.3
+ * Version: 2.5.4
  * Author: StoreApps
  * Author URI: https://www.storeapps.org/
  * Requires at least: 5.0.0
- * Tested up to: 5.5.3
- * WC requires at least: 3.0.0
- * WC tested up to: 4.7.0
+ * Tested up to: 5.6.0
+ * Requires PHP: 5.6+
+ * WC requires at least: 3.5.0
+ * WC tested up to: 4.9.2
  * Text Domain: woocommerce-stock-manager
  * Domain Path: /languages/
- * Copyright (c) 2020 StoreApps. All rights reserved.
+ * Copyright (c) 2020-2021 StoreApps. All rights reserved.
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -24,7 +25,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 define( 'STOCKDIR', plugin_dir_path( __FILE__ ) );
 define( 'STOCKURL', plugin_dir_url( __FILE__ ) );
-define( 'STOCKVERSION', '2.5.3' );
+define( 'STOCKVERSION', '2.5.4' );
 if( !defined( 'WSM_PLUGIN_FILE' ) ) {
 	define( 'WSM_PLUGIN_FILE', __FILE__ );
 }
@@ -60,11 +61,11 @@ function stockmanager_update_message_cb( $plugin_data, $r ) {
 				<tbody>
 					<tr>
 						<td>WordPress</td>
-						<td>5.0+ version</td>
+						<td>5.0.0+ version</td>
 					</tr>        
 					<tr>
 						<td>WooCommerce</td>
-						<td>3.5.+ version</td>
+						<td>3.5.0+ version</td>
 					</tr>								
 				</tbody>
 			</table>

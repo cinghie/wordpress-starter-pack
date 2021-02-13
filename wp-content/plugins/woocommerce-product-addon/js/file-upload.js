@@ -146,7 +146,7 @@ jQuery(function($) {
     }); // $.each(ppom_file_vars
 
 
-}); //  jQuery(function($){});
+}); //	jQuery(function($){});
 
 // generate thumbbox 
 function add_thumb_box(file, $filelist_DIV) {
@@ -298,8 +298,8 @@ function ppom_setup_file_upload_input(file_input) {
                 // $filelist_DIV[file_data_name].html('');
 
                 /*$('#uploadfiles-'+file_data_name).bind('click', function() {
-                    upload_instance[file_data_name].start();
-                    return false;
+                	upload_instance[file_data_name].start();
+                	return false;
                 });*/
             },
 

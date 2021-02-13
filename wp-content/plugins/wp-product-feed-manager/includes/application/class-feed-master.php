@@ -293,9 +293,9 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 
 					$product_counter++;
 
-					 if ( $product_counter > $sw_status_control ) {
+					if ( $product_counter > $sw_status_control ) {
 						break;
-					 }
+					}
 				}
 			} while ( ! empty( $product_ids ) && $sw_status_control > $product_counter );
 
@@ -377,8 +377,11 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 					$header_string = $this->make_feed_string_from_data_array( $this->get_active_fields(), $txt_sep );
 				} elseif ( 'csv' === $file_extension ) {
 					$csv_sep = apply_filters( 'wppfm_csv_separator', get_correct_csv_header_separator( $this->_feed->channel ) );
-					$string  = $this->make_csv_header_string( $this->get_active_fields(), $csv_sep );
+					$string  = $this->make_custom_header_string( $this->get_active_fields(), $csv_sep );
 
+					$header_string = $this->_channel_class->header( $string );
+				} elseif ( 'tsv' === $file_extension ) {
+					$string  = $this->make_custom_header_string( $this->get_active_fields(), "\t" );
 					$header_string = $this->_channel_class->header( $string );
 				}
 			}
@@ -386,10 +389,9 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 			return apply_filters( 'wppfm_header_string', $header_string, $this->_feed->feedId, $this->_feed->feedTypeId );
 		}
 
-		// ALERT! has a javascript equivalent in channel-functions.js called setAttributeStatus().
-
 		/**
 		 * Sets the activity status of a specific attribute to true or false depending on its level.
+		 * ALERT! has a javascript equivalent in channel-functions.js called setAttributeStatus().
 		 *
 		 * @param int    $field_level   The level of the field.
 		 * @param string $field_value   The value of the field.

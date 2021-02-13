@@ -1,10 +1,7 @@
 <?php
 /**
- * @package   WooCommerce Stock Manager
  * @author    StoreApps
- * @license   GPL-2.0+
- * @link      https://www.storeapps.org/
- * @copyright 2020 StoreApps. All rights reserved.
+ * @package   woocommerce-stock-manager/admin
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -152,20 +149,20 @@ class Stock_Manager_Admin {
 				}, []),
 				'product-types' => wc_get_product_types(),
 				'stock-status-options' => wc_get_product_stock_status_options(),
-				'shipping-classes' => array_merge(array('' => __('No shipping class', 'stock-manager')), array_reduce(get_terms(['taxonomy' => 'product_shipping_class', 'hide_empty' => false]), function($carry, $item) {
+				'shipping-classes' => array_merge(array('' => __('No shipping class', 'woocommerce-stock-manager')), array_reduce(get_terms(['taxonomy' => 'product_shipping_class', 'hide_empty' => false]), function($carry, $item) {
 					$carry[$item->slug] = $item->name;
 					return $carry;
 				}, [])),
 				'tax-classes' => wc_get_product_tax_class_options(),
 				'tax-statuses' => [
-					'taxable' => __('Taxable', 'stock-manager'),
-					'shipping' => __('Shipping only', 'stock-manager'),
-					'none' => _x('None', 'Tax status', 'stock-manager'),
+					'taxable' => __('Taxable', 'woocommerce-stock-manager'),
+					'shipping' => __('Shipping only', 'woocommerce-stock-manager'),
+					'none' => _x('None', 'Tax status', 'woocommerce-stock-manager'),
 				],
 				'backorders-options' => [
-					'no' => __('No','stock-manager'),
-					'notify' => __('Notify','stock-manager'),
-					'yes' => __('Yes','stock-manager'),
+					'no' => __('No','woocommerce-stock-manager'),
+					'notify' => __('Notify','woocommerce-stock-manager'),
+					'yes' => __('Yes','woocommerce-stock-manager'),
 				],
 			));
 

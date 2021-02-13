@@ -203,7 +203,8 @@
 					} );
 
 					$image_gallery_ids.val( attachment_ids );
-				} );
+          $image_gallery_ids.trigger( 'change' );
+        } );
 
 				image_gallery_frame.open();
 
@@ -601,8 +602,15 @@
 			spinner        = add_box.find( '.spinner' ),
 			toggle_element = $( this ).parents( '.toggle-element' ),
 			fields         = add_box.find( ':input' ),
-			counter        = toggle_element.find( '.yith-toggle-row' ).length,
+			counter        = 0,
 			hidden_obj     = $( '<input type="hidden">' );
+
+		toggle_element.find( '.yith-toggle-row' ).each( function() {
+			var key = parseInt( $( this ).data( 'item_key' ) );
+			if( counter <= key ) {
+				counter = key + 1;
+			}
+		});
 
 		hidden_obj.val( counter );
 

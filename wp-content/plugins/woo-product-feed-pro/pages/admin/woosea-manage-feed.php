@@ -67,6 +67,7 @@ if(!empty($license_information)){
 if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 	$notifications_box = $notifications_obj->get_admin_notifications ( '12', 'false' );
 }
+
 ?>
 <div class="wrap">
         <div class="woo-product-feed-pro-form-style-2">
@@ -123,6 +124,18 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 					</div>
 				<?php
 				}
+			}
+
+
+			if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) {
+				?>				
+					<div class="notice notice-error is-dismissible">
+                				<p>
+						<strong><?php _e( 'WARNING: Your WP-Cron is disabled', 'woo-product-feed-pro' );?></strong><br/></br/>
+						We detected that your WP-cron has been disabled in your wp-config.php file. Our plugin heavily depends on the WP-cron being active otherwise it cannot update and generate your product feeds. <a href="https://adtribes.io/help-my-feed-processing-is-stuck/?utm_source=<?php print"$host";?>&utm_medium=manage-feed&utm_campaign=cron-warning&utm_content=notification" target="_blank"><strong>Please enable your WP-cron first</strong></a>.
+						</p>
+					</div>
+				<?php
 			}
 			?>
 

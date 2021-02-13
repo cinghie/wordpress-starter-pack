@@ -1,13 +1,46 @@
 /*!
- * Variation Swatches for WooCommerce v1.1.2 
+ * Variation Swatches for WooCommerce v1.1.9 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 11/26/2020, 7:20:28 PM
+ * Date: 2/12/2021
  * Released under the GPLv3 license.
  */
 .woo-variation-swatches .woo-variation-raw-select,
 .woo-variation-swatches .woo-variation-raw-select + .select2 {
   display: none !important;
+}
+
+.woo-variation-swatches .wvs-widget-layered-nav-list__item-color > a {
+  display: inline-block;
+  position: relative;
+}
+
+.woo-variation-swatches .wvs-widget-layered-nav-list__item-color > a .wvs-widget-item-wrapper {
+  display: inline-block;
+}
+
+.woo-variation-swatches .wvs-widget-layered-nav-list__item-color .item {
+  display: inline-block;
+  float: left;
+  padding: 9px;
+  margin: 0 4px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+  height: 20px;
+  width: 20px;
+}
+
+.woo-variation-swatches .wvs-widget-layered-nav-list__item-color .text {
+  display: inline-block;
+}
+
+.woo-variation-swatches .wvs-widget-layered-nav-list__item-color .text :after {
+  content: '';
+  display: inline;
+  clear: both;
+}
+
+.woo-variation-swatches .wvs-widget-layered-nav-list__item-color.woocommerce-widget-layered-nav-list__item--chosen .item {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.9);
 }
 
 .woo-variation-swatches .variable-items-wrapper {
@@ -67,7 +100,7 @@
 }
 
 .woo-variation-swatches .variable-items-wrapper.radio-variable-wrapper .radio-variable-item input {
-  width: auto;
+  /*width: auto;*/
   margin-right: 5px;
 }
 
@@ -268,9 +301,9 @@
 }
 
 .woo-variation-swatches.rtl table.variations td.label {
-  padding-left: 15px;
-  padding-right: 0;
-  text-align: left;
+  /*padding-left: 15px;
+			padding-right: 0;
+			text-align: right;*/
 }
 
 .woo-variation-swatches.rtl .variable-items-wrapper .variable-item {
@@ -306,4 +339,5 @@
 .woo-variation-swatches.wvs-show-label .variations td label,
 .woo-variation-swatches.wvs-show-label .variations td .woo-selected-variation-item-name {
   display: inline-block;
+  margin: 0 2px;
 }

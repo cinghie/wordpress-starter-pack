@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YITH Framework\n"
 "Report-Msgid-Bugs-To: YITH <plugins@yithemes.com>\n"
-"POT-Creation-Date: 2020-12-28 12:30:11+00:00\n"
+"POT-Creation-Date: 2021-02-01 10:40:28+00:00\n"
 "PO-Revision-Date: 2020-09-24 14:56:37+0000\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -37,229 +37,6 @@ msgstr "Seleziona il colore"
 msgid "Color value"
 msgstr "Valore del colore"
 
-#. translators: %s is the singular name of the post type.
-#. translators: $s is the singular name of the post type.
-#. translators: %s is the singular name of the post type.
-#. translators: %s is the plural name of the post type.
-#: includes/class-yit-cpt-unlimited.php:486
-#: includes/class-yit-cpt-unlimited.php:619
-#: includes/class-yit-cpt-unlimited.php:768
-#: includes/class-yit-cpt-unlimited.php:1755
-msgid "Add %s"
-msgstr "Aggiungi %s"
-
-#. translators: %s is the singular name of the post type.
-#. translators: $s is the singular name of the post type.
-#: includes/class-yit-cpt-unlimited.php:488
-#: includes/class-yit-cpt-unlimited.php:621
-msgid "Add New %s"
-msgstr "Aggiungi nuovo %s"
-
-#. translators: %s is the singular name of the post type.
-#. translators: $s is the singular name of the post type.
-#. translators: %s is the post title.
-#. translators: %s is the singular name of the post type.
-#: includes/class-yit-cpt-unlimited.php:490
-#: includes/class-yit-cpt-unlimited.php:623
-#: includes/class-yit-cpt-unlimited.php:1350
-#: includes/class-yit-cpt-unlimited.php:1401
-msgid "Edit %s"
-msgstr "Modifica %s"
-
-#. translators: %s is the singular name of the post type.
-#. translators: $s is the singular name of the post type.
-#: includes/class-yit-cpt-unlimited.php:492
-#: includes/class-yit-cpt-unlimited.php:625
-msgid "New %s"
-msgstr "Nuovo %s"
-
-#. translators: %s is the plural name of the post type.
-#. translators: $s is the plural name of the post type.
-#: includes/class-yit-cpt-unlimited.php:494
-#: includes/class-yit-cpt-unlimited.php:627
-msgid "All %s"
-msgstr "Tutti %s"
-
-#. translators: %s is the singular name of the post type.
-#. translators: $s is the singular name of the post type.
-#. translators: %s is the plural label of the post type.
-#. translators: %s is the plural name of the post type.
-#: includes/class-yit-cpt-unlimited.php:496
-#: includes/class-yit-cpt-unlimited.php:629
-#: includes/class-yit-cpt-unlimited.php:1323
-#: includes/class-yit-cpt-unlimited.php:1406
-msgid "View %s"
-msgstr "Visualizza %s"
-
-#. translators: %s is the plural name of the post type.
-#. translators: $s is the plural name of the post type.
-#: includes/class-yit-cpt-unlimited.php:498
-#: includes/class-yit-cpt-unlimited.php:631
-msgid "Search %s"
-msgstr "Cerca %s"
-
-#. translators: %s is the plural name of the post type.
-#. translators: $s is the plural name of the post type.
-#: includes/class-yit-cpt-unlimited.php:500
-#: includes/class-yit-cpt-unlimited.php:633
-msgid "No %s found"
-msgstr "Nessun %s trovato"
-
-#. translators: %s is the plural name of the post type.
-#. translators: $s is the plural name of the post type.
-#: includes/class-yit-cpt-unlimited.php:502
-#: includes/class-yit-cpt-unlimited.php:635
-msgid "No %s found in Trash"
-msgstr "Nessun %s trovato nel cestino"
-
-#: includes/class-yit-cpt-unlimited.php:678 templates/fields/ajax-terms.php:41
-msgid "Search Categories"
-msgstr "Cerca categorie"
-
-#: includes/class-yit-cpt-unlimited.php:679
-msgid "All Categories"
-msgstr "Tutte le categorie"
-
-#: includes/class-yit-cpt-unlimited.php:680
-msgid "Parent Category"
-msgstr "Categoria genitore"
-
-#: includes/class-yit-cpt-unlimited.php:681
-msgid "Parent Category:"
-msgstr "Categoria genitore:"
-
-#: includes/class-yit-cpt-unlimited.php:682
-msgid "Edit Category"
-msgstr "Modifica categoria"
-
-#: includes/class-yit-cpt-unlimited.php:683
-msgid "Update Category"
-msgstr "Aggiorna categoria"
-
-#: includes/class-yit-cpt-unlimited.php:684
-msgid "Add New Category"
-msgstr "Aggiungi nuova categoria"
-
-#: includes/class-yit-cpt-unlimited.php:685
-msgid "New Category Name"
-msgstr "Nuovo nome categoria"
-
-#: includes/class-yit-cpt-unlimited.php:686
-msgid "Category"
-msgstr "Categoria"
-
-#: includes/class-yit-cpt-unlimited.php:778
-msgid "Categories"
-msgstr "Categorie"
-
-#. translators: %s is the singular name of the post type.
-#: includes/class-yit-cpt-unlimited.php:1098
-msgid "%s Settings"
-msgstr "Impostazioni %s"
-
-#: includes/class-yit-cpt-unlimited.php:1106
-#: includes/class-yit-cpt-unlimited.php:1260
-#: includes/class-yit-cpt-unlimited.php:1266
-#: includes/class-yit-plugin-panel.php:84
-msgid "Settings"
-msgstr "Impostazioni"
-
-#: includes/class-yit-cpt-unlimited.php:1111
-msgid "Type"
-msgstr "Tipologia"
-
-#. translators: %s is the singular name of the post type.
-#: includes/class-yit-cpt-unlimited.php:1114
-msgid "Layout for this %s"
-msgstr "Layout per questo %s"
-
-#: includes/class-yit-cpt-unlimited.php:1122
-msgid "Rewrite"
-msgstr "Riscrivi"
-
-#: includes/class-yit-cpt-unlimited.php:1123
-msgid ""
-"Univocal identification name in the URL for each product (slug from post if "
-"empty)"
-msgstr ""
-"Nome identificativo univoco nell'URL per singolo prodotto (usa slug dal post "
-"se vuoto)"
-
-#: includes/class-yit-cpt-unlimited.php:1128
-msgid "Label in Singular"
-msgstr "Etichetta singolare"
-
-#: includes/class-yit-cpt-unlimited.php:1129
-msgid "Set a label in singular (title of portfolio if empty)"
-msgstr "Imposta un'etichetta singolare (titolo del portfolio se vuoto)"
-
-#: includes/class-yit-cpt-unlimited.php:1134
-msgid "Label in Plural"
-msgstr "Etichetta plurale"
-
-#: includes/class-yit-cpt-unlimited.php:1135
-msgid "Set a label in plural (title of portfolio if empty)"
-msgstr "Imposta un'etichetta plurale (titolo del portfolio se vuoto)"
-
-#: includes/class-yit-cpt-unlimited.php:1140
-msgid "Taxonomy"
-msgstr "Tassonomia"
-
-#: includes/class-yit-cpt-unlimited.php:1141
-msgid ""
-"If you want to use categories in the portfolio, set a name for taxonomy. "
-"Name should be a slug (must not contain capital letters nor spaces) and must "
-"not be more than 32 characters long (database structure restriction)."
-msgstr ""
-"Se vuoi aggiungere delle categorie nel portfolio, imposta un nome per la "
-"tassonomia. Il nome dovrà essere in forma di slug (non deve contenere "
-"caratteri maiuscoli né spazi) e non più lungo di 32 caratteri (restrizione "
-"di database)."
-
-#: includes/class-yit-cpt-unlimited.php:1146
-msgid "Taxonomy Rewrite"
-msgstr "Riscrivi tassonomia"
-
-#: includes/class-yit-cpt-unlimited.php:1147
-msgid "Set univocal name for each category page URL."
-msgstr "Imposta un nome univoco per l'URL della pagina di ciascuna categoria."
-
-#: includes/class-yit-cpt-unlimited.php:1152
-msgid "Single layout"
-msgstr "Layout singolo"
-
-#: includes/class-yit-cpt-unlimited.php:1153
-msgid "Layout for single page of this portfolio"
-msgstr "Layout per pagina singola per questo portfolio"
-
-#: includes/class-yit-cpt-unlimited.php:1196
-msgid "layout settings"
-msgstr "impostazioni di layout"
-
-#: includes/class-yit-cpt-unlimited.php:1286
-#: includes/class-yit-cpt-unlimited.php:1297
-msgid "Quick links"
-msgstr "Link rapidi"
-
-#. translators: %s is the name of the post type.
-#: includes/class-yit-cpt-unlimited.php:1593
-msgid "Show frontend of the %s"
-msgstr "Mostra front end di %s"
-
-#: includes/class-yit-cpt-unlimited.php:1602 templates/fields/customtabs.php:34
-#: templates/fields/customtabs.php:76
-msgid "Name"
-msgstr "Nome"
-
-#. translators: %s is the plural name of the post type.
-#: includes/class-yit-cpt-unlimited.php:1749
-msgid "Add %s from images"
-msgstr "Aggiungi %s dalla immagini"
-
-#: includes/class-yit-cpt-unlimited.php:1769
-msgid "Upload multiple files"
-msgstr "Carica file multipli"
-
 #: includes/class-yit-plugin-panel-woocommerce.php:419
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
@@ -267,6 +44,10 @@ msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 #: includes/class-yit-plugin-panel.php:83
 msgid "Plugin Settings"
 msgstr "Impostazioni plugin"
+
+#: includes/class-yit-plugin-panel.php:84
+msgid "Settings"
+msgstr "Impostazioni"
 
 #: includes/class-yit-plugin-panel.php:450
 #: includes/class-yit-plugin-panel.php:453
@@ -607,6 +388,10 @@ msgstr "Cerca articoli"
 msgid "Search Product"
 msgstr "Cerca un prodotto"
 
+#: templates/fields/ajax-terms.php:41
+msgid "Search Categories"
+msgstr "Cerca categorie"
+
 #: templates/fields/customtabs.php:17
 msgid "Close all"
 msgstr "Chiudi tutti"
@@ -618,6 +403,10 @@ msgstr "Espandi tutti"
 #: templates/fields/customtabs.php:25 templates/fields/customtabs.php:68
 msgid "Remove"
 msgstr "Rimuovi"
+
+#: templates/fields/customtabs.php:34 templates/fields/customtabs.php:76
+msgid "Name"
+msgstr "Nome"
 
 #: templates/fields/customtabs.php:40 templates/fields/customtabs.php:81
 msgid "Value"
@@ -798,17 +587,6 @@ msgstr "Chiave di licenza"
 msgid "YITH"
 msgstr "YITH"
 
-#. translators: %s is the singular name of the post type.
-#: includes/class-yit-cpt-unlimited.php:676
-msgctxt "taxonomy general name"
-msgid "%s Categories"
-msgstr "%s Categorie"
-
-#: includes/class-yit-cpt-unlimited.php:677
-msgctxt "taxonomy singular name"
-msgid "Category"
-msgstr "Categoria"
-
 #: includes/class-yith-dashboard.php:96
 msgctxt "Plugin FW"
 msgid "View Changelog"
@@ -932,6 +710,14 @@ msgctxt "Action links"
 msgid "Settings"
 msgstr "Impostazioni"
 
+#~ msgctxt "taxonomy singular name"
+#~ msgid "Category"
+#~ msgstr "Categoria"
+
+#~ msgctxt "taxonomy general name"
+#~ msgid "%s Categories"
+#~ msgstr "%s Categorie"
+
 #~ msgid "Show full PHPInfo"
 #~ msgstr "Mostra tutto il contenuto di PHPInfo"
 
@@ -952,3 +738,129 @@ msgstr "Impostazioni"
 
 #~ msgid "and"
 #~ msgstr "e"
+
+#~ msgid "Upload multiple files"
+#~ msgstr "Carica file multipli"
+
+#~ msgid "Add %s from images"
+#~ msgstr "Aggiungi %s dalla immagini"
+
+#~ msgid "Show frontend of the %s"
+#~ msgstr "Mostra front end di %s"
+
+#~ msgid "Quick links"
+#~ msgstr "Link rapidi"
+
+#~ msgid "layout settings"
+#~ msgstr "impostazioni di layout"
+
+#~ msgid "Layout for single page of this portfolio"
+#~ msgstr "Layout per pagina singola per questo portfolio"
+
+#~ msgid "Single layout"
+#~ msgstr "Layout singolo"
+
+#~ msgid "Set univocal name for each category page URL."
+#~ msgstr ""
+#~ "Imposta un nome univoco per l'URL della pagina di ciascuna categoria."
+
+#~ msgid "Taxonomy Rewrite"
+#~ msgstr "Riscrivi tassonomia"
+
+#~ msgid ""
+#~ "If you want to use categories in the portfolio, set a name for taxonomy. "
+#~ "Name should be a slug (must not contain capital letters nor spaces) and "
+#~ "must not be more than 32 characters long (database structure restriction)."
+#~ msgstr ""
+#~ "Se vuoi aggiungere delle categorie nel portfolio, imposta un nome per la "
+#~ "tassonomia. Il nome dovrà essere in forma di slug (non deve contenere "
+#~ "caratteri maiuscoli né spazi) e non più lungo di 32 caratteri "
+#~ "(restrizione di database)."
+
+#~ msgid "Taxonomy"
+#~ msgstr "Tassonomia"
+
+#~ msgid "Set a label in plural (title of portfolio if empty)"
+#~ msgstr "Imposta un'etichetta plurale (titolo del portfolio se vuoto)"
+
+#~ msgid "Label in Plural"
+#~ msgstr "Etichetta plurale"
+
+#~ msgid "Set a label in singular (title of portfolio if empty)"
+#~ msgstr "Imposta un'etichetta singolare (titolo del portfolio se vuoto)"
+
+#~ msgid "Label in Singular"
+#~ msgstr "Etichetta singolare"
+
+#~ msgid ""
+#~ "Univocal identification name in the URL for each product (slug from post "
+#~ "if empty)"
+#~ msgstr ""
+#~ "Nome identificativo univoco nell'URL per singolo prodotto (usa slug dal "
+#~ "post se vuoto)"
+
+#~ msgid "Rewrite"
+#~ msgstr "Riscrivi"
+
+#~ msgid "Layout for this %s"
+#~ msgstr "Layout per questo %s"
+
+#~ msgid "Type"
+#~ msgstr "Tipologia"
+
+#~ msgid "%s Settings"
+#~ msgstr "Impostazioni %s"
+
+#~ msgid "Categories"
+#~ msgstr "Categorie"
+
+#~ msgid "Category"
+#~ msgstr "Categoria"
+
+#~ msgid "New Category Name"
+#~ msgstr "Nuovo nome categoria"
+
+#~ msgid "Add New Category"
+#~ msgstr "Aggiungi nuova categoria"
+
+#~ msgid "Update Category"
+#~ msgstr "Aggiorna categoria"
+
+#~ msgid "Edit Category"
+#~ msgstr "Modifica categoria"
+
+#~ msgid "Parent Category:"
+#~ msgstr "Categoria genitore:"
+
+#~ msgid "Parent Category"
+#~ msgstr "Categoria genitore"
+
+#~ msgid "All Categories"
+#~ msgstr "Tutte le categorie"
+
+#~ msgid "No %s found in Trash"
+#~ msgstr "Nessun %s trovato nel cestino"
+
+#~ msgid "No %s found"
+#~ msgstr "Nessun %s trovato"
+
+#~ msgid "Search %s"
+#~ msgstr "Cerca %s"
+
+#~ msgid "View %s"
+#~ msgstr "Visualizza %s"
+
+#~ msgid "All %s"
+#~ msgstr "Tutti %s"
+
+#~ msgid "New %s"
+#~ msgstr "Nuovo %s"
+
+#~ msgid "Edit %s"
+#~ msgstr "Modifica %s"
+
+#~ msgid "Add New %s"
+#~ msgstr "Aggiungi nuovo %s"
+
+#~ msgid "Add %s"
+#~ msgstr "Aggiungi %s"

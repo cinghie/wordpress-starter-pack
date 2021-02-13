@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Themes - Storefront package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-12-27 16:23:37+0000\n"
+"PO-Revision-Date: 2021-01-21 18:52:10+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,6 +18,58 @@ msgstr "Storefront è il tema perfetto per il vostro prossimo progetto con WooCo
 #. Theme Name of the theme
 msgid "Storefront"
 msgstr "Storefront"
+
+#: inc/nux/class-storefront-nux-admin.php:181
+msgid "Skip"
+msgstr "Salta"
+
+#: inc/woocommerce/storefront-woocommerce-template-functions.php:732
+msgid "Cart"
+msgstr "Carrello"
+
+#. translators: conjunction of two alternative options user can choose (in
+#. missing plugin admin notice). Example: "Activate WooCommerce or learn more"
+#: inc/admin/class-storefront-plugin-install.php:115
+msgid "or"
+msgstr "o"
+
+#: inc/storefront-template-functions.php:144
+msgid "Built with Storefront"
+msgstr "Creato con Storefront"
+
+#: inc/storefront-template-functions.php:144
+msgid "Storefront -  The perfect platform for your next WooCommerce project."
+msgstr "Storefront - la piattaforma perfetta per il tuo prossimo progetto WooCommerce."
+
+#. translators: conjunction of two alternative options user can choose (in
+#. missing plugin admin notice). Example: "Activate WooCommerce or learn more"
+#: inc/admin/class-storefront-plugin-install.php:116
+msgid "learn more"
+msgstr "approfondisci"
+
+#: inc/class-storefront.php:222
+msgid "Huge"
+msgstr "Enorme"
+
+#: inc/class-storefront.php:217
+msgid "Large"
+msgstr "Grande"
+
+#: inc/class-storefront.php:212
+msgid "Medium"
+msgstr "Medio"
+
+#: inc/class-storefront.php:207
+msgid "Normal"
+msgstr "Normale"
+
+#: inc/class-storefront.php:202
+msgid "Small"
+msgstr "Piccolo"
+
+#: inc/nux/class-storefront-nux-starter-content.php:1076
+msgid "This is your homepage which is what most visitors will see when they first visit your shop."
+msgstr "Questa è la tua homepage, elemento che sarà visto dalla maggior parte dei visitatori quando visiteranno per la prima volta il tuo negozio."
 
 #. translators: %s: Name of current post. Only visible to screen readers
 #: inc/storefront-template-functions.php:523
@@ -48,6 +100,10 @@ msgstr "di"
 #: inc/woocommerce/storefront-woocommerce-template-functions.php:891
 msgid "Product Brands"
 msgstr "Brand del prodotto"
+
+#: inc/woocommerce/storefront-woocommerce-template-functions.php:874
+msgid "Shop by Brand"
+msgstr "Acquista per brand"
 
 #: inc/woocommerce/storefront-woocommerce-template-functions.php:838
 msgid "You're viewing:"
@@ -130,69 +186,69 @@ msgstr "Prodotti in saldo"
 msgid "Edit this section"
 msgstr "Modifica questa sezione"
 
-#: inc/nux/class-storefront-nux-starter-content.php:973
+#: inc/nux/class-storefront-nux-starter-content.php:950
 msgid "Vneck Tshirt"
 msgstr "T-shirt con collo a V"
 
-#: inc/nux/class-storefront-nux-starter-content.php:952
+#: inc/nux/class-storefront-nux-starter-content.php:929
 msgid "Tshirt"
 msgstr "T-shirt"
 
-#: inc/nux/class-storefront-nux-starter-content.php:931
+#: inc/nux/class-storefront-nux-starter-content.php:908
 msgid "Polo"
 msgstr "Polo"
 
-#: inc/nux/class-storefront-nux-starter-content.php:910
+#: inc/nux/class-storefront-nux-starter-content.php:887
 msgid "Long Sleeve Tee"
 msgstr "Maglietta a maniche lunghe"
 
-#: inc/nux/class-storefront-nux-starter-content.php:888
+#: inc/nux/class-storefront-nux-starter-content.php:865
 msgid "Hoodie"
 msgstr "Felpa"
 
-#: inc/nux/class-storefront-nux-starter-content.php:867
+#: inc/nux/class-storefront-nux-starter-content.php:844
 msgid "Hoodie with Zipper"
 msgstr "Felpa con zip"
 
-#: inc/nux/class-storefront-nux-starter-content.php:845
+#: inc/nux/class-storefront-nux-starter-content.php:822
 msgid "Hoodie with Pocket"
 msgstr "Felpa con tasca"
 
-#: inc/nux/class-storefront-nux-starter-content.php:824
+#: inc/nux/class-storefront-nux-starter-content.php:801
 msgid "Hoodie with Logo"
 msgstr "Felpa con logo"
 
-#: inc/nux/class-storefront-nux-starter-content.php:803
+#: inc/nux/class-storefront-nux-starter-content.php:780
 msgid "Sunglasses"
 msgstr "Occhiali da sole"
 
-#: inc/nux/class-storefront-nux-starter-content.php:781
+#: inc/nux/class-storefront-nux-starter-content.php:758
 msgid "Cap"
 msgstr "Cappello"
 
-#: inc/nux/class-storefront-nux-starter-content.php:759
+#: inc/nux/class-storefront-nux-starter-content.php:736
 msgid "Belt"
 msgstr "Cintura"
 
-#: inc/nux/class-storefront-nux-starter-content.php:737
+#: inc/nux/class-storefront-nux-starter-content.php:714
 msgid "Beanie"
 msgstr "Berretto"
 
-#: inc/nux/class-storefront-nux-starter-content.php:731
+#: inc/nux/class-storefront-nux-starter-content.php:708
 msgid "Tshirts"
 msgstr "T-shirt"
 
-#: inc/nux/class-storefront-nux-starter-content.php:728
+#: inc/nux/class-storefront-nux-starter-content.php:705
 msgid "Hoodies"
 msgstr "Felpe"
 
-#: inc/nux/class-storefront-nux-starter-content.php:726
-#: inc/nux/class-storefront-nux-starter-content.php:729
-#: inc/nux/class-storefront-nux-starter-content.php:732
+#: inc/nux/class-storefront-nux-starter-content.php:703
+#: inc/nux/class-storefront-nux-starter-content.php:706
+#: inc/nux/class-storefront-nux-starter-content.php:709
 msgid "A short category description"
 msgstr "Una breve descrizione della categoria"
 
-#: inc/nux/class-storefront-nux-starter-content.php:725
+#: inc/nux/class-storefront-nux-starter-content.php:702
 msgid "Accessories"
 msgstr "Accessori"
 
@@ -212,13 +268,7 @@ msgstr "Potresti essere un artista che vorrebbe presentare se stesso e il suo la
 msgid "About"
 msgstr "About"
 
-#. translators: %s: 'End Of Line' symbol
-#: inc/nux/class-storefront-nux-starter-content.php:215
-msgid "This is your homepage which is what most visitors will see when they first visit your shop.%sYou can change this text by editing the \"Welcome\" page via the \"Pages\" menu in your dashboard."
-msgstr "Questa è la tua homepage, cioè la pagina che la maggior parte dei tuoi visitatori vede quando visita per la prima volta il tuo negozio.%sPuoi cambiare questo testo modificando la pagina \"Benvenuto\" tramite il menu \"Pagine\" nella tua bacheca."
-
-#: inc/nux/class-storefront-nux-starter-content.php:213
-#: inc/nux/class-storefront-nux-starter-content.php:1095
+#: inc/nux/class-storefront-nux-starter-content.php:1072
 msgid "Welcome"
 msgstr "Benvenuto"
 
@@ -240,6 +290,11 @@ msgstr "Scegli i colori per gli sfondi dei tuoi pulsanti e per i tuoi testi. Anc
 msgid "Color your buttons"
 msgstr "Colora i tuoi pulsanti"
 
+#. translators: %s: 'End Of Line' symbol
+#: inc/nux/class-storefront-nux-guided-tour.php:111
+msgid "Here you can control the overall look and feel of your store.%sTo get started, let's add your logo"
+msgstr "Qui puoi controllare l'aspetto generale del tuo negozio.%sPer iniziare, aggiungiamo il tuo logo"
+
 #: inc/nux/class-storefront-nux-guided-tour.php:91
 msgid "Skip this step"
 msgstr "Salta questo passaggio"
@@ -250,39 +305,39 @@ msgstr "No grazie, salta il tour"
 
 #: inc/nux/class-storefront-nux-admin-inbox-messages-customize.php:41
 #: inc/nux/class-storefront-nux-guided-tour.php:112
-#: inc/nux/class-storefront-nux-admin.php:160
+#: inc/nux/class-storefront-nux-admin.php:180
 msgid "Let's go!"
 msgstr "Andiamo!"
 
-#: inc/nux/class-storefront-nux-admin.php:154
+#: inc/nux/class-storefront-nux-admin.php:174
 msgid "Add example products"
 msgstr "Aggiungi i prodotti di esempio"
 
-#: inc/nux/class-storefront-nux-admin.php:144
+#: inc/nux/class-storefront-nux-admin.php:164
 msgid "Create a homepage using Storefront's homepage template"
 msgstr "Crea una homepage utilizzando il template di homepage di Storefront"
 
-#: inc/nux/class-storefront-nux-admin.php:142
+#: inc/nux/class-storefront-nux-admin.php:162
 msgid "Apply the Storefront homepage template"
 msgstr "Applica il template di homepage di Storefront"
 
-#: inc/nux/class-storefront-nux-admin.php:114
+#: inc/nux/class-storefront-nux-admin.php:134
 msgid "Design your store 🎨"
 msgstr "Progetta il tuo negozio 🎨"
 
-#: inc/nux/class-storefront-nux-admin.php:110
+#: inc/nux/class-storefront-nux-admin.php:130
 msgid "Activate WooCommerce"
 msgstr "Attiva WooCommerce"
 
-#: inc/nux/class-storefront-nux-admin.php:110
+#: inc/nux/class-storefront-nux-admin.php:130
 msgid "WooCommerce activated"
 msgstr "WooCommerce attivato"
 
-#: inc/nux/class-storefront-nux-admin.php:109
+#: inc/nux/class-storefront-nux-admin.php:129
 msgid "To enable eCommerce features you need to install the WooCommerce plugin."
 msgstr "Per abilitare le funzionalità di eCommerce è necessario installare il plugin WooCommerce."
 
-#: inc/nux/class-storefront-nux-admin.php:108
+#: inc/nux/class-storefront-nux-admin.php:128
 msgid "Thanks for installing Storefront, you rock! 🤘"
 msgstr "Grazie per aver installato Storefront, sei forte! 🤘"
 
@@ -380,27 +435,27 @@ msgstr "Il mio account"
 msgid "Search"
 msgstr "Cerca"
 
-#: inc/nux/class-storefront-nux-starter-content.php:1070
+#: inc/nux/class-storefront-nux-starter-content.php:1047
 #: inc/woocommerce/storefront-woocommerce-template-functions.php:555
 msgid "Best Sellers"
 msgstr "I più venduti"
 
-#: inc/nux/class-storefront-nux-starter-content.php:1058
+#: inc/nux/class-storefront-nux-starter-content.php:1035
 #: inc/woocommerce/storefront-woocommerce-template-functions.php:443
 msgid "Fan Favorites"
 msgstr "I preferiti dai fan"
 
-#: inc/nux/class-storefront-nux-starter-content.php:1129
+#: inc/nux/class-storefront-nux-starter-content.php:1106
 #: inc/woocommerce/storefront-woocommerce-template-functions.php:387
 msgid "We Recommend"
 msgstr "Raccomandiamo"
 
-#: inc/nux/class-storefront-nux-starter-content.php:1050
+#: inc/nux/class-storefront-nux-starter-content.php:1027
 #: inc/woocommerce/storefront-woocommerce-template-functions.php:331
 msgid "New In"
 msgstr "Nuovi arrivi"
 
-#: inc/nux/class-storefront-nux-starter-content.php:1042
+#: inc/nux/class-storefront-nux-starter-content.php:1019
 #: inc/woocommerce/storefront-woocommerce-template-functions.php:276
 msgid "Shop by Category"
 msgstr "Acquista per categoria"
@@ -455,7 +510,7 @@ msgid "Nothing was found at this location. Try searching, or check out the links
 msgstr "Non c'è niente qui. Prova a fare una ricerca, o dai uno sguardo ai collegamenti qui sotto."
 
 #. Template Name of the theme
-#: inc/nux/class-storefront-nux-starter-content.php:208
+#: inc/nux/class-storefront-nux-starter-content.php:66
 msgid "Homepage"
 msgstr "Homepage"
 
@@ -479,7 +534,7 @@ msgstr[1] "%d prodotti"
 msgid "View your shopping cart"
 msgstr "Guarda il tuo carrello degli acquisti"
 
-#: inc/nux/class-storefront-nux-starter-content.php:1064
+#: inc/nux/class-storefront-nux-starter-content.php:1041
 #: inc/woocommerce/storefront-woocommerce-template-functions.php:499
 msgid "On Sale"
 msgstr "In offerta"
@@ -666,7 +721,7 @@ msgstr "È disponibile un set di estensioni per %1$s per darti più libertà di 
 msgid "Add your logo"
 msgstr "Aggiungi il tuo logo"
 
-#: inc/nux/class-storefront-nux-admin.php:110
+#: inc/nux/class-storefront-nux-admin.php:130
 msgid "Install WooCommerce"
 msgstr "Installa WooCommerce"
 

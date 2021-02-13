@@ -39,7 +39,10 @@ if ( ! class_exists( 'WPPFM_Variations' ) ) :
 
 				if ( array_key_exists( $key, $variation_attributes ) && $variation_attributes[ $key ] ) {
 					$slug_value           = $variation_attributes[ $key ];
-					$product_data[ $key ] = get_term_by( 'slug', $slug_value, ltrim( $key, 'attribute_' ) )->name;
+					$attribute_term       = get_term_by( 'slug', $slug_value, ltrim( $key, 'attribute_' ) );
+					$attribute_slug_value = $attribute_term && property_exists($attribute_term, 'name') ? $attribute_term->name : '';
+					$attribute_value      = $attribute_slug_value ? $attribute_slug_value : $slug_value;
+					$product_data[ $key ] = $attribute_value;
 					continue;
 				}
 

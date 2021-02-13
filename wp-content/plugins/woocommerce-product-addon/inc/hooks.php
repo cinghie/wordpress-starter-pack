@@ -164,7 +164,7 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
     wp_enqueue_style( 'ppom-main', PPOM_URL.'/css/ppom-style.css');
 
     wp_enqueue_style( 'ppom-sm-popup', PPOM_URL.'/css/ppom-simple-popup.css');
-    wp_enqueue_script('PPOM-sm-popup', PPOM_URL."/js/ppom-simple-popup.js", array('jquery') );
+    wp_enqueue_script('PPOM-sm-popup', PPOM_URL."/js/ppom-simple-popup.js", array('jquery'), PPOM_VERSION, true);
 
     
     if ( $ppom->inline_css != '') {
@@ -180,7 +180,7 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
         $ppom_bs_modal_css = PPOM_URL.'/css/bootstrap/bootstrap.modal.css';
         
         // Description Tooltips JS File
-        wp_enqueue_script('ppom-tooltip', PPOM_URL."/scripts/ppom-tooltip.js", array('jquery') );
+        wp_enqueue_script('ppom-tooltip', PPOM_URL."/scripts/ppom-tooltip.js", array('jquery'), PPOM_VERSION, true );
 
         wp_enqueue_style( 'ppom-bootstrap', $ppom_bs_css);
         wp_enqueue_style( 'ppom-bootstrap-modal', $ppom_bs_modal_css);
@@ -194,11 +194,11 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
     
     // Price display controller
     $ppom_price_js = ppom_get_price_table_calculation();
-	wp_enqueue_script( 'ppom-price', PPOM_URL."/js/price/{$ppom_price_js}", array('jquery','ppom-inputs'), PPOM_DB_VERSION, true);
+	wp_enqueue_script( 'ppom-price', PPOM_URL."/js/price/{$ppom_price_js}", array('jquery','ppom-inputs'), PPOM_VERSION, true);
 		
 	// Ajax validation
 	if( $ppom->ajax_validation_enabled ) {
-		wp_enqueue_script( 'ppom-ajax-validation', PPOM_URL.'/js/ppom-validation.js', array('jquery'), PPOM_DB_VERSION, true);
+		wp_enqueue_script( 'ppom-ajax-validation', PPOM_URL.'/js/ppom-validation.js', array('jquery'), PPOM_VERSION, true);
 	}
 	
 	$enable_file_rename = apply_filters('ppom_upload_file_rename', true, $ppom_meta_fields);
@@ -422,7 +422,7 @@ function ppom_hooks_load_input_scripts( $product, $ppom_id=null ) {
 		
 		$ppom_conditions_script = ppom_get_conditions_mode() === 'new' ? 'ppom-conditions-v2' : 'ppom-conditions';
 		$ppom_conditions_script = apply_filters('ppom_conditional_script_file', $ppom_conditions_script, $product);
-		wp_enqueue_script( 'ppom-conditions', PPOM_URL."/js/{$ppom_conditions_script}.js", array('jquery','ppom-inputs'), PPOM_DB_VERSION, true);
+		wp_enqueue_script( 'ppom-conditions', PPOM_URL."/js/{$ppom_conditions_script}.js", array('jquery','ppom-inputs'), PPOM_VERSION, true);
 		wp_localize_script('ppom-conditions', 'ppom_input_vars', $ppom_input_vars);	
 	}
 			

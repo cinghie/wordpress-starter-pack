@@ -12,6 +12,7 @@ jQuery(function($) {
         $('form.cart').find('select option:selected, input[type="radio"]:checked, input[type="checkbox"]:checked').each(function(i, field) {
 
             if ($(field).closest('div.ppom-field-wrapper').hasClass('ppom-c-hide')) return;
+            
             const data_name = $(field).data('data_name');
             ppom_check_conditions(data_name, function(element_dataname, event_type) {
                 $.event.trigger({
@@ -25,7 +26,13 @@ jQuery(function($) {
         $('form.cart').find('div.ppom-c-show').each(function(i, field) {
 
             const data_name = $(field).data('data_name');
-            ppom_check_conditions(data_name);
+            ppom_check_conditions(data_name, function(element_dataname, event_type) {
+                $.event.trigger({
+                    type: event_type,
+                    field: element_dataname,
+                    time: new Date()
+                });
+            });
         });
 
     }, 100);
@@ -57,6 +64,7 @@ jQuery(function($) {
     });
 
     $(document).bind('ppom_hidden_fields_updated', function(e) {
+        ppom_fields_hidden_conditionally();
 
         // $("#conditionally_hidden").val(ppom_hidden_fields);
         // console.log(` hiddend field updated ==> ${e.field}`);
@@ -115,6 +123,13 @@ jQuery(function($) {
                 var the_id = 'ppom-imageselect' + e.field;
                 $("#" + the_id).remove();
                 break;
+                
+            case 'quantityoption':
+                $('#' + e.field).val('');
+                var the_id = 'ppom-quantityoption-rm' + e.field;
+                $("#" + the_id).remove();
+                break;
+                
 
             default:
                 // Reset text/textarea/date/email etc types
@@ -235,6 +250,8 @@ jQuery(function($) {
         }
 
     });
+    
+    ppom_fields_hidden_conditionally();
 
 });
 
@@ -244,14 +261,80 @@ function ppom_check_conditions(data_name, callback) {
     const ppom_type = jQuery(`.ppom-input[data-data_name="${data_name}"]`).data('type');
     let event_type, element_data_name;
     const field_val = ppom_get_element_value(data_name);
+    jQuery(`div.ppom-cond-${data_name}`).each(function() {
+        // return this.data('cond-val1').match(/\w*-Back/); 
+        // console.log(jQuery(this));
+        const total_cond = parseInt(jQuery(this).data('cond-total'));
+        const binding = jQuery(this).data(`cond-bind`);
+        const visibility = jQuery(this).data(`cond-visibility`);
+        element_data_name = jQuery(this).data('data_name');
+        
+        
+
+        let matched = 0;
+        for (var t = 1; t <= total_cond; t++) {
+
+            const cond_element = jQuery(this).data(`cond-input${t}`);
+            const cond_val = jQuery(this).data(`cond-val${t}`);
+            const operator = jQuery(this).data(`cond-operator${t}`);
+
+            // const field_val = ppom_get_field_type(field_obj);
+            if (cond_element !== data_name) continue;
+            is_matched = ppom_compare_values(field_val, cond_val, operator);
+            // console.log(`${data_name} TRIGGERS :: ${t} ***** ${element_data_name} ==> field value ${field_val} || cond_valu ${cond_val} || operator ${operator} *****`);
+            // console.log(`is_matched ==> ${is_matched}`);
+            matched = is_matched ? ++matched : matched;
+            
+            // console.log(`total_cond ${total_cond} == matched ${matched}`);
+            
+
+            event_type = visibility === 'hide' ? 'ppom_field_hidden' : 'ppom_field_shown';
+            if( !is_matched ) {
+                
+                if (jQuery(this).hasClass(`ppom-locked-${data_name}`)) return;
+                jQuery(this).addClass(`ppom-locked-${data_name} ppom-c-hide`);
+                event_type = 'ppom_field_hidden';
+                if (typeof callback == "function")
+                    callback(element_data_name, event_type);
+            } else if(binding === 'Any' && is_matched) {
+
+                jQuery(this).removeClass(`ppom-locked-${data_name} ppom-c-hide`);
+                // console.log('event_type', event_type);
+                if (typeof callback == "function")
+                    callback(element_data_name, event_type);
+                // return is_matched;
+            } else if(1) {
+                jQuery(this).removeClass(`ppom-locked-${data_name} ppom-c-hide`);
+                // console.log('event_type', event_type);
+                if (typeof callback == "function")
+                    callback(element_data_name, event_type);
+            }
+
+            // if (event_type === 'ppom_field_hidden' && jQuery(this).hasClass('ppom-c-hide')) return;
+
+            // console.log(`field_val ${field_val} === cond_val ${cond_val}`);
+        }
+
+        // return is_matched;
+        // return jQuery(this).data('cond-val1') === jQuery(this).val();
+    });
+}
+
+function ppom_check_conditions_bkp2(data_name, callback) {
+
+    let is_matched = false;
+    const ppom_type = jQuery(`.ppom-input[data-data_name="${data_name}"]`).data('type');
+    let event_type, element_data_name;
+    const field_val = ppom_get_element_value(data_name);
     const f = jQuery(`div.ppom-cond-${data_name}`).filter(function() {
-        // return this.data('cond-val1').match(/\w*-Back/);
+        // return this.data('cond-val1').match(/\w*-Back/); 
         // console.log(jQuery(this));
         const total_cond = parseInt(jQuery(this).data('cond-total'));
         const binding = jQuery(this).data(`cond-bind`);
         const visibility = jQuery(this).data(`cond-visibility`);
         element_data_name = jQuery(this).data('data_name');
 
+        let matched = 0;
         for (var t = 1; t <= total_cond; t++) {
 
             const cond_element = jQuery(this).data(`cond-input${t}`);
@@ -263,6 +346,8 @@ function ppom_check_conditions(data_name, callback) {
             is_matched = ppom_compare_values(field_val, cond_val, operator);
             console.log(`${data_name} TRIGGERS :: ${t} ***** ${element_data_name} ==> field value ${field_val} || cond_valu ${cond_val} || operator ${operator} *****`);
             console.log(`is_matched ==> ${is_matched}`);
+            matched = is_matched ? ++matched : matched;
+            console.log(`total_cond ${total_cond} ==> matched ${matched}`);
 
             event_type = visibility === 'hide' ? 'ppom_field_hidden' : 'ppom_field_shown';
             if( !is_matched ) {
@@ -278,6 +363,10 @@ function ppom_check_conditions(data_name, callback) {
                 if (typeof callback == "function")
                     callback(element_data_name, event_type);
                 return is_matched;
+            } else if(total_cond == matched) {
+                console.log('event_type', event_type);
+                if (typeof callback == "function")
+                    callback(element_data_name, event_type);
             }
 
             // if (event_type === 'ppom_field_hidden' && jQuery(this).hasClass('ppom-c-hide')) return;
@@ -295,8 +384,8 @@ function ppom_check_conditions(data_name, callback) {
         //     time: new Date()
 
         // });
-        if (typeof callback == "function")
-            callback(element_data_name, event_type);
+        // if (typeof callback == "function")
+        //     callback(element_data_name, event_type);
 
         // console.log('event_type', event_type);
     });
@@ -454,6 +543,8 @@ function ppom_compare_values(v1, v2, operator) {
         default:
             // code
     }
+    
+    // console.log(`matching ${v1} ${operator} ${v2}`);
     return result;
 }
 
@@ -519,7 +610,10 @@ function ppom_fields_hidden_conditionally() {
     jQuery(`.ppom-field-wrapper.ppom-c-hide`).filter(function() {
        
         const data_name = jQuery(this).data('data_name');
+        jQuery(`#${data_name}`).prop('required',false);
+        // console.log(jQuery(`#${data_name}`));
         ppom_hidden_fields.push(data_name);
     });
-    console.log("Condionally Hidden", ppom_hidden_fields);
+    // console.log("Condionally Hidden", ppom_hidden_fields);
+    jQuery("#conditionally_hidden").val(ppom_hidden_fields);
 }

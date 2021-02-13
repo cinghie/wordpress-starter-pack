@@ -82,22 +82,32 @@ if ( ! function_exists( 'yith_wcbr_get_terms' ) ) {
 			$args['orderby']      = 'meta_value_num';
 		}
 
-		// remove empty terms when hide_empty is set
+		// remove empty terms when hide_empty is set.
 		if ( isset( $args['hide_empty'] ) && $args['hide_empty'] ) {
 			add_filter( 'get_terms', '_yith_wcbr_remove_empty_terms', 15, 2 );
+
+			$args['meta_query']   = isset( $args['meta_query'] ) ? $args['meta_query'] : array();
+			$args['meta_query'][] = array(
+				'key' => 'product_count_yith_product_brand',
+				'value' => 0,
+				'compare' => '>',
+			);
 		}
 
 		if ( version_compare( $wp_version, '4.5', '<' ) ) {
 			$terms = get_terms( $taxonomy, apply_filters( 'yith_wcbr_get_terms_args', $args ) );
 		} else {
-			$args = array_merge( $args, array(
-				'taxonomy' => $taxonomy
-			) );
+			$args = array_merge(
+				$args,
+				array(
+					'taxonomy' => $taxonomy,
+				)
+			);
 
 			$terms = get_terms( apply_filters( 'yith_wcbr_get_terms_args', $args ) );
 		}
 
-		// remove empty terms when hide_empty is set
+		// remove empty terms when hide_empty is set.
 		if ( isset( $args['hide_empty'] ) && $args['hide_empty'] ) {
 			remove_filter( 'get_terms', '_yith_wcbr_remove_empty_terms', 15 );
 		}

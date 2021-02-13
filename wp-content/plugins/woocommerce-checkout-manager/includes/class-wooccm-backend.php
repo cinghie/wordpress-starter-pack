@@ -75,12 +75,14 @@ class WOOCCM_Field_Admin
 
     $screen = get_current_screen();
 
-    wp_register_style('wooccm-admin', plugins_url('assets/backend/css/wooccm-admin' . WOOCCM::is_min() . '.css', WOOCCM_PLUGIN_FILE), array(), WOOCCM_PLUGIN_VERSION, 'all');
+    $admin = include_once(WOOCCM_PLUGIN_DIR . 'assets/backend/js/admin.asset.php');
+
+    wp_register_style('wooccm-admin', plugins_url('assets/backend/css/admin.css', WOOCCM_PLUGIN_FILE), array(), WOOCCM_PLUGIN_VERSION, 'all');
 
     wp_register_script('jquery-serializejson', plugins_url('/assets/backend/jquery-serializejson/jquery-serializejson' . WOOCCM::is_min() . '.js', WOOCCM_PLUGIN_FILE), array('jquery'), WOOCCM_PLUGIN_VERSION, true);
 
-    wp_register_script('wooccm-admin', plugins_url('assets/backend/js/wooccm-admin' . WOOCCM::is_min() . '.js', WOOCCM_PLUGIN_FILE), array('jquery', 'jquery-serializejson'), WOOCCM_PLUGIN_VERSION, true);
-
+    wp_register_script('wooccm-admin', plugins_url('/assets/backend/js/admin.js', WOOCCM_PLUGIN_FILE), $admin['dependencies'], $admin['version'], true);
+    
     if ((isset($_GET['tab']) && $_GET['tab'] === WOOCCM_PREFIX) || in_array($screen->id, array(/* 'product', 'edit-product', */'shop_order', 'edit-shop_order'))) {
       wp_enqueue_style('wooccm-admin');
       wp_enqueue_script('wooccm-admin');

@@ -100,18 +100,17 @@ class NM_Cropper_wooproduct extends PPOM_Inputs{
 					'default' => '1mb',
 			),
 			
-			/*'cropping_ratio' => array (
-					'type' => 'textarea',
-					'title' => __ ( 'Cropping Ratio (each ratio/line)', 'ppom' ),
-					'desc' => __ ( 'It will enable cropping after image upload e.g: 800/600 <a href="http://najeebmedia.com/front-end-image-cropping-in-wordpress/" target="blank">See</a>', 'ppom' ) 
-			),*/
+			'selected' => array (
+					'type' => 'text',
+					'title' => __ ( 'Selected option', 'ppom' ),
+					'desc' => __ ( 'Type option name given in (Add Options) tab if you want already selected.', 'ppom' ) 
+			),
 			
-			// 'language_opt' => array (
-			// 		'type' => 'select',
-			// 		'title' => __ ( 'Select Language', "ppom" ),
-			// 		'desc' => __ ( 'Select language for pluploader alerts and messages.', "ppom" ),
-			// 		'options' => ppom_get_plupload_languages(), 
-			// ),
+			'first_option' => array (
+					'type' => 'text',
+					'title' => __ ( 'First option', 'ppom' ),
+					'desc' => __ ( 'Just for info e.g: Select your option.', 'ppom' ) 
+			),
 			
 			// Croppie options start
 			'options' => array (

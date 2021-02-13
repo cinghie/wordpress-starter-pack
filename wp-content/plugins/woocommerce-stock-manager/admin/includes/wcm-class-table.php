@@ -1,10 +1,7 @@
 <?php
 /**
- * @package   WooCommerce Stock Manager
  * @author    StoreApps
- * @license   GPL-2.0+
- * @link      https://www.storeapps.org/
- * @copyright 2020 StoreApps. All rights reserved.
+ * @package   WooCommerce Stock Manager
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

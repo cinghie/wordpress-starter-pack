@@ -11,57 +11,57 @@ if ( ! defined( 'YITH_WCAN' ) ) {
     exit;
 } // Exit if accessed directly
 
-
 /**
  * Return a dropdown with Woocommerce attributes
  */
-function yith_wcan_dropdown_attributes( $selected, $echo = true ) {
-	$_woocommerce = function_exists( 'wc' ) ? wc() : null;
-	$options    = "";
-	$attributes = array();
+if( ! function_exists( 'yith_wcan_dropdown_attributes' ) ){
+	function yith_wcan_dropdown_attributes( $selected, $echo = true ) {
+		$_woocommerce = function_exists( 'wc' ) ? wc() : null;
+		$options    = "";
+		$attributes = array();
 
-	if ( ! empty( $_woocommerce ) ) {
+		if ( ! empty( $_woocommerce ) ) {
 
-		if ( function_exists( 'wc_get_attribute_taxonomies' ) ) {
-			$attribute_taxonomies = wc_get_attribute_taxonomies();
-		}
-		else {
-			$attribute_taxonomies = $_woocommerce->get_attribute_taxonomies();
-		}
-
-		if ( empty( $attribute_taxonomies ) ) {
-			return array();
-		}
-
-		foreach ( $attribute_taxonomies as $attribute ) {
-
-			/* FIX TO WOOCOMMERCE 2.1 */
-			if ( function_exists( 'wc_attribute_taxonomy_name' ) ) {
-				$taxonomy = wc_attribute_taxonomy_name( $attribute->attribute_name );
+			if ( function_exists( 'wc_get_attribute_taxonomies' ) ) {
+				$attribute_taxonomies = wc_get_attribute_taxonomies();
 			}
 			else {
-				$taxonomy = $_woocommerce->attribute_taxonomy_name( $attribute->attribute_name );
+				$attribute_taxonomies = $_woocommerce->get_attribute_taxonomies();
 			}
 
+			if ( empty( $attribute_taxonomies ) ) {
+				return array();
+			}
 
-			if ( taxonomy_exists( $taxonomy ) ) {
-				$attributes[] = $attribute->attribute_name;
+			foreach ( $attribute_taxonomies as $attribute ) {
+
+				/* FIX TO WOOCOMMERCE 2.1 */
+				if ( function_exists( 'wc_attribute_taxonomy_name' ) ) {
+					$taxonomy = wc_attribute_taxonomy_name( $attribute->attribute_name );
+				}
+				else {
+					$taxonomy = $_woocommerce->attribute_taxonomy_name( $attribute->attribute_name );
+				}
+
+
+				if ( taxonomy_exists( $taxonomy ) ) {
+					$attributes[] = $attribute->attribute_name;
+				}
+			}
+
+			foreach ( $attributes as $attribute ) {
+				$options .= "<option name='{$attribute}'" . selected( $attribute, $selected, false ) . ">{$attribute}</option>";
 			}
 		}
 
-	    foreach ( $attributes as $attribute ) {
-	        $options .= "<option name='{$attribute}'" . selected( $attribute, $selected, false ) . ">{$attribute}</option>";
-	    }
+		if ( $echo ) {
+			echo $options;
+		}
+		else {
+			return $options;
+		}
 	}
-
-    if ( $echo ) {
-        echo $options;
-    }
-    else {
-        return $options;
-    }
 }
-
 
 /**
  * Print the widgets options already filled
@@ -74,101 +74,103 @@ function yith_wcan_dropdown_attributes( $selected, $echo = true ) {
  *
  * @return string
  */
-function yith_wcan_attributes_table( $type, $attribute, $id, $name, $values = array(), $echo = true ) {
-    $return = '';
+if( ! function_exists( 'yith_wcan_attributes_table' ) ){
+	function yith_wcan_attributes_table( $type, $attribute, $id, $name, $values = array(), $echo = true ) {
+		$return = '';
 
-    if( empty( $attribute ) ){
-    	return $return;
-    }
+		if( empty( $attribute ) ){
+			return $return;
+		}
 
-	$terms = get_terms( array( 'taxonomy' => 'pa_' . $attribute, 'hide_empty' => '0' ) );
-    if ( 'list' == $type ) {
-        $return = '<input type="hidden" name="' . $name . '[colors]" value="" /><input type="hidden" name="' . $name . '[labels]" value="" />';
-    }
+		$terms = get_terms( array( 'taxonomy' => 'pa_' . $attribute, 'hide_empty' => '0' ) );
+		if ( 'list' == $type ) {
+			$return = '<input type="hidden" name="' . $name . '[colors]" value="" /><input type="hidden" name="' . $name . '[labels]" value="" />';
+		}
 
-    elseif ( 'color' == $type ) {
-        if ( ! empty( $terms ) ) {
-            $return = sprintf( '<table><tr><th>%s</th><th>%s</th></tr>', __( 'Term', 'yith-woocommerce-ajax-navigation' ), __( 'Color', 'yith-woocommerce-ajax-navigation' ) );
+		elseif ( 'color' == $type ) {
+			if ( ! empty( $terms ) ) {
+				$return = sprintf( '<table><tr><th>%s</th><th>%s</th></tr>', __( 'Term', 'yith-woocommerce-ajax-navigation' ), __( 'Color', 'yith-woocommerce-ajax-navigation' ) );
 
-            foreach ( $terms as $term ) {
-            	if( $term instanceof WP_Term ){
-		            $return .= "<tr><td><label for='{$id}{$term->term_id}'>{$term->name}</label></td><td><input type='text' id='{$id}{$term->term_id}' name='{$name}[colors][{$term->term_id}]' value='" . ( isset( $values[$term->term_id] ) ? $values[$term->term_id] : '' ) . "' size='3' class='yith-colorpicker' /></td></tr>";
-	            }
-            }
+				foreach ( $terms as $term ) {
+					if( $term instanceof WP_Term ){
+						$return .= "<tr><td><label for='{$id}{$term->term_id}'>{$term->name}</label></td><td><input type='text' id='{$id}{$term->term_id}' name='{$name}[colors][{$term->term_id}]' value='" . ( isset( $values[$term->term_id] ) ? $values[$term->term_id] : '' ) . "' size='3' class='yith-colorpicker' /></td></tr>";
+					}
+				}
 
-            $return .= '</table>';
-        }
+				$return .= '</table>';
+			}
 
-        $return .= '<input type="hidden" name="' . $name . '[labels]" value="" />';
-    }
+			$return .= '<input type="hidden" name="' . $name . '[labels]" value="" />';
+		}
 
-    elseif ( 'multicolor' == $type ) {
-        if ( ! empty( $terms ) ) {
-            $return = sprintf( '<table class="yith-wcan-multicolor"><tr><th>%s</th><th>%s</th><th>%s</th></tr>', __( 'Term', 'yith-woocommerce-ajax-navigation' ), _x( 'Color 1', 'For multicolor: I.E. white and red T-Shirt', 'yith-woocommerce-ajax-navigation' ), _x( 'Color 2', 'For multicolor: I.E. white and red T-Shirt', 'yith-woocommerce-ajax-navigation' ) );
+		elseif ( 'multicolor' == $type ) {
+			if ( ! empty( $terms ) ) {
+				$return = sprintf( '<table class="yith-wcan-multicolor"><tr><th>%s</th><th>%s</th><th>%s</th></tr>', __( 'Term', 'yith-woocommerce-ajax-navigation' ), _x( 'Color 1', 'For multicolor: I.E. white and red T-Shirt', 'yith-woocommerce-ajax-navigation' ), _x( 'Color 2', 'For multicolor: I.E. white and red T-Shirt', 'yith-woocommerce-ajax-navigation' ) );
 
-            foreach ( $terms as $term ) {
+				foreach ( $terms as $term ) {
 
-                $return .= "<tr>";
+					$return .= "<tr>";
 
-                $return .= "<td><label for='{$id}{$term->term_id}'>{$term->name}</label></td>";
+					$return .= "<td><label for='{$id}{$term->term_id}'>{$term->name}</label></td>";
 
-                $return .= "<td><input type='text' id='{$id}{$term->term_id}_1' name='{$name}[multicolor][{$term->term_id}][]' value='" . ( isset( $values[$term->term_id][0] ) ? $values[$term->term_id][0] : '' ) . "' size='3' class='yith-colorpicker multicolor' /></td>";
-                $return .= "<td><input type='text' id='{$id}{$term->term_id}_2' name='{$name}[multicolor][{$term->term_id}][]' value='" . ( isset( $values[$term->term_id][1] ) ? $values[$term->term_id][1] : '' ) . "' size='3' class='yith-colorpicker multicolor' /></td>";
+					$return .= "<td><input type='text' id='{$id}{$term->term_id}_1' name='{$name}[multicolor][{$term->term_id}][]' value='" . ( isset( $values[$term->term_id][0] ) ? $values[$term->term_id][0] : '' ) . "' size='3' class='yith-colorpicker multicolor' /></td>";
+					$return .= "<td><input type='text' id='{$id}{$term->term_id}_2' name='{$name}[multicolor][{$term->term_id}][]' value='" . ( isset( $values[$term->term_id][1] ) ? $values[$term->term_id][1] : '' ) . "' size='3' class='yith-colorpicker multicolor' /></td>";
 
-                $return .= '</tr>';
-            }
+					$return .= '</tr>';
+				}
 
-            $return .= '</table>';
-        }
+				$return .= '</table>';
+			}
 
-        $return .= '<input type="hidden" name="' . $name . '[labels]" value="" />';
-    }
+			$return .= '<input type="hidden" name="' . $name . '[labels]" value="" />';
+		}
 
-    elseif ( 'label' == $type ) {
-        if ( ! empty( $terms ) ) {
-            $return = sprintf( '<table><tr><th>%s</th><th>%s</th></tr>', __( 'Term', 'yith-woocommerce-ajax-navigation' ), __( 'Labels', 'yith-woocommerce-ajax-navigation' ) );
+		elseif ( 'label' == $type ) {
+			if ( ! empty( $terms ) ) {
+				$return = sprintf( '<table><tr><th>%s</th><th>%s</th></tr>', __( 'Term', 'yith-woocommerce-ajax-navigation' ), __( 'Labels', 'yith-woocommerce-ajax-navigation' ) );
 
-            foreach ( $terms as $term ) {
-            	if( $term instanceof WP_Term){
-		            $return .= "<tr><td><label for='{$id}{$term->term_id}'>{$term->name}</label></td><td><input type='text' id='{$id}{$term->term_id}' name='{$name}[labels][{$term->term_id}]' value='" . ( isset( $values[$term->term_id] ) ? $values[$term->term_id] : '' ) . "' size='3' /></td></tr>";
-	            }
-            }
+				foreach ( $terms as $term ) {
+					if( $term instanceof WP_Term){
+						$return .= "<tr><td><label for='{$id}{$term->term_id}'>{$term->name}</label></td><td><input type='text' id='{$id}{$term->term_id}' name='{$name}[labels][{$term->term_id}]' value='" . ( isset( $values[$term->term_id] ) ? $values[$term->term_id] : '' ) . "' size='3' /></td></tr>";
+					}
+				}
 
-            $return .= '</table>';
-        }
+				$return .= '</table>';
+			}
 
-        $return .= '<input type="hidden" name="' . $name . '[colors]" value="" />';
-    }
+			$return .= '<input type="hidden" name="' . $name . '[colors]" value="" />';
+		}
 
-    if ( $echo ) {
-        echo $return;
-    }
+		if ( $echo ) {
+			echo $return;
+		}
 
-    return $return;
+		return $return;
+	}
 }
-
 
 /**
  * Can the widget be displayed?
  *
  * @return bool
  */
-function yith_wcan_can_be_displayed() {
-	$return = false;
+if( ! function_exists( 'yith_wcan_can_be_displayed' ) ){
+	function yith_wcan_can_be_displayed() {
+		$return = false;
 
-    if (
-        ( is_active_widget( false, false, 'yith-woo-ajax-navigation', true ) ||
-        is_active_widget( false, false, 'yith-woo-ajax-navigation-sort-by', true ) ||
-        is_active_widget( false, false, 'yith-woo-ajax-navigation-stock-on-sale', true ) ||
-        is_active_widget( false, false, 'yith-woo-ajax-navigation-list-price-filter', true ) ) &&
-        ( is_shop() || defined( 'SHOP_IS_ON_FRONT' ) || is_product_taxonomy() || is_product_category() )
-    ) {
-        $return = true;
-    }
+		if (
+			( is_active_widget( false, false, 'yith-woo-ajax-navigation', true ) ||
+			  is_active_widget( false, false, 'yith-woo-ajax-navigation-sort-by', true ) ||
+			  is_active_widget( false, false, 'yith-woo-ajax-navigation-stock-on-sale', true ) ||
+			  is_active_widget( false, false, 'yith-woo-ajax-navigation-list-price-filter', true ) ) &&
+			( is_shop() || defined( 'SHOP_IS_ON_FRONT' ) || is_product_taxonomy() || is_product_category() )
+		) {
+			$return = true;
+		}
 
-    return apply_filters( 'yith_wcan_can_be_displayed', $return );
+		return apply_filters( 'yith_wcan_can_be_displayed', $return );
+	}
 }
-
 
 if ( ! function_exists( 'yit_curPageURL' ) ) {
     /**
@@ -854,3 +856,33 @@ if( ! function_exists( 'yith_wcan_add_rel_nofollow_to_url' ) ){
 		return $return;
 	}
 }
+
+/* Deprecated Filters  */
+if( ! function_exists( 'yith_wcan_deprecated_filters' ) ){
+	function yith_wcan_deprecated_filter( $deprecated_filters_map ){
+		foreach ( $deprecated_filters_map as $deprecated_filter => $options ) {
+			$new_filter = $options['use'];
+			$params     = $options['params'];
+			$since      = $options['since'];
+			add_filter(
+				$new_filter,
+				function () use ( $deprecated_filter, $since, $new_filter ) {
+					$args = func_get_args();
+					$r    = $args[0];
+
+					if ( has_filter( $deprecated_filter ) ) {
+						error_log( sprintf( 'Deprecated filter: %s since %s. Use %s instead!', $deprecated_filter, $since, $new_filter ) ); //phpcs:ignore
+
+						$r = call_user_func_array( 'apply_filters', array_merge( array( $deprecated_filter ), $args ) );
+					}
+
+					return $r;
+				},
+				10,
+				$params
+			);
+		}
+	}
+}
+
+

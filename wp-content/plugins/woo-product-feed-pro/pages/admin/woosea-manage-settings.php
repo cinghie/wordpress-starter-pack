@@ -101,6 +101,20 @@ if(isset($_GET["tab"])) {
 				?>
 				</span>
 			</div>
+
+			<?php
+                        if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) {
+                                ?>                              
+                                        <div class="notice notice-error is-dismissible">
+                                                <p>
+                                                <strong><?php _e( 'WARNING: Your WP-Cron is disabled', 'woo-product-feed-pro' );?></strong><br/></br/>
+                                                We detected that your WP-cron has been disabled in your wp-config.php file. Our plugin heavily depends on the WP-cron being active for it to be able to update and generate your product feeds. More information on the inner workings of our plugin and instructions on how to enable your WP-Cron can be found here: <a href="https://adtribes.io/help-my-feed-processing-is-stuck/?utm_source=<?php print"$host";?>&utm_medium=manage-feed&utm_campaign=cron-warning&utm_content=notification" target="_blank"><strong>My feed won't update or is stuck processing</strong></a>.
+                                                </p>
+                                        </div>
+                                <?php
+                        }
+                        ?>
+
     
         	    	<!-- wordpress provides the styling for tabs. -->
 			<h2 class="nav-tab-wrapper">
@@ -292,6 +306,24 @@ if(isset($_GET["tab"])) {
 						</tr>
 						<tr>
 							<td>
+								<span><?php _e( 'Remove the free shipping zone from feed (Google Shopping / Facebook only)', 'woo-product-feed-pro');?></span>
+							</td>
+							<td>
+                                                		<label class="woo-product-feed-pro-switch">
+                                                        	<?php
+								$remove_free_shipping = get_option ('remove_free_shipping');
+                                                        	if($remove_free_shipping == "yes"){
+                                                                	print "<input type=\"checkbox\" id=\"remove_free_shipping\" name=\"remove_free_shipping\" class=\"checkbox-field\" checked>";
+							 	} else {
+                                                                	print "<input type=\"checkbox\" id=\"remove_free_shipping\" name=\"remove_free_shipping\" class=\"checkbox-field\">";
+                                                        	}
+                                                        	?>
+                                                        	<div class="woo-product-feed-pro-slider round"></div>
+                                                		</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
 								<span><?php _e( 'Remove the local pickup shipping zone from feed (Google Shopping / Facebook only)', 'woo-product-feed-pro');?></span>
 							</td>
 							<td>
@@ -440,11 +472,11 @@ if(isset($_GET["tab"])) {
                 				$external_path_tsv = $external_base . "/woo-product-feed-pro/";
                 				$external_path_logs = $external_base . "/woo-product-feed-pro/";
 						$test_file = $external_path . "/tesfile.txt";				
-						$test_file_xml = $external_path . "/xml/tesfile.txt";				
-						$test_file_csv = $external_path . "/csv/tesfile.txt";				
-						$test_file_txt = $external_path . "/txt/tesfile.txt";				
-						$test_file_tsv = $external_path . "/tsv/tesfile.txt";				
-						$test_file_logs = $external_path . "/logs/tesfile.txt";				
+						$test_file_xml = $external_path . "xml/tesfile.txt";				
+						$test_file_csv = $external_path . "csv/tesfile.txt";				
+						$test_file_txt = $external_path . "txt/tesfile.txt";				
+						$test_file_tsv = $external_path . "tsv/tesfile.txt";				
+						$test_file_logs = $external_path . "logs/tesfile.txt";				
 
 						if (is_writable($external_path)) {
 							// Normal root category
@@ -513,6 +545,10 @@ if(isset($_GET["tab"])) {
 							$cron_enabled = "False";
 						} else {
 							$cron_enabled = "True";
+						}
+
+			                        if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) {
+							$cron_enabled = "<strong>False</strong>";
 						}
 
 						print "<table class=\"woo-product-feed-pro-table\">";

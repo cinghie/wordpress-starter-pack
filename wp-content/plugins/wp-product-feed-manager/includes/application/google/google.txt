@@ -89,3 +89,7 @@
 89	4	shop_code
 90	4	quantity
 91	4	store_code
+92	4	ads_redirect
+93	4	canonical_link
+94	4	shopping_ads_excluded_country
+95	4	ships_from_country

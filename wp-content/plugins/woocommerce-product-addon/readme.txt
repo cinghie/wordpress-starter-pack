@@ -4,7 +4,7 @@ Tags: woocommerce, woocommerce pesonalized products, woocommerce custom fields, 
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 3.5
 Tested up to: 5.5
-Stable tag: 21.0
+Stable tag: trunk
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -91,7 +91,18 @@ Drag & Drop input fields with many options. Prices can also be added with option
 9. Attach inputs to bulk products
 
 == Changelog ==
+= 21.2 January 28 , 2021 =
+* Feature: [More efficeint script added to check price matrix](https://clients.najeebmedia.com/forums/topic/pricing-issues/)
+* Tweaks: [Styles are now being loaded into wp_head instead footer](https://wordpress.org/support/topic/enqueue-stylesheet-in-header/)
+* Feature: filter added to control image input size 'ppom_image_input_url'
+* Buf fixed: Price table label issue when used above the options
+* Bug fixed: [Options stock missing when added new, it is fixed now](https://wordpress.org/support/topic/stock-field-disappears-for-image-dropdown/)
+* Bug fixed: Product page slow issue fixed when have more quantities input
+* Warning removed: Bootstra.css.map error remove: HTTP error: status code 404, net::ERR_HTTP_RESPONSE_CODE_FAILURE
+* Bug fixed: [Cropping issue fixed when no ratio is selected](https://wordpress.org/support/topic/files-php-error-2/)
+* Bug fixed: When PPOM deleted but attached with product, throw error in product column. Fixed now
 = 21.1 November 24, 2020 =
+* Bug fixed: File Remove issue fixed
 * Bug fixed: [Warning fixed when the field's array is empty](https://wordpress.org/support/topic/image-cropper-error-version-21-0/#post-13694170)
 = 21.0 November 22, 2020 =
 * Feature: [Filter updated for plain text](https://wordpress.org/support/topic/plain-text-email-2/)

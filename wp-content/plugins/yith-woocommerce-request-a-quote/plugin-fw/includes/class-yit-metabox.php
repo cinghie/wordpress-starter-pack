@@ -317,7 +317,7 @@ if ( ! class_exists( 'YIT_Metabox' ) ) {
 				return $post_id;
 			}
 
-			$allow_ajax = isset( $_REQUEST['yith_metabox_allow_ajax_saving'] ) && $this->id === $_REQUEST['yith_metabox_allow_ajax_saving'];
+			$allow_ajax = isset( $_REQUEST['yith_metabox_allow_ajax_saving'] ) && sanitize_key( wp_unslash( $_REQUEST['yith_metabox_allow_ajax_saving'] ) ) === $this->id;
 			if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ( defined( 'DOING_AJAX' ) && DOING_AJAX && ! $allow_ajax ) ) {
 				return $post_id;
 			}
@@ -382,7 +382,7 @@ if ( ! class_exists( 'YIT_Metabox' ) ) {
 			// phpcs:disable WordPress.Security.NonceVerification.Recommended
 			$this->reorder_tabs();
 			$tabs_to_sanitize        = $this->tabs;
-			$allow_ajax              = isset( $_REQUEST['yith_metabox_allow_ajax_saving'] ) && $this->id === $_REQUEST['yith_metabox_allow_ajax_saving'];
+			$allow_ajax              = isset( $_REQUEST['yith_metabox_allow_ajax_saving'] ) && sanitize_key( wp_unslash( $_REQUEST['yith_metabox_allow_ajax_saving'] ) ) === $this->id;
 			$ajax_partial_saving_tab = isset( $_REQUEST['yith_metabox_allow_ajax_partial_saving_tab'] ) ? sanitize_key( wp_unslash( $_REQUEST['yith_metabox_allow_ajax_partial_saving_tab'] ) ) : false;
 
 			if ( defined( 'DOING_AJAX' ) && DOING_AJAX && ! $allow_ajax ) {

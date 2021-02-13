@@ -2,9 +2,9 @@
 Contributors: smashballoon
 Tags: Facebook, Facebook feed, Facebook posts, Facebook group, Facebook page
 Requires at least: 3.0
-Requires PHP: 5.2
-Tested up to: 5.5
-Stable tag: 2.17.1
+Requires PHP: 5.6
+Tested up to: 5.6
+Stable tag: 2.18.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ Formerly "Custom Facebook Feed". Display completely customizable Facebook feeds 
 
 == Description ==
 
-Display Facebook posts on your WordPress site. **Completely customizable**, **responsive** and **search engine crawlable** Facebook feeds. Display **unlimited Facebook feeds** from your **Facebook page** or **Facebook Group**, and completely match the look and feel of your site with tons of customization options! Automatically powers any Facebook oEmbeds on your site.
+Display Facebook posts on your WordPress site. **Completely customizable**, **responsive**, **search engine crawlable**, and **GDPR compliant** Facebook feeds. Display **unlimited Facebook feeds** from your **Facebook page** or **Facebook Group**, and completely match the look and feel of your site with tons of customization options! Automatically powers any Facebook oEmbeds on your site.
 
 *"The perfect Facebook plugin with amazing support! What else do you want? Get it!"* - [JoeJeffries](http://wordpress.org/support/topic/you-dont-already-have-this?facebook)
 
@@ -35,6 +35,9 @@ By default the Facebook feed will adopt the styles of your WordPress theme, but 
 
 **SEO Friendly**
 The Facebook feed content is crawlable by search engines adding SEO value to your site, while other Facebook plugins embed the feed using iframes which are not crawlable.
+
+**GDPR Compliant**
+Automatically integrates with many of the popular GDPR cookie consent plugins and includes a 1-click easy GDPR setting.
 
 **Responsive and Mobile Optimized**
 Facebook feed layouts look great on any screen size and in any container width.
@@ -259,8 +262,22 @@ The most common reason for this is that an add-on or extension you have installe
 9. It's super easy to display your Facebook feed in any page or post
 
 == Changelog ==
+= 2.18.2 =
+* Tweak: Now displays a notice to logged-in admins which lets you know if the Like Box or header cover photo is being intentionally hidden due to the GDPR setting.
+* Fix: Fixed an error which occurred when deleting the plugin.
+
+= 2.18.1 =
+* Fix: Fixed an issue with the integration with the Complianz plugin
+* Fix: Resolved a PHP warning related to the preg_replace_callback function which was displayed under certain conditions
+* Fix: Resolved a PHP deprecation notice related to the strpos function in PHP 7.3
+
+= 2.18 =
+* New: The plugin code has been completely refactored to improve performance and maintainability. If you experience any issues with this update then please open a support ticket [here](https://wordpress.org/support/plugin/custom-facebook-feed/) so that we can address it right away. Thank you!
+* New: Integrations with popular GDPR cookie consent solutions added: Cookie Notice by dFactory, GDPR Cookie Consent by WebToffee, Cookiebot by Cybot A/S, Complianz by Really Simple Plugins, and Borlabs Cookie by Borlabs. See the GDPR setting in the following location for more information: Facebook Feed > Customize > Misc > GDPR.
+* Note: The minimum supported PHP version has been increased to PHP version 5.6. If you are using a lower version then a notice will be displayed with a button to revert back to the previous version.
+
 = 2.17.1 =
-* Tweak: Added shortcode options for the "Before Date" and "After Date" settings, so that a custom text string can be displayed before and after the post date.
+* Tweak: Added shortcode options for the "Before Date" and "After Date" settings, so that a custom text string can be displayed before and after the Facebook post date.
 * Tweak: Minor frontend CSS improvements.
 * Tweak: Added support for improved notices on the plugin settings page.
 * Fix: Fixed an issue with the Facebook Like Box widget displaying an error if the width was set to a fractional pixel.

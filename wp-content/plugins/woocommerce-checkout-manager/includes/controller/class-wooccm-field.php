@@ -49,7 +49,9 @@ class WOOCCM_Field_Controller extends WOOCCM_Controller
 
     global $current_section;
 
-    wp_register_script('wooccm-admin-field', plugins_url('assets/backend/js/wooccm-admin-field' . WOOCCM::is_min() . '.js', WOOCCM_PLUGIN_FILE), array('jquery', 'jquery-ui-datepicker', 'backbone', 'wp-util'), WOOCCM_PLUGIN_VERSION, true);
+    $admin_field = include_once(WOOCCM_PLUGIN_DIR . 'assets/backend/js/admin-field.asset.php');
+
+    wp_register_script('wooccm-admin-field', plugins_url('assets/backend/js/admin-field.js', WOOCCM_PLUGIN_FILE), $admin_field['dependencies'],  $admin_field['dependencies'], true);
 
     wp_localize_script('wooccm-admin-field', 'wooccm_field', array(
       'ajax_url' => admin_url('admin-ajax.php?section=' . $current_section),
@@ -253,9 +255,13 @@ class WOOCCM_Field_Controller extends WOOCCM_Controller
 
             if (!empty($field['show_product'])) {
               $field['show_product_selected'] = array_filter(array_combine((array) $field['show_product'], array_map('get_the_title', (array) $field['show_product'])));
+            } else {
+              $field['show_product_selected'] = array();
             }
             if (!empty($field['hide_product'])) {
               $field['hide_product_selected'] = array_filter(array_combine((array) $field['hide_product'], array_map('get_the_title', (array) $field['hide_product'])));
+            } else {
+              $field['hide_product_selected'] = array();
             }
 
             if (!empty($field['conditional_parent_key']) && $field['conditional_parent_key'] != $field['key']) {

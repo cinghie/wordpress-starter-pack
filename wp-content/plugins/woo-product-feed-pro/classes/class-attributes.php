@@ -48,7 +48,7 @@ private function get_dynamic_attributes(){
 	global $wpdb;
 	$list = array();
 
-        $no_taxonomies = array("portfolio_category","portfolio_skills","portfolio_tags","nav_menu","post_format","slide-page","element_category","template_category","portfolio_category","portfolio_skills","portfolio_tags","faq_category","slide-page","yst_prominent_words","category","post_tag","nav_menu","link_category","post_format","product_type","product_visibility","product_cat","product_shipping_class","product_tag");
+        $no_taxonomies = array("portfolio_category","portfolio_skills","portfolio_tags","nav_menu","post_format","slide-page","element_category","template_category","portfolio_category","portfolio_skills","portfolio_tags","faq_category","slide-page","category","post_tag","nav_menu","link_category","post_format","product_type","product_visibility","product_cat","product_shipping_class","product_tag");
      	$taxonomies = get_taxonomies();
      	$diff_taxonomies = array_diff($taxonomies, $no_taxonomies);
 
@@ -207,10 +207,13 @@ public function get_mapping_attributes_dropdown() {
 			"title" => "Product name",
 			"mother_title" => "Product name parent product",
 			"title_hyphen" => "Product name hyphen",
+			"title_lc" => "Product name lowercase",
 			"description" => "Product description",
             		"short_description" => "Product short description",
             		"raw_description" => "Unfiltered product description",
             		"raw_short_description" => "Unfiltered product short description",
+            		"mother_description" => "Product description parent product",
+            		"mother_short_description" => "Product short description parent product",
 			"price" => "Price",
             		"regular_price" => "Regular price",
 			"sale_price" => "Sale price",
@@ -349,9 +352,10 @@ public function get_mapping_attributes_dropdown() {
 
                         foreach ($custom_attributes as $key => $value) {
                              	if (!preg_match("/pyre|sbg|fusion/i",$value)){
-                                	if (strpos($value, 0, 1) !== "_") {
+					$value = ltrim($value);
+					if (!empty($value)){
                                         	$dropdown .= "<option value='$key'>" . ucfirst($value) . "</option>";
-                                	}
+                              		}
 				}
                         }
 
@@ -400,11 +404,14 @@ public function get_mapping_attributes_dropdown() {
 			"title" => "Product name",
 			"mother_title" => "Product name parent product",
 			"title_hyphen" => "Product name hyphen",
+			"title_lc" => "Product name lowercase",
 			"description" => "Product description",
                         "short_description" => "Product short description",
                      	"raw_description" => "Unfiltered product description",
                         "raw_short_description" => "Unfiltered product short description",
-		        "link" => "Link",
+		     	"mother_description" => "Product description parent product",
+                        "mother_short_description" => "Product short description parent product",
+			"link" => "Link",
                         "variable_link" => "Product variable link",
                         "add_to_cart_link" => "Add to cart link",
 			"image" => "Main image",

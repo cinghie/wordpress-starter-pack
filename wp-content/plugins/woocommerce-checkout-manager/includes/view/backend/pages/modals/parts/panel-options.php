@@ -27,7 +27,7 @@
         </tr>
       </thead>
       <tbody class="ui-sortable">
-        <# _.each(_.sortOptions(data.options), function (option, index) { #>
+        <# _.each(data.options, function (option, index) { #>
         <tr>
           <td class="check-column">
             <input class="check" type="checkbox" <# if(index === 0) { #>disabled="disabled"<# } #>/>

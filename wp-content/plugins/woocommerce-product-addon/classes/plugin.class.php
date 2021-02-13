@@ -76,12 +76,18 @@ class NM_PersonalizedProduct {
 			add_filter ( 'woocommerce_get_cart_item_from_session', 'ppom_woocommerce_update_cart_fees', 10, 2 );
 			add_action( 'woocommerce_cart_calculate_fees', 'ppom_woocommerce_add_fixed_fee' );
 		} else {
+			
+			add_filter ( 'woocommerce_get_cart_item_from_session', 'ppom_price_check_price_matrix', 8, 2 );
+			
 			// V18.0 Non-JS base price calcuation
 			add_filter ( 'woocommerce_get_cart_item_from_session', 'ppom_price_controller', 10, 2 );
 			add_action( 'woocommerce_cart_calculate_fees', 'ppom_price_cart_fee' );
 			// Calculating weights
 			add_action( 'ppom_before_calculate_cart_total', 'ppom_hooks_update_cart_weight', 10, 3);
 		}
+		
+		// Adding scripts
+		add_action( 'wp_enqueue_scripts', 'ppom_woocommerce_load_scripts' );
 		
 		
 		add_action( 'woocommerce_cart_loaded_from_session', 'ppom_calculate_totals_from_session');

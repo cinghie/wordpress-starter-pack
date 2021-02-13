@@ -23,6 +23,7 @@ function ppom_price_controller($cart_items, $values) {
 	$product_quantity   = floatval($cart_items['quantity']);
 	$ppom_field_prices  = ppom_get_field_prices( $ppom_fields_post, $product_id, $product_quantity, $variation_id );
 	$ppom_discount      = 0;
+	$ppom_pricematrix	= isset($cart_items['ppom']['price_matrix_found']) ? $cart_items['ppom']['price_matrix_found'] : null;
 	// ppom_pa($product_quantity);
 	// ppom_pa($ppom_fields_post);
 	// ppom_pa($ppom_field_prices);
@@ -32,7 +33,7 @@ function ppom_price_controller($cart_items, $values) {
 	
 	// return array with: price, source
 	$price_info 		= ppom_price_get_product_base( $wc_product, $ppom_fields_post, 
-													$product_quantity, $ppom_field_prices, $ppom_discount);
+													$product_quantity, $ppom_field_prices, $ppom_discount, $ppom_pricematrix);
 	$product_base_price = $price_info['price'];
 	// var_dump("product_base_price ==> ".$product_base_price."<br>");
 	// ppom_pa($price_info);
@@ -285,7 +286,7 @@ function ppom_get_field_prices( $ppom_fields_post, $product_id, &$product_quanti
 					$ratio_found = $value['ratio'];
 					// Getting option
 					foreach($options as $option) {
-						if( $option['id'] === $ratio_found ) {
+						if( $option['option_id'] === $ratio_found ) {
 							
 							$option_price = isset($option['raw_price']) ? $option['raw_price'] : '';
 							$option_percent = isset($option['percent']) ? $option['percent'] : '';
@@ -858,7 +859,7 @@ function ppom_price_get_total_measure($price_array) {
 
 // Get product base price
 function ppom_price_get_product_base( $product, $ppom_fields_post, 
-									$product_quantity, $ppom_field_prices, &$ppom_discount ) {
+									$product_quantity, $ppom_field_prices, &$ppom_discount, $ppom_pricematrix=null ) {
     
     // converting back to org price if Currency Switcher is used
 	$base_price	= ppom_hooks_convert_price_back($product->get_price());
@@ -874,19 +875,19 @@ function ppom_price_get_product_base( $product, $ppom_fields_post,
 	
 	$source		= 'product';
 	
-	$matrix_found		= ppom_price_is_matrix_found(	$product, 
-														$product_quantity, 
-														$base_price,
-														$total_addon_price,
-														$total_cart_fee_price
-														);
+	$matrix_found = null;
+	if( $ppom_pricematrix ){
+		$matrix_found = ppom_parse_price_matrix($ppom_pricematrix, $product, $product_quantity, $base_price, $total_addon_price, $total_cart_fee_price);
+	}														
+	
+	
 	$quantities_found	= ppom_price_get_total_quantities( $ppom_fields_post, $product_id );
 	$bulkquantities_found= ppom_price_get_total_bulkquantities( $ppom_field_prices );
 	$fixedprice_found	= ppom_price_get_total_fixedprice( $ppom_field_prices );
 	$measure_found		= ppom_price_get_total_measure( $ppom_field_prices );
 	
 	// If price matrix found
-	// var_dump($matrix_found);
+	// ppom_pa($matrix_found);
 	if( $matrix_found ) {
 		
 		if( isset($matrix_found['matrix_price']) && $matrix_found['matrix_price'] != '') {
@@ -945,18 +946,21 @@ function ppom_price_matrix_chunk($product, $pricematrix_fields, $product_quantit
 	$matrix_found   = array();
 	$pm_applied     = array();
 
+	
 	if( count($pricematrix_fields) > 0 ) {
 		
 		foreach( $pricematrix_fields as $pm ) {
 		    
 		    $pm_dataname = isset($pm['data_name']) ? $pm['data_name'] : '';
+		    // var_dump($pm_dataname, ppom_is_field_hidden_by_condition( $pm_dataname ));
+		    
 		    if( ppom_is_field_hidden_by_condition( $pm_dataname ) ) continue;
 		    
 		    $pm_applied = $pm;
 		    break;
 		}
 		$matrix_found = ppom_extract_matrix_by_quantity($pm_applied, $product, $product_quantity);
-		// ppom_pa($matrix_found);
+		// ppom_pa($matrix_found); exit;
 	}
 	
 	return apply_filters('ppom_price_matrix_chunk_cart', $matrix_found, $product, $pm_applied);
@@ -1130,6 +1134,36 @@ function ppom_price_is_matrix_found( $product, $product_quantity, $base_price, $
     return apply_filters('ppom_price_is_matrix_found', $matrix, $product);
 }
 
+function ppom_parse_price_matrix($ppom_pricematrix, $product, $product_quantity, $base_price, $addon_price, $cart_fee){
+	
+	$matrix_discount	= 0.0;
+	$matrix_price		= 0.0;
+	$matrix_found = ppom_extract_matrix_by_quantity($ppom_pricematrix, $product, $product_quantity);
+	// ppom_pa($matrix_found);
+	if( isset($matrix_found['discount']) ) {
+        if( !empty($matrix_found['percent']) ) {
+            
+            // If discount only on BASE Price
+            $price_tobe_discount = $base_price;
+            // If discount only on BASE Price + Options
+            if( $matrix_found['discount'] == 'both' ) {
+                $price_tobe_discount += $addon_price + $cart_fee;
+            }
+            
+            $matrix_discount = ppom_get_amount_after_percentage($price_tobe_discount, $matrix_found['percent']);
+            $matrix_discount = floatval($matrix_discount);
+            // var_dump($price_tobe_discount);
+        } else {
+            $matrix_discount = isset($matrix_found['raw_price']) ? floatval($matrix_found['raw_price']) : 0;
+        }
+    } else {
+        $matrix_price     = isset($matrix_found['raw_price']) ? $matrix_found['raw_price'] : $base_price;
+    }
+    
+    $matrix	= array('matrix_price' => $matrix_price, 'matrix_discount' => $matrix_discount);
+    return apply_filters('ppom_price_is_matrix_found', $matrix, $product);
+}
+
 function ppom_is_field_has_price( $meta ) {
         
     $type = isset($meta['type']) ? $meta['type'] : '';
@@ -1211,4 +1245,35 @@ function ppom_get_amount_after_percentage($base_amount, $percent) {
 	$percent_amount	= wc_format_decimal( (floatval($percent) / 100) * $base_amount, wc_get_price_decimals());
 	
 	return $percent_amount;
+}
+
+// Checking the price matrix
+function ppom_price_check_price_matrix($cart_items, $values){
+	
+	if( !isset($cart_items['ppom']) ) return $cart_items;
+	// ppom_pa($cart_items);
+	
+	$wc_product         = $cart_items['data'];
+	$product_id 	    = ppom_get_product_id($wc_product);
+	
+	$pricematrix_field = ppom_has_field_by_type($product_id, 'pricematrix');
+	if ( ! $pricematrix_field ) return $cart_items;
+	
+	$matrix_found = [];
+	foreach( $pricematrix_field as $pm ) {
+		    
+	    $pm_dataname = isset($pm['data_name']) ? $pm['data_name'] : '';
+	    // var_dump($pm_dataname, ppom_is_field_hidden_by_condition( $pm_dataname ));
+	    $conditionally_hidden = $cart_items['ppom']['conditionally_hidden'];
+	    if( ppom_is_field_hidden_by_condition( $pm_dataname, $conditionally_hidden ) ) continue;
+	    
+	    $matrix_found = $pm;
+	    break;
+	}
+	
+	// ppom_pa($pm_applied);
+	// $matrix_found = ppom_extract_matrix_by_quantity($pm_applied, $wc_product, $product_quantity);
+	$cart_items['ppom']['price_matrix_found'] = apply_filters('ppom_price_marix_found', $matrix_found, $cart_items);
+    
+    return $cart_items;
 }

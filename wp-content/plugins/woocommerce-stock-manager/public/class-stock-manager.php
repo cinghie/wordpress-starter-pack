@@ -1,10 +1,7 @@
 <?php
 /**
- * @package   WooCommerce Stock Manager
  * @author    StoreApps
- * @license   GPL-2.0+
- * @link      https://www.storeapps.org/
- * @copyright 2020 StoreApps. All rights reserved.
+ * @package   woocommerce-stock-manager/public
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -20,7 +17,7 @@ class Stock_Manager {
 	 *
 	 * @var     string
 	 */
-	const VERSION = '2.5.3';
+	const VERSION = '2.5.4';
 
 	/**
 	 * Plugin slug

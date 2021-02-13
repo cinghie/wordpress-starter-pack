@@ -1209,7 +1209,7 @@ if ( ! class_exists( 'YIT_Plugin_Panel' ) ) {
 		 */
 		public function get_options() {
 			$options = get_option( 'yit_' . $this->settings['parent'] . '_options' );
-			if ( false === $options || ( isset( $_REQUEST['yit-action'] ) && 'reset' === $_REQUEST['yit-action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( false === $options || ( isset( $_REQUEST['yit-action'] ) && 'reset' === sanitize_key( wp_unslash( $_REQUEST['yit-action'] ) ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$options = $this->get_default_options();
 			}
 

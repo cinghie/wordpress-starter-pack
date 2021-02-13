@@ -94,6 +94,10 @@ foreach( $ppom_fields_meta as $meta ) {
 				}
 				break;
 				
+			case 'cropper':
+				$default_value = isset($meta['selected']) ? $meta['selected'] : '';
+				break;
+				
 			default:
 				$default_value  = $posted_values[$data_name];
 				break;
@@ -126,6 +130,7 @@ foreach( $ppom_fields_meta as $meta ) {
 			case 'timezone':
 			case 'palettes':
 			case 'image':
+			case 'cropper':
 				$default_value = isset($meta['selected']) ? $meta['selected'] : '';
 				break;
 				
@@ -136,6 +141,7 @@ foreach( $ppom_fields_meta as $meta ) {
 	// Stripslashes: default values
 	$default_value = ! is_array($default_value) ? stripslashes($default_value) : $default_value;
 	$default_value = apply_filters("ppom_field_default_value", $default_value, $meta, $product);
+	
 	
 	//WPML
 	$title			= ppom_wpml_translate($title, 'PPOM');
@@ -440,8 +446,8 @@ foreach( $ppom_fields_meta as $meta ) {
                 	break;
                 	
             	case 'image':
-					// ppom_pa($meta);
 					$images	= isset($meta['images']) ? $meta['images'] : array();
+					// ppom_pa($meta);
 					$show_popup	= isset($meta['show_popup']) ? $meta['show_popup'] : '';
 
 					// image selected border color
@@ -468,6 +474,7 @@ foreach( $ppom_fields_meta as $meta ) {
 					$multiple_allowed	= isset($meta['multiple_allowed']) ? $meta['multiple_allowed'] : '';
 					
 					$saved_images = isset($meta['images']) ? $meta['images'] : array();
+					$images = ppom_convert_options_to_key_val($saved_images, $meta, $product);
 					
 					$ppom_field_setting = array(  
                     				'id'        => $data_name,
@@ -479,7 +486,7 @@ foreach( $ppom_fields_meta as $meta ) {
                                     'title'		=> $title,
                                     'legacy_view'	=> (isset($meta['legacy_view'])) ? $meta['legacy_view'] : '',
 									'multiple_allowed' => $multiple_allowed,
-									'images'	=> $saved_images,
+									'images'	=> $images,
                                     'show_popup'=> $show_popup,
                                     'image_width' => $image_width,
                                     'image_height'=> $image_height,
@@ -655,7 +662,9 @@ foreach( $ppom_fields_meta as $meta ) {
 					$language		= (isset( $meta['language_opt'] ) ? $meta['language_opt'] : '' );
 					$file_cost		= (isset( $meta ['file_cost'] ) ? $meta ['file_cost'] : '' );
 					$field_label	= ($file_cost == '') ? $field_label : $field_label . ' - ' . wc_price($file_cost);
+					$first_option	= isset($meta['first_option']) ? $meta['first_option'] : '';
 					$options		= ppom_convert_options_to_key_val($options, $meta, $product);
+					// ppom_pa($options);
 					
 					// Croppie options
 					$croppie_options	= ppom_get_croppie_options($meta);
@@ -676,6 +685,7 @@ foreach( $ppom_fields_meta as $meta ) {
 									'taxable'				=> $taxable,
 									'language'				=> $language,
 									'croppie_options'		=> $croppie_options,
+									'first_option'			=> $first_option,
 									'options'				=> $options,
 									);
 									

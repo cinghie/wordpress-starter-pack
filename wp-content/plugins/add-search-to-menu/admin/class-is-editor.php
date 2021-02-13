@@ -848,7 +848,7 @@ class IS_Search_Editor
             if ( !$enable_customize ) {
                 $customizer_url = "//" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             }
-            echo  '<a style="font-size: 20px;font-weight: 800; padding: 25px 0;display: block;text-align: center;box-shadow:none;"class="is-customize-link" href="' . $customizer_url . '">' . __( "Search Form Customizer", "ivory-search" ) . '</a>' ;
+            echo  '<a style="font-size: 20px;font-weight: 800; padding: 25px 0;display: block;text-align: center;box-shadow:none;"class="is-customize-link" href="' . esc_url( $customizer_url ) . '">' . __( "Search Form Customizer", "ivory-search" ) . '</a>' ;
         }
         
         ?>

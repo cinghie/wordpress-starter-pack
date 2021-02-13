@@ -89,7 +89,8 @@ function wppfm_editValueSpan( rowId, sourceLevel, valueEditorLevel, displayStyle
 }
 
 function wppfm_requiresForAllOtherProductsField( mapping ) {
-	return mapping.hasOwnProperty( 'c' );
+	// Updated code @version 2.18.0 due to a Cannot read property 'hasOwnProperty' of null.
+	return mapping ? mapping.hasOwnProperty( 'c' ) : false;
 }
 
 function wppfm_addFeedSourceRow( rowId, sourceLevel, sourceRowsData, channel, removable ) {

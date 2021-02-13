@@ -53,7 +53,7 @@ module.exports = function ( grunt ) {
 						  },
 
 
-						  makepot: {
+						  makepot  : {
 							  options: {
 								  type         : 'wp-plugin',
 								  domainPath   : 'languages',
@@ -80,6 +80,23 @@ module.exports = function ( grunt ) {
 							  },
 							  build  : {
 								  src: potInfo.languageFolderPath + '*.po'
+							  }
+						  },
+
+						  // PHP Code Sniffer.
+						  phpcs: {
+							  options: {
+								  bin: 'vendor/bin/phpcs'
+							  },
+							  dist   : {
+								  src: [
+									  '**/*.php', // Include all php files.
+									  '!node_modules/**',
+									  '!tests/**',
+									  '!tools/**',
+									  '!tmp/**',
+									  '!vendor/**'
+								  ]
 							  }
 						  }
 
@@ -135,6 +152,7 @@ module.exports = function ( grunt ) {
 
 	// Load NPM tasks to be used here.
 	grunt.loadNpmTasks( 'grunt-wp-i18n' );
+	grunt.loadNpmTasks( 'grunt-phpcs' );
 
 	// Use uglify-es (instead of uglify) to uglify also JS for ES6.
 	grunt.loadNpmTasks( 'grunt-contrib-uglify-es' );

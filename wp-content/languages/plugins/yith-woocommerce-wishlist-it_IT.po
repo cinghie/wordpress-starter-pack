@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Wishlist - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-12-18 21:19:43+0000\n"
+"PO-Revision-Date: 2021-01-19 10:14:04+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -281,7 +281,7 @@ msgstr "aiutaci lasciando una valutazione 5 stelle"
 
 #: plugin-fw/lib/yit-plugin-panel.php:1316
 msgid "to keep updating and improving the plugin. Please,"
-msgstr "per continuare ad aggiornare e a migliorare il plugin. Per favore,"
+msgstr "per continuare ad aggiornare e a migliorare il plugin. "
 
 #: plugin-fw/lib/yit-plugin-panel.php:1315
 msgid "We need your support"
@@ -997,7 +997,7 @@ msgstr "Prodotto aggiunto al carrello con successo"
 
 #: includes/class.yith-wcwl-frontend.php:403
 msgid "We are sorry, but this feature is available only if cookies on your browser are enabled."
-msgstr "Spiacenti, questa funzionalità è disponibile solo se hai abilitato i cookie nel tuo browser."
+msgstr "Questa funzionalità è disponibile solo se hai abilitato i cookie nel tuo browser."
 
 #: includes/functions.yith-wcwl.php:451
 msgid "Only you can see this list"
@@ -1791,7 +1791,7 @@ msgstr "Ordinamento effettuato con successo."
 
 #: plugin-fw/lib/yit-plugin-panel.php:851
 msgid "Sorry, import is disabled."
-msgstr "Ci dispiace, l'importazione è disabilitata."
+msgstr "L'importazione è disabilitata."
 
 #: plugin-fw/lib/yit-plugin-panel.php:850
 msgid "The added file is not valid."
@@ -1824,7 +1824,7 @@ msgstr "Impostazioni salvate"
 
 #: plugin-fw/lib/yit-plugin-panel.php:842
 msgid "The element you have entered already exists. Please, enter another name."
-msgstr "L'elemento inserito esiste già. Per favore, inserisci un altro nome."
+msgstr "L'elemento inserito esiste già. Inserisci un altro nome."
 
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:23
 #: plugin-fw/lib/yit-plugin-subpanel.php:157

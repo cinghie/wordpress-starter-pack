@@ -327,6 +327,8 @@ if( ! defined('ABSPATH') ) die('Not Allowed');
 						$html_input .= '<input type="text" class="option-price form-control ppom-option-keys" placeholder="'.$plc_price.'" data-metatype="price">';
 						
 						$html_input .= '<input type="text" class="option-weight form-control ppom-option-keys" placeholder="'.$plc_weight.'" data-metatype="weight">';
+						
+						$html_input .= '<input type="text" class="option-stock form-control ppom-option-keys" placeholder="'.$plc_stock.'" data-metatype="stock">';
 
 						$html_input .= '<input type="text" class="option-id form-control ppom-option-keys" placeholder="'.$plc_id.'" data-metatype="id">';
 

@@ -52,25 +52,25 @@ if ( ! class_exists( 'YIT_Ajax' ) ) {
 		/**
 		 * Post Search
 		 *
-		 * @param bool|array $request The request.
+		 * @param array $request The request.
 		 */
-		public function json_search_posts( $request = false ) {
+		public function json_search_posts( $request = array() ) {
 			ob_start();
 
-			if ( ! $request ) {
+			// Make sure request is an array.
+			$request = is_array( $request ) ? $request : array();
+
+			if ( empty( $request ) ) {
 				check_ajax_referer( 'search-posts', 'security' );
 			}
 
-			$request = $request ? $request : $_REQUEST;
-			$term    = isset( $request['term'] ) ? (string) sanitize_text_field( wp_unslash( $request['term'] ) ) : false;
-
+			$term = isset( $request['term'] ) ? $request['term'] : ( isset( $_REQUEST['term'] ) ? (string) sanitize_text_field( wp_unslash( $_REQUEST['term'] ) ) : '' );
 			if ( empty( $term ) ) {
 				die();
 			}
 
 			$found_posts = array();
-
-			$args = array(
+			$args        = array(
 				'post_type'        => 'post',
 				'post_status'      => 'publish',
 				'numberposts'      => 20,
@@ -82,16 +82,18 @@ if ( ! class_exists( 'YIT_Ajax' ) ) {
 			);
 
 			foreach ( $args as $key => $default_value ) {
-				if ( ! empty( $request[ $key ] ) ) {
-					$args[ $key ] = $request[ $key ];
+				if ( ! empty( $_REQUEST[ $key ] ) ) {
+					$args[ $key ] = sanitize_text_field( wp_unslash( $_REQUEST[ $key ] ) );
 				}
 			}
 
-			if ( isset( $request['post_parent'] ) ) {
-				$args['post_parent'] = $request['post_parent'];
+			if ( isset( $_REQUEST['post_parent'] ) ) {
+				$args['post_parent'] = intval( $_REQUEST['post_parent'] );
 			}
 
-			$show_id = isset( $request['show_id'] ) && $request['show_id'];
+			// Merge with passed request data.
+			$args    = array_merge( $args, $request );
+			$show_id = ! empty( $_REQUEST['show_id'] );
 
 			$args['s']      = $term;
 			$args['fields'] = 'ids';
@@ -107,8 +109,8 @@ if ( ! class_exists( 'YIT_Ajax' ) ) {
 					$found_posts[ $post_id ] = apply_filters( 'yith_plugin_fw_json_search_found_post_title', rawurldecode( $title ), $post_id, $request );
 				}
 			}
-			$found_posts = apply_filters( 'yith_plugin_fw_json_search_found_posts', $found_posts, $request );
 
+			$found_posts = apply_filters( 'yith_plugin_fw_json_search_found_posts', $found_posts, $request );
 			wp_send_json( $found_posts );
 		}
 
@@ -118,18 +120,18 @@ if ( ! class_exists( 'YIT_Ajax' ) ) {
 		public function json_search_products() {
 			check_ajax_referer( 'search-posts', 'security' );
 
-			$term = isset( $_GET['term'] ) ? (string) wc_clean( wp_unslash( $_GET['term'] ) ) : false;
+			$term = isset( $_REQUEST['term'] ) ? (string) wc_clean( wp_unslash( $_REQUEST['term'] ) ) : false;
 			if ( empty( $term ) ) {
 				die();
 			}
 
-			$request              = $_REQUEST;
-			$request['post_type'] = 'product';
+			$request         = array( 'post_type' => 'product' );
+			$request_include = isset( $_REQUEST['include'] ) && ! is_array( $_REQUEST['include'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_REQUEST['include'] ) ) ) : array();
 
-			$request_include = isset( $request['include'] ) && ! is_array( $request['include'] ) ? explode( ',', $request['include'] ) : array();
+			if ( ! empty( $_REQUEST['product_type'] ) ) {
+				$product_type      = sanitize_text_field( wp_unslash( $_REQUEST['product_type'] ) );
+				$product_type_term = get_term_by( 'slug', $product_type, 'product_type' );
 
-			if ( ! empty( $request['product_type'] ) ) {
-				$product_type_term = get_term_by( 'slug', $request['product_type'], 'product_type' );
 				if ( $product_type_term ) {
 					$posts_in = array_unique( (array) get_objects_in_term( $product_type_term->term_id, 'product_type' ) );
 					if ( ! ! $request_include ) {
@@ -145,7 +147,6 @@ if ( ! class_exists( 'YIT_Ajax' ) ) {
 			}
 
 			$request = apply_filters( 'yith_plugin_fw_json_search_products_request', $request );
-
 			$this->json_search_posts( $request );
 		}
 
@@ -158,7 +159,7 @@ if ( ! class_exists( 'YIT_Ajax' ) ) {
 
 			check_ajax_referer( 'search-posts', 'security' );
 
-			$term = isset( $_REQUEST['term'] ) ? (string) wc_clean( wp_unslash( $_REQUEST['term'] ) ) : false;
+			$term = isset( $_REQUEST['term'] ) ? intval( $_REQUEST['term'] ) : false;
 
 			if ( empty( $term ) ) {
 				die();
@@ -166,11 +167,11 @@ if ( ! class_exists( 'YIT_Ajax' ) ) {
 
 			$found_orders = array();
 			$term         = apply_filters( 'yith_plugin_fw_json_search_order_number', $term );
-			$search       = '%' . $term . '%';
+			$search       = '%' . intval( $term ) . '%';
 
 			$query_orders = $wpdb->get_results(
 				$wpdb->prepare(
-					"SELECT ID, post_title FROM {$wpdb->posts} AS posts WHERE posts.post_type = 'shop_order'AND posts.ID LIKE %s",
+					"SELECT ID, post_title FROM {$wpdb->posts} AS posts WHERE posts.post_type = 'shop_order' AND posts.ID LIKE %s",
 					$search
 				)
 			);
@@ -178,7 +179,7 @@ if ( ! class_exists( 'YIT_Ajax' ) ) {
 			if ( $query_orders ) {
 				foreach ( $query_orders as $item ) {
 					$order_number              = apply_filters( 'yith_plugin_fw_order_number', '#' . $item->ID, $item->ID );
-					$found_orders[ $item->ID ] = $order_number . ' &ndash; ' . esc_html( $item->post_title );
+					$found_orders[ $item->ID ] = esc_html( $order_number ) . ' &ndash; ' . esc_html( $item->post_title );
 				}
 			}
 
@@ -199,32 +200,31 @@ if ( ! class_exists( 'YIT_Ajax' ) ) {
 				die();
 			}
 
-			$request = $_REQUEST;
-
-			$args = array(
-				'taxonomy'     => 'category',
-				'hide_empty'   => false,
-				'order'        => 'ASC',
-				'orderby'      => 'name',
-				'include'      => '',
-				'exclude'      => '',
-				'exclude_tree' => '',
-				'number'       => '',
-				'hierarchical' => true,
-				'child_of'     => 0,
-				'parent'       => '',
-				'term_field'   => 'id',
+			$args = apply_filters(
+				'yith_plugin_fw_json_search_terms_default_args',
+				array(
+					'taxonomy'     => 'category',
+					'hide_empty'   => false,
+					'order'        => 'ASC',
+					'orderby'      => 'name',
+					'include'      => '',
+					'exclude'      => '',
+					'exclude_tree' => '',
+					'number'       => '',
+					'hierarchical' => true,
+					'child_of'     => 0,
+					'parent'       => '',
+					'term_field'   => 'id',
+				)
 			);
 
-			$args = apply_filters( 'yith_plugin_fw_json_search_terms_default_args', $args, $request );
-
 			foreach ( $args as $key => $default_value ) {
-				if ( ! empty( $request[ $key ] ) ) {
-					$args[ $key ] = wp_unslash( $request[ $key ] );
+				if ( ! empty( $_REQUEST[ $key ] ) ) {
+					$args[ $key ] = sanitize_text_field( wp_unslash( $_REQUEST[ $key ] ) );
 				}
 			}
 
-			$args = apply_filters( 'yith_plugin_fw_json_search_terms_args', $args, $request );
+			$args = apply_filters( 'yith_plugin_fw_json_search_terms_args', $args );
 
 			$args['name__like'] = $term;
 			$args['fields']     = 'id=>name';

@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: woocommerce catalog mode plugin, woocommerce catalog only, woocommerce, products, themes, yit, yith, yithemes, e-commerce, shop, catalog mode, catalogue mode, remove add to cart, ask for price, ask price, asking for price, asking price, button remove, call, call for price, call me, call us, contact, email, hide add to cart, hide price
 Requires at least: 5.3
 Tested up to: 5.6
-Stable tag: 2.0.7
+Stable tag: 2.0.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -131,143 +131,157 @@ yith-woocommerce-catalog-mode-<WORDPRESS LOCALE >.mo
 
 == Changelog ==
 
+= 2.0.10 - Released: 03 February 2021 =
+
+* New: support for WooCommerce 5.0
+* Update: YITH plugin framework
+
+= 2.0.9 - Released: 13 January 2021 =
+
+* Update: YITH plugin framework
+
+= 2.0.8 - Released: 07 January 2021 =
+
+* New: support for WooCommerce 4.9
+* Update: YITH plugin framework
+
 = 2.0.7 - Released: 04 December 2020 =
 
-* New: Support for WooCommerce 4.8.x
-* Update: Plugin framework
+* New: support for WooCommerce 4.8
+* Update: YITH plugin framework
 
 = 2.0.6 - Released: 09 November 2020 =
 
-* New: Support for WordPress 5.6.x
-* New: Support for WooCommerce 4.7.x
-* Update: Plugin framework
+* New: support for WordPress 5.6
+* New: support for WooCommerce 4.7
+* Update: YITH plugin framework
 
 = 2.0.5 - Released: 07 October 2020 =
 
-* New: Support for WooCommerce 4.6
-* Update: plugin framework
+* New: support for WooCommerce 4.6
+* Update: YITH plugin framework
 
 = 2.0.4 - Released: 21 September 2020 =
 
-* New: Support for WooCommerce 4.5
-* Update: plugin framework
+* New: support for WooCommerce 4.5
+* Update: YITH plugin framework
 
 = 2.0.3 - Released: 23 August 2020 =
 
-* New: Support for WordPress 5.5
-* New: Support for WooCommerce 4.4
-* Update: plugin framework
+* New: support for WordPress 5.5
+* New: support for WooCommerce 4.4
+* Update: YITH plugin framework
 
 
 = Version 2.0.2 - Released: 09 July 2020 =
 
-* New: Support for WooCommerce 4.3
-* Update: plugin framework
+* New: support for WooCommerce 4.3
+* Update: YITH plugin framework
 
 = Version 2.0.1 - Released: 06 May 2020 =
 
-* New: Support for WooCommerce 4.1
-* Update: plugin framework
+* New: support for WooCommerce 4.1
+* Update: YITH plugin framework
 
 = Version 2.0.0 - Released: 8 April 2020 =
 
 * Tweak: improved admin panel and settings UX
 * Dev: code refactoring of the entire plugin
-* Update: plugin framework
+* Update: YITH plugin framework
 
 = Version 1.6.19 - Released: 11 March 2020 =
 
-* New: Support for WordPress 5.4
-* New: Support for WooCommerce 4.0
-* Update: plugin framework
+* New: support for WordPress 5.4
+* New: support for WooCommerce 4.0
+* Update: YITH plugin framework
 
 = Version 1.6.16 - Released: 23 December 2019 =
 
-* New: Support for WooCommerce 3.9
-* Update: plugin framework
+* New: support for WooCommerce 3.9
+* Update: YITH plugin framework
 
 = Version 1.6.15 - Released: 11 December 2019 =
 
-* Update: plugin framework
+* Update: YITH plugin framework
 
 = Version 1.6.14 - Released: 29 November 2019 =
 
-* Update: plugin framework
+* Update: YITH plugin framework
 
 = Version 1.6.13 - Released: 10 November 2019 =
 
-* Update: plugin framework
+* Update: YITH plugin framework
 
 = Version 1.6.12 - Released: 30 October 2019 =
 
-* Update: plugin framework
+* Update: YITH plugin framework
 
 = Version 1.6.11 - Released: 29 October 2019 =
 
-* New: Support for WordPress 5.3
-* New: Support for WooCommerce 3.8
-* Update: plugin framework
+* New: support for WordPress 5.3
+* New: support for WooCommerce 3.8
+* Update: YITH plugin framework
 
 = Version 1.6.10 - Released: 30 July 2019 =
 
-* New: Support for WooCommerce 3.7.0 RC1
-* Update: plugin framework
+* New: support for WooCommerce 3.7.0 RC1
+* Update: YITH plugin framework
 
 = Version 1.6.9 - Released: 12 June 2019 =
 
-* Update: plugin framework
+* Update: YITH plugin framework
 
 = Version 1.6.8 - Released: 06 June 2019 =
 
-* New: Support for WordPress 5.2
-* Update: plugin framework
+* New: support for WordPress 5.2
+* Update: YITH plugin framework
 
 = Version 1.6.7 - Released: 23 April 2019 =
 
-* Update: plugin framework
+* Update: YITH plugin framework
 
 = Version 1.6.6 - Released: 15 April 2019 =
 
-* New: Support for WooCommerce 3.6.0 RC2
-* Update: plugin framework
+* New: support for WooCommerce 3.6.0 RC2
+* Update: YITH plugin framework
 
 = Version 1.6.5 - Released: 07 February 2019 =
 
-* Update: plugin framework
+* Update: YITH plugin framework
 * Fix: hide add to cart for grouped products
 
 = Version 1.6.3 - Released: 05 December 2018 =
 
-* New: Support for WordPress 5.0
-* Update: plugin framework
+* New: support for WordPress 5.0
+* Update: YITH plugin framework
 
 = Version 1.6.2 - Released: 22 October 2018 =
 
-* Update: plugin framework
+* Update: YITH plugin framework
 
 = Version 1.6.1 - Released: 16 October 2018 =
 
-* New: Support for WooCommerce 3.5.0 RC2
-* Update: plugin framework
+* New: support for WooCommerce 3.5.0 RC2
+* Update: YITH plugin framework
 
 = Version 1.6.0 - Released: 24 May 2018 =
 
-* New: Support for WordPress 4.9.6
-* New: Support for WooCommerce 3.4.0
-* Update: plugin framework
+* New: support for WordPress 4.9.6
+* New: support for WooCommerce 3.4.0
+* Update: YITH plugin framework
 
 = Version 1.5.9 - Released: 29 January 2018 =
 
-* New: Support for WooCommerce 3.3.0 RC2
-* Update: plugin framework
+* New: support for WooCommerce 3.3.0 RC2
+* Update: YITH plugin framework
 
 = Version 1.5.7 - Released: 20 September 2017 =
 
-* Update: plugin framework
+* Update: YITH plugin framework
 
 = Version 1.5.5 - Released: 23 March 2017 =
 
-* Tweak: Support for WooCommerce 3.0.0-RC 1
+* Tweak: support for WooCommerce 3.0.0-RC 1
 
 = Version 1.4.0 - Released: 31 May 2016 =
 
@@ -343,7 +357,7 @@ yith-woocommerce-catalog-mode-<WORDPRESS LOCALE >.mo
 
 = Version 1.1.0 - Released: 13 August 2015 =
 
-* New: Support for WooCommerce 2.4
+* New: support for WooCommerce 2.4
 * Update: Plugin core framework
 
 = Version 1.0.9 - Released: 20 July 2015 =
@@ -390,7 +404,7 @@ yith-woocommerce-catalog-mode-<WORDPRESS LOCALE >.mo
 
 == Upgrade Notice ==
 
-Last Stable Tag 2.0.7
+Last Stable Tag 2.0.10
 
 == Suggestions ==
 

@@ -356,6 +356,11 @@ class WooSEA_google_shopping {
 					"feed_name" => "g:max_handling_time",
 					"format" => "optional",
 				),
+				"Ships from country" => array(
+					"name" => "ships_from_country",
+					"feed_name" => "g:ships_from_country",
+					"format" => "optional",
+				),
 			),
 			"Tax" => array(
 				"Tax" => array(

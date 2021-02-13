@@ -627,7 +627,8 @@ class NM_Form {
             $html   .= sprintf(__("%s", "ppom"), $label) .'</label>';
         }
        
-        $checked_value = array_map('trim', $checked_value);
+        if( is_array($checked_value) )
+            $checked_value = array_map('trim', $checked_value);
         
         foreach($options as $key => $value) {
             
@@ -915,7 +916,7 @@ class NM_Form {
             $html   .= '<label class="'.$this->get_default_setting_value('global', 'label_class', $id).'" for="'.$id.'">';
             $html   .= sprintf(__("%s", "ppom"), $label) .'</label>';
         }
-
+        
         // apply for selected images border color
 		$selected_img_bordercolor    = isset($args['selected_img_bordercolor']) ? $args['selected_img_bordercolor'] : '';
         $html .= '<style>';
@@ -928,7 +929,6 @@ class NM_Form {
                    }';
        $html .= '</style>';
        
-       $images = ppom_convert_options_to_key_val($images, $args, $product);
     //   ppom_pa($images);
         
         if (isset($args['legacy_view']) && $args['legacy_view'] == 'on') {
@@ -950,7 +950,8 @@ class NM_Form {
 	            // Actually image URL is link
 				// $image_price    = apply_filters('ppom_option_price', $image_price);
 				$image_link         = isset($image['url']) ? $image['url'] : '';
-				$image_url          = wp_get_attachment_thumb_url( $image_id );
+				$image_url          = apply_filters('ppom_image_input_url', wp_get_attachment_thumb_url( $image_id ), $image, $args);
+	
 				
 				// Currency Switcher
 				
@@ -1039,7 +1040,7 @@ class NM_Form {
     				
     				// Actually image URL is link
 					$image_link = isset($image['url']) ? $image['url'] : '';
-					$image_url  = wp_get_attachment_thumb_url( $image_id );
+					$image_url          = apply_filters('ppom_image_input_url', wp_get_attachment_thumb_url( $image_id ), $image, $args);
 					
 					$checked_option = '';
 					
@@ -1092,7 +1093,7 @@ class NM_Form {
 						
 					if($image['image_id'] != ''){
 						if( isset($image['url']) && $image['url'] != '' ) {
-							$html .= '<a href="'.$image['url'].'"><img src="'.wp_get_attachment_thumb_url( $image['image_id'] ).'" /></a>';
+							$html .= '<a href="'.$image['url'].'"><img src="'.$image_url.'" /></a>';
 						} else {
 						    
 						    $image_url = wp_get_attachment_thumb_url( $image['image_id'] );
@@ -1121,6 +1122,7 @@ class NM_Form {
         
         // filter: nmforms_input_htmls
         return apply_filters("nmforms_input_html", $html, $args, $default_value);
+        // return 'asd';
     }
     
     // A custom input will be just some option html
@@ -1485,10 +1487,11 @@ class NM_Form {
     	
     	$html   .= '<div class="ppom-croppie-wrapper-'.esc_attr($args['id']).' text-center">';
     	$html   .= '<div class="ppom-croppie-preview">';
-    // 	ppom_pa($args['options']);
+        // 	ppom_pa($args);
+    
     	// @since: 12.8
     	// Showing size option if more than one found.
-    	if (isset($args['options']) && count($args['options']) > 1){
+    	if (isset($args['options']) && count($args['options']) > 0){
     	    
     	   $cropping_sizes = $args['options'];
     	    
@@ -1501,6 +1504,12 @@ class NM_Form {
     	        $html .= 'data-field_name="'.esc_attr($args['id']).'" ';
     	        $html .= 'data-data_name="'.esc_attr($args['id']).'" ';
     	        $html .= 'id="crop-size-'.esc_attr($args['id']).'">';
+    	        
+    	        if( $args['first_option'] ) {
+    	            
+    	            $html .= sprintf(__('<option value="">%s</option>','ppom'),$args['first_option']);
+    	        }
+    	        
     	        foreach($cropping_sizes as $key => $size) {
     	            
     	            $option_label   = $size['label'];
@@ -1508,8 +1517,10 @@ class NM_Form {
                     $raw_label      = $size['raw'];
                     $without_tax    = $size['without_tax'];
                     $option_id      = $size['option_id'];
+                    
+                    if( $option_id == "__first_option__" ) continue;
     	            
-    	            $html   .= '<option ';
+    	            $html   .= '<option '.selected( $selected_value, $key, false ).' ';
                     $html   .= 'value="'.esc_attr($option_id).'" ';
                     $html   .= 'data-price="'.esc_attr($option_price).'" ';
                     $html   .= 'data-label="'.esc_attr($raw_label).'" ';
@@ -1521,7 +1532,6 @@ class NM_Form {
                     $html   .= '>'.$option_label.'</option>';
     	        }
     	        
-    	        $html .= '<option selected="selected" value="">'.__('Select Size', "ppom").'</option>';
     	   $html    .= '</select>';
     	   
     	}

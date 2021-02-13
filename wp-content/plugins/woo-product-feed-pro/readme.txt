@@ -5,11 +5,11 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.6
-Stable tag: 9.3.2
+Stable tag: 9.5.5
 
 == Description ==
 
-Generate WooCommerce product feeds for all your marketing channels, such as Google Shopping (merchant center), Facebook Remarketing, Bing Ads, Billiger.de, Pricerunner, Vergelijk.nl and many more. Next to custom feeds there are over 100 pre-defined templates included for marketplaces, comparison shopping engines and search engines. This plugin provides high-quality product feed for Google Shopping and many many more.
+Generate WooCommerce product feeds for all your marketing channels, such as Google Shopping (merchant center), Facebook Remarketing, Bing Ads, Billiger.de, Pricerunner, Skroutz and many more. Next to custom feeds there are over 100 pre-defined templates included for marketplaces, comparison shopping engines and search engines. This plugin provides high-quality product feed for Google Shopping and many many more.
 
 = Why choose this plugin? =
 Simply because this is the most complete plugin offering support for an unlimited number of products and feeds, including features such as category- & field-mapping and advanced, rule-based, filtering and product variables support.
@@ -175,6 +175,7 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 * <a href="https://www.beslist.nl" target="_blank" rel="nofollow">Beslist.nl</a>
 * <a href="https://www.beslist.be" target="_blank" rel="nofollow">Beslist.be</a>
 * <a href="https://www.fashionchick.nl" target="_blank">Fashionchick.nl</a>
+* <a href="https://www.boetiek.nl" target="_blank">Boetiek.nl</a>
 * Bol.com
 * Stylight
 * Incurvy
@@ -186,6 +187,7 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 * Shopalike
 * <a href="https://www.heureka.cz" target="_blank">Heureka.cz</a>
 * <a href="https://www.glami.gr" target="_blank">Glami.gr</a>
+* <a href="https://www.bestprice.gr" target="_blank">Bestprice.gr</a>
 * AdForm
 * Smartly.io
 * <a href="https://www.shareasale.com" target="_blank">Shareasale.com</a>
@@ -320,6 +322,78 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 9.5.5 (2021-02-11) =
+* Fixed a PHP notice that showed when creating a new rule
+* Tested for compatibility with WooCommerce 5.0
+
+= 9.5.4 (2021-02-09) =
+* When free shipping zones are removed do not remove the other shipping zones
+
+= 9.5.3 (2021-02-08) =
+* Added a feature to remove free shipping zones from Google and Facebook feeds
+
+= 9.5.2 (2021-02-08) =
+* Fixed a minor issue in exclude rules for WooCommerce category names
+
+= 9.5.1 (2021-02-02) =
+* Dynamic attributes without values that are used for product details should be skipped which not always happened. This is fixed now.
+
+= 9.5.0 (2021-02-01) =
+* Discount rules created with the FlyCart plugin did not make it to Skroutz feeds. This has been solved now
+
+= 9.4.9 (2021-01-31) =
+* Added a seperate sale price attribute for bundled products
+* Reviews for parent variable products are removed, the reviews are attached to its variations
+
+= 9.4.8 (2021-01-30) =
+* Fixed an issue with the ecomm_prodid on the cart page
+
+= 9.4.7 (2021-01-29) =
+* Solved an issue that shipping costs to the first product in a custom feed where empty
+
+= 9.4.6 (2021-01-28) =
+* Added a new attribute: product description parent product
+
+= 9.4.5 (2021-01-28) =
+* Added a Google Shopping field to their template: g:ship_from_country
+* Stripping & characters from review names as it breaks the review feeds
+
+= 9.4.4 (2021-01-27) =
+* Fixed an issue where reviews without review text caused the feed to be disapproved by Google. We now remove reviews from feeds that have no review texts.
+
+= 9.4.3 (2021-01-27) =
+* Fixed an issue with an undefined ecomm_price variable on product variable pages
+
+= 9.4.2 (2021-01-26) =
+* Added the Dutch Boetiek.nl template
+
+= 9.4.1 (2021-01-19) =
+* Fixed a bug: exclude filters on empty product tags were broken. This is fixed now.
+
+= 9.4.0 (2021-01-14) =
+* Added a WP-cron check and notifications
+
+= 9.3.9 (2021-01-14) =
+* Bestprice.gr apparel products are now grouped by color
+
+= 9.3.8 (2021-01-13) =
+* Tested for compatibility with WooCommerce 4.9
+
+= 9.3.7 (2021-01-12) =
+* Added the Bestprice.gr template
+
+= 9.3.6 (2021-01-11) =
+* Added a product name lowercase attribute
+
+= 9.3.5 (2021-01-08) =
+* Fixed a rounding issue for WooCommerce bundled products
+
+= 9.3.4 (2021-01-04) =
+* Fixed an issue with the Google Remarketing Pixel / ecomm_totalvalue parameter
+
+= 9.3.3 (2021-01-02) =
+* Fixed an exclude filter issue (Thanks @Fabrice for reporting and solving!)
 
 = 9.3.2 (2020-12-29) =
 * Added support for the Yandex group_id attribute
@@ -2971,6 +3045,74 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 9.5.4 =
+When free shipping zones are removed do not remove the other shipping zones
+
+= 9.5.3 =
+Added a feature to remove free shipping zones from Google and Facebook feeds
+
+= 9.5.2 =
+Fixed a minor issue in exclude rules for WooCommerce category names
+
+= 9.5.1 =
+Dynamic attributes without values that are used for product details should be skipped which not always happened. This is fixed now.
+
+= 9.5.0 =
+Discount rules created with the FlyCart plugin did not make it to Skroutz feeds. This has been solved now
+
+= 9.4.9 =
+Added a seperate sale price attribute for bundled products
+Reviews for parent variable products are removed, the reviews are attached to its variations
+
+= 9.4.8 =
+Fixed an issue with the ecomm_prodid on the cart page
+
+= 9.4.7 =
+Solved an issue that shipping costs to the first product in a custom feed where empty
+
+= 9.4.6 =
+Added a new attribute: product description parent product
+
+= 9.4.5 =
+Added a Google Shopping field to their template: g:ship_from_country
+Stripping & characters from review names as it breaks the review feeds
+
+= 9.4.4 =
+Fixed an issue where reviews without review text caused the feed to be disapproved by Google. We now remove reviews from feeds that have no review texts.
+
+= 9.4.3 =
+Fixed an issue with an undefined ecomm_price variable on product variable pages
+
+= 9.4.2 =
+Added the Dutch Boetiek.nl template
+
+= 9.4.1 =
+Fixed a bug: exclude filters on empty product tags were broken. This is fixed now.
+
+= 9.4.0 =
+Added a WP-cron check and notifications
+
+= 9.3.9 =
+Bestprice.gr apparel products are now grouped by color
+
+= 9.3.8 =
+Tested for compatibility with WooCommerce 4.9
+
+= 9.3.7 =
+Added the Bestprice.gr template
+
+= 9.3.6 =
+Added a product name lowercase attribute
+
+= 9.3.5 =
+Fixed a rounding issue for WooCommerce bundled products
+
+= 9.3.4 =
+Fixed an issue with the Google Remarketing Pixel / ecomm_totalvalue parameter
+
+= 9.3.3 =
+Fixed an exclude filter issue (Thanks @Fabrice for reporting and solving!)
 
 = 9.3.2 =
 Added support for the Yandex group_id attribute

@@ -3,9 +3,9 @@
 Contributors: Wpmarketingrobot, Michel Jongbloed, AukeJomm
 Tags: Google Merchant Export, Product feed, woocommerce, Google product feed export, google, shopping, Google Adwords, Google Merchant, wooCommerce export, woocommerce variations, e-commerce, google merchant product feed, product variations, variations export, wp-e-commerce export, wp marketing robot
 Requires at least: 4.6
-Tested up to: 5.5
+Tested up to: 5.6
 Requires PHP: 5.6
-Stable tag: 1.26.1
+Stable tag: 1.28.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -95,6 +95,15 @@ In case it does please do submit your feed in your Google Merchant center and ch
 2. Map a category
 3. Save and generate your feed
 
+== Changelog ==
+= 1.28.0 - 10/02/2021 =
+* Tested on WooCommerce 5.0
+* Fixed an issue that could cause an error on the Edit Feed page.
+* Changed the way the Image Library source is generated. It now only adds images and filters any other attachments.
+
+= 1.27.0 - 11/01/2021 =
+* Tested on WooCommerce 4.9
+
 = 1.26.1 - 16/11/2020 =
 * Made it possible to use the product_highlight attribute more than once in a feed (use || as a separator)
 
@@ -106,7 +115,6 @@ In case it does please do submit your feed in your Google Merchant center and ch
 = 1.25.0 - 13/10/2020 =
 * Tested on WooCommerce 4.6.
 
-== Changelog ==
 = 1.24.0 - 24/08/2020 =
 * Fixed an issue where using an apostrophe in the feed name would make the feed unreachable.
 * Added the g: prefix again for the title and link attributes.

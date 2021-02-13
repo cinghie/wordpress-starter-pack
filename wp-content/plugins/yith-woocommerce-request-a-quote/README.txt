@@ -1,10 +1,10 @@
-﻿=== YITH WooCommerce Request A Quote ===
+=== YITH WooCommerce Request A Quote ===
 
 Contributors: yithemes
 Tags: request a quote button, woocommerce request for quote, woocommerce request a quote shortcode, request a quote, quote, YITH, woocommerce, shop, ecommerce, e-commerce, quotations, request for quote, rfq, raq, proposal, ask an estimate, budget, email quote
 Requires at least: 5.3
 Tested up to: 5.6
-Stable tag: 1.6.1
+Stable tag: 1.6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -129,82 +129,86 @@ During this transition step, .po and .mo files will be used as always, but in or
 4. "Request a Quote" Email - Settings page
 
 == Changelog ==
+= 1.6.2 - Released on 25 Jan 2021 =
+* New: support for WooCommerce 5.0
+* Update: premium tab
+
 = 1.6.1 - Released on 31 Dec 2020 =
 * New: Support for WooCommerce 4.9
-* Update: Plugin Framework
+* Update: YITH plugin framework
 * Fix: Issue with WooCommerce email header hook
 
 = 1.6.0 - Released on 3 Dec 2020 =
 * New: Support for WooCommerce 4.8
-* Update: Plugin Framework
+* Update: YITH plugin framework
 * Fix: Issue with WooCommerce Germanized
 
 = 1.5.9 - Released on 4 Nov 2020 =
 * New: Support for WordPress 5.6
 * New: Support for WooCommerce 4.7
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.5.8 - Released on 8 Oct 2020 =
 * New: Support for WooCommerce 4.6
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.5.7 - Released on 18 Aug 2020 =
 * New: Support for WooCommerce 4.5
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.5.6 - Released on 11 Aug 2020 =
 * New: Support for WordPress 5.5
 * New: Support for WooCommerce 4.4
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.5.5 - Released on 26 May 2020 =
 * New: Support for WooCommerce 4.2
-* Update: Plugin Framework
+* Update: YITH plugin framework
 * Tweak: Added link to product page editor inside the request a quote email
 * Fixed: Issue with variable products
 
 = 1.5.4 - Released on 30 April 2020 =
 * New: Support for WooCommerce 4.1
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.5.3 - Released on 3 March 2020 =
 * New: Support for WordPress 5.4
 * New: Support for WooCommerce 4.0
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.5.2 - Released on 23 December 2019 =
 
 * New: Support for WooCommerce 3.9
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.5.1 - Released on 29 November 2019 =
 
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.5.0 - Released on 7 November 2019 =
 
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.4.9 - Released on 30 October 2019 =
 
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.4.8 - Released on 29 October 2019 =
 
 * New: Support for WordPress 5.3
 * New: Support for WooCommerce 3.8
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 
 = 1.4.7 - Released on 24 July 2019 =
 
 * New: Support for WooCommerce 3.7.0
-* Update: Plugin Framework
+* Update: YITH plugin framework
 * Fix: Session start
 
 = 1.4.6 - Released on 12 June 2019 =
 
-* Update: Plugin Framework
+* Update: YITH plugin framework
 * Fix: Session start
 
 = 1.4.5 - Released on 29 April 2019 =
@@ -214,25 +218,25 @@ During this transition step, .po and .mo files will be used as always, but in or
 
 = 1.4.4 - Released on 23 April 2019 =
 
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.4.3 - Released on 09 April 2019 =
 
 * New: Support for WooCommerce 3.6
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.4.2 - Released on 28 January 2018 =
 
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.4.1 - Released on 05 December 2018 =
 
 * New: Support for WordPress 5.0
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.4.0 - Released on 23 October 2018 =
 
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.3.9 - Released on 10 October 2018 =
 
@@ -241,50 +245,50 @@ During this transition step, .po and .mo files will be used as always, but in or
 
 = 1.3.8 - Released on 27 September 2018 =
 
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.3.7 - Released on 01 August 2018 =
 
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.3.6 - Released on 20 June 2018 =
 
 * Tweak: Removed regex to check email address
 * Tweak: Quantity selector in single product page when the add to cart button is hidden
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.3.5 - Released on 10 May 2018 =
 
 * New: Support for WooCommerce 3.4
 * New: Support for Wordpress 4.9.6
 * New: Added Privacy Policy checkbox for General Data Protection Regulation (GDPR) compliance
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.3.4 - Released on 31 January 2018 =
 
 New: Support for WooCommerce 3.3
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.3.3 - Released on 11 June 2017 =
 
 * New: Support for WooCommerce 3.1
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.3.2 - Released on 29 September 2017 =
 
 * New: Support for WooCommerce 3.1
-* Update: Plugin Framework
+* Update: YITH plugin framework
 * Fix: WPML issues
 
 = 1.3.1 - Released on 28 March 2017 =
 
 * New: Support for WooCommerce 3.0
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.3.0 - Released on 06 March 2017 =
 
 * New: Support for WooCommerce 2.7
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.2.6 - Released on 02 December 2016 =
 
@@ -320,12 +324,12 @@ New: Support for WooCommerce 3.3
 = 1.1.9 - Released on 30 October 2015 =
 
 * New: Add Plugin-Fw support for Essential Kit #1
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.1.8 - Released on 31 July 2015 =
 
 * New: Support for WooCommerce 2.4.2
-* Update: Plugin Framework
+* Update: YITH plugin framework
 
 = 1.1.7 - Released on 27 July 2015 =
 
@@ -368,12 +372,12 @@ New: Support for WooCommerce 3.3
 = 1.0.2  - Released on 21 April 2015 =
 
 * Update: Compatibility with YITH Infinite Scrolling
-* Update: Plugin Framework
+* Update: YITH plugin framework
 * Fix: Template to overwrite
 
 = 1.0.1 - Released on 31 March 2015 =
 
-* Update: Plugin Framework
+* Update: YITH plugin framework
 * New: Translation pt_BR
 * Fix: Minor bugs
 

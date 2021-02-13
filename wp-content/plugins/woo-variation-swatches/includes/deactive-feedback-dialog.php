@@ -41,7 +41,7 @@
                 <footer>
                     <div class="inner">
                         <div class="gwp-action-button-group">
-                            <button id="send-ajax" class="button button-primary feedback-dialog-form-button-send" data-defaultvalue="<?php esc_html_e( 'Send &amp; Deactivate', 'woo-variation-swatches' ) ?>" data-deactivating="<?php esc_html_e( 'Deactivating...', 'woo-variation-swatches' ) ?>"><?php esc_html_e( 'Send &amp; Deactivate', 'woo-variation-swatches' ) ?></button>
+                            <button id="send-ajax" class="button button-primary feedback-dialog-form-button-send" data-defaultvalue="<?php esc_html_e( 'Send feedback &amp; Deactivate', 'woo-variation-swatches' ) ?>" data-deactivating="<?php esc_html_e( 'Deactivating...', 'woo-variation-swatches' ) ?>"><?php esc_html_e( 'Send feedback &amp; Deactivate', 'woo-variation-swatches' ) ?></button>
                             <span class="spinner"></span>
                         </div>
 

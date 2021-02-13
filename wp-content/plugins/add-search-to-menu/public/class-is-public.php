@@ -346,14 +346,6 @@ class IS_Public
         }
         
         
-        if ( !isset( $query->query_vars['s'] ) || empty($query->query_vars['s']) ) {
-            $query->set( 's', $query->query['s'] );
-            $query->set( 'post__in', false );
-            $query->set( 'orderby', 'date' );
-        }
-        
-        $q = $query->query_vars;
-        
         if ( '' === $is_id ) {
             if ( isset( $this->opt['default_search'] ) ) {
                 return;
@@ -364,6 +356,14 @@ class IS_Public
             }
         }
         
+        
+        if ( !isset( $query->query_vars['s'] ) || empty($query->query_vars['s']) ) {
+            $query->set( 's', $query->query['s'] );
+            $query->set( 'post__in', false );
+            $query->set( 'orderby', 'date' );
+        }
+        
+        $q = $query->query_vars;
         
         if ( '' !== $is_id && is_numeric( $is_id ) ) {
             

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     9.3.2
+ * Version:     9.5.5
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -17,7 +17,7 @@
  * Domain Path: /languages
  *
  * WC requires at least: 4.4
- * WC tested up to: 4.8
+ * WC tested up to: 5.0
  *
  * Product Feed PRO for WooCommerce is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '9.3.2' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '9.5.5' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -347,7 +347,6 @@ function woosea_add_facebook_pixel( $product = null ){
 					$cats = str_replace("&amp;","&", $cats);
 
 					if(!empty($fb_prodid)){
-
                                         	if(!$product) {
                                                 	return -1;
                                         	}
@@ -622,7 +621,7 @@ function woosea_add_remarketing_tags( $product = null ){
 						// In that case we need to put in the AggregateOffer structured data
 						$variation_id = woosea_find_matching_product_variation( $product, $_GET );
 						$nr_get = count($_GET);
-	
+
 						if($nr_get > 0){
 							$variable_product = wc_get_product($variation_id);
 							
@@ -659,7 +658,9 @@ function woosea_add_remarketing_tags( $product = null ){
                 	       		 			$ecomm_price = wc_format_decimal( $lowest, wc_get_price_decimals());
                      		 			} else {
                        		 				$ecomm_lowprice = wc_format_decimal( $lowest, wc_get_price_decimals() );
-                        			       	 	$ecomm_highprice = wc_format_decimal( $highest, wc_get_price_decimals() );
+						       	 	$ecomm_highprice = wc_format_decimal( $highest, wc_get_price_decimals() );
+								$ecomm_price = $ecomm_lowprice;		
+	
 							}
 						}
 					} else {
@@ -678,8 +679,11 @@ function woosea_add_remarketing_tags( $product = null ){
 			<?php
 			}
 		} elseif ($ecomm_pagetype == "cart"){
-				$ecomm_prodid = get_the_id();
-
+				// Get the first product from cart and use that product ID
+				foreach( WC()->cart->get_cart() as $cart_item ){
+    					$ecomm_prodid = $cart_item['product_id'];
+    					break;
+				}
 				?>
 				<script type="text/javascript">
 				var google_tag_params = {
@@ -804,6 +808,7 @@ function woosea_request_review(){
 	}
 }
 add_action('admin_notices', 'woosea_request_review');
+
 
 /**
  * Create a seperate MySql table for saving conversion information
@@ -2285,6 +2290,21 @@ function woosea_local_pickup_shipping (){
 	}
 }
 add_action( 'wp_ajax_woosea_local_pickup_shipping', 'woosea_local_pickup_shipping' );
+
+/**
+ * This function enables the setting to remove
+ * free shipping zones 
+ */
+function woosea_remove_free_shipping (){
+        $status = sanitize_text_field($_POST['status']);
+
+	if ($status == "off"){
+		update_option( 'remove_free_shipping', 'no', 'yes');
+	} else {
+		update_option( 'remove_free_shipping', 'yes', 'yes');
+	}
+}
+add_action( 'wp_ajax_woosea_remove_free_shipping', 'woosea_remove_free_shipping' );
 
 /**
  * This function enables the setting to use
@@ -4624,8 +4644,11 @@ add_action('wp_dashboard_setup', 'woosea_blog_widgets');
 /**
  * Creates the RSS metabox
  */
+function woosea_feed_interval( $seconds ) {
+	return 172800; // Cache the feed for 2 days
+}
+
 function woosea_my_rss_box() {
-	
 	// Get RSS Feed(s)
 	include_once(ABSPATH . WPINC . '/feed.php');
         $domain = $_SERVER['HTTP_HOST'];
@@ -4634,6 +4657,8 @@ function woosea_my_rss_box() {
 	$my_feeds = array( 
 		'https://www.adtribes.io/feed/' 
 	);
+
+	add_filter( 'wp_feed_cache_transient_lifetime' , 'woosea_feed_interval' );
 	
 	// Loop through Feeds
 	foreach ( $my_feeds as $feed) :

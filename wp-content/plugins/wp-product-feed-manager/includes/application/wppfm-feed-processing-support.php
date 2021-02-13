@@ -930,14 +930,14 @@ trait WPPFM_Processing_Support {
 	}
 
 	/**
-	 * makes the header string for a csv file
+	 * Makes the header string for a csv or tsv file.
 	 *
 	 * @param array $active_fields
 	 * @param string $separator
 	 *
 	 * @return string
 	 */
-	protected function make_csv_header_string( $active_fields, $separator ) {
+	protected function make_custom_header_string( $active_fields, $separator ) {
 		$header = implode( $separator, $active_fields );
 
 		return $header . "\r\n";
@@ -1482,7 +1482,7 @@ trait WPPFM_Processing_Support {
 		$attachment_ids = $prdct->get_gallery_image_ids();
 
 		foreach ( $attachment_ids as $attachment_id ) {
-			$link = wp_get_attachment_url( $attachment_id );
+			$link = wp_get_attachment_image_url( $attachment_id, '' );
 
 			// WPML support
 			$image_link = has_filter( 'wppfm_get_wpml_permalink' )

@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: woocommerce, woocommerce product add-ons, woocommerce product add ons, woocommerce advanced product option, product add ons, product add-ons, option, radio, checkbox, text, woocommerce product addons
 Requires at least: 4.5
 Tested up to: 5.6
-Stable tag: 1.5.33
+Stable tag: 1.5.35
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,17 +51,29 @@ You must enable the dependency on the option you are interested in by inserting 
 
 == Changelog ==
 
+= 1.5.35 – Released on 09 February 2021 =
+
+* New: Support for WooCommerce 5.0
+* Update: YITH plugin framework
+* Fix: Minor bugs
+
+= 1.5.34 – Released on 20 January 2021 =
+
+* New: Support for WooCommerce 4.9
+* Update: YITH plugin framework
+* Fix: Minor bugs
+
 = 1.5.33 – Released on 21 December 2020 =
 
 * New: Support for WordPress 5.6
 * New: Support for WooCommerce 4.8
-* Update: YITH Plugin Framework
+* Update: YITH plugin framework
 * Fix: Minor bugs
 
 = 1.5.32 – Released on 11 November 2020 =
 
 * New: Support for WooCommerce 4.7
-* Update: YITH Plugin Framework
+* Update: YITH plugin framework
 * Fix: Select description if checked
 * Fix: Minor bugs
 
@@ -70,7 +82,7 @@ You must enable the dependency on the option you are interested in by inserting 
 * New: Support for WooCommerce 4.6
 * New: Hide option feature
 * New: Auto Update feature
-* Update: YITH Plugin Framework
+* Update: YITH plugin framework
 * Fix: First X options free for multiple labels
 * Fix: Admin checkbox problems
 * Fix: WPML categories
@@ -160,7 +172,7 @@ You must enable the dependency on the option you are interested in by inserting 
 
 * New: TheGem theme support
 * Tweak: Add-ons panel loading speed optimization
-* Update: YITH Plugin Framework 3.1.21
+* Update: YITH plugin framework 3.1.21
 * Fix: Missing variation-gallery.php template
 * Fix: Grouped products support
 * Fix: Minor bugs

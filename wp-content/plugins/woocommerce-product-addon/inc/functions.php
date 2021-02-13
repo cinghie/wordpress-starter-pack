@@ -199,7 +199,7 @@ function ppom_get_product_price( $product, $variation_id=null, $context='' ) {
 	
 	$product_price = 'incl' === get_option( 'woocommerce_tax_display_shop' ) ? wc_get_price_including_tax( $product ) : wc_get_price_excluding_tax($product);
 	
-	
+	// ppom_pa($product);
 	$product_price = $product->get_price();
 	
 	if( $product->is_type('variable') && $variation_id ) {
@@ -340,7 +340,7 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 				$qty_values = array("&nbsp;");
 				// ppom_pa($value);
 				foreach($value as $label => $qty) {
-					if( !empty($qty) ) {
+					if( !empty($qty) && apply_filters('ppom_hide_variation_if_qty_zero', true, $value) ) {
 						$qty_values[] = "{$label} = {$qty}";
 						// $ppom_meta[$label] = $qty;
 						$total_qty += intval($qty);	
@@ -529,6 +529,8 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 				
 			case 'cropper':
 				
+				// ppom_pa($value);
+				
 				// Checking if ratio found with cropping
 				$crop_options	= ppom_convert_options_to_key_val($field_meta['options'], $field_meta, $product);
 				$crop_size = '';
@@ -536,7 +538,7 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 					$ratio_found = $value['ratio'];
 					// Getting option
 					foreach($crop_options as $option) {
-						if( $option['id'] === $ratio_found ) {
+						if( $option['option_id'] === $ratio_found ) {
 							$crop_size = $option['label'];
 						}
 					}
@@ -545,6 +547,7 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 				if( $context == 'order') {
 					$uploaded_filenames = array();
 					foreach($value as $file_id => $file_cropped) {
+						if( $file_id == 'ratio' ) continue;
 						$uploaded_filenames[] = $file_cropped['org'];
 					}
 					$meta_data = array('name'=>$field_title, 'value'=>implode(',',$uploaded_filenames));
@@ -552,6 +555,7 @@ function ppom_generate_cart_meta( $ppom_cart_fields, $product_id, $ppom_meta_ids
 					$file_thumbs_html = '';
 					foreach($value as $file_id => $file_cropped) {
 						
+						if( $file_id == 'ratio' ) continue;
 						$file_name = isset($file_cropped['org']) ? $file_cropped['org'] : '';
 						$file_thumbs_html .= ppom_create_thumb_for_meta($file_name, $product_id, true, $crop_size);
 						
@@ -986,7 +990,7 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 	
 	if( empty($options) ) return $options;
 
-
+	
 	if( ! apply_filters('ppom_is_option_convertable', true, $meta) ){
 		return $options;
 	}
@@ -1123,7 +1127,8 @@ function ppom_convert_options_to_key_val($options, $meta, $product) {
 		$first_option = array('' => array('label'=> $fo_labeld, 
 										'price'	=> '',
 										'raw'	=> '',
-										'without_tax' => '')
+										'without_tax' => '',
+										'option_id' => '__first_option__')
 										);
 										
 		$ppom_new_option = $first_option + $ppom_new_option;
@@ -1181,11 +1186,19 @@ function ppom_get_option_id($option, $field_meta=null) {
 	
 	$data_name  = isset($field_meta['data_name']) ? $field_meta['data_name'] : '';
 	$the_option = isset($option['option']) ? $option['option'] : '';
+	$field_type = isset($field_meta['type']) ? $field_meta['type'] : '';
 	
-	if( isset($field_meta['type']) && ($field_meta['type'] == 'imageselect' || $field_meta['type'] == 'image') ) {
-		$the_option = isset($option['title']) ? $option['title'] : '';
-		$option['id'] = sanitize_key($the_option);
+	switch($field_type) {
+		case 'image':
+			$the_option = isset($option['title']) ? $option['title'] : '';
+			$option['id'] = sanitize_key($the_option);
+		break;
+		
+		case 'imageselect':
+			$the_option = isset($option['title']) ? $option['title'] : '';
+		break;
 	}
+	
 	
 	$default_option = is_null($data_name) ? $the_option : $data_name.'_'.$the_option;
 	
@@ -1242,13 +1255,15 @@ function ppom_get_price_including_tax( $price, $product ) {
 }
 
 // Check if field conditionally hidden
-function ppom_is_field_hidden_by_condition( $field_name ) {
+function ppom_is_field_hidden_by_condition( $field_name, $conditionally_hidden=null ) {
 	
-	if( !isset($_POST['ppom']['conditionally_hidden']) ) return false;
+	if( !isset($_POST['ppom']['conditionally_hidden']) && $conditionally_hidden == null ) return false;
+	
+	$conditionally_hidden = isset($_POST['ppom']['conditionally_hidden']) ? $_POST['ppom']['conditionally_hidden'] : $conditionally_hidden;
 	
 	$ppom_is_hidden = false;
 	
-	$ppom_hidden_fields = explode(",", sanitize_text_field($_POST['ppom']['conditionally_hidden']) );
+	$ppom_hidden_fields = explode(",", sanitize_text_field($conditionally_hidden) );
 	// Remove duplicates
 	$ppom_hidden_fields = array_unique( $ppom_hidden_fields );
 	

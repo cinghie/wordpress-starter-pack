@@ -59,9 +59,12 @@ final class WOOCCM
 
     // Frontend
     // -----------------------------------------------------------------------
-    wp_register_style('wooccm', plugins_url('assets/frontend/css/wooccm' . WOOCCM::is_min() . '.css', WOOCCM_PLUGIN_FILE), false, WOOCCM_PLUGIN_VERSION, 'all');
 
-    wp_register_script('wooccm-checkout', plugins_url('assets/frontend/js/wooccm-checkout' . WOOCCM::is_min() . '.js', WOOCCM_PLUGIN_FILE), array('jquery', 'selectWoo'), WOOCCM_PLUGIN_VERSION, true);
+    $checkout = include(WOOCCM_PLUGIN_DIR . 'assets/frontend/js/checkout.asset.php');
+
+    wp_register_style('wooccm', plugins_url('assets/frontend/css/checkout.css', WOOCCM_PLUGIN_FILE), false, WOOCCM_PLUGIN_VERSION, 'all');
+
+    wp_register_script('wooccm-checkout', plugins_url('assets/frontend/js/checkout.js', WOOCCM_PLUGIN_FILE), $checkout['dependencies'], $checkout['version'], true);
 
     wp_localize_script('wooccm-checkout', 'wooccm_upload', array(
       'ajax_url' => admin_url('admin-ajax.php'),
@@ -104,8 +107,10 @@ final class WOOCCM
 
     // Admin
     // -------------------------------------------------------------------------
+    
+    $upload = include(WOOCCM_PLUGIN_DIR . 'assets/frontend/js/order-upload.asset.php');
 
-    wp_register_script('wooccm-order-upload', plugins_url('assets/frontend/js/wooccm-order-upload.js', WOOCCM_PLUGIN_FILE), array(), WOOCCM_PLUGIN_VERSION, true);
+    wp_register_script('wooccm-order-upload', plugins_url('assets/frontend/js/order-upload.js', WOOCCM_PLUGIN_FILE), $upload['dependencies'], $upload['version'], true);
 
     wp_localize_script('wooccm-order-upload', 'wooccm_upload', array(
       'ajax_url' => admin_url('admin-ajax.php?metabox=' . is_admin()),

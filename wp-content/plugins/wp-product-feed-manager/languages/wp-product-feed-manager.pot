@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: WooCommerce Product Feed Manager\n"
-"POT-Creation-Date: 2020-11-07 15:44+0100\n"
+"POT-Creation-Date: 2021-02-09 11:33+0100\n"
 "PO-Revision-Date: 2018-08-20 20:39+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.4.2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: wp-product-feed-manager.php\n"
@@ -35,13 +35,13 @@ msgid ""
 "folder."
 msgstr ""
 
-#: includes/application/class-feed-master.php:565
+#: includes/application/class-feed-master.php:567
 #: includes/user-interface/class-wppfm-i18n-scripts.php:87
 msgid "Fill with a static value"
 msgstr ""
 
-#: includes/application/class-feed-master.php:566
-#: includes/application/class-feed-master.php:571
+#: includes/application/class-feed-master.php:568
+#: includes/application/class-feed-master.php:573
 msgid "Use the settings in the Merchant Center"
 msgstr ""
 
@@ -254,7 +254,7 @@ msgstr ""
 msgid "-- Select the language of the feed --"
 msgstr ""
 
-#: includes/packages/wpml/includes/wppfm-wpml-functions.php:135
+#: includes/packages/wpml/includes/wppfm-wpml-functions.php:136
 msgid ""
 "WPML support is now integrated in the Feed Manager plugin. To prevent "
 "conflicts please deactivate and remove the \"WooCommerce Product Feed "

@@ -244,7 +244,7 @@ const Product = (props) => {
         )}
         {settings.manageStock && (
           <td className={classnames(getChangedStyle('manage_stock'), 'stock-manager-field-manage-stock', `stock-manager-field-manage-stock--${getChangedValue('manage_stock').toString()}`)}>
-            {product.type !== 'grouped' && (
+            {product.type !== 'grouped' && product.type !== 'external' && (
               <Control
                 type="checkbox"
                 value={getChangedValue('manage_stock')}
@@ -255,7 +255,7 @@ const Product = (props) => {
         )}
         {settings.stockStatus && (
           <td className={classnames(getChangedStyle('stock_status'), 'stock-manager-field-stock-status', `stock-manager-field-stock-status--${getChangedValue('stock_status')}`)}>
-            {product.type !== 'grouped' && !isVariable && (
+            {product.type !== 'grouped' && product.type !== 'external' && !isVariable && (
               getChangedValue('manage_stock') ? (
                 stockStatusOptions[getChangedValue('stock_status')]
               ) : (
@@ -271,7 +271,7 @@ const Product = (props) => {
         )}
         {settings.backorders && (
           <td className={classnames(getChangedStyle('backorders'), 'stock-manager-field-backorders', `stock-manager-field-backorders--${getChangedValue('backorders')}`)}>
-            {product.type !== 'grouped' && !isVariable && (
+            {product.type !== 'grouped' && product.type !== 'external' && !isVariable && (
               <Control
                 type="select"
                 value={getChangedValue('backorders')}
@@ -290,7 +290,7 @@ const Product = (props) => {
               [`stock-manager-field-stock-quantity--${stockCssZero}`]: stockCssZero,
             })}
           >
-            {getChangedValue('manage_stock') && product.type !== 'grouped' && !isVariable && (
+            {getChangedValue('manage_stock') && product.type !== 'grouped' && product.type !== 'external' && !isVariable && (
               <Control
                 type="number"
                 value={getChangedValue('stock_quantity') ? parseInt(getChangedValue('stock_quantity'), 10) : ''}

@@ -122,13 +122,13 @@ function cff_install_addon() {
 	 * We do not need any extra credentials if we have gotten this far, so let's install the plugin.
 	 */
 
-	require_once CFF_PLUGIN_DIR . 'admin/class-install-skin.php';
+	#require_once CFF_PLUGIN_DIR . 'admin/class-install-skin.php';
 
 	// Do not allow WordPress to search/download translations, as this will break JS output.
 	remove_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20 );
 
 	// Create the plugin upgrader with our custom skin.
-	$installer = new CFF\Helpers\PluginSilentUpgrader( new CFF_Install_Skin() );
+	$installer = new CustomFacebookFeed\Helpers\PluginSilentUpgrader( new CustomFacebookFeed\Admin\CFF_Install_Skin() );
 
 	// Error check.
 	if ( ! method_exists( $installer, 'install' ) || empty( $_POST['plugin'] ) ) {
@@ -173,4 +173,6 @@ function cff_install_addon() {
 
 	wp_send_json_error( $error );
 }
+
+
 add_action( 'wp_ajax_cff_install_addon', 'cff_install_addon' );

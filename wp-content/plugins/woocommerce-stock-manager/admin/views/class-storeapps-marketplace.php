@@ -108,7 +108,6 @@ class WSM_StoreApps_Marketplace {
 			.wsm-marketplace .addons-banner-block-item-content h3 {
 				font-weight: bold !important;
 				font-size: 1.5em !important;
-				color: #5850EC !important;
 			}
 			.wsm-marketplace .addons-banner-block-item-content p {
 				color: #484c51 !important;

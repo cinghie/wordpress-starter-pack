@@ -894,6 +894,13 @@ class WooSEA_Activation {
 					"taxonomy" => "none",
 					"utm_source" => "Skroutz.gr",
                         		"type" => "Comparison shopping engine" ),
+                		"Bestprice" => array (
+                        		"channel_hash" => md5("Bestprice.gr"),
+                        		"name" => "Bestprice",
+					"fields" => "bestprice",
+					"taxonomy" => "none",
+					"utm_source" => "Bestprice.gr",
+                        		"type" => "Comparison shopping engine" ),
                 		"Glami" => array (
                         		"channel_hash" => md5("Glami.gr"),
                         		"name" => "Glami.gr",
@@ -1104,6 +1111,13 @@ class WooSEA_Activation {
 					"fields" => "customfeed",
 					"taxonomy" => "none",
 					"utm_source" => "Tweakers.nl",
+                       			"type" => "Comparison shopping engine" ),
+ 	       		      	"Boetiek.nl" => array (
+                        		"channel_hash" => md5("Boetiek.nl"),
+                        		"name" => "Boetiek.nl",
+					"fields" => "boetiek",
+					"taxonomy" => "none",
+					"utm_source" => "Boetiek.nl",
                        			"type" => "Comparison shopping engine" ),
  	       		      	"Fashionchick.nl" => array (
                         		"channel_hash" => md5("Fashionchick.nl"),

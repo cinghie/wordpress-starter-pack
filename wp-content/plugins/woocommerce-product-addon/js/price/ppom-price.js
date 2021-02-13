@@ -42,7 +42,7 @@ jQuery(function($) {
 
     // quantities input changes
     if ($('.ppom-input-quantities').length > 0) {
-        PPOMWrapper.on('click keyup change', 'input.ppom-quantity', function() {
+        PPOMWrapper.on('click change', 'input.ppom-quantity', function() {
 
             ppom_update_option_prices();
         });
@@ -59,7 +59,7 @@ jQuery(function($) {
                 ppom_quantities_min_max(dataname);
             }
         });
-        $("input.ppom-quantity").trigger("change");
+        // $("input.ppom-quantity").trigger("change");
     }
 
     // WC Variation Quantity Change event
@@ -126,7 +126,6 @@ jQuery(function($) {
         var field_name = $(this).closest('tr').attr('data-data_name');
         var option_id = $(this).closest('tr').attr('data-option_id');
         if (field_name) {
-
             ppom_delete_option_from_price_table(field_name, option_id);
         }
     });
@@ -411,6 +410,7 @@ function ppom_update_option_prices() {
         if (ppom_has_priced_quantities && product_qty > 0) {
             product_qty = 1;
         }
+        console.log('price_tag', price_tag);
         var product_base_label = ppom_input_vars.product_base_label + ' ' + jQuery(price_tag).html() + ' x ' + product_qty;
         productBasePrice = product_qty * parseFloat(ppom_product_base_price);
         ppom_add_price_item_in_table(product_base_label, productBasePrice, 'ppom-product-base-price');
@@ -473,10 +473,9 @@ function ppom_update_option_prices() {
     ppom_total_discount = ppom_total_discount || 0;*/
 
     /** ====== Total without fixed/onetime fee =========== ***/
-    // console.log(ppom_option_total);
     var ppom_total_price = ppom_calculate_totals(ppom_total_discount, productBasePrice, ppom_option_total);
     var total_price_label = ppom_input_vars.total_without_fixed_label;
-
+    // console.log(ppom_total_price);
 
     /** ====== Measures ===================**/
     var ppom_measure_quantity = 1;
@@ -629,7 +628,7 @@ function ppom_add_price_item_in_list(label, price, item_class) {
 function ppom_get_wc_price(price, is_discount) {
 
     var do_discount = is_discount || false;
-    var wcPriceWithCurrency = jQuery("#ppom-price-cloner").clone();
+    var wcPriceWithCurrency = jQuery("#ppom-price-cloner").clone().removeAttr('id');
     var is_negative = parseFloat(price) < 0;
 
     if (is_negative) {
@@ -1096,7 +1095,7 @@ function ppom_quantities_min_max(dataname) {
         if (isNaN(QTY)) { return false; }
 
         totalQty += QTY;
-        console.log(totalQty);
+        // console.log(totalQty);
     });
 
     if (min_qty > totalQty) {

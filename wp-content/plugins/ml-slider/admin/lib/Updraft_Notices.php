@@ -101,7 +101,7 @@ abstract class Updraft_Notices_1_0
      * @param  String  $website_home a string to be displayed
      * @return String                returns a string of the completed url
      */
-    protected function url_start($html_allowed = false, $url, $https = false, $website_home = null)
+    protected function url_start($html_allowed = false, $url = '', $https = false, $website_home = null)
     {
         $proto = ($https) ? 'https' : 'http';
         if (strpos($url, $website_home) !== false) {

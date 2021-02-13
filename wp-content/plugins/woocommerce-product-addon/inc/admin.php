@@ -35,10 +35,14 @@ function ppom_admin_product_meta_column( $column, $post_id ) {
             if( $ppom->has_multiple_meta() ) {
             	foreach($ppom->meta_id as $meta_id) {
             		$ppom_setting = $ppom->get_settings_by_id($meta_id);
-            		$meta_title		= stripslashes($ppom_setting->productmeta_name);
-                	$url_edit = add_query_arg(array('productmeta_id'=> $ppom_setting->productmeta_id, 'do_meta'=>'edit'), $ppom_settings_url);
-                	echo sprintf(__('<a href="%s">%s</a>', "ppom"), $url_edit, $meta_title);
-                	echo ', ';
+            		if( $ppom_setting ) {
+	            		$meta_title		= stripslashes($ppom_setting->productmeta_name);
+	                	$url_edit = add_query_arg(array('productmeta_id'=> $ppom_setting->productmeta_id, 'do_meta'=>'edit'), $ppom_settings_url);
+	                	echo sprintf(__('<a href="%s">%s</a>', "ppom"), $url_edit, $meta_title);
+	                	echo ', ';
+            		}else{
+                		echo sprintf(__('<a class="btn button" href="%s">%s</a>', "ppom"), $ppom_settings_url, "Add Fields");
+            		}
             	}
             } else if ( $ppom->ppom_settings ){
                 $url_edit = add_query_arg(array('productmeta_id'=> $ppom->meta_id, 'do_meta'=>'edit'), $ppom_settings_url);

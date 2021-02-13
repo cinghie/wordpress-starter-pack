@@ -234,14 +234,14 @@ if ( ! class_exists( 'wcpdf_WC_Piva_Cf_Invoice_Ita' )) :
 		public function wcpdf_listing_actions( $listing_actions, $order) {
 			switch($order->get_meta('_billing_invoice_type')){
 				case 'receipt':
-					$listing_actions['invoice']['img'] = plugins_url() . '/woo-piva-codice-fiscale-e-fattura-pdf-per-italia-pro/images/receipt.png';
+					$listing_actions['invoice']['img'] = plugins_url() . '/woo-piva-codice-fiscale-e-fattura-pdf-per-italia/images/receipt.png';
 					$listing_actions['invoice']['alt'] = __( 'PDF Receipt', WCPIVACF_IT_DOMAIN );
 					break;
 				case 'professionist_invoice':
-					$listing_actions['invoice']['img'] = plugins_url() . '/woo-piva-codice-fiscale-e-fattura-pdf-per-italia-pro/images/professionist_invoice.png';
+					$listing_actions['invoice']['img'] = plugins_url() . '/woo-piva-codice-fiscale-e-fattura-pdf-per-italia/images/professionist_invoice.png';
 					break;
 				case 'private_invoice':
-					$listing_actions['invoice']['img'] = plugins_url() . '/woo-piva-codice-fiscale-e-fattura-pdf-per-italia-pro/images/private_invoice.png';
+					$listing_actions['invoice']['img'] = plugins_url() . '/woo-piva-codice-fiscale-e-fattura-pdf-per-italia/images/private_invoice.png';
 					break;
 			}
 			return $listing_actions;

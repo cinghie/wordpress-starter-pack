@@ -4,15 +4,15 @@
 Plugin Name: WooCommerce P.IVA e Codice Fiscale per Italia
 Plugin URI: http://dot4all.it/woocommerce-inserire-codice-fiscale-partita-iva/
 Description: Il plugin che rende compatibile woocommerce per il mercato italiano.
-Version: 2.1.9
+Version: 2.1.11
 Author: dot4all
-Author URI: http://dot4all.it
+Author URI: https://dot4all.it
 License: GPLv2 or later
-License URI: http://www.opensource.org/licenses/gpl-license.php
+License URI: https://www.opensource.org/licenses/gpl-license.php
 Text Domain: woocommerce-piva-cf-invoice-ita-pro
 Domain Path: /languages
-WC requires at least: 3
-WC tested up to: 3.5.5
+WC requires at least: 4
+WC tested up to: 4.9.1
 Credits & Copyrights: labdav • the plugin is a fork of WooCommerce PDF Invoices Italian Add-on
 
 */
@@ -21,17 +21,14 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 if ( !class_exists( 'WC_Piva_Cf_Invoice_Ita' ) ) :
 define('WCPIVACF_IT_DOMAIN', 'woocommerce-piva-cf-invoice-ita-pro');
 
-if(!session_id())
-	session_start();
-
 class WC_Piva_Cf_Invoice_Ita {
 	public $plugin_basename;
 	public $plugin_url;
 	public $plugin_path;
 	public $settings;
-	public $version = '0.1.0';
+	public $version = '2.1.11';
 	public $regexCF = "/^[a-zA-Z]{6}\d{2}[a-zA-Z]{1}\d{2}[a-zA-Z]{1}\d{3}[a-zA-Z]{1}$/";
-    public $regexPIVA = "/^([0-9]{11})$/i";
+	public $regexPIVA = "/^([0-9]{11})$/i";
 	protected static $instance = null;
 
 	
@@ -57,6 +54,7 @@ class WC_Piva_Cf_Invoice_Ita {
 		//LOAD SETTINGS
 		include_once 'includes/class-wp-settings.php';
 		include_once 'includes/class-wcpdf-cfcheck.php';
+		include_once 'includes/class-session.php';
 		$this->settings = new WC_Piva_Cf_Invoice_Ita_Setting($this);
 		if ( in_array( 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || (function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php' ) )) {
 			include_once 'includes/class-wcpdf-integration.php';
@@ -110,35 +108,35 @@ class WC_Piva_Cf_Invoice_Ita {
 	}	
 
 	/**
-     * ENQUEUE SCRIPTS
+	 * ENQUEUE SCRIPTS
 	 */
 	public function enqueue_scripts(  )
 	{
-	    if(is_checkout() || is_account_page()){
-	    	
+		if(is_checkout() || is_account_page()){
+			
 			wp_enqueue_style( 'wcpicfi', plugin_dir_url(__FILE__).'assets/wcpicfi.css',null,$this->version );
-		    wp_enqueue_script('wcpicfi', plugin_dir_url(__FILE__).'assets/wcpicfi.js', array('jquery'),$this->version);
+			wp_enqueue_script('wcpicfi', plugin_dir_url(__FILE__).'assets/wcpicfi.js', array('jquery'),$this->version);
 			$params = array(
-                'plugin_url' => $this->plugin_url,
-                'incorrect_cf' => __('Tax Identification Number is not correct', WCPIVACF_IT_DOMAIN),
-                'incorrect_piva' => __('VAT Number is not correct', WCPIVACF_IT_DOMAIN),
+				'plugin_url' => $this->plugin_url,
+				'incorrect_cf' => __('Tax Identification Number is not correct', WCPIVACF_IT_DOMAIN),
+				'incorrect_piva' => __('VAT Number is not correct', WCPIVACF_IT_DOMAIN),
 			);
 			wp_localize_script( 'wcpicfi', 'wcpicfi', $params );
-        }
+		}
 
 	}
 	
 	/**
-     * ADMIN ENQUEUE SCRIPTS
+	 * ADMIN ENQUEUE SCRIPTS
 	 */
 	
 	function load_custom_wp_admin_style($hook) {
-        // Load only on ?page=mypluginname
-        //wp_die($hook);
-        if($hook != 'woocommerce_page_wcpdf_IT_options_page') {
-                return;
-        }
-        wp_enqueue_style( 'wcpicfia', plugins_url('assets/wcpicfi_admin.css', __FILE__) );
+		// Load only on ?page=mypluginname
+		//wp_die($hook);
+		if($hook != 'woocommerce_page_wcpdf_IT_options_page') {
+				return;
+		}
+		wp_enqueue_style( 'wcpicfia', plugins_url('assets/wcpicfi_admin.css', __FILE__) );
 	}
 	
 	/**
@@ -164,36 +162,36 @@ class WC_Piva_Cf_Invoice_Ita {
 		return maybe_unserialize($value);
 	}
 	/**
-     * VALIDATE CF validity by regex
-     * @param string $value - CF
-     * @return bool - validate value
+	 * VALIDATE CF validity by regex
+	 * @param string $value - CF
+	 * @return bool - validate value
 	 */
 	public function check_cf( $value = '' ) {
 
 		if(preg_match($this->regexCF, $value)){
-            $cf = new CodiceFiscale();
+			$cf = new CodiceFiscale();
 			$cf ->SetCF($value);
 			if ($cf->GetCodiceValido()) {
-            	return true;
-            }else{
-	            return false;
-            }
-        }
-        return false;
-    }
+				return true;
+			}else{
+				return false;
+			}
+		}
+		return false;
+	}
 	/**
-     * VALIDATE PIVA validity by regex
-     * @param string $value - PIVA
+	 * VALIDATE PIVA validity by regex
+	 * @param string $value - PIVA
 	 * @return bool - validate value
 	 */
 	public function check_piva( $value = '' ) {
 
 		if(preg_match($this->regexPIVA, $value))
-		    return true;
+			return true;
 		return false;
-    }
+	}
 	/**
-     * VALIDATE PIVA/CF validity for myaccount page
+	 * VALIDATE PIVA/CF validity for myaccount page
 	 */
 	public function save_address(  ) {
 		global $wp;
@@ -213,7 +211,7 @@ class WC_Piva_Cf_Invoice_Ita {
 		}
 		$this->piva_checkout_field_process();
 
-    }
+	}
 
 	public function billing_fields( $fields ) {
 		if ( in_array( 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || (function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php' ) )) 		{
@@ -262,43 +260,43 @@ class WC_Piva_Cf_Invoice_Ita {
 		if(!$this->view_selected_choices['professionist_invoice']) {
 			unset($fields['billing_invoice_type']['options']['professionist_invoice']);
 		}*/
-        $fields['billing_cf'] = array(
-            'label'       => __('Fiscal Code', WCPIVACF_IT_DOMAIN),
-            'placeholder' => __('Please enter your Fiscal code', WCPIVACF_IT_DOMAIN),
-            'required'    => false,
-            'optional'	  => false,
-            'class'       => array( 'form-row' ),
-            'clear'		  => true,
-            'value'       => get_user_meta( get_current_user_id(), 'billing_cf', true )
-        );
+		$fields['billing_cf'] = array(
+			'label'       => __('Fiscal Code', WCPIVACF_IT_DOMAIN),
+			'placeholder' => __('Please enter your Fiscal code', WCPIVACF_IT_DOMAIN),
+			'required'    => false,
+			'optional'	  => false,
+			'class'       => array( 'form-row' ),
+			'clear'		  => true,
+			'value'       => get_user_meta( get_current_user_id(), 'billing_cf', true )
+		);
 		
-        $fields['billing_piva'] = array(
-            'label'       => __('VAT', WCPIVACF_IT_DOMAIN),
-            'placeholder' => __('Please enter your VAT number', WCPIVACF_IT_DOMAIN),
-            'required'    => false,
-            'optional'	  => false,
-            'clear'       => true,
-            'class'       => array( 'form-row update_totals_on_change' ),
-            'value'       => get_user_meta( get_current_user_id(), 'billing_piva', true )
-        );
+		$fields['billing_piva'] = array(
+			'label'       => __('VAT', WCPIVACF_IT_DOMAIN),
+			'placeholder' => __('Please enter your VAT number', WCPIVACF_IT_DOMAIN),
+			'required'    => false,
+			'optional'	  => false,
+			'clear'       => true,
+			'class'       => array( 'form-row update_totals_on_change' ),
+			'value'       => get_user_meta( get_current_user_id(), 'billing_piva', true )
+		);
 		
 		$fields['billing_pec'] = array(
-            'label'       => __('PEC', WCPIVACF_IT_DOMAIN),
-            'placeholder' => __('Please enter your PEC Address', WCPIVACF_IT_DOMAIN),
-            'required'    => false,
-            'clear'       => false,
-            'class'       => array( 'form-row einvoice-group' ),
-            'value'       => get_user_meta( get_current_user_id(), 'billing_pec', true )
-	    );
-	        // codice destinatario
-	    $fields['billing_pa_code'] = array(
-            'label'       => __('PA CODE', WCPIVACF_IT_DOMAIN),
-            'placeholder' => __('Please enter your PA code', WCPIVACF_IT_DOMAIN),
-            'required'    => false,
-            'clear'       => false,
-            'class'       => array( 'form-row einvoice-group' ),
-            'value'       => get_user_meta( get_current_user_id(), 'billing_pa_code', true )
-	        );
+			'label'       => __('PEC', WCPIVACF_IT_DOMAIN),
+			'placeholder' => __('Please enter your PEC Address', WCPIVACF_IT_DOMAIN),
+			'required'    => false,
+			'clear'       => false,
+			'class'       => array( 'form-row einvoice-group' ),
+			'value'       => get_user_meta( get_current_user_id(), 'billing_pec', true )
+		);
+			// codice destinatario
+		$fields['billing_pa_code'] = array(
+			'label'       => __('PA CODE', WCPIVACF_IT_DOMAIN),
+			'placeholder' => __('Please enter your PA code', WCPIVACF_IT_DOMAIN),
+			'required'    => false,
+			'clear'       => false,
+			'class'       => array( 'form-row einvoice-group' ),
+			'value'       => get_user_meta( get_current_user_id(), 'billing_pa_code', true )
+			);
 		
 		if ( !in_array( 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || (function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php' ) )) 		{
 			
@@ -324,39 +322,39 @@ class WC_Piva_Cf_Invoice_Ita {
 			switch($_POST['billing_invoice_type']){
 				case "receipt":
 					$fields['billing_cf']['required'] = $this->cf_force_mandatory_for_receipt;
-                    $fields['billing_piva']['required'] = false;
-                    $fields['billing_pec']['required'] = false;
-                    $fields['billing_pa_code']['required'] = false;
+					$fields['billing_piva']['required'] = false;
+					$fields['billing_pec']['required'] = false;
+					$fields['billing_pa_code']['required'] = false;
 					break;
 				case "private_invoice":
-                    $fields['billing_cf']['required'] = true;
-                    $fields['billing_piva']['required'] = false;
-                    $fields['billing_company']['required'] = false;
+					$fields['billing_cf']['required'] = true;
+					$fields['billing_piva']['required'] = false;
+					$fields['billing_company']['required'] = false;
 					$fields['billing_pec']['required'] = false;
-                    $fields['billing_pa_code']['required'] = false;
+					$fields['billing_pa_code']['required'] = false;
 
 					break;
 				case "invoice":
-                    $fields['billing_cf']['required'] = false;
-                    $fields['billing_piva']['required'] = true;
-                    $fields['billing_company']['required'] = true;
+					$fields['billing_cf']['required'] = false;
+					$fields['billing_piva']['required'] = true;
+					$fields['billing_company']['required'] = true;
 					$fields['billing_pec']['required'] = true;
-                    $fields['billing_pa_code']['required'] = false;
+					$fields['billing_pa_code']['required'] = false;
 
 					break;
 				case "professionist_invoice":
-                    $fields['billing_cf']['required'] = true;
-                    $fields['billing_piva']['required'] = true;
-                    $fields['billing_company']['required'] = false;
+					$fields['billing_cf']['required'] = true;
+					$fields['billing_piva']['required'] = true;
+					$fields['billing_company']['required'] = false;
 					$fields['billing_pec']['required'] = true;
-                    $fields['billing_pa_code']['required'] = false;
+					$fields['billing_pa_code']['required'] = false;
 
-				    break;
+					break;
 			}
 
-        }
-        // Ordinamento campi checkout VIES ready
-        $fields['billing_phone']['clear'] = true;
+		}
+		// Ordinamento campi checkout VIES ready
+		$fields['billing_phone']['clear'] = true;
 		$fields['billing_phone']['class'] = array( 'form-row');
 		$fields['billing_email']['clear'] = true;
 		$fields['billing_email']['class'] = array( 'form-row');
@@ -394,8 +392,8 @@ class WC_Piva_Cf_Invoice_Ita {
 			$ordered_fields[$key] = $fields[$key];
 		}
 		$fields = $ordered_fields;
-        
-        
+		
+		
 		return $fields;
 	}
 	// def
@@ -495,14 +493,14 @@ class WC_Piva_Cf_Invoice_Ita {
 	}
 	/**
 	 *
-     * VALIDATE fields
+	 * VALIDATE fields
 	 */
 	public function piva_checkout_field_process() {
 		if(!$this->force_required){
 			if(in_array($_POST["billing_invoice_type"],array('invoice','professionist_invoice'))) {
 				$billing_piva = preg_replace('/\s+/', '', sanitize_text_field($_POST['billing_piva']));
-                if(!empty($billing_piva) && !$this->check_piva($_POST['billing_piva'])) {
-                    wc_add_notice(sprintf(__('VAT Number %1$s is not correct', WCPIVACF_IT_DOMAIN), "<strong>". strtoupper($_POST['billing_piva']) . "</strong>"),$notice_type = 'error');
+				if(!empty($billing_piva) && !$this->check_piva($_POST['billing_piva'])) {
+					wc_add_notice(sprintf(__('VAT Number %1$s is not correct', WCPIVACF_IT_DOMAIN), "<strong>". strtoupper($_POST['billing_piva']) . "</strong>"),$notice_type = 'error');
 				}
 
 			}
@@ -663,14 +661,14 @@ class WC_Piva_Cf_Invoice_Ita {
 	 */
 	 
 	public function vies_check_based_on_piva( $post_data ) {
-	        global $woocommerce;
-	        $woocommerce->customer->set_is_vat_exempt( false );
-	        parse_str($post_data,$output);
-	        
-	        if ($output['billing_piva']){
-				if(in_array($output['billing_country'],array('AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DE', 'DK', 'EE', 'EL','ES', 'FI', 'FR', 'GB', 'HU', 'IE', 'LT', 'LU', 'LV','MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK'))){
-		        	//if (isEU($billing_country)){
-			        	$client = new SoapClient("http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl");	
+			global $woocommerce;
+			$woocommerce->customer->set_is_vat_exempt( false );
+			parse_str($post_data,$output);
+			
+			if ($output['billing_piva']){
+				if(in_array($output['billing_country'],array('AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DE', 'DK', 'EE', 'EL','ES', 'FI', 'FR', 'HU', 'IE', 'LT', 'LU', 'LV','MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK'))){
+					//if (isEU($billing_country)){
+						$client = new SoapClient("http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl");	
 						$mycheck = $client->checkVat(array('countryCode' => $output['billing_country'],'vatNumber' => $output['billing_piva']));
 						if($mycheck->valid)
 							$woocommerce->customer->set_is_vat_exempt( true );

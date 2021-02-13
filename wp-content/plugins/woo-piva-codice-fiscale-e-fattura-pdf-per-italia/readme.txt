@@ -3,9 +3,11 @@ Contributors: dot4all
 Donate link: https://dot4all.it/prodotto/plugin-woocommerce-p-iva-e-codice-fiscale-per-italia-pro/
 Tags: woocommerce, e-commerce, partita iva,codice fiscale,woo,fattura PDF, ricevuta PDF, WooCommerce PDF, Woocommerce PDF Invoices & Packing Slips, Fattura elettronica, XML, Fatturazione elettronica, dot4all   
 Requires at least: 3.0.1
-Requires PHP: 5.6
-Tested up to: 5.1
-Stable tag: 2.1.9
+Requires PHP: 7
+Tested up to: 5.6
+Requires WooCommerce at least: 3.5
+Tested WooCommerce up to: 4.9.2
+Stable tag: 2.1.11
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,8 +17,8 @@ Il plugin che ti permette di rendere WooCommerce adatto al mercato italiano con 
 
 Rende Woocommerce adeguato al mercato italiano e permette la gestione della Fatturazione Elettronica in XML. Aggiunge i campi P.IVA, CF, PEC e Codice Identificativo in base alla tipologia di fattura richiesta. Fondamentale per Aziende, Ditte Individuali, Liberi Professionisti e Privati. Possibilità di generare anche Ricevute.
 <br /><br /> 
-Versione di Woocommerce richiesta: 3.0<br />
-Testato fino alla versione di Woocommerce: 3.5.5<br /><br />
+Versione di Woocommerce richiesta: 3.5<br />
+Testato fino alla versione di Woocommerce: 4.9.2<br /><br />
 IMPORTANTE • Le versioni 2+ sono COMPATIBILI SOLO CON WooCommerce PDF Invoices & Packing Slips 2.0+
 
 Grazie al plugin è possibile:
@@ -31,7 +33,7 @@ Grazie al plugin è possibile:
 Credits & Copyrights: labdav • the plugin is a fork of WooCommerce PDF Invoices Italian Add-on
 <br />
 <br />
-<p><b>FATTURAZIONE ELETTRONICA<b>: LA VERSIONE PRO permette di effettuare L'Export In XML delle fatture Elettroniche compatibili con il Sistema di Interscambio dell'Agenzia delle Entrate</p> e inoltre:<br />
+<p><b>FATTURAZIONE ELETTRONICA<b>: LA VERSIONE PRO permette di effettuare L'Export In XML delle fatture Elettroniche compatibili con il Sistema di Interscambio dell'Agenzia delle Entrate e di verificare in tempo reale la reale esistenza di P.IVA e CF direttamente sul sito dell'AdE!</p> e inoltre:<br />
 * <strong>Scegliere se abilitare o meno il controllo VIES delle partite IVA Comunitarie</strong>
 * <strong>Il cliente verrà avvisato tramite Notice, nel checkout, della validità o meno della partita IVA inserita </strong>
 * <strong>Recuperare i campi P.IVA e C.F. al momento della creazione manuale di un ordine in amministrazione</strong>
@@ -50,6 +52,12 @@ Credits & Copyrights: labdav • the plugin is a fork of WooCommerce PDF Invoice
 
 Per acquistare la versione PRO vai <a href="http://dot4all.it/prodotto/plugin-woocommerce-p-iva-e-codice-fiscale-per-italia-pro/" title="plugin woocommerce partita iva e codice fiscale per italia PRO" alt="plugin woocommerce partita iva e codice fiscale per italia PRO">sul sito ufficiale</a>
 
+= Translations in your language =
+
+* English
+* Italian (it_IT)
+* Our plugin is certified fully [WPML Compatible](https://wpml.org/documentation/getting-started-guide/string-translation/).
+
 == Installation ==
 
 1. Caricare la cartelle del plugin all'interno di `/wp-content/plugins/` oppure installare il plugin attraverso la sezione WordPress plugins.
@@ -57,6 +65,14 @@ Per acquistare la versione PRO vai <a href="http://dot4all.it/prodotto/plugin-wo
 
 == Changelog ==
 
+= 2.1.11 =
+FIX images path
+
+= 2.1.10 =
+FIX PHP Session
+FIX Minor Fixing
+FIX Remove GB from VIES check
+ 
 = 2.1.9 =
 
 FIX utilizzo plugin con WP Multisite

@@ -26,7 +26,6 @@ class WooSEA_Get_Products {
 		return "<![CDATA[ $string ]]>"; 
 	}
 
-
 	/**
 	 * Check if a plugin is active
 	 */
@@ -57,6 +56,11 @@ class WooSEA_Get_Products {
 	 * Get all approved product review comments for Google's Product Review Feeds
 	 */
 	public function woosea_get_reviews ( $product_data, $product ) {
+		// Rwviews for the parent variable product itself can be skipped, the review is added for the variation
+		if($product_data['product_type'] == "variable"){
+			return;
+		}
+
 		$approved_reviews = array();
 		$prod_id = $product_data['id'];
 
@@ -84,8 +88,10 @@ class WooSEA_Get_Products {
 			$cnt = 0;
 			$name = "";
 			foreach($name_pieces as $n_piece){
+				$n_piece = str_replace("&amp;", "", $n_piece);
+
 				if($cnt > 0){
-					$n_piece = substr($n_piece, 0, 1);
+					$n_piece = ucfirst(substr($n_piece, 0, 1));
 				}	
 				$name .= $n_piece." ";
 				$cnt++;
@@ -96,7 +102,7 @@ class WooSEA_Get_Products {
 			$review['reviewer_name'] = html_entity_decode((str_replace("\r", "", $review['reviewer_name'])), ENT_QUOTES | ENT_XML1, 'UTF-8');
 			$review['reviewer_name'] = preg_replace( '/\[(.*?)\]/', ' ', $review['reviewer_name'] );
 			$review['reviewer_name'] = str_replace("&#xa0;", "", $review['reviewer_name']);
-                        $review['reviewer_name'] = $this->woosea_utf8_for_xml( $review['reviewer_name'] );
+			$review['reviewer_name'] = $this->woosea_utf8_for_xml( $review['reviewer_name'] );
 
 			$review['reviewer_id'] = $review_raw->user_id;
 			$review['review_timestamp'] = $review_raw->comment_date;
@@ -931,6 +937,16 @@ class WooSEA_Get_Products {
 										unset($shipping_cost);
 									}
 								}
+							
+								// User do not want to have free shipping in their feed	
+								$remove_free_shipping = "no";
+                						$remove_free_shipping = get_option ('remove_free_shipping');
+                                                        	
+								if($remove_free_shipping == "yes"){
+									unset($zone_details['service']);
+									unset($zone_details['price']);
+                                                            		unset($shipping_cost);
+								}
 							}
 
 							if(isset($zone_details)){
@@ -957,12 +973,9 @@ class WooSEA_Get_Products {
                                 							$zone_details['price'] = trim($shipping_cost);
 										}
 									} else {
-				//						$shipping_cost = 0;
 										if(isset($shipping_cost)){
                                 							$zone_details['price'] = trim($currency." ".$shipping_cost);
 										}
-										//unset($zone_details);
-										//unset($shipping_cost);
 									}
 								}
 							}
@@ -992,12 +1005,19 @@ class WooSEA_Get_Products {
 
 		// Remove other shipping classes when free shipping is relevant		
 		$free_check = "yes";
-                //$free_check = get_option ('free_shipping');
 
 		if(in_array($free_check, array_column($shipping_arr, 'free'))) { // search value in the array
 			foreach($shipping_arr as $k => $v) {
 				if(!in_array($free_check, $v)){
-  					unset($shipping_arr[$k]);
+                                                                
+					// User do not want to have free shipping in their feed 
+                               		// Only remove the other shipping classes when free shipping is not being removed
+					$remove_free_shipping = "no";
+                               		$remove_free_shipping = get_option ('remove_free_shipping');
+
+                                    	if($remove_free_shipping == "no"){
+  						unset($shipping_arr[$k]);
+					}
 				}
 			}
 		}
@@ -1005,8 +1025,6 @@ class WooSEA_Get_Products {
 		// Fix empty services
 		foreach($shipping_arr as $k => $v){
 			if(empty($v['service'])){
-//				$lalala = get_option( 'woocommerce_default_country' );
-//				$shipping_arr[$k]['country'] = get_option( 'woocommerce_default_country' );
 				unset($shipping_arr[$k]);
 			}
 		}
@@ -1145,16 +1163,19 @@ class WooSEA_Get_Products {
 									} elseif (preg_match("/g:product_detail/i",$k)){
 										if(!empty($v)){
 											$product_detail_split = explode("#", $v);
-                                       	               					$product_detail = $product->addChild('g:product_detail', '', $namespace['g']);
-                                                                                        $name = str_replace("_", " ", $product_detail_split[0]);
+											$detail_complete = count($product_detail_split);
+											if($detail_complete == 2){
+                                       	               						$product_detail = $product->addChild('g:product_detail', '', $namespace['g']);
+                                                                                        	$name = str_replace("_", " ", $product_detail_split[0]);
 
-											$section_name = explode(":", $name);
-											$section_name_start = ucfirst($section_name[0]);
-											$name = ucfirst(trim($section_name[1]));
-											
-											$section_name = $product_detail->addChild('g:section_name', "General", $namespace['g']);
-											$product_detail_name = $product_detail->addChild('g:attribute_name', $section_name_start, $namespace['g']);
-											$product_detail_value = $product_detail->addChild('g:attribute_value', $product_detail_split[1], $namespace['g']);
+												$section_name = explode(":", $name);
+												$section_name_start = ucfirst($section_name[0]);
+												$name = ucfirst(trim($section_name[1]));
+										
+												$section_name = $product_detail->addChild('g:section_name', "General", $namespace['g']);
+												$product_detail_name = $product_detail->addChild('g:attribute_name', $section_name_start, $namespace['g']);
+												$product_detail_value = $product_detail->addChild('g:attribute_value', $product_detail_split[1], $namespace['g']);
+											}
 										}
 									} elseif ($k == "g:installment"){
 										if(!empty($v)){
@@ -1252,6 +1273,10 @@ class WooSEA_Get_Products {
 					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><SHOP></SHOP>');	
 					$xml->addAttribute('xmlns', 'http://www.zbozi.cz/ns/offer/1.0');
 					$xml->asXML($file);
+				} elseif ($feed_config['name'] == "Bestprice") {
+					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="ISO-8859-7"?><store></store>');
+					$xml->addChild('date', date('Y-m-d H:i:s'));
+					$xml->asXML($file);
 				} elseif ($feed_config['name'] == "Glami.gr") {
 					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><SHOP></SHOP>');	
 					$xml->asXML($file);
@@ -1325,8 +1350,14 @@ class WooSEA_Get_Products {
 
 				if ($aantal > 0){
 
+					// For Yandex template
 					if (($feed_config['name'] == "Yandex") AND ($feed_config['nr_products_processed'] == 0)) {
 						$shop = $xml->shop->addChild('offers');
+					}
+
+					// For Bestprice template
+					if (($feed_config['name'] == "Bestprice") AND ($feed_config['nr_products_processed'] == 0)) {
+						$productz = $xml->addChild('products');
 					}
 
 					// For ZAP template
@@ -1540,6 +1571,8 @@ class WooSEA_Get_Products {
 								$product = $xml->addChild('SHOPITEM');
 							} elseif ($feed_config['name'] == "Zap.co.il") {
 								$product = $xml->PRODUCTS->addChild('PRODUCT');
+							} elseif ($feed_config['name'] == "Bestprice") {
+								$product = $xml->products->addChild('product');
 							} elseif ($feed_config['name'] == "Salidzini.lv") {
 								$product = $xml->addChild('item');
 							} elseif ($feed_config['name'] == "Trovaprezzi.it") {
@@ -1981,7 +2014,7 @@ class WooSEA_Get_Products {
 		$xml_piece = "";
 
 		// Get taxonomies
-              	$no_taxonomies = array("element_category","template_category","portfolio_category","portfolio_skills","portfolio_tags","faq_category","slide-page","yst_prominent_words","category","post_tag","nav_menu","link_category","post_format","product_type","product_visibility","product_cat","product_shipping_class","product_tag");
+              	$no_taxonomies = array("element_category","template_category","portfolio_category","portfolio_skills","portfolio_tags","faq_category","slide-page","category","post_tag","nav_menu","link_category","post_format","product_type","product_visibility","product_cat","product_shipping_class","product_tag");
              	$taxonomies = get_taxonomies();
           	$diff_taxonomies = array_diff($taxonomies, $no_taxonomies);
 
@@ -2313,6 +2346,10 @@ class WooSEA_Get_Products {
 			$product_data['raw_description'] = substr($product_data['raw_description'], 0, 5000);
 			$product_data['raw_short_description'] = substr($product_data['raw_short_description'], 0, 5000);
 
+			// Parent variable description
+			$product_data['mother_description'] = $product_data['description'];
+			$product_data['mother_short_description'] = $product_data['short_description'];
+
 			/**
 		 	* Check of we need to add Google Analytics UTM parameters
 		 	*/
@@ -2472,7 +2509,8 @@ class WooSEA_Get_Products {
 				
 				if($product->get_type() == "bundle"){
 		                        if ($this->woosea_is_plugin_active('woocommerce-product-bundles/woocommerce-product-bundles.php')){
-                        			$product_data['price'] = round(get_post_meta($product_data['id'], '_price', true));
+                        			$product_data['price'] = get_post_meta($product_data['id'], '_price', true);
+                        			$product_data['sale_price'] = get_post_meta($product_data['id'], '_sale_price', true);
 						if(is_numeric($tax_rates[1]['rate'])){	
                     		    			$product_data['price_forced'] = round(get_post_meta($product_data['id'], '_price', true) * (100+$tax_rates[1]['rate'])/100,2);
               		   				$product_data['regular_price'] = round(get_post_meta($product_data['id'], '_regular_price', true) * (100+$tax_rates[1]['rate'])/100,2);
@@ -2570,6 +2608,7 @@ class WooSEA_Get_Products {
 				$discount = apply_filters('advanced_woo_discount_rules_get_product_discount_price_from_custom_price', false, $product, 1, $product_data['sale_price'], 'discounted_price', true, true);
 				if($discount !== false){
 					$product_data['sale_price'] = $discount;
+					$product_data['price'] = $discount;
 					$price_incl_tax = get_option( 'woocommerce_prices_include_tax' );
 					if($price_incl_tax == "yes"){
 						$product_data['price_forced'] = $product_data['price']*($fullrate/100);
@@ -2730,7 +2769,7 @@ class WooSEA_Get_Products {
 				}
 			}
 
-			if ((array_key_exists('shipping', $project_config['attributes'])) OR (array_key_exists('shipping_price', $project_config['attributes'])) OR ($project_config['fields'] == "trovaprezzi")){
+			if ((array_key_exists('shipping', $project_config['attributes'])) OR (array_key_exists('shipping_price', $project_config['attributes'])) OR ($project_config['fields'] == "trovaprezzi") OR ($project_config['fields'] == "customfeed")){
 				$product_data['shipping'] =  $this->woosea_get_shipping_cost($class_cost_id, $project_config, $product_data['price'], $tax_rates, $shipping_zones, $product_data['id'], $product_data['item_group_id']);
 				$shipping_str = $product_data['shipping'];
 			}
@@ -3016,9 +3055,9 @@ class WooSEA_Get_Products {
 				$product_variations = new WC_Product_Variation( $product_data['id'] );
 				$variations = $product_variations->get_variation_attributes();
 
-				// For Skroutz apparal products we can only append colours to the product name
+				// For Skroutz and Bestprice apparal products we can only append colours to the product name
                                 // When a product has both a size and color attribute we assume its an apparal product
-                                if($project_config['fields'] == "skroutz"){
+                                if(($project_config['fields'] == "skroutz") OR ($project_config['fields'] == "bestprice")){
                                         $size_found = "no";
                                         $color_found = "no";
 
@@ -3427,7 +3466,7 @@ class WooSEA_Get_Products {
 			 * In order to prevent XML formatting errors in Google's Merchant center
 			 * we will add CDATA brackets to the title and description attributes
 			 */
-                        //$product_data['title'] = $this->woosea_append_cdata ( $product_data['title'] );
+                        $product_data['title_lc'] = ucfirst(strtolower($product_data['title']));
                         //$product_data['description'] = $this->woosea_append_cdata ( $product_data['description'] );
                         //$product_data['short_description'] = $this->woosea_append_cdata ( $product_data['short_description'] );
 
@@ -3435,6 +3474,17 @@ class WooSEA_Get_Products {
                         * Get product reviews for Google Product Review Feeds
 			*/
 			$product_data['reviews'] = $this->woosea_get_reviews( $product_data, $product );
+
+			/**
+			* Filter out reviews that do not have text
+			*/
+			if(!empty($product_data['reviews'])){
+				foreach($product_data['reviews'] as $review_id => $review_details){
+					if(empty($review_details['content'])){
+						unset($product_data['reviews'][$review_id]);
+					}
+				}
+			}
 
 			/**
 			 * Check if individual products need to be excluded
@@ -3501,6 +3551,7 @@ class WooSEA_Get_Products {
 			// For these channels parent products are allowed
 			$allowed_channel_parents = array(
 				"skroutz",
+				"bestprice",
 				"google_dsa",
 				"google_product_review",
 			);	
@@ -4906,520 +4957,500 @@ class WooSEA_Get_Products {
 				$pr_array['attribute'] = "raw_categories";
 			}
 
-			if(array_key_exists($pr_array['attribute'], $product_data)){
+			//if(array_key_exists($pr_array['attribute'], $product_data)){
 
-				foreach ($product_data as $pd_key => $pd_value){
-					// Check is there is a rule on specific attributes
+			if(!array_key_exists($pr_array['attribute'], $product_data)) {
+				$product_data[$pr_array['attribute']] = "";  // Sets an empty postmeta value in place of a missing one.
+			}
 
-					if(in_array($pd_key, $pr_array, TRUE)){
+			foreach ($product_data as $pd_key => $pd_value){
+				// Check is there is a rule on specific attributes
+				if(in_array($pd_key, $pr_array, TRUE)){
 
-						if($pd_key == "price"){
-							//$pd_value = @number_format($pd_value,2);
-							$pd_value = wc_format_decimal($pd_value);
-						}
+					if($pd_key == "price"){
+						//$pd_value = @number_format($pd_value,2);
+						$pd_value = wc_format_decimal($pd_value);
+					}
 				
-						if (is_numeric($pd_value)){
-							$old_value = $pd_value;
-							if($pd_key == "price"){
-								$pd_value = @number_format($pd_value,2);
-							}
+					if (is_numeric($pd_value)){
+						$old_value = $pd_value;
+						if($pd_key == "price"){
+							$pd_value = @number_format($pd_value,2);
+						}
 	
-							// Rules for numeric values	
-							switch ($pr_array['condition']) {
-								case($pr_array['condition'] = "contains"):
-									if ((preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "exclude")){
-										$allowed = 0;
-									} elseif ((!preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "include_only")){
-										$allowed = 0;
-									} 
-									break;
-								case($pr_array['condition'] = "containsnot"):
-									if ((!preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "exclude")){
-										$allowed = 0;
-									} elseif ((preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "include_only")){
-										$allowed = 0;
-									}
-									break;
-								case($pr_array['condition'] = "="):
-									if (($old_value == $pr_array['criteria']) && ($pr_array['than'] == "exclude")){
-										$allowed = 0;
-									} elseif (($old_value != $pr_array['criteria']) && ($pr_array['than'] == "include_only")){
-										$allowed = 0;
-									}
-									break;
-								case($pr_array['condition'] = "!="):
-									if (($old_value == $pr_array['criteria']) && ($pr_array['than'] == "exclude")){
-										if($allowed <> 0){
-											$allowed = 1;
-										}
-									} elseif (($old_value == $pr_array['criteria']) && ($pr_array['than'] == "include_only")){
-										$allowed = 0;
-									}
-									break;
-								case($pr_array['condition'] = ">"):
-									if (($old_value > $pr_array['criteria']) && ($pr_array['than'] == "exclude")){
-										$allowed = 0;
-									} elseif (($old_value <= $pr_array['criteria']) && ($pr_array['than'] == "include_only")){
-										$allowed = 0;
-									}
-    									break;
-								case($pr_array['condition'] = ">="):
-									if (($old_value >= $pr_array['criteria']) && ($pr_array['than'] == "exclude")){
-										$allowed = 0;
-									} elseif (($old_value < $pr_array['criteria']) && ($pr_array['than'] == "include_only")){
-										$allowed = 0;
-									}
-									break;
-								case($pr_array['condition'] = "<"):
-									if (($old_value < $pr_array['criteria']) && ($pr_array['than'] == "exclude")){
-										$allowed = 0;
-									} elseif (($old_value > $pr_array['criteria']) && ($pr_array['than'] == "include_only")){
-										$allowed = 0;
-									}
-									break;
-								case($pr_array['condition'] = "=<"):
-									if (($old_value <= $pr_array['criteria']) && ($pr_array['than'] == "exclude")){
-										$allowed = 0;
-									} elseif (($old_value > $pr_array['criteria']) && ($pr_array['than'] == "include_only")){
-										$allowed = 0;
-									}
-									break;
-								case($pr_array['condition'] = "empty"):
-									if ((strlen($pd_value) < 1) && ($pr_array['than'] == "exclude")){
-										$allowed = 0;
-									} elseif ((strlen($pd_value > 0)) && ($pr_array['than'] == "include_only")){
-										$allowed = 0;
-									}
-									break;
-								default:
-									break;
-							}
-						} elseif (is_array($pd_value)){
-							// Tis can either be a shipping or product_tag array
-							if($pr_array['attribute'] == "product_tag"){
-								$in_tag_array = "not";
-
-								foreach($pd_value as $pt_key => $pt_value){
-		                                                        // Rules for string values
-                                                        		if (!array_key_exists('cs', $pr_array)){
-                                                                		$pt_value = strtolower($pt_value);
-                                                                		$pr_array['criteria'] = strtolower($pr_array['criteria']);
-                                                        		}	
-
-									if(preg_match('/'.$pr_array['criteria'].'/', $pt_value)){
-										$in_tag_array = "yes";
-									}
+						// Rules for numeric values	
+						switch ($pr_array['condition']) {
+							case($pr_array['condition'] = "contains"):
+								if ((preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "exclude")){
+									$allowed = 0;
+								} elseif ((!preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "include_only")){
+									$allowed = 0;
+								} 
+								break;
+							case($pr_array['condition'] = "containsnot"):
+								if ((!preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "exclude")){
+									$allowed = 0;
+								} elseif ((preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "include_only")){
+									$allowed = 0;
 								}
-	
-								if($in_tag_array == "yes"){
-								//if(in_array($pr_array['criteria'], $pd_value, TRUE)) {
-									$v = $pr_array['criteria'];
-
-									switch ($pr_array['condition']) {
-										case($pr_array['condition'] = "contains"):
-											if ((preg_match('/'.$pr_array['criteria'].'/', $v))){
-												if($pr_array['than'] == "include_only"){
-													if($allowed <> 0){
-														$allowed = 1;
-													}
-												} else {
-													$allowed = 0;
-												}
-											} else {
-												$allowed = 0;
-											}
-											break;
-										case($pr_array['condition'] = "containsnot"):
-											if ((!preg_match('/'.$pr_array['criteria'].'/', $v))){
-												if($pr_array['than'] == "include_only"){
-													if($allowed <> 0){
-														$allowed = 1;
-													}
-												} else {
-													$allowed = 0;
-												}
-											} else {
-												$allowed = 0;
-											}
-											break;
-										case($pr_array['condition'] = "="):
-											if (($v == $pr_array['criteria'])){
-												if($pr_array['than'] == "include_only"){
-													if($allowed <> 0){
-														$allowed = 1;
-													}
-												} else {
-													$allowed = 0;
-												}
-											} else {
-												$allowed = 0;
-											}
-											break;
-										case($pr_array['condition'] = "!="):
-											if (($v != $pr_array['criteria'])){
-												if($pr_array['than'] == "include_only"){
-													if($allowed <> 0){
-														$allowed = 1;
-													}
-												} else {	
-													$allowed = 0;
-												}
-											}
-											break;
-										case($pr_array['condition'] = ">"):
-											if (($v > $pr_array['criteria'])){
-												if($pr_array['than'] == "include_only"){
-													if($allowed <> 0){
-														$allowed = 1;
-													}
-												} else {	
-													$allowed = 0;
-												}
-											}
-    											break;
-										case($pr_array['condition'] = ">="):
-											if (($v >= $pr_array['criteria'])){
-												if($pr_array['than'] == "include_only"){
-													if($allowed <> 0){
-														$allowed = 1;
-													}
-												} else {	
-													$allowed = 0;
-												}
-											}
-											break;
-										case($pr_array['condition'] = "<"):
-											if (($v < $pr_array['criteria'])){
-												if($pr_array['than'] == "include_only"){
-													if($allowed <> 0){
-														$allowed = 1;
-													}
-												} else {	
-													$allowed = 0;
-												}
-											}
-											break;
-										case($pr_array['condition'] = "=<"):
-											if (($v <= $pr_array['criteria'])){
-												if($pr_array['than'] == "include_only"){
-													if($allowed <> 0){
-														$allowed = 1;
-													}
-												} else {	
-													$allowed = 0;
-												}
-											}
-											break;
-										case($pr_array['condition'] = "empty"):
-											if (strlen($v) < 1){
-												if($pr_array['than'] == "include_only"){
-													if($allowed <> 0){
-														$allowed = 1;
-													}
-												} else {	
-													$allowed = 0;
-												}
-											}
-											break;
-										default:
-											break;
-									}
-								} else {
-									switch ($pr_array['condition']) {
-										case($pr_array['condition'] = "contains"):
-											if($pr_array['than'] == "include_only"){
-												$allowed = 0;
-											} else {
-												if($allowed <> 0){
-													$allowed = 1;
-												}
-											}
-											break;
-										case($pr_array['condition'] = "containsnot"):
-											if($pr_array['than'] == "include_only"){
-												if($allowed <> 0){
-													$allowed = 1;
-												}
-											} else {
-												$allowed = 0;
-											}
-											break;
-										case($pr_array['condition'] = "="):
-											if($pr_array['than'] == "include_only"){
-												$allowed = 0;
-											} else {
-												if($allowed <> 0){
-													$allowed = 1;
-												}
-											}
-											break;
-										case($pr_array['condition'] = "!="):
-											if($pr_array['than'] == "include_only"){
-												if($allowed <> 0){
-													$allowed = 1;
-												}
-											} else {	
-												$allowed = 0;
-											}
-											break;
-										case($pr_array['condition'] = ">"):
-											if($pr_array['than'] == "include_only"){
-												$allowed = 0;
-											} else {	
-												$allowed = 0;
-											}
-    											break;
-										case($pr_array['condition'] = ">="):
-											if($pr_array['than'] == "include_only"){
-												$allowed = 0;
-											} else {	
-												$allowed = 0;
-											}
-											break;
-										case($pr_array['condition'] = "<"):
-											if($pr_array['than'] == "include_only"){
-												$allowed = 0;
-											} else {	
-												$allowed = 0;
-											}
-											break;
-										case($pr_array['condition'] = "=<"):
-											if($pr_array['than'] == "include_only"){
-												$allowed = 0;
-											} else {	
-												$allowed = 0;
-											}
-											break;
-										case($pr_array['condition'] = "empty"):
-											if($pr_array['than'] == "include_only"){
-												if($allowed <> 0){	
-													$allowed = 1;
-												}
-											} else {	
-												$allowed = 0;
-											}
-											break;
-										default:
-											break;
-									}
+								break;
+							case($pr_array['condition'] = "="):
+								if (($old_value == $pr_array['criteria']) && ($pr_array['than'] == "exclude")){
+									$allowed = 0;
+								} elseif (($old_value != $pr_array['criteria']) && ($pr_array['than'] == "include_only")){
+									$allowed = 0;
 								}
-							} else {
-								// For now only shipping details are in an array
-								foreach ($pd_value as $k => $v){
-									foreach ($v as $kk => $vv){
-										// Only shipping detail rule can be on price for now
-										if($kk == "price"){
-											switch ($pr_array['condition']) {
-												case($pr_array['condition'] = "contains"):
-													if ((preg_match('/'.$pr_array['criteria'].'/', $vv))){
-														$allowed = 0;	
-													}
-													break;
-												case($pr_array['condition'] = "containsnot"):
-													if ((!preg_match('/'.$pr_array['criteria'].'/', $vv))){
-														$allowed = 0;
-													}
-													break;
-												case($pr_array['condition'] = "="):
-													if (($vv == $pr_array['criteria'])){
-														$allowed = 0;
-													}
-													break;
-												case($pr_array['condition'] = "!="):
-													if (($vv != $pr_array['criteria'])){
-														$allowed = 0;
-													}
-													break;
-												case($pr_array['condition'] = ">"):
-													if (($vv > $pr_array['criteria'])){
-														$allowed = 0;
-													}
-    													break;
-												case($pr_array['condition'] = ">="):
-													if (($vv >= $pr_array['criteria'])){
-														$allowed = 0;
-													}
-													break;
-												case($pr_array['condition'] = "<"):
-													if (($vv < $pr_array['criteria'])){
-														$allowed = 0;
-													}
-													break;
-												case($pr_array['condition'] = "=<"):
-													if (($vv <= $pr_array['criteria'])){
-														$allowed = 0;
-													}
-													break;
-												case($pr_array['condition'] = "empty"):
-													if (strlen($vv) < 1){
-														$allowed = 0;
-													}
-													break;
-												default:
-													break;
-											}
-										}
+								break;
+							case($pr_array['condition'] = "!="):
+								if (($old_value == $pr_array['criteria']) && ($pr_array['than'] == "exclude")){
+									if($allowed <> 0){
+										$allowed = 1;
 									}
+								} elseif (($old_value == $pr_array['criteria']) && ($pr_array['than'] == "include_only")){
+									$allowed = 0;
+								}
+								break;
+							case($pr_array['condition'] = ">"):
+								if (($old_value > $pr_array['criteria']) && ($pr_array['than'] == "exclude")){
+									$allowed = 0;
+								} elseif (($old_value <= $pr_array['criteria']) && ($pr_array['than'] == "include_only")){
+									$allowed = 0;
+								}
+    								break;
+							case($pr_array['condition'] = ">="):
+								if (($old_value >= $pr_array['criteria']) && ($pr_array['than'] == "exclude")){
+									$allowed = 0;
+								} elseif (($old_value < $pr_array['criteria']) && ($pr_array['than'] == "include_only")){
+									$allowed = 0;
+								}
+								break;
+							case($pr_array['condition'] = "<"):
+								if (($old_value < $pr_array['criteria']) && ($pr_array['than'] == "exclude")){
+									$allowed = 0;
+								} elseif (($old_value > $pr_array['criteria']) && ($pr_array['than'] == "include_only")){
+									$allowed = 0;
+								}
+								break;
+							case($pr_array['condition'] = "=<"):
+								if (($old_value <= $pr_array['criteria']) && ($pr_array['than'] == "exclude")){
+									$allowed = 0;
+								} elseif (($old_value > $pr_array['criteria']) && ($pr_array['than'] == "include_only")){
+									$allowed = 0;
+								}
+								break;
+							case($pr_array['condition'] = "empty"):
+								if ((strlen($pd_value) < 1) && ($pr_array['than'] == "exclude")){
+									$allowed = 0;
+								} elseif ((strlen($pd_value > 0)) && ($pr_array['than'] == "include_only")){
+									$allowed = 0;
+								}
+								break;
+							default:
+								break;
+						}
+					} elseif (is_array($pd_value)){
+						// Tis can either be a shipping or product_tag array
+						if($pr_array['attribute'] == "product_tag"){
+							$in_tag_array = "not";
+
+							foreach($pd_value as $pt_key => $pt_value){
+		                                               	// Rules for string values
+                                                        	if (!array_key_exists('cs', $pr_array)){
+                                                                	$pt_value = strtolower($pt_value);
+                                                                	$pr_array['criteria'] = strtolower($pr_array['criteria']);
+                                                        	}	
+
+								if(preg_match('/'.$pr_array['criteria'].'/', $pt_value)){
+									$in_tag_array = "yes";
 								}
 							}
-						} else {
-							// Filters for string values
-							// If case-sensitve is off than lowercase both the criteria and attribute value
-							if (array_key_exists('cs', $pr_array)){
-								if ($pr_array['cs'] != "on"){
-									$pd_value = strtolower($pd_value);
-									$pr_array['criteria'] = strtolower($pr_array['criteria']);
-								}
-							}				
-							$pos = strpos($pd_value, '&amp;');
-							$pos_slash = strpos($pr_array['criteria'], '\\');
-							if($pos !== false){
-								$pd_value = str_replace("&amp;","&",$pd_value);
-							}
-							if($pos_slash !== false){
-								$pr_array['criteria'] = str_replace("\\","",$pr_array['criteria']);
-							}
 
-							switch ($pr_array['condition']) {
-								case($pr_array['condition'] = "contains"):
-									if ((preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "exclude")){
-										$allowed = 0;
-									} elseif ((!preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "include_only")){
-										$allowed = 0;
-									} elseif ((preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "include_only")){
-										if($allowed <> 0){
-											$allowed = 1;
-										}
-									}
-									break;
-								case($pr_array['condition'] = "containsnot"):
-									if ((!preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "exclude")){
-										$allowed = 0;
-									} elseif ((preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "include_only")){
-										$allowed = 0;
-									}
-									break;
-								case($pr_array['condition'] = "="):
-									if (($pr_array['criteria'] == "$pd_value") && ($pr_array['than'] == "exclude")){
-										$allowed = 0;
-									} elseif (($pr_array['criteria'] != "$pd_value") && ($pr_array['than'] == "include_only")){
-										$found = strpos($pd_value,$pr_array['criteria']);
-										if ($found !== false) {
-											//for category mapping check if its an array
-											if($pr_array['attribute'] == "raw_categories"){	
-												$raw_cats_arr = explode("||",$pd_value);
-												if(is_array($raw_cats_arr)){
-													if(in_array($pr_array['criteria'],$raw_cats_arr, TRUE)){
-														if($allowed <> 0){
-															$allowed = 1;
-														}
-													} else {
-														$allowed = 0;
-													}
-												}
-											} else {
+							if($in_tag_array == "yes"){
+							//if(in_array($pr_array['criteria'], $pd_value, TRUE)) {
+								$v = $pr_array['criteria'];
+								switch ($pr_array['condition']) {
+									case($pr_array['condition'] = "contains"):
+										if ((preg_match('/'.$pr_array['criteria'].'/', $v))){
+											if($pr_array['than'] == "include_only"){
 												if($allowed <> 0){
 													$allowed = 1;
 												}
+											} else {
+												$allowed = 0;
 											}
 										} else {
 											$allowed = 0;
 										}
-									} elseif (($pr_array['criteria'] == "$pd_value") && ($pr_array['than'] == "include_only")){
-										if($allowed <> 0){			
-											$allowed = 1;
+										break;
+									case($pr_array['condition'] = "containsnot"):
+										if ((!preg_match('/'.$pr_array['criteria'].'/', $v))){
+											if($pr_array['than'] == "include_only"){
+												if($allowed <> 0){
+													$allowed = 1;
+												}
+											} else {
+												$allowed = 0;
+											}
+										} else {
+											$allowed = 0;
 										}
-								      	} elseif ((preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "exclude")){
-										$allowed = 0;
-								      	} elseif ((preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "include_only")){
-										$allowed = 1;
-							                }
-									break;
-								case($pr_array['condition'] = "!="):
-									if (($pr_array['criteria'] == "$pd_value") && ($pr_array['than'] == "exclude")){
-										if($allowed <> 0){
-											$allowed = 1;
+										break;
+									case($pr_array['condition'] = "="):
+										if (($v == $pr_array['criteria'])){
+											if($pr_array['than'] == "include_only"){
+												if($allowed <> 0){
+													$allowed = 1;
+												}
+											} else {
+												$allowed = 0;
+											}
+										} else {
+											$allowed = 0;
 										}
-									} elseif (($pr_array['criteria'] == "$pd_value") && ($pr_array['than'] == "include_only")){
-										$allowed = 0; 
-									} elseif (($pr_array['criteria'] != "$pd_value") && ($pr_array['than'] == "exclude")){
-										$allowed = 0;
-									}
-									break;
-								case($pr_array['condition'] = ">"):
-									// Use a lexical order on relational string operators
-									if (($pd_value > $pr_array['criteria']) && ($pr_array['than'] == "exclude")){
-										$allowed = 0;
-									} elseif (($pd_value < $pr_array['criteria']) && ($pr_array['than'] == "include_only")){
-										$allowed = 0;
-									}
-									break;
-								case($pr_array['condition'] = ">="):
-									// Use a lexical order on relational string operators
-									if (($pd_value >= $pr_array['criteria']) && ($pr_array['than'] == "exclude")){
-										$allowed = 0;
-									} elseif (($pd_value < $pr_array['criteria']) && ($pr_array['than'] == "include_only")){
-										$allowed = 0;
-									}
-									break;
-								case($pr_array['condition'] = "<"):
-									// Use a lexical order on relational string operators
-									if (($pd_value < $pr_array['criteria']) && ($pr_array['than'] == "exclude")){
-										$allowed = 0;
-									} elseif (($pd_value > $pr_array['criteria']) && ($pr_array['than'] == "include_only")){
-										$allowed = 0;
-									}
-									break;
-								case($pr_array['condition'] = "=<"):
-									// Use a lexical order on relational string operators
-									if (($pd_value <= $pr_array['criteria']) && ($pr_array['than'] == "exclude")){
-										$allowed = 0;
-									} elseif (($pd_value > $pr_array['criteria']) && ($pr_array['than'] == "include_only")){
-										$allowed = 0;
-									}
-									break;
-								case($pr_array['condition'] = "empty"):
-									if ((strlen($pd_value) < 1) && ($pr_array['than'] == "exclude")){
-										$allowed = 0;
-									} elseif ((strlen($pd_value) > 0) && ($pr_array['than'] == "exclude")){
-										if($allowed <> 0){
-											$allowed = 1;
+										break;
+									case($pr_array['condition'] = "!="):
+										if (($v != $pr_array['criteria'])){
+											if($pr_array['than'] == "include_only"){
+												if($allowed <> 0){
+													$allowed = 1;
+												}
+											} else {	
+												$allowed = 0;
+											}
 										}
-									} elseif ((strlen($pd_value) > 0) && ($pr_array['than'] == "include_only")){
-										$allowed = 0;
+										break;
+									case($pr_array['condition'] = ">"):
+										if (($v > $pr_array['criteria'])){
+											if($pr_array['than'] == "include_only"){
+												if($allowed <> 0){
+													$allowed = 1;
+												}
+											} else {	
+												$allowed = 0;
+											}
+										}
+    										break;
+									case($pr_array['condition'] = ">="):
+										if (($v >= $pr_array['criteria'])){
+											if($pr_array['than'] == "include_only"){
+												if($allowed <> 0){
+													$allowed = 1;
+												}
+											} else {	
+												$allowed = 0;
+											}
+										}
+										break;
+									case($pr_array['condition'] = "<"):
+										if (($v < $pr_array['criteria'])){
+											if($pr_array['than'] == "include_only"){
+												if($allowed <> 0){
+													$allowed = 1;
+												}
+											} else {	
+												$allowed = 0;
+											}
+										}
+										break;
+									case($pr_array['condition'] = "=<"):
+										if (($v <= $pr_array['criteria'])){
+											if($pr_array['than'] == "include_only"){
+												if($allowed <> 0){
+													$allowed = 1;
+												}
+											} else {	
+												$allowed = 0;
+											}
+										}
+										break;
+									case($pr_array['condition'] = "empty"):
+										if (strlen($v) < 1){
+											if($pr_array['than'] == "include_only"){
+												if($allowed <> 0){
+													$allowed = 1;
+												}
+											} else {
+												if(!empty($pt_value)){
+													$allowed = 1;
+												} else {
+						 							$allowed = 0;
+												}
+											}
+										}
+										break;
+									default:
+										break;
+								}
+							} else {
+								switch ($pr_array['condition']) {
+									case($pr_array['condition'] = "contains"):
+										if($pr_array['than'] == "include_only"){
+											$allowed = 0;
+										} else {
+											if($allowed <> 0){
+												$allowed = 1;
+											}
+										}
+										break;
+									case($pr_array['condition'] = "containsnot"):
+										if($pr_array['than'] == "include_only"){
+											if($allowed <> 0){
+												$allowed = 1;
+											}
+										} else {
+											$allowed = 0;
+										}
+										break;
+									case($pr_array['condition'] = "="):
+										if($pr_array['than'] == "include_only"){
+											$allowed = 0;
+										} else {
+											if($allowed <> 0){
+												$allowed = 1;
+											}
+										}
+										break;
+									case($pr_array['condition'] = "!="):
+										if($pr_array['than'] == "include_only"){
+											if($allowed <> 0){
+												$allowed = 1;
+											}
+										} else {	
+											$allowed = 0;
+										}
+										break;
+									case($pr_array['condition'] = ">"):
+										if($pr_array['than'] == "include_only"){
+											$allowed = 0;
+										} else {	
+											$allowed = 0;
+										}
+    										break;
+									case($pr_array['condition'] = ">="):
+										if($pr_array['than'] == "include_only"){
+											$allowed = 0;
+										} else {	
+											$allowed = 0;
+										}
+										break;
+									case($pr_array['condition'] = "<"):
+										if($pr_array['than'] == "include_only"){
+											$allowed = 0;
+										} else {	
+											$allowed = 0;
+										}
+										break;
+									case($pr_array['condition'] = "=<"):
+										if($pr_array['than'] == "include_only"){
+											$allowed = 0;
+										} else {	
+											$allowed = 0;
+										}
+										break;
+									case($pr_array['condition'] = "empty"):
+										if($pr_array['than'] == "include_only"){
+											if($allowed <> 0){	
+												$allowed = 1;
+											}
+										} else {	
+											$allowed = 0;
+										}
+										break;
+									default:
+										break;
+								}
+							}
+						} else {
+							// For now only shipping details are in an array
+							foreach ($pd_value as $k => $v){
+								foreach ($v as $kk => $vv){
+									// Only shipping detail rule can be on price for now
+									if($kk == "price"){
+										switch ($pr_array['condition']) {
+											case($pr_array['condition'] = "contains"):
+												if ((preg_match('/'.$pr_array['criteria'].'/', $vv))){
+													$allowed = 0;	
+												}
+												break;
+											case($pr_array['condition'] = "containsnot"):
+												if ((!preg_match('/'.$pr_array['criteria'].'/', $vv))){
+													$allowed = 0;
+												}
+												break;
+											case($pr_array['condition'] = "="):
+												if (($vv == $pr_array['criteria'])){
+													$allowed = 0;
+												}
+												break;
+											case($pr_array['condition'] = "!="):
+												if (($vv != $pr_array['criteria'])){
+													$allowed = 0;
+												}
+												break;
+											case($pr_array['condition'] = ">"):
+												if (($vv > $pr_array['criteria'])){
+													$allowed = 0;
+												}
+    												break;
+											case($pr_array['condition'] = ">="):
+												if (($vv >= $pr_array['criteria'])){
+													$allowed = 0;
+												}
+												break;
+											case($pr_array['condition'] = "<"):
+												if (($vv < $pr_array['criteria'])){
+													$allowed = 0;
+												}
+												break;
+											case($pr_array['condition'] = "=<"):
+												if (($vv <= $pr_array['criteria'])){
+													$allowed = 0;
+												}
+												break;
+											case($pr_array['condition'] = "empty"):
+												if (strlen($vv) < 1){
+													$allowed = 0;
+												}
+												break;
+											default:
+												break;
+										}
 									}
-									break;
-								default:
-									break;
+								}
 							}
 						}
-					}
-				}
-			} else {
-				// A empty rule has been set on an attribute that is not in a product anyhow. Still, remove this product from the feed
-				if($pr_array['condition'] == "empty"){
-					if($pr_array['than'] == "exclude"){
-						$allowed = 0;
 					} else {
-						$allowed = 1;
-					}
-				} elseif($pr_array['condition'] == "="){
-					if($pr_array['than'] == "exclude"){
-						$allowed = 1;
-					} else {
-						$allowed = 0;
-					}
-				} elseif($pr_array['condition'] == "contains"){
-					if($pr_array['than'] == "exclude"){
-						$allowed = 1;
-					} else {
-						$allowed = 0;
-					}
-				} else {
-					if($pr_array['than'] == "exclude"){
-						$allowed = 0;
-					} else {
-						$allowed = 1;
+						// Filters for string values
+						// If case-sensitve is off than lowercase both the criteria and attribute value
+						if (array_key_exists('cs', $pr_array)){
+							if ($pr_array['cs'] != "on"){
+								$pd_value = strtolower($pd_value);
+								$pr_array['criteria'] = strtolower($pr_array['criteria']);
+							}
+						}				
+						$pos = strpos($pd_value, '&amp;');
+						$pos_slash = strpos($pr_array['criteria'], '\\');
+						if($pos !== false){
+							$pd_value = str_replace("&amp;","&",$pd_value);
+						}
+						if($pos_slash !== false){
+							$pr_array['criteria'] = str_replace("\\","",$pr_array['criteria']);
+						}
+
+						switch ($pr_array['condition']) {
+							case($pr_array['condition'] = "contains"):
+								if ((preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "exclude")){
+									$allowed = 0;
+								} elseif ((!preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "include_only")){
+									$allowed = 0;
+								} elseif ((preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "include_only")){
+									if($allowed <> 0){
+										$allowed = 1;
+									}
+								}
+								break;
+							case($pr_array['condition'] = "containsnot"):
+								if ((!preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "exclude")){
+									$allowed = 0;
+								} elseif ((preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "include_only")){
+									$allowed = 0;
+								}
+								break;
+							case($pr_array['condition'] = "="):
+								if (($pr_array['criteria'] == "$pd_value") AND ($pr_array['than'] == "exclude")){
+									$allowed = 0;
+								} elseif (($pr_array['criteria'] != "$pd_value") && ($pr_array['than'] == "include_only")){
+									$found = strpos($pd_value,$pr_array['criteria']);
+									if ($found !== false) {
+										//for category mapping check if its an array
+										if($pr_array['attribute'] == "raw_categories"){	
+											$raw_cats_arr = explode("||",$pd_value);
+											if(is_array($raw_cats_arr)){
+												if(in_array($pr_array['criteria'],$raw_cats_arr, TRUE)){
+													if($allowed <> 0){
+														$allowed = 1;
+													}
+												} else {
+													$allowed = 0;
+												}
+											}
+										} else {
+											if($allowed <> 0){
+												$allowed = 1;
+											}
+										}
+									} else {
+										$allowed = 0;
+									}
+								} elseif (($pr_array['criteria'] == "$pd_value") && ($pr_array['than'] == "include_only")){
+									if($allowed <> 0){			
+										$allowed = 1;
+									}
+								} elseif ((preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "exclude")){
+//									$allowed = 0;
+								} elseif ((preg_match('/'.$pr_array['criteria'].'/', $pd_value)) && ($pr_array['than'] == "include_only")){
+									$allowed = 1;
+							        } else {
+									$allowed = 1;
+								}
+								break;
+							case($pr_array['condition'] = "!="):
+								if (($pr_array['criteria'] == "$pd_value") && ($pr_array['than'] == "exclude")){
+									if($allowed <> 0){
+										$allowed = 1;
+									}
+								} elseif (($pr_array['criteria'] == "$pd_value") && ($pr_array['than'] == "include_only")){
+									$allowed = 0; 
+								} elseif (($pr_array['criteria'] != "$pd_value") && ($pr_array['than'] == "exclude")){
+									$allowed = 0;
+								}
+								break;
+							case($pr_array['condition'] = ">"):
+								// Use a lexical order on relational string operators
+								if (($pd_value > $pr_array['criteria']) && ($pr_array['than'] == "exclude")){
+									$allowed = 0;
+								} elseif (($pd_value < $pr_array['criteria']) && ($pr_array['than'] == "include_only")){
+									$allowed = 0;
+								}
+								break;
+							case($pr_array['condition'] = ">="):
+								// Use a lexical order on relational string operators
+								if (($pd_value >= $pr_array['criteria']) && ($pr_array['than'] == "exclude")){
+									$allowed = 0;
+								} elseif (($pd_value < $pr_array['criteria']) && ($pr_array['than'] == "include_only")){
+									$allowed = 0;
+								}
+								break;
+							case($pr_array['condition'] = "<"):
+								// Use a lexical order on relational string operators
+								if (($pd_value < $pr_array['criteria']) && ($pr_array['than'] == "exclude")){
+									$allowed = 0;
+								} elseif (($pd_value > $pr_array['criteria']) && ($pr_array['than'] == "include_only")){
+									$allowed = 0;
+								}
+								break;
+							case($pr_array['condition'] = "=<"):
+								// Use a lexical order on relational string operators
+								if (($pd_value <= $pr_array['criteria']) && ($pr_array['than'] == "exclude")){
+									$allowed = 0;
+								} elseif (($pd_value > $pr_array['criteria']) && ($pr_array['than'] == "include_only")){
+									$allowed = 0;
+								}
+								break;
+                                                      	case($pr_array['condition'] = "empty"):
+                                                                if ((strlen($pd_value) < 1) && ($pr_array['than'] == "exclude")){
+                                                                	$allowed = 0;
+                                                              	} elseif ((strlen($pd_value) > 0) && ($pr_array['than'] == "exclude")){
+                                                               		if($allowed <> 0){
+                                                                        	$allowed = 1;
+                                                                       	}
+                                                          	} elseif ((strlen($pd_value) > 0) && ($pr_array['than'] == "include_only")){
+                                                                	$allowed = 0;
+                                                             	}
+                                                             	break;
+                                                   	default:
+								break;
+						}
 					}
 				}
 			}

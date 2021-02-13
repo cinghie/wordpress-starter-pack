@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Request A Quote - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-12-18 20:59:33+0000\n"
+"PO-Revision-Date: 2021-01-13 22:23:43+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,24 @@ msgstr ""
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Request A Quote - Stable (latest release)\n"
+
+#: plugin-fw/templates/fields/date-format.php:70
+msgid "Preview:"
+msgstr "Anteprima:"
+
+#: plugin-fw/includes/class-yit-pointers.php:97
+msgid "From now on, you can find the option panel of YITH plugins in YITH Plugins menu. Every time one of our plugins is added, a new entry will be added to this menu. For example, after the update, plugin options (such as for YITH WooCommerce Wishlist, YITH WooCommerce Ajax Search, etc.) will be moved from previous location to YITH Plugins tab."
+msgstr "Da ora in poi, troverai tutte le opzioni dei tuoi plugin nel menu Plugin YITH. Ogni volta che aggiornerai uno dei nostri plugin, troverai una nuova voce in questo menu. Dopo l'aggiornamento, le opzioni del plugin (come per esempio quelle di YITH WooCommerce Wishlist, YITH WooCommerce Ajax Search etc.) saranno trasferite nella scheda Plugin YITH."
+
+#. translators: 1. YITH site link; 2. WordPress site link.
+#: plugin-fw/includes/class-yit-pointers.php:84
+#: plugin-fw/includes/class-yit-pointers.php:100
+msgid "Discover all our plugins available on: %1$s and %2$s"
+msgstr "Scopri tutti i nostri plugin su: %1$s e %2$s"
+
+#: plugin-fw/includes/class-yit-pointers.php:81
+msgid "From now on, you can find all plugin options in YITH Plugins menu. Plugin customization settings will be available as a new entry in YITH Plugins menu."
+msgstr "Da ora in poi, troverai tutte le opzioni dei tuoi plugin nel menu Plugin YITH. Tutte le impostazioni di personalizzazione saranno visibili all'interno di una nuova voce nel menu Plugin YITH."
 
 #: plugin-fw/templates/sysinfo/tabs/main.php:54
 msgid "Plugins Requirements"
@@ -174,7 +192,7 @@ msgstr "aiutaci lasciando una valutazione 5 stelle"
 
 #: plugin-fw/includes/class-yit-plugin-panel.php:1344
 msgid "to keep updating and improving the plugin. Please,"
-msgstr "per continuare ad aggiornare e a migliorare il plugin. Per favore,"
+msgstr "per continuare ad aggiornare e a migliorare il plugin."
 
 #: plugin-fw/includes/class-yit-plugin-panel.php:1343
 msgid "We need your support"
@@ -346,19 +364,6 @@ msgstr "Rimuovi tutto"
 msgid "Add All"
 msgstr "Aggiungi tutto"
 
-#. translators: placeholders html tags
-#: templates/admin/premium.php:801
-msgid "With a simple click on the \"Request a Quote\" button on the checkout page, your customer can submit their complete cart as a quote request."
-msgstr "Con un semplice clic sul pulsante \"Richiedi un preventivo\" alla pagina Checkout il tuo cliente può inviare l'intero carrello com richiesta di preventivo. "
-
-#: templates/admin/premium.php:796
-msgid "Customer will be able to change his cart into a quote request"
-msgstr "Il cliente potrà trasformare il proprio carrello in una richiesta di preventivo"
-
-#: templates/admin/premium.php:793
-msgid "Show request a quote button on checkout page"
-msgstr "Mostra il pulsante Richiedi un preventivo nella pagina Checkout"
-
 #: plugin-fw/includes/class-yith-dashboard.php:137
 msgctxt "Button label"
 msgid "Close"
@@ -407,7 +412,7 @@ msgstr "Versione premium"
 #: includes/class.yith-request-quote-admin.php:337 plugin-fw/yit-plugin.php:83
 msgctxt "Plugin Row Meta"
 msgid "Support"
-msgstr "Supporto"
+msgstr "Assistenza"
 
 #: includes/class.yith-request-quote-admin.php:203
 msgctxt "Plugin Name. Do not translate."
@@ -430,11 +435,11 @@ msgstr "Documentazione"
 #: includes/class.yith-request-quote-admin.php:325 plugin-fw/yit-plugin.php:75
 msgctxt "Plugin Row Meta"
 msgid "Live Demo"
-msgstr "Demo live"
+msgstr "Live Demo"
 
 #: includes/class.yith-request-quote-admin.php:297 plugin-fw/yit-plugin.php:187
 msgid "License"
-msgstr "Licenza"
+msgstr "Chiave di licenza"
 
 #: includes/class.yith-request-quote-admin.php:294 plugin-fw/yit-plugin.php:183
 msgctxt "Action links"
@@ -449,17 +454,17 @@ msgstr "Pagamenti"
 #: plugin-fw/includes/privacy/class-yith-privacy.php:103
 msgctxt "Privacy Policy Content"
 msgid "What we share with others"
-msgstr "Cosa condividiamo con altri"
+msgstr "Cosa condividiamo con gli altri"
 
 #: plugin-fw/includes/privacy/class-yith-privacy.php:100
 msgctxt "Privacy Policy Content"
 msgid "Who on our team has access"
-msgstr "Chi del nostro team ha accesso"
+msgstr "Persone del nostro gruppo di lavoro che hanno accesso"
 
 #: plugin-fw/includes/privacy/class-yith-privacy.php:97
 msgctxt "Privacy Policy Content"
 msgid "What we collect and store"
-msgstr "Cosa raccogliamo e conserviamo"
+msgstr "Cosa raccogliamo e salviamo"
 
 #: plugin-fw/includes/privacy/class-yith-privacy.php:93
 msgctxt "Privacy Policy Content"
@@ -469,47 +474,7 @@ msgstr "Questo esempio include gli elementi di base sulla raccolta dei dati pers
 #: plugin-fw/includes/privacy/class-yith-privacy.php:61
 msgctxt "Privacy Policy Guide Title"
 msgid "YITH Plugins"
-msgstr "Plugin di YITH"
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:776
-msgid "And there's more: enable the %1$sauto-complete option%2$s and they will automatically see their own details filled in if they are logged in"
-msgstr "E c'è di più: attiva l' %1$sopzione di completamento automatico%2$s così da mostrare i loro dettagli già completati quando sono connessi"
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:770
-msgid "If you %1$smatch the form fields with WooCommerce standard information%2$s, you can have them automatically filled in the quote request you receive on backend and in the checkout for users, so they don’t have to add their details once again."
-msgstr "Se %1$sabbini i campi del modulo con le informazioni standard di WooCommerce%2$s, puoi averli compilati automaticamente nella richiesta di preventivo che ricevi a backend e al checkout per gli utenti, in modo che non debbano aggiungere di nuovo i loro dettagli."
-
-#: templates/admin/premium.php:765
-msgid "Match WooCommerce checkout fields"
-msgstr "Abbina i campi del checkout di WooCommerce"
-
-#: templates/admin/premium.php:705
-msgid "QUICK CHECKOUT"
-msgstr "CHECKOUT VELOCE"
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:650
-msgid "Want to show the Quote button %1$sautomatically when a product goes Out-of-stock%2$s? No problem, it’s possible! And there’s more to add: you can choose whether to show the Quote button only on out of stock products or also on products in stock with a simple click."
-msgstr "Vuoi mostrare il pulsante Preventivo %1$sautomaticamente quando un prodotto non è più disponibile%2$s? Nessun problema, è possibile! E c'è dell'altro: puoi scegliere se mostrare il pulsante Preventivo solo sui prodotti non disponibili o anche su quelli in stock con un semplice clic. "
-
-#: templates/admin/premium.php:487
-msgid "LOGO, SENDER AND FOOTER IN PDF"
-msgstr "LOGO, MITTENTE E FOOTER NEL PDF"
-
-#: templates/admin/premium.php:329
-msgid ""
-"The plugin includes an advanced default form. Thanks to it, you can %1$scustomize%2$s it and add %1$sas many fields as you wish%2$s. Add a date or picker, an upload field, checkboxes or radio buttons, select or multi selects, text, heading, state and country fields. Feel free to compose it as you prefer.\n"
-" Yet, if you’re already using %1$s\"Contact Form 7\", \"Gravity Form\"%2$s or %1$s\"YITH Contact Form\"%2$s, feel free to build your form with those, as they are all supported."
-msgstr ""
-"Il plugin include un modulo predefinito avanzato grazie al quale puoi %1$spersonalizzarlo%2$s ed aggiungere %1$stutti i campi che vuoi%2$s. Aggiungi una data o picker, un campo per il caricamento, caselle di spunta o radio button, select o multi select, testo, intestazione, campi stato e provincia. Componilo liberamente come preferisci.\n"
-"Inoltre, se stai già usando %1$s\"Contact Form 7\", \"Gravity Form\"%2$s o %1$s\"YITH Contact Form\"%2$s puoi utilizzarli per creare il tuo modulo in quanto tutti supportati. "
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:290
-msgid "A dedicated list where you can add those products that have to be excluded from quote requests. Enable the specific option and \"Add to Quote\" button will %snot be displayed%s for products in this table.%3$sAnd if you have to remove all products in a %1$scategory%2$s or %1$stag%2$s, you can do this with one click and the exclusion will apply also to all products you will add later."
-msgstr "Un'apposita lista in cui puoi aggiungere quei prodotti che devono essere esclusi dalle richieste di preventivo. Attiva l'opzione specifica e il pulsante Aggiungi al preventivo %snon sarà mostrato%s per i prodotti di questa tabella.%3$sE se devi rimuovere tutti i prodotti in una %1$scategoria%2$s o %1$stag%2$s, puoi farlo con un clic applicando l'esclusione anche a tutti i prodotti che aggiungerai in seguito."
+msgstr "YITH Plugins"
 
 #: plugin-options/settings-options.php:119
 msgid "Your personal data will be used to process your request, support your experience throughout this website, and for other purposes described in our  [privacy_policy]."
@@ -542,11 +507,11 @@ msgstr "Modulo - impostazioni"
 
 #: plugin-fw/templates/fields/icons.php:63
 msgid "Set Default"
-msgstr "Imposta come predefinito"
+msgstr "Ripristina impostazioni iniziali"
 
 #: plugin-fw/templates/fields/ajax-products.php:14
 msgid "Search Product"
-msgstr "Cerca prodotto"
+msgstr "Cerca un prodotto"
 
 #: plugin-fw/templates/fields/ajax-posts.php:41
 msgid "Search Posts"
@@ -556,53 +521,13 @@ msgstr "Cerca articoli"
 msgid " SKU:"
 msgstr "SKU:"
 
-#. translators: placeholders html tags
-#: templates/admin/premium.php:596
-msgid "Enrich your proposal by adding shipping fees. You can optionally choose whether to let users select or not a %1$sshipping method different from the one specified in the quote%2$s during the checkout process. "
-msgstr "Arricchisci la tua proposta aggiungendo le spese di spedizione. Puoi facoltativamente scegliere se permettere agli utenti di selezionare o meno un %1$smetodo di spedizione diverso da quello specificato nel preventivo%2$s durante il processo di acquisto. "
-
-#: templates/admin/premium.php:591
-msgid "Prevent changes to shipping method "
-msgstr "Impedisci cambiamenti al metodo di spedizione"
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:574
-msgid "And that's not all! You can also prevent the users from editing the checkout fields and avoid changes of the data previously inserted."
-msgstr "E non è tutto! Puoi anche %1$simpedire agli utenti di modificare i campi del checkout%2$s ed evitare il cambiamento dei dati precedentemente inseriti. "
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:568
-msgid "You can edit the users' shipping and billing addresses while creating the quote. This is useful, for example, if your users wish to receive the order at a different address rather than the one available on their profile."
-msgstr "Puoi modificare gli indirizzi di spedizione e fatturazione degli utenti mentre crei il preventivo. Questo può risultare utile nel caso in cui, ad esempio, i tuoi utenti desiderino ricevere l'ordine ad un indirizzo diverso da quello disponibile sul loro profilo. "
-
-#: templates/admin/premium.php:563
-msgid "Edit the shipping and billing addresses"
-msgstr "Modifica gli indirizzi di spedizione e fatturazione "
-
-#: templates/admin/premium.php:755
-msgid "Today your store has a new edge!"
-msgstr "Ora il tuo negozio ha un nuovo vantaggio! "
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:751
-msgid "In a few steps, you can %1$screate a new quote from the backend%2$s of your website and forward it to the email address you entered: users will receive the quote for the list of products they have chosen and will be able to decide whether they want to %1$saccept%2$s or %1$srefuse%2$s the special offer you designed for them."
-msgstr "In pochi passaggi puoi %1$screare un nuovo preventivo dal backend%2$s del tuo sito ed inoltrarlo all'indirizzo email che hai inserito: gli utenti riceveranno il preventivo inerente la lista di prodotti che hanno scelto e potranno decidere se %1$saccettare%2$s o %1$srifiutare%2$s l'offerta speciale a loro destinata. "
-
-#: templates/admin/premium.php:746
-msgid "Do you want to send a tempting offer to your customers? Today, with YITH WooCommerce Request a Quote, that's easy!"
-msgstr "Vuoi inviare un'offerta accattivante ai tuoi clienti? Oggi è semplicissimo, con YITH WooCommerce Request a Quote!"
-
-#: templates/admin/premium.php:743
-msgid "Create quote by admin"
-msgstr "Creare preventivi da amministratore"
-
 #: includes/class.yith-request-quote.php:737
 msgid "Product added to the list!"
 msgstr "Prodotto aggiunto alla lista!"
 
 #: includes/class.yith-request-quote.php:717
 msgid "Please choose product options&hellip;"
-msgstr "Per favore scegli il prodotto options&hellip;"
+msgstr "Scegli il prodotto options&hellip;"
 
 #. translators: placeholder of missing attributes.
 #: includes/class.yith-request-quote.php:713
@@ -610,34 +535,6 @@ msgid "%s is a required field"
 msgid_plural "%s are required fields"
 msgstr[0] "%s è un campo richiesto "
 msgstr[1] "%s sono campi richiesti "
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:726
-msgid "You may constantly receive quote requests to which you cannot reply in a fast way. This means losing possible customers every day.%3$s Never fear! Our %1$sYITH WooCommerce Request a Quote allows you to create and send automatic replies to users%2$s, including a quote calculated on the original price of the products. %3$sThe perfect solution if your users don't know the prices if you have decided to hide them. "
-msgstr "Può capitare di ricevere constantemente richieste di preventivo alle quali non è possibile rispondere rapidamente. Questo significa perdere possibili clienti ogni giorno.%3$s Nessun timore! Il nostro  %1$sYITH WooCommerce Request a Quote ti permette di creare e inviare risposte automatiche ai tuoi utenti%2$s, inclusive di preventivo calcolato sul prezzo di listino del prodotto. %3$s"
-
-#: templates/admin/premium.php:721
-msgid "CREATE THE QUOTES IN AN AUTOMATIC WAY"
-msgstr "CREA I PREVENTIVI IN MODO AUTOMATICO"
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:710
-msgid "You made the proposal to the user who decides to accept it. What happens now? %1$sThe most logical thing!%2$s The user is redirected to the checkout page to complete the order according to the quote received. Easy and fast."
-msgstr "Hai fatto la proposta ad un tuo utente il quale decide di accettare. Cosa succede ora? %1$sLa cosa più logica!%2$s L'utente è reindirizzato alla pagina checkout per completare l'ordine in base al preventivo ricevuto. Semplice e veloce. "
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:688
-msgid "Choose the action to make soon after users send the request: %1$snotify%2$s them of the successful outcome or %1$sredirect%2$s them to the specific page that your marketing strategy provides."
-msgstr "Scegli l'azione da compiere subito dopo che gli utenti inviano la richiesta: %1$snotifica%2$s dell'esito riuscito o %1$sreindirizza%2$s alla pagina specifica prevista dalla tua strategia di marketing."
-
-#: templates/admin/premium.php:683
-msgid "REQUEST SENDING CONFIRMATION"
-msgstr "CONFERMA INVIO RICHIESTA"
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:438
-msgid "Two widgets, different for style, allow you to show to users the %1$scomplete list of products%2$s they selected to request the quote to send to site administrator."
-msgstr "Due widget, diversi per stile, ti permettono di mostrare agli utenti la %1$slista completa dei prodotti%2$s che hanno selezionato per richiedere il preventivo da inviare all'amministratore del sito. "
 
 #: plugin-fw/includes/class-yit-plugin-panel.php:450
 #: plugin-fw/includes/class-yit-plugin-panel.php:453
@@ -763,183 +660,15 @@ msgstr "Messaggio del cliente"
 msgid "You have received a quote request from %s. The request is the following:"
 msgstr "Hai ricevuto una richiesta di preventivo da %s. La richiesta è la seguente:"
 
-#. translators: placeholders html tags
-#: templates/admin/premium.php:672
-msgid "A new feature for your e-commerce. New users requesting a quote have the possibility to %1$sregister an account%2$s in the shop"
-msgstr "Una nuova funzionalità per il tuo e-commerce. I nuovi utenti che richiedono un preventivo hanno la possibilità di %1$sregistrare un account%2$s nel negozio"
-
-#: templates/admin/premium.php:667
-msgid "ACCOUNT REGISTRATION"
-msgstr "REGISTRAZIONE ACCOUNT "
-
-#: templates/admin/premium.php:645
-msgid "OUT OF STOCK PRODUCTS"
-msgstr "PRODOTTI NON DISPONIBILI"
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:634
-msgid "With this Premium Version plugin, any file can be attached to emails. %1$sQuotes will be richer!%2$s"
-msgstr "Con la versione premium del plugin, qualsiasi file può essere allegato alle email. %1$sI preventivi saranno più ricchi!%2$s"
-
-#: templates/admin/premium.php:629
-msgid "EMAIL ATTACHMENT"
-msgstr "ALLEGATO EMAIL"
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:612
-msgid "PDF can be downloaded at any time in %1$s\"My Account\"%2$s page. Certainly useful for those customers who lost the quote attached to your email."
-msgstr "Il PDF può essere scaricato in qualsiasi momento nella pagina %1$s\"Mio Account\"%2$s. Sicuramente utile per quei clienti che hanno perso il preventivo allegato alla tua email. "
-
-#: templates/admin/premium.php:607
-msgid "PDF DOWNLOAD"
-msgstr "SCARICA PDF"
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:552
-msgid "Special customers deserve special prices! This plugin allows to %1$schange prices in the quote%2$s without altering prices in the shop."
-msgstr "I clienti speciali meritano prezzi speciali! Questo plugin ti permette di %1$scambiare i prezzi nel preventivo%2$s senza modificare i prezzi nel negozio. "
-
-#: templates/admin/premium.php:547
-msgid "PRICE CHANGE"
-msgstr "CAMBIAMENTO PREZZO"
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:530
-msgid "It's easy to add %1$sadditional and shipping costs%2$s and create a quote as accurate as possible."
-msgstr "È semplice aggiungere %1$scosti aggiuntivi e di spedizione%2$s e creare un preventivo quanto più accurato possibile."
-
-#: templates/admin/premium.php:525
-msgid "ADDITIONAL COSTS"
-msgstr "COSTI AGGIUNTIVI"
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:514
-msgid "By activating %1$sPDF Paging%2$s, customers do not have to scroll the page repeatedly. Thanks to PDF wide contents they can carefully read your offer."
-msgstr "Attivando la %1$spaginazione PDF%2$s, i clienti non devono scorrere ripetutamente la pagina. Grazie agli ampi contenuti del PDF possono leggere attentamente la tua offerta. "
-
-#: templates/admin/premium.php:509
-msgid "PDF PAGING"
-msgstr "PAGINAZIONE PDF"
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:492
-msgid "To add a %1$scustom text%2$s with the most appropriate and useful information."
-msgstr "Per aggiungere un %1$stesto personalizzato%2$s con le informazioni più appropriate ed utili. "
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:476
-msgid "All users registered in your store can see all quote requests they have sent from %1$s\"My Account\"%2$s page and check details, included the current status for them."
-msgstr "Tutti gli utenti registrati al tuo store possono verificare l’elenco delle loro richieste di preventivo, i dettagli ed il loro stato direttamente dalla pagina %1$s'Il Mio Account'%2$s."
-
-#: templates/admin/premium.php:471
-msgid "Recent requests in \"My Account\""
-msgstr "LE ULTIME RICHIESTE SU “IL MIO ACCOUNT”"
-
-#: templates/admin/premium.php:432
-msgid "Widgets"
-msgstr "Widget"
-
-#: templates/admin/premium.php:452
-msgid "Choose the best form to send your quote offer: send the quote and the list of selected products either in the email body, or as PDF attachment or both of them. Everyone with their own style and needs."
-msgstr "Scegli se inviare il preventivo con la tabella dei prodotti selezionati direttamente nell’email, come allegato PDF, oppure in entrambi. Scegli la forma che meglio si addice alle tue esigenze e alle tue preferenze. Ognuno con il proprio stile!"
-
-#: templates/admin/premium.php:449
-msgid "Send PDF attachment"
-msgstr "INVIA ALLEGATO PDF"
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:415
-msgid "You made a good offer, one that cannot be rejected, and you want to urge your customer to purchase by %1$ssetting an expiration date for the proposal you are offering?%2$s Add the expiration date directly from the request page while you are writing your undeniable proposal."
-msgstr "Hai fatto una buona offerta, quasi irrinunciabile, e vuoi mettere fretta al tuo utente, %1$scomunicargli una data limite oltre la quale la proposta non avrà più validità?%2$s Inserisci la data di scadenza direttamente dalla pagina dettaglio della richiesta in fase di compilazione della proposta che vuoi inoltrare."
-
-#: templates/admin/premium.php:410
-msgid "A QUOTE WITH EXPIRATION"
-msgstr "UN PREVENTIVO A SCADENZA"
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:398
-msgid "Users can decide whether to %1$saccept%2$s or %1$sreject%2$s your quote proposal directly from the email they've got. Two simple choice options, that show professionalism and that your users will certainly appreciate. In case they accept, they will be redirected to the order checkout."
-msgstr "L’utente può decidere di %1$saccettare%2$s o %1$srifiutare%2$s la tua proposta direttamente dall'email che tu invii. Due possibilità comode e professionali che il tuo utente certamente gradirà. In caso accettasse, sarà rimandato direttamente al checkout dell’ordine."
-
-#: templates/admin/premium.php:393
-msgid "ACCEPT OR REJECT?"
-msgstr "Accetti o rifiuti?"
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:376
-msgid "The best of interaction with your users. They send their request and you can answer so simply, just need to access your admin panel. A few steps to send the right proposal that %1$spersuades%2$s your customer to purchase."
-msgstr "Massima interazione con i tuoi utenti. Loro inviano la loro richiesta e tu puoi rispondere comodamente inserendo i dati dal tuo pannello di amministrazione. Pochi passi per inviare la proposta giusta che %1$sconvinca%2$s il tuo utente ad acquistare."
-
-#: templates/admin/premium.php:371
-msgid "SEND THE QUOTE"
-msgstr "Invia Preventivo"
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:360
-msgid "Every request you get is treated like an order! Yes, that's it. As soon as a user sends a quote request, you will see it in WooCommerce \"Orders\" section. %1$sMany details for each request%2$s, from current status to the username that generated it. A rich page specifically created to have everything there and at a hand's grasp."
-msgstr "Ogni richiesta viene vista come un ordine! Proprio così. Quando una di esse viene inviata dagli utenti, risulta subito disponibile tra la sezione 'Ordini' di WooCommerce. %1$sTanti dettagli per ogni richiesta%2$s, dallo stato attuale sino al nome dell’utente che l’ha generato. Una ricca pagina dedicata per avere tutto a disposizione."
-
-#: templates/admin/premium.php:355
-msgid "REQUEST MANAGEMENT"
-msgstr "GESTIONE DELLA RICHIESTA"
-
-#: templates/admin/premium.php:323
-msgid "REQUEST FORM"
-msgstr "MODULO DI RICHIESTA"
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:312
-msgid "A specific option allows you to filter users to which applying plugin features. You can choose among %1$sregistered%2$s users, %1$sunregistered%2$s ones or let the plugin work for all of them without making any distinction. "
-msgstr "Un'opzione apposita ti permette di filtrare gli utenti cui mettere a disposizione le funzionalità del plugin. Puoi scegliere tra utenti %1$sregistrati%2$s, tra quelli non registrati, o decidere di non fare distinzione alcuna."
-
-#: templates/admin/premium.php:307
-msgid "USER FILTERS"
-msgstr "TIPOLOGIA UTENTI"
-
-#: templates/admin/premium.php:285
-msgid "EXCLUSION TABLE"
-msgstr "TABELLA DELLE ESCLUSIONI"
-
-#: templates/admin/premium.php:276
-msgid "Suppose that you do not want to show price for products in your shop. Just a click and your wish comes true. Enable the option \"Hide Price\" and it's done!"
-msgstr "Si supponga che non si desidera visualizzare il prezzo per i prodotti nel tuo negozio. Basta un click e il tuo desiderio si avvera. Attivare l'opzione \"Nascondi prezzo\" ed è fatta!"
-
-#: templates/admin/premium.php:274
-msgid "HIDE PRODUCT PRICE"
-msgstr "NASCONDI IL PREZZO DEI PRODOTTI"
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:257
-msgid "Give users the opportunity to add one or more products to their list for a quote request from many different pages in your shop, and %1$snot just from product detail page%2$s. Enable this option and the button will be shown also in other pages of your store."
-msgstr "Dai la possibilità ai tuoi utenti di aggiungere uno o più prodotti alla loro lista di richiesta preventivo anche in %1$spagine diverse da quella del dettaglio prodotto%2$s. Abilita l'opzione ed il pulsante sarà disponibile insieme al prodotto anche nelle altre pagine del tuo store."
-
-#: templates/admin/premium.php:252
-msgid "NOT JUST IN PRODUCT PAGE"
-msgstr "NON SOLO NELLA PAGINA PRODOTTO"
-
-#. translators: placeholders html tags
-#: templates/admin/premium.php:241
-msgid "Choose the style you prefer for your %1$s\"Add to Quote\"%2$s button! In the plugin option panel users will be able to find a section to set colours and text for the button"
-msgstr "Scegli lo stile che preferisci per il tuo pulsante %1$s\"Aggiungi al Preventivo\"%2$s! Nel pannello opzioni del plugin gli utenti troveranno una sezione per impostare i colori e il testo per il pulsante"
-
 #: templates/admin/premium.php:236
-msgid "CUSTOMISED BUTTON"
-msgstr "PULSANTE PERSONALIZZATO"
-
-#: templates/admin/premium.php:228
 msgid "Premium Features"
 msgstr "Funzionalità premium"
 
-#: templates/admin/premium.php:222 templates/admin/premium.php:818
-msgid "to the premium version"
-msgstr "alla versione premium"
-
-#: templates/admin/premium.php:221 templates/admin/premium.php:817
+#: templates/admin/premium.php:230 templates/admin/premium.php:558
 msgid "UPGRADE"
 msgstr "AGGIORNA"
 
-#. translators: placeholders html tags
-#: templates/admin/premium.php:217 templates/admin/premium.php:813
+#: templates/admin/premium.php:226 templates/admin/premium.php:554
 msgid "Upgrade to %1$spremium version%2$s of %1$sYITH WooCommerce Request a Quote%2$s to benefit from all features!"
 msgstr "Aggiorna alla %1$sversione premium%2$s di %1$sYITH WooCommerce Request a Quote%2$s per beneficiare di tutte le caratteristiche!"
 
@@ -993,7 +722,7 @@ msgstr "Ripristina impostazioni iniziali"
 
 #: plugin-fw/templates/fields/upload.php:39
 msgid "Reset"
-msgstr "Reimposta"
+msgstr "Ripristina"
 
 #: plugin-fw/templates/fields/sidebars.php:54
 msgid "Right Sidebar"
@@ -1023,7 +752,7 @@ msgstr "Barra laterale sinistra"
 
 #: plugin-fw/templates/fields/image-gallery.php:41
 msgid "Delete"
-msgstr "Elimina"
+msgstr "Rimuovi"
 
 #: plugin-fw/templates/fields/image-gallery.php:39
 msgid "Add images"
@@ -1101,7 +830,7 @@ msgstr "Plugin aggiornati"
 
 #: plugin-fw/includes/class-yit-pointers.php:80
 msgid "Plugins Activated"
-msgstr "I plugin sono stati attivati"
+msgstr "Plugin attivati"
 
 #: plugin-fw/includes/class-yit-plugin-panel.php:875
 msgid "Sorting successful."
@@ -1109,7 +838,7 @@ msgstr "Ordinamento effettuato con successo."
 
 #: plugin-fw/includes/class-yit-plugin-panel.php:874
 msgid "Sorry, import is disabled."
-msgstr "Ci dispiace, l'importazione è stata disabilitata."
+msgstr "L'importazione è disabilitata."
 
 #: plugin-fw/includes/class-yit-plugin-panel.php:873
 msgid "The added file is not valid."
@@ -1121,20 +850,20 @@ msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
 
 #: plugin-fw/includes/class-yit-plugin-panel.php:871
 msgid "Database imported correctly."
-msgstr "Database importato in modo corretto."
+msgstr "Database importato correttamente."
 
 #: plugin-fw/includes/class-yit-plugin-panel.php:869
 #: plugin-fw/includes/class-yit-plugin-panel.php:870
 msgid "Element updated correctly."
-msgstr "Elemento aggiornato correttamente"
+msgstr "Elemento aggiornato correttamente."
 
 #: plugin-fw/includes/class-yit-plugin-panel.php:868
 msgid "Element deleted correctly."
-msgstr "Elemento rimosso in modo corretto."
+msgstr "Elemento rimosso correttamente."
 
 #: plugin-fw/includes/class-yit-plugin-panel.php:867
 msgid "Settings reset"
-msgstr "Impostazioni ripristinate"
+msgstr "Impostazioni azzerate"
 
 #: plugin-fw/includes/class-yit-plugin-panel.php:866
 msgid "Settings saved"
@@ -1142,7 +871,7 @@ msgstr "Impostazioni salvate"
 
 #: plugin-fw/includes/class-yit-plugin-panel.php:865
 msgid "The element you have entered already exists. Please, enter another name."
-msgstr "L'elemento inserito esiste già. Per favore, inserisci un altro nome."
+msgstr "L'elemento inserito esiste già. Inserisci un altro nome."
 
 #: plugin-fw/includes/class-yit-plugin-subpanel.php:136
 #: plugin-fw/includes/class-yit-plugin-panel.php:624
@@ -1179,223 +908,15 @@ msgstr "Impostazioni plugin"
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1769
-msgid "Upload multiple files"
-msgstr "Carica file multipli"
-
-#. translators: %s is the plural name of the post type.
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1749
-msgid "Add %s from images"
-msgstr "Aggiungi %s dalle immagini"
-
 #: templates/request-quote-form.php:25
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1602
 #: plugin-fw/templates/fields/customtabs.php:34
 #: plugin-fw/templates/fields/customtabs.php:76
 msgid "Name"
 msgstr "Nome"
 
-#. translators: %s is the name of the post type.
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1593
-msgid "Show frontend of the %s"
-msgstr "Mostra front end di %s"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1286
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1297
-msgid "Quick links"
-msgstr "Collegamenti rapidi"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1196
-msgid "layout settings"
-msgstr "impostazioni di layout"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1153
-msgid "Layout for single page of this portfolio"
-msgstr "Layout per pagina singola per questo portfolio"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1152
-msgid "Single layout"
-msgstr "Layout singolo"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1147
-msgid "Set univocal name for each category page URL."
-msgstr "Imposta un nome univoco per l'URL della pagina di ciascuna categoria."
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1146
-msgid "Taxonomy Rewrite"
-msgstr "Riscrivi tassonomia"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1141
-msgid "If you want to use categories in the portfolio, set a name for taxonomy. Name should be a slug (must not contain capital letters nor spaces) and must not be more than 32 characters long (database structure restriction)."
-msgstr "Se vuoi aggiungere delle categorie nel portfolio, imposta un nome per la tassonomia. Il nome dovrà essere in forma di slug (non deve contenere caratteri maiuscoli né spazi) e non più lungo di 32 caratteri (restrizione di database)."
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1140
-msgid "Taxonomy"
-msgstr "Tassonomia"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1135
-msgid "Set a label in plural (title of portfolio if empty)"
-msgstr "Imposta un'etichetta plurale (titolo del portfolio se vuoto)"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1134
-msgid "Label in Plural"
-msgstr "Etichetta plurale"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1129
-msgid "Set a label in singular (title of portfolio if empty)"
-msgstr "Imposta un'etichetta singolare (titolo del portfolio se vuoto)"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1128
-msgid "Label in Singular"
-msgstr "Etichetta singolare"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1123
-msgid "Univocal identification name in the URL for each product (slug from post if empty)"
-msgstr "Nome identificativo univoco nell'URL per singolo prodotto (usa slug dal post se vuoto)"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1122
-msgid "Rewrite"
-msgstr "Riscrivi"
-
-#. translators: %s is the singular name of the post type.
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1114
-msgid "Layout for this %s"
-msgstr "Layout per questo %s"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1111
-msgid "Type"
-msgstr "Tipologia"
-
-#. translators: %s is the singular name of the post type.
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1098
-msgid "%s Settings"
-msgstr "Impostazioni %s"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:778
-msgid "Categories"
-msgstr "Categorie"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:686
-msgid "Category"
-msgstr "Categoria"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:685
-msgid "New Category Name"
-msgstr "Nuovo nome categoria"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:684
-msgid "Add New Category"
-msgstr "Aggiungi nuova categoria"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:683
-msgid "Update Category"
-msgstr "Aggiorna categoria"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:682
-msgid "Edit Category"
-msgstr "Modifica categoria"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:681
-msgid "Parent Category:"
-msgstr "Categoria genitore:"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:680
-msgid "Parent Category"
-msgstr "Categoria genitore"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:679
-msgid "All Categories"
-msgstr "Tutte le categorie"
-
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:678
 #: plugin-fw/templates/fields/ajax-terms.php:41
 msgid "Search Categories"
 msgstr "Cerca categorie"
-
-#. translators: %s is the singular name of the post type.
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:677
-msgctxt "taxonomy singular name"
-msgid "Category"
-msgstr "Categoria"
-
-#. translators: %s is the singular name of the post type.
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:676
-msgctxt "taxonomy general name"
-msgid "%s Categories"
-msgstr "%s Categorie"
-
-#. translators: %s is the plural name of the post type.
-#. translators: $s is the plural name of the post type.
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:502
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:635
-msgid "No %s found in Trash"
-msgstr "Nessun %s trovato nel cestino"
-
-#. translators: %s is the plural name of the post type.
-#. translators: $s is the plural name of the post type.
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:500
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:633
-msgid "No %s found"
-msgstr "Nessun %s trovato"
-
-#. translators: %s is the plural name of the post type.
-#. translators: $s is the plural name of the post type.
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:498
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:631
-msgid "Search %s"
-msgstr "Cerca %s"
-
-#. translators: %s is the singular name of the post type.
-#. translators: $s is the singular name of the post type.
-#. translators: %s is the plural label of the post type.
-#. translators: %s is the plural name of the post type.
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:496
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:629
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1323
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1406
-msgid "View %s"
-msgstr "Visualizza %s"
-
-#. translators: %s is the plural name of the post type.
-#. translators: $s is the plural name of the post type.
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:494
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:627
-msgid "All %s"
-msgstr "Tutti %s"
-
-#. translators: %s is the singular name of the post type.
-#. translators: $s is the singular name of the post type.
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:492
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:625
-msgid "New %s"
-msgstr "Nuovo %s"
-
-#. translators: %s is the singular name of the post type.
-#. translators: $s is the singular name of the post type.
-#. translators: %s is the post title.
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:490
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:623
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1350
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1401
-msgid "Edit %s"
-msgstr "Modifica %s"
-
-#. translators: %s is the singular name of the post type.
-#. translators: $s is the singular name of the post type.
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:488
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:621
-msgid "Add New %s"
-msgstr "Aggiungi nuovo %s"
-
-#. translators: %s is the singular name of the post type.
-#. translators: $s is the singular name of the post type.
-#. translators: %s is the plural name of the post type.
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:486
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:619
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:768
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1755
-msgid "Add %s"
-msgstr "Aggiungi %s"
 
 #: includes/emails/class.yith-ywraq-send-email-request-quote.php:249
 msgid "Multipart"
@@ -1546,9 +1067,6 @@ msgid "Premium Version"
 msgstr "Versione premium"
 
 #: includes/class.yith-request-quote-admin.php:188
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1106
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1260
-#: plugin-fw/includes/class-yit-cpt-unlimited.php:1266
 #: plugin-fw/includes/class-yit-plugin-panel.php:84
 msgid "Settings"
 msgstr "Impostazioni"

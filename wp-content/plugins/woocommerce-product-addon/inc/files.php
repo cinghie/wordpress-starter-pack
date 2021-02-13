@@ -575,6 +575,8 @@ function ppom_get_viewport_settings( $settings ) {
 	if( isset($settings['options']) ) {
 		foreach($settings['options'] as $option => $viewport) {
 			
+			if( ! isset($viewport['width']) ) continue;
+			
 			$first_viewport_size['width'] = $viewport['width'];
 			$first_viewport_size['height'] = $viewport['height'];
 			break;

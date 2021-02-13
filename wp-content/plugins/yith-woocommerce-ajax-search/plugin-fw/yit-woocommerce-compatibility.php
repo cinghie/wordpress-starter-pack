@@ -22,7 +22,7 @@ if ( ! function_exists( 'yit_get_prop' ) ) {
 	 * @param bool   $single  Return first found meta with key, or all.
 	 * @param string $context What the value is for. Valid values are view and edit.
 	 *
-	 * @return mixed
+	 * @return mixed|null The related value or null (if the $object is not a valid object).
 	 * @deprecated 3.5 | use the WooCommerce CRUD directly instead.
 	 */
 	function yit_get_prop( $object, $key, $single = true, $context = 'view' ) {
@@ -51,11 +51,14 @@ if ( ! function_exists( 'yit_get_prop' ) ) {
 			} elseif ( yit_wc_check_post_columns( $key ) ) {
 				return $object->post->$key;
 			} else {
-				$getter = $object instanceof WC_Customer ? 'get_user_meta' : 'get_post_meta';
+				$object_id = 0;
+				$getter    = $object instanceof WC_Customer ? 'get_user_meta' : 'get_post_meta';
 
-				$object_id = is_callable( array( $object, 'get_id' ) ) ? $object->get_id() : $object->id;
+				if ( ! ! $object ) {
+					$object_id = is_callable( array( $object, 'get_id' ) ) ? $object->get_id() : $object->id;
+				}
 
-				return $getter( $object_id, $key, true );
+				return ! ! $object_id ? $getter( $object_id, $key, true ) : null;
 			}
 		}
 	}
