@@ -35,7 +35,6 @@ class Easy_Updates_Manager_Notices extends Updraft_Notices_1_0 {
 	 * @return Array returns an array of notices
 	 */
 	protected function populate_notices_content() {
-		global $easy_updates_manager;
 		$parent_notice_content = parent::populate_notices_content();
 		$child_notice_content = array(
 			'updraftplus' => array(
@@ -51,8 +50,8 @@ class Easy_Updates_Manager_Notices extends Updraft_Notices_1_0 {
 			),
 			'updraftcentral' => array(
 				'prefix' => '',
-				'title' => __('Save Time and Money. Manage multiple WordPress sites from one location.', 'stops-core-theme-and-plugin-updates'),
-				'text' => __('UpdraftCentral is a highly efficient way to take backup, update and manage multiple WP sites from one location.', 'stops-core-theme-and-plugin-updates'),
+				'title' => __('Save time and money. Manage multiple WordPress sites from one location.', 'stops-core-theme-and-plugin-updates'),
+				'text' => __('UpdraftCentral is a highly efficient way to take backups, update and manage multiple WP sites from one location.', 'stops-core-theme-and-plugin-updates'),
 				'image' => 'notices/updraft_logo.png',
 				'button_link' => 'https://updraftcentral.com/',
 				'button_meta' => 'updraftcentral',
@@ -63,7 +62,7 @@ class Easy_Updates_Manager_Notices extends Updraft_Notices_1_0 {
 			'wp-optimize' => array(
 				'prefix' => '',
 				'title' => 'WP-Optimize',
-				'text' => __("Make your site fast amd efficient with our cutting-edge speed plugin.", 'stops-core-theme-and-plugin-updates'),
+				'text' => __("Make your site fast and efficient with our cutting-edge speed plugin.", 'stops-core-theme-and-plugin-updates'),
 				'image' => 'notices/wp_optimize_logo.png',
 				'button_link' => 'https://getwpo.com',
 				'button_meta' => 'wp-optimize',
@@ -71,21 +70,10 @@ class Easy_Updates_Manager_Notices extends Updraft_Notices_1_0 {
 				'supported_positions' => $this->anywhere,
 				'validity_function' => 'is_wpo_installed',
 			),
-			'meta-slider' => array(
-				'prefix' => '',
-				'title' => __("MetaSlider: the world's #1 slider plugin from the makers of Easy Updates Manager", "stops-core-theme-and-plugin-updates"),
-				'text' => __("With MetaSlider, you can easily add style and flare with beautifully-designed sliders.", "stops-core-theme-and-plugin-updates"),
-				'button_link' => 'https://www.metaslider.com',
-				'button_meta' => 'metaslider',
-				'image' => 'notices/metaslider_logo.png',
-				'dismiss_time' => 'dismiss_page_notice_until',
-				'supported_positions' => $this->anywhere,
-				'validity_function' => 'is_metaslider_installed',
-			),
 			'survey' => array(
 				'prefix' => '',
 				'title' => __('Help us improve Easy Updates Manager', 'stops-core-theme-and-plugin-updates'),
-				'text' => __('Answer 3 simple questions to help us prioritise the new features you need.', 'stops-core-theme-and-plugin-updates'),
+				'text' => __('Answer 3 simple questions to help us prioritize the new features you need.', 'stops-core-theme-and-plugin-updates'),
 				'image' => 'notices/eum_logo.png',
 				'button_link' => 'https://easyupdatesmanager.com/survey/?utm_source=eum-plugin-page&utm_medium=banner',
 				'button_meta' => 'eum_survey',
@@ -176,7 +164,7 @@ class Easy_Updates_Manager_Notices extends Updraft_Notices_1_0 {
 			),
 			'collection' => array(
 				'prefix' => '',
-				'title' => __('The Updraft Plugin Collection Sale', 'stops-core-theme-and-plugin-updates'),
+				'title' => __('The Updraft plugin collection sale', 'stops-core-theme-and-plugin-updates'),
 				'text' => __('Get 20% off any of our plugins. But hurry - offer ends 30th September, use this discount code:', 'stops-core-theme-and-plugin-updates').' ',
 				'image' => 'notices/eum_logo.png',
 				'button_link' => 'https://teamupdraft.com',
@@ -239,17 +227,6 @@ class Easy_Updates_Manager_Notices extends Updraft_Notices_1_0 {
 	}
 
 	/**
-	 * This method will check to see if Meta Slider plugin is installed.
-	 *
-	 * @param  String  $product			    the plugin slug
-	 * @param  boolean $also_require_active a bool to indicate if the plugin should be active or not
-	 * @return boolean					    a bool to indicate if the notice should be displayed or not
-	 */
-	protected function is_metaslider_installed($product = 'ml-slider', $also_require_active = false) {
-		return parent::is_plugin_installed($product, $also_require_active);
-	}
-
-	/**
 	 * This function will check if the premium EUM is installed and if so return false, otherwise true
 	 *
 	 * @return boolean - false if EUM premium is installed otherwise true
@@ -266,7 +243,7 @@ class Easy_Updates_Manager_Notices extends Updraft_Notices_1_0 {
 	 * @param  String $product_name    the name of the plugin
 	 * @return Boolean                 returns true if the user is using a non english language and could translate otherwise false
 	 */
-	protected function translation_needed($plugin_base_dir = null, $product_name = null) {
+	protected function translation_needed($plugin_base_dir, $product_name) {// phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- Easy_Updates_Manager_Notices::translation_needed should be compatible with Updraft_Notices_1_0::translation_needed so these variables are needed
 		return parent::translation_needed(EASY_UPDATES_MANAGER_MAIN_PATH, 'stops-core-theme-and-plugin-updates');
 	}
 	

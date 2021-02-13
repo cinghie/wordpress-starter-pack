@@ -53,8 +53,7 @@ abstract class Updraft_Notices_1_0 {
 		if ($also_require_active) return class_exists($product);
 		if (!function_exists('get_plugins')) include_once(ABSPATH.'wp-admin/includes/plugin.php');
 		$plugins = get_plugins();
-		$product_file = false;
-		foreach ($plugins as $key => $value) {
+		foreach ($plugins as $value) {
 			if ($value['TextDomain'] == $product) {
 				// We have found the plugin so return false so that we do not display this advert.
 				return false;
@@ -174,11 +173,9 @@ abstract class Updraft_Notices_1_0 {
 	/**
 	 * Skip seasonal notices
 	 *
-	 * @param string $notice_data Notice data
-	 *
 	 * @return bool
 	 */
-	protected function skip_seasonal_notices($notice_data) {
+	protected function skip_seasonal_notices($notice_data) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- Easy_Updates_Manager_Notices::skip_seasonal_notices should be compatible with Updraft_Notices_1_0::skip_seasonal_notices so $notice_data is needed
 		return false;
 	}
 

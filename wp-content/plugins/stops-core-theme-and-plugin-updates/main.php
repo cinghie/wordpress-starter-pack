@@ -5,8 +5,7 @@ Plugin Name: Easy Updates Manager
 Plugin URI: https://easyupdatesmanager.com
 Description: Manage and disable WordPress updates, including core, plugin, theme, and automatic updates - Works with Multisite and has built-in logging features.
 Author: Easy Updates Manager Team
-Version: 9.0.6
-Tested up to: 5.5
+Version: 9.0.7
 Author URI: https://easyupdatesmanager.com
 Contributors: kidsguide, ronalfy
 Text Domain: stops-core-theme-and-plugin-updates
@@ -18,7 +17,7 @@ Network: true
 
 if (!defined('ABSPATH')) die('No direct access allowed');
 
-if (!defined('EASY_UPDATES_MANAGER_VERSION')) define('EASY_UPDATES_MANAGER_VERSION', '9.0.6');
+if (!defined('EASY_UPDATES_MANAGER_VERSION')) define('EASY_UPDATES_MANAGER_VERSION', '9.0.7');
 
 if (!defined('EASY_UPDATES_MANAGER_MAIN_PATH')) define('EASY_UPDATES_MANAGER_MAIN_PATH', plugin_dir_path(__FILE__));
 if (!defined('EASY_UPDATES_MANAGER_URL')) define('EASY_UPDATES_MANAGER_URL', plugin_dir_url(__FILE__));
@@ -66,7 +65,7 @@ if (!class_exists('MPSUM_Updates_Manager')) {
 		protected static $notices_instance = null;
 
 		// Minimum PHP version required to run this plugin
-		const PHP_REQUIRED = '5.3';
+		const PHP_REQUIRED = '5.4';
 		// Minimum WP version required to run this plugin
 		const WP_REQUIRED = '5.1';
 
@@ -719,11 +718,9 @@ if (!class_exists('MPSUM_Updates_Manager')) {
 		 *
 		 * @param string $html        - the HTML to filter
 		 * @param string $plugin_file - the plugin file the HTML is for
-		 * @param array  $plugin_data - the plugin data
-		 *
 		 * @return string - the filtered HTML auto update UI
 		 */
-		public function eum_plugin_auto_update_setting_html($html, $plugin_file, $plugin_data) {// phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
+		public function eum_plugin_auto_update_setting_html($html, $plugin_file) {
 			return $this->eum_entity_auto_update_setting_html($html, 'plugin', $plugin_file, false);
 		}
 
@@ -732,11 +729,9 @@ if (!class_exists('MPSUM_Updates_Manager')) {
 		 *
 		 * @param string $html       - the HTML to filter
 		 * @param string $stylesheet - the theme file the HTML is for
-		 * @param array  $theme_data - the theme data
-		 *
 		 * @return string - the filtered HTML auto update UI
 		 */
-		public function eum_theme_auto_update_setting_html($html, $stylesheet, $theme_data) {// phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
+		public function eum_theme_auto_update_setting_html($html, $stylesheet) {
 			return $this->eum_entity_auto_update_setting_html($html, 'theme', $stylesheet, false);
 		}
 
@@ -767,39 +762,42 @@ if (!class_exists('MPSUM_Updates_Manager')) {
 			$entity_options = MPSUM_Updates_Manager::get_options($entity_option);
 			$entity_automatic_options = MPSUM_Updates_Manager::get_options($entity_option.'_automatic');
 			$url = MPSUM_Admin::get_url();
+			
+			// Allow white-labelling
+			$eum_white_label = apply_filters('eum_whitelabel_name', __('Easy Updates Manager', 'stops-core-theme-and-plugin-updates'));
 
 			if (!isset($core_options['plugin_updates']) || !isset($core_options['theme_updates'])) {
-				$html = '<a href="'.$url.'">'.__('Managed by Easy Updates Manager.', 'stops-core-theme-and-plugin-updates').'</a>';
+				$html = '<a href="'.$url.'">'.sprintf(__('Managed by %s.', 'stops-core-theme-and-plugin-updates'), $eum_white_label).'</a>';
 				return $html;
 			}
 
 			$updates = 'plugin' == $entity ? $core_options['plugin_updates'] : $core_options['theme_updates'];
 
 			if ('automatic' == $updates) {
-				$html = '<a href="'.$url.'">'.__('Managed by Easy Updates Manager.', 'stops-core-theme-and-plugin-updates').'</a>';
+				$html = '<a href="'.$url.'">'.sprintf(__('Managed by %s.', 'stops-core-theme-and-plugin-updates'), $eum_white_label).'</a>';
 				if ($template) return $html;
 			} elseif ('on' == $updates) {
-				$html = '<a href="'.$url.'">'.sprintf(__('Managed by Easy Updates Manager (%s).', 'stops-core-theme-and-plugin-updates'), __('on', 'stops-core-theme-and-plugin-updates')).'</a>';
+				$html = '<a href="'.$url.'">'.sprintf(__('Managed by %s (%s).', 'stops-core-theme-and-plugin-updates'), $eum_white_label, __('on', 'stops-core-theme-and-plugin-updates')).'</a>';
 				if ($template) return $html;
 			} elseif ('off' == $updates) {
-				$html = '<a href="'.$url.'">'.__('Disabled in Easy Updates Manager.', 'stops-core-theme-and-plugin-updates').'</a>';
+				$html = '<a href="'.$url.'">'.sprintf(__('Disabled in %s.', 'stops-core-theme-and-plugin-updates'), $eum_white_label).'</a>';
 				if ($template) return $html;
 			} elseif ('automatic_off' == $updates) {
-				$html = '<a href="'.$url.'">'.__('Disabled in Easy Updates Manager.', 'stops-core-theme-and-plugin-updates').'</a>';
+				$html = '<a href="'.$url.'">'.sprintf(__('Disabled in %s.', 'stops-core-theme-and-plugin-updates'), $eum_white_label).'</a>';
 				if ($template) return $html;
 			} elseif ('individual' == $updates && !$template) {
 				
-				$html = '<a href="'.$url.'">'.__('Managed by Easy Updates Manager.', 'stops-core-theme-and-plugin-updates').'</a>';
+				$html = '<a href="'.$url.'">'.sprintf(__('Managed by %s.', 'stops-core-theme-and-plugin-updates'), $eum_white_label).'</a>';
 
 				if (!empty($entity_options)) {
 					foreach ($entity_options as $ent) {
-						if ($ent == $entity_file) $html = '<a href="'.$url.'">'.__('Disabled in Easy Updates Manager.', 'stops-core-theme-and-plugin-updates').'</a>';
+						if ($ent == $entity_file) $html = '<a href="'.$url.'">'.sprintf(__('Disabled in %s.', 'stops-core-theme-and-plugin-updates'), $eum_white_label).'</a>';
 					}
 				}
 
 				if (!empty($entity_automatic_options)) {
 					foreach ($entity_automatic_options as $ent) {
-						if ($ent == $entity_file) $html = '<a href="'.$url.'">'.__('Managed by Easy Updates Manager.', 'stops-core-theme-and-plugin-updates').'</a>';
+						if ($ent == $entity_file) $html = '<a href="'.$url.'">'.sprintf(__('Managed by %s.', 'stops-core-theme-and-plugin-updates'), $eum_white_label).'</a>';
 					}
 				}
 			} elseif ('individual' == $updates && $template) {
@@ -815,7 +813,7 @@ if (!class_exists('MPSUM_Updates_Manager')) {
 						$entity_options_string .= "'".$ent."'";
 						if ($last != $key) $entity_options_string .= ',';
 					}
-					$entity_options_html = '<a href="'.$url.'">'.__('Disabled in Easy Updates Manager.', 'stops-core-theme-and-plugin-updates').'</a>';
+					$entity_options_html = '<a href="'.$url.'">'.sprintf(__('Disabled in %s.', 'stops-core-theme-and-plugin-updates'), $eum_white_label).'</a>';
 				}
 
 				if (!empty($entity_automatic_options)) {
@@ -824,10 +822,10 @@ if (!class_exists('MPSUM_Updates_Manager')) {
 						$entity_automatic_options_string .= "'".$theme."'";
 						if ($last != $key) $entity_automatic_options_string .= ',';
 					}
-					$entity_automatic_options_html = '<a href="'.$url.'">'.__('Managed by Easy Updates Manager.', 'stops-core-theme-and-plugin-updates').'</a>';
+					$entity_automatic_options_html = '<a href="'.$url.'">'.sprintf(__('Managed by %s.', 'stops-core-theme-and-plugin-updates'), $eum_white_label).'</a>';
 				}
 
-				$entity_not_set_html = '<a href="'.$url.'">'.__('Managed by Easy Updates Manager.', 'stops-core-theme-and-plugin-updates').'</a>';
+				$entity_not_set_html = '<a href="'.$url.'">'.sprintf(__('Managed by %s.', 'stops-core-theme-and-plugin-updates'), $eum_white_label).'</a>';
 
 				return "<# if ([".$entity_options_string."].includes(data.id)) { #>
 					$entity_options_html

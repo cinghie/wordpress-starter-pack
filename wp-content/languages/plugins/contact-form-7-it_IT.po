@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Contact Form 7 - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-12-07 10:48:03+0000\n"
+"PO-Revision-Date: 2020-12-27 18:49:39+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -75,7 +75,7 @@ msgstr "%1$s e %2$s"
 msgid "Additional settings"
 msgstr "Impostazioni aggiuntive"
 
-#: modules/constant-contact.php:469 modules/recaptcha/recaptcha.php:418
+#: modules/recaptcha/recaptcha.php:418 modules/constant-contact.php:469
 msgid "Error"
 msgstr "Errore"
 
@@ -107,7 +107,7 @@ msgstr "La stringa User-Agent è innaturalmente breve."
 msgid "reCAPTCHA score (%1$.2f) is lower than the threshold (%2$.2f)."
 msgstr "Il punteggio reCAPTCHA (%1$.2f) è inferiore alla soglia (%2$.2f)."
 
-#: modules/akismet.php:55
+#: modules/akismet.php:62
 msgid "Akismet returns a spam response."
 msgstr "Akismet restituisce una risposta di spam."
 
@@ -192,7 +192,7 @@ msgstr "App Secret"
 msgid "API Key"
 msgstr "Chiave API"
 
-#: modules/constant-contact.php:507 modules/recaptcha/recaptcha.php:450
+#: modules/recaptcha/recaptcha.php:450 modules/constant-contact.php:507
 msgid "Setup Integration"
 msgstr "Imposta integrazione"
 
@@ -692,11 +692,11 @@ msgstr "Questo campo necessita del nome autore"
 msgid "Akismet"
 msgstr "Akismet"
 
-#: modules/textarea.php:150 modules/text.php:246
+#: modules/text.php:246 modules/textarea.php:150
 msgid "Text fields"
 msgstr "Campi di testo"
 
-#: modules/textarea.php:150 modules/text.php:246
+#: modules/text.php:246 modules/textarea.php:150
 msgid "https://contactform7.com/text-fields/"
 msgstr "https://contactform7.com/text-fields/"
 
@@ -905,13 +905,13 @@ msgstr "Min"
 msgid "Range"
 msgstr "Intervallo"
 
-#: modules/date.php:201 modules/textarea.php:177 modules/number.php:198
-#: modules/text.php:273
+#: modules/date.php:201 modules/text.php:273 modules/textarea.php:177
+#: modules/number.php:198
 msgid "Use this text as the placeholder of the field"
 msgstr "Utilizzare questo testo come segnaposto del campo"
 
-#: modules/date.php:199 modules/textarea.php:175 modules/number.php:196
-#: modules/text.php:271
+#: modules/date.php:199 modules/text.php:271 modules/textarea.php:175
+#: modules/number.php:196
 msgid "Default value"
 msgstr "Valore predefinito"
 
@@ -943,8 +943,8 @@ msgstr "La data è precedente al limite minimo"
 msgid "Date format that the sender entered is invalid"
 msgstr "Il formato della data che il mittente ha inserito non è valido"
 
-#: modules/select.php:231 modules/checkbox.php:302 modules/date.php:245
-#: modules/textarea.php:204 modules/number.php:242 modules/text.php:329
+#: modules/date.php:245 modules/checkbox.php:302 modules/text.php:329
+#: modules/textarea.php:204 modules/number.php:242 modules/select.php:231
 msgid "To use the value input through this field in a mail field, you need to insert the corresponding mail-tag (%s) into the field on the Mail tab."
 msgstr "Per usare il valore inserito per questo campo nella mail, devi inserire il corrispondente mail-tag (%s) nella scheda Mail."
 
@@ -960,29 +960,29 @@ msgstr "Accorpa ogni elemento con l'etichetta"
 msgid "Put a label first, a checkbox last"
 msgstr "Mette un'etichetta prima, una casella di controllo dopo"
 
-#: modules/select.php:200 modules/checkbox.php:268
+#: modules/checkbox.php:268 modules/select.php:200
 msgid "One option per line."
 msgstr "Un'opzione per riga."
 
-#: modules/select.php:184 modules/checkbox.php:251 modules/date.php:188
+#: modules/date.php:188 modules/checkbox.php:251 modules/text.php:260
 #: modules/textarea.php:164 modules/number.php:185 modules/file.php:243
-#: modules/text.php:260
+#: modules/select.php:184
 msgid "Required field"
 msgstr "Campo obbligatorio"
 
-#: modules/select.php:180 modules/select.php:183 modules/checkbox.php:247
-#: modules/checkbox.php:250 modules/date.php:184 modules/date.php:187
+#: modules/date.php:184 modules/date.php:187 modules/checkbox.php:247
+#: modules/checkbox.php:250 modules/text.php:256 modules/text.php:259
 #: modules/textarea.php:160 modules/textarea.php:163 modules/number.php:176
 #: modules/number.php:179 modules/file.php:239 modules/file.php:242
-#: modules/text.php:256 modules/text.php:259
+#: modules/select.php:180 modules/select.php:183
 msgid "Field type"
 msgstr "Tipo di campo"
 
-#: modules/select.php:170 modules/checkbox.php:236
+#: modules/checkbox.php:236 modules/select.php:170
 msgid "Checkboxes, radio buttons and menus"
 msgstr "Caselle di controllo, pulsanti di opzione e menu"
 
-#: modules/select.php:170 modules/checkbox.php:236
+#: modules/checkbox.php:236 modules/select.php:170
 msgid "https://contactform7.com/checkboxes-radio-buttons-and-menus/"
 msgstr "https://contactform7.com/checkboxes-radio-buttons-and-menus/"
 
@@ -1031,7 +1031,7 @@ msgstr "Genera form-tag per l'immagine CAPTCHA ed un corrispondente campo di ins
 msgid "To use CAPTCHA, you first need to install and activate %s plugin."
 msgstr "Per usare CAPTCHA, devi prima installare ed attivare il plugin %s."
 
-#: modules/really-simple-captcha.php:283 modules/recaptcha/recaptcha.php:9
+#: modules/recaptcha/recaptcha.php:9 modules/really-simple-captcha.php:283
 msgid "CAPTCHA"
 msgstr "CAPTCHA"
 
@@ -1043,39 +1043,39 @@ msgstr "Il codice che hai inserito non è valido."
 msgid "The code that sender entered does not match the CAPTCHA"
 msgstr "Il codice inserito dal mittente non corrisponde con il CAPTCHA"
 
-#: modules/select.php:226 modules/quiz.php:261 modules/checkbox.php:297
-#: modules/date.php:240 modules/really-simple-captcha.php:335
-#: modules/textarea.php:199 modules/acceptance.php:299 modules/submit.php:88
-#: modules/number.php:237 modules/file.php:282 modules/text.php:324
+#: modules/date.php:240 modules/checkbox.php:297 modules/text.php:324
+#: modules/textarea.php:199 modules/acceptance.php:299 modules/number.php:237
+#: modules/file.php:282 modules/submit.php:88
+#: modules/really-simple-captcha.php:335 modules/select.php:226
+#: modules/quiz.php:261
 msgid "Insert Tag"
 msgstr "Inserisci tag"
 
-#: modules/select.php:213 modules/quiz.php:248 modules/checkbox.php:284
-#: modules/date.php:228 modules/really-simple-captcha.php:308
-#: modules/really-simple-captcha.php:323 modules/textarea.php:186
-#: modules/acceptance.php:286 modules/submit.php:75 modules/number.php:225
-#: modules/file.php:269 modules/text.php:311
+#: modules/date.php:228 modules/checkbox.php:284 modules/text.php:311
+#: modules/textarea.php:186 modules/acceptance.php:286 modules/number.php:225
+#: modules/file.php:269 modules/submit.php:75
+#: modules/really-simple-captcha.php:308 modules/really-simple-captcha.php:323
+#: modules/select.php:213 modules/quiz.php:248
 msgid "Class attribute"
-msgstr "Attributo classe"
+msgstr "Attributo class"
 
-#: modules/select.php:208 modules/quiz.php:243 modules/checkbox.php:279
-#: modules/date.php:223 modules/really-simple-captcha.php:303
-#: modules/really-simple-captcha.php:318 modules/textarea.php:181
-#: modules/acceptance.php:281 modules/submit.php:70 modules/number.php:220
-#: modules/file.php:264 modules/text.php:306
+#: modules/date.php:223 modules/checkbox.php:279 modules/text.php:306
+#: modules/textarea.php:181 modules/acceptance.php:281 modules/number.php:220
+#: modules/file.php:264 modules/submit.php:70
+#: modules/really-simple-captcha.php:303 modules/really-simple-captcha.php:318
+#: modules/select.php:208 modules/quiz.php:243
 msgid "Id attribute"
 msgstr "Attributo Id"
 
-#: modules/select.php:195 modules/select.php:198 modules/checkbox.php:263
-#: modules/checkbox.php:266 modules/acceptance.php:271
-#: modules/acceptance.php:274
+#: modules/checkbox.php:263 modules/checkbox.php:266 modules/acceptance.php:271
+#: modules/acceptance.php:274 modules/select.php:195 modules/select.php:198
 msgid "Options"
 msgstr "Opzioni"
 
-#: modules/select.php:190 modules/quiz.php:227 modules/checkbox.php:258
-#: modules/date.php:194 modules/really-simple-captcha.php:293
+#: modules/date.php:194 modules/checkbox.php:258 modules/text.php:266
 #: modules/textarea.php:170 modules/acceptance.php:261 modules/number.php:191
-#: modules/file.php:249 modules/text.php:266
+#: modules/file.php:249 modules/really-simple-captcha.php:293
+#: modules/select.php:190 modules/quiz.php:227
 msgid "Name"
 msgstr "Nome"
 

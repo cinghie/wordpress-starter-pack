@@ -391,10 +391,9 @@ class MPSUM_Admin_Ajax {
 	/**
 	 * Get all core options
 	 *
-	 * @param array $data Data for get options
 	 * @return array - An array of core options
 	 */
-	public function get_core_options($data) {
+	public function get_core_options() {
 		if (!current_user_can('manage_options')) return array();
 		// Get options
 		$options = MPSUM_Updates_Manager::get_options('core', true);
@@ -731,7 +730,7 @@ class MPSUM_Admin_Ajax {
 		$advanced_options = MPSUM_Updates_Manager::get_options('advanced');
 		if (!is_array($users) || empty($users)) return;
 		$users_to_save = array();
-		foreach ($users as $index => $user_id) {
+		foreach ($users as $user_id) {
 			$user_id = absint($user_id);
 			if (0 === $user_id) continue;
 			$users_to_save[] = $user_id;
@@ -764,9 +763,6 @@ class MPSUM_Admin_Ajax {
 
 		// Get sites
 		$sites = $instance->get_sites();
-
-		// Get all Plugins
-		$plugins = get_plugins();
 
 		// Get blank html
 		$html = '';
@@ -838,7 +834,6 @@ class MPSUM_Admin_Ajax {
 		foreach ($transient as $site_id => $theme_installed) {
 			$site_name = '';
 			$site_url = '';
-			$themes_stored = array();
 			foreach ($sites as $site) {
 				if ($site_id == $site->blog_id) {
 					$site_id = $site->blog_id;
@@ -851,7 +846,6 @@ class MPSUM_Admin_Ajax {
 			if (!empty($themes)) {
 				if (array_key_exists($stylesheet, $themes)) {
 					// Determine of theme is active on the site
-					global $wpdb;
 					switch_to_blog($site_id);
 					$option = get_option('stylesheet');
 					if ($stylesheet == $option) {
@@ -895,7 +889,7 @@ class MPSUM_Admin_Ajax {
 		$options = MPSUM_Updates_Manager::get_options('core', true);
 		$options['enable_admin_bar'] = 'on';
 		MPSUM_Updates_Manager::update_options($options, 'core');
-		wp_send_json(array('message' => __('The admin bar has been enabled. Please refresh to see the admn bar menu.', 'stops-core-theme-and-plugin-updates')));
+		wp_send_json(array('message' => __('The admin bar has been enabled. Please refresh to see the admin bar menu.', 'stops-core-theme-and-plugin-updates')));
 	}
 
 	/**
@@ -1064,16 +1058,16 @@ class MPSUM_Admin_Ajax {
 	private function get_admin_bar_title($update_data) {
 		$title = array();
 		if ($update_data['counts']['wordpress'] > 0) {
-			$title[] = sprintf(_n('%s WordPress Update', '%s WordPress Updates', $update_data['counts']['wordpress'], 'stops-core-theme-and-plugin-updates'), number_format_i18n($update_data['counts']['wordpress']));
+			$title[] = sprintf(_n('%s WordPress update', '%s WordPress updates', $update_data['counts']['wordpress'], 'stops-core-theme-and-plugin-updates'), number_format_i18n($update_data['counts']['wordpress']));
 		}
 		if ($update_data['counts']['plugins'] > 0) {
-			$title[] = sprintf(_n('%s Plugin Update', '%s Plugin Updates', $update_data['counts']['plugins'], 'stops-core-theme-and-plugin-updates'), number_format_i18n($update_data['counts']['plugins']));
+			$title[] = sprintf(_n('%s plugin update', '%s plugin updates', $update_data['counts']['plugins'], 'stops-core-theme-and-plugin-updates'), number_format_i18n($update_data['counts']['plugins']));
 		}
 		if ($update_data['counts']['themes'] > 0) {
-			$title[] = sprintf(_n('%s Theme Update', '%s Theme Updates', $update_data['counts']['themes'], 'stops-core-theme-and-plugin-updates'), number_format_i18n($update_data['counts']['themes']));
+			$title[] = sprintf(_n('%s theme update', '%s theme updates', $update_data['counts']['themes'], 'stops-core-theme-and-plugin-updates'), number_format_i18n($update_data['counts']['themes']));
 		}
 		if ($update_data['counts']['translations'] > 0) {
-			$title[] = __('Translation Updates', 'stops-core-theme-and-plugin-updates');
+			$title[] = __('Translation update', 'stops-core-theme-and-plugin-updates');
 		}
 		return implode(',', $title);
 	}

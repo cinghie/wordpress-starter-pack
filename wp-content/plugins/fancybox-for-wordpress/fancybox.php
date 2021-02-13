@@ -3,10 +3,10 @@
 * Plugin Name: FancyBox for WordPress
 * Plugin URI: https://wordpress.org/plugins/fancybox-for-wordpress/
 * Description: Integrates <a href="http://fancyapps.com/fancybox/3/">FancyBox 3</a> into WordPress.
-* Version: 3.2.9
+* Version: 3.3.1
 * Author: Colorlib
 * Author URI: https://colorlib.com/wp/
-* Tested up to: 5.5
+* Tested up to: 5.6
 * Requires: 4.6 or higher
 * License: GPLv3 or later
 * License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -36,7 +36,7 @@
  * Plugin Init
  */
 // Constants
-define( 'FBFW_VERSION', '3.2.9' );
+define( 'FBFW_VERSION', '3.3.1' );
 define( 'FBFW_PATH', plugin_dir_path( __FILE__ ) );
 define( 'FBFW_URL', plugin_dir_url( __FILE__ ) );
 define( 'FBFW_PLUGIN_BASE', plugin_basename( __FILE__ ) );
@@ -214,8 +214,8 @@ function mfbfw_init() {
 	global $mfbfw, $mfbfw_version;
 
 	//caption function to display image title
-	$caption = 'function( instance, item ) {' .
-	           'if("undefined" != typeof jQuery(this).context ){var title = jQuery(this).context.title;} else { var title = jQuery(this).attr("title");}' .
+	$caption = 'function( instance, item ) {var title ="";' .
+	           'if("undefined" != typeof jQuery(this).context ){var title = jQuery(this).context.title;} else { var title = ("undefined" != typeof jQuery(this).attr("title")) ? jQuery(this).attr("title") : false;}' .
 	           'var caption = jQuery(this).data(\'caption\') || \'\';' .
 	           'if ( item.type === \'image\' && title.length ) {' .
 	           'caption = (caption.length ? caption + \'<br />\' : \'\') + \'<p class="caption-title">\'+title+\'</p>\' ;' .

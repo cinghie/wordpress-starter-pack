@@ -2,10 +2,10 @@
 Contributors: davidanderson, kidsguide, ronalfy, roary86, bigwing, webulous
 Tags: updates manager, easy updates manager, disable updates manager, disable updates, update control, plugin updates, theme updates, core updates, automatic updates, multisite, logs
 Requires at least: 5.1
-Requires PHP: 5.3
+Requires PHP: 5.6
 Donate link: https://easyupdatesmanager.com
-Tested up to: 5.5
-Stable tag: 9.0.6
+Tested up to: 5.6
+Stable tag: 9.0.7
 License: GPLv2 or later
 
 Manage all your WordPress updates, including individual updates, automatic updates, logs, and loads more. This also works very well with WordPress Multisite.
@@ -125,6 +125,19 @@ Since third-party providers use custom update mechanisms, we cannot always guara
 For additional information and FAQs for Easy Updates Manager <a href="https://easyupdatesmanager.com">check out our website</a>.
 
 == Changelog ==
+
+= 9.0.7 - 2020-12-17 =
+
+* TWEAK: Update jQuery document ready style to the one not deprecated in jQuery 3.0
+* TWEAK: Bump PHP requirement to 5.6+
+* TWEAK: Renamed UpdraftCentral's command classes filter
+* TWEAK: extend white labelling to include safemode warning notices, webhook responses and WP 5.5's new "automatic upgrades" user-interface additions
+* TWEAK: Removed MetaSlider notice in the notices collection
+* TWEAK: An install was seen in which an interaction with some other component caused excessive logging
+* TWEAK: Updating wording to be constant througout EUM.
+* TWEAK: Manual core update showing correct to and from versions.
+* TWEAK: Updating wording to be constant througout EUM.
+* FIX: Auto-updates will trigger on managed hosts that disable version checking.
 
 = 9.0.6 - 2020-08-10 =
 
@@ -314,4 +327,4 @@ For past changelogs, <a href="https://easyupdatesmanager.com/blog/">please visit
 
 == Upgrade Notice ==
 
-* 9.0.6 : Changes related to WP 5.5 core changes, and a fix to a regression in 9.0.5.
+* 9.0.7 : Auto-updates will trigger on managed hosts that disable version checking. Various small tweaks and improvements. Now requires PHP 5.6+. A recommended update for all.

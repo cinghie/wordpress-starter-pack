@@ -103,10 +103,9 @@ class MPSUM_Logs {
 	/**
 	 * Run translations when automatic updates are finished.
 	 *
-	 * @param array $update_results Update results.
 	 * @return void
 	 */
-	public function update_translations($update_results) {
+	public function update_translations() {
 		$language_updates = wp_get_translation_updates();
 		if (! $language_updates) {
 			return;
@@ -161,7 +160,11 @@ class MPSUM_Logs {
 			return $this->log_messages;
 		}
 
-		// Force transient refresh and get updates
+		// Get the wp Version
+		include ABSPATH.WPINC.'/version.php';
+
+		// Force transient refresh and get updates.
+		require_once ABSPATH . 'wp-admin/includes/update.php';
 		wp_version_check(array(), true);
 		wp_update_plugins();
 		wp_update_themes();
@@ -169,8 +172,9 @@ class MPSUM_Logs {
 		$upgrade_themes = get_theme_updates();
 		$upgrade_wp = get_core_updates();
 		$update_translations = wp_get_translation_updates();
-		if (false !== $upgrade_wp) {
+		$this->log_messages['user_id'] = get_current_user_id();
 
+		if (false !== $upgrade_wp) {
 			foreach ($upgrade_wp as $item) {
 				if (!empty($item->partial_version)) {
 					$this->log_messages['core']['version'] = $item->partial_version;
@@ -179,10 +183,8 @@ class MPSUM_Logs {
 					$this->log_messages['core']['reinstall'] = true;
 				}
 				$this->log_messages['core']['new_version'] = $item->version;
-				if ($item->version === $item->current) {
-					include ABSPATH.WPINC.'/version.php';
-					$this->log_messages['core']['version'] = $wp_version;
-				}
+				$this->log_messages['core']['from_version'] = $wp_version;// phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UndefinedVariable -- From WP version.php
+				$this->log_messages['core']['current'] = $item->current;
 			}
 		}
 		foreach ($upgrade_plugins as $plugin => $plugin_data) {
@@ -288,12 +290,21 @@ class MPSUM_Logs {
 			switch ($type) {
 				case 'core':
 					$core = $results[0];
-					$name = $core->name;
-					$status = 0;
-					$version_from = $this->log_messages['core']['version'];
-					$version = $this->log_messages['core']['new_version'];
+					$version_from = $this->log_messages['core']['from_version'];
+					$version = $this->log_messages['core']['version'];
+					$user_id = $this->log_messages['user_id'];
+					$name = 'WordPress ' . $version;
+
+					// Checking on the re-install status
+					if (!empty($this->log_messages['core']['reinstall'])) {
+						$status = 1;
+					} else {
+						$status = $version_from !== $version ? 1 : 0;
+					}
+
 					list($version, $status) = $this->set_status_and_version($core->result, $version_from, $version, $status);
-					$this->insert_log($name, $type, $version_from, $version, 'automatic', $status);
+
+					$this->insert_log($name, $type, $version_from, $version, 'automatic', $status, $user_id);
 					break;
 				case 'plugin':
 					foreach ($results as $plugin) {
@@ -455,7 +466,7 @@ class MPSUM_Logs {
 	public function manual_updates($upgrader_object, $options) {
 		if (!isset($options['action']) || 'update' !== $options['action']) return;
 		$this->log_messages = $this->get_cached_version_information();
-		$user_id = get_current_user_id();
+		$user_id = $this->log_messages['user_id'];
 		if (0 == $user_id) return; // If there is no user, this is not a manual update
 		if (true === $this->auto_update) return;
 
@@ -472,14 +483,17 @@ class MPSUM_Logs {
 				}
 				break;
 			case 'core':
-				$version_from = $this->log_messages['core']['version'];
-				$version = $this->log_messages['core']['new_version'];
+				// Checking on the re-install status
 				if (!empty($this->log_messages['core']['reinstall'])) {
 					$status = 1;
 				} else {
 					$status = $version_from !== $version ? 1 : 0;
 				}
+				
+				$version_from = $this->log_messages['core']['from_version']; // Version curently installed
+				$version = $this->log_messages['core']['version']; // Latestr WP Version
 				$name = 'WordPress ' . $version;
+
 				$this->insert_log($name, $options['type'], $version_from, $version, 'manual', $status, $user_id);
 				break;
 			case 'plugin':

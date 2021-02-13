@@ -53,6 +53,9 @@ class MPSUM_Disable_Updates {
 			add_action('wp_network_dashboard_setup', array( $this, 'disable_browser_nag' ), 9);
 		}
 
+		// Recommended patch from Flywheel to turn on plugin and theme auto-updates.
+		add_action('wp_update_plugins', array($this, 'maybe_auto_update'), 20);
+
 		// Disable All Updates
 		if (isset($core_options['all_updates']) && 'off' == $core_options['all_updates']) {
 			new MPSUM_Disable_Updates_All();
@@ -182,6 +185,18 @@ class MPSUM_Disable_Updates {
 	} //end constructor
 
 	/**
+	 * Maybe auto update based on if plugin cron has run
+	 * Recommended patch from Flywheel to enable plugin/theme upgrades.
+	 *
+	 * @since 9.0.3
+	 */
+	public function maybe_auto_update() {
+		if (wp_doing_cron() && ! doing_action('wp_maybe_auto_update')) {
+			do_action('wp_maybe_auto_update');
+		}
+	}
+
+	/**
 	 * Maybe change automatic update email
 	 *
 	 * @since 6.1.0
@@ -237,12 +252,11 @@ class MPSUM_Disable_Updates {
 	 * @since 5.2.0
 	 * @access public
 	 * @see __construct
-	 * @param boolean $bool   Whether to disable or not
-	 * @param string  $type   ( theme, plugin , translation )
-	 * @param object  $object wp update object
+	 * @param boolean $bool Whether to disable or not
+	 * @param string  $type ( theme, plugin , translation )
 	 * @return boolean
 	 */
-	public function maybe_disable_emails($bool, $type, $object) {
+	public function maybe_disable_emails($bool, $type) {
 		$core_options = MPSUM_Updates_Manager::get_options('core');
 		if (isset($core_options['notification_core_update_emails_plugins']) && 'off' == $core_options['notification_core_update_emails_plugins'] && 'plugin' == $type) {
 			 return false;

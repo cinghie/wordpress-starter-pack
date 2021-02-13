@@ -12,7 +12,7 @@ jQuery(function () {
             jQuery(block).css("display", "none");
         }
 
-        jQuery(button).click(function () {
+        jQuery(button).on('click', function () {
             jQuery(block).animate({
                 opacity: "toggle",
                 height: "toggle"
@@ -30,47 +30,39 @@ jQuery(function () {
     switchBlock("#extraCallsBlock", "#extraCallsEnable");
     switchBlock("#easingBlock", "#easing");
 
-    jQuery(document).ready(function () {
-        jQuery(".slider-horizontal").each(function () {
-            var mySl = jQuery(this);
-            var defaultState = mySl.prev('input').val();
-            mySl.attr('defSl', defaultState);
-        });
-
-
-
-
-        //Function enable codemirror on FancyBox Extra Calls
-
-        jQuery('.start-editing').click(function () {
-            wp.codeEditor.initialize(jQuery(this).next("textarea"));
-            jQuery(this).hide();
-        });
-
-
-        //add color picker to buttons
-        jQuery('.color-btn').wpColorPicker();
+    jQuery(".slider-horizontal").each(function () {
+        var mySl = jQuery(this);
+        var defaultState = mySl.prev('input').val();
+        mySl.attr('defSl', defaultState);
     });
 
-    jQuery(window).load(function () {
-        //function to initiate horizontal slider from jQuery UI
-        jQuery(".slider-horizontal").each(function () {
-            var mySl = jQuery(this);
-            var minSl = parseFloat(mySl.attr("minSl"));
-            var maxSl = parseFloat(mySl.attr("maxSl"));
-            var defSl = parseFloat(mySl.attr("defSl"));
-            var stepSl = parseFloat(mySl.attr("stepSl"));
-            jQuery(this).slider({
-                orientation: "horizontal",
-                range: "min",
-                min: minSl,
-                max: maxSl,
-                value: defSl,
-                step: stepSl,
-                slide: function (event, ui) {
-                    mySl.prev("input").val(ui.value);
-                }
-            });
+    //Function enable codemirror on FancyBox Extra Calls
+    jQuery('.start-editing').on('click', function () {
+        wp.codeEditor.initialize(jQuery(this).next("textarea"));
+        jQuery(this).hide();
+    });
+
+
+    //add color picker to buttons
+    jQuery('.color-btn').wpColorPicker();
+
+    //function to initiate horizontal slider from jQuery UI
+    jQuery(".slider-horizontal").each(function () {
+        var mySl = jQuery(this);
+        var minSl = parseFloat(mySl.attr("minSl"));
+        var maxSl = parseFloat(mySl.attr("maxSl"));
+        var defSl = parseFloat(mySl.attr("defSl"));
+        var stepSl = parseFloat(mySl.attr("stepSl"));
+        jQuery(this).slider({
+            orientation: "horizontal",
+            range: "min",
+            min: minSl,
+            max: maxSl,
+            value: defSl,
+            step: stepSl,
+            slide: function (event, ui) {
+                mySl.prev("input").val(ui.value);
+            }
         });
     });
 
@@ -84,11 +76,11 @@ jQuery(function () {
             jQuery("#titleColorBlock").css("display", "none");
     }
 
-    jQuery("#titlePositionFloat, #titlePositionOutside, #titlePositionOver").click(function () {
+    jQuery("#titlePositionFloat, #titlePositionOutside, #titlePositionOver").on('click', function () {
         jQuery("#titleColorBlock").hide("slow");
     });
 
-    jQuery("#titlePositionInside").click(function () {
+    jQuery("#titlePositionInside").on('click', function () {
         jQuery("#titleColorBlock").show("slow");
     });
 
@@ -104,11 +96,11 @@ jQuery(function () {
             jQuery("#customExpressionBlock").css("display", "none");
     }
 
-    jQuery("#galleryTypeAll, #galleryTypeNone, #galleryTypePost, #galleryTypeGutenbergBlock").click(function () {
+    jQuery("#galleryTypeAll, #galleryTypeNone, #galleryTypePost, #galleryTypeGutenbergBlock").on('click', function () {
         jQuery("#customExpressionBlock").hide("slow");
     });
 
-    jQuery("#galleryTypeCustom").click(function () {
+    jQuery("#galleryTypeCustom").on('click', function () {
         jQuery("#customExpressionBlock").show("slow");
     });
 

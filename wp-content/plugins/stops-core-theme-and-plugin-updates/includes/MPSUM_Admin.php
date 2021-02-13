@@ -138,12 +138,7 @@ class MPSUM_Admin {
 		// Disable information bar in modal popup
 		add_action('admin_head', array($this, 'maybe_disable_plugin_information_bar'));
 
-		// Add settings link to plugins screen
-		$prefix = is_multisite() ? 'network_admin_' : '';
-		add_action($prefix . 'plugin_action_links_' . MPSUM_Updates_Manager::get_plugin_basename(), array( $this, 'plugin_settings_link' ));
-
 		// todo - maybe load these conditionally based on $_REQUEST[ 'tab' ] param
-		$core_options = MPSUM_Updates_Manager::get_options('core');
 		new MPSUM_Admin_Dashboard(self::get_slug());
 		new MPSUM_Admin_Plugins(self::get_slug());
 		new MPSUM_Admin_Themes(self::get_slug());
@@ -289,7 +284,7 @@ class MPSUM_Admin {
 		$options = MPSUM_Updates_Manager::get_options();
 
 		$I18N = array(
-			'default'                                    => _x('Default', 'Option as Default', 'stops-core-theme-and-plugin-updates'),
+			'default'                                    => _x('Default', 'Option as default', 'stops-core-theme-and-plugin-updates'),
 			'on'                                         => _x('On', 'Option enabled', 'stops-core-theme-and-plugin-updates'),
 			'off'                                        => _x('Off', 'Option disabled', 'stops-core-theme-and-plugin-updates'),
 			'nothing'                                         => __('Nothing', 'stops-core-theme-and-plugin-updates'),
@@ -308,43 +303,43 @@ class MPSUM_Admin {
 			'automatic_updates_custom_status'            => __('You have selected to customize the updates below.', 'stops-core-theme-and-plugin-updates'),
 			'automatic_updates'                          => __('Quick configuration actions', 'stops-core-theme-and-plugin-updates'),
 			'automatic_updates_description'              => __('Press a button below for quick configuration; this is a quick way to change several other settings below in one go.', 'stops-core-theme-and-plugin-updates'),
-			'major_releases'                             => __('Major WordPress Releases', 'stops-core-theme-and-plugin-updates'),
+			'major_releases'                             => __('Major WordPress releases', 'stops-core-theme-and-plugin-updates'),
 			'major_releases_description'                 => __('Automatically update to new major releases of WordPress (e.g., 4.1, 4.2, 4.3).', 'stops-core-theme-and-plugin-updates'),
-			'major_releases_label_on'                    => __('Enable Major Releases', 'stops-core-theme-and-plugin-updates'),
+			'major_releases_label_on'                    => __('Enable major releases', 'stops-core-theme-and-plugin-updates'),
 			'major_releases_label_on_status'             => __('Automatic major release updates are now turned on.', 'stops-core-theme-and-plugin-updates'),
-			'major_releases_label_off'                   => __('Disable Major Releases', 'stops-core-theme-and-plugin-updates'),
+			'major_releases_label_off'                   => __('Disable major releases', 'stops-core-theme-and-plugin-updates'),
 			'major_releases_label_off_status'            => __('Automatic major release updates are now turned off.', 'stops-core-theme-and-plugin-updates'),
-			'minor_releases'                             => _x('Minor WordPress Releases', 'Minor point releases for WordPress', 'stops-core-theme-and-plugin-updates'),
+			'minor_releases'                             => _x('Minor WordPress releases', 'Minor releases for WordPress', 'stops-core-theme-and-plugin-updates'),
 			'minor_releases_description'                 => __('Automatically update to new minor releases in your current series (e.g., 4.1.1, 4.1.2, 4.1.3).', 'stops-core-theme-and-plugin-updates'),
-			'minor_releases_label_on'                    => __('Enable Minor Releases', 'stops-core-theme-and-plugin-updates'),
+			'minor_releases_label_on'                    => __('Enable minor releases', 'stops-core-theme-and-plugin-updates'),
 			'minor_releases_label_on_status'             => __('Automatic minor release updates are now turned on.', 'stops-core-theme-and-plugin-updates'),
-			'minor_releases_label_off'                   => __('Disable Minor Releases', 'stops-core-theme-and-plugin-updates'),
+			'minor_releases_label_off'                   => __('Disable minor releases', 'stops-core-theme-and-plugin-updates'),
 			'minor_releases_label_off_status'            => __('Automatic minor release updates are now turned off.', 'stops-core-theme-and-plugin-updates'),
-			'development_releases'                       => _x('Development Updates (Core)', 'Beta and RC releases for WordPress core', 'stops-core-theme-and-plugin-updates'),
+			'development_releases'                       => _x('Development updates (Core)', 'Beta and RC releases for WordPress core', 'stops-core-theme-and-plugin-updates'),
 			'development_releases_description'           => __('Allow your install to receive development updates for WordPress core (for advanced users only)', 'stops-core-theme-and-plugin-updates'),
 			'development_releases_label_on'              => __('Include WordPress development updates', 'stops-core-theme-and-plugin-updates'),
 			'development_releases_label_on_status'       => __('Automatic development release updates are now turned on.', 'stops-core-theme-and-plugin-updates'),
-			'development_releases_label_off'             => __('Disable Development Updates', 'stops-core-theme-and-plugin-updates'),
+			'development_releases_label_off'             => __('Disable development updates', 'stops-core-theme-and-plugin-updates'),
 			'development_releases_label_off_status'      => __('Automatic development release updates are now turned off.', 'stops-core-theme-and-plugin-updates'),
-			'translation_releases'                       => _x('Translation Updates', 'Enable or disable translation updates', 'stops-core-theme-and-plugin-updates'),
+			'translation_releases'                       => _x('Translation updates', 'Enable or disable translation updates', 'stops-core-theme-and-plugin-updates'),
 			'translation_releases_description'           => __('Automatically update your translations.', 'stops-core-theme-and-plugin-updates'),
-			'translation_releases_label_on'              => __('Enable Translation Updates', 'stops-core-theme-and-plugin-updates'),
+			'translation_releases_label_on'              => __('Enable translation updates', 'stops-core-theme-and-plugin-updates'),
 			'translation_releases_label_on_status'       => __('Automatic translation updates are now turned on.', 'stops-core-theme-and-plugin-updates'),
-			'translation_releases_label_off'             => __('Disable Translation Updates', 'stops-core-theme-and-plugin-updates'),
+			'translation_releases_label_off'             => __('Disable translation updates', 'stops-core-theme-and-plugin-updates'),
 			'translation_releases_label_off_status'      => __('Automatic translation updates are now turned off.', 'stops-core-theme-and-plugin-updates'),
-			'select_individually'                        => __('Select Individually', 'stops-core-theme-and-plugin-updates'),
-			'automatic_plugin_updates'                   => __('Automatic Plugin Updates', 'stops-core-theme-and-plugin-updates'),
-			'automatic_plugin_updates_description'       => __('Automatically update your plugins. Select always on, always off, the WordPress default, or select plugins individually using the Plugins tab.', 'stops-core-theme-and-plugin-updates'),
+			'select_individually'                        => __('Select individually', 'stops-core-theme-and-plugin-updates'),
+			'automatic_plugin_updates'                   => __('Automatic plugin updates', 'stops-core-theme-and-plugin-updates'),
+			'automatic_plugin_updates_description'       => __('Automatically update your plugins. Select always on, always off, the WordPress default, or select plugins individually using the plugins tab.', 'stops-core-theme-and-plugin-updates'),
 			'automatic_plugin_updates_default_status'    => __('Automatic updates for plugins are now at their default setting (default is off).', 'stops-core-theme-and-plugin-updates'),
 			'automatic_plugin_updates_on_status'         => __('Automatic updates for plugins are now on.', 'stops-core-theme-and-plugin-updates'),
 			'automatic_plugin_updates_off_status'        => __('Automatic updates for plugins are now off.', 'stops-core-theme-and-plugin-updates'),
-			'automatic_plugin_updates_individual_status' => __('Automatic updates for plugins can be customized in the Plugins tab.', 'stops-core-theme-and-plugin-updates'),
-			'automatic_theme_updates'                    => __('Automatic Theme Updates', 'stops-core-theme-and-plugin-updates'),
-			'automatic_theme_updates_description'        => __('Automatically update your themes. Select always on, always off, the WordPress default, or select themes individually using the Themes tab.', 'stops-core-theme-and-plugin-updates'),
+			'automatic_plugin_updates_individual_status' => __('Automatic updates for plugins can be customized in the plugins tab.', 'stops-core-theme-and-plugin-updates'),
+			'automatic_theme_updates'                    => __('Automatic theme updates', 'stops-core-theme-and-plugin-updates'),
+			'automatic_theme_updates_description'        => __('Automatically update your themes. Select always on, always off, the WordPress default, or select themes individually using the themes tab.', 'stops-core-theme-and-plugin-updates'),
 			'automatic_theme_updates_default_status'     => __('Automatic updates for themes are now at their default setting (default is off).', 'stops-core-theme-and-plugin-updates'),
 			'automatic_theme_updates_on_status'          => __('Automatic updates for themes are now on.', 'stops-core-theme-and-plugin-updates'),
 			'automatic_theme_updates_off_status'         => __('Automatic updates for themes are now off.', 'stops-core-theme-and-plugin-updates'),
-			'automatic_theme_updates_individual_status'  => __('Automatic updates for themes can be customized in the Themes tab.', 'stops-core-theme-and-plugin-updates'),
+			'automatic_theme_updates_individual_status'  => __('Automatic updates for themes can be customized in the themes tab.', 'stops-core-theme-and-plugin-updates'),
 			'disable_updates'                            => __('Disable all updates', 'stops-core-theme-and-plugin-updates'),
 			'disable_updates_description'                => __('This is a master switch and will enable or disable updates for the WordPress installation. Switching updates off is not recommended.', 'stops-core-theme-and-plugin-updates'),
 			'disable_updates_label_on'                   => __('Enable all updates', 'stops-core-theme-and-plugin-updates'),
@@ -352,18 +347,18 @@ class MPSUM_Admin {
 			'disable_updates_label_off'                  => __('Disable all updates', 'stops-core-theme-and-plugin-updates'),
 			'disable_updates_label_off_status'           => __('All updates are disabled. Individual updates settings (i.e. for automatic updates and for plugin/theme/translation updates) below will be ignored.', 'stops-core-theme-and-plugin-updates'),
 			'logs'                                       => _x('Logs', 'Log what is stored when assets update', 'stops-core-theme-and-plugin-updates'),
-			'logs_description'                           => __('Logs will show you what assets have updated and will show up in the Logs tab.', 'stops-core-theme-and-plugin-updates'),
+			'logs_description'                           => __('Logs will show you what assets have updated and will show up in the logs tab.', 'stops-core-theme-and-plugin-updates'),
 			'logs_url'                                   => sprintf('<a href="%s" class="%s" id="%s">%s</a>', esc_url(add_query_arg(array('tab' => 'logs'), MPSUM_Admin::get_url())), 'nav-tab', 'eum-logs', esc_html__('Logs', 'stops-core-theme-and-plugin-updates')),
-			'logs_label_on'                              => __('Enable Logs', 'stops-core-theme-and-plugin-updates'),
-			'logs_label_on_status'                       => __('Logs are enabled. You will find Logs in the Logs tab.', 'stops-core-theme-and-plugin-updates'),
-			'logs_label_off'                             => __('Disable Logs', 'stops-core-theme-and-plugin-updates'),
+			'logs_label_on'                              => __('Enable logs', 'stops-core-theme-and-plugin-updates'),
+			'logs_label_on_status'                       => __('Logs are enabled. You will find logs in the logs tab.', 'stops-core-theme-and-plugin-updates'),
+			'logs_label_off'                             => __('Disable logs', 'stops-core-theme-and-plugin-updates'),
 			'logs_label_off_status'                      => __('Logs are disabled.', 'stops-core-theme-and-plugin-updates'),
-			'ratings_nag'                                => _x('Please Give Us a Rating', 'Asks a user to give a rating for the plugin.', 'stops-core-theme-and-plugin-updates'),
-			'ratings_nag_description'                    => __('We work very hard on this plugin. Please show your apprecation and rate the plugin as you see fit.', 'stops-core-theme-and-plugin-updates'),
+			'ratings_nag'                                => _x('Please give us a rating', 'Asks a user to give a rating for the plugin.', 'stops-core-theme-and-plugin-updates'),
+			'ratings_nag_description'                    => __('We work very hard on this plugin. Please show your appreciation and rate the plugin as you see fit.', 'stops-core-theme-and-plugin-updates'),
 			'ratings_nag_label_on'                       => __('Rate the plugin on WordPress.org', 'stops-core-theme-and-plugin-updates'),
 			'ratings_nag_label_off'                      => __('I have already left a rating', 'stops-core-theme-and-plugin-updates'),
 			'emails'                                     => __('Core notification e-mails', 'stops-core-theme-and-plugin-updates'),
-			'emails_description'                         => __('WordPress periodically sends update notification e-mails, such as in the case of automatic updates. By default, the email address used is the one in Settings->General, but you can override this below.', 'stops-core-theme-and-plugin-updates'),
+			'emails_description'                         => __('WordPress periodically sends update notification e-mails, such as in the case of automatic updates. By default, the e-mail address used is the one in Settings->General, but you can override this below.', 'stops-core-theme-and-plugin-updates'),
 			'emails_label_on'                            => __('Enable core notification e-mails', 'stops-core-theme-and-plugin-updates'),
 			'emails_label_on_status'                     => __('E-mail notifications are on. You can configure which e-mail addresses are sent to below.', 'stops-core-theme-and-plugin-updates'),
 			'emails_label_off'                           => __('Disable core notification e-mails', 'stops-core-theme-and-plugin-updates'),
@@ -402,7 +397,7 @@ class MPSUM_Admin {
 			'plugin_updates_label_auto_disabled'         => __('Disable auto updates', 'stops-core-theme-and-plugin-updates'),
 			'plugin_updates_label_auto_disabled_tooltip' => __('Turn off automatic updates for plugins.', 'stops-core-theme-and-plugin-updates'),
 			'plugin_updates_label_individually'          => __('Choose per plugin', 'stops-core-theme-and-plugin-updates'),
-			'plugin_updates_label_individually_tooltip'  => __('Select which plugins receive automatic updates in the Plugins tab.', 'stops-core-theme-and-plugin-updates'),
+			'plugin_updates_label_individually_tooltip'  => __('Select which plugins receive automatic updates in the plugins tab.', 'stops-core-theme-and-plugin-updates'),
 			'plugin_updates_label_off_status'            => __('Plugin updates are disabled.', 'stops-core-theme-and-plugin-updates'),
 			'theme_updates'                              => __('Theme updates', 'stops-core-theme-and-plugin-updates'),
 			'theme_updates_description'                  => __('This allows you to disable or enable all theme updates. Disabling this option will also disable automatic updates.', 'stops-core-theme-and-plugin-updates'),
@@ -417,7 +412,7 @@ class MPSUM_Admin {
 			'theme_updates_label_auto_disabled'          => __('Disable auto updates', 'stops-core-theme-and-plugin-updates'),
 			'theme_updates_label_auto_disabled_tooltip'  => __('Turn off automatic updates for themes.', 'stops-core-theme-and-plugin-updates'),
 			'theme_updates_label_individually'           => __('Choose per theme', 'stops-core-theme-and-plugin-updates'),
-			'theme_updates_label_individually_tooltip'   => __('Select which themes receive automatic updates in the Themes tab.', 'stops-core-theme-and-plugin-updates'),
+			'theme_updates_label_individually_tooltip'   => __('Select which themes receive automatic updates in the themes tab.', 'stops-core-theme-and-plugin-updates'),
 			'translation_updates'                        => __('Translation updates', 'stops-core-theme-and-plugin-updates'),
 			'translation_updates_description'            => __('This allows you to disable or enable all translations. Choose automatic to automatically update your translations.', 'stops-core-theme-and-plugin-updates'),
 			'translation_updates_label_on'               => __('Manually update', 'stops-core-theme-and-plugin-updates'),
@@ -448,7 +443,7 @@ class MPSUM_Admin {
 		wp_localize_script('mpsum_dashboard_react', 'mpsum', apply_filters('eum_i18n', array(
 			'spinner'             => MPSUM_Updates_Manager::get_plugin_url('/images/spinner.gif'),
 			'tabs'                => _x('Tabs', 'Show or hide admin tabs', 'stops-core-theme-and-plugin-updates'),
-			'dashboard'           => _x('Show Dashboard', 'Show or hide the dashboard', 'stops-core-theme-and-plugin-updates'),
+			'dashboard'           => _x('Show dashboard', 'Show or hide the dashboard', 'stops-core-theme-and-plugin-updates'),
 			'dashboard_showing'   => $dashboard_showing,
 			'enabled'             => __('Enabled', 'stops-core-theme-and-plugin-updates'),
 			'disabled'            => __('Disabled', 'stops-core-theme-and-plugin-updates'),
@@ -563,7 +558,7 @@ class MPSUM_Admin {
 	 * @internal Uses network_admin_menu action
 	 */
 	public function init_network_admin_menus() {
-		$hook = add_dashboard_page(__('Updates Options', 'stops-core-theme-and-plugin-updates'), __('Updates Options', 'stops-core-theme-and-plugin-updates'), 'manage_options', self::get_slug(), array( $this, 'output_admin_interface' ));
+		$hook = add_dashboard_page(__('Updates options', 'stops-core-theme-and-plugin-updates'), __('Updates options', 'stops-core-theme-and-plugin-updates'), 'manage_options', self::get_slug(), array( $this, 'output_admin_interface' ));
 		add_action('admin_enqueue_scripts', array( $this, 'enqueue_scripts' ));
 		add_action("load-$hook", array( $this, 'init_help_screen' ));
 		add_action("load-$hook", array( $this, 'init_screen_options' ));
@@ -580,7 +575,7 @@ class MPSUM_Admin {
 	 * @internal Uses admin_menu action
 	 */
 	public function init_single_site_admin_menus() {
-		$hook = add_dashboard_page(__('Updates Options', 'stops-core-theme-and-plugin-updates'), __('Updates Options', 'stops-core-theme-and-plugin-updates'), 'manage_options', self::get_slug(), array( $this, 'output_admin_interface' ));
+		$hook = add_dashboard_page(__('Updates options', 'stops-core-theme-and-plugin-updates'), __('Updates options', 'stops-core-theme-and-plugin-updates'), 'manage_options', self::get_slug(), array( $this, 'output_admin_interface' ));
 		add_action('admin_enqueue_scripts', array( $this, 'enqueue_scripts' ));
 		add_action("load-$hook", array( $this, 'init_help_screen' ));
 		add_action("load-$hook", array( $this, 'init_screen_options' ));
@@ -600,15 +595,11 @@ class MPSUM_Admin {
 		<div class="wrap">
 			<h1 id="eum-main-heading">
 			<?php
-			$eum_white_label = __('Easy Updates Manager', 'stops-core-theme-and-plugin-updates');
-			if (MPSUM_Updates_Manager::get_instance()->is_premium()) {
-				$eum_white_label = get_site_option('easy_updates_manager_name', __('Easy Updates Manager Premium', 'stops-core-theme-and-plugin-updates'));
-			}
+			$eum_white_label = apply_filters('eum_whitelabel_name', __('Easy Updates Manager', 'stops-core-theme-and-plugin-updates'));
 			echo esc_html($eum_white_label);
 			?>
 			</h1>
 			<?php
-			$core_options = MPSUM_Updates_Manager::get_options('core');
 			$tabs = array();
 
 			$tabs[] = array(
@@ -680,7 +671,6 @@ class MPSUM_Admin {
 						$do_action = isset($tab['action']) ? $tab['action'] : false;
 					}
 					$tab_url = isset($tab['url']) ? $tab['url'] : '';
-					$tab_label = isset($tab['label']) ? $tab['label'] : '';
 					$tab_html .= sprintf('<a href="%s" class="%s" id="eum-%s">%s</a>', esc_url($tab_url), esc_attr(implode(' ', $classes)), esc_attr($tab_get), esc_html($tab['label']));
 				}
 				$tab_html .= '</h2>';

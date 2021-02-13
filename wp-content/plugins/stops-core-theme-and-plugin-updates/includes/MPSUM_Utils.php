@@ -51,7 +51,7 @@ class MPSUM_Utils {
 	public static function validate_emails($email_addresses) {
 		$emails       = explode(',', $email_addresses);
 		$email_errors = false;
-		foreach ($emails as $index => &$email) {
+		foreach ($emails as &$email) {
 			$email = trim($email);
 			if (!is_email($email)) {
 
@@ -85,7 +85,7 @@ class MPSUM_Utils {
 		$get_plugins = get_plugins();
 
 		$active_plugins = $this->get_active_plugins();
-
+		$plugin_info = array();
 		$plugin_info['installed'] = false;
 		$plugin_info['active']    = false;
 
@@ -226,7 +226,7 @@ class MPSUM_Utils {
 	public function maybe_deactivate_free_version() {
 		if (!function_exists('get_plugins')) include_once(ABSPATH . 'wp-admin/includes/plugin.php');
 		$get_plugins = get_plugins();
-		$free_available = $free_plugin_active = $premium_available = $premium_plugin_active = $free_slug = $premium_slug = false;
+		$free_available = $free_plugin_active = $premium_available = $premium_plugin_active = $free_slug = $premium_slug = false;// phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- Both $free_available and $premium_available are used and being set but Ci has flagged this as unused.  Its fine to ignore.
 		foreach ($get_plugins as $key => $value) {
 			if ('Easy Updates Manager' === $value['Name']) {
 				$free_available = true;

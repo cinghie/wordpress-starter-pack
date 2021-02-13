@@ -43,11 +43,9 @@ class MPSUM_Commands {
 	/**
 	 * Retrieves core options and returns to construct general tab content
 	 *
-	 * @param array $data - Data from the remote call
-	 *
 	 * @return array|string An array of core options or error message
 	 */
-	public function get_general_contents($data) {
+	public function get_general_contents() {
 		$options = MPSUM_Updates_Manager::get_options('core', true);
 		if (empty($options)) {
 			$options = MPSUM_Admin_Core::get_defaults();
@@ -88,7 +86,7 @@ class MPSUM_Commands {
 			$options = MPSUM_Updates_Manager::get_options('core', true);
 			$options['email_addresses'] = '';
 			MPSUM_Updates_Manager::update_options($options, 'core');
-			return __('Your emails have been saved.', 'stops-core-theme-and-plugin-updates');
+			return __('Your e-mail addresses have been saved.', 'stops-core-theme-and-plugin-updates');
 		}
 
 		// Check for valid emails.
@@ -99,9 +97,9 @@ class MPSUM_Commands {
 			$options = MPSUM_Updates_Manager::get_options('core', true);
 			$options['email_addresses'] = $email_validation['emails'];
 			MPSUM_Updates_Manager::update_options($options, 'core');
-			return __('Your emails have been saved.', 'stops-core-theme-and-plugin-updates');
+			return __('Your e-mail addresses have been saved.', 'stops-core-theme-and-plugin-updates');
 		}
-		return __('One or more of the email addresses is invalid.', 'stops-core-theme-and-plugin-updates');
+		return __('One or more of the e-mail addresses is invalid.', 'stops-core-theme-and-plugin-updates');
 	}
 
 	/**
@@ -248,7 +246,7 @@ class MPSUM_Commands {
 	 *
 	 * @return string Returns advanced tab content as HTML string
 	 */
-	public function get_advanced_contents($data) {
+	public function get_advanced_contents() {
 		new MPSUM_Admin_Advanced();
 		if (Easy_Updates_Manager()->is_premium()) {
 			new MPSUM_Premium();
