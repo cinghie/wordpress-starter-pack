@@ -2,9 +2,9 @@
 Contributors: matchalabs, DavidAnderson, dnutbourne, kbat82
 Tags: slideshow, slider, image slider, carousel, gallery, flexslider, wordpress slider, nivoslider, rotating banner, responsive slideshow, seo slideshow, unsplash
 Requires at least: 3.5
-Stable tag: 3.20.2
+Stable tag: 3.20.3
 Requires PHP: 5.2
-Tested up to: 5.6
+Tested up to: 5.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,100 +12,204 @@ The best slider, gallery, and carousel plugin for WordPress. Responsive and easy
 
 == Description ==
 
-Create a powerful, SEO-optimized slider, gallery, or carousel in minutes with the world’s #1 image and photo plugin!
+With MetaSlider you can create a powerful, SEO-optimized slider, slideshow, carousel, or gallery in minutes with the world’s #1 responsive plugin for image, photo, video (YouTube/Vimeo), layer, html, product, and post feed slides!
 
 [vimeo https://vimeo.com/393891282]
 
-With WordPress’ most popular slider plugin, enhancing your blog or website couldn’t be easier: simply select images from your WordPress Media Library, drag and drop them into place, and then set the slide captions, links and SEO fields all from one page.
+### Overview
+With MetaSlider and [MetaSlider Pro](https://www.metaslider.com/upgrade/), WordPress’s most popular slider plugin, enhancing your blog or website couldn’t be easier! Simply select images, photos, videos and more from your WordPress Media Library, drag and drop them into place, and then set the slide captions, links and SEO fields all from one page.
 
-With WordPress’s most popular slider and gallery plugin, enhancing your blog or website couldn’t be easier: simply select images and photos from your WordPress Media Library, and drag and drop them into place in your slider or gallery.
+Meta Slider sliders, slideshows, carousels, and galleries are compatible with the WordPress Block Editor (Gutenberg).
 
-MetaSlider sliders, galleries, and carousels are Gutenberg compatible.
+### For Site Owners
+MetaSlider gives you the power to create a beautiful slider, slideshow, carousel, or gallery on your WordPress site, through the most simple and intuitive plugin interface of any WordPress image, photo, and video plugin. Show off your images, photographs and videos, latest work, or even the products in your online store. MetaSlider’s built-in SEO features ensure that people will have no trouble finding your site and the slider, slide show, gallery and carousel that you create!
 
-**Features**
+### For Developers
+Create impressive sliders, slideshows, carousels, and galleries for your clients and feel confident that when they take over they will easily be able to maintain it. Meta Slider gives access to much of its functionality through WordPress filters and actions, so you can customise MetaSlider just the way you want.
 
-* Four responsive slideshow types with 20+ transition effects: Flex Slider 2, Nivo Slider, Responsive Slides, Coin Slider
-* Simple, easy-to-use slider and gallery building interface to build beautiful image and photo sliders and galleries that are fast and responsive
-* Access to free images and photos via Unsplash.com for sliders, galleries, and carousels
-* Create a responsive, SEO-optimized slideshow or gallery in seconds
-* Unrestricted support for image and photo sliders and galleries
-* Full width slider and gallery support
-* Drag and drop slider and gallery reordering
-* Intelligent slider image and photo cropping
-* Set slider image and photo crop position
-* Themes – includes 11 free professional slideshow themes for sliders
-* Built in slider Gutenberg block, Widget and Shortcode
-* Loads of slider configuration options – transition effect, speed, etc. (per slideshow)
-* Fully localized
+### For Theme Developers
+Use MetaSlider’s powerful filters and actions to perfectly customise MetaSlider to your WordPress theme. A perfectly integrated slider, slide show, carousel, and gallery plugin will make your theme more engaging and effective for your users. MetaSlider supports any content type that your users might want: image, photo, video (YouTube/Vimeo), layer, html, product, and post feed.
+
+### MetaSlider Pro
+For users looking to further customize a slider, slideshow, carousel, or gallery experience, we offer additional power features with [MetaSlider Pro](https://www.metaslider.com/upgrade/).
+
+* **YouTube & Vimeo video slides**: Easily include responsive high definition YouTube & Vimeo videos in your slideshows.
+* **HTML slides**: Create completely customised HTML slides using the inline editor. We’ve even built-in over 50 awesome CSS3 transitions!
+* **Layer slides**: Create CSS3 animated HTML Layer slides using the built in Drag & Drop WYSIWYG editor.
+* **Full-featured text editor to include extra CSS**
+* **Dynamic Post Feed/Featured Image Slides**: Automatically show your latest blog posts, events or WooCommerce products in your slide show.
+* **Slide scheduling & slide visibility**: Pro customers can now schedule sliders to appear only within specific dates.
+* **Custom Themes – build your own theme**: MetaSlider now has 11 stunning new and free of charge professional slider themes for you to explore.
+* **Thumbnail Navigation**: Give your slideshows a gallery feel with Thumbnail Navigation
+* **Premium Support**
+
+### Four Slideshow Types
+MetaSlider sliders, slideshows, and carousels feature four responsive slideshow types with 20+ transition effects: Flex Slider 2, Nivo Slider, Responsive Slides, Coin Slider. These sliders support image, photo, video (YouTube/Vimeo), layer, html, product, and post feed slides. Some slide types require [MetaSlider Pro](https://www.metaslider.com/upgrade/).
+
+### New Photo Gallery Experience
+MetaSlider now features a new gallery experience that supports images and photos. With an easy drag and drop photo gallery builder, you can create a responsive and optimized photo gallery in seconds using the same WordPress Media Gallery images you are already using with MetaSlider sliders, slide shows, and carousels. The Meta Slider photo gallery can be added to any page using a simple shortcode, just like MetaSlider.
+
+We are building the photo gallery following these principles:
+* Fast - Using modern best practices, your responsive photo gallery will be faster than ever.
+* SEO-focused - Search engines will love your photo gallery.
+* Fully WCAG accessible - All users will be able to enjoy your responsive photo gallery.
+* Easy to use, fun to master. With advanced photo gallery features for those who need them.
+
+Our responsive photo gallery includes the easy to use features you would expect. You can create a photo gallery, add images to your gallery from the WordPress Media Library, drag and drop images and photos in your gallery to reorder, and add an image alt attribute to your images and photos to ensure that your gallery is SEO friendly. To make sure that your responsive photo gallery looks just right on your WordPress page or post, the Meta Slider gallery allows you to change the image and photo width, max width, min width, and spacing of your gallery.
+
+The MetaSlider photo gallery also offers a distraction free fullscreen mode for gallery editing, and we will soon add to the photo gallery a dark mode and background color selection.
+
+To add your responsive Meta Slider photo gallery to a page, simply click the “add to page” button in your gallery editor to generate a WordPress shortcode that you can drop onto any page or post.
+
+The MetaSlider photo gallery is in development, and we would love to hear your feedback on the gallery and ideas for photo gallery features we should work on next.
+
+### Carousel
+In addition to creating traditional sliders and slideshows, MetaSlider can be used to build carousels that allow you to show multiple images at any one time. MetaSlider carousels are compatible with all slide types: image, photo, video (YouTube/Vimeo), layer, html, product, and post feed slides. They’re ideal for showing a list of your latest posts or to use as a “Featured Product” slider for your homepage.
+
+### Simple and Easy to Use
+MetaSlider has a beautiful, intuitive interface that will let you create stunning slideshows with ease. MetaSlider’s simple, easy-to-use slider and gallery building interface allows you to build a beautiful image, photo, video (YouTube/Vimeo), layer, html, product, and post feed slider, slideshow, carousel and gallery that is fast and responsive. With MetaSlider’s drag and drop reordering for your slider, slideshow, carousel, and gallery, you can easily iterate on a design to find the perfect look for your site.
+
+Our simple and intuitive interface is perfect for individual users, developers & clients!
+
+### Support for Every Type of Content
+MetaSlider provides unrestricted support for your image and photo slider, slide show, carousel, and gallery, including captions, links, title texts and alt text. With the [MetaSlider Pro](https://www.metaslider.com/upgrade/) add-on you can also add video (YouTube/Vimeo), layer, html, product, and post feed content to a slider, slide show or carousel.
+
+You can use any combination of MetaSlider Pro slide types for sliders, slideshows, and carousels. For example you can have a slider with an image slide, a post feed slide (that can contain multiple posts), and a video slide. To create this simply add slides as you normally would, selecting the relevant slide type each time.
+
+The Meta Slider gallery currently supports image and photo content that can be added directly from your WordPress Media Library.
+
+### Images
+This may be the most basic slide type, but it still makes a great impression on any website! Present your beautiful images to a stunning slider, slide show, carousel, or gallery. Image slides are a basic slide type included in Meta Slider. An image slide will display an image with a caption. You can optionally link the slide to a URL of your choice.
+
+Add images to your slide shows directly from your WordPress media manager, add the captions you want, set SEO fields and adjust the settings to display the slideshow just how you like it. Take it further with [MetaSlider Pro](https://www.metaslider.com/upgrade/) and use the Theme Editor to change the look of the navigation, the arrows, and the captions.
+
+### Photos
+Use responsive image slides and filmstrip navigation to create a simple but effective slideshow to show off your beautiful photographs and other images. Add a photo lightbox plugin with our [MetaSlider Lightbox add-on](https://wordpress.org/plugins/ml-slider-lightbox/) to let people view the image as large as possible.
+
+Take your photo portfolio further with Thumbnail Navigation as part of [MetaSlider Pro](https://www.metaslider.com/upgrade/). Thumbnail navigation for photos adds a carousel row of thumbnails below your slider or slideshow. You can customize the photo thumbnails to optimize the most engaging experience for your site visitors.
+
+### Animated Layer Slides
+With [MetaSlider Pro](https://www.metaslider.com/upgrade/) you can create animated Layer Slides for your slider, slideshow, or carousel. Create CSS3 animated HTML Layer slides using the built in drag and drop editor. Meta Slider Layer Slides are ideal for easily creating eye catching slider presentations and slide shows using stunning effects with 50 animation options and a beautiful, easy to use interface. Layers can include text, html, images, photos, videos and even shortcodes! Layer Slide users also benefit from additional optimisation and customisation options, including using a video as the slide background and adjusting the padding and background colour of each layer.
+
+### Post Feed Slides
+With [MetaSlider Pro](https://www.metaslider.com/upgrade/) you can create Post Feed slides to automatically show your latest content, blog posts, events or WooCommerce products in your slider, slide show, or carousel. MetaSlider Post Feed slides dynamically pull in slides based on your WordPress posts, using the featured image as the slide. They are also commonly known as “Content Sliders”, “Featured Sliders”, “Post Sliders” or “Dynamic Sliders”.
+
+The post feed slide settings allow you to control which post types you want to display, the order to display them in and to restrict the posts to certain tags or categories. You can customise the caption template with a selection of template tags including {title}, {excerpt}, {author} and {date}. As with all our other slide types a Post Feed slide can appear in combination with any other slide type.
+
+Post Feed slides can be used to show one post at a time but they work particularly well in carousel mode (as above) allowing you to show off a large number of your latest posts in a small amount of space.
+
+### Video Slides
+With [MetaSlider Pro](https://www.metaslider.com/upgrade/) you can easily include responsive high definition YouTube & Vimeo videos in your slider, slideshow, or carousel. A video slide will display a video in your slide show directly from Vimeo or YouTube. The video will automatically pause if the user skips to the next slide.
+
+Simply add the URL of your video to a YouTube or Vimeo slide and Meta Slider will add it to your slider, slideshow, or carousel. Either create a slide show full of you favourite videos or mix it in between slides of other types to get just the result that you want.
+
+If you select the FlexSlider option with video slides you can take advantage of MetaSliders play/pause functionality. This means that you can have your slideshow autoplay but will pause when you set a video to play and carry on once the video has finished. You could even have the slider or slide show autoplay to give you a smooth, completely automatic presentation!
+
+### HTML Overlay Slides
+With [MetaSlider Pro](https://www.metaslider.com/upgrade/) you can create completely customized HTML slides using the inline editor. We’ve even built-in over 50 awesome CSS3 transitions!
+
+### External URL Slides
+With [MetaSlider Pro](https://www.metaslider.com/upgrade/) you can create External URL Slides to load images for your slider, slideshow, or carousel directly from non-WordPress sources, for example CDN’s or image hosts.
+
+### Sliders Make Any Site More Engaging
+**Portfolio Sites**
+
+Add some photos to your slider, slideshow, or carousel as layer slides, then add a layer covering the image set to a semi-transparent colour to give a fantastic overlay. Then add some text that animates in to give some details about your company. Select the stretch option so that your slider, slideshow, or carousel fills the screen to really make an impact. Underneath that, add an image slide showing some of your latest work. Add our [MetaSlider Lightbox add-on plugin](https://wordpress.org/plugins/ml-slider-lightbox/) to let you zoom-in on the work. Or you could add a post slide in carousel mode, set to display a post type of your client with their logo as the featured image.
+
+**Photography Sites**
+
+Use image slides and filmstrip navigation to create a simple but effective slider or slideshow to show off your beautiful photographs and other images. Add a lightbox plugin with our [MetaSlider Lightbox add-on](https://wordpress.org/plugins/ml-slider-lightbox/) to let people view the image as large as possible.
+
+**Online Store**
+
+With [MetaSlider Pro](https://www.metaslider.com/upgrade/), add a slider or slideshow with layer slides showing off your latest offers at the top and a carousel post slide at the bottom displaying your products post type. MetaSlider works nicely with Woocommerce and allows you to use information such as the product price in the post slide template.
+
+**News Site or Blog**
+
+With [MetaSlider Pro](https://www.metaslider.com/upgrade/), show off your featured story or use a Post Slide to show your latest posts with a slider, slideshow, or carousel.
+
+Use simple image slides to show images relating to a featured story. Combine that with a slider or slide show, set to carousel mode, containing a post slide to display other stories. Use the Theme Editor to move and style the captions to fit your theme.
+
+### Optimized for Speed
+MetaSlider is Fast – only the minimum JavaScript/CSS is included on your page to power your slider, slideshow, carousel, or gallery. We have optimized the Meta Slider plugin so that your images, photos, videos (YouTube/Vimeo), layers, html slides, products, and post feeds, load quickly without slowing down your website visitors’ experience.
+### Unsplash Integration
+MetaSlider is integrated with Unsplash to access free images and photos via Unsplash.com for your slider, slideshow, carousel, and gallery. Finding the right image or photo can be the hardest part of creating a compelling slider, slide show, carousel, or gallery, and MetaSlider makes this process easy for you by never leaving your WordPress plugin interface.
+### Responsive and SEO-optimized
+MetaSlider is a responsive, SEO-optimized WordPress plugin that lets you create a slider, slideshow, carousel, and gallery in seconds that are responsive and SEO-optimized.
+
+Your MetaSlider responsive slider, slideshow, carousel, or gallery will adapt to the width of the device they’re being displayed on, including desktop, mobile or tablet. The content will be responsive regardless of the type of content you use: image, photo, video (YouTube/Vimeo), layer, html, product, and post feed slides.
+
+The Meta Slider SEO tab lets you set image title and alt text for your slides. The title text should provide additional information about the slide, whereas the alt text should be used to describe the image itself. This data allows search engines to ‘read’ your slides and helps with search engine rankings!
+
+### Powerful Editing Options
+In addition to MetaSlider simple and easy to use drag and drop features, our slider, slide show, gallery, and carousel plugin for WordPress offers many powerful features. Whether you are someone running a site who wants to make a great first impression with beautiful photos or someone making websites for clients, Meta Slider enables you to create the perfect customized experience. These editing features support any content type, including image, photo, video (YouTube/Vimeo), layer, html, product, and post feed.
+
+* **Full width slider and gallery support** to match your site design, compatible with any WordPress theme that you choose to use.
+* **Intelligent Image Cropping**: Unique Smart Crop functionality ensures your slides are perfectly resized. No fuss.
+* **Smart Pad**: WWith cropping disabled, Smart Pad automatically adds padding to portrait images allowing you to mix portrait and landscape images and maintain a consistent slideshow height.
+* **Drag and Drop editor**: Includes drag and drop slide reordering, intelligent image cropping, set image crop position.
+* **Slider configuration**: transition effect, speed, timing, plus many more!
+* **Live Theme Editor**: With [MetaSlider Pro](https://www.metaslider.com/upgrade/) you can create unlimited themes and preview them on-the-fly.
+* **Thumbnail Navigation (Pro)**: [MetaSlider Pro](https://www.metaslider.com/upgrade/) adds in 2 new types of slider and slideshow navigation:
+  * “Thumbnail” will output a static row of thumbnails below the slideshow. Compatible with Flex and Nivo Slider.
+  * “Filmstrip” will output a carousel style row of thumbnails below the slideshow (with left and right navigation) – perfect if you have lots of slides! Compatible with Flex Slider.
+
+### Flexible Workflow
+MetaSlider is optimized for a fast and flexible workflow. You can preview your slider, slideshow, carousel, or gallery directly from the editor in the Meta Slider dashboard. You can create the perfect design without switching back and forth between the dashboard and your page or post.
+
+Adding a MetaSlider slider, slideshow, carousel, or gallery is as easy as adding a shortcode to your WordPress page or post. The shortcode workflow creates maximum flexibility for embedding Meta Slider exactly where it will be most effective.
+
+### Slider Themes
+[MetaSlider Pro](https://www.metaslider.com/upgrade/) introduces the Meta Slider Theme Editor. MetaSlider Pro includes 11 free professional and responsive slide show themes for sliders, slideshows, and carousels. These themes enable you to effortlessly create beautiful and effective sliders, slideshows, and carousels designed by professionals.
+
+The MetaSlider theme editor also allows you to create your own slider, slideshow, and carousel themes to use across your sites where you install Meta Slider. With these themes you can perfectly display any content, including image, photo, video (YouTube/Vimeo), layer, html, product, and post feed slides.
+
+### Import/Export Sliders
+With slider, slideshow, and carousel import/export you can move your perfectly designed sliders between your websites or your clients’ websites. Instead of recreating your settings on every website, export your slider, slideshow, or carousel with one click and import it to another WordPress suite just as easily with Meta Slider.
+Gutenberg Block Editor Ready
+MetaSlider has been designed to also work seamlessly with the new Gutenberg WordPress Block Editor by using our Gutenberg block. We give you ultimate flexibility to embed Meta Slider into your WordPress website using a Gutenberg block, shortcode, or widget.
+
+### Fully Localized with Translation Support
+MetaSlider is compatible with some of the most popular WordPress translation plugins, including WPML, PolyLang & qTranslate. You can make sure that your slider, slideshow, carousel, or gallery are fully localized for your audiences around the world. Localization supports any content you include in your slider, including image, photo, video (YouTube/Vimeo), layer, html, product, and post feed slides.
+
+### Lightbox Support
+MetaSlider offers responsive image and photo lightbox support with the [MetaSlider Lightbox add-on](https://www.metaslider.com/upgrade/), allowing slides to be opened in a lightbox, using one of several supported lightbox plugins, including Easy FancyBox, Simple Lightbox, and FooBox Image Lightbox.
+
+### Plugin Integrations
+MetaSlider is integrated with other popular WordPress plugins including WooCommerce, the Events Calendar, and WPML, to enable you to seamlessly show the most engaging content to your audience in a slider, slide show, carousel, or gallery.
+
+Popular events management plugin The Events Calendar can be used in conjunction with MetaSlider’s new Post Feed Slides. MetaSlider detects if you have The Events Calendar plugin activated and offers you the ability to order by event date so you can show off your upcoming events in a slider, slideshow, or carousel.
+
+### Advanced Developer Features
+In addition to being the easiest to use WordPress slider, slideshow, carousel, and gallery plugin, MetaSlider also offers advanced developer features that make Meta Slider the most powerful plugin to create a slider, slideshow, carousel, and gallery:
+
+* Developer Friendly, with extensive hooks & filters - Meta Slider exposes its functionality through WordPress filters and actions, so you can customise Meta Slider just the way you want
+* Advanced theme editor to design the perfect slider, slide show, or carousel
 * WordPress Multi Site compatible
-* Compatible with translation plugins (WPML, PolyLang & qTranslate)
-* Extensive developer API (hooks & filters)
-* Fast – only the minimum JavaScript/CSS is included on your page to power your slider, gallery, or carousel
-* Import/Export slideshows
-* Free basic support (covering installation issues and theme/plugin conflicts)
-* Lightbox support with the [MetaSlider Lightbox](https://wordpress.org/plugins/ml-slider-lightbox/) add-on
 
-**General:**
-
-* Simple and intuitive interface – perfect for individual users, developers & clients!
-* Fast – requires only the minimum JavaScript/CSS on your page
-* Creatively responsive
-
-**Creative:**
-
-* Unrestricted full-width support for image slides, including captions, links, title texts and alt. texts.
-* Includes drag and drop slide reordering, intelligent image cropping, set image crop position.
-* Multiple slideshow configuration options (e.g. for speed, timing, plus many more!)
-
-**Other:**
-
-* Preview from within the admin area
-* Shortcode lets you add the slideshow anyway
-* Fully localized
-* WordPress Multi-site compatible, and
-* Compatible with translation plugins (WPML, PolyLang & qTranslate)
-* Developer Friendly, with extensive hooks & filters
-
-**Support:**
-
-* Includes free basic support (covering installation issues and theme/plugin conflicts).
-
-The <a href="https://www.metaslider.com/upgrade">MetaSlider Pro</a> includes added support for:
-
-* YouTube & Vimeo slides
-* HTML slides
-* Layer slides with CSS3 animations & HTML5 Video backgrounds
-* Full-featured text editor to include extra CSS
-* Dynamic Post Feed/Featured Image Slides (content slider)
-* Slide scheduling & slide visibility
-* Custom Themes - build your own theme
-* Thumbnail Navigation
-* Premium Support
-
-Read more and thanks to:
-
+## Special Thanks to the Sliders that we Support
+You can read more about them here:
 * [Flex Slider](http://flexslider.woothemes.com/)
 * [Responsive Slides](http://responsiveslides.com/)
 * [Coin Slider](http://workshop.rs/projects/coin-slider/)
 * [Nivo Slider](https://github.com/Codeinwp/Nivo-Slider-jQuery)
 
-Find out more at <a href="https://www.metaslider.com">metaslider.com</a>
+Find out more at [metaslider.com](https://www.metaslider.com/)
 
 Follow us on Twitter: [@wpmetaslider](https://twitter.com/wpmetaslider)
 
-**Privacy Policy:**
+### Privacy Policy:
+MetaSlider uses the Appsero SDK to collect non-sensitive diagnostic data upon a user’s confirmation. This data helps us to troubleshoot problems faster & make product improvements.
+Meta Slider only collects this diagnostic data when a user allows it via a notice in WP Admin or MetaSlider settings. View our [privacy policy](https://www.metaslider.com/privacy-policy).
 
-MetaSlider uses the Appsero SDK to collect non-sensitive diagnostic data upon a user's confirmation. This data helps us to troubleshoot problems faster & make product improvements.
-
-MetaSlider only collects this diagnostic data when a user allows it via a notice in WP Admin or MetaSlider settings. View our [privacy policy](https://www.metaslider.com/privacy-policy).
 
 == Installation ==
 
 The easy way:
 
 1. Go to the Plugins Menu in WordPress
-1. Search for "MetaSlider"
-1. Click "Install"
+2. Search for "MetaSlider"
+3. Click "Install"
 
 The not so easy way:
 
@@ -163,6 +267,10 @@ See https://www.metaslider.com/documentation/image-cropping/
 
 == Changelog ==
 
+= 3.20.3 - 2021/Mar/02 =
+* FIX: Update responsive slides to improve jQuery compatability
+* FIX: Updates uasort to be PHP8 compatible
+* FIX: Fixes a typo in the export callback
 
 = 3.20.2 - 2021/Feb/08 =
 * FIX: Removes various PHP notices

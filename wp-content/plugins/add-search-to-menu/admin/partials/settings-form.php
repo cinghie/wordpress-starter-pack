@@ -51,7 +51,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 						),
 				);
 
-				$tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'settings';
+				$tab = 'settings';
+				switch ( $_GET['tab'] ) {
+					case 'menu-search':
+						$tab = 'menu-search';
+						break;
+					case 'analytics':
+						$tab = 'analytics';
+						break;
+				}
 				$url = esc_url( menu_page_url( 'ivory-search-settings', false ) );
 				?>
 					<ul id="search-form-editor-tabs">				

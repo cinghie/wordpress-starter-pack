@@ -11,7 +11,7 @@ printf('<p><strong>%s</strong></p>', esc_html__('Users to be forbidden', 'stops-
 $users = array();
 if (is_multisite()) {
 	global $wpdb;
-	$logins = implode("', '", get_super_admins());
+	$logins = implode("', '", array_map('esc_sql', get_super_admins()));
 	$users = $wpdb->get_col("SELECT ID FROM $wpdb->users WHERE user_login IN ('$logins') GROUP BY user_login");
 } else {
 	/**

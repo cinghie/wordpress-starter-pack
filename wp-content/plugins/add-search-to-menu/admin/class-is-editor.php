@@ -41,7 +41,23 @@ class IS_Search_Editor
         if ( isset( $_GET['post'] ) && is_numeric( $_GET['post'] ) ) {
             $url = esc_url( menu_page_url( 'ivory-search', false ) ) . '&post=' . $_GET['post'] . '&action=edit';
         }
-        $tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : 'includes' );
+        $tab = 'includes';
+        if ( isset( $_GET['tab'] ) ) {
+            switch ( $_GET['tab'] ) {
+                case 'excludes':
+                    $tab = 'excludes';
+                    break;
+                case 'customize':
+                    $tab = 'customize';
+                    break;
+                case 'ajax':
+                    $tab = 'ajax';
+                    break;
+                case 'options':
+                    $tab = 'options';
+                    break;
+            }
+        }
         foreach ( $this->panels as $id => $panel ) {
             $class = ( $tab == $id ? 'active' : '' );
             echo  sprintf(

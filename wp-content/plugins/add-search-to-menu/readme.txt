@@ -3,9 +3,9 @@ Contributors: ivorysearch, vinod dalvi
 Donate link: https://ivorysearch.com/pricing/
 Tags: search, woocommerce search, image search, ajax search, search shortcode, live search,  exclude from search, search widget, search menu, search plugin, custom search, search by post type, search by category, relevant search, search forms
 Requires at least: 3.9
-Tested up to: 5.6
+Tested up to: 5.7
 Requires PHP: 5.2.4
-Stable tag: 4.5.11
+Stable tag: 4.6.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -192,6 +192,20 @@ Yes we do. We try our best to help free users with customisation requests and we
 8. Plugin Settings
 
 == Changelog ==
+
+= 4.6.2 =
+* Fixed - Undefined tab index noticein admin area.
+
+= 4.6.1 =
+* Fixed - Broken AJAX search results scrollbar.
+Fixed – Security issue in plugin settings (Thanks to Jinson Varghese Behanan from Astra Security).
+* Improved - Do not search special character stopwords.
+
+= 4.6 =
+* Fixed - AJAX search results was not scrolling on search form scroll.
+* Fixed - Stopwords was not excluding from search.
+* Fixed - Menu search icon accessibility issue.
+* Updated - Freemius SDK to 2.4.2
 
 = 4.5.11 =
 * Fixed - Empty button accessibility issue.

@@ -194,9 +194,9 @@ class MPSUM_Logs_List_Table extends MPSUM_List_Table {
 		} else {
 			$where = '';
 			if (isset($this->month) && strlen($this->month) > 4) {
-				$where .= " AND YEAR($tablename.date)=" . substr($this->month, 0, 4);
+				$where .= $wpdb->prepare(" AND YEAR($tablename.date)=%d", substr($this->month, 0, 4));
 				if (strlen($this->month) > 5) {
-					$where .= " AND MONTH($tablename.date)=" . esc_sql(substr($this->month, 4, 2));
+					$where .= $wpdb->prepare(" AND MONTH($tablename.date)=%d", substr($this->month, 4, 2));
 				}
 			}
 

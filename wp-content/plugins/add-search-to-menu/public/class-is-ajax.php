@@ -385,7 +385,7 @@ class IS_Ajax {
 		}
 		$is_markup = apply_filters( 'is_customize_image_markup', false );
 		if ( $is_markup ) {
-			do_action( 'is_image_markup', $image, $field );
+			do_action( 'is_image_markup', $image, $field, $temp_id );
 		} else if ( isset( $field['show_image'] ) && $field['show_image'] ) { ?>
                     <div class="left-section">
                         <div class="thumbnail">

@@ -2,7 +2,7 @@
 /*
 Plugin Name: Cookie Notice & Compliance for GDPR / CCPA
 Description: Cookie Notice allows you to you elegantly inform users that your site uses cookies and helps you comply with GDPR, CCPA and other data privacy laws.
-Version: 2.0.2
+Version: 2.0.3
 Author: Hu-manity.co
 Author URI: https://hu-manity.co/
 Plugin URI: https://hu-manity.co/
@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) )
  * Cookie Notice class.
  *
  * @class Cookie_Notice
- * @version	2.0.1
+ * @version	2.0.3
  */
 class Cookie_Notice {
 
@@ -85,7 +85,7 @@ class Cookie_Notice {
 			'update_notice'				=> true,
 			'update_delay_date'			=> 0
 		),
-		'version'	=> '2.0.2'
+		'version'	=> '2.0.3'
 	);
 	
 	private static $_instance;
@@ -220,7 +220,11 @@ class Cookie_Notice {
 		if ( ! current_user_can( 'install_plugins' ) )
 			return;
 		
-		$current_update = 5;
+		// bail an ajax
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
+			return;
+		
+		$current_update = 4;
 		
 		// get current database version
 		$current_db_version = get_option( 'cookie_notice_version', '1.0.0' );
@@ -234,9 +238,10 @@ class Cookie_Notice {
 			// update plugin version
 			update_option( 'cookie_notice_version', $this->defaults['version'], false );
 			
-			// show welcome, if no compliance only
+			/* show welcome, if no compliance only
 			if ( empty( $this->status ) )
 				set_transient( 'cn_activation_redirect', 1 );
+			*/
 		}
 	}
 
@@ -410,7 +415,7 @@ class Cookie_Notice {
 	 */
 	public static function cookies_accepted() {
 		if ( Cookie_Notice()->get_status() === 'active' ) {
-			$cookies = isset( $_COOKIE['hu-consent'] ) ? json_decode( $_COOKIE['hu-consent'], true ) : array();
+			$cookies = isset( $_COOKIE['hu-consent'] ) ? json_decode( stripslashes( $_COOKIE['hu-consent'] ), true ) : array();
 			
 			$result = ! empty( $cookies['consent'] ) ? true : false;
 		} else {
@@ -461,7 +466,7 @@ class Cookie_Notice {
 			return $links;
 
 		if ( $file == plugin_basename( __FILE__ ) )
-			array_unshift( $links, sprintf( '<a href="%s">%s</a>', admin_url( 'options-general.php?page=cookie-notice' ), __( 'Settings', 'cookie-notice' ) ) );
+			array_unshift( $links, sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'admin.php?page=cookie-notice' ) ), __( 'Settings', 'cookie-notice' ) ) );
 
 		return $links;
 	}

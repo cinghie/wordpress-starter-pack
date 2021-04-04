@@ -45,7 +45,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 			$disabled = ' disabled="disabled"';
 		}
 
-		$tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'includes';
+		$tab = 'includes';
+		switch ( $_GET['tab'] ) {
+			case 'excludes':
+				$tab = 'excludes';
+				break;
+			case 'customize':
+				$tab = 'customize';
+				break;
+			case 'ajax':
+				$tab = 'ajax';
+				break;
+			case 'options':
+				$tab = 'options';
+				break;
+		}
 	?>
 
 	<form method="post" action="<?php echo esc_url( add_query_arg( array( 'post' => $post_id, 'tab' => $tab ), menu_page_url( 'ivory-search', false ) ) ); ?>" id="is-admin-form-element"<?php do_action( 'is_post_edit_form_tag' ); ?>>

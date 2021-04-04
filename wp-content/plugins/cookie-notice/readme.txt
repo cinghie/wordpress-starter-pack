@@ -4,7 +4,7 @@ Tags: gdpr, ccpa, cookies, consent, compliance
 Requires at least: 4.3
 Requires PHP: 5.3
 Tested up to: 5.6.1
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
 
@@ -57,6 +57,9 @@ No questions yet.
 1. screenshot-1.png
 
 == Changelog ==
+
+= 2.0.3 =
+* Fix: Cookies accepted function issue when Compliance activated
 
 = 2.0.2 =
 * Tweak: UI/UX improvements
@@ -306,5 +309,5 @@ Initial release
 
 == Upgrade Notice ==
 
-= 2.0.2 =
-* Tweak: UI/UX improvements
+= 2.0.3 =
+* Fix: Cookies accepted function issue when Compliance activated

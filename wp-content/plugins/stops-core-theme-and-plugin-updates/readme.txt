@@ -4,8 +4,8 @@ Tags: updates manager, easy updates manager, disable updates manager, disable up
 Requires at least: 5.1
 Requires PHP: 5.6
 Donate link: https://easyupdatesmanager.com
-Tested up to: 5.6
-Stable tag: 9.0.7
+Tested up to: 5.7
+Stable tag: 9.0.8
 License: GPLv2 or later
 
 Manage all your WordPress updates, including individual updates, automatic updates, logs, and loads more. This also works very well with WordPress Multisite.
@@ -125,6 +125,13 @@ Since third-party providers use custom update mechanisms, we cannot always guara
 For additional information and FAQs for Easy Updates Manager <a href="https://easyupdatesmanager.com">check out our website</a>.
 
 == Changelog ==
+
+= 9.0.8 - 2021-03-08 =
+
+* TWEAK: Correctly log 'from' version for themes when scheduled update is run.
+* TWEAK: Adjust a method definition that caused a PHP notice in PHP 8
+* TWEAK: Escape existing super admin usernames in SQL query to avoid code notice
+* TWEAK: Adjust escaping method used for an SQL function (not believed to have any security implications)
 
 = 9.0.7 - 2020-12-17 =
 
@@ -327,4 +334,4 @@ For past changelogs, <a href="https://easyupdatesmanager.com/blog/">please visit
 
 == Upgrade Notice ==
 
-* 9.0.7 : Auto-updates will trigger on managed hosts that disable version checking. Various small tweaks and improvements. Now requires PHP 5.6+. A recommended update for all.
+* 9.0.8 : * Correctly log 'from' version for themes when scheduled update is run. Adjust a method definition that caused a PHP notice in PHP 8. Escape existing super admin usernames in SQL query to avoid code notice. Adjust escaping method used for an SQL function (not believed to have any security implications).
