@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Themes - Storefront package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-01-21 18:52:10+0000\n"
+"PO-Revision-Date: 2021-06-08 08:12:10+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -133,11 +133,19 @@ msgstr "Paginazione dei prodotti"
 msgid "Product Page"
 msgstr "Pagina del prodotto"
 
-#: inc/class-storefront.php:351
+#: inc/customizer/class-storefront-customizer.php:293
+msgid "Hero text color"
+msgstr "Colore del testo Hero"
+
+#: inc/customizer/class-storefront-customizer.php:269
+msgid "Hero heading color"
+msgstr "Colore intestazione Hero"
+
+#: inc/class-storefront.php:350
 msgid "Collapse child menu"
 msgstr "Comprimi il menu child"
 
-#: inc/class-storefront.php:350
+#: inc/class-storefront.php:349
 msgid "Expand child menu"
 msgstr "Espandi il menu child"
 
@@ -157,7 +165,7 @@ msgstr "Organizza i tuoi menu aggiungendo pagine, categorie, tag e link personal
 msgid "Customize your navigation menus"
 msgstr "Personalizza i tuoi menu di navigazione"
 
-#: inc/class-storefront.php:487
+#: inc/class-storefront.php:484
 msgid "Post Navigation"
 msgstr "Navigazione articoli"
 
@@ -303,9 +311,9 @@ msgstr "Salta questo passaggio"
 msgid "No thanks, skip the tour"
 msgstr "No grazie, salta il tour"
 
-#: inc/nux/class-storefront-nux-admin-inbox-messages-customize.php:41
-#: inc/nux/class-storefront-nux-guided-tour.php:112
+#: inc/nux/class-storefront-nux-admin-inbox-messages-customize.php:42
 #: inc/nux/class-storefront-nux-admin.php:180
+#: inc/nux/class-storefront-nux-guided-tour.php:112
 msgid "Let's go!"
 msgstr "Andiamo!"
 
@@ -369,6 +377,10 @@ msgstr "Maggiori informazioni"
 #: inc/admin/class-storefront-plugin-install.php:96
 msgid "Install now"
 msgstr "Installa ora"
+
+#: inc/admin/class-storefront-admin.php:153
+msgid "Check 'em out"
+msgstr "Dagli un'occhiata!"
 
 #: inc/admin/class-storefront-admin.php:149
 msgid "Of course they are all fully compatible with each Storefront extension."
@@ -570,6 +582,7 @@ msgid "Leave a comment"
 msgstr "Lascia un commento"
 
 #. translators: used between list items, there is a space after the comma
+#. translators: used between list items, there is a space after the comma
 #: inc/storefront-template-functions.php:546
 #: inc/storefront-template-functions.php:549
 msgid ", "
@@ -613,18 +626,18 @@ msgstr "Il tuo commento è in attesa di moderazione."
 msgid "Sidebar"
 msgstr "Barra laterale"
 
-#: inc/nux/class-storefront-nux-starter-content.php:192
 #: inc/class-storefront.php:97
+#: inc/nux/class-storefront-nux-starter-content.php:192
 msgid "Handheld Menu"
 msgstr "Menù versione mobile"
 
-#: inc/nux/class-storefront-nux-starter-content.php:182
 #: inc/class-storefront.php:96
+#: inc/nux/class-storefront-nux-starter-content.php:182
 msgid "Secondary Menu"
 msgstr "Menù secondario"
 
-#: inc/nux/class-storefront-nux-starter-content.php:162
 #: inc/class-storefront.php:95
+#: inc/nux/class-storefront-nux-starter-content.php:162
 msgid "Primary Menu"
 msgstr "Menu principale"
 

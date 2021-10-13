@@ -104,42 +104,27 @@ if ( ! class_exists( 'Storefront_WooCommerce' ) ) :
 				'storefront-woocommerce-style',
 				'@font-face {
 				font-family: star;
-				src: url(' . $fonts_url . '/star.eot);
+				src: url(' . $fonts_url . 'star.eot);
 				src:
-					url(' . $fonts_url . '/star.eot?#iefix) format("embedded-opentype"),
-					url(' . $fonts_url . '/star.woff) format("woff"),
-					url(' . $fonts_url . '/star.ttf) format("truetype"),
-					url(' . $fonts_url . '/star.svg#star) format("svg");
+					url(' . $fonts_url . 'star.eot?#iefix) format("embedded-opentype"),
+					url(' . $fonts_url . 'star.woff) format("woff"),
+					url(' . $fonts_url . 'star.ttf) format("truetype"),
+					url(' . $fonts_url . 'star.svg#star) format("svg");
 				font-weight: 400;
 				font-style: normal;
 			}
 			@font-face {
 				font-family: WooCommerce;
-				src: url(' . $fonts_url . '/WooCommerce.eot);
+				src: url(' . $fonts_url . 'WooCommerce.eot);
 				src:
-					url(' . $fonts_url . '/WooCommerce.eot?#iefix) format("embedded-opentype"),
-					url(' . $fonts_url . '/WooCommerce.woff) format("woff"),
-					url(' . $fonts_url . '/WooCommerce.ttf) format("truetype"),
-					url(' . $fonts_url . '/WooCommerce.svg#WooCommerce) format("svg");
+					url(' . $fonts_url . 'WooCommerce.eot?#iefix) format("embedded-opentype"),
+					url(' . $fonts_url . 'WooCommerce.woff) format("woff"),
+					url(' . $fonts_url . 'WooCommerce.ttf) format("truetype"),
+					url(' . $fonts_url . 'WooCommerce.svg#WooCommerce) format("svg");
 				font-weight: 400;
 				font-style: normal;
 			}'
 			);
-		}
-
-		/**
-		 * Assign styles to individual theme mod.
-		 *
-		 * @deprecated 2.3.1
-		 * @since 2.1.0
-		 * @return void
-		 */
-		public function set_storefront_style_theme_mods() {
-			if ( function_exists( 'wc_deprecated_function' ) ) {
-				wc_deprecated_function( __FUNCTION__, '2.3.1' );
-			} else {
-				_deprecated_function( __FUNCTION__, '2.3.1' );
-			}
 		}
 
 		/**
@@ -238,7 +223,7 @@ if ( ! class_exists( 'Storefront_WooCommerce' ) ) :
 		 */
 		public function change_breadcrumb_delimiter( $defaults ) {
 			$defaults['delimiter']   = '<span class="breadcrumb-separator"> / </span>';
-			$defaults['wrap_before'] = '<div class="storefront-breadcrumb"><div class="col-full"><nav class="woocommerce-breadcrumb">';
+			$defaults['wrap_before'] = '<div class="storefront-breadcrumb"><div class="col-full"><nav class="woocommerce-breadcrumb" aria-label="' . esc_attr__( 'breadcrumbs', 'storefront' ) . '">';
 			$defaults['wrap_after']  = '</nav></div></div>';
 			return $defaults;
 		}

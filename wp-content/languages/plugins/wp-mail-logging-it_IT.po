@@ -2,14 +2,22 @@
 # This file is distributed under the same license as the Plugins - WP Mail Logging - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-09-02 13:40:45+0000\n"
+"PO-Revision-Date: 2021-07-31 15:35:50+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/2.4.0-alpha\n"
+"X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - WP Mail Logging - Stable (latest release)\n"
+
+#. Author URI of the plugin
+msgid "https://profiles.wordpress.org/wysija/"
+msgstr "https://profiles.wordpress.org/wysija/"
+
+#. Author of the plugin
+msgid "Wysija"
+msgstr "Wysija"
 
 #: src/WPML_PrivacyController.php:137
 msgid "A mail with the id %d was unable to be removed at this time."
@@ -23,21 +31,13 @@ msgstr "Mail"
 msgid "When you use this site several actions (e.g. commenting) trigger the dispatch of emails. They contain information about you associated with your email address. Which data are part of these emails depends on the action performed. These emails are stored and accessible to the site management as log."
 msgstr "Quando usi questo sito diverse azioni (ad esempio il commentare) innescano l'invio di mail. Queste contengono informazioni su di voi associate al vostro indirizzo email. Quali dati fanno parte di queste email dipende dall'azione eseguita. Queste email vengono immagazzinate e sono accessibili al gestore del sito sotto forma di log (registro)."
 
-#. Author URI of the plugin
-msgid "http://no3x.de/"
-msgstr "http://no3x.de/"
-
-#. Author of the plugin
-msgid "Christian Z&ouml;ller"
-msgstr "Christian Z&ouml;ller"
-
 #. Description of the plugin
 msgid "Logs each email sent by WordPress."
 msgstr "Registra ogni email inviata con WordPress"
 
 #. Plugin URI of the plugin
-msgid "http://wordpress.org/extend/plugins/wp-mail-logging/"
-msgstr "http://wordpress.org/extend/plugins/wp-mail-logging/"
+msgid "https://wordpress.org/plugins/wp-mail-logging/"
+msgstr "https://wordpress.org/plugins/wp-mail-logging/"
 
 #. Plugin Name of the plugin
 #: src/WPML_PrivacyController.php:54 src/WPML_PrivacyController.php:62
@@ -222,76 +222,60 @@ msgstr "Azioni di gruppo"
 msgid "No items found."
 msgstr "Nessun elemento trovato"
 
-#: src/WPML_OptionsManager.php:575
+#: src/WPML_OptionsManager.php:573
 msgid "Anyone"
 msgstr "Chiunque"
 
-#: src/WPML_OptionsManager.php:573
+#: src/WPML_OptionsManager.php:571
 msgid "Subscriber"
 msgstr "Sottoscrittore"
 
-#: src/WPML_OptionsManager.php:571
+#: src/WPML_OptionsManager.php:569
 msgid "Contributor"
 msgstr "Collaboratore"
 
-#: src/WPML_OptionsManager.php:569
+#: src/WPML_OptionsManager.php:567
 msgid "Author"
 msgstr "Autore"
 
-#: src/WPML_OptionsManager.php:567
+#: src/WPML_OptionsManager.php:565
 msgid "Editor"
 msgstr "Editor"
 
-#: src/WPML_OptionsManager.php:565
+#: src/WPML_OptionsManager.php:563
 msgid "Administrator"
 msgstr "Amministratore"
 
-#: src/WPML_OptionsManager.php:562
+#: src/WPML_OptionsManager.php:560
 msgid "false"
 msgstr "falso"
 
-#: src/WPML_OptionsManager.php:560
+#: src/WPML_OptionsManager.php:558
 msgid "true"
 msgstr "vero"
 
-#: src/WPML_OptionsManager.php:535
+#: src/WPML_OptionsManager.php:534
 msgid "Search"
 msgstr "Cerca"
 
-#: src/WPML_OptionsManager.php:521
+#: src/WPML_OptionsManager.php:520
 msgid "Close"
 msgstr "Chiudi"
 
-#: src/WPML_OptionsManager.php:478
+#: src/WPML_OptionsManager.php:426
 msgid "Log"
 msgstr "Log"
 
-#: src/WPML_OptionsManager.php:469
+#: src/WPML_OptionsManager.php:415 src/WPML_OptionsManager.php:478
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Devi farti autorizzare per accedere a questa pagina."
 
-#: src/WPML_OptionsManager.php:447
+#: src/WPML_OptionsManager.php:349
 msgid "Entries per page"
 msgstr "Risultati per pagina"
 
-#: src/WPML_OptionsManager.php:440
-msgid "Plugin author's blog"
-msgstr "Blog dell'autore del plugin"
-
-#: src/WPML_OptionsManager.php:439
-msgid "Plugin Homepage/support"
-msgstr "Homepage/Supporto del plugin"
-
-#: src/WPML_OptionsManager.php:438
-msgid "More information"
-msgstr "Più informazioni"
-
-#: src/WPML_OptionsManager.php:429
-msgid "About Plugin"
-msgstr "Riguardo al plugin"
-
-#: src/WPML_OptionsManager.php:340 src/WPML_OptionsManager.php:341
-#: src/WPML_OptionsManager.php:352
+#: src/WPML_OptionsManager.php:339 src/WPML_OptionsManager.php:340
+#: src/WPML_OptionsManager.php:360
 msgid "About"
 msgstr "About"
 
@@ -299,7 +283,7 @@ msgstr "About"
 msgid "WP Mail Log"
 msgstr "WP Mail Log"
 
-#: src/WPML_LifeCycle.php:205
+#: src/WPML_LifeCycle.php:205 src/WPML_OptionsManager.php:444
 msgid "Settings"
 msgstr "Impostazioni"
 
@@ -332,7 +316,7 @@ msgstr "Allegati"
 msgid "Headers"
 msgstr "Header"
 
-#: src/Renderer/WPML_ColumnManager.php:36 src/WPML_OptionsManager.php:504
+#: src/Renderer/WPML_ColumnManager.php:36 src/WPML_OptionsManager.php:503
 msgid "Message"
 msgstr "Messaggio"
 
@@ -344,8 +328,8 @@ msgstr "Oggetto"
 msgid "Receiver"
 msgstr "Ricevente"
 
-#: src/Renderer/WPML_ColumnManager.php:32
 #: src/inc/redux/WPML_Redux_Framework_config.php:191
+#: src/Renderer/WPML_ColumnManager.php:32
 msgid "Time"
 msgstr "Ora"
 
