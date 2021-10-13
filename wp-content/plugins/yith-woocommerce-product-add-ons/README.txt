@@ -3,24 +3,94 @@
 Contributors: yithemes
 Tags: woocommerce, woocommerce product add-ons, woocommerce product add ons, woocommerce advanced product option, product add ons, product add-ons, option, radio, checkbox, text, woocommerce product addons
 Requires at least: 4.5
-Tested up to: 5.6
-Stable tag: 1.5.35
+Tested up to: 5.8
+Stable tag: 2.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Increase average order value by letting your customers purchase additional options on your products
+Increase average order value by letting your customers purchase additional options on your products.
+
 == Description ==
 
-With YITH WooCommerce Product Add-ons you'll be able to increase your customers' propensity to spend more and you'll be able to cut off time dedicated to managing additional options for each product separately. How? Let's imagine you have a jewellery store and one of your customers is going to purchase a ring: if variations can let them decide whether they prefer it in gold, silver or copper, how can you let them have a brief sentence carved on it and associate an extra cost to this in product page? YITH Product Add-ons allows you either to add a text field where your users can enter their sentence or select the one you have already configured for them through checkboxes or radio buttons in product page. And you'll forget about long and messy email correspondences where the risk to mix up orders from different customers is just around the corner.
+YITH Product Add-ons & Extra options is a powerful tool that you can use to create and sell advanced products or services by adding custom options in your product pages. And with **our new redesign** we’ve added a lot of new exciting features!
 
-**Features:**
+You can now create **unlimited blocks of options**, show them on all products, or just specific products or categories, and choose from different types of add-ons: radio elements, select dropdown, input textboxes, checkboxes, etc. You can either **set a cost for each option, make it free**, or even **discount the product price** if the option is selected. 
 
-*    Create groups of options And choose to use them for all products of the shop, only for specific categories or limited on a single product
-*    Choose from different options Checkbox and Radio button
-*    Set dependency between the options To show a dropdown option only to users who selected the one that depends on it
-*    Increase the cost of product by assigning a fixed price to any of the options selected by user
-*    Specify single options By setting label and description
-*    Show a tooltip for the product add-ons
+This plugin is an easy solution to **sell customizable products** (for example, if you sell t-shirts or jewels, you can add a radio button to let users choose whether to customize  it or not, and then show an input field where they can type in the text for print or engraving) **or products that need advanced options** (for example, you sell a product box and let your users select the number of products to add: you can charge them an additional cost for extra products and let them select a shipping option from a list of available carriers). 
+
+The options selected and the information submitted by the customers will be included in the order details.
+
+== YITH WOOCOMMERCE PRODUCT ADD-ON & EXTRA OPTIONS FEATURES ==
+
+= FREE VERSION =
+
+See it in action here:
+[Check the Live Demo of the Free Version >](https://plugins.yithemes.com/yith-woocommerce-product-add-ons-free/)
+
+* Create unlimited blocks of options
+* Add unlimited options inside each block
+* Show the block in all products/just specific products/specific product categories
+* Add HTML elements in the options block: Heading, Text, and Separator (simple border; double, dotted or dashed border; empty space) 
+* Add radio type options
+* Add input text options (with “limit input characters” support)
+* Add select type options
+* Add checkbox type options (square or rounded style)
+* Set specific conditions to show or hide a block of options (e.g. show the option B only if the user sets “yes” in option A)
+* Set specific conditions to show the additional options only on specific product variations (e.g. show the options only if the product variation “color black” is selected)
+* Set the option as required or not
+* Set the option as selected by default or not
+* Choose where to display the options on the product page (before or after the “Add to cart” button)
+* Enter an optional title for each block of options and choose which heading to use (h1, h2, h3, etc.)
+* Enter a label and a description for each option
+* Show an optional tooltip for each option
+* Set if the option is free (product price doesn’t change when the option is selected)
+* Set if the option has a fixed or % cost that will increase the product price
+* Set if the option discounts the product price 
+* Set the options block background and padding
+* Use the theme forms style or the custom plugin style 
+* Customize the colors for borders, texts, and accent color 
+* Set the tooltip colors and position (top or bottom)
+ 
+= NEED MORE? CHECK THE PREMIUM VERSION FEATURES! =
+
+See it in action here:
+[Check the Live Demo of the Free Version >](https://plugins.yithemes.com/yith-woocommerce-product-add-ons-free/)
+
+* Hide the options from specific products
+* Show the options to all users/only logged-in users/only specific user roles NEW
+* Add “textarea” options (with “limit input characters” support)
+* Add “color swatches” (with color selector and image support) NEW
+* Add “number/quantity” options
+* Add “label or image” type options
+* Add “calendar date picker” type options (with advanced settings to set a default date, a start and end year, etc.)
+* Add “file upload” type options with drag and drop support NEW
+* Add “product” options to show linked products on the main product page NEW
+* Upload an image to clarify what the option is about
+* Choose whether to replace the main product image when the option is selected
+* Choose the image position (above or under the label, on the left or right) NEW
+* Choose whether to show or not the options set in a toggle collapse section
+* Hide the option price
+* Hide the option label and description
+* Set how many options to show in each row NEW
+* Enable the grid layout to adjust the options in a grid based on the page width  NEW
+* Set whether to multiply the product price by the length of the text inserted by the user (only for Text and Textarea type add-ons)
+* Set whether to multiply the product price by the quantity the user selects for a certain option (only for “number” type add-ons)
+* Set the first “X” selected options as FREE (e.g. the first 3 pizza toppings are free and included in the pizza price, but from the 4th topping the user will be charged an extra cost)
+* Replace or not the default product price with the updated price when the user selects some paid options
+* Show or not an options price total box on the product page
+* Settings for the “upload file” option: text to show, enable the “upload” button or the textual link, set the file formats and the max file size allowed
+* Set the checkbox style (square or rounded) NEW
+* Set the color swatches size and style (square or rounded) NEW
+* Set the image position for the “label/image” options NEW
+* Force label images to the same height NEW
+* Set the default position for the option label and description
+* Choose whether to show the options in a toggle collapse section or not
+* For each block of options, set whether the user can select only ONE of the options available or if can select MULTIPLE options
+* For each block of options choose whether the user has to select a minimum, maximum or an exact number of options to be able to proceed to the checkout
+* Hide the “Add to cart" buttons until the required options have a selection
+* Show or not the selected options in the cart
+* Show the image replacement in the cart
+* Hide the selected options in the emails related to the order
 
 == Installation ==
 Important: First of all, you have to download and activate WooCommerce plugin, which is mandatory for YITH WooCommerce Product Add-Ons to be working.
@@ -50,6 +120,168 @@ You must enable the dependency on the option you are interested in by inserting 
 3. YITH WooCommerce Product Add-Ons in "Single Prodcut" page
 
 == Changelog ==
+
+= 2.2.4 – Released on 12 Oct 2021 =
+
+* Update: YITH plugin framework
+* Fix: saving groups
+* Fix: saving addons
+* Fix: minor bugs
+
+= 2.2.3 – Released on 09 Oct 2021 =
+
+* Fix: XSS vulnerabilities
+
+= 2.2.2 – Released on 08 Oct 2021 =
+
+* Update: YITH plugin framework
+* Fix: XSS vulnerabilities
+* Fix: replacement image problem
+* Fix: text and textarea max length
+* Fix: selected options not visible
+* Fix: add to cart button layout
+* Fix: value of addons of type "select" to the cart
+* Fix: variations tab in product editor
+* Fix: minor bugs
+
+= 2.1.0 – Released on 14 Sep 2021 =
+
+* New: Support for WooCommerce 5.7
+* Update: YITH plugin framework
+* Dev: Scroll on top feature if an option is required
+* Fix: Product page variation price
+* Fix: Min/max feature with request a quote form
+* Fix: Required hidden fields submit
+* Fix: Currency Switcher calculation
+* Fix: Add-ons with no labels in WC order
+* Fix: Toggle feature with "No title"
+* Fix: Replace image reset
+* Fix: XSS vulnerability
+* Fix: Minor bugs
+
+= 2.0.7 – Released on 30 Aug 2021 =
+
+* Update: YITH plugin framework
+* Fix: Min/max checking for radio type
+* Fix: Min/max checking for select type
+* Fix: Error related variations in addons type product
+* Fix: YITH_WAPO_SECRET_KEY constant
+
+= 2.0.6 – Released on 27 Aug 2021 =
+
+* Update: YITH plugin framework
+* Dev: New filter "yith_wapo_replace_product_price_class"
+* Dev: New filter "yith_wapo_show_options_grouped_in_cart"
+* Fix: Flatsome theme layout in product page
+* Fix: Undefined constant error
+* Fix: Colon of the add-on label in cart, checkout and order view
+* Fix: Required option in select type
+* Fix: Min/max add to cart problem
+* Fix: HTML addons name in backend
+* Fix: "Disable globals" option
+* Fix: Currency position
+* Fix: Minor bugs
+
+= 2.0.5.2 – Released on 26 Aug 2021 =
+
+* Fix: Undefined constant YITH_WAPO_SECRET_KEY error
+
+= 2.0.5.1 – Released on 24 Aug 2021 =
+
+* Fix: YITH_WAPO_SECRET_KEY error
+
+= 2.0.5 – Released on 23 Aug 2021 =
+
+* New: Support for WooCommerce 5.6
+* Fix: First select option not added to cart
+* Fix: First installation version check
+* Fix: Removed error_log
+* Fix: Minor bugs
+
+= 2.0.4 – Released on 17 Aug 2021 =
+
+* Fix: Multi Vendor integration
+* Fix: DB tables creation
+* Fix: Minor bugs
+
+= 2.0.3 – Released on 02 Aug 2021 =
+
+* New: Hooks before and after addons list
+* Update: IT, ES & FR Translations
+* Update: YITH plugin framework
+* Dev: Improved replacement image feature
+* Fix: Taxes calculation
+* Fix: Number of decimals in total price table
+* Fix: Backend overlay layout problem
+* Fix: Total price number format
+* Fix: Price calculation of single label options
+* Fix: Included categories problem
+* Fix: JS "ajaxurl" variable error
+* Fix: Various JS errors
+* Fix: Minor bugs
+
+= 2.0.2 – Released on 20 Jul 2021 =
+
+* New: Support for WordPress 5.8
+* Update: IT & ES Translations
+* Fix: Currency position in total table
+* Fix: Required files style
+* Fix: Ajax error
+* Fix: Minor bugs
+
+= 2.0.1 – Released on 06 Jul 2021 =
+
+* New: Support for WooCommerce 5.5
+* Update: IT translation
+* Update: ES translation
+* Update: YITH plugin framework
+* Fix: Conditional logic notice
+* Fix: Fatal error in blocks list
+* Fix: Migration function
+* Fix: Minor bugs
+
+= 2.0.0 – Released on 01 Jul 2021 =
+
+* New: Plugin UI/UX restyling
+* New: Conditional Logic system
+* New: "Product" addon type
+* New: "Color Swatch" addon features
+* New: "Date" addon features & settings
+* New: HTML elements for product page
+* New: Layout & grid settings
+* New: Automatic upgrade procedure
+* New: Cart & Order settings
+* New: Style settings
+* Update: YITH plugin framework
+* Tweak: major code refactoring
+
+= 1.5.39 – Released on 18 Jun 2021 =
+
+* New: Support for WooCommerce 5.4
+* Update: YITH plugin framework
+* Fix: Minor bugs
+
+= 1.5.38 – Released on 20 May 2021 =
+
+* New: Support for WooCommerce 5.3
+* Update: YITH plugin framework
+* Dev: New filter "yith_wapo_get_item_data"
+* Dev: New action "yith_wapo_get_total_by_add_ons_list"
+* Fix: Minor bugs
+
+= 1.5.37 – Released on 13 April 2021 =
+
+* New: Support for WooCommerce 5.2
+* Update: YITH plugin framework
+* Fix: Attributes in order info
+* Fix: Minor bugs
+
+= 1.5.36 – Released on 12 March 2021 =
+
+* New: Support for WordPress 5.7
+* New: Support for WooCommerce 5.1
+* Update: YITH plugin framework
+* Fix: Minor bugs
 
 = 1.5.35 – Released on 09 February 2021 =
 

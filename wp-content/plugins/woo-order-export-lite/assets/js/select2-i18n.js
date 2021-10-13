@@ -19,6 +19,12 @@ jQuery.fn.extend( {
 
 		if ( ajax_method ) {
 
+			let minimumInputLength = 3;
+
+			if ( script_data.show_all_items_in_filters && ( ajax_method === 'get_categories' || ajax_method === 'get_products') ) {
+				minimumInputLength = 0;
+			}
+
 			var select2_ajax = {
 				ajax: {
 					url: ajaxurl,
@@ -26,7 +32,7 @@ jQuery.fn.extend( {
 					delay: 250,
 					data: function ( params ) {
 						return {
-							q: params.term, // search term
+							q: params.term ? params.term : "", // search term
 							page: params.page,
 							method: ajax_method,
 							action: "order_exporter",
@@ -43,7 +49,7 @@ jQuery.fn.extend( {
 				escapeMarkup: function ( markup ) {
 					return markup;
 				}, // let our custom formatter work
-				minimumInputLength: 3,
+				minimumInputLength: minimumInputLength,
 				templateResult: function ( item ) {
 
 					var markup = '<div class="weo_clearfix">' +

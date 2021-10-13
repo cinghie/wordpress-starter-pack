@@ -124,9 +124,11 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 
 	//for FILTERS
 
-	public static function get_products_like( $like, $limit ) {
+	public static function get_products_like( $like, $limit = null ) {
 		global $wpdb;
-		$like  = $wpdb->esc_like( $like );
+		$like         = $wpdb->esc_like( $like );
+		$limit_result = (int) $limit > 0 ? "LIMIT " . (int) $limit : "";
+
 		$query = "
                 SELECT      post.ID as id,post.post_title as text,att.ID as photo_id,att.guid as photo_url
                 FROM        " . $wpdb->posts . " as post
@@ -136,7 +138,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 				AND         post.post_status NOT IN ('trash')
                 GROUP BY    post.ID
                 ORDER BY    post.post_title
-                LIMIT " . intval( $limit );
+                " . $limit_result;
 
 		$products = $wpdb->get_results( $wpdb->prepare( $query, '%' . $like . '%' ) );
 		foreach ( $products as $key => $product ) {
@@ -185,10 +187,12 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 		return $wpdb->get_results( $wpdb->prepare( $query, '%' . $like . '%' ) );
 	}
 
-	public static function get_categories_like( $like ) {
-		$cat = array();
+	public static function get_categories_like( $like, $limit = null ) {
+		$cat          = array();
+		$limit_result = (int) $limit > 0 ? "&number=" . $limit : "";
+
 		foreach (
-			get_terms( 'product_cat', 'hide_empty=0&hierarchical=1&name__like=' . $like . '&number=10' ) as $term
+			get_terms( 'product_cat', 'hide_empty=0&hierarchical=1&name__like=' . $like . $limit_result ) as $term
 		) {
 			$cat[] = array( "id" => $term->term_id, "text" => $term->name );
 		}
@@ -423,7 +427,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 			'weight'                      => array(
 				'label'   => __( 'Weight', 'woo-order-export-lite' ),
 				'checked' => 0,
-				'format'  => 'number',
+				'format'  => '',
 			),
 			'stock_status'                      => array(
 				'label'   => __( 'Stock Status', 'woo-order-export-lite' ),
@@ -488,7 +492,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 			'summary_report_total_weight'    => array(
 				'label'   => __( 'Summary Report Total Weight', 'woo-order-export-lite' ),
 				'checked' => 0,
-				'format'  => 'number',
+				'format'  => '',
 			),
 			'embedded_product_image' => array(
 				'label'   => __( 'Embedded Product Image', 'woo-order-export-lite' ),
@@ -704,7 +708,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 			'customer_total_spent' => array(
 				'label'   => __( 'Customer Total Spent', 'woo-order-export-lite' ),
 				'checked' => 0,
-				'format'  => 'number',
+				'format'  => 'money',
 			),
 			'customer_first_order_date' => array(
 				'label'   => __( 'Customer first order date', 'woo-order-export-lite' ),
@@ -728,6 +732,11 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 			),
 			'summary_report_total_count_items_exported'    => array(
 				'label'   => __( 'Summary Report Total Items (Exported)', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'number',
+			),
+			'summary_report_total_sum_items_exported' => array(
+				'label'   => __( 'Summary Report Sum of Items (Exported)', 'woo-order-export-lite' ),
 				'checked' => 0,
 				'format'  => 'number',
 			),
@@ -1071,12 +1080,12 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 			'item_discount_tax'			  => array(
 				'label'   => __( 'Item Discount Tax', 'woo-order-export-lite' ),
 				'checked' => 0,
-				'format'  => 'number',
+				'format'  => 'money',
 			),
 			'item_discount_amount_and_tax'=> array(
 				'label'   => __( 'Item Discount Amount + Tax', 'woo-order-export-lite' ),
 				'checked' => 0,
-				'format'  => 'number',
+				'format'  => 'money',
 			),
 		);
 
@@ -1093,7 +1102,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 			'total_weight_items'    => array(
 				'label'   => __( 'Total weight', 'woo-order-export-lite' ),
 				'checked' => 0,
-				'format'  => 'number',
+				'format'  => '',
 			),
 			'count_total_items'     => array(
 				'label'   => __( 'Total items', 'woo-order-export-lite' ),
@@ -1157,6 +1166,11 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 				'checked' => 1,
 				'format'  => 'money',
 			),
+			'order_subtotal_plus_cart_tax'       => array(
+				'label'   => __( 'Order Subtotal Amount + Cart Tax', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'money',
+			),
 			'order_subtotal_minus_discount' => array(
 				'label'   => __( 'Order Subtotal - Cart Discount', 'woo-order-export-lite' ),
 				'checked' => 0,
@@ -1173,7 +1187,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 				'format'  => 'money',
 			),
 			'order_tax'                     => array(
-				'label'   => __( 'Order Tax Amount', 'woo-order-export-lite' ),
+				'label'   => __( 'Cart Tax Amount', 'woo-order-export-lite' ),
 				'checked' => 0,
 				'format'  => 'money',
 			),
@@ -1194,6 +1208,11 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 			),
 			'shipping_method_only'          => array(
 				'label'   => __( 'Shipping Method (no id)', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'string',
+			),
+			'shipping_zone'               => array(
+				'label'   => __( 'Shipping Zone', 'woo-order-export-lite' ),
 				'checked' => 0,
 				'format'  => 'string',
 			),
@@ -1349,6 +1368,12 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 		);
 	}
 
+	public static function get_common_hints() {
+        return array(
+            __( 'Use section "Product order item" to add item meta', 'woo-order-export-lite' ),
+        );
+    }
+
 	public static function get_format_fields() {
 		return array(
 			'string' => __( 'String', 'woo-order-export-lite' ),
@@ -1360,5 +1385,14 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 		);
 	}
 
-
+	public static function get_wc_email_templates() {
+		$emails = WC_Emails::instance();
+		$email_titles = array( '' => __( 'Please, choose the template', 'woo-order-export-lite' ) );
+		foreach( $emails->get_emails() as $email ) {
+			if(!in_array($email->id, array('customer_reset_password', 'customer_new_account'))) {
+				$email_titles[ $email->id ] = $email->title;
+			}
+		}
+		return $email_titles;
+	}
 }

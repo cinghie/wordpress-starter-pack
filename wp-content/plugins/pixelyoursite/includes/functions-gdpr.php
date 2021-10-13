@@ -7,6 +7,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * ConsentMagic
+ */
+function isConsentMagicPluginActivated() {
+
+    if ( ! function_exists( 'is_plugin_active' ) ) {
+        include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+    }
+
+    return is_plugin_active( 'consent-magic-pro/consent-magic-pro.php' );
+
+}
+function isConsentMagicPluginInstalled() {
+
+    if ( ! function_exists( 'is_plugin_active' ) ) {
+        include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+    }
+    $installed_plugins = get_plugins();
+    $plugin_slug = "consent-magic-pro/consent-magic-pro.php";
+    return array_key_exists( $plugin_slug, $installed_plugins ) || in_array( $plugin_slug, $installed_plugins, true );
+
+}
+
+function isConsentMagicPluginLicenceActivated() {
+    $id = get_option('cs_product_id');
+    if($id && get_option('wc_am_client_'.$id.'_activated') == 'Activated') {
+        return true;
+    }
+    return false;
+}
+/**
  * @link https://wordpress.org/plugins/ginger/
  */
 function isGingerPluginActivated() {
@@ -60,6 +90,22 @@ function isCookieLawInfoPluginActivated() {
 	return is_plugin_active( 'cookie-law-info/cookie-law-info.php' )
 	       || is_plugin_active( 'webtoffee-gdpr-cookie-consent/cookie-law-info.php' ) ;
 	
+}
+
+/**
+ * GDPR Real Cookie Banner
+ *
+ * @link https://wordpress.org/plugins/real-cookie-banner/
+ */
+function isRealCookieBannerPluginActivated() {
+
+    if ( ! function_exists( 'is_plugin_active' ) ) {
+        include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+    }
+
+    return is_plugin_active( 'real-cookie-banner-pro/index.php' )
+        || is_plugin_active( 'real-cookie-banner/index.php' ) ;
+
 }
 
 function adminGdprAjaxNotEnabledNotice() {

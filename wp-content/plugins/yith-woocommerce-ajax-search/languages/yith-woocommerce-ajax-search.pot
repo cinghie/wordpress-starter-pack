@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the YITH WooCommerce Ajax Search package.
 msgid ""
 msgstr ""
-"Project-Id-Version: YITH WooCommerce Ajax Search 1.8.7\n"
+"Project-Id-Version: YITH WooCommerce Ajax Search 1.10.1\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/yith-woocommerce-ajax-search\n"
-"POT-Creation-Date: 2021-02-03 11:28:47+00:00\n"
+"POT-Creation-Date: 2021-09-27 12:27:05+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -52,131 +52,152 @@ msgstr ""
 msgid "Title:"
 msgstr ""
 
-#: init.php:52
+#: init.php:57
 msgid ""
 "You can't activate the free version of YITH WooCommerce Ajax Search while "
 "you are using the premium one."
 msgstr ""
 
-#: init.php:121
+#: init.php:125
 msgid ""
 "YITH WooCommerce Ajax Search is enabled but not effective. It requires "
 "WooCommerce in order to work."
 msgstr ""
 
-#: plugin-options/settings-options.php:21
+#: plugin-options/settings-options.php:25
 msgid "General settings"
 msgstr ""
 
-#: plugin-options/settings-options.php:30
+#: plugin-options/settings-options.php:34
 msgid "Search input label"
 msgstr ""
 
-#: plugin-options/settings-options.php:32
-#: plugin-options/settings-options.php:40
+#: plugin-options/settings-options.php:36
+#: plugin-options/settings-options.php:44
 msgid "Label for Search input field."
 msgstr ""
 
-#: plugin-options/settings-options.php:34
+#: plugin-options/settings-options.php:38
 msgid "Search for products"
 msgstr ""
 
-#: plugin-options/settings-options.php:38
+#: plugin-options/settings-options.php:42
 msgid "Search submit label"
 msgstr ""
 
-#: plugin-options/settings-options.php:42
+#: plugin-options/settings-options.php:46
 msgid "Search"
 msgstr ""
 
-#: plugin-options/settings-options.php:46
+#: plugin-options/settings-options.php:50
 msgid "Minimum number of characters"
 msgstr ""
 
-#: plugin-options/settings-options.php:47
+#: plugin-options/settings-options.php:51
 msgid "Minimum number of characters required to trigger autosuggest."
 msgstr ""
 
-#: plugin-options/settings-options.php:60
+#: plugin-options/settings-options.php:64
 msgid "Maximum number of results"
 msgstr ""
 
-#: plugin-options/settings-options.php:61
+#: plugin-options/settings-options.php:65
 msgid "Maximum number of results showed within the autosuggest box."
 msgstr ""
 
-#: plugin-options/settings-options.php:74
+#: plugin-options/settings-options.php:78
 msgid "Enable transients to cache autocomplete results"
 msgstr ""
 
-#: plugin-options/settings-options.php:75
+#: plugin-options/settings-options.php:79
 msgid "Save the results of a query in a transient"
 msgstr ""
 
-#: plugin-options/settings-options.php:84
+#: plugin-options/settings-options.php:88
 msgid "Set the duration of transient"
 msgstr ""
 
-#: plugin-options/settings-options.php:85
+#: plugin-options/settings-options.php:89
 msgid "(hours)"
 msgstr ""
 
-#: templates/admin/premium.php:256 templates/admin/premium.php:304
+#: templates/admin/premium.php:238 templates/admin/premium.php:390
+#. translators: placeholders html tag.
 msgid ""
-"Upgrade to the %1$spremium version%2$s%3$s of %1$sYITH WooCommerce Ajax "
-"Search%2$s to benefit from all features!"
+"Upgrade to %1$spremium version%2$s of %1$sYITH WooCommerce Ajax Search%2$s "
+"to benefit from all features!"
 msgstr ""
 
-#: templates/admin/premium.php:258 templates/admin/premium.php:306
-msgid "%1$sUPGRADE%2$s %3$sto the premium version%2$s"
+#: templates/admin/premium.php:243 templates/admin/premium.php:395
+msgid "UPGRADE"
 msgstr ""
 
-#: templates/admin/premium.php:264
+#: templates/admin/premium.php:249
 msgid "Premium Features"
 msgstr ""
 
-#: templates/admin/premium.php:266
-msgid "HOW TO CUSTOMIZE THE RESULTS OF THE AUTOCOMPLETE"
+#: templates/admin/premium.php:258
+msgid "Show a preview of the product"
 msgstr ""
 
-#: templates/admin/premium.php:268
-msgid "RESULTS OF THE AUTOCOMPLETE"
-msgstr ""
-
-#: templates/admin/premium.php:273
-msgid "Show %1$sthe image%2$s of the product (left or right aligned)"
+#: templates/admin/premium.php:264
+msgid ""
+"For better usability, you can show an image of the product and choose its "
+"position in the preview of search results"
 msgstr ""
 
 #: templates/admin/premium.php:274
-msgid "Enable the %1$sprice visualization%2$s"
+msgid "Show the price of the product"
 msgstr ""
 
-#: templates/admin/premium.php:275
-msgid "Show the %1$sproduct description%2$s"
+#: templates/admin/premium.php:278
+msgid ""
+"Show also the price in the search results and highlight discounts and "
+"promotions"
 msgstr ""
 
-#: templates/admin/premium.php:276
-msgid "Tell to the client if the product is %1$son discount or is featured%2$s"
+#: templates/admin/premium.php:296
+msgid "Show a brief description of the product"
 msgstr ""
 
-#: templates/admin/premium.php:284
-msgid "HOW TO CUSTOMIZE THE SEARCH OPTIONS"
+#: templates/admin/premium.php:302
+msgid "Give helpful information about the product immediately"
 msgstr ""
 
-#: templates/admin/premium.php:288
-msgid "%1$sExtend the research%2$s in the excerpt and in the content"
+#: templates/admin/premium.php:312
+msgid "Highlight promotional products"
 msgstr ""
 
-#: templates/admin/premium.php:289
-msgid "%1$sActivate%2$s the category search"
+#: templates/admin/premium.php:316
+msgid "Add a customizable label to emphasize discounted and promotion products"
 msgstr ""
 
-#: templates/admin/premium.php:290
-msgid "Configure the %1$stag%2$s search"
+#: templates/admin/premium.php:334
+msgid "Extend the product search through tags, SKUs and categories"
 msgstr ""
 
-#: templates/admin/premium.php:291
-msgid "Search a product with an %1$sID%2$s"
+#: templates/admin/premium.php:340
+msgid ""
+"To make your products easier to find and to improve the quality of the user "
+"experience in your shop"
+msgstr ""
+
+#: templates/admin/premium.php:351
+msgid "Show the search form in two different layouts"
+msgstr ""
+
+#: templates/admin/premium.php:355
+msgid ""
+"A wide style in addition to the default one. The form will adjust to the "
+"whole width of the page"
+msgstr ""
+
+#: templates/admin/premium.php:373
+msgid "Search products by vendor"
+msgstr ""
+
+#: templates/admin/premium.php:377
+msgid "By using the plugin in combination with YITH WooCommerce Multi Vendor"
 msgstr ""
 
 #: templates/yith-woocommerce-ajax-search.php:19
@@ -193,22 +214,22 @@ msgid ""
 "your e-commerce shop on <strong>YITH</strong></a>."
 msgstr ""
 
-#: plugin-options/gutenberg/blocks.php:17
+#: plugin-options/gutenberg/blocks.php:21
 msgctxt "[gutenberg]: block name"
 msgid "Ajax Search"
 msgstr ""
 
-#: plugin-options/gutenberg/blocks.php:18
+#: plugin-options/gutenberg/blocks.php:22
 msgctxt "[gutenberg]: block description"
 msgid "Show Ajax Search Form"
 msgstr ""
 
-#: plugin-options/gutenberg/blocks.php:22
+#: plugin-options/gutenberg/blocks.php:26
 msgctxt "[gutenberg]: keywords"
 msgid "Ajax Search"
 msgstr ""
 
-#: plugin-options/gutenberg/blocks.php:23
+#: plugin-options/gutenberg/blocks.php:27
 msgctxt "[gutenberg]: keywords"
 msgid "Search"
 msgstr ""

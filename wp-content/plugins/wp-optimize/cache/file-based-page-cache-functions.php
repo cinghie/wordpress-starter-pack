@@ -29,7 +29,7 @@ function wpo_cache($buffer, $flags) {
 	}
 
 	// Don't cache pages for logged in users.
-	if (!function_exists('is_user_logged_in') || is_user_logged_in()) {
+	if (empty($GLOBALS['wpo_cache_config']['enable_user_specific_cache']) && (!function_exists('is_user_logged_in') || is_user_logged_in())) {
 		$no_cache_because[] = __('User is logged in', 'wp-optimize');
 	}
 
@@ -155,7 +155,15 @@ function wpo_cache($buffer, $flags) {
 		/**
 		 * Save $buffer into cache file.
 		 */
-		$cache_filename = wpo_cache_filename();
+		$file_ext = '.html';
+
+		if (wpo_feeds_caching_enabled()) {
+			if (is_feed()) {
+				$file_ext = '.rss-xml';
+			}
+		}
+
+		$cache_filename = wpo_cache_filename($file_ext);
 		$cache_file = $path . '/' .$cache_filename;
 
 		// if we can then cache gzipped content in .gz file.
@@ -231,13 +239,24 @@ function wpo_restricted_cache_page_type($restricted) {
 	}
 
 	// Don't cache feeds.
-	if (function_exists('is_feed') && is_feed()) {
+	if (function_exists('is_feed') && is_feed() && !wpo_feeds_caching_enabled()) {
 		$restricted = __('We don\'t cache RSS feeds', 'wp-optimize');
 	}
 
 	return $restricted;
 }
 }
+
+/**
+ * Returns true if we need cache content for loggedin users.
+ *
+ * @return bool
+ */
+if (!function_exists('wpo_cache_loggedin_users')) :
+function wpo_cache_loggedin_users() {
+	return !empty($GLOBALS['wpo_cache_config']['enable_user_caching']) || !empty($GLOBALS['wpo_cache_config']['enable_user_specific_cache']);
+}
+endif;
 
 /**
  * Get filename for store cache, depending on gzip, mobile and cookie settings.
@@ -301,6 +320,8 @@ function wpo_cache_filename($ext = '.html') {
 	if ('' !== $cache_key) {
 		$filename .= '-' . md5($cache_key);
 	}
+
+	$filename = apply_filters('wpo_cache_filename', $filename);
 
 	return $filename . $ext;
 }
@@ -466,7 +487,19 @@ if (!function_exists('wpo_serve_cache')) :
 function wpo_serve_cache() {
 	$file_name = wpo_cache_filename();
 
-	$path = WPO_CACHE_FILES_DIR . '/' . wpo_get_url_path() . '/' . $file_name;
+	$file_name_rss_xml = wpo_cache_filename('.rss-xml');
+	$send_as_feed = false;
+
+	$path_dir = WPO_CACHE_FILES_DIR . '/' . wpo_get_url_path() . '/';
+	$path = $path_dir . $file_name;
+
+	if (wpo_feeds_caching_enabled()) {
+		// check for .xml cache file if .html cache file doesn't exist
+		if (!file_exists($path_dir . $file_name) && file_exists($path_dir . $file_name_rss_xml)) {
+			$path = $path_dir . $file_name_rss_xml;
+			$send_as_feed = true;
+		}
+	}
 
 	$use_gzip = false;
 
@@ -501,6 +534,10 @@ function wpo_serve_cache() {
 			header('Content-Encoding: gzip');
 		}
 
+		if ($send_as_feed) {
+			header('Content-type: application/rss+xml');
+		}
+
 		header('WPO-Cache-Status: cached');
 		header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $modified_time) . ' GMT');
 		header($_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified', true, 304);
@@ -521,6 +558,10 @@ function wpo_serve_cache() {
 
 		if (preg_match('/\.txt$/i', $filename)) {
 			header('Content-type: text/plain');
+		}
+
+		if ($send_as_feed) {
+			header('Content-type: application/rss+xml');
 		}
 
 		header('WPO-Cache-Status: cached');
@@ -562,8 +603,8 @@ function wpo_get_url_path($url = '') {
 	$url = '' == $url ? wpo_current_url() : $url;
 	$url_parts = parse_url($url);
 	
-	if (isset($url_parts['path']) && 0 === stripos($url_parts['path'], '/index.php')) {
-		$url_parts['path'] = str_replace('/index.php', '/index-php', $url_parts['path']);
+	if (isset($url_parts['path']) && false !== stripos($url_parts['path'], '/index.php')) {
+		$url_parts['path'] = preg_replace('/(.*?)index\.php(\/.+)/i', '$1index-php$2', $url_parts['path']);
 	}
 
 	if (!isset($url_parts['host'])) $url_parts['host'] = '';
@@ -709,6 +750,9 @@ function wpo_url_exception_match($url, $exception) {
 
 	$exception = preg_quote($exception);
 
+	// fix - unescape possible escaped mask .*
+	$exception = str_replace('\\.\\*', '.*', $exception);
+
 	return preg_match('#^'.$exception.'$#i', $url) || preg_match('#^'.$sub_dir.$exception.'$#i', $url);
 }
 endif;
@@ -839,6 +883,39 @@ function wpo_delete_files($src, $recursive = true) {
 	WP_Optimize()->get_page_cache()->delete_cache_size_information();
 
 	return $success;
+}
+endif;
+
+if (!function_exists('wpo_is_empty_dir')) :
+/**
+ * Check if selected directory is empty or has only index.php which we added for security reasons.
+ *
+ * @param string $dir
+ *
+ * @return bool
+ */
+function wpo_is_empty_dir($dir) {
+	if (!file_exists($dir) || !is_dir($dir)) return false;
+
+	$handle = opendir($dir);
+
+	if (false === $handle) return false;
+
+	$is_empty = true;
+	$file = readdir($handle);
+
+	while (false !== $file) {
+
+		if ('.' != $file && '..' != $file && 'index.php' != $file) {
+			$is_empty = false;
+			break;
+		}
+
+		$file = readdir($handle);
+	}
+
+	closedir($handle);
+	return $is_empty;
 }
 endif;
 
@@ -995,5 +1072,16 @@ if (!function_exists('wpo_cache_add_nocache_http_header')) :
 			if (!$buffered_message && function_exists('add_action')) add_action('send_headers', 'wpo_cache_add_nocache_http_header', 11);
 			$buffered_message = $message;
 		}
+	}
+endif;
+
+/**
+ * Check if feeds caching enabled
+ *
+ * @return bool
+ */
+if (!function_exists('wpo_feeds_caching_enabled')) :
+	function wpo_feeds_caching_enabled() {
+		return apply_filters('wpo_feeds_caching_enabled', true);
 	}
 endif;

@@ -1,3 +1,14 @@
+/*------------------------------------------------------------------------------
+  YITH WooCommerce Request a Quote
+
+   1. Global
+   2. RAQ Page
+   3. Responsive
+------------------------------------------------------------------------------*/
+
+/*------------------------------------------------------------------------------
+  1. Global
+------------------------------------------------------------------------------*/
 .ajax-loading,
 .product-remove a.yith-ywraq-item-remove.remove {
     display: inline-block;
@@ -9,6 +20,40 @@
 
 .woocommerce .related ul li.product img, .woocommerce .related ul.products li.product img.ajax-loading {
     width: auto;
+}
+
+.yith-ywraq-add-to-quote a, .yith_ywraq_add_item_browse_message a {
+    font-size: 1.2rem !important;
+    font-weight: 600;
+    margin: 0 auto;
+}
+
+.yith_ywraq_add_item_browse_message a:after {
+    display: none !important;
+}
+
+/*------------------------------------------------------------------------------
+  2. RAQ Page
+------------------------------------------------------------------------------*/
+
+.ywraq-form-table-wrapper.wide {
+    align-content: space-evenly;
+    align-items: baseline;
+    display: flex;
+    flex: 0 0 auto;
+}
+
+.ywraq-form-table-wrapper.wide .yith-ywraq-mail-form-wrapper {
+    flex-basis: 48%;
+    margin-left: 5%;
+}
+
+.ywraq-form-table-wrapper.wide form#yith-ywraq-form {
+    flex-basis: 48%;
+}
+
+.ywraq-form-table-wrapper .yith-ywraq-mail-form-wrapper {
+    padding: 25px;
 }
 
 input#rqa_privacy {
@@ -26,56 +71,9 @@ input#rqa_privacy {
     display: table;
 }
 
-.ywraq-privacy-wrapper {
-    background-color: #fafafa;
-    padding: 20px 20px 5px 20px;
-    margin-bottom: 20px;
-    display: block;
-    clear: both;
-}
-
-/**
-* Page
- */
-.ywraq-form-table-wrapper.wide {
-    display: flex;
-    align-content: space-evenly;
-    flex: 0 0 auto;
-    align-items: baseline;
-}
-
-.ywraq-form-table-wrapper.wide .yith-ywraq-mail-form-wrapper {
-    flex-basis: 48%;
-    margin-left: 5%;
-}
-
-.ywraq-form-table-wrapper.wide form#yith-ywraq-form {
-    flex-basis: 48%;
-}
-
-.ywraq-form-table-wrapper .yith-ywraq-mail-form-wrapper {
-    padding: 25px;
-}
-
-/**
-YITH PROTEO
- */
-.theme-yith-proteo .ywraq-form-table-wrapper .yith-ywraq-mail-form-wrapper {
-    background: #f5f5f5;
-}
-
-.theme-yith-proteo a.add-request-quote-button.button {
-    color: #fff;
-}
-
-.theme-yith-proteo #yith-ywraq-mail-form input[type=text],
-.theme-yith-proteo #yith-ywraq-mail-form input[type=email],
-.theme-yith-proteo #yith-ywraq-mail-form input[type=password],
-.theme-yith-proteo #yith-ywraq-mail-form select,
-.theme-yith-proteo #yith-ywraq-mail-form textarea {
-    background-color: #fff;
-    border: 1px solid #ccc;
-}
+/*------------------------------------------------------------------------------
+  3. Responsive
+------------------------------------------------------------------------------*/
 
 @media (max-width: 768px) {
     .ywraq-form-table-wrapper.wide {

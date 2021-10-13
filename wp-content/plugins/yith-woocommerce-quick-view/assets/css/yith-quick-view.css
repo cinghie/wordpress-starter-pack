@@ -137,6 +137,9 @@ html.yith-quick-view-is-open body {
     right: auto;
     left: 5px;
 }
+#yith-quick-view-content figure.woocommerce-product-gallery__wrapper > div:not(:first-child) {
+    display: none;
+}
 
 li.product .yith-wcqv-button .blockUI.blockOverlay:before {
     background: none;

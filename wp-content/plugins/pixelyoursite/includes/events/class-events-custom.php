@@ -1,6 +1,6 @@
 <?php
 namespace PixelYourSite;
-class EventsCustom implements EventsFactory {
+class EventsCustom extends EventsFactory {
     private static $_instance;
     public static function instance() {
 
@@ -12,9 +12,14 @@ class EventsCustom implements EventsFactory {
 
     }
 
+    static function getSlug() {
+        return "custom";
+    }
+
     private function __construct() {
 
     }
+
 
     function getEvents(){
         return CustomEventFactory::get( 'active' );

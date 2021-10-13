@@ -34,6 +34,8 @@ use PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemAvailabilityValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemCommerceTaxCategoryValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemConditionValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemGenderValues;
+use PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemImageFetchStatusValues;
+use PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemMarkedForProductLaunchValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemReviewStatusValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemShippingWeightUnitValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemVisibilityValues;
@@ -68,21 +70,13 @@ class ProductItem extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
         $ref_enums['Availability'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemAvailabilityValues::getInstance()->getValues();
         $ref_enums['Condition'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemConditionValues::getInstance()->getValues();
         $ref_enums['Gender'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemGenderValues::getInstance()->getValues();
+        $ref_enums['ImageFetchStatus'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemImageFetchStatusValues::getInstance()->getValues();
         $ref_enums['ReviewStatus'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemReviewStatusValues::getInstance()->getValues();
         $ref_enums['ShippingWeightUnit'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemShippingWeightUnitValues::getInstance()->getValues();
         $ref_enums['Visibility'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemVisibilityValues::getInstance()->getValues();
         $ref_enums['CommerceTaxCategory'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemCommerceTaxCategoryValues::getInstance()->getValues();
+        $ref_enums['MarkedForProductLaunch'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemMarkedForProductLaunchValues::getInstance()->getValues();
         return $ref_enums;
-    }
-    public function createArDatum(array $fields = array(), array $params = array(), $pending = \false)
-    {
-        $this->assureId();
-        $param_types = array('container_effect' => 'container_effect_enum', 'effect_parameters' => 'map', 'picker_icon' => 'file');
-        $enums = array('container_effect_enum' => array('MAKEUP'));
-        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/ar_data', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'EDGE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
-        $request->addParams($params);
-        $request->addFields($fields);
-        return $pending ? $request : $request->execute();
     }
     public function getChannelsToIntegrityStatus(array $fields = array(), array $params = array(), $pending = \false)
     {
@@ -117,7 +111,7 @@ class ProductItem extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
     public function getSelf(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
-        $param_types = array('image_height' => 'unsigned int', 'image_width' => 'unsigned int');
+        $param_types = array('catalog_id' => 'string', 'image_height' => 'unsigned int', 'image_width' => 'unsigned int', 'override_country' => 'string', 'override_language' => 'string');
         $enums = array();
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/', new \PYS_PRO_GLOBAL\FacebookAds\Object\ProductItem(), 'NODE', \PYS_PRO_GLOBAL\FacebookAds\Object\ProductItem::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
@@ -127,8 +121,8 @@ class ProductItem extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
     public function updateSelf(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
-        $param_types = array('additional_image_files' => 'list<file>', 'additional_image_urls' => 'list<string>', 'additional_uploaded_image_ids' => 'list<string>', 'additional_variant_attributes' => 'map', 'android_app_name' => 'string', 'android_class' => 'string', 'android_package' => 'string', 'android_url' => 'string', 'availability' => 'availability_enum', 'brand' => 'string', 'category' => 'string', 'category_specific_fields' => 'map', 'checkout_url' => 'string', 'color' => 'string', 'commerce_tax_category' => 'commerce_tax_category_enum', 'condition' => 'condition_enum', 'currency' => 'string', 'custom_data' => 'map', 'custom_label_0' => 'string', 'custom_label_1' => 'string', 'custom_label_2' => 'string', 'custom_label_3' => 'string', 'custom_label_4' => 'string', 'description' => 'string', 'expiration_date' => 'string', 'fb_product_category' => 'string', 'gender' => 'gender_enum', 'gtin' => 'string', 'image_url' => 'string', 'inventory' => 'unsigned int', 'ios_app_name' => 'string', 'ios_app_store_id' => 'unsigned int', 'ios_url' => 'string', 'ipad_app_name' => 'string', 'ipad_app_store_id' => 'unsigned int', 'ipad_url' => 'string', 'iphone_app_name' => 'string', 'iphone_app_store_id' => 'unsigned int', 'iphone_url' => 'string', 'launch_date' => 'string', 'manufacturer_part_number' => 'string', 'material' => 'string', 'mobile_link' => 'string', 'name' => 'string', 'offer_price_amount' => 'unsigned int', 'offer_price_end_date' => 'datetime', 'offer_price_start_date' => 'datetime', 'ordering_index' => 'unsigned int', 'pattern' => 'string', 'price' => 'unsigned int', 'product_type' => 'string', 'retailer_id' => 'string', 'return_policy_days' => 'unsigned int', 'sale_price' => 'unsigned int', 'sale_price_end_date' => 'datetime', 'sale_price_start_date' => 'datetime', 'short_description' => 'string', 'size' => 'string', 'start_date' => 'string', 'url' => 'string', 'visibility' => 'visibility_enum', 'windows_phone_app_id' => 'string', 'windows_phone_app_name' => 'string', 'windows_phone_url' => 'string');
-        $enums = array('availability_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemAvailabilityValues::getInstance()->getValues(), 'commerce_tax_category_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemCommerceTaxCategoryValues::getInstance()->getValues(), 'condition_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemConditionValues::getInstance()->getValues(), 'gender_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemGenderValues::getInstance()->getValues(), 'visibility_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemVisibilityValues::getInstance()->getValues());
+        $param_types = array('additional_image_urls' => 'list<string>', 'additional_uploaded_image_ids' => 'list<string>', 'additional_variant_attributes' => 'map', 'android_app_name' => 'string', 'android_class' => 'string', 'android_package' => 'string', 'android_url' => 'string', 'availability' => 'availability_enum', 'brand' => 'string', 'category' => 'string', 'category_specific_fields' => 'map', 'checkout_url' => 'string', 'color' => 'string', 'commerce_tax_category' => 'commerce_tax_category_enum', 'condition' => 'condition_enum', 'currency' => 'string', 'custom_data' => 'map', 'custom_label_0' => 'string', 'custom_label_1' => 'string', 'custom_label_2' => 'string', 'custom_label_3' => 'string', 'custom_label_4' => 'string', 'description' => 'string', 'expiration_date' => 'string', 'fb_product_category' => 'string', 'gender' => 'gender_enum', 'gtin' => 'string', 'image_url' => 'string', 'inventory' => 'unsigned int', 'ios_app_name' => 'string', 'ios_app_store_id' => 'unsigned int', 'ios_url' => 'string', 'ipad_app_name' => 'string', 'ipad_app_store_id' => 'unsigned int', 'ipad_url' => 'string', 'iphone_app_name' => 'string', 'iphone_app_store_id' => 'unsigned int', 'iphone_url' => 'string', 'launch_date' => 'string', 'manufacturer_part_number' => 'string', 'marked_for_product_launch' => 'marked_for_product_launch_enum', 'material' => 'string', 'mobile_link' => 'string', 'name' => 'string', 'offer_price_amount' => 'unsigned int', 'offer_price_end_date' => 'datetime', 'offer_price_start_date' => 'datetime', 'ordering_index' => 'unsigned int', 'pattern' => 'string', 'price' => 'unsigned int', 'product_type' => 'string', 'quantity_to_sell_on_facebook' => 'unsigned int', 'retailer_id' => 'string', 'return_policy_days' => 'unsigned int', 'sale_price' => 'unsigned int', 'sale_price_end_date' => 'datetime', 'sale_price_start_date' => 'datetime', 'short_description' => 'string', 'size' => 'string', 'start_date' => 'string', 'url' => 'string', 'visibility' => 'visibility_enum', 'windows_phone_app_id' => 'string', 'windows_phone_app_name' => 'string', 'windows_phone_url' => 'string');
+        $enums = array('availability_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemAvailabilityValues::getInstance()->getValues(), 'commerce_tax_category_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemCommerceTaxCategoryValues::getInstance()->getValues(), 'condition_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemConditionValues::getInstance()->getValues(), 'gender_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemGenderValues::getInstance()->getValues(), 'marked_for_product_launch_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemMarkedForProductLaunchValues::getInstance()->getValues(), 'visibility_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductItemVisibilityValues::getInstance()->getValues());
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/', new \PYS_PRO_GLOBAL\FacebookAds\Object\ProductItem(), 'NODE', \PYS_PRO_GLOBAL\FacebookAds\Object\ProductItem::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
         $request->addFields($fields);

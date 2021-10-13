@@ -1,4 +1,4 @@
-<?php
+<?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
  * Admin class
  *
@@ -32,28 +32,28 @@ if ( ! class_exists( 'YITH_WCAS_Admin' ) ) {
 		 *
 		 * @var Panel Object
 		 */
-		protected $_panel;
+		protected $_panel; // phpcs:ignore
 
 		/**
 		 * Premium tab template file name.
 		 *
 		 * @var string
 		 */
-		protected $_premium = 'premium.php';
+		protected $_premium = 'premium.php'; // phpcs:ignore
 
 		/**
 		 * Premium version landing link.
 		 *
 		 * @var string
 		 */
-		protected $_premium_landing = 'https://yithemes.com/themes/plugins/yith-woocommerce-ajax-search/';
+		protected $_premium_landing = 'https://yithemes.com/themes/plugins/yith-woocommerce-ajax-search/'; // phpcs:ignore
 
 		/**
 		 * Ajax Search panel page.
 		 *
 		 * @var string
 		 */
-		protected $_panel_page = 'yith_wcas_panel';
+		protected $_panel_page = 'yith_wcas_panel'; // phpcs:ignore
 
 
 		/**

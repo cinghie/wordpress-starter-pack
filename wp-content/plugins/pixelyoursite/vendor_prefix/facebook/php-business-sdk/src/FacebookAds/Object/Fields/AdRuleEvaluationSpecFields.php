@@ -38,8 +38,9 @@ class AdRuleEvaluationSpecFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\Abstra
     const EVALUATION_TYPE = 'evaluation_type';
     const FILTERS = 'filters';
     const TRIGGER = 'trigger';
+    const ID = 'id';
     public function getFieldTypes()
     {
-        return array('evaluation_type' => 'EvaluationType', 'filters' => 'list<AdRuleFilters>', 'trigger' => 'AdRuleTrigger');
+        return array('evaluation_type' => 'EvaluationType', 'filters' => 'list<AdRuleFilters>', 'trigger' => 'AdRuleTrigger', 'id' => 'string');
     }
 }

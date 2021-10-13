@@ -62,7 +62,8 @@ class EventsManager {
 		$options = array(
 			'debug' => PYS()->getOption( 'debug_enabled' ),
 			'siteUrl' => site_url(),
-			'ajaxUrl' => admin_url( 'admin-ajax.php' )
+			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+            'enable_remove_download_url_param'=> PYS()->getOption( 'enable_remove_download_url_param' ),
 		);
 
 		$options['gdpr'] = array(
@@ -80,15 +81,16 @@ class EventsManager {
 			'pinterest_prior_consent_enabled'  => PYS()->getOption( 'gdpr_pinterest_prior_consent_enabled' ),
             'bing_prior_consent_enabled' => PYS()->getOption( 'gdpr_bing_prior_consent_enabled' ),
 
+
 			'cookiebot_integration_enabled'         => isCookiebotPluginActivated() && PYS()->getOption( 'gdpr_cookiebot_integration_enabled' ),
 			'cookiebot_facebook_consent_category'   => PYS()->getOption( 'gdpr_cookiebot_facebook_consent_category' ),
 			'cookiebot_analytics_consent_category'  => PYS()->getOption( 'gdpr_cookiebot_analytics_consent_category' ),
 			'cookiebot_google_ads_consent_category' => PYS()->getOption( 'gdpr_cookiebot_google_ads_consent_category' ),
 			'cookiebot_pinterest_consent_category'  => PYS()->getOption( 'gdpr_cookiebot_pinterest_consent_category' ),
             'cookiebot_bing_consent_category' => PYS()->getOption( 'gdpr_cookiebot_bing_consent_category' ),
-
-			'ginger_integration_enabled' => isGingerPluginActivated() && PYS()->getOption( 'gdpr_ginger_integration_enabled' ),
-			'cookie_notice_integration_enabled' => isCookieNoticePluginActivated() && PYS()->getOption( 'gdpr_cookie_notice_integration_enabled' ),
+            'consent_magic_integration_enabled' => isConsentMagicPluginActivated() && PYS()->getOption( 'consent_magic_integration_enabled' ),
+			'real_cookie_banner_integration_enabled' => isRealCookieBannerPluginActivated() && PYS()->getOption( 'gdpr_real_cookie_banner_integration_enabled' ),
+            'cookie_notice_integration_enabled' => isCookieNoticePluginActivated() && PYS()->getOption( 'gdpr_cookie_notice_integration_enabled' ),
 			'cookie_law_info_integration_enabled' => isCookieLawInfoPluginActivated() && PYS()->getOption( 'gdpr_cookie_law_info_integration_enabled' ),
 		);
 
@@ -123,6 +125,7 @@ class EventsManager {
 
 		// initial event
         foreach ( PYS()->getRegisteredPixels() as $pixel ) {
+
             $event = new SingleEvent('init_event',EventTypes::$STATIC);
             $params = array();
             if(get_post_type() == "post") {
@@ -131,13 +134,27 @@ class EventsManager {
                 $params['post_category'] = implode(", ",$catIds) ;
             }
             $event->addParams($params);
-            $this->addEvent($event,$pixel);
+            $isSuccess = $pixel->addParamsToEvent( $event );
+            if ( !$isSuccess ) {
+                continue; // event is disabled or not supported for the pixel
+            }
+            if($pixel->getSlug() != "ga" || $pixel->isUse4Version()) {
+                $event->addParams($this->standardParams);
+            }
+            $this->addStaticEvent( $event,$pixel,"" );
         }
         // search event
         if ( PYS()->getOption('search_event_enabled' ) && is_search() ) {
             foreach (PYS()->getRegisteredPixels() as $pixel) {
                 $event = new SingleEvent('search_event', EventTypes::$STATIC);
-                $this->addEvent($event, $pixel);
+                $isSuccess = $pixel->addParamsToEvent( $event );
+                if ( !$isSuccess ) {
+                    continue; // event is disabled or not supported for the pixel
+                }
+                if($pixel->getSlug() != "ga" || $pixel->isUse4Version()) {
+                    $event->addParams($this->standardParams);
+                }
+                $this->addStaticEvent( $event,$pixel,"" );
             }
         }
 
@@ -147,17 +164,9 @@ class EventsManager {
         $eventsFactory = array(EventsFdp(),EventsEdd(),EventsCustom(),EventsSignal(),EventsWoo());
 
         foreach ($eventsFactory as $factory) {
-
             if(!$factory->isEnabled())  continue;
-
-            foreach ($factory->getEvents() as $eventName) {
-                if($factory->isReadyForFire($eventName)) {
-                    foreach ( PYS()->getRegisteredPixels() as $pixel ) {
-                        $event = $factory->getEvent($eventName);
-                        $this->addEvent($event,$pixel);
-                    }
-                }
-            }
+            $events = $factory->generateEvents();
+            $this->addEvents($events,$factory->getSlug());
         }
 
 
@@ -170,10 +179,14 @@ class EventsManager {
 
         if(EventsWoo()->isEnabled()){
             // AddToCart on button and Affiliate
-            if ( isEventEnabled( 'woo_add_to_cart_enabled') && PYS()->getOption( 'woo_add_to_cart_on_button_click' )) {
+            if ( PYS()->getOption('woo_add_to_cart_catch_method') == "add_cart_js"
+                    && isEventEnabled( 'woo_add_to_cart_enabled')
+                    && PYS()->getOption( 'woo_add_to_cart_on_button_click' )
+            ) {
                 add_action( 'woocommerce_after_shop_loop_item', array( $this, 'setupWooLoopProductData' ) );
                 add_action( 'woocommerce_after_add_to_cart_button', array( $this, 'setupWooSingleProductData' ) );
                 add_filter( 'woocommerce_blocks_product_grid_item_html', array( $this, 'setupWooBlocksProductData' ), 10, 3 );
+                add_filter('jet-woo-builder/elementor-views/frontend/archive-item-content', array( $this, 'setupWooBlocksProductData' ),10, 3);
             }
         }
 
@@ -203,52 +216,61 @@ class EventsManager {
 	    return isset( $this->staticEvents[ $context ] ) ? $this->staticEvents[ $context ] : array();
     }
 
-    function addEvent($events,$pixel){
-        if(!is_array($events)) {
-            $events = array($events);
-        }
-        foreach ($events as $event) {
-            if(!method_exists($pixel,"addParamsToEvent")) continue; // for old pixel addons
-            $isSuccess = $pixel->addParamsToEvent( $event );
-            if ( !$isSuccess ) {
-                continue; // event is disabled or not supported for the pixel
+
+    function addEvents($pixelEvents,$slug) {
+
+        foreach ($pixelEvents as $pixelSlug => $events) {
+            $pixel = PYS()->getRegisteredPixels()[$pixelSlug];
+            foreach ($events as $event) {
+                // add standard params
+                if(is_a($event,GroupedEvent::class)) {
+                    foreach ($event->getEvents() as $child) {
+                        if($pixel->getSlug() != "ga" || $pixel->isUse4Version()) {
+                            $child->addParams($this->standardParams);
+                        }
+                    }
+                } else {
+                    if($pixel->getSlug() != "ga" || $pixel->isUse4Version()) {
+                        $event->addParams($this->standardParams);
+                    }
+                }
+                //save different types of events
+                if($event->getType() == EventTypes::$STATIC) {
+                    $this->addStaticEvent( $event,$pixel,$slug );
+                } elseif($event->getType() == EventTypes::$TRIGGER) {
+                    $this->addTriggerEvent($event,$pixel,$slug);
+                } else {
+                    $this->addDynamicEvent($event,$pixel,$slug);
+                }
             }
-            if($event->getType() == EventTypes::$STATIC) {
-                $this->addStaticEvent( $event,$pixel );
-            } elseif($event->getType() == EventTypes::$TRIGGER) {
-                $this->addTriggerEvent($event,$pixel);
-            } else {
-                $this->addDynamicEvent($event,$pixel);
-            }
+
         }
     }
 
-    function addDynamicEvent($event,$pixel) {
+
+
+    function addDynamicEvent($event,$pixel,$slug) {
 
         if(is_a($event,GroupedEvent::class)) {
             foreach ($event->getEvents() as $child) {
-                if($pixel->getSlug() != "ga" || $pixel->isUse4Version()) {
-                    $child->addParams($this->standardParams);
-                }
                 $eventData = $child->getData();
+                $eventData = $this->filterEventParams($eventData,$slug);
                 //save static event data
                 $this->dynamicEvents[ $event->getId() ][ $child->getId() ][ $pixel->getSlug() ] = $eventData;
             }
         } else {
-            if($pixel->getSlug() != "ga" || $pixel->isUse4Version()) {
-                $event->addParams($this->standardParams);
-            }
+
             $eventData = $event->getData();
+            $eventData = $this->filterEventParams($eventData,$slug);
             //save static event data
             $this->dynamicEvents[ $event->getId() ][ $pixel->getSlug() ] = $eventData;
         }
     }
 
-    function addTriggerEvent($event,$pixel) {
-        if($pixel->getSlug() != "ga" || $pixel->isUse4Version()) {
-            $event->addParams($this->standardParams);
-        }
+    function addTriggerEvent($event,$pixel,$slug) {
+
         $eventData = $event->getData();
+        $eventData = $this->filterEventParams($eventData,$slug);
         //save static event data
         if($event->getId() == "custom_event") {
             $eventId = $event->args->getPostId();
@@ -256,26 +278,23 @@ class EventsManager {
             $eventId = $event->getId();
         }
         $this->triggerEvents[ $eventId ][ $pixel->getSlug() ] = $eventData;
-        $this->triggerEventTypes[ $eventData['trigger_type'] ][ $eventId ][] = $eventData['trigger_value'];
+        $this->triggerEventTypes[ $eventData['trigger_type'] ][ $eventId ] = $eventData['trigger_value'];
     }
 
     /**
      * Create stack event, they fire when page loaded
      * @param Event $event
      */
-    function addStaticEvent($event, $pixel) {
+    function addStaticEvent($event,$pixel,$slug) {
 
         if(is_a($event,GroupedEvent::class)) {
             foreach ($event->getEvents() as $child) {
-                if($pixel->getSlug() != "ga" || $pixel->isUse4Version()) {
-                    $child->addParams($this->standardParams);
-                }
 
                 $eventData = $child->getData();
-
-                // send only for FB Server events
+                $eventData = $this->filterEventParams($eventData,$slug);
+                 // send only for FB Server events
                 if($pixel->getSlug() == "facebook" &&
-                    ($event->getId() == "complete_registration" || $event->getId() == "complete_registration_category") &&
+                    ($event->getId() == "woo_complete_registration") &&
                     Facebook()->isServerApiEnabled() &&
                     Facebook()->getOption("woo_complete_registration_send_from_server") &&
                     !$this->isGdprPluginEnabled() )
@@ -297,14 +316,12 @@ class EventsManager {
                 }
             }
         } else {
-            if($pixel->getSlug() != "ga" || $pixel->isUse4Version()) {
-                $event->addParams($this->standardParams);
-            }
             $eventData = $event->getData();
+            $eventData = $this->filterEventParams($eventData,$slug);
 
             // send only for FB Server events
             if($pixel->getSlug() == "facebook" &&
-                ($event->getId() == "complete_registration" || $event->getId() == "complete_registration_category") &&
+                ($event->getId() == "woo_complete_registration") &&
                 Facebook()->isServerApiEnabled() &&
                 Facebook()->getOption("woo_complete_registration_send_from_server") &&
                 !$this->isGdprPluginEnabled() )
@@ -327,13 +344,55 @@ class EventsManager {
 
     }
 
+    static function filterEventParams($data,$slug)
+    {
+
+        if(!PYS()->getOption('enable_content_name_param')) {
+            unset($data['params']['content_name']);
+        }
+
+        if(!PYS()->getOption('enable_page_title_param')) {
+            unset($data['params']['page_title']);
+        }
+
+        if($slug == EventsWoo::getSlug()) {
+            if(!PYS()->getOption("enable_woo_category_name_param")) {
+                unset($data['params']['category_name']);
+            }
+            if(!PYS()->getOption("enable_woo_num_items_param")) {
+                unset($data['params']['num_items']);
+            }
+
+            if(!PYS()->getOption("enable_woo_product_price_param")) {
+                unset($data['params']['product_price']);
+            }
+
+        }
+
+        if($slug == EventsEdd::getSlug()) {
+            if(!PYS()->getOption("enable_edd_category_name_param")) {
+                unset($data['params']['category_name']);
+            }
+            if(!PYS()->getOption("enable_edd_num_items_param")) {
+                unset($data['params']['num_items']);
+            }
+
+            if(!PYS()->getOption("enable_edd_product_price_param")) {
+                unset($data['params']['product_price']);
+            }
+        }
+
+        return $data;
+    }
+
 
 
     function isGdprPluginEnabled() {
         return apply_filters( 'pys_disable_by_gdpr', false ) ||
             apply_filters( 'pys_disable_facebook_by_gdpr', false ) ||
             isCookiebotPluginActivated() && PYS()->getOption( 'gdpr_cookiebot_integration_enabled' ) ||
-            isGingerPluginActivated() && PYS()->getOption( 'gdpr_ginger_integration_enabled' ) ||
+            isConsentMagicPluginActivated() && PYS()->getOption( 'consent_magic_integration_enabled' ) ||
+            isRealCookieBannerPluginActivated() && PYS()->getOption( 'gdpr_real_cookie_banner_integration_enabled' ) ||
             isCookieNoticePluginActivated() && PYS()->getOption( 'gdpr_cookie_notice_integration_enabled' ) ||
             isCookieLawInfoPluginActivated() && PYS()->getOption( 'gdpr_cookie_law_info_integration_enabled' );
     }
@@ -377,19 +436,27 @@ class EventsManager {
 
 		foreach ( PYS()->getRegisteredPixels() as $pixel ) {
 			/** @var Pixel|Settings $pixel */
+            $event = new SingleEvent('woo_add_to_cart_on_button_click',EventTypes::$STATIC);
+            $event->args = ['productId' => $product_id,'quantity' => 1];
+            $isSuccess = $pixel->addParamsToEvent( $event );
+            if ( !$isSuccess ) {
+                continue; // event is disabled or not supported for the pixel
+            }
+            if(count($event->params) == 0) {
+                // add product params
+                // use for not update bing and pinterest, need remove in next updates
+                $eventData = $pixel->getEventData( 'woo_add_to_cart_on_button_click', $product_id );
+                if ( false === $eventData ) {
+                    continue; // event is disabled or not supported for the pixel
+                }
+                $event->addParams($eventData['params']);
+            }
 
-			$eventData = $pixel->getEventData( 'woo_add_to_cart_on_button_click', $product_id );
+            // prepare event data
+            $eventData = $event->getData();
+            $eventData = EventsManager::filterEventParams($eventData,"woo");
 
-			if ( false === $eventData ) {
-				continue; // event is disabled or not supported for the pixel
-			}
-
-            if(isset($eventData['params']))
-                $eventData['params'] = sanitizeParams($eventData['params']);
-            else $eventData['params'] = sanitizeParams($eventData['data']);
             $params[$pixel->getSlug()] = $eventData;
-
-
         }
 
 		if ( empty( $params ) ) {
@@ -400,7 +467,7 @@ class EventsManager {
 
 		?>
 
-		<script type="text/javascript">
+		<script type="application/javascript" style="display:none">
             /* <![CDATA[ */
             window.pysWooProductData = window.pysWooProductData || [];
             window.pysWooProductData[ <?php echo $product_id; ?> ] = <?php echo $params; ?>;
@@ -445,20 +512,30 @@ class EventsManager {
 		}
 
 		$params = array();
-
+        $eventType = 'woo_add_to_cart_on_button_click';
 		foreach ( $product_ids as $product_id ) {
 			foreach ( PYS()->getRegisteredPixels() as $pixel ) {
 				/** @var Pixel|Settings $pixel */
 
-				$eventData = $pixel->getEventData( 'woo_add_to_cart_on_button_click', $product_id );
+                $event = new SingleEvent($eventType,EventTypes::$STATIC);
+                $event->args = ['productId' => $product_id,'quantity' => 1];
+                $isSuccess = $pixel->addParamsToEvent( $event );
+                if ( !$isSuccess ) {
+                    continue; // event is disabled or not supported for the pixel
+                }
+                if(count($event->params) == 0) {
+                    // add product params
+                    // use for not update bing and pinterest, need remove in next updates
+                    $eventData = $pixel->getEventData( $eventType, $product_id );
+                    if ( false === $eventData ) {
+                        continue; // event is disabled or not supported for the pixel
+                    }
+                    $event->addParams($eventData['params']);
+                }
 
-				if ( false === $eventData ) {
-					continue; // event is disabled or not supported for the pixel
-				}
-
-                if(isset($eventData['params']))
-                    $eventData['params'] = sanitizeParams($eventData['params']);
-                else $eventData['params'] = sanitizeParams($eventData['data']);
+                // prepare event data
+                $eventData = $event->getData();
+                $eventData = EventsManager::filterEventParams($eventData,"woo");
 
                 $params[ $product_id ][ $pixel->getSlug() ] = $eventData;
 
@@ -471,7 +548,7 @@ class EventsManager {
 
 		?>
 
-		<script type="text/javascript">
+		<script type="application/javascript" style="display:none">
             /* <![CDATA[ */
             window.pysWooProductData = window.pysWooProductData || [];
 			<?php foreach ( $params as $product_id => $product_data ) : ?>
@@ -532,7 +609,7 @@ class EventsManager {
 
         ?>
 
-        <script type="text/javascript">
+        <script type="application/javascript" style="display:none">
             /* <![CDATA[ */
             window.pysEddProductData = window.pysEddProductData || [];
             window.pysEddProductData[<?php echo $post->ID; ?>] = <?php echo json_encode( $params ); ?>;

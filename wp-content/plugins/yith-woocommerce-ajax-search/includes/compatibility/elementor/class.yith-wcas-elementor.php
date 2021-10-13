@@ -1,4 +1,4 @@
-<?php
+<?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
  * This file belongs to the YIT Plugin Framework.
  *
@@ -78,7 +78,7 @@ if ( ! class_exists( 'YITH_WCAS_Elementor' ) ) {
  *
  * @return YITH_WCAS_Elementor
  */
-function YITH_WCAS_Elementor() {
+function YITH_WCAS_Elementor() { //phpcs:ignore
 	return YITH_WCAS_Elementor::get_instance();
 }
 

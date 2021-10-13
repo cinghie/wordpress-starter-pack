@@ -243,6 +243,9 @@ if (!Array.prototype.includes) {
             // Clone all object members to another and return it
             copyProperties: function (from, to) {
                 for (var key in from) {
+                    if("function" == typeof from[key]) {
+                        continue;
+                    }
                     to[key] = from[key];
                 }
                 return to;
@@ -265,6 +268,9 @@ if (!Array.prototype.includes) {
                 if (obj instanceof Array) {
                     copy = [];
                     for (var i = 0, len = obj.length; i < len; i++) {
+                        if("function" == typeof obj[i]) {
+                            continue;
+                        }
                         copy[i] = Utils.clone(obj[i]);
                     }
                     return copy;
@@ -274,7 +280,12 @@ if (!Array.prototype.includes) {
                 if (obj instanceof Object) {
                     copy = {};
                     for (var attr in obj) {
-                        if (obj.hasOwnProperty(attr)) copy[attr] = Utils.clone(obj[attr]);
+                        if (obj.hasOwnProperty(attr)) {
+                            if("function" == typeof obj[attr]) {
+                                continue;
+                            }
+                            copy[attr] = Utils.clone(obj[attr]);
+                        }
                     }
                     return copy;
                 }
@@ -318,7 +329,7 @@ if (!Array.prototype.includes) {
 
                 // Non-default binding used to avoid situations when some code in external js
                 // stopping events propagation, eg. returns false, and our handler will never called
-                $(triggers.join(',')).onFirst('click',  function () {
+                $(document).onFirst('click', triggers.join(','), function () {
                     Utils.fireTriggerEvent(eventId);
                 });
             },
@@ -506,7 +517,7 @@ if (!Array.prototype.includes) {
 
             loadPixels: function () {
 
-                if (options.gdpr.ajax_enabled) {
+                if (options.gdpr.ajax_enabled && !options.gdpr.consent_magic_integration_enabled) {
 
                     // retrieves actual PYS GDPR filters values which allow to avoid cache issues
                     $.get({
@@ -542,6 +553,46 @@ if (!Array.prototype.includes) {
             consentGiven: function (pixel) {
 
                 /**
+                 * ConsentMagic
+                 */
+                if (options.gdpr.consent_magic_integration_enabled && typeof CS_Data !== "undefined") {
+
+                    var cs_cookie = Cookies.get('cs_viewed_cookie_policy'+test_prefix);
+
+                    if (options.gdpr[pixel + '_prior_consent_enabled']) {
+                        if (typeof cs_cookie === 'undefined' || cs_cookie === 'yes') {
+                            return true;
+                        }
+                    } else {
+                        if (typeof cs_cookie === 'undefined' || cs_cookie === 'yes') {
+                            return true;
+                        }
+                    }
+
+                    return false;
+
+                }
+
+                /**
+                 * Real Cookie Banner
+                 */
+                if(options.gdpr.real_cookie_banner_integration_enabled) {
+                    var consentApi = window.consentApi;
+                    if (consentApi) {
+                        switch (pixel) {
+                            case "analytics":
+                                return consentApi.consentSync("http", "_ga", "*").cookieOptIn;
+                            case "facebook":
+                                return consentApi.consentSync("http", "_fbp", "*").cookieOptIn;
+                            case "pinterest":
+                                return consentApi.consentSync("http", "_pinterest_sess", ".pinterest.com").cookieOptIn;
+                            default:
+                                return true;
+                        }
+                    }
+                }
+
+                /**
                  * Cookiebot
                  */
                 if (options.gdpr.cookiebot_integration_enabled && typeof Cookiebot !== 'undefined') {
@@ -554,27 +605,6 @@ if (!Array.prototype.includes) {
                         }
                     } else {
                         if (Cookiebot.consent[cookiebot_consent_category]) {
-                            return true;
-                        }
-                    }
-
-                    return false;
-
-                }
-
-                /**
-                 * Ginger – EU Cookie Law
-                 */
-                if (options.gdpr.ginger_integration_enabled) {
-
-                    var ginger_cookie = Cookies.get('ginger-cookie');
-
-                    if (options.gdpr[pixel + '_prior_consent_enabled']) {
-                        if (typeof ginger_cookie === 'undefined' || ginger_cookie === 'Y') {
-                            return true;
-                        }
-                    } else {
-                        if (ginger_cookie === 'Y') {
                             return true;
                         }
                     }
@@ -630,38 +660,109 @@ if (!Array.prototype.includes) {
             },
 
             setupGdprCallbacks: function () {
+                /**
+                 * ConsentMagic
+                 */
+                if (options.gdpr.consent_magic_integration_enabled && typeof CS_Data !== "undefined") {
+                    var test_prefix = CS_Data.test_prefix,
+                        cs_refresh_after_consent = false,
+                        substring = "cs_enabled_cookie_term";
 
+                    if (CS_Data.cs_refresh_after_consent == 1) {
+                        cs_refresh_after_consent = CS_Data.cs_refresh_after_consent;
+                    }
+
+                    if (!cs_refresh_after_consent) {
+                        var theCookies = document.cookie.split(';');
+                        for (var i = 1 ; i <= theCookies.length; i++) {
+                            if (theCookies[i-1].indexOf(substring) !== -1) {
+                                var categoryCookie = theCookies[i-1].replace('cs_enabled_cookie_term'+test_prefix+'_','');
+                                categoryCookie = Number(categoryCookie.replace(/\D+/g,""));
+                                var cs_cookie_val = Cookies.get('cs_enabled_cookie_term'+test_prefix+'_'+categoryCookie);
+                                if(cs_cookie_val == 'yes') {
+                                    if (categoryCookie === CS_Data.cs_script_cat.facebook) {
+                                        Facebook.loadPixel();
+                                    } else if (categoryCookie === CS_Data.cs_script_cat.bing) {
+                                        Bing.loadPixel();
+                                    } else if (categoryCookie === CS_Data.cs_script_cat.analytics) {
+                                        Analytics.loadPixel();
+                                    } else if (categoryCookie === CS_Data.cs_script_cat.pinterest) {
+                                        Pinterest.loadPixel();
+                                    }
+                                } else {
+                                    if (categoryCookie === CS_Data.cs_script_cat.facebook) {
+                                        Facebook.disable();
+                                    } else if (categoryCookie === CS_Data.cs_script_cat.bing) {
+                                        Bing.disable();
+                                    } else if (categoryCookie === CS_Data.cs_script_cat.analytics) {
+                                        Analytics.disable();
+                                    } else if (categoryCookie === CS_Data.cs_script_cat.pinterest) {
+                                        Pinterest.disable();
+                                    }
+                                }
+                                if (Cookies.get('cs_enabled_advanced_matching') == 'yes') {
+                                    Facebook.loadPixel();
+                                }
+                            }
+                        }
+
+                        $(document).on('click','.cs_action_btn',function(e) {
+                            e.preventDefault();
+                            var elm = $(this),
+                                button_action = elm.attr('data-cs_action');
+
+                            if(button_action === 'allow_all') {
+                                Facebook.loadPixel();
+                                Bing.loadPixel();
+                                Analytics.loadPixel();
+                                Pinterest.loadPixel();
+                            } else if(button_action === 'disable_all') {
+                                Facebook.disable();
+                                Bing.disable();
+                                Analytics.disable();
+                                Pinterest.disable();
+                            }
+                        });
+                    }
+                }
+                /**
+                 * Real Cookie Banner
+                 */
+                if(options.gdpr.real_cookie_banner_integration_enabled) {
+                    var consentApi = window.consentApi;
+                    if (consentApi) {
+                        consentApi.consent("http", "_ga", "*")
+                            .then(Analytics.loadPixel.bind(Analytics), Analytics.disable.bind(Analytics));
+                        consentApi.consent("http", "_fbp", "*")
+                            .then(Facebook.loadPixel.bind(Facebook), Facebook.disable.bind(Facebook));
+                        consentApi.consent("http", "_pinterest_sess", ".pinterest.com")
+                            .then(Pinterest.loadPixel.bind(Pinterest), Pinterest.disable.bind(Pinterest));
+                    }
+                }
                 /**
                  * Cookiebot
                  */
                 if (options.gdpr.cookiebot_integration_enabled && typeof Cookiebot !== 'undefined') {
 
-                    Cookiebot.onaccept = function () {
-
-                        if (Cookiebot.consent[options.gdpr.cookiebot_facebook_consent_category]) {
+                    window.addEventListener("CookiebotOnConsentReady", function() {
+                        if (Cookiebot.consent.marketing) {
                             Facebook.loadPixel();
-                        }
+                            Bing.loadPixel();
+                            Pinterest.loadPixel();
 
-                        if (Cookiebot.consent[options.gdpr.cookiebot_analytics_consent_category]) {
+                        }
+                        if (Cookiebot.consent.statistics) {
                             Analytics.loadPixel();
                         }
-
-                        if (Cookiebot.consent[options.gdpr.cookiebot_pinterest_consent_category]) {
-                            Pinterest.loadPixel();
+                        if (!Cookiebot.consent.marketing) {
+                            Facebook.disable();
+                            Pinterest.disable();
+                            Bing.disable()
                         }
-
-                        if (Cookiebot.consent[options.gdpr.cookiebot_bing_consent_category]) {
-                            bing.loadPixel();
+                        if (!Cookiebot.consent.statistics) {
+                            Analytics.disable();
                         }
-
-                    };
-
-                    Cookiebot.ondecline = function () {
-                        Facebook.disable();
-                        Analytics.disable();
-                        Pinterest.disable();
-                        Bing.disable();
-                    };
+                    });
 
                 }
 
@@ -783,8 +884,19 @@ if (!Array.prototype.includes) {
 
         var initialized = false;
 
+        // fire server side event gdpr plugin installed
+        var isApiDisabled = options.gdpr.all_disabled_by_api ||
+            options.gdpr.facebook_disabled_by_api ||
+            options.gdpr.cookiebot_integration_enabled ||
+            options.gdpr.consent_magic_integration_enabled ||
+            options.gdpr.cookie_notice_integration_enabled ||
+            options.gdpr.cookie_law_info_integration_enabled;
 
         function fireEvent(name, allData) {
+
+            if(typeof window.pys_event_data_filter === "function" && window.pys_disable_event_filter(name,'facebook')) {
+                return;
+            }
 
             var actionType = defaultEventTypes.includes(name) ? 'track' : 'trackCustom';
             var data = allData.params;
@@ -792,24 +904,22 @@ if (!Array.prototype.includes) {
             var arg = {};
             Utils.copyProperties(data, params);
 
-
             if(options.facebook.serverApiEnabled) {
-                // fire server side event gdpr plugin installed
-                var isApiDisabled = options.gdpr.all_disabled_by_api ||
-                    options.gdpr.facebook_disabled_by_api ||
-                    options.gdpr.cookiebot_integration_enabled ||
-                    options.gdpr.ginger_integration_enabled ||
-                    options.gdpr.cookie_notice_integration_enabled ||
-                    options.gdpr.cookie_law_info_integration_enabled;
 
-                // Update eventID
-                if( options.facebook.ajaxForServerEvent || allData.type !== "static" ) {
-                    allData.eventID = pys_generate_token(36);
-                }
-                arg.eventID = allData.eventID;
-                // send event from server if they was bloc by gdpr or need send with delay
-                if(  options.facebook.ajaxForServerEvent || isApiDisabled || allData.delay > 0 || allData.type !== "static")
+                var isAddToCartFromJs =  options.woo.hasOwnProperty("addToCartCatchMethod")
+                    && options.woo.addToCartCatchMethod === "add_cart_js";
+
+                if(allData.name === "RemoveFromCart"
+                    || (isAddToCartFromJs && allData.e_id === "woo_add_to_cart_on_button_click"))
                 {
+                    Facebook.updateEventId(allData.name);
+                    allData.eventID = Facebook.getEventId(allData.name);
+                } else  if(  options.facebook.ajaxForServerEvent
+                                || isApiDisabled
+                                || allData.delay > 0
+                                || allData.type !== "static")
+                { // send event from server if they was bloc by gdpr or need send with delay
+                    allData.eventID = pys_generate_token(36);
                     var json = {
                         action: 'pys_api_event',
                         pixel: 'facebook',
@@ -817,9 +927,15 @@ if (!Array.prototype.includes) {
                         data:data,
                         ids:options.facebook.pixelIds,
                         eventID:allData.eventID,
-                        woo_order:allData.woo_order,
-                        edd_order:allData.edd_order,
+                        url:window.location.href,
                     };
+                    if(allData.hasOwnProperty('woo_order')) {
+                        json['woo_order'] = allData.woo_order;
+                    }
+                    if(allData.hasOwnProperty('edd_order')) {
+                        json['edd_order'] = allData.edd_order;
+                    }
+
                     if(allData.delay > 0) {
                         jQuery.ajax( {
                             type: 'POST',
@@ -856,6 +972,10 @@ if (!Array.prototype.includes) {
 
             if (options.debug) {
                 console.log('[Facebook] ' + name, params,"eventID",allData.eventID);
+            }
+
+            if(allData.hasOwnProperty('eventID')) {
+                arg.eventID = allData.eventID;
             }
 
             fbq(actionType, name, params,arg);
@@ -911,11 +1031,27 @@ if (!Array.prototype.includes) {
                     if (options.facebook.removeMetadata) {
                         fbq('set', 'autoConfig', false, pixelId);
                     }
-                    
-                    if(options.facebook.advancedMatching.length === 0) {
-                        fbq('init', pixelId);
+                    if (options.gdpr.consent_magic_integration_enabled && typeof CS_Data !== "undefined") {
+                        if(options.facebook.advancedMatching.length === 0) {
+                            fbq('init', pixelId);
+                        } else {
+                            var cs_advanced_matching = Cookies.get('cs_enabled_advanced_matching'+test_prefix);
+                            if (jQuery('#cs_enabled_advanced_matching'+test_prefix).length > 0) {
+                                if (cs_advanced_matching == 'yes') {
+                                    fbq('init', pixelId, options.facebook.advancedMatching);
+                                } else {
+                                    fbq('init', pixelId);
+                                }
+                            } else {
+                                fbq('init', pixelId, options.facebook.advancedMatching);
+                            }
+                        }
                     } else {
-                        fbq('init', pixelId, options.facebook.advancedMatching);
+                        if (options.facebook.advancedMatching.length === 0) {
+                            fbq('init', pixelId);
+                        } else {
+                            fbq('init', pixelId, options.facebook.advancedMatching);
+                        }
                     }
                 });
 
@@ -985,12 +1121,15 @@ if (!Array.prototype.includes) {
                 if(!options.dynamicEvents.woo_add_to_cart_on_button_click.hasOwnProperty(this.tag()))
                     return;
                 var event = Utils.clone(options.dynamicEvents.woo_add_to_cart_on_button_click[this.tag()]);
+
+                if (product_type === Utils.PRODUCT_VARIABLE && !options.facebook.wooVariableAsSimple) {
+                    product_id = parseInt($form.find('input[name="variation_id"]').val());
+                }
+
                 if (window.pysWooProductData.hasOwnProperty(product_id)) {
                     if (window.pysWooProductData[product_id].hasOwnProperty('facebook')) {
 
-                        if (product_type === Utils.PRODUCT_VARIABLE && !options.facebook.wooVariableAsSimple) {
-                            product_id = parseInt($form.find('input[name="variation_id"]').val());
-                        }
+
                         Utils.copyProperties(window.pysWooProductData[product_id]['facebook'].params, event.params);
 
                         var groupValue = 0;
@@ -1108,8 +1247,31 @@ if (!Array.prototype.includes) {
             onTime: function (event) {
                 this.fireEvent(event.name, event);
             },
+            initEventIdCookies: function () {
+                var ids = {
+                    'AddToCart':pys_generate_token(36)
+                };
+                Cookies.set('pys_fb_event_id', JSON.stringify(ids));
+            },
+            updateEventId:function(key) {
+                var cooData = Cookies.get("pys_fb_event_id")
+                if(data === undefined) {
+                    this.initEventIdCookies();
+                } else {
+                    var data = JSON.parse(cooData);
+                    data[key] = pys_generate_token(36);
+                    Cookies.set('pys_fb_event_id', JSON.stringify(data) );
+                }
+            },
 
-
+            getEventId:function (key) {
+                var data = Cookies.get("pys_fb_event_id");
+                if(data === undefined) {
+                    this.initEventIdCookies();
+                    data = Cookies.get("pys_fb_event_id");
+                }
+                return JSON.parse(data)[key];
+            },
         };
 
     }(options);
@@ -1132,6 +1294,10 @@ if (!Array.prototype.includes) {
          * @param data
          */
         function fireEvent(name, data) {
+
+            if(typeof window.pys_event_data_filter === "function" && window.pys_disable_event_filter(name,'ga')) {
+                return;
+            }
 
             var eventParams = Utils.copyProperties(data, {});
 
@@ -1335,7 +1501,7 @@ if (!Array.prototype.includes) {
                     return;
                 var event = Utils.clone(options.dynamicEvents.woo_add_to_cart_on_button_click[this.tag()]);
 
-                if (product_type === Utils.PRODUCT_VARIABLE) {
+                if (product_type === Utils.PRODUCT_VARIABLE && !options.ga.wooVariableAsSimple) {
                     product_id = parseInt($form.find('input[name="variation_id"]').val());
                 }
 
@@ -1458,14 +1624,7 @@ if (!Array.prototype.includes) {
     window.pys.Analytics = Analytics;
     window.pys.Utils = Utils;
 
-    function getPixelBySlag(slug) {
-        switch (slug) {
-            case "facebook": return window.pys.Facebook;
-            case "ga": return window.pys.Analytics;
-            case "bing": return window.pys.Bing;
-            case "pinterest": return window.pys.Pinterest;
-        }
-    }
+
 
 
     $(document).ready(function () {
@@ -1484,7 +1643,7 @@ if (!Array.prototype.includes) {
                 var isFired = false;
                 var pixels = Object.keys(options.dynamicEvents.signal_page_scroll);
 
-                for(i = 0;i<pixels.length;i++) {
+                for(var i = 0;i<pixels.length;i++) {
                     var event = Utils.clone(options.dynamicEvents.signal_page_scroll[pixels[i]]);
                     var scroll = Math.round(docHeight * event.scroll_percent / 100)// convert % to absolute positions
 
@@ -1505,7 +1664,7 @@ if (!Array.prototype.includes) {
             var pixels = Object.keys(options.dynamicEvents.signal_time_on_page);
             var time = options.dynamicEvents.signal_time_on_page[pixels[0]].time_on_page; // the same for all pixel
             setTimeout(function(){
-                for(i = 0;i<pixels.length;i++) {
+                for(var i = 0;i<pixels.length;i++) {
                     var event = Utils.clone(options.dynamicEvents.signal_time_on_page[pixels[i]]);
                     Utils.copyProperties(Utils.getRequestParams(), event.params);
                     getPixelBySlag(pixels[i]).onTime(event);
@@ -1534,10 +1693,13 @@ if (!Array.prototype.includes) {
 
                         if (extension.length > 0) {
                             var pixels = Object.keys(options.dynamicEvents.signal_download);
-                            for (i = 0; i < pixels.length; i++) {
+                            for (var i = 0; i < pixels.length; i++) {
                                 var event = Utils.clone(options.dynamicEvents.signal_download[pixels[i]]);
                                 var extensions = event.extensions;
                                 if (extensions.includes(extension)) {
+                                    if(options.enable_remove_download_url_param) {
+                                        href = href.split('?')[0];
+                                    }
                                     event.params.download_url = href;
                                     event.params.download_type = extension;
                                     event.params.download_name = Utils.getLinkFilename(href);
@@ -1589,10 +1751,13 @@ if (!Array.prototype.includes) {
         if (options.woo.enabled) {
 
             // WooCommerce AddToCart
-            if (options.dynamicEvents.hasOwnProperty("woo_add_to_cart_on_button_click")) {
+            if (options.dynamicEvents.hasOwnProperty("woo_add_to_cart_on_button_click")
+                && options.woo.hasOwnProperty("addToCartCatchMethod")
+                && options.woo.addToCartCatchMethod === "add_cart_js"
+            ) {
 
                 // Loop, any kind of "simple" product, except external
-                $('.add_to_cart_button:not(.product_type_variable,.single_add_to_cart_button)').on("click",function (e) {
+                $('.add_to_cart_button:not(.product_type_variable,.product_type_bundle,.single_add_to_cart_button)').on("click",function (e) {
 
                     var product_id = $(this).data('product_id');
 
@@ -1606,7 +1771,8 @@ if (!Array.prototype.includes) {
                 });
 
                 // Single Product
-                $('button.single_add_to_cart_button,.single_add_to_cart_button').onFirst('click tap',function (e) {
+                // tap try to https://stackoverflow.com/questions/30990967/on-tap-click-event-firing-twice-how-to-avoid-it
+                $(document).onFirst('click','button.single_add_to_cart_button,.single_add_to_cart_button',function (e) {
 
                     var $button = $(this);
 
@@ -1805,7 +1971,7 @@ if (!Array.prototype.includes) {
             $('form.comment-form').on("submit",function () {
 
                 var pixels = Object.keys(options.dynamicEvents.signal_comment);
-                for(i = 0;i<pixels.length;i++) {
+                for(var i = 0;i<pixels.length;i++) {
                     var event = Utils.clone(options.dynamicEvents.signal_comment[pixels[i]]);
                     Utils.copyProperties(Utils.getRequestParams(), event.params);
                     getPixelBySlag(pixels[i]).onCommentEvent(event);
@@ -1845,7 +2011,7 @@ if (!Array.prototype.includes) {
                         $form.find('[type="submit"]').val() : $form.find('[type="submit"]').text()
                 };
                 var pixels = Object.keys(options.dynamicEvents.signal_form);
-                for(i = 0;i<pixels.length;i++) {
+                for(var i = 0;i<pixels.length;i++) {
                     var event = Utils.clone(options.dynamicEvents.signal_form[pixels[i]]);
                     Utils.copyProperties(params,event.params,)
                     Utils.copyProperties(Utils.getRequestParams(), event.params);
@@ -1861,7 +2027,7 @@ if (!Array.prototype.includes) {
                 };
 
                 var pixels = Object.keys(options.dynamicEvents.signal_form);
-                for(i = 0;i<pixels.length;i++) {
+                for(var i = 0;i<pixels.length;i++) {
                     var event = Utils.clone(options.dynamicEvents.signal_form[pixels[i]]);
                     Utils.copyProperties(params,event.params)
                     Utils.copyProperties(Utils.getRequestParams(), event.params);
@@ -1878,7 +2044,7 @@ if (!Array.prototype.includes) {
                 };
 
                 var pixels = Object.keys(options.dynamicEvents.signal_form);
-                for(i = 0;i<pixels.length;i++) {
+                for(var i = 0;i<pixels.length;i++) {
                     var event = Utils.clone(options.dynamicEvents.signal_form[pixels[i]]);
                     Utils.copyProperties(params,event.params)
                     Utils.copyProperties(Utils.getRequestParams(), event.params);
@@ -1920,4 +2086,13 @@ function getBundlePriceOnSingleProduct(data) {
         }
     });
     return items_sum;
+}
+
+function getPixelBySlag(slug) {
+    switch (slug) {
+        case "facebook": return window.pys.Facebook;
+        case "ga": return window.pys.Analytics;
+        case "bing": return window.pys.Bing;
+        case "pinterest": return window.pys.Pinterest;
+    }
 }

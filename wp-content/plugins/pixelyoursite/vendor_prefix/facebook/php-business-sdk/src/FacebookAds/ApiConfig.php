@@ -26,7 +26,7 @@ namespace PYS_PRO_GLOBAL\FacebookAds;
 
 class ApiConfig
 {
-    const APIVersion = '9.0';
-    const SDKVersion = '9.0.3';
+    const APIVersion = '11.0';
+    const SDKVersion = '11.0.0';
     const TYPE_CHECKER_STRICT_MODE = \false;
 }

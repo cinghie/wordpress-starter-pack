@@ -30,6 +30,20 @@ use PixelYourSite\Facebook\Helpers;
                 <h4 class="switcher-label">Enable WooCommerce set-up</h4>
             </div>
         </div>
+        <div class="row">
+            <div class="col">
+                <?php PYS()->render_switcher_input( 'woo_enabled_save_data_to_orders',false,true ); ?>
+                <h4 class="switcher-label">Save data to orders</h4> <?php renderProBadge(); ?>
+                <small class="form-text">Save the <i> landing page, UTMs, client's browser's time, day, and month, the number of orders, lifetime value, and average order.</i></small>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <?php PYS()->render_switcher_input( 'woo_enabled_save_data_to_user',false,true ); ?>
+                <h4 class="switcher-label">Display data to the user's profile</h4> <?php renderProBadge(); ?>
+                <small class="form-text">Display <i>the number of orders, lifetime value, and average order</i>.</small>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -48,28 +62,11 @@ use PixelYourSite\Facebook\Helpers;
     </div>
 </div>
 
-<div class="card card-static">
-    <div class="card-header">
-        About WooCommerce Events Parameters
-    </div>
-    <div class="card-body">
-        <div class="row">
-            <div class="col">
-                <p>All events get the following parameters for all the tags: <i>page_title, post_type, post_id, event_URL, user_role, plugin, event_time (pro), event_day (pro), event_month (pro), traffic_source (pro), UTMs (pro).</i></p>
-                <p>The Purchase event will have the following extra-parameters: <i>category_name, num_items, tags, total (pro), transactions_count (pro), tax (pro), predicted_ltv (pro), average_order (pro), coupon_used (pro), coupon_code (pro), shipping (pro), shipping_cost (pro).</i></p>
-                <p>The Facebook Pixel events are Dynamic Ads ready.</p>
-                <p>The Google Analytics events track the data Enhanced Ecommerce or Monetization (GA4).</p>
-                <p>The Pinterest events have the required data for Dynamic Remarketing.</p>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <!-- AddToCart -->
-<div class="card card-static">
+<div class="card">
     <div class="card-header">
-        How to capture Add To Cart action
+        When to fire the add to cart event<?php cardCollapseBtn(); ?>
     </div>
     <div class="card-body">
         <div class="row">
@@ -81,9 +78,17 @@ use PixelYourSite\Facebook\Helpers;
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col  form-inline">
+                <label>Change this if the AddToCart event doesn't fire</label>
+                <?php PYS()->render_select_input( 'woo_add_to_cart_catch_method',
+                    array('add_cart_hook'=>"WooCommerce hooks",'add_cart_js'=>"Button's classes",) ); ?>
+            </div>
+        </div>
     </div>
 </div>
 
+<h2 class="section-title">ID Settings</h2>
 <!-- Facebook for WooCommerce -->
 <?php if ( Facebook()->enabled() && Helpers\isFacebookForWooCommerceActive() ) : ?>
 
@@ -91,7 +96,7 @@ use PixelYourSite\Facebook\Helpers;
     <!-- @todo: add show/hide facebook content id section JS -->
     <div class="card card-static">
         <div class="card-header">
-            Facebook for WooCommerce Integration
+            Facebook for WooCommerce Integration<?php cardCollapseBtn(); ?>
         </div>
         <div class="card-body">
             <div class="row">
@@ -127,12 +132,13 @@ use PixelYourSite\Facebook\Helpers;
 <?php if ( Facebook()->enabled() ) : ?>
 
     <?php $facebook_id_visibility = Helpers\isDefaultWooContentIdLogic() ? 'block' : 'none'; ?>
+    <?php $isShowFbID = Helpers\isFacebookForWooCommerceActive();?>
     
-    <div class="card card-static" id="pys-section-facebook-id" style="display: <?php esc_attr_e( $facebook_id_visibility ); ?>;">
+    <div class="card" id="pys-section-facebook-id" style="display: <?php esc_attr_e( $facebook_id_visibility ); ?>;">
         <div class="card-header">
-            Facebook ID setting
+            Facebook ID setting<?php cardCollapseBtn(); ?>
         </div>
-        <div class="card-body">
+        <div class="card-body <?=$isShowFbID ? "show" : ""?>" style ="<?=$isShowFbID ? "display:block" : ""?>">
             <div class="row mb-3">
                 <div class="col">
                     <?php Facebook()->render_switcher_input( 'woo_variable_as_simple' ); ?>
@@ -169,9 +175,9 @@ use PixelYourSite\Facebook\Helpers;
 
 <?php if ( GA()->enabled() ) : ?>
 
-    <div class="card card-static" id="pys-section-ga-id">
+    <div class="card " id="pys-section-ga-id">
         <div class="card-header">
-            Google Analytics ID setting
+            Google Analytics ID setting<?php cardCollapseBtn(); ?>
         </div>
         <div class="card-body">
             <div class="row mb-3">
@@ -208,7 +214,7 @@ use PixelYourSite\Facebook\Helpers;
 
 
 <!-- Google Ads Settings -->
-<div class="card card-static card-disabled">
+<div class="card card-disabled">
     <div class="card-header">
         Google Ads ID Setting <?php renderProBadge( 'https://www.pixelyoursite.com/google-analytics?utm_source=pys-free-plugin&utm_medium=pro-badg
 e&utm_campaign=pro-feature' ); ?>
@@ -218,9 +224,9 @@ e&utm_campaign=pro-feature' ); ?>
 
 <?php if ( Pinterest()->enabled() ) : ?>
 
-    <div class="card card-static" id="pys-section-ga-id">
+    <div class="card" id="pys-section-ga-id">
         <div class="card-header">
-            Pinterest Tag ID setting
+            Pinterest Tag ID setting<?php cardCollapseBtn(); ?>
         </div>
         <div class="card-body">
             <div class="row mb-3">
@@ -266,9 +272,9 @@ e&utm_campaign=pro-feature' ); ?>
 <!-- @todo: update UI -->
 <!-- @todo: hide for dummy Bing -->
 <?php if ( Bing()->enabled() ) : ?>
-    <div class="card card-static">
+    <div class="card">
         <div class="card-header">
-            Bing Tag ID setting
+            Bing Tag ID setting<?php cardCollapseBtn(); ?>
         </div>
         <div class="card-body">
 
@@ -365,7 +371,7 @@ e&utm_campaign=pro-feature' ); ?>
     </div>
 </div>
 
-<h2 class="section-title">Default E-Commerce events</h2>
+<h2 class="section-title">Recommended events</h2>
 
 <!-- Purchase -->
 <div class="card">
@@ -373,12 +379,17 @@ e&utm_campaign=pro-feature' ); ?>
         <?php PYS()->render_switcher_input('woo_purchase_enabled');?>Track Purchases <?php cardCollapseBtn(); ?>
     </div>
     <div class="card-body">
-        <div class="row mb-3">
+        <div class="row mb-1">
             <div class="col-11">
                 <?php renderDummyCheckbox( 'Fire the event on transaction only', true ); ?>
             </div>
             <div class="col-1">
                 <?php renderPopoverButton( 'woo_purchase_on_transaction' ); ?>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <?php renderDummyCheckbox( "Don't fire the event for 0 value transactions", true ); ?>
             </div>
         </div>
 
@@ -1200,7 +1211,7 @@ e&utm_campaign=pro-feature' ); ?>
     </div>
 </div>
 
-<h2 class="section-title">Extra E-Commerce events</h2>
+<h2 class="section-title">Extra events</h2>
 
 <!-- Affiliate -->
 <div class="card card-disabled">
@@ -1361,6 +1372,153 @@ e&utm_campaign=pro-feature' ); ?>
             </div>
         </div>
         
+    </div>
+</div>
+
+<h2 class="section-title">WooCommerce Parameters</h2>
+
+<!-- About WooCommerce Events -->
+<div class="card card-static">
+    <div class="card-header">
+        About WooCommerce Events Parameters
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <p>All events get the following Global Parameters for all the tags: <i>page_title, post_type, post_id,
+                         event_URL, user_role, plugin,landing_page(pro), event_time (pro),
+                        event_day (pro), event_month (pro), traffic_source (pro), UTMs (pro).</i>
+                </p>
+                <br><br>
+
+                <p>The Facebook Pixel events are Dynamic Ads ready.</p>
+                <p>The Google Analytics events track the data Enhanced Ecommerce or Monetization (GA4).</p>
+                <p>The Pinterest events have the required data for Dynamic Remarketing.</p>
+
+                <br><br>
+                <p>The Purchase event will have the following extra-parameters:
+                    <i>category_name, num_items, tags, total (pro), transactions_count (pro), tax (pro),
+                        predicted_ltv (pro), average_order (pro), coupon_used (pro), coupon_code (pro), shipping (pro),
+                        shipping_cost (pro).</i>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Control the WooCommerce Parameters -->
+<div class="card">
+    <div class="card-header">
+        Control the WooCommerce Parameters <?php cardCollapseBtn(); ?>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                You can use these parameters to create audiences, custom conversions, or goals. We recommend keeping them active. If you get privacy warnings about some of these parameters, you can turn them OFF.
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <?php PYS()->render_switcher_input( 'enable_woo_category_name_param' ); ?>
+                <h4 class="switcher-label">category_name</h4>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <?php PYS()->render_switcher_input( 'enable_woo_num_items_param' ); ?>
+                <h4 class="switcher-label">num_items</h4>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <?php PYS()->render_switcher_input( 'enable_woo_product_price_param' ); ?>
+                <h4 class="switcher-label">product_price</h4>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <?php renderDummySwitcher(); ?>
+                <h4 class="switcher-label">total (PRO)</h4>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <?php renderDummySwitcher(); ?>
+                <h4 class="switcher-label">transactions_count (PRO)</h4>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <?php renderDummySwitcher(); ?>
+                <h4 class="switcher-label">predicted_ltv (PRO)</h4>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <?php renderDummySwitcher(); ?>
+                <h4 class="switcher-label">average_order (PRO)</h4>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <?php renderDummySwitcher(); ?>
+                <h4 class="switcher-label">coupon_used (PRO)</h4>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <?php renderDummySwitcher(); ?>
+                <h4 class="switcher-label">shipping (PRO)</h4>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <?php renderDummySwitcher(); ?>
+                <h4 class="switcher-label">shipping_cost (PRO)</h4>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <?php renderDummySwitcher( true ); ?>
+                <h4 class="switcher-label">content_ids (mandatory for DPA)</h4>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <?php renderDummySwitcher( true ); ?>
+                <h4 class="switcher-label">content_type (mandatory for DPA)</h4>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <?php renderDummySwitcher( true ); ?>
+                <h4 class="switcher-label">value (mandatory for purchase, you have more options on event level)</h4>
+                <hr>
+            </div>
+        </div>
     </div>
 </div>
 

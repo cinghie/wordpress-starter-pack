@@ -5,6 +5,7 @@ namespace PYS_PRO_GLOBAL\GuzzleHttp\Psr7;
 use PYS_PRO_GLOBAL\Psr\Http\Message\StreamInterface;
 /**
  * Stream decorator trait
+ *
  * @property StreamInterface stream
  */
 trait StreamDecoratorTrait

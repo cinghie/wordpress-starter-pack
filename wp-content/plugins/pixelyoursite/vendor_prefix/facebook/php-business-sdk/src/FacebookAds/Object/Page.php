@@ -37,11 +37,13 @@ use PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdVideoSwapModeValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdVideoTypeValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdVideoUnpublishedContentTypeValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdVideoUploadPhaseValues;
+use PYS_PRO_GLOBAL\FacebookAds\Object\Values\ApplicationPlatformValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\CommerceOrderFiltersValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\CommerceOrderStateValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\EventEventStateFilterValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\EventTimeFilterValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\EventTypeValues;
+use PYS_PRO_GLOBAL\FacebookAds\Object\Values\ImageCopyrightGeoOwnershipValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\InsightsResultDatePresetValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\InsightsResultPeriodValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\InstantArticleInsightsQueryResultBreakdownValues;
@@ -68,6 +70,7 @@ use PYS_PRO_GLOBAL\FacebookAds\Object\Values\PageNotificationTypeValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\PagePermittedTasksValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\PagePickupOptionsValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\PagePlaceAttachmentSettingValues;
+use PYS_PRO_GLOBAL\FacebookAds\Object\Values\PagePlatformValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\PagePostSurfacesBlacklistValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\PagePostWithValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\PagePostingToRedspaceValues;
@@ -83,6 +86,7 @@ use PYS_PRO_GLOBAL\FacebookAds\Object\Values\PhotoTypeValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\PhotoUnpublishedContentTypeValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProfilePictureSourceBreakingChangeValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProfilePictureSourceTypeValues;
+use PYS_PRO_GLOBAL\FacebookAds\Object\Values\UnifiedThreadPlatformValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\VideoCopyrightContentCategoryValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\VideoCopyrightMonitoringTypeValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\VideoCopyrightRuleSourceValues;
@@ -131,6 +135,7 @@ class Page extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
         $ref_enums['MessagingType'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\PageMessagingTypeValues::getInstance()->getValues();
         $ref_enums['NotificationType'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\PageNotificationTypeValues::getInstance()->getValues();
         $ref_enums['SenderAction'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\PageSenderActionValues::getInstance()->getValues();
+        $ref_enums['Platform'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\PagePlatformValues::getInstance()->getValues();
         $ref_enums['Model'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\PageModelValues::getInstance()->getValues();
         $ref_enums['SubscribedFields'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\PageSubscribedFieldsValues::getInstance()->getValues();
         return $ref_enums;
@@ -141,6 +146,16 @@ class Page extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
         $param_types = array('idempotency_key' => 'string', 'orders' => 'list<map>');
         $enums = array();
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/acknowledge_orders', new \PYS_PRO_GLOBAL\FacebookAds\Object\Page(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\Page::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
+    }
+    public function getAdminNotes(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array();
+        $enums = array();
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/admin_notes', new \PYS_PRO_GLOBAL\FacebookAds\Object\PageAdminNote(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\PageAdminNote::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
         $request->addFields($fields);
         return $pending ? $request : $request->execute();
@@ -225,6 +240,16 @@ class Page extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
         $request->addFields($fields);
         return $pending ? $request : $request->execute();
     }
+    public function getAudioIsrcs(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array();
+        $enums = array();
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/audio_isrcs', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'EDGE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
+    }
     public function deleteBlocked(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
@@ -251,6 +276,16 @@ class Page extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
         $param_types = array('asid' => 'list', 'psid' => 'list<int>', 'uid' => 'list', 'user' => 'list');
         $enums = array();
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/blocked', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'EDGE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
+    }
+    public function deleteBusinessData(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array('email' => 'string', 'external_id' => 'string', 'object_name' => 'object_name_enum', 'order_id' => 'string', 'order_item_id' => 'string');
+        $enums = array('object_name_enum' => array('contact', 'order', 'order_item'));
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_DELETE, '/business_data', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'EDGE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
         $request->addFields($fields);
         return $pending ? $request : $request->execute();
@@ -308,7 +343,7 @@ class Page extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
     public function createCanvase(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
-        $param_types = array('background_color' => 'string', 'body_element_ids' => 'list<string>', 'enable_swipe_to_open' => 'bool', 'is_hidden' => 'bool', 'is_published' => 'bool', 'name' => 'string');
+        $param_types = array('background_color' => 'string', 'body_element_ids' => 'list<string>', 'enable_swipe_to_open' => 'bool', 'is_hidden' => 'bool', 'is_published' => 'bool', 'name' => 'string', 'source_template_id' => 'string');
         $enums = array();
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/canvases', new \PYS_PRO_GLOBAL\FacebookAds\Object\Canvas(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\Canvas::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
@@ -321,6 +356,16 @@ class Page extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
         $param_types = array();
         $enums = array();
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/claimed_urls', new \PYS_PRO_GLOBAL\FacebookAds\Object\URL(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\URL::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
+    }
+    public function getCommerceEligibility(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array();
+        $enums = array();
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/commerce_eligibility', new \PYS_PRO_GLOBAL\FacebookAds\Object\PageCommerceEligibility(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\PageCommerceEligibility::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
         $request->addFields($fields);
         return $pending ? $request : $request->execute();
@@ -368,8 +413,8 @@ class Page extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
     public function getConversations(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
-        $param_types = array('folder' => 'string', 'tags' => 'list<string>', 'user_id' => 'string');
-        $enums = array();
+        $param_types = array('folder' => 'string', 'platform' => 'platform_enum', 'tags' => 'list<string>', 'user_id' => 'string');
+        $enums = array('platform_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\UnifiedThreadPlatformValues::getInstance()->getValues());
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/conversations', new \PYS_PRO_GLOBAL\FacebookAds\Object\UnifiedThread(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\UnifiedThread::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
         $request->addFields($fields);
@@ -501,6 +546,36 @@ class Page extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
         $param_types = array();
         $enums = array();
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/global_brand_children', new \PYS_PRO_GLOBAL\FacebookAds\Object\Page(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\Page::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
+    }
+    public function getGroups(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array('admin_only' => 'bool', 'parent' => 'string');
+        $enums = array();
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/groups', new \PYS_PRO_GLOBAL\FacebookAds\Object\Group(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\Group::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
+    }
+    public function getImageCopyrights(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array();
+        $enums = array();
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/image_copyrights', new \PYS_PRO_GLOBAL\FacebookAds\Object\ImageCopyright(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\ImageCopyright::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
+    }
+    public function createImageCopyright(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array('artist' => 'string', 'creator' => 'string', 'custom_id' => 'string', 'description' => 'string', 'filename' => 'string', 'geo_ownership' => 'list<geo_ownership_enum>', 'original_content_creation_date' => 'unsigned int', 'reference_photo' => 'string', 'title' => 'string');
+        $enums = array('geo_ownership_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ImageCopyrightGeoOwnershipValues::getInstance()->getValues());
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/image_copyrights', new \PYS_PRO_GLOBAL\FacebookAds\Object\ImageCopyright(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\ImageCopyright::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
         $request->addFields($fields);
         return $pending ? $request : $request->execute();
@@ -668,7 +743,7 @@ class Page extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
     public function createLocation(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
-        $param_types = array('always_open' => 'bool', 'delivery_and_pickup_option_info' => 'list<string>', 'differently_open_offerings' => 'map', 'hours' => 'map', 'ignore_warnings' => 'bool', 'location' => 'Object', 'location_page_id' => 'string', 'old_store_number' => 'unsigned int', 'permanently_closed' => 'bool', 'phone' => 'string', 'pickup_options' => 'list<pickup_options_enum>', 'place_topics' => 'list<string>', 'price_range' => 'string', 'store_code' => 'string', 'store_location_descriptor' => 'string', 'store_name' => 'string', 'store_number' => 'unsigned int', 'temporary_status' => 'temporary_status_enum', 'website' => 'string');
+        $param_types = array('always_open' => 'bool', 'delivery_and_pickup_option_info' => 'list<string>', 'differently_open_offerings' => 'map', 'hours' => 'map', 'ignore_warnings' => 'bool', 'location' => 'Object', 'location_page_id' => 'string', 'old_store_number' => 'unsigned int', 'page_username' => 'string', 'permanently_closed' => 'bool', 'phone' => 'string', 'pickup_options' => 'list<pickup_options_enum>', 'place_topics' => 'list<string>', 'price_range' => 'string', 'store_code' => 'string', 'store_location_descriptor' => 'string', 'store_name' => 'string', 'store_number' => 'unsigned int', 'temporary_status' => 'temporary_status_enum', 'website' => 'string');
         $enums = array('pickup_options_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\PagePickupOptionsValues::getInstance()->getValues(), 'temporary_status_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\PageTemporaryStatusValues::getInstance()->getValues());
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/locations', new \PYS_PRO_GLOBAL\FacebookAds\Object\Page(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\Page::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
@@ -708,7 +783,7 @@ class Page extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
     public function createMessage(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
-        $param_types = array('message' => 'Object', 'messaging_type' => 'messaging_type_enum', 'notification_type' => 'notification_type_enum', 'persona_id' => 'string', 'recipient' => 'Object', 'sender_action' => 'sender_action_enum', 'tag' => 'Object');
+        $param_types = array('message' => 'Object', 'messaging_type' => 'messaging_type_enum', 'notification_type' => 'notification_type_enum', 'payload' => 'string', 'persona_id' => 'string', 'recipient' => 'Object', 'sender_action' => 'sender_action_enum', 'tag' => 'Object');
         $enums = array('messaging_type_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\PageMessagingTypeValues::getInstance()->getValues(), 'notification_type_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\PageNotificationTypeValues::getInstance()->getValues(), 'sender_action_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\PageSenderActionValues::getInstance()->getValues());
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/messages', new \PYS_PRO_GLOBAL\FacebookAds\Object\Page(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\Page::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
@@ -728,8 +803,8 @@ class Page extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
     public function deleteMessengerProfile(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
-        $param_types = array('fields' => 'list<fields_enum>');
-        $enums = array('fields_enum' => array('ACCOUNT_LINKING_URL', 'GET_STARTED', 'GREETING', 'HOME_URL', 'ICE_BREAKERS', 'PAYMENT_SETTINGS', 'PERSISTENT_MENU', 'PLATFORM', 'SUBJECT_TO_NEW_EU_PRIVACY_RULES', 'TARGET_AUDIENCE', 'WHITELISTED_DOMAINS'));
+        $param_types = array('fields' => 'list<fields_enum>', 'platform' => 'platform_enum');
+        $enums = array('fields_enum' => array('ACCOUNT_LINKING_URL', 'GET_STARTED', 'GREETING', 'HOME_URL', 'ICE_BREAKERS', 'PAYMENT_SETTINGS', 'PERSISTENT_MENU', 'PLATFORM', 'SUBJECT_TO_NEW_EU_PRIVACY_RULES', 'TARGET_AUDIENCE', 'WHITELISTED_DOMAINS'), 'platform_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\PagePlatformValues::getInstance()->getValues());
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_DELETE, '/messenger_profile', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'EDGE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
         $request->addFields($fields);
@@ -738,8 +813,8 @@ class Page extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
     public function getMessengerProfile(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
-        $param_types = array();
-        $enums = array();
+        $param_types = array('platform' => 'platform_enum');
+        $enums = array('platform_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\PagePlatformValues::getInstance()->getValues());
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/messenger_profile', new \PYS_PRO_GLOBAL\FacebookAds\Object\MessengerProfile(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\MessengerProfile::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
         $request->addFields($fields);
@@ -748,8 +823,8 @@ class Page extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
     public function createMessengerProfile(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
-        $param_types = array('account_linking_url' => 'string', 'get_started' => 'Object', 'greeting' => 'list<Object>', 'ice_breakers' => 'list<map>', 'payment_settings' => 'Object', 'persistent_menu' => 'list<Object>', 'target_audience' => 'Object', 'whitelisted_domains' => 'list<string>');
-        $enums = array();
+        $param_types = array('account_linking_url' => 'string', 'get_started' => 'Object', 'greeting' => 'list<Object>', 'ice_breakers' => 'list<map>', 'payment_settings' => 'Object', 'persistent_menu' => 'list<Object>', 'platform' => 'platform_enum', 'target_audience' => 'Object', 'whitelisted_domains' => 'list<string>');
+        $enums = array('platform_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\PagePlatformValues::getInstance()->getValues());
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/messenger_profile', new \PYS_PRO_GLOBAL\FacebookAds\Object\Page(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\Page::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
         $request->addFields($fields);
@@ -888,7 +963,7 @@ class Page extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
     public function createPicture(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
-        $param_types = array('android_key_hash' => 'string', 'burn_media_effect' => 'bool', 'caption' => 'string', 'composer_session_id' => 'string', 'has_umg' => 'bool', 'height' => 'unsigned int', 'ios_bundle_id' => 'string', 'media_effect_ids' => 'list<int>', 'media_effect_source_object_id' => 'int', 'msqrd_mask_id' => 'string', 'photo' => 'string', 'picture' => 'string', 'profile_pic_method' => 'string', 'profile_pic_source' => 'string', 'proxied_app_id' => 'int', 'qn' => 'string', 'reuse' => 'bool', 'scaled_crop_rect' => 'Object', 'set_profile_photo_shield' => 'string', 'sticker_id' => 'int', 'sticker_source_object_id' => 'int', 'suppress_stories' => 'bool', 'width' => 'unsigned int', 'x' => 'unsigned int', 'y' => 'unsigned int');
+        $param_types = array('android_key_hash' => 'string', 'burn_media_effect' => 'bool', 'caption' => 'string', 'composer_session_id' => 'string', 'frame_entrypoint' => 'string', 'has_umg' => 'bool', 'height' => 'unsigned int', 'ios_bundle_id' => 'string', 'media_effect_ids' => 'list<int>', 'media_effect_source_object_id' => 'int', 'msqrd_mask_id' => 'string', 'photo' => 'string', 'picture' => 'string', 'profile_pic_method' => 'string', 'profile_pic_source' => 'string', 'proxied_app_id' => 'int', 'qn' => 'string', 'reuse' => 'bool', 'scaled_crop_rect' => 'Object', 'set_profile_photo_shield' => 'string', 'sticker_id' => 'int', 'sticker_source_object_id' => 'int', 'suppress_stories' => 'bool', 'width' => 'unsigned int', 'x' => 'unsigned int', 'y' => 'unsigned int');
         $enums = array();
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/picture', new \PYS_PRO_GLOBAL\FacebookAds\Object\ProfilePictureSource(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\ProfilePictureSource::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
@@ -918,8 +993,8 @@ class Page extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
     public function getPublishedPosts(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
-        $param_types = array('since' => 'datetime', 'until' => 'datetime');
-        $enums = array();
+        $param_types = array('include_hidden' => 'bool', 'limit' => 'unsigned int', 'show_expired' => 'bool', 'with' => 'with_enum');
+        $enums = array('with_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\PagePostWithValues::getInstance()->getValues());
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/published_posts', new \PYS_PRO_GLOBAL\FacebookAds\Object\PagePost(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\PagePost::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
         $request->addFields($fields);
@@ -988,8 +1063,8 @@ class Page extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
     public function getSecondaryReceivers(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
-        $param_types = array();
-        $enums = array();
+        $param_types = array('platform' => 'platform_enum');
+        $enums = array('platform_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ApplicationPlatformValues::getInstance()->getValues());
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/secondary_receivers', new \PYS_PRO_GLOBAL\FacebookAds\Object\Application(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\Application::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
         $request->addFields($fields);
@@ -1055,6 +1130,16 @@ class Page extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
         $request->addFields($fields);
         return $pending ? $request : $request->execute();
     }
+    public function deleteTabs(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array('tab' => 'string');
+        $enums = array();
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_DELETE, '/tabs', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'EDGE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
+    }
     public function getTabs(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
@@ -1111,16 +1196,6 @@ class Page extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
         $param_types = array('folder' => 'string', 'tags' => 'list<string>', 'user_id' => 'string');
         $enums = array();
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/threads', new \PYS_PRO_GLOBAL\FacebookAds\Object\UnifiedThread(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\UnifiedThread::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
-        $request->addParams($params);
-        $request->addFields($fields);
-        return $pending ? $request : $request->execute();
-    }
-    public function getTours(array $fields = array(), array $params = array(), $pending = \false)
-    {
-        $this->assureId();
-        $param_types = array();
-        $enums = array();
-        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/tours', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'EDGE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
         $request->addFields($fields);
         return $pending ? $request : $request->execute();
@@ -1188,7 +1263,7 @@ class Page extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
     public function createVideo(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
-        $param_types = array('ad_breaks' => 'list', 'adaptive_type' => 'string', 'animated_effect_id' => 'unsigned int', 'application_id' => 'string', 'asked_fun_fact_prompt_id' => 'unsigned int', 'attribution_app_id' => 'string', 'audio_story_wave_animation_handle' => 'string', 'backdated_post' => 'list', 'call_to_action' => 'Object', 'composer_entry_picker' => 'string', 'composer_entry_point' => 'string', 'composer_entry_time' => 'unsigned int', 'composer_session_events_log' => 'string', 'composer_session_id' => 'string', 'composer_source_surface' => 'string', 'composer_type' => 'string', 'container_type' => 'container_type_enum', 'content_category' => 'content_category_enum', 'content_tags' => 'list<string>', 'creative_tools' => 'string', 'crossposted_video_id' => 'string', 'custom_labels' => 'list<string>', 'description' => 'string', 'direct_share_status' => 'unsigned int', 'embeddable' => 'bool', 'end_offset' => 'unsigned int', 'expiration' => 'Object', 'fbuploader_video_file_chunk' => 'string', 'feed_targeting' => 'Object', 'file_size' => 'unsigned int', 'file_url' => 'string', 'fisheye_video_cropped' => 'bool', 'formatting' => 'formatting_enum', 'fov' => 'unsigned int', 'front_z_rotation' => 'float', 'fun_fact_prompt_id' => 'unsigned int', 'fun_fact_toastee_id' => 'unsigned int', 'guide' => 'list<list<unsigned int>>', 'guide_enabled' => 'bool', 'has_nickname' => 'bool', 'holiday_card' => 'string', 'initial_heading' => 'unsigned int', 'initial_pitch' => 'unsigned int', 'instant_game_entry_point_data' => 'string', 'is_boost_intended' => 'bool', 'is_explicit_share' => 'bool', 'is_group_linking_post' => 'bool', 'is_voice_clip' => 'bool', 'location_source_id' => 'string', 'manual_privacy' => 'bool', 'multilingual_data' => 'list<Object>', 'no_story' => 'bool', 'offer_like_post_id' => 'unsigned int', 'og_action_type_id' => 'string', 'og_icon_id' => 'string', 'og_object_id' => 'string', 'og_phrase' => 'string', 'og_suggestion_mechanism' => 'string', 'original_fov' => 'unsigned int', 'original_projection_type' => 'original_projection_type_enum', 'publish_event_id' => 'unsigned int', 'published' => 'bool', 'react_mode_metadata' => 'string', 'reference_only' => 'bool', 'referenced_sticker_id' => 'string', 'replace_video_id' => 'string', 'sales_promo_id' => 'unsigned int', 'scheduled_publish_time' => 'unsigned int', 'secret' => 'bool', 'slideshow_spec' => 'map', 'social_actions' => 'bool', 'source' => 'string', 'source_instagram_media_id' => 'string', 'specified_dialect' => 'string', 'spherical' => 'bool', 'sponsor_id' => 'string', 'sponsor_relationship' => 'unsigned int', 'start_offset' => 'unsigned int', 'swap_mode' => 'swap_mode_enum', 'targeting' => 'Object', 'text_format_metadata' => 'string', 'throwback_camera_roll_media' => 'string', 'thumb' => 'file', 'time_since_original_post' => 'unsigned int', 'title' => 'string', 'transcode_setting_properties' => 'string', 'universal_video_id' => 'string', 'unpublished_content_type' => 'unpublished_content_type_enum', 'upload_phase' => 'upload_phase_enum', 'upload_session_id' => 'string', 'upload_setting_properties' => 'string', 'video_asset_id' => 'string', 'video_file_chunk' => 'string', 'video_id_original' => 'string', 'video_start_time_ms' => 'unsigned int', 'waterfall_id' => 'string');
+        $param_types = array('ad_breaks' => 'list', 'adaptive_type' => 'string', 'animated_effect_id' => 'unsigned int', 'application_id' => 'string', 'asked_fun_fact_prompt_id' => 'unsigned int', 'audio_story_wave_animation_handle' => 'string', 'backdated_post' => 'list', 'call_to_action' => 'Object', 'composer_entry_picker' => 'string', 'composer_entry_point' => 'string', 'composer_entry_time' => 'unsigned int', 'composer_session_events_log' => 'string', 'composer_session_id' => 'string', 'composer_source_surface' => 'string', 'composer_type' => 'string', 'container_type' => 'container_type_enum', 'content_category' => 'content_category_enum', 'content_tags' => 'list<string>', 'creative_tools' => 'string', 'crossposted_video_id' => 'string', 'custom_labels' => 'list<string>', 'description' => 'string', 'direct_share_status' => 'unsigned int', 'embeddable' => 'bool', 'end_offset' => 'unsigned int', 'expiration' => 'Object', 'fbuploader_video_file_chunk' => 'string', 'feed_targeting' => 'Object', 'file_size' => 'unsigned int', 'file_url' => 'string', 'fisheye_video_cropped' => 'bool', 'formatting' => 'formatting_enum', 'fov' => 'unsigned int', 'front_z_rotation' => 'float', 'fun_fact_prompt_id' => 'unsigned int', 'fun_fact_toastee_id' => 'unsigned int', 'guide' => 'list<list<unsigned int>>', 'guide_enabled' => 'bool', 'has_nickname' => 'bool', 'holiday_card' => 'string', 'initial_heading' => 'unsigned int', 'initial_pitch' => 'unsigned int', 'instant_game_entry_point_data' => 'string', 'is_boost_intended' => 'bool', 'is_explicit_share' => 'bool', 'is_group_linking_post' => 'bool', 'is_voice_clip' => 'bool', 'location_source_id' => 'string', 'manual_privacy' => 'bool', 'multilingual_data' => 'list<Object>', 'no_story' => 'bool', 'offer_like_post_id' => 'unsigned int', 'og_action_type_id' => 'string', 'og_icon_id' => 'string', 'og_object_id' => 'string', 'og_phrase' => 'string', 'og_suggestion_mechanism' => 'string', 'original_fov' => 'unsigned int', 'original_projection_type' => 'original_projection_type_enum', 'publish_event_id' => 'unsigned int', 'published' => 'bool', 'react_mode_metadata' => 'string', 'reference_only' => 'bool', 'referenced_sticker_id' => 'string', 'replace_video_id' => 'string', 'sales_promo_id' => 'unsigned int', 'scheduled_publish_time' => 'unsigned int', 'secret' => 'bool', 'slideshow_spec' => 'map', 'social_actions' => 'bool', 'source' => 'string', 'source_instagram_media_id' => 'string', 'specified_dialect' => 'string', 'spherical' => 'bool', 'sponsor_id' => 'string', 'sponsor_relationship' => 'unsigned int', 'start_offset' => 'unsigned int', 'swap_mode' => 'swap_mode_enum', 'targeting' => 'Object', 'text_format_metadata' => 'string', 'throwback_camera_roll_media' => 'string', 'thumb' => 'file', 'time_since_original_post' => 'unsigned int', 'title' => 'string', 'transcode_setting_properties' => 'string', 'universal_video_id' => 'string', 'unpublished_content_type' => 'unpublished_content_type_enum', 'upload_phase' => 'upload_phase_enum', 'upload_session_id' => 'string', 'upload_setting_properties' => 'string', 'video_asset_id' => 'string', 'video_file_chunk' => 'string', 'video_id_original' => 'string', 'video_start_time_ms' => 'unsigned int', 'waterfall_id' => 'string');
         $enums = array('container_type_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdVideoContainerTypeValues::getInstance()->getValues(), 'content_category_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdVideoContentCategoryValues::getInstance()->getValues(), 'formatting_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdVideoFormattingValues::getInstance()->getValues(), 'original_projection_type_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdVideoOriginalProjectionTypeValues::getInstance()->getValues(), 'swap_mode_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdVideoSwapModeValues::getInstance()->getValues(), 'unpublished_content_type_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdVideoUnpublishedContentTypeValues::getInstance()->getValues(), 'upload_phase_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdVideoUploadPhaseValues::getInstance()->getValues());
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/videos', new \PYS_PRO_GLOBAL\FacebookAds\Object\AdVideo(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\AdVideo::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
@@ -1201,6 +1276,16 @@ class Page extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
         $param_types = array('include_hidden' => 'bool');
         $enums = array();
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/visitor_posts', new \PYS_PRO_GLOBAL\FacebookAds\Object\PagePost(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\PagePost::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
+    }
+    public function createWorkPageMessage(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array('message' => 'Object', 'messaging_type' => 'messaging_type_enum', 'notification_type' => 'notification_type_enum', 'payload' => 'string', 'persona_id' => 'string', 'recipient' => 'Object', 'sender_action' => 'sender_action_enum', 'tag' => 'Object');
+        $enums = array('messaging_type_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\PageMessagingTypeValues::getInstance()->getValues(), 'notification_type_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\PageNotificationTypeValues::getInstance()->getValues(), 'sender_action_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\PageSenderActionValues::getInstance()->getValues());
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/workpagemessages', new \PYS_PRO_GLOBAL\FacebookAds\Object\Page(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\Page::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
         $request->addFields($fields);
         return $pending ? $request : $request->execute();

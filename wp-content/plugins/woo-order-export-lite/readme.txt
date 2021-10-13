@@ -4,8 +4,8 @@ Donate link: https://paypal.me/ipprokaev/0usd
 Tags: woocommerce,export,order,xls,csv,xml,woo export lite,export orders,orders export,csv export,xml export,xls export,tsv
 Requires PHP: 5.4.0
 Requires at least: 4.7
-Tested up to: 5.6
-Stable tag: 3.1.7
+Tested up to: 5.8
+Stable tag: 3.1.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,13 +117,34 @@ Yes, you can email a request to aprokaev@gmail.com. We intensively develop this 
 
 == Changelog ==
 
+= 3.1.9 - 2021-06-22 =
+* New field "Sum of Items (Exported)" for mode "Summary Report By Customers"
+* Added extra operators for filter by item meta
+* Correctly export description of variation
+* Correctly show alias for deleted role
+* Fixed bug - fatal error if variation was deleted
+* Fixed bug - unixtimestamp exported as number (not date) to Excel
+* Fixed bug - option "Export only matched product items" didn't work if order has variations of same product
+* Fixed bug - TAX fields (added via >Setup Fields>Other items) ignored shipping amount 
+
+= 3.1.8 - 2021-02-22 =
+* Fixed XSS vulnerability
+* Screen >WooCommerce>Orders can be sorted by column "Export Status"
+* New field "Order subtotal + Cart tax amount"
+* New field "Shipping Zone" 
+* Added operators "IS SET" and "NOT SET" for item meta filters
+* Added option "Don't encode unicode chars" to section "JSON "
+* Fixed bug - some compatibility issues with PHP 7.4
+* Fixed bug - correctly support Loco Translate
+* Fixed bug - weight was rounded for XLS format
+
 = 3.1.7 - 2020-12-09 =
 * New field "Summary Report Total Weight"
 * Added option to round "Item Tax Rate" (Misc Settings)
 * Added option "Force enclosure for all values" (CSV format)
 * Use billing email to calculate field "Customer Total Orders" for guests
 * The plugin supports capability "export_woocommerce_orders"
-* Fixed bug - PDF text didn't fit to cell by width
+* Fixed bug - PDF text didn't fit to cell by column width
 * Fixed bug - field "Non variation attributes" showed wrong values for existing taxonomies
 
 = 3.1.6 - 2020-09-21 =

@@ -82,7 +82,7 @@ this["wc"] = this["wc"] || {}; this["wc"]["customerEffortScore"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 475);
+/******/ 	return __webpack_require__(__webpack_require__.s = 466);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -90,7 +90,7 @@ this["wc"] = this["wc"] || {}; this["wc"]["customerEffortScore"] =
 /***/ 0:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["element"]; }());
+(function() { module.exports = window["wp"]["element"]; }());
 
 /***/ }),
 
@@ -107,126 +107,41 @@ this["wc"] = this["wc"] || {}; this["wc"]["customerEffortScore"] =
 if (false) { var throwOnDirectAccess, ReactIs; } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(75)();
+  module.exports = __webpack_require__(47)();
 }
 
 
 /***/ }),
 
-/***/ 15:
+/***/ 14:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["data"]; }());
-
-/***/ }),
-
-/***/ 18:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["compose"]; }());
-
-/***/ }),
-
-/***/ 19:
-/***/ (function(module, exports, __webpack_require__) {
-
-var arrayWithHoles = __webpack_require__(60);
-
-var iterableToArrayLimit = __webpack_require__(61);
-
-var unsupportedIterableToArray = __webpack_require__(39);
-
-var nonIterableRest = __webpack_require__(62);
-
-function _slicedToArray(arr, i) {
-  return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || unsupportedIterableToArray(arr, i) || nonIterableRest();
-}
-
-module.exports = _slicedToArray;
+(function() { module.exports = window["wp"]["compose"]; }());
 
 /***/ }),
 
 /***/ 2:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["i18n"]; }());
+(function() { module.exports = window["wp"]["i18n"]; }());
 
 /***/ }),
 
-/***/ 31:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Navigation; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return NavigationBackButton; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return NavigationGroup; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return NavigationMenu; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return NavigationItem; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return Text; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return useSlot; });
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__);
-/**
- * External dependencies
- */
-
-/**
- * Prioritize exports of non-experimental components over experimental.
- */
-
-var Navigation = _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["Navigation"] || _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["__experimentalNavigation"];
-var NavigationBackButton = _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["NavigationBackButton"] || _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["__experimentalNavigationBackButton"];
-var NavigationGroup = _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["NavigationGroup"] || _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["__experimentalNavigationGroup"];
-var NavigationMenu = _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["NavigationMenu"] || _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["__experimentalNavigationMenu"];
-var NavigationItem = _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["NavigationItem"] || _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["__experimentalNavigationItem"];
-var Text = _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["Text"] || _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["__experimentalText"];
-var useSlot = _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["useSlot"] || _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["__experimentalUseSlot"];
-
-/***/ }),
-
-/***/ 37:
+/***/ 20:
 /***/ (function(module, exports) {
 
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
-
-module.exports = _arrayLikeToArray;
-
-/***/ }),
-
-/***/ 39:
-/***/ (function(module, exports, __webpack_require__) {
-
-var arrayLikeToArray = __webpack_require__(37);
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray(o, minLen);
-}
-
-module.exports = _unsupportedIterableToArray;
+(function() { module.exports = window["wc"]["experimental"]; }());
 
 /***/ }),
 
 /***/ 4:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["components"]; }());
+(function() { module.exports = window["wp"]["components"]; }());
 
 /***/ }),
 
-/***/ 475:
+/***/ 466:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -236,39 +151,32 @@ __webpack_require__.r(__webpack_exports__);
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "CustomerEffortScore", function() { return /* binding */ CustomerEffortScore; });
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/slicedToArray.js
-var slicedToArray = __webpack_require__(19);
-var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray);
-
-// EXTERNAL MODULE: external {"this":["wp","element"]}
-var external_this_wp_element_ = __webpack_require__(0);
+// EXTERNAL MODULE: external ["wp","element"]
+var external_wp_element_ = __webpack_require__(0);
 
 // EXTERNAL MODULE: ./node_modules/prop-types/index.js
 var prop_types = __webpack_require__(1);
 var prop_types_default = /*#__PURE__*/__webpack_require__.n(prop_types);
 
-// EXTERNAL MODULE: external {"this":["wp","i18n"]}
-var external_this_wp_i18n_ = __webpack_require__(2);
+// EXTERNAL MODULE: external ["wp","i18n"]
+var external_wp_i18n_ = __webpack_require__(2);
 
-// EXTERNAL MODULE: external {"this":["wp","compose"]}
-var external_this_wp_compose_ = __webpack_require__(18);
+// EXTERNAL MODULE: external ["wp","compose"]
+var external_wp_compose_ = __webpack_require__(14);
 
-// EXTERNAL MODULE: external {"this":["wp","data"]}
-var external_this_wp_data_ = __webpack_require__(15);
+// EXTERNAL MODULE: external ["wp","data"]
+var external_wp_data_ = __webpack_require__(7);
 
-// EXTERNAL MODULE: external {"this":["wp","components"]}
-var external_this_wp_components_ = __webpack_require__(4);
+// EXTERNAL MODULE: external ["wp","components"]
+var external_wp_components_ = __webpack_require__(4);
 
-// EXTERNAL MODULE: ./packages/experimental/build-module/index.js
-var build_module = __webpack_require__(31);
+// EXTERNAL MODULE: external ["wc","experimental"]
+var external_wc_experimental_ = __webpack_require__(20);
 
 // CONCATENATED MODULE: ./packages/customer-effort-score/build-module/customer-feedback-modal/index.js
-
-
 /**
  * External dependencies
  */
-
 
 
 
@@ -290,57 +198,40 @@ var build_module = __webpack_require__(31);
  * @param {string} props.label                 Question to ask the customer.
  */
 
-function CustomerFeedbackModal(_ref) {
-  var recordScoreCallback = _ref.recordScoreCallback,
-      label = _ref.label;
-  var options = [{
-    label: Object(external_this_wp_i18n_["__"])('Very difficult', 'woocommerce-admin'),
+function CustomerFeedbackModal({
+  recordScoreCallback,
+  label
+}) {
+  const options = [{
+    label: Object(external_wp_i18n_["__"])('Very difficult', 'woocommerce-admin'),
     value: '1'
   }, {
-    label: Object(external_this_wp_i18n_["__"])('Somewhat difficult', 'woocommerce-admin'),
+    label: Object(external_wp_i18n_["__"])('Somewhat difficult', 'woocommerce-admin'),
     value: '2'
   }, {
-    label: Object(external_this_wp_i18n_["__"])('Neutral', 'woocommerce-admin'),
+    label: Object(external_wp_i18n_["__"])('Neutral', 'woocommerce-admin'),
     value: '3'
   }, {
-    label: Object(external_this_wp_i18n_["__"])('Somewhat easy', 'woocommerce-admin'),
+    label: Object(external_wp_i18n_["__"])('Somewhat easy', 'woocommerce-admin'),
     value: '4'
   }, {
-    label: Object(external_this_wp_i18n_["__"])('Very easy', 'woocommerce-admin'),
+    label: Object(external_wp_i18n_["__"])('Very easy', 'woocommerce-admin'),
     value: '5'
   }];
+  const [score, setScore] = Object(external_wp_element_["useState"])(NaN);
+  const [comments, setComments] = Object(external_wp_element_["useState"])('');
+  const [showNoScoreMessage, setShowNoScoreMessage] = Object(external_wp_element_["useState"])(false);
+  const [isOpen, setOpen] = Object(external_wp_element_["useState"])(true);
 
-  var _useState = Object(external_this_wp_element_["useState"])(NaN),
-      _useState2 = slicedToArray_default()(_useState, 2),
-      score = _useState2[0],
-      setScore = _useState2[1];
+  const closeModal = () => setOpen(false);
 
-  var _useState3 = Object(external_this_wp_element_["useState"])(),
-      _useState4 = slicedToArray_default()(_useState3, 2),
-      comments = _useState4[0],
-      setComments = _useState4[1];
-
-  var _useState5 = Object(external_this_wp_element_["useState"])(false),
-      _useState6 = slicedToArray_default()(_useState5, 2),
-      showNoScoreMessage = _useState6[0],
-      setShowNoScoreMessage = _useState6[1];
-
-  var _useState7 = Object(external_this_wp_element_["useState"])(true),
-      _useState8 = slicedToArray_default()(_useState7, 2),
-      isOpen = _useState8[0],
-      setOpen = _useState8[1];
-
-  var closeModal = function closeModal() {
-    return setOpen(false);
-  };
-
-  var onRadioControlChange = function onRadioControlChange(value) {
-    var valueAsInt = parseInt(value, 10);
+  const onRadioControlChange = value => {
+    const valueAsInt = parseInt(value, 10);
     setScore(valueAsInt);
     setShowNoScoreMessage(!Number.isInteger(valueAsInt));
   };
 
-  var sendScore = function sendScore() {
+  const sendScore = () => {
     if (!Number.isInteger(score)) {
       setShowNoScoreMessage(true);
       return;
@@ -354,47 +245,48 @@ function CustomerFeedbackModal(_ref) {
     return null;
   }
 
-  return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Modal"], {
+  return Object(external_wp_element_["createElement"])(external_wp_components_["Modal"], {
     className: "woocommerce-customer-effort-score",
-    title: Object(external_this_wp_i18n_["__"])('Please share your feedback', 'woocommerce-admin'),
+    title: Object(external_wp_i18n_["__"])('Please share your feedback', 'woocommerce-admin'),
     onRequestClose: closeModal,
     shouldCloseOnClickOutside: false
-  }, Object(external_this_wp_element_["createElement"])(build_module["f" /* Text */], {
+  }, Object(external_wp_element_["createElement"])(external_wc_experimental_["Text"], {
     variant: "subtitle.small",
-    as: "p"
-  }, label), Object(external_this_wp_element_["createElement"])("div", {
+    as: "p",
+    weight: "600",
+    size: "14",
+    lineHeight: "20px"
+  }, label), Object(external_wp_element_["createElement"])("div", {
     className: "woocommerce-customer-effort-score__selection"
-  }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["RadioControl"], {
+  }, Object(external_wp_element_["createElement"])(external_wp_components_["RadioControl"], {
     selected: score.toString(10),
     options: options,
     onChange: onRadioControlChange
-  })), (score === 1 || score === 2) && Object(external_this_wp_element_["createElement"])("div", {
+  })), (score === 1 || score === 2) && Object(external_wp_element_["createElement"])("div", {
     className: "woocommerce-customer-effort-score__comments"
-  }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextareaControl"], {
-    label: Object(external_this_wp_i18n_["__"])('Comments (Optional)', 'woocommerce-admin'),
-    help: Object(external_this_wp_i18n_["__"])('Your feedback will go to the WooCommerce development team', 'woocommerce-admin'),
+  }, Object(external_wp_element_["createElement"])(external_wp_components_["TextareaControl"], {
+    label: Object(external_wp_i18n_["__"])('Comments (Optional)', 'woocommerce-admin'),
+    help: Object(external_wp_i18n_["__"])('Your feedback will go to the WooCommerce development team', 'woocommerce-admin'),
     value: comments,
-    onChange: function onChange(value) {
-      return setComments(value);
-    },
-    rows: "5"
-  })), showNoScoreMessage && Object(external_this_wp_element_["createElement"])("div", {
+    onChange: value => setComments(value),
+    rows: 5
+  })), showNoScoreMessage && Object(external_wp_element_["createElement"])("div", {
     className: "woocommerce-customer-effort-score__errors",
     role: "alert"
-  }, Object(external_this_wp_element_["createElement"])(build_module["f" /* Text */], {
+  }, Object(external_wp_element_["createElement"])(external_wc_experimental_["Text"], {
     variant: "body",
     as: "p"
-  }, Object(external_this_wp_i18n_["__"])('Please provide feedback by selecting an option above.', 'woocommerce-admin'))), Object(external_this_wp_element_["createElement"])("div", {
+  }, Object(external_wp_i18n_["__"])('Please provide feedback by selecting an option above.', 'woocommerce-admin'))), Object(external_wp_element_["createElement"])("div", {
     className: "woocommerce-customer-effort-score__buttons"
-  }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
+  }, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
     isTertiary: true,
     onClick: closeModal,
     name: "cancel"
-  }, Object(external_this_wp_i18n_["__"])('Cancel', 'woocommerce-admin')), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
+  }, Object(external_wp_i18n_["__"])('Cancel', 'woocommerce-admin')), Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
     isPrimary: true,
     onClick: sendScore,
     name: "send"
-  }, Object(external_this_wp_i18n_["__"])('Send', 'woocommerce-admin'))));
+  }, Object(external_wp_i18n_["__"])('Send', 'woocommerce-admin'))));
 }
 
 CustomerFeedbackModal.propTypes = {
@@ -403,12 +295,9 @@ CustomerFeedbackModal.propTypes = {
 };
 /* harmony default export */ var customer_feedback_modal = (CustomerFeedbackModal);
 // CONCATENATED MODULE: ./packages/customer-effort-score/build-module/index.js
-
-
 /**
  * External dependencies
  */
-
 
 
 
@@ -420,7 +309,7 @@ CustomerFeedbackModal.propTypes = {
 
 
 
-var noop = function noop() {};
+const noop = () => {};
 /**
  * Use `CustomerEffortScore` to gather a customer effort score.
  *
@@ -438,42 +327,31 @@ var noop = function noop() {};
  */
 
 
-function CustomerEffortScore(_ref) {
-  var recordScoreCallback = _ref.recordScoreCallback,
-      label = _ref.label,
-      createNotice = _ref.createNotice,
-      _ref$onNoticeShownCal = _ref.onNoticeShownCallback,
-      onNoticeShownCallback = _ref$onNoticeShownCal === void 0 ? noop : _ref$onNoticeShownCal,
-      _ref$onNoticeDismisse = _ref.onNoticeDismissedCallback,
-      onNoticeDismissedCallback = _ref$onNoticeDismisse === void 0 ? noop : _ref$onNoticeDismisse,
-      _ref$onModalShownCall = _ref.onModalShownCallback,
-      onModalShownCallback = _ref$onModalShownCall === void 0 ? noop : _ref$onModalShownCall,
-      icon = _ref.icon;
-
-  var _useState = Object(external_this_wp_element_["useState"])(true),
-      _useState2 = slicedToArray_default()(_useState, 2),
-      shouldCreateNotice = _useState2[0],
-      setShouldCreateNotice = _useState2[1];
-
-  var _useState3 = Object(external_this_wp_element_["useState"])(false),
-      _useState4 = slicedToArray_default()(_useState3, 2),
-      visible = _useState4[0],
-      setVisible = _useState4[1];
-
-  Object(external_this_wp_element_["useEffect"])(function () {
+function CustomerEffortScore({
+  recordScoreCallback,
+  label,
+  createNotice,
+  onNoticeShownCallback = noop,
+  onNoticeDismissedCallback = noop,
+  onModalShownCallback = noop,
+  icon
+}) {
+  const [shouldCreateNotice, setShouldCreateNotice] = Object(external_wp_element_["useState"])(true);
+  const [visible, setVisible] = Object(external_wp_element_["useState"])(false);
+  Object(external_wp_element_["useEffect"])(() => {
     if (!shouldCreateNotice) {
       return;
     }
 
     createNotice('success', label, {
       actions: [{
-        label: Object(external_this_wp_i18n_["__"])('Give feedback', 'woocommerce-admin'),
-        onClick: function onClick() {
+        label: Object(external_wp_i18n_["__"])('Give feedback', 'woocommerce-admin'),
+        onClick: () => {
           setVisible(true);
           onModalShownCallback();
         }
       }],
-      icon: icon,
+      icon,
       explicitDismiss: true,
       onDismiss: onNoticeDismissedCallback
     });
@@ -489,7 +367,7 @@ function CustomerEffortScore(_ref) {
     return null;
   }
 
-  return Object(external_this_wp_element_["createElement"])(customer_feedback_modal, {
+  return Object(external_wp_element_["createElement"])(customer_feedback_modal, {
     label: label,
     recordScoreCallback: recordScoreCallback
   });
@@ -530,74 +408,18 @@ CustomerEffortScore.propTypes = {
    */
   icon: prop_types_default.a.element
 };
-/* harmony default export */ var customer_effort_score_build_module = __webpack_exports__["default"] = (Object(external_this_wp_compose_["compose"])(Object(external_this_wp_data_["withDispatch"])(function (dispatch) {
-  var _dispatch = dispatch('core/notices2'),
-      createNotice = _dispatch.createNotice;
-
+/* harmony default export */ var build_module = __webpack_exports__["default"] = (Object(external_wp_compose_["compose"])(Object(external_wp_data_["withDispatch"])(dispatch => {
+  const {
+    createNotice
+  } = dispatch('core/notices2');
   return {
-    createNotice: createNotice
+    createNotice
   };
 }))(CustomerEffortScore));
 
 /***/ }),
 
-/***/ 60:
-/***/ (function(module, exports) {
-
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-module.exports = _arrayWithHoles;
-
-/***/ }),
-
-/***/ 61:
-/***/ (function(module, exports) {
-
-function _iterableToArrayLimit(arr, i) {
-  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _e = undefined;
-
-  try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-
-module.exports = _iterableToArrayLimit;
-
-/***/ }),
-
-/***/ 62:
-/***/ (function(module, exports) {
-
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-module.exports = _nonIterableRest;
-
-/***/ }),
-
-/***/ 75:
+/***/ 47:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -610,7 +432,7 @@ module.exports = _nonIterableRest;
 
 
 
-var ReactPropTypesSecret = __webpack_require__(76);
+var ReactPropTypesSecret = __webpack_require__(48);
 
 function emptyFunction() {}
 function emptyFunctionWithReset() {}
@@ -669,7 +491,7 @@ module.exports = function() {
 
 /***/ }),
 
-/***/ 76:
+/***/ 48:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -686,6 +508,13 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 
 module.exports = ReactPropTypesSecret;
 
+
+/***/ }),
+
+/***/ 7:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["data"]; }());
 
 /***/ })
 

@@ -1,4 +1,4 @@
-<?php
+<?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
  * This file belongs to the YIT Plugin Framework.
  *
@@ -70,7 +70,7 @@ class YITH_WCAS_Search_Form_Elementor_Widget extends \Elementor\Widget_Base {
 	/**
 	 * Register controls
 	 */
-	protected function _register_controls() {
+	protected function _register_controls() { //phpcs:ignore
 		$this->start_controls_section(
 			'section_button',
 			array(
@@ -91,8 +91,6 @@ class YITH_WCAS_Search_Form_Elementor_Widget extends \Elementor\Widget_Base {
 				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
 			)
 		);
-
-
 
 		$this->end_controls_section();
 

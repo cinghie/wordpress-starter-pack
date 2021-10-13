@@ -1,4 +1,4 @@
-<?php
+<?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
  * Ajax Search Widget
  *
@@ -76,7 +76,7 @@ if ( ! class_exists( 'YITH_WCAS_Ajax_Search_Widget' ) ) {
 		 * @return array
 		 */
 		public function update( $new_instance, $old_instance ) {
-			$instance['title'] = wp_strip_all_tags( stripslashes( $new_instance['title'] ) );
+			$instance['title'] = isset( $new_instance ) ? wp_strip_all_tags( stripslashes( $new_instance['title'] ) ) : '';
 			return $instance;
 		}
 
@@ -92,12 +92,7 @@ if ( ! class_exists( 'YITH_WCAS_Ajax_Search_Widget' ) ) {
 			global $wpdb;
 			?>
 			<p><label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:', 'woocommerce' ); ?></label>
-				<input type="text" class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" value="
-																  <?php
-																	if ( isset( $instance['title'] ) ) {
-																		echo esc_attr( $instance['title'] );}
-																	?>
-				" /></p>
+				<input type="text" class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" value="<?php echo isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : ''; ?>" /></p>
 			<?php
 		}
 	}

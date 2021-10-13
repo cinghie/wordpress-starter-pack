@@ -16,9 +16,11 @@ use Google\Site_Kit_Dependencies\Google\Auth\OAuth2;
 use Google\Site_Kit_Dependencies\Google\Auth\HttpHandler\HttpHandlerFactory;
 use Google\Site_Kit_Dependencies\Google\Auth\HttpHandler\HttpClientCache;
 use Google\Site_Kit_Dependencies\GuzzleHttp\ClientInterface;
+use Google\Site_Kit_Dependencies\Psr\Http\Message\RequestInterface;
 use Exception;
 use InvalidArgumentException;
 use LogicException;
+use WP_User;
 
 /**
  * Extended Google API client with custom functionality for Site Kit.
@@ -184,25 +186,54 @@ class Google_Site_Kit_Client extends Google_Client {
 			}
 			$this->setAccessToken( $token_response );
 
-			// TODO: In the future, once the old authentication mechanism no longer exists, this check can be removed.
-			// For now the below action should only fire for the proxy despite not clarifying that in the hook name.
-			if ( $this instanceof Google_Site_Kit_Proxy_Client ) {
-				/**
-				 * Fires when the current user has just been reauthorized to access Google APIs with a refreshed access token.
-				 *
-				 * In other words, this action fires whenever Site Kit has just obtained a new access token based on
-				 * the refresh token for the current user, which typically happens once every hour when using Site Kit,
-				 * since that is the lifetime of every access token.
-				 *
-				 * @since 1.25.0
-				 *
-				 * @param array $token_response Token response data.
-				 */
-				do_action( 'googlesitekit_reauthorize_user', $token_response );
-			}
+			/**
+			 * Fires when the current user has just been reauthorized to access Google APIs with a refreshed access token.
+			 *
+			 * In other words, this action fires whenever Site Kit has just obtained a new access token based on
+			 * the refresh token for the current user, which typically happens once every hour when using Site Kit,
+			 * since that is the lifetime of every access token.
+			 *
+			 * @since 1.25.0
+			 *
+			 * @param array $token_response Token response data.
+			 */
+			do_action( 'googlesitekit_reauthorize_user', $token_response );
 		}
 
 		return $token_response;
+	}
+
+	/**
+	 * Executes deferred HTTP requests.
+	 *
+	 * @since 1.38.0
+	 *
+	 * @param RequestInterface $request Request object to execute.
+	 * @param string           $expected_class Expected class to return.
+	 * @return object An object of the type of the expected class or Psr\Http\Message\ResponseInterface.
+	 */
+	public function execute( RequestInterface $request, $expected_class = null ) {
+		$request = $request->withHeader( 'X-Goog-Quota-User', self::getQuotaUser() );
+
+		return parent::execute( $request, $expected_class );
+	}
+
+	/**
+	 * Returns a string that uniquely identifies a user of the application.
+	 *
+	 * @since 1.38.0
+	 *
+	 * @return string Unique user identifier.
+	 */
+	public static function getQuotaUser() {
+		$user_id = get_current_user_id();
+		$url     = get_home_url();
+
+		$scheme = wp_parse_url( $url, PHP_URL_SCHEME );
+		$host   = wp_parse_url( $url, PHP_URL_HOST );
+		$path   = wp_parse_url( $url, PHP_URL_PATH );
+
+		return "{$scheme}://{$user_id}@{$host}{$path}";
 	}
 
 	/**
@@ -247,4 +278,5 @@ class Google_Site_Kit_Client extends Google_Client {
 	protected function handleAuthTokenErrorResponse( $error, array $data ) {
 		throw new Google_OAuth_Exception( $error );
 	}
+
 }

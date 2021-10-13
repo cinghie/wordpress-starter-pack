@@ -9,6 +9,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
+function isWcfActive() {
+    return function_exists('wcf');
+}
 
 function isPinterestActive( $checkCompatibility = true ) {
 	
@@ -449,7 +452,7 @@ function isDisabledForCurrentRole() {
 		if ( in_array( $role, $disabled_for ) ) {
 
 			add_action( 'wp_head', function() {
-				echo "<script type='text/javascript'>console.warn('PixelYourSite is disabled for current user role.');</script>\r\n";
+				echo "<script type='application/javascript'>console.warn('PixelYourSite is disabled for current user role.');</script>\r\n";
 			} );
 
 			return true;
@@ -703,7 +706,9 @@ function sanitizeParams( $params ) {
 			$sanitized[ $key ] = (float) $value; // do not encode value to avoid error messages on Pinterest
 		} elseif ( is_bool( $value ) ) {
 			$sanitized[ $key ] = (bool) $value;
-		} else {
+		} elseif (is_numeric($value)) {
+            $sanitized[ $key ] = $value;
+        } else {
 			$sanitized[ $key ] = stripslashes(html_entity_decode( $value ));
 		}
 
@@ -746,7 +751,10 @@ function endsWith( $haystack, $needle ) {
                 $temp ) !== false );
 }
 
-function getCurrentPageUrl() {
+function getCurrentPageUrl($removeQuery = false) {
+    if($removeQuery) {
+        return $_SERVER['HTTP_HOST'] . str_replace("?".$_SERVER['QUERY_STRING'],"",$_SERVER['REQUEST_URI']);
+    }
     return  $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ;
 }
 
@@ -1026,11 +1034,16 @@ function getStandardParams() {
         'page_title' => "",
         'post_type' => $cpt,
         'post_id' => "",
-        'event_url' => getCurrentPageUrl(),
-        'user_role' => getUserRoles(),
         'plugin' => "PixelYourSite"
     );
 
+    if(PYS()->getOption("enable_user_role_param")) {
+        $params['user_role'] = getUserRoles();
+    }
+
+    if(PYS()->getOption("enable_event_url_param")) {
+        $params['event_url'] = getCurrentPageUrl(true);
+    }
 
     if(is_singular( 'post' )) {
         $params['page_title'] = $post->post_title;
@@ -1077,6 +1090,13 @@ function getStandardParams() {
     } else if ($post instanceof \WP_Post) {
         $params['page_title'] = $post->post_title;
         $params['post_id']   = $post->ID;
+    }
+
+    if(!PYS()->getOption("enable_post_type_param")) {
+        unset($params['post_type']);
+    }
+    if(!PYS()->getOption("enable_post_id_param")) {
+        unset($params['post_id']);
     }
 
 

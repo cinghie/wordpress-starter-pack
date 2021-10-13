@@ -29,7 +29,7 @@ use PYS_PRO_GLOBAL\FacebookAds\Api;
 use PYS_PRO_GLOBAL\FacebookAds\ApiConfig;
 use PYS_PRO_GLOBAL\FacebookAds\Object\AdsPixel;
 /**
- * Server-Side Event Request
+ * Conversions API Event Request
  *
  * @category    Class
  */
@@ -66,7 +66,7 @@ class EventRequest implements \ArrayAccess
      * @param string $pixel_id pixel id
      * @param mixed[] $data Associated array of property value initializing the model
      */
-    public function __construct(string $pixel_id, array $data = null)
+    public function __construct($pixel_id, array $data = null)
     {
         $this->container['pixel_id'] = $pixel_id;
         $this->container['events'] = isset($data['events']) ? $data['events'] : null;
@@ -133,7 +133,7 @@ class EventRequest implements \ArrayAccess
      * Gets code used to verify that your server events are received correctly by Facebook. Use this
      * code to test your server events in the Test Events feature in Events Manager.
      * See Test Events Tool
-     * (https://developers.facebook.com/docs/marketing-api/facebook-pixel/server-side-api/using-the-api#testEvents)
+     * (https://developers.facebook.com/docs/marketing-api/conversions-api/using-the-api#testEvents)
      * for an example.
      * @return string
      */
@@ -145,11 +145,11 @@ class EventRequest implements \ArrayAccess
      * Sets code used to verify that your server events are received correctly by Facebook. Use this
      * code to test your server events in the Test Events feature in Events Manager.
      * See Test Events Tool
-     * (https://developers.facebook.com/docs/marketing-api/facebook-pixel/server-side-api/using-the-api#testEvents)
+     * (https://developers.facebook.com/docs/marketing-api/conversions-api/using-the-api#testEvents)
      * for an example.
      * @param string $test_event_code Code used to verify that your server events are received correctly by Facebook.
      * Use this code to test your server events in the Test Events feature in Events Manager. See Test Events Tool
-     * (https://developers.facebook.com/docs/marketing-api/facebook-pixel/server-side-api/using-the-api#testEvents)
+     * (https://developers.facebook.com/docs/marketing-api/conversions-api/using-the-api#testEvents)
      * for an example.
      * @return $this
      */

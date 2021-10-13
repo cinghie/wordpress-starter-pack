@@ -7,9 +7,7 @@
  * @version 1.0.0
  */
 
-if ( ! defined( 'YITH_WCQV' ) ) {
-	exit;
-} // Exit if accessed directly.
+defined( 'YITH_WCQV' ) || exit; // Exit if accessed directly.
 
 if ( ! class_exists( 'YITH_WCQV' ) ) {
 	/**

@@ -1,12 +1,12 @@
-﻿=== Checkout Manager for WooCommerce ===
+﻿=== Checkout Fields Manager for WooCommerce ===
 Contributors: quadlayers
 Donate link: https://quadlayers.com/
 Tags: woocommerce, woocommerce checkout, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
 Requires at least: 3.4
-Tested up to: 5.6
-Stable tag: 5.3.5
+Tested up to: 5.8
+Stable tag: 5.4.9
 WC requires at least: 3.1.0
-WC tested up to: 4.9.1
+WC tested up to: 5.5
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -20,14 +20,14 @@ WooCommerce checkout manager is a plugin built to be the wizard of checkout page
 
 == Description ==
 
-WooCommerce Checkout Manager customization and field's management alternatives:
+WooCommerce Checkout Fields Manager customization and field's management alternatives:
 * Re-order fields.
 * Rename and higlight.
 * Hide or extend Checkout fields within the Billing, Shipping and Additional sections.
 
 == WooCommerce Checkout process==
 
-WooCommerce Checkout Manager allows you to customize the checkout process, including or reducing order's fields collected. Our plugin is able to consider your billing data inside checkout page, and recovers all data required by your company process. 
+WooCommerce Checkout Fields Manager allows you to customize the checkout process, including or reducing order's fields collected. Our plugin is able to consider your billing data inside checkout page, and recovers all data required by your company process. 
 
 = Force to include shipping address =
 This option allows you to remove the toggle checkbox to display the shipping fields. Shipping fields will be always displayed, and the user is forced to complete them.
@@ -43,13 +43,13 @@ This option allows you to include a custom message before or after the checkout 
 
 == WooCommerce Checkout Fields ==
 
-WooCommerce Checkout Manager allows you to include custom fields to the checkout page, related to billing, Shipping or Additional fields sections.
+WooCommerce Checkout Fields Manager allows you to include custom fields to the checkout page, related to billing, Shipping or Additional fields sections.
 
 Our plugin allows to reorder, remove or change the field type of the WooCommerce core fields. You can choose between this field types: Text, Textarea, Password, Radio, Checkbox, Select, Country, State, Multiselect, Multicheckbox, Heading, Colorpicker, File uploader.
 
 == WooCommerce Checkout Conditional Fields ==
 
-WooCommerce Checkout Manager supports conditional checkout fields allowing you to show/hide the fields based on any value of its parent fields.
+WooCommerce Checkout Fields Manager supports conditional checkout fields allowing you to show/hide the fields based on any value of its parent fields.
 
 Our system detects the parent field type and allows you to select the value based on the available options.
 
@@ -107,6 +107,48 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 
 == Changelog ==
 
+= 5.4.9  = 
+* Fix. QuadLayers widget cache
+
+= 5.4.8  = 
+* Fix: WordPress compatibility
+
+= 5.4.7  = 
+* Fix: WordPress compatibility
+
+= 5.4.6 = 
+* New. Telegram add to suggestions tab
+
+= 5.4.5 = 
+* Fix. php error
+
+= 5.4.4 = 
+* New. QuadLayers dashboard widget
+
+= 5.4.3  = 
+* Fix: WordPress compatibility
+
+= 5.4.2 = 
+* Fix: order received upload files
+
+= 5.4.1 = 
+* Fix: php error
+
+= 5.4.0 = 
+* Fix: WooCommerce compatbility
+
+= 5.3.9 = 
+* Fix: address fields trigger shipping total change
+* Fix: make sure guest users include their email in order to download products
+
+= 5.3.8 = 
+* Fix: country label
+
+= 5.3.7 = 
+* Fix: shipping address forced label click disabled
+
+= 5.3.6 = 
+* Fix: WooCommerce compatbility
 
 = 5.3.5 = 
 * Fix: select options order
@@ -599,7 +641,7 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 * Changed: Center Position label to Full-width
 
 = 4.0.3 =
-* Changed: Notice references to WooCommerce Checkout Manager
+* Changed: Notice references to WooCommerce Checkout Fields Manager
 * Fixed: Broken JavaScript on Checkout page (thanks mandelkind)
 * Fixed: Checking for array variables before loading them
 * Added: WordPress Filters to override DatePicker and TimePicker (thanks freddes51)
@@ -861,4 +903,4 @@ Initial
 The 4.3 Plugin update addresses an arbitrary file upload vulnerability.
 
 = 2.0.1 =
-The 2.0.1 Plugin update marks a change of ownership of WooCommerce Checkout Manager from Emark to visser who will be responsible for resolving critical issues and ensuring the Plugin meets WordPress security and coding standards in the form of regular Plugin updates.
+The 2.0.1 Plugin update marks a change of ownership of WooCommerce Checkout Fields Manager from Emark to visser who will be responsible for resolving critical issues and ensuring the Plugin meets WordPress security and coding standards in the form of regular Plugin updates.

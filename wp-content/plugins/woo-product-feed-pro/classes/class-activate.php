@@ -64,7 +64,14 @@ class WooSEA_Activation {
 					"fields" => "google_shopping",
 					"taxonomy" => "google_shopping",
 					"utm_source" => "Bing Shopping",
-                        		"type" => "Advertising" ),
+					"type" => "Advertising" ),
+     	 			"Bing Shopping Promotions" => array (
+                        		"channel_hash" => md5("Bing Shopping Promotions"),
+					"name" => "Bing Shopping Promotions",
+					"fields" => "google_shopping_promotions",
+					"taxonomy" => "google_shopping_promotions",
+					"utm_source" => "Bing Shopping Promotions",
+					"type" => "Advertising" ),
                  		"Facebook Catalog Feed / Instagram" => array (
                         		"channel_hash" => md5("Facebook Remarketing"),
                         		"name" => "Facebook Catalog Feed / Instagram",
@@ -90,9 +97,16 @@ class WooSEA_Activation {
                         		"channel_hash" => md5("Snapchat Product Catalog"),
 					"name" => "Snapchat Product Catalog",
 					"fields" => "snapchat",
-					"taxonomy" => "none",
+					"taxonomy" => "google_shopping",
 					"utm_source" => "snapchat",
-                        		"type" => "Advertising" ),
+					"type" => "Advertising" ),
+				"Vivino" => array (
+                        		"channel_hash" => md5("Vivino"),
+					"name" => "Vivino",
+					"fields" => "vivino",
+					"taxonomy" => "none",
+					"utm_source" => "Vivino",
+					"type" => "Advertising" ),
         		),
 			"Custom Feed" => array (
 				"Custom Feed" => array (
@@ -432,8 +446,8 @@ class WooSEA_Activation {
       	   			"Prisjakt" => array (
                         		"channel_hash" => md5("Prisjakt"),
                         		"name" => "Prisjakt",
-					"fields" => "customfeed",
-					"taxonomy" => "none",
+					"fields" => "google_shopping",
+					"taxonomy" => "google_shopping",
 					"utm_source" => "Prisjakt",
                         		"type" => "Comparison shopping engine" ),
    				"Hintaseuranta" => array (
@@ -740,7 +754,7 @@ class WooSEA_Activation {
 				"Idealo.de" => array (
                         		"channel_hash" => md5("Idealo.de"),
                         		"name" => "Idealo.de",
-					"fields" => "customfeed",
+					"fields" => "idealo",
 					"taxonomy" => "none",
 					"utm_source" => "Idealo.de",
                         		"type" => "Comparison shopping engine" ),
@@ -1233,8 +1247,8 @@ class WooSEA_Activation {
                 		"Prisjakt" => array (
                         		"channel_hash" => md5("Prisjakt.no"),
                         		"name" => "Prisjakt.no",
-					"fields" => "customfeed",
-					"taxonomy" => "none",
+					"fields" => "google_shopping",
+					"taxonomy" => "google_shopping",
 					"utm_source" => "Prisjakt.no",
                         		"type" => "Comparison shopping engine" ),
  			),
@@ -1328,8 +1342,7 @@ class WooSEA_Activation {
                                         "fields" => "compari_ro",
                                         "taxonomy" => "none",
                                         "utm_source" => "Compari.ro",
-                                        "type" => "Comparison shopping engine" ),
-
+					"type" => "Comparison shopping engine" ),
  			),
   		        "Russian Federation" => array (
                 		"Yandex" => array (
@@ -1462,8 +1475,8 @@ class WooSEA_Activation {
 				"Prisjakt" => array (
                         		"channel_hash" => md5("Prisjakt.se"),
                         		"name" => "Prisjakt.se",
-					"fields" => "customfeed",
-					"taxonomy" => "none",
+					"fields" => "google_shopping",
+					"taxonomy" => "google_shopping",
 					"utm_source" => "Pricerunner.se",
                         		"type" => "Comparison shopping engine" ),
 			), 

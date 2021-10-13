@@ -440,7 +440,10 @@ class IS_Admin
             $excludes = __( "Excludes", 'add-search-to-menu' );
             
             if ( isset( $_REQUEST['tab'] ) ) {
-                $url = esc_url( menu_page_url( 'ivory-search', false ) ) . '&post=' . $_REQUEST['post'] . '&action=edit';
+                $url = esc_url( menu_page_url( 'ivory-search', false ) );
+                if ( isset( $_REQUEST['post'] ) ) {
+                    $url .= '&post=' . esc_html( $_REQUEST['post'] ) . '&action=edit';
+                }
                 
                 if ( 'excludes' == $_REQUEST['tab'] ) {
                     $includes = '<a href="' . $url . '&tab=includes">' . __( "Includes", 'add-search-to-menu' ) . '</a>';
@@ -452,9 +455,10 @@ class IS_Admin
             
             }
             
+            $temp_mes = ( isset( $_REQUEST['data'] ) ? esc_html( $_REQUEST['data'] ) : '' );
             $updated_message2 = sprintf(
                 __( "Please make sure you have not selected similar %s fields in the search form %s and %s sections.", 'add-search-to-menu' ),
-                $_REQUEST['data'],
+                $temp_mes,
                 $includes,
                 $excludes
             );

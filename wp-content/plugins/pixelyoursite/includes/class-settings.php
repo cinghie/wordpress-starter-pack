@@ -396,6 +396,8 @@ abstract class Settings {
         
         if ( $disabled ) {
 	        $classes[] = 'disabled';
+            $attr_name = "";
+            $attr_value = false;
         }
         
         $classes = implode( ' ', $classes );
@@ -750,6 +752,31 @@ abstract class Settings {
 		return $sanitized;
 		
 	}
+
+/**
+* Sanitize array field value
+*
+* @param $values
+*
+* @return array
+*/
+    public function sanitize_array_textarea_field( $values ) {
+
+        $values = is_array( $values ) ? $values : array();
+        $sanitized = array();
+
+        foreach ( $values as $key => $value ) {
+
+            $new_value = $this->sanitize_textarea_field( $value );
+
+            if ( ! empty( $new_value ) && ! in_array( $new_value, $sanitized ) ) {
+                $sanitized[ $key ] = $new_value;
+            }
+
+        }
+
+        return $sanitized;
+    }
 
     public function render_checkbox_input_array( $key, $label, $index = 0, $disabled = false ) {
 

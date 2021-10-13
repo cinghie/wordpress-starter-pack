@@ -1,56 +1,164 @@
-=== YITH WooCommerce Zoom Magnifier ===
+=== YITH WooCommerce Product Gallery & Image Zoom ===
 
 Contributors: yithemes
 Tags: zoom, magnifier, slider, carousel, woocommerce
-Requires at least: 5.3
-Tested up to: 5.6
-Stable tag: 1.3.22
+Requires at least: 5.6
+Tested up to: 5.8
+Stable tag: 2.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Documentation: https://docs.yithemes.com/yith-woocommerce-zoom-magnifier/
 
-YITH WooCommerce Zoom Magnifier add zoom effect to product images and a customizable image slider.
+YITH WooCommerce Product Gallery & Image Zoom add zoom effect to product images and a customizable image slider.
 
 == Description ==
 
-= Improve the user experience, improve your sales =
+= Enhance your product images, the key features of your product page =
 
-Offer to your visitors a chance to inspect in detail the quality of your products. With YITH WooCommerce Zoom Magnifier you can add a zoom effect to all your product images.
-The Wordpress plugin also adds a slider below the featured image with your product gallery images.
+When we buy on an online shop, our contact with the product is limited: we cannot touch, smell or try it. We exclude some of our senses from the product experience so it’s really important to reproduce the appearance of the product as faithfully as possible using high quality and eye-catching photos of it. Usability research has shown that customers who buy online first check the photos, and only after read the product description. For this reason the product images are considered as the key element of the shopping experience.
+
+The new version of YITH WooCommerce Product Gallery & Image Zoom allows enabling the zoom and a lightbox on your product images to let customers see any detail and, at the same time, manage thumbnails in a handy slider for a clean and modern result in your product pages.
 
 = Main features =
 
-* Show a bigger size product image on mouseover.
-* Customize zoom area width and height and the size of the image to show as zoomed image.
-* Enable or disable it on mobile devices.
-* Add a slider showing product image thumbnails.
-* Customize the slider behavior.
+* Enable the zoom on your product images
+* Choose the zoom position (inside the main image or external, in the right side)
+* Deactivate the zoom on mobile devices
+* Set the size of the zoom window
+* Choose whether to blur the image while zooming or not
+* Show the lightbox on your product images
+* Customize colors, size and position of lightbox icon
+* Enable the product gallery slider
+* Set the number of thumbnails to show in the slider
+* Show the slider arrows on hover
+* Customize size, colors and shape of the arrows
+* Enable the slider autoplay
+* Enable the slider as infinite (and choose the style between “Circular” and “Back to 1st”)
 
-For a more detailed list of options and features of the plugin, please look at the [official documentation](https://docs.yithemes.com/yith-woocommerce-zoom-magnifier/ "Yith WooCommerce Zoom Magnifier official documentation").
+NEED MORE? CHECK THE FEATURES OF THE PREMIUM VERSION:
 
-Discover all the features of the plugin and install it in your theme: the result will be extremely satisfying.
+* Show or not a zoom icon with custom shape and colors
+* Disable the zoom option from specific products or categories
+* Disable the lightbox feature
+* Customize the lightbox overlay color
+* Option to replace the main image on hover on the gallery thumbnail
+* Show fixed arrows in the slider
+* Emphasize the active thumbnail with a different border color
+* Add opacity or set a grey scale for the inactive thumbnails
+
+
+See it in action here:
+
+[Check the Live Demo of the Premium Version >](https://plugins.yithemes.com/yith-woocommerce-zoom-magnifier/)
 
 == Installation ==
-Important: First of all, you have to download and activate WooCommerce plugin, which is mandatory for Yith WooCommerce Zoom Magnifier to be working.
+Important: First of all, you have to download and activate WooCommerce plugin, which is mandatory for YITH WooCommerce Product Gallery & Image Zoom to be working.
 
 1. Unzip the downloaded zip file.
 2. Upload the plugin folder into the `wp-content/plugins/` directory of your WordPress site.
-3. Activate `YITH WooCommerce Zoom Magnifier` from Plugins page
+3. Activate `YITH WooCommerce Product Gallery & Image Zoom` from Plugins page
 
 = Configuration =
 
-YITH WooCommerce Zoom Magnifier will add a new tab called "Zoom Magnifier" in "YIT Plugins" menu item. There, you will find all Yithemes plugins with quick access to plugin setting page.
+YITH WooCommerce Product Gallery & Image Zoom will add a new tab called "Product Gallery & Image Zoom" in "YITH" menu item. There, you will find all YITH plugins with quick access to plugin setting page.
 
 == Screenshots ==
 
-1. The General plugin settings page. You can disable the plugin for mobile devices.
-2. The Magnifier settings page. Choose the size of the zoom area, the size of the image to be shown in zoom area and the its position (on the right or over the image).
-3. The slider settings page. You can choose to use the slider for product image thumbnails, set how many images to show within the slider, and the behavior of the slider, choosing if circular, infinite or standard carousel.
+1. The Zoom settings page. You can disable the zoom features for mobile devices and configure the zoom options.
+2. The Lightbox settings page. You can edit the style and position of the lightbox icon.
+3. The Product Gallery settings page. You can choose to use the slider for product image thumbnails, set how many images to show within the slider, the behavior of the slider and the style of the slider arrows.
 4. The zoom applied to a product image, showing zoomed image on the right side.
 5. The zoom applied to a product image, showing zoomed image over the same image.
-6. Choose how many items the slider should show, the image thumbnails will fit the available width.
+6. The product image displayed in the plugin lightbox.
+7. The slider and arrows in the thumbnails gallery.
 
 == Changelog ==
+
+= Version 2.1.1 - Released: October 11, 2021 =
+
+* Update: YITH plugin framework
+* Dev: replacing the enqueue of the init.prettyPhoto.js to avoid call the .min
+
+= Version 2.1.0 - Released: October 07, 2021 =
+
+* New: support for WooCommerce 5.8
+* Update: YITH plugin framework
+
+= Version 2.0.4 - Released: September 27, 2021 =
+
+* Update: YITH Plugin Framework
+* Fix: debug info feature removed for all logged in users
+
+= Version 2.0.3 - Released: September 23, 2021 =
+
+* Update: YITH Plugin Framework
+* Dev: replacing the arrow Dashicons by SVG
+
+= Version 2.0.2 - Released: September 22, 2021 =
+
+* Fix: fixed the possible block of the zoom box
+* Dev: added the yith_wcmg_is_enabled function for third party compatibilities
+
+= Version 2.0.1 - Released: September 18, 2021 =
+
+* Dev: enqueue Dashicons styles
+
+= Version 2.0.0 - Released: September 17, 2021 =
+
+* New: Improved the plugin UI & UX
+* New: added lightbox icon to expand the image in a modal
+* New: Options to customize colors, size and position of lightbox icon
+* New: Options to customize size, colors and shape of the slider arrows
+* New: Options to choose the style infinite slider between “Circular” and “Back to 1st”
+* New: Option to hide gallery thumbnails from single product page
+* Update: YITH Plugin Framework
+* Fix: fixed minor issues
+
+= Version 1.4.0 - Released: September 10, 2021 =
+
+* New: support for WooCommerce 5.7
+* Update: YITH Plugin Framework
+
+= Version 1.3.30 - Released: August 18, 2021 =
+
+* New: support for WooCommerce 5.6
+* Update: YITH plugin Framework
+
+= Version 1.3.29 - Released: July 23, 2021 =
+
+* New: support for WordPress 5.8
+* New: support for WooCommerce 5.5
+* Update: YITH plugin Framework
+
+= Version 1.3.28 - Released: June 12, 2021 =
+
+* Update: YITH Plugin Framework
+
+= Version 1.3.27 - Released: June 11, 2021 =
+
+* New: Support for WooCommerce 5.4
+* Update: YITH Plugin Framework
+
+= Version 1.3.26 - Released: May 14, 2021 =
+
+* New: Support for WooCommerce 5.3
+* Update: YITH Plugin Framework
+
+= Version 1.3.25 - Released: April 12, 2021 =
+
+* New: Support for WooCommerce 5.2
+* Update: YITH Plugin Framework
+
+= Version 1.3.24 - Released: March 12, 2021 =
+
+* New: Support for WooCommerce 5.1
+* New: Support for WordPress 5.7
+* Update: YITH Plugin Framework
+
+= Version 1.3.23 - Released: Feb 18, 2021 =
+
+* New: support for WooCommerce 5.0
+* Update: YITH plugin framework
 
 = Version 1.3.22 - Released: Jan 20, 2021 =
 
@@ -234,7 +342,7 @@ YITH WooCommerce Zoom Magnifier will add a new tab called "Zoom Magnifier" in "Y
 
 == Suggestions ==
 
-If you have suggestions about how to improve YITH WooCommerce Zoom Magnifier, you can [write us](mailto:plugins@yithemes.com "Your Inspiration Themes") so we can bundle them into YITH Zoom WooCommerce Magnifier.
+If you have suggestions about how to improve YITH WooCommerce Product Gallery & Image Zoom, you can [write us](mailto:plugins@yithemes.com "Your Inspiration Themes") so we can bundle them into YITH Zoom WooCommerce Magnifier.
 
 == Translators ==
 

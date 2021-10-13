@@ -38,7 +38,7 @@ use PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdRuleExecutionSpecExecutionTypeVal
  * pull request for this class.
  *
  */
-class AdRuleExecutionSpec extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractObject
+class AdRuleExecutionSpec extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
 {
     /**
      * @return AdRuleExecutionSpecFields
@@ -52,5 +52,15 @@ class AdRuleExecutionSpec extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractObj
         $ref_enums = array();
         $ref_enums['ExecutionType'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdRuleExecutionSpecExecutionTypeValues::getInstance()->getValues();
         return $ref_enums;
+    }
+    public function getSelf(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array();
+        $enums = array();
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/', new \PYS_PRO_GLOBAL\FacebookAds\Object\AdRuleExecutionSpec(), 'NODE', \PYS_PRO_GLOBAL\FacebookAds\Object\AdRuleExecutionSpec::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
     }
 }

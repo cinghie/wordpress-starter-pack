@@ -542,6 +542,8 @@ if ( ! class_exists( 'um\admin\core\Admin_Forms' ) ) {
 
 			$html .= '</span></span>';
 
+			UM()->metabox()->init_icon = true;
+
 			return $html;
 		}
 
@@ -1149,8 +1151,9 @@ if ( ! class_exists( 'um\admin\core\Admin_Forms' ) ) {
 			$class_attr = ' class="um-forms-field ' . esc_attr( $class ) . '" ';
 
 			$data = array(
-				'field_id' => $field_data['id'],
-				'id_attr' => $id
+				'field_id'   => $field_data['id'],
+				'id_attr'    => $id,
+				'item_class' => "um-multi-text-option-line {$size}",
 			);
 
 			$data_attr = '';

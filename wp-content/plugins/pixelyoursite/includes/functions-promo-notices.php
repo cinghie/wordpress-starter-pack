@@ -25,7 +25,7 @@ function adminRenderPromoNotice() {
     <div class="notice notice-warning is-dismissible pys-promo-notice">
         <p><?php echo $notice; ?></p>
     </div>
-    <script type='text/javascript'>
+    <script type='application/javascript'>
         jQuery(document).on('click', '.pys-promo-notice .notice-dismiss', function () {
             jQuery.ajax({
                 url: ajaxurl,

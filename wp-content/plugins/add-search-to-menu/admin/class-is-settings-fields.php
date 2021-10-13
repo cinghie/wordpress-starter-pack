@@ -153,8 +153,19 @@ class IS_Settings_Fields
         
         }
         
+        $tab = 'settings';
+        if ( isset( $_GET['tab'] ) ) {
+            switch ( $_GET['tab'] ) {
+                case 'menu-search':
+                    $tab = 'menu-search';
+                    break;
+                case 'analytics':
+                    $tab = 'analytics';
+                    break;
+            }
+        }
         
-        if ( !isset( $_GET['tab'] ) || 'settings' === $_GET['tab'] ) {
+        if ( 'settings' === $tab ) {
             add_settings_section(
                 'ivory_search_settings',
                 '',
@@ -220,7 +231,7 @@ class IS_Settings_Fields
             register_setting( 'ivory_search', 'is_settings' );
         } else {
             
-            if ( isset( $_GET['tab'] ) && 'menu-search' === $_GET['tab'] ) {
+            if ( 'menu-search' === $tab ) {
                 add_settings_section(
                     'ivory_search_section',
                     '',
@@ -237,7 +248,7 @@ class IS_Settings_Fields
                 register_setting( 'ivory_search', 'is_menu_search' );
             } else {
                 
-                if ( isset( $_GET['tab'] ) && 'analytics' === $_GET['tab'] ) {
+                if ( 'analytics' === $tab ) {
                     add_settings_section(
                         'ivory_search_analytics',
                         '',

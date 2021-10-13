@@ -4,7 +4,9 @@ namespace PYS_PRO_GLOBAL\GuzzleHttp\Psr7;
 
 use PYS_PRO_GLOBAL\Psr\Http\Message\StreamInterface;
 /**
- * Stream decorator that prevents a stream from being seeked
+ * Stream decorator that prevents a stream from being seeked.
+ *
+ * @final
  */
 class NoSeekStream implements \PYS_PRO_GLOBAL\Psr\Http\Message\StreamInterface
 {

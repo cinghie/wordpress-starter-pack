@@ -5,7 +5,7 @@
 	margin-right: 24px;
 	padding: 8px 12px;
 	position: absolute;
-	z-index: 1000;
+/*	z-index: 1000;*/
 }
 .typeahead {
 	background-color: #FFFFFF;
@@ -260,13 +260,16 @@ input:checked + .woo-product-feed-pro-slider:before {
 .woo-product-feed-pro-form-style-2 .input-field-midsmall:focus,
 .woo-product-feed-pro-form-style-2 .input-field-small:focus,
 .woo-product-feed-pro-form-style-2 .input-field-medium:focus,
+/*
 .woo-product-feed-pro-form-style-2 .textarea-field:focus,  
+*/
 .woo-product-feed-pro-form-style-2 .select-field:focus{
     border: 1px solid #0C0;
 }
 .woo-product-feed-pro-form-style-2 .textarea-field{
     height:100px;
     width: 55%;
+    word-break: break-all;
 }
 .woo-product-feed-pro-form-style-2 input[type=submit],
 .woo-product-feed-pro-form-style-2 input[type=button]{

@@ -148,6 +148,26 @@ class Application extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
         $request->addFields($fields);
         return $pending ? $request : $request->execute();
     }
+    public function getAemConversionConfigs(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array('advertiser_ids' => 'list<string>');
+        $enums = array();
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/aem_conversion_configs', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'EDGE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
+    }
+    public function createAemConversion(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array('aem_conversions' => 'list<map>');
+        $enums = array();
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/aem_conversions', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'EDGE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
+    }
     public function getAgencies(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
@@ -161,7 +181,7 @@ class Application extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
     public function createAggregateRevenue(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
-        $param_types = array('ecpms' => 'list<string>', 'query_ids' => 'list<string>', 'request_id' => 'string');
+        $param_types = array('ecpms' => 'list<string>', 'query_ids' => 'list<string>', 'request_id' => 'string', 'sync_api' => 'bool');
         $enums = array();
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/aggregate_revenue', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'EDGE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
@@ -174,16 +194,6 @@ class Application extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
         $param_types = array();
         $enums = array();
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/android_dialog_configs', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'EDGE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
-        $request->addParams($params);
-        $request->addFields($fields);
-        return $pending ? $request : $request->execute();
-    }
-    public function getAppEventTypes(array $fields = array(), array $params = array(), $pending = \false)
-    {
-        $this->assureId();
-        $param_types = array();
-        $enums = array();
-        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/app_event_types', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'EDGE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
         $request->addFields($fields);
         return $pending ? $request : $request->execute();
@@ -488,12 +498,32 @@ class Application extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
         $request->addFields($fields);
         return $pending ? $request : $request->execute();
     }
+    public function createPushTokenRegister(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array('device_id' => 'string', 'push_token' => 'string');
+        $enums = array();
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/push_token_register', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'EDGE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
+    }
     public function getRoles(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
         $param_types = array();
         $enums = array();
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/roles', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'EDGE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
+    }
+    public function createSendNotification(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array('payload' => 'string', 'token_id' => 'string');
+        $enums = array();
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/send_notification', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'EDGE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
         $request->addFields($fields);
         return $pending ? $request : $request->execute();

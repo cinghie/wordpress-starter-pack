@@ -1,8 +1,8 @@
 /*!
- * Variation Swatches for WooCommerce v1.1.9 
+ * Variation Swatches for WooCommerce v1.1.19 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 2/12/2021
+ * Date: 07/09/2021
  * Released under the GPLv3 license.
  */
 .woo-variation-swatches .woo-variation-raw-select,
@@ -61,6 +61,18 @@
       -ms-user-select: none;
           user-select: none;
   outline: none;
+}
+
+.woo-variation-swatches .variable-items-wrapper .variable-item .variable-item-contents {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+@supports (display: contents) {
+  .woo-variation-swatches .variable-items-wrapper .variable-item .variable-item-contents {
+    display: contents;
+  }
 }
 
 .woo-variation-swatches .variable-items-wrapper .variable-item.variation-disabled {
@@ -143,6 +155,7 @@
   width: 100%;
   height: 100%;
   position: relative;
+  display: block;
 }
 
 .woo-variation-swatches .variable-items-wrapper .variable-item:not(.radio-variable-item).color-variable-item .variable-item-span-color::after {
@@ -186,7 +199,9 @@
 }
 
 .woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled,
-.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover {
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover {
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
   pointer-events: none;
   cursor: not-allowed;
@@ -196,15 +211,27 @@
 
 .woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled img,
 .woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled span,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled .variable-item-contents,
 .woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover img,
-.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover span {
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover span,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover .variable-item-contents,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock img,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock span,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock .variable-item-contents,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover img,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover span,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover .variable-item-contents {
   opacity: .3;
 }
 
-.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled::before,
-.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled::after,
-.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover::before,
-.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover::after {
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled .variable-item-contents::before,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled .variable-item-contents::after,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover .variable-item-contents::before,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover .variable-item-contents::after,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock .variable-item-contents::before,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock .variable-item-contents::after,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover .variable-item-contents::before,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover .variable-item-contents::after {
   position: absolute;
   content: " " !important;
   width: 100%;
@@ -225,16 +252,36 @@
   z-index: 0;
 }
 
-.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled::before,
-.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover::before {
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled .variable-item-contents::before,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover .variable-item-contents::before,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock .variable-item-contents::before,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover .variable-item-contents::before {
   -webkit-transform: rotate(45deg);
           transform: rotate(45deg);
 }
 
-.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled::after,
-.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover::after {
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled .variable-item-contents::after,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover .variable-item-contents::after,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock .variable-item-contents::after,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover .variable-item-contents::after {
   -webkit-transform: rotate(-45deg);
           transform: rotate(-45deg);
+}
+
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover {
+  overflow: visible;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock img,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock span,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock .variable-item-contents,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover img,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover span,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover .variable-item-contents {
+  opacity: .6;
 }
 
 .woo-variation-swatches.wvs-attr-behavior-blur .radio-variable-item.disabled label,
@@ -254,18 +301,45 @@
 }
 
 .woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).disabled,
-.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).disabled:hover {
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).disabled:hover,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock:hover {
   pointer-events: none;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
   position: relative;
   overflow: hidden;
+  cursor: not-allowed;
 }
 
 .woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).disabled img,
 .woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).disabled span,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).disabled .variable-item-contents,
 .woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).disabled:hover img,
-.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).disabled:hover span {
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).disabled:hover span,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).disabled:hover .variable-item-contents,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock img,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock span,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock .variable-item-contents,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock:hover img,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock:hover span,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock:hover .variable-item-contents {
   opacity: .3;
+}
+
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock:hover {
+  overflow: visible;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock img,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock span,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock .variable-item-contents,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock:hover img,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock:hover span,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock:hover .variable-item-contents {
+  opacity: .6;
 }
 
 .woo-variation-swatches.wvs-attr-behavior-blur-no-cross .radio-variable-item.disabled,

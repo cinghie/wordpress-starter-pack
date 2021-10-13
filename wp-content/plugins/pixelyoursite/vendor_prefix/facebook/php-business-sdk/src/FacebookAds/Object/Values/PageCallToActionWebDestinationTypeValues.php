@@ -41,6 +41,7 @@ class PageCallToActionWebDestinationTypeValues extends \PYS_PRO_GLOBAL\FacebookA
     const EMAIL = 'EMAIL';
     const FOLLOW = 'FOLLOW';
     const MESSENGER = 'MESSENGER';
+    const MOBILE_CENTER = 'MOBILE_CENTER';
     const NONE = 'NONE';
     const SHOP_ON_FACEBOOK = 'SHOP_ON_FACEBOOK';
     const WEBSITE = 'WEBSITE';

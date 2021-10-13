@@ -6,7 +6,7 @@ namespace PixelYourSite;
 views, downloads, comments, forms.
  * */
 
-class EventsSignal implements EventsFactory {
+class EventsSignal extends EventsFactory {
     private static $_instance;
 
     private $events = array(
@@ -31,6 +31,10 @@ class EventsSignal implements EventsFactory {
 
         return self::$_instance;
 
+    }
+
+    static function getSlug() {
+        return "signal";
     }
 
     private function __construct() {

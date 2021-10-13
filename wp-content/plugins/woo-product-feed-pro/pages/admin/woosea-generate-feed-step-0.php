@@ -395,7 +395,7 @@ if (array_key_exists('project_hash', $_GET)){
 					</td>
 				</tr>
 				<tr id="product_variations">
-					<td><span><?php _e('Include all product variations','woo-product-feed-pro' );?>:</span></td>
+					<td><span><?php _e('Include product variations','woo-product-feed-pro' );?>:</span></td>
 					<td>
                                                 <label class="woo-product-feed-pro-switch">
                                                         <?php
@@ -410,7 +410,7 @@ if (array_key_exists('project_hash', $_GET)){
 					</td>
 				</tr>
 				<tr id="default_variation">
-					<td><span><?php _e( 'Only include default product variation','woo-product-feed-pro' );?>:</span></td>
+					<td><span><?php _e( 'And only include default product variation','woo-product-feed-pro' );?>:</span></td>
 					<td>
                                                 <label class="woo-product-feed-pro-switch">
                                                         <?php
@@ -425,7 +425,7 @@ if (array_key_exists('project_hash', $_GET)){
 					</td>
 				</tr>
 				<tr id="lowest_price_variation">
-					<td><span><?php _e( 'Only include lowest priced product variation(s)','woo-product-feed-pro' );?>:</span></td>
+					<td><span><?php _e( 'And only include lowest priced product variation(s)','woo-product-feed-pro' );?>:</span></td>
 					<td>
                                                 <label class="woo-product-feed-pro-switch">
                                                         <?php

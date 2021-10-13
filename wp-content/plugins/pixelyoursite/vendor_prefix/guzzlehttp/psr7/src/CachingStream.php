@@ -6,6 +6,8 @@ use PYS_PRO_GLOBAL\Psr\Http\Message\StreamInterface;
 /**
  * Stream decorator that can cache previously read bytes from a sequentially
  * read stream.
+ *
+ * @final
  */
 class CachingStream implements \PYS_PRO_GLOBAL\Psr\Http\Message\StreamInterface
 {
@@ -17,13 +19,13 @@ class CachingStream implements \PYS_PRO_GLOBAL\Psr\Http\Message\StreamInterface
     /**
      * We will treat the buffer object as the body of the stream
      *
-     * @param StreamInterface $stream Stream to cache
+     * @param StreamInterface $stream Stream to cache. The cursor is assumed to be at the beginning of the stream.
      * @param StreamInterface $target Optionally specify where data is cached
      */
     public function __construct(\PYS_PRO_GLOBAL\Psr\Http\Message\StreamInterface $stream, \PYS_PRO_GLOBAL\Psr\Http\Message\StreamInterface $target = null)
     {
         $this->remoteStream = $stream;
-        $this->stream = $target ?: new \PYS_PRO_GLOBAL\GuzzleHttp\Psr7\Stream(\fopen('php://temp', 'r+'));
+        $this->stream = $target ?: new \PYS_PRO_GLOBAL\GuzzleHttp\Psr7\Stream(\PYS_PRO_GLOBAL\GuzzleHttp\Psr7\Utils::tryFopen('php://temp', 'r+'));
     }
     public function getSize()
     {

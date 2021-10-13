@@ -12,14 +12,13 @@ namespace Google\Site_Kit\Modules;
 
 use Google\Site_Kit\Core\Modules\Module;
 use Google\Site_Kit\Core\Modules\Module_Settings;
-use Google\Site_Kit\Core\Modules\Module_With_Admin_Bar;
 use Google\Site_Kit\Core\Modules\Module_With_Debug_Fields;
 use Google\Site_Kit\Core\Modules\Module_With_Owner;
+use Google\Site_Kit\Core\Modules\Module_With_Owner_Trait;
 use Google\Site_Kit\Core\Modules\Module_With_Screen;
 use Google\Site_Kit\Core\Modules\Module_With_Screen_Trait;
 use Google\Site_Kit\Core\Modules\Module_With_Scopes;
 use Google\Site_Kit\Core\Modules\Module_With_Scopes_Trait;
-use Google\Site_Kit\Core\Authentication\Owner_ID;
 use Google\Site_Kit\Core\Authentication\Clients\Google_Site_Kit_Client;
 use Google\Site_Kit\Core\Modules\Module_With_Settings;
 use Google\Site_Kit\Core\Modules\Module_With_Settings_Trait;
@@ -32,15 +31,13 @@ use Google\Site_Kit\Core\REST_API\Data_Request;
 use Google\Site_Kit\Core\Util\Google_URL_Matcher_Trait;
 use Google\Site_Kit\Core\Util\Google_URL_Normalizer;
 use Google\Site_Kit\Modules\Search_Console\Settings;
-use Google\Site_Kit_Dependencies\Google_Service_Exception;
-use Google\Site_Kit_Dependencies\Google_Service_SearchConsole;
-use Google\Site_Kit_Dependencies\Google_Service_SearchConsole_ApiDataRow;
-use Google\Site_Kit_Dependencies\Google_Service_SearchConsole_SearchAnalyticsQueryResponse;
-use Google\Site_Kit_Dependencies\Google_Service_SearchConsole_SitesListResponse;
-use Google\Site_Kit_Dependencies\Google_Service_SearchConsole_WmxSite;
-use Google\Site_Kit_Dependencies\Google_Service_SearchConsole_SearchAnalyticsQueryRequest;
-use Google\Site_Kit_Dependencies\Google_Service_SearchConsole_ApiDimensionFilter;
-use Google\Site_Kit_Dependencies\Google_Service_SearchConsole_ApiDimensionFilterGroup;
+use Google\Site_Kit_Dependencies\Google\Service\Exception as Google_Service_Exception;
+use Google\Site_Kit_Dependencies\Google\Service\SearchConsole as Google_Service_SearchConsole;
+use Google\Site_Kit_Dependencies\Google\Service\SearchConsole\SitesListResponse as Google_Service_SearchConsole_SitesListResponse;
+use Google\Site_Kit_Dependencies\Google\Service\SearchConsole\WmxSite as Google_Service_SearchConsole_WmxSite;
+use Google\Site_Kit_Dependencies\Google\Service\SearchConsole\SearchAnalyticsQueryRequest as Google_Service_SearchConsole_SearchAnalyticsQueryRequest;
+use Google\Site_Kit_Dependencies\Google\Service\SearchConsole\ApiDimensionFilter as Google_Service_SearchConsole_ApiDimensionFilter;
+use Google\Site_Kit_Dependencies\Google\Service\SearchConsole\ApiDimensionFilterGroup as Google_Service_SearchConsole_ApiDimensionFilterGroup;
 use Google\Site_Kit_Dependencies\Psr\Http\Message\ResponseInterface;
 use Google\Site_Kit_Dependencies\Psr\Http\Message\RequestInterface;
 use WP_Error;
@@ -53,8 +50,8 @@ use WP_Error;
  * @ignore
  */
 final class Search_Console extends Module
-	implements Module_With_Screen, Module_With_Scopes, Module_With_Settings, Module_With_Assets, Module_With_Admin_Bar, Module_With_Debug_Fields, Module_With_Owner {
-	use Module_With_Screen_Trait, Module_With_Scopes_Trait, Module_With_Settings_Trait, Google_URL_Matcher_Trait, Module_With_Assets_Trait;
+	implements Module_With_Screen, Module_With_Scopes, Module_With_Settings, Module_With_Assets, Module_With_Debug_Fields, Module_With_Owner {
+	use Module_With_Screen_Trait, Module_With_Scopes_Trait, Module_With_Settings_Trait, Google_URL_Matcher_Trait, Module_With_Assets_Trait, Module_With_Owner_Trait;
 
 	/**
 	 * Registers functionality through WordPress hooks.
@@ -129,22 +126,6 @@ final class Search_Console extends Module
 		return array(
 			'https://www.googleapis.com/auth/webmasters', // The scope for the Search Console remains the legacy webmasters scope.
 		);
-	}
-
-	/**
-	 * Checks if the module is active in the admin bar for the given URL.
-	 *
-	 * @since 1.4.0
-	 *
-	 * @param string $url URL to determine active state for.
-	 * @return bool
-	 */
-	public function is_active_in_admin_bar( $url ) {
-		if ( ! $this->get_property_id() ) {
-			return false;
-		}
-
-		return $this->has_data_for_url( $url );
 	}
 
 	/**
@@ -295,8 +276,15 @@ final class Search_Console extends Module
 			case 'GET:matched-sites':
 				/* @var Google_Service_SearchConsole_SitesListResponse $response Response object. */
 				$entries = $this->map_sites( (array) $response->getSiteEntry() );
+				$strict  = filter_var( $data['strict'], FILTER_VALIDATE_BOOLEAN );
 
-				$current_url                  = $this->context->get_reference_site_url();
+				$current_url = $this->context->get_reference_site_url();
+				if ( ! $strict ) {
+					$current_url = untrailingslashit( $current_url );
+					$current_url = $this->strip_url_scheme( $current_url );
+					$current_url = $this->strip_domain_www( $current_url );
+				}
+
 				$sufficient_permission_levels = array(
 					'siteRestrictedUser',
 					'siteOwner',
@@ -306,11 +294,17 @@ final class Search_Console extends Module
 				return array_values(
 					array_filter(
 						$entries,
-						function ( array $entry ) use ( $current_url, $sufficient_permission_levels ) {
+						function ( array $entry ) use ( $current_url, $sufficient_permission_levels, $strict ) {
 							if ( 0 === strpos( $entry['siteURL'], 'sc-domain:' ) ) {
 								$match = $this->is_domain_match( substr( $entry['siteURL'], strlen( 'sc-domain:' ) ), $current_url );
 							} else {
-								$match = $this->is_url_match( $entry['siteURL'], $current_url );
+								$site_url = untrailingslashit( $entry['siteURL'] );
+								if ( ! $strict ) {
+									$site_url = $this->strip_url_scheme( $site_url );
+									$site_url = $this->strip_domain_www( $site_url );
+								}
+
+								$match = $this->is_url_match( $site_url, $current_url );
 							}
 							return $match && in_array( $entry['permissionLevel'], $sufficient_permission_levels, true );
 						}
@@ -327,7 +321,7 @@ final class Search_Console extends Module
 	}
 
 	/**
-	 * Map Site model objects to primitives used for API responses.
+	 * Map Site model objects to associative arrays used for API responses.
 	 *
 	 * @param array $sites Site objects.
 	 *
@@ -426,54 +420,6 @@ final class Search_Console extends Module
 	}
 
 	/**
-	 * Checks whether Search Console data exists for the given URL.
-	 *
-	 * The result of this query is stored in a transient.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $url The url to check data for.
-	 * @return bool True if Search Console data exists, false otherwise.
-	 */
-	protected function has_data_for_url( $url ) {
-		if ( ! $url ) {
-			return false;
-		}
-
-		$transient_key = 'googlesitekit_sc_data_' . md5( $url );
-		$has_data      = get_transient( $transient_key );
-
-		if ( false === $has_data ) {
-			/* @var Google_Service_SearchConsole_ApiDataRow[]|WP_Error $response_rows Array of data rows. */
-			$response_rows = $this->get_data(
-				'searchanalytics',
-				array(
-					'url'               => $url,
-					'dimensions'        => 'date',
-					'compareDateRanges' => true,
-				)
-			);
-
-			if ( is_wp_error( $response_rows ) ) {
-				$response_rows = array(); // Bypass data check and cache.
-			}
-
-			foreach ( $response_rows as $data_row ) {
-				/* @var Google_Service_SearchConsole_ApiDataRow $data_row Data row instance. */
-				if ( 0 < $data_row->getImpressions() ) {
-					$has_data = true;
-					break;
-				}
-			}
-
-			// Cache "data found" status for one day, "no data" status for one hour.
-			set_transient( $transient_key, (int) $has_data, $has_data ? DAY_IN_SECONDS : HOUR_IN_SECONDS );
-		}
-
-		return (bool) $has_data;
-	}
-
-	/**
 	 * Gets the property ID.
 	 *
 	 * @since 1.3.0
@@ -497,7 +443,7 @@ final class Search_Console extends Module
 	 * @return string Property ID, or empty string if none found.
 	 */
 	protected function detect_property_id() {
-		$properties = $this->get_data( 'matched-sites' );
+		$properties = $this->get_data( 'matched-sites', array( 'strict' => 'yes' ) );
 		if ( is_wp_error( $properties ) || ! $properties ) {
 			return '';
 		}
@@ -531,10 +477,8 @@ final class Search_Console extends Module
 			'slug'         => 'search-console',
 			'name'         => _x( 'Search Console', 'Service name', 'google-site-kit' ),
 			'description'  => __( 'Google Search Console and helps you understand how Google views your site and optimize its performance in search results.', 'google-site-kit' ),
-			'cta'          => __( 'Connect your site to Google Search Console.', 'google-site-kit' ),
 			'order'        => 1,
 			'homepage'     => __( 'https://search.google.com/search-console', 'google-site-kit' ),
-			'learn_more'   => __( 'https://search.google.com/search-console/about', 'google-site-kit' ),
 			'force_active' => true,
 		);
 	}
@@ -600,23 +544,10 @@ final class Search_Console extends Module
 						'googlesitekit-api',
 						'googlesitekit-data',
 						'googlesitekit-modules',
-						'googlesitekit-google-charts',
 					),
 				)
 			),
 		);
-	}
-
-	/**
-	 * Gets an owner ID for the module.
-	 *
-	 * @since 1.16.0
-	 *
-	 * @return int Owner ID.
-	 */
-	public function get_owner_id() {
-		$owner = new Owner_ID( $this->options );
-		return $owner->get();
 	}
 
 }

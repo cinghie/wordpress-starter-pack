@@ -3,8 +3,8 @@
 Contributors: scottopolis
 Tags: woocommerce, upc, ean, gtin, isbn
 Requires at least: 4.5
-Tested up to: 4.9.5
-Stable tag: 0.3.1
+Tested up to: 5.8
+Stable tag: 0.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,8 @@ Features:
 * Add unique GTINs for product variations
 * Option to display GTIN on the single product page
 * Change GTIN to any other text
+* Add GTIN to structured product data
+* Works with product feeds like Google Shopping and more (requires a feed plugin)
 
 == Installation ==
 
@@ -39,6 +41,11 @@ Features:
 * To change GTIN label text, visit WooCommerce settings => Products => Inventory, scroll down to GTIN settings. Enter new label, such as EAN, and save.
 
 == Changelog ==
+
+= 0.5.0 =
+
+* Add structured data
+* Test with newest versions of WordPress and WooCommerce
 
 = 0.4.0 =
 

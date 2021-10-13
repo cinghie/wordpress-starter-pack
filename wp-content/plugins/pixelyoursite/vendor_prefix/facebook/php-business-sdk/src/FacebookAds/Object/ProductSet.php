@@ -108,6 +108,16 @@ class ProductSet extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
         $request->addFields($fields);
         return $pending ? $request : $request->execute();
     }
+    public function getMediaTitles(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array('bulk_pagination' => 'bool', 'filter' => 'Object');
+        $enums = array();
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/media_titles', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'EDGE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
+    }
     public function getProducts(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();

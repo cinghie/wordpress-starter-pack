@@ -55,9 +55,9 @@ class ProductFeedFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
     const FEED_TYPE = 'feed_type';
     const OVERRIDE_VALUE = 'override_value';
     const RULES = 'rules';
-    const WHITELISTED_PROPERTIES = 'whitelisted_properties';
+    const SELECTED_OVERRIDE_FIELDS = 'selected_override_fields';
     public function getFieldTypes()
     {
-        return array('country' => 'string', 'created_time' => 'datetime', 'default_currency' => 'string', 'deletion_enabled' => 'bool', 'delimiter' => 'Delimiter', 'encoding' => 'string', 'file_name' => 'string', 'id' => 'string', 'item_sub_type' => 'string', 'latest_upload' => 'ProductFeedUpload', 'migrated_from_feed_id' => 'string', 'name' => 'string', 'override_type' => 'string', 'product_count' => 'int', 'quoted_fields_mode' => 'QuotedFieldsMode', 'schedule' => 'ProductFeedSchedule', 'update_schedule' => 'ProductFeedSchedule', 'feed_type' => 'FeedType', 'override_value' => 'string', 'rules' => 'list<string>', 'whitelisted_properties' => 'list<string>');
+        return array('country' => 'string', 'created_time' => 'datetime', 'default_currency' => 'string', 'deletion_enabled' => 'bool', 'delimiter' => 'Delimiter', 'encoding' => 'string', 'file_name' => 'string', 'id' => 'string', 'item_sub_type' => 'string', 'latest_upload' => 'ProductFeedUpload', 'migrated_from_feed_id' => 'string', 'name' => 'string', 'override_type' => 'string', 'product_count' => 'int', 'quoted_fields_mode' => 'QuotedFieldsMode', 'schedule' => 'ProductFeedSchedule', 'update_schedule' => 'ProductFeedSchedule', 'feed_type' => 'FeedType', 'override_value' => 'string', 'rules' => 'list<string>', 'selected_override_fields' => 'list<string>');
     }
 }

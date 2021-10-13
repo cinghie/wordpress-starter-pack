@@ -132,8 +132,8 @@ class WooSEA_google_shopping {
 				"Product type" => array(
 					"name" => "product_type",
 					"feed_name" => "g:product_type",
-					"format" => "optional",
-					"woo_suggest" => "product_type",
+					"format" => "required",
+					"woo_suggest" => "raw_categories",
 				),
 			),
 			"Product identifiers" => array(
@@ -244,11 +244,6 @@ class WooSEA_google_shopping {
 				),
 			),
 			"Shopping campaigns" => array(
-				"Adwords redirect (old)" => array(
-					"name" => "adwords_redirect",
-					"feed_name" => "g:adwords_redirect",
-					"format" => "optional",
-				),
 				"Ads redirect (new)" => array(
 					"name" => "ads_redirect",
 					"feed_name" => "g:ads_redirect",
@@ -307,6 +302,21 @@ class WooSEA_google_shopping {
 				"Ads labels" => array(
 					"name" => "ads_labels",
 					"feed_name" => "g:ads_labels",
+					"format" => "optional",
+				),
+				"Adwords grouping (BING)" => array(
+					"name" => "adwords_grouping",
+					"feed_name" => "g:adwords_grouping",
+					"format" => "optional",
+				),
+				"Adwords labels (BING)" => array(
+					"name" => "adwords_labels",
+					"feed_name" => "g:adwords_labels",
+					"format" => "optional",
+				),
+				"Adwords redirect (BING)" => array(
+					"name" => "adwords_redirect",
+					"feed_name" => "g:adwords_redirect",
 					"format" => "optional",
 				),
 			),
@@ -428,6 +438,136 @@ class WooSEA_google_shopping {
 				"Google funded promotion eligibility" => array(
 					"name" => "google_funded_promotion_eligibility",
 					"feed_name" => "g:google_funded_promotion_eligibility",
+					"format" => "optional",
+				),
+				"Pickup method" => array(
+					"name" => "pickup_method",
+					"feed_name" => "g:pickup_method",
+					"format" => "optional",
+				),
+				"Pickup SLA" => array(
+					"name" => "pickup_SLA",
+					"feed_name" => "g:pickup_SLA",
+					"format" => "optional",
+				),
+				"Pickup link template" => array(
+					"name" => "pickup_link_template",
+					"feed_name" => "g:pickup_link_template",
+					"format" => "optional",
+				),
+				"Store code" => array(
+					"name" => "store_code",
+					"feed_name" => "g:store_code",
+					"format" => "optional",
+				),
+				"Mobile pickup link template" => array(
+					"name" => "mobile_pickup_link_template",
+					"feed_name" => "g:mobile_pickup_link_template",
+					"format" => "optional",
+				),
+				"Seller name" => array(
+					"name" => "seller_name",
+					"feed_name" => "g:seller_name",
+					"format" => "optional",
+				),
+				"Count" => array(
+					"name" => "count",
+					"feed_name" => "g:count",
+					"format" => "optional",
+				),
+				"Disclosure date" => array(
+					"name" => "disclosure_date",
+					"feed_name" => "g:disclosure_date",
+					"format" => "optional",
+				),
+				"Feature description" => array(
+					"name" => "feature_description",
+					"feed_name" => "g:feature_description",
+					"format" => "optional",
+				),
+				"Flavor" => array(
+					"name" => "flavor",
+					"feed_name" => "g:flavor",
+					"format" => "optional",
+				),
+				"Scent" => array(
+					"name" => "scent",
+					"feed_name" => "g:scent",
+					"format" => "optional",
+				),
+				"Format" => array(
+					"name" => "format",
+					"feed_name" => "g:format",
+					"format" => "optional",
+				),
+				"Product line" => array(
+					"name" => "product_line",
+					"feed_name" => "g:product_line",
+					"format" => "optional",
+				),
+				"Product name" => array(
+					"name" => "product_name",
+					"feed_name" => "g:product_name",
+					"format" => "optional",
+				),
+				"Product page url" => array(
+					"name" => "product_page_url",
+					"feed_name" => "g:product_page_url",
+					"format" => "optional",
+				),
+				"Size system" => array(
+					"name" => "size_system",
+					"feed_name" => "g:size_system",
+					"format" => "optional",
+				),
+				"Size type" => array(
+					"name" => "size_type",
+					"feed_name" => "g:size_type",
+					"format" => "optional",
+				),
+				"Capacity" => array(
+					"name" => "capacity",
+					"feed_name" => "g:capacity",
+					"format" => "optional",
+				),
+				"Suggested retail price" => array(
+					"name" => "suggested_retail_price",
+					"feed_name" => "g:suggested_retail_price",
+					"format" => "optional",
+				),
+				"Theme" => array(
+					"name" => "theme",
+					"feed_name" => "g:theme",
+					"format" => "optional",
+				),
+				"Video link" => array(
+					"name" => "video_link",
+					"feed_name" => "g:video_link",
+					"format" => "optional",
+				),
+				"Display ads ID" => array(
+					"name" => "display_ads_id",
+					"feed_name" => "g:display_ads_id",
+					"format" => "optional",
+				),
+				"Display ads Similar ID" => array(
+					"name" => "display_ads_similar_id",
+					"feed_name" => "g:display_ads_similar_id",
+					"format" => "optional",
+				),
+				"Display ads Title" => array(
+					"name" => "display_ads_title",
+					"feed_name" => "g:display_ads_title",
+					"format" => "optional",
+				),
+				"Display ads Link" => array(
+					"name" => "display_ads_link",
+					"feed_name" => "g:display_ads_link",
+					"format" => "optional",
+				),
+				"Display ads Value" => array(
+					"name" => "display_ads_value",
+					"feed_name" => "g:display_ads_value",
 					"format" => "optional",
 				),
 			),

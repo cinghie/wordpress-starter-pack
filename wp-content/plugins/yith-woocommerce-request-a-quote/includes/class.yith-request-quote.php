@@ -1,9 +1,9 @@
-<?php
+<?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
- * Implements features of YITH Woocommerce Request A Quote.
+ * Implements features of YITH WooCommerce Request A Quote.
  *
  * @class   YITH_Request_Quote
- * @package YITH Woocommerce Request A Quote
+ * @package YITH WooCommerce Request A Quote
  * @since   1.0.0
  * @author  YITH
  */
@@ -90,6 +90,13 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 			add_action( 'init', array( $this, 'send_message' ) );
 
 			add_action( 'ywraq_clean_cron', array( $this, 'clean_session' ) );
+
+			add_filter( 'yith_ywraq_hide_price_template', array( $this, 'show_product_price' ), 0, 2 );
+
+			if ( ! catalog_mode_plugin_enabled() ) {
+				add_filter( 'woocommerce_get_price_html', array( $this, 'show_product_price' ), 0 );
+				add_filter( 'woocommerce_get_variation_price_html', array( $this, 'show_product_price' ), 0 );
+			}
 		}
 
 		/**
@@ -402,7 +409,7 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 		 *
 		 * @return bool
 		 */
-		public function update_item( $key, $field = false, $value ) {
+		public function update_item( $key, $field = false, $value = '' ) {
 
 			if ( $field && isset( $this->raq_content[ $key ][ $field ] ) ) {
 				$this->raq_content[ $key ][ $field ] = $value;
@@ -424,7 +431,7 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 		 */
 		public function ajax() {
 
-			check_ajax_referer( 'yith-ywraq-ajax-action', 'security', false );
+			check_ajax_referer( 'yith-ywraq-ajax-action', 'security' );
 
 			if ( isset( $_POST['ywraq_action'] ) ) {
 				$action = sanitize_text_field( wp_unslash( $_POST['ywraq_action'] ) );
@@ -461,9 +468,9 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 			}
 
 			if ( 'true' === $return ) {
-				$message = apply_filters( 'yith_ywraq_product_added_to_list_message', __( 'Product added!', 'yith-woocommerce-request-a-quote' ) );
+				$message = ywraq_get_label( 'product_added' );
 			} elseif ( 'exists' === $return ) {
-				$message = apply_filters( 'yith_ywraq_product_already_in_list_message', __( 'Product already in the list.', 'yith-woocommerce-request-a-quote' ) );
+				$message = ywraq_get_label( 'already_in_quote' );
 			} elseif ( count( $errors ) > 0 ) {
 				$message = apply_filters( 'yith_ywraq_error_adding_to_list_message', $this->get_errors( $errors ) );
 			}
@@ -511,7 +518,7 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 				$message = '';
 				$return  = $this->exists( $posted['product_id'], $posted['variation_id'] );
 				if ( 'true' === $return ) {
-					$message = apply_filters( 'yith_ywraq_product_already_in_list_message', __( 'Product already in the list.', 'yith-woocommerce-request-a-quote' ) );
+					$message = ywraq_get_label( 'already_in_quote' );
 				}
 
 				wp_send_json(
@@ -555,7 +562,7 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 		 */
 		public function send_message() {
 
-			if ( ! ( isset( $_POST['raq_mail_wpnonce'] ) && wp_verify_nonce( $_POST['raq_mail_wpnonce'], 'send-request-quote' ) ) ) {
+			if ( ! ( isset( $_POST['raq_mail_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['raq_mail_wpnonce'] ) ), 'send-request-quote' ) ) ) {
 				return;
 			}
 
@@ -589,7 +596,7 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 
 					do_action( 'ywraq_process', $args );
 					do_action( 'send_raq_mail', $args );
-					wp_safe_redirect( YITH_Request_Quote()->get_raq_page_url(), 301 );
+					wp_safe_redirect( add_query_arg( 'sent', 1, YITH_Request_Quote()->get_raq_page_url() ), 301 );
 					exit();
 				}
 			}
@@ -601,7 +608,7 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 		/**
 		 * Filters WooCommerce available mails, to add wishlist related ones
 		 *
-		 * @param $emails array List of WooCommerce Emails.
+		 * @param array $emails List of WooCommerce Emails.
 		 *
 		 * @return array
 		 * @since 1.0
@@ -635,7 +642,7 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 		 */
 		public function clean_session() {
 			global $wpdb;
-			$query = $wpdb->query( 'DELETE FROM ' . $wpdb->prefix . "options  WHERE option_name LIKE '_yith_ywraq_session_%'" );
+			$query = $wpdb->query( 'DELETE FROM ' . $wpdb->prefix . "options  WHERE option_name LIKE '_yith_ywraq_session_%'" ); //phpcs:ignore
 		}
 
 		/**
@@ -666,10 +673,10 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 			if ( $adding_to_quote->is_type( 'variable' ) ) {
 				if ( empty( $variation_id ) ) {
 					if ( is_callable( $adding_to_quote, 'get_matching_variation' ) ) {
-						$variation_id = $adding_to_quote->get_matching_variation( wp_unslash( $_POST ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+						$variation_id = $adding_to_quote->get_matching_variation( wp_unslash( $_POST ) ); // phpcs:ignore
 					} else {
 						$data_store   = WC_Data_Store::load( 'product' );
-						$variation_id = $data_store->find_matching_product_variation( $adding_to_quote, wp_unslash( $_POST ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+						$variation_id = $data_store->find_matching_product_variation( $adding_to_quote, wp_unslash( $_POST ) ); // phpcs:ignore
 					}
 				}
 				if ( ! empty( $variation_id ) ) {
@@ -683,7 +690,7 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 
 						$taxonomy = 'attribute_' . sanitize_title( $attribute['name'] );
 
-						if ( isset( $_REQUEST[ $taxonomy ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+						if ( isset( $_REQUEST[ $taxonomy ] ) ) { // phpcs:ignore
 
 							// Get value from post data.
 							if ( $attribute['is_taxonomy'] ) {
@@ -734,10 +741,10 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 			$return = $this->add_item( $raq_data );
 
 			if ( 'true' === $return ) {
-				$message = apply_filters( 'yith_ywraq_product_added_to_list_message', __( 'Product added to the list!', 'yith-woocommerce-request-a-quote' ) );
+				$message = apply_filters( 'yith_ywraq_product_added_to_list_message', ywraq_get_label( 'product_added' ) );
 				wc_add_notice( $message, 'success' );
 			} elseif ( 'exists' === $return ) {
-				$message = apply_filters( 'yith_ywraq_product_already_in_list_message', __( 'Product already in the list.', 'yith-woocommerce-request-a-quote' ) );
+				$message = ywraq_get_label( 'already_in_quote' );
 				wc_add_notice( $message, 'notice' );
 			}
 		}
@@ -761,6 +768,58 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 
 			return apply_filters( 'ywraq_request_page_id', $page_id );
 		}
+
+
+		/**
+		 * Check for which users will not see the price
+		 *
+		 * @param float $price .
+		 * @param bool  $product_id .
+		 *
+		 * @return string
+		 *
+		 * @since   1.0.0
+		 */
+		public function show_product_price( $price, $product_id = false ) {
+
+			$hide_price = get_option( 'ywraq_hide_price' ) === 'yes';
+
+			if ( catalog_mode_plugin_enabled() ) {
+				global $YITH_WC_Catalog_Mode; //phpcs:ignore
+				$hide_price = $YITH_WC_Catalog_Mode->check_product_price_single( true, $product_id ); //phpcs:ignore
+
+				if ( $hide_price && '' !== get_option( 'ywctm_exclude_price_alternative_text' ) ) {
+					$hide_price = false;
+					$price      = get_option( 'ywctm_exclude_price_alternative_text' );
+				}
+			} elseif ( $hide_price && current_filter() === 'woocommerce_get_price_html' ) {
+				$price = '';
+			} elseif ( $hide_price && ! catalog_mode_plugin_enabled() && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) && current_filter() !== 'woocommerce_get_price_html' ) {
+				ob_start();
+
+				$args = array(
+					'.single_variation_wrap .single_variation',
+				);
+
+				$classes = implode( ', ', apply_filters( 'ywcraq_catalog_price_classes', $args ) );
+
+				?>
+				<style>
+					<?php
+						echo esc_attr( $classes );
+					?>
+					{
+						display: none !important
+					}
+
+				</style>
+				<?php
+				echo ob_get_clean(); //phpcs:ignore
+			}
+
+			return ( $hide_price ) ? '' : $price;
+
+		}
 	}
 }
 
@@ -769,7 +828,7 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
  *
  * @return \YITH_Request_Quote
  */
-function YITH_Request_Quote() {
+function YITH_Request_Quote() { //phpcs:ignore
 	return YITH_Request_Quote::get_instance();
 }
 

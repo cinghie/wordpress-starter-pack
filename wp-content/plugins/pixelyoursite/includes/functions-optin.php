@@ -130,7 +130,7 @@ function adminRenderOptinNotices() {
         </div>
     </div>
     
-    <script type="text/javascript">
+    <script type="application/javascript">
         jQuery(document).on('click', '.pys-optin-notice .notice-dismiss', function () {
             jQuery.ajax({
                 url: ajaxurl,

@@ -425,3 +425,89 @@ This passes when the option value matches the value using the operation.
 ```
 
 `option_name`, `value`, and `operation` are all required. `default` is not required and allows a default value to be used if the option does not exist.
+
+#### Option Transformer
+
+This transforms the given option value into a different value by a series of transformers.
+
+Example option value:
+
+```
+Array
+(
+    [setup_client] => 
+    [industry] => Array
+        (
+            [0] => Array
+                (
+                    [slug] => food-drink
+                )
+
+            [1] => Array
+                (
+                    [slug] => fashion-apparel-accessories
+                )
+        )
+)
+```
+If you want to ensure that the industry array contains `fashion-apparel-accessories`, you can use the following Option definition with transformers.
+
+```
+{
+	"type": "option",
+	"transformers": [
+	    {
+	        "use": "dot_notation",
+	        "arguments": {
+	            "path": "industry"
+	        }
+	    },
+	    {
+	        "use": "array_column",
+	        "arguments": {
+	            "key": "slug"
+	        }
+	    },
+	    {
+	        "use": "array_search",
+	        "arguments": {
+	            "value": "fashion-apparel-accessories"
+	        }
+	    }
+	],
+	"option_name": "woocommerce_onboarding_profile",
+	"value": "fashion-apparel-accessories",
+	"default": "USD",
+	"operation": "="
+}
+```
+
+You can find a list of transformers and examples in the transformer [README](./Transformers/README.md).
+
+### WCA updated
+This passes when WooCommerce Admin has just been updated. The specs will be run
+on update. Note that this doesn't provide a way to check the version number as
+the `plugin_version` rule can be used to check for a specific version of the
+WooCommerce Admin plugin.
+
+```
+{
+	type: "wca_updated"
+}
+```
+
+No other values are needed.
+
+## Debugging Specification
+
+You can see the evaluation of each specification by turning on an optional evaluation logger.
+
+1. Define `WC_ADMIN_DEBUG_RULE_EVALUATOR` constant in `wp-config.php`. `define('WC_ADMIN_DEBUG_RULE_EVALUATOR', true);`
+2. Run `wc_admin_daily`
+3. cd to `wp-content/uploads/wc-logs/` and check a log file in `remote-inbox-notifications-:date-hash.log` format.
+
+You can tail the log file with a slug name to see the evaluation of a rule that you are testing.
+
+Example: 
+
+`tail -f remote-inbox-notifications-2021-06-15-128.log | grep 'wcpay-promo-2021-6-incentive-2'`

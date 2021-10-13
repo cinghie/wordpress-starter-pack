@@ -581,7 +581,9 @@ class PHPExcel_Worksheet_AutoFilter
             sort($dataValues);
         }
 
-        return array_pop(array_slice($dataValues, 0, $ruleValue));
+        $variable = array_slice( $dataValues, 0, $ruleValue );
+
+        return array_pop( $variable );
     }
 
     /**

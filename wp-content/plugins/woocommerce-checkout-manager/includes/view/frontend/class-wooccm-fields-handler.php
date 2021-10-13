@@ -18,6 +18,9 @@ class WOOCCM_Fields_Handler
     // -----------------------------------------------------------------------
     add_filter('woocommerce_checkout_fields', array($this, 'remove_checkout_fields'));
 
+    // Fix defualt address fields classes
+    add_filter('wooccm_checkout_field_filter', array($this, 'fix_address_fields_classes'));
+
     // Fix address_2 field
     // -----------------------------------------------------------------------
     //add_filter('default_option_woocommerce_checkout_address_2_field', array($this, 'woocommerce_checkout_address_2_field'));
@@ -278,6 +281,33 @@ class WOOCCM_Fields_Handler
     }
 
     return $data;
+  }
+
+  public function fix_address_fields_classes($field)
+  {
+
+    if (isset($field['key'])) {
+
+      $key = str_replace(array('shipping_', 'billing_'), '', $field['key']);
+
+      if (in_array($key, array(
+        'country',
+        'address_1',
+        'address_2',
+        'city',
+        'state',
+        'postcode',
+      ))) {
+        
+        $field['class'][] = 'address-field';
+
+        if ($key == 'country') {
+          $field['class'][] = 'update_totals_on_change';
+        }
+      }
+    }
+
+    return $field;
   }
 }
 

@@ -92,7 +92,7 @@ if ( ! is_array( $meta ) ) {
 
 </div>
 
-<script type="text/javascript">
+<script type="application/javascript">
     // collapse meta box by default
     jQuery('#pys-head-footer').addClass('closed');
 </script>

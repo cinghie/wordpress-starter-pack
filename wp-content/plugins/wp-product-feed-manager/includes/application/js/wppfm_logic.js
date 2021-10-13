@@ -173,7 +173,7 @@ function wppfm_getCorrectValueSelector(
 	switch ( type ) {
 		case '0':
 		case 'change nothing':
-			wppfm_valueInputOptionsChanged( rowId, sourceLevel, valueEditorLevel ); // save the value in meta as there is no input field required
+			wppfm_valueInputOptionsChanged( rowId, sourceLevel, valueEditorLevel ); // save the value in meta now as there is no second input field required.
 			selectorCode = '';
 			break;
 
@@ -204,6 +204,19 @@ function wppfm_getCorrectValueSelector(
 		case '7':
 		case 'convert to child-element':
 			selectorCode = wppfm_valueOptionsElementInput( rowId, sourceLevel, valueEditorLevel, value );
+			break;
+
+		// @since 2.22.0.
+		case '8':
+		case 'strip tags':
+			wppfm_valueInputOptionsChanged( rowId, sourceLevel, valueEditorLevel ); // save the value in meta now as there is no second input field required.
+			selectorCode = '';
+			break;
+
+		// @since 2.22.0.
+		case '9':
+		case 'limit characters':
+			selectorCode = wppfm_valueOptionsSingleInput( rowId, sourceLevel, valueEditorLevel, value );
 			break;
 
 		default:
@@ -249,6 +262,14 @@ function wppfm_regenerateFeed( feedId ) {
 	wppfm_updateFeedFile( feedId, function( xmlResult ) {
 
 		wppfm_hideFeedSpinner();
+
+		if ( xmlResult.includes('channel_not_installed') ) {
+			var channelName = xmlResult.split(':')[1];
+			alert( wppfm_feed_list_form_vars.missing_channel.replaceAll( '%channelname%', channelName ) );
+			wppfm_updateFeedRowStatus( feedId, 7);
+			wppfmRemoveFromQueueString( feedId );
+			return;
+		}
 
 		console.log(xmlResult);
 

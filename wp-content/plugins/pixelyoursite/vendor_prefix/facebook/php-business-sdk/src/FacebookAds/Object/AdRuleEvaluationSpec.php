@@ -38,7 +38,7 @@ use PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdRuleEvaluationSpecEvaluationTypeV
  * pull request for this class.
  *
  */
-class AdRuleEvaluationSpec extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractObject
+class AdRuleEvaluationSpec extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
 {
     /**
      * @return AdRuleEvaluationSpecFields
@@ -52,5 +52,15 @@ class AdRuleEvaluationSpec extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractOb
         $ref_enums = array();
         $ref_enums['EvaluationType'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdRuleEvaluationSpecEvaluationTypeValues::getInstance()->getValues();
         return $ref_enums;
+    }
+    public function getSelf(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array();
+        $enums = array();
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/', new \PYS_PRO_GLOBAL\FacebookAds\Object\AdRuleEvaluationSpec(), 'NODE', \PYS_PRO_GLOBAL\FacebookAds\Object\AdRuleEvaluationSpec::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
     }
 }

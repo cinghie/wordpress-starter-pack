@@ -51,16 +51,6 @@ class InstagramUser extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObjec
         $ref_enums = array();
         return $ref_enums;
     }
-    public function deleteAgencies(array $fields = array(), array $params = array(), $pending = \false)
-    {
-        $this->assureId();
-        $param_types = array('business' => 'string');
-        $enums = array();
-        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_DELETE, '/agencies', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'EDGE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
-        $request->addParams($params);
-        $request->addFields($fields);
-        return $pending ? $request : $request->execute();
-    }
     public function getAgencies(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();

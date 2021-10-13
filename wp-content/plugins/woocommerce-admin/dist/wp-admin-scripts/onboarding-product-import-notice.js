@@ -82,59 +82,54 @@ this["wc"] = this["wc"] || {}; this["wc"]["onboardingProductImportNotice"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 466);
+/******/ 	return __webpack_require__(__webpack_require__.s = 456);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 2:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["i18n"]; }());
-
-/***/ }),
-
-/***/ 25:
+/***/ 13:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ADMIN_URL; });
+/* unused harmony export ADMIN_URL */
 /* unused harmony export COUNTRIES */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return CURRENCY; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return LOCALE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return ORDER_STATUSES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CURRENCY; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return LOCALE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return ORDER_STATUSES; });
 /* unused harmony export SITE_TITLE */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return WC_ASSET_URL; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return getSetting; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return setSetting; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getAdminLink; });
-/* harmony import */ var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(30);
-/* harmony import */ var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-
-
+/* unused harmony export WC_ASSET_URL */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getSetting; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return setSetting; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getAdminLink; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return enqueueScript; });
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
 /**
  * External dependencies
  */
  // Remove mutable data from settings object to prevent access. Data stores should be used instead.
 
-var mutableSources = ['wcAdminSettings', 'preloadSettings'];
-var settings = (typeof wcSettings === "undefined" ? "undefined" : _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(wcSettings)) === 'object' ? wcSettings : {};
-var SOURCE = Object.keys(settings).reduce(function (source, key) {
+const mutableSources = ['wcAdminSettings', 'preloadSettings'];
+const settings = typeof wcSettings === 'object' ? wcSettings : {};
+const SOURCE = Object.keys(settings).reduce((source, key) => {
   if (!mutableSources.includes(key)) {
     source[key] = settings[key];
   }
 
   return source;
 }, {});
-var ADMIN_URL = SOURCE.adminUrl;
-var COUNTRIES = SOURCE.countries;
-var CURRENCY = SOURCE.currency;
-var LOCALE = SOURCE.locale;
-var ORDER_STATUSES = SOURCE.orderStatuses;
-var SITE_TITLE = SOURCE.siteTitle;
-var WC_ASSET_URL = SOURCE.wcAssetUrl;
+Object.keys(settings.admin || {}).forEach(key => {
+  if (!mutableSources.includes(key)) {
+    SOURCE[key] = settings.admin[key];
+  }
+});
+const ADMIN_URL = SOURCE.adminUrl;
+const COUNTRIES = SOURCE.countries;
+const CURRENCY = SOURCE.currency;
+const LOCALE = SOURCE.locale;
+const ORDER_STATUSES = SOURCE.orderStatuses;
+const SITE_TITLE = SOURCE.siteTitle;
+const WC_ASSET_URL = SOURCE.wcAssetUrl;
 /**
  * Retrieves a setting value from the setting state.
  *
@@ -152,17 +147,12 @@ var WC_ASSET_URL = SOURCE.wcAssetUrl;
  *                   name.
  */
 
-function getSetting(name) {
-  var fallback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-  var filter = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : function (val) {
-    return val;
-  };
-
+function getSetting(name, fallback = false, filter = val => val) {
   if (mutableSources.includes(name)) {
-    throw new Error(Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Mutable settings should be accessed via data store.'));
+    throw new Error(Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__["__"])('Mutable settings should be accessed via data store.'));
   }
 
-  var value = SOURCE.hasOwnProperty(name) ? SOURCE[name] : fallback;
+  const value = SOURCE.hasOwnProperty(name) ? SOURCE[name] : fallback;
   return filter(value, fallback);
 }
 /**
@@ -181,13 +171,9 @@ function getSetting(name) {
  *                                               ensure it's a number)
  */
 
-function setSetting(name, value) {
-  var filter = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : function (val) {
-    return val;
-  };
-
+function setSetting(name, value, filter = val => val) {
   if (mutableSources.includes(name)) {
-    throw new Error(Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Mutable settings should be mutated via data store.'));
+    throw new Error(Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__["__"])('Mutable settings should be mutated via data store.'));
   }
 
   SOURCE[name] = filter(value);
@@ -202,62 +188,70 @@ function setSetting(name, value) {
 function getAdminLink(path) {
   return (ADMIN_URL || '') + path;
 }
+/**
+ * Adds a script to the page if it has not already been loaded. JS version of `wp_enqueue_script`.
+ *
+ * @param {Object} script WP_Script
+ * @param {string} script.handle Script handle.
+ * @param {string} script.src Script URL.
+ */
 
-/***/ }),
+function enqueueScript(script) {
+  return new Promise((resolve, reject) => {
+    if (document.querySelector(`#${script.handle}-js`)) {
+      resolve();
+    }
 
-/***/ 30:
-/***/ (function(module, exports) {
-
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    module.exports = _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-  } else {
-    module.exports = _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
+    const domElement = document.createElement('script');
+    domElement.src = script.src;
+    domElement.id = `${script.handle}-js`;
+    domElement.async = true;
+    domElement.onload = resolve;
+    domElement.onerror = reject;
+    document.body.appendChild(domElement);
+  });
 }
 
-module.exports = _typeof;
+/***/ }),
+
+/***/ 2:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["i18n"]; }());
 
 /***/ }),
 
-/***/ 466:
+/***/ 456:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(54);
-/* harmony import */ var _woocommerce_wc_admin_settings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(25);
+/* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(51);
+/* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _woocommerce_wc_admin_settings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(13);
 /**
  * External dependencies
  */
 
 
 
-Object(_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(function () {
-  var actionButtons = document.querySelector('.wc-actions');
+_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1___default()(() => {
+  const actionButtons = document.querySelector('.wc-actions');
 
   if (actionButtons) {
-    var primaryButton = document.querySelector('.wc-actions .button-primary');
+    const primaryButton = document.querySelector('.wc-actions .button-primary');
 
     if (primaryButton) {
       primaryButton.classList.remove('button');
       primaryButton.classList.remove('button-primary');
     }
 
-    var continueButton = document.createElement('a');
+    const continueButton = document.createElement('a');
     continueButton.classList.add('button');
     continueButton.classList.add('button-primary');
-    continueButton.setAttribute('href', Object(_woocommerce_wc_admin_settings__WEBPACK_IMPORTED_MODULE_2__[/* getAdminLink */ "f"])('admin.php?page=wc-admin'));
+    continueButton.setAttribute('href', Object(_woocommerce_wc_admin_settings__WEBPACK_IMPORTED_MODULE_2__[/* getAdminLink */ "e"])('admin.php?page=wc-admin'));
     continueButton.innerText = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__["__"])('Continue setup', 'woocommerce-admin');
     actionButtons.appendChild(continueButton);
   }
@@ -265,52 +259,10 @@ Object(_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(fun
 
 /***/ }),
 
-/***/ 54:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 51:
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return domReady; });
-/**
- * @typedef {() => void} Callback
- *
- * TODO: Remove this typedef and inline `() => void` type.
- *
- * This typedef is used so that a descriptive type is provided in our
- * automatically generated documentation.
- *
- * An in-line type `() => void` would be preferable, but the generated
- * documentation is `null` in that case.
- *
- * @see https://github.com/WordPress/gutenberg/issues/18045
- */
-
-/**
- * Specify a function to execute when the DOM is fully loaded.
- *
- * @param {Callback} callback A function to execute after the DOM is ready.
- *
- * @example
- * ```js
- * import domReady from '@wordpress/dom-ready';
- *
- * domReady( function() {
- * 	//do something after DOM loads.
- * } );
- * ```
- *
- * @return {void}
- */
-function domReady(callback) {
-  if (document.readyState === 'complete' || // DOMContentLoaded + Images/Styles/etc loaded, so we call directly.
-  document.readyState === 'interactive' // DOMContentLoaded fires at this point, so we call directly.
-  ) {
-      return void callback();
-    } // DOMContentLoaded has not fired yet, delay callback until then.
-
-
-  document.addEventListener('DOMContentLoaded', callback);
-}
-//# sourceMappingURL=index.js.map
+(function() { module.exports = window["wp"]["domReady"]; }());
 
 /***/ })
 

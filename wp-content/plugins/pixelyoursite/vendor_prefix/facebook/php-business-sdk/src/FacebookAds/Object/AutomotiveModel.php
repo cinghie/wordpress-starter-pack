@@ -29,6 +29,8 @@ use PYS_PRO_GLOBAL\FacebookAds\Cursor;
 use PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface;
 use PYS_PRO_GLOBAL\FacebookAds\TypeChecker;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Fields\AutomotiveModelFields;
+use PYS_PRO_GLOBAL\FacebookAds\Object\Values\AutomotiveModelBodyStyleValues;
+use PYS_PRO_GLOBAL\FacebookAds\Object\Values\AutomotiveModelImageFetchStatusValues;
 /**
  * This class is auto-generated.
  *
@@ -40,6 +42,13 @@ use PYS_PRO_GLOBAL\FacebookAds\Object\Fields\AutomotiveModelFields;
 class AutomotiveModel extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
 {
     /**
+     * @deprecated getEndpoint function is deprecated
+     */
+    protected function getEndpoint()
+    {
+        return 'automotive_models';
+    }
+    /**
      * @return AutomotiveModelFields
      */
     public static function getFieldsEnum()
@@ -49,7 +58,39 @@ class AutomotiveModel extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObj
     protected static function getReferencedEnums()
     {
         $ref_enums = array();
+        $ref_enums['ImageFetchStatus'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\AutomotiveModelImageFetchStatusValues::getInstance()->getValues();
+        $ref_enums['BodyStyle'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\AutomotiveModelBodyStyleValues::getInstance()->getValues();
         return $ref_enums;
+    }
+    public function getAugmentedRealitiesMetadata(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array();
+        $enums = array();
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/augmented_realities_metadata', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'EDGE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
+    }
+    public function getChannelsToIntegrityStatus(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array();
+        $enums = array();
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/channels_to_integrity_status', new \PYS_PRO_GLOBAL\FacebookAds\Object\CatalogItemChannelsToIntegrityStatus(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\CatalogItemChannelsToIntegrityStatus::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
+    }
+    public function getVideosMetadata(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array();
+        $enums = array();
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/videos_metadata', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'EDGE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
     }
     public function getSelf(array $fields = array(), array $params = array(), $pending = \false)
     {

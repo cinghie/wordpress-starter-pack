@@ -1,94 +1,122 @@
 <?php return array (
   'sans-serif' => 
   array (
-    'normal' => '/lib/fonts/Helvetica',
-    'bold' => '/lib/fonts/Helvetica-Bold',
-    'italic' => '/lib/fonts/Helvetica-Oblique',
-    'bold_italic' => '/lib/fonts/Helvetica-BoldOblique',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Helvetica',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Helvetica-Bold',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Helvetica-Oblique',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Helvetica-BoldOblique',
   ),
   'times' => 
   array (
-    'normal' => '/lib/fonts/Times-Roman',
-    'bold' => '/lib/fonts/Times-Bold',
-    'italic' => '/lib/fonts/Times-Italic',
-    'bold_italic' => '/lib/fonts/Times-BoldItalic',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Times-Roman',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Times-Bold',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Times-Italic',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Times-BoldItalic',
   ),
   'times-roman' => 
   array (
-    'normal' => '/lib/fonts/Times-Roman',
-    'bold' => '/lib/fonts/Times-Bold',
-    'italic' => '/lib/fonts/Times-Italic',
-    'bold_italic' => '/lib/fonts/Times-BoldItalic',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Times-Roman',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Times-Bold',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Times-Italic',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Times-BoldItalic',
   ),
   'courier' => 
   array (
-    'normal' => '/lib/fonts/Courier',
-    'bold' => '/lib/fonts/Courier-Bold',
-    'italic' => '/lib/fonts/Courier-Oblique',
-    'bold_italic' => '/lib/fonts/Courier-BoldOblique',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Courier',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Courier-Bold',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Courier-Oblique',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Courier-BoldOblique',
   ),
   'helvetica' => 
   array (
-    'normal' => '/lib/fonts/Helvetica',
-    'bold' => '/lib/fonts/Helvetica-Bold',
-    'italic' => '/lib/fonts/Helvetica-Oblique',
-    'bold_italic' => '/lib/fonts/Helvetica-BoldOblique',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Helvetica',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Helvetica-Bold',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Helvetica-Oblique',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Helvetica-BoldOblique',
   ),
   'zapfdingbats' => 
   array (
-    'normal' => '/lib/fonts/ZapfDingbats',
-    'bold' => '/lib/fonts/ZapfDingbats',
-    'italic' => '/lib/fonts/ZapfDingbats',
-    'bold_italic' => '/lib/fonts/ZapfDingbats',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\ZapfDingbats',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\ZapfDingbats',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\ZapfDingbats',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\ZapfDingbats',
   ),
   'symbol' => 
   array (
-    'normal' => '/lib/fonts/Symbol',
-    'bold' => '/lib/fonts/Symbol',
-    'italic' => '/lib/fonts/Symbol',
-    'bold_italic' => '/lib/fonts/Symbol',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Symbol',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Symbol',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Symbol',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Symbol',
   ),
   'serif' => 
   array (
-    'normal' => '/lib/fonts/Times-Roman',
-    'bold' => '/lib/fonts/Times-Bold',
-    'italic' => '/lib/fonts/Times-Italic',
-    'bold_italic' => '/lib/fonts/Times-BoldItalic',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Times-Roman',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Times-Bold',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Times-Italic',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Times-BoldItalic',
   ),
   'monospace' => 
   array (
-    'normal' => '/lib/fonts/Courier',
-    'bold' => '/lib/fonts/Courier-Bold',
-    'italic' => '/lib/fonts/Courier-Oblique',
-    'bold_italic' => '/lib/fonts/Courier-BoldOblique',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Courier',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Courier-Bold',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Courier-Oblique',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Courier-BoldOblique',
   ),
   'fixed' => 
   array (
-    'normal' => '/lib/fonts/Courier',
-    'bold' => '/lib/fonts/Courier-Bold',
-    'italic' => '/lib/fonts/Courier-Oblique',
-    'bold_italic' => '/lib/fonts/Courier-BoldOblique',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Courier',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Courier-Bold',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Courier-Oblique',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Courier-BoldOblique',
   ),
   'dejavu sans' => 
   array (
-    'bold' => '/lib/fonts/DejaVuSans-Bold',
-    'bold_italic' => '/lib/fonts/DejaVuSans-BoldOblique',
-    'italic' => '/lib/fonts/DejaVuSans-Oblique',
-    'normal' => '/lib/fonts/DejaVuSans',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\DejaVuSans-Bold',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\DejaVuSans-BoldOblique',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\DejaVuSans-Oblique',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\DejaVuSans',
   ),
   'dejavu sans mono' => 
   array (
-    'bold' => '/lib/fonts/DejaVuSansMono-Bold',
-    'bold_italic' => '/lib/fonts/DejaVuSansMono-BoldOblique',
-    'italic' => '/lib/fonts/DejaVuSansMono-Oblique',
-    'normal' => '/lib/fonts/DejaVuSansMono',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\DejaVuSansMono-Bold',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\DejaVuSansMono-BoldOblique',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\DejaVuSansMono-Oblique',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\DejaVuSansMono',
   ),
   'dejavu serif' => 
   array (
-    'bold' => '/lib/fonts/DejaVuSerif-Bold',
-    'bold_italic' => '/lib/fonts/DejaVuSerif-BoldItalic',
-    'italic' => '/lib/fonts/DejaVuSerif-Italic',
-    'normal' => '/lib/fonts/DejaVuSerif',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\DejaVuSerif-Bold',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\DejaVuSerif-BoldItalic',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\DejaVuSerif-Italic',
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\DejaVuSerif',
+  ),
+  'open sans' => 
+  array (
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\OpenSans-Normal',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\OpenSans-Bold',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\OpenSans-Italic',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\OpenSans-BoldItalic',
+  ),
+  'segoe' => 
+  array (
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Segoe-Normal',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Segoe-Bold',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Segoe-Italic',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\Segoe-BoldItalic',
+  ),
+  'roboto slab' => 
+  array (
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\RobotoSlab-Normal',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\RobotoSlab-Bold',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\RobotoSlab-Italic',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\RobotoSlab-BoldItalic',
+  ),
+  'currencies' => 
+  array (
+    'normal' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\currencies',
+    'bold' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\currencies',
+    'italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\currencies',
+    'bold_italic' => 'D:\\xampp\\htdocs\\woocommerce\\wp-content\\plugins\\woocommerce-pdf-invoices-packing-slips/vendor\\dompdf\\dompdf\\lib\\fonts\\currencies',
   ),
 );
 ?>

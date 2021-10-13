@@ -5,6 +5,8 @@ namespace PYS_PRO_GLOBAL\GuzzleHttp\Psr7;
 use PYS_PRO_GLOBAL\Psr\Http\Message\StreamInterface;
 /**
  * Converts Guzzle streams into PHP stream resources.
+ *
+ * @final
  */
 class StreamWrapper
 {

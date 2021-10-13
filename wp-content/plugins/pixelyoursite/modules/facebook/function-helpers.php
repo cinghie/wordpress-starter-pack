@@ -312,6 +312,7 @@ function getWooSingleAddToCartParams( $_product_id, $qty = 1 ) {
 
     foreach ($product_ids as $product_id) {
         $product = wc_get_product($product_id);
+        if(!$product) continue;
         if($product->get_type() == "variable" && $isGrouped) {
             continue;
         }
@@ -323,7 +324,7 @@ function getWooSingleAddToCartParams( $_product_id, $qty = 1 ) {
             // Facebook for WooCommerce plugin does not support new Dynamic Ads parameters
             $params['contents'][] = array(
                 'id'         => (string) reset( $content_id ),
-                'quantity'   => 1,
+                'quantity'   => $qty,
                 //'item_price' => PixelYourSite\getWooProductPriceToDisplay( $product_id ),// remove because price need send only with currency
             );
         }

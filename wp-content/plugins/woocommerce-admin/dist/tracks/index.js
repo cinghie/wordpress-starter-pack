@@ -82,12 +82,12 @@ this["wc"] = this["wc"] || {}; this["wc"]["tracks"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 459);
+/******/ 	return __webpack_require__(__webpack_require__.s = 449);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 124:
+/***/ 128:
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -278,26 +278,7 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ 20:
-/***/ (function(module, exports, __webpack_require__) {
-
-var arrayWithoutHoles = __webpack_require__(57);
-
-var iterableToArray = __webpack_require__(58);
-
-var unsupportedIterableToArray = __webpack_require__(39);
-
-var nonIterableSpread = __webpack_require__(59);
-
-function _toConsumableArray(arr) {
-  return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
-}
-
-module.exports = _toConsumableArray;
-
-/***/ }),
-
-/***/ 285:
+/***/ 267:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {/* eslint-env browser */
@@ -311,15 +292,15 @@ exports.load = load;
 exports.useColors = useColors;
 exports.storage = localstorage();
 
-exports.destroy = function () {
-  var warned = false;
-  return function () {
+exports.destroy = (() => {
+  let warned = false;
+  return () => {
     if (!warned) {
       warned = true;
       console.warn('Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.');
     }
   };
-}();
+})();
 /**
  * Colors.
  */
@@ -370,14 +351,14 @@ function formatArgs(args) {
     return;
   }
 
-  var c = 'color: ' + this.color;
+  const c = 'color: ' + this.color;
   args.splice(1, 0, c, 'color: inherit'); // The final "%c" is somewhat tricky, because there could be other
   // arguments passed either before or after the %c, so we need to
   // figure out the correct index to insert the CSS into
 
-  var index = 0;
-  var lastC = 0;
-  args[0].replace(/%[a-zA-Z%]/g, function (match) {
+  let index = 0;
+  let lastC = 0;
+  args[0].replace(/%[a-zA-Z%]/g, match => {
     if (match === '%%') {
       return;
     }
@@ -402,7 +383,7 @@ function formatArgs(args) {
  */
 
 
-exports.log = console.debug || console.log || function () {};
+exports.log = console.debug || console.log || (() => {});
 /**
  * Save `namespaces`.
  *
@@ -431,7 +412,7 @@ function save(namespaces) {
 
 
 function load() {
-  var r;
+  let r;
 
   try {
     r = exports.storage.getItem('debug');
@@ -468,8 +449,10 @@ function localstorage() {
   }
 }
 
-module.exports = __webpack_require__(460)(exports);
-var formatters = module.exports.formatters;
+module.exports = __webpack_require__(450)(exports);
+const {
+  formatters
+} = module.exports;
 /**
  * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
  */
@@ -481,69 +464,11 @@ formatters.j = function (v) {
     return '[UnexpectedJSONParseError]: ' + error.message;
   }
 };
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(124)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(128)))
 
 /***/ }),
 
-/***/ 30:
-/***/ (function(module, exports) {
-
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    module.exports = _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-  } else {
-    module.exports = _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-module.exports = _typeof;
-
-/***/ }),
-
-/***/ 37:
-/***/ (function(module, exports) {
-
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
-
-module.exports = _arrayLikeToArray;
-
-/***/ }),
-
-/***/ 39:
-/***/ (function(module, exports, __webpack_require__) {
-
-var arrayLikeToArray = __webpack_require__(37);
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray(o, minLen);
-}
-
-module.exports = _unsupportedIterableToArray;
-
-/***/ }),
-
-/***/ 459:
+/***/ 449:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -551,59 +476,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recordEvent", function() { return recordEvent; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "queueRecordEvent", function() { return queueRecordEvent; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recordPageView", function() { return recordPageView; });
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(30);
-/* harmony import */ var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(285);
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_2__);
-
-
-
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    if (enumerableOnly) symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    });
-    keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
-}
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(267);
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_0__);
 /**
  * External dependencies
  */
-
-
 
 /**
  * Module variables
  */
 
-var tracksDebug = debug__WEBPACK_IMPORTED_MODULE_2___default()('wc-admin:tracks');
+const tracksDebug = debug__WEBPACK_IMPORTED_MODULE_0___default()('wc-admin:tracks');
 /**
  * Record an event to Tracks
  *
@@ -623,44 +506,43 @@ function recordEvent(eventName, eventProperties) {
 
   window.wcTracks.recordEvent(eventName, eventProperties);
 }
-var tracksQueue = {
-  localStorageKey: function localStorageKey() {
+const tracksQueue = {
+  localStorageKey() {
     return 'tracksQueue';
   },
-  clear: function clear() {
+
+  clear() {
     if (!window.localStorage) {
       return;
     }
 
     window.localStorage.removeItem(tracksQueue.localStorageKey());
   },
-  get: function get() {
+
+  get() {
     if (!window.localStorage) {
       return [];
     }
 
-    var items = window.localStorage.getItem(tracksQueue.localStorageKey());
+    let items = window.localStorage.getItem(tracksQueue.localStorageKey());
     items = items ? JSON.parse(items) : [];
     items = Array.isArray(items) ? items : [];
     return items;
   },
-  add: function add() {
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
 
+  add(...args) {
     if (!window.localStorage) {
       // If unable to queue, run it now.
       tracksDebug('Unable to queue, running now', {
-        args: args
+        args
       });
       recordEvent.apply(null, args || undefined);
       return;
     }
 
-    var items = tracksQueue.get();
-    var newItem = {
-      args: args
+    let items = tracksQueue.get();
+    const newItem = {
+      args
     };
     items.push(newItem);
     items = items.slice(-100); // Upper limit.
@@ -668,21 +550,23 @@ var tracksQueue = {
     tracksDebug('Adding new item to queue.', newItem);
     window.localStorage.setItem(tracksQueue.localStorageKey(), JSON.stringify(items));
   },
-  process: function process() {
+
+  process() {
     if (!window.localStorage) {
       return; // Not possible.
     }
 
-    var items = tracksQueue.get();
+    const items = tracksQueue.get();
     tracksQueue.clear();
     tracksDebug('Processing items in queue.', items);
-    items.forEach(function (item) {
-      if (_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_1___default()(item) === 'object') {
+    items.forEach(item => {
+      if (typeof item === 'object') {
         tracksDebug('Processing item in queue.', item);
         recordEvent.apply(null, item.args || undefined);
       }
     });
   }
+
 };
 /**
  * Queue a tracks event.
@@ -711,19 +595,18 @@ function recordPageView(path, extraProperties) {
     return;
   }
 
-  recordEvent('page_view', _objectSpread({
-    path: path
-  }, extraProperties)); // Process queue.
+  recordEvent('page_view', {
+    path,
+    ...extraProperties
+  }); // Process queue.
 
   tracksQueue.process();
 }
 
 /***/ }),
 
-/***/ 460:
+/***/ 450:
 /***/ (function(module, exports, __webpack_require__) {
-
-var _toConsumableArray = __webpack_require__(20);
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -736,9 +619,9 @@ function setup(env) {
   createDebug.disable = disable;
   createDebug.enable = enable;
   createDebug.enabled = enabled;
-  createDebug.humanize = __webpack_require__(461);
+  createDebug.humanize = __webpack_require__(451);
   createDebug.destroy = destroy;
-  Object.keys(env).forEach(function (key) {
+  Object.keys(env).forEach(key => {
     createDebug[key] = env[key];
   });
   /**
@@ -762,9 +645,9 @@ function setup(env) {
   */
 
   function selectColor(namespace) {
-    var hash = 0;
+    let hash = 0;
 
-    for (var i = 0; i < namespace.length; i++) {
+    for (let i = 0; i < namespace.length; i++) {
       hash = (hash << 5) - hash + namespace.charCodeAt(i);
       hash |= 0; // Convert to 32bit integer
     }
@@ -782,23 +665,19 @@ function setup(env) {
   */
 
   function createDebug(namespace) {
-    var prevTime;
-    var enableOverride = null;
+    let prevTime;
+    let enableOverride = null;
 
-    function debug() {
-      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-
+    function debug(...args) {
       // Disabled?
       if (!debug.enabled) {
         return;
       }
 
-      var self = debug; // Set `diff` timestamp
+      const self = debug; // Set `diff` timestamp
 
-      var curr = Number(new Date());
-      var ms = curr - (prevTime || curr);
+      const curr = Number(new Date());
+      const ms = curr - (prevTime || curr);
       self.diff = ms;
       self.prev = prevTime;
       self.curr = curr;
@@ -811,18 +690,18 @@ function setup(env) {
       } // Apply any `formatters` transformations
 
 
-      var index = 0;
-      args[0] = args[0].replace(/%([a-zA-Z%])/g, function (match, format) {
+      let index = 0;
+      args[0] = args[0].replace(/%([a-zA-Z%])/g, (match, format) => {
         // If we encounter an escaped % then don't increase the array index
         if (match === '%%') {
           return '%';
         }
 
         index++;
-        var formatter = createDebug.formatters[format];
+        const formatter = createDebug.formatters[format];
 
         if (typeof formatter === 'function') {
-          var val = args[index];
+          const val = args[index];
           match = formatter.call(self, val); // Now we need to remove `args[index]` since it's inlined in the `format`
 
           args.splice(index, 1);
@@ -833,7 +712,7 @@ function setup(env) {
       }); // Apply env-specific formatting (colors, etc.)
 
       createDebug.formatArgs.call(self, args);
-      var logFn = self.log || createDebug.log;
+      const logFn = self.log || createDebug.log;
       logFn.apply(self, args);
     }
 
@@ -846,10 +725,8 @@ function setup(env) {
     Object.defineProperty(debug, 'enabled', {
       enumerable: true,
       configurable: false,
-      get: function get() {
-        return enableOverride === null ? createDebug.enabled(namespace) : enableOverride;
-      },
-      set: function set(v) {
+      get: () => enableOverride === null ? createDebug.enabled(namespace) : enableOverride,
+      set: v => {
         enableOverride = v;
       }
     }); // Env-specific initialization logic for debug instances
@@ -862,7 +739,7 @@ function setup(env) {
   }
 
   function extend(namespace, delimiter) {
-    var newDebug = createDebug(this.namespace + (typeof delimiter === 'undefined' ? ':' : delimiter) + namespace);
+    const newDebug = createDebug(this.namespace + (typeof delimiter === 'undefined' ? ':' : delimiter) + namespace);
     newDebug.log = this.log;
     return newDebug;
   }
@@ -879,9 +756,9 @@ function setup(env) {
     createDebug.save(namespaces);
     createDebug.names = [];
     createDebug.skips = [];
-    var i;
-    var split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
-    var len = split.length;
+    let i;
+    const split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
+    const len = split.length;
 
     for (i = 0; i < len; i++) {
       if (!split[i]) {
@@ -907,9 +784,7 @@ function setup(env) {
 
 
   function disable() {
-    var namespaces = [].concat(_toConsumableArray(createDebug.names.map(toNamespace)), _toConsumableArray(createDebug.skips.map(toNamespace).map(function (namespace) {
-      return '-' + namespace;
-    }))).join(',');
+    const namespaces = [...createDebug.names.map(toNamespace), ...createDebug.skips.map(toNamespace).map(namespace => '-' + namespace)].join(',');
     createDebug.enable('');
     return namespaces;
   }
@@ -927,8 +802,8 @@ function setup(env) {
       return true;
     }
 
-    var i;
-    var len;
+    let i;
+    let len;
 
     for (i = 0, len = createDebug.skips.length; i < len; i++) {
       if (createDebug.skips[i].test(name)) {
@@ -990,7 +865,7 @@ module.exports = setup;
 
 /***/ }),
 
-/***/ 461:
+/***/ 451:
 /***/ (function(module, exports) {
 
 /**
@@ -1156,63 +1031,6 @@ function plural(ms, msAbs, n, name) {
   return Math.round(ms / n) + ' ' + name + (isPlural ? 's' : '');
 }
 
-
-/***/ }),
-
-/***/ 5:
-/***/ (function(module, exports) {
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-module.exports = _defineProperty;
-
-/***/ }),
-
-/***/ 57:
-/***/ (function(module, exports, __webpack_require__) {
-
-var arrayLikeToArray = __webpack_require__(37);
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return arrayLikeToArray(arr);
-}
-
-module.exports = _arrayWithoutHoles;
-
-/***/ }),
-
-/***/ 58:
-/***/ (function(module, exports) {
-
-function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
-}
-
-module.exports = _iterableToArray;
-
-/***/ }),
-
-/***/ 59:
-/***/ (function(module, exports) {
-
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-module.exports = _nonIterableSpread;
 
 /***/ })
 

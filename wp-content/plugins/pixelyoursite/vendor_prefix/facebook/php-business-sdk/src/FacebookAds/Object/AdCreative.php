@@ -70,10 +70,10 @@ class AdCreative extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
     protected static function getReferencedEnums()
     {
         $ref_enums = array();
-        $ref_enums['ApplinkTreatment'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdCreativeApplinkTreatmentValues::getInstance()->getValues();
         $ref_enums['CallToActionType'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdCreativeCallToActionTypeValues::getInstance()->getValues();
         $ref_enums['ObjectType'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdCreativeObjectTypeValues::getInstance()->getValues();
         $ref_enums['Status'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdCreativeStatusValues::getInstance()->getValues();
+        $ref_enums['ApplinkTreatment'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdCreativeApplinkTreatmentValues::getInstance()->getValues();
         $ref_enums['AuthorizationCategory'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdCreativeAuthorizationCategoryValues::getInstance()->getValues();
         $ref_enums['CategorizationCriteria'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdCreativeCategorizationCriteriaValues::getInstance()->getValues();
         $ref_enums['CategoryMediaSource'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdCreativeCategoryMediaSourceValues::getInstance()->getValues();

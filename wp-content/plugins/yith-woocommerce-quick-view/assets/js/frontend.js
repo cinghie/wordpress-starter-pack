@@ -82,21 +82,26 @@ jQuery(document).ready(function($){
             data: {
                 action: 'yith_load_product_quick_view',
                 product_id: product_id,
-                lang: yith_qv.lang
+                lang: yith_qv.lang,
+				context: 'frontend',
             },
-            dataType: 'html',
+            dataType: 'json',
             type: 'POST',
             success: function (data) {
 
-                qv_content.html(data);
+                qv_content.html(data.html);
 
                 // Variation Form
-                var form_variation = qv_content.find('.variations_form');
+				var form_variation = qv_content.find('.variations_form');
                 form_variation.each( function() {
                     $( this ).wc_variation_form();
                     // add Color and Label Integration
                     if( typeof $.fn.yith_wccl !== 'undefined' ) {
                         $(this).yith_wccl();
+                    }
+                    else if( typeof $.yith_wccl != 'undefined' && data.prod_attr ) {
+						
+                        $.yith_wccl( data.prod_attr );
                     }
                 });
 

@@ -512,6 +512,7 @@ if ( ! class_exists( 'um\Config' ) ) {
 			//settings defaults
 			$this->settings_defaults = array(
 				'restricted_access_post_metabox'        => array( 'post' => 1, 'page' => 1 ),
+				'disable_restriction_pre_queries'       => 0,
 				'uninstall_on_delete'                   => 0,
 				'permalink_base'                        => 'user_login',
 				'display_name'                          => 'full_name',
@@ -522,6 +523,8 @@ if ( ! class_exists( 'um\Config' ) ) {
 				'use_um_gravatar_default_builtin_image' => 'default',
 				'use_um_gravatar_default_image'         => 0,
 				'reset_require_strongpass'              => 0,
+				'password_min_chars'                    => 8,
+				'password_max_chars'                    => 30,
 				'account_tab_password'                  => 1,
 				'account_tab_privacy'                   => 1,
 				'account_tab_notifications'             => 1,
@@ -543,6 +546,8 @@ if ( ! class_exists( 'um\Config' ) ) {
 				'access_exclude_uris'                   => array(),
 				'home_page_accessible'                  => 1,
 				'category_page_accessible'              => 1,
+				'restricted_post_title_replace'         => 1,
+				'restricted_access_post_title'          => __( 'Restricted content', 'ultimate-member' ),
 				'restricted_access_message'             => '',
 				'restricted_blocks'                     => 0,
 				'enable_blocks'                         => 0,
@@ -574,8 +579,10 @@ if ( ! class_exists( 'um\Config' ) ) {
 				'custom_roles_increment'                => 1,
 				'um_profile_object_cache_stop'          => 0,
 				'rest_api_version'                      => '2.0',
-				'member_directory_own_table'         => 0,
+				'member_directory_own_table'            => 0,
 				'profile_show_html_bio'                 => 0,
+				'profile_noindex'                       => 0,
+				'activation_link_expiry_time'           => '',
 			);
 
 			add_filter( 'um_get_tabs_from_config', '__return_true' );

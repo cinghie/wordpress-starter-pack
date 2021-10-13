@@ -49,7 +49,7 @@ $new_event_url = buildAdminUrl( 'pixelyoursite', 'events', 'edit' );
         <div class="row">
             <div class="col">
                 <p>All the events you configure here will automatically get the following parameters for all the tags:
-                    <i>page_title, post_type, post_id, event_URL, user_role, plugin, event_time (pro), event_day (pro), event_month (pro), traffic_source (pro), UTMs (pro).</i></p>
+                    <i>page_title, post_type, post_id, event_URL, user_role, plugin, landing_page (pro), event_time (pro), event_day (pro), event_month (pro), traffic_source (pro), UTMs (pro).</i></p>
                 <p>Exception: Google Analytics Universal will not get all these parameters. Only <i>event_time (pro), event_day (pro), event_month (pro), traffic_source (pro)</i> are sent as custom dimensions.</p>
                 <p>You can add other parameters when you configure the events.</p>
             </div>

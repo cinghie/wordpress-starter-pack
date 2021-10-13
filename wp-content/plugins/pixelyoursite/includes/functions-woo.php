@@ -39,6 +39,14 @@ function getWooProductPriceToDisplay( $product_id, $qty = 1 ) {
 		return 0;
 	}
 
+    // for Woo Discount Rules
+    if(method_exists('\Wdr\App\Controllers\ManageDiscount','calculateInitialAndDiscountedPrice')) {
+        $salePrice = \Wdr\App\Controllers\ManageDiscount::calculateInitialAndDiscountedPrice($product,$qty);
+        if(is_array($salePrice) && isset($salePrice['discounted_price'])) {
+            return $salePrice['discounted_price'];
+        }
+    }
+
 	if ( isWooCommerceVersionGte( '2.7' ) ) {
 
 		return (float) wc_get_price_to_display( $product, array( 'qty' => $qty ) );
@@ -50,7 +58,6 @@ function getWooProductPriceToDisplay( $product_id, $qty = 1 ) {
 			: $product->get_price_excluding_tax( $qty );
 
 	}
-
 }
 
 function getWooCartSubtotal() {
@@ -109,11 +116,7 @@ function getWooEventValue( $valueOption, $global, $percent, $product_id,$qty ) {
         return $value;
     }
 
-    if ( PYS()->getOption( 'woo_event_value' ) == 'custom' ) {
-        $amount = getWooProductPrice( $product_id, $qty );
-    } else {
-        $amount = getWooProductPriceToDisplay( $product_id, $qty );
-    }
+    $amount = getWooProductPriceToDisplay( $product_id, $qty );
 
     switch ( $valueOption ) {
         case 'global': $value = $global; break;
@@ -140,11 +143,7 @@ function getWooEventValue( $valueOption, $global, $percent, $product_id,$qty ) {
  */
 function getWooEventValueOrder( $valueOption, $order, $global, $percent = 100 ) {
 
-    if ( PYS()->getOption( 'woo_event_value' ) == 'custom' ) {
-        $amount = getWooOrderTotal( $order );
-    } else {
-        $amount = $order->get_total();
-    }
+    $amount = $order->get_total();
     switch ( $valueOption ) {
         case 'global':
             $value = (float) $global;
@@ -186,11 +185,7 @@ function getWooEventValueCart( $valueOption, $global, $percent = 100 ) {
     }
 
 
-    if ( PYS()->getOption( 'woo_event_value' ) == 'custom' ) {
-        $amount = getWooCartTotal();
-    } else {
-        $amount = $params['value'] = WC()->cart->subtotal;
-    }
+    $amount = $params['value'] = WC()->cart->subtotal;
 
     switch ( $valueOption ) {
         case 'global':
@@ -209,4 +204,22 @@ function getWooEventValueCart( $valueOption, $global, $percent = 100 ) {
     }
 
     return $value;
+}
+
+function wooGetOrderIdFromRequest() {
+    if(isset( $_REQUEST['key'] )  && $_REQUEST['key'] != "") {
+        $order_key = sanitize_key($_REQUEST['key']);
+        $order_id = (int) wc_get_order_id_by_order_key( $order_key );
+        return $order_id;
+    }
+    if(isset( $_REQUEST['referenceCode'] )  && $_REQUEST['referenceCode'] != "") {
+        return (int)$_REQUEST['referenceCode'];
+    }
+    if(isset( $_REQUEST['ref_venta'] )  && $_REQUEST['ref_venta'] != "") {
+        return (int)$_REQUEST['ref_venta'];
+    }
+    if(!empty($_REQUEST['wcf-order'])) {
+        return (int)$_REQUEST['wcf-order'];
+    }
+    return -1;
 }

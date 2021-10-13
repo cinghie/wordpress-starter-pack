@@ -27,41 +27,41 @@ if ( ! class_exists( 'WPPFM_Channel' ) ) :
 		public function __construct() {
 			// WPPFM_CHANNEL_RELATED
 			$this->_channels = array(
-				new Channel( '0', 'usersetup', 'Free User Setup' ),
-				new Channel( '1', 'google', 'Google Merchant Centre' ),
-				new Channel( '2', 'bing', 'Bing Merchant Centre' ),
-				new Channel( '3', 'beslis', 'Beslis.nl' ),
-				new Channel( '4', 'pricegrabber', 'PriceGrabber' ),
-				new Channel( '5', 'shopping', 'Shopping.com (eBay)' ),
-				new Channel( '6', 'amazon', 'Amazon product ads' ),
-				new Channel( '7', 'connexity', 'Connexity' ),
-				new Channel( '8', 'become', 'Become' ),
+				new Wppfm_Channel_Info( '0', 'usersetup', 'Free User Setup' ),
+				new Wppfm_Channel_Info( '1', 'google', 'Google Merchant Centre' ),
+				new Wppfm_Channel_Info( '2', 'bing', 'Bing Merchant Centre' ),
+				new Wppfm_Channel_Info( '3', 'beslis', 'Beslis.nl' ),
+				new Wppfm_Channel_Info( '4', 'pricegrabber', 'PriceGrabber' ),
+				new Wppfm_Channel_Info( '5', 'shopping', 'Shopping.com (eBay)' ),
+				new Wppfm_Channel_Info( '6', 'amazon', 'Amazon product ads' ),
+				new Wppfm_Channel_Info( '7', 'connexity', 'Connexity' ),
+				new Wppfm_Channel_Info( '8', 'become', 'Become' ),
 				// Become has been taken over by Connexity, https://merchants.become.com/DataFeedSpecification.html links to Connexity
-				new Channel( '9', 'nextag', 'Nextag' ),
-				new Channel( '10', 'kieskeurig', 'Kieskeurig.nl' ),
-				new Channel( '11', 'vergelijk', 'Vergelijk.nl' ),
-				new Channel( '12', 'koopjespakker', 'Koopjespakker.nl' ),
-				new Channel( '13', 'avantlink', 'AvantLink' ),
-				new Channel( '14', 'zbozi', 'Zbozi' ),
-				new Channel( '15', 'comcon', 'Commerce Connector' ),
-				new Channel( '16', 'facebook', 'Facebook' ),
-				new Channel( '17', 'bol', 'Bol.com' ),
-				new Channel( '18', 'adtraction', 'Adtraction' ),
-				new Channel( '19', 'ricardo', 'Ricardo.ch' ),
-				new Channel( '20', 'ebay', 'eBay' ),
-				new Channel( '21', 'shopzilla', 'Shopzilla' ),
-				new Channel( '22', 'converto', 'Converto' ),
-				new Channel( '23', 'idealo', 'Idealo' ),
-				new Channel( '24', 'heureka', 'Heureka' ),
-				new Channel( '25', 'pepperjam', 'Pepperjam' ),
-				new Channel( '26', 'galaxus_data', 'Galaxus Product Data' ),
-				new Channel( '27', 'galaxus_properties', 'Galaxus Product Properties' ),
-				new Channel( '28', 'galaxus_stock_pricing', 'Galaxus Product Stock Pricing' ),
-				new Channel( '29', 'vivino', 'Vivino' ),
-				new Channel( '996', 'marketingrobot_tsv', 'Custom TSV Export' ),
-				new Channel( '997', 'marketingrobot_txt', 'Custom TXT Export' ),
-				new Channel( '998', 'marketingrobot_csv', 'Custom CSV Export' ),
-				new Channel( '999', 'marketingrobot', 'Custom XML Export' ),
+				new Wppfm_Channel_Info( '9', 'nextag', 'Nextag' ),
+				new Wppfm_Channel_Info( '10', 'kieskeurig', 'Kieskeurig.nl' ),
+				new Wppfm_Channel_Info( '11', 'vergelijk', 'Vergelijk.nl' ),
+				new Wppfm_Channel_Info( '12', 'koopjespakker', 'Koopjespakker.nl' ),
+				new Wppfm_Channel_Info( '13', 'avantlink', 'AvantLink' ),
+				new Wppfm_Channel_Info( '14', 'zbozi', 'Zbozi' ),
+				new Wppfm_Channel_Info( '15', 'comcon', 'Commerce Connector' ),
+				new Wppfm_Channel_Info( '16', 'facebook', 'Facebook' ),
+				new Wppfm_Channel_Info( '17', 'bol', 'Bol.com' ),
+				new Wppfm_Channel_Info( '18', 'adtraction', 'Adtraction' ),
+				new Wppfm_Channel_Info( '19', 'ricardo', 'Ricardo.ch' ),
+				new Wppfm_Channel_Info( '20', 'ebay', 'eBay' ),
+				new Wppfm_Channel_Info( '21', 'shopzilla', 'Shopzilla' ),
+				new Wppfm_Channel_Info( '22', 'converto', 'Converto' ),
+				new Wppfm_Channel_Info( '23', 'idealo', 'Idealo' ),
+				new Wppfm_Channel_Info( '24', 'heureka', 'Heureka' ),
+				new Wppfm_Channel_Info( '25', 'pepperjam', 'Pepperjam' ),
+				new Wppfm_Channel_Info( '26', 'galaxus_data', 'Galaxus Product Data' ),
+				new Wppfm_Channel_Info( '27', 'galaxus_properties', 'Galaxus Product Properties' ),
+				new Wppfm_Channel_Info( '28', 'galaxus_stock_pricing', 'Galaxus Product Stock Pricing' ),
+				new Wppfm_Channel_Info( '29', 'vivino', 'Vivino' ),
+				new Wppfm_Channel_Info( '996', 'marketingrobot_tsv', 'Custom TSV Export' ),
+				new Wppfm_Channel_Info( '997', 'marketingrobot_txt', 'Custom TXT Export' ),
+				new Wppfm_Channel_Info( '998', 'marketingrobot_csv', 'Custom CSV Export' ),
+				new Wppfm_Channel_Info( '999', 'marketingrobot', 'Custom XML Export' ),
 			);
 		}
 
@@ -221,6 +221,36 @@ if ( ! class_exists( 'WPPFM_Channel' ) ) :
 			}
 		}
 
+		/**
+		 * Returns the name of the channel for a specific feed.
+		 *
+		 * @param string $feed_id The feed id.
+		 *
+		 * @since 2.20.0
+		 * @return string The name of the channel
+		 */
+		public function get_channel_name_from_feed_id( $feed_id ) {
+			$queries_class = new WPPFM_Queries();
+
+			$feed_data = $queries_class->get_feed_row( $feed_id );
+			return $this->get_channel_name( $feed_data->channel_id );
+		}
+
+		/**
+		 * Returns the short name of the channel for a specific feed.
+		 *
+		 * @param string $feed_id The feed id.
+		 *
+		 * @since 2.20.0
+		 * @return string The short name of the channel
+		 */
+		public function get_channel_short_name_from_feed_id( $feed_id ) {
+			$queries_class = new WPPFM_Queries();
+
+			$feed_data = $queries_class->get_feed_row( $feed_id );
+			return $this->get_channel_short_name( $feed_data->channel_id );
+		}
+
 		private function get_channel_file_version( $channel_name, $rerun_counter ) {
 			if ( $rerun_counter < 3 ) {
 				if ( class_exists( 'WPPFM_' . ucfirst( $channel_name ) . '_Feed_Class' ) ) {
@@ -356,7 +386,7 @@ if ( ! class_exists( 'WPPFM_Channel' ) ) :
 
 	// end of WPPFM_Channel class
 
-	class Channel {
+	class Wppfm_Channel_Info {
 		public $channel_id;
 		public $channel_short;
 		public $channel_name;
@@ -368,5 +398,5 @@ if ( ! class_exists( 'WPPFM_Channel' ) ) :
 		}
 	}
 
-	// end of Channel class
+	// end of Wppfm_Channel_Info class
 endif;

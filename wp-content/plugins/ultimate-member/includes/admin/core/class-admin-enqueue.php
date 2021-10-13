@@ -83,7 +83,12 @@ if ( ! class_exists( 'um\admin\core\Admin_Enqueue' ) ) {
 			add_action( 'load-post-new.php', array( &$this, 'enqueue_cpt_scripts' ) );
 			add_action( 'load-post.php', array( &$this, 'enqueue_cpt_scripts' ) );
 
-			add_filter( 'block_categories', array( &$this, 'blocks_category' ), 10, 2 );
+			global $wp_version;
+			if ( version_compare( $wp_version, '5.8', '>=' ) ) {
+				add_filter( 'block_categories_all', array( &$this, 'blocks_category' ), 10, 2 );
+			} else {
+				add_filter( 'block_categories', array( &$this, 'blocks_category' ), 10, 2 );
+			}
 		}
 
 
@@ -96,10 +101,10 @@ if ( ! class_exists( 'um\admin\core\Admin_Enqueue' ) ) {
 		 *
 		 */
 		function enqueue_cpt_scripts() {
-			if ( ( isset( $_GET['post_type'] ) && 'um_form' == sanitize_key( $_GET['post_type'] ) ) ||
-			     ( isset( $_GET['post'] ) && 'um_form' == get_post_type( absint( $_GET['post'] ) ) ) ) {
+			if ( ( isset( $_GET['post_type'] ) && 'um_form' === sanitize_key( $_GET['post_type'] ) ) ||
+			     ( isset( $_GET['post'] ) && 'um_form' === get_post_type( absint( $_GET['post'] ) ) ) ) {
 				$this->um_cpt_form_screen = true;
-				add_action( 'admin_footer',  array( $this, 'admin_footer_scripts' ), 20 );
+				add_action( 'admin_footer', array( $this, 'admin_footer_scripts' ), 20 );
 			}
 
 			$this->post_page = true;
@@ -120,9 +125,9 @@ if ( ! class_exists( 'um\admin\core\Admin_Enqueue' ) ) {
 			}
 
 
-			wp_register_script( 'select2', $this->front_js_baseurl . 'select2/select2.full.min.js', array( 'jquery', 'jquery-masonry' ), ultimatemember_version, true );
+			wp_register_script( 'select2', $this->front_js_baseurl . 'select2/select2.full' . $this->suffix . '.js', array( 'jquery', 'jquery-masonry' ), '4.0.13', true );
 			wp_register_script( 'um_jquery_form', $this->front_js_baseurl . 'um-jquery-form' . $this->suffix . '.js', array( 'jquery' ), ultimatemember_version, true );
-			wp_register_script( 'um_fileupload', $this->front_js_baseurl . 'um-fileupload' . $this->suffix . '.js', array( 'jquery' ), ultimatemember_version, true );
+			wp_register_script( 'um_fileupload', $this->front_js_baseurl . 'um-fileupload.js', array( 'jquery' ), ultimatemember_version, true );
 			wp_register_script( 'um_crop', $this->front_js_baseurl . 'um-crop' . $this->suffix . '.js', array( 'jquery' ), ultimatemember_version, true );
 			wp_register_script( 'um_tipsy', $this->front_js_baseurl . 'um-tipsy' . $this->suffix . '.js', array( 'jquery' ), ultimatemember_version, true );
 			wp_register_script( 'um_functions', $this->front_js_baseurl . 'um-functions' . $this->suffix . '.js', array( 'jquery', 'um_tipsy', 'um_scrollbar' ), ultimatemember_version, true );
@@ -146,7 +151,7 @@ if ( ! class_exists( 'um\admin\core\Admin_Enqueue' ) ) {
 			wp_register_script( 'um_modal', $this->front_js_baseurl . 'um-modal' . $this->suffix . '.js', array( 'um_responsive' ), ultimatemember_version, true );
 
 
-			wp_register_style( 'select2', $this->front_css_baseurl . 'select2/select2.min.css', array(), ultimatemember_version );
+			wp_register_style( 'select2', $this->front_css_baseurl . 'select2/select2' . $this->suffix . '.css', array(), '4.0.13' );
 			wp_register_style( 'um_datetime', $this->front_css_baseurl . 'pickadate/default.css', array(), ultimatemember_version );
 			wp_register_style( 'um_datetime_date', $this->front_css_baseurl . 'pickadate/default.date.css', array( 'um_datetime' ), ultimatemember_version );
 			wp_register_style( 'um_datetime_time', $this->front_css_baseurl . 'pickadate/default.time.css', array( 'um_datetime' ), ultimatemember_version );
@@ -279,7 +284,7 @@ if ( ! class_exists( 'um\admin\core\Admin_Enqueue' ) ) {
 		 * Field Processing
 		 */
 		function load_field() {
-			wp_register_script( 'um_admin_field', $this->js_url . 'um-admin-field.js', array('jquery', 'wp-util'), ultimatemember_version, true );
+			wp_register_script( 'um_admin_field', $this->js_url . 'um-admin-field.js', array('jquery', 'wp-util', 'wp-i18n'), ultimatemember_version, true );
 			wp_enqueue_script( 'um_admin_field' );
 		}
 
@@ -296,9 +301,9 @@ if ( ! class_exists( 'um\admin\core\Admin_Enqueue' ) ) {
 			//and WP calculate page height
 			$hide_footer = false;
 			global $pagenow, $post;
-			if ( ( 'post.php' == $pagenow || 'post-new.php' == $pagenow ) &&
-			     ( ( isset( $_GET['post_type'] ) && 'um_form' == sanitize_key( $_GET['post_type'] ) ) ||
-			       ( isset( $post->post_type ) && 'um_form' == $post->post_type ) ) ) {
+			if ( ( 'post.php' === $pagenow || 'post-new.php' === $pagenow ) &&
+			     ( ( isset( $_GET['post_type'] ) && 'um_form' === sanitize_key( $_GET['post_type'] ) ) ||
+			       ( isset( $post->post_type ) && 'um_form' === $post->post_type ) ) ) {
 				$hide_footer = true;
 			}
 
@@ -527,11 +532,11 @@ if ( ! class_exists( 'um\admin\core\Admin_Enqueue' ) ) {
 		 * Add Gutenberg category for UM shortcodes
 		 *
 		 * @param array $categories
-		 * @param $post
+		 * @param \WP_Block_Editor_Context $context
 		 *
 		 * @return array
 		 */
-		 function blocks_category( $categories, $post ) {
+		 function blocks_category( $categories, $context ) {
 			 $enable_blocks = UM()->options()->get( 'enable_blocks' );
 			 if ( empty( $enable_blocks ) ) {
 				 return $categories;

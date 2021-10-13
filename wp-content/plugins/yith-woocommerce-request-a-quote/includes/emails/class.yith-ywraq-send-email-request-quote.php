@@ -1,9 +1,9 @@
-<?php
+<?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
- * Implements features of YITH Woocommerce Request A Quote.
+ * Implements features of YITH WooCommerce Request A Quote.
  *
  * @class   YITH_YWRAQ_Send_Email_Request_Quote
- * @package YITH Woocommerce Request A Quote
+ * @package YITH WooCommerce Request A Quote
  * @since   1.0.0
  * @author  YITH
  */
@@ -33,8 +33,8 @@ if ( ! class_exists( 'YITH_YWRAQ_Send_Email_Request_Quote' ) ) {
 			$this->title       = __( 'Email to request a quote', 'yith-woocommerce-request-a-quote' );
 			$this->description = __( 'This email is sent when a user clicks on "Request a quote" button', 'yith-woocommerce-request-a-quote' );
 
-			$this->heading = __( 'Request a quote', 'yith-woocommerce-request-a-quote' );
-			$this->subject = __( '[Request a quote]', 'yith-woocommerce-request-a-quote' );
+			$this->heading = __( 'Quote request', 'yith-woocommerce-request-a-quote' );
+			$this->subject = __( '[Quote request]', 'yith-woocommerce-request-a-quote' );
 
 			$this->template_html  = 'emails/request-quote.php';
 			$this->template_plain = 'emails/plain/request-quote.php';
@@ -80,7 +80,7 @@ if ( ! class_exists( 'YITH_YWRAQ_Send_Email_Request_Quote' ) ) {
 
 			$return = $this->send( $recipients, $this->get_subject(), $this->get_content(), $this->get_headers(), $this->get_attachments() );
 
-			if ( $return ) {
+			if ( $return || apply_filters( 'ywraq_check_send_email_request_a_quote', false ) || defined( 'YWTENV_INIT' ) ) {
 				YITH_Request_Quote()->clear_raq_list();
 				yith_ywraq_add_notice( __( 'Your request has been sent successfully', 'yith-woocommerce-request-a-quote' ), 'success' );
 			} else {
@@ -95,15 +95,15 @@ if ( ! class_exists( 'YITH_YWRAQ_Send_Email_Request_Quote' ) ) {
 		 * @return string
 		 */
 		public function get_headers() {
-			$headers = "Reply-to: " . $this->raq['user_email'] . "\r\n";
+			$headers = 'Reply-to: ' . $this->raq['user_email'] . "\r\n";
 
 			if ( $this->enable_cc ) {
-				$headers .= "Cc: " . $this->raq['user_email'] . "\r\n";
+				$headers .= 'Cc: ' . $this->raq['user_email'] . "\r\n";
 			}
 
-			$headers .= "Content-Type: " . $this->get_content_type() . "\r\n";
+			$headers .= 'Content-Type: ' . $this->get_content_type() . "\r\n";
 
-			$obj = isset(  $this->object ) ?  $this->object : false;
+			$obj = isset( $this->object ) ? $this->object : false;
 
 			return apply_filters( 'woocommerce_email_headers', $headers, $this->id, $obj, $this );
 		}
@@ -124,8 +124,10 @@ if ( ! class_exists( 'YITH_YWRAQ_Send_Email_Request_Quote' ) ) {
 					'email_heading' => $this->get_heading(),
 					'sent_to_admin' => true,
 					'plain_text'    => false,
-					'email'         => $this
-				), '', $this->template_base
+					'email'         => $this,
+				),
+				'',
+				$this->template_base
 			);
 
 			return ob_get_clean();
@@ -147,8 +149,10 @@ if ( ! class_exists( 'YITH_YWRAQ_Send_Email_Request_Quote' ) ) {
 					'email_heading' => $this->get_heading(),
 					'sent_to_admin' => true,
 					'plain_text'    => false,
-					'email'             => $this
-				),'', $this->template_base
+					'email'         => $this,
+				),
+				'',
+				$this->template_base
 			);
 
 			return ob_get_clean();
@@ -157,7 +161,7 @@ if ( ! class_exists( 'YITH_YWRAQ_Send_Email_Request_Quote' ) ) {
 		/**
 		 * Get from name for email.
 		 *
-		 * @param $from_name string
+		 * @param string $from_name From Name.
 		 * @return string
 		 */
 		public function get_from_name( $from_name = '' ) {
@@ -169,7 +173,7 @@ if ( ! class_exists( 'YITH_YWRAQ_Send_Email_Request_Quote' ) ) {
 		/**
 		 * Get from email address.
 		 *
-		 * @param $from_email string
+		 * @param string $from_email From Email.
 		 * @return string
 		 */
 		public function get_from_address( $from_email = '' ) {
@@ -210,7 +214,7 @@ if ( ! class_exists( 'YITH_YWRAQ_Send_Email_Request_Quote' ) ) {
 				'subject'          => array(
 					'title'       => __( 'Subject', 'woocommerce' ),
 					'type'        => 'text',
-					/*translators: placeholder subject */
+					// translators: placeholder subject.
 					'description' => sprintf( __( 'This field lets you modify the email subject line. Leave it blank to use default subject: <code>%s</code>.', 'yith-woocommerce-request-a-quote' ), $this->subject ),
 					'placeholder' => '',
 					'default'     => '',
@@ -218,7 +222,7 @@ if ( ! class_exists( 'YITH_YWRAQ_Send_Email_Request_Quote' ) ) {
 				'recipient'        => array(
 					'title'       => __( 'Recipient(s)', 'yith-woocommerce-request-a-quote' ),
 					'type'        => 'text',
-					/*translators: placeholder default recipient */
+					// translators: placeholder default recipient.
 					'description' => sprintf( __( 'Enter recipients (comma separated) for this email. Defaults to <code>%s</code>', 'yith-woocommerce-request-a-quote' ), esc_attr( get_option( 'admin_email' ) ) ),
 					'placeholder' => '',
 					'default'     => '',
@@ -232,7 +236,7 @@ if ( ! class_exists( 'YITH_YWRAQ_Send_Email_Request_Quote' ) ) {
 				'heading'          => array(
 					'title'       => __( 'Email Heading', 'woocommerce' ),
 					'type'        => 'text',
-					/*translators: placeholder default email heading */
+					// translators: placeholder default email heading.
 					'description' => sprintf( __( 'This field lets you modify the main heading contained within the email notification. Leave blank to use the default heading: <code>%s</code>.', 'yith-woocommerce-request-a-quote' ), $this->heading ),
 					'placeholder' => '',
 					'default'     => '',

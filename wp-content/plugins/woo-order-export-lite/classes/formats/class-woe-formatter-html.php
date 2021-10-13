@@ -53,6 +53,9 @@ class WOE_Formatter_Html extends WOE_Formatter_Plain_Format {
 
 			$meta_encoding = apply_filters("woe_html_meta_encoding", '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />');
 		    fwrite( $this->handle, '<html><head>' . $meta_encoding . '<style type="text/css">'.$this->css['style'].$this->settings['custom_css'].'</style></head><body>' );
+
+			do_action( "woe_html_print_body_start", $this->handle, $this );
+
 		}
 
 		if ( ! empty( $this->settings['display_column_names'] ) AND $data ) {
@@ -177,6 +180,8 @@ class WOE_Formatter_Html extends WOE_Formatter_Plain_Format {
 			if ( $this->settings['footer_text'] ) {
 			    fwrite( $this->handle, '<div class="footer">' . $this->settings['footer_text'] . '</div>' );
 			}
+
+			do_action( "woe_html_print_body_end", $this->handle, $this );
 
 			fwrite( $this->handle, '</body></html>' );
 		}

@@ -214,45 +214,6 @@ $date_format          = __( 'M j, Y @ H:i', 'yith-essential-kit-for-woocommerce-
 							<p class="authors"><cite>By <a href="https://yithemes.com" target="_blank" title="plugin author YITH">YITH</a></cite></p>
 						</div>
 					</div>
-					<div class="plugin-card-bottom">
-						<div class="column-updated">
-							<strong><?php esc_html_e( 'Last Updated:', 'yith-essential-kit-for-woocommerce-1' ); ?></strong>
-							<span>
-								<?php printf( esc_html__( '%s ago', 'yith-essential-kit-for-woocommerce-1' ), esc_html( human_time_diff( strtotime( $module_updated ) ) ) ); ?>
-							</span>
-						</div>
-						<?php if ( isset( $module_rating ) ) : ?>
-							<div class="vers column-rating">
-								<?php
-								wp_star_rating(
-									array(
-										'rating' => $module_rating,
-										'type'   => 'percent',
-										'number' => $module_num_ratings,
-									)
-								);
-								?>
-								<span class="num-ratings">(<?php echo esc_html( number_format_i18n( $module_num_ratings ) ); ?>
-									)</span>
-							</div>
-							<div class="column-downloaded">
-								<?php
-								if ( $module_active_installs >= 1000000 ) {
-									$active_installs_text = esc_html_x( '1+ Million', 'Active plugin installs', 'yith-essential-kit-for-woocommerce-1' );
-								} else {
-									$active_installs_text = number_format_i18n( $module_active_installs ) . '+';
-								}
-
-								if ( $module_downloads >= 1000000 ) {
-									$download_text = esc_html_x( '1+ Million', 'Downloaded', 'yith-essential-kit-for-woocommerce-1' );
-								} else {
-									$download_text = number_format_i18n( $module_downloads ) . '+';
-								}
-								printf( esc_html__( '%1$s Download, %2$s Active Installs', 'yith-essential-kit-for-woocommerce-1' ), $download_text, $active_installs_text );
-								?>
-							</div>
-						<?php endif; ?>
-					</div>
 
 				</div>
 				<?php

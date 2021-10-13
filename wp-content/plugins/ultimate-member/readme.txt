@@ -6,8 +6,8 @@ Donate link:
 Tags: community, member, membership, user-profile, user-registration
 Requires PHP: 5.6
 Requires at least: 5.0
-Tested up to: 5.6
-Stable tag: 2.1.15
+Tested up to: 5.8
+Stable tag: 2.2.5
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -155,10 +155,212 @@ The plugin works with popular caching plugins by automatically excluding Ultimat
 * To learn more about version 2.1 please see this [docs](https://docs.ultimatemember.com/article/1512-upgrade-2-1-0)
 * UM2.1+ is a significant update to the Member Directories' code base from 2.0.x. Please make sure you take a full-site backup with restore point before updating the plugin
 
+= 2.2.5: September 22, 2021 =
+
+* Enhancements:
+
+  - Added: Ability to insert SoundCloud track URL instead of Track ID
+  - Added: Settings for the password min/max length (Ultimate Member > Settings > Users)
+
+* Bugfixes:
+
+  - Fixed: Invalid role keys on the role list-table + role edit screen (case when latin symbols used with not UTF-8 symbols)
+  - Fixed: Restriction logic and archive lists (+ nav menu bar) with active "Disable pre-queries for restriction content logic" option
+  - Fixed: Restriction settings fields conditions on wp-admin screens
+  - Fixed: Account `user_login` field validation removed as redundant. The field is disabled and not used in code flow
+  - Fixed: `display_name` data update after First + Last name fields edition on the Account page
+  - Fixed: Password length validation on the Account page and Password Reset page
+  - Fixed: Using custom fields from multi-select dropdowns for user's `Display Name`. Unserialized custom field's values
+
+= 2.2.4: August 27, 2021 =
+
+* Bugfixes:
+
+  - Fixed: Hiding comments feed for pages with active comments
+  - Fixed: Changing the post title to the restricted value while displaying in the loop that uses direct `post_title` variable
+  - Fixed: PHP errors related to not passed function attributes from 3rd-party plugins or themes when using WP native hooks
+  - Fixed: Handling the login form errors via \WP_Error
+
+= 2.2.3: August 25, 2021 =
+
+* Enhancements:
+
+  - Added: 'um_ignore_restricted_title' hook for workaround show post title of the restricted post
+  - Added: Disable pre-queries for restriction content logic ('disable_restriction_pre_queries') option for backward compatibility with business logic where 404 error for restricted content isn't a good way
+  - Added: Replace the restricted Post Title ('restricted_post_title_replace') option for ability to disable restricted post's title replace
+
+* Bugfixes:
+
+  - Fixed: `pre_get_terms` callback to avoid the conflicts with other terms queries
+  - Fixed: Terms query and global access settings on PHP8 installations
+  - Fixed: Member directory dropdown filters where options contain `&` symbol
+  - Fixed: Displaying 404 error for the restricted Media
+  - Fixed: Displaying 'Login as this user' action on the user profile
+  - Fixed: Sanitizing of the social links fields (e.g. Twitter, Facebook, etc.)
+  - Fixed: Visibility of a restricted taxonomy page in the nav menu
+  - Fixed: Sanitizing key for the drag&drop action
+  - Fixed: Sanitizing the description field with allowed HTML inside
+  - Fixed: The "Assignment to constant variable" JS error on some sites
+  - Fixed: Keep description formatting in a view mode
+  - Fixed: Profile form nonce handling, security enhancement
+  - Fixed: `um_edit_profile_url()`` function and added $user_id attribute
+  - Optimized: Restriction content handlers, avoid queries duplicates or unnecessary queries
+
+= 2.2.2: August 3, 2021 =
+
+* Bugfixes:
+
+  - Fixed: `is_restricted()` functions in class-access.php. Avoid using object as array offset
+
+= 2.2.1: August 2, 2021 =
+
+* Enhancements:
+
+  - Added: Extended callback functions for sanitizing data in wp-admin forms fields
+  - Added: Restricted Access Post Title setting
+
+* Bugfixes:
+
+  - Fixed: Restriction settings and related queries (comments, archives, recent posts, post navigation, etc.)
+  - Fixed: Sanitizing `max-width` value of the Login/Registration/Profile form settings
+  - Fixed: Sanitizing `in_group` field's data
+  - Fixed: Restriction settings related with `Hide in queries`
+  - Fixed: Restriction settings and CPU performance issues on some installations
+  - Fixed: Form meta settings and handling them on PHP8 installations
+  - Fixed: Make it clearer the restriction settings form labels
+
+= 2.2.0: July 20, 2021 =
+
+* Enhancements:
+
+  - Added: Sanitizing handlers to the Ultimate Member > Settings forms' fields
+  - Added: Sanitizing handlers to the Ultimate Member > User Role Add/Edit forms' fields
+  - Added: Sanitizing handlers to the Ultimate Member > Forms forms' fields
+  - Added: Sanitizing handlers to the Ultimate Member > Forms > Add Field/Edit Field forms' fields
+  - Added: Sanitizing handlers to the Ultimate Member > User Roles forms' fields
+  - Added: Sanitizing handlers to the Restriction Content forms' fields in the posts/pages/menus additional fields
+  - Added: Sanitizing handlers to the all (Login/Registration/Profile/Account) frontend forms' fields
+  - Added: Custom placeholder setting for the Confirm Password field
+
+* Bugfixes:
+
+  - Fixed: Content restriction settings using in Avada theme with active page headers
+  - Fixed: Content restriction (CPT + Terms). Avoid displaying comments if the post is restricted
+  - Fixed: Content restriction (CPT + Terms). Avoid displaying comments and posts feed
+  - Fixed: Content restriction (CPT + Terms). Displaying the proper count of the posts. Restricted are excluded
+  - Fixed: Saving and displaying settings on the UM > Settings > Access screen
+  - Fixed: Saving and displaying default Member Directory settings
+  - Fixed: Minor PHP warnings on registration data preview
+  - Fixed: Member directory slider filter-type query and results
+  - Fixed: Uploader filename displaying
+
+* Tweaks:
+
+  - WordPress 5.8 compatibility. Widgets screen changes based on the new features with Legacy Widget block
+
+* Templates required update:
+  - members.php
+  - password-reset.php
+
+* Cached and optimized/minified assets(JS/CSS) must be flushed/re-generated after upgrade
+
+= 2.1.21: June 17, 2021 =
+
+* Enhancements:
+  - Added: `um_scripts.max_upload_size` localized variable getting from `wp_max_upload_size()`
+  - Updated: dropdown.js library to make the stable working
+
+* Bugfixes:
+  - Fixed: Displaying different profile form shortcodes with different role visibility settings on the same page
+  - Fixed: Displaying avatar on the logout page
+  - Fixed: Role meta sanitizing and related XSS vulnerability
+
+* Templates required update:
+  - logout.php
+  - members.php
+  - members-list.php
+
+* Cached and optimized/minified assets(JS/CSS) must be flushed/re-generated after upgrade
+
+= 2.1.20: May 7, 2021 =
+
+* Enhancements:
+  - Added: Hook `um_registration_for_loggedin_users` to unlock the ability to add new users through the registration form
+  - Added: Filter hook 'um_change_usermeta_for_update' for extending `$to_update` usermeta array after all profile fields validations
+  - Added: Filter hook 'um_profile_tabs_privacy_list' and 'um_profile_menu_can_view_tab' for extending privacy options for Profile Tabs
+
+* Bugfixes:
+  - Fixed: XSS vulnerability when getting user profile URL
+  - Fixed: Temp directory size calculation
+
+= 2.1.19: April 20, 2021 =
+
+* Bugfixes:
+  - Fixed: Endless JS loop when filtering on Member Directory page
+
+= 2.1.18: April 19, 2021 =
+
+* Bugfixes:
+  - Fixed: Endless JS loop when filtering on Member Directory page
+  - Fixed: Regular expression for registration form and username field (added ability to use spaces) (#812)
+
+= 2.1.17: April 14, 2021 =
+
+* Enhancements:
+  - Added: Activation link expiration setting (#803)
+  - Added: 'Owner and specific roles' privacy type for the Profile tabs (#773)
+  - Added: Hooks `um_before_email_notification_sending` and `um_after_email_notification_sending` regarding #743 pull-request
+  - Added: Hooks for integration member directory filters with different conditions for query to DB
+
+* Bugfixes:
+  - Fixed: Editing private profiles capability. Removed the priority for "Can edit other member accounts?" capability when the account is private. (#805)
+  - Fixed: PHP notice when the admin filtering field has the not array default value (e.g. bool)
+  - Fixed: The conflict with [Disable Blog](https://wordpress.org/plugins/disable-blog/) plugin regarding this [issue](https://wordpress.org/support/topic/ultimate-member-file-image-download/). `download_routing` callback has the highest priority now.
+  - Fixed: Fields privacy functionality. This function `um_can_view_field()` has been rewritten (#780)
+  - Fixed: Fields privacy + form validation functionality. Skip the field's validation that aren't visible on the form based on the privacy settings (#795)
+  - Fixed: PHP notice in the confirm password label [wp.org thread](https://wordpress.org/support/topic/undefined-index-label-php-notice/)
+  - Fixed: Confirm password placeholder when label is empty
+  - Fixed: Permanently deleting form's field (#786)
+  - Fixed: Default value with comma for checkbox field-type (#729)
+  - Fixed: Gutenberg blocks conditional settings (#793)
+  - Fixed: Getting active Profile tab when some of them are hidden
+  - Fixed: Restricted content message is showing twice and removing header, avoid the conflicts with themes that use 'the_content' filter in header or footer (#799)
+  - Fixed: "Is required" validation for the multiselect field-type when it's empty on submit
+  - Fixed: Using 'wp_login_failed' hook, added 2nd parameter required since WordPress 5.4 version (#810)
+
+= 2.1.16: March 10, 2021 =
+
+* Enhancements:
+  - Added: General and role setting to avoid indexing users' profiles
+  - Added: `um_prepare_user_results_array_meta` hook and the 2nd argument for `um_prepare_user_results_array` hook for handle $user_ids based on getting members query
+  - Added: Change password email when the password has been reset
+  - Added: jQuery v3 compatibility
+  - Added: An option "Administrator" in a menu settings to make the menu visible for administrators only
+
+* Bugfixes:
+  - Fixed: Creating and removing usermeta data with `password_rst_attempts` key, just update if exists for now
+  - Fixed: Using 'edit_users' capability instead of 'manage_options' for approve|reject membership
+  - Fixed: Using 'manage_options' capability instead of 'delete_users' for switching between members
+  - Fixed: Using myCRED points metakeys in UM usermeta table
+  - Fixed: Empty icons are shown in the popup "Choose from... available icons"
+  - Fixed: Member Directory slider filter with NaN or decimal range
+  - Fixed: PHP notices and warnings
+  - Fixed: Security vulnerability with User Account page and password field
+  - Fixed: User creating without username but based on first+last name with not-ASCII symbols
+  - Fixed: Password reset hash generating more than 1 time
+  - Fixed: Random order type translation string on the member directory
+  - Fixed: Resize and compress images when uploading on User Profile images fields or user wall
+  - Fixed: Displaying more than 1 UM popups on the same page
+  - Fixed: UM dropdown.js position calculation
+  - Fixed: Select2 dropdown block position calculation
+
+* Tweaks:
+  - Updated: Select2 to 4.0.13 version
+
 = 2.1.15: December 24, 2020 =
 
 * Bugfixes:
-  - Fixed conditional logic for the form fields without metakeys
+  - Fixed: Conditional logic for the form fields without metakeys
 
 = 2.1.14: December 22, 2020 =
 

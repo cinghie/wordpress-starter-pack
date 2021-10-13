@@ -2,7 +2,7 @@
 /**
  * HTML Template Email
  *
- * @package YITH Woocommerce Request A Quote
+ * @package YITH WooCommerce Request A Quote
  * @version 1.5.3
  * @since   1.0.0
  * @author  YITH

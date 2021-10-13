@@ -265,7 +265,7 @@ class IS_Search_Form {
 			if ( '' !== $suggestion_box_bg_color ) { ?>
 				#is-ajax-search-result-<?php echo esc_attr( $post_id ); ?> .is-ajax-search-post,                        
 	            #is-ajax-search-result-<?php echo esc_attr( $post_id ); ?> .is-show-more-results,
-	            #is-ajax-search-details-<?php echo esc_attr( $post_id ); ?> .mCSB_container > div {
+	            #is-ajax-search-details-<?php echo esc_attr( $post_id ); ?> .is-ajax-search-items > div {
 					background-color: <?php echo esc_html( $suggestion_box_bg_color ); ?> !important;
 				}
             <?php

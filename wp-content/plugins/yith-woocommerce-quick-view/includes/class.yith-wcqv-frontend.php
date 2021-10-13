@@ -7,9 +7,7 @@
  * @version 1.1.1
  */
 
-if ( ! defined( 'YITH_WCQV' ) ) {
-	exit;
-} // Exit if accessed directly
+defined( 'YITH_WCQV' ) || exit; // Exit if accessed directly.
 
 if ( ! class_exists( 'YITH_WCQV_Frontend' ) ) {
 	/**
@@ -69,14 +67,13 @@ if ( ! class_exists( 'YITH_WCQV_Frontend' ) ) {
 			add_action( 'wp_ajax_yith_load_product_quick_view', array( $this, 'yith_load_product_quick_view_ajax' ) );
 			add_action( 'wp_ajax_nopriv_yith_load_product_quick_view', array( $this, 'yith_load_product_quick_view_ajax' ) );
 
-			add_action( 'woocommerce_after_shop_loop_item', array( $this, 'yith_add_quick_view_button' ), 15 );
-			add_action( 'yith_wcwl_table_after_product_name', array( $this, 'yith_add_quick_view_button' ), 15, 0 );
-
 			// Load modal template.
 			add_action( 'wp_footer', array( $this, 'yith_quick_view' ) );
 
 			// Load action for product template.
 			$this->yith_quick_view_action_template();
+			// Add quick view button.
+			add_action( 'init', array( $this, 'add_button' ) );
 
 			add_shortcode( 'yith_quick_view', array( $this, 'quick_view_shortcode' ) );
 			add_filter( 'woocommerce_add_to_cart_form_action', array( $this, 'avoid_redirect_to_single_page' ), 10, 1 );
@@ -142,6 +139,35 @@ if ( ! class_exists( 'YITH_WCQV_Frontend' ) ) {
 		}
 
 		/**
+		 * Add quick view button hooks
+		 *
+		 * @since 1.5.0
+		 * @author Francesco Licandro
+		 * @return void
+		 */
+		public function add_button() {
+			if ( $this->is_proteo_add_to_cart_hover() ) {
+				add_action( 'yith_proteo_products_loop_add_to_cart_actions', array( $this, 'yith_add_quick_view_button' ), 55 );
+			} else {
+				add_action( 'woocommerce_after_shop_loop_item', array( $this, 'yith_add_quick_view_button' ), 15 );
+			}
+
+			add_action( 'yith_wcwl_table_after_product_name', array( $this, 'add_quick_view_button_wishlist' ), 15 );
+		}
+
+
+		/**
+		 * Check if current theme is YITH Proteo and if the add to cart button is visible on image hover
+		 *
+		 * @since 1.6.7
+		 * @author Francesco Licandro
+		 * @return boolean
+		 */
+		public function is_proteo_add_to_cart_hover() {
+			return defined( 'YITH_PROTEO_VERSION' ) && 'hover' === get_theme_mod( 'yith_proteo_products_loop_add_to_cart_position', 'classic' );
+		}
+
+		/**
 		 * Add quick view button in wc product loop
 		 *
 		 * @access public
@@ -179,6 +205,20 @@ if ( ! class_exists( 'YITH_WCQV_Frontend' ) ) {
 			}
 
 			echo $button;  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
+
+		/**
+		 * Add quick view button in wishlist
+		 *
+		 * @since 1.5.1
+		 * @author Francesco Licandro
+		 * @param YITH_WCWL_Wishlist_Item $item THe wishlist item.
+		 * @return string|void
+		 */
+		public function add_quick_view_button_wishlist( $item ) {
+			if ( $item instanceof YITH_WCWL_Wishlist_Item ) {
+				$this->yith_add_quick_view_button( $item->get_product_id() );
+			}
 		}
 
 		/**
@@ -243,6 +283,7 @@ if ( ! class_exists( 'YITH_WCQV_Frontend' ) ) {
 			global $sitepress;
 
 			$product_id = intval( $_REQUEST['product_id'] );
+			$attributes = array();
 
 			/**
 			 * WPML Suppot:  Localize Ajax Call
@@ -257,16 +298,24 @@ if ( ! class_exists( 'YITH_WCQV_Frontend' ) ) {
 
 			// Remove product thumbnails gallery.
 			remove_action( 'woocommerce_product_thumbnails', 'woocommerce_show_product_thumbnails', 20 );
-
 			// Change template for variable products.
 			if ( isset( $GLOBALS['yith_wccl'] ) ) {
 				$GLOBALS['yith_wccl']->obj = new YITH_WCCL_Frontend();
 				$GLOBALS['yith_wccl']->obj->override();
+			} elseif ( defined( 'YITH_WCCL_PREMIUM' ) && YITH_WCCL_PREMIUM && class_exists( 'YITH_WCCL_Frontend' ) ) {
+				$attributes = YITH_WCCL_Frontend()->create_attributes_json( $product_id, true );
 			}
-
-			ob_start();
+						ob_start();
 			wc_get_template( 'yith-quick-view-content.php', array(), '', YITH_WCQV_DIR . 'templates/' );
-			echo ob_get_clean();  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			$html = ob_get_contents();  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			ob_end_clean();
+
+			wp_send_json(
+				array(
+					'html'      => $html,
+					'prod_attr' => $attributes,
+				)
+			);
 
 			die();
 			// phpcs:enable WordPress.Security.NonceVerification.Recommended
@@ -341,7 +390,7 @@ if ( ! class_exists( 'YITH_WCQV_Frontend' ) ) {
 				$atts
 			);
 
-			extract( $atts );
+			extract( $atts ); // phpcs:ignore
 
 			return $this->yith_add_quick_view_button( intval( $product_id ), $label, true );
 		}

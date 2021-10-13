@@ -1,11 +1,11 @@
 <?php
-/*
- * This file belongs to the YIT Framework.
+/**
+ * Brand description.
  *
- * This source file is subject to the GNU GENERAL PUBLIC LICENSE (GPL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://www.gnu.org/licenses/gpl-3.0.txt
+ * @author  Your Inspiration Themes
+ *
+ * @package YITH WooCommerce Brands
+ * @version 1.0.0
  */
 
 if ( ! defined( 'YITH_WCBR' ) ) {
@@ -15,7 +15,7 @@ if ( ! defined( 'YITH_WCBR' ) ) {
 global $product;
 ?>
 
-<?php if ( apply_filters( 'yith_wcbr_print_brand_description', true, $term ) ) : ?>
+<?php if ( apply_filters( 'yith_wcbr_print_brand_description', true, $p_term ) ) : ?>
 <div class="yith-wcbr-archive-header term-description">
 	<?php
 	if ( ! empty( $term_description ) ) {
@@ -24,4 +24,3 @@ global $product;
 	?>
 </div>
 <?php endif; ?>
-

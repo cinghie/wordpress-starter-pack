@@ -3,9 +3,9 @@ Contributors: ivorysearch, vinod dalvi
 Donate link: https://ivorysearch.com/pricing/
 Tags: search, woocommerce search, image search, ajax search, search shortcode, live search,  exclude from search, search widget, search menu, search plugin, custom search, search by post type, search by category, relevant search, search forms
 Requires at least: 3.9
-Tested up to: 5.6
+Tested up to: 5.8
 Requires PHP: 5.2.4
-Stable tag: 4.5.11
+Stable tag: 4.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,7 +46,8 @@ Feel free to ask it using [Contact Form](https://ivorysearch.com/contact/).
 <li> Exclude specific content from search results.</li>
 <li> Display Search Forms anywhere on your site.</li>
 <li> Supports multilingual search.</li>
-<li> Integrates with popular plugins such as WooCommerce, Polylang, bbPress, WPML etc.</li>
+<li> Multilingual Search supported by Weglot</li>
+<li> Integrates with popular plugins such as WooCommerce, Weglot, Polylang, bbPress, WPML etc.</li>
 </ul>
 
 ###AJAX Search or Live Search
@@ -193,35 +194,33 @@ Yes we do. We try our best to help free users with customisation requests and we
 
 == Changelog ==
 
-= 4.5.11 =
-* Fixed - Empty button accessibility issue.
+= 4.7 =
+* Fixed - IvoryAjaxVars is not defined error when JS file loading is disabled.
+* Fixed - Security issue.
 
-= 4.5.10 =
-* Fixed - Gutenberg editor issue "Update failed. The response is not a valid JSON response."
-* Fixed - Full width mobile header menu was not working.
-* Fixed - Was displaying search query value in all search form input fields.
-* Fixed - Search input field was dispalying rounded corners on iPhone.
-* Fixed - Keyword stemming was not working with Search All Terms option.
-* Improved - Escaped highlighted words in javascript.
+= 4.6.6 =
+* Fixed - JavaScript error "Invalid value used as weak map key" in the AJAX search.
 
-= 4.5.9 =
-* Fixed - Menu search options was not saving in older WP version than 5.5
+= 4.6.5 =
+* Improved - Implemented simple scroll bar for AJAX search results.
 
-= 4.5.8 =
-* Fixed - Draft posts were getting searched in the free plugin version.
+= 4.6.4 =
+* Fixed - AJAX was not working since last plugin version.
 
-= 4.5.7 =
-* Fixed - Menu dropdwon style search form issue.
-* Fixed - Search form post status option was not getting saved.
-* Fixed - Draft posts displaying in the search results.
-* Fixed - Warning : Product properties should not be accessed directly.
+= 4.6.3 =
+* Fixed - Notice displayed on creating new search form and in the plugin settings.
+* Fixed - Full width menu search opening and closing issue.
 
-= 4.5.6 =
-* Fixed - Search form label accessibility issue.
-* Fixed - Mobile menu search issue.
-* Fixed - Whole fuzzy matching option was not working with older version of mysql.
-* Fixed - Compatibility issue with WPForms plugin on saving search form.
-* Improved - Delayed execution of the plugin and essential plugin hooks.
+= 4.6.2 =
+* Fixed - Undefined tab index notice in admin area.
 
-= 4.5.5 =
-* Fixed - Latest jQuery version compatibility issue.
+= 4.6.1 =
+* Fixed - Broken AJAX search results scrollbar.
+* Fixed – Security issue in plugin settings (Thanks to Jinson Varghese Behanan from Astra Security).
+* Improved - Do not search special character stopwords.
+
+= 4.6 =
+* Fixed - AJAX search results was not scrolling on search form scroll.
+* Fixed - Stopwords was not excluding from search.
+* Fixed - Menu search icon accessibility issue.
+* Updated - Freemius SDK to 2.4.2

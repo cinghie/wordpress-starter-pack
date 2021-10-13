@@ -143,7 +143,7 @@ class Plugin {
 						$args       = $node;
 						$old_href   = $args->href;
 						$args->href = preg_replace( '/wp-admin\/$/', "$login_slug/", $old_href );
-						if ( $old_href !== $arg->href ) {
+						if ( $old_href !== $args->href ) {
 							$wp_admin_bar->add_node( $args );
 						}
 					} elseif ( strpos( $node->href, '/wp-admin/' ) !== false ) {
@@ -257,15 +257,16 @@ class Plugin {
 			     && strpos( $whl_page, 'wp-login' ) === false
 			     && ! in_array( $whl_page, $this->forbidden_slugs() ) ) {
 
+				flush_rewrite_rules( true );
 				update_site_option( 'whl_page', $whl_page );
-				flush_rewrite_rules();
+
 
 			}
 			if ( ( $whl_redirect_admin = sanitize_title_with_dashes( $_POST['whl_redirect_admin'] ) )
 			     && strpos( $whl_redirect_admin, '404' ) === false ) {
 
+				flush_rewrite_rules( true );
 				update_site_option( 'whl_redirect_admin', $whl_redirect_admin );
-				flush_rewrite_rules();
 
 			}
 		}
@@ -527,7 +528,7 @@ class Plugin {
 
 		if ( ! ( isset( $_GET['action'] ) && $_GET['action'] === 'postpass' && isset( $_POST['post_password'] ) ) ) {
 
-			if ( is_admin() && ! is_user_logged_in() && ! defined( 'DOING_AJAX' ) && $pagenow !== 'admin-post.php' && $request['path'] !== '/wp-admin/options.php' ) {
+			if ( is_admin() && ! is_user_logged_in() && ! defined( 'DOING_AJAX' ) && ! defined( 'DOING_CRON' ) && $pagenow !== 'admin-post.php' && $request['path'] !== '/wp-admin/options.php' ) {
 				wp_safe_redirect( $this->new_redirect_url() );
 				die();
 			}

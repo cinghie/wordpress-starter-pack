@@ -82,7 +82,7 @@ this["wc"] = this["wc"] || {}; this["wc"]["navigation"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 474);
+/******/ 	return __webpack_require__(__webpack_require__.s = 465);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -90,98 +90,18 @@ this["wc"] = this["wc"] || {}; this["wc"]["navigation"] =
 /***/ 0:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["element"]; }());
+(function() { module.exports = window["wp"]["element"]; }());
 
 /***/ }),
 
-/***/ 20:
-/***/ (function(module, exports, __webpack_require__) {
-
-var arrayWithoutHoles = __webpack_require__(57);
-
-var iterableToArray = __webpack_require__(58);
-
-var unsupportedIterableToArray = __webpack_require__(39);
-
-var nonIterableSpread = __webpack_require__(59);
-
-function _toConsumableArray(arr) {
-  return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
-}
-
-module.exports = _toConsumableArray;
-
-/***/ }),
-
-/***/ 22:
+/***/ 15:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["url"]; }());
+(function() { module.exports = window["wp"]["url"]; }());
 
 /***/ }),
 
-/***/ 3:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["lodash"]; }());
-
-/***/ }),
-
-/***/ 30:
-/***/ (function(module, exports) {
-
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    module.exports = _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-  } else {
-    module.exports = _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-module.exports = _typeof;
-
-/***/ }),
-
-/***/ 31:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Navigation; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return NavigationBackButton; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return NavigationGroup; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return NavigationMenu; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return NavigationItem; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return Text; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return useSlot; });
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__);
-/**
- * External dependencies
- */
-
-/**
- * Prioritize exports of non-experimental components over experimental.
- */
-
-var Navigation = _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["Navigation"] || _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["__experimentalNavigation"];
-var NavigationBackButton = _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["NavigationBackButton"] || _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["__experimentalNavigationBackButton"];
-var NavigationGroup = _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["NavigationGroup"] || _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["__experimentalNavigationGroup"];
-var NavigationMenu = _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["NavigationMenu"] || _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["__experimentalNavigationMenu"];
-var NavigationItem = _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["NavigationItem"] || _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["__experimentalNavigationItem"];
-var Text = _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["Text"] || _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["__experimentalText"];
-var useSlot = _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["useSlot"] || _wordpress_components__WEBPACK_IMPORTED_MODULE_0__["__experimentalUseSlot"];
-
-/***/ }),
-
-/***/ 32:
+/***/ 23:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -206,797 +126,29 @@ function _extends() {
 
 /***/ }),
 
-/***/ 37:
+/***/ 3:
 /***/ (function(module, exports) {
 
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
-
-module.exports = _arrayLikeToArray;
+(function() { module.exports = window["lodash"]; }());
 
 /***/ }),
 
-/***/ 39:
-/***/ (function(module, exports, __webpack_require__) {
-
-var arrayLikeToArray = __webpack_require__(37);
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray(o, minLen);
-}
-
-module.exports = _unsupportedIterableToArray;
-
-/***/ }),
-
-/***/ 4:
+/***/ 30:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["components"]; }());
+(function() { module.exports = window["wp"]["hooks"]; }());
 
 /***/ }),
 
-/***/ 42:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["hooks"]; }());
-
-/***/ }),
-
-/***/ 474:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "getHistory", function() { return /* reexport */ getHistory; });
-__webpack_require__.d(__webpack_exports__, "flattenFilters", function() { return /* reexport */ flattenFilters; });
-__webpack_require__.d(__webpack_exports__, "getActiveFiltersFromQuery", function() { return /* reexport */ getActiveFiltersFromQuery; });
-__webpack_require__.d(__webpack_exports__, "getDefaultOptionValue", function() { return /* reexport */ getDefaultOptionValue; });
-__webpack_require__.d(__webpack_exports__, "getQueryFromActiveFilters", function() { return /* reexport */ getQueryFromActiveFilters; });
-__webpack_require__.d(__webpack_exports__, "getUrlKey", function() { return /* reexport */ getUrlKey; });
-__webpack_require__.d(__webpack_exports__, "getPath", function() { return /* binding */ build_module_getPath; });
-__webpack_require__.d(__webpack_exports__, "getPersistedQuery", function() { return /* binding */ build_module_getPersistedQuery; });
-__webpack_require__.d(__webpack_exports__, "getQueryExcludedScreens", function() { return /* binding */ build_module_getQueryExcludedScreens; });
-__webpack_require__.d(__webpack_exports__, "getScreenFromPath", function() { return /* binding */ getScreenFromPath; });
-__webpack_require__.d(__webpack_exports__, "getIdsFromQuery", function() { return /* binding */ getIdsFromQuery; });
-__webpack_require__.d(__webpack_exports__, "getSearchWords", function() { return /* binding */ getSearchWords; });
-__webpack_require__.d(__webpack_exports__, "getNewPath", function() { return /* binding */ getNewPath; });
-__webpack_require__.d(__webpack_exports__, "getQuery", function() { return /* binding */ getQuery; });
-__webpack_require__.d(__webpack_exports__, "onQueryChange", function() { return /* binding */ onQueryChange; });
-__webpack_require__.d(__webpack_exports__, "updateQueryString", function() { return /* binding */ updateQueryString; });
-__webpack_require__.d(__webpack_exports__, "WooNavigationItem", function() { return /* binding */ build_module_WooNavigationItem; });
-__webpack_require__.d(__webpack_exports__, "NavSlotFillProvider", function() { return /* reexport */ external_this_wp_components_["SlotFillProvider"]; });
-__webpack_require__.d(__webpack_exports__, "useNavSlot", function() { return /* reexport */ build_module["g" /* useSlot */]; });
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/defineProperty.js
-var defineProperty = __webpack_require__(5);
-var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/typeof.js
-var helpers_typeof = __webpack_require__(30);
-var typeof_default = /*#__PURE__*/__webpack_require__.n(helpers_typeof);
-
-// EXTERNAL MODULE: external {"this":["wp","element"]}
-var external_this_wp_element_ = __webpack_require__(0);
-
-// EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(22);
-
-// EXTERNAL MODULE: ./node_modules/qs/lib/index.js
-var lib = __webpack_require__(50);
-
-// EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(3);
-
-// EXTERNAL MODULE: external {"this":["wp","hooks"]}
-var external_this_wp_hooks_ = __webpack_require__(42);
-
-// EXTERNAL MODULE: external {"this":["wp","components"]}
-var external_this_wp_components_ = __webpack_require__(4);
-
-// EXTERNAL MODULE: ./node_modules/history/esm/history.js + 2 modules
-var esm_history = __webpack_require__(70);
-
-// CONCATENATED MODULE: ./packages/navigation/build-module/history.js
-
-
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    if (enumerableOnly) symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    });
-    keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        defineProperty_default()(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
-}
-/**
- * External dependencies
- */
-
-
-
- // See https://github.com/ReactTraining/react-router/blob/master/FAQ.md#how-do-i-access-the-history-object-outside-of-components
-
-var _history;
-/**
- * Recreate `history` to coerce React Router into accepting path arguments found in query
- * parameter `path`, allowing a url hash to be avoided. Since hash portions of the url are
- * not sent server side, full route information can be detected by the server.
- *
- * `<Router />` and `<Switch />` components use `history.location()` to match a url with a route.
- * Since they don't parse query arguments, recreate `get location` to return a `pathname` with the
- * query path argument's value.
- *
- * @return {Object} React-router history object with `get location` modified.
- */
-
-
-function getHistory() {
-  if (!_history) {
-    var path = document.location.pathname;
-    var browserHistory = Object(esm_history["a" /* createBrowserHistory */])({
-      basename: path.substring(0, path.lastIndexOf('/'))
-    });
-    _history = {
-      get length() {
-        return browserHistory.length;
-      },
-
-      get action() {
-        return browserHistory.action;
-      },
-
-      get location() {
-        var location = browserHistory.location;
-        var query = Object(lib["parse"])(location.search.substring(1));
-        var pathname = query.path || '/';
-        return _objectSpread(_objectSpread({}, location), {}, {
-          pathname: pathname
-        });
-      },
-
-      createHref: function createHref() {
-        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-          args[_key] = arguments[_key];
-        }
-
-        return browserHistory.createHref.apply(browserHistory, args);
-      },
-      push: function push() {
-        for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-          args[_key2] = arguments[_key2];
-        }
-
-        return browserHistory.push.apply(browserHistory, args);
-      },
-      replace: function replace() {
-        for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-          args[_key3] = arguments[_key3];
-        }
-
-        return browserHistory.replace.apply(browserHistory, args);
-      },
-      go: function go() {
-        for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-          args[_key4] = arguments[_key4];
-        }
-
-        return browserHistory.go.apply(browserHistory, args);
-      },
-      goBack: function goBack() {
-        for (var _len5 = arguments.length, args = new Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
-          args[_key5] = arguments[_key5];
-        }
-
-        return browserHistory.goBack.apply(browserHistory, args);
-      },
-      goForward: function goForward() {
-        for (var _len6 = arguments.length, args = new Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
-          args[_key6] = arguments[_key6];
-        }
-
-        return browserHistory.goForward.apply(browserHistory, args);
-      },
-      block: function block() {
-        for (var _len7 = arguments.length, args = new Array(_len7), _key7 = 0; _key7 < _len7; _key7++) {
-          args[_key7] = arguments[_key7];
-        }
-
-        return browserHistory.block.apply(browserHistory, args);
-      },
-      listen: function listen(listener) {
-        var _this = this;
-
-        return browserHistory.listen(function () {
-          listener(_this.location, _this.action);
-        });
-      }
-    };
-  }
-
-  return _history;
-}
-
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/toConsumableArray.js
-var toConsumableArray = __webpack_require__(20);
-var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray);
-
-// CONCATENATED MODULE: ./packages/navigation/build-module/filters.js
-
-
-
-function filters_ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    if (enumerableOnly) symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    });
-    keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function filters_objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      filters_ownKeys(Object(source), true).forEach(function (key) {
-        defineProperty_default()(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      filters_ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
-}
-/**
- * External dependencies
- */
-
-
-
-/**
- * Collapse an array of filter values with subFilters into a 1-dimensional array.
- *
- * @param {Array} filters Set of filters with possible subfilters.
- * @return {Array} Flattened array of all filters.
- */
-
-function flattenFilters(filters) {
-  var allFilters = [];
-  filters.forEach(function (f) {
-    if (!f.subFilters) {
-      allFilters.push(f);
-    } else {
-      allFilters.push(Object(external_lodash_["omit"])(f, 'subFilters'));
-      var subFilters = flattenFilters(f.subFilters);
-      allFilters.push.apply(allFilters, toConsumableArray_default()(subFilters));
-    }
-  });
-  return allFilters;
-}
-/**
- * Describe activeFilter object.
- *
- * @typedef {Object} activeFilter
- * @property {string} key - filter key.
- * @property {string} [rule] - a modifying rule for a filter, eg 'includes' or 'is_not'.
- * @property {string} value - filter value(s).
- */
-
-/**
- * Given a query object, return an array of activeFilters, if any.
- *
- * @param {Object} query - query oject
- * @param {Object} config - config object
- * @return {Array} - array of activeFilters
- */
-
-function getActiveFiltersFromQuery(query, config) {
-  return Object.keys(config).reduce(function (activeFilters, configKey) {
-    var filter = config[configKey];
-
-    if (filter.rules) {
-      // Get all rules found in the query string.
-      var matches = filter.rules.filter(function (rule) {
-        return query.hasOwnProperty(getUrlKey(configKey, rule.value));
-      });
-
-      if (matches.length) {
-        if (filter.allowMultiple) {
-          // If rules were found in the query string, and this filter supports
-          // multiple instances, add all matches to the active filters array.
-          matches.forEach(function (match) {
-            var value = query[getUrlKey(configKey, match.value)];
-            value.forEach(function (filterValue) {
-              activeFilters.push({
-                key: configKey,
-                rule: match.value,
-                value: filterValue
-              });
-            });
-          });
-        } else {
-          // If the filter is a single instance, just process the first rule match.
-          var value = query[getUrlKey(configKey, matches[0].value)];
-          activeFilters.push({
-            key: configKey,
-            rule: matches[0].value,
-            value: value
-          });
-        }
-      }
-    } else if (query[configKey]) {
-      // If the filter doesn't have rules, but allows multiples.
-      if (filter.allowMultiple) {
-        var _value = query[configKey];
-
-        _value.forEach(function (filterValue) {
-          activeFilters.push({
-            key: configKey,
-            value: filterValue
-          });
-        });
-      } else {
-        // Filter with no rules and only one instance.
-        activeFilters.push({
-          key: configKey,
-          value: query[configKey]
-        });
-      }
-    }
-
-    return activeFilters;
-  }, []);
-}
-/**
- * Get the default option's value from the configuration object for a given filter. The first
- * option is used as default if no `defaultOption` is provided.
- *
- * @param {Object} config - a filter config object.
- * @param {Array} options - select options.
- * @return {string|undefined}  - the value of the default option.
- */
-
-function getDefaultOptionValue(config, options) {
-  var defaultOption = config.input.defaultOption;
-
-  if (config.input.defaultOption) {
-    var option = Object(external_lodash_["find"])(options, {
-      value: defaultOption
-    });
-
-    if (!option) {
-      /* eslint-disable no-console */
-      console.warn("invalid defaultOption ".concat(defaultOption, " supplied to ").concat(config.labels.add));
-      /* eslint-enable */
-
-      return undefined;
-    }
-
-    return option.value;
-  }
-
-  return Object(external_lodash_["get"])(options, [0, 'value']);
-}
-/**
- * Given activeFilters, create a new query object to update the url. Use previousFilters to
- * Remove unused params.
- *
- * @param {Array} activeFilters - Array of activeFilters shown in the UI
- * @param {Object} query - the current url query object
- * @param {Object} config - config object
- * @return {Object} - query object representing the new parameters
- */
-
-function getQueryFromActiveFilters(activeFilters, query, config) {
-  var previousFilters = getActiveFiltersFromQuery(query, config);
-  var previousData = previousFilters.reduce(function (data, filter) {
-    data[getUrlKey(filter.key, filter.rule)] = undefined;
-    return data;
-  }, {});
-  var nextData = activeFilters.reduce(function (data, filter) {
-    if (filter.rule === 'between' && (!Array.isArray(filter.value) || filter.value.some(function (value) {
-      return !value;
-    }))) {
-      return data;
-    }
-
-    if (filter.value) {
-      var urlKey = getUrlKey(filter.key, filter.rule);
-
-      if (config[filter.key] && config[filter.key].allowMultiple) {
-        if (!data.hasOwnProperty(urlKey)) {
-          data[urlKey] = [];
-        }
-
-        data[urlKey].push(filter.value);
-      } else {
-        data[urlKey] = filter.value;
-      }
-    }
-
-    return data;
-  }, {});
-  return filters_objectSpread(filters_objectSpread({}, previousData), nextData);
-}
-/**
- * Get the url query key from the filter key and rule.
- *
- * @param {string} key - filter key.
- * @param {string} rule - filter rule.
- * @return {string} - url query key.
- */
-
-function getUrlKey(key, rule) {
-  if (rule && rule.length) {
-    return "".concat(key, "_").concat(rule);
-  }
-
-  return key;
-}
-// EXTERNAL MODULE: ./packages/experimental/build-module/index.js
-var build_module = __webpack_require__(31);
-
-// CONCATENATED MODULE: ./packages/navigation/build-module/index.js
-
-
-
-
-function build_module_ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    if (enumerableOnly) symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    });
-    keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function build_module_objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      build_module_ownKeys(Object(source), true).forEach(function (key) {
-        defineProperty_default()(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      build_module_ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
-}
-/**
- * External dependencies
- */
-
-
-
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
- // For the above, import the module into itself. Functions consumed from this import can be mocked in tests.
-// Expose history so all uses get the same history object.
-
- // Export all filter utilities
-
-
-var TIME_EXCLUDED_SCREENS_FILTER = 'woocommerce_admin_time_excluded_screens';
-/**
- * Get the current path from history.
- *
- * @return {string}  Current path.
- */
-
-var build_module_getPath = function getPath() {
-  return getHistory().location.pathname;
-};
-/**
- * Gets query parameters that should persist between screens or updates
- * to reports, such as filtering.
- *
- * @param {Object} query Query containing the parameters.
- * @return {Object} Object containing the persisted queries.
- */
-
-var build_module_getPersistedQuery = function getPersistedQuery() {
-  var query = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : getQuery();
-  var params = Object(external_this_wp_hooks_["applyFilters"])('woocommerce_admin_persisted_queries', ['period', 'compare', 'before', 'after', 'interval', 'type']);
-  return Object(external_lodash_["pick"])(query, params);
-};
-/**
- * Get array of screens that should ignore persisted queries
- *
- * @return {Array} Array containing list of screens
- */
-
-var build_module_getQueryExcludedScreens = function getQueryExcludedScreens() {
-  return Object(external_this_wp_hooks_["applyFilters"])(TIME_EXCLUDED_SCREENS_FILTER, ['stock', 'settings', 'customers', 'homescreen']);
-};
-/**
- * Retrieve a string 'name' representing the current screen
- *
- * @param {Object} path Path to resolve, default to current
- * @return {string} Screen name
- */
-
-var getScreenFromPath = function getScreenFromPath() {
-  var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : build_module_getPath();
-  return path === '/' ? 'homescreen' : path.replace('/analytics', '').replace('/', '');
-};
-/**
- * Get an array of IDs from a comma-separated query parameter.
- *
- * @param {string} queryString string value extracted from URL.
- * @return {Array} List of IDs converted to numbers.
- */
-
-function getIdsFromQuery() {
-  var queryString = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-  return Object(external_lodash_["uniq"])(queryString.split(',').map(function (id) {
-    return parseInt(id, 10);
-  }).filter(Boolean));
-}
-/**
- * Get an array of searched words given a query.
- *
- * @param {Object} query Query object.
- * @return {Array} List of search words.
- */
-
-function getSearchWords() {
-  var query = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : getQuery();
-
-  if (typeof_default()(query) !== 'object') {
-    throw new Error('Invalid parameter passed to getSearchWords, it expects an object or no parameters.');
-  }
-
-  var search = query.search;
-
-  if (!search) {
-    return [];
-  }
-
-  if (typeof search !== 'string') {
-    throw new Error("Invalid 'search' type. getSearchWords expects query's 'search' property to be a string.");
-  }
-
-  return search.split(',').map(function (searchWord) {
-    return searchWord.replace('%2C', ',');
-  });
-}
-/**
- * Return a URL with set query parameters.
- *
- * @param {Object} query object of params to be updated.
- * @param {string} path Relative path (defaults to current path).
- * @param {Object} currentQuery object of current query params (defaults to current querystring).
- * @param {string} page Page key (defaults to "wc-admin")
- * @return {string}  Updated URL merging query params into existing params.
- */
-
-function getNewPath(query) {
-  var path = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : build_module_getPath();
-  var currentQuery = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : getQuery();
-  var page = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'wc-admin';
-
-  var args = build_module_objectSpread(build_module_objectSpread({
-    page: page
-  }, currentQuery), query);
-
-  if (path !== '/') {
-    args.path = path;
-  }
-
-  return Object(external_this_wp_url_["addQueryArgs"])('admin.php', args);
-}
-/**
- * Get the current query string, parsed into an object, from history.
- *
- * @return {Object}  Current query object, defaults to empty object.
- */
-
-function getQuery() {
-  var search = getHistory().location.search;
-
-  if (search.length) {
-    return Object(lib["parse"])(search.substring(1)) || {};
-  }
-
-  return {};
-}
-/**
- * This function returns an event handler for the given `param`
- *
- * @param {string} param The parameter in the querystring which should be updated (ex `page`, `per_page`)
- * @param {string} path Relative path (defaults to current path).
- * @param {string} query object of current query params (defaults to current querystring).
- * @return {Function} A callback which will update `param` to the passed value when called.
- */
-
-function onQueryChange(param) {
-  var path = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : build_module_getPath();
-  var query = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : getQuery();
-
-  switch (param) {
-    case 'sort':
-      return function (key, dir) {
-        return updateQueryString({
-          orderby: key,
-          order: dir
-        }, path, query);
-      };
-
-    case 'compare':
-      return function (key, queryParam, ids) {
-        var _updateQueryString;
-
-        return updateQueryString((_updateQueryString = {}, defineProperty_default()(_updateQueryString, queryParam, "compare-".concat(key)), defineProperty_default()(_updateQueryString, key, ids), defineProperty_default()(_updateQueryString, "search", undefined), _updateQueryString), path, query);
-      };
-
-    default:
-      return function (value) {
-        return updateQueryString(defineProperty_default()({}, param, value), path, query);
-      };
-  }
-}
-/**
- * Updates the query parameters of the current page.
- *
- * @param {Object} query object of params to be updated.
- * @param {string} path Relative path (defaults to current path).
- * @param {Object} currentQuery object of current query params (defaults to current querystring).
- * @param {string} page Page key (defaults to "wc-admin")
- */
-
-function updateQueryString(query) {
-  var path = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : build_module_getPath();
-  var currentQuery = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : getQuery();
-  var page = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'wc-admin';
-  var newPath = getNewPath(query, path, currentQuery, page);
-  getHistory().push(newPath);
-}
-/**
- * Create a Fill for extensions to add client facing custom Navigation Items.
- *
- * @param {Object} param0
- * @param {Array} param0.children - Node children.
- * @param {string} param0.item - Navigation item slug.
- */
-
-var build_module_WooNavigationItem = function WooNavigationItem(_ref) {
-  var children = _ref.children,
-      item = _ref.item;
-  return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Fill"], {
-    name: 'woocommerce_navigation_' + item
-  }, children);
-};
-
-build_module_WooNavigationItem.Slot = function (_ref2) {
-  var name = _ref2.name;
-  return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Slot"], {
-    name: 'woocommerce_navigation_' + name
-  });
-};
-/**
- * Export @wordpress/components SlotFillProvider so that Slots, Fills, and useSlot
- * have access to the same context.
- *
- * This is a workaround because components exported from this package do not have
- * the same `context` as those created in the /client folder. This problem is due
- * to WC Admin bundling @wordpress/components instead of enqueuing and using
- * wp.components from the window.
- */
-
-
-
-/**
- * Similar to NavSlotFillProvider above, this is a workaround because components
- * exported from this package do not have the same `context` as those created
- * in the /client folder. This problem is due to WC Admin bundling @wordpress/components
- * instead of enqueuing and using wp.components from the window.
- */
-
-
-
-/***/ }),
-
-/***/ 5:
-/***/ (function(module, exports) {
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-module.exports = _defineProperty;
-
-/***/ }),
-
-/***/ 50:
+/***/ 32:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var stringify = __webpack_require__(87);
-var parse = __webpack_require__(88);
-var formats = __webpack_require__(52);
+var stringify = __webpack_require__(67);
+var parse = __webpack_require__(68);
+var formats = __webpack_require__(39);
 
 module.exports = {
     formats: formats,
@@ -1007,7 +159,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 52:
+/***/ 39:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1038,7 +190,14 @@ module.exports = {
 
 /***/ }),
 
-/***/ 56:
+/***/ 4:
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["components"]; }());
+
+/***/ }),
+
+/***/ 41:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1059,48 +218,589 @@ function invariant(condition, message) {
 
 /***/ }),
 
-/***/ 57:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 465:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var arrayLikeToArray = __webpack_require__(37);
+"use strict";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
 
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return arrayLikeToArray(arr);
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "getHistory", function() { return /* reexport */ getHistory; });
+__webpack_require__.d(__webpack_exports__, "flattenFilters", function() { return /* reexport */ flattenFilters; });
+__webpack_require__.d(__webpack_exports__, "getActiveFiltersFromQuery", function() { return /* reexport */ getActiveFiltersFromQuery; });
+__webpack_require__.d(__webpack_exports__, "getDefaultOptionValue", function() { return /* reexport */ getDefaultOptionValue; });
+__webpack_require__.d(__webpack_exports__, "getQueryFromActiveFilters", function() { return /* reexport */ getQueryFromActiveFilters; });
+__webpack_require__.d(__webpack_exports__, "getUrlKey", function() { return /* reexport */ getUrlKey; });
+__webpack_require__.d(__webpack_exports__, "getPath", function() { return /* binding */ getPath; });
+__webpack_require__.d(__webpack_exports__, "getPersistedQuery", function() { return /* binding */ getPersistedQuery; });
+__webpack_require__.d(__webpack_exports__, "getQueryExcludedScreens", function() { return /* binding */ getQueryExcludedScreens; });
+__webpack_require__.d(__webpack_exports__, "pathIsExcluded", function() { return /* binding */ pathIsExcluded; });
+__webpack_require__.d(__webpack_exports__, "getScreenFromPath", function() { return /* binding */ getScreenFromPath; });
+__webpack_require__.d(__webpack_exports__, "getIdsFromQuery", function() { return /* binding */ getIdsFromQuery; });
+__webpack_require__.d(__webpack_exports__, "getSetOfIdsFromQuery", function() { return /* binding */ getSetOfIdsFromQuery; });
+__webpack_require__.d(__webpack_exports__, "getSearchWords", function() { return /* binding */ getSearchWords; });
+__webpack_require__.d(__webpack_exports__, "getNewPath", function() { return /* binding */ getNewPath; });
+__webpack_require__.d(__webpack_exports__, "getQuery", function() { return /* binding */ getQuery; });
+__webpack_require__.d(__webpack_exports__, "onQueryChange", function() { return /* binding */ onQueryChange; });
+__webpack_require__.d(__webpack_exports__, "updateQueryString", function() { return /* binding */ updateQueryString; });
+__webpack_require__.d(__webpack_exports__, "addHistoryListener", function() { return /* binding */ addHistoryListener; });
+__webpack_require__.d(__webpack_exports__, "WooNavigationItem", function() { return /* binding */ WooNavigationItem; });
+
+// EXTERNAL MODULE: external ["wp","element"]
+var external_wp_element_ = __webpack_require__(0);
+
+// EXTERNAL MODULE: external ["wp","url"]
+var external_wp_url_ = __webpack_require__(15);
+
+// EXTERNAL MODULE: ./node_modules/qs/lib/index.js
+var lib = __webpack_require__(32);
+
+// EXTERNAL MODULE: external "lodash"
+var external_lodash_ = __webpack_require__(3);
+
+// EXTERNAL MODULE: external ["wp","hooks"]
+var external_wp_hooks_ = __webpack_require__(30);
+
+// EXTERNAL MODULE: external ["wp","components"]
+var external_wp_components_ = __webpack_require__(4);
+
+// EXTERNAL MODULE: ./node_modules/history/esm/history.js + 2 modules
+var esm_history = __webpack_require__(52);
+
+// CONCATENATED MODULE: ./packages/navigation/build-module/history.js
+/**
+ * External dependencies
+ */
+
+ // See https://github.com/ReactTraining/react-router/blob/master/FAQ.md#how-do-i-access-the-history-object-outside-of-components
+
+let _history;
+/**
+ * Recreate `history` to coerce React Router into accepting path arguments found in query
+ * parameter `path`, allowing a url hash to be avoided. Since hash portions of the url are
+ * not sent server side, full route information can be detected by the server.
+ *
+ * `<Router />` and `<Switch />` components use `history.location()` to match a url with a route.
+ * Since they don't parse query arguments, recreate `get location` to return a `pathname` with the
+ * query path argument's value.
+ *
+ * @return {Object} React-router history object with `get location` modified.
+ */
+
+
+function getHistory() {
+  if (!_history) {
+    const path = document.location.pathname;
+    const browserHistory = Object(esm_history["a" /* createBrowserHistory */])({
+      basename: path.substring(0, path.lastIndexOf('/'))
+    });
+    _history = {
+      get length() {
+        return browserHistory.length;
+      },
+
+      get action() {
+        return browserHistory.action;
+      },
+
+      get location() {
+        const {
+          location
+        } = browserHistory;
+        const query = Object(lib["parse"])(location.search.substring(1));
+        const pathname = query.path || '/';
+        return { ...location,
+          pathname
+        };
+      },
+
+      createHref: (...args) => browserHistory.createHref.apply(browserHistory, args),
+      push: (...args) => browserHistory.push.apply(browserHistory, args),
+      replace: (...args) => browserHistory.replace.apply(browserHistory, args),
+      go: (...args) => browserHistory.go.apply(browserHistory, args),
+      goBack: (...args) => browserHistory.goBack.apply(browserHistory, args),
+      goForward: (...args) => browserHistory.goForward.apply(browserHistory, args),
+      block: (...args) => browserHistory.block.apply(browserHistory, args),
+
+      listen(listener) {
+        return browserHistory.listen(() => {
+          listener(this.location, this.action);
+        });
+      }
+
+    };
+  }
+
+  return _history;
 }
 
-module.exports = _arrayWithoutHoles;
+
+// CONCATENATED MODULE: ./packages/navigation/build-module/filters.js
+/**
+ * External dependencies
+ */
+
+/**
+ * Collapse an array of filter values with subFilters into a 1-dimensional array.
+ *
+ * @param {Array} filters Set of filters with possible subfilters.
+ * @return {Array} Flattened array of all filters.
+ */
+
+function flattenFilters(filters) {
+  const allFilters = [];
+  filters.forEach(f => {
+    if (!f.subFilters) {
+      allFilters.push(f);
+    } else {
+      allFilters.push(Object(external_lodash_["omit"])(f, 'subFilters'));
+      const subFilters = flattenFilters(f.subFilters);
+      allFilters.push(...subFilters);
+    }
+  });
+  return allFilters;
+}
+/**
+ * Describe activeFilter object.
+ *
+ * @typedef {Object} activeFilter
+ * @property {string} key - filter key.
+ * @property {string} [rule] - a modifying rule for a filter, eg 'includes' or 'is_not'.
+ * @property {string} value - filter value(s).
+ */
+
+/**
+ * Given a query object, return an array of activeFilters, if any.
+ *
+ * @param {Object} query - query oject
+ * @param {Object} config - config object
+ * @return {Array} - array of activeFilters
+ */
+
+function getActiveFiltersFromQuery(query, config) {
+  return Object.keys(config).reduce((activeFilters, configKey) => {
+    const filter = config[configKey];
+
+    if (filter.rules) {
+      // Get all rules found in the query string.
+      const matches = filter.rules.filter(rule => query.hasOwnProperty(getUrlKey(configKey, rule.value)));
+
+      if (matches.length) {
+        if (filter.allowMultiple) {
+          // If rules were found in the query string, and this filter supports
+          // multiple instances, add all matches to the active filters array.
+          matches.forEach(match => {
+            const value = query[getUrlKey(configKey, match.value)];
+            value.forEach(filterValue => {
+              activeFilters.push({
+                key: configKey,
+                rule: match.value,
+                value: filterValue
+              });
+            });
+          });
+        } else {
+          // If the filter is a single instance, just process the first rule match.
+          const value = query[getUrlKey(configKey, matches[0].value)];
+          activeFilters.push({
+            key: configKey,
+            rule: matches[0].value,
+            value
+          });
+        }
+      }
+    } else if (query[configKey]) {
+      // If the filter doesn't have rules, but allows multiples.
+      if (filter.allowMultiple) {
+        const value = query[configKey];
+        value.forEach(filterValue => {
+          activeFilters.push({
+            key: configKey,
+            value: filterValue
+          });
+        });
+      } else {
+        // Filter with no rules and only one instance.
+        activeFilters.push({
+          key: configKey,
+          value: query[configKey]
+        });
+      }
+    }
+
+    return activeFilters;
+  }, []);
+}
+/**
+ * Get the default option's value from the configuration object for a given filter. The first
+ * option is used as default if no `defaultOption` is provided.
+ *
+ * @param {Object} config - a filter config object.
+ * @param {Array} options - select options.
+ * @return {string|undefined}  - the value of the default option.
+ */
+
+function getDefaultOptionValue(config, options) {
+  const {
+    defaultOption
+  } = config.input;
+
+  if (config.input.defaultOption) {
+    const option = Object(external_lodash_["find"])(options, {
+      value: defaultOption
+    });
+
+    if (!option) {
+      /* eslint-disable no-console */
+      console.warn(`invalid defaultOption ${defaultOption} supplied to ${config.labels.add}`);
+      /* eslint-enable */
+
+      return undefined;
+    }
+
+    return option.value;
+  }
+
+  return Object(external_lodash_["get"])(options, [0, 'value']);
+}
+/**
+ * Given activeFilters, create a new query object to update the url. Use previousFilters to
+ * Remove unused params.
+ *
+ * @param {Array} activeFilters - Array of activeFilters shown in the UI
+ * @param {Object} query - the current url query object
+ * @param {Object} config - config object
+ * @return {Object} - query object representing the new parameters
+ */
+
+function getQueryFromActiveFilters(activeFilters, query, config) {
+  const previousFilters = getActiveFiltersFromQuery(query, config);
+  const previousData = previousFilters.reduce((data, filter) => {
+    data[getUrlKey(filter.key, filter.rule)] = undefined;
+    return data;
+  }, {});
+  const nextData = activeFilters.reduce((data, filter) => {
+    if (filter.rule === 'between' && (!Array.isArray(filter.value) || filter.value.some(value => !value))) {
+      return data;
+    }
+
+    if (filter.value) {
+      const urlKey = getUrlKey(filter.key, filter.rule);
+
+      if (config[filter.key] && config[filter.key].allowMultiple) {
+        if (!data.hasOwnProperty(urlKey)) {
+          data[urlKey] = [];
+        }
+
+        data[urlKey].push(filter.value);
+      } else {
+        data[urlKey] = filter.value;
+      }
+    }
+
+    return data;
+  }, {});
+  return { ...previousData,
+    ...nextData
+  };
+}
+/**
+ * Get the url query key from the filter key and rule.
+ *
+ * @param {string} key - filter key.
+ * @param {string} rule - filter rule.
+ * @return {string} - url query key.
+ */
+
+function getUrlKey(key, rule) {
+  if (rule && rule.length) {
+    return `${key}_${rule}`;
+  }
+
+  return key;
+}
+// CONCATENATED MODULE: ./packages/navigation/build-module/index.js
+/**
+ * External dependencies
+ */
+
+
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+ // For the above, import the module into itself. Functions consumed from this import can be mocked in tests.
+// Expose history so all uses get the same history object.
+
+ // Export all filter utilities
+
+
+const TIME_EXCLUDED_SCREENS_FILTER = 'woocommerce_admin_time_excluded_screens';
+/**
+ * Get the current path from history.
+ *
+ * @return {string}  Current path.
+ */
+
+const getPath = () => getHistory().location.pathname;
+/**
+ * Gets query parameters that should persist between screens or updates
+ * to reports, such as filtering.
+ *
+ * @param {Object} query Query containing the parameters.
+ * @return {Object} Object containing the persisted queries.
+ */
+
+const getPersistedQuery = (query = getQuery()) => {
+  const params = Object(external_wp_hooks_["applyFilters"])('woocommerce_admin_persisted_queries', ['period', 'compare', 'before', 'after', 'interval', 'type']);
+  return Object(external_lodash_["pick"])(query, params);
+};
+/**
+ * Get array of screens that should ignore persisted queries
+ *
+ * @return {Array} Array containing list of screens
+ */
+
+const getQueryExcludedScreens = () => Object(external_wp_hooks_["applyFilters"])(TIME_EXCLUDED_SCREENS_FILTER, ['stock', 'settings', 'customers', 'homescreen']);
+/**
+ * Given a path, return whether it is an excluded screen
+ *
+ * @param {Object} path Path to check
+ *
+ * @return {boolean} Boolean representing whether path is excluded
+ */
+
+const pathIsExcluded = path => getQueryExcludedScreens().includes(getScreenFromPath(path));
+/**
+ * Retrieve a string 'name' representing the current screen
+ *
+ * @param {Object} path Path to resolve, default to current
+ * @return {string} Screen name
+ */
+
+const getScreenFromPath = (path = getPath()) => {
+  return path === '/' ? 'homescreen' : path.replace('/analytics', '').replace('/', '');
+};
+/**
+ * Get an array of IDs from a comma-separated query parameter.
+ *
+ * @param {string} [queryString=''] string value extracted from URL.
+ * @return {Array<number>} List of IDs converted to an array of unique integers.
+ */
+
+function getIdsFromQuery(queryString = '') {
+  return [...getSetOfIdsFromQuery(queryString)];
+}
+/**
+ * Get an array of IDs from a comma-separated query parameter.
+ *
+ * @param {string} [queryString=''] string value extracted from URL.
+ * @return {Set<number>} List of IDs converted to a set of integers.
+ */
+
+function getSetOfIdsFromQuery(queryString = '') {
+  return new Set( // Return only unique ids.
+  queryString.split(',').map(id => parseInt(id, 10)).filter(id => !isNaN(id)));
+}
+/**
+ * Get an array of searched words given a query.
+ *
+ * @param {Object} query Query object.
+ * @return {Array} List of search words.
+ */
+
+function getSearchWords(query = getQuery()) {
+  if (typeof query !== 'object') {
+    throw new Error('Invalid parameter passed to getSearchWords, it expects an object or no parameters.');
+  }
+
+  const {
+    search
+  } = query;
+
+  if (!search) {
+    return [];
+  }
+
+  if (typeof search !== 'string') {
+    throw new Error("Invalid 'search' type. getSearchWords expects query's 'search' property to be a string.");
+  }
+
+  return search.split(',').map(searchWord => searchWord.replace('%2C', ','));
+}
+/**
+ * Return a URL with set query parameters.
+ *
+ * @param {Object} query object of params to be updated.
+ * @param {string} path Relative path (defaults to current path).
+ * @param {Object} currentQuery object of current query params (defaults to current querystring).
+ * @param {string} page Page key (defaults to "wc-admin")
+ * @return {string}  Updated URL merging query params into existing params.
+ */
+
+function getNewPath(query, path = getPath(), currentQuery = getQuery(), page = 'wc-admin') {
+  const args = {
+    page,
+    ...currentQuery,
+    ...query
+  };
+
+  if (path !== '/') {
+    args.path = path;
+  }
+
+  return Object(external_wp_url_["addQueryArgs"])('admin.php', args);
+}
+/**
+ * Get the current query string, parsed into an object, from history.
+ *
+ * @return {Object}  Current query object, defaults to empty object.
+ */
+
+function getQuery() {
+  const search = getHistory().location.search;
+
+  if (search.length) {
+    return Object(lib["parse"])(search.substring(1)) || {};
+  }
+
+  return {};
+}
+/**
+ * This function returns an event handler for the given `param`
+ *
+ * @param {string} param The parameter in the querystring which should be updated (ex `page`, `per_page`)
+ * @param {string} path Relative path (defaults to current path).
+ * @param {string} query object of current query params (defaults to current querystring).
+ * @return {Function} A callback which will update `param` to the passed value when called.
+ */
+
+function onQueryChange(param, path = getPath(), query = getQuery()) {
+  switch (param) {
+    case 'sort':
+      return (key, dir) => updateQueryString({
+        orderby: key,
+        order: dir
+      }, path, query);
+
+    case 'compare':
+      return (key, queryParam, ids) => updateQueryString({
+        [queryParam]: `compare-${key}`,
+        [key]: ids,
+        search: undefined
+      }, path, query);
+
+    default:
+      return value => updateQueryString({
+        [param]: value
+      }, path, query);
+  }
+}
+/**
+ * Updates the query parameters of the current page.
+ *
+ * @param {Object} query object of params to be updated.
+ * @param {string} path Relative path (defaults to current path).
+ * @param {Object} currentQuery object of current query params (defaults to current querystring).
+ * @param {string} page Page key (defaults to "wc-admin")
+ */
+
+function updateQueryString(query, path = getPath(), currentQuery = getQuery(), page = 'wc-admin') {
+  const newPath = getNewPath(query, path, currentQuery, page);
+  getHistory().push(newPath);
+}
+/**
+ * Adds a listener that runs on history change.
+ *
+ * @param {Function} listener Listener to add on history change.
+ * @return {Function} Function to remove listeners.
+ */
+
+const addHistoryListener = listener => {
+  // Monkey patch pushState to allow trigger the pushstate event listener.
+  if (window.wcNavigation && !window.wcNavigation.historyPatched) {
+    (history => {
+      /* global CustomEvent */
+      const pushState = history.pushState;
+      const replaceState = history.replaceState;
+
+      history.pushState = function (state) {
+        const pushStateEvent = new CustomEvent('pushstate', {
+          state
+        });
+        window.dispatchEvent(pushStateEvent);
+        return pushState.apply(history, arguments);
+      };
+
+      history.replaceState = function (state) {
+        const replaceStateEvent = new CustomEvent('replacestate', {
+          state
+        });
+        window.dispatchEvent(replaceStateEvent);
+        return replaceState.apply(history, arguments);
+      };
+
+      window.wcNavigation.historyPatched = true;
+    })(window.history);
+  }
+
+  window.addEventListener('popstate', listener);
+  window.addEventListener('pushstate', listener);
+  window.addEventListener('replacestate', listener);
+  return () => {
+    window.removeEventListener('popstate', listener);
+    window.removeEventListener('pushstate', listener);
+    window.removeEventListener('replacestate', listener);
+  };
+};
+/**
+ * Create a Fill for extensions to add client facing custom Navigation Items.
+ *
+ * @slotFill WooNavigationItem
+ * @example
+ * const MyExtenstionNavItem = () => (
+ * 	<WooNavigationItem item="my-extension">My Extension</WooNavigationItem>
+ * );
+ *
+ * registerPlugin( 'my-extension', {
+ * 	render: MyExtenstionNavItem,
+ * 	scope: 'woocommerce-admin',
+ * } );
+ * @param {Object} param0
+ * @param {Array} param0.children - Node children.
+ * @param {string} param0.item - Navigation item slug.
+ */
+
+const WooNavigationItem = ({
+  children,
+  item
+}) => {
+  return Object(external_wp_element_["createElement"])(external_wp_components_["Fill"], {
+    name: 'woocommerce_navigation_' + item
+  }, children);
+};
+
+WooNavigationItem.Slot = ({
+  name
+}) => Object(external_wp_element_["createElement"])(external_wp_components_["Slot"], {
+  name: 'woocommerce_navigation_' + name
+});
 
 /***/ }),
 
-/***/ 58:
-/***/ (function(module, exports) {
-
-function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
-}
-
-module.exports = _iterableToArray;
-
-/***/ }),
-
-/***/ 59:
-/***/ (function(module, exports) {
-
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-module.exports = _nonIterableSpread;
-
-/***/ }),
-
-/***/ 68:
+/***/ 49:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var formats = __webpack_require__(52);
+var formats = __webpack_require__(39);
 
 var has = Object.prototype.hasOwnProperty;
 var isArray = Array.isArray;
@@ -1353,7 +1053,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 70:
+/***/ 52:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1368,7 +1068,7 @@ __webpack_require__.d(__webpack_exports__, "d", function() { return /* binding *
 // UNUSED EXPORTS: createHashHistory, parsePath
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
-var esm_extends = __webpack_require__(32);
+var esm_extends = __webpack_require__(23);
 
 // CONCATENATED MODULE: ./node_modules/resolve-pathname/esm/resolve-pathname.js
 function isAbsolute(pathname) {
@@ -1486,7 +1186,7 @@ function valueEqual(a, b) {
 /* harmony default export */ var value_equal = (valueEqual);
 
 // EXTERNAL MODULE: ./node_modules/tiny-invariant/dist/tiny-invariant.esm.js
-var tiny_invariant_esm = __webpack_require__(56);
+var tiny_invariant_esm = __webpack_require__(41);
 
 // CONCATENATED MODULE: ./node_modules/history/esm/history.js
 
@@ -2412,14 +2112,14 @@ function createMemoryHistory(props) {
 
 /***/ }),
 
-/***/ 87:
+/***/ 67:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(68);
-var formats = __webpack_require__(52);
+var utils = __webpack_require__(49);
+var formats = __webpack_require__(39);
 var has = Object.prototype.hasOwnProperty;
 
 var arrayPrefixGenerators = {
@@ -2698,13 +2398,13 @@ module.exports = function (object, opts) {
 
 /***/ }),
 
-/***/ 88:
+/***/ 68:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(68);
+var utils = __webpack_require__(49);
 
 var has = Object.prototype.hasOwnProperty;
 var isArray = Array.isArray;

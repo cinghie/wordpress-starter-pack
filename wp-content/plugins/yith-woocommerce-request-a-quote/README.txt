@@ -1,47 +1,91 @@
-=== YITH WooCommerce Request A Quote ===
+﻿=== YITH Request a Quote for WooCommerce ===
 
 Contributors: yithemes
 Tags: request a quote button, woocommerce request for quote, woocommerce request a quote shortcode, request a quote, quote, YITH, woocommerce, shop, ecommerce, e-commerce, quotations, request for quote, rfq, raq, proposal, ask an estimate, budget, email quote
-Requires at least: 5.3
-Tested up to: 5.6
-Stable tag: 1.6.2
+Requires at least: 5.6
+Tested up to: 5.8
+Stable tag: 2.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-The YITH Woocommerce Request A Quote plugin lets your customers ask for an estimate of a list of products they are interested into.
+The YITH Request a Quote for WooCommerce plugin lets your customers ask for an estimate of a list of products they are interested into.
 
 == Description ==
 
-= Give real information for real persuasion =
-YITH Woocommerce Request A Quote lets your customers ask for an estimate for a list of WooCommerce products they are interested in.
+YITH Request a Quote for WooCommerce is a powerful tool to hide prices and/or add to cart buttons and let your customers request a custom quote for every product.
 
-With just a single button in detail page of the concerned WooCommerce product, users can create their own list and receive an estimate from the administrators.
+If you sell goods or services for which a label with price is not enough and you want to get in touch with your customers, a quote system is the perfect solution for your WooCommerce shop.
 
-Quotations are one of the best ways to deal with certain types of purchases and it is very difficult to be played for online purchases.
+Our plugin allows displaying an “Add to Quote” button or link on your product pages. Customers can add products to a list, fill the form and then submit a request for a custom quote.
 
-One of the biggest limits of online business, in fact, is the impossibility to negotiate, to do that compromise that should be agreed by both buyer and supplier. And it is comprehensible that, say, for a big amount of products, supplier and buyer might meet phisically, talk together and find a reasonable solution that suits both of them.
-All this becomes possible also for online shops thanks to this WooCommerce plugin. YITH Woocommerce Request A Quote allows contact between suppliers and customers and sharing of the list of items for which the quote is requested.
-Customers can ask for an estimate and admin can answer them back with a quotation proposal. Customers can either accept or reject the offer for the WooCommerce products they have added to the quote.
-Negotiation becomes possible and this can definitely increase purchases in your WooCommerce shop.
+It is also possible to hide the “Add to cart” buttons to encourage customers to get in touch with the suppliers: in this way you can hide prices for wholesale or retailers and provide competitive custom prices based on their needs.
 
-= Main features of YITH WooCommerce Request a Quote: =
+The admin will receive an email with the quote request and can reply with a custom quote.
 
-* Create and customise “Request a Quote” page in your WooCommerce shop
-* “Add to quote” button/text in WooCommerce product detail page.
-* Customise text for “Add to quote” button or link
-* Deactivate “add to cart” button/text in WooCommerce product detail page.
-* Quote list page in your WooCommerce shop with a basic form (name, mail address, textarea).
-* Hide “Add to cart” button everywhere in your WooCommerce shop
-* Customise “Request a quote” email sent from your WooCommerce shop
+== YITH Request a Quote for WooCommerce  Features ==
 
+= FREE VERSION =
 
-= Official documentation of YITH WooCommerce Request a Quote =
+* Show the “Add to quote” button in all products pages
+* Support to variable products: the user can add specific product variations to the quote request
+* Customize the style and the colors of "Add to quote” button
+* Customize all labels and text
+* Hide price on all products
+* Hide "Add to cart" button on all products
+* Insert the request list and form on any page of your site
+* Allows your customers to fill the default form and send the quote request
+* Show a Privacy Policy text in the form
+* Admin receive an automatic email when a user send a new quote request
+* Manually send custom quotes for each request received by email
 
-For a more detailed description of options and features of YITH WooCommerce Request a Quote, please, read the [official documentation](https://docs.yithemes.com/yith-woocommerce-request-a-quote/ "YITH Woocommerce Request A Quote official documentation").
+See it in action here:
+
+[Check the Live Demo of the Free Version >](https://plugins.yithemes.com/yith-request-a-quote-for-woocommerce/)
+
+= NEED MORE? CHECK THE PREMIUM VERSION! =
+
+* Show the “Add to quote” button also in the other WooCommerce pages (shop, category page, etc.)
+* Show/Hide the “Add to quote” button only on specific products using the Exclusion List
+* Show the “Add to quote” button only to registered users or specific user roles
+* Show automatically the “Add to quote” button only in "out of stock” products
+* Choose the information to show for each product on the quote page and email (product images/prices/SKU, quantity, total amount of single products & total amount of all products)
+* Enable the “Return to shop” and the “Update list” buttons
+* Show the advanced default form (you will be able to add/remove/edit each fields without to use an external form plugin)
+* Show a form created and customized with one of the following plugins: Contact Form 7, Gravity Forms, Ninja Forms or WPForms.
+* Enable the Autocomplete feature to let returning customers find their data automatically filled in the quote request form
+* Allow users to convert cart content into quote request on checkout page
+* Show a custom text to users after the request sending
+* Redirect users to a specific thank-you page or to the quote detail page after the request sending
+* Enable the automatic creation and sending of the quote with the amount calculated on the default products prices.
+* Quote request can be managed as “order” with status “quote request” and when the customer accept the quote the order will change status
+* Attach the quote as PDF to the email sent to the user
+* Show or hide "Accept” and "Reject” buttons in the quote email. “Accept” button automatically redirects users to the checkout page where they can pay the quote.
+* Admin can receive an automatic email when user accepts or rejects the proposal
+* Send an email to remind the customer that a quote is about to expire
+* “Requests” tab for a complete overview of all quote requests
+* Admin can manually create and send custom quotes from backend
+* Option to set an automatic expiration date for the quote proposal
+* Edit user's shipping and/or billing address when creating the quote
+* Prevent the users from editing their addresses when accepting the quote
+* Prevent the user from choosing a shipping method different from the one specified in the request at the checkout
+* Set a specific payment method to pay for accepted quotes
+* Users will receive a confirmation email after the quote request and another email with the admin quote proposal.
+* Users can check the list of quotes on "My Account” page
+* Allow users to download the quote in PDF from the "My Account” page
+* Allow users to "Accept” or "Reject” a quote in the quote email, in the PDF document and in their "My Account” page. Users can also leave a feedback when rejecting a quote.
+* Help users to easily track their quote list through the widget included in the plugin (you can use it in your header, in a sidebar, in any widgets area)
+
+See it in action here:
+
+[Check the Live Demo of the Premium Version >](https://plugins.yithemes.com/yith-woocommerce-request-a-quote/)
+
+= Official documentation of YITH Request a Quote for WooCommerce =
+
+For a more detailed description of options and features of YITH Request a Quote for WooCommerce, please, read the [official documentation](https://docs.yithemes.com/yith-woocommerce-request-a-quote/ "YITH Request a Quote for WooCommerce official documentation").
 
 = Compatibility with WooCommerce plugins =
 
-YITH WooCommerce Request a Quote has been tested and compatibility is certain with the following WooCommerce plugins that you can add to your site:
+YITH Request a Quote for WooCommerce has been tested and compatibility is certain with the following WooCommerce plugins that you can add to your site:
 
 * [YITH WooCommerce Save For Later](https://wordpress.org/plugins/yith-woocommerce-save-for-later/)
 * [YITH WooCommerce Product Countdown](https://wordpress.org/plugins/yith-woocommerce-product-countdown/)
@@ -50,39 +94,18 @@ YITH WooCommerce Request a Quote has been tested and compatibility is certain wi
 
 = An essential kit for your WooCommerce site? =
 
-YITH WooCommerce Request a Quote is available in combination with many other plugins in [**YITH Essential Kit for WooCommerce #1**](https://wordpress.org/plugins/yith-essential-kit-for-woocommerce-1/), a bundle of indispensable tools to make your WooCommerce site look more professional and be more user-friendly. Learn more about all WooCommerce plugins included and boost your WooCommerce site with a simple click!
-
-
-= Premium features of YITH WooCommerce Request a Quote =
-
-If you want to benefit from more features you can give a look at the premium version of YITH WooCommerce Request a Quote:
-
-* Customise “Add to quote” button or link in your WooCommerce shop
-* Display “Add to quote” button in WooCommerce shop pages other than single product page
-* Hide product price everywhere in your WooCommerce shop
-* Hide “Add to quote” for selected WooCommerce products (exclusion list)
-* Filter plugin features according to type of users (guests/customers/both)
-* Customise default request form shown in your WooCommerce shop
-* Choose “Contact Form 7″ or “YIT Contact Form” to set your quote form
-* Manage quote requests as WooCommerce orders
-* Send a quote in reply to user’s request
-* Send the quote and the list with selected WooCommerce products either in the email body, as PDF attachment or both
-* Let users accept or reject the quote directly from the email they get
-* Let logged-in users display a list with all recent estimate requests sent in “My Account” page
-* Manage quotes with expiration dates
-* Redirect users that accept quotes to WooCommerce checkout page
-* Display a widget with all WooCommerce products added to the quote request
+YITH Request a Quote for WooCommerce is available in combination with many other plugins in [**YITH Essential Kit for WooCommerce #1**](https://wordpress.org/plugins/yith-essential-kit-for-woocommerce-1/), a bundle of indispensable tools to make your WooCommerce site look more professional and be more user-friendly. Learn more about all WooCommerce plugins included and boost your WooCommerce site with a simple click!
 
 
 == Installation ==
-Important: First of all, you have to download and activate WooCommerce plugin, without which YITH Woocommerce Request A Quote cannot work correctly.
+Important: First of all, you have to download and activate WooCommerce plugin, without which YITH Request a Quote for WooCommerce cannot work correctly.
 
 1. Unzip the downloaded zip file.
 2. Upload the plugin folder into the `wp-content/plugins/` directory of your WordPress site.
-3. Activate `YITH WooCommerce Request A Quote` from Plugins page
+3. Activate `YITH Request a Quote for WooCommerce` from Plugins page
 
 = Configuration =
-YITH Woocommerce Request A Quote will add a new tab called "Request A Quote" in "YIT Plugins" menu item. There, you will find all YITH plugins with quick access to plugin setting page.
+YITH Request a Quote for WooCommerce will add a new tab called "Request A Quote" in "YITH" menu item. There, you will find all YITH plugins with quick access to plugin setting page.
 
 == Frequently Asked Questions ==
 
@@ -105,7 +128,7 @@ If you have problems with our plugins or something is not working as it should, 
 If none of the previous listed actions helps you solve the problem, then, submit a ticket in the forum and describe your problem accurately, specify WordPress and WooCommerce versions you are using and any other information that might help us solve your problem as quickly as possible. Thanks!
 
 = How can I get more features for my WooCommerce plugin? =
-You can get more features with the premium version of YITH WooCommerce Request a Quote, available on [YITH page](https://yithemes.com/themes/plugins/yith-woocommerce-request-a-quote/). Here you can read more about the premium features of the plugin and make it give it its best shot!
+You can get more features with the premium version of YITH Request a Quote for WooCommerce, available on [YITH page](https://yithemes.com/themes/plugins/yith-woocommerce-request-a-quote/). Here you can read more about the premium features of the plugin and make it give it its best shot!
 
 
 = How can I try the full-featured plugin? =
@@ -113,7 +136,7 @@ You can get more features with the premium version of YITH WooCommerce Request a
 If you want to see a demonstration version of the premium plugin, you can see that in [this page](https://plugins.yithemes.com/yith-woocommerce-request-a-quote/). Browse it and try all options available so that you can see how your plugin looks like.
 
 = What are the main changes in plugin translation? =
-Recently YITH Woocommerce Request A Quote A has been selected to be included in the "translate.wordpress.org" translate programme.
+Recently YITH Request a Quote for WooCommerce A has been selected to be included in the "translate.wordpress.org" translate programme.
 In order to import correctly the plugin strings in the new system, we had to change the text domain form 'yit' to 'yith-woocommerce-request-a-quote'.
 Once the plugin will be imported in the translate.wordpress.org system, the translations of other languages will be downloaded directly from WordPress, without using any .po and .mo files. Moreover, users will be able to participate in a more direct way to plugin translations, suggesting texts in their languages in the dedicated tab on translate.wordpress.org.
 During this transition step, .po and .mo files will be used as always, but in order to be recognized by WordPress, they will need to have a new nomenclature, renaming them in:
@@ -123,12 +146,63 @@ During this transition step, .po and .mo files will be used as always, but in or
 
 == Screenshots ==
 
-1. Setting Options page of YITH WooCommerce Request a Quote
-2. "Request a quote" button in WooCommerce single page
-3. "Request a quote" list
-4. "Request a Quote" Email - Settings page
+1. General Options page
+2. Buttons and Labels
+3. "Request a quote" page options
+4. "Request a quote" list
+5. "Request a quote" page
+6. "Quote request" email
 
 == Changelog ==
+= 2.2.0 - Released on 13 October 2021 =
+* New: support for WooCommerce 5.8
+* Update: YITH plugin framework
+
+= 2.1.1 - Released on 27 September 2021 =
+* Update: YITH plugin framework
+* Fix: debug info feature removed for all logged in users
+
+= 2.1.0 - Released on 9 September 2021 =
+* New: support for WooCommerce 5.7
+* Update: YITH plugin framework
+
+= 2.0.1 - Released on 17 August 2021 =
+* New: support for WooCommerce 5.6
+* Update: YITH plugin framework
+
+= 2.0.0 - Released on 1 July 2021 =
+* New: support for WordPress 5.8
+* New: support for WooCommerce 5.5
+* New: hide price on all products option
+* New: options to customize the style and the colors of "Add to quote” button
+* New: options to customize all labels and text
+* New: option to set "Add to quote" behaviour after the user clicks on the button.
+
+= 1.6.8 - Released on 7 June 2021 =
+* Fix: session issue
+
+= 1.6.7 - Released on 27 May 2021 =
+* New: support for WooCommerce 5.4
+* Update: YITH plugin framework
+
+= 1.6.6 - Released on 11 May 2021 =
+* New: support for WooCommerce 5.3
+* Update: YITH plugin framework
+
+= 1.6.5 - Released on 9 April 2021 =
+* New: support for WooCommerce 5.2
+* Update: YITH plugin framework
+
+= 1.6.4 - Released on 25 Mar 2021 =
+* Update: YITH plugin framework
+* Fix: security issue with nonce
+
+= 1.6.3 - Released on 24 Feb 2021 =
+* New: support for WordPress 5.7
+* New: support for WooCommerce 5.1
+* Update: YITH plugin framework
+* Update: premium tab
+
 = 1.6.2 - Released on 25 Jan 2021 =
 * New: support for WooCommerce 5.0
 * Update: premium tab
@@ -339,7 +413,7 @@ New: Support for WooCommerce 3.3
 = 1.1.6 - Released on 10 June 2015 =
 
 * New: 'ywraq_quantity_max_value' for max quantity in the request a quote list
-* New: Options to choose Email "From" Name and Email "From" Address in Woocommerce > Settings > Emails
+* New: Options to choose Email "From" Name and Email "From" Address in WooCommerce > Settings > Emails
 * New: Frontend Spanish Translation (thanks to Marchcelo Pedra)
 * Updated: Changed the spinner file position, it is added to the plugin assets/images
 * Fix: Default Request a Quote form
@@ -386,4 +460,4 @@ New: Support for WooCommerce 3.3
 
 
 == Suggestions ==
-If you have any suggestions concerning how to improve YITH Woocommerce Request A Quote, you can [write to us](mailto:plugins@yithemes.com "Your Inspiration"), so that we can improve YITH Woocommerce Request A Quote.
+If you have any suggestions concerning how to improve YITH Request a Quote for WooCommerce, you can [write to us](mailto:plugins@yithemes.com "Your Inspiration"), so that we can improve YITH Request a Quote for WooCommerce.

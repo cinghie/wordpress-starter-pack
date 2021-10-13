@@ -36,11 +36,13 @@ use PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum;
  */
 class AdStudyObjectiveTypeValues extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
 {
+    const AEP_CONVERSION = 'AEP_CONVERSION';
     const BRAND = 'BRAND';
     const BRANDLIFT = 'BRANDLIFT';
     const FTL = 'FTL';
     const MAE = 'MAE';
     const MAI = 'MAI';
+    const MPC_CONVERSION = 'MPC_CONVERSION';
     const NONSALES = 'NONSALES';
     const PARTNER = 'PARTNER';
     const SALES = 'SALES';

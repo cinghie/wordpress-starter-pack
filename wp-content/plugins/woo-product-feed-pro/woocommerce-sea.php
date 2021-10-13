@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     9.5.5
+ * Version:     10.7.3
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -11,13 +11,13 @@
  * License:     GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Requires at least: 4.5
- * Tested up to: 5.6
+ * Tested up to: 5.8
  *
  * Text Domain: woo-product-feed-pro
  * Domain Path: /languages
  *
  * WC requires at least: 4.4
- * WC tested up to: 5.0
+ * WC tested up to: 5.6
  *
  * Product Feed PRO for WooCommerce is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '9.5.5' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '10.7.3' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -101,7 +101,8 @@ function woosea_scripts($hook) {
 	wp_enqueue_script('jquery-ui-datepicker');
 
 	// Only register and enqueue JS scripts from within the plugin itself
-     	if (preg_match("/product-feed-pro/i",$hook)){
+	if (preg_match("/product-feed-pro/i",$hook)){
+
 	        // JS files for ChartJS
         	wp_register_script( 'woosea_chart-bundle-js', plugin_dir_url( __FILE__ ) . 'js/Chart.bundle.js', WOOCOMMERCESEA_PLUGIN_VERSION, true  );
         	wp_enqueue_script( 'woosea_chart-bundle-js' );
@@ -115,7 +116,7 @@ function woosea_scripts($hook) {
 		wp_enqueue_script( 'typeahead-js' );
 
 		// JS for adding input field validation
-		wp_register_script( 'woosea_validation-js', plugin_dir_url( __FILE__ ) . 'js/woosea_validation.js?BLAAT=999', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
+		wp_register_script( 'woosea_validation-js', plugin_dir_url( __FILE__ ) . 'js/woosea_validation.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
 		wp_enqueue_script( 'woosea_validation-js' );
 
 		// JS for autocomplete
@@ -123,7 +124,7 @@ function woosea_scripts($hook) {
 		wp_enqueue_script( 'woosea_autocomplete-js' );
 
 		// JS for adding table rows to the rules page
-		wp_register_script( 'woosea_rules-js', plugin_dir_url( __FILE__ ) . 'js/woosea_rules.js?BLAAT=1', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
+		wp_register_script( 'woosea_rules-js', plugin_dir_url( __FILE__ ) . 'js/woosea_rules.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
 		wp_enqueue_script( 'woosea_rules-js' );
 
 		// JS for adding table rows to the field mappings page
@@ -138,12 +139,26 @@ function woosea_scripts($hook) {
 		wp_register_script( 'woosea_key-js', plugin_dir_url( __FILE__ ) . 'js/woosea_key.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
 		wp_enqueue_script( 'woosea_key-js' );
 
+		// JS for managing addToCart event
+		// wp_register_script( 'woosea_addcart-js', plugin_dir_url( __FILE__ ) . 'js/woosea_add_cart.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
+		// wp_enqueue_script( 'woosea_addcart-js' );
 	}
 	// JS for manage projects page
-	wp_register_script( 'woosea_manage-js', plugin_dir_url( __FILE__ ) . 'js/woosea_manage.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
+	wp_register_script( 'woosea_manage-js', plugin_dir_url( __FILE__ ) . 'js/woosea_manage.js?yo=12', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
 	wp_enqueue_script( 'woosea_manage-js' );
 }
 add_action( 'admin_enqueue_scripts' , 'woosea_scripts' );
+
+/**
+ * Enqueue front end scripts
+ */
+function woosea_fe_scripts($hook) {
+	// JS for managing addToCart event
+   	wp_enqueue_script( 'ajax-script', get_template_directory_uri() . 'js/my-ajax-script.js', array('jquery') );
+	wp_register_script( 'woosea_addcart-js', plugin_dir_url( __FILE__ ) . 'js/woosea_add_cart.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
+	wp_enqueue_script( 'woosea_addcart-js' );
+}
+//add_action('wp_enqueue_scripts', 'woosea_fe_scripts');
 
 /**
  * Get product variation ID based on dropdown selects product page
@@ -279,7 +294,7 @@ add_filter('plugin_action_links', 'woosea_plugin_action_links', 10, 2);
 /**
  * Get category path for Facebook pixel
  */
-function woosea_get_term_parents( $id, $taxonomy, $link = false, $project_taxonomy, $nicename = false, $visited = array() ) {
+function woosea_get_term_parents( $id, $taxonomy, $project_taxonomy, $link = false, $nicename = false, $visited = array() ) {
 	// Only add Home to the beginning of the chain when we start buildin the chain
     	if(empty($visited)){
         	$chain = 'Home';
@@ -302,7 +317,7 @@ function woosea_get_term_parents( $id, $taxonomy, $link = false, $project_taxono
 
          	if ($parent->parent && ( $parent->parent != $parent->term_id ) && !in_array( $parent->parent, $visited, TRUE )){
                		$visited[] = $parent->parent;
-               		$chain .= woosea_get_term_parents( $parent->parent, $taxonomy, $link, $separator, $nicename, $visited );
+               		$chain .= woosea_get_term_parents( $parent->parent, $taxonomy, $separator, $link = false, $nicename, $visited );
           	}
 
           	if ($link){
@@ -314,7 +329,6 @@ function woosea_get_term_parents( $id, $taxonomy, $link = false, $project_taxono
    	return $chain;
 }
 
-
 /**
  * Add Facebook pixel 
  */
@@ -324,17 +338,40 @@ function woosea_add_facebook_pixel( $product = null ){
         }
 	$fb_pagetype = WooSEA_Google_Remarketing::woosea_google_remarketing_pagetype();
    	$add_facebook_pixel = get_option ('add_facebook_pixel');
+	$add_facebook_capi = get_option ('add_facebook_capi');
+	$viewContent = "";
+	$event_id = uniqid (rand (),true);
 	$currency = get_woocommerce_currency();     
-
+	
 	if($add_facebook_pixel == "yes"){	
         	$facebook_pixel_id = get_option("woosea_facebook_pixel_id");
+		$facebook_capi_token = get_option("woosea_facebook_capi_token");
 
-		if($facebook_pixel_id > 0){
+		// Add vulnerability check
+		if(!is_numeric($facebook_pixel_id)){
+			unset($facebook_pixel_id);
+		}
+
+		if(isset($facebook_pixel_id) AND ($facebook_pixel_id > 0)){
+			// Set Facebook conversion API data
+			define('FACEBOOK_APP_ACCESS_TOKEN', $facebook_capi_token);
+			define('FACEBOOK_PIXEL_OFFLINE_EVENT_SET_ID', $facebook_pixel_id);
+			$fb_capi_data["match_keys"] = array();
+			$fb_capi_data["event_time"] = time();
+			$fb_capi_data["event_id"] = $event_id;
+			$fb_capi_data["user_data"]["client_ip_address"] = WC_Geolocation::get_ip_address();
+			$fb_capi_data["user_data"]["client_user_agent"] = $_SERVER['HTTP_USER_AGENT'];
+			$fb_capi_data["action_source"] = "website";	
+			$fb_capi_data["event_source_url"] = home_url($_SERVER['REQUEST_URI']);
+
 			if ($fb_pagetype == "product"){
                 		if ( '' !== $product->get_price()) {
                 
 		 			$fb_prodid = get_the_id();
 					$product_name = $product->get_name();
+					$product_name = str_replace("\"","",$product_name);
+					$product_name = str_replace("'","",$product_name);
+
 					$cats = "";
 					$all_cats = get_the_terms( $fb_prodid, 'product_cat' );
 					if(!empty($all_cats)){
@@ -345,6 +382,8 @@ function woosea_add_facebook_pixel( $product = null ){
 					// strip last comma
 					$cats = rtrim($cats, ",");
 					$cats = str_replace("&amp;","&", $cats);
+					$cats = str_replace("\"","",$cats);
+					$cats = str_replace("'","",$cats);
 
 					if(!empty($fb_prodid)){
                                         	if(!$product) {
@@ -383,7 +422,17 @@ function woosea_add_facebook_pixel( $product = null ){
 										$fb_price = $fb_lowprice;
 									}
 								}
-								$viewContent = "fbq(\"track\",\"ViewContent\",{content_category:\"$cats\", content_name:\"$product_name\", content_type:\"product\", content_ids:[\"$fb_prodid\"], value:\"$fb_price\", currency:\"$currency\"});";
+								$fb_price = floatval(str_replace(',', '.', str_replace(',', '.', $fb_price)));
+								$viewContent = "fbq(\"track\",\"ViewContent\",{content_category:\"$cats\", content_name:\"$product_name\", content_type:\"product\", content_ids:[\"$fb_prodid\"], value:\"$fb_price\", currency:\"$currency\"},{eventID:\"$event_id\"});";
+
+								// Facebook CAPI data
+								$fb_capi_data["event_name"] = "ViewContent";
+								$fb_capi_data["custom_data"]["content_ids"] = $fb_prodid;
+								$fb_capi_data["custom_data"]["content_name"] = $product_name;
+								$fb_capi_data["custom_data"]["content_category"] = $cats;
+								$fb_capi_data["custom_data"]["currency"] = $currency;
+								$fb_capi_data["custom_data"]["value"] = $fb_price;
+								$fb_capi_data["custom_data"]["content_type"] = "product";
 							} else {
 								// This is a parent variable product
 								// Since these are not allowed in the feed, at the variations product ID's
@@ -414,12 +463,32 @@ function woosea_add_facebook_pixel( $product = null ){
                         			       		 	$fb_highprice = wc_format_localized_price( $highest );
 									$fb_price = $fb_lowprice;
 								}
-								$viewContent = "fbq(\"track\",\"ViewContent\",{content_category:\"$cats\", content_name:\"$product_name\", content_type:\"product_group\", content_ids:[$content], value:\"$fb_price\", currency:\"$currency\"});";
+								$fb_price = floatval(str_replace(',', '.', str_replace(',', '.', $fb_price)));
+								$viewContent = "fbq(\"track\",\"ViewContent\",{content_category:\"$cats\", content_name:\"$product_name\", content_type:\"product_group\", content_ids:[$content], value:\"$fb_price\", currency:\"$currency\"},{eventID:\"$event_id\"});";
+
+								// Facebook CAPI data
+								$fb_capi_data["event_name"] = "ViewContent";
+								$fb_capi_data["custom_data"]["content_ids"] = $fb_prodid;
+								$fb_capi_data["custom_data"]["content_name"] = $product_name;
+								$fb_capi_data["custom_data"]["content_category"] = $cats;
+								$fb_capi_data["custom_data"]["currency"] = $currency;
+								$fb_capi_data["custom_data"]["value"] = $fb_price;
+								$fb_capi_data["custom_data"]["content_type"] = "product_group";
 							}
 						} else {
 							// This is a simple product page
-        						$fb_price =  wc_format_localized_price( $product->get_price() );
-							$viewContent = "fbq(\"track\",\"ViewContent\",{content_category:\"$cats\", content_name:\"$product_name\", content_type:\"product\", content_ids:[\"$fb_prodid\"], value:\"$fb_price\", currency:\"$currency\"});";
+							$fb_price =  wc_format_localized_price( $product->get_price() );
+							$fb_price = floatval(str_replace(',', '.', str_replace(',', '.', $fb_price)));
+							$viewContent = "fbq(\"track\",\"ViewContent\",{content_category:\"$cats\", content_name:\"$product_name\", content_type:\"product\", content_ids:[\"$fb_prodid\"], value:\"$fb_price\", currency:\"$currency\"},{eventID:\"$event_id\"});";
+
+							// Facebook CAPI data
+							$fb_capi_data["event_name"] = "ViewContent";
+							$fb_capi_data["custom_data"]["content_ids"] = $fb_prodid;
+							$fb_capi_data["custom_data"]["content_name"] = $product_name;
+							$fb_capi_data["custom_data"]["content_category"] = $cats;
+							$fb_capi_data["custom_data"]["currency"] = $currency;
+							$fb_capi_data["custom_data"]["value"] = $fb_price;
+							$fb_capi_data["custom_data"]["content_type"] = "product";
 						}
 					}
 				}
@@ -432,8 +501,8 @@ function woosea_add_facebook_pixel( $product = null ){
 						$order = wc_get_order( $order_id );
 						$order_items = $order->get_items();
 						$currency = get_woocommerce_currency();
-						$order_real = 0;
 						$contents = "";
+						$order_real = wc_format_localized_price($order->get_total());
 
 						if ( !is_wp_error( $order_items )) {
 							foreach( $order_items as $item_id => $order_item) {
@@ -442,25 +511,32 @@ function woosea_add_facebook_pixel( $product = null ){
 								if($variation_id > 0){
 									$prod_id = $variation_id;
 								}
-
 								$prod_quantity = $order_item->get_quantity();
-								$order_real = wc_format_localized_price( $order_item->get_total() );
-
-//								$order_subtotal = number_format(($order_item->get_subtotal()),2, '.', '');
-//								$order_subtotal_tax= number_format(($order_item->get_subtotal_tax()),2, '.', '');
-//								$order_real = number_format(($order_subtotal+$order_subtotal_tax+$order_real),2,',','');
 								$contents .= "{'id': '$prod_id', 'quantity': $prod_quantity},";												
 							}
 						}
 						$contents = rtrim($contents, ",");
-						$viewContent = "fbq('track','Purchase',{currency:'$currency', value:'$order_real', content_type:'product', contents:[$contents]});";
+						$order_real = floatval(str_replace(',', '.', str_replace(',', '.', $order_real)));
+						$viewContent = "fbq('track','Purchase',{currency:'$currency', value:'$order_real', content_type:'product', contents:[$contents]},{eventID:\"$event_id\"});";
+
+						// Facebook CAPI data
+						$fb_capi_data["event_name"] = "Purchase";
+						$fb_capi_data["custom_data"]["content_ids"] = $prod_id;
+						$fb_capi_data["custom_data"]["currency"] = $currency;
+						$fb_capi_data["custom_data"]["value"] = $order_real;
+						$fb_capi_data["custom_data"]["content_type"] = "product";
 					}
 				} else {
 					// This is on the cart page itself
 					$currency = get_woocommerce_currency();
 					$cart_items = WC()->cart->get_cart();
+					$cart_quantity = count($cart_items);
+
 					$cart_real = 0;
 					$contents = "";
+
+					$cart_total_amount = wc_format_localized_price(WC()->cart->get_cart_contents_total());
+					$cart_total_amount = floatval(str_replace(',', '.', str_replace(',', '.', $cart_total_amount)));
 
 					$checkoutpage = wc_get_checkout_url();
 					$current_url = get_permalink(get_the_ID()); 
@@ -469,6 +545,8 @@ function woosea_add_facebook_pixel( $product = null ){
 						if( !is_wp_error( $cart_items )) {
 							foreach( $cart_items as $cart_id => $cart_item) {
 								$prod_id = $cart_item['product_id'];
+								$product = $cart_item['data'];
+								$product_name = $product->get_name();
 								if($cart_item['variation_id'] > 0){
 									$prod_id = $cart_item['variation_id'];
 								}
@@ -476,20 +554,31 @@ function woosea_add_facebook_pixel( $product = null ){
 								//$contents .= "$prod_id,";							
 
 								$cart_real = wc_format_localized_price( $cart_item['line_total'] );							
-
-//								$line_total = number_format(($cart_item['line_total']),2, '.','');
-//								$line_tax = number_format(($cart_item['line_tax']),2, '.','');
-//								$cart_real = number_format($cart_real,2, '.','');
-//								$cart_real = number_format(($line_total+$line_tax+$cart_real),2,',','');
 							}
 							$contents = rtrim($contents, ",");
 
 							// User is on the billing pages
 							if($checkoutpage == $current_url){
-								$viewContent = "fbq(\"track\",\"InitiateCheckout\",{currency:\"$currency\", value:\"$cart_real\", content_type:\"product\", content_ids:[$contents]});";
+								$viewContent = "fbq(\"track\",\"InitiateCheckout\",{currency:\"$currency\", value:\"$cart_total_amount\", content_type:\"product\", content_ids:[$contents]},{eventID:\"$event_id\"});";
+
+								// Facebook CAPI data
+								$fb_capi_data["event_name"] = "InitiateCheckout";
+								$fb_capi_data["custom_data"]["content_ids"] = $contents;
+								$fb_capi_data["custom_data"]["content_name"] = $product_name;
+								$fb_capi_data["custom_data"]["currency"] = $currency;
+								$fb_capi_data["custom_data"]["value"] = $cart_total_amount;
+								$fb_capi_data["custom_data"]["content_type"] = "product";
 							} else {
 								// User is on the basket page
-								$viewContent = "fbq(\"track\",\"AddToCart\",{currency:\"$currency\", value:\"$cart_real\", content_type:\"product\", content_ids:[$contents]});";
+								$viewContent = "fbq(\"track\",\"AddToCart\",{currency:\"$currency\", value:\"$cart_total_amount\", content_type:\"product\", content_ids:[$contents]},{eventID:\"$event_id\"});";
+
+								// Facebook CAPI data
+								$fb_capi_data["event_name"] = "AddToCart";
+								$fb_capi_data["custom_data"]["content_ids"] = $contents;
+								$fb_capi_data["custom_data"]["content_name"] = $product_name;
+								$fb_capi_data["custom_data"]["currency"] = $currency;
+								$fb_capi_data["custom_data"]["value"] = $cart_total_amount;
+								$fb_capi_data["custom_data"]["content_type"] = "product";
 							}
 						}
 					}
@@ -522,8 +611,14 @@ function woosea_add_facebook_pixel( $product = null ){
 				}
 		               	$fb_prodid = rtrim($fb_prodid, ",");
 				$category_name = $term->name;
-                                $category_path = woosea_get_term_parents( $term->term_id, 'product_cat', $link = false, $project_taxonomy = false, $nicename = false, $visited = array() );
-				$viewContent = "fbq(\"track\",\"ViewCategory\",{content_category:\"$category_path\", content_name:\"$category_name\", content_type:\"product\", content_ids:\"[$fb_prodid]\"});";
+                                $category_path = woosea_get_term_parents( $term->term_id, 'product_cat', $project_taxonomy = false, $link = false, $nicename = false, $visited = array() );
+				$viewContent = "fbq(\"track\",\"ViewCategory\",{content_category:'$category_path', content_name:'$category_name', content_type:\"product\", content_ids:\"[$fb_prodid]\"},{eventID:\"$event_id\"});";
+
+				// Facebook CAPI data
+				$fb_capi_data["event_name"] = "ViewCategory";
+				$fb_capi_data["custom_data"]["content_ids"] = $ids;
+				$fb_capi_data["custom_data"]["content_type"] = "product";
+
 			} elseif ($fb_pagetype == "searchresults"){
 				$term = get_queried_object();
                 		$search_string = sanitize_text_field($_GET['s']);
@@ -552,9 +647,15 @@ function woosea_add_facebook_pixel( $product = null ){
 					}
 				}
 		               	$fb_prodid = rtrim($fb_prodid, ",");
-				$viewContent = "fbq(\"trackCustom\",\"Search\",{search_string:\"$search_string\", content_type:\"product\", content_ids:\"[\"$fb_prodid\"]\"});";
+				$viewContent = "fbq(\"trackCustom\",\"Search\",{search_string:\"$search_string\", content_type:\"product\", content_ids:\"[$fb_prodid]\"},{eventID:\"$event_id\"});";
+
+				// Facebook CAPI data
+				$fb_capi_data["event_name"] = "Search";
+				$fb_capi_data["custom_data"]["content_ids"] = $ids;
+				$fb_capi_data["custom_data"]["content_type"] = "product";
 			} else {
 				// This is another page than a product page
+				$fb_capi_data["event_name"] = "ViewContent";
 				$viewContent = "";
 			}
 		?>
@@ -573,7 +674,8 @@ function woosea_add_facebook_pixel( $product = null ){
   			t.src=v;s=b.getElementsByTagName(e)[0];
   			s.parentNode.insertBefore(t,s)}(window, document,'script',
   			'https://connect.facebook.net/en_US/fbevents.js');
-  			fbq("init", "<?php print"$facebook_pixel_id";?>");
+
+  			fbq("init", "<?php echo htmlentities($facebook_pixel_id, ENT_QUOTES, 'UTF-8');?>");
   			fbq("track", "PageView");
 			<?php
 				if(strlen($viewContent) > 2){
@@ -582,10 +684,42 @@ function woosea_add_facebook_pixel( $product = null ){
 			?>
 		</script>
 		<noscript>
-  			<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=<?php print"$facebook_pixel_id";?>&ev=PageView&noscript=1"/>
+  			<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=<?php echo htmlentities($facebook_pixel_id, ENT_QUOTES, 'UTF-8');;?>&ev=PageView&noscript=1&eid=<?php print"$event_id";?>"/>
 		</noscript>	
 		<!-- End Facebook Pixel Code -->
 		<?php
+
+		// POST data to Facebook Conversion API
+		if(($add_facebook_capi == "yes") AND (!empty($facebook_capi_token))){
+			// Turn Data to JSON
+			$data_json = json_encode(array($fb_capi_data));
+
+			// Fill available fields
+			$fields = array();
+			$fields['access_token'] = FACEBOOK_APP_ACCESS_TOKEN;
+			$fields['upload_tag'] = $fb_capi_data["event_name"] . '-' . time(); // You should set a tag here (feel free to adjust)
+			$fields['data'] = $data_json;
+			$url = 'https://graph.facebook.com/v11.0/' . FACEBOOK_PIXEL_OFFLINE_EVENT_SET_ID . '/events';
+			$curl = curl_init($url);
+
+			curl_setopt_array($curl, array(
+    				// Replace with your offline_event_set_id
+    				CURLOPT_URL => 'https://graph.facebook.com/v11.0/' . FACEBOOK_PIXEL_OFFLINE_EVENT_SET_ID . '/events',
+    				CURLOPT_RETURNTRANSFER => true,
+    				CURLOPT_ENCODING => "",
+    				CURLOPT_MAXREDIRS => 10,
+    				CURLOPT_TIMEOUT => 30,
+   				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    				CURLOPT_CUSTOMREQUEST => "POST",
+    				CURLOPT_POSTFIELDS =>  http_build_query($fields),
+    				CURLOPT_HTTPHEADER => array(
+        				"cache-control: no-cache",
+        				//"content-type: multipart/form-data",
+        				"Accept: application/json"  ),
+				));
+				$response = curl_exec($curl);
+				curl_close($curl);
+			}
 		}
 	}
 }
@@ -600,11 +734,26 @@ function woosea_add_remarketing_tags( $product = null ){
         }
 	$ecomm_pagetype = WooSEA_Google_Remarketing::woosea_google_remarketing_pagetype();
    	$add_remarketing = get_option ('add_remarketing');
-      
+
 	if($add_remarketing == "yes"){	
         	$adwords_conversion_id = get_option("woosea_adwords_conversion_id");
+		// Add vulnerability check, unset when no proper comversion ID was inserted
+		if(!is_numeric($adwords_conversion_id)){
+			unset($adwords_conversion_id);
+		}
 
 		if($adwords_conversion_id > 0){
+		?>
+	        	<!-- Global site tag (gtag.js) - Google Ads: <?php echo htmlentities($adwords_conversion_id, ENT_QUOTES, 'UTF-8');?> - Added by the Product Feed Pro plugin from AdTribes.io  -->
+                	<script async src="https://www.googletagmanager.com/gtag/js?id=AW-<?php echo htmlentities($adwords_conversion_id, ENT_QUOTES, 'UTF-8');?>"></script>
+                	<script>
+                        	window.dataLayer = window.dataLayer || [];
+                        	function gtag(){dataLayer.push(arguments);}
+                        	gtag('js', new Date());
+
+                        	gtag('config', '<?php echo 'AW-'.htmlentities($adwords_conversion_id, ENT_QUOTES, 'UTF-8');?>');
+                	</script>
+		<?php
 			if ($ecomm_pagetype == "product"){
                 		if ( '' !== $product->get_price()) {
                  		$ecomm_prodid = get_the_id();
@@ -668,62 +817,83 @@ function woosea_add_remarketing_tags( $product = null ){
       					}
 				}
 				?>
-				<script type="text/javascript">
-				var google_tag_params = {
-				ecomm_prodid: <?php print "$ecomm_prodid";?>,
-				ecomm_pagetype: '<?php print "$ecomm_pagetype";?>',
-				ecomm_totalvalue: <?php print "$ecomm_price";?>,
-				};
+				<script>
+  					gtag('event', 'view_item', {
+    						'send_to'	: '<?php echo 'AW-'.htmlentities($adwords_conversion_id, ENT_QUOTES, 'UTF-8');?>',
+    						'value'		: <?php print "$ecomm_price";?>,
+    						'items'		: [{
+      									'id': <?php print "$ecomm_prodid";?>,
+      									'google_business_vertical': 'retail'
+    								}]
+  					});
 				</script>
-		
 			<?php
 			}
 		} elseif ($ecomm_pagetype == "cart"){
-				// Get the first product from cart and use that product ID
-				foreach( WC()->cart->get_cart() as $cart_item ){
-    					$ecomm_prodid = $cart_item['product_id'];
-    					break;
+                                // This is on the order thank you page
+                                if( isset( $_GET['key'] ) && is_wc_endpoint_url( 'order-received' ) ) {
+                                        $order_string = sanitize_text_field($_GET['key']);
+                                        if(!empty($order_string)){
+                                                $order_id = wc_get_order_id_by_order_key( $order_string );
+                                                $order = wc_get_order( $order_id );
+                                                $order_items = $order->get_items();
+                                                $currency = get_woocommerce_currency();
+                                                $contents = "";
+                                                $order_real = wc_format_localized_price($order->get_total());
+
+                                                if ( !is_wp_error( $order_items )) {
+                                                        foreach( $order_items as $item_id => $order_item) {
+                                                                $prod_id = $order_item->get_product_id();
+                                                                $variation_id = $order_item->get_variation_id();
+                                                                if($variation_id > 0){
+                                                                        $prod_id = $variation_id;
+                                                                }
+                                                                $prod_quantity = $order_item->get_quantity();
+                                                        }
+                                                }
+                                                $order_real = floatval(str_replace(',', '.', str_replace(',', '.', $order_real)));
+                                        	?>
+                                        	<script>
+                                                	gtag('event', 'purchase', {
+                                                        	'send_to'       : '<?php echo 'AW-'.htmlentities($adwords_conversion_id, ENT_QUOTES, 'UTF-8');?>',
+                                                        	'value'         : <?php print "$order_real";?>,
+                                                        	'items'         : [{
+                                                                	        'id': <?php print "$prod_id";?>,
+                                                                        	'google_business_vertical': 'retail'
+                                                                	}]
+                                                	});
+                                        	</script>
+                                        	<?php	
+					}
+				} else {
+					// This is on the cart page, no purchase yet
+					// Get the first product from cart and use that product ID
+					foreach( WC()->cart->get_cart() as $cart_item ){
+    						$ecomm_prodid = $cart_item['product_id'];
+    						break;
+					}
+
+					if($ecomm_prodid > 0){
+                                        	$currency = get_woocommerce_currency();
+                                        	$cart_items = WC()->cart->get_cart();
+                                        	$cart_quantity = count($cart_items);
+                                        	$cart_total_amount = wc_format_localized_price(WC()->cart->get_cart_contents_total()+WC()->cart->tax_total);
+                                        	$cart_total_amount = floatval(str_replace(',', '.', str_replace(',', '.', $cart_total_amount)));
+						?>
+						<script>
+  							gtag('event', 'add_to_cart', {
+    								'send_to'	: '<?php echo 'AW-'.htmlentities($adwords_conversion_id, ENT_QUOTES, 'UTF-8');?>',
+    								'value'		: <?php print "$cart_total_amount";?>,
+    								'items'		: [{
+      										'id': <?php print "$ecomm_prodid";?>,
+      										'google_business_vertical': 'retail'
+    									}]
+  							});
+						</script>
+					<?php
+					}
 				}
-				?>
-				<script type="text/javascript">
-				var google_tag_params = {
-				ecomm_prodid: '<?php print "$ecomm_prodid";?>',
-				ecomm_pagetype: '<?php print "$ecomm_pagetype";?>',
-				};
-				</script>
-				<?php
-		} else {
-			// This is another page than a product page
-			?>
-               		<script type="text/javascript">
-     	          	var google_tag_params = {
-     	          	ecomm_pagetype: '<?php print "$ecomm_pagetype";?>',
-    	           	};
-        	       	</script>
-			<?php
-		}
-		?>
-			<!-- Google-code – remarketing tag added by AdTribes.io -->
-			<!--------------------------------------------------
-			You need to make sure that the ecomm_prodid parameter, which we fill with your
-			WooCommerce product Id matches the g:id field for your Google Merchant Center feed. 
-			--------------------------------------------------->
-			<script type="text/javascript">
-			/* <![CDATA[ */
-			var google_conversion_id = <?php print "$adwords_conversion_id";?>;
-			var google_custom_params = window.google_tag_params;
-			var google_remarketing_only = true;
-			/* ]]> */
-			</script>
-			<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
-			</script>
-			<noscript>
-			<div style="display:inline;">
-			<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/<?php print "$adwords_conversion_id";?>/?guid=ON&amp;script=0"/>
-			</div>
-			</noscript>
-			<!-- End Google Remarketing Pixel Code -->
-			<?php
+			}
 		}
 	}
 }
@@ -935,10 +1105,18 @@ function woosea_categories_dropdown() {
 add_action( 'wp_ajax_woosea_categories_dropdown', 'woosea_categories_dropdown' );
 
 /**
+ * Sanitize XSS
+ */
+function woosea_sanitize_xss($value) {
+	return htmlspecialchars(strip_tags($value));
+}
+
+/**
  * Save Google Dynamic Remarketing Conversion Tracking ID
  */
 function woosea_save_adwords_conversion_id() {
 	$adwords_conversion_id = sanitize_text_field($_POST['adwords_conversion_id']);
+	$adwords_conversion_id = woosea_sanitize_xss($adwords_conversion_id);
 	update_option("woosea_adwords_conversion_id", $adwords_conversion_id);
 }
 add_action( 'wp_ajax_woosea_save_adwords_conversion_id', 'woosea_save_adwords_conversion_id' );
@@ -957,9 +1135,20 @@ add_action( 'wp_ajax_woosea_save_batch_size', 'woosea_save_batch_size' );
  */
 function woosea_save_facebook_pixel_id() {
 	$facebook_pixel_id = sanitize_text_field($_POST['facebook_pixel_id']);
+	$facebook_pixel_id = woosea_sanitize_xss($facebook_pixel_id);
 	update_option("woosea_facebook_pixel_id", $facebook_pixel_id);
 }
 add_action( 'wp_ajax_woosea_save_facebook_pixel_id', 'woosea_save_facebook_pixel_id' );
+
+/**
+ * Save Facebook Conversion API Token
+ */
+function woosea_save_facebook_capi_token() {
+	$facebook_capi_token = sanitize_text_field($_POST['facebook_capi_token']);
+	$facebook_capi_token = woosea_sanitize_xss($facebook_capi_token);
+	update_option("woosea_facebook_capi_token", $facebook_capi_token);
+}
+add_action( 'wp_ajax_woosea_save_facebook_capi_token', 'woosea_save_facebook_capi_token' );
 
 /**
  * Mass map categories to the correct Google Shopping category taxonomy
@@ -2322,19 +2511,58 @@ function woosea_add_woosea_logging (){
 add_action( 'wp_ajax_woosea_add_woosea_logging', 'woosea_add_woosea_logging' );
 
 /**
+ * This function enables the setting to add CDATA to title and descriptions
+ */
+function woosea_add_woosea_cdata (){
+        $status = sanitize_text_field($_POST['status']);
+
+	if ($status == "off"){
+		update_option( 'add_woosea_cdata', 'no', 'yes');
+	} else {
+		update_option( 'add_woosea_cdata', 'yes', 'yes');
+	}
+}
+add_action( 'wp_ajax_woosea_add_woosea_cdata', 'woosea_add_woosea_cdata' );
+
+/**
  * This function enables the setting to add 
  * the Faceook pixel 
  */
 function woosea_add_facebook_pixel_setting (){
-        $status = sanitize_text_field($_POST['status']);
+	check_ajax_referer('woosea_ajax_nonce', 'security');
+	$status = sanitize_text_field($_POST['status']);
 
-	if ($status == "off"){
-		update_option( 'add_facebook_pixel', 'no', 'yes');
-	} else {
-		update_option( 'add_facebook_pixel', 'yes', 'yes');
-	}
+	// Only admin users are allowed to make changes that impact the front-end
+	$user = wp_get_current_user();
+	if ( in_array( 'administrator', (array) $user->roles ) ) {
+		if ($status == "off"){
+			update_option( 'add_facebook_pixel', 'no', 'yes');
+		} else {
+			update_option( 'add_facebook_pixel', 'yes', 'yes');
+		}
+	}	
 }
 add_action( 'wp_ajax_woosea_add_facebook_pixel_setting', 'woosea_add_facebook_pixel_setting' );
+
+/**
+ * This function enables the setting to enable 
+ * the Faceook Conversion API (CAPI) 
+ */
+function woosea_add_facebook_capi_setting (){
+	check_ajax_referer('woosea_ajax_nonce', 'security');
+	$status = sanitize_text_field($_POST['status']);
+
+	// Only admin users are allowed to make changes that impact the front-end
+	$user = wp_get_current_user();
+	if ( in_array( 'administrator', (array) $user->roles ) ) {
+		if ($status == "off"){
+			update_option( 'add_facebook_capi', 'no', 'yes');
+		} else {
+			update_option( 'add_facebook_capi', 'yes', 'yes');
+		}
+	}	
+}
+add_action( 'wp_ajax_woosea_add_facebook_capi_setting', 'woosea_add_facebook_capi_setting' );
 
 /**
  * This function saves the value that needs to be used in the Facebook pixel content_ids parameter 
@@ -2355,13 +2583,18 @@ add_action( 'wp_ajax_woosea_facebook_content_ids', 'woosea_facebook_content_ids'
  * Google's Dynamic Remarketing 
  */
 function woosea_add_remarketing (){
-        $status = sanitize_text_field($_POST['status']);
+	check_ajax_referer('woosea_ajax_nonce', 'security');
+	$status = sanitize_text_field($_POST['status']);
 
-	if ($status == "off"){
-		update_option( 'add_remarketing', 'no', 'yes');
-	} else {
-		update_option( 'add_remarketing', 'yes', 'yes');
-	}
+	// Only admin users are allowed to make changes that impact the front-end
+	$user = wp_get_current_user();
+	if ( in_array( 'administrator', (array) $user->roles ) ) {
+		if ($status == "off"){
+			update_option( 'add_remarketing', 'no', 'yes');
+		} else {
+			update_option( 'add_remarketing', 'yes', 'yes');
+		}
+	}	
 }
 add_action( 'wp_ajax_woosea_add_remarketing', 'woosea_add_remarketing' );
 
@@ -2372,10 +2605,14 @@ add_action( 'wp_ajax_woosea_add_remarketing', 'woosea_add_remarketing' );
 function woosea_add_batch (){
         $status = sanitize_text_field($_POST['status']);
 
-	if ($status == "off"){
-		update_option( 'add_batch', 'no', 'yes');
-	} else {
-		update_option( 'add_batch', 'yes', 'yes');
+        // Only admin users are allowed to make changes that impact the performance
+        $user = wp_get_current_user();
+        if ( in_array( 'administrator', (array) $user->roles ) ) {
+		if ($status == "off"){
+			update_option( 'add_batch', 'no', 'yes');
+		} else {
+			update_option( 'add_batch', 'yes', 'yes');
+		}
 	}
 }
 add_action( 'wp_ajax_woosea_add_batch', 'woosea_add_batch' );
@@ -4639,7 +4876,7 @@ function woosea_blog_widgets() {
 	
 	add_meta_box('woosea_rss_dashboard_widget', __('Latest Product Feed Pro Tutorials', 'rc_mdm'), 'woosea_my_rss_box','dashboard','side','high');
 }
-add_action('wp_dashboard_setup', 'woosea_blog_widgets');
+//add_action('wp_dashboard_setup', 'woosea_blog_widgets');
 
 /**
  * Creates the RSS metabox

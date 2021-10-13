@@ -34,6 +34,7 @@ use PYS_PRO_GLOBAL\FacebookAds\Object\Values\CommentLiveFilterValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\CommentOrderValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\LiveVideoBroadcastStatusValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\LiveVideoLiveCommentModerationSettingValues;
+use PYS_PRO_GLOBAL\FacebookAds\Object\Values\LiveVideoPersistentStreamKeyStatusValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\LiveVideoProjectionValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\LiveVideoSourceValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\LiveVideoSpatialAudioFormatValues;
@@ -69,6 +70,7 @@ class LiveVideo extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
         $ref_enums['BroadcastStatus'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\LiveVideoBroadcastStatusValues::getInstance()->getValues();
         $ref_enums['Source'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\LiveVideoSourceValues::getInstance()->getValues();
         $ref_enums['LiveCommentModerationSetting'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\LiveVideoLiveCommentModerationSettingValues::getInstance()->getValues();
+        $ref_enums['PersistentStreamKeyStatus'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\LiveVideoPersistentStreamKeyStatusValues::getInstance()->getValues();
         return $ref_enums;
     }
     public function getBlockedUsers(array $fields = array(), array $params = array(), $pending = \false)
@@ -184,8 +186,8 @@ class LiveVideo extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
     public function updateSelf(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
-        $param_types = array('allow_bm_crossposting' => 'bool', 'content_tags' => 'list<string>', 'crossposting_actions' => 'list<map>', 'custom_labels' => 'list<string>', 'description' => 'string', 'direct_share_status' => 'unsigned int', 'embeddable' => 'bool', 'end_live_video' => 'bool', 'is_audio_only' => 'bool', 'is_manual_mode' => 'bool', 'live_comment_moderation_setting' => 'list<live_comment_moderation_setting_enum>', 'live_encoders' => 'list<string>', 'master_ingest_stream_id' => 'string', 'og_icon_id' => 'string', 'og_phrase' => 'string', 'place' => 'Object', 'planned_start_time' => 'int', 'privacy' => 'string', 'published' => 'bool', 'schedule_custom_profile_image' => 'file', 'schedule_feed_background_image' => 'file', 'sponsor_id' => 'string', 'sponsor_relationship' => 'unsigned int', 'status' => 'status_enum', 'stream_type' => 'stream_type_enum', 'tags' => 'list<int>', 'targeting' => 'Object', 'title' => 'string');
-        $enums = array('live_comment_moderation_setting_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\LiveVideoLiveCommentModerationSettingValues::getInstance()->getValues(), 'status_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\LiveVideoStatusValues::getInstance()->getValues(), 'stream_type_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\LiveVideoStreamTypeValues::getInstance()->getValues());
+        $param_types = array('allow_bm_crossposting' => 'bool', 'content_tags' => 'list<string>', 'cross_share_to_group_ids' => 'list<string>', 'crossposting_actions' => 'list<map>', 'custom_labels' => 'list<string>', 'description' => 'string', 'direct_share_status' => 'unsigned int', 'embeddable' => 'bool', 'end_live_video' => 'bool', 'is_audio_only' => 'bool', 'is_manual_mode' => 'bool', 'live_comment_moderation_setting' => 'list<live_comment_moderation_setting_enum>', 'live_encoders' => 'list<string>', 'master_ingest_stream_id' => 'string', 'og_icon_id' => 'string', 'og_phrase' => 'string', 'persistent_stream_key_status' => 'persistent_stream_key_status_enum', 'place' => 'Object', 'planned_start_time' => 'int', 'privacy' => 'string', 'published' => 'bool', 'schedule_custom_profile_image' => 'file', 'schedule_feed_background_image' => 'file', 'sponsor_id' => 'string', 'sponsor_relationship' => 'unsigned int', 'status' => 'status_enum', 'stream_type' => 'stream_type_enum', 'tags' => 'list<int>', 'targeting' => 'Object', 'title' => 'string');
+        $enums = array('live_comment_moderation_setting_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\LiveVideoLiveCommentModerationSettingValues::getInstance()->getValues(), 'persistent_stream_key_status_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\LiveVideoPersistentStreamKeyStatusValues::getInstance()->getValues(), 'status_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\LiveVideoStatusValues::getInstance()->getValues(), 'stream_type_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\LiveVideoStreamTypeValues::getInstance()->getValues());
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/', new \PYS_PRO_GLOBAL\FacebookAds\Object\LiveVideo(), 'NODE', \PYS_PRO_GLOBAL\FacebookAds\Object\LiveVideo::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
         $request->addFields($fields);

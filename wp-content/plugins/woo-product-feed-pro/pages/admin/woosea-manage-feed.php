@@ -97,7 +97,15 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 				foreach($cron_projects as $key => $value){
 					$cron_projects[$key]['active'] = "true";
 				}
-                             	update_option('cron_projects', $cron_projects,'no');
+				update_option('cron_projects', $cron_projects,'no');
+                        } elseif (array_key_exists('force-clean', $_GET)){
+                                // Forcefully remove all feed and plugin configurations
+                                delete_option( 'cron_projects' );
+                                delete_option( 'channel_statics' );
+                                delete_option( 'woosea_getelite_notification' );
+                                delete_option( 'woosea_license_notification_closed' );
+                                wp_clear_scheduled_hook( 'woosea_cron_hook' );
+                                wp_clear_scheduled_hook( 'woosea_check_license' );
 			} else {
                                 // Set default notification to show
                                 $getelite_notice = get_option('woosea_getelite_notification');
@@ -137,6 +145,11 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 					</div>
 				<?php
 			}
+
+			// Double check if the woosea_cron_hook is there, when it is not create a new one
+                	if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
+                        	wp_schedule_event ( time(), 'hourly', 'woosea_cron_hook');
+                	}
 			?>
 
                         <div class="woo-product-feed-pro-form-style-2-heading"><?php _e( 'Manage feeds','woo-product-feed-pro' );?></div>

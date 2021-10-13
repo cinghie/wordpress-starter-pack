@@ -2,7 +2,7 @@
 namespace PixelYourSite;
 
 
-class EventsWoo implements EventsFactory {
+class EventsWoo extends EventsFactory {
 
     private $events = array(
         //"woo_frequent_shopper",
@@ -53,6 +53,10 @@ class EventsWoo implements EventsFactory {
 
     }
 
+    static function getSlug() {
+        return "woo";
+    }
+
     private function __construct() {
 
     }
@@ -90,7 +94,8 @@ class EventsWoo implements EventsFactory {
                 'singleProductId'               => isWooCommerceActive() && is_singular( 'product' ) ? $post->ID : null,
                 'removeFromCartSelector'        => isWooCommerceVersionGte( '3.0.0' )
                     ? 'form.woocommerce-cart-form .remove'
-                    : '.cart .product-remove .remove'
+                    : '.cart .product-remove .remove',
+                'addToCartCatchMethod'  => PYS()->getOption('woo_add_to_cart_catch_method')
             );
 
             return $data;
@@ -106,7 +111,9 @@ class EventsWoo implements EventsFactory {
     {
         switch ($event) {
             case 'woo_add_to_cart_on_button_click': {
-                return PYS()->getOption( 'woo_add_to_cart_enabled' ) && PYS()->getOption( 'woo_add_to_cart_on_button_click' );
+                return PYS()->getOption( 'woo_add_to_cart_enabled' )
+                        && PYS()->getOption( 'woo_add_to_cart_on_button_click' )
+                        && PYS()->getOption('woo_add_to_cart_catch_method') == "add_cart_js"; // or use in hook
             }
 
 
@@ -146,11 +153,13 @@ class EventsWoo implements EventsFactory {
             case 'woo_add_to_cart_on_cart_page': {
                 return PYS()->getOption( 'woo_add_to_cart_enabled' ) &&
                     PYS()->getOption( 'woo_add_to_cart_on_cart_page' ) &&
-                    is_cart();
+                    is_cart()
+                    && count(WC()->cart->get_cart())>0;
             }
             case 'woo_add_to_cart_on_checkout_page': {
                 return PYS()->getOption( 'woo_add_to_cart_enabled' ) && PYS()->getOption( 'woo_add_to_cart_on_checkout_page' )
-                    && is_checkout() && ! is_wc_endpoint_url();
+                    && is_checkout() && ! is_wc_endpoint_url()
+                    && count(WC()->cart->get_cart())>0;
             }
 
             case 'woo_initiate_checkout': {

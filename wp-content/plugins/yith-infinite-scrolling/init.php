@@ -3,7 +3,7 @@
  * Plugin Name: YITH Infinite Scrolling
  * Plugin URI: https://yithemes.com/themes/plugins/yith-infinite-scrolling/
  * Description: The <code><strong>YITH Infinite Scrolling</strong></code> plugin lets you easily add infinite scroll on your pages. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>.
- * Version: 1.4.1
+ * Version: 1.5.3
  * Author: YITH
  * Author URI: https://yithemes.com/
  * Text Domain: yith-infinite-scrolling
@@ -11,32 +11,22 @@
  *
  * @author  YITH
  * @package YITH Infinite Scrolling
- * @version 1.4.1
+ * @version 1.5.3
  */
-/*  Copyright 2021  YITH  ( email: plugins@yithemes.com )
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License, version 2, as
-published by the Free Software Foundation.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-} // Exit if accessed directly
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 if ( ! function_exists( 'is_plugin_active' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/plugin.php';
 }
 
+/**
+ * Add admin notice on installation error
+ *
+ * @since 1.0.0
+ * @author Francesco Licandro
+ * @return void
+ */
 function yith_infs_install_free_admin_notice() {
 	?>
 	<div class="error">
@@ -52,7 +42,7 @@ register_activation_hook( __FILE__, 'yith_plugin_registration_hook' );
 
 
 if ( ! defined( 'YITH_INFS_VERSION' ) ) {
-	define( 'YITH_INFS_VERSION', '1.4.1' );
+	define( 'YITH_INFS_VERSION', '1.5.3' );
 }
 
 if ( ! defined( 'YITH_INFS_FREE_INIT' ) ) {
@@ -101,11 +91,18 @@ if ( ! function_exists( 'yit_maybe_plugin_fw_loader' ) && file_exists( YITH_INFS
 }
 yit_maybe_plugin_fw_loader( YITH_INFS_DIR );
 
+/**
+ * Plugin init
+ *
+ * @since 1.0.0
+ * @author Francesco Licandro
+ * @return void
+ */
 function yith_infs_init() {
 
 	load_plugin_textdomain( 'yith-infinite-scrolling', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
-	// Load required classes and functions
+	// Load required classes and functions.
 	require_once 'includes/functions.yith-infs.php';
 	require_once 'includes/class.yith-infs.php';
 
@@ -116,6 +113,13 @@ function yith_infs_init() {
 add_action( 'yith_infs_init', 'yith_infs_init' );
 
 
+/**
+ * Plugin install
+ *
+ * @since 1.0.0
+ * @author Francesco Licandro
+ * @return void
+ */
 function yith_infs_install() {
 
 	if ( defined( 'YITH_INFS_PREMIUM' ) ) {

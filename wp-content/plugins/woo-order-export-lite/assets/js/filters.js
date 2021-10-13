@@ -10,6 +10,12 @@ jQuery( document ).ready( function ( $ ) {
 			}
 		} );
 
+		$( '#' + object_id + ' textarea' ).each( function ( index ) {
+			if ( $( this ).val() ) {
+				f = true;
+			}
+		} );
+
 		// show checkboxes for order and coupon section  ?
 		if ( f || verify_checkboxes && $( '#' + object_id + " input[type='checkbox']:checked" ).length ) {
 			$( '#' + object_id ).prev().click();
@@ -225,7 +231,12 @@ jQuery( document ).ready( function ( $ ) {
             jQuery( "#text_item_metadata" ).css( 'display', 'none' ).attr( 'disabled', 'disabled' );
             jQuery( "#text_item_metadata--select2" ).hide();
             jQuery( "#text_order_itemmetadata" ).css( 'display', 'inline' ).attr( 'disabled', false );
-        }
+        } 
+		else if ( 'NOT SET' === val_op || 'IS SET' === val_op ) {
+			jQuery( "#text_item_metadata" ).css( 'display', 'none' ).attr( 'disabled', 'disabled' ).val( ' ' );
+            jQuery( "#text_item_metadata--select2" ).hide();
+            jQuery( "#text_order_itemmetadata" ).css( 'display', 'none' ).attr( 'disabled', false ).val( ' ' );
+		}
         else {
             jQuery( "#text_item_metadata" ).css( 'display', 'inline-block' ).attr( 'disabled', false );
             jQuery( "#text_item_metadata--select2" ).css( 'display', 'inline' );
@@ -662,6 +673,7 @@ jQuery( document ).ready( function ( $ ) {
 			    else {
 				    jQuery( '<input type="text" id="text_item_metadata" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_item_metadata' ) );
 			    }
+				jQuery( '#item_metadata_compare' ).trigger( 'change' );
 		    }, 'json' );
 	    } ).trigger( 'change' );
 	}, 0);

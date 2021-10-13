@@ -3,11 +3,11 @@
  * Plugin Name:     WooCommerce UPC, EAN, and ISBN
  * Plugin URI:      http://hollerwp.com
  * Description:     Add GTIN including UPC, EAN, and ISBN code fields to your WooCommerce product pages and checkout.
- * Version:         0.4.0
+ * Version:         0.5.1
  * Author:          Scott Bolinger
  * Text Domain:     woo-add-gtin
- * WC requires at least: 3.0
- * WC tested up to: 3.4.5
+ * WC requires at least: 4.0
+ * WC tested up to: 5.0.0
  *
  * @author          Scott Bolinger
  * @copyright       Copyright (c) Scott Bolinger 2017
@@ -63,7 +63,7 @@ if( !class_exists( 'Woo_GTIN' ) ) {
          */
         private function setup_constants() {
             // Plugin version
-            define( 'Woo_GTIN_VER', '0.4.0' );
+            define( 'Woo_GTIN_VER', '0.5.1' );
 
             // Plugin path
             define( 'Woo_GTIN_DIR', plugin_dir_path( __FILE__ ) );

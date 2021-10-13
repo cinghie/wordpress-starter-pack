@@ -1,8 +1,8 @@
 /*!
- * Variation Swatches for WooCommerce v1.1.9 
+ * Variation Swatches for WooCommerce v1.1.19 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 2/12/2021
+ * Date: 07/09/2021
  * Released under the GPLv3 license.
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -77,87 +77,102 @@
 
 jQuery(function ($) {
 
-    Promise.resolve().then(function () {
-        return __webpack_require__(11);
-    }).then(function () {
+  Promise.resolve().then(function () {
+    return __webpack_require__(11);
+  }).then(function () {
 
-        // Init on Ajax Popup :)
-        $(document).on('wc_variation_form.wvs', '.variations_form:not(.wvs-loaded)', function (event) {
-            $(this).WooVariationSwatches();
-        });
-
-        // Support for Jetpack's Infinite Scroll,
-        $(document.body).on('post-load.wvs', function () {
-            $('.variations_form').each(function () {
-                $(this).wc_variation_form();
-            });
-        });
-
-        // Composite product load
-        $(document.body).on('wc-composite-initializing', '.composite_data', function (event, composite) {
-            composite.actions.add_action('component_selection_details_animated', function (self) {
-                $(self.$component_content).find('.variations_form').removeClass('wvs-loaded wvs-pro-loaded');
-            });
-        });
-
-        // Support for Yith Infinite Scroll
-        $(document).on('yith_infs_added_elem.wvs', function () {
-            $('.variations_form').each(function () {
-                $(this).wc_variation_form();
-            });
-        });
-
-        // Support for Yith Ajax Filter
-        $(document).on('yith-wcan-ajax-filtered.wvs', function () {
-            $('.variations_form').each(function () {
-                $(this).wc_variation_form();
-            });
-        });
-
-        // Support for Woodmart theme
-        $(document).on('wood-images-loaded.wvs', function () {
-            $('.variations_form').each(function () {
-                $(this).wc_variation_form();
-            });
-        });
-
-        // Support for berocket ajax filters
-        $(document).on('berocket_ajax_products_loaded.wvs berocket_ajax_products_infinite_loaded.wvs', function () {
-            $('.variations_form').each(function () {
-                $(this).wc_variation_form();
-            });
-        });
-
-        // Flatsome Infinite Scroll Support
-        $('.shop-container .products').on('append.infiniteScroll', function (event, response, path) {
-            $('.variations_form').each(function () {
-                $(this).wc_variation_form();
-            });
-        });
-
-        // FacetWP Load More
-        $(document).on('facetwp-loaded.wvs', function () {
-            $('.variations_form').each(function () {
-                $(this).wc_variation_form();
-            });
-        });
-
-        // Savoy Load More
-        $(document).on('nm_infload_after.wvs nm_ajax_shop_update_content.wvs', function () {
-            $('.variations_form').each(function () {
-                $(this).wc_variation_form();
-            });
-        });
-
-        // WooCommerce Filter Nav
-        $('body').on('aln_reloaded.wvs', function () {
-            _.delay(function () {
-                $('.variations_form').each(function () {
-                    $(this).wc_variation_form();
-                });
-            }, 100);
-        });
+    // Init on Ajax Popup :)
+    $(document).on('wc_variation_form.wvs', '.variations_form:not(.wvs-loaded)', function (event) {
+      $(this).WooVariationSwatches();
     });
+
+    // Try to cover all ajax data complete
+    $(document).ajaxComplete(function (event, request, settings) {
+      _.delay(function () {
+        $('.variations_form:not(.wvs-loaded)').each(function () {
+          $(this).wc_variation_form();
+        });
+      }, 100);
+    });
+
+    // Support for Jetpack's Infinite Scroll,
+    $(document.body).on('post-load.wvs', function () {
+      $('.variations_form:not(.wvs-loaded)').each(function () {
+        $(this).wc_variation_form();
+      });
+    });
+
+    // Composite product load
+    // JS API: https://docs.woocommerce.com/document/composite-products/composite-products-js-api-reference/
+    $(document.body).on('wc-composite-initializing', '.composite_data', function (event, composite) {
+      composite.actions.add_action('component_options_state_changed', function (self) {
+        $(self.$component_content).find('.variations_form').removeClass('wvs-loaded wvs-pro-loaded');
+      });
+
+      /* composite.actions.add_action('active_scenarios_updated', (self) => {
+         console.log('active_scenarios_updated')
+         $(self.$component_content).find('.variations_form').removeClass('wvs-loaded wvs-pro-loaded')
+       })*/
+    });
+
+    // Support for Yith Infinite Scroll
+    $(document).on('yith_infs_added_elem.wvs', function () {
+      $('.variations_form:not(.wvs-loaded)').each(function () {
+        $(this).wc_variation_form();
+      });
+    });
+
+    // Support for Yith Ajax Filter
+    $(document).on('yith-wcan-ajax-filtered.wvs', function () {
+      $('.variations_form:not(.wvs-loaded)').each(function () {
+        $(this).wc_variation_form();
+      });
+    });
+
+    // Support for Woodmart theme
+    $(document).on('wood-images-loaded.wvs', function () {
+      $('.variations_form:not(.wvs-loaded)').each(function () {
+        $(this).wc_variation_form();
+      });
+    });
+
+    // Support for berocket ajax filters
+    $(document).on('berocket_ajax_products_loaded.wvs berocket_ajax_products_infinite_loaded.wvs', function () {
+      $('.variations_form:not(.wvs-loaded)').each(function () {
+        $(this).wc_variation_form();
+      });
+    });
+
+    // Flatsome Infinite Scroll Support
+    $('.shop-container .products, .infinite-scroll-wrap').on('append.infiniteScroll', function (event, response, path) {
+      $('.variations_form:not(.wvs-loaded)').each(function () {
+        $(this).wc_variation_form();
+      });
+    });
+
+    // FacetWP Load More
+    $(document).on('facetwp-loaded.wvs', function () {
+      $('.variations_form:not(.wvs-loaded)').each(function () {
+        $(this).wc_variation_form();
+      });
+    });
+
+    // Savoy Load More
+    $(document).on('nm_infload_after.wvs nm_ajax_shop_update_content.wvs', function () {
+      $('.variations_form:not(.wvs-loaded)').each(function () {
+        $(this).wc_variation_form();
+      });
+    });
+
+    // WooCommerce Filter Nav
+    $('body').on('aln_reloaded.wvs', function () {
+      _.delay(function () {
+        $('.variations_form:not(.wvs-loaded)').each(function () {
+          $(this).wc_variation_form();
+        });
+      }, 100);
+    });
+  });
 }); // end of jquery main wrapper
 
 /***/ }),
@@ -259,11 +274,11 @@ var WooVariationSwatches = function ($) {
 
           var select = $(this).siblings('select.woo-variation-raw-select');
           var selected = '';
-
-          var options = $(this).siblings('select.woo-variation-raw-select').find('option');
-          var disabled = $(this).siblings('select.woo-variation-raw-select').find('option:disabled');
-          var current = $(this).siblings('select.woo-variation-raw-select').find('option:selected');
-          var eq = $(this).siblings('select.woo-variation-raw-select').find('option').eq(1);
+          var options = select.find('option');
+          var disabled = select.find('option:disabled');
+          var out_of_stock = select.find('option.enabled.out-of-stock');
+          var current = select.find('option:selected');
+          var eq = select.find('option').eq(1);
 
           var li = $(this).find('li:not(.woo-variation-swatches-variable-item-more)');
           var reselect_clear = $(this).hasClass('reselect-clear');
@@ -271,25 +286,27 @@ var WooVariationSwatches = function ($) {
           var mouse_event_name = 'click.wvs'; // 'touchstart click';
 
           var attribute = $(this).data('attribute_name');
-          var attribute_values = _this.is_ajax_variation ? [] : _this._generated[attribute];
-          var out_of_stocks = _this.is_ajax_variation ? [] : _this._out_of_stock[attribute];
+          // let attribute_values = ((_this.is_ajax_variation) ? [] : _this._generated[attribute])
+          // let out_of_stocks = ((_this.is_ajax_variation) ? [] : _this._out_of_stock[attribute])
           var selects = [];
           var disabled_selects = [];
+          var out_of_stock_selects = [];
           var $selected_variation_item = $(this).parent().prev().find('.woo-selected-variation-item-name');
 
           // For Avada FIX
           if (options.length < 1) {
             select = $(this).parent().find('select.woo-variation-raw-select');
-            options = $(this).parent().find('select.woo-variation-raw-select').find('option');
-            disabled = $(this).parent().find('select.woo-variation-raw-select').find('option:disabled');
-            current = $(this).parent().find('select.woo-variation-raw-select').find('option:selected');
-            eq = $(this).parent().find('select.woo-variation-raw-select').find('option').eq(1);
+            options = select.find('option');
+            disabled = select.find('option:disabled');
+            out_of_stock = select.find('option.enabled.out-of-stock');
+            current = select.find('option:selected');
+            eq = select.find('option').eq(1);
           }
 
           options.each(function () {
             if ($(this).val() !== '') {
               selects.push($(this).val());
-              selected = current ? current.val() : eq.val();
+              selected = current.length === 0 ? eq.val() : current.val();
             }
           });
 
@@ -299,7 +316,19 @@ var WooVariationSwatches = function ($) {
             }
           });
 
+          // Out Of Stocks
+          out_of_stock.each(function () {
+            if ($(this).val() !== '') {
+              out_of_stock_selects.push($(this).val());
+            }
+          });
+
           var in_stocks = _.difference(selects, disabled_selects);
+
+          // console.log('out of stock', out_of_stock_selects)
+          // console.log('in stock', in_stocks)
+
+          var available = _.difference(in_stocks, out_of_stock_selects);
 
           // Mark Selected
           li.each(function (index, li) {
@@ -307,7 +336,8 @@ var WooVariationSwatches = function ($) {
             var attribute_value = $(this).attr('data-value');
             var attribute_title = $(this).attr('data-title');
 
-            $(this).removeClass('selected disabled').addClass('disabled');
+            // Resetting LI
+            $(this).removeClass('selected disabled out-of-stock').addClass('disabled');
             $(this).attr('aria-checked', 'false');
             $(this).attr('tabindex', '-1');
 
@@ -319,8 +349,9 @@ var WooVariationSwatches = function ($) {
             // We can't use es6 includes for IE11
             // in_stocks.includes(attribute_value)
             // _.contains(in_stocks, attribute_value)
+            // _.includes(in_stocks, attribute_value)
 
-            if (_.contains(in_stocks, attribute_value)) {
+            if (_.includes(in_stocks, attribute_value)) {
 
               $(this).removeClass('selected disabled');
               $(this).removeAttr('aria-hidden');
@@ -341,6 +372,12 @@ var WooVariationSwatches = function ($) {
                   $(this).find('input.wvs-radio-variable-item:radio').prop('checked', true);
                 }
               }
+            }
+
+            // Out of Stock
+
+            if (available.length > 0 && _.includes(out_of_stock_selects, attribute_value) && woo_variation_swatches_options.clickable_out_of_stock) {
+              $(this).removeClass('disabled').addClass('out-of-stock');
             }
           });
 
@@ -490,11 +527,11 @@ var WooVariationSwatches = function ($) {
 
             var select = $(this).siblings('select.woo-variation-raw-select');
             var selected = '';
-
-            var options = $(this).siblings('select.woo-variation-raw-select').find('option');
-            var disabled = $(this).siblings('select.woo-variation-raw-select').find('option:disabled');
-            var current = $(this).siblings('select.woo-variation-raw-select').find('option:selected');
-            var eq = $(this).siblings('select.woo-variation-raw-select').find('option').eq(1);
+            var options = select.find('option');
+            var disabled = select.find('option:disabled');
+            var out_of_stock = select.find('option.enabled.out-of-stock');
+            var current = select.find('option:selected');
+            var eq = select.find('option').eq(1);
             var li = $(this).find('li:not(.woo-variation-swatches-variable-item-more)');
 
             //let reselect_clear   = $(this).hasClass('reselect-clear');
@@ -502,25 +539,29 @@ var WooVariationSwatches = function ($) {
             //let mouse_event_name = 'click.wvs'; // 'touchstart click';
 
             var attribute = $(this).data('attribute_name');
-            var attribute_values = _this.is_ajax_variation ? [] : _this._generated[attribute];
-            var out_of_stocks = _this.is_ajax_variation ? [] : _this._out_of_stock[attribute];
+            // let attribute_values = ((_this.is_ajax_variation) ? [] : _this._generated[attribute])
+            // let out_of_stocks = ((_this.is_ajax_variation) ? [] : _this._out_of_stock[attribute])
+
             var selects = [];
             var disabled_selects = [];
+            var out_of_stock_selects = [];
             var $selected_variation_item = $(this).parent().prev().find('.woo-selected-variation-item-name');
 
             // For Avada FIX
             if (options.length < 1) {
               select = $(this).parent().find('select.woo-variation-raw-select');
-              options = $(this).parent().find('select.woo-variation-raw-select').find('option');
-              disabled = $(this).parent().find('select.woo-variation-raw-select').find('option:disabled');
-              current = $(this).parent().find('select.woo-variation-raw-select').find('option:selected');
-              eq = $(this).parent().find('select.woo-variation-raw-select').find('option').eq(1);
+              options = select.find('option');
+              disabled = select.find('option:disabled');
+              out_of_stock = select.find('option.enabled.out-of-stock');
+              current = select.find('option:selected');
+              eq = select.find('option').eq(1);
             }
 
             options.each(function () {
               if ($(this).val() !== '') {
                 selects.push($(this).val());
-                selected = current ? current.val() : eq.val();
+                // selected = current ? current.val() : eq.val()
+                selected = current.length === 0 ? eq.val() : current.val();
               }
             });
 
@@ -530,7 +571,16 @@ var WooVariationSwatches = function ($) {
               }
             });
 
+            // Out Of Stocks
+            out_of_stock.each(function () {
+              if ($(this).val() !== '') {
+                out_of_stock_selects.push($(this).val());
+              }
+            });
+
             var in_stocks = _.difference(selects, disabled_selects);
+
+            var available = _.difference(in_stocks, out_of_stock_selects);
 
             if (_this.is_ajax_variation) {
 
@@ -569,7 +619,7 @@ var WooVariationSwatches = function ($) {
                 var attribute_value = $(this).attr('data-value');
                 var attribute_title = $(this).attr('data-title');
 
-                $(this).removeClass('selected disabled').addClass('disabled');
+                $(this).removeClass('selected disabled out-of-stock').addClass('disabled');
                 $(this).attr('aria-checked', 'false');
                 $(this).attr('tabindex', '-1');
 
@@ -584,9 +634,10 @@ var WooVariationSwatches = function ($) {
                 // We can't use es6 includes for IE11
                 // in_stocks.includes(attribute_value)
                 // _.contains(in_stocks, attribute_value)
+                // _.includes(in_stocks, attribute_value)
 
                 // Make Selected // selects.includes(attribute_value) // in_stocks
-                if (_.contains(in_stocks, attribute_value)) {
+                if (_.includes(in_stocks, attribute_value)) {
 
                   $(this).removeClass('selected disabled');
                   $(this).removeAttr('aria-hidden');
@@ -612,6 +663,11 @@ var WooVariationSwatches = function ($) {
                       $(this).find('input.wvs-radio-variable-item:radio').prop('checked', true);
                     }
                   }
+                }
+
+                // Out of Stock
+                if (available.length > 0 && _.includes(out_of_stock_selects, attribute_value) && woo_variation_swatches_options.clickable_out_of_stock) {
+                  $(this).removeClass('disabled').addClass('out-of-stock');
                 }
 
                 $(this).trigger('wvs-item-updated', [selected, attribute_value, _this]);

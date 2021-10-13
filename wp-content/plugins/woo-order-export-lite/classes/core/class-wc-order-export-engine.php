@@ -31,7 +31,7 @@ class WC_Order_Export_Engine {
 			'{to_date}'   		=> isset( $date['to_date'] ) ? date( "Y-m-d", strtotime( $date['to_date'] ) ) : '',
 		);
 
-		if ( self::$make_separate_orders && strpos( $mask, '%order_id' ) === false ) {
+		if ( self::$make_separate_orders && strpos( $mask, '%order_id' ) === false  && strpos( $mask, '{order_number}' ) === false ) {
 			$mask_parts                                          = explode( '.', $mask );
 			$before_prefix                                       = count( $mask_parts ) > 1 ? 2 : 1;
 			$mask_parts[ count( $mask_parts ) - $before_prefix ] .= '-%order_id';
@@ -491,7 +491,7 @@ class WC_Order_Export_Engine {
 			}
 
 			if ( $make_mode != 'preview' ) {
-				do_action( "woe_order_exported", $order_id );
+				do_action( "woe_order_exported", $order_id, $settings );
 				self::try_mark_order( $order_id, $settings );
 				self::try_modify_status( $order_id, $settings );
 			} else {
@@ -533,6 +533,8 @@ class WC_Order_Export_Engine {
 		self::$current_job_build_mode = 'full';
 		self::$date_format            = trim( $settings['date_format'] . ' ' . $settings['time_format'] );
 		self::$extractor_options      = self::_install_options( $settings );
+		
+		$main_settings = WC_Order_Export_Main_Settings::get_settings();
 
 		$filename = self::get_filename($settings['format'], $filename);
 
@@ -555,7 +557,7 @@ class WC_Order_Export_Engine {
 			$sql .= " LIMIT " . intval( $limit );
 		}
 
-		if ( !$order_ids OR apply_filters("woe_filter_bulk_action_export",false) ) {
+		if ( !$order_ids OR apply_filters("woe_filter_bulk_action_export", $main_settings['apply_filters_to_bulk_actions'] ) ) {
 			$order_ids = apply_filters( "woe_get_order_ids", $wpdb->get_col( $sql ) );
 		}
 		self::$orders_for_export = $order_ids;
@@ -593,7 +595,7 @@ class WC_Order_Export_Engine {
 				$formater->output( $row );
 				do_action( "woe_order_row_exported", $row, $order_id );
 			}
-			do_action( "woe_order_exported", $order_id );
+			do_action( "woe_order_exported", $order_id, $settings );
 
 			do_action( 'woe_formatter_output_custom_formatter', $row, $order_id, $labels,
 				$export, $static_vals, self::$extractor_options );

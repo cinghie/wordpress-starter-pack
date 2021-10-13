@@ -182,9 +182,9 @@ if ( ! class_exists( 'YITH_System_Status' ) ) {
 				$this->add_requirements(
 					esc_html__( 'YITH Plugins', 'yith-plugin-fw' ),
 					array(
-						'min_wp_version'  => '5.3',
-						'min_wc_version'  => '4.2',
-						'min_php_version' => '5.6.20',
+						'min_wp_version'  => '5.6',
+						'min_wc_version'  => '5.3',
+						'min_php_version' => '7.0',
 					)
 				);
 				$this->add_requirements(
@@ -700,6 +700,23 @@ if ( ! class_exists( 'YITH_System_Status' ) ) {
 			}
 
 			return ! ! $ip ? $ip : 'n/a';
+		}
+
+		/**
+		 * Retrieve plugin-fw info, such as version and loaded-by.
+		 *
+		 * @return array
+		 */
+		public function get_plugin_fw_info() {
+			$version        = yith_plugin_fw_get_version();
+			$loaded_by      = basename( dirname( YIT_CORE_PLUGIN_PATH ) );
+			$loaded_by_init = trailingslashit( dirname( YIT_CORE_PLUGIN_PATH ) ) . 'init.php';
+			if ( file_exists( $loaded_by_init ) ) {
+				$plugin_data = get_plugin_data( $loaded_by_init );
+				$loaded_by   = $plugin_data['Name'] ?? $loaded_by;
+			}
+
+			return compact( 'version', 'loaded_by' );
 		}
 
 	}

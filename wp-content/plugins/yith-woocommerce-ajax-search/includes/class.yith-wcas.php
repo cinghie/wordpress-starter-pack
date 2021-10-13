@@ -1,4 +1,4 @@
-<?php
+<?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
  * Main class
  *
@@ -38,7 +38,7 @@ if ( ! class_exists( 'YITH_WCAS' ) ) {
 			$this->obj = false;
 
 			// Load Plugin Framework.
-			if ( ! isset( $_REQUEST['action'] ) || 'yith_ajax_search_products' !== $_REQUEST['action']  ) {
+			if ( ! isset( $_REQUEST['action'] ) || 'yith_ajax_search_products' !== $_REQUEST['action'] ) { // phpcs:ignore
 				add_action( 'plugins_loaded', array( $this, 'plugin_fw_loader' ), 15 );
 
 				if ( is_admin() ) {
@@ -64,8 +64,8 @@ if ( ! class_exists( 'YITH_WCAS' ) ) {
 			// register shortcode.
 			add_shortcode( 'yith_woocommerce_ajax_search', array( $this, 'add_woo_ajax_search_shortcode' ) );
 
-			if ( defined('ELEMENTOR_VERSION') ) {
-				require_once( YITH_WCAS_DIR . 'includes/compatibility/elementor/class.yith-wcas-elementor.php');
+			if ( defined( 'ELEMENTOR_VERSION' ) ) {
+				require_once YITH_WCAS_DIR . 'includes/compatibility/elementor/class.yith-wcas-elementor.php';
 			}
 
 			return $this->obj;
@@ -119,7 +119,7 @@ if ( ! class_exists( 'YITH_WCAS' ) ) {
 		 * @access public
 		 * @since  1.0.0
 		 */
-		public function registerWidgets() {
+		public function registerWidgets() { // phpcs:ignore
 			register_widget( 'YITH_WCAS_Ajax_Search_Widget' );
 		}
 
@@ -133,13 +133,13 @@ if ( ! class_exists( 'YITH_WCAS' ) ) {
 			$transient_enabled  = get_option( 'yith_wcas_enable_transient', 'no' );
 			$transient_duration = get_option( 'yith_wcas_transient_duration', 12 );
 
-			$search_keyword = sanitize_text_field( wp_unslash( $_REQUEST['query'] ) );
+			$search_keyword = sanitize_text_field( wp_unslash( $_REQUEST['query'] ) );  //phpcs:ignore
 
 			$ordering_args = $woocommerce->query->get_catalog_ordering_args( 'title', 'asc' );
 			$suggestions   = array();
 
 			$transient_name = 'ywcas_' . $search_keyword;
-			$suggestions = get_transient( $transient_name );
+			$suggestions    = get_transient( $transient_name );
 			if ( 'no' === $transient_enabled || false === $suggestions ) {
 				$args = array(
 					's'                   => apply_filters( 'yith_wcas_ajax_search_products_search_query', $search_keyword ),
@@ -152,19 +152,19 @@ if ( ! class_exists( 'YITH_WCAS' ) ) {
 					'suppress_filters'    => false,
 				);
 
-				if ( isset( $_REQUEST['product_cat'] ) ) {
-					$args['tax_query'] = array(
+				if ( isset( $_REQUEST['product_cat'] ) ) {  //phpcs:ignore
+					$args['tax_query'] = array(  //phpcs:ignore
 						'relation' => 'AND',
 						array(
 							'taxonomy' => 'product_cat',
 							'field'    => 'slug',
-							'terms'    => sanitize_text_field( wp_unslash( $_REQUEST['product_cat'] ) ),
+							'terms'    => sanitize_text_field( wp_unslash( $_REQUEST['product_cat'] ) ),   //phpcs:ignore
 						),
 					);
 				}
 
 				if ( version_compare( WC()->version, '2.7.0', '<' ) ) {
-					$args['meta_query'] = array(
+					$args['meta_query'] = array(  //phpcs:ignore
 						array(
 							'key'     => '_visibility',
 							'value'   => array( 'search', 'visible' ),

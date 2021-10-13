@@ -22,6 +22,24 @@ if ( ! function_exists( 'wvs_is_ie11' ) ):
 	}
 endif;
 
+/**
+ * Returns the translated object ID (post_type or term) or original if missing
+ *
+ * @param $object_id integer|string|array The ID/s of the objects to check and return
+ * @param $type      the object type: post, page, {custom post type name}, nav_menu, nav_menu_item, category, tag etc.
+ *
+ * @return string or array of object ids
+ */
+
+// https://wpml.org/wpml-hook/wpml_object_id/
+if ( ! function_exists( 'wvs_wpml_object_id' ) ) {
+	function wvs_wpml_object_id( $object_id, $type = 'post', $language = null ) {
+		$current_language = apply_filters( 'wpml_current_language', $language );
+
+		return apply_filters( 'wpml_object_id', $object_id, $type, true, $current_language );
+	}
+}
+
 //-------------------------------------------------------------------------------
 // Get All Image Sizes if wp_get_registered_image_subsizes function not available
 //-------------------------------------------------------------------------------
@@ -633,6 +651,27 @@ if ( ! function_exists( 'wvs_get_product_attribute_color' ) ):
 	}
 endif;
 
+if ( ! function_exists( 'wvs_get_product_attribute_dual_color' ) ):
+	function wvs_get_product_attribute_dual_color( $term ) {
+		if ( ! is_object( $term ) ) {
+			return false;
+		}
+
+		$is_dual_color   = wc_string_to_bool( get_term_meta( $term->term_id, 'is_dual_color', true ) );
+		$primary_color   = sanitize_hex_color( get_term_meta( $term->term_id, 'product_attribute_color', true ) );
+		$secondary_color = sanitize_hex_color( get_term_meta( $term->term_id, 'secondary_color', true ) );
+
+		if ( $is_dual_color ) {
+			return array(
+				'primary_color'   => $primary_color,
+				'secondary_color' => $secondary_color
+			);
+		}
+
+		return $primary_color;
+	}
+endif;
+
 //-------------------------------------------------------------------------------
 // Get Image Attribute Value
 //-------------------------------------------------------------------------------
@@ -929,7 +968,7 @@ if ( ! function_exists( 'wvs_variable_item' ) ):
 							$tooltip_html_attr .= ! empty( $tooltip ) ? ' tabindex="2"' : '';
 						}
 
-						$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-title="%5$s" data-value="%3$s" role="radio" tabindex="0">', $screen_reader_html_attr . $tooltip_html_attr, esc_attr( $type ), esc_attr( $term->slug ), esc_attr( $selected_class ), $option );
+						$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-title="%5$s" data-value="%3$s" role="radio" tabindex="0"><div class="variable-item-contents">', $screen_reader_html_attr . $tooltip_html_attr, esc_attr( $type ), esc_attr( $term->slug ), esc_attr( $selected_class ), $option );
 
 						switch ( $type ):
 							case 'color':
@@ -944,7 +983,7 @@ if ( ! function_exists( 'wvs_variable_item' ) ):
 								$image_size    = woo_variation_swatches()->get_option( 'attribute_image_size' );
 								$image         = wp_get_attachment_image_src( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size, $attribute, $product ) );
 
-								$data .= sprintf( '<img aria-hidden="true" alt="%s" src="%s" width="%d" height="%d" />', esc_attr( $option ), esc_url( $image[0] ), esc_attr( $image[1] ), esc_attr( $image[2] ) );
+								$data .= sprintf( '<img class="variable-item-image" aria-hidden="true" alt="%s" src="%s" width="%d" height="%d" />', esc_attr( $option ), esc_url( $image[0] ), esc_attr( $image[1] ), esc_attr( $image[2] ) );
 
 								break;
 
@@ -962,7 +1001,7 @@ if ( ! function_exists( 'wvs_variable_item' ) ):
 								$data .= apply_filters( 'wvs_variable_default_item_content', '', $term, $args, $saved_attribute );
 								break;
 						endswitch;
-						$data .= '</li>';
+						$data .= '</div></li>';
 					}
 				}
 			}
@@ -1024,7 +1063,7 @@ if ( ! function_exists( 'wvs_default_variable_item' ) ):
 							$type = 'button';
 						}
 
-						$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-title="%5$s"  data-value="%3$s" role="radio" tabindex="0">', $screen_reader_html_attr . $tooltip_html_attr, esc_attr( $type ), esc_attr( $term->slug ), esc_attr( $selected_class ), $option );
+						$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-title="%5$s"  data-value="%3$s" role="radio" tabindex="0"><div class="variable-item-contents">', $screen_reader_html_attr . $tooltip_html_attr, esc_attr( $type ), esc_attr( $term->slug ), esc_attr( $selected_class ), $option );
 
 						switch ( $type ):
 
@@ -1033,7 +1072,7 @@ if ( ! function_exists( 'wvs_default_variable_item' ) ):
 								$image_size    = sanitize_text_field( woo_variation_swatches()->get_option( 'attribute_image_size' ) );
 								$image         = wp_get_attachment_image_src( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size, $attribute, $product ) );
 
-								$data .= sprintf( '<img aria-hidden="true" alt="%s" src="%s" width="%d" height="%d" />', esc_attr( $option ), esc_url( $image[0] ), esc_attr( $image[1] ), esc_attr( $image[2] ) );
+								$data .= sprintf( '<img class="variable-item-image" aria-hidden="true" alt="%s" src="%s" width="%d" height="%d" />', esc_attr( $option ), esc_url( $image[0] ), esc_attr( $image[1] ), esc_attr( $image[2] ) );
 								// $data .= $image_html;
 								break;
 
@@ -1046,7 +1085,7 @@ if ( ! function_exists( 'wvs_default_variable_item' ) ):
 								$data .= apply_filters( 'wvs_variable_default_item_content', '', $term, $args, $saved_attribute );
 								break;
 						endswitch;
-						$data .= '</li>';
+						$data .= '</div></li>';
 					}
 				}
 			} else {
@@ -1079,7 +1118,7 @@ if ( ! function_exists( 'wvs_default_variable_item' ) ):
 						$type = 'button';
 					}
 
-					$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-title="%5$s"  data-value="%3$s" role="radio" tabindex="0">', $screen_reader_html_attr . $tooltip_html_attr, esc_attr( $type ), esc_attr( $option ), esc_attr( $selected_class ), esc_html( $option ) );
+					$data .= sprintf( '<li %1$s class="variable-item %2$s-variable-item %2$s-variable-item-%3$s %4$s" title="%5$s" data-title="%5$s"  data-value="%3$s" role="radio" tabindex="0"><div class="variable-item-contents">', $screen_reader_html_attr . $tooltip_html_attr, esc_attr( $type ), esc_attr( $option ), esc_attr( $selected_class ), esc_html( $option ) );
 
 					switch ( $type ):
 
@@ -1088,7 +1127,7 @@ if ( ! function_exists( 'wvs_default_variable_item' ) ):
 							$image_size    = sanitize_text_field( woo_variation_swatches()->get_option( 'attribute_image_size' ) );
 							$image         = wp_get_attachment_image_src( $attachment_id, apply_filters( 'wvs_product_attribute_image_size', $image_size, $attribute, $product ) );
 
-							$data .= sprintf( '<img aria-hidden="true" alt="%s" src="%s" width="%d" height="%d" />', esc_attr( $option ), esc_url( $image[0] ), esc_attr( $image[1] ), esc_attr( $image[2] ) );
+							$data .= sprintf( '<img class="variable-item-image" aria-hidden="true" alt="%s" src="%s" width="%d" height="%d" />', esc_attr( $option ), esc_url( $image[0] ), esc_attr( $image[1] ), esc_attr( $image[2] ) );
 							// $data .= $image_html;
 							break;
 
@@ -1101,7 +1140,7 @@ if ( ! function_exists( 'wvs_default_variable_item' ) ):
 							$data .= apply_filters( 'wvs_variable_default_item_content', '', $option, $args, array() );
 							break;
 					endswitch;
-					$data .= '</li>';
+					$data .= '</div></li>';
 				}
 			}
 		}
@@ -1572,15 +1611,18 @@ if ( ! function_exists( 'wvs_variation_attribute_options_html' ) ):
 
 		$product = $args['product'];
 
+		// For bundle Product static item
+		$args['show_option_none'] = esc_html__( 'Choose an option', 'woo-variation-swatches' );
+
 		$is_default_to_image          = apply_filters( 'wvs_is_default_to_image', ! ! ( woo_variation_swatches()->get_option( 'default_to_image' ) ), $args );
 		$is_default_to_button         = apply_filters( 'wvs_is_default_to_button', ! ! ( woo_variation_swatches()->get_option( 'default_to_button' ) ), $args );
 		$default_image_type_attribute = apply_filters( 'wvs_default_image_type_attribute', woo_variation_swatches()->get_option( 'default_image_type_attribute' ), $args );
 
 		$is_default_to_image_button = ( $is_default_to_image || $is_default_to_button );
 
-		$use_transient = wc_string_to_bool( woo_variation_swatches()->get_option( 'use_transient' ) );
-
-		$transient_name = sprintf( 'wvs_variation_attribute_options_html_%s_%s', $product->get_id(), wc_variation_attribute_name( $args['attribute'] ) . $args['selected'] );
+		$use_transient  = wc_string_to_bool( woo_variation_swatches()->get_option( 'use_transient' ) );
+		$currency       = get_woocommerce_currency();
+		$transient_name = sprintf( 'wvs_variation_attribute_options_html_%s_%s_%s', $product->get_id(), ( wc_variation_attribute_name( $args['attribute'] ) . $args['selected'] ), $currency );
 		$cache          = new Woo_Variation_Swatches_Cache( $transient_name, 'wvs_variation_attribute_options_html' );
 
 		// Clear cache
@@ -1768,176 +1810,7 @@ endif;
 if ( ! function_exists( 'add_wvs_pro_preview_tab_panel' ) ):
 	function add_wvs_pro_preview_tab_panel() {
 		ob_start();
-		?>
-		<div id="wvs-pro-product-variable-swatches-options" class="panel wc-metaboxes-wrapper hidden">
-			<style type="text/css">
-				.gwp-pro-features-wrapper {
-					padding: 20px;
-					margin: 10px;
-					background-color: #f1f1f1;
-				}
-
-				.gwp-pro-features-wrapper li span {
-					color: #15ce5c;
-				}
-
-				.gwp-pro-features-wrapper p, .gwp-pro-features-wrapper ul {
-					padding: 10px 0;
-				}
-
-				.gwp-pro-button span {
-					padding-top: 10px;
-				}
-
-				.gwp-pro-features-wrapper ul {
-					display: block;
-
-				}
-
-				.gwp-pro-features-wrapper ul li {
-					margin-bottom: 10px;
-				}
-
-				.gwp-pro-features-wrapper .gwp-pro-features-links {
-					margin-left: 20px;
-					padding: 5px;
-				}
-
-			</style>
-			<div class="gwp-pro-features-wrapper">
-				<h3>Upgrade to Variation Swatches for WooCommerce - Pro</h3>
-				<ul>
-					<li>
-						<div class="gwp-pro-video-features-wrapper">
-							<iframe width="100%" height="485" src="https://www.youtube.com/embed/ILf1S2k97es?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-						</div>
-					</li>
-				</ul>
-				<h4>With the premium version of Variation Swatches for WooCommerce, you can do:</h4>
-				<ul>
-					<li><span class="dashicons dashicons-yes"></span> Convert attribute variations into radio button.
-						<div class="gwp-pro-features-links">
-							<a target="_blank" href="http://bit.ly/radio-product-settings-demo">Live Demo</a> |
-							<a target="_blank" href="http://bit.ly/customattribute-productpage-settings">Video Tutorial</a>
-						</div>
-					</li>
-					<li>
-						<span class="dashicons dashicons-yes"></span> Show Entire Color, Image, Label And Radio Attributes Swatches In Catelog/ Category / Archive / Store/ Shop Pages
-						<div class="gwp-pro-features-links">
-							<a target="_blank" href="http://bit.ly/add-to-cart-shop-page-swatch-product-settings-demo">Live Demo</a> |
-							<a target="_blank" href="http://bit.ly/add-to-cart-readme-video">Video Tutorial</a></div>
-					</li>
-
-					<li>
-						<span class="dashicons dashicons-yes"></span> Show Selected Single Color or Image Or Label Attribute Swatches In Catelog/ Category / Archive / Store / Shop Pages
-						<div class="gwp-pro-features-links">
-							<a target="_blank" href="http://bit.ly/catalog-archive-demo-product-settings">Live Demo</a> |
-							<a target="_blank" href="http://bit.ly/catalog-archive-readme-youtube-tuts">Video Tutorial</a>
-						</div>
-					</li>
-
-					<li>
-						<span class="dashicons dashicons-yes"></span> Individual Product Basis Attribute Variation Swatches Customization
-
-						<div class="gwp-pro-features-links">
-							<a target="_blank" href="http://bit.ly/product-basis-demo-product-settings">Live Demo</a> |
-							<a target="_blank" href="http://bit.ly/product-basis-youtube-video-link-from-readme">Video Tutorial</a>
-						</div>
-					</li>
-
-					<li>
-						<span class="dashicons dashicons-yes"></span> Show Image, Color, Button Variation Swatches in Same Attribute
-						<div class="gwp-pro-features-links">
-							<a target="_blank" href="http://bit.ly/product-basis-demo-product-page-settings-same-swatches">Live Demo</a> |
-							<a target="_blank" href="http://bit.ly/product-basis-youtube-video-link-from-readme">Video Tutorial</a>
-						</div>
-					</li>
-
-					<li>
-						<span class="dashicons dashicons-yes"></span> Convert Manually Created Attibute Variations Into Color, Image, and Label Swatches
-						<div class="gwp-pro-features-links">
-							<a target="_blank" href="http://bit.ly/manual-attribute-readme-video">Video Tutorial</a>
-						</div>
-					</li>
-
-					<li>
-						<span class="dashicons dashicons-yes"></span> Change Variation Product Gallery After Selecting Single Attribute Like Amazon Or AliExpress
-						<div class="gwp-pro-features-links">
-							<a target="_blank" href="http://bit.ly/change-gallery-image-on-single-attribute-demo-from-plugin-product-page-setting">Live Demo</a> |
-							<a target="_blank" href="http://bit.ly/change-gallery-image-on-single-attribute-youtube-readme">Video Tutorial</a>
-						</div>
-					</li>
-
-					<li><span class="dashicons dashicons-yes"></span> Generate Selected Attribute Variation Link
-						<div class="gwp-pro-features-links">
-							<a target="_blank" href="http://bit.ly/link-generate-product-settings-demo">Live Demo</a> |
-							<a target="_blank" href="http://bit.ly/link-generate-readme-youtube">Video Tutorial</a>
-						</div>
-					</li>
-					<li>
-						<span class="dashicons dashicons-yes"></span> Option to Select ROUNDED and SQUARED Attribute Variation Swatches Shape In the Same Product.
-						<div class="gwp-pro-features-links">
-							<a target="_blank" href="http://bit.ly/round-square-demo-product-settings">Live Demo</a> |
-							<a target="_blank" href="http://bit.ly/round-square-youtube-video-from-readme">Video Tutorial</a>
-						</div>
-					</li>
-
-					<li>
-						<span class="dashicons dashicons-yes"></span> Blur Or Hide Or Show Cross Sign For Out of Stock Variation Swatches (Unlimited Variations Without hiding out of stock item from catalog)
-						<div class="gwp-pro-features-links">
-							<a target="_blank" href="http://bit.ly/bulr-premium-outstock-demo-product-settings">Live Demo</a> |
-							<a target="_blank" href="http://bit.ly/blur-hide-youtube-readme">Video Tutorial</a></div>
-					</li>
-
-					<li><span class="dashicons dashicons-yes"></span> Shop Page Swatches Size Control
-						<div class="gwp-pro-features-links">
-							<a target="_blank" href="http://bit.ly/shop-swatches-size-readme">Live Preview</a></div>
-					</li>
-
-					<li>
-						<span class="dashicons dashicons-yes"></span> Make Selected Attribute Variation Swatches Size Larger Than Other Default Attribute Variations
-						<div class="gwp-pro-features-links">
-							<a target="_blank" href="http://bit.ly/special-attribute-product-settings-demo">Live Demo</a> |
-							<a target="_blank" href="http://bit.ly/special-attribute-youtube-readme">Video Tutorial</a>
-						</div>
-					</li>
-
-					<li>
-						<span class="dashicons dashicons-yes"></span> Show Custom Text in Variation Tooltip In Product and Shop Page
-						<div class="gwp-pro-features-links">
-							<a target="_blank" href="http://bit.ly/custom-tooltip-text-readme">Live Preview</a></div>
-					</li>
-
-					<li>
-						<span class="dashicons dashicons-yes"></span> Show Custom Image in Variation Swatches Tooltip In Product And Shop Page
-						<div class="gwp-pro-features-links">
-							<a target="_blank" href="http://bit.ly/image-tooltip-product-settings">Live Demo</a> |
-							<a target="_blank" href="http://bit.ly/tooltip-tip-image-youtube-readme">Video Tutorial</a>
-						</div>
-					</li>
-
-					<li><span class="dashicons dashicons-yes"></span> Archive page swatches positioning.</li>
-					<li><span class="dashicons dashicons-yes"></span> Archive page swatches alignment.</li>
-					<li><span class="dashicons dashicons-yes"></span> Tooltip display setting on archive/shop page.</li>
-					<li><span class="dashicons dashicons-yes"></span> Variation clear button display setting.</li>
-					<li><span class="dashicons dashicons-yes"></span> Customize tooltip text and background color.</li>
-					<li><span class="dashicons dashicons-yes"></span> Customize tooltip image and image size.</li>
-					<li><span class="dashicons dashicons-yes"></span> Customize font size, swatches height and width.
-					</li>
-					<li>
-						<span class="dashicons dashicons-yes"></span> Customize swatches colors, background and border sizes.
-					</li>
-					<li><span class="dashicons dashicons-yes"></span> Automatic updates and exclusive technical support.
-					</li>
-
-				</ul>
-				<div class="clear"></div>
-				<a target="_blank" class="button button-primary button-hero gwp-pro-button" href="<?php echo esc_url( woo_variation_swatches()->get_pro_link( 'product-edit' ) ); ?>">Okay, I need the features!
-					<span class="dashicons dashicons-external"></span></a>
-			</div>
-		</div>
-		<?php
-
+		include_once 'preview-tab-tutorials.php';
 		echo ob_get_clean();
 	}
 endif;

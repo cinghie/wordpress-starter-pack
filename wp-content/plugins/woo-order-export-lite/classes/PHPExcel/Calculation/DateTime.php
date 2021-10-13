@@ -931,13 +931,14 @@ class PHPExcel_Calculation_DateTime
      */
     public static function NETWORKDAYS($startDate, $endDate)
     {
-        //    Retrieve the mandatory start and end date that are referenced in the function definition
-        $startDate    = PHPExcel_Calculation_Functions::flattenSingleValue($startDate);
-        $endDate    = PHPExcel_Calculation_Functions::flattenSingleValue($endDate);
         //    Flush the mandatory start and end date that are referenced in the function definition, and get the optional days
         $dateArgs = PHPExcel_Calculation_Functions::flattenArray(func_get_args());
         array_shift($dateArgs);
         array_shift($dateArgs);
+
+	    //    Retrieve the mandatory start and end date that are referenced in the function definition
+	    $startDate    = PHPExcel_Calculation_Functions::flattenSingleValue($startDate);
+	    $endDate    = PHPExcel_Calculation_Functions::flattenSingleValue($endDate);
 
         //    Validate the start and end dates
         if (is_string($startDate = $sDate = self::getDateValue($startDate))) {
@@ -1018,13 +1019,13 @@ class PHPExcel_Calculation_DateTime
      */
     public static function WORKDAY($startDate, $endDays)
     {
-        //    Retrieve the mandatory start date and days that are referenced in the function definition
-        $startDate    = PHPExcel_Calculation_Functions::flattenSingleValue($startDate);
-        $endDays    = PHPExcel_Calculation_Functions::flattenSingleValue($endDays);
         //    Flush the mandatory start date and days that are referenced in the function definition, and get the optional days
         $dateArgs = PHPExcel_Calculation_Functions::flattenArray(func_get_args());
         array_shift($dateArgs);
         array_shift($dateArgs);
+	    //    Retrieve the mandatory start date and days that are referenced in the function definition
+	    $startDate    = PHPExcel_Calculation_Functions::flattenSingleValue($startDate);
+	    $endDays    = PHPExcel_Calculation_Functions::flattenSingleValue($endDays);
 
         if ((is_string($startDate = self::getDateValue($startDate))) || (!is_numeric($endDays))) {
             return PHPExcel_Calculation_Functions::VALUE();

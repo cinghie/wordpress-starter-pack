@@ -13,6 +13,8 @@ use PYS_PRO_GLOBAL\Psr\Http\Message\StreamInterface;
  *
  * @link http://tools.ietf.org/html/rfc1952
  * @link http://php.net/manual/en/filters.compression.php
+ *
+ * @final
  */
 class InflateStream implements \PYS_PRO_GLOBAL\Psr\Http\Message\StreamInterface
 {
@@ -31,6 +33,7 @@ class InflateStream implements \PYS_PRO_GLOBAL\Psr\Http\Message\StreamInterface
     /**
      * @param StreamInterface $stream
      * @param $header
+     *
      * @return int
      */
     private function getLengthOfPossibleFilenameHeader(\PYS_PRO_GLOBAL\Psr\Http\Message\StreamInterface $stream, $header)

@@ -3,19 +3,20 @@
  * Plugin Name: YITH WooCommerce Quick View
  * Plugin URI: https://yithemes.com/themes/plugins/yith-woocommerce-quick-view
  * Description: The <code><strong>YITH WooCommerce Quick View</strong></code> plugin allows your customers to have a quick look about products. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>.
- * Version: 1.4.9
+ * Version: 1.7.1
  * Author: YITH
  * Author URI: https://yithemes.com/
  * Text Domain: yith-woocommerce-quick-view
  * Domain Path: /languages/
- * WC requires at least: 3.7
- * WC tested up to: 5.0
+ * WC requires at least: 5.3
+ * WC tested up to: 5.7
  *
  * @author  YITH
  * @package YITH WooCommerce Quick View
- * @version 1.4.9
+ * @version 1.7.1
  */
-/**  Copyright 2015-2021 - YITH (email : plugins@yithemes.com)
+
+/**  Copyright 2015-2021 Your Inspiration Solutions (email : plugins@yithemes.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 2, as
@@ -31,14 +32,19 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-} // Exit if accessed directly.
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 if ( ! function_exists( 'is_plugin_active' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/plugin.php';
 }
 
+/**
+ * Message if WooCommerce is not installed.
+ *
+ * @since 1.0.0
+ * @author Francesco Licandro
+ * @return void
+ */
 function yith_wcqv_install_woocommerce_admin_notice() {
 	?>
 	<div class="error">
@@ -47,6 +53,13 @@ function yith_wcqv_install_woocommerce_admin_notice() {
 	<?php
 }
 
+/**
+ * Message if Premium plugin is installed.
+ *
+ * @since 1.0.0
+ * @author Francesco Licandro
+ * @return void
+ */
 function yith_wcqv_install_free_admin_notice() {
 	?>
 	<div class="error">
@@ -62,7 +75,7 @@ register_activation_hook( __FILE__, 'yith_plugin_registration_hook' );
 
 
 if ( ! defined( 'YITH_WCQV_VERSION' ) ) {
-	define( 'YITH_WCQV_VERSION', '1.4.9' );
+	define( 'YITH_WCQV_VERSION', '1.7.1' );
 }
 
 if ( ! defined( 'YITH_WCQV_FREE_INIT' ) ) {
@@ -107,6 +120,13 @@ if ( ! function_exists( 'yit_maybe_plugin_fw_loader' ) && file_exists( YITH_WCQV
 }
 yit_maybe_plugin_fw_loader( YITH_WCQV_DIR );
 
+/**
+ * Init.
+ *
+ * @since 1.0.0
+ * @author Francesco Licandro
+ * @return void
+ */
 function yith_wcqv_init() {
 
 	load_plugin_textdomain( 'yith-woocommerce-quick-view', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
@@ -118,6 +138,13 @@ function yith_wcqv_init() {
 
 add_action( 'yith_wcqv_init', 'yith_wcqv_init' );
 
+/**
+ * Install.
+ *
+ * @since 1.0.0
+ * @author Francesco Licandro
+ * @return void
+ */
 function yith_wcqv_install() {
 
 	if ( ! function_exists( 'WC' ) ) {

@@ -75,13 +75,18 @@ class WOOCCM_Checkout_Controller
   {
 
     if (get_option('wooccm_checkout_force_shipping_address', 'no') == 'yes') {
-?>
-      <style>
-        .woocommerce-shipping-fields h3:first-child input {
+      /*  .woocommerce-shipping-fields h3:first-child label {
+          pointer-events: none !important;
+        } */
+
+      /*   .woocommerce-shipping-fields h3:first-child input {
           display: none !important;
         }
-
+ */
+?>
+      <style>
         .woocommerce-shipping-fields .shipping_address {
+          height: auto !important;
           display: block !important;
         }
       </style>

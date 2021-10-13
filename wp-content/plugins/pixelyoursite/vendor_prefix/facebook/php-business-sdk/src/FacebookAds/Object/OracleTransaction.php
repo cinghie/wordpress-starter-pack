@@ -29,7 +29,6 @@ use PYS_PRO_GLOBAL\FacebookAds\Cursor;
 use PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface;
 use PYS_PRO_GLOBAL\FacebookAds\TypeChecker;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Fields\OracleTransactionFields;
-use PYS_PRO_GLOBAL\FacebookAds\Object\Values\OracleTransactionTypeValues;
 /**
  * This class is auto-generated.
  *
@@ -50,7 +49,6 @@ class OracleTransaction extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudO
     protected static function getReferencedEnums()
     {
         $ref_enums = array();
-        $ref_enums['Type'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\OracleTransactionTypeValues::getInstance()->getValues();
         return $ref_enums;
     }
     public function getCampaigns(array $fields = array(), array $params = array(), $pending = \false)

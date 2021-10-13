@@ -1,10 +1,19 @@
 <?php
+/**
+ * Main plugin settings array
+ *
+ * @author  YITH
+ * @package YITH Infinite Scrolling
+ * @version 1.0.0
+ */
+
+defined( 'YITH_INFS' ) || exit; // Exit if accessed directly.
 
 $settings = array(
 
 	'general' => array(
 
-		'header' => array(
+		'header'   => array(
 
 			array(
 				'name' => __( 'General Settings', 'yiw' ),

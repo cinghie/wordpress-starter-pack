@@ -73,6 +73,10 @@ add_filter('admin_footer_text', 'my_footer_text');
 //we check if the page is visited by click on the tabs or on the menu button.
 //then we get the active tab.
 $active_tab = "woosea_manage_settings";
+
+// create nonce
+$nonce = wp_create_nonce( 'woosea_ajax_nonce' );
+
 $header_text = __( 'Plugin settings', 'woo-product-feed-pro' );
 if(isset($_GET["tab"])) {
 	if($_GET["tab"] == "woosea_manage_settings"){
@@ -175,7 +179,7 @@ if(isset($_GET["tab"])) {
 						</tr>
 						<tr class="<?php print"$elite_disable";?>" id="identifier_option">
 							<td>
-								<span><?php _e( 'Add GTIN, MPN, UPC, EAN, Product condition, Optimised title, Installment, Unit measure and Brand attributes to your store:', 'woo-product-feed-pro' );?> (<a href="https://adtribes.io/add-gtin-mpn-upc-ean-product-condition-optimised-title-and-brand-attributes/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_content=adding fields" target="_blank"><?php _e( 'Read more about this', 'woo-product-feed-pro' );?>)</a></span>
+								<span><?php _e( 'Add GTIN, MPN, UPC, EAN, Product condition, Optimised title, Installment, Unit measure, Brand and many more attributes to your store:', 'woo-product-feed-pro' );?> (<a href="https://adtribes.io/add-gtin-mpn-upc-ean-product-condition-optimised-title-and-brand-attributes/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_content=adding fields" target="_blank"><?php _e( 'Read more about this', 'woo-product-feed-pro' );?>)</a></span>
 							</td>
 							<td>
                                                 		<label class="woo-product-feed-pro-switch">
@@ -193,7 +197,7 @@ if(isset($_GET["tab"])) {
 						</tr>
 						<tr class="<?php print"$elite_disable";?>" id="manipulation_option">
 							<td>
-								<span><?php _e( 'Enable Product data manipulation feature:', 'woo-product-feed-pro' );?> (<a href="https://adtribes.io/feature-product-data-manipulation/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_content=wpml support" target="_blank"><?php _e( 'Read more about this', 'woo-product-feed-pro' );?>)</a></span>
+								<span><?php _e( 'Enable the Product Data Manipulation feature:', 'woo-product-feed-pro' );?> (<a href="https://adtribes.io/feature-product-data-manipulation/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_content=wpml support" target="_blank"><?php _e( 'Read more about this', 'woo-product-feed-pro' );?>)</a></span>
 							</td>
 							<td>
                                                 		<label class="woo-product-feed-pro-switch">
@@ -252,7 +256,7 @@ if(isset($_GET["tab"])) {
 						?>
 						<tr>
 							<td>
-								<span><?php _e( 'Use mother main image for variations', 'woo-product-feed-pro');?></span>
+								<span><?php _e( 'Use parent variable product image for variations', 'woo-product-feed-pro');?></span>
 							</td>
 							<td>
                                                 		<label class="woo-product-feed-pro-switch">
@@ -270,7 +274,7 @@ if(isset($_GET["tab"])) {
 						</tr>
 						<tr>
 							<td>
-								<span><?php _e( 'Add shipping costs for all countries to feed (Google Shopping / Facebook only)', 'woo-product-feed-pro');?></span>
+								<span><?php _e( 'Add shipping costs for all countries to your feed (Google Shopping / Facebook only)', 'woo-product-feed-pro');?></span>
 							</td>
 							<td>
                                                 		<label class="woo-product-feed-pro-switch">
@@ -306,7 +310,7 @@ if(isset($_GET["tab"])) {
 						</tr>
 						<tr>
 							<td>
-								<span><?php _e( 'Remove the free shipping zone from feed (Google Shopping / Facebook only)', 'woo-product-feed-pro');?></span>
+								<span><?php _e( 'Remove the free shipping zone from your feed (Google Shopping / Facebook only)', 'woo-product-feed-pro');?></span>
 							</td>
 							<td>
                                                 		<label class="woo-product-feed-pro-switch">
@@ -324,7 +328,7 @@ if(isset($_GET["tab"])) {
 						</tr>
 						<tr>
 							<td>
-								<span><?php _e( 'Remove the local pickup shipping zone from feed (Google Shopping / Facebook only)', 'woo-product-feed-pro');?></span>
+								<span><?php _e( 'Remove the local pickup shipping zone from your feed (Google Shopping / Facebook only)', 'woo-product-feed-pro');?></span>
 							</td>
 							<td>
                                                 		<label class="woo-product-feed-pro-switch">
@@ -358,6 +362,24 @@ if(isset($_GET["tab"])) {
                                                 		</label>
 							</td>
 						</tr>
+						<tr>
+							<td>
+								<span><?php _e( 'Add CDATA to title, description and short description:', 'woo-product-feed-pro');?></span>
+							</td>
+							<td>
+                                                		<label class="woo-product-feed-pro-switch">
+                                                        	<?php
+								$add_woosea_cdata = get_option ('add_woosea_cdata');
+                                                        	if($add_woosea_cdata == "yes"){
+                                                                	print "<input type=\"checkbox\" id=\"add_woosea_cdata\" name=\"add_woosea_cdata\" class=\"checkbox-field\" checked>";
+							 	} else {
+                                                                	print "<input type=\"checkbox\" id=\"add_woosea_cdata\" name=\"add_woosea_cdata\" class=\"checkbox-field\">";
+                                                        	}
+                                                        	?>
+                                                        	<div class="woo-product-feed-pro-slider round"></div>
+                                                		</label>
+							</td>
+						</tr>
 
 						<tr id="facebook_pixel">
 							<td>
@@ -368,9 +390,9 @@ if(isset($_GET["tab"])) {
                                                         	<?php
 								$add_facebook_pixel = get_option ('add_facebook_pixel');
                                                         	if($add_facebook_pixel == "yes"){
-                                                                	print "<input type=\"checkbox\" id=\"add_facebook_pixel\" name=\"add_facebook_pixel\" class=\"checkbox-field\" checked>";
+                                                                	print "<input type=\"checkbox\" id=\"add_facebook_pixel\" name=\"add_facebook_pixel\" class=\"checkbox-field\" value=\"$nonce\" checked>";
 							 	} else {
-                                                                	print "<input type=\"checkbox\" id=\"add_facebook_pixel\" name=\"add_facebook_pixel\" class=\"checkbox-field\">";
+                                                                	print "<input type=\"checkbox\" id=\"add_facebook_pixel\" name=\"add_facebook_pixel\" class=\"checkbox-field\" value=\"$nonce\">";
                                                         	}
                                                         	?>
                                                         	<div class="woo-product-feed-pro-slider round"></div>
@@ -405,20 +427,48 @@ if(isset($_GET["tab"])) {
 								</select>
 							</td>
 						</tr>
-					
-
+					        <?php
+                                                if($elite_disable == "enabled"){
+                                                ?>	
+						<tr class="<?php print"$elite_disable";?>" id="facebook_capi">
+							<td>
+								<span><?php _e( 'Enable Facebook Conversion API:', 'woo-product-feed-pro');?> (<a href="https://adtribes.io/facebook-conversion-api/" target="_blank"><?php _e( 'Read more about this', 'woo-product-feed-pro' );?>)</a></span>
+							</td>
+							<td>
+                                                		<label class="woo-product-feed-pro-switch">
+                                                        	<?php
+								$add_facebook_capi = get_option ('add_facebook_capi');
+                                                        	if($add_facebook_capi == "yes"){
+                                                                	print "<input type=\"checkbox\" id=\"add_facebook_capi\" name=\"add_facebook_capi\" class=\"checkbox-field\" value=\"$nonce\" checked>";
+							 	} else {
+                                                                	print "<input type=\"checkbox\" id=\"add_facebook_capi\" name=\"add_facebook_capi\" class=\"checkbox-field\" value=\"$nonce\">";
+                                                        	}
+                                                        	?>
+                                                        	<div class="woo-product-feed-pro-slider round"></div>
+                                                		</label>
+							</td>
+						</tr>
+						<?php
+                                                if($add_facebook_capi == "yes"){
+							$facebook_capi_token = get_option('woosea_facebook_capi_token');
+							print "<tr id=\"facebook_capi_token\"><td colspan=\"2\"><span>Insert your Facebook Conversion API token:</span><br/><br/><input type=\"textarea\" class=\"textarea-field\" id=\"fb_capi_token\" name=\"fb_capi_token\" value=\"$facebook_capi_token\"><br/><br/><input type=\"button\" id=\"save_facebook_capi_token\" value=\"Save\"></td></tr>";	
+						}
+						?>
+						<?php
+						}
+						?>
 						<tr id="remarketing">
 							<td>
 								<span><?php _e( 'Add Google Dynamic Remarketing Pixel:', 'woo-product-feed-pro');?></span>
 							</td>
 							<td>
                                                 		<label class="woo-product-feed-pro-switch">
-                                                        	<?php
+								<?php
 								$add_remarketing = get_option ('add_remarketing');
                                                         	if($add_remarketing == "yes"){
-                                                                	print "<input type=\"checkbox\" id=\"add_remarketing\" name=\"add_remarketing\" class=\"checkbox-field\" checked>";
+                                                                	print "<input type=\"checkbox\" id=\"add_remarketing\" name=\"add_remarketing\" class=\"checkbox-field\" value=\"$nonce\" checked>";
 							 	} else {
-                                                                	print "<input type=\"checkbox\" id=\"add_remarketing\" name=\"add_remarketing\" class=\"checkbox-field\">";
+                                                                	print "<input type=\"checkbox\" id=\"add_remarketing\" name=\"add_remarketing\" class=\"checkbox-field\" value=\"$nonce\">";
                                                         	}
                                                         	?>
                                                         	<div class="woo-product-feed-pro-slider round"></div>
@@ -455,7 +505,7 @@ if(isset($_GET["tab"])) {
                                                 if($add_batch == "yes"){
 							$woosea_batch_size = get_option('woosea_batch_size');
 
-							print "<tr id=\"woosea_batch_size\"><td colspan=\"2\"><span>Insert batch size:</span>&nbsp;<input type=\"text\" class=\"input-field-medium\" id=\"batch_size\" name=\"batch_size\" value=\"$woosea_batch_size\">&nbsp;<input type=\"submit\" id=\"save_batch_size\" value=\"Save\"></td></tr>";	
+							print "<tr id=\"woosea_batch_size\"><td colspan=\"2\"><span>Insert batch size:</span>&nbsp;<input type=\"text\" class=\"input-field-medium\" id=\"batch_size\" name=\"batch_size\" value=\"$woosea_batch_size\">&nbsp;<input type=\"button\" id=\"save_batch_size\" value=\"Save\"></td></tr>";	
 						}
 						?>
 						</form>
@@ -479,63 +529,82 @@ if(isset($_GET["tab"])) {
 						$test_file_logs = $external_path . "logs/tesfile.txt";				
 
 						if (is_writable($external_path)) {
-							// Normal root category
-							$fp = @fopen($test_file, 'w');
-							@fwrite($fp, 'Cats chase mice');
-							@fclose($fp);
-							if(is_file($test_file)){
-								$directory_perm = "True";
-							}
+				                      	// Normal root category
+                                                        $fp = @fopen($test_file, 'w');
+                                                        @fwrite($fp, 'Cats chase mice');
+                                                        @fclose($fp);
+                                                        if(is_file($test_file)){
+                                                                $directory_perm = "True";
+                                                        }
 
-							// XML subcategory
-							$fp = @fopen($test_file_xml, 'w');
-							@fwrite($fp, 'Cats chase mice');
-							@fclose($fp);
-							if(is_file($test_file_xml)){
-								$directory_perm_xml = "True";
-							} else {
-								$directory_perm_xml = "False";
-							}
+                                                        // XML subcategory
+                                                        $fp = @fopen($test_file_xml, 'w');
+                                                        if(!is_bool($fp)){
+                                                                @fwrite($fp, 'Cats chase mice');
+                                                                @fclose($fp);
+                                                                if(is_file($test_file_xml)){
+                                                                        $directory_perm_xml = "True";
+                                                                } else {
+                                                                        $directory_perm_xml = "False";
+                                                                }
+                                                        } else {
+                                                                $directory_perm_xml = "Unknown";
+                                                        }
 
-							// CSV subcategory
-							$fp = @fopen($test_file_csv, 'w');
-							@fwrite($fp, 'Cats chase mice');
-							@fclose($fp);
-							if(is_file($test_file_csv)){
-								$directory_perm_csv = "True";
-							} else {
-								$directory_perm_csv = "False";
-							}
+                                                        // CSV subcategory
+                                                        $fp = @fopen($test_file_csv, 'w');
+                                                        if(!is_bool($fp)){
+                                                                @fwrite($fp, 'Cats chase mice');
+                                                                @fclose($fp);
+                                                                if(is_file($test_file_csv)){
+                                                                        $directory_perm_csv = "True";
+                                                                } else {
+                                                                        $directory_perm_csv = "False";
+                                                                }
+                                                        } else {
+                                                                $directory_perm_csv = "Unknown";
+                                                        }
 
-							// TXT subcategory
-							$fp = @fopen($test_file_txt, 'w');
-							@fwrite($fp, 'Cats chase mice');
-							@fclose($fp);
-							if(is_file($test_file_txt)){
-								$directory_perm_txt = "True";
-							} else {
-								$directory_perm_txt = "False";
-							}
+                                                        // TXT subcategory
+                                                        $fp = @fopen($test_file_txt, 'w');
+                                                        if(!is_bool($fp)){
+                                                                @fwrite($fp, 'Cats chase mice');
+                                                                @fclose($fp);
+                                                                if(is_file($test_file_txt)){
+                                                                        $directory_perm_txt = "True";
+                                                                } else {
+                                                                        $directory_perm_txt = "False";
+                                                                }
+                                                        } else {
+                                                                $directory_perm_txt = "Unknown";
+                                                        }		
+					                                                        // TSV subcategory
+                                                        $fp = @fopen($test_file_tsv, 'w');
+                                                        if(!is_bool($fp)){
+                                                                @fwrite($fp, 'Cats chase mice');
+                                                                @fclose($fp);
+                                                                if(is_file($test_file_tsv)){
+                                                                        $directory_perm_tsv = "True";
+                                                                } else {
+                                                                        $directory_perm_tsv = "False";
+                                                                }
+                                                        } else {
+                                                                $directory_perm_tsv = "Uknown";
+                                                        }
 
-							// TSV subcategory
-							$fp = @fopen($test_file_tsv, 'w');
-							@fwrite($fp, 'Cats chase mice');
-							@fclose($fp);
-							if(is_file($test_file_tsv)){
-								$directory_perm_tsv = "True";
-							} else {
-								$directory_perm_tsv = "False";
-							}
-
-							// Logs subcategory
-							$fp = @fopen($test_file_logs, 'w');
-							@fwrite($fp, 'Cats chase mice');
-							@fclose($fp);
-							if(is_file($test_file_logs)){
-								$directory_perm_logs = "True";
-							} else {
-								$directory_perm_logs = "False";
-							}
+                                                        // Logs subcategory
+                                                        $fp = @fopen($test_file_logs, 'w');
+                                                        if(!is_bool($fp)){
+                                                                @fwrite($fp, 'Cats chase mice');
+                                                                @fclose($fp);
+                                                                if(is_file($test_file_logs)){
+                                                                        $directory_perm_logs = "True";
+                                                                } else {
+                                                                        $directory_perm_logs = "False";
+                                                                }
+                                                        } else {
+                                                                $directory_perm_logs = "Unknown";
+                                                        }	
 						} else {
 							$directory_perm = "False";
 						}
@@ -554,7 +623,7 @@ if(isset($_GET["tab"])) {
 						print "<table class=\"woo-product-feed-pro-table\">";
 						print "<tr><td><strong>System check</strong></td><td><strong>Status</strong></td></tr>";
 						print "<tr><td>WP-Cron enabled</td><td>$cron_enabled</td></tr>";
-						print "<tr><td>PHP-version sufficient</td><td>$php_validation ($versions[PHP])</td></tr>";
+						print "<tr><td>PHP-version</td><td>$php_validation ($versions[PHP])</td></tr>";
 						print "<tr><td>Product feed directory writable</td><td>$directory_perm</td></tr>";
 						print "<tr><td>Product feed XML directory writable</td><td>$directory_perm_xml</td></tr>";
 						print "<tr><td>Product feed CSV directory writable</td><td>$directory_perm_csv</td></tr>";

@@ -41,5 +41,6 @@ class ApplicationAnPlatformsValues extends \PYS_PRO_GLOBAL\FacebookAds\Enum\Abst
     const INSTANT_ARTICLES = 'INSTANT_ARTICLES';
     const IOS = 'IOS';
     const MOBILE_WEB = 'MOBILE_WEB';
+    const OCULUS = 'OCULUS';
     const UNKNOWN = 'UNKNOWN';
 }

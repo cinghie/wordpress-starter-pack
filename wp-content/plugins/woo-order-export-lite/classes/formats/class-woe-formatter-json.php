@@ -28,6 +28,9 @@ class WOE_Formatter_Json extends WOE_Formatter {
 		if($settings['numeric_check']) {
 			$this->formatting_flags |= JSON_NUMERIC_CHECK;
 		}
+        if($settings['encode_unicode']) {
+            $this->formatting_flags |= JSON_UNESCAPED_UNICODE;
+        }
 	}
 
 	public function start( $data = '' ) {

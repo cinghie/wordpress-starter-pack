@@ -1,17 +1,26 @@
 <?php
+/**
+ * Settings tab array
+ *
+ * @author  YITH
+ * @package YITH WooCommerce Quick View
+ * @version 1.1.1
+ */
+
+defined( 'YITH_WCQV' ) || exit; // Exit if accessed directly.
 
 $settings = array(
 
 	'settings' => array(
 
-		'general-options' => array(
+		'general-options'          => array(
 			'title' => __( 'General Options', 'yith-woocommerce-quick-view' ),
 			'type'  => 'title',
 			'desc'  => '',
 			'id'    => 'yith-wcqv-general-options',
 		),
 
-		'enable-quick-view' => array(
+		'enable-quick-view'        => array(
 			'id'        => 'yith-wcqv-enable',
 			'name'      => __( 'Enable Quick View', 'yith-woocommerce-quick-view' ),
 			'type'      => 'yith-field',
@@ -28,7 +37,7 @@ $settings = array(
 			'default'   => 'yes',
 		),
 
-		'quick-view-label' => array(
+		'quick-view-label'         => array(
 			'id'        => 'yith-wcqv-button-label',
 			'name'      => __( 'Quick View Button Label', 'yith-woocommerce-quick-view' ),
 			'desc'      => __( 'Label for the quick view button in the WooCommerce loop.', 'yith-woocommerce-quick-view' ),
@@ -37,19 +46,19 @@ $settings = array(
 			'default'   => __( 'Quick View', 'yith-woocommerce-quick-view' ),
 		),
 
-		'general-options-end' => array(
+		'general-options-end'      => array(
 			'type' => 'sectionend',
 			'id'   => 'yith-wcqv-general-options',
 		),
 
-		'style-options' => array(
+		'style-options'            => array(
 			'title' => __( 'Style Options', 'yith-woocommerce-quick-view' ),
 			'desc'  => '',
 			'type'  => 'title',
 			'id'    => 'yith-wcqv-style-options',
 		),
 
-		'background-color-modal' => array(
+		'background-color-modal'   => array(
 			'name'      => __( 'Modal Window Background Color', 'yith-woocommerce-quick-view' ),
 			'type'      => 'yith-field',
 			'yith-type' => 'colorpicker',
@@ -58,7 +67,7 @@ $settings = array(
 			'default'   => '#ffffff',
 		),
 
-		'close-button-color' => array(
+		'close-button-color'       => array(
 			'name'      => __( 'Closing Button Color', 'yith-woocommerce-quick-view' ),
 			'type'      => 'yith-field',
 			'yith-type' => 'colorpicker',
@@ -76,7 +85,7 @@ $settings = array(
 			'default'   => '#ff0000',
 		),
 
-		'style-options-end' => array(
+		'style-options-end'        => array(
 			'type' => 'sectionend',
 			'id'   => 'yith-wcqv-style-options',
 		),

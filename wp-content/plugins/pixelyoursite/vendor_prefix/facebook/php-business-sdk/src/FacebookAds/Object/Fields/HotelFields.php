@@ -45,6 +45,7 @@ class HotelFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
     const GUEST_RATINGS = 'guest_ratings';
     const HOTEL_ID = 'hotel_id';
     const ID = 'id';
+    const IMAGE_FETCH_STATUS = 'image_fetch_status';
     const IMAGES = 'images';
     const LOWEST_BASE_PRICE = 'lowest_base_price';
     const LOYALTY_PROGRAM = 'loyalty_program';
@@ -58,6 +59,6 @@ class HotelFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
     const BASE_PRICE = 'base_price';
     public function getFieldTypes()
     {
-        return array('address' => 'string', 'applinks' => 'CatalogItemAppLinks', 'brand' => 'string', 'category' => 'string', 'category_specific_fields' => 'CatalogSubVerticalList', 'currency' => 'string', 'description' => 'string', 'guest_ratings' => 'string', 'hotel_id' => 'string', 'id' => 'string', 'images' => 'list<string>', 'lowest_base_price' => 'string', 'loyalty_program' => 'string', 'margin_level' => 'unsigned int', 'name' => 'string', 'phone' => 'string', 'sale_price' => 'string', 'sanitized_images' => 'list<string>', 'star_rating' => 'float', 'url' => 'string', 'base_price' => 'unsigned int');
+        return array('address' => 'string', 'applinks' => 'CatalogItemAppLinks', 'brand' => 'string', 'category' => 'string', 'category_specific_fields' => 'CatalogSubVerticalList', 'currency' => 'string', 'description' => 'string', 'guest_ratings' => 'string', 'hotel_id' => 'string', 'id' => 'string', 'image_fetch_status' => 'ImageFetchStatus', 'images' => 'list<string>', 'lowest_base_price' => 'string', 'loyalty_program' => 'string', 'margin_level' => 'unsigned int', 'name' => 'string', 'phone' => 'string', 'sale_price' => 'string', 'sanitized_images' => 'list<string>', 'star_rating' => 'float', 'url' => 'string', 'base_price' => 'unsigned int');
     }
 }

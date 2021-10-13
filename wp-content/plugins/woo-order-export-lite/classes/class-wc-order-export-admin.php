@@ -22,6 +22,8 @@ class WC_Order_Export_Admin {
 		$this->path_plugin        = dirname( plugin_dir_path( __FILE__ ) ) . '/';
 		$this->path_views_default = dirname( plugin_dir_path( __FILE__ ) ) . "/view/";
 
+		add_action( 'init', array( $this, 'load_textdomain' ) );
+
 		if ( is_admin() ) { // admin actions
 			add_action( 'admin_menu', array( $this, 'add_menu' ) );
 
@@ -56,6 +58,8 @@ class WC_Order_Export_Admin {
 
 			// Add 'Export Status' orders page column header
 			add_filter( 'manage_edit-shop_order_columns', array( $this, 'add_order_status_column_header' ), 20 );
+			add_filter( 'manage_edit-shop_order_sortable_columns', array( $this, 'add_order_status_sortable_columns' ) );
+			add_filter( 'request', array( $this, 'add_order_status_request_query' ) );
 
 			// Add 'Export Status' orders page column content
 			add_action( 'manage_shop_order_posts_custom_column', array( $this, 'add_order_status_column_content' ) );
@@ -71,6 +75,11 @@ class WC_Order_Export_Admin {
 
 		$this->settings = WC_Order_Export_Main_Settings::get_settings();
 
+	}
+
+	public function load_textdomain() {
+		$locale = apply_filters( 'plugin_locale', get_locale(), 'woo-order-export-lite' );
+		load_textdomain( 'woo-order-export-lite', WP_LANG_DIR . '/woo-order-export-lite/woo-order-export-lite' . $locale . '.mo' );
 	}
 
 	public function get_tabs() {
@@ -102,6 +111,52 @@ class WC_Order_Export_Admin {
 		}
 
 		return $new_columns;
+	}
+
+	/**
+	 * Define which columns are sortable.
+	 *
+	 * @param array $columns Existing columns.
+	 *
+	 * @return array
+	 */
+	public function add_order_status_sortable_columns( $columns ) {
+		if ( ! $this->settings['show_export_status_column'] ) {
+			return $columns;
+		}
+		$columns['woe_export_status'] = 'woe_export_status';
+
+		return $columns;
+	}
+
+	/**
+	 * @param array $query_vars Query vars.
+	 *
+	 * @return array
+	 */
+	public function add_order_status_request_query( $query_vars ) {
+		if ( isset( $query_vars['orderby'] ) ) {
+			if ( 'woe_export_status' === $query_vars['orderby'] ) {
+				$order      = isset( $query_vars['order'] ) ? $query_vars['order'] : 'ASC';
+				$query_vars = array_merge( $query_vars, array(
+					'orderby'    => array( 'meta_value_num' => $order, 'date' => 'DESC' ),
+					'meta_query' => array(
+						'relation' => 'OR',
+						// NOT EXISTS required! Otherwise, you will not get all orders.
+						array(
+							'key'     => 'woe_order_exported',
+							'compare' => 'NOT EXISTS',
+						),
+						array(
+							'key'     => 'woe_order_exported',
+							'compare' => 'EXISTS',
+						),
+					),
+				) );
+			}
+		}
+
+		return $query_vars;
 	}
 
 	public function add_order_status_column_content( $column ) {
@@ -173,9 +228,18 @@ class WC_Order_Export_Admin {
 		}
 	}
 
+	/**
+	 * @param string $tab
+     *
+     * @return bool
+	 */
+	protected function is_tab_exists( $tab ) {
+		return isset( $this->tabs[ $tab ] );
+	}
+
 	public function render_menu() {
 
-		$active_tab = isset( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : $this->settings['default_tab'];
+		$active_tab = isset( $_REQUEST['tab'] ) && $this->is_tab_exists( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : $this->settings['default_tab'];
 		$this->render( 'main', array(
 			'WC_Order_Export' => $this,
 			'ajaxurl'         => admin_url( 'admin-ajax.php' ),
@@ -199,7 +263,7 @@ class WC_Order_Export_Admin {
 		wp_enqueue_style( 'jquery-style',
 			'//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css' );
 
-		$active_tab = isset( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : $this->settings['default_tab'];
+		$active_tab = isset( $_REQUEST['tab'] ) && $this->is_tab_exists( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : $this->settings['default_tab'];
 
 		$this->enqueue_select2_scripts( $active_tab );
 
@@ -215,7 +279,7 @@ class WC_Order_Export_Admin {
 
 		wp_enqueue_style( 'woocommerce_admin_styles', WC()->plugin_url() . '/assets/css/admin.css', array() );
 
-		$_REQUEST['tab'] = isset( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : $this->settings['default_tab'];
+		$_REQUEST['tab'] = isset( $_REQUEST['tab'] ) && $this->is_tab_exists( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : $this->settings['default_tab'];
 
 		if ( isset( $_REQUEST['wc_oe'] ) AND ( strpos( $_REQUEST['wc_oe'], 'add_' ) === 0 OR strpos( $_REQUEST['wc_oe'],
 					'edit_' ) === 0 ) OR $_REQUEST['tab'] == 'export' ) {
@@ -255,7 +319,7 @@ class WC_Order_Export_Admin {
 				'save_settings_url' => esc_url( add_query_arg(
 					array(
 						'page' => 'wc-order-export',
-						'tab'  => $_REQUEST['tab'],
+						'tab'  => $active_tab,
 						'save' => 'y',
 					),
 					admin_url( 'admin.php' ) ) ),
@@ -343,7 +407,7 @@ class WC_Order_Export_Admin {
 	}
 
 	private function enqueue_select2_scripts( $active_tab ) {
-
+		$settings = WC_Order_Export_Main_Settings::get_settings();
 		wp_enqueue_script( 'select22', $this->url_plugin . 'assets/js/select2/select2.full.js',
 			array( 'jquery' ), '4.0.3' );
 
@@ -361,9 +425,10 @@ class WC_Order_Export_Admin {
 		), WOE_VERSION );
 
 		$script_data = array(
-			'locale'         => get_locale(),
-			'select2_locale' => $this->get_select2_locale(),
-			'active_tab'     => $active_tab,
+			'locale'                    => get_locale(),
+			'select2_locale'            => $this->get_select2_locale(),
+			'active_tab'                => $active_tab,
+			'show_all_items_in_filters' => isset( $settings['show_all_items_in_filters'] ) ? $settings['show_all_items_in_filters'] : false,
 		);
 
 		wp_localize_script( 'select2-i18n', 'script_data', $script_data );
@@ -409,7 +474,7 @@ class WC_Order_Export_Admin {
 		}
 
 		$method = 'ajax_' . $_REQUEST['method'];
-		$tab = isset( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : false;
+		$tab = isset( $_REQUEST['tab'] ) && $this->is_tab_exists( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : false;
 
 		do_action( 'woe_order_export_admin_ajax_gate_before');
 

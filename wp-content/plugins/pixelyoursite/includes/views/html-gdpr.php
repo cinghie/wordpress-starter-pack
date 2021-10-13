@@ -7,111 +7,95 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 ?>
-
-<h2 class="section-title">GDPR Settings</h2>
-
-<div class="card card-static">
-	<div class="card-header">
-		General
-	</div>
-	<div class="card-body">
-		<div class="row">
-			<div class="col">
-				<p>According to GDPR (EU regulation), you'll have to inform and gather consent from your website
-                    visitors about the way you use their private data.</p>
-                <p>PixelYourSite implements by default 3 different tracking codes: the Facebook pixel, Google Analytics,
-                    and the Pinterest tag. Chances are that you have other scripts or third-party cookies running on
-                    your website (embedded videos, ad networks, chats, etc).</p>
-                <p>We suggest you globally manage cookie consent with a dedicated solution. On this page, we will list a
-                    few of them and we will also offer "filters" that developers can make use of.</p>
-                <p>It's also important to understand what each network does and to inform your users accordingly.</p>
-                <p class="mb-4">For more information about PixelYourSite and GDPR visit our <a
-                            href="https://www.pixelyoursite.com/gdpr-cookie-compliance?utm_source=pixelyoursite-free-plugin&utm_medium=plugin&utm_campaign=free-plugin-gdpr" target="_blank">dedicated
-                        page</a>.</p>
-                
-                <h3>Facebook Pixel</h3>
-                <p>It is used for Facebook Ads and Facebook Analytics. It does use private data and you will need to ask
-                    for prior consent.</p>
-                <p class="mb-4">Facebook also has also implemented flexible ways for their users to see and control how
-                    the pixel is used o partner websites. Inform your users about it: <a target="_blank"
-                    href="https://www.facebook.com/ads/preferences/?entry_product=ad_settings_screen">
-                    https://www.facebook.com/ads/preferences/?entry_product=ad_settings_screen</a></p>
-
-                <h3>Google Analytics</h3>
-                <p>By default, Google Analytics doesn't track private data. This implementation will probably not
-                    require prior consent. If you turn on Google Analytics Advertising features, Remarketing features,
-                    or if you link your Analytics account to your AdSense account, you will start to send personal data.
-                    In this case, prior consent is required.</p>
-                <p class="mb-4">Inform your users that they can control their privacy settings from here:
-                    <a target="_blank" href="https://adssettings.google.com/authenticated">https://adssettings.google.com/authenticated</a></p>
-
-                <h3>Google Ads</h3>
-                <p>It is used for Google Ads. It does use private data and you will need to ask for prior consent.</p>
-                <p class="mb-4">Inform your users that they can control their privacy settings from here:
-                    <a target="_blank" href="https://adssettings.google.com/authenticated">https://adssettings.google.com/authenticated</a>
-                </p>
-                
-                <h3>Pinterest Tag</h3>
-                <p>It is used for Pinterest ads and does use private data that can identify your users. You will need to
-                    ask for prior consent.</p>
-                <p class="mb-0">Inform your users that they can control privacy settings from here:
-                    <a target="_blank" href="https://www.pinterest.com/settings/">https://www.pinterest.com/settings/</a></p>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- Prior Consent -->
-<div class="card card-static">
-	<div class="card-header">
-		Cookie Consent Integrations
-	</div>
-	<div class="card-body">
-		<div class="row">
-			<div class="col">
-				<?php PYS()->render_switcher_input( 'gdpr_facebook_prior_consent_enabled' ); ?>
-				<h4 class="switcher-label">Enable the Facebook Pixel tracking before consent is capture (this might not
-                    be GDPR compliant)</h4>
-			</div>
-		</div>
-        <div class="row mt-3">
-            <div class="col">
-				<?php PYS()->render_switcher_input( 'gdpr_analytics_prior_consent_enabled' ); ?>
-                <h4 class="switcher-label">Enable Google Analytics tracking before consent is capture (if your Google
-                    Analytics has advertising or remarketing features enabled, this might not be GDPR compliant)</h4>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col">
-				<?php PYS()->render_switcher_input( 'gdpr_google_ads_prior_consent_enabled' ); ?>
-                <h4 class="switcher-label">Enable Google Ads tracking before consent is capture (if your Google
-                    Ads has advertising or remarketing features enabled, this might not be GDPR compliant)</h4>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col">
-				<?php PYS()->render_switcher_input( 'gdpr_pinterest_prior_consent_enabled' ); ?>
-                <h4 class="switcher-label">Enable the Pinterest Tag tracking before consent is capture (this might not
-                    be GDPR compliant)</h4>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col">
-                <?php PYS()->render_switcher_input( 'gdpr_bing_prior_consent_enabled' ); ?>
-                <h4 class="switcher-label">Enable the Bing Tag tracking before consent is capture (this might not
-                    be GDPR compliant)</h4>
-            </div>
-        </div>
-	</div>
-</div>
-
-<!-- Cookiebot -->
+<!-- Consent Magic -->
 <div class="card card-static">
     <div class="card-header">
-        <?php if ( ! isCookiebotPluginActivated() ) : ?>
-            Cookiebot <span class="text-danger">[not detected]</span>
+        Consent Magic - Recommended
+    </div>
+    <div class="card-body">
+        <?php if (isConsentMagicPluginInstalled()) : ?>
+            <?php if (isConsentMagicPluginActivated()) : ?>
+                <div class="row">
+                    <div class="col">
+                        Manage your consent settings with
+                        <?php if (isConsentMagicPluginLicenceActivated()) { ?>
+                            <a href="<?=admin_url("admin.php?page=consent-magic")?>">Consent Magic.</a>
+                        <?php } else { ?>
+                        <a href="<?=admin_url("admin.php?page=cs-license")?>">Consent Magic.</a>
+                        <?php } ?>
+                    </div>
+                </div>
+            <?php else: ?>
+                <div class="row">
+                    <div class="col">
+                        You have Consent Magic installed, but it’s not activated yet. Go to the Plugins page and activate
+                        <a href="<?=admin_url("plugins.php")?>">Consent Magic.</a>
+                    </div>
+                </div>
+            <?php endif; ?>
         <?php else: ?>
-            Cookiebot <span class="text-success">[detected]</span>
+        <div class="row">
+            <div class="col">
+                <p>Ask for consent the right way, block scripts and cookies when required.</p>
+                <p><strong>Manage different type of consent:</strong></p>
+                <ul class="pys_list">
+                    <li><strong>Ask before tracking:</strong> show a consent message and block the tracking scripts before the
+                        visitor expresses consent - ideal for GDPR.</li>
+                    <li><strong>Inform and opt out:</strong> show a consent message, and block the tracking scripts if the visitor
+                        doesn’t agree to tracking - ideal for CCPA.</li>
+                    <li><strong>Just inform:</strong> show a non-intrusive message informing your visitors about tracking.</li>
+                </ul>
+                <p><strong>Use geo-targeted rules:</strong></p>
+                <p>Target your visitors with the right rule based on their location. Rules can have different consent types
+                    and different content. The plugin comes with the ready-made rules:</p>
+                <ul class="pys_list">
+                    <li><strong>GDPR rule:</strong> targets visitors from GDPR countries, and uses Ask before tracking consent
+                        type.</li>
+                    <li><strong>CCPA rule:</strong> targets visitors from California, and uses Inform and opt-out consent type.</li>
+                    <li><strong>Rest of the world rule:</strong> targets visitors from other locations and uses Just inform consent
+                        type</li>
+                    <li><strong>Your own rule:</strong> create any rules you need, target any countries, and use custom text for them.</li>
+                </ul>
+            </div>
+
+        </div>
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    <a href="https://www.consentmagic.com/?utm_source=pys&utm_medium=free-plugin&utm_campaign=consent-page" target="_blank" class="btn btn-sm pys_btn_orange">
+                        Lean more about Consent Magic
+                    </a>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+
+<!-- Video -->
+<div class="card card-static">
+    <div class="card-header">
+        Recommended Consent Videos:
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <p><a href="https://www.youtube.com/watch?v=uXTpgFu2V-E" target="_blank">The biggest problem with consent messages (7:02 min) - watch now</a></p>
+                <p><a href="https://www.youtube.com/watch?v=ZOlNbIPS_Uc" target="_blank">Target your visitors with the right consent rule (12:29 min) - watch now</a></p>
+                <p><a href="https://www.youtube.com/watch?v=P8CLxslSPDk" target="_blank">The right to change your mind (2:46 min) - watch now</a></p>
+                <p><a href="https://www.youtube.com/watch?v=PsKdCkKNeLU" target="_blank">Facebook Conversion API and the Consent Problem (9:25 min) - watch now</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2 class="section-title">Other consent plugins:</h2>
+
+<!-- Cookiebot -->
+<div class="card">
+    <div class="card-header">
+        <?php if ( ! isCookiebotPluginActivated() ) : ?>
+            Cookiebot <span class="text-danger">[not detected]</span><?php cardCollapseBtn(); ?>
+        <?php else: ?>
+            Cookiebot <span class="text-success">[detected]</span><?php cardCollapseBtn(); ?>
         <?php endif; ?>
     </div>
     <div class="card-body">
@@ -181,41 +165,13 @@ if ( ! defined( 'ABSPATH' ) ) {
     </div>
 </div>
 
-<!-- Ginger – EU Cookie Law -->
-<div class="card card-static">
-    <div class="card-header">
-		<?php if ( ! isGingerPluginActivated() ) : ?>
-            Ginger – EU Cookie Law <span class="text-danger">[not detected]</span>
-		<?php else: ?>
-            Ginger – EU Cookie Law <span class="text-success">[detected]</span>
-		<?php endif; ?>
-    </div>
-    <div class="card-body">
-        <div class="row">
-            <div class="col">
-                <p>This free plugin offers an interesting cookie consent integration with the possibility to turn OFF
-                    cookies before consent is given.</p>
-                <p class="mb-0">Plugin: <a href="https://wordpress.org/plugins/ginger/" target="_blank">https://wordpress.org/plugins/ginger/</a>
-                </p>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col">
-			    <?php PYS()->render_switcher_input( 'gdpr_ginger_integration_enabled', false,
-				    ! isGingerPluginActivated() ); ?>
-                <h4 class="switcher-label">Enable Ginger – EU Cookie Law integration</h4>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Cookie Notice -->
-<div class="card card-static">
+<div class="card ">
     <div class="card-header">
 		<?php if ( ! isCookieNoticePluginActivated() ) : ?>
-            Cookie Notice <span class="text-danger">[not detected]</span>
+            Cookie Notice <span class="text-danger">[not detected]</span><?php cardCollapseBtn(); ?>
 		<?php else: ?>
-            Cookie Notice <span class="text-success">[detected]</span>
+            Cookie Notice <span class="text-success">[detected]</span><?php cardCollapseBtn(); ?>
 		<?php endif; ?>
     </div>
     <div class="card-body">
@@ -237,12 +193,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 </div>
 
 <!-- Cookie Law Info -->
-<div class="card card-static">
+<div class="card">
     <div class="card-header">
 		<?php if ( ! isCookieLawInfoPluginActivated() ) : ?>
-            GDPR Cookie Consent <span class="text-danger">[not detected]</span>
+            GDPR Cookie Consent <span class="text-danger">[not detected]</span><?php cardCollapseBtn(); ?>
 		<?php else: ?>
-            GDPR Cookie Consent <span class="text-success">[detected]</span>
+            GDPR Cookie Consent <span class="text-success">[detected]</span><?php cardCollapseBtn(); ?>
 		<?php endif; ?>
     </div>
     <div class="card-body">
@@ -257,6 +213,33 @@ if ( ! defined( 'ABSPATH' ) ) {
             <div class="col">
 				<?php PYS()->render_switcher_input( 'gdpr_cookie_law_info_integration_enabled', false,
 					! isCookieLawInfoPluginActivated() ); ?>
+                <h4 class="switcher-label">GDPR Cookie Consent integration</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Real Cookie Banner -->
+<div class="card">
+    <div class="card-header">
+        <?php if ( ! isRealCookieBannerPluginActivated() ) : ?>
+            Real Cookie Banner <span class="text-danger">[not detected]</span><?php cardCollapseBtn(); ?>
+        <?php else: ?>
+            Real Cookie Banner <span class="text-success">[detected]</span><?php cardCollapseBtn(); ?>
+        <?php endif; ?>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <p>Real Cookie Banner is an opt-in cookie and consent management plugin</p>
+                <p class="mb-0">Plugin: <a href="https://wordpress.org/plugins/real-cookie-banner/" target="_blank">https://wordpress.org/plugins/real-cookie-banner/</a>
+                </p>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <?php PYS()->render_switcher_input( 'gdpr_real_cookie_banner_integration_enabled', false,
+                    ! isRealCookieBannerPluginActivated() ); ?>
                 <h4 class="switcher-label">GDPR Cookie Consent integration</h4>
             </div>
         </div>

@@ -94,7 +94,7 @@ class Canvas extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
     public function updateSelf(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
-        $param_types = array('background_color' => 'string', 'body_element_ids' => 'list<string>', 'enable_swipe_to_open' => 'bool', 'is_hidden' => 'bool', 'is_published' => 'bool', 'name' => 'string');
+        $param_types = array('background_color' => 'string', 'body_element_ids' => 'list<string>', 'enable_swipe_to_open' => 'bool', 'is_hidden' => 'bool', 'is_published' => 'bool', 'name' => 'string', 'source_template_id' => 'string');
         $enums = array();
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/', new \PYS_PRO_GLOBAL\FacebookAds\Object\Canvas(), 'NODE', \PYS_PRO_GLOBAL\FacebookAds\Object\Canvas::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);

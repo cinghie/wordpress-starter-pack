@@ -13,6 +13,7 @@ require_once PYS_FREE_PATH . '/modules/facebook/facebook-server-async-task.php';
 require_once PYS_FREE_PATH . '/modules/facebook/PYSServerEventHelper.php';
 
 use PYS_PRO_GLOBAL\FacebookAds\Api;
+use PYS_PRO_GLOBAL\FacebookAds\Http\Exception\RequestException;
 use PYS_PRO_GLOBAL\FacebookAds\Object\ServerSide\EventRequest;
 use PYS_PRO_GLOBAL\FacebookAds\Object\ServerSide\Event;
 use PYS_PRO_GLOBAL\FacebookAds\Object\ServerSide\CustomData;
@@ -83,6 +84,20 @@ class FacebookServer {
 
         $event = $this->createEvent($eventID,$event,$data,$wooOrder,$eddOrder);
         if($event) {
+            if(isset($_POST['url'])) {
+                if(PYS()->getOption('enable_remove_source_url_params')) {
+                    $list = explode("?",$_POST['url']);
+                    if(is_array($list) && count($list) > 0) {
+                        $url = $list[0];
+                    } else {
+                        $url = $_POST['url'];
+                    }
+                } else {
+                    $url = $_POST['url'];
+                }
+                $event->setEventSourceUrl($url);
+            }
+
             $this->sendEvent($ids,array($event));
         }
         wp_die();
@@ -103,7 +118,6 @@ class FacebookServer {
         $event = ServerEventHelper::newEvent($name,$eventID,$wooOrder,$eddOrder);
 
         $event->setEventTime(time());
-        $event->setEventSourceUrl($data["event_url"]);
         $event->setActionSource("website");
 
         // prepare data
@@ -188,16 +202,18 @@ class FacebookServer {
             if(!empty($this->testCode[$pixel_Id]))
                 $request->setTestEventCode($this->testCode[$pixel_Id]);
 
-            if($this->isDebug)
-                error_log("send fb api request ".print_r($request,true));
-
             try{
+                PYS()->getLog()->debug('Send FB server event',$request);
                 $response = $request->execute();
+                PYS()->getLog()->debug('Response from FB server',$response);
             } catch (\Exception   $e) {
-                error_log("error send Fb API request ".$e->getMessage());
+                if($e instanceof RequestException) {
+                    PYS()->getLog()->error('Error send FB server event '.$e->getErrorUserMessage(),$e->getResponse());
+                } else {
+                    PYS()->getLog()->error('Error send FB server event',$e);
+                }
             }
 
-            if($this->isDebug && isset($response))  error_log("fb api response ".print_r($response,true));
         }
     }
 

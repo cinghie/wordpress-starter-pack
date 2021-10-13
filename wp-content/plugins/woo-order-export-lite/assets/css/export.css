@@ -493,6 +493,15 @@ input.date {
     font-size: .85rem;
     display: block;
 }
+.woe_common_tips {
+    margin: .25rem 0;
+}
+.woe_common_tips span {
+    color: #5b841b;
+    font-size: .85rem;
+    display: block;
+}
+
 .settings-segment:not(.active) {
     display: none;
 }

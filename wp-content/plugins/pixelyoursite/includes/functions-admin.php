@@ -76,6 +76,20 @@ function getAdminPrimaryNavTabs() {
         );
         
     }
+    if ( isWcfActive() ) {
+
+        $tabs['wcf'] = array(
+            'url'  => buildAdminUrl( 'pixelyoursite', 'wcf' ),
+            'name' => 'CartFlows',
+        );
+
+    }
+
+    $tabs['gdpr'] = array(
+        'url'  => buildAdminUrl( 'pixelyoursite', 'gdpr' ),
+        'name' => 'Consent',
+        'class' => 'orange'
+    );
     
     return $tabs;
     
@@ -104,11 +118,6 @@ function getAdminSecondaryNavTabs() {
     $tabs['head_footer'] = array(
         'url'  => buildAdminUrl( 'pixelyoursite', 'head_footer' ),
         'name' => 'Head & Footer',
-    );
-    
-    $tabs['gdpr'] = array(
-        'url'  => buildAdminUrl( 'pixelyoursite', 'gdpr' ),
-        'name' => 'GDPR',
     );
     
     return $tabs;
@@ -386,7 +395,7 @@ function adminRenderLicenseExpirationNotice( $plugin ) {
                 now.</a></p>
     </div>
 
-    <script type="text/javascript">
+    <script type="application/javascript">
         jQuery(document).on('click', '.pys_<?php esc_attr_e( $slug ); ?>_expiration_notice .notice-dismiss', function () {
 
             jQuery.ajax({
@@ -477,7 +486,7 @@ function adminRenderNoPixelsNotice() {
                 everything now</a></p>
     </div>
 
-    <script type="text/javascript">
+    <script type="application/javascript">
         jQuery(document).on('click', '.pys_core_no_pixels_notice .notice-dismiss', function () {
 
             jQuery.ajax({
@@ -547,7 +556,7 @@ function adminRenderNoPixelNotice( $plugin ) {
         <?php endif; ?>
     </div>
 
-    <script type="text/javascript">
+    <script type="application/javascript">
         jQuery(document).on('click', '.pys_<?php esc_attr_e( $slug ); ?>_no_pixel_notice .notice-dismiss', function () {
 
             jQuery.ajax({
@@ -583,11 +592,12 @@ function renderDummyNumberInput() {
     <?php
 }
 
-function renderDummySwitcher() {
+function renderDummySwitcher($isEnable = false) {
+    $attr = $isEnable ? " checked='checked'" : "";
     ?>
 
     <div class="custom-switch disabled">
-        <input type="checkbox" value="1" disabled="disabled" class="custom-switch-input">
+        <input type="checkbox" value="1" <?=$attr?> disabled="disabled" class="custom-switch-input">
         <label class="custom-switch-btn"></label>
     </div>
     
@@ -700,3 +710,62 @@ function renderSpBadge() {
 function renderHfBadge() {
     echo '&nbsp;<a href="https://www.pixelyoursite.com/head-footer-scripts?utm_source=pixelyoursite-free-plugin&utm_medium=plugin&utm_campaign=free-plugin-head-footer" target="_blank" class="badge badge-pill badge-pro">Pro Feature <i class="fa fa-external-link" aria-hidden="true"></i></a>';
 }
+
+function addMetaTagFields($pixel,$url) { ?>
+    <div class="row">
+        <div class="col-12">
+            <h4 class="label mb-3">Verify your domain:</h4>
+            <?php
+            $pixel->render_text_input_array_item('verify_meta_tag','Add the verification meta-tag there');
+            ?>
+            <?php if(!empty($url)) : ?>
+                <small class="form-text"><a href="<?=$url?>" target="_blank">Learn how to verify your domain</a></small>
+            <?php endif; ?>
+        </div>
+    </div>
+    <hr>
+    <?php
+    $metaTags = (array) $pixel->getOption( 'verify_meta_tag' );
+    foreach ($metaTags as $index => $val) :
+        if($index == 0) continue; ?>
+        <div class="row">
+            <div class="col-10">
+                <?php
+                $pixel->render_text_input_array_item('verify_meta_tag','Add the verification meta-tag there',$index);
+                ?>
+            </div>
+            <div class="col-2">
+                <button type="button" class="btn btn-sm remove-meta-row">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        <hr>
+    <?php
+    endforeach;
+    ?>
+    <div class="row" id="pys_add_<?=$pixel->getSlug()?>_meta_tag_button_row">
+        <div class="col-12">
+            <button class="btn btn-sm btn-primary" type="button" id="pys_add_<?=$pixel->getSlug()?>_meta_tag">
+                Add another verification meta-tag
+            </button>
+            <script>
+                jQuery(document).ready(function ($) {
+
+                    $('#pys_add_<?=$pixel->getSlug()?>_meta_tag').click(function (e) {
+
+                        e.preventDefault();
+                        var newField = '<div class="row"><div class="col-10">' +
+                            '<input type="text" placeholder="Add the verification meta-tag there" name="pys[<?=$pixel->getSlug()?>][verify_meta_tag][]" id="pys_facebook_meta_tag_0" value="" placeholder="" class="form-control">' +
+                            '</div>' +
+                            '<div class="col-2">' +
+                            '<button type="button" class="btn btn-sm remove-meta-row"><i class="fa fa-trash-o" aria-hidden="true"></i></button>' +
+                            '</div></div><hr>';
+                        var $row = $(newField)
+                            .insertBefore('#pys_add_<?=$pixel->getSlug()?>_meta_tag_button_row')
+                    });
+                });
+            </script>
+        </div>
+    </div>
+<?php }

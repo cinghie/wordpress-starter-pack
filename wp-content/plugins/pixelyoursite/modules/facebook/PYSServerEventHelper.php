@@ -26,7 +26,7 @@ class ServerEventHelper {
             ->setEventName($event_name)
             ->setEventTime(time())
             ->setEventId($eventId)
-            ->setEventSourceUrl(self::getRequestUri())
+            ->setEventSourceUrl(self::getRequestUri(PYS()->getOption("enable_remove_source_url_params")))
             ->setUserData($user_data);
 
         return $event;
@@ -77,13 +77,15 @@ class ServerEventHelper {
         return $user_agent;
     }
 
-    private static function getRequestUri() {
+    private static function getRequestUri($removeQuery) {
         $request_uri = null;
 
         if (!empty($_SERVER['REQUEST_URI'])) {
             $start = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http")."://";
             $request_uri = $start.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-
+        }
+        if($removeQuery && isset($_SERVER['QUERY_STRING'])) {
+            $request_uri = str_replace("?".$_SERVER['QUERY_STRING'],"",$request_uri);
         }
 
         return $request_uri;

@@ -12,4 +12,13 @@
 		
 		add_action( 'wp_enqueue_scripts', 'wvs_woo_layout_injector_script_override', 99999 );
 	endif;
-	
+
+
+// ==========================================================
+// WOODMART Theme
+// ==========================================================
+if( !function_exists( 'woodmart_has_swatches') ) {
+	function woodmart_has_swatches( $id, $attr_name, $options, $available_variations, $swatches_use_variation_images = false ) {
+		return array();
+	}
+}

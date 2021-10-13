@@ -1591,6 +1591,14 @@ jQuery( document ).ready( function ( $ ) {
 		woe_check_sortable_groups();
 	} );
 
+	jQuery( '#summary_report_by_products_checkbox' ).add('#summary_report_by_customers_checkbox').change( function( e ) {
+		if ( jQuery( '#summary_report_by_products_checkbox' ).is( ":checked" ) || jQuery( '#summary_report_by_customers_checkbox' ).is( ":checked" ) ) {
+			jQuery('#woe_common_tips').hide();
+		} else {
+			jQuery('#woe_common_tips').show();
+		}
+	} );
+
 	//logic for setup link
 	jQuery( "#summary_report_by_products_checkbox" ).change( function ( e, action ) {
 
@@ -1685,6 +1693,7 @@ jQuery( document ).ready( function ( $ ) {
 		summary_report_fields.push( $( '#user_unselected_segment input[value="summary_report_total_count"]' ).parents( 'li' ) );
 		summary_report_fields.push( $( '#user_unselected_segment input[value="summary_report_total_count_items"]' ).parents( 'li' ) );
 		summary_report_fields.push( $( '#user_unselected_segment input[value="summary_report_total_count_items_exported"]' ).parents( 'li' ) );
+		summary_report_fields.push( $( '#user_unselected_segment input[value="summary_report_total_sum_items_exported"]' ).parents( 'li' ) );
 		summary_report_fields.push( $( '#user_unselected_segment input[value="summary_report_total_amount"]' ).parents( 'li' ) );
 		summary_report_fields.push( $( '#user_unselected_segment input[value="summary_report_total_amount_paid"]' ).parents( 'li' ) );
 		summary_report_fields.push( $( '#user_unselected_segment input[value="summary_report_total_shipping"]' ).parents( 'li' ) );
@@ -1710,6 +1719,7 @@ jQuery( document ).ready( function ( $ ) {
 				$( '#order_fields .segment_user input[value="summary_report_total_count"]' ).closest( '.mapping_row' ).remove();
 				$( '#order_fields .segment_user input[value="summary_report_total_count_items"]' ).closest( '.mapping_row' ).remove();
 				$( '#order_fields .segment_user input[value="summary_report_total_count_items_exported"]' ).closest( '.mapping_row' ).remove();
+				$( '#order_fields .segment_user input[value="summary_report_total_sum_items_exported"]' ).closest( '.mapping_row' ).remove();
 				$( '#order_fields .segment_user input[value="summary_report_total_amount"]' ).closest( '.mapping_row' ).remove();
 				$( '#order_fields .segment_user input[value="summary_report_total_amount_paid"]' ).closest( '.mapping_row' ).remove();
 				$( '#order_fields .segment_user input[value="summary_report_total_shipping"]' ).closest( '.mapping_row' ).remove();
@@ -1743,6 +1753,7 @@ jQuery( document ).ready( function ( $ ) {
 			$( '#order_fields .segment_user input[value="summary_report_total_count"]' ).closest( '.mapping_row' ).remove();
 			$( '#order_fields .segment_user input[value="summary_report_total_count_items"]' ).closest( '.mapping_row' ).remove();
 			$( '#order_fields .segment_user input[value="summary_report_total_count_items_exported"]' ).closest( '.mapping_row' ).remove();
+			$( '#order_fields .segment_user input[value="summary_report_total_sum_items_exported"]' ).closest( '.mapping_row' ).remove();
 			$( '#order_fields .segment_user input[value="summary_report_total_amount"]' ).closest( '.mapping_row' ).remove();
 			$( '#order_fields .segment_user input[value="summary_report_total_amount_paid"]' ).closest( '.mapping_row' ).remove();
 			$( '#order_fields .segment_user input[value="summary_report_total_shipping"]' ).closest( '.mapping_row' ).remove();

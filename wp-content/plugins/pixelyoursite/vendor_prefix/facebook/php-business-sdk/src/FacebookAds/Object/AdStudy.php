@@ -29,7 +29,6 @@ use PYS_PRO_GLOBAL\FacebookAds\Cursor;
 use PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface;
 use PYS_PRO_GLOBAL\FacebookAds\TypeChecker;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Fields\AdStudyFields;
-use PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdStudyObjectiveTypeValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdStudyTypeValues;
 /**
  * This class is auto-generated.
@@ -71,22 +70,32 @@ class AdStudy extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
         $request->addFields($fields);
         return $pending ? $request : $request->execute();
     }
+    public function getInstances(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array();
+        $enums = array();
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/instances', new \PYS_PRO_GLOBAL\FacebookAds\Object\PrivateLiftStudyInstance(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\PrivateLiftStudyInstance::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
+    }
+    public function createInstance(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array('breakdown_key' => 'map');
+        $enums = array();
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/instances', new \PYS_PRO_GLOBAL\FacebookAds\Object\PrivateLiftStudyInstance(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\PrivateLiftStudyInstance::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
+    }
     public function getObjectives(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
         $param_types = array();
         $enums = array();
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/objectives', new \PYS_PRO_GLOBAL\FacebookAds\Object\AdStudyObjective(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\AdStudyObjective::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
-        $request->addParams($params);
-        $request->addFields($fields);
-        return $pending ? $request : $request->execute();
-    }
-    public function createObjective(array $fields = array(), array $params = array(), $pending = \false)
-    {
-        $this->assureId();
-        $param_types = array('adspixels' => 'list<Object>', 'applications' => 'list<Object>', 'customconversions' => 'list<Object>', 'is_primary' => 'bool', 'name' => 'string', 'offline_conversion_data_sets' => 'list<Object>', 'product_catalogs' => 'list<Object>', 'product_sets' => 'list<Object>', 'type' => 'type_enum');
-        $enums = array('type_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdStudyObjectiveTypeValues::getInstance()->getValues());
-        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/objectives', new \PYS_PRO_GLOBAL\FacebookAds\Object\AdStudyObjective(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\AdStudyObjective::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
         $request->addFields($fields);
         return $pending ? $request : $request->execute();

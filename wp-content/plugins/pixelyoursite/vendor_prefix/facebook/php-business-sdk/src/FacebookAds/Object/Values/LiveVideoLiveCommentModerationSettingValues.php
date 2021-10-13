@@ -36,6 +36,7 @@ use PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum;
  */
 class LiveVideoLiveCommentModerationSettingValues extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
 {
+    const VALUE_DEFAULT = 'DEFAULT';
     const DISCUSSION = 'DISCUSSION';
     const FOLLOWER = 'FOLLOWER';
     const PROTECTED_MODE = 'PROTECTED_MODE';

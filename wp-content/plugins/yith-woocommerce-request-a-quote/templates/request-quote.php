@@ -2,7 +2,7 @@
 /**
  * Request A Quote pages template; load template parts
  *
- * @package YITH Woocommerce Request A Quote
+ * @package YITH WooCommerce Request A Quote
  * @since   1.0.0
  * @version 1.5.3
  * @author  YITH

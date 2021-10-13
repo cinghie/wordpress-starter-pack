@@ -1,6 +1,6 @@
 <?php
 /**
- * This file belongs to the YIT Plugin Framework.
+ * This file belongs to the YITH Plugin Framework.
  *
  * This source file is subject to the GNU GENERAL PUBLIC LICENSE (GPL 3.0)
  * that is bundled with this package in the file LICENSE.txt.

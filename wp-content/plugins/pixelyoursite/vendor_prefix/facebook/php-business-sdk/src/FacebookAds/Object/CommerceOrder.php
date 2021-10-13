@@ -52,9 +52,9 @@ class CommerceOrder extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObjec
     protected static function getReferencedEnums()
     {
         $ref_enums = array();
-        $ref_enums['ReasonCode'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\CommerceOrderReasonCodeValues::getInstance()->getValues();
         $ref_enums['Filters'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\CommerceOrderFiltersValues::getInstance()->getValues();
         $ref_enums['State'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\CommerceOrderStateValues::getInstance()->getValues();
+        $ref_enums['ReasonCode'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\CommerceOrderReasonCodeValues::getInstance()->getValues();
         return $ref_enums;
     }
     public function createAcknowledgeOrder(array $fields = array(), array $params = array(), $pending = \false)

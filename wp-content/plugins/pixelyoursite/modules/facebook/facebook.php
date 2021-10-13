@@ -45,41 +45,11 @@ class Facebook extends Settings implements Pixel {
 	    	/** @var PYS $core */
 	    	$core->registerPixel( $this );
 	    } );
-       // add_action( 'woocommerce_add_to_cart',  array($this,'server_woo_add_to_cart') , 20, 6 );
-       // add_action( 'woocommerce_ajax_added_to_cart', array($this,'server_woo_add_to_cart_ajax') );
+        add_action( 'wp_head', array( $this, 'output_meta_tag' ) );
+
     }
 
-    function server_woo_add_to_cart_ajax($product_id,$quantity = 1) {
 
-        if(EventsWoo()->isEnabled() && EventsWoo()->isReadyForFire("woo_add_to_cart_on_button_click")) {
-
-            $event = EventsWoo()->getEvent("woo_add_to_cart_on_button_click");
-            $isSuccess = Facebook()->addParamsToEvent( $event );
-            if ( !$isSuccess ) {
-               return;
-            }
-            $eventData = Facebook()->getEventData( 'woo_add_to_cart_on_button_click', $product_id );
-            if(!$eventData) return;
-            $data = $eventData['data'];
-
-            if(isset($data['contents']) ) {
-                $data['contents'][0]['quantity'] = $quantity;
-            }
-
-            $event->addParams($data);
-            $event->addParams(getStandardParams());
-            $serverEvent = FacebookServer()->createEvent($event->payload["eventID"],$event->payload["name"],$event->getData()['params']);
-
-            FacebookServer()->addAsyncEvents(array(
-                array("pixelIds" => Facebook()->getPixelIDs(), "event" => $serverEvent )
-            ));
-        }
-    }
-
-    function server_woo_add_to_cart($cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data) {
-
-        $this->server_woo_add_to_cart_ajax($product_id,$quantity);
-    }
     
     public function enabled() {
 	    return $this->getOption( 'enabled' );
@@ -212,7 +182,7 @@ class Facebook extends Settings implements Pixel {
                     $payload = array(
                         'name' => "AddToCart",
                         'trigger_type' => $trigger_type,
-                        'trigger_value' => $trigger_value
+                        'trigger_value' => [$trigger_value]
                     );
                     $event->addParams($params);
                     $event->addPayload($payload);
@@ -356,8 +326,13 @@ class Facebook extends Settings implements Pixel {
             case 'woo_add_to_cart_on_button_click':{
                 if (  $this->getOption( 'woo_add_to_cart_enabled' ) && PYS()->getOption( 'woo_add_to_cart_on_button_click' ) ) {
                     $isActive = true;
+                    if(isset($event->args['productId'])) {
+                        $eventData =  $this->getWooAddToCartOnButtonClickEventParams( $event->args );
+                        $event->addParams($eventData["params"]);
+                    }
                     $event->addPayload(array(
-                        'name'=>"AddToCart"
+                        'name'=>"AddToCart",
+                        'pixelIds' => isset($eventData["pixelIds"]) ? $eventData["pixelIds"] : null,
                     ));
                 }
             }break;
@@ -429,10 +404,12 @@ class Facebook extends Settings implements Pixel {
                             $value = json_encode($value);
 						@$args[ 'cd[' . $param . ']' ] = urlencode( $value );
 					}
-
+                    $src = add_query_arg( $args, 'https://www.facebook.com/tr' );
+                    $src = str_replace("[","%5B",$src); //pass markup validation
+                    $src = str_replace("]","%5D",$src);
 					// ALT tag used to pass ADA compliance
 					printf( '<noscript><img height="1" width="1" style="display: none;" src="%s" alt="facebook_pixel"></noscript>',
-						add_query_arg( $args, 'https://www.facebook.com/tr' ) );
+                        $src);
 
 					echo "\r\n";
 
@@ -665,13 +642,15 @@ class Facebook extends Settings implements Pixel {
 
 	}
 
-	private function getWooAddToCartOnButtonClickEventParams( $product_id ) {
+	private function getWooAddToCartOnButtonClickEventParams( $args ) {
 
 		if ( ! $this->getOption( 'woo_add_to_cart_enabled' ) || ! PYS()->getOption( 'woo_add_to_cart_on_button_click' ) ) {
 			return false;
 		}
+        $product_id = $args['productId'];
+        $quantity = $args['quantity'];
 
-		$params = Helpers\getWooSingleAddToCartParams( $product_id, 1 );
+		$params = Helpers\getWooSingleAddToCartParams( $product_id, $quantity );
         $data = array(
             'params' => $params,
         );
@@ -1281,6 +1260,12 @@ class Facebook extends Settings implements Pixel {
             'data'  => $params,
         );
 
+    }
+    function output_meta_tag() {
+        $metaTags = (array) Facebook()->getOption( 'verify_meta_tag' );
+        foreach ($metaTags as $tag) {
+            echo $tag;
+        }
     }
 }
 

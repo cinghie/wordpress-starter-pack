@@ -227,8 +227,8 @@ class autoptimizeCriticalCSSCron {
                             $apireq['resultStatus'] = 'GOOD';
                         }
 
-                        if ( 'GOOD' == $apireq['resultStatus'] && 'GOOD' == $apireq['validationStatus'] ) {
-                            // SUCCESS: GOOD job with GOOD validation
+                        if ( 'GOOD' == $apireq['resultStatus'] && ( 'GOOD' == $apireq['validationStatus'] || 'WARN' == $apireq['validationStatus'] ) ) {
+                            // SUCCESS: GOOD job with GOOD or WARN validation
                             // Update job properties.
                             $jprops['file']   = $this->ao_ccss_save_file( $apireq['css'], $trule, false );
                             $jprops['jqstat'] = $apireq['status'];
@@ -237,8 +237,8 @@ class autoptimizeCriticalCSSCron {
                             $jprops['jftime'] = microtime( true );
                             $rule_update      = true;
                             autoptimizeCriticalCSSCore::ao_ccss_log( 'Job id <' . $jprops['ljid'] . '> result request successful, remote id <' . $jprops['jid'] . '>, status <' . $jprops['jqstat'] . '>, file saved <' . $jprops['file'] . '>', 3 );
-                        } elseif ( 'GOOD' == $apireq['resultStatus'] && ( 'WARN' == $apireq['validationStatus'] || 'BAD' == $apireq['validationStatus'] || 'SCREENSHOT_WARN_BLANK' == $apireq['validationStatus'] ) ) {
-                            // SUCCESS: GOOD job with WARN or BAD validation
+                        } elseif ( 'GOOD' == $apireq['resultStatus'] && ( 'BAD' == $apireq['validationStatus'] || 'SCREENSHOT_WARN_BLANK' == $apireq['validationStatus'] ) ) {
+                            // SUCCESS: GOOD job with BAD or SCREENSHOT_WARN_BLANK validation
                             // Update job properties.
                             $jprops['jqstat'] = $apireq['status'];
                             $jprops['jrstat'] = $apireq['resultStatus'];
@@ -249,7 +249,7 @@ class autoptimizeCriticalCSSCron {
                                 $rule_update      = true;
                                 autoptimizeCriticalCSSCore::ao_ccss_log( 'Job id <' . $jprops['ljid'] . '> result request successful, remote id <' . $jprops['jid'] . '>, status <' . $jprops['jqstat'] . ', file saved <' . $jprops['file'] . '> but requires REVIEW', 3 );
                             } else {
-                                autoptimizeCriticalCSSCore::ao_ccss_log( 'Job id <' . $jprops['ljid'] . '> result request successful, remote id <' . $jprops['jid'] . '>, status <' . $jprops['jqstat'] . ', file saved <' . $jprops['file'] . '> but required REVIEW so not saved.', 3 );
+                                autoptimizeCriticalCSSCore::ao_ccss_log( 'Job id <' . $jprops['ljid'] . '> result request successful, remote id <' . $jprops['jid'] . '>, status <' . $jprops['jqstat'] . ', file not saved because it required REVIEW.', 3 );
                             }
                         } elseif ( 'GOOD' != $apireq['resultStatus'] && ( 'GOOD' != $apireq['validationStatus'] || 'WARN' != $apireq['validationStatus'] || 'BAD' != $apireq['validationStatus'] || 'SCREENSHOT_WARN_BLANK' != $apireq['validationStatus'] ) ) {
                             // ERROR: no GOOD, WARN or BAD results
@@ -408,6 +408,12 @@ class autoptimizeCriticalCSSCron {
         // Prepare rule variables.
         $trule = explode( '|', $rule );
         $srule = $ao_ccss_rules[ $trule[0] ][ $trule[1] ];
+        
+        // If hash is empty, set it to now for a "forced job".
+        if ( empty( $hash  )  ) {     
+            $hash = 'new';
+            autoptimizeCriticalCSSCore::ao_ccss_log( 'Job id <' . $ljid . '> had no hash, assuming forced job so setting hash to new', 3   );  
+        }
 
         // Check if a MANUAL rule exist and return false.
         if ( ! empty( $srule ) && ( 0 == $srule['hash'] && 0 != $srule['file'] ) ) {
@@ -425,7 +431,7 @@ class autoptimizeCriticalCSSCron {
                 return $hash;
             }
         } else {
-            // Or just return the hash if no rule exist yet.
+            // Return the hash for a job that has no rule yet.
             autoptimizeCriticalCSSCore::ao_ccss_log( 'Job id <' . $ljid . '> with hash <' . $hash . '> has no rule yet', 3 );
             return $hash;
         }
@@ -722,7 +728,7 @@ class autoptimizeCriticalCSSCron {
         } else {
             // If rule doesn't exist, create an AUTO rule
             // AUTO rules were only for types, but will now also work for paths.
-            if ( 'types' == $trule[0] || 'paths' == $trule[0] ) {
+            if ( ( 'types' == $trule[0] || 'paths' == $trule[0] ) && ! empty( $trule[1] ) ) {
                 // Set rule hash and file and action flag.
                 $rule['hash'] = $hash;
                 $rule['file'] = $file;

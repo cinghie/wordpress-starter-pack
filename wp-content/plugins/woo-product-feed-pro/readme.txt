@@ -2,17 +2,17 @@
 Contributors: jorisverwater,supportadtribes,evavangelooven
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
-Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
+Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook pixel, Facebook Conversion API, Facebook CAPI,Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
-Tested up to: 5.6
-Stable tag: 9.5.5
+Tested up to: 5.8
+Stable tag: 10.7.3
 
 == Description ==
 
 Generate WooCommerce product feeds for all your marketing channels, such as Google Shopping (merchant center), Facebook Remarketing, Bing Ads, Billiger.de, Pricerunner, Skroutz and many more. Next to custom feeds there are over 100 pre-defined templates included for marketplaces, comparison shopping engines and search engines. This plugin provides high-quality product feed for Google Shopping and many many more.
 
 = Why choose this plugin? =
-Simply because this is the most complete plugin offering support for an unlimited number of products and feeds, including features such as category- & field-mapping and advanced, rule-based, filtering and product variables support.
+Simply because this is the most complete plugin offering support for an unlimited number of products and feeds, including features such as category- & field-mapping and advanced, rule-based, filtering and product variables support. Next to creating product feeds this plugin also add's the Facebook pixel, Facebook Conversion API (CAPI) and Google Dynamic Remarketing pixel to your website and makes sure they are aligned with your feeds.
 
 = Our mission =
 Offer free and advanced, intuitive, tooling and plugins for website owners and marketers to easily set-up and manage their online marketing campaigns.
@@ -61,21 +61,27 @@ This plugin enables you to add and configure Google Analytics UTM tracking-codes
 = Shipping class support =
 This plugin enables you to set the shipping zone (and shipping class) so the right shipping cost end up in your product feed. Our plugin uses all shipping zone settings you have configured in WooCommerce (flat rates, classes and free shipping). Our support also supports US and Australian postal codes and regions.
 
+= WooCommerce Shipping Table Rate (official WooCommerce) support =
+Our plugin supports the official shipping table rate plugin of WooCommerce
+
 = WooCommerce Shipping Table Rate (Bolder Elements) support =
 Our plugin supports the WooCommerce Shipping Table Rate plugin created by Bolder Elements.
 
 = Product variations / Variables =
 This plugin supports product variables so all your variations make it to product feeds as individual products too.
 
-= Facebook Pixel (Elite version) =
+= Facebook Pixel =
 This plugin adds the Facebook pixel code on your websites and makes sure it matches the content of your Facebook catalogue product feed
 Our plugin add's the following Facebook pixel events:
 * on your product pages, both for simple, variable and variations pages
 * on your category pages (ViewCategory event)
 * on your search result pages (Search event)
 * on your cart page (AddToCart event)
-* on the add to cart button (AddToCart event)
-* on the thank you page (PurChase event)
+* on the checkout page (initiateCheckout event)
+* on the order thank you page (PurChase event)
+
+= Facebook Conversion API (CAPI) =
+This plugin connects to the Facebook Conversion API so all your website conversions are being tracked properly
 
 = Google Dynamic Remarketing Pixel =
 This plugin adds the Google Dynamic Remarketing pixel code on your website.
@@ -112,6 +118,8 @@ Our plugin supports Polylang
 * XML, CSV, TSV and TXT formats;
 * Supports WPML (version 4.1 and higher)
 * Supports WCML, WooCommerce Multilingual
+* Supports Aelia Currency Switcher
+* Supports Polylang
 * Intuitive interface;
 * Supports product variations / variables;
 * Scheduled product feed refreshes: daily, twice-daily or every hour;
@@ -125,6 +133,7 @@ Our plugin supports Polylang
 * Google Analytics support: add Google Analytics UTM parameters to your product feed and individual products.
 * Supports the official Facebook for WooCommerce plugin (SKU_ID parameter)
 * Supports Yoasts primary category feature
+* Supports Rankmaths primary category feature
 * Supports the official "WooCommerce Brands" plugin
 * Supports Yith brand attributes
 * Supports the official "WooCommerce Product Bundles" plugin
@@ -134,19 +143,20 @@ Our plugin supports Polylang
 * Supports WooCommerce Dynamic Pricing & Discounts from RightPress
 * Supports the Discount Rules for WooCommerce plugin from FlyCart
 * Supports WC Fields Factory
+* Supports Table Rate Shipping for WooCommerce from WooCommerce
 * Supports Table Rate Shipping for WooCommerce from Bolder Elements
 * Supports usage of the All In One SEO pack title and description attributes
+* Supports the WPC Product Bundles for WooCommerce plugin
 
 Some of the above mentioned feature can only be used by users who upgraded to the Elite version of our plugin
 
 === Elite paid features ===
-* WPML support
+* WPML / WCML support
 * Aelia currency switcher support
 * Polylang support
 * Addition of the extra fields on your product edit pages
 * Data manipulation feature
 * WooCommerce structured data bug fix
-* Facebook pixel
 
 === Channels ===
 * Custom feeds
@@ -158,9 +168,11 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 * Google Local Products
 * Google Local Products Inventory
 * Google Shopping Actions
-* Facebook Dynamic Ad’s / remarketing
+* Facebook Dynamic Ad's / remarketing
 * Bing Shopping
+* Bing Shopping Promotions
 * Pinterest
+* <a href="https://help.vivino.com/s/article/How-do-I-create-my-product-feed-XML?language=en_US" target="_blank">Vivino</a>
 * <a href="https://businesshelp.snapchat.com/en-US/a/product-catalog-specs" target="_blank">Snapchat</a>
 * <a href="https://yandex.com/support/market-tech-requirements/index.html" target="_blank">Yandex</a>
 * ShopMania
@@ -230,6 +242,7 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 * <a href="https://www.guenstiger.de" target="_blank" rel="nofollow">Guenstiger.de</a>
 * Hood.de
 * Ladenzeile.de
+* <a href="https://connect.idealo.de/import/en/csv/#_attributes_documentation" target="_blank">Idealo.de</a>
 * Livingo.de
 * Medizinfuchs.de
 * <a href="https://www.moebel.de" target="_blank">Moebel.de</a>
@@ -250,13 +263,13 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 == Installation ==
 
 === From within Wordpress ===
-1. Visit ‘Plugins > Add New’;
-1. Search for ‘Product Feed PRO for WooCommerce’;
-1. Activate ‘Product Feed PRO for WooCommerce’ from your plugins page.
+1. Visit Plugins > Add New;
+1. Search for Product Feed PRO for WooCommerce;
+1. Activate Product Feed PRO for WooCommerce from your plugins page.
 
 === Manually ===
 1. Upload the woo-product-feed-pro folder to your /wp-content/plugins/ directory;
-1. Activate ‘Product Feed PRO for WooCommerce’ from your plugins page.
+1. Activate Product Feed PRO for WooCommerce from your plugins page.
 
 == Frequently Asked Questions ==
 
@@ -322,6 +335,371 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 10.7.3 (2021-10-12) =
+* Fixed filters on purchase note array's
+
+= 10.7.2 (2021-10-12) =
+* Added support for the WPC Product Bundles for WooCommerce plugin
+
+= 10.7.1 (2021-10-11) =
+* Added purchase note attribute
+
+= 10.7.0 (2021-10-05) =
+* Made changes to the code to calculate the number of product variations that are on stock as it did not work for some users
+
+= 10.6.9 (2021-10-01) =
+* Solved some PHP 8 compatibility issues that caused feeds to get stuck processing
+
+= 10.6.8 (2021-09-30) =
+* Solved a Call to undefined method WC_Product_Simple::get_available_variations error
+
+= 10.6.7 (2021-09-29) =
+* Made a change to the code so it uses less memory when processing a feed
+
+= 10.6.6 (2021-09-28) =
+* Solved an issue where the plugin got stuck when variable products get deleted in WooCommerce during processing of the feed
+
+= 10.6.5 (2021-09-22) =
+* Build in an extra check to see if the cron events are active to update feeds. When not this cron event is being created.
+
+= 10.6.4 (2021-09-14) =
+* Added capacity attribute to the Google Shopping template
+
+= 10.6.3 (2021-09-13) =
+* Added display ads attributes to the Google Shopping template
+
+= 10.6.2 (2021-09-13) =
+* Fixed an issue where simple products with variations (which in theory is not possible) caused the feed processing to get stuck
+
+= 10.6.1 (2021-09-09) =
+* Solved an undefined array issue when creating a new feed
+
+= 10.6.0 (2021-09-09) =
+* Solved an issue with wrong sale prices when WCML was enabled and manual prices were entered
+
+= 10.5.9 (2021-09-08) =
+* Somehow simple products got an item_group_id for some users causing a critical error. Added a check on this to fix the error.
+
+= 10.5.8 (2021-09-07) =
+* Added a feature to be able to remove products from feeds when only few variations are in stock
+
+= 10.5.7 (2021-09-07) =
+* Fixed an issue where Rankmath plugin is installed but no primary category has been set. This resulted in a PHP notice in the logs. This has been solved now.
+
+= 10.5.6 (2021-09-03) =
+* Fixed an undefined variable issue for the facebook pixel id
+
+= 10.5.5 (2021-09-01) =
+* Fixed a Google Remarketing Pixel issue on the cart page
+
+= 10.5.4 (2021-09-01) =
+* Fixed a shipping cost issue where shipping classes that had no shipping costs set where empty
+* Fixed a Google Remarketing pixel, added apostrophe on the AW-XXXXXX parameter
+
+= 10.5.3 (2021-08-29) =
+* Solved a bug: when the XML variable was not an object is returned a fatal error. Issue is solved now.
+
+= 10.5.2 (2021-08-25) =
+* Tested for compatibility with WooCommerce 5.6
+
+= 10.5.1 (2021-08-18) =
+* Fixed an issue where the visibility attribute did not return anything
+
+= 10.5.0 (2021-08-11) =
+* Added the Vivino template to the plugin
+
+= 10.4.9 (2021-08-10) =
+* Added support for Prisjakt (Sweden, Norway, Finland) feeds. The Google Shopping feed requirements are being used for it as of this release.
+
+= 10.4.8 (2021-08-10) =
+* Added support for the Yoast SEO WooCommerce unique identifiers GTIN's, ISBN, MPN so they can be used for feeds.
+
+= 10.4.7 (2021-07-28) =
+* Checked for compatibility with WP 5.8
+
+= 10.4.6 (2021-07-22) =
+* Facebook is not yet using the new availability values yet so reverting it back for Facebook only
+
+= 10.4.5 (2021-07-21) =
+* Google changed its availability requirements (underscores in the availability values), we have adjusted the plugin on this.
+
+= 10.4.4 (2021-07-15) =
+* Fixed a product review feed bug where review names with a : in it broke the feed.
+
+= 10.4.3 (2021-07-12) =
+* Added the non tax price attribute for WCML
+
+= 10.4.2 (2021-07-09) =
+* Fixed a shipping issue where table rates where put on 0 when pickup was available too.
+
+= 10.4.1 (2021-07-08) =
+* Implemented Google's new Dynamic Remarketing event pixelcode and added the Purchase and Add To Cart events for it
+
+= 10.4.0 (2021-07-03) =
+* Fixed a PHP notice on a foreach loop when a non-array was used for it
+
+= 10.3.9 (2021-07-02) =
+* A PHP warning was thrown when a review feed was created while there were no reviews in WooCommerce
+
+= 10.3.8 (2021-07-02) =
+* Fixed a bug: When a find and replace rule was created it converted strings to lowercases, this has been fixed.
+
+= 10.3.7 (2021-07-01) =
+* Added Facebook Auto / Vehicle fields to the Facebook templating
+
+= 10.3.6 (2021-06-30) =
+* Added eventID's to the Facebook pixel and Facebook Conversion API in order to prevent duplicate events being measured
+
+= 10.3.5 (2021-06-29) =
+* Fixed a bug: using a rounding price attribute did not work properly when in WooCommerce currency options the decimal or thousand separator was left blank, it always rounded down. This has been fixed.
+
+= 10.3.4 (2021-06-28) =
+* Added the quantity_to_sell_on_facebook field to the Facebook template
+
+= 10.3.3 (2021-06-25) =
+* Added a 'Link without parameters' attribute (which holds no attribute or UTM parameters in the URL)
+
+= 10.3.2 (2021-06-18) =
+* Added some product data attributes to the Google Shopping template: capacity, count, disclosure date, feature description, flavor, format, product line, product page url, release date, scent, size system, size type, suggested retail price, theme and video link
+
+= 10.3.1 (2021-06-16) =
+* Removed Okazii.ro from the list of supported channels
+
+= 10.3.0 (2021-06-16) =
+* Cleaning-up some debug code for the Facebook CAPI implementation
+
+= 10.2.9 (2021-06-15) =
+* Added support for the Facebook Conversion API (CAPI) - still in beta!
+* Stripped whitespaces from values in CSV feeds
+
+= 10.2.8 (2021-06-14) =
+* Checked for compatibility with WooCommerce 5.4
+
+= 10.2.7 (2021-06-13) =
+* Added Adwords grouping, Adwords labels and Adwords redirect fields to the Bing Shopping template
+
+= 10.2.6 (2021-06-11) =
+* Added an array check on custom attributes
+
+= 10.2.5 (2021-06-09) =
+* When discount plugins are being used prices will be rounded on 2 decimals
+
+= 10.2.4 (2021-06-09) =
+* Fixed a CDATA issue
+
+= 10.2.3 (2021-06-08) =
+* Added seller name to Google & Bing shopping templates
+
+= 10.2.2 (2021-06-04) =
+* Removed an useless nonce
+
+= 10.2.1 (2021-06-04) =
+* Added XSS vulnerability checks on both the Google Remarketing pixel and Facebook pixel feature.
+
+= 10.2.0 (2021-06-02) =
+* Removed a CSS z-index as it conflicted with Jetpack
+
+= 10.1.9 (2021-06-01) =
+* Fixed a PHP notice that showed when users created an empty rule
+
+= 10.1.8 (2021-05-31) =
+* When the identifier exists field mapping is removed from the field mapping also remove it from the feed
+* Some minor textual changes in the feed configuration forms
+
+= 10.1.7 (2021-05-27) =
+* Fixed a bug: The Facebook pixel addToCart, initiateCheckout and Purchase event does not accept comma's in prices. Fixed.
+
+= 10.1.6 (2021-05-27) =
+* Fixed a bug: The Facebook pixel viewContent event does not accept comma's in prices. Fixed.
+
+= 10.1.5 (2021-05-24) =
+* Fixed a bug: exclude filters on regular prices did not work
+
+= 10.1.4 (2021-05-24) =
+* Adding CDATA feature so CDATA can be added to the title, description and short description fields
+
+= 10.1.3 (2021-05-24) =
+* Fixed an issue with taxes being added in the system sale prices
+
+= 10.1.2 (2021-05-14) =
+* Added the product type field mapping as default mapping for Google Shopping feeds
+
+= 10.1.1 (2021-05-12) =
+* Added support for Mix and Match minimum and maximum prices
+* Removed the item_group_id for Mix and Match products
+
+= 10.1.0 (2021-05-12) =
+* Tested for compatibility with WooCommerce 5.3
+* Changed UI when saving new plugin batch size so it shows the correct batch number immediatly
+
+= 10.0.9 (2021-05-04) =
+* Added extra fields for Google's local storefront shopping feeds
+
+= 10.0.8 (2021-04-28) =
+* Fixed an issue with the image field for custom feeds, it was added as image_link. This has been fixed now.
+
+= 10.0.7 (2021-04-27) =
+* Added support for ACF image fields (make sure to use image or bild in your field name)
+
+= 10.0.6 (2021-04-27) =
+* Added support for the WooCommerce Shipping & Tax plugin
+
+= 10.0.5 (2021-04-21) =
+* Added the "pickup today / merchant hosted local storefront" fields for Google Shopping
+
+= 10.0.4 (2021-04-19) =
+* Fixed an issue where shipping costs where missing from feeds
+* Lowest shipping costs did not return the lowest price when prices where not numeric. This has been fixed now.
+
+= 10.0.3 (2021-04-19) =
+* When variations are out of stock we remove them from the parent product for Skroutz feeds
+
+= 10.0.2 (2021-04-18) =
+* Fixed a bug: rules that where set on attributes that were empty accidently added values to the product data. This has been fixed now.
+
+= 10.0.1 (2021-04-16) =
+* Fixed a bug: the multiple standard tax rates are now also taken into account for shipping costs
+
+= 10.0.0 (2021-04-15) =
+* Fixed a bug: when multiple standard tax rates for multiple countries where configured the plugin did not pick the correct tax rate when a feed was configured for a country other then the base country. This has been fixed now.
+
+= 9.9.9 (2021-04-12) =
+* Added a "force clean-up" feature that in one go removes all feed configurations and scheduled jobs
+
+= 9.9.8 (2021-04-12) =
+* Added support for non numeric characters in the AW Dynamic tracking ID
+
+= 9.9.7 (2021-04-11) =
+* Fixed helptexts and notifications
+
+= 9.9.6 (2021-04-08) =
+* Added support for the Rankmath primary category
+
+= 9.9.5 (2021-04-08) =
+* Fixed an issue with the product_url field for Google review feeds. The & charcater was shown as AND. Issue fixed now.
+
+= 9.9.4 (2021-03-30) =
+* Added lowest shipping costs attribute
+
+= 9.9.3 (2021-03-29) =
+* Removed currency from shipping costs of Heureka feeds
+
+= 9.9.2 (2021-03-27) =
+* Fixed an issue for the shipping table rate plugin, when multiple where configured only one price made it to the feed. Issue is fixed.
+
+= 9.9.1 (2021-03-25) =
+* Added support for the official WooCommerce Table Rate plugin (by WooCommerce)
+
+= 9.9.0 (2021-03-24) =
+* Added product type field mapping to the Facebook template
+* Change the default field mapping for title to "product name parent product" so grouping on variable products works better in Facebook
+
+= 9.8.9 (2021-03-22) =
+* Fixed a Table Rate shipping issue that overwrote shipping costs for Flat Rates.
+
+= 9.8.8 (2021-03-22) =
+* Fixed an UI issue with filters and rules, apostrofs were not showing. Issue is fixed now.
+
+= 9.8.7 (2021-03-22) =
+* Bundle and composite products should not get an item group ID in the feed, removed it from the feed.
+
+= 9.8.6 (2021-03-19) =
+* Fixed an issue where shipping tax was not added for WooCommerce table rate shipping costs
+
+= 9.8.5 (2021-03-18) =
+* Affiliate / external product types got an item_group_id of 0 in the feed whereas it should be empty. Issue is fixed now.
+
+= 9.8.4 (2021-03-18) =
+* Added the Idealo.de Germany template, including their Direktkauf fields
+
+= 9.8.3 (2021-03-15) =
+* Solved a rounding issue for sale prices including VAT
+
+= 9.8.2 (2021-03-15) =
+* Fixed a Facebook Purchase event where only the value of the last product was added to the Facebook pixel instead of the value of all products bought
+
+= 9.8.1 (2021-03-13) =
+* The plugin systems check showed a critical error for users that are on PHP 8. Issue is fixed now.
+
+= 9.8.0 (2021-03-11) =
+* Only reviews that are approved make it to the review feeds, disapproved reviews are removed
+
+= 9.7.9 (2021-03-10) =
+* Checked for compatibility with WordPress 5.7
+* Checked for compatibility with WooCommerce 5.1
+
+= 9.7.8 (2021-03-10) =
+* Added a boolean check on the review feed creation
+
+= 9.7.7 (2021-03-09) =
+* Removed the woosea_add_cart.js from the source as it was an empty file
+
+= 9.7.6 (2021-03-08) =
+* Fixed an issue with the Facebook Purchase event that did not track the order value correct
+
+= 9.7.5 (2021-03-07) =
+* Another recode of the lowest price variation feature
+
+= 9.7.4 (2021-03-05) =
+* Added Bing Shopping Promotions template
+
+= 9.7.3 (2021-03-04) =
+* Added a new attribute "Stock Status WooCommerce"
+* Fixed another quote issue with the Facebook pixel
+
+= 9.7.2 (2021-03-03) =
+* Fixed an issue with the Facebook pixel. Product names that had an apostrophe in them were not measured.
+
+= 9.7.1 (2021-03-03) =
+* Added another fix to take into account prices excluding VAT for filtering out all but the minimum priced variation
+
+= 9.7.0 (2021-03-03) =
+* Fixed a bug where lowest priced variations where not making it to feeds
+
+= 9.6.9 (2021-02-28) =
+* Added product name parent hyphen attribute
+
+= 9.6.8 (2021-02-25) =
+* Added Google category taxonomy mapping for Snapchat feeds
+
+= 9.6.7 (2021-02-25) =
+* When suffixes and prefixes are used for the Heureka URL fields spaces are removed
+
+= 9.6.6 (2021-02-24) =
+* Added support for PHP 8.0
+
+= 9.6.5 (2021-02-24) =
+* Do not add Skroutz variable products to the feed when they do not have item_group_id's
+
+= 9.6.4 (2021-02-24) =
+* Fixed an issue with rules and filters
+* When a rule was set on an image link, no longer lowercase the image link
+
+= 9.6.3 (2021-02-23) =
+* Fixed a bug, the Facebook pixel is now also measuing revenue for multiple items in Cart, InititiateCheckout and Purchase events
+* Reverted back some changes in filters and rules
+
+= 9.6.2 (2021-02-22) =
+* For Skroutz feed removing sizes from feeds when they are out-of-stock
+
+= 9.6.1 (2021-02-19) =
+* Added attribute that will allow you to uppercase every first character of a string in product names
+
+= 9.6.0 (2021-02-19) =
+* Changed g:itemid to g:id for the Google Local Product Feeds
+
+= 9.5.9 (2021-02-19) =
+* Added a fail-safe when users do not select a marketing channel which let to PHP notices in logs
+
+= 9.5.8 (2021-02-18) =
+* Added shipping class name attribute
+
+= 9.5.7 (2021-02-17) =
+* Dynamic attribute values are now also added to parent variable products for Skroutz feeds
+
+= 9.5.6 (2021-02-17) =
+* Changed attribute name primary category to Yoast primary category as it caused lots of confussion
 
 = 9.5.5 (2021-02-11) =
 * Fixed a PHP notice that showed when creating a new rule
@@ -3045,6 +3423,376 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 10.7.3 =
+Fixed filters on purchase note array's
+
+= 10.7.2 =
+Added support for the WPC Product Bundles for WooCommerce plugin
+
+= 10.7.1 =
+Added purchase note attribute
+
+= 10.7.0 =
+Made changes to the code to calculate the number of product variations that are on stock as it did not work for some users
+
+= 10.6.9 =
+Solved some PHP 8 compatibility issues that caused feeds to get stuck processing
+
+= 10.6.8 =
+Solved a Call to undefined method WC_Product_Simple::get_available_variations error
+
+= 10.6.7 =
+Made a change to the code so it uses less memory when processing a feed
+
+= 10.6.6 =
+Solved an issue where the plugin got stuck when variable products get deleted in WooCommerce during processing of the feed
+
+= 10.6.5 =
+Build in an extra check to see if the cron events are active to update feeds. When not this cron event is being created.
+
+= 10.6.4 =
+Added capacity attribute to the Google Shopping template
+
+= 10.6.3 =
+Added display ads attributes to the Google Shopping template
+
+= 10.6.2 =
+Fixed an issue where simple products with variations (which in theory is not possible) caused the feed processing to get stuck
+
+= 10.6.1 =
+Solved an undefined array issue when creating a new feed
+
+= 10.6.0 =
+Solved an issue with wrong sale prices when WCML was enabled and manual prices were entered
+
+= 10.5.9 =
+Somehow simple products got an item_group_id for some users causing a critical error. Added a check on this to fix the error.
+
+= 10.5.8 =
+Added a feature to be able to remove products from feeds when only few variations are in stock
+
+= 10.5.7 =
+Fixed an issue where Rankmath plugin is installed but no primary category has been set. This resulted in a PHP notice in the logs. This has been solved now.
+
+= 10.5.6 =
+Fixed an undefined variable issue for the facebook pixel id
+
+= 10.5.5 =
+Fixed a Google Remarketing Pixel issue on the cart page
+
+= 10.5.4 =
+Fixed a shipping cost issue where shipping classes that had no shipping costs set where empty
+Fixed a Google Remarketing pixel, added apostrophe on the AW-XXXXXX parameter
+
+= 10.5.3 =
+Solved a bug: when the XML variable was not an object is returned a fatal error. Issue is solved now.
+
+= 10.5.2 =
+Tested for compatibility with WooCommerce 5.6
+
+= 10.5.1 =
+Fixed an issue where the visibility attribute did not return anything
+
+= 10.5.0 =
+Added the Vivino template to the plugin
+
+= 10.4.9 =
+Added support for Prisjakt (Sweden, Norway, Finland) feeds. The Google Shopping feed requirements are being used for it as of this release.
+
+= 10.4.8 =
+Added support for the Yoast SEO WooCommerce unique identifiers GTIN's, ISBN, MPN so they can be used for feeds.
+
+= 10.4.7 =
+Checked for compatibility with WP 5.8
+
+= 10.4.6 =
+Reverting back the availability changes for Facebook only
+
+= 10.4.5 =
+Google changed its availability requirements (underscores in the availability values), we have adjusted the plugin on this.
+
+= 10.4.4 =
+Fixed a product review feed bug where review names with a : in it broke the feed.
+
+= 10.4.3 =
+Added the non tax price attribute for WCML
+
+= 10.4.2 =
+Fixed a shipping issue where table rates where put on 0 when pickup was available too.
+
+= 10.4.1 =
+Implemented Google's new Dynamic Remarketing event pixelcode and added the Purchase and Add To Cart events for it
+
+= 10.4.0 =
+Fixed a PHP notice on a foreach loop when a non-array was used for it
+
+= 10.3.9 =
+A PHP warning was thrown when a review feed was created while there were no reviews in WooCommerce
+
+= 10.3.8 =
+Fixed a bug: When a find and replace rule was created it converted strings to lowercases, this has been fixed.
+
+= 10.3.7 =
+Added Facebook Auto / Vehicle fields to the Facebook templating
+
+= 10.3.6 =
+Added eventID's to the Facebook pixel and Facebook Conversion API in order to prevent duplicate events being measured
+
+= 10.3.5 =
+Fixed a bug: using a rounding price attribute did not work properly when in WooCommerce currency options the decimal or thousand separator was left blank, it always rounded down. This has been fixed.
+
+= 10.3.4 =
+Added the quantity_to_sell_on_facebook field to the Facebook template
+
+= 10.3.3 =
+Added a 'Link without parameters' attribute (which holds no attribute or UTM parameters in the URL)
+
+= 10.3.2 =
+Added some product data attributes to the Google Shopping template: capacity, count, disclosure date, feature description, flavor, format, product line, product pag
+e url, release date, scent, size system, size type, suggested retail price, theme and video link
+
+= 10.3.1 =
+Removed Okazii.ro from the list of supported channels
+
+= 10.3.0 =
+Cleaning-up some debug code for the Facebook CAPI implementation
+
+= 10.2.9 =
+Added support for the Facebook Conversion API (CAPI) - still in beta!
+Stripped whitespaces from values in CSV feeds
+
+= 10.2.8 =
+Checked for compatibility with WooCommerce 5.4
+
+= 10.2.7 =
+Added Adwords grouping, Adwords labels and Adwords redirect fields to the Bing Shopping template
+
+= 10.2.6 =
+Added an array check on custom attributes
+
+= 10.2.5 =
+When discount plugins are being used prices will be rounded on 2 decimals
+
+= 10.2.4 =
+Fixed a CDATA issue
+
+= 10.2.3 =
+Added seller name to Google & Bing shopping templates
+
+= 10.2.2 =
+Removed an useless nonce
+
+= 10.2.1 =
+Added XSS vulnerability checks on both the Google Remarketing pixel and Facebook pixel feature.
+
+= 10.2.0 =
+Removed a CSS z-index as it conflicted with Jetpack
+
+= 10.1.9 =
+Fixed a PHP notice that showed when users created an empty rule
+
+= 10.1.8 =
+When the identifier exists field mapping is removed from the field mapping also remove it from the feed
+Some minor textual changes in the feed configuration forms
+
+= 10.1.7 =
+Fixed a bug: The Facebook pixel addToCart, initiateCheckout and Purchase event does not accept comma's in prices. Fixed.
+
+= 10.1.6 =
+Fixed a bug: The Facebook pixel viewContent event does not accept comma's in prices. Fixed.
+
+= 10.1.5 =
+Fixed a bug: exclude filters on regular prices did not work
+
+= 10.1.4 =
+Adding CDATA feature so CDATA can be added to the title, description and short description fields
+
+= 10.1.3 =
+Fixed an issue with taxes being added in the system sale prices
+
+= 10.1.2 =
+Added the product type field mapping as default mapping for Google Shopping feeds
+
+= 10.1.1 =
+Added support for Mix and Match minimum and maximum prices
+Removed the item_group_id for Mix and Match products
+
+= 10.1.0 =
+Tested for compatibility with WooCommerce 5.3
+Changed UI when saving new plugin batch size so it shows the correct batch number immediatly
+
+= 10.0.9 =
+Added extra fields for Google's local storefront shopping feeds
+
+= 10.0.8 =
+Fixed an issue with the image field for custom feeds, it was added as image_link. This has been fixed now.
+
+= 10.0.7 =
+Added support for ACF image fields (make sure to use image or bild in your field name)
+
+= 10.0.6 =
+Added support for the WooCommerce Shipping & Tax plugin
+
+= 10.0.5 =
+Added the "pickup today / merchant hosted local storefront" fields for Google Shopping
+
+= 10.0.4 =
+Fixed an issue where shipping costs where missing from feeds
+Lowest shipping costs did not return the lowest price when prices where not numeric. This has been fixed now.
+
+= 10.0.3 =
+When variations are out of stock we remove them from the parent product for Skroutz feeds
+
+= 10.0.2 =
+Fixed a bug: rules that where set on attributes that were empty accidently added values to the product data. This has been fixed now.
+
+= 10.0.1 =
+Fixed a bug: the multiple standard tax rates are now also taken into account for shipping costs
+
+= 10.0.0 =
+Fixed a bug: when multiple standard tax rates for multiple countries where configured the plugin did not pick the correct tax rate when a feed was configured for a country other then the base country. This has been fixed now.
+
+= 9.9.9 =
+Added a "force clean-up" feature that in one go removes all feed configurations and scheduled jobs
+
+= 9.9.8 =
+Added support for non numeric characters in the AW Dynamic tracking ID
+
+= 9.9.7 =
+Fixed helptexts and notifications
+
+= 9.9.6 =
+Added support for the Rankmath primary category
+
+= 9.9.5 =
+Fixed an issue with the product_url field for Google review feeds. The & charcater was shown as AND. Issue fixed now.
+
+= 9.9.4 =
+Added lowest shipping costs attribute
+
+= 9.9.3 =
+Removed currency from shipping costs of Heureka feeds
+
+= 9.9.2 =
+Fixed an issue for the shipping table rate plugin, when multiple where configured only one price made it to the feed. Issue is fixed.
+
+= 9.9.1 =
+Added support for the official WooCommerce Table Rate plugin (by WooCommerce)
+
+= 9.9.0 =
+Added product type field mapping to the Facebook template
+Change the default field mapping for title to "product name parent product" so grouping on variable products works better in Facebook
+
+= 9.8.9 =
+Fixed a Table Rate shipping issue that overwrote shipping costs for Flat Rates.
+
+= 9.8.8 =
+Fixed an UI issue with filters and rules, apostrofs were not showing. Issue is fixed now.
+
+= 9.8.7 =
+Bundle and composite products should not get an item group ID in the feed, removed it from the feed.
+
+= 9.8.6 =
+Fixed an issue where shipping tax was not added for WooCommerce table rate shipping costs
+
+= 9.8.5 =
+Affiliate / external product types got an item_group_id of 0 in the feed whereas it should be empty. Issue is fixed now.
+
+= 9.8.4 =
+Added the Idealo.de Germany template, including their Direktkauf fields
+
+= 9.8.3 =
+Solved a rounding issue for sale prices including VAT
+
+= 9.8.2 =
+Fixed a Facebook Purchase event where only the value of the last product was added to the Facebook pixel instead of the value of all products bought
+
+= 9.8.1 =
+The plugin systems check showed a critical error for users that are on PHP 8. Issue is fixed now.
+
+= 9.8.0 =
+Only reviews that are approved make it to the review feeds, disapproved reviews are removed
+
+= 9.7.9 =
+Checked for compatibility with WordPress 5.7
+Checked for compatibility with WooCommerce 5.1.0
+
+= 9.7.8 =
+Added a boolean check on the review feed creation
+
+= 9.7.7 =
+Removed the woosea_add_cart.js from the source as it was an empty file
+
+= 9.7.6 =
+Fixed an issue with the Facebook Purchase event that did not track the order value correct
+
+= 9.7.5 =
+Another recode of the lowest price variation feature
+
+= 9.7.4 =
+Added Bing Shopping Promotions template
+
+= 9.7.3 =
+Added a new attribute "Stock Status WooCommerce"
+Fixed another quote issue with the Facebook pixel
+
+= 9.7.2 =
+Fixed an issue with the Facebook pixel. Product names that had an apostrophe in them were not measured.
+
+= 9.7.1 =
+Added another fix to take into account prices excluding VAT for filtering out all but the minimum priced variation
+
+= 9.7.0 =
+Fixed a bug where lowest priced variations where not making it to feeds
+
+= 9.6.9 =
+Added product name parent hyphen attribute
+
+= 9.6.8 =
+Added Google category taxonomy mapping for Snapchat feeds
+
+= 9.6.7 =
+When suffixes and prefixes are used for the Heureka URL fields spaces are removed
+
+= 9.6.6 =
+Added support for PHP 8.0
+
+= 9.6.5 =
+Do not add Skroutz variable products to the feed when they do not have item_group_id's
+
+= 9.6.4 =
+Fixed an issue with rules and filters
+When a rule was set on an image link, no longer lowercase the image link
+
+= 9.6.3 =
+Fixed a bug, the Facebook pixel is now also measuing revenue for multiple items in Cart, InititiateCheckout and Purchase events
+Reverted back some changes in filters and rules 
+
+= 9.6.2 =
+For Skroutz feed removing sizes from feeds when they are out-of-stock
+
+= 9.6.1 =
+Added attribute that will allow you to uppercase every first character of a string in product names
+
+= 9.6.0 =
+Changed g:itemid to g:id for the Google Local Product Feeds
+
+= 9.5.9 =
+* Added a fail-safe when users do not select a marketing channel which let to PHP notices in logs
+
+= 9.5.8 =
+Added shipping class name attribute
+
+= 9.5.7 =
+Dynamic attribute values are now also added to parent variable products for Skroutz feeds
+
+= 9.5.6 =
+Changed attribute name primary category to Yoast primary category as it caused lots of confussion
+
+= 9.5.5 =
+Fixed a PHP notice that showed when creating a new rule
+Tested for compatibility with WooCommerce 5.0
 
 = 9.5.4 =
 When free shipping zones are removed do not remove the other shipping zones

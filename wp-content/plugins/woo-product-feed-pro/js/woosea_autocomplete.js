@@ -5695,8 +5695,10 @@ jQuery(document).ready(function($) {
         jQuery(".js-autosuggest").on('click',function(){
 		var className = $(this).attr("class").split(' ')[3];
 		var rowCount = className.split("_")[1]
-			
-		jQuery( ".autocomplete_" + rowCount ).typeahead({
+		
+		//$('#the-basics-11603 .autocomplete_11603').typeahead({
+		jQuery("." + className).typeahead({
+		//jQuery(".autocomplete_" + rowCount ).typeahead({
  	     		input: '.js-autosuggest',     
 		       	source: google_taxonomy,
 			hint: true,
@@ -5707,7 +5709,6 @@ jQuery(document).ready(function($) {
 			debug: true
        	 	});
 		jQuery( ".autocomplete_" + rowCount ).focus();
-
 
         	jQuery(this).on('change', function(){ // on change of state
 
@@ -5741,7 +5742,6 @@ jQuery(document).ready(function($) {
 				}
 			} else {
 				var map_to_category = "";
-
 				jQuery.ajax({
                         		method: "POST",
                        			url: ajaxurl,

@@ -53,16 +53,6 @@ class AdStudyObjective extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudOb
         $ref_enums['Type'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\AdStudyObjectiveTypeValues::getInstance()->getValues();
         return $ref_enums;
     }
-    public function getAdPlacePageSets(array $fields = array(), array $params = array(), $pending = \false)
-    {
-        $this->assureId();
-        $param_types = array();
-        $enums = array();
-        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/ad_place_page_sets', new \PYS_PRO_GLOBAL\FacebookAds\Object\AdPlacePageSet(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\AdPlacePageSet::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
-        $request->addParams($params);
-        $request->addFields($fields);
-        return $pending ? $request : $request->execute();
-    }
     public function getAdsPixels(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
@@ -109,16 +99,6 @@ class AdStudyObjective extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudOb
         $param_types = array();
         $enums = array();
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/partnerstudies', new \PYS_PRO_GLOBAL\FacebookAds\Object\PartnerStudy(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\PartnerStudy::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
-        $request->addParams($params);
-        $request->addFields($fields);
-        return $pending ? $request : $request->execute();
-    }
-    public function deleteSelf(array $fields = array(), array $params = array(), $pending = \false)
-    {
-        $this->assureId();
-        $param_types = array();
-        $enums = array();
-        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_DELETE, '/', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'NODE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
         $request->addFields($fields);
         return $pending ? $request : $request->execute();

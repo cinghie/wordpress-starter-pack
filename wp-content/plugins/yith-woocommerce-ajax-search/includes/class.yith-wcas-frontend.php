@@ -1,4 +1,4 @@
-<?php
+<?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
  * Frontend class
  *
@@ -25,7 +25,7 @@ if ( ! class_exists( 'YITH_WCAS_Frontend' ) ) {
 		 * @access public
 		 * @since 1.0.0
 		 */
-		public function __construct( ) {
+		public function __construct() {
 
 			// custom styles and javascript.
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles_scripts' ) );

@@ -41,6 +41,7 @@ class IGMediaFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
     const IG_ID = 'ig_id';
     const IS_COMMENT_ENABLED = 'is_comment_enabled';
     const LIKE_COUNT = 'like_count';
+    const MEDIA_PRODUCT_TYPE = 'media_product_type';
     const MEDIA_TYPE = 'media_type';
     const MEDIA_URL = 'media_url';
     const OWNER = 'owner';
@@ -49,8 +50,9 @@ class IGMediaFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
     const THUMBNAIL_URL = 'thumbnail_url';
     const TIMESTAMP = 'timestamp';
     const USERNAME = 'username';
+    const VIDEO_TITLE = 'video_title';
     public function getFieldTypes()
     {
-        return array('caption' => 'string', 'comments_count' => 'int', 'id' => 'string', 'ig_id' => 'string', 'is_comment_enabled' => 'bool', 'like_count' => 'int', 'media_type' => 'string', 'media_url' => 'string', 'owner' => 'IGUser', 'permalink' => 'string', 'shortcode' => 'string', 'thumbnail_url' => 'string', 'timestamp' => 'datetime', 'username' => 'string');
+        return array('caption' => 'string', 'comments_count' => 'int', 'id' => 'string', 'ig_id' => 'string', 'is_comment_enabled' => 'bool', 'like_count' => 'int', 'media_product_type' => 'string', 'media_type' => 'string', 'media_url' => 'string', 'owner' => 'IGUser', 'permalink' => 'string', 'shortcode' => 'string', 'thumbnail_url' => 'string', 'timestamp' => 'datetime', 'username' => 'string', 'video_title' => 'string');
     }
 }

@@ -234,9 +234,9 @@ class IS_Public
                     
                     if ( '' !== $title ) {
                         $link_title = ( apply_filters( 'is_show_menu_link_title', true ) ? 'title="' . esc_attr( $title ) . '"' : '' );
-                        $temp .= '<a ' . $link_title . ' href="#">';
+                        $temp .= '<a ' . $link_title . ' href="#" aria-label="' . __( "Search Title Link", "ivory-search" ) . '">';
                     } else {
-                        $temp .= '<a href="#">';
+                        $temp .= '<a href="#" aria-label="' . __( "Search Icon Link", "ivory-search" ) . '">';
                     }
                     
                     
@@ -378,6 +378,14 @@ class IS_Public
                 $stopwords = array_map( 'trim', $stopwords );
                 $q['s'] = preg_replace( '/\\b(' . implode( '|', $stopwords ) . ')\\b/', '', $q['s'] );
                 $query->query_vars['s'] = trim( preg_replace( '/\\s\\s+/', ' ', str_replace( "\n", " ", $q['s'] ) ) );
+                
+                if ( empty($query->query_vars['s']) || 1 == strlen( $query->query_vars['s'] ) && preg_match( '/[^a-zA-Z\\d]/', $query->query_vars['s'] ) ) {
+                    $query->is_home = false;
+                    $query->is_404 = true;
+                    $query->set( 'post__in', array( 9999999999 ) );
+                    return;
+                }
+            
             }
             
             $is_fields = get_post_meta( $is_id );
@@ -881,6 +889,55 @@ class IS_Public
         if ( isset( $this->opt['header_search'] ) && $this->opt['header_search'] ) {
             echo  do_shortcode( '[ivory-search id="' . $this->opt['header_search'] . '"]' ) ;
         }
+        
+        if ( isset( $this->opt['not_load_files']['js'] ) ) {
+            $is_temp_ajax = array(
+                'ajaxurl'    => admin_url( 'admin-ajax.php' ),
+                'ajax_nonce' => wp_create_nonce( 'is_ajax_nonce' ),
+            );
+            ?>
+			<script id='ivory-search-js-extras'>
+			var IvoryAjaxVars = <?php 
+            echo  json_encode( $is_temp_ajax ) ;
+            ?>;
+			<?php 
+            $is_analytics = get_option( 'is_analytics', array() );
+            $analytics_disabled = ( isset( $is_analytics['disable_analytics'] ) ? $is_analytics['disable_analytics'] : 0 );
+            
+            if ( !$analytics_disabled ) {
+                $is_temp = array(
+                    'is_analytics_enabled' => "1",
+                );
+                
+                if ( is_search() ) {
+                    global  $wp_query ;
+                    if ( isset( $_GET['id'] ) ) {
+                        $is_temp['is_id'] = $_GET['id'];
+                    }
+                    if ( isset( $_GET['s'] ) ) {
+                        $is_temp['is_label'] = $_GET['s'];
+                    }
+                    
+                    if ( 0 == $wp_query->found_posts ) {
+                        $is_temp['is_cat'] = 'Nothing Found';
+                    } else {
+                        $is_temp['is_cat'] = 'Results Found';
+                    }
+                
+                }
+                
+                ?>
+				var IvorySearchVars = <?php 
+                echo  json_encode( $is_temp ) ;
+                ?>;
+				<?php 
+            }
+            
+            ?>
+			</script>
+			<?php 
+        }
+    
     }
     
     /**

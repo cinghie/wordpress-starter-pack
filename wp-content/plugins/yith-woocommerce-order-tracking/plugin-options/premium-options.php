@@ -6,18 +6,20 @@
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
  * http://www.gnu.org/licenses/gpl-3.0.txt
+ *
+ * @package YITH\OrderTracking
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 } // Exit if accessed directly
 
 
 return array(
-    'premium' => array(
-        'home' => array(
-            'type'   => 'custom_tab',
-            'action' => 'yith_order_tracking_premium'
-        )
-    )
+	'premium' => array(
+		'home' => array(
+			'type'   => 'custom_tab',
+			'action' => 'yith_order_tracking_premium',
+		),
+	),
 );

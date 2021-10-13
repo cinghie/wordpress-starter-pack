@@ -51,6 +51,7 @@ class AdoptablePetFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
     const FEATURES = 'features';
     const GENDER = 'gender';
     const ID = 'id';
+    const IMAGE_FETCH_STATUS = 'image_fetch_status';
     const IMAGES = 'images';
     const NAME = 'name';
     const PRICE = 'price';
@@ -65,6 +66,6 @@ class AdoptablePetFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
     const URL = 'url';
     public function getFieldTypes()
     {
-        return array('address' => 'Object', 'adoptable_pet_id' => 'string', 'adoption_application_form_url' => 'string', 'age_bucket' => 'string', 'animal_type' => 'string', 'applinks' => 'CatalogItemAppLinks', 'availability' => 'string', 'breed' => 'string', 'category_specific_fields' => 'CatalogSubVerticalList', 'coat_length' => 'string', 'color' => 'string', 'currency' => 'string', 'description' => 'string', 'features' => 'list<string>', 'gender' => 'string', 'id' => 'string', 'images' => 'list<string>', 'name' => 'string', 'price' => 'string', 'sanitized_images' => 'list<string>', 'secondary_color' => 'string', 'shelter_email' => 'string', 'shelter_name' => 'string', 'shelter_page_id' => 'Page', 'shelter_phone' => 'string', 'size' => 'string', 'tertiary_color' => 'string', 'url' => 'string');
+        return array('address' => 'Object', 'adoptable_pet_id' => 'string', 'adoption_application_form_url' => 'string', 'age_bucket' => 'string', 'animal_type' => 'string', 'applinks' => 'CatalogItemAppLinks', 'availability' => 'string', 'breed' => 'string', 'category_specific_fields' => 'CatalogSubVerticalList', 'coat_length' => 'string', 'color' => 'string', 'currency' => 'string', 'description' => 'string', 'features' => 'list<string>', 'gender' => 'string', 'id' => 'string', 'image_fetch_status' => 'ImageFetchStatus', 'images' => 'list<string>', 'name' => 'string', 'price' => 'string', 'sanitized_images' => 'list<string>', 'secondary_color' => 'string', 'shelter_email' => 'string', 'shelter_name' => 'string', 'shelter_page_id' => 'Page', 'shelter_phone' => 'string', 'size' => 'string', 'tertiary_color' => 'string', 'url' => 'string');
     }
 }

@@ -52,8 +52,9 @@ class ProductCatalogFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
     const DESTINATION_CATALOG_SETTINGS = 'destination_catalog_settings';
     const FLIGHT_CATALOG_SETTINGS = 'flight_catalog_settings';
     const PARENT_CATALOG_ID = 'parent_catalog_id';
+    const PARTNER_INTEGRATION = 'partner_integration';
     public function getFieldTypes()
     {
-        return array('business' => 'Business', 'commerce_merchant_settings' => 'CommerceMerchantSettings', 'da_display_settings' => 'ProductCatalogImageSettings', 'default_image_url' => 'string', 'fallback_image_url' => 'list<string>', 'feed_count' => 'int', 'id' => 'string', 'is_catalog_segment' => 'bool', 'name' => 'string', 'product_count' => 'int', 'store_catalog_settings' => 'StoreCatalogSettings', 'vertical' => 'string', 'catalog_segment_filter' => 'Object', 'catalog_segment_product_set_id' => 'string', 'destination_catalog_settings' => 'map', 'flight_catalog_settings' => 'map', 'parent_catalog_id' => 'string');
+        return array('business' => 'Business', 'commerce_merchant_settings' => 'CommerceMerchantSettings', 'da_display_settings' => 'ProductCatalogImageSettings', 'default_image_url' => 'string', 'fallback_image_url' => 'list<string>', 'feed_count' => 'int', 'id' => 'string', 'is_catalog_segment' => 'bool', 'name' => 'string', 'product_count' => 'int', 'store_catalog_settings' => 'StoreCatalogSettings', 'vertical' => 'string', 'catalog_segment_filter' => 'Object', 'catalog_segment_product_set_id' => 'string', 'destination_catalog_settings' => 'map', 'flight_catalog_settings' => 'map', 'parent_catalog_id' => 'string', 'partner_integration' => 'map');
     }
 }

@@ -45,6 +45,7 @@ class AdsPixelFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
     const FIRST_PARTY_COOKIE_STATUS = 'first_party_cookie_status';
     const ID = 'id';
     const IS_CREATED_BY_BUSINESS = 'is_created_by_business';
+    const IS_CRM = 'is_crm';
     const IS_UNAVAILABLE = 'is_unavailable';
     const LAST_FIRED_TIME = 'last_fired_time';
     const NAME = 'name';
@@ -52,6 +53,6 @@ class AdsPixelFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
     const OWNER_BUSINESS = 'owner_business';
     public function getFieldTypes()
     {
-        return array('automatic_matching_fields' => 'list<string>', 'can_proxy' => 'bool', 'code' => 'string', 'creation_time' => 'datetime', 'creator' => 'User', 'data_use_setting' => 'string', 'enable_automatic_matching' => 'bool', 'first_party_cookie_status' => 'string', 'id' => 'string', 'is_created_by_business' => 'bool', 'is_unavailable' => 'bool', 'last_fired_time' => 'datetime', 'name' => 'string', 'owner_ad_account' => 'AdAccount', 'owner_business' => 'Business');
+        return array('automatic_matching_fields' => 'list<string>', 'can_proxy' => 'bool', 'code' => 'string', 'creation_time' => 'datetime', 'creator' => 'User', 'data_use_setting' => 'string', 'enable_automatic_matching' => 'bool', 'first_party_cookie_status' => 'string', 'id' => 'string', 'is_created_by_business' => 'bool', 'is_crm' => 'bool', 'is_unavailable' => 'bool', 'last_fired_time' => 'datetime', 'name' => 'string', 'owner_ad_account' => 'AdAccount', 'owner_business' => 'Business');
     }
 }

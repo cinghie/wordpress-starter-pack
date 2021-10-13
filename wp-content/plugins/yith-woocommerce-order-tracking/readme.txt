@@ -2,9 +2,9 @@
 
 Contributors: yithemes
 Tags: carrier, tracking, delivery, shipping, woocommerce, yith
-Requires at least: 5.3
-Tested up to: 5.6
-Stable tag: 1.2.22
+Requires at least: 5.6
+Tested up to: 5.8
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,6 +75,62 @@ YITH WooCommerce Order Tracking will add a new tab called "Order tracking" in "Y
 5. In customer "Orders" page, you will find details about the shipment of your WooCommerce order.
 
 == Changelog ==
+
+= Version 1.4.0 - Released on 07 Oct 2021 =
+
+* Fix: Bad version name
+
+= Version 1.3.2 - Released on 07 Oct 2021 =
+
+* New: Support for WooCommerce 5.8
+* Update: YITH plugin framework
+
+= Version 1.3.1 - Released on 27 Sep 2021 =
+
+* Update: YITH plugin framework
+* Fix: debug info feature removed for all logged in users
+
+= Version 1.3.0 - Released on 08 Sep 2021 =
+
+* New: Support for WooCommerce 5.7
+* Update: YITH Plugin Framework
+
+= Version 1.2.29 - Released on 18 Aug 2021 =
+
+* New: Support for WooCommerce 5.6
+* Update: YITH Plugin Framework
+
+= Version 1.2.28 - Released on 23 Jul 2021 =
+
+* New: Support for WooCommerce 5.5
+* New: Support for WordPress 5.8
+* Update: YITH Plugin Framework
+
+= Version 1.2.27 - Released on 07 Jun 2021 =
+
+* New: Support for WooCommerce 5.3
+* Update: YITH Plugin Framework
+
+= Version 1.2.26 - Released on 12 May 2021 =
+
+* New: Support for WooCommerce 5.3
+* Update: YITH Plugin Framework
+
+= Version 1.2.25 - Released on 12 April 2021 =
+
+* New: Support for WooCommerce 5.2
+* Update: YITH Plugin Framework
+
+= Version 1.2.24 - Released on 12 March 2021 =
+
+* New: Support for WooCommerce 5.1
+* New: Support for WordPress 5.7
+* Update: YITH Plugin Framework
+
+= Version 1.2.23 - Released on 18 February 2021 =
+
+* New: support for WooCommerce 5.0
+* Update: YITH plugin framework
 
 = Version 1.2.22 - Released on 12 January 2021 =
 

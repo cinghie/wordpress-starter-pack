@@ -1,15 +1,19 @@
 <?php
 /**
- * Plugin Name: YITH Woocommerce Request A Quote
+ * Plugin Name: YITH Request a Quote for WooCommerce
  * Plugin URI: https://yithemes.com/themes/plugins/yith-woocommerce-request-a-quote
- * Version: 1.6.2
+ * Version: 2.2.0
  * Author: YITH
  * Author URI: https://yithemes.com/
- * Description: The <code><strong>YITH Woocommerce Request A Quote</strong></code> plugin lets your customers ask for an estimate of a list of products they are interested into. It allows hiding add to cart button so that your customers can request a quote on every product page. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>.
+ * Description: The <code><strong>YITH Request a Quote for WooCommerce</strong></code> plugin lets your customers ask for an estimate of a list of products they are interested into. It allows hiding add to cart button so that your customers can request a quote on every product page. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>.
  * Text Domain: yith-woocommerce-request-a-quote
  * Domain Path: /languages/
- * WC requires at least: 4.2
- * WC tested up to: 5.0
+ * WC requires at least: 5.3
+ * WC tested up to: 5.8
+ *
+ * @package YITH WooCommerce Request A Quote
+ * @since   1.0.3
+ * @author  YITH
  */
 
 /*
@@ -17,13 +21,6 @@
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
  * http://www.gnu.org/licenses/gpl-3.0.txt
- */
-
-
-/*
- * @package YITH Woocommerce Request A Quote
- * @since   1.0.3
- * @author  YITH
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -54,7 +51,7 @@ if ( defined( 'YITH_YWRAQ_PREMIUM' ) ) {
 	function yith_ywraq_install_free_admin_notice() {
 		?>
 		<div class="error">
-			<p><?php esc_html_e( 'You can\'t activate the free version of YITH Woocommerce Request A Quote while you are using the premium one.', 'yith-woocommerce-request-a-quote' ); ?></p>
+			<p><?php esc_html_e( 'You can\'t activate the free version of YITH Request a Quote for WooCommerce while you are using the premium one.', 'yith-woocommerce-request-a-quote' ); ?></p>
 		</div>
 		<?php
 	}
@@ -75,7 +72,7 @@ register_activation_hook( __FILE__, 'yith_plugin_registration_hook' );
 if ( defined( 'YITH_YWRAQ_VERSION' ) ) {
 	return;
 } else {
-	define( 'YITH_YWRAQ_VERSION', '1.6.2' );
+	define( 'YITH_YWRAQ_VERSION', '2.2.0' );
 }
 
 if ( ! defined( 'YITH_YWRAQ_FREE_INIT' ) ) {
@@ -122,7 +119,7 @@ if ( ! function_exists( 'yith_ywraq_install_woocommerce_admin_notice' ) ) {
 	function yith_ywraq_install_woocommerce_admin_notice() {
 		?>
 		<div class="error">
-			<p><?php esc_html_e( 'YITH Woocommerce Request A Quote is enabled but not effective. It requires WooCommerce in order to work.', 'yith-woocommerce-request-a-quote' ); ?></p>
+			<p><?php esc_html_e( 'YITH Request a Quote for WooCommerce is enabled but not effective. It requires WooCommerce in order to work.', 'yith-woocommerce-request-a-quote' ); ?></p>
 		</div>
 		<?php
 	}
@@ -133,7 +130,7 @@ if ( ! function_exists( 'yith_ywraq_install_woocommerce_admin_notice' ) ) {
  */
 function yith_ywraq_constructor() {
 
-	// Woocommerce installation check _________________________.
+	// WooCommerce installation check _________________________.
 	if ( ! function_exists( 'WC' ) ) {
 		add_action( 'admin_notices', 'yith_ywraq_install_woocommerce_admin_notice' );
 		return;

@@ -16,26 +16,26 @@ return apply_filters(
 	array(
 		'settings' => array(
 
-			'general-options' => array(
+			'general-options'     => array(
 				'title' => __( 'General', 'yith-woocommerce-brands-add-on' ),
-				'type' => 'title',
-				'desc' => '',
-				'id' => 'yith_wcbr_general_options'
+				'type'  => 'title',
+				'desc'  => '',
+				'id'    => 'yith_wcbr_general_options',
 			),
 
 			'general-brand-label' => array(
-				'id'        => 'yith_wcbr_brands_label',
-				'name'      => __( 'Brand label', 'yith-woocommerce-brands-add-on' ),
-				'type'      => 'text',
-				'desc'      => __( 'Label used for "Brand" link', 'yith-woocommerce-brands-add-on' ),
-				'default'   => __( 'Brand:', 'yith-woocommerce-brands-add-on' ),
-				'css'       => 'min-width:300px;'
+				'id'      => 'yith_wcbr_brands_label',
+				'name'    => __( 'Brand label', 'yith-woocommerce-brands-add-on' ),
+				'type'    => 'text',
+				'desc'    => __( 'Label used for "Brand" link', 'yith-woocommerce-brands-add-on' ),
+				'default' => __( 'Brand:', 'yith-woocommerce-brands-add-on' ),
+				'css'     => 'min-width:300px;',
 			),
 
 			'general-options-end' => array(
-				'type'  => 'sectionend',
-				'id'    => 'yith_wcbr_general_options'
+				'type' => 'sectionend',
+				'id'   => 'yith_wcbr_general_options',
 			),
-		)
+		),
 	)
 );

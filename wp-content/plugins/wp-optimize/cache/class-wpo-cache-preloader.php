@@ -575,7 +575,13 @@ class WP_Optimize_Page_Cache_Preloader extends Updraft_Task_Manager_1_2 {
 
 		$this->log(sprintf(_n('%d url found.', '%d urls found.', count($urls), 'wp-optimize'), count($urls)));
 
-		return $urls;
+		/**
+		 * Filter the URLs which will be preloaded
+		 *
+		 * @param array $urls
+		 * @return array
+		 */
+		return apply_filters('wpo_preload_get_site_urls', $urls);
 	}
 
 	/**

@@ -221,11 +221,12 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 			// @since 2.11.0.
 			$product_query_limit = apply_filters( 'wppfm_product_query_limit', 1000 );
 
+			// @since 2.20.0 excluded password protected products from the feed.
 			$products_query = "SELECT DISTINCT {$this->_table_prefix}posts.ID
 				FROM {$this->_table_prefix}posts
 				LEFT JOIN {$this->_table_prefix}term_relationships ON ({$this->_table_prefix}posts.ID = {$this->_table_prefix}term_relationships.object_id)
 				LEFT JOIN {$this->_table_prefix}term_taxonomy ON ({$this->_table_prefix}term_relationships.term_taxonomy_id = {$this->_table_prefix}term_taxonomy.term_taxonomy_id)
-				WHERE {$this->_table_prefix}posts.post_type = 'product' AND {$this->_table_prefix}posts.post_status = 'publish'
+				WHERE {$this->_table_prefix}posts.post_type = 'product' AND {$this->_table_prefix}posts.post_status = 'publish' AND {$this->_table_prefix}posts.post_password = ''
 				AND {$this->_table_prefix}term_taxonomy.term_id IN ($category_string)
 				AND {$this->_table_prefix}posts.ID > $start_product_id
 				ORDER BY ID LIMIT $product_query_limit";
@@ -358,7 +359,8 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 		 * @return array    Array with the meta data from the specified product.
 		 */
 		public function read_meta_data( $product_id, $parent_product_id, $record_ids, $meta_columns ) {
-			$data = array();
+			$data         = array();
+			$product_type = WC_Product_Factory::get_product_type( $product_id );
 
 			foreach ( $meta_columns as $column ) {
 				$taxonomy = get_taxonomy( $column );
@@ -377,6 +379,14 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 				}
 
 				foreach ( $record_ids as $rec_id ) {
+					if ( $rec_id !== $product_id && 'simple' === $product_type ) {
+						if ( get_post_meta( $rec_id, '_variation_description' ) ) {
+							// Skip old meta variation data from a previous variation product that was converted to a simple product.
+							// @since 2.20.0.
+							continue;
+						}
+					}
+
 					$value = get_post_meta( $rec_id, $column, true );
 
 					if ( $value || '0' === $value ) {

@@ -4,9 +4,9 @@ namespace PYS_PRO_GLOBAL\GuzzleHttp\Psr7;
 
 use InvalidArgumentException;
 use PYS_PRO_GLOBAL\Psr\Http\Message\ServerRequestInterface;
-use PYS_PRO_GLOBAL\Psr\Http\Message\UriInterface;
 use PYS_PRO_GLOBAL\Psr\Http\Message\StreamInterface;
 use PYS_PRO_GLOBAL\Psr\Http\Message\UploadedFileInterface;
+use PYS_PRO_GLOBAL\Psr\Http\Message\UriInterface;
 /**
  * Server-side HTTP request
  *
@@ -32,7 +32,7 @@ class ServerRequest extends \PYS_PRO_GLOBAL\GuzzleHttp\Psr7\Request implements \
      */
     private $cookieParams = [];
     /**
-     * @var null|array|object
+     * @var array|object|null
      */
     private $parsedBody;
     /**
@@ -51,7 +51,7 @@ class ServerRequest extends \PYS_PRO_GLOBAL\GuzzleHttp\Psr7\Request implements \
      * @param string                               $method       HTTP method
      * @param string|UriInterface                  $uri          URI
      * @param array                                $headers      Request headers
-     * @param string|null|resource|StreamInterface $body         Request body
+     * @param string|resource|StreamInterface|null $body         Request body
      * @param string                               $version      Protocol version
      * @param array                                $serverParams Typically the $_SERVER superglobal
      */
@@ -93,6 +93,7 @@ class ServerRequest extends \PYS_PRO_GLOBAL\GuzzleHttp\Psr7\Request implements \
      * delegate to normalizeNestedFileSpec() and return that return value.
      *
      * @param array $value $_FILES struct
+     *
      * @return array|UploadedFileInterface
      */
     private static function createUploadedFileFromSpec(array $value)
@@ -109,6 +110,7 @@ class ServerRequest extends \PYS_PRO_GLOBAL\GuzzleHttp\Psr7\Request implements \
      * UploadedFileInterface instances.
      *
      * @param array $files
+     *
      * @return UploadedFileInterface[]
      */
     private static function normalizeNestedFileSpec(array $files = [])

@@ -60,6 +60,6 @@ class CommentFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
     const USER_LIKES = 'user_likes';
     public function getFieldTypes()
     {
-        return array('admin_creator' => 'User', 'application' => 'Application', 'attachment' => 'Object', 'can_comment' => 'bool', 'can_hide' => 'bool', 'can_like' => 'bool', 'can_remove' => 'bool', 'can_reply_privately' => 'bool', 'comment_count' => 'unsigned int', 'created_time' => 'datetime', 'from' => 'Object', 'id' => 'string', 'is_hidden' => 'bool', 'is_private' => 'bool', 'like_count' => 'unsigned int', 'live_broadcast_timestamp' => 'unsigned int', 'message' => 'string', 'message_tags' => 'list<EntityAtTextRange>', 'object' => 'Object', 'parent' => 'Comment', 'permalink_url' => 'string', 'private_reply_conversation' => 'Object', 'user_likes' => 'bool');
+        return array('admin_creator' => 'User', 'application' => 'Application', 'attachment' => 'Object', 'can_comment' => 'bool', 'can_hide' => 'bool', 'can_like' => 'bool', 'can_remove' => 'bool', 'can_reply_privately' => 'bool', 'comment_count' => 'unsigned int', 'created_time' => 'datetime', 'from' => 'Object', 'id' => 'string', 'is_hidden' => 'bool', 'is_private' => 'bool', 'like_count' => 'unsigned int', 'live_broadcast_timestamp' => 'unsigned int', 'message' => 'string', 'message_tags' => 'list<EntityAtTextRange>', 'object' => 'Object', 'parent' => 'Comment', 'permalink_url' => 'Object', 'private_reply_conversation' => 'Object', 'user_likes' => 'bool');
     }
 }

@@ -41,6 +41,13 @@ use PYS_PRO_GLOBAL\FacebookAds\Object\Values\BusinessUserRoleValues;
 class BusinessUser extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
 {
     /**
+     * @deprecated getEndpoint function is deprecated
+     */
+    protected function getEndpoint()
+    {
+        return 'business_users';
+    }
+    /**
      * @return BusinessUserFields
      */
     public static function getFieldsEnum()

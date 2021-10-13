@@ -183,7 +183,7 @@ td.wp-optimize-settings-optimization-checkbox {
 	padding: 0px;
 }
 
-#retention-period {
+#retention-period, #revisions-count {
 	width: 60px;
 }
 
@@ -790,7 +790,8 @@ body[class*="wp-optimize_page_"] #wpbody-content {
 
 	body.auto-fold .wpo-main-header {
 		left: 0;
-		top: 46px;
+		top: -70px;
+		position: absolute;
 	}
 }
 
@@ -1119,10 +1120,14 @@ p.wpo-take-a-backup {
 		font-weight: 600;
 }
 
-.wpo-fieldgroup code {
+.wpo-fieldgroup code, .wpo-fieldgroup pre.code {
 		font-size: inherit;
 		background: #d8dbdc;
 		border-radius: 3px;
+}
+
+.wpo-fieldgroup pre.code {
+		padding: 10px;
 }
 
 .wpo-fieldgroup fieldset label {
@@ -1342,7 +1347,7 @@ a.wpo-info__trigger span.dashicons {
 	vertical-align: middle;
 }
 
-.wpo_section.wpo_group.wpo-feature-is-disabled > *:not(.wpo-show) {
+.wpo_section.wpo_group.wpo-feature-is-disabled .wpo-fieldgroup:not(.wpo-show) {
     opacity: 0.5;
 }
 
@@ -2015,6 +2020,10 @@ h4.updraft_advert_heading {
 	margin-bottom: 20px;
 }
 
+.processed .updated {
+	margin: 0;
+}
+
 @media screen and (min-width: 560px) {
 
 	.updraft_notice_container {
@@ -2671,6 +2680,10 @@ textarea.cache-settings {
 
 #wp-optimize-wrap .processed .wpo_min_log ul li.failed .wpo_min_file_url {
 	color: #dc3232;
+}
+
+#wp-optimize-wrap .processed .wpo_min_log ul li.disable-list-item {
+	opacity: 0.5;
 }
 
 #wp-optimize-wrap .processed .wpo_min_log h5 {

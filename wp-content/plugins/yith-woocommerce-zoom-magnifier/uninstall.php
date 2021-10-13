@@ -3,7 +3,7 @@
  * Uninstall plugin
  *
  * @author Your Inspiration Themes
- * @package YITH WooCommerce Zoom Magnifier
+ * @package YITH WooCommerce Product Gallery & Image Zoom
  * @version 1.1.2
  */
 

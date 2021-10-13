@@ -1,4 +1,4 @@
-<?php
+<?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
  * Handle data for the current customers session.
  * Implements the WC_Session abstract class
@@ -6,7 +6,7 @@
  * Partly based on WC_Session_Handler by Woothemes.
  *
  * @class   YITH_YWRAQ_Session
- * @package YITH Woocommerce Request A Quote
+ * @package YITH WooCommerce Request A Quote
  * @since   1.0.0
  * @author  YITH
  */
@@ -20,39 +20,54 @@ if ( ! defined( 'ABSPATH' ) || ! defined( 'YITH_YWRAQ_VERSION' ) ) {
  */
 class YITH_YWRAQ_Session extends WC_Session {
 
-	/** Cookie name */
-	private $_cookie;
+	/** Cookie name
+	 *
+	 * @var string
+	 */
+	private $cookie;
 
-	/** Session due to expire timestamp */
-	private $_session_expiring;
+	/**
+	 * Session due to expire timestamp
+	 *
+	 * @var int
+	 */
+	private $session_expiring;
 
-	/** Session expiration timestamp */
-	private $_session_expiration;
+	/**
+	 * Session expiration timestamp
+	 *
+	 * @var int
+	 */
+	private $session_expiration;
 
-	/** Bool based on whether a cookie exists **/
-	private $_has_cookie = false;
+	/**
+	 * Bool based on whether a cookie exists
+	 *
+	 * @var bool
+	 */
+	private $has_cookie = false;
 
 	/**
 	 * Constructor for the session class.
 	 */
 	public function __construct() {
-		$this->_cookie = 'yith_ywraq_session_' . COOKIEHASH;
+		$this->cookie = 'yith_ywraq_session_' . COOKIEHASH;
+		$cookie       = $this->get_session_cookie();
+		if ( $cookie ) {
+			$this->_customer_id       = $cookie[0];
+			$this->session_expiration = $cookie[1];
+			$this->session_expiring   = $cookie[2];
+			$this->has_cookie         = true;
 
-		if ( $cookie = $this->get_session_cookie() ) {
-			$this->_customer_id        = $cookie[0];
-			$this->_session_expiration = $cookie[1];
-			$this->_session_expiring   = $cookie[2];
-			$this->_has_cookie         = true;
-
-			// Update session if its close to expiring
-			if ( time() > $this->_session_expiring ) {
+			// Update session if its close to expiring.
+			if ( time() > $this->session_expiring ) {
 				$this->set_session_expiration();
 				$session_expiry_option = '_yith_ywraq_session_expires_' . $this->_customer_id;
-				// Check if option exists first to avoid auloading cleaned up sessions
+				// Check if option exists first to avoid auloading cleaned up sessions.
 				if ( false === get_option( $session_expiry_option ) ) {
-					add_option( $session_expiry_option, $this->_session_expiration, '', 'no' );
+					add_option( $session_expiry_option, $this->session_expiration, '', 'no' );
 				} else {
-					update_option( $session_expiry_option, $this->_session_expiration );
+					update_option( $session_expiry_option, $this->session_expiration );
 				}
 			}
 		} else {
@@ -62,8 +77,7 @@ class YITH_YWRAQ_Session extends WC_Session {
 
 		$this->_data = $this->get_session_data();
 
-		// Actions
-
+		// Actions.
 		add_action( 'woocommerce_cleanup_sessions', array( $this, 'cleanup_sessions' ), 10 );
 		add_action( 'shutdown', array( $this, 'save_data' ), 20 );
 		add_action( 'clear_auth_cookie', array( $this, 'destroy_session' ) );
@@ -77,18 +91,18 @@ class YITH_YWRAQ_Session extends WC_Session {
 	 *
 	 * Warning: Cookies will only be set if this is called before the headers are sent.
 	 *
-	 * @param $set bool
+	 * @param bool $set Set.
 	 */
 	public function set_customer_session_cookie( $set ) {
 		if ( $set ) {
-			// Set/renew our cookie
-			$to_hash           = $this->_customer_id . $this->_session_expiration;
-			$cookie_hash       = hash_hmac( 'md5', $to_hash, wp_hash( $to_hash ) );
-			$cookie_value      = $this->_customer_id . '||' . $this->_session_expiration . '||' . $this->_session_expiring . '||' . $cookie_hash;
-			$this->_has_cookie = true;
+			// Set/renew our cookie.
+			$to_hash          = $this->_customer_id . $this->session_expiration;
+			$cookie_hash      = hash_hmac( 'md5', $to_hash, wp_hash( $to_hash ) );
+			$cookie_value     = $this->_customer_id . '||' . $this->session_expiration . '||' . $this->session_expiring . '||' . $cookie_hash;
+			$this->has_cookie = true;
 
-			// Set the cookie
-			wc_setcookie( $this->_cookie, $cookie_value, $this->_session_expiration, apply_filters( 'yith_ywraq_session_use_secure_cookie', false ) );
+			// Set the cookie.
+			wc_setcookie( $this->cookie, $cookie_value, $this->session_expiration, apply_filters( 'yith_ywraq_session_use_secure_cookie', false ) );
 		}
 	}
 
@@ -98,15 +112,15 @@ class YITH_YWRAQ_Session extends WC_Session {
 	 * @return boolean
 	 */
 	public function has_session() {
-		return isset( $_COOKIE[ $this->_cookie ] ) || $this->_has_cookie || is_user_logged_in();
+		return isset( $_COOKIE[ $this->cookie ] ) || $this->has_cookie || is_user_logged_in();
 	}
 
 	/**
-	 * set_session_expiration function.
+	 * Set_session_expiration function.
 	 */
 	public function set_session_expiration() {
-		$this->_session_expiring   = time() + intval( apply_filters( 'yith_ywraq_session_expiring', 60 * 60 * 47 ) ); // 47 Hours
-		$this->_session_expiration = time() + intval( apply_filters( 'yith_ywraq_session_expiration', 60 * 60 * 48 ) ); // 48 Hours
+		$this->session_expiring   = time() + intval( apply_filters( 'yith_ywraq_session_expiring', 60 * 60 * 47 ) ); // 47 Hours
+		$this->session_expiration = time() + intval( apply_filters( 'yith_ywraq_session_expiration', 60 * 60 * 48 ) ); // 48 Hours
 	}
 
 	/**
@@ -127,22 +141,22 @@ class YITH_YWRAQ_Session extends WC_Session {
 	}
 
 	/**
-	 * get_session_cookie function.
+	 * Get_session_cookie function
 	 *
 	 * @return bool|array
 	 */
 	public function get_session_cookie() {
-		if ( empty( $_COOKIE[ $this->_cookie ] ) ) {
+		if ( empty( $_COOKIE[ $this->cookie ] ) ) {
 			return false;
 		}
 
-		list( $customer_id, $session_expiration, $session_expiring, $cookie_hash ) = explode( '||', $_COOKIE[ $this->_cookie ] );
+		list( $customer_id, $session_expiration, $session_expiring, $cookie_hash ) = explode( '||', wp_unslash( $_COOKIE[ $this->cookie ] ) ); //phpcs:ignore
 
-		// Validate hash
+		// Validate hash.
 		$to_hash = $customer_id . $session_expiration;
 		$hash    = hash_hmac( 'md5', $to_hash, wp_hash( $to_hash ) );
 
-		if ( $hash != $cookie_hash ) {
+		if ( $hash !== $cookie_hash ) {
 			return false;
 		}
 
@@ -150,7 +164,7 @@ class YITH_YWRAQ_Session extends WC_Session {
 	}
 
 	/**
-	 * get_session_data function.
+	 * Get_session_data function.
 	 *
 	 * @return array
 	 */
@@ -159,10 +173,10 @@ class YITH_YWRAQ_Session extends WC_Session {
 	}
 
 	/**
-	 * save_data function.
+	 * Save_data function.
 	 */
 	public function save_data() {
-		// Dirty if something changed - prevents saving nothing new
+		// Dirty if something changed - prevents saving nothing new.
 		if ( $this->_dirty && $this->has_session() ) {
 
 			$session_option        = '_yith_ywraq_session_' . $this->_customer_id;
@@ -170,7 +184,7 @@ class YITH_YWRAQ_Session extends WC_Session {
 
 			if ( false === get_option( $session_option ) ) {
 				add_option( $session_option, $this->_data, '', 'no' );
-				add_option( $session_expiry_option, $this->_session_expiration, '', 'no' );
+				add_option( $session_expiry_option, $this->session_expiration, '', 'no' );
 			} else {
 				update_option( $session_option, $this->_data );
 			}
@@ -181,24 +195,24 @@ class YITH_YWRAQ_Session extends WC_Session {
 	 * Destroy all session data
 	 */
 	public function destroy_session() {
-		// Clear cookie
-		wc_setcookie( $this->_cookie, '', time() - YEAR_IN_SECONDS, apply_filters( 'yith_ywraq_session_use_secure_cookie', false ) );
+		// Clear cookie.
+		wc_setcookie( $this->cookie, '', time() - YEAR_IN_SECONDS, apply_filters( 'yith_ywraq_session_use_secure_cookie', false ) );
 
-		// Delete session
+		// Delete session.
 		$session_option        = '_yith_ywraq_session_' . $this->_customer_id;
 		$session_expiry_option = '_yith_ywraq_session_expires_' . $this->_customer_id;
 
 		delete_option( $session_option );
 		delete_option( $session_expiry_option );
 
-		// Clear data
+		// Clear data.
 		$this->_data        = array();
 		$this->_dirty       = false;
 		$this->_customer_id = $this->generate_customer_id();
 	}
 
 	/**
-	 * cleanup_sessions function.
+	 * Cleanup_sessions function.
 	 */
 	public function cleanup_sessions() {
 		global $wpdb;
@@ -206,27 +220,27 @@ class YITH_YWRAQ_Session extends WC_Session {
 		if ( ! defined( 'WP_SETUP_CONFIG' ) && ! defined( 'WP_INSTALLING' ) ) {
 			$now                = time();
 			$expired_sessions   = array();
-			$wc_session_expires = $wpdb->get_col( "SELECT option_name FROM $wpdb->options WHERE option_name LIKE '\_yith_ywraq\_session\_expires\_%' AND option_value < '$now'" );
+			$wc_session_expires = $wpdb->get_col( $wpdb->prepare( "SELECT option_name FROM $wpdb->options WHERE option_name LIKE %s AND option_value < %s", '_yith_ywraq_session_expires_%', $now ) );
 
 			foreach ( $wc_session_expires as $option_name ) {
 				$session_id         = substr( $option_name, 20 );
-				$expired_sessions[] = $option_name;  // Expires key
-				$expired_sessions[] = "_yith_ywraq_session_$session_id"; // Session key
+				$expired_sessions[] = $option_name;  // Expires key.
+				$expired_sessions[] = "_yith_ywraq_session_$session_id"; // Session key.
 			}
 
 			if ( ! empty( $expired_sessions ) ) {
 				$expired_sessions_chunked = array_chunk( $expired_sessions, 100 );
 				foreach ( $expired_sessions_chunked as $chunk ) {
 					if ( wp_using_ext_object_cache() ) {
-						// delete from object cache first, to avoid cached but deleted options
+						// delete from object cache first, to avoid cached but deleted options.
 						foreach ( $chunk as $option ) {
 							wp_cache_delete( $option, 'options' );
 						}
 					}
 
-					// delete from options table
+					// delete from options table.
 					$option_names = implode( "','", $chunk );
-					$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name IN ('$option_names')" );
+					$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name IN ('$option_names')" ); //phpcs:ignore
 				}
 			}
 		}

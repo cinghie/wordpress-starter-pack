@@ -7,9 +7,7 @@
  * @version 1.0.0
  */
 
-if ( ! defined( 'YITH_INFS' ) ) {
-	exit;
-} // Exit if accessed directly
+defined( 'YITH_INFS' ) || exit; // Exit if accessed directly.
 
 if ( ! class_exists( 'YITH_INFS' ) ) {
 	/**
@@ -23,7 +21,7 @@ if ( ! class_exists( 'YITH_INFS' ) ) {
 		 * Single instance of the class
 		 *
 		 * @since 1.0.0
-		 * @var \YITH_INFS
+		 * @var YITH_INFS
 		 */
 		protected static $instance;
 
@@ -47,7 +45,7 @@ if ( ! class_exists( 'YITH_INFS' ) ) {
 		 * Returns single instance of the class
 		 *
 		 * @since 1.0.0
-		 * @return \YITH_INFS
+		 * @return YITH_INFS
 		 */
 		public static function get_instance() {
 			if ( is_null( self::$instance ) ) {
@@ -64,22 +62,15 @@ if ( ! class_exists( 'YITH_INFS' ) ) {
 		 * @return mixed YITH_INFS_Admin | YITH_INFS_Frontend
 		 */
 		public function __construct() {
-			// Class admin
+			// Class admin.
 			if ( $this->is_admin() ) {
-
-				// require classes
 				require_once 'class.yith-infs-admin.php';
 
-				// Load Plugin Framework
 				add_action( 'after_setup_theme', array( $this, 'plugin_fw_loader' ), 1 );
-
 				YITH_INFS_Admin();
+
 			} elseif ( $this->load_frontend() ) {
-
-				// require classes
 				require_once 'class.yith-infs-frontend.php';
-
-				// Frontend class
 				YITH_INFS_Frontend();
 			}
 		}
@@ -93,7 +84,7 @@ if ( ! class_exists( 'YITH_INFS' ) ) {
 		 */
 		public function is_admin() {
 			$check_ajax    = defined( 'DOING_AJAX' ) && DOING_AJAX;
-			$check_context = isset( $_REQUEST['context'] ) && $_REQUEST['context'] == 'frontend';
+			$check_context = isset( $_REQUEST['context'] ) && 'frontend' === sanitize_text_field( wp_unslash( $_REQUEST['context'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			return is_admin() && ! ( $check_ajax && $check_context );
 		}
@@ -106,9 +97,7 @@ if ( ! class_exists( 'YITH_INFS' ) ) {
 		 * @return boolean
 		 */
 		public function load_frontend() {
-			$enable = yinfs_get_option( 'yith-infs-enable', 'yes' ) == 'yes';
-
-			return $enable;
+			return 'yes' === yinfs_get_option( 'yith-infs-enable', 'yes' );
 		}
 
 		/**
@@ -135,8 +124,8 @@ if ( ! class_exists( 'YITH_INFS' ) ) {
  * Unique access to instance of YITH_INFS class
  *
  * @since 1.0.0
- * @return \YITH_INFS
+ * @return YITH_INFS
  */
-function YITH_INFS() {
+function YITH_INFS() { // phpcs:ignore
 	return YITH_INFS::get_instance();
 }

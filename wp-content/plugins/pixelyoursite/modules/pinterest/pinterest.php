@@ -76,10 +76,10 @@ class Pinterest extends Settings implements Pixel {
     public function renderPixelIdField() {
 	    ?>
         <div class="row align-items-center">
-            <div class="col-3 py-4">
+            <div class="col-2 py-4">
                 <img class="tag-logo" src="<?php echo PYS_FREE_URL; ?>/dist/images/pinterest-square-small.png">
             </div>
-            <div class="col-7">
+            <div class="col-10">
                 Add the Pinterest tag with our <a href="https://www.pixelyoursite.com/pinterest-tag?utm_source=pixelyoursite-free-plugin&utm_medium=plugin&utm_campaign=free-plugin-ids"
                         target="_blank">FREE addon</a>.
             </div>

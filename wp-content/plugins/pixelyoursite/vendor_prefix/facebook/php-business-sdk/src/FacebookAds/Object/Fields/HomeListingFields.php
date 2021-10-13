@@ -58,6 +58,7 @@ class HomeListingFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
     const HEATING_TYPE = 'heating_type';
     const HOME_LISTING_ID = 'home_listing_id';
     const ID = 'id';
+    const IMAGE_FETCH_STATUS = 'image_fetch_status';
     const IMAGES = 'images';
     const LAUNDRY_TYPE = 'laundry_type';
     const LISTING_TYPE = 'listing_type';
@@ -80,6 +81,6 @@ class HomeListingFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
     const YEAR_BUILT = 'year_built';
     public function getFieldTypes()
     {
-        return array('ac_type' => 'string', 'additional_fees_description' => 'string', 'address' => 'Object', 'agent_company' => 'string', 'agent_email' => 'string', 'agent_fb_page_id' => 'Page', 'agent_name' => 'string', 'agent_phone' => 'string', 'applinks' => 'CatalogItemAppLinks', 'area_size' => 'unsigned int', 'area_unit' => 'string', 'availability' => 'string', 'category_specific_fields' => 'CatalogSubVerticalList', 'co_2_emission_rating_eu' => 'Object', 'currency' => 'string', 'days_on_market' => 'unsigned int', 'description' => 'string', 'energy_rating_eu' => 'Object', 'furnish_type' => 'string', 'group_id' => 'string', 'heating_type' => 'string', 'home_listing_id' => 'string', 'id' => 'string', 'images' => 'list<string>', 'laundry_type' => 'string', 'listing_type' => 'string', 'max_currency' => 'string', 'max_price' => 'string', 'min_currency' => 'string', 'min_price' => 'string', 'name' => 'string', 'num_baths' => 'float', 'num_beds' => 'float', 'num_rooms' => 'float', 'num_units' => 'unsigned int', 'parking_type' => 'string', 'partner_verification' => 'string', 'pet_policy' => 'string', 'price' => 'string', 'property_type' => 'string', 'sanitized_images' => 'list<string>', 'url' => 'string', 'year_built' => 'int');
+        return array('ac_type' => 'string', 'additional_fees_description' => 'string', 'address' => 'Object', 'agent_company' => 'string', 'agent_email' => 'string', 'agent_fb_page_id' => 'Page', 'agent_name' => 'string', 'agent_phone' => 'string', 'applinks' => 'CatalogItemAppLinks', 'area_size' => 'unsigned int', 'area_unit' => 'string', 'availability' => 'string', 'category_specific_fields' => 'CatalogSubVerticalList', 'co_2_emission_rating_eu' => 'Object', 'currency' => 'string', 'days_on_market' => 'unsigned int', 'description' => 'string', 'energy_rating_eu' => 'Object', 'furnish_type' => 'string', 'group_id' => 'string', 'heating_type' => 'string', 'home_listing_id' => 'string', 'id' => 'string', 'image_fetch_status' => 'ImageFetchStatus', 'images' => 'list<string>', 'laundry_type' => 'string', 'listing_type' => 'string', 'max_currency' => 'string', 'max_price' => 'string', 'min_currency' => 'string', 'min_price' => 'string', 'name' => 'string', 'num_baths' => 'float', 'num_beds' => 'float', 'num_rooms' => 'float', 'num_units' => 'unsigned int', 'parking_type' => 'string', 'partner_verification' => 'string', 'pet_policy' => 'string', 'price' => 'string', 'property_type' => 'string', 'sanitized_images' => 'list<string>', 'url' => 'string', 'year_built' => 'int');
     }
 }

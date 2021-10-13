@@ -56,7 +56,7 @@ class WooSEA_facebook_drm {
 					"name" => "title",
 					"feed_name" => "g:title",
 					"format" => "required",
-					"woo_suggest" => "title",
+					"woo_suggest" => "mother_title",
 				),
 				"price" => array(
 					"name" => "price",
@@ -79,6 +79,12 @@ class WooSEA_facebook_drm {
 					"feed_name" => "g:brand",
 					"format" => "required",
 				),
+                                "identifier exists" => array(
+                                        "name" => "identifier_exists",
+                                        "feed_name" => "g:identifier_exists",
+                                        "woo_suggest" => "calculated",
+                                        "format" => "required",
+                                ),
 				"additional_image_link" => array(
 					"name" => "additional_image_link",
 					"feed_name" => "g:additional_image_link",
@@ -115,6 +121,12 @@ class WooSEA_facebook_drm {
 					"feed_name" => "g:google_product_category",
 					"format" => "required",
                                         "woo_suggest" => "categories",
+				),
+				"product_type" => array(
+					"name" => "product_type",
+					"feed_name" => "g:product_type",
+					"format" => "required",
+                                        "woo_suggest" => "category_path",
 				),
 				"fb_product_category" => array(
 					"name" => "fb_product_category",
@@ -271,6 +283,11 @@ class WooSEA_facebook_drm {
 					"feed_name" => "g:inventory",
 					"format" => "optional",
 				),
+                                "quantity_to_sell_on_facebook" => array(
+                                        "name" => "quantity_to_sell_on_facebook",
+                                        "feed_name" => "g:quantity_to_sell_on_facebook",
+                                        "format" => "optional",
+                                ),
 				"ingredients" => array(
 					"name" => "ingredients",
 					"feed_name" => "g:ingredients",

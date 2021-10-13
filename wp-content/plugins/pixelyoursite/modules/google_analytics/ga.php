@@ -103,7 +103,8 @@ class GA extends Settings implements Pixel {
             'isDebugEnabled'                => $this->getPixelDebugMode(),
             'isUse4Version'                 => $this->isUse4Version(),
             'disableAdvertisingFeatures'    => $this->getOption( 'disable_advertising_features' ),
-            'disableAdvertisingPersonalization' => $this->getOption( 'disable_advertising_personalization' )
+            'disableAdvertisingPersonalization' => $this->getOption( 'disable_advertising_personalization' ),
+            'wooVariableAsSimple' => $this->getOption( 'woo_variable_as_simple' )
         );
 
     }
@@ -263,6 +264,15 @@ class GA extends Settings implements Pixel {
             case 'woo_add_to_cart_on_button_click': {
                 if (  $this->getOption( 'woo_add_to_cart_enabled' ) && PYS()->getOption( 'woo_add_to_cart_on_button_click' ) ) {
                     $isActive = true;
+                    if(isset($event->args['productId'])) {
+                        $eventData =  $this->getWooAddToCartOnButtonClickEventParams( $event );
+
+                        if($eventData) {
+                            $event->addParams($eventData["params"]);
+                            unset($eventData["params"]);
+                            $event->addPayload($eventData);
+                        }
+                    }
                     $event->addPayload(array(
                         'name'=>"add_to_cart"
                     ));
@@ -375,10 +385,12 @@ class GA extends Settings implements Pixel {
 						$args["pa"] = 'detail'; // required
 
 					}
-
+                    $src = add_query_arg( $args, 'https://www.google-analytics.com/collect' ) ;
+                    $src = str_replace("[","%5B",$src);
+                    $src = str_replace("]","%5D",$src);
 					// ALT tag used to pass ADA compliance
 					printf( '<noscript><img height="1" width="1" style="display: none;" src="%s" alt="google_analytics"></noscript>',
-						add_query_arg( $args, 'https://www.google-analytics.com/collect' ) );
+                        $src);
 
 					echo "\r\n";
 
@@ -557,11 +569,14 @@ class GA extends Settings implements Pixel {
 
 	}
 
-	private function getWooAddToCartOnButtonClickEventParams( $product_id ) {
+	private function getWooAddToCartOnButtonClickEventParams( $args ) {
 
 		if ( ! $this->getOption( 'woo_add_to_cart_enabled' )  || ! PYS()->getOption( 'woo_add_to_cart_on_button_click' ) ) {
 			return false;
 		}
+        $product_id = $args->args['productId'];
+        $quantity = $args->args['quantity'];
+
         $product = wc_get_product( $product_id );
         if(!$product) return false;
 
@@ -581,7 +596,7 @@ class GA extends Settings implements Pixel {
                 continue;
             }
             $content_id = GA\Helpers\getWooProductContentId($child_id);
-            $price = getWooProductPriceToDisplay( $child_id, 1 );
+            $price = getWooProductPriceToDisplay( $child_id, $quantity );
             $name = $childProduct->get_title();
 
             if ( $childProduct->get_type() == 'variation' ) {
@@ -595,7 +610,7 @@ class GA extends Settings implements Pixel {
                 'id'       => $content_id,
                 'name'     => $name,
                 'category' => $categories,
-                'quantity' => 1,
+                'quantity' => $quantity,
                 'price'    => $price,
                 'variant'  => $variation_name,
             );

@@ -43,7 +43,9 @@ class CommerceMerchantSettingsFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\Ab
     const DISPLAY_NAME = 'display_name';
     const EXTERNAL_MERCHANT_ID = 'external_merchant_id';
     const FACEBOOK_CHANNEL = 'facebook_channel';
+    const FEATURE_ELIGIBILITY = 'feature_eligibility';
     const HAS_DISCOUNT_CODE = 'has_discount_code';
+    const HAS_ONSITE_INTENT = 'has_onsite_intent';
     const ID = 'id';
     const INSTAGRAM_CHANNEL = 'instagram_channel';
     const MERCHANT_ALERT_EMAIL = 'merchant_alert_email';
@@ -61,6 +63,6 @@ class CommerceMerchantSettingsFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\Ab
     const WHATSAPP_CHANNEL = 'whatsapp_channel';
     public function getFieldTypes()
     {
-        return array('braintree_merchant_id' => 'string', 'checkout_message' => 'string', 'contact_email' => 'string', 'cta' => 'string', 'disable_checkout_urls' => 'bool', 'display_name' => 'string', 'external_merchant_id' => 'string', 'facebook_channel' => 'Object', 'has_discount_code' => 'bool', 'id' => 'string', 'instagram_channel' => 'Object', 'merchant_alert_email' => 'string', 'merchant_page' => 'Profile', 'merchant_status' => 'string', 'onsite_commerce_merchant' => 'Object', 'payment_provider' => 'string', 'privacy_url_by_locale' => 'map<string, string>', 'review_rejection_messages' => 'list<string>', 'review_rejection_reasons' => 'list<string>', 'review_status' => 'string', 'supported_card_types' => 'list<string>', 'terms' => 'string', 'terms_url_by_locale' => 'map<string, string>', 'whatsapp_channel' => 'Object');
+        return array('braintree_merchant_id' => 'string', 'checkout_message' => 'string', 'contact_email' => 'string', 'cta' => 'string', 'disable_checkout_urls' => 'bool', 'display_name' => 'string', 'external_merchant_id' => 'string', 'facebook_channel' => 'Object', 'feature_eligibility' => 'Object', 'has_discount_code' => 'bool', 'has_onsite_intent' => 'bool', 'id' => 'string', 'instagram_channel' => 'Object', 'merchant_alert_email' => 'string', 'merchant_page' => 'Profile', 'merchant_status' => 'string', 'onsite_commerce_merchant' => 'Object', 'payment_provider' => 'string', 'privacy_url_by_locale' => 'map<string, string>', 'review_rejection_messages' => 'list<string>', 'review_rejection_reasons' => 'list<string>', 'review_status' => 'string', 'supported_card_types' => 'list<string>', 'terms' => 'string', 'terms_url_by_locale' => 'map<string, string>', 'whatsapp_channel' => 'Object');
     }
 }

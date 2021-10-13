@@ -1,20 +1,4 @@
 <?php
-/*  Copyright 2013  Your Inspiration Themes  (email : plugins@yithemes.com)
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License, version 2, as
-    published by the Free Software Foundation.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
 /**
  * Admin class
  *
@@ -23,9 +7,7 @@
  * @version 1.0.0
  */
 
-if ( ! defined( 'YITH_INFS' ) ) {
-	exit;
-} // Exit if accessed directly
+defined( 'YITH_INFS' ) || exit; // Exit if accessed directly.
 
 if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 	/**
@@ -40,7 +22,7 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 		 * Single instance of the class
 		 *
 		 * @since 1.0.0
-		 * @var \YITH_INFS_Admin
+		 * @var YITH_INFS_Admin
 		 */
 		protected static $instance;
 
@@ -62,24 +44,32 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 		public $version = YITH_INFS_VERSION;
 
 		/**
-		 * @var $_panel Panel Object
+		 * Panel Object
+		 *
+		 * @var YIT_Plugin_Panel
 		 */
-		protected $_panel;
+		protected $panel;
 
 		/**
-		 * @var $_premium string Premium tab template file name
+		 * Premium tab template file name
+		 *
+		 * @var string
 		 */
-		protected $_premium = 'premium.php';
+		protected $premium = 'premium.php';
 
 		/**
-		 * @var string Premium version landing link
+		 * Premium version landing link
+		 *
+		 * @var string
 		 */
-		protected $_premium_landing = 'https://yithemes.com/themes/plugins/yith-infinite-scrolling/';
+		protected $premium_landing = 'https://yithemes.com/themes/plugins/yith-infinite-scrolling/';
 
 		/**
-		 * @var string Infinite Scrolling panel page
+		 * Infinite Scrolling panel page
+		 *
+		 * @var string
 		 */
-		protected $_panel_page = 'yith_infs_panel';
+		protected $panel_page = 'yith_infs_panel';
 
 		/**
 		 * Various links
@@ -91,19 +81,10 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 		public $doc_url = 'https://yithemes.com/docs-plugins/yith-infinite-scrolling/';
 
 		/**
-		 * The name for the plugin options
-		 *
-		 * @access protected
-		 * @since  1.0.0
-		 */
-		protected static $_plugin_options = YITH_INFS_OPTION_NAME;
-
-
-		/**
 		 * Returns single instance of the class
 		 *
 		 * @since 1.0.0
-		 * @return \YITH_INFS_Admin
+		 * @return YITH_INFS_Admin
 		 */
 		public static function get_instance() {
 			if ( is_null( self::$instance ) ) {
@@ -125,7 +106,7 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_style' ) );
 
-			//Add action links
+			// Add action links.
 			add_filter( 'plugin_action_links_' . plugin_basename( YITH_INFS_DIR . '/' . basename( YITH_INFS_FILE ) ), array( $this, 'action_links' ) );
 			add_filter( 'yith_show_plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 5 );
 
@@ -133,7 +114,7 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 				add_action( 'yith_infinite_scrolling_premium', array( $this, 'premium_tab' ) );
 			}
 
-			// YITH INFS Loaded
+			// YITH INFS Loaded.
 			do_action( 'yith_infs_loaded' );
 		}
 
@@ -145,26 +126,23 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 		 * @access public
 		 */
 		public function enqueue_style() {
-			if ( isset( $_GET['page'] ) && $_GET['page'] == $this->_panel_page ) {
-				wp_enqueue_style( 'yith-infs-admin', YITH_INFS_ASSETS_URL . '/css/admin.css' );
+			if ( isset( $_GET['page'] ) && sanitize_text_field( wp_unslash( $_GET['page'] ) ) === $this->panel_page ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				wp_enqueue_style( 'yith-infs-admin', YITH_INFS_ASSETS_URL . '/css/admin.css', array(), YITH_INFS_VERSION );
 			}
 		}
 
 		/**
 		 * Action Links
-		 *
 		 * add the action links to plugin admin page
 		 *
 		 * @since    1.0
 		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
-		 * @param $links | links plugin array
-		 *
-		 * @return   mixed Array
+		 * @param array $links Links plugin array.
 		 * @return mixed
-		 * @use      plugin_action_links_{$plugin_file_name}
 		 */
 		public function action_links( $links ) {
-			$links = yith_add_action_links( $links, $this->_panel_page, false );
+			$links = yith_add_action_links( $links, $this->panel_page, false );
+
 			return $links;
 		}
 
@@ -173,13 +151,11 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 		 *
 		 * @since    1.0
 		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
-		 * @use      /Yit_Plugin_Panel class
 		 * @return   void
-		 * @see      plugin-fw/lib/yit-plugin-panel.php
 		 */
 		public function register_panel() {
 
-			if ( ! empty( $this->_panel ) ) {
+			if ( ! empty( $this->panel ) ) {
 				return;
 			}
 
@@ -199,57 +175,56 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 				'parent'           => 'infs',
 				'parent_page'      => 'yith_plugin_panel',
 				'plugin-url'       => YITH_INFS_URL,
-				'page'             => $this->_panel_page,
+				'page'             => $this->panel_page,
 				'admin-tabs'       => $admin_tabs,
 				'options-path'     => YITH_INFS_DIR . 'plugin-options',
 				'class'            => yith_set_wrapper_class(),
 				'plugin_slug'      => YITH_INFS_SLUG,
 			);
 
-			/* === Fixed: not updated theme  === */
 			if ( ! class_exists( 'YIT_Plugin_Panel' ) ) {
-				require_once( YITH_INFS_DIR . '/plugin-fw/lib/yit-plugin-panel.php' );
+				require_once YITH_INFS_DIR . '/plugin-fw/lib/yit-plugin-panel.php';
 			}
 
-			$this->_panel = new Yit_Plugin_Panel( $args );
+			$this->panel = new YIT_Plugin_Panel( $args );
 		}
 
 		/**
 		 * Premium Tab Template
-		 *
 		 * Load the premium tab template on admin page
 		 *
 		 * @since    1.0
 		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @return   void
-		 * @return void
 		 */
 		public function premium_tab() {
-			$premium_tab_template = YITH_INFS_TEMPLATE_PATH . '/admin/' . $this->_premium;
+			$premium_tab_template = YITH_INFS_TEMPLATE_PATH . '/admin/' . $this->premium;
 			if ( file_exists( $premium_tab_template ) ) {
-				include_once( $premium_tab_template );
+				include_once $premium_tab_template;
 			}
 
 		}
 
 		/**
-		 * plugin_row_meta
-		 *
-		 * add the action links to plugin admin page
+		 * Add the action links to plugin admin page
 		 *
 		 * @since    1.0
 		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @use      plugin_row_meta
-		 * @param $plugin_data
-		 * @param $status
-		 *
-		 * @param $plugin_meta
-		 * @param $plugin_file
-		 * @return   Array
+		 * @param array    $new_row_meta_args An array of plugin row meta.
+		 * @param string[] $plugin_meta An array of the plugin's metadata,
+		 *                                    including the version, author,
+		 *                                    author URI, and plugin URI.
+		 * @param string   $plugin_file Path to the plugin file relative to the plugins directory.
+		 * @param array    $plugin_data An array of plugin data.
+		 * @param string   $status Status of the plugin. Defaults are 'All', 'Active',
+		 *                                    'Inactive', 'Recently Activated', 'Upgrade', 'Must-Use',
+		 *                                    'Drop-ins', 'Search', 'Paused'.
+		 * @return   array
 		 */
 		public function plugin_row_meta( $new_row_meta_args, $plugin_meta, $plugin_file, $plugin_data, $status ) {
 
-			if ( defined( 'YITH_INFS_INIT' ) && YITH_INFS_INIT == $plugin_file ) {
+			if ( defined( 'YITH_INFS_INIT' ) && YITH_INFS_INIT === $plugin_file ) {
 				$new_row_meta_args['slug'] = YITH_INFS_SLUG;
 
 				if ( defined( 'YITH_INFS_PREMIUM' ) ) {
@@ -265,10 +240,10 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 		 *
 		 * @since   1.0.0
 		 * @author  Andrea Grillo <andrea.grillo@yithemes.com>
-		 * @return  string The premium landing link
+		 * @return  string The premium landing link.
 		 */
 		public function get_premium_landing_uri() {
-			return $this->_premium_landing;
+			return $this->premium_landing;
 		}
 
 		/**
@@ -277,8 +252,8 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 		 * @access public
 		 * @since  1.0.0
 		 * @author Francesco Licandro <francesco.licandro@yithemes.com>
-		 * @param $option  string
-		 * @param $default mixed
+		 * @param string $option  The option key.
+		 * @param mixed  $default The default value.
 		 * @return mixed
 		 */
 		public static function get_option( $option, $default = false ) {
@@ -290,8 +265,8 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
  * Unique access to instance of YITH_WCQV_Admin class
  *
  * @since 1.0.0
- * @return \YITH_INFS_Admin
+ * @return YITH_INFS_Admin
  */
-function YITH_INFS_Admin() {
+function YITH_INFS_Admin() { // phpcs:ignore
 	return YITH_INFS_Admin::get_instance();
 }

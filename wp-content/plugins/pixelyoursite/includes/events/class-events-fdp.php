@@ -1,7 +1,7 @@
 <?php
 namespace PixelYourSite;
 
-class EventsFdp implements EventsFactory
+class EventsFdp extends EventsFactory
 {
     private $events = array(
         'fdp_view_content',
@@ -22,6 +22,10 @@ class EventsFdp implements EventsFactory
 
         return self::$_instance;
 
+    }
+
+    static function getSlug() {
+        return "fdp";
     }
 
     private function __construct()

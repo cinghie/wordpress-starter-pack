@@ -284,6 +284,7 @@ class WC_Order_Export_Manage {
 			'format_json_end_tag'       => ']',
 			'format_json_unescaped_slashes' => 0,
 			'format_json_numeric_check' => 0,
+            'format_json_encode_unicode' => 0,
 
 			'format_pdf_display_column_names'          => 1,
 			'format_pdf_repeat_header'                 => 1,

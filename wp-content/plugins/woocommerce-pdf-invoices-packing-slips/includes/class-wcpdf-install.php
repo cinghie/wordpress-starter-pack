@@ -172,7 +172,7 @@ class Install {
 			),
 		);
 		foreach ($settings_defaults as $option => $defaults) {
-			update_option( $option, $defaults );
+			add_option( $option, $defaults );
 		}
 
 		// set transient for wizard notification
@@ -347,6 +347,12 @@ class Install {
 			update_option( 'wpo_wcpdf_settings_debug', $debug_settings );
 		}
 
+		// 2.10.0-dev: migrate template path to template ID
+		if ( version_compare( $installed_version, '2.10.0-dev', '<' ) ) {
+			if ( ! empty( WPO_WCPDF()->settings ) && is_callable( array( WPO_WCPDF()->settings, 'maybe_migrate_template_paths' ) ) ) {
+				WPO_WCPDF()->settings->maybe_migrate_template_paths();
+			}
+		}
 	}
 
 	/**

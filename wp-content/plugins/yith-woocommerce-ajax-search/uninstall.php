@@ -7,9 +7,9 @@
  * @version 1.1.1
  */
 
-// If uninstall not called from WordPress exit
-if( !defined( 'WP_UNINSTALL_PLUGIN' ) )
-    { exit; }
+// If uninstall not called from WordPress exit.
+if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
+	exit; }
 
 global $wpdb;
 

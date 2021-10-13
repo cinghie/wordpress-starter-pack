@@ -41,7 +41,7 @@ class EventRequestAsync extends \PYS_PRO_GLOBAL\FacebookAds\Object\ServerSide\Ev
         $pixel_id = $this->container['pixel_id'];
         return $this->eventPromise($pixel_id, $normalized_param);
     }
-    private function eventPromise(string $pixel_id, array $params = array())
+    private function eventPromise($pixel_id, array $params = array())
     {
         $access_token = \PYS_PRO_GLOBAL\FacebookAds\Api::instance()->getSession()->getAccessToken();
         $headers = array('User-Agent' => 'fbbizsdk-php-v' . \PYS_PRO_GLOBAL\FacebookAds\ApiConfig::APIVersion, 'Accept-Encoding' => '*');

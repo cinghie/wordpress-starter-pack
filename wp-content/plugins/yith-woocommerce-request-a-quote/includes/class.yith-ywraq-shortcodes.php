@@ -1,9 +1,9 @@
-<?php
+<?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
  * YITH_YWRAQ_Shortcodes add shortcodes to the request quote list
  *
  * @class   YITH_YWRAQ_Shortcodes
- * @package YITH Woocommerce Request A Quote
+ * @package YITH WooCommerce Request A Quote
  * @since   1.0.0
  * @author  YITH
  */
@@ -28,8 +28,8 @@ class YITH_YWRAQ_Shortcodes {
 	/**
 	 * Print request a quote list.
 	 *
-	 * @param   array $atts
-	 * @param   null  $content
+	 * @param   array $atts Atts.
+	 * @param   null  $content Content.
 	 *
 	 * @return false|string
 	 */

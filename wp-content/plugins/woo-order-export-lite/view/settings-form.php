@@ -188,6 +188,7 @@ function remove_time_from_date( $datetime ) {
                     <input class='width-15' type=text name="settings[to_order_id]" id="to_order_id" value='<?php echo  $settings['to_order_id']?>'>
                 <button id="my-quick-export-btn" class="button-primary"><?php _e( 'Express export',
 						'woo-order-export-lite' ) ?></button>
+						<?php do_action( "woe_settings_below_orders_range", $settings ); ?>
                 </div>
 
 						<br>
@@ -385,9 +386,14 @@ function remove_time_from_date( $datetime ) {
                     }?>><?php _e("Don't escape /",'woo-order-export-lite')?></label><br>
                 <label><input type=checkbox
                     name="settings[format_json_numeric_check]"
-                    value='1 <?php if ( @$settings['format_json_numeric_check'] ) {
+                    value=1 <?php if ( @$settings['format_json_numeric_check'] ) {
                         echo 'checked';
-                    }?>'><?php _e("Encode numeric strings as numbers",'woo-order-export-lite')?></label>
+                    }?>><?php _e("Encode numeric strings as numbers",'woo-order-export-lite')?></label><br>
+                <label><input type=checkbox
+                              name="settings[format_json_encode_unicode]"
+                              value=1 <?php if ( @$settings['format_json_encode_unicode'] ) {
+                                  echo 'checked';
+                              }?>><?php _e("Don't encode unicode chars",'woo-order-export-lite')?></label>
             </div>
             <div id='TSV_options' style='display:none'><strong><?php _e( 'TSV options',
 						'woo-order-export-lite' ) ?></strong><br>
@@ -942,10 +948,21 @@ function remove_time_from_date( $datetime ) {
                                                                                                         name="settings[skip_suborders]"
                                                                                                         value="1" <?php checked( $settings['skip_suborders'] ) ?> /> <?php _e( "Don't export child orders",
                                 'woo-order-export-lite' ) ?></label></div>
-                    <div><input type="hidden" name="settings[export_refunds]" value="0"/><label><input type="checkbox"
-                                                                                                        name="settings[export_refunds]"
-                                                                                                        value="1" <?php checked( $settings['export_refunds'] ) ?> /> <?php _e( "Export refunds",
-                                'woo-order-export-lite' ) ?></label></div>
+                    <div>
+                        <input type="hidden" name="settings[export_refunds]" value="0"/>
+	                    <?php if ( $woe_order_post_type ) {
+		                    if ( $woe_order_post_type !== 'shop_order_refund'
+                                 || ( $mode !== WC_Order_Export_Manage::EXPORT_SCHEDULE && $mode !== WC_Order_Export_Manage::EXPORT_PROFILE)
+                            ) {
+			                    ?>
+                                <label>
+                                    <input type="checkbox" name="settings[export_refunds]"
+                                           value="1" <?php checked( $settings['export_refunds'] ) ?> />
+				                    <?php _e( "Export refunds", 'woo-order-export-lite' ) ?>
+                                </label>
+		                    <?php }
+	                    } ?>
+                    </div>
                     <div><input type="hidden" name="settings[mark_exported_orders]" value="0"/><label><input type="checkbox"
                                                                                                                 name="settings[mark_exported_orders]"
                                                                                                                 value="1" <?php checked( $settings['mark_exported_orders'] ) ?> /> <?php _e( "Mark exported orders",
@@ -1507,6 +1524,13 @@ function remove_time_from_date( $datetime ) {
                             <option>=</option>
                             <option>&lt;&gt;</option>
                             <option>LIKE</option>
+                            <option>NOT SET</option>
+                            <option>IS SET</option>
+							<option>&gt;</option>
+							<option>&gt;=</option>
+							<option>&lt;</option>
+							<option>&lt;=</option>
+                            
                         </select>
                         <input type="text" id="text_order_itemmetadata" disabled class="like-input" style="display: none;">
                         <button id="add_item_metadata" class="button-secondary"><span
@@ -1568,6 +1592,12 @@ function remove_time_from_date( $datetime ) {
                 </div>
                 <div></div>
                 <div id='unselected_fields'>
+                    <?php $common_hints = WC_Order_Export_Data_Extractor_UI::get_common_hints() ?>
+                    <div id="woe_common_tips" class="woe_common_tips">
+                        <?php foreach ( $common_hints as $common_hint ) { ?>
+                            <span><?php echo $common_hint; ?></span>
+                        <?php } ?>
+                    </div>
                     <ul class="subsubsub" style="float: none">
                         <?php $segments = WC_Order_Export_Data_Extractor_UI::get_unselected_fields_segments(); ?>
                         <?php $segment_hints = WC_Order_Export_Data_Extractor_UI::get_segment_hints(); ?>

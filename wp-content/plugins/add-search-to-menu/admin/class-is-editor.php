@@ -41,7 +41,23 @@ class IS_Search_Editor
         if ( isset( $_GET['post'] ) && is_numeric( $_GET['post'] ) ) {
             $url = esc_url( menu_page_url( 'ivory-search', false ) ) . '&post=' . $_GET['post'] . '&action=edit';
         }
-        $tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : 'includes' );
+        $tab = 'includes';
+        if ( isset( $_GET['tab'] ) ) {
+            switch ( $_GET['tab'] ) {
+                case 'excludes':
+                    $tab = 'excludes';
+                    break;
+                case 'customize':
+                    $tab = 'customize';
+                    break;
+                case 'ajax':
+                    $tab = 'ajax';
+                    break;
+                case 'options':
+                    $tab = 'options';
+                    break;
+            }
+        }
         foreach ( $this->panels as $id => $panel ) {
             $class = ( $tab == $id ? 'active' : '' );
             echo  sprintf(
@@ -580,9 +596,11 @@ class IS_Search_Editor
             echo  '<div class="is-cb-dropdown">' ;
             echo  '<div class="is-cb-title">' ;
             if ( $default_search || !isset( $includes['post_status'] ) || empty($includes['post_status']) ) {
-                $includes['post_status'] = array(
+                $includes = array(
+                    'post_status' => array(
                     'publish' => 'publish',
                     'inherit' => 'inherit',
+                ),
                 );
             }
             echo  '<span style="display:none;" class="is-cb-select">' . __( 'Select Post Status', 'add-search-to-menu' ) . '</span><span class="is-cb-titles">' ;

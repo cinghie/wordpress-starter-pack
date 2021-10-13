@@ -235,12 +235,13 @@ class Settings_Callbacks {
 				$this->{$custom['type']}( $custom['args'] );
 			}
 			echo '</div>';
+			$custom_option = ! empty( $custom['custom_option'] ) ? $custom['custom_option'] : 'custom';
 			?>
 			<script type="text/javascript">
 			jQuery(document).ready(function($) {
 				function check_<?php echo $id; ?>_custom() {
 					var custom = $('#<?php echo $id; ?>').val();
-					if (custom == 'custom') {
+					if (custom == '<?php echo $custom_option; ?>') {
 						$( '.<?php echo $id; ?>_custom').show();
 					} else {
 						$( '.<?php echo $id; ?>_custom').hide();
@@ -249,7 +250,7 @@ class Settings_Callbacks {
 
 				check_<?php echo $id; ?>_custom();
 
-				$( '#<?php echo $id; ?>' ).change(function() {
+				$( '#<?php echo $id; ?>' ).on( 'change', function() {
 					check_<?php echo $id; ?>_custom();
 				});
 

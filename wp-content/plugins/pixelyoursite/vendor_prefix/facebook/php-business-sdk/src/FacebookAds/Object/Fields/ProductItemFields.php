@@ -40,6 +40,7 @@ class ProductItemFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
     const ADDITIONAL_VARIANT_ATTRIBUTES = 'additional_variant_attributes';
     const AGE_GROUP = 'age_group';
     const APPLINKS = 'applinks';
+    const AR_DATA = 'ar_data';
     const AVAILABILITY = 'availability';
     const BRAND = 'brand';
     const CAPABILITY_TO_REVIEW_STATUS = 'capability_to_review_status';
@@ -62,10 +63,12 @@ class ProductItemFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
     const GTIN = 'gtin';
     const ID = 'id';
     const IMAGE_CDN_URLS = 'image_cdn_urls';
+    const IMAGE_FETCH_STATUS = 'image_fetch_status';
     const IMAGE_URL = 'image_url';
     const IMAGES = 'images';
     const INVENTORY = 'inventory';
     const MANUFACTURER_PART_NUMBER = 'manufacturer_part_number';
+    const MARKED_FOR_PRODUCT_LAUNCH = 'marked_for_product_launch';
     const MATERIAL = 'material';
     const MOBILE_LINK = 'mobile_link';
     const NAME = 'name';
@@ -77,6 +80,7 @@ class ProductItemFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
     const PRODUCT_FEED = 'product_feed';
     const PRODUCT_GROUP = 'product_group';
     const PRODUCT_TYPE = 'product_type';
+    const QUANTITY_TO_SELL_ON_FACEBOOK = 'quantity_to_sell_on_facebook';
     const RETAILER_ID = 'retailer_id';
     const RETAILER_PRODUCT_GROUP_ID = 'retailer_product_group_id';
     const REVIEW_REJECTION_REASONS = 'review_rejection_reasons';
@@ -91,7 +95,6 @@ class ProductItemFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
     const START_DATE = 'start_date';
     const URL = 'url';
     const VISIBILITY = 'visibility';
-    const ADDITIONAL_IMAGE_FILES = 'additional_image_files';
     const ADDITIONAL_UPLOADED_IMAGE_IDS = 'additional_uploaded_image_ids';
     const ANDROID_APP_NAME = 'android_app_name';
     const ANDROID_CLASS = 'android_class';
@@ -118,6 +121,6 @@ class ProductItemFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
     const WINDOWS_PHONE_URL = 'windows_phone_url';
     public function getFieldTypes()
     {
-        return array('additional_image_cdn_urls' => 'list<map<string, string>>', 'additional_image_urls' => 'list<string>', 'additional_variant_attributes' => 'map<string, string>', 'age_group' => 'AgeGroup', 'applinks' => 'CatalogItemAppLinks', 'availability' => 'Availability', 'brand' => 'string', 'capability_to_review_status' => 'map<Object, Object>', 'category' => 'string', 'category_specific_fields' => 'CatalogSubVerticalList', 'color' => 'string', 'commerce_insights' => 'ProductItemCommerceInsights', 'condition' => 'Condition', 'currency' => 'string', 'custom_data' => 'map<string, string>', 'custom_label_0' => 'string', 'custom_label_1' => 'string', 'custom_label_2' => 'string', 'custom_label_3' => 'string', 'custom_label_4' => 'string', 'description' => 'string', 'expiration_date' => 'string', 'fb_product_category' => 'string', 'gender' => 'Gender', 'gtin' => 'string', 'id' => 'string', 'image_cdn_urls' => 'map<string, string>', 'image_url' => 'string', 'images' => 'list<string>', 'inventory' => 'int', 'manufacturer_part_number' => 'string', 'material' => 'string', 'mobile_link' => 'string', 'name' => 'string', 'ordering_index' => 'int', 'parent_product_id' => 'string', 'pattern' => 'string', 'price' => 'string', 'product_catalog' => 'ProductCatalog', 'product_feed' => 'ProductFeed', 'product_group' => 'ProductGroup', 'product_type' => 'string', 'retailer_id' => 'string', 'retailer_product_group_id' => 'string', 'review_rejection_reasons' => 'list<string>', 'review_status' => 'ReviewStatus', 'sale_price' => 'string', 'sale_price_end_date' => 'string', 'sale_price_start_date' => 'string', 'shipping_weight_unit' => 'ShippingWeightUnit', 'shipping_weight_value' => 'float', 'short_description' => 'string', 'size' => 'string', 'start_date' => 'string', 'url' => 'string', 'visibility' => 'Visibility', 'additional_image_files' => 'list<file>', 'additional_uploaded_image_ids' => 'list<string>', 'android_app_name' => 'string', 'android_class' => 'string', 'android_package' => 'string', 'android_url' => 'string', 'checkout_url' => 'string', 'commerce_tax_category' => 'CommerceTaxCategory', 'ios_app_name' => 'string', 'ios_app_store_id' => 'unsigned int', 'ios_url' => 'string', 'ipad_app_name' => 'string', 'ipad_app_store_id' => 'unsigned int', 'ipad_url' => 'string', 'iphone_app_name' => 'string', 'iphone_app_store_id' => 'unsigned int', 'iphone_url' => 'string', 'launch_date' => 'string', 'offer_price_amount' => 'unsigned int', 'offer_price_end_date' => 'datetime', 'offer_price_start_date' => 'datetime', 'return_policy_days' => 'unsigned int', 'windows_phone_app_id' => 'string', 'windows_phone_app_name' => 'string', 'windows_phone_url' => 'string');
+        return array('additional_image_cdn_urls' => 'list<map<string, string>>', 'additional_image_urls' => 'list<string>', 'additional_variant_attributes' => 'map<string, string>', 'age_group' => 'AgeGroup', 'applinks' => 'CatalogItemAppLinks', 'ar_data' => 'ProductItemARData', 'availability' => 'Availability', 'brand' => 'string', 'capability_to_review_status' => 'map<Object, Object>', 'category' => 'string', 'category_specific_fields' => 'CatalogSubVerticalList', 'color' => 'string', 'commerce_insights' => 'ProductItemCommerceInsights', 'condition' => 'Condition', 'currency' => 'string', 'custom_data' => 'map<string, string>', 'custom_label_0' => 'string', 'custom_label_1' => 'string', 'custom_label_2' => 'string', 'custom_label_3' => 'string', 'custom_label_4' => 'string', 'description' => 'string', 'expiration_date' => 'string', 'fb_product_category' => 'string', 'gender' => 'Gender', 'gtin' => 'string', 'id' => 'string', 'image_cdn_urls' => 'map<string, string>', 'image_fetch_status' => 'ImageFetchStatus', 'image_url' => 'string', 'images' => 'list<string>', 'inventory' => 'int', 'manufacturer_part_number' => 'string', 'marked_for_product_launch' => 'string', 'material' => 'string', 'mobile_link' => 'string', 'name' => 'string', 'ordering_index' => 'int', 'parent_product_id' => 'string', 'pattern' => 'string', 'price' => 'string', 'product_catalog' => 'ProductCatalog', 'product_feed' => 'ProductFeed', 'product_group' => 'ProductGroup', 'product_type' => 'string', 'quantity_to_sell_on_facebook' => 'int', 'retailer_id' => 'string', 'retailer_product_group_id' => 'string', 'review_rejection_reasons' => 'list<string>', 'review_status' => 'ReviewStatus', 'sale_price' => 'string', 'sale_price_end_date' => 'string', 'sale_price_start_date' => 'string', 'shipping_weight_unit' => 'ShippingWeightUnit', 'shipping_weight_value' => 'float', 'short_description' => 'string', 'size' => 'string', 'start_date' => 'string', 'url' => 'string', 'visibility' => 'Visibility', 'additional_uploaded_image_ids' => 'list<string>', 'android_app_name' => 'string', 'android_class' => 'string', 'android_package' => 'string', 'android_url' => 'string', 'checkout_url' => 'string', 'commerce_tax_category' => 'CommerceTaxCategory', 'ios_app_name' => 'string', 'ios_app_store_id' => 'unsigned int', 'ios_url' => 'string', 'ipad_app_name' => 'string', 'ipad_app_store_id' => 'unsigned int', 'ipad_url' => 'string', 'iphone_app_name' => 'string', 'iphone_app_store_id' => 'unsigned int', 'iphone_url' => 'string', 'launch_date' => 'string', 'offer_price_amount' => 'unsigned int', 'offer_price_end_date' => 'datetime', 'offer_price_start_date' => 'datetime', 'return_policy_days' => 'unsigned int', 'windows_phone_app_id' => 'string', 'windows_phone_app_name' => 'string', 'windows_phone_url' => 'string');
     }
 }

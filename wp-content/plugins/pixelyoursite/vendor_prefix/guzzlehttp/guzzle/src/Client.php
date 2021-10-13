@@ -180,7 +180,7 @@ class Client implements \PYS_PRO_GLOBAL\GuzzleHttp\ClientInterface, \PYS_PRO_GLO
      */
     public function getConfig(?string $option = null)
     {
-        return $option === null ? $this->config : (isset($this->config[$option]) ? $this->config[$option] : null);
+        return $option === null ? $this->config : $this->config[$option] ?? null;
     }
     private function buildUri(\PYS_PRO_GLOBAL\Psr\Http\Message\UriInterface $uri, array $config) : \PYS_PRO_GLOBAL\Psr\Http\Message\UriInterface
     {

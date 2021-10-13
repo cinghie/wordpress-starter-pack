@@ -174,7 +174,7 @@ td.wp-optimize-settings-optimization-checkbox {
 	padding: 0px;
 }
 
-#retention-period {
+#retention-period, #revisions-count {
 	width: 60px;
 }
 

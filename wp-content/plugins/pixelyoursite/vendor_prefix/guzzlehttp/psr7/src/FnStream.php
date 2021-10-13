@@ -8,6 +8,8 @@ use PYS_PRO_GLOBAL\Psr\Http\Message\StreamInterface;
  *
  * Allows for easy testing and extension of a provided stream without needing
  * to create a concrete class for a simple extension point.
+ *
+ * @final
  */
 class FnStream implements \PYS_PRO_GLOBAL\Psr\Http\Message\StreamInterface
 {
@@ -46,6 +48,7 @@ class FnStream implements \PYS_PRO_GLOBAL\Psr\Http\Message\StreamInterface
     }
     /**
      * An unserialize would allow the __destruct to run when the unserialized value goes out of scope.
+     *
      * @throws \LogicException
      */
     public function __wakeup()

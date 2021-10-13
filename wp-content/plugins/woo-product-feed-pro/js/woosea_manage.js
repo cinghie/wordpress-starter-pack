@@ -1,5 +1,6 @@
 jQuery(function($) {
-//jQuery(document).ready(function($) {
+
+	//jQuery(document).ready(function($) {
 	var project_hash = null;
 	var project_status = null;
 	var get_value = null;
@@ -296,6 +297,26 @@ jQuery(function($) {
 		}
 	})	
 
+	// Check if user would like to enable addition of CDATA
+	$('#add_woosea_cdata').on('change', function(){ // on change of state
+   		if(this.checked){
+
+			// Checkbox is on
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_add_woosea_cdata', 'status': "on" }
+                	})
+		} else {
+			// Checkbox is off
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_add_woosea_cdata', 'status': "off" }
+                	})
+		}
+	})	
+
 	// Check if user would like to add a Facebook Pixel to their website
 	$('#woosea_content_ids').on('change', function(){ // on change of state
 		var content_ids = $('#woosea_content_ids').val();
@@ -310,13 +331,19 @@ jQuery(function($) {
 
 	// Check if user would like to add a Facebook Pixel to their website
 	$('#add_facebook_pixel').on('change', function(){ // on change of state
+		var nonce = $('#add_facebook_pixel').val();
+
    		if(this.checked){
 
 			// Checkbox is on
                 	jQuery.ajax({
                         	method: "POST",
                         	url: ajaxurl,
-                        	data: { 'action': 'woosea_add_facebook_pixel_setting', 'status': "on" }
+                        	data: { 
+					'action': 'woosea_add_facebook_pixel_setting', 
+					'security': nonce,
+					'status': "on" 
+				}
                 	})
 			.done(function( data ) {
 				$('#facebook_pixel').after('<tr id="facebook_pixel_id"><td colspan="2"><span>Insert Facebook pixel ID:</span>&nbsp;<input type="text" class="input-field-medium" id="fb_pixel_id" name="fb_pixel_id">&nbsp;<input type="button" id="save_facebook_pixel_id" value="Save"></td></tr>');	
@@ -329,7 +356,11 @@ jQuery(function($) {
                 	jQuery.ajax({
                         	method: "POST",
                         	url: ajaxurl,
-                        	data: { 'action': 'woosea_add_facebook_pixel_setting', 'status': "off" }
+                        	data: { 
+					'action': 'woosea_add_facebook_pixel_setting', 
+					'security': nonce,
+					'status': "off" 
+				}
                 	})
 			.done(function( data ) {
 				$('#facebook_pixel_id').remove();	
@@ -339,6 +370,49 @@ jQuery(function($) {
                 	});	
 		}
 	})	
+
+	// Check if user would like to enable the Facebook Conversion API
+	$('#add_facebook_capi').on('change', function(){ // on change of state
+		var nonce = $('#add_facebook_capi').val();
+
+   		if(this.checked){
+
+			// Checkbox is on
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 
+					'action': 'woosea_add_facebook_capi_setting', 
+					'security': nonce,
+					'status': "on" 
+				}
+                	})
+			.done(function( data ) {
+				$('#facebook_capi').after('<tr id="facebook_capi_token"><td colspan="2"><span>Insert your Facebook Conversion API token:</span><br/><br/><input type="textarea" class="textarea-field" id="fb_capi_token" name="fb_capi_token"><br/><br/><input type="button" id="save_facebook_capi_token" value="Save"></td></tr>');	
+			})
+                	.fail(function( data ) {
+                        	console.log('Failed AJAX Call :( /// Return Data: ' + data);
+                	});	
+		} else {
+			// Checkbox is off
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 
+					'action': 'woosea_add_facebook_capi_setting', 
+					'security': nonce,
+					'status': "off" 
+				}
+                	})
+			.done(function( data ) {
+				$('#facebook_capi_token').remove();	
+			})
+                	.fail(function( data ) {
+                        	console.log('Failed AJAX Call :( /// Return Data: ' + data);
+                	});	
+		}
+	})	
+
 
 	// Check if user would like to change the batch size 
 	$('#add_batch').on('change', function(){ // on change of state
@@ -401,13 +475,19 @@ jQuery(function($) {
 
 	// Check if user would like to enable Dynamic Remarketing
 	$('#add_remarketing').on('change', function(){ // on change of state
-   		if(this.checked){
+                var nonce = $('#add_remarketing').val();
+
+		if(this.checked){
 
 			// Checkbox is on
                 	jQuery.ajax({
                         	method: "POST",
                         	url: ajaxurl,
-                        	data: { 'action': 'woosea_add_remarketing', 'status': "on" }
+                        	data: { 
+					'action': 'woosea_add_remarketing', 
+					'security': nonce,
+					'status': "on" 
+				}
                 	})
 			.done(function( data ) {
 				$('#remarketing').after('<tr id="adwords_conversion_id"><td colspan="2"><span>Insert your Dynamic Remarketing Conversion tracking ID:</span>&nbsp;<input type="text" class="input-field-medium" id="adwords_conv_id" name="adwords_conv_id">&nbsp;<input type="submit" id="save_conversion_id" value="Save"></td></tr>');	
@@ -420,7 +500,11 @@ jQuery(function($) {
                 	jQuery.ajax({
                         	method: "POST",
                         	url: ajaxurl,
-                        	data: { 'action': 'woosea_add_remarketing', 'status': "off" }
+                        	data: { 
+					'action': 'woosea_add_remarketing', 
+					'security': nonce,
+					'status': "off" 
+				}
                 	})
 			.done(function( data ) {
 				$('#adwords_conversion_id').remove();	
@@ -434,7 +518,7 @@ jQuery(function($) {
         // Save Google Dynamic Remarketing pixel ID
         jQuery("#save_conversion_id").on('click',function(){
                 var adwords_conversion_id = $('#adwords_conv_id').val();
-	        var re = /^[0-9]*$/;
+	        var re = /^[0-9,-]*$/;
                 
 		var woosea_valid_conversion_id=re.test(adwords_conversion_id);
                 // Check for allowed characters
@@ -476,7 +560,30 @@ jQuery(function($) {
                                 url: ajaxurl,
                                 data: { 'action': 'woosea_save_facebook_pixel_id', 'facebook_pixel_id': facebook_pixel_id }
                         })
-			//$("#fb_pixel_id").val("ready");
+                }	
+	})
+
+        // Save Facebook Conversion API token
+        jQuery("#save_facebook_capi_token").on('click',function(){
+	        var facebook_capi_token = $('#fb_capi_token').val();
+	        var re = /^[0-9A-Za-z]*$/;
+		var woosea_valid_facebook_capi_token=re.test(facebook_capi_token);
+
+                // Check for allowed characters
+                if (!woosea_valid_facebook_capi_token){
+                        $('.notice').replaceWith("<div class='notice notice-error woosea-notice-conversion is-dismissible'><p>Sorry, this is not a valid Facebook Conversion API Token.</p></div>");
+                        // Disable submit button too
+                        $('#save_facebook_capi_token').attr('disabled',true);
+                } else {
+                        $('.woosea-notice-conversion').remove();
+                        $('#save_facebook_capi_token').attr('disabled',false);
+
+			// Now we need to save the Facebook Conversion API Token
+                        jQuery.ajax({
+                                method: "POST",
+                                url: ajaxurl,
+                                data: { 'action': 'woosea_save_facebook_capi_token', 'facebook_capi_token': facebook_capi_token }
+                        })
                 }	
 	})
 

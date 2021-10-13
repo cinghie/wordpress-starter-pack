@@ -1,3 +1,15 @@
+<?php
+/**
+ * Premium tab template.
+ *
+ * @author  YITH
+ * @package YITH Infinite Scrolling
+ * @version 1.0.0
+ */
+
+defined( 'YITH_INFS' ) || exit; // Exit if accessed directly.
+
+?>
 <style>
 	.section {
 		font-family: "Raleway", san-serif;
@@ -117,7 +129,7 @@
 		border-radius: 6px;
 		height: 60px;
 		float: right;
-		background: url(<?php echo esc_url( YITH_INFS_URL .'assets/images/' ); ?>upgrade.png) #ff643f no-repeat 13px 13px;
+		background: url(<?php echo esc_url( YITH_INFS_URL . 'assets/images/' ); ?>upgrade.png) #ff643f no-repeat 13px 13px;
 		border-color: #ff643f;
 		box-shadow: none;
 		outline: none;
@@ -130,7 +142,7 @@
 	.premium-cta a.button:active,
 	.premium-cta a.button:focus {
 		color: #fff;
-		background: url(<?php echo esc_url( YITH_INFS_URL .'assets/images/' ); ?>upgrade.png) #971d00 no-repeat 13px 13px;
+		background: url(<?php echo esc_url( YITH_INFS_URL . 'assets/images/' ); ?>upgrade.png) #971d00 no-repeat 13px 13px;
 		border-color: #971d00;
 		box-shadow: none;
 		outline: none;
@@ -222,7 +234,7 @@
 					of <span class="highlight">YITH Infinite Scrolling</span> to benefit from all features!
 				</p>
 				<a href="<?php echo esc_url( YITH_INFS_Admin()->get_premium_landing_uri() ); ?>" target="_blank"
-					class="premium-cta-button button btn">
+						class="premium-cta-button button btn">
 					<span class="highlight">UPGRADE</span>
 					<span>to the premium version</span>
 				</a>
@@ -230,7 +242,7 @@
 		</div>
 	</div>
 	<div class="section section-even clear"
-		style="background: url(<?php echo esc_url( YITH_INFS_URL . 'assets/images/' ); ?>01-bg.png) no-repeat #fff; background-position: 85% 75%">
+			style="background: url(<?php echo esc_url( YITH_INFS_URL . 'assets/images/' ); ?>01-bg.png) no-repeat #fff; background-position: 85% 75%">
 		<h1>Premium Features</h1>
 		<div class="landing-container">
 			<div class="col-1">
@@ -248,7 +260,7 @@
 		</div>
 	</div>
 	<div class="section section-odd clear"
-		style="background: url(<?php echo esc_url( YITH_INFS_URL . 'assets/images/' ); ?>02-bg.png) no-repeat #f1f1f1; background-position: 15% 100%">
+			style="background: url(<?php echo esc_url( YITH_INFS_URL . 'assets/images/' ); ?>02-bg.png) no-repeat #f1f1f1; background-position: 15% 100%">
 		<div class="landing-container">
 			<div class="col-2">
 				<div class="section-title">
@@ -264,7 +276,7 @@
 		</div>
 	</div>
 	<div class="section section-even clear"
-		style="background: url(<?php echo esc_url( YITH_INFS_URL . 'assets/images/' ); ?>03-bg.png) no-repeat #fff; background-position: 85% 100%">
+			style="background: url(<?php echo esc_url( YITH_INFS_URL . 'assets/images/' ); ?>03-bg.png) no-repeat #fff; background-position: 85% 100%">
 		<div class="landing-container">
 			<div class="col-1">
 				<img src="<?php echo esc_url( YITH_INFS_URL . 'assets/images/' ); ?>03.png" alt="03"/>
@@ -280,7 +292,7 @@
 		</div>
 	</div>
 	<div class="section section-odd clear"
-		style="background: url(<?php echo esc_url( YITH_INFS_URL . 'assets/images/' ); ?>04-bg.png) no-repeat #f1f1f1; background-position: 15% 100%">
+			style="background: url(<?php echo esc_url( YITH_INFS_URL . 'assets/images/' ); ?>04-bg.png) no-repeat #f1f1f1; background-position: 15% 100%">
 		<div class="landing-container">
 			<div class="col-2">
 				<div class="section-title">
@@ -296,7 +308,7 @@
 		</div>
 	</div>
 	<div class="section section-even clear"
-		style="background: url(<?php echo esc_url( YITH_INFS_URL . 'assets/images/' ); ?>05-bg.png) no-repeat #fff; background-position: 85% 100%">
+			style="background: url(<?php echo esc_url( YITH_INFS_URL . 'assets/images/' ); ?>05-bg.png) no-repeat #fff; background-position: 85% 100%">
 		<div class="landing-container">
 			<div class="col-1">
 				<img src="<?php echo esc_url( YITH_INFS_URL . 'assets/images/' ); ?>05.png" alt="05"/>
@@ -323,7 +335,7 @@
 					of <span class="highlight">YITH Infinite Scrolling</span> to benefit from all features!
 				</p>
 				<a href="<?php echo esc_url( YITH_INFS_Admin()->get_premium_landing_uri() ); ?>" target="_blank"
-					class="premium-cta-button button btn">
+						class="premium-cta-button button btn">
 					<span class="highlight">UPGRADE</span>
 					<span>to the premium version</span>
 				</a>

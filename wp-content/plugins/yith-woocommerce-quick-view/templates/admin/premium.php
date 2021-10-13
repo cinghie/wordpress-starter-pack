@@ -7,18 +7,7 @@
  * @version 1.0.0
  */
 
-/**
- * This file belongs to the YIT Framework.
- *
- * This source file is subject to the GNU GENERAL PUBLIC LICENSE (GPL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://www.gnu.org/licenses/gpl-3.0.txt
- */
-
-if ( ! defined( 'YITH_WCQV' ) ) {
-	exit;
-} // Exit if accessed directly.
+defined( 'YITH_WCQV' ) || exit; // Exit if accessed directly.
 
 ?>
 	<style>
@@ -263,7 +252,10 @@ if ( ! defined( 'YITH_WCQV' ) ) {
 			<div class="landing-container">
 				<div class="premium-cta">
 					<p>
-						<?php echo sprintf( esc_html__( 'Upgrade to %1$spremium version%2$s of %1$sYITH WooCommerce Quick View%2$s to benefit from all features!', 'yith-woocommerce-quick-view' ), '<span class="highlight">', '</span>' ); ?>
+						<?php
+						// translators: placeholders are used to add html tags.
+						echo sprintf( esc_html__( 'Upgrade to %1$spremium version%2$s of %1$sYITH WooCommerce Quick View%2$s to benefit from all features!', 'yith-woocommerce-quick-view' ), '<span class="highlight">', '</span>' );
+						?>
 					</p>
 					<a href="<?php echo esc_url( YITH_WCQV_Admin()->get_premium_landing_uri() ); ?>" target="_blank"
 						class="premium-cta-button button btn">
@@ -286,7 +278,12 @@ if ( ! defined( 'YITH_WCQV' ) ) {
 						<img src="<?php echo esc_url( YITH_WCQV_ASSETS_URL ); ?>/image/01-icon.png" alt="Review Title"/>
 						<h2><?php esc_html_e( 'BUTTON TYPE', 'yith-woocommerce-quick-view' ); ?></h2>
 					</div>
-					<p><?php echo sprintf( esc_html__( 'Choose between the button or a custom icon to access the %1$sQuick View%2$s: you can choose to place it after the "Add To Cart" button or inside the thumbnail of the product.', 'yith-woocommerce-quick-view' ), '<b>', '</b>' ); ?></p>
+					<p>
+					<?php
+						// translators: placeholders are used to add html tags.
+						echo sprintf( esc_html__( 'Choose between the button or a custom icon to access the %1$sQuick View%2$s: you can choose to place it after the "Add To Cart" button or inside the thumbnail of the product.', 'yith-woocommerce-quick-view' ), '<b>', '</b>' );
+					?>
+					</p>
 				</div>
 			</div>
 		</div>
@@ -299,7 +296,12 @@ if ( ! defined( 'YITH_WCQV' ) ) {
 							alt="<?php esc_html_e( 'Product Navigation', 'yith-woocommerce-quick-view' ); ?>"/>
 						<h2><?php esc_html_e( 'Product Navigation', 'yith-woocommerce-quick-view' ); ?> </h2>
 					</div>
-					<p><?php echo sprintf( esc_html__( 'The navigation in the "Quick View" allows browsing among %1$sproducts%2$s displayed in it. The navigation arrows show on mousehover the image of the next/previous product.', 'yith-woocommerce-quick-view' ), '<b>', '</b>' ); ?></p>
+					<p>
+					<?php
+						// translators: placeholders are used to add html tags.
+						echo sprintf( esc_html__( 'The navigation in the "Quick View" allows browsing among %1$sproducts%2$s displayed in it. The navigation arrows show on mousehover the image of the next/previous product.', 'yith-woocommerce-quick-view' ), '<b>', '</b>' );
+					?>
+					</p>
 				</div>
 				<div class="col-1">
 					<img src="<?php echo esc_url( YITH_WCQV_ASSETS_URL ); ?>/image/02.png"
@@ -319,7 +321,12 @@ if ( ! defined( 'YITH_WCQV' ) ) {
 							alt="<?php esc_html_e( 'Content to display', 'yith-woocommerce-quick-view' ); ?>"/>
 						<h2><?php esc_html_e( 'Content to display', 'yith-woocommerce-quick-view' ); ?></h2>
 					</div>
-					<p><?php echo sprintf( esc_html__( 'The display of the product information in the "Quick View" are managed by %1$sadministrators%2$s who can decide whether to show everything or only a part of it.', 'yith-woocommerce-quick-view' ), '<b>', '</b>' ); ?></p>
+					<p>
+					<?php
+						// translators: placeholders are used to add html tags.
+						echo sprintf( esc_html__( 'The display of the product information in the "Quick View" are managed by %1$sadministrators%2$s who can decide whether to show everything or only a part of it.', 'yith-woocommerce-quick-view' ), '<b>', '</b>' );
+					?>
+					</p>
 				</div>
 			</div>
 		</div>
@@ -331,7 +338,12 @@ if ( ! defined( 'YITH_WCQV' ) ) {
 						<img src="<?php echo esc_url( YITH_WCQV_ASSETS_URL ); ?>/image/07-icon.png" alt="icon 04"/>
 						<h2><?php esc_html_e( 'Quick View Type', 'yith-woocommerce-quick-view' ); ?> </h2>
 					</div>
-					<p><?php echo sprintf( esc_html__( 'Quick view has two different displaying modes: the first one opens it as a %1$smodal window%2$s, the other one opens it in the page itself with a %1$scascading effect%2$s above content page.', 'yith-woocommerce-quick-view' ), '<b>', '</b>' ); ?></p>
+					<p>
+					<?php
+						// translators: placeholders are used to add html tags.
+						echo sprintf( esc_html__( 'Quick view has two different displaying modes: the first one opens it as a %1$smodal window%2$s, the other one opens it in the page itself with a %1$scascading effect%2$s above content page.', 'yith-woocommerce-quick-view' ), '<b>', '</b>' );
+					?>
+					</p>
 				</div>
 				<div class="col-1">
 					<img src="<?php echo esc_url( YITH_WCQV_ASSETS_URL ); ?>/image/07.png"
@@ -351,7 +363,12 @@ if ( ! defined( 'YITH_WCQV' ) ) {
 							alt="Vote the review"/>
 						<h2><?php esc_html_e( '"View details" button', 'yith-woocommerce-quick-view' ); ?></h2>
 					</div>
-					<p><?php echo sprintf( esc_html__( 'An additional button that allows users to access product detail page directly from quick view window just with a click of the mouse.', 'yith-woocommerce-quick-view' ), '<b>', '</b>' ); ?></p>
+					<p>
+					<?php
+						// translators: placeholders are used to add html tags.
+						echo sprintf( esc_html__( 'An additional button that allows users to access product detail page directly from quick view window just with a click of the mouse.', 'yith-woocommerce-quick-view' ), '<b>', '</b>' );
+					?>
+					</p>
 				</div>
 			</div>
 		</div>
@@ -363,7 +380,12 @@ if ( ! defined( 'YITH_WCQV' ) ) {
 						<img src="<?php echo esc_url( YITH_WCQV_ASSETS_URL ); ?>/image/04-icon.png" alt="Number"/>
 						<h2><?php esc_html_e( 'Type of product images', 'yith-woocommerce-quick-view' ); ?></h2>
 					</div>
-					<p><?php echo sprintf( esc_html__( 'Each product can have more than one image: choose whether to hide or show them with the %1$sslider%2$s effect or in the classic %1$sWooCommerce%2$s display.', 'yith-woocommerce-quick-view' ), '<b>', '</b>' ); ?></p>
+					<p>
+					<?php
+						// translators: placeholders are used to add html tags.
+						echo sprintf( esc_html__( 'Each product can have more than one image: choose whether to hide or show them with the %1$sslider%2$s effect or in the classic %1$sWooCommerce%2$s display.', 'yith-woocommerce-quick-view' ), '<b>', '</b>' );
+					?>
+					</p>
 				</div>
 				<div class="col-1">
 					<img src="<?php echo esc_url( YITH_WCQV_ASSETS_URL ); ?>/image/04.png" alt="Icon 04"/>
@@ -381,7 +403,12 @@ if ( ! defined( 'YITH_WCQV' ) ) {
 						<img src="<?php echo esc_url( YITH_WCQV_ASSETS_URL ); ?>/image/05-icon.png" alt="icon 05"/>
 						<h2><?php esc_html_e( 'SHARE', 'yith-woocommerce-quick-view' ); ?></h2>
 					</div>
-					<p><?php echo sprintf( esc_html__( '%1$sQuick View is also social-friendly!%2$s Activating this option, you will be able to share the Quick View on Facebook, Twitter, Pinterest, Google+, or sending an email.', 'yith-woocommerce-quick-view' ), '<b>', '</b>' ); ?></p>
+					<p>
+					<?php
+						// translators: placeholders are used to add html tags.
+						echo sprintf( esc_html__( '%1$sQuick View is also social-friendly!%2$s Activating this option, you will be able to share the Quick View on Facebook, Twitter, Pinterest, Google+, or sending an email.', 'yith-woocommerce-quick-view' ), '<b>', '</b>' );
+					?>
+					</p>
 				</div>
 			</div>
 		</div>
@@ -393,7 +420,12 @@ if ( ! defined( 'YITH_WCQV' ) ) {
 						<img src="<?php echo esc_url( YITH_WCQV_ASSETS_URL ); ?>/image/06-icon.png" alt="Icon 06"/>
 						<h2><?php esc_html_e( 'Style Options', 'yith-woocommerce-quick-view' ); ?></h2>
 					</div>
-					<p><?php echo sprintf( esc_html__( 'A rich option panel to change the colors of the %1$s"Quick View"%2$s button and of everything that is within the modal window generated.', 'yith-woocommerce-quick-view' ), '<b>', '</b>' ); ?></p>
+					<p>
+					<?php
+						// translators: placeholders are used to add html tags.
+						echo sprintf( esc_html__( 'A rich option panel to change the colors of the %1$s"Quick View"%2$s button and of everything that is within the modal window generated.', 'yith-woocommerce-quick-view' ), '<b>', '</b>' );
+					?>
+					</p>
 				</div>
 				<div class="col-1">
 					<img src="<?php echo esc_url( YITH_WCQV_ASSETS_URL ); ?>/image/06.png"
@@ -412,7 +444,12 @@ if ( ! defined( 'YITH_WCQV' ) ) {
 						<img src="<?php echo esc_url( YITH_WCQV_ASSETS_URL ); ?>/image/09-icon.png" alt="icon 09"/>
 						<h2><?php esc_html_e( 'SHORTCODE', 'yith-woocommerce-quick-view' ); ?></h2>
 					</div>
-					<p><?php echo sprintf( esc_html__( 'The shortcode of plugin is a $1$srapid$2$s and $1$seasy$2$s solution: you can add a button in any spot of the page to allow your users to see the quick view of a specific product in your store.', 'yith-woocommerce-quick-view' ), '<b>', '</b>' ); ?></p>
+					<p>
+					<?php
+						// translators: placeholders are used to add html tags.
+						echo sprintf( esc_html__( 'The shortcode of plugin is a $1$srapid$2$s and $1$seasy$2$s solution: you can add a button in any spot of the page to allow your users to see the quick view of a specific product in your store.', 'yith-woocommerce-quick-view' ), '<b>', '</b>' );
+					?>
+					</p>
 				</div>
 			</div>
 		</div>
@@ -424,7 +461,12 @@ if ( ! defined( 'YITH_WCQV' ) ) {
 						<img src="<?php echo esc_url( YITH_WCQV_ASSETS_URL ); ?>/image/09-icon.png" alt="Icon 10"/>
 						<h2><?php esc_html_e( 'Compatibility with other YITH\'s plugins', 'yith-woocommerce-quick-view' ); ?></h2>
 					</div>
-					<p><?php echo sprintf( esc_html__( 'Thanks to the compatibility with %1$sYITH WooCommerce Zoom Magnifier, YITH WooCommerce Badge Management%2$s and %1$sYITH WooCommerce Wishlist%2$s, you will be free to enrich further the content of your quick view.%3$s Zoom the product image, show a badge, or add the button to open the quick view in all products available in your users\' wishlists. With YITH\'s plugins you make the difference.', 'yith-woocommerce-quick-view' ), '<b>', '</b>', '<br>' ); ?></p>
+					<p>
+					<?php
+						// translators: placeholders are used to add html tags.
+						echo sprintf( esc_html__( 'Thanks to the compatibility with %1$sYITH WooCommerce Zoom Magnifier, YITH WooCommerce Badge Management%2$s and %1$sYITH WooCommerce Wishlist%2$s, you will be free to enrich further the content of your quick view.%3$s Zoom the product image, show a badge, or add the button to open the quick view in all products available in your users\' wishlists. With YITH\'s plugins you make the difference.', 'yith-woocommerce-quick-view' ), '<b>', '</b>', '<br>' );
+					?>
+					</p>
 				</div>
 				<div class="col-1">
 					<img src="<?php echo esc_url( YITH_WCQV_ASSETS_URL ); ?>/image/10.png" alt=""/>
@@ -435,7 +477,10 @@ if ( ! defined( 'YITH_WCQV' ) ) {
 			<div class="landing-container">
 				<div class="premium-cta">
 					<p>
-						<?php echo sprintf( esc_html__( 'Upgrade to %1$spremium version%2$s of %1$sYITH WooCommerce Quick View%2$s to benefit from all features!', 'ywqa' ), '<span class="highlight">', '</span>' ); ?>
+						<?php
+						// translators: placeholders are used to add html tags.
+						echo sprintf( esc_html__( 'Upgrade to %1$spremium version%2$s of %1$sYITH WooCommerce Quick View%2$s to benefit from all features!', 'ywqa' ), '<span class="highlight">', '</span>' );
+						?>
 					</p>
 					<a href="<?php echo esc_url( YITH_WCQV_Admin()->get_premium_landing_uri() ); ?>" target="_blank"
 						class="premium-cta-button button btn">

@@ -1001,7 +1001,7 @@ if (class_exists('WP_REST_Controller')) :
             )));
             register_rest_route($this->namespace, '/slideshow/export', array(array(
                 'methods' => 'GET',
-                'callbacks' => array($this->api, 'export_slideshows'),
+                'callback' => array($this->api, 'export_slideshows'),
                 'permission_callback' => array($this->api, 'can_access')
             )));
             register_rest_route($this->namespace, '/slideshow/import', array(array(

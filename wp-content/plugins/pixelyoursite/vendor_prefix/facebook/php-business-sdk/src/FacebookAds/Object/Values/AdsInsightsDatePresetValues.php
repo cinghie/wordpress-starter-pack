@@ -47,7 +47,7 @@ class AdsInsightsDatePresetValues extends \PYS_PRO_GLOBAL\FacebookAds\Enum\Abstr
     const LAST_WEEK_MON_SUN = 'last_week_mon_sun';
     const LAST_WEEK_SUN_SAT = 'last_week_sun_sat';
     const LAST_YEAR = 'last_year';
-    const LIFETIME = 'lifetime';
+    const MAXIMUM = 'maximum';
     const THIS_MONTH = 'this_month';
     const THIS_QUARTER = 'this_quarter';
     const THIS_WEEK_MON_TODAY = 'this_week_mon_today';

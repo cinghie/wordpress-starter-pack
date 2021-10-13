@@ -38,6 +38,7 @@ class CommerceOrderReasonCodeValues extends \PYS_PRO_GLOBAL\FacebookAds\Enum\Abs
 {
     const BUYERS_REMORSE = 'BUYERS_REMORSE';
     const DAMAGED_GOODS = 'DAMAGED_GOODS';
+    const FACEBOOK_INITIATED = 'FACEBOOK_INITIATED';
     const NOT_AS_DESCRIBED = 'NOT_AS_DESCRIBED';
     const QUALITY_ISSUE = 'QUALITY_ISSUE';
     const REFUND_COMPROMISED = 'REFUND_COMPROMISED';

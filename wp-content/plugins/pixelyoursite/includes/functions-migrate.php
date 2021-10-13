@@ -65,8 +65,6 @@ function migrate_v5_free_options() {
 	$v7_core = array(
 		'gdpr_facebook_prior_consent_enabled' => isset( $v5_free['gdpr']['enable_before_consent'] ) ? $v5_free['gdpr']['enable_before_consent'] : null,
 		'gdpr_cookiebot_integration_enabled'  => isset( $v5_free['gdpr']['cookiebot_enabled'] ) ? $v5_free['gdpr']['cookiebot_enabled'] : null,
-		'gdpr_ginger_integration_enabled'     => isset( $v5_free['gdpr']['ginger_enabled'] ) ? $v5_free['gdpr']['ginger_enabled'] : null,
-
 		'general_event_name'             => isset( $v5_free['general']['general_event_name'] ) ? $v5_free['general']['general_event_name'] : null,
 		'general_event_delay'            => isset( $v5_free['general']['general_event_delay'] ) ? $v5_free['general']['general_event_delay'] : null,
 		'general_event_on_posts_enabled' => isset( $v5_free['general']['general_event_on_posts_enabled'] ) ? $v5_free['general']['general_event_on_posts_enabled'] : null,

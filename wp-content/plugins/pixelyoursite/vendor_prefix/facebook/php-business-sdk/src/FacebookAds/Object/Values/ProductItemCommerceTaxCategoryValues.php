@@ -45,6 +45,7 @@ class ProductItemCommerceTaxCategoryValues extends \PYS_PRO_GLOBAL\FacebookAds\E
     const FB_APRL_CLOTHING = 'FB_APRL_CLOTHING';
     const FB_APRL_COSTUME = 'FB_APRL_COSTUME';
     const FB_APRL_CSTM = 'FB_APRL_CSTM';
+    const FB_APRL_FORMAL = 'FB_APRL_FORMAL';
     const FB_APRL_HANDBAG = 'FB_APRL_HANDBAG';
     const FB_APRL_JEWELRY = 'FB_APRL_JEWELRY';
     const FB_APRL_SHOE = 'FB_APRL_SHOE';

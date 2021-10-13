@@ -35,7 +35,9 @@ use PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum;
  */
 class WhatsAppBusinessAccountFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
 {
+    const ACCOUNT_REVIEW_STATUS = 'account_review_status';
     const ANALYTICS = 'analytics';
+    const CREATION_TIME = 'creation_time';
     const CURRENCY = 'currency';
     const ID = 'id';
     const MESSAGE_TEMPLATE_NAMESPACE = 'message_template_namespace';
@@ -48,6 +50,6 @@ class WhatsAppBusinessAccountFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\Abs
     const TIMEZONE_ID = 'timezone_id';
     public function getFieldTypes()
     {
-        return array('analytics' => 'Object', 'currency' => 'string', 'id' => 'string', 'message_template_namespace' => 'string', 'name' => 'string', 'on_behalf_of_business_info' => 'Object', 'owner_business_info' => 'Object', 'primary_funding_id' => 'string', 'purchase_order_number' => 'string', 'status' => 'string', 'timezone_id' => 'string');
+        return array('account_review_status' => 'string', 'analytics' => 'Object', 'creation_time' => 'int', 'currency' => 'string', 'id' => 'string', 'message_template_namespace' => 'string', 'name' => 'string', 'on_behalf_of_business_info' => 'Object', 'owner_business_info' => 'Object', 'primary_funding_id' => 'string', 'purchase_order_number' => 'string', 'status' => 'string', 'timezone_id' => 'string');
     }
 }

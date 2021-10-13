@@ -36,7 +36,7 @@ class WOOCCM_Field extends WOOCCM_Model
     return false;
   }
 
-  public function get_field_id($fields, $key = 'key', $value)
+  public function get_field_id($fields, $key = 'key', $value = null)
   {
 
     if (count($fields)) {
@@ -56,7 +56,7 @@ class WOOCCM_Field extends WOOCCM_Model
     return WOOCCM_PREFIX . $field_id;
   }
 
-  public function get_key($prefix = '', $name)
+  public function get_key($prefix = '', $name = '')
   {
     return sprintf("%s_%s", $prefix, $name);
   }
@@ -188,7 +188,7 @@ class WOOCCM_Field extends WOOCCM_Model
       'hide_invoice' => false,
       // Pickers
       // -------------------------------------------------------------------
-      'time_format_ampm'  => true, 
+      'time_format_ampm'  => true,
       'time_limit_start' => null,
       'time_limit_end' => null,
       'time_limit_interval' => null,

@@ -7,7 +7,7 @@
  * It is also available through the world-wide-web at this URL:
  * http://www.gnu.org/licenses/gpl-3.0.txt
  *
- * @package YITH Woocommerce Request A Quote
+ * @package YITH WooCommerce Request A Quote
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

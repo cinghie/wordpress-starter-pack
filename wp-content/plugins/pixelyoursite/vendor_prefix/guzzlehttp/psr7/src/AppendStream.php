@@ -7,6 +7,8 @@ use PYS_PRO_GLOBAL\Psr\Http\Message\StreamInterface;
  * Reads from multiple streams, one after the other.
  *
  * This is a read-only stream decorator.
+ *
+ * @final
  */
 class AppendStream implements \PYS_PRO_GLOBAL\Psr\Http\Message\StreamInterface
 {

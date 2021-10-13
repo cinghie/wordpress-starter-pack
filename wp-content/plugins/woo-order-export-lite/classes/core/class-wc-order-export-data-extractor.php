@@ -436,7 +436,7 @@ class WC_Order_Export_Data_Extractor {
 			$order_items_meta_where[]     = "( " . join( " AND ", $orders_where ) . " )";
 		}
 
-		$order_items_meta_where = join( " AND ", $order_items_meta_where );
+		$order_items_meta_where = join( apply_filters('woe_product_itemmeta_operator', " AND "), $order_items_meta_where );
 		if ( $order_items_meta_where ) {
 			$order_items_meta_where = " AND " . $order_items_meta_where;
 		}
@@ -850,13 +850,16 @@ class WC_Order_Export_Data_Extractor {
 				foreach ( $fields as $field => $values ) {
 					if ( $values ) {
 						self::extract_item_type_and_key( $field, $type, $key );
+						$order_items_metadata_joins[] = "LEFT JOIN {$wpdb->prefix}woocommerce_order_itemmeta AS meta_{$pos} ON meta_{$pos}.order_item_id = items.order_item_id AND items.order_item_type='$type' AND meta_{$pos}.meta_key='$key'";
 						$key = esc_sql( $key );
 						if ( $operator == 'IN' OR $operator == 'NOT IN' ) {
 
 							$values = self::sql_subset( $values );
-
-							$order_items_metadata_joins[] = "JOIN {$wpdb->prefix}woocommerce_order_itemmeta AS meta_{$pos} ON meta_{$pos}.order_item_id = items.order_item_id AND items.order_item_type='$type' AND meta_{$pos}.meta_key='$key' AND meta_{$pos}.meta_value $operator ($values)";
-
+							$order_item_metadata_where [] = " ( meta_{$pos}.meta_value $operator ($values) ) ";
+						} elseif ( $operator == 'NOT SET' ) {
+							$order_item_metadata_where [] = " ( meta_{$pos}.meta_value IS NULL ) ";
+						} elseif ( $operator == 'IS SET' ) {
+							$order_item_metadata_where [] = " ( meta_{$pos}.meta_value IS NOT NULL ) ";
 						} elseif ( in_array( $operator, self::$operator_must_check_values ) ) {
 							$pairs = array();
 							foreach ( $values as $v ) {
@@ -864,7 +867,7 @@ class WC_Order_Export_Data_Extractor {
 							}
 							$pairs = join( "OR", $pairs );
 
-							$order_items_metadata_joins[] = "JOIN {$wpdb->prefix}woocommerce_order_itemmeta AS meta_{$pos} ON meta_{$pos}.order_item_id = items.order_item_id AND items.order_item_type='$type' AND meta_{$pos}.meta_key='$key' AND ({$pairs})";
+							$order_item_metadata_where[] = " ( $pairs ) ";
 						}
 
 						$pos++;
@@ -872,9 +875,11 @@ class WC_Order_Export_Data_Extractor {
 					}//if values
 				}
 			}
+			$order_item_metadata_where_sql = join( apply_filters("woe_item_metadata_operator", " AND "), $order_item_metadata_where );
 
 			$order_items_metadata_joins_sql = implode(' ', $order_items_metadata_joins);
-			$where_item_metadata = " SELECT order_id FROM {$wpdb->prefix}woocommerce_order_items AS items {$order_items_metadata_joins_sql}";
+
+			$where_item_metadata = " SELECT order_id FROM {$wpdb->prefix}woocommerce_order_items AS items {$order_items_metadata_joins_sql} WHERE {$order_item_metadata_where_sql}";
 
 			$order_items_where .= " AND orders.ID IN ($where_item_metadata)";
 		}
@@ -1423,7 +1428,7 @@ class WC_Order_Export_Data_Extractor {
 			$max = 1;
 		}
 
-		return $max;
+		return apply_filters( 'woe_get_max_order_items_'.$type, $max);
 	}
 
 	public static function fetch_order_coupons(
@@ -1476,6 +1481,7 @@ class WC_Order_Export_Data_Extractor {
 		$i                        = 0;
 
 		foreach ( $order->get_items( 'line_item' ) as $item_id => $item ) {
+			/** @var WC_Order_Item_Product $item */
 			do_action( "woe_get_order_product_item", $item );
 			if ( $options['export_refunds'] AND $item['qty'] == 0 ) // skip zero items, when export refunds
 			{
@@ -1512,6 +1518,21 @@ class WC_Order_Export_Data_Extractor {
 									}
 								}
 								if(!$matched_like) {
+									continue 3;
+								}
+							}
+							else if(in_array($operator, self::$operator_must_check_values)) {
+								if(empty($meta)) {
+									continue 3;
+								}
+								$matched = false;
+								foreach ($values as $value) {
+									if(version_compare($meta, $value, $operator)) {
+										$matched = true;
+										continue;
+									}
+								}
+								if(!$matched) {
 									continue 3;
 								}
 							}
@@ -1876,6 +1897,22 @@ class WC_Order_Export_Data_Extractor {
 
 		return apply_filters("woe_get_shipping_methods",$shipping_methods);
 	}
+
+	public static function get_shipping_zone( $order ) {
+		$ship_methods = self::get_shipping_methods();
+		$value = __( 'Rest of the World','woo-order-export-lite' );
+		$methods = $order->get_items('shipping');
+		$method = reset ($methods );
+		if( $method ) {
+			$key = $method['method_id'] . ":" . $method['instance_id'];
+			// parse text "[Zone] Method name"
+			if ( isset($ship_methods[$key]) AND preg_match('#\[(.+?)\]#',$ship_methods[$key],$m) ) {
+				$value = $m[1];
+			}
+		}
+		return $value;		
+	}
+
 
 	public static function get_customer_order( $user, $order_meta, $first_or_last ) {
 		global $wpdb;

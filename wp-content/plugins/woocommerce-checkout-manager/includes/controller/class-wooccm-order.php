@@ -50,13 +50,13 @@ class WOOCCM_Order_Controller extends WOOCCM_Upload
   public function frontend_scripts()
   {
 
-    if (is_account_page()) {
+    if (is_account_page() || !empty( is_wc_endpoint_url('order-received'))) {
 
       WOOCCM()->register_scripts();
 
       wp_enqueue_style('wooccm');
       wp_enqueue_style('dashicons');
-      wp_enqueue_script('wooccm-order-upload');
+       wp_enqueue_script('wooccm-order-upload');
     }
   }
 

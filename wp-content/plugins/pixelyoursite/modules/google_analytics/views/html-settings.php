@@ -174,7 +174,7 @@ use PixelYourSite\GA\Helpers;
 	</div>
 </div>
 
-<script type="text/javascript">
+<script type="application/javascript">
     jQuery(document).ready(function ($) {
 
         $('#pys_ga_add_cross_domain_domain').click(function (e) {

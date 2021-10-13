@@ -2,14 +2,14 @@
 
 Contributors: yithemes
 Tags: wishlist, woocommerce, products, yit, e-commerce, shop, ecommerce wishlist, yith, woocommerce wishlist, shop wishlist
-Requires at least: 5.3
-Tested up to: 5.6
-Stable tag: 3.0.18
+Requires at least: 5.6
+Tested up to: 5.8
+Stable tag: 3.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 YITH WooCommerce Wishlist add all Wishlist features to your website. Needs WooCommerce to work.
-WooCommerce 4.9.x compatible.
+WooCommerce 5.7.x compatible.
 
 == Description ==
 
@@ -21,7 +21,7 @@ The wishlist is one of the most powerful and popular tools in an ecommerce shop.
 
 This means that you’ll be able to loyalise customers, push them to buy and attract new customers any time a wishlist is shared. Not bad for one plugin only, don’t you think?
 
-Our YITH WooCommerce Wishlist has more than **800,000 active installations** and that’s why it’s **the most popular wishlist plugin ever.**
+Our YITH WooCommerce Wishlist has more than **900,000 active installations** and that’s why it’s **the most popular wishlist plugin ever.**
 
 To celebrate this record and say thanks to all the plugin users, we’ve decided to release a new 3.0 version that has improved the design tremendously  and added many new options.
 
@@ -112,6 +112,69 @@ Yes, of course you can. To avoid Wishlist page to show product prices, you can h
 
 
 == Changelog ==
+
+= 3.1.1 - Released on 27 September 2021 =
+
+* Update: YITH Plugin Framework
+* Fix: debug info feature removed for all logged in users
+
+= 3.1.0 - Released on 08 September 2021 =
+
+* New: support for WooCommerce 5.7
+* Update: YITH Plugin Framework
+* Tweak: enforcing a more strict nonce verification
+* Fix: use absolute URL in 'Remove from Wishlist' anchors, to avoid problems when template is loaded via AJAX
+* Dev: added yith_wcwl_plugin_icons filter, to allow third party add custom icons (thanks to swallow2603)
+
+= 3.0.25 - Released on 05 August 2021 =
+
+* New: support for WooCommerce 5.6
+* New: support for WordPress 5.8
+* Update: YITH Plugin Framework
+
+= 3.0.23 - Released on 18 June 2021 =
+
+* New: support for WooCommerce 5.4
+* Update: YITH plugin framework
+* Fix: filters to alter resources dependencies not actually affecting assets loaded in the page (thanks to deothemes)
+* Fix: better support for wishlist page with non-standard characters in slug
+
+= 3.0.22 - Released on 17 May 2021 =
+
+* New: support for WooCommerce 5.3
+* Update: YITH plugin framework
+* Tweak: use share link title for WhatsApp sharing link too
+* Tweak: enqueue plugin scripts only when needed
+* Fix: visibility param for wishlist queries not working correctly
+* Fix: generic selectors used at found_variations (thanks to vivik93)
+
+= 3.0.21 - Released on 21 April 2021 =
+
+* New: support for WooCommerce 5.2
+* New: added no-robots headers for add_to_wishlist url (thanks to brix720)
+* Update: YITH plugin framework
+* Tweak: code refactoring according to PHPCS
+* Fix: avoid setting session_id, until guest performs any edit operation over the lists
+* Fix: removed deprecated unbind from scripts
+* Dev: added yith_wcwl_main_style_deps filter to allow devs remove unnecessary deps
+* Dev: added yith_wcwl_custom_icon_alt and yith_wcwl_custom_width filters, to allow dev customize ATW custom icon
+
+= 3.0.20 - Released on 22 February 2021 =
+
+* New: support for WordPress 5.7
+* New: support for WooCommerce 5.1
+* Update: YITH plugin framework
+* Fix: wrong data type for item insert query (thanks to jonatanmenendez)
+* Dev: added new yith_wcwl_get_wishlist_on_remove filter
+
+= 3.0.19 - Released on 18 February 2021 =
+
+* New: support for WooCommerce 5.0
+* Update: YITH plugin framework
+* Tweak: added transient for hidden products
+* Dev: fixed issue when unchecking all products in wishlist page
+* Dev: added yith_wcwl_mobile_media_query filter
+* Dev: added new filters yith_wcwl_remove_after_add_to_cart and yith_wcwl_allow_remove_after_add_to_cart
 
 = 3.0.18 - Released on 13 January 2021 =
 

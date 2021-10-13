@@ -4,7 +4,7 @@
 }
 
 .yith_magnifier_loading {
-	color:white;	
+	color:white;
 	background:#222;
 	padding:3px;
 	border:1px solid #000;
@@ -34,7 +34,7 @@
 
 /* ie fix */
 .ie .yith_magnifier_mousetrap {
-    background-image: url(".");
+	background-image: url(".");
 }
 
 .yith_magnifier_lens {
@@ -42,7 +42,7 @@
 	z-index:98;
 	position:absolute;
 	overflow: hidden;
-	
+
 	border: 1px solid #ccc;
 }
 
@@ -67,4 +67,24 @@
 
 .yith_magnifier_gallery {
 	list-style: none;
+}
+
+
+/* ul.yith_magnifier_gallery li {
+	margin-right: 10px;
+	text-align: center;
+	overflow: hidden;
+}
+
+ul.yith_magnifier_gallery li:last-child  {
+	margin-right: 0px;
+} */
+
+.yith_magnifier_thumbnail {
+	margin-right: 1px;
+}
+
+/* Fix the blocked zoom box */
+.woocommerce-product-gallery__image > .yith_magnifier_zoom_magnifier{
+  display: none !important;
 }

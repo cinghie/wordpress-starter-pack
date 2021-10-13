@@ -1,11 +1,11 @@
 <?php
-/*
- * This file belongs to the YIT Framework.
+/**
+ * Brand in single product page.
  *
- * This source file is subject to the GNU GENERAL PUBLIC LICENSE (GPL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://www.gnu.org/licenses/gpl-3.0.txt
+ * @author  Your Inspiration Themes
+ *
+ * @package YITH WooCommerce Brands
+ * @version 1.0.0
  */
 
 if ( ! defined( 'YITH_WCBR' ) ) {
@@ -28,17 +28,18 @@ if ( ! defined( 'YITH_WCBR' ) ) {
 
 	<?php if ( ! isset( $content_to_show ) || ( 'both' === $content_to_show || 'logo' === $content_to_show ) ) : ?>
 		<span class="yith-wcbr-brands-logo">
-			<?php foreach( $product_brands as $term ) {
-				$thumbnail_id = absint( yith_wcbr_get_term_meta( $term->term_id, 'thumbnail_id', true ) );
+			<?php
+			foreach ( $product_brands as $p_term ) {
+				$thumbnail_id = absint( yith_wcbr_get_term_meta( $p_term->term_id, 'thumbnail_id', true ) );
 
 				if ( $thumbnail_id ) {
 					$image = apply_filters( 'yith_wcbr_image_size_single_product_brads', wp_get_attachment_image( $thumbnail_id, 'yith_wcbr_logo_size' ), $thumbnail_id );
 
 					if ( $image ) {
-						echo sprintf( '<a href="%s">%s</a>', get_term_link( $term ), $image ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo sprintf( '<a href="%s">%s</a>', get_term_link( $p_term ), $image ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					}
 				} else {
-					do_action( 'yith_wcbr_no_brand_logo', $term->term_id, $term, 'yith_wcbr_logo_size', false, false );
+					do_action( 'yith_wcbr_no_brand_logo', $p_term->term_id, $p_term, 'yith_wcbr_logo_size', false, false );
 				}
 			}
 			?>

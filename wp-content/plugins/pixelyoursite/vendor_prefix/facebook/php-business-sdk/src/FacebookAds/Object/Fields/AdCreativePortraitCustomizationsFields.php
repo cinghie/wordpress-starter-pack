@@ -35,9 +35,10 @@ use PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum;
  */
 class AdCreativePortraitCustomizationsFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
 {
+    const CAROUSEL_DELIVERY_MODE = 'carousel_delivery_mode';
     const SPECIFICATIONS = 'specifications';
     public function getFieldTypes()
     {
-        return array('specifications' => 'list<Object>');
+        return array('carousel_delivery_mode' => 'string', 'specifications' => 'list<Object>');
     }
 }

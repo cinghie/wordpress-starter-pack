@@ -7,6 +7,7 @@ import {
 	useCheckoutContext,
 	useShippingDataContext,
 } from '@woocommerce/base-context';
+import { useCheckoutSubmit } from '@woocommerce/base-context/hooks';
 
 /**
  * Internal dependencies
@@ -15,22 +16,20 @@ import CheckoutOrderNotes from './order-notes';
 
 const OrderNotesStep = () => {
 	const { needsShipping } = useShippingDataContext();
-	const {
-		isProcessing: checkoutIsProcessing,
-		orderNotes,
-		dispatchActions,
-	} = useCheckoutContext();
+	const { orderNotes, dispatchActions } = useCheckoutContext();
+	const { isDisabled } = useCheckoutSubmit();
 	const { setOrderNotes } = dispatchActions;
 
 	return (
 		<FormStep
 			id="order-notes"
 			showStepNumber={ false }
-			disabled={ checkoutIsProcessing }
+			className="wc-block-checkout__order-notes"
+			disabled={ isDisabled }
 		>
 			<CheckoutOrderNotes
-				disabled={ checkoutIsProcessing }
 				onChange={ setOrderNotes }
+				disabled={ isDisabled }
 				placeholder={
 					needsShipping
 						? __(

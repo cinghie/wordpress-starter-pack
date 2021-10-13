@@ -40,5 +40,6 @@ class WhatsAppBusinessAccountTasksValues extends \PYS_PRO_GLOBAL\FacebookAds\Enu
     const MANAGE = 'MANAGE';
     const MANAGE_PHONE = 'MANAGE_PHONE';
     const MANAGE_TEMPLATES = 'MANAGE_TEMPLATES';
+    const MESSAGING = 'MESSAGING';
     const VIEW_COST = 'VIEW_COST';
 }

@@ -1,13 +1,13 @@
 <?php
 /**
  * Framework Name: YIT Plugin Framework
- * Version: 3.5.3
+ * Version: 3.7.7
  * Author: YITH
  * Text Domain: yith-plugin-fw
  * Domain Path: /languages/
  *
  * @author  YITH
- * @version 3.5.3
+ * @version 3.7.7
  * @package YITH\PluginFramework
  */
 

@@ -21,7 +21,7 @@ class WOOCCM_Fields_Filter
 
   // Custom fields
   // ---------------------------------------------------------------------------
-  public function custom_field($field = '', $key, $args, $value)
+  public function custom_field($field, $key, $args, $value = null)
   {
 
     $field = '';
@@ -188,7 +188,7 @@ class WOOCCM_Fields_Filter
 
   // Heading
   // ---------------------------------------------------------------------------
-  public function heading_field($field = '', $key, $args, $value)
+  public function heading_field($field, $key, $args, $value = null)
   {
 
     // Custom attribute handling.
@@ -213,7 +213,7 @@ class WOOCCM_Fields_Filter
 
   // Colorpicker
   // ---------------------------------------------------------------------------
-  public function colorpicker_field($field = '', $key, $args, $value)
+  public function colorpicker_field($field = '', $key = '', $args = [], $value = null)
   {
 
     $args['type'] = 'text';
@@ -232,7 +232,7 @@ class WOOCCM_Fields_Filter
 
   // Country 
   // ---------------------------------------------------------------------------
-  public function country_field($field = '', $key, $args, $value)
+  public function country_field($field = '', $key = '', $args = [], $value = null)
   {
 
     static $instance = 0;
@@ -258,7 +258,7 @@ class WOOCCM_Fields_Filter
 
   //  State
   // ---------------------------------------------------------------------------
-  public function state_field($field = '', $key, $args, $value)
+  public function state_field($field = '', $key = '', $args = [], $value = null)
   {
 
     static $instance = 0;
@@ -282,7 +282,7 @@ class WOOCCM_Fields_Filter
     return $field;
   }
 
-  public function hidden_field($field = '', $key, $args, $value)
+  public function hidden_field($field = '', $key = '', $args = [], $value = null)
   {
 
     static $instance = 0;

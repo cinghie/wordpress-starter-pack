@@ -26,7 +26,7 @@ namespace PYS_PRO_GLOBAL\FacebookAds\Object\ServerSide;
 
 use ArrayAccess;
 /**
- * Server-Side pixel event response.
+ * Conversions API event response.
  *
  * @category    Class
  */

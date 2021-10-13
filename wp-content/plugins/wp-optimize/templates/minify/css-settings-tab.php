@@ -99,7 +99,7 @@
 					id="async_css"
 					class="large-text code"
 					placeholder="<?php esc_attr_e('e.g.: /wp-content/themes/my-theme/css/custom-font.css', 'wp-optimize'); ?>"
-				><?php echo $wpo_minify_options['async_css']; ?></textarea>
+				><?php echo esc_textarea($wpo_minify_options['async_css']); ?></textarea>
 			</fieldset>
 		</div>
 
@@ -138,7 +138,7 @@
 						cols="50"
 						id="critical_path_css" class="large-text code"
 						placeholder=".css-code { display: block; }"
-					><?php echo $wpo_minify_options['critical_path_css']; ?></textarea>
+					><?php echo esc_textarea($wpo_minify_options['critical_path_css']); ?></textarea>
 				</fieldset>
 
 				<fieldset>
@@ -150,7 +150,7 @@
 						id="critical_path_css_is_front_page"
 						class="large-text code" 
 						placeholder=".css-code { display: block; }"
-					><?php echo $wpo_minify_options['critical_path_css_is_front_page']; ?></textarea>
+					><?php echo esc_textarea($wpo_minify_options['critical_path_css_is_front_page']); ?></textarea>
 				</fieldset>
 			</div>
 		<?php endif; ?>

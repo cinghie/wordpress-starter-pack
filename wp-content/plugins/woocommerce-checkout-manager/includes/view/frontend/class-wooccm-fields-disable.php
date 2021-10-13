@@ -15,6 +15,9 @@ class WOOCCM_Fields_Display
     add_filter('wooccm_checkout_field_filter', array($this, 'disable_by_role'));
     // Fix country
     add_filter('wooccm_checkout_field_filter', array($this, 'fix_country'));
+    // Fix email 
+    // make sure guest users include their email in order to download products
+    add_filter('wooccm_checkout_field_filter', array($this, 'fix_email'));
   }
 
   public static function instance()
@@ -33,6 +36,17 @@ class WOOCCM_Fields_Display
       $field['required'] = false;
       $field['type'] = 'hidden';
       //$field['class'] = array('hidden');
+    }
+
+    return $field;
+  }
+
+  function fix_email($field)
+  {
+
+    if ($field['type'] == 'email' && !is_user_logged_in()) {
+      $field['disabled'] = false;
+      $field['required'] = true;
     }
 
     return $field;

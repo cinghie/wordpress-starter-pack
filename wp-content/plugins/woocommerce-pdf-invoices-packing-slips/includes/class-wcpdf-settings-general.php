@@ -64,8 +64,9 @@ class Settings_General {
 				'args'		=> array(
 					'option_name'	=> $option_name,
 					'id'			=> 'template_path',
-					'options' 		=> $this->find_templates(),
-					'description'	=> sprintf( __( 'Want to use your own template? Copy all the files from <code>%s</code> to your (child) theme in <code>%s</code> to customize them' , 'woocommerce-pdf-invoices-packing-slips' ), $plugin_template_path, $theme_template_path),
+					'options' 		=> $this->get_installed_templates_list(),
+					/* translators: 1,2. template paths */
+					'description'	=> sprintf( __( 'Want to use your own template? Copy all the files from <code>%1$s</code> to your (child) theme in <code>%2$s</code> to customize them' , 'woocommerce-pdf-invoices-packing-slips' ), $plugin_template_path, $theme_template_path),
 				)
 			),
 			array(
@@ -273,6 +274,27 @@ class Settings_General {
 		}
 	}
 
+	public function get_installed_templates_list() {
+		$installed_templates = WPO_WCPDF()->settings->get_installed_templates();
+		$template_list = array();
+		foreach ( $installed_templates as $path => $template_id ) {
+			$template_name = basename( $template_id );
+			$group = dirname( $template_id );
+			switch ( $group ) {
+				case 'default':
+				case 'premium_plugin':
+					// no suffix
+					break;
+				case 'theme':
+				default:
+					$template_name = sprintf( '%s (%s)', $template_name, __( 'Custom', 'woocommerce-pdf-invoices-packing-slips' ) );
+					break;
+			}
+			$template_list[$template_id] = $template_name;
+		}
+		return $template_list;
+	}
+
 	/**
 	 * List templates in plugin folder, theme folder & child theme folder
 	 * @return array		template path => template name
@@ -281,7 +303,7 @@ class Settings_General {
 		$installed_templates = array();
 
 		// get base paths
-		$template_base_path = ( defined( 'WC_TEMPLATE_PATH' ) ? WC_TEMPLATE_PATH : $GLOBALS['woocommerce']->template_url );
+		$template_base_path = ( function_exists( 'WC' ) && is_callable( 'WC', 'template_path' ) ) ? WC()->template_path() : 'woocommerce/';
 		$template_base_path = untrailingslashit( $template_base_path );
 		$template_paths = array (
 			// note the order: child-theme before theme, so that array_unique filters out parent doubles

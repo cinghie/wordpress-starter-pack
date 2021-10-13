@@ -199,13 +199,13 @@ class WC_Order_Export_Order_Fields {
 
 			$value = $wpdb->get_col( $wpdb->prepare(
 			"SELECT
-				itemmeta.meta_value
+				SUM(itemmeta.meta_value)
 			FROM
 				{$wpdb->prefix}woocommerce_order_items items
 			INNER JOIN
 				{$wpdb->prefix}woocommerce_order_itemmeta itemmeta
 			ON
-				items.order_item_id = itemmeta.order_item_id AND itemmeta.meta_key = 'tax_amount'
+				items.order_item_id = itemmeta.order_item_id AND (itemmeta.meta_key = 'tax_amount' OR itemmeta.meta_key = 'shipping_tax_amount')
 			WHERE
 				items.order_id = %s AND items.order_item_type = 'tax' AND items.order_item_name = %s",
 			$this->order_id,
@@ -235,14 +235,15 @@ class WC_Order_Export_Order_Fields {
 		} elseif ( $field == 'order_number' ) {
 			$row[$field] = $this->parent_order ? $this->parent_order->get_order_number() : $this->order->get_order_number(); // use parent order number
 		} elseif ( $field == 'order_subtotal' ) {
-			$row[$field] = wc_format_decimal( $this->order->get_subtotal(), 2 );
+			$row[$field] = wc_round_tax_total( $this->order->get_subtotal() );
+		} elseif ( $field == 'order_subtotal_plus_cart_tax' ) {
+			$row[$field] = wc_round_tax_total( $this->order->get_subtotal() + $this->order->get_cart_tax() );
 		} elseif ( $field == 'order_subtotal_minus_discount' ) {
 			$row[$field] = $this->order->get_subtotal() - $this->order->get_total_discount();
 		} elseif ( $field == 'order_subtotal_refunded' ) {
-			$row[$field] = wc_format_decimal( WC_Order_Export_Data_Extractor::get_order_subtotal_refunded( $this->order ), 2 );
+			$row[$field] = wc_round_tax_total( WC_Order_Export_Data_Extractor::get_order_subtotal_refunded( $this->order ) );
 		} elseif ( $field == 'order_subtotal_minus_refund' ) {
-			$row[$field] = wc_format_decimal( $this->order->get_subtotal() - WC_Order_Export_Data_Extractor::get_order_subtotal_refunded( $this->order ),
-				2 );
+			$row[$field] = wc_round_tax_total( $this->order->get_subtotal() - WC_Order_Export_Data_Extractor::get_order_subtotal_refunded( $this->order ) );
 			//order total
 		} elseif ( $field == 'order_total' ) {
 			$row[$field] = $this->order->get_total();
@@ -287,7 +288,7 @@ class WC_Order_Export_Order_Fields {
 			$row[$field] = $this->user ? $this->user->$field : "";
 		} elseif ( $field == 'user_role' ) {
 			$roles         = $wp_roles->roles;
-			$row[$field] = ( isset( $this->user->roles[0] ) && isset( $roles[ $this->user->roles[0] ] ) ) ? $roles[ $this->user->roles[0] ]['name'] : ""; // take first role Name
+			$row[$field] =  !isset( $this->user->roles[0] ) ? "" :  ( isset( $roles[ $this->user->roles[0] ] ) ? $roles[ $this->user->roles[0] ]['name'] : $this->user->roles[0] ); // take first role Name
 		} elseif ( $field == 'customer_total_orders' ) {
 			$row[$field] = ( isset( $this->user->ID ) ) ? wc_get_customer_order_count( $this->user->ID ) : WC_Order_Export_Data_Extractor::get_customer_order_count_by_email( $this->order_meta["_billing_email"] );
 		} elseif ( $field == 'customer_total_spent' ) {
@@ -302,10 +303,10 @@ class WC_Order_Export_Order_Fields {
 				$last_order->get_date_created()->getOffsetTimestamp() ) : '' ) : '';
 		} elseif ( $field == 'billing_address' ) {
 			$row[$field] = join( ", ",
-				array_filter( array( $this->order_meta["_billing_address_1"], $this->order_meta["_billing_address_2"] ) ) );
+				array_filter( array( $this->order->get_billing_address_1(), $this->order->get_billing_address_2() ) ) );
 		} elseif ( $field == 'shipping_address' ) {
 			$row[$field] = join( ", ",
-				array_filter( array( $this->order_meta["_shipping_address_1"], $this->order_meta["_shipping_address_2"] ) ) );
+				array_filter( array(  $this->order->get_shipping_address_1(), $this->order->get_shipping_address_2() ) ) );
 		} elseif ( $field == 'billing_full_name' ) {
 			$row[$field] = trim( $this->order_meta["_billing_first_name"] . ' ' . $this->order_meta["_billing_last_name"] );
 		} elseif ( $field == 'shipping_full_name' ) {
@@ -340,6 +341,8 @@ class WC_Order_Export_Order_Fields {
 			if ( ! empty( $shipping_method ) ) {
 				$row[$field] = $field == 'shipping_method_only' ? $shipping_method['method_id'] : $shipping_method['method_id'] . ':' . $shipping_method['instance_id'];
 			}
+		} elseif ( $field == 'shipping_zone' ) {
+			$row[$field] = WC_Order_Export_Data_Extractor::get_shipping_zone($this->order);
 		} elseif ( $field == 'coupons_used' ) {
 			$row[$field] = count( $this->data['coupons'] );
 		} elseif ( $field == 'total_weight_items' ) {
@@ -400,7 +403,7 @@ class WC_Order_Export_Order_Fields {
 					}
 				}
 			}
-			$row[$field] = implode( "\n", $comments );
+			$row[$field] = implode( "\n", array_filter( $comments ) );
 		} elseif ( $field == 'embedded_edit_order_link' ) {
 			$row[$field] = sprintf(
 				'<a href="%s" target="_blank">%s</a>',

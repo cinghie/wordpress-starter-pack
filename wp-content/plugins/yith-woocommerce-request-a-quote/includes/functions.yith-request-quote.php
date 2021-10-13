@@ -1,8 +1,8 @@
-<?php
+<?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
- * Implements helper functions for YITH Woocommerce Request A Quote
+ * Implements helper functions for YITH WooCommerce Request A Quote
  *
- * @package YITH Woocommerce Request A Quote
+ * @package YITH WooCommerce Request A Quote
  * @since   1.0.0
  * @author  YITH
  */
@@ -17,9 +17,9 @@ if ( ! function_exists( 'yith_ywraq_get_product_meta' ) ) {
 	/**
 	 * Return the product meta in a variation product
 	 *
-	 * @param array $raq
-	 * @param bool  $echo
-	 * @param bool  $show_price
+	 * @param array $raq .
+	 * @param bool  $echo .
+	 * @param bool  $show_price .
 	 *
 	 * @return string
 	 * @since 1.0.0
@@ -97,8 +97,8 @@ if ( ! function_exists( 'yith_ywraq_get_product_meta_from_order_item' ) ) {
 	/**
 	 * Return the product meta in a varion product
 	 *
-	 * @param   array $item_meta
-	 * @param   bool  $echo
+	 * @param   array $item_meta Item meta.
+	 * @param   bool  $echo .
 	 *
 	 * @return string
 	 * @since 1.0.0
@@ -135,7 +135,8 @@ if ( ! function_exists( 'yith_ywraq_get_product_meta_from_order_item' ) ) {
 							'_woocs_order_base_currency',
 							'_woocs_order_currency_changed_mannualy',
 						)
-					)
+					),
+					true
 				) ) {
 					continue;
 				}
@@ -197,7 +198,7 @@ if ( ! function_exists( 'yith_ywraq_notice_count' ) ) {
 	 *
 	 * @param   string $notice_type  The name of the notice type - either error, success or notice.
 	 *
-	 * @param   array  $all_notices
+	 * @param   array  $all_notices All notices array.
 	 *
 	 * @return int
 	 */
@@ -221,7 +222,7 @@ if ( ! function_exists( 'yith_ywraq_add_notice' ) ) {
 	 * @since 2.1
 	 *
 	 * @param string $message The text to display in the notice.
-	 * @param string $notice_type The singular name of the notice type - either error, success or notice. [optional]
+	 * @param string $notice_type The singular name of the notice type - either error, success or notice. [optional].
 	 */
 	function yith_ywraq_add_notice( $message, $notice_type = 'success' ) {
 
@@ -232,7 +233,7 @@ if ( ! function_exists( 'yith_ywraq_add_notice' ) ) {
 
 		$notices = $session->get( 'yith_ywraq_notices', array() );
 
-		// Backward compatibility
+		// Backward compatibility.
 		if ( 'success' === $notice_type ) {
 			$message = apply_filters( 'yith_ywraq_add_message', $message );
 		}
@@ -256,7 +257,7 @@ if ( ! function_exists( 'yith_ywraq_print_notices' ) ) {
 	 */
 	function yith_ywraq_print_notices() {
 
-		if ( get_option( 'ywraq_activate_thank_you_page' ) == 'yes' ) {
+		if ( get_option( 'ywraq_activate_thank_you_page' ) === 'yes' ) {
 			return '';
 		}
 
@@ -305,9 +306,9 @@ if ( ! function_exists( 'yith_ywraq_clear_notices' ) ) {
 /****** HOOKS *****/
 function yith_ywraq_show_button_in_single_page() {
 	$general_show_btn = get_option( 'ywraq_show_btn_single_page' );
-	if ( 'yes' === $general_show_btn ) {  // check if the product is in exclusion list
+	if ( 'yes' === $general_show_btn ) {  // check if the product is in exclusion list.
 		global $product;
-		   $hide_quote_button = yit_get_prop( $product, '_ywraq_hide_quote_button', true );
+		$hide_quote_button = yit_get_prop( $product, '_ywraq_hide_quote_button', true );
 
 		if ( 1 === $hide_quote_button ) {
 			return 'no';
@@ -319,9 +320,11 @@ function yith_ywraq_show_button_in_single_page() {
 
 
 /**
- * @param $text
- * @param $tag
- * @param $html
+ * Email custom tags
+ *
+ * @param string $text Text.
+ * @param string $tag Tag.
+ * @param string $html Html.
  *
  * @return false|string
  */
@@ -333,7 +336,9 @@ function yith_ywraq_email_custom_tags( $text, $tag, $html ) {
 }
 
 /**
- * @param $html
+ * Get template email
+ *
+ * @param string $html HTML.
  *
  * @return false|string
  */
@@ -358,40 +363,50 @@ function yith_ywraq_get_email_template( $html ) {
 	return ob_get_clean();
 }
 
-
-/**
- * @param $action
- * @param $order_id
- * @param $email
- *
- * @return false|string
- */
-function ywraq_get_token( $action, $order_id, $email ) {
-	return wp_hash( $action . '|' . $order_id . '|' . $email, 'yith-woocommerce-request-a-quote' );
-}
-
-/**
- *
- * @param $token string
- * @param $action string
- * @param $order_id integer
- * @param $email integer
- *
- * @return int
- */
-function ywraq_verify_token( $token, $action, $order_id, $email ) {
-	$expected = wp_hash( $action . '|' . $order_id . '|' . $email, 'yith-woocommerce-request-a-quote' );
-	if ( hash_equals( $expected, $token ) ) {
-		return 1;
+if ( ! function_exists( 'ywraq_get_token' ) ) {
+	/**
+	 * Return the token
+	 *
+	 * @param string $action Action.
+	 * @param int    $order_id Order id.
+	 * @param string $email Email.
+	 *
+	 * @return false|string
+	 */
+	function ywraq_get_token( $action, $order_id, $email ) {
+		return wp_hash( $action . '|' . $order_id . '|' . $email, 'yith-woocommerce-request-a-quote' );
 	}
-	return 0;
 }
 
-/**
- * @return mixed|void
- */
-function ywraq_get_browse_list_message() {
-	return apply_filters( 'ywraq_product_added_view_browse_list', __( 'Browse the list', 'yith-woocommerce-request-a-quote' ) );
+if ( ! function_exists( 'ywraq_verify_token' ) ) {
+	/**
+	 * Check the token
+	 *
+	 * @param string $token Token.
+	 * @param string $action Action.
+	 * @param int    $order_id Order id.
+	 * @param int    $email Token.
+	 *
+	 * @return int
+	 */
+	function ywraq_verify_token( $token, $action, $order_id, $email ) {
+		$expected = wp_hash( $action . '|' . $order_id . '|' . $email, 'yith-woocommerce-request-a-quote' );
+		if ( hash_equals( $expected, $token ) ) {
+			return 1;
+		}
+		return 0;
+	}
+}
+
+if ( ! function_exists( 'ywraq_get_browse_list_message' ) ) {
+	/**
+	 * Browse the list
+	 *
+	 * @return mixed|void
+	 */
+	function ywraq_get_browse_list_message() {
+		return ywraq_get_label( 'browse_list' );
+	}
 }
 
 if ( ! function_exists( 'ywraq_replace_policy_page_link_placeholders' ) ) {
@@ -423,5 +438,67 @@ if ( ! function_exists( 'ywraq_get_ajax_default_loader' ) ) {
 		}
 
 		return apply_filters( 'ywraq_ajax_loader', $ajax_loader_default );
+	}
+}
+
+
+
+/* YITH WooCommerce Catalog Mode */
+if ( ! function_exists( 'catalog_mode_plugin_enabled' ) ) {
+	/**
+	 * Check if is installed YITH WooCommerce Catalog Mode
+	 *
+	 * @return bool
+	 */
+	function catalog_mode_plugin_enabled() {
+		return defined( 'YWCTM_PREMIUM' );
+	}
+}
+
+if ( ! function_exists( 'ywraq_get_label' ) ) {
+	/**
+	 * Return or print a label from a specific $key
+	 *
+	 * @param string $key .
+	 * @param bool   $echo .
+	 *
+	 * @return string|void
+	 */
+	function ywraq_get_label( $key, $echo = false ) {
+
+		$option_name = 'ywraq_show_' . $key;
+		$option      = get_option( $option_name );
+
+		switch ( $key ) {
+			case 'product_added':
+				$label = $option ? $option : apply_filters( 'yith_ywraq_product_added_to_list_message', esc_html__( 'Product added to the list!', 'yith-woocommerce-request-a-quote' ) );
+				break;
+			case 'browse_list':
+				$label = $option ? $option : apply_filters( 'ywraq_product_added_view_browse_list', esc_html__( 'Browse the list', 'yith-woocommerce-request-a-quote' ) );
+				break;
+			case 'btn_link_text':
+				$label = $option ? $option : apply_filters( 'ywraq_product_add_to_quote', esc_html__( 'Add to Quote', 'yith-woocommerce-request-a-quote' ) );
+				break;
+			case 'already_in_quote':
+				$label = $option ? $option : apply_filters( 'yith_ywraq_product_already_in_list_message', esc_html__( 'Product already in the list.', 'yith-woocommerce-request-a-quote' ) );
+				break;
+			case 'accept':
+				$label = get_option( 'ywraq_accept_link_label', esc_html__( 'Accept', 'yith-woocommerce-request-a-quote' ) );
+				break;
+			case 'reject':
+				$label = get_option( 'ywraq_reject_link_label', esc_html__( 'Reject', 'yith-woocommerce-request-a-quote' ) );
+				break;
+			default:
+				$label = '';
+
+		}
+
+		$label = apply_filters( 'ywraq_get_label', $label, $key );
+
+		if ( $echo ) {
+			echo esc_html( $label );
+		} else {
+			return $label;
+		}
 	}
 }

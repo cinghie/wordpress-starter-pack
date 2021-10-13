@@ -48,7 +48,7 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_2 {
 		parent::__construct();
 
 		if (!class_exists('Updraft_Smush_Manager_Commands')) include_once('class-updraft-smush-manager-commands.php');
-		if (!class_exists('Smush_Task')) include_once('class-updraft-smush-task.php');
+		if (!class_exists('Updraft_Smush_Task')) include_once('class-updraft-smush-task.php');
 		if (!class_exists('Re_Smush_It_Task')) include_once('class-updraft-resmushit-task.php');
 		if (!class_exists('Updraft_Logger_Interface')) include_once('class-updraft-logger-interface.php');
 		if (!class_exists('Updraft_Abstract_Logger')) include_once('class-updraft-abstract-logger.php');
@@ -307,11 +307,11 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_2 {
 			// A strict operator (!==) needs to be used, as 0 is a positive result.
 			if (false !== strpos($backup_path, $current_uploads_dir_folder)) {
 				$temp_relative_backup_path = substr($backup_path, strpos($backup_path, $current_uploads_dir_folder) + strlen($current_uploads_dir_folder));
+				if (is_file($uploads_basedir . $temp_relative_backup_path)) {
+					$backup_path = $uploads_basedir . $temp_relative_backup_path;
+				}
 			}
 
-			if (is_file($uploads_basedir . $temp_relative_backup_path)) {
-				$backup_path = $uploads_basedir . $temp_relative_backup_path;
-			}
 
 		}
 
@@ -776,7 +776,7 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_2 {
 		if (WP_Optimize()->get_db_info()->table_exists('ewwwio_images')) {
 			$old_show_errors = $wpdb->show_errors(false);
 			// EWWW Image Optimizer.
-			$ewww_image = $wpdb->get_col("SELECT attachment_id FROM {$wpdb->prefix}ewwwio_images WHERE `attachment_id`={$image_id} LIMIT 1");
+			$ewww_image = $wpdb->get_col("SELECT attachment_id FROM {$wpdb->prefix}ewwwio_images WHERE attachment_id={$image_id} AND gallery='media' LIMIT 1");
 			if (!empty($ewww_image)) return true;
 			$wpdb->show_errors($old_show_errors);
 		}
@@ -797,7 +797,7 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_2 {
 		if (!WP_Optimize()->get_db_info()->table_exists('ewwwio_images')) return $args;
 
 		$old_show_errors = $wpdb->show_errors(false);
-		$compressed_images = $wpdb->get_col("SELECT DISTINCT(attachment_id) FROM {$wpdb->prefix}ewwwio_images");
+		$compressed_images = $wpdb->get_col("SELECT DISTINCT(attachment_id) FROM {$wpdb->prefix}ewwwio_images WHERE gallery='media'");
 		$wpdb->show_errors($old_show_errors);
 
 		if (isset($args['post__not_in'])) {

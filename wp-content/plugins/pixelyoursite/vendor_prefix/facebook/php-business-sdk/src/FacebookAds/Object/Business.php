@@ -42,6 +42,7 @@ use PYS_PRO_GLOBAL\FacebookAds\Object\Values\BusinessPagePermittedTasksValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\BusinessPermittedTasksValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\BusinessSurveyBusinessTypeValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\BusinessTwoFactorTypeValues;
+use PYS_PRO_GLOBAL\FacebookAds\Object\Values\BusinessUserRoleValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\BusinessVerticalValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\CPASCollaborationRequestRequesterAgencyOrBrandValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\ContentDeliveryReportPlatformValues;
@@ -52,10 +53,11 @@ use PYS_PRO_GLOBAL\FacebookAds\Object\Values\MeasurementUploadEventEventStatusVa
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\MeasurementUploadEventLookbackWindowValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\MeasurementUploadEventMatchUniverseValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\MeasurementUploadEventTimezoneValues;
-use PYS_PRO_GLOBAL\FacebookAds\Object\Values\OracleTransactionTypeValues;
+use PYS_PRO_GLOBAL\FacebookAds\Object\Values\OmegaCustomerTrxTypeValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductCatalogVerticalValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProfilePictureSourceBreakingChangeValues;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProfilePictureSourceTypeValues;
+use PYS_PRO_GLOBAL\FacebookAds\Object\Values\SystemUserRoleValues;
 /**
  * This class is auto-generated.
  *
@@ -176,7 +178,7 @@ class Business extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
     public function createAdsPixel(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
-        $param_types = array('name' => 'string');
+        $param_types = array('is_crm' => 'bool', 'name' => 'string');
         $enums = array();
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/adspixels', new \PYS_PRO_GLOBAL\FacebookAds\Object\AdsPixel(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\AdsPixel::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
@@ -206,7 +208,7 @@ class Business extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
     public function createAggregateRevenue(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
-        $param_types = array('ecpms' => 'list<string>', 'query_ids' => 'list<string>', 'request_id' => 'string');
+        $param_types = array('ecpms' => 'list<string>', 'query_ids' => 'list<string>', 'request_id' => 'string', 'sync_api' => 'bool');
         $enums = array();
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/aggregate_revenue', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'EDGE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
@@ -246,9 +248,9 @@ class Business extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
     public function getBusinessInvoices(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
-        $param_types = array('end_date' => 'string', 'invoice_id' => 'unsigned int', 'issue_end_date' => 'string', 'issue_start_date' => 'string', 'root_id' => 'unsigned int', 'start_date' => 'string', 'type' => 'type_enum');
-        $enums = array('type_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\OracleTransactionTypeValues::getInstance()->getValues());
-        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/business_invoices', new \PYS_PRO_GLOBAL\FacebookAds\Object\OracleTransaction(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\OracleTransaction::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $param_types = array('end_date' => 'string', 'invoice_id' => 'string', 'issue_end_date' => 'string', 'issue_start_date' => 'string', 'root_id' => 'unsigned int', 'start_date' => 'string', 'type' => 'type_enum');
+        $enums = array('type_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\OmegaCustomerTrxTypeValues::getInstance()->getValues());
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/business_invoices', new \PYS_PRO_GLOBAL\FacebookAds\Object\OmegaCustomerTrx(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\OmegaCustomerTrx::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
         $request->addFields($fields);
         return $pending ? $request : $request->execute();
@@ -283,6 +285,16 @@ class Business extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
         $request->addFields($fields);
         return $pending ? $request : $request->execute();
     }
+    public function createBusinessUser(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array('email' => 'string', 'role' => 'role_enum');
+        $enums = array('role_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\BusinessUserRoleValues::getInstance()->getValues());
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/business_users', new \PYS_PRO_GLOBAL\FacebookAds\Object\BusinessUser(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\BusinessUser::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
+    }
     public function createClaimCustomConversion(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
@@ -299,16 +311,6 @@ class Business extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
         $param_types = array();
         $enums = array();
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/client_ad_accounts', new \PYS_PRO_GLOBAL\FacebookAds\Object\AdAccount(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\AdAccount::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
-        $request->addParams($params);
-        $request->addFields($fields);
-        return $pending ? $request : $request->execute();
-    }
-    public function createClientAdAccount(array $fields = array(), array $params = array(), $pending = \false)
-    {
-        $this->assureId();
-        $param_types = array('adaccount_id' => 'string', 'permitted_tasks' => 'list<permitted_tasks_enum>');
-        $enums = array('permitted_tasks_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\BusinessPermittedTasksValues::getInstance()->getValues());
-        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/client_ad_accounts', new \PYS_PRO_GLOBAL\FacebookAds\Object\Business(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\Business::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
         $request->addFields($fields);
         return $pending ? $request : $request->execute();
@@ -489,6 +491,16 @@ class Business extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
         $param_types = array('event_sources' => 'list<string>', 'name' => 'string');
         $enums = array();
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/event_source_groups', new \PYS_PRO_GLOBAL\FacebookAds\Object\EventSourceGroup(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\EventSourceGroup::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
+    }
+    public function getExtendedCreditApplications(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array('only_show_pending' => 'bool');
+        $enums = array();
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/extendedcreditapplications', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'EDGE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
         $request->addFields($fields);
         return $pending ? $request : $request->execute();
@@ -726,7 +738,7 @@ class Business extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
     public function createOwnedProductCatalog(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
-        $param_types = array('catalog_segment_filter' => 'Object', 'catalog_segment_product_set_id' => 'string', 'da_display_settings' => 'Object', 'destination_catalog_settings' => 'map', 'flight_catalog_settings' => 'map', 'name' => 'string', 'parent_catalog_id' => 'string', 'store_catalog_settings' => 'map', 'vertical' => 'vertical_enum');
+        $param_types = array('catalog_segment_filter' => 'Object', 'catalog_segment_product_set_id' => 'string', 'da_display_settings' => 'Object', 'destination_catalog_settings' => 'map', 'flight_catalog_settings' => 'map', 'name' => 'string', 'parent_catalog_id' => 'string', 'partner_integration' => 'map', 'store_catalog_settings' => 'map', 'vertical' => 'vertical_enum');
         $enums = array('vertical_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\ProductCatalogVerticalValues::getInstance()->getValues());
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/owned_product_catalogs', new \PYS_PRO_GLOBAL\FacebookAds\Object\ProductCatalog(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\ProductCatalog::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
@@ -853,12 +865,32 @@ class Business extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject
         $request->addFields($fields);
         return $pending ? $request : $request->execute();
     }
+    public function getSpacoDataSetCollections(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array();
+        $enums = array();
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/spaco_dataset_collections', new \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObject(), 'EDGE', array(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
+    }
     public function getSystemUsers(array $fields = array(), array $params = array(), $pending = \false)
     {
         $this->assureId();
         $param_types = array();
         $enums = array();
         $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_GET, '/system_users', new \PYS_PRO_GLOBAL\FacebookAds\Object\SystemUser(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\SystemUser::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
+        $request->addParams($params);
+        $request->addFields($fields);
+        return $pending ? $request : $request->execute();
+    }
+    public function createSystemUser(array $fields = array(), array $params = array(), $pending = \false)
+    {
+        $this->assureId();
+        $param_types = array('name' => 'string', 'role' => 'role_enum', 'system_user_id' => 'int');
+        $enums = array('role_enum' => \PYS_PRO_GLOBAL\FacebookAds\Object\Values\SystemUserRoleValues::getInstance()->getValues());
+        $request = new \PYS_PRO_GLOBAL\FacebookAds\ApiRequest($this->api, $this->data['id'], \PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface::METHOD_POST, '/system_users', new \PYS_PRO_GLOBAL\FacebookAds\Object\SystemUser(), 'EDGE', \PYS_PRO_GLOBAL\FacebookAds\Object\SystemUser::getFieldsEnum()->getValues(), new \PYS_PRO_GLOBAL\FacebookAds\TypeChecker($param_types, $enums));
         $request->addParams($params);
         $request->addFields($fields);
         return $pending ? $request : $request->execute();

@@ -67,10 +67,11 @@
   "gdpr_cookiebot_analytics_consent_category": "statistics",
   "gdpr_cookiebot_pinterest_consent_category": "marketing",
   "gdpr_cookiebot_bing_consent_category": "marketing",
-  "gdpr_ginger_integration_enabled": false,
   "gdpr_cookie_notice_integration_enabled": false,
   "gdpr_cookie_law_info_integration_enabled": false,
   "gdpr_ajax_enabled": false,
+  "gdpr_real_cookie_banner_integration_enabled": false,
+  "consent_magic_integration_enabled": true,
 
   "woo_purchase_value_cog": "",
   "woo_content_value_cog": "",
@@ -87,7 +88,7 @@
   "signal_comment_enabled": true,
 
   "search_event_enabled": true,
-  "fdp_enabled": true,
+  "fdp_enabled": false,
   "edd_purchase_enabled": true,
   "edd_initiate_checkout_enabled": true,
   "edd_remove_from_cart_enabled": false,
@@ -102,6 +103,23 @@
   "woo_remove_from_cart_enabled": false,
   "woo_add_to_cart_enabled": true,
   "woo_view_content_enabled": true,
-  "woo_view_category_enabled": true
+  "woo_view_category_enabled": true,
+  "enable_event_url_param": true,
+  "enable_remove_source_url_params": true,
+  "enable_post_id_param": true,
+  "enable_content_name_param": true,
+  "enable_user_role_param":true,
+  "enable_page_title_param":true,
+  "enable_post_type_param": true,
 
+  "enable_woo_category_name_param": true,
+  "enable_woo_num_items_param": true,
+  "enable_woo_product_price_param":true,
+
+  "enable_edd_category_name_param": true,
+  "enable_edd_num_items_param": true,
+  "enable_edd_product_price_param": true,
+  "enable_remove_download_url_param": true,
+  "logs_enable": true,
+  "woo_add_to_cart_catch_method": "add_cart_js"
 }

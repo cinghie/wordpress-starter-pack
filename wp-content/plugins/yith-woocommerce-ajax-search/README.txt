@@ -2,9 +2,9 @@
 
 Contributors: yithemes
 Tags: woocommerce search by sku, woocommerce search results, woocommerce search shortcode, woocommerce search page, woocommerce search form, woocommerce search filter, woocommerce search products, woocommerce search content, woocommerce search autocomplete, woocommerce advanced search, woocommerce search category, woocommerce search product attributes, woocommerce search by tag, woocommerce search by brand, woocommerce predictive, woocommerce live search, woocommerce single product search, woocommerce site search, woocommerce search tex, tajax, search, woocommerce, products, themes, yit, e-commerce, shop, yith, ajax search, instant search, premium, yithemes, autocomplete, autosuggest, better search, category search, custom search, highlight terms, Live Search, Predictive Search, product search, relevant search, search highlight, search product, suggest, typeahead, WooCommerce Plugin, woocommerce product search, woocommerce search, wordpress ecommerce
-Requires at least: 5.3.0
-Tested up to: 5.6
-Stable tag: 1.8.7
+Requires at least: 5.6.0
+Tested up to: 5.8
+Stable tag: 1.10.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -138,6 +138,40 @@ If you have created your own language pack for YITH WooCommerce Ajax Search, or 
 2. YITH WooCommerce Ajax Search in operation displaying WooCommerce search results
 
 == Changelog ==
+= 1.10.1 - Released on 27 September 2021 =
+* Update: YITH plugin framework
+* Fix: debug info feature removed for all logged in users 
+
+= 1.10.0 - Released on 7 September 2021 =
+* New: support for WooCommerce 5.7
+* Update: YITH plugin framework
+
+= 1.9.3 - Released on 9 August 2021 =
+* New: support for WooCommerce 5.6
+* Update: YITH plugin framework
+
+= 1.9.2 - Released on 24 June 2021 =
+* New: support for WordPress 5.8
+* New: support for WooCommerce 5.5
+* Update: YITH plugin framework
+
+= 1.9.1 - Released on 27 May 2021 =
+* New: support for WooCommerce 5.4
+* Update: YITH plugin framework
+
+= 1.9.0 - Released on 05 May 2021 =
+* New: support for WooCommerce 5.3
+* Update: YITH plugin framework
+
+= 1.8.9 - Released on 02 April 2021 =
+* New: support for WooCommerce 5.2
+* Update: YITH plugin framework
+
+= 1.8.8 - Released on 24 Feb 2021 =
+* New: support for WordPress 5.7
+* New: support for WooCommerce 5.1
+* Update: YITH plugin framework
+
 = 1.8.7 - Released on 3 Feb 2021 =
 * New: support for WooCommerce 5.0
 * Update: YITH plugin framework

@@ -292,7 +292,7 @@ jQuery( function( $ ) {
             }
 
             updatePreviewXHR = $.ajax( {
-                url: ajaxurl + '?action=preview_promotion_email',
+                url: ajaxurl + '?action=preview_promotion_email&_wpnonce=' + yith_wcwl.nonce.preview_promotion_email,
                 data: modal.find('form').serialize(),
                 method: 'POST',
                 beforeSend: function(){
@@ -350,7 +350,7 @@ jQuery( function( $ ) {
                         }
 
                         $.ajax({
-                            url: ajaxurl + '?action=calculate_promotion_email_receivers',
+                            url: ajaxurl + '?action=calculate_promotion_email_receivers&_wpnonce=' + yith_wcwl.nonce.calculate_promotion_email_receivers,
                             data: modal.find('form').serialize(),
                             method: 'post',
                             beforeSend: function(){
@@ -724,6 +724,15 @@ jQuery( function( $ ) {
         '#woocommerce_yith_wcwl_on_sale_item_settings\\[content_text\\]'
     ], function(){
         return ( 'multipart' === on_sale_item_mail_type.val() || 'plain' === on_sale_item_mail_type.val() ) && isChecked( on_sale_item_mail_enabled )
+    } );
+
+    /* === DATEPICKER === */
+
+    // commissions filter
+    $( ".date-picker-field, .date-picker" ).datepicker ({
+        dateFormat: "yy-mm-dd",
+        numberOfMonths: 1,
+        showButtonPanel: true
     } );
 
     /* === TOGGLE BOX HANDLING === */

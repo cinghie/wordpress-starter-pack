@@ -77,7 +77,7 @@ if (array_key_exists('project_hash', $_GET)){
 								$criteria = "";
 							}
 							?>
-           					 	<tr class="rowCount">
+							<tr class="rowCount">
                 						<td><input type="hidden" name="rules[<?php print "$rule_key";?>][rowCount]" value="<?php print "$rule_key";?>"><input type="checkbox" name="record" class="checkbox-field"></td>
                 						<td><i><?php _e( 'Filter','woo-product-feed-pro' );?></i></td>
 								<td>
@@ -155,7 +155,7 @@ if (array_key_exists('project_hash', $_GET)){
 								</td>
 								<td>
 									<div style="display: block;">
-										<input type="text" id="rulevalue" name="rules[<?php print "$rule_key";?>][criteria]" class="input-field-large" value="<?php print "$criteria";?>">
+										<input type="text" id="rulevalue" name="rules[<?php print "$rule_key";?>][criteria]" class="input-field-large" value='<?php print $criteria;?>'>
 									</div>
 								</td>
 								<td>
@@ -314,7 +314,7 @@ if (array_key_exists('project_hash', $_GET)){
 								</td>
 								<td>
 									<div style="display: block;">
-										<input type="text" id="rulevalue" name="rules2[<?php print "$rule2_key";?>][criteria]" class="input-field-large" value="<?php print "$criteria";?>">
+										<input type="text" id="rulevalue" name="rules2[<?php print "$rule2_key";?>][criteria]" class="input-field-large" value='<?php print $criteria;?>'>
 									</div>
 								</td>
 								<?php

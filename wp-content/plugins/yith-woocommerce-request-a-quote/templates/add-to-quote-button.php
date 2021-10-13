@@ -2,13 +2,14 @@
 /**
  * Add to Quote button template
  *
- * @package YITH Woocommerce Request A Quote
+ * @package YITH WooCommerce Request A Quote
  * @since   1.0.0
  * @version 1.5.3
  * @author  YITH
  *
- * @var $product_id integer
- * @var $wpnonce string
+ * @var integer $product_id
+ * @var string $wpnonce
+ * @var string $class
  */
 
 ?>

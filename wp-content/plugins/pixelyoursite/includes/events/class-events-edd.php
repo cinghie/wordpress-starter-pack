@@ -1,7 +1,7 @@
 <?php
 namespace PixelYourSite;
 
-class EventsEdd implements EventsFactory {
+class EventsEdd extends EventsFactory {
     private $events = array(
         //'edd_frequent_shopper', pro
         //'edd_vip_client',pro
@@ -26,6 +26,10 @@ class EventsEdd implements EventsFactory {
 
         return self::$_instance;
 
+    }
+
+    static function getSlug() {
+        return "edd";
     }
 
     private function __construct() {

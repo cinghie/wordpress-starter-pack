@@ -12,8 +12,8 @@ class WooSEA_google_local_products {
         	$google_local_products = array(
 			"Local products fields" => array(
 				"Itemid" => array(
-					"name" => "Itemid",
-					"feed_name" => "g:itemid",
+					"name" => "Id",
+					"feed_name" => "g:id",
 					"format" => "required",
 					"woo_suggest" => "id",
 				),

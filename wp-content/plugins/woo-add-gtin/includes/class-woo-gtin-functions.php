@@ -56,6 +56,8 @@ if( !class_exists( 'Woo_GTIN_Functions' ) ) {
 
             add_action( 'woocommerce_product_meta_end', array( $this, 'maybe_display_tn' ) );
 
+            add_filter( 'woocommerce_structured_data_product', array( $this, 'add_gtin_to_structured_data' ), 10, 2 );
+
         }
 
         /**
@@ -206,6 +208,24 @@ if( !class_exists( 'Woo_GTIN_Functions' ) ) {
 
             }
 
+        }
+
+        /**
+         * Adds GTIN field to product JSON-LD.
+         *
+         * @since       0.5.0
+         * @return      array    Modified WooCommerce product structured data.
+         */
+        public function add_gtin_to_structured_data( $markup, $product ) {
+		
+            // Bail if product variable not available
+            if ( ! $product ) { return $markup; }
+            
+            $product_id = $product->get_id();
+            $gtin = get_post_meta( $product_id, 'hwp_product_gtin', 1 );
+            $markup['gtin'] = trim($gtin);
+            return $markup;
+        
         }
 
     }

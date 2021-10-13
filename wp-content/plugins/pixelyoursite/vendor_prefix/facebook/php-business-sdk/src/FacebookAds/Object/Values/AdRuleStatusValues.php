@@ -39,4 +39,5 @@ class AdRuleStatusValues extends \PYS_PRO_GLOBAL\FacebookAds\Enum\AbstractEnum
     const DELETED = 'DELETED';
     const DISABLED = 'DISABLED';
     const ENABLED = 'ENABLED';
+    const HAS_ISSUES = 'HAS_ISSUES';
 }

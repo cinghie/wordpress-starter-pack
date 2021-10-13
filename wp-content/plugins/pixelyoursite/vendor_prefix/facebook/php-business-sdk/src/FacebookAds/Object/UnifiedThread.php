@@ -29,6 +29,7 @@ use PYS_PRO_GLOBAL\FacebookAds\Cursor;
 use PYS_PRO_GLOBAL\FacebookAds\Http\RequestInterface;
 use PYS_PRO_GLOBAL\FacebookAds\TypeChecker;
 use PYS_PRO_GLOBAL\FacebookAds\Object\Fields\UnifiedThreadFields;
+use PYS_PRO_GLOBAL\FacebookAds\Object\Values\UnifiedThreadPlatformValues;
 /**
  * This class is auto-generated.
  *
@@ -49,6 +50,7 @@ class UnifiedThread extends \PYS_PRO_GLOBAL\FacebookAds\Object\AbstractCrudObjec
     protected static function getReferencedEnums()
     {
         $ref_enums = array();
+        $ref_enums['Platform'] = \PYS_PRO_GLOBAL\FacebookAds\Object\Values\UnifiedThreadPlatformValues::getInstance()->getValues();
         return $ref_enums;
     }
     public function getMessages(array $fields = array(), array $params = array(), $pending = \false)

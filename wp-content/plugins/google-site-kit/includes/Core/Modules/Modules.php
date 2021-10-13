@@ -11,6 +11,7 @@
 namespace Google\Site_Kit\Core\Modules;
 
 use Google\Site_Kit\Context;
+use Google\Site_Kit\Core\Assets\Assets;
 use Google\Site_Kit\Core\Permissions\Permissions;
 use Google\Site_Kit\Core\REST_API\REST_Route;
 use Google\Site_Kit\Core\REST_API\REST_Routes;
@@ -18,13 +19,17 @@ use Google\Site_Kit\Core\Storage\Options;
 use Google\Site_Kit\Core\Storage\User_Options;
 use Google\Site_Kit\Core\Authentication\Authentication;
 use Google\Site_Kit\Core\REST_API\Exception\Invalid_Datapoint_Exception;
+use Google\Site_Kit\Core\Util\Feature_Flags;
 use Google\Site_Kit\Modules\AdSense;
 use Google\Site_Kit\Modules\Analytics;
+use Google\Site_Kit\Modules\Analytics_4;
+use Google\Site_Kit\Modules\Idea_Hub;
 use Google\Site_Kit\Modules\Optimize;
 use Google\Site_Kit\Modules\PageSpeed_Insights;
 use Google\Site_Kit\Modules\Search_Console;
 use Google\Site_Kit\Modules\Site_Verification;
 use Google\Site_Kit\Modules\Tag_Manager;
+use Google\Site_Kit\Modules\Subscribe_With_Google;
 use WP_REST_Server;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -107,6 +112,14 @@ final class Modules {
 	private $registry;
 
 	/**
+	 * Assets API instance.
+	 *
+	 * @since 1.40.0
+	 * @var Assets
+	 */
+	private $assets;
+
+	/**
 	 * Core module class names.
 	 *
 	 * @since 1.21.0
@@ -131,17 +144,30 @@ final class Modules {
 	 * @param Options        $options        Optional. Option API instance. Default is a new instance.
 	 * @param User_Options   $user_options   Optional. User Option API instance. Default is a new instance.
 	 * @param Authentication $authentication Optional. Authentication instance. Default is a new instance.
+	 * @param Assets         $assets  Optional. Assets API instance. Default is a new instance.
 	 */
 	public function __construct(
 		Context $context,
 		Options $options = null,
 		User_Options $user_options = null,
-		Authentication $authentication = null
+		Authentication $authentication = null,
+		Assets $assets = null
 	) {
 		$this->context        = $context;
 		$this->options        = $options ?: new Options( $this->context );
 		$this->user_options   = $user_options ?: new User_Options( $this->context );
 		$this->authentication = $authentication ?: new Authentication( $this->context, $this->options, $this->user_options );
+		$this->assets         = $assets ?: new Assets( $this->context );
+
+		if ( Feature_Flags::enabled( 'ga4setup' ) ) {
+			$this->core_modules[] = Analytics_4::class;
+		}
+		if ( Feature_Flags::enabled( 'ideaHubModule' ) ) {
+			$this->core_modules[] = Idea_Hub::class;
+		}
+		if ( Feature_Flags::enabled( 'swgModule' ) ) {
+			$this->core_modules[] = Subscribe_With_Google::class;
+		}
 	}
 
 	/**
@@ -150,32 +176,6 @@ final class Modules {
 	 * @since 1.0.0
 	 */
 	public function register() {
-		add_filter(
-			'googlesitekit_modules_data',
-			function( $data ) {
-				foreach ( $this->get_available_modules() as $module ) {
-					$data[ $module->slug ]                  = $module->prepare_info_for_js();
-					$data[ $module->slug ]['active']        = $this->is_module_active( $module->slug );
-					$data[ $module->slug ]['setupComplete'] = $data[ $module->slug ]['active'] && $this->is_module_connected( $module->slug );
-					$data[ $module->slug ]['dependencies']  = $this->get_module_dependencies( $module->slug );
-					$data[ $module->slug ]['dependants']    = $this->get_module_dependants( $module->slug );
-					$data[ $module->slug ]['owner']         = null;
-
-					if ( current_user_can( 'list_users' ) && $module instanceof Module_With_Owner ) {
-						$owner_id = $module->get_owner_id();
-						if ( $owner_id ) {
-							$data[ $module->slug ]['owner'] = array(
-								'id'    => $owner_id,
-								'login' => get_the_author_meta( 'user_login', $owner_id ),
-							);
-						}
-					}
-				}
-
-				return $data;
-			}
-		);
-
 		add_filter(
 			'googlesitekit_rest_routes',
 			function( $routes ) {
@@ -200,6 +200,10 @@ final class Modules {
 			function( Module $module ) {
 				if ( $module instanceof Module_With_Settings ) {
 					$module->get_settings()->register();
+				}
+
+				if ( $module instanceof Module_With_Persistent_Registration ) {
+					$module->register_persistent();
 				}
 			}
 		);
@@ -253,7 +257,7 @@ final class Modules {
 		if ( empty( $this->modules ) ) {
 			$module_classes = $this->get_registry()->get_all();
 			foreach ( $module_classes as $module_class ) {
-				$instance = new $module_class( $this->context, $this->options, $this->user_options, $this->authentication );
+				$instance = new $module_class( $this->context, $this->options, $this->user_options, $this->authentication, $this->assets );
 
 				$this->modules[ $instance->slug ]      = $instance;
 				$this->dependencies[ $instance->slug ] = array();
@@ -263,7 +267,10 @@ final class Modules {
 			uasort(
 				$this->modules,
 				function( Module $a, Module $b ) {
-					return $a->order > $b->order;
+					if ( $a->order === $b->order ) {
+						return 0;
+					}
+					return ( $a->order < $b->order ) ? -1 : 1;
 				}
 			);
 
@@ -420,6 +427,13 @@ final class Modules {
 			return false;
 		}
 
+		// TODO: Remove this hack.
+		if ( Analytics::MODULE_SLUG === $slug ) {
+			// GA4 needs to be handled first to pass conditions below
+			// due to special handling in active modules option.
+			$this->activate_module( Analytics_4::MODULE_SLUG );
+		}
+
 		$option = $this->get_active_modules_option();
 
 		if ( in_array( $slug, $option, true ) ) {
@@ -430,8 +444,8 @@ final class Modules {
 
 		$this->set_active_modules_option( $option );
 
-		if ( is_callable( array( $module, 'on_activation' ) ) ) {
-			call_user_func( array( $module, 'on_activation' ) );
+		if ( $module instanceof Module_With_Activation ) {
+			$module->on_activation();
 		}
 
 		return true;
@@ -452,6 +466,13 @@ final class Modules {
 			return false;
 		}
 
+		// TODO: Remove this hack.
+		if ( Analytics::MODULE_SLUG === $slug ) {
+			// GA4 needs to be handled first to pass conditions below
+			// due to special handling in active modules option.
+			$this->deactivate_module( Analytics_4::MODULE_SLUG );
+		}
+
 		$option = $this->get_active_modules_option();
 
 		$key = array_search( $slug, $option, true );
@@ -468,8 +489,8 @@ final class Modules {
 
 		$this->set_active_modules_option( array_values( $option ) );
 
-		if ( is_callable( array( $module, 'on_deactivation' ) ) ) {
-			call_user_func( array( $module, 'on_deactivation' ) );
+		if ( $module instanceof Module_With_Deactivation ) {
+			$module->on_deactivation();
 		}
 
 		return true;
@@ -667,7 +688,7 @@ final class Modules {
 				)
 			),
 			new REST_Route(
-				'modules/(?P<slug>[a-z\-]+)/data/notifications',
+				'modules/(?P<slug>[a-z0-9\-]+)/data/notifications',
 				array(
 					array(
 						'methods'             => WP_REST_Server::READABLE,
@@ -704,7 +725,7 @@ final class Modules {
 				)
 			),
 			new REST_Route(
-				'modules/(?P<slug>[a-z\-]+)/data/settings',
+				'modules/(?P<slug>[a-z0-9\-]+)/data/settings',
 				array(
 					array(
 						'methods'             => WP_REST_Server::READABLE,
@@ -733,11 +754,12 @@ final class Modules {
 								return new WP_Error( 'invalid_module_slug', __( 'Invalid module slug.', 'google-site-kit' ), array( 'status' => 404 ) );
 							}
 
-							$data   = isset( $request['data'] ) ? (array) $request['data'] : array();
-							$result = $this->update_module_settings( $module, $data );
-							if ( is_wp_error( $result ) ) {
-								return $result;
+							if ( ! $module instanceof Module_With_Settings ) {
+								return new WP_Error( 'invalid_module_slug', __( 'Module does not support settings.', 'google-site-kit' ), array( 'status' => 400 ) );
 							}
+
+							$module->get_settings()->merge( (array) $request['data'] );
+
 							return new WP_REST_Response( $module->get_settings()->get() );
 						},
 						'permission_callback' => $can_manage_options,
@@ -763,7 +785,7 @@ final class Modules {
 				)
 			),
 			new REST_Route(
-				'modules/(?P<slug>[a-z\-]+)/data/(?P<datapoint>[a-z\-]+)',
+				'modules/(?P<slug>[a-z0-9\-]+)/data/(?P<datapoint>[a-z\-]+)',
 				array(
 					array(
 						'methods'             => WP_REST_Server::READABLE,
@@ -829,40 +851,6 @@ final class Modules {
 	}
 
 	/**
-	 * Updates settings for a module.
-	 *
-	 * If the module includes a datapoint 'POST:settings', that datapoint is relied upon, allowing more advanced
-	 * customization. Otherwise this method will ensure every setting is present as a parameter and then update the
-	 * settings.
-	 *
-	 * @since 1.6.0
-	 *
-	 * @param Module $module Module to update settings for. Must implement {@see Module_With_Settings}.
-	 * @param array  $data   Associative array of new settings data to set.
-	 * @return bool|WP_Error True on success, or an error object on failure.
-	 */
-	private function update_module_settings( Module $module, array $data ) {
-		if ( ! $module instanceof Module_With_Settings ) {
-			return new WP_Error( 'invalid_module_slug', __( 'Module does not support settings.', 'google-site-kit' ), array( 'status' => 400 ) );
-		}
-
-		if ( in_array( 'settings', $module->get_datapoints(), true ) ) {
-			$result = $module->set_data( 'settings', $data );
-			if ( is_wp_error( $result ) && $result->get_error_code() !== Invalid_Datapoint_Exception::WP_ERROR_CODE ) {
-				return $result;
-			} elseif ( ! is_wp_error( $result ) ) {
-				return true;
-			}
-		}
-
-		if ( ! $module->get_settings()->merge( $data ) ) {
-			return new WP_Error( 'updating_settings_failed', __( 'Updating settings failed.', 'google-site-kit' ), array( 'status' => 500 ) );
-		}
-
-		return true;
-	}
-
-	/**
 	 * Prepares module data for a REST response according to the schema.
 	 *
 	 * @since 1.3.0
@@ -878,6 +866,7 @@ final class Modules {
 			'homepage'     => $module->homepage,
 			'internal'     => $module->internal,
 			'order'        => $module->order,
+			'forceActive'  => $module->force_active,
 			'active'       => $this->is_module_active( $module->slug ),
 			'connected'    => $this->is_module_connected( $module->slug ),
 			'dependencies' => $this->get_module_dependencies( $module->slug ),
@@ -991,17 +980,21 @@ final class Modules {
 	private function get_active_modules_option() {
 		$option = $this->options->get( self::OPTION_ACTIVE_MODULES );
 
-		if ( is_array( $option ) ) {
-			return $option;
+		if ( ! is_array( $option ) ) {
+			$option = $this->options->get( 'googlesitekit-active-modules' );
 		}
 
-		$legacy_option = $this->options->get( 'googlesitekit-active-modules' );
-
-		if ( is_array( $legacy_option ) ) {
-			return $legacy_option;
+		if ( ! is_array( $option ) ) {
+			$option = array();
 		}
 
-		return array();
+		$includes_analytics   = in_array( Analytics::MODULE_SLUG, $option, true );
+		$includes_analytics_4 = in_array( Analytics_4::MODULE_SLUG, $option, true );
+		if ( $includes_analytics && ! $includes_analytics_4 ) {
+			$option[] = Analytics_4::MODULE_SLUG;
+		}
+
+		return $option;
 	}
 
 	/**
@@ -1012,6 +1005,11 @@ final class Modules {
 	 * @param array $option List of active module slugs.
 	 */
 	private function set_active_modules_option( array $option ) {
+		if ( in_array( Analytics_4::MODULE_SLUG, $option, true ) ) {
+			unset( $option[ array_search( Analytics_4::MODULE_SLUG, $option, true ) ] );
+		}
+
 		$this->options->set( self::OPTION_ACTIVE_MODULES, $option );
 	}
+
 }

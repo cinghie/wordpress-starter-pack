@@ -3,17 +3,21 @@
  * Plugin Name: YITH WooCommerce Ajax Search
  * Plugin URI: https://yithemes.com/themes/plugins/yith-woocommerce-ajax-search/
  * Description: <code><strong>YITH WooCommerce Ajax Search</strong></code> is the plugin that allows you to search for a specific product by inserting a few characters. Thanks to <strong>Ajax Search</strong>, users can quickly find the contents they are interested in without wasting time among site pages. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>.
- * Version: 1.8.7
+ * Version: 1.10.1
  * Author: YITH
  * Author URI: https://yithemes.com/
  * Text Domain: yith-woocommerce-ajax-search
  * Domain Path: /languages/
- * WC requires at least: 4.2.0
- * WC tested up to: 5.0
+ * WC requires at least: 5.3
+ * WC tested up to: 5.7
+ *
+ * @author YITH
+ * @package YITH WooCommerce Ajax Search
+ * @version 1.0.0
  */
 
 /*
-  Copyright 2013  Your Inspiration Themes  (email : plugins@yithemes.com)
+Copyright 2013  Your Inspiration Themes  (email : plugins@yithemes.com)
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License, version 2, as
@@ -29,7 +33,8 @@
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; } // Exit if accessed directly
+	exit;
+} // Exit if accessed directly
 
 if ( ! defined( 'YITH_WCAS_DIR' ) ) {
 	define( 'YITH_WCAS_DIR', plugin_dir_path( __FILE__ ) );
@@ -67,11 +72,10 @@ if ( ! function_exists( 'yith_plugin_registration_hook' ) ) {
 register_activation_hook( __FILE__, 'yith_plugin_registration_hook' );
 
 
-
 if ( defined( 'YITH_WCAS_VERSION' ) ) {
 	return;
 } else {
-	define( 'YITH_WCAS_VERSION', '1.8.7' );
+	define( 'YITH_WCAS_VERSION', '1.10.1' );
 }
 
 if ( ! defined( 'YITH_WCAS_FREE_INIT' ) ) {
@@ -130,14 +134,15 @@ function yith_ajax_search_constructor() {
 	load_plugin_textdomain( 'yith-woocommerce-ajax-search', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 	// Load required classes and functions.
-	require_once YITH_WCAS_DIR .'includes/functions.yith-wcas.php';
-	require_once YITH_WCAS_DIR .'includes/class.yith-wcas-admin.php';
-	require_once YITH_WCAS_DIR .'includes/class.yith-wcas-frontend.php';
-	require_once YITH_WCAS_DIR .'includes/widgets/class.yith-wcas-ajax-search.php';
-	require_once YITH_WCAS_DIR .'includes/class.yith-wcas.php';
+	require_once YITH_WCAS_DIR . 'includes/functions.yith-wcas.php';
+	require_once YITH_WCAS_DIR . 'includes/class.yith-wcas-admin.php';
+	require_once YITH_WCAS_DIR . 'includes/class.yith-wcas-frontend.php';
+	require_once YITH_WCAS_DIR . 'includes/widgets/class.yith-wcas-ajax-search.php';
+	require_once YITH_WCAS_DIR . 'includes/class.yith-wcas.php';
 
 	// Let's start the game!
 	global $yith_wcas;
 	$yith_wcas = new YITH_WCAS();
 }
+
 add_action( 'plugins_loaded', 'yith_ajax_search_constructor' );

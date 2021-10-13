@@ -2,7 +2,7 @@
 /**
  * HTML Template Email
  *
- * @package YITH Woocommerce Request A Quote
+ * @package YITH WooCommerce Request A Quote
  * @since   1.0.0
  * @version 1.5.3
  * @author  YITH
@@ -26,9 +26,9 @@
 
 <?php do_action( 'yith_ywraq_email_before_raq_table', $raq_data ); ?>
 
-<h2><?php esc_html_e( 'Request Quote', 'yith-woocommerce-request-a-quote' ); ?></h2>
+<h2><?php esc_html_e( 'Quote request', 'yith-woocommerce-request-a-quote' ); ?></h2>
 
-<table cellspacing="0" cellpadding="6" style="width: 100%; border: 1px solid #eee;" border="1" bordercolor="#eee">
+<table cellspacing="0" cellpadding="6" style="width: 100%; border: 1px solid #eee; margin-bottom:30px" border="1" bordercolor="#eee">
 	<thead>
 	<tr>
 		<th scope="col" style="text-align:left; border: 1px solid #eee;"><?php esc_html_e( 'Product', 'yith-woocommerce-request-a-quote' ); ?></th>
@@ -46,16 +46,14 @@
 				$_product = wc_get_product( $item['product_id'] );
 			}
 			$product_admin_link = '';
-			$post_type_object = get_post_type_object( get_post( $_product->get_id() )->post_type );
-			if ( ( $post_type_object ) && ( $post_type_object->_edit_link ) ) {
-				$product_admin_link = admin_url( sprintf( $post_type_object->_edit_link . '&action=edit', $_product->get_id() ) );
+			$posttype_object    = get_post_type_object( get_post( $_product->get_id() )->post_type );
+			if ( ( $posttype_object ) && ( $posttype_object->_edit_link ) ) {
+				$product_admin_link = admin_url( sprintf( $posttype_object->_edit_link . '&action=edit', $_product->get_id() ) );
 			}
 			?>
 			<tr>
 				<td scope="col" style="text-align:left;"><a href="<?php echo esc_url( $product_admin_link ); ?>"><?php echo wp_kses_post( $_product->get_title() ); ?></a>
-				 <?php
-					if ( isset( $item['variations'] ) ) :
-						?>
+				 <?php if ( isset( $item['variations'] ) ) : ?>
 						<small><?php echo wp_kses_post( yith_ywraq_get_product_meta( $item ) ); ?></small><?php endif ?></td>
 				<td scope="col" style="text-align:left;"><?php echo esc_html( $item['quantity'] ); ?></td>
 				<td scope="col" style="text-align:left;"><?php echo wp_kses_post( WC()->cart->get_product_subtotal( $_product, $item['quantity'] ) ); ?></td>

@@ -11,8 +11,8 @@ trait WC_Order_Export_Admin_Tab_Abstract_Ajax_Filters {
 
 		$main_settings = WC_Order_Export_Main_Settings::get_settings();
 
-		echo json_encode( WC_Order_Export_Data_Extractor_UI::get_products_like( $_REQUEST['q'],
-			$main_settings['autocomplete_products_max'] ) );
+		$limit = $main_settings['show_all_items_in_filters'] ? null : $main_settings['autocomplete_products_max'];
+		echo json_encode( WC_Order_Export_Data_Extractor_UI::get_products_like( $_REQUEST['q'], $limit ) );
 	}
 
 	/**
@@ -33,7 +33,9 @@ trait WC_Order_Export_Admin_Tab_Abstract_Ajax_Filters {
 	 * Select2 method
 	 */
 	public function ajax_get_categories() {
-		echo json_encode( WC_Order_Export_Data_Extractor_UI::get_categories_like( $_REQUEST['q'] ) );
+		$main_settings = WC_Order_Export_Main_Settings::get_settings();
+		$limit         = $main_settings['show_all_items_in_filters'] ? null : 10;
+		echo json_encode( WC_Order_Export_Data_Extractor_UI::get_categories_like( $_REQUEST['q'], $limit ) );
 	}
 
 	/**

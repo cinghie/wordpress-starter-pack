@@ -44,6 +44,7 @@ class SingleEvent extends PYSEvent{
     function getData() {
         $data = $this->payload;
         $data['params'] = sanitizeParams($this->params);
+        $data['e_id'] = $this->getId();
 
         $data['delay'] = isset( $this->payload['delay'] ) ? $this->payload['delay'] : 0;
         $data['ids'] = isset( $this->payload['ids'] ) ? $this->payload['ids'] : array();

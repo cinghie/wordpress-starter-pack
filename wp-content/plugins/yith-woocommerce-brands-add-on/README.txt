@@ -2,9 +2,9 @@
 
 Contributors: yithemes
 Tags: brand, brands, logo, manufacturer, yit, e-commerce, ecommerce, shop, supplier, woocommerce brand, woocommerce filter, filter, brand filter, woocommerce manufacturer, woocommerce supplier, brands for woocommerce, brands for wc, product brands, brands for products
-Requires at least: 5.3
-Tested up to: 5.6
-Stable tag: 1.4.0
+Requires at least: 5.6
+Tested up to: 5.8
+Stable tag: 1.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,6 +41,58 @@ YITH WooCommerce Brands Add-on will add a new submenu called "Brands" under "YIT
 5. Brands option panel
 
 == Changelog ==
+
+= 1.7.0 - Released on 11 October 2021 =
+
+* New: support for WooCommerce 5.7
+* Update: YITH Plugin Framework
+
+= 1.6.1 - Released on 27 September 2021 =
+
+* Update: YITH Plugin Framework
+* Fix: debug info feature removed for all logged in users
+
+= 1.6.0 - Released on 23 September 2021 =
+
+* New: support for WooCommerce 5.7
+* Update: YITH Plugin Framework
+
+= 1.5.1 - Released on 06 August 2021 =
+
+* Fix: possible error for Elementor users, caused by missing block class
+
+= 1.5.0 - Released on 05 August 2021 =
+
+* New: support for WooCommerce 5.6
+* New: support for WordPress 5.8
+* Update: YITH Plugin Framework
+
+= 1.4.5 - Released on 17 June 2021 =
+
+* New: support for WooCommerce 5.4
+* Update: YITH Plugin Framework
+
+= 1.4.4 - Released on 14 May 2021 =
+
+* New: support for WooCommerce 5.3
+* Update: YITH Plugin Framework
+
+= 1.4.3 - Released on 21 April 2021 =
+
+* New: support for WooCommerce 5.2
+* Update: YITH Plugin Framework
+
+= 1.4.2 - Released on 12 March 2021 =
+
+* New: support for WordPress 5.7
+* New: support for WooCommerce 5.1
+* Update: YITH Plugin Framework
+
+= 1.4.1 - Released on 18 February 2021 =
+
+* New: support for WooCommerce 5.0
+* Update: YITH Plugin Framework
+* Fix: use product_count_<taxonomy> meta to exclude empty terms only when taxonomy supports it
 
 = 1.4.0 - Released on 12 January 2021 =
 

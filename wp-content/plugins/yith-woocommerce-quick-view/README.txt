@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: yithemes
 Tags: woocommerce, quick view, woocommerce quick view, products quick view
-Requires at least: 5.3
-Tested up to: 5.6
-Stable tag: 1.4.9
+Requires at least: 5.6
+Tested up to: 5.8
+Stable tag: 1.7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,6 +39,54 @@ Full documentation is available [here](https://docs.yithemes.com/yith-woocommerc
 3. The quick view modal.
 
 == Changelog ==
+
+= 1.7.1 = Released 27 Sep 2021
+
+* Update: YITH plugin framework
+* Fix: debug info feature removed for all logged in users
+
+= 1.7.0 = Released 08 Sep 2021
+
+* New: support for WooCommerce 5.7
+* Update: YITH plugin framework
+
+= 1.6.4 = Released 13 Aug 2021
+
+* New: support for WooCommerce 5.6
+* Update: YITH plugin framework
+
+= 1.6.3 = Released 06 Jul 2021
+
+* New: Support for WordPress 5.8
+* New: support for WooCommerce 5.5
+* Update: YITH plugin framework
+
+= 1.6.2 = Released 01 Jun 2021
+
+* New: support for WooCommerce 5.4
+* Update: YITH plugin framework
+
+= 1.6.1 = Released 04 May 2021
+
+* New: support for WooCommerce 5.3
+* Update: YITH plugin framework
+
+= 1.6.0 = Released 15 April 2021
+
+* New: support for WooCommerce 5.2
+* Update: YITH plugin framework
+* Fix: compatibility issue with YITH WooCommerce Color and Label Variations Premium
+
+= 1.5.1 = Released 05 March 2021
+
+* Fix: compatibility issue with YITH WooCommerce Wishlist
+
+= 1.5.0 = Released 02 March 2021
+
+* New: Support for WordPress 5.7
+* New: support for WooCommerce 5.1
+* Update: YITH plugin framework
+* Fix: issue with YITH Proteo and button "add to cart" position on image hover
 
 = 1.4.9 = Released 04 February 2021
 
@@ -317,7 +365,7 @@ Or, if you have created your own language pack, or have an update for an existin
 
 == Upgrade notice ==
 
-= 1.4.9 = Released 04 February 2021
+= 1.7.1 = Released 27 Sep 2021
 
-* New: support for WooCommerce 5.0
 * Update: YITH plugin framework
+* Fix: debug info feature removed for all logged in users

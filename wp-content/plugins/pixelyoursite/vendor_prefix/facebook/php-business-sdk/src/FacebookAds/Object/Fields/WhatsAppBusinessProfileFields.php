@@ -37,8 +37,9 @@ class WhatsAppBusinessProfileFields extends \PYS_PRO_GLOBAL\FacebookAds\Enum\Abs
 {
     const ID = 'id';
     const NAME_VERIFICATION = 'name_verification';
+    const WHATSAPP_BUSINESS_API_DATA = 'whatsapp_business_api_data';
     public function getFieldTypes()
     {
-        return array('id' => 'string', 'name_verification' => 'Object');
+        return array('id' => 'string', 'name_verification' => 'Object', 'whatsapp_business_api_data' => 'Object');
     }
 }

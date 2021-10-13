@@ -8,7 +8,8 @@ namespace Automattic\WooCommerce\Admin\Features;
 
 use \Automattic\WooCommerce\Admin\Loader;
 use Automattic\WooCommerce\Admin\PageController;
-use \Automattic\WooCommerce\Admin\PluginsHelper;
+use Automattic\WooCommerce\Admin\WCAdminHelper;
+use Automattic\WooCommerce\Admin\Schedulers\MailchimpScheduler;
 
 /**
  * Contains backend logic for the onboarding profile and checklist feature.
@@ -91,17 +92,19 @@ class Onboarding {
 			10,
 			2
 		);
+		add_action( 'woocommerce_admin_plugins_pre_activate', array( $this, 'activate_and_install_jetpack_ahead_of_wcpay' ) );
+		add_action( 'woocommerce_admin_plugins_pre_install', array( $this, 'activate_and_install_jetpack_ahead_of_wcpay' ) );
 
 		// Always hook into Jetpack connection even if outside of admin.
 		add_action( 'jetpack_site_registered', array( $this, 'set_woocommerce_setup_jetpack_opted_in' ) );
+
+		add_action( 'woocommerce_onboarding_profile_data_updated', array( $this, 'on_profile_data_updated' ), 10, 2 );
 
 		if ( ! is_admin() ) {
 			return;
 		}
 
 		add_action( 'admin_init', array( $this, 'admin_redirects' ) );
-		add_action( 'current_screen', array( $this, 'finish_paypal_connect' ) );
-		add_action( 'current_screen', array( $this, 'finish_square_connect' ) );
 		add_action( 'current_screen', array( $this, 'add_help_tab' ), 60 );
 		add_action( 'current_screen', array( $this, 'reset_profiler' ) );
 		add_action( 'current_screen', array( $this, 'reset_task_list' ) );
@@ -204,7 +207,6 @@ class Onboarding {
 	private function add_filters() {
 		// Rest API hooks need to run before is_admin() checks.
 		add_filter( 'woocommerce_rest_prepare_themes', array( $this, 'add_uploaded_theme_data' ) );
-		add_filter( 'woocommerce_admin_plugins_whitelist', array( $this, 'get_onboarding_allowed_plugins' ), 10, 2 );
 
 		if ( ! is_admin() ) {
 			return;
@@ -214,11 +216,22 @@ class Onboarding {
 		// Run after Automattic\WooCommerce\Admin\Loader.
 		add_filter( 'woocommerce_components_settings', array( $this, 'component_settings' ), 20 );
 		// New settings injection.
-		add_filter( 'woocommerce_shared_settings', array( $this, 'component_settings' ), 20 );
-		add_filter( 'woocommerce_admin_preload_options', array( $this, 'preload_options' ) );
+		add_filter( 'woocommerce_admin_shared_settings', array( $this, 'component_settings' ), 20 );
 		add_filter( 'woocommerce_admin_preload_settings', array( $this, 'preload_settings' ) );
 		add_filter( 'woocommerce_admin_is_loading', array( $this, 'is_loading' ) );
 		add_filter( 'woocommerce_show_admin_notice', array( $this, 'remove_install_notice' ), 10, 2 );
+		add_filter( 'woocommerce_component_settings_preload_endpoints', array( $this, 'add_preload_endpoints' ) );
+	}
+
+	/**
+	 * Preload data from the countries endpoint.
+	 *
+	 * @param array $endpoints Array of preloaded endpoints.
+	 * @return array
+	 */
+	public function add_preload_endpoints( $endpoints ) {
+		$endpoints['countries'] = '/wc-analytics/data/countries';
+		return $endpoints;
 	}
 
 	/**
@@ -403,7 +416,7 @@ class Onboarding {
 				'other'                           => array(
 					'label'             => __( 'Other', 'woocommerce-admin' ),
 					'use_description'   => true,
-					'description_label' => 'Description',
+					'description_label' => __( 'Description', 'woocommerce-admin' ),
 				),
 			)
 		);
@@ -535,7 +548,7 @@ class Onboarding {
 			'price'                   => '0.00',
 			'is_installed'            => true,
 			'image'                   => $theme->get_screenshot(),
-			'has_woocommerce_support' => self::has_woocommerce_support( $theme ),
+			'has_woocommerce_support' => true,
 		);
 	}
 
@@ -560,33 +573,13 @@ class Onboarding {
 	 * Check if theme has declared support for WooCommerce.
 	 *
 	 * @param WP_Theme $theme Theme to check.
+	 * @link https://developer.woocommerce.com/2017/12/09/wc-3-3-will-look-great-on-all-the-themes/
+	 * @deprecated 2.2.0
 	 * @return bool
 	 */
 	public static function has_woocommerce_support( $theme ) {
-		$themes = array( $theme );
-		if ( $theme->get( 'Template' ) ) {
-			$parent_theme = wp_get_theme( $theme->get( 'Template' ) );
-			$themes[]     = $parent_theme;
-		}
-
-		foreach ( $themes as $theme ) {
-			$stylesheet_file = $theme->theme_root . '/' . $theme->stylesheet;
-			if ( ! file_exists( $stylesheet_file ) ) {
-				continue;
-			}
-			$directory = new \RecursiveDirectoryIterator( $stylesheet_file );
-			$iterator  = new \RecursiveIteratorIterator( $directory );
-			$files     = new \RegexIterator( $iterator, '/^.+\.php$/i', \RecursiveRegexIterator::GET_MATCH );
-
-			foreach ( $files as $file ) {
-				$content = file_get_contents( $file[0] );
-				if ( preg_match( '/add_theme_support\(([^(]*)(\'|\")woocommerce(\'|\")([^(]*)/si', $content, $matches ) ) {
-					return true;
-				}
-			}
-		}
-
-		return false;
+		wc_deprecated_function( 'Onboarding::has_woocommerce_support', '5.3' ); // Deprecated since WooCommerce 5.3.
+		return true; // All themes are supported since WooCommerce 3.3.
 	}
 
 	/**
@@ -645,18 +638,17 @@ class Onboarding {
 	}
 
 	/**
-	 * Determine if the current page is home or setup wizard.
+	 * Determine if the current page is one of the WC Admin pages.
 	 *
 	 * @return bool
 	 */
-	protected function is_home_or_setup_wizard_page() {
-		$allowed_paths = array( 'wc-admin', 'wc-admin&path=/setup-wizard' );
-		$current_page  = PageController::get_instance()->get_current_page();
+	protected function is_wc_pages() {
+		$current_page = PageController::get_instance()->get_current_page();
 		if ( ! $current_page || ! isset( $current_page['path'] ) ) {
 			return false;
 		}
 
-		return in_array( $current_page['path'], $allowed_paths );
+		return 0 === strpos( $current_page['path'], 'wc-admin' );
 	}
 
 	/**
@@ -677,7 +669,7 @@ class Onboarding {
 		if (
 			( ! self::should_show_profiler() && ! self::should_show_tasks()
 			||
-			! $this->is_home_or_setup_wizard_page()
+			! $this->is_wc_pages()
 		)
 		) {
 			return $settings;
@@ -700,49 +692,6 @@ class Onboarding {
 	}
 
 	/**
-	 * Preload options to prime state of the application.
-	 *
-	 * @param array $options Array of options to preload.
-	 * @return array
-	 */
-	public function preload_options( $options ) {
-		$options[] = 'woocommerce_task_list_complete';
-		$options[] = 'woocommerce_task_list_do_this_later';
-		$options[] = 'woocommerce_task_list_hidden';
-		$options[] = 'woocommerce_extended_task_list_complete';
-		$options[] = 'woocommerce_extended_task_list_hidden';
-
-		if ( ! self::should_show_tasks() && ! self::should_show_profiler() ) {
-			return $options;
-		}
-
-		$options[] = 'wc_connect_options';
-		$options[] = 'woocommerce_task_list_welcome_modal_dismissed';
-		$options[] = 'woocommerce_welcome_from_calypso_modal_dismissed';
-		$options[] = 'woocommerce_task_list_prompt_shown';
-		$options[] = 'woocommerce_task_list_tracked_completed_tasks';
-		$options[] = 'woocommerce_task_list_dismissed_tasks';
-		$options[] = 'woocommerce_allow_tracking';
-		$options[] = 'woocommerce_stripe_settings';
-		$options[] = 'woocommerce-ppcp-settings';
-		$options[] = 'woocommerce_ppcp-gateway_settings';
-		$options[] = 'wc_square_refresh_tokens';
-		$options[] = 'woocommerce_square_credit_card_settings';
-		$options[] = 'woocommerce_payfast_settings';
-		$options[] = 'woocommerce_kco_settings';
-		$options[] = 'woocommerce_klarna_payments_settings';
-		$options[] = 'woocommerce_cod_settings';
-		$options[] = 'woocommerce_bacs_settings';
-		$options[] = 'woocommerce_bacs_accounts';
-		$options[] = 'woocommerce_woocommerce_payments_settings';
-		$options[] = 'woocommerce_eway_settings';
-		$options[] = 'woocommerce_razorpay_settings';
-		$options[] = 'woocommerce_mollie_payments_settings';
-
-		return $options;
-	}
-
-	/**
 	 * Preload WC setting options to prime state of the application.
 	 *
 	 * @param array $options Array of options to preload.
@@ -752,40 +701,6 @@ class Onboarding {
 		$options[] = 'general';
 
 		return $options;
-	}
-
-	/**
-	 * Gets an array of plugins that can be installed & activated via the onboarding wizard.
-	 *
-	 * @param array $plugins Array of plugin slugs to be allowed.
-	 *
-	 * @return array
-	 * @todo Handle edgecase of where installed plugins may have versioned folder names (i.e. `jetpack-main/jetpack.php`).
-	 */
-	public static function get_onboarding_allowed_plugins( $plugins ) {
-		$onboarding_plugins = apply_filters(
-			'woocommerce_admin_onboarding_plugins_whitelist',
-			array(
-				'facebook-for-woocommerce'            => 'facebook-for-woocommerce/facebook-for-woocommerce.php',
-				'mailchimp-for-woocommerce'           => 'mailchimp-for-woocommerce/mailchimp-woocommerce.php',
-				'creative-mail-by-constant-contact'   => 'creative-mail-by-constant-contact/creative-mail-plugin.php',
-				'kliken-marketing-for-google'         => 'kliken-marketing-for-google/kliken-marketing-for-google.php',
-				'jetpack'                             => 'jetpack/jetpack.php',
-				'woocommerce-services'                => 'woocommerce-services/woocommerce-services.php',
-				'woocommerce-gateway-stripe'          => 'woocommerce-gateway-stripe/woocommerce-gateway-stripe.php',
-				'woocommerce-paypal-payments'         => 'woocommerce-paypal-payments/woocommerce-paypal-payments.php',
-				'klarna-checkout-for-woocommerce'     => 'klarna-checkout-for-woocommerce/klarna-checkout-for-woocommerce.php',
-				'klarna-payments-for-woocommerce'     => 'klarna-payments-for-woocommerce/klarna-payments-for-woocommerce.php',
-				'woocommerce-square'                  => 'woocommerce-square/woocommerce-square.php',
-				'woocommerce-shipstation-integration' => 'woocommerce-shipstation-integration/woocommerce-shipstation.php',
-				'woocommerce-payfast-gateway'         => 'woocommerce-payfast-gateway/gateway-payfast.php',
-				'woocommerce-payments'                => 'woocommerce-payments/woocommerce-payments.php',
-				'woocommerce-gateway-eway'            => 'woocommerce-gateway-eway/woocommerce-gateway-eway.php',
-				'woo-razorpay'                        => 'woo-razorpay/woo-razorpay.php',
-				'mollie-payments-for-woocommerce'     => 'mollie-payments-for-woocommerce/mollie-payments-for-woocommerce.php',
-			)
-		);
-		return array_merge( $plugins, $onboarding_plugins );
 	}
 
 	/**
@@ -822,82 +737,6 @@ class Onboarding {
 		}
 
 		return $is_loading;
-	}
-
-	/**
-	 * Instead of redirecting back to the payment settings page, we will redirect back to the payments task list with our status.
-	 *
-	 * @param string $location URL of redirect.
-	 * @param int    $status HTTP response status code.
-	 * @return string URL of redirect.
-	 */
-	public function overwrite_paypal_redirect( $location, $status ) {
-		$settings_page = 'tab=checkout&section=ppec_paypal';
-		if ( substr( $location, -strlen( $settings_page ) ) === $settings_page ) {
-			$settings_array = (array) get_option( 'woocommerce_ppec_paypal_settings', array() );
-			$connected      = isset( $settings_array['api_username'] ) && isset( $settings_array['api_password'] ) ? true : false;
-			return wc_admin_url( '&task=payments&method=paypal&paypal-connect=' . $connected );
-		}
-		return $location;
-	}
-
-	/**
-	 * Finishes the PayPal connection process by saving the correct settings.
-	 */
-	public function finish_paypal_connect() {
-		if (
-			! Loader::is_admin_page() ||
-			! isset( $_GET['paypal-connect-finish'] ) // phpcs:ignore CSRF ok.
-		) {
-			return;
-		}
-
-		if ( ! function_exists( 'wc_gateway_ppec' ) ) {
-			return false;
-		}
-
-		// @todo This is a bit hacky but works. Ideally, woocommerce-gateway-paypal-express-checkout would contain a filter for us.
-		add_filter( 'wp_redirect', array( $this, 'overwrite_paypal_redirect' ), 10, 2 );
-		wc_gateway_ppec()->ips->maybe_received_credentials();
-		remove_filter( 'wp_redirect', array( $this, 'overwrite_paypal_redirect' ) );
-	}
-
-	/**
-	 * Instead of redirecting back to the payment settings page, we will redirect back to the payments task list with our status.
-	 *
-	 * @param string $location URL of redirect.
-	 * @param int    $status HTTP response status code.
-	 * @return string URL of redirect.
-	 */
-	public function overwrite_square_redirect( $location, $status ) {
-		$settings_page = 'page=wc-settings&tab=square';
-		if ( substr( $location, -strlen( $settings_page ) ) === $settings_page ) {
-			return wc_admin_url( '&task=payments&method=square&square-connect=1' );
-		}
-		return $location;
-	}
-
-	/**
-	 * Finishes the Square connection process by saving the correct settings.
-	 */
-	public function finish_square_connect() {
-		if (
-			! Loader::is_admin_page() ||
-			! isset( $_GET['square-connect-finish'] ) // phpcs:ignore CSRF ok.
-		) {
-			return;
-		}
-
-		if ( ! class_exists( '\WooCommerce\Square\Plugin' ) ) {
-			return false;
-		}
-
-		$square = \WooCommerce\Square\Plugin::instance();
-
-		// @todo This is a bit hacky but works. Ideally, woocommerce-square would contain a filter for us.
-		add_filter( 'wp_redirect', array( $this, 'overwrite_square_redirect' ), 10, 2 );
-		$square->get_connection_handler()->handle_connected();
-		remove_filter( 'wp_redirect', array( $this, 'overwrite_square_redirect' ) );
 	}
 
 	/**
@@ -1086,7 +925,7 @@ class Onboarding {
 		if (
 			! self::should_show_tasks() ||
 			! isset( $_SERVER['HTTP_REFERER'] ) ||
-			0 !== strpos( $_SERVER['HTTP_REFERER'], 'https://woocommerce.com/checkout' ) // phpcs:ignore sanitization ok.
+			0 !== strpos( $_SERVER['HTTP_REFERER'], 'https://woocommerce.com/checkout?utm_medium=product' ) // phpcs:ignore sanitization ok.
 		) {
 			return;
 		}
@@ -1107,13 +946,54 @@ class Onboarding {
 		}
 
 		$onboarding_data = get_option( self::PROFILE_DATA_OPTION, array() );
-		// Don't make updates if the profiler is completed, but task list is potentially incomplete.
-		if ( isset( $onboarding_data['completed'] ) && $onboarding_data['completed'] ) {
+		// Don't make updates if the profiler is completed or skipped, but task list is potentially incomplete.
+		if (
+			( isset( $onboarding_data['completed'] ) && $onboarding_data['completed'] ) ||
+			( isset( $onboarding_data['skipped'] ) && $onboarding_data['skipped'] )
+		) {
 			return;
 		}
 
 		$onboarding_data['completed'] = true;
 		update_option( self::PROFILE_DATA_OPTION, $onboarding_data );
-		update_option( 'woocommerce_task_list_hidden', 'yes' );
+
+		if ( ! WCAdminHelper::is_wc_admin_active_for( DAY_IN_SECONDS ) ) {
+			update_option( 'woocommerce_task_list_hidden', 'yes' );
+		}
+	}
+
+	/**
+	 * Ensure that Jetpack gets installed and activated ahead of WooCommerce Payments
+	 * if both are being installed/activated at the same time.
+	 *
+	 * See: https://github.com/Automattic/woocommerce-payments/issues/1663
+	 * See: https://github.com/Automattic/jetpack/issues/19624
+	 *
+	 * @param array $plugins A list of plugins to install or activate.
+	 *
+	 * @return array
+	 */
+	public static function activate_and_install_jetpack_ahead_of_wcpay( $plugins ) {
+		if ( in_array( 'jetpack', $plugins, true ) && in_array( 'woocommerce-payments', $plugins, true ) ) {
+			array_unshift( $plugins, 'jetpack' );
+			$plugins = array_unique( $plugins );
+		}
+		return $plugins;
+	}
+
+	/**
+	 * Delete MailchimpScheduler::SUBSCRIBED_OPTION_NAME option if profile data is being updated with a new email.
+	 *
+	 * @param array $existing_data Existing option data.
+	 * @param array $updating_data Updating option data.
+	 */
+	public function on_profile_data_updated( $existing_data, $updating_data ) {
+		if (
+			isset( $existing_data['store_email'] ) &&
+			isset( $updating_data['store_email'] ) &&
+			$existing_data['store_email'] !== $updating_data['store_email']
+		) {
+			delete_option( MailchimpScheduler::SUBSCRIBED_OPTION_NAME );
+		}
 	}
 }

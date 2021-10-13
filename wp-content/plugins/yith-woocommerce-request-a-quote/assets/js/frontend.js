@@ -1,15 +1,14 @@
+/* global ywraq_frontend */
 jQuery(function ($) {
 	"use strict";
 
 	var $body = $('body'),
-		$add_to_cart_el = $('.add-request-quote-button'),
 		table = $(document).find('#yith-ywrq-table-list'),
-		url = document.location.href,
-		$remove_item = $('.yith-ywraq-item-remove');
+		url = document.location.href;
 
 	if (table.length > 0 && ywraq_frontend.raq_table_refresh_check) {
 		$.post(url, function (data) {
-			if (data != '') {
+			if ( '' !== data ) {
 				var c = $("<div></div>").html(data),
 					table = c.find('#yith-ywrq-table-list');
 				$('#yith-ywrq-table-list').html(table.html());
@@ -20,6 +19,12 @@ jQuery(function ($) {
 
 	if ($body.hasClass('single-product')) {
 
+		var nearCart = $(document).find('.near-add-to-cart');
+		var variation = $(document).find('.woocommerce-variation-add-to-cart');
+
+		if( nearCart.length > 0 && variation.length > 0 ){
+			variation.append( nearCart );
+		}
 		var $product_id = $('[name|="product_id"]'),
 			product_id = $product_id.val(),
 			button = $('.add-to-quote-' + product_id).find('a'),
@@ -28,14 +33,14 @@ jQuery(function ($) {
 
 		$variation_id.on('change', function () {
 
-			if ($(this).val() == '') {
+			if ('' === $(this).val() ) {
 				button.parent().hide().removeClass('show');
 			} else {
 				$.ajax({
 					type: 'POST',
 					url: ywraq_frontend.ajaxurl,
 					dataType: 'json',
-					data: 'action=yith_ywraq_action&ywraq_action=variation_exist&variation_id=' + $variation_id.val() + '&product_id=' + $product_id.val() + 'wp_nonce=' + ywraq_frontend.yith_ywraq_action_nonce,
+					data: 'action=yith_ywraq_action&ywraq_action=variation_exist&variation_id=' + $variation_id.val() + '&product_id=' + $product_id.val() + '&_wpnonce=' + ywraq_frontend.yith_ywraq_action_nonce,
 					success: function (response) {
 						if (response.result === true) {
 							button.parent().hide().removeClass('show');
@@ -57,22 +62,21 @@ jQuery(function ($) {
 
 
 	$(document).on('click', '.add-request-quote-button', function (e) {
-
 		e.preventDefault();
 
 		var $t = $(this),
 			$t_wrap = $t.parents('.yith-ywraq-add-to-quote'),
-			add_to_cart_info = 'ac';
-
+			add_to_cart_info = 'ac',
+			$add_to_cart_el = null,
+			$product_id_el = null;
 
 		if ($t.parents('ul.products').length > 0) {
-			var $add_to_cart_el = $t.parents('li.product').find('input[name="add-to-cart"]'),
+			    $add_to_cart_el = $t.parents('li.product').find('input[name="add-to-cart"]');
 				$product_id_el = $t.parents('li.product').find('input[name="product_id"]');
 		} else {
-			var $add_to_cart_el = $t.parents('.product').find('input[name="add-to-cart"]'),
+			    $add_to_cart_el = $t.parents('.product').find('input[name="add-to-cart"]');
 				$product_id_el = $t.parents('.product').find('input[name="product_id"]');
 		}
-
 
 		if ($add_to_cart_el.length > 0 && $product_id_el.length > 0) { //variable product
 			add_to_cart_info = $('.cart').serialize();
@@ -80,8 +84,7 @@ jQuery(function ($) {
 			add_to_cart_info = $('.cart').serialize();
 		}
 
-
-		add_to_cart_info += '&action=yith_ywraq_action&ywraq_action=add_item&product_id=' + $t.data('product_id') + '&wp_nonce=' + ywraq_frontend.yith_ywraq_action_nonce;
+		add_to_cart_info += '&action=yith_ywraq_action&ywraq_action=add_item&product_id=' + $t.data('product_id') + '&_wpnonce=' + ywraq_frontend.yith_ywraq_action_nonce;
 		if (add_to_cart_info.indexOf('add-to-cart') > 0) {
 			add_to_cart_info = add_to_cart_info.replace('add-to-cart', 'yith-add-to-cart');
 		}
@@ -100,11 +103,15 @@ jQuery(function ($) {
 
 			success: function (response) {
 				if (response.result == 'true' || response.result == 'exists') {
-					$t.parent().hide().removeClass('show').addClass('addedd');
-					var prod_id = (typeof $product_id_el.val() == 'undefined') ? '' : '-' + $product_id_el.val();
-					$t_wrap.append('<div class="yith_ywraq_add_item_response' + prod_id + ' yith_ywraq_add_item_response_message">' + response.message + '</div>');
-					$t_wrap.append('<div class="yith_ywraq_add_item_browse-list' + prod_id + ' yith_ywraq_add_item_browse_message"><a href="' + response.rqa_url + '">' + response.label_browse + '</a></div>');
 
+					if (ywraq_frontend.go_to_the_list === 'yes') {
+						window.location.href = response.rqa_url;
+					} else {
+						$t.parent().hide().removeClass('show').addClass('addedd');
+						var prod_id = (typeof $product_id_el.val() == 'undefined') ? '' : '-' + $product_id_el.val();
+						$t_wrap.append('<div class="yith_ywraq_add_item_response' + prod_id + ' yith_ywraq_add_item_response_message">' + response.message + '</div>');
+						$t_wrap.append('<div class="yith_ywraq_add_item_browse-list' + prod_id + ' yith_ywraq_add_item_browse_message"><a href="' + response.rqa_url + '">' + response.label_browse + '</a></div>');
+					}
 
 				} else if (response.result == 'false') {
 					$t_wrap.append('<div class="yith_ywraq_add_item_response-' + $product_id_el.val() + '">' + response.message + '</div>');
@@ -126,7 +133,7 @@ jQuery(function ($) {
 			form = $('#yith-ywraq-form'),
 			remove_info = '';
 
-		remove_info = 'action=yith_ywraq_action&ywraq_action=remove_item&key=' + $t.data('remove-item') + '&wp_nonce=' + ywraq_frontend.yith_ywraq_action_nonce + '&product_id=' + $t.data('product_id');
+		remove_info = 'action=yith_ywraq_action&ywraq_action=remove_item&key=' + $t.data('remove-item') + '&_wpnonce=' + ywraq_frontend.yith_ywraq_action_nonce + '&product_id=' + $t.data('product_id');
 
 		$.ajax({
 			type: 'POST',
@@ -153,4 +160,7 @@ jQuery(function ($) {
 	});
 
 	$(document).find('.theme-yith-proteo.yith-request-a-quote-page .woocommerce-message').removeAttr('role');
+
+
+
 });
