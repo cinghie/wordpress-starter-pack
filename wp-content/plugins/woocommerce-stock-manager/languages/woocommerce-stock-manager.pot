@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Stock Manager for WooCommerce plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Stock Manager for WooCommerce 2.8.0\n"
+"Project-Id-Version: Stock Manager for WooCommerce 2.8.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-stock-manager\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-09-17T10:36:10+05:30\n"
+"POT-Creation-Date: 2021-10-15T13:22:08+05:30\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.1.0\n"
 "X-Domain: woocommerce-stock-manager\n"
@@ -32,60 +32,6 @@ msgstr ""
 
 #. Author URI of the plugin
 msgid "https://www.storeapps.org/"
-msgstr ""
-
-#: admin/views/log-history.php:48
-msgid "Date"
-msgstr ""
-
-#: admin/views/log-history.php:49
-#: admin/views/log.php:33
-#: admin/views/import-export.php:136
-#: admin/views/import-export.php:158
-#: admin/assets/src/components/Products.js:148
-#: admin/assets/src/components/ScreenOptions.js:83
-msgid "Stock"
-msgstr ""
-
-#: admin/views/log-history.php:69
-msgid "No result"
-msgstr ""
-
-#: admin/views/log.php:28
-msgid "Product ID"
-msgstr ""
-
-#: admin/views/log.php:29
-#: admin/views/import-export.php:131
-#: admin/views/import-export.php:154
-#: admin/assets/src/components/ProductFilter.js:64
-#: admin/assets/src/components/Products.js:99
-#: admin/assets/src/components/ScreenOptions.js:38
-msgid "SKU"
-msgstr ""
-
-#: admin/views/log.php:30
-msgid "Name"
-msgstr ""
-
-#: admin/views/log.php:31
-#: admin/views/import-export.php:137
-#: admin/assets/src/components/Products.js:97
-msgid "Product type"
-msgstr ""
-
-#: admin/views/log.php:32
-#: admin/views/import-export.php:138
-msgid "Parent ID"
-msgstr ""
-
-#: admin/views/log.php:60
-#: admin/views/log.php:94
-msgid "History"
-msgstr ""
-
-#: admin/views/setting.php:34
-msgid "Active old styles"
 msgstr ""
 
 #: admin/views/import-export.php:121
@@ -114,6 +60,15 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
+#: admin/views/import-export.php:131
+#: admin/views/import-export.php:154
+#: admin/views/log.php:29
+#: admin/assets/src/components/ProductFilter.js:64
+#: admin/assets/src/components/Products.js:99
+#: admin/assets/src/components/ScreenOptions.js:38
+msgid "SKU"
+msgstr ""
+
 #: admin/views/import-export.php:132
 #: admin/assets/src/components/Products.js:115
 #: admin/assets/src/components/ScreenOptions.js:48
@@ -140,6 +95,26 @@ msgstr ""
 #: admin/assets/src/components/Products.js:145
 #: admin/assets/src/components/ScreenOptions.js:78
 msgid "Backorders"
+msgstr ""
+
+#: admin/views/import-export.php:136
+#: admin/views/import-export.php:158
+#: admin/views/log-history.php:49
+#: admin/views/log.php:33
+#: admin/assets/src/components/Products.js:148
+#: admin/assets/src/components/ScreenOptions.js:83
+msgid "Stock"
+msgstr ""
+
+#: admin/views/import-export.php:137
+#: admin/views/log.php:31
+#: admin/assets/src/components/Products.js:97
+msgid "Product type"
+msgstr ""
+
+#: admin/views/import-export.php:138
+#: admin/views/log.php:32
+msgid "Parent ID"
 msgstr ""
 
 #: admin/views/import-export.php:141
@@ -228,6 +203,31 @@ msgstr ""
 
 #: admin/views/import-export.php:255
 msgid "Create export file"
+msgstr ""
+
+#: admin/views/log-history.php:48
+msgid "Date"
+msgstr ""
+
+#: admin/views/log-history.php:69
+msgid "No result"
+msgstr ""
+
+#: admin/views/log.php:28
+msgid "Product ID"
+msgstr ""
+
+#: admin/views/log.php:30
+msgid "Name"
+msgstr ""
+
+#: admin/views/log.php:60
+#: admin/views/log.php:94
+msgid "History"
+msgstr ""
+
+#: admin/views/setting.php:34
+msgid "Active old styles"
 msgstr ""
 
 #: admin/class-stock-manager-admin.php:153

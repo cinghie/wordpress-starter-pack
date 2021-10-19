@@ -59,12 +59,7 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 			// Update cart total
 			// add_filter( 'woocommerce_calculated_total', array( $this, 'custom_calculated_total' ), 10, 2 );
 			// Add order item meta.
-			global $woocommerce;
-			if ( version_compare( $woocommerce->version, '3.0', '>=' ) ) {
-				add_action( 'woocommerce_new_order_item', array( $this, 'add_order_item_meta' ), 10, 3 );
-			} else {
-				add_action( 'woocommerce_add_order_item_meta', array( $this, 'add_order_item_meta' ), 10, 3 );
-			}
+			add_action( 'woocommerce_add_order_item_meta', array( $this, 'add_order_item_meta' ), 10, 3 );
 		}
 
 		/**
@@ -175,14 +170,14 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 									$option_price           = ( $product_price / 100 ) * $option_percentage;
 									$option_price_sale      = ( $product_price / 100 ) * $option_percentage_sale;
 							} elseif ( 'multiplied' === $info['price_type'] ) {
-								$option_price      = floatval( $info['price'] ) * $value * $currency_rate;
-								$option_price_sale = floatval( $info['price'] ) * $value * $currency_rate;
+								$option_price      = floatval( $info['price'] ) * (float) $value * (float) $currency_rate;
+								$option_price_sale = floatval( $info['price'] ) * (float) $value * (float) $currency_rate;
 							} elseif ( 'characters' === $info['price_type'] ) {
-								$option_price      = floatval( $info['price'] ) * strlen( $value ) * $currency_rate;
-								$option_price_sale = floatval( $info['price'] ) * strlen( $value ) * $currency_rate;
+								$option_price      = floatval( $info['price'] ) * strlen( $value ) * (float) $currency_rate;
+								$option_price_sale = floatval( $info['price'] ) * strlen( $value ) * (float) $currency_rate;
 							} else {
-								$option_price      = floatval( $info['price'] ) * $currency_rate;
-								$option_price_sale = floatval( $info['price_sale'] ) * $currency_rate;
+								$option_price      = floatval( $info['price'] ) * (float) $currency_rate;
+								$option_price_sale = floatval( $info['price_sale'] ) * (float) $currency_rate;
 							}
 
 							$sign = 'decrease' === $info['price_method'] ? '-' : '+';
@@ -198,7 +193,7 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 							$cart_data_name = $info['addon_label'] ?? '';
 
 							if ( in_array( $info['addon_type'], array( 'checkbox', 'color', 'label', 'radio', 'select' ), true ) ) {
-								$value = $info['label'];
+								$value = ! empty( $info['label'] ) ? $info['label'] : ( $info['tooltip'] ?? '' );
 							} elseif ( 'product' === $info['addon_type'] ) {
 								$option_product_info = explode( '-', $value );
 								$option_product_id   = $option_product_info[1];
@@ -271,8 +266,7 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 				return; }
 
 			// Avoiding hook repetition (when using price calculations for example).
-			/*if ( did_action( 'woocommerce_before_calculate_totals' ) >= 2 ) {
-				return; }*/
+			// if ( did_action( 'woocommerce_before_calculate_totals' ) >= 2 ) { return; }.
 
 			// Loop through cart items.
 			foreach ( $cart->get_cart() as $cart_item ) {
@@ -309,8 +303,8 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 									$option_price           = ( $product_price / 100 ) * $option_percentage;
 									$option_price_sale      = ( $product_price / 100 ) * $option_percentage_sale;
 								} elseif ( 'multiplied' === $info['price_type'] ) {
-									$option_price      = (float) $info['price'] * $value;
-									$option_price_sale = (float) $info['price'] * $value;
+									$option_price      = (float) $info['price'] * (float) $value;
+									$option_price_sale = (float) $info['price'] * (float) $value;
 								} elseif ( 'characters' === $info['price_type'] ) {
 									$option_price      = (float) $info['price'] * strlen( $value );
 									$option_price_sale = (float) $info['price'] * strlen( $value );

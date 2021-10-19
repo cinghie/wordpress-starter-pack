@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Quick View - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-10-05 06:19:46+0000\n"
+"PO-Revision-Date: 2021-10-15 12:32:26+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,12 +11,52 @@ msgstr ""
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Quick View - Stable (latest release)\n"
 
+#. Translators: %1$f: Table size, %2$f: Index size, %3$f: Free size, %4$s
+#. Engine.
+#: plugin-fw/templates/sysinfo/tabs/main.php:168
+msgid "Data: %1$.2fMB | Index: %2$.2fMB | Free: %3$.2fMB | Engine: %4$s"
+msgstr "Dati: %1$.2fMB | Indice: %2$.2fMB | Libero: %3$.2fMB | Motore: %4$s"
+
+#: plugin-fw/templates/sysinfo/tabs/main.php:154
+msgid "Database Free Size"
+msgstr "Dimensione spazio libero database"
+
+#: plugin-fw/templates/sysinfo/tabs/main.php:146
+msgid "Database Index Size"
+msgstr "Dimensione indice database"
+
+#: plugin-fw/templates/sysinfo/tabs/main.php:138
+msgid "Database Data Size"
+msgstr "Dimensione dati database"
+
+#: plugin-fw/templates/sysinfo/tabs/main.php:130
+msgid "Total Database Size"
+msgstr "Dimensione totale database"
+
+#. Translators: %s: Codex link.
+#: plugin-fw/templates/sysinfo/tabs/main.php:123
+msgid "WordPress requirements"
+msgstr "Requisiti WordPress"
+
+#. Translators: %s: Codex link.
+#: plugin-fw/templates/sysinfo/tabs/main.php:123
+msgid "WordPress recommends a minimum MySQL version of 5.6. See: %s"
+msgstr "WordPress consiglia una versione minima 5.6 di MySQL. Vedi: %s"
+
+#: plugin-fw/templates/sysinfo/tabs/main.php:113
+msgid "MySQL version"
+msgstr "Versione MySQL"
+
+#: plugin-fw/templates/sysinfo/tabs/main.php:108
+msgid "Database Info"
+msgstr "Info database"
+
 #. translators: %s is the name of the plugin that is loading the framework.
-#: plugin-fw/templates/sysinfo/tabs/main.php:63
+#: plugin-fw/templates/sysinfo/tabs/main.php:64
 msgid "loaded by %s"
 msgstr "caricato da %s"
 
-#: plugin-fw/templates/sysinfo/tabs/main.php:54
+#: plugin-fw/templates/sysinfo/tabs/main.php:55
 msgid "YITH Plugin Framework Version"
 msgstr "YITH Plugin Framework Version"
 
@@ -121,7 +161,7 @@ msgstr "Si è verificato un errore con la tua richiesta. Riprova più tardi."
 msgid "Are you sure you want to delete the selected items?"
 msgstr "Se sicuro di voler eliminare gli elementi selezionati?"
 
-#: plugin-fw/includes/class-yit-assets.php:148 plugin-fw/yit-functions.php:1965
+#: plugin-fw/includes/class-yit-assets.php:148 plugin-fw/yit-functions.php:1982
 msgctxt "Trash confirmation action"
 msgid "Yes, move to trash"
 msgstr "Sì, sposta nel cestino"
@@ -161,100 +201,100 @@ msgstr "Opzioni salvate"
 msgid "Save Options"
 msgstr "Salva opzioni "
 
-#: plugin-fw/yit-functions.php:2101
+#: plugin-fw/yit-functions.php:2118
 msgctxt "Term action"
 msgid "Delete"
 msgstr "Elimina"
 
-#: plugin-fw/yit-functions.php:2088
+#: plugin-fw/yit-functions.php:2105
 msgctxt "Term action"
 msgid "Duplicate"
 msgstr "Duplica"
 
-#: plugin-fw/yit-functions.php:2080
+#: plugin-fw/yit-functions.php:2097
 msgctxt "Term action"
 msgid "Edit"
 msgstr "Modifica"
 
-#: plugin-fw/yit-functions.php:2070
+#: plugin-fw/yit-functions.php:2087
 msgctxt "Term action"
 msgid "View"
 msgstr "Visualizza"
 
-#: plugin-fw/yit-functions.php:1994 plugin-fw/yit-functions.php:2002
-#: plugin-fw/yit-functions.php:2119
+#: plugin-fw/yit-functions.php:2011 plugin-fw/yit-functions.php:2019
+#: plugin-fw/yit-functions.php:2136
 msgid "Further actions"
 msgstr "Ulteriori azioni"
 
-#: plugin-fw/includes/class-yit-assets.php:152 plugin-fw/yit-functions.php:1983
-#: plugin-fw/yit-functions.php:2110
+#: plugin-fw/includes/class-yit-assets.php:152 plugin-fw/yit-functions.php:2000
+#: plugin-fw/yit-functions.php:2127
 msgctxt "Delete confirmation action"
 msgid "Yes, delete"
 msgstr "Sì, elimina"
 
-#: plugin-fw/includes/class-yit-assets.php:150 plugin-fw/yit-functions.php:1980
-#: plugin-fw/yit-functions.php:2108
+#: plugin-fw/includes/class-yit-assets.php:150 plugin-fw/yit-functions.php:1997
+#: plugin-fw/yit-functions.php:2125
 msgid "Confirm delete"
 msgstr "Conferma eliminazione"
 
-#: plugin-fw/yit-functions.php:1973
+#: plugin-fw/yit-functions.php:1990
 msgctxt "Post action"
 msgid "Delete Permanently"
 msgstr "Elimina definitivamente"
 
-#: plugin-fw/includes/class-yit-assets.php:146 plugin-fw/yit-functions.php:1962
+#: plugin-fw/includes/class-yit-assets.php:146 plugin-fw/yit-functions.php:1979
 msgid "Confirm trash"
 msgstr "Conferma"
 
-#: plugin-fw/yit-functions.php:1956
+#: plugin-fw/yit-functions.php:1973
 msgctxt "Post action"
 msgid "Trash"
 msgstr "Cestina"
 
-#: plugin-fw/yit-functions.php:1948
+#: plugin-fw/yit-functions.php:1965
 msgctxt "Post action"
 msgid "Restore"
 msgstr "Ripristina"
 
-#: plugin-fw/yit-functions.php:1936
+#: plugin-fw/yit-functions.php:1953
 msgctxt "Post action"
 msgid "Duplicate"
 msgstr "Duplica"
 
-#: plugin-fw/yit-functions.php:1928
+#: plugin-fw/yit-functions.php:1945
 msgctxt "Post action"
 msgid "Edit"
 msgstr "Modifica"
 
-#: plugin-fw/yit-functions.php:1917
+#: plugin-fw/yit-functions.php:1934
 msgctxt "Post action"
 msgid "View"
 msgstr "Visualizza"
 
-#: plugin-fw/yit-functions.php:1908
+#: plugin-fw/yit-functions.php:1925
 msgctxt "Post action"
 msgid "Preview"
 msgstr "Anteprima"
 
 #. translators: %s is the title of the post object.
 #. translators: %s is the title of the post object.
-#: plugin-fw/includes/class-yit-assets.php:151 plugin-fw/yit-functions.php:1896
-#: plugin-fw/yit-functions.php:2056
+#: plugin-fw/includes/class-yit-assets.php:151 plugin-fw/yit-functions.php:1913
+#: plugin-fw/yit-functions.php:2073
 msgid "This action cannot be undone and you will not be able to recover this data."
 msgstr "Quest'azione non può essere annullata e non sarà possibile recuperare questi dati."
 
 #. translators: %s is the title of the post object.
 #. translators: %s is the title of the post object.
-#: plugin-fw/yit-functions.php:1896 plugin-fw/yit-functions.php:2056
+#: plugin-fw/yit-functions.php:1913 plugin-fw/yit-functions.php:2073
 msgid "Are you sure you want to delete \"%s\"?"
 msgstr "Sei sicuro di voler eliminare \"%s\"?"
 
 #. translators: %s is the title of the post object.
-#: plugin-fw/yit-functions.php:1894
+#: plugin-fw/yit-functions.php:1911
 msgid "Are you sure you want to move \"%s\" to trash?"
 msgstr "Sei sicuro di voler spostare \"%s\" nel cestino?"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1440
+#: plugin-fw/includes/class-yit-plugin-panel.php:1460
 msgid "help us by leaving a good review"
 msgstr "aiutaci lasciando una recensione positiva"
 
@@ -314,11 +354,11 @@ msgstr "La dimensione del file supera gli 8 megabyte e deve essere scaricato"
 msgid "Download"
 msgstr "Scarica"
 
-#: plugin-fw/templates/sysinfo/tabs/main.php:72
+#: plugin-fw/templates/sysinfo/tabs/main.php:73
 msgid "Plugins Requirements"
 msgstr "Requisiti plugin"
 
-#: plugin-fw/templates/sysinfo/tabs/main.php:16
+#: plugin-fw/templates/sysinfo/tabs/main.php:17
 msgid "Site Info"
 msgstr "Informazioni sito"
 
@@ -331,24 +371,24 @@ msgstr "File log"
 msgid "PHPInfo"
 msgstr "PHPInfo"
 
-#: plugin-fw/templates/sysinfo/tabs/main.php:46
+#: plugin-fw/templates/sysinfo/tabs/main.php:47
 msgid "External object cache"
 msgstr "External object cache"
 
 #: plugin-fw/includes/class-yit-assets.php:149
 #: plugin-fw/includes/class-yit-assets.php:153
-#: plugin-fw/templates/sysinfo/tabs/main.php:41
-#: plugin-fw/templates/sysinfo/tabs/main.php:49
-#: plugin-fw/yit-functions.php:1964 plugin-fw/yit-functions.php:1982
+#: plugin-fw/templates/sysinfo/tabs/main.php:42
+#: plugin-fw/templates/sysinfo/tabs/main.php:50
+#: plugin-fw/yit-functions.php:1981 plugin-fw/yit-functions.php:1999
 msgid "No"
 msgstr "No"
 
-#: plugin-fw/templates/sysinfo/tabs/main.php:41
-#: plugin-fw/templates/sysinfo/tabs/main.php:49
+#: plugin-fw/templates/sysinfo/tabs/main.php:42
+#: plugin-fw/templates/sysinfo/tabs/main.php:50
 msgid "Yes"
 msgstr "Sì"
 
-#: plugin-fw/templates/sysinfo/tabs/main.php:38
+#: plugin-fw/templates/sysinfo/tabs/main.php:39
 msgid "Defined WP_CACHE"
 msgstr "Defined WP_CACHE"
 
@@ -433,23 +473,23 @@ msgctxt "YES/NO button: use MAX 4 characters!"
 msgid "NO"
 msgstr "NO"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1441
+#: plugin-fw/includes/class-yit-plugin-panel.php:1461
 msgid ":) Thanks!"
 msgstr ":) Grazie!"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1438
+#: plugin-fw/includes/class-yit-plugin-panel.php:1458
 msgid "to keep updating and improving the plugin. Please,"
 msgstr "per continuare ad aggiornare e a migliorare il plugin."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1437
+#: plugin-fw/includes/class-yit-plugin-panel.php:1457
 msgid "We need your support"
 msgstr "Abbiamo bisogno del tuo sostegno"
 
-#: plugin-fw/templates/sysinfo/tabs/main.php:30
+#: plugin-fw/templates/sysinfo/tabs/main.php:31
 msgid "Output IP Address"
 msgstr "Indirizzo IP (output)"
 
-#: plugin-fw/templates/sysinfo/tabs/main.php:21
+#: plugin-fw/templates/sysinfo/tabs/main.php:22
 msgid "Site URL"
 msgstr "URL del sito"
 
@@ -662,31 +702,31 @@ msgstr "YITH"
 msgid "The <code><strong>YITH WooCommerce Quick View</strong></code> plugin allows your customers to have a quick look about products. <a href=\"https://yithemes.com/\" target=\"_blank\">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>."
 msgstr "Il plugin <code><strong>YITH WooCommerce Quick View</strong></code> permette ai tuoi clienti di avere una visualizzazione rapida dei prodotti. <a href=\"https://yithemes.com/\" target=\"_blank\">Ottieni più plugin per il tuo e-commerce su <strong>YITH</strong></a>."
 
-#: plugin-fw/yit-plugin.php:206
+#: plugin-fw/yit-plugin.php:205
 msgid "License"
 msgstr "Chiave di licenza"
 
-#: plugin-fw/yit-plugin.php:202
+#: plugin-fw/yit-plugin.php:201
 msgctxt "Action links"
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: plugin-fw/yit-plugin.php:97
+#: plugin-fw/yit-plugin.php:96
 msgctxt "Plugin Row Meta"
 msgid "Premium version"
 msgstr "Versione premium"
 
-#: plugin-fw/yit-plugin.php:93
+#: plugin-fw/yit-plugin.php:92
 msgctxt "Plugin Row Meta"
 msgid "Support"
 msgstr "Assistenza"
 
-#: plugin-fw/yit-plugin.php:89
+#: plugin-fw/yit-plugin.php:88
 msgctxt "Plugin Row Meta"
 msgid "Documentation"
 msgstr "Documentazione"
 
-#: plugin-fw/yit-plugin.php:85
+#: plugin-fw/yit-plugin.php:84
 msgctxt "Plugin Row Meta"
 msgid "Live Demo"
 msgstr "Live Demo"
@@ -721,7 +761,7 @@ msgctxt "Privacy Policy Guide Title"
 msgid "YITH Plugins"
 msgstr "YITH Plugins"
 
-#: plugin-fw/templates/fields/icons.php:63
+#: plugin-fw/templates/fields/icons.php:78
 msgid "Set Default"
 msgstr "Ripristina impostazioni iniziali"
 
@@ -998,44 +1038,44 @@ msgstr "Plugin aggiornati"
 msgid "Plugins Activated"
 msgstr "Plugin attivati"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:969
+#: plugin-fw/includes/class-yit-plugin-panel.php:989
 msgid "Sorting successful."
 msgstr "Ordinamento effettuato con successo."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:968
+#: plugin-fw/includes/class-yit-plugin-panel.php:988
 msgid "Sorry, import is disabled."
 msgstr "L'importazione è disabilitata."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:967
+#: plugin-fw/includes/class-yit-plugin-panel.php:987
 msgid "The added file is not valid."
 msgstr "Il file aggiunto non è valido."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:966
+#: plugin-fw/includes/class-yit-plugin-panel.php:986
 msgid "An error has occurred during import. Please try again."
 msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:965
+#: plugin-fw/includes/class-yit-plugin-panel.php:985
 msgid "Database imported correctly."
 msgstr "Database importato correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:963
-#: plugin-fw/includes/class-yit-plugin-panel.php:964
+#: plugin-fw/includes/class-yit-plugin-panel.php:983
+#: plugin-fw/includes/class-yit-plugin-panel.php:984
 msgid "Element updated correctly."
 msgstr "Elemento aggiornato correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:962
+#: plugin-fw/includes/class-yit-plugin-panel.php:982
 msgid "Element deleted correctly."
 msgstr "Elemento rimosso correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:961
+#: plugin-fw/includes/class-yit-plugin-panel.php:981
 msgid "Settings reset"
 msgstr "Impostazioni azzerate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:960
+#: plugin-fw/includes/class-yit-plugin-panel.php:980
 msgid "Settings saved"
 msgstr "Impostazioni salvate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:959
+#: plugin-fw/includes/class-yit-plugin-panel.php:979
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Inserisci un altro nome."
 

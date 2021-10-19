@@ -655,7 +655,7 @@ if ( ! class_exists( 'YITH_WAPO_Frontend' ) ) {
 			$min_html = false !== $min && is_numeric( $min ) ? 'min="' . esc_attr( $min ) . '"' : '';
 			$max_html = false !== $max && is_numeric( $max ) ? 'max="' . esc_attr( $max ) . '"' : '';
 
-			$max_length = false !== $max && is_numeric( $max ) ? 'maxlength="' . esc_attr( $max ) . '"' : '';
+			$max_length = false !== $max && is_numeric( $max ) ? 'maxlength=' . esc_attr( $max ) . '' : '';
 
 			$step = '';
 
@@ -1256,7 +1256,7 @@ if ( ! class_exists( 'YITH_WAPO_Frontend' ) ) {
 
 						$name  = $single_type_options['name'];
 						$value = $single_type_options['value'];
-						$price = $single_type_options['price'];
+						$price = '' !== $single_type_options['price'] ? $single_type_options['price'] : 0;
 
 						if ( YITH_WAPO::$is_wpml_installed ) {
 
@@ -1343,7 +1343,7 @@ if ( ! class_exists( 'YITH_WAPO_Frontend' ) ) {
 
 						$name = '<span id="' . $single_type_options['type_id'] . '">' . $single_type_options['name'] . '</span>';
 
-						if ( $single_type_options['price'] > 0 ) {
+						if ( '' !== $single_type_options['price'] ) {
 
 							$name .= apply_filters( 'yith_wapo_order_item_addon_price', ' (' . wc_price( $single_type_options['price'] ) . ')' );
 
@@ -1579,7 +1579,7 @@ if ( ! class_exists( 'YITH_WAPO_Frontend' ) ) {
 				$product_display_price = floatval( money_format( '%.2n', $price ) ); // phpcs:ignore PHPCompatibility.FunctionUse.RemovedFunctions.money_formatDeprecated
 			}
 
-			if ( 0 !== $price ) {
+			if ( 0 !== floatval( $price ) && ! empty( $price ) ) {
 
 				switch ( $price_type ) {
 

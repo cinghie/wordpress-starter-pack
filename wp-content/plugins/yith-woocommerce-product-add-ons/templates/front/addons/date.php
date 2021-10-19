@@ -255,8 +255,9 @@ for ( $y = 0; $y < $date_rules_count; $y++ ) {
 				<?php
 				if ( $start_year > 0 ) :
 					?>
-					minDate: new Date('<?php echo esc_attr( $start_year ); ?>-01-01'),<?php endif; ?>
-				<?php
+					minDate: new Date('<?php echo esc_attr( $start_year ); ?>-01-01'),
+					<?php
+				endif;
 				if ( $end_year > 0 ) :
 					?>
 					maxDate: new Date('<?php echo esc_attr( $end_year ); ?>-12-31'),<?php endif; ?>
@@ -319,7 +320,7 @@ for ( $y = 0; $y < $date_rules_count; $y++ ) {
 								for ( $xx = 0; $xx < $time_slot_from_count; $xx++ ) {
 
 									// array index from.
-									$calculated_date_from = $time_slot_from[ $xx ];
+									$calculated_date_from = (int) $time_slot_from[ $xx ];
 									if ( 'pm' === $time_slot_from_type[ $xx ] ) {
 										$calculated_date_from += 12;
 										if ( 24 === $calculated_date_from ) {

@@ -76,7 +76,7 @@ $nonce = wp_create_nonce( 'wapo_action' );
 								if ( $total_addons > 0 ) :
 									foreach ( $addons as $key => $addon ) :
 										if ( yith_wapo_is_addon_type_available( $addon->type ) ) :
-											$total_options = is_array( $addon->options ) ? count( array_values( $addon->options )[0] ) : 0;
+											$total_options = is_array( $addon->options ) && isset( array_values( $addon->options )[0] ) ? count( array_values( $addon->options )[0] ) : 0;
 											?>
 											<li id="addon-<?php echo esc_attr( $addon->id ); ?>" data-id="<?php echo esc_attr( $addon->id ); ?>" data-priority="<?php echo esc_attr( $addon->priority ); ?>">
 												<span class="addon-icon <?php echo esc_attr( $addon->type ); ?>">

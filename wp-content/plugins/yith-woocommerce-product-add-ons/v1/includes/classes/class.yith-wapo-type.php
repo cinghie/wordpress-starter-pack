@@ -256,9 +256,9 @@ if ( ! class_exists( 'YITH_WAPO_Type' ) ) {
 			$new_image                    = isset( $_POST['image'] ) ? sanitize_text_field( wp_unslash( $_POST['image'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$new_description              = isset( $_POST['description'] ) ? sanitize_text_field( wp_unslash( $_POST['description'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$new_operator                 = isset( $_POST['operator'] ) ? sanitize_text_field( wp_unslash( $_POST['operator'] ) ) : 'OR'; // phpcs:ignore WordPress.Security.NonceVerification.Missing
-			$new_depend                   = isset( $_POST['depend'] ) ? sanitize_text_field( wp_unslash( $_POST['depend'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
-			$new_depend_variations        = isset( $_POST['depend_variations'] ) ? sanitize_text_field( wp_unslash( $_POST['depend_variations'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
-			$new_options                  = isset( $_POST['options'] ) ? $_POST['options'] : ''; // phpcs:ignore
+			$new_depend                   = $_POST['depend'] ?? ''; // phpcs:ignore
+			$new_depend_variations        = $_POST['depend_variations'] ?? ''; // phpcs:ignore
+			$new_options                  = $_POST['options'] ?? ''; // phpcs:ignore
 			$new_required                 = isset( $_POST['required'] ) ? sanitize_text_field( wp_unslash( $_POST['required'] ) ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$new_required_all_options     = isset( $_POST['required_all_options'] ) ? sanitize_text_field( wp_unslash( $_POST['required_all_options'] ) ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$new_collapsed                = isset( $_POST['collapsed'] ) ? sanitize_text_field( wp_unslash( $_POST['collapsed'] ) ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Missing

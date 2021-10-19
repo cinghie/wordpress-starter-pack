@@ -13,7 +13,7 @@ defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 
 <div id="yith-wapo-option-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>" class="yith-wapo-option quantity">
 
-	<?php if ( $addon->get_option( 'show_image', $x ) && $addon->get_option( 'image', $x ) !== '' && 'yes' !== $hide_option_images && 'yes' !== $setting_hide_images ) : ?>
+	<?php if ( $addon->get_option( 'show_image', $x ) && $addon->get_option( 'image', $x ) !== '' && ! $hide_option_images && 'yes' !== $setting_hide_images ) : ?>
 		<div class="image position-<?php echo esc_attr( $addon_options_images_position ); ?>">
 			<img src="<?php echo esc_attr( $addon->get_option( 'image', $x ) ); ?>">
 		</div>

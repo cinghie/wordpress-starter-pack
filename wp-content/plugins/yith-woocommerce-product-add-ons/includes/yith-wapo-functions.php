@@ -97,6 +97,7 @@ if ( ! function_exists( 'yith_wapo_get_option_info' ) ) {
 			// Option.
 			$info['color']        = $addon->get_option( 'color', $option_id );
 			$info['label']        = $addon->get_option( 'label', $option_id );
+			$info['tooltip']      = $addon->get_option( 'tooltip', $option_id );
 			$info['price_method'] = $addon->get_option( 'price_method', $option_id );
 			$info['price_type']   = $addon->get_option( 'price_type', $option_id );
 			$info['price']        = $addon->get_option( 'price', $option_id );

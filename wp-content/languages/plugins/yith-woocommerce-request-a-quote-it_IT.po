@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH Request a Quote for WooCommerce - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-10-04 15:11:09+0000\n"
+"PO-Revision-Date: 2021-10-15 12:11:27+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,46 @@ msgstr ""
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH Request a Quote for WooCommerce - Stable (latest release)\n"
+
+#. Translators: %1$f: Table size, %2$f: Index size, %3$f: Free size, %4$s
+#. Engine.
+#: plugin-fw/templates/sysinfo/tabs/main.php:168
+msgid "Data: %1$.2fMB | Index: %2$.2fMB | Free: %3$.2fMB | Engine: %4$s"
+msgstr "Dati: %1$.2fMB | Indice: %2$.2fMB | Libero: %3$.2fMB | Motore: %4$s"
+
+#: plugin-fw/templates/sysinfo/tabs/main.php:154
+msgid "Database Free Size"
+msgstr "Dimensione spazio libero database"
+
+#: plugin-fw/templates/sysinfo/tabs/main.php:146
+msgid "Database Index Size"
+msgstr "Dimensione indice database"
+
+#: plugin-fw/templates/sysinfo/tabs/main.php:138
+msgid "Database Data Size"
+msgstr "Dimensione dati database"
+
+#: plugin-fw/templates/sysinfo/tabs/main.php:130
+msgid "Total Database Size"
+msgstr "Dimensione totale database"
+
+#. Translators: %s: Codex link.
+#: plugin-fw/templates/sysinfo/tabs/main.php:123
+msgid "WordPress requirements"
+msgstr "Requisiti WordPress"
+
+#. Translators: %s: Codex link.
+#: plugin-fw/templates/sysinfo/tabs/main.php:123
+msgid "WordPress recommends a minimum MySQL version of 5.6. See: %s"
+msgstr "WordPress consiglia una versione minima 5.6 di MySQL. Vedi: %s"
+
+#: plugin-fw/templates/sysinfo/tabs/main.php:113
+msgid "MySQL version"
+msgstr "Versione MySQL"
+
+#: plugin-fw/templates/sysinfo/tabs/main.php:108
+msgid "Database Info"
+msgstr "Info database"
 
 #. translators: %s is the name of the plugin that is loading the framework.
 #: plugin-fw/templates/sysinfo/tabs/main.php:64

@@ -80,7 +80,7 @@ if ( 'file' === esc_attr( $type ) ) {
 }
 
 if ( ! empty( $description ) ) {
-	echo '<p class="wapo_option_description">' . esc_html( $description ) . '</p>';
+	echo '<p class="wapo_option_description">' . wp_kses_post( $description ) . '</p>';
 }
 
 echo '</div>';

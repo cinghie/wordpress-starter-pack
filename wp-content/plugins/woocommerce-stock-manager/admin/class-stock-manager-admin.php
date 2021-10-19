@@ -3,7 +3,7 @@
  * Main class for Stock Manager.
  *
  * @package  woocommerce-stock-manager/admin/
- * @version  2.8.0
+ * @version  2.8.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -231,7 +231,7 @@ class Stock_Manager_Admin {
 
 		$manage = apply_filters( 'stock_manager_manage', $value );
 
-		$position = (string) $this->get_free_menu_position( 56.00001 );
+		$position = (string) $this->get_free_menu_position( 58.00001 );
 
 		$hook = add_menu_page(
 			__( 'Stock Manager', 'woocommerce-stock-manager' ),
@@ -316,7 +316,7 @@ class Stock_Manager_Admin {
 	 * Render the StoreApps Marketplace page.
 	 */
 	public function display_sa_marketplace_page() {
-		include_once 'views/class-wsm-storeapps-marketplace.php';
+		include_once STOCKDIR . 'sa-includes/class-wsm-storeapps-marketplace.php';
 		WSM_StoreApps_Marketplace::init();
 	}
 

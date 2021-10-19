@@ -76,7 +76,7 @@ $textarea_name = esc_attr( $name ) . '[' . $key . ']';
 	<?php echo $hidelabel ? '' : wp_kses_post( $after_label ); ?>
 
 	<?php if ( '' !== $description ) : ?>
-		<p class="wapo_option_description"><?php echo esc_html( $description ); ?></p>
+		<p class="wapo_option_description"><?php echo wp_kses_post( $description ); ?></p>
 	<?php endif; ?>
 
 </div>

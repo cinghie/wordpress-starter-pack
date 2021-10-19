@@ -102,7 +102,12 @@ if ( ! class_exists( 'YITH_WAPO' ) ) {
 				} elseif ( 'duplicate-addon' === $action ) {
 					$this->duplicate_addon( $block_id, $addon_id );
 				} elseif ( 'remove-addon' === $action ) {
-					$this->remove_addon( $block_id, $addon_id ); }
+					$this->remove_addon( $block_id, $addon_id );
+				} elseif ( 'db-check' === $action ) {
+					$this->db_check();
+				} elseif ( 'reset-migration' === $action ) {
+					$this->reset_migration();
+				}
 			}
 
 			// Admin.
@@ -480,7 +485,7 @@ if ( ! class_exists( 'YITH_WAPO' ) ) {
 				$data = array(
 					'block_id'   => $request['block_id'],
 					'settings'   => serialize( $settings ), // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
-					'options'    => serialize( isset( $request['options'] ) ? $request['options'] : '' ), // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
+					'options'    => serialize( $request['options'] ?? '' ), // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
 					'visibility' => 1,
 				);
 
@@ -505,6 +510,8 @@ if ( ! class_exists( 'YITH_WAPO' ) ) {
 					return $addon_id;
 				}
 			}
+
+			return false;
 
 		}
 
@@ -557,6 +564,26 @@ if ( ! class_exists( 'YITH_WAPO' ) ) {
 				wp_safe_redirect( admin_url( '/admin.php?page=yith_wapo_panel&tab=blocks&block_id=' . $block_id ) );
 			}
 
+		}
+
+		/**
+		 * Database check
+		 *
+		 * @return void
+		 */
+		public function db_check() {
+			update_option( 'yith_wapo_db_version', '0' );
+			wp_safe_redirect( admin_url( '/admin.php?page=yith_wapo_panel&tab=debug' ) );
+		}
+
+		/**
+		 * Reset migratoin
+		 *
+		 * @return void
+		 */
+		public function reset_migration() {
+			update_option( 'yith_wapo_db_migration', '0' );
+			wp_safe_redirect( admin_url( '/admin.php?page=yith_wapo_panel' ) );
 		}
 
 		/**

@@ -371,6 +371,11 @@ class WooSEA_google_shopping {
 					"feed_name" => "g:ships_from_country",
 					"format" => "optional",
 				),
+				"Region Id" => array(
+					"name" => "region_id",
+					"feed_name" => "g:region_id",
+					"format" => "optional",
+				),
 			),
 			"Tax" => array(
 				"Tax" => array(

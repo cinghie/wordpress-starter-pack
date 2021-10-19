@@ -148,8 +148,8 @@ if ( ! class_exists( 'YITH_WAPO_Install' ) ) {
 
 					// Display options.
 					$request['addon_title']             = $addon->label;
-					$request['addon_show_image']        = '';
-					$request['addon_image']             = '';
+					$request['addon_show_image']        = ( '' !== $addon->image ? 'yes' : 'no' );
+					$request['addon_image']             = $addon->image;
 					$request['addon_image_replacement'] = '';
 					$request['addon_show_as_toggle']    = 'no';
 
@@ -169,7 +169,7 @@ if ( ! class_exists( 'YITH_WAPO_Install' ) ) {
 
 					$request['options'] = array();
 					$options            = maybe_unserialize( $addon->options );
-					if ( is_array( $options['label'] ) ) {
+					if ( isset( $options['label'] ) && is_array( $options['label'] ) ) {
 						foreach ( $options['label'] as $index => $value ) {
 							$request['options']['label'][]        = $options['label'][ $index ];
 							$request['options']['tooltip'][]      = $options['tooltip'][ $index ];
@@ -177,12 +177,11 @@ if ( ! class_exists( 'YITH_WAPO_Install' ) ) {
 							$request['options']['price_method'][] = 'increase';
 							$request['options']['price'][]        = $options['price'][ $index ];
 							$request['options']['price_type'][]   = $options['type'][ $index ];
-							$request['options']['default'][]      = isset( $options['default'][ $index ] ) ? $options['default'][ $index ] : '';
-							$request['options']['required'][]     = isset( $options['required'][ $index ] ) ? $options['required'][ $index ] : '';
+							$request['options']['default'][]      = $options['default'][ $index ] ?? '';
+							$request['options']['required'][]     = $options['required'][ $index ] ?? '';
 							if ( isset( $options['image'][ $index ] ) && '' !== $options['image'][ $index ] ) { // Upload addon image if available.
 								$request['options']['show_image'][] = 'yes';
 								$request['options']['image'][]      = $options['image'][ $index ];
-
 							}
 						}
 					}

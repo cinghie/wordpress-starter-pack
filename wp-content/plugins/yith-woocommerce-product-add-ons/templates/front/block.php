@@ -129,7 +129,7 @@ defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 								<option value="">' . esc_html__( 'Select an option', 'yith-woocommerce-product-add-ons' ) . '</option>';
 					}
 
-					$options_total = is_array( $addon->options ) ? count( array_values( $addon->options )[0] ) : 1;
+					$options_total = is_array( $addon->options ) && isset( array_values( $addon->options )[0] ) ? count( array_values( $addon->options )[0] ) : 1;
 					for ( $x = 0; $x < $options_total; $x++ ) {
 						if ( file_exists( YITH_WAPO_DIR . '/templates/front/addons/' . $addon->type . '.php' ) ) {
 

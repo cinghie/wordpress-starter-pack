@@ -132,7 +132,6 @@ $nonce  = wp_create_nonce( 'wapo_action' );
 															'page'     => 'yith_wapo_panel',
 															'tab'      => 'blocks',
 															'block_id' => $block->id,
-															'nonce'       => $nonce,
 														),
 														admin_url( 'admin.php' )
 													),

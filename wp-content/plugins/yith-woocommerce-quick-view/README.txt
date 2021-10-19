@@ -3,7 +3,7 @@ Contributors: yithemes
 Tags: woocommerce, quick view, woocommerce quick view, products quick view
 Requires at least: 5.6
 Tested up to: 5.8
-Stable tag: 1.7.1
+Stable tag: 1.8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,28 +40,33 @@ Full documentation is available [here](https://docs.yithemes.com/yith-woocommerc
 
 == Changelog ==
 
-= 1.7.1 = Released 27 Sep 2021
+= 1.8.0 = Released 14 October 2021
+
+* New: support for WooCommerce 5.8
+* Update: YITH plugin framework
+
+= 1.7.1 = Released 27 September 2021
 
 * Update: YITH plugin framework
 * Fix: debug info feature removed for all logged in users
 
-= 1.7.0 = Released 08 Sep 2021
+= 1.7.0 = Released 08 September 2021
 
 * New: support for WooCommerce 5.7
 * Update: YITH plugin framework
 
-= 1.6.4 = Released 13 Aug 2021
+= 1.6.4 = Released 13 August 2021
 
 * New: support for WooCommerce 5.6
 * Update: YITH plugin framework
 
-= 1.6.3 = Released 06 Jul 2021
+= 1.6.3 = Released 06 July 2021
 
 * New: Support for WordPress 5.8
 * New: support for WooCommerce 5.5
 * Update: YITH plugin framework
 
-= 1.6.2 = Released 01 Jun 2021
+= 1.6.2 = Released 01 June 2021
 
 * New: support for WooCommerce 5.4
 * Update: YITH plugin framework

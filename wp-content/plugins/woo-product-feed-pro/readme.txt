@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook pixel, Facebook Conversion API, Facebook CAPI,Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.8
-Stable tag: 10.7.3
+Stable tag: 10.7.8
 
 == Description ==
 
@@ -335,6 +335,18 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 10.7.8 (2021-10-18) =
+* Reviews that have no rating or have deeplinks in the review text are now being removed fromn review feeds automatically as they are not allowed by Google
+
+= 10.7.7 (2021-10-17) =
+* Added the Region Id attribute for Google Shopping feeds
+
+= 10.7.5 (2021-10-14) =
+* Added the Miinto.fr template
+
+= 10.7.4 (2021-10-13) =
+* Fixed a division by zero error
 
 = 10.7.3 (2021-10-12) =
 * Fixed filters on purchase note array's
@@ -3423,6 +3435,18 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 10.7.8 =
+Reviews that have no rating or have deeplinks in the review text are now being removed fromn review feeds automatically as they are not allowed by Google
+
+= 10.7.7 =
+Added the Region Id attribute for Google Shopping feeds
+
+= 10.7.5 =
+Added the Miinto.fr template
+
+= 10.7.4 =
+Fixed a division by zero error
 
 = 10.7.3 =
 Fixed filters on purchase note array's

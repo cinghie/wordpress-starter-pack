@@ -3106,11 +3106,13 @@ class WooSEA_Get_Products {
 			}
 
 			// Calculate discount percentage
-                        if(isset($product_data['rounded_sale_price'])){
-                                $disc = round(($product_data['rounded_sale_price'] * 100) / $product_data['rounded_regular_price'], 2);
-                                $product_data['discount_percentage']  = 100-$disc;
-                                //$product_data['discount_percentage'] = round(100-(($product_data['sale_price']/$product_data['regular_price'])*100),2);
-                        }
+			if(isset($product_data['rounded_sale_price'])){
+				if($product_data['rounded_regular_price'] > 0){
+                                	$disc = round(($product_data['rounded_sale_price'] * 100) / $product_data['rounded_regular_price'], 2);
+                                	$product_data['discount_percentage']  = 100-$disc;
+                                	//$product_data['discount_percentage'] = round(100-(($product_data['sale_price']/$product_data['regular_price'])*100),2);
+				}	
+			}
 
 			foreach($project_config['attributes'] as $attr_key => $attr_arr){
 				if(is_array($attr_arr)){
@@ -3946,12 +3948,41 @@ class WooSEA_Get_Products {
 			*/
 			$product_data['reviews'] = $this->woosea_get_reviews( $product_data, $product );
 
+
 			/**
 			* Filter out reviews that do not have text
 			*/
 			if(!empty($product_data['reviews'])){
 				foreach($product_data['reviews'] as $review_id => $review_details){
 					if(empty($review_details['content'])){
+						unset($product_data['reviews'][$review_id]);
+					}
+				}
+			}
+
+			/**
+			* Filter out reviews that do not have a rating
+			*/
+			if(!empty($product_data['reviews'])){
+				foreach($product_data['reviews'] as $review_id => $review_details){
+					if(empty($review_details['review_ratings'])){
+						unset($product_data['reviews'][$review_id]);
+					}
+				}
+			}
+
+			/**
+			* Filter out reviews that have a link in the review text / content as that is now allowed by Google
+			*/
+			if(!empty($product_data['reviews'])){
+				foreach($product_data['reviews'] as $review_id => $review_details){
+					$pos = strpos($review_details['content'], 'www');
+					if($pos !== false){
+						unset($product_data['reviews'][$review_id]);
+					}
+
+					$pos = strpos($review_details['content'], 'http');
+					if($pos !== false){
 						unset($product_data['reviews'][$review_id]);
 					}
 				}

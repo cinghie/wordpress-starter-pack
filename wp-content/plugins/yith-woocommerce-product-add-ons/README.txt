@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: woocommerce, woocommerce product add-ons, woocommerce product add ons, woocommerce advanced product option, product add ons, product add-ons, option, radio, checkbox, text, woocommerce product addons
 Requires at least: 4.5
 Tested up to: 5.8
-Stable tag: 2.2.4
+Stable tag: 2.2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,7 +54,7 @@ See it in action here:
 = NEED MORE? CHECK THE PREMIUM VERSION FEATURES! =
 
 See it in action here:
-[Check the Live Demo of the Free Version >](https://plugins.yithemes.com/yith-woocommerce-product-add-ons-free/)
+[Check the Live Demo of the Premium Version >](https://plugins.yithemes.com/yith-woocommerce-product-add-ons/)
 
 * Hide the options from specific products
 * Show the options to all users/only logged-in users/only specific user roles NEW
@@ -121,6 +121,25 @@ You must enable the dependency on the option you are interested in by inserting 
 
 == Changelog ==
 
+= 2.2.6 – Released on 15 Oct 2021 =
+
+* Update: YITH plugin framework
+* Fix: custom add-on style in frontend not working
+* Fix: fixed price of addons with empty price
+* Fix: description of addons doesn't accept html tags
+* Fix: addon price when value is empty or 0 (only on variable products)
+* Fix: minor bugs
+
+= 2.2.5 – Released on 13 Oct 2021 =
+
+* Update: YITH plugin framework
+* Fix: images in migration process
+* Fix: no addons in order details
+* Fix: fixed "Hide options images" on individual add-ons
+* Fix: addons not displayed to cart if Label is empty
+* Fix: max-length attribute not work (v1)
+* Fix: minor bugs
+
 = 2.2.4 – Released on 12 Oct 2021 =
 
 * Update: YITH plugin framework
@@ -142,6 +161,24 @@ You must enable the dependency on the option you are interested in by inserting 
 * Fix: add to cart button layout
 * Fix: value of addons of type "select" to the cart
 * Fix: variations tab in product editor
+* Fix: minor bugs
+
+= 2.2.1 – Released on 30 Sep 2021 =
+
+* Update: YITH plugin framework
+* Fix: fixed "Add options" button to open the options popup
+* Fix: image replacement
+* Fix: minor bugs
+
+= 2.2.0 – Released on 28 Sep 2021 =
+
+* New: support for WooCommerce 5.8
+* New: help tab in admin panel
+* Update: italian and spanish translation
+* Update: YITH plugin framework
+* Fix: grid tooltip position
+* Fix: integration with role based prices
+* Fix: debug info feature removed for all logged in users
 * Fix: minor bugs
 
 = 2.1.0 – Released on 14 Sep 2021 =

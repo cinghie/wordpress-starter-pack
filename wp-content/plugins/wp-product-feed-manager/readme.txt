@@ -5,7 +5,7 @@ Tags: Google Merchant Export, Product feed, woocommerce, Google product feed exp
 Requires at least: 5.4
 Tested up to: 5.9
 Requires PHP: 5.6
-Stable tag: 1.34.0
+Stable tag: 1.35.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -96,6 +96,11 @@ In case it does please do submit your feed in your Google Merchant center and ch
 3. Save and generate your feed
 
 == Changelog ==
+= 1.35.0 - 14/10/2021 =
+* Fixed an issue where some attributes like Weight would not calculate correctly in a feed query.
+* Updated the Google Feed Specifications.
+* Tested on WooCommerce 5.8.
+
 = 1.34.0 - 18/08/2021 =
 * Fixed an issue when using more than one filter in a "change values" option.
 * Fixed an issue that could leave a .0 in the result of a change values calculation.

@@ -543,7 +543,14 @@ class WooSEA_Activation {
 					"taxonomy" => "none",
 					"utm_source" => "LeGuide.fr",
                         		"type" => "Comparison shopping engine" ),
-  				"Priceminister.fr" => array (
+                                "Miinto" => array (
+                                        "channel_hash" => md5("Miinto.fr"),
+                                        "name" => "Miinto.fr",
+                                        "fields" => "miinto_fr",
+                                        "taxonomy" => "none",
+                                        "utm_source" => "Miinto.fr",
+                                        "type" => "Comparison shopping engine" ),
+				"Priceminister.fr" => array (
                         		"channel_hash" => md5("Priceminister.fr"),
                         		"name" => "Priceminister.fr",
 					"fields" => "customfeed",

@@ -104,7 +104,7 @@ $description_html = '' !== $option_description ? '<p class="description">' . wp_
 				<?php echo wp_kses_post( $label_price_html ); ?>
 			<?php endif; ?>
 
-			<?php if ( $addon->get_option( 'show_image', $x ) && $addon->get_option( 'image', $x ) !== '' && 'yes' !== $hide_option_images && 'yes' !== $setting_hide_images ) : ?>
+			<?php if ( $addon->get_option( 'show_image', $x ) && $addon->get_option( 'image', $x ) !== '' && ! $hide_option_images && 'yes' !== $setting_hide_images ) : ?>
 				<div class="image" style="display: inline-block;">
 					<img src="<?php echo esc_attr( $addon->get_option( 'image', $x ) ); ?>" style="<?php echo esc_attr( $images_height ); ?>">
 				</div>

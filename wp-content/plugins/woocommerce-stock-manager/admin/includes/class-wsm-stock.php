@@ -3,7 +3,7 @@
  * Stock Log Class
  *
  * @package   woocommerce-stock-manager/admin/includes/
- * @version   2.8.0
+ * @version   2.8.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -23,9 +23,9 @@ class WSM_Stock {
 	protected static $instance = null;
 
 	/**
-	 * Constructor for the stock class.
+	 * Limit to display number of products on a page.
 	 *
-	 * @var  string
+	 * @var  int
 	 */
 	public $limit = 100;
 
@@ -174,13 +174,13 @@ class WSM_Stock {
 	public function pagination( $query ) {
 
 		$get_sku = ( ! empty( $_GET['sku'] ) ) ? wc_clean( wp_unslash( $_GET['sku'] ) ) : ''; // phpcs:ignore
-		if ( empty( $get_sku ) ) {
+		if ( ! empty( $get_sku ) ) {
 			return false;
 		}
 
 		$all = $query->found_posts;
 
-		$pages         = ceil( $all / $this->limit );
+		$pages         = (int) ceil( $all / $this->limit );
 		$passed_offset = ( ! empty( $_GET['offset'] ) ) ? wc_clean( wp_unslash( $_GET['offset'] ) ) : 0; // phpcs:ignore
 		$current       = ( ! empty( $passed_offset ) ) ? intval( $passed_offset ) : 1;
 

@@ -436,27 +436,27 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 				/* COLOR */
 				.yith-wapo-block .yith-wapo-addon.yith-wapo-addon-type-color .yith-wapo-option label:hover span.color,
 				.yith-wapo-block .yith-wapo-addon.yith-wapo-addon-type-color .yith-wapo-option.selected label span.color {
-					border: 2px solid<?php echo esc_attr( $style_accent_color ); ?>;
+					border: 2px solid <?php echo esc_attr( $style_accent_color ); ?>;
 				}
 
 				/* LABEL */
 				.yith-wapo-block .yith-wapo-addon.yith-wapo-addon-type-label .yith-wapo-option label {
-					border: 1px solid<?php echo esc_attr( $style_borders_color ); ?>;
+					border: 1px solid <?php echo esc_attr( $style_borders_color ); ?>;
 				}
 
 				.yith-wapo-block .yith-wapo-addon.yith-wapo-addon-type-label .yith-wapo-option label:hover,
 				.yith-wapo-block .yith-wapo-addon.yith-wapo-addon-type-label .yith-wapo-option.selected label {
-					border: 1px solid<?php echo esc_attr( $style_accent_color ); ?>;
+					border: 1px solid <?php echo esc_attr( $style_accent_color ); ?>;
 				}
 
 				/* PRODUCT */
 				.yith-wapo-block .yith-wapo-addon.yith-wapo-addon-type-product .yith-wapo-option label {
-					border: 1px solid<?php echo esc_attr( $style_borders_color ); ?>;
+					border: 1px solid <?php echo esc_attr( $style_borders_color ); ?>;
 				}
 
 				.yith-wapo-block .yith-wapo-addon.yith-wapo-addon-type-product .yith-wapo-option label:hover,
 				.yith-wapo-block .yith-wapo-addon.yith-wapo-addon-type-product .yith-wapo-option.selected label {
-					border: 1px solid<?php echo esc_attr( $style_accent_color ); ?>;
+					border: 1px solid <?php echo esc_attr( $style_accent_color ); ?>;
 				}
 
 				/* CUSTOM RADIO & CHECKBOX */
@@ -484,7 +484,7 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 					width: 20px;
 					height: 20px;
 					line-height: 20px;
-					border: 1px solid<?php echo esc_attr( $style_borders_color ); ?>;
+					border: 1px solid <?php echo esc_attr( $style_borders_color ); ?>;
 					border-radius: <?php echo esc_attr( get_option( 'yith_wapo_style_checkbox_style' ) === 'rounded' ? '50%' : '5px' ); ?>;
 					margin-right: 10px;
 					text-align: center;
@@ -531,7 +531,7 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 					width: 20px;
 					height: 20px;
 					line-height: 20px;
-					border: 1px solid<?php echo esc_attr( $style_borders_color ); ?>;
+					border: 1px solid <?php echo esc_attr( $style_borders_color ); ?>;
 					border-radius: 100%;
 					padding: 2px;
 					margin-bottom: 0px;

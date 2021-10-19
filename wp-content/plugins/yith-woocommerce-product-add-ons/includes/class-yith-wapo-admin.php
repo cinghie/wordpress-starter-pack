@@ -116,6 +116,7 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 			// Blocks Settings.
 			add_action( 'yith_wapo_show_block_tab', array( $this, 'show_block_tab' ) );
 			add_action( 'yith_wapo_show_blocks_tab', array( $this, 'show_blocks_tab' ) );
+			add_action( 'yith_wapo_impexp_tab', array( $this, 'show_impexp_tab' ) );
 
 			// Premium Tabs.
 			add_action( 'yith_wapo_premium_tab', array( $this, 'show_premium_tab' ) );
@@ -357,6 +358,16 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 		 */
 		public function show_blocks_tab() {
 			$template = YITH_WAPO_TEMPLATE_PATH . '/admin/blocks.php';
+			file_exists( $template ) && require $template;
+		}
+
+		/**
+		 * Show blocks tab
+		 *
+		 * @return  void
+		 */
+		public function show_impexp_tab() {
+			$template = YITH_WAPO_TEMPLATE_PATH . '/admin/impexp.php';
 			file_exists( $template ) && require $template;
 		}
 
