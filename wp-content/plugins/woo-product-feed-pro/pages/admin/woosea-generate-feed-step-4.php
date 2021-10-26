@@ -150,6 +150,12 @@ if (array_key_exists('project_hash', $_GET)){
 										} else {
 											print "<option value=\"empty\">is empty</option>";
 										}
+
+										if (isset($project['rules'][$rule_key]['condition']) AND ($project['rules'][$rule_key]['condition'] == "notempty")){
+											print "<option value=\"notempty\" selected>is not empty</option>";
+										} else {
+											print "<option value=\"notempty\">is not empty</option>";
+										}
 										?>
 									</select>	
 								</td>
@@ -281,6 +287,12 @@ if (array_key_exists('project_hash', $_GET)){
 											print "<option value=\"empty\" selected>is empty</option>";
 										} else {
 											print "<option value=\"empty\">is empty</option>";
+										}
+
+										if (isset($project['rules2'][$rule2_key]['condition']) AND ($project['rules2'][$rule2_key]['condition'] == "notempty")){
+											print "<option value=\"notempty\" selected>is not empty</option>";
+										} else {
+											print "<option value=\"notempty\">is not empty</option>";
 										}
 
 										// Data manipulators

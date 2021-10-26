@@ -5636,7 +5636,14 @@ class WooSEA_Get_Products {
                                                                 } elseif ((strlen($pd_value > 0)) && ($pr_array['than'] == "include_only")){
                                                                         $allowed = 0;
                                                                 }
-                                                                break;
+								break;
+							case($pr_array['condition'] = "notempty"):
+                                                                if ((strlen($pd_value) > 1) && ($pr_array['than'] == "exclude")){
+                                                                        $allowed = 0;
+                                                                } elseif ((strlen($pd_value < 0)) && ($pr_array['than'] == "include_only")){
+                                                                        $allowed = 0;
+                                                                }
+								break;
                                                         default:
                                                                 break;
                                                 }
@@ -5769,7 +5776,22 @@ class WooSEA_Get_Products {
                                                                                                 }
                                                                                         }
                                                                                 }
-                                                                                break;
+										break;
+                                                                        case($pr_array['condition'] = "notempty"):
+                                                                                if (strlen($v) > 1){
+                                                                                        if($pr_array['than'] == "include_only"){
+                                                                                                if($allowed <> 0){
+                                                                                                        $allowed = 1;
+                                                                                                }
+                                                                                        } else {
+                                                                                                if(!empty($pt_value)){
+                                                                                                        $allowed = 1;
+                                                                                                } else {
+                                                                                                        $allowed = 0;
+                                                                                                }
+                                                                                        }
+                                                                                }
+										break;
                                                                         default:
                                                                                 break;
                                                                 }
@@ -5847,7 +5869,16 @@ class WooSEA_Get_Products {
                                                                                 } else {
                                                                                         $allowed = 0;
                                                                                 }
-                                                                                break;
+										break;
+                                                                        case($pr_array['condition'] = "notempty"):
+                                                                                if($pr_array['than'] == "include_only"){
+                                                                                        if($allowed <> 0){
+                                                                                                $allowed = 0;
+                                                                                        }
+                                                                                } else {
+                                                                                        $allowed = 1;
+                                                                                }
+										break;
                                                                         default:
                                                                                 break;
                                                                 }
@@ -5903,7 +5934,12 @@ class WooSEA_Get_Products {
                                                                                                 if (strlen($vv) < 1){
                                                                                                         $allowed = 0;
                                                                                                 }
-                                                                                                break;
+												break;
+                                                                                        case($pr_array['condition'] = "notempty"):
+                                                                                                if (strlen($vv) > 1){
+                                                                                                        $allowed = 0;
+                                                                                                }
+												break;
                                                                                         default:
                                                                                                 break;
                                                                                 }
@@ -6039,7 +6075,18 @@ class WooSEA_Get_Products {
                                                                 } elseif ((strlen($pd_value) > 0) && ($pr_array['than'] == "include_only")){
                                                                         $allowed = 0;
                                                                 }
-                                                                break;
+								break;
+                                                        case($pr_array['condition'] = "notempty"):
+                                                                if ((strlen($pd_value) > 0) && ($pr_array['than'] == "exclude")){
+                                                                        $allowed = 0;
+                                                                } elseif ((strlen($pd_value) < 1) && ($pr_array['than'] == "exclude")){
+                                                                        if($allowed <> 0){
+                                                                                $allowed = 1;
+                                                                        }
+                                                                } elseif ((strlen($pd_value) < 1) && ($pr_array['than'] == "include_only")){
+                                                                        $allowed = 0;
+                                                                }
+								break;
                                                         default:
                                                                 break;
                                                 }
