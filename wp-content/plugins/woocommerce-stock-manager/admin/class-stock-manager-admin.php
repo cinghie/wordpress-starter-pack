@@ -3,7 +3,7 @@
  * Main class for Stock Manager.
  *
  * @package  woocommerce-stock-manager/admin/
- * @version  2.8.1
+ * @version  2.8.2.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -49,6 +49,8 @@ class Stock_Manager_Admin {
 		// To update footer text on WSM screens.
 		add_filter( 'admin_footer_text', array( $this, 'wsm_footer_text' ), 99999 );
 		add_filter( 'update_footer', array( $this, 'wsm_update_footer_text' ), 99999 );
+
+		$this->may_be_show_sa_in_app_offer();
 	}
 
 	/**
@@ -72,7 +74,6 @@ class Stock_Manager_Admin {
 	public function includes() {
 		$is_wsm_admin = $this->is_wsm_admin_page();
 		if ( $is_wsm_admin ) {
-			$this->may_be_show_sa_in_app_offer();
 			$this->wsm_add_subscribe_notice();
 
 		}
@@ -338,16 +339,18 @@ class Stock_Manager_Admin {
 	 */
 	public function may_be_show_sa_in_app_offer() {
 		if ( ! class_exists( 'SA_In_App_Offers' ) ) {
-			include_once STOCKDIR . '/sa-includes/class-sa-in-app-offers.php';
+			include_once STOCKDIR . 'sa-includes/class-sa-in-app-offers.php';
+
+			$is_wsm_admin = $this->is_wsm_admin_page();
 
 			$args = array(
 				'file'           => WSM_PLUGIN_FILE,
 				'prefix'         => 'wsm',
-				'option_name'    => 'sa_offer_bfcm_2020_wsm',
-				'campaign'       => 'sa_bfcm_2020',
-				'start'          => '2020-11-24 06:00:00',
-				'end'            => '2020-12-03 06:00:00',
-				'is_plugin_page' => true,
+				'option_name'    => 'sa_offer_halloween_2021_wsm',
+				'campaign'       => 'sa_halloween_2021',
+				'start'          => '2021-10-29 06:30:00',
+				'end'            => '2021-11-02 06:30:00',
+				'is_plugin_page' => $is_wsm_admin ? true : false,
 			);
 
 			SA_In_App_Offers::get_instance( $args );

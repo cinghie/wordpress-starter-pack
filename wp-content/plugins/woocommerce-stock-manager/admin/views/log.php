@@ -3,7 +3,7 @@
  * Stock Log page.
  *
  * @package  woocommerce-stock-manager/admin/views/
- * @version  2.8.0
+ * @version  2.8.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -52,7 +52,7 @@ $stock = $this->stock();
 										<?php echo wp_kses_post( get_the_title( $item_product->get_id() ) ); ?>  
 											</a>
 										</td>
-										<td class="td_center"><?php echo esc_html( $product_type ); ?></td>
+										<td><?php echo esc_html( $product_type ); ?></td>
 										<td></td>
 										<td class="td_center"><?php echo esc_html( $item_product->get_stock_quantity() ); ?></td>
 										<td class="td_center">
@@ -87,7 +87,7 @@ $stock = $this->stock();
 														<?php echo wp_kses_post( get_the_title( $item_product->get_id() ) ); ?>  
 														</a>
 													</td>
-													<td class="td_center"><?php echo esc_html( $product_type ); ?></td>
+													<td><?php echo esc_html( $product_type ); ?></td>
 													<td class="td_center"><?php echo esc_html( $item->ID ); ?></td>
 													<td class="td_center"><?php echo esc_html( $item_product->get_stock_quantity() ); ?></td>
 													<td class="td_center">

@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook pixel, Facebook Conversion API, Facebook CAPI,Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.8
-Stable tag: 10.7.8
+Stable tag: 10.8.0
 
 == Description ==
 
@@ -335,6 +335,12 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 10.8.0 (2021-10-25) =
+* When the product variable is not an object the retrieval of the stock status broke processing of the feed. Build in a check to prevent this from happening.
+
+= 10.7.9 (2021-10-24) =
+* Tested for compatibility with WooCommerce 5.8
 
 = 10.7.8 (2021-10-18) =
 * Reviews that have no rating or have deeplinks in the review text are now being removed fromn review feeds automatically as they are not allowed by Google
@@ -3435,6 +3441,12 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 10.8.0 =
+When the product variable is not an object the retrieval of the stock status broke processing of the feed. Build in a check to prevent this from happening.
+
+= 10.7.9 =
+Tested for compatibility with WooCommerce 5.8
 
 = 10.7.8 =
 Reviews that have no rating or have deeplinks in the review text are now being removed fromn review feeds automatically as they are not allowed by Google

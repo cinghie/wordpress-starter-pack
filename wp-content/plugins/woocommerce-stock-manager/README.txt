@@ -7,7 +7,7 @@ Tags: stock manager, woocommerce, stock management, inventory, products
 Requires at least: 5.0.0
 Tested up to: 5.8.1
 Requires PHP: 5.6
-Stable tag: 2.8.1
+Stable tag: 2.8.2.1
 License: GPLv3
 
 == Description ==
@@ -98,21 +98,21 @@ Feel free to [contact us](https://www.storeapps.org/support/contact-us/?utm_sour
 **Some of our other free plugins**
 
 1. [Smart Manager for WooCommerce](https://wordpress.org/plugins/smart-manager-for-wp-e-commerce/) - Manage and bulk edit WooCommerce products, variations, orders, coupons, any WordPress post type. All from a single screen using Excel-Like Spreadsheet.
-2. [Offermative](https://wordpress.org/plugins/offermative-discount-pricing-related-products-upsell-funnels-for-woocommerce/) - Dynamic discount pricing, related product recommendations, upsells and funnels for WooCommerce.
-3. [Temporary Login Without Password](https://wordpress.org/plugins/temporary-login-without-password/)
-4. [Icegram](https://wordpress.org/plugins/icegram/) - Popups, Welcome Bar, Optins and Lead Generation Plugin
-5. [Email Subscribers & Newsletters](https://wordpress.org/plugins/email-subscribers/)
+2. [Temporary Login Without Password](https://wordpress.org/plugins/temporary-login-without-password/)
+3. [Icegram](https://wordpress.org/plugins/icegram/) - Popups, Welcome Bar, Optins and Lead Generation Plugin
+4. [Email Subscribers & Newsletters](https://wordpress.org/plugins/email-subscribers/)
 
 **StoreApps’ other Pro plugins**
 
-1. [Bulk Variations Manager](https://www.storeapps.org/product/bulk-variations-manager/?utm_source=wprepo&utm_medium=web_bvm&utm_campaign=wsm_readme)
-2. [Smart Offers for WooCommerce](https://www.storeapps.org/product/smart-offers/?utm_source=wprepo&utm_medium=web_mb&utm_campaign=wsm_readme) - WooCommerce One Click Upsell
-3. [Email Customizer for WooCommerce](https://www.storeapps.org/product/smart-emails/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme)
-4. [WooCommerce Name Your Price Plugin](https://www.storeapps.org/product/offer-your-price/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme)
-5. [Frequently Bought Together for WooCommerce](https://www.storeapps.org/product/frequently-bought-together-woocommerce/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme)
-6. [Express Checkout for WooCommerce](https://www.storeapps.org/product/express-checkout-for-woocommerce/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme)
-7. [WooCommerce Update Variations In Cart](https://www.storeapps.org/product/woocommerce-update-variations-in-cart/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme)
-8. [Express Login for WordPress](https://www.storeapps.org/product/express-login-for-wordpress/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme)
+1. [Offermative](https://wordpress.org/plugins/offermative-discount-pricing-related-products-upsell-funnels-for-woocommerce/) - Dynamic discount pricing, related product recommendations, upsells and funnels for WooCommerce.
+2. [Bulk Variations Manager](https://www.storeapps.org/product/bulk-variations-manager/?utm_source=wprepo&utm_medium=web_bvm&utm_campaign=wsm_readme)
+3. [Smart Offers for WooCommerce](https://www.storeapps.org/product/smart-offers/?utm_source=wprepo&utm_medium=web_mb&utm_campaign=wsm_readme) - WooCommerce One Click Upsell
+4. [Email Customizer for WooCommerce](https://www.storeapps.org/product/smart-emails/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme)
+5. [WooCommerce Name Your Price Plugin](https://www.storeapps.org/product/offer-your-price/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme)
+6. [Frequently Bought Together for WooCommerce](https://www.storeapps.org/product/frequently-bought-together-woocommerce/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme)
+7. [Express Checkout for WooCommerce](https://www.storeapps.org/product/express-checkout-for-woocommerce/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme)
+8. [WooCommerce Update Variations In Cart](https://www.storeapps.org/product/woocommerce-update-variations-in-cart/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme)
+9. [Express Login for WordPress](https://www.storeapps.org/product/express-login-for-wordpress/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme)
 
 [Check out all our WooCommerce plugins](https://www.storeapps.org/woocommerce-plugins/?utm_source=wprepo&utm_medium=web_others&utm_campaign=wsm_readme)
 
@@ -151,6 +151,14 @@ Be sure, that you have active stock manager.
 4. Product stock as on date
 
 == Changelog ==
+
+= 2.8.2.1 (25.10.2021) =
+* Fix: Check if current page is of Stock Manager
+* Update: POT file
+
+= 2.8.2 (22.10.2021) =
+* Update: Product type column UX on Stock log page
+* Update: POT file
 
 = 2.8.1 (15.10.2021) =
 * New: WooCommerce 5.7.1, 5.8.0 compatible
@@ -272,6 +280,12 @@ Be sure, that you have active stock manager.
 For the changelog of earlier versions, please refer to the separate [changelog.txt](https://plugins.svn.wordpress.org/woocommerce-stock-manager/trunk/changelog.txt) file.
 
 == Upgrade Notice ==
+
+= 2.8.2.1 =
+Check if current page is of Stock Manager, POT file
+
+= 2.8.2 =
+Product type column UX on Stock log page, POT file
 
 = 2.8.1 =
 WooCommerce 5.7.1, 5.8.0 compatible, Pagination not working on Stock log page, Stock Manager menu position, StoreApps Plugins page, POT file

@@ -3,7 +3,7 @@
  * Plugin Name: Stock Manager for WooCommerce
  * Plugin URI: https://www.storeapps.org/woocommerce-plugins/
  * Description: Manage product's stock and price in your WooCommerce store. Export/Import inventory, track history, sort and more...
- * Version: 2.8.1
+ * Version: 2.8.2.1
  * Author: StoreApps
  * Author URI: https://www.storeapps.org/
  * Developer: StoreApps

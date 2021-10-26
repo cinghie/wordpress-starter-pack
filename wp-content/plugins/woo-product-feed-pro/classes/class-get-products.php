@@ -2590,7 +2590,11 @@ class WooSEA_Get_Products {
 			* availability will always return out of stock, even when the stock quantity > 0
 			* Therefor, we need to check the stock_status and overwrite te availability value
 			*/
-			$stock_status = $product->get_stock_status();
+                        if(!is_bool($product)){
+                                $stock_status = $product->get_stock_status();
+                        } else {
+                                $stock_status = "instock";
+                        }
 			$product_data['stock_status'] = $stock_status;
 
 			if ($stock_status == "outofstock"){

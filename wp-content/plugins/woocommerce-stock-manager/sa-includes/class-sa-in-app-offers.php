@@ -3,7 +3,7 @@
  * Stock Manager in app offers
  *
  * @package  woocommerce-stock-manager/sa-includes/
- * @version  1.2.1
+ * @version  1.2.2
  */
 
 // Exit if accessed directly.
@@ -120,7 +120,7 @@ class SA_In_App_Offers {
 	 */
 	public function is_show() {
 
-		$timezone_format = _x( 'Y-m-d', 'timezone date format' );
+		$timezone_format = _x( 'Y-m-d H:i:s', 'timezone date format' );
 		$current_date    = strtotime( date_i18n( $timezone_format ) );
 		$start           = strtotime( $this->start );
 		$end             = strtotime( $this->end );
@@ -152,8 +152,8 @@ class SA_In_App_Offers {
 	 * The offer content
 	 */
 	public function show_offer_content() {
-		$sa_offer_2020 = get_option( $this->option_name, '' );
-		if ( 'no' === $sa_offer_2020 ) {
+		$sa_offer_2021 = get_option( $this->option_name, '' );
+		if ( 'no' === $sa_offer_2021 ) {
 			return;
 		}
 
@@ -171,9 +171,6 @@ class SA_In_App_Offers {
 					line-height: 1em;
 					padding: 1em;
 				}
-				.sa_offer_content img {
-					width: 50%;
-				}
 				.sa_dismiss {
 					font-size: 0.5em;
 					display: inline-block;
@@ -185,10 +182,10 @@ class SA_In_App_Offers {
 			<div class="sa_offer">
 				<div class="sa_offer_content">
 					<a href="https://www.storeapps.org/woocommerce-plugins/?utm_source=in_app&utm_medium=<?php echo esc_attr( $this->prefix ); ?>_banner&utm_campaign=<?php echo esc_attr( $this->campaign ); ?>" target="_blank">
-						<img src="<?php echo esc_url( plugins_url( 'sa-includes/images/bfcm-2020.jpg', $this->plugin_file ) ); ?>" />
+						<img src="<?php echo esc_url( plugins_url( 'sa-includes/images/Halloween-2021-800-200.png', $this->plugin_file ) ); ?>" />
 					</a>
 					<div class="sa_dismiss"> <!-- Do not change this class -->
-						<a href="?wsm_dismiss_admin_notice=1&option_name=sa_offer_bfcm_2020" style="color: black; text-decoration: none;"><?php echo esc_html__( 'Hide this' ); ?></a>
+						<a href="?wsm_dismiss_admin_notice=1&option_name=sa_offer_halloween_2021" style="color: grey; text-decoration: none;"><?php echo esc_html__( 'Hide this' ); ?></a>
 					</div>
 				</div>
 			</div>

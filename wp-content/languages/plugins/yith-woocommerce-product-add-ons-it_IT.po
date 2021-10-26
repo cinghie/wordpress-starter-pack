@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Product Add-Ons - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-09-17 11:06:54+0000\n"
+"PO-Revision-Date: 2021-10-19 11:26:17+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,140 @@ msgstr ""
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Product Add-Ons - Stable (latest release)\n"
+
+#: templates/admin/debug.php:58
+msgid "This feature allows you to copy all the Add-ons here, which are currently present in version 1.x of the plugin."
+msgstr "Tramite questa funzionalità puoi copiare qui tutti gli add-on attualmente presenti nella versione 1.x del plugin."
+
+#: templates/admin/debug.php:56
+msgid "Copy all Add-ons"
+msgstr "Copia tutti gli add-on"
+
+#: templates/admin/debug.php:53
+msgid "Copy Add-ons from 1.x"
+msgstr "Copia gli add-on dalla versione 1.x"
+
+#: templates/admin/debug.php:46
+msgid "This feature checks the existence of the database tables."
+msgstr "Questa funzionalità verifica l'esistenza di tabelle del database."
+
+#: templates/admin/debug.php:37
+msgid "Database tables created successfully."
+msgstr "Tabelle database create correttamente."
+
+#: templates/admin/debug.php:29
+msgid "Database tables check"
+msgstr "Verifica tabelle database"
+
+#: templates/admin/debug.php:22
+msgid "Debug panel"
+msgstr "Pannello debug"
+
+#: v1/includes/classes/class.yith-wccl-frontend.php:902
+msgid "has been added to cart correctly"
+msgstr "è stato aggiunto al carrello correttamente"
+
+#: v1/includes/classes/class.yith-wapo-premium.php:146
+msgid "Minimum product quantity"
+msgstr "Quantità minima prodotto"
+
+#: v1/includes/classes/class.yith-wapo-premium.php:33
+msgid "Excluded Products"
+msgstr "Prodotti esclusi"
+
+#: templates/front/addons/date.php:446
+msgid "Set time"
+msgstr "Seleziona orario"
+
+#: templates/admin/addons/date.php:353
+msgid "Sunday"
+msgstr "Domenica"
+
+#: templates/admin/addons/date.php:352
+msgid "Saturday"
+msgstr "Sabato"
+
+#: templates/admin/addons/date.php:351
+msgid "Friday"
+msgstr "Venerdì"
+
+#: templates/admin/addons/date.php:350
+msgid "Thursday"
+msgstr "Giovedì"
+
+#: templates/admin/addons/date.php:349
+msgid "Wednesday"
+msgstr "Mercoledì"
+
+#: templates/admin/addons/date.php:348
+msgid "Tuesday"
+msgstr "Martedì"
+
+#: templates/admin/addons/date.php:347
+msgid "Monday"
+msgstr "Lunedì"
+
+#: templates/admin/addons/date.php:313
+msgid "Days of the week"
+msgstr "Giorni della settimana"
+
+#: templates/admin/addons/date.php:83
+msgid "First available day"
+msgstr "Primo giorno disponibile"
+
+#. Translators: %1$f: Table size, %2$f: Index size, %3$f: Free size, %4$s
+#. Engine.
+#: plugin-fw/templates/sysinfo/tabs/main.php:168
+msgid "Data: %1$.2fMB | Index: %2$.2fMB | Free: %3$.2fMB | Engine: %4$s"
+msgstr "Dati: %1$.2fMB | Indice: %2$.2fMB | Libero: %3$.2fMB | Motore: %4$s"
+
+#: plugin-fw/templates/sysinfo/tabs/main.php:154
+msgid "Database Free Size"
+msgstr "Dimensione spazio libero database"
+
+#: plugin-fw/templates/sysinfo/tabs/main.php:146
+msgid "Database Index Size"
+msgstr "Dimensione indice database"
+
+#: plugin-fw/templates/sysinfo/tabs/main.php:138
+msgid "Database Data Size"
+msgstr "Dimensione dati database"
+
+#: plugin-fw/templates/sysinfo/tabs/main.php:130
+msgid "Total Database Size"
+msgstr "Dimensione totale database"
+
+#. Translators: %s: Codex link.
+#: plugin-fw/templates/sysinfo/tabs/main.php:123
+msgid "WordPress requirements"
+msgstr "Requisiti WordPress"
+
+#. Translators: %s: Codex link.
+#: plugin-fw/templates/sysinfo/tabs/main.php:123
+msgid "WordPress recommends a minimum MySQL version of 5.6. See: %s"
+msgstr "WordPress consiglia una versione minima 5.6 di MySQL. Vedi: %s"
+
+#: plugin-fw/templates/sysinfo/tabs/main.php:113
+msgid "MySQL version"
+msgstr "Versione MySQL"
+
+#: plugin-fw/templates/sysinfo/tabs/main.php:108
+msgid "Database Info"
+msgstr "Info database"
+
+#. translators: %s is the name of the plugin that is loading the framework.
+#: plugin-fw/templates/sysinfo/tabs/main.php:64
+msgid "loaded by %s"
+msgstr "caricato da %s"
+
+#: plugin-fw/templates/sysinfo/tabs/main.php:55
+msgid "YITH Plugin Framework Version"
+msgstr "YITH Plugin Framework Version"
+
+#: includes/class-yith-wapo-admin.php:268
+msgctxt "[HELP TAB] Video title"
+msgid "Check this video to learn how to <b>create an options block and show it in a product page:</b>"
+msgstr "Guarda questo video per scoprire come <b>creare un blocco opzioni e mostrarlo in una pagina prodotto:</b>"
 
 #: templates/front/block.php:43
 msgid "No title"
@@ -85,7 +219,7 @@ msgstr "Abilita/disabilita fasce orarie"
 
 #: templates/admin/addons/date.php:438
 msgid "Show time selector"
-msgstr "Mostra selettore tempo"
+msgstr "Mostra selezione fasce orarie"
 
 #: templates/front/block.php:177
 msgid "an"
@@ -2727,7 +2861,7 @@ msgstr "Mostra sempre tabella prezzi"
 
 #: plugin-options/general-options.php:44
 msgid "Checking this option allows you to show the product base price in cart"
-msgstr "Abilita questa opzione per mostrare il prezzo base del prodotto nel carrello"
+msgstr "Abiliat questa opzione per mostrare il prezzo base del prodotto nel carrello"
 
 #: plugin-options/general-options.php:40
 msgid "Show product price in \"cart page\""
@@ -2875,10 +3009,22 @@ msgstr "Color and Label Variations"
 msgid "Continue"
 msgstr "Continua"
 
+#: v1/includes/classes/class.yith-wapo-premium.php:56
+msgid "File"
+msgstr "File"
+
 #: includes/class-yith-wapo.php:221
 #: v1/includes/classes/class.yith-wapo-premium.php:53
 msgid "Number"
 msgstr "Numero"
+
+#: v1/includes/classes/class.yith-wapo-premium.php:52
+msgid "Multiple Labels"
+msgstr "Etichette multiple"
+
+#: v1/includes/classes/class.yith-wapo-premium.php:51
+msgid "Labels"
+msgstr "Etichette"
 
 #: includes/class-yith-wapo.php:237
 #: v1/includes/classes/class.yith-wapo-premium.php:50
@@ -2890,6 +3036,10 @@ msgstr "Data"
 #: v1/includes/classes/class.yith-wapo-premium.php:49
 msgid "Color"
 msgstr "Colore"
+
+#: v1/includes/classes/class.yith-wapo-type.php:1022
+msgid "Uploading error: exceeded max size allowed for this file"
+msgstr "Errore caricamento: superata la dimensione massima consentita per questo file"
 
 #: v1/includes/classes/class.yith-wapo-type.php:945
 msgid "Attached file"
@@ -3684,6 +3834,11 @@ msgstr "Categorie"
 #: plugin-fw/templates/fields/ajax-terms.php:41
 msgid "Search Categories"
 msgstr "Cerca categorie"
+
+#: v1/includes/classes/class.yith-wapo-type.php:932
+#: v1/includes/classes/class.yith-wapo-type.php:1009
+msgid "Uploading error: extension not allowed"
+msgstr "Errore caricamento: estensione non consentita"
 
 #: v1/includes/classes/class.yith-wapo-frontend.php:1245
 msgid "Base price"
